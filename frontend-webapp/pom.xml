@@ -88,7 +88,7 @@
                 <version>0.4.11</version>
                 <configuration>
                     <forceTags>true</forceTags>
-                    <imageName>172.26.47.52:5000/rs-access</imageName>
+                    <imageName>172.26.47.52:5000/rs-frontend</imageName>
                     <dockerDirectory>src/main/docker</dockerDirectory>
                     <resources>
                         <resource>
