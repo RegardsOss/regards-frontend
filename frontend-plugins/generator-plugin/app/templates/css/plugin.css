@@ -1,0 +1,12 @@
+.hello-style {
+  color: #5C2680;
+  font-size: 1.5em;
+  text-decoration: underline;
+  font-family: fantasy;
+}
+
+.plugin-bg {
+  background-color : Red;
+  height: 100%;
+  width: 100%;
+}

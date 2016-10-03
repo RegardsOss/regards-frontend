@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE urlrewrite
+    PUBLIC "-//tuckey.org//DTD UrlRewrite 4.0//EN"
+    "http://www.tuckey.org/res/dtds/urlrewrite4.0.dtd">
+
+<urlrewrite>
+
+	 <rule>
+		  <from>^/((?!rest)[^\.])+$</from>
+      <to type="passthrough" last="true">/index.html</to>
+    </rule>
+
+    <rule>
+       <from>^/.+/(bundle\.js(\.map)?)$</from>
+       <to type="redirect">/$1</to>
+    </rule>
+
+    <rule>
+       <from>^/.+/(.*\.chunck\.js(\.map)?)$</from>
+       <to type="redirect">/$1</to>
+    </rule>
+
+</urlrewrite>

@@ -1,0 +1,8 @@
+dist/
+node_modules
+typings/
+build/
+npm-debug.log*
+reports/
+.nyc_output/
+.tmp

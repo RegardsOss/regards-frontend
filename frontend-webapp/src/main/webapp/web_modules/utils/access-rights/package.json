@@ -1,0 +1,9 @@
+{
+  "name": "@regardsoss/access-rights",
+  "version": "0.0.1",
+  "private": true,
+  "description": "",
+  "main": "src/main.ts",
+  "author": "CS-SI",
+  "license": "ISC"
+}

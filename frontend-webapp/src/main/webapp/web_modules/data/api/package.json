@@ -1,0 +1,12 @@
+{
+  "name": "@regardsoss/api",
+  "version": "0.0.1",
+  "private": true,
+  "description": "",
+  "main": "src/main.ts",
+  "author": "CS-SI",
+  "license": "ISC",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
