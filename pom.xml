@@ -19,7 +19,6 @@
   <modules>
     <module>frontend-boot</module>
     <module>frontend-webapp</module>
-    <module>frontend-plugins</module>
   </modules>
 
   <properties>
@@ -31,12 +30,6 @@
       <dependency>
         <groupId>fr.cs.regards</groupId>
         <artifactId>frontend-boot</artifactId>
-        <version>${regards.version}</version>
-        <type>war</type>
-      </dependency>
-      <dependency>
-        <groupId>fr.cs.regards</groupId>
-        <artifactId>HelloWorldPlugin</artifactId>
         <version>${regards.version}</version>
         <type>war</type>
       </dependency>
