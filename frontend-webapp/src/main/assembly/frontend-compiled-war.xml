@@ -25,14 +25,4 @@
 			<outputDirectory></outputDirectory>
 		</fileSet>
 	</fileSets>
-	<dependencySets>
-		<dependencySet>
-			<useProjectArtifact>false</useProjectArtifact>
-			<includes>
-				<include>fr.cs.regards:HelloWorldPlugin:war</include>
-			</includes>
-      <outputDirectory>plugins/</outputDirectory>
-			<unpack>true</unpack>
-		</dependencySet>
-  </dependencySets>
 </assembly>
