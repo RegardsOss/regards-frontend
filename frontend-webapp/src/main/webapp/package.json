@@ -141,7 +141,8 @@
     ],
     "sourceMap": false,
     "instrument": false,
-    "all": false
+    "all": false,
+    "report-dir": "./reports/coverage"
   },
   "config": {
     "mocha-sonar-reporter": {

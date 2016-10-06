@@ -13,7 +13,9 @@
 		<artifactId>frontend</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-
+        <properties> 
+               <fr.cnes.regards.docker.image.name>rs-frontend</fr.cnes.regards.docker.image.name> 
+        </properties> 
 	<dependencies>
 		<dependency>
     		<groupId>org.tuckey</groupId>
