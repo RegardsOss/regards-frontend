@@ -1,0 +1,10 @@
+{
+  "globalDependencies": {
+    "node": "registry:dt/node#6.0.0+20160802155038",
+    "normalizr": "registry:dt/normalizr#2.0.1+20160501130729",
+    "react": "registry:dt/react#0.14.0+20160802191555"
+  },
+  "dependencies": {
+    "@regardsoss/models": "file:../models/index.d.ts"
+  }
+}

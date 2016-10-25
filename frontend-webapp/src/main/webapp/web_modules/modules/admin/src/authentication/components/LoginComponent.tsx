@@ -33,7 +33,7 @@ class LoginComponent extends React.Component<LoginProps, any> {
     this.handleButtonPress = this.handleButtonPress.bind(this)
     if (process.env.NODE_ENV === 'development') {
       console.log("DEV", "Auto connection")
-      this.props.onLogin("admin", "admin")
+      //this.props.onLogin("admin", "admin")
     }
   }
 

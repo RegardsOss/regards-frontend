@@ -16,7 +16,7 @@ export const projectAccountReadRoute: PlainRoute = {
   path: 'users/:user_id',
   getComponents(nextState: any, cb: any): any {
     require.ensure([], (require: any) => {
-      const ProjectAccountReadComponent = require("./containers/ProjectAccountReadComponent")
+      const ProjectAccountReadComponent = require("./containers/ProjectAccountReadContainer")
       cb(null, {
         content: ProjectAccountReadComponent.default
       })
@@ -40,7 +40,7 @@ export const projectAccountsRoutes: PlainRoute = {
   path: 'users',
   getComponents(nextState: any, cb: any): any {
     require.ensure([], (require: any) => {
-      const ProjectAcountsContainer = require("./containers/ProjectAcountsContainer")
+      const ProjectAcountsContainer = require("./containers/ProjectAccountsContainer")
       cb(null, {
         content: ProjectAcountsContainer.default
       })

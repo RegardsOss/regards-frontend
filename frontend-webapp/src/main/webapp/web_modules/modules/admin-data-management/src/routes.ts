@@ -1,7 +1,7 @@
 import { PlainRoute } from "react-router"
 
 export const datasetListRoute: PlainRoute = {
-  path: 'datamanagement/dataset',
+  path: 'dataset',
   getComponents(nextState: any, cb: any): any {
     require.ensure([], (require: any) => {
       const DatasetListContainer = require("./dataset/containers/DatasetListContainer")
@@ -13,7 +13,7 @@ export const datasetListRoute: PlainRoute = {
 }
 
 export const datasetCreateRoute: PlainRoute = {
-  path: 'datamanagement/dataset/create',
+  path: 'dataset/create',
   getComponents(nextState: any, cb: any): any {
     const DatasetCreateContainer = require("./dataset/containers/DatasetCreateContainer")
     require.ensure([], (require: any) => {
@@ -25,7 +25,7 @@ export const datasetCreateRoute: PlainRoute = {
 }
 
 export const collectionListRoute: PlainRoute = {
-  path: 'datamanagement/collection',
+  path: 'collection',
   getComponents(nextState: any, cb: any): any {
     require.ensure([], (require: any) => {
       const CollectionListContainer = require("./collection/containers/CollectionListContainer")
@@ -38,7 +38,7 @@ export const collectionListRoute: PlainRoute = {
 
 
 export const collectionCreateRoute: PlainRoute = {
-  path: 'datamanagement/collection/create',
+  path: 'collection/create',
   getComponents(nextState: any, cb: any): any {
     require.ensure([], (require: any) => {
       const CollectionCreateContainer = require("./collection/containers/CollectionCreateContainer")
@@ -50,7 +50,7 @@ export const collectionCreateRoute: PlainRoute = {
 }
 
 export const datasetModelCreateRoute: PlainRoute = {
-  path: 'datamanagement/datasetmodel/create(/:from)',
+  path: 'datasetmodel/create(/:from)',
   getComponents(nextState: any, cb: any): any {
     require.ensure([], (require: any) => {
       const DatasetModelCreateContainer = require("./datasetmodel/containers/DatasetModelCreateContainer")
@@ -63,7 +63,7 @@ export const datasetModelCreateRoute: PlainRoute = {
 
 
 export const datasetModelListRoute: PlainRoute = {
-  path: 'datamanagement/datasetmodel',
+  path: 'datasetmodel',
   getComponents(nextState: any, cb: any): any {
     require.ensure([], (require: any) => {
       const DatasetModelListContainer = require("./datasetmodel/containers/DatasetModelListContainer")
@@ -77,7 +77,7 @@ export const datasetModelListRoute: PlainRoute = {
 
 
 export const datasourceCreateRoute: PlainRoute = {
-  path: 'datamanagement/datasource/create(/:from)',
+  path: 'datasource/create(/:from)',
   getComponents(nextState: any, cb: any): any {
     require.ensure([], (require: any) => {
       const DatasourceCreateContainer = require("./datasource/containers/DatasourceCreateContainer")
@@ -89,7 +89,7 @@ export const datasourceCreateRoute: PlainRoute = {
 }
 
 export const datasourceListRoute: PlainRoute = {
-  path: 'datamanagement/datasource',
+  path: 'datasource',
   getComponents(nextState: any, cb: any): any {
     require.ensure([], (require: any) => {
       const DatasourceListContainer = require("./datasource/containers/DatasourceListContainer")
@@ -103,7 +103,7 @@ export const datasourceListRoute: PlainRoute = {
 
 
 export const datasourceModelCreateRoute: PlainRoute = {
-  path: 'datamanagement/datasourcemodel/create(/:from)',
+  path: 'datasourcemodel/create(/:from)',
   getComponents(nextState: any, cb: any): any {
     require.ensure([], (require: any) => {
       const DatasourceModelCreateContainer = require("./datasourcemodel/containers/DatasourceModelCreateContainer")
@@ -115,7 +115,7 @@ export const datasourceModelCreateRoute: PlainRoute = {
 }
 
 export const datasourceModelListRoute: PlainRoute = {
-  path: 'datamanagement/datasourcemodel',
+  path: 'datasourcemodel',
   getComponents(nextState: any, cb: any): any {
     require.ensure([], (require: any) => {
       const DatasourceModelListContainer = require("./datasourcemodel/containers/DatasourceModelListContainer")
@@ -127,7 +127,7 @@ export const datasourceModelListRoute: PlainRoute = {
 }
 
 export const connectionCreateRoute: PlainRoute = {
-  path: 'datamanagement/connection/create(/:from)',
+  path: 'connection/create(/:from)',
   getComponents(nextState: any, cb: any): any {
     require.ensure([], (require: any) => {
       const ConnectionCreateContainer = require("./connection/containers/ConnectionCreateContainer")
@@ -140,7 +140,7 @@ export const connectionCreateRoute: PlainRoute = {
 
 
 export const connectionListRoute: PlainRoute = {
-  path: 'datamanagement/connection',
+  path: 'connection',
   getComponents(nextState: any, cb: any): any {
     require.ensure([], (require: any) => {
       const ConnectionListContainer = require("./connection/containers/ConnectionListContainer")

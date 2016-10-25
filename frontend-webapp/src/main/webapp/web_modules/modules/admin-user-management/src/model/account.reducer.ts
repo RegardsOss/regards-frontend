@@ -1,4 +1,4 @@
-import { PROJECT_ACCOUNT_REQUEST, PROJECT_ACCOUNT_SUCCESS, PROJECT_ACCOUNT_FAILURE } from "./actions"
+import { PROJECT_ACCOUNT_REQUEST, PROJECT_ACCOUNT_SUCCESS, PROJECT_ACCOUNT_FAILURE } from "./projectAccount.actions"
 import { ApiStateResult, NormalizedAction, Account } from "@regardsoss/models"
 
 export default (state: ApiStateResult<Account> = {

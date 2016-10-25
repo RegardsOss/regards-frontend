@@ -4,6 +4,8 @@ import { Card, CardTitle, CardText } from "material-ui/Card"
 import { map, values } from "lodash"
 import { ProjectAccount, Account } from "@regardsoss/models"
 import Actions from "../model/projectAccount.actions"
+import Selectors from "../model/projectAccount.selectors"
+import AccountSelectors from "../model/account.selectors"
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from "material-ui/Table"
 import { I18nProvider } from "@regardsoss/i18n"
 import { FormattedMessage } from "react-intl"
@@ -139,8 +141,8 @@ export class ProjectAccountsContainer extends React.Component<ProjectAccountsPro
 }
 
 const mapStateToProps = (state: any, ownProps: any) => ({
-  projectAccounts: null as any,
-  accounts: values(null)
+  projectAccounts: Selectors.getProjectAccounts(state),
+  accounts: AccountSelectors.getAccounts(state)
 })
 const mapDispatchToProps = (dispatch: any) => ({
   fetchProjectAccounts: (urlProjectAccounts: string) => dispatch(Actions.fetchProjectAccounts(urlProjectAccounts))

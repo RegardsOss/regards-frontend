@@ -1,5 +1,5 @@
 const {CALL_API, getJSON} = require('redux-api-middleware')
-import { PROJECT_ACCOUNT_ARRAY } from "@regardsoss/api"
+import Schemas from "@regardsoss/api"
 import { normalize } from "normalizr"
 export const PROJECT_ACCOUNT_REQUEST = 'PROJECT_ACCOUNT_REQUEST'
 export const PROJECT_ACCOUNT_SUCCESS = 'PROJECT_ACCOUNT_SUCCESS'
@@ -22,7 +22,7 @@ const fetchProjectAccounts = (urlProjectAccounts: String) => ({
       PROJECT_ACCOUNT_REQUEST,
       {
         type: PROJECT_ACCOUNT_SUCCESS,
-        payload: (action: any, state: any, res: any) => getJSON(res).then((json: any) => normalize(json, PROJECT_ACCOUNT_ARRAY))
+        payload: (action: any, state: any, res: any) => getJSON(res).then((json: any) => normalize(json, Schemas.PROJECT_ACCOUNT_ARRAY))
       },
       PROJECT_ACCOUNT_FAILURE
     ],

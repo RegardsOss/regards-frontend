@@ -1,4 +1,4 @@
-declare module "@regardsoss/admin" {
-  export const adminReducer: any
-  export const adminRouter: any
+declare module "@regardsoss/admin-user-management" {
+  export const userManagementReducer: any
+  export const userManagementRouter: any
 }
