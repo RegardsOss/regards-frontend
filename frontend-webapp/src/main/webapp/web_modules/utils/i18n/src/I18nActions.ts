@@ -27,13 +27,26 @@ export function updateMessages (messagesDir: string, locale: string): Object {
       let messages: any
       try {
         messages = require("../../../" + messagesDir + '/messages.' + locale + ".i18n")
-        dispatch(setLocaleMessages(messagesDir, messages.default))
       } catch (e) {
-        console.error("messagesDir", messagesDir, "locale", locale, e, e.stack)
-        throw new Error("Failed to access to i18n file. Are you sure the path is correct ?")
+        if (locale.search("-") !== -1) {
+          try {
+              let langFallback = locale.split("-")[0];
+              messages = require("../../../" + messagesDir + '/messages.' + langFallback + ".i18n")
+          } catch (exceptionOnFallback) {
+            manageException(messagesDir, locale, exceptionOnFallback);
+          }
+        } else {
+          manageException(messagesDir, locale, e);
+        }
       }
+      dispatch(setLocaleMessages(messagesDir, messages.default))
     })
   }
+}
+
+function manageException(messagesDir: string, locale: string, e: Error) {
+  console.error("messagesDir", messagesDir, "locale", locale, e, e.stack)
+  throw new Error("Failed to access to i18n file. Are you sure the path is correct ?")
 }
 
 export function updateLocale (locale: string): any {

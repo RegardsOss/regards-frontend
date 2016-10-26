@@ -17,11 +17,9 @@ describe('[COMMON] Testing i18n actions', () => {
         i18n: {
           locale: 'fr',
           messages: [{
-            messagesDir: 'view/i18n/tests/messages/test1',
-            messages: {'message1': 'premier message'}
+            messagesDir: 'utils/i18n/tests/messages/test1'
           }, {
-            messagesDir: 'view/i18n/tests/messages/test2',
-            messages: {'message2': 'deuxieme message'}
+            messagesDir: 'utils/i18n/tests/messages/test2'
           }]
         }
       }
@@ -34,13 +32,13 @@ describe('[COMMON] Testing i18n actions', () => {
 
     const setLocaleMessage: any = {
       type: SET_LOCALE_MSG,
-      messagesDir: 'view/i18n/tests/messages/test1',
+      messagesDir: 'utils/i18n/tests/messages/test1',
       messages: {'message1': 'first message'}
     }
 
     const setLocaleMessage2: any = {
       type: SET_LOCALE_MSG,
-      messagesDir: 'view/i18n/tests/messages/test2',
+      messagesDir: 'utils/i18n/tests/messages/test2',
       messages: {'message2': 'second message'}
     }
 
@@ -50,6 +48,48 @@ describe('[COMMON] Testing i18n actions', () => {
                 .then(() => { // return of async actions
                   expect(store.getActions()).to.eql(expectedActions)
                 })
+  })
+
+  it('Test fallback en-US --> en', () => {
+
+    const store = mockStore({
+      common: {
+        i18n: {
+          locale: 'en',
+          messages: [{
+            messagesDir: 'utils/i18n/tests/messages/test1'
+          }, {
+            messagesDir: 'utils/i18n/tests/messages/test2'
+          }]
+        }
+      }
+    })
+
+
+
+    const setLocaleAction: any = {
+      type: SET_LOCALE,
+      locale: 'en-US'
+    }
+
+    const setLocaleMessage: any = {
+      type: SET_LOCALE_MSG,
+      messagesDir: 'utils/i18n/tests/messages/test1',
+      messages: {'message1': 'first message'}
+    }
+
+    const setLocaleMessage2: any = {
+      type: SET_LOCALE_MSG,
+      messagesDir: 'utils/i18n/tests/messages/test2',
+      messages: {'message2': 'second message'}
+    }
+
+    const expectedActions = [setLocaleAction, setLocaleMessage, setLocaleMessage2]
+
+    return store.dispatch(updateLocale('en-US'))
+        .then(() => { // return of async actions
+          expect(store.getActions()).to.eql(expectedActions)
+        })
   })
 
 })
