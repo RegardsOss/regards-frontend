@@ -7,8 +7,7 @@
   "scripts": {
     "bootstrap": "./scripts/bootstrap.sh",
     "postinstall": "npm run typings:reset",
-    "prebuild": "npm run bootstrap && npm install && npm run test:coverage",
-    "build:production": "npm run prebuild && webpack --progress --config webpack.prod.config.js",
+    "build:production": "webpack --progress --config webpack.prod.config.js",
     "start": "node --max_old_space_size=4096 --optimize_for_size --max_executable_size=4096 --stack_size=4096 ./node_modules/.bin/webpack-dev-server --progress --hot --config webpack.dev.config.js",
     "pretest": "(npm run lint --silent || true)",
     "test": "npm run test:mocha --silent",
