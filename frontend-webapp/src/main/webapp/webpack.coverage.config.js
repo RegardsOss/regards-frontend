@@ -33,7 +33,7 @@ config = merge(config, {
       {
         test: /\.tsx{0,1}?$/,
         exclude: [/node_modules/, /json/],
-        loaders: ['istanbul-instrumenter', "babel-loader", "ts-loader"]
+        loaders: ['istanbul-instrumenter', "babel-loader", "ts-loader?transpileOnly=true"]
       }
     ]
   },
