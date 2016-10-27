@@ -9,7 +9,7 @@ module.exports = {
   // Webpack working directory
   context: __dirname,
   // Javascript main entry
-  entry: './src/main.tsx',
+  entry: './src/main.jsx',
   node: {
     net: 'empty',
     tls: 'empty',
@@ -33,24 +33,23 @@ module.exports = {
     modulesDirectories: ["web_modules", "node_modules"]
   },
   module: {
+    preLoaders: [
+      {
+        test: /\.jsx?$/,
+        loader: 'eslint-loader',
+        exclude: [/node_modules/, /json/, /\/\..*!/]
+      }
+    ],
     loaders: [
       // All files with a '.ts' or '.tsx' extension will be handled by 'ts-loader'.
       {
         test: /\.tsx{0,1}?$/,
         exclude: [/node_modules/, /json/, /web_modules\/.*\/index\.d\.ts$/],
-        loaders: ["babel-loader", "ts-loader"]
+        loaders: ["babel", "ts-loader"]
       },
       // Transpile ES6 Javascript into ES5 with babel loader and react
       {
-        test: /\.js$/,
-        exclude: [/node_modules/, /json/, /\/\..*/],
-        loader: 'babel',
-        query: {
-          presets: ['es2015', 'react'],
-        }
-      },
-      {
-        test: /\.jsx$/,
+        test: /\.jsx?$/,
         exclude: [/node_modules/, /json/],
         loader: 'babel'
       },

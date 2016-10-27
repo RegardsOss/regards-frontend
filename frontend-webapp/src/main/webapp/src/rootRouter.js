@@ -7,14 +7,14 @@ import { PlainRoute } from "react-router"
 
 export const routes: PlainRoute = {
   path: "/",
-  getChildRoutes(nextState: any, cb: any): any {
-    require.ensure([], (require: any) => {
+  getChildRoutes(nextState, cb) {
+    require.ensure([], (require) => {
       const AdminPckg = require("@regardsoss/admin")
       cb(null, [AdminPckg.adminRouter])
     })
   },
-  getIndexRoute(nextState: any, cb: any): void {
-    require.ensure([], (require: any) => {
+  getIndexRoute(nextState, cb) {
+    require.ensure([], (require) => {
       const PortalPckg = require("@regardsoss/portal")
       cb(null, {
         component: PortalPckg.portalContainer
@@ -25,7 +25,7 @@ export const routes: PlainRoute = {
 
 
 // Log sitemap
-function getSiteMap (parentRoute: any, childRoutes: Array<PlainRoute>): void {
+function getSiteMap (parentRoute, childRoutes) {
   childRoutes.map((route) => {
     if (route) {
       let path = ''
