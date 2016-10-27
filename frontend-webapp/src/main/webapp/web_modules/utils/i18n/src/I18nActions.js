@@ -26,9 +26,8 @@ export function updateMessages(messagesDir, locale) {
       let messages;
       try {
         messages = require(`../../../${messagesDir}/messages.${locale}.i18n`);
-        dispatch(setLocaleMessages(messagesDir, messages.default));
       } catch (e) {
-        if (locale.search("-") !== -1) {
+        if (locale.indexOf("-") !== -1) {
           try {
             let langFallback = locale.split("-")[0];
             messages = require("../../../" + messagesDir + '/messages.' + langFallback + ".i18n")
