@@ -3,9 +3,8 @@
  * /user  -> UserApp
  * /admin -> AdminApp
  */
-import { PlainRoute } from "react-router"
 
-export const routes: PlainRoute = {
+export const routes = {
   path: "/",
   getChildRoutes(nextState, cb) {
     require.ensure([], (require) => {
