@@ -4,6 +4,7 @@
   "private": true,
   "description": "",
   "main": "src/main.ts",
+  "types": "src/main.ts",
   "author": "CS-SI",
   "license": "ISC"
 }

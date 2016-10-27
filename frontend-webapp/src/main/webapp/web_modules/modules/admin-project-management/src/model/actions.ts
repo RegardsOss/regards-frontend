@@ -1,5 +1,5 @@
 const {CALL_API, getJSON} = require('redux-api-middleware')
-import { PROJECT_ARRAY } from "@regardsoss/api"
+import PROJECT_ARRAY from "@regardsoss/api"
 import { normalize } from "normalizr"
 import { Action } from "redux"
 

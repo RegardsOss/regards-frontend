@@ -2,9 +2,11 @@
 import * as React from "react"
 import { connect } from "react-redux"
 import { ShowableAtRender } from "@regardsoss/components"
-import { IDisplayController } from "@regardsoss/display-control"
 import { HateoasDisplayController } from "./HateoasDisplayController"
 import EndpointSelectors from "./endpoints/EndpointSelectors"
+
+export type IDisplayController = (component: JSX.Element) => boolean
+
 /**
  * Generic decorator for controlling display
  * Use this decorator on a React.Component class in order to control its display

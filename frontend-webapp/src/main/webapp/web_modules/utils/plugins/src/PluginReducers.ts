@@ -1,5 +1,5 @@
 import { REQUEST_PLUGINS, RECEIVE_PLUGINS, FAILED_PLUGINS, PLUGIN_INITIALIZED } from "./PluginsActions"
-import { PluginsStore } from "@regardsoss/plugins"
+import { PluginsStore } from "./PluginInterfaces"
 
 export default (state: PluginsStore = {
   isFetching: false,
