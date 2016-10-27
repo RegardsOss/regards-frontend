@@ -7,9 +7,6 @@
     "target": "es6",
     "jsx": "react"
   },
-  "awesomeTypescriptLoaderOptions": {
-    "forkChecker": true
-  },
   "exclude": [
     "node_modules",
     "web_modules",

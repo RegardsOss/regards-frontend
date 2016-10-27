@@ -2,7 +2,6 @@
 const CommonConfig = require("./webpack.common.config")
 const webpack = require('webpack')
 const merge = require('webpack-merge');
-var ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin;
 
 var config = CommonConfig;
 
@@ -44,7 +43,6 @@ config = merge(config, {
     }
   },
   plugins: [
-    new ForkCheckerPlugin(),
     // Allow to define React as a global variable for JSX.
     new webpack.ProvidePlugin({"React": "react",}),
     new webpack.DefinePlugin({

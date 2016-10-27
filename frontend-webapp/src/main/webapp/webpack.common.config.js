@@ -38,7 +38,7 @@ module.exports = {
       {
         test: /\.tsx{0,1}?$/,
         exclude: [/node_modules/, /json/],
-        loaders: ["babel-loader", "awesome-typescript-loader"]
+        loaders: ["babel-loader", "ts-loader"]
       },
       // Transpile ES6 Javascript into ES5 with babel loader and react
       {

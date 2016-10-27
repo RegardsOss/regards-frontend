@@ -71,7 +71,6 @@
     "@kadira/storybook": "^2.16.1",
     "@kadira/storybook-addon-knobs": "^1.2.1",
     "autoprefixer": "^6.3.6",
-    "awesome-typescript-loader": "^2.2.4",
     "babel-cli": "^6.11.4",
     "babel-core": "^6.9.0",
     "babel-loader": "^6.2.6",
