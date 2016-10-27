@@ -1,20 +1,5 @@
 {
   "globalDependencies": {
-    "@regardsoss/access-rights": "file:./web_modules/utils/access-rights/index.d.ts",
-    "@regardsoss/admin": "file:./web_modules/modules/admin/index.d.ts",
-    "@regardsoss/admin-data-management": "file:./web_modules/modules/admin-data-management/index.d.ts",
-    "@regardsoss/admin-project-management": "file:./web_modules/modules/admin-project-management/index.d.ts",
-    "@regardsoss/admin-user-management": "file:./web_modules/modules/admin-user-management/index.d.ts",
-    "@regardsoss/authentication": "file:./web_modules/utils/authentication/index.d.ts",
-    "@regardsoss/components": "file:./web_modules/components/index.d.ts",
-    "@regardsoss/display-control": "file:./web_modules/utils/display-control/index.d.ts",
-    "@regardsoss/i18n": "file:./web_modules/utils/i18n/index.d.ts",
-    "@regardsoss/injector": "file:./web_modules/utils/injector/index.d.ts",
-    "@regardsoss/plugins": "file:./web_modules/utils/plugins/index.d.ts",
-    "@regardsoss/portal": "file:./web_modules/modules/portal/index.d.ts",
-    "@regardsoss/store": "file:./web_modules/utils/store/index.d.ts",
-    "@regardsoss/store-utils": "file:./web_modules/utils/store-utils/index.d.ts",
-    "@regardsoss/theme": "file:./web_modules/utils/theme/index.d.ts",
     "chai": "registry:dt/chai#3.4.0+20160601211834",
     "enzyme": "registry:dt/enzyme#2.4.1+20160919072335",
     "flux-standard-action": "registry:dt/flux-standard-action#0.5.0+20160316155526",
@@ -44,9 +29,6 @@
     "sockjs-client": "registry:dt/sockjs-client#1.0.3+20160626224127"
   },
   "dependencies": {
-    "@regardsoss/api": "file:./web_modules/data/api/index.d.ts",
-    "@regardsoss/models": "file:./web_modules/data/models/index.d.ts",
-    "@regardsoss/some-pckg": "file:./web_modules/utils/some-pckg/index.d.ts",
     "lodash": "registry:npm/lodash#4.0.0+20160723033700"
   }
 }
