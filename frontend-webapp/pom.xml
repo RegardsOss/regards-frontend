@@ -14,7 +14,7 @@
 	<parent>
 		<groupId>fr.cnes.regards</groupId>
 		<artifactId>regards-frontend-parent</artifactId>
-		<version>0.0.0-SNAPSHOT</version>
+		<version>0.0.1-SNAPSHOT</version>
 		<relativePath></relativePath>
 	</parent>
 
