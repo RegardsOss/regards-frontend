@@ -27,7 +27,7 @@ export function updateMessages(messagesDir, locale) {
       try {
         messages = require(`../../../${messagesDir}/messages.${locale}.i18n`);
       } catch (e) {
-        if (locale.indexOf("-") !== -1) {
+        if (locale.indexOf("-") > -1) {
           try {
             let langFallback = locale.split("-")[0];
             messages = require("../../../" + messagesDir + '/messages.' + langFallback + ".i18n")
@@ -38,7 +38,7 @@ export function updateMessages(messagesDir, locale) {
           manageException(messagesDir, locale, e);
         }
       }
-      dispatch(setLocaleMessages(messagesDir, messages.default))
+      dispatch(setLocaleMessages(messagesDir, messages))
     });
   };
 }
