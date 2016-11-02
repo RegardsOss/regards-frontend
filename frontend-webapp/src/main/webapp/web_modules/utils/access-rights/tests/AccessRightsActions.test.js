@@ -1,7 +1,7 @@
 import configureStore from "redux-mock-store"
 const {apiMiddleware} = require('redux-api-middleware')
 import thunk from "redux-thunk"
-import * as nock from "nock"
+import nock from "nock"
 import { expect } from "chai"
 import * as actions from "../src/AccessRightsActions"
 import { DependencyAccessRight } from "@regardsoss/access-rights"

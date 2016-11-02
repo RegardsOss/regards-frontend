@@ -1,6 +1,6 @@
 import configureStore from "redux-mock-store"
 import thunk from "redux-thunk"
-import * as nock from "nock"
+import nock from "nock"
 import { expect } from "chai"
 import * as actions from "../src/model/actions"
 import { Action, AnyMeta } from "flux-standard-action"

@@ -1,7 +1,7 @@
 import configureStore from "redux-mock-store"
 const {apiMiddleware} = require('redux-api-middleware')
 import thunk from "redux-thunk"
-import * as nock from "nock"
+import nock from "nock"
 import { expect } from "chai"
 import * as EndpointActions from "../src/endpoints/EndpointActions"
 import { Action, AnyMeta } from "flux-standard-action"

@@ -3,12 +3,9 @@
     "es2015", "react"
   ],
   "plugins": ["transform-class-properties", "add-module-exports"],
-  "sourceMap": "inline",
   "env": {
     "development": {
-      "plugins": [
-        "react-hot-loader/babel"
-      ]
+      "plugins": ["react-hot-loader/babel"]
     }
   }
 }
