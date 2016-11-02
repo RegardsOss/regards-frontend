@@ -1,8 +1,8 @@
 {
   "presets": [
-    "es2015",
-    "react"
+    "es2015", "react"
   ],
+  "plugins": ["transform-class-properties", "add-module-exports"],
   "sourceMap": "inline",
   "env": {
     "development": {
