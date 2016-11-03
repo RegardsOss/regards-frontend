@@ -7,16 +7,16 @@
 // to "React Create App". This only has babel loader to load JavaScript.
 
 // Webpack configuration file
-const CommonConfig = require('../webpack.common.config');
-const webpack = require('webpack');
-const merge = require('webpack-merge');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const path = require('path');
+const CommonConfig = require('../webpack.common.config')
+const webpack = require('webpack')
+const merge = require('webpack-merge')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const path = require('path')
 
-let config = CommonConfig;
+let config = CommonConfig
 // Reset loaders
-config.module.loaders = [];
-config.module.plugins = [];
+config.module.loaders = []
+config.module.plugins = []
 config = merge(config, {
   plugins: [
     // your custom plugins
@@ -70,12 +70,12 @@ config = merge(config, {
       rewrites: [{
         from: /\/bundle\.js(\.map)?/,
         to(context) {
-          return context.match[0];
+          return context.match[0]
         },
       },
       ],
     },
   },
-});
+})
 
-module.exports = config;
+module.exports = config

@@ -1,4 +1,4 @@
-import { storiesOf, linkTo } from "@kadira/storybook";
+import { storiesOf, linkTo } from '@kadira/storybook'
 const styles = {
   main: {
     margin: 15,
@@ -21,8 +21,8 @@ const styles = {
   code: {
     fontSize: 15,
     fontWeight: 600,
-    padding: "2px 5px",
-    border: "1px solid #eae9e9",
+    padding: '2px 5px',
+    border: '1px solid #eae9e9',
     borderRadius: 4,
     backgroundColor: '#f3f2f2',
     color: '#3a3a3a',
@@ -30,12 +30,12 @@ const styles = {
 
   note: {
     opacity: 0.5,
-  }
-};
+  },
+}
 class Welcome extends React.Component {
   showApp(e) {
-    e.preventDefault();
-    if (this.props.showApp) this.props.showApp();
+    e.preventDefault()
+    if (this.props.showApp) this.props.showApp()
   }
 
   render() {
@@ -46,11 +46,11 @@ class Welcome extends React.Component {
           This dev environment is aim to ease HMI feedback.
         </p>
       </div>
-    );
+    )
   }
 }
 
 storiesOf('Welcome', module)
   .add('', () => (
-    <Welcome showApp={linkTo('Button')}/>
-  ));
+    <Welcome showApp={linkTo('Button')} />
+  ))

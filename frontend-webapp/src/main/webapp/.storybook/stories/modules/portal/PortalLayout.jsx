@@ -1,16 +1,16 @@
-import { storiesOf, action } from "@kadira/storybook";
-import PortalLayout from "@regardsoss/portal/src/PortalLayout";
-import { StoreDecorator } from "../../utils/decorators";
-import Paper from "material-ui/Paper";
-import { getThemeByName, themeList, defaultTheme } from "../../utils/decorators";
-import { withKnobs, text, select } from "@kadira/storybook-addon-knobs";
-import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
-import { indigo900 } from "material-ui/styles/colors";
+import { storiesOf, action } from '@kadira/storybook'
+import PortalLayout from '@regardsoss/portal/src/PortalLayout'
+import { StoreDecorator } from '../../utils/decorators'
+import Paper from 'material-ui/Paper'
+import { getThemeByName, themeList, defaultTheme } from '../../utils/decorators'
+import { withKnobs, text, select } from '@kadira/storybook-addon-knobs'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import { indigo900 } from 'material-ui/styles/colors'
 storiesOf('Portal template', module)
   .addDecorator(withKnobs)
   .addDecorator(StoreDecorator)
   .add('', () => {
-    const theme = getThemeByName(select("Theme", themeList, defaultTheme))
+    const theme = getThemeByName(select('Theme', themeList, defaultTheme))
     return (
       <MuiThemeProvider muiTheme={theme}>
         <PortalLayout
@@ -22,12 +22,11 @@ storiesOf('Portal template', module)
                 textAlign: 'center',
                 display: 'inline-block',
                 fontSize: 'small',
-                backgroundColor: indigo900
+                backgroundColor: indigo900,
               }}
-            >
-            </Paper>}
+            />}
           location=""
-          onLogout={action("onLogout")}
+          onLogout={action('onLogout')}
         />
       </MuiThemeProvider>
     )

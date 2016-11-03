@@ -1,5 +1,5 @@
-import Paper from "material-ui/Paper";
-import { map } from "lodash";
+import Paper from 'material-ui/Paper'
+import { map } from 'lodash'
 
 const style = {
   height: 200,
@@ -8,7 +8,7 @@ const style = {
   textAlign: 'center',
   display: 'inline-block',
   paddingTop: 60,
-  fontSize: 'small'
+  fontSize: 'small',
 }
 
 const hexaStyle = {
@@ -16,7 +16,7 @@ const hexaStyle = {
   fontSize: '1.3em',
 }
 
-const merge = (style, color) => Object.assign({}, style, {backgroundColor: color})
+const merge = (style, color) => Object.assign({}, style, { backgroundColor: color })
 
 export default class Palette extends React.Component {
   render() {
