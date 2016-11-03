@@ -1,10 +1,10 @@
-import ActionButtonComponent from './ActionButtonComponent'
+import ActionButtonComponent from './cards/ActionButtonComponent'
 import ApplicationErrorComponent from './ApplicationErrorComponent'
-import CardActionsComponent from './CardActionsComponent'
-import MainActionButtonComponent from './MainActionButtonComponent'
+import CardActionsComponent from './cards/CardActionsComponent'
+import MainActionButtonComponent from './cards/MainActionButtonComponent'
 import ModuleComponent from './ModuleComponent'
-import SecondaryActionButtonComponent from './SecondaryActionButtonComponent'
-import ShowableAtRender from './ShowableAtRender'
+import SecondaryActionButtonComponent from './cards/SecondaryActionButtonComponent'
+import ShowableAtRender from './cards/ShowableAtRender'
 import NewsItemComponent from './NewsItemComponent'
 
 export {

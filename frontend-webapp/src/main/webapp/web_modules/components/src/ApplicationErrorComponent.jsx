@@ -1,25 +1,18 @@
-/** @module common */
-import * as React from "react"
-import { connect } from "react-redux"
+import { connect } from 'react-redux'
 
 /**
  * React component to display a global application error.
  */
-class ApplicationErrorComponent extends React.Component {
-
-  render () {
-    return (
-      <div>
+function ApplicationErrorComponent() {
+  return (
+    <div>
         Application unavailable
-      </div>
+    </div>
     )
-  }
 }
 
 // Add theme from store to the component props
-const mapStateToProps = (state) => {
-  return {
-    theme: state.theme
-  }
-}
+const mapStateToProps = state => ({
+  theme: state.theme,
+})
 export default connect(mapStateToProps)(ApplicationErrorComponent)

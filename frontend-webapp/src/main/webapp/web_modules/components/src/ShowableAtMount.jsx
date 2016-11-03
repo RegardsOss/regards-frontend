@@ -1,33 +1,27 @@
-import * as React from "react"
-/*
-interface ShowableAtMountProps {
-  show: Boolean
-}
-
-interface ShowableAtMountState {
-// TODO
-}*/
-
 class ShowableAtMount extends React.Component {
 
-
-  constructor () {
+  constructor() {
     super()
     this.oldRender = this.render
-    this.render = () => {
-      return null
+    this.render = () => (
+      null
+    )
+  }
+
+  componentWillMount() {
+    if (this.props.show) {
+      this.render = this.oldRender
     }
   }
 
-  render () {
+  render() {
     return (<div>{this.props.children}</div>)
   }
+}
 
-  componentWillMount () {
-    if (this.props.show)
-      this.render = this.oldRender
-  }
-
+ShowableAtMount.propTypes = {
+  show: React.PropTypes.bool.isRequired,
+  children: React.PropTypes.element.isRequired,
 }
 
 export default ShowableAtMount
