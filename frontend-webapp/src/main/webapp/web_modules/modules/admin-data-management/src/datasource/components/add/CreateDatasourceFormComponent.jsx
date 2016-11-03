@@ -7,14 +7,7 @@ import MenuItem from 'material-ui/MenuItem'
 import TextField from 'material-ui/TextField'
 import { map } from 'lodash'
 import { CardActionsComponent } from '@regardsoss/components'
-/*
-interface CreateDatasourceProps {
-  cancelUrl: string
-  save: (name: string) => void
-  connections: any
-  modelObjects: any
-  pluginDatasources: any
-}*/
+
 /**
  */
 class CreateDatasourceFormComponent extends React.Component {
@@ -45,9 +38,9 @@ class CreateDatasourceFormComponent extends React.Component {
     })
   }
 
-  handleSaveButton = () => {
-    return this.props.save(this.state.name)
-  }
+  handleSaveButton = () => (
+    this.props.save(this.state.name)
+)
 
 
   handleLabelChange = (event) => {
@@ -153,6 +146,14 @@ class CreateDatasourceFormComponent extends React.Component {
       </Card>
     )
   }
+}
+
+CreateDatasourceFormComponent.propTypes = {
+  cancelUrl: React.PropTypes.string.isRequired,
+  save: React.PropTypes.func.isRequired,
+  connections: React.PropTypes.arrayOf(React.PropTypes.objectOf(React.PropTypes.string)).isRequired,
+  modelObjects: React.PropTypes.arrayOf(React.PropTypes.objectOf(React.PropTypes.string)).isRequired,
+  pluginDatasources: React.PropTypes.arrayOf(React.PropTypes.objectOf(React.PropTypes.string)).isRequired,
 }
 
 export default CreateDatasourceFormComponent

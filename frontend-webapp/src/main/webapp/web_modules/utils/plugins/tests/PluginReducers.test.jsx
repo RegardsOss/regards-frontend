@@ -1,8 +1,5 @@
 import { expect } from 'chai'
-import { Action } from 'redux'
 import reducer from '../src/PluginReducers'
-import { PluginsStore, PluginType } from '@regardsoss/plugins'
-import { PluginInitializedAction } from '../src/PluginsActions'
 
 
 describe('[COMMON] Testing plugin reducer', () => {
@@ -76,7 +73,7 @@ describe('[COMMON] Testing plugin reducer', () => {
   })
 
   it('should handle plugin initialization', () => {
-    class FakeComponent extends React.Component {
+    function FakeComponent() {
     }
     const action = {
       type: 'PLUGIN_INITIALIZED',

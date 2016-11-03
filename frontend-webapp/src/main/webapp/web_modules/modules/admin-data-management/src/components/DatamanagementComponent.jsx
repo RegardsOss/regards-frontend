@@ -10,12 +10,6 @@ import IconButton from 'material-ui/IconButton'
 import KeyboardArrowUp from 'material-ui/svg-icons/hardware/keyboard-arrow-up'
 import KeyboardArrowDown from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
 import RaisedButton from 'material-ui/RaisedButton'
-/*
-interface DatamanagementProps {
-  params: any,
-  theme: any,
-  intl: any
-}*/
 
 /**
  * Show the list of users for the current project
@@ -29,12 +23,6 @@ class DatamanagementComponent extends React.Component {
     }
   }
 
-  handleToggleAdvanced = () => {
-    const { showAdvanced } = this.state
-    this.setState({
-      showAdvanced: !showAdvanced,
-    })
-  }
 
   getCollectionCreate = () => {
     const projectName = this.props.params.project
@@ -84,42 +72,47 @@ class DatamanagementComponent extends React.Component {
     const projectName = this.props.params.project
     return `/admin/${projectName}/datamanagement/connection/create`
   }
-  renderItem = (element, elementStyles, elementClasses, linkStyle) => {
-    return (
-      <div className={elementClasses} key={element.pathList}>
-        <Card
-          initiallyExpanded
-          style={elementStyles}
-        >
-          <CardText>
-            {element.title}
-          </CardText>
-          <CardText>
-            {element.description}
-          </CardText>
-          <CardActions>
-            <Link
-              to={element.pathList}
-              style={linkStyle}
-            >
-              <IconButton tooltip={this.props.intl.formatMessage({ id: 'datamanagement.action.list.tooltip' })}>
-                <ViewLinesIcon />
-              </IconButton>
-            </Link>
 
-            <Link
-              to={element.pathCreate}
-              style={linkStyle}
-            >
-              <IconButton tooltip={this.props.intl.formatMessage({ id: 'datamanagement.action.add.tooltip' })}>
-                <AddIcon />
-              </IconButton>
-            </Link>
-          </CardActions>
-        </Card>
-      </div>
-    )
+  handleToggleAdvanced = () => {
+    const { showAdvanced } = this.state
+    this.setState({
+      showAdvanced: !showAdvanced,
+    })
   }
+  renderItem = (element, elementStyles, elementClasses, linkStyle) => (
+    <div className={elementClasses} key={element.pathList}>
+      <Card
+        initiallyExpanded
+        style={elementStyles}
+      >
+        <CardText>
+          {element.title}
+        </CardText>
+        <CardText>
+          {element.description}
+        </CardText>
+        <CardActions>
+          <Link
+            to={element.pathList}
+            style={linkStyle}
+          >
+            <IconButton tooltip={this.props.intl.formatMessage({ id: 'datamanagement.action.list.tooltip' })}>
+              <ViewLinesIcon />
+            </IconButton>
+          </Link>
+
+          <Link
+            to={element.pathCreate}
+            style={linkStyle}
+          >
+            <IconButton tooltip={this.props.intl.formatMessage({ id: 'datamanagement.action.add.tooltip' })}>
+              <AddIcon />
+            </IconButton>
+          </Link>
+        </CardActions>
+      </Card>
+    </div>
+    )
 
 
   render() {
@@ -188,9 +181,9 @@ class DatamanagementComponent extends React.Component {
           className={style.section.container.classes}
           style={style.section.container.styles}
         >
-          {map(elementsCommon, (element, id) => {
-            return this.renderItem(element, style.section.items.styles, style.section.items.classes, style.links)
-          })}
+          {map(elementsCommon, element => (
+            this.renderItem(element, style.section.items.styles, style.section.items.classes, style.links)
+          ))}
         </div>
         <div
           className={style.action.classes}
@@ -206,6 +199,11 @@ class DatamanagementComponent extends React.Component {
       </div>
     )
   }
+}
+DatamanagementComponent.propTypes = {
+  params: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
+  theme: React.PropTypes.objectOf(React.PropTypes.string).isRequired,
+  intl: React.PropTypes.objectOf(React.PropTypes.string).isRequired,
 }
 
 export default DatamanagementComponent

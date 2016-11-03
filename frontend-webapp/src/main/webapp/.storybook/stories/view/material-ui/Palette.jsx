@@ -16,31 +16,32 @@ const hexaStyle = {
   fontSize: '1.3em',
 }
 
-const merge = (style, color) => Object.assign({}, style, { backgroundColor: color })
-
-export default class Palette extends React.Component {
-  render() {
-    const theme = this.props.theme
-    return (
-      <div>
-        {
-          map(theme.palette, (value, key) => {
-            return (
-              <Paper
-                key={key}
-                style={merge(style, value)}
-              >
-                <div>
-                  {key}
-                  <br />
-                  <div style={hexaStyle}>{value}</div>
-                </div>
-              </Paper>
-            )
-          })
+const merge = (sourceStyle, color) => (
+  Object.assign({}, sourceStyle, { backgroundColor: color })
+)
+function Palette(props) {
+  const theme = props.theme
+  return (
+    <div>
+      {
+          map(theme.palette, (value, key) => (
+            <Paper
+              key={key}
+              style={merge(style, value)}
+            >
+              <div>
+                {key}
+                <br />
+                <div style={hexaStyle}>{value}</div>
+              </div>
+            </Paper>
+            ))
         }
-      </div>
+    </div>
     )
-  }
+}
+Palette.propTypes = {
+  theme: React.PropTypes.objectOf(React.PropTypes.string),
 }
 
+export default Palette

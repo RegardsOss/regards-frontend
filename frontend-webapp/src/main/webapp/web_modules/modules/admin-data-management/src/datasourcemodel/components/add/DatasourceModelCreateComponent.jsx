@@ -9,16 +9,11 @@ import { TableRowColumn, Table, TableBody, TableHeader, TableHeaderColumn, Table
 import { FormattedMessage } from 'react-intl'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import { CardActionsComponent } from '@regardsoss/components'
-import { JavaTypes } from './../../../JavaTypes'
-/*
-interface ModelCreateProps {
-  getCancelUrl: () => string
-  handleNextStep: (name: string, attributes: Array<ModelAttribute>) => void
-}*/
+import JavaTypes from './../../../JavaTypes'
 
 /**
  */
-export default class ModelCreateComponent extends React.Component {
+class ModelCreateComponent extends React.Component {
 
 
   constructor(props) {
@@ -211,3 +206,8 @@ export default class ModelCreateComponent extends React.Component {
     )
   }
 }
+ModelCreateComponent.propTypes = {
+  getCancelUrl: React.PropTypes.func.isRequired,
+  handleNextStep: React.PropTypes.func.isRequired,
+}
+export default ModelCreateComponent

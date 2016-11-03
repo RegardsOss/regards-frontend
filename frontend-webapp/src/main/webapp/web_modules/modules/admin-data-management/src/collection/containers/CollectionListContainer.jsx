@@ -3,15 +3,6 @@ import { I18nProvider } from '@regardsoss/i18n'
 import CollectionListComponent from '../components/list/CollectionListComponent'
 // const URL_PROJECTS_USERS = "http://localhost:8080/api/users"
 
-/*
-interface DatasetCreateProps {
-  // From router
-  params: any
-
-  // From mapStateToProps
-  collections: Array<Collection>
-}*/
-
 /**
  * Show the list of users for the current project
  */
@@ -40,6 +31,10 @@ export default class CollectionListContainer extends React.Component {
       </I18nProvider>
     )
   }
+}
+CollectionListContainer.propTypes = {
+  params: React.PropTypes.objectOf(React.PropTypes.string),
+  collections: React.PropTypes.arrayOf(React.PropTypes.string),
 }
 
 /*

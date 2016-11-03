@@ -1,9 +1,9 @@
 import injectTapEventPlugin from 'react-tap-event-plugin'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import { merge } from 'lodash'
 import customThemes from './custom/index'
 import adminAppLayer from './custom/adminAppLayer'
 import portalAppLayer from './custom/portalAppLayer'
-import { merge } from 'lodash'
 // Custom themes
 
 // Needed for onTouchTap

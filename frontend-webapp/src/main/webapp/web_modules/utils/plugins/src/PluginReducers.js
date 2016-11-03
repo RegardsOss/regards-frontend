@@ -1,5 +1,20 @@
 import { REQUEST_PLUGINS, RECEIVE_PLUGINS, FAILED_PLUGINS, PLUGIN_INITIALIZED } from './PluginsActions'
-import { PluginsStore } from '@regardsoss/plugins'
+
+
+const initializePlugin = function (state, action) {
+  const result = Object.assign({}, state)
+  result.items = result.items.map((plugin) => {
+    // Search for the plugin whish has been initialized
+    if (plugin.name === action.name) {
+      // Add the loaded react component
+      return Object.assign({}, plugin, {
+        loadedComponent: action.loadedComponent,
+      })
+    }
+    return Object.assign({}, plugin)
+  })
+  return result
+}
 
 export default (state = {
   isFetching: false,
@@ -26,19 +41,7 @@ export default (state = {
       })
     // The given plugin as been successfully initialized
     case PLUGIN_INITIALIZED:
-      const result = Object.assign({}, state)
-      result.items = result.items.map((plugin) => {
-        // Search for the plugin whish has been initialized
-        if (plugin.name === action.name) {
-          // Add the loaded react component
-          return Object.assign({}, plugin, {
-            loadedComponent: action.loadedComponent,
-          })
-        } else {
-          return Object.assign({}, plugin)
-        }
-      })
-      return result
+      return initializePlugin(state, action)
     default:
       return state
   }

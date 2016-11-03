@@ -1,31 +1,12 @@
-
-import TextInputComponent from '../../input/TextInputComponent'
 import { map } from 'lodash'
 import { FormattedMessage } from 'react-intl'
+import TextInputComponent from '../../input/TextInputComponent'
 import IntegerInputComponent from '../../input/IntegerInputComponent'
 import DatasetModelAttributeRadioGroupComponent from './DatasetModelAttributeRadioGroupComponent'
-import { JavaTypes } from './../../../../JavaTypes'
-/*
-interface ModelAttributeProps {
-  model: DatasetModel
-}*/
+import JavaTypes from './../../../../JavaTypes'
 /**
  */
 class ModelAttributeComponent extends React.Component {
-
-
-  handleDatasetLabelChange = (event) => {
-    const newLabel = event.target.value
-    this.setState({
-      label: newLabel,
-    })
-  }
-
-  handleModelTypeChange = (event, index, value) => {
-    this.setState({
-      modelType: value,
-    })
-  }
 
   // When the user define a value in an modal attribute, it defines the default value
   getAttributesDefined = () => {
@@ -41,6 +22,20 @@ class ModelAttributeComponent extends React.Component {
     }
     return modelAttributes
   }
+
+  handleModelTypeChange = (event, index, value) => {
+    this.setState({
+      modelType: value,
+    })
+  }
+
+  handleDatasetLabelChange = (event) => {
+    const newLabel = event.target.value
+    this.setState({
+      label: newLabel,
+    })
+  }
+
 
   render() {
     const { model } = this.props
@@ -82,14 +77,19 @@ class ModelAttributeComponent extends React.Component {
                   />
                   )
               default:
-                throw `Undefined java type ${attribute.type}`
+                throw new Error(`Undefined java type ${attribute.type}`)
             }
           }
+          return null
         }
         )}
 
       </div>
     )
   }
+}
+
+ModelAttributeComponent.propTypes = {
+  model: React.PropTypes.objectOf(React.PropTypes.string),
 }
 export default ModelAttributeComponent

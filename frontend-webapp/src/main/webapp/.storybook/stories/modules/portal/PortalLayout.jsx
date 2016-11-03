@@ -1,11 +1,11 @@
 import { storiesOf, action } from '@kadira/storybook'
 import PortalLayout from '@regardsoss/portal/src/PortalLayout'
-import { StoreDecorator } from '../../utils/decorators'
 import Paper from 'material-ui/Paper'
-import { getThemeByName, themeList, defaultTheme } from '../../utils/decorators'
-import { withKnobs, text, select } from '@kadira/storybook-addon-knobs'
+import { withKnobs, select } from '@kadira/storybook-addon-knobs'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { indigo900 } from 'material-ui/styles/colors'
+import { getThemeByName, themeList, defaultTheme, StoreDecorator } from '../../utils/decorators'
+
 storiesOf('Portal template', module)
   .addDecorator(withKnobs)
   .addDecorator(StoreDecorator)

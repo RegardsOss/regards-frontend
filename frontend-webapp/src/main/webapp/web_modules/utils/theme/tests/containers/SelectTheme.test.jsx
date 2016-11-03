@@ -1,9 +1,9 @@
 import { shallow } from 'enzyme'
 import { expect } from 'chai'
-import { SelectTheme } from '../../src/containers/SelectTheme'
-import ThemeHelper from '../../src/ThemeHelper'
 import MenuItem from 'material-ui/MenuItem'
 import { IconMenu } from 'material-ui/IconMenu'
+import { SelectTheme } from '../../src/containers/SelectTheme'
+import ThemeHelper from '../../src/ThemeHelper'
 
 function setup() {
   const props = {

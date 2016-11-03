@@ -9,7 +9,7 @@ storiesOf('Project Admin Management: Read Project', module)
   .addDecorator(StoreDecorator)
   .add('', () => {
     const theme = getThemeByName(select('Theme', themeList, defaultTheme))
-    const project_id = text('Show project with id', 'cdpp')
+    const projectId = text('Show project with id', 'cdpp')
     const knownProjects = object('Known projects', {
       cdpp: {
         name: 'john',
@@ -23,7 +23,7 @@ storiesOf('Project Admin Management: Read Project', module)
     return (
       <MuiThemeProvider muiTheme={theme}>
         <ProjectReadContainer
-          params={{ project_id }}
+          params={{ projectId }}
           projects={knownProjects}
           theme={theme}
         />

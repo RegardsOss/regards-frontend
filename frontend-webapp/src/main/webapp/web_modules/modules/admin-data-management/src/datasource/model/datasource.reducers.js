@@ -10,6 +10,12 @@ const predefinedValues = {
   },
 }
 
+const addDatasource = function (state, action) {
+  const newState = Object.assign({}, state)
+  newState.items[action.entity.id] = action.entity
+  return newState
+}
+
 export default (state = {
   isFetching: false,
   items: predefinedValues, // TODO -> should be empty here
@@ -17,9 +23,7 @@ export default (state = {
 }, action) => {
   switch (action.type) {
     case ADD_DATASOURCE:
-      const newState = Object.assign({}, state)
-      newState.items[action.entity.id] = action.entity
-      return newState
+      return addDatasource(state, action)
     default:
       return state
   }

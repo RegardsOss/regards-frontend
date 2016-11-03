@@ -12,7 +12,6 @@ npm link web_modules/data/api
 npm link web_modules/utils/access-rights
 npm link web_modules/utils/i18n
 npm link web_modules/utils/injector
-npm link web_modules/utils/some-pckg
 npm link web_modules/utils/plugins
 npm link web_modules/utils/store
 npm link web_modules/utils/store-utils

@@ -1,9 +1,9 @@
-import * as React from 'react'
-import { Action } from 'redux'
 const { CALL_API } = require('redux-api-middleware')
+
 let scriptjs
-if (typeof document !== 'undefined')
-  { scriptjs = require('scriptjs') }
+if (typeof document !== 'undefined') {
+  scriptjs = require('scriptjs')
+}
 
 export const PLUGINS_API = 'http://localhost:8080/api/access/plugins'
 export const REQUEST_PLUGINS = 'REQUEST_PLUGINS'
@@ -26,12 +26,7 @@ export const fetchPlugins = () => ({
   },
 })
 
-export const PLUGIN_INITIALIZED = 'PLUGIN_INITIALIZED'/*
-export interface PluginInitializedAction extends Action {
-  name
-  loadedComponent: React.ComponentClass<any>,
-  error
-}*/
+export const PLUGIN_INITIALIZED = 'PLUGIN_INITIALIZED'
 export const pluginInitialized = (name, plugin) => ({
   type: PLUGIN_INITIALIZED,
   name,
@@ -44,10 +39,11 @@ export const intializePlugin = (paths, name, dispatchAction) => {
   document.addEventListener('plugin', (event) => {
     dispatchAction(pluginInitialized(event.detail.name, event.detail.app))
   })
-  const pathsToLoad = paths.map((path) => {
-    return `${window.location.origin}/plugins/${path}`
-  })
+  const pathsToLoad = paths.map(path => (
+    `${window.location.origin}/plugins/${path}`
+  ))
 
-  if (typeof document !== 'undefined')
-    { scriptjs(pathsToLoad, name) }
+  if (typeof document !== 'undefined') {
+    scriptjs(pathsToLoad, name)
+  }
 }

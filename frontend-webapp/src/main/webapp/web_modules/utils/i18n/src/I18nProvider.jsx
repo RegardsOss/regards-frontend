@@ -4,18 +4,8 @@ import { connect } from 'react-redux'
 import { addLocaleData, IntlProvider } from 'react-intl'
 import * as fr from 'react-intl/locale-data/fr'
 import { updateMessages } from './I18nActions'
-import { LocaleMessagesStore } from './I18nTypes'
 
 addLocaleData(fr)
-/*
-interface I18nProps {
-  messageDir: string,
-  // Properties set by react redux connection
-  locale?: string,
-  updateMessages?: (messagesDir: string, locale: string) => void,
-  messages?: Array<LocaleMessagesStore>,
-  children?
-}*/
 
 
 /**
@@ -55,18 +45,22 @@ export class I18nProvider extends React.Component {
           {this.props.children}
         </IntlProvider>
       )
-    } else {
-      return null
     }
+    return null
   }
+}
+I18nProvider.propTypes = {
+  messageDir: React.PropTypes.string.isRequired,
+  locale: React.PropTypes.string,
+  updateMessages: React.PropTypes.func,
+  messages: React.PropTypes.arrayOf(React.PropTypes.string),
+  children: React.PropTypes.element,
 }
 
-const mapStateToProps = (state) => {
-  return {
-    locale: state.common.i18n.locale,
-    messages: state.common.i18n.messages,
-  }
-}
+const mapStateToProps = state => ({
+  locale: state.common.i18n.locale,
+  messages: state.common.i18n.messages,
+})
 
 const mapDispatchToProps = dispatch => ({
   updateMessages: (messageDir, locale) => dispatch(updateMessages(messageDir, locale)),

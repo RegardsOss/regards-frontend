@@ -1,5 +1,4 @@
 import { expect } from 'chai'
-import { Action } from 'redux'
 import { EndpointActions, endpointReducer } from '../src/main'
 
 describe('[COMMON] Testing endpoints reducer', () => {

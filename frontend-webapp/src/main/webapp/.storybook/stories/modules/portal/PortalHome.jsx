@@ -1,8 +1,9 @@
 import { storiesOf } from '@kadira/storybook'
-import { StoreDecorator, getThemeByName, themeList, defaultTheme } from '../../utils/decorators'
 import { withKnobs, select, object } from '@kadira/storybook-addon-knobs'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { HomepageContainer } from '@regardsoss/portal/src/containers/HomepageContainer'
+import { StoreDecorator, getThemeByName, themeList, defaultTheme } from '../../utils/decorators'
+
 storiesOf('Portal home page', module)
   .addDecorator(withKnobs)
   .addDecorator(StoreDecorator)

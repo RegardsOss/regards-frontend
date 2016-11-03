@@ -5,13 +5,7 @@ import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 import FlatButton from 'material-ui/FlatButton'
 import { CardActionsComponent } from '@regardsoss/components'
-/*
-interface FormProps {
-  handleNextStep: () => void
-  handleGetBack: () => void
-  goToNewDatasource: () => void
-  save: (value: any) => void
-}*/
+
 /**
  */
 class FormComponent extends React.Component {
@@ -81,5 +75,11 @@ class FormComponent extends React.Component {
     )
   }
 }
-
+FormComponent.propTypes = {
+  handleNextStep: React.PropTypes.func.isRequired,
+  handleGetBack: React.PropTypes.func.isRequired,
+  goToNewDatasource: React.PropTypes.func.isRequired,
+  save: React.PropTypes.func.isRequired,
+  children: React.PropTypes.element.isRequired,
+}
 export default FormComponent

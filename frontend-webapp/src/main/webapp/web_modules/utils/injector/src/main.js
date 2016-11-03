@@ -1,3 +1,3 @@
 import ComposedInjector from './ComposedInjector'
 
-export { ComposedInjector }
+export default ComposedInjector

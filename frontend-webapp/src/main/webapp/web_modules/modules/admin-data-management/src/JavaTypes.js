@@ -1,7 +1,7 @@
 /**
  * Define available values for Attribute Type
  */
-export const JavaTypes = {
+const JavaTypes = {
   STRING: {
     i18n: 'datamanagement.attribute.type.integer',
     value: 'string',
@@ -48,3 +48,5 @@ export const JavaTypes = {
   },
 }
 
+
+export default JavaTypes

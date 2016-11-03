@@ -62,5 +62,10 @@ class IntegerInputComponent extends React.Component {
     )
   }
 }
-
+IntegerInputComponent.propTypes = {
+  label: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.element]).isRequired,
+  value: React.PropTypes.number,
+  onValueChange: React.PropTypes.func,
+  fullWidth: React.PropTypes.bool,
+}
 export default IntegerInputComponent

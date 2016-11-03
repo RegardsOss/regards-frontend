@@ -1,4 +1,4 @@
-import { ThemeContextType } from './ThemeContainerInterface'
+import ThemeContextType from './ThemeContainerInterface'
 import ThemeInjector from './ThemeInjector'
 import ThemeHelper from './ThemeHelper'
 import SelectThemeContainer from './containers/SelectTheme'

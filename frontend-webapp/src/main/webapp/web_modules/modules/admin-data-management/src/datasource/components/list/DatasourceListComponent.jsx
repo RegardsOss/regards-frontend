@@ -19,12 +19,12 @@ interface DatasourceListProps {
 class DatasourceListComponent extends React.Component {
 
 
-  getCreateUrl = () => {
-    return this.props.getCreateUrl()
-  }
-  getBackUrl = () => {
-    return this.props.getBackUrl()
-  }
+  getCreateUrl = () => (
+     this.props.getCreateUrl()
+)
+  getBackUrl = () => (
+     this.props.getBackUrl()
+)
 
 
   render() {
@@ -90,5 +90,10 @@ class DatasourceListComponent extends React.Component {
   }
 }
 
+DatasourceListComponent.propTypes = {
+  getBackUrl: React.PropTypes.func.isRequired,
+  getCreateUrl: React.PropTypes.func.isRequired,
+  datasources: React.PropTypes.arrayOf(React.PropTypes.objectOf(React.PropTypes.string)),
+}
 
 export default DatasourceListComponent

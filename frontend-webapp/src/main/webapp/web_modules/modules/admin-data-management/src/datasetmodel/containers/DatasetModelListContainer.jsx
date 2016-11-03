@@ -4,13 +4,7 @@ import ModelListComponent from '../components/DatasetModelListComponent'
 import ModelSelectors from '../model/model.selectors'
 import { connect } from 'react-redux'
 /**
- *//*
-interface ModelListProps {
-  // From router
-  params: any
-  // From mapStateToProps
-  datasetModels?: Array<DatasetModel>
-}*/
+ */
 export class ModelListContainer extends React.Component {
 
   getBackUrl = () => {
@@ -35,7 +29,11 @@ export class ModelListContainer extends React.Component {
     )
   }
 }
-const mapStateToProps = (state, ownProps) => {
+ModelListContainer.propTypes = {
+  params: React.PropTypes.objectOf(React.PropTypes.string).isRequired,
+  datasetModels: React.PropTypes.arrayOf(React.PropTypes.objectOf(React.PropTypes.string)).isRequired,
+}
+const mapStateToProps = (state) => {
   const datasetModels = ModelSelectors.getDatasetModels(state)
   return {
     datasetModels,

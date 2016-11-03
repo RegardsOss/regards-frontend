@@ -1,14 +1,7 @@
 
 import TextField from 'material-ui/TextField'
 
-/*
-interface TextInputProps {
-  label: string | JSX.Element
-  value?: string
-  type?: string
-  onValueChange?: (value: any) => void
-  fullWidth?: boolean
-}*/
+
 /**
  */
 class TextInputComponent extends React.Component {
@@ -36,8 +29,13 @@ class TextInputComponent extends React.Component {
   componentWillReceiveProps = (props) => {
     const allowedTypes = ['text', 'password']
     if (props.type !== undefined && allowedTypes.indexOf(props.type) === -1) {
-      throw `The type [${props.type}] is not accepted. Accepted types: ${allowedTypes}`
+      throw new Error(`The type [${props.type}] is not accepted. Accepted types: ${allowedTypes}`)
     }
+  }
+
+  getValue = () => {
+    const { value } = this.state
+    return value
   }
 
   handleInputChange = (event) => {
@@ -50,27 +48,30 @@ class TextInputComponent extends React.Component {
       this.props.onValueChange(newValue)
     }
   }
-  getValue = () => {
-    const { value } = this.state
-    return value
-  }
+
   isDefaultValue = () => {
     const { value } = this.state
     return value === ''
   }
 
   render() {
-    const { label, value, type } = this.props
+    const { label, value, type, fullWidth } = this.props
     return (
       <TextField
         type={type}
         defaultValue={value}
         floatingLabelText={label}
-        fullWidth
+        fullWidth={fullWidth}
         onChange={this.handleInputChange}
       />
     )
   }
 }
-
+TextInputComponent.propTypes = {
+  label: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.element]).isRequired,
+  value: React.PropTypes.number,
+  type: React.PropTypes.string,
+  onValueChange: React.PropTypes.func,
+  fullWidth: React.PropTypes.bool,
+}
 export default TextInputComponent

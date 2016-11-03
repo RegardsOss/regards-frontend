@@ -20,6 +20,7 @@
     "import/no-named-as-default": 0,
     "import/no-named-as-default-member": 0,
     "global-require": 0,
+    "max-len": 0,
     // enable all jsdoc rules
     "jsdoc/check-param-names": 1,
     "jsdoc/check-tag-names": 1,

@@ -10,21 +10,18 @@ import ThemeInjector from './ThemeInjector'
  * @return {React.Component<any, any>}
  */
 export default function injectTheme(DecoratedComponent) {
-  class ThemeInjectionDecorator extends React.Component {
+  function ThemeInjectionDecorator(props) {
+    const decoratedComponentElement = React.createElement(
+      DecoratedComponent,
+      props
+    )
 
-    render() {
-      const decoratedComponentElement = React.createElement(
-          DecoratedComponent,
-          this.props
-        )
-
-      return (
-        <ThemeInjector>
-          {decoratedComponentElement}
-        </ThemeInjector>
-        )
-    }
-    }
+    return (
+      <ThemeInjector>
+        {decoratedComponentElement}
+      </ThemeInjector>
+    )
+  }
 
   return ThemeInjectionDecorator
 }

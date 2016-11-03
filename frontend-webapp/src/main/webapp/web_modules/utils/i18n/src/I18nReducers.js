@@ -1,5 +1,4 @@
 import { SET_LOCALE, SET_LOCALE_MSG } from './I18nActions'
-import { I18nStore, LocaleMessagesStore } from './I18nTypes'
 
 // If navigator is not defined, set the locale to english
 let navigator
@@ -7,6 +6,26 @@ if (typeof navigator === 'undefined') {
   navigator = { language: 'en' }
 }
 
+
+const setLocaleMessages = function (state, action) {
+  // Duplicate state
+  const newState = Object.assign({}, state)
+  const newMessages = Object.assign([], state.messages)
+  // Find message associated to the messagesDir of the action
+  const localeMessages = newMessages.find(message => message.messagesDir === action.messagesDir)
+  // If the messageDir already define, juste update the messages with the new ones
+  if (localeMessages) {
+    localeMessages.messages = action.messages
+  } else {
+    // Else, create a new messagedir object
+    newMessages.push({
+      messagesDir: action.messagesDir,
+      messages: action.messages,
+    })
+  }
+  newState.messages = newMessages
+  return newState
+}
 
 export default (state = {
   locale: navigator.language,
@@ -17,23 +36,7 @@ export default (state = {
     case SET_LOCALE:
       return Object.assign({}, state, { locale: action.locale })
     case SET_LOCALE_MSG:
-      // Duplicate state
-      const newState = Object.assign({}, state)
-      const newMessages = Object.assign([], state.messages)
-      // Find message associated to the messagesDir of the action
-      const localeMessages = newMessages.find(message => message.messagesDir === action.messagesDir)
-      // If the messageDir already define, juste update the messages with the new ones
-      if (localeMessages) {
-        localeMessages.messages = action.messages
-      } else {
-        // Else, create a new messagedir object
-        newMessages.push({
-          messagesDir: action.messagesDir,
-          messages: action.messages,
-        })
-      }
-      newState.messages = newMessages
-      return newState
+      return setLocaleMessages(state, action)
     default:
       return state
   }

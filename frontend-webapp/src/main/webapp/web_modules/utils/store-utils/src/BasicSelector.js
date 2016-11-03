@@ -1,4 +1,4 @@
-export class BasicSelector {
+class BasicSelector {
 
   constructor(rootStore) {
     this.rootStore = rootStore
@@ -12,7 +12,7 @@ export class BasicSelector {
   uncombineStore(store) {
     let partialStore = store
     try {
-      for (let i = 0; i < this.rootStore.length; i++) {
+      for (let i = 0; i < this.rootStore.length; i = i + 1) {
         partialStore = partialStore[this.rootStore[i]]
       }
     } catch (e) {
@@ -23,3 +23,5 @@ export class BasicSelector {
     return partialStore
   }
 }
+
+export default BasicSelector

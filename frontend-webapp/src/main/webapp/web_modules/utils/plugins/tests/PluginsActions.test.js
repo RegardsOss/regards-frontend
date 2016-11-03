@@ -1,13 +1,11 @@
 import configureStore from 'redux-mock-store'
-const { apiMiddleware } = require('redux-api-middleware')
 import thunk from 'redux-thunk'
 import nock from 'nock'
 import { expect } from 'chai'
+import { defaultFluxStandardError } from '@regardsoss/api'
 import * as actions from '../src/PluginsActions'
-import { PluginType } from '@regardsoss/plugins'
-import { Action, AnyMeta } from 'flux-standard-action'
-import { FluxStandardAction, defaultFluxStandardError } from '@regardsoss/api'
- // You can use any testing library
+
+const { apiMiddleware } = require('redux-api-middleware')
 
 const middlewares = [thunk, apiMiddleware]
 const mockStore = configureStore(middlewares)
@@ -75,7 +73,7 @@ describe('[COMMON] Testing plugins actions', () => {
 
 
   it('should create an action to initialize a plugin', () => {
-    class FakeComponent extends React.Component {
+    function FakeComponent() {
     }
     const expectedAction = {
       type: 'PLUGIN_INITIALIZED',

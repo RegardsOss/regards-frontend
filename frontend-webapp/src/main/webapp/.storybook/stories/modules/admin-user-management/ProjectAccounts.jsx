@@ -1,7 +1,7 @@
-import { ProjectAccountsContainer } from '../../../../web_modules/modules/admin-user-management/src/containers/ProjectAccountsContainer'
 import { storiesOf, action } from '@kadira/storybook'
 import { withKnobs, select, object } from '@kadira/storybook-addon-knobs'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import { ProjectAccountsContainer } from '@regardsoss/admin-user-management/src/containers/ProjectAccountsContainer'
 import { StoreDecorator, getThemeByName, themeList, defaultTheme } from '../../utils/decorators'
 
 storiesOf('User Admin Management: List ProjectAccounts', module)

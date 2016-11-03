@@ -8,93 +8,81 @@ import FlatButton from 'material-ui/FlatButton'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import { CardActionsComponent } from '@regardsoss/components'
 
-/*
-interface ConnectionListProps {
-  getBackUrl: () => string
-  getCreateUrl: () => string
-  connections: Array<Connection>
-}*/
 /**
  */
-class ConnectionListComponent extends React.Component {
-
-  getCreateUrl = () => {
-    return this.props.getCreateUrl()
-  }
-  getBackUrl = () => {
-    return this.props.getBackUrl()
-  }
-
-
-  render() {
-    const { connections } = this.props
-    return (
-      <Card
-        initiallyExpanded
-      >
-        <CardTitle
-          title={<FormattedMessage id="datamanagement.connection.list.header" />}
-        />
-        <CardText>
-          <Table
-            selectable={false}
-            multiSelectable={false}
+function ConnectionListComponent(props) {
+  const { connections, getCreateUrl, getBackUrl } = props
+  return (
+    <Card
+      initiallyExpanded
+    >
+      <CardTitle
+        title={<FormattedMessage id="datamanagement.connection.list.header" />}
+      />
+      <CardText>
+        <Table
+          selectable={false}
+          multiSelectable={false}
+        >
+          <TableHeader
+            enableSelectAll={false}
+            adjustForCheckbox={false}
+            displaySelectAll={false}
           >
-            <TableHeader
-              enableSelectAll={false}
-              adjustForCheckbox={false}
-              displaySelectAll={false}
-            >
-              <TableRow>
-                <TableHeaderColumn>
-                  <FormattedMessage
-                    id="datamanagement.connection.table.name"
-                  />
-                </TableHeaderColumn>
-                <TableHeaderColumn>
-                  <FormattedMessage
-                    id="datamanagement.connection.table.actions"
-                  />
-                </TableHeaderColumn>
+            <TableRow>
+              <TableHeaderColumn>
+                <FormattedMessage
+                  id="datamanagement.connection.table.name"
+                />
+              </TableHeaderColumn>
+              <TableHeaderColumn>
+                <FormattedMessage
+                  id="datamanagement.connection.table.actions"
+                />
+              </TableHeaderColumn>
+            </TableRow>
+          </TableHeader>
+          <TableBody displayRowCheckbox={false} preScanRows={false}>
+            {map(connections, (connection, id) => (
+
+              <TableRow
+                key={id}
+              >
+                <TableRowColumn>
+                  {connection.name}
+                </TableRowColumn>
+                <TableRowColumn>
+                  <FlatButton icon={<Delete />} disabled />
+                  <FlatButton icon={<Edit />} disabled />
+                </TableRowColumn>
               </TableRow>
-            </TableHeader>
-            <TableBody displayRowCheckbox={false} preScanRows={false}>
-              {map(connections, (connection, id) => (
-
-                <TableRow
-                  key={id}
-                >
-                  <TableRowColumn>
-                    {connection.name}
-                  </TableRowColumn>
-                  <TableRowColumn>
-                    <FlatButton icon={<Delete />} disabled />
-                    <FlatButton icon={<Edit />} disabled />
-                  </TableRowColumn>
-                </TableRow>
               ))}
-            </TableBody>
-          </Table>
+          </TableBody>
+        </Table>
 
-          <CardActionsComponent
-            secondaryButtonUrl={this.getBackUrl()}
-            secondaryButtonLabel={
-              <FormattedMessage
-                id="datamanagement.connection.list.action.back"
-              />
+        <CardActionsComponent
+          secondaryButtonUrl={getBackUrl()}
+          secondaryButtonLabel={
+            <FormattedMessage
+              id="datamanagement.connection.list.action.back"
+            />
             }
-            mainButtonUrl={this.getCreateUrl()}
-            mainButtonLabel={
-              <FormattedMessage
-                id="datamanagement.connection.list.action.add"
-              />
+          mainButtonUrl={getCreateUrl()}
+          mainButtonLabel={
+            <FormattedMessage
+              id="datamanagement.connection.list.action.add"
+            />
             }
-          />
-        </CardText>
-      </Card>
+        />
+      </CardText>
+    </Card>
     )
-  }
 }
 
+ConnectionListComponent.propTypes = {
+  getBackUrl: React.PropTypes.func.isRequired,
+  getCreateUrl: React.PropTypes.func.isRequired,
+  connections: React.PropTypes.arrayOf(React.PropTypes.objectOf(React.PropTypes.string)).isRequired,
+}
 
 export default ConnectionListComponent

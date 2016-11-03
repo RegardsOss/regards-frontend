@@ -5,13 +5,7 @@ import ModelCreateComponent from '../components/add/DatasourceModelCreateCompone
 import { browserHistory } from 'react-router'
 
 /**
- *//*
-interface ModelCreateProps {
-  // From router
-  params: any
-  // From mapDispatchToProps
-  addDatasourceModel?: (name: string, attributes: Array<ModelAttribute>) => void
-}*/
+ */
 
 class DatasourceModelCreateContainer extends React.Component {
 
@@ -42,7 +36,15 @@ class DatasourceModelCreateContainer extends React.Component {
     )
   }
 }
+
 const mapDispatchToProps = dispatch => ({
   addDatasourceModel: (name, attributes) => null,
 })
+
+DatasourceModelCreateContainer.propTypes = {
+  params: React.PropTypes.objectOf(React.PropTypes.string).isRequired,
+  addDatasourceModel: React.PropTypes.func,
+}
+
+
 export default connect(null, mapDispatchToProps)(DatasourceModelCreateContainer)

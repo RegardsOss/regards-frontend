@@ -6,7 +6,7 @@ import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 import { FormattedMessage, intlShape } from 'react-intl'
 import Checkbox from 'material-ui/Checkbox'
-import { JavaTypes } from './../../../JavaTypes'
+import JavaTypes from './../../../JavaTypes'
 /*
 interface CreateAttributeModalProps {
   handleCreateNewParameter: (label: string, type: string) => void

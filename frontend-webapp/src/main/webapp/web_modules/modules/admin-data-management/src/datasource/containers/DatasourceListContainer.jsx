@@ -1,9 +1,8 @@
 
 import { I18nProvider } from '@regardsoss/i18n'
+import { connect } from 'react-redux'
 import DatasourceListComponent from '../components/list/DatasourceListComponent'
 import DatasourceSelectors from '../model/datasource.selectors'
-import { connect } from 'react-redux'
-
 /*
 
 interface DatasourceListProps {
@@ -44,6 +43,11 @@ class DatasourceListContainer extends React.Component {
       </I18nProvider>
     )
   }
+}
+
+DatasourceListContainer.propTypes = {
+  params: React.PropTypes.arrayOf(React.PropTypes.string),
+  datasources: React.PropTypes.arrayOf(React.PropTypes.objectOf(React.PropTypes.string)),
 }
 const mapStateToProps = (state, ownProps) => {
   const datasources = DatasourceSelectors.getDatasources(state)

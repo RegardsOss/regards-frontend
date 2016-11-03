@@ -12,7 +12,7 @@ const AppBars = ({ theme }) => (
 )
 
 AppBars.propTypes = {
-  theme: React.PropTypes.object.isRequired,
+  theme: React.PropTypes.objectOf(React.PropTypes.string).isRequired,
 }
 
 export default AppBars

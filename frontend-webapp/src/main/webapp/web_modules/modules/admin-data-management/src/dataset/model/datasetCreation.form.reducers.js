@@ -5,15 +5,15 @@ import {
   SET_DATASOURCE,
   SET_VIEW_STATE,
 } from './datasetCreation.form.actions'
-import { FORM_STATES_ENUM } from './FormStatesEnum'
+import FORM_STATES_ENUM from './FormStatesEnum'
 
-export default (state: any = {
+export default (state = {
   datasourceId: undefined,
   label: '',
   modelType: '',
   defaultModelAttributes: [], // TODO à changer ;-)
   viewState: FORM_STATES_ENUM.SELECT_MODELE,
-}, action: any) => {
+}, action) => {
   switch (action.type) {
     case SET_DATASOURCE:
       return Object.assign({}, state, { idDatasource: action.idDatasource })

@@ -1,9 +1,8 @@
-import { storiesOf, action } from '@kadira/storybook'
+import { storiesOf } from '@kadira/storybook'
 import ProjectFeedContainer from '@regardsoss/portal/src/projects/containers/ProjectFeedContainer'
-import { StoreDecorator } from '../../utils/decorators'
-import { getThemeByName, themeList, defaultTheme } from '../../utils/decorators'
-import { withKnobs, text, select, object } from '@kadira/storybook-addon-knobs'
+import { withKnobs, select, object } from '@kadira/storybook-addon-knobs'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import { StoreDecorator, getThemeByName, themeList, defaultTheme } from '../../utils/decorators'
 
 
 storiesOf('Portal projects', module)

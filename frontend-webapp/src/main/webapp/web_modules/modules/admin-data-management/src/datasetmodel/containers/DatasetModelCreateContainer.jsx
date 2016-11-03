@@ -1,18 +1,11 @@
-
+import { browserHistory } from 'react-router'
 import { I18nProvider } from '@regardsoss/i18n'
 import { connect } from 'react-redux'
 import { addDatasetModel } from '../model/model.actions'
 import DatasetModelCreateComponent from '../components/add/DatasetModelCreateComponent'
-import { browserHistory } from 'react-router'
 
 /**
- *//*
-interface ModelCreateProps {
-  // From router
-  params: any
-  // From mapDispatchToProps
-  addDatasetModel?: (name: string, attributes: Array<ModelAttribute>) => void
-}*/
+ */
 export class ModelCreateContainer extends React.Component {
 
   getCancelUrl = () => {
@@ -41,6 +34,10 @@ export class ModelCreateContainer extends React.Component {
       </I18nProvider>
     )
   }
+}
+ModelCreateContainer.propTypes = {
+  params: React.PropTypes.objectOf(React.PropTypes.string).isRequired,
+  addDatasetModel: React.PropTypes.func,
 }
 const mapDispatchToProps = dispatch => ({
   addDatasetModel: (name, attributes) => dispatch(addDatasetModel(name, attributes)),

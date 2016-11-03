@@ -5,7 +5,7 @@ const style = {
   margin: 10,
 }
 
-export default ({ theme }) => (
+export default () => (
   <div>
     <RaisedButton style={style} label="Primary" primary />
     <RaisedButton style={style} label="Secondary" secondary />

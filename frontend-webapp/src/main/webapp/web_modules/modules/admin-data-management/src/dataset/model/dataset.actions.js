@@ -1,5 +1,5 @@
 export const ADD_DATASET = 'dataset/ADD_DATASET'
-export function addDataset(name: string): Object {
+export function addDataset(name) {
   return {
     type: ADD_DATASET,
     entity: {

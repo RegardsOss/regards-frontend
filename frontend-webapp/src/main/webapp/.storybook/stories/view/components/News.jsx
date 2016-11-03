@@ -1,8 +1,8 @@
 import { storiesOf } from '@kadira/storybook'
 import { NewsItemComponent } from '@regardsoss/components'
-import { StoreDecorator, getThemeByName, themeList, defaultTheme } from '../../utils/decorators'
 import { withKnobs, select, object } from '@kadira/storybook-addon-knobs'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import { StoreDecorator, getThemeByName, themeList, defaultTheme } from '../../utils/decorators'
 
 storiesOf('Generic components - News', module)
   .addDecorator(withKnobs)

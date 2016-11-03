@@ -9,12 +9,6 @@ import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import { CardActionsComponent } from '@regardsoss/components'
 
 
-/*
-interface DatasetListProps {
-  getBackUrl: () => string
-  getCreateUrl: () => string
-  datasets: Array<Dataset>
-}*/
 /**
  */
 class DatasetListComponent extends React.Component {
@@ -97,4 +91,9 @@ class DatasetListComponent extends React.Component {
   }
 }
 
+DatasetListComponent.propTypes = {
+  getBackUrl: React.PropTypes.func.isRequired,
+  getCreateUrl: React.PropTypes.func.isRequired,
+  datasets: React.PropTypes.arrayOf(React.PropTypes.objectOf(React.PropTypes.string)),
+}
 export default DatasetListComponent

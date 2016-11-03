@@ -3,14 +3,7 @@ import { I18nProvider } from '@regardsoss/i18n'
 import { connect } from 'react-redux'
 import DatasourceModelListComponent from '../components/DatasourceModelListComponent'
 /**
- *//*
-interface DatasourceModelListProps {
-  // From router
-  params: any
-  // From mapStateToProps
-  datasourceModels?: Array<DatasetModel>
-}*/
-
+ */
 class DatasourceModelListContainer extends React.Component {
 
   getBackUrl = () => {
@@ -36,7 +29,12 @@ class DatasourceModelListContainer extends React.Component {
     )
   }
 }
-const mapStateToProps = (state, ownProps) => {
+DatasourceModelListContainer.propTypes = {
+
+  params: React.PropTypes.objectOf(React.PropTypes.string).isRequired,
+  datasourceModels: React.PropTypes.arrayOf(React.PropTypes.objectOf(React.PropTypes.string)),
+}
+const mapStateToProps = () => {
   const datasourceModels = null
   return {
     datasourceModels,

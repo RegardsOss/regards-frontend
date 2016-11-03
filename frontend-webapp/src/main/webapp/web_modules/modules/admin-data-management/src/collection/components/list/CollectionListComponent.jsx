@@ -8,23 +8,18 @@ import FlatButton from 'material-ui/FlatButton'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import { CardActionsComponent } from '@regardsoss/components'
 
-/*
-interface CollectionListProps {
-  getBackUrl: () => string
-  getCreateUrl: () => string
-  collections: Array<Collection>
-}*/
+
 /**
  */
 class CollectionListComponent extends React.Component {
 
 
-  getCreateUrl = () => {
-    return this.props.getCreateUrl()
-  }
-  getBackUrl = () => {
-    return this.props.getBackUrl()
-  }
+  getCreateUrl = () => (
+    this.props.getCreateUrl()
+    )
+  getBackUrl = () => (
+    this.props.getBackUrl()
+)
 
 
   render() {
@@ -96,5 +91,10 @@ class CollectionListComponent extends React.Component {
   }
 }
 
+CollectionListComponent.propTypes = {
+  getBackUrl: React.PropTypes.func.isRequired,
+  getCreateUrl: React.PropTypes.func.isRequired,
+  collections: React.PropTypes.arrayOf(React.PropTypes.objectOf(React.PropTypes.string)).isRequired,
+}
 
 export default CollectionListComponent

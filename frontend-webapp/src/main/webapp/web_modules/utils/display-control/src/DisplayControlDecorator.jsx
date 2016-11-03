@@ -16,26 +16,23 @@ import EndpointSelectors from './endpoints/EndpointSelectors'
  * @param {IDisplayController} controller The controller in charge of supervising the display
  * @param {function} mapStateToProps method to connect the decorated component to the redux store
  * @param {function} mapDispatchToProps method to connect the decorated component to the dispatch
- * @return {React.Component<any, any>}
+ * @return {function}
  */
 export function applyDisplayControl(controller, mapStateToProps, mapDispatchToProps) {
   return function (DecoratedComponent) {
-    class DisplayControlDecorator extends React.Component {
-
-      render() {
+    function DisplayControlDecorator(props) {
         // Instanciate the component before in order to to pass it
         // to the controller
-        const decoratedComponentElement = React.createElement(
+      const decoratedComponentElement = React.createElement(
           DecoratedComponent,
-          this.props
+          props
         )
 
-        return (
-          <ShowableAtRender show={controller(decoratedComponentElement)}>
-            {decoratedComponentElement}
-          </ShowableAtRender>
+      return (
+        <ShowableAtRender show={controller(decoratedComponentElement)}>
+          {decoratedComponentElement}
+        </ShowableAtRender>
         )
-      }
     }
 
     return connect(mapStateToProps, mapDispatchToProps)(DisplayControlDecorator)

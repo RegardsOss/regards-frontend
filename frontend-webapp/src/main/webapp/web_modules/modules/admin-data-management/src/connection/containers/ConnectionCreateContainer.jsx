@@ -1,26 +1,14 @@
 
 import { I18nProvider } from '@regardsoss/i18n'
 import { browserHistory } from 'react-router'
-import ConnectionCreateComponent from '../components/add/ConnectionCreateComponent'
 import { connect } from 'react-redux'
 import { addConnection } from '../model/ConnectionActions'
+import ConnectionCreateComponent from '../components/add/ConnectionCreateComponent'
 
 
 /**
- *//*
-interface ConnectionCreateProps {
-  // From router
-  params: any
-  // From mapDispatchToProps
-  addConnection?: (name: string, pluginName: string, requiredAttributes: {[index: string]: string}) => void
-}*/
+ */
 class ConnectionCreateContainer extends React.Component {
-
-  handleNextStep = (name, pluginName, requiredAttributes) => {
-    this.props.addConnection(name, pluginName, requiredAttributes)
-    console.log(name, pluginName, requiredAttributes)
-    browserHistory.push(this.getCancelUrl())
-  }
 
   getCancelUrl = () => {
     const from = this.props.params.from
@@ -32,6 +20,11 @@ class ConnectionCreateContainer extends React.Component {
       return `/admin/${projectName}/datamanagement/connection`
     }
   }
+  handleNextStep = (name, pluginName, requiredAttributes) => {
+    this.props.addConnection(name, pluginName, requiredAttributes)
+    console.log(name, pluginName, requiredAttributes)
+    browserHistory.push(this.getCancelUrl())
+  }
   render() {
     return (
       <I18nProvider messageDir="modules/admin-data-management/src/i18n">
@@ -42,6 +35,13 @@ class ConnectionCreateContainer extends React.Component {
       </I18nProvider>
     )
   }
+}
+
+ConnectionCreateContainer.propTypes = {
+  // From router
+  params: React.PropTypes.objectOf(React.PropTypes.string).isRequired,
+  // From mapDispatchToProps
+  addConnection: React.PropTypes.func.isRequired,
 }
 
 const mapDispatchToProps = dispatch => ({

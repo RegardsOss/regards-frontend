@@ -1,7 +1,7 @@
 import { storiesOf, action } from '@kadira/storybook'
-import { ProjectsContainer } from '../../../../web_modules/modules/admin-project-management/src/containers/ProjectsContainer'
 import { withKnobs, select, object } from '@kadira/storybook-addon-knobs'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import { ProjectsContainer } from '@regardsoss/admin-project-management/src/containers/ProjectsContainer'
 import { StoreDecorator, getThemeByName, themeList, defaultTheme } from '../../utils/decorators'
 
 storiesOf('Project Admin Management: List Project', module)

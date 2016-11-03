@@ -1,4 +1,4 @@
-import { BasicSelector } from '@regardsoss/store-utils'
+import BasicSelector from '@regardsoss/store-utils'
 
 class DatasetSelectors extends BasicSelector {
   constructor() {
@@ -11,5 +11,5 @@ class DatasetSelectors extends BasicSelector {
 
 }
 
-const _instance = new DatasetSelectors()
-export default _instance
+const instance = new DatasetSelectors()
+export default instance

@@ -1,6 +1,6 @@
-import * as actions from './EndpointActions'
 import { pickBy } from 'lodash'
 import * as Immutable from 'immutable'
+import * as actions from './EndpointActions'
 
 export default (state = {
   isFetching: false,
@@ -15,9 +15,6 @@ export default (state = {
     case actions.ENDPOINTS_SUCCESS:
       newState.isFetching = false
       newState.items = action.payload
-      return newState
-    case actions.ENDPOINTS_FAILURE:
-      newState.isFetching = false
       return newState
     case actions.ENDPOINTS_FAILURE:
       newState.isFetching = false

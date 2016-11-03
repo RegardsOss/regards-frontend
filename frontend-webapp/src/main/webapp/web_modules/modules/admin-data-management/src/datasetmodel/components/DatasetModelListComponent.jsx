@@ -8,27 +8,13 @@ import FlatButton from 'material-ui/FlatButton'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import { CardActionsComponent } from '@regardsoss/components'
 
-/*
-interface ModelListProps {
-  getBackUrl: () => string
-  getCreateUrl: () => string
-  datasetModels: Array<DatasetModel>
-}*/
 /**
  */
-export default class ModelListComponent extends React.Component {
-
-
-  getCreateUrl = () => {
-    return this.props.getCreateUrl()
-  }
-  getBackUrl = () => {
-    return this.props.getBackUrl()
-  }
+class ModelListComponent extends React.Component {
 
 
   render() {
-    const { datasetModels } = this.props
+    const { datasetModels, getBackUrl, getCreateUrl } = this.props
     return (
       <Card
         initiallyExpanded
@@ -91,13 +77,13 @@ export default class ModelListComponent extends React.Component {
           </Table>
 
           <CardActionsComponent
-            secondaryButtonUrl={this.getBackUrl()}
+            secondaryButtonUrl={getBackUrl()}
             secondaryButtonLabel={
               <FormattedMessage
                 id="datamanagement.datasetmodel.list.action.back"
               />
             }
-            mainButtonUrl={this.getCreateUrl()}
+            mainButtonUrl={getCreateUrl()}
             mainButtonLabel={
               <FormattedMessage
                 id="datamanagement.datasetmodel.list.action.add"
@@ -109,3 +95,9 @@ export default class ModelListComponent extends React.Component {
     )
   }
 }
+ModelListComponent.propTypes = {
+  getBackUrl: React.PropTypes.func.isRequired,
+  getCreateUrl: React.PropTypes.func.isRequired,
+  datasetModels: React.PropTypes.arrayOf(React.PropTypes.objectOf(React.PropTypes.string)).isRequired,
+}
+export default ModelListComponent

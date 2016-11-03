@@ -8,12 +8,7 @@ import FlatButton from 'material-ui/FlatButton'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import { CardActionsComponent } from '@regardsoss/components'
 
-/*
-interface DatasourceModelListProps {
-  getBackUrl: () => string
-  getCreateUrl: () => string
-  datasourceModels: Array<DatasetModel>
-}*/
+
 /**
  */
 class DatasourceModelListComponent extends React.Component {
@@ -107,6 +102,12 @@ class DatasourceModelListComponent extends React.Component {
       </Card>
     )
   }
+}
+
+DatasourceModelListComponent.propTypes = {
+  getBackUrl: React.PropTypes.func.isRequired,
+  getCreateUrl: React.PropTypes.func.isRequired,
+  datasourceModels: React.PropTypes.arrayOf(React.PropTypes.objectOf(React.PropTypes.string)).isRequired,
 }
 
 export default DatasourceModelListComponent

@@ -14,5 +14,5 @@ class ProjectSelectors extends BasicSelector {
 
 }
 
-const _instance = new ProjectSelectors()
-export default _instance
+const instance = new ProjectSelectors()
+export default instance

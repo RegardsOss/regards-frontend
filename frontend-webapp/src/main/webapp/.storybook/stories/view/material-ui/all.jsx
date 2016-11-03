@@ -1,11 +1,12 @@
 import { storiesOf } from '@kadira/storybook'
-import { getThemeByName, themeList, defaultTheme } from '../../utils/decorators'
 import { withKnobs, select } from '@kadira/storybook-addon-knobs'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import RaisedButton from './RaisedButton'
+import { getThemeByName, themeList, defaultTheme } from '../../utils/decorators'
+import ColorBoxes from './colors'
 import AppBar from './AppBar'
 import Palette from './Palette'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-import ColorBoxes from './colors'
+
 storiesOf('Material UI', module)
   .addDecorator(withKnobs)
   .add('Palette', () => {

@@ -309,30 +309,24 @@ const stylePaper = {
 
 
 const merge = (style, color) => Object.assign({}, style, { backgroundColor: color })
-
-export default class ColorBoxes extends React.Component {
-  render() {
-    const theme = this.props.theme
-    return (
-      <div>
-        {
-          map(colorsList, (value, key) => {
-            return (
-              <Paper
-                key={key}
-                style={merge(stylePaper, value)}
-              >
-                <div>
-                  {key}
-                  <br />
-                  <div>{value}</div>
-                </div>
-              </Paper>
-            )
-          })
-        }
-      </div>
-    )
-  }
+const ColorBoxes = function () {
+  return (
+    <div>
+      {
+        map(colorsList, (value, key) => (
+          <Paper
+            key={key}
+            style={merge(stylePaper, value)}
+          >
+            <div>
+              {key}
+              <br />
+              <div>{value}</div>
+            </div>
+          </Paper>
+          ))
+      }
+    </div>
+  )
 }
-
+export default ColorBoxes

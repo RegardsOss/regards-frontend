@@ -1,4 +1,4 @@
-import { BasicSelector } from '@regardsoss/store-utils'
+import BasicSelector from '@regardsoss/store-utils'
 
 // Selectors
 export const getDatasets = state => state.items
@@ -16,5 +16,5 @@ class ConnectionSelectors extends BasicSelector {
   }
 }
 
-
-export default new ConnectionSelectors()
+const instance = new ConnectionSelectors()
+export default instance

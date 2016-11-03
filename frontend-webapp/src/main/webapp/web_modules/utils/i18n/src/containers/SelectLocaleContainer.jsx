@@ -4,14 +4,6 @@ import { connect } from 'react-redux'
 import { updateLocale } from '../I18nActions'
 import SelectLocalComponent from '../components/SelectLocaleComponent'
 import I18nProvider from '../I18nProvider'
-/*
-
-interface SelectLocaleTypes {
-  locales: Array<string>,
-  currentLocale?: string,
-  setLocale?: (locale: string) => void
-}
-*/
 
 
 /**
@@ -40,6 +32,12 @@ export class SelectLocaleContainer extends React.Component {
       </I18nProvider>
     )
   }
+}
+
+SelectLocaleContainer.propTypes = {
+  locales: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
+  currentLocale: React.PropTypes.string,
+  setLocale: React.PropTypes.func,
 }
 
 // Add projects from store to the containers props

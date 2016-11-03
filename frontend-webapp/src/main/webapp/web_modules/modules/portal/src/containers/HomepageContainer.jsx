@@ -1,7 +1,7 @@
 
 import { I18nProvider } from '@regardsoss/i18n'
 import HomepageComponent from '../components/HomepageComponent'
-import { ComposedInjector } from '@regardsoss/injector'
+import ComposedInjector from '@regardsoss/injector'
 /*
 interface HomepageProps {
   // From Router

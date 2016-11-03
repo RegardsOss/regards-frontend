@@ -3,12 +3,6 @@
 import { map } from 'lodash'
 import MenuItem from 'material-ui/MenuItem'
 import DropDownMenu from 'material-ui/DropDownMenu'
-/*
-interface SelectLocaleTypes {
-  locales: Array<string>,
-  currentLocale: string,
-  setLocale: (locale: string) => void
-}*/
 
 
 /**
@@ -36,5 +30,9 @@ class SelectLocaleComponent extends React.Component {
     )
   }
 }
-
+SelectLocaleComponent.propTypes = {
+  locales: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
+  currentLocale: React.PropTypes.string,
+  setLocale: React.PropTypes.func,
+}
 export default SelectLocaleComponent

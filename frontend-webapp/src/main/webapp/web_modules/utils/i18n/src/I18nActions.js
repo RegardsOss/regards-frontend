@@ -1,6 +1,5 @@
 // For tests we need to define require.ensure method if not defined
 if (typeof require.ensure !== 'function') require.ensure = (d, c) => c(require)
-import { LocaleMessagesStore } from './I18nTypes'
 
 export const SET_LOCALE = 'SET_LOCALE'
 export function setLocale(locale) {

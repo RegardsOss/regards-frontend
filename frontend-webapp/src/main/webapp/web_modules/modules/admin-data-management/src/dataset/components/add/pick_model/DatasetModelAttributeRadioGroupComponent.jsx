@@ -1,7 +1,7 @@
 
 import { FormattedMessage, intlShape } from 'react-intl'
 import { find } from 'lodash'
-import { JavaTypes } from './../../../../JavaTypes'
+import JavaTypes from './../../../../JavaTypes'
 /*
 interface ModelAttributeRadioGroupProps {
   attribute: ModelAttribute
@@ -13,13 +13,14 @@ class DatasetModelAttributeRadioGroupComponent extends React.Component {
     intl: intlShape,
     muiTheme: React.PropTypes.object.isRequired,
   }
-  context = {
-    intl,
-    muiTheme,
-  }
 
   state = {
     radioValue: 'static',
+  }
+
+  context = {
+    intl,
+    muiTheme,
   }
 
   handleRadioChange = (event, value) => {
@@ -48,5 +49,10 @@ class DatasetModelAttributeRadioGroupComponent extends React.Component {
       </div>
     )
   }
+}
+
+DatasetModelAttributeRadioGroupComponent.propTypes = {
+  attribute: React.PropTypes.objectOf(React.PropTypes.string),
+  staticInput: React.PropTypes.element,
 }
 export default DatasetModelAttributeRadioGroupComponent

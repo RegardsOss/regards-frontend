@@ -32,4 +32,8 @@ class ComposedInjector extends React.Component {
   }
 }
 
+ComposedInjector.propTypes = {
+  children: React.PropTypes.element,
+}
+
 export default ComposedInjector

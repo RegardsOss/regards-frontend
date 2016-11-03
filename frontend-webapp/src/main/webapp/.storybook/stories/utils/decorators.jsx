@@ -1,10 +1,9 @@
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { Provider } from 'react-redux'
+import { ThemeHelper } from '@regardsoss/theme'
 import { configureStore } from '@regardsoss/store'
 import rootReducer from '../../../src/rootReducer'
-import { ThemeHelper } from '@regardsoss/theme'
-const store = configureStore(rootReducer)
 
+const store = configureStore(rootReducer)
 export const lightTheme = ThemeHelper.getByName('Light')
 export const darkTheme = ThemeHelper.getByName('Dark')
 
@@ -16,6 +15,8 @@ export const getThemeByName = function (themeName) {
       return lightTheme
     case 'Dark':
       return darkTheme
+    default:
+      throw new Error('Unknown theme name', themeName)
   }
 }
 

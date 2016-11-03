@@ -13,7 +13,7 @@ class DatasetCreationFormSelectors extends BasicSelector {
 
 }
 
-const _instance = new DatasetCreationFormSelectors()
+const instance = new DatasetCreationFormSelectors()
 
-export default _instance
+export default instance
 

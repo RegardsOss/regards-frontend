@@ -1,4 +1,4 @@
-export const preloadedState = {
+const preloadedState = {
   common: {
     theme: 'Light',
     plugins: {},
@@ -27,3 +27,5 @@ export const preloadedState = {
   admin: {},
 }
 
+
+export default preloadedState

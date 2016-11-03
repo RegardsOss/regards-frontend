@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import * as actions from '../../src/actions/ThemeActions' // You can use any testing library
+import * as actions from '../../src/actions/ThemeActions'
 
 describe('[COMMON] Testing theme actions', () => {
   it('should create an action to set the theme', () => {

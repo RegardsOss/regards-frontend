@@ -2,12 +2,12 @@ import { createStore, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
 import { authorizationMiddleware } from '@regardsoss/authentication'
 import createLogger from 'redux-logger'
-import { preloadedState } from './preloadedState'
+import preloadedState from './preloadedState'
 
 // Middlewares
 const { apiMiddleware } = require('redux-api-middleware')
 
-export function configureStore(rootReducer) {
+function configureStore(rootReducer) {
   const logger = createLogger() // Pass an options object for specific configuration
 
   // Define the used middlewares (order matters)
@@ -31,3 +31,5 @@ export function configureStore(rootReducer) {
 
   return store
 }
+
+export default configureStore

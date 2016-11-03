@@ -1,4 +1,5 @@
 import { storiesOf, linkTo } from '@kadira/storybook'
+
 const styles = {
   main: {
     margin: 15,
@@ -49,7 +50,9 @@ class Welcome extends React.Component {
     )
   }
 }
-
+Welcome.propTypes = {
+  showApp: React.PropTypes.func,
+}
 storiesOf('Welcome', module)
   .add('', () => (
     <Welcome showApp={linkTo('Button')} />

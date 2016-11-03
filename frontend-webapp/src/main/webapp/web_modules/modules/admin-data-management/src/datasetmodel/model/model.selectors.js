@@ -14,5 +14,5 @@ class ModelSelectors extends BasicSelector {
   }
 
 }
-
-export default new ModelSelectors()
+const instance = new ModelSelectors()
+export default instance

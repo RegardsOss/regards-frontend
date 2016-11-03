@@ -1,4 +1,4 @@
-export const isAuthenticated = (authentication) => {
+const isAuthenticated = (authentication) => {
   let authenticated = false
   if (authentication
     && authentication.authenticateDate
@@ -10,3 +10,4 @@ export const isAuthenticated = (authentication) => {
 
   return authenticated
 }
+export default isAuthenticated

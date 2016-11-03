@@ -1,8 +1,8 @@
 import { CardActionsComponent } from '@regardsoss/components'
 import { storiesOf } from '@kadira/storybook'
-import { getThemeByName, themeList, defaultTheme } from '../../utils/decorators'
 import { withKnobs, text, select } from '@kadira/storybook-addon-knobs'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import { getThemeByName, themeList, defaultTheme } from '../../utils/decorators'
 
 storiesOf('Generic components - Card Actions', module)
   .addDecorator(withKnobs)

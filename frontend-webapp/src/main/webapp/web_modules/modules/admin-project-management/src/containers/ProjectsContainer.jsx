@@ -1,8 +1,6 @@
-
 import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
 import { injectTheme } from '@regardsoss/theme'
-import * as actions from '../model/actions'
 import { I18nProvider } from '@regardsoss/i18n'
 import { map } from 'lodash'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
@@ -13,15 +11,7 @@ import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
 import { CardActionsComponent } from '@regardsoss/components'
 import Camera from 'material-ui/svg-icons/image/camera'
-/*
-interface ProjectsProps {
-  projects: Array<Project>
-  fetchProjects?: () => void
-  deleteProject?: (id: string) => void
-  createProject?: () => void
-  theme: any
-}*/
-
+import * as actions from '../model/actions'
 /**
  * React container to manage ManageProjectsComponent.
  *
@@ -31,19 +21,18 @@ interface ProjectsProps {
  */
 export class ProjectsContainer extends React.Component {
 
-  constructor(props) {
-    super(props)
-  }
 
   componentWillMount() {
     this.props.fetchProjects()
   }
 
   handleView = (selectedRows) => {
-    if (selectedRows instanceof String)
-      { throw new Error('Only a single row should be selected in the table') }
-    if (selectedRows instanceof Array && selectedRows.length !== 1)
-      { throw new Error('Exactly one row is expected to be selected in the table') }
+    if (selectedRows instanceof String) {
+      throw new Error('Only a single row should be selected in the table')
+    }
+    if (selectedRows instanceof Array && selectedRows.length !== 1) {
+      throw new Error('Exactly one row is expected to be selected in the table')
+    }
 
     const project = this.props.projects[selectedRows[0]]
     const url = `${'/admin/' + 'cdpp' + '/projects/'}${project.projectId}` // Todo
@@ -120,8 +109,22 @@ export class ProjectsContainer extends React.Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  projects,
+/*
+ interface ProjectsProps {
+ projects: Array<Project>
+ fetchProjects?: () => void
+ deleteProject?: (id: string) => void
+ createProject?: () => void
+ theme: any
+ }*/
+ProjectsContainer.propTypes = {
+  projects: React.PropTypes.arrayOf(React.PropTypes.objectOf(React.PropTypes.string)).isRequired,
+  fetchProjects: React.PropTypes.func,
+  deleteProject: React.PropTypes.func,
+  createProject: React.PropTypes.func,
+  theme: React.PropTypes.objectOf(React.PropTypes.string),
+}
+const mapStateToProps = () => ({
 })
 const mapDispatchToProps = dispatch => ({
   fetchProjects: () => dispatch(actions.fetchProjects()),

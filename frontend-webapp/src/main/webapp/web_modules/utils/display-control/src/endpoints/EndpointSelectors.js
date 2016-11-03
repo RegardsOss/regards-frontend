@@ -10,6 +10,6 @@ class EndpointSelectors extends BasicSelector {
 
 }
 
-const _instance = new EndpointSelectors()
+const instance = new EndpointSelectors()
 
-export default _instance
+export default instance

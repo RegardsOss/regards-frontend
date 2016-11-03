@@ -10,8 +10,6 @@
 const CommonConfig = require('../webpack.common.config')
 const webpack = require('webpack')
 const merge = require('webpack-merge')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
-const path = require('path')
 
 let config = CommonConfig
 // Reset loaders

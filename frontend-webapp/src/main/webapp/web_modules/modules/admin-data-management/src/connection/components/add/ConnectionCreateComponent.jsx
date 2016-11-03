@@ -8,11 +8,7 @@ import { CardActionsComponent } from '@regardsoss/components'
 import { map, find } from 'lodash'
 import IntegerInputComponent from '../../../dataset/components/input/IntegerInputComponent'
 import TextInputComponent from '../../../dataset/components/input/TextInputComponent'
-/*
-interface ConnectionCreateProps {
-  getCancelUrl: () => string
-  handleNextStep: (name: string, pluginName: string, requiredAttributes: {[index: string]: string}) => void
-}*/
+
 const attributes = {
   USERNAME: 'username',
   PASSWORD: 'password',
@@ -180,4 +176,10 @@ class ConnectionCreateComponent extends React.Component {
     )
   }
 }
+
+ConnectionCreateComponent.propTypes = {
+  getCancelUrl: React.PropTypes.func.isRequired,
+  handleNextStep: React.PropTypes.func.isRequired,
+}
+
 export default ConnectionCreateComponent

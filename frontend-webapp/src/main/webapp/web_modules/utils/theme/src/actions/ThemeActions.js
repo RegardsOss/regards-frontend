@@ -5,4 +5,4 @@ function setTheme(theme) {
   }
 }
 
-export { setTheme }
+export default { setTheme }
