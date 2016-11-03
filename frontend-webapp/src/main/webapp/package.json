@@ -9,7 +9,6 @@
     "postinstall": "npm run typings:reset",
     "build:production": "webpack --progress --config webpack.prod.config.js",
     "start": "webpack-dev-server --progress --hot --config webpack.dev.config.js",
-    "pretest": "(npm run lint --silent || true)",
     "test": "npm run test:mocha --silent",
     "test:coverage": "nyc mocha-webpack --webpack-config webpack.coverage.config.js \"**/@(tests|web_modules)/**/*.test.\\?(js|jsx)\" --recursive  --require source-map-support/register --reporter mocha-sonar-reporter || true",
     "test:mocha": "mocha-webpack --webpack-config webpack.test.config.js \"**/@(tests|web_modules)/**/*.test.\\?(js|jsx)\" --recursive --require source-map-support/register --inline-diffs --reporter mochawesome --reporter-options reportDir='./reports/mocha',reportName='Regards Frontend tests'",
@@ -142,8 +141,7 @@
       "source-map-support/register"
     ],
     "extension": [
-      ".ts",
-      ".tsx",
+      ".jsx",
       ".js"
     ],
     "reporter": [
