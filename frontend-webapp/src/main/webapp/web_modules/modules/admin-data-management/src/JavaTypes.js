@@ -46,5 +46,5 @@ export const JavaTypes = {
     i18n: 'datamanagement.attribute.type.object',
     value: 'object',
   },
-};
+}
 

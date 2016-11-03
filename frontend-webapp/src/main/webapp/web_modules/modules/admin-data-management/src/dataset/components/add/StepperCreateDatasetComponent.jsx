@@ -1,6 +1,6 @@
-import * as React from "react"
-import { Step, Stepper, StepLabel } from "material-ui/Stepper"
-import { FormattedMessage } from "react-intl"
+
+import { Step, Stepper, StepLabel } from 'material-ui/Stepper'
+import { FormattedMessage } from 'react-intl'
 /*
 interface StepperCreateDatasetProps {
   getStepperIndex: () => number
@@ -13,17 +13,17 @@ export default class StepperCreateDatasetComponent extends React.Component {
     return this.props.getStepperIndex()
   }
 
-  render (){
+  render() {
     return (
       <Stepper activeStep={this.getStepperIndex()}>
         <Step>
-          <StepLabel><FormattedMessage id="datamanagement.dataset.add.1.stepper"/></StepLabel>
+          <StepLabel><FormattedMessage id="datamanagement.dataset.add.1.stepper" /></StepLabel>
         </Step>
         <Step>
-          <StepLabel><FormattedMessage id="datamanagement.dataset.add.2.stepper"/></StepLabel>
+          <StepLabel><FormattedMessage id="datamanagement.dataset.add.2.stepper" /></StepLabel>
         </Step>
         <Step>
-          <StepLabel><FormattedMessage id="datamanagement.dataset.add.3.stepper"/></StepLabel>
+          <StepLabel><FormattedMessage id="datamanagement.dataset.add.3.stepper" /></StepLabel>
         </Step>
       </Stepper>
     )

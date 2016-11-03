@@ -1,4 +1,4 @@
-import connectDependencies from './AccessRightsDecorator';
-import accessRightsReducers from './AccessRightsReducers';
+import connectDependencies from './AccessRightsDecorator'
+import accessRightsReducers from './AccessRightsReducers'
 
-export { connectDependencies, accessRightsReducers };
+export { connectDependencies, accessRightsReducers }

@@ -1,10 +1,10 @@
 /** @module common */
-import * as React from "react"
-import { connect } from "react-redux"
-import { addLocaleData, IntlProvider } from "react-intl"
-import * as fr from "react-intl/locale-data/fr"
-import { updateMessages } from "./I18nActions"
-import { LocaleMessagesStore } from "./I18nTypes"
+
+import { connect } from 'react-redux'
+import { addLocaleData, IntlProvider } from 'react-intl'
+import * as fr from 'react-intl/locale-data/fr'
+import { updateMessages } from './I18nActions'
+import { LocaleMessagesStore } from './I18nTypes'
 
 addLocaleData(fr)
 /*
@@ -33,9 +33,9 @@ interface I18nProps {
  */
 export class I18nProvider extends React.Component {
 
-  componentWillMount () {
+  componentWillMount() {
     // Get messages associated to this Prodiver via the messageDir
-    let localMessages = this.props.messages.find((message) => message.messagesDir === this.props.messageDir)
+    const localMessages = this.props.messages.find(message => message.messagesDir === this.props.messageDir)
 
     // init messages if not set
     if (!localMessages) {
@@ -43,15 +43,15 @@ export class I18nProvider extends React.Component {
     }
   }
 
-  render () {
-
+  render() {
     // Get messages associated to this Prodiver via the messageDir
-    let localMessages = this.props.messages.find((message) => message.messagesDir === this.props.messageDir)
+    const localMessages = this.props.messages.find(message => message.messagesDir === this.props.messageDir)
     if (localMessages) {
       return (
         <IntlProvider
           locale={this.props.locale}
-          messages={localMessages.messages}>
+          messages={localMessages.messages}
+        >
           {this.props.children}
         </IntlProvider>
       )
@@ -64,12 +64,12 @@ export class I18nProvider extends React.Component {
 const mapStateToProps = (state) => {
   return {
     locale: state.common.i18n.locale,
-    messages: state.common.i18n.messages
+    messages: state.common.i18n.messages,
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  updateMessages: (messageDir, locale) => dispatch(updateMessages(messageDir, locale))
+const mapDispatchToProps = dispatch => ({
+  updateMessages: (messageDir, locale) => dispatch(updateMessages(messageDir, locale)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(I18nProvider)

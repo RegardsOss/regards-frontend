@@ -1,10 +1,10 @@
 /** @module Common.DisplayControl */
-import * as React from "react"
-import { connect } from "react-redux"
-import { ShowableAtRender } from "@regardsoss/components"
-import { IDisplayController } from "@regardsoss/display-control"
-import { HateoasDisplayController } from "./HateoasDisplayController"
-import EndpointSelectors from "./endpoints/EndpointSelectors"
+
+import { connect } from 'react-redux'
+import { ShowableAtRender } from '@regardsoss/components'
+import { IDisplayController } from '@regardsoss/display-control'
+import { HateoasDisplayController } from './HateoasDisplayController'
+import EndpointSelectors from './endpoints/EndpointSelectors'
 /**
  * Generic decorator for controlling display
  * Use this decorator on a React.Component class in order to control its display
@@ -18,13 +18,11 @@ import EndpointSelectors from "./endpoints/EndpointSelectors"
  * @param {function} mapDispatchToProps method to connect the decorated component to the dispatch
  * @return {React.Component<any, any>}
  */
-export function applyDisplayControl (controller, mapStateToProps, mapDispatchToProps) {
-
+export function applyDisplayControl(controller, mapStateToProps, mapDispatchToProps) {
   return function (DecoratedComponent) {
-
     class DisplayControlDecorator extends React.Component {
 
-      render (){
+      render() {
         // Instanciate the component before in order to to pass it
         // to the controller
         const decoratedComponentElement = React.createElement(
@@ -41,9 +39,7 @@ export function applyDisplayControl (controller, mapStateToProps, mapDispatchToP
     }
 
     return connect(mapStateToProps, mapDispatchToProps)(DisplayControlDecorator)
-
   }
-
 }
 
 /**
@@ -53,10 +49,10 @@ export function applyDisplayControl (controller, mapStateToProps, mapDispatchToP
  * @param {React.ComponentClass<any>} DecoratedComponent The controller in charge of supervising the display
  * @return {React.Component<any, any>}
  */
-export function applyHateoasDisplayControl (DecoratedComponent) {
-  const mapStateToProps = (state) => ({
-    endpoints: EndpointSelectors.getEndpointsItems(state)
+export function applyHateoasDisplayControl(DecoratedComponent) {
+  const mapStateToProps = state => ({
+    endpoints: EndpointSelectors.getEndpointsItems(state),
   })
-  const mapDispatchToProps = (dispatch) => ({})
+  const mapDispatchToProps = dispatch => ({})
   return applyDisplayControl(HateoasDisplayController, mapStateToProps, mapDispatchToProps)(DecoratedComponent)
 }

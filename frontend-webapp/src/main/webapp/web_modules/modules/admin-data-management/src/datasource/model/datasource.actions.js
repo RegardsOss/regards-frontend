@@ -1,5 +1,5 @@
 // Add a new model
-export const ADD_DATASOURCE = 'ADD_DATASOURCE';
+export const ADD_DATASOURCE = 'ADD_DATASOURCE'
 
 export const addDatasource = (connectionId, modelObjectId, pluginDatasourceId, name) => ({
   type: ADD_DATASOURCE,
@@ -10,4 +10,4 @@ export const addDatasource = (connectionId, modelObjectId, pluginDatasourceId, n
     pluginDatasourceId,
     name,
   },
-});
+})

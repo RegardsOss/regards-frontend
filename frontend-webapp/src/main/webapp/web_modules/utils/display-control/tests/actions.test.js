@@ -1,16 +1,15 @@
-import configureStore from "redux-mock-store"
-const {apiMiddleware} = require('redux-api-middleware')
-import thunk from "redux-thunk"
-import nock from "nock"
-import { expect } from "chai"
-import * as EndpointActions from "../src/endpoints/EndpointActions"
-import { Action, AnyMeta } from "flux-standard-action"
-import { FluxStandardAction, defaultFluxStandardError } from "@regardsoss/api"
+import configureStore from 'redux-mock-store'
+const { apiMiddleware } = require('redux-api-middleware')
+import thunk from 'redux-thunk'
+import nock from 'nock'
+import { expect } from 'chai'
+import * as EndpointActions from '../src/endpoints/EndpointActions'
+import { Action, AnyMeta } from 'flux-standard-action'
+import { FluxStandardAction, defaultFluxStandardError } from '@regardsoss/api'
 const middlewares = [thunk, apiMiddleware]
 const mockStore = configureStore(middlewares)
 
 describe('[COMMON] Testing endpoints actions', () => {
-
   afterEach(() => {
     nock.cleanAll()
   })
@@ -24,20 +23,20 @@ describe('[COMMON] Testing endpoints actions', () => {
       endpoints: {
         isFetching: false,
         items: {},
-        lastUpdate: ''
-      }
+        lastUpdate: '',
+      },
     })
 
-    const requestAction= {
+    const requestAction = {
       type: 'ENDPOINTS_REQUEST',
       payload: undefined,
-      meta: undefined
+      meta: undefined,
     }
     const failureAction = {
       type: 'ENDPOINTS_FAILURE',
       error: true,
       meta: undefined,
-      payload: defaultFluxStandardError
+      payload: defaultFluxStandardError,
     }
     const expectedActions = [requestAction, failureAction]
 
@@ -52,29 +51,29 @@ describe('[COMMON] Testing endpoints actions', () => {
     nock(EndpointActions.ENDPOINTS_API)
     .get('')
     .reply(200, {
-      "projects_users_url": "http://localhost:8080/api/users",
-      "projects_url": "http://localhost:8080/api/projects"
+      projects_users_url: 'http://localhost:8080/api/users',
+      projects_url: 'http://localhost:8080/api/projects',
     })
     const store = mockStore({
       endpoints: {
         isFetching: false,
         items: {},
-        lastUpdate: ''
-      }
+        lastUpdate: '',
+      },
     })
 
     const requestAction = {
       type: 'ENDPOINTS_REQUEST',
       payload: undefined,
-      meta: undefined
+      meta: undefined,
     }
     const successAction = {
       type: 'ENDPOINTS_SUCCESS',
       meta: undefined,
       payload: {
-        "projects_users_url": "http://localhost:8080/api/users",
-        "projects_url": "http://localhost:8080/api/projects"
-      }
+        projects_users_url: 'http://localhost:8080/api/users',
+        projects_url: 'http://localhost:8080/api/projects',
+      },
     }
     const expectedActions = [requestAction, successAction]
 
@@ -87,9 +86,8 @@ describe('[COMMON] Testing endpoints actions', () => {
   it('should create an action to delete an endpoint', () => {
     const expectedAction = {
       type: 'DELETE_ENDPOINT',
-      id: 'projects_users_url'
+      id: 'projects_users_url',
     }
     expect(EndpointActions.deleteEndpoint('projects_users_url')).to.eql(expectedAction)
   })
-
 })

@@ -1,10 +1,10 @@
-import * as React from "react"
-import { I18nProvider } from "@regardsoss/i18n"
-import { connect } from "react-redux"
-import { addDatasource } from "../model/datasource.actions"
-import { browserHistory } from "react-router"
-import CreateDatasourceFormComponent from "../components/add/CreateDatasourceFormComponent"
-import DatasourceSelectors from "../model/datasource.selectors"
+
+import { I18nProvider } from '@regardsoss/i18n'
+import { connect } from 'react-redux'
+import { addDatasource } from '../model/datasource.actions'
+import { browserHistory } from 'react-router'
+import CreateDatasourceFormComponent from '../components/add/CreateDatasourceFormComponent'
+import DatasourceSelectors from '../model/datasource.selectors'
 /*
 interface DatasourceCreateProps {
   // From router
@@ -26,7 +26,7 @@ export class DatasourceCreateContainer extends React.Component {
       return fromURI
     } else {
       const projectName = this.props.params.project
-      return "/admin/" + projectName + "/datamanagement/datasetmodel"
+      return `/admin/${projectName}/datamanagement/datasetmodel`
     }
   }
 
@@ -35,10 +35,10 @@ export class DatasourceCreateContainer extends React.Component {
     browserHistory.push(this.getCancelUrl())
   }
 
-  render () {
-    const {connections, modelObjects, pluginDatasources} = this.props
+  render() {
+    const { connections, modelObjects, pluginDatasources } = this.props
     return (
-      <I18nProvider messageDir='modules/admin-data-management/src/i18n'>
+      <I18nProvider messageDir="modules/admin-data-management/src/i18n">
         <CreateDatasourceFormComponent
           cancelUrl={this.getCancelUrl()}
           connections={connections}
@@ -55,19 +55,19 @@ const mapStateToProps = (state, ownProps) => {
   const connections = DatasourceSelectors.getDatasources(state)
   const modelObjects = null
   const pluginDatasources = [{
-    name: "CIPAD PostgreSQL",
-    id: 1
+    name: 'CIPAD PostgreSQL',
+    id: 1,
   }, {
-    name: "Tartanpion MongoDB",
-    id: 2
+    name: 'Tartanpion MongoDB',
+    id: 2,
   }]
   return {
     connections,
     modelObjects,
-    pluginDatasources
+    pluginDatasources,
   }
 }
-const mapDispatchToProps = (dispatch) => ({
-  addDatasource: (name) => dispatch(addDatasource(null, null, null, name)),
+const mapDispatchToProps = dispatch => ({
+  addDatasource: name => dispatch(addDatasource(null, null, null, name)),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(DatasourceCreateContainer)

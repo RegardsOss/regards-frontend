@@ -1,14 +1,14 @@
-import * as React from "react"
-import { I18nProvider } from "@regardsoss/i18n"
-import { Card, CardHeader } from "material-ui/Card"
-import { FormattedMessage } from "react-intl"
+
+import { I18nProvider } from '@regardsoss/i18n'
+import { Card, CardHeader } from 'material-ui/Card'
+import { FormattedMessage } from 'react-intl'
 
 
 export const STATES = {
-  SELECT_MODELE: "select_modele",
-  SELECT_MODELE_DONE: "select_modele_done",
-  SELECT_SOURCE: "select_source",
-  DONE: "done",
+  SELECT_MODELE: 'select_modele',
+  SELECT_MODELE_DONE: 'select_modele_done',
+  SELECT_SOURCE: 'select_source',
+  DONE: 'done',
 }
 
 /*
@@ -23,16 +23,17 @@ interface DatasetCreateProps {
 export default class CollectionCreateContainer extends React.Component {
 
 
-  render () {
-    const {params} = this.props
+  render() {
+    const { params } = this.props
     console.log(params)
     return (
-      <I18nProvider messageDir='modules/admin-data-management/src/i18n'>
+      <I18nProvider messageDir="modules/admin-data-management/src/i18n">
         <Card
-          initiallyExpanded={true}>
+          initiallyExpanded
+        >
           <CardHeader
-            title={<FormattedMessage id="userlist.header"/>}
-            actAsExpander={true}
+            title={<FormattedMessage id="userlist.header" />}
+            actAsExpander
             showExpandableButton={false}
           />
           <h1>Dataset collection creation</h1>

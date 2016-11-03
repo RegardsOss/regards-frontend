@@ -1,7 +1,7 @@
-import { applyDisplayControl, applyHateoasDisplayControl } from './DisplayControlDecorator';
-import { HateoasDisplayController } from './HateoasDisplayController';
-import * as EndpointActions from './endpoints/EndpointActions';
-import endpointReducer from './endpoints/EndpointReducers';
+import { applyDisplayControl, applyHateoasDisplayControl } from './DisplayControlDecorator'
+import { HateoasDisplayController } from './HateoasDisplayController'
+import * as EndpointActions from './endpoints/EndpointActions'
+import endpointReducer from './endpoints/EndpointReducers'
 
 export {
   applyDisplayControl,
@@ -9,4 +9,4 @@ export {
   HateoasDisplayController,
   EndpointActions,
   endpointReducer,
-};
+}

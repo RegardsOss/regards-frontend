@@ -66,7 +66,7 @@ function UserList(props) {
   )
 }
 UserList.propTypes = {
-  subheader: React.PropTypes.oneOfType(React.PropTypes.string, React.PropTypes.element).isRequired,
+  subheader: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.element]).isRequired,
   items: React.PropTypes.arrayOf(React.PropTypes.objectOf(React.PropTypes.string)),
   rightButtonIcon: React.PropTypes.element,
   menuElements: React.PropTypes.arrayOf(React.PropTypes.element),

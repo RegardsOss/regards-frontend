@@ -1,4 +1,4 @@
-import * as React from "react"
+
 import { connect } from "react-redux"
 import { PluginsStore } from "../../../../common/plugins/PluginTypes"
 import { fetchPlugins } from "../../../../common/plugins/PluginsActions"

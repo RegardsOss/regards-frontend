@@ -1,8 +1,8 @@
 /** @module AdminMenu */
-import * as React from "react"
-import { Link } from "react-router"
-import MenuItem from "material-ui/MenuItem"
-import { applyHateoasDisplayControl } from "@regardsoss/display-control"
+
+import { Link } from 'react-router'
+import MenuItem from 'material-ui/MenuItem'
+import { applyHateoasDisplayControl } from '@regardsoss/display-control'
 /*
 interface Props {
   to: string,
@@ -11,12 +11,12 @@ interface Props {
   leftIcon: JSX.Element
 }*/
 
-export default class SidebarElement extends React.Component{
+export default class SidebarElement extends React.Component {
 
-  render () {
+  render() {
     return (
       <Link to={this.props.to} style={this.props.linkStyle}>
-        <MenuItem primaryText={this.props.primaryText} leftIcon={this.props.leftIcon}/>
+        <MenuItem primaryText={this.props.primaryText} leftIcon={this.props.leftIcon} />
       </Link>
     )
   }

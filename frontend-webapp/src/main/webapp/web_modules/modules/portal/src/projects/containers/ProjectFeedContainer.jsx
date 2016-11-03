@@ -1,6 +1,6 @@
-import * as React from "react"
-import { map } from "lodash"
-import ProjectComponent from "../components/ProjectComponent"
+
+import { map } from 'lodash'
+import ProjectComponent from '../components/ProjectComponent'
 /*
 
 interface ProjectFeedProps {
@@ -16,11 +16,11 @@ interface ProjectFeedProps {
 class ProjectFeedContainer extends React.Component {
 
 
-  render (){
-    const {projects} = this.props
+  render() {
+    const { projects } = this.props
     const style = {
-      marginTop: "10px",
-      marginBottom: "10px",
+      marginTop: '10px',
+      marginBottom: '10px',
     }
     return (
       <div>
@@ -31,7 +31,7 @@ class ProjectFeedContainer extends React.Component {
           >
             <ProjectComponent
               project={project}
-              isAccessible={id ===0}
+              isAccessible={id === 0}
             />
           </div>
         ))}

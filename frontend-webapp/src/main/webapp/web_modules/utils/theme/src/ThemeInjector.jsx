@@ -1,6 +1,6 @@
 /** @module CommonTheme */
-import * as React from "react"
-import { ThemeContextType } from "./ThemeContainerInterface"
+
+import { ThemeContextType } from './ThemeContainerInterface'
 
 /**
  * Retrieves the Material UI theme fom the context
@@ -9,11 +9,11 @@ import { ThemeContextType } from "./ThemeContainerInterface"
 class ThemeInjector extends React.Component {
 
   static contextTypes = {
-    muiTheme: ThemeContextType.muiTheme
+    muiTheme: ThemeContextType.muiTheme,
   }
 
   mapContextToChildProps = () => ({
-    theme: this.context.muiTheme
+    theme: this.context.muiTheme,
   })
 
   render() {

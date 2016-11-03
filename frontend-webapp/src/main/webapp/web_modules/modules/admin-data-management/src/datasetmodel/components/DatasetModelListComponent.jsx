@@ -1,12 +1,12 @@
-import * as React from "react"
-import { Card, CardTitle, CardText } from "material-ui/Card"
-import { FormattedMessage } from "react-intl"
-import { TableRowColumn, Table, TableBody, TableHeader, TableHeaderColumn, TableRow } from "material-ui/Table"
-import Delete from "material-ui/svg-icons/action/delete"
-import { map } from "lodash"
-import FlatButton from "material-ui/FlatButton"
-import Edit from "material-ui/svg-icons/editor/mode-edit"
-import { CardActionsComponent } from "@regardsoss/components"
+
+import { Card, CardTitle, CardText } from 'material-ui/Card'
+import { FormattedMessage } from 'react-intl'
+import { TableRowColumn, Table, TableBody, TableHeader, TableHeaderColumn, TableRow } from 'material-ui/Table'
+import Delete from 'material-ui/svg-icons/action/delete'
+import { map } from 'lodash'
+import FlatButton from 'material-ui/FlatButton'
+import Edit from 'material-ui/svg-icons/editor/mode-edit'
+import { CardActionsComponent } from '@regardsoss/components'
 
 /*
 interface ModelListProps {
@@ -19,7 +19,7 @@ interface ModelListProps {
 export default class ModelListComponent extends React.Component {
 
 
-  getCreateUrl = ()=> {
+  getCreateUrl = () => {
     return this.props.getCreateUrl()
   }
   getBackUrl = () => {
@@ -27,15 +27,16 @@ export default class ModelListComponent extends React.Component {
   }
 
 
-  render () {
-    const {datasetModels} = this.props
+  render() {
+    const { datasetModels } = this.props
     return (
       <Card
-        initiallyExpanded={true}>
+        initiallyExpanded
+      >
         <CardTitle
           title={
             <FormattedMessage
-            id="datamanagement.datasetmodel.list.header"
+              id="datamanagement.datasetmodel.list.header"
             />
           }
         />
@@ -52,33 +53,37 @@ export default class ModelListComponent extends React.Component {
               <TableRow>
                 <TableHeaderColumn>
                   <FormattedMessage
-                    id="datamanagement.datasetmodel.table.name"/>
+                    id="datamanagement.datasetmodel.table.name"
+                  />
                 </TableHeaderColumn>
                 <TableHeaderColumn>
                   <FormattedMessage
-                    id="datamanagement.datasetmodel.table.actions"/>
+                    id="datamanagement.datasetmodel.table.actions"
+                  />
                 </TableHeaderColumn>
-                <TableHeaderColumn>
-                </TableHeaderColumn>
+                <TableHeaderColumn />
               </TableRow>
             </TableHeader>
             <TableBody displayRowCheckbox={false} preScanRows={false}>
               {map(datasetModels, (datasetModel, id) => (
 
                 <TableRow
-                  key={id}>
+                  key={id}
+                >
                   <TableRowColumn>
                     {datasetModel.name}
                   </TableRowColumn>
                   <TableRowColumn>
                     <FlatButton
                       icon={<Edit />}
-                      disabled={true}/>
+                      disabled
+                    />
                   </TableRowColumn>
                   <TableRowColumn>
                     <FlatButton
                       icon={<Delete />}
-                      disabled={true}/>
+                      disabled
+                    />
                   </TableRowColumn>
                 </TableRow>
               ))}

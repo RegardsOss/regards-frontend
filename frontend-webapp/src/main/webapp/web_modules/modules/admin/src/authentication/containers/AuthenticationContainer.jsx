@@ -1,9 +1,9 @@
-import * as React from "react"
-import { connect } from "react-redux"
-import { I18nProvider } from "@regardsoss/i18n"
-import LoginComponent from "../components/LoginComponent"
-import { fetchAuthenticate } from "@regardsoss/authentication"
-import { EndpointActions } from "@regardsoss/display-control"
+
+import { connect } from 'react-redux'
+import { I18nProvider } from '@regardsoss/i18n'
+import LoginComponent from '../components/LoginComponent'
+import { fetchAuthenticate } from '@regardsoss/authentication'
+import { EndpointActions } from '@regardsoss/display-control'
 /*
 export interface AuthenticationProps {
   // From mapStateToProps
@@ -14,9 +14,9 @@ export interface AuthenticationProps {
   fetchEndpoints?: () => void
 }*/
 
-export class Authentication extends React.Component{
+export class Authentication extends React.Component {
 
-  constructor () {
+  constructor() {
     super()
   }
 
@@ -25,26 +25,27 @@ export class Authentication extends React.Component{
            .then(this.props.fetchEndpoints)
   }
 
-  render () {
+  render() {
     return (
       <I18nProvider messageDir="modules/admin/src/authentication/i18n">
         <LoginComponent
           onLogin={this.handleLogin}
-          errorMessage={this.props.errorMessage}/>
+          errorMessage={this.props.errorMessage}
+        />
       </I18nProvider>
     )
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   // If we do not have the theme variable here, subcontainers don't refresh
   // their theme when the user select another theme
   theme: state.common.theme,
-  errorMessage: state.common.authentication.error
+  errorMessage: state.common.authentication.error,
 })
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   fetchAuthenticate: (userName, password) => dispatch(fetchAuthenticate(userName, password)),
-  fetchEndpoints: () => dispatch(EndpointActions.fetchEndpoints())
+  fetchEndpoints: () => dispatch(EndpointActions.fetchEndpoints()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Authentication)

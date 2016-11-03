@@ -1,8 +1,8 @@
-import * as React from "react"
-import { Card, CardText } from "material-ui/Card"
-import { FormattedMessage } from "react-intl"
-import CardTitle from "material-ui/Card/CardTitle"
-import { CardActionsComponent } from "@regardsoss/components"
+
+import { Card, CardText } from 'material-ui/Card'
+import { FormattedMessage } from 'react-intl'
+import CardTitle from 'material-ui/Card/CardTitle'
+import { CardActionsComponent } from '@regardsoss/components'
 /*
 interface CreateDatasetSuccessProps {
   handleNextStep: () => void
@@ -18,14 +18,15 @@ export default class CreateDatasetSuccessComponent extends React.Component {
 
 //  view headline
 
-  render () {
+  render() {
     return (
       <Card
-        initiallyExpanded={true}>
+        initiallyExpanded
+      >
         <CardTitle
           title={
             <FormattedMessage
-            id="datamanagement.dataset.add.header"
+              id="datamanagement.dataset.add.header"
             />
           }
           children={this.props.children}

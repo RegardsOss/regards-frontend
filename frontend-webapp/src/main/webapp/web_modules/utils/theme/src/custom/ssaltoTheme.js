@@ -7,9 +7,9 @@ import {
   brown50,
   deepOrange900,
   red900,
-} from 'material-ui/styles/colors';
-import { fade } from 'material-ui/utils/colorManipulator';
-import spacing from 'material-ui/styles/spacing';
+} from 'material-ui/styles/colors'
+import { fade } from 'material-ui/utils/colorManipulator'
+import spacing from 'material-ui/styles/spacing'
 // http://www.material-ui.com/#/customization/colors
 
 
@@ -43,5 +43,5 @@ export default {
       backgroundImage: "url('/img/background.jpg')",
     },
   },
-};
+}
 

@@ -1,5 +1,5 @@
-import * as React from "react"
-import TextField from "material-ui/TextField"
+
+import TextField from 'material-ui/TextField'
 
 /*
 interface TextInputProps {
@@ -15,14 +15,14 @@ class TextInputComponent extends React.Component {
 
   static defaultProps = {
     fullWidth: true,
-    type: "text"
+    type: 'text',
   }
 
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
-      value: ''
+      value: '',
     }
     if (props.value) {
       this.state.value = props.value
@@ -34,9 +34,9 @@ class TextInputComponent extends React.Component {
    * @param props
    */
   componentWillReceiveProps = (props) => {
-    const allowedTypes = ["text", "password"]
+    const allowedTypes = ['text', 'password']
     if (props.type !== undefined && allowedTypes.indexOf(props.type) === -1) {
-      throw "The type [" + props.type + "] is not accepted. Accepted types: " + allowedTypes
+      throw `The type [${props.type}] is not accepted. Accepted types: ${allowedTypes}`
     }
   }
 
@@ -44,29 +44,29 @@ class TextInputComponent extends React.Component {
     const newValue = event.target.value
     if (this.props.onValueChange === undefined) {
       this.setState({
-        value: newValue
+        value: newValue,
       })
     } else {
       this.props.onValueChange(newValue)
     }
   }
-  getValue = ()=> {
-    const {value} = this.state
+  getValue = () => {
+    const { value } = this.state
     return value
   }
   isDefaultValue = () => {
-    const {value} = this.state
+    const { value } = this.state
     return value === ''
   }
 
-  render () {
-    const {label, value, type} = this.props
+  render() {
+    const { label, value, type } = this.props
     return (
       <TextField
         type={type}
         defaultValue={value}
         floatingLabelText={label}
-        fullWidth={true}
+        fullWidth
         onChange={this.handleInputChange}
       />
     )

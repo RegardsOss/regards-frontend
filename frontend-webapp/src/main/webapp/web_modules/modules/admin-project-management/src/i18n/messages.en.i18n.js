@@ -16,6 +16,6 @@ const messages = {
   'projects.table.description.label': 'Description',
   'projects.table.isPublic.label': 'Public',
   'projects.table.actions.label': 'Actions',
-};
+}
 
-export default messages;
+export default messages

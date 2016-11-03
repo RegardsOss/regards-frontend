@@ -1,10 +1,10 @@
-import * as React from "react"
-import { Card, CardText, CardTitle } from "material-ui/Card"
-import { FormattedMessage } from "react-intl"
-import SelectField from "material-ui/SelectField"
-import MenuItem from "material-ui/MenuItem"
-import FlatButton from "material-ui/FlatButton"
-import { CardActionsComponent } from "@regardsoss/components"
+
+import { Card, CardText, CardTitle } from 'material-ui/Card'
+import { FormattedMessage } from 'react-intl'
+import SelectField from 'material-ui/SelectField'
+import MenuItem from 'material-ui/MenuItem'
+import FlatButton from 'material-ui/FlatButton'
+import { CardActionsComponent } from '@regardsoss/components'
 /*
 interface FormProps {
   handleNextStep: () => void
@@ -17,7 +17,7 @@ interface FormProps {
 class FormComponent extends React.Component {
 
   state = {
-    datasourceId: null
+    datasourceId: null,
   }
 
   getBackUrl = () => {
@@ -34,19 +34,20 @@ class FormComponent extends React.Component {
 
   handleDatasourceChange = (event, index, value) => {
     this.setState({
-      datasourceId: value
+      datasourceId: value,
     })
     this.props.save(value)
   }
 
-  render (){
+  render() {
     const { datasourceId } = this.state
     const isNextButtonVisible = datasourceId >= 0
     return (
       <Card
-        initiallyExpanded={true}>
+        initiallyExpanded
+      >
         <CardTitle
-          title={<FormattedMessage id="datamanagement.dataset.add.header"/>}
+          title={<FormattedMessage id="datamanagement.dataset.add.header" />}
           children={this.props.children}
         />
         <CardText>
@@ -56,13 +57,13 @@ class FormComponent extends React.Component {
               value={datasourceId}
               onChange={this.handleDatasourceChange}
             >
-              <MenuItem value={1} primaryText="CDPP Datasource"/>
-              <MenuItem value={2} primaryText="PER2 Datasource"/>
-              <MenuItem value={3} primaryText="TV78 Datasource"/>
+              <MenuItem value={1} primaryText="CDPP Datasource" />
+              <MenuItem value={2} primaryText="PER2 Datasource" />
+              <MenuItem value={3} primaryText="TV78 Datasource" />
             </SelectField>
             <FlatButton
               label="Ajouter une nouvelle source de données"
-              primary={true}
+              primary
               onTouchTap={this.handleNewDatasource}
             />
           </div>

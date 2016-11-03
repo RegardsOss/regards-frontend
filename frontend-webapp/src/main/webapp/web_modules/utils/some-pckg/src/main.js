@@ -1,20 +1,20 @@
 export const a = (): number => {
   return 4
 }
-const b = "sdfjghksdfhgjkdf"
+const b = 'sdfjghksdfhgjkdf'
 const c = function (): string {
-  return "Hello world"
+  return 'Hello world'
 }
 export default {
   a,
   b,
-  c
+  c,
 }
 
 export const Main = {
-  a
+  a,
 }
 
-export function test (): number {
+export function test(): number {
   return 45488854
 }

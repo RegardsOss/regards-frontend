@@ -14,6 +14,6 @@ const messages = {
   'dialog.delete.title': 'Delete the user',
   'dialog.delete.cancel': 'Cancel',
 
-};
+}
 
-export default messages;
+export default messages

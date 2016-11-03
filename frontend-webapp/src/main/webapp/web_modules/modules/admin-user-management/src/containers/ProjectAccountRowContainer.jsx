@@ -1,10 +1,10 @@
-import * as React from "react"
-import { connect } from "react-redux"
-import ProjectAccountRowComponent from "../components/ProjectAccountRowComponent"
-import { browserHistory } from "react-router"
-import { find } from "lodash"
-import Actions from "../model/projectAccount.actions"
-import ProjectAccountDeleteComponent from "../components/ProjectAccountDeleteComponent"
+
+import { connect } from 'react-redux'
+import ProjectAccountRowComponent from '../components/ProjectAccountRowComponent'
+import { browserHistory } from 'react-router'
+import { find } from 'lodash'
+import Actions from '../model/projectAccount.actions'
+import ProjectAccountDeleteComponent from '../components/ProjectAccountDeleteComponent'
 /*
 
 interface ProjectAccountRowProps extends React.Props<ProjectAccountRowContainer> {
@@ -23,11 +23,11 @@ interface ProjectAccountRowProps extends React.Props<ProjectAccountRowContainer>
 export class ProjectAccountRowContainer extends React.Component {
 
   state = {
-    openDeleteDialog: false
+    openDeleteDialog: false,
   }
 
   generateUserProfileUrl = (projectAccount) => {
-    return "/admin/" + this.props.projectName + "/users/" + projectAccount.account
+    return `/admin/${this.props.projectName}/users/${projectAccount.account}`
   }
 
   /**
@@ -36,18 +36,18 @@ export class ProjectAccountRowContainer extends React.Component {
    */
   handleDeleteUserDropdown = () => {
     this.setState({
-      openDeleteDialog: true
+      openDeleteDialog: true,
     })
   }
 
   deleteUser = () => {
     const account = this.props.account
-    const LINK_TYPE_DELETE = "role" // TODO: to change
-    const userDeleteLink = find(account.links, {"rel": LINK_TYPE_DELETE})
+    const LINK_TYPE_DELETE = 'role' // TODO: to change
+    const userDeleteLink = find(account.links, { rel: LINK_TYPE_DELETE })
     if (userDeleteLink) {
       this.props.deleteProjectAccount(userDeleteLink.href)
     } else {
-      throw new Error("insufficient permission")
+      throw new Error('insufficient permission')
       // TODO: How to display to the user he does not have the right to delete somebody else ?
     }
   }
@@ -62,30 +62,30 @@ export class ProjectAccountRowContainer extends React.Component {
    */
   handleCloseDeleteDialog = () => {
     this.setState({
-      openDeleteDialog: false
+      openDeleteDialog: false,
     })
   }
 
   handleView = () => {
     const user = this.props.account
-    const urlTo = "/admin/" + this.props.projectName + "/users/" + user.accountId
+    const urlTo = `/admin/${this.props.projectName}/users/${user.accountId}`
     browserHistory.push(urlTo)
   }
 
   handleEdit = () => {
     const user = this.props.account
-    const urlTo = "/admin/" + this.props.projectName + "/users/" + user.accountId + "/edit"
+    const urlTo = `/admin/${this.props.projectName}/users/${user.accountId}/edit`
     browserHistory.push(urlTo)
   }
 
-  render (){
-    const {projectAccount, account} = this.props
+  render() {
+    const { projectAccount, account } = this.props
     let dialog
     if (this.state.openDeleteDialog) {
-      dialog = <ProjectAccountDeleteComponent
+      dialog = (<ProjectAccountDeleteComponent
         onClose={this.handleCloseDeleteDialog}
         onDelete={this.handleDeleteUserDialog}
-      />
+      />)
     }
     return (
       <ProjectAccountRowComponent
@@ -95,9 +95,7 @@ export class ProjectAccountRowContainer extends React.Component {
         handleEdit={this.handleEdit}
         handleDelete={this.handleDeleteUserDropdown}
         redirectOnSelectTo={this.generateUserProfileUrl(projectAccount)}
-      >
-
-      </ProjectAccountRowComponent>
+      />
     )
   }
 }
@@ -105,10 +103,10 @@ export class ProjectAccountRowContainer extends React.Component {
 const mapStateToProps = (state, ownProps) => {
   const account = null
   return {
-    account: account
+    account,
   }
 }
-const mapDispatchToProps = (dispatch) => ({
-  deleteUser: (linkDeleteUser) => dispatch(Actions.deleteUser(linkDeleteUser))
+const mapDispatchToProps = dispatch => ({
+  deleteUser: linkDeleteUser => dispatch(Actions.deleteUser(linkDeleteUser)),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectAccountRowContainer)

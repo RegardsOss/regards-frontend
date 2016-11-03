@@ -1,5 +1,5 @@
 /**
- * An Access Controller is a pure function which implements a logic for
+ * A Display Controller is a pure function which implements the logic for
  * displaying or not the passed React component.
  *
  * For HATEOAS, the component's "endpoints" prop must have an entry
@@ -17,5 +17,5 @@
  * @return {boolean}
  */
 export const HateoasDisplayController = (component) => {
-  return typeof component.props.endpoints[component.props.endpointKey] !== 'undefined';
-};
+  return typeof component.props.endpoints[component.props.endpointKey] !== 'undefined'
+}

@@ -1,14 +1,14 @@
-import { createStore, applyMiddleware, compose } from 'redux';
-import thunk from 'redux-thunk';
-import { authorizationMiddleware } from '@regardsoss/authentication';
-import createLogger from 'redux-logger';
-import { preloadedState } from './preloadedState';
+import { createStore, applyMiddleware, compose } from 'redux'
+import thunk from 'redux-thunk'
+import { authorizationMiddleware } from '@regardsoss/authentication'
+import createLogger from 'redux-logger'
+import { preloadedState } from './preloadedState'
 
 // Middlewares
-const { apiMiddleware } = require('redux-api-middleware');
+const { apiMiddleware } = require('redux-api-middleware')
 
 export function configureStore(rootReducer) {
-  const logger = createLogger(); // Pass an options object for specific configuration
+  const logger = createLogger() // Pass an options object for specific configuration
 
   // Define the used middlewares (order matters)
   const middlewares = [
@@ -16,10 +16,10 @@ export function configureStore(rootReducer) {
     authorizationMiddleware, // inject authorization headers in all request actions
     apiMiddleware, // middleware for calling an REST API
     logger, // Logger must be the last middleware in chain, otherwise it will log thunk and promise, not actual actions
-  ];
+  ]
 
   // Create the application store
-  const win = window;
+  const win = window
   const store = createStore(
     rootReducer,
     preloadedState,
@@ -27,7 +27,7 @@ export function configureStore(rootReducer) {
       applyMiddleware(...middlewares),
       win.devToolsExtension ? win.devToolsExtension() : f => f // Enable redux dev tools
     )
-  );
+  )
 
-  return store;
+  return store
 }

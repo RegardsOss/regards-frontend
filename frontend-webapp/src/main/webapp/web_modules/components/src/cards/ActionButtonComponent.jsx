@@ -68,7 +68,7 @@ class ActionButtonComponent extends React.Component {
 }
 
 ActionButtonComponent.propTypes = {
-  label: React.PropTypes.oneOfType(React.PropTypes.string, React.PropTypes.element).isRequired,
+  label: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.element]).isRequired,
   button: React.PropTypes.element,
   primary: React.PropTypes.bool,
   secondary: React.PropTypes.bool,

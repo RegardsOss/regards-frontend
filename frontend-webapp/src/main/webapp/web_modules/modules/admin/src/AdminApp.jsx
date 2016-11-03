@@ -1,12 +1,12 @@
 /** @module AdminApp */
-import * as React from "react"
-import { connect } from "react-redux"
-import { logout, isAuthenticated } from "@regardsoss/authentication"
-import { ThemeHelper } from "@regardsoss/theme"
-import MuiThemeProvider from "material-ui/styles/MuiThemeProvider"
-import MainAdminLayout from "./MainAdminLayout"
-import AuthenticationLayout from "./authentication/containers/AuthenticationLayout"
-/*interface AdminAppProps {
+
+import { connect } from 'react-redux'
+import { logout, isAuthenticated } from '@regardsoss/authentication'
+import { ThemeHelper } from '@regardsoss/theme'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import MainAdminLayout from './MainAdminLayout'
+import AuthenticationLayout from './authentication/containers/AuthenticationLayout'
+/* interface AdminAppProps {
   router: any,
   route: any,
   params: any,
@@ -23,21 +23,21 @@ import AuthenticationLayout from "./authentication/containers/AuthenticationLayo
  * This component displays admin layout or login form if the user is not connected
  */
 class AdminApp extends React.Component {
-  constructor () {
+  constructor() {
     super()
-    this.state = {instance: false}
+    this.state = { instance: false }
   }
 
-  render (){
-    const {theme, authentication, content} = this.props
+  render() {
+    const { theme, authentication, content } = this.props
     // Build theme
     const muiTheme = ThemeHelper.getByName(theme)
 
     // Authentication
     const authenticated = isAuthenticated(authentication)
-    let hmi = []
+    const hmi = []
     if (authenticated === false) {
-      hmi.push(<AuthenticationLayout key="1"/>)
+      hmi.push(<AuthenticationLayout key="1" />)
     } else {
       hmi.push(<MainAdminLayout key="2" {...this.props}>
         {content}
@@ -50,16 +50,15 @@ class AdminApp extends React.Component {
         </div>
       </MuiThemeProvider>
     )
-
   }
 }
 
 // Add theme from store to the component props
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   theme: state.common.theme,
-  authentication: state.common.authentication
+  authentication: state.common.authentication,
 })
-const mapDispatchToProps = (dispatch) => ({
-  onLogout: () => dispatch(logout())
+const mapDispatchToProps = dispatch => ({
+  onLogout: () => dispatch(logout()),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(AdminApp)

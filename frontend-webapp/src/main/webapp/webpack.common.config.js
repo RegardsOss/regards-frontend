@@ -91,5 +91,7 @@ module.exports = {
   eslint: {
     failOnWarning: false,
     failOnError: false,
+    emitWarning: true,
+    fix: true,
   },
 }

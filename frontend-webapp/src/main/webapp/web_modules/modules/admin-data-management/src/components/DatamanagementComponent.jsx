@@ -1,15 +1,15 @@
-import * as React from "react"
-import { Card, CardText } from "material-ui/Card"
-import { FormattedMessage } from "react-intl"
-import { Link } from "react-router"
-import { map } from "lodash"
-import CardActions from "material-ui/Card/CardActions"
-import AddIcon from "material-ui/svg-icons/content/add-circle"
-import ViewLinesIcon from "material-ui/svg-icons/action/view-headline"
-import IconButton from "material-ui/IconButton"
-import KeyboardArrowUp from "material-ui/svg-icons/hardware/keyboard-arrow-up"
-import KeyboardArrowDown from "material-ui/svg-icons/hardware/keyboard-arrow-down"
-import RaisedButton from "material-ui/RaisedButton"
+
+import { Card, CardText } from 'material-ui/Card'
+import { FormattedMessage } from 'react-intl'
+import { Link } from 'react-router'
+import { map } from 'lodash'
+import CardActions from 'material-ui/Card/CardActions'
+import AddIcon from 'material-ui/svg-icons/content/add-circle'
+import ViewLinesIcon from 'material-ui/svg-icons/action/view-headline'
+import IconButton from 'material-ui/IconButton'
+import KeyboardArrowUp from 'material-ui/svg-icons/hardware/keyboard-arrow-up'
+import KeyboardArrowDown from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
+import RaisedButton from 'material-ui/RaisedButton'
 /*
 interface DatamanagementProps {
   params: any,
@@ -22,73 +22,73 @@ interface DatamanagementProps {
  */
 class DatamanagementComponent extends React.Component {
 
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
-      showAdvanced: false
+      showAdvanced: false,
     }
   }
 
   handleToggleAdvanced = () => {
-    const {showAdvanced} = this.state
+    const { showAdvanced } = this.state
     this.setState({
-      showAdvanced: !showAdvanced
+      showAdvanced: !showAdvanced,
     })
   }
 
   getCollectionCreate = () => {
     const projectName = this.props.params.project
-    return "/admin/" + projectName + "/datamanagement/collection/create"
+    return `/admin/${projectName}/datamanagement/collection/create`
   }
   getCollectionList = () => {
     const projectName = this.props.params.project
-    return "/admin/" + projectName + "/datamanagement/collection"
+    return `/admin/${projectName}/datamanagement/collection`
   }
   getDatasetCreate = () => {
     const projectName = this.props.params.project
-    return "/admin/" + projectName + "/datamanagement/dataset/create"
+    return `/admin/${projectName}/datamanagement/dataset/create`
   }
   getDatasetList = () => {
     const projectName = this.props.params.project
-    return "/admin/" + projectName + "/datamanagement/dataset"
+    return `/admin/${projectName}/datamanagement/dataset`
   }
   getDatasetModelList = () => {
     const projectName = this.props.params.project
-    return "/admin/" + projectName + "/datamanagement/datasetmodel"
+    return `/admin/${projectName}/datamanagement/datasetmodel`
   }
   getDatasetModelCreate = () => {
     const projectName = this.props.params.project
-    return "/admin/" + projectName + "/datamanagement/datasetmodel/create"
+    return `/admin/${projectName}/datamanagement/datasetmodel/create`
   }
   getDatasourceModelList = () => {
     const projectName = this.props.params.project
-    return "/admin/" + projectName + "/datamanagement/datasourcemodel"
+    return `/admin/${projectName}/datamanagement/datasourcemodel`
   }
   getDatasourceModelCreate = () => {
     const projectName = this.props.params.project
-    return "/admin/" + projectName + "/datamanagement/datasourcemodel/create"
+    return `/admin/${projectName}/datamanagement/datasourcemodel/create`
   }
   getDatasourceList = () => {
     const projectName = this.props.params.project
-    return "/admin/" + projectName + "/datamanagement/datasource"
+    return `/admin/${projectName}/datamanagement/datasource`
   }
   getDatasourceCreate = () => {
     const projectName = this.props.params.project
-    return "/admin/" + projectName + "/datamanagement/datasource/create"
+    return `/admin/${projectName}/datamanagement/datasource/create`
   }
   getConnectionList = () => {
     const projectName = this.props.params.project
-    return "/admin/" + projectName + "/datamanagement/connection"
+    return `/admin/${projectName}/datamanagement/connection`
   }
   getConnectionCreate = () => {
     const projectName = this.props.params.project
-    return "/admin/" + projectName + "/datamanagement/connection/create"
+    return `/admin/${projectName}/datamanagement/connection/create`
   }
   renderItem = (element, elementStyles, elementClasses, linkStyle) => {
     return (
       <div className={elementClasses} key={element.pathList}>
         <Card
-          initiallyExpanded={true}
+          initiallyExpanded
           style={elementStyles}
         >
           <CardText>
@@ -102,7 +102,7 @@ class DatamanagementComponent extends React.Component {
               to={element.pathList}
               style={linkStyle}
             >
-              <IconButton tooltip={this.props.intl.formatMessage({id: "datamanagement.action.list.tooltip"})}>
+              <IconButton tooltip={this.props.intl.formatMessage({ id: 'datamanagement.action.list.tooltip' })}>
                 <ViewLinesIcon />
               </IconButton>
             </Link>
@@ -111,7 +111,7 @@ class DatamanagementComponent extends React.Component {
               to={element.pathCreate}
               style={linkStyle}
             >
-              <IconButton tooltip={this.props.intl.formatMessage({id: "datamanagement.action.add.tooltip"})}>
+              <IconButton tooltip={this.props.intl.formatMessage({ id: 'datamanagement.action.add.tooltip' })}>
                 <AddIcon />
               </IconButton>
             </Link>
@@ -122,7 +122,7 @@ class DatamanagementComponent extends React.Component {
   }
 
 
-  render () {
+  render() {
     const theme = this.props.theme
     const style = {
       section: {
@@ -140,48 +140,48 @@ class DatamanagementComponent extends React.Component {
         classes: theme.adminApp.datamanagement.home.action.classes.join(' '),
         styles: theme.adminApp.datamanagement.home.action.styles,
       },
-      links: theme.linkWithoutDecoration
+      links: theme.linkWithoutDecoration,
     }
     const elementsCommon = [
       {
-        title: (<FormattedMessage id="datamanagement.collection"/>),
-        description: (<FormattedMessage id="datamanagement.collection.info"/>),
+        title: (<FormattedMessage id="datamanagement.collection" />),
+        description: (<FormattedMessage id="datamanagement.collection.info" />),
         pathList: this.getCollectionList(),
-        pathCreate: this.getCollectionCreate()
+        pathCreate: this.getCollectionCreate(),
       },
       {
-        title: (<FormattedMessage id="datamanagement.dataset"/>),
-        description: (<FormattedMessage id="datamanagement.dataset.info"/>),
+        title: (<FormattedMessage id="datamanagement.dataset" />),
+        description: (<FormattedMessage id="datamanagement.dataset.info" />),
         pathList: this.getDatasetList(),
-        pathCreate: this.getDatasetCreate()
-      }
+        pathCreate: this.getDatasetCreate(),
+      },
     ]
     if (this.state.showAdvanced) {
       elementsCommon.push({
-        title: (<FormattedMessage id="datamanagement.datasourcemodel"/>),
-        description: (<FormattedMessage id="datamanagement.model.info"/>),
+        title: (<FormattedMessage id="datamanagement.datasourcemodel" />),
+        description: (<FormattedMessage id="datamanagement.model.info" />),
         pathList: this.getDatasourceModelList(),
-        pathCreate: this.getDatasourceModelCreate()
+        pathCreate: this.getDatasourceModelCreate(),
       })
       elementsCommon.push({
-        title: (<FormattedMessage id="datamanagement.datasource"/>),
-        description: (<FormattedMessage id="datamanagement.datasource.info"/>),
+        title: (<FormattedMessage id="datamanagement.datasource" />),
+        description: (<FormattedMessage id="datamanagement.datasource.info" />),
         pathList: this.getDatasourceList(),
-        pathCreate: this.getDatasourceCreate()
+        pathCreate: this.getDatasourceCreate(),
       })
       elementsCommon.push({
-        title: (<FormattedMessage id="datamanagement.connection"/>),
-        description: (<FormattedMessage id="datamanagement.connection.info"/>),
+        title: (<FormattedMessage id="datamanagement.connection" />),
+        description: (<FormattedMessage id="datamanagement.connection.info" />),
         pathList: this.getConnectionList(),
-        pathCreate: this.getConnectionCreate()
+        pathCreate: this.getConnectionCreate(),
       })
     }
     const labelToggleAdvanced = this.state.showAdvanced ?
-      <FormattedMessage id="datamanagement.action.hideAdvanced"/> :
-      <FormattedMessage id="datamanagement.action.showAdvanced"/>
+      <FormattedMessage id="datamanagement.action.hideAdvanced" /> :
+        <FormattedMessage id="datamanagement.action.showAdvanced" />
     const iconToggleAdvanced = this.state.showAdvanced ?
       <KeyboardArrowUp /> :
-      <KeyboardArrowDown />
+        <KeyboardArrowDown />
     return (
       <div>
         <div
@@ -198,7 +198,7 @@ class DatamanagementComponent extends React.Component {
         >
           <RaisedButton
             label={labelToggleAdvanced}
-            primary={true}
+            primary
             icon={iconToggleAdvanced}
             onTouchTap={this.handleToggleAdvanced}
           />

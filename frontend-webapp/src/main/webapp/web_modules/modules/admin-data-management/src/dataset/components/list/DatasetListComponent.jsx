@@ -1,12 +1,12 @@
-import * as React from "react"
-import { Card, CardTitle, CardText } from "material-ui/Card"
-import { FormattedMessage } from "react-intl"
-import { TableRowColumn, Table, TableBody, TableHeader, TableHeaderColumn, TableRow } from "material-ui/Table"
-import Delete from "material-ui/svg-icons/action/delete"
-import { map } from "lodash"
-import FlatButton from "material-ui/FlatButton"
-import Edit from "material-ui/svg-icons/editor/mode-edit"
-import { CardActionsComponent } from "@regardsoss/components"
+
+import { Card, CardTitle, CardText } from 'material-ui/Card'
+import { FormattedMessage } from 'react-intl'
+import { TableRowColumn, Table, TableBody, TableHeader, TableHeaderColumn, TableRow } from 'material-ui/Table'
+import Delete from 'material-ui/svg-icons/action/delete'
+import { map } from 'lodash'
+import FlatButton from 'material-ui/FlatButton'
+import Edit from 'material-ui/svg-icons/editor/mode-edit'
+import { CardActionsComponent } from '@regardsoss/components'
 
 
 /*
@@ -23,18 +23,19 @@ class DatasetListComponent extends React.Component {
   getCreateUrl = () => {
     return this.props.getCreateUrl()
   }
-  getBackUrl = ()=> {
+  getBackUrl = () => {
     return this.props.getBackUrl()
   }
 
 
-  render () {
-    const {datasets} = this.props
+  render() {
+    const { datasets } = this.props
     return (
       <Card
-        initiallyExpanded={true}>
+        initiallyExpanded
+      >
         <CardTitle
-          title={<FormattedMessage id="datamanagement.dataset.list.header"/>}
+          title={<FormattedMessage id="datamanagement.dataset.list.header" />}
         />
         <CardText>
           <Table
@@ -63,13 +64,14 @@ class DatasetListComponent extends React.Component {
               {map(datasets, (dataset, id) => (
 
                 <TableRow
-                  key={id}>
+                  key={id}
+                >
                   <TableRowColumn>
                     {dataset.name}
                   </TableRowColumn>
                   <TableRowColumn>
-                    <FlatButton icon={<Delete />} disabled={true}/>
-                    <FlatButton icon={<Edit />} disabled={true}/>
+                    <FlatButton icon={<Delete />} disabled />
+                    <FlatButton icon={<Edit />} disabled />
                   </TableRowColumn>
                 </TableRow>
               ))}

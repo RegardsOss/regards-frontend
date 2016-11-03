@@ -1,7 +1,7 @@
-import * as React from "react"
-import {I18nProvider} from "@regardsoss/i18n"
-import DatamanagementComponent from "../components/DatamanagementComponent"
-import { ComposedInjector } from "@regardsoss/injector"
+
+import { I18nProvider } from '@regardsoss/i18n'
+import DatamanagementComponent from '../components/DatamanagementComponent'
+import { ComposedInjector } from '@regardsoss/injector'
 /*
 interface DatamanagementProps {
   // From Router
@@ -11,12 +11,12 @@ interface DatamanagementProps {
  */
 class DatamanagementContainer extends React.Component {
 
-  render () {
-    const {params} = this.props
+  render() {
+    const { params } = this.props
     return (
-      <I18nProvider messageDir='modules/admin-data-management/src/i18n'>
+      <I18nProvider messageDir="modules/admin-data-management/src/i18n">
         <ComposedInjector >
-          <DatamanagementComponent theme={null} intl={null} params={params}/>
+          <DatamanagementComponent theme={null} intl={null} params={params} />
         </ComposedInjector>
       </I18nProvider>
     )

@@ -115,6 +115,6 @@ const messages = {
   'datamanagement.datasource.list.action.add': 'Create a new datasource',
   'datamanagement.datasource.list.action.back': 'Back',
 
-};
+}
 
-export default messages;
+export default messages

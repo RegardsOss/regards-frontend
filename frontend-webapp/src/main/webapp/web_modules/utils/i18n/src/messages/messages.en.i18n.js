@@ -1,5 +1,5 @@
 const messages = {
   title: 'Language',
-};
+}
 
-export default messages;
+export default messages

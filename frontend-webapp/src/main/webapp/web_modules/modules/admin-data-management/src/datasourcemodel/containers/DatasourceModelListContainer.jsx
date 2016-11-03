@@ -1,7 +1,7 @@
-import * as React from "react"
-import { I18nProvider } from "@regardsoss/i18n"
-import { connect } from "react-redux"
-import DatasourceModelListComponent from "../components/DatasourceModelListComponent"
+
+import { I18nProvider } from '@regardsoss/i18n'
+import { connect } from 'react-redux'
+import DatasourceModelListComponent from '../components/DatasourceModelListComponent'
 /**
  *//*
 interface DatasourceModelListProps {
@@ -15,17 +15,17 @@ class DatasourceModelListContainer extends React.Component {
 
   getBackUrl = () => {
     const projectName = this.props.params.project
-    return "/admin/" + projectName + "/datamanagement"
+    return `/admin/${projectName}/datamanagement`
   }
   getCreateUrl = () => {
     const projectName = this.props.params.project
-    return "/admin/" + projectName + "/datamanagement/datasourcemodel/create"
+    return `/admin/${projectName}/datamanagement/datasourcemodel/create`
   }
 
-  render () {
-    const {datasourceModels} = this.props
+  render() {
+    const { datasourceModels } = this.props
     return (
-      <I18nProvider messageDir='modules/admin-data-management/src/i18n'>
+      <I18nProvider messageDir="modules/admin-data-management/src/i18n">
         <DatasourceModelListComponent
 
           getBackUrl={this.getBackUrl}
@@ -39,7 +39,7 @@ class DatasourceModelListContainer extends React.Component {
 const mapStateToProps = (state, ownProps) => {
   const datasourceModels = null
   return {
-    datasourceModels
+    datasourceModels,
   }
 }
 export default connect(mapStateToProps, null)(DatasourceModelListContainer)

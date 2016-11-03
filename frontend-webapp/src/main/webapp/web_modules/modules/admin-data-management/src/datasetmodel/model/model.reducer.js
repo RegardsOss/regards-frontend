@@ -1,4 +1,4 @@
-import { ADD_DATASET_MODEL } from './model.actions';
+import { ADD_DATASET_MODEL } from './model.actions'
 
 const predefinedValues = {
   1: {
@@ -22,7 +22,7 @@ const predefinedValues = {
       type: 'string',
     }],
   },
-};
+}
 
 export default (state = {
   isFetching: false,
@@ -31,10 +31,10 @@ export default (state = {
 }, action) => {
   switch (action.type) {
     case ADD_DATASET_MODEL:
-      const newState = Object.assign({}, state);
-      newState.items[action.entity.id] = action.entity;
-      return newState;
+      const newState = Object.assign({}, state)
+      newState.items[action.entity.id] = action.entity
+      return newState
     default:
-      return state;
+      return state
   }
-};
+}

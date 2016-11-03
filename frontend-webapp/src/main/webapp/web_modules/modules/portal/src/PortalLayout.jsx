@@ -1,7 +1,7 @@
 /** @module AdminApp */
-import * as React from "react"
-import { ThemeContextInterface, ThemeContextType } from "@regardsoss/theme"
-import MenuContainer from "./menu/containers/MenuContainer"
+
+import { ThemeContextInterface, ThemeContextType } from '@regardsoss/theme'
+import MenuContainer from './menu/containers/MenuContainer'
 /*
 
 interface MainAdminLayoutProps {
@@ -18,14 +18,14 @@ class PortalLayout extends React.Component {
 
   static contextTypes = ThemeContextType
 
-  constructor () {
+  constructor() {
     super()
-    this.state = {instance: false}
+    this.state = { instance: false }
   }
 
 
-  render () {
-    const {content} = this.props
+  render() {
+    const { content } = this.props
     const style = {
       app: {
         classes: this.context.muiTheme.portalApp.layout.app.classes.join(' '),
@@ -43,7 +43,7 @@ class PortalLayout extends React.Component {
 
     return (
       <div className={style.app.classes} style={style.app.styles}>
-        <MenuContainer/>
+        <MenuContainer />
         <div className={style.bodyContainer.classes} style={style.bodyContainer.styles}>
           <div className={style.contentContainer.classes} style={style.contentContainer.styles}>
             {content}

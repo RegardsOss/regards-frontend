@@ -19,7 +19,7 @@ function MainActionButtonComponent(props) {
   />)
 }
 MainActionButtonComponent.propTypes = {
-  label: React.PropTypes.oneOfType(React.PropTypes.string, React.PropTypes.element).isRequired,
+  label: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.element]).isRequired,
   url: React.PropTypes.string,
   style: React.PropTypes.objectOf(React.PropTypes.string).isRequired,
   onTouchTap: React.PropTypes.func,

@@ -1,6 +1,6 @@
-import { portalReducer } from './reducer';
-import portalContainer from './PortalApp';
+import { portalReducer } from './reducer'
+import portalContainer from './PortalApp'
 export {
   portalReducer,
   portalContainer,
-};
+}

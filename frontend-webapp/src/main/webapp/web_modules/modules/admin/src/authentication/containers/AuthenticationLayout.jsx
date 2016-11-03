@@ -1,16 +1,16 @@
-import * as React from "react"
-import { ThemeContextType, ThemeContextInterface } from "@regardsoss/theme"
-import Authentication from "./AuthenticationContainer"
+
+import { ThemeContextType, ThemeContextInterface } from '@regardsoss/theme'
+import Authentication from './AuthenticationContainer'
 export class AuthenticationLayout extends React.Component {
 
   static contextTypes = ThemeContextType
   context
 
-  constructor () {
+  constructor() {
     super()
   }
 
-  render () {
+  render() {
     const layoutStyle = this.context.muiTheme.adminApp.loginForm
     return (
       <div style={layoutStyle}>

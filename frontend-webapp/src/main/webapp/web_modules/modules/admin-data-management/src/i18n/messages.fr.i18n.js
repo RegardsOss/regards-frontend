@@ -121,6 +121,6 @@ const messages = {
   'datamanagement.datasource.add.action.new_connection': 'Créer une nouvelle connection',
   'datamanagement.datasource.add.action.new_model': 'Créer une nouveau modèle',
   'datamanagement.datasource.add.input.datasource_model': 'Choisir un plugin datasource',
-};
+}
 
-export default messages;
+export default messages

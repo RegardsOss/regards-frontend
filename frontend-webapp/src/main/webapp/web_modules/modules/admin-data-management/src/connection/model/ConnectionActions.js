@@ -1,5 +1,5 @@
 // Add a new model
-export const ADD_CONNECTION = 'ADD_CONNECTION';
+export const ADD_CONNECTION = 'ADD_CONNECTION'
 
 export const addConnection = (name, pluginName, requiredAttributes) => ({
   type: ADD_CONNECTION,
@@ -9,4 +9,4 @@ export const addConnection = (name, pluginName, requiredAttributes) => ({
     pluginName,
     requiredAttributes,
   },
-});
+})

@@ -1,9 +1,9 @@
 /** @module common */
-import * as React from "react"
-import { connect } from "react-redux"
-import { updateLocale } from "../I18nActions"
-import SelectLocalComponent from "../components/SelectLocaleComponent"
-import I18nProvider from "../I18nProvider"
+
+import { connect } from 'react-redux'
+import { updateLocale } from '../I18nActions'
+import SelectLocalComponent from '../components/SelectLocaleComponent'
+import I18nProvider from '../I18nProvider'
 /*
 
 interface SelectLocaleTypes {
@@ -19,18 +19,17 @@ interface SelectLocaleTypes {
  */
 export class SelectLocaleContainer extends React.Component {
 
-  constructor () {
+  constructor() {
     super()
     this.handleChange = this.handleChange.bind(this)
   }
 
-  handleChange (event, index, value) {
-    this.setState({value})
+  handleChange(event, index, value) {
+    this.setState({ value })
     this.props.setLocale(value)
   }
 
-  render () {
-
+  render() {
     return (
       <I18nProvider messageDir="utils/i18n/src/messages">
         <SelectLocalComponent
@@ -46,14 +45,14 @@ export class SelectLocaleContainer extends React.Component {
 // Add projects from store to the containers props
 const mapStateToProps = (state) => {
   return {
-    currentLocale: state.common.i18n.locale
+    currentLocale: state.common.i18n.locale,
   }
 }
 
 // Add functions dependending on store dispatch to containers props.
 const mapDispatchToProps = (dispatch) => {
   return {
-    setLocale: (locale) => dispatch(updateLocale(locale))
+    setLocale: locale => dispatch(updateLocale(locale)),
   }
 }
 

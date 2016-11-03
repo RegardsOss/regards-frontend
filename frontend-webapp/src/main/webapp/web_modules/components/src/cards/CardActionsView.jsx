@@ -46,12 +46,12 @@ class CardActionsView extends React.Component {
 
 
 CardActionsView.propTypes = {
-  secondaryButtonLabel: React.PropTypes.oneOfType(React.PropTypes.string, React.PropTypes.element).isRequired,
+  secondaryButtonLabel: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.element]).isRequired,
   secondaryButtonUrl: React.PropTypes.string.isRequired,
   secondaryButtonTouchTap: React.PropTypes.func.isRequired,
   isSecondaryButtonVisible: React.PropTypes.bool.isRequired,
 
-  mainButtonLabel: React.PropTypes.oneOfType(React.PropTypes.string, React.PropTypes.element).isRequired,
+  mainButtonLabel: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.element]).isRequired,
   mainButtonUrl: React.PropTypes.string.isRequired,
   mainButtonTouchTap: React.PropTypes.func.isRequired,
   isMainButtonVisible: React.PropTypes.bool.isRequired,

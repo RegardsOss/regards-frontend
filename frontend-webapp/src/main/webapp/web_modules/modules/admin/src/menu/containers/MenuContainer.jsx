@@ -1,12 +1,11 @@
-import { I18nProvider } from "@regardsoss/i18n"
-import MenuComponent from "../components/MenuComponent"
+import { I18nProvider } from '@regardsoss/i18n'
+import MenuComponent from '../components/MenuComponent'
 
-class MenuContainer extends React.Component{
+class MenuContainer extends React.Component {
 
-  render () {
-
+  render() {
     return (
-      <I18nProvider messageDir='modules/admin/src/menu/i18n'>
+      <I18nProvider messageDir="modules/admin/src/menu/i18n">
         <MenuComponent />
       </I18nProvider>
     )

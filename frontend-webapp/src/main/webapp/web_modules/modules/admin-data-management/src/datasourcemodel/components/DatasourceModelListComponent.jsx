@@ -1,12 +1,12 @@
-import * as React from "react"
-import { Card, CardTitle, CardText } from "material-ui/Card"
-import { FormattedMessage } from "react-intl"
-import { TableRowColumn, Table, TableBody, TableHeader, TableHeaderColumn, TableRow } from "material-ui/Table"
-import Delete from "material-ui/svg-icons/action/delete"
-import { map } from "lodash"
-import FlatButton from "material-ui/FlatButton"
-import Edit from "material-ui/svg-icons/editor/mode-edit"
-import { CardActionsComponent } from "@regardsoss/components"
+
+import { Card, CardTitle, CardText } from 'material-ui/Card'
+import { FormattedMessage } from 'react-intl'
+import { TableRowColumn, Table, TableBody, TableHeader, TableHeaderColumn, TableRow } from 'material-ui/Table'
+import Delete from 'material-ui/svg-icons/action/delete'
+import { map } from 'lodash'
+import FlatButton from 'material-ui/FlatButton'
+import Edit from 'material-ui/svg-icons/editor/mode-edit'
+import { CardActionsComponent } from '@regardsoss/components'
 
 /*
 interface DatasourceModelListProps {
@@ -21,20 +21,21 @@ class DatasourceModelListComponent extends React.Component {
   getCreateUrl = () => {
     return this.props.getCreateUrl()
   }
-  getBackUrl = () =>  {
+  getBackUrl = () => {
     return this.props.getBackUrl()
   }
 
 
-  render () {
-    const {datasourceModels} = this.props
+  render() {
+    const { datasourceModels } = this.props
     return (
       <Card
-        initiallyExpanded={true}>
+        initiallyExpanded
+      >
         <CardTitle
           title={
             <FormattedMessage
-            id="datamanagement.datasourcemodel.list.header"
+              id="datamanagement.datasourcemodel.list.header"
             />
           }
         />
@@ -51,33 +52,37 @@ class DatasourceModelListComponent extends React.Component {
               <TableRow>
                 <TableHeaderColumn>
                   <FormattedMessage
-                    id="datamanagement.datasourcemodel.table.name"/>
+                    id="datamanagement.datasourcemodel.table.name"
+                  />
                 </TableHeaderColumn>
                 <TableHeaderColumn>
                   <FormattedMessage
-                    id="datamanagement.datasourcemodel.table.actions"/>
+                    id="datamanagement.datasourcemodel.table.actions"
+                  />
                 </TableHeaderColumn>
-                <TableHeaderColumn>
-                </TableHeaderColumn>
+                <TableHeaderColumn />
               </TableRow>
             </TableHeader>
             <TableBody displayRowCheckbox={false} preScanRows={false}>
               {map(datasourceModels, (datasourceModel, id) => (
 
                 <TableRow
-                  key={id}>
+                  key={id}
+                >
                   <TableRowColumn>
                     {datasourceModel.name}
                   </TableRowColumn>
                   <TableRowColumn>
                     <FlatButton
                       icon={<Edit />}
-                      disabled={true}/>
+                      disabled
+                    />
                   </TableRowColumn>
                   <TableRowColumn>
                     <FlatButton
                       icon={<Delete />}
-                      disabled={true}/>
+                      disabled
+                    />
                   </TableRowColumn>
                 </TableRow>
               ))}

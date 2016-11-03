@@ -1,7 +1,7 @@
-import * as React from "react"
-import { I18nProvider } from "@regardsoss/i18n"
-import ConnectionListComponent from "../components/list/ConnectionListComponent"
-import { connect } from "react-redux"
+
+import { I18nProvider } from '@regardsoss/i18n'
+import ConnectionListComponent from '../components/list/ConnectionListComponent'
+import { connect } from 'react-redux'
 /*
 interface ConnectionListProps {
   // From router
@@ -18,19 +18,19 @@ class ConnectionListContainer extends React.Component {
 
   getBackUrl = () => {
     const projectName = this.props.params.project
-    return "/admin/" + projectName + "/datamanagement"
+    return `/admin/${projectName}/datamanagement`
   }
 
   getCreateUrl = () => {
     const projectName = this.props.params.project
-    return "/admin/" + projectName + "/datamanagement/connection/create"
+    return `/admin/${projectName}/datamanagement/connection/create`
   }
 
-  render () {
-    const {connections} = this.props
+  render() {
+    const { connections } = this.props
     return (
       <div>
-        <I18nProvider messageDir='modules/admin-data-management/src/i18n'>
+        <I18nProvider messageDir="modules/admin-data-management/src/i18n">
           <ConnectionListComponent
             getBackUrl={this.getBackUrl}
             getCreateUrl={this.getCreateUrl}

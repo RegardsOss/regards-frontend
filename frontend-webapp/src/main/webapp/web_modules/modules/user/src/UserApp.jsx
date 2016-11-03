@@ -1,10 +1,10 @@
-import * as React from "react"
-import { connect } from "react-redux"
-import { fetchAuthenticate } from "../common/authentication/AuthenticateActions"
-import Layout from "./modules/layout/Layout"
-import ThemeHelper from "../common/theme/ThemeHelper"
-import MuiThemeProvider from "material-ui/styles/MuiThemeProvider"
-import SelectTheme from "../common/theme/containers/SelectTheme"
+
+import { connect } from 'react-redux'
+import { fetchAuthenticate } from '../common/authentication/AuthenticateActions'
+import Layout from './modules/layout/Layout'
+import ThemeHelper from '../common/theme/ThemeHelper'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import SelectTheme from '../common/theme/containers/SelectTheme'
 /*
 interface UserAppProps {
   params: any,
@@ -17,22 +17,22 @@ interface UserAppProps {
 
 class UserApp extends React.Component {
 
-  componentWillMount () {
+  componentWillMount() {
     if (!this.props.authentication.user) {
       this.props.publicAuthenticate()
     }
   }
 
-  render () {
+  render() {
     // Location ,params and content are set in this containers props by react-router
-    const {location, params, content, theme} = this.props
-    const {project} = params
+    const { location, params, content, theme } = this.props
+    const { project } = params
 
     // Build theme
     const muiTheme = ThemeHelper.getByName(theme)
 
     if (!this.props.authentication.user)
-      return <div>Loading ... </div>
+      { return <div>Loading ... </div> }
 
     if (!content) {
       return (
@@ -57,13 +57,13 @@ class UserApp extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   theme: state.common.theme,
   plugins: state.common.plugins,
-  authentication: state.common.authentication
+  authentication: state.common.authentication,
 })
-const mapDispatchToProps = (dispatch) => ({
-  publicAuthenticate: () => dispatch(fetchAuthenticate("public", "public"))
+const mapDispatchToProps = dispatch => ({
+  publicAuthenticate: () => dispatch(fetchAuthenticate('public', 'public')),
 })
 
 const userAppConnected = connect(mapStateToProps, mapDispatchToProps)(UserApp)

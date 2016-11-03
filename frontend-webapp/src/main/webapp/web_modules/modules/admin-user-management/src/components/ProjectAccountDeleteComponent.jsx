@@ -1,7 +1,7 @@
-import * as React from "react"
-import Dialog from "material-ui/Dialog"
-import FlatButton from "material-ui/FlatButton"
-import { FormattedMessage, intlShape } from "react-intl"
+
+import Dialog from 'material-ui/Dialog'
+import FlatButton from 'material-ui/FlatButton'
+import { FormattedMessage, intlShape } from 'react-intl'
 
 /**
  * Dialog with action buttons.
@@ -26,7 +26,7 @@ export default class ProjectAccountDeleteComponent extends React.Component {
    * @type {{intl: ReactIntl.IntlShape}}
    */
   static contextTypes = {
-    intl: intlShape
+    intl: intlShape,
   }
   context
 
@@ -49,18 +49,18 @@ export default class ProjectAccountDeleteComponent extends React.Component {
    *
    * @returns {any}
    */
-  render () {
-    const title = this.context.intl.formatMessage({id: "dialog.delete.title"})
+  render() {
+    const title = this.context.intl.formatMessage({ id: 'dialog.delete.title' })
     const actions = [
       <FlatButton
-        label={<FormattedMessage id="dialog.delete.cancel"/>}
-        primary={true}
+        label={<FormattedMessage id="dialog.delete.cancel" />}
+        primary
         onTouchTap={this.handleClose}
       />,
       <FlatButton
-        label={<FormattedMessage id="dialog.delete.accept"/>}
-        primary={true}
-        keyboardFocused={true}
+        label={<FormattedMessage id="dialog.delete.accept" />}
+        primary
+        keyboardFocused
         onTouchTap={this.handleDelete}
       />,
     ]
@@ -69,10 +69,9 @@ export default class ProjectAccountDeleteComponent extends React.Component {
         title={title}
         actions={actions}
         modal={false}
-        open={true}
+        open
         onRequestClose={this.handleClose}
-      >
-      </Dialog>
+      />
     )
   }
 }

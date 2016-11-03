@@ -1,59 +1,58 @@
-import { expect } from "chai"
-import { Action } from "redux"
-import reducer from "../src/PluginReducers"
-import { PluginsStore, PluginType } from "@regardsoss/plugins"
-import { PluginInitializedAction } from "../src/PluginsActions"
-import * as React from "react"
+import { expect } from 'chai'
+import { Action } from 'redux'
+import reducer from '../src/PluginReducers'
+import { PluginsStore, PluginType } from '@regardsoss/plugins'
+import { PluginInitializedAction } from '../src/PluginsActions'
+
 
 describe('[COMMON] Testing plugin reducer', () => {
-
   it('should return the initial state', () => {
     expect(reducer(undefined, {})).to.eql({
       isFetching: false,
       items: [],
-      lastUpdate: ''
+      lastUpdate: '',
     })
   })
 
   it('should handle fetch request', () => {
     const action = {
-      type: 'REQUEST_PLUGINS'
+      type: 'REQUEST_PLUGINS',
     }
     const initState = {
       isFetching: false,
       items: [],
-      lastUpdate: ''
+      lastUpdate: '',
     }
     const expectedState = {
       isFetching: true,
       items: [],
-      lastUpdate: ''
+      lastUpdate: '',
     }
     expect(reducer(initState, action)).to.eql(expectedState)
   })
 
   it('should handle fetch success', () => {
-    const plugin = {name: 'HelloWorldPlugin', loadedComponent: null, paths: []}
+    const plugin = { name: 'HelloWorldPlugin', loadedComponent: null, paths: [] }
     const action = {
       type: 'RECEIVE_PLUGINS',
       payload: [
-        plugin
+        plugin,
       ],
       meta: {
-        receivedAt: 'Yesterday'
-      }
+        receivedAt: 'Yesterday',
+      },
     }
     const initState = {
       isFetching: true,
       items: [],
-      lastUpdate: ''
+      lastUpdate: '',
     }
     const expectedState = {
       isFetching: false,
       items: [
-        {name: 'HelloWorldPlugin', loadedComponent: null, paths: []}
+        { name: 'HelloWorldPlugin', loadedComponent: null, paths: [] },
       ],
-      lastUpdate: 'Yesterday'
+      lastUpdate: 'Yesterday',
     }
     expect(reducer(initState, action)).to.eql(expectedState)
   })
@@ -61,17 +60,17 @@ describe('[COMMON] Testing plugin reducer', () => {
   it('should handle fetch failure', () => {
     const action = {
       type: 'FAILED_PLUGINS',
-      error: "Oops there was an error!"
+      error: 'Oops there was an error!',
     }
     const initState = {
       isFetching: true,
       items: [],
-      lastUpdate: ''
+      lastUpdate: '',
     }
     const expectedState = {
       isFetching: false,
       items: [],
-      lastUpdate: ''
+      lastUpdate: '',
     }
     expect(reducer(initState, action)).to.eql(expectedState)
   })
@@ -83,7 +82,7 @@ describe('[COMMON] Testing plugin reducer', () => {
       type: 'PLUGIN_INITIALIZED',
       name: 'HelloWorldPlugin',
       loadedComponent: FakeComponent,
-      error: ''
+      error: '',
     }
     const initState = {
       isFetching: false,
@@ -91,10 +90,10 @@ describe('[COMMON] Testing plugin reducer', () => {
         {
           name: 'HelloWorldPlugin',
           loadedComponent: null,
-          paths: []
-        }
+          paths: [],
+        },
       ],
-      lastUpdate: ''
+      lastUpdate: '',
     }
     const expectedState = {
       isFetching: false,
@@ -102,12 +101,11 @@ describe('[COMMON] Testing plugin reducer', () => {
         {
           name: 'HelloWorldPlugin',
           loadedComponent: FakeComponent,
-          paths: []
-        }
+          paths: [],
+        },
       ],
-      lastUpdate: ''
+      lastUpdate: '',
     }
     expect(reducer(initState, action)).to.eql(expectedState)
   })
-
 })

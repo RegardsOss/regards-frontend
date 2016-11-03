@@ -1,25 +1,25 @@
-const { CALL_API, getJSON } = require('redux-api-middleware');
-import { PROJECT_ARRAY } from '@regardsoss/api';
-import { normalize } from 'normalizr';
-import { Action } from 'redux';
+const { CALL_API, getJSON } = require('redux-api-middleware')
+import { PROJECT_ARRAY } from '@regardsoss/api'
+import { normalize } from 'normalizr'
+import { Action } from 'redux'
 
-export const PROJECTS_API = 'http://localhost:8080/api/projects';
+export const PROJECTS_API = 'http://localhost:8080/api/projects'
 
-export const PROJECTS_REQUEST = 'PROJECTS_REQUEST';
-export const PROJECTS_SUCCESS = 'PROJECTS_SUCCESS';
-export const PROJECTS_FAILURE = 'PROJECTS_FAILURE';
+export const PROJECTS_REQUEST = 'PROJECTS_REQUEST'
+export const PROJECTS_SUCCESS = 'PROJECTS_SUCCESS'
+export const PROJECTS_FAILURE = 'PROJECTS_FAILURE'
 
-export const PROJECT_REQUEST = 'PROJECT_REQUEST';
-export const PROJECT_SUCCESS = 'PROJECT_SUCCESS';
-export const PROJECT_FAILURE = 'PROJECT_FAILURE';
+export const PROJECT_REQUEST = 'PROJECT_REQUEST'
+export const PROJECT_SUCCESS = 'PROJECT_SUCCESS'
+export const PROJECT_FAILURE = 'PROJECT_FAILURE'
 
-export const CREATE_PROJECT_REQUEST = 'CREATE_PROJECT_REQUEST';
-export const CREATE_PROJECT_SUCCESS = 'CREATE_PROJECT_SUCCESS';
-export const CREATE_PROJECT_FAILURE = 'CREATE_PROJECT_FAILURE';
+export const CREATE_PROJECT_REQUEST = 'CREATE_PROJECT_REQUEST'
+export const CREATE_PROJECT_SUCCESS = 'CREATE_PROJECT_SUCCESS'
+export const CREATE_PROJECT_FAILURE = 'CREATE_PROJECT_FAILURE'
 
-export const DELETE_PROJECT_REQUEST = 'DELETE_PROJECT_REQUEST';
-export const DELETE_PROJECT_SUCCESS = 'DELETE_PROJECT_SUCCESS';
-export const DELETE_PROJECT_FAILURE = 'DELETE_PROJECT_FAILURE';
+export const DELETE_PROJECT_REQUEST = 'DELETE_PROJECT_REQUEST'
+export const DELETE_PROJECT_SUCCESS = 'DELETE_PROJECT_SUCCESS'
+export const DELETE_PROJECT_FAILURE = 'DELETE_PROJECT_FAILURE'
 
 // Fetches all projects
 // Relies on the custom API middleware defined in redux-api-middleware
@@ -38,7 +38,7 @@ export const fetchProjects = () => ({
     method: 'GET',
     // bailout: (state: any) => !isEmpty(selectors.getProjects(state))
   },
-});
+})
 
 // export const fetchProject = (id: string) => ({
 //   [CALL_API]: {
@@ -68,7 +68,7 @@ export const createProject = () => ({
     endpoint: PROJECTS_API,
     method: 'POST',
   },
-});
+})
 
 export const deleteProject = id => ({
   [CALL_API]: {
@@ -83,16 +83,16 @@ export const deleteProject = id => ({
     endpoint: `${PROJECTS_API}/${id}`,
     method: 'DELETE',
   },
-});
+})
 /*
 export interface ProjectAction extends Action {
   id: string,
   name: string
 }*/
 
-export const DELETE_SELECTED_PROJECT = 'DELETE_SELECTED_PROJECT';
+export const DELETE_SELECTED_PROJECT = 'DELETE_SELECTED_PROJECT'
 export function deleteSelectedProject() {
   return {
     type: DELETE_SELECTED_PROJECT,
-  };
+  }
 }

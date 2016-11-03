@@ -1,19 +1,19 @@
-import { BasicSelector } from '@regardsoss/store-utils';
+import { BasicSelector } from '@regardsoss/store-utils'
 
 class DatasetCreationFormSelectors extends BasicSelector {
   constructor() {
-    super(['admin', 'data-management', 'dataset-form']);
+    super(['admin', 'data-management', 'dataset-form'])
   }
 
   getViewState(state) {
-    console.log(state);
-    return this.uncombineStore(state).viewState;
+    console.log(state)
+    return this.uncombineStore(state).viewState
   }
 
 
 }
 
-const _instance = new DatasetCreationFormSelectors();
+const _instance = new DatasetCreationFormSelectors()
 
-export default _instance;
+export default _instance
 

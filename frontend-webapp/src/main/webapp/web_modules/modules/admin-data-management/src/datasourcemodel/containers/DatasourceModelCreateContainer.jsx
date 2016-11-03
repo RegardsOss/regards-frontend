@@ -1,8 +1,8 @@
-import * as React from "react"
-import { I18nProvider } from "@regardsoss/i18n"
-import { connect } from "react-redux"
-import ModelCreateComponent from "../components/add/DatasourceModelCreateComponent"
-import { browserHistory } from "react-router"
+
+import { I18nProvider } from '@regardsoss/i18n'
+import { connect } from 'react-redux'
+import ModelCreateComponent from '../components/add/DatasourceModelCreateComponent'
+import { browserHistory } from 'react-router'
 
 /**
  *//*
@@ -22,7 +22,7 @@ class DatasourceModelCreateContainer extends React.Component {
       return fromURI
     } else {
       const projectName = this.props.params.project
-      return "/admin/" + projectName + "/datamanagement/datasourcemodel"
+      return `/admin/${projectName}/datamanagement/datasourcemodel`
     }
   }
 
@@ -31,9 +31,9 @@ class DatasourceModelCreateContainer extends React.Component {
     browserHistory.push(this.getCancelUrl())
   }
 
-  render () {
+  render() {
     return (
-      <I18nProvider messageDir='modules/admin-data-management/src/i18n'>
+      <I18nProvider messageDir="modules/admin-data-management/src/i18n">
         <ModelCreateComponent
           getCancelUrl={this.getCancelUrl}
           handleNextStep={this.handleNextStep}
@@ -42,7 +42,7 @@ class DatasourceModelCreateContainer extends React.Component {
     )
   }
 }
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   addDatasourceModel: (name, attributes) => null,
 })
 export default connect(null, mapDispatchToProps)(DatasourceModelCreateContainer)

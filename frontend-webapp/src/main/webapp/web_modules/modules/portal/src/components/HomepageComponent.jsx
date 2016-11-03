@@ -1,7 +1,7 @@
-import * as React from "react"
-import { map } from "lodash"
-import { NewsItemComponent } from "@regardsoss/components"
-import ProjectComponent from "../projects/components/ProjectComponent"
+
+import { map } from 'lodash'
+import { NewsItemComponent } from '@regardsoss/components'
+import ProjectComponent from '../projects/components/ProjectComponent'
 /*
 interface DatamanagementProps {
   params: any
@@ -16,19 +16,19 @@ interface DatamanagementProps {
  */
 class DatamanagementComponent extends React.Component {
 
-  render () {
+  render() {
     const theme = this.props.theme
 
-    const {newsList, projects} = this.props
-    const styleNews= {
-      display: "flex",
-      justifyContent: "space-around"
+    const { newsList, projects } = this.props
+    const styleNews = {
+      display: 'flex',
+      justifyContent: 'space-around',
     }
 
 
     const styleProjects = {
-      marginTop: "10px",
-      marginBottom: "10px",
+      marginTop: '10px',
+      marginBottom: '10px',
     }
     return (
       <div>

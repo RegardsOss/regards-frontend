@@ -1,12 +1,12 @@
-import * as React from "react"
-import { Card, CardText, CardTitle } from "material-ui/Card"
-import { FormattedMessage } from "react-intl"
-import FlatButton from "material-ui/FlatButton"
-import SelectField from "material-ui/SelectField"
-import MenuItem from "material-ui/MenuItem"
-import TextField from "material-ui/TextField"
-import { map } from "lodash"
-import { CardActionsComponent } from "@regardsoss/components"
+
+import { Card, CardText, CardTitle } from 'material-ui/Card'
+import { FormattedMessage } from 'react-intl'
+import FlatButton from 'material-ui/FlatButton'
+import SelectField from 'material-ui/SelectField'
+import MenuItem from 'material-ui/MenuItem'
+import TextField from 'material-ui/TextField'
+import { map } from 'lodash'
+import { CardActionsComponent } from '@regardsoss/components'
 /*
 interface CreateDatasourceProps {
   cancelUrl: string
@@ -24,24 +24,24 @@ class CreateDatasourceFormComponent extends React.Component {
     connectionId: -1,
     modelObjectId: -1,
     pluginDatasourceId: -1,
-    name: ""
+    name: '',
   }
 
   handleConnectionChange = (event, index, value) => {
     this.setState({
-      connectionId: value
+      connectionId: value,
     })
   }
 
   handleModelChange = (event, index, value) => {
     this.setState({
-      modelObjectId: value
+      modelObjectId: value,
     })
   }
 
   handlePluginDatasourceChange = (event, index, value) => {
     this.setState({
-      pluginDatasourceId: value
+      pluginDatasourceId: value,
     })
   }
 
@@ -53,33 +53,34 @@ class CreateDatasourceFormComponent extends React.Component {
   handleLabelChange = (event) => {
     const newName = event.target.value
     this.setState({
-      "name": newName
+      name: newName,
     })
   }
 
-  render () {
-    const {connectionId, modelObjectId, pluginDatasourceId, name} = this.state
-    const {connections, modelObjects, pluginDatasources, cancelUrl} = this.props
+  render() {
+    const { connectionId, modelObjectId, pluginDatasourceId, name } = this.state
+    const { connections, modelObjects, pluginDatasources, cancelUrl } = this.props
     return (
       <Card
-        initiallyExpanded={true}>
+        initiallyExpanded
+      >
         <CardTitle
-          title={<FormattedMessage id="datamanagement.datasource.add.header"/>}
+          title={<FormattedMessage id="datamanagement.datasource.add.header" />}
         />
         <CardText>
 
 
           <TextField
             type="text"
-            floatingLabelText={<FormattedMessage id="datamanagement.datasource.add.input.label"/>}
-            fullWidth={true}
+            floatingLabelText={<FormattedMessage id="datamanagement.datasource.add.input.label" />}
+            fullWidth
             onChange={this.handleLabelChange}
             value={name}
           />
-          <div className={"row"}>
+          <div className={'row'}>
 
             <SelectField
-              floatingLabelText={<FormattedMessage id="datamanagement.datasource.add.input.connection"/>}
+              floatingLabelText={<FormattedMessage id="datamanagement.datasource.add.input.connection" />}
               value={connectionId}
               onChange={this.handleConnectionChange}
             >
@@ -93,14 +94,14 @@ class CreateDatasourceFormComponent extends React.Component {
             </SelectField>
 
             <FlatButton
-              label={<FormattedMessage id="datamanagement.datasource.add.action.new_connection"/>}
-              primary={true}
+              label={<FormattedMessage id="datamanagement.datasource.add.action.new_connection" />}
+              primary
             />
 
           </div>
 
           <SelectField
-            floatingLabelText={<FormattedMessage id="datamanagement.datasource.add.input.model"/>}
+            floatingLabelText={<FormattedMessage id="datamanagement.datasource.add.input.model" />}
             value={modelObjectId}
             onChange={this.handleModelChange}
           >
@@ -114,11 +115,11 @@ class CreateDatasourceFormComponent extends React.Component {
           </SelectField>
 
           <FlatButton
-            label={<FormattedMessage id="datamanagement.datasource.add.action.new_model"/>}
-            primary={true}
+            label={<FormattedMessage id="datamanagement.datasource.add.action.new_model" />}
+            primary
           />
           <SelectField
-            floatingLabelText={<FormattedMessage id="datamanagement.datasource.add.input.datasource_model"/>}
+            floatingLabelText={<FormattedMessage id="datamanagement.datasource.add.input.datasource_model" />}
             value={pluginDatasourceId}
             onChange={this.handlePluginDatasourceChange}
           >
@@ -155,5 +156,4 @@ class CreateDatasourceFormComponent extends React.Component {
 }
 
 export default CreateDatasourceFormComponent
-
 

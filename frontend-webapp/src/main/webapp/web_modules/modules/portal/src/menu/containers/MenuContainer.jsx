@@ -1,11 +1,10 @@
-import MenuComponent from "../components/MenuComponent"
+import MenuComponent from '../components/MenuComponent'
 
 class MenuContainer extends React.Component {
 
-  render () {
-
+  render() {
     return (
-       <MenuComponent />
+      <MenuComponent />
     )
   }
 

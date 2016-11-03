@@ -1,12 +1,12 @@
-import * as React from "react"
-import { Card, CardTitle, CardText } from "material-ui/Card"
-import { FormattedMessage } from "react-intl"
-import { TableRowColumn, Table, TableBody, TableHeader, TableHeaderColumn, TableRow } from "material-ui/Table"
-import Delete from "material-ui/svg-icons/action/delete"
-import { map } from "lodash"
-import FlatButton from "material-ui/FlatButton"
-import Edit from "material-ui/svg-icons/editor/mode-edit"
-import { CardActionsComponent } from "@regardsoss/components"
+
+import { Card, CardTitle, CardText } from 'material-ui/Card'
+import { FormattedMessage } from 'react-intl'
+import { TableRowColumn, Table, TableBody, TableHeader, TableHeaderColumn, TableRow } from 'material-ui/Table'
+import Delete from 'material-ui/svg-icons/action/delete'
+import { map } from 'lodash'
+import FlatButton from 'material-ui/FlatButton'
+import Edit from 'material-ui/svg-icons/editor/mode-edit'
+import { CardActionsComponent } from '@regardsoss/components'
 
 /*
 interface ConnectionListProps {
@@ -16,7 +16,7 @@ interface ConnectionListProps {
 }*/
 /**
  */
-class ConnectionListComponent extends React.Component{
+class ConnectionListComponent extends React.Component {
 
   getCreateUrl = () => {
     return this.props.getCreateUrl()
@@ -26,13 +26,14 @@ class ConnectionListComponent extends React.Component{
   }
 
 
-  render () {
-    const {connections} = this.props
+  render() {
+    const { connections } = this.props
     return (
       <Card
-        initiallyExpanded={true}>
+        initiallyExpanded
+      >
         <CardTitle
-          title={<FormattedMessage id="datamanagement.connection.list.header"/>}
+          title={<FormattedMessage id="datamanagement.connection.list.header" />}
         />
         <CardText>
           <Table
@@ -61,13 +62,14 @@ class ConnectionListComponent extends React.Component{
               {map(connections, (connection, id) => (
 
                 <TableRow
-                  key={id}>
+                  key={id}
+                >
                   <TableRowColumn>
                     {connection.name}
                   </TableRowColumn>
                   <TableRowColumn>
-                    <FlatButton icon={<Delete />} disabled={true}/>
-                    <FlatButton icon={<Edit />} disabled={true}/>
+                    <FlatButton icon={<Delete />} disabled />
+                    <FlatButton icon={<Edit />} disabled />
                   </TableRowColumn>
                 </TableRow>
               ))}
@@ -78,13 +80,13 @@ class ConnectionListComponent extends React.Component{
             secondaryButtonUrl={this.getBackUrl()}
             secondaryButtonLabel={
               <FormattedMessage
-                    id="datamanagement.connection.list.action.back"
+                id="datamanagement.connection.list.action.back"
               />
             }
             mainButtonUrl={this.getCreateUrl()}
             mainButtonLabel={
               <FormattedMessage
-                    id="datamanagement.connection.list.action.add"
+                id="datamanagement.connection.list.action.add"
               />
             }
           />

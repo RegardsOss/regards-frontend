@@ -1,6 +1,6 @@
 // Default theme
 
-import { grey100, indigo500 } from 'material-ui/styles/colors';
+import { grey100, indigo500 } from 'material-ui/styles/colors'
 export default {
   // Reset some part of the material-ui framework
   drawer: {
@@ -86,4 +86,4 @@ export default {
       },
     },
   },
-};
+}

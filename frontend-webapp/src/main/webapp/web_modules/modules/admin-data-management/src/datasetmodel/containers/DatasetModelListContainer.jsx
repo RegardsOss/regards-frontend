@@ -1,8 +1,8 @@
-import * as React from "react"
-import { I18nProvider } from "@regardsoss/i18n"
-import ModelListComponent from "../components/DatasetModelListComponent"
-import ModelSelectors from "../model/model.selectors"
-import { connect } from "react-redux"
+
+import { I18nProvider } from '@regardsoss/i18n'
+import ModelListComponent from '../components/DatasetModelListComponent'
+import ModelSelectors from '../model/model.selectors'
+import { connect } from 'react-redux'
 /**
  *//*
 interface ModelListProps {
@@ -15,17 +15,17 @@ export class ModelListContainer extends React.Component {
 
   getBackUrl = () => {
     const projectName = this.props.params.project
-    return "/admin/" + projectName + "/datamanagement"
+    return `/admin/${projectName}/datamanagement`
   }
   getCreateUrl = () => {
     const projectName = this.props.params.project
-    return "/admin/" + projectName + "/datamanagement/datasetmodel/create"
+    return `/admin/${projectName}/datamanagement/datasetmodel/create`
   }
 
-  render () {
-    const {datasetModels} = this.props
+  render() {
+    const { datasetModels } = this.props
     return (
-      <I18nProvider messageDir='modules/admin-data-management/src/i18n'>
+      <I18nProvider messageDir="modules/admin-data-management/src/i18n">
         <ModelListComponent
           getBackUrl={this.getBackUrl}
           getCreateUrl={this.getCreateUrl}
@@ -38,7 +38,7 @@ export class ModelListContainer extends React.Component {
 const mapStateToProps = (state, ownProps) => {
   const datasetModels = ModelSelectors.getDatasetModels(state)
   return {
-    datasetModels
+    datasetModels,
   }
 }
 export default connect(mapStateToProps, null)(ModelListContainer)

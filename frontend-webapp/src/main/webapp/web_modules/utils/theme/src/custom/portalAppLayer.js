@@ -1,5 +1,5 @@
 // Default theme
-import { grey100, indigo500 } from 'material-ui/styles/colors';
+import { grey100, indigo500 } from 'material-ui/styles/colors'
 
 export default {
   portalApp: {
@@ -40,4 +40,4 @@ export default {
       },
     },
   },
-};
+}

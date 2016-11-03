@@ -5,6 +5,6 @@ const messages = {
   'login.title': "Connexion au panel d'admin",
   'authentication.error': 'Identifiant et/ou mot de passe invalide(s)',
   'authentication.error.500': 'Service indisponible',
-};
+}
 
-export default messages;
+export default messages

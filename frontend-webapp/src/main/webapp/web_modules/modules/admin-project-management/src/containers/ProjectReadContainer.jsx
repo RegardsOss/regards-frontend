@@ -1,20 +1,20 @@
-import * as React from "react"
-import { connect } from "react-redux"
-import { injectTheme } from "@regardsoss/theme"
-import Paper from "material-ui/Paper"
-import AppBar from "material-ui/AppBar"
-import ArrowBack from "material-ui/svg-icons/navigation/arrow-back"
-import { browserHistory } from "react-router"
-import Subheader from "material-ui/Subheader"
-import { List, ListItem } from "material-ui/List"
-import Divider from "material-ui/Divider"
-import IconButton from "material-ui/IconButton"
-import InfoOutline from "material-ui/svg-icons/action/info-outline"
-import Settings from "material-ui/svg-icons/action/settings"
-import Lock from "material-ui/svg-icons/action/lock"
-import SupervisorAccount from "material-ui/svg-icons/action/supervisor-account"
-import { Tabs, Tab } from "material-ui/Tabs"
-import { MainActionButtonComponent, SecondaryActionButtonComponent } from "@regardsoss/components"
+
+import { connect } from 'react-redux'
+import { injectTheme } from '@regardsoss/theme'
+import Paper from 'material-ui/Paper'
+import AppBar from 'material-ui/AppBar'
+import ArrowBack from 'material-ui/svg-icons/navigation/arrow-back'
+import { browserHistory } from 'react-router'
+import Subheader from 'material-ui/Subheader'
+import { List, ListItem } from 'material-ui/List'
+import Divider from 'material-ui/Divider'
+import IconButton from 'material-ui/IconButton'
+import InfoOutline from 'material-ui/svg-icons/action/info-outline'
+import Settings from 'material-ui/svg-icons/action/settings'
+import Lock from 'material-ui/svg-icons/action/lock'
+import SupervisorAccount from 'material-ui/svg-icons/action/supervisor-account'
+import { Tabs, Tab } from 'material-ui/Tabs'
+import { MainActionButtonComponent, SecondaryActionButtonComponent } from '@regardsoss/components'
 
 const styles = {
   headline: {
@@ -26,7 +26,7 @@ const styles = {
   root: {
     display: 'flex',
     flexWrap: 'wrap',
-  }
+  },
 }
 /*
 interface ProjectReadProps {
@@ -41,21 +41,21 @@ interface ProjectReadState {
 
 export class ProjectReadContainer extends React.Component {
 
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
-      project: {projectId: "dummy", name: "dummy", description: "dummy"}
+      project: { projectId: 'dummy', name: 'dummy', description: 'dummy' },
     }
   }
 
-  componentDidMount () {
-    const project =  this.props.projects[this.props.params.project_id];
+  componentDidMount() {
+    const project = this.props.projects[this.props.params.project_id]
     if (project) {
       this.setState({
-        project: project
+        project,
       })
     } else {
-      throw new Error("Failed to find the corresponding project")
+      throw new Error('Failed to find the corresponding project')
     }
   }
 
@@ -71,7 +71,7 @@ export class ProjectReadContainer extends React.Component {
     browserHistory.goBack()
   }
 
-  render () {
+  render() {
     return (
       <Paper>
         <AppBar
@@ -80,17 +80,19 @@ export class ProjectReadContainer extends React.Component {
         />
         <Tabs>
           <Tab
-            icon={<InfoOutline/>}
+            icon={<InfoOutline />}
             label="Informations"
             value={0}
           >
-            <div style={{display:'flex', justifyContent:'flex-end', marginTop:10}}>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 10 }}>
               <MainActionButtonComponent
-                label={"Editer"}
-                onTouchTap={this.handleEdit}/>
+                label={'Editer'}
+                onTouchTap={this.handleEdit}
+              />
               <SecondaryActionButtonComponent
-                label={"Supprimer"}
-                onTouchTap={this.handleDelete}/>
+                label={'Supprimer'}
+                onTouchTap={this.handleDelete}
+              />
 
             </div>
             <List>
@@ -98,17 +100,19 @@ export class ProjectReadContainer extends React.Component {
             </List>
           </Tab>
           <Tab
-            icon={<SupervisorAccount/>}
+            icon={<SupervisorAccount />}
             label="Administrateurs"
             value={0}
           >
-            <div style={{display:'flex', justifyContent:'flex-end', marginTop:10}}>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 10 }}>
               <MainActionButtonComponent
-                label={"Editer"}
-                onTouchTap={this.handleEdit}/>
+                label={'Editer'}
+                onTouchTap={this.handleEdit}
+              />
               <SecondaryActionButtonComponent
-                label={"Supprimer"}
-                onTouchTap={this.handleDelete}/>
+                label={'Supprimer'}
+                onTouchTap={this.handleDelete}
+              />
 
             </div>
             <List>
@@ -117,7 +121,7 @@ export class ProjectReadContainer extends React.Component {
           </Tab>
           <Tab
             label="Gestion du projet"
-            icon={<Settings/>}
+            icon={<Settings />}
             value={3}
           >
             <div style={{}}>
@@ -125,7 +129,7 @@ export class ProjectReadContainer extends React.Component {
                 <Subheader>Etat du projet</Subheader>
                 <ListItem
                   primaryText="Information sur l'étatxt du projet"
-                  leftIcon={<Lock color={this.props.theme.palette.errorColor}/>}
+                  leftIcon={<Lock color={this.props.theme.palette.errorColor} />}
                 />
               </List>
               <Divider />
@@ -150,9 +154,9 @@ export class ProjectReadContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  projects : null
+  projects: null,
 })
 
-let connected = connect(mapStateToProps)(ProjectReadContainer)
-let themedAndConnected = injectTheme(connected)
+const connected = connect(mapStateToProps)(ProjectReadContainer)
+const themedAndConnected = injectTheme(connected)
 export default themedAndConnected

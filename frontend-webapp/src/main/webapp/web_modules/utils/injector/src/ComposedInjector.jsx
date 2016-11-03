@@ -1,7 +1,7 @@
 /** @module common */
-import * as React from "react"
-import { intlShape } from "react-intl"
-import { ThemeContextType } from "@regardsoss/theme"
+
+import { intlShape } from 'react-intl'
+import { ThemeContextType } from '@regardsoss/theme'
 
 /**
  * Retrieves intl fom the context
@@ -11,17 +11,17 @@ class ComposedInjector extends React.Component {
 
   static contextTypes = {
     muiTheme: ThemeContextType.muiTheme,
-    intl: intlShape
+    intl: intlShape,
   }
 
-  mapContextToChildProps () {
-      return {
+  mapContextToChildProps() {
+    return {
       intl: this.context.intl,
-      theme: this.context.muiTheme
+      theme: this.context.muiTheme,
     }
   }
 
-  render () {
+  render() {
     const child = React.Children.only(this.props.children)
     return React.cloneElement(child, this.mapContextToChildProps.bind(this))
     // const mergedContexts = _

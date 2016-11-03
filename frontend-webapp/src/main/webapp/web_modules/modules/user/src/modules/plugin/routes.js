@@ -1,5 +1,5 @@
-import Plugin from './Plugin';
-import { PlainRoute } from 'react-router';
+import Plugin from './Plugin'
+import { PlainRoute } from 'react-router'
 
 export const pluginRoutes = {
   path: 'plugins/:plugin',
@@ -8,7 +8,7 @@ export const pluginRoutes = {
     require.ensure([], (require) => {
       cb(null, {
         content: Plugin,
-      });
-    });
+      })
+    })
   },
-};
+}

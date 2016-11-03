@@ -1,11 +1,11 @@
-import cdppTheme from './cdppTheme';
-import ssaltoTheme from './ssaltoTheme';
-import lightBaseTheme from './lightBaseTheme';
-import darkBaseTheme from './darkBaseTheme';
-import './reset.css';
-import './main.css';
-import './bootstrap_grid_100.css';
-import './background.jpg';
+import cdppTheme from './cdppTheme'
+import ssaltoTheme from './ssaltoTheme'
+import lightBaseTheme from './lightBaseTheme'
+import darkBaseTheme from './darkBaseTheme'
+import './reset.css'
+import './main.css'
+import './bootstrap_grid_100.css'
+import './background.jpg'
 
 /**
  * Add the following file to the project build
@@ -21,4 +21,4 @@ export default {
   ssalto: ssaltoTheme,
   Light: lightBaseTheme,
   Dark: darkBaseTheme,
-};
+}

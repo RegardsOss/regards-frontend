@@ -11,6 +11,6 @@
  *
  */
 
-import ProjectsContainer from './containers/ProjectsContainer';
+import ProjectsContainer from './containers/ProjectsContainer'
 
-export { ProjectsContainer };
+export { ProjectsContainer }

@@ -13,6 +13,6 @@ const messages = {
   'dialog.delete.accept': 'Delete',
   'dialog.delete.title': 'Delete the user',
   'dialog.delete.cancel': 'Cancel',
-};
+}
 
-export default messages;
+export default messages

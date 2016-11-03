@@ -1,9 +1,9 @@
-import * as React from "react"
-import Dialog from "material-ui/Dialog"
-import FlatButton from "material-ui/FlatButton"
-import TextField from "material-ui/TextField"
-import { FormattedMessage } from "react-intl"
-import { ActionButtonComponent } from "@regardsoss/components"
+
+import Dialog from 'material-ui/Dialog'
+import FlatButton from 'material-ui/FlatButton'
+import TextField from 'material-ui/TextField'
+import { FormattedMessage } from 'react-intl'
+import { ActionButtonComponent } from '@regardsoss/components'
 
 /**
  * Dialog with action buttons. The actions are passed in as an array of React objects,
@@ -20,15 +20,15 @@ export default class AddProject extends React.Component {
 
   state = {
     open: false,
-    value: ''
+    value: '',
   }
 
   handleOpen = () => {
-    this.setState({open: true})
+    this.setState({ open: true })
   }
 
   handleClose = () => {
-    this.setState({open: false})
+    this.setState({ open: false })
   }
 
   handleSave = () => {
@@ -42,17 +42,17 @@ export default class AddProject extends React.Component {
     })
   }
 
-  render () {
+  render() {
     const actions = [
       <FlatButton
-        label={<FormattedMessage id='projects.cancel.button'/>}
-        primary={true}
+        label={<FormattedMessage id="projects.cancel.button" />}
+        primary
         onTouchTap={this.handleClose}
       />,
       <FlatButton
-        label={<FormattedMessage id='projects.submit.button'/>}
-        primary={true}
-        keyboardFocused={true}
+        label={<FormattedMessage id="projects.submit.button" />}
+        primary
+        keyboardFocused
         onTouchTap={this.handleSave}
       />,
     ]
@@ -60,19 +60,21 @@ export default class AddProject extends React.Component {
     return (
       <div>
         <ActionButtonComponent
-          primary={true}
-          label={<FormattedMessage id='projects.add.button.title'/>}
-          onTouchTap={this.handleOpen}/>
+          primary
+          label={<FormattedMessage id="projects.add.button.title" />}
+          onTouchTap={this.handleOpen}
+        />
         <Dialog
-          title={"Ajouter un projet"}
+          title={'Ajouter un projet'}
           actions={actions}
           modal={false}
           open={this.state.open}
           onRequestClose={this.handleClose}
         >
           <TextField
-            floatingLabelText={<FormattedMessage id='projects.project.name.label'/>}
-            onChange={this.handleChange}/>
+            floatingLabelText={<FormattedMessage id="projects.project.name.label" />}
+            onChange={this.handleChange}
+          />
         </Dialog>
       </div>
     )

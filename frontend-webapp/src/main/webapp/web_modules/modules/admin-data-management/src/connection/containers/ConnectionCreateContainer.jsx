@@ -1,9 +1,9 @@
-import * as React from "react"
-import { I18nProvider } from "@regardsoss/i18n"
-import { browserHistory } from "react-router"
-import ConnectionCreateComponent from "../components/add/ConnectionCreateComponent"
-import { connect } from "react-redux"
-import { addConnection } from "../model/ConnectionActions"
+
+import { I18nProvider } from '@regardsoss/i18n'
+import { browserHistory } from 'react-router'
+import ConnectionCreateComponent from '../components/add/ConnectionCreateComponent'
+import { connect } from 'react-redux'
+import { addConnection } from '../model/ConnectionActions'
 
 
 /**
@@ -29,12 +29,12 @@ class ConnectionCreateContainer extends React.Component {
       return fromURI
     } else {
       const projectName = this.props.params.project
-      return "/admin/" + projectName + "/datamanagement/connection"
+      return `/admin/${projectName}/datamanagement/connection`
     }
   }
-  render () {
+  render() {
     return (
-      <I18nProvider messageDir='modules/admin-data-management/src/i18n'>
+      <I18nProvider messageDir="modules/admin-data-management/src/i18n">
         <ConnectionCreateComponent
           getCancelUrl={this.getCancelUrl}
           handleNextStep={this.handleNextStep}
@@ -44,8 +44,8 @@ class ConnectionCreateContainer extends React.Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   addConnection: (name, pluginName, requiredAttributes) =>
-    dispatch(addConnection(name, pluginName, requiredAttributes))
+    dispatch(addConnection(name, pluginName, requiredAttributes)),
 })
 export default connect(null, mapDispatchToProps)(ConnectionCreateContainer)

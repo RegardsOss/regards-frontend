@@ -1,4 +1,4 @@
-import { merge } from 'lodash';
+import { merge } from 'lodash'
 import {
   lightGreen500,
   lightGreen700,
@@ -13,9 +13,9 @@ import {
   darkBlack,
   brown900,
   red900,
-} from 'material-ui/styles/colors';
-import { fade } from 'material-ui/utils/colorManipulator';
-import spacing from 'material-ui/styles/spacing';
+} from 'material-ui/styles/colors'
+import { fade } from 'material-ui/utils/colorManipulator'
+import spacing from 'material-ui/styles/spacing'
 // http://www.material-ui.com/#/customization/colors
 
 /**
@@ -26,7 +26,7 @@ const customSpacing = merge({}, spacing, {
   desktopGutter: 50,
   desktopDropDownMenuItemHeight: 10,
   desktopDropDownMenuFontSize: 20,
-});
+})
 
 /**
  *  Custom theme for cdpp project.
@@ -69,4 +69,4 @@ export default {
       backgroundImage: "url('/img/background.jpg')",
     },
   },
-};
+}

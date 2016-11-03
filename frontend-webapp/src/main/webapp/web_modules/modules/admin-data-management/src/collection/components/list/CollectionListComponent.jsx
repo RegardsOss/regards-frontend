@@ -1,12 +1,12 @@
-import * as React from "react"
-import { Card, CardTitle, CardText } from "material-ui/Card"
-import { FormattedMessage } from "react-intl"
-import { TableRowColumn, Table, TableBody, TableHeader, TableHeaderColumn, TableRow } from "material-ui/Table"
-import Delete from "material-ui/svg-icons/action/delete"
-import { map } from "lodash"
-import FlatButton from "material-ui/FlatButton"
-import Edit from "material-ui/svg-icons/editor/mode-edit"
-import { CardActionsComponent } from "@regardsoss/components"
+
+import { Card, CardTitle, CardText } from 'material-ui/Card'
+import { FormattedMessage } from 'react-intl'
+import { TableRowColumn, Table, TableBody, TableHeader, TableHeaderColumn, TableRow } from 'material-ui/Table'
+import Delete from 'material-ui/svg-icons/action/delete'
+import { map } from 'lodash'
+import FlatButton from 'material-ui/FlatButton'
+import Edit from 'material-ui/svg-icons/editor/mode-edit'
+import { CardActionsComponent } from '@regardsoss/components'
 
 /*
 interface CollectionListProps {
@@ -19,21 +19,22 @@ interface CollectionListProps {
 class CollectionListComponent extends React.Component {
 
 
-  getCreateUrl = ()=> {
+  getCreateUrl = () => {
     return this.props.getCreateUrl()
   }
-  getBackUrl = ()=> {
+  getBackUrl = () => {
     return this.props.getBackUrl()
   }
 
 
-  render () {
-    const {collections} = this.props
+  render() {
+    const { collections } = this.props
     return (
       <Card
-        initiallyExpanded={true}>
+        initiallyExpanded
+      >
         <CardTitle
-          title={<FormattedMessage id="datamanagement.collection.list.header"/>}
+          title={<FormattedMessage id="datamanagement.collection.list.header" />}
         />
         <CardText>
           <Table
@@ -62,13 +63,14 @@ class CollectionListComponent extends React.Component {
               {map(collections, (collection, id) => (
 
                 <TableRow
-                  key={id}>
+                  key={id}
+                >
                   <TableRowColumn>
                     {collection.name}
                   </TableRowColumn>
                   <TableRowColumn>
-                    <FlatButton icon={<Delete />} disabled={true}/>
-                    <FlatButton icon={<Edit />} disabled={true}/>
+                    <FlatButton icon={<Delete />} disabled />
+                    <FlatButton icon={<Edit />} disabled />
                   </TableRowColumn>
                 </TableRow>
               ))}

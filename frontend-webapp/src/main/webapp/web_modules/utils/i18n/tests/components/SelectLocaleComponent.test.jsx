@@ -1,8 +1,8 @@
-import { shallow } from "enzyme"
-import { expect } from "chai"
-import * as sinon from "sinon"
-import MenuItem from "material-ui/MenuItem"
-import SelectLocaleComponent from "../../src/components/SelectLocaleComponent"
+import { shallow } from 'enzyme'
+import { expect } from 'chai'
+import * as sinon from 'sinon'
+import MenuItem from 'material-ui/MenuItem'
+import SelectLocaleComponent from '../../src/components/SelectLocaleComponent'
 
 // Test a component rendering
 
@@ -12,20 +12,19 @@ describe('[COMMON] Testing i18n Select Locale component', () => {
       expect(locale).to.equals('es')
     }
     const spy = sinon.spy(onLocaleChange)
-    let props = {
+    const props = {
       setLocale: spy,
       currentLocale: 'ru',
-      locales: ['fr', 'en', 'ru', 'es']
+      locales: ['fr', 'en', 'ru', 'es'],
     }
 
     const context = {
       intl: {
-        formatMessage: (message) => message.id
-      }
+        formatMessage: message => message.id,
+      },
     }
 
-    const wrapper = shallow(<SelectLocaleComponent {...props}/>, {context})
+    const wrapper = shallow(<SelectLocaleComponent {...props} />, { context })
     expect(wrapper.find(MenuItem)).to.have.length(4)
   })
-
 })

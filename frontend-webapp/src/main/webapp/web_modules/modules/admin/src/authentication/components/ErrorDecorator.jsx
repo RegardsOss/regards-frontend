@@ -1,6 +1,6 @@
 /** @module Todo */
-import * as React from "react"
-import { ThemeContextType, ThemeContextInterface } from "@regardsoss/theme"
+
+import { ThemeContextType, ThemeContextInterface } from '@regardsoss/theme'
 // Containers
 /*
 
@@ -16,9 +16,9 @@ export default class ErrorDecoratorComponent extends React.Component {
   static contextTypes = ThemeContextType
   context
 
-  render () {
+  render() {
     const errorStyle = {
-      color: this.context.muiTheme.palette.errorColor
+      color: this.context.muiTheme.palette.errorColor,
     }
     return (
       <span style={errorStyle}>

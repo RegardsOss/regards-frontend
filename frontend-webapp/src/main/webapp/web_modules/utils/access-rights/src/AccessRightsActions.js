@@ -1,11 +1,11 @@
-const { CALL_API } = require('redux-api-middleware');
+const { CALL_API } = require('redux-api-middleware')
 
-import { DependencyAccessRight } from '@regardsoss/access-rights';
+import { DependencyAccessRight } from '@regardsoss/access-rights'
 
-export const ACCESS_RIGHTS_API = 'http://localhost:8080/api/access/rights';
-export const REQUEST_ACCESSRIGHTS = 'REQUEST_ACCESSRIGHTS';
-export const RECEIVE_ACCESSRIGHTS = 'RECEIVE_ACCESSRIGHTS';
-export const FAILED_ACCESSRIGHTS = 'FAILED_ACCESSRIGHTS';
+export const ACCESS_RIGHTS_API = 'http://localhost:8080/api/access/rights'
+export const REQUEST_ACCESSRIGHTS = 'REQUEST_ACCESSRIGHTS'
+export const RECEIVE_ACCESSRIGHTS = 'RECEIVE_ACCESSRIGHTS'
+export const FAILED_ACCESSRIGHTS = 'FAILED_ACCESSRIGHTS'
 
 export const fetchAccessRights = dependencies => ({
   [CALL_API]: {
@@ -18,4 +18,4 @@ export const fetchAccessRights = dependencies => ({
     method: 'POST',
     body: JSON.stringify(dependencies),
   },
-});
+})

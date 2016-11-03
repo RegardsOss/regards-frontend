@@ -1,15 +1,15 @@
-import * as React from "react"
-import { Card, CardTitle, CardText } from "material-ui/Card"
-import { map, find } from "lodash"
-import FlatButton from "material-ui/FlatButton"
-import TextField from "material-ui/TextField"
-import CreateAttributeModal from "./CreateAttributeModal"
-import Delete from "material-ui/svg-icons/action/delete"
-import { TableRowColumn, Table, TableBody, TableHeader, TableHeaderColumn, TableRow } from "material-ui/Table"
-import { FormattedMessage } from "react-intl"
-import Edit from "material-ui/svg-icons/editor/mode-edit"
-import { CardActionsComponent } from "@regardsoss/components"
-import { JavaTypes } from "./../../../JavaTypes"
+
+import { Card, CardTitle, CardText } from 'material-ui/Card'
+import { map, find } from 'lodash'
+import FlatButton from 'material-ui/FlatButton'
+import TextField from 'material-ui/TextField'
+import CreateAttributeModal from './CreateAttributeModal'
+import Delete from 'material-ui/svg-icons/action/delete'
+import { TableRowColumn, Table, TableBody, TableHeader, TableHeaderColumn, TableRow } from 'material-ui/Table'
+import { FormattedMessage } from 'react-intl'
+import Edit from 'material-ui/svg-icons/editor/mode-edit'
+import { CardActionsComponent } from '@regardsoss/components'
+import { JavaTypes } from './../../../JavaTypes'
 /*
 interface ModelCreateProps {
   getCancelUrl: () => string
@@ -21,12 +21,12 @@ interface ModelCreateProps {
 export default class ModelCreateComponent extends React.Component {
 
 
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
-      label: "",
+      label: '',
       attributes: [],
-      openCreateParameterModal: false
+      openCreateParameterModal: false,
     }
   }
 
@@ -39,46 +39,46 @@ export default class ModelCreateComponent extends React.Component {
   handleModelLabelChange = (event) => {
     const newLabel = event.target.value
     this.setState({
-      "label": newLabel
+      label: newLabel,
     })
   }
   handleCloseModal = () => {
     this.setState({
-      openCreateParameterModal: false
+      openCreateParameterModal: false,
     })
   }
   handleCreateNewParameter = (label, type) => {
-    let {attributes} = this.state
+    const { attributes } = this.state
     attributes.push({
       name: label,
-      type: type
+      type,
     })
     this.setState({
-      attributes: attributes
+      attributes,
     })
   }
   handleOpenPopupCreateParameter = () => {
     this.setState({
-      openCreateParameterModal: true
+      openCreateParameterModal: true,
     })
   }
   handleDeleteBtn = (entity) => {
-    let {attributes} = this.state
+    const { attributes } = this.state
     this.setState({
-      attributes: attributes.filter((element) => element.name !== entity.name)
+      attributes: attributes.filter(element => element.name !== entity.name),
     })
   }
   handleEditBtn = (entity) => {
-    console.log("todo")
+    console.log('todo')
   }
 
   printType = (typeValue) => {
-    const type = find(JavaTypes, {"value": typeValue})
-    return (<FormattedMessage id={type.i18n}/>)
+    const type = find(JavaTypes, { value: typeValue })
+    return (<FormattedMessage id={type.i18n} />)
   }
 
-  render () {
-    const {attributes, label, openCreateParameterModal} = this.state
+  render() {
+    const { attributes, label, openCreateParameterModal } = this.state
 
     // display the modal if required
     const modal = openCreateParameterModal ? (
@@ -102,24 +102,27 @@ export default class ModelCreateComponent extends React.Component {
           <TableRow>
             <TableHeaderColumn>
               <FormattedMessage
-                id="datamanagement.datasetmodel.table.name"/>
+                id="datamanagement.datasetmodel.table.name"
+              />
             </TableHeaderColumn>
             <TableHeaderColumn>
               <FormattedMessage
-                id="datamanagement.datasetmodel.table.type"/>
+                id="datamanagement.datasetmodel.table.type"
+              />
             </TableHeaderColumn>
             <TableHeaderColumn>
               <FormattedMessage
-                id="datamanagement.datasetmodel.table.actions"/>
+                id="datamanagement.datasetmodel.table.actions"
+              />
             </TableHeaderColumn>
-            <TableHeaderColumn>
-            </TableHeaderColumn>
+            <TableHeaderColumn />
           </TableRow>
         </TableHeader>
         <TableBody displayRowCheckbox={false} preScanRows={false}>
           {map(attributes, (attribute, id) => (
             <TableRow
-              key={attribute.name}>
+              key={attribute.name}
+            >
               <TableRowColumn>
                 {attribute.name}
               </TableRowColumn>
@@ -130,7 +133,7 @@ export default class ModelCreateComponent extends React.Component {
                 <FlatButton
                   icon={<Edit />}
                   onTouchTap={() => this.handleEditBtn(attribute)}
-                  disabled={true}
+                  disabled
                 />
               </TableRowColumn>
               <TableRowColumn>
@@ -146,25 +149,24 @@ export default class ModelCreateComponent extends React.Component {
     ) : null
 
 
-    const labelAsTitle = label ? "\"" + label + "\"" : ""
+    const labelAsTitle = label ? `"${label}"` : ''
     const isSaveButtonVisible = attributes.length > 0 && label.length > 0
     const styleAddAttribute = {
-      display: "flex",
-      flexDirection: "row",
-      justifyContent: "center"
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'center',
     }
     return (
       <Card
-        initiallyExpanded={true}>
+        initiallyExpanded
+      >
         <CardTitle
           title={
             <FormattedMessage
               id="datamanagement.datasetmodel.add.header"
-              values={
-                {
-                  label: <i>{labelAsTitle}</i>
-                }
-              }
+              values={{
+                label: <i>{labelAsTitle}</i>,
+              }}
             />
           }
         />
@@ -174,13 +176,13 @@ export default class ModelCreateComponent extends React.Component {
           <TextField
             type="text"
             floatingLabelText={<FormattedMessage id="datamanagement.datasetmodel.add.input.name" />}
-            fullWidth={true}
+            fullWidth
             onChange={this.handleModelLabelChange}
           />
           <div style={styleAddAttribute}>
             <FlatButton
               label={<FormattedMessage id="datamanagement.datasetmodel.add.action.add_attribute" />}
-              primary={true}
+              primary
               onClick={this.handleOpenPopupCreateParameter}
             />
           </div>

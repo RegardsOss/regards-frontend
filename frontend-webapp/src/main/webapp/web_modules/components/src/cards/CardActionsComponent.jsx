@@ -29,12 +29,12 @@ class CardActionsComponent extends React.Component {
   }
 }
 CardActionsComponent.propTypes = {
-  secondaryButtonLabel: React.PropTypes.oneOfType(React.PropTypes.string, React.PropTypes.element),
+  secondaryButtonLabel: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.element]),
   secondaryButtonUrl: React.PropTypes.string,
   secondaryButtonTouchTap: React.PropTypes.func,
   isSecondaryButtonVisible: React.PropTypes.bool,
 
-  mainButtonLabel: React.PropTypes.oneOfType(React.PropTypes.string, React.PropTypes.element).isRequired,
+  mainButtonLabel: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.element]).isRequired,
   mainButtonUrl: React.PropTypes.string,
   mainButtonTouchTap: React.PropTypes.func,
   isMainButtonVisible: React.PropTypes.bool,

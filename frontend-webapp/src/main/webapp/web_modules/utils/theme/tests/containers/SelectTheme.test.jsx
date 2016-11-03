@@ -1,24 +1,23 @@
-import { shallow } from "enzyme"
-import { expect } from "chai"
-import { SelectTheme } from "../../src/containers/SelectTheme"
-import ThemeHelper from "../../src/ThemeHelper"
-import MenuItem from "material-ui/MenuItem"
-import { IconMenu } from "material-ui/IconMenu"
+import { shallow } from 'enzyme'
+import { expect } from 'chai'
+import { SelectTheme } from '../../src/containers/SelectTheme'
+import ThemeHelper from '../../src/ThemeHelper'
+import MenuItem from 'material-ui/MenuItem'
+import { IconMenu } from 'material-ui/IconMenu'
 
-function setup () {
+function setup() {
   const props = {
-    theme: 'titi'
+    theme: 'titi',
   }
-  const enzymeWrapper = shallow(<SelectTheme {...props}/>)
+  const enzymeWrapper = shallow(<SelectTheme {...props} />)
   return {
     props,
-    enzymeWrapper
+    enzymeWrapper,
   }
 }
 
 // Test a component rendering
 describe('[COMMON] Testing select theme container', () => {
-
   /**
    * Not tested
    * Behaviour is expected to be extracted from mapStateToProps
@@ -43,7 +42,7 @@ describe('[COMMON] Testing select theme container', () => {
     // Mock the themes list
     ThemeHelper.getThemes = () => ['titi', 'toto']
 
-    const {enzymeWrapper} = setup()
+    const { enzymeWrapper } = setup()
     const iconMenu = enzymeWrapper.find(IconMenu)
     expect(iconMenu).to.have.length(1)
     const selectFieldProps = iconMenu.props()
@@ -59,5 +58,4 @@ describe('[COMMON] Testing select theme container', () => {
     // expect(menuItem1Props.key).to.equal('toto')
     // expect(menuItem1Props.primaryText).to.equal('toto')
   })
-
 })

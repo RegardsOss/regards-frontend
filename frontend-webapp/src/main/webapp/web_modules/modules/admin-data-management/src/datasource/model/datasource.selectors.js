@@ -1,18 +1,18 @@
-import { BasicSelector } from '@regardsoss/store-utils';
+import { BasicSelector } from '@regardsoss/store-utils'
 
 // Selectors
-export const getDatasets = state => state.items;
+export const getDatasets = state => state.items
 
 class DatasourceSelectors extends BasicSelector {
   constructor() {
-    super(['admin', 'data-management', 'datasource']);
+    super(['admin', 'data-management', 'datasource'])
   }
 
   getDatasources(state) {
-    return this.uncombineStore(state).items;
+    return this.uncombineStore(state).items
   }
   getDatasourceById(state, id) {
-    return this.uncombineStore(state).items[id];
+    return this.uncombineStore(state).items[id]
   }
 
 }
@@ -20,9 +20,9 @@ class DatasourceSelectors extends BasicSelector {
 
 export default {
   getDatasources(state) {
-    return undefined;
+    return undefined
   },
   getDatasourceById(state, id) {
-    return undefined;
+    return undefined
   },
-};
+}

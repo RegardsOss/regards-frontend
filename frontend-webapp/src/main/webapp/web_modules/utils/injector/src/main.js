@@ -1,3 +1,3 @@
-import ComposedInjector from './ComposedInjector';
+import ComposedInjector from './ComposedInjector'
 
-export { ComposedInjector };
+export { ComposedInjector }

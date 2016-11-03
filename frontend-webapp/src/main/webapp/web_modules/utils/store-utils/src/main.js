@@ -1,4 +1,4 @@
-import { BasicSelector } from './BasicSelector';
+import { BasicSelector } from './BasicSelector'
 
 
-export { BasicSelector };
+export { BasicSelector }

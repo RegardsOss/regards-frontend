@@ -1,7 +1,7 @@
-import { pluginRoutes } from './modules/plugin/routes';
-import { websocketsRoutes } from './modules/websockets/routes';
-import UserApp from './UserApp';
-import { PlainRoute } from 'react-router';
+import { pluginRoutes } from './modules/plugin/routes'
+import { websocketsRoutes } from './modules/websockets/routes'
+import UserApp from './UserApp'
+import { PlainRoute } from 'react-router'
 
 export const userAppRoutes = {
   path: 'user/:project',
@@ -11,7 +11,7 @@ export const userAppRoutes = {
   ],
   getComponent(nextState, cb) {
     require.ensure([], (require) => {
-      cb(null, UserApp);
-    });
+      cb(null, UserApp)
+    })
   },
-};
+}

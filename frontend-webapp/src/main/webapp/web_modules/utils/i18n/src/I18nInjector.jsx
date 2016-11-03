@@ -1,6 +1,6 @@
 /** @module common */
-import * as React from "react"
-import { intlShape } from "react-intl"
+
+import { intlShape } from 'react-intl'
 
 /**
  * Retrieves intl fom the context
@@ -9,11 +9,11 @@ import { intlShape } from "react-intl"
 class I18nInjector extends React.Component {
 
   static contextTypes= {
-    intl: intlShape
+    intl: intlShape,
   }
 
   mapContextToChildProps = () => ({
-    intl: this.context.intl
+    intl: this.context.intl,
   })
 
   render() {

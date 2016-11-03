@@ -1,9 +1,9 @@
-import * as React from "react"
-import { I18nProvider } from "@regardsoss/i18n"
-import { connect } from "react-redux"
-import { addDatasetModel } from "../model/model.actions"
-import DatasetModelCreateComponent from "../components/add/DatasetModelCreateComponent"
-import { browserHistory } from "react-router"
+
+import { I18nProvider } from '@regardsoss/i18n'
+import { connect } from 'react-redux'
+import { addDatasetModel } from '../model/model.actions'
+import DatasetModelCreateComponent from '../components/add/DatasetModelCreateComponent'
+import { browserHistory } from 'react-router'
 
 /**
  *//*
@@ -22,7 +22,7 @@ export class ModelCreateContainer extends React.Component {
       return fromURI
     } else {
       const projectName = this.props.params.project
-      return "/admin/" + projectName + "/datamanagement/datasetmodel"
+      return `/admin/${projectName}/datamanagement/datasetmodel`
     }
   }
 
@@ -31,9 +31,9 @@ export class ModelCreateContainer extends React.Component {
     browserHistory.push(this.getCancelUrl())
   }
 
-  render () {
+  render() {
     return (
-      <I18nProvider messageDir='modules/admin-data-management/src/i18n'>
+      <I18nProvider messageDir="modules/admin-data-management/src/i18n">
         <DatasetModelCreateComponent
           getCancelUrl={this.getCancelUrl}
           handleNextStep={this.handleNextStep}
@@ -42,7 +42,7 @@ export class ModelCreateContainer extends React.Component {
     )
   }
 }
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   addDatasetModel: (name, attributes) => dispatch(addDatasetModel(name, attributes)),
 })
 export default connect(null, mapDispatchToProps)(ModelCreateContainer)

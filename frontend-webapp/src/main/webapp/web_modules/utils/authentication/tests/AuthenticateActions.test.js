@@ -1,17 +1,16 @@
-import configureStore from "redux-mock-store"
-const {apiMiddleware} = require('redux-api-middleware')
-import thunk from "redux-thunk"
-import nock from "nock"
-import { expect } from "chai"
-import * as actions from "../src/AuthenticateActions"
-import { Action, AnyMeta } from "flux-standard-action"
-import { FluxStandardAction, defaultFluxStandardError } from "@regardsoss/api"
+import configureStore from 'redux-mock-store'
+const { apiMiddleware } = require('redux-api-middleware')
+import thunk from 'redux-thunk'
+import nock from 'nock'
+import { expect } from 'chai'
+import * as actions from '../src/AuthenticateActions'
+import { Action, AnyMeta } from 'flux-standard-action'
+import { FluxStandardAction, defaultFluxStandardError } from '@regardsoss/api'
 
 const middlewares = [thunk, apiMiddleware]
 const mockStore = configureStore(middlewares)
 
 describe('[COMMON] Testing authentication actions', () => {
-
   afterEach(() => {
     nock.cleanAll()
   })
@@ -23,22 +22,22 @@ describe('[COMMON] Testing authentication actions', () => {
 
     nock(actions.AUTHENTICATE_API)
     .post('')
-    .query({grant_type: 'password', username, password})
+    .query({ grant_type: 'password', username, password })
     .reply(500, 'Oops')
-    const store = mockStore({authentication: []})
+    const store = mockStore({ authentication: [] })
 
     const requestAction = {
       type: 'REQUEST_AUTHENTICATE',
       payload: undefined,
-      meta: undefined
+      meta: undefined,
     }
     const failureAction = {
       type: 'FAILED_AUTHENTICATE',
       error: true,
       meta: {
-        "errorMessage": "authentication.error"
+        errorMessage: 'authentication.error',
       },
-      payload: defaultFluxStandardError
+      payload: defaultFluxStandardError,
     }
     const expectedActions = [requestAction, failureAction]
 
@@ -57,34 +56,34 @@ describe('[COMMON] Testing authentication actions', () => {
 
     nock(actions.AUTHENTICATE_API)
     .post('')
-    .query({grant_type: 'password', username, password})
+    .query({ grant_type: 'password', username, password })
     .reply(200, {
-      "access_token": "9e2c4404-acd7-441c-9ee1-b97cbf0c51a5",
-      "token_type": "bearer",
-      "refresh_token": "a80a7a1b-7c98-43da-a7e6-04c7873ba1d7",
-      "expires_in": 35332,
-      "scope": "openid"
+      access_token: '9e2c4404-acd7-441c-9ee1-b97cbf0c51a5',
+      token_type: 'bearer',
+      refresh_token: 'a80a7a1b-7c98-43da-a7e6-04c7873ba1d7',
+      expires_in: 35332,
+      scope: 'openid',
     })
-    const store = mockStore({authentication: []})
+    const store = mockStore({ authentication: [] })
 
     const requestAction = {
       type: 'REQUEST_AUTHENTICATE',
       payload: undefined,
-      meta: undefined
+      meta: undefined,
     }
     const successAction = {
       type: 'RECEIVE_AUTHENTICATE',
       payload: {
-        "access_token": "9e2c4404-acd7-441c-9ee1-b97cbf0c51a5",
-        "token_type": "bearer",
-        "refresh_token": "a80a7a1b-7c98-43da-a7e6-04c7873ba1d7",
-        "expires_in": 35332,
-        "scope": "openid"
+        access_token: '9e2c4404-acd7-441c-9ee1-b97cbf0c51a5',
+        token_type: 'bearer',
+        refresh_token: 'a80a7a1b-7c98-43da-a7e6-04c7873ba1d7',
+        expires_in: 35332,
+        scope: 'openid',
       },
       meta: {
         authenticateDate: 12345,
-        name: username
-      }
+        name: username,
+      },
     }
     const expectedActions = [requestAction, successAction]
 
@@ -96,9 +95,8 @@ describe('[COMMON] Testing authentication actions', () => {
 
   it('should create an action to logout', () => {
     const expectedAction = {
-      type: 'LOGOUT'
+      type: 'LOGOUT',
     }
     expect(actions.logout()).to.eql(expectedAction)
   })
-
 })

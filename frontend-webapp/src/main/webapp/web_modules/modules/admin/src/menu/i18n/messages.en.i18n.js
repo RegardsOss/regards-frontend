@@ -9,6 +9,6 @@ const messages = {
   'menu.dataaccessrights': 'Data Access Rights',
   'menu.news': 'News',
   'menu.back': 'Back',
-};
+}
 
-export default messages;
+export default messages

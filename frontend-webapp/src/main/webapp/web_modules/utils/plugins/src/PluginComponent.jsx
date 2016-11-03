@@ -1,8 +1,8 @@
 /** @module common */
-import * as React from "react"
-import { connect } from "react-redux"
-import { PluginType, PluginsStore } from "@regardsoss/plugins"
-import { intializePlugin } from "./PluginsActions"
+
+import { connect } from 'react-redux'
+import { PluginType, PluginsStore } from '@regardsoss/plugins'
+import { intializePlugin } from './PluginsActions'
 /*
 interface PluginProps {
   plugin: PluginType
@@ -18,8 +18,8 @@ interface PluginProps {
  */
 export class PluginComponent extends React.Component {
 
-  render () {
-    const {plugin} = this.props
+  render() {
+    const { plugin } = this.props
     // Check if plugin is loaded.
     // If the plugin is loaded the react component
     // associated is in the "loadedComponent" attribute of the plugin
@@ -32,12 +32,12 @@ export class PluginComponent extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  plugins: state.common.plugins
+const mapStateToProps = state => ({
+  plugins: state.common.plugins,
 })
 
-const mapDispatchToProps = (dispatch) => ({
-  pluginInitialized: (action) => dispatch(action)
+const mapDispatchToProps = dispatch => ({
+  pluginInitialized: action => dispatch(action),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PluginComponent)

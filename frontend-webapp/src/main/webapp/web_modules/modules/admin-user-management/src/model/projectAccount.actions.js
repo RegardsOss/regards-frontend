@@ -1,11 +1,11 @@
-const { CALL_API, getJSON } = require('redux-api-middleware');
-import Schemas from '@regardsoss/api';
-import { normalize } from 'normalizr';
-export const PROJECT_ACCOUNT_REQUEST = 'PROJECT_ACCOUNT_REQUEST';
-export const PROJECT_ACCOUNT_SUCCESS = 'PROJECT_ACCOUNT_SUCCESS';
-export const PROJECT_ACCOUNT_FAILURE = 'PROJECT_ACCOUNT_FAILURE';
+const { CALL_API, getJSON } = require('redux-api-middleware')
+import Schemas from '@regardsoss/api'
+import { normalize } from 'normalizr'
+export const PROJECT_ACCOUNT_REQUEST = 'PROJECT_ACCOUNT_REQUEST'
+export const PROJECT_ACCOUNT_SUCCESS = 'PROJECT_ACCOUNT_SUCCESS'
+export const PROJECT_ACCOUNT_FAILURE = 'PROJECT_ACCOUNT_FAILURE'
 
-export const PROJECT_ACCOUNT_DELETE = 'PROJECT_ACCOUNT_DELETE';
+export const PROJECT_ACCOUNT_DELETE = 'PROJECT_ACCOUNT_DELETE'
 
 /**
  * Asynchrone Action creator to fetch project user list
@@ -29,7 +29,7 @@ const fetchProjectAccounts = urlProjectAccounts => ({
     endpoint: urlProjectAccounts,
     method: 'GET',
   },
-});
+})
 
 
 /**
@@ -43,10 +43,10 @@ export function deleteUser(link) {
   return {
     type: PROJECT_ACCOUNT_DELETE,
     link,
-  };
+  }
 }
 
 export default {
   fetchProjectAccounts,
   deleteUser,
-};
+}

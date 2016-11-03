@@ -25,5 +25,5 @@ export const preloadedState = {
     projects: {},
   },
   admin: {},
-};
+}
 

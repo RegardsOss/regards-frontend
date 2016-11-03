@@ -1,4 +1,4 @@
-import { ADD_CONNECTION } from './ConnectionActions';
+import { ADD_CONNECTION } from './ConnectionActions'
 
 const predefinedValues = {
   1: {
@@ -12,7 +12,7 @@ const predefinedValues = {
       username: 'root',
     },
   },
-};
+}
 
 export default (state = {
   isFetching: false,
@@ -21,10 +21,10 @@ export default (state = {
 }, action) => {
   switch (action.type) {
     case ADD_CONNECTION:
-      const newState = Object.assign({}, state);
-      newState.items[action.entity.id] = action.entity;
-      return newState;
+      const newState = Object.assign({}, state)
+      newState.items[action.entity.id] = action.entity
+      return newState
     default:
-      return state;
+      return state
   }
-};
+}

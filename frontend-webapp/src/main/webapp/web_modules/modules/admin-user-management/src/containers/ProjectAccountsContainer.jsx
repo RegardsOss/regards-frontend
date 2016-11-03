@@ -1,19 +1,19 @@
-import * as React from "react"
-import { connect } from "react-redux"
-import { Card, CardTitle, CardText } from "material-ui/Card"
-import { map, values } from "lodash"
-import Actions from "../model/projectAccount.actions"
-import Selectors from "../model/projectAccount.selectors"
-import AccountSelectors from "../model/account.selectors"
-import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from "material-ui/Table"
-import { I18nProvider } from "@regardsoss/i18n"
-import { FormattedMessage } from "react-intl"
-import { browserHistory } from "react-router"
-import IconButton from "material-ui/IconButton"
-import Edit from "material-ui/svg-icons/editor/mode-edit"
-import Delete from "material-ui/svg-icons/action/delete"
 
-const URL_PROJECTS_ACCOUNTS = "http://localhost:8080/api/projectAccounts"
+import { connect } from 'react-redux'
+import { Card, CardTitle, CardText } from 'material-ui/Card'
+import { map, values } from 'lodash'
+import Actions from '../model/projectAccount.actions'
+import Selectors from '../model/projectAccount.selectors'
+import AccountSelectors from '../model/account.selectors'
+import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
+import { I18nProvider } from '@regardsoss/i18n'
+import { FormattedMessage } from 'react-intl'
+import { browserHistory } from 'react-router'
+import IconButton from 'material-ui/IconButton'
+import Edit from 'material-ui/svg-icons/editor/mode-edit'
+import Delete from 'material-ui/svg-icons/action/delete'
+
+const URL_PROJECTS_ACCOUNTS = 'http://localhost:8080/api/projectAccounts'
 /*
 
 interface ProjectAccountsProps {
@@ -33,7 +33,7 @@ interface ProjectAccountsProps {
  */
 export class ProjectAccountsContainer extends React.Component {
 
-  constructor (props) {
+  constructor(props) {
     super(props)
     // Fetch users for the current project when the containers is created
     this.props.fetchProjectAccounts(URL_PROJECTS_ACCOUNTS)
@@ -41,26 +41,25 @@ export class ProjectAccountsContainer extends React.Component {
 
   handleView = (selectedRows) => {
     if (selectedRows instanceof String)
-      throw new Error('Only a single row should be selected in the table')
+      { throw new Error('Only a single row should be selected in the table') }
     if (selectedRows instanceof Array && selectedRows.length !== 1)
-      throw new Error('Exactly one row is expected to be selected in the table')
+      { throw new Error('Exactly one row is expected to be selected in the table') }
 
     const account = this.props.accounts[selectedRows[0]]
-    const url = "/admin/" + "cdpp" + "/users/" + account.accountId
+    const url = `${'/admin/' + 'cdpp' + '/users/'}${account.accountId}`
     browserHistory.push(url)
   }
 
-  handleEdit = ()  => {
-    console.log("You clicked on edit button, Yay!")
+  handleEdit = () => {
+    console.log('You clicked on edit button, Yay!')
   }
 
-  handleDelete = ()  => {
-    console.log("You clicked on delete button, Yay!")
+  handleDelete = () => {
+    console.log('You clicked on delete button, Yay!')
   }
 
-  render () {
-
-    const {projectAccounts, params} = this.props
+  render() {
+    const { projectAccounts, params } = this.props
 
     // // Manage delete link only if the hateoas delete link is provided
     // const deletelink = projectAccount.links.find((link) => {
@@ -73,16 +72,17 @@ export class ProjectAccountsContainer extends React.Component {
     // }
 
     return (
-      <I18nProvider messageDir='modules/admin-user-management/src/i18n'>
+      <I18nProvider messageDir="modules/admin-user-management/src/i18n">
         <Card
-          initiallyExpanded={true}>
+          initiallyExpanded
+        >
           <CardTitle
-            title={<FormattedMessage id="userlist.title"/>}
-            subtitle={<FormattedMessage id="userlist.subtitle"/>}
+            title={<FormattedMessage id="userlist.title" />}
+            subtitle={<FormattedMessage id="userlist.subtitle" />}
           />
           <CardText>
             <Table
-              selectable={true}
+              selectable
               onRowSelection={this.handleView}
             >
               <TableHeader
@@ -91,18 +91,18 @@ export class ProjectAccountsContainer extends React.Component {
                 displaySelectAll={false}
               >
                 <TableRow>
-                  <TableHeaderColumn><FormattedMessage id="userlist.login"/></TableHeaderColumn>
-                  <TableHeaderColumn><FormattedMessage id="userlist.firstName"/></TableHeaderColumn>
-                  <TableHeaderColumn><FormattedMessage id="userlist.lastName"/></TableHeaderColumn>
-                  <TableHeaderColumn><FormattedMessage id="userlist.email"/></TableHeaderColumn>
-                  <TableHeaderColumn><FormattedMessage id="userlist.status"/></TableHeaderColumn>
-                  <TableHeaderColumn><FormattedMessage id="userlist.action"/></TableHeaderColumn>
+                  <TableHeaderColumn><FormattedMessage id="userlist.login" /></TableHeaderColumn>
+                  <TableHeaderColumn><FormattedMessage id="userlist.firstName" /></TableHeaderColumn>
+                  <TableHeaderColumn><FormattedMessage id="userlist.lastName" /></TableHeaderColumn>
+                  <TableHeaderColumn><FormattedMessage id="userlist.email" /></TableHeaderColumn>
+                  <TableHeaderColumn><FormattedMessage id="userlist.status" /></TableHeaderColumn>
+                  <TableHeaderColumn><FormattedMessage id="userlist.action" /></TableHeaderColumn>
                 </TableRow>
               </TableHeader>
               <TableBody
                 displayRowCheckbox={false}
                 preScanRows={false}
-                showRowHover={true}
+                showRowHover
               >
                 {map(this.props.accounts, (account, id) => (
                   <TableRow key={id}>
@@ -123,10 +123,10 @@ export class ProjectAccountsContainer extends React.Component {
                     </TableRowColumn>
                     <TableRowColumn>
                       <IconButton tooltip="Font Icon">
-                        <Edit onTouchTap={this.handleEdit}/>
+                        <Edit onTouchTap={this.handleEdit} />
                       </IconButton>
                       <IconButton tooltip="Supprimer">
-                        <Delete onTouchTap={this.handleDelete}/>
+                        <Delete onTouchTap={this.handleDelete} />
                       </IconButton>
                     </TableRowColumn>
                   </TableRow>
@@ -143,9 +143,9 @@ export class ProjectAccountsContainer extends React.Component {
 
 const mapStateToProps = (state, ownProps) => ({
   projectAccounts: Selectors.getProjectAccounts(state),
-  accounts: AccountSelectors.getAccounts(state)
+  accounts: AccountSelectors.getAccounts(state),
 })
-const mapDispatchToProps = (dispatch) => ({
-  fetchProjectAccounts: (urlProjectAccounts) => dispatch(Actions.fetchProjectAccounts(urlProjectAccounts))
+const mapDispatchToProps = dispatch => ({
+  fetchProjectAccounts: urlProjectAccounts => dispatch(Actions.fetchProjectAccounts(urlProjectAccounts)),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectAccountsContainer)

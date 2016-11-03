@@ -1,8 +1,8 @@
 /** @module common */
-import * as React from "react"
-import { map } from "lodash"
-import MenuItem from "material-ui/MenuItem"
-import DropDownMenu from "material-ui/DropDownMenu"
+
+import { map } from 'lodash'
+import MenuItem from 'material-ui/MenuItem'
+import DropDownMenu from 'material-ui/DropDownMenu'
 /*
 interface SelectLocaleTypes {
   locales: Array<string>,
@@ -15,19 +15,19 @@ interface SelectLocaleTypes {
  * React component to display the language selector widget
  */
 class SelectLocaleComponent extends React.Component {
-  constructor () {
+  constructor() {
     super()
     this.handleChange = this.handleChange.bind(this)
   }
 
-  handleChange (event, index, value) {
+  handleChange(event, index, value) {
     this.props.setLocale(value)
   }
 
-  render () {
-    const {locales, currentLocale} = this.props
+  render() {
+    const { locales, currentLocale } = this.props
     const items = map(locales, (locale) => {
-      return <MenuItem value={locale} key={locale} primaryText={locale}/>
+      return <MenuItem value={locale} key={locale} primaryText={locale} />
     })
     return (
       <DropDownMenu value={currentLocale} onChange={this.handleChange}>

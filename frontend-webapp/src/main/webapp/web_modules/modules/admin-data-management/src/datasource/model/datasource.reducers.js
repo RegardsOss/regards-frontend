@@ -1,4 +1,4 @@
-import { ADD_DATASOURCE } from './datasource.actions';
+import { ADD_DATASOURCE } from './datasource.actions'
 
 const predefinedValues = {
   1: {
@@ -8,7 +8,7 @@ const predefinedValues = {
     pluginDatasourceId: 1,
     name: 'Datasource #1',
   },
-};
+}
 
 export default (state = {
   isFetching: false,
@@ -17,10 +17,10 @@ export default (state = {
 }, action) => {
   switch (action.type) {
     case ADD_DATASOURCE:
-      const newState = Object.assign({}, state);
-      newState.items[action.entity.id] = action.entity;
-      return newState;
+      const newState = Object.assign({}, state)
+      newState.items[action.entity.id] = action.entity
+      return newState
     default:
-      return state;
+      return state
   }
-};
+}

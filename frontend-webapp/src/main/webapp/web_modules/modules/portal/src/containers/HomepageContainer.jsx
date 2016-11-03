@@ -1,7 +1,7 @@
-import * as React from "react"
-import {I18nProvider} from "@regardsoss/i18n"
-import HomepageComponent from "../components/HomepageComponent"
-import { ComposedInjector } from "@regardsoss/injector"
+
+import { I18nProvider } from '@regardsoss/i18n'
+import HomepageComponent from '../components/HomepageComponent'
+import { ComposedInjector } from '@regardsoss/injector'
 /*
 interface HomepageProps {
   // From Router
@@ -13,10 +13,10 @@ interface HomepageProps {
  */
 export class HomepageContainer extends React.Component {
 
-  render () {
-    const {params, newsList, projects} = this.props
+  render() {
+    const { params, newsList, projects } = this.props
     return (
-      <I18nProvider messageDir='modules/admin-data-management/src/i18n'>
+      <I18nProvider messageDir="modules/admin-data-management/src/i18n">
         <ComposedInjector >
           <HomepageComponent
             theme={null}
