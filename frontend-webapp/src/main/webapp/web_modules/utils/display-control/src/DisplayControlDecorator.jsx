@@ -2,8 +2,7 @@
 
 import { connect } from 'react-redux'
 import { ShowableAtRender } from '@regardsoss/components'
-import { IDisplayController } from '@regardsoss/display-control'
-import { HateoasDisplayController } from './HateoasDisplayController'
+import HateoasDisplayController from './HateoasDisplayController'
 import EndpointSelectors from './endpoints/EndpointSelectors'
 /**
  * Generic decorator for controlling display
@@ -20,19 +19,22 @@ import EndpointSelectors from './endpoints/EndpointSelectors'
  */
 export function applyDisplayControl(controller, mapStateToProps, mapDispatchToProps) {
   return function (DecoratedComponent) {
-    function DisplayControlDecorator(props) {
+    class DisplayControlDecorator extends React.Component {
+
+      render() {
         // Instanciate the component before in order to to pass it
         // to the controller
-      const decoratedComponentElement = React.createElement(
+        const decoratedComponentElement = React.createElement(
           DecoratedComponent,
-          props
+          this.props
         )
 
-      return (
-        <ShowableAtRender show={controller(decoratedComponentElement)}>
-          {decoratedComponentElement}
-        </ShowableAtRender>
+        return (
+          <ShowableAtRender show={controller(decoratedComponentElement)}>
+            {decoratedComponentElement}
+          </ShowableAtRender>
         )
+      }
     }
 
     return connect(mapStateToProps, mapDispatchToProps)(DisplayControlDecorator)

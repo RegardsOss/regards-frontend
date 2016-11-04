@@ -1,6 +1,6 @@
 /** @module CommonTheme */
 
-import { ThemeContextType } from './ThemeContainerInterface'
+import ThemeContextType from './ThemeContainerInterface'
 
 /**
  * Retrieves the Material UI theme fom the context and injects it as a prop to its child.

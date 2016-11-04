@@ -1,4 +1,4 @@
-import { BasicSelector } from '@regardsoss/store-utils'
+import BasicSelector from '@regardsoss/store-utils'
 
 class ModelSelectors extends BasicSelector {
   constructor() {

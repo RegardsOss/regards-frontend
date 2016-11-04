@@ -39,12 +39,6 @@ module.exports = {
       exclude: [/node_modules/, /json/, /\/\..*!/],
     }],
     loaders: [
-      // All files with a '.ts' or '.tsx' extension will be handled by 'ts-loader'.
-      {
-        test: /\.tsx{0,1}?$/,
-        exclude: [/node_modules/, /json/],
-        loaders: ['babel-loader', 'ts-loader'],
-      },
       // Transpile ES6 Javascript into ES5 with babel loader and react
       {
         test: /\.jsx?$/,

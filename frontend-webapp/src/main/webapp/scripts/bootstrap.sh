@@ -6,7 +6,6 @@
 
 npm link web_modules/components
 
-npm link web_modules/data/models
 npm link web_modules/data/api
 
 npm link web_modules/utils/access-rights

@@ -27,11 +27,6 @@ config = merge(config, {
     ],
     loaders: [
       {
-        test: /\.tsx?$/,
-        exclude: [/node_modules/, /json/],
-        loaders: ['istanbul-instrumenter', 'babel', 'ts-loader?transpileOnly=true'],
-      },
-      {
         test: /\.jsx?$/,
         exclude: [/node_modules/, /json/],
         loaders: ['istanbul-instrumenter', 'babel'],

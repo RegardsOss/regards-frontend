@@ -1,5 +1,4 @@
 /** @module common */
-import * as React from 'react'
 
 
 function ShowableAtRender(props) {
