@@ -11,7 +11,7 @@ const mockStore = configureStore(middlewares)
 describe('[COMMON] Testing i18n actions', () => {
   // Test dégradé dans le cas ou le serveur renvoie un erreur
   it('Test actions creation for internationalization language change', () => {
-    this.setTimeout(10000);
+    this.timeout(10000)
     const store = mockStore({
       common: {
         i18n: {
