@@ -11,7 +11,7 @@ class ModelAttributeComponent extends React.Component {
   // When the user define a value in an modal attribute, it defines the default value
   getAttributesDefined = () => {
     const modelAttributes = []
-    for (const ref in this.refs) {
+    for (const ref of this.refs) {
       const value = this.refs[ref].getValue()
       if (!this.refs[ref].isDefaultValue()) {
         modelAttributes.push({

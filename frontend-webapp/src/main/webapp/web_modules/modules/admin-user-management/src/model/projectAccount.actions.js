@@ -1,10 +1,11 @@
-const { CALL_API, getJSON } = require('redux-api-middleware')
 import Schemas from '@regardsoss/api'
 import { normalize } from 'normalizr'
+
+const { CALL_API, getJSON } = require('redux-api-middleware')
+
 export const PROJECT_ACCOUNT_REQUEST = 'PROJECT_ACCOUNT_REQUEST'
 export const PROJECT_ACCOUNT_SUCCESS = 'PROJECT_ACCOUNT_SUCCESS'
 export const PROJECT_ACCOUNT_FAILURE = 'PROJECT_ACCOUNT_FAILURE'
-
 export const PROJECT_ACCOUNT_DELETE = 'PROJECT_ACCOUNT_DELETE'
 
 /**
@@ -12,7 +13,7 @@ export const PROJECT_ACCOUNT_DELETE = 'PROJECT_ACCOUNT_DELETE'
  * Fetches all project users
  * Normalize the json response
  *
- * @return {AsyncAction}
+ * @returns {AsyncAction}
  */
 const fetchProjectAccounts = urlProjectAccounts => ({
   [CALL_API]: {
@@ -35,9 +36,9 @@ const fetchProjectAccounts = urlProjectAccounts => ({
 /**
  * Action creator to delete project administror by id
  *
- * @param {String} link to the backend endpoint to remove an user
+ * @param {string} link to the backend endpoint to remove an user
  *
- * @return {AsyncAction}
+ * @returns {AsyncAction}
  */
 export function deleteUser(link) {
   return {

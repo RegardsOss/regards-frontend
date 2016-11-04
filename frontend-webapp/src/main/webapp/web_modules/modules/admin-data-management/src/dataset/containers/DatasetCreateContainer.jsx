@@ -1,51 +1,21 @@
 
 import { I18nProvider } from '@regardsoss/i18n'
+import { browserHistory } from 'react-router'
+import { connect } from 'react-redux'
 import PickModelFormComponent from '../components/add/pick_model/FormComponent'
 import StepperCreateDatasetComponent from '../components/add/StepperCreateDatasetComponent'
 import PickDatasourceFormComponent from '../components/add/pick_datasource/FormComponent'
 import CreateDatasetSuccessComponent from '../components/add/CreateDatasetSuccessComponent'
-import { connect } from 'react-redux'
 import * as DatasetCreationFormActions from '../model/datasetCreation.form.actions'
 import DatasetCreationFormSelectors from '../model/datasetCreation.form.selectors'
 import * as DatasetActions from '../model/dataset.actions'
-import { browserHistory } from 'react-router'
-
 import { FORM_STATES_ENUM as STATES } from './../model/FormStatesEnum'
 
 
-/*
-interface DatasetCreateProps {
-  // From mapStateToProps
-  viewState?: string,
-  // From router
-  router: any,
-  route: any,
-  params: any,
-  location: any,
-
-  // From mapDispatchToProps
-  setViewState?: (newState: string) => void
-  setDatasetLabel: (label: string) => void
-  setDatasetModelType: (modelType: number) => void
-  setDatasetDefaultModelAttributes: (attributesDefined: Array<DatasetDefaultModelAttribute>) => void
-  setDatasource: (datasourceId: any) => void
-  addDataset: (dataset: any) => void
-
-  datasetModels?: Array<DatasetModel>
-}*/
 /**
  */
 export class DatasetCreateContainer extends React.Component {
-  handleNextStepPickModelForm = () => {
-    this.setNextStep()
-  }
-  handleNextStepPickDatasourceForm = () => {
-    this.setNextStep()
-  }
 
-  resetStepAndData = () => {
-    this.props.setViewState(STATES.SELECT_MODELE)
-  }
   setNextStep = () => {
     switch (this.props.viewState) {
       case STATES.SELECT_MODELE:
@@ -57,7 +27,7 @@ export class DatasetCreateContainer extends React.Component {
       case STATES.DONE:
         break
       default:
-        throw `Undefined state ${this.props.viewState}`
+        throw new Error(`Undefined state ${this.props.viewState}`)
     }
   }
 
@@ -70,8 +40,18 @@ export class DatasetCreateContainer extends React.Component {
       case STATES.DONE:
         return 2
       default:
-        throw `Undefined state ${this.props.viewState}`
+        throw new Error(`Undefined state ${this.props.viewState}`)
     }
+  }
+
+  resetStepAndData = () => {
+    this.props.setViewState(STATES.SELECT_MODELE)
+  }
+  handleNextStepPickModelForm = () => {
+    this.setNextStep()
+  }
+  handleNextStepPickDatasourceForm = () => {
+    this.setNextStep()
   }
 
   goToNewModel = () => {
@@ -104,8 +84,7 @@ export class DatasetCreateContainer extends React.Component {
     switch (state) {
       case STATES.SELECT_MODELE:
         this.resetStepAndData()
-        const urlTo = `/admin/${this.props.params.project}/datamanagement/dataset/`
-        browserHistory.push(urlTo)
+        browserHistory.push(`/admin/${this.props.params.project}/datamanagement/dataset/`)
         break
       case STATES.SELECT_SOURCE:
         this.props.setViewState(STATES.SELECT_MODELE)
@@ -114,7 +93,7 @@ export class DatasetCreateContainer extends React.Component {
         this.props.setViewState(STATES.SELECT_SOURCE)
         break
       default:
-        throw `Undefined state ${state}`
+        throw new Error(`Undefined state ${state}`)
     }
   }
   handleGetBackToPickModel = () => {
@@ -159,7 +138,7 @@ export class DatasetCreateContainer extends React.Component {
                   {stepper}
                 </CreateDatasetSuccessComponent>)
               default:
-                throw `Undefined state ${viewState}`
+                throw new Error(`Undefined state ${viewState}`)
             }
           })()}
         </div>
@@ -167,7 +146,24 @@ export class DatasetCreateContainer extends React.Component {
     )
   }
 }
+DatasetCreateContainer.propTypes = {
 
+  // From mapStateToProps
+  viewState: React.PropTypes.string,
+  datasetModels: React.PropTypes.arrayOf(React.PropTypes.objectOf(React.PropTypes.string)).isRequired,
+  // From router
+  params: React.PropTypes.objectOf(React.PropTypes.string).isRequired,
+  location: React.PropTypes.string.isRequired,
+
+  // From mapDispatchToProps
+  setViewState: React.PropTypes.func,
+  setDatasetLabel: React.PropTypes.func,
+  setDatasetModelType: React.PropTypes.func,
+  setDatasetDefaultModelAttributes: React.PropTypes.func,
+  setDatasource: React.PropTypes.func,
+  addDataset: React.PropTypes.func,
+
+}
 const mapStateToProps = (state, ownProps) => {
   const viewState = DatasetCreationFormSelectors.getViewState(state)
   const models = null

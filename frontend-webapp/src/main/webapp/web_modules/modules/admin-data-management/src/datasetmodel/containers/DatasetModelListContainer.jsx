@@ -1,8 +1,8 @@
 
 import { I18nProvider } from '@regardsoss/i18n'
+import { connect } from 'react-redux'
 import ModelListComponent from '../components/DatasetModelListComponent'
 import ModelSelectors from '../model/model.selectors'
-import { connect } from 'react-redux'
 /**
  */
 export class ModelListContainer extends React.Component {

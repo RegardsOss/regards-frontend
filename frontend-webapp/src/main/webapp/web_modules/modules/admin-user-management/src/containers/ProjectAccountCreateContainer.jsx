@@ -1,4 +1,6 @@
-
+/**
+ * @module admin-user-management
+ */
 import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card'
 import FlatButton from 'material-ui/FlatButton'
 import TextField from 'material-ui/TextField'
@@ -6,7 +8,7 @@ import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 import { CardActionsComponent } from '@regardsoss/components'
 
-export class ProjectAccountCreateContainer extends React.Component {
+class ProjectAccountCreateContainer extends React.Component {
   static contextTypes = {
     muiTheme: React.PropTypes.object,
   }
@@ -52,5 +54,6 @@ export class ProjectAccountCreateContainer extends React.Component {
     )
   }
 }
+
 
 export default ProjectAccountCreateContainer

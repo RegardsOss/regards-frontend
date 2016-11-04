@@ -1,16 +1,13 @@
 
 import TextField from 'material-ui/TextField'
 
-/*
-interface IntegerInputProps {
-  label: string | JSX.Element
-  value?: number
-  onValueChange?: (value: any) => void
-  fullWidth?: boolean
-}*/
 /**
  */
 class IntegerInputComponent extends React.Component {
+
+  static defaultProps = {
+    fullWidth: true,
+  }
 
   constructor(props) {
     super(props)
@@ -22,8 +19,13 @@ class IntegerInputComponent extends React.Component {
     }
   }
 
-  static defaultProps = {
-    fullWidth: true,
+  /**
+   * Provides a getter when this parent component has a ref for this component
+   * @returns {number}
+   */
+  getValue = () => {
+    const { value } = this.state
+    return parseInt(value, 10)
   }
 
   handleInputChange = (event) => {
@@ -36,19 +38,10 @@ class IntegerInputComponent extends React.Component {
       this.props.onValueChange(newValue)
     }
   }
-  /**
-   * Provides a getter when this parent component has a ref for this component
-   * @returns {number}
-   */
-  getValue = () => {
-    const { value } = this.state
-    return parseInt(value, 10)
-  }
   isDefaultValue = () => {
     const { value } = this.state
     return value === null
   }
-
   render() {
     const { label, value, fullWidth } = this.props
     return (

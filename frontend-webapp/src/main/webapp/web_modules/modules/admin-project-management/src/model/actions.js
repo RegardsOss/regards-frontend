@@ -1,7 +1,7 @@
-const { CALL_API, getJSON } = require('redux-api-middleware')
 import { PROJECT_ARRAY } from '@regardsoss/api'
 import { normalize } from 'normalizr'
-import { Action } from 'redux'
+
+const { CALL_API, getJSON } = require('redux-api-middleware')
 
 export const PROJECTS_API = 'http://localhost:8080/api/projects'
 

@@ -1,5 +1,4 @@
 import { expect } from 'chai'
-import { Action } from 'redux'
 import reducer from '../src/model/reducer'
 import {
   PROJECTS_REQUEST,
@@ -24,7 +23,7 @@ describe('[ADMIN APP] Testing projects reducer', () => {
 
   describe('GET /projects calls', () => {
     it('should handle fetch request', () => {
-      const action: Action = {
+      const action = {
         type: PROJECTS_REQUEST,
       }
       const initState = {
@@ -86,7 +85,7 @@ describe('[ADMIN APP] Testing projects reducer', () => {
 
   describe('POST /projects calls', () => {
     it('should handle create request', () => {
-      const action: Action = {
+      const action = {
         type: CREATE_PROJECT_REQUEST,
       }
       const initState = {
@@ -151,7 +150,7 @@ describe('[ADMIN APP] Testing projects reducer', () => {
 
   describe('DELETE /projects/{id} calls', () => {
     it('should handle delete request', () => {
-      const action: Action = {
+      const action = {
         type: DELETE_PROJECT_REQUEST,
       }
       const initState = {

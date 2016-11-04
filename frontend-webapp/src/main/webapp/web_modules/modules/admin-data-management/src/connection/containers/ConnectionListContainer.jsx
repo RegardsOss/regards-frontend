@@ -1,7 +1,7 @@
 
 import { I18nProvider } from '@regardsoss/i18n'
-import ConnectionListComponent from '../components/list/ConnectionListComponent'
 import { connect } from 'react-redux'
+import ConnectionListComponent from '../components/list/ConnectionListComponent'
 /*
 interface ConnectionListProps {
   // From router
@@ -40,6 +40,13 @@ class ConnectionListContainer extends React.Component {
       </div>
     )
   }
+}
+ConnectionListContainer.propTypes = {
+  // From router
+  params: React.PropTypes.objectOf(React.PropTypes.string).isRequired,
+
+  // From mapStateToProps
+  connections: React.PropTypes.arrayOf(React.PropTypes.objectOf(React.PropTypes.string)),
 }
 const mapStateToProps = (state, ownProps) => {
   // const connections = ConnectionSelectors.getConnections(state)

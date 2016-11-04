@@ -18,6 +18,11 @@ export function setLocaleMessages(messagesDir, messages) {
   }
 }
 
+function manageException(messagesDir, locale, e) {
+  console.error('messagesDir', messagesDir, 'locale', locale, e, e.stack)
+  throw new Error('Failed to access to i18n file. Are you sure the path is correct ?')
+}
+
 export function updateMessages(messagesDir, locale) {
   return (dispatch, getState) => {
     require.ensure([], (require) => {
@@ -42,17 +47,13 @@ export function updateMessages(messagesDir, locale) {
   }
 }
 
-function manageException(messagesDir, locale, e) {
-  console.error('messagesDir', messagesDir, 'locale', locale, e, e.stack)
-  throw new Error('Failed to access to i18n file. Are you sure the path is correct ?')
-}
 
 export function updateLocale(locale) {
-  return (dispatch, getState) => {
-    return dispatch(setLocale(locale)).then(() => {
+  return (dispatch, getState) => (
+    dispatch(setLocale(locale)).then(() => {
       // Update all messages
       const messages = getState().common.i18n.messages
       messages.map(message => dispatch(updateMessages(message.messagesDir, locale)))
     })
-  }
+  )
 }

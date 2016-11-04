@@ -18,9 +18,8 @@ export const fetchAuthenticate = (username, password) => ({
         meta: (action, state, res) => {
           if (res.status === '500') {
             return { errorMessage: 'authentication.error.500' }
-          } else {
-            return { errorMessage: 'authentication.error' }
           }
+          return { errorMessage: 'authentication.error' }
         },
       },
 

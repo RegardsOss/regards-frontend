@@ -1,5 +1,3 @@
-import { PlainRoute } from 'react-router'
-
 export const datasetListRoute = {
   path: 'dataset',
   getComponents(nextState, cb) {
@@ -161,7 +159,7 @@ export const dataManagementHomeRoute = {
   },
 }
 
-export const dataManagementRouter = {
+const dataManagementRouter = {
   path: '',
   childRoutes: [
     dataManagementHomeRoute,
@@ -183,3 +181,5 @@ export const dataManagementRouter = {
     connectionListRoute,
   ],
 }
+
+export default dataManagementRouter

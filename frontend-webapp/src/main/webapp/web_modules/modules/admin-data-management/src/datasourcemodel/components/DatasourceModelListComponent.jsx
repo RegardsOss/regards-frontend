@@ -13,12 +13,12 @@ import { CardActionsComponent } from '@regardsoss/components'
  */
 class DatasourceModelListComponent extends React.Component {
 
-  getCreateUrl = () => {
-    return this.props.getCreateUrl()
-  }
-  getBackUrl = () => {
-    return this.props.getBackUrl()
-  }
+  getCreateUrl = () => (
+     this.props.getCreateUrl()
+)
+  getBackUrl = () => (
+     this.props.getBackUrl()
+  )
 
 
   render() {

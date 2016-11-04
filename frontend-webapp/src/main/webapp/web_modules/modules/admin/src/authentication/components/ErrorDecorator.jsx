@@ -12,7 +12,7 @@ export interface ErrorDecoratorProps {
 /**
  * React component to add the color on a text or another component
  */
-export default class ErrorDecoratorComponent extends React.Component {
+class ErrorDecoratorComponent extends React.Component {
   static contextTypes = ThemeContextType
   context
 
@@ -28,3 +28,8 @@ export default class ErrorDecoratorComponent extends React.Component {
   }
 }
 
+ErrorDecoratorComponent.propTypes = {
+  children: React.PropTypes.element.isRequired,
+}
+
+export default ErrorDecoratorComponent

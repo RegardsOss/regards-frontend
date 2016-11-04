@@ -13,10 +13,9 @@ export class ModelCreateContainer extends React.Component {
     if (from) {
       const fromURI = decodeURIComponent(from)
       return fromURI
-    } else {
-      const projectName = this.props.params.project
-      return `/admin/${projectName}/datamanagement/datasetmodel`
     }
+    const projectName = this.props.params.project
+    return `/admin/${projectName}/datamanagement/datasetmodel`
   }
 
   handleNextStep = (name, attributes) => {

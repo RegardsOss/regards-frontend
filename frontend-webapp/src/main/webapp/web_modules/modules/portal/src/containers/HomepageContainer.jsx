@@ -1,14 +1,8 @@
 
 import { I18nProvider } from '@regardsoss/i18n'
-import HomepageComponent from '../components/HomepageComponent'
 import ComposedInjector from '@regardsoss/injector'
-/*
-interface HomepageProps {
-  // From Router
-  params: any
-  newsList: any
-  projects: any
-}*/
+import HomepageComponent from '../components/HomepageComponent'
+
 /**
  */
 export class HomepageContainer extends React.Component {
@@ -30,6 +24,16 @@ export class HomepageContainer extends React.Component {
     )
   }
 }
-
-
+HomepageContainer.propTypes = {
+  params: React.PropTypes.objectOf(React.PropTypes.string),
+  newsList: React.PropTypes.arrayOf(React.PropTypes.objectOf(React.PropTypes.string)),
+  projects: React.PropTypes.arrayOf(React.PropTypes.objectOf(React.PropTypes.string)),
+}
+/*
+ interface HomepageProps {
+ // From Router
+ params: any
+ newsList: any
+ projects: any
+ }*/
 export default HomepageContainer

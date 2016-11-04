@@ -1,19 +1,9 @@
 
 import { connect } from 'react-redux'
-import { fetchAuthenticate } from '../common/authentication/AuthenticateActions'
-import Layout from './modules/layout/Layout'
-import ThemeHelper from '../common/theme/ThemeHelper'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-import SelectTheme from '../common/theme/containers/SelectTheme'
-/*
-interface UserAppProps {
-  params: any,
-  location: any,
-  content: any,
-  theme: string,
-  authentication?: any,
-  publicAuthenticate?: () => void
-}*/
+import { fetchAuthenticate } from '@regardsoss/authentication'
+import { ThemeHelper, SelectThemeContainer } from '@regardsoss/theme'
+import Layout from './modules/layout/Layout'
 
 class UserApp extends React.Component {
 
@@ -31,8 +21,9 @@ class UserApp extends React.Component {
     // Build theme
     const muiTheme = ThemeHelper.getByName(theme)
 
-    if (!this.props.authentication.user)
-      { return <div>Loading ... </div> }
+    if (!this.props.authentication.user) {
+      return <div>Loading ... </div>
+    }
 
     if (!content) {
       return (
@@ -42,21 +33,27 @@ class UserApp extends React.Component {
           </Layout>
         </MuiThemeProvider>
       )
-    } else {
-      return (
-        <MuiThemeProvider muiTheme={muiTheme}>
-          <div>
-            <SelectTheme />
-            <Layout location={location} project={project}>
-              {this.props.content}
-            </Layout>
-          </div>
-        </MuiThemeProvider>
-      )
     }
+    return (
+      <MuiThemeProvider muiTheme={muiTheme}>
+        <div>
+          <SelectThemeContainer />
+          <Layout location={location} project={project}>
+            {this.props.content}
+          </Layout>
+        </div>
+      </MuiThemeProvider>
+      )
   }
 }
-
+UserApp.propTypes = {
+  params: React.PropTypes.objectOf(React.PropTypes.string).isRequired,
+  location: React.PropTypes.string.isRequired,
+  content: React.PropTypes.element.isRequired,
+  theme: React.PropTypes.string.isRequired,
+  authentication: React.PropTypes.objectOf(React.PropTypes.string),
+  publicAuthenticate: React.PropTypes.func,
+}
 const mapStateToProps = state => ({
   theme: state.common.theme,
   plugins: state.common.plugins,

@@ -21,7 +21,7 @@ export default (state = {
         isFetching: true,
       })
     case RECEIVE_AUTHENTICATE:
-      receiveAuthentification(state, action)
+      return receiveAuthentification(state, action)
     case FAILED_AUTHENTICATE:
       return Object.assign({}, state, {
         isFetching: false,

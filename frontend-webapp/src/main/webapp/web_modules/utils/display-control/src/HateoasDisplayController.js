@@ -16,8 +16,8 @@
  * @param {JSX.Element} component The component on which extract endpoints
  * @return {boolean}
  */
-const HateoasDisplayController = (component) => {
-  return typeof component.props.endpoints[component.props.endpointKey] !== 'undefined'
-}
+const HateoasDisplayController = component => (
+  typeof component.props.endpoints[component.props.endpointKey] !== 'undefined'
+)
 
 export default HateoasDisplayController

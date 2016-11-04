@@ -11,15 +11,8 @@ import { FormattedMessage, intlShape } from 'react-intl'
 
 /**
  *
- *//*
-export interface ProjectAccountDeleteInterface {
-  onClose: any,
-  onDelete: any
-}*/
-/**
- *
  */
-export default class ProjectAccountDeleteComponent extends React.Component {
+class ProjectAccountDeleteComponent extends React.Component {
 
   /**
    *
@@ -75,3 +68,10 @@ export default class ProjectAccountDeleteComponent extends React.Component {
     )
   }
 }
+
+ProjectAccountDeleteComponent.propTypes = {
+  onClose: React.PropTypes.func.isRequired,
+  onDelete: React.PropTypes.func.isRequired,
+}
+
+export default ProjectAccountDeleteComponent

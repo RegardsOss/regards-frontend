@@ -2,14 +2,7 @@
 import { map } from 'lodash'
 import { NewsItemComponent } from '@regardsoss/components'
 import ProjectComponent from '../projects/components/ProjectComponent'
-/*
-interface DatamanagementProps {
-  params: any
-  theme: any
-  intl: any
-  newsList: any
-  projects: any
-}*/
+
 
 /**
  * Show the list of users for the current project
@@ -61,6 +54,19 @@ class DatamanagementComponent extends React.Component {
     )
   }
 }
+DatamanagementComponent.propTypes = {
+  theme: React.PropTypes.objectOf(React.PropTypes.string),
+  newsList: React.PropTypes.arrayOf(React.PropTypes.objectOf(React.PropTypes.string)),
+  projects: React.PropTypes.arrayOf(React.PropTypes.objectOf(React.PropTypes.string)),
+}
 
+/*
+ interface DatamanagementProps {
+ params: any
+ theme: any
+ intl: any
+ newsList: any
+ projects: any
+ }*/
 export default DatamanagementComponent
 

@@ -41,17 +41,13 @@ SelectLocaleContainer.propTypes = {
 }
 
 // Add projects from store to the containers props
-const mapStateToProps = (state) => {
-  return {
-    currentLocale: state.common.i18n.locale,
-  }
-}
+const mapStateToProps = state => ({
+  currentLocale: state.common.i18n.locale,
+})
 
 // Add functions dependending on store dispatch to containers props.
-const mapDispatchToProps = (dispatch) => {
-  return {
-    setLocale: locale => dispatch(updateLocale(locale)),
-  }
-}
+const mapDispatchToProps = dispatch => ({
+  setLocale: locale => dispatch(updateLocale(locale)),
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(SelectLocaleContainer)

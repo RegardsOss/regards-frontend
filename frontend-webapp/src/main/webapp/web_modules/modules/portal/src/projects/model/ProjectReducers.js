@@ -10,6 +10,12 @@ const predefinedValues = {
   },
 }
 
+function addProject(state, action) {
+  const newState = Object.assign({}, state)
+  newState.items[action.entity.id] = action.entity
+  return newState
+}
+
 export default (state = {
   isFetching: false,
   items: predefinedValues, // TODO -> should be empty here
@@ -17,9 +23,7 @@ export default (state = {
 }, action) => {
   switch (action.type) {
     case ADD_PROJECT:
-      const newState = Object.assign({}, state)
-      newState.items[action.entity.id] = action.entity
-      return newState
+      return addProject(state, action)
     default:
       return state
   }

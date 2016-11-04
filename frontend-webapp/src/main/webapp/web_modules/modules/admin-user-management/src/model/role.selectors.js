@@ -1,4 +1,4 @@
-import { BasicSelector } from '@regardsoss/store-utils'
+import BasicSelector from '@regardsoss/store-utils'
 
 class RoleSelectors extends BasicSelector {
   constructor() {
@@ -14,5 +14,5 @@ class RoleSelectors extends BasicSelector {
 
 }
 
-const _instance = new RoleSelectors()
-export default _instance
+const instance = new RoleSelectors()
+export default instance

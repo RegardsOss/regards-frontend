@@ -22,13 +22,13 @@ interface MainAdminLayoutProps {
 export class MainAdminLayout extends React.Component {
 
   static contextTypes = ThemeContextType
-  context
 
   constructor() {
     super()
     this.state = { instance: false }
   }
 
+  context
 
   render() {
     const { content } = this.props
@@ -58,5 +58,8 @@ export class MainAdminLayout extends React.Component {
       </div>
     )
   }
+}
+MainAdminLayout.propTypes = {
+  content: React.PropTypes.element.isRequired,
 }
 export default MainAdminLayout

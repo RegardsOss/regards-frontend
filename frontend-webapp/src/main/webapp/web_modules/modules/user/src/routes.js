@@ -1,17 +1,21 @@
-import { pluginRoutes } from './modules/plugin/routes'
-import { websocketsRoutes } from './modules/websockets/routes'
-import UserApp from './UserApp'
-import { PlainRoute } from 'react-router'
+import pluginRoutes from './modules/plugin/routes'
+import websocketsRoutes from './modules/websockets/routes'
 
-export const userAppRoutes = {
+
+const userAppRoutes = {
   path: 'user/:project',
   childRoutes: [
     pluginRoutes,
     websocketsRoutes,
   ],
   getComponent(nextState, cb) {
-    require.ensure([], (require) => {
-      cb(null, UserApp)
+    const UserApp = require('./UserApp')
+    require.ensure([], () => {
+      cb(null, {
+        content: UserApp.default,
+      })
     })
   },
 }
+
+export default userAppRoutes

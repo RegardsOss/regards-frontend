@@ -1,14 +1,7 @@
 
 import { map } from 'lodash'
 import ProjectComponent from '../components/ProjectComponent'
-/*
 
-interface ProjectFeedProps {
-  params: any,
-  theme: any,
-  projects: any
-}
-*/
 
 /**
  * Show the list of users for the current project
@@ -39,6 +32,8 @@ class ProjectFeedContainer extends React.Component {
     )
   }
 }
-
+ProjectFeedContainer.propTypes = {
+  projects: React.PropTypes.arrayOf(React.PropTypes.objectOf(React.PropTypes.string)).isRequired,
+}
 export default ProjectFeedContainer
 

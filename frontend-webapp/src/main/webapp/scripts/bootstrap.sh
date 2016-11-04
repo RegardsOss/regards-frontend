@@ -18,6 +18,7 @@ npm link web_modules/utils/store-utils
 npm link web_modules/utils/theme
 npm link web_modules/utils/authentication
 npm link web_modules/utils/display-control
+npm link web_modules/utils/tests-helpers
 
 npm link web_modules/modules/admin
 npm link web_modules/modules/admin-data-management

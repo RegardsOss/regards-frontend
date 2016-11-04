@@ -1,17 +1,13 @@
 
 
-class Time extends React.Component<any, any> {
-  constructor() {
-    super()
-  }
-
-  render(): JSX.Element {
-    return (
-      <div>
-        {this.props.time}
-      </div>
+function Time({ time }) {
+  return (
+    <div>
+      {time}
+    </div>
     )
-  }
 }
-
+Time.propTypes = {
+  time: React.PropTypes.number.isRequired,
+}
 export default Time

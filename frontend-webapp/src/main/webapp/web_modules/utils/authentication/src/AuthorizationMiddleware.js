@@ -20,7 +20,7 @@ const getAuthorization = (state, callAPI) => {
 
 // Intercept actions
 // If the action is formated as [CALL_API]: {...}, inject the headers
-export default store => next => (action) => {
+const putAuthorization = () => next => (action) => {
   const callAPI = action[CALL_API]
   if (callAPI) {
     callAPI.headers = callStore => ({
@@ -32,3 +32,4 @@ export default store => next => (action) => {
 
   return next(action)
 }
+export default putAuthorization

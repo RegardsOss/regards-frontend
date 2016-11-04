@@ -1,5 +1,4 @@
 import { omitBy } from 'lodash'
-import * as Immutable from 'immutable'
 import {
   PROJECTS_REQUEST,
   PROJECTS_SUCCESS,

@@ -1,4 +1,6 @@
-
+/**
+ * @module admin-user-management
+ */
 import { connect } from 'react-redux'
 import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card'
 import FlatButton from 'material-ui/FlatButton'
@@ -7,14 +9,10 @@ import Checkbox from 'material-ui/Checkbox'
 import { map } from 'lodash'
 
 export class ProjectAccountEditContainer extends React.Component {
-  constructor() {
-    super()
-  }
-
   render() {
     const nbElement = 20
     const rulesList = []
-    for (let i = 0; i < nbElement; i++) {
+    for (let i = 0; i < nbElement; i += 1) {
       rulesList.push({
         verb: i % 3 === 0 ? 'get' : 'post',
         uri: '/api/foe',

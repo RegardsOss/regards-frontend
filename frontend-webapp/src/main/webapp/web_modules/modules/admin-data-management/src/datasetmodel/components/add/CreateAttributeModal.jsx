@@ -7,12 +7,8 @@ import MenuItem from 'material-ui/MenuItem'
 import { FormattedMessage, intlShape } from 'react-intl'
 import Checkbox from 'material-ui/Checkbox'
 import JavaTypes from './../../../JavaTypes'
-/*
-interface CreateAttributeModalProps {
-  handleCreateNewParameter: (label: string, type: string) => void
-  handleCloseModal: () => void
-}*/
-export default class CreateAttributeModal extends React.Component {
+
+class CreateAttributeModal extends React.Component {
   static contextTypes = {
     intl: intlShape,
   }
@@ -79,7 +75,7 @@ export default class CreateAttributeModal extends React.Component {
     }
 
     const selectTypeItems = []
-    for (const i in JavaTypes) {
+    for (let i = 0; i < JavaTypes.length; i += 1) {
       selectTypeItems.push(
         (<MenuItem
           key={JavaTypes[i].value}
@@ -123,3 +119,8 @@ export default class CreateAttributeModal extends React.Component {
     )
   }
 }
+CreateAttributeModal.propTypes = {
+  handleCreateNewParameter: React.PropTypes.func.isRequired,
+  handleCloseModal: React.PropTypes.func.isRequired,
+}
+export default CreateAttributeModal

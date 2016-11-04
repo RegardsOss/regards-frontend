@@ -5,11 +5,6 @@ import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
 import ErrorDecorator from './ErrorDecorator'
-/*
-export interface LoginProps {
-  onLogin: (username: string, password: string) => void,
-  errorMessage: string
-}*/
 
 /**
  * React component for login form in administration application
@@ -106,5 +101,8 @@ class LoginComponent extends React.Component {
     )
   }
 }
-
+LoginComponent.propTypes = {
+  onLogin: React.PropTypes.func.isRequired,
+  errorMessage: React.PropTypes.string,
+}
 export default LoginComponent

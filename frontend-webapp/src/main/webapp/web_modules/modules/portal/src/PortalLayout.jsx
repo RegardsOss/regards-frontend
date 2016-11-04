@@ -53,4 +53,8 @@ class PortalLayout extends React.Component {
     )
   }
 }
+
+PortalLayout.propTypes = {
+  content: React.PropTypes.element.isRequired,
+}
 export default PortalLayout

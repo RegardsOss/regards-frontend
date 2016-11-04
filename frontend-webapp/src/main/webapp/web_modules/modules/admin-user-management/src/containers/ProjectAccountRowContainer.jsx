@@ -1,21 +1,13 @@
-
+/**
+ * @module admin-user-management
+ */
 import { connect } from 'react-redux'
-import ProjectAccountRowComponent from '../components/ProjectAccountRowComponent'
 import { browserHistory } from 'react-router'
 import { find } from 'lodash'
+import ProjectAccountRowComponent from '../components/ProjectAccountRowComponent'
 import Actions from '../model/projectAccount.actions'
 import ProjectAccountDeleteComponent from '../components/ProjectAccountDeleteComponent'
-/*
 
-interface ProjectAccountRowProps extends React.Props<ProjectAccountRowContainer> {
-  projectAccount: ProjectAccount,
-  projectName: string,
-  // From mapStateToProps
-  account?: Account,
-  // From mapDispatchToProps
-  deleteProjectAccount?: (linkDeleteProjectAccount: string) => void
-}
-*/
 
 /**
  * Show the list of users for the current project
@@ -26,9 +18,9 @@ export class ProjectAccountRowContainer extends React.Component {
     openDeleteDialog: false,
   }
 
-  generateUserProfileUrl = (projectAccount) => {
-    return `/admin/${this.props.projectName}/users/${projectAccount.account}`
-  }
+  generateUserProfileUrl = projectAccount => (
+    `/admin/${this.props.projectName}/users/${projectAccount.account}`
+  )
 
   /**
    *
@@ -99,7 +91,12 @@ export class ProjectAccountRowContainer extends React.Component {
     )
   }
 }
-
+ProjectAccountRowContainer.propTypes = {
+  projectAccount: React.PropTypes.objectOf(React.PropTypes.string).isRequired,
+  projectName: React.PropTypes.string.isRequired,
+  account: React.PropTypes.objectOf(React.PropTypes.string),
+  deleteProjectAccount: React.PropTypes.func,
+}
 const mapStateToProps = (state, ownProps) => {
   const account = null
   return {

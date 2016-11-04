@@ -1,10 +1,10 @@
 import { START_TIME_SUCCESS } from '../actions/TimeActions'
 import { SET_TIME } from '../actions/WSTimeActions'
 
-export default (state: any = {
+export default (state = {
   started: false,
   time: '',
-}, action: any) => {
+}, action) => {
   switch (action.type) {
     case START_TIME_SUCCESS:
       return Object.assign({}, state, {
@@ -18,9 +18,3 @@ export default (state: any = {
       return state
   }
 }
-
-// const timeReducers = {
-//   ws
-// }
-//
-// export default timeReducers

@@ -1,38 +1,32 @@
 
-import { connect } from "react-redux"
-import PluginComponent from "../../../common/plugins/PluginComponent"
-import { PluginType } from "../../../common/plugins/PluginTypes"
+import { connect } from 'react-redux'
+import { PluginComponent } from '@regardsoss/plugins'
 
 
-interface PluginProps {
-  params: any,
-  plugin: PluginType,
-  plugins: Array<any>
-}
+class PluginContainer extends React.Component {
 
-class PluginContainer extends React.Component<PluginProps, any> {
-
-  render (): JSX.Element {
-    console.log("PLOP")
+  render() {
+    console.log('PLOP')
     // this.props : parameters passed by react component
     // this.props.params : parameters passed by react router
-    const {params, plugins} = this.props
+    const { params, plugins } = this.props
 
     if (plugins) {
-      const plugin = plugins.find(plugin => {
-        return plugin.name === params.plugin
-      })
+      const plugin = plugins.find(plug => (
+        plug.name === params.plugin
+      ))
       // Get plugin from store
-      return <PluginComponent plugin={plugin}/>
-    } else {
-      return null
+      return <PluginComponent plugin={plugin} />
     }
+    return null
   }
 }
-
-const mapStateToProps = (state: any) => ({
-  plugins: state.common.plugins.items
+PluginContainer.propTypes = {
+  params: React.PropTypes.arrayOf(React.PropTypes.objectOf(React.PropTypes.string)).isRequired,
+  plugins: React.PropTypes.arrayOf(React.PropTypes.objectOf(React.PropTypes.string)).isRequired,
+}
+const mapStateToProps = state => ({
+  plugins: state.common.plugins.items,
 })
 
-const pluginConnected = connect<{}, {}, PluginContainer>(mapStateToProps)(PluginContainer)
-export default pluginConnected
+export default connect(mapStateToProps)(PluginContainer)

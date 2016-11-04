@@ -1,7 +1,8 @@
-import ProjectReducer from './model/reducer'
 import { combineReducers } from 'redux'
+import ProjectReducer from './model/reducer'
 
-export const projectManagementReducer = combineReducers({
+const projectManagementReducer = combineReducers({
   project: ProjectReducer,
 })
 
+export default projectManagementReducer

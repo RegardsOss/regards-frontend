@@ -15,10 +15,9 @@ class ConnectionCreateContainer extends React.Component {
     if (from) {
       const fromURI = decodeURIComponent(from)
       return fromURI
-    } else {
-      const projectName = this.props.params.project
-      return `/admin/${projectName}/datamanagement/connection`
     }
+    const projectName = this.props.params.project
+    return `/admin/${projectName}/datamanagement/connection`
   }
   handleNextStep = (name, pluginName, requiredAttributes) => {
     this.props.addConnection(name, pluginName, requiredAttributes)

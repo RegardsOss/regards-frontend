@@ -2,7 +2,6 @@
 import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
 import { injectTheme } from '@regardsoss/theme'
-import * as actions from '../model/actions'
 import { I18nProvider } from '@regardsoss/i18n'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import TextField from 'material-ui/TextField'
@@ -10,18 +9,14 @@ import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 import { CardActionsComponent } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
-/*
-interface ProjectCreateProps {
-  project: Project
-  createProject?: () => void
-  theme: any
-}*/
+import * as actions from '../model/actions'
+
 
 export class ProjectCreateContainer extends React.Component {
 
   handleCreate = () => {
     this.props.createProject()
-    const url = '/admin/' + 'cdpp' + '/projects'
+    const url = '/admin/cdpp/projects'
     browserHistory.push(url)
   }
 
@@ -57,7 +52,9 @@ export class ProjectCreateContainer extends React.Component {
     )
   }
 }
-
+ProjectCreateContainer.propTypes = {
+  createProject: React.PropTypes.func.isRequired,
+}
 const mapDispatchToProps = dispatch => ({
   createProject: () => dispatch(actions.createProject()),
 })

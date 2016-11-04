@@ -1,6 +1,6 @@
-const { CALL_API } = require('redux-api-middleware')
-
 import { DependencyAccessRight } from '@regardsoss/access-rights'
+
+const { CALL_API } = require('redux-api-middleware')
 
 export const ACCESS_RIGHTS_API = 'http://localhost:8080/api/access/rights'
 export const REQUEST_ACCESSRIGHTS = 'REQUEST_ACCESSRIGHTS'

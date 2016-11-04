@@ -14,12 +14,8 @@ import Widgets from 'material-ui/svg-icons/device/widgets'
 import Brush from 'material-ui/svg-icons/image/brush'
 import Reply from 'material-ui/svg-icons/content/reply'
 import { FormattedMessage } from 'react-intl'
-import { HateoasControlledSidebarElement } from './SidebarElement'
 import SupervisorAccount from 'material-ui/svg-icons/action/supervisor-account'
-/*
-interface SidebarProps {
-  theme: any
-}*/
+import { HateoasControlledSidebarElement } from './SidebarElement'
 
 /**
  * React sidebar component. Display the admin application menu
@@ -116,4 +112,7 @@ class SidebarComponent extends React.Component {
   }
 }
 
+SidebarComponent.propTypes = {
+  theme: React.PropTypes.objectOf(React.PropTypes.string).isRequired,
+}
 export default SidebarComponent

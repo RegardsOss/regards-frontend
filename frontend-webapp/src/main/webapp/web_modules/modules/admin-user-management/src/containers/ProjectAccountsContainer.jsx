@@ -2,9 +2,6 @@
 import { connect } from 'react-redux'
 import { Card, CardTitle, CardText } from 'material-ui/Card'
 import { map, values } from 'lodash'
-import Actions from '../model/projectAccount.actions'
-import Selectors from '../model/projectAccount.selectors'
-import AccountSelectors from '../model/account.selectors'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
 import { I18nProvider } from '@regardsoss/i18n'
 import { FormattedMessage } from 'react-intl'
@@ -12,21 +9,11 @@ import { browserHistory } from 'react-router'
 import IconButton from 'material-ui/IconButton'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
+import Actions from '../model/projectAccount.actions'
+import Selectors from '../model/projectAccount.selectors'
+import AccountSelectors from '../model/account.selectors'
 
 const URL_PROJECTS_ACCOUNTS = 'http://localhost:8080/api/projectAccounts'
-/*
-
-interface ProjectAccountsProps {
-  // From mapStateToProps
-  projectAccounts?: Array<ProjectAccount>
-  accounts?: Array<Account>
-  // From mapDispatchToProps
-  fetchProjectAccounts?: (urlProjectAccounts: string) => void
-  deleteProjectAccount?: (linkDeleteProjectAccount: string) => void
-  // From router
-  params: any
-}
-*/
 
 /**
  * Show the list of users for the current project
@@ -40,13 +27,15 @@ export class ProjectAccountsContainer extends React.Component {
   }
 
   handleView = (selectedRows) => {
-    if (selectedRows instanceof String)
-      { throw new Error('Only a single row should be selected in the table') }
-    if (selectedRows instanceof Array && selectedRows.length !== 1)
-      { throw new Error('Exactly one row is expected to be selected in the table') }
+    if (selectedRows instanceof String) {
+      throw new Error('Only a single row should be selected in the table')
+    }
+    if (selectedRows instanceof Array && selectedRows.length !== 1) {
+      throw new Error('Exactly one row is expected to be selected in the table')
+    }
 
     const account = this.props.accounts[selectedRows[0]]
-    const url = `${'/admin/' + 'cdpp' + '/users/'}${account.accountId}`
+    const url = `/admin/cdpp/users/${account.accountId}`
     browserHistory.push(url)
   }
 
@@ -139,6 +128,13 @@ export class ProjectAccountsContainer extends React.Component {
       </I18nProvider>
     )
   }
+}
+
+ProjectAccountsContainer.propTypes = {
+  fetchProjectAccounts: React.PropTypes.func,
+  projectAccounts: React.PropTypes.arrayOf(React.PropTypes.objectOf(React.PropTypes.string)),
+  accounts: React.PropTypes.arrayOf(React.PropTypes.objectOf(React.PropTypes.string)),
+  params: React.PropTypes.objectOf(React.PropTypes.string),
 }
 
 const mapStateToProps = (state, ownProps) => ({

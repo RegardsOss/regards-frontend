@@ -19,9 +19,9 @@ class ProjectComponent extends React.Component {
   static contextTypes = ThemeContextType
 
 
-  getProjectUrl = () => {
-    return `/${this.props.project.projectId}/`
-  }
+  getProjectUrl = () => (
+     `/${this.props.project.projectId}/`
+  )
 
   render() {
     const styleText = {
@@ -88,26 +88,25 @@ class ProjectComponent extends React.Component {
                   size={0}
                   style={styleIcon}
                 />)
-              } else {
-                return (
-                  <div>
-                    <Avatar
-                      src={project.icon}
-                      size={0}
-                      style={styleIconDisabled}
-                    />
-                    <IconButton
-                      size={40}
-                      iconStyle={styleIconLock}
-                      style={styleLock}
-                      disableTouchRipple
-                    >
-                      <Lock
-                        color="white"
-                      />
-                    </IconButton>
-                  </div>)
               }
+              return (
+                <div>
+                  <Avatar
+                    src={project.icon}
+                    size={0}
+                    style={styleIconDisabled}
+                  />
+                  <IconButton
+                    size={40}
+                    iconStyle={styleIconLock}
+                    style={styleLock}
+                    disableTouchRipple
+                  >
+                    <Lock
+                      color="white"
+                    />
+                  </IconButton>
+                </div>)
             })()}
           </div>
           <div className="col-sm-88" style={styleDescriptionContent}>
@@ -126,6 +125,11 @@ class ProjectComponent extends React.Component {
       </Card>
     )
   }
+}
+
+ProjectComponent.propTypes = {
+  project: React.PropTypes.objectOf(React.PropTypes.string).isRequired,
+  isAccessible: React.PropTypes.bool.isRequired,
 }
 
 export default ProjectComponent

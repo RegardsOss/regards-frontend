@@ -11,12 +11,7 @@ import { ActionButtonComponent } from '@regardsoss/components'
  *
  * You can also close this dialog by clicking outside the dialog, or with the 'Esc' key.
  */
-/*
-
-interface AddProjectProps {
-  onSave: (value: string) => void
-}*/
-export default class AddProject extends React.Component {
+class AddProject extends React.Component {
 
   state = {
     open: false,
@@ -80,3 +75,10 @@ export default class AddProject extends React.Component {
     )
   }
 }
+
+
+AddProject.propTypes = {
+  onSave: React.PropTypes.func.isRequired,
+}
+
+export default AddProject

@@ -2,9 +2,9 @@ import configureStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import nock from 'nock'
 import { expect } from 'chai'
+import defaultFluxStandardError from '@regardsoss/tests-helpers'
 import * as actions from '../src/model/actions'
-import { Action, AnyMeta } from 'flux-standard-action'
-import { FluxStandardAction, defaultFluxStandardError } from '@regardsoss/api'
+
 const { apiMiddleware } = require('redux-api-middleware')
 
 const middlewares = [thunk, apiMiddleware]

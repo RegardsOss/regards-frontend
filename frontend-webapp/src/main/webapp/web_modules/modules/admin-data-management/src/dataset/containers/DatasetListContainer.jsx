@@ -3,14 +3,6 @@ import { I18nProvider } from '@regardsoss/i18n'
 import { connect } from 'react-redux'
 import DatasetSelectors from '../model/dataset.selectors'
 import DatasetListComponent from '../components/list/DatasetListComponent'
-/*
-interface DatasetCreateProps {
-  // From router
-  params
-
-  // From mapStateToProps
-  datasets: Array<Dataset>
-}*/
 
 /**
  * Show the list of users for the current project
@@ -39,7 +31,12 @@ export class DatasetListContainer extends React.Component {
     )
   }
 }
-
+DatasetListContainer.propTypes = {
+  // From router
+  params: React.PropTypes.objectOf(React.PropTypes.string).isRequired,
+  // From mapStateToProps
+  datasets: React.PropTypes.arrayOf(React.PropTypes.objectOf(React.PropTypes.string)).isRequired,
+}
 
 const mapStateToProps = (state, ownProps) => {
   const datasets = DatasetSelectors.getDatasets(state)

@@ -79,7 +79,7 @@ class ProjectAccountReadComponent extends React.Component {
   render() {
     const nbElement = 6
     const rulesList = []
-    for (let i = 0; i < nbElement; i++) {
+    for (let i = 0; i < nbElement; i += 1) {
       rulesList.push({
         verb: i % 3 === 0 ? 'get' : 'post',
         uri: '/api/foe',
@@ -240,15 +240,15 @@ class ProjectAccountReadComponent extends React.Component {
     )
   }
 }
-
+ProjectAccountReadComponent.propTypes = {
+  theme: React.PropTypes.objectOf(React.PropTypes.string),
+}
 export default ProjectAccountReadComponent
 
-export class ThemedProjectAccountReadComponent extends React.Component {
-  render() {
-    return (
-      <ThemeInjector>
-        <ProjectAccountReadComponent theme={null} account={null} />
-      </ThemeInjector>
+export function ThemedProjectAccountReadComponent() {
+  return (
+    <ThemeInjector>
+      <ProjectAccountReadComponent theme={null} account={null} />
+    </ThemeInjector>
     )
-  }
 }

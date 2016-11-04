@@ -6,16 +6,9 @@ import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 import FlatButton from 'material-ui/FlatButton'
 import { map } from 'lodash'
-import PickModelModelAttributeDefaultValuesComponent from './DatasetModelAttributeComponent'
 import { CardActionsComponent } from '@regardsoss/components'
-/*
-interface FormProps {
-  handleNextStep: () => void
-  goToNewModel: () => void
-  save: (label: string, modelType: number, attributesDefined: Array<any>) => void
-  handleGetBack: () => void
-  datasetModels: Array<DatasetModel>
-}*/
+import PickModelModelAttributeDefaultValuesComponent from './DatasetModelAttributeComponent'
+
 /**
  */
 class FormComponent extends React.Component {
@@ -25,9 +18,11 @@ class FormComponent extends React.Component {
     modelType: 0,
   }
 
-  handleGetBack = () => {
-    return this.props.handleGetBack()
-  }
+
+  getAttributesDefined = () => (
+    // We use refs here because we do not want these values to be reactive or connected to Redux
+    this.refs.defaultModelAttributeValues.getAttributesDefined()
+  )
 
   handleNextButton = () => {
     const { modelType, label } = this.state
@@ -53,10 +48,9 @@ class FormComponent extends React.Component {
       modelType: value,
     })
   }
-  getAttributesDefined = () => {
-    // We use refs here because we do not want these values to be reactive or connected to Redux
-    return this.refs.defaultModelAttributeValues.getAttributesDefined()
-  }
+  handleGetBack = () => (
+    this.props.handleGetBack()
+)
 
   render() {
     const { datasetModels } = this.props
@@ -116,7 +110,14 @@ class FormComponent extends React.Component {
     )
   }
 }
-
+FormComponent.propTypes = {
+  handleNextStep: React.PropTypes.func.isRequired,
+  goToNewModel: React.PropTypes.func.isRequired,
+  save: React.PropTypes.func.isRequired,
+  handleGetBack: React.PropTypes.func.isRequired,
+  datasetModels: React.PropTypes.arrayOf(React.PropTypes.objectOf(React.PropTypes.string)).isRequired,
+  children: React.PropTypes.element.isRequired,
+}
 export default FormComponent
 /*
 

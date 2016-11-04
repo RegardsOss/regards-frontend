@@ -1,5 +1,5 @@
-import { REQUEST_ACCESSRIGHTS, RECEIVE_ACCESSRIGHTS, FAILED_ACCESSRIGHTS } from './AccessRightsActions'
 import * as Immutable from 'immutable'
+import { REQUEST_ACCESSRIGHTS, RECEIVE_ACCESSRIGHTS, FAILED_ACCESSRIGHTS } from './AccessRightsActions'
 
 export default (state = {
   isFetching: false,

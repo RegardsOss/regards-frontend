@@ -10,90 +10,85 @@ import { CardActionsComponent } from '@regardsoss/components'
 
 /**
  */
-class ModelListComponent extends React.Component {
-
-
-  render() {
-    const { datasetModels, getBackUrl, getCreateUrl } = this.props
-    return (
-      <Card
-        initiallyExpanded
-      >
-        <CardTitle
-          title={
-            <FormattedMessage
-              id="datamanagement.datasetmodel.list.header"
-            />
-          }
-        />
-        <CardText>
-          <Table
-            selectable={false}
-            multiSelectable={false}
-          >
-            <TableHeader
-              enableSelectAll={false}
-              adjustForCheckbox={false}
-              displaySelectAll={false}
-            >
-              <TableRow>
-                <TableHeaderColumn>
-                  <FormattedMessage
-                    id="datamanagement.datasetmodel.table.name"
-                  />
-                </TableHeaderColumn>
-                <TableHeaderColumn>
-                  <FormattedMessage
-                    id="datamanagement.datasetmodel.table.actions"
-                  />
-                </TableHeaderColumn>
-                <TableHeaderColumn />
-              </TableRow>
-            </TableHeader>
-            <TableBody displayRowCheckbox={false} preScanRows={false}>
-              {map(datasetModels, (datasetModel, id) => (
-
-                <TableRow
-                  key={id}
-                >
-                  <TableRowColumn>
-                    {datasetModel.name}
-                  </TableRowColumn>
-                  <TableRowColumn>
-                    <FlatButton
-                      icon={<Edit />}
-                      disabled
-                    />
-                  </TableRowColumn>
-                  <TableRowColumn>
-                    <FlatButton
-                      icon={<Delete />}
-                      disabled
-                    />
-                  </TableRowColumn>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-
-          <CardActionsComponent
-            secondaryButtonUrl={getBackUrl()}
-            secondaryButtonLabel={
-              <FormattedMessage
-                id="datamanagement.datasetmodel.list.action.back"
-              />
-            }
-            mainButtonUrl={getCreateUrl()}
-            mainButtonLabel={
-              <FormattedMessage
-                id="datamanagement.datasetmodel.list.action.add"
-              />
-            }
+function ModelListComponent({ datasetModels, getBackUrl, getCreateUrl }) {
+  return (
+    <Card
+      initiallyExpanded
+    >
+      <CardTitle
+        title={
+          <FormattedMessage
+            id="datamanagement.datasetmodel.list.header"
           />
-        </CardText>
-      </Card>
+          }
+      />
+      <CardText>
+        <Table
+          selectable={false}
+          multiSelectable={false}
+        >
+          <TableHeader
+            enableSelectAll={false}
+            adjustForCheckbox={false}
+            displaySelectAll={false}
+          >
+            <TableRow>
+              <TableHeaderColumn>
+                <FormattedMessage
+                  id="datamanagement.datasetmodel.table.name"
+                />
+              </TableHeaderColumn>
+              <TableHeaderColumn>
+                <FormattedMessage
+                  id="datamanagement.datasetmodel.table.actions"
+                />
+              </TableHeaderColumn>
+              <TableHeaderColumn />
+            </TableRow>
+          </TableHeader>
+          <TableBody displayRowCheckbox={false} preScanRows={false}>
+            {map(datasetModels, (datasetModel, id) => (
+
+              <TableRow
+                key={id}
+              >
+                <TableRowColumn>
+                  {datasetModel.name}
+                </TableRowColumn>
+                <TableRowColumn>
+                  <FlatButton
+                    icon={<Edit />}
+                    disabled
+                  />
+                </TableRowColumn>
+                <TableRowColumn>
+                  <FlatButton
+                    icon={<Delete />}
+                    disabled
+                  />
+                </TableRowColumn>
+              </TableRow>
+              ))}
+          </TableBody>
+        </Table>
+
+        <CardActionsComponent
+          secondaryButtonUrl={getBackUrl()}
+          secondaryButtonLabel={
+            <FormattedMessage
+              id="datamanagement.datasetmodel.list.action.back"
+            />
+            }
+          mainButtonUrl={getCreateUrl()}
+          mainButtonLabel={
+            <FormattedMessage
+              id="datamanagement.datasetmodel.list.action.add"
+            />
+            }
+        />
+      </CardText>
+    </Card>
     )
-  }
 }
 ModelListComponent.propTypes = {
   getBackUrl: React.PropTypes.func.isRequired,

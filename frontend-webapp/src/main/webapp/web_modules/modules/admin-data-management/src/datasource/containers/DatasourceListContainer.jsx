@@ -3,16 +3,6 @@ import { I18nProvider } from '@regardsoss/i18n'
 import { connect } from 'react-redux'
 import DatasourceListComponent from '../components/list/DatasourceListComponent'
 import DatasourceSelectors from '../model/datasource.selectors'
-/*
-
-interface DatasourceListProps {
-  // From router
-  params: any
-
-  // From mapStateToProps
-  datasources?: Array<Datasource>
-}
-*/
 
 
 /**

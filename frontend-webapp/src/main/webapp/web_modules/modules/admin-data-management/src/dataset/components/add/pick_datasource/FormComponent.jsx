@@ -14,17 +14,17 @@ class FormComponent extends React.Component {
     datasourceId: null,
   }
 
-  getBackUrl = () => {
-    return this.props.handleGetBack()
-  }
+  getBackUrl = () => (
+    this.props.handleGetBack()
+  )
 
-  handleNextButton = () => {
-    return this.props.handleNextStep()
-  }
+  handleNextButton = () => (
+    this.props.handleNextStep()
+    )
 
-  handleNewDatasource = () => {
+  handleNewDatasource = () => (
     this.props.goToNewDatasource()
-  }
+    )
 
   handleDatasourceChange = (event, index, value) => {
     this.setState({

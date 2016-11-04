@@ -12,16 +12,7 @@ import { FormattedMessage } from 'react-intl'
 // Containers
 /**
  *
- *//*
-export interface ProjectAccountProps {
-  account: Account
-  projectAccount: ProjectAccount
-  redirectOnSelectTo: string
-  muiTheme?: any
-  handleDelete: () => void
-  handleView: () => void
-  handleEdit: () => void
-}*/
+ */
 
 
 /**
@@ -40,24 +31,28 @@ class ProjectAccountComponent extends React.Component {
    * @returns {any}
    */
   render() {
-    const { projectAccount, account, redirectOnSelectTo } = this.props
+    const { projectAccount, account, redirectOnSelectTo, children } = this.props
     const { muiTheme } = this.context
     const style = muiTheme.linkWithoutDecoration
 
     // Manage delete link only if the hateoas delete link is provided
-    const deletelink = projectAccount.links.find((link) => {
-      return link.rel === 'delete'
-    })
+    const deletelink = projectAccount.links.find(link => (
+      link.rel === 'delete'
+    ))
     let itemDeleteLink = null
     if (deletelink) {
-      itemDeleteLink =
-        <MenuItem onTouchTap={this.props.handleDelete} primaryText={<FormattedMessage id="dropdown.delete" />} />
+      itemDeleteLink = (
+        <MenuItem
+          onTouchTap={this.props.handleDelete}
+          primaryText={<FormattedMessage id="dropdown.delete" />}
+        />
+      )
     }
 
     return (
       <TableRow>
         <TableRowColumn>
-          {this.props.children}
+          {children}
           <Link to={redirectOnSelectTo} style={style}>
             {account.login}
           </Link>
@@ -102,6 +97,16 @@ class ProjectAccountComponent extends React.Component {
       </TableRow>
     )
   }
+}
+
+ProjectAccountComponent.propTypes = {
+  handleDelete: React.PropTypes.func.isRequired,
+  handleView: React.PropTypes.func.isRequired,
+  handleEdit: React.PropTypes.func.isRequired,
+  redirectOnSelectTo: React.PropTypes.func.isRequired,
+  projectAccount: React.PropTypes.objectOf(React.PropTypes.string).isRequired,
+  account: React.PropTypes.objectOf(React.PropTypes.string),
+  children: React.PropTypes.element.isRequired,
 }
 
 export default ProjectAccountComponent

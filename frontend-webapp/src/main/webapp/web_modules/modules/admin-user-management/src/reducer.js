@@ -1,10 +1,11 @@
+import { combineReducers } from 'redux'
 import AccountReducer from './model/account.reducer'
 import ProjectAccountReducer from './model/projectAccount.reducer'
 
-import { combineReducers } from 'redux'
-
-export const userManagementReducer = combineReducers({
+const userManagementReducer = combineReducers({
   account: AccountReducer,
   'project-account': ProjectAccountReducer,
 })
 
+
+export default userManagementReducer

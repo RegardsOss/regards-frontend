@@ -1,7 +1,7 @@
-import { adminRouter } from './router'
-import { adminReducer } from './reducer'
+import userReducer from './reducers'
+import userRouter from './routes'
 
 export {
-  adminRouter,
-  adminReducer,
+  userRouter,
+  userReducer,
 }

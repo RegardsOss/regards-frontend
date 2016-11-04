@@ -41,15 +41,18 @@ class ConnectionCreateComponent extends React.Component {
     }
   }
 
+  getValue = attribute => (
+    this.state.requireAttributes && this.state.requireAttributes[attribute]
+)
 
-  handleSaveButton = (event) => {
+  handleSaveButton = () => {
     const { requiredAttributesValues, pluginName, label } = this.state
     return this.props.handleNextStep(label, pluginName, requiredAttributesValues)
   }
 
-  handleCancelUrl = () => {
-    return this.props.getCancelUrl()
-  }
+  handleCancelUrl = () => (
+    this.props.getCancelUrl()
+)
 
   handlePluginTypeChange = (event, index, value) => {
     const plugins = this.state.plugins
@@ -74,9 +77,6 @@ class ConnectionCreateComponent extends React.Component {
     this.setState({
       requiredAttributesValues,
     })
-  }
-  getValue = (attribute) => {
-    return this.state.requireAttributes && this.state.requireAttributes[attribute]
   }
 
   render() {
@@ -152,7 +152,7 @@ class ConnectionCreateComponent extends React.Component {
                   />
                 )
               default:
-                throw `Undefined connection attribute ${name}`
+                throw new Error(`Undefined connection attribute ${name}`)
             }
           })}
 

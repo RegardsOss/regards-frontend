@@ -1,4 +1,4 @@
-import { BasicSelector } from '@regardsoss/store-utils'
+import BasicSelector from '@regardsoss/store-utils'
 
 class ProjectAccountSelectors extends BasicSelector {
   constructor() {
@@ -14,5 +14,5 @@ class ProjectAccountSelectors extends BasicSelector {
 
 }
 
-const _instance = new ProjectAccountSelectors()
-export default _instance
+const instance = new ProjectAccountSelectors()
+export default instance

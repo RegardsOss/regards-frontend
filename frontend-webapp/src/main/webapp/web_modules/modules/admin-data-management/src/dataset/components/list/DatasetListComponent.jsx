@@ -14,12 +14,12 @@ import { CardActionsComponent } from '@regardsoss/components'
 class DatasetListComponent extends React.Component {
 
 
-  getCreateUrl = () => {
-    return this.props.getCreateUrl()
-  }
-  getBackUrl = () => {
-    return this.props.getBackUrl()
-  }
+  getCreateUrl = () => (
+     this.props.getCreateUrl()
+)
+  getBackUrl = () => (
+     this.props.getBackUrl()
+    )
 
 
   render() {

@@ -1,8 +1,8 @@
 
 import { I18nProvider } from '@regardsoss/i18n'
 import { connect } from 'react-redux'
-import ModelCreateComponent from '../components/add/DatasourceModelCreateComponent'
 import { browserHistory } from 'react-router'
+import ModelCreateComponent from '../components/add/DatasourceModelCreateComponent'
 
 /**
  */
@@ -14,10 +14,9 @@ class DatasourceModelCreateContainer extends React.Component {
     if (from) {
       const fromURI = decodeURIComponent(from)
       return fromURI
-    } else {
-      const projectName = this.props.params.project
-      return `/admin/${projectName}/datamanagement/datasourcemodel`
     }
+    const projectName = this.props.params.project
+    return `/admin/${projectName}/datamanagement/datasourcemodel`
   }
 
   handleNextStep = (name, attributes) => {

@@ -18,11 +18,6 @@ class DatasetModelAttributeRadioGroupComponent extends React.Component {
     radioValue: 'static',
   }
 
-  context = {
-    intl,
-    muiTheme,
-  }
-
   handleRadioChange = (event, value) => {
     this.setState({
       radioValue: value,

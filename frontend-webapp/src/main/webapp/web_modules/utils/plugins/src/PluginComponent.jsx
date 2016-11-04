@@ -21,7 +21,6 @@ export function PluginComponent({ plugin, pluginInitialized }) {
 
 PluginComponent.propTypes = {
   plugin: React.PropTypes.objectOf(React.PropTypes.string).isRequired,
-  plugins: React.PropTypes.objectOf(React.PropTypes.string),
   pluginInitialized: React.PropTypes.func,
 }
 

@@ -20,9 +20,9 @@ class SelectLocaleComponent extends React.Component {
 
   render() {
     const { locales, currentLocale } = this.props
-    const items = map(locales, (locale) => {
-      return <MenuItem value={locale} key={locale} primaryText={locale} />
-    })
+    const items = map(locales, locale => (
+      <MenuItem value={locale} key={locale} primaryText={locale} />
+  ))
     return (
       <DropDownMenu value={currentLocale} onChange={this.handleChange}>
         {items}

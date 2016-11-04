@@ -1,5 +1,4 @@
 import { expect } from 'chai'
-import { Action } from 'redux'
 import reducer from '../src/AccessRightsReducers'
 
 describe('[COMMON] Testing access-rigths reducer', () => {
@@ -11,7 +10,7 @@ describe('[COMMON] Testing access-rigths reducer', () => {
   })
 
   it('should handle fetch request', () => {
-    const action: Action = {
+    const action = {
       type: 'REQUEST_ACCESSRIGHTS',
     }
     const initState = {

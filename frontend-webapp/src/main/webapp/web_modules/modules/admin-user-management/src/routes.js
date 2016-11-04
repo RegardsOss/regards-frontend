@@ -1,5 +1,3 @@
-import { PlainRoute } from 'react-router'
-
 export const projectAccountCreateRoute = {
   path: 'users/create',
   getComponents(nextState, cb) {
@@ -48,7 +46,8 @@ export const projectAccountsRoutes = {
   },
 }
 
-export const userManagementRouter = {
+
+const userManagementRouter = {
   path: '',
   childRoutes: [
     projectAccountCreateRoute,
@@ -57,3 +56,5 @@ export const userManagementRouter = {
     projectAccountsRoutes,
   ],
 }
+
+export default userManagementRouter

@@ -1,14 +1,14 @@
-import Plugin from './Plugin'
-import { PlainRoute } from 'react-router'
-
-export const pluginRoutes = {
+const pluginRoutes = {
   path: 'plugins/:plugin',
 
   getComponent(nextState, cb) {
-    require.ensure([], (require) => {
+    const Plugin = require('./Plugin')
+    require.ensure([], () => {
       cb(null, {
-        content: Plugin,
+        content: Plugin.default,
       })
     })
   },
 }
+
+export default pluginRoutes

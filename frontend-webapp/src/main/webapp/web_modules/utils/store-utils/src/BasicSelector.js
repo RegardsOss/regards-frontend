@@ -1,5 +1,12 @@
+/**
+ * @author Léo Mieulet
+ */
 class BasicSelector {
 
+  /**
+   * @summary Store the location of the selector in the redux tree
+   * @param {string[]} rootStore an array of key of the redux tree
+   */
   constructor(rootStore) {
     this.rootStore = rootStore
   }
@@ -12,7 +19,7 @@ class BasicSelector {
   uncombineStore(store) {
     let partialStore = store
     try {
-      for (let i = 0; i < this.rootStore.length; i = i + 1) {
+      for (let i = 0; i < this.rootStore.length; i += 1) {
         partialStore = partialStore[this.rootStore[i]]
       }
     } catch (e) {

@@ -1,6 +1,7 @@
-import SidebarComponent from '../components/SidebarComponent'
 import { I18nProvider } from '@regardsoss/i18n'
 import { ThemeInjector } from '@regardsoss/theme'
+import SidebarComponent from '../components/SidebarComponent'
+
 class SidebarContainer extends React.Component {
 
   render() {

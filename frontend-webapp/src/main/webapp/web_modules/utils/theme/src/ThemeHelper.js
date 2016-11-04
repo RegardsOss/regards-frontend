@@ -16,7 +16,7 @@ class ThemeHelper {
     return customThemes
   }
 
-  static addAppLayer = (theme) => {
+  addAppLayer(theme) {
     if (theme === undefined || theme.length === 0) {
       console.error('This theme does not exist or is empty', theme)
     }

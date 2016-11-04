@@ -28,16 +28,6 @@ const styles = {
     flexWrap: 'wrap',
   },
 }
-/*
-interface ProjectReadProps {
-  projects: Array<Project>
-  theme: any
-  params: any
-}
-
-interface ProjectReadState {
-  project: Project
-}*/
 
 export class ProjectReadContainer extends React.Component {
 
@@ -152,6 +142,14 @@ export class ProjectReadContainer extends React.Component {
     )
   }
 }
+
+ProjectReadContainer.propTypes = {
+  project: React.PropTypes.objectOf(React.PropTypes.string).isRequired,
+  projects: React.PropTypes.arrayOf(React.PropTypes.objectOf(React.PropTypes.string)).isRequired,
+  theme: React.PropTypes.objectOf(React.PropTypes.string).isRequired,
+  params: React.PropTypes.objectOf(React.PropTypes.string).isRequired,
+}
+
 
 const mapStateToProps = (state, ownProps) => ({
   projects: null,

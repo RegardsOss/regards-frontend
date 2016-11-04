@@ -38,7 +38,10 @@ class PortailApp extends React.Component {
     )
   }
 }
-
+PortailApp.propTypes = {
+  theme: React.PropTypes.string,
+  content: React.PropTypes.element.isRequired,
+}
 // Add theme from store to the component props
 const mapStateToProps = state => ({
   theme: state.common.theme,

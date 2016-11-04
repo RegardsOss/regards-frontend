@@ -35,7 +35,7 @@ export class ProjectsContainer extends React.Component {
     }
 
     const project = this.props.projects[selectedRows[0]]
-    const url = `${'/admin/' + 'cdpp' + '/projects/'}${project.projectId}` // Todo
+    const url = `/admin/cdpp/projects/'${project.projectId}`
     browserHistory.push(url)
   }
 
@@ -108,20 +108,11 @@ export class ProjectsContainer extends React.Component {
     )
   }
 }
-
-/*
- interface ProjectsProps {
- projects: Array<Project>
- fetchProjects?: () => void
- deleteProject?: (id: string) => void
- createProject?: () => void
- theme: any
- }*/
 ProjectsContainer.propTypes = {
   projects: React.PropTypes.arrayOf(React.PropTypes.objectOf(React.PropTypes.string)).isRequired,
   fetchProjects: React.PropTypes.func,
   deleteProject: React.PropTypes.func,
-  createProject: React.PropTypes.func,
+/*  createProject: React.PropTypes.func,*/
   theme: React.PropTypes.objectOf(React.PropTypes.string),
 }
 const mapStateToProps = () => ({

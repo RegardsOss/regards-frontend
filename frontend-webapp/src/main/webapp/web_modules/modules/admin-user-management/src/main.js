@@ -1,5 +1,5 @@
-import { userManagementRouter } from './routes'
-import { userManagementReducer } from './reducer'
+import userManagementRouter from './routes'
+import userManagementReducer from './reducer'
 
 export {
   userManagementReducer,

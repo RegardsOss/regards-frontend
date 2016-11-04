@@ -1,53 +1,54 @@
 
-import { connect } from "react-redux"
-import { connectTime, disconnectTime } from "../actions/WSTimeActions"
-import { startTimeWebSocket } from "../actions/TimeActions"
-import Time from "../components/TimeComponent"
+import { connect } from 'react-redux'
+import { connectTime, disconnectTime } from '../actions/WSTimeActions'
+import { startTimeWebSocket } from '../actions/TimeActions'
+import Time from '../components/TimeComponent'
 
-interface TimeProps {
-  time?: any,
-  started?: boolean,
-  webSocketConnect?: any,
-  webSocketDisconnect?: any,
-  startTime?: any
-}
 
-class TimeContainer extends React.Component<TimeProps, any> {
+class TimeContainer extends React.Component {
 
-  // Websocket client
-  client: any
 
-  componentWillMount (): any {
+  componentWillMount() {
     // Action to connect to websocket server
     this.client = this.props.webSocketConnect()
     // Action to start the thread which send time by websocket
     this.props.startTime()
   }
 
-  componentWillUnmount (): any {
+
+  componentWillUnmount() {
     // Action to disconnect from web socket server
     this.props.webSocketDisconnect(this.client)
   }
 
-  render (): JSX.Element {
+  // Websocket client
+  client
+
+  render() {
     // Render time
     if (this.props.started === true) {
       return (
-        <Time time={this.props.time}/>
+        <Time time={this.props.time} />
       )
     }
     return null
   }
 }
+TimeContainer.propTypes = {
+  time: React.PropTypes.number,
+  started: React.PropTypes.bool,
+  webSocketConnect: React.PropTypes.objectOf(React.PropTypes.string),
+  webSocketDisconnect: React.PropTypes.objectOf(React.PropTypes.string),
+  startTime: React.PropTypes.number,
+}
 
-const mapDispatchToProps = (dispatch: any) => ({
+const mapDispatchToProps = dispatch => ({
   webSocketConnect: () => dispatch(connectTime()),
-  webSocketDisconnect: (sock: any) => dispatch(disconnectTime(sock)),
-  startTime: () => dispatch(startTimeWebSocket())
+  webSocketDisconnect: sock => dispatch(disconnectTime(sock)),
+  startTime: () => dispatch(startTimeWebSocket()),
 })
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = state => ({
   time: state.userApp.ws.time,
-  started: state.userApp.ws.started
+  started: state.userApp.ws.started,
 })
-const timeConnected = connect<{}, {}, TimeProps>(mapStateToProps, mapDispatchToProps)(TimeContainer)
-export default timeConnected
+export default connect(mapStateToProps, mapDispatchToProps)(TimeContainer)

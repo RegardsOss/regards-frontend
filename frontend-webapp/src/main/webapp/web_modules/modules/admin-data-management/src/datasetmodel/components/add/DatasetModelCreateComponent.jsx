@@ -3,22 +3,18 @@ import { Card, CardTitle, CardText } from 'material-ui/Card'
 import { map, find } from 'lodash'
 import FlatButton from 'material-ui/FlatButton'
 import TextField from 'material-ui/TextField'
-import CreateAttributeModal from './CreateAttributeModal'
 import Delete from 'material-ui/svg-icons/action/delete'
 import { TableRowColumn, Table, TableBody, TableHeader, TableHeaderColumn, TableRow } from 'material-ui/Table'
 import { FormattedMessage } from 'react-intl'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import { CardActionsComponent } from '@regardsoss/components'
+import CreateAttributeModal from './CreateAttributeModal'
 import JavaTypes from './../../../JavaTypes'
-/*
-interface ModelCreateProps {
-  getCancelUrl: () => string
-  handleNextStep: (name: string, attributes: Array<ModelAttribute>) => void
-}*/
+
 
 /**
  */
-export default class ModelCreateComponent extends React.Component {
+class ModelCreateComponent extends React.Component {
 
 
   constructor(props) {
@@ -30,12 +26,12 @@ export default class ModelCreateComponent extends React.Component {
     }
   }
 
-  handleSaveButton = (event) => {
-    return this.props.handleNextStep(this.state.label, this.state.attributes)
-  }
-  handleCancelUrl = () => {
-    return this.props.getCancelUrl()
-  }
+  handleSaveButton = () => (
+     this.props.handleNextStep(this.state.label, this.state.attributes)
+    )
+  handleCancelUrl = () => (
+     this.props.getCancelUrl()
+    )
   handleModelLabelChange = (event) => {
     const newLabel = event.target.value
     this.setState({
@@ -68,7 +64,7 @@ export default class ModelCreateComponent extends React.Component {
       attributes: attributes.filter(element => element.name !== entity.name),
     })
   }
-  handleEditBtn = (entity) => {
+  handleEditBtn = () => {
     console.log('todo')
   }
 
@@ -119,7 +115,7 @@ export default class ModelCreateComponent extends React.Component {
           </TableRow>
         </TableHeader>
         <TableBody displayRowCheckbox={false} preScanRows={false}>
-          {map(attributes, (attribute, id) => (
+          {map(attributes, attribute => (
             <TableRow
               key={attribute.name}
             >
@@ -210,3 +206,8 @@ export default class ModelCreateComponent extends React.Component {
     )
   }
 }
+ModelCreateComponent.propTypes = {
+  getCancelUrl: React.PropTypes.func.isRequired,
+  handleNextStep: React.PropTypes.func.isRequired,
+}
+export default ModelCreateComponent

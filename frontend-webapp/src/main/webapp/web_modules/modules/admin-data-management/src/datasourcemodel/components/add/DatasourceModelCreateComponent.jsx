@@ -3,12 +3,12 @@ import { Card, CardTitle, CardText } from 'material-ui/Card'
 import { map, find } from 'lodash'
 import FlatButton from 'material-ui/FlatButton'
 import TextField from 'material-ui/TextField'
-import CreateAttributeModal from '../../../datasetmodel/components/add/CreateAttributeModal'
 import Delete from 'material-ui/svg-icons/action/delete'
 import { TableRowColumn, Table, TableBody, TableHeader, TableHeaderColumn, TableRow } from 'material-ui/Table'
 import { FormattedMessage } from 'react-intl'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import { CardActionsComponent } from '@regardsoss/components'
+import CreateAttributeModal from '../../../datasetmodel/components/add/CreateAttributeModal'
 import JavaTypes from './../../../JavaTypes'
 
 /**
@@ -25,12 +25,12 @@ class ModelCreateComponent extends React.Component {
     }
   }
 
-  handleSaveButton = (event) => {
-    return this.props.handleNextStep(this.state.label, this.state.attributes)
-  }
-  handleCancelUrl = () => {
-    return this.props.getCancelUrl()
-  }
+  handleSaveButton = () => (
+     this.props.handleNextStep(this.state.label, this.state.attributes)
+)
+  handleCancelUrl = () => (
+     this.props.getCancelUrl()
+  )
   handleModelLabelChange = (event) => {
     const newLabel = event.target.value
     this.setState({
