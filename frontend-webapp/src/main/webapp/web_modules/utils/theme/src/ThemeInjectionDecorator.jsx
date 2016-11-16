@@ -13,7 +13,7 @@ export default function injectTheme(DecoratedComponent) {
   function ThemeInjectionDecorator(props) {
     const decoratedComponentElement = React.createElement(
       DecoratedComponent,
-      props
+      props,
     )
 
     return (

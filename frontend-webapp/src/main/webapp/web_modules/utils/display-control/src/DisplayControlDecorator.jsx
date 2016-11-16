@@ -26,7 +26,7 @@ export function applyDisplayControl(controller, mapStateToProps, mapDispatchToPr
         // to the controller
         const decoratedComponentElement = React.createElement(
           DecoratedComponent,
-          this.props
+          this.props,
         )
 
         return (

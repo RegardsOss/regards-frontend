@@ -81,7 +81,7 @@ class ModelAttributeComponent extends React.Component {
             }
           }
           return null
-        }
+        },
         )}
 
       </div>

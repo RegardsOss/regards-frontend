@@ -13,7 +13,7 @@ class MenuComponent extends React.Component {
         styles: Object.assign(
           {},
           this.context.muiTheme.portalApp.layout.headContainer.styles,
-          { fontFamily: this.context.muiTheme.fontFamily }
+          { fontFamily: this.context.muiTheme.fontFamily },
         ),
       },
       title: this.context.muiTheme.toolbarTitle,

@@ -25,8 +25,8 @@ function configureStore(rootReducer) {
     preloadedState,
     compose(
       applyMiddleware(...middlewares),
-      win.devToolsExtension ? win.devToolsExtension() : f => f // Enable redux dev tools
-    )
+      win.devToolsExtension ? win.devToolsExtension() : f => f, // Enable redux dev tools
+    ),
   )
 
   return store

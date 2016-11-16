@@ -81,7 +81,7 @@ class CreateAttributeModal extends React.Component {
           key={JavaTypes[i].value}
           value={JavaTypes[i].value}
           primaryText={<FormattedMessage id={JavaTypes[i].i18n} />}
-        />)
+        />),
       )
     }
 

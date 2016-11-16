@@ -1,11 +1,11 @@
 const { CALL_API } = require('redux-api-middleware')
 
-export const AUTHENTICATE_API = 'http://localhost:8080/oauth/token'
+export const AUTHENTICATE_API = `${GATEWAY_HOSTNAME}/oauth/token`
 export const REQUEST_AUTHENTICATE = 'REQUEST_AUTHENTICATE'
 export const RECEIVE_AUTHENTICATE = 'RECEIVE_AUTHENTICATE'
 export const FAILED_AUTHENTICATE = 'FAILED_AUTHENTICATE'
 
-export const fetchAuthenticate = (username, password) => ({
+export const fetchAuthenticate = (username, password, scope = 'project1') => ({
   [CALL_API]: {
     types: [
       REQUEST_AUTHENTICATE,
@@ -24,7 +24,7 @@ export const fetchAuthenticate = (username, password) => ({
       },
 
     ],
-    endpoint: `${AUTHENTICATE_API}?grant_type=password&username=${username}&password=${password}`,
+    endpoint: `${AUTHENTICATE_API}?grant_type=password&username=${username}&password=${password}&scope=${scope}`,
     method: 'POST',
   },
 })
