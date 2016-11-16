@@ -2,9 +2,9 @@ import { Schema, arrayOf } from 'normalizr'
 
 // Read more about Normalizr: https://github.com/paularmstrong/normalizr
 const projectSchema = new Schema('projects', {
-  idAttribute: (project) => {
-    return project.name
-  },
+  idAttribute: project =>
+     project.name
+  ,
 })
 
 // Schemas for API responses.

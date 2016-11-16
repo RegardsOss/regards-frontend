@@ -39,7 +39,7 @@ module.exports = {
       exclude: [/node_modules/, /json/, /\/\..*!/],
     }],
     loaders: [
-      // Transpile ES6 Javascript into ES5 with babel loader and react
+      // Transpile ES6 Javascript into ES5 with babel loader
       {
         test: /\.jsx?$/,
         exclude: [/node_modules/, /json/],

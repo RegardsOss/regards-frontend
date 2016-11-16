@@ -16,7 +16,7 @@ function StepperCreateDatasetComponent({ getStepperIndex }) {
         <StepLabel><FormattedMessage id="datamanagement.dataset.add.3.stepper" /></StepLabel>
       </Step>
     </Stepper>
-    )
+  )
 }
 StepperCreateDatasetComponent.propTypes = {
   getStepperIndex: React.PropTypes.func.isRequired,

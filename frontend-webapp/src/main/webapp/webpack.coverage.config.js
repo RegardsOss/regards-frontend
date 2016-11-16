@@ -40,6 +40,7 @@ config = merge(config, {
       'process.env': {
         NODE_ENV: JSON.stringify('coverage'),
       },
+      GATEWAY_HOSTNAME: JSON.stringify('http://localhost:8000'),
     }),
   ],
   // enable sourcemaps support

@@ -22,7 +22,8 @@
     "import/no-named-as-default-member": 0,
     "global-require": 0,
     "max-len": 0,
-    "no-unused-vars": 1,
+    // ignore unused variable on functions arguments
+    "no-unused-vars": ["error", { "args": "none" }],
     // enable all jsdoc rules
     "jsdoc/check-param-names": 1,
     "jsdoc/check-tag-names": 1,
@@ -41,7 +42,8 @@
     "jsdoc"
   ],
   "globals": {
-    "React": true
+    "React": true,
+    "GATEWAY_HOSTNAME": true
   },
   "parserOptions": {
     "ecmaVersion": 6,

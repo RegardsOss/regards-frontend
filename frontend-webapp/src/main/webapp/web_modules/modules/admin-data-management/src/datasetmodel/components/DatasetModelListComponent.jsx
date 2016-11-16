@@ -88,7 +88,7 @@ function ModelListComponent({ datasetModels, getBackUrl, getCreateUrl }) {
         />
       </CardText>
     </Card>
-    )
+  )
 }
 ModelListComponent.propTypes = {
   getBackUrl: React.PropTypes.func.isRequired,

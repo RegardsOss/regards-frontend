@@ -1,4 +1,4 @@
-import { isAuthenticated } from './AuthenticateUtils'
+import isAuthenticated from './AuthenticateUtils'
 import { logout, fetchAuthenticate } from './AuthenticateActions'
 import authorizationMiddleware from './AuthorizationMiddleware'
 import authentication from './AuthenticateReducers'

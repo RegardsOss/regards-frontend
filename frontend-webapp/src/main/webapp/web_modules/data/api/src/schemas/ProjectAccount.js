@@ -3,9 +3,9 @@ import AccountSchema from './Account'
 
 const NAME = 'projectAccounts'
 const projectAccountSchema = new Schema(NAME, {
-  idAttribute: (projectAccount) => {
-    return projectAccount.projectAccountId
-  },
+  idAttribute: projectAccount =>
+     projectAccount.projectAccountId
+  ,
 })
 
 projectAccountSchema.define({

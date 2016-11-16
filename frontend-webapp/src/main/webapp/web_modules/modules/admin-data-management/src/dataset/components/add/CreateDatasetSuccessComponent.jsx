@@ -25,7 +25,7 @@ function CreateDatasetSuccessComponent({ children, handleNextStep }) {
         />
       </CardText>
     </Card>
-    )
+  )
 }
 CreateDatasetSuccessComponent.propsType = {
   handleNextStep: React.PropTypes.func.isRequired,

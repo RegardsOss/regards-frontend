@@ -48,11 +48,11 @@ ConnectionListContainer.propTypes = {
   // From mapStateToProps
   connections: React.PropTypes.arrayOf(React.PropTypes.objectOf(React.PropTypes.string)),
 }
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state, ownProps) =>
   // const connections = ConnectionSelectors.getConnections(state)
   // return {
   //   connections
   // }
-  return {}
-}
+   ({})
+
 export default connect(mapStateToProps, null)(ConnectionListContainer)

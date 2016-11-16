@@ -32,4 +32,3 @@ Dependencies
 -	normalizr
 -	mocha, nyc
 -	enzyme, chai, sinon
--	Typescript, typings, tslint

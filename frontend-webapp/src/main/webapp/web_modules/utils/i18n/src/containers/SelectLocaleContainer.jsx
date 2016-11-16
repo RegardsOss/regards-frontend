@@ -1,7 +1,7 @@
 /** @module common */
 
 import { connect } from 'react-redux'
-import { updateLocale } from '../I18nActions'
+import { updateLocale } from '../model/I18nActions'
 import SelectLocalComponent from '../components/SelectLocaleComponent'
 import I18nProvider from '../I18nProvider'
 

@@ -76,7 +76,7 @@ function ConnectionListComponent(props) {
         />
       </CardText>
     </Card>
-    )
+  )
 }
 
 ConnectionListComponent.propTypes = {

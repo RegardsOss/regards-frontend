@@ -35,7 +35,7 @@ function CollectionCreateContainer({ params }) {
         <h1>Dataset collection creation</h1>
       </Card>
     </I18nProvider>
-    )
+  )
 }
 CollectionCreateContainer.propTypes = {
   params: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,

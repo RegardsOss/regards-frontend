@@ -8,7 +8,11 @@ import portalAppLayer from './custom/portalAppLayer'
 
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
-injectTapEventPlugin()
+try {
+  injectTapEventPlugin()
+} catch (e) {
+  console.log('Failed to inject injectTapEventPlugin. Are you in watch mode?')
+}
 
 class ThemeHelper {
 
@@ -16,7 +20,7 @@ class ThemeHelper {
     return customThemes
   }
 
-  addAppLayer(theme) {
+  static addAppLayer(theme) {
     if (theme === undefined || theme.length === 0) {
       console.error('This theme does not exist or is empty', theme)
     }
@@ -27,7 +31,7 @@ class ThemeHelper {
    * Todo - getMuiTheme always merge the custom theme with a standard one,
    */
   static getByName(name) {
-    const theme = getMuiTheme(this.addAppLayer(this.getThemes()[name]))
+    const theme = getMuiTheme(ThemeHelper.addAppLayer(this.getThemes()[name]))
     return theme
   }
 

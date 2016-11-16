@@ -10,7 +10,7 @@ const getAuthorization = (state, callAPI) => {
   const authentication = state.common.authentication
   // let authorization = "Basic "
   // Todo: Extract this value to lets the administrator deploys the frontend with another key
-  let authorization = `Basic ${btoa('acme:acmesecret')}`
+  let authorization = `Basic ${btoa('client:secret')}`
   if (authentication && authentication.user && authentication.user.access_token && callAPI.types[0] !== REQUEST_AUTHENTICATE) {
     authorization = `Bearer ${authentication.user.access_token}`
   }

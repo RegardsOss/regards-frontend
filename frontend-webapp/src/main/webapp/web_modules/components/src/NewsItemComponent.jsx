@@ -41,7 +41,7 @@ function NewsItemComponent(props) {
         />
       </CardActions>
     </Card>
-    )
+  )
 }
 NewsItemComponent.propTypes = {
   news: React.PropTypes.objectOf(React.PropTypes.string),

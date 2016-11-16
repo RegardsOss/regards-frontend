@@ -59,7 +59,7 @@ class ModelAttributeComponent extends React.Component {
                       />
                     }
                   />
-                  )
+                )
               case JavaTypes.INTEGER.value:
                 return (
 
@@ -75,7 +75,7 @@ class ModelAttributeComponent extends React.Component {
                       />
                     }
                   />
-                  )
+                )
               default:
                 throw new Error(`Undefined java type ${attribute.type}`)
             }

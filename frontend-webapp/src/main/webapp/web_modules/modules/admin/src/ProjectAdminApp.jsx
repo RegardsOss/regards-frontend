@@ -1,12 +1,11 @@
 /** @module AdminApp */
 
 import { connect } from 'react-redux'
-import { logout } from '@regardsoss/authentication'
+import { logout, isAuthenticated } from '@regardsoss/authentication'
 import { ThemeHelper } from '@regardsoss/theme'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import MainAdminLayout from './MainAdminLayout'
 import AuthenticationLayout from './authentication/containers/AuthenticationLayout'
-
 
 /**
  * React component to manage Administration application.
@@ -54,8 +53,15 @@ class ProjectAdminApp extends React.Component {
 ProjectAdminApp.propTypes = {
   // From mapStateToProps
   theme: React.PropTypes.string,
-  authentication: React.PropTypes.objectOf(React.PropTypes.string),
-  content: React.PropTypes.element.isRequired,
+  authentication: React.PropTypes.shape({
+    user: React.PropTypes.shape({
+      name: React.PropTypes.string,
+    }).isRequired,
+    authenticateDate: React.PropTypes.number.isRequired,
+    error: React.PropTypes.string.isRequired,
+    isFetching: React.PropTypes.bool.isRequired,
+  }),
+  content: React.PropTypes.element,
 }
 // TODO: Use selector instead of direct extraction
 // Add theme from store to the component props

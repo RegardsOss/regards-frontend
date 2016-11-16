@@ -17,30 +17,24 @@ config.module.loaders = []
 config.module.plugins = []
 config = merge(config, {
   plugins: [
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify('development'),
+      },
+      GATEWAY_HOSTNAME: JSON.stringify('http://localhost:8000'),
+    }),
     // your custom plugins
     new webpack.ProvidePlugin({ React: 'react' }),
   ],
   module: {
-    loaders: [// All files with a '.ts' or '.tsx' extension will be handled by 'ts-loader'.
+    loaders: [
+      // Transpile ES6 Javascript into ES5 with babel loader
       {
-        test: /\.tsx{0,1}?$/,
-        exclude: [/node_modules/, /json/, /web_modules\/.*\/index\.d\.ts$/],
-        loaders: ['babel-loader', 'ts-loader'],
-      },
-      // Transpile ES6 Javascript into ES5 with babel loader and react
-      {
-        test: /\.js$/,
-        exclude: [/node_modules/, /json/, /\/\..*/],
-        loader: 'babel',
-        query: {
-          presets: ['es2015', 'react'],
-        },
-      },
-      {
-        test: /\.jsx$/,
+        test: /\.jsx?$/,
         exclude: [/node_modules/, /json/],
         loader: 'babel',
-      }, {
+      },
+      {
         test: /\.css?$/,
         exclude: [/node_modules/, /json/],
         loaders: [

@@ -2,9 +2,9 @@ import { Schema, arrayOf } from 'normalizr'
 
 const NAME = 'roles'
 const roleSchema = new Schema(NAME, {
-  idAttribute: (role) => {
-    return role.name
-  },
+  idAttribute: role =>
+     role.name
+  ,
 })
 
 

@@ -11,7 +11,7 @@ function ModuleComponent(props) {
     <ShowableAtMount show>
       { props.children }
     </ShowableAtMount>
-    )
+  )
 }
 
 ModuleComponent.propTypes = {

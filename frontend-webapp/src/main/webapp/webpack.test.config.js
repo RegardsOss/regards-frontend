@@ -13,8 +13,6 @@ config = merge(config, {
   })], // in order to ignore all modules in node_modules folder
   // Enable sourcemaps for debugging webpack's output.
   devtool: 'inline-source-map',
-  verbose: true,
-  displayErrorDetails: true,
   stats: {
     colors: true,
     reasons: true,
@@ -33,6 +31,7 @@ config = merge(config, {
       'process.env': {
         NODE_ENV: JSON.stringify('test'),
       },
+      GATEWAY_HOSTNAME: JSON.stringify('http://localhost:8000'),
     }),
   ],
   // enable sourcemaps support

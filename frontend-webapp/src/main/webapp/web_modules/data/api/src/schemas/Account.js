@@ -1,9 +1,9 @@
 import { Schema } from 'normalizr'
 
 const accountSchema = new Schema('accounts', {
-  idAttribute: (account) => {
-    return account.accountId
-  },
+  idAttribute: account =>
+     account.accountId
+  ,
 })
 
 // Schemas for API responses.

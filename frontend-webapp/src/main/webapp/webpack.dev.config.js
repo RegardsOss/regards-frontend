@@ -7,7 +7,7 @@ let config = CommonConfig
 
 config = merge(config, {
   // Enable sourcemaps for debugging webpack's output.
-  devtool: 'cheap-module-source-map',
+  devtool: 'source-map',
   output: {
     // Webpack compilation directory
     path: `${__dirname}/build`,
@@ -49,6 +49,7 @@ config = merge(config, {
       'process.env': {
         NODE_ENV: JSON.stringify('development'),
       },
+      GATEWAY_HOSTNAME: JSON.stringify('http://localhost:8000'),
     }),
   ],
 })

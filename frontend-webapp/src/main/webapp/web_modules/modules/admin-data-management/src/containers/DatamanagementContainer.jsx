@@ -8,12 +8,13 @@ interface DatamanagementProps {
 }*/
 /**
  */
-const DatamanagementContainer = function ({ params }) { (
-  <I18nProvider messageDir="modules/admin-data-management/src/i18n">
-    <ComposedInjector >
-      <DatamanagementComponent theme={null} intl={null} params={params} />
-    </ComposedInjector>
-  </I18nProvider>
+const DatamanagementContainer = function ({ params }) {
+  (
+    <I18nProvider messageDir="modules/admin-data-management/src/i18n">
+      <ComposedInjector >
+        <DatamanagementComponent theme={null} intl={null} params={params} />
+      </ComposedInjector>
+    </I18nProvider>
     )
 }
 DatamanagementContainer.propTypes = {

@@ -2,10 +2,11 @@
 
 import { connect } from 'react-redux'
 import { addLocaleData, IntlProvider } from 'react-intl'
-import * as fr from 'react-intl/locale-data/fr'
-import { updateMessages } from './I18nActions'
+import frLocaleData from 'react-intl/locale-data/fr'
+import { updateMessages } from './model/I18nActions'
+import I18nSelectors from './model/I18nSelectors'
 
-addLocaleData(fr)
+addLocaleData(frLocaleData)
 
 
 /**
@@ -24,23 +25,23 @@ addLocaleData(fr)
 export class I18nProvider extends React.Component {
 
   componentWillMount() {
-    // Get messages associated to this Prodiver via the messageDir
-    const localMessages = this.props.messages.find(message => message.messagesDir === this.props.messageDir)
+    const { updateMessages, messages, locale, messageDir } = this.props
 
     // init messages if not set
-    if (!localMessages) {
-      this.props.updateMessages(this.props.messageDir, this.props.locale)
+    if (!messages) {
+      updateMessages(messageDir, locale)
     }
   }
 
   render() {
+    const { messages, locale } = this.props
     // Get messages associated to this Prodiver via the messageDir
-    const localMessages = this.props.messages.find(message => message.messagesDir === this.props.messageDir)
-    if (localMessages) {
+    if (messages) {
+      console.log(messages)
       return (
         <IntlProvider
-          locale={this.props.locale}
-          messages={localMessages.messages}
+          locale={locale}
+          messages={messages}
         >
           {this.props.children}
         </IntlProvider>
@@ -52,14 +53,17 @@ export class I18nProvider extends React.Component {
 I18nProvider.propTypes = {
   messageDir: React.PropTypes.string.isRequired,
   locale: React.PropTypes.string,
+  // from mapDispatchToProps
   updateMessages: React.PropTypes.func,
-  messages: React.PropTypes.arrayOf(React.PropTypes.string),
+  // from mapStateToProps
+  messages: React.PropTypes.objectOf(React.PropTypes.string),
   children: React.PropTypes.element,
 }
 
-const mapStateToProps = state => ({
-  locale: state.common.i18n.locale,
-  messages: state.common.i18n.messages,
+
+const mapStateToProps = (state, ownProps) => ({
+  locale: I18nSelectors.getLocale(state),
+  messages: I18nSelectors.getMessagesByMessageDir(state, ownProps.messageDir),
 })
 
 const mapDispatchToProps = dispatch => ({

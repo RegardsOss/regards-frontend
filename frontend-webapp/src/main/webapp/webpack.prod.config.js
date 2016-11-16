@@ -4,7 +4,7 @@ const webpack = require('webpack')
 const merge = require('webpack-merge')
 
 let config = CommonConfig
-
+config.plugins = [];
 config = merge(config, {
   output: {
     // Webpack compilation directory
@@ -28,6 +28,7 @@ config = merge(config, {
       'process.env': {
         NODE_ENV: JSON.stringify('production'),
       },
+      GATEWAY_HOSTNAME: JSON.stringify('http://localhost:8000'),
     }),
   ],
 })

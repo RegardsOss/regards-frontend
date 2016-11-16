@@ -8,7 +8,7 @@ function ApplicationErrorComponent() {
     <div>
         Application unavailable
     </div>
-    )
+  )
 }
 
 // Add theme from store to the component props
