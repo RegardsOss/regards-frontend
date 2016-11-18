@@ -37,7 +37,6 @@ export class I18nProvider extends React.Component {
     const { messages, locale } = this.props
     // Get messages associated to this Prodiver via the messageDir
     if (messages) {
-      console.log(messages)
       return (
         <IntlProvider
           locale={locale}

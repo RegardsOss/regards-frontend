@@ -1,6 +1,6 @@
 import { SelectLocaleContainer } from '@regardsoss/i18n'
 import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from 'material-ui/Toolbar'
-import { SelectThemeContainer, ThemeContextInterface, ThemeContextType } from '@regardsoss/theme'
+import { SelectThemeContainer, ThemeContextType } from '@regardsoss/theme'
 
 class MenuComponent extends React.Component {
 
@@ -25,7 +25,7 @@ class MenuComponent extends React.Component {
           <ToolbarTitle text="REGARDS portal" style={style.title} />
         </ToolbarGroup>
         <ToolbarGroup>
-          <SelectLocaleContainer locales={['en', 'fr']} />
+          <SelectLocaleContainer />
           <ToolbarSeparator />
           <SelectThemeContainer />
         </ToolbarGroup>

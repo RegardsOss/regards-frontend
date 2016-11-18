@@ -15,12 +15,13 @@ const routes = {
     require.ensure([], (require) => {
       const PortalPckg = require('@regardsoss/portal')
       cb(null, {
-        component: PortalPckg.portalContainer,
+        component: PortalPckg.PortalHomepageContainer,
       })
     })
   },
 }
 export default routes
+
 
 /*
 

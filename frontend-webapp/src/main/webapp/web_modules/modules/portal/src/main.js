@@ -1,7 +1,7 @@
 import portalReducer from './reducer'
-import portalContainer from './PortalApp'
+import PortalHomepageContainer from './containers/PortalHomepageContainer'
 
 export {
+  PortalHomepageContainer,
   portalReducer,
-  portalContainer,
 }

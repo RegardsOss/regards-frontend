@@ -5,7 +5,7 @@ import {
   SET_DATASOURCE,
   SET_VIEW_STATE,
 } from './datasetCreation.form.actions'
-import FORM_STATES_ENUM from './FormStatesEnum'
+import FORM_STATES_ENUM from './FORM_STATES_ENUM'
 
 export default (state = {
   datasourceId: undefined,

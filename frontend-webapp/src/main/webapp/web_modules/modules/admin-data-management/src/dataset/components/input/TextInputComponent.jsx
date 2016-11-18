@@ -1,8 +1,7 @@
-
 import TextField from 'material-ui/TextField'
 
-
 /**
+ *
  */
 class TextInputComponent extends React.Component {
 
@@ -24,7 +23,7 @@ class TextInputComponent extends React.Component {
 
   /**
    * Controls that props provided are correct
-   * @param props
+   * @param props the react props object
    */
   componentWillReceiveProps = (props) => {
     const allowedTypes = ['text', 'password']

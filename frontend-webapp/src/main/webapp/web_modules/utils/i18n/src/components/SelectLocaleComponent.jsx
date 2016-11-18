@@ -1,38 +1,46 @@
-/** @module common */
-
 import { map } from 'lodash'
 import MenuItem from 'material-ui/MenuItem'
 import DropDownMenu from 'material-ui/DropDownMenu'
+import { FormattedMessage } from 'react-intl'
 
 
 /**
  * React component to display the language selector widget
  */
 class SelectLocaleComponent extends React.Component {
-  constructor() {
-    super()
-    this.handleChange = this.handleChange.bind(this)
+  static propTypes = {
+    locales: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
+    currentLocale: React.PropTypes.string,
+    handleLocaleChange: React.PropTypes.func,
   }
 
-  handleChange(event, index, value) {
-    this.props.setLocale(value)
+  /**
+   * @type {{muiTheme: *}}
+   */
+  static contextTypes = {
+    muiTheme: React.PropTypes.object.isRequired,
   }
 
   render() {
-    const { locales, currentLocale } = this.props
+    const { muiTheme } = this.context
+    const { locales, currentLocale, handleLocaleChange } = this.props
     const items = map(locales, locale => (
-      <MenuItem value={locale} key={locale} primaryText={locale} />
+      <MenuItem
+        value={locale}
+        key={locale}
+        label={<FormattedMessage id="label" />}
+        primaryText={<FormattedMessage id={locale} />}
+      />
   ))
     return (
-      <DropDownMenu value={currentLocale} onChange={this.handleChange}>
+      <DropDownMenu
+        value={currentLocale}
+        onChange={handleLocaleChange}
+        labelStyle={muiTheme.header.localeDropdown}
+      >
         {items}
       </DropDownMenu>
     )
   }
-}
-SelectLocaleComponent.propTypes = {
-  locales: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
-  currentLocale: React.PropTypes.string,
-  setLocale: React.PropTypes.func,
 }
 export default SelectLocaleComponent

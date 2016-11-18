@@ -125,7 +125,7 @@ describe('[ADMIN APP] Testing projects actions', () => {
         name: 'createdProject',
         id: 3,
         links: [{ rel: 'self', href: 'fakeHref' }],
-      }]
+      }],
       )
       const store = mockStore({ projects: [] })
 
@@ -197,7 +197,7 @@ describe('[ADMIN APP] Testing projects actions', () => {
         name: 'createdProject',
         id: 3,
         links: [{ rel: 'self', href: 'fakeHref' }],
-      }]
+      }],
       )
       const store = mockStore({
         projects: {

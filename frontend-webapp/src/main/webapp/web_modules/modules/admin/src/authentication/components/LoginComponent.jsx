@@ -1,5 +1,3 @@
-/** @module AdminAuthentication */
-
 import { FormattedMessage } from 'react-intl'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import TextField from 'material-ui/TextField'
@@ -7,13 +5,24 @@ import RaisedButton from 'material-ui/RaisedButton'
 import ErrorDecorator from './ErrorDecorator'
 
 /**
- * React component for login form in administration application
- * @prop {Function} onLogin Callback for on login action
- * @prop {String} errorMessage Error message to display
+ * React component for login form in administration applicationstat
  */
 class LoginComponent extends React.Component {
+
+  static propTypes = {
+    onLogin: React.PropTypes.func.isRequired,
+    errorMessage: React.PropTypes.string,
+  }
+
+  /**
+   * constructor
+   * @param {{onLogin: function, errorMessage: string}} props
+   */
   constructor(props) {
     super(props)
+    /**
+     * @type {{username: string, password: string, showError: boolean}} state Internal state
+     */
     this.state = {
       username: '',
       password: '',
@@ -21,49 +30,62 @@ class LoginComponent extends React.Component {
     }
   }
 
+  /**
+   * On component mount
+   */
   componentWillMount() {
-    this.handleKeyPress = this.handleKeyPress.bind(this)
-    this.handleUserInputChange = this.handleUserInputChange.bind(this)
-    this.handlePasswordInputChange = this.handlePasswordInputChange.bind(this)
-    this.handleButtonPress = this.handleButtonPress.bind(this)
     if (process.env.NODE_ENV === 'development') {
       console.log('DEV', 'Auto connection')
-      // this.props.onLogin("admin", "admin")
+      this.props.onLogin('admin@cnes.fr', 'admin')
     }
   }
 
   /**
-   * handleKeyPress - Handle 'Enter' key press to validate form
-   *
-   * @param  {type} event: KeyboardEvent
-   * @return {type}
+   * Handle 'Enter' key press to validate form
+   * @param {KeyboardEvent} event
    */
-  handleKeyPress(event) {
+  handleKeyPress = (event) => {
     this.setState({ showError: true })
     if (event.key === 'Enter') {
       this.props.onLogin(this.state.username, this.state.password)
     }
   }
 
-  handleUserInputChange(event) {
+  /**
+   * Handle input change
+   * @param {InputEvent} event
+   */
+  handleUserInputChange = (event) => {
     this.setState({
       username: event.target.value,
       showError: false,
     })
   }
 
-  handlePasswordInputChange(event) {
+  /**
+   * Handle input change
+   * @param {InputEvent} event
+   */
+  handlePasswordInputChange = (event) => {
     this.setState({
       password: event.target.value,
       showError: false,
     })
   }
 
-  handleButtonPress(event) {
+  /**
+   * Handle mouse press on the connection button
+   * @param {MouseEvent} event
+   */
+  handleButtonPress = (event) => {
     this.props.onLogin(this.state.username, this.state.password)
     this.setState({ showError: true })
   }
 
+  /**
+   * Render function
+   * @returns {React.Component} component
+   */
   render() {
     let errorMessage = null
     if (this.state.showError && this.props.errorMessage && this.props.errorMessage !== '') {
@@ -101,8 +123,5 @@ class LoginComponent extends React.Component {
     )
   }
 }
-LoginComponent.propTypes = {
-  onLogin: React.PropTypes.func.isRequired,
-  errorMessage: React.PropTypes.string,
-}
 export default LoginComponent
+

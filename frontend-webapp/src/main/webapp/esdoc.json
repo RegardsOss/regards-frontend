@@ -1,0 +1,9 @@
+{
+  "source": "web_modules",
+  "destination": "./reports/esdoc",
+  "plugins": [
+    {"name": "esdoc-es7-plugin"}
+  ],
+  "includes": ["\\.(js|jsx)$"],
+  "excludes":["test"]
+}

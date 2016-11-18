@@ -9,7 +9,7 @@ import CreateDatasetSuccessComponent from '../components/add/CreateDatasetSucces
 import * as DatasetCreationFormActions from '../model/datasetCreation.form.actions'
 import DatasetCreationFormSelectors from '../model/datasetCreation.form.selectors'
 import * as DatasetActions from '../model/dataset.actions'
-import { FORM_STATES_ENUM as STATES } from './../model/FormStatesEnum'
+import { FORM_STATES_ENUM as STATES } from '../model/FORM_STATES_ENUM'
 
 
 /**

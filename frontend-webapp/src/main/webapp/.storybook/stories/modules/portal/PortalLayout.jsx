@@ -1,5 +1,5 @@
 import { storiesOf, action } from '@kadira/storybook'
-import PortalLayout from '@regardsoss/portal/src/PortalLayout'
+import PortalLayout from '@regardsoss/portal/src/containers/HomepageContainer'
 import Paper from 'material-ui/Paper'
 import { withKnobs, select } from '@kadira/storybook-addon-knobs'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'

@@ -1,20 +1,27 @@
 /**
  * @author Léo Mieulet
  */
+
+/**
+ *  Store the location of the selector in the redux tree, and provides a function to only retrieve the subset of the redux tree
+ */
 class BasicSelector {
 
   /**
-   * @summary Store the location of the selector in the redux tree
    * @param {string[]} rootStore an array of key of the redux tree
    */
   constructor(rootStore) {
+    /**
+     * @property {string[]} rootStore the keys we need to go over
+     * @type {string[]}
+     */
     this.rootStore = rootStore
   }
 
   /**
    * Returns the subset of the store that your reducer is based on
-   * @param store
-   * @returns {any}
+   * @param {object} store the store
+   * @returns {object} subset of the store
    */
   uncombineStore(store) {
     let partialStore = store

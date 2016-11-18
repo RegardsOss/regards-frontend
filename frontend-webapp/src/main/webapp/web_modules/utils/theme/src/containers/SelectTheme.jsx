@@ -4,7 +4,8 @@ import IconMenu from 'material-ui/IconMenu'
 import { connect } from 'react-redux'
 import MenuItem from 'material-ui/MenuItem'
 import { map, keys } from 'lodash'
-import { setTheme } from '../actions/ThemeActions'
+import { I18nProvider } from '@regardsoss/i18n'
+import setTheme from '../actions/ThemeActions'
 import ThemeHelper from '../ThemeHelper'
 
 export class SelectTheme extends React.Component {
@@ -26,15 +27,17 @@ export class SelectTheme extends React.Component {
     console.log('SelectTheme', this.props.theme)
 
     return (
-      <IconMenu
-        iconButtonElement={<IconButton><Palette /></IconButton>}
-        anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
-        targetOrigin={{ horizontal: 'middle', vertical: 'bottom' }}
-        value={this.props.theme}
-        onChange={this.handleChange}
-      >
-        {items}
-      </IconMenu>
+      <I18nProvider messageDir="utils/theme/src/i18n">
+        <IconMenu
+          iconButtonElement={<IconButton><Palette /></IconButton>}
+          anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
+          targetOrigin={{ horizontal: 'middle', vertical: 'bottom' }}
+          value={this.props.theme}
+          onChange={this.handleChange}
+        >
+          {items}
+        </IconMenu>
+      </I18nProvider>
     )
   }
 }

@@ -38,5 +38,15 @@ export default {
         },
       },
     },
+    homepage: {
+      splitNews: {
+        display: 'flex',
+        justifyContent: 'space-around',
+      },
+      betweenProjects: {
+        marginTop: '10px',
+        marginBottom: '10px',
+      },
+    },
   },
 }

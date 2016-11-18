@@ -1,5 +1,3 @@
-/** @module Common.DisplayControl */
-
 import { connect } from 'react-redux'
 import { ShowableAtRender } from '@regardsoss/components'
 import HateoasDisplayController from './HateoasDisplayController'

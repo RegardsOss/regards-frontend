@@ -18,11 +18,5 @@ class DatasourceSelectors extends BasicSelector {
 }
 
 
-export default {
-  getDatasources(state) {
-    return undefined
-  },
-  getDatasourceById(state, id) {
-    return undefined
-  },
-}
+const instance = new DatasourceSelectors()
+export default instance

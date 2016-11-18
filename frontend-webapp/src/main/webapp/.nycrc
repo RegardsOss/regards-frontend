@@ -3,18 +3,6 @@
   "statements": 5,
   "functions": 5,
   "branches": 5,
-  "exclude": [
-    "**/node_modules/**",
-    "**/.tmp/**",
-    "**/mocha-webpack/**",
-    "**/material-ui/**",
-    "test",
-    "test{,-*}.js",
-    "**/*.test.js",
-    "**/__tests__/**",
-    "**/.storybook/**",
-    "**/reports/**"
-  ],
   "require": [
     "babel-core/register",
     "source-map-support/register"
@@ -24,10 +12,10 @@
     ".js"
   ],
   "reporter": [
-    "lcov"
+    "lcov",
+    "html"
   ],
   "sourceMap": false,
   "instrument": false,
-  "all": true,
   "report-dir": "./reports/coverage"
 }

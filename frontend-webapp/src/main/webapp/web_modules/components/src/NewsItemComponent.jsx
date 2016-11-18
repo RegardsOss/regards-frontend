@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { CardActionsComponent } from '@regardsoss/components'
-import * as moment from 'moment'
+import moment from 'moment'
 
 /**
  * Show the list of users for the current project

@@ -4,7 +4,8 @@ import ThemeHelper from './ThemeHelper'
 import SelectThemeContainer from './containers/SelectTheme'
 import injectTheme from './ThemeInjectionDecorator'
 import themeReducers from './reducers/ThemeReducers'
+import ThemeSelectors from './model/ThemeSelectors'
 
 export {
-  ThemeContextType, ThemeInjector, SelectThemeContainer, ThemeHelper, injectTheme, themeReducers,
+  ThemeContextType, ThemeInjector, SelectThemeContainer, ThemeHelper, injectTheme, themeReducers, ThemeSelectors,
 }

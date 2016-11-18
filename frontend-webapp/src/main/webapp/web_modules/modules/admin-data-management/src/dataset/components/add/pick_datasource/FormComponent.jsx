@@ -1,4 +1,3 @@
-
 import { Card, CardText, CardTitle } from 'material-ui/Card'
 import { FormattedMessage } from 'react-intl'
 import SelectField from 'material-ui/SelectField'

@@ -24,4 +24,9 @@ export default merge({}, darkBaseTheme, {
       backgroundImage: "url('/img/background.jpg')",
     },
   },
+  header: {
+    localeDropdown: {
+      color: '#fff',
+    },
+  },
 })

@@ -10,7 +10,16 @@ import ShowableAtRender from './ShowableAtRender'
  * - a onTouchTap callback
  */
 class ActionButtonComponent extends React.Component {
-
+  static propTypes = {
+    label: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.element]).isRequired,
+    button: React.PropTypes.func,
+    primary: React.PropTypes.bool,
+    secondary: React.PropTypes.bool,
+    url: React.PropTypes.string,
+    onTouchTap: React.PropTypes.func,
+    isVisible: React.PropTypes.bool,
+    style: React.PropTypes.objectOf(React.PropTypes.string),
+  }
 
   static defaultProps = {
     label: '',
@@ -34,6 +43,10 @@ class ActionButtonComponent extends React.Component {
     }
   }
 
+  getComponent = (Component, props) => (
+    <Component {...props} />
+  )
+
   render() {
     const { button } = this.props
     return (
@@ -45,37 +58,26 @@ class ActionButtonComponent extends React.Component {
                 to={this.props.url}
                 style={this.props.style}
               >
-                <button
-                  label={this.props.label}
-                  primary={this.props.primary}
-                  secondary={this.props.secondary}
-                />
+                {this.getComponent(this.props.button, {
+                  label: this.props.label,
+                  primary: this.props.primary,
+                  secondary: this.props.secondary,
+                })}
               </Link>
             )
           }
           return (
-            <button
-              label={this.props.label}
-              primary={this.props.primary}
-              secondary={this.props.secondary}
-              onTouchTap={this.props.onTouchTap}
-            />
+            this.getComponent(this.props.button, {
+              label: this.props.label,
+              primary: this.props.primary,
+              secondary: this.props.secondary,
+              onTouchTap: this.props.onTouchTap,
+            })
           )
         })()}
       </ShowableAtRender>
     )
   }
-}
-
-ActionButtonComponent.propTypes = {
-  label: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.element]).isRequired,
-  button: React.PropTypes.element,
-  primary: React.PropTypes.bool,
-  secondary: React.PropTypes.bool,
-  url: React.PropTypes.string,
-  onTouchTap: React.PropTypes.func,
-  isVisible: React.PropTypes.bool,
-  style: React.PropTypes.objectOf(React.PropTypes.string),
 }
 
 export default ActionButtonComponent

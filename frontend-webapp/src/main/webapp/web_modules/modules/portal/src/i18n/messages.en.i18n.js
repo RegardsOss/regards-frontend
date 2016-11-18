@@ -1,5 +1,5 @@
 const messages = {
-  title: 'Langue',
+  title: 'Project list',
 }
 
 export default messages

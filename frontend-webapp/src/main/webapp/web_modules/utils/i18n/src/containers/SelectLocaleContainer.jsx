@@ -1,5 +1,3 @@
-/** @module common */
-
 import { connect } from 'react-redux'
 import { updateLocale } from '../model/I18nActions'
 import SelectLocalComponent from '../components/SelectLocaleComponent'
@@ -11,23 +9,25 @@ import I18nProvider from '../I18nProvider'
  */
 export class SelectLocaleContainer extends React.Component {
 
-  constructor() {
-    super()
-    this.handleChange = this.handleChange.bind(this)
-  }
-
-  handleChange(event, index, value) {
+  /**
+   * on change locale
+   * @param {TouchEvent} event
+   * @param {number} index
+   * @param {string} value Form value
+   */
+  handleLocaleChange = (event, index, value) => {
     this.setState({ value })
     this.props.setLocale(value)
   }
 
   render() {
+    const locales = ['en', 'fr']
     return (
-      <I18nProvider messageDir="utils/i18n/src/messages">
+      <I18nProvider messageDir="utils/i18n/src/i18n">
         <SelectLocalComponent
-          locales={this.props.locales}
+          locales={locales}
           currentLocale={this.props.currentLocale}
-          setLocale={this.props.setLocale}
+          handleLocaleChange={this.handleLocaleChange}
         />
       </I18nProvider>
     )
@@ -35,7 +35,6 @@ export class SelectLocaleContainer extends React.Component {
 }
 
 SelectLocaleContainer.propTypes = {
-  locales: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
   currentLocale: React.PropTypes.string,
   setLocale: React.PropTypes.func,
 }

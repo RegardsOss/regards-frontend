@@ -1,10 +1,10 @@
-
 import { Card, CardTitle, CardText } from 'material-ui/Card'
 import Avatar from 'material-ui/Avatar'
 import Lock from 'material-ui/svg-icons/action/lock-outline'
 import IconButton from 'material-ui/IconButton'
-import { ThemeContextType, ThemeContextInterface } from '@regardsoss/theme'
+import { ThemeContextType } from '@regardsoss/theme'
 import { grey200 } from 'material-ui/styles/colors'
+import { Link } from 'react-router'
 /*
 interface ProjectProps {
   project: any
@@ -20,10 +20,11 @@ class ProjectComponent extends React.Component {
 
 
   getProjectUrl = () => (
-     `/${this.props.project.projectId}/`
+     `/project/${this.props.project.projectId}/`
   )
 
-  render() {
+
+  renderProject = () => {
     const styleText = {
       textOverflow: 'ellipsis',
       overflow: 'hidden',
@@ -70,6 +71,7 @@ class ProjectComponent extends React.Component {
       right: '45%',
     }
     const styleIconLock = { height: 60, width: 60 }
+    const { muiTheme } = this.context
     const { project, isAccessible } = this.props
     let styleWhenDisabled = {}
     if (isAccessible === false) {
@@ -125,10 +127,31 @@ class ProjectComponent extends React.Component {
       </Card>
     )
   }
+  render() {
+    const { muiTheme } = this.context
+    const { isAccessible } = this.props
+    if (isAccessible === false) {
+      return this.renderProject()
+    }
+    return (
+      <Link
+        to={this.getProjectUrl()}
+        style={muiTheme.linkWithoutDecoration}
+      >
+        {this.renderProject()}
+      </Link>
+    )
+  }
 }
 
 ProjectComponent.propTypes = {
-  project: React.PropTypes.objectOf(React.PropTypes.string).isRequired,
+  project: React.PropTypes.shape({
+    description: React.PropTypes.string.isRequired,
+    icon: React.PropTypes.string.isRequired,
+    name: React.PropTypes.string.isRequired,
+    isPublic: React.PropTypes.bool.isRequired,
+    projectId: React.PropTypes.string.isRequired,
+  }).isRequired,
   isAccessible: React.PropTypes.bool.isRequired,
 }
 

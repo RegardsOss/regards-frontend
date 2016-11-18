@@ -1,5 +1,4 @@
 
-import ShowableAtRender from './ShowableAtRender'
 import SecondaryActionButtonComponent from './SecondaryActionButtonComponent'
 import MainActionButtonComponent from './MainActionButtonComponent'
 
@@ -20,17 +19,15 @@ class CardActionsView extends React.Component {
           (this.props.secondaryButtonUrl || this.props.secondaryButtonTouchTap) &&
           this.props.isSecondaryButtonVisible
       )
+    const secondaryActionButtonComponent = isVisible ? (<SecondaryActionButtonComponent
+      label={this.props.secondaryButtonLabel}
+      url={this.props.secondaryButtonUrl}
+      onTouchTap={this.props.secondaryButtonTouchTap}
+    />) : null
+
     return (
       <div style={styleCardActions}>
-        <ShowableAtRender
-          show={isVisible}
-        >
-          <SecondaryActionButtonComponent
-            label={this.props.secondaryButtonLabel}
-            url={this.props.secondaryButtonUrl}
-            onTouchTap={this.props.secondaryButtonTouchTap}
-          />
-        </ShowableAtRender>
+        {secondaryActionButtonComponent}
         <MainActionButtonComponent
           label={this.props.mainButtonLabel}
           url={this.props.mainButtonUrl}
@@ -46,15 +43,15 @@ class CardActionsView extends React.Component {
 
 
 CardActionsView.propTypes = {
-  secondaryButtonLabel: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.element]).isRequired,
-  secondaryButtonUrl: React.PropTypes.string.isRequired,
-  secondaryButtonTouchTap: React.PropTypes.func.isRequired,
-  isSecondaryButtonVisible: React.PropTypes.bool.isRequired,
+  secondaryButtonLabel: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.element]),
+  secondaryButtonUrl: React.PropTypes.string,
+  secondaryButtonTouchTap: React.PropTypes.func,
+  isSecondaryButtonVisible: React.PropTypes.bool,
 
   mainButtonLabel: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.element]).isRequired,
-  mainButtonUrl: React.PropTypes.string.isRequired,
-  mainButtonTouchTap: React.PropTypes.func.isRequired,
-  isMainButtonVisible: React.PropTypes.bool.isRequired,
+  mainButtonUrl: React.PropTypes.string,
+  mainButtonTouchTap: React.PropTypes.func,
+  isMainButtonVisible: React.PropTypes.bool,
 
   /*theme: React.PropTypes.objectOf(React.PropTypes.string).isRequired,*/
 }

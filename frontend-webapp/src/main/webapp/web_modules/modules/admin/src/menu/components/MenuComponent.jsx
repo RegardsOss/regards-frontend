@@ -27,7 +27,7 @@ class MenuComponent extends React.Component {
         </ToolbarGroup>
 
         <ToolbarGroup>
-          <SelectLocaleContainer locales={['en', 'fr']} />
+          <SelectLocaleContainer />
 
           <ToolbarSeparator />
 

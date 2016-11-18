@@ -8,7 +8,9 @@ import { ThemeContextType } from '@regardsoss/theme'
  * and injects it as a prop to its child
  */
 class ComposedInjector extends React.Component {
-
+  static propTypes = {
+    children: React.PropTypes.element,
+  }
   static contextTypes = {
     muiTheme: ThemeContextType.muiTheme,
     intl: intlShape,
@@ -32,8 +34,5 @@ class ComposedInjector extends React.Component {
   }
 }
 
-ComposedInjector.propTypes = {
-  children: React.PropTypes.element,
-}
 
 export default ComposedInjector
