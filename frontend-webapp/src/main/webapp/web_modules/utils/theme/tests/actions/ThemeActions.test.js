@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import * as actions from '../../src/actions/ThemeActions'
+import setTheme from '../../src/actions/ThemeActions'
 
 describe('[COMMON] Testing theme actions', () => {
   it('should create an action to set the theme', () => {
@@ -7,6 +7,6 @@ describe('[COMMON] Testing theme actions', () => {
       type: 'SET_THEME',
       theme: 'toto',
     }
-    expect(actions.setTheme('toto')).to.eql(expectedAction)
+    expect(setTheme('toto')).to.eql(expectedAction)
   })
 })

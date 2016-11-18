@@ -57,9 +57,11 @@ class ProjectListContainer extends React.Component {
         textTransform: 'uppercase',
         color: grey200,
         fontWeight: 300,
-        letterSpacing: '0.3px',
+        letterSpacing: '6.3px',
         fontFamily: muiTheme.fontFamily,
         textDecoration: 'underline',
+        marginTop: '40px',
+        marginBottom: '30px',
       },
     }
     return (
@@ -73,6 +75,7 @@ class ProjectListContainer extends React.Component {
           <div
             style={style.betweenProjects}
             key={id}
+            className="col-md-70 col-md-offset-15"
           >
             <ProjectComponent
               project={project}
