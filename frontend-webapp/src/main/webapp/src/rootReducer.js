@@ -17,8 +17,8 @@ const commonReducer = combineReducers({
   theme: themeReducers,
   plugins: PluginReducer,
   api: accessRightsReducers,
-  authentication,
   endpoints: endpointReducer,
+  authentication,
 })
 
 /**

@@ -11,7 +11,7 @@ interface Props {
   leftIcon: JSX.Element
 }*/
 
-export default class SidebarElement extends React.Component {
+export class SidebarElement extends React.Component {
 
   render() {
     return (
@@ -23,4 +23,4 @@ export default class SidebarElement extends React.Component {
 }
 
 // Decorate it with the Hateoas display control logic
-export const HateoasControlledSidebarElement = applyHateoasDisplayControl(SidebarElement)
+export default applyHateoasDisplayControl(SidebarElement)

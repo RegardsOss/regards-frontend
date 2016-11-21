@@ -28,7 +28,7 @@ config = merge(config, {
       'process.env': {
         NODE_ENV: JSON.stringify('production'),
       },
-      GATEWAY_HOSTNAME: JSON.stringify('http://localhost:8000'),
+      GATEWAY_HOSTNAME: JSON.stringify('http://172.26.47.52:8000'),
     }),
   ],
 })

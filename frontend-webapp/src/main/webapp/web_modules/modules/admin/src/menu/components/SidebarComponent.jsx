@@ -15,23 +15,30 @@ import Brush from 'material-ui/svg-icons/image/brush'
 import Reply from 'material-ui/svg-icons/content/reply'
 import { FormattedMessage } from 'react-intl'
 import SupervisorAccount from 'material-ui/svg-icons/action/supervisor-account'
-import { HateoasControlledSidebarElement } from './SidebarElement'
+import HateoasControlledSidebarElement from './HateoasControlledSidebarElement'
 
 /**
  * React sidebar component. Display the admin application menu
  */
 class SidebarComponent extends React.Component {
 
+  /**
+   * @type {{muiTheme: *}}
+   */
+  static contextTypes = {
+    muiTheme: React.PropTypes.object.isRequired,
+  }
+
   render() {
-    const { theme } = this.props
+    const { muiTheme } = this.context
 
     const style = {
       sidebarContainer: {
-        classes: theme.adminApp.layout.sidebarContainer.classes.join(' '),
-        styles: theme.adminApp.layout.sidebarContainer.styles,
+        classes: muiTheme.adminApp.layout.sidebarContainer.classes.join(' '),
+        styles: muiTheme.adminApp.layout.sidebarContainer.styles,
       },
       link: {
-        styles: theme.linkWithoutDecoration,
+        styles: muiTheme.linkWithoutDecoration,
       },
     }
     return (
@@ -112,7 +119,4 @@ class SidebarComponent extends React.Component {
   }
 }
 
-SidebarComponent.propTypes = {
-  theme: React.PropTypes.objectOf(React.PropTypes.string).isRequired,
-}
 export default SidebarComponent

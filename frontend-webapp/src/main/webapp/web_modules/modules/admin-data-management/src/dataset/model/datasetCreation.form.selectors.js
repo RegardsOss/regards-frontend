@@ -6,7 +6,6 @@ class DatasetCreationFormSelectors extends BasicSelector {
   }
 
   getViewState(state) {
-    console.log(state)
     return this.uncombineStore(state).viewState
   }
 
