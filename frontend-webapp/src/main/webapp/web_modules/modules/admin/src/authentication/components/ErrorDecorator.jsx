@@ -1,13 +1,5 @@
-/** @module Todo */
+import { ThemeContextType } from '@regardsoss/theme'
 
-import { ThemeContextType, ThemeContextInterface } from '@regardsoss/theme'
-// Containers
-/*
-
-export interface ErrorDecoratorProps {
-  muiTheme?: any
-}
-*/
 
 /**
  * React component to add the color on a text or another component

@@ -38,7 +38,7 @@ function Palette(props) {
             ))
         }
     </div>
-    )
+  )
 }
 Palette.propTypes = {
   theme: React.PropTypes.objectOf(React.PropTypes.string),

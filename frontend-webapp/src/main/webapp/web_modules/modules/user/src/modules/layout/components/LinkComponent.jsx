@@ -15,7 +15,7 @@ function Linkcomponent({ to, children }) {
     >
       {children}
     </Link>
-    )
+  )
 }
 Linkcomponent.propTypes = {
   to: React.PropTypes.string.isRequired,

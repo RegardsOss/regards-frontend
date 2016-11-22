@@ -23,4 +23,6 @@ npm link web_modules/modules/admin
 npm link web_modules/modules/admin-data-management
 npm link web_modules/modules/admin-project-management
 npm link web_modules/modules/admin-user-management
+npm link web_modules/modules/admin-database-management
+npm link web_modules/modules/admin-account-management
 npm link web_modules/modules/portal

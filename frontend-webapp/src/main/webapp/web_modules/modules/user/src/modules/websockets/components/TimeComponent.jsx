@@ -5,7 +5,7 @@ function Time({ time }) {
     <div>
       {time}
     </div>
-    )
+  )
 }
 Time.propTypes = {
   time: React.PropTypes.number.isRequired,

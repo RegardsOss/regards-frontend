@@ -17,7 +17,9 @@
  * @return {boolean}
  */
 const HateoasDisplayController = component => (
-  typeof component.props.endpoints[component.props.endpointKey] !== 'undefined'
+  // Todo
+  // typeof component.props.endpoints[component.props.endpointKey] !== 'undefined'
+  true
 )
 
 export default HateoasDisplayController

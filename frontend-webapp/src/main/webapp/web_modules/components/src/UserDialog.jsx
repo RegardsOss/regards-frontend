@@ -39,7 +39,7 @@ function UserDialog(props) {
         onCancelClick={null}
       />
     </Dialog>
-    )
+  )
 }
 
 UserDialog.propTypes = {

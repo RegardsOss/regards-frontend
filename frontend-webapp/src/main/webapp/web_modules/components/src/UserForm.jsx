@@ -16,7 +16,7 @@ function UserForm() {
         type="password"
       />
     </form>
-    )
+  )
 }
 
 export default UserForm

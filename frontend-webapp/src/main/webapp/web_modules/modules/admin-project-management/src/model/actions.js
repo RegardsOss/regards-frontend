@@ -3,7 +3,7 @@ import { normalize } from 'normalizr'
 
 const { CALL_API, getJSON } = require('redux-api-middleware')
 
-export const PROJECTS_API = 'http://localhost:8080/api/projects'
+export const PROJECTS_API = `${GATEWAY_HOSTNAME}/api/v1/projects`
 
 export const PROJECTS_REQUEST = 'PROJECTS_REQUEST'
 export const PROJECTS_SUCCESS = 'PROJECTS_SUCCESS'

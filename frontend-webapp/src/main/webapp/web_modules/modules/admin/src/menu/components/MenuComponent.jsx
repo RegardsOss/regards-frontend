@@ -1,11 +1,12 @@
-import { SelectLocaleContainer } from '@regardsoss/i18n'
+import { SelectLocaleContainer, I18nProvider } from '@regardsoss/i18n'
 import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from 'material-ui/Toolbar'
-import { SelectThemeContainer, ThemeContextType } from '@regardsoss/theme'
+import { SelectThemeContainer } from '@regardsoss/theme'
 
-class MenuComponent extends React.Component {
+class InstanceMenuComponent extends React.Component {
 
-  static contextTypes= ThemeContextType
-  context
+  static contextTypes= {
+    muiTheme: React.PropTypes.object.isRequired,
+  }
 
   render() {
     const style = {
@@ -21,21 +22,23 @@ class MenuComponent extends React.Component {
     }
 
     return (
-      <Toolbar className={style.headContainer.classes} style={style.headContainer.styles}>
-        <ToolbarGroup firstChild>
-          <ToolbarTitle text="REGARDS admin dashboard" style={style.title} />
-        </ToolbarGroup>
+      <I18nProvider messageDir="modules/admin/src/menu/i18n">
+        <Toolbar className={style.headContainer.classes} style={style.headContainer.styles}>
+          <ToolbarGroup firstChild>
+            <ToolbarTitle text="REGARDS admin dashboard" style={style.title} />
+          </ToolbarGroup>
 
-        <ToolbarGroup>
-          <SelectLocaleContainer />
+          <ToolbarGroup>
+            <SelectLocaleContainer />
 
-          <ToolbarSeparator />
+            <ToolbarSeparator />
 
-          <SelectThemeContainer />
-        </ToolbarGroup>
-      </Toolbar>
+            <SelectThemeContainer />
+          </ToolbarGroup>
+        </Toolbar>
+      </I18nProvider>
     )
   }
 
 }
-export default MenuComponent
+export default InstanceMenuComponent

@@ -1,5 +1,3 @@
-/** @module common */
-import * as React from 'react'
 import ShowableAtMount from './ShowableAtMount'
 
 

@@ -109,7 +109,7 @@ export class ProjectsContainer extends React.Component {
   }
 }
 ProjectsContainer.propTypes = {
-  projects: React.PropTypes.arrayOf(React.PropTypes.objectOf(React.PropTypes.string)).isRequired,
+  projects: React.PropTypes.arrayOf(React.PropTypes.objectOf(React.PropTypes.string)),
   fetchProjects: React.PropTypes.func,
   deleteProject: React.PropTypes.func,
 /*  createProject: React.PropTypes.func,*/

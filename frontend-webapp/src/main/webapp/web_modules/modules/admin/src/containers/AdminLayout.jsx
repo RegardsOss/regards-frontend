@@ -1,8 +1,9 @@
-/** @module AdminApp */
-
-import { ThemeContextInterface, ThemeContextType } from '@regardsoss/theme'
-import SidebarContainer from './menu/containers/SidebarContainer'
-import MenuContainer from './menu/containers/MenuContainer'
+import { connect } from 'react-redux'
+import { logout } from '@regardsoss/authentication'
+import { ThemeContextType } from '@regardsoss/theme'
+import InstanceSidebarComponent from '../menu/components/InstanceSidebarComponent'
+import ProjectSidebarComponent from '../menu/components/ProjectSidebarComponent'
+import MenuComponent from '../menu/components/MenuComponent'
 /*
 interface MainAdminLayoutProps {
   content: any,
@@ -19,19 +20,36 @@ interface MainAdminLayoutProps {
  * React component to manage Administration application.
  * This component display admin layout or login form if the user is not connected
  */
-export class MainAdminLayout extends React.Component {
+export class AdminLayout extends React.Component {
 
   static contextTypes = ThemeContextType
+
+  static propTypes = {
+    content: React.PropTypes.element,
+    // from router
+    params: React.PropTypes.shape({
+      project: React.PropTypes.string,
+    }),
+    // from mapDispatchToProps
+    onLogout: React.PropTypes.func,
+  }
 
   constructor() {
     super()
     this.state = { instance: false }
   }
 
-  context
+  getSidebar = (isInstanceDashboard) => {
+    const { onLogout } = this.props
+    if (isInstanceDashboard) {
+      return (<ProjectSidebarComponent onLogout={onLogout} />)
+    }
+    return (<InstanceSidebarComponent onLogout={onLogout} />)
+  }
 
   render() {
-    const { content } = this.props
+    const { content, params } = this.props
+    const isOnInstanceDashboard = params.project !== undefined
     const style = {
       app: {
         classes: this.context.muiTheme.adminApp.layout.app.classes.join(' '),
@@ -48,9 +66,9 @@ export class MainAdminLayout extends React.Component {
     }
     return (
       <div className={style.app.classes} style={style.app.styles}>
-        <MenuContainer />
+        <MenuComponent />
         <div className={style.bodyContainer.classes} style={style.bodyContainer.styles}>
-          <SidebarContainer />
+          {this.getSidebar(isOnInstanceDashboard)}
           <div className={style.contentContainer.classes} style={style.contentContainer.styles}>
             {content}
           </div>
@@ -59,7 +77,9 @@ export class MainAdminLayout extends React.Component {
     )
   }
 }
-MainAdminLayout.propTypes = {
-  content: React.PropTypes.element.isRequired,
-}
-export default MainAdminLayout
+
+const mapDispatchToProps = dispatch => ({
+  onLogout: () => dispatch(logout()),
+})
+
+export default connect(null, mapDispatchToProps)(AdminLayout)

@@ -1,5 +1,5 @@
 import { storiesOf, action } from '@kadira/storybook'
-import { MainAdminLayout } from '@regardsoss/admin/src/MainAdminLayout'
+import { AdminLayout } from '@regardsoss/admin/src/containers/AdminLayout'
 import Paper from 'material-ui/Paper'
 import { withKnobs, select } from '@kadira/storybook-addon-knobs'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
@@ -13,7 +13,7 @@ storiesOf('Admin template', module)
     const theme = getThemeByName(select('Theme', themeList, defaultTheme))
     return (
       <MuiThemeProvider muiTheme={theme}>
-        <MainAdminLayout
+        <AdminLayout
           content={
             <Paper
               className="col-sm-100"

@@ -5,6 +5,9 @@ import { configureStore } from '@regardsoss/store'
 import rootReducer from './rootReducer'
 import rootRouter from './rootRouter'
 
+// Import the index.html file
+require('../index.html')
+
 const store = configureStore(rootReducer)
 
 ReactDOM.render(

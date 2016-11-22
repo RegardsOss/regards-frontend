@@ -1,7 +1,6 @@
 const autoprefixer = require('autoprefixer')
 const path = require('path')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
-const CleanWebpackPlugin = require('clean-webpack-plugin')
 
 module.exports = {
   // Hide stats information from children during webpack compilation
@@ -25,7 +24,7 @@ module.exports = {
     // Automaticaly get extensions files from javascript code with import or require.
     // exemple require('main') look for main, main.js or main.sass with our configuration
     // extensions: ['', '.js', '.scss'],
-    extensions: ['', '.webpack.js', '.web.js', '.ts', '.tsx', '.js', '.jsx'],
+    extensions: ['', '.webpack.js', '.web.js', '.js', '.jsx'],
     // Root directories from wich requires are made
     root: [
       path.join(__dirname),
@@ -71,16 +70,15 @@ module.exports = {
         test: /\.json$/,
         loader: 'file-loader?name=/json/[name].[ext]',
       },
+      {
+        test: /\.html/,
+        loader: 'file?name=[name].[ext]'
+      }
     ],
   },
   plugins: [
-    // Create a single css file for the whole application
-    new ExtractTextPlugin('/css/styles.css', { allChunks: true }),
-    new CleanWebpackPlugin(['build'], {
-      root: __dirname,
-      verbose: false,
-      dry: false,
-    }),
+    // Create a single css file for the whole application instead of setting css inline in the javascript
+    new ExtractTextPlugin('/css/styles.css', { allChunks: true })
   ],
   eslint: {
     failOnWarning: false,

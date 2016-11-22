@@ -1,61 +1,67 @@
-import AdminApp from './AdminApp'
-import ProjectAdminApp from './ProjectAdminApp'
-
-export const projectAdminRouter = {
-  path: 'admin/:project',
-  getComponent(nextState, cb) {
-    require.ensure([], () => {
-      cb(null, ProjectAdminApp)
-    })
-  },
-}
-
-
 export const projectAdminDataRouter = {
-  path: 'admin/:project/datamanagement',
+  path: ':project/data',
   getChildRoutes(nextState, cb) {
     const adminDataManagement = require('@regardsoss/admin-data-management')
-    // do asynchronous stuff to find the child routes
-    cb(null, [adminDataManagement.dataManagementRouter])
-  },
-  getComponent(nextState, cb) {
     require.ensure([], (require) => {
-      cb(null, ProjectAdminApp)
+      cb(null, [adminDataManagement.dataManagementRouter])
     })
   },
 }
 
 export const projectAdminUserRouter = {
-  path: 'admin/:project/usermanagement',
+  path: ':project/user',
   getChildRoutes(nextState, cb) {
     const adminUserManagement = require('@regardsoss/admin-user-management')
-    // do asynchronous stuff to find the child routes
-    cb(null, [adminUserManagement.userManagementRouter])
-  },
-  getComponent(nextState, cb) {
     require.ensure([], (require) => {
-      cb(null, ProjectAdminApp)
+      cb(null, [adminUserManagement.userManagementRouter])
     })
   },
 }
 
-
-export const instanceAdminRouter = {
-  path: 'admin',
-  getComponent(nextState, cb) {
+export const projectRouter = {
+  path: 'project',
+  getChildRoutes(nextState, cb) {
+    const adminProjectManagement = require('@regardsoss/admin-project-management')
     require.ensure([], (require) => {
-      cb(null, AdminApp)
+      cb(null, [adminProjectManagement.projectManagementRouter])
+    })
+  },
+}
+
+export const accountRouter = {
+  path: 'account',
+  getChildRoutes(nextState, cb) {
+    const adminAccountManagement = require('@regardsoss/admin-account-management')
+    require.ensure([], (require) => {
+      cb(null, [adminAccountManagement.accountManagementRouter])
+    })
+  },
+}
+
+export const databaseRouter = {
+  path: 'database',
+  getChildRoutes(nextState, cb) {
+    const adminDatabaseanagement = require('@regardsoss/admin-database-management')
+    require.ensure([], (require) => {
+      cb(null, [adminDatabaseanagement.databaseManagementRouter])
     })
   },
 }
 
 
 export const adminRouter = {
-  path: '',
+  path: 'admin',
   childRoutes: [
-    instanceAdminRouter,
-    projectAdminRouter,
+    projectRouter,
+    accountRouter,
+    databaseRouter,
     projectAdminDataRouter,
     projectAdminUserRouter,
   ],
+  getComponent(nextState, cb) {
+    const AdminApp = require('./containers/AdminApp')
+    require.ensure([], (require) => {
+      cb(null, [AdminApp])
+    })
+  },
 }

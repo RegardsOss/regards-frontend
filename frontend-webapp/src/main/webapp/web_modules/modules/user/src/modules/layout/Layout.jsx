@@ -12,7 +12,7 @@ function Layout({ project, location, children }) {
         {children}
       </div>
     </div>
-    )
+  )
 }
 Layout.propTypes = {
   project: React.PropTypes.string.isRequired,

@@ -8,7 +8,9 @@ const rootRouter = {
   getChildRoutes(nextState, cb) {
     require.ensure([], (require) => {
       const AdminPckg = require('@regardsoss/admin')
-      cb(null, [AdminPckg.adminRouter])
+      require.ensure([], () => {
+        cb(null, [AdminPckg.adminRouter])
+      })
     })
   },
   getIndexRoute(nextState, cb) {

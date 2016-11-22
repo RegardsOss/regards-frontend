@@ -17,12 +17,5 @@
 			<directory>src/main/webapp/json</directory>
 			<outputDirectory>json</outputDirectory>
 		</fileSet>
-		<fileSet>
-			<directory>src/main/webapp</directory>
-			<includes>
-				<include>index.html</include>
-			</includes>
-			<outputDirectory></outputDirectory>
-		</fileSet>
 	</fileSets>
 </assembly>

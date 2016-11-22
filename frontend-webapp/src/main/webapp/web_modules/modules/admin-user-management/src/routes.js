@@ -1,5 +1,5 @@
 export const projectAccountCreateRoute = {
-  path: 'users/create',
+  path: './create',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
       const ProjectAccountCreateContainer = require('./containers/ProjectAccountCreateContainer')
@@ -11,7 +11,7 @@ export const projectAccountCreateRoute = {
 }
 
 export const projectAccountReadRoute = {
-  path: 'users/:user_id',
+  path: './:user_id',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
       const ProjectAccountReadComponent = require('./containers/ProjectAccountReadContainer')
@@ -23,7 +23,7 @@ export const projectAccountReadRoute = {
 }
 
 export const projectAccountEditRoute = {
-  path: 'users/:user_id/edit',
+  path: './:user_id/edit',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
       const ProjectAccountEditContainer = require('./containers/ProjectAccountEditContainer')
@@ -35,7 +35,7 @@ export const projectAccountEditRoute = {
 }
 
 export const projectAccountsRoutes = {
-  path: 'users',
+  path: '',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
       const ProjectAcountsContainer = require('./containers/ProjectAccountsContainer')

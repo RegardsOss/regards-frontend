@@ -1,4 +1,3 @@
-
 import { Card, CardText } from 'material-ui/Card'
 import { FormattedMessage } from 'react-intl'
 import { Link } from 'react-router'

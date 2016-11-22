@@ -58,7 +58,7 @@ class NavigationContainer extends React.Component {
         <LinkComponent location={location} key="test" to={`/user/${project}/test`}>Test de lien</LinkComponent>
         <LinkComponent location={location} key="time" to={`/user/${project}/time`}>Temps</LinkComponent>
       </nav>
-      )
+    )
   }
 }
 

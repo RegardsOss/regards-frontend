@@ -43,7 +43,7 @@ class UserApp extends React.Component {
           </Layout>
         </div>
       </MuiThemeProvider>
-      )
+    )
   }
 }
 UserApp.propTypes = {
