@@ -61,7 +61,7 @@ export const adminRouter = {
   getComponent(nextState, cb) {
     const AdminApp = require('./containers/AdminApp')
     require.ensure([], (require) => {
-      cb(null, [AdminApp])
+      cb(null, AdminApp)
     })
   },
 }
