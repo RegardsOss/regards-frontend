@@ -9,9 +9,9 @@
     "build:production": "webpack --progress --config webpack.prod.config.js",
     "start": "webpack-dev-server --progress --hot --config webpack.dev.config.js",
     "test": "npm run test:mocha --silent",
-    "test:coverage": "nyc --show-process-tree --exclude **/tests/** mocha-webpack --timeout 5000 --webpack-config webpack.coverage.config.js \"**/@(tests|web_modules)/**/*.test.\\?(js|jsx)\" --recursive --require source-map-support/register  --reporter mocha-sonar-reporter",
-    "test:mocha": "mocha-webpack --webpack-config webpack.test.config.js \"**/@(tests|web_modules)/**/*.test.\\?(js|jsx)\" --recursive --require source-map-support/register --inline-diffs --reporter mochawesome --reporter-options reportDir='./reports/mocha',reportName='Regards Frontend tests'",
-    "test:watch": "mocha-webpack --timeout 5000 --webpack-config webpack.test.config.js \"**/@(tests|web_modules)/**/*.test.\\?(js|jsx)\" --recursive --require source-map-support/register --inline-diffs --watch",
+    "test:coverage": "nyc mocha-webpack --timeout 5000 --webpack-config webpack.coverage.config.js \"**/@(tests|web_modules)/**/*.test.js{,x}\" --recursive --require source-map-support/register  --reporter mocha-sonar-reporter",
+    "test:mocha": "mocha-webpack --webpack-config webpack.test.config.js \"**/@(tests|web_modules)/**/*.test.js{,x}\" --recursive --require source-map-support/register --inline-diffs --reporter mochawesome --reporter-options reportDir='./reports/mocha',reportName='Regards Frontend tests'",
+    "test:watch": "mocha-webpack --timeout 5000 --webpack-config webpack.test.config.js \"web_modules/**/*.test.js{,x}\" --recursive --require source-map-support/register --inline-diffs --watch",
     "storybook:start": "start-storybook -p 6006 --dont-track",
     "storybook:build": "build-storybook -o reports/storybook",
     "prejsdoc": "rm -rf reports/jsdoc",
@@ -90,7 +90,7 @@
     "eslint-config-airbnb": "~13.0.0",
     "eslint-loader": "~1.6.0",
     "eslint-plugin-import": "~2.2.0",
-    "eslint-plugin-jsx-a11y": "~3.0.1",
+    "eslint-plugin-jsx-a11y": "~2.2.3",
     "eslint-plugin-react": "~6.7.1",
     "extract-text-webpack-plugin": "~1.0.1",
     "file-loader": "~0.9.0",
@@ -131,20 +131,5 @@
     "mocha-sonar-reporter": {
       "outputfile": "./reports/coverage/TEST-xunit.xml"
     }
-  },
-  "nyc": {
-    "exclude": [
-      "**/node_modules/**",
-      "**/.tmp/**",
-      "**/mocha-webpack/**",
-      "**/material-ui/**",
-      "**/test/**",
-      "**/tests/**",
-      "**/test{,-*}.js",
-      "**/*.test.js",
-      "**/__tests__/**",
-      "**/.storybook/**",
-      "**/reports/**"
-    ]
   }
 }

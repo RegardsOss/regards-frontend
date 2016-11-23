@@ -22,6 +22,12 @@ describe('[COMMON] Testing i18n Select Locale component', () => {
       intl: {
         formatMessage: message => message.id,
       },
+      muiTheme: {
+        menu: {
+          localeDropdown: {
+          }
+        }
+      }
     }
 
     const wrapper = shallow(<SelectLocaleComponent {...props} />, { context })

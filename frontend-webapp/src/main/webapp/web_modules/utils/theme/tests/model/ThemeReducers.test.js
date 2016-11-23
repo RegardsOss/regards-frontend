@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import reducer from '../../src/reducers/ThemeReducers'
+import reducer from '../../src/model/ThemeReducers'
 
 describe('[COMMON] Testing theme reducer', () => {
   it('should return the initial state', () => {

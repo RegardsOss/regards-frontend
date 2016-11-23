@@ -9,7 +9,17 @@ function setup() {
   const props = {
     theme: 'titi',
   }
-  const enzymeWrapper = shallow(<SelectTheme {...props} />)
+
+
+  const context = {
+    muiTheme: {
+      menu: {
+        localeDropdown: {
+        }
+      }
+    }
+  }
+  const enzymeWrapper = shallow(<SelectTheme {...props} />, { context })
   return {
     props,
     enzymeWrapper,

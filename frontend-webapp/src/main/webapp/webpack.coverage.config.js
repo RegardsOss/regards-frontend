@@ -12,7 +12,7 @@ config = merge(config, {
     whitelist: [/regardsoss/],
   })], // in order to ignore all modules in node_modules folder
   // Enable sourcemaps for debugging webpack's output.
-  devtool: 'cheap-module-source-map',
+  devtool: 'source-map',
   verbose: true,
   displayErrorDetails: true,
   stats: {
@@ -28,8 +28,13 @@ config = merge(config, {
     loaders: [
       {
         test: /\.jsx?$/,
-        exclude: [/node_modules/, /json/],
+        exclude: [/node_modules/, /json/, /test/],
         loaders: ['istanbul-instrumenter', 'babel'],
+      },
+      {
+        test: /\.jsx?$/,
+        exclude: [/node_modules/, /json/],
+        loaders: ['babel'],
       },
     ],
   },
