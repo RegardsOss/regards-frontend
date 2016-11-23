@@ -11,14 +11,14 @@ class InstanceMenuComponent extends React.Component {
   render() {
     const style = {
       headContainer: {
-        classes: this.context.muiTheme.adminApp.layout.headContainer.classes.join(' '),
+        classes: this.context.muiTheme.menu.classes.join(' '),
         styles: Object.assign(
           {},
-          this.context.muiTheme.adminApp.layout.headContainer.styles,
+          this.context.muiTheme.menu.bar,
           { fontFamily: this.context.muiTheme.fontFamily },
         ),
       },
-      title: this.context.muiTheme.toolbarTitle,
+      title: this.context.muiTheme.menu.title,
     }
 
     return (

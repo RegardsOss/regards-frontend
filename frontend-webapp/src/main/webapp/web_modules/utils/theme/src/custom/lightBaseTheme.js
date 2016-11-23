@@ -7,7 +7,6 @@ export default merge({}, lightBaseTheme, {
   palette: {
     errorColor: red900,
   },
-  toolbar: {},
   linkWithoutDecoration: {
     textDecoration: 'blink',
     color: grey900,
@@ -16,11 +15,5 @@ export default merge({}, lightBaseTheme, {
     loginForm: {
       backgroundColor: blueGrey50,
     },
-  },
-  header: {
-    localeDropdown: {
-      color: white,
-    },
-  },
-
+  }
 })

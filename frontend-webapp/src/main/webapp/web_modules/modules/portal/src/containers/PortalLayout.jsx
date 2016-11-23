@@ -1,4 +1,4 @@
-import MenuContainer from '../menu/containers/MenuContainer'
+import MenuComponent from '../menu/components/MenuComponent'
 
 /**
  * React component to manage Administration application.
@@ -47,7 +47,7 @@ class PortalLayout extends React.Component {
     const style = this.extractThemeFromContext(this.context)
     return (
       <div className={style.app.classes} style={style.app.styles}>
-        <MenuContainer />
+        <MenuComponent />
         <div className={style.bodyContainer.classes} style={style.bodyContainer.styles}>
           <div className={style.contentContainer.classes} style={style.contentContainer.styles}>
             {children}

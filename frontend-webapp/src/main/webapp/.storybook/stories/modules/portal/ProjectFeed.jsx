@@ -3,9 +3,10 @@ import ProjectFeedContainer from '@regardsoss/portal/src/projects/containers/Pro
 import { withKnobs, select, object } from '@kadira/storybook-addon-knobs'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { StoreDecorator, getThemeByName, themeList, defaultTheme } from '../../utils/decorators'
+import { I18nProvider } from '@regardsoss/i18n'
 
 
-storiesOf('Portal projects', module)
+storiesOf('Portal project list', module)
   .addDecorator(withKnobs)
   .addDecorator(StoreDecorator)
   .add('', () => {
@@ -27,9 +28,11 @@ storiesOf('Portal projects', module)
     }])
     return (
       <MuiThemeProvider muiTheme={theme}>
-        <ProjectFeedContainer
-          projects={projects}
-        />
+        <I18nProvider messageDir="modules/admin/src/authentication/i18n">
+          <ProjectFeedContainer
+            projects={projects}
+          />
+        </I18nProvider>
       </MuiThemeProvider>
     )
   })

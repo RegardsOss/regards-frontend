@@ -8,12 +8,6 @@ export default merge({}, darkBaseTheme, {
   palette: {
     errorColor: red900,
   },
-  toolbar: {
-    backgroundColor,
-  },
-  toolbarTitle: {
-    color: white,
-  },
   linkWithoutDecoration: {
     textDecoration: 'blink',
     color: white,
@@ -24,9 +18,15 @@ export default merge({}, darkBaseTheme, {
       backgroundImage: "url('/img/background.jpg')",
     },
   },
-  header: {
+  menu: {
     localeDropdown: {
       color: '#fff',
+    },
+    title: {
+      color: white,
+    },
+    bar: {
+      backgroundColor,
     },
   },
 })

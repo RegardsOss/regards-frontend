@@ -5,10 +5,22 @@ import { connect } from 'react-redux'
 import MenuItem from 'material-ui/MenuItem'
 import { map, keys } from 'lodash'
 import { I18nProvider } from '@regardsoss/i18n'
-import setTheme from '../actions/ThemeActions'
+import setTheme from '../model/ThemeActions'
 import ThemeHelper from '../ThemeHelper'
 
 export class SelectTheme extends React.Component {
+
+  static propTypes = {
+    theme: React.PropTypes.string,
+    setTheme: React.PropTypes.func,
+  }
+
+  /**
+   * @type {{muiTheme: *}}
+   */
+  static contextTypes = {
+    muiTheme: React.PropTypes.object.isRequired,
+  }
 
   componentWillMount() {
     this.handleChange = this.handleChange.bind(this)
@@ -23,8 +35,7 @@ export class SelectTheme extends React.Component {
     const themeNames = keys(themes)
     const items = map(themeNames, themeName => (
       <MenuItem value={themeName} key={themeName} primaryText={themeName} />
-  ))
-    console.log('SelectTheme', this.props.theme)
+    ))
 
     return (
       <I18nProvider messageDir="utils/theme/src/i18n">
@@ -34,6 +45,7 @@ export class SelectTheme extends React.Component {
           targetOrigin={{ horizontal: 'middle', vertical: 'bottom' }}
           value={this.props.theme}
           onChange={this.handleChange}
+          iconStyle={this.context.muiTheme.menu.localeDropdown}
         >
           {items}
         </IconMenu>
@@ -41,10 +53,7 @@ export class SelectTheme extends React.Component {
     )
   }
 }
-SelectTheme.propTypes = {
-  theme: React.PropTypes.string,
-  setTheme: React.PropTypes.func,
-}
+
 const mapStateToProps = state => ({
   theme: state.common.theme,
 })

@@ -1,8 +1,5 @@
 import BasicSelector from '@regardsoss/store-utils'
 
-// Selectors
-export const getDatasets = state => state.items
-
 class ThemeSelectors extends BasicSelector {
   constructor() {
     super(['common', 'theme'])

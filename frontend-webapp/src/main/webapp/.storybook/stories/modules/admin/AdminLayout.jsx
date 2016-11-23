@@ -11,6 +11,8 @@ storiesOf('Admin template', module)
   .addDecorator(StoreDecorator)
   .add('', () => {
     const theme = getThemeByName(select('Theme', themeList, defaultTheme))
+    const isInstance = select('Type of menu', ["Instance", "Project"])
+    const params = isInstance === "Instance" ? {} : { project: "cdpp"}
     return (
       <MuiThemeProvider muiTheme={theme}>
         <AdminLayout
@@ -26,6 +28,7 @@ storiesOf('Admin template', module)
               }}
             />}
           location=""
+          params={params}
           onLogout={action('onLogout')}
         />
       </MuiThemeProvider>
