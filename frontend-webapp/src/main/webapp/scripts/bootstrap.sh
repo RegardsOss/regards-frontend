@@ -9,6 +9,7 @@ npm link web_modules/components
 npm link web_modules/data/api
 
 npm link web_modules/utils/access-rights
+npm link web_modules/utils/form-utils
 npm link web_modules/utils/i18n
 npm link web_modules/utils/injector
 npm link web_modules/utils/plugins

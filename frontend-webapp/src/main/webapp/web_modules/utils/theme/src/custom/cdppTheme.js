@@ -62,7 +62,9 @@ export default {
   },
   adminApp: {
     loginForm: {
-      backgroundColor: grey700,
+      layout: {
+        backgroundColor: grey700,
+      },
     },
     layout: {
       backgroundColor: 'transparent',

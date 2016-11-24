@@ -6,6 +6,7 @@ import ModuleComponent from './ModuleComponent'
 import SecondaryActionButtonComponent from './cards/SecondaryActionButtonComponent'
 import ShowableAtRender from './cards/ShowableAtRender'
 import NewsItemComponent from './NewsItemComponent'
+import ErrorDecoratorComponent from './ErrorDecoratorComponent'
 
 export {
   ActionButtonComponent,
@@ -16,4 +17,5 @@ export {
   SecondaryActionButtonComponent,
   ShowableAtRender,
   NewsItemComponent,
+  ErrorDecoratorComponent,
 }

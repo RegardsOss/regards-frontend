@@ -47,6 +47,86 @@ class ProjectListContainer extends React.Component {
         icon: 'http://lorempicsum.com/simpsons/350/350/5',
       },
     )
+    projectssdfsdf.push(
+      {
+        name: 'CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP',
+        projectId: 'azertyuio',
+        description: 'There is one data taking period per orbit ; its duration is up to 160 minutes.',
+        isPublic: true,
+        isAccessible: false,
+        icon: 'http://lorempicsum.com/simpsons/350/350/5',
+      },
+    )
+    projectssdfsdf.push(
+      {
+        name: 'CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP',
+        projectId: 'azertyuio',
+        description: 'There is one data taking period per orbit ; its duration is up to 160 minutes.',
+        isPublic: true,
+        isAccessible: false,
+        icon: 'http://lorempicsum.com/simpsons/350/350/5',
+      },
+    )
+    projectssdfsdf.push(
+      {
+        name: 'CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP',
+        projectId: 'azertyuio',
+        description: 'There is one data taking period per orbit ; its duration is up to 160 minutes.',
+        isPublic: true,
+        isAccessible: false,
+        icon: 'http://lorempicsum.com/simpsons/350/350/5',
+      },
+    )
+    projectssdfsdf.push(
+      {
+        name: 'CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP',
+        projectId: 'azertyuio',
+        description: 'There is one data taking period per orbit ; its duration is up to 160 minutes.',
+        isPublic: true,
+        isAccessible: false,
+        icon: 'http://lorempicsum.com/simpsons/350/350/5',
+      },
+    )
+    projectssdfsdf.push(
+      {
+        name: 'CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP',
+        projectId: 'azertyuio',
+        description: 'There is one data taking period per orbit ; its duration is up to 160 minutes.',
+        isPublic: true,
+        isAccessible: false,
+        icon: 'http://lorempicsum.com/simpsons/350/350/5',
+      },
+    )
+    projectssdfsdf.push(
+      {
+        name: 'CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP',
+        projectId: 'azertyuio',
+        description: 'There is one data taking period per orbit ; its duration is up to 160 minutes.',
+        isPublic: true,
+        isAccessible: false,
+        icon: 'http://lorempicsum.com/simpsons/350/350/5',
+      },
+    )
+    projectssdfsdf.push(
+      {
+        name: 'CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP',
+        projectId: 'azertyuio',
+        description: 'There is one data taking period per orbit ; its duration is up to 160 minutes.',
+        isPublic: true,
+        isAccessible: false,
+        icon: 'http://lorempicsum.com/simpsons/350/350/5',
+      },
+    )
+    projectssdfsdf.push(
+      {
+        name: 'CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP - CDPP',
+        projectId: 'azertyuio',
+        description: 'There is one data taking period per orbit ; its duration is up to 160 minutes.',
+        isPublic: true,
+        isAccessible: false,
+        icon: 'http://lorempicsum.com/simpsons/350/350/5',
+      },
+    )
 
     const style = {
       betweenProjects: muiTheme.portalApp.homepage.betweenProjects,

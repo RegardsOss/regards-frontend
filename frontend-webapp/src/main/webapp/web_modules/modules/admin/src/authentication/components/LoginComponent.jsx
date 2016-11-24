@@ -1,9 +1,10 @@
 import { FormattedMessage } from 'react-intl'
-import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
-import TextField from 'material-ui/TextField'
+import { Card, CardActions, CardTitle, CardText, CardHeader } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
-import ErrorDecorator from './ErrorDecorator'
-
+import { reduxForm } from 'redux-form'
+import { ThemeContextType } from '@regardsoss/theme'
+import { RenderTextField, FormErrorMessage, ErrorTypes, Field, ValidationHelpers } from '@regardsoss/form-utils'
+import { intlShape } from 'react-intl'
 /**
  * React component for login form in administration applicationstat
  */
@@ -12,74 +13,25 @@ class LoginComponent extends React.Component {
   static propTypes = {
     onLogin: React.PropTypes.func.isRequired,
     errorMessage: React.PropTypes.string,
+    // from reduxForm
+    submitting: React.PropTypes.bool,
+    pristine: React.PropTypes.bool,
+    handleSubmit: React.PropTypes.func.isRequired,
   }
 
-  /**
-   * constructor
-   * @param {{onLogin: function, errorMessage: string}} props
-   */
-  constructor(props) {
-    super(props)
-    /**
-     * @type {{username: string, password: string, showError: boolean}} state Internal state
-     */
-    this.state = {
-      username: '',
-      password: '',
-      showError: false,
-    }
+  static contextTypes = {
+    muiTheme: React.PropTypes.object.isRequired,
+    intl: intlShape,
   }
 
   /**
    * On component mount
    */
   componentWillMount() {
-    if (process.env.NODE_ENV === 'development') {
+    if (process.env.NODE_ENV !== 'development') {
       console.log('DEV', 'Auto connection')
       this.props.onLogin('admin@cnes.fr', 'admin')
     }
-  }
-
-  /**
-   * Handle 'Enter' key press to validate form
-   * @param {KeyboardEvent} event
-   */
-  handleKeyPress = (event) => {
-    this.setState({ showError: true })
-    if (event.key === 'Enter') {
-      this.props.onLogin(this.state.username, this.state.password)
-    }
-  }
-
-  /**
-   * Handle input change
-   * @param {InputEvent} event
-   */
-  handleUserInputChange = (event) => {
-    this.setState({
-      username: event.target.value,
-      showError: false,
-    })
-  }
-
-  /**
-   * Handle input change
-   * @param {InputEvent} event
-   */
-  handlePasswordInputChange = (event) => {
-    this.setState({
-      password: event.target.value,
-      showError: false,
-    })
-  }
-
-  /**
-   * Handle mouse press on the connection button
-   * @param {MouseEvent} event
-   */
-  handleButtonPress = (event) => {
-    this.props.onLogin(this.state.username, this.state.password)
-    this.setState({ showError: true })
   }
 
   /**
@@ -87,41 +39,69 @@ class LoginComponent extends React.Component {
    * @returns {React.Component} component
    */
   render() {
-    let errorMessage = null
-    if (this.state.showError && this.props.errorMessage && this.props.errorMessage !== '') {
-      errorMessage = <ErrorDecorator><FormattedMessage id={this.props.errorMessage} /></ErrorDecorator>
+    const style = {
+      layout: this.context.muiTheme.adminApp.loginForm.layout,
+      action: this.context.muiTheme.adminApp.loginForm.action,
     }
-
+    const { errorMessage } = this.props
+    const { intl } = this.context
     return (
-      <Card>
-        <CardTitle title={<FormattedMessage id="login.title" />} />
-        <CardText>
-          <div onKeyDown={this.handleKeyPress}>
-            {errorMessage}
-            <TextField
-              type="text"
-              floatingLabelText={<FormattedMessage id="login.username" />}
-              fullWidth
-              onChange={this.handleUserInputChange}
+      <div style={style.layout}>
+        <form onSubmit={this.props.handleSubmit(this.props.onLogin)}>
+          <Card>
+            <CardTitle
+              title={<FormattedMessage id="login.title" />}
+              subtitle={
+                <FormErrorMessage>
+                  {errorMessage && intl.formatMessage({ id: errorMessage })}
+                </FormErrorMessage>
+              }
             />
-            <TextField
-              floatingLabelText={<FormattedMessage id="login.password" />}
-              type="password"
-              fullWidth
-              onChange={this.handlePasswordInputChange}
-            />
-          </div>
-        </CardText>
-        <CardActions style={{ display: 'flex', justifyContent: 'center' }}>
-          <RaisedButton
-            label={<FormattedMessage id="login.button" />}
-            primary
-            onClick={this.handleButtonPress}
-          />
-        </CardActions>
-      </Card>
+            <CardText>
+              <Field
+                name="username"
+                fullWidth
+                component={RenderTextField}
+                type="text"
+                label={<FormattedMessage id="login.username" />}
+              />
+              <Field
+                name="password"
+                fullWidth
+                component={RenderTextField}
+                type="password"
+                label={<FormattedMessage id="login.password" />}
+              />
+            </CardText>
+            <CardActions style={style.action}>
+              <RaisedButton
+                disabled={this.props.pristine || this.props.submitting}
+                label={<FormattedMessage id="login.button" />}
+                primary
+                type="submit"
+              />
+            </CardActions>
+          </Card>
+        </form>
+      </div>
     )
   }
 }
-export default LoginComponent
 
+function validate(values) {
+  const errors = {}
+  if (!values.username) {
+    errors.username = ErrorTypes.REQUIRED
+  } else if (!ValidationHelpers.isValidEmail(values.username)) {
+    errors.username = ErrorTypes.EMAIL
+  }
+  if (!values.password) {
+    errors.password = ErrorTypes.REQUIRED
+  }
+  return errors
+}
+
+export default reduxForm({
+  form: 'login',
+  validate,
+})(LoginComponent)

@@ -3,5 +3,5 @@ export default React.PropTypes.shape({
   user: React.PropTypes.shape({
     expires_in: React.PropTypes.number,
   }),
-  authenticateDate: React.PropTypes.number,
+  authenticateDate: React.PropTypes.string,
 })

@@ -7,10 +7,16 @@ export default {
   },
   adminApp: {
     loginForm: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      height: '100vh',
+      layout: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: '100vh',
+      },
+      action: {
+        display: 'flex',
+        justifyContent: 'center',
+      },
     },
     layout: {
       app: {

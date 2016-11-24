@@ -31,12 +31,12 @@ module.exports = {
     ],
     modulesDirectories: ['web_modules', 'node_modules'],
   },
-  module: {
+  module: {/*
     preLoaders: [{
       test: /\.jsx?$/,
       loader: 'eslint-loader',
       exclude: [/node_modules/, /json/, /\/\..*!/],
-    }],
+    }],*/
     loaders: [
       // Transpile ES6 Javascript into ES5 with babel loader
       {

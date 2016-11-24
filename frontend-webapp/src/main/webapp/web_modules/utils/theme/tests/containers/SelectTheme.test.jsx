@@ -15,9 +15,9 @@ function setup() {
     muiTheme: {
       menu: {
         localeDropdown: {
-        }
-      }
-    }
+        },
+      },
+    },
   }
   const enzymeWrapper = shallow(<SelectTheme {...props} />, { context })
   return {

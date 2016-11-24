@@ -13,7 +13,9 @@ export default merge({}, lightBaseTheme, {
   },
   adminApp: {
     loginForm: {
-      backgroundColor: blueGrey50,
+      layout: {
+        backgroundColor: blueGrey50,
+      },
     },
-  }
+  },
 })

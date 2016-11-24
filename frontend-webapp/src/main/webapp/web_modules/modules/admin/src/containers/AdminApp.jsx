@@ -2,8 +2,9 @@ import { connect } from 'react-redux'
 import { isAuthenticated, AuthenticationSelectors, AuthenticateShape } from '@regardsoss/authentication'
 import { ThemeHelper, ThemeSelectors } from '@regardsoss/theme'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import { EndpointActions } from '@regardsoss/display-control'
 import AdminLayout from './AdminLayout'
-import AuthenticationLayout from '../authentication/containers/AuthenticationLayout'
+import AuthenticationContainer from '../authentication/containers/AuthenticationContainer'
 
 /**
  * React component to manage the instance application.
@@ -15,13 +16,25 @@ class AdminApp extends React.Component {
    * @type {{theme: *, authentication: *, content: *}}
    */
   static propTypes = {
+    content: React.PropTypes.element,
     // from mapStateToProps
     theme: React.PropTypes.string,
     authentication: AuthenticateShape,
     // from mapDispatchToProps
-    content: React.PropTypes.element,
+    fetchEndpoints: React.PropTypes.func,
   }
 
+  /**
+   * On authentication fetch autorized endpoints
+   * @param nextProps
+   */
+  componentWillReceiveProps(nextProps) {
+    if (this.props.authentication &&
+        this.props.authentication.user === undefined &&
+        nextProps.authentication.user !== undefined) {
+      this.props.fetchEndpoints()
+    }
+  }
   /**
    *
    * @param {boolean} isAuth
@@ -30,7 +43,7 @@ class AdminApp extends React.Component {
    */
   getContent = (isAuth, content) => {
     if (!isAuth) {
-      return (<AuthenticationLayout key="1" />)
+      return (<AuthenticationContainer key="1" />)
     }
     return (<AdminLayout key="2" {...this.props}>
       {content}
@@ -65,4 +78,8 @@ const mapStateToProps = state => ({
   authentication: AuthenticationSelectors.getAuthentication(state),
 })
 
-export default connect(mapStateToProps)(AdminApp)
+const mapDispatchToProps = dispatch => ({
+  fetchEndpoints: () => dispatch(EndpointActions.fetchEndpoints()),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(AdminApp)
