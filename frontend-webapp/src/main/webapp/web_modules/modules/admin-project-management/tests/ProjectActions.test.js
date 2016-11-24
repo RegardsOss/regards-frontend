@@ -3,7 +3,7 @@ import thunk from 'redux-thunk'
 import nock from 'nock'
 import { expect } from 'chai'
 import defaultFluxStandardError from '@regardsoss/tests-helpers'
-import * as actions from '../src/model/actions'
+import * as actions from '../src/model/ProjectActions'
 
 const { apiMiddleware } = require('redux-api-middleware')
 
@@ -23,12 +23,12 @@ describe('[ADMIN APP] Testing projects actions', () => {
       const store = mockStore({ projects: [] })
 
       const expectedAction = {
-        type: 'PROJECTS_REQUEST',
+        type: actions.PROJECT_LIST_REQUEST,
         payload: undefined,
         meta: undefined,
       }
 
-      store.dispatch(actions.fetchProjects())
+      store.dispatch(actions.fetchProjectList())
            .then(() => {
              expect(store.getActions()).to.contain(expectedAction)
            })
@@ -52,7 +52,7 @@ describe('[ADMIN APP] Testing projects actions', () => {
       const store = mockStore({ projectAdmins: [] })
 
       const expectedAction = {
-        type: actions.PROJECTS_SUCCESS,
+        type: actions.PROJECT_LIST_SUCCESS,
         meta: undefined,
         payload: {
           entities: {
@@ -73,7 +73,7 @@ describe('[ADMIN APP] Testing projects actions', () => {
         },
       }
 
-      store.dispatch(actions.fetchProjects())
+      store.dispatch(actions.fetchProjectList())
            .then(() => {
              expect(store.getActions()).to.contain(expectedAction)
            })
@@ -87,13 +87,13 @@ describe('[ADMIN APP] Testing projects actions', () => {
       const store = mockStore({ projects: [] })
 
       const expectedAction = {
-        type: actions.PROJECTS_FAILURE,
+        type: actions.PROJECT_LIST_FAILURE,
         error: true,
         meta: undefined,
         payload: defaultFluxStandardError,
       }
 
-      store.dispatch(actions.fetchProjects())
+      store.dispatch(actions.fetchProjectList())
            .then(() => {
              expect(store.getActions()).to.contain(expectedAction)
            })
@@ -112,7 +112,7 @@ describe('[ADMIN APP] Testing projects actions', () => {
         meta: undefined,
       }
 
-      store.dispatch(actions.fetchProjects())
+      store.dispatch(actions.fetchProjectList())
            .then(() => {
              expect(store.getActions()).to.contain(expectedAction)
            })
@@ -146,7 +146,7 @@ describe('[ADMIN APP] Testing projects actions', () => {
         },
       }
 
-      store.dispatch(actions.fetchProjects())
+      store.dispatch(actions.fetchProjectList())
            .then(() => {
              expect(store.getActions()).to.contain(expectedAction)
            })
@@ -165,7 +165,7 @@ describe('[ADMIN APP] Testing projects actions', () => {
         payload: defaultFluxStandardError,
       }
 
-      store.dispatch(actions.fetchProjects())
+      store.dispatch(actions.fetchProjectList())
            .then(() => {
              expect(store.getActions()).to.contain(expectedAction)
            })
@@ -184,7 +184,7 @@ describe('[ADMIN APP] Testing projects actions', () => {
         meta: undefined,
       }
 
-      store.dispatch(actions.fetchProjects())
+      store.dispatch(actions.fetchProjectList())
            .then(() => {
              expect(store.getActions()).to.contain(expectedAction)
            })
@@ -226,7 +226,7 @@ describe('[ADMIN APP] Testing projects actions', () => {
         },
       }
 
-      store.dispatch(actions.fetchProjects())
+      store.dispatch(actions.fetchProjectList())
            .then(() => {
              expect(store.getActions()).to.contain(expectedAction)
            })
@@ -245,7 +245,7 @@ describe('[ADMIN APP] Testing projects actions', () => {
         payload: defaultFluxStandardError,
       }
 
-      store.dispatch(actions.fetchProjects())
+      store.dispatch(actions.fetchProjectList())
            .then(() => {
              expect(store.getActions()).to.contain(expectedAction)
            })

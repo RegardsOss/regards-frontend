@@ -1,16 +1,16 @@
 import { expect } from 'chai'
-import reducer from '../src/model/reducer'
+import reducer from '../src/model/ProjectReducers'
 import {
-  PROJECTS_REQUEST,
-  PROJECTS_FAILURE,
-  PROJECTS_SUCCESS,
+  PROJECT_LIST_REQUEST,
+  PROJECT_LIST_FAILURE,
+  PROJECT_LIST_SUCCESS,
   CREATE_PROJECT_REQUEST,
   CREATE_PROJECT_FAILURE,
   CREATE_PROJECT_SUCCESS,
   DELETE_PROJECT_REQUEST,
   DELETE_PROJECT_SUCCESS,
   DELETE_PROJECT_FAILURE,
-} from '../src/model/actions'
+} from '../src/model/ProjectActions'
 
 describe('[ADMIN APP] Testing projects reducer', () => {
   it('should return the initial state', () => {
@@ -24,7 +24,7 @@ describe('[ADMIN APP] Testing projects reducer', () => {
   describe('GET /projects calls', () => {
     it('should handle fetch request', () => {
       const action = {
-        type: PROJECTS_REQUEST,
+        type: PROJECT_LIST_REQUEST,
       }
       const initState = {
         isFetching: false,
@@ -37,7 +37,7 @@ describe('[ADMIN APP] Testing projects reducer', () => {
 
     it('should handle fetch success', () => {
       const action = {
-        type: PROJECTS_SUCCESS,
+        type: PROJECT_LIST_SUCCESS,
         payload: {
           entities: {
             projects: {
@@ -66,7 +66,7 @@ describe('[ADMIN APP] Testing projects reducer', () => {
 
     it('should handle fetch failure', () => {
       const action = {
-        type: PROJECTS_FAILURE,
+        type: PROJECT_LIST_FAILURE,
         error: 'Oops there was an error!',
       }
       const initState = {
