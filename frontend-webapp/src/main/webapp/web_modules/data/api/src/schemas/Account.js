@@ -2,7 +2,7 @@ import { Schema } from 'normalizr'
 
 const accountSchema = new Schema('accounts', {
   idAttribute: account =>
-     account.accountId
+     account.id
   ,
 })
 

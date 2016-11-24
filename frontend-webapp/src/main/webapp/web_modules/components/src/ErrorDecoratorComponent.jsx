@@ -1,12 +1,13 @@
-import { ThemeContextType } from '@regardsoss/theme'
+import { themeContextType } from '@regardsoss/theme'
 
 
 /**
  * React component to add the color on a text or another component
  */
 class ErrorDecoratorComponent extends React.Component {
-  static contextTypes = ThemeContextType
-  context
+  static contextTypes = {
+    ...themeContextType,
+  }
 
   render() {
     const errorStyle = {

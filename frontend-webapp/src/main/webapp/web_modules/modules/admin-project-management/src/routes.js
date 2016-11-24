@@ -1,16 +1,16 @@
-export const projectsRoutes = {
+export const listProjectRoutes = {
   path: 'list',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const ProjectsContainer = require('./containers/ProjectsContainer')
+      const ProjectListContainer = require('./containers/ProjectListContainer')
       cb(null, {
-        content: ProjectsContainer.default,
+        content: ProjectListContainer.default,
       })
     })
   },
 }
 
-export const projectReadRoute = {
+export const readProjectRoute = {
   path: ':project_id',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
@@ -22,8 +22,8 @@ export const projectReadRoute = {
   },
 }
 
-export const projectCreateRoute = {
-  path: 'add',
+export const createProjectRoute = {
+  path: 'create',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
       const ProjectCreateContainer = require('./containers/ProjectCreateContainer')
@@ -36,9 +36,9 @@ export const projectCreateRoute = {
 
 const projectManagementRouter = {
   childRoutes: [
-    projectsRoutes,
-    projectReadRoute,
-    projectCreateRoute,
+    listProjectRoutes,
+    readProjectRoute,
+    createProjectRoute,
   ],
 }
 

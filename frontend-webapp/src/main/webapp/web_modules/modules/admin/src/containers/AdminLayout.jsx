@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import { logout } from '@regardsoss/authentication'
-import { ThemeContextType } from '@regardsoss/theme'
+import { themeContextType } from '@regardsoss/theme'
 import InstanceSidebarComponent from '../menu/components/InstanceSidebarComponent'
 import ProjectSidebarComponent from '../menu/components/ProjectSidebarComponent'
 import MenuComponent from '../menu/components/MenuComponent'
@@ -22,7 +22,9 @@ interface MainAdminLayoutProps {
  */
 export class AdminLayout extends React.Component {
 
-  static contextTypes = ThemeContextType
+  static contextTypes = {
+    ...themeContextType,
+  }
 
   static propTypes = {
     content: React.PropTypes.element,

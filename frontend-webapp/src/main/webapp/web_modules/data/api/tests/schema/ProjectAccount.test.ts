@@ -1,12 +1,12 @@
 import { assert } from "chai"
-import Schemas from "../../src/schemas/index"
+import Schemas from "../../src/main"
 import { normalize } from "normalizr"
 
 describe('[COMMON] Testing schemas', () => {
 
 
   it('should handle project users', () => {
-    const response: any = [{
+    const response = [{
       "projectAccountId": 0,
       "status": 0,
       "lastConnection": 1471865343965,
@@ -75,7 +75,7 @@ describe('[COMMON] Testing schemas', () => {
       },
       "links": [{"rel": "self", "href": "http://localhost:8080/api/projectAccounts/2"}]
     }]
-    const expectedResult: any = {
+    const expectedResult = {
       "entities": {
         "projectAccounts": {
           "0": {

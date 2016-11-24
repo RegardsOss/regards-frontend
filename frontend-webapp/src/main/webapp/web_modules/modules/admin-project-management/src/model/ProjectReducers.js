@@ -1,15 +1,15 @@
 import { omitBy } from 'lodash'
 import {
-  PROJECTS_REQUEST,
-  PROJECTS_SUCCESS,
-  PROJECTS_FAILURE,
+  PROJECT_LIST_REQUEST,
+  PROJECT_LIST_SUCCESS,
+  PROJECT_LIST_FAILURE,
   DELETE_PROJECT_REQUEST,
   DELETE_PROJECT_SUCCESS,
   DELETE_PROJECT_FAILURE,
   CREATE_PROJECT_SUCCESS,
   CREATE_PROJECT_REQUEST,
   CREATE_PROJECT_FAILURE,
-} from './actions'
+} from './ProjectActions'
 
 const createProjectSuccess = function (state, action) {
   const newState = Object.assign({}, state, { isFetching: false })
@@ -28,19 +28,19 @@ export default (state = {
   lastUpdate: '',
 }, action) => {
   switch (action.type) {
-    case PROJECTS_REQUEST:
+    case PROJECT_LIST_REQUEST:
     case CREATE_PROJECT_REQUEST:
     case DELETE_PROJECT_REQUEST:
       return Object.assign({}, state, {
         isFetching: true,
       })
-    case PROJECTS_FAILURE:
+    case PROJECT_LIST_FAILURE:
     case CREATE_PROJECT_FAILURE:
     case DELETE_PROJECT_FAILURE:
       return Object.assign({}, state, {
         isFetching: false,
       })
-    case PROJECTS_SUCCESS:
+    case PROJECT_LIST_SUCCESS:
       return Object.assign({}, state, {
         isFetching: false,
         items: action.payload.entities.projects,

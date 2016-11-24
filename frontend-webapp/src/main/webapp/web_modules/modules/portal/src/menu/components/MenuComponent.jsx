@@ -1,11 +1,11 @@
 import { SelectLocaleContainer } from '@regardsoss/i18n'
 import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from 'material-ui/Toolbar'
-import { SelectThemeContainer, ThemeContextType } from '@regardsoss/theme'
+import { SelectThemeContainer, themeContextType } from '@regardsoss/theme'
 
 class MenuComponent extends React.Component {
 
   static contextTypes= {
-    muiTheme: React.PropTypes.object.isRequired,
+    ...themeContextType,
   }
 
   render() {

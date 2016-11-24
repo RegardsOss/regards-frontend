@@ -1,7 +1,7 @@
 /** @module UserManagement */
 
 import { Link } from 'react-router'
-import { ThemeContextType, ThemeContextInterface } from '@regardsoss/theme'
+import { themeContextType, ThemeContextInterface } from '@regardsoss/theme'
 import { TableRowColumn, TableRow } from 'material-ui/Table'
 import { grey900 } from 'material-ui/styles/colors'
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
@@ -19,8 +19,9 @@ import { FormattedMessage } from 'react-intl'
  * React component
  */
 class ProjectAccountComponent extends React.Component {
-  static contextTypes = ThemeContextType
-  context
+  static contextTypes ={
+    ...themeContextType,
+  }
 
   handleDelete = () => {
     this.props.handleDelete()

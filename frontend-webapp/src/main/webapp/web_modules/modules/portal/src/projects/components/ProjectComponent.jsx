@@ -2,7 +2,7 @@ import { Card, CardTitle, CardText } from 'material-ui/Card'
 import Avatar from 'material-ui/Avatar'
 import Lock from 'material-ui/svg-icons/action/lock-outline'
 import IconButton from 'material-ui/IconButton'
-import { ThemeContextType } from '@regardsoss/theme'
+import { themeContextType } from '@regardsoss/theme'
 import { grey200 } from 'material-ui/styles/colors'
 import { Link } from 'react-router'
 /*
@@ -16,7 +16,9 @@ interface ProjectProps {
  */
 class ProjectComponent extends React.Component {
 
-  static contextTypes = ThemeContextType
+  static contextTypes = {
+    ...themeContextType,
+  }
 
 
   getProjectUrl = () => (

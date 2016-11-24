@@ -9,7 +9,7 @@ import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 import { CardActionsComponent } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
-import * as actions from '../model/actions'
+import * as actions from '../model/ProjectActions'
 
 
 export class ProjectCreateContainer extends React.Component {

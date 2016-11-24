@@ -1,7 +1,5 @@
-/** @module common */
-
 import { intlShape } from 'react-intl'
-import { ThemeContextType } from '@regardsoss/theme'
+import { themeContextType } from '@regardsoss/theme'
 
 /**
  * Retrieves intl fom the context
@@ -12,7 +10,7 @@ class ComposedInjector extends React.Component {
     children: React.PropTypes.element,
   }
   static contextTypes = {
-    muiTheme: ThemeContextType.muiTheme,
+    ...themeContextType,
     intl: intlShape,
   }
 

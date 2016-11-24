@@ -2,7 +2,7 @@ import { FormattedMessage } from 'react-intl'
 import { Card, CardActions, CardTitle, CardText, CardHeader } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import { reduxForm } from 'redux-form'
-import { ThemeContextType } from '@regardsoss/theme'
+import { themeContextType } from '@regardsoss/theme'
 import { RenderTextField, FormErrorMessage, ErrorTypes, Field, ValidationHelpers } from '@regardsoss/form-utils'
 import { intlShape } from 'react-intl'
 /**
@@ -20,7 +20,7 @@ class LoginComponent extends React.Component {
   }
 
   static contextTypes = {
-    muiTheme: React.PropTypes.object.isRequired,
+    ...themeContextType,
     intl: intlShape,
   }
 
@@ -28,9 +28,9 @@ class LoginComponent extends React.Component {
    * On component mount
    */
   componentWillMount() {
-    if (process.env.NODE_ENV !== 'development') {
+    if (process.env.NODE_ENV === 'development') {
       console.log('DEV', 'Auto connection')
-      this.props.onLogin('admin@cnes.fr', 'admin')
+      this.props.onLogin({ username: 'admin@cnes.fr', password: 'admin' })
     }
   }
 
