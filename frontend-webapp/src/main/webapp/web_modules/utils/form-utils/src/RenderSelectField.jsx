@@ -6,8 +6,20 @@ const renderSelectField = ({ input, label, meta: { touched, error }, children })
     errorText={touched && error}
     {...input}
     onChange={(event, index, value) => input.onChange(value)}
-    children={children}
-  />
+  >
+    {children}
+  </SelectField>
 )
-
+renderSelectField.propTypes = {
+  input: React.PropTypes.shape({
+    value: React.PropTypes.string,
+    name: React.PropTypes.string,
+  }),
+  label: React.PropTypes.string,
+  meta: React.PropTypes.shape({
+    touched: React.PropTypes.bool,
+    error: React.PropTypes.string,
+  }),
+  children: React.PropTypes.element,
+}
 export default renderSelectField

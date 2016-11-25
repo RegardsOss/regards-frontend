@@ -10,5 +10,7 @@ const FormErrorMessage = ({ children }) => {
     </ShowableAtRender>
   )
 }
-
+FormErrorMessage.propTypes = {
+  children: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.element]),
+}
 export default FormErrorMessage

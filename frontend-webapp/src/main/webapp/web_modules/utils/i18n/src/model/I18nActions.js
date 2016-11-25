@@ -1,3 +1,4 @@
+import { forOwn } from 'lodash'
 import I18nSelectors from './I18nSelectors'
 
 export const SET_LOCALE = 'SET_LOCALE'
@@ -53,9 +54,9 @@ export function updateLocale(locale) {
     dispatch(setLocale(locale)).then(() => {
       const messages = I18nSelectors.getMessages(getState())
       // Update all messages
-      for (const messagesDir of Object.keys(messages)) {
-        dispatch(updateMessages(messagesDir, locale))
-      }
+      forOwn(messages, (messagesDir, k) => {
+        dispatch(updateMessages(messages, messagesDir))
+      })
     })
   )
 }
