@@ -54,8 +54,8 @@ export function updateLocale(locale) {
     dispatch(setLocale(locale)).then(() => {
       const messages = I18nSelectors.getMessages(getState())
       // Update all messages
-      forOwn(messages, (messagesDir, k) => {
-        dispatch(updateMessages(messages, messagesDir))
+      forOwn(messages, (m, messagesDir) => {
+        dispatch(updateMessages(messagesDir, locale))
       })
     })
   )

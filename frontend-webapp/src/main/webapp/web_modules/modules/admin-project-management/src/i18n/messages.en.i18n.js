@@ -14,7 +14,9 @@ const messages = {
   'projects.table.icon.label': 'Icon',
   'projects.table.name.label': 'Name',
   'projects.table.description.label': 'Description',
-  'projects.table.isPublic.label': 'Public',
+  'projects.table.isPublic.label': 'Visibility',
+  'projects.table.isPrivate': 'Private',
+  'projects.table.isPublic': 'Public',
   'projects.table.actions.label': 'Actions',
 }
 

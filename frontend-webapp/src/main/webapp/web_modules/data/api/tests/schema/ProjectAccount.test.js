@@ -5,7 +5,7 @@ import { normalize } from "normalizr"
 describe('[COMMON] Testing schemas', () => {
 
 
-  it('should handle project users', () => {
+  xit('should handle project users', () => {
     const response = [{
       "projectAccountId": 0,
       "status": 0,

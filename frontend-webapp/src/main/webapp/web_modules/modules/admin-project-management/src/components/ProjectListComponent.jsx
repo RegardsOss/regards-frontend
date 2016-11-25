@@ -33,7 +33,12 @@ export class ProjectListComponent extends React.Component {
   static contextTypes = {
     ...themeContextType,
   }
-
+  getVisibility = (isPublic) => {
+    if (isPublic) {
+      return (<FormattedMessage id="projects.table.isPrivate" />)
+    }
+    return (<FormattedMessage id="projects.table.isPublic" />)
+  }
   render() {
     const { projectList, handleEdit, handleDelete, handleView, createUrl } = this.props
     const style = {
@@ -57,7 +62,6 @@ export class ProjectListComponent extends React.Component {
               displaySelectAll={false}
             >
               <TableRow>
-                <TableHeaderColumn><FormattedMessage id="projects.table.icon.label" /></TableHeaderColumn>
                 <TableHeaderColumn><FormattedMessage id="projects.table.name.label" /></TableHeaderColumn>
                 <TableHeaderColumn><FormattedMessage id="projects.table.description.label" /></TableHeaderColumn>
                 <TableHeaderColumn><FormattedMessage id="projects.table.isPublic.label" /></TableHeaderColumn>
@@ -71,16 +75,15 @@ export class ProjectListComponent extends React.Component {
             >
               {map(projectList, (project, i) => (
                 <TableRow key={i}>
-                  <TableRowColumn><Camera /></TableRowColumn>
                   <TableRowColumn>{project.content.name}</TableRowColumn>
                   <TableRowColumn>{project.content.description}</TableRowColumn>
-                  <TableRowColumn>{project.content.isPublic}</TableRowColumn>
+                  <TableRowColumn>{this.getVisibility(project.content.isPublic)}</TableRowColumn>
                   <TableRowColumn>
-                    <IconButton onTouchTap={handleEdit}>
+                    <IconButton onTouchTap={() => handleEdit(project.content.id)}>
                       <Edit hoverColor={style.hoverButtonEdit} />
                     </IconButton>
 
-                    <IconButton onTouchTap={() => handleDelete(project.projectId)}>
+                    <IconButton onTouchTap={() => handleDelete(project.content.id)}>
                       <Delete hoverColor={style.hoverButtonDelete} />
                     </IconButton>
                   </TableRowColumn>

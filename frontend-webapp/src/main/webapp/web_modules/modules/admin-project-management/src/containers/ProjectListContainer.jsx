@@ -50,8 +50,9 @@ export class ProjectListContainer extends React.Component {
     browserHistory.push(url)
   }
 
-  handleEdit = () => {
-    console.log('Todo')
+  handleEdit = (id) => {
+    const url = `/admin/project/${id}`
+    browserHistory.push(url)
   }
 
   handleDelete =(id) => {
