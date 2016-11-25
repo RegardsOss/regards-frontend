@@ -1,24 +1,20 @@
 import { storiesOf, action } from '@kadira/storybook'
 import LoginComponent from '@regardsoss/admin/src/authentication/components/LoginComponent'
 import { withKnobs, text, select } from '@kadira/storybook-addon-knobs'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-import { I18nProvider } from '@regardsoss/i18n'
-import { StoreDecorator, getThemeByName, themeList, defaultTheme } from '../../utils/decorators'
+import { StoreDecorator, addLocaleAndThemeSelectors, ThemeAndLocaleDecorator } from '../../utils/decorators'
 
 storiesOf('Authentication', module)
   .addDecorator(withKnobs)
   .addDecorator(StoreDecorator)
   .add('', () => {
-    const theme = getThemeByName(select('Theme', themeList, defaultTheme))
+    const themeName = addLocaleAndThemeSelectors()
     const errorMessage = text('Message error', '')
     return (
-      <MuiThemeProvider muiTheme={theme}>
-        <I18nProvider messageDir="modules/admin/src/authentication/i18n">
-          <LoginComponent
-            errorMessage={errorMessage}
-            onLogin={action('onLogin')}
-          />
-        </I18nProvider>
-      </MuiThemeProvider>
+      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin/src/authentication/i18n">
+        <LoginComponent
+          errorMessage={errorMessage}
+          onLogin={action('login')}
+        />
+      </ThemeAndLocaleDecorator>
     )
   })

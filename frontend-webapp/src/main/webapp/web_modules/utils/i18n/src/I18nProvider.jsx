@@ -3,7 +3,7 @@
 import { connect } from 'react-redux'
 import { addLocaleData, IntlProvider } from 'react-intl'
 import frLocaleData from 'react-intl/locale-data/fr'
-import { updateMessages } from './model/I18nActions'
+import * as I18nActions from './model/I18nActions'
 import I18nSelectors from './model/I18nSelectors'
 
 addLocaleData(frLocaleData)
@@ -23,6 +23,16 @@ addLocaleData(frLocaleData)
  * }
  */
 export class I18nProvider extends React.Component {
+
+  static propTypes = {
+    children: React.PropTypes.element,
+    messageDir: React.PropTypes.string.isRequired,
+    // from mapStateToProps
+    messages: React.PropTypes.objectOf(React.PropTypes.string),
+    locale: React.PropTypes.string,
+    // from mapDispatchToProps
+    updateMessages: React.PropTypes.func,
+  }
 
   componentWillMount() {
     const { updateMessages, messages, locale, messageDir } = this.props
@@ -49,15 +59,6 @@ export class I18nProvider extends React.Component {
     return null
   }
 }
-I18nProvider.propTypes = {
-  messageDir: React.PropTypes.string.isRequired,
-  locale: React.PropTypes.string,
-  // from mapDispatchToProps
-  updateMessages: React.PropTypes.func,
-  // from mapStateToProps
-  messages: React.PropTypes.objectOf(React.PropTypes.string),
-  children: React.PropTypes.element,
-}
 
 
 const mapStateToProps = (state, ownProps) => ({
@@ -66,7 +67,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  updateMessages: (messageDir, locale) => dispatch(updateMessages(messageDir, locale)),
+  updateMessages: (messageDir, locale) => dispatch(I18nActions.updateMessages(messageDir, locale)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(I18nProvider)

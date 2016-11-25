@@ -2,19 +2,18 @@ import { storiesOf, action } from '@kadira/storybook'
 import { AdminLayout } from '@regardsoss/admin/src/containers/AdminLayout'
 import Paper from 'material-ui/Paper'
 import { withKnobs, select } from '@kadira/storybook-addon-knobs'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { indigo900 } from 'material-ui/styles/colors'
-import { StoreDecorator, getThemeByName, themeList, defaultTheme } from '../../utils/decorators'
+import { StoreDecorator, addLocaleAndThemeSelectors, ThemeAndLocaleDecorator } from '../../utils/decorators'
 
 storiesOf('Admin template', module)
   .addDecorator(withKnobs)
   .addDecorator(StoreDecorator)
   .add('', () => {
-    const theme = getThemeByName(select('Theme', themeList, defaultTheme))
-    const isInstance = select('Type of menu', ['Instance', 'Project'])
+    const themeName = addLocaleAndThemeSelectors()
+    const isInstance = select('Type of menu', ['Instance', 'Project'], 'Project')
     const params = isInstance === 'Instance' ? {} : { project: 'cdpp' }
     return (
-      <MuiThemeProvider muiTheme={theme}>
+      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin/src/authentication/i18n">
         <AdminLayout
           content={
             <Paper
@@ -31,6 +30,6 @@ storiesOf('Admin template', module)
           params={params}
           onLogout={action('onLogout')}
         />
-      </MuiThemeProvider>
+      </ThemeAndLocaleDecorator>
     )
   })

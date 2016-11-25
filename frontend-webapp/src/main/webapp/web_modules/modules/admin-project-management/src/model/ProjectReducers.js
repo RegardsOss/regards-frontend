@@ -17,11 +17,13 @@ const createProjectSuccess = function (state, action) {
   newState.items[action.payload.result[0]] = project
   return newState
 }
+
 const deleteProjectSuccess = function (state, action) {
   const newState = Object.assign({}, state, { isFetching: false })
-  newState.items = omitBy(newState.items, proj => proj.projectId === action.payload.projectId)
+  newState.items = omitBy(newState.items, proj => proj.content.id === action.payload.id)
   return newState
 }
+
 export default (state = {
   isFetching: false,
   items: {},

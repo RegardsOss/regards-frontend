@@ -13,16 +13,16 @@ export class PortalHomepageContainer extends React.Component {
    */
   static propTypes = {
     theme: React.PropTypes.string,
-    content: React.PropTypes.element,
+    children: React.PropTypes.element,
   }
 
   /**
    * @returns {React.Component}
    */
   render() {
-    const { theme, content } = this.props
+    const { theme, children } = this.props
     const muiTheme = ThemeHelper.getByName(theme)
-    const contentToDisplay = React.Children.count() > 0 ? content : <HomepageContainer />
+    const contentToDisplay = React.Children.count() > 0 ? children : <HomepageContainer />
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
         <PortalLayout>

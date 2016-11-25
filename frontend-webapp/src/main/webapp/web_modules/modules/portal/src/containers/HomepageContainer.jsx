@@ -1,6 +1,6 @@
 import { I18nProvider } from '@regardsoss/i18n'
 import NewsListContainer from '../news/containers/NewsListContainer'
-import ProjectListContainer from '../projects/containers/ProjectListContainer'
+import ProjectListComponent from '../projects/components/ProjectListComponent'
 /**
  * Display news and project list on the homepage
  */
@@ -13,7 +13,7 @@ export class HomepageContainer extends React.Component {
       <I18nProvider messageDir="modules/portal/src/i18n">
         <div>
           <NewsListContainer />
-          <ProjectListContainer />
+          <ProjectListComponent />
         </div>
       </I18nProvider>
     )

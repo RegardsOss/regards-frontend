@@ -1,33 +1,32 @@
 import { storiesOf, action } from '@kadira/storybook'
-import PortalLayout from '@regardsoss/portal/src/containers/HomepageContainer'
+import PortalLayout from '@regardsoss/portal/src/containers/PortalLayout'
 import Paper from 'material-ui/Paper'
 import { withKnobs, select } from '@kadira/storybook-addon-knobs'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { indigo900 } from 'material-ui/styles/colors'
-import { getThemeByName, themeList, defaultTheme, StoreDecorator } from '../../utils/decorators'
+import { StoreDecorator, addLocaleAndThemeSelectors, ThemeAndLocaleDecorator } from '../../utils/decorators'
 
 storiesOf('Portal template', module)
   .addDecorator(withKnobs)
   .addDecorator(StoreDecorator)
   .add('', () => {
-    const theme = getThemeByName(select('Theme', themeList, defaultTheme))
+    const themeName = addLocaleAndThemeSelectors()
     return (
-      <MuiThemeProvider muiTheme={theme}>
+      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-project-management/src/i18n">
         <PortalLayout
-          content={
-            <Paper
-              className="col-sm-100"
-              style={{
-                height: 450,
-                textAlign: 'center',
-                display: 'inline-block',
-                fontSize: 'small',
-                backgroundColor: indigo900,
-              }}
-            />}
           location=""
           onLogout={action('onLogout')}
-        />
-      </MuiThemeProvider>
+        >
+          <Paper
+            className="col-sm-100"
+            style={{
+              height: 450,
+              textAlign: 'center',
+              display: 'inline-block',
+              fontSize: 'small',
+              backgroundColor: indigo900,
+            }}
+          />
+        </PortalLayout>
+      </ThemeAndLocaleDecorator>
     )
   })

@@ -61,7 +61,7 @@ export const deleteProject = id => ({
       DELETE_PROJECT_REQUEST,
       {
         type: DELETE_PROJECT_SUCCESS,
-        payload: { projectId: id },
+        payload: { id },
       },
       DELETE_PROJECT_FAILURE,
     ],

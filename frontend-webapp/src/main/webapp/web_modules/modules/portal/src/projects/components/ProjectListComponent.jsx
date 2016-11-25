@@ -6,7 +6,7 @@ import { FormattedMessage } from 'react-intl'
 /**
  * Show the list of users for the current project
  */
-class ProjectListContainer extends React.Component {
+class ProjectListComponent extends React.Component {
   /**
    * @type {{projects: *, theme: *}}
    */
@@ -167,5 +167,5 @@ class ProjectListContainer extends React.Component {
     )
   }
 }
-export default ProjectListContainer
+export default ProjectListComponent
 

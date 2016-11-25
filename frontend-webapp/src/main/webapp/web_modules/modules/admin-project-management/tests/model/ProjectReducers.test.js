@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import reducer from '../src/model/ProjectReducers'
+import reducer from '../../src/model/ProjectReducers'
 import {
   PROJECT_LIST_REQUEST,
   PROJECT_LIST_FAILURE,
@@ -10,7 +10,7 @@ import {
   DELETE_PROJECT_REQUEST,
   DELETE_PROJECT_SUCCESS,
   DELETE_PROJECT_FAILURE,
-} from '../src/model/ProjectActions'
+} from '../../src/model/ProjectActions'
 
 describe('[ADMIN APP] Testing projects reducer', () => {
   it('should return the initial state', () => {
@@ -21,7 +21,7 @@ describe('[ADMIN APP] Testing projects reducer', () => {
     })
   })
 
-  describe('GET /projects calls', () => {
+  describe('GET /project calls', () => {
     it('should handle fetch request', () => {
       const action = {
         type: PROJECT_LIST_REQUEST,
@@ -41,11 +41,20 @@ describe('[ADMIN APP] Testing projects reducer', () => {
         payload: {
           entities: {
             projects: {
-              0: { projectId: '0', name: 'cdpp' },
-              1: { projectId: '1', name: 'ssalto' },
+              1: {
+                content: {
+                  id: 1,
+                  name: 'project1',
+                  description: '',
+                  icon: '',
+                  isPublic: true,
+                  isDeleted: false,
+                },
+                links: [],
+              },
             },
           },
-          result: ['0', '1'],
+          result: [1],
         },
       }
       const initState = {
@@ -56,8 +65,17 @@ describe('[ADMIN APP] Testing projects reducer', () => {
       const expectedState = {
         isFetching: false,
         items: {
-          0: { projectId: '0', name: 'cdpp' },
-          1: { projectId: '1', name: 'ssalto' },
+          1: {
+            content: {
+              id: 1,
+              name: 'project1',
+              description: '',
+              icon: '',
+              isPublic: true,
+              isDeleted: false,
+            },
+            links: [],
+          },
         },
         lastUpdate: '',
       }
@@ -103,7 +121,7 @@ describe('[ADMIN APP] Testing projects reducer', () => {
         payload: {
           entities: {
             projects: {
-              3: { projectId: '3', name: 'newProject' },
+              3: { id: '3', name: 'newProject' },
             },
           },
           result: ['3'],
@@ -112,17 +130,17 @@ describe('[ADMIN APP] Testing projects reducer', () => {
       const initState = {
         isFetching: true,
         items: {
-          0: { projectId: '0', name: 'cdpp' },
-          1: { projectId: '1', name: 'ssalto' },
+          0: { id: '0', name: 'cdpp' },
+          1: { id: '1', name: 'ssalto' },
         },
         lastUpdate: '',
       }
       const expectedState = {
         isFetching: false,
         items: {
-          0: { projectId: '0', name: 'cdpp' },
-          1: { projectId: '1', name: 'ssalto' },
-          3: { projectId: '3', name: 'newProject' },
+          0: { id: '0', name: 'cdpp' },
+          1: { id: '1', name: 'ssalto' },
+          3: { id: '3', name: 'newProject' },
         },
         lastUpdate: '',
       }
@@ -165,22 +183,47 @@ describe('[ADMIN APP] Testing projects reducer', () => {
     it('should handle delete success', () => {
       const action = {
         type: DELETE_PROJECT_SUCCESS,
-        payload: { projectId: '3' },
+        payload: { id: 3 },
       }
       const initState = {
         isFetching: true,
         items: {
-          0: { projectId: '0', name: 'cdpp' },
-          1: { projectId: '1', name: 'ssalto' },
-          3: { projectId: '3', name: 'newProject' },
+          1: {
+            content: {
+              id: 1,
+            },
+            links: [],
+          },
+          2: {
+            content: {
+              id: 2,
+            },
+            links: [],
+          },
+          3: {
+            content: {
+              id: 3,
+            },
+            links: [],
+          },
         },
         lastUpdate: '',
       }
       const expectedState = {
         isFetching: false,
         items: {
-          0: { projectId: '0', name: 'cdpp' },
-          1: { projectId: '1', name: 'ssalto' },
+          1: {
+            content: {
+              id: 1,
+            },
+            links: [],
+          },
+          2: {
+            content: {
+              id: 2,
+            },
+            links: [],
+          },
         },
         lastUpdate: '',
       }
