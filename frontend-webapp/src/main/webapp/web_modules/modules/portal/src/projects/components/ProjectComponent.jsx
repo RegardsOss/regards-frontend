@@ -3,7 +3,6 @@ import Avatar from 'material-ui/Avatar'
 import Lock from 'material-ui/svg-icons/action/lock-outline'
 import IconButton from 'material-ui/IconButton'
 import { themeContextType } from '@regardsoss/theme'
-import { grey200 } from 'material-ui/styles/colors'
 import { Link } from 'react-router'
 /*
 interface ProjectProps {
@@ -27,70 +26,34 @@ class ProjectComponent extends React.Component {
 
 
   renderProject = () => {
-    const styleText = {
-      textOverflow: 'ellipsis',
-      overflow: 'hidden',
-      maxHeight: '4.8em',
-      lineHeight: '1.6em',
-      textAlign: 'justify',
-    }
-    const styleTitle = {
-      textOverflow: 'ellipsis',
-      overflow: 'hidden',
-      whiteSpace: 'nowrap',
-    }
-    const styleRootTitle = {
-      paddingBottom: '0',
-    }
-    const styleIcon = {
-      height: '100px',
-      width: '100px',
-    }
-    const styleIconDisabled = {
-      height: '100px',
-      width: '100px',
-      filter: 'grayscale(100%)',
-    }
-    // Bootstrap columns with the same height using flex
-    // http://stackoverflow.com/a/19695851/2294168
-    const styleIconContainer = {
-      display: 'flex',
-      flexDirection: 'row',
-      justifyContent: 'center',
-      alignItems: 'center',
-    }
-    const styleContainer = {
-      display: 'flex',
-      flexWrap: 'wrap',
-    }
-    const styleDescriptionContent = {
-      display: 'flex',
-      flexDirection: 'column',
-    }
-    const styleLock = {
-      position: 'absolute',
-      bottom: '45%',
-      right: '45%',
-    }
-    const styleIconLock = { height: 60, width: 60 }
     const { muiTheme } = this.context
+    const style = {
+      text: muiTheme.newsStyle.text,
+      title: muiTheme.newsStyle.title,
+      rootTitle: muiTheme.newsStyle.rootTitle,
+      icon: muiTheme.newsStyle.icon,
+      iconDisabled: muiTheme.newsStyle.iconDisabled,
+      iconContainer: muiTheme.newsStyle.iconContainer,
+      descriptionContent: muiTheme.newsStyle.descriptionContent,
+      lock: muiTheme.newsStyle.lock,
+      iconLock: muiTheme.newsStyle.iconLock,
+      cardWhenDisabled: muiTheme.newsStyle.cardWhenDisabled,
+    }
     const { project, isAccessible } = this.props
     let styleWhenDisabled = {}
     if (isAccessible === false) {
-      styleWhenDisabled = {
-        backgroundColor: grey200,
-      }
+      styleWhenDisabled = style.cardWhenDisabled
     }
     return (
       <Card style={styleWhenDisabled}>
-        <div className="row" style={styleContainer}>
-          <div className="col-sm-12" style={styleIconContainer}>
+        <div className="row" style={style.container}>
+          <div className="col-sm-12" style={style.iconContainer}>
             {(() => {
               if (isAccessible) {
                 return (<Avatar
                   src={project.icon}
                   size={0}
-                  style={styleIcon}
+                  style={style.icon}
                 />)
               }
               return (
@@ -98,12 +61,12 @@ class ProjectComponent extends React.Component {
                   <Avatar
                     src={project.icon}
                     size={0}
-                    style={styleIconDisabled}
+                    style={style.iconDisabled}
                   />
                   <IconButton
                     size={40}
-                    iconStyle={styleIconLock}
-                    style={styleLock}
+                    iconStyle={style.iconLock}
+                    style={style.lock}
                     disableTouchRipple
                   >
                     <Lock
@@ -113,14 +76,14 @@ class ProjectComponent extends React.Component {
                 </div>)
             })()}
           </div>
-          <div className="col-sm-88" style={styleDescriptionContent}>
+          <div className="col-sm-88" style={style.descriptionContent}>
             <CardTitle
               title={project.name}
-              titleStyle={styleTitle}
-              style={styleRootTitle}
+              titleStyle={style.title}
+              style={style.rootTitle}
             />
             <CardText>
-              <div style={styleText}>
+              <div style={style.text}>
                 { project.description }
               </div>
             </CardText>

@@ -1,10 +1,10 @@
-import { FormattedMessage } from 'react-intl'
-import { Card, CardActions, CardTitle, CardText, CardHeader } from 'material-ui/Card'
+import { FormattedMessage, intlShape } from 'react-intl'
+import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import { reduxForm } from 'redux-form'
 import { themeContextType } from '@regardsoss/theme'
 import { RenderTextField, FormErrorMessage, ErrorTypes, Field, ValidationHelpers } from '@regardsoss/form-utils'
-import { intlShape } from 'react-intl'
+
 /**
  * React component for login form in administration applicationstat
  */

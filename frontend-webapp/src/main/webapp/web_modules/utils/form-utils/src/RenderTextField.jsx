@@ -14,7 +14,7 @@ class renderTextField extends React.Component {
     fullWidth: React.PropTypes.bool,
     type: React.PropTypes.string,
     intl: React.PropTypes.shape({
-      formatMessage: React.PropTypes.func
+      formatMessage: React.PropTypes.func,
     }),
   }
   render() {

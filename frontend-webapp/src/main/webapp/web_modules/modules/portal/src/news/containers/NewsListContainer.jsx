@@ -7,7 +7,6 @@ import { NewsItemComponent } from '@regardsoss/components'
 class NewsListContainer extends React.Component {
   static propTypes = {
     newsList: React.PropTypes.arrayOf(React.PropTypes.objectOf(React.PropTypes.string)),
-    theme: React.PropTypes.objectOf(React.PropTypes.string),
   }
 
   /**
@@ -18,7 +17,7 @@ class NewsListContainer extends React.Component {
   }
 
   render() {
-    const { newsList } = this.props
+    // const { newsList } = this.props
     const { muiTheme } = this.context
     const styleBetweenNews = muiTheme.portalApp.homepage.splitNews
     const newsListfgdfj = [{

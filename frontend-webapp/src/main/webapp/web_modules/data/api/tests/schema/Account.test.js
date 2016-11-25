@@ -1,6 +1,6 @@
 import { assert } from 'chai'
-import Schemas from '../../src/main'
 import { normalize } from 'normalizr'
+import Schemas from '../../src/main'
 
 describe('[API NORMALIZR] Testing schemas', () => {
   it('should handle project list', () => {

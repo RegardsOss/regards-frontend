@@ -48,30 +48,30 @@ class ActionButtonComponent extends React.Component {
   )
 
   render() {
-    const { button } = this.props
+    const { button, isVisible, url, style, label, primary, secondary, onTouchTap } = this.props
     return (
-      <ShowableAtRender show={this.props.isVisible}>
+      <ShowableAtRender show={isVisible}>
         {(() => {
-          if (this.props.url) {
+          if (url) {
             return (
               <Link
-                to={this.props.url}
-                style={this.props.style}
+                to={url}
+                style={style}
               >
-                {this.getComponent(this.props.button, {
-                  label: this.props.label,
-                  primary: this.props.primary,
-                  secondary: this.props.secondary,
+                {this.getComponent(button, {
+                  label,
+                  primary,
+                  secondary,
                 })}
               </Link>
             )
           }
           return (
-            this.getComponent(this.props.button, {
-              label: this.props.label,
-              primary: this.props.primary,
-              secondary: this.props.secondary,
-              onTouchTap: this.props.onTouchTap,
+            this.getComponent(button, {
+              label,
+              primary,
+              secondary,
+              onTouchTap,
             })
           )
         })()}

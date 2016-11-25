@@ -1,7 +1,7 @@
 import { map } from 'lodash'
 import { grey200 } from 'material-ui/styles/colors'
-import ProjectComponent from '../components/ProjectComponent'
 import { FormattedMessage } from 'react-intl'
+import ProjectComponent from '../components/ProjectComponent'
 
 /**
  * Show the list of users for the current project
@@ -25,7 +25,7 @@ class ProjectListComponent extends React.Component {
    * @returns {React.Component}
    */
   render() {
-    const { projects } = this.props
+    // const { projects } = this.props
     const { muiTheme } = this.context
     const projectssdfsdf = []
     projectssdfsdf.push(

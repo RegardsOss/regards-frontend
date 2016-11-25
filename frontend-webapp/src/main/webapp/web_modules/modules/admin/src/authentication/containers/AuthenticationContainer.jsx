@@ -18,6 +18,7 @@ export class Authentication extends React.Component {
   static propTypes = {
     // from mapDispatchToProps
     fetchAuthenticate: React.PropTypes.func,
+    errorMessage: React.PropTypes.string,
   }
 
   showResults = (values) => {

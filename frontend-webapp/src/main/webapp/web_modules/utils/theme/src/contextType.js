@@ -1,6 +1,6 @@
 import { PropTypes } from 'react'
 
-const contextType = {
+const contextTypes = {
   muiTheme: PropTypes.object.isRequired,
 }
-export default contextType
+export default contextTypes
