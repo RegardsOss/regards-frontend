@@ -19,6 +19,7 @@ class ActionButtonComponent extends React.Component {
     onTouchTap: React.PropTypes.func,
     isVisible: React.PropTypes.bool,
     style: React.PropTypes.objectOf(React.PropTypes.string),
+    type: React.PropTypes.string,
   }
 
   static defaultProps = {
@@ -28,6 +29,7 @@ class ActionButtonComponent extends React.Component {
     secondary: false,
     style: {},
     isVisible: true,
+    type: 'button'
   }
 
   /**
@@ -35,10 +37,11 @@ class ActionButtonComponent extends React.Component {
    * @param props
    */
   componentWillReceiveProps(props) {
-    if (props.url === undefined && props.onTouchTap === undefined) {
+    if (props.type === 'submit') {
+      // Clicking on this button will submit the parent form
+    } else if (props.url === undefined && props.onTouchTap === undefined) {
       throw new Error('No behavior specified. Please specify props.url or props.onTouchTap')
-    }
-    if (props.url && props.url.length > 0 && typeof props.onTouchTap === 'function') {
+    } else if (props.url && props.url.length > 0 && typeof props.onTouchTap === 'function') {
       throw new Error('Too many behavior specified. Please specify either props.url or props.onTouchTap')
     }
   }
@@ -48,7 +51,7 @@ class ActionButtonComponent extends React.Component {
   )
 
   render() {
-    const { button, isVisible, url, style, label, primary, secondary, onTouchTap } = this.props
+    const { button, isVisible, url, style, label, primary, secondary, onTouchTap, type } = this.props
     return (
       <ShowableAtRender show={isVisible}>
         {(() => {
@@ -62,6 +65,7 @@ class ActionButtonComponent extends React.Component {
                   label,
                   primary,
                   secondary,
+                  type,
                 })}
               </Link>
             )
@@ -72,6 +76,7 @@ class ActionButtonComponent extends React.Component {
               primary,
               secondary,
               onTouchTap,
+              type,
             })
           )
         })()}

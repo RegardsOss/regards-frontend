@@ -13,8 +13,8 @@ import {
 
 const createProjectSuccess = function (state, action) {
   const newState = Object.assign({}, state, { isFetching: false })
-  const project = action.payload.entities.projects[action.payload.result[0]]
-  newState.items[action.payload.result[0]] = project
+  const projectId = action.payload.result
+  newState.items[projectId] = action.payload.entities.projects[projectId]
   return newState
 }
 

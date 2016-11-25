@@ -1,6 +1,3 @@
-
-import { connect } from 'react-redux'
-import { injectTheme } from '@regardsoss/theme'
 import Paper from 'material-ui/Paper'
 import AppBar from 'material-ui/AppBar'
 import ArrowBack from 'material-ui/svg-icons/navigation/arrow-back'
@@ -16,49 +13,21 @@ import SupervisorAccount from 'material-ui/svg-icons/action/supervisor-account'
 import { Tabs, Tab } from 'material-ui/Tabs'
 import { MainActionButtonComponent, SecondaryActionButtonComponent } from '@regardsoss/components'
 
-const styles = {
-  headline: {
-    fontSize: 24,
-    paddingTop: 16,
-    marginBottom: 12,
-    fontWeight: 400,
-  },
-  root: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-}
 
-export class ProjectReadComponent extends React.Component {
+export class ProjectEditComponent extends React.Component {
   static propTypes = {
-    project:
-      React.PropTypes.shape({
-        content: React.PropTypes.shape({
-          id: React.PropTypes.number,
-          name: React.PropTypes.string,
-          description: React.PropTypes.string,
-          isPublic: React.PropTypes.bool,
-        }),
-      }).isRequired,
+    project:React.PropTypes.shape({
+      content: React.PropTypes.shape({
+        id: React.PropTypes.number,
+        name: React.PropTypes.string,
+        description: React.PropTypes.string,
+        isPublic: React.PropTypes.bool,
+      }),
+    }).isRequired,
+    backUrl: React.PropTypes.string.isRequired,
+    handleEdit: React.PropTypes.func.isRequired,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      project: { projectId: 'dummy', name: 'dummy', description: 'dummy' },
-    }
-  }
-
-  componentDidMount() {
-    const project = this.props.projects[this.props.params.project_id]
-    if (project) {
-      this.setState({
-        project,
-      })
-    } else {
-      throw new Error('Failed to find the corresponding project')
-    }
-  }
 
   handleEdit = () => {
     console.log('todo')
@@ -68,9 +37,6 @@ export class ProjectReadComponent extends React.Component {
     console.log('todo')
   }
 
-  handleBackClick = () => {
-    browserHistory.goBack()
-  }
 
   render() {
     return (
@@ -153,5 +119,3 @@ export class ProjectReadComponent extends React.Component {
     )
   }
 }
-
-export default connect(mapStateToProps)(ProjectReadComponent)

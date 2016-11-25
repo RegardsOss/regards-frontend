@@ -1,11 +1,12 @@
 import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
-import { injectTheme } from '@regardsoss/theme'
 import { I18nProvider } from '@regardsoss/i18n'
 import { map } from 'lodash'
 import * as actions from '../model/ProjectActions'
 import ProjectSelectors from '../model/ProjectSelectors'
 import ProjectListComponent from '../components/ProjectListComponent'
+import { logout } from '@regardsoss/authentication'
+
 /**
  * React container to manage ManageProjectsComponent.
  *
@@ -29,6 +30,7 @@ export class ProjectListContainer extends React.Component {
     fetchProjectList: React.PropTypes.func,
     deleteProject: React.PropTypes.func,
     createProject: React.PropTypes.func,
+    onLogout: React.PropTypes.func,
     theme: React.PropTypes.objectOf(React.PropTypes.string),
   }
   componentWillMount() {
@@ -37,26 +39,19 @@ export class ProjectListContainer extends React.Component {
 
   getCreateUrl = () => '/admin/project/create'
 
-  handleView = (selectedRows) => {
-    if (selectedRows instanceof String) {
-      throw new Error('Only a single row should be selected in the table')
-    }
-    if (selectedRows instanceof Array && selectedRows.length !== 1) {
-      throw new Error('Exactly one row is expected to be selected in the table')
-    }
-
-    const project = this.props.projectList[selectedRows[0]]
-    const url = `/admin/cdpp/projects/'${project.projectId}`
-    browserHistory.push(url)
-  }
-
   handleEdit = (id) => {
-    const url = `/admin/project/${id}`
+    const url = `/admin/project/${id}/edit`
     browserHistory.push(url)
   }
 
-  handleDelete =(id) => {
-    this.props.deleteProject(id)
+  handleDelete =(projectName) => {
+    this.props.deleteProject(projectName)
+  }
+
+  handleOpen =(projectName) => {
+    this.props.onLogout()
+    const url = `/admin/${projectName}`
+    browserHistory.push(url)
   }
 
 
@@ -69,7 +64,7 @@ export class ProjectListContainer extends React.Component {
           createUrl={this.getCreateUrl()}
           handleDelete={this.handleDelete}
           handleEdit={this.handleEdit}
-          handleView={this.handleView}
+          handleOpen={this.handleOpen}
         />
       </I18nProvider>
     )
@@ -82,6 +77,7 @@ const mapDispatchToProps = dispatch => ({
   fetchProjectList: () => dispatch(actions.fetchProjectList()),
   deleteProject: id => dispatch(actions.deleteProject(id)),
   createProject: () => dispatch(actions.createProject()),
+  onLogout: () => dispatch(logout()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectListContainer)

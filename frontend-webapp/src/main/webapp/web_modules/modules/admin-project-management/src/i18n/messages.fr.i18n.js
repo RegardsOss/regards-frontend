@@ -18,6 +18,8 @@ const messages = {
   'projects.table.isPrivate': 'Privé',
   'projects.table.isPublic': 'Public',
   'projects.table.actions.label': 'Actions',
+  'project.create.title': 'Créer un nouveau project',
+  'project.list.action.open': 'Se connecter a son panel d\'administration',
 }
 
 export default messages

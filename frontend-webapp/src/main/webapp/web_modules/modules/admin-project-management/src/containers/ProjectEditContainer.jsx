@@ -1,8 +1,8 @@
-
+import { I18nProvider } from '@regardsoss/i18n'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
 import ProjectSelectors from '../model/ProjectSelectors'
-
+import ProjectEditComponent from "../components/ProjectEditComponent"
 const styles = {
   headline: {
     fontSize: 24,
@@ -18,9 +18,7 @@ const styles = {
 
 export class ProjectReadContainer extends React.Component {
   static propTypes = {
-    project: React.PropTypes.objectOf(React.PropTypes.string).isRequired,
-    projects: React.PropTypes.arrayOf(React.PropTypes.objectOf(React.PropTypes.string)).isRequired,
-    theme: React.PropTypes.objectOf(React.PropTypes.string).isRequired,
+    project: React.PropTypes.objectOf(React.PropTypes.string),
     params: React.PropTypes.objectOf(React.PropTypes.string).isRequired,
   }
 
@@ -28,25 +26,18 @@ export class ProjectReadContainer extends React.Component {
     console.log('todo')
   }
 
-  handleDelete = () => {
-    console.log('todo')
-  }
-
-  handleBackClick = () => {
-    const url = `/admin/project/list`
-    browserHistory.push(url)
+  getBackUrl = () => {
+    return '/admin/project/list'
   }
 
   render() {
+    const { project } = this.props
     return (
-
       <I18nProvider messageDir="modules/admin-project-management/src/i18n">
-        <ProjectListComponent
-          projectList={projectList}
-          createUrl={this.getCreateUrl()}
-          handleDelete={this.handleDelete}
+        <ProjectEditComponent
+          project={project}
+          backUrl={this.getBackUrl()}
           handleEdit={this.handleEdit}
-          handleView={this.handleView}
         />
       </I18nProvider>
     )
@@ -54,10 +45,8 @@ export class ProjectReadContainer extends React.Component {
 }
 
 
-
-
 const mapStateToProps = (state, ownProps) => ({
-  project: ProjectSelectors.getProjectById(state, ),
+  project: ProjectSelectors.getProjectById(state, ownProps.params.project_id),
 })
 
 export default connect(mapStateToProps)(ProjectReadContainer)

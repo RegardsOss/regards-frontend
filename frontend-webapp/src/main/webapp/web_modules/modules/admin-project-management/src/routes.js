@@ -11,12 +11,12 @@ export const listProjectRoutes = {
 }
 
 export const readProjectRoute = {
-  path: ':project_id',
+  path: ':project_id/edit',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const ProjectReadContainer = require('./containers/ProjectReadContainer')
+      const ProjectEditContainer = require('./containers/ProjectEditContainer')
       cb(null, {
-        content: ProjectReadContainer.default,
+        content: ProjectEditContainer.default,
       })
     })
   },

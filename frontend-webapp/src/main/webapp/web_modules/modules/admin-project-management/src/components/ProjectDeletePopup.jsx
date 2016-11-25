@@ -1,4 +1,3 @@
-
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
 import TextField from 'material-ui/TextField'
@@ -11,7 +10,11 @@ import { ActionButtonComponent } from '@regardsoss/components'
  *
  * You can also close this dialog by clicking outside the dialog, or with the 'Esc' key.
  */
-class AddProject extends React.Component {
+class ProjectCreateComponent extends React.Component {
+
+  static propTypes = {
+    onSave: React.PropTypes.func.isRequired,
+  }
 
   state = {
     open: false,
@@ -77,8 +80,5 @@ class AddProject extends React.Component {
 }
 
 
-AddProject.propTypes = {
-  onSave: React.PropTypes.func.isRequired,
-}
 
-export default AddProject
+export default ProjectCreateComponent

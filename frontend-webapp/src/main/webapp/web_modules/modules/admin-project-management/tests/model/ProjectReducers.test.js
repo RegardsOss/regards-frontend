@@ -124,7 +124,7 @@ describe('[ADMIN APP] Testing projects reducer', () => {
               3: { id: '3', name: 'newProject' },
             },
           },
-          result: ['3'],
+          result: '3',
         },
       }
       const initState = {

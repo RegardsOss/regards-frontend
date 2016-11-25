@@ -1,4 +1,4 @@
-import { PROJECT_ARRAY } from '@regardsoss/api'
+import { PROJECT, PROJECT_ARRAY } from '@regardsoss/api'
 import { normalize } from 'normalizr'
 
 const { CALL_API, getJSON } = require('redux-api-middleware')
@@ -40,18 +40,19 @@ export const fetchProjectList = () => ({
   },
 })
 
-export const createProject = () => ({
+export const createProject = (values) => ({
   [CALL_API]: {
     types: [
       CREATE_PROJECT_REQUEST,
       {
         type: CREATE_PROJECT_SUCCESS,
-        payload: (action, state, res) => getJSON(res).then(json => normalize(json, PROJECT_ARRAY)),
+        payload: (action, state, res) => getJSON(res).then(json => normalize(json, PROJECT)),
       },
       CREATE_PROJECT_FAILURE,
     ],
     endpoint: PROJECTS_API,
     method: 'POST',
+    body: JSON.stringify(values)
   },
 })
 

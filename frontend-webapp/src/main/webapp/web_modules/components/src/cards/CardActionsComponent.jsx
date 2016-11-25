@@ -3,7 +3,18 @@ import CardActionsView from './CardActionsView'
 /**
  */
 class CardActionsComponent extends React.Component {
+  static propTypes = {
+    secondaryButtonLabel: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.element]),
+    secondaryButtonUrl: React.PropTypes.string,
+    secondaryButtonTouchTap: React.PropTypes.func,
+    isSecondaryButtonVisible: React.PropTypes.bool,
 
+    mainButtonLabel: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.element]).isRequired,
+    mainButtonUrl: React.PropTypes.string,
+    mainButtonTouchTap: React.PropTypes.func,
+    mainButtonType: React.PropTypes.string,
+    isMainButtonVisible: React.PropTypes.bool,
+  }
   static defaultProps = {
     isMainButtonVisible: true,
   }
@@ -20,6 +31,7 @@ class CardActionsComponent extends React.Component {
           mainButtonUrl={this.props.mainButtonUrl}
           mainButtonLabel={this.props.mainButtonLabel}
           mainButtonTouchTap={this.props.mainButtonTouchTap}
+          mainButtonType={this.props.mainButtonType}
           isMainButtonVisible={this.props.isMainButtonVisible}
 
           theme={null}
@@ -27,17 +39,6 @@ class CardActionsComponent extends React.Component {
       </ThemeInjector>
     )
   }
-}
-CardActionsComponent.propTypes = {
-  secondaryButtonLabel: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.element]),
-  secondaryButtonUrl: React.PropTypes.string,
-  secondaryButtonTouchTap: React.PropTypes.func,
-  isSecondaryButtonVisible: React.PropTypes.bool,
-
-  mainButtonLabel: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.element]).isRequired,
-  mainButtonUrl: React.PropTypes.string,
-  mainButtonTouchTap: React.PropTypes.func,
-  isMainButtonVisible: React.PropTypes.bool,
 }
 
 export default CardActionsComponent
