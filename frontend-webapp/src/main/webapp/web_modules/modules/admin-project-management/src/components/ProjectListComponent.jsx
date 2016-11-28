@@ -34,14 +34,21 @@ export class ProjectListComponent extends React.Component {
 
   static contextTypes = {
     ...themeContextType,
-    ...i18nContextType
+    ...i18nContextType,
   }
 
   getVisibility = (isPublic) => {
     if (isPublic) {
-      return (<FormattedMessage id="projects.table.isPrivate" />)
+      return (<FormattedMessage id="projects.table.isPublic" />)
     }
-    return (<FormattedMessage id="projects.table.isPublic" />)
+    return (<FormattedMessage id="projects.table.isPrivate" />)
+  }
+
+  getState = (isDeleted) => {
+    if (isDeleted) {
+      return (<FormattedMessage id="projects.table.isDeleted" />)
+    }
+    return (null)
   }
 
   render() {
@@ -49,7 +56,7 @@ export class ProjectListComponent extends React.Component {
     const style = {
       hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
       hoverButtonDelete: this.context.muiTheme.palette.accent1Color,
-      hoverButtonView:this.context.muiTheme.palette.pickerHeaderColor,
+      hoverButtonView: this.context.muiTheme.palette.pickerHeaderColor,
     }
     return (
       <Card>
@@ -70,6 +77,7 @@ export class ProjectListComponent extends React.Component {
                 <TableHeaderColumn><FormattedMessage id="projects.table.name.label" /></TableHeaderColumn>
                 <TableHeaderColumn><FormattedMessage id="projects.table.description.label" /></TableHeaderColumn>
                 <TableHeaderColumn><FormattedMessage id="projects.table.isPublic.label" /></TableHeaderColumn>
+                <TableHeaderColumn><FormattedMessage id="projects.table.isDeleted.label" /></TableHeaderColumn>
                 <TableHeaderColumn><FormattedMessage id="projects.table.actions.label" /></TableHeaderColumn>
               </TableRow>
             </TableHeader>
@@ -83,6 +91,7 @@ export class ProjectListComponent extends React.Component {
                   <TableRowColumn>{project.content.name}</TableRowColumn>
                   <TableRowColumn>{project.content.description}</TableRowColumn>
                   <TableRowColumn>{this.getVisibility(project.content.isPublic)}</TableRowColumn>
+                  <TableRowColumn>{this.getState(project.content.isDeleted)}</TableRowColumn>
                   <TableRowColumn>
                     <IconButton
                       onTouchTap={() => handleOpen(project.content.name)}
@@ -91,7 +100,7 @@ export class ProjectListComponent extends React.Component {
                       <Input hoverColor={style.hoverButtonView} />
                     </IconButton>
 
-                    <IconButton onTouchTap={() => handleEdit(project.content.id)}>
+                    <IconButton onTouchTap={() => handleEdit(project.content.name)}>
                       <Edit hoverColor={style.hoverButtonEdit} />
                     </IconButton>
 

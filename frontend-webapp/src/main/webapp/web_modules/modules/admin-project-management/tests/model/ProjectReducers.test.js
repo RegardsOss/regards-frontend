@@ -1,18 +1,8 @@
 import { expect } from 'chai'
 import reducer from '../../src/model/ProjectReducers'
-import {
-  PROJECT_LIST_REQUEST,
-  PROJECT_LIST_FAILURE,
-  PROJECT_LIST_SUCCESS,
-  CREATE_PROJECT_REQUEST,
-  CREATE_PROJECT_FAILURE,
-  CREATE_PROJECT_SUCCESS,
-  DELETE_PROJECT_REQUEST,
-  DELETE_PROJECT_SUCCESS,
-  DELETE_PROJECT_FAILURE,
-} from '../../src/model/ProjectActions'
+import * as Actions from '../../src/model/ProjectActions'
 
-describe('[ADMIN APP] Testing projects reducer', () => {
+describe('[ADMIN PROJECT MANAGEMENT] Testing project reducer', () => {
   it('should return the initial state', () => {
     expect(reducer(undefined, {})).to.eql({
       isFetching: false,
@@ -21,10 +11,10 @@ describe('[ADMIN APP] Testing projects reducer', () => {
     })
   })
 
-  describe('GET /project calls', () => {
-    it('should handle fetch request', () => {
+  describe('should handle requests fetching', () => {
+    const shallSetIsFetching = actionType => function () {
       const action = {
-        type: PROJECT_LIST_REQUEST,
+        type: actionType,
       }
       const initState = {
         isFetching: false,
@@ -33,91 +23,140 @@ describe('[ADMIN APP] Testing projects reducer', () => {
         isFetching: true,
       }
       expect(reducer(initState, action)).to.eql(expectedState)
-    })
-
-    it('should handle fetch success', () => {
-      const action = {
-        type: PROJECT_LIST_SUCCESS,
-        payload: {
-          entities: {
-            projects: {
-              1: {
-                content: {
-                  id: 1,
-                  name: 'project1',
-                  description: '',
-                  icon: '',
-                  isPublic: true,
-                  isDeleted: false,
-                },
-                links: [],
-              },
-            },
-          },
-          result: [1],
-        },
-      }
-      const initState = {
-        isFetching: true,
-        items: {},
-        lastUpdate: '',
-      }
-      const expectedState = {
-        isFetching: false,
-        items: {
-          1: {
-            content: {
-              id: 1,
-              name: 'project1',
-              description: '',
-              icon: '',
-              isPublic: true,
-              isDeleted: false,
-            },
-            links: [],
-          },
-        },
-        lastUpdate: '',
-      }
-      expect(reducer(initState, action)).to.eql(expectedState)
-    })
-
-    it('should handle fetch failure', () => {
-      const action = {
-        type: PROJECT_LIST_FAILURE,
-        error: 'Oops there was an error!',
-      }
-      const initState = {
-        isFetching: true,
-        items: {},
-        lastUpdate: '',
-      }
-      const expectedState = {
-        isFetching: false,
-        items: {},
-        lastUpdate: '',
-      }
-      expect(reducer(initState, action)).to.eql(expectedState)
-    })
+    }
+    it('check PROJECT_LIST_REQUEST', shallSetIsFetching(Actions.PROJECT_LIST_REQUEST))
+    it('check PROJECT_REQUEST', shallSetIsFetching(Actions.PROJECT_REQUEST))
+    it('check DELETE_PROJECT_REQUEST', shallSetIsFetching(Actions.DELETE_PROJECT_REQUEST))
+    it('check UPDATE_PROJECT_REQUEST', shallSetIsFetching(Actions.UPDATE_PROJECT_REQUEST))
+    it('check CREATE_PROJECT_REQUEST', shallSetIsFetching(Actions.CREATE_PROJECT_REQUEST))
   })
 
-  describe('POST /projects calls', () => {
-    it('should handle create request', () => {
+  describe('should handle requests errors', () => {
+    const shallSetError = actionType => function () {
       const action = {
-        type: CREATE_PROJECT_REQUEST,
+        type: actionType,
       }
       const initState = {
-        isFetching: false,
-      }
-      const expectedState = {
         isFetching: true,
       }
+      const expectedState = {
+        isFetching: false,
+      }
       expect(reducer(initState, action)).to.eql(expectedState)
-    })
+    }
+    it('check PROJECT_LIST_FAILURE', shallSetError(Actions.PROJECT_LIST_FAILURE))
+    it('check CREATE_PROJECT_FAILURE', shallSetError(Actions.CREATE_PROJECT_FAILURE))
+    it('check DELETE_PROJECT_FAILURE', shallSetError(Actions.DELETE_PROJECT_FAILURE))
+    it('check UPDATE_PROJECT_FAILURE', shallSetError(Actions.UPDATE_PROJECT_FAILURE))
+    it('check PROJECT_FAILURE', shallSetError(Actions.PROJECT_FAILURE))
+  })
 
-    it('should handle create success', () => {
+  it('should handle PROJECT_LIST_SUCCESS', () => {
+    const action = {
+      type: Actions.PROJECT_LIST_SUCCESS,
+      payload: {
+        entities: {
+          projects: {
+            1: {
+              content: {
+                id: 1,
+                name: 'project1',
+                description: '',
+                icon: '',
+                isPublic: true,
+                isDeleted: false,
+              },
+              links: [],
+            },
+          },
+        },
+        result: [1],
+      },
+    }
+    const initState = {
+      isFetching: true,
+      items: {},
+      lastUpdate: '',
+    }
+    const expectedState = {
+      isFetching: false,
+      items: {
+        1: {
+          content: {
+            id: 1,
+            name: 'project1',
+            description: '',
+            icon: '',
+            isPublic: true,
+            isDeleted: false,
+          },
+          links: [],
+        },
+      },
+      lastUpdate: '',
+    }
+    expect(reducer(initState, action)).to.eql(expectedState)
+  })
+
+  it('should handle DELETE_PROJECT_SUCCESS', () => {
+    const action = {
+      type: Actions.DELETE_PROJECT_SUCCESS,
+      payload: { projectName: 'regards' },
+    }
+    const initState = {
+      isFetching: true,
+      items: {
+        1: {
+          content: {
+            id: 1,
+            name: 'cdpp',
+          },
+          links: [],
+        },
+        2: {
+          content: {
+            id: 2,
+            name: 'cnes',
+          },
+          links: [],
+        },
+        3: {
+          content: {
+            id: 3,
+            name: 'regards',
+          },
+          links: [],
+        },
+      },
+      lastUpdate: '',
+    }
+    const expectedState = {
+      isFetching: false,
+      items: {
+        1: {
+          content: {
+            id: 1,
+            name: 'cdpp',
+          },
+          links: [],
+        },
+        2: {
+          content: {
+            id: 2,
+            name: 'cnes',
+          },
+          links: [],
+        },
+      },
+      lastUpdate: '',
+    }
+    expect(reducer(initState, action)).to.eql(expectedState)
+  })
+
+  describe('should handle other requests success', () => {
+    const shallUpdateElement = actionType => function () {
       const action = {
-        type: CREATE_PROJECT_SUCCESS,
+        type: actionType,
         payload: {
           entities: {
             projects: {
@@ -145,107 +184,9 @@ describe('[ADMIN APP] Testing projects reducer', () => {
         lastUpdate: '',
       }
       expect(reducer(initState, action)).to.eql(expectedState)
-    })
-
-    it('should handle create failure', () => {
-      const action = {
-        type: CREATE_PROJECT_FAILURE,
-        error: 'Oops there was an error!',
-      }
-      const initState = {
-        isFetching: true,
-        items: {},
-        lastUpdate: '',
-      }
-      const expectedState = {
-        isFetching: false,
-        items: {},
-        lastUpdate: '',
-      }
-      expect(reducer(initState, action)).to.eql(expectedState)
-    })
-  })
-
-  describe('DELETE /projects/{id} calls', () => {
-    it('should handle delete request', () => {
-      const action = {
-        type: DELETE_PROJECT_REQUEST,
-      }
-      const initState = {
-        isFetching: false,
-      }
-      const expectedState = {
-        isFetching: true,
-      }
-      expect(reducer(initState, action)).to.eql(expectedState)
-    })
-
-    it('should handle delete success', () => {
-      const action = {
-        type: DELETE_PROJECT_SUCCESS,
-        payload: { id: 3 },
-      }
-      const initState = {
-        isFetching: true,
-        items: {
-          1: {
-            content: {
-              id: 1,
-            },
-            links: [],
-          },
-          2: {
-            content: {
-              id: 2,
-            },
-            links: [],
-          },
-          3: {
-            content: {
-              id: 3,
-            },
-            links: [],
-          },
-        },
-        lastUpdate: '',
-      }
-      const expectedState = {
-        isFetching: false,
-        items: {
-          1: {
-            content: {
-              id: 1,
-            },
-            links: [],
-          },
-          2: {
-            content: {
-              id: 2,
-            },
-            links: [],
-          },
-        },
-        lastUpdate: '',
-      }
-      expect(reducer(initState, action)).to.eql(expectedState)
-    })
-
-    it('should handle delete failure', () => {
-      const action = {
-        type: DELETE_PROJECT_FAILURE,
-        error: 'Oops there was an error!',
-      }
-      const initState = {
-        isFetching: true,
-        items: {},
-        lastUpdate: '',
-      }
-      const expectedState = {
-        isFetching: false,
-        items: {},
-        lastUpdate: '',
-      }
-      expect(reducer(initState, action)).to.eql(expectedState)
-    })
+    }
+    it('check CREATE_PROJECT_SUCCESS', shallUpdateElement(Actions.CREATE_PROJECT_SUCCESS))
+    it('check PROJECT_SUCCESS', shallUpdateElement(Actions.PROJECT_SUCCESS))
+    it('check UPDATE_PROJECT_SUCCESS', shallUpdateElement(Actions.UPDATE_PROJECT_SUCCESS))
   })
 })

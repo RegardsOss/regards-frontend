@@ -3,24 +3,30 @@ import {
   PROJECT_LIST_REQUEST,
   PROJECT_LIST_SUCCESS,
   PROJECT_LIST_FAILURE,
+  PROJECT_REQUEST,
+  PROJECT_SUCCESS,
+  PROJECT_FAILURE,
   DELETE_PROJECT_REQUEST,
   DELETE_PROJECT_SUCCESS,
   DELETE_PROJECT_FAILURE,
   CREATE_PROJECT_SUCCESS,
   CREATE_PROJECT_REQUEST,
   CREATE_PROJECT_FAILURE,
+  UPDATE_PROJECT_SUCCESS,
+  UPDATE_PROJECT_REQUEST,
+  UPDATE_PROJECT_FAILURE,
 } from './ProjectActions'
 
-const createProjectSuccess = function (state, action) {
+const updateProject = function (state, action) {
   const newState = Object.assign({}, state, { isFetching: false })
   const projectId = action.payload.result
   newState.items[projectId] = action.payload.entities.projects[projectId]
   return newState
 }
 
-const deleteProjectSuccess = function (state, action) {
+const deleteProjectFromState = function (state, action) {
   const newState = Object.assign({}, state, { isFetching: false })
-  newState.items = omitBy(newState.items, proj => proj.content.id === action.payload.id)
+  newState.items = omitBy(newState.items, proj => proj.content.name === action.payload.projectName)
   return newState
 }
 
@@ -33,12 +39,16 @@ export default (state = {
     case PROJECT_LIST_REQUEST:
     case CREATE_PROJECT_REQUEST:
     case DELETE_PROJECT_REQUEST:
+    case UPDATE_PROJECT_REQUEST:
+    case PROJECT_REQUEST:
       return Object.assign({}, state, {
         isFetching: true,
       })
     case PROJECT_LIST_FAILURE:
     case CREATE_PROJECT_FAILURE:
     case DELETE_PROJECT_FAILURE:
+    case UPDATE_PROJECT_FAILURE:
+    case PROJECT_FAILURE:
       return Object.assign({}, state, {
         isFetching: false,
       })
@@ -48,10 +58,11 @@ export default (state = {
         items: action.payload.entities.projects,
       })
     case CREATE_PROJECT_SUCCESS:
-
-      return createProjectSuccess(state, action)
+    case PROJECT_SUCCESS:
+    case UPDATE_PROJECT_SUCCESS:
+      return updateProject(state, action)
     case DELETE_PROJECT_SUCCESS:
-      return deleteProjectSuccess(state, action)
+      return deleteProjectFromState(state, action)
     default:
       return state
   }

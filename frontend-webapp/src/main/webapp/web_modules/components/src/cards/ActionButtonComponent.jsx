@@ -29,7 +29,7 @@ class ActionButtonComponent extends React.Component {
     secondary: false,
     style: {},
     isVisible: true,
-    type: 'button'
+    type: 'button',
   }
 
   /**

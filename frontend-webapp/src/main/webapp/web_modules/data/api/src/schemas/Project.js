@@ -3,7 +3,7 @@ import { Schema, arrayOf } from 'normalizr'
 // Read more about Normalizr: https://github.com/paularmstrong/normalizr
 const projectSchema = new Schema('projects', {
   idAttribute: project =>
-     project.content.id
+     project.content.name
   ,
 })
 

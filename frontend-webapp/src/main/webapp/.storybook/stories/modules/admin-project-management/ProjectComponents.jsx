@@ -1,12 +1,11 @@
 import { storiesOf, action } from '@kadira/storybook'
 import { withKnobs, select, object, text } from '@kadira/storybook-addon-knobs'
 import { ProjectListComponent } from '@regardsoss/admin-project-management/src/components/ProjectListComponent'
-import { ProjectCreateContainer } from '@regardsoss/admin-project-management/src/containers/ProjectCreateContainer'
-import { ProjectEditContainer } from '@regardsoss/admin-project-management/src/containers/ProjectEditContainer'
+import ProjectFormComponent from '@regardsoss/admin-project-management/src/components/ProjectFormComponent'
 import { StoreDecorator, addLocaleAndThemeSelectors, ThemeAndLocaleDecorator } from '../../utils/decorators'
 
 const defaultProjectList = {
-  1: {
+  'project1': {
     content: {
       id: 1,
       name: 'project1',
@@ -38,29 +37,16 @@ storiesOf('InstanceAdmin - Project', module)
       </ThemeAndLocaleDecorator>
     )
   })
-  .add('Create', () => {
+  .add('Forms', () => {
     const themeName = addLocaleAndThemeSelectors()
-    return (
-      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-project-management/src/i18n">
-        <ProjectCreateContainer
-          project=""
-          theme=""
-          createProject={action('createProject')}
-        />
-      </ThemeAndLocaleDecorator>
-    )
-  })
-  .add('Edit', () => {
-    const themeName = addLocaleAndThemeSelectors()
-    const projectId = text('Show project with id', 1)
     const projectList = object('Project list', defaultProjectList)
     return (
       <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-project-management/src/i18n">
-        <ProjectEditContainer
-          params={{ projectId }}
-          projects={projectList}
-          theme=""
-        />
-      </ThemeAndLocaleDecorator>
+        <ProjectFormComponent
+          currentProject={projectList['project1']}
+          backUrl='/some/url'
+          onSubmit={action('onSubmit')}
+          />
+        </ThemeAndLocaleDecorator>
     )
   })

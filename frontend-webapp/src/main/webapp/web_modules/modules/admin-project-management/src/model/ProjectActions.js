@@ -17,10 +17,13 @@ export const CREATE_PROJECT_REQUEST = 'CREATE_PROJECT_REQUEST'
 export const CREATE_PROJECT_SUCCESS = 'CREATE_PROJECT_SUCCESS'
 export const CREATE_PROJECT_FAILURE = 'CREATE_PROJECT_FAILURE'
 
+export const UPDATE_PROJECT_REQUEST = 'UPDATE_PROJECT_REQUEST'
+export const UPDATE_PROJECT_SUCCESS = 'UPDATE_PROJECT_SUCCESS'
+export const UPDATE_PROJECT_FAILURE = 'UPDATE_PROJECT_FAILURE'
+
 export const DELETE_PROJECT_REQUEST = 'DELETE_PROJECT_REQUEST'
 export const DELETE_PROJECT_SUCCESS = 'DELETE_PROJECT_SUCCESS'
 export const DELETE_PROJECT_FAILURE = 'DELETE_PROJECT_FAILURE'
-export const DELETE_SELECTED_PROJECT = 'DELETE_SELECTED_PROJECT'
 
 // Fetches all projects
 // Relies on the custom API middleware defined in redux-api-middleware
@@ -39,8 +42,22 @@ export const fetchProjectList = () => ({
     method: 'GET',
   },
 })
+export const fetchProject = projectName => ({
+  [CALL_API]: {
+    types: [
+      PROJECT_REQUEST,
+      {
+        type: PROJECT_SUCCESS,
+        payload: (action, state, res) => getJSON(res).then(json => normalize(json, PROJECT)),
+      },
+      PROJECT_FAILURE,
+    ],
+    endpoint: `${PROJECTS_API}/${projectName}`,
+    method: 'GET',
+  },
+})
 
-export const createProject = (values) => ({
+export const createProject = values => ({
   [CALL_API]: {
     types: [
       CREATE_PROJECT_REQUEST,
@@ -52,27 +69,37 @@ export const createProject = (values) => ({
     ],
     endpoint: PROJECTS_API,
     method: 'POST',
-    body: JSON.stringify(values)
+    body: JSON.stringify(values),
   },
 })
 
-export const deleteProject = id => ({
+export const updateProject = (projectName, values) => ({
+  [CALL_API]: {
+    types: [
+      UPDATE_PROJECT_REQUEST,
+      {
+        type: UPDATE_PROJECT_SUCCESS,
+        payload: (action, state, res) => getJSON(res).then(json => normalize(json, PROJECT)),
+      },
+      UPDATE_PROJECT_FAILURE,
+    ],
+    endpoint: `${PROJECTS_API}/${projectName}`,
+    method: 'PUT',
+    body: JSON.stringify(values),
+  },
+})
+
+export const deleteProject = projectName => ({
   [CALL_API]: {
     types: [
       DELETE_PROJECT_REQUEST,
       {
         type: DELETE_PROJECT_SUCCESS,
-        payload: { id },
+        payload: { projectName },
       },
       DELETE_PROJECT_FAILURE,
     ],
-    endpoint: `${PROJECTS_API}/${id}`,
+    endpoint: `${PROJECTS_API}/${projectName}`,
     method: 'DELETE',
   },
 })
-
-export function deleteSelectedProject() {
-  return {
-    type: DELETE_SELECTED_PROJECT,
-  }
-}

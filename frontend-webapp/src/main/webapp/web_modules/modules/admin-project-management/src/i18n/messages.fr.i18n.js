@@ -1,4 +1,6 @@
-const messages = {
+import { Locales } from '@regardsoss/form-utils'
+
+const messages = Object.assign({
   'projects.title': 'Projets',
   'projects.subtitle': 'Gestion des Projets REGARDS',
   'projects.add.button.title': 'Ajouter',
@@ -20,6 +22,11 @@ const messages = {
   'projects.table.actions.label': 'Actions',
   'project.create.title': 'Créer un nouveau project',
   'project.list.action.open': 'Se connecter a son panel d\'administration',
-}
+  'project.edit.title': 'Editer le projet {name}',
+  'invalid.only_alphanumeric': 'Seuls les caractères alphanumériques sont autorisés',
+  'project.add.input.isPublic': 'Projet public',
+  'projects.table.isDeleted': 'Removed',
+  'projects.table.isDeleted.label': 'Etat',
+}, Locales.fr)
 
 export default messages

@@ -5,11 +5,11 @@ class ProjectSelectors extends BasicSelector {
     super(['admin', 'project-management', 'project'])
   }
 
-  getProjectList(state) {
+  getList(state) {
     return this.uncombineStore(state).items
   }
-  getProjectById(state, id) {
-    return this.uncombineStore(state).items[id]
+  getById(state, projectName) {
+    return this.uncombineStore(state).items[projectName]
   }
 
 }

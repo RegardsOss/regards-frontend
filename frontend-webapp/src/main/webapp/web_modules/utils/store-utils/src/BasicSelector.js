@@ -36,6 +36,11 @@ class BasicSelector {
     }
     return partialStore
   }
+
+
+  isFetching(state) {
+    return this.uncombineStore(state).isFetching
+  }
 }
 
 export default BasicSelector

@@ -61,7 +61,7 @@ export const adminRouter = {
     databaseRouter,
     projectAdminDataRouter,
     projectAdminUserRouter,
-    projectAdminRouter
+    projectAdminRouter,
   ],
   getComponent(nextState, cb) {
     const AdminApp = require('./containers/AdminApp')

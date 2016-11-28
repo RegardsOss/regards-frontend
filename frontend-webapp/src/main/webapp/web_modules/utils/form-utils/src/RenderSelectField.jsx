@@ -15,7 +15,7 @@ renderSelectField.propTypes = {
     value: React.PropTypes.string,
     name: React.PropTypes.string,
   }),
-  label: React.PropTypes.string,
+  label: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.element]),
   meta: React.PropTypes.shape({
     touched: React.PropTypes.bool,
     error: React.PropTypes.string,

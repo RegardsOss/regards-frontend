@@ -18,7 +18,7 @@ describe('[API NORMALIZR] Testing schemas', () => {
     const expectedResult = {
       entities: {
         projects: {
-          1: {
+          project1: {
             content: {
               id: 1,
               name: 'project1',
@@ -31,7 +31,7 @@ describe('[API NORMALIZR] Testing schemas', () => {
           },
         },
       },
-      result: [1],
+      result: ['project1'],
     }
     const result = normalize(response, Schemas.PROJECT_ARRAY)
 

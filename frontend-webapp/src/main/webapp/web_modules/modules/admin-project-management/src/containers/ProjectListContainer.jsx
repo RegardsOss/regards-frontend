@@ -29,18 +29,17 @@ export class ProjectListContainer extends React.Component {
     ),
     fetchProjectList: React.PropTypes.func,
     deleteProject: React.PropTypes.func,
-    createProject: React.PropTypes.func,
     onLogout: React.PropTypes.func,
-    theme: React.PropTypes.objectOf(React.PropTypes.string),
   }
+
   componentWillMount() {
     this.props.fetchProjectList()
   }
 
   getCreateUrl = () => '/admin/project/create'
 
-  handleEdit = (id) => {
-    const url = `/admin/project/${id}/edit`
+  handleEdit = (projectName) => {
+    const url = `/admin/project/${projectName}/edit`
     browserHistory.push(url)
   }
 
@@ -71,12 +70,11 @@ export class ProjectListContainer extends React.Component {
   }
 }
 const mapStateToProps = state => ({
-  projectList: ProjectSelectors.getProjectList(state),
+  projectList: ProjectSelectors.getList(state),
 })
 const mapDispatchToProps = dispatch => ({
   fetchProjectList: () => dispatch(actions.fetchProjectList()),
   deleteProject: id => dispatch(actions.deleteProject(id)),
-  createProject: () => dispatch(actions.createProject()),
   onLogout: () => dispatch(logout()),
 })
 
