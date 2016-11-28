@@ -2,7 +2,7 @@ import { storiesOf, action } from '@kadira/storybook'
 import { withKnobs, select, object, text } from '@kadira/storybook-addon-knobs'
 import { ProjectListComponent } from '@regardsoss/admin-project-management/src/components/ProjectListComponent'
 import { ProjectCreateContainer } from '@regardsoss/admin-project-management/src/containers/ProjectCreateContainer'
-import { ProjectReadContainer } from '@regardsoss/admin-project-management/src/containers/ProjectReadContainer'
+import { ProjectEditContainer } from '@regardsoss/admin-project-management/src/containers/ProjectEditContainer'
 import { StoreDecorator, addLocaleAndThemeSelectors, ThemeAndLocaleDecorator } from '../../utils/decorators'
 
 const defaultProjectList = {
@@ -56,7 +56,7 @@ storiesOf('InstanceAdmin - Project', module)
     const projectList = object('Project list', defaultProjectList)
     return (
       <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-project-management/src/i18n">
-        <ProjectReadContainer
+        <ProjectEditContainer
           params={{ projectId }}
           projects={projectList}
           theme=""
