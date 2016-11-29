@@ -37,7 +37,18 @@ storiesOf('InstanceAdmin - Project', module)
       </ThemeAndLocaleDecorator>
     )
   })
-  .add('Forms', () => {
+  .add('Create', () => {
+    const themeName = addLocaleAndThemeSelectors()
+    return (
+      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-project-management/src/i18n">
+        <ProjectFormComponent
+          backUrl='/some/url'
+          onSubmit={action('onCreate')}
+        />
+      </ThemeAndLocaleDecorator>
+    )
+  })
+  .add('Edit', () => {
     const themeName = addLocaleAndThemeSelectors()
     const projectList = object('Project list', defaultProjectList)
     return (
@@ -45,8 +56,8 @@ storiesOf('InstanceAdmin - Project', module)
         <ProjectFormComponent
           currentProject={projectList['project1']}
           backUrl='/some/url'
-          onSubmit={action('onSubmit')}
-          />
-        </ThemeAndLocaleDecorator>
+          onSubmit={action('onEdit')}
+        />
+      </ThemeAndLocaleDecorator>
     )
   })
