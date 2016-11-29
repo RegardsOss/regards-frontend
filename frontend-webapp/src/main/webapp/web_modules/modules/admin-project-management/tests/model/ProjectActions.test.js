@@ -10,7 +10,7 @@ const { apiMiddleware } = require('redux-api-middleware')
 const middlewares = [thunk, apiMiddleware]
 const mockStore = configureStore(middlewares)
 
-describe('[ADMIN APP] Testing projects actions', () => {
+describe('[ADMIN PROJECT MANAGEMENT] Testing projects actions', () => {
   afterEach(() => {
     nock.cleanAll()
   })
