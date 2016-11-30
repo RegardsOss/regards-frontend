@@ -6,8 +6,8 @@ import ProjectFormComponent from '../../src/components/ProjectFormComponent'
 // Test a component rendering
 describe('[ADMIN PROJECT MANAGEMENT] Testing form container', () => {
   it('should exists', () => {
-    assert.isNotNull(ProjectFormContainer)
-    assert.isNotNull(ProjectFormComponent)
+    assert.isDefined(ProjectFormContainer)
+    assert.isDefined(ProjectFormComponent)
   })
 
   it('should render self and subcomponents', () => {

@@ -7,7 +7,7 @@ import { CardActionsComponent } from '@regardsoss/components'
 // Test a component rendering
 describe('[ADMIN PROJECT MANAGEMENT] Testing project list container', () => {
   it('should exists', () => {
-    assert.isNotNull(ProjectListComponent)
+    assert.isDefined(ProjectListComponent)
   })
 
   it('should render self and subcomponents', () => {

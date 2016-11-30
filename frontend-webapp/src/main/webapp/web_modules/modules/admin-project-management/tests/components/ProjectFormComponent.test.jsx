@@ -6,7 +6,7 @@ import { ProjectFormComponent } from '../../src/components/ProjectFormComponent'
 // Test a component rendering
 describe('[ADMIN PROJECT MANAGEMENT] Testing form container', () => {
   it('should exists', () => {
-    assert.isNotNull(ProjectFormComponent)
+    assert.isDefined(ProjectFormComponent)
   })
 
   it('should render edit form', () => {

@@ -6,8 +6,8 @@ import AccountFormComponent from '../../src/components/AccountFormComponent'
 // Test a component rendering
 describe('[ADMIN ACCOUNT MANAGEMENT] Testing form container', () => {
   it('should exists', () => {
-    assert.isNotNull(AccountFormContainer)
-    assert.isNotNull(AccountFormComponent)
+    assert.isDefined(AccountFormContainer)
+    assert.isDefined(AccountFormComponent)
   })
   it('should render self and subcomponents', () => {
     const props = {

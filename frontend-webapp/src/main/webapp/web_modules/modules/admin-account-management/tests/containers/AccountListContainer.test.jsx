@@ -6,8 +6,8 @@ import AccountListComponent from '../../src/components/AccountListComponent'
 // Test a component rendering
 describe('[ADMIN ACCOUNT MANAGEMENT] Testing project list container', () => {
   it('should exists', () => {
-    assert.isNotNull(AccountListContainer)
-    assert.isNotNull(AccountListComponent)
+    assert.isDefined(AccountListContainer)
+    assert.isDefined(AccountListComponent)
   })
   it('should render self and subcomponents', () => {
     const props = {
