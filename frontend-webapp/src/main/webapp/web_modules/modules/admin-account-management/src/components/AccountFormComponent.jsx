@@ -13,10 +13,9 @@ export class AccountFormComponent extends React.Component {
     currentAccount: React.PropTypes.shape({
       content: React.PropTypes.shape({
         id: React.PropTypes.number,
-        name: React.PropTypes.string,
-        description: React.PropTypes.string,
-        icon: React.PropTypes.string,
-        isPublic: React.PropTypes.bool,
+        email: React.PropTypes.string,
+        firstName: React.PropTypes.string,
+        lastName: React.PropTypes.string,
       }),
     }),
     onSubmit: React.PropTypes.func.isRequired,
@@ -31,7 +30,7 @@ export class AccountFormComponent extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      isCreating: props.currentProject === undefined,
+      isCreating: props.currentAccount === undefined,
     }
   }
 
@@ -41,26 +40,23 @@ export class AccountFormComponent extends React.Component {
 
   handleInitialize = () => {
     if (!this.state.isCreating) {
-      const { currentProject } = this.props
+      const { currentAccount } = this.props
       this.props.initialize({
-        description: currentProject.content.description,
-        icon: currentProject.content.icon,
-        isPublic: currentProject.content.isPublic,
-      })
-    } else {
-      this.props.initialize({
-        isPublic: false,
+        email: currentAccount.content.email,
+        firstName: currentAccount.content.firstName,
+        lastName: currentAccount.content.lastName,
       })
     }
   }
 
 
   render() {
-    const title = this.state.isCreating ? <FormattedMessage id="project.create.title" /> :
+    const title = this.state.isCreating ? <FormattedMessage id="account.form.create.title" /> :
       (<FormattedMessage
-        id="project.edit.title"
+        id="account.form.edit.title"
         values={{
-          name: <i>{this.props.currentProject.content.name}</i>,
+          firstName: this.props.currentAccount.content.firstName,
+          lastName: this.props.currentAccount.content.lastName,
         }}
       />)
     return (
@@ -76,28 +72,28 @@ export class AccountFormComponent extends React.Component {
               fullWidth
               component={RenderTextField}
               type="text"
-              label={<FormattedMessage id="projects.table.name.label" />}
+              label={<FormattedMessage id="account.form.input.email" />}
             />
             <Field
               name="firstName"
               fullWidth
               component={RenderTextField}
               type="text"
-              label={<FormattedMessage id="projects.table.description.label" />}
+              label={<FormattedMessage id="account.form.input.firstName" />}
             />
             <Field
               name="lastName"
               fullWidth
               component={RenderTextField}
               type="text"
-              label={<FormattedMessage id="projects.table.description.label" />}
+              label={<FormattedMessage id="account.form.input.lastName" />}
             />
           </CardText>
           <CardActions>
             <CardActionsComponent
-              mainButtonLabel={<FormattedMessage id="projects.submit.button" />}
+              mainButtonLabel={<FormattedMessage id="account.form.action.save" />}
               mainButtonType="submit"
-              secondaryButtonLabel={<FormattedMessage id="projects.cancel.button" />}
+              secondaryButtonLabel={<FormattedMessage id="account.form.action.cancel" />}
               secondaryButtonUrl={this.props.backUrl}
             />
           </CardActions>
@@ -110,11 +106,6 @@ export class AccountFormComponent extends React.Component {
 
 function validate(values) {
   const errors = {}
-  if (values.name) {
-    if (!/^[a-zA-Z0-9]+$/i.test(values.name)) {
-      errors.name = 'invalid.only_alphanumeric'
-    }
-  }
   return errors
 }
 

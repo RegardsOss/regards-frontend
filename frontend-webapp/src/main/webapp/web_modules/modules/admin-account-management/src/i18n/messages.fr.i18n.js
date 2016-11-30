@@ -8,13 +8,13 @@ const messages = {
   'account.list.subtitle': 'Liste des utilisateurs tous projets confondus',
   'account.list.action.create': 'Ajouter',
 
-
-  'dropdown.edit': 'Editer',
-  'dropdown.view': 'Afficher',
-  'dropdown.delete': 'Supprimer',
-  'dialog.delete.accept': 'Delete',
-  'dialog.delete.title': 'Delete the user',
-  'dialog.delete.cancel': 'Cancel',
+  'account.form.input.firstName': 'Prénom',
+  'account.form.input.lastName': 'Nom',
+  'account.form.input.email': 'E-mail',
+  'account.form.edit.title': 'Editer le compte de {firstName} {lastName}',
+  'account.form.create.title': 'Créer un nouveau compte',
+  'account.form.action.save': 'Sauvegarder',
+  'account.form.action.cancel': 'Annuler',
 
 }
 

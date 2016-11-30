@@ -8,6 +8,13 @@ const messages = {
   'account.list.subtitle': 'Accounts shared by all projects',
   'account.list.action.create': 'Add',
 
+  'account.form.input.firstName': 'Firstname',
+  'account.form.input.lastName': 'Lastname',
+  'account.form.input.email': 'E-mail',
+  'account.form.edit.title': 'Edit the {firstName} {lastName} account',
+  'account.form.create.title': 'Create a new account',
+  'account.form.action.save': 'Save',
+  'account.form.action.cancel': 'Cancel',
 }
 
 export default messages

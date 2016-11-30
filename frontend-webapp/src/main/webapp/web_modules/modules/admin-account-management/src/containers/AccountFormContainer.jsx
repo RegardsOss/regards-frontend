@@ -65,9 +65,9 @@ export class ProjectFormContainer extends React.Component {
   }
   handleUpdate = (values) => {
     const updatedAccount = Object.assign({}, this.props.account.content, {
-      description: values.description,
-      icon: values.icon,
-      isPublic: values.isPublic,
+      email: values.email,
+      firstName: values.firstName,
+      lastName: values.lastName,
     })
     Promise.resolve(this.props.updateAccount(this.props.account.content.id, updatedAccount))
     .then(() => {
@@ -78,10 +78,9 @@ export class ProjectFormContainer extends React.Component {
 
   handleCreate = (values) => {
     Promise.resolve(this.props.createAccount({
-      name: values.name,
-      description: values.description,
-      icon: values.icon,
-      isPublic: values.isPublic,
+      email: values.email,
+      firstName: values.firstName,
+      lastName: values.lastName,
     }))
     .then(() => {
       const url = this.getBackUrl()

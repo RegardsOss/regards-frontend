@@ -1,4 +1,4 @@
-import AccountAndProjectAccountSchema from './schemas/Account_ProjectAccount'
+import Account from './schemas/Account'
 import Project from './schemas/Project'
 // We use this Normalizr schemas to transform API responses from a nested form
 // to a flat form where repos and users are placed in `entities`, and nested
@@ -8,10 +8,8 @@ import Project from './schemas/Project'
 
 // Schemas for API responses.
 export default {
-  PROJECT_ACCOUNT: AccountAndProjectAccountSchema.PROJECT_ACCOUNT_SCHEMA,
-  PROJECT_ACCOUNT_ARRAY: AccountAndProjectAccountSchema.PROJECT_ACCOUNT_SCHEMA_ARRAY,
-  ACCOUNT: AccountAndProjectAccountSchema.ACCOUNT_SCHEMA,
-  ACCOUNT_ARRAY: AccountAndProjectAccountSchema.ACCOUNT_SCHEMA_ARRAY,
+  ACCOUNT: Account.ACCOUNT,
+  ACCOUNT_ARRAY: Account.ACCOUNT_ARRAY,
 
   PROJECT: Project.PROJECT,
   PROJECT_ARRAY: Project.PROJECT_ARRAY,

@@ -60,7 +60,7 @@ export class ProjectFormComponent extends React.Component {
       (<FormattedMessage
         id="project.edit.title"
         values={{
-          name: <i>{this.props.currentProject.content.name}</i>,
+          name: this.props.currentProject.content.name,
         }}
       />)
     return (

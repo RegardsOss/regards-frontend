@@ -1,4 +1,4 @@
-import { Schema } from 'normalizr'
+import { Schema, arrayOf } from 'normalizr'
 
 const accountSchema = new Schema('accounts', {
   idAttribute: account =>
@@ -8,5 +8,6 @@ const accountSchema = new Schema('accounts', {
 
 // Schemas for API responses.
 export default {
-  ACCOUNT_SCHEMA: accountSchema,
+  ACCOUNT: accountSchema,
+  ACCOUNT_ARRAY: arrayOf(accountSchema),
 }

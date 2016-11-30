@@ -8,5 +8,6 @@ import './modules/portal/PortalLayout'
 
 import './modules/admin/Authentication'
 import './modules/admin-project-management/ProjectComponents'
-import './modules/admin-user-management/ProjectAccountComponents'
+import './modules/admin-account-management/AccountComponents'
+// import './modules/admin-user-management/ProjectAccountComponents'
 import './modules/portal/PortalComponents'

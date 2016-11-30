@@ -4,10 +4,10 @@ import Account from './Account'
 import ProjectAccount from './ProjectAccount'
 
 const PROJECT_ACCOUNT_SCHEMA = ProjectAccount.PROJECT_ACCOUNT_SCHEMA
-const ACCOUNT_SCHEMA = Account.ACCOUNT_SCHEMA
+const ACCOUNT = Account.ACCOUNT
 PROJECT_ACCOUNT_SCHEMA.define({
   role: Role.ROLE_SCHEMA,
-  account: ACCOUNT_SCHEMA,
+  account: ACCOUNT,
 })
 
 const PROJECT_ACCOUNT_SCHEMA_ARRAY = arrayOf(PROJECT_ACCOUNT_SCHEMA)
@@ -17,8 +17,8 @@ ACCOUNT_SCHEMA.define({
 
 
 export default {
-  ACCOUNT_SCHEMA,
-  ACCOUNT_SCHEMA_ARRAY: arrayOf(ACCOUNT_SCHEMA),
+  ACCOUNT,
+  ACCOUNT_ARRAY: arrayOf(ACCOUNT),
   PROJECT_ACCOUNT_SCHEMA,
   PROJECT_ACCOUNT_SCHEMA_ARRAY,
 }
