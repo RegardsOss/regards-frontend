@@ -1,10 +1,15 @@
 import { shallow } from 'enzyme'
-import { expect } from 'chai'
+import { expect, assert } from 'chai'
 import { ProjectListContainer } from '../../src/containers/ProjectListContainer'
 import ProjectListComponent from '../../src/components/ProjectListComponent'
 
 // Test a component rendering
 describe('[ADMIN PROJECT MANAGEMENT] Testing project list container', () => {
+  it('should exists', () => {
+    assert.isNotNull(ProjectListContainer)
+    assert.isNotNull(ProjectListComponent)
+  })
+
   it('should render self and subcomponents', () => {
     const props = {
       // from mapStateToProps

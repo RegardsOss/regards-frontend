@@ -6,7 +6,7 @@ import AccountActions from '../model/AccountActions'
 import AccountFormComponent from '../components/AccountFormComponent'
 import AccountSelectors from '../model/AccountSelectors'
 
-export class ProjectFormContainer extends React.Component {
+export class AccountFormContainer extends React.Component {
   static propTypes = {
     // from router
     params: React.PropTypes.shape({
@@ -106,4 +106,4 @@ const mapDispatchToProps = dispatch => ({
   fetchAccount: accountId => dispatch(AccountActions.fetchEntity(accountId)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProjectFormContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(AccountFormContainer)

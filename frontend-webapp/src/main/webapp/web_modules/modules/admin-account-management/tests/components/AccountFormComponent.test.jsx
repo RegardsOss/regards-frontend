@@ -1,23 +1,22 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { Field } from '@regardsoss/form-utils'
-import { ProjectFormComponent } from '../../src/components/ProjectFormComponent'
+import { AccountFormComponent } from '../../src/components/AccountFormComponent'
 
 // Test a component rendering
-describe('[ADMIN PROJECT MANAGEMENT] Testing form container', () => {
+describe('[ADMIN ACCOUNT MANAGEMENT] Testing form container', () => {
   it('should exists', () => {
-    assert.isNotNull(ProjectFormComponent)
+    assert.isNotNull(AccountFormComponent)
   })
-
   it('should render edit form', () => {
     const props = {
-      currentProject: {
+      currentAccount: {
         content: {
           id: '1',
-          name: 'project name',
-          description: 'project desc',
-          icon: 'project icon',
-          isPublic: true,
+          lastName: 'last name',
+          email: 'em@il.com',
+          firstName: 'first icon',
+          status: 'PENDING',
         },
       },
       backUrl: '/some/url',
@@ -28,7 +27,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing form container', () => {
       handleSubmit: () => {},
       initialize: () => {},
     }
-    const enzymeWrapper = shallow(<ProjectFormComponent {...props} />)
+    const enzymeWrapper = shallow(<AccountFormComponent {...props} />)
     const subComponent = enzymeWrapper.find(Field)
     expect(subComponent).to.have.length(3)
   })
@@ -43,8 +42,8 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing form container', () => {
       handleSubmit: () => {},
       initialize: () => {},
     }
-    const enzymeWrapper = shallow(<ProjectFormComponent {...props} />)
+    const enzymeWrapper = shallow(<AccountFormComponent {...props} />)
     const subComponent = enzymeWrapper.find(Field)
-    expect(subComponent).to.have.length(4)
+    expect(subComponent).to.have.length(3)
   })
 })

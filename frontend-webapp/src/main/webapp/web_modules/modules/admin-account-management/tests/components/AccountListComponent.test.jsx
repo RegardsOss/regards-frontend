@@ -1,34 +1,24 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import { ProjectListComponent } from '../../src/components/ProjectListComponent'
 import { Table, TableRow } from 'material-ui/Table'
 import { CardActionsComponent } from '@regardsoss/components'
+import { AccountListComponent } from '../../src/components/AccountListComponent'
 
 // Test a component rendering
-describe('[ADMIN PROJECT MANAGEMENT] Testing project list container', () => {
+describe('[ADMIN ACCOUNT MANAGEMENT] Testing project list container', () => {
   it('should exists', () => {
-    assert.isNotNull(ProjectListComponent)
+    assert.isNotNull(AccountListComponent)
   })
-
   it('should render self and subcomponents', () => {
     const props = {
-      projectList: {
-        'project name': {
+      accountList: {
+        1: {
           content: {
             id: '1',
-            name: 'project name',
-            description: 'project desc',
-            icon: 'project icon',
-            isPublic: true,
-          },
-        },
-        'project name 2': {
-          content: {
-            id: '2',
-            name: 'project name 2',
-            description: 'project desc',
-            icon: 'project icon',
-            isPublic: true,
+            lastName: 'last name',
+            email: 'em@il.com',
+            firstName: 'first icon',
+            status: 'PENDING',
           },
         },
       },
@@ -37,6 +27,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing project list container', () => {
       handleEdit: () => {},
       createUrl: '/some/url',
     }
+
     const options = {
       context: {
         intl: {
@@ -50,9 +41,9 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing project list container', () => {
       },
     }
 
-    const enzymeWrapper = shallow(<ProjectListComponent {...props} />, options)
+    const enzymeWrapper = shallow(<AccountListComponent {...props} />, options)
     expect(enzymeWrapper.find(Table)).to.have.length(1)
-    expect(enzymeWrapper.find(TableRow)).to.have.length(3)
+    expect(enzymeWrapper.find(TableRow)).to.have.length(2)
     expect(enzymeWrapper.find(CardActionsComponent)).to.have.length(1)
   })
 })
