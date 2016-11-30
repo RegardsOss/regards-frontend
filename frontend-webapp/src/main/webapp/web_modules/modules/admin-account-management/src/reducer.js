@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux'
 import AccountReducer from './model/AccountReducer'
 
-const userManagementReducer = combineReducers({
-  account: AccountReducer,
+const accountManagementReducer = combineReducers({
+  account: AccountReducer.getReducer,
 })
 
 
-export default userManagementReducer
+export default accountManagementReducer

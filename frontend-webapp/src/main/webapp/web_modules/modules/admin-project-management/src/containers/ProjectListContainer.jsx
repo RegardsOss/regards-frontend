@@ -2,7 +2,7 @@ import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { map } from 'lodash'
-import * as actions from '../model/ProjectActions'
+import ProjectActions from '../model/ProjectActions'
 import ProjectSelectors from '../model/ProjectSelectors'
 import ProjectListComponent from '../components/ProjectListComponent'
 import { logout } from '@regardsoss/authentication'
@@ -73,8 +73,8 @@ const mapStateToProps = state => ({
   projectList: ProjectSelectors.getList(state),
 })
 const mapDispatchToProps = dispatch => ({
-  fetchProjectList: () => dispatch(actions.fetchProjectList()),
-  deleteProject: id => dispatch(actions.deleteProject(id)),
+  fetchProjectList: () => dispatch(ProjectActions.fetchEntityList()),
+  deleteProject: id => dispatch(ProjectActions.deleteEntity(id)),
   onLogout: () => dispatch(logout()),
 })
 

@@ -8,14 +8,13 @@ const { CALL_API } = require('redux-api-middleware')
 const getAuthorization = (state, callAPI) => {
   // Init the authorization bearer of the fetch request
   const authentication = state.common.authentication
-  // let authorization = "Basic "
   // Todo: Extract this value to lets the administrator deploys the frontend with another key
-  let authorization = `Basic ${btoa('client:secret')}`
-  if (authentication && authentication.user && authentication.user.access_token && callAPI.types[0] !== REQUEST_AUTHENTICATE) {
-    authorization = `Bearer ${authentication.user.access_token}`
+  if (callAPI.types[0] === REQUEST_AUTHENTICATE) {
+    return `Basic ${btoa('client:secret')}`
+  } else if (authentication && authentication.user && authentication.user.access_token) {
+    return `Bearer ${authentication.user.access_token}`
   }
-
-  return authorization
+  return ''
 }
 
 // Intercept actions
@@ -26,7 +25,7 @@ const putAuthorization = () => next => (action) => {
     callAPI.headers = callStore => ({
       Accept: 'application/json',
       'Content-type': 'application/json',
-      Authorization: getAuthorization(callStore, callAPI) || '',
+      Authorization: getAuthorization(callStore, callAPI),
     })
   }
 

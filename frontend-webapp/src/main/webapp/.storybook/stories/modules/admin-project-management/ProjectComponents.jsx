@@ -5,7 +5,7 @@ import ProjectFormComponent from '@regardsoss/admin-project-management/src/compo
 import { StoreDecorator, addLocaleAndThemeSelectors, ThemeAndLocaleDecorator } from '../../utils/decorators'
 
 const defaultProjectList = {
-  'project1': {
+  project1: {
     content: {
       id: 1,
       name: 'project1',
@@ -42,7 +42,7 @@ storiesOf('InstanceAdmin - Project', module)
     return (
       <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-project-management/src/i18n">
         <ProjectFormComponent
-          backUrl='/some/url'
+          backUrl="/some/url"
           onSubmit={action('onCreate')}
         />
       </ThemeAndLocaleDecorator>
@@ -54,8 +54,8 @@ storiesOf('InstanceAdmin - Project', module)
     return (
       <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-project-management/src/i18n">
         <ProjectFormComponent
-          currentProject={projectList['project1']}
-          backUrl='/some/url'
+          currentProject={projectList.project1}
+          backUrl="/some/url"
           onSubmit={action('onEdit')}
         />
       </ThemeAndLocaleDecorator>

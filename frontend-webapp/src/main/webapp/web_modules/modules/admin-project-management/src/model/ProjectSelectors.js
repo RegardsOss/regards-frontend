@@ -1,17 +1,9 @@
-import BasicSelector from '@regardsoss/store-utils'
+import { BasicListSelectors } from '@regardsoss/store-utils'
 
-class ProjectSelectors extends BasicSelector {
+class ProjectSelectors extends BasicListSelectors {
   constructor() {
     super(['admin', 'project-management', 'project'])
   }
-
-  getList(state) {
-    return this.uncombineStore(state).items
-  }
-  getById(state, projectName) {
-    return this.uncombineStore(state).items[projectName]
-  }
-
 }
 
 const instance = new ProjectSelectors()

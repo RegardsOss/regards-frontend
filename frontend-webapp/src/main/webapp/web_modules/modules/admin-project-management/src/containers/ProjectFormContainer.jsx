@@ -1,7 +1,7 @@
 import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
 import { I18nProvider } from '@regardsoss/i18n'
-import * as actions from '../model/ProjectActions'
+import ProjectActions from '../model/ProjectActions'
 import ProjectFormComponent from '../components/ProjectFormComponent'
 import ProjectSelectors from '../model/ProjectSelectors'
 
@@ -101,9 +101,9 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  createProject: values => dispatch(actions.createProject(values)),
-  updateProject: (id, values) => dispatch(actions.updateProject(id, values)),
-  fetchProject: projectName => dispatch(actions.fetchProject(projectName)),
+  createProject: values => dispatch(ProjectActions.createEntity(values)),
+  updateProject: (id, values) => dispatch(ProjectActions.updateEntity(id, values)),
+  fetchProject: projectName => dispatch(ProjectActions.fetchEntity(projectName)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectFormContainer)

@@ -1,18 +1,13 @@
 const messages = {
-  'userlist.title': 'Users',
-  'userlist.subtitle': "List of all project's users",
-  'userlist.login': 'Login',
-  'userlist.firstName': 'First Name',
-  'userlist.lastName': 'Last Name',
-  'userlist.email': 'E-mail',
-  'userlist.status': 'Status',
-  'userlist.action': 'Actions',
-  'dropdown.edit': 'Edit',
-  'dropdown.view': 'Show',
-  'dropdown.delete': 'Delete',
-  'dialog.delete.accept': 'Delete',
-  'dialog.delete.title': 'Delete the user',
-  'dialog.delete.cancel': 'Cancel',
+  'account.list.table.firstName': 'Firstname',
+  'account.list.table.lastName': 'Lastname',
+  'account.list.table.email': 'E-mail',
+  'account.list.table.status': 'Status',
+  'account.list.table.action': 'Actions',
+  'account.list.title': 'Accounts',
+  'account.list.subtitle': 'Accounts shared by all projects',
+  'account.list.action.create': 'Add',
+
 }
 
 export default messages

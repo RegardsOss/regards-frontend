@@ -6,6 +6,8 @@ import ErrorTypes from './ErrorTypes'
 import Locales from './i18n/Locales'
 import Field from './Field'
 import ValidationHelpers from './ValidationHelpers'
+import FormEntityNotFoundComponent from './FormEntityNotFoundComponent'
+import FormLoadingComponent from './FormLoadingComponent'
 
 export default {
   RenderTextField,
@@ -16,4 +18,6 @@ export default {
   Locales,
   Field,
   ValidationHelpers,
+  FormLoadingComponent,
+  FormEntityNotFoundComponent,
 }

@@ -1,23 +1,18 @@
-import { PROJECT_ACCOUNT_REQUEST, PROJECT_ACCOUNT_SUCCESS, PROJECT_ACCOUNT_FAILURE } from './AccountActions'
+import { BasicListReducers } from '@regardsoss/store-utils'
+import AccountActions from './AccountActions'
 
-export default (state = {
-  isFetching: false,
-  items: [],
-  ids: [],
-  lastUpdate: '',
-}, action) => {
-  switch (action.type) {
-    case PROJECT_ACCOUNT_REQUEST:
-      return Object.assign({}, state, { isFetching: true })
-    case PROJECT_ACCOUNT_SUCCESS:
-      return Object.assign({}, state, {
-        isFetching: false,
-        items: action.payload.entities.accounts,
-        ids: [],
-      })
-    case PROJECT_ACCOUNT_FAILURE:
-      return Object.assign({}, state, { isFetching: false })
-    default:
-      return state
+class AccountReducers extends BasicListReducers {
+  constructor() {
+    super({
+      entityKey: 'id',
+      normalizrKey: 'accounts',
+    }, AccountActions)
+  }
+
+  getReducer(state, action) {
+    return instance.reduce(state, action)
   }
 }
+
+const instance = new AccountReducers()
+export default instance

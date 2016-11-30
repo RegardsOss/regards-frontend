@@ -1,18 +1,9 @@
-
 import { connect } from 'react-redux'
-import { Card, CardTitle, CardText } from 'material-ui/Card'
-import { map, values } from 'lodash'
-import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
 import { I18nProvider } from '@regardsoss/i18n'
-import { FormattedMessage } from 'react-intl'
 import { browserHistory } from 'react-router'
-import IconButton from 'material-ui/IconButton'
-import Edit from 'material-ui/svg-icons/editor/mode-edit'
-import Delete from 'material-ui/svg-icons/action/delete'
-import Actions from '../model/AccountActions'
+import AccountActions from '../model/AccountActions'
 import AccountSelectors from '../model/AccountSelectors'
-
-const URL_PROJECTS_ACCOUNTS = 'http://localhost:8080/api/projectAccounts'
+import AccountListComponent from '../components/AccountListComponent'
 
 /**
  * Show the list of REGARDS account
@@ -20,116 +11,50 @@ const URL_PROJECTS_ACCOUNTS = 'http://localhost:8080/api/projectAccounts'
 export class AccountListContainer extends React.Component {
 
   static propTypes = {
-    fetchProjectAccounts: React.PropTypes.func,
-    accounts: React.PropTypes.arrayOf(React.PropTypes.objectOf(React.PropTypes.string)),
-    params: React.PropTypes.objectOf(React.PropTypes.string),
+    // from mapStateToProps
+    accountList: React.PropTypes.objectOf(
+      React.PropTypes.shape({
+        content: React.PropTypes.shape({
+          id: React.PropTypes.number,
+          lastName: React.PropTypes.string,
+          email: React.PropTypes.string,
+          firstName: React.PropTypes.string,
+          status: React.PropTypes.string,
+        }),
+      }),
+    ),
+    // from mapDispatchToProps
+    fetchAccountList: React.PropTypes.func,
+    deleteAccount: React.PropTypes.func,
   }
 
-  constructor(props) {
-    super(props)
-    // Fetch users for the current project when the containers is created
-    this.props.fetchProjectAccounts(URL_PROJECTS_ACCOUNTS)
+
+  componentWillMount() {
+    this.props.fetchAccountList()
   }
 
-  handleView = (selectedRows) => {
-    if (selectedRows instanceof String) {
-      throw new Error('Only a single row should be selected in the table')
-    }
-    if (selectedRows instanceof Array && selectedRows.length !== 1) {
-      throw new Error('Exactly one row is expected to be selected in the table')
-    }
+  getCreateUrl = () => ('/admin/account/create')
 
-    const account = this.props.accounts[selectedRows[0]]
-    const url = `/admin/cdpp/users/${account.accountId}`
+  handleEdit = (accountId) => {
+    const url = `/admin/account/${accountId}/edit`
     browserHistory.push(url)
   }
 
-  handleEdit = () => {
-    console.log('You clicked on edit button, Yay!')
-  }
-
-  handleDelete = () => {
-    console.log('You clicked on delete button, Yay!')
+  handleDelete = (accountId) => {
+    this.props.deleteAccount(accountId)
   }
 
   render() {
-    const { accounts } = this.props
-
-    // // Manage delete link only if the hateoas delete link is provided
-    // const deletelink = projectAccount.links.find((link) => {
-    //   return link.rel === 'delete'
-    // })
-    // let itemDeleteLink: JSX.Element = null
-    // if (deletelink) {
-    //   itemDeleteLink =
-    //     <MenuItem onTouchTap={this.handleDelete} primaryText={<FormattedMessage id="dropdown.delete"/>}/>
-    // }
+    const { accountList } = this.props
 
     return (
       <I18nProvider messageDir="modules/admin-account-management/src/i18n">
-        <Card
-          initiallyExpanded
-        >
-          <CardTitle
-            title={<FormattedMessage id="userlist.title" />}
-            subtitle={<FormattedMessage id="userlist.subtitle" />}
-          />
-          <CardText>
-            <Table
-              selectable
-              onRowSelection={this.handleView}
-            >
-              <TableHeader
-                enableSelectAll={false}
-                adjustForCheckbox={false}
-                displaySelectAll={false}
-              >
-                <TableRow>
-                  <TableHeaderColumn><FormattedMessage id="userlist.login" /></TableHeaderColumn>
-                  <TableHeaderColumn><FormattedMessage id="userlist.firstName" /></TableHeaderColumn>
-                  <TableHeaderColumn><FormattedMessage id="userlist.lastName" /></TableHeaderColumn>
-                  <TableHeaderColumn><FormattedMessage id="userlist.email" /></TableHeaderColumn>
-                  <TableHeaderColumn><FormattedMessage id="userlist.status" /></TableHeaderColumn>
-                  <TableHeaderColumn><FormattedMessage id="userlist.action" /></TableHeaderColumn>
-                </TableRow>
-              </TableHeader>
-              <TableBody
-                displayRowCheckbox={false}
-                preScanRows={false}
-                showRowHover
-              >
-                {map(accounts, (account, id) => (
-                  <TableRow key={id}>
-                    <TableRowColumn>
-                      {account.login}
-                    </TableRowColumn>
-                    <TableRowColumn>
-                      {account.firstName}
-                    </TableRowColumn>
-                    <TableRowColumn>
-                      {account.lastName}
-                    </TableRowColumn>
-                    <TableRowColumn>
-                      {account.email}
-                    </TableRowColumn>
-                    <TableRowColumn>
-                      {account.status}
-                    </TableRowColumn>
-                    <TableRowColumn>
-                      <IconButton tooltip="Font Icon">
-                        <Edit onTouchTap={this.handleEdit} />
-                      </IconButton>
-                      <IconButton tooltip="Supprimer">
-                        <Delete onTouchTap={this.handleDelete} />
-                      </IconButton>
-                    </TableRowColumn>
-                  </TableRow>
-                ))}
-
-              </TableBody>
-            </Table>
-          </CardText>
-        </Card>
+        <AccountListComponent
+          accountList={accountList}
+          createUrl={this.getCreateUrl()}
+          onEdit={this.handleEdit}
+          onDelete={this.handleDelete}
+        />
       </I18nProvider>
     )
   }
@@ -137,9 +62,12 @@ export class AccountListContainer extends React.Component {
 
 
 const mapStateToProps = (state, ownProps) => ({
-  accounts: AccountSelectors.getAccounts(state),
+  accountList: AccountSelectors.getList(state),
 })
+
 const mapDispatchToProps = dispatch => ({
-  fetchProjectAccounts: urlProjectAccounts => dispatch(Actions.fetchProjectAccounts(urlProjectAccounts)),
+  fetchAccountList: () => dispatch(AccountActions.fetchEntityList()),
+  deleteAccount: accountId => dispatch(AccountActions.deleteEntity(accountId)),
 })
+
 export default connect(mapStateToProps, mapDispatchToProps)(AccountListContainer)

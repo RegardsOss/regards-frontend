@@ -1,12 +1,14 @@
 const messages = {
-  'userlist.title': 'Utilisateurs',
-  'userlist.subtitle': 'Liste des utilisateurs du projet',
-  'userlist.login': 'Identifiant',
-  'userlist.firstName': 'Prénom',
-  'userlist.lastName': 'Nom',
-  'userlist.email': 'E-mail',
-  'userlist.status': 'Statut',
-  'userlist.action': 'Actions',
+  'account.list.table.firstName': 'Prénom',
+  'account.list.table.lastName': 'Nom',
+  'account.list.table.email': 'E-mail',
+  'account.list.table.status': 'Statut',
+  'account.list.table.action': 'Actions',
+  'account.list.title': 'Comptes utilisateur',
+  'account.list.subtitle': 'Liste des utilisateurs tous projets confondus',
+  'account.list.action.create': 'Ajouter',
+
+
   'dropdown.edit': 'Editer',
   'dropdown.view': 'Afficher',
   'dropdown.delete': 'Supprimer',
