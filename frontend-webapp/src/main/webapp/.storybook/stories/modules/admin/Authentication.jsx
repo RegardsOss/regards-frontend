@@ -1,6 +1,6 @@
 import { storiesOf, action } from '@kadira/storybook'
 import LoginComponent from '@regardsoss/admin/src/authentication/components/LoginComponent'
-import { withKnobs, text, select } from '@kadira/storybook-addon-knobs'
+import { withKnobs, text } from '@kadira/storybook-addon-knobs'
 import { StoreDecorator, addLocaleAndThemeSelectors, ThemeAndLocaleDecorator } from '../../utils/decorators'
 
 storiesOf('Authentication', module)

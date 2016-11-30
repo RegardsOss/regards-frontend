@@ -1,11 +1,11 @@
 import { Provider } from 'react-redux'
 import { ThemeHelper } from '@regardsoss/theme'
 import { configureStore } from '@regardsoss/store'
-import rootReducer from '../../../src/rootReducer'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { I18nProvider } from '@regardsoss/i18n'
 import * as I18nActions from '@regardsoss/i18n/src/model/I18nActions'
-import { withKnobs, select, object } from '@kadira/storybook-addon-knobs'
+import { select } from '@kadira/storybook-addon-knobs'
+import rootReducer from '../../../src/rootReducer'
 
 const store = configureStore(rootReducer)
 export const lightTheme = ThemeHelper.getByName('Light')
@@ -41,6 +41,12 @@ export const ThemeDecorator = ({ theme, children }) => (
   </MuiThemeProvider>
 )
 
+ThemeDecorator.propTypes = {
+  theme: React.PropTypes.string.isRequired,
+  children: React.PropTypes.element.isRequired,
+}
+
+
 export const localeList = ['', 'Français', 'English']
 
 export const LocaleDecorator = ({ messageDir, children }) => (
@@ -48,6 +54,10 @@ export const LocaleDecorator = ({ messageDir, children }) => (
     {children}
   </I18nProvider>
 )
+LocaleDecorator.propTypes = {
+  messageDir: React.PropTypes.string.isRequired,
+  children: React.PropTypes.element.isRequired,
+}
 
 export function setLocale(locale) {
   switch (locale) {
@@ -57,6 +67,8 @@ export function setLocale(locale) {
     case 'English':
       store.dispatch(I18nActions.updateLocale('en'))
       break
+    default:
+      throw new Error('Unknown locale', locale)
   }
 }
 
@@ -74,3 +86,9 @@ export const ThemeAndLocaleDecorator = ({ theme, messageDir, children }) => (
     </LocaleDecorator>
   </ThemeDecorator>
 )
+
+ThemeAndLocaleDecorator.propTypes = {
+  theme: React.PropTypes.string.isRequired,
+  messageDir: React.PropTypes.string.isRequired,
+  children: React.PropTypes.element.isRequired,
+}

@@ -1,8 +1,9 @@
 import { storiesOf, action } from '@kadira/storybook'
-import { withKnobs, select, object, text } from '@kadira/storybook-addon-knobs'
+import { withKnobs, object } from '@kadira/storybook-addon-knobs'
 import AccountListComponent from '@regardsoss/admin-account-management/src/components/AccountListComponent'
 import AccountFormComponent from '@regardsoss/admin-account-management/src/components/AccountFormComponent'
 import { StoreDecorator, addLocaleAndThemeSelectors, ThemeAndLocaleDecorator } from '../../utils/decorators'
+
 const defaultAccountList = {
   1: {
     content: {

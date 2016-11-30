@@ -3,7 +3,7 @@ import Checkbox from 'material-ui/Checkbox'
 const RenderCheckbox = ({ input, label }) => (
   <Checkbox
     label={label}
-    checked={input.value ? true : false}
+    checked={input.value}
     onCheck={input.onChange}
   />
 )

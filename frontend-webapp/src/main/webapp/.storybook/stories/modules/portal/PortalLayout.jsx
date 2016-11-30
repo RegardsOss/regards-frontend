@@ -1,7 +1,7 @@
 import { storiesOf, action } from '@kadira/storybook'
 import PortalLayout from '@regardsoss/portal/src/containers/PortalLayout'
 import Paper from 'material-ui/Paper'
-import { withKnobs, select } from '@kadira/storybook-addon-knobs'
+import { withKnobs } from '@kadira/storybook-addon-knobs'
 import { indigo900 } from 'material-ui/styles/colors'
 import { StoreDecorator, addLocaleAndThemeSelectors, ThemeAndLocaleDecorator } from '../../utils/decorators'
 

@@ -1,8 +1,8 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import { ProjectListComponent } from '../../src/components/ProjectListComponent'
 import { Table, TableRow } from 'material-ui/Table'
 import { CardActionsComponent } from '@regardsoss/components'
+import { ProjectListComponent } from '../../src/components/ProjectListComponent'
 
 // Test a component rendering
 describe('[ADMIN PROJECT MANAGEMENT] Testing project list container', () => {

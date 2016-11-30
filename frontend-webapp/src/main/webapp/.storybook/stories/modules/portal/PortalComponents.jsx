@@ -1,5 +1,5 @@
 import { storiesOf } from '@kadira/storybook'
-import { withKnobs, select, object } from '@kadira/storybook-addon-knobs'
+import { withKnobs, object } from '@kadira/storybook-addon-knobs'
 import { HomepageContainer } from '@regardsoss/portal/src/containers/HomepageContainer'
 import NewsListContainer from '@regardsoss/portal/src/news/containers/NewsListContainer'
 import ProjectListComponent from '@regardsoss/portal/src/projects/components/ProjectListComponent'
