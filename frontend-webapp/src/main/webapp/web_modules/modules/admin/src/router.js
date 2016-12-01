@@ -13,7 +13,7 @@ export const projectAdminUserProjectRouter = {
   getChildRoutes(nextState, cb) {
     const adminUserManagement = require('@regardsoss/admin-user-management')
     require.ensure([], (require) => {
-      cb(null, [adminUserManagement.projectUserManagementRouter])
+      cb(null, [adminUserManagement.userManagementRouter])
     })
   },
 }

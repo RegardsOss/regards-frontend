@@ -1,7 +1,7 @@
-import projectUserManagementRouter from './router'
+import userManagementRouter from './router'
 import userManagementReducer from './reducer'
 
 export {
   userManagementReducer,
-  projectUserManagementRouter,
+  userManagementRouter,
 }

@@ -11,6 +11,10 @@ import ProjectUserListComponent from '../components/ProjectUserListComponent'
 export class ProjectUserListContainer extends React.Component {
 
   static propTypes = {
+    // from router
+    params: React.PropTypes.shape({
+      project: React.PropTypes.string,
+    }),
     // from mapStateToProps
     projectUserList: React.PropTypes.objectOf(
       React.PropTypes.shape({
@@ -34,7 +38,10 @@ export class ProjectUserListContainer extends React.Component {
     this.props.fetchAccountList()
   }
 
-  getCreateUrl = () => ('/admin/account/create')
+  getCreateUrl = () => {
+    const { params: { project } } = this.props
+    return `/admin/${project}/user/create`
+  }
 
   handleEdit = (accountId) => {
     const url = `/admin/account/${accountId}/edit`
@@ -49,7 +56,7 @@ export class ProjectUserListContainer extends React.Component {
     const { projectUserList } = this.props
 
     return (
-      <I18nProvider messageDir="modules/admin-account-management/src/i18n">
+      <I18nProvider messageDir="modules/admin-user-projectuser-management/src/i18n">
         <ProjectUserListComponent
           projectUserList={projectUserList}
           createUrl={this.getCreateUrl()}

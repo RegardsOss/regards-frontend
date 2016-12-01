@@ -1,12 +1,10 @@
 import { combineReducers } from 'redux'
-import AccountReducer from './model/account.reducer'
-import ProjectAccountReducer from './model/projectAccount.reducer'
-import ProjectUserReducers from './model/ProjectUserReducers'
+import { projectUserManagementReducer } from '@regardsoss/admin-user-projectuser-management'
+import { roleManagementReducer } from '@regardsoss/admin-user-role-management'
 
 const userManagementReducer = combineReducers({
-  account: AccountReducer,
-  'project-account': ProjectAccountReducer,
-  'project-user': ProjectUserReducers.getReducer,
+  'project-user': projectUserManagementReducer,
+  role: roleManagementReducer,
 })
 
 

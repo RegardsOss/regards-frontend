@@ -48,8 +48,8 @@ export class ProjectUserListComponent extends React.Component {
     return (
       <Card>
         <CardTitle
-          title={<FormattedMessage id="account.list.title" />}
-          subtitle={<FormattedMessage id="account.list.subtitle" />}
+          title={<FormattedMessage id="projectUser.list.title" />}
+          subtitle={<FormattedMessage id="projectUser.list.subtitle" />}
         />
         <CardText>
           <Table
@@ -61,12 +61,12 @@ export class ProjectUserListComponent extends React.Component {
               displaySelectAll={false}
             >
               <TableRow>
-                <TableHeaderColumn><FormattedMessage id="account.list.table.email" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="account.list.table.firstName" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="account.list.table.firstName" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="account.list.table.lastName" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="account.list.table.status" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="account.list.table.action" /></TableHeaderColumn>
+                <TableHeaderColumn><FormattedMessage id="projectUser.list.table.email" /></TableHeaderColumn>
+                <TableHeaderColumn><FormattedMessage id="projectUser.list.table.role" /></TableHeaderColumn>
+                <TableHeaderColumn><FormattedMessage id="projectUser.list.table.status" /></TableHeaderColumn>
+                <TableHeaderColumn><FormattedMessage id="projectUser.list.table.lastupdate" /></TableHeaderColumn>
+                <TableHeaderColumn><FormattedMessage id="projectUser.list.table.lastconnection" /></TableHeaderColumn>
+                <TableHeaderColumn><FormattedMessage id="projectUser.list.table.action" /></TableHeaderColumn>
               </TableRow>
             </TableHeader>
             <TableBody
@@ -74,29 +74,29 @@ export class ProjectUserListComponent extends React.Component {
               preScanRows={false}
               showRowHover
             >
-              {map(projectUserList, (account, id) => (
+              {map(projectUserList, (projectUser, id) => (
                 <TableRow key={id}>
                   <TableRowColumn>
-                    {account.content.email}
+                    {projectUser.content.email}
                   </TableRowColumn>
                   <TableRowColumn>
-                    {account.content.role_id}
+                    {projectUser.content.role_id}
                   </TableRowColumn>
                   <TableRowColumn>
-                    {account.content.status}
+                    {projectUser.content.status}
                   </TableRowColumn>
                   <TableRowColumn>
-                    {account.content.lastupdate}
+                    {projectUser.content.lastupdate}
                   </TableRowColumn>
                   <TableRowColumn>
-                    {account.content.lastconnection}
+                    {projectUser.content.lastconnection}
                   </TableRowColumn>
                   <TableRowColumn>
-                    <IconButton onTouchTap={() => onEdit(account.content.id)}>
+                    <IconButton onTouchTap={() => onEdit(projectUser.content.id)}>
                       <Edit hoverColor={style.hoverButtonEdit} />
                     </IconButton>
 
-                    <IconButton onTouchTap={() => onDelete(account.content.id)}>
+                    <IconButton onTouchTap={() => onDelete(projectUser.content.id)}>
                       <Delete hoverColor={style.hoverButtonDelete} />
                     </IconButton>
                   </TableRowColumn>
@@ -110,7 +110,7 @@ export class ProjectUserListComponent extends React.Component {
             mainButtonUrl={createUrl}
             mainButtonLabel={
               <FormattedMessage
-                id="account.list.action.create"
+                id="projectUser.list.action.create"
               />
             }
           />

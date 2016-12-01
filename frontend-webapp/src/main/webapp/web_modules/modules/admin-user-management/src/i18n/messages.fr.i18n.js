@@ -1,18 +1,12 @@
 const messages = {
-  'userlist.title': 'Utilisateurs',
-  'userlist.subtitle': 'Liste des utilisateurs du projet',
-  'userlist.login': 'Identifiant',
-  'userlist.firstName': 'Prénom',
-  'userlist.lastName': 'Nom',
-  'userlist.email': 'E-mail',
-  'userlist.status': 'Statut',
-  'userlist.action': 'Actions',
-  'dropdown.edit': 'Editer',
-  'dropdown.view': 'Afficher',
-  'dropdown.delete': 'Supprimer',
-  'dialog.delete.accept': 'Delete',
-  'dialog.delete.title': 'Delete the user',
-  'dialog.delete.cancel': 'Cancel',
+  'user.board.tooltip.list': 'Liste',
+  'user.board.tooltip.add': 'Ajouter',
+
+  'user.board.project-user.description': 'Gestion de la relation entre les comptes REGARDS et le project courant',
+  'user.board.project-user.title': 'Utilisateurs',
+
+  'user.board.role.description': 'Gestion des rôles utilisateurs',
+  'user.board.role.title': 'Rôles',
 
 }
 

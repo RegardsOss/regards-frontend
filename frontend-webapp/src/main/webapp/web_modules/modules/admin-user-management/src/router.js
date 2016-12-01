@@ -1,38 +1,35 @@
 
-export const listProjectUserRoute = {
-  path: 'list',
+
+export const homeUserProjectAdminRoute = {
+  path: 'board',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const ProjectUserListContainer = require('./containers/ProjectUserListContainer')
+      const BoardContainer = require('./containers/BoardContainer')
       cb(null, {
-        content: ProjectUserListContainer.default,
+        content: BoardContainer,
       })
     })
   },
 }
 
 
-export const projectAccountCreateRoute = {
-  path: 'create',
-  getComponents(nextState, cb) {
+export const projectUserAdminRouter = {
+  path: 'project-user',
+  getChildRoutes(nextState, cb) {
+    const adminProjectUserManagement = require('@regardsoss/admin-user-projectuser-management')
     require.ensure([], (require) => {
-      const ProjectAccountCreateContainer = require('./containers/ProjectAccountCreateContainer')
-      cb(null, {
-        content: ProjectAccountCreateContainer.default,
-      })
+      cb(null, [adminProjectUserManagement.projectUserManagementRouter])
     })
   },
 }
 
 
-export const projectAccountEditRoute = {
-  path: ':user_id/edit',
-  getComponents(nextState, cb) {
+export const roleAdminRouter = {
+  path: 'project-user',
+  getChildRoutes(nextState, cb) {
+    const adminRoleManagement = require('@regardsoss/admin-user-role-management')
     require.ensure([], (require) => {
-      const ProjectAccountEditContainer = require('./containers/ProjectAccountEditContainer')
-      cb(null, {
-        content: ProjectAccountEditContainer.default,
-      })
+      cb(null, [adminRoleManagement.roleManagementRouter])
     })
   },
 }
@@ -40,9 +37,9 @@ export const projectAccountEditRoute = {
 
 const projectUserManagementRouter = {
   childRoutes: [
-    listProjectUserRoute,
-    projectAccountCreateRoute,
-    projectAccountEditRoute,
+    homeUserProjectAdminRoute,
+    projectUserAdminRouter,
+    roleAdminRouter,
   ],
 }
 

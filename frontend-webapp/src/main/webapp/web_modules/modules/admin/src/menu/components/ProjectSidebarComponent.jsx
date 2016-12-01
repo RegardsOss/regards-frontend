@@ -55,7 +55,7 @@ class ProjectSidebarComponent extends React.Component {
           <HateoasControlledSidebarElement
             endpointKey="projects_users_url"
             key="1"
-            to={`/admin/${projectName}/user/list`}
+            to={`/admin/${projectName}/user/board`}
             linkStyle={style.link.styles}
             primaryText={<FormattedMessage id="menu.users" />}
             leftIcon={<SupervisorAccount />}
