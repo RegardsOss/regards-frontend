@@ -147,8 +147,8 @@ export const connectionListRoute = {
   },
 }
 
-export const dataManagementHomeRoute = {
-  path: 'datamanagement',
+export const homeDataRoute = {
+  path: 'board',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
       const DatamanagementContainer = require('./containers/DatamanagementContainer')
@@ -162,7 +162,7 @@ export const dataManagementHomeRoute = {
 const dataManagementRouter = {
   path: '',
   childRoutes: [
-    dataManagementHomeRoute,
+    homeDataRoute,
 
     collectionCreateRoute,
     collectionListRoute,

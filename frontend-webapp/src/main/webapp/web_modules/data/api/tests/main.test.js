@@ -3,10 +3,14 @@ import Schemas from '../src/main'
 
 describe('[COMMON] Testing schemas', () => {
   it('should exist', () => {
-    assert.isNotNull(Schemas.PROJECT_ARRAY)
-    assert.isNotNull(Schemas.PROJECT)
-    assert.isNotNull(Schemas.PROJECT_ADMIN)
-    assert.isNotNull(Schemas.PROJECT_ACCOUNT)
-    assert.isNotNull(Schemas.PROJECT_ACCOUNT_ARRAY)
+    assert.isDefined(Schemas.PROJECT)
+    assert.isDefined(Schemas.PROJECT_ARRAY)
+
+    assert.isDefined(Schemas.USER)
+    assert.isDefined(Schemas.USER_ARRAY)
+
+    assert.isDefined(Schemas.ACCOUNT)
+    assert.isDefined(Schemas.ACCOUNT_ARRAY)
   })
 })
+

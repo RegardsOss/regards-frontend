@@ -1,5 +1,5 @@
 import { assert, expect } from 'chai'
-import Routes from '../src/routes'
+import Routes from '../src/router'
 import ProjectFormContainer from '../src/containers/ProjectFormContainer'
 import ProjectListContainer from '../src/containers/ProjectListContainer'
 
@@ -8,8 +8,8 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing project router', () => {
     assert.isNotNull(Routes)
     expect(Routes.childRoutes).to.have.length(3)
     expect(Routes.childRoutes[0].path).to.eq('list')
-    expect(Routes.childRoutes[1].path).to.eq(':project_name/edit')
-    expect(Routes.childRoutes[2].path).to.eq('create')
+    expect(Routes.childRoutes[1].path).to.eq('create')
+    expect(Routes.childRoutes[2].path).to.eq(':project_name/edit')
   })
   it('list should return ProjectListContainer', (done) => {
     Routes.childRoutes[0].getComponents(undefined, (smth, component) => {

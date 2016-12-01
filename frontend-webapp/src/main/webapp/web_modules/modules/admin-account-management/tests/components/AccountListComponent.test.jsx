@@ -1,7 +1,6 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { Table, TableRow } from 'material-ui/Table'
-import { CardActionsComponent } from '@regardsoss/components'
 import { AccountListComponent } from '../../src/components/AccountListComponent'
 
 // Test a component rendering
@@ -25,7 +24,6 @@ describe('[ADMIN ACCOUNT MANAGEMENT] Testing project list container', () => {
       handleDelete: () => {},
       handleOpen: () => {},
       handleEdit: () => {},
-      createUrl: '/some/url',
     }
 
     const options = {
@@ -44,6 +42,5 @@ describe('[ADMIN ACCOUNT MANAGEMENT] Testing project list container', () => {
     const enzymeWrapper = shallow(<AccountListComponent {...props} />, options)
     expect(enzymeWrapper.find(Table)).to.have.length(1)
     expect(enzymeWrapper.find(TableRow)).to.have.length(2)
-    expect(enzymeWrapper.find(CardActionsComponent)).to.have.length(1)
   })
 })

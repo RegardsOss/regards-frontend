@@ -42,9 +42,12 @@ export class AdminLayout extends React.Component {
   }
 
   getSidebar = (isInstanceDashboard) => {
-    const { onLogout } = this.props
+    const { onLogout, params } = this.props
     if (isInstanceDashboard) {
-      return (<ProjectSidebarComponent onLogout={onLogout} />)
+      return (<ProjectSidebarComponent
+        onLogout={onLogout}
+        projectName={params.project}
+      />)
     }
     return (<InstanceSidebarComponent onLogout={onLogout} />)
   }

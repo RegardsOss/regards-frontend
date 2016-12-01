@@ -7,7 +7,7 @@ import { reduxForm } from 'redux-form'
 /**
  * Display edit and create project form
  */
-export class AccountFormComponent extends React.Component {
+export class ProjectUserFormComponent extends React.Component {
 
   static propTypes = {
     currentAccount: React.PropTypes.shape({
@@ -17,7 +17,7 @@ export class AccountFormComponent extends React.Component {
         firstName: React.PropTypes.string,
         lastName: React.PropTypes.string,
       }),
-    }).isRequired,
+    }),
     onSubmit: React.PropTypes.func.isRequired,
     backUrl: React.PropTypes.string.isRequired,
     // from reduxForm
@@ -29,6 +29,9 @@ export class AccountFormComponent extends React.Component {
 
   constructor(props) {
     super(props)
+    this.state = {
+      isCreating: props.currentAccount === undefined,
+    }
   }
 
   componentDidMount() {
@@ -36,27 +39,31 @@ export class AccountFormComponent extends React.Component {
   }
 
   handleInitialize = () => {
-    const { currentAccount } = this.props
-    this.props.initialize({
-      email: currentAccount.content.email,
-      firstName: currentAccount.content.firstName,
-      lastName: currentAccount.content.lastName,
-    })
+    if (!this.state.isCreating) {
+      const { currentAccount } = this.props
+      this.props.initialize({
+        email: currentAccount.content.email,
+        firstName: currentAccount.content.firstName,
+        lastName: currentAccount.content.lastName,
+      })
+    }
   }
 
 
   render() {
+    const title = this.state.isCreating ? <FormattedMessage id="account.form.create.title" /> :
+      (<FormattedMessage
+        id="account.form.edit.title"
+        values={{
+          firstName: this.props.currentAccount.content.firstName,
+          lastName: this.props.currentAccount.content.lastName,
+        }}
+      />)
     return (
       <form onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
         <Card>
           <CardTitle
-            title={<FormattedMessage
-              id="account.form.edit.title"
-              values={{
-                firstName: this.props.currentAccount.content.firstName,
-                lastName: this.props.currentAccount.content.lastName,
-              }}
-            />}
+            title={title}
           />
           <CardText>
 
@@ -103,7 +110,7 @@ function validate(values) {
 }
 
 export default reduxForm({
-  form: 'account-form',
+  form: 'user-form',
   validate,
-})(AccountFormComponent)
+})(ProjectUserFormComponent)
 

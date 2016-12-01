@@ -13,6 +13,7 @@ import Reply from 'material-ui/svg-icons/content/reply'
 import { FormattedMessage } from 'react-intl'
 import SupervisorAccount from 'material-ui/svg-icons/action/supervisor-account'
 import { I18nProvider } from '@regardsoss/i18n'
+import { connect } from 'react-redux'
 import HateoasControlledSidebarElement from './HateoasControlledSidebarElement'
 
 /**
@@ -25,6 +26,7 @@ class ProjectSidebarComponent extends React.Component {
    */
   static contextTypes = {
     muiTheme: React.PropTypes.object.isRequired,
+    projectName: React.PropTypes.string,
   }
 
   /**
@@ -36,7 +38,7 @@ class ProjectSidebarComponent extends React.Component {
 
   render() {
     const { muiTheme } = this.context
-    const { onLogout } = this.props
+    const { onLogout, projectName } = this.props
     const style = {
       sidebarContainer: {
         classes: muiTheme.adminApp.layout.sidebarContainer.classes.join(' '),
@@ -53,7 +55,7 @@ class ProjectSidebarComponent extends React.Component {
           <HateoasControlledSidebarElement
             endpointKey="projects_users_url"
             key="1"
-            to={'/admin/cdpp/users'}
+            to={`/admin/${projectName}/user/list`}
             linkStyle={style.link.styles}
             primaryText={<FormattedMessage id="menu.users" />}
             leftIcon={<SupervisorAccount />}
@@ -61,7 +63,7 @@ class ProjectSidebarComponent extends React.Component {
           <HateoasControlledSidebarElement
             endpointKey="projects_connections_url"
             key="2"
-            to={'/admin/cdpp/datamanagement'}
+            to={`/admin/${projectName}/data/board`}
             linkStyle={style.link.styles}
             primaryText={<FormattedMessage id="menu.datamanagement" />}
             leftIcon={<AddBox />}
@@ -69,7 +71,7 @@ class ProjectSidebarComponent extends React.Component {
           <HateoasControlledSidebarElement
             endpointKey="projects_connections_url"
             key="3"
-            to={'/admin/cdpp/datamanagement'}
+            to={`/admin/${projectName}/data/list`}
             linkStyle={style.link.styles}
             primaryText={<FormattedMessage id="menu.dataaccessrights" />}
             leftIcon={<VerifiedUser />}
@@ -77,7 +79,7 @@ class ProjectSidebarComponent extends React.Component {
           <HateoasControlledSidebarElement
             endpointKey="projects_connections_url"
             key="4"
-            to={'/admin/cdpp/datamanagement'}
+            to={`/admin/${projectName}/datamanagement`}
             linkStyle={style.link.styles}
             primaryText={<FormattedMessage id="menu.forms" />}
             leftIcon={<Widgets />}
@@ -85,7 +87,7 @@ class ProjectSidebarComponent extends React.Component {
           <HateoasControlledSidebarElement
             endpointKey="projects_connections_url"
             key="5"
-            to={'/admin/cdpp/datamanagement'}
+            to={`/admin/${projectName}/datamanagement`}
             linkStyle={style.link.styles}
             primaryText={<FormattedMessage id="menu.microservices" />}
             leftIcon={<CloudQueue />}
@@ -93,7 +95,7 @@ class ProjectSidebarComponent extends React.Component {
           <HateoasControlledSidebarElement
             endpointKey="projects_connections_url"
             key="6"
-            to={'/admin/cdpp/datamanagement'}
+            to={`/admin/${projectName}/datamanagement`}
             linkStyle={style.link.styles}
             primaryText={<FormattedMessage id="menu.ui.configuration" />}
             leftIcon={<Brush />}
@@ -101,7 +103,7 @@ class ProjectSidebarComponent extends React.Component {
           <HateoasControlledSidebarElement
             endpointKey="projects_connections_url"
             key="7"
-            to={'/admin/cdpp/datamanagement'}
+            to={`/admin/${projectName}/datamanagement`}
             linkStyle={style.link.styles}
             primaryText={<FormattedMessage id="menu.news" />}
             leftIcon={<Chat />}

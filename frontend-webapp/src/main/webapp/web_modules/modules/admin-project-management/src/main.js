@@ -1,5 +1,5 @@
 import projectManagementReducer from './reducer'
-import projectManagementRouter from './routes'
+import projectManagementRouter from './router'
 
 export default {
   projectManagementReducer,

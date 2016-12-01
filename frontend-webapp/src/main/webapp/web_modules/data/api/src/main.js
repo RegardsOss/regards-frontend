@@ -1,5 +1,6 @@
 import Account from './schemas/Account'
 import Project from './schemas/Project'
+import User from './schemas/User'
 // We use this Normalizr schemas to transform API responses from a nested form
 // to a flat form where repos and users are placed in `entities`, and nested
 // JSON objects are replaced with their IDs. This is very convenient for
@@ -13,4 +14,7 @@ export default {
 
   PROJECT: Project.PROJECT,
   PROJECT_ARRAY: Project.PROJECT_ARRAY,
+
+  USER: User.USER,
+  USER_ARRAY: User.USER_ARRAY,
 }

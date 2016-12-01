@@ -72,10 +72,10 @@ export function setLocale(locale) {
   }
 }
 
-
+const defaultLocale = 'English'
 export function addLocaleAndThemeSelectors() {
   const theme = getThemeByName(select('Theme', themeList, defaultTheme))
-  const locale = select('Locale', localeList, '')
+  const locale = select('Locale', localeList, defaultLocale)
   setLocale(locale)
   return theme
 }

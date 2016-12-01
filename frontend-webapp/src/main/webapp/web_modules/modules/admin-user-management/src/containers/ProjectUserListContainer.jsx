@@ -1,24 +1,25 @@
 import { connect } from 'react-redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { browserHistory } from 'react-router'
-import AccountActions from '../model/AccountActions'
-import AccountSelectors from '../model/AccountSelectors'
-import AccountListComponent from '../components/AccountListComponent'
+import ProjectUserActions from '../model/ProjectUserActions'
+import ProjectUserSelectors from '../model/ProjectUserSelectors'
+import ProjectUserListComponent from '../components/ProjectUserListComponent'
 
 /**
- * Show the list of REGARDS account
+ * Show the user list for the current project
  */
-export class AccountListContainer extends React.Component {
+export class ProjectUserListContainer extends React.Component {
 
   static propTypes = {
     // from mapStateToProps
-    accountList: React.PropTypes.objectOf(
+    projectUserList: React.PropTypes.objectOf(
       React.PropTypes.shape({
         content: React.PropTypes.shape({
           id: React.PropTypes.number,
-          lastName: React.PropTypes.string,
+          role_id: React.PropTypes.string,
           email: React.PropTypes.string,
-          firstName: React.PropTypes.string,
+          lastupdate: React.PropTypes.string,
+          lastconnection: React.PropTypes.string,
           status: React.PropTypes.string,
         }),
       }),
@@ -33,6 +34,7 @@ export class AccountListContainer extends React.Component {
     this.props.fetchAccountList()
   }
 
+  getCreateUrl = () => ('/admin/account/create')
 
   handleEdit = (accountId) => {
     const url = `/admin/account/${accountId}/edit`
@@ -44,12 +46,13 @@ export class AccountListContainer extends React.Component {
   }
 
   render() {
-    const { accountList } = this.props
+    const { projectUserList } = this.props
 
     return (
       <I18nProvider messageDir="modules/admin-account-management/src/i18n">
-        <AccountListComponent
-          accountList={accountList}
+        <ProjectUserListComponent
+          projectUserList={projectUserList}
+          createUrl={this.getCreateUrl()}
           onEdit={this.handleEdit}
           onDelete={this.handleDelete}
         />
@@ -60,12 +63,12 @@ export class AccountListContainer extends React.Component {
 
 
 const mapStateToProps = (state, ownProps) => ({
-  accountList: AccountSelectors.getList(state),
+  projectUserList: ProjectUserSelectors.getList(state),
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchAccountList: () => dispatch(AccountActions.fetchEntityList()),
-  deleteAccount: accountId => dispatch(AccountActions.deleteEntity(accountId)),
+  fetchAccountList: () => dispatch(ProjectUserActions.fetchEntityList()),
+  deleteAccount: accountId => dispatch(ProjectUserActions.deleteEntity(accountId)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(AccountListContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(ProjectUserListContainer)

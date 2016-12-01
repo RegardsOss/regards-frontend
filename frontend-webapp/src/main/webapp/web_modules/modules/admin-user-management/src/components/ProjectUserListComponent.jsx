@@ -12,22 +12,24 @@ import { i18nContextType } from '@regardsoss/i18n'
 /**
  * React component to list all REGARDS account.
  */
-export class AccountListComponent extends React.Component {
+export class ProjectUserListComponent extends React.Component {
 
   static propTypes = {
-    accountList: React.PropTypes.objectOf(
+    projectUserList: React.PropTypes.objectOf(
       React.PropTypes.shape({
         content: React.PropTypes.shape({
           id: React.PropTypes.number,
-          lastName: React.PropTypes.string,
+          role_id: React.PropTypes.string,
           email: React.PropTypes.string,
-          firstName: React.PropTypes.string,
+          lastupdate: React.PropTypes.string,
+          lastconnection: React.PropTypes.string,
           status: React.PropTypes.string,
         }),
       }),
     ),
     onEdit: React.PropTypes.func.isRequired,
     onDelete: React.PropTypes.func.isRequired,
+    createUrl: React.PropTypes.string.isRequired,
   }
 
   static contextTypes = {
@@ -37,7 +39,7 @@ export class AccountListComponent extends React.Component {
 
 
   render() {
-    const { accountList, onEdit, onDelete } = this.props
+    const { projectUserList, onEdit, onDelete, createUrl } = this.props
     const style = {
       hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
       hoverButtonDelete: this.context.muiTheme.palette.accent1Color,
@@ -61,6 +63,7 @@ export class AccountListComponent extends React.Component {
               <TableRow>
                 <TableHeaderColumn><FormattedMessage id="account.list.table.email" /></TableHeaderColumn>
                 <TableHeaderColumn><FormattedMessage id="account.list.table.firstName" /></TableHeaderColumn>
+                <TableHeaderColumn><FormattedMessage id="account.list.table.firstName" /></TableHeaderColumn>
                 <TableHeaderColumn><FormattedMessage id="account.list.table.lastName" /></TableHeaderColumn>
                 <TableHeaderColumn><FormattedMessage id="account.list.table.status" /></TableHeaderColumn>
                 <TableHeaderColumn><FormattedMessage id="account.list.table.action" /></TableHeaderColumn>
@@ -71,19 +74,22 @@ export class AccountListComponent extends React.Component {
               preScanRows={false}
               showRowHover
             >
-              {map(accountList, (account, id) => (
+              {map(projectUserList, (account, id) => (
                 <TableRow key={id}>
                   <TableRowColumn>
                     {account.content.email}
                   </TableRowColumn>
                   <TableRowColumn>
-                    {account.content.firstName}
-                  </TableRowColumn>
-                  <TableRowColumn>
-                    {account.content.lastName}
+                    {account.content.role_id}
                   </TableRowColumn>
                   <TableRowColumn>
                     {account.content.status}
+                  </TableRowColumn>
+                  <TableRowColumn>
+                    {account.content.lastupdate}
+                  </TableRowColumn>
+                  <TableRowColumn>
+                    {account.content.lastconnection}
                   </TableRowColumn>
                   <TableRowColumn>
                     <IconButton onTouchTap={() => onEdit(account.content.id)}>
@@ -99,10 +105,20 @@ export class AccountListComponent extends React.Component {
             </TableBody>
           </Table>
         </CardText>
+        <CardActions>
+          <CardActionsComponent
+            mainButtonUrl={createUrl}
+            mainButtonLabel={
+              <FormattedMessage
+                id="account.list.action.create"
+              />
+            }
+          />
+        </CardActions>
       </Card>
     )
   }
 }
 
-export default AccountListComponent
+export default ProjectUserListComponent
 

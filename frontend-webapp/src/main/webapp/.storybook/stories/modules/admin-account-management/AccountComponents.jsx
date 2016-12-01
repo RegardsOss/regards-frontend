@@ -34,17 +34,6 @@ storiesOf('InstanceAdmin - Account', module)
       </ThemeAndLocaleDecorator>
     )
   })
-  .add('Create', () => {
-    const themeName = addLocaleAndThemeSelectors()
-    return (
-      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-account-management/src/i18n">
-        <AccountFormComponent
-          backUrl="/some/url"
-          onSubmit={action('onCreate')}
-        />
-      </ThemeAndLocaleDecorator>
-    )
-  })
   .add('Edit', () => {
     const themeName = addLocaleAndThemeSelectors()
     const accountList = object('Account list', defaultAccountList)

@@ -31,19 +31,4 @@ describe('[ADMIN ACCOUNT MANAGEMENT] Testing form container', () => {
     const subComponent = enzymeWrapper.find(Field)
     expect(subComponent).to.have.length(3)
   })
-
-  it('should render create form', () => {
-    const props = {
-      backUrl: '/some/url',
-      onSubmit: () => {},
-      // from reduxForm
-      submitting: false,
-      pristine: false,
-      handleSubmit: () => {},
-      initialize: () => {},
-    }
-    const enzymeWrapper = shallow(<AccountFormComponent {...props} />)
-    const subComponent = enzymeWrapper.find(Field)
-    expect(subComponent).to.have.length(3)
-  })
 })

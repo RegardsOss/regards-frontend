@@ -8,12 +8,12 @@ export const projectAdminDataRouter = {
   },
 }
 
-export const projectAdminUserRouter = {
+export const projectAdminUserProjectRouter = {
   path: ':project/user',
   getChildRoutes(nextState, cb) {
     const adminUserManagement = require('@regardsoss/admin-user-management')
     require.ensure([], (require) => {
-      cb(null, [adminUserManagement.userManagementRouter])
+      cb(null, [adminUserManagement.projectUserManagementRouter])
     })
   },
 }
@@ -60,7 +60,7 @@ export const adminRouter = {
     accountRouter,
     databaseRouter,
     projectAdminDataRouter,
-    projectAdminUserRouter,
+    projectAdminUserProjectRouter,
     projectAdminRouter,
   ],
   getComponent(nextState, cb) {

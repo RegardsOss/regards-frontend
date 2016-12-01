@@ -24,44 +24,32 @@ export class AccountFormContainer extends React.Component {
     }),
     isFetching: React.PropTypes.bool,
     // from mapDispatchToProps
-    createAccount: React.PropTypes.func,
     fetchAccount: React.PropTypes.func,
     updateAccount: React.PropTypes.func,
   }
 
   constructor(props) {
     super(props)
-    this.state = {
-      isEditing: props.params.account_id !== undefined,
-    }
   }
 
   componentDidMount() {
-    if (this.state.isEditing) {
-      this.props.fetchAccount(this.props.params.account_id)
-    }
+    this.props.fetchAccount(this.props.params.account_id)
   }
   getBackUrl = () => ('/admin/account/list')
 
   getFormComponent = () => {
-    if (this.state.isEditing) {
-      const { account, isFetching } = this.props
-      if (isFetching) {
-        return (<FormLoadingComponent />)
-      }
-      if (account) {
-        return (<AccountFormComponent
-          onSubmit={this.handleUpdate}
-          backUrl={this.getBackUrl()}
-          currentAccount={this.props.account}
-        />)
-      }
-      return (<FormEntityNotFoundComponent />)
+    const { account, isFetching } = this.props
+    if (isFetching) {
+      return (<FormLoadingComponent />)
     }
-    return (<AccountFormComponent
-      onSubmit={this.handleCreate}
-      backUrl={this.getBackUrl()}
-    />)
+    if (account) {
+      return (<AccountFormComponent
+        onSubmit={this.handleUpdate}
+        backUrl={this.getBackUrl()}
+        currentAccount={this.props.account}
+      />)
+    }
+    return (<FormEntityNotFoundComponent />)
   }
   handleUpdate = (values) => {
     const updatedAccount = Object.assign({}, this.props.account.content, {
@@ -76,17 +64,6 @@ export class AccountFormContainer extends React.Component {
     })
   }
 
-  handleCreate = (values) => {
-    Promise.resolve(this.props.createAccount({
-      email: values.email,
-      firstName: values.firstName,
-      lastName: values.lastName,
-    }))
-    .then(() => {
-      const url = this.getBackUrl()
-      browserHistory.push(url)
-    })
-  }
   render() {
     return (
       <I18nProvider messageDir="modules/admin-account-management/src/i18n">
@@ -101,7 +78,6 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  createAccount: values => dispatch(AccountActions.createEntity(values)),
   updateAccount: (id, values) => dispatch(AccountActions.updateEntity(id, values)),
   fetchAccount: accountId => dispatch(AccountActions.fetchEntity(accountId)),
 })
