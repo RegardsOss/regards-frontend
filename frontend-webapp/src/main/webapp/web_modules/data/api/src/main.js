@@ -1,6 +1,8 @@
-import Account from './schemas/Account'
-import Project from './schemas/Project'
-import User from './schemas/User'
+import Account, { AccountConfiguration } from './schemas/Account'
+import Project, { ProjectConfiguration } from './schemas/Project'
+import ProjectUser, { ProjectUserConfiguration } from './schemas/ProjectUser'
+import Role, { RoleConfiguration } from './schemas/Role'
+
 // We use this Normalizr schemas to transform API responses from a nested form
 // to a flat form where repos and users are placed in `entities`, and nested
 // JSON objects are replaced with their IDs. This is very convenient for
@@ -11,10 +13,17 @@ import User from './schemas/User'
 export default {
   ACCOUNT: Account.ACCOUNT,
   ACCOUNT_ARRAY: Account.ACCOUNT_ARRAY,
+  AccountConfiguration,
 
   PROJECT: Project.PROJECT,
   PROJECT_ARRAY: Project.PROJECT_ARRAY,
+  ProjectConfiguration,
 
-  USER: User.USER,
-  USER_ARRAY: User.USER_ARRAY,
+  PROJECT_USER: ProjectUser.PROJECT_USER,
+  PROJECT_USER_ARRAY: ProjectUser.PROJECT_USER_ARRAY,
+  ProjectUserConfiguration,
+
+  ROLE: Role.ROLE,
+  ROLE_ARRAY: Role.ROLE_ARRAY,
+  RoleConfiguration,
 }

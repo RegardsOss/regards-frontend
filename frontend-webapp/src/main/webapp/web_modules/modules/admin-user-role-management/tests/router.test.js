@@ -3,9 +3,9 @@ import Routes from '../src/router'
 import RoleFormContainer from '../src/containers/RoleFormContainer'
 import RoleListContainer from '../src/containers/RoleListContainer'
 
-describe('[ADMIN PROJECT MANAGEMENT] Testing project router', () => {
+describe('[ADMIN USER ROLE MANAGEMENT] Testing project router', () => {
   it('should return the correct value', () => {
-    assert.isNotNull(Routes)
+    assert.isDefined(Routes)
     expect(Routes.childRoutes).to.have.length(3)
     expect(Routes.childRoutes[0].path).to.eq('list')
     expect(Routes.childRoutes[1].path).to.eq('create')

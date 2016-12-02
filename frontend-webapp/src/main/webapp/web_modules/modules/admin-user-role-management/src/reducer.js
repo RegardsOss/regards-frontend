@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux'
-import ProjectReducers from './model/ProjectReducers'
+import RoleReducers from './model/RoleReducers'
 
-const projectManagementReducer = combineReducers({
-  project: ProjectReducers.getReducer,
+const roleManagementReducer = combineReducers({
+  role: RoleReducers.getReducer,
 })
 
-export default projectManagementReducer
+export default roleManagementReducer

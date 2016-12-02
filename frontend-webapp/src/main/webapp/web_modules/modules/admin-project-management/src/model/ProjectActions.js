@@ -1,4 +1,4 @@
-import { PROJECT, PROJECT_ARRAY } from '@regardsoss/api'
+import Schemas from '@regardsoss/api'
 import { BasicListActions } from '@regardsoss/store-utils'
 
 class ProjectActions extends BasicListActions {
@@ -7,8 +7,8 @@ class ProjectActions extends BasicListActions {
       namespace: 'admin-project-management',
       entityEndpoint: `${GATEWAY_HOSTNAME}/api/v1/projects`,
       schemaTypes: {
-        ENTITY: PROJECT,
-        ENTITY_ARRAY: PROJECT_ARRAY,
+        ENTITY: Schemas.PROJECT,
+        ENTITY_ARRAY: Schemas.PROJECT_ARRAY,
       },
     })
   }

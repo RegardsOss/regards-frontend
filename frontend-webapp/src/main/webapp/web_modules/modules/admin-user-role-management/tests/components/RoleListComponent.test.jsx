@@ -5,12 +5,12 @@ import { CardActionsComponent } from '@regardsoss/components'
 import { RoleListComponent } from '../../src/components/RoleListComponent'
 
 // Test a component rendering
-describe('[ADMIN PROJECT MANAGEMENT] Testing project list container', () => {
+describe('[ADMIN USER ROLE MANAGEMENT] Testing project list container', () => {
   it('should exists', () => {
     assert.isDefined(RoleListComponent)
   })
 
-  it('should render self and subcomponents', () => {
+  xit('should render self and subcomponents', () => {
     const props = {
       projectList: {
         'project name': {

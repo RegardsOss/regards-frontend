@@ -30,6 +30,7 @@ export class ProjectUserListComponent extends React.Component {
     onEdit: React.PropTypes.func.isRequired,
     onDelete: React.PropTypes.func.isRequired,
     createUrl: React.PropTypes.string.isRequired,
+    backUrl: React.PropTypes.string.isRequired,
   }
 
   static contextTypes = {
@@ -39,7 +40,7 @@ export class ProjectUserListComponent extends React.Component {
 
 
   render() {
-    const { projectUserList, onEdit, onDelete, createUrl } = this.props
+    const { projectUserList, onEdit, onDelete, createUrl, backUrl } = this.props
     const style = {
       hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
       hoverButtonDelete: this.context.muiTheme.palette.accent1Color,
@@ -113,6 +114,8 @@ export class ProjectUserListComponent extends React.Component {
                 id="projectUser.list.action.create"
               />
             }
+            secondaryButtonLabel={<FormattedMessage id="projectUser.list.action.cancel" />}
+            secondaryButtonUrl={backUrl}
           />
         </CardActions>
       </Card>

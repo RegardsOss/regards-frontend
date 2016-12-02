@@ -5,12 +5,18 @@ describe('[COMMON] Testing schemas', () => {
   it('should exist', () => {
     assert.isDefined(Schemas.PROJECT)
     assert.isDefined(Schemas.PROJECT_ARRAY)
+    assert.isDefined(Schemas.ProjectConfiguration)
 
-    assert.isDefined(Schemas.USER)
-    assert.isDefined(Schemas.USER_ARRAY)
+    assert.isDefined(Schemas.PROJECT_USER)
+    assert.isDefined(Schemas.PROJECT_USER_ARRAY)
+    assert.isDefined(Schemas.ProjectUserConfiguration)
 
     assert.isDefined(Schemas.ACCOUNT)
     assert.isDefined(Schemas.ACCOUNT_ARRAY)
+    assert.isDefined(Schemas.AccountConfiguration)
+
+    assert.isDefined(Schemas.ROLE)
+    assert.isDefined(Schemas.ROLE_ARRAY)
+    assert.isDefined(Schemas.RoleConfiguration)
   })
 })
-

@@ -1,9 +1,15 @@
 import { Schema, arrayOf } from 'normalizr'
 
+export const ProjectConfiguration = {
+  entityKey: 'name',
+  normalizrKey: 'projects',
+}
+
+
 // Read more about Normalizr: https://github.com/paularmstrong/normalizr
-const projectSchema = new Schema('projects', {
+const projectSchema = new Schema(ProjectConfiguration.normalizrKey, {
   idAttribute: project =>
-     project.content.name
+     project.content[ProjectConfiguration.entityKey]
   ,
 })
 

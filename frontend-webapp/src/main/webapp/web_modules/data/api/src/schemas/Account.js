@@ -1,8 +1,13 @@
 import { Schema, arrayOf } from 'normalizr'
 
-const accountSchema = new Schema('accounts', {
+export const AccountConfiguration = {
+  entityKey: 'id',
+  normalizrKey: 'accounts',
+}
+
+const accountSchema = new Schema(AccountConfiguration.normalizrKey, {
   idAttribute: account =>
-     account.content.id
+     account.content[AccountConfiguration.entityKey]
   ,
 })
 

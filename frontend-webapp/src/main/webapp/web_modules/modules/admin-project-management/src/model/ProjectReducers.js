@@ -1,12 +1,11 @@
 import { BasicListReducers } from '@regardsoss/store-utils'
+import { ProjectConfiguration } from '@regardsoss/api'
 import ProjectActions from './ProjectActions'
 
 class ProjectReducers extends BasicListReducers {
   constructor() {
-    super({
-      entityKey: 'name',
-      normalizrKey: 'projects',
-    }, ProjectActions)
+    super(ProjectConfiguration, ProjectActions)
+    console.log(ProjectConfiguration)
   }
 
   getReducer(state, action) {

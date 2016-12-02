@@ -2,7 +2,7 @@ import { BasicListSelectors } from '@regardsoss/store-utils'
 
 class ProjectUserSelectors extends BasicListSelectors {
   constructor() {
-    super(['admin', 'user-management', 'project-user'])
+    super(['admin', 'user-management', 'project-user-management', 'project-user'])
   }
 }
 

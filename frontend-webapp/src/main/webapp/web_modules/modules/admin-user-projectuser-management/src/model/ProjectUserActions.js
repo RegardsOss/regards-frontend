@@ -4,11 +4,11 @@ import { BasicListActions } from '@regardsoss/store-utils'
 class ProjectUserActions extends BasicListActions {
   constructor() {
     super({
-      namespace: 'admin-project-management',
+      namespace: 'admin-user-projectuser-management',
       entityEndpoint: `${GATEWAY_HOSTNAME}/api/v1/users`,
       schemaTypes: {
-        ENTITY: Schemas.USER,
-        ENTITY_ARRAY: Schemas.USER_ARRAY,
+        ENTITY: Schemas.PROJECT_USER,
+        ENTITY_ARRAY: Schemas.PROJECT_USER_ARRAY,
       },
     })
   }

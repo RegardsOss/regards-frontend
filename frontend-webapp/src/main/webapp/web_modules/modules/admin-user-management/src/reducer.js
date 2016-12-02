@@ -3,8 +3,8 @@ import { projectUserManagementReducer } from '@regardsoss/admin-user-projectuser
 import { roleManagementReducer } from '@regardsoss/admin-user-role-management'
 
 const userManagementReducer = combineReducers({
-  'project-user': projectUserManagementReducer,
-  role: roleManagementReducer,
+  'project-user-management': projectUserManagementReducer,
+  'role-management': roleManagementReducer,
 })
 
 

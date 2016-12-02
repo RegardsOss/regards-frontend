@@ -4,14 +4,17 @@ import { RoleListContainer } from '../../src/containers/RoleListContainer'
 import RoleListComponent from '../../src/components/RoleListComponent'
 
 // Test a component rendering
-describe('[ADMIN PROJECT MANAGEMENT] Testing project list container', () => {
+describe('[ADMIN USER ROLE MANAGEMENT] Testing project list container', () => {
   it('should exists', () => {
-    assert.isNotNull(RoleListContainer)
-    assert.isNotNull(RoleListComponent)
+    assert.isDefined(RoleListContainer)
+    assert.isDefined(RoleListComponent)
   })
 
   it('should render self and subcomponents', () => {
     const props = {
+      params: {
+        project: 'project1',
+      },
       // from mapStateToProps
       projectList: {
         'project name': {
@@ -25,8 +28,8 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing project list container', () => {
         },
       },
       // from mapDispatchToProps
-      fetchProjectList: () => {},
-      deleteProject: () => {},
+      fetchRoleList: () => {},
+      deleteRole: () => {},
       onLogout: () => {},
     }
 

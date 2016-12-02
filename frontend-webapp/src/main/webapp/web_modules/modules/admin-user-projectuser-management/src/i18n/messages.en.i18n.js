@@ -8,7 +8,7 @@ const messages = {
   'projectUser.list.title': 'Project Users',
   'projectUser.list.subtitle': 'Project users on the current project',
   'projectUser.list.action.create': 'Add',
-
+  'projectUser.list.action.cancel': 'Cancel',
 
   'projectUser.create.title': 'Create a new Project Users',
   'projectUser.create.input.role': 'Role',

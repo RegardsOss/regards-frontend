@@ -16,20 +16,21 @@ import { i18nContextType } from '@regardsoss/i18n'
 export class RoleListComponent extends React.Component {
 
   static propTypes = {
-    projectList: React.PropTypes.objectOf(
+    roleList: React.PropTypes.objectOf(
       React.PropTypes.shape({
         content: React.PropTypes.shape({
           id: React.PropTypes.number,
           name: React.PropTypes.string,
-          description: React.PropTypes.string,
-          isPublic: React.PropTypes.bool,
+          parent_role_id: React.PropTypes.string,
+          is_default: React.PropTypes.bool,
+          is_native: React.PropTypes.bool,
         }),
       }),
     ),
     handleDelete: React.PropTypes.func.isRequired,
-    handleOpen: React.PropTypes.func.isRequired,
     handleEdit: React.PropTypes.func.isRequired,
     createUrl: React.PropTypes.string.isRequired,
+    backUrl: React.PropTypes.string.isRequired,
   }
 
   static contextTypes = {
@@ -52,7 +53,7 @@ export class RoleListComponent extends React.Component {
   }
 
   render() {
-    const { projectList, handleEdit, handleDelete, handleOpen, createUrl } = this.props
+    const { roleList, handleEdit, handleDelete, createUrl } = this.props
     const style = {
       hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
       hoverButtonDelete: this.context.muiTheme.palette.accent1Color,
@@ -61,8 +62,8 @@ export class RoleListComponent extends React.Component {
     return (
       <Card>
         <CardTitle
-          title={<FormattedMessage id="projects.title" />}
-          subtitle={<FormattedMessage id="projects.subtitle" />}
+          title={<FormattedMessage id="role.list.title" />}
+          subtitle={<FormattedMessage id="role.list.subtitle" />}
         />
         <CardText>
           <Table
@@ -74,11 +75,11 @@ export class RoleListComponent extends React.Component {
               displaySelectAll={false}
             >
               <TableRow>
-                <TableHeaderColumn><FormattedMessage id="projects.table.name.label" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="projects.table.description.label" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="projects.table.isPublic.label" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="projects.table.isDeleted.label" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="projects.table.actions.label" /></TableHeaderColumn>
+                <TableHeaderColumn><FormattedMessage id="role.list.table.name" /></TableHeaderColumn>
+                <TableHeaderColumn><FormattedMessage id="role.list.table.parent_role" /></TableHeaderColumn>
+                <TableHeaderColumn><FormattedMessage id="role.list.table.is_default" /></TableHeaderColumn>
+                <TableHeaderColumn><FormattedMessage id="role.list.table.is_native" /></TableHeaderColumn>
+                <TableHeaderColumn><FormattedMessage id="role.list.table.actions" /></TableHeaderColumn>
               </TableRow>
             </TableHeader>
             <TableBody
@@ -86,25 +87,18 @@ export class RoleListComponent extends React.Component {
               preScanRows={false}
               showRowHover
             >
-              {map(projectList, (project, i) => (
+              {map(roleList, (role, i) => (
                 <TableRow key={i}>
-                  <TableRowColumn>{project.content.name}</TableRowColumn>
-                  <TableRowColumn>{project.content.description}</TableRowColumn>
-                  <TableRowColumn>{this.getVisibility(project.content.isPublic)}</TableRowColumn>
-                  <TableRowColumn>{this.getState(project.content.isDeleted)}</TableRowColumn>
+                  <TableRowColumn>{role.content.name}</TableRowColumn>
+                  <TableRowColumn>{role.content.parent_role_id}</TableRowColumn>
+                  <TableRowColumn>{role.content.is_default}</TableRowColumn>
+                  <TableRowColumn>{role.content.is_native}</TableRowColumn>
                   <TableRowColumn>
-                    <IconButton
-                      onTouchTap={() => handleOpen(project.content.name)}
-                      tooltip={this.context.intl.formatMessage({ id: 'project.list.action.open' })}
-                    >
-                      <Input hoverColor={style.hoverButtonView} />
-                    </IconButton>
-
-                    <IconButton onTouchTap={() => handleEdit(project.content.name)}>
+                    <IconButton onTouchTap={() => handleEdit(role.content.id)}>
                       <Edit hoverColor={style.hoverButtonEdit} />
                     </IconButton>
 
-                    <IconButton onTouchTap={() => handleDelete(project.content.name)}>
+                    <IconButton onTouchTap={() => handleDelete(role.content.id)}>
                       <Delete hoverColor={style.hoverButtonDelete} />
                     </IconButton>
                   </TableRowColumn>
@@ -118,9 +112,15 @@ export class RoleListComponent extends React.Component {
             mainButtonUrl={createUrl}
             mainButtonLabel={
               <FormattedMessage
-                id="projects.add.button.title"
+                id="role.list.action.add"
               />
             }
+            secondaryButtonLabel={
+              <FormattedMessage
+                id="role.list.action.cancel"
+              />
+            }
+            secondaryButtonUrl={this.props.backUrl}
           />
         </CardActions>
       </Card>

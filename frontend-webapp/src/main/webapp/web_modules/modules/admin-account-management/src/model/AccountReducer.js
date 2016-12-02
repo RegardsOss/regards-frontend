@@ -1,12 +1,10 @@
 import { BasicListReducers } from '@regardsoss/store-utils'
+import { AccountConfiguration } from '@regardsoss/api'
 import AccountActions from './AccountActions'
 
 class AccountReducers extends BasicListReducers {
   constructor() {
-    super({
-      entityKey: 'id',
-      normalizrKey: 'accounts',
-    }, AccountActions)
+    super(AccountConfiguration, AccountActions)
   }
 
   getReducer(state, action) {

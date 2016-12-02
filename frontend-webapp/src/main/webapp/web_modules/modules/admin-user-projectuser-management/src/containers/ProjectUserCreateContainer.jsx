@@ -16,7 +16,7 @@ export class ProjectUserCreateContainer extends React.Component {
 
   getBackUrl = () => {
     const { params: { project } } = this.props
-    return `/admin/${project}/user/list`
+    return `/admin/${project}/user/project-user/list`
   }
 
   handleCreate = (values) => {

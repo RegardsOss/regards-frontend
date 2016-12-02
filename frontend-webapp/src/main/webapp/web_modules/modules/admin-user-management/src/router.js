@@ -1,5 +1,3 @@
-
-
 export const homeUserProjectAdminRoute = {
   path: 'board',
   getComponents(nextState, cb) {
@@ -25,7 +23,7 @@ export const projectUserAdminRouter = {
 
 
 export const roleAdminRouter = {
-  path: 'project-user',
+  path: 'role',
   getChildRoutes(nextState, cb) {
     const adminRoleManagement = require('@regardsoss/admin-user-role-management')
     require.ensure([], (require) => {

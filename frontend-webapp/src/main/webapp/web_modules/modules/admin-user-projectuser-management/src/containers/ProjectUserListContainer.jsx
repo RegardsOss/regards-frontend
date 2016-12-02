@@ -38,13 +38,19 @@ export class ProjectUserListContainer extends React.Component {
     this.props.fetchAccountList()
   }
 
+  getBackUrl = () => {
+    const { params: { project } } = this.props
+    return `/admin/${project}/user/board`
+  }
+
   getCreateUrl = () => {
     const { params: { project } } = this.props
-    return `/admin/${project}/user/create`
+    return `/admin/${project}/user/project-user/create`
   }
 
   handleEdit = (accountId) => {
-    const url = `/admin/account/${accountId}/edit`
+    const { params: { project } } = this.props
+    const url = `/admin/${project}/user/project-user/${accountId}/edit`
     browserHistory.push(url)
   }
 
@@ -60,6 +66,7 @@ export class ProjectUserListContainer extends React.Component {
         <ProjectUserListComponent
           projectUserList={projectUserList}
           createUrl={this.getCreateUrl()}
+          backUrl={this.getBackUrl()}
           onEdit={this.handleEdit}
           onDelete={this.handleDelete}
         />

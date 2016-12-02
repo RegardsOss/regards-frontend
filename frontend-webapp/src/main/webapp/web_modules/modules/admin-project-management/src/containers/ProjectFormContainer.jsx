@@ -1,6 +1,7 @@
 import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
 import { I18nProvider } from '@regardsoss/i18n'
+import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
 import ProjectActions from '../model/ProjectActions'
 import ProjectFormComponent from '../components/ProjectFormComponent'
 import ProjectSelectors from '../model/ProjectSelectors'
@@ -46,7 +47,7 @@ export class ProjectFormContainer extends React.Component {
     if (this.state.isEditing) {
       const { project, isFetching } = this.props
       if (isFetching) {
-        return (<span>Loading</span>)
+        return (<FormLoadingComponent />)
       }
       if (project) {
         return (<ProjectFormComponent
@@ -55,7 +56,7 @@ export class ProjectFormContainer extends React.Component {
           currentProject={this.props.project}
         />)
       }
-      return (<span>Something went wrong</span>)
+      return (<FormEntityNotFoundComponent />)
     }
     return (<ProjectFormComponent
       onSubmit={this.handleCreate}

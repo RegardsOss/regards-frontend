@@ -4,7 +4,7 @@ import { Field } from '@regardsoss/form-utils'
 import { RoleFormComponent } from '../../src/components/RoleFormComponent'
 
 // Test a component rendering
-describe('[ADMIN PROJECT MANAGEMENT] Testing form container', () => {
+describe('[ADMIN USER ROLE MANAGEMENT] Testing form container', () => {
   it('should exists', () => {
     assert.isDefined(RoleFormComponent)
   })

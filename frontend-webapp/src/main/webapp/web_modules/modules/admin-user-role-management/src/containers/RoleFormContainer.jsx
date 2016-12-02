@@ -1,74 +1,80 @@
 import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
 import { I18nProvider } from '@regardsoss/i18n'
-import ProjectActions from '../model/ProjectActions'
+import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
+import RoleActions from '../model/RoleActions'
 import RoleFormComponent from '../components/RoleFormComponent'
-import ProjectSelectors from '../model/ProjectSelectors'
+import RoleSelectors from '../model/RoleSelectors'
 
 export class RoleFormContainer extends React.Component {
   static propTypes = {
     // from router
     params: React.PropTypes.shape({
-      project_name: React.PropTypes.string,
+      project: React.PropTypes.string,
+      role_id: React.PropTypes.string,
     }),
     // from mapStateToProps
-    project: React.PropTypes.shape({
+    role: React.PropTypes.shape({
       content: React.PropTypes.shape({
         id: React.PropTypes.number,
         name: React.PropTypes.string,
-        description: React.PropTypes.string,
-        icon: React.PropTypes.string,
-        isPublic: React.PropTypes.bool,
+        parent_role_id: React.PropTypes.string,
+        is_default: React.PropTypes.bool,
+        is_native: React.PropTypes.bool,
       }),
     }),
     isFetching: React.PropTypes.bool,
     // from mapDispatchToProps
-    createProject: React.PropTypes.func,
-    fetchProject: React.PropTypes.func,
-    updateProject: React.PropTypes.func,
+    createRole: React.PropTypes.func,
+    fetchRole: React.PropTypes.func,
+    updateRole: React.PropTypes.func,
   }
 
   constructor(props) {
     super(props)
     this.state = {
-      isEditing: props.params.project_name !== undefined,
+      isEditing: props.params.role_id !== undefined,
     }
   }
 
   componentDidMount() {
     if (this.state.isEditing) {
-      this.props.fetchProject(this.props.params.project_name)
+      this.props.fetchRole(this.props.params.role_id)
     }
   }
-  getBackUrl = () => ('/admin/project/list')
+  getBackUrl = () => {
+    const { params: { project } } = this.props
+    return `/admin/project/${project}/user/role/list`
+  }
 
   getFormComponent = () => {
     if (this.state.isEditing) {
-      const { project, isFetching } = this.props
+      const { role, isFetching } = this.props
       if (isFetching) {
-        return (<span>Loading</span>)
+        return (<FormLoadingComponent />)
       }
-      if (project) {
+      if (role) {
         return (<RoleFormComponent
           onSubmit={this.handleUpdate}
           backUrl={this.getBackUrl()}
-          currentProject={this.props.project}
+          currentRole={role}
         />)
       }
-      return (<span>Something went wrong</span>)
+      return (<FormEntityNotFoundComponent />)
     }
     return (<RoleFormComponent
       onSubmit={this.handleCreate}
       backUrl={this.getBackUrl()}
     />)
   }
+
   handleUpdate = (values) => {
-    const updatedProject = Object.assign({}, this.props.project.content, {
+    const updatedProject = Object.assign({}, this.props.role.content, {
       description: values.description,
       icon: values.icon,
       isPublic: values.isPublic,
     })
-    Promise.resolve(this.props.updateProject(this.props.project.content.name, updatedProject))
+    Promise.resolve(this.props.updateRole(this.props.role.content.id, updatedProject))
     .then(() => {
       const url = this.getBackUrl()
       browserHistory.push(url)
@@ -76,7 +82,7 @@ export class RoleFormContainer extends React.Component {
   }
 
   handleCreate = (values) => {
-    Promise.resolve(this.props.createProject({
+    Promise.resolve(this.props.createRole({
       name: values.name,
       description: values.description,
       icon: values.icon,
@@ -89,21 +95,21 @@ export class RoleFormContainer extends React.Component {
   }
   render() {
     return (
-      <I18nProvider messageDir="modules/admin-project-management/src/i18n">
+      <I18nProvider messageDir="modules/admin-user-role-management/src/i18n">
         {this.getFormComponent()}
       </I18nProvider>
     )
   }
 }
 const mapStateToProps = (state, ownProps) => ({
-  project: ownProps.params.project_name ? ProjectSelectors.getById(state, ownProps.params.project_name) : null,
-  isFetching: ProjectSelectors.isFetching(state),
+  project: ownProps.params.role_id ? RoleSelectors.getById(state, ownProps.params.role_id) : null,
+  isFetching: RoleSelectors.isFetching(state),
 })
 
 const mapDispatchToProps = dispatch => ({
-  createProject: values => dispatch(ProjectActions.createEntity(values)),
-  updateProject: (id, values) => dispatch(ProjectActions.updateEntity(id, values)),
-  fetchProject: projectName => dispatch(ProjectActions.fetchEntity(projectName)),
+  createRole: values => dispatch(RoleActions.createEntity(values)),
+  updateRole: (id, values) => dispatch(RoleActions.updateEntity(id, values)),
+  fetchRole: id => dispatch(RoleActions.fetchEntity(projectName)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(RoleFormContainer)
