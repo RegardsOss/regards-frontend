@@ -77,7 +77,7 @@ export class ProjectFormComponent extends React.Component {
                 fullWidth
                 component={RenderTextField}
                 type="text"
-                label={<FormattedMessage id="projects.table.name.label" />}
+                label={<FormattedMessage id="project.form.name" />}
               />
             ) : (
               null
@@ -87,26 +87,26 @@ export class ProjectFormComponent extends React.Component {
               fullWidth
               component={RenderTextField}
               type="text"
-              label={<FormattedMessage id="projects.table.description.label" />}
+              label={<FormattedMessage id="project.form.description" />}
             />
             <Field
               name="icon"
               fullWidth
               component={RenderTextField}
               type="text"
-              label={<FormattedMessage id="projects.table.icon.label" />}
+              label={<FormattedMessage id="project.form.icon" />}
             />
             <Field
               name="isPublic"
               component={RenderCheckbox}
-              label={<FormattedMessage id="project.add.input.isPublic" />}
+              label={<FormattedMessage id="project.form.isPublic" />}
             />
           </CardText>
           <CardActions>
             <CardActionsComponent
-              mainButtonLabel={<FormattedMessage id="projects.submit.button" />}
+              mainButtonLabel={<FormattedMessage id="project.form.action.submit" />}
               mainButtonType="submit"
-              secondaryButtonLabel={<FormattedMessage id="projects.cancel.button" />}
+              secondaryButtonLabel={<FormattedMessage id="project.form.action.cancel" />}
               secondaryButtonUrl={this.props.backUrl}
             />
           </CardActions>

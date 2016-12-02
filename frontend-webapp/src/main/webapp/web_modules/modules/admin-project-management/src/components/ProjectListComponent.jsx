@@ -39,14 +39,14 @@ export class ProjectListComponent extends React.Component {
 
   getVisibility = (isPublic) => {
     if (isPublic) {
-      return (<FormattedMessage id="projects.table.isPublic" />)
+      return (<FormattedMessage id="project.list.value.isPublic" />)
     }
-    return (<FormattedMessage id="projects.table.isPrivate" />)
+    return (<FormattedMessage id="project.list.value.isPrivate" />)
   }
 
   getState = (isDeleted) => {
     if (isDeleted) {
-      return (<FormattedMessage id="projects.table.isDeleted" />)
+      return (<FormattedMessage id="project.list.value.isDeleted" />)
     }
     return (null)
   }
@@ -61,8 +61,8 @@ export class ProjectListComponent extends React.Component {
     return (
       <Card>
         <CardTitle
-          title={<FormattedMessage id="projects.title" />}
-          subtitle={<FormattedMessage id="projects.subtitle" />}
+          title={<FormattedMessage id="project.list.title" />}
+          subtitle={<FormattedMessage id="project.list.subtitle" />}
         />
         <CardText>
           <Table
@@ -74,11 +74,11 @@ export class ProjectListComponent extends React.Component {
               displaySelectAll={false}
             >
               <TableRow>
-                <TableHeaderColumn><FormattedMessage id="projects.table.name.label" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="projects.table.description.label" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="projects.table.isPublic.label" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="projects.table.isDeleted.label" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="projects.table.actions.label" /></TableHeaderColumn>
+                <TableHeaderColumn><FormattedMessage id="project.list.table.name" /></TableHeaderColumn>
+                <TableHeaderColumn><FormattedMessage id="project.list.table.description" /></TableHeaderColumn>
+                <TableHeaderColumn><FormattedMessage id="project.list.table.isPublic" /></TableHeaderColumn>
+                <TableHeaderColumn><FormattedMessage id="project.list.table.isDeleted" /></TableHeaderColumn>
+                <TableHeaderColumn><FormattedMessage id="project.list.table.actions" /></TableHeaderColumn>
               </TableRow>
             </TableHeader>
             <TableBody
@@ -95,7 +95,6 @@ export class ProjectListComponent extends React.Component {
                   <TableRowColumn>
                     <IconButton
                       onTouchTap={() => handleOpen(project.content.name)}
-                      tooltip={this.context.intl.formatMessage({ id: 'project.list.action.open' })}
                     >
                       <Input hoverColor={style.hoverButtonView} />
                     </IconButton>
@@ -118,7 +117,7 @@ export class ProjectListComponent extends React.Component {
             mainButtonUrl={createUrl}
             mainButtonLabel={
               <FormattedMessage
-                id="projects.add.button.title"
+                id="project.list.action.add"
               />
             }
           />

@@ -13,7 +13,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing form container', () => {
     const props = {
       currentProject: {
         content: {
-          id: '1',
+          id: 1,
           name: 'project name',
           description: 'project desc',
           icon: 'project icon',

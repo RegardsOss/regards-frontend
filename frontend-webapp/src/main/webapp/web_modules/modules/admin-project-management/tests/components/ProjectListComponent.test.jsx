@@ -15,7 +15,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing project list container', () => {
       projectList: {
         'project name': {
           content: {
-            id: '1',
+            id: 1,
             name: 'project name',
             description: 'project desc',
             icon: 'project icon',
@@ -24,7 +24,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing project list container', () => {
         },
         'project name 2': {
           content: {
-            id: '2',
+            id: 2,
             name: 'project name 2',
             description: 'project desc',
             icon: 'project icon',

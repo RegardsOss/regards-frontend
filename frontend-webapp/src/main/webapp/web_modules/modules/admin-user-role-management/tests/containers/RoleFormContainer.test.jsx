@@ -16,13 +16,13 @@ describe('[ADMIN USER ROLE MANAGEMENT] Testing form container', () => {
         project_name: 'project name',
       },
       // from mapStateToProps
-      project: {
+      role: {
         content: {
-          id: '1',
+          id: 1,
           name: 'project name',
-          description: 'project desc',
-          icon: 'project icon',
-          isPublic: true,
+          parent_role_id: 'project desc',
+          is_default: true,
+          is_native: true,
         },
       },
       isFetching: false,
