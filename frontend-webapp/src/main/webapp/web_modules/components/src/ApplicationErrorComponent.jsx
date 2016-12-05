@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 /**
  * React component to display a global application error.
  */
-function ApplicationErrorComponent() {
+export function ApplicationErrorComponent() {
   return (
     <div>
         Application unavailable

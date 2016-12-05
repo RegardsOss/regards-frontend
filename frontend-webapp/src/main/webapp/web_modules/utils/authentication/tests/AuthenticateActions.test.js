@@ -10,7 +10,7 @@ const { apiMiddleware } = require('redux-api-middleware')
 const middlewares = [thunk, apiMiddleware]
 const mockStore = configureStore(middlewares)
 
-describe('[COMMON] Testing authentication actions', () => {
+describe('[AUTHENTICATION UTILS] Testing authentication actions', () => {
   afterEach(() => {
     nock.cleanAll()
   })

@@ -17,11 +17,3 @@ export const fetchEndpoints = () => ({
     method: 'GET',
   },
 })
-
-export const DELETE_ENDPOINT = 'DELETE_ENDPOINT'
-export function deleteEndpoint(id) {
-  return {
-    type: DELETE_ENDPOINT,
-    id,
-  }
-}

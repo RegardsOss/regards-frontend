@@ -1,12 +1,10 @@
-import { applyDisplayControl, applyHateoasDisplayControl } from './DisplayControlDecorator'
-import HateoasDisplayController from './HateoasDisplayController'
-import * as EndpointActions from './endpoints/EndpointActions'
-import endpointReducer from './endpoints/EndpointReducers'
+import HateoasDisplayDecorator from './hateoas/HateoasDisplayDecorator'
+import * as EndpointActions from './model/EndpointActions'
+import endpointReducer from './model/EndpointReducers'
+
 
 export {
-  applyDisplayControl,
-  applyHateoasDisplayControl,
-  HateoasDisplayController,
+  HateoasDisplayDecorator,
   EndpointActions,
   endpointReducer,
 }

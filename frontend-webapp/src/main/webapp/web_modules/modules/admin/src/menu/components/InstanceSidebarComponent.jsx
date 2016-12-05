@@ -7,7 +7,7 @@ import { FormattedMessage } from 'react-intl'
 import Weekend from 'material-ui/svg-icons/content/weekend'
 import { I18nProvider } from '@regardsoss/i18n'
 import SupervisorAccount from 'material-ui/svg-icons/action/supervisor-account'
-import HateoasControlledSidebarElement from './HateoasControlledSidebarElement'
+import HateoasSidebarElement from './HateoasSidebarElement'
 
 /**
  * React sidebar component. Display the admin application menu
@@ -43,7 +43,7 @@ class InstanceSidebarComponent extends React.Component {
     return (
       <I18nProvider messageDir="modules/admin/src/menu/i18n">
         <Drawer open containerStyle={style.sidebarContainer.styles} className={style.sidebarContainer.classes}>
-          <HateoasControlledSidebarElement
+          <HateoasSidebarElement
             endpointKey="projects_url"
             key="0"
             to={'/admin/project/list'}
@@ -51,7 +51,7 @@ class InstanceSidebarComponent extends React.Component {
             primaryText={<FormattedMessage id="menu.projects" />}
             leftIcon={<Settings />}
           />
-          <HateoasControlledSidebarElement
+          <HateoasSidebarElement
             endpointKey="projects_users_url"
             key="1"
             to={'/admin/account/list'}
@@ -59,7 +59,7 @@ class InstanceSidebarComponent extends React.Component {
             primaryText={<FormattedMessage id="menu.accounts" />}
             leftIcon={<SupervisorAccount />}
           />
-          <HateoasControlledSidebarElement
+          <HateoasSidebarElement
             endpointKey="projects_users_url"
             key="2"
             to={'/admin/database/list'}

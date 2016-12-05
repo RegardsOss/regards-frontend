@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 import reducer from '../src/AuthenticateReducers'
 
-describe('[COMMON] Testing authenticate reducer', () => {
+describe('[AUTHENTICATION UTILS] Testing authenticate reducer', () => {
   it('should return the initial state', () => {
     expect(reducer(undefined, {})).to.eql({
       isFetching: false,

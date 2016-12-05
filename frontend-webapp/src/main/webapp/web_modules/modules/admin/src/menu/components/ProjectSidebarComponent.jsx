@@ -14,7 +14,7 @@ import { FormattedMessage } from 'react-intl'
 import SupervisorAccount from 'material-ui/svg-icons/action/supervisor-account'
 import { I18nProvider } from '@regardsoss/i18n'
 import { connect } from 'react-redux'
-import HateoasControlledSidebarElement from './HateoasControlledSidebarElement'
+import HateoasSidebarElement from './HateoasSidebarElement'
 
 /**
  * React sidebar component. Display the admin application menu
@@ -52,7 +52,7 @@ class ProjectSidebarComponent extends React.Component {
       <I18nProvider messageDir="modules/admin/src/menu/i18n">
 
         <Drawer open containerStyle={style.sidebarContainer.styles} className={style.sidebarContainer.classes}>
-          <HateoasControlledSidebarElement
+          <HateoasSidebarElement
             endpointKey="projects_users_url"
             key="1"
             to={`/admin/${projectName}/user/board`}
@@ -60,7 +60,7 @@ class ProjectSidebarComponent extends React.Component {
             primaryText={<FormattedMessage id="menu.users" />}
             leftIcon={<SupervisorAccount />}
           />
-          <HateoasControlledSidebarElement
+          <HateoasSidebarElement
             endpointKey="projects_connections_url"
             key="2"
             to={`/admin/${projectName}/data/board`}
@@ -68,7 +68,7 @@ class ProjectSidebarComponent extends React.Component {
             primaryText={<FormattedMessage id="menu.datamanagement" />}
             leftIcon={<AddBox />}
           />
-          <HateoasControlledSidebarElement
+          <HateoasSidebarElement
             endpointKey="projects_connections_url"
             key="3"
             to={`/admin/${projectName}/data/list`}
@@ -76,7 +76,7 @@ class ProjectSidebarComponent extends React.Component {
             primaryText={<FormattedMessage id="menu.dataaccessrights" />}
             leftIcon={<VerifiedUser />}
           />
-          <HateoasControlledSidebarElement
+          <HateoasSidebarElement
             endpointKey="projects_connections_url"
             key="4"
             to={`/admin/${projectName}/datamanagement`}
@@ -84,7 +84,7 @@ class ProjectSidebarComponent extends React.Component {
             primaryText={<FormattedMessage id="menu.forms" />}
             leftIcon={<Widgets />}
           />
-          <HateoasControlledSidebarElement
+          <HateoasSidebarElement
             endpointKey="projects_connections_url"
             key="5"
             to={`/admin/${projectName}/datamanagement`}
@@ -92,7 +92,7 @@ class ProjectSidebarComponent extends React.Component {
             primaryText={<FormattedMessage id="menu.microservices" />}
             leftIcon={<CloudQueue />}
           />
-          <HateoasControlledSidebarElement
+          <HateoasSidebarElement
             endpointKey="projects_connections_url"
             key="6"
             to={`/admin/${projectName}/datamanagement`}
@@ -100,7 +100,7 @@ class ProjectSidebarComponent extends React.Component {
             primaryText={<FormattedMessage id="menu.ui.configuration" />}
             leftIcon={<Brush />}
           />
-          <HateoasControlledSidebarElement
+          <HateoasSidebarElement
             endpointKey="projects_connections_url"
             key="7"
             to={`/admin/${projectName}/datamanagement`}

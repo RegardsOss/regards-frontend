@@ -2,6 +2,7 @@ import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { ProjectFormContainer } from '../../src/containers/ProjectFormContainer'
 import ProjectFormComponent from '../../src/components/ProjectFormComponent'
+import { ShowableAtRender } from '@regardsoss/components'
 
 // Test a component rendering
 describe('[ADMIN PROJECT MANAGEMENT] Testing form container', () => {
