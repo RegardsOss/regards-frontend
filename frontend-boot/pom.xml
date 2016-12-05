@@ -19,6 +19,7 @@
 
     <properties>
         <fr.cnes.regards.docker.image.name>rs-frontend</fr.cnes.regards.docker.image.name>
+        <sonar.coverage.exclusions>**/*.java</sonar.coverage.exclusions>
     </properties>
 
     <dependencies>
