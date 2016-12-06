@@ -3,10 +3,9 @@ import { Locales } from '@regardsoss/form-utils'
 const messages = Object.assign({
   'project.list.value.isPublic': 'Public',
   'project.list.value.isPrivate': 'Privé',
-  'project.list.value.isDeleted': 'Deleted',
+  'project.list.value.isDeleted': 'Supprimé',
   'project.list.title': 'Liste des projets',
   'project.list.subtitle': 'Gestion des Projets REGARDS',
-  'project.list.actions.add': 'Ajouter',
   'project.list.table.icon': 'Icone',
   'project.list.table.name': 'Nom',
   'project.list.table.description': 'Description',

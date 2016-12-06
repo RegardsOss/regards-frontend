@@ -6,7 +6,6 @@ const messages = Object.assign({
   'project.list.value.isDeleted': 'Deleted',
   'project.list.title': 'Projects',
   'project.list.subtitle': 'Manage REGARDS Projects',
-  'project.list.actions.add': 'Add',
   'project.list.table.icon': 'Icon',
   'project.list.table.name': 'Name',
   'project.list.table.description': 'Description',
