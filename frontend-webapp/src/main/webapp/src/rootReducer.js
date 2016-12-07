@@ -4,7 +4,6 @@ import { adminReducer } from '@regardsoss/admin'
 import { themeReducers } from '@regardsoss/theme'
 import { PluginReducer } from '@regardsoss/plugins'
 import { i18nReducers } from '@regardsoss/i18n'
-import { accessRightsReducers } from '@regardsoss/access-rights'
 import { authentication } from '@regardsoss/authentication'
 import { endpointReducer } from '@regardsoss/display-control'
 import { reducer as reduxFormReducer } from 'redux-form'
@@ -16,7 +15,6 @@ const commonReducer = combineReducers({
   i18n: i18nReducers,
   theme: themeReducers,
   plugins: PluginReducer,
-  api: accessRightsReducers,
   endpoints: endpointReducer,
   authentication,
 })

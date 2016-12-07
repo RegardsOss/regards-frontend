@@ -2,10 +2,6 @@ const preloadedState = {
   common: {
     theme: 'Light',
     plugins: {},
-    api: {
-      isFetching: false,
-      items: [],
-    },
     i18n: {
       locale: navigator.language,
       messages: [],
