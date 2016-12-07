@@ -14,6 +14,7 @@ class CardActionsView extends React.Component {
     mainButtonTouchTap: React.PropTypes.func,
     mainButtonType: React.PropTypes.string,
     isMainButtonVisible: React.PropTypes.bool,
+    isMainButtonDisabled: React.PropTypes.bool,
 
     /*theme: React.PropTypes.objectOf(React.PropTypes.string).isRequired,*/
   }
@@ -21,6 +22,7 @@ class CardActionsView extends React.Component {
   static defaultProps = {
     isSecondaryButtonVisible: true,
     isMainButtonVisible: true,
+    isMainButtonDisabled: false,
   }
 
   render() {
@@ -48,6 +50,7 @@ class CardActionsView extends React.Component {
           onTouchTap={this.props.mainButtonTouchTap}
           type={this.props.mainButtonType}
           isVisible={this.props.isMainButtonVisible}
+          disabled={this.props.isMainButtonDisabled}
         />
       </div>
     )

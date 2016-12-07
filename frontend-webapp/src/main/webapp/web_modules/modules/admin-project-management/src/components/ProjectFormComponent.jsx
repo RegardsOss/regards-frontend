@@ -54,13 +54,13 @@ export class ProjectFormComponent extends React.Component {
     }
   }
 
-
   render() {
+    const { currentProject, pristine, submitting } = this.props
     const title = this.state.isCreating ? <FormattedMessage id="project.create.title" /> :
       (<FormattedMessage
         id="project.edit.title"
         values={{
-          name: this.props.currentProject.content.name,
+          name: currentProject.content.name,
         }}
       />)
     return (
@@ -106,6 +106,7 @@ export class ProjectFormComponent extends React.Component {
             <CardActionsComponent
               mainButtonLabel={<FormattedMessage id="project.form.action.submit" />}
               mainButtonType="submit"
+              isMainButtonDisabled={pristine || submitting}
               secondaryButtonLabel={<FormattedMessage id="project.form.action.cancel" />}
               secondaryButtonUrl={this.props.backUrl}
             />

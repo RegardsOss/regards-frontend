@@ -4,7 +4,7 @@ export const homeUserProjectAdminRoute = {
     require.ensure([], (require) => {
       const BoardContainer = require('./containers/BoardContainer')
       cb(null, {
-        content: BoardContainer,
+        content: BoardContainer.default,
       })
     })
   },

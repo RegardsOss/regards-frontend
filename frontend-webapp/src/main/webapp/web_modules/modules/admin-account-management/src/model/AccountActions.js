@@ -5,7 +5,7 @@ class AccountActions extends BasicListActions {
   constructor() {
     super({
       namespace: 'admin-account-management',
-      entityEndpoint: `${GATEWAY_HOSTNAME}/api/v1/accounts`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/api/v1/rs-admin/accounts`,
       schemaTypes: {
         ENTITY: Schemas.ACCOUNT,
         ENTITY_ARRAY: Schemas.ACCOUNT_ARRAY,

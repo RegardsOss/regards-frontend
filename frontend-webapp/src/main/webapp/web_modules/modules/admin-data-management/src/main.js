@@ -1,7 +1,7 @@
+import dataManagementRouter from './router'
 import dataManagementReducer from './reducer'
-import dataManagementRouter from './routes'
 
 export default {
-  dataManagementRouter,
   dataManagementReducer,
+  dataManagementRouter,
 }

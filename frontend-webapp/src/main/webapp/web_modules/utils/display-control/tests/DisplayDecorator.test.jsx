@@ -1,10 +1,9 @@
 /**
  * @author lmieulet
  */
-import { connect } from 'react-redux'
 import { ShowableAtRender } from '@regardsoss/components'
 import { shallow } from 'enzyme'
-import { expect, assert } from 'chai'
+import { expect } from 'chai'
 import DisplayDecorator from '../src/DisplayDecorator'
 
 describe('[DISPLAY CONTROL UTILS] Testing DisplayDecorator', () => {

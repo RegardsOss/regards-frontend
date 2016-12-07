@@ -1,7 +1,7 @@
 import accountManagementRouter from './router'
 import accountManagementReducer from './reducer'
 
-export {
+export default {
   accountManagementReducer,
   accountManagementRouter,
 }

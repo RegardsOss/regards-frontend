@@ -1,7 +1,7 @@
 import projectUserManagementRouter from './router'
 import projectUserManagementReducer from './reducer'
 
-export {
+export default {
   projectUserManagementReducer,
   projectUserManagementRouter,
 }

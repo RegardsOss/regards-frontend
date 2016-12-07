@@ -20,6 +20,7 @@ class ActionButtonComponent extends React.Component {
     isVisible: React.PropTypes.bool,
     style: React.PropTypes.objectOf(React.PropTypes.string),
     type: React.PropTypes.string,
+    disabled: React.PropTypes.bool,
   }
 
   static defaultProps = {
@@ -51,7 +52,7 @@ class ActionButtonComponent extends React.Component {
   )
 
   render() {
-    const { button, isVisible, url, style, label, primary, secondary, onTouchTap, type } = this.props
+    const { button, isVisible, disabled, url, style, label, primary, secondary, onTouchTap, type } = this.props
     return (
       <ShowableAtRender show={isVisible}>
         {(() => {
@@ -66,6 +67,7 @@ class ActionButtonComponent extends React.Component {
                   primary,
                   secondary,
                   type,
+                  disabled,
                 })}
               </Link>
             )
@@ -77,6 +79,7 @@ class ActionButtonComponent extends React.Component {
               secondary,
               onTouchTap,
               type,
+              disabled,
             })
           )
         })()}

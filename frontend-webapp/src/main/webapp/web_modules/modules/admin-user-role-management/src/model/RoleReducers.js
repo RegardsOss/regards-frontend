@@ -5,13 +5,18 @@ import RoleActions from './RoleActions'
 class RoleReducers extends BasicListReducers {
   constructor() {
     super(RoleConfiguration, RoleActions)
-    console.log(RoleConfiguration)
-  }
-
-  getReducer(state, action) {
-    return instance.reduce(state, action)
   }
 }
 
 const instance = new RoleReducers()
 export default instance
+
+/**
+ * Return an function where the reducer instance exists
+ * @param state redux previous state
+ * @param action redux action received
+ * @return new state
+ */
+export function getRoleReducer(state, action) {
+  return instance.reduce(state, action)
+}

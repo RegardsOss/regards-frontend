@@ -14,9 +14,11 @@ class CardActionsComponent extends React.Component {
     mainButtonTouchTap: React.PropTypes.func,
     mainButtonType: React.PropTypes.string,
     isMainButtonVisible: React.PropTypes.bool,
+    isMainButtonDisabled: React.PropTypes.bool,
   }
   static defaultProps = {
     isMainButtonVisible: true,
+    isMainButtonDisabled: false,
   }
 
   render() {
@@ -33,6 +35,7 @@ class CardActionsComponent extends React.Component {
           mainButtonTouchTap={this.props.mainButtonTouchTap}
           mainButtonType={this.props.mainButtonType}
           isMainButtonVisible={this.props.isMainButtonVisible}
+          isMainButtonDisabled={this.props.isMainButtonDisabled}
 
           theme={null}
         />

@@ -6,11 +6,17 @@ class AccountReducers extends BasicListReducers {
   constructor() {
     super(AccountConfiguration, AccountActions)
   }
-
-  getReducer(state, action) {
-    return instance.reduce(state, action)
-  }
 }
 
 const instance = new AccountReducers()
 export default instance
+
+/**
+ * Return an function where the reducer instance exists
+ * @param state redux previous state
+ * @param action redux action received
+ * @return new state
+ */
+export function getAccountReducer(state, action) {
+  return instance.reduce(state, action)
+}

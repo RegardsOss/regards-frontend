@@ -21,6 +21,7 @@ export class ProjectUserCreateComponent extends React.Component {
 
 
   render() {
+    const { pristine, submitting } = this.props
     return (
       <form onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
         <Card>
@@ -53,6 +54,7 @@ export class ProjectUserCreateComponent extends React.Component {
             <CardActionsComponent
               mainButtonLabel={<FormattedMessage id="projectUser.create.action.create" />}
               mainButtonType="submit"
+              isMainButtonDisabled={pristine || submitting}
               secondaryButtonLabel={<FormattedMessage id="projectUser.create.action.cancel" />}
               secondaryButtonUrl={this.props.backUrl}
             />

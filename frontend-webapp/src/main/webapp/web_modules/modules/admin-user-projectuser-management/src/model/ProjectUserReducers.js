@@ -6,11 +6,17 @@ class ProjectUserReducers extends BasicListReducers {
   constructor() {
     super(ProjectUserConfiguration, ProjectUserActions)
   }
-
-  getReducer(state, action) {
-    return instance.reduce(state, action)
-  }
 }
 
 const instance = new ProjectUserReducers()
 export default instance
+
+/**
+ * Return an function where the reducer instance exists
+ * @param state redux previous state
+ * @param action redux action received
+ * @return new state
+ */
+export function getProjectUserReducer(state, action) {
+  return instance.reduce(state, action)
+}

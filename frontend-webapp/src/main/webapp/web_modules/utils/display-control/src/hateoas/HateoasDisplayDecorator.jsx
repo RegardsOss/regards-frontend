@@ -1,5 +1,4 @@
 import { connect } from 'react-redux'
-import { ShowableAtRender } from '@regardsoss/components'
 import hateoasDisplayLogic from './hateoasDisplayLogic'
 import EndpointSelectors from '../model/EndpointSelectors'
 import DisplayDecorator from './../DisplayDecorator'

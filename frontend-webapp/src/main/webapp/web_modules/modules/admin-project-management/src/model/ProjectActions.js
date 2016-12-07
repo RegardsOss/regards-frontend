@@ -5,7 +5,7 @@ class ProjectActions extends BasicListActions {
   constructor() {
     super({
       namespace: 'admin-project-management',
-      entityEndpoint: `${GATEWAY_HOSTNAME}/api/v1/projects`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/api/v1/rs-admin/projects`,
       schemaTypes: {
         ENTITY: Schemas.PROJECT,
         ENTITY_ARRAY: Schemas.PROJECT_ARRAY,

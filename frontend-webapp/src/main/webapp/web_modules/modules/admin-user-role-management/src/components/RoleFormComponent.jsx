@@ -56,6 +56,7 @@ export class RoleFormComponent extends React.Component {
 
 
   render() {
+    const { pristine, submitting } = this.props
     const title = this.state.isCreating ? <FormattedMessage id="project.create.title" /> :
       (<FormattedMessage
         id="project.edit.title"
@@ -106,6 +107,7 @@ export class RoleFormComponent extends React.Component {
             <CardActionsComponent
               mainButtonLabel={<FormattedMessage id="projects.submit.button" />}
               mainButtonType="submit"
+              isMainButtonDisabled={pristine || submitting}
               secondaryButtonLabel={<FormattedMessage id="projects.cancel.button" />}
               secondaryButtonUrl={this.props.backUrl}
             />

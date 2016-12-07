@@ -28,10 +28,6 @@ export class AccountFormContainer extends React.Component {
     updateAccount: React.PropTypes.func,
   }
 
-  constructor(props) {
-    super(props)
-  }
-
   componentDidMount() {
     this.props.fetchAccount(this.props.params.account_id)
   }

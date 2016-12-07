@@ -14,9 +14,9 @@ class SidebarElement extends React.Component {
 
   render() {
     return (
-        <Link to={this.props.to} style={this.props.linkStyle}>
-          <MenuItem primaryText={this.props.primaryText} leftIcon={this.props.leftIcon} />
-        </Link>
+      <Link to={this.props.to} style={this.props.linkStyle}>
+        <MenuItem primaryText={this.props.primaryText} leftIcon={this.props.leftIcon} />
+      </Link>
     )
   }
 }

@@ -13,7 +13,6 @@ import Reply from 'material-ui/svg-icons/content/reply'
 import { FormattedMessage } from 'react-intl'
 import SupervisorAccount from 'material-ui/svg-icons/action/supervisor-account'
 import { I18nProvider } from '@regardsoss/i18n'
-import { connect } from 'react-redux'
 import HateoasSidebarElement from './HateoasSidebarElement'
 
 /**
@@ -26,13 +25,13 @@ class ProjectSidebarComponent extends React.Component {
    */
   static contextTypes = {
     muiTheme: React.PropTypes.object.isRequired,
-    projectName: React.PropTypes.string,
   }
 
   /**
    * @type {{onLogout: function}}
    */
   static propTypes = {
+    projectName: React.PropTypes.string,
     onLogout: React.PropTypes.func.isRequired,
   }
 

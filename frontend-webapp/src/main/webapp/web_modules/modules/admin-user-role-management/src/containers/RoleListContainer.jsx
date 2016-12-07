@@ -17,14 +17,21 @@ export class RoleListContainer extends React.Component {
         content: React.PropTypes.shape({
           id: React.PropTypes.number,
           name: React.PropTypes.string,
-          parent_role_id: React.PropTypes.string,
-          is_default: React.PropTypes.bool,
-          is_native: React.PropTypes.bool,
+          parentRole: React.PropTypes.shape({
+            id: React.PropTypes.number,
+          }),
+          isDefault: React.PropTypes.bool,
+          isNative: React.PropTypes.bool,
+          authorizedAddresses: [],
         }),
       }),
     ),
     fetchRoleList: React.PropTypes.func,
     deleteRole: React.PropTypes.func,
+    // from router
+    params: React.PropTypes.shape({
+      project: React.PropTypes.string.isRequired,
+    }).isRequired,
   }
 
   componentWillMount() {
