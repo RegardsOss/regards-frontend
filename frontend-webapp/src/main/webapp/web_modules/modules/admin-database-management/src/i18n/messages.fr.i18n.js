@@ -1,6 +1,6 @@
 const messages = {
   'database.connectionTester.start': 'Tester',
-  'database.connectionTester.restart': 'Connecté',
+  'database.connectionTester.restart': 'Réessayer',
   'database.connectionTester.connected': 'Connecté',
   'database.connectionTester.warning': 'TODO',
   'database.connectionTester.notConnected': 'Non connecté',
