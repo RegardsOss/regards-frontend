@@ -1,12 +1,13 @@
 // Default theme
-import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme'
 import { merge } from 'lodash'
-import { red900, white } from 'material-ui/styles/colors'
+import darkBaseTheme  from 'material-ui/styles/baseThemes/darkBaseTheme'
+import { red900, white, orange900 } from 'material-ui/styles/colors'
 
 const backgroundColor = '#2a2a2a'
 export default merge({}, darkBaseTheme, {
   palette: {
     errorColor: red900,
+    warningColor: orange900
   },
   linkWithoutDecoration: {
     textDecoration: 'blink',
