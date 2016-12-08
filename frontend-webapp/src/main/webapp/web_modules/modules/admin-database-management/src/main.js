@@ -1,7 +1,7 @@
-import databaseManagementRouter from './router'
-import userManagementReducer from './reducer'
+import databaseManagementReducer  from './reducer'
+import databaseManagementRouter  from './router'
 
-export {
-  userManagementReducer,
+export { // TODO
+  databaseManagementReducer,
   databaseManagementRouter,
 }

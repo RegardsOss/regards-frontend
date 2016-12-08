@@ -1,21 +1,7 @@
 import { merge } from 'lodash'
-import {
-  lightGreen500,
-  lightGreen700,
-  grey300,
-  grey700,
-  blueGrey800,
-  brown50,
-  amber50,
-  deepOrange900,
-  blueGrey900,
-  cyan500,
-  darkBlack,
-  brown900,
-  red900,
-} from 'material-ui/styles/colors'
+import { lightGreen500, lightGreen700, grey300, grey700, blueGrey800, brown50, amber50, deepOrange900, blueGrey900, cyan500, darkBlack, brown900, red900, deepPurple800 } from 'material-ui/styles/colors'
+import spacing  from 'material-ui/styles/spacing'
 import { fade } from 'material-ui/utils/colorManipulator'
-import spacing from 'material-ui/styles/spacing'
 // http://www.material-ui.com/#/customization/colors
 
 /**
@@ -56,6 +42,7 @@ export default {
     clockCircleColor: fade(darkBlack, 0.07),
     shadowColor: blueGrey900,
     errorColor: red900,
+    warningColor: deepPurple800
   },
   linkWithoutDecoration: {
     textDecoration: 'blink',

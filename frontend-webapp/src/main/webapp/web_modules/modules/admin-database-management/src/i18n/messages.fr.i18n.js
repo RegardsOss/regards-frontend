@@ -1,19 +1,10 @@
 const messages = {
-  'userlist.title': 'Utilisateurs',
-  'userlist.subtitle': 'Liste des utilisateurs du projet',
-  'userlist.login': 'Identifiant',
-  'userlist.firstName': 'Prénom',
-  'userlist.lastName': 'Nom',
-  'userlist.email': 'E-mail',
-  'userlist.status': 'Statut',
-  'userlist.action': 'Actions',
-  'dropdown.edit': 'Editer',
-  'dropdown.view': 'Afficher',
-  'dropdown.delete': 'Supprimer',
-  'dialog.delete.accept': 'Delete',
-  'dialog.delete.title': 'Delete the user',
-  'dialog.delete.cancel': 'Cancel',
-
+  'database.connectionTester.start': 'Tester',
+  'database.connectionTester.restart': 'Connecté',
+  'database.connectionTester.connected': 'Connecté',
+  'database.connectionTester.warning': 'TODO',
+  'database.connectionTester.notConnected': 'Non connecté',
+  'database.connectionTester.pending': 'Test de la connexion...',
 }
 
 export default messages
