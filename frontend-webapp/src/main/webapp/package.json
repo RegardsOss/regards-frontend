@@ -36,7 +36,6 @@
     "@regardsoss/components": "0.0.1",
     "@regardsoss/display-control": "0.0.1",
     "@regardsoss/i18n": "0.0.1",
-    "@regardsoss/injector": "0.0.1",
     "@regardsoss/plugins": "0.0.1",
     "@regardsoss/portal": "0.0.1",
     "@regardsoss/store": "0.0.1",
