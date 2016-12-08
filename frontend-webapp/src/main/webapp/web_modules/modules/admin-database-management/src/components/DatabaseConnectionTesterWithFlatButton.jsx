@@ -1,5 +1,5 @@
 import React from 'react'
-import RaisedButton from 'material-ui/RaisedButton'
+import FlatButton from 'material-ui/FlatButton'
 import OnHoverSwitchFlatButton from '@regardsoss/components/src/buttons/OnHoverSwitchFlatButton'
 import PlayArrow from 'material-ui/svg-icons/av/play-arrow'
 import Check from 'material-ui/svg-icons/navigation/check'
@@ -18,7 +18,7 @@ const SUCCESS = Symbol('The connection has successfuly been established')
 const WARNING = Symbol('TODO')
 const ERROR = Symbol('The connection could not be established')
 
-class DatabaseConnectionTester extends React.Component {
+class DatabaseConnectionTesterWithFlatButton extends React.Component {
 
   static contextTypes = {
     ...themeContextType,
@@ -72,7 +72,6 @@ class DatabaseConnectionTester extends React.Component {
       label={<FormattedMessage id='database.connectionTester.start'/>}
       icon={<PlayArrow/>}
       onTouchTap={this.handleTouchTap}
-      style={{width:20}}
     />
     const successButton = <OnHoverSwitchFlatButton
       label={[<FormattedMessage id='database.connectionTester.connected'/>, <FormattedMessage id='database.connectionTester.restart'/>]}
@@ -83,8 +82,7 @@ class DatabaseConnectionTester extends React.Component {
     const warningButton = <OnHoverSwitchFlatButton
       label={[<FormattedMessage id='database.connectionTester.warning'/>, <FormattedMessage id='database.connectionTester.restart'/>]}
       icon={[<Warning />, <PlayArrow />]}
-      backgroundColor={[this.context.muiTheme.palette.warningColor, this.context.muiTheme.palette.secondary2Color]}
-      labelColor={[this.context.muiTheme.palette.alternateTextColor, this.context.muiTheme.palette.textColor]}
+      backgroundColor={[muiTheme.palette.warningColor, muiTheme.palette.secondary2Color]}
       onTouchTap={[this.handleTouchTap, this.handleTouchTap]}
     />
     const errorButton = <OnHoverSwitchFlatButton
@@ -99,9 +97,6 @@ class DatabaseConnectionTester extends React.Component {
       </p>
       <LinearProgress  mode='determinate' value={this.state.completed} />
     </div>
-
-
-
 
     let result = testButton
     switch (this.state.status) {
@@ -132,4 +127,4 @@ class DatabaseConnectionTester extends React.Component {
   }
 }
 
-export default DatabaseConnectionTester
+export default DatabaseConnectionTesterWithFlatButton
