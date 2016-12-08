@@ -22,7 +22,6 @@
   "author": "CS-SI",
   "license": "GPLv3",
   "dependencies": {
-    "@regardsoss/access-rights": "0.0.1",
     "@regardsoss/admin": "0.0.1",
     "@regardsoss/admin-database-management": "0.0.1",
     "@regardsoss/admin-account-management": "0.0.1",
