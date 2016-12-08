@@ -18,7 +18,7 @@ const SUCCESS = Symbol('The connection has successfuly been established')
 const WARNING = Symbol('TODO')
 const ERROR = Symbol('The connection could not be established')
 
-class DbConnectionTester extends React.Component {
+class DatabaseConnectionTester extends React.Component {
 
   static contextTypes = {
     ...themeContextType,
@@ -127,4 +127,4 @@ class DbConnectionTester extends React.Component {
   }
 }
 
-export default DbConnectionTester
+export default DatabaseConnectionTester
