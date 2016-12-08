@@ -1,6 +1,6 @@
 import React from 'react'
 import RaisedButton from 'material-ui/RaisedButton'
-import OnHoverSwitchRaisedButton from '@regardsoss/components/src/buttons/OnHoverSwitchRaisedButton'
+import OnHoverSwitchFlatButton from '@regardsoss/components/src/buttons/OnHoverSwitchFlatButton'
 import PlayArrow from 'material-ui/svg-icons/av/play-arrow'
 import Check from 'material-ui/svg-icons/navigation/check'
 import Error from 'material-ui/svg-icons/alert/error'
@@ -68,27 +68,28 @@ class DatabaseConnectionTester extends React.Component {
       justifyContent: 'center',
     }
 
-    const testButton = <RaisedButton
+    const testButton = <FlatButton
       label={<FormattedMessage id='database.connectionTester.start'/>}
       icon={<PlayArrow/>}
       onTouchTap={this.handleTouchTap}
+      style={{width:20}}
     />
-    const successButton = <OnHoverSwitchRaisedButton
-      icon={[<Check/>, <PlayArrow/>]}
+    const successButton = <OnHoverSwitchFlatButton
       label={[<FormattedMessage id='database.connectionTester.connected'/>, <FormattedMessage id='database.connectionTester.restart'/>]}
+      icon={[<Check/>, <PlayArrow/>]}
       primary={[true, false]}
       onTouchTap={[this.handleTouchTap, this.handleTouchTap]}
     />
-    const warningButton = <OnHoverSwitchRaisedButton
-      icon={[<Warning />, <PlayArrow />]}
+    const warningButton = <OnHoverSwitchFlatButton
       label={[<FormattedMessage id='database.connectionTester.warning'/>, <FormattedMessage id='database.connectionTester.restart'/>]}
+      icon={[<Warning />, <PlayArrow />]}
       backgroundColor={[this.context.muiTheme.palette.warningColor, this.context.muiTheme.palette.secondary2Color]}
       labelColor={[this.context.muiTheme.palette.alternateTextColor, this.context.muiTheme.palette.textColor]}
       onTouchTap={[this.handleTouchTap, this.handleTouchTap]}
     />
-    const errorButton = <OnHoverSwitchRaisedButton
-      icon={[<Error />, <PlayArrow />]}
+    const errorButton = <OnHoverSwitchFlatButton
       label={[<FormattedMessage id='database.connectionTester.notConnected'/>, <FormattedMessage id='database.connectionTester.restart'/>]}
+      icon={[<Error />, <PlayArrow />]}
       secondary={[true, false]}
       onTouchTap={[this.handleTouchTap, this.handleTouchTap]}
     />
@@ -98,6 +99,9 @@ class DatabaseConnectionTester extends React.Component {
       </p>
       <LinearProgress  mode='determinate' value={this.state.completed} />
     </div>
+
+
+
 
     let result = testButton
     switch (this.state.status) {
@@ -119,6 +123,7 @@ class DatabaseConnectionTester extends React.Component {
       default:
         result = testButton
     }
+
     return (
       <div style={style}>
         {result}

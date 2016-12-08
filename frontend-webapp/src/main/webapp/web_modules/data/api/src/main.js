@@ -1,8 +1,9 @@
 import Account, { AccountConfiguration } from './schemas/Account'
+import Model, { ModelConfiguration } from './schemas/Model'
 import Project, { ProjectConfiguration } from './schemas/Project'
+import ProjectConnection, { ProjectConnectionConfiguration } from './schemas/ProjectConnection.js'
 import ProjectUser, { ProjectUserConfiguration } from './schemas/ProjectUser'
 import Role, { RoleConfiguration } from './schemas/Role'
-import Model, { ModelConfiguration } from './schemas/Model'
 
 // We use this Normalizr schemas to transform API responses from a nested form
 // to a flat form where repos and users are placed in `entities`, and nested
@@ -31,4 +32,8 @@ export default {
   MODEL: Role.MODEL,
   MODEL_ARRAY: Role.MODEL_ARRAY,
   ModelConfiguration,
+
+  PROJECT_CONNECTION: ProjectConnection.PROJECT_CONNECTION,
+  PROJECT_CONNECTION_ARRAY: ProjectConnection.PROJECT_CONNECTION_ARRAY,
+  ProjectConnectionConfiguration
 }
