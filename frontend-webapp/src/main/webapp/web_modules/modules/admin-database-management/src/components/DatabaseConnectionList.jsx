@@ -7,7 +7,7 @@ import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Input from 'material-ui/svg-icons/action/input'
 import Delete from 'material-ui/svg-icons/action/delete'
 import { CardActionsComponent } from '@regardsoss/components'
-import DatabaseConnectionTester from './DatabaseConnectionTester'
+import DatabaseConnectionTesterWithFlatButton from './DatabaseConnectionTesterWithFlatButton'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 
@@ -82,7 +82,7 @@ export class DatabaseConnectionList extends React.Component {
                   <TableRowColumn>{connection.content.userName}</TableRowColumn>
                   <TableRowColumn>{connection.content.password}</TableRowColumn>
                   <TableRowColumn>
-                    <DatabaseConnectionTester />
+                    <DatabaseConnectionTesterWithFlatButton projectConnection={connection.content} />
                   </TableRowColumn>
                 </TableRow>
               ))}

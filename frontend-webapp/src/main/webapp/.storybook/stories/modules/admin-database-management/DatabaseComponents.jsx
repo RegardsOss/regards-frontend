@@ -1,7 +1,7 @@
 import { storiesOf, action } from '@kadira/storybook'
 import { withKnobs, object } from '@kadira/storybook-addon-knobs'
 import DatabaseConnectionList  from '@regardsoss/admin-database-management/src/components/DatabaseConnectionList'
-import DatabaseConnectionTester  from '@regardsoss/admin-database-management/src/components/DatabaseConnectionTester'
+import DatabaseConnectionTesterWithFlatButton  from '@regardsoss/admin-database-management/src/components/DatabaseConnectionTesterWithFlatButton'
 import OnHoverSwitchIconButton  from '@regardsoss/components/src/buttons/OnHoverSwitchIconButton'
 import PlayArrow  from 'material-ui/svg-icons/av/play-arrow'
 import Check  from 'material-ui/svg-icons/navigation/check'
@@ -64,7 +64,7 @@ storiesOf('InstanceAdmin - Database', module)
     const themeName = addLocaleAndThemeSelectors()
     return (
       <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-database-management/src/i18n">
-        <DatabaseConnectionTester />
+        <DatabaseConnectionTesterWithFlatButton />
       </ThemeAndLocaleDecorator>
     )
   })
