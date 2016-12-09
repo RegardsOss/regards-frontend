@@ -1,5 +1,5 @@
 /**
- * @author @lmieulet
+ * @author lmieulet
  */
 import { Link } from 'react-router'
 import MenuItem from 'material-ui/MenuItem'

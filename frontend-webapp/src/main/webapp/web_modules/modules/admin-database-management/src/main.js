@@ -1,7 +1,7 @@
+import databaseManagementReducer from './reducer'
 import databaseManagementRouter from './router'
-import userManagementReducer from './reducer'
 
 export {
-  userManagementReducer,
+  databaseManagementReducer,
   databaseManagementRouter,
 }

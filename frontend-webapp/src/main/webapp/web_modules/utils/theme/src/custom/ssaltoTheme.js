@@ -1,15 +1,6 @@
-import {
-  lightGreen500,
-  lightGreen700,
-  grey300,
-  grey700,
-  blueGrey800,
-  brown50,
-  deepOrange900,
-  red900,
-} from 'material-ui/styles/colors'
-import { fade } from 'material-ui/utils/colorManipulator'
+import { lightGreen500, lightGreen700, grey300, grey700, blueGrey800, brown50, deepOrange900, red900, brown600 } from 'material-ui/styles/colors'
 import spacing from 'material-ui/styles/spacing'
+import { fade } from 'material-ui/utils/colorManipulator'
 // http://www.material-ui.com/#/customization/colors
 
 
@@ -18,7 +9,6 @@ import spacing from 'material-ui/styles/spacing'
  *  Only provide the keys you wish to customize, they will be merged to default
  *  theme variables when calling 'material-ui/styles/getMuiTheme'
  */
-
 export default {
   spacing,
   fontFamily: 'Roboto, sans-serif',
@@ -33,6 +23,7 @@ export default {
     secondaryTextColor: fade(blueGrey800, 0.54),
     alternateTextColor: brown50,
     errorColor: red900,
+    warningColor: brown600,
   },
   linkWithoutDecoration: {
     textDecoration: 'blink',
@@ -46,4 +37,3 @@ export default {
     },
   },
 }
-

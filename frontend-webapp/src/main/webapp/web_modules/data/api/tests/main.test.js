@@ -18,5 +18,9 @@ describe('[COMMON] Testing schemas', () => {
     assert.isDefined(Schemas.ROLE)
     assert.isDefined(Schemas.ROLE_ARRAY)
     assert.isDefined(Schemas.RoleConfiguration)
+
+    assert.isDefined(Schemas.PROJECT_CONNECTION)
+    assert.isDefined(Schemas.PROJECT_CONNECTION_ARRAY)
+    assert.isDefined(Schemas.ProjectConnectionConfiguration)
   })
 })
