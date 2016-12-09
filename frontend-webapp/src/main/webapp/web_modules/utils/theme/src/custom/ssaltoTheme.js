@@ -1,5 +1,5 @@
 import { lightGreen500, lightGreen700, grey300, grey700, blueGrey800, brown50, deepOrange900, red900, brown600 } from 'material-ui/styles/colors'
-import spacing  from 'material-ui/styles/spacing'
+import spacing from 'material-ui/styles/spacing'
 import { fade } from 'material-ui/utils/colorManipulator'
 // http://www.material-ui.com/#/customization/colors
 
@@ -23,7 +23,7 @@ export default {
     secondaryTextColor: fade(blueGrey800, 0.54),
     alternateTextColor: brown50,
     errorColor: red900,
-    warningColor: brown600
+    warningColor: brown600,
   },
   linkWithoutDecoration: {
     textDecoration: 'blink',

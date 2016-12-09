@@ -23,18 +23,18 @@ const style = {
   justifyContent: 'center',
 }
 
-class DatabaseConnectionTesterWithFlatButton extends React.Component {
+class DatabaseConnectionTester extends React.Component {
 
   static propTypes = {
     projectConnection: React.PropTypes.shape({
-        content: React.PropTypes.shape({
+      content: React.PropTypes.shape({
         id: React.PropTypes.number,
         projectName: React.PropTypes.string,
         microservice: React.PropTypes.string,
         userName: React.PropTypes.string,
         password: React.PropTypes.string,
         driverClassName: React.PropTypes.string,
-        url: React.PropTypes.string
+        url: React.PropTypes.string,
       }),
     }),
   }
@@ -50,38 +50,8 @@ class DatabaseConnectionTesterWithFlatButton extends React.Component {
       status: NOT_TESTED,
       completed: 0,
       snackBarOpen: false,
-      snackBarMessageId: 'database.connectionTester.snackbar.warning'
+      snackBarMessageId: 'database.connectionTester.snackbar.warning',
     }
-  }
-
-  progress(completed) {
-    if (completed > 100) {
-      this.setState({completed: 100})
-    } else {
-      this.setState({completed})
-      const diff = Math.random() * 10
-      setTimeout(() => this.progress(completed + diff), 10)
-    }
-  }
-
-  handleTouchTap = () => {
-    this.setState({
-      status: PENDING,
-      snackBarOpen: false
-    })
-    // Make API call instead
-    this.progress(0)
-    const possibleResultStates = [SUCCESS, WARNING, ERROR]
-    const randomResult = possibleResultStates[Math.floor(Math.random()*possibleResultStates.length)]
-    setTimeout(() => {
-      this.setState({
-        status: randomResult,
-        completed: 0,
-        snackBarOpen: true,
-        snackBarMessageId: this.getSnackBarMessageId(randomResult)
-      })
-      clearTimeout(this.timer)
-    }, 1000)
   }
 
   getSnackBarMessageId = (status) => {
@@ -97,48 +67,101 @@ class DatabaseConnectionTesterWithFlatButton extends React.Component {
     }
   }
 
-  handleRequestClose = () => {
+  handleTouchTap = () => {
+    this.setState({
+      status: PENDING,
+      snackBarOpen: false,
+    })
+    // Make API call instead
+    this.progress(0)
+    const possibleResultStates = [SUCCESS, WARNING, ERROR]
+    const randomResult = possibleResultStates[Math.floor(Math.random() * possibleResultStates.length)]
+    setTimeout(() => {
+      this.setState({
+        status: randomResult,
+        completed: 0,
+        snackBarOpen: true,
+        snackBarMessageId: this.getSnackBarMessageId(randomResult),
+      })
+      clearTimeout(this.timer)
+    }, 1000)
+  }
+  progress(completed) {
+    if (completed > 100) {
+      this.setState({ completed: 100 })
+    } else {
+      this.setState({ completed })
+      const diff = Math.random() * 10
+      setTimeout(() => this.progress(completed + diff), 10)
+    }
+  }
+
+  handleSnackbarRequestClose = () => {
     this.setState({
       snackBarOpen: false,
-    });
-  };
+    })
+  }
+
+  handleSnackbarActionTouchTap = () => {
+    this.setState({
+      snackBarOpen: false,
+    })
+  }
 
   render() {
+    const { projectConnection } = this.props
 
-    const { projectConnection } = this.props;
-
-    const testButton = <FlatButton
-      label={<FormattedMessage id='database.connectionTester.start'/>}
-      icon={<PlayArrow/>}
+    const testButton = (<FlatButton
+      label={<FormattedMessage id="database.connectionTester.start" />}
+      icon={<PlayArrow />}
       onTouchTap={this.handleTouchTap}
-    />
+    />)
+
     const successButton =
-      <OnHoverSwitchFlatButton
-        label={[<FormattedMessage id='database.connectionTester.connected'/>, <FormattedMessage id='database.connectionTester.restart'/>]}
-        icon={[<Check/>, <PlayArrow/>]}
+      (<OnHoverSwitchFlatButton
+        label={[<FormattedMessage id="database.connectionTester.connected" />, <FormattedMessage id="database.connectionTester.restart" />]}
+        icon={[<Check />, <PlayArrow />]}
         primary={[true, false]}
         onTouchTap={[this.handleTouchTap, this.handleTouchTap]}
-      />
+      />)
+
     const warningButton =
-      <OnHoverSwitchFlatButton
-        label={[<FormattedMessage id='database.connectionTester.warning'/>, <FormattedMessage id='database.connectionTester.restart'/>]}
-        icon={[<Warning color={this.context.muiTheme.palette.warningColor}/>, <PlayArrow />]}
-        labelStyle={[{color: this.context.muiTheme.palette.warningColor}, null]}
+      (<OnHoverSwitchFlatButton
+        label={[<FormattedMessage id="database.connectionTester.warning" />, <FormattedMessage id="database.connectionTester.restart" />]}
+        icon={[<Warning color={this.context.muiTheme.palette.warningColor} />, <PlayArrow />]}
+        labelStyle={[{ color: this.context.muiTheme.palette.warningColor }, null]}
         onTouchTap={[this.handleTouchTap, this.handleTouchTap]}
-      />
+      />)
+
     const errorButton =
-      <OnHoverSwitchFlatButton
-        label={[<FormattedMessage id='database.connectionTester.notConnected'/>, <FormattedMessage id='database.connectionTester.restart'/>]}
+      (<OnHoverSwitchFlatButton
+        label={[<FormattedMessage id="database.connectionTester.notConnected" />, <FormattedMessage id="database.connectionTester.restart" />]}
         icon={[<Error />, <PlayArrow />]}
         secondary={[true, false]}
         onTouchTap={[this.handleTouchTap, this.handleTouchTap]}
-      />
-    const pendingProgress = <div>
-      <p style={{textAlign: 'center'}}>
-        <FormattedMessage id='database.connectionTester.pending'/>
+      />)
+
+    const pendingProgress = (<div>
+      <p style={{ textAlign: 'center' }}>
+        <FormattedMessage id="database.connectionTester.pending" />
       </p>
-      <LinearProgress  mode='determinate' value={this.state.completed} />
-    </div>
+      <LinearProgress mode="determinate" value={this.state.completed} />
+    </div>)
+
+    const snackbar =
+      (<Snackbar
+        open={this.state.snackBarOpen}
+        message={<FormattedMessage
+          id={this.state.snackBarMessageId} values={{
+            microservice: 'rs-admin',
+            driverClassName: 'PostgreSQL',
+          }}
+        />}
+        autoHideDuration={4000}
+        onRequestClose={this.handleSnackbarRequestClose}
+        onActionTouchTap={this.handleSnackbarActionTouchTap}
+        action="OK"
+      />)
 
     let result = testButton
     switch (this.state.status) {
@@ -163,18 +186,10 @@ class DatabaseConnectionTesterWithFlatButton extends React.Component {
     return (
       <div style={style}>
         {result}
-        <Snackbar
-          open={this.state.snackBarOpen}
-          message={ <FormattedMessage id={this.state.snackBarMessageId} values={{
-                      microservice: 'rs-admin',
-                      driverClassName: 'PostgreSQL',
-                    }} />}
-          autoHideDuration={4000}
-          onRequestClose={this.handleRequestClose}
-        />
+        {snackbar}
       </div>
     )
   }
 }
 
-export default DatabaseConnectionTesterWithFlatButton
+export default DatabaseConnectionTester

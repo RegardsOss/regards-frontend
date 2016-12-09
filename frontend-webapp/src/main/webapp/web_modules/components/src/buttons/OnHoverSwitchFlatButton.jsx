@@ -13,19 +13,19 @@ class OnHoverSwitchFlatButton extends React.Component {
   constructor(props, context) {
     super(props, context)
     this.state = {
-      usedPropIndex: 0
+      usedPropIndex: 0,
     }
   }
 
   handleOnMouseEnter = () => {
     this.setState({
-      usedPropIndex: 1
+      usedPropIndex: 1,
     })
   }
 
   handleOnMouseLeave = () => {
     this.setState({
-      usedPropIndex: 0
+      usedPropIndex: 0,
     })
   }
 

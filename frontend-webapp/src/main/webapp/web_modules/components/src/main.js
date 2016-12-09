@@ -8,6 +8,10 @@ import ShowableAtRender from './cards/ShowableAtRender'
 import NewsItemComponent from './NewsItemComponent'
 import ErrorDecoratorComponent from './ErrorDecoratorComponent'
 
+import OnHoverSwitchFlatButton from './buttons/OnHoverSwitchFlatButton'
+import OnHoverSwitchIconButton from './buttons/OnHoverSwitchIconButton'
+import OnHoverSwitchRaisedButton from './buttons/OnHoverSwitchRaisedButton'
+
 export {
   ActionButtonComponent,
   ApplicationErrorComponent,
@@ -18,4 +22,7 @@ export {
   ShowableAtRender,
   NewsItemComponent,
   ErrorDecoratorComponent,
+  OnHoverSwitchFlatButton,
+  OnHoverSwitchIconButton,
+  OnHoverSwitchRaisedButton,
 }

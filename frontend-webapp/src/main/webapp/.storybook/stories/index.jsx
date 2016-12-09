@@ -2,6 +2,7 @@ import './Welcome'
 import './view/material-ui/all'
 import './view/components/CardActions'
 import './view/components/News'
+import './view/components/Buttons'
 
 import './modules/admin/AdminLayout'
 import './modules/portal/PortalLayout'

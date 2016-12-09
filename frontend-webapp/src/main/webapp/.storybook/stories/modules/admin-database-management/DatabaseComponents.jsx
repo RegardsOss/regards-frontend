@@ -1,10 +1,9 @@
 import { storiesOf, action } from '@kadira/storybook'
 import { withKnobs, object } from '@kadira/storybook-addon-knobs'
-import DatabaseConnectionList  from '@regardsoss/admin-database-management/src/components/DatabaseConnectionList'
-import DatabaseConnectionTesterWithFlatButton  from '@regardsoss/admin-database-management/src/components/DatabaseConnectionTesterWithFlatButton'
-import OnHoverSwitchIconButton  from '@regardsoss/components/src/buttons/OnHoverSwitchIconButton'
-import PlayArrow  from 'material-ui/svg-icons/av/play-arrow'
-import Check  from 'material-ui/svg-icons/navigation/check'
+import DatabaseConnectionTester from '@regardsoss/admin-database-management/src/components/DatabaseConnectionTester'
+import ProjectConnectionList from '@regardsoss/admin-database-management/src/components/ProjectConnectionList'
+import PlayArrow from 'material-ui/svg-icons/av/play-arrow'
+import Check from 'material-ui/svg-icons/navigation/check'
 import { StoreDecorator, addLocaleAndThemeSelectors, ThemeAndLocaleDecorator } from '../../utils/decorators'
 
 const connectionsList = {
@@ -16,7 +15,7 @@ const connectionsList = {
       userName: 'Alice',
       password: 'password',
       driverClassName: 'aDriverClassName',
-      url: 'http://aUrl'
+      url: 'http://aUrl',
     },
     links: [],
   },
@@ -28,7 +27,7 @@ const connectionsList = {
       userName: 'Bob',
       password: 'azerty',
       driverClassName: 'otherDriverClassName',
-      url: 'http://otherUrl'
+      url: 'http://otherUrl',
     },
     links: [],
   },
@@ -40,31 +39,20 @@ const connectionsList = {
       userName: 'Charlie',
       password: 'qsdfgh',
       driverClassName: 'someDriverClassName',
-      url: 'http://someUrl'
+      url: 'http://someUrl',
     },
     links: [],
-  }
+  },
 }
 
 storiesOf('InstanceAdmin - Database', module)
   .addDecorator(withKnobs)
   .addDecorator(StoreDecorator)
-  .add('Connection tester buttons', () => {
-    const themeName = addLocaleAndThemeSelectors()
-    return (
-      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-database-management/src/i18n">
-        <OnHoverSwitchIconButton>
-          <Check/>
-          <PlayArrow/>
-        </OnHoverSwitchIconButton>
-      </ThemeAndLocaleDecorator>
-    )
-  })
   .add('Connection tester', () => {
     const themeName = addLocaleAndThemeSelectors()
     return (
       <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-database-management/src/i18n">
-        <DatabaseConnectionTesterWithFlatButton />
+        <DatabaseConnectionTester />
       </ThemeAndLocaleDecorator>
     )
   })
@@ -73,7 +61,7 @@ storiesOf('InstanceAdmin - Database', module)
     const list = object('Connections list', connectionsList)
     return (
       <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-database-management/src/i18n">
-        <DatabaseConnectionList
+        <ProjectConnectionList
           list={list}
         />
       </ThemeAndLocaleDecorator>

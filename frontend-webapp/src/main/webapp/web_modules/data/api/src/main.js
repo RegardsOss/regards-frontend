@@ -1,7 +1,7 @@
 import Account, { AccountConfiguration } from './schemas/Account'
-import Model, { ModelConfiguration } from './schemas/Model'
+import { ModelConfiguration } from './schemas/Model'
 import Project, { ProjectConfiguration } from './schemas/Project'
-import ProjectConnection, { ProjectConnectionConfiguration } from './schemas/ProjectConnection.js'
+import ProjectConnection, { ProjectConnectionConfiguration } from './schemas/ProjectConnection'
 import ProjectUser, { ProjectUserConfiguration } from './schemas/ProjectUser'
 import Role, { RoleConfiguration } from './schemas/Role'
 
@@ -35,5 +35,5 @@ export default {
 
   PROJECT_CONNECTION: ProjectConnection.PROJECT_CONNECTION,
   PROJECT_CONNECTION_ARRAY: ProjectConnection.PROJECT_CONNECTION_ARRAY,
-  ProjectConnectionConfiguration
+  ProjectConnectionConfiguration,
 }

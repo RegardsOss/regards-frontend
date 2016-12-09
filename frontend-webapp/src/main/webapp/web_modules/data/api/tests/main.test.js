@@ -1,5 +1,5 @@
 import { assert } from 'chai'
-import Schemas  from '../src/main'
+import Schemas from '../src/main'
 
 describe('[COMMON] Testing schemas', () => {
   it('should exist', () => {
