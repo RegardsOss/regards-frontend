@@ -32,6 +32,7 @@
     "@regardsoss/admin-user-projectuser-management": "0.0.1",
     "@regardsoss/admin-user-role-management": "0.0.1",
     "@regardsoss/api": "0.0.1",
+    "@regardsoss/model": "0.0.1",
     "@regardsoss/authentication": "0.0.1",
     "@regardsoss/components": "0.0.1",
     "@regardsoss/form-utils": "0.0.1",

@@ -116,8 +116,8 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  //fetchAccountList: () => dispatch(ProjectConnectionActions.fetchEntityList()),
-  //deleteAccount: accountId => dispatch(ProjectConnectionActions.deleteEntity(accountId)),
+  // fetchAccountList: () => dispatch(ProjectConnectionActions.fetchEntityList()),
+  // deleteAccount: accountId => dispatch(ProjectConnectionActions.deleteEntity(accountId)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectConnectionListContainer)

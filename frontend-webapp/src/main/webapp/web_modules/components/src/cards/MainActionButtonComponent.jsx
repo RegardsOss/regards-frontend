@@ -13,7 +13,6 @@ import ActionButtonComponent from './ActionButtonComponent'
   isVisible?: boolean
 }*/
 function MainActionButtonComponent(props) {
-  console.log(props)
   return (<ActionButtonComponent
     button={RaisedButton}
     {...props}

@@ -10,15 +10,16 @@ const messages = Object.assign({
   'model.list.action.add': 'Add',
   'model.list.action.cancel': 'Annuler',
 
+  'model.type.dataset': 'Dataset',
+  'model.type.data': 'Data',
+  'model.type.collection': 'Collection',
+  'model.type.document': 'Document',
+
   'model.edit.title': 'Edit the model {name}',
   'model.create.title': 'Create a new model',
   'model.form.name': 'Project name',
   'model.form.description': 'Description',
   'model.form.type': 'Type',
-  'model.form.type.COLLECTION': 'Collection',
-  'model.form.type.DOCUMENT': 'Document',
-  'model.form.type.DATA': 'Data',
-  'model.form.type.DATASET': 'Dataset',
   'model.form.action.cancel': 'Cancel',
   'model.form.action.submit': 'Save',
 }, Locales.en)

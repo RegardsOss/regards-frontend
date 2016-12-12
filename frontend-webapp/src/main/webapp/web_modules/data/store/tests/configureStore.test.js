@@ -12,13 +12,13 @@ describe('[STORE DATA MANAGEMENT] Testing configureStore', () => {
   it('should return a useable store', () => {
     // Initial store
     const rootReducer = combineReducers({
-      common(state = { item: {} }, action) {
+      common(state = { item: {} }) {
         return state
       },
-      portal(state = { item: {} }, action) {
+      portal(state = { item: {} }) {
         return state
       },
-      admin(state = { item: {} }, action) {
+      admin(state = { item: {} }) {
         return state
       },
     })

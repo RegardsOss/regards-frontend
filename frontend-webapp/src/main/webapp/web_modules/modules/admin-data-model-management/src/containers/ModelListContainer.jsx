@@ -75,7 +75,6 @@ export class ProjectListContainer extends React.Component {
           backUrl={this.getBackUrl()}
           handleDelete={this.handleDelete}
           handleEdit={this.handleEdit}
-          handleOpen={this.handleOpen}
         />
       </I18nProvider>
     )

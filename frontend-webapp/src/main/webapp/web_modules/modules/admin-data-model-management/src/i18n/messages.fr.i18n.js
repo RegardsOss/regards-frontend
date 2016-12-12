@@ -10,18 +10,18 @@ const messages = Object.assign({
   'model.list.action.add': 'Ajouter',
   'model.list.action.cancel': 'Annuler',
 
+  'model.type.dataset': 'Jeu de données',
+  'model.type.data': 'Données',
+  'model.type.collection': 'Collection',
+  'model.type.document': 'Document',
+
   'model.edit.title': 'Editer le modèle {name}',
   'model.create.title': 'Ajouter un modèle',
   'model.form.name': 'Nom du modèle',
   'model.form.description': 'Description',
   'model.form.type': 'Type',
-  'model.form.type.COLLECTION': 'Collection',
-  'model.form.type.DOCUMENT': 'Document',
-  'model.form.type.DATA': 'Data',
-  'model.form.type.DATASET': 'Dataset',
   'model.form.action.cancel': 'Annuler',
   'model.form.action.submit': 'Sauvegarder',
-
 }, Locales.fr)
 
 export default messages

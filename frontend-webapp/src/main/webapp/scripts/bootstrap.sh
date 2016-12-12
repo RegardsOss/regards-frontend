@@ -8,6 +8,7 @@ npm link web_modules/components
 
 npm link web_modules/data/api
 npm link web_modules/data/store
+npm link web_modules/data/model
 
 npm link web_modules/utils/form-utils
 npm link web_modules/utils/i18n

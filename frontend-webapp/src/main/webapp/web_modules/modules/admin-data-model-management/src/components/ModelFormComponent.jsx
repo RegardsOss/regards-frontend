@@ -88,10 +88,10 @@ export class ProjectFormComponent extends React.Component {
                 component={RenderSelectField}
                 label={<FormattedMessage id="model.form.type" />}
               >
-                <MenuItem value="COLLECTION" primaryText={<FormattedMessage id="model.form.type.COLLECTION" />} />
-                <MenuItem value="DOCUMENT" primaryText={<FormattedMessage id="model.form.type.DOCUMENT" />} />
-                <MenuItem value="DATA" primaryText={<FormattedMessage id="model.form.type.DATA" />} />
-                <MenuItem value="DATASET" primaryText={<FormattedMessage id="model.form.type.DATASET" />} />
+                <MenuItem value="COLLECTION" primaryText={<FormattedMessage id="model.type.collection" />} />
+                <MenuItem value="DOCUMENT" primaryText={<FormattedMessage id="model.type.document" />} />
+                <MenuItem value="DATA" primaryText={<FormattedMessage id="model.type.data" />} />
+                <MenuItem value="DATASET" primaryText={<FormattedMessage id="model.type.dataset" />} />
               </Field>
             </ShowableAtRender>
           </CardText>

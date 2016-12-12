@@ -27,7 +27,6 @@ export class ProjectListComponent extends React.Component {
       }),
     ),
     handleDelete: React.PropTypes.func.isRequired,
-    handleOpen: React.PropTypes.func.isRequired,
     handleEdit: React.PropTypes.func.isRequired,
     createUrl: React.PropTypes.string.isRequired,
     backUrl: React.PropTypes.string.isRequired,
@@ -38,22 +37,22 @@ export class ProjectListComponent extends React.Component {
     ...i18nContextType,
   }
 
-  getVisibility = (isPublic) => {
-    if (isPublic) {
-      return (<FormattedMessage id="model.list.value.isPublic" />)
-    }
-    return (<FormattedMessage id="model.list.value.isPrivate" />)
-  }
-
-  getType = (isDeleted) => {
-    if (isDeleted) {
-      return (<FormattedMessage id="model.list.value.isDeleted" />)
+  getType = (type) => {
+    switch (type) {
+      case 'COLLECTION':
+        return (<FormattedMessage id="model.type.collection" />)
+      case 'DOCUMENT':
+        return (<FormattedMessage id="model.type.document" />)
+      case 'DATA':
+        return (<FormattedMessage id="model.type.data" />)
+      case 'DATASET':
+        return (<FormattedMessage id="model.type.dataset" />)
     }
     return (null)
   }
 
   render() {
-    const { modelList, handleEdit, handleDelete, handleOpen, createUrl, backUrl } = this.props
+    const { modelList, handleEdit, handleDelete, createUrl, backUrl } = this.props
     const style = {
       hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
       hoverButtonDelete: this.context.muiTheme.palette.accent1Color,
@@ -92,11 +91,6 @@ export class ProjectListComponent extends React.Component {
                   <TableRowColumn>{model.content.description}</TableRowColumn>
                   <TableRowColumn>{this.getType(model.content.type)}</TableRowColumn>
                   <TableRowColumn>
-                    <IconButton
-                      onTouchTap={() => handleOpen(model.content.id)}
-                    >
-                      <Input hoverColor={style.hoverButtonView} />
-                    </IconButton>
 
                     <IconButton onTouchTap={() => handleEdit(model.content.id)}>
                       <Edit hoverColor={style.hoverButtonEdit} />
