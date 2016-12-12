@@ -1,15 +1,15 @@
-import { BasicListReducers } from '@regardsoss/store-utils'
+import { BasicPaegableReducers } from '@regardsoss/store-utils'
 import { ProjectConfiguration } from '@regardsoss/api'
 import ProjectActions from './ProjectActions'
 
-class ProjectReducers extends BasicListReducers {
+class ProjectReducers extends BasicPaegableReducers {
   constructor() {
     super(ProjectConfiguration, ProjectActions)
   }
+
 }
 
 const instance = new ProjectReducers()
-export default instance
 
 /**
  * Return an function where the reducer instance exists

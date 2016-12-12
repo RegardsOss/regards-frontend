@@ -1,7 +1,7 @@
 import Schemas from '@regardsoss/api'
-import { BasicListActions } from '@regardsoss/store-utils'
+import { BasicPaegableActions } from '@regardsoss/store-utils'
 
-class ProjectActions extends BasicListActions {
+class ProjectActions extends BasicPaegableActions {
   constructor() {
     super({
       namespace: 'admin-project-management',
