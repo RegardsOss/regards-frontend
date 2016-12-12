@@ -3,5 +3,5 @@ import Role from './admin/Role'
 
 export default {
   ProjectUser,
-  Role
+  Role,
 }
