@@ -30,7 +30,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing form container', () => {
     }
     const enzymeWrapper = shallow(<ProjectFormComponent {...props} />)
     const subComponent = enzymeWrapper.find(Field)
-    expect(subComponent).to.have.length(3)
+    expect(subComponent).to.have.length(4)
   })
 
   it('should render create form', () => {

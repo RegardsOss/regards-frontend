@@ -16,25 +16,38 @@ import ModelListComponent from '../components/ModelListComponent'
 export class ProjectListContainer extends React.Component {
 
   static propTypes = {
-    projectList: React.PropTypes.objectOf(
+    // from router
+    params: React.PropTypes.shape({
+      project: React.PropTypes.string,
+    }),
+    // from mapStateToProps
+    modelList: React.PropTypes.objectOf(
       React.PropTypes.shape({
         content: React.PropTypes.shape({
           id: React.PropTypes.number,
           name: React.PropTypes.string,
           description: React.PropTypes.string,
-          isPublic: React.PropTypes.bool,
+          type: React.PropTypes.string,
         }),
       }),
     ),
-    fetchProjectList: React.PropTypes.func,
-    deleteProject: React.PropTypes.func,
+    // from mapDispatchToProps
+    fetchModelList: React.PropTypes.func,
+    deleteModel: React.PropTypes.func,
   }
 
   componentWillMount() {
-    this.props.fetchProjectList()
+    this.props.fetchModelList()
   }
 
-  getCreateUrl = () => '/admin/project/create'
+  getCreateUrl = () => {
+    const { params: { project } } = this.props
+    return `/admin/${project}/data/model/create`
+  }
+  getBackUrl = () => {
+    const { params: { project } } = this.props
+    return `/admin/${project}/data/board`
+  }
 
   handleEdit = (projectName) => {
     const url = `/admin/project/${projectName}/edit`
@@ -53,12 +66,13 @@ export class ProjectListContainer extends React.Component {
 
 
   render() {
-    const { projectList } = this.props
+    const { modelList } = this.props
     return (
       <I18nProvider messageDir="modules/admin-data-model-management/src/i18n">
         <ModelListComponent
-          projectList={projectList}
+          modelList={modelList}
           createUrl={this.getCreateUrl()}
+          backUrl={this.getBackUrl()}
           handleDelete={this.handleDelete}
           handleEdit={this.handleEdit}
           handleOpen={this.handleOpen}
@@ -68,11 +82,11 @@ export class ProjectListContainer extends React.Component {
   }
 }
 const mapStateToProps = state => ({
-  projectList: ModelSelectors.getList(state),
+  modelList: ModelSelectors.getList(state),
 })
 const mapDispatchToProps = dispatch => ({
-  fetchProjectList: () => dispatch(ModelActions.fetchEntityList()),
-  deleteProject: id => dispatch(ModelActions.deleteEntity(id)),
+  fetchModelList: () => dispatch(ModelActions.fetchEntityList()),
+  deleteModel: id => dispatch(ModelActions.deleteEntity(id)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectListContainer)

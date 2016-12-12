@@ -18,7 +18,7 @@ export class RoleListContainer extends React.Component {
           id: React.PropTypes.number,
           name: React.PropTypes.string,
           parentRole: React.PropTypes.shape({
-            id: React.PropTypes.number,
+            name: React.PropTypes.string,
           }),
           isDefault: React.PropTypes.bool,
           isNative: React.PropTypes.bool,

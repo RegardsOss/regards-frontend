@@ -16,13 +16,13 @@ import { i18nContextType } from '@regardsoss/i18n'
 export class ProjectListComponent extends React.Component {
 
   static propTypes = {
-    projectList: React.PropTypes.objectOf(
+    modelList: React.PropTypes.objectOf(
       React.PropTypes.shape({
         content: React.PropTypes.shape({
           id: React.PropTypes.number,
           name: React.PropTypes.string,
           description: React.PropTypes.string,
-          isPublic: React.PropTypes.bool,
+          type: React.PropTypes.string,
         }),
       }),
     ),
@@ -30,6 +30,7 @@ export class ProjectListComponent extends React.Component {
     handleOpen: React.PropTypes.func.isRequired,
     handleEdit: React.PropTypes.func.isRequired,
     createUrl: React.PropTypes.string.isRequired,
+    backUrl: React.PropTypes.string.isRequired,
   }
 
   static contextTypes = {
@@ -39,20 +40,20 @@ export class ProjectListComponent extends React.Component {
 
   getVisibility = (isPublic) => {
     if (isPublic) {
-      return (<FormattedMessage id="project.list.value.isPublic" />)
+      return (<FormattedMessage id="model.list.value.isPublic" />)
     }
-    return (<FormattedMessage id="project.list.value.isPrivate" />)
+    return (<FormattedMessage id="model.list.value.isPrivate" />)
   }
 
-  getState = (isDeleted) => {
+  getType = (isDeleted) => {
     if (isDeleted) {
-      return (<FormattedMessage id="project.list.value.isDeleted" />)
+      return (<FormattedMessage id="model.list.value.isDeleted" />)
     }
     return (null)
   }
 
   render() {
-    const { projectList, handleEdit, handleDelete, handleOpen, createUrl } = this.props
+    const { modelList, handleEdit, handleDelete, handleOpen, createUrl, backUrl } = this.props
     const style = {
       hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
       hoverButtonDelete: this.context.muiTheme.palette.accent1Color,
@@ -61,8 +62,8 @@ export class ProjectListComponent extends React.Component {
     return (
       <Card>
         <CardTitle
-          title={<FormattedMessage id="project.list.title" />}
-          subtitle={<FormattedMessage id="project.list.subtitle" />}
+          title={<FormattedMessage id="model.list.title" />}
+          subtitle={<FormattedMessage id="model.list.subtitle" />}
         />
         <CardText>
           <Table
@@ -74,11 +75,10 @@ export class ProjectListComponent extends React.Component {
               displaySelectAll={false}
             >
               <TableRow>
-                <TableHeaderColumn><FormattedMessage id="project.list.table.name" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="project.list.table.description" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="project.list.table.isPublic" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="project.list.table.isDeleted" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="project.list.table.actions" /></TableHeaderColumn>
+                <TableHeaderColumn><FormattedMessage id="model.list.table.name" /></TableHeaderColumn>
+                <TableHeaderColumn><FormattedMessage id="model.list.table.description" /></TableHeaderColumn>
+                <TableHeaderColumn><FormattedMessage id="model.list.table.type" /></TableHeaderColumn>
+                <TableHeaderColumn><FormattedMessage id="model.list.table.actions" /></TableHeaderColumn>
               </TableRow>
             </TableHeader>
             <TableBody
@@ -86,24 +86,23 @@ export class ProjectListComponent extends React.Component {
               preScanRows={false}
               showRowHover
             >
-              {map(projectList, (project, i) => (
+              {map(modelList, (model, i) => (
                 <TableRow key={i}>
-                  <TableRowColumn>{project.content.name}</TableRowColumn>
-                  <TableRowColumn>{project.content.description}</TableRowColumn>
-                  <TableRowColumn>{this.getVisibility(project.content.isPublic)}</TableRowColumn>
-                  <TableRowColumn>{this.getState(project.content.isDeleted)}</TableRowColumn>
+                  <TableRowColumn>{model.content.name}</TableRowColumn>
+                  <TableRowColumn>{model.content.description}</TableRowColumn>
+                  <TableRowColumn>{this.getType(model.content.type)}</TableRowColumn>
                   <TableRowColumn>
                     <IconButton
-                      onTouchTap={() => handleOpen(project.content.name)}
+                      onTouchTap={() => handleOpen(model.content.id)}
                     >
                       <Input hoverColor={style.hoverButtonView} />
                     </IconButton>
 
-                    <IconButton onTouchTap={() => handleEdit(project.content.name)}>
+                    <IconButton onTouchTap={() => handleEdit(model.content.id)}>
                       <Edit hoverColor={style.hoverButtonEdit} />
                     </IconButton>
 
-                    <IconButton onTouchTap={() => handleDelete(project.content.name)}>
+                    <IconButton onTouchTap={() => handleDelete(model.content.id)}>
                       <Delete hoverColor={style.hoverButtonDelete} />
                     </IconButton>
                   </TableRowColumn>
@@ -117,9 +116,11 @@ export class ProjectListComponent extends React.Component {
             mainButtonUrl={createUrl}
             mainButtonLabel={
               <FormattedMessage
-                id="project.list.action.add"
+                id="model.list.action.add"
               />
             }
+            secondaryButtonLabel={<FormattedMessage id="model.list.action.cancel" />}
+            secondaryButtonUrl={backUrl}
           />
         </CardActions>
       </Card>

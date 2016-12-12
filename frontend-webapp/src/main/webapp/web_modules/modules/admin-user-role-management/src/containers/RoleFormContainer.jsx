@@ -18,9 +18,12 @@ export class RoleFormContainer extends React.Component {
       content: React.PropTypes.shape({
         id: React.PropTypes.number,
         name: React.PropTypes.string,
-        parent_role_id: React.PropTypes.string,
-        is_default: React.PropTypes.bool,
-        is_native: React.PropTypes.bool,
+        parentRole: React.PropTypes.shape({
+          id: React.PropTypes.number,
+        }),
+        isDefault: React.PropTypes.bool,
+        isNative: React.PropTypes.bool,
+        authorizedAddresses: [],
       }),
     }),
     isFetching: React.PropTypes.bool,

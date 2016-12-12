@@ -3,6 +3,7 @@ import { CardActionsComponent } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
 import { RenderTextField, Field, RenderCheckbox } from '@regardsoss/form-utils'
 import { reduxForm } from 'redux-form'
+import { ShowableAtRender } from '@regardsoss/components'
 
 /**
  * Display edit and create project form
@@ -70,8 +71,7 @@ export class ProjectFormComponent extends React.Component {
             title={title}
           />
           <CardText>
-
-            {this.state.isCreating ? (
+            <ShowableAtRender show={this.state.isCreating}>
               <Field
                 name="name"
                 fullWidth
@@ -79,9 +79,7 @@ export class ProjectFormComponent extends React.Component {
                 type="text"
                 label={<FormattedMessage id="project.form.name" />}
               />
-            ) : (
-              null
-            )}
+            </ShowableAtRender>
             <Field
               name="description"
               fullWidth

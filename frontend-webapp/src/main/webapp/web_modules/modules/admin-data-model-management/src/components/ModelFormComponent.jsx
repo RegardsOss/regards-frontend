@@ -1,22 +1,22 @@
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
-import { RenderTextField, Field, RenderCheckbox } from '@regardsoss/form-utils'
+import { RenderTextField, Field, RenderCheckbox, RenderSelectField } from '@regardsoss/form-utils'
 import { reduxForm } from 'redux-form'
-
+import MenuItem from 'material-ui/MenuItem'
+import { ShowableAtRender } from '@regardsoss/components'
 /**
  * Display edit and create project form
  */
 export class ProjectFormComponent extends React.Component {
 
   static propTypes = {
-    currentProject: React.PropTypes.shape({
+    currentModel: React.PropTypes.shape({
       content: React.PropTypes.shape({
         id: React.PropTypes.number,
         name: React.PropTypes.string,
         description: React.PropTypes.string,
-        icon: React.PropTypes.string,
-        isPublic: React.PropTypes.bool,
+        type: React.PropTypes.string,
       }),
     }),
     onSubmit: React.PropTypes.func.isRequired,
@@ -31,7 +31,7 @@ export class ProjectFormComponent extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      isCreating: props.currentProject === undefined,
+      isCreating: props.currentModel === undefined,
     }
   }
 
@@ -41,26 +41,21 @@ export class ProjectFormComponent extends React.Component {
 
   handleInitialize = () => {
     if (!this.state.isCreating) {
-      const { currentProject } = this.props
+      const { currentModel } = this.props
       this.props.initialize({
-        description: currentProject.content.description,
-        icon: currentProject.content.icon,
-        isPublic: currentProject.content.isPublic,
-      })
-    } else {
-      this.props.initialize({
-        isPublic: false,
+        description: currentModel.content.description,
       })
     }
   }
 
 
   render() {
-    const title = this.state.isCreating ? <FormattedMessage id="project.create.title" /> :
+    const { pristine, submitting } = this.props
+    const title = this.state.isCreating ? <FormattedMessage id="model.create.title" /> :
       (<FormattedMessage
-        id="project.edit.title"
+        id="model.edit.title"
         values={{
-          name: this.props.currentProject.content.name,
+          name: this.props.currentModel.content.name,
         }}
       />)
     return (
@@ -70,43 +65,42 @@ export class ProjectFormComponent extends React.Component {
             title={title}
           />
           <CardText>
-
-            {this.state.isCreating ? (
+            <ShowableAtRender show={this.state.isCreating}>
               <Field
                 name="name"
                 fullWidth
                 component={RenderTextField}
                 type="text"
-                label={<FormattedMessage id="project.form.name" />}
+                label={<FormattedMessage id="model.form.name" />}
               />
-            ) : (
-              null
-            )}
+            </ShowableAtRender>
             <Field
               name="description"
               fullWidth
               component={RenderTextField}
               type="text"
-              label={<FormattedMessage id="project.form.description" />}
+              label={<FormattedMessage id="model.form.description" />}
             />
-            <Field
-              name="icon"
-              fullWidth
-              component={RenderTextField}
-              type="text"
-              label={<FormattedMessage id="project.form.icon" />}
-            />
-            <Field
-              name="isPublic"
-              component={RenderCheckbox}
-              label={<FormattedMessage id="project.form.isPublic" />}
-            />
+            <ShowableAtRender show={this.state.isCreating}>
+              <Field
+                name="type"
+                fullWidth
+                component={RenderSelectField}
+                label={<FormattedMessage id="model.form.type" />}
+              >
+                <MenuItem value="COLLECTION" primaryText={<FormattedMessage id="model.form.type.COLLECTION" />} />
+                <MenuItem value="DOCUMENT" primaryText={<FormattedMessage id="model.form.type.DOCUMENT" />} />
+                <MenuItem value="DATA" primaryText={<FormattedMessage id="model.form.type.DATA" />} />
+                <MenuItem value="DATASET" primaryText={<FormattedMessage id="model.form.type.DATASET" />} />
+              </Field>
+            </ShowableAtRender>
           </CardText>
           <CardActions>
             <CardActionsComponent
-              mainButtonLabel={<FormattedMessage id="project.form.action.submit" />}
+              mainButtonLabel={<FormattedMessage id="model.form.action.submit" />}
               mainButtonType="submit"
-              secondaryButtonLabel={<FormattedMessage id="project.form.action.cancel" />}
+              isMainButtonDisabled={pristine || submitting}
+              secondaryButtonLabel={<FormattedMessage id="model.form.action.cancel" />}
               secondaryButtonUrl={this.props.backUrl}
             />
           </CardActions>

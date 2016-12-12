@@ -12,7 +12,7 @@
     "test": "npm run test:mocha --silent",
     "test:coverage": "nyc mocha-webpack --timeout 5000 --webpack-config webpack.coverage.config.js \"**/@(tests|web_modules)/**/*.test.js{,x}\" --recursive --require source-map-support/register  --reporter mocha-sonar-reporter",
     "test:mocha": "mocha-webpack --webpack-config webpack.test.config.js \"**/@(tests|web_modules)/**/*.test.js{,x}\" --recursive --require source-map-support/register --inline-diffs --reporter mochawesome --reporter-options reportDir='./reports/mocha',reportName='Regards Frontend tests'",
-    "test:watch": "mocha-webpack --timeout 5000 --webpack-config webpack.test.config.js \"web_modules/**/*.test.js{,x}\" --recursive --require source-map-support/register --inline-diffs --watch",
+    "test:watch": "mocha-webpack --timeout 5000 --webpack-config webpack.test.config.js \"web_modules/**/*.test.js{,x}\" --recursive --require source-map-support/register --inline-diffs --watch --reporter nyan",
     "storybook:start": "start-storybook -p 6006 --dont-track",
     "storybook:build": "build-storybook -o reports/storybook",
     "esdoc": "esdoc -c esdoc.json",
@@ -23,10 +23,10 @@
   "license": "GPLv3",
   "dependencies": {
     "@regardsoss/admin": "0.0.1",
-    "@regardsoss/admin-database-management": "0.0.1",
     "@regardsoss/admin-account-management": "0.0.1",
     "@regardsoss/admin-data-management": "0.0.1",
     "@regardsoss/admin-data-model-management": "0.0.1",
+    "@regardsoss/admin-database-management": "0.0.1",
     "@regardsoss/admin-project-management": "0.0.1",
     "@regardsoss/admin-user-management": "0.0.1",
     "@regardsoss/admin-user-projectuser-management": "0.0.1",
@@ -34,6 +34,7 @@
     "@regardsoss/api": "0.0.1",
     "@regardsoss/authentication": "0.0.1",
     "@regardsoss/components": "0.0.1",
+    "@regardsoss/form-utils": "0.0.1",
     "@regardsoss/display-control": "0.0.1",
     "@regardsoss/i18n": "0.0.1",
     "@regardsoss/plugins": "0.0.1",
@@ -62,7 +63,8 @@
     "redux-thunk": "~2.1.0",
     "scriptjs": "~2.5.8",
     "sockjs-client": "~1.1.1",
-    "stompjs": "~2.3.3"
+    "stompjs": "~2.3.3",
+    "window-or-global": "^1.0.1"
   },
   "devDependencies": {
     "@kadira/storybook": "~2.32.1",

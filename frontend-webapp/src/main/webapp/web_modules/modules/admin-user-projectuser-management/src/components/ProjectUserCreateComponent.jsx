@@ -1,8 +1,10 @@
+import { map } from 'lodash'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
-import { RenderTextField, FormErrorMessage, ErrorTypes, Field, ValidationHelpers } from '@regardsoss/form-utils'
+import { RenderTextField, FormErrorMessage, ErrorTypes, Field, ValidationHelpers, RenderSelectField } from '@regardsoss/form-utils'
 import { reduxForm } from 'redux-form'
+import MenuItem from 'material-ui/MenuItem'
 
 /**
  * Display edit and create project form
@@ -10,6 +12,14 @@ import { reduxForm } from 'redux-form'
 export class ProjectUserCreateComponent extends React.Component {
 
   static propTypes = {
+    roleList: React.PropTypes.objectOf(
+      React.PropTypes.shape({
+        content: React.PropTypes.shape({
+          id: React.PropTypes.number,
+          name: React.PropTypes.string,
+        }),
+      }),
+    ),
     onSubmit: React.PropTypes.func.isRequired,
     backUrl: React.PropTypes.string.isRequired,
     // from reduxForm
@@ -21,7 +31,7 @@ export class ProjectUserCreateComponent extends React.Component {
 
 
   render() {
-    const { pristine, submitting } = this.props
+    const { pristine, submitting, roleList } = this.props
     return (
       <form onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
         <Card>
@@ -38,17 +48,40 @@ export class ProjectUserCreateComponent extends React.Component {
               label={<FormattedMessage id="projectUser.create.input.email" />}
             />
             <Field
-              name="role_id"
+              name="firstName"
               fullWidth
               component={RenderTextField}
-              label={<FormattedMessage id="projectUser.create.input.role" />}
+              type="text"
+              label={<FormattedMessage id="projectUser.create.input.firstName" />}
             />
             <Field
-              name="status"
+              name="lastName"
               fullWidth
               component={RenderTextField}
-              label={<FormattedMessage id="projectUser.create.input.status" />}
+              type="text"
+              label={<FormattedMessage id="projectUser.create.input.lastName" />}
             />
+            <Field
+              name="password"
+              fullWidth
+              component={RenderTextField}
+              type="password"
+              label={<FormattedMessage id="projectUser.create.input.password" />}
+            />
+            <Field
+              name="roleName"
+              fullWidth
+              component={RenderSelectField}
+              label={<FormattedMessage id="projectUser.create.input.role" />}
+            >
+              {map(roleList, (role, id) => (
+                <MenuItem
+                  value={role.content.name}
+                  key={id}
+                  primaryText={role.content.name}
+                />
+              ))}
+            </Field>
           </CardText>
           <CardActions>
             <CardActionsComponent

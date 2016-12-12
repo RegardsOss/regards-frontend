@@ -1,17 +1,33 @@
 import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
 import { I18nProvider } from '@regardsoss/i18n'
-import ProjectUserActions from '../model/ProjectUserActions'
+import RoleActions from '../model/RoleActions'
+import RoleSelectors from '../model/RoleSelectors'
+import AccessesActions from '../model/AccessesActions'
 import ProjectUserCreateComponent from '../components/ProjectUserCreateComponent'
 
 export class ProjectUserCreateContainer extends React.Component {
   static propTypes = {
+    // from mapStateToProps
+    roleList: React.PropTypes.objectOf(
+      React.PropTypes.shape({
+        content: React.PropTypes.shape({
+          id: React.PropTypes.number,
+          name: React.PropTypes.string,
+        }),
+      }),
+    ),
     // from router
     params: React.PropTypes.shape({
       project: React.PropTypes.string,
     }),
     // from mapDispatchToProps
     createProjectUser: React.PropTypes.func,
+
+  }
+
+  componentWillMount() {
+    this.props.fetchRoleList()
   }
 
   getBackUrl = () => {
@@ -22,8 +38,12 @@ export class ProjectUserCreateContainer extends React.Component {
   handleCreate = (values) => {
     Promise.resolve(this.props.createProjectUser({
       email: values.email,
-      role_id: values.firstName,
-      status: values.lastName,
+      roleName: values.roleName,
+      firstName: values.firstName,
+      lastName: values.lastName,
+      password: values.lastName,
+      metaData: [],
+      permissions: [],
     }))
     .then(() => {
       const url = this.getBackUrl()
@@ -31,19 +51,25 @@ export class ProjectUserCreateContainer extends React.Component {
     })
   }
   render() {
+    const { roleList } = this.props
     return (
       <I18nProvider messageDir="modules/admin-user-projectuser-management/src/i18n">
         <ProjectUserCreateComponent
           onSubmit={this.handleCreate}
           backUrl={this.getBackUrl()}
+          roleList={roleList}
         />
       </I18nProvider>
     )
   }
 }
 
+const mapStateToProps = (state, ownProps) => ({
+  roleList: RoleSelectors.getList(state),
+})
 const mapDispatchToProps = dispatch => ({
-  createProjectUser: values => dispatch(ProjectUserActions.createEntity(values)),
+  createProjectUser: values => dispatch(AccessesActions.createEntity(values)),
+  fetchRoleList: () => dispatch(RoleActions.fetchEntityList()),
 })
 
-export default connect(null, mapDispatchToProps)(ProjectUserCreateContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(ProjectUserCreateContainer)

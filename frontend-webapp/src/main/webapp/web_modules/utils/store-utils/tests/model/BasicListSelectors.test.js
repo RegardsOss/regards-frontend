@@ -2,6 +2,7 @@ import { assert, expect } from 'chai'
 import BasicListSelectors from '../../src/list/BasicListSelectors'
 
 const basicListSelectors = new BasicListSelectors(['admin', 'project-management', 'project'])
+
 const currentStore = {
   admin: {
     'project-management': {

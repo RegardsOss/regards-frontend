@@ -10,6 +10,8 @@ const messages = Object.assign({
   'role.list.table.actions': 'Actions',
   'role.list.action.add': 'Add',
   'role.list.action.cancel': 'Cancel',
+  'role.list.value.false': 'Faux',
+  'role.list.value.true': 'True',
 }, Locales.en)
 
 export default messages

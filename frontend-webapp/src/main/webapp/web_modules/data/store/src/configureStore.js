@@ -2,6 +2,7 @@ import { createStore, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
 import { authorizationMiddleware } from '@regardsoss/authentication'
 import createLogger from 'redux-logger'
+import root from 'window-or-global'
 import preloadedState from './preloadedState'
 
 // Middlewares
@@ -19,13 +20,12 @@ function configureStore(rootReducer) {
   ]
 
   // Create the application store
-  const win = window
   const store = createStore(
     rootReducer,
     preloadedState,
     compose(
       applyMiddleware(...middlewares),
-      win.devToolsExtension ? win.devToolsExtension() : f => f, // Enable redux dev tools
+      root.devToolsExtension ? root.devToolsExtension() : f => f, // Enable redux dev tools
     ),
   )
 

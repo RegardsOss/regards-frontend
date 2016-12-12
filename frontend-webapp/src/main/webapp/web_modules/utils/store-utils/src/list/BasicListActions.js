@@ -5,7 +5,8 @@ import { normalize } from 'normalizr'
 
 const { CALL_API, getJSON } = require('redux-api-middleware')
 /**
- *  Store the location of the selector in the redux tree, and provides a function to only retrieve the subset of the redux tree
+ *  Provide actions for a specific type of entity list
+ *  @Return dispatcheable redux actions
  */
 class BasicListActions {
 
@@ -15,21 +16,21 @@ class BasicListActions {
       ENTITY: options.schemaTypes.ENTITY,
       ENTITY_ARRAY: options.schemaTypes.ENTITY_ARRAY,
     }
-    this.ENTITY_LIST_REQUEST = `${options.namespace}_LIST_REQUEST`
-    this.ENTITY_LIST_SUCCESS = `${options.namespace}_LIST_SUCCESS`
-    this.ENTITY_LIST_FAILURE = `${options.namespace}_LIST_FAILURE`
-    this.ENTITY_REQUEST = `${options.namespace}_REQUEST`
-    this.ENTITY_SUCCESS = `${options.namespace}_SUCCESS`
-    this.ENTITY_FAILURE = `${options.namespace}_FAILURE`
-    this.DELETE_ENTITY_REQUEST = `DELETE_${options.namespace}_REQUEST`
-    this.DELETE_ENTITY_SUCCESS = `DELETE_${options.namespace}_SUCCESS`
-    this.DELETE_ENTITY_FAILURE = `DELETE_${options.namespace}_FAILURE`
-    this.CREATE_ENTITY_SUCCESS = `CREATE_${options.namespace}_SUCCESS`
-    this.CREATE_ENTITY_REQUEST = `CREATE_${options.namespace}_REQUEST`
-    this.CREATE_ENTITY_FAILURE = `CREATE_${options.namespace}_FAILURE`
-    this.UPDATE_ENTITY_SUCCESS = `UPDATE_${options.namespace}_SUCCESS`
-    this.UPDATE_ENTITY_REQUEST = `UPDATE_${options.namespace}_REQUEST`
-    this.UPDATE_ENTITY_FAILURE = `UPDATE_${options.namespace}_FAILURE`
+    this.ENTITY_LIST_REQUEST = `${options.namespace}/LIST_REQUEST`
+    this.ENTITY_LIST_SUCCESS = `${options.namespace}/LIST_SUCCESS`
+    this.ENTITY_LIST_FAILURE = `${options.namespace}/LIST_FAILURE`
+    this.ENTITY_REQUEST = `${options.namespace}/REQUEST`
+    this.ENTITY_SUCCESS = `${options.namespace}/SUCCESS`
+    this.ENTITY_FAILURE = `${options.namespace}/FAILURE`
+    this.DELETE_ENTITY_SUCCESS = `${options.namespace}/DELETE_SUCCESS`
+    this.DELETE_ENTITY_REQUEST = `${options.namespace}/DELETE_REQUEST`
+    this.DELETE_ENTITY_FAILURE = `${options.namespace}/DELETE_FAILURE`
+    this.CREATE_ENTITY_SUCCESS = `${options.namespace}/CREATE_SUCCESS`
+    this.CREATE_ENTITY_REQUEST = `${options.namespace}/CREATE_REQUEST`
+    this.CREATE_ENTITY_FAILURE = `${options.namespace}/CREATE_FAILURE`
+    this.UPDATE_ENTITY_SUCCESS = `${options.namespace}/UPDATE_SUCCESS`
+    this.UPDATE_ENTITY_REQUEST = `${options.namespace}/UPDATE_REQUEST`
+    this.UPDATE_ENTITY_FAILURE = `${options.namespace}/UPDATE_FAILURE`
   }
 
   fetchEntityList() {

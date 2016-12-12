@@ -10,16 +10,16 @@ export class ProjectFormContainer extends React.Component {
   static propTypes = {
     // from router
     params: React.PropTypes.shape({
-      project_name: React.PropTypes.string,
+      project: React.PropTypes.string,
+      model_id: React.PropTypes.string,
     }),
     // from mapStateToProps
-    project: React.PropTypes.shape({
+    model: React.PropTypes.shape({
       content: React.PropTypes.shape({
         id: React.PropTypes.number,
         name: React.PropTypes.string,
         description: React.PropTypes.string,
-        icon: React.PropTypes.string,
-        isPublic: React.PropTypes.bool,
+        type: React.PropTypes.string,
       }),
     }),
     isFetching: React.PropTypes.bool,
@@ -32,28 +32,31 @@ export class ProjectFormContainer extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      isEditing: props.params.project_name !== undefined,
+      isEditing: props.params.model_id !== undefined,
     }
   }
 
   componentDidMount() {
     if (this.state.isEditing) {
-      this.props.fetchProject(this.props.params.project_name)
+      this.props.fetchModel(this.props.params.model_id)
     }
   }
-  getBackUrl = () => ('/admin/project/list')
+  getBackUrl = () => {
+    const { params: { project } } = this.props
+    return `/admin/${project}/data/model/list`
+  }
 
   getFormComponent = () => {
     if (this.state.isEditing) {
-      const { project, isFetching } = this.props
+      const { model, isFetching } = this.props
       if (isFetching) {
         return (<FormLoadingComponent />)
       }
-      if (project) {
+      if (model) {
         return (<ModelFormComponent
           onSubmit={this.handleUpdate}
           backUrl={this.getBackUrl()}
-          currentProject={this.props.project}
+          currentModel={model}
         />)
       }
       return (<FormEntityNotFoundComponent />)
@@ -64,12 +67,10 @@ export class ProjectFormContainer extends React.Component {
     />)
   }
   handleUpdate = (values) => {
-    const updatedProject = Object.assign({}, this.props.project.content, {
+    const updatedProject = Object.assign({}, this.props.model.content, {
       description: values.description,
-      icon: values.icon,
-      isPublic: values.isPublic,
     })
-    Promise.resolve(this.props.updateProject(this.props.project.content.name, updatedProject))
+    Promise.resolve(this.props.updateModel(this.props.model.content.id, updatedProject))
     .then(() => {
       const url = this.getBackUrl()
       browserHistory.push(url)
@@ -77,11 +78,10 @@ export class ProjectFormContainer extends React.Component {
   }
 
   handleCreate = (values) => {
-    Promise.resolve(this.props.createProject({
+    Promise.resolve(this.props.createModel({
       name: values.name,
       description: values.description,
-      icon: values.icon,
-      isPublic: values.isPublic,
+      type: values.type,
     }))
     .then(() => {
       const url = this.getBackUrl()
@@ -97,14 +97,14 @@ export class ProjectFormContainer extends React.Component {
   }
 }
 const mapStateToProps = (state, ownProps) => ({
-  project: ownProps.params.project_name ? ModelSelectors.getById(state, ownProps.params.project_name) : null,
+  model: ownProps.params.model_id ? ModelSelectors.getById(state, ownProps.params.model_id) : null,
   isFetching: ModelSelectors.isFetching(state),
 })
 
 const mapDispatchToProps = dispatch => ({
-  createProject: values => dispatch(ModelActions.createEntity(values)),
-  updateProject: (id, values) => dispatch(ModelActions.updateEntity(id, values)),
-  fetchProject: projectName => dispatch(ModelActions.fetchEntity(projectName)),
+  createModel: values => dispatch(ModelActions.createEntity(values)),
+  updateModel: (id, values) => dispatch(ModelActions.updateEntity(id, values)),
+  fetchModel: id => dispatch(ModelActions.fetchEntity(id)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectFormContainer)

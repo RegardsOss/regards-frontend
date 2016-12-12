@@ -20,9 +20,12 @@ export class RoleListComponent extends React.Component {
         content: React.PropTypes.shape({
           id: React.PropTypes.number,
           name: React.PropTypes.string,
-          parent_role_id: React.PropTypes.string,
-          is_default: React.PropTypes.bool,
-          is_native: React.PropTypes.bool,
+          parentRole: React.PropTypes.shape({
+            name: React.PropTypes.string,
+          }),
+          isDefault: React.PropTypes.bool,
+          isNative: React.PropTypes.bool,
+          authorizedAddresses: [],
         }),
       }),
     ),
@@ -37,18 +40,25 @@ export class RoleListComponent extends React.Component {
     ...i18nContextType,
   }
 
-  getVisibility = (isPublic) => {
-    if (isPublic) {
-      return (<FormattedMessage id="projects.table.isPublic" />)
-    }
-    return (<FormattedMessage id="projects.table.isPrivate" />)
-  }
-
   getState = (isDeleted) => {
     if (isDeleted) {
       return (<FormattedMessage id="projects.table.isDeleted" />)
     }
     return (null)
+  }
+
+  getParentRoleName = (parentRole) => {
+    if (parentRole) {
+      return parentRole.name
+    }
+    return ''
+  }
+
+  getBooleanAsString = (value) => {
+    if (value) {
+      return (<FormattedMessage id="role.list.value.true" />)
+    }
+    return (<FormattedMessage id="role.list.value.false" />)
   }
 
   render() {
@@ -75,9 +85,9 @@ export class RoleListComponent extends React.Component {
             >
               <TableRow>
                 <TableHeaderColumn><FormattedMessage id="role.list.table.name" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="role.list.table.parent_role" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="role.list.table.is_default" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="role.list.table.is_native" /></TableHeaderColumn>
+                <TableHeaderColumn><FormattedMessage id="role.list.table.parentRole" /></TableHeaderColumn>
+                <TableHeaderColumn><FormattedMessage id="role.list.table.isDefault" /></TableHeaderColumn>
+                <TableHeaderColumn><FormattedMessage id="role.list.table.isNative" /></TableHeaderColumn>
                 <TableHeaderColumn><FormattedMessage id="role.list.table.actions" /></TableHeaderColumn>
               </TableRow>
             </TableHeader>
@@ -89,9 +99,9 @@ export class RoleListComponent extends React.Component {
               {map(roleList, (role, i) => (
                 <TableRow key={i}>
                   <TableRowColumn>{role.content.name}</TableRowColumn>
-                  <TableRowColumn>{role.content.parent_role_id}</TableRowColumn>
-                  <TableRowColumn>{role.content.is_default}</TableRowColumn>
-                  <TableRowColumn>{role.content.is_native}</TableRowColumn>
+                  <TableRowColumn>{this.getParentRoleName(role.content.parentRole)}</TableRowColumn>
+                  <TableRowColumn>{this.getBooleanAsString(role.content.isDefault)}</TableRowColumn>
+                  <TableRowColumn>{this.getBooleanAsString(role.content.isNative)}</TableRowColumn>
                   <TableRowColumn>
                     <IconButton onTouchTap={() => handleEdit(role.content.id)}>
                       <Edit hoverColor={style.hoverButtonEdit} />
