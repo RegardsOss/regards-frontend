@@ -4,19 +4,28 @@ import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowCol
 import { FormattedMessage } from 'react-intl'
 import IconButton from 'material-ui/IconButton'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
+import Input from 'material-ui/svg-icons/action/input'
 import Delete from 'material-ui/svg-icons/action/delete'
 import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { Role } from '@regardsoss/model'
 
 /**
  * React component to list project.
  */
-export class RoleListComponent extends React.Component {
+export class ProjectListComponent extends React.Component {
 
   static propTypes = {
-    roleList: React.PropTypes.objectOf(Role),
+    modelList: React.PropTypes.objectOf(
+      React.PropTypes.shape({
+        content: React.PropTypes.shape({
+          id: React.PropTypes.number,
+          name: React.PropTypes.string,
+          description: React.PropTypes.string,
+          type: React.PropTypes.string,
+        }),
+      }),
+    ),
     handleDelete: React.PropTypes.func.isRequired,
     handleEdit: React.PropTypes.func.isRequired,
     createUrl: React.PropTypes.string.isRequired,
@@ -28,29 +37,22 @@ export class RoleListComponent extends React.Component {
     ...i18nContextType,
   }
 
-  getState = (isDeleted) => {
-    if (isDeleted) {
-      return (<FormattedMessage id="projects.table.isDeleted" />)
+  getType = (type) => {
+    switch (type) {
+      case 'COLLECTION':
+        return (<FormattedMessage id="model.type.collection" />)
+      case 'DOCUMENT':
+        return (<FormattedMessage id="model.type.document" />)
+      case 'DATA':
+        return (<FormattedMessage id="model.type.data" />)
+      case 'DATASET':
+        return (<FormattedMessage id="model.type.dataset" />)
     }
     return (null)
   }
 
-  getParentRoleName = (parentRole) => {
-    if (parentRole) {
-      return parentRole.name
-    }
-    return ''
-  }
-
-  getBooleanAsString = (value) => {
-    if (value) {
-      return (<FormattedMessage id="role.list.value.true" />)
-    }
-    return (<FormattedMessage id="role.list.value.false" />)
-  }
-
   render() {
-    const { roleList, handleEdit, handleDelete, createUrl } = this.props
+    const { modelList, handleEdit, handleDelete, createUrl, backUrl } = this.props
     const style = {
       hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
       hoverButtonDelete: this.context.muiTheme.palette.accent1Color,
@@ -59,8 +61,8 @@ export class RoleListComponent extends React.Component {
     return (
       <Card>
         <CardTitle
-          title={<FormattedMessage id="role.list.title" />}
-          subtitle={<FormattedMessage id="role.list.subtitle" />}
+          title={<FormattedMessage id="model.list.title" />}
+          subtitle={<FormattedMessage id="model.list.subtitle" />}
         />
         <CardText>
           <Table
@@ -72,11 +74,10 @@ export class RoleListComponent extends React.Component {
               displaySelectAll={false}
             >
               <TableRow>
-                <TableHeaderColumn><FormattedMessage id="role.list.table.name" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="role.list.table.parentRole" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="role.list.table.isDefault" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="role.list.table.isNative" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="role.list.table.actions" /></TableHeaderColumn>
+                <TableHeaderColumn><FormattedMessage id="model.list.table.name" /></TableHeaderColumn>
+                <TableHeaderColumn><FormattedMessage id="model.list.table.description" /></TableHeaderColumn>
+                <TableHeaderColumn><FormattedMessage id="model.list.table.type" /></TableHeaderColumn>
+                <TableHeaderColumn><FormattedMessage id="model.list.table.actions" /></TableHeaderColumn>
               </TableRow>
             </TableHeader>
             <TableBody
@@ -84,18 +85,18 @@ export class RoleListComponent extends React.Component {
               preScanRows={false}
               showRowHover
             >
-              {map(roleList, (role, i) => (
+              {map(modelList, (model, i) => (
                 <TableRow key={i}>
-                  <TableRowColumn>{role.content.name}</TableRowColumn>
-                  <TableRowColumn>{this.getParentRoleName(role.content.parentRole)}</TableRowColumn>
-                  <TableRowColumn>{this.getBooleanAsString(role.content.isDefault)}</TableRowColumn>
-                  <TableRowColumn>{this.getBooleanAsString(role.content.isNative)}</TableRowColumn>
+                  <TableRowColumn>{model.content.name}</TableRowColumn>
+                  <TableRowColumn>{model.content.description}</TableRowColumn>
+                  <TableRowColumn>{this.getType(model.content.type)}</TableRowColumn>
                   <TableRowColumn>
-                    <IconButton onTouchTap={() => handleEdit(role.content.id)}>
+
+                    <IconButton onTouchTap={() => handleEdit(model.content.id)}>
                       <Edit hoverColor={style.hoverButtonEdit} />
                     </IconButton>
 
-                    <IconButton onTouchTap={() => handleDelete(role.content.id)}>
+                    <IconButton onTouchTap={() => handleDelete(model.content.id)}>
                       <Delete hoverColor={style.hoverButtonDelete} />
                     </IconButton>
                   </TableRowColumn>
@@ -109,15 +110,11 @@ export class RoleListComponent extends React.Component {
             mainButtonUrl={createUrl}
             mainButtonLabel={
               <FormattedMessage
-                id="role.list.action.add"
+                id="model.list.action.add"
               />
             }
-            secondaryButtonLabel={
-              <FormattedMessage
-                id="role.list.action.cancel"
-              />
-            }
-            secondaryButtonUrl={this.props.backUrl}
+            secondaryButtonLabel={<FormattedMessage id="model.list.action.cancel" />}
+            secondaryButtonUrl={backUrl}
           />
         </CardActions>
       </Card>
@@ -125,5 +122,5 @@ export class RoleListComponent extends React.Component {
   }
 }
 
-export default RoleListComponent
+export default ProjectListComponent
 

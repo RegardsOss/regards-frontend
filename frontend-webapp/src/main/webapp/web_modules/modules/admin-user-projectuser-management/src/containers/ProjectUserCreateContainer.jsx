@@ -23,7 +23,6 @@ export class ProjectUserCreateContainer extends React.Component {
     }),
     // from mapDispatchToProps
     createProjectUser: React.PropTypes.func,
-
   }
 
   componentWillMount() {

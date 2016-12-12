@@ -45,15 +45,15 @@ export const accountRouter = {
 export const databaseRouter = {
   path: 'database',
   getChildRoutes(nextState, cb) {
-    const adminDatabaseanagement = require('@regardsoss/admin-database-management')
+    const adminDatabaseManagement = require('@regardsoss/admin-database-management')
     require.ensure([], (require) => {
-      cb(null, [adminDatabaseanagement.databaseManagementRouter])
+      cb(null, [adminDatabaseManagement.databaseManagementRouter])
     })
   },
 }
 
 
-export const adminRouter = {
+export default {
   path: 'admin',
   childRoutes: [
     projectRouter,

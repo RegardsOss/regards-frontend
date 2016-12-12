@@ -1,17 +1,24 @@
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
-import { RenderTextField, Field, RenderCheckbox } from '@regardsoss/form-utils'
+import { RenderTextField, Field, RenderCheckbox, RenderSelectField } from '@regardsoss/form-utils'
 import { reduxForm } from 'redux-form'
-import { Role } from '@regardsoss/model'
-
+import MenuItem from 'material-ui/MenuItem'
+import { ShowableAtRender } from '@regardsoss/components'
 /**
  * Display edit and create project form
  */
-export class RoleFormComponent extends React.Component {
+export class ProjectFormComponent extends React.Component {
 
   static propTypes = {
-    currentRole: Role,
+    currentModel: React.PropTypes.shape({
+      content: React.PropTypes.shape({
+        id: React.PropTypes.number,
+        name: React.PropTypes.string,
+        description: React.PropTypes.string,
+        type: React.PropTypes.string,
+      }),
+    }),
     onSubmit: React.PropTypes.func.isRequired,
     backUrl: React.PropTypes.string.isRequired,
     // from reduxForm
@@ -24,7 +31,7 @@ export class RoleFormComponent extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      isCreating: props.currentProject === undefined,
+      isCreating: props.currentModel === undefined,
     }
   }
 
@@ -34,15 +41,9 @@ export class RoleFormComponent extends React.Component {
 
   handleInitialize = () => {
     if (!this.state.isCreating) {
-      const { currentProject } = this.props
+      const { currentModel } = this.props
       this.props.initialize({
-        description: currentProject.content.description,
-        icon: currentProject.content.icon,
-        isPublic: currentProject.content.isPublic,
-      })
-    } else {
-      this.props.initialize({
-        isPublic: false,
+        description: currentModel.content.description,
       })
     }
   }
@@ -50,11 +51,11 @@ export class RoleFormComponent extends React.Component {
 
   render() {
     const { pristine, submitting } = this.props
-    const title = this.state.isCreating ? <FormattedMessage id="project.create.title" /> :
+    const title = this.state.isCreating ? <FormattedMessage id="model.create.title" /> :
       (<FormattedMessage
-        id="project.edit.title"
+        id="model.edit.title"
         values={{
-          name: this.props.currentProject.content.name,
+          name: this.props.currentModel.content.name,
         }}
       />)
     return (
@@ -64,44 +65,42 @@ export class RoleFormComponent extends React.Component {
             title={title}
           />
           <CardText>
-
-            {this.state.isCreating ? (
+            <ShowableAtRender show={this.state.isCreating}>
               <Field
                 name="name"
                 fullWidth
                 component={RenderTextField}
                 type="text"
-                label={<FormattedMessage id="projects.table.name.label" />}
+                label={<FormattedMessage id="model.form.name" />}
               />
-            ) : (
-              null
-            )}
+            </ShowableAtRender>
             <Field
               name="description"
               fullWidth
               component={RenderTextField}
               type="text"
-              label={<FormattedMessage id="projects.table.description.label" />}
+              label={<FormattedMessage id="model.form.description" />}
             />
-            <Field
-              name="icon"
-              fullWidth
-              component={RenderTextField}
-              type="text"
-              label={<FormattedMessage id="projects.table.icon.label" />}
-            />
-            <Field
-              name="isPublic"
-              component={RenderCheckbox}
-              label={<FormattedMessage id="project.add.input.isPublic" />}
-            />
+            <ShowableAtRender show={this.state.isCreating}>
+              <Field
+                name="type"
+                fullWidth
+                component={RenderSelectField}
+                label={<FormattedMessage id="model.form.type" />}
+              >
+                <MenuItem value="COLLECTION" primaryText={<FormattedMessage id="model.type.collection" />} />
+                <MenuItem value="DOCUMENT" primaryText={<FormattedMessage id="model.type.document" />} />
+                <MenuItem value="DATA" primaryText={<FormattedMessage id="model.type.data" />} />
+                <MenuItem value="DATASET" primaryText={<FormattedMessage id="model.type.dataset" />} />
+              </Field>
+            </ShowableAtRender>
           </CardText>
           <CardActions>
             <CardActionsComponent
-              mainButtonLabel={<FormattedMessage id="projects.submit.button" />}
+              mainButtonLabel={<FormattedMessage id="model.form.action.submit" />}
               mainButtonType="submit"
               isMainButtonDisabled={pristine || submitting}
-              secondaryButtonLabel={<FormattedMessage id="projects.cancel.button" />}
+              secondaryButtonLabel={<FormattedMessage id="model.form.action.cancel" />}
               secondaryButtonUrl={this.props.backUrl}
             />
           </CardActions>
@@ -125,5 +124,5 @@ function validate(values) {
 export default reduxForm({
   form: 'project-form',
   validate,
-})(RoleFormComponent)
+})(ProjectFormComponent)
 

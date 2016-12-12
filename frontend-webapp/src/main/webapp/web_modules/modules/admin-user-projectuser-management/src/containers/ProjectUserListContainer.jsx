@@ -1,10 +1,10 @@
 import { connect } from 'react-redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { browserHistory } from 'react-router'
+import { ProjectUser } from '@regardsoss/model'
 import ProjectUserActions from '../model/ProjectUserActions'
 import ProjectUserSelectors from '../model/ProjectUserSelectors'
 import ProjectUserListComponent from '../components/ProjectUserListComponent'
-
 /**
  * Show the user list for the current project
  */
@@ -16,18 +16,7 @@ export class ProjectUserListContainer extends React.Component {
       project: React.PropTypes.string,
     }),
     // from mapStateToProps
-    projectUserList: React.PropTypes.objectOf(
-      React.PropTypes.shape({
-        content: React.PropTypes.shape({
-          id: React.PropTypes.number,
-          role_id: React.PropTypes.string,
-          email: React.PropTypes.string,
-          lastupdate: React.PropTypes.string,
-          lastconnection: React.PropTypes.string,
-          status: React.PropTypes.string,
-        }),
-      }),
-    ),
+    projectUserList: React.PropTypes.objectOf(ProjectUser),
     // from mapDispatchToProps
     fetchAccountList: React.PropTypes.func,
     deleteAccount: React.PropTypes.func,

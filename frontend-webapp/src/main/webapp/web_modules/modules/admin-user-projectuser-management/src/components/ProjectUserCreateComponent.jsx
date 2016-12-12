@@ -4,6 +4,7 @@ import { CardActionsComponent } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
 import { RenderTextField, FormErrorMessage, ErrorTypes, Field, ValidationHelpers, RenderSelectField } from '@regardsoss/form-utils'
 import { reduxForm } from 'redux-form'
+import { Role } from '@regardsoss/model'
 import MenuItem from 'material-ui/MenuItem'
 
 /**
@@ -12,14 +13,7 @@ import MenuItem from 'material-ui/MenuItem'
 export class ProjectUserCreateComponent extends React.Component {
 
   static propTypes = {
-    roleList: React.PropTypes.objectOf(
-      React.PropTypes.shape({
-        content: React.PropTypes.shape({
-          id: React.PropTypes.number,
-          name: React.PropTypes.string,
-        }),
-      }),
-    ),
+    roleList: React.PropTypes.objectOf(Role),
     onSubmit: React.PropTypes.func.isRequired,
     backUrl: React.PropTypes.string.isRequired,
     // from reduxForm
@@ -32,6 +26,10 @@ export class ProjectUserCreateComponent extends React.Component {
 
   render() {
     const { pristine, submitting, roleList } = this.props
+    console.log(
+
+
+      roleList)
     return (
       <form onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
         <Card>

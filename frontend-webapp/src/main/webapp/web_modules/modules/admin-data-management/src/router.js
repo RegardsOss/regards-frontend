@@ -21,10 +21,22 @@ export const modelManagementRouter = {
 }
 
 
+export const attributeModelManagementRouter = {
+  path: 'attribute/model',
+  getChildRoutes(nextState, cb) {
+    const adminDataModelManagement = require('@regardsoss/admin-data-attributemodel-management')
+    require.ensure([], (require) => {
+      cb(null, [adminDataModelManagement.attributeModelDataManagementRouter])
+    })
+  },
+}
+
+
 const dataManagementRouter = {
   childRoutes: [
     homeDataRoute,
     modelManagementRouter,
+    attributeModelManagementRouter,
   ],
 }
 

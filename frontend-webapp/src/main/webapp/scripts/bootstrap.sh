@@ -22,6 +22,7 @@ npm link web_modules/utils/tests-helpers
 npm link web_modules/modules/admin
 npm link web_modules/modules/admin-data-management
 npm link web_modules/modules/admin-data-model-management
+npm link web_modules/modules/admin-data-attributemodel-management
 npm link web_modules/modules/admin-project-management
 npm link web_modules/modules/admin-user-management
 npm link web_modules/modules/admin-user-projectuser-management

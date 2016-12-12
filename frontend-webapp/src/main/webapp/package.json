@@ -26,6 +26,7 @@
     "@regardsoss/admin-account-management": "0.0.1",
     "@regardsoss/admin-data-management": "0.0.1",
     "@regardsoss/admin-data-model-management": "0.0.1",
+    "@regardsoss/admin-data-attributemodel-management": "0.0.1",
     "@regardsoss/admin-database-management": "0.0.1",
     "@regardsoss/admin-project-management": "0.0.1",
     "@regardsoss/admin-user-management": "0.0.1",

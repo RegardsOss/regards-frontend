@@ -5,9 +5,10 @@ import { FormattedMessage } from 'react-intl'
 import IconButton from 'material-ui/IconButton'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
+import { ProjectUser } from '@regardsoss/model'
 import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
-import { i18nContextType } from '@regardsoss/i18n'
+import { i18nContextType, FormattedDateComponent } from '@regardsoss/i18n'
 
 /**
  * React component to list all REGARDS account.
@@ -15,18 +16,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 export class ProjectUserListComponent extends React.Component {
 
   static propTypes = {
-    projectUserList: React.PropTypes.objectOf(
-      React.PropTypes.shape({
-        content: React.PropTypes.shape({
-          id: React.PropTypes.number,
-          role_id: React.PropTypes.string,
-          email: React.PropTypes.string,
-          lastupdate: React.PropTypes.string,
-          lastconnection: React.PropTypes.string,
-          status: React.PropTypes.string,
-        }),
-      }),
-    ),
+    projectUserList: React.PropTypes.objectOf(ProjectUser),
     onEdit: React.PropTypes.func.isRequired,
     onDelete: React.PropTypes.func.isRequired,
     createUrl: React.PropTypes.string.isRequired,
@@ -66,7 +56,6 @@ export class ProjectUserListComponent extends React.Component {
                 <TableHeaderColumn><FormattedMessage id="projectUser.list.table.role" /></TableHeaderColumn>
                 <TableHeaderColumn><FormattedMessage id="projectUser.list.table.status" /></TableHeaderColumn>
                 <TableHeaderColumn><FormattedMessage id="projectUser.list.table.lastupdate" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="projectUser.list.table.lastconnection" /></TableHeaderColumn>
                 <TableHeaderColumn><FormattedMessage id="projectUser.list.table.action" /></TableHeaderColumn>
               </TableRow>
             </TableHeader>
@@ -81,16 +70,13 @@ export class ProjectUserListComponent extends React.Component {
                     {projectUser.content.email}
                   </TableRowColumn>
                   <TableRowColumn>
-                    {projectUser.content.role_id}
+                    {projectUser.content.role.name}
                   </TableRowColumn>
                   <TableRowColumn>
                     {projectUser.content.status}
                   </TableRowColumn>
                   <TableRowColumn>
-                    {projectUser.content.lastupdate}
-                  </TableRowColumn>
-                  <TableRowColumn>
-                    {projectUser.content.lastconnection}
+                    <FormattedDateComponent value={projectUser.content.lastUpdate} />
                   </TableRowColumn>
                   <TableRowColumn>
                     <IconButton onTouchTap={() => onEdit(projectUser.content.id)}>
