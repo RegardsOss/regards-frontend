@@ -30,15 +30,14 @@ class BasicPaegableActions extends BasicListActions {
           this.ENTITY_LIST_REQUEST,
           {
             type: this.ENTITY_LIST_SUCCESS,
-            payload: (action, state, res) => getJSON(res).then(json => {
+            payload: (action, state, res) => getJSON(res).then(json =>
               // Merge the normalized object with query metadata and query links
-              return Object.assign(
+               Object.assign(
                 // Only normalize the content of json
                 normalize(json.content, this.schemaTypes.ENTITY_ARRAY),
-                {links: json.links},
-                {metadata: json.metadata}
-              )
-            }),
+                { links: json.links },
+                { metadata: json.metadata },
+              )),
           },
           this.ENTITY_LIST_FAILURE,
         ],

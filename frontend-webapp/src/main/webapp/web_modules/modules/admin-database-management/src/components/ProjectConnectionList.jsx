@@ -35,7 +35,6 @@ export class ProjectConnectionList extends React.Component {
 
   render() {
     const { list } = this.props
-    console.log(list)
     return (
       <Card>
         <CardTitle

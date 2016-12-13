@@ -2,8 +2,7 @@ import { storiesOf, action } from '@kadira/storybook'
 import { withKnobs, object } from '@kadira/storybook-addon-knobs'
 import DatabaseConnectionTester from '@regardsoss/admin-database-management/src/components/DatabaseConnectionTester'
 import ProjectConnectionList from '@regardsoss/admin-database-management/src/components/ProjectConnectionList'
-import PlayArrow from 'material-ui/svg-icons/av/play-arrow'
-import Check from 'material-ui/svg-icons/navigation/check'
+import ProjectConnectionFormComponent from '@regardsoss/admin-database-management/src/components/ProjectConnectionFormComponent'
 import { StoreDecorator, addLocaleAndThemeSelectors, ThemeAndLocaleDecorator } from '../../utils/decorators'
 
 const connectionsList = {
@@ -15,7 +14,7 @@ const connectionsList = {
       userName: 'Alice',
       password: 'password',
       driverClassName: 'aDriverClassName',
-      url: 'http://aUrl',
+      url: `http://google.com`,
     },
     links: [],
   },
@@ -63,6 +62,19 @@ storiesOf('InstanceAdmin - Database', module)
       <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-database-management/src/i18n">
         <ProjectConnectionList
           list={list}
+        />
+      </ThemeAndLocaleDecorator>
+    )
+  })
+  .add('Edit one', () => {
+    const themeName = addLocaleAndThemeSelectors()
+    const connectionToEdit = object('Connection to edit', connectionsList[0])
+    return (
+      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-database-management/src/i18n">
+        <ProjectConnectionFormComponent
+          currentProjectConnection={connectionToEdit}
+          backUrl="/some/url"
+          onSubmit={action('onCreate')}
         />
       </ThemeAndLocaleDecorator>
     )

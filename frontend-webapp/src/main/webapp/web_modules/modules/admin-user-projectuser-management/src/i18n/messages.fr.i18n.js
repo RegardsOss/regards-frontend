@@ -10,7 +10,7 @@ const messages = {
   'projectUser.list.action.create': 'Ajouter',
   'projectUser.list.action.cancel': 'Annuler',
 
-  'projectUser.create.title': 'Créer un nouvel utilisateur pour ce project',
+  'projectUser.create.title': 'Créer un nouvel utilisateur du projet',
   'projectUser.create.input.role': 'Rôle',
   'projectUser.create.input.email': 'E-mail',
   'projectUser.create.input.firstName': 'Prénom',

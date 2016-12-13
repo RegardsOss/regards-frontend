@@ -1,9 +1,8 @@
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
-import { CardActionsComponent } from '@regardsoss/components'
+import { ShowableAtRender, CardActionsComponent } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
 import { RenderTextField, Field, RenderCheckbox } from '@regardsoss/form-utils'
 import { reduxForm } from 'redux-form'
-import { ShowableAtRender } from '@regardsoss/components'
 
 /**
  * Display edit and create project form
