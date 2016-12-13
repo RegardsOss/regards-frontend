@@ -18,7 +18,7 @@ const defaultProjectUsersList = {
       status: 'ACCESS_GRANTED',
     },
     links: [],
-  }
+  },
 }
 
 const defaultRolesList = {
@@ -27,14 +27,14 @@ const defaultRolesList = {
       id: 0,
       name: 'INSTANCE_ADMIN',
     },
-    links: []
+    links: [],
   },
   1: {
     content: {
       id: 1,
       name: 'REGISTERD_USER',
     },
-    links: []
+    links: [],
   },
 }
 

@@ -1,6 +1,6 @@
 import React from 'react'
-import FlatButton from 'material-ui/FlatButton'
-import OnHoverSwitchFlatButton from '@regardsoss/components/src/buttons/OnHoverSwitchFlatButton'
+import OnHoverSwitchIconButton from '@regardsoss/components/src/buttons/OnHoverSwitchIconButton'
+import IconButton from 'material-ui/IconButton'
 import PlayArrow from 'material-ui/svg-icons/av/play-arrow'
 import Check from 'material-ui/svg-icons/navigation/check'
 import Error from 'material-ui/svg-icons/alert/error'
@@ -23,7 +23,7 @@ const style = {
   justifyContent: 'center',
 }
 
-class DatabaseConnectionTester extends React.Component {
+class DatabaseConnectionTesterIconButton extends React.Component {
 
   static propTypes = {
     projectConnection: React.PropTypes.shape({
@@ -112,45 +112,40 @@ class DatabaseConnectionTester extends React.Component {
   render() {
     const { projectConnection } = this.props
 
-    const testButton = (<FlatButton
-      label={<FormattedMessage id="database.connectionTester.start" />}
-      icon={<PlayArrow />}
-      onTouchTap={this.handleTouchTap}
-    />)
+    const testButton = (
+      <IconButton
+        label={<FormattedMessage id="database.connectionTester.start" />}
+        onTouchTap={this.handleTouchTap}
+      >
+        <PlayArrow hoverColor={this.context.muiTheme.palette.primary1Color} />
+      </IconButton>
+    )
 
     const successButton =
-      (<OnHoverSwitchFlatButton
-        label={[<FormattedMessage id="database.connectionTester.connected" />,
-          <FormattedMessage id="database.connectionTester.restart" />]}
-        icon={[<Check />, <PlayArrow />]}
-        primary={[true, false]}
-        onTouchTap={[this.handleTouchTap, this.handleTouchTap]}
-      />)
+      (<OnHoverSwitchIconButton onTouchTap={this.handleTouchTap}>
+        <Check color={this.context.muiTheme.palette.primary1Color} />
+        <PlayArrow />
+      </OnHoverSwitchIconButton>)
 
     const warningButton =
-      (<OnHoverSwitchFlatButton
-        label={[<FormattedMessage id="database.connectionTester.warning" />,
-          <FormattedMessage id="database.connectionTester.restart" />]}
-        icon={[<Warning color={this.context.muiTheme.palette.warningColor} />, <PlayArrow />]}
-        labelStyle={[{ color: this.context.muiTheme.palette.warningColor }, null]}
-        onTouchTap={[this.handleTouchTap, this.handleTouchTap]}
-      />)
+      (<OnHoverSwitchIconButton onTouchTap={this.handleTouchTap}>
+        <Warning color={this.context.muiTheme.palette.warningColor} />
+        <PlayArrow />
+      </OnHoverSwitchIconButton>)
 
     const errorButton =
-      (<OnHoverSwitchFlatButton
-        label={[<FormattedMessage id="database.connectionTester.notConnected" />,
-          <FormattedMessage id="database.connectionTester.restart" />]}
-        icon={[<Error />, <PlayArrow />]}
-        secondary={[true, false]}
-        onTouchTap={[this.handleTouchTap, this.handleTouchTap]}
-      />)
+      (<OnHoverSwitchIconButton onTouchTap={this.handleTouchTap}>
+        <Error color={this.context.muiTheme.palette.accent1Color} />
+        <PlayArrow />
+      </OnHoverSwitchIconButton>)
 
-    const pendingProgress = (<div>
-      <p style={{ textAlign: 'center' }}>
-        <FormattedMessage id="database.connectionTester.pending" />
-      </p>
-      <LinearProgress mode="determinate" value={this.state.completed} />
-    </div>)
+    const pendingProgress = (
+      <span>
+        <p style={{ textAlign: 'center' }}>
+          <FormattedMessage id="database.connectionTester.pending" />
+        </p>
+        <LinearProgress mode="determinate" value={this.state.completed} />
+      </span>)
 
     const snackbar =
       (<Snackbar
@@ -188,7 +183,7 @@ class DatabaseConnectionTester extends React.Component {
         result = testButton
     }
     return (
-      <span style={style}>
+      <span>
         {result}
         {snackbar}
       </span>
@@ -196,4 +191,4 @@ class DatabaseConnectionTester extends React.Component {
   }
 }
 
-export default DatabaseConnectionTester
+export default DatabaseConnectionTesterIconButton

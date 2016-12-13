@@ -31,11 +31,11 @@ class OnHoverSwitchIconButton extends React.Component {
 
   render() {
     return (
-      <div onMouseEnter={this.handleOnMouseEnter} onMouseLeave={this.handleOnMouseLeave}>
+      <span onMouseEnter={this.handleOnMouseEnter} onMouseLeave={this.handleOnMouseLeave}>
         <IconButton {...this.props}>
           {this.props.children[this.state.usedPropIndex]}
         </IconButton>
-      </div>
+      </span>
     )
   }
 }

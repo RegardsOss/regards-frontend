@@ -1,6 +1,7 @@
 import { storiesOf, action } from '@kadira/storybook'
 import { withKnobs, object } from '@kadira/storybook-addon-knobs'
 import DatabaseConnectionTester from '@regardsoss/admin-database-management/src/components/DatabaseConnectionTester'
+import DatabaseConnectionTesterIconButton from '@regardsoss/admin-database-management/src/components/DatabaseConnectionTesterIconButton'
 import ProjectConnectionList from '@regardsoss/admin-database-management/src/components/ProjectConnectionList'
 import ProjectConnectionFormComponent from '@regardsoss/admin-database-management/src/components/ProjectConnectionFormComponent'
 import { StoreDecorator, addLocaleAndThemeSelectors, ThemeAndLocaleDecorator } from '../../utils/decorators'
@@ -14,7 +15,7 @@ const connectionsList = {
       userName: 'Alice',
       password: 'password',
       driverClassName: 'aDriverClassName',
-      url: `http://google.com`,
+      url: 'http://google.com',
     },
     links: [],
   },
@@ -52,6 +53,14 @@ storiesOf('InstanceAdmin - Database', module)
     return (
       <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-database-management/src/i18n">
         <DatabaseConnectionTester />
+      </ThemeAndLocaleDecorator>
+    )
+  })
+  .add('Icon Button connection tester', () => {
+    const themeName = addLocaleAndThemeSelectors()
+    return (
+      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-database-management/src/i18n">
+        <DatabaseConnectionTesterIconButton />
       </ThemeAndLocaleDecorator>
     )
   })
