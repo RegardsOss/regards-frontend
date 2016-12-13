@@ -2,6 +2,7 @@ import { Card, CardActions, CardText } from 'material-ui/Card'
 import IconButton from 'material-ui/IconButton'
 import ArrowBack from 'material-ui/svg-icons/navigation/arrow-back'
 import AppBar from 'material-ui/AppBar'
+import TextField from 'material-ui/TextField'
 import { browserHistory } from 'react-router'
 import { CardActionsComponent } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
@@ -42,6 +43,7 @@ export class ProjectConnectionFormComponent extends React.Component {
 
   handleInitialize = () => {
     const { currentProjectConnection } = this.props
+    currentProjectConnection.content.driverClassName = 'PostgreSQL'
     this.props.initialize({
       userName: currentProjectConnection.content.userName,
       password: currentProjectConnection.content.password,
@@ -68,12 +70,12 @@ export class ProjectConnectionFormComponent extends React.Component {
         />
         <Card>
           <CardText>
-            <Field
-              name="driverClassName"
-              fullWidth
-              component={RenderTextField}
-              type="text"
-              label={<FormattedMessage id="database.form.input.driverClassName" />}
+            <TextField
+              hintText={this.props.currentProjectConnection.content.driverClassName}
+              floatingLabelText={<FormattedMessage id="database.form.input.driverClassName" />}
+              floatingLabelFixed
+              value={this.props.currentProjectConnection.content.driverClassName}
+              disabled
             />
             <Field
               name="url"
@@ -97,7 +99,7 @@ export class ProjectConnectionFormComponent extends React.Component {
               label={<FormattedMessage id="database.form.input.password" />}
             />
           </CardText>
-          <CardActions style={{ display: 'flex', 'justify-content': 'flex-end' }}>
+          <CardActions style={{ display: 'flex', justifyContent: 'flex-end' }}>
             <DatabaseConnectionTester />
             <CardActionsComponent
               mainButtonLabel={<FormattedMessage id="database.form.action.save" />}
