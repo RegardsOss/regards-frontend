@@ -2,9 +2,10 @@ import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { logout } from '@regardsoss/authentication'
+import { AttributeModel } from '@regardsoss/model'
 import AttributeModelActions from '../model/AttributeModelActions'
 import AttributeModelSelectors from '../model/AttributeModelSelectors'
-import ModelListComponent from '../components/ModelListComponent'
+import AttributeModelListComponent from '../components/AttributeModelListComponent'
 
 /**
  * React container to manage ManageProjectsComponent.
@@ -13,7 +14,7 @@ import ModelListComponent from '../components/ModelListComponent'
  * @prop {Boolean} projectConfigurationIsShown ProjectConfigurationComponent display status
  *
  */
-export class ProjectListContainer extends React.Component {
+export class AttributeModelListContainer extends React.Component {
 
   static propTypes = {
     // from router
@@ -21,41 +22,33 @@ export class ProjectListContainer extends React.Component {
       project: React.PropTypes.string,
     }),
     // from mapStateToProps
-    modelList: React.PropTypes.objectOf(
-      React.PropTypes.shape({
-        content: React.PropTypes.shape({
-          id: React.PropTypes.number,
-          name: React.PropTypes.string,
-          description: React.PropTypes.string,
-          type: React.PropTypes.string,
-        }),
-      }),
-    ),
+    attrModelList: React.PropTypes.objectOf(AttributeModel),
     // from mapDispatchToProps
-    fetchModelList: React.PropTypes.func,
-    deleteModel: React.PropTypes.func,
+    fetchAttrModelList: React.PropTypes.func,
+    deleteAttrModel: React.PropTypes.func,
   }
 
   componentWillMount() {
-    this.props.fetchModelList()
+    this.props.fetchAttrModelList()
   }
 
   getCreateUrl = () => {
     const { params: { project } } = this.props
-    return `/admin/${project}/data/model/create`
+    return `/admin/${project}/data/attribute/model/create`
   }
   getBackUrl = () => {
     const { params: { project } } = this.props
     return `/admin/${project}/data/board`
   }
 
-  handleEdit = (projectName) => {
-    const url = `/admin/project/${projectName}/edit`
+  handleEdit = (attrModelId) => {
+    const { params: { project } } = this.props
+    const url = `/admin/${project}/data/attribute/model/${attrModelId}/create`
     browserHistory.push(url)
   }
 
-  handleDelete =(projectName) => {
-    this.props.deleteProject(projectName)
+  handleDelete =(attrModelId) => {
+    this.props.deleteAttrModel(attrModelId)
   }
 
   handleOpen =(projectName) => {
@@ -68,8 +61,8 @@ export class ProjectListContainer extends React.Component {
   render() {
     const { modelList } = this.props
     return (
-      <I18nProvider messageDir="modules/admin-data-model-management/src/i18n">
-        <ModelListComponent
+      <I18nProvider messageDir="modules/admin-data-attributemodel-management/src/i18n">
+        <AttributeModelListComponent
           modelList={modelList}
           createUrl={this.getCreateUrl()}
           backUrl={this.getBackUrl()}
@@ -81,12 +74,12 @@ export class ProjectListContainer extends React.Component {
   }
 }
 const mapStateToProps = state => ({
-  modelList: AttributeModelSelectors.getList(state),
+  attrModelList: AttributeModelSelectors.getList(state),
 })
 const mapDispatchToProps = dispatch => ({
-  fetchModelList: () => dispatch(AttributeModelActions.fetchEntityList()),
-  deleteModel: id => dispatch(AttributeModelActions.deleteEntity(id)),
+  fetchAttrModelList: () => dispatch(AttributeModelActions.fetchEntityList()),
+  deleteAttrModel: id => dispatch(AttributeModelActions.deleteEntity(id)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProjectListContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(AttributeModelListContainer)
 

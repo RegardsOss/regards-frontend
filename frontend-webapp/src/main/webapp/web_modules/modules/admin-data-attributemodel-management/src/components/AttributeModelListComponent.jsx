@@ -4,8 +4,8 @@ import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowCol
 import { FormattedMessage } from 'react-intl'
 import IconButton from 'material-ui/IconButton'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
-import Input from 'material-ui/svg-icons/action/input'
 import Delete from 'material-ui/svg-icons/action/delete'
+import { AttributeModel } from '@regardsoss/model'
 import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -13,19 +13,10 @@ import { i18nContextType } from '@regardsoss/i18n'
 /**
  * React component to list project.
  */
-export class ProjectListComponent extends React.Component {
+export class AttributeModelListComponent extends React.Component {
 
   static propTypes = {
-    modelList: React.PropTypes.objectOf(
-      React.PropTypes.shape({
-        content: React.PropTypes.shape({
-          id: React.PropTypes.number,
-          name: React.PropTypes.string,
-          description: React.PropTypes.string,
-          type: React.PropTypes.string,
-        }),
-      }),
-    ),
+    attrModelList: React.PropTypes.objectOf(AttributeModel),
     handleDelete: React.PropTypes.func.isRequired,
     handleEdit: React.PropTypes.func.isRequired,
     createUrl: React.PropTypes.string.isRequired,
@@ -37,19 +28,6 @@ export class ProjectListComponent extends React.Component {
     ...i18nContextType,
   }
 
-  getType = (type) => {
-    switch (type) {
-      case 'COLLECTION':
-        return (<FormattedMessage id="model.type.collection" />)
-      case 'DOCUMENT':
-        return (<FormattedMessage id="model.type.document" />)
-      case 'DATA':
-        return (<FormattedMessage id="model.type.data" />)
-      case 'DATASET':
-        return (<FormattedMessage id="model.type.dataset" />)
-    }
-    return (null)
-  }
 
   render() {
     const { modelList, handleEdit, handleDelete, createUrl, backUrl } = this.props
@@ -61,8 +39,8 @@ export class ProjectListComponent extends React.Component {
     return (
       <Card>
         <CardTitle
-          title={<FormattedMessage id="model.list.title" />}
-          subtitle={<FormattedMessage id="model.list.subtitle" />}
+          title={<FormattedMessage id="attrmodel.list.title" />}
+          subtitle={<FormattedMessage id="attrmodel.list.subtitle" />}
         />
         <CardText>
           <Table
@@ -74,10 +52,10 @@ export class ProjectListComponent extends React.Component {
               displaySelectAll={false}
             >
               <TableRow>
-                <TableHeaderColumn><FormattedMessage id="model.list.table.name" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="model.list.table.description" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="model.list.table.type" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="model.list.table.actions" /></TableHeaderColumn>
+                <TableHeaderColumn><FormattedMessage id="attrmodel.list.table.name" /></TableHeaderColumn>
+                <TableHeaderColumn><FormattedMessage id="attrmodel.list.table.description" /></TableHeaderColumn>
+                <TableHeaderColumn><FormattedMessage id="attrmodel.list.table.type" /></TableHeaderColumn>
+                <TableHeaderColumn><FormattedMessage id="attrmodel.list.table.actions" /></TableHeaderColumn>
               </TableRow>
             </TableHeader>
             <TableBody
@@ -85,18 +63,18 @@ export class ProjectListComponent extends React.Component {
               preScanRows={false}
               showRowHover
             >
-              {map(modelList, (model, i) => (
+              {map(modelList, (attrmodel, i) => (
                 <TableRow key={i}>
-                  <TableRowColumn>{model.content.name}</TableRowColumn>
-                  <TableRowColumn>{model.content.description}</TableRowColumn>
-                  <TableRowColumn>{this.getType(model.content.type)}</TableRowColumn>
+                  <TableRowColumn>{attrmodel.content.name}</TableRowColumn>
+                  <TableRowColumn>{attrmodel.content.description}</TableRowColumn>
+                  <TableRowColumn>{attrmodel.content.type}</TableRowColumn>
                   <TableRowColumn>
 
-                    <IconButton onTouchTap={() => handleEdit(model.content.id)}>
+                    <IconButton onTouchTap={() => handleEdit(attrmodel.content.id)}>
                       <Edit hoverColor={style.hoverButtonEdit} />
                     </IconButton>
 
-                    <IconButton onTouchTap={() => handleDelete(model.content.id)}>
+                    <IconButton onTouchTap={() => handleDelete(attrmodel.content.id)}>
                       <Delete hoverColor={style.hoverButtonDelete} />
                     </IconButton>
                   </TableRowColumn>
@@ -110,10 +88,10 @@ export class ProjectListComponent extends React.Component {
             mainButtonUrl={createUrl}
             mainButtonLabel={
               <FormattedMessage
-                id="model.list.action.add"
+                id="attrmodel.list.action.add"
               />
             }
-            secondaryButtonLabel={<FormattedMessage id="model.list.action.cancel" />}
+            secondaryButtonLabel={<FormattedMessage id="attrmodel.list.action.cancel" />}
             secondaryButtonUrl={backUrl}
           />
         </CardActions>
@@ -122,5 +100,5 @@ export class ProjectListComponent extends React.Component {
   }
 }
 
-export default ProjectListComponent
+export default AttributeModelListComponent
 

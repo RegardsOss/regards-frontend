@@ -9,7 +9,6 @@ class AttributeModelReducers extends BasicListReducers {
 }
 
 const instance = new AttributeModelReducers()
-export default instance
 
 /**
  * Return an function where the reducer instance exists

@@ -3,74 +3,69 @@ import { connect } from 'react-redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
 import AttributeModelActions from '../model/AttributeModelActions'
-import ModelFormComponent from '../components/ModelFormComponent'
+import AttributeModelFormComponent from '../components/AttributeModelFormComponent'
 import AttributeModelSelectors from '../model/AttributeModelSelectors'
+import { AttributeModel } from '@regardsoss/model'
 
-export class ProjectFormContainer extends React.Component {
+export class AttributeModelFormContainer extends React.Component {
   static propTypes = {
     // from router
     params: React.PropTypes.shape({
       project: React.PropTypes.string,
-      model_id: React.PropTypes.string,
+      attrModel_id: React.PropTypes.string,
     }),
     // from mapStateToProps
-    model: React.PropTypes.shape({
-      content: React.PropTypes.shape({
-        id: React.PropTypes.number,
-        name: React.PropTypes.string,
-        description: React.PropTypes.string,
-        type: React.PropTypes.string,
-      }),
-    }),
+    attrModel: AttributeModel,
     isFetching: React.PropTypes.bool,
     // from mapDispatchToProps
-    createProject: React.PropTypes.func,
-    fetchProject: React.PropTypes.func,
-    updateProject: React.PropTypes.func,
+    createAttrModel: React.PropTypes.func,
+    fetchAttrModel: React.PropTypes.func,
+    updateAttrModel: React.PropTypes.func,
   }
 
   constructor(props) {
     super(props)
     this.state = {
-      isEditing: props.params.model_id !== undefined,
+      isEditing: props.params.attrModel_id !== undefined,
     }
   }
 
   componentDidMount() {
     if (this.state.isEditing) {
-      this.props.fetchModel(this.props.params.model_id)
+      this.props.fetchAttrModel(this.props.params.attrModel_id)
     }
   }
+
   getBackUrl = () => {
     const { params: { project } } = this.props
-    return `/admin/${project}/data/model/list`
+    return `/admin/${project}/data/attribute/model/list`
   }
 
   getFormComponent = () => {
     if (this.state.isEditing) {
-      const { model, isFetching } = this.props
+      const { attrModel, isFetching } = this.props
       if (isFetching) {
         return (<FormLoadingComponent />)
       }
-      if (model) {
-        return (<ModelFormComponent
+      if (attrModel) {
+        return (<AttributeModelFormComponent
           onSubmit={this.handleUpdate}
           backUrl={this.getBackUrl()}
-          currentModel={model}
+          currentAttrModel={attrModel}
         />)
       }
       return (<FormEntityNotFoundComponent />)
     }
-    return (<ModelFormComponent
+    return (<AttributeModelFormComponent
       onSubmit={this.handleCreate}
       backUrl={this.getBackUrl()}
     />)
   }
   handleUpdate = (values) => {
-    const updatedProject = Object.assign({}, this.props.model.content, {
+    const updatedAttrModel= Object.assign({}, this.props.attrModel.content, {
       description: values.description,
     })
-    Promise.resolve(this.props.updateModel(this.props.model.content.id, updatedProject))
+    Promise.resolve(this.props.updateModel(this.props.attrModel.content.id, updatedAttrModel))
     .then(() => {
       const url = this.getBackUrl()
       browserHistory.push(url)
@@ -90,21 +85,21 @@ export class ProjectFormContainer extends React.Component {
   }
   render() {
     return (
-      <I18nProvider messageDir="modules/admin-data-model-management/src/i18n">
+      <I18nProvider messageDir="modules/admin-data-attributemodel-management/src/i18n">
         {this.getFormComponent()}
       </I18nProvider>
     )
   }
 }
 const mapStateToProps = (state, ownProps) => ({
-  model: ownProps.params.model_id ? AttributeModelSelectors.getById(state, ownProps.params.model_id) : null,
+  attrModel: ownProps.params.attrModel_id ? AttributeModelSelectors.getById(state, ownProps.params.attrModel_id) : null,
   isFetching: AttributeModelSelectors.isFetching(state),
 })
 
 const mapDispatchToProps = dispatch => ({
-  createModel: values => dispatch(AttributeModelActions.createEntity(values)),
-  updateModel: (id, values) => dispatch(AttributeModelActions.updateEntity(id, values)),
-  fetchModel: id => dispatch(AttributeModelActions.fetchEntity(id)),
+  createAttrModel: values => dispatch(AttributeModelActions.createEntity(values)),
+  updateAttrModel: (id, values) => dispatch(AttributeModelActions.updateEntity(id, values)),
+  fetchAttrModel: id => dispatch(AttributeModelActions.fetchEntity(id)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProjectFormContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(AttributeModelFormContainer)
