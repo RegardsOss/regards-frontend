@@ -64,6 +64,14 @@ class BoardComponent extends React.Component {
     const { projectName } = this.props
     return `/admin/${projectName}/data/model/create`
   }
+  getAttributeModelList = () => {
+    const { projectName } = this.props
+    return `/admin/${projectName}/data/attribute/model/list`
+  }
+  getAttributeModelCreate = () => {
+    const { projectName } = this.props
+    return `/admin/${projectName}/data/attribute/model/create`
+  }
   getDatasourceList = () => {
     const { projectName } = this.props
     return `/admin/${projectName}/datamanagement/datasource`
@@ -145,25 +153,31 @@ class BoardComponent extends React.Component {
       links: theme.linkWithoutDecoration,
     }
     const elementsCommon = [
-      {
+    ]
+    elementsCommon.push({
+      title: (<FormattedMessage id="data.board.model.title" />),
+      description: (<FormattedMessage id="data.board.model.description" />),
+      pathList: this.getModelList(),
+      pathCreate: this.getModelCreate(),
+    })
+    elementsCommon.push({
+      title: (<FormattedMessage id="data.board.attributemodel.title" />),
+      description: (<FormattedMessage id="data.board.attributemodel.description" />),
+      pathList: this.getAttributeModelList(),
+      pathCreate: this.getAttributeModelCreate(),
+    })
+    if (this.state.showAdvanced) {
+      elementsCommon.push({
         title: (<FormattedMessage id="datamanagement.collection" />),
         description: (<FormattedMessage id="datamanagement.collection.info" />),
         pathList: this.getCollectionList(),
         pathCreate: this.getCollectionCreate(),
-      },
-      {
+      })
+      elementsCommon.push({
         title: (<FormattedMessage id="datamanagement.dataset" />),
         description: (<FormattedMessage id="datamanagement.dataset.info" />),
         pathList: this.getDatasetList(),
         pathCreate: this.getDatasetCreate(),
-      },
-    ]
-    if (this.state.showAdvanced) {
-      elementsCommon.push({
-        title: (<FormattedMessage id="data.board.model.title" />),
-        description: (<FormattedMessage id="data.board.model.description" />),
-        pathList: this.getModelList(),
-        pathCreate: this.getModelCreate(),
       })
       elementsCommon.push({
         title: (<FormattedMessage id="data.board.datasource.title" />),

@@ -5,6 +5,8 @@ const messages = {
   'data.board.model.description': 'Manage models shape',
   'data.board.model.title': 'Models',
 
+  'data.board.attributemodel.description': 'Gestion des attributs communs aux divers modèles',
+  'data.board.attributemodel.title': 'Attributs de modèles',
 }
 
 export default messages
