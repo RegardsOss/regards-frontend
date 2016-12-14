@@ -49,7 +49,7 @@ config = merge(config, {
       'process.env': {
         NODE_ENV: JSON.stringify('development'),
       },
-      GATEWAY_HOSTNAME: JSON.stringify('http://172.26.18.80:8000'),
+      GATEWAY_HOSTNAME: JSON.stringify('http://localhost:8000'),
     }),
   ],
 })
