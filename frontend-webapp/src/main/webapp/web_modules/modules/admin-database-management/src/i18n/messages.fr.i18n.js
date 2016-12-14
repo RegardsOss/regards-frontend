@@ -18,6 +18,15 @@ const messages = {
   'database.list.userName': 'Utilisateur',
   'database.list.password': 'Mot de passe',
   'database.list.test': 'Tester la connexion',
+  'database.list.action': 'Actions',
+
+  'database.form.edit.title': 'Connecter {microservice} à une base de données',
+  'database.form.input.driverClassName': 'Driver',
+  'database.form.input.url': 'Url',
+  'database.form.input.userName': 'Utilisateur',
+  'database.form.input.password': 'Mot de passe',
+  'database.form.action.save': 'Sauvegarder',
+  'database.form.action.cancel': 'Annuler',
 
 }
 

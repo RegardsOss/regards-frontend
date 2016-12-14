@@ -3,7 +3,7 @@ import { I18nProvider } from '@regardsoss/i18n'
 import { browserHistory } from 'react-router'
 import ProjectConnectionActions from '../model/ProjectConnectionActions'
 import ProjectConnectionSelectors from '../model/ProjectConnectionSelectors'
-import ProjectConnectionList from '../components/ProjectConnectionList'
+import ProjectConnectionList from '../components/ProjectConnectionListComponent'
 
 const connectionsList = {
   0: {

@@ -1,4 +1,6 @@
-const messages = {
+import { Locales } from '@regardsoss/form-utils'
+
+const messages = Object.assign({
   'database.connectionTester.start': 'Test',
   'database.connectionTester.restart': 'Restart',
   'database.connectionTester.connected': 'Connected',
@@ -18,6 +20,16 @@ const messages = {
   'database.list.userName': 'User',
   'database.list.password': 'Password',
   'database.list.test': 'Test the connection',
-}
+  'database.list.action': 'Actions',
+
+  'database.form.edit.title': 'Connect {microservice} to a database',
+  'database.form.input.driverClassName': 'Driver',
+  'database.form.input.url': 'Url',
+  'database.form.input.userName': 'User',
+  'database.form.input.password': 'Password',
+  'database.form.action.save': 'Save',
+  'database.form.action.cancel': 'Cancel',
+
+}, Locales.en)
 
 export default messages

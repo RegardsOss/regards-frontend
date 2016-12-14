@@ -1,10 +1,14 @@
 import { storiesOf, action } from '@kadira/storybook'
 import { withKnobs, object } from '@kadira/storybook-addon-knobs'
 import DatabaseConnectionTester from '@regardsoss/admin-database-management/src/components/DatabaseConnectionTester'
-import ProjectConnectionList from '@regardsoss/admin-database-management/src/components/ProjectConnectionList'
-import PlayArrow from 'material-ui/svg-icons/av/play-arrow'
-import Check from 'material-ui/svg-icons/navigation/check'
+import DatabaseConnectionTesterIconButton from '@regardsoss/admin-database-management/src/components/DatabaseConnectionTesterIconButton'
+import ProjectConnectionListComponent from '@regardsoss/admin-database-management/src/components/ProjectConnectionListComponent'
+import ProjectConnectionEditComponent from '@regardsoss/admin-database-management/src/components/ProjectConnectionEditComponent'
+import ProjectConnectionFormComponent from '@regardsoss/admin-database-management/src/components/ProjectConnectionFormComponent'
+import GuidedProjectConfiguration from '@regardsoss/admin-database-management/src/components/GuidedProjectConfiguration'
 import { StoreDecorator, addLocaleAndThemeSelectors, ThemeAndLocaleDecorator } from '../../utils/decorators'
+import { CardActionsComponent } from '@regardsoss/components'
+import { FormattedMessage } from 'react-intl'
 
 const connectionsList = {
   0: {
@@ -15,7 +19,7 @@ const connectionsList = {
       userName: 'Alice',
       password: 'password',
       driverClassName: 'aDriverClassName',
-      url: 'http://aUrl',
+      url: 'http://google.com',
     },
     links: [],
   },
@@ -50,9 +54,19 @@ storiesOf('InstanceAdmin - Database', module)
   .addDecorator(StoreDecorator)
   .add('Connection tester', () => {
     const themeName = addLocaleAndThemeSelectors()
+    const projectConnection = object('Project connection', connectionsList[0])
     return (
       <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-database-management/src/i18n">
-        <DatabaseConnectionTester />
+        <DatabaseConnectionTester projectConnection={projectConnection}/>
+      </ThemeAndLocaleDecorator>
+    )
+  })
+  .add('Icon Button connection tester', () => {
+    const themeName = addLocaleAndThemeSelectors()
+    const projectConnection = object('Project connection', connectionsList[0])
+    return (
+      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-database-management/src/i18n">
+        <DatabaseConnectionTesterIconButton projectConnection={projectConnection}/>
       </ThemeAndLocaleDecorator>
     )
   })
@@ -61,9 +75,44 @@ storiesOf('InstanceAdmin - Database', module)
     const list = object('Connections list', connectionsList)
     return (
       <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-database-management/src/i18n">
-        <ProjectConnectionList
+        <ProjectConnectionListComponent
           list={list}
         />
       </ThemeAndLocaleDecorator>
     )
   })
+  .add('Form', () => {
+    const themeName = addLocaleAndThemeSelectors()
+    const connectionToEdit = object('Form content', connectionsList[0])
+    return (
+      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-database-management/src/i18n">
+        <ProjectConnectionFormComponent
+          currentProjectConnection={connectionToEdit}
+          backUrl="/some/url"
+          onSubmit={action('onCreate')}
+        />
+      </ThemeAndLocaleDecorator>
+    )
+  }).add('Edit', () => {
+  const themeName = addLocaleAndThemeSelectors()
+  const connectionToEdit = object('Connection to edit', connectionsList[0])
+  return (
+    <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-database-management/src/i18n">
+      <ProjectConnectionEditComponent
+        currentProjectConnection={connectionToEdit}
+        backUrl="/some/url"
+        onSubmit={action('onCreate')}
+      />
+    </ThemeAndLocaleDecorator>
+  )
+})
+  .add('Guided configuration', () => {
+    const themeName = addLocaleAndThemeSelectors()
+    const connectionToEdit = object('Connection to edit', connectionsList[0])
+    return (
+      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-database-management/src/i18n">
+        <GuidedProjectConfiguration />
+      </ThemeAndLocaleDecorator>
+    )
+  })
+

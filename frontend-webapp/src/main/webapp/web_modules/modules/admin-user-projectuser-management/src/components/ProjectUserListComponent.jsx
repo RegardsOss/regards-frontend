@@ -28,7 +28,6 @@ export class ProjectUserListComponent extends React.Component {
     ...i18nContextType,
   }
 
-
   render() {
     const { projectUserList, onEdit, onDelete, createUrl, backUrl } = this.props
     const style = {
@@ -95,11 +94,7 @@ export class ProjectUserListComponent extends React.Component {
         <CardActions>
           <CardActionsComponent
             mainButtonUrl={createUrl}
-            mainButtonLabel={
-              <FormattedMessage
-                id="projectUser.list.action.create"
-              />
-            }
+            mainButtonLabel={<FormattedMessage id="projectUser.list.action.create" />}
             secondaryButtonLabel={<FormattedMessage id="projectUser.list.action.cancel" />}
             secondaryButtonUrl={backUrl}
           />

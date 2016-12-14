@@ -12,4 +12,10 @@ describe('[FORM UTILS] Testing validation helpers', () => {
     expect(ValidationHelpers.isValidEmail('myemail')).to.be.false
     expect(ValidationHelpers.isValidEmail('myemail@cnn.fr')).to.be.true
   })
+  it('should should accept only valid urls', () => {
+    expect(ValidationHelpers.isValidUrl('http://google')).to.be.false
+    expect(ValidationHelpers.isValidUrl('google.com')).to.be.false
+    expect(ValidationHelpers.isValidUrl('http://google.com')).to.be.true
+    expect(ValidationHelpers.isValidUrl('https://google.com')).to.be.true
+  })
 })
