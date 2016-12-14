@@ -5,23 +5,17 @@ import PlayArrow from 'material-ui/svg-icons/av/play-arrow'
 import Check from 'material-ui/svg-icons/navigation/check'
 import Error from 'material-ui/svg-icons/alert/error'
 import Warning from 'material-ui/svg-icons/alert/warning'
-import LinearProgress from 'material-ui/LinearProgress'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { FormattedMessage } from 'react-intl'
 import Snackbar from 'material-ui/Snackbar'
+import ConnectionTesterProgress from './ConnectionTesterProgress'
 
 const NOT_TESTED = Symbol('The connection has not been tested yet')
 const PENDING = Symbol('The connection is being established')
 const SUCCESS = Symbol('The connection has successfuly been established')
 const WARNING = Symbol('The connection could be established but errors occured')
 const ERROR = Symbol('The connection could not be established')
-
-const style = {
-  display: 'flex',
-  flexDirection: 'row',
-  justifyContent: 'center',
-}
 
 class DatabaseConnectionTesterIconButton extends React.Component {
 
@@ -36,7 +30,7 @@ class DatabaseConnectionTesterIconButton extends React.Component {
         driverClassName: React.PropTypes.string,
         url: React.PropTypes.string,
       }),
-    }),
+    }).isRequired,
   }
 
   static contextTypes = {
@@ -74,7 +68,7 @@ class DatabaseConnectionTesterIconButton extends React.Component {
     })
     // Make API call instead
     this.progress(0)
-    const possibleResultStates = [SUCCESS, WARNING, ERROR]
+    const possibleResultStates = [SUCCESS, ERROR]
     const randomResult = possibleResultStates[Math.floor(Math.random() * possibleResultStates.length)]
     setTimeout(() => {
       this.setState({
@@ -139,21 +133,15 @@ class DatabaseConnectionTesterIconButton extends React.Component {
         <PlayArrow />
       </OnHoverSwitchIconButton>)
 
-    const pendingProgress = (
-      <span>
-        <p style={{ textAlign: 'center' }}>
-          <FormattedMessage id="database.connectionTester.pending" />
-        </p>
-        <LinearProgress mode="determinate" value={this.state.completed} />
-      </span>)
+    const pendingProgress = <ConnectionTesterProgress value={this.state.completed} />
 
     const snackbar =
       (<Snackbar
         open={this.state.snackBarOpen}
         message={<FormattedMessage
           id={this.state.snackBarMessageId} values={{
-            microservice: 'rs-admin',
-            driverClassName: 'PostgreSQL',
+            microservice: projectConnection.content.microservice,
+            driverClassName: projectConnection.content.driverClassName,
           }}
         />}
         autoHideDuration={4000}

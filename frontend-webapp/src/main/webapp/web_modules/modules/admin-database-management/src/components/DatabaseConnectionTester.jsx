@@ -1,27 +1,21 @@
 import React from 'react'
 import FlatButton from 'material-ui/FlatButton'
-import OnHoverSwitchFlatButton from '@regardsoss/components/src/buttons/OnHoverSwitchFlatButton'
 import PlayArrow from 'material-ui/svg-icons/av/play-arrow'
 import Check from 'material-ui/svg-icons/navigation/check'
 import Error from 'material-ui/svg-icons/alert/error'
 import Warning from 'material-ui/svg-icons/alert/warning'
-import LinearProgress from 'material-ui/LinearProgress'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { FormattedMessage } from 'react-intl'
 import Snackbar from 'material-ui/Snackbar'
+import OnHoverSwitchFlatButton from '@regardsoss/components/src/buttons/OnHoverSwitchFlatButton'
+import ConnectionTesterProgress from './ConnectionTesterProgress'
 
 const NOT_TESTED = Symbol('The connection has not been tested yet')
 const PENDING = Symbol('The connection is being established')
 const SUCCESS = Symbol('The connection has successfuly been established')
 const WARNING = Symbol('The connection could be established but errors occured')
 const ERROR = Symbol('The connection could not be established')
-
-const style = {
-  display: 'flex',
-  flexDirection: 'row',
-  justifyContent: 'center',
-}
 
 class DatabaseConnectionTester extends React.Component {
 
@@ -36,7 +30,7 @@ class DatabaseConnectionTester extends React.Component {
         driverClassName: React.PropTypes.string,
         url: React.PropTypes.string,
       }),
-    }),
+    }).isRequired,
   }
 
   static contextTypes = {
@@ -74,7 +68,7 @@ class DatabaseConnectionTester extends React.Component {
     })
     // Make API call instead
     this.progress(0)
-    const possibleResultStates = [SUCCESS, WARNING, ERROR]
+    const possibleResultStates = [SUCCESS, ERROR]
     const randomResult = possibleResultStates[Math.floor(Math.random() * possibleResultStates.length)]
     setTimeout(() => {
       this.setState({
@@ -113,15 +107,15 @@ class DatabaseConnectionTester extends React.Component {
     const { projectConnection } = this.props
 
     const testButton = (<FlatButton
-      label={<FormattedMessage id="database.connectionTester.start" />}
+      label={<FormattedMessage id="database.connectionTester.start"/>}
       icon={<PlayArrow />}
       onTouchTap={this.handleTouchTap}
     />)
 
     const successButton =
       (<OnHoverSwitchFlatButton
-        label={[<FormattedMessage id="database.connectionTester.connected" />,
-          <FormattedMessage id="database.connectionTester.restart" />]}
+        label={[<FormattedMessage id="database.connectionTester.connected"/>,
+          <FormattedMessage id="database.connectionTester.restart"/>]}
         icon={[<Check />, <PlayArrow />]}
         primary={[true, false]}
         onTouchTap={[this.handleTouchTap, this.handleTouchTap]}
@@ -129,37 +123,32 @@ class DatabaseConnectionTester extends React.Component {
 
     const warningButton =
       (<OnHoverSwitchFlatButton
-        label={[<FormattedMessage id="database.connectionTester.warning" />,
-          <FormattedMessage id="database.connectionTester.restart" />]}
-        icon={[<Warning color={this.context.muiTheme.palette.warningColor} />, <PlayArrow />]}
+        label={[<FormattedMessage id="database.connectionTester.warning"/>,
+          <FormattedMessage id="database.connectionTester.restart"/>]}
+        icon={[<Warning color={this.context.muiTheme.palette.warningColor}/>, <PlayArrow />]}
         labelStyle={[{ color: this.context.muiTheme.palette.warningColor }, null]}
         onTouchTap={[this.handleTouchTap, this.handleTouchTap]}
       />)
 
     const errorButton =
       (<OnHoverSwitchFlatButton
-        label={[<FormattedMessage id="database.connectionTester.notConnected" />,
-          <FormattedMessage id="database.connectionTester.restart" />]}
+        label={[<FormattedMessage id="database.connectionTester.notConnected"/>,
+          <FormattedMessage id="database.connectionTester.restart"/>]}
         icon={[<Error />, <PlayArrow />]}
         secondary={[true, false]}
         onTouchTap={[this.handleTouchTap, this.handleTouchTap]}
       />)
 
-    const pendingProgress = (<div>
-      <p style={{ textAlign: 'center' }}>
-        <FormattedMessage id="database.connectionTester.pending" />
-      </p>
-      <LinearProgress mode="determinate" value={this.state.completed} />
-    </div>)
+    const pendingProgress = <ConnectionTesterProgress value={this.state.completed} />
 
     const snackbar =
       (<Snackbar
         open={this.state.snackBarOpen}
         message={<FormattedMessage
           id={this.state.snackBarMessageId} values={{
-            microservice: 'rs-admin',
-            driverClassName: 'PostgreSQL',
-          }}
+          microservice: projectConnection.content.microservice,
+          driverClassName: projectConnection.content.driverClassName,
+        }}
         />}
         autoHideDuration={4000}
         onRequestClose={this.handleSnackbarRequestClose}
@@ -188,7 +177,7 @@ class DatabaseConnectionTester extends React.Component {
         result = testButton
     }
     return (
-      <span style={style}>
+      <span>
         {result}
         {snackbar}
       </span>

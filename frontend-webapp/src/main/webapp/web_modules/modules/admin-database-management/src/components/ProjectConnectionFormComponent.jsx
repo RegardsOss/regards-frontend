@@ -1,13 +1,11 @@
-import { Card, CardActions, CardText } from 'material-ui/Card'
-import IconButton from 'material-ui/IconButton'
-import ArrowBack from 'material-ui/svg-icons/navigation/arrow-back'
-import AppBar from 'material-ui/AppBar'
-import TextField from 'material-ui/TextField'
-import { browserHistory } from 'react-router'
-import { CardActionsComponent } from '@regardsoss/components'
+import * as React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { RenderTextField, Field, ValidationHelpers } from '@regardsoss/form-utils'
+import { Card, CardActions, CardText } from 'material-ui/Card'
 import { reduxForm } from 'redux-form'
+import TextField from 'material-ui/TextField'
+import MainActionButtonComponent from '@regardsoss/components/src/cards/MainActionButtonComponent'
+import SecondaryActionButtonComponent from '@regardsoss/components/src/cards/SecondaryActionButtonComponent'
+import { RenderTextField, Field, ValidationHelpers } from '@regardsoss/form-utils'
 import DatabaseConnectionTester from './DatabaseConnectionTester'
 
 /**
@@ -52,64 +50,49 @@ export class ProjectConnectionFormComponent extends React.Component {
     })
   }
 
-  handleBackClick = () => {
-    browserHistory.goBack()
-  }
-
   render() {
     return (
       <form onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
-        <AppBar
-          title={<FormattedMessage
-            id="database.form.edit.title"
-            values={{
-              microservice: this.props.currentProjectConnection.content.microservice,
-            }}
-          />}
-          iconElementLeft={<IconButton onTouchTap={this.handleBackClick}><ArrowBack /></IconButton>}
+        <TextField
+          hintText={this.props.currentProjectConnection.content.driverClassName}
+          floatingLabelText={<FormattedMessage id="database.form.input.driverClassName"/>}
+          floatingLabelFixed
+          value={this.props.currentProjectConnection.content.driverClassName}
+          disabled
         />
-        <Card>
-          <CardText>
-            <TextField
-              hintText={this.props.currentProjectConnection.content.driverClassName}
-              floatingLabelText={<FormattedMessage id="database.form.input.driverClassName" />}
-              floatingLabelFixed
-              value={this.props.currentProjectConnection.content.driverClassName}
-              disabled
-            />
-            <Field
-              name="url"
-              fullWidth
-              component={RenderTextField}
-              type="text"
-              label={<FormattedMessage id="database.form.input.url" />}
-            />
-            <Field
-              name="userName"
-              fullWidth
-              component={RenderTextField}
-              type="text"
-              label={<FormattedMessage id="database.form.input.userName" />}
-            />
-            <Field
-              name="password"
-              fullWidth
-              component={RenderTextField}
-              type="password"
-              label={<FormattedMessage id="database.form.input.password" />}
-            />
-          </CardText>
-          <CardActions style={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <DatabaseConnectionTester />
-            <CardActionsComponent
-              mainButtonLabel={<FormattedMessage id="database.form.action.save" />}
-              mainButtonType="submit"
-              isMainButtonDisabled={this.props.invalid || this.props.submitting}
-              secondaryButtonLabel={<FormattedMessage id="database.form.action.cancel" />}
-              secondaryButtonUrl={this.props.backUrl}
-            />
-          </CardActions>
-        </Card>
+        <Field
+          name="url"
+          fullWidth
+          component={RenderTextField}
+          type="text"
+          label={<FormattedMessage id="database.form.input.url"/>}
+        />
+        <Field
+          name="userName"
+          fullWidth
+          component={RenderTextField}
+          type="text"
+          label={<FormattedMessage id="database.form.input.userName"/>}
+        />
+        <Field
+          name="password"
+          fullWidth
+          component={RenderTextField}
+          type="password"
+          label={<FormattedMessage id="database.form.input.password"/>}
+        />
+        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <DatabaseConnectionTester projectConnection={this.props.currentProjectConnection}/>
+          <SecondaryActionButtonComponent
+            label={<FormattedMessage id="database.form.action.cancel"/>}
+            onTouchTap={() => alert('handle back')}
+          />
+          <MainActionButtonComponent
+            label={<FormattedMessage id="database.form.action.save"/>}
+            disabled={this.props.invalid || this.props.submitting}
+            type="submit"
+          />
+        </div>
       </form>
     )
   }

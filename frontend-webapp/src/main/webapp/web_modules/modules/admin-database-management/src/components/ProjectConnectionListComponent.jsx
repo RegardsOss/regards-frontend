@@ -6,7 +6,6 @@ import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import { FormattedMessage } from 'react-intl'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import DatabaseConnectionTester from './DatabaseConnectionTester'
 import DatabaseConnectionTesterIconButton from './DatabaseConnectionTesterIconButton'
 
 /**
@@ -85,7 +84,7 @@ export class ProjectConnectionList extends React.Component {
                     <IconButton onTouchTap={this.handleEdit}>
                       <Edit hoverColor={style.hoverButtonEdit}/>
                     </IconButton>
-                    <DatabaseConnectionTesterIconButton projectConnection={connection.content}/>
+                    <DatabaseConnectionTesterIconButton projectConnection={connection}/>
                   </TableRowColumn>
                 </TableRow>
               ))}
