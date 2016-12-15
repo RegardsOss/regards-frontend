@@ -1,0 +1,9 @@
+{
+  "name": "@regardsoss/portal-projects",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Display the regards projects list and allow direct access to associated interface",
+  "main": "src/main.js",
+  "author": "CS-SI",
+  "license": "GPLv3"
+}
