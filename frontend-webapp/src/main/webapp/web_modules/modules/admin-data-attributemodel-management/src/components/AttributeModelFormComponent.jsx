@@ -5,25 +5,21 @@ import { RenderTextField, Field, RenderCheckbox, RenderSelectField } from '@rega
 import { reduxForm } from 'redux-form'
 import MenuItem from 'material-ui/MenuItem'
 import { ShowableAtRender } from '@regardsoss/components'
+import { AttributeModel } from '@regardsoss/model'
+
 /**
- * Display edit and create project form
+ * Display edit and create attribute model form
  */
-export class ProjectFormComponent extends React.Component {
+export class AttributeModelFormComponent extends React.Component {
 
   static propTypes = {
-    currentModel: React.PropTypes.shape({
-      content: React.PropTypes.shape({
-        id: React.PropTypes.number,
-        name: React.PropTypes.string,
-        description: React.PropTypes.string,
-        type: React.PropTypes.string,
-      }),
-    }),
+    currentAttrModel: AttributeModel,
     onSubmit: React.PropTypes.func.isRequired,
     backUrl: React.PropTypes.string.isRequired,
     // from reduxForm
     submitting: React.PropTypes.bool,
     pristine: React.PropTypes.bool,
+    invalid: React.PropTypes.bool,
     handleSubmit: React.PropTypes.func.isRequired,
     initialize: React.PropTypes.func.isRequired,
   }
@@ -31,7 +27,7 @@ export class ProjectFormComponent extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      isCreating: props.currentModel === undefined,
+      isCreating: props.currentAttrModel === undefined,
     }
   }
 
@@ -41,21 +37,21 @@ export class ProjectFormComponent extends React.Component {
 
   handleInitialize = () => {
     if (!this.state.isCreating) {
-      const { currentModel } = this.props
+      const { currentAttrModel } = this.props
       this.props.initialize({
-        description: currentModel.content.description,
+        description: currentAttrModel.content.description,
       })
     }
   }
 
 
   render() {
-    const { pristine, submitting } = this.props
-    const title = this.state.isCreating ? <FormattedMessage id="model.create.title" /> :
+    const { pristine, submitting, invalid } = this.props
+    const title = this.state.isCreating ? <FormattedMessage id="attrmodel.create.title" /> :
       (<FormattedMessage
-        id="model.edit.title"
+        id="attrmodel.edit.title"
         values={{
-          name: this.props.currentModel.content.name,
+          name: this.props.currentAttrModel.content.name,
         }}
       />)
     return (
@@ -71,7 +67,7 @@ export class ProjectFormComponent extends React.Component {
                 fullWidth
                 component={RenderTextField}
                 type="text"
-                label={<FormattedMessage id="model.form.name" />}
+                label={<FormattedMessage id="attrmodel.form.name" />}
               />
             </ShowableAtRender>
             <Field
@@ -79,28 +75,15 @@ export class ProjectFormComponent extends React.Component {
               fullWidth
               component={RenderTextField}
               type="text"
-              label={<FormattedMessage id="model.form.description" />}
+              label={<FormattedMessage id="attrmodel.form.description" />}
             />
-            <ShowableAtRender show={this.state.isCreating}>
-              <Field
-                name="type"
-                fullWidth
-                component={RenderSelectField}
-                label={<FormattedMessage id="model.form.type" />}
-              >
-                <MenuItem value="COLLECTION" primaryText={<FormattedMessage id="model.type.collection" />} />
-                <MenuItem value="DOCUMENT" primaryText={<FormattedMessage id="model.type.document" />} />
-                <MenuItem value="DATA" primaryText={<FormattedMessage id="model.type.data" />} />
-                <MenuItem value="DATASET" primaryText={<FormattedMessage id="model.type.dataset" />} />
-              </Field>
-            </ShowableAtRender>
           </CardText>
           <CardActions>
             <CardActionsComponent
-              mainButtonLabel={<FormattedMessage id="model.form.action.submit" />}
+              mainButtonLabel={<FormattedMessage id="attrmodel.form.action.submit" />}
               mainButtonType="submit"
-              isMainButtonDisabled={pristine || submitting}
-              secondaryButtonLabel={<FormattedMessage id="model.form.action.cancel" />}
+              isMainButtonDisabled={pristine || submitting || invalid}
+              secondaryButtonLabel={<FormattedMessage id="attrmodel.form.action.cancel" />}
               secondaryButtonUrl={this.props.backUrl}
             />
           </CardActions>
@@ -122,7 +105,7 @@ function validate(values) {
 }
 
 export default reduxForm({
-  form: 'project-form',
+  form: 'attribute-model-form',
   validate,
-})(ProjectFormComponent)
+})(AttributeModelFormComponent)
 

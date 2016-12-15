@@ -2,9 +2,9 @@ export const listModelRoute = {
   path: 'list',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const ModelListContainer = require('./containers/ModelListContainer')
+      const AttributeModelListContainer = require('./containers/AttributeModelListContainer')
       cb(null, {
-        content: ModelListContainer.default,
+        content: AttributeModelListContainer.default,
       })
     })
   },
@@ -14,9 +14,9 @@ export const createModelRoute = {
   path: 'create',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const ModelFormContainer = require('./containers/ModelFormContainer')
+      const AttributeModelFormContainer = require('./containers/AttributeModelFormContainer')
       cb(null, {
-        content: ModelFormContainer.default,
+        content: AttributeModelFormContainer.default,
       })
     })
   },
@@ -26,9 +26,9 @@ export const editModelRoute = {
   path: ':model_id/edit',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const ModelFormContainer = require('./containers/ModelFormContainer')
+      const AttributeModelFormContainer = require('./containers/AttributeModelFormContainer')
       cb(null, {
-        content: ModelFormContainer.default,
+        content: AttributeModelFormContainer.default,
       })
     })
   },
