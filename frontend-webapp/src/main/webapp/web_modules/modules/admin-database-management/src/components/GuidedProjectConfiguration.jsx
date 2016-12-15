@@ -41,11 +41,11 @@ class GuidedProjectConfiguration extends React.Component {
   getConnectivityIcon = (connectivity) => {
     switch (connectivity) {
       case EnumConnectivity.SUCCESS:
-        return <Check color={this.context.muiTheme.palette.primary1Color}/>
+        return <Check color={this.context.muiTheme.palette.primary1Color} />
       case EnumConnectivity.WARNING:
-        return <Warning color={this.context.muiTheme.palette.warningColor}/>
+        return <Warning color={this.context.muiTheme.palette.warningColor} />
       case EnumConnectivity.ERROR:
-        return <Error color={this.context.muiTheme.palette.accent1Color}/>
+        return <Error color={this.context.muiTheme.palette.accent1Color} />
       default:
         return undefined
     }

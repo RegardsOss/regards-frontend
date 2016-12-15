@@ -1,3 +1,6 @@
+/*
+ * LICENSE_PLACEHOLDER
+ */
 import { storiesOf, action } from '@kadira/storybook'
 import { withKnobs, object } from '@kadira/storybook-addon-knobs'
 import DatabaseConnectionTester from '@regardsoss/admin-database-management/src/components/DatabaseConnectionTester'
@@ -8,8 +11,6 @@ import ProjectConnectionFormComponent from '@regardsoss/admin-database-managemen
 import GuidedProjectConfiguration from '@regardsoss/admin-database-management/src/components/GuidedProjectConfiguration'
 import EnumConnectivity from '@regardsoss/model/src/admin/EnumConnectivity'
 import { StoreDecorator, addLocaleAndThemeSelectors, ThemeAndLocaleDecorator } from '../../utils/decorators'
-import { CardActionsComponent } from '@regardsoss/components'
-import { FormattedMessage } from 'react-intl'
 
 const projectConnections = {
   0: {
@@ -93,6 +94,7 @@ storiesOf('InstanceAdmin - Database', module)
         <ProjectConnectionFormComponent
           projectConnection={projectConnection}
           onSubmit={action('onCreate')}
+          onCancel={action('onCancel')}
         />
       </ThemeAndLocaleDecorator>
     )
