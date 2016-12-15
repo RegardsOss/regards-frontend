@@ -2,9 +2,10 @@
  * LICENSE_PLACEHOLDER
  **/
 import { map } from 'lodash'
-import { grey200 } from 'material-ui/styles/colors'
 import { FormattedMessage } from 'react-intl'
+import { themeContextType } from '@regardsoss/theme'
 import ProjectComponent from './ProjectComponent'
+import projectsStyles from '../styles/styles'
 
 /**
  * Show the list of users for the current project
@@ -21,7 +22,7 @@ class ProjectListComponent extends React.Component {
    * @type {{muiTheme: *}}
    */
   static contextTypes = {
-    muiTheme: React.PropTypes.object.isRequired,
+    ...themeContextType,
   }
 
   /**
@@ -29,7 +30,7 @@ class ProjectListComponent extends React.Component {
    */
   render() {
     // const { projects } = this.props
-    const { muiTheme } = this.context
+    const { moduleTheme } = this.context
     const projectssdfsdf = []
     projectssdfsdf.push(
       {
@@ -131,32 +132,16 @@ class ProjectListComponent extends React.Component {
       },
     )
 
-    const style = {
-      betweenProjects: muiTheme.portalApp.modules.homepage.betweenProjects,
-      titleListProjects: {
-        lineHeight: '60px',
-        fontSize: '37px',
-        textAlign: 'center',
-        textTransform: 'uppercase',
-        color: grey200,
-        fontWeight: 300,
-        letterSpacing: '6.3px',
-        fontFamily: muiTheme.fontFamily,
-        textDecoration: 'underline',
-        marginTop: '40px',
-        marginBottom: '30px',
-      },
-    }
     return (
       <div>
         <h1
-          style={style.titleListProjects}
+          style={moduleTheme.titleListProjects}
         >
           <FormattedMessage id="title" />
         </h1>
         {map(projectssdfsdf, (project, id) => (
           <div
-            style={style.betweenProjects}
+            style={moduleTheme.betweenProjects}
             key={id}
             className="col-md-70 col-md-offset-15"
           >

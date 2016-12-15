@@ -1,6 +1,12 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { lightGreen500, lightGreen700, grey300, grey700, blueGrey800, brown50, deepOrange900, red900, brown600 } from 'material-ui/styles/colors'
 import spacing from 'material-ui/styles/spacing'
 import { fade } from 'material-ui/utils/colorManipulator'
+import { merge } from 'lodash'
+import defaultTheme from './defaultTheme'
+
 // http://www.material-ui.com/#/customization/colors
 
 
@@ -9,7 +15,7 @@ import { fade } from 'material-ui/utils/colorManipulator'
  *  Only provide the keys you wish to customize, they will be merged to default
  *  theme variables when calling 'material-ui/styles/getMuiTheme'
  */
-export default {
+export default merge({}, defaultTheme, {
   spacing,
   fontFamily: 'Roboto, sans-serif',
   palette: {
@@ -36,4 +42,4 @@ export default {
       },
     },
   },
-}
+})

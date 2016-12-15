@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
 import { I18nProvider } from '@regardsoss/i18n'
@@ -62,7 +65,7 @@ export class AttributeModelFormContainer extends React.Component {
     />)
   }
   handleUpdate = (values) => {
-    const updatedAttrModel= Object.assign({}, this.props.attrModel.content, {
+    const updatedAttrModel = Object.assign({}, this.props.attrModel.content, {
       description: values.description,
     })
     Promise.resolve(this.props.updateModel(this.props.attrModel.content.id, updatedAttrModel))

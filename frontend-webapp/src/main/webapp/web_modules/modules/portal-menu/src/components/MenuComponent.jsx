@@ -19,17 +19,14 @@ class MenuComponent extends React.Component {
   }
 
   render() {
-    const menuTheme = this.context.muiTheme[this.props.appName].modules.common.menu
+    const { moduleTheme } = this.context
+
     const style = {
       headContainer: {
-        classes: menuTheme.classes.join(' '),
-        styles: Object.assign(
-          {},
-          menuTheme.bar,
-          { fontFamily: this.context.muiTheme.fontFamily },
-        ),
+        classes: moduleTheme.classes.join(' '),
+        styles: moduleTheme.bar,
       },
-      title: menuTheme.title,
+      title: moduleTheme.title,
     }
 
     return (
@@ -45,6 +42,5 @@ class MenuComponent extends React.Component {
       </Toolbar>
     )
   }
-
 }
 export default MenuComponent

@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import pluginRoutes from './modules/plugin/routes'
 import websocketsRoutes from './modules/websockets/routes'
 
@@ -9,7 +12,7 @@ const userAppRoutes = {
     websocketsRoutes,
   ],
   getComponent(nextState, cb) {
-    const UserApp = require('./UserApp')
+    const UserApp = require('./containers/UserApp')
     require.ensure([], () => {
       cb(null, {
         content: UserApp.default,

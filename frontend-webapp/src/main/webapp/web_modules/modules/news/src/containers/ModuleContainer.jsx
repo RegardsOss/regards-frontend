@@ -3,26 +3,24 @@
  **/
 import { map } from 'lodash'
 import { NewsItemComponent } from '@regardsoss/components'
+import { themeContextType } from '@regardsoss/theme'
 
 /**
  * Show the list of public visible projects
  */
 class NewsListContainer extends React.Component {
+
   static propTypes = {
     newsList: React.PropTypes.arrayOf(React.PropTypes.objectOf(React.PropTypes.string)),
   }
 
-  /**
-   * @type {{muiTheme: *}}
-   */
-  static contextTypes = {
-    muiTheme: React.PropTypes.object.isRequired,
+  static contextTypes= {
+    ...themeContextType,
   }
 
   render() {
     // const { newsList } = this.props
-    const { muiTheme } = this.context
-    const styleBetweenNews = muiTheme.portalApp.modules.homepage.splitNews
+    const { moduleTheme } = this.context
     const newsListfgdfj = [{
       pubDate: 'Thu, 22 Sep 2016 13:59:00 GMT',
       title: 'Vidéo du vendredi : Le mystère des rayons cosmiques',
@@ -40,7 +38,7 @@ class NewsListContainer extends React.Component {
       link: 'http://www.cnrs.fr/fr/science-direct/video/video.php#05/08/2016',
     }]
     return (
-      <div className="row" style={styleBetweenNews}>
+      <div className="row" style={moduleTheme.splitNews}>
         {map(newsListfgdfj, (news, id) => (
           <div
             key={id}

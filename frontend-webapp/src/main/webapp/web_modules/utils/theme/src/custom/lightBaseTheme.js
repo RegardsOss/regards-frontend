@@ -1,9 +1,12 @@
-// Default theme
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { merge } from 'lodash'
 import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme'
 import { red900, grey900, blueGrey50, amber900 } from 'material-ui/styles/colors'
+import defaultTheme from './defaultTheme'
 
-export default merge({}, lightBaseTheme, {
+export default merge({}, lightBaseTheme, defaultTheme, {
   palette: {
     errorColor: red900,
     warningColor: amber900,

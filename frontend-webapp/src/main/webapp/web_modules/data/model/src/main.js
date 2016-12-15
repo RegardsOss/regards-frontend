@@ -1,13 +1,16 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import ProjectUser from './admin/ProjectUser'
 import Role from './admin/Role'
 import AttributeModel from './dam/AttributeModel'
 
 
 export default {
-  //ADMIN
+  // ADMIN
   ProjectUser,
   Role,
 
-  //DAM
+  // DAM
   AttributeModel,
 }
