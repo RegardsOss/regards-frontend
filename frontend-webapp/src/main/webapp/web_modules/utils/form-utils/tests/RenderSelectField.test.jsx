@@ -3,7 +3,7 @@ import { expect, assert } from 'chai'
 import SelectField from 'material-ui/SelectField'
 import RenderSelectField from '../src/RenderSelectField'
 
-// Test a component rendering
+// Test a components rendering
 describe('[FORM UTILS] Testing RenderSelectField', () => {
   it('should exists', () => {
     assert.isDefined(RenderSelectField)

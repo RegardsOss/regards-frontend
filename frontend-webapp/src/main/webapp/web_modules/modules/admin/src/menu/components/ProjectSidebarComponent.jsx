@@ -16,7 +16,7 @@ import { I18nProvider } from '@regardsoss/i18n'
 import HateoasSidebarElement from './HateoasSidebarElement'
 
 /**
- * React sidebar component. Display the admin application menu
+ * React sidebar components. Display the admin application menu
  */
 class ProjectSidebarComponent extends React.Component {
 

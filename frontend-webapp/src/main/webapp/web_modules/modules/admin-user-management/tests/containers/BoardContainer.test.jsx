@@ -3,7 +3,7 @@ import { expect, assert } from 'chai'
 import { BoardContainer } from '../../src/containers/BoardContainer'
 import BoardComponent from '../../src/components/BoardComponent'
 
-// Test a component rendering
+// Test a components rendering
 describe('[ADMIN USER MANAGEMENT] Testing BoardContainer', () => {
   it('should exists', () => {
     assert.isDefined(BoardContainer)

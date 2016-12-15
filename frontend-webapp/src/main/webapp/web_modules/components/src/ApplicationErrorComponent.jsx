@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 
 /**
- * React component to display a global application error.
+ * React components to display a global application error.
  */
 export function ApplicationErrorComponent() {
   return (
@@ -11,7 +11,7 @@ export function ApplicationErrorComponent() {
   )
 }
 
-// Add theme from store to the component props
+// Add theme from store to the components props
 const mapStateToProps = state => ({
   theme: state.theme,
 })

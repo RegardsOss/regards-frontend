@@ -3,7 +3,7 @@ import { expect, assert } from 'chai'
 import { Field as ReduxField } from 'redux-form'
 import Field from '../src/Field'
 
-// Test a component rendering
+// Test a components rendering
 describe('[FORM UTILS] Testing FieldWithIntl', () => {
   it('should exists', () => {
     assert.isDefined(Field)

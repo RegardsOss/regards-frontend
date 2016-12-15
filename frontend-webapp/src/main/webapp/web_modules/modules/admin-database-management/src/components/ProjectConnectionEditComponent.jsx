@@ -46,7 +46,7 @@ export class ProjectConnectionEditComponent extends React.Component {
           <ProjectConnectionFormComponent
             currentProjectConnection={this.props.currentProjectConnection}
             onSubmit={() => alert('handle submit')}
-            backUrl={"/back/url"}
+            backUrl={'/back/url'}
           />
         </CardText>
       </Card>

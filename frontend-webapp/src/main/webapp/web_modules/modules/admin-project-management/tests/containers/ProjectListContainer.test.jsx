@@ -3,7 +3,7 @@ import { expect, assert } from 'chai'
 import { ProjectListContainer } from '../../src/containers/ProjectListContainer'
 import ProjectListComponent from '../../src/components/ProjectListComponent'
 
-// Test a component rendering
+// Test a components rendering
 describe('[ADMIN PROJECT MANAGEMENT] Testing project list container', () => {
   it('should exists', () => {
     assert.isNotNull(ProjectListContainer)

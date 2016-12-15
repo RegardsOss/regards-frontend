@@ -1,3 +1,7 @@
+/*
+ * LICENSE_PLACEHOLDER
+ */
+
 /** Main routes.
  * /      -> PortalApp
  * /user  -> UserApp
@@ -17,7 +21,7 @@ const rootRouter = {
     require.ensure([], (require) => {
       const PortalPckg = require('@regardsoss/portal')
       cb(null, {
-        component: PortalPckg.PortalHomepageContainer,
+        component: PortalPckg.PortalApp,
       })
     })
   },

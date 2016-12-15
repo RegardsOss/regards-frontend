@@ -11,7 +11,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { Role } from '@regardsoss/model'
 
 /**
- * React component to list project.
+ * React components to list project.
  */
 export class RoleListComponent extends React.Component {
 

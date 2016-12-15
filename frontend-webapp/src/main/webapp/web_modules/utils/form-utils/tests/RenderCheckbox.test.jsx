@@ -3,7 +3,7 @@ import { expect, assert } from 'chai'
 import Checkbox from 'material-ui/Checkbox'
 import RenderCheckbox from '../src/RenderCheckbox'
 
-// Test a component rendering
+// Test a components rendering
 describe('[FORM UTILS] Testing RenderCheckbox', () => {
   it('should exists', () => {
     assert.isDefined(RenderCheckbox)

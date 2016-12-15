@@ -55,7 +55,7 @@ export class ProjectConnectionFormComponent extends React.Component {
       <form onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
         <TextField
           hintText={this.props.currentProjectConnection.content.driverClassName}
-          floatingLabelText={<FormattedMessage id="database.form.input.driverClassName"/>}
+          floatingLabelText={<FormattedMessage id="database.form.input.driverClassName" />}
           floatingLabelFixed
           value={this.props.currentProjectConnection.content.driverClassName}
           disabled
@@ -65,30 +65,30 @@ export class ProjectConnectionFormComponent extends React.Component {
           fullWidth
           component={RenderTextField}
           type="text"
-          label={<FormattedMessage id="database.form.input.url"/>}
+          label={<FormattedMessage id="database.form.input.url" />}
         />
         <Field
           name="userName"
           fullWidth
           component={RenderTextField}
           type="text"
-          label={<FormattedMessage id="database.form.input.userName"/>}
+          label={<FormattedMessage id="database.form.input.userName" />}
         />
         <Field
           name="password"
           fullWidth
           component={RenderTextField}
           type="password"
-          label={<FormattedMessage id="database.form.input.password"/>}
+          label={<FormattedMessage id="database.form.input.password" />}
         />
         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <DatabaseConnectionTester projectConnection={this.props.currentProjectConnection}/>
+          <DatabaseConnectionTester projectConnection={this.props.currentProjectConnection} />
           <SecondaryActionButtonComponent
-            label={<FormattedMessage id="database.form.action.cancel"/>}
+            label={<FormattedMessage id="database.form.action.cancel" />}
             onTouchTap={() => alert('handle back')}
           />
           <MainActionButtonComponent
-            label={<FormattedMessage id="database.form.action.save"/>}
+            label={<FormattedMessage id="database.form.action.save" />}
             disabled={this.props.invalid || this.props.submitting}
             type="submit"
           />

@@ -17,8 +17,8 @@ interface MainAdminLayoutProps {
 */
 
 /**
- * React component to manage Administration application.
- * This component display admin layout or login form if the user is not connected
+ * React components to manage Administration application.
+ * This components display admin layout or login form if the user is not connected
  */
 export class AdminLayout extends React.Component {
 

@@ -1,7 +1,13 @@
-import portalReducer from './reducer'
-import PortalHomepageContainer from './containers/PortalHomepageContainer'
+/**
+ * LICENSE_PLACEHOLDER
+ **/
+import PortalApp from './containers/PortalApp'
 
+/**
+ * Main file of module to expose public interface
+ **/
 export {
-  PortalHomepageContainer,
-  portalReducer,
+  PortalApp,
 }
+
+export default PortalApp

@@ -7,8 +7,8 @@ import AdminLayout from './AdminLayout'
 import AuthenticationContainer from '../authentication/containers/AuthenticationContainer'
 
 /**
- * React component to manage the instance application.
- * This component displays admin layout or login form if the user is not connected
+ * React components to manage the instance application.
+ * This components displays admin layout or login form if the user is not connected
  */
 class AdminApp extends React.Component {
 
@@ -73,7 +73,7 @@ class AdminApp extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  // Add theme from store to the component props
+  // Add theme from store to the components props
   theme: ThemeSelectors.getCurrentTheme(state),
   authentication: AuthenticationSelectors.getAuthentication(state),
 })

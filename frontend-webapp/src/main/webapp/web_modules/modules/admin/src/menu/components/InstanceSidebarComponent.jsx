@@ -10,7 +10,7 @@ import SupervisorAccount from 'material-ui/svg-icons/action/supervisor-account'
 import HateoasSidebarElement from './HateoasSidebarElement'
 
 /**
- * React sidebar component. Display the admin application menu
+ * React sidebar components. Display the admin application menu
  */
 class InstanceSidebarComponent extends React.Component {
 

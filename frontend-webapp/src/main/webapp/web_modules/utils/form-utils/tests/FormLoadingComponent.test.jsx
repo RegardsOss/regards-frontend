@@ -2,7 +2,7 @@ import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import FormLoadingComponent from '../src/FormLoadingComponent'
 
-// Test a component rendering
+// Test a components rendering
 describe('[FORM UTILS] Testing FormLoadingComponent', () => {
   it('should exists', () => {
     assert.isDefined(FormLoadingComponent)

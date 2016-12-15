@@ -3,7 +3,7 @@ import { expect, assert } from 'chai'
 import { ErrorDecoratorComponent } from '@regardsoss/components'
 import FormErrorMessage from '../src/FormErrorMessage'
 
-// Test a component rendering
+// Test a components rendering
 describe('[FORM UTILS] Testing FormErrorMessage', () => {
   it('should exists', () => {
     assert.isDefined(FormErrorMessage)

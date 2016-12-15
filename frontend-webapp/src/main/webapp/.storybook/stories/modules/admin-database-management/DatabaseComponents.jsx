@@ -57,7 +57,7 @@ storiesOf('InstanceAdmin - Database', module)
     const projectConnection = object('Project connection', connectionsList[0])
     return (
       <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-database-management/src/i18n">
-        <DatabaseConnectionTester projectConnection={projectConnection}/>
+        <DatabaseConnectionTester projectConnection={projectConnection} />
       </ThemeAndLocaleDecorator>
     )
   })
@@ -66,7 +66,7 @@ storiesOf('InstanceAdmin - Database', module)
     const projectConnection = object('Project connection', connectionsList[0])
     return (
       <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-database-management/src/i18n">
-        <DatabaseConnectionTesterIconButton projectConnection={projectConnection}/>
+        <DatabaseConnectionTesterIconButton projectConnection={projectConnection} />
       </ThemeAndLocaleDecorator>
     )
   })
@@ -94,18 +94,18 @@ storiesOf('InstanceAdmin - Database', module)
       </ThemeAndLocaleDecorator>
     )
   }).add('Edit', () => {
-  const themeName = addLocaleAndThemeSelectors()
-  const connectionToEdit = object('Connection to edit', connectionsList[0])
-  return (
-    <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-database-management/src/i18n">
-      <ProjectConnectionEditComponent
-        currentProjectConnection={connectionToEdit}
-        backUrl="/some/url"
-        onSubmit={action('onCreate')}
-      />
-    </ThemeAndLocaleDecorator>
-  )
-})
+    const themeName = addLocaleAndThemeSelectors()
+    const connectionToEdit = object('Connection to edit', connectionsList[0])
+    return (
+      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-database-management/src/i18n">
+        <ProjectConnectionEditComponent
+          currentProjectConnection={connectionToEdit}
+          backUrl="/some/url"
+          onSubmit={action('onCreate')}
+        />
+      </ThemeAndLocaleDecorator>
+    )
+  })
   .add('Guided configuration', () => {
     const themeName = addLocaleAndThemeSelectors()
     const connectionToEdit = object('Connection to edit', connectionsList[0])

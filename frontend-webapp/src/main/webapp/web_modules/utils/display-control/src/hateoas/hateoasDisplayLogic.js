@@ -18,7 +18,7 @@
  */
 const HateoasDisplayLogic = component => (
     // Todo
-    // typeof component.props.endpoints[component.props.endpointKey] !== 'undefined'
+    // typeof components.props.endpoints[components.props.endpointKey] !== 'undefined'
     true
   )
 

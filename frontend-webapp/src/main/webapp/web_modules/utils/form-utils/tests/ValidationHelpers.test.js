@@ -3,7 +3,7 @@ import { expect, assert } from 'chai'
 import { Field } from '@regardsoss/form-utils'
 import ValidationHelpers from '../src/ValidationHelpers'
 
-// Test a component rendering
+// Test a components rendering
 describe('[FORM UTILS] Testing validation helpers', () => {
   it('should exists', () => {
     assert.isDefined(ValidationHelpers)

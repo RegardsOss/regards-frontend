@@ -37,17 +37,17 @@ class GuidedProjectConfiguration extends React.Component {
         <RaisedButton
           type="submit"
           label="Next"
-          disableTouchRipple={true}
-          disableFocusRipple={true}
-          primary={true}
+          disableTouchRipple
+          disableFocusRipple
+          primary
           onTouchTap={this.handleNext}
           style={{ marginRight: 12 }}
         />
         {step > 0 && (
           <FlatButton
             label="Back"
-            disableTouchRipple={true}
-            disableFocusRipple={true}
+            disableTouchRipple
+            disableFocusRipple
             onTouchTap={this.handlePrev}
           />
         )}
@@ -59,11 +59,13 @@ class GuidedProjectConfiguration extends React.Component {
     const { stepIndex } = this.state
 
     return (
-      <div style={{
-        maxWidth: 380,
-        maxHeight: 400,
-        margin: 'auto',
-      }}>
+      <div
+        style={{
+          maxWidth: 380,
+          maxHeight: 400,
+          margin: 'auto',
+        }}
+      >
         <Stepper
           activeStep={stepIndex}
           linear={false}

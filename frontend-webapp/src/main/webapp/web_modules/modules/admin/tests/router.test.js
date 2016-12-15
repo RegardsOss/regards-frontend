@@ -49,7 +49,7 @@ describe('[ADMIN MANAGEMENT] Testing admin router', () => {
       done()
     })
   })
-  it('empty component on the root page', () => {
+  it('empty components on the root page', () => {
     assert.isUndefined(Routes.childRoutes[5].getChildRoutes)
     assert.isUndefined(Routes.childRoutes[5].getComponents)
     assert.isUndefined(Routes.childRoutes[5].getComponent)

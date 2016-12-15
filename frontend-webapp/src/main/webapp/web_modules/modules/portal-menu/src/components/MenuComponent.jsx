@@ -1,24 +1,35 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { SelectLocaleContainer } from '@regardsoss/i18n'
-import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from 'material-ui/Toolbar'
 import { SelectThemeContainer, themeContextType } from '@regardsoss/theme'
+import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from 'material-ui/Toolbar'
 
+/**
+ * Main component of module menu
+ **/
 class MenuComponent extends React.Component {
+
+  static propTypes = {
+    appName: React.PropTypes.string.isRequired,
+  }
 
   static contextTypes= {
     ...themeContextType,
   }
 
   render() {
+    const menuTheme = this.context.muiTheme[this.props.appName].modules.common.menu
     const style = {
       headContainer: {
-        classes: this.context.muiTheme.menu.classes.join(' '),
+        classes: menuTheme.classes.join(' '),
         styles: Object.assign(
           {},
-          this.context.muiTheme.menu.bar,
+          menuTheme.bar,
           { fontFamily: this.context.muiTheme.fontFamily },
         ),
       },
-      title: this.context.muiTheme.menu.title,
+      title: menuTheme.title,
     }
 
     return (

@@ -19,7 +19,7 @@ class IntegerInputComponent extends React.Component {
   }
 
   /**
-   * Provides a getter when this parent component has a ref for this component
+   * Provides a getter when this parent components has a ref for this components
    * @returns {number}
    */
   getValue = () => {

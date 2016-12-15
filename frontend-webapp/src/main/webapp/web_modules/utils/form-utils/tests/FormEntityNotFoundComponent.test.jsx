@@ -2,7 +2,7 @@ import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import FormEntityNotFoundComponent from '../src/FormEntityNotFoundComponent'
 
-// Test a component rendering
+// Test a components rendering
 describe('[FORM UTILS] Testing FormEntityNotFoundComponent', () => {
   it('should exists', () => {
     assert.isDefined(FormEntityNotFoundComponent)

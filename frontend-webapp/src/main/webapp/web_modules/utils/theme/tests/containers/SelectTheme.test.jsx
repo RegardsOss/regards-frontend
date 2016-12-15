@@ -26,7 +26,7 @@ function setup() {
   }
 }
 
-// Test a component rendering
+// Test a components rendering
 describe('[COMMON] Testing select theme container', () => {
   /**
    * Not tested

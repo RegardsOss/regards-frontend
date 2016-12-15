@@ -3,7 +3,7 @@ import { expect, assert } from 'chai'
 import { Field } from '@regardsoss/form-utils'
 import ErrorTypes from '../src/ErrorTypes'
 
-// Test a component rendering
+// Test a components rendering
 describe('[FORM UTILS] Testing error types', () => {
   it('should exists', () => {
     assert.isDefined(ErrorTypes)

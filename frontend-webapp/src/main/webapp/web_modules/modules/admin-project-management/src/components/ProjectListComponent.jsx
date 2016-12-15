@@ -11,7 +11,7 @@ import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 
 /**
- * React component to list project.
+ * React components to list project.
  */
 export class ProjectListComponent extends React.Component {
 

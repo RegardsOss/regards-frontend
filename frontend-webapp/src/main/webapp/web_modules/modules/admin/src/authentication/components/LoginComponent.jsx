@@ -6,7 +6,7 @@ import { themeContextType } from '@regardsoss/theme'
 import { RenderTextField, FormErrorMessage, ErrorTypes, Field, ValidationHelpers } from '@regardsoss/form-utils'
 
 /**
- * React component for login form in administration applicationstat
+ * React components for login form in administration applicationstat
  */
 class LoginComponent extends React.Component {
 
@@ -25,7 +25,7 @@ class LoginComponent extends React.Component {
   }
 
   /**
-   * On component mount
+   * On components mount
    */
   componentWillMount() {
     if (process.env.NODE_ENV === 'development') {
@@ -36,7 +36,7 @@ class LoginComponent extends React.Component {
 
   /**
    * Render function
-   * @returns {React.Component} component
+   * @returns {React.Component} components
    */
   render() {
     const style = {

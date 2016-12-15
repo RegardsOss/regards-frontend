@@ -2,7 +2,7 @@ import { themeContextType } from '@regardsoss/theme'
 
 
 /**
- * React component to add the color on a text or another component
+ * React components to add the color on a text or another components
  */
 class ErrorDecoratorComponent extends React.Component {
   static contextTypes = {
