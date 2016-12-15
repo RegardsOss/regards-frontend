@@ -2,9 +2,9 @@ import BasicSelector from './BasicSelector'
 import BasicListSelectors from './list/BasicListSelectors'
 import BasicListActions from './list/BasicListActions'
 import BasicListReducers from './list/BasicListReducers'
-import BasicPaegableSelectors from './paegable/BasicPaegableSelectors'
-import BasicPaegableActions from './paegable/BasicPaegableActions'
-import BasicPaegableReducers from './paegable/BasicPaegableReducers'
+import BasicPageableSelectors from './pageable/BasicPageableSelectors'
+import BasicPageableActions from './pageable/BasicPageableActions'
+import BasicPageableReducers from './pageable/BasicPageableReducers'
 
 
 export default {
@@ -12,7 +12,7 @@ export default {
   BasicListSelectors,
   BasicListActions,
   BasicListReducers,
-  BasicPaegableSelectors,
-  BasicPaegableActions,
-  BasicPaegableReducers,
+  BasicPageableSelectors,
+  BasicPageableActions,
+  BasicPageableReducers,
 }

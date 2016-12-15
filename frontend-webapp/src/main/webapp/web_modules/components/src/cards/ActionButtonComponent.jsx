@@ -26,7 +26,7 @@ class ActionButtonComponent extends React.Component {
   static defaultProps = {
     label: '',
     button: RaisedButton,
-    primary: true,
+    primary: false,
     secondary: false,
     style: {},
     isVisible: true,
