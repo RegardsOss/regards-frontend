@@ -1,9 +1,25 @@
 // Default theme
+import { grey100, indigo500, white } from 'material-ui/styles/colors'
 
 export default {
   // Reset some part of the material-ui framework
   drawer: {
     width: '100%',
+  },
+  menu: {
+    bar: {
+      backgroundColor: indigo500,
+      titleFontSize: 23,
+      height: 50,
+    },
+    title: {
+      color: grey100,
+      marginLeft: '40px',
+    },
+    classes: ['col-sm-98', 'col-sm-offset-1'],
+    localeDropdown: {
+      color: white,
+    },
   },
   adminApp: {
     loginForm: {
