@@ -1,3 +1,6 @@
+/*
+ * LICENSE_PLACEHOLDER
+ */
 import React from 'react'
 import FlatButton from 'material-ui/FlatButton'
 import PlayArrow from 'material-ui/svg-icons/av/play-arrow'
@@ -13,6 +16,12 @@ import ProjectConnection from '@regardsoss/model/src/admin/ProjectConnection'
 import EnumConnectivity from '@regardsoss/model/src/admin/EnumConnectivity'
 import ConnectionTesterProgress from './ConnectionTesterProgress'
 
+/**
+ * An ergonmy button starting a connectivity test for the passed {@link ProjectConnection}.<br>
+ * The result of the test is displayed in place of the button, and hovering the result allows to restart the test.
+ *
+ * @author Xavier-Alexandre Brochard
+ */
 class DatabaseConnectionTester extends React.Component {
 
   static propTypes = {

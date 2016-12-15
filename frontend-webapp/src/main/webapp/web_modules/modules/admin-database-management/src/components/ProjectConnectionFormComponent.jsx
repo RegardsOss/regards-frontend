@@ -1,3 +1,6 @@
+/*
+ * LICENSE_PLACEHOLDER
+ */
 import * as React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
@@ -9,7 +12,9 @@ import ProjectConnection from '@regardsoss/model/src/admin/ProjectConnection'
 import DatabaseConnectionTester from './DatabaseConnectionTester'
 
 /**
- * Display edit and create project form
+ * Reusable {@link ProjectConnection} form for reading, editing, creating.
+ *
+ * @author Xavier-Alexandre Brochard
  */
 export class ProjectConnectionFormComponent extends React.Component {
 

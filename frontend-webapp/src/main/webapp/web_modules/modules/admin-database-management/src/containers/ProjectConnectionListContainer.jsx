@@ -1,3 +1,6 @@
+/*
+ * LICENSE_PLACEHOLDER
+ */
 import { connect } from 'react-redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { browserHistory } from 'react-router'
@@ -45,7 +48,9 @@ const connectionsList = {
 }
 
 /**
- * Show the user list for the current project
+ * Connects a {@link ProjectConnectionListComponent} to the redux store.
+ *
+ * @author Xavier-Alexandre Brochard}
  */
 export class ProjectConnectionListContainer extends React.Component {
 
