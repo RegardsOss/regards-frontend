@@ -98,14 +98,16 @@ storiesOf('InstanceAdmin - Database', module)
         />
       </ThemeAndLocaleDecorator>
     )
-  }).add('Edit', () => {
+  })
+  .add('Edit', () => {
     const themeName = addLocaleAndThemeSelectors()
-    const projectConnection = object('Connection to edit', testProjectConnections[0])
+    const connectionToEdit = object('Connection to edit', testProjectConnections[0])
     return (
       <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-database-management/src/i18n">
         <ProjectConnectionEditComponent
-          projectConnection={projectConnection}
+          projectConnection={connectionToEdit}
           onSubmit={action('onCreate')}
+          onCancel={action('onCancel')}
         />
       </ThemeAndLocaleDecorator>
     )
