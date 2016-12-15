@@ -1,3 +1,6 @@
+/*
+ * LICENSE_PLACEHOLDER
+ */
 import React from 'react'
 import FlatButton from 'material-ui/FlatButton'
 import PlayArrow from 'material-ui/svg-icons/av/play-arrow'
@@ -9,28 +12,20 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { FormattedMessage } from 'react-intl'
 import Snackbar from 'material-ui/Snackbar'
 import OnHoverSwitchFlatButton from '@regardsoss/components/src/buttons/OnHoverSwitchFlatButton'
+import ProjectConnection from '@regardsoss/model/src/admin/ProjectConnection'
+import EnumConnectivity from '@regardsoss/model/src/admin/EnumConnectivity'
 import ConnectionTesterProgress from './ConnectionTesterProgress'
 
-const NOT_TESTED = Symbol('The connection has not been tested yet')
-const PENDING = Symbol('The connection is being established')
-const SUCCESS = Symbol('The connection has successfuly been established')
-const WARNING = Symbol('The connection could be established but errors occured')
-const ERROR = Symbol('The connection could not be established')
-
+/**
+ * An ergonmy button starting a connectivity test for the passed {@link ProjectConnection}.<br>
+ * The result of the test is displayed in place of the button, and hovering the result allows to restart the test.
+ *
+ * @author Xavier-Alexandre Brochard
+ */
 class DatabaseConnectionTester extends React.Component {
 
   static propTypes = {
-    projectConnection: React.PropTypes.shape({
-      content: React.PropTypes.shape({
-        id: React.PropTypes.number,
-        projectName: React.PropTypes.string,
-        microservice: React.PropTypes.string,
-        userName: React.PropTypes.string,
-        password: React.PropTypes.string,
-        driverClassName: React.PropTypes.string,
-        url: React.PropTypes.string,
-      }),
-    }).isRequired,
+    projectConnection: ProjectConnection.isRequired,
   }
 
   static contextTypes = {
@@ -41,7 +36,7 @@ class DatabaseConnectionTester extends React.Component {
   constructor(props, context) {
     super(props, context)
     this.state = {
-      status: NOT_TESTED,
+      status: EnumConnectivity.NOT_TESTED,
       completed: 0,
       snackBarOpen: false,
       snackBarMessageId: 'database.connectionTester.snackbar.warning',
@@ -50,11 +45,11 @@ class DatabaseConnectionTester extends React.Component {
 
   getSnackBarMessageId = (status) => {
     switch (status) {
-      case SUCCESS:
+      case EnumConnectivity.SUCCESS:
         return 'database.connectionTester.snackbar.connected'
-      case WARNING:
+      case EnumConnectivity.WARNING:
         return 'database.connectionTester.snackbar.warning'
-      case ERROR:
+      case EnumConnectivity.ERROR:
         return 'database.connectionTester.snackbar.notConnected'
       default:
         return 'database.connectionTester.snackbar.warning'
@@ -63,12 +58,12 @@ class DatabaseConnectionTester extends React.Component {
 
   handleTouchTap = () => {
     this.setState({
-      status: PENDING,
+      status: EnumConnectivity.PENDING,
       snackBarOpen: false,
     })
     // Make API call instead
     this.progress(0)
-    const possibleResultStates = [SUCCESS, ERROR]
+    const possibleResultStates = [EnumConnectivity.SUCCESS, EnumConnectivity.ERROR]
     const randomResult = possibleResultStates[Math.floor(Math.random() * possibleResultStates.length)]
     setTimeout(() => {
       this.setState({
@@ -158,19 +153,19 @@ class DatabaseConnectionTester extends React.Component {
 
     let result = testButton
     switch (this.state.status) {
-      case NOT_TESTED:
+      case EnumConnectivity.NOT_TESTED:
         result = testButton
         break
-      case PENDING:
+      case EnumConnectivity.PENDING:
         result = pendingProgress
         break
-      case SUCCESS:
+      case EnumConnectivity.SUCCESS:
         result = successButton
         break
-      case WARNING:
+      case EnumConnectivity.WARNING:
         result = warningButton
         break
-      case ERROR:
+      case EnumConnectivity.ERROR:
         result = errorButton
         break
       default:

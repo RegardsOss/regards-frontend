@@ -1,3 +1,6 @@
+/*
+ * LICENSE_PLACEHOLDER
+ */
 import { combineReducers } from 'redux'
 import getProjectConnectionReducers from './model/ProjectConnectionReducers'
 

@@ -1,7 +1,10 @@
+/*
+ * LICENSE_PLACEHOLDER
+ */
 import Schemas from '@regardsoss/api'
-import { BasicListActions } from '@regardsoss/store-utils'
+import { BasicPageableActions } from '@regardsoss/store-utils'
 
-class ProjectConnectionActions extends BasicListActions {
+class ProjectConnectionActions extends BasicPageableActions {
   constructor() {
     super({
       namespace: 'admin-database-management',

@@ -1,32 +1,27 @@
+/*
+ * LICENSE_PLACEHOLDER
+ */
 import * as React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Card, CardActions, CardText } from 'material-ui/Card'
 import { reduxForm } from 'redux-form'
 import TextField from 'material-ui/TextField'
 import MainActionButtonComponent from '@regardsoss/components/src/cards/MainActionButtonComponent'
 import SecondaryActionButtonComponent from '@regardsoss/components/src/cards/SecondaryActionButtonComponent'
 import { RenderTextField, Field, ValidationHelpers } from '@regardsoss/form-utils'
+import ProjectConnection from '@regardsoss/model/src/admin/ProjectConnection'
 import DatabaseConnectionTester from './DatabaseConnectionTester'
 
 /**
- * Display edit and create project form
+ * Reusable {@link ProjectConnection} form for reading, editing, creating.
+ *
+ * @author Xavier-Alexandre Brochard
  */
 export class ProjectConnectionFormComponent extends React.Component {
 
   static propTypes = {
-    currentProjectConnection: React.PropTypes.shape({
-      content: React.PropTypes.shape({
-        id: React.PropTypes.number,
-        projectName: React.PropTypes.string,
-        microservice: React.PropTypes.string,
-        userName: React.PropTypes.string,
-        password: React.PropTypes.string,
-        driverClassName: React.PropTypes.string,
-        url: React.PropTypes.string,
-      }),
-    }).isRequired,
+    projectConnection: ProjectConnection.isRequired,
     onSubmit: React.PropTypes.func.isRequired,
-    backUrl: React.PropTypes.string.isRequired,
+    onCancel: React.PropTypes.func.isRequired,
     // from reduxForm
     submitting: React.PropTypes.bool,
     pristine: React.PropTypes.bool,
@@ -40,13 +35,13 @@ export class ProjectConnectionFormComponent extends React.Component {
   }
 
   handleInitialize = () => {
-    const { currentProjectConnection } = this.props
-    currentProjectConnection.content.driverClassName = 'PostgreSQL'
+    const { projectConnection } = this.props
+    projectConnection.content.driverClassName = 'PostgreSQL'
     this.props.initialize({
-      userName: currentProjectConnection.content.userName,
-      password: currentProjectConnection.content.password,
-      driverClassName: currentProjectConnection.content.driverClassName,
-      url: currentProjectConnection.content.url,
+      userName: projectConnection.content.userName,
+      password: projectConnection.content.password,
+      driverClassName: projectConnection.content.driverClassName,
+      url: projectConnection.content.url,
     })
   }
 
@@ -54,11 +49,12 @@ export class ProjectConnectionFormComponent extends React.Component {
     return (
       <form onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
         <TextField
-          hintText={this.props.currentProjectConnection.content.driverClassName}
+          hintText={this.props.projectConnection.content.driverClassName}
           floatingLabelText={<FormattedMessage id="database.form.input.driverClassName" />}
           floatingLabelFixed
-          value={this.props.currentProjectConnection.content.driverClassName}
+          value={this.props.projectConnection.content.driverClassName}
           disabled
+          fullWidth
         />
         <Field
           name="url"
@@ -82,10 +78,10 @@ export class ProjectConnectionFormComponent extends React.Component {
           label={<FormattedMessage id="database.form.input.password" />}
         />
         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <DatabaseConnectionTester projectConnection={this.props.currentProjectConnection} />
+          <DatabaseConnectionTester projectConnection={this.props.projectConnection} />
           <SecondaryActionButtonComponent
             label={<FormattedMessage id="database.form.action.cancel" />}
-            onTouchTap={() => alert('handle back')}
+            onTouchTap={this.props.onCancel}
           />
           <MainActionButtonComponent
             label={<FormattedMessage id="database.form.action.save" />}
@@ -117,5 +113,6 @@ function validate(values) {
 
 export default reduxForm({
   form: 'project-connection-form',
+  destroyOnUnmount: false,
   validate,
 })(ProjectConnectionFormComponent)

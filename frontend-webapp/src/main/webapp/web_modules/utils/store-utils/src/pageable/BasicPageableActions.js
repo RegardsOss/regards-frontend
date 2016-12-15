@@ -6,17 +6,17 @@ import BasicListActions from '../list/BasicListActions'
 
 const { CALL_API, getJSON } = require('redux-api-middleware')
 /**
- *  Provide actions for a specific type of entity paegable list
+ *  Provide actions for a specific type of entity pageable list
  *  @Return dispatcheable redux actions
  */
-class BasicPaegableActions extends BasicListActions {
+class BasicPageableActions extends BasicListActions {
 
   constructor(options) {
     super(options)
     // rename actions to get correct logs
-    this.ENTITY_LIST_REQUEST = `${options.namespace}/PAEGABLE_LIST_REQUEST`
-    this.ENTITY_LIST_SUCCESS = `${options.namespace}/PAEGABLE_LIST_SUCCESS`
-    this.ENTITY_LIST_FAILURE = `${options.namespace}/PAEGABLE_LIST_FAILURE`
+    this.ENTITY_LIST_REQUEST = `${options.namespace}/PAGEABLE_LIST_REQUEST`
+    this.ENTITY_LIST_SUCCESS = `${options.namespace}/PAGEABLE_LIST_SUCCESS`
+    this.ENTITY_LIST_FAILURE = `${options.namespace}/PAGEABLE_LIST_FAILURE`
   }
 
   /**
@@ -50,4 +50,4 @@ class BasicPaegableActions extends BasicListActions {
 }
 
 
-export default BasicPaegableActions
+export default BasicPageableActions

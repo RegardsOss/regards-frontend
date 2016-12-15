@@ -1,8 +1,8 @@
-import { BasicPaegableReducers } from '@regardsoss/store-utils'
+import { BasicPageableReducers } from '@regardsoss/store-utils'
 import { AccountConfiguration } from '@regardsoss/api'
 import AccountActions from './AccountActions'
 
-class AccountReducers extends BasicPaegableReducers {
+class AccountReducers extends BasicPageableReducers {
   constructor() {
     super(AccountConfiguration, AccountActions)
   }

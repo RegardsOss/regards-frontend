@@ -64,7 +64,7 @@ export class RoleListComponent extends React.Component {
         />
         <CardText>
           <Table
-            selectable
+            selectable={false}
           >
             <TableHeader
               enableSelectAll={false}

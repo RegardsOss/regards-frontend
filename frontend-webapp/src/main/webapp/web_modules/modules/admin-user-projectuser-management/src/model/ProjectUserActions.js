@@ -1,9 +1,9 @@
 import Schemas from '@regardsoss/api'
-import { BasicListActions } from '@regardsoss/store-utils'
+import { BasicPageableActions } from '@regardsoss/store-utils'
 const { CALL_API, getJSON } = require('redux-api-middleware')
 import { normalize } from 'normalizr'
 
-class ProjectUserActions extends BasicListActions {
+class ProjectUserActions extends BasicPageableActions {
   constructor() {
     super({
       namespace: 'admin-user-projectuser-management',

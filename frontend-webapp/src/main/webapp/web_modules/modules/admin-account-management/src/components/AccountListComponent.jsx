@@ -50,7 +50,7 @@ export class AccountListComponent extends React.Component {
         />
         <CardText>
           <Table
-            selectable
+            selectable={false}
           >
             <TableHeader
               enableSelectAll={false}

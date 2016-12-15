@@ -1,8 +1,8 @@
-import { BasicListReducers } from '@regardsoss/store-utils'
+import { BasicPageableReducers } from '@regardsoss/store-utils'
 import { ProjectUserConfiguration } from '@regardsoss/api'
 import ProjectUserActions from './ProjectUserActions'
 
-class ProjectUserReducers extends BasicListReducers {
+class ProjectUserReducers extends BasicPageableReducers {
   constructor() {
     super(ProjectUserConfiguration, ProjectUserActions)
   }

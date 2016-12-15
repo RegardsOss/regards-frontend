@@ -4,9 +4,9 @@
 import BasicListReducers from '../list/BasicListReducers'
 
 /**
- *  Handle reduction for paegable entity lists
+ *  Handle reduction for pageable entity lists
  */
-class BasicPaegableReducer extends BasicListReducers {
+class BasicPageableReducer extends BasicListReducers {
 
   constructor(options, basicListActionInstance) {
     super(options, basicListActionInstance)
@@ -14,4 +14,4 @@ class BasicPaegableReducer extends BasicListReducers {
 
 }
 
-export default BasicPaegableReducer
+export default BasicPageableReducer

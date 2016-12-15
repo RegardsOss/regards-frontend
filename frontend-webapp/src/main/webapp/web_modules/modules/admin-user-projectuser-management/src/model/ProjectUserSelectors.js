@@ -1,6 +1,6 @@
-import { BasicListSelectors } from '@regardsoss/store-utils'
+import { BasicPageableSelectors } from '@regardsoss/store-utils'
 
-class ProjectUserSelectors extends BasicListSelectors {
+class ProjectUserSelectors extends BasicPageableSelectors {
   constructor() {
     super(['admin', 'user-management', 'project-user-management', 'project-user'])
   }

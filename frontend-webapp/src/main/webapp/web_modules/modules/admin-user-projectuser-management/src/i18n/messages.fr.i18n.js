@@ -1,4 +1,6 @@
-const messages = {
+import { Locales } from '@regardsoss/form-utils'
+
+const messages = Object.assign({
   'projectUser.list.table.lastupdate': 'Dernière mise à jour',
   'projectUser.list.table.role': 'Rôle',
   'projectUser.list.table.email': 'E-mail',
@@ -20,6 +22,7 @@ const messages = {
   'projectUser.create.action.create': 'Créer',
   'projectUser.create.action.cancel': 'Annuler',
 
-}
+}, Locales.fr)
 
 export default messages
+

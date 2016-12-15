@@ -31,6 +31,7 @@
     "@regardsoss/admin-project-management": "0.0.1",
     "@regardsoss/admin-user-management": "0.0.1",
     "@regardsoss/admin-user-projectuser-management": "0.0.1",
+    "@regardsoss/admin-user-role-resource-access-management": "0.0.1",
     "@regardsoss/admin-user-role-management": "0.0.1",
     "@regardsoss/api": "0.0.1",
     "@regardsoss/model": "0.0.1",

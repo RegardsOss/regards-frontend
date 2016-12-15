@@ -1,28 +1,26 @@
+/*
+ * LICENSE_PLACEHOLDER
+ */
 import { browserHistory } from 'react-router'
 import { FormattedMessage } from 'react-intl'
 import { Card, CardText } from 'material-ui/Card'
 import IconButton from 'material-ui/IconButton'
 import ArrowBack from 'material-ui/svg-icons/navigation/arrow-back'
 import AppBar from 'material-ui/AppBar'
+import ProjectConnection from '@regardsoss/model/src/admin/ProjectConnection'
 import ProjectConnectionFormComponent from './ProjectConnectionFormComponent'
 
 /**
- * Display edit and create project form
+ * React component using the {@link ProjectConnectionFormComponent} to allow edition of the passed {@link ProjectConnection}.
+ *
+ * @author Xavier-Alexandre Brochard
  */
 export class ProjectConnectionEditComponent extends React.Component {
 
   static propTypes = {
-    currentProjectConnection: React.PropTypes.shape({
-      content: React.PropTypes.shape({
-        id: React.PropTypes.number,
-        projectName: React.PropTypes.string,
-        microservice: React.PropTypes.string,
-        userName: React.PropTypes.string,
-        password: React.PropTypes.string,
-        driverClassName: React.PropTypes.string,
-        url: React.PropTypes.string,
-      }),
-    }).isRequired,
+    projectConnection: ProjectConnection.isRequired,
+    onSubmit: React.PropTypes.func.isRequired,
+    onCancel: React.PropTypes.func.isRequired,
   }
 
 
@@ -31,22 +29,23 @@ export class ProjectConnectionEditComponent extends React.Component {
   }
 
   render() {
+    const { projectConnection, onSubmit, onCancel } = this.props
     return (
       <Card>
         <AppBar
           title={<FormattedMessage
             id="database.form.edit.title"
             values={{
-              microservice: this.props.currentProjectConnection.content.microservice,
+              microservice: projectConnection.content.microservice,
             }}
           />}
           iconElementLeft={<IconButton onTouchTap={this.handleBackClick}><ArrowBack /></IconButton>}
         />
         <CardText>
           <ProjectConnectionFormComponent
-            currentProjectConnection={this.props.currentProjectConnection}
-            onSubmit={() => alert('handle submit')}
-            backUrl={'/back/url'}
+            projectConnection={projectConnection}
+            onSubmit={onSubmit}
+            onCancel={onCancel}
           />
         </CardText>
       </Card>
