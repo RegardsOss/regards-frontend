@@ -3,10 +3,10 @@
  */
 import BasicListSelectors from '../list/BasicListSelectors'
 /**
- *  Provide an high level class to interact with entity stored in a paegable list
+ *  Provide an high level class to interact with entity stored in a pageable list
  */
-class BasicPaegableSelectors extends BasicListSelectors {
+class BasicPageableSelectors extends BasicListSelectors {
 
 }
 
-export default BasicPaegableSelectors
+export default BasicPageableSelectors

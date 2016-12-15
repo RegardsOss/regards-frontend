@@ -1,6 +1,6 @@
-import { BasicPaegableSelectors } from '@regardsoss/store-utils'
+import { BasicPageableSelectors } from '@regardsoss/store-utils'
 
-class ProjectSelectors extends BasicPaegableSelectors {
+class ProjectSelectors extends BasicPageableSelectors {
   constructor() {
     super(['admin', 'project-management', 'project'])
   }

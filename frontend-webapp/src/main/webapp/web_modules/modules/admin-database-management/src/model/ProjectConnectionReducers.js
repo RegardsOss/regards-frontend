@@ -1,11 +1,11 @@
 /*
  * LICENSE_PLACEHOLDER
  */
-import { BasicListReducers } from '@regardsoss/store-utils'
+import { BasicPageableReducers } from '@regardsoss/store-utils'
 import { ProjectConnectionConfiguration } from '@regardsoss/api'
 import ProjectConnectionActions from './ProjectConnectionActions'
 
-class ProjectConnectionReducers extends BasicListReducers {
+class ProjectConnectionReducers extends BasicPageableReducers {
   constructor() {
     super(ProjectConnectionConfiguration, ProjectConnectionActions)
   }

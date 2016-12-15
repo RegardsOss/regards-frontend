@@ -2,13 +2,15 @@
  * LICENSE_PLACEHOLDER
  */
 import { connect } from 'react-redux'
-import { I18nProvider } from '@regardsoss/i18n'
 import { browserHistory } from 'react-router'
+import { I18nProvider } from '@regardsoss/i18n'
+import ProjectConnectionList from '@regardsoss/model/src/admin/ProjectConnection'
 import ProjectConnectionActions from '../model/ProjectConnectionActions'
 import ProjectConnectionSelectors from '../model/ProjectConnectionSelectors'
-import ProjectConnectionList from '../components/ProjectConnectionListComponent'
+import ProjectConnectionListComponent from '../components/ProjectConnectionListComponent'
 
-const connectionsList = {
+/*
+const projectConnections = {
   0: {
     content: {
       id: 0,
@@ -46,6 +48,7 @@ const connectionsList = {
     links: [],
   },
 }
+*/
 
 /**
  * Connects a {@link ProjectConnectionListComponent} to the redux store.
@@ -60,29 +63,17 @@ export class ProjectConnectionListContainer extends React.Component {
       project: React.PropTypes.string,
     }),
     // from mapStateToProps
-    projectConnectionList: React.PropTypes.objectOf(
-      React.PropTypes.shape({
-        content: React.PropTypes.shape({
-          id: React.PropTypes.number,
-          projectName: React.PropTypes.string,
-          microservice: React.PropTypes.string,
-          userName: React.PropTypes.string,
-          password: React.PropTypes.string,
-          driverClassName: React.PropTypes.string,
-          url: React.PropTypes.string,
-        }),
-      }),
-    ),
+    projectConnections: ProjectConnectionList.isRequired,
     // from mapDispatchToProps
-    //fetchAccountList: React.PropTypes.func,
+    fetchProjectConnections: React.PropTypes.func,
     //deleteAccount: React.PropTypes.func,
   }
 
-  /*
   componentWillMount() {
-    this.props.fetchAccountList()
+    this.props.fetchProjectConnections()
   }
 
+  /*
   getBackUrl = () => {
     const { params: { project } } = this.props
     return `/admin/${project}/user/board`
@@ -105,11 +96,11 @@ export class ProjectConnectionListContainer extends React.Component {
   */
 
   render() {
-    const { projectConnectionList } = this.props
+    const { projectConnections } = this.props
 
     return (
       <I18nProvider messageDir="modules/admin-database-management/src/i18n">
-        <ProjectConnectionList list={connectionsList} />
+        <ProjectConnectionListComponent projectConnections={projectConnections} />
       </I18nProvider>
     )
   }
@@ -117,11 +108,11 @@ export class ProjectConnectionListContainer extends React.Component {
 
 
 const mapStateToProps = (state, ownProps) => ({
-  projectConnectionList: ProjectConnectionSelectors.getList(state),
+  projectConnections: ProjectConnectionSelectors.getList(state),
 })
 
 const mapDispatchToProps = dispatch => ({
-  // fetchAccountList: () => dispatch(ProjectConnectionActions.fetchEntityList()),
+  fetchProjectConnections: () => dispatch(ProjectConnectionActions.fetchEntityList()),
   // deleteAccount: accountId => dispatch(ProjectConnectionActions.deleteEntity(accountId)),
 })
 

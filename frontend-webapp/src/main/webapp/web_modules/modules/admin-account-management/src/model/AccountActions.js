@@ -1,7 +1,7 @@
 import Schemas from '@regardsoss/api'
-import { BasicPaegableActions } from '@regardsoss/store-utils'
+import { BasicPageableActions } from '@regardsoss/store-utils'
 
-class AccountActions extends BasicPaegableActions {
+class AccountActions extends BasicPageableActions {
   constructor() {
     super({
       namespace: 'admin-account-management',

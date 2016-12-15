@@ -1,9 +1,9 @@
 /*
  * LICENSE_PLACEHOLDER
  */
-import { BasicListSelectors } from '@regardsoss/store-utils'
+import { BasicPageableSelectors } from '@regardsoss/store-utils'
 
-class ProjectConnectionSelectors extends BasicListSelectors {
+class ProjectConnectionSelectors extends BasicPageableSelectors {
   constructor() {
     super(['admin', 'database-management', 'projectConnection'])
   }
