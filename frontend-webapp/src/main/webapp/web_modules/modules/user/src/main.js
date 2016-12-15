@@ -1,5 +1,8 @@
-import userReducer from './reducers'
-import userRouter from './routes'
+/**
+ * LICENSE_PLACEHOLDER
+ **/
+import userReducer from './reducer'
+import userRouter from './router'
 
 export {
   userRouter,

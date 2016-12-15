@@ -38,3 +38,5 @@ npm link web_modules/modules/news
 npm link web_modules/modules/portal
 npm link web_modules/modules/portal-menu
 npm link web_modules/modules/portal-projects
+
+npm link web_modules/modules/user

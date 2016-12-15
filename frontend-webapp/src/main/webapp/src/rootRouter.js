@@ -12,9 +12,9 @@ const rootRouter = {
   getChildRoutes(nextState, cb) {
     require.ensure([], (require) => {
       const AdminPckg = require('@regardsoss/admin')
-      require.ensure([], () => {
-        cb(null, [AdminPckg.adminRouter])
-      })
+      const UserPckg = require('@regardsoss/user')
+      console.log(AdminPckg, UserPckg)
+      cb(null, [AdminPckg.adminRouter, UserPckg.userRouter])
     })
   },
   getIndexRoute(nextState, cb) {

@@ -1,6 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  */
+import { merge } from 'lodash'
 import ModuleThemeProvider from './ModuleThemeProvider'
 /**
  * React Component to display a module.
@@ -13,12 +14,14 @@ class LazyModuleComponent extends React.Component {
   static propTypes = {
     appName: React.PropTypes.string.isRequired,
     moduleId: React.PropTypes.string.isRequired,
+    moduleConf: React.PropTypes.object,
   }
 
   constructor(props) {
     super(props)
     this.state = {
       moduleId: props.moduleId,
+      moduleConf: props.moduleConf,
       isLoaded: false,
       error: null,
     }
@@ -51,7 +54,7 @@ class LazyModuleComponent extends React.Component {
   render() {
     const { isLoaded, module } = this.state
     if (isLoaded) {
-      const moduleElt = React.createElement(module.ModuleContainer, { appName: this.props.appName })
+      const moduleElt = React.createElement(module.ModuleContainer, merge({}, { appName: this.props.appName }, this.state.moduleConf))
       return (
         <ModuleThemeProvider module={module}>
           { moduleElt }

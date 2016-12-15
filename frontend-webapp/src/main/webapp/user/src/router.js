@@ -7,7 +7,8 @@ const userRouter = {
   getComponent(nextState, cb) {
     const UserApp = require('./containers/UserApp')
     require.ensure([], (require) => {
-      cb(null, UserApp.default)
+      console.log(UserApp)
+      cb(null, UserApp)
     })
   },
 }

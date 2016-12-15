@@ -14,8 +14,8 @@ class ModuleFactory {
    * @param pModuleId module to display
    * @param appName application layout name
    */
-  static renderModule = (pModuleId, appName) => (
-    <LazyModuleComponent key={pModuleId} moduleId={pModuleId} appName={appName} />
+  static renderModule = (pModuleId, pModuleConf, appName) => (
+    <LazyModuleComponent key={pModuleId} moduleId={pModuleId} appName={appName} moduleConf={pModuleConf} />
   )
 
   /**
@@ -35,7 +35,7 @@ class ModuleFactory {
 
     let modules = []
     if (pContainer.modules) {
-      modules = pContainer.modules.map(m => ModuleFactory.renderModule(m, appName))
+      modules = pContainer.modules.map(m => ModuleFactory.renderModule(m.id, m.conf, appName))
     }
 
     return (

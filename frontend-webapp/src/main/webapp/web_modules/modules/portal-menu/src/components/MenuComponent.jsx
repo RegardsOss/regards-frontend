@@ -12,6 +12,7 @@ class MenuComponent extends React.Component {
 
   static propTypes = {
     appName: React.PropTypes.string.isRequired,
+    title: React.PropTypes.string,
   }
 
   static contextTypes= {
@@ -20,7 +21,8 @@ class MenuComponent extends React.Component {
 
   render() {
     const { moduleTheme } = this.context
-
+    console.log(this.props)
+    const title = this.props.title ? this.props.title : 'Regards'
     const style = {
       headContainer: {
         classes: moduleTheme.classes.join(' '),
@@ -32,7 +34,7 @@ class MenuComponent extends React.Component {
     return (
       <Toolbar className={style.headContainer.classes} style={style.headContainer.styles}>
         <ToolbarGroup firstChild>
-          <ToolbarTitle text="REGARDS portal" style={style.title} />
+          <ToolbarTitle text={title} style={style.title} />
         </ToolbarGroup>
         <ToolbarGroup>
           <SelectLocaleContainer />

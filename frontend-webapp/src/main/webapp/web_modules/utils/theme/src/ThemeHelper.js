@@ -8,6 +8,7 @@ import customThemes from './custom/index'
 import containerTypes from './custom/containerTypes'
 import adminAppLayer from './custom/adminAppLayer'
 import portalAppLayer from './custom/portalAppLayer'
+import userAppLayer from './custom/userAppLayer'
 // Custom themes
 
 // Needed for onTouchTap
@@ -61,7 +62,7 @@ class ThemeHelper {
     if (theme === undefined || theme.length === 0) {
       console.error('This theme does not exist or is empty', theme)
     }
-    return merge({}, adminAppLayer, portalAppLayer, theme)
+    return merge({}, adminAppLayer, portalAppLayer, userAppLayer, theme)
   }
 
   /**

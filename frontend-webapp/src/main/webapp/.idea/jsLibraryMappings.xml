@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JavaScriptLibraryMappings">
+    <file url="file://$PROJECT_DIR$/user" libraries="{webapp/web_modules/modules/user/node_modules}" />
+    <file url="file://$PROJECT_DIR$/web_modules/modules/user" libraries="{webapp/web_modules/modules/user/node_modules}" />
+    <includedPredefinedLibrary name="ECMAScript 6" />
+    <includedPredefinedLibrary name="Node.js Core" />
+    <excludedPredefinedLibrary name="webapp/user/node_modules" />
+  </component>
+</project>
