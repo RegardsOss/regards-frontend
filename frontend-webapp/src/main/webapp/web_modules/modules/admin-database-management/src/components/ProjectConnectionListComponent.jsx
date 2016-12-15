@@ -36,8 +36,8 @@ export class ProjectConnectionListComponent extends React.Component {
     return (
       <Card>
         <CardTitle
-          title={<FormattedMessage id="database.list.title"/>}
-          subtitle={<FormattedMessage id="database.list.subtitle"/>}
+          title={<FormattedMessage id="database.list.title" />}
+          subtitle={<FormattedMessage id="database.list.subtitle" />}
         />
         <CardText>
           <Table
@@ -49,12 +49,12 @@ export class ProjectConnectionListComponent extends React.Component {
               displaySelectAll={false}
             >
               <TableRow>
-                <TableHeaderColumn><FormattedMessage id="database.list.microservice"/></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="database.list.driverClassName"/></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="database.list.url"/></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="database.list.userName"/></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="database.list.password"/></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="database.list.action"/></TableHeaderColumn>
+                <TableHeaderColumn><FormattedMessage id="database.list.microservice" /></TableHeaderColumn>
+                <TableHeaderColumn><FormattedMessage id="database.list.driverClassName" /></TableHeaderColumn>
+                <TableHeaderColumn><FormattedMessage id="database.list.url" /></TableHeaderColumn>
+                <TableHeaderColumn><FormattedMessage id="database.list.userName" /></TableHeaderColumn>
+                <TableHeaderColumn><FormattedMessage id="database.list.password" /></TableHeaderColumn>
+                <TableHeaderColumn><FormattedMessage id="database.list.action" /></TableHeaderColumn>
               </TableRow>
             </TableHeader>
             <TableBody
@@ -71,9 +71,9 @@ export class ProjectConnectionListComponent extends React.Component {
                   <TableRowColumn>{connection.content.password}</TableRowColumn>
                   <TableRowColumn>
                     <IconButton onTouchTap={this.handleEdit}>
-                      <Edit hoverColor={style.hoverButtonEdit}/>
+                      <Edit hoverColor={style.hoverButtonEdit} />
                     </IconButton>
-                    <DatabaseConnectionTesterIconButton projectConnection={connection}/>
+                    <DatabaseConnectionTesterIconButton projectConnection={connection} />
                   </TableRowColumn>
                 </TableRow>
               ))}

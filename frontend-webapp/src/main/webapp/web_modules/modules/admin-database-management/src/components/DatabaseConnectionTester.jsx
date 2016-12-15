@@ -93,15 +93,15 @@ class DatabaseConnectionTester extends React.Component {
     const { projectConnection } = this.props
 
     const testButton = (<FlatButton
-      label={<FormattedMessage id="database.connectionTester.start"/>}
+      label={<FormattedMessage id="database.connectionTester.start" />}
       icon={<PlayArrow />}
       onTouchTap={this.handleTouchTap}
     />)
 
     const successButton =
       (<OnHoverSwitchFlatButton
-        label={[<FormattedMessage id="database.connectionTester.connected"/>,
-          <FormattedMessage id="database.connectionTester.restart"/>]}
+        label={[<FormattedMessage id="database.connectionTester.connected" />,
+          <FormattedMessage id="database.connectionTester.restart" />]}
         icon={[<Check />, <PlayArrow />]}
         primary={[true, false]}
         onTouchTap={[this.handleTouchTap, this.handleTouchTap]}
@@ -109,17 +109,17 @@ class DatabaseConnectionTester extends React.Component {
 
     const warningButton =
       (<OnHoverSwitchFlatButton
-        label={[<FormattedMessage id="database.connectionTester.warning"/>,
-          <FormattedMessage id="database.connectionTester.restart"/>]}
-        icon={[<Warning color={this.context.muiTheme.palette.warningColor}/>, <PlayArrow />]}
+        label={[<FormattedMessage id="database.connectionTester.warning" />,
+          <FormattedMessage id="database.connectionTester.restart" />]}
+        icon={[<Warning color={this.context.muiTheme.palette.warningColor} />, <PlayArrow />]}
         labelStyle={[{ color: this.context.muiTheme.palette.warningColor }, null]}
         onTouchTap={[this.handleTouchTap, this.handleTouchTap]}
       />)
 
     const errorButton =
       (<OnHoverSwitchFlatButton
-        label={[<FormattedMessage id="database.connectionTester.notConnected"/>,
-          <FormattedMessage id="database.connectionTester.restart"/>]}
+        label={[<FormattedMessage id="database.connectionTester.notConnected" />,
+          <FormattedMessage id="database.connectionTester.restart" />]}
         icon={[<Error />, <PlayArrow />]}
         secondary={[true, false]}
         onTouchTap={[this.handleTouchTap, this.handleTouchTap]}
@@ -132,9 +132,9 @@ class DatabaseConnectionTester extends React.Component {
         open={this.state.snackBarOpen}
         message={<FormattedMessage
           id={this.state.snackBarMessageId} values={{
-          microservice: projectConnection.content.microservice,
-          driverClassName: projectConnection.content.driverClassName,
-        }}
+            microservice: projectConnection.content.microservice,
+            driverClassName: projectConnection.content.driverClassName,
+          }}
         />}
         autoHideDuration={4000}
         onRequestClose={this.handleSnackbarRequestClose}

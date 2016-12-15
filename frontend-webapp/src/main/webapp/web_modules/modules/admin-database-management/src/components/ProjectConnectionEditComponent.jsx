@@ -14,6 +14,8 @@ export class ProjectConnectionEditComponent extends React.Component {
 
   static propTypes = {
     projectConnection: ProjectConnection.isRequired,
+    onSubmit: React.PropTypes.func.isRequired,
+    onCancel: React.PropTypes.func.isRequired,
   }
 
 
@@ -22,22 +24,23 @@ export class ProjectConnectionEditComponent extends React.Component {
   }
 
   render() {
+    const { projectConnection, onSubmit, onCancel } = this.props
     return (
       <Card>
         <AppBar
           title={<FormattedMessage
             id="database.form.edit.title"
             values={{
-              microservice: this.props.projectConnection.content.microservice,
+              microservice: projectConnection.content.microservice,
             }}
           />}
           iconElementLeft={<IconButton onTouchTap={this.handleBackClick}><ArrowBack /></IconButton>}
         />
         <CardText>
           <ProjectConnectionFormComponent
-            projectConnection={this.props.projectConnection}
-            onSubmit={() => alert('handle submit')}
-            backUrl={'/back/url'}
+            projectConnection={projectConnection}
+            onSubmit={onSubmit}
+            onCancel={onCancel}
           />
         </CardText>
       </Card>

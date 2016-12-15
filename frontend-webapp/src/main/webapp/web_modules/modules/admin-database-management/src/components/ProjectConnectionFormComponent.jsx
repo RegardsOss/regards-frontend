@@ -16,7 +16,7 @@ export class ProjectConnectionFormComponent extends React.Component {
   static propTypes = {
     projectConnection: ProjectConnection.isRequired,
     onSubmit: React.PropTypes.func.isRequired,
-    onCancel: React.PropTypes.func,
+    onCancel: React.PropTypes.func.isRequired,
     // from reduxForm
     submitting: React.PropTypes.bool,
     pristine: React.PropTypes.bool,
@@ -32,7 +32,6 @@ export class ProjectConnectionFormComponent extends React.Component {
   handleInitialize = () => {
     const { projectConnection } = this.props
     projectConnection.content.driverClassName = 'PostgreSQL'
-    console.log(projectConnection)
     this.props.initialize({
       userName: projectConnection.content.userName,
       password: projectConnection.content.password,
