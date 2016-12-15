@@ -1,3 +1,6 @@
+/*
+ * LICENSE_PLACEHOLDER
+ */
 import { map } from 'lodash'
 import { Card, CardTitle, CardText } from 'material-ui/Card'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
@@ -10,8 +13,9 @@ import ProjectConnectionList from '@regardsoss/model/src/admin/ProjectConnection
 import DatabaseConnectionTesterIconButton from './DatabaseConnectionTesterIconButton'
 
 /**
- * React component to list the data base connections for all microservices of a
- * project.
+ * React component to list the {@link ProjectConnection}s for all microservices of a project.
+ *
+ * @author Xavier-Alexandre Brochard
  */
 export class ProjectConnectionListComponent extends React.Component {
 

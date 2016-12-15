@@ -1,3 +1,6 @@
+/*
+ * LICENSE_PLACEHOLDER
+ */
 import { BasicListReducers } from '@regardsoss/store-utils'
 import { ProjectConnectionConfiguration } from '@regardsoss/api'
 import ProjectConnectionActions from './ProjectConnectionActions'

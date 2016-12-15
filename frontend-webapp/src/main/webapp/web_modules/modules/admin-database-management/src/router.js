@@ -1,3 +1,6 @@
+/*
+ * LICENSE_PLACEHOLDER
+ */
 export const listProjectConnectionRoute = {
   path: 'list',
   getComponents(nextState, cb) {

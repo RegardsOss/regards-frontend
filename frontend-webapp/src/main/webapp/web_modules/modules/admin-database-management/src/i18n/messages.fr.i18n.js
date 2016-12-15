@@ -1,3 +1,6 @@
+/*
+ * LICENSE_PLACEHOLDER
+ */
 const messages = {
   'database.connectionTester.start': 'Tester',
   'database.connectionTester.restart': 'Réessayer',

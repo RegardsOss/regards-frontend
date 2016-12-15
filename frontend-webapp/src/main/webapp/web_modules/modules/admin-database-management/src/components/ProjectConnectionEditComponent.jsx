@@ -1,3 +1,6 @@
+/*
+ * LICENSE_PLACEHOLDER
+ */
 import { browserHistory } from 'react-router'
 import { FormattedMessage } from 'react-intl'
 import { Card, CardText } from 'material-ui/Card'
@@ -8,7 +11,9 @@ import ProjectConnection from '@regardsoss/model/src/admin/ProjectConnection'
 import ProjectConnectionFormComponent from './ProjectConnectionFormComponent'
 
 /**
- * Display edit and create project form
+ * React component using the {@link ProjectConnectionFormComponent} to allow edition of the passed {@link ProjectConnection}.
+ *
+ * @author Xavier-Alexandre Brochard
  */
 export class ProjectConnectionEditComponent extends React.Component {
 
