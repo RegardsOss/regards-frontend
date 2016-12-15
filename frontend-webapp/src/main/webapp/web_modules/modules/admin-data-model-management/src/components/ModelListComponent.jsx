@@ -66,7 +66,7 @@ export class ProjectListComponent extends React.Component {
         />
         <CardText>
           <Table
-            selectable
+            selectable={false}
           >
             <TableHeader
               enableSelectAll={false}

@@ -44,7 +44,7 @@ export class AttributeModelListComponent extends React.Component {
         />
         <CardText>
           <Table
-            selectable
+            selectable={false}
           >
             <TableHeader
               enableSelectAll={false}

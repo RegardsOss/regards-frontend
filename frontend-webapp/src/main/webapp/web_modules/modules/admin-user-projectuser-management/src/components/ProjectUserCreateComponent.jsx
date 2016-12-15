@@ -99,6 +99,22 @@ export class ProjectUserCreateComponent extends React.Component {
 
 function validate(values) {
   const errors = {}
+  if (values.email) {
+    if (!ValidationHelpers.isValidEmail(values.email)) {
+      errors.email = ErrorTypes.EMAIL
+    }
+  } else {
+    errors.email = ErrorTypes.REQUIRED
+  }
+  if (!values.firstName) {
+    errors.firstName = ErrorTypes.REQUIRED
+  }
+  if (!values.lastName) {
+    errors.lastName = ErrorTypes.REQUIRED
+  }
+  if (!values.password) {
+    errors.password = ErrorTypes.REQUIRED
+  }
   return errors
 }
 
