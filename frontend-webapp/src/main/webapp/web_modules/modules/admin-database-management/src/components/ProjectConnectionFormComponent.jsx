@@ -49,7 +49,7 @@ export class ProjectConnectionFormComponent extends React.Component {
     return (
       <form onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
         <TextField
-          hintText={this.props.currentProjectConnection.content.driverClassName}
+          hintText={this.props.projectConnection.content.driverClassName}
           floatingLabelText={<FormattedMessage id="database.form.input.driverClassName" />}
           floatingLabelFixed
           value={this.props.projectConnection.content.driverClassName}
@@ -78,10 +78,10 @@ export class ProjectConnectionFormComponent extends React.Component {
           label={<FormattedMessage id="database.form.input.password" />}
         />
         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <DatabaseConnectionTester projectConnection={this.props.currentProjectConnection} />
+          <DatabaseConnectionTester projectConnection={this.props.projectConnection} />
           <SecondaryActionButtonComponent
             label={<FormattedMessage id="database.form.action.cancel" />}
-            onTouchTap={() => alert('handle back')}
+            onTouchTap={this.props.onCancel}
           />
           <MainActionButtonComponent
             label={<FormattedMessage id="database.form.action.save" />}
