@@ -15,6 +15,7 @@ import ActionButtonComponent from './ActionButtonComponent'
 function MainActionButtonComponent(props) {
   return (<ActionButtonComponent
     button={RaisedButton}
+    primary
     {...props}
   />)
 }

@@ -6,28 +6,17 @@ import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import { FormattedMessage } from 'react-intl'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
+import ProjectConnectionList from '@regardsoss/model/src/admin/ProjectConnection'
 import DatabaseConnectionTesterIconButton from './DatabaseConnectionTesterIconButton'
 
 /**
  * React component to list the data base connections for all microservices of a
  * project.
  */
-export class ProjectConnectionList extends React.Component {
+export class ProjectConnectionListComponent extends React.Component {
 
   static propTypes = {
-    list: React.PropTypes.objectOf(
-      React.PropTypes.shape({
-        content: React.PropTypes.shape({
-          id: React.PropTypes.number,
-          projectName: React.PropTypes.string,
-          microservice: React.PropTypes.string,
-          userName: React.PropTypes.string,
-          password: React.PropTypes.string,
-          driverClassName: React.PropTypes.string,
-          url: React.PropTypes.string,
-        }),
-      }),
-    ),
+    projectConnections: ProjectConnectionList.isRequired,
   }
 
   static contextTypes = {
@@ -40,7 +29,7 @@ export class ProjectConnectionList extends React.Component {
   }
 
   render() {
-    const { list } = this.props
+    const { projectConnections } = this.props
     const style = {
       hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
     }
@@ -73,7 +62,7 @@ export class ProjectConnectionList extends React.Component {
               preScanRows={false}
               showRowHover
             >
-              {map(list, (connection, i) => (
+              {map(projectConnections, (connection, i) => (
                 <TableRow key={i}>
                   <TableRowColumn>{connection.content.microservice}</TableRowColumn>
                   <TableRowColumn>{connection.content.driverClassName}</TableRowColumn>
@@ -96,4 +85,4 @@ export class ProjectConnectionList extends React.Component {
   }
 }
 
-export default ProjectConnectionList
+export default ProjectConnectionListComponent

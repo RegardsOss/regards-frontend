@@ -6,11 +6,12 @@ import ProjectConnectionListComponent from '@regardsoss/admin-database-managemen
 import ProjectConnectionEditComponent from '@regardsoss/admin-database-management/src/components/ProjectConnectionEditComponent'
 import ProjectConnectionFormComponent from '@regardsoss/admin-database-management/src/components/ProjectConnectionFormComponent'
 import GuidedProjectConfiguration from '@regardsoss/admin-database-management/src/components/GuidedProjectConfiguration'
+import EnumConnectivity from '@regardsoss/model/src/admin/EnumConnectivity'
 import { StoreDecorator, addLocaleAndThemeSelectors, ThemeAndLocaleDecorator } from '../../utils/decorators'
 import { CardActionsComponent } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
 
-const connectionsList = {
+const projectConnections = {
   0: {
     content: {
       id: 0,
@@ -18,8 +19,9 @@ const connectionsList = {
       microservice: 'rs-admin',
       userName: 'Alice',
       password: 'password',
-      driverClassName: 'aDriverClassName',
+      driverClassName: 'PostgreSQL',
       url: 'http://google.com',
+      connectivity: EnumConnectivity.SUCCESS,
     },
     links: [],
   },
@@ -30,8 +32,9 @@ const connectionsList = {
       microservice: 'rs-cloud',
       userName: 'Bob',
       password: 'azerty',
-      driverClassName: 'otherDriverClassName',
-      url: 'http://otherUrl',
+      driverClassName: 'PostgreSQL',
+      url: 'http://google.com',
+      connectivity: EnumConnectivity.ERROR,
     },
     links: [],
   },
@@ -42,8 +45,9 @@ const connectionsList = {
       microservice: 'rs-dam',
       userName: 'Charlie',
       password: 'qsdfgh',
-      driverClassName: 'someDriverClassName',
-      url: 'http://someUrl',
+      driverClassName: 'PostgreSQL',
+      url: 'http://google.com',
+      connectivity: EnumConnectivity.NOT_TESTED,
     },
     links: [],
   },
@@ -54,7 +58,7 @@ storiesOf('InstanceAdmin - Database', module)
   .addDecorator(StoreDecorator)
   .add('Connection tester', () => {
     const themeName = addLocaleAndThemeSelectors()
-    const projectConnection = object('Project connection', connectionsList[0])
+    const projectConnection = object('Project connection', projectConnections[0])
     return (
       <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-database-management/src/i18n">
         <DatabaseConnectionTester projectConnection={projectConnection}/>
@@ -63,7 +67,7 @@ storiesOf('InstanceAdmin - Database', module)
   })
   .add('Icon Button connection tester', () => {
     const themeName = addLocaleAndThemeSelectors()
-    const projectConnection = object('Project connection', connectionsList[0])
+    const projectConnection = object('Project connection', projectConnections[0])
     return (
       <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-database-management/src/i18n">
         <DatabaseConnectionTesterIconButton projectConnection={projectConnection}/>
@@ -72,35 +76,34 @@ storiesOf('InstanceAdmin - Database', module)
   })
   .add('List', () => {
     const themeName = addLocaleAndThemeSelectors()
-    const list = object('Connections list', connectionsList)
+    const list = object('Connections list', projectConnections)
     return (
       <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-database-management/src/i18n">
         <ProjectConnectionListComponent
-          list={list}
+          projectConnections={list}
         />
       </ThemeAndLocaleDecorator>
     )
   })
   .add('Form', () => {
     const themeName = addLocaleAndThemeSelectors()
-    const connectionToEdit = object('Form content', connectionsList[0])
+    const projectConnection = object('Form content', projectConnections[0])
     return (
       <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-database-management/src/i18n">
         <ProjectConnectionFormComponent
-          currentProjectConnection={connectionToEdit}
-          backUrl="/some/url"
+          projectConnection={projectConnection}
           onSubmit={action('onCreate')}
         />
       </ThemeAndLocaleDecorator>
     )
-  }).add('Edit', () => {
+  })
+  .add('Edit', () => {
   const themeName = addLocaleAndThemeSelectors()
-  const connectionToEdit = object('Connection to edit', connectionsList[0])
+  const connectionToEdit = object('Connection to edit', projectConnections[0])
   return (
     <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-database-management/src/i18n">
       <ProjectConnectionEditComponent
-        currentProjectConnection={connectionToEdit}
-        backUrl="/some/url"
+        projectConnection={connectionToEdit}
         onSubmit={action('onCreate')}
       />
     </ThemeAndLocaleDecorator>
@@ -108,10 +111,9 @@ storiesOf('InstanceAdmin - Database', module)
 })
   .add('Guided configuration', () => {
     const themeName = addLocaleAndThemeSelectors()
-    const connectionToEdit = object('Connection to edit', connectionsList[0])
     return (
       <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-database-management/src/i18n">
-        <GuidedProjectConfiguration />
+        <GuidedProjectConfiguration projectConnections={projectConnections} />
       </ThemeAndLocaleDecorator>
     )
   })

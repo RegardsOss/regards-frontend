@@ -1,3 +1,6 @@
+/*
+ * LICENSE_PLACEHOLDER
+ */
 import React from 'react'
 import LinearProgress from 'material-ui/LinearProgress'
 import { FormattedMessage } from 'react-intl'

@@ -1,36 +1,22 @@
 import React from 'react'
-import OnHoverSwitchIconButton from '@regardsoss/components/src/buttons/OnHoverSwitchIconButton'
 import IconButton from 'material-ui/IconButton'
 import PlayArrow from 'material-ui/svg-icons/av/play-arrow'
 import Check from 'material-ui/svg-icons/navigation/check'
 import Error from 'material-ui/svg-icons/alert/error'
 import Warning from 'material-ui/svg-icons/alert/warning'
-import { themeContextType } from '@regardsoss/theme'
-import { i18nContextType } from '@regardsoss/i18n'
 import { FormattedMessage } from 'react-intl'
 import Snackbar from 'material-ui/Snackbar'
+import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
+import OnHoverSwitchIconButton from '@regardsoss/components/src/buttons/OnHoverSwitchIconButton'
+import ProjectConnection from '@regardsoss/model/src/admin/ProjectConnection'
+import EnumConnectivity from '@regardsoss/model/src/admin/EnumConnectivity'
 import ConnectionTesterProgress from './ConnectionTesterProgress'
-
-const NOT_TESTED = Symbol('The connection has not been tested yet')
-const PENDING = Symbol('The connection is being established')
-const SUCCESS = Symbol('The connection has successfuly been established')
-const WARNING = Symbol('The connection could be established but errors occured')
-const ERROR = Symbol('The connection could not be established')
 
 class DatabaseConnectionTesterIconButton extends React.Component {
 
   static propTypes = {
-    projectConnection: React.PropTypes.shape({
-      content: React.PropTypes.shape({
-        id: React.PropTypes.number,
-        projectName: React.PropTypes.string,
-        microservice: React.PropTypes.string,
-        userName: React.PropTypes.string,
-        password: React.PropTypes.string,
-        driverClassName: React.PropTypes.string,
-        url: React.PropTypes.string,
-      }),
-    }).isRequired,
+    projectConnection: ProjectConnection.isRequired,
   }
 
   static contextTypes = {
@@ -41,7 +27,7 @@ class DatabaseConnectionTesterIconButton extends React.Component {
   constructor(props, context) {
     super(props, context)
     this.state = {
-      status: NOT_TESTED,
+      status: EnumConnectivity.NOT_TESTED,
       completed: 0,
       snackBarOpen: false,
       snackBarMessageId: 'database.connectionTester.snackbar.warning',
@@ -50,11 +36,11 @@ class DatabaseConnectionTesterIconButton extends React.Component {
 
   getSnackBarMessageId = (status) => {
     switch (status) {
-      case SUCCESS:
+      case EnumConnectivity.SUCCESS:
         return 'database.connectionTester.snackbar.connected'
-      case WARNING:
+      case EnumConnectivity.WARNING:
         return 'database.connectionTester.snackbar.warning'
-      case ERROR:
+      case EnumConnectivity.ERROR:
         return 'database.connectionTester.snackbar.notConnected'
       default:
         return 'database.connectionTester.snackbar.warning'
@@ -63,12 +49,12 @@ class DatabaseConnectionTesterIconButton extends React.Component {
 
   handleTouchTap = () => {
     this.setState({
-      status: PENDING,
+      status: EnumConnectivity.PENDING,
       snackBarOpen: false,
     })
     // Make API call instead
     this.progress(0)
-    const possibleResultStates = [SUCCESS, ERROR]
+    const possibleResultStates = [EnumConnectivity.SUCCESS, EnumConnectivity.ERROR]
     const randomResult = possibleResultStates[Math.floor(Math.random() * possibleResultStates.length)]
     setTimeout(() => {
       this.setState({
@@ -152,19 +138,19 @@ class DatabaseConnectionTesterIconButton extends React.Component {
 
     let result = testButton
     switch (this.state.status) {
-      case NOT_TESTED:
+      case EnumConnectivity.NOT_TESTED:
         result = testButton
         break
-      case PENDING:
+      case EnumConnectivity.PENDING:
         result = pendingProgress
         break
-      case SUCCESS:
+      case EnumConnectivity.SUCCESS:
         result = successButton
         break
-      case WARNING:
+      case EnumConnectivity.WARNING:
         result = warningButton
         break
-      case ERROR:
+      case EnumConnectivity.ERROR:
         result = errorButton
         break
       default:

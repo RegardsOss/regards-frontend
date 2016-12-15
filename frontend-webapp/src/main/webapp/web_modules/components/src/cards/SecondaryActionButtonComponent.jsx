@@ -8,7 +8,6 @@ import ActionButtonComponent from './ActionButtonComponent'
 function SecondaryActionButtonComponent(props) {
   return (<ActionButtonComponent
     button={FlatButton}
-    secondary
     {...props}
   />)
 }

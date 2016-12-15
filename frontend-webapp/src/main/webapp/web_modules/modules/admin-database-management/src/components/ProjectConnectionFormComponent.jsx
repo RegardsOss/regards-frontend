@@ -1,11 +1,11 @@
 import * as React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Card, CardActions, CardText } from 'material-ui/Card'
 import { reduxForm } from 'redux-form'
 import TextField from 'material-ui/TextField'
 import MainActionButtonComponent from '@regardsoss/components/src/cards/MainActionButtonComponent'
 import SecondaryActionButtonComponent from '@regardsoss/components/src/cards/SecondaryActionButtonComponent'
 import { RenderTextField, Field, ValidationHelpers } from '@regardsoss/form-utils'
+import ProjectConnection from '@regardsoss/model/src/admin/ProjectConnection'
 import DatabaseConnectionTester from './DatabaseConnectionTester'
 
 /**
@@ -14,19 +14,9 @@ import DatabaseConnectionTester from './DatabaseConnectionTester'
 export class ProjectConnectionFormComponent extends React.Component {
 
   static propTypes = {
-    currentProjectConnection: React.PropTypes.shape({
-      content: React.PropTypes.shape({
-        id: React.PropTypes.number,
-        projectName: React.PropTypes.string,
-        microservice: React.PropTypes.string,
-        userName: React.PropTypes.string,
-        password: React.PropTypes.string,
-        driverClassName: React.PropTypes.string,
-        url: React.PropTypes.string,
-      }),
-    }).isRequired,
+    projectConnection: ProjectConnection.isRequired,
     onSubmit: React.PropTypes.func.isRequired,
-    backUrl: React.PropTypes.string.isRequired,
+    onCancel: React.PropTypes.func,
     // from reduxForm
     submitting: React.PropTypes.bool,
     pristine: React.PropTypes.bool,
@@ -40,13 +30,14 @@ export class ProjectConnectionFormComponent extends React.Component {
   }
 
   handleInitialize = () => {
-    const { currentProjectConnection } = this.props
-    currentProjectConnection.content.driverClassName = 'PostgreSQL'
+    const { projectConnection } = this.props
+    projectConnection.content.driverClassName = 'PostgreSQL'
+    console.log(projectConnection)
     this.props.initialize({
-      userName: currentProjectConnection.content.userName,
-      password: currentProjectConnection.content.password,
-      driverClassName: currentProjectConnection.content.driverClassName,
-      url: currentProjectConnection.content.url,
+      userName: projectConnection.content.userName,
+      password: projectConnection.content.password,
+      driverClassName: projectConnection.content.driverClassName,
+      url: projectConnection.content.url,
     })
   }
 
@@ -54,41 +45,42 @@ export class ProjectConnectionFormComponent extends React.Component {
     return (
       <form onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
         <TextField
-          hintText={this.props.currentProjectConnection.content.driverClassName}
-          floatingLabelText={<FormattedMessage id="database.form.input.driverClassName"/>}
+          hintText={this.props.projectConnection.content.driverClassName}
+          floatingLabelText={<FormattedMessage id="database.form.input.driverClassName" />}
           floatingLabelFixed
-          value={this.props.currentProjectConnection.content.driverClassName}
+          value={this.props.projectConnection.content.driverClassName}
           disabled
+          fullWidth
         />
         <Field
           name="url"
           fullWidth
           component={RenderTextField}
           type="text"
-          label={<FormattedMessage id="database.form.input.url"/>}
+          label={<FormattedMessage id="database.form.input.url" />}
         />
         <Field
           name="userName"
           fullWidth
           component={RenderTextField}
           type="text"
-          label={<FormattedMessage id="database.form.input.userName"/>}
+          label={<FormattedMessage id="database.form.input.userName" />}
         />
         <Field
           name="password"
           fullWidth
           component={RenderTextField}
           type="password"
-          label={<FormattedMessage id="database.form.input.password"/>}
+          label={<FormattedMessage id="database.form.input.password" />}
         />
         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <DatabaseConnectionTester projectConnection={this.props.currentProjectConnection}/>
+          <DatabaseConnectionTester projectConnection={this.props.projectConnection} />
           <SecondaryActionButtonComponent
-            label={<FormattedMessage id="database.form.action.cancel"/>}
-            onTouchTap={() => alert('handle back')}
+            label={<FormattedMessage id="database.form.action.cancel" />}
+            onTouchTap={this.props.onCancel}
           />
           <MainActionButtonComponent
-            label={<FormattedMessage id="database.form.action.save"/>}
+            label={<FormattedMessage id="database.form.action.save" />}
             disabled={this.props.invalid || this.props.submitting}
             type="submit"
           />
@@ -117,5 +109,6 @@ function validate(values) {
 
 export default reduxForm({
   form: 'project-connection-form',
+  destroyOnUnmount: false,
   validate,
 })(ProjectConnectionFormComponent)
