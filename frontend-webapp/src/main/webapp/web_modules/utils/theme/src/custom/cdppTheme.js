@@ -1,7 +1,11 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { merge } from 'lodash'
 import { lightGreen500, lightGreen700, grey300, grey700, blueGrey800, brown50, amber50, deepOrange900, blueGrey900, cyan500, darkBlack, brown900, red900, deepPurple800 } from 'material-ui/styles/colors'
 import spacing from 'material-ui/styles/spacing'
 import { fade } from 'material-ui/utils/colorManipulator'
+import defaultTheme from './defaultTheme'
 // http://www.material-ui.com/#/customization/colors
 
 /**
@@ -19,7 +23,7 @@ const customSpacing = merge({}, spacing, {
  *  Only provide the keys you wish to customize, they will be merged to default
  *  theme variables when calling 'material-ui/styles/getMuiTheme'
  */
-export default {
+export default merge({}, defaultTheme, {
   appBar: {
     height: 100,
   },
@@ -58,4 +62,4 @@ export default {
       backgroundImage: "url('/img/background.jpg')",
     },
   },
-}
+})

@@ -29,34 +29,22 @@ class ProjectComponent extends React.Component {
 
 
   renderProject = () => {
-    const { muiTheme } = this.context
-    const style = {
-      text: muiTheme.portalApp.modules.common.newsStyle.text,
-      title: muiTheme.portalApp.modules.common.newsStyle.title,
-      rootTitle: muiTheme.portalApp.modules.common.newsStyle.rootTitle,
-      icon: muiTheme.portalApp.modules.common.newsStyle.icon,
-      iconDisabled: muiTheme.portalApp.modules.common.newsStyle.iconDisabled,
-      iconContainer: muiTheme.portalApp.modules.common.newsStyle.iconContainer,
-      descriptionContent: muiTheme.portalApp.modules.common.newsStyle.descriptionContent,
-      lock: muiTheme.portalApp.modules.common.newsStyle.lock,
-      iconLock: muiTheme.portalApp.modules.common.newsStyle.iconLock,
-      cardWhenDisabled: muiTheme.portalApp.modules.common.newsStyle.cardWhenDisabled,
-    }
+    const { moduleTheme } = this.context
     const { project, isAccessible } = this.props
     let styleWhenDisabled = {}
     if (isAccessible === false) {
-      styleWhenDisabled = style.cardWhenDisabled
+      styleWhenDisabled = moduleTheme.cardWhenDisabled
     }
     return (
       <Card style={styleWhenDisabled}>
-        <div className="row" style={style.container}>
-          <div className="col-sm-12" style={style.iconContainer}>
+        <div className="row" style={moduleTheme.container}>
+          <div className="col-sm-12" style={moduleTheme.iconContainer}>
             {(() => {
               if (isAccessible) {
                 return (<Avatar
                   src={project.icon}
                   size={0}
-                  style={style.icon}
+                  style={moduleTheme.icon}
                 />)
               }
               return (
@@ -64,12 +52,12 @@ class ProjectComponent extends React.Component {
                   <Avatar
                     src={project.icon}
                     size={0}
-                    style={style.iconDisabled}
+                    style={moduleTheme.iconDisabled}
                   />
                   <IconButton
                     size={40}
-                    iconStyle={style.iconLock}
-                    style={style.lock}
+                    iconStyle={moduleTheme.iconLock}
+                    style={moduleTheme.lock}
                     disableTouchRipple
                   >
                     <Lock
@@ -79,14 +67,14 @@ class ProjectComponent extends React.Component {
                 </div>)
             })()}
           </div>
-          <div className="col-sm-88" style={style.descriptionContent}>
+          <div className="col-sm-88" style={moduleTheme.descriptionContent}>
             <CardTitle
               title={project.name}
-              titleStyle={style.title}
-              style={style.rootTitle}
+              titleStyle={moduleTheme.title}
+              style={moduleTheme.rootTitle}
             />
             <CardText>
-              <div style={style.text}>
+              <div style={moduleTheme.text}>
                 { project.description }
               </div>
             </CardText>

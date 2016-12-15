@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  */
-
+import ModuleThemeProvider from './ModuleThemeProvider'
 /**
  * React Component to display a module.
  */
@@ -20,6 +20,7 @@ class LazyModuleComponent extends React.Component {
     this.state = {
       moduleId: props.moduleId,
       isLoaded: false,
+      error: null,
     }
   }
 
@@ -28,40 +29,19 @@ class LazyModuleComponent extends React.Component {
    */
   componentWillMount() {
     const self = this
-    switch (this.props.moduleId) {
-      case 'news':
+
+    require.ensure([], (require) => {
+      try {
         // eslint-disable-next-line import/no-dynamic-require
-        require.ensure([], (require) => {
-          const loadedModule = require('@regardsoss/news')
-          self.setState({
-            isLoaded: true,
-            module: loadedModule.ModuleContainer,
-          })
+        const loadedModule = require(`@regardsoss/${this.props.moduleId}/src/main.js`)
+        self.setState({
+          isLoaded: true,
+          module: loadedModule,
         })
-        break
-      case 'portal-projects':
-        // eslint-disable-next-line import/no-dynamic-require
-        require.ensure([], (require) => {
-          const loadedModule = require('@regardsoss/portal-projects')
-          self.setState({
-            isLoaded: true,
-            module: loadedModule.ModuleContainer,
-          })
-        })
-        break
-      case 'portal-menu':
-        // eslint-disable-next-line import/no-dynamic-require
-        require.ensure([], (require) => {
-          const loadedModule = require('@regardsoss/portal-menu')
-          self.setState({
-            isLoaded: true,
-            module: loadedModule.ModuleContainer,
-          })
-        })
-        break
-      default:
-        console.log(`Error loading invalid module ${this.props.moduleId}`)
-    }
+      } catch (e) {
+        console.error('Module', this.props.moduleId, e, e.stack)
+      }
+    })
   }
 
   /**
@@ -71,10 +51,15 @@ class LazyModuleComponent extends React.Component {
   render() {
     const { isLoaded, module } = this.state
     if (isLoaded) {
-      return React.createElement(module, { appName: this.props.appName })
+      const moduleElt = React.createElement(module.ModuleContainer, { appName: this.props.appName })
+      return (
+        <ModuleThemeProvider module={module}>
+          { moduleElt }
+        </ModuleThemeProvider>
+      )
     }
     return (
-      <div>Module is loading ... </div>
+      <div>Module ${this.props.moduleId} is loading ... </div>
     )
   }
 
