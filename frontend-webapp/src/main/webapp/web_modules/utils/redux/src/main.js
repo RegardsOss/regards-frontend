@@ -18,7 +18,7 @@ const mergeMapStateToProps = m => (
 )
 
 /**
- * Overides connect from redux library. It is necessary to ensure that the connected react components are
+ * Overrides connect from redux library. It is necessary to ensure that the connected react components are
  * refreshed when theme or i18n messages changed.
  * @param mapStateToProps
  * @param mapDispatchToProps

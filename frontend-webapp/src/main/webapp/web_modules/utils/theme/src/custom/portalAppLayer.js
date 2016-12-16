@@ -20,7 +20,7 @@ export default {
           classes: [],
           styles: {},
           renderRouterContent: false,
-          modules: [{ id: 'menu', conf: { title: 'Regards - Portal interface' } }],
+          modules: [{ id: 'menu', conf: { title: 'Regards - Portal interface', displayAuthentication: false } }],
         },
         {
           id: 'news',

@@ -4,9 +4,6 @@
 const styles = theme => (
   {
     layout: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
     },
     action: {
       display: 'flex',

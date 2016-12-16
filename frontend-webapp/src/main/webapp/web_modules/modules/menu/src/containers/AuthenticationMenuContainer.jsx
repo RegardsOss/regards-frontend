@@ -6,6 +6,7 @@ import { LazyModuleComponent } from '@regardsoss/modules-manager'
 import { isAuthenticated, AuthenticationSelectors, AuthenticateShape } from '@regardsoss/authentication-manager'
 import Dialog from 'material-ui/Dialog'
 import LoginButton from '../components/LoginButton'
+import LoggedUserComponent from '../components/LoggedUserComponent'
 
 /**
  * Manage connection to the store to handle authentication.
@@ -62,7 +63,7 @@ class AuthenticationMenuComponent extends React.Component {
     // Else, if user is authenticated, display is name
     else if (userAuthenticated) {
       return (
-        <div>{authentication.user.sub}</div>
+        <LoggedUserComponent name={authentication.user.sub} />
       )
     }
     // Else, Display only login button

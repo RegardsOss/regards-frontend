@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { connect } from 'react-redux'
 import { logout } from '@regardsoss/authentication-manager'
 import { themeContextType } from '@regardsoss/theme'

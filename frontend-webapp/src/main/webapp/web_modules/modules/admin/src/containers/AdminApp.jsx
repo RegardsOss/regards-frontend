@@ -1,10 +1,15 @@
-import { connect } from 'react-redux'
+/**
+ * LICENSE_PLACEHOLDER
+ **/
+import connect from '@regardsoss/redux'
+import { LazyModuleComponent } from '@regardsoss/modules-manager'
 import { isAuthenticated, AuthenticationSelectors, AuthenticateShape } from '@regardsoss/authentication-manager'
 import { ThemeHelper, ThemeSelectors } from '@regardsoss/theme'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { EndpointActions } from '@regardsoss/display-control'
+import { CenteredDiv } from '@regardsoss/components'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import AdminLayout from './AdminLayout'
-import AuthenticationContainer from '../authentication/containers/AuthenticationContainer'
+
 
 /**
  * React components to manage the instance application.
@@ -43,7 +48,13 @@ class AdminApp extends React.Component {
    */
   getContent = (isAuth, content) => {
     if (!isAuth) {
-      return (<AuthenticationContainer key="1" />)
+      return (
+        <LazyModuleComponent
+          moduleId={'authentication'}
+          appName={'admin'}
+          decorator={{ element: CenteredDiv }}
+        />
+      )
     }
     return (<AdminLayout key="2" {...this.props}>
       {content}

@@ -14,6 +14,7 @@ class MenuComponent extends React.Component {
   static propTypes = {
     appName: React.PropTypes.string.isRequired,
     title: React.PropTypes.string,
+    displayAuthentication: React.PropTypes.bool.isRequired,
   }
 
   static contextTypes = {
@@ -22,7 +23,6 @@ class MenuComponent extends React.Component {
 
   render() {
     const { moduleTheme } = this.context
-    console.log(this.props)
     const title = this.props.title ? this.props.title : 'Regards'
     const style = {
       headContainer: {
@@ -31,8 +31,12 @@ class MenuComponent extends React.Component {
       },
       title: moduleTheme.title,
     }
-
-    console.log('CONTAINER', this.context)
+    let authentication = null
+    let separator = null
+    if (this.props.displayAuthentication) {
+      authentication = <AuthenticationMenuContainer appName={this.props.appName} />
+      separator = <ToolbarSeparator />
+    }
 
     return (
       <Toolbar className={style.headContainer.classes} style={style.headContainer.styles}>
@@ -40,8 +44,8 @@ class MenuComponent extends React.Component {
           <ToolbarTitle text={title} style={style.title} />
         </ToolbarGroup>
         <ToolbarGroup>
-          <AuthenticationMenuContainer appName={this.props.appName} />
-          <ToolbarSeparator />
+          {authentication}
+          {separator}
           <SelectLocaleContainer />
           <ToolbarSeparator />
           <SelectThemeContainer />

@@ -21,6 +21,15 @@ const menuStyles = theme => (
       backgroundColor: theme.palette.primary2Color,
       color: theme.palette.textColor,
     },
+    loggedUser: {
+      text: {
+        paddingTop: '5px',
+        color: theme.palette.textColor,
+      },
+      icon: {
+        color: theme.palette.textColor,
+      },
+    },
   })
 
 export default menuStyles
