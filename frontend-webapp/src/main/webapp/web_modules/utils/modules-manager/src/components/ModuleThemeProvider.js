@@ -42,7 +42,7 @@ class ModuleThemeProvider extends React.Component {
    */
   getChildContext() {
     return {
-      moduleTheme: this.props.module.Styles(this.context.muiTheme),
+      moduleTheme: this.props.module.styles(this.context.muiTheme),
     }
   }
 

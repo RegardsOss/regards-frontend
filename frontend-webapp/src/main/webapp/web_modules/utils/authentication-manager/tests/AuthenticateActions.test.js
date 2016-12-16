@@ -10,13 +10,13 @@ const { apiMiddleware } = require('redux-api-middleware')
 const middlewares = [thunk, apiMiddleware]
 const mockStore = configureStore(middlewares)
 
-describe('[AUTHENTICATION UTILS] Testing authentication actions', () => {
+describe('[AUTHENTICATION UTILS] Testing authentication-manager actions', () => {
   afterEach(() => {
     nock.cleanAll()
   })
 
   // Test dégradé dans le cas ou le serveur renvoie un erreur
-  xit('creates FAILED_AUTHENTICATE action when fetching authentication returning error', () => {
+  xit('creates FAILED_AUTHENTICATE action when fetching authentication-manager returning error', () => {
     const username = 'myUsername'
     const password = 'myPassword'
 
@@ -48,7 +48,7 @@ describe('[AUTHENTICATION UTILS] Testing authentication actions', () => {
   })
 
   // Test nominal
-  xit('creates PROJECTS_REQUEST and PROJECTS_SUCESS actions when fetching authentication has been done', () => {
+  xit('creates PROJECTS_REQUEST and PROJECTS_SUCESS actions when fetching authentication-manager has been done', () => {
     const username = 'myUsername'
     const password = 'myPassword'
     // We need to force Date.now() to always return the same value

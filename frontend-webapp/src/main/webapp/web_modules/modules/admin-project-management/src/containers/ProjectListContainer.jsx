@@ -1,7 +1,7 @@
 import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
 import { I18nProvider } from '@regardsoss/i18n'
-import { logout } from '@regardsoss/authentication'
+import { logout } from '@regardsoss/authentication-manager'
 import ProjectActions from '../model/ProjectActions'
 import ProjectSelectors from '../model/ProjectSelectors'
 import ProjectListComponent from '../components/ProjectListComponent'

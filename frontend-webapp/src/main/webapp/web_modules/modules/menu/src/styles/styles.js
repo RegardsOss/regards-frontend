@@ -17,6 +17,10 @@ const menuStyles = theme => (
     localeDropdown: {
       color: theme.palette.primary2Color,
     },
+    loginButton: {
+      backgroundColor: theme.palette.primary2Color,
+      color: theme.palette.textColor,
+    },
   })
 
 export default menuStyles

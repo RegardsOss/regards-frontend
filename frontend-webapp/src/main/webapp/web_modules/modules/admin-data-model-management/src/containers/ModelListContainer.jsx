@@ -1,7 +1,7 @@
 import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
 import { I18nProvider } from '@regardsoss/i18n'
-import { logout } from '@regardsoss/authentication'
+import { logout } from '@regardsoss/authentication-manager'
 import ModelActions from '../model/ModelActions'
 import ModelSelectors from '../model/ModelSelectors'
 import ModelListComponent from '../components/ModelListComponent'

@@ -21,6 +21,7 @@ export class SelectLocaleContainer extends React.Component {
   }
 
   render() {
+    console.log('I18N')
     const locales = ['en', 'fr']
     return (
       <I18nProvider messageDir="utils/i18n/src/i18n">

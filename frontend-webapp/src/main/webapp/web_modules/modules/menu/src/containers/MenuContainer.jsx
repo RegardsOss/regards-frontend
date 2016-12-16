@@ -4,6 +4,7 @@
 import { SelectLocaleContainer } from '@regardsoss/i18n'
 import { SelectThemeContainer, themeContextType } from '@regardsoss/theme'
 import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from 'material-ui/Toolbar'
+import AuthenticationMenuContainer from './AuthenticationMenuContainer'
 
 /**
  * Main component of module menu
@@ -15,7 +16,7 @@ class MenuComponent extends React.Component {
     title: React.PropTypes.string,
   }
 
-  static contextTypes= {
+  static contextTypes = {
     ...themeContextType,
   }
 
@@ -31,12 +32,16 @@ class MenuComponent extends React.Component {
       title: moduleTheme.title,
     }
 
+    console.log('CONTAINER', this.context)
+
     return (
       <Toolbar className={style.headContainer.classes} style={style.headContainer.styles}>
         <ToolbarGroup firstChild>
           <ToolbarTitle text={title} style={style.title} />
         </ToolbarGroup>
         <ToolbarGroup>
+          <AuthenticationMenuContainer appName={this.props.appName} />
+          <ToolbarSeparator />
           <SelectLocaleContainer />
           <ToolbarSeparator />
           <SelectThemeContainer />
@@ -45,4 +50,5 @@ class MenuComponent extends React.Component {
     )
   }
 }
+
 export default MenuComponent

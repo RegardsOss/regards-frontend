@@ -31,4 +31,5 @@ class ApplicationLayout extends React.Component {
     return <div>Application layout {this.props.appName} not define for current theme</div>
   }
 }
+
 export default ApplicationLayout

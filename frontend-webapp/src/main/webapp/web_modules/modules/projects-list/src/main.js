@@ -1,13 +1,13 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import reducer from './reducer'
 import moduleContainer from './containers/ModuleContainer'
 import styles from './styles/styles'
-/**
- * Module main file to expose public interface
- */
+
 export default {
+  reducer,
   moduleContainer,
   styles,
-  messagesDir: 'modules/news/src/i18n',
+  messagesDir: 'modules/projects-list/src/i18n',
 }

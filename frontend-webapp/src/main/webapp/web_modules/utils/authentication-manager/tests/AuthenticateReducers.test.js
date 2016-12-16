@@ -84,7 +84,7 @@ describe('[AUTHENTICATION UTILS] Testing authenticate reducer', () => {
     expect(reducer(initState, action)).to.eql(expectedState)
   })
 
-  it('should handle logout by clearing authentication content', () => {
+  it('should handle logout by clearing authentication-manager content', () => {
     const action = {
       type: 'LOGOUT',
     }

@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { logout } from '@regardsoss/authentication'
+import { logout } from '@regardsoss/authentication-manager'
 import { themeContextType } from '@regardsoss/theme'
 import InstanceSidebarComponent from '../menu/components/InstanceSidebarComponent'
 import ProjectSidebarComponent from '../menu/components/ProjectSidebarComponent'
@@ -12,7 +12,7 @@ interface MainAdminLayoutProps {
   // Looks useless
   location: any,
   theme?: string,
-  authentication?: any,
+  authentication-manager?: any,
 }
 */
 

@@ -20,7 +20,7 @@ export default {
           classes: [],
           styles: {},
           renderRouterContent: false,
-          modules: [{ id: 'portal-menu', conf: { title: 'Regards - Data center interface' } }],
+          modules: [{ id: 'menu', conf: { title: 'Regards - Data center interface' } }],
         },
       ],
     },

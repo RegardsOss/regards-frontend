@@ -20,7 +20,7 @@ export default {
           classes: [],
           styles: {},
           renderRouterContent: false,
-          modules: [{ id: 'portal-menu', conf: { title: 'Regards - Portal interface' } }],
+          modules: [{ id: 'menu', conf: { title: 'Regards - Portal interface' } }],
         },
         {
           id: 'news',
@@ -36,7 +36,7 @@ export default {
           classes: [],
           styles: {},
           renderRouterContent: false,
-          modules: [{ id: 'portal-projects' }],
+          modules: [{ id: 'projects-list' }],
         },
       ],
     },

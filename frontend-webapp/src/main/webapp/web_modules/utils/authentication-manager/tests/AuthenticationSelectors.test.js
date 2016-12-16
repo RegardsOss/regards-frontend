@@ -5,7 +5,7 @@ import { expect } from 'chai'
 import AuthenticationSelectors from '../src/AuthenticationSelectors'
 
 
-describe('[AUTHENTICATION UTILS] Testing authentication selectors', () => {
+describe('[AUTHENTICATION UTILS] Testing authentication-manager selectors', () => {
   it('returns correct part of the state', () => {
     const someStore = {
       common: {

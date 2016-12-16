@@ -3,11 +3,11 @@
  */
 import { combineReducers } from 'redux'
 import { adminReducer } from '@regardsoss/admin'
-import { reducer } from '@regardsoss/portal-projects'
+import { reducer } from '@regardsoss/projects-list'
 import { themeReducers } from '@regardsoss/theme'
 import { PluginReducer } from '@regardsoss/plugins'
 import { i18nReducers } from '@regardsoss/i18n'
-import { authentication } from '@regardsoss/authentication'
+import { authentication } from '@regardsoss/authentication-manager'
 import { endpointReducer } from '@regardsoss/display-control'
 import { reducer as reduxFormReducer } from 'redux-form'
 

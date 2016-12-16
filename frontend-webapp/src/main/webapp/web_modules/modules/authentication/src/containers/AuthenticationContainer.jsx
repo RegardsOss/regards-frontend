@@ -1,17 +1,19 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { connect } from 'react-redux'
-import { I18nProvider } from '@regardsoss/i18n'
 import { fetchAuthenticate } from '@regardsoss/authentication-manager'
 import LoginComponent from '../components/LoginComponent'
 
 /*
-export interface AuthenticationProps {
-  // From mapStateToProps
-  theme?: any,
-  errorMessage?: string
-  // From mapDispatchToProps
-  fetchAuthenticate?: (username: string, password: string) => void,
-  fetchEndpoints?: () => void
-}*/
+ export interface AuthenticationProps {
+ // From mapStateToProps
+ theme?: any,
+ errorMessage?: string
+ // From mapDispatchToProps
+ fetchAuthenticate?: (username: string, password: string) => void,
+ fetchEndpoints?: () => void
+ }*/
 
 export class Authentication extends React.Component {
 
@@ -27,12 +29,10 @@ export class Authentication extends React.Component {
 
   render() {
     return (
-      <I18nProvider messageDir="modules/admin/src/authentication/i18n">
-        <LoginComponent
-          onLogin={this.showResults}
-          errorMessage={this.props.errorMessage}
-        />
-      </I18nProvider>
+      <LoginComponent
+        onLogin={this.showResults}
+        errorMessage={this.props.errorMessage}
+      />
     )
   }
 

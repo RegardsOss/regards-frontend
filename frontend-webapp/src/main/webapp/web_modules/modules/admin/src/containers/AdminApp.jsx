@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { isAuthenticated, AuthenticationSelectors, AuthenticateShape } from '@regardsoss/authentication'
+import { isAuthenticated, AuthenticationSelectors, AuthenticateShape } from '@regardsoss/authentication-manager'
 import { ThemeHelper, ThemeSelectors } from '@regardsoss/theme'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { EndpointActions } from '@regardsoss/display-control'
@@ -13,7 +13,7 @@ import AuthenticationContainer from '../authentication/containers/Authentication
 class AdminApp extends React.Component {
 
   /**
-   * @type {{theme: *, authentication: *, content: *}}
+   * @type {{theme: *, authentication-manager: *, content: *}}
    */
   static propTypes = {
     content: React.PropTypes.element,
@@ -25,7 +25,7 @@ class AdminApp extends React.Component {
   }
 
   /**
-   * On authentication fetch autorized endpoints
+   * On authentication-manager fetch autorized endpoints
    * @param nextProps
    */
   componentWillReceiveProps(nextProps) {

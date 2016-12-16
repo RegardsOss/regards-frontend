@@ -15,7 +15,7 @@ import UserLayout from './UserLayout'
 class UserApp extends React.Component {
 
   /**
-   * @type {{theme: *, authentication: *, content: *}}
+   * @type {{theme: *, authentication-manager: *, content: *}}
    */
   static propTypes = {
     content: React.PropTypes.element,
@@ -27,7 +27,7 @@ class UserApp extends React.Component {
   }
 
   /**
-   * On authentication fetch authorized endpoints
+   * On authentication-manager fetch authorized endpoints
    * @param nextProps
    */
   componentWillReceiveProps(nextProps) {
