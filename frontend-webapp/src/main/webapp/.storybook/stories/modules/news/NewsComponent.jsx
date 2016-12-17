@@ -1,9 +1,9 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { ModuleContainer } from '@regardsoss/news'
 import { storiesOf } from '@kadira/storybook'
 import { withKnobs } from '@kadira/storybook-addon-knobs'
+import { LazyModuleComponent } from '@regardsoss/modules-manager'
 import { StoreDecorator, addLocaleAndThemeSelectors, ThemeDecorator } from '../../utils/decorators'
 
 storiesOf('News module', module)
@@ -13,7 +13,7 @@ storiesOf('News module', module)
     const themeName = addLocaleAndThemeSelectors()
     return (
       <ThemeDecorator theme={themeName}>
-        <ModuleContainer />
+        <LazyModuleComponent appName={'test'} moduleId={'news'} />
       </ThemeDecorator>
     )
   })

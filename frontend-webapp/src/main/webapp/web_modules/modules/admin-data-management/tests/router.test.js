@@ -1,7 +1,7 @@
 import { assert, expect } from 'chai'
+import { attributeModelDataManagementRouter } from '@regardsoss/admin-data-attributemodel-management'
 import Routes from '../src/router'
 import BoardContainer from '../src/containers/BoardContainer'
-import { attributeModelDataManagementRouter } from '@regardsoss/admin-data-attributemodel-management'
 
 describe('[ADMIN DATA MANAGEMENT] Testing data board router', () => {
   it('should return the correct value', () => {

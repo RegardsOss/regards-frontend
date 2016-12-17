@@ -17,6 +17,6 @@ const instance = new ProjectReducers()
  * @param action redux action received
  * @return new state
  */
-export function getProjectReducer(state, action) {
-  return instance.reduce(state, action)
-}
+const getProjectReducer = (state, action) => instance.reduce(state, action)
+
+export default getProjectReducer

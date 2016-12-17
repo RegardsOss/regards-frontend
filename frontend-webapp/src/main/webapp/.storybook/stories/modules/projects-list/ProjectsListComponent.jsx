@@ -1,19 +1,19 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { ModuleContainer } from '@regardsoss/portal-projects'
+import { LazyModuleComponent } from '@regardsoss/modules-manager'
 import { storiesOf } from '@kadira/storybook'
 import { withKnobs } from '@kadira/storybook-addon-knobs'
 import { StoreDecorator, addLocaleAndThemeSelectors, ThemeAndLocaleDecorator } from '../../utils/decorators'
 
-storiesOf('Portal projects', module)
+storiesOf('Projects list', module)
   .addDecorator(withKnobs)
   .addDecorator(StoreDecorator)
   .add('', () => {
     const themeName = addLocaleAndThemeSelectors()
     return (
-      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/portal-projects/src/i18n">
-        <ModuleContainer />
+      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/projects-list/src/i18n">
+        <LazyModuleComponent appName={'test'} moduleId={'projects-list'} />
       </ThemeAndLocaleDecorator>
     )
   })

@@ -3,8 +3,8 @@
  **/
 import { merge } from 'lodash'
 import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme'
-import defaultTheme from './defaultTheme'
 import { red900, white, orange900 } from 'material-ui/styles/colors'
+import defaultTheme from './defaultTheme'
 
 const backgroundColor = '#2a2a2a'
 export default merge({}, darkBaseTheme, defaultTheme, {

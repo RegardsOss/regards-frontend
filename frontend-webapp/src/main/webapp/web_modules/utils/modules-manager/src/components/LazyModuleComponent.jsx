@@ -4,6 +4,7 @@
 import { merge } from 'lodash'
 import { I18nProvider } from '@regardsoss/i18n'
 import ModuleThemeProvider from './ModuleThemeProvider'
+import DecoratorShape from '../model/DecoratorShape'
 
 /**
  * React Component to display a module.
@@ -16,8 +17,8 @@ class LazyModuleComponent extends React.Component {
   static propTypes = {
     appName: React.PropTypes.string.isRequired,
     moduleId: React.PropTypes.string.isRequired,
-    moduleConf: React.PropTypes.object,
-    decorator: React.PropTypes.object,
+    moduleConf: React.PropTypes.objectOf(React.PropTypes.any),
+    decorator: DecoratorShape,
     onLoadAction: React.PropTypes.func,
   }
 

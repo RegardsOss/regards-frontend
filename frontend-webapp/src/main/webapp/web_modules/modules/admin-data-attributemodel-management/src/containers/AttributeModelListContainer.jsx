@@ -1,7 +1,6 @@
 import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
 import { I18nProvider } from '@regardsoss/i18n'
-import { logout } from '@regardsoss/authentication-manager'
 import { AttributeModel } from '@regardsoss/model'
 import AttributeModelActions from '../model/AttributeModelActions'
 import AttributeModelSelectors from '../model/AttributeModelSelectors'

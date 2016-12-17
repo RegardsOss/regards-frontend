@@ -16,6 +16,6 @@ const instance = new AccountReducers()
  * @param action redux action received
  * @return new state
  */
-export function getAccountReducer(state, action) {
-  return instance.reduce(state, action)
-}
+const getAccountReducer = (state, action) => instance.reduce(state, action)
+
+export default getAccountReducer

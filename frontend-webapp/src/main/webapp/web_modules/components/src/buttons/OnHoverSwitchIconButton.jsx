@@ -10,6 +10,10 @@ import { mapValues } from 'lodash'
  */
 class OnHoverSwitchIconButton extends React.Component {
 
+  static propTypes = {
+    children: React.PropTypes.element,
+  }
+
   constructor(props, context) {
     super(props, context)
     this.state = {

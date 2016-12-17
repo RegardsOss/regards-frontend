@@ -8,8 +8,8 @@ import { TableRowColumn, Table, TableBody, TableHeader, TableHeaderColumn, Table
 import { FormattedMessage } from 'react-intl'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import { CardActionsComponent } from '@regardsoss/components'
+import { JavaTypes } from '@regardsoss/model'
 import CreateAttributeModal from './CreateAttributeModal'
-import JavaTypes from './../../../JavaTypes'
 
 
 /**

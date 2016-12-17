@@ -1,6 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import { intlShape } from 'react-intl'
 import connect from '@regardsoss/redux'
 import { LazyModuleComponent } from '@regardsoss/modules-manager'
 import { isAuthenticated, AuthenticationSelectors, AuthenticateShape } from '@regardsoss/authentication-manager'
@@ -23,6 +24,10 @@ class AuthenticationMenuComponent extends React.Component {
     authentication: AuthenticateShape,
   }
 
+  static contextTypes = {
+    intl: intlShape,
+  }
+
   constructor(props) {
     super(props)
     this.state = {
@@ -33,9 +38,15 @@ class AuthenticationMenuComponent extends React.Component {
   /**
    * On click, display the dialog
    */
-  onLoginAction = () => {
+  openDialog = () => {
     this.setState({
       dialogOpened: true,
+    })
+  }
+
+  closeDialog = () => {
+    this.setState({
+      dialogOpened: false,
     })
   }
 
@@ -43,19 +54,25 @@ class AuthenticationMenuComponent extends React.Component {
     const { authentication } = this.props
     const userAuthenticated = isAuthenticated(authentication)
 
-    // If dialog is opened and user not authenticated, then display modal with login informations
+    // If dialog is opened and user not authenticated, then display modal with login information
     if (this.state.dialogOpened && !userAuthenticated) {
       const dialogConf = {
         open: true,
         onRequestClose: buttonClicked => this.setState({ dialogOpened: false }),
       }
+      const moduleConf = {
+        title: this.context.intl.formatMessage({ id: 'loginFormTitle' }),
+        cancelButton: true,
+        onCancelAction: this.closeDialog,
+      }
       return (
         <div>
-          <div onClick={this.handleClick}>Login ...</div>
+          <LoginButton style={{}} onLoginAction={this.openDialog} />
           <LazyModuleComponent
             moduleId={'authentication'}
             appName={this.props.appName}
             decorator={{ element: Dialog, conf: dialogConf }}
+            moduleConf={moduleConf}
           />
         </div>
       )
@@ -70,7 +87,7 @@ class AuthenticationMenuComponent extends React.Component {
     return (
       <LoginButton
         style={{}}
-        onLoginAction={this.onLoginAction}
+        onLoginAction={this.openDialog}
       />
     )
   }

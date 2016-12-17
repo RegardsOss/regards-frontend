@@ -5,10 +5,10 @@ import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
+import { AttributeModel } from '@regardsoss/model'
 import AttributeModelActions from '../model/AttributeModelActions'
 import AttributeModelFormComponent from '../components/AttributeModelFormComponent'
 import AttributeModelSelectors from '../model/AttributeModelSelectors'
-import { AttributeModel } from '@regardsoss/model'
 
 export class AttributeModelFormContainer extends React.Component {
   static propTypes = {

@@ -13,7 +13,7 @@ storiesOf('Admin template', module)
     const isInstance = select('Type of menu', ['Instance', 'Project'], 'Project')
     const params = isInstance === 'Instance' ? {} : { project: 'cdpp' }
     return (
-      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin/src/authentication/i18n">
+      <ThemeAndLocaleDecorator theme={themeName} messageDir={'modules/admin/src/i18n'} >
         <AdminLayout
           content={
             <Paper

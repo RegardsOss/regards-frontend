@@ -1,7 +1,6 @@
-import { shallow } from 'enzyme'
-import { expect, assert } from 'chai'
-import configureStore from '../src/configureStore'
+import { assert } from 'chai'
 import { combineReducers } from 'redux'
+import configureStore from '../src/configureStore'
 
 describe('[STORE DATA MANAGEMENT] Testing configureStore', () => {
   it('should exists', () => {

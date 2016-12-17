@@ -8,10 +8,7 @@ import { Locales } from '@regardsoss/form-utils'
  * @type {*}
  */
 const messages = Object.assign({
-  loginFormTitle: 'Connexion à l\'interface projet',
-  loginButtonLabel: 'Connexion',
-  logoutLabel: 'Deconnexion',
-  settingsLabel: 'Paramètres',
+  loginFormTitle: 'Connexion au panel d\'administration Regards',
 }, Locales.fr)
 
 export default messages

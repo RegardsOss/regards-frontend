@@ -13,7 +13,6 @@ const rootRouter = {
     require.ensure([], (require) => {
       const AdminPckg = require('@regardsoss/admin')
       const UserPckg = require('@regardsoss/user')
-      console.log(AdminPckg, UserPckg)
       cb(null, [AdminPckg.adminRouter, UserPckg.userRouter])
     })
   },

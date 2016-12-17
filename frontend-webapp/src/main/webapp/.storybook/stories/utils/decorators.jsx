@@ -4,6 +4,7 @@ import { configureStore } from '@regardsoss/store'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { I18nProvider } from '@regardsoss/i18n'
 import * as I18nActions from '@regardsoss/i18n/src/model/I18nActions'
+import ModuleThemeProvider from '@regardsoss/modules-manager/src/components/ModuleThemeProvider'
 import { select } from '@kadira/storybook-addon-knobs'
 import rootReducer from '../../../src/rootReducer'
 
@@ -43,6 +44,17 @@ export const ThemeDecorator = ({ theme, children }) => (
 
 ThemeDecorator.propTypes = {
   theme: React.PropTypes.string.isRequired,
+  children: React.PropTypes.element.isRequired,
+}
+
+export const ModuleThemeDecorator = ({ moduleTheme, children }) => (
+  <ModuleThemeProvider module={moduleTheme}>
+    {children}
+  </ModuleThemeProvider>
+)
+
+ModuleThemeDecorator.propTypes = {
+  moduleTheme: React.PropTypes.string.isRequired,
   children: React.PropTypes.element.isRequired,
 }
 

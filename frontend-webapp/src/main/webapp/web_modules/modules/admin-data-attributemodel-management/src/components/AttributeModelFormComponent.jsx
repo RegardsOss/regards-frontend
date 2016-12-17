@@ -1,10 +1,8 @@
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
-import { CardActionsComponent } from '@regardsoss/components'
+import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
-import { RenderTextField, Field, RenderCheckbox, RenderSelectField } from '@regardsoss/form-utils'
+import { RenderTextField, Field } from '@regardsoss/form-utils'
 import { reduxForm } from 'redux-form'
-import MenuItem from 'material-ui/MenuItem'
-import { ShowableAtRender } from '@regardsoss/components'
 import { AttributeModel } from '@regardsoss/model'
 
 /**

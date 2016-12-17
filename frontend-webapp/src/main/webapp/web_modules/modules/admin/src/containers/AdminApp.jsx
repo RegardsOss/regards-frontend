@@ -1,14 +1,15 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import { intlShape } from 'react-intl'
 import connect from '@regardsoss/redux'
-import { LazyModuleComponent } from '@regardsoss/modules-manager'
+import { I18nProvider } from '@regardsoss/i18n'
 import { isAuthenticated, AuthenticationSelectors, AuthenticateShape } from '@regardsoss/authentication-manager'
 import { ThemeHelper, ThemeSelectors } from '@regardsoss/theme'
 import { EndpointActions } from '@regardsoss/display-control'
-import { CenteredDiv } from '@regardsoss/components'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import AdminLayout from './AdminLayout'
+import AuthenticationPanel from './AuthenticationPanel'
 
 
 /**
@@ -29,17 +30,22 @@ class AdminApp extends React.Component {
     fetchEndpoints: React.PropTypes.func,
   }
 
+  static contextTypes = {
+    intl: intlShape,
+  }
+
   /**
    * On authentication-manager fetch autorized endpoints
    * @param nextProps
    */
   componentWillReceiveProps(nextProps) {
     if (this.props.authentication &&
-        this.props.authentication.user === undefined &&
-        nextProps.authentication.user !== undefined) {
+      this.props.authentication.user === undefined &&
+      nextProps.authentication.user !== undefined) {
       this.props.fetchEndpoints()
     }
   }
+
   /**
    *
    * @param {boolean} isAuth
@@ -49,11 +55,7 @@ class AdminApp extends React.Component {
   getContent = (isAuth, content) => {
     if (!isAuth) {
       return (
-        <LazyModuleComponent
-          moduleId={'authentication'}
-          appName={'admin'}
-          decorator={{ element: CenteredDiv }}
-        />
+        <AuthenticationPanel />
       )
     }
     return (<AdminLayout key="2" {...this.props}>
@@ -75,9 +77,11 @@ class AdminApp extends React.Component {
 
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
-        <div>
-          {hmi}
-        </div>
+        <I18nProvider messageDir={'modules/admin/src/i18n'}>
+          <div>
+            {hmi}
+          </div>
+        </I18nProvider>
       </MuiThemeProvider>
     )
   }

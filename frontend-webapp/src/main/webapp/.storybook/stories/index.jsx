@@ -9,12 +9,12 @@ import './view/components/Buttons'
 
 import './modules/admin/AdminLayout'
 
-import './modules/admin/Authentication'
+import './modules/authentication/Authentication'
 import './modules/admin-project-management/ProjectComponents'
 import './modules/admin-account-management/AccountComponents'
 import './modules/admin-database-management/DatabaseComponents'
 import './modules/admin-user-projectuser-management/ProjectUserComponents'
 
 import './modules/news/NewsComponent'
-import './modules/portal-menu/PortalMenuComponent'
-import './modules/portal-projects/PortalProjectsComponent'
+import './modules/menu/MenuComponent'
+import './modules/projects-list/ProjectsListComponent'

@@ -8,10 +8,7 @@ import { Locales } from '@regardsoss/form-utils'
  * @type {*}
  */
 const messages = Object.assign({
-  loginFormTitle: 'Login to project interface',
-  loginButtonLabel: 'Login',
-  logoutLabel: 'Logout',
-  settingsLabel: 'Settings',
+  loginFormTitle: 'Regards authentication admin panel',
 }, Locales.en)
 
 export default messages

@@ -24,7 +24,7 @@ class ModuleThemeProvider extends React.Component {
   static propTypes = {
     children: React.PropTypes.element,
     module: React.PropTypes.shape({
-      Styles: React.PropTypes.func,
+      styles: React.PropTypes.func,
     }).isRequired,
   }
 

@@ -7,9 +7,9 @@ import Delete from 'material-ui/svg-icons/action/delete'
 import { TableRowColumn, Table, TableBody, TableHeader, TableHeaderColumn, TableRow } from 'material-ui/Table'
 import { FormattedMessage } from 'react-intl'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
+import { JavaTypes } from '@regardsoss/model'
 import { CardActionsComponent } from '@regardsoss/components'
 import CreateAttributeModal from './CreateAttributeModal'
-import JavaTypes from './../../../JavaTypes'
 
 
 /**

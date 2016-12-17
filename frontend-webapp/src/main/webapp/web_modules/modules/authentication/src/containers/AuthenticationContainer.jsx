@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { connect } from 'react-redux'
+import connect from '@regardsoss/redux'
 import { fetchAuthenticate } from '@regardsoss/authentication-manager'
 import LoginComponent from '../components/LoginComponent'
 
@@ -18,9 +18,11 @@ import LoginComponent from '../components/LoginComponent'
 export class Authentication extends React.Component {
 
   static propTypes = {
-    // from mapDispatchToProps
+    title: React.PropTypes.string.isRequired,
     fetchAuthenticate: React.PropTypes.func,
     errorMessage: React.PropTypes.string,
+    cancelButton: React.PropTypes.bool,
+    onCancelAction: React.PropTypes.func,
   }
 
   showResults = (values) => {
@@ -30,8 +32,11 @@ export class Authentication extends React.Component {
   render() {
     return (
       <LoginComponent
+        title={this.props.title}
         onLogin={this.showResults}
         errorMessage={this.props.errorMessage}
+        cancelButton={this.props.cancelButton ? this.props.cancelButton : false}
+        onCancelAction={this.props.onCancelAction}
       />
     )
   }

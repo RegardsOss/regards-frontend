@@ -14,12 +14,15 @@ import { RenderTextField, FormErrorMessage, ErrorTypes, Field, ValidationHelpers
 class LoginComponent extends React.Component {
 
   static propTypes = {
+    title: React.PropTypes.string.isRequired,
     onLogin: React.PropTypes.func.isRequired,
     errorMessage: React.PropTypes.string,
     // from reduxForm
     submitting: React.PropTypes.bool,
     pristine: React.PropTypes.bool,
     handleSubmit: React.PropTypes.func.isRequired,
+    cancelButton: React.PropTypes.bool,
+    onCancelAction: React.PropTypes.func,
   }
 
   static contextTypes = {
@@ -38,12 +41,22 @@ class LoginComponent extends React.Component {
     }
     const { errorMessage } = this.props
     const { intl } = this.context
+    let cancelButton = null
+    if (this.props.cancelButton) {
+      cancelButton = (
+        <RaisedButton
+          label={<FormattedMessage id="login.cancel" />}
+          primary
+          onClick={this.props.onCancelAction}
+        />
+      )
+    }
     return (
       <div style={style.layout}>
         <form onSubmit={this.props.handleSubmit(this.props.onLogin)}>
           <Card>
             <CardTitle
-              title={<FormattedMessage id="login.title" />}
+              title={this.props.title}
               subtitle={
                 <FormErrorMessage>
                   {errorMessage && intl.formatMessage({ id: errorMessage })}
@@ -73,6 +86,7 @@ class LoginComponent extends React.Component {
                 primary
                 type="submit"
               />
+              {cancelButton}
             </CardActions>
           </Card>
         </form>
