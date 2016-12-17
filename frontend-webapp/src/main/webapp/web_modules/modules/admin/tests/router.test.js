@@ -1,10 +1,13 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { assert, expect } from 'chai'
-import Routes from '../src/router'
-import { databaseManagementRouter } from '@regardsoss/admin-database-management'
 import { dataManagementRouter } from '@regardsoss/admin-data-management'
 import { userManagementRouter } from '@regardsoss/admin-user-management'
 import { projectManagementRouter } from '@regardsoss/admin-project-management'
 import { accountManagementRouter } from '@regardsoss/admin-account-management'
+import { databaseManagementRouter } from '@regardsoss/admin-database-management'
+import Routes from '../src/router'
 
 describe('[ADMIN MANAGEMENT] Testing admin router', () => {
   it('should return the correct value', () => {

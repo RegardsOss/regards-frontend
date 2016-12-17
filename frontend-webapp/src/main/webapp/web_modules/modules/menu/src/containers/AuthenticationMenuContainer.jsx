@@ -76,9 +76,8 @@ class AuthenticationMenuComponent extends React.Component {
           />
         </div>
       )
-    }
-    // Else, if user is authenticated, display is name
-    else if (userAuthenticated) {
+    } else if (userAuthenticated) {
+      // Else, if user is authenticated, display is name
       return (
         <LoggedUserComponent name={authentication.user.sub} />
       )

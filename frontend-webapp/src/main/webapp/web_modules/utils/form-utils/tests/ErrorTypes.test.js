@@ -1,6 +1,7 @@
-import { shallow } from 'enzyme'
-import { expect, assert } from 'chai'
-import { Field } from '@regardsoss/form-utils'
+/**
+ * LICENSE_PLACEHOLDER
+ **/
+import { assert } from 'chai'
 import ErrorTypes from '../src/ErrorTypes'
 
 // Test a components rendering

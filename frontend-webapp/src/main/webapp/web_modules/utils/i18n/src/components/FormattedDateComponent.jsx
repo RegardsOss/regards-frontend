@@ -1,4 +1,6 @@
-import { map } from 'lodash'
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { FormattedDate, FormattedTime } from 'react-intl'
 
 
@@ -23,7 +25,7 @@ class FormattedDateComponent extends React.Component {
   }
 
   render() {
-    const { date: { day, month, year }, time: { hour, minute, nano, second } } = this.props.value
+    const { date: { day, month, year }, time: { hour, minute, second } } = this.props.value
     const dateInMs = new Date(year, month - 1, day, hour, minute, second, 0)
     return (
       <span>

@@ -5,7 +5,6 @@ import { map } from 'lodash'
 import { FormattedMessage } from 'react-intl'
 import { themeContextType } from '@regardsoss/theme'
 import ProjectComponent from './ProjectComponent'
-import projectsStyles from '../styles/styles'
 
 /**
  * Show the list of users for the current project
