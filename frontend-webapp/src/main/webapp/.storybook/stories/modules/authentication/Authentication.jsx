@@ -1,5 +1,5 @@
 import { storiesOf } from '@kadira/storybook'
-import { LazyModuleComponent } from '@regardsoss/modules-manager'
+import { LazyModuleComponent } from '@regardsoss/modules'
 import { withKnobs, text } from '@kadira/storybook-addon-knobs'
 import { StoreDecorator, addLocaleAndThemeSelectors, ThemeAndLocaleDecorator } from '../../utils/decorators'
 

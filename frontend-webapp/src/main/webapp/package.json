@@ -51,7 +51,7 @@
     "@regardsoss/store-utils": "0.0.1",
     "@regardsoss/theme": "0.0.1",
     "@regardsoss/user": "0.0.1",
-    "@regardsoss/modules-manager": "0.0.1",
+    "@regardsoss/modules": "0.0.1",
     "@regardsoss/layout": "0.0.1",
     "flux-standard-action": "~1.0.0",
     "immutable": "~3.8.1",

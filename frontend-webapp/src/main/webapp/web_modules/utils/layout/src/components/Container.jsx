@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { LazyModuleComponent } from '@regardsoss/modules-manager'
+import { LazyModuleComponent } from '@regardsoss/modules'
 import ContainerShape from '../model/ContainerShape'
 import ContainerHelper from '../ContainerHelper'
 

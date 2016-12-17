@@ -3,7 +3,7 @@
  **/
 import { intlShape } from 'react-intl'
 import connect from '@regardsoss/redux'
-import { LazyModuleComponent } from '@regardsoss/modules-manager'
+import { LazyModuleComponent } from '@regardsoss/modules'
 import { isAuthenticated, AuthenticationSelectors, AuthenticateShape } from '@regardsoss/authentication-manager'
 import Dialog from 'material-ui/Dialog'
 import LoginButton from '../components/LoginButton'

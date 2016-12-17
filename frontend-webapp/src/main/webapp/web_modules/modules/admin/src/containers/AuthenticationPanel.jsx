@@ -3,7 +3,7 @@
  **/
 import { intlShape } from 'react-intl'
 import { themeContextType } from '@regardsoss/theme'
-import { LazyModuleComponent } from '@regardsoss/modules-manager'
+import { LazyModuleComponent } from '@regardsoss/modules'
 import { CenteredDiv } from '@regardsoss/components'
 
 /**

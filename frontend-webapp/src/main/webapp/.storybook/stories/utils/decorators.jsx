@@ -4,7 +4,7 @@ import { configureStore } from '@regardsoss/store'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { I18nProvider } from '@regardsoss/i18n'
 import * as I18nActions from '@regardsoss/i18n/src/model/I18nActions'
-import ModuleThemeProvider from '@regardsoss/modules-manager/src/components/ModuleThemeProvider'
+import { ModuleThemeProvider } from '@regardsoss/modules'
 import { select } from '@kadira/storybook-addon-knobs'
 import rootReducer from '../../../src/rootReducer'
 

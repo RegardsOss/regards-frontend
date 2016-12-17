@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { ModuleShape } from '@regardsoss/modules-manager'
+import { ModuleShape } from '@regardsoss/modules'
 
 /**
  * Definition of type DecoratorShape. Decorator are used in LazyModuleComponent to add a decorator element to modules
