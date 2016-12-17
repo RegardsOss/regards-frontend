@@ -19,6 +19,9 @@ const layout = {
       type: 'RowContainer',
       classes: ['body'],
       styles: {},
+      modules: [{
+        id: 'test-module',
+      }],
       containers: [
         {
           id: 'bodyLeft',

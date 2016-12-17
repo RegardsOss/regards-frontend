@@ -4,10 +4,11 @@
 import { shallow } from 'enzyme'
 import { expect } from 'chai'
 import { ApplicationLayout } from '@regardsoss/layout'
+import { LazyModuleComponent } from '@regardsoss/modules'
 import testLayout from './TestLayout'
 import Container from '../../src/components/Container'
 
-describe('[COMMON] Testing Application layout factory', () => {
+describe('[LAYOUT] Testing Application layout factory', () => {
   it('Should render correctly an application layout with ApplicationLayout', () => {
     const context = {
 
@@ -18,7 +19,7 @@ describe('[COMMON] Testing Application layout factory', () => {
   })
 })
 
-describe('[COMMON] Testing Application Container', () => {
+describe('[LAYOUT] Testing Application Container', () => {
   it('Should render correctly an application layout with ApplicationLayout', () => {
     const context = {
 
@@ -32,6 +33,7 @@ describe('[COMMON] Testing Application Container', () => {
 
     expect(wrapper2.find('.row')).to.have.length(1)
     expect(wrapper2.find('.body')).to.have.length(1)
+    expect(wrapper2.find(LazyModuleComponent)).to.have.length(1)
     expect(wrapper2.find(Container)).to.have.length(2)
   })
 })
