@@ -8,27 +8,33 @@ storiesOf('Authentication', module)
   .addDecorator(StoreDecorator)
   .add('Without cancel', () => {
     const themeName = addLocaleAndThemeSelectors()
-    const moduleConf = {
-      cancelButton: false,
-      title: 'Authentication form',
-      errorMessage: text('Message error', ''),
+    const module = {
+      id: 'authentication',
+      conf: {
+        cancelButton: false,
+        title: 'Authentication form',
+        errorMessage: text('Message error', ''),
+      },
     }
     return (
       <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/authentication/src/i18n">
-        <LazyModuleComponent appName={'test'} moduleId={'authentication'} moduleConf={moduleConf} />
+        <LazyModuleComponent appName={'test'} module={module} />
       </ThemeAndLocaleDecorator>
     )
   })
   .add('With cancel', () => {
     const themeName = addLocaleAndThemeSelectors()
-    const moduleConf = {
-      cancelButton: true,
-      title: 'Authentication form',
-      errorMessage: text('Message error', ''),
+    const module = {
+      id: 'authentication',
+      conf: {
+        cancelButton: true,
+        title: 'Authentication form',
+        errorMessage: text('Message error', ''),
+      },
     }
     return (
       <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/authentication/src/i18n">
-        <LazyModuleComponent appName={'test'} moduleId={'authentication'} moduleConf={moduleConf} />
+        <LazyModuleComponent appName={'test'} module={module} />
       </ThemeAndLocaleDecorator>
     )
   })

@@ -5,6 +5,7 @@ import { merge } from 'lodash'
 import { I18nProvider } from '@regardsoss/i18n'
 import ModuleThemeProvider from './ModuleThemeProvider'
 import DecoratorShape from '../model/DecoratorShape'
+import ModuleShape from '../model/ModuleShape'
 
 /**
  * React Component to display a module.
@@ -16,8 +17,7 @@ class LazyModuleComponent extends React.Component {
    */
   static propTypes = {
     appName: React.PropTypes.string.isRequired,
-    moduleId: React.PropTypes.string.isRequired,
-    moduleConf: React.PropTypes.objectOf(React.PropTypes.any),
+    module: ModuleShape.isRequired,
     decorator: DecoratorShape,
     onLoadAction: React.PropTypes.func,
   }
@@ -25,8 +25,8 @@ class LazyModuleComponent extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      moduleId: props.moduleId,
-      moduleConf: props.moduleConf,
+      moduleId: props.module.id,
+      moduleConf: props.module.conf,
       isLoaded: false,
       error: null,
     }
@@ -41,13 +41,13 @@ class LazyModuleComponent extends React.Component {
     require.ensure([], (require) => {
       try {
         // eslint-disable-next-line import/no-dynamic-require
-        const loadedModule = require(`@regardsoss/${this.props.moduleId}/src/main.js`)
+        const loadedModule = require(`@regardsoss/${this.props.module.id}/src/main.js`)
         self.setState({
           isLoaded: true,
           module: loadedModule,
         })
       } catch (e) {
-        console.error('Module', this.props.moduleId, e, e.stack)
+        console.error('Module', this.props.module.id, e, e.stack)
       }
     })
   }
@@ -65,8 +65,8 @@ class LazyModuleComponent extends React.Component {
   render() {
     const { isLoaded, module } = this.state
     if (isLoaded) {
-      const moduleMessageDir = module.messagesDir ? module.messagesDir : `modules/${this.props.moduleId}/src/i18n`
-      const moduleElt = React.createElement(module.moduleContainer, merge({}, { appName: this.props.appName }, this.state.moduleConf))
+      const moduleMessageDir = module.messagesDir ? module.messagesDir : `modules/${this.props.module.id}/src/i18n`
+      const moduleElt = React.createElement(module.moduleContainer, merge({}, { appName: this.props.appName }, this.props.module.conf))
       if (this.props.decorator) {
         const element = React.createElement(this.props.decorator.element, merge({}, this.props.decorator.conf, { children: moduleElt }))
         return (
@@ -86,7 +86,7 @@ class LazyModuleComponent extends React.Component {
       )
     }
     return (
-      <div>Module ${this.props.moduleId} is loading ... </div>
+      <div>Module ${this.props.module.id} is loading ... </div>
     )
   }
 

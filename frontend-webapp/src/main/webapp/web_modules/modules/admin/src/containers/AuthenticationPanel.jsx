@@ -23,13 +23,18 @@ class AuthenticationPanel extends React.Component {
         styles: this.context.muiTheme.adminApp.layout.app.styles,
       },
     }
+    const module = {
+      id: 'authentication',
+      conf: {
+        title: this.context.intl.formatMessage({ id: 'loginFormTitle' }),
+      },
+    }
     return (
       <div className={style.app.classes} style={style.app.styles}>
         <LazyModuleComponent
-          moduleId={'authentication'}
+          module={module}
           appName={'admin'}
           decorator={{ element: CenteredDiv }}
-          moduleConf={{ title: this.context.intl.formatMessage({ id: 'loginFormTitle' }) }}
         />
       </div>
     )

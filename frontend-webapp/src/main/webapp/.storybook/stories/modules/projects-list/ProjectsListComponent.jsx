@@ -13,7 +13,7 @@ storiesOf('Projects list', module)
     const themeName = addLocaleAndThemeSelectors()
     return (
       <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/projects-list/src/i18n">
-        <LazyModuleComponent appName={'test'} moduleId={'projects-list'} />
+        <LazyModuleComponent appName={'test'} moduleId={{ id: 'projects-list' }} />
       </ThemeAndLocaleDecorator>
     )
   })

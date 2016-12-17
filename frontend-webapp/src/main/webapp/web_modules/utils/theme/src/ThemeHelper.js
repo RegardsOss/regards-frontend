@@ -3,9 +3,8 @@
  */
 import injectTapEventPlugin from 'react-tap-event-plugin'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
-import { merge, union } from 'lodash'
+import { merge } from 'lodash'
 import customThemes from './custom/index'
-import containerTypes from './custom/containerTypes'
 import adminAppLayer from './custom/adminAppLayer'
 import portalAppLayer from './custom/portalAppLayer'
 import userAppLayer from './custom/userAppLayer'
@@ -32,26 +31,6 @@ class ThemeHelper {
    */
   static getThemes() {
     return customThemes
-  }
-
-  /*
-   * Retrieve class names for the given container
-   * @param pContainer container to retrieve classes names
-   * @return [*] list of classes names
-   */
-  static getContainerClassNames(pContainer) {
-    const typeClasses = containerTypes[pContainer.type].classes
-    return union([], typeClasses, pContainer.classes)
-  }
-
-  /*
-   * Retrieve inline styles for the given container
-   * @param pContainer container to retrieve styles names
-   * @return [*] list of styles names
-   */
-  static getContainerStyles(pContainer) {
-    const typeClasses = containerTypes[pContainer.type].styles
-    return merge([], typeClasses, pContainer.styles)
   }
 
   /**

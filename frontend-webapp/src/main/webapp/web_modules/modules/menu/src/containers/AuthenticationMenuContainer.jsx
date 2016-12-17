@@ -60,19 +60,22 @@ class AuthenticationMenuComponent extends React.Component {
         open: true,
         onRequestClose: buttonClicked => this.setState({ dialogOpened: false }),
       }
-      const moduleConf = {
-        title: this.context.intl.formatMessage({ id: 'loginFormTitle' }),
-        cancelButton: true,
-        onCancelAction: this.closeDialog,
+
+      const module = {
+        id: 'authentication',
+        conf: {
+          title: this.context.intl.formatMessage({ id: 'loginFormTitle' }),
+          cancelButton: true,
+          onCancelAction: this.closeDialog,
+        },
       }
       return (
         <div>
           <LoginButton style={{}} onLoginAction={this.openDialog} />
           <LazyModuleComponent
-            moduleId={'authentication'}
+            module={module}
             appName={this.props.appName}
             decorator={{ element: Dialog, conf: dialogConf }}
-            moduleConf={moduleConf}
           />
         </div>
       )

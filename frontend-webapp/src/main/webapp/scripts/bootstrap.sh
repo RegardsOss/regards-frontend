@@ -24,6 +24,7 @@ npm link web_modules/utils/display-control
 npm link web_modules/utils/tests-helpers
 npm link web_modules/utils/redux
 npm link web_modules/utils/modules-manager
+npm link web_modules/utils/layout
 
 # Common components
 npm link web_modules/components

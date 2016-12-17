@@ -1,15 +1,15 @@
 /**
  * LICENSE_PLACEHOLDER
  */
-import ApplicationLayout from './components/ApplicationLayout'
 import LazyModuleComponent from './components/LazyModuleComponent'
-import ModuleFactory from './ModuleFactory'
+import ModuleThemeProvider from './components/ModuleThemeProvider'
+import ModuleShape from './model/ModuleShape'
 
 /**
  * Main module file to expose public interface
  */
 export {
-  ApplicationLayout,
   LazyModuleComponent,
-  ModuleFactory,
+  ModuleThemeProvider,
+  ModuleShape,
 }
