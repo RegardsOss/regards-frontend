@@ -4,9 +4,9 @@
 import { connect } from 'react-redux'
 import { logout } from '@regardsoss/authentication-manager'
 import { themeContextType } from '@regardsoss/theme'
+import { LazyModuleComponent } from '@regardsoss/modules'
 import InstanceSidebarComponent from '../menu/components/InstanceSidebarComponent'
 import ProjectSidebarComponent from '../menu/components/ProjectSidebarComponent'
-import MenuComponent from '../menu/components/MenuComponent'
 /*
 interface MainAdminLayoutProps {
   content: any,
@@ -72,9 +72,17 @@ export class AdminLayout extends React.Component {
         styles: this.context.muiTheme.adminApp.layout.contentContainer.styles,
       },
     }
+
+    const menuModule = {
+      id: 'menu',
+      conf: {
+        title: 'REGARDS admin dashboard',
+        displayAuthentication: true,
+      },
+    }
     return (
       <div className={style.app.classes} style={style.app.styles}>
-        <MenuComponent />
+        <LazyModuleComponent appName={'adminApp'} module={menuModule} />
         <div className={style.bodyContainer.classes} style={style.bodyContainer.styles}>
           {this.getSidebar(isOnInstanceDashboard)}
           <div className={style.contentContainer.classes} style={style.contentContainer.styles}>

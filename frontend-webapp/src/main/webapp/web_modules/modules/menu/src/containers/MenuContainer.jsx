@@ -23,7 +23,7 @@ class MenuComponent extends React.Component {
 
   render() {
     const { moduleTheme } = this.context
-    const title = this.props.title ? this.props.title : 'Regards'
+    const title = this.props.title ? this.props.title : ''
     const style = {
       headContainer: {
         classes: moduleTheme.classes.join(' '),
