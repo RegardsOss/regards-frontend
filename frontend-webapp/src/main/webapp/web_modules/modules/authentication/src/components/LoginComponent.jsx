@@ -30,6 +30,17 @@ class LoginComponent extends React.Component {
     intl: intlShape,
   }
 
+
+  /**
+   * On component mount
+   */
+  componentWillMount() {
+    if (process.env.NODE_ENV === 'development') {
+      console.log('DEV', 'Auto connection')
+      this.props.onLogin({ username: 'admin@cnes.fr', password: 'admin' })
+    }
+  }
+
   /**
    * Render function
    * @returns {React.Component} components
