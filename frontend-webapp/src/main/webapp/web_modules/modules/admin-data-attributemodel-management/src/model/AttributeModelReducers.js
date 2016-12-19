@@ -1,10 +1,10 @@
 import { BasicListReducers } from '@regardsoss/store-utils'
-import { ModelConfiguration } from '@regardsoss/api'
+import { AttributeModelConfiguration } from '@regardsoss/api'
 import AttributeModelActions from './AttributeModelActions'
 
 class AttributeModelReducers extends BasicListReducers {
   constructor() {
-    super(ModelConfiguration, AttributeModelActions)
+    super(AttributeModelConfiguration, AttributeModelActions)
   }
 }
 

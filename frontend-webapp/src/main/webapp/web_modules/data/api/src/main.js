@@ -47,4 +47,6 @@ export default {
   ATTRIBUTE_MODEL: AttributeModel.ATTRIBUTE_MODEL,
   ATTRIBUTE_MODEL_ARRAY: AttributeModel.ATTRIBUTE_MODEL_ARRAY,
   AttributeModelConfiguration,
+
+
 }
