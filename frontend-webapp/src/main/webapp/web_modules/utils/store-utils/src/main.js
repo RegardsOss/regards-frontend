@@ -6,6 +6,10 @@ import BasicPageableSelectors from './pageable/BasicPageableSelectors'
 import BasicPageableActions from './pageable/BasicPageableActions'
 import BasicPageableReducers from './pageable/BasicPageableReducers'
 
+import BasicArraySelectors from './array/BasicArraySelectors'
+import BasicArrayActions from './array/BasicArrayActions'
+import BasicArrayReducers from './array/BasicArrayReducers'
+
 
 export default {
   BasicSelector,
@@ -15,4 +19,7 @@ export default {
   BasicPageableSelectors,
   BasicPageableActions,
   BasicPageableReducers,
+  BasicArraySelectors,
+  BasicArrayActions,
+  BasicArrayReducers,
 }

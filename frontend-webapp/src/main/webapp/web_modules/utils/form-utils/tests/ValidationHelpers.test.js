@@ -1,6 +1,4 @@
-import { shallow } from 'enzyme'
-import { expect, assert } from 'chai'
-import { Field } from '@regardsoss/form-utils'
+import { assert } from 'chai'
 import ValidationHelpers from '../src/ValidationHelpers'
 
 // Test a components rendering
@@ -9,13 +7,13 @@ describe('[FORM UTILS] Testing validation helpers', () => {
     assert.isDefined(ValidationHelpers)
   })
   it('should should accept only valid emails', () => {
-    expect(ValidationHelpers.isValidEmail('myemail')).to.be.false
-    expect(ValidationHelpers.isValidEmail('myemail@cnn.fr')).to.be.true
+    assert.isFalse(ValidationHelpers.isValidEmail('myemail'))
+    assert.isTrue(ValidationHelpers.isValidEmail('myemail@cnn.fr'))
   })
   it('should should accept only valid urls', () => {
-    expect(ValidationHelpers.isValidUrl('http://google')).to.be.false
-    expect(ValidationHelpers.isValidUrl('google.com')).to.be.false
-    expect(ValidationHelpers.isValidUrl('http://google.com')).to.be.true
-    expect(ValidationHelpers.isValidUrl('https://google.com')).to.be.true
+    assert.isFalse(ValidationHelpers.isValidUrl('http://google'))
+    assert.isFalse(ValidationHelpers.isValidUrl('google.com'))
+    assert.isTrue(ValidationHelpers.isValidUrl('http://google.com'))
+    assert.isTrue(ValidationHelpers.isValidUrl('https://google.com'))
   })
 })

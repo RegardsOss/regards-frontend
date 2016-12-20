@@ -47,6 +47,7 @@ class ApplicationLayoutComponent extends React.Component {
   }
 
   render() {
+    const { pristine, submitting } = this.props
     return (
       <form onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
         <Card>
@@ -63,6 +64,7 @@ class ApplicationLayoutComponent extends React.Component {
             <CardActionsComponent
               mainButtonLabel={<FormattedMessage id="layout.submit" />}
               mainButtonType="submit"
+              isMainButtonDisabled={pristine || submitting}
             />
           </CardActions>
         </Card>

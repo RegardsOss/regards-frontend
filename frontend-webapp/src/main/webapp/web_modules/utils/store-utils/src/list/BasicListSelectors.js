@@ -9,7 +9,7 @@ import BasicSelector from '../BasicSelector'
 /**
  *  Provide an high level class to interact with entity stored in a list
  */
-class BasicListSelector extends BasicSelector {
+class BasicListSelectors extends BasicSelector {
   getList(state) {
     return this.uncombineStore(state).items
   }
@@ -25,4 +25,4 @@ class BasicListSelector extends BasicSelector {
   }
 }
 
-export default BasicListSelector
+export default BasicListSelectors

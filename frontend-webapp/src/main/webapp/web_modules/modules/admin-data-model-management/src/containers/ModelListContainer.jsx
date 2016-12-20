@@ -1,7 +1,6 @@
 import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
 import { I18nProvider } from '@regardsoss/i18n'
-import { logout } from '@regardsoss/authentication-manager'
 import ModelActions from '../model/ModelActions'
 import ModelSelectors from '../model/ModelSelectors'
 import ModelListComponent from '../components/ModelListComponent'
@@ -55,15 +54,8 @@ export class ProjectListContainer extends React.Component {
   }
 
   handleDelete =(projectName) => {
-    this.props.deleteProject(projectName)
+    this.props.deleteModel(projectName)
   }
-
-  handleOpen =(projectName) => {
-    this.props.onLogout()
-    const url = `/admin/${projectName}`
-    browserHistory.push(url)
-  }
-
 
   render() {
     const { modelList } = this.props

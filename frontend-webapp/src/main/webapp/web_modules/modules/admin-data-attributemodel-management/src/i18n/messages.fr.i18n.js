@@ -14,13 +14,19 @@ const messages = Object.assign({
   'attrmodel.create.title': 'Ajouter un attribut de modèle',
   'attrmodel.form.name': 'Nom du l\'attribut',
   'attrmodel.form.description': 'Description',
-  'attrmodel.form.alterable': 'Alterable',
+  'attrmodel.form.alterable': 'Modifiable',
   'attrmodel.form.optional': 'Optionnel',
   'attrmodel.form.queryable': 'Requêtable',
   'attrmodel.form.facetable': 'Facettable',
   'attrmodel.form.type': 'Type',
   'attrmodel.form.action.cancel': 'Annuler',
   'attrmodel.form.action.submit': 'Sauvegarder',
+
+  'attrmodel.form.restriction.INTEGER_RANGE.active': 'Activer un filtre pour limiter l\'ensemble des valeurs',
+  'attrmodel.form.restriction.INTEGER_RANGE.min': 'Valeur minimale autorisée',
+  'attrmodel.form.restriction.INTEGER_RANGE.isMinInclusive': 'Borne minimale incluse dans l\'ensemble',
+  'attrmodel.form.restriction.INTEGER_RANGE.max': 'Valeur maximale autorisée',
+  'attrmodel.form.restriction.INTEGER_RANGE.isMaxInclusive': 'Borne maximale incluse dans l\'ensemble',
 }, Locales.fr)
 
 export default messages

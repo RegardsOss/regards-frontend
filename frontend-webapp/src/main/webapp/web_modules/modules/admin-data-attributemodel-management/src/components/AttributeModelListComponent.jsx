@@ -30,7 +30,7 @@ export class AttributeModelListComponent extends React.Component {
 
 
   render() {
-    const { modelList, handleEdit, handleDelete, createUrl, backUrl } = this.props
+    const { attrModelList, handleEdit, handleDelete, createUrl, backUrl } = this.props
     const style = {
       hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
       hoverButtonDelete: this.context.muiTheme.palette.accent1Color,
@@ -63,7 +63,7 @@ export class AttributeModelListComponent extends React.Component {
               preScanRows={false}
               showRowHover
             >
-              {map(modelList, (attrmodel, i) => (
+              {map(attrModelList, (attrmodel, i) => (
                 <TableRow key={i}>
                   <TableRowColumn>{attrmodel.content.name}</TableRowColumn>
                   <TableRowColumn>{attrmodel.content.description}</TableRowColumn>

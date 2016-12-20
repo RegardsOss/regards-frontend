@@ -6,7 +6,7 @@ import { omitBy } from 'lodash'
 /**
  *  Handle reduction for lists
  */
-class BasicListReducer {
+class BasicListReducers {
 
   constructor(options, basicListActionInstance) {
     this.entityKey = options.entityKey
@@ -66,4 +66,4 @@ class BasicListReducer {
 
 }
 
-export default BasicListReducer
+export default BasicListReducers

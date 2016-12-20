@@ -1,9 +1,9 @@
 import { BasicArrayReducers } from '@regardsoss/store-utils'
-import AttributeModelTypeActions from './AttributeModelTypeActions'
+import AttributeModelRestrictionActions from './AttributeModelRestrictionActions'
 
 class AttributeModelRestrictionReducers extends BasicArrayReducers {
   constructor() {
-    super(AttributeModelTypeActions)
+    super(AttributeModelRestrictionActions)
   }
 }
 

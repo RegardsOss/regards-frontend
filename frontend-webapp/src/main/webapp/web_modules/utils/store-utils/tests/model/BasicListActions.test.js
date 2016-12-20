@@ -2,7 +2,6 @@ import configureStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import nock from 'nock'
 import { expect } from 'chai'
-import defaultFluxStandardError from '@regardsoss/tests-helpers'
 import { PROJECT, PROJECT_ARRAY } from '@regardsoss/api'
 import BasicListActions from '../../src/list/BasicListActions'
 

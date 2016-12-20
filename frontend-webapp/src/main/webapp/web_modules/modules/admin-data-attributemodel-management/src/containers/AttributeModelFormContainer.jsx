@@ -10,7 +10,11 @@ import AttributeModelFormComponent from '../components/AttributeModelFormCompone
 import AttributeModelSelectors from '../model/AttributeModelSelectors'
 import AttributeModelTypeSelectors from '../model/AttributeModelTypeSelectors'
 import { AttributeModel, AttributeModelType } from '@regardsoss/model'
-import { fetchAttributeModelTypeList } from '../model/AttributeModelTypeActions'
+import AttributeModelTypeActions from '../model/AttributeModelTypeActions'
+import AttributeModelRestrictionActions from '../model/AttributeModelRestrictionActions'
+import AttributeModelRestrictionSelectors from '../model/AttributeModelRestrictionSelectors'
+
+
 export class AttributeModelFormContainer extends React.Component {
   static propTypes = {
     // from router
@@ -20,8 +24,11 @@ export class AttributeModelFormContainer extends React.Component {
     }),
     // from mapStateToProps
     attrModel: AttributeModel,
-    isFetching: React.PropTypes.bool,
-    attrModelTypeList: React.PropTypes.arrayOf(AttributeModelType),
+    isAttributeModelFetching: React.PropTypes.bool,
+    attrModelTypeList: React.PropTypes.arrayOf(React.PropTypes.string),
+    isAttributeModelRestrictionFetching: React.PropTypes.bool,
+    attrModelRestrictionList: React.PropTypes.arrayOf(React.PropTypes.string),
+    isAttributeModelTypeFetching: React.PropTypes.bool,
     // from mapDispatchToProps
     createAttrModel: React.PropTypes.func,
     fetchAttrModel: React.PropTypes.func,
@@ -43,16 +50,23 @@ export class AttributeModelFormContainer extends React.Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    // when we have the entity we need to fetch the corresponding entity restriction list
+    if (this.state.isEditing && nextProps.attrModelRestrictionList.length === 0 && !this.props.attrModel && nextProps.attrModel) {
+      this.props.fetchAttributeModelRestrictionList(nextProps.attrModel.content.type)
+    }
+  }
+
   getBackUrl = () => {
     const { params: { project } } = this.props
     return `/admin/${project}/data/attribute/model/list`
   }
 
   getFormComponent = () => {
-    const { attrModelTypeList } = this.props
+    const { attrModelTypeList, attrModelRestrictionList } = this.props
     if (this.state.isEditing) {
-      const { attrModel, isFetching } = this.props
-      if (isFetching) {
+      const { attrModel, isAttributeModelFetching, isAttributeModelRestrictionFetching, isAttributeModelTypeFetching } = this.props
+      if (isAttributeModelFetching || isAttributeModelRestrictionFetching || isAttributeModelTypeFetching) {
         return (<FormLoadingComponent />)
       }
       if (attrModel) {
@@ -61,6 +75,8 @@ export class AttributeModelFormContainer extends React.Component {
           backUrl={this.getBackUrl()}
           currentAttrModel={attrModel}
           attrModelTypeList={attrModelTypeList}
+          attrModelRestrictionList={attrModelRestrictionList}
+          handleUpdateAttributeModelRestriction={this.handleUpdateAttributeModelRestriction}
         />)
       }
       return (<FormEntityNotFoundComponent />)
@@ -69,24 +85,71 @@ export class AttributeModelFormContainer extends React.Component {
       onSubmit={this.handleCreate}
       backUrl={this.getBackUrl()}
       attrModelTypeList={attrModelTypeList}
+      attrModelRestrictionList={attrModelRestrictionList}
+      handleUpdateAttributeModelRestriction={this.handleUpdateAttributeModelRestriction}
     />)
   }
   handleUpdate = (values) => {
-    const updatedAttrModel = Object.assign({}, this.props.attrModel.content, {
+    const restriction = this.getRestriction(values)
+    const previousAttrModel = this.props.attrModel.content
+    previousAttrModel.restriction = {}
+    const updatedAttrModel = Object.assign({}, previousAttrModel, {
+      name: values.name,
       description: values.description,
+      type: values.type,
+      alterable: values.alterable,
+      optional: values.optional,
+      queryable: values.queryable,
+      facetable: values.facetable,
+      restriction,
     })
-    Promise.resolve(this.props.updateModel(this.props.attrModel.content.id, updatedAttrModel))
+    Promise.resolve(this.props.updateAttrModel(this.props.attrModel.content.id, updatedAttrModel))
     .then(() => {
       const url = this.getBackUrl()
       browserHistory.push(url)
     })
   }
+  handleUpdateAttributeModelRestriction = (type) => {
+    this.props.fetchAttributeModelRestrictionList(type)
+  }
+
+  /**
+   * Extract values from the form and prepare the action we send to the API
+   * @param values
+   * @returns {{}}
+   */
+  getRestriction = (values) => {
+    let restriction = {}
+    if (values.restriction.INTEGER_RANGE.active) {
+      restriction = {
+        type: 'INTEGER_RANGE',
+      }
+      if (values.restriction.INTEGER_RANGE.isMinInclusive) {
+        restriction.minInclusive = values.restriction.INTEGER_RANGE.min
+      } else {
+        restriction.minExclusive = values.restriction.INTEGER_RANGE.min
+      }
+      if (values.restriction.INTEGER_RANGE.isMaxInclusive) {
+        restriction.maxInclusive = values.restriction.INTEGER_RANGE.max
+      } else {
+        restriction.maxExclusive = values.restriction.INTEGER_RANGE.max
+      }
+    }
+    return restriction
+  }
 
   handleCreate = (values) => {
-    Promise.resolve(this.props.createModel({
+    console.log(values)
+    const restriction = this.getRestriction(values)
+    Promise.resolve(this.props.createAttrModel({
       name: values.name,
       description: values.description,
       type: values.type,
+      alterable: values.alterable,
+      optional: values.optional,
+      queryable: values.queryable,
+      facetable: values.facetable,
+      restriction,
     }))
     .then(() => {
       const url = this.getBackUrl()
@@ -103,15 +166,19 @@ export class AttributeModelFormContainer extends React.Component {
 }
 const mapStateToProps = (state, ownProps) => ({
   attrModel: ownProps.params.attrModel_id ? AttributeModelSelectors.getById(state, ownProps.params.attrModel_id) : null,
-  isFetching: AttributeModelSelectors.isFetching(state),
+  isAttributeModelFetching: AttributeModelSelectors.isFetching(state),
   attrModelTypeList: AttributeModelTypeSelectors.getList(state),
+  isAttributeModelTypeFetching: AttributeModelTypeSelectors.isFetching(state),
+  attrModelRestrictionList: AttributeModelRestrictionSelectors.getList(state),
+  isAttributeModelRestrictionFetching: AttributeModelTypeSelectors.isFetching(state),
 })
 
 const mapDispatchToProps = dispatch => ({
   createAttrModel: values => dispatch(AttributeModelActions.createEntity(values)),
   updateAttrModel: (id, values) => dispatch(AttributeModelActions.updateEntity(id, values)),
   fetchAttrModel: id => dispatch(AttributeModelActions.fetchEntity(id)),
-  fetchAttributeModelTypeList: () => dispatch(fetchAttributeModelTypeList()),
+  fetchAttributeModelTypeList: () => dispatch(AttributeModelTypeActions.fetchEntityList()),
+  fetchAttributeModelRestrictionList: type => dispatch(AttributeModelRestrictionActions.getList(type)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AttributeModelFormContainer)

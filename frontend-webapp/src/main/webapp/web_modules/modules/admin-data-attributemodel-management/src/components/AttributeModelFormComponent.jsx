@@ -1,21 +1,26 @@
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
-import { RenderTextField, Field } from '@regardsoss/form-utils'
+import { RenderTextField, RenderCheckbox, RenderSelectField, Field } from '@regardsoss/form-utils'
 import { reduxForm } from 'redux-form'
 import MenuItem from 'material-ui/MenuItem'
-import { AttributeModel, AttributeModelType } from '@regardsoss/model'
+import { AttributeModel } from '@regardsoss/model'
 import { map } from 'lodash'
+import IntegerRangeComponent, { initializeIntegerRangeForm } from './IntegerRangeComponent'
+import EnumerationComponent, { initializeEnumerationForm } from './EnumerationComponent'
+
 /**
  * Display edit and create attribute model form
  */
 export class AttributeModelFormComponent extends React.Component {
 
   static propTypes = {
-    attrModelTypeList: React.PropTypes.arrayOf(AttributeModelType),
+    attrModelTypeList: React.PropTypes.arrayOf(React.PropTypes.string),
+    attrModelRestrictionList: React.PropTypes.arrayOf(React.PropTypes.string),
     currentAttrModel: AttributeModel,
     onSubmit: React.PropTypes.func.isRequired,
     backUrl: React.PropTypes.string.isRequired,
+    handleUpdateAttributeModelRestriction: React.PropTypes.func,
     // from reduxForm
     submitting: React.PropTypes.bool,
     pristine: React.PropTypes.bool,
@@ -38,15 +43,59 @@ export class AttributeModelFormComponent extends React.Component {
   handleInitialize = () => {
     if (!this.state.isCreating) {
       const { currentAttrModel } = this.props
-      this.props.initialize({
+      let initialValues = {
+        name: currentAttrModel.content.name,
+        type: currentAttrModel.content.type,
         description: currentAttrModel.content.description,
-      })
+        alterable: currentAttrModel.content.alterable,
+        optional: currentAttrModel.content.optional,
+        queryable: currentAttrModel.content.queryable,
+        facetable: currentAttrModel.content.facetable,
+        restriction: {},
+      }
+      // Fill restriction object
+      switch (currentAttrModel.content.type) {
+        case 'INTEGER':
+          initialValues = initializeIntegerRangeForm(initialValues, currentAttrModel)
+          break
+      }
+      this.props.initialize(initialValues)
     }
   }
 
+  handleChange = (event, index, value, input) => {
+    input.onChange(value)
+    this.props.handleUpdateAttributeModelRestriction(value)
+  }
+
+  getRestrictionForm = (restrictionName) => {
+    switch (restrictionName) {
+      case 'INTEGER_RANGE':
+        return (
+          <IntegerRangeComponent />
+        )
+        break
+      case 'ENUMERATION':
+        return (
+          <EnumerationComponent currentAttrModel={this.props.currentAttrModel} />
+        )
+        break
+      case 'PATTERN':
+        return (
+          <div>TODO</div>
+        )
+        break
+      default:
+        throw new Error(`The API sent a restriction name ${restrictionName} that is not supported on the frontend`)
+
+    }
+  }
 
   render() {
-    const { attrModelTypeList, pristine, submitting, invalid } = this.props
+    const { attrModelTypeList, attrModelRestrictionList, pristine, submitting, invalid } = this.props
+    const style = {
+      marginTop: '20px',
+    }
     const title = this.state.isCreating ? <FormattedMessage id="attrmodel.create.title" /> :
       (<FormattedMessage
         id="attrmodel.edit.title"
@@ -54,14 +103,6 @@ export class AttributeModelFormComponent extends React.Component {
           name: this.props.currentAttrModel.content.name,
         }}
       />)
-    const typeList = [
-      {
-        content: {
-          id: 1,
-          name: 'Java',
-        },
-      },
-    ]
     return (
       <form onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
         <Card>
@@ -84,6 +125,21 @@ export class AttributeModelFormComponent extends React.Component {
               label={<FormattedMessage id="attrmodel.form.description" />}
             />
             <Field
+              name="type"
+              fullWidth
+              component={RenderSelectField}
+              onChange={this.handleChange}
+              label={<FormattedMessage id="attrmodel.form.type" />}
+            >
+              {map(attrModelTypeList, (type, id) => (
+                <MenuItem
+                  value={type}
+                  key={id}
+                  primaryText={type}
+                />
+              ))}
+            </Field>
+            <Field
               name="alterable"
               component={RenderCheckbox}
               label={<FormattedMessage id="attrmodel.form.alterable" />}
@@ -103,22 +159,16 @@ export class AttributeModelFormComponent extends React.Component {
               component={RenderCheckbox}
               label={<FormattedMessage id="attrmodel.form.facetable" />}
             />
-            <Field
-              name="type"
-              fullWidth
-              component={RenderSelectField}
-              label={<FormattedMessage id="attrmodel.form.type" />}
-            >
-              {map(attrModelTypeList, (type, id) => (
-                <MenuItem
-                  value={type}
-                  key={id}
-                  primaryText={type}
-                />
-              ))}
-            </Field>
-
           </CardText>
+        </Card>
+        {map(attrModelRestrictionList, (restriction, id) => (
+          <Card style={style} key={id}>
+            <CardText>
+              {this.getRestrictionForm(restriction)}
+            </CardText>
+          </Card>
+        ))}
+        <Card style={style}>
           <CardActions>
             <CardActionsComponent
               mainButtonLabel={<FormattedMessage id="attrmodel.form.action.submit" />}
@@ -133,7 +183,6 @@ export class AttributeModelFormComponent extends React.Component {
     )
   }
 }
-
 
 function validate(values) {
   const errors = {}

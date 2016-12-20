@@ -42,7 +42,7 @@ export class AttributeModelListContainer extends React.Component {
 
   handleEdit = (attrModelId) => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/data/attribute/model/${attrModelId}/create`
+    const url = `/admin/${project}/data/attribute/model/${attrModelId}/edit`
     browserHistory.push(url)
   }
 
@@ -58,11 +58,11 @@ export class AttributeModelListContainer extends React.Component {
 
 
   render() {
-    const { modelList } = this.props
+    const { attrModelList } = this.props
     return (
       <I18nProvider messageDir="modules/admin-data-attributemodel-management/src/i18n">
         <AttributeModelListComponent
-          modelList={modelList}
+          attrModelList={attrModelList}
           createUrl={this.getCreateUrl()}
           backUrl={this.getBackUrl()}
           handleDelete={this.handleDelete}

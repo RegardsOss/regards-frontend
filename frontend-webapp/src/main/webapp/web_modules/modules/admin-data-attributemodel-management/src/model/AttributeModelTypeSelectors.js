@@ -1,10 +1,10 @@
-import { BasicListSelectors } from '@regardsoss/store-utils'
+import { BasicArraySelectors } from '@regardsoss/store-utils'
 
-class AttributeModelSelectors extends BasicListSelectors {
+class AttributeModelTypeSelectors extends BasicArraySelectors {
   constructor() {
     super(['admin', 'data-management', 'attribute-model-management', 'attribute-model-type'])
   }
 }
 
-const instance = new AttributeModelSelectors()
+const instance = new AttributeModelTypeSelectors()
 export default instance

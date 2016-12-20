@@ -6,6 +6,7 @@ import Role, { RoleConfiguration } from './schemas/Role'
 import Model, { ModelConfiguration } from './schemas/Model'
 import Accesses, { AccessesConfiguration } from './schemas/Accesses'
 import AttributeModel, { AttributeModelConfiguration } from './dam/AttributeModel'
+import AttributeModelRestriction, { AttributeModelRestrictionConfiguration } from './dam/AttributeModelRestriction'
 import Module, { ModuleConfiguration } from './access/Module'
 import Layout, { LayoutConfiguration } from './access/Layout'
 
@@ -50,6 +51,10 @@ export default {
   ATTRIBUTE_MODEL: AttributeModel.ATTRIBUTE_MODEL,
   ATTRIBUTE_MODEL_ARRAY: AttributeModel.ATTRIBUTE_MODEL_ARRAY,
   AttributeModelConfiguration,
+
+  ATTRIBUTE_MODEL_RESTRICTION: AttributeModelRestriction.ATTRIBUTE_MODEL_RESTRICTION,
+  ATTRIBUTE_MODEL_RESTRICTION_ARRAY: AttributeModelRestriction.ATTRIBUTE_MODEL_RESTRICTION_ARRAY,
+  AttributeModelRestrictionConfiguration,
 
   MODULE: Module.MODULE,
   MODULE_ARRAY: Module.MODULE_ARRAY,
