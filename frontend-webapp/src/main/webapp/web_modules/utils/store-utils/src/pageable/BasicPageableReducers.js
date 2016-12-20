@@ -8,10 +8,6 @@ import BasicListReducers from '../list/BasicListReducers'
  */
 class BasicPageableReducer extends BasicListReducers {
 
-  constructor(options, basicListActionInstance) {
-    super(options, basicListActionInstance)
-  }
-
 }
 
 export default BasicPageableReducer

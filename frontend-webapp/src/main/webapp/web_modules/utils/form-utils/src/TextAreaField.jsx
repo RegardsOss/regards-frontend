@@ -13,13 +13,10 @@ class TextareaInput extends React.Component {
       value: React.PropTypes.string,
       name: React.PropTypes.string,
     }),
-    label: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.element]),
     meta: React.PropTypes.shape({
       touched: React.PropTypes.bool,
       error: React.PropTypes.string,
     }),
-    fullWidth: React.PropTypes.bool,
-    type: React.PropTypes.string,
     intl: React.PropTypes.shape({
       formatMessage: React.PropTypes.func,
     }),

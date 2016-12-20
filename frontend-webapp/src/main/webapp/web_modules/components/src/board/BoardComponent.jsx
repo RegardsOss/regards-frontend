@@ -63,9 +63,8 @@ class BoardComponent extends React.Component {
                 return (
                   <BoardItemComponent item={item} key={id} />
                 )
-              } else {
-                return null
               }
+              return null
             })}
           </div>
           <div
