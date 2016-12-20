@@ -6,7 +6,7 @@ import { Schema, arrayOf } from 'normalizr'
 
 export const ModelConfiguration = {
   entityKey: 'id',
-  normalizrKey: 'models',
+  normalizrKey: 'model',
 }
 
 const modelSchema = new Schema(ModelConfiguration.normalizrKey, {

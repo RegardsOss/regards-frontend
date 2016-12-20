@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { connect } from 'react-redux'
 import { updateLocale } from '../model/I18nActions'
 import SelectLocalComponent from '../components/SelectLocaleComponent'
@@ -21,7 +24,6 @@ export class SelectLocaleContainer extends React.Component {
   }
 
   render() {
-    console.log('I18N')
     const locales = ['en', 'fr']
     return (
       <I18nProvider messageDir="utils/i18n/src/i18n">

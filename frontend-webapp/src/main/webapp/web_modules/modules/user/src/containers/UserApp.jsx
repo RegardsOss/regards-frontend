@@ -5,6 +5,7 @@ import { ApplicationLayout } from '@regardsoss/layout'
 import { ThemeHelper, ThemeSelectors } from '@regardsoss/theme'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { connect } from 'react-redux'
+import UserAppLayout from '@regardsoss/layout/src/default/UserAppLayout'
 /**
  * Provides the theme to sub containers
  */
@@ -25,7 +26,7 @@ export class UserApp extends React.Component {
     const muiTheme = ThemeHelper.getByName(theme)
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
-        <ApplicationLayout appName="userApp" layout={muiTheme.userApp.layout} />
+        <ApplicationLayout appName="userApp" layout={UserAppLayout} />
       </MuiThemeProvider>
     )
   }

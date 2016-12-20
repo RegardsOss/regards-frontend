@@ -1,4 +1,8 @@
 /**
+ * LICENSE_PLACEHOLDER
+ **/
+
+/**
  * @author Léo Mieulet
  */
 import BasicSelector from '../BasicSelector'
@@ -11,6 +15,13 @@ class BasicListSelector extends BasicSelector {
   }
   getById(state, id) {
     return this.uncombineStore(state).items[id]
+  }
+  getContentById(state, id){
+    const response = this.getById(state, id)
+    if (response && response.content){
+      return response.content
+    }
+    return undefined
   }
 }
 

@@ -1,10 +1,13 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 export const homeDataRoute = {
   path: 'board',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const BoardContainer = require('./containers/BoardContainer')
+      const moduleContainer = require('./components/ModuleContainer')
       cb(null, {
-        content: BoardContainer.default,
+        content: moduleContainer,
       })
     })
   },

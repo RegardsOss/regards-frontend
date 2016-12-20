@@ -40,6 +40,7 @@ npm link web_modules/modules/admin-user-role-resource-access-management
 npm link web_modules/modules/admin-user-role-management
 npm link web_modules/modules/admin-database-management
 npm link web_modules/modules/admin-account-management
+npm link web_modules/modules/ui-configuration
 
 # Global modules
 npm link web_modules/modules/authentication

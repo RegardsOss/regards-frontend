@@ -4,7 +4,7 @@
 import { intlShape } from 'react-intl'
 import connect from '@regardsoss/redux'
 import { LazyModuleComponent } from '@regardsoss/modules'
-import { isAuthenticated, AuthenticationSelectors, AuthenticateShape } from '@regardsoss/authentication-manager'
+import { isAuthenticated, logout, AuthenticationSelectors, AuthenticateShape } from '@regardsoss/authentication-manager'
 import Dialog from 'material-ui/Dialog'
 import LoginButton from '../components/LoginButton'
 import LoggedUserComponent from '../components/LoggedUserComponent'
@@ -21,6 +21,8 @@ class AuthenticationMenuComponent extends React.Component {
    */
   static propTypes = {
     appName: React.PropTypes.string.isRequired,
+    // from mapDispatchToProps
+    onLogout: React.PropTypes.func,
     authentication: AuthenticateShape,
   }
 
@@ -36,18 +38,25 @@ class AuthenticationMenuComponent extends React.Component {
   }
 
   /**
-   * On click, display the dialog
+   * Open the dialog by setting the state property to true
    */
   openDialog = () => {
-    this.setState({
-      dialogOpened: true,
-    })
+    if (!this.state.dialogOpened) {
+      this.setState({
+        dialogOpened: true,
+      })
+    }
   }
 
+  /**
+   * Close the dialog by setting the state property to false
+   */
   closeDialog = () => {
-    this.setState({
-      dialogOpened: false,
-    })
+    if (this.state.dialogOpened) {
+      this.setState({
+        dialogOpened: false,
+      })
+    }
   }
 
   render() {
@@ -80,9 +89,10 @@ class AuthenticationMenuComponent extends React.Component {
         </div>
       )
     } else if (userAuthenticated) {
+      this.closeDialog()
       // Else, if user is authenticated, display is name
       return (
-        <LoggedUserComponent name={authentication.user.sub} />
+        <LoggedUserComponent name={authentication.user.sub} onLogout={this.props.onLogout} />
       )
     }
     // Else, Display only login button
@@ -99,4 +109,8 @@ const mapStateToProps = state => ({
   authentication: AuthenticationSelectors.getAuthentication(state),
 })
 
-export default connect(mapStateToProps)(AuthenticationMenuComponent)
+const mapDispathToProps = dispatch => ({
+  onLogout: () => dispatch(logout()),
+})
+
+export default connect(mapStateToProps, mapDispathToProps)(AuthenticationMenuComponent)

@@ -1,3 +1,10 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
+
+/**
+ * @type {{path: string, getChildRoutes: ((nextState, cb))}}
+ */
 export const projectAdminDataRouter = {
   path: ':project/data',
   getChildRoutes(nextState, cb) {
@@ -8,6 +15,9 @@ export const projectAdminDataRouter = {
   },
 }
 
+/**
+ * @type {{path: string, getChildRoutes: ((nextState, cb))}}
+ */
 export const projectAdminUserProjectRouter = {
   path: ':project/user',
   getChildRoutes(nextState, cb) {
@@ -18,10 +28,16 @@ export const projectAdminUserProjectRouter = {
   },
 }
 
+/**
+ * @type {{path: string}}
+ */
 export const projectAdminRouter = {
   path: ':project',
 }
 
+/**
+ * @type {{path: string, getChildRoutes: ((nextState, cb))}}
+ */
 export const projectRouter = {
   path: 'project',
   getChildRoutes(nextState, cb) {
@@ -32,6 +48,9 @@ export const projectRouter = {
   },
 }
 
+/**
+ * @type {{path: string, getChildRoutes: ((nextState, cb))}}
+ */
 export const accountRouter = {
   path: 'account',
   getChildRoutes(nextState, cb) {
@@ -42,6 +61,9 @@ export const accountRouter = {
   },
 }
 
+/**
+ * @type {{path: string, getChildRoutes: ((nextState, cb))}}
+ */
 export const databaseRouter = {
   path: 'database',
   getChildRoutes(nextState, cb) {
@@ -52,7 +74,24 @@ export const databaseRouter = {
   },
 }
 
+/**
+ * Main route to access UI-Confiuration module fonctioanlities
+ * @type {{path: string, getChildRoutes: ((nextState, cb))}}
+ */
+export const projectAdminUiConfigurationRouter = {
+  path: ':project/ui-configuration',
+  getChildRoutes(nextState, cb) {
+    const adminUiConfiguration = require('@regardsoss/ui-configuration')
+    require.ensure([], (require) => {
+      cb(null, [adminUiConfiguration.uiConfigurationRouter])
+    })
+  },
+}
 
+
+/**
+ * Main Routes for administration application
+ */
 export default {
   path: 'admin',
   childRoutes: [
@@ -61,6 +100,7 @@ export default {
     databaseRouter,
     projectAdminDataRouter,
     projectAdminUserProjectRouter,
+    projectAdminUiConfigurationRouter,
     projectAdminRouter,
   ],
   getComponent(nextState, cb) {

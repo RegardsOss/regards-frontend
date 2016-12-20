@@ -44,7 +44,7 @@ config = merge(config, {
   },
   plugins: [
     // Allow to define React as a global variable for JSX.
-    new webpack.ProvidePlugin({ React: 'react' }),
+    new webpack.ProvidePlugin({React: 'react'}),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('development'),

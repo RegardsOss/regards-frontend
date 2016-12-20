@@ -5,6 +5,7 @@ import { ApplicationLayout } from '@regardsoss/layout'
 import { ThemeHelper, ThemeSelectors } from '@regardsoss/theme'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { connect } from 'react-redux'
+import PortalAppLayout from '@regardsoss/layout/src/default/PortalAppLayout'
 /**
  * Provides the theme to sub containers
  */
@@ -25,7 +26,7 @@ export class PortalApp extends React.Component {
     const muiTheme = ThemeHelper.getByName(theme)
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
-        <ApplicationLayout appName="portalApp" layout={muiTheme.portalApp.layout} />
+        <ApplicationLayout appName="portalApp" layout={PortalAppLayout} />
       </MuiThemeProvider>
     )
   }

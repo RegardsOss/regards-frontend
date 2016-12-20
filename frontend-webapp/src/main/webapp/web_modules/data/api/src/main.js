@@ -6,6 +6,9 @@ import Role, { RoleConfiguration } from './schemas/Role'
 import Model, { ModelConfiguration } from './schemas/Model'
 import Accesses, { AccessesConfiguration } from './schemas/Accesses'
 import AttributeModel, { AttributeModelConfiguration } from './dam/AttributeModel'
+import Module, { ModuleConfiguration } from './access/Module'
+import Layout, { LayoutConfiguration } from './access/Layout'
+
 
 // We use this Normalizr schemas to transform API responses from a nested form
 // to a flat form where repos and users are placed in `entities`, and nested
@@ -47,4 +50,11 @@ export default {
   ATTRIBUTE_MODEL: AttributeModel.ATTRIBUTE_MODEL,
   ATTRIBUTE_MODEL_ARRAY: AttributeModel.ATTRIBUTE_MODEL_ARRAY,
   AttributeModelConfiguration,
+
+  MODULE: Module.MODULE,
+  MODULE_ARRAY: Module.MODULE_ARRAY,
+  ModuleConfiguration,
+
+  LAYOUT: Layout.LAYOUT,
+  LayoutConfiguration,
 }

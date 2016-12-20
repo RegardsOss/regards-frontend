@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { Link } from 'react-router'
 import Drawer from 'material-ui/Drawer'
 import MenuItem from 'material-ui/MenuItem'
@@ -94,7 +97,7 @@ class ProjectSidebarComponent extends React.Component {
           <HateoasSidebarElement
             endpointKey="projects_connections_url"
             key="6"
-            to={`/admin/${projectName}/datamanagement`}
+            to={`/admin/${projectName}/ui-configuration/applications`}
             linkStyle={style.link.styles}
             primaryText={<FormattedMessage id="menu.ui.configuration" />}
             leftIcon={<Brush />}

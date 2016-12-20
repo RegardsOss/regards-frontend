@@ -10,8 +10,8 @@ import { i18nSelectors } from '@regardsoss/i18n'
  * @param m
  */
 const mergeMapStateToProps = m => (
-  state => ({
-    ...m(state),
+  (state, ownProps) => ({
+    ...m(state, ownProps),
     theme: ThemeSelectors.getCurrentTheme(state),
     i18n: i18nSelectors.getMessages(state),
   })

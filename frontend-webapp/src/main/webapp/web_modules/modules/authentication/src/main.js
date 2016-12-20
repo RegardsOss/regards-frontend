@@ -9,4 +9,5 @@ import styles from './styles/styles'
 export default {
   moduleContainer,
   styles,
+  messagesDir: 'modules/authentication/src/i18n',
 }

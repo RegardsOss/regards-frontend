@@ -22,6 +22,7 @@ class LoggedUserComponent extends React.Component {
    */
   static propTypes = {
     name: React.PropTypes.string.isRequired,
+    onLogout: React.PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -38,7 +39,11 @@ class LoggedUserComponent extends React.Component {
           targetOrigin={{ horizontal: 'right', vertical: 'bottom' }}
           iconStyle={this.context.moduleTheme.loggedUser.icon}
         >
-          <MenuItem primaryText={<FormattedMessage id="logoutLabel" />} leftIcon={<ActionExitToApp />} />
+          <MenuItem
+            primaryText={<FormattedMessage id="logoutLabel" />}
+            leftIcon={<ActionExitToApp />}
+            onTouchTap={this.props.onLogout}
+          />
           <MenuItem primaryText={<FormattedMessage id="settingsLabel" />} leftIcon={<Settings />} />
         </IconMenu>
       </div>

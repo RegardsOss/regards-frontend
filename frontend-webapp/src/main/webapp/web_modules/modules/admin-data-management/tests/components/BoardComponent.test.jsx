@@ -1,7 +1,10 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { Link } from 'react-router'
-import BoardComponent from '../../src/components/BoardComponent'
+import BoardComponent from '../../src/components/DataManagementBoardComponent'
 
 // Test a component rendering
 describe('[ADMIN DATA MANAGEMENT] Testing BoardComponent', () => {

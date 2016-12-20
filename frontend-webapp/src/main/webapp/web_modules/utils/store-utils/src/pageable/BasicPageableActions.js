@@ -1,7 +1,12 @@
 /**
+ * LICENSE_PLACEHOLDER
+ **/
+
+/**
  * @author Léo Mieulet
  */
 import { normalize } from 'normalizr'
+import { map, replace } from 'lodash'
 import BasicListActions from '../list/BasicListActions'
 
 const { CALL_API, getJSON } = require('redux-api-middleware')
@@ -23,25 +28,35 @@ class BasicPageableActions extends BasicListActions {
    * Overwrite the basic entity list fetch action to change the payload in order to support Peagable result
    * @returns {{}}
    */
-  fetchEntityList() {
+  fetchEntityList(params) {
+    let endpoint = this.entityEndpoint
+    if (params) {
+      map(params, (param, id) => {
+        console.log("fetch",param)
+        endpoint = replace(endpoint, `%${id}`, param)
+      })
+    }
     return {
       [CALL_API]: {
         types: [
           this.ENTITY_LIST_REQUEST,
           {
             type: this.ENTITY_LIST_SUCCESS,
-            payload: (action, state, res) => getJSON(res).then(json =>
-              // Merge the normalized object with query metadata and query links
-               Object.assign(
+            payload: (action, state, res) => getJSON(res).then((json) => {
+              console.log(action, json, res)
+              return Object.assign(
                 // Only normalize the content of json
                 normalize(json.content, this.schemaTypes.ENTITY_ARRAY),
                 { links: json.links },
                 { metadata: json.metadata },
-              )),
+              )
+            },
+              // Merge the normalized object with query metadata and query links
+               ),
           },
           this.ENTITY_LIST_FAILURE,
         ],
-        endpoint: this.entityEndpoint,
+        endpoint: endpoint,
         method: 'GET',
       },
     }

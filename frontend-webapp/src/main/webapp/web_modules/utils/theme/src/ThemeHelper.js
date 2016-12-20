@@ -6,8 +6,6 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import { merge } from 'lodash'
 import customThemes from './custom/index'
 import adminAppLayer from './custom/adminAppLayer'
-import portalAppLayer from './custom/portalAppLayer'
-import userAppLayer from './custom/userAppLayer'
 // Custom themes
 
 // Needed for onTouchTap
@@ -41,7 +39,7 @@ class ThemeHelper {
     if (theme === undefined || theme.length === 0) {
       console.error('This theme does not exist or is empty', theme)
     }
-    return merge({}, adminAppLayer, portalAppLayer, userAppLayer, theme)
+    return merge({}, adminAppLayer, theme)
   }
 
   /**
