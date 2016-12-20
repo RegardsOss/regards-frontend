@@ -16,9 +16,9 @@ class BasicListSelector extends BasicSelector {
   getById(state, id) {
     return this.uncombineStore(state).items[id]
   }
-  getContentById(state, id){
+  getContentById(state, id) {
     const response = this.getById(state, id)
-    if (response && response.content){
+    if (response && response.content) {
       return response.content
     }
     return undefined

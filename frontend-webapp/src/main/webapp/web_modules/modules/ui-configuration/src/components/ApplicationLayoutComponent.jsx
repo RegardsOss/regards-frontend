@@ -1,10 +1,10 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card'
-import {FormattedMessage} from 'react-intl'
+import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
+import { FormattedMessage } from 'react-intl'
 import { CardActionsComponent } from '@regardsoss/components'
-import {i18nContextType} from '@regardsoss/i18n'
+import { i18nContextType } from '@regardsoss/i18n'
 import { Field, TextAreaField, ErrorTypes } from '@regardsoss/form-utils'
 import { reduxForm } from 'redux-form'
 import LayoutShape from '../model/layout/LayoutShape'
@@ -53,7 +53,7 @@ class ApplicationLayoutComponent extends React.Component {
           <CardTitle
             title={<FormattedMessage id="layout.title" />}
           />
-          <CardText style={{'width': '100%'}}>
+          <CardText style={{ width: '100%' }} >
             <Field
               name="layout"
               component={TextAreaField}

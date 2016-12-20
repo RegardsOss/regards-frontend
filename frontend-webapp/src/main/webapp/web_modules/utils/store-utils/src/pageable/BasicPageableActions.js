@@ -32,7 +32,7 @@ class BasicPageableActions extends BasicListActions {
     let endpoint = this.entityEndpoint
     if (params) {
       map(params, (param, id) => {
-        console.log("fetch",param)
+        console.log('fetch', param)
         endpoint = replace(endpoint, `%${id}`, param)
       })
     }
@@ -56,7 +56,7 @@ class BasicPageableActions extends BasicListActions {
           },
           this.ENTITY_LIST_FAILURE,
         ],
-        endpoint: endpoint,
+        endpoint,
         method: 'GET',
       },
     }

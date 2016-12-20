@@ -1,7 +1,7 @@
 import { assert, expect } from 'chai'
 import { attributeModelDataManagementRouter } from '@regardsoss/admin-data-attributemodel-management'
 import Routes from '../src/router'
-import BoardContainer from '../src/containers/BoardContainer'
+import ModuleContainer from '../src/components/ModuleContainer'
 
 describe('[ADMIN DATA MANAGEMENT] Testing data board router', () => {
   it('should return the correct value', () => {
@@ -13,7 +13,7 @@ describe('[ADMIN DATA MANAGEMENT] Testing data board router', () => {
   })
   it('list should return BoardContainer', (done) => {
     Routes.childRoutes[0].getComponents(undefined, (smth, component) => {
-      expect(component.content).to.eq(BoardContainer)
+      expect(component.content).to.eq(ModuleContainer)
       done()
     })
   })

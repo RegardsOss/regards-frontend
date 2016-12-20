@@ -1,6 +1,7 @@
 import RenderTextField from './RenderTextField'
 import RenderSelectField from './RenderSelectField'
 import RenderCheckbox from './RenderCheckbox'
+import TextAreaField from './TextAreaField'
 import FormErrorMessage from './FormErrorMessage'
 import ErrorTypes from './ErrorTypes'
 import Locales from './i18n/Locales'
@@ -13,6 +14,7 @@ export default {
   RenderTextField,
   RenderSelectField,
   RenderCheckbox,
+  TextAreaField,
   FormErrorMessage,
   ErrorTypes,
   Locales,

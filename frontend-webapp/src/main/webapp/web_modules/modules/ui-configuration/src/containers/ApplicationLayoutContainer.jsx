@@ -56,7 +56,7 @@ class ApplicationLayoutContainer extends React.Component {
       return (<FormLoadingComponent />)
     }
 
-    if (!this.props.layout){
+    if (!this.props.layout) {
       return (<FormEntityNotFoundComponent />)
     }
     return (

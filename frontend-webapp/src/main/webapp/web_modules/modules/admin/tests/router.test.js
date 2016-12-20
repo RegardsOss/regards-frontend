@@ -12,13 +12,14 @@ import Routes from '../src/router'
 describe('[ADMIN MANAGEMENT] Testing admin router', () => {
   it('should return the correct value', () => {
     assert.isNotNull(Routes)
-    expect(Routes.childRoutes).to.have.length(6)
+    expect(Routes.childRoutes).to.have.length(7)
     expect(Routes.childRoutes[0].path).to.eq('project')
     expect(Routes.childRoutes[1].path).to.eq('account')
     expect(Routes.childRoutes[2].path).to.eq('database')
     expect(Routes.childRoutes[3].path).to.eq(':project/data')
     expect(Routes.childRoutes[4].path).to.eq(':project/user')
-    expect(Routes.childRoutes[5].path).to.eq(':project')
+    expect(Routes.childRoutes[5].path).to.eq(':project/ui-configuration')
+    expect(Routes.childRoutes[6].path).to.eq(':project')
   })
 
   it('create should return projectManagementRouter', (done) => {
@@ -53,8 +54,8 @@ describe('[ADMIN MANAGEMENT] Testing admin router', () => {
     })
   })
   it('empty components on the root page', () => {
-    assert.isUndefined(Routes.childRoutes[5].getChildRoutes)
-    assert.isUndefined(Routes.childRoutes[5].getComponents)
-    assert.isUndefined(Routes.childRoutes[5].getComponent)
+    assert.isUndefined(Routes.childRoutes[6].getChildRoutes)
+    assert.isUndefined(Routes.childRoutes[6].getComponents)
+    assert.isUndefined(Routes.childRoutes[6].getComponent)
   })
 })
