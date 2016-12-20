@@ -42,7 +42,15 @@ class BasicListActions {
             type: this.ENTITY_LIST_SUCCESS,
             payload: (action, state, res) => getJSON(res).then(json => normalize(json, this.schemaTypes.ENTITY_ARRAY)),
           },
-          this.ENTITY_LIST_FAILURE,
+          {
+            type: this.ENTITY_LIST_FAILURE,
+            meta: (action, state, res) => {
+              if (res.status === '500') {
+                return { errorMessage: 'error.500' }
+              }
+              return { errorMessage: 'An error occurred' }
+            },
+          },
         ],
         endpoint: this.entityEndpoint,
         method: 'GET',
@@ -58,7 +66,15 @@ class BasicListActions {
             type: this.ENTITY_SUCCESS,
             payload: (action, state, res) => getJSON(res).then(json => normalize(json, this.schemaTypes.ENTITY)),
           },
-          this.ENTITY_FAILURE,
+          {
+            type: this.ENTITY_FAILURE,
+            meta: (action, state, res) => {
+              if (res.status === '500') {
+                return { errorMessage: 'error.500' }
+              }
+              return { errorMessage: 'An error occurred' }
+            },
+          },
         ],
         endpoint: `${this.entityEndpoint}/${keyValue}`,
         method: 'GET',
@@ -75,7 +91,15 @@ class BasicListActions {
             type: this.CREATE_ENTITY_SUCCESS,
             payload: (action, state, res) => getJSON(res).then(json => normalize(json, this.schemaTypes.ENTITY)),
           },
-          this.CREATE_ENTITY_FAILURE,
+          {
+            type: this.CREATE_ENTITY_FAILURE,
+            meta: (action, state, res) => {
+              if (res.status === '500') {
+                return { errorMessage: 'error.500' }
+              }
+              return { errorMessage: 'An error occurred' }
+            },
+          },
         ],
         endpoint: this.entityEndpoint,
         method: 'POST',
@@ -93,7 +117,15 @@ class BasicListActions {
             type: this.UPDATE_ENTITY_SUCCESS,
             payload: (action, state, res) => getJSON(res).then(json => normalize(json, this.schemaTypes.ENTITY)),
           },
-          this.UPDATE_ENTITY_FAILURE,
+          {
+            type: this.UPDATE_ENTITY_FAILURE,
+            meta: (action, state, res) => {
+              if (res.status === '500') {
+                return { errorMessage: 'error.500' }
+              }
+              return { errorMessage: 'An error occurred' }
+            },
+          },
         ],
         endpoint: `${this.entityEndpoint}/${keyValue}`,
         method: 'PUT',
@@ -111,7 +143,15 @@ class BasicListActions {
             type: this.DELETE_ENTITY_SUCCESS,
             payload: keyValue,
           },
-          this.DELETE_ENTITY_FAILURE,
+          {
+            type: this.DELETE_ENTITY_FAILURE,
+            meta: (action, state, res) => {
+              if (res.status === '500') {
+                return { errorMessage: 'error.500' }
+              }
+              return { errorMessage: 'An error occurred' }
+            },
+          },
         ],
         endpoint: `${this.entityEndpoint}/${keyValue}`,
         method: 'DELETE',

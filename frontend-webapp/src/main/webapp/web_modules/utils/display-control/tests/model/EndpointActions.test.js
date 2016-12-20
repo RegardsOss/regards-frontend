@@ -46,29 +46,6 @@ describe('[DISPLAY CONTROL UTILS] Testing endpoints actions', () => {
     }
     handleDispatch(EndpointActions.fetchEndpoints(), expectedAction, store, done)
   })
-
-  // Error usecase
-  it('it creates an ENDPOINT_FAILURE action when fetching endpoints returns an error', (done) => {
-    nock(EndpointActions.ENDPOINTS_API)
-    .get('')
-    .reply(500, 'Oops')
-    const store = mockStore({
-      endpoints: {
-        isFetching: false,
-        items: {},
-        lastUpdate: '',
-      },
-    })
-
-    const failureAction = {
-      type: 'ENDPOINTS_FAILURE',
-      error: true,
-      meta: undefined,
-      payload: defaultFluxStandardError,
-    }
-    handleDispatch(EndpointActions.fetchEndpoints(), failureAction, store, done)
-  })
-
   // Usual usecase
   it('it creates ENDPOINTS_REQUEST and ENDPOINTS_SUCCESS actions when fetching endpoints has been done', (done) => {
     nock(EndpointActions.ENDPOINTS_API)

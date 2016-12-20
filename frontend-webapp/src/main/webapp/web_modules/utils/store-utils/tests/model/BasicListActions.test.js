@@ -24,15 +24,31 @@ function handleDispatch(action, expectedAction, store, done) {
   store.dispatch(action)
     .then(() => {
       try {
-        expect(store.getActions()).to.contain(expectedAction)
+        expect(store.getActions()).to.deep.contain(expectedAction)
         done()
       } catch (e) {
-        console.error('store.getActions() is', JSON.stringify(store.getActions()))
-        console.error('expectedAction is', JSON.stringify(expectedAction))
+        console.error('store.getActions() is')
+        console.error(JSON.stringify(store.getActions()))
+        console.error('expectedAction is')
+        console.error(JSON.stringify(expectedAction))
         done(e)
       }
     })
 }
+function handleDispatchError(action, store, done) {
+  store.dispatch(action)
+    .then(() => {
+      try {
+        expect(store.getActions()[1].error).to.eql(true)
+        done()
+      } catch (e) {
+        console.error('store.getActions() is')
+        console.error(JSON.stringify(store.getActions()))
+        done(e)
+      }
+    })
+}
+
 describe('[STORE UTILS] Testing BasicListActions', () => {
   afterEach(() => {
     nock.cleanAll()
@@ -82,20 +98,13 @@ describe('[STORE UTILS] Testing BasicListActions', () => {
       }
       handleDispatch(projectListActions.fetchEntityList(), expectedAction, store, done)
     })
-
     it('should leverage a failure action on fetch failure', (done) => {
       nock(PROJECTS_API)
         .get('')
         .reply(500, 'Oops')
       const store = mockStore({ projects: [] })
 
-      const expectedAction = {
-        type: projectListActions.ENTITY_LIST_FAILURE,
-        error: true,
-        meta: undefined,
-        payload: defaultFluxStandardError,
-      }
-      handleDispatch(projectListActions.fetchEntityList(), expectedAction, store, done)
+      handleDispatchError(projectListActions.fetchEntityList(), store, done)
     })
   })
   describe('POST / calls', () => {
@@ -152,13 +161,7 @@ describe('[STORE UTILS] Testing BasicListActions', () => {
         .reply(500, 'Oops')
       const store = mockStore({ projects: {} })
 
-      const expectedAction = {
-        type: projectListActions.CREATE_ENTITY_FAILURE,
-        error: true,
-        meta: undefined,
-        payload: defaultFluxStandardError,
-      }
-      handleDispatch(projectListActions.createEntity({ some: 'value' }), expectedAction, store, done)
+      handleDispatchError(projectListActions.createEntity({ some: 'value' }), store, done)
     })
   })
   describe('DELETE /{id} calls', () => {
@@ -219,13 +222,7 @@ describe('[STORE UTILS] Testing BasicListActions', () => {
         .reply(500, 'Oops')
       const store = mockStore({ projects: {} })
 
-      const expectedAction = {
-        type: projectListActions.DELETE_ENTITY_FAILURE,
-        error: true,
-        meta: undefined,
-        payload: defaultFluxStandardError,
-      }
-      handleDispatch(projectListActions.deleteEntity(id), expectedAction, store, done)
+      handleDispatchError(projectListActions.deleteEntity(id), store, done)
     })
   })
 })

@@ -5,11 +5,12 @@ import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
-import { AttributeModel } from '@regardsoss/model'
 import AttributeModelActions from '../model/AttributeModelActions'
 import AttributeModelFormComponent from '../components/AttributeModelFormComponent'
 import AttributeModelSelectors from '../model/AttributeModelSelectors'
-
+import AttributeModelTypeSelectors from '../model/AttributeModelTypeSelectors'
+import { AttributeModel, AttributeModelType } from '@regardsoss/model'
+import { fetchAttributeModelTypeList } from '../model/AttributeModelTypeActions'
 export class AttributeModelFormContainer extends React.Component {
   static propTypes = {
     // from router
@@ -20,10 +21,12 @@ export class AttributeModelFormContainer extends React.Component {
     // from mapStateToProps
     attrModel: AttributeModel,
     isFetching: React.PropTypes.bool,
+    attrModelTypeList: React.PropTypes.arrayOf(AttributeModelType),
     // from mapDispatchToProps
     createAttrModel: React.PropTypes.func,
     fetchAttrModel: React.PropTypes.func,
     updateAttrModel: React.PropTypes.func,
+    fetchAttributeModelTypeList: React.PropTypes.func,
   }
 
   constructor(props) {
@@ -34,6 +37,7 @@ export class AttributeModelFormContainer extends React.Component {
   }
 
   componentDidMount() {
+    this.props.fetchAttributeModelTypeList()
     if (this.state.isEditing) {
       this.props.fetchAttrModel(this.props.params.attrModel_id)
     }
@@ -45,6 +49,7 @@ export class AttributeModelFormContainer extends React.Component {
   }
 
   getFormComponent = () => {
+    const { attrModelTypeList } = this.props
     if (this.state.isEditing) {
       const { attrModel, isFetching } = this.props
       if (isFetching) {
@@ -55,6 +60,7 @@ export class AttributeModelFormContainer extends React.Component {
           onSubmit={this.handleUpdate}
           backUrl={this.getBackUrl()}
           currentAttrModel={attrModel}
+          attrModelTypeList={attrModelTypeList}
         />)
       }
       return (<FormEntityNotFoundComponent />)
@@ -62,6 +68,7 @@ export class AttributeModelFormContainer extends React.Component {
     return (<AttributeModelFormComponent
       onSubmit={this.handleCreate}
       backUrl={this.getBackUrl()}
+      attrModelTypeList={attrModelTypeList}
     />)
   }
   handleUpdate = (values) => {
@@ -97,12 +104,14 @@ export class AttributeModelFormContainer extends React.Component {
 const mapStateToProps = (state, ownProps) => ({
   attrModel: ownProps.params.attrModel_id ? AttributeModelSelectors.getById(state, ownProps.params.attrModel_id) : null,
   isFetching: AttributeModelSelectors.isFetching(state),
+  attrModelTypeList: AttributeModelTypeSelectors.getList(state),
 })
 
 const mapDispatchToProps = dispatch => ({
   createAttrModel: values => dispatch(AttributeModelActions.createEntity(values)),
   updateAttrModel: (id, values) => dispatch(AttributeModelActions.updateEntity(id, values)),
   fetchAttrModel: id => dispatch(AttributeModelActions.fetchEntity(id)),
+  fetchAttributeModelTypeList: () => dispatch(fetchAttributeModelTypeList()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AttributeModelFormContainer)
