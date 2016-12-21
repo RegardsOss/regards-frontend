@@ -33,12 +33,12 @@ const items = (projectName, intl) => [
     advanced: false,
     actions: [
       {
-        path: `/admin/${projectName}/attribute/model/list`,
+        path: `/admin/${projectName}/data/attribute/model/list`,
         icon: <ViewLinesIcon />,
         tooltipMsg: intl.formatMessage({ id: 'datamanagement.action.list.tooltip' }),
       },
       {
-        path: `/admin/${projectName}/attribute/model/create`,
+        path: `/admin/${projectName}/data/attribute/model/create`,
         icon: <AddIcon />,
         tooltipMsg: intl.formatMessage({ id: 'datamanagement.action.add.tooltip' }),
       },

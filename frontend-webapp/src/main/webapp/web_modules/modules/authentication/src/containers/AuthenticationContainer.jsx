@@ -5,16 +5,6 @@ import connect from '@regardsoss/redux'
 import { fetchAuthenticate } from '@regardsoss/authentication-manager'
 import LoginComponent from '../components/LoginComponent'
 
-/*
- export interface AuthenticationProps {
- // From mapStateToProps
- theme?: any,
- errorMessage?: string
- // From mapDispatchToProps
- fetchAuthenticate?: (username: string, password: string) => void,
- fetchEndpoints?: () => void
- }*/
-
 export class Authentication extends React.Component {
 
   static propTypes = {
