@@ -24,6 +24,8 @@ const messages = Object.assign({
   'modules.list.subtitle': 'Here under are displayed the modules configured for the inter. Once the modules are confiured, you can use them to configure the global layout.',
   'modules.list.table.name': 'Module name',
   'modules.list.table.description': 'Description',
+  'modules.list.table.active': 'Active',
+  'modules.list.table.actions': 'Actions',
   'modules.list.action.add': 'Add a new module configuration',
   'layout.title': 'Application layout configuration',
   'layout.submit': 'Update layout',

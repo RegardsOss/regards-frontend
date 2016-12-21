@@ -11,6 +11,10 @@ import { CenteredDiv } from '@regardsoss/components'
  */
 class AuthenticationPanel extends React.Component {
 
+  static propTypes = {
+      project: React.PropTypes.string,
+  }
+
   static contextTypes = {
     ...themeContextType,
     intl: intlShape,
@@ -26,6 +30,7 @@ class AuthenticationPanel extends React.Component {
     const module = {
       id: 'authentication',
       conf: {
+        project: this.props.project,
         title: this.context.intl.formatMessage({ id: 'loginFormTitle' }),
       },
     }

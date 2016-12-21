@@ -23,10 +23,11 @@ export class Authentication extends React.Component {
     errorMessage: React.PropTypes.string,
     cancelButton: React.PropTypes.bool,
     onCancelAction: React.PropTypes.func,
+    project: React.PropTypes.string.isRequired,
   }
 
   showResults = (values) => {
-    this.props.fetchAuthenticate(values.username, values.password)
+    this.props.fetchAuthenticate(values.username, values.password,this.props.project)
   }
 
   render() {
@@ -47,7 +48,7 @@ const mapStateToProps = state => ({
   errorMessage: state.common.authentication.error,
 })
 const mapDispatchToProps = dispatch => ({
-  fetchAuthenticate: (username, password) => dispatch(fetchAuthenticate(username, password)),
+  fetchAuthenticate: (username, password, scope) => dispatch(fetchAuthenticate(username, password, scope)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Authentication)

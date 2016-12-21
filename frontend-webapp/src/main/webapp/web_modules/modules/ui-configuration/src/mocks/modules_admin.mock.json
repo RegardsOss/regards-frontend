@@ -41,6 +41,7 @@
             "id": 1,
             "name": "form",
             "description": "Search form module",
+            "active": false,
             "conf": {
               "resulttype": "dataset"
             }
@@ -52,6 +53,7 @@
             "id": 2,
             "name": "form",
             "description": "Search form module",
+            "active": true,
             "conf": {
               "resulttype": "dataobject"
             }
@@ -63,6 +65,7 @@
             "id": 3,
             "name": "menu",
             "description": "Header menu module",
+            "active": false,
             "conf": {
               "title": "Plop",
               "displayAuthentication": true

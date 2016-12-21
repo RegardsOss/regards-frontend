@@ -11,6 +11,7 @@ import ContainerShape from '../model/ContainerShape'
 class ApplicationLayout extends React.Component {
 
   static propTypes = {
+    project: React.PropTypes.string.isRequired,
     appName: React.PropTypes.string.isRequired,
     layout: ContainerShape,
   }
@@ -21,7 +22,7 @@ class ApplicationLayout extends React.Component {
    */
   render() {
     return (
-      <Container appName={this.props.appName} container={this.props.layout} />
+      <Container appName={this.props.appName} project={this.props.project} container={this.props.layout} />
     )
   }
 }

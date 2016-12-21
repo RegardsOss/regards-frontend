@@ -12,6 +12,7 @@ import ContainerHelper from '../ContainerHelper'
 class Container extends React.Component {
 
   static propTypes = {
+    project: React.PropTypes.string.isRequired,
     appName: React.PropTypes.string.isRequired,
     container: ContainerShape,
   }
@@ -28,12 +29,18 @@ class Container extends React.Component {
 
     let children = []
     if (this.props.container.containers) {
-      children = this.props.container.containers.map(c => <Container key={c.id} appName={this.props.appName} container={c} />)
+      children = this.props.container.containers.map(c => <Container key={c.id} project={this.props.project} appName={this.props.appName} container={c} />)
     }
 
     let modules = []
     if (this.props.container.modules) {
-      modules = this.props.container.modules.map(m => <LazyModuleComponent key={m.id} module={m} appName={this.props.appName} />)
+      modules = this.props.container.modules.map(m => {
+        // Always add current project in module props.
+        m.conf.project = this.props.project
+        return (
+          <LazyModuleComponent key={m.id} module={m} appName={this.props.appName}/>
+        )
+      })
     }
 
     return (

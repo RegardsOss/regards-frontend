@@ -25,6 +25,8 @@ const messages = Object.assign({
   'modules.list.table.name': 'Nom du module',
   'modules.list.table.description': 'Description',
   'modules.list.action.add': 'Ajouter un nouveau module',
+  'modules.list.table.active': 'Etat',
+  'modules.list.table.actions': 'Actions',
   'layout.title': 'Configuration de l\'arrangement de l\'interface',
   'layout.submit': 'Mettre à jour',
   'invalid.json': 'Format json invalid',

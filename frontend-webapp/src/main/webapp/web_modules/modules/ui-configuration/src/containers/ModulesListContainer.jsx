@@ -7,6 +7,7 @@ import connect from '@regardsoss/redux'
 import ModulesSelector from '../model/modules/ModulesSelector'
 import ModulesActions from '../model/modules/ModulesActions'
 import ModuleListComponent from '../components/ModuleListComponent'
+import { EditModuleRoute } from '../router'
 
 /**
  * Module container to display list of configured modules for a given application id.
@@ -31,10 +32,20 @@ class ModulesListContainer extends React.Component {
     this.props.fetchModules(this.props.params.application_id)
   }
 
+  handleEditModule = () => {
+    const url = `/admin/project/${projectName}/edit`
+    browserHistory.push(url)
+  }
+
   render() {
     return (
       <I18nProvider messageDir="modules/ui-configuration/src/i18n">
-        <ModuleListComponent project={this.props.params.project} moduleList={this.props.moduleList} />
+        <ModuleListComponent
+          project={this.props.params.project}
+          moduleList={this.props.moduleList}
+          onEdit={this.handleEditModule}
+          onDelete={this.handleDeleteModule}
+        />
       </I18nProvider>
     )
   }

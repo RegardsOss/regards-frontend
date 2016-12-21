@@ -15,6 +15,11 @@ export class UserApp extends React.Component {
    * @type {{theme: string, content: React.Component}}
    */
   static propTypes = {
+    // from router
+    params: React.PropTypes.shape({
+      project: React.PropTypes.string,
+    }),
+    // From MuiThemeProvider
     theme: React.PropTypes.string,
   }
 
@@ -22,11 +27,12 @@ export class UserApp extends React.Component {
    * @returns {React.Component}
    */
   render() {
+    console.log("USER",this.props)
     const { theme } = this.props
     const muiTheme = ThemeHelper.getByName(theme)
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
-        <ApplicationLayout appName="userApp" layout={UserAppLayout} />
+        <ApplicationLayout appName="userApp" project={this.props.params.project} layout={UserAppLayout} />
       </MuiThemeProvider>
     )
   }

@@ -20,6 +20,7 @@ class AuthenticationMenuComponent extends React.Component {
    * @type {{appName: *, authentication: *}}
    */
   static propTypes = {
+    project: React.PropTypes.string.isRequired,
     appName: React.PropTypes.string.isRequired,
     // from mapDispatchToProps
     onLogout: React.PropTypes.func,
@@ -76,6 +77,7 @@ class AuthenticationMenuComponent extends React.Component {
           title: this.context.intl.formatMessage({ id: 'loginFormTitle' }),
           cancelButton: true,
           onCancelAction: this.closeDialog,
+          project:this.props.project,
         },
       }
       return (

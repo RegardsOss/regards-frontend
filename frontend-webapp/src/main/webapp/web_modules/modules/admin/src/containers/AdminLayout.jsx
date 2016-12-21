@@ -76,6 +76,7 @@ export class AdminLayout extends React.Component {
     const menuModule = {
       id: 'menu',
       conf: {
+        project: this.props.params.project,
         title: 'REGARDS admin dashboard',
         displayAuthentication: true,
       },

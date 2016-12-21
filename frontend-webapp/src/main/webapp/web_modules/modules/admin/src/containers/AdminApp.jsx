@@ -23,6 +23,10 @@ class AdminApp extends React.Component {
    */
   static propTypes = {
     content: React.PropTypes.element,
+    // from router
+    params: React.PropTypes.shape({
+      project: React.PropTypes.string,
+    }),
     // from mapStateToProps
     theme: React.PropTypes.string,
     authentication: AuthenticateShape,
@@ -55,7 +59,7 @@ class AdminApp extends React.Component {
   getContent = (isAuth, content) => {
     if (!isAuth) {
       return (
-        <AuthenticationPanel />
+        <AuthenticationPanel project={this.props.params.project}/>
       )
     }
     return (<AdminLayout key="2" {...this.props}>
