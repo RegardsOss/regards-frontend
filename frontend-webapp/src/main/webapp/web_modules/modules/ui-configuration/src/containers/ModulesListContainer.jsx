@@ -15,6 +15,7 @@ import { EditModuleRoute } from '../router'
 class ModulesListContainer extends React.Component {
 
   static propTypes = {
+    // From react router
     params: React.PropTypes.shape({
       project: React.PropTypes.string,
       application_id: React.PropTypes.string,
@@ -32,8 +33,8 @@ class ModulesListContainer extends React.Component {
     this.props.fetchModules(this.props.params.application_id)
   }
 
-  handleEditModule = () => {
-    const url = `/admin/project/${projectName}/edit`
+  handleEditModule = (moduleId) => {
+    const url = `/admin/${project}/applications/${projectName}/modules/${moduleId}`
     browserHistory.push(url)
   }
 
@@ -42,7 +43,7 @@ class ModulesListContainer extends React.Component {
       <I18nProvider messageDir="modules/ui-configuration/src/i18n">
         <ModuleListComponent
           project={this.props.params.project}
-          moduleList={this.props.moduleList}
+          modules={this.props.moduleList}
           onEdit={this.handleEditModule}
           onDelete={this.handleDeleteModule}
         />

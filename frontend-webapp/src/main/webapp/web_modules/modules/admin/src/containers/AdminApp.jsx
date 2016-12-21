@@ -59,7 +59,7 @@ class AdminApp extends React.Component {
   getContent = (isAuth, content) => {
     if (!isAuth) {
       return (
-        <AuthenticationPanel project={this.props.params.project}/>
+        <AuthenticationPanel project={this.props.params.project} />
       )
     }
     return (<AdminLayout key="2" {...this.props}>

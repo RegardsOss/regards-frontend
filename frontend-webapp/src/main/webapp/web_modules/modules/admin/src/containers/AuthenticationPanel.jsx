@@ -12,7 +12,7 @@ import { CenteredDiv } from '@regardsoss/components'
 class AuthenticationPanel extends React.Component {
 
   static propTypes = {
-      project: React.PropTypes.string,
+    project: React.PropTypes.string,
   }
 
   static contextTypes = {

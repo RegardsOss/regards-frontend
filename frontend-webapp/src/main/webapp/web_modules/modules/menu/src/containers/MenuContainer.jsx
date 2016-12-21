@@ -23,7 +23,6 @@ class MenuComponent extends React.Component {
   }
 
   render() {
-    console.log("MENU",this.props)
     const { moduleTheme } = this.context
     const title = this.props.title ? this.props.title : ''
     const style = {
@@ -36,7 +35,7 @@ class MenuComponent extends React.Component {
     let authentication = null
     let separator = null
     if (this.props.displayAuthentication) {
-      authentication = <AuthenticationMenuContainer appName={this.props.appName} project={this.props.project}/>
+      authentication = <AuthenticationMenuContainer appName={this.props.appName} project={this.props.project} />
       separator = <ToolbarSeparator />
     }
 

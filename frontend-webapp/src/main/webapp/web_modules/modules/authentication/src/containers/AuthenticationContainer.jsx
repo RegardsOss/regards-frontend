@@ -27,7 +27,7 @@ export class Authentication extends React.Component {
   }
 
   showResults = (values) => {
-    this.props.fetchAuthenticate(values.username, values.password,this.props.project)
+    this.props.fetchAuthenticate(values.username, values.password, this.props.project)
   }
 
   render() {

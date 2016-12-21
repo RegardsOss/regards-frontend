@@ -20,7 +20,7 @@ import { themeContextType } from '@regardsoss/theme'
 class ModuleListComponent extends React.Component {
 
   static propTypes = {
-    moduleList: React.PropTypes.arrayOf(ModuleShape),
+    modules: React.PropTypes.arrayOf(ModuleShape),
   }
 
   static contextTypes = {
@@ -76,7 +76,7 @@ class ModuleListComponent extends React.Component {
               preScanRows={false}
               showRowHover
             >
-              {map(this.props.moduleList, (module, i) => (
+              {map(this.props.modules, (module, i) => (
                 <TableRow key={i}>
                   <TableRowColumn>{module.content.name}</TableRowColumn>
                   <TableRowColumn>

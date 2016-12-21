@@ -21,6 +21,7 @@ const layout = {
       styles: {},
       modules: [{
         id: 'test-module',
+        conf: {},
       }],
       containers: [
         {

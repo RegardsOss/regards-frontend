@@ -77,7 +77,7 @@ class AuthenticationMenuComponent extends React.Component {
           title: this.context.intl.formatMessage({ id: 'loginFormTitle' }),
           cancelButton: true,
           onCancelAction: this.closeDialog,
-          project:this.props.project,
+          project: this.props.project,
         },
       }
       return (

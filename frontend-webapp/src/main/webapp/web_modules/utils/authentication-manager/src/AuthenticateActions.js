@@ -5,7 +5,7 @@ export const REQUEST_AUTHENTICATE = 'REQUEST_AUTHENTICATE'
 export const RECEIVE_AUTHENTICATE = 'RECEIVE_AUTHENTICATE'
 export const FAILED_AUTHENTICATE = 'FAILED_AUTHENTICATE'
 
-export const fetchAuthenticate = (username, password, scope) => ({
+export const fetchAuthenticate = (username, password, scope = 'not_defined') => ({
   [CALL_API]: {
     types: [
       REQUEST_AUTHENTICATE,

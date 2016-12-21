@@ -24,12 +24,12 @@ describe('[LAYOUT] Testing Application Container', () => {
     const context = {
 
     }
-    const wrapper = shallow(<Container appName={'testApp'} container={testLayout} />, { context })
+    const wrapper = shallow(<Container appName={'testApp'} project={'test'} container={testLayout} />, { context })
 
     expect(wrapper.find('.mainapp')).to.have.length(1)
     expect(wrapper.find(Container)).to.have.length(3)
 
-    const wrapper2 = shallow(<Container appName={'testApp'} container={testLayout.containers[1]} />, { context })
+    const wrapper2 = shallow(<Container appName={'testApp'} project={'test'} container={testLayout.containers[1]} />, { context })
 
     expect(wrapper2.find('.row')).to.have.length(1)
     expect(wrapper2.find('.body')).to.have.length(1)
