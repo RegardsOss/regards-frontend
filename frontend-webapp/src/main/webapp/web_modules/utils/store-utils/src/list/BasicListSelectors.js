@@ -23,6 +23,9 @@ class BasicListSelectors extends BasicSelector {
     }
     return undefined
   }
+  getError(state) {
+    return this.uncombineStore(state).error
+  }
 }
 
 export default BasicListSelectors

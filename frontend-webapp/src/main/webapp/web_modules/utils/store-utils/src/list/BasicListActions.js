@@ -44,12 +44,7 @@ class BasicListActions {
           },
           {
             type: this.ENTITY_LIST_FAILURE,
-            meta: (action, state, res) => {
-              if (res.status === '500') {
-                return { errorMessage: 'error.500' }
-              }
-              return { errorMessage: 'An error occurred' }
-            },
+            meta: (action, state, res) => ({ errorMessage: 'An error occurred' }),
           },
         ],
         endpoint: this.entityEndpoint,
@@ -68,12 +63,7 @@ class BasicListActions {
           },
           {
             type: this.ENTITY_FAILURE,
-            meta: (action, state, res) => {
-              if (res.status === '500') {
-                return { errorMessage: 'error.500' }
-              }
-              return { errorMessage: 'An error occurred' }
-            },
+            meta: (action, state, res) => ({ errorMessage: 'An error occurred' }),
           },
         ],
         endpoint: `${this.entityEndpoint}/${keyValue}`,
@@ -93,12 +83,7 @@ class BasicListActions {
           },
           {
             type: this.CREATE_ENTITY_FAILURE,
-            meta: (action, state, res) => {
-              if (res.status === '500') {
-                return { errorMessage: 'error.500' }
-              }
-              return { errorMessage: 'An error occurred' }
-            },
+            meta: (action, state, res) => ({ errorMessage: 'An error occurred' }),
           },
         ],
         endpoint: this.entityEndpoint,
@@ -119,12 +104,7 @@ class BasicListActions {
           },
           {
             type: this.UPDATE_ENTITY_FAILURE,
-            meta: (action, state, res) => {
-              if (res.status === '500') {
-                return { errorMessage: 'error.500' }
-              }
-              return { errorMessage: 'An error occurred' }
-            },
+            meta: (action, state, res) => ({ errorMessage: 'An error occurred' }),
           },
         ],
         endpoint: `${this.entityEndpoint}/${keyValue}`,

@@ -20,7 +20,10 @@ import { themeContextType } from '@regardsoss/theme'
 class ModuleListComponent extends React.Component {
 
   static propTypes = {
-    modules: React.PropTypes.arrayOf(ModuleShape),
+    modules: React.PropTypes.objectOf(ModuleShape).isRequired,
+    onEdit: React.PropTypes.func.isRequired,
+    onDelete: React.PropTypes.func.isRequired,
+    onActivation: React.PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -81,16 +84,16 @@ class ModuleListComponent extends React.Component {
                   <TableRowColumn>{module.content.name}</TableRowColumn>
                   <TableRowColumn>
                     <Toggle
-                      defaultToggled={module.content.active}
-                      onToggle={() => this.handleActication(module.content.id)}
+                      toggled={module.content.active}
+                      onToggle={() => this.props.onActivation(module.content.id)}
                     />
                   </TableRowColumn>
                   <TableRowColumn>{module.content.description}</TableRowColumn>
                   <TableRowColumn>
-                    <IconButton onTouchTap={() => this.handleEdit(module.content.id)}>
+                    <IconButton onTouchTap={() => this.props.onEdit(module.content.id)}>
                       <Edit hoverColor={style.hoverButtonEdit} />
                     </IconButton>
-                    <IconButton onTouchTap={() => this.handleDelete(module.content.id)}>
+                    <IconButton onTouchTap={() => this.props.onDelete(module.content.id)}>
                       <Delete hoverColor={style.hoverButtonDelete} />
                     </IconButton>
                   </TableRowColumn>

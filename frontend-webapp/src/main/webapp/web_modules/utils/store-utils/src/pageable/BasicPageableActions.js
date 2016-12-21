@@ -42,15 +42,12 @@ class BasicPageableActions extends BasicListActions {
           this.ENTITY_LIST_REQUEST,
           {
             type: this.ENTITY_LIST_SUCCESS,
-            payload: (action, state, res) => getJSON(res).then((json) => {
-              console.log(action, json, res)
-              return Object.assign(
+            payload: (action, state, res) => getJSON(res).then(json => Object.assign(
                 // Only normalize the content of json
                 normalize(json.content, this.schemaTypes.ENTITY_ARRAY),
                 { links: json.links },
                 { metadata: json.metadata },
-              )
-            },
+              ),
               // Merge the normalized object with query metadata and query links
                ),
           },

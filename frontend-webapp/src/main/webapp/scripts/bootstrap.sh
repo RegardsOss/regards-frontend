@@ -47,6 +47,7 @@ npm link web_modules/modules/authentication
 npm link web_modules/modules/news
 npm link web_modules/modules/menu
 npm link web_modules/modules/projects-list
+npm link web_modules/modules/global-system-error
 
 # Applications
 npm link web_modules/modules/admin

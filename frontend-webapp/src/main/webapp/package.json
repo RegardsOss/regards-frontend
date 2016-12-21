@@ -42,6 +42,7 @@
     "@regardsoss/display-control": "0.0.1",
     "@regardsoss/i18n": "0.0.1",
     "@regardsoss/redux": "0.0.1",
+    "@regardsoss/global-sytem-error": "0.0.1",
     "@regardsoss/news": "0.0.1",
     "@regardsoss/plugins": "0.0.1",
     "@regardsoss/portal": "0.0.1",

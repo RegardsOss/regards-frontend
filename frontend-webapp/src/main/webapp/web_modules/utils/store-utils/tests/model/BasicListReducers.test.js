@@ -26,6 +26,11 @@ const projectReducers = new ProjectReducers()
 describe('[STORE UTILS] Testing project reducer', () => {
   it('should return the initial state', () => {
     expect(projectReducers.reduce(undefined, {})).to.eql({
+      error: {
+        hasError: false,
+        message: '',
+        type: '',
+      },
       isFetching: false,
       items: {},
       lastUpdate: '',
@@ -61,6 +66,11 @@ describe('[STORE UTILS] Testing project reducer', () => {
         isFetching: true,
       }
       const expectedState = {
+        error: {
+          hasError: true,
+          message: '',
+          type: actionType,
+        },
         isFetching: false,
       }
       expect(projectReducers.reduce(initState, action)).to.eql(expectedState)

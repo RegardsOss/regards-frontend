@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import root from 'window-or-global'
 
 let navigatorLanguage = 'en'
@@ -16,6 +19,10 @@ const preloadedState = {
     authentication: {},
     endpoints: {
       items: [],
+    },
+    error: {
+      opened: false,
+      message: '',
     },
   },
   portal: {

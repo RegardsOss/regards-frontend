@@ -9,6 +9,7 @@ import { PluginReducer } from '@regardsoss/plugins'
 import { i18nReducers } from '@regardsoss/i18n'
 import { authentication } from '@regardsoss/authentication-manager'
 import { endpointReducer } from '@regardsoss/display-control'
+import { ApplicationErrorReducer } from '@regardsoss/global-sytem-error'
 import { reducer as reduxFormReducer } from 'redux-form'
 
 /**
@@ -20,6 +21,7 @@ const commonReducer = combineReducers({
   plugins: PluginReducer,
   endpoints: endpointReducer,
   authentication,
+  error: ApplicationErrorReducer,
 })
 
 /**

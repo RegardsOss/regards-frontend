@@ -5,8 +5,10 @@ import { connect } from 'react-redux'
 import { logout } from '@regardsoss/authentication-manager'
 import { themeContextType } from '@regardsoss/theme'
 import { LazyModuleComponent } from '@regardsoss/modules'
+import { ApplicationErrorContainer } from '@regardsoss/global-sytem-error'
 import InstanceSidebarComponent from '../menu/components/InstanceSidebarComponent'
 import ProjectSidebarComponent from '../menu/components/ProjectSidebarComponent'
+
 /*
 interface MainAdminLayoutProps {
   content: any,
@@ -90,6 +92,7 @@ export class AdminLayout extends React.Component {
             {content}
           </div>
         </div>
+        <ApplicationErrorContainer />
       </div>
     )
   }

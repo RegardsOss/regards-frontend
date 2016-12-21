@@ -28,6 +28,11 @@ class BasicListReducers {
   }
   reduce(state = {
     isFetching: false,
+    error: {
+      hasError: false,
+      type: '',
+      message: '',
+    },
     items: {},
     lastUpdate: '',
   }, action) {
@@ -47,6 +52,11 @@ class BasicListReducers {
       case this.basicListActionInstance.ENTITY_FAILURE:
         return Object.assign({}, state, {
           isFetching: false,
+          error: {
+            hasError: true,
+            type: action.type,
+            message: action.meta ? action.meta.errorMessage : '',
+          },
         })
       case this.basicListActionInstance.ENTITY_LIST_SUCCESS:
         return Object.assign({}, state, {

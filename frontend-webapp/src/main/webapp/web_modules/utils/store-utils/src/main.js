@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import BasicSelector from './BasicSelector'
 import BasicListSelectors from './list/BasicListSelectors'
 import BasicListActions from './list/BasicListActions'
@@ -9,6 +12,8 @@ import BasicPageableReducers from './pageable/BasicPageableReducers'
 import BasicArraySelectors from './array/BasicArraySelectors'
 import BasicArrayActions from './array/BasicArrayActions'
 import BasicArrayReducers from './array/BasicArrayReducers'
+
+import RequestErrorShape from './RequestErrorShape'
 
 
 export default {
@@ -22,4 +27,5 @@ export default {
   BasicArraySelectors,
   BasicArrayActions,
   BasicArrayReducers,
+  RequestErrorShape,
 }
