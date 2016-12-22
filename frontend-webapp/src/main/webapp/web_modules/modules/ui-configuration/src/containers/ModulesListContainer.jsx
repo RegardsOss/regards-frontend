@@ -49,7 +49,7 @@ class ModulesListContainer extends React.Component {
   }
 
   handleModuleActivation = (module) => {
-    this.props.updateModule(this.props.params.application_id, module)
+    this.props.updateModule(this.props.params.application_id, Object.assign({}, module, { active: !module.active }))
   }
 
   handleError = () => {
@@ -96,8 +96,8 @@ const mapStateToProps = state => ({
   isFetching: ModulesSelector.isFetching(state),
 })
 const mapDispatchToProps = dispatch => ({
-  fetchModules: applicationId => dispatch(ModulesActions.fetchEntityList(dispatch, [applicationId])),
-  updateModule: (applicationId, module) => dispatch(ModulesActions.updateEntity(dispatch, module.id, module, [applicationId])),
+  fetchModules: applicationId => dispatch(ModulesActions.fetchEntityList(dispatch, [`${applicationId}-modules/1`])),
+  updateModule: (applicationId, module) => dispatch(ModulesActions.updateEntity(module.id, module, dispatch, [`${applicationId}-module`])),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ModulesListContainer)

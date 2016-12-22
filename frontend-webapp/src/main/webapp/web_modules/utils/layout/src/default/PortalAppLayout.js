@@ -20,7 +20,8 @@ export default {
       renderRouterContent: false,
       modules: [
         {
-          id: 'menu',
+          id: 1,
+          name: 'menu',
           conf: {
             title: 'Regards - Portal interface',
             displayAuthentication: false,

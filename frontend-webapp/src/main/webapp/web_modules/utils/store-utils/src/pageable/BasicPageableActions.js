@@ -24,12 +24,14 @@ class BasicPageableActions extends BasicListActions {
   }
 
   /**
-   * Overwrite the basic entity list fetch action to change the payload in order to support Peagable result
+   * Fetch a page of entities
+   * @param dispatch redux store dispatch function
+   * @param params params to replace in endpoint uri
    * @returns {{}}
    */
   fetchEntityList(dispatch, params) {
     let endpoint = this.entityEndpoint
-    if (params){
+    if (params) {
       endpoint = this.handleRequestParameters(this.entityEndpoint, params)
     }
 
