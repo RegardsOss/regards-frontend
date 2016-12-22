@@ -3,6 +3,7 @@
  */
 import { merge } from 'lodash'
 import { I18nProvider } from '@regardsoss/i18n'
+import { FormEntityNotFoundComponent } from '@regardsoss/form-utils'
 import ModuleThemeProvider from './ModuleThemeProvider'
 import DecoratorShape from '../model/DecoratorShape'
 import ModuleShape from '../model/ModuleShape'
@@ -19,16 +20,20 @@ class LazyModuleComponent extends React.Component {
     appName: React.PropTypes.string.isRequired,
     module: ModuleShape.isRequired,
     decorator: DecoratorShape,
+    admin: React.PropTypes.bool,
     onLoadAction: React.PropTypes.func,
   }
 
   constructor(props) {
     super(props)
     this.state = {
-      moduleId: props.module.id,
-      moduleConf: props.module.conf,
       isLoaded: false,
-      error: null,
+    }
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    if (nextProps.module.name != this.props.module.name) {
+      this.loadModule(nextProps.module)
     }
   }
 
@@ -36,16 +41,34 @@ class LazyModuleComponent extends React.Component {
    * Before component is mount, Lazy load the module with require. The module will be displayed once the dependecy is loaded.
    */
   componentWillMount() {
+    this.loadModule(this.props.module)
+  }
+
+  loadModule = (module) => {
     const self = this
 
     require.ensure([], (require) => {
       try {
         // eslint-disable-next-line import/no-dynamic-require
-        const loadedModule = require(`@regardsoss/${this.props.module.name}/src/main.js`)
-        self.setState({
-          isLoaded: true,
-          module: loadedModule,
-        })
+        const loadedModule = require(`@regardsoss/${module.name}/src/main.js`)
+        if (this.props.admin && !loadedModule.adminContainer) {
+          console.error(`Module ${module.name} does not contain an administration component`)
+          self.setState({
+            isLoaded: false,
+            module: null,
+          })
+        } else if (!this.props.admin && !loadedModule.moduleContainer) {
+          console.error(`Module ${module.name} does not contain a main component`)
+          self.setState({
+            isLoaded: false,
+            module: null,
+          })
+        } else {
+          self.setState({
+            isLoaded: true,
+            module: loadedModule,
+          })
+        }
       } catch (e) {
         console.error('Module', this.props.module.id, e, e.stack)
       }
@@ -66,7 +89,15 @@ class LazyModuleComponent extends React.Component {
     const { isLoaded, module } = this.state
     if (isLoaded) {
       const moduleMessageDir = module.messagesDir ? module.messagesDir : `modules/${this.props.module.id}/src/i18n`
-      const moduleElt = React.createElement(module.moduleContainer, merge({}, { appName: this.props.appName }, this.props.module.conf))
+      let moduleElt = null
+      if (this.props.admin === true) {
+        if (module.adminContainer) {
+          moduleElt = React.createElement(module.adminContainer, merge({}, { appName: this.props.appName }, this.props.module.conf))
+        }
+      } else if (module.moduleContainer) {
+        moduleElt = React.createElement(module.moduleContainer, merge({}, { appName: this.props.appName }, this.props.module.conf))
+      }
+
       if (this.props.decorator) {
         const element = React.createElement(this.props.decorator.element, merge({}, this.props.decorator.conf, { children: moduleElt }))
         return (
@@ -85,9 +116,7 @@ class LazyModuleComponent extends React.Component {
         </I18nProvider>
       )
     }
-    return (
-      <div>Module ${this.props.module.id} is loading ... </div>
-    )
+    return null
   }
 
 }

@@ -29,6 +29,15 @@ const messages = Object.assign({
   'modules.list.table.actions': 'Actions',
   'layout.title': 'Configuration de l\'arrangement de l\'interface',
   'layout.submit': 'Mettre à jour',
+  'module.form.title.create': 'Creation d\'un nouveau module',
+  'module.form.title.update': 'Mise à jour du module {name}',
+  'module.form.name': 'Nom du module',
+  'module.form.description': 'Description',
+  'module.form.container': 'Conteneur du layout',
+  'module.form.active': 'Activation du module',
+  'module.form.submit.button': 'Creer module',
+  'module.form.update.button': 'Mettre à jour',
+  'module.form.cancel.button': 'Annuler',
   'invalid.json': 'Format json invalid',
 }, Locales.fr)
 

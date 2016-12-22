@@ -29,6 +29,15 @@ const messages = Object.assign({
   'modules.list.action.add': 'Add a new module configuration',
   'layout.title': 'Application layout configuration',
   'layout.submit': 'Update layout',
+  'module.form.title.create': 'Create a new interface module',
+  'module.form.title.update': 'Update {name} interface module',
+  'module.form.name': 'Module name',
+  'module.form.description': 'Description',
+  'module.form.container': 'Layout container',
+  'module.form.active': 'Activate mdule',
+  'module.form.submit.button': 'Create module',
+  'module.form.update.button': 'Update module',
+  'module.form.cancel.button': 'Cancel',
   'invalid.json': 'Invalid json file',
 
 }, Locales.en)

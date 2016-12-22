@@ -77,7 +77,7 @@ class ModuleListComponent extends React.Component {
                   </TableRowColumn>
                   <TableRowColumn>{module.content.description}</TableRowColumn>
                   <TableRowColumn>
-                    <IconButton onTouchTap={() => this.props.onEdit(module.content.id)}>
+                    <IconButton onTouchTap={() => this.props.onEdit(module.content)}>
                       <Edit hoverColor={style.hoverButtonEdit} />
                     </IconButton>
                     <IconButton onTouchTap={() => this.props.onDelete(module.content)}>

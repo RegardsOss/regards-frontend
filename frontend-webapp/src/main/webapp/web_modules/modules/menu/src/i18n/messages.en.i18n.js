@@ -12,6 +12,8 @@ const messages = Object.assign({
   loginButtonLabel: 'Login',
   logoutLabel: 'Logout',
   settingsLabel: 'Settings',
+  'menu.form.title': 'Menu Title',
+  'menu.form.displayauthentication': 'Display authentication option',
 }, Locales.en)
 
 export default messages
