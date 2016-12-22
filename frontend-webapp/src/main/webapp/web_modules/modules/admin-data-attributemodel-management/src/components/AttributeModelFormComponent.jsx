@@ -6,8 +6,10 @@ import { reduxForm } from 'redux-form'
 import MenuItem from 'material-ui/MenuItem'
 import { AttributeModel } from '@regardsoss/model'
 import { map } from 'lodash'
-import IntegerRangeComponent, { initializeIntegerRangeForm } from './IntegerRangeComponent'
+import NumberRangeComponent, { initializeNumberRangeForm } from './NumberRangeComponent'
 import EnumerationComponent, { initializeEnumerationForm } from './EnumerationComponent'
+import PatternComponent, { initializePatternForm } from './PatternComponent'
+
 
 /**
  * Display edit and create attribute model form
@@ -27,6 +29,7 @@ export class AttributeModelFormComponent extends React.Component {
     invalid: React.PropTypes.bool,
     handleSubmit: React.PropTypes.func.isRequired,
     initialize: React.PropTypes.func.isRequired,
+    change: React.PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -53,13 +56,29 @@ export class AttributeModelFormComponent extends React.Component {
         facetable: currentAttrModel.content.facetable,
         restriction: {},
       }
-      // Fill restriction object
-      switch (currentAttrModel.content.type) {
-        case 'INTEGER':
-          initialValues = initializeIntegerRangeForm(initialValues, currentAttrModel)
-          break
+      if (currentAttrModel.content.restriction) {
+        // Fill restriction object
+        switch (currentAttrModel.content.restriction.type) {
+          case 'INTEGER_RANGE':
+            initialValues = initializeNumberRangeForm('INTEGER_RANGE', initialValues, currentAttrModel)
+            break
+          case 'FLOAT_RANGE':
+            initialValues = initializeNumberRangeForm('FLOAT_RANGE', initialValues, currentAttrModel)
+            break
+          case 'ENUMERATION':
+            initialValues = initializeEnumerationForm(initialValues, currentAttrModel)
+            break
+          case 'PATTERN':
+            initialValues = initializePatternForm(initialValues, currentAttrModel)
+            break
+        }
       }
       this.props.initialize(initialValues)
+    } else {
+      this.props.initialize({
+        alterable: true,
+        queryable: true,
+      })
     }
   }
 
@@ -71,18 +90,22 @@ export class AttributeModelFormComponent extends React.Component {
   getRestrictionForm = (restrictionName) => {
     switch (restrictionName) {
       case 'INTEGER_RANGE':
+      case 'FLOAT_RANGE':
         return (
-          <IntegerRangeComponent />
+          <NumberRangeComponent />
         )
         break
       case 'ENUMERATION':
         return (
-          <EnumerationComponent currentAttrModel={this.props.currentAttrModel} />
+          <EnumerationComponent
+            currentAttrModel={this.props.currentAttrModel}
+            change={this.props.change}
+          />
         )
         break
       case 'PATTERN':
         return (
-          <div>TODO</div>
+          <PatternComponent />
         )
         break
       default:
