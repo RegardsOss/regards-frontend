@@ -6,7 +6,7 @@ import { RenderTextField, RenderCheckbox, RenderSelectField, Field } from '@rega
  */
 export class NumberRangeComponent extends React.Component {
   static propTypes = {
-    type: React.PropTypes.string.isRequired
+    type: React.PropTypes.string.isRequired,
   }
 
   render() {

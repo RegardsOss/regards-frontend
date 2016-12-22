@@ -18,7 +18,7 @@ class BasicListActions {
       ENTITY: options.schemaTypes.ENTITY,
       ENTITY_ARRAY: options.schemaTypes.ENTITY_ARRAY,
     }
-    this.errorHandler = new ErrorHandler();
+    this.errorHandler = new ErrorHandler()
     this.ENTITY_LIST_REQUEST = `${options.namespace}/LIST_REQUEST`
     this.ENTITY_LIST_SUCCESS = `${options.namespace}/LIST_SUCCESS`
     this.ENTITY_LIST_FAILURE = `${options.namespace}/LIST_FAILURE`
