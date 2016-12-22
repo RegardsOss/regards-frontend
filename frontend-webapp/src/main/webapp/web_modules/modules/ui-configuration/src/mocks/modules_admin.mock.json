@@ -1,4 +1,5 @@
 {
+  "1": [],
   "layout": [
     {
       "id": "project",
@@ -24,6 +25,17 @@
         "layout": ""
       },
       "links": []
+    }
+  ],
+  "projectmodules/1": [
+    {
+      "id": 1,
+      "name": "form",
+      "description": "Search form module",
+      "active": false,
+      "conf": {
+        "resulttype": "dataset"
+      }
     }
   ],
   "projectmodules": [

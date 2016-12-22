@@ -1,7 +1,9 @@
 /**
  * @author Léo Mieulet
  */
+import { map, replace } from 'lodash'
 import { normalize } from 'normalizr'
+import { throwError } from '@regardsoss/global-sytem-error/src/action'
 
 const { CALL_API, getJSON } = require('redux-api-middleware')
 /**
@@ -33,7 +35,53 @@ class BasicListActions {
     this.UPDATE_ENTITY_FAILURE = `${options.namespace}/UPDATE_FAILURE`
   }
 
-  fetchEntityList() {
+  /**
+   * Handle an error during HTTP Request error.
+   *
+   * @param dispatch redux store dispatch function
+   * @param action error action to handle
+   * @param state current state
+   * @param res HTTP request response
+   * @returns {{errorMessage: string}}
+   */
+  onRequestFailure = (dispatch, action, state, res) => {
+    const statusText = res && res.statusText ? res.statusText : 'Server request error'
+    const url = res && res.url ? res.url : action.type
+    const message = `${statusText}. (${url})`
+
+    // Send action to handle error display if any. See @regardsoss/global-system-error
+    dispatch(throwError(message))
+
+    // Return payload action error message
+    return {
+      errorMessage: statusText,
+    }
+  }
+
+  /**
+   * Replace parameterized value in the current configured endpoint
+   * @param entityEndpoint endpoint entity
+   * @param params parameters to replace in the endpoint entity
+   * @returns {*}
+   */
+  handleRequestParameters = (entityEndpoint, params) => {
+    let endpoint = entityEndpoint
+    if (params) {
+      map(params, (param, id) => {
+        endpoint = replace(endpoint, `%${id}`, param)
+      })
+    }
+    return endpoint
+  }
+
+  /**
+   * Fetch entities
+   *
+   * @param dispatch dispatch redux store dispatch function
+   * @returns {{}}
+   */
+  fetchEntityList(dispatch, params) {
+    const endpoint = this.handleRequestParameters(this.entityEndpoint, params)
     return {
       [CALL_API]: {
         types: [
@@ -44,15 +92,16 @@ class BasicListActions {
           },
           {
             type: this.ENTITY_LIST_FAILURE,
-            meta: (action, state, res) => ({ errorMessage: 'An error occurred' }),
+            meta: (action, state, res) => this.onRequestFailure(dispatch, action, state, res),
           },
         ],
-        endpoint: this.entityEndpoint,
+        endpoint,
         method: 'GET',
       },
     }
   }
-  fetchEntity(keyValue) {
+  fetchEntity(keyValue, dispatch, params) {
+    const endpoint = this.handleRequestParameters(this.entityEndpoint, params)
     return {
       [CALL_API]: {
         types: [
@@ -63,16 +112,18 @@ class BasicListActions {
           },
           {
             type: this.ENTITY_FAILURE,
-            meta: (action, state, res) => ({ errorMessage: 'An error occurred' }),
+            meta: (action, state, res) => this.onRequestFailure(dispatch, action, state, res),
           },
         ],
-        endpoint: `${this.entityEndpoint}/${keyValue}`,
+        endpoint: `${endpoint}/${keyValue}`,
         method: 'GET',
       },
     }
   }
 
-  createEntity(values) {
+
+  createEntity(values, dispatch, params) {
+    const endpoint = this.handleRequestParameters(this.entityEndpoint, params)
     return {
       [CALL_API]: {
         types: [
@@ -83,17 +134,18 @@ class BasicListActions {
           },
           {
             type: this.CREATE_ENTITY_FAILURE,
-            meta: (action, state, res) => ({ errorMessage: 'An error occurred' }),
+            meta: (action, state, res) => this.onRequestFailure(dispatch, action, state, res),
           },
         ],
-        endpoint: this.entityEndpoint,
+        endpoint,
         method: 'POST',
         body: JSON.stringify(values),
       },
     }
   }
 
-  updateEntity(keyValue, values) {
+  updateEntity(keyValue, values, dispatch, params) {
+    const endpoint = this.handleRequestParameters(this.entityEndpoint, params)
     return {
       [CALL_API]: {
         types: [
@@ -104,17 +156,18 @@ class BasicListActions {
           },
           {
             type: this.UPDATE_ENTITY_FAILURE,
-            meta: (action, state, res) => ({ errorMessage: 'An error occurred' }),
+            meta: (action, state, res) => this.onRequestFailure(dispatch, action, state, res),
           },
         ],
-        endpoint: `${this.entityEndpoint}/${keyValue}`,
+        endpoint: `${endpoint}/${keyValue}`,
         method: 'PUT',
         body: JSON.stringify(values),
       },
     }
   }
 
-  deleteEntity(keyValue) {
+  deleteEntity(keyValue, dispatch, params) {
+    const endpoint = this.handleRequestParameters(this.entityEndpoint, params)
     return {
       [CALL_API]: {
         types: [
@@ -125,15 +178,10 @@ class BasicListActions {
           },
           {
             type: this.DELETE_ENTITY_FAILURE,
-            meta: (action, state, res) => {
-              if (res.status === '500') {
-                return { errorMessage: 'error.500' }
-              }
-              return { errorMessage: 'An error occurred' }
-            },
+            meta: (action, state, res) => this.onRequestFailure(dispatch, action, state, res),
           },
         ],
-        endpoint: `${this.entityEndpoint}/${keyValue}`,
+        endpoint: `${endpoint}/${keyValue}`,
         method: 'DELETE',
       },
     }

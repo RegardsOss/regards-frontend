@@ -13,7 +13,7 @@ describe('[LAYOUT] Testing Application layout factory', () => {
     const context = {
 
     }
-    const wrapper = shallow(<ApplicationLayout appName={'testApp'} layout={testLayout} />, { context })
+    const wrapper = shallow(<ApplicationLayout appName={'testApp'} project={'test'} layout={testLayout} />, { context })
 
     expect(wrapper.find(Container)).to.have.length(1)
   })

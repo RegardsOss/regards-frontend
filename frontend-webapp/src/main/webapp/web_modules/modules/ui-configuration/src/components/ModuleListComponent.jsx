@@ -85,15 +85,15 @@ class ModuleListComponent extends React.Component {
                   <TableRowColumn>
                     <Toggle
                       toggled={module.content.active}
-                      onToggle={() => this.props.onActivation(module.content.id)}
+                      onToggle={() => this.props.onActivation(module.content)}
                     />
                   </TableRowColumn>
                   <TableRowColumn>{module.content.description}</TableRowColumn>
                   <TableRowColumn>
-                    <IconButton onTouchTap={() => this.props.onEdit(module.content.id)}>
+                    <IconButton onTouchTap={() => this.props.onEdit(module.content)}>
                       <Edit hoverColor={style.hoverButtonEdit} />
                     </IconButton>
-                    <IconButton onTouchTap={() => this.props.onDelete(module.content.id)}>
+                    <IconButton onTouchTap={() => this.props.onDelete(module.content)}>
                       <Delete hoverColor={style.hoverButtonDelete} />
                     </IconButton>
                   </TableRowColumn>
