@@ -13,7 +13,7 @@ describe('[MODULES] Testing LazyModuleComponent', () => {
 
     }
     const module = {
-      id: 'authentication',
+      name: 'authentication',
     }
     const wrapper = shallow(<LazyModuleComponent appName={'testApp'} module={module} />, { context })
 

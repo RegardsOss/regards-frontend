@@ -41,7 +41,7 @@ class LazyModuleComponent extends React.Component {
     require.ensure([], (require) => {
       try {
         // eslint-disable-next-line import/no-dynamic-require
-        const loadedModule = require(`@regardsoss/${this.props.module.id}/src/main.js`)
+        const loadedModule = require(`@regardsoss/${this.props.module.name}/src/main.js`)
         self.setState({
           isLoaded: true,
           module: loadedModule,
