@@ -1,4 +1,7 @@
 /**
+ * LICENSE_PLACEHOLDER
+ **/
+/**
  * @author Léo Mieulet
  */
 /**

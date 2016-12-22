@@ -1,6 +1,12 @@
 /**
+ * LICENSE_PLACEHOLDER
+ **/
+
+/**
  * @author Léo Mieulet
  */
+import ErrorHandler from '../ErrorHandler'
+
 const { CALL_API, getJSON } = require('redux-api-middleware')
 /**
  *  Provide actions to retrieve an array of value
@@ -13,9 +19,10 @@ class BasicArrayActions {
     this.ENTITY_LIST_REQUEST = `${options.namespace}/LIST_REQUEST`
     this.ENTITY_LIST_SUCCESS = `${options.namespace}/LIST_SUCCESS`
     this.ENTITY_LIST_FAILURE = `${options.namespace}/LIST_FAILURE`
+    this.errorHandler = new ErrorHandler();
   }
 
-  fetchEntityList() {
+  fetchEntityList(dispatch) {
     return {
       [CALL_API]: {
         types: [
@@ -26,12 +33,7 @@ class BasicArrayActions {
           },
           {
             type: this.ENTITY_LIST_FAILURE,
-            meta: (action, state, res) => {
-              if (res.status === '500') {
-                return { errorMessage: 'error.500' }
-              }
-              return { errorMessage: 'An error occurred' }
-            },
+            meta: (action, state, res) => this.errorHandler.onRequestFailure(dispatch, action, state, res),
           },
         ],
         endpoint: this.entityEndpoint,

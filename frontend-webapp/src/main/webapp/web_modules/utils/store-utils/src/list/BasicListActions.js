@@ -4,7 +4,7 @@
 import { map, replace } from 'lodash'
 import { normalize } from 'normalizr'
 import { throwError } from '@regardsoss/global-sytem-error/src/action'
-
+import ErrorHandler from '../ErrorHandler'
 const { CALL_API, getJSON } = require('redux-api-middleware')
 /**
  *  Provide actions for a specific type of entity list
@@ -18,6 +18,7 @@ class BasicListActions {
       ENTITY: options.schemaTypes.ENTITY,
       ENTITY_ARRAY: options.schemaTypes.ENTITY_ARRAY,
     }
+    this.errorHandler = new ErrorHandler();
     this.ENTITY_LIST_REQUEST = `${options.namespace}/LIST_REQUEST`
     this.ENTITY_LIST_SUCCESS = `${options.namespace}/LIST_SUCCESS`
     this.ENTITY_LIST_FAILURE = `${options.namespace}/LIST_FAILURE`
@@ -35,30 +36,6 @@ class BasicListActions {
     this.UPDATE_ENTITY_FAILURE = `${options.namespace}/UPDATE_FAILURE`
   }
 
-  /**
-   * Handle an error during HTTP Request error.
-   *
-   * @param dispatch redux store dispatch function
-   * @param action error action to handle
-   * @param state current state
-   * @param res HTTP request response
-   * @returns {{errorMessage: string}}
-   */
-  onRequestFailure = (dispatch, action, state, res) => {
-    const statusText = res && res.statusText ? res.statusText : 'Server request error'
-    const url = res && res.url ? res.url : action.type
-    const message = `${statusText}. (${url})`
-
-    // Send action to handle error display if any. See @regardsoss/global-system-error
-    if (dispatch) {
-      dispatch(throwError(message))
-    }
-
-    // Return payload action error message
-    return {
-      errorMessage: statusText,
-    }
-  }
 
   /**
    * Replace parameterized value in the current configured endpoint
@@ -94,7 +71,7 @@ class BasicListActions {
           },
           {
             type: this.ENTITY_LIST_FAILURE,
-            meta: (action, state, res) => this.onRequestFailure(dispatch, action, state, res),
+            meta: (action, state, res) => this.errorHandler.onRequestFailure(dispatch, action, state, res),
           },
         ],
         endpoint,
@@ -114,7 +91,7 @@ class BasicListActions {
           },
           {
             type: this.ENTITY_FAILURE,
-            meta: (action, state, res) => this.onRequestFailure(dispatch, action, state, res),
+            meta: (action, state, res) => this.errorHandler.onRequestFailure(dispatch, action, state, res),
           },
         ],
         endpoint: `${endpoint}/${keyValue}`,
@@ -136,7 +113,7 @@ class BasicListActions {
           },
           {
             type: this.CREATE_ENTITY_FAILURE,
-            meta: (action, state, res) => this.onRequestFailure(dispatch, action, state, res),
+            meta: (action, state, res) => this.errorHandler.onRequestFailure(dispatch, action, state, res),
           },
         ],
         endpoint,
@@ -158,7 +135,7 @@ class BasicListActions {
           },
           {
             type: this.UPDATE_ENTITY_FAILURE,
-            meta: (action, state, res) => this.onRequestFailure(dispatch, action, state, res),
+            meta: (action, state, res) => this.errorHandler.onRequestFailure(dispatch, action, state, res),
           },
         ],
         endpoint: `${endpoint}/${keyValue}`,
@@ -180,7 +157,7 @@ class BasicListActions {
           },
           {
             type: this.DELETE_ENTITY_FAILURE,
-            meta: (action, state, res) => this.onRequestFailure(dispatch, action, state, res),
+            meta: (action, state, res) => this.errorHandler.onRequestFailure(dispatch, action, state, res),
           },
         ],
         endpoint: `${endpoint}/${keyValue}`,
