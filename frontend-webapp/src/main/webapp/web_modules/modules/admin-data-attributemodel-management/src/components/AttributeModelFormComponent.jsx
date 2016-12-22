@@ -73,6 +73,7 @@ export class AttributeModelFormComponent extends React.Component {
             break
         }
       }
+      console.log(initialValues)
       this.props.initialize(initialValues)
     } else {
       this.props.initialize({
