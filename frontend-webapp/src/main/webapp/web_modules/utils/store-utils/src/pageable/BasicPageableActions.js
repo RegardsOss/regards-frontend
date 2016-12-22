@@ -28,10 +28,9 @@ class BasicPageableActions extends BasicListActions {
    * @returns {{}}
    */
   fetchEntityList(dispatch, params) {
+    let endpoint = this.entityEndpoint
     if (params){
-      const endpoint = this.handleRequestParameters(this.entityEndpoint, params)
-    } else {
-      const endpoint = this.entityEndpoint
+      endpoint = this.handleRequestParameters(this.entityEndpoint, params)
     }
 
     return {
