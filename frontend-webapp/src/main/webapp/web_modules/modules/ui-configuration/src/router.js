@@ -25,7 +25,7 @@ export const listApplicationsRoute = {
  * @type {{path: string, getComponents: ((nextState, cb))}}
  */
 export const listModulesRoute = {
-  path: 'applications/:application_id/modules',
+  path: 'applications/:application_id/modules/list',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
       const appMoulesContainer = require('./containers/ModulesListContainer')
@@ -41,10 +41,26 @@ export const listModulesRoute = {
  * @type {{path: string, getComponents: ((nextState, cb))}}
  */
 export const editModuleRoute = {
-  path: 'applications/:application_id/modules/:module_id',
+  path: 'applications/:application_id/modules/:module_id/edit',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const moduleContainer = require('./components/ModuleConfigurationComponent')
+      const moduleContainer = require('./containers/ModuleFormContainer')
+      cb(null, {
+        content: moduleContainer,
+      })
+    })
+  },
+}
+
+/**
+ *
+ * @type {{path: string, getComponents: ((nextState, cb))}}
+ */
+export const createModuleRoute = {
+  path: 'applications/:application_id/modules/create',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const moduleContainer = require('./containers/ModuleFormContainer')
       cb(null, {
         content: moduleContainer,
       })
@@ -77,6 +93,7 @@ const uiConfigurationRouter = {
     listApplicationsRoute,
     listModulesRoute,
     editModuleRoute,
+    createModuleRoute,
     layoutRoute,
   ],
 }

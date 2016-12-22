@@ -1,6 +1,9 @@
-// server.js
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 const { map } = require('lodash')
 const jsonServer = require('json-server')
+
 const server = jsonServer.create()
 const router = jsonServer.router('/home/sbinda/git/rs-frontend/frontend-webapp/src/main/webapp/web_modules/modules/ui-configuration/src/mocks/mock.json')
 const middlewares = jsonServer.defaults()

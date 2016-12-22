@@ -15,7 +15,7 @@ export default (project, intl) => [
     description: intl.formatMessage({ id: 'admin.app.description' }),
     advanced: false,
     actions: [{
-      path: `/admin/${project}/ui-configuration/applications/admin/modules`,
+      path: `/admin/${project}/ui-configuration/applications/admin/modules/list`,
       icon: <ExtensionIcon />,
       tooltipMsg: intl.formatMessage({ id: 'admin.app.modules.tooltip' }),
     }, {
@@ -29,7 +29,7 @@ export default (project, intl) => [
     description: intl.formatMessage({ id: 'project.app.description' }),
     advanced: false,
     actions: [{
-      path: `/admin/${project}/ui-configuration/applications/project/modules`,
+      path: `/admin/${project}/ui-configuration/applications/project/modules/list`,
       icon: <ExtensionIcon />,
       tooltipMsg: intl.formatMessage({ id: 'project.app.modules.tooltip' }),
     }, {
@@ -43,7 +43,7 @@ export default (project, intl) => [
     description: intl.formatMessage({ id: 'portal.app.description' }),
     advanced: false,
     actions: [{
-      path: `/admin/${project}/ui-configuration/applications/portal/modules`,
+      path: `/admin/${project}/ui-configuration/applications/portal/modules/list`,
       icon: <ExtensionIcon />,
       tooltipMsg: intl.formatMessage({ id: 'portal.app.modules.tooltip' }),
     }, {

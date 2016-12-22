@@ -21,6 +21,7 @@ class ModuleListComponent extends React.Component {
 
   static propTypes = {
     modules: React.PropTypes.objectOf(ModuleShape).isRequired,
+    onCreate: React.PropTypes.func.isRequired,
     onEdit: React.PropTypes.func.isRequired,
     onDelete: React.PropTypes.func.isRequired,
     onActivation: React.PropTypes.func.isRequired,
@@ -31,21 +32,7 @@ class ModuleListComponent extends React.Component {
     ...i18nContextType,
   }
 
-  handleActication = (moduleName) => {
-
-  }
-
-  handleEdit = (moduleName) => {
-
-  }
-
-  handleDelete = (moduleName) => {
-
-  }
-
   render() {
-    const createUrl = 'http://localhost:3000/addmodule'
-
     const style = {
       hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
       hoverButtonDelete: this.context.muiTheme.palette.accent1Color,
@@ -90,7 +77,7 @@ class ModuleListComponent extends React.Component {
                   </TableRowColumn>
                   <TableRowColumn>{module.content.description}</TableRowColumn>
                   <TableRowColumn>
-                    <IconButton onTouchTap={() => this.props.onEdit(module.content)}>
+                    <IconButton onTouchTap={() => this.props.onEdit(module.content.id)}>
                       <Edit hoverColor={style.hoverButtonEdit} />
                     </IconButton>
                     <IconButton onTouchTap={() => this.props.onDelete(module.content)}>
@@ -104,7 +91,7 @@ class ModuleListComponent extends React.Component {
         </CardText>
         <CardActions>
           <CardActionsComponent
-            mainButtonUrl={createUrl}
+            mainButtonTouchTap={this.props.onCreate}
             mainButtonLabel={
               <FormattedMessage
                 id="modules.list.action.add"

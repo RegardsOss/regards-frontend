@@ -9,7 +9,6 @@ import connect from '@regardsoss/redux'
 import ModulesSelector from '../model/modules/ModulesSelector'
 import ModulesActions from '../model/modules/ModulesActions'
 import ModuleListComponent from '../components/ModuleListComponent'
-import { EditModuleRoute } from '../router'
 
 /**
  * Module container to display list of configured modules for a given application id.
@@ -25,7 +24,6 @@ class ModulesListContainer extends React.Component {
     // Set by mapDispatchToProps
     fetchModules: React.PropTypes.func,
     updateModule: React.PropTypes.func,
-    throwError: React.PropTypes.func,
     // Set by mapStateToProps
     isFetching: React.PropTypes.bool,
     modules: React.PropTypes.objectOf(ModuleShape),
@@ -40,9 +38,14 @@ class ModulesListContainer extends React.Component {
   }
 
   handleEditModule = (module) => {
-    const url = `/admin/${this.props.params.project}/ui-configuration/applications/${this.props.params.application_id}/modules/${module.id}`
+    const url = `/admin/${this.props.params.project}/ui-configuration/applications/${this.props.params.application_id}/modules/${module.id}/edit`
     browserHistory.push(url)
   }
+  handleCreateModule = () => {
+    const url = `/admin/${this.props.params.project}/ui-configuration/applications/${this.props.params.application_id}/modules/create`
+    browserHistory.push(url)
+  }
+
 
   handleDeleteModule = (module) => {
 
@@ -50,22 +53,6 @@ class ModulesListContainer extends React.Component {
 
   handleModuleActivation = (module) => {
     this.props.updateModule(this.props.params.application_id, Object.assign({}, module, { active: !module.active }))
-  }
-
-  handleError = () => {
-    if (this.props.error.hasError === true) {
-      return (
-        <Snackbar
-          open={this.state.snackBarOpen}
-          message={this.props.error.message}
-          autoHideDuration={4000}
-          onRequestClose={this.closeSnackBar}
-          onActionTouchTap={this.closeSnackBar}
-          action="OK"
-        />
-      )
-    }
-    return null
   }
 
   render() {
@@ -81,6 +68,7 @@ class ModulesListContainer extends React.Component {
       <I18nProvider messageDir="modules/ui-configuration/src/i18n">
         <ModuleListComponent
           modules={this.props.modules}
+          onCreate={this.handleCreateModule}
           onEdit={this.handleEditModule}
           onDelete={this.handleDeleteModule}
           onActivation={this.handleModuleActivation}
@@ -96,8 +84,8 @@ const mapStateToProps = state => ({
   isFetching: ModulesSelector.isFetching(state),
 })
 const mapDispatchToProps = dispatch => ({
-  fetchModules: applicationId => dispatch(ModulesActions.fetchEntityList(dispatch, [`${applicationId}-modules/1`])),
-  updateModule: (applicationId, module) => dispatch(ModulesActions.updateEntity(module.id, module, dispatch, [`${applicationId}-module`])),
+  fetchModules: applicationId => dispatch(ModulesActions.fetchEntityList(dispatch, [applicationId])),
+  updateModule: (applicationId, module) => dispatch(ModulesActions.updateEntity(module.id, module, dispatch, [applicationId])),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ModulesListContainer)
