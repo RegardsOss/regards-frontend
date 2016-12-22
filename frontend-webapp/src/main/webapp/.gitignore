@@ -6,3 +6,4 @@ npm-debug.log*
 reports/
 .nyc_output/
 .tmp
+.idea
