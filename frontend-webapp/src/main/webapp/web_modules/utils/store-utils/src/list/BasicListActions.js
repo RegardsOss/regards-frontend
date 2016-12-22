@@ -3,7 +3,6 @@
  */
 import { map, replace } from 'lodash'
 import { normalize } from 'normalizr'
-import { throwError } from '@regardsoss/global-sytem-error/src/action'
 import ErrorHandler from '../ErrorHandler'
 const { CALL_API, getJSON } = require('redux-api-middleware')
 /**

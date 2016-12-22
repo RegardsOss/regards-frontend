@@ -35,6 +35,7 @@ export class AttributeModelFormContainer extends React.Component {
     fetchAttrModel: React.PropTypes.func,
     updateAttrModel: React.PropTypes.func,
     fetchAttributeModelTypeList: React.PropTypes.func,
+    flushAttributeModelRestriction: React.PropTypes.func,
   }
 
   constructor(props) {
@@ -50,7 +51,7 @@ export class AttributeModelFormContainer extends React.Component {
       this.props.fetchAttrModel(this.props.params.attrModel_id)
       // If the store already contains that attrModel, then retrieve the corresponding modelRestrictionList
       if (this.props.attrModel) {
-        this.props.fetchAttributeModelRestrictionList(nextProps.attrModel.content.type)
+        this.props.fetchAttributeModelRestrictionList(this.props.attrModel.content.type)
       }
     }
   }
@@ -93,6 +94,7 @@ export class AttributeModelFormContainer extends React.Component {
       attrModelTypeList={attrModelTypeList}
       attrModelRestrictionList={attrModelRestrictionList}
       handleUpdateAttributeModelRestriction={this.handleUpdateAttributeModelRestriction}
+      flushAttributeModelRestriction={this.props.flushAttributeModelRestriction}
     />)
   }
   handleUpdate = (values) => {
@@ -144,6 +146,22 @@ export class AttributeModelFormContainer extends React.Component {
           restriction.maxInclusive = values.restriction.INTEGER_RANGE.max
         } else {
           restriction.maxExclusive = values.restriction.INTEGER_RANGE.max
+        }
+      }
+      // Handle float range
+      if (values.restriction.FLOAT_RANGE && values.restriction.FLOAT_RANGE.active) {
+        restriction = {
+          type: 'FLOAT_RANGE',
+        }
+        if (values.restriction.FLOAT_RANGE.isMinInclusive) {
+          restriction.minInclusive = values.restriction.FLOAT_RANGE.min
+        } else {
+          restriction.minExclusive = values.restriction.FLOAT_RANGE.min
+        }
+        if (values.restriction.FLOAT_RANGE.isMaxInclusive) {
+          restriction.maxInclusive = values.restriction.FLOAT_RANGE.max
+        } else {
+          restriction.maxExclusive = values.restriction.FLOAT_RANGE.max
         }
       }
       // Handle enumeration
@@ -214,6 +232,7 @@ const mapDispatchToProps = dispatch => ({
   fetchAttrModel: id => dispatch(AttributeModelActions.fetchEntity(id, dispatch)),
   fetchAttributeModelTypeList: () => dispatch(AttributeModelTypeActions.fetchEntityList(dispatch)),
   fetchAttributeModelRestrictionList: type => dispatch(AttributeModelRestrictionActions.getList(type, dispatch)),
+  flushAttributeModelRestriction: () => dispatch(AttributeModelRestrictionActions.flush()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AttributeModelFormContainer)

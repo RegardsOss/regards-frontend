@@ -1,3 +1,4 @@
+import { ApplicationErrorAction } from '@regardsoss/global-sytem-error'
 
 
 class ErrorHandler {
@@ -17,7 +18,7 @@ class ErrorHandler {
 
     // Send action to handle error display if any. See @regardsoss/global-system-error
     if (dispatch) {
-      dispatch(throwError(message))
+      dispatch(ApplicationErrorAction.throwError(message))
     }
 
     // Return payload action error message

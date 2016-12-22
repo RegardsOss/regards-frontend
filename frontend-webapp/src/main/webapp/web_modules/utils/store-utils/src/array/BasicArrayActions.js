@@ -19,6 +19,9 @@ class BasicArrayActions {
     this.ENTITY_LIST_REQUEST = `${options.namespace}/LIST_REQUEST`
     this.ENTITY_LIST_SUCCESS = `${options.namespace}/LIST_SUCCESS`
     this.ENTITY_LIST_FAILURE = `${options.namespace}/LIST_FAILURE`
+
+    this.FLUSH = `${options.namespace}/FLUSH`
+
     this.errorHandler = new ErrorHandler()
   }
 
@@ -39,6 +42,16 @@ class BasicArrayActions {
         endpoint: this.entityEndpoint,
         method: 'GET',
       },
+    }
+  }
+
+  /**
+   * Remove all existing entries
+   * @returns {{type: string}}
+   */
+  flush() {
+    return {
+      type: this.FLUSH,
     }
   }
 }
