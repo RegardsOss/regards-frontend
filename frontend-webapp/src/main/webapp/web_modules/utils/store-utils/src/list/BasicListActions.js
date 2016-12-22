@@ -50,7 +50,9 @@ class BasicListActions {
     const message = `${statusText}. (${url})`
 
     // Send action to handle error display if any. See @regardsoss/global-system-error
-    dispatch(throwError(message))
+    if (dispatch) {
+      dispatch(throwError(message))
+    }
 
     // Return payload action error message
     return {

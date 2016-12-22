@@ -28,7 +28,12 @@ class BasicPageableActions extends BasicListActions {
    * @returns {{}}
    */
   fetchEntityList(dispatch, params) {
-    const endpoint = this.handleRequestParameters(this.entityEndpoint, params)
+    if (params){
+      const endpoint = this.handleRequestParameters(this.entityEndpoint, params)
+    } else {
+      const endpoint = this.entityEndpoint
+    }
+
     return {
       [CALL_API]: {
         types: [
