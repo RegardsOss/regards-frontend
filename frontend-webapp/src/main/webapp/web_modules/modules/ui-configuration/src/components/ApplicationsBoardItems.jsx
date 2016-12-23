@@ -3,6 +3,7 @@
  **/
 import ExtensionIcon from 'material-ui/svg-icons/action/extension'
 import ViewQuilt from 'material-ui/svg-icons/action/view-quilt'
+import Palette from 'material-ui/svg-icons/image/palette'
 
 /**
  * Configuration file for UI-Configuration boards items.
@@ -22,6 +23,10 @@ export default (project, intl) => [
       path: `/admin/${project}/ui-configuration/applications/admin/layout`,
       icon: <ViewQuilt />,
       tooltipMsg: intl.formatMessage({ id: 'admin.app.layout.tooltip' }),
+    }, {
+      path: `/admin/${project}/ui-configuration/applications/admin/themes/list`,
+      icon: <Palette />,
+      tooltipMsg: intl.formatMessage({ id: 'admin.app.themes.tooltip' }),
     }],
   },
   {
@@ -36,6 +41,10 @@ export default (project, intl) => [
       path: `/admin/${project}/ui-configuration/applications/project/layout`,
       icon: <ViewQuilt />,
       tooltipMsg: intl.formatMessage({ id: 'project.app.layout.tooltip' }),
+    }, {
+      path: `/admin/${project}/ui-configuration/applications/project/themes/list`,
+      icon: <Palette />,
+      tooltipMsg: intl.formatMessage({ id: 'project.app.themes.tooltip' }),
     }],
   },
   {
@@ -50,6 +59,10 @@ export default (project, intl) => [
       path: `/admin/${project}/ui-configuration/applications/portal/layout`,
       icon: <ViewQuilt />,
       tooltipMsg: intl.formatMessage({ id: 'portal.app.layout.tooltip' }),
+    }, {
+      path: `/admin/${project}/ui-configuration/applications/portal/themes/list`,
+      icon: <Palette />,
+      tooltipMsg: intl.formatMessage({ id: 'portal.app.themes.tooltip' }),
     }],
   },
 ]
