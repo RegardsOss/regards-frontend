@@ -1,9 +1,9 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import connect from '@regardsoss/redux'
+import { connect } from 'react-redux'
 import Snackbar from 'material-ui/Snackbar'
-import { closeErrorDialog } from '../action'
+import { closeErrorDialog } from '../model/action'
 
 /**
  * React component to display a dialog box containing the global current error message

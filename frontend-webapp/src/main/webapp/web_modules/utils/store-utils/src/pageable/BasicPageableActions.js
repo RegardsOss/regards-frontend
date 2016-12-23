@@ -52,7 +52,7 @@ class BasicPageableActions extends BasicListActions {
           },
           {
             type: this.ENTITY_LIST_FAILURE,
-            meta: (action, state, res) => this.onRequestFailure(dispatch, action, state, res),
+            meta: (action, state, res) => this.errorHandler.onRequestFailure(dispatch, action, state, res),
           },
         ],
         endpoint,
