@@ -20,6 +20,7 @@ class LoginComponent extends React.Component {
     // from reduxForm
     submitting: React.PropTypes.bool,
     pristine: React.PropTypes.bool,
+    invalid: React.PropTypes.bool,
     handleSubmit: React.PropTypes.func.isRequired,
     cancelButton: React.PropTypes.bool,
     onCancelAction: React.PropTypes.func,
@@ -92,7 +93,7 @@ class LoginComponent extends React.Component {
             </CardText>
             <CardActions style={style.action}>
               <RaisedButton
-                disabled={this.props.pristine || this.props.submitting}
+                disabled={this.props.pristine || this.props.submitting || this.props.invalid}
                 label={<FormattedMessage id="login.button" />}
                 primary
                 type="submit"

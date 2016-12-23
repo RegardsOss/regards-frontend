@@ -3,6 +3,7 @@ import { Locales } from '@regardsoss/form-utils'
 const messages = Object.assign({
   'attrmodel.list.title': 'Attribute models',
   'attrmodel.list.subtitle': 'Manage project Attribute models',
+  'attrmodel.list.table.fragment': 'Fragment',
   'attrmodel.list.table.name': 'Name',
   'attrmodel.list.table.description': 'Description',
   'attrmodel.list.table.type': 'Type',

@@ -52,6 +52,7 @@ export class AttributeModelListComponent extends React.Component {
               displaySelectAll={false}
             >
               <TableRow>
+                <TableHeaderColumn><FormattedMessage id="attrmodel.list.table.fragment" /></TableHeaderColumn>
                 <TableHeaderColumn><FormattedMessage id="attrmodel.list.table.name" /></TableHeaderColumn>
                 <TableHeaderColumn><FormattedMessage id="attrmodel.list.table.description" /></TableHeaderColumn>
                 <TableHeaderColumn><FormattedMessage id="attrmodel.list.table.type" /></TableHeaderColumn>
@@ -65,6 +66,7 @@ export class AttributeModelListComponent extends React.Component {
             >
               {map(attrModelList, (attrmodel, i) => (
                 <TableRow key={i}>
+                  <TableRowColumn>{attrmodel.content.fragment.name}</TableRowColumn>
                   <TableRowColumn>{attrmodel.content.name}</TableRowColumn>
                   <TableRowColumn>{attrmodel.content.description}</TableRowColumn>
                   <TableRowColumn>{attrmodel.content.type}</TableRowColumn>
