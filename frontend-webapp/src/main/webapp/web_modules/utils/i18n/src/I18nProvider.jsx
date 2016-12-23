@@ -1,6 +1,6 @@
 /** @module common */
 
-import { connect } from 'react-redux'
+import connect from '@regardsoss/redux'
 import { addLocaleData, IntlProvider } from 'react-intl'
 import frLocaleData from 'react-intl/locale-data/fr'
 import * as I18nActions from './model/I18nActions'

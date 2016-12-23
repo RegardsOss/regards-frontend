@@ -16,6 +16,9 @@ describe('[FORM UTILS] Testing RenderCheckbox', () => {
         value: false,
         onChange: () => {},
       },
+      meta: {
+        error: false,
+      },
     }
     const enzymeWrapper = shallow(<RenderCheckbox {...props} />)
     const subComponent = enzymeWrapper.find(Checkbox)

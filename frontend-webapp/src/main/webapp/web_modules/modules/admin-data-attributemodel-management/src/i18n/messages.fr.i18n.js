@@ -1,8 +1,9 @@
 import { Locales } from '@regardsoss/form-utils'
 
 const messages = Object.assign({
-  'attrmodel.list.title': 'Liste des attribts modèles de données',
+  'attrmodel.list.title': 'Liste des attributs de modèles de données',
   'attrmodel.list.subtitle': 'Gestion des attributs de modèle de données de REGARDS',
+  'attrmodel.list.table.fragment': 'Fragment',
   'attrmodel.list.table.name': 'Nom',
   'attrmodel.list.table.description': 'Description',
   'attrmodel.list.table.type': 'Type',

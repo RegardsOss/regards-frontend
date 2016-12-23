@@ -26,10 +26,6 @@ export class ProjectUserCreateComponent extends React.Component {
 
   render() {
     const { pristine, submitting, roleList } = this.props
-    console.log(
-
-
-      roleList)
     return (
       <form onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
         <Card>

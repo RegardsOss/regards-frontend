@@ -1,7 +1,7 @@
 import Checkbox from 'material-ui/Checkbox'
 import { themeContextType } from '@regardsoss/theme'
 
-const RenderCheckbox = ({ input, label, meta: { error }, intl }, {muiTheme}) => {
+const RenderCheckbox = ({ input, label, meta: { error }, intl }, { muiTheme }) => {
   const checked = input.value === true
   return (
     <div>
@@ -10,13 +10,13 @@ const RenderCheckbox = ({ input, label, meta: { error }, intl }, {muiTheme}) => 
         checked={checked}
         onCheck={input.onChange}
       />
-      {error && (<span style={{color:muiTheme.palette.errorColor}}>{intl.formatMessage({ id: error })}</span>)}
+      {error && (<span style={{ color: muiTheme.palette.errorColor }}>{intl.formatMessage({ id: error })}</span>)}
     </div>
   )
 }
 RenderCheckbox.contextTypes = {
-  ...themeContextType
-};
+  ...themeContextType,
+}
 RenderCheckbox.propTypes = {
   label: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.element]),
   input: React.PropTypes.shape({

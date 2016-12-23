@@ -71,9 +71,12 @@ export class ProjectFormContainer extends React.Component {
       description: values.description,
     })
     Promise.resolve(this.props.updateModel(this.props.model.content.id, updatedProject))
-    .then(() => {
-      const url = this.getBackUrl()
-      browserHistory.push(url)
+    .then((actionResult) => {
+      // We receive here the action
+      if (!actionResult.error) {
+        const url = this.getBackUrl()
+        browserHistory.push(url)
+      }
     })
   }
 

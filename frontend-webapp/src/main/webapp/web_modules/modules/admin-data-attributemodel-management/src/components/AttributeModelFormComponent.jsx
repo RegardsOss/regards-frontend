@@ -36,7 +36,7 @@ export class AttributeModelFormComponent extends React.Component {
   }
 
   static contextTypes = {
-    ...themeContextType
+    ...themeContextType,
   }
 
   constructor(props) {

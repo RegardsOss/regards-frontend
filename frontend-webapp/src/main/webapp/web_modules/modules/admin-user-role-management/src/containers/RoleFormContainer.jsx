@@ -78,9 +78,12 @@ export class RoleFormContainer extends React.Component {
       isPublic: values.isPublic,
     })
     Promise.resolve(this.props.updateRole(this.props.role.content.id, updatedProject))
-    .then(() => {
-      const url = this.getBackUrl()
-      browserHistory.push(url)
+    .then((actionResult) => {
+      // We receive here the action
+      if (!actionResult.error) {
+        const url = this.getBackUrl()
+        browserHistory.push(url)
+      }
     })
   }
 
@@ -91,9 +94,12 @@ export class RoleFormContainer extends React.Component {
       icon: values.icon,
       isPublic: values.isPublic,
     }))
-    .then(() => {
-      const url = this.getBackUrl()
-      browserHistory.push(url)
+    .then((actionResult) => {
+      // We receive here the action
+      if (!actionResult.error) {
+        const url = this.getBackUrl()
+        browserHistory.push(url)
+      }
     })
   }
   render() {

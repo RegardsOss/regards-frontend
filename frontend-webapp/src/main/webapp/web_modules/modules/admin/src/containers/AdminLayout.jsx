@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { connect } from 'react-redux'
+import connect from '@regardsoss/redux'
 import { logout } from '@regardsoss/authentication-manager'
 import { themeContextType } from '@regardsoss/theme'
 import { LazyModuleComponent } from '@regardsoss/modules'
