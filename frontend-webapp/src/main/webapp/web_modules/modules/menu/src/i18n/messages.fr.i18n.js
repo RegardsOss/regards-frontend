@@ -13,7 +13,7 @@ const messages = Object.assign({
   logoutLabel: 'Deconnexion',
   settingsLabel: 'Paramètres',
   'menu.form.title': 'Titre du menu',
-  'menu.form.displayauthentication': "Afficher l\'option d'authentification",
+  'menu.form.displayauthentication': 'Afficher l\'option d\'authentification',
 }, Locales.fr)
 
 export default messages

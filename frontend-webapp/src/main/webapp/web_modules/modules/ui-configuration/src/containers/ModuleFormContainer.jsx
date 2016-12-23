@@ -24,13 +24,14 @@ class ModuleContainer extends React.Component {
     // From react router
     params: React.PropTypes.shape({
       project: React.PropTypes.string,
-      application_id: React.PropTypes.string,
+      applicationId: React.PropTypes.string,
       module_id: React.PropTypes.string,
     }),
     // Set by mapDispatchToProps
     updateModule: React.PropTypes.func,
     createModule: React.PropTypes.func,
     fetchModule: React.PropTypes.func,
+    fetchLayout: React.PropTypes.func,
     // Set by mapStateToProps
     isFetching: React.PropTypes.bool,
     module: ModuleShape,
@@ -43,10 +44,10 @@ class ModuleContainer extends React.Component {
 
   componentWillMount() {
     if (this.props.params.module_id) {
-      this.props.fetchModule(this.props.params.application_id, this.props.params.module_id)
+      this.props.fetchModule(this.props.params.applicationId, this.props.params.module_id)
     }
     if (!this.props.layout) {
-      this.props.fetchLayout(this.props.params.application_id)
+      this.props.fetchLayout(this.props.params.applicationId)
     }
   }
 
@@ -59,20 +60,20 @@ class ModuleContainer extends React.Component {
 
   handleCreate = (values) => {
     const submitModel = Object.assign({}, values)
-    Promise.resolve(this.props.createModule(this.props.params.application_id, submitModel))
+    Promise.resolve(this.props.createModule(this.props.params.applicationId, submitModel))
       .then(this.handleBack)
   }
 
   handleUpdate = (values) => {
-    const submitModel = Object.assign({}, this.props.model, values)
+    const submitModel = Object.assign({}, this.props.module, values)
     console.log('UPDATING....', values, submitModel)
-    Promise.resolve(this.props.updateModule(this.props.params.application_id, submitModel))
+    Promise.resolve(this.props.updateModule(this.props.params.applicationId, submitModel))
       .then(this.handleBack)
   }
 
   handleBack = () => {
-    const { params: { project, application_id } } = this.props
-    browserHistory.push(`/admin/${project}/ui-configuration/applications/${application_id}/modules/list`)
+    const { params: { project, applicationId } } = this.props
+    browserHistory.push(`/admin/${project}/ui-configuration/applications/${applicationId}/modules/list`)
   }
 
   render() {
@@ -89,7 +90,7 @@ class ModuleContainer extends React.Component {
     return (
       <I18nProvider messageDir="modules/ui-configuration/src/i18n">
         <ModuleFormComponent
-          applicationId={this.props.params.application_id}
+          applicationId={this.props.params.applicationId}
           onSubmit={this.handleSubmit}
           onBack={this.handleBack}
           module={this.props.module}
@@ -103,7 +104,7 @@ class ModuleContainer extends React.Component {
 
 const mapStateToProps = (state, ownProps) => ({
   module: ownProps.params.module_id ? ModulesSelector.getContentById(state, ownProps.params.module_id) : null,
-  layout: ownProps.params.application_id ? LayoutSelector.getContentById(state, ownProps.params.application_id) : null,
+  layout: ownProps.params.applicationId ? LayoutSelector.getContentById(state, ownProps.params.applicationId) : null,
   isFetching: ModulesSelector.isFetching(state),
 })
 

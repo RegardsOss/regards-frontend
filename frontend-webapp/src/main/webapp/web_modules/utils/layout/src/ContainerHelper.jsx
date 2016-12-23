@@ -47,8 +47,8 @@ class ContainerHelper {
     if (container && container.id) {
       containers.push(container.id)
       if (container.containers && container.containers.length > 0) {
-        forEach(container.containers, (container, idx) => {
-          containers = union(ContainerHelper.getAvailableContainersInLayout(container), containers)
+        forEach(container.containers, (c) => {
+          containers = union(ContainerHelper.getAvailableContainersInLayout(c), containers)
         })
       }
     }

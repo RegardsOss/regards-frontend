@@ -10,8 +10,7 @@ import { ShowableAtRender, CardActionsComponent } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { RenderTextField, RenderSelectField, Field, RenderCheckbox, ErrorTypes } from '@regardsoss/form-utils'
 import { reduxForm } from 'redux-form'
-import { ModuleShape, AvailableModules } from '@regardsoss/modules'
-import { LazyModuleComponent } from '@regardsoss/modules'
+import { ModuleShape, AvailableModules, LazyModuleComponent } from '@regardsoss/modules'
 
 /**
  * React component to display and configure a given layout

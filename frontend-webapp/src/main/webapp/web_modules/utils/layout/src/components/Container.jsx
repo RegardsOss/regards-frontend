@@ -34,11 +34,11 @@ class Container extends React.Component {
 
     let modules = []
     if (this.props.container.modules) {
-      modules = this.props.container.modules.map((m) => {
+      modules = this.props.container.modules.map((module) => {
         // Always add current project in module props.
-        m.conf.project = this.props.project
+        module.conf.project = this.props.project
         return (
-          <LazyModuleComponent key={m.id} module={m} appName={this.props.appName} />
+          <LazyModuleComponent key={module.id} module={module} appName={this.props.appName} />
         )
       })
     }

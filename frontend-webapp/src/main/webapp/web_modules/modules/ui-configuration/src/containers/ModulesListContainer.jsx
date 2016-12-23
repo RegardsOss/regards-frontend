@@ -19,7 +19,7 @@ class ModulesListContainer extends React.Component {
     // From react router
     params: React.PropTypes.shape({
       project: React.PropTypes.string,
-      application_id: React.PropTypes.string,
+      applicationId: React.PropTypes.string,
     }),
     // Set by mapDispatchToProps
     fetchModules: React.PropTypes.func,
@@ -35,15 +35,15 @@ class ModulesListContainer extends React.Component {
   }
 
   componentWillMount() {
-    this.props.fetchModules(this.props.params.application_id)
+    this.props.fetchModules(this.props.params.applicationId)
   }
 
   handleEditModule = (module) => {
-    const url = `/admin/${this.props.params.project}/ui-configuration/applications/${this.props.params.application_id}/modules/${module.id}/edit`
+    const url = `/admin/${this.props.params.project}/ui-configuration/applications/${this.props.params.applicationId}/modules/${module.id}/edit`
     browserHistory.push(url)
   }
   handleCreateModule = () => {
-    const url = `/admin/${this.props.params.project}/ui-configuration/applications/${this.props.params.application_id}/modules/create`
+    const url = `/admin/${this.props.params.project}/ui-configuration/applications/${this.props.params.applicationId}/modules/create`
     browserHistory.push(url)
   }
 
@@ -52,11 +52,11 @@ class ModulesListContainer extends React.Component {
   }
 
   handleDeleteModule = (module) => {
-    this.props.deleteModule(this.props.params.application_id, module)
+    this.props.deleteModule(this.props.params.applicationId, module)
   }
 
   handleModuleActivation = (module) => {
-    this.props.updateModule(this.props.params.application_id, Object.assign({}, module, { active: !module.active }))
+    this.props.updateModule(this.props.params.applicationId, Object.assign({}, module, { active: !module.active }))
   }
 
   render() {

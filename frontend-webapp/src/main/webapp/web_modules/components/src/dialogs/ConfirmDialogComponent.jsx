@@ -1,6 +1,6 @@
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
-import { FormattedMessage, intlShape } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import { I18nProvider } from '@regardsoss/i18n'
 
 /**
@@ -10,7 +10,6 @@ class ConfirmDialogComponent extends React.Component {
 
   static propTypes = {
     title: React.PropTypes.string.isRequired,
-    type: React.PropTypes.string.isRequired,
     onDelete: React.PropTypes.func.isRequired,
     onClose: React.PropTypes.func.isRequired,
   }

@@ -19,7 +19,7 @@ class ApplicationLayoutContainer extends React.Component {
     // From react router
     params: React.PropTypes.shape({
       project: React.PropTypes.string,
-      application_id: React.PropTypes.string,
+      applicationId: React.PropTypes.string,
     }),
     // Set by mapStateToProps
     isFetching: React.PropTypes.bool,
@@ -35,7 +35,7 @@ class ApplicationLayoutContainer extends React.Component {
   }
 
   componentWillMount() {
-    this.props.fetchLayout(this.props.params.application_id)
+    this.props.fetchLayout(this.props.params.applicationId)
   }
 
   /**
@@ -80,7 +80,7 @@ class ApplicationLayoutContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  layout: ownProps.params.application_id ? LayoutSelector.getContentById(state, ownProps.params.application_id) : null,
+  layout: ownProps.params.applicationId ? LayoutSelector.getContentById(state, ownProps.params.applicationId) : null,
   isFetching: LayoutSelector.isFetching(state),
 })
 

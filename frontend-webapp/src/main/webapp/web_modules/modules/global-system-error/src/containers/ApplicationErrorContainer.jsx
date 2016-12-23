@@ -13,6 +13,8 @@ class ApplicationErrorContainer extends React.Component {
   static propTypes = {
     snackBarOpened: React.PropTypes.bool,
     snackBarMessage: React.PropTypes.string,
+    // Set by mapDispatchToProps
+    closeDialog: React.PropTypes.func,
   }
 
   render() {

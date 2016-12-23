@@ -3,7 +3,6 @@
  */
 import { merge } from 'lodash'
 import { I18nProvider } from '@regardsoss/i18n'
-import { FormEntityNotFoundComponent } from '@regardsoss/form-utils'
 import ModuleThemeProvider from './ModuleThemeProvider'
 import DecoratorShape from '../model/DecoratorShape'
 import ModuleShape from '../model/ModuleShape'
@@ -31,17 +30,23 @@ class LazyModuleComponent extends React.Component {
     }
   }
 
-  componentWillUpdate(nextProps, nextState) {
-    if (nextProps.module.name != this.props.module.name) {
-      this.loadModule(nextProps.module)
-    }
-  }
-
   /**
    * Before component is mount, Lazy load the module with require. The module will be displayed once the dependecy is loaded.
    */
   componentWillMount() {
     this.loadModule(this.props.module)
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    if (nextProps.module.name !== this.props.module.name) {
+      this.loadModule(nextProps.module)
+    }
+  }
+
+  componentDidUpdate() {
+    if (this.props.onLoadAction) {
+      this.props.onLoadAction()
+    }
   }
 
   loadModule = (module) => {
@@ -73,12 +78,6 @@ class LazyModuleComponent extends React.Component {
         console.error('Module', this.props.module.id, e, e.stack)
       }
     })
-  }
-
-  componentDidUpdate() {
-    if (this.props.onLoadAction) {
-      this.props.onLoadAction()
-    }
   }
 
   /**
