@@ -14,6 +14,7 @@ const messages = Object.assign({
   'attrmodel.edit.title': 'Editer l\'attribut de modèle {name}',
   'attrmodel.create.title': 'Ajouter un attribut de modèle',
   'attrmodel.form.name': 'Nom du l\'attribut',
+  'attrmodel.form.fragment': 'Fragment',
   'attrmodel.form.description': 'Description',
   'attrmodel.form.alterable': 'Modifiable',
   'attrmodel.form.optional': 'Optionnel',

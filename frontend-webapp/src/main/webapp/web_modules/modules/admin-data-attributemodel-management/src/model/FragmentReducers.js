@@ -1,14 +1,14 @@
 import { BasicListReducers } from '@regardsoss/store-utils'
-import { AttributeModelConfiguration } from '@regardsoss/api'
-import AttributeModelActions from './AttributeModelActions'
+import { FragmentConfiguration } from '@regardsoss/api'
+import FragmentActions from './FragmentActions'
 
-class AttributeModelReducers extends BasicListReducers {
+class FragmentReducers extends BasicListReducers {
   constructor() {
-    super(AttributeModelConfiguration, AttributeModelActions)
+    super(FragmentConfiguration, FragmentActions)
   }
 }
 
-const instance = new AttributeModelReducers()
+const instance = new FragmentReducers()
 
 /**
  * Return an function where the reducer instance exists

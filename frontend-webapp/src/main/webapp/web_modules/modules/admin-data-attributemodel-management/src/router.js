@@ -11,7 +11,7 @@ export const listModelRoute = {
 }
 
 export const createModelRoute = {
-  path: 'create',
+  path: 'create(/fragment/:fragment_id)',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
       const AttributeModelFormContainer = require('./containers/AttributeModelFormContainer')

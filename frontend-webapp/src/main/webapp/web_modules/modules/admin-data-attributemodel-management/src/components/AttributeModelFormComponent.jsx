@@ -5,7 +5,7 @@ import { RenderTextField, RenderCheckbox, RenderSelectField, Field } from '@rega
 import { themeContextType } from '@regardsoss/theme'
 import { reduxForm } from 'redux-form'
 import MenuItem from 'material-ui/MenuItem'
-import { AttributeModel } from '@regardsoss/model'
+import { AttributeModel,Fragment } from '@regardsoss/model'
 import { map } from 'lodash'
 import NumberRangeComponent, { initializeNumberRangeForm } from './NumberRangeComponent'
 import EnumerationComponent, { initializeEnumerationForm } from './EnumerationComponent'
@@ -20,10 +20,12 @@ export class AttributeModelFormComponent extends React.Component {
   static propTypes = {
     attrModelTypeList: React.PropTypes.arrayOf(React.PropTypes.string),
     attrModelRestrictionList: React.PropTypes.arrayOf(React.PropTypes.string),
+    fragmentList: React.PropTypes.objectOf(Fragment),
     currentAttrModel: AttributeModel,
     onSubmit: React.PropTypes.func.isRequired,
     backUrl: React.PropTypes.string.isRequired,
     handleUpdateAttributeModelRestriction: React.PropTypes.func,
+    defaultFragmentId: React.PropTypes.string,
     // on create
     flushAttributeModelRestriction: React.PropTypes.func,
     // from reduxForm
@@ -50,12 +52,16 @@ export class AttributeModelFormComponent extends React.Component {
     this.handleInitialize()
   }
 
+  /**
+   * Initialize form fields
+   */
   handleInitialize = () => {
     if (!this.state.isCreating) {
       const { currentAttrModel } = this.props
       let initialValues = {
         name: currentAttrModel.content.name,
         type: currentAttrModel.content.type,
+        fragment: currentAttrModel.content.fragment.id,
         description: currentAttrModel.content.description,
         alterable: currentAttrModel.content.alterable,
         optional: currentAttrModel.content.optional,
@@ -80,22 +86,34 @@ export class AttributeModelFormComponent extends React.Component {
             break
         }
       }
-      console.log(initialValues)
       this.props.initialize(initialValues)
     } else {
       this.props.flushAttributeModelRestriction()
       this.props.initialize({
         alterable: true,
         queryable: true,
+        fragment: parseInt(this.props.defaultFragmentId) || 1,
       })
     }
   }
 
+  /**
+   * Fetch new attribute model restriction when the Field type change
+   * @param event
+   * @param index
+   * @param value
+   * @param input
+   */
   handleChange = (event, index, value, input) => {
     input.onChange(value)
     this.props.handleUpdateAttributeModelRestriction(value)
   }
 
+  /**
+   * Display a restriction form component
+   * @param restrictionName
+   * @returns {XML}
+   */
   getRestrictionForm = (restrictionName) => {
     switch (restrictionName) {
       case 'INTEGER_RANGE':
@@ -127,8 +145,12 @@ export class AttributeModelFormComponent extends React.Component {
     }
   }
 
+  /**
+   * return react component
+   * @returns {XML}
+   */
   render() {
-    const { attrModelTypeList, attrModelRestrictionList, pristine, submitting, invalid } = this.props
+    const { attrModelTypeList, attrModelRestrictionList, fragmentList, pristine, submitting, invalid } = this.props
     const style = this.context.muiTheme.layout.cardEspaced
     const title = this.state.isCreating ? <FormattedMessage id="attrmodel.create.title" /> :
       (<FormattedMessage
@@ -177,6 +199,22 @@ export class AttributeModelFormComponent extends React.Component {
               ))}
             </Field>
             <Field
+              name="fragment"
+              fullWidth
+              component={RenderSelectField}
+              label={<FormattedMessage id="attrmodel.form.fragment" />}
+              disabled={!this.state.isCreating}
+            >
+              {map(fragmentList, (fragment, id) => (
+                <MenuItem
+                  value={fragment.content.id}
+                  key={id}
+                  primaryText={fragment.content.name}
+                />
+              ))}
+            </Field>
+
+            <Field
               name="alterable"
               component={RenderCheckbox}
               label={<FormattedMessage id="attrmodel.form.alterable" />}
@@ -221,6 +259,11 @@ export class AttributeModelFormComponent extends React.Component {
   }
 }
 
+/**
+ * Form validation
+ * @param values
+ * @returns {{}} i18n keys
+ */
 function validate(values) {
   const errors = {}
   if (values.name) {

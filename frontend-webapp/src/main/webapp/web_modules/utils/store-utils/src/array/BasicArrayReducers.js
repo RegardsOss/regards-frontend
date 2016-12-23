@@ -34,7 +34,7 @@ class BasicListReducer {
       case this.basicArrayActionInstance.FLUSH:
         return {
           isFetching: false,
-          items: {},
+          items: [],
         }
       default:
         return state
