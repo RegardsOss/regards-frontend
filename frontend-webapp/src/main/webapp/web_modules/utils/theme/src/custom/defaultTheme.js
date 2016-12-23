@@ -16,7 +16,7 @@ export default {
     cardEspaced: {
       marginTop: '20px',
     },
-  }
+  },
   textField: {
     backgroundColor: grey50,
   },
