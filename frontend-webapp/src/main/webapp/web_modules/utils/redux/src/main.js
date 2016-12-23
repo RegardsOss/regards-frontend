@@ -23,6 +23,9 @@ const mergeMapStateToProps = mapStateToProps => (
  * @param mapStateToProps
  * @param mapDispatchToProps
  */
-const connect = (mapStateToProps, mapDispatchToProps) => reduxConnect(mergeMapStateToProps(mapStateToProps), mapDispatchToProps)
+const connect = (mapStateToProps, mapDispatchToProps) => {
+  const newMapStateToProps = mapStateToProps ? mergeMapStateToProps(mapStateToProps) : null
+  return reduxConnect(newMapStateToProps, mapDispatchToProps)
+}
 
 export default connect

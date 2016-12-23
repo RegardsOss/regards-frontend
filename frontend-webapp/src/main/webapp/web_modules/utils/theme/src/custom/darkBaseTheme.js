@@ -3,13 +3,13 @@
  **/
 import { merge } from 'lodash'
 import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme'
-import { red900, white, orange900 } from 'material-ui/styles/colors'
+import { white, orange900, grey800, redA400 } from 'material-ui/styles/colors'
 import defaultTheme from './defaultTheme'
 
 const backgroundColor = '#2a2a2a'
 export default merge({}, darkBaseTheme, defaultTheme, {
   palette: {
-    errorColor: red900,
+    errorColor: redA400,
     warningColor: orange900,
   },
   linkWithoutDecoration: {
@@ -34,5 +34,8 @@ export default merge({}, darkBaseTheme, defaultTheme, {
     bar: {
       backgroundColor,
     },
+  },
+  textField: {
+    backgroundColor: grey800,
   },
 })

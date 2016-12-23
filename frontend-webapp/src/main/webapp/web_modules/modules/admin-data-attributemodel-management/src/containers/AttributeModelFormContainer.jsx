@@ -2,10 +2,10 @@
  * LICENSE_PLACEHOLDER
  **/
 import { browserHistory } from 'react-router'
-import { connect } from 'react-redux'
+import connect from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { map } from 'lodash'
-import {RequestErrorShape } from '@regardsoss/store-utils'
+import { RequestErrorShape } from '@regardsoss/store-utils'
 import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
 import AttributeModelActions from '../model/AttributeModelActions'
 import AttributeModelFormComponent from '../components/AttributeModelFormComponent'
@@ -118,7 +118,7 @@ export class AttributeModelFormContainer extends React.Component {
     Promise.resolve(this.props.updateAttrModel(this.props.attrModel.content.id, updatedAttrModel))
     .then((actionResult) => {
       // We receive here the action
-      if (! actionResult.error) {
+      if (!actionResult.error) {
         const url = this.getBackUrl()
         browserHistory.push(url)
       }
@@ -209,7 +209,7 @@ export class AttributeModelFormContainer extends React.Component {
     Promise.resolve(this.props.createAttrModel(updatedAttrModel))
     .then((actionResult) => {
       // We receive here the action
-      if (! actionResult.error) {
+      if (!actionResult.error) {
         const url = this.getBackUrl()
         browserHistory.push(url)
       }
