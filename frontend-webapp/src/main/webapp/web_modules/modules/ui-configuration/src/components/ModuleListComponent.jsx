@@ -9,7 +9,7 @@ import IconButton from 'material-ui/IconButton'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
 import { FormattedMessage } from 'react-intl'
-import { CardActionsComponent } from '@regardsoss/components'
+import { CardActionsComponent, ConfirmDialogComponent, ShowableAtRender } from '@regardsoss/components'
 import { ModuleShape } from '@regardsoss/modules'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -32,6 +32,27 @@ class ModuleListComponent extends React.Component {
     ...i18nContextType,
   }
 
+  constructor(props) {
+    super(props)
+    this.state = {
+      deleteDialogOpened: false,
+    }
+  }
+
+  openDeleteDialog = (module) => {
+    this.setState({
+      deleteDialogOpened: true,
+      moduleToDelete: module,
+    })
+  }
+
+  closeDeleteDialog = () => {
+    this.setState({
+      deleteDialogOpened: false,
+      moduleToDelete: null,
+    })
+  }
+
   render() {
     const style = {
       hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
@@ -39,8 +60,20 @@ class ModuleListComponent extends React.Component {
       hoverButtonView: this.context.muiTheme.palette.pickerHeaderColor,
     }
 
+    const name = this.state.moduleToDelete ? this.state.moduleToDelete.name : ' '
+    const title = this.context.intl.formatMessage({ id: 'modules.list.delete.message' }, { name })
+
     return (
       <Card>
+        <ShowableAtRender
+          show={this.state.deleteDialogOpened}
+        >
+          <ConfirmDialogComponent
+            onDelete={() => { this.props.onDelete(this.state.moduleToDelete) }}
+            onClose={this.closeDeleteDialog}
+            title={title}
+          />
+        </ShowableAtRender>
         <CardTitle
           title={<FormattedMessage id="modules.list.title" />}
           subtitle={<FormattedMessage id="modules.list.subtitle" />}
@@ -80,7 +113,7 @@ class ModuleListComponent extends React.Component {
                     <IconButton onTouchTap={() => this.props.onEdit(module.content)}>
                       <Edit hoverColor={style.hoverButtonEdit} />
                     </IconButton>
-                    <IconButton onTouchTap={() => this.props.onDelete(module.content)}>
+                    <IconButton onTouchTap={() => this.openDeleteDialog(module.content)}>
                       <Delete hoverColor={style.hoverButtonDelete} />
                     </IconButton>
                   </TableRowColumn>

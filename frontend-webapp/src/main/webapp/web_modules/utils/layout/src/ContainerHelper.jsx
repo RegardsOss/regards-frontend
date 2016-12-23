@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { merge, union } from 'lodash'
+import { merge, union, forEach } from 'lodash'
 import containerTypes from './default/containerTypes'
 
 class ContainerHelper {
@@ -35,6 +35,25 @@ class ContainerHelper {
       return pContainer.styles
     }
     return {}
+  }
+
+  /**
+   * Retrieve all available containers from the given container
+   * @param container
+   * @returns {Array}
+   */
+  static getAvailableContainersInLayout(container) {
+    let containers = []
+    if (container && container.id) {
+      containers.push(container.id)
+      if (container.containers && container.containers.length > 0) {
+        forEach(container.containers, (container, idx) => {
+          containers = union(ContainerHelper.getAvailableContainersInLayout(container), containers)
+        })
+      }
+    }
+
+    return containers
   }
 
 

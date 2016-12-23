@@ -16,6 +16,8 @@ import OnHoverSwitchFlatButton from './buttons/OnHoverSwitchFlatButton'
 import OnHoverSwitchIconButton from './buttons/OnHoverSwitchIconButton'
 import OnHoverSwitchRaisedButton from './buttons/OnHoverSwitchRaisedButton'
 
+import ConfirmDialogComponent from './dialogs/ConfirmDialogComponent'
+
 export {
   ActionButtonComponent,
   ApplicationErrorComponent,
@@ -30,4 +32,5 @@ export {
   OnHoverSwitchRaisedButton,
   CenteredDiv,
   BoardComponent,
+  ConfirmDialogComponent,
 }

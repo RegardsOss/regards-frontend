@@ -24,6 +24,7 @@ class ModulesListContainer extends React.Component {
     // Set by mapDispatchToProps
     fetchModules: React.PropTypes.func,
     updateModule: React.PropTypes.func,
+    deleteModule: React.PropTypes.func,
     // Set by mapStateToProps
     isFetching: React.PropTypes.bool,
     modules: React.PropTypes.objectOf(ModuleShape),
@@ -46,9 +47,12 @@ class ModulesListContainer extends React.Component {
     browserHistory.push(url)
   }
 
+  openDeleteDialogConfirm = (module) => {
+
+  }
 
   handleDeleteModule = (module) => {
-
+    this.props.deleteModule(this.props.params.application_id, module)
   }
 
   handleModuleActivation = (module) => {
@@ -86,6 +90,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   fetchModules: applicationId => dispatch(ModulesActions.fetchEntityList(dispatch, [applicationId])),
   updateModule: (applicationId, module) => dispatch(ModulesActions.updateEntity(module.id, module, dispatch, [applicationId])),
+  deleteModule: (applicationId, module) => dispatch(ModulesActions.deleteEntity(module.id, dispatch, [applicationId])),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ModulesListContainer)

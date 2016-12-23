@@ -3,6 +3,7 @@
  **/
 import { map, merge } from 'lodash'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
+import { themeContextType } from '@regardsoss/theme'
 import MenuItem from 'material-ui/MenuItem'
 import { FormattedMessage } from 'react-intl'
 import { ShowableAtRender, CardActionsComponent } from '@regardsoss/components'
@@ -19,6 +20,7 @@ class ModuleFormComponent extends React.Component {
 
   static propTypes = {
     module: ModuleShape,
+    containers: React.PropTypes.arrayOf(React.PropTypes.string),
     onSubmit: React.PropTypes.func.isRequired,
     onBack: React.PropTypes.func.isRequired,
     applicationId: React.PropTypes.string.isRequired,
@@ -31,6 +33,7 @@ class ModuleFormComponent extends React.Component {
 
   static contextTypes = {
     ...i18nContextType,
+    ...themeContextType,
   }
 
   constructor(props) {
@@ -60,17 +63,21 @@ class ModuleFormComponent extends React.Component {
     })
   }
 
-  componentDidUpdate() {
-    console.log('component updated')
-  }
-
   render() {
     const { pristine, submitting } = this.props
 
     let moduleConf = null
     if (this.state.moduleSelected) {
       moduleConf = (
-        <LazyModuleComponent module={this.state.module} admin appName={this.props.applicationId} refresh />)
+        <Card style={this.context.muiTheme.layout.cardEspaced}>
+          <CardTitle
+            title={<FormattedMessage id="module.form.special.parameters.title" values={{ name: this.state.module.name }} />}
+          />
+          <CardText>
+            <LazyModuleComponent module={this.state.module} admin appName={this.props.applicationId} refresh />
+          </CardText>
+        </Card>
+      )
     }
 
     return (
@@ -113,20 +120,29 @@ class ModuleFormComponent extends React.Component {
             <Field
               name="container"
               fullWidth
-              component={RenderTextField}
+              component={RenderSelectField}
               type="text"
               label={<FormattedMessage id="module.form.container" />}
-            />
+            >
+              {map(this.props.containers, (container, id) => (
+                <MenuItem
+                  value={container}
+                  key={id}
+                  primaryText={container}
+                />
+              ))}
+            </Field>
             <Field
               name="active"
               component={RenderCheckbox}
               label={<FormattedMessage id="module.form.active" />}
             />
-
-            {moduleConf}
-
           </CardText>
+        </Card>
 
+        {moduleConf}
+
+        <Card style={this.context.muiTheme.layout.cardEspaced}>
           <CardActions>
             <CardActionsComponent
               mainButtonLabel={<FormattedMessage

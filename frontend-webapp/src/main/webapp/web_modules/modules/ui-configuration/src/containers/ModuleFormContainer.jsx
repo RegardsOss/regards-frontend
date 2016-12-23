@@ -6,9 +6,14 @@ import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
 import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
 import connect from '@regardsoss/redux'
 import { ModuleShape } from '@regardsoss/modules'
+import { ContainerHelper } from '@regardsoss/layout'
+import LayoutShape from '../model/layout/LayoutShape'
 import ModulesActions from '../model/modules/ModulesActions'
 import ModulesSelector from '../model/modules/ModulesSelector'
+import LayoutSelector from '../model/layout/LayoutSelector'
+import LayoutActions from '../model/layout/LayoutActions'
 import ModuleFormComponent from '../components/ModuleFormComponent'
+
 
 /**
  * React component to display a edition form for Module entity
@@ -29,6 +34,7 @@ class ModuleContainer extends React.Component {
     // Set by mapStateToProps
     isFetching: React.PropTypes.bool,
     module: ModuleShape,
+    layout: LayoutShape,
   }
 
   static contextTypes = {
@@ -38,6 +44,9 @@ class ModuleContainer extends React.Component {
   componentWillMount() {
     if (this.props.params.module_id) {
       this.props.fetchModule(this.props.params.application_id, this.props.params.module_id)
+    }
+    if (!this.props.layout) {
+      this.props.fetchLayout(this.props.params.application_id)
     }
   }
 
@@ -49,16 +58,14 @@ class ModuleContainer extends React.Component {
   }
 
   handleCreate = (values) => {
-    const submitModel = Object.assign({}, ...values)
-    Promise.resolve(this.props.createModule(submitModel))
-      .then(() => {
-        const url = this.getBackUrl()
-        browserHistory.push(url)
-      })
+    const submitModel = Object.assign({}, values)
+    Promise.resolve(this.props.createModule(this.props.params.application_id, submitModel))
+      .then(this.handleBack)
   }
 
   handleUpdate = (values) => {
-    const submitModel = Object.assign({}, this.props.model, ...values)
+    const submitModel = Object.assign({}, this.props.model, values)
+    console.log('UPDATING....', values, submitModel)
     Promise.resolve(this.props.updateModule(this.props.params.application_id, submitModel))
       .then(this.handleBack)
   }
@@ -77,6 +84,8 @@ class ModuleContainer extends React.Component {
       return (<FormEntityNotFoundComponent />)
     }
 
+    console.log(this.props)
+
     return (
       <I18nProvider messageDir="modules/ui-configuration/src/i18n">
         <ModuleFormComponent
@@ -84,6 +93,7 @@ class ModuleContainer extends React.Component {
           onSubmit={this.handleSubmit}
           onBack={this.handleBack}
           module={this.props.module}
+          containers={ContainerHelper.getAvailableContainersInLayout(this.props.layout)}
         />
       </I18nProvider>
     )
@@ -93,13 +103,15 @@ class ModuleContainer extends React.Component {
 
 const mapStateToProps = (state, ownProps) => ({
   module: ownProps.params.module_id ? ModulesSelector.getContentById(state, ownProps.params.module_id) : null,
+  layout: ownProps.params.application_id ? LayoutSelector.getContentById(state, ownProps.params.application_id) : null,
   isFetching: ModulesSelector.isFetching(state),
 })
 
 const mapDispatchToProps = dispatch => ({
   fetchModule: (applicationId, moduleId) => dispatch(ModulesActions.fetchEntity(moduleId, dispatch, [applicationId])),
+  fetchLayout: applicationId => dispatch(LayoutActions.fetchEntity(applicationId, dispatch)),
   updateModule: (applicationId, module) => dispatch(ModulesActions.updateEntity(module.id, module, dispatch, [applicationId])),
-  createModule: (applicationId, module) => dispatch(ModulesActions.createEntity(module.id, module, dispatch, [applicationId])),
+  createModule: (applicationId, module) => dispatch(ModulesActions.createEntity(module, dispatch, [applicationId])),
 
 })
 
