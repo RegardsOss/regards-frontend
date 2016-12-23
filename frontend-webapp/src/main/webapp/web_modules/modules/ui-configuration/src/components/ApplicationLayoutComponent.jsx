@@ -34,14 +34,13 @@ class ApplicationLayoutComponent extends React.Component {
 
   handleInitialize = () => {
     try {
-      const obj = JSON.parse(this.props.layout.layout)
       this.props.initialize({
-        layout: JSON.stringify(obj, null, 4),
+        layout: JSON.stringify(this.props.layout, null, 4),
       })
     } catch (e) {
       console.error('Invalid JSON format', e)
       this.props.initialize({
-        layout: this.props.layout.layout,
+        layout: this.props.layout,
       })
     }
   }
@@ -53,6 +52,7 @@ class ApplicationLayoutComponent extends React.Component {
         <Card>
           <CardTitle
             title={<FormattedMessage id="layout.title" />}
+            subtitle={<FormattedMessage id="layout.subtitle" />}
           />
           <CardText style={{ width: '100%' }} >
             <Field

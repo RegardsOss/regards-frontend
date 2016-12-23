@@ -1,0 +1,90 @@
+{
+  "applications": [
+    {
+      "id": "project"
+    }, {
+      "id": "portal"
+    }, {
+      "id": "admin"
+    }
+  ],
+  "modules": [
+    {
+      "id": 1,
+      "name": "form",
+      "description": "Search form module",
+      "applicationId": "project",
+      "container": "",
+      "active": false,
+      "conf": {
+        "resulttype": "dataset"
+      }
+    },
+    {
+      "id": 2,
+      "name": "form",
+      "description": "Search form module",
+      "applicationId": "project",
+      "container": "",
+      "active": true,
+      "conf": {
+        "resulttype": "dataobject"
+      }
+    },
+    {
+      "id": 3,
+      "name": "menu",
+      "description": "Header menu module",
+      "applicationId": "project",
+      "container": "",
+      "active": false,
+      "conf": {
+        "title": "Plop",
+        "displayAuthentication": true
+      }
+    }
+  ],
+  "layouts": [
+    {
+      "id": "project",
+      "type": "MainContainer",
+      "classes": [],
+      "styles": {},
+      "renderRouterContent": false,
+      "containers": [
+        {
+          "id": "header",
+          "type": "RowContainer",
+          "classes": [],
+          "styles": {}
+        }
+      ]
+    },
+    {
+      "id": "portal",
+      "type": "MainContainer",
+      "classes": [],
+      "styles": {},
+      "containers": [
+        {
+          "id": "header",
+          "type": "RowContainer",
+          "classes": [],
+          "styles": {}
+        },
+        {
+          "id": "news",
+          "type": "RowContainer",
+          "classes": [],
+          "styles": {}
+        },
+        {
+          "id": "projects",
+          "type": "RowContainer",
+          "classes": [],
+          "styles": {}
+        }
+      ]
+    }
+  ]
+}

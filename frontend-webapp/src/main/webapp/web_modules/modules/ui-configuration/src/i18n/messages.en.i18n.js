@@ -31,6 +31,7 @@ const messages = Object.assign({
   'modules.list.table.actions': 'Actions',
   'modules.list.action.add': 'Add a new module configuration',
   'layout.title': 'Application layout configuration',
+  'layout.subtitle': 'This section allow you to manage your interface layout. Each declared container can be use to locate your interface modules.',
   'layout.submit': 'Update layout',
   'module.form.title.create': 'Create a new interface module',
   'module.form.title.update': 'Update {name} interface module',

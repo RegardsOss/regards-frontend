@@ -1,0 +1,3 @@
+{
+  "/applications/:application_id/modules/:module_id": "/modules/:module_id"
+}
