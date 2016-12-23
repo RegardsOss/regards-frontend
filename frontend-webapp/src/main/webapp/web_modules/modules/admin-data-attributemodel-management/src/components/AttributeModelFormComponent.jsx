@@ -234,15 +234,15 @@ function validate(values) {
   // flag the user if he active two filters on the same time
   if (values.restriction) {
     const restrictions = ['INTEGER_RANGE', 'FLOAT_RANGE', 'ENUMERATION', 'PATTERN']
-    let activeRestrictions = []
-    restrictions.forEach(value => {
+    const activeRestrictions = []
+    restrictions.forEach((value) => {
       if (values.restriction[value] && values.restriction[value].active) {
         activeRestrictions.push(value)
       }
     })
     if (activeRestrictions.length > 1) {
       errors.restriction = {}
-      activeRestrictions.forEach(value => {
+      activeRestrictions.forEach((value) => {
         errors.restriction[value] = {}
         errors.restriction[value].active = 'invalid.only_1_restriction_on_the_same_time'
       })
