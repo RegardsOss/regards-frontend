@@ -11,11 +11,12 @@ import AttributeModelActions from '../model/AttributeModelActions'
 import AttributeModelFormComponent from '../components/AttributeModelFormComponent'
 import AttributeModelSelectors from '../model/AttributeModelSelectors'
 import AttributeModelTypeSelectors from '../model/AttributeModelTypeSelectors'
-import { AttributeModel, AttributeModelType } from '@regardsoss/model'
+import { AttributeModel, AttributeModelType, Fragment } from '@regardsoss/model'
 import AttributeModelTypeActions from '../model/AttributeModelTypeActions'
 import AttributeModelRestrictionActions from '../model/AttributeModelRestrictionActions'
 import AttributeModelRestrictionSelectors from '../model/AttributeModelRestrictionSelectors'
-
+import FragmentActions from '../model/FragmentActions'
+import FragmentSelectors from '../model/FragmentSelectors'
 
 export class AttributeModelFormContainer extends React.Component {
   static propTypes = {
@@ -23,6 +24,7 @@ export class AttributeModelFormContainer extends React.Component {
     params: React.PropTypes.shape({
       project: React.PropTypes.string,
       attrModel_id: React.PropTypes.string,
+      fragment_id: React.PropTypes.string,
     }),
     // from mapStateToProps
     attrModel: AttributeModel,
@@ -31,12 +33,15 @@ export class AttributeModelFormContainer extends React.Component {
     isAttributeModelRestrictionFetching: React.PropTypes.bool,
     attrModelRestrictionList: React.PropTypes.arrayOf(React.PropTypes.string),
     isAttributeModelTypeFetching: React.PropTypes.bool,
+    fragmentList: React.PropTypes.objectOf(Fragment),
+    isFragmentFetching: React.PropTypes.bool,
     // from mapDispatchToProps
     createAttrModel: React.PropTypes.func,
     fetchAttrModel: React.PropTypes.func,
     updateAttrModel: React.PropTypes.func,
     fetchAttributeModelTypeList: React.PropTypes.func,
     flushAttributeModelRestriction: React.PropTypes.func,
+    fetchFragmentList: React.PropTypes.func,
   }
 
   constructor(props) {
@@ -48,6 +53,7 @@ export class AttributeModelFormContainer extends React.Component {
 
   componentDidMount() {
     this.props.fetchAttributeModelTypeList()
+    this.props.fetchFragmentList()
     if (this.state.isEditing) {
       this.props.fetchAttrModel(this.props.params.attrModel_id)
       // If the store already contains that attrModel, then retrieve the corresponding modelRestrictionList
@@ -71,10 +77,10 @@ export class AttributeModelFormContainer extends React.Component {
   }
 
   getFormComponent = () => {
-    const { attrModelTypeList, attrModelRestrictionList } = this.props
+    const { attrModelTypeList, attrModelRestrictionList, fragmentList } = this.props
     if (this.state.isEditing) {
-      const { attrModel, isAttributeModelFetching, isAttributeModelRestrictionFetching, isAttributeModelTypeFetching } = this.props
-      if (isAttributeModelFetching || isAttributeModelRestrictionFetching || isAttributeModelTypeFetching) {
+      const { attrModel, isAttributeModelFetching, isAttributeModelRestrictionFetching, isAttributeModelTypeFetching, isFragmentFetching } = this.props
+      if (isAttributeModelFetching || isAttributeModelRestrictionFetching || isAttributeModelTypeFetching || isFragmentFetching) {
         return (<FormLoadingComponent />)
       }
       if (attrModel) {
@@ -84,7 +90,9 @@ export class AttributeModelFormContainer extends React.Component {
           currentAttrModel={attrModel}
           attrModelTypeList={attrModelTypeList}
           attrModelRestrictionList={attrModelRestrictionList}
+          fragmentList={fragmentList}
           handleUpdateAttributeModelRestriction={this.handleUpdateAttributeModelRestriction}
+          defaultFragmentId={this.props.params.fragment_id}
         />)
       }
       return (<FormEntityNotFoundComponent />)
@@ -94,8 +102,10 @@ export class AttributeModelFormContainer extends React.Component {
       backUrl={this.getBackUrl()}
       attrModelTypeList={attrModelTypeList}
       attrModelRestrictionList={attrModelRestrictionList}
+      fragmentList={fragmentList}
       handleUpdateAttributeModelRestriction={this.handleUpdateAttributeModelRestriction}
       flushAttributeModelRestriction={this.props.flushAttributeModelRestriction}
+      defaultFragmentId={this.props.params.fragment_id}
     />)
   }
   handleUpdate = (values) => {
@@ -226,19 +236,28 @@ export class AttributeModelFormContainer extends React.Component {
 const mapStateToProps = (state, ownProps) => ({
   attrModel: ownProps.params.attrModel_id ? AttributeModelSelectors.getById(state, ownProps.params.attrModel_id) : null,
   isAttributeModelFetching: AttributeModelSelectors.isFetching(state),
-  attrModelTypeList: AttributeModelTypeSelectors.getList(state),
+
+  attrModelTypeList: AttributeModelTypeSelectors.getArray(state),
   isAttributeModelTypeFetching: AttributeModelTypeSelectors.isFetching(state),
-  attrModelRestrictionList: AttributeModelRestrictionSelectors.getList(state),
-  isAttributeModelRestrictionFetching: AttributeModelTypeSelectors.isFetching(state),
+
+  attrModelRestrictionList: AttributeModelRestrictionSelectors.getArray(state),
+  isAttributeModelRestrictionFetching: AttributeModelRestrictionSelectors.isFetching(state),
+
+  fragmentList: FragmentSelectors.getList(state),
+  isFragmentFetching: FragmentSelectors.isFetching(state),
 })
 
 const mapDispatchToProps = dispatch => ({
   createAttrModel: values => dispatch(AttributeModelActions.createEntity(values, dispatch)),
   updateAttrModel: (id, values) => dispatch(AttributeModelActions.updateEntity(id, values, dispatch)),
   fetchAttrModel: id => dispatch(AttributeModelActions.fetchEntity(id, dispatch)),
+
   fetchAttributeModelTypeList: () => dispatch(AttributeModelTypeActions.fetchEntityList(dispatch)),
+
   fetchAttributeModelRestrictionList: type => dispatch(AttributeModelRestrictionActions.getList(type, dispatch)),
   flushAttributeModelRestriction: () => dispatch(AttributeModelRestrictionActions.flush()),
+
+  fetchFragmentList: type => dispatch(FragmentActions.fetchEntityList(type, dispatch)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AttributeModelFormContainer)

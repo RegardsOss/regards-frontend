@@ -5,7 +5,7 @@ import ProjectUser from './admin/ProjectUser'
 import Role from './admin/Role'
 import AttributeModel from './dam/AttributeModel'
 import JavaTypes from './dam/JavaTypes'
-
+import Fragment from './dam/Fragment'
 
 export default {
   // ADMIN
@@ -15,4 +15,5 @@ export default {
   // DAM
   AttributeModel,
   JavaTypes,
+  Fragment,
 }

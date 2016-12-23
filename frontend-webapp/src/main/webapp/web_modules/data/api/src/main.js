@@ -9,7 +9,7 @@ import AttributeModel, { AttributeModelConfiguration } from './dam/AttributeMode
 import AttributeModelRestriction, { AttributeModelRestrictionConfiguration } from './dam/AttributeModelRestriction'
 import Module, { ModuleConfiguration } from './access/Module'
 import Layout, { LayoutConfiguration } from './access/Layout'
-
+import Fragment, { FragmentConfiguration } from './dam/Fragment'
 
 // We use this Normalizr schemas to transform API responses from a nested form
 // to a flat form where repos and users are placed in `entities`, and nested
@@ -59,6 +59,10 @@ export default {
   MODULE: Module.MODULE,
   MODULE_ARRAY: Module.MODULE_ARRAY,
   ModuleConfiguration,
+
+  FRAGMENT: Fragment.FRAGMENT,
+  FRAGMENT_ARRAY: Fragment.FRAGMENT_ARRAY,
+  FragmentConfiguration,
 
   LAYOUT: Layout.LAYOUT,
   LayoutConfiguration,

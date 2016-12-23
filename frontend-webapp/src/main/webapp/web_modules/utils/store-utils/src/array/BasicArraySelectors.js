@@ -9,7 +9,7 @@ import BasicSelector from '../BasicSelector'
  *  Provide an high level class to interact with entity stored in a array
  */
 class BasicArraySelectors extends BasicSelector {
-  getList(state) {
+  getArray(state) {
     return this.uncombineStore(state).items
   }
 }
