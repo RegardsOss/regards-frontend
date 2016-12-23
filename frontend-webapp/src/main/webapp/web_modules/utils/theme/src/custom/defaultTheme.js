@@ -1,14 +1,17 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { grey200, white } from 'material-ui/styles/colors'
+import { grey200, white, grey50 } from 'material-ui/styles/colors'
 
 /**
  * Default theme. Every theme must overrides this one.
  */
 export default {
   palette: {
-    backgroundTextColor: white,
+    backgroundTextColor: grey50,
     disablePanelColor: grey200,
+  },
+  textField: {
+    backgroundColor: grey50,
   },
 }

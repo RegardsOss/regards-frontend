@@ -31,6 +31,7 @@ const messages = Object.assign({
   'modules.list.table.active': 'Etat',
   'modules.list.table.actions': 'Actions',
   'layout.title': 'Configuration de l\'arrangement de l\'interface',
+  'layout.subtitle': 'Cette page vous permet de configurer l\'agencement des conteneurs de modules de votre interface. Chaque conteneur déclaré ici peut ensuite être utilisé pour positionner les modules',
   'layout.submit': 'Mettre à jour',
   'module.form.title.create': 'Creation d\'un nouveau module',
   'module.form.title.update': 'Mise à jour du module {name}',

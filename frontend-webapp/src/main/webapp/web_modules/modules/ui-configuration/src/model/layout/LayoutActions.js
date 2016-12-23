@@ -11,8 +11,7 @@ class LayoutActions extends BasicListActions {
   constructor() {
     super({
       namespace: 'ui-configuration/layout',
-      entityEndpoint: 'http://localhost:3000/layout',
-      // entityEndpoint: `${GATEWAY_HOSTNAME}/api/v1/rs-access/layout`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/api/v1/rs-access/layouts`,
       schemaTypes: {
         ENTITY: Schemas.LAYOUT,
       },

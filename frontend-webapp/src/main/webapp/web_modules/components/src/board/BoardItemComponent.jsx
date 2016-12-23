@@ -43,10 +43,11 @@ class BoardItemComponent extends React.Component {
             {item.description}
           </CardText>
           <CardActions>
-            {map(item.actions, action => (
+            {map(item.actions, (action, id) => (
               <Link
                 to={action.path}
                 style={boardItemStyles.board.links}
+                key={id}
               >
                 <IconButton tooltip={action.tooltipMsg}>
                   { action.icon }

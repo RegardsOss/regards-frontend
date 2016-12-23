@@ -1,0 +1,15 @@
+{
+  "tokens": [
+    {
+      "id": 1,
+      "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBjbmVzLmZyIiwiYXVkIjpbInJzLWdhdGV3YXkiXSwicm9sZSI6IklOU1RBTkNFX0FETUlOIiwidXNlcl9uYW1lIjoiZnIuY25lcy5yZWdhcmRzLmZyYW1ld29yay5zZWN1cml0eS51dGlscy5qd3QuVXNlckRldGFpbHNANTdiZmQ5ZGYiLCJzY29wZSI6WyJjZHBwIl0sInByb2plY3QiOiJjZHBwIiwiZXhwIjoxNDgyNTI3NjI0LCJhdXRob3JpdGllcyI6WyJJTlNUQU5DRV9BRE1JTiJdLCJqdGkiOiI0ZGUzMDBkOC03ODgwLTQ4M2MtYWJhOC1mYzQ1NjBiOTYxYjEiLCJjbGllbnRfaWQiOiJjbGllbnQifQ.GcbFi0J6OUIDqDgCzDYSVel7xI8k_59oP0wn_zvYxqE",
+      "expires_in": 43199,
+      "jti": "4de300d8-7880-483c-aba8-fc4560b961b1",
+      "project": "cdpp",
+      "role": "INSTANCE_ADMIN",
+      "scope": "cdpp",
+      "sub": "admin@cnes.fr",
+      "token_type": "bearer"
+    }
+  ]
+}

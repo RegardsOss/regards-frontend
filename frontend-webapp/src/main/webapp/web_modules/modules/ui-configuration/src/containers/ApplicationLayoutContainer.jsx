@@ -16,15 +16,18 @@ import LayoutShape from '../model/layout/LayoutShape'
 class ApplicationLayoutContainer extends React.Component {
 
   static propTypes = {
+    // From react router
     params: React.PropTypes.shape({
       project: React.PropTypes.string,
       application_id: React.PropTypes.string,
     }),
-    // Set by mapDispatchToProps
+    // Set by mapStateToProps
     isFetching: React.PropTypes.bool,
+    layout: LayoutShape,
+    // Set by mapDispatchToProps
     fetchLayout: React.PropTypes.func,
     updateLayout: React.PropTypes.func,
-    layout: LayoutShape,
+
   }
 
   static contextTypes = {
@@ -35,20 +38,29 @@ class ApplicationLayoutContainer extends React.Component {
     this.props.fetchLayout(this.props.params.application_id)
   }
 
+  /**
+   * Return url to get back to applications list page
+   * @returns {string}
+   */
   getBackUrl = () => {
     const { params: { project } } = this.props
     return `/admin/${project}/ui-configuration/applications`
   }
 
+  /**
+   * Manage action to update an application layout to the backend
+   * @param values
+   */
   handleSubmit = (values) => {
-    const updateLayout = Object.assign({}, this.props.layout, {
-      layout: values.layout,
-    })
-    Promise.resolve(this.props.updateLayout(this.props.layout.id, updateLayout))
-      .then(() => {
-        const url = this.getBackUrl()
-        browserHistory.push(url)
-      })
+    try {
+      Promise.resolve(this.props.updateLayout(this.props.layout.id, JSON.parse(values.layout)))
+        .then(() => {
+          const url = this.getBackUrl()
+          browserHistory.push(url)
+        })
+    } catch (e) {
+      console.log('Invalid JSON Format for layout update.')
+    }
   }
 
   render() {
@@ -73,8 +85,8 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchLayout: applicationId => dispatch(LayoutActions.fetchEntity(applicationId)),
-  updateLayout: (applicationId, layout) => dispatch(LayoutActions.updateEntity(applicationId, layout)),
+  fetchLayout: applicationId => dispatch(LayoutActions.fetchEntity(applicationId, dispatch)),
+  updateLayout: (applicationId, layout) => dispatch(LayoutActions.updateEntity(applicationId, layout, dispatch)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ApplicationLayoutContainer)
