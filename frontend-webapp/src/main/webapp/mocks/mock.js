@@ -52,7 +52,8 @@ const runServer = () => {
 
   server.use(jsonServer.bodyParser)
   server.use(function (req, res, next) {
-    if (req.method === 'POST' && req.originalUrl == '/oauth/token?grant_type=password&username=admin@cnes.fr&password=admin&scope=cdpp') {
+    if (req.method === 'POST' &&
+      req.originalUrl.startsWith('/oauth/token?grant_type=password&username=admin@cnes.fr&password=admin&scope=')) {
       req.method = 'GET'
       console.log("done")
     }

@@ -5,10 +5,10 @@ import { browserHistory } from 'react-router'
 import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
 import { connect } from 'react-redux'
 import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
+import { LayoutShape } from '@regardsoss/layout'
 import LayoutSelector from '../model/layout/LayoutSelector'
 import LayoutActions from '../model/layout/LayoutActions'
 import ApplicationLayoutComponent from '../components/ApplicationLayoutComponent'
-import LayoutShape from '../model/layout/LayoutShape'
 
 /**
  * Module container to retrieve and display a layout entity associated to an application id.

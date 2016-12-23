@@ -29,6 +29,7 @@ const preloadedState = {
     projects: {},
   },
   admin: {},
+  user: {},
 }
 
 

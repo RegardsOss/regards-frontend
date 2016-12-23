@@ -3,11 +3,11 @@
  **/
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { FormattedMessage } from 'react-intl'
+import { reduxForm } from 'redux-form'
 import { CardActionsComponent } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { Field, TextAreaField, ErrorTypes } from '@regardsoss/form-utils'
-import { reduxForm } from 'redux-form'
-import LayoutShape from '../model/layout/LayoutShape'
+import { LayoutShape } from '@regardsoss/layout'
 
 /**
  * React component to display and configure a given layout

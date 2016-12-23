@@ -10,7 +10,7 @@ export default React.PropTypes.shape({
   name: React.PropTypes.string,
   description: React.PropTypes.string,
   active: React.PropTypes.bool,
-  application: React.PropTypes.string,
+  applicationId: React.PropTypes.string,
   container: React.PropTypes.string,
   conf: React.PropTypes.objectOf(React.PropTypes.any),
 })

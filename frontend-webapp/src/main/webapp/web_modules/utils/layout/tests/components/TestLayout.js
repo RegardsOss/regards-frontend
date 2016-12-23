@@ -6,7 +6,6 @@ const layout = {
   type: 'MainContainer',
   classes: ['mainapp'],
   styles: {},
-  renderRouterContent: false,
   containers: [
     {
       id: 'header',
@@ -19,10 +18,6 @@ const layout = {
       type: 'RowContainer',
       classes: ['body'],
       styles: {},
-      modules: [{
-        id: 'test-module',
-        conf: {},
-      }],
       containers: [
         {
           id: 'bodyLeft',

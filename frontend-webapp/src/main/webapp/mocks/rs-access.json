@@ -1,7 +1,7 @@
 {
   "applications": [
     {
-      "id": "project"
+      "id": "user"
     }, {
       "id": "portal"
     }, {
@@ -13,7 +13,7 @@
       "id": 1,
       "name": "form",
       "description": "Search form module",
-      "applicationId": "project",
+      "applicationId": "user",
       "container": "",
       "active": false,
       "conf": {
@@ -24,9 +24,9 @@
       "id": 2,
       "name": "form",
       "description": "Search form module",
-      "applicationId": "project",
+      "applicationId": "user",
       "container": "",
-      "active": true,
+      "active": false,
       "conf": {
         "resulttype": "dataobject"
       }
@@ -35,18 +35,57 @@
       "id": 3,
       "name": "menu",
       "description": "Header menu module",
-      "applicationId": "project",
-      "container": "",
-      "active": false,
+      "applicationId": "user",
+      "container": "header",
+      "active": true,
       "conf": {
         "title": "Plop",
         "displayAuthentication": true
       }
+    },
+    {
+      "active": true,
+      "name": "menu",
+      "container": "header",
+      "description": "Affichage du menu",
+      "conf": {
+        "title": "Portail d'accès aux interfaces Regards"
+      },
+      "applicationId": "portal",
+      "id": 4
+    },
+    {
+      "active": true,
+      "name": "news",
+      "description": "Nouvelles du projet",
+      "container": "news",
+      "applicationId": "portal",
+      "id": 5
+    },
+    {
+      "active": false,
+      "name": "menu",
+      "description": "dfgdgfdg",
+      "container": "news",
+      "conf": {
+        "title": "nouveau titre",
+        "displayAuthentication": true
+      },
+      "applicationId": "portal",
+      "id": 6
+    },
+    {
+      "active": true,
+      "name": "projects-list",
+      "description": "liste des projets",
+      "container": "projects",
+      "applicationId": "portal",
+      "id": 7
     }
   ],
   "layouts": [
     {
-      "id": "project",
+      "id": "user",
       "type": "MainContainer",
       "classes": [],
       "styles": {},

@@ -72,7 +72,7 @@ class AuthenticationMenuComponent extends React.Component {
       }
 
       const module = {
-        id: 'authentication',
+        name: 'authentication',
         conf: {
           title: this.context.intl.formatMessage({ id: 'loginFormTitle' }),
           cancelButton: true,

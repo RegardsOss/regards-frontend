@@ -64,10 +64,6 @@ class ModulesListContainer extends React.Component {
       return (<FormLoadingComponent />)
     }
 
-    if (!this.props.modules) {
-      return (<FormEntityNotFoundComponent />)
-    }
-
     return (
       <I18nProvider messageDir="modules/ui-configuration/src/i18n">
         <ModuleListComponent

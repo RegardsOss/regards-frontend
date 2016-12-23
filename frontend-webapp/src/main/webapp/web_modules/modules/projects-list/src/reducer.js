@@ -4,8 +4,8 @@
 import { combineReducers } from 'redux'
 import ProjectReducers from './model/ProjectReducers'
 
-const portalReducer = combineReducers({
+const projectsReducer = {
   projects: ProjectReducers,
-})
+}
 
-export default portalReducer
+export default projectsReducer
