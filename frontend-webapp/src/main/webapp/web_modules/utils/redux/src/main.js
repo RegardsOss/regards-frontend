@@ -7,11 +7,11 @@ import { i18nSelectors } from '@regardsoss/i18n'
 
 /**
  * Merge the given mapStateToProps function to add the theme and i18n properties.
- * @param m
+ * @param mapStateToProps
  */
-const mergeMapStateToProps = m => (
+const mergeMapStateToProps = mapStateToProps => (
   (state, ownProps) => ({
-    ...m(state, ownProps),
+    ...mapStateToProps(state, ownProps),
     theme: ThemeSelectors.getCurrentTheme(state),
     i18n: i18nSelectors.getMessages(state),
   })

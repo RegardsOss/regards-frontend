@@ -1,4 +1,7 @@
 /**
+ * LICENSE_PLACEHOLDER
+ **/
+/**
  * @author Léo Mieulet
  */
 /**
@@ -13,7 +16,6 @@ class BasicListReducer {
   reduce(state = {
     isFetching: false,
     items: [],
-    lastUpdate: '',
   }, action) {
     switch (action.type) {
       case this.basicArrayActionInstance.ENTITY_LIST_REQUEST:
@@ -29,6 +31,11 @@ class BasicListReducer {
           isFetching: false,
           items: action.payload,
         })
+      case this.basicArrayActionInstance.FLUSH:
+        return {
+          isFetching: false,
+          items: {},
+        }
       default:
         return state
     }

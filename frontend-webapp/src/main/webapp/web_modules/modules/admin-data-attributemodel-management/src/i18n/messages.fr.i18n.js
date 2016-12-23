@@ -16,17 +16,30 @@ const messages = Object.assign({
   'attrmodel.form.description': 'Description',
   'attrmodel.form.alterable': 'Modifiable',
   'attrmodel.form.optional': 'Optionnel',
-  'attrmodel.form.queryable': 'Requêtable',
+  'attrmodel.form.queryable': 'Requêtable, utilisable en temps que critère lors des recherches utilisateurs',
   'attrmodel.form.facetable': 'Facettable',
   'attrmodel.form.type': 'Type',
   'attrmodel.form.action.cancel': 'Annuler',
   'attrmodel.form.action.submit': 'Sauvegarder',
 
-  'attrmodel.form.restriction.INTEGER_RANGE.active': 'Activer un filtre pour limiter l\'ensemble des valeurs',
-  'attrmodel.form.restriction.INTEGER_RANGE.min': 'Valeur minimale autorisée',
-  'attrmodel.form.restriction.INTEGER_RANGE.isMinInclusive': 'Borne minimale incluse dans l\'ensemble',
-  'attrmodel.form.restriction.INTEGER_RANGE.max': 'Valeur maximale autorisée',
-  'attrmodel.form.restriction.INTEGER_RANGE.isMaxInclusive': 'Borne maximale incluse dans l\'ensemble',
+  'attrmodel.form.restriction.NUMBER_RANGE.active': 'Activer une restriction pour limiter l\'ensemble des valeurs',
+  'attrmodel.form.restriction.NUMBER_RANGE.min': 'Valeur minimale autorisée',
+  'attrmodel.form.restriction.NUMBER_RANGE.isMinInclusive': 'Borne minimale incluse dans l\'ensemble',
+  'attrmodel.form.restriction.NUMBER_RANGE.max': 'Valeur maximale autorisée',
+  'attrmodel.form.restriction.NUMBER_RANGE.isMaxInclusive': 'Borne maximale incluse dans l\'ensemble',
+
+  'attrmodel.form.restriction.ENUMERATION.add': 'Ajouter une nouvelle valeur:',
+  'attrmodel.form.restriction.ENUMERATION.value': 'Valeur',
+  'attrmodel.form.restriction.ENUMERATION.active': 'Définir l\'ensemble des valeurs autorisées à l\'aide d\'une énumération',
+  'attrmodel.form.restriction.ENUMERATION.addinput': 'Nouvelle valeur de l\'ensemble',
+
+  'attrmodel.form.restriction.PATTERN.pattern': 'Motif',
+  'attrmodel.form.restriction.PATTERN.active': 'Activer une restriction par motif (aka Pattern ou Expression régulières)',
+
+  'invalid.min_3_carac': 'Minimum 3 caractères',
+  'invalid.max_32_carac': 'Maximum 32 caractères',
+
+  'invalid.only_1_restriction_on_the_same_time': 'Vous ne pouvez activer qu\'une seule restriction à la fois',
 }, Locales.fr)
 
 export default messages

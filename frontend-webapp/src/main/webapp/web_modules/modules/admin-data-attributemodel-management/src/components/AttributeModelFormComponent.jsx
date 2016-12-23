@@ -6,8 +6,10 @@ import { reduxForm } from 'redux-form'
 import MenuItem from 'material-ui/MenuItem'
 import { AttributeModel } from '@regardsoss/model'
 import { map } from 'lodash'
-import IntegerRangeComponent, { initializeIntegerRangeForm } from './IntegerRangeComponent'
+import NumberRangeComponent, { initializeNumberRangeForm } from './NumberRangeComponent'
 import EnumerationComponent, { initializeEnumerationForm } from './EnumerationComponent'
+import PatternComponent, { initializePatternForm } from './PatternComponent'
+
 
 /**
  * Display edit and create attribute model form
@@ -21,12 +23,15 @@ export class AttributeModelFormComponent extends React.Component {
     onSubmit: React.PropTypes.func.isRequired,
     backUrl: React.PropTypes.string.isRequired,
     handleUpdateAttributeModelRestriction: React.PropTypes.func,
+    // on create
+    flushAttributeModelRestriction: React.PropTypes.func,
     // from reduxForm
     submitting: React.PropTypes.bool,
     pristine: React.PropTypes.bool,
     invalid: React.PropTypes.bool,
     handleSubmit: React.PropTypes.func.isRequired,
     initialize: React.PropTypes.func.isRequired,
+    change: React.PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -53,13 +58,31 @@ export class AttributeModelFormComponent extends React.Component {
         facetable: currentAttrModel.content.facetable,
         restriction: {},
       }
-      // Fill restriction object
-      switch (currentAttrModel.content.type) {
-        case 'INTEGER':
-          initialValues = initializeIntegerRangeForm(initialValues, currentAttrModel)
-          break
+      if (currentAttrModel.content.restriction) {
+        // Fill restriction object
+        switch (currentAttrModel.content.restriction.type) {
+          case 'INTEGER_RANGE':
+            initialValues = initializeNumberRangeForm('INTEGER_RANGE', initialValues, currentAttrModel)
+            break
+          case 'FLOAT_RANGE':
+            initialValues = initializeNumberRangeForm('FLOAT_RANGE', initialValues, currentAttrModel)
+            break
+          case 'ENUMERATION':
+            initialValues = initializeEnumerationForm(initialValues, currentAttrModel)
+            break
+          case 'PATTERN':
+            initialValues = initializePatternForm(initialValues, currentAttrModel)
+            break
+        }
       }
+      console.log(initialValues)
       this.props.initialize(initialValues)
+    } else {
+      this.props.flushAttributeModelRestriction()
+      this.props.initialize({
+        alterable: true,
+        queryable: true,
+      })
     }
   }
 
@@ -72,17 +95,25 @@ export class AttributeModelFormComponent extends React.Component {
     switch (restrictionName) {
       case 'INTEGER_RANGE':
         return (
-          <IntegerRangeComponent />
+          <NumberRangeComponent type="INTEGER_RANGE" />
+        )
+        break
+      case 'FLOAT_RANGE':
+        return (
+          <NumberRangeComponent type="FLOAT_RANGE" />
         )
         break
       case 'ENUMERATION':
         return (
-          <EnumerationComponent currentAttrModel={this.props.currentAttrModel} />
+          <EnumerationComponent
+            currentAttrModel={this.props.currentAttrModel}
+            change={this.props.change}
+          />
         )
         break
       case 'PATTERN':
         return (
-          <div>TODO</div>
+          <PatternComponent />
         )
         break
       default:
@@ -110,13 +141,15 @@ export class AttributeModelFormComponent extends React.Component {
             title={title}
           />
           <CardText>
-            <Field
-              name="name"
-              fullWidth
-              component={RenderTextField}
-              type="text"
-              label={<FormattedMessage id="attrmodel.form.name" />}
-            />
+            <ShowableAtRender show={this.state.isCreating}>
+              <Field
+                name="name"
+                fullWidth
+                component={RenderTextField}
+                type="text"
+                label={<FormattedMessage id="attrmodel.form.name" />}
+              />
+            </ShowableAtRender>
             <Field
               name="description"
               fullWidth
@@ -130,6 +163,7 @@ export class AttributeModelFormComponent extends React.Component {
               component={RenderSelectField}
               onChange={this.handleChange}
               label={<FormattedMessage id="attrmodel.form.type" />}
+              disabled={!this.state.isCreating}
             >
               {map(attrModelTypeList, (type, id) => (
                 <MenuItem
@@ -189,6 +223,29 @@ function validate(values) {
   if (values.name) {
     if (!/^[a-zA-Z0-9]+$/i.test(values.name)) {
       errors.name = 'invalid.only_alphanumeric'
+    }
+    if (values.name.length < 3) {
+      errors.name = 'invalid.min_3_carac'
+    }
+    if (values.name.length > 32) {
+      errors.name = 'invalid.max_32_carac'
+    }
+  }
+  // flag the user if he active two filters on the same time
+  if (values.restriction) {
+    const restrictions = ['INTEGER_RANGE', 'FLOAT_RANGE', 'ENUMERATION', 'PATTERN']
+    const activeRestrictions = []
+    restrictions.forEach((value) => {
+      if (values.restriction[value] && values.restriction[value].active) {
+        activeRestrictions.push(value)
+      }
+    })
+    if (activeRestrictions.length > 1) {
+      errors.restriction = {}
+      activeRestrictions.forEach((value) => {
+        errors.restriction[value] = {}
+        errors.restriction[value].active = 'invalid.only_1_restriction_on_the_same_time'
+      })
     }
   }
   return errors
