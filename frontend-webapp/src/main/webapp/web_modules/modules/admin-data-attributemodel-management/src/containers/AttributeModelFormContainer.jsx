@@ -5,6 +5,7 @@ import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { map } from 'lodash'
+import {RequestErrorShape } from '@regardsoss/store-utils'
 import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
 import AttributeModelActions from '../model/AttributeModelActions'
 import AttributeModelFormComponent from '../components/AttributeModelFormComponent'
@@ -115,9 +116,12 @@ export class AttributeModelFormContainer extends React.Component {
       delete updatedAttrModel.restriction
     }
     Promise.resolve(this.props.updateAttrModel(this.props.attrModel.content.id, updatedAttrModel))
-    .then(() => {
-      const url = this.getBackUrl()
-      browserHistory.push(url)
+    .then((actionResult) => {
+      // We receive here the action
+      if (! actionResult.error) {
+        const url = this.getBackUrl()
+        browserHistory.push(url)
+      }
     })
   }
   handleUpdateAttributeModelRestriction = (type) => {
@@ -125,9 +129,9 @@ export class AttributeModelFormContainer extends React.Component {
   }
 
   /**
-   * Extract values from the form and prepare the action we send to the API
+   * Extract values from the form result
    * @param values
-   * @returns {{}}
+   * @returns {{}} return data we send to the API
    */
   getRestriction = (values) => {
     let restriction = {}
@@ -188,7 +192,6 @@ export class AttributeModelFormContainer extends React.Component {
   }
 
   handleCreate = (values) => {
-    console.log(values)
     const restriction = this.getRestriction(values)
     const updatedAttrModel = {
       name: values.name,
@@ -204,9 +207,12 @@ export class AttributeModelFormContainer extends React.Component {
       updatedAttrModel.restriction = restriction
     }
     Promise.resolve(this.props.createAttrModel(updatedAttrModel))
-    .then(() => {
-      const url = this.getBackUrl()
-      browserHistory.push(url)
+    .then((actionResult) => {
+      // We receive here the action
+      if (! actionResult.error) {
+        const url = this.getBackUrl()
+        browserHistory.push(url)
+      }
     })
   }
   render() {

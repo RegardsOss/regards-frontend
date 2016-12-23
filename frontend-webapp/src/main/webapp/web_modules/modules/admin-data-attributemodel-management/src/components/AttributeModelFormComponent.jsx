@@ -2,6 +2,7 @@ import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
 import { RenderTextField, RenderCheckbox, RenderSelectField, Field } from '@regardsoss/form-utils'
+import { themeContextType } from '@regardsoss/theme'
 import { reduxForm } from 'redux-form'
 import MenuItem from 'material-ui/MenuItem'
 import { AttributeModel } from '@regardsoss/model'
@@ -32,6 +33,10 @@ export class AttributeModelFormComponent extends React.Component {
     handleSubmit: React.PropTypes.func.isRequired,
     initialize: React.PropTypes.func.isRequired,
     change: React.PropTypes.func.isRequired,
+  }
+
+  static contextTypes = {
+    ...themeContextType
   }
 
   constructor(props) {
@@ -124,9 +129,7 @@ export class AttributeModelFormComponent extends React.Component {
 
   render() {
     const { attrModelTypeList, attrModelRestrictionList, pristine, submitting, invalid } = this.props
-    const style = {
-      marginTop: '20px',
-    }
+    const style = this.context.muiTheme.layout.cardEspaced
     const title = this.state.isCreating ? <FormattedMessage id="attrmodel.create.title" /> :
       (<FormattedMessage
         id="attrmodel.edit.title"

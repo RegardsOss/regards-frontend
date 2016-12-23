@@ -11,4 +11,10 @@ export default {
     backgroundTextColor: white,
     disablePanelColor: grey200,
   },
+  layout: {
+    // Add some space between several mui cards
+    cardEspaced: {
+      marginTop: '20px',
+    },
+  }
 }

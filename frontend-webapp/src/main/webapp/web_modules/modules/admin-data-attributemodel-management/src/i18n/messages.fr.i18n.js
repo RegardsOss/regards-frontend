@@ -38,7 +38,6 @@ const messages = Object.assign({
 
   'invalid.min_3_carac': 'Minimum 3 caractères',
   'invalid.max_32_carac': 'Maximum 32 caractères',
-
   'invalid.only_1_restriction_on_the_same_time': 'Vous ne pouvez activer qu\'une seule restriction à la fois',
 }, Locales.fr)
 
