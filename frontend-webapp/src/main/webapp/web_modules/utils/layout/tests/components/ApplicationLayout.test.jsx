@@ -30,7 +30,6 @@ describe('[LAYOUT] Testing Application Container', () => {
     expect(wrapper.find('.mainapp')).to.have.length(1)
     expect(wrapper.find(Container)).to.have.length(3)
 
-    console.log(testModules)
     const wrapper2 = shallow(<Container appName={'testApp'} project={'test'} container={testLayout.containers[1]} modules={testModules} />, { context })
 
     expect(wrapper2.find('.row')).to.have.length(1)

@@ -2,10 +2,10 @@
  * LICENSE_PLACEHOLDER
  **/
 import { combineReducers } from 'redux'
-import ProjectReducers from './model/ProjectReducers'
+import ProjectsReducer from './model/ProjectsReducer'
 
 const projectsReducer = {
-  projects: ProjectReducers,
+  projects: ProjectsReducer,
 }
 
 export default projectsReducer

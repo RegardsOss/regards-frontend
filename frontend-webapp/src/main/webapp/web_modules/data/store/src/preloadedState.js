@@ -25,9 +25,7 @@ const preloadedState = {
       message: '',
     },
   },
-  portal: {
-    projects: {},
-  },
+  portal: {},
   admin: {},
   user: {},
 }

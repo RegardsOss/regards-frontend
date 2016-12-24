@@ -38,10 +38,6 @@ class Container extends React.Component {
     let renderModules = []
     if (this.props.modules) {
       const containerModules = this.props.modules.filter(module => module.content.active && module.content.container === this.props.container.id && module.content.applicationId === this.props.appName)
-
-      console.log(this.props.container.id)
-      console.log(this.props.appName)
-      console.log('plop', containerModules)
       renderModules = containerModules.map((module) => {
         // Always add current project in module props.
         let moduleContent = module.content

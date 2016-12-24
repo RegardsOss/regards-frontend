@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { browserHistory } from 'react-router'
-import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
+import { FormLoadingComponent } from '@regardsoss/form-utils'
 import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
 import { ModuleShape } from '@regardsoss/modules'
 import connect from '@regardsoss/redux'

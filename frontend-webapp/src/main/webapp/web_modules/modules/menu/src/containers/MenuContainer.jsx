@@ -9,10 +9,10 @@ import AuthenticationMenuContainer from './AuthenticationMenuContainer'
 /**
  * Main component of module menu
  **/
-class MenuComponent extends React.Component {
+class MenuContainer extends React.Component {
 
   static propTypes = {
-    project: React.PropTypes.string.isRequired,
+    project: React.PropTypes.string,
     appName: React.PropTypes.string.isRequired,
     title: React.PropTypes.string,
     displayAuthentication: React.PropTypes.bool.isRequired,
@@ -56,4 +56,4 @@ class MenuComponent extends React.Component {
   }
 }
 
-export default MenuComponent
+export default MenuContainer

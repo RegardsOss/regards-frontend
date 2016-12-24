@@ -4,13 +4,14 @@
 /**
  * Combine all reducers for this aa to a single root reducer.
  */
+import { forEach } from 'lodash'
 import { combineReducers } from 'redux'
+import { reducer } from '@regardsoss/projects-list'
 import LayoutReducer from './model/layout/LayoutReducer'
 import ModulesReducer from './model/modules/ModulesReducer'
-import { reducer } from '@regardsoss/projects-list'
 
 export default combineReducers({
   layout: LayoutReducer,
-  modules: ModulesReducer,
+  'layout.modules': ModulesReducer,
   ...reducer,
 })

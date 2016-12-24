@@ -1,5 +1,9 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import Account, { AccountConfiguration } from './schemas/Account'
 import Project, { ProjectConfiguration } from './schemas/Project'
+import ProjectShape from './admin/ProjectShape'
 import ProjectConnection, { ProjectConnectionConfiguration } from './schemas/ProjectConnection'
 import ProjectUser, { ProjectUserConfiguration } from './schemas/ProjectUser'
 import Role, { RoleConfiguration } from './schemas/Role'
@@ -9,6 +13,7 @@ import AttributeModel, { AttributeModelConfiguration } from './dam/AttributeMode
 import AttributeModelRestriction, { AttributeModelRestrictionConfiguration } from './dam/AttributeModelRestriction'
 import Module, { ModuleConfiguration } from './access/Module'
 import Layout, { LayoutConfiguration } from './access/Layout'
+import AccessProjectShape from './access/ProjectShape'
 import Fragment, { FragmentConfiguration } from './dam/Fragment'
 
 // We use this Normalizr schemas to transform API responses from a nested form
@@ -26,6 +31,8 @@ export default {
   PROJECT: Project.PROJECT,
   PROJECT_ARRAY: Project.PROJECT_ARRAY,
   ProjectConfiguration,
+  ProjectShape,
+  AccessProjectShape,
 
   PROJECT_USER: ProjectUser.PROJECT_USER,
   PROJECT_USER_ARRAY: ProjectUser.PROJECT_USER_ARRAY,
@@ -46,7 +53,6 @@ export default {
   ACCESSES: Accesses.ACCESSES,
   ACCESSES_ARRAY: Accesses.ACCESSES_ARRAY,
   AccessesConfiguration,
-
 
   ATTRIBUTE_MODEL: AttributeModel.ATTRIBUTE_MODEL,
   ATTRIBUTE_MODEL_ARRAY: AttributeModel.ATTRIBUTE_MODEL_ARRAY,
