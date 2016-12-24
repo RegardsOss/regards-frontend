@@ -150,5 +150,52 @@
         }
       ]
     }
+  ],
+  "themes" : [
+    {
+      "id": 1,
+      "name": "cdpp",
+      "projectId": "cdpp",
+      "configuration" : {
+        "appBar": {
+          "height": 100
+        },
+        "spacing": "customSpacing",
+        "fontFamily": "Roboto, sans-serif",
+        "palette": {
+          "primary1Color": "#8bc34a",
+          "primary2Color": "#689f38",
+          "primary3Color": "#e0e0e0",
+          "accent1Color": "#bf360c",
+          "accent2Color": "#e0e0e0",
+          "accent3Color": "#616161",
+          "textColor": "#37474f",
+          "secondaryTextColor": "rgba(0, 0, 0, 0.541176)",
+          "alternateTextColor": "#efebe9",
+          "canvasColor": "#fff8e1",
+          "borderColor": "#e0e0e0",
+          "disabledColor": "rgba(62, 39, 35, 0.298039)",
+          "pickerHeaderColor": "#00bcd4",
+          "clockCircleColor": "color: rgba(0, 0, 0, 0.0666667)",
+          "shadowColor": "#263238",
+          "errorColor": "#b71c1c",
+          "warningColor": "#4527a0"
+        },
+        "linkWithoutDecoration": {
+          "textDecoration": "blink"
+        },
+        "adminApp": {
+          "loginForm": {
+            "layout": {
+              "backgroundColor": "#616161"
+            }
+          },
+          "layout": {
+            "backgroundColor": "transparent",
+            "backgroundImage": "url('/img/background.jpg')"
+          }
+        }
+      }
+    }
   ]
 }

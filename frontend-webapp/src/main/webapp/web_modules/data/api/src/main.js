@@ -13,6 +13,7 @@ import AttributeModel, { AttributeModelConfiguration } from './dam/AttributeMode
 import AttributeModelRestriction, { AttributeModelRestrictionConfiguration } from './dam/AttributeModelRestriction'
 import Module, { ModuleConfiguration } from './access/Module'
 import Layout, { LayoutConfiguration } from './access/Layout'
+import Theme, { ThemeConfiguration } from './access/Theme'
 import AccessProjectShape from './access/ProjectShape'
 import Fragment, { FragmentConfiguration } from './dam/Fragment'
 
@@ -72,4 +73,7 @@ export default {
 
   LAYOUT: Layout.LAYOUT,
   LayoutConfiguration,
+
+  THEME: Theme.THEME,
+  ThemeConfiguration,
 }
