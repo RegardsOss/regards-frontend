@@ -2,7 +2,6 @@
  * LICENSE_PLACEHOLDER
  **/
 import { map } from 'lodash'
-import { FormattedMessage } from 'react-intl'
 import { AccessProjectShape } from '@regardsoss/api'
 import { themeContextType } from '@regardsoss/theme'
 import ProjectComponent from './ProjectComponent'

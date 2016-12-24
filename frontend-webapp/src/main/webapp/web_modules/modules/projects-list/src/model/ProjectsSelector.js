@@ -4,10 +4,10 @@
 import { BasicPageableSelectors } from '@regardsoss/store-utils'
 
 class ProjectSelectors extends BasicPageableSelectors {
-  constructor() {
-    super(['portal', 'projects'])
+  constructor(application) {
+    super([application, 'modules', 'projects-list.projects'])
   }
 }
 
-const instance = new ProjectSelectors()
+const instance = application => new ProjectSelectors(application)
 export default instance

@@ -10,7 +10,7 @@ import { BasicPageableActions } from '@regardsoss/store-utils'
 class ModulesActions extends BasicPageableActions {
   constructor() {
     super({
-      namespace: 'user/modules',
+      namespace: 'user/layout/modules',
       entityEndpoint: `${GATEWAY_HOSTNAME}/api/v1/rs-access/applications/%0/modules`,
       schemaTypes: {
         ENTITY: Schemas.MODULE,

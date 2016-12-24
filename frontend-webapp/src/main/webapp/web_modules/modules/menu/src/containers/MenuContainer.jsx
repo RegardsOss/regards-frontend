@@ -12,14 +12,27 @@ import AuthenticationMenuContainer from './AuthenticationMenuContainer'
 class MenuContainer extends React.Component {
 
   static propTypes = {
+    // Set by module loader (LazyModuleComponent)
     project: React.PropTypes.string,
     appName: React.PropTypes.string.isRequired,
+    // Module configuration.
     title: React.PropTypes.string,
     displayAuthentication: React.PropTypes.bool.isRequired,
+    displayLocaleSelector: React.PropTypes.bool.isRequired,
+    displayThemeSelector: React.PropTypes.bool.isRequired,
   }
 
   static contextTypes = {
     ...themeContextType,
+  }
+
+  displaySeparator = (elt) => {
+    if (elt === null) {
+      return {
+        display: 'none',
+      }
+    }
+    return {}
   }
 
   render() {
@@ -33,10 +46,24 @@ class MenuContainer extends React.Component {
       title: moduleTheme.title,
     }
     let authentication = null
-    let separator = null
     if (this.props.displayAuthentication) {
-      authentication = <AuthenticationMenuContainer appName={this.props.appName} project={this.props.project} />
-      separator = <ToolbarSeparator />
+      authentication = (
+        <AuthenticationMenuContainer appName={this.props.appName} project={this.props.project} />
+      )
+    }
+
+    let themeSelector = null
+    if (this.props.displayThemeSelector) {
+      themeSelector = (
+        <SelectThemeContainer />
+      )
+    }
+
+    let localeSelector = null
+    if (this.props.displayLocaleSelector) {
+      localeSelector = (
+        <SelectLocaleContainer />
+      )
     }
 
     return (
@@ -46,10 +73,10 @@ class MenuContainer extends React.Component {
         </ToolbarGroup>
         <ToolbarGroup>
           {authentication}
-          {separator}
-          <SelectLocaleContainer />
-          <ToolbarSeparator />
-          <SelectThemeContainer />
+          <ToolbarSeparator style={this.displaySeparator(localeSelector)} />
+          {localeSelector}
+          <ToolbarSeparator style={this.displaySeparator(themeSelector)} />
+          {themeSelector}
         </ToolbarGroup>
       </Toolbar>
     )

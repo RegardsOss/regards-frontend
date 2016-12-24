@@ -6,7 +6,7 @@
  * Project Entity definition
  */
 export default React.PropTypes.shape({
-  id: React.PropTypes.number,
+  id: React.PropTypes.string,
   name: React.PropTypes.string,
   description: React.PropTypes.string,
   isPublic: React.PropTypes.bool,

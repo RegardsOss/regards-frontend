@@ -14,6 +14,8 @@ import ProjectsAction from '../model/ProjectsAction'
 export class ModuleContainer extends React.Component {
 
   static propTypes = {
+    // Set by module loader
+    appName: React.PropTypes.string.isRequired,
     // Set by mapStateToProps
     projects: React.PropTypes.objectOf(AccessProjectShape),
     isFetching: React.PropTypes.bool,
@@ -42,10 +44,9 @@ export class ModuleContainer extends React.Component {
   }
 }
 
-
-const mapStateToProps = state => ({
-  projects: ProjectsSelector.getList(state),
-  isFetching: ProjectsSelector.isFetching(state),
+const mapStateToProps = (state, props) => ({
+  projects: ProjectsSelector(props.appName).getList(state),
+  isFetching: ProjectsSelector(props.appName).isFetching(state),
 })
 const mapDispatchToProps = dispatch => ({
   fetchProjects: () => dispatch(ProjectsAction.fetchEntityList(dispatch)),

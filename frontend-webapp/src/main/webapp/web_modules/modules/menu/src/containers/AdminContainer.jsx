@@ -24,6 +24,16 @@ class AdminContainer extends React.Component {
           component={RenderCheckbox}
           label={<FormattedMessage id="menu.form.displayauthentication" />}
         />
+        <Field
+          name="conf.displayLocaleSelector"
+          component={RenderCheckbox}
+          label={<FormattedMessage id="menu.form.displaylocale" />}
+        />
+        <Field
+          name="conf.displayThemeSelector"
+          component={RenderCheckbox}
+          label={<FormattedMessage id="menu.form.displaytheme" />}
+        />
       </div>
     )
   }

@@ -2,12 +2,11 @@
  * LICENSE_PLACEHOLDER
  **/
 import { forEach } from 'lodash'
-import { ApplicationLayout } from '@regardsoss/layout'
-import { ThemeHelper, ThemeSelectors } from '@regardsoss/theme'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-import { connect } from 'react-redux'
+import connect from '@regardsoss/redux'
+import { ThemeHelper, ThemeSelectors } from '@regardsoss/theme'
 import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
-import { LayoutShape } from '@regardsoss/layout'
+import { LayoutShape, ApplicationLayout } from '@regardsoss/layout'
 import { ModuleShape } from '@regardsoss/modules'
 import LayoutSelector from '../model/layout/LayoutSelector'
 import LayoutActions from '../model/layout/LayoutActions'
@@ -30,7 +29,6 @@ export class PortalApp extends React.Component {
     modules: React.PropTypes.objectOf(ModuleShape),
     // Set by mapDispatchToProps
     fetchLayout: React.PropTypes.func,
-    updateLayout: React.PropTypes.func,
     fetchModules: React.PropTypes.func,
   }
 

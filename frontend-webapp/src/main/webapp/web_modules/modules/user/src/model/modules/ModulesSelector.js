@@ -8,7 +8,7 @@ import { BasicPageableSelectors } from '@regardsoss/store-utils'
  */
 class ModulesSelector extends BasicPageableSelectors {
   constructor() {
-    super(['user', 'modules'])
+    super(['user', 'layout.modules'])
   }
 }
 
