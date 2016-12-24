@@ -57,8 +57,10 @@
       "container": "header",
       "active": true,
       "conf": {
-        "title": "Plop",
-        "displayAuthentication": true
+        "title": "Regards user interface",
+        "displayAuthentication": true,
+        "displayLocaleSelector": true,
+        "displayThemeSelector": true
       }
     },
     {
@@ -67,8 +69,10 @@
       "container": "header",
       "description": "Affichage du menu",
       "conf": {
-        "title": "Portail d'accès aux interfaces Regards",
-        "displayAuthentication": false
+        "title": "Regards Portal interface",
+        "displayAuthentication": false,
+        "displayLocaleSelector": true,
+        "displayThemeSelector": true
       },
       "applicationId": "portal",
       "id": 4
@@ -84,11 +88,13 @@
     {
       "active": false,
       "name": "menu",
-      "description": "dfgdgfdg",
-      "container": "news",
+      "description": "menu de test désactivé",
+      "container": "header",
       "conf": {
         "title": "nouveau titre",
-        "displayAuthentication": true
+        "displayAuthentication": true,
+        "displayLocaleSelector": true,
+        "displayThemeSelector": true
       },
       "applicationId": "portal",
       "id": 6

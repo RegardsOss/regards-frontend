@@ -20,6 +20,9 @@ describe('[STORE DATA MANAGEMENT] Testing configureStore', () => {
       admin(state = { item: {} }) {
         return state
       },
+      user(state = { item: {} }) {
+        return state
+      },
     })
     const store = configureStore(rootReducer)
     assert.isFunction(store.dispatch)

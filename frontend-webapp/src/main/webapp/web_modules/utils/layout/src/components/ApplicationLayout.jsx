@@ -24,7 +24,12 @@ class ApplicationLayout extends React.Component {
    */
   render() {
     return (
-      <Container appName={this.props.appName} project={this.props.project} container={this.props.layout} modules={this.props.modules} />
+      <Container
+        appName={this.props.appName}
+        project={this.props.project}
+        container={this.props.layout}
+        modules={this.props.modules}
+      />
     )
   }
 }

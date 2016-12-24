@@ -30,7 +30,14 @@ class Container extends React.Component {
 
     let children = []
     if (this.props.container.containers) {
-      children = this.props.container.containers.map(c => <Container key={c.id} project={this.props.project} appName={this.props.appName} container={c} modules={this.props.modules} />)
+      children = this.props.container.containers.map(c => (
+        <Container
+          key={c.id}
+          project={this.props.project}
+          appName={this.props.appName}
+          container={c}
+          modules={this.props.modules}
+        />))
     }
 
     let renderModules = []
@@ -43,7 +50,7 @@ class Container extends React.Component {
           appName={this.props.appName}
           project={this.props.project}
         />
-        ))
+      ))
     }
 
     return (
@@ -59,4 +66,6 @@ class Container extends React.Component {
   }
 }
 
-export default Container
+export
+default
+Container
