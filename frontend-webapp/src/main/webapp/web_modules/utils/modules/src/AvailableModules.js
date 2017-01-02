@@ -9,5 +9,5 @@ export default [
   'menu',
   'authentication',
   'news',
-  'project-list',
+  'projects-list',
 ]

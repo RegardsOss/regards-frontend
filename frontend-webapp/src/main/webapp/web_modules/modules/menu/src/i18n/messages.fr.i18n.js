@@ -14,6 +14,8 @@ const messages = Object.assign({
   settingsLabel: 'Paramètres',
   'menu.form.title': 'Titre du menu',
   'menu.form.displayauthentication': 'Afficher l\'option d\'authentification',
+  'menu.form.displaylocale': 'Afficher le selecteur de langues',
+  'menu.form.displaytheme': 'Afficher le selecteur de themes',
 }, Locales.fr)
 
 export default messages

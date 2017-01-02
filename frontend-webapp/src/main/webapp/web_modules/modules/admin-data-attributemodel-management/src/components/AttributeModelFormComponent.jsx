@@ -5,7 +5,7 @@ import { RenderTextField, RenderCheckbox, RenderSelectField, Field } from '@rega
 import { themeContextType } from '@regardsoss/theme'
 import { reduxForm } from 'redux-form'
 import MenuItem from 'material-ui/MenuItem'
-import { AttributeModel,Fragment } from '@regardsoss/model'
+import { AttributeModel, Fragment } from '@regardsoss/model'
 import { map } from 'lodash'
 import NumberRangeComponent, { initializeNumberRangeForm } from './NumberRangeComponent'
 import EnumerationComponent, { initializeEnumerationForm } from './EnumerationComponent'

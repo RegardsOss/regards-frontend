@@ -81,6 +81,8 @@ export class AdminLayout extends React.Component {
         project: this.props.params.project,
         title: 'REGARDS admin dashboard',
         displayAuthentication: true,
+        displayLocaleSelector: true,
+        displayThemeSelector: true,
       },
     }
     return (

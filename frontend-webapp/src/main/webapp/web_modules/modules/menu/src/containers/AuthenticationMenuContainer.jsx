@@ -13,7 +13,7 @@ import LoggedUserComponent from '../components/LoggedUserComponent'
  * Manage connection to the store to handle authentication.
  * This container display the login button and the modal with login informations.
  */
-class AuthenticationMenuComponent extends React.Component {
+class AuthenticationMenuContainer extends React.Component {
 
   /**
    *
@@ -72,7 +72,7 @@ class AuthenticationMenuComponent extends React.Component {
       }
 
       const module = {
-        id: 'authentication',
+        name: 'authentication',
         conf: {
           title: this.context.intl.formatMessage({ id: 'loginFormTitle' }),
           cancelButton: true,
@@ -115,4 +115,4 @@ const mapDispathToProps = dispatch => ({
   onLogout: () => dispatch(logout()),
 })
 
-export default connect(mapStateToProps, mapDispathToProps)(AuthenticationMenuComponent)
+export default connect(mapStateToProps, mapDispathToProps)(AuthenticationMenuContainer)

@@ -3,7 +3,8 @@
  */
 import { combineReducers } from 'redux'
 import { adminReducer } from '@regardsoss/admin'
-import { reducer } from '@regardsoss/projects-list'
+import { userReducer } from '@regardsoss/user'
+import { portalReducer } from '@regardsoss/portal'
 import { themeReducers } from '@regardsoss/theme'
 import { PluginReducer } from '@regardsoss/plugins'
 import { i18nReducers } from '@regardsoss/i18n'
@@ -29,8 +30,9 @@ const commonReducer = combineReducers({
  */
 
 export default combineReducers({
-  portal: reducer,
+  portal: portalReducer,
   common: commonReducer,
   admin: adminReducer,
+  user: userReducer,
   form: reduxFormReducer,
 })

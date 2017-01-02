@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 const userRouter = {
-  path: 'project/:project',
+  path: 'user/:project',
   childRoutes: [],
   getComponent(nextState, cb) {
     const UserApp = require('./containers/UserApp')

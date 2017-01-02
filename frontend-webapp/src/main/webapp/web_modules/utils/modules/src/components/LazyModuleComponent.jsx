@@ -9,6 +9,12 @@ import ModuleShape from '../model/ModuleShape'
 
 /**
  * React Component to display a module.
+ * To be compatible, each module must export the here under props from their main.js file :
+ * - moduleContainer : Main React component to display the module
+ * - adminContainer  : (optional) Main React component to display the configuration of the module
+ * - styles          : (optional) The styles of the module based on the current theme
+ * - reducers        : (optional) The combined reducers of the module
+ * - messagesDir     : (optional) The directory of the i18n messages files. Default src/i18n
  */
 class LazyModuleComponent extends React.Component {
 
@@ -17,6 +23,7 @@ class LazyModuleComponent extends React.Component {
    */
   static propTypes = {
     appName: React.PropTypes.string.isRequired,
+    project: React.PropTypes.string,
     module: ModuleShape.isRequired,
     decorator: DecoratorShape,
     admin: React.PropTypes.bool,
@@ -86,17 +93,27 @@ class LazyModuleComponent extends React.Component {
    */
   render() {
     const { isLoaded, module } = this.state
+
+    // If module is loaded then render. The module load is asynchrone due to require.ensure method.
     if (isLoaded) {
+      // By default the i18n directory for a module is fixed to : src/i18n.
+      // Nevertheless, it possible for a module to override this property by setting messagesDir in his main.js exported props
       const moduleMessageDir = module.messagesDir ? module.messagesDir : `modules/${this.props.module.id}/src/i18n`
+
       let moduleElt = null
-      if (this.props.admin === true) {
-        if (module.adminContainer) {
-          moduleElt = React.createElement(module.adminContainer, merge({}, { appName: this.props.appName }, this.props.module.conf))
-        }
-      } else if (module.moduleContainer) {
-        moduleElt = React.createElement(module.moduleContainer, merge({}, { appName: this.props.appName }, this.props.module.conf))
+      const defaultModuleProps = {
+        appName: this.props.appName,
+        project: this.props.project,
       }
 
+      // Display module with admin or normal container ?
+      if (this.props.admin && module.adminContainer) {
+        moduleElt = React.createElement(module.adminContainer, defaultModuleProps)
+      } else if (!this.props.admin && module.moduleContainer) {
+        moduleElt = React.createElement(module.moduleContainer, merge({}, defaultModuleProps, this.props.module.conf))
+      }
+
+      // Add a decorator arround the module rendering ?
       if (this.props.decorator) {
         const element = React.createElement(this.props.decorator.element, merge({}, this.props.decorator.conf, { children: moduleElt }))
         return (

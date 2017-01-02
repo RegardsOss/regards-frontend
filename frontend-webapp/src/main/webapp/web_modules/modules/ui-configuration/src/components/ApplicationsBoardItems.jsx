@@ -34,15 +34,15 @@ export default (project, intl) => [
     description: intl.formatMessage({ id: 'project.app.description' }),
     advanced: false,
     actions: [{
-      path: `/admin/${project}/ui-configuration/applications/project/modules/list`,
+      path: `/admin/${project}/ui-configuration/applications/user/modules/list`,
       icon: <ExtensionIcon />,
       tooltipMsg: intl.formatMessage({ id: 'project.app.modules.tooltip' }),
     }, {
-      path: `/admin/${project}/ui-configuration/applications/project/layout`,
+      path: `/admin/${project}/ui-configuration/applications/user/layout`,
       icon: <ViewQuilt />,
       tooltipMsg: intl.formatMessage({ id: 'project.app.layout.tooltip' }),
     }, {
-      path: `/admin/${project}/ui-configuration/applications/project/themes/list`,
+      path: `/admin/${project}/ui-configuration/applications/user/themes/list`,
       icon: <Palette />,
       tooltipMsg: intl.formatMessage({ id: 'project.app.themes.tooltip' }),
     }],

@@ -57,7 +57,7 @@ export const editModuleRoute = {
  * @type {{path: string, getComponents: ((nextState, cb))}}
  */
 export const createModuleRoute = {
-  path: 'applications/:application_id/modules/create',
+  path: 'applications/:applicationId/modules/create',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
       const moduleContainer = require('./containers/ModuleFormContainer')
@@ -73,7 +73,7 @@ export const createModuleRoute = {
  * @type {{path: string, getComponents: ((nextState, cb))}}
  */
 export const layoutRoute = {
-  path: 'applications/:application_id/layout',
+  path: 'applications/:applicationId/layout',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
       const appLayoutContainer = require('./containers/ApplicationLayoutContainer')

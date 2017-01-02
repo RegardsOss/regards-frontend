@@ -1,11 +1,8 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { combineReducers } from 'redux'
-import ProjectReducers from './model/ProjectReducers'
+import ProjectsReducer from './model/ProjectsReducer'
 
-const portalReducer = combineReducers({
-  projects: ProjectReducers,
-})
-
-export default portalReducer
+export default {
+  projects: ProjectsReducer,
+}

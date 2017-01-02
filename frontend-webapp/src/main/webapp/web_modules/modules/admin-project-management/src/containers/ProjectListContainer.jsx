@@ -1,5 +1,9 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
+import { ProjectShape } from '@regardsoss/api'
 import { I18nProvider } from '@regardsoss/i18n'
 import { logout } from '@regardsoss/authentication-manager'
 import ProjectActions from '../model/ProjectActions'
@@ -18,12 +22,7 @@ export class ProjectListContainer extends React.Component {
   static propTypes = {
     projectList: React.PropTypes.objectOf(
       React.PropTypes.shape({
-        content: React.PropTypes.shape({
-          id: React.PropTypes.number,
-          name: React.PropTypes.string,
-          description: React.PropTypes.string,
-          isPublic: React.PropTypes.bool,
-        }),
+        content: ProjectShape,
       }),
     ),
     fetchProjectList: React.PropTypes.func,

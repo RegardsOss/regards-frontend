@@ -6,6 +6,7 @@ import Avatar from 'material-ui/Avatar'
 import Lock from 'material-ui/svg-icons/action/lock-outline'
 import IconButton from 'material-ui/IconButton'
 import { themeContextType } from '@regardsoss/theme'
+import { AccessProjectShape } from '@regardsoss/api'
 import { Link } from 'react-router'
 /*
 interface ProjectProps {
@@ -18,21 +19,27 @@ interface ProjectProps {
  */
 class ProjectComponent extends React.Component {
 
+  /**
+   * @type {{projects: *, theme: *}}
+   */
+  static propTypes = {
+    project: AccessProjectShape,
+  }
+
   static contextTypes = {
     ...themeContextType,
   }
 
 
   getProjectUrl = () => (
-     `/project/${this.props.project.projectId}/`
+     `/user/${this.props.project.id}/`
   )
-
 
   renderProject = () => {
     const { moduleTheme } = this.context
-    const { project, isAccessible } = this.props
+    const { project } = this.props
     let styleWhenDisabled = {}
-    if (isAccessible === false) {
+    if (project.isAccessible === false) {
       styleWhenDisabled = moduleTheme.cardWhenDisabled
     }
     return (
@@ -40,7 +47,7 @@ class ProjectComponent extends React.Component {
         <div className="row" style={moduleTheme.container}>
           <div className="col-sm-12" style={moduleTheme.iconContainer}>
             {(() => {
-              if (isAccessible) {
+              if (project.isAccessible) {
                 return (<Avatar
                   src={project.icon}
                   size={0}
@@ -85,7 +92,7 @@ class ProjectComponent extends React.Component {
   }
   render() {
     const { muiTheme } = this.context
-    const { isAccessible } = this.props
+    const { isAccessible } = this.props.project
     if (isAccessible === false) {
       return this.renderProject()
     }
@@ -98,17 +105,6 @@ class ProjectComponent extends React.Component {
       </Link>
     )
   }
-}
-
-ProjectComponent.propTypes = {
-  project: React.PropTypes.shape({
-    description: React.PropTypes.string.isRequired,
-    icon: React.PropTypes.string.isRequired,
-    name: React.PropTypes.string.isRequired,
-    isPublic: React.PropTypes.bool.isRequired,
-    projectId: React.PropTypes.string.isRequired,
-  }).isRequired,
-  isAccessible: React.PropTypes.bool.isRequired,
 }
 
 export default ProjectComponent
