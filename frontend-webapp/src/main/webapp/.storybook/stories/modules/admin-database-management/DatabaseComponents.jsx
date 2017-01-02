@@ -59,7 +59,7 @@ storiesOf('InstanceAdmin - Database', module)
   .addDecorator(StoreDecorator)
   .add('Connection tester', () => {
     const themeName = addLocaleAndThemeSelectors()
-    const projectConnection = object('Project connection', testProjectConnections[0])
+    const projectConnection = object('Project connection', testProjectConnections[2])
     return (
       <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-database-management/src/i18n">
         <DatabaseConnectionTester projectConnection={projectConnection} />
@@ -68,7 +68,7 @@ storiesOf('InstanceAdmin - Database', module)
   })
   .add('Icon Button connection tester', () => {
     const themeName = addLocaleAndThemeSelectors()
-    const projectConnection = object('Project connection', testProjectConnections[0])
+    const projectConnection = object('Project connection', testProjectConnections[2])
     return (
       <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-database-management/src/i18n">
         <DatabaseConnectionTesterIconButton projectConnection={projectConnection} />

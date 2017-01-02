@@ -36,7 +36,7 @@ class DatabaseConnectionTesterIconButton extends React.Component {
   constructor(props, context) {
     super(props, context)
     this.state = {
-      status: EnumConnectivity.NOT_TESTED,
+      status: props.projectConnection.content.connectivity,
       completed: 0,
       snackBarOpen: false,
       snackBarMessageId: 'database.connectionTester.snackbar.warning',
