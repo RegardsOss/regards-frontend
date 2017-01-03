@@ -48,6 +48,7 @@ const runServer = () => {
   const middlewares = jsonServer.defaults()
 
   accessMicroServiceRouter.render = PageAndHateoasMiddleWare
+  adminMicroServiceRouter.render = PageAndHateoasMiddleWare
 
   server.use(middlewares)
 
@@ -67,7 +68,9 @@ const runServer = () => {
     '/oauth/token' :'/tokens/1'
   }))
   server.use('/api/v1/rs-access/', accessMicroServiceRouter)
+  server.use('/api/v1/rs-admin/', adminMicroServiceRouter)
   server.use(gatewayMicroServiceRouter)
+
 
   server.listen(3000, () => {
     console.log('JSON Server is running')
