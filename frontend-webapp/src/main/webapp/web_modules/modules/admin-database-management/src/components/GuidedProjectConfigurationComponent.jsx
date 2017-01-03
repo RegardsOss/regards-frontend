@@ -2,8 +2,9 @@
  * LICENSE_PLACEHOLDER
  */
 import React from 'react'
+import { browserHistory } from 'react-router'
 import { FormattedMessage } from 'react-intl'
-import { map } from 'lodash'
+import { map, keys } from 'lodash'
 import { Step, Stepper, StepButton, StepContent } from 'material-ui/Stepper'
 import { Card, CardText } from 'material-ui/Card'
 import AppBar from 'material-ui/AppBar'
@@ -23,10 +24,11 @@ import ProjectConnectionFormComponent from './ProjectConnectionFormComponent'
  *
  * @autor Xavier-Alexandre Brochard
  */
-class GuidedProjectConfiguration extends React.Component {
+class GuidedProjectConfigurationComponent extends React.Component {
 
   static propTypes = {
     projectConnections: ProjectConnectionList,
+    onStepSave: React.PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -38,17 +40,9 @@ class GuidedProjectConfiguration extends React.Component {
     stepIndex: 0,
   }
 
-  getConnectivityIcon = (connectivity) => {
-    switch (connectivity) {
-      case EnumConnectivity.SUCCESS:
-        return <Check color={this.context.muiTheme.palette.primary1Color} />
-      case EnumConnectivity.WARNING:
-        return <Warning color={this.context.muiTheme.palette.warningColor} />
-      case EnumConnectivity.ERROR:
-        return <Error color={this.context.muiTheme.palette.accent1Color} />
-      default:
-        return undefined
-    }
+  onSubmit = (values) => {
+    const { stepIndex } = this.state
+    this.props.onStepSave(this.props.projectConnections[stepIndex], values, this.handleNext)
   }
 
   getStepButton = (projectConnection, key) => {
@@ -69,17 +63,44 @@ class GuidedProjectConfiguration extends React.Component {
     )
   }
 
+  getConnectivityIcon = (connectivity) => {
+    switch (connectivity) {
+      case EnumConnectivity.SUCCESS:
+        return <Check color={this.context.muiTheme.palette.primary1Color} />
+      case EnumConnectivity.WARNING:
+        return <Warning color={this.context.muiTheme.palette.warningColor} />
+      case EnumConnectivity.ERROR:
+        return <Error color={this.context.muiTheme.palette.accent1Color} />
+      default:
+        return undefined
+    }
+  }
+
+  handleBackClick = () => {
+    browserHistory.goBack()
+  }
+
   handleNext = () => {
     const { stepIndex } = this.state
-    this.setState({ stepIndex: stepIndex + 1 })
+    this.setState({
+      stepIndex: stepIndex + 1,
+      finished: stepIndex >= keys(this.props.projectConnections).length - 1,
+    })
+    if (this.isFinished()) {
+      this.handleBackClick()
+    }
   }
 
   handlePrev = () => {
     const { stepIndex } = this.state
     if (stepIndex > 0) {
-      this.setState({ stepIndex: stepIndex - 1 })
+      this.setState({
+        stepIndex: stepIndex - 1,
+      })
     }
   }
+
+  isFinished = () => this.state.stepIndex >= keys(this.props.projectConnections).length - 1
 
   render() {
     const { stepIndex } = this.state
@@ -115,4 +136,4 @@ class GuidedProjectConfiguration extends React.Component {
   }
 }
 
-export default GuidedProjectConfiguration
+export default GuidedProjectConfigurationComponent

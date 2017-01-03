@@ -8,7 +8,7 @@ import DatabaseConnectionTesterIconButton from '@regardsoss/admin-database-manag
 import ProjectConnectionListComponent from '@regardsoss/admin-database-management/src/components/ProjectConnectionListComponent'
 import ProjectConnectionEditComponent from '@regardsoss/admin-database-management/src/components/ProjectConnectionEditComponent'
 import ProjectConnectionFormComponent from '@regardsoss/admin-database-management/src/components/ProjectConnectionFormComponent'
-import GuidedProjectConfiguration from '@regardsoss/admin-database-management/src/components/GuidedProjectConfiguration'
+import GuidedProjectConfigurationComponent from '@regardsoss/admin-database-management/src/components/GuidedProjectConfigurationComponent'
 import EnumConnectivity from '@regardsoss/model/src/admin/EnumConnectivity'
 import { StoreDecorator, addLocaleAndThemeSelectors, ThemeAndLocaleDecorator } from '../../utils/decorators'
 
@@ -117,7 +117,7 @@ storiesOf('InstanceAdmin - Database', module)
     const projectConnections = object('Connections list', testProjectConnections)
     return (
       <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-database-management/src/i18n">
-        <GuidedProjectConfiguration projectConnections={projectConnections} />
+        <GuidedProjectConfigurationComponent projectConnections={projectConnections} />
       </ThemeAndLocaleDecorator>
     )
   })

@@ -24,6 +24,7 @@ const messages = Object.assign({
   'database.list.password': 'Password',
   'database.list.test': 'Test the connection',
   'database.list.action': 'Actions',
+  'database.list.access.guided.configuration': 'Step-by-step configuration',
 
   'database.form.edit.title': 'Connect {microservice} to a database',
   'database.form.input.driverClassName': 'Driver',

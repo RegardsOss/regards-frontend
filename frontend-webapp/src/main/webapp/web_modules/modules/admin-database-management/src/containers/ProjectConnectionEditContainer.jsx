@@ -43,11 +43,21 @@ export class ProjectConnectionEditContainer extends React.Component {
     if (projectConnection) {
       return (<ProjectConnectionEditComponent
         projectConnection={this.props.projectConnection}
+        onBack={this.handleBack}
         onSubmit={this.handleUpdate}
         onCancel={this.handleCancel}
       />)
     }
     return (<FormEntityNotFoundComponent />)
+  }
+
+  handleBack = () => {
+    browserHistory.goBack()
+  }
+
+  handleCancel = () => {
+    const url = this.getBackUrl()
+    browserHistory.push(url)
   }
 
   handleUpdate = (values) => {
@@ -64,11 +74,6 @@ export class ProjectConnectionEditContainer extends React.Component {
         browserHistory.push(url)
       }
     })
-  }
-
-  handleCancel = () => {
-    const url = this.getBackUrl()
-    browserHistory.push(url)
   }
 
   render() {

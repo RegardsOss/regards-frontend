@@ -2,7 +2,7 @@ import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { Step } from 'material-ui/Stepper'
 import EnumConnectivity from '@regardsoss/model/src/admin/EnumConnectivity'
-import GuidedProjectConfiguration from '../../src/components/GuidedProjectConfiguration'
+import GuidedProjectConfiguration from '../../src/components/GuidedProjectConfigurationComponent'
 
 // Test a component rendering
 describe('[ADMIN DATABASE MANAGEMENT] Testing GuidedProjectConfiguration', () => {

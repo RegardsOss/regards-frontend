@@ -21,26 +21,24 @@ export class ProjectConnectionListContainer extends React.Component {
     projectConnections: ProjectConnectionList.isRequired,
     // from mapDispatchToProps
     fetchProjectConnections: React.PropTypes.func,
-    //deleteAccount: React.PropTypes.func,
   }
 
   componentWillMount() {
     this.props.fetchProjectConnections()
   }
 
-  /*
-  getBackUrl = () => {
-    const { params: { project } } = this.props
-    return `/admin/${project}/user/board`
+  handleClose = () => {
+    const url = '/admin'
+    browserHistory.push(url)
   }
 
-  getCreateUrl = () => {
-    const { params: { project } } = this.props
-    return `/admin/${project}/user/project-user/create`
-  }
-*/
   handleEdit = (projectConnectionId) => {
     const url = `/admin/project-connection/${projectConnectionId}/edit`
+    browserHistory.push(url)
+  }
+
+  handleGuidedProjectConfiguration = () => {
+    const url = '/admin/project-connection/guided'
     browserHistory.push(url)
   }
 
@@ -51,7 +49,9 @@ export class ProjectConnectionListContainer extends React.Component {
       <I18nProvider messageDir="modules/admin-database-management/src/i18n">
         <ProjectConnectionListComponent
           projectConnections={projectConnections}
+          onClose={this.handleClose}
           onEdit={this.handleEdit}
+          onGuidedConfiguration={this.handleGuidedProjectConfiguration}
         />
       </I18nProvider>
     )

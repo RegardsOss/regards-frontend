@@ -2,17 +2,20 @@
  * LICENSE_PLACEHOLDER
  */
 import { map } from 'lodash'
-import { Card, CardTitle, CardText } from 'material-ui/Card'
+import { Card, CardText } from 'material-ui/Card'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
 import IconButton from 'material-ui/IconButton'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
+import WrapText from 'material-ui/svg-icons/editor/wrap-text'
+import AppBar from 'material-ui/AppBar'
+import Close from 'material-ui/svg-icons/navigation/close'
 import { FormattedMessage } from 'react-intl'
-import { browserHistory } from 'react-router'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import ProjectConnectionList from '@regardsoss/model/src/admin/ProjectConnection'
 import DatabaseConnectionTesterIconButton from './DatabaseConnectionTesterIconButton'
-
+import FloatingActionButton from 'material-ui/FloatingActionButton'
+import ContentAdd from 'material-ui/svg-icons/content/add'
 /**
  * React component to list the {@link ProjectConnection}s for all microservices of a project.
  *
@@ -22,7 +25,9 @@ export class ProjectConnectionListComponent extends React.Component {
 
   static propTypes = {
     projectConnections: ProjectConnectionList.isRequired,
+    onClose: React.PropTypes.func.isRequired,
     onEdit: React.PropTypes.func.isRequired,
+    onGuidedConfiguration: React.PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -30,26 +35,26 @@ export class ProjectConnectionListComponent extends React.Component {
     ...i18nContextType,
   }
 
-  handleEdit = (projectConnectionId) => {
-    const url = `/admin/project-connection/${projectConnectionId}/edit`
-    browserHistory.push(url)
-  }
-
   render() {
-    const { projectConnections, onEdit } = this.props
+    const { projectConnections, onEdit, onClose, onGuidedConfiguration } = this.props
     const style = {
       hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
     }
     return (
       <Card>
-        <CardTitle
+        <AppBar
           title={<FormattedMessage id="database.list.title" />}
-          subtitle={<FormattedMessage id="database.list.subtitle" />}
+          iconElementLeft={<IconButton onTouchTap={onClose}><Close /></IconButton>}
+          iconElementRight={
+            <IconButton
+              tooltip={<FormattedMessage id="database.list.access.guided.configuration" />}
+              onTouchTap={onGuidedConfiguration}
+            >
+              <WrapText />
+            </IconButton>}
         />
         <CardText>
-          <Table
-            selectable
-          >
+          <Table selectable >
             <TableHeader
               enableSelectAll={false}
               adjustForCheckbox={false}
