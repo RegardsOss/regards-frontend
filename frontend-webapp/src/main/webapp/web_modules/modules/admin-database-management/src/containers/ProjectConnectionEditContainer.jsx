@@ -44,11 +44,12 @@ export class ProjectConnectionEditContainer extends React.Component {
       return (<ProjectConnectionEditComponent
         projectConnection={this.props.projectConnection}
         onSubmit={this.handleUpdate}
-        onCancel={() => console.log('Cancel')}
+        onCancel={this.handleCancel}
       />)
     }
     return (<FormEntityNotFoundComponent />)
   }
+
   handleUpdate = (values) => {
     const updatedProjectConnection = Object.assign({}, this.props.projectConnection.content, {
       userName: values.userName,
@@ -65,6 +66,11 @@ export class ProjectConnectionEditContainer extends React.Component {
     })
   }
 
+  handleCancel = () => {
+    const url = this.getBackUrl()
+    browserHistory.push(url)
+  }
+
   render() {
     return (
       <I18nProvider messageDir="modules/admin-database-management/src/i18n">
@@ -79,7 +85,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  updateAccount: (id, values) => dispatch(ProjectConnectionActions.updateEntity(id, values)),
+  updateProjectConnection: (id, values) => dispatch(ProjectConnectionActions.updateEntity(id, values)),
   fetchProjectConnection: id => dispatch(ProjectConnectionActions.fetchEntity(id)),
 })
 
