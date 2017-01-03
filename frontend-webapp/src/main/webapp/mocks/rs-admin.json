@@ -1,0 +1,43 @@
+{
+  "projectConnections": {
+    "0": {
+      "content": {
+        "id": 0,
+        "projectName": "cdpp",
+        "microservice": "rs-admin",
+        "userName": "Alice",
+        "password": "password",
+        "driverClassName": "PostgreSQL",
+        "url": "http://google.com",
+        "connectivity": "EnumConnectivity.SUCCESS"
+      },
+      "links": []
+    },
+    "1": {
+      "content": {
+        "id": 1,
+        "projectName": "cdpp",
+        "microservice": "rs-cloud",
+        "userName": "Bob",
+        "password": "azerty",
+        "driverClassName": "PostgreSQL",
+        "url": "http://google.com",
+        "connectivity": "EnumConnectivity.ERROR"
+      },
+      "links": []
+    },
+    "2": {
+      "content": {
+        "id": 2,
+        "projectName": "cdpp",
+        "microservice": "rs-dam",
+        "userName": "Charlie",
+        "password": "qsdfgh",
+        "driverClassName": "PostgreSQL",
+        "url": "http://google.com",
+        "connectivity": "EnumConnectivity.NOT_TESTED"
+      },
+      "links": []
+    }
+  }
+}
