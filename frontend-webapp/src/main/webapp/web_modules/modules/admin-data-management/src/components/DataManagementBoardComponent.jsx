@@ -21,7 +21,6 @@ class DataManagementBoard extends React.Component {
   render() {
     const { project } = this.props
     const items = dataManagementItems(project, this.context.intl)
-    console.log(items)
     return (
       <BoardComponent items={items} />
     )
