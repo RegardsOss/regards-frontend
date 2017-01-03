@@ -28,6 +28,11 @@ export class RoleListComponent extends React.Component {
     ...i18nContextType,
   }
 
+  /**
+   *
+   * @param isDeleted
+   * @returns {*}
+   */
   getState = (isDeleted) => {
     if (isDeleted) {
       return (<FormattedMessage id="projects.table.isDeleted" />)
@@ -35,6 +40,11 @@ export class RoleListComponent extends React.Component {
     return (null)
   }
 
+  /**
+   * Return the parent role as string
+   * @param parentRole Role
+   * @returns {string}
+   */
   getParentRoleName = (parentRole) => {
     if (parentRole) {
       return parentRole.name
