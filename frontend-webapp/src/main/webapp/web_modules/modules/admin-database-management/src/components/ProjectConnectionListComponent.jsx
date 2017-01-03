@@ -7,6 +7,7 @@ import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowCol
 import IconButton from 'material-ui/IconButton'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import { FormattedMessage } from 'react-intl'
+import { browserHistory } from 'react-router'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import ProjectConnectionList from '@regardsoss/model/src/admin/ProjectConnection'
@@ -21,6 +22,7 @@ export class ProjectConnectionListComponent extends React.Component {
 
   static propTypes = {
     projectConnections: ProjectConnectionList.isRequired,
+    onEdit: React.PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -28,12 +30,13 @@ export class ProjectConnectionListComponent extends React.Component {
     ...i18nContextType,
   }
 
-  handleEdit = () => {
-    console.log('Handle edit')
+  handleEdit = (projectConnectionId) => {
+    const url = `/admin/project-connection/${projectConnectionId}/edit`
+    browserHistory.push(url)
   }
 
   render() {
-    const { projectConnections } = this.props
+    const { projectConnections, onEdit } = this.props
     const style = {
       hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
     }
@@ -74,7 +77,7 @@ export class ProjectConnectionListComponent extends React.Component {
                   <TableRowColumn>{connection.content.userName}</TableRowColumn>
                   <TableRowColumn>{connection.content.password}</TableRowColumn>
                   <TableRowColumn>
-                    <IconButton onTouchTap={this.handleEdit}>
+                    <IconButton onTouchTap={() => onEdit(connection.content.id)}>
                       <Edit hoverColor={style.hoverButtonEdit} />
                     </IconButton>
                     <DatabaseConnectionTesterIconButton projectConnection={connection} />
