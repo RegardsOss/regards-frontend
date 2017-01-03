@@ -43,6 +43,7 @@ const runServer = () => {
   const server = jsonServer.create()
   const accessMicroServiceRouter = jsonServer.router('mocks/rs-access.temp.json')
   const gatewayMicroServiceRouter = jsonServer.router('mocks/rs-gateway.temp.json')
+  const adminMicroServiceRouter = jsonServer.router('mocks/rs-admin.temp.json')
   const accessMicroServiceRewriter = jsonServer.rewriter('mocks/rs-access.rewriter.json')
   const middlewares = jsonServer.defaults()
 
@@ -77,7 +78,9 @@ const runServer = () => {
 /**
  * Copy mock json database to temp file for trash use during mock usage
  */
-fs.copy('./mocks/rs-access.json', 'mocks/rs-access.temp.json', ()=> {
-  fs.copy('./mocks/rs-gateway.json', 'mocks/rs-gateway.temp.json', runServer)
+fs.copy('./mocks/rs-admin.json', 'mocks/rs-admin.temp.json', ()=> {
+  fs.copy('./mocks/rs-access.json', 'mocks/rs-access.temp.json', ()=> {
+    fs.copy('./mocks/rs-gateway.json', 'mocks/rs-gateway.temp.json', runServer)
+  });
 });
 
