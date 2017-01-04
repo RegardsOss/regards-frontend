@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { intlShape } from 'react-intl'
-import connect from '@regardsoss/redux'
+import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { isAuthenticated, AuthenticationSelectors, AuthenticateShape } from '@regardsoss/authentication-manager'
 import { ThemeHelper, ThemeSelectors } from '@regardsoss/theme'

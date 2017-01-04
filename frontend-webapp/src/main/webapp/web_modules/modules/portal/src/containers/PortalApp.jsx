@@ -3,7 +3,7 @@
  **/
 import { forEach } from 'lodash'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-import connect from '@regardsoss/redux'
+import { connect } from '@regardsoss/redux'
 import { ThemeHelper, ThemeSelectors } from '@regardsoss/theme'
 import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
 import { LayoutShape, ApplicationLayout } from '@regardsoss/layout'

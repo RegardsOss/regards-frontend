@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { intlShape } from 'react-intl'
-import connect from '@regardsoss/redux'
+import { connect } from '@regardsoss/redux'
 import { LazyModuleComponent } from '@regardsoss/modules'
 import { isAuthenticated, logout, AuthenticationSelectors, AuthenticateShape } from '@regardsoss/authentication-manager'
 import Dialog from 'material-ui/Dialog'

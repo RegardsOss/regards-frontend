@@ -2,9 +2,8 @@
  * LICENSE_PLACEHOLDER
  **/
 import { browserHistory } from 'react-router'
-import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
 import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
-import connect from '@regardsoss/redux'
+import { connect } from '@regardsoss/redux'
 import { ModuleShape } from '@regardsoss/modules'
 import { LayoutShape, ContainerHelper } from '@regardsoss/layout'
 import ModulesActions from '../model/modules/ModulesActions'
@@ -35,10 +34,6 @@ class ModuleContainer extends React.Component {
     isFetching: React.PropTypes.bool,
     module: ModuleShape,
     layout: LayoutShape,
-  }
-
-  static contextTypes = {
-    ...i18nContextType,
   }
 
   componentWillMount() {
@@ -87,15 +82,13 @@ class ModuleContainer extends React.Component {
     console.log(this.props)
 
     return (
-      <I18nProvider messageDir="modules/ui-configuration/src/i18n">
-        <ModuleFormComponent
-          applicationId={this.props.params.applicationId}
-          onSubmit={this.handleSubmit}
-          onBack={this.handleBack}
-          module={this.props.module}
-          containers={ContainerHelper.getAvailableContainersInLayout(this.props.layout)}
-        />
-      </I18nProvider>
+      <ModuleFormComponent
+        applicationId={this.props.params.applicationId}
+        onSubmit={this.handleSubmit}
+        onBack={this.handleBack}
+        module={this.props.module}
+        containers={ContainerHelper.getAvailableContainersInLayout(this.props.layout)}
+      />
     )
   }
 }

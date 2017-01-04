@@ -1,5 +1,5 @@
 import { browserHistory } from 'react-router'
-import connect from '@regardsoss/redux'
+import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { Fragment } from '@regardsoss/model'
 import FragmentActions from '../model/FragmentActions'

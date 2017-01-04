@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { browserHistory } from 'react-router'
-import connect from '@regardsoss/redux'
+import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { map } from 'lodash'
 import { RequestErrorShape } from '@regardsoss/store-utils'

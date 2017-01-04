@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import connect from '@regardsoss/redux'
+import { connect } from '@regardsoss/redux'
 import { fetchAuthenticate } from '@regardsoss/authentication-manager'
 import LoginComponent from '../components/LoginComponent'
 

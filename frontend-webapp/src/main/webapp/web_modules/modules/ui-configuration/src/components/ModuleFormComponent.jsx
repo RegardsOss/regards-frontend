@@ -10,6 +10,7 @@ import { ShowableAtRender, CardActionsComponent } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { RenderTextField, RenderSelectField, Field, RenderCheckbox, ErrorTypes } from '@regardsoss/form-utils'
 import { reduxForm } from 'redux-form'
+import { ReduxConnectedForm } from '@regardsoss/redux'
 import { ModuleShape, AvailableModules, LazyModuleComponent } from '@regardsoss/modules'
 
 /**
@@ -71,7 +72,10 @@ class ModuleFormComponent extends React.Component {
       moduleConf = (
         <Card style={this.context.muiTheme.layout.cardEspaced}>
           <CardTitle
-            title={<FormattedMessage id="module.form.special.parameters.title" values={{ name: this.state.module.name }} />}
+            title={<FormattedMessage
+              id="module.form.special.parameters.title"
+              values={{ name: this.state.module.name }}
+            />}
           />
           <CardText>
             <LazyModuleComponent
@@ -86,82 +90,91 @@ class ModuleFormComponent extends React.Component {
       )
     }
 
+    console.log('PROPS', this.props)
+    console.log('CONTEXT', this.context)
+
     return (
-      <form onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
-        <Card>
-          <CardTitle
-            title={<FormattedMessage
-              id={this.state.creation ? 'module.form.title.create' : 'module.form.title.update'}
-              values={this.state.creation ? {} : {
-                name: this.state.module.name,
-              }}
-            />}
-          />
-          <CardText>
-            <ShowableAtRender show={this.state.creation}>
+      <ReduxConnectedForm
+        intl={this.context.intl}
+        onSubmit={this.props.handleSubmit(this.props.onSubmit)}
+        i18nMessagesDir="modules/ui-configuration/src/i18n"
+      >
+        <div>
+          <Card>
+            <CardTitle
+              title={<FormattedMessage
+                id={this.state.creation ? 'module.form.title.create' : 'module.form.title.update'}
+                values={this.state.creation ? {} : {
+                  name: this.state.module.name,
+                }}
+              />}
+            />
+            <CardText>
+              <ShowableAtRender show={this.state.creation}>
+                <Field
+                  name="name"
+                  fullWidth
+                  component={RenderSelectField}
+                  type="text"
+                  onChange={this.selectModuleType}
+                  label={<FormattedMessage id="module.form.name" />}
+                >
+                  {map(AvailableModules, (module, id) => (
+                    <MenuItem
+                      value={module}
+                      key={id}
+                      primaryText={module}
+                    />
+                  ))}
+                </Field>
+              </ShowableAtRender>
               <Field
-                name="name"
+                name="description"
+                fullWidth
+                component={RenderTextField}
+                type="text"
+                label={<FormattedMessage id="module.form.description" />}
+              />
+              <Field
+                name="container"
                 fullWidth
                 component={RenderSelectField}
                 type="text"
-                onChange={this.selectModuleType}
-                label={<FormattedMessage id="module.form.name" />}
+                label={<FormattedMessage id="module.form.container" />}
               >
-                {map(AvailableModules, (module, id) => (
+                {map(this.props.containers, (container, id) => (
                   <MenuItem
-                    value={module}
+                    value={container}
                     key={id}
-                    primaryText={module}
+                    primaryText={container}
                   />
                 ))}
               </Field>
-            </ShowableAtRender>
-            <Field
-              name="description"
-              fullWidth
-              component={RenderTextField}
-              type="text"
-              label={<FormattedMessage id="module.form.description" />}
-            />
-            <Field
-              name="container"
-              fullWidth
-              component={RenderSelectField}
-              type="text"
-              label={<FormattedMessage id="module.form.container" />}
-            >
-              {map(this.props.containers, (container, id) => (
-                <MenuItem
-                  value={container}
-                  key={id}
-                  primaryText={container}
-                />
-              ))}
-            </Field>
-            <Field
-              name="active"
-              component={RenderCheckbox}
-              label={<FormattedMessage id="module.form.active" />}
-            />
-          </CardText>
-        </Card>
+              <Field
+                name="active"
+                component={RenderCheckbox}
+                label={<FormattedMessage id="module.form.active" />}
+              />
+            </CardText>
+          </Card>
 
-        {moduleConf}
+          {moduleConf}
 
-        <Card style={this.context.muiTheme.layout.cardEspaced}>
-          <CardActions>
-            <CardActionsComponent
-              mainButtonLabel={<FormattedMessage
-                id={this.state.creation ? 'module.form.submit.button' : 'module.form.update.button'}
-              />}
-              mainButtonType="submit"
-              isMainButtonDisabled={pristine || submitting}
-              secondaryButtonLabel={<FormattedMessage id="module.form.cancel.button" />}
-              secondaryButtonTouchTap={this.props.onBack}
-            />
-          </CardActions>
-        </Card>
-      </form>
+          <Card style={this.context.muiTheme.layout.cardEspaced}>
+            <CardActions>
+              <CardActionsComponent
+                mainButtonLabel={<FormattedMessage
+                  id={this.state.creation ? 'module.form.submit.button' : 'module.form.update.button'}
+                />}
+                mainButtonType="submit"
+                isMainButtonDisabled={pristine || submitting}
+                secondaryButtonLabel={<FormattedMessage id="module.form.cancel.button" />}
+                secondaryButtonTouchTap={this.props.onBack}
+              />
+            </CardActions>
+          </Card>
+        </div>
+      </ReduxConnectedForm>
     )
   }
 }
