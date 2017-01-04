@@ -17,6 +17,7 @@ export class RoleFormComponent extends React.Component {
     // from reduxForm
     submitting: React.PropTypes.bool,
     pristine: React.PropTypes.bool,
+    invalid: React.PropTypes.bool,
     handleSubmit: React.PropTypes.func.isRequired,
     initialize: React.PropTypes.func.isRequired,
   }
@@ -49,7 +50,7 @@ export class RoleFormComponent extends React.Component {
 
 
   render() {
-    const { pristine, submitting } = this.props
+    const { pristine, submitting, invalid } = this.props
     const title = this.state.isCreating ? <FormattedMessage id="project.create.title" /> :
       (<FormattedMessage
         id="project.edit.title"
@@ -64,44 +65,32 @@ export class RoleFormComponent extends React.Component {
             title={title}
           />
           <CardText>
-
-            {this.state.isCreating ? (
-              <Field
-                name="name"
-                fullWidth
-                component={RenderTextField}
-                type="text"
-                label={<FormattedMessage id="projects.table.name.label" />}
-              />
-            ) : (
-              null
-            )}
+            <Field
+              name="name"
+              fullWidth
+              component={RenderTextField}
+              type="text"
+              label={<FormattedMessage id="role.form.name" />}
+            />
             <Field
               name="description"
               fullWidth
               component={RenderTextField}
               type="text"
-              label={<FormattedMessage id="projects.table.description.label" />}
+              label={<FormattedMessage id="role.form.description" />}
             />
             <Field
-              name="icon"
-              fullWidth
-              component={RenderTextField}
-              type="text"
-              label={<FormattedMessage id="projects.table.icon.label" />}
-            />
-            <Field
-              name="isPublic"
+              name="isCorsRequestsAuthorized"
               component={RenderCheckbox}
-              label={<FormattedMessage id="project.add.input.isPublic" />}
+              label={<FormattedMessage id="role.form.isCorsRequestsAuthorized" />}
             />
           </CardText>
           <CardActions>
             <CardActionsComponent
-              mainButtonLabel={<FormattedMessage id="projects.submit.button" />}
+              mainButtonLabel={<FormattedMessage id="role.form.action.button" />}
               mainButtonType="submit"
-              isMainButtonDisabled={pristine || submitting}
-              secondaryButtonLabel={<FormattedMessage id="projects.cancel.button" />}
+              isMainButtonDisabled={pristine || submitting || invalid}
+              secondaryButtonLabel={<FormattedMessage id="role.form.action.button" />}
               secondaryButtonUrl={this.props.backUrl}
             />
           </CardActions>
@@ -123,7 +112,7 @@ function validate(values) {
 }
 
 export default reduxForm({
-  form: 'project-form',
+  form: 'role-form',
   validate,
 })(RoleFormComponent)
 

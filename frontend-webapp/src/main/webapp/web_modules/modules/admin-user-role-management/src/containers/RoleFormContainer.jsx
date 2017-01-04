@@ -47,7 +47,7 @@ export class RoleFormContainer extends React.Component {
   }
   getBackUrl = () => {
     const { params: { project } } = this.props
-    return `/admin/project/${project}/user/role/list`
+    return `/admin/${project}/user/role/list`
   }
 
   getFormComponent = () => {
