@@ -71,7 +71,9 @@ storiesOf('InstanceAdmin - Database', module)
     const projectConnection = object('Project connection', testProjectConnections[2])
     return (
       <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-database-management/src/i18n">
-        <DatabaseConnectionTesterIconButton projectConnection={projectConnection} />
+        <DatabaseConnectionTesterIconButton
+          projectConnection={projectConnection}
+        />
       </ThemeAndLocaleDecorator>
     )
   })
@@ -82,6 +84,9 @@ storiesOf('InstanceAdmin - Database', module)
       <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-database-management/src/i18n">
         <ProjectConnectionListComponent
           projectConnections={projectConnections}
+          onClose={action('onClose')}
+          onEdit={action('onEdit')}
+          onGuidedConfiguration={action('onGuidedConfiguration')}
         />
       </ThemeAndLocaleDecorator>
     )
@@ -108,6 +113,7 @@ storiesOf('InstanceAdmin - Database', module)
           projectConnection={connectionToEdit}
           onSubmit={action('onCreate')}
           onCancel={action('onCancel')}
+          onBack={action('onBack')}
         />
       </ThemeAndLocaleDecorator>
     )
@@ -117,7 +123,10 @@ storiesOf('InstanceAdmin - Database', module)
     const projectConnections = object('Connections list', testProjectConnections)
     return (
       <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-database-management/src/i18n">
-        <GuidedProjectConfigurationComponent projectConnections={projectConnections} />
+        <GuidedProjectConfigurationComponent
+          projectConnections={projectConnections}
+          onStepSave={action('onStepSave')}
+        />
       </ThemeAndLocaleDecorator>
     )
   })

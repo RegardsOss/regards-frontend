@@ -118,7 +118,7 @@ class GuidedProjectConfigurationComponent extends React.Component {
             orientation="vertical"
           >
             {map(projectConnections, (projectConnection, key) => (
-              <Step>
+              <Step key={key}>
                 {this.getStepButton(projectConnection, key)}
                 <StepContent>
                   <ProjectConnectionFormComponent
