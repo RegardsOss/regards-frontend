@@ -48,8 +48,6 @@ const PageAndHateoasMiddleWare = (req, res) => {
         "totalElements":res._headers['x-total-count'].value(),
       }
 
-      console.log(res._headers.link)
-
       if (res._headers.link){
         const reslinks = split(res._headers.link, ',')
         forEach(reslinks, (clink, idx)=> {
@@ -93,13 +91,11 @@ const runServer = () => {
   const accessMicroServiceRouter = jsonServer.router('mocks/rs-access.temp.json')
   const gatewayMicroServiceRouter = jsonServer.router('mocks/rs-gateway.temp.json')
   const catalogMicroServiceRouter = jsonServer.router('mocks/rs-catalog.temp.json')
-  const adminMicroServiceRouter = jsonServer.router('mocks/rs-admin.temp.json')
   const accessMicroServiceRewriter = jsonServer.rewriter('mocks/rs-access.rewriter.json')
   const middlewares = jsonServer.defaults()
 
   accessMicroServiceRouter.render = PageAndHateoasMiddleWare
   catalogMicroServiceRouter.render = PageAndHateoasMiddleWare
-  adminMicroServiceRouter.render = PageAndHateoasMiddleWare
 
   server.use(middlewares)
 
@@ -120,7 +116,6 @@ const runServer = () => {
   }))
   server.use('/api/v1/rs-access/', accessMicroServiceRouter)
   server.use('/api/v1/rs-catalog/', catalogMicroServiceRouter)
-  server.use('/api/v1/rs-admin/', adminMicroServiceRouter)
   server.use(gatewayMicroServiceRouter)
 
   server.listen(3000, () => {
@@ -132,11 +127,9 @@ const runServer = () => {
 /**
  * Copy mock json database to temp file for trash use during mock usage
  */
-fs.copy('./mocks/rs-admin.json', 'mocks/rs-admin.temp.json', ()=> {
-  fs.copy('./mocks/rs-catalog.json', 'mocks/rs-catalog.temp.json', () => {
-    fs.copy('./mocks/rs-access.json', 'mocks/rs-access.temp.json', () => {
-      fs.copy('./mocks/rs-gateway.json', 'mocks/rs-gateway.temp.json', runServer)
-    })
+fs.copy('./mocks/rs-catalog.json', 'mocks/rs-catalog.temp.json', ()=> {
+  fs.copy('./mocks/rs-access.json', 'mocks/rs-access.temp.json', () => {
+    fs.copy('./mocks/rs-gateway.json', 'mocks/rs-gateway.temp.json', runServer)
   })
 })
 
