@@ -46,7 +46,7 @@ describe('[COMMON] Testing i18n actions', () => {
                 .then(() => { // return of async actions
                   expect(store.getActions()).to.eql(expectedActions)
                 })
-  })
+  }).timeout(20000)
 
   it('Test fallback en-US --> en', () => {
     const store = mockStore({
