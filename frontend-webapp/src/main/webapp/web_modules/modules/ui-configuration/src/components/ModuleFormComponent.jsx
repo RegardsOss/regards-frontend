@@ -28,6 +28,7 @@ class ModuleFormComponent extends React.Component {
     pristine: React.PropTypes.bool,
     handleSubmit: React.PropTypes.func.isRequired,
     initialize: React.PropTypes.func.isRequired,
+    change: React.PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -38,8 +39,8 @@ class ModuleFormComponent extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      creation: this.props.module === undefined,
-      moduleSelected: this.props.module !== undefined,
+      creation: this.props.module ? false : true,
+      moduleSelected: this.props.module ? true : false,
       module: this.props.module ? this.props.module : {
         active: false,
       },
@@ -73,7 +74,13 @@ class ModuleFormComponent extends React.Component {
             title={<FormattedMessage id="module.form.special.parameters.title" values={{ name: this.state.module.name }} />}
           />
           <CardText>
-            <LazyModuleComponent module={this.state.module} admin appName={this.props.applicationId} refresh />
+            <LazyModuleComponent
+              module={this.state.module}
+              admin
+              appName={this.props.applicationId}
+              refresh
+              change={this.props.change}
+            />
           </CardText>
         </Card>
       )

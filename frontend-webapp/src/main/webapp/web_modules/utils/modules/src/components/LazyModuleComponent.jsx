@@ -28,6 +28,9 @@ class LazyModuleComponent extends React.Component {
     decorator: DecoratorShape,
     admin: React.PropTypes.bool,
     onLoadAction: React.PropTypes.func,
+    // Only used for administration modules. Used to add a value to the saving module configuration form
+    // usage : this.props.change("conf.<property>",<value>)
+    change: React.PropTypes.func,
   }
 
   constructor(props) {
@@ -104,11 +107,12 @@ class LazyModuleComponent extends React.Component {
       const defaultModuleProps = {
         appName: this.props.appName,
         project: this.props.project,
+        change: this.props.change,
       }
 
       // Display module with admin or normal container ?
       if (this.props.admin && module.adminContainer) {
-        moduleElt = React.createElement(module.adminContainer, defaultModuleProps)
+        moduleElt = React.createElement(module.adminContainer, merge({}, defaultModuleProps, this.props.module.conf))
       } else if (!this.props.admin && module.moduleContainer) {
         moduleElt = React.createElement(module.moduleContainer, merge({}, defaultModuleProps, this.props.module.conf))
       }

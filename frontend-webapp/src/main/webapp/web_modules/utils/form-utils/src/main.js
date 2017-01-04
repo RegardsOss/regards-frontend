@@ -1,6 +1,7 @@
 import RenderTextField from './RenderTextField'
 import RenderSelectField from './RenderSelectField'
 import RenderCheckbox from './RenderCheckbox'
+import RenderRadio from './RenderRadio'
 import TextAreaField from './TextAreaField'
 import FormErrorMessage from './FormErrorMessage'
 import ErrorTypes from './ErrorTypes'
@@ -14,6 +15,7 @@ export default {
   RenderTextField,
   RenderSelectField,
   RenderCheckbox,
+  RenderRadio,
   TextAreaField,
   FormErrorMessage,
   ErrorTypes,

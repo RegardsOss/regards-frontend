@@ -18,6 +18,8 @@ import OnHoverSwitchRaisedButton from './buttons/OnHoverSwitchRaisedButton'
 
 import ConfirmDialogComponent from './dialogs/ConfirmDialogComponent'
 
+import PageableListContainer from './list/PageableListContainer'
+
 export {
   ActionButtonComponent,
   ApplicationErrorComponent,
@@ -33,4 +35,5 @@ export {
   CenteredDiv,
   BoardComponent,
   ConfirmDialogComponent,
+  PageableListContainer,
 }

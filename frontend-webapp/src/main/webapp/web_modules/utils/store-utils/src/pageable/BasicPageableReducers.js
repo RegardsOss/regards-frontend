@@ -8,6 +8,18 @@ import BasicListReducers from '../list/BasicListReducers'
  */
 class BasicPageableReducer extends BasicListReducers {
 
+  reduce(state, action) {
+    const newState = super.reduce(state, action)
+    switch (action.type) {
+      case this.basicListActionInstance.ENTITY_LIST_SUCCESS :
+        return Object.assign({}, newState, {
+          metadata: action.payload.metadata,
+        })
+      default :
+        return newState
+    }
+  }
+
 }
 
 export default BasicPageableReducer
