@@ -61,7 +61,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchProjectConnections: () => dispatch(ProjectConnectionActions.fetchEntityList()),
+  fetchProjectConnections: () => dispatch(ProjectConnectionActions.fetchPagedEntityList()),
   updateProjectConnection: (id, values) => dispatch(ProjectConnectionActions.updateEntity(id, values)),
 })
 

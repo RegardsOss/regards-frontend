@@ -64,7 +64,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchProjectConnections: () => dispatch(ProjectConnectionActions.fetchEntityList()),
+  fetchProjectConnections: () => dispatch(ProjectConnectionActions.fetchPagedEntityList()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectConnectionListContainer)
