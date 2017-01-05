@@ -91,7 +91,6 @@ class FormDatasetsConfigurationComponent extends React.Component {
   }
 
   renderType() {
-
     switch (this.state.type) {
       case 'selectedDatasets' :
         return (

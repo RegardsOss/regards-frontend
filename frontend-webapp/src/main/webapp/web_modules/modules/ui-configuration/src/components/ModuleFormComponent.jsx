@@ -57,7 +57,7 @@ class ModuleFormComponent extends React.Component {
   }
 
   selectModuleType = (event, index, value, input) => {
-    console.log("module selecte",value)
+    console.log('module selecte', value)
     input.onChange(value)
     this.setState({
       moduleSelected: true,
