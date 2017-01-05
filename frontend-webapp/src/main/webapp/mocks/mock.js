@@ -42,30 +42,28 @@ const PageAndHateoasMiddleWare = (req, res) => {
         limit = replace(limit[0], "_limit=", '')
       }
 
-      if (index && limit) {
-        meta = {
-          "number": index,
-          "size": limit,
-          "totalElements": res._headers['x-total-count'].value(),
-        }
+      meta = {
+        "number": index,
+        "size": limit,
+        "totalElements":res._headers['x-total-count'].value(),
+      }
 
-        if (res._headers.link) {
-          const reslinks = split(res._headers.link, ',')
-          forEach(reslinks, (clink, idx) => {
-            const elements = split(clink, ";")
-            let url = replace(elements[0], '<', '')
-            url = trim(replace(url, '>', ''))
+      if (res._headers.link){
+        const reslinks = split(res._headers.link, ',')
+        forEach(reslinks, (clink, idx)=> {
+          const elements = split(clink,";")
+          let url = replace(elements[0],'<','')
+          url = trim(replace(url,'>',''))
 
-            let rel = replace(elements[1], 'rel=', '')
-            rel = replace(rel, '"', '')
-            rel = trim(replace(rel, '"', ''))
-            const link = {
-              rel,
-              url
-            }
-            links.push(link)
-          })
-        }
+          let rel = replace(elements[1],'rel=','')
+          rel = replace(rel,'"','')
+          rel = trim(replace(rel,'"',''))
+          const link = {
+            rel,
+            url
+          }
+          links.push(link)
+        })
       }
     }
 
@@ -134,7 +132,7 @@ const runServer = () => {
 /**
  * Copy mock json database to temp file for trash use during mock usage
  */
-fs.copy('./mocks/rs-catalog.json', 'mocks/rs-catalog.temp.json', () => {
+fs.copy('./mocks/rs-admin.json', 'mocks/rs-admin.temp.json', ()=> {
   fs.copy('./mocks/rs-dam.json', 'mocks/rs-dam.temp.json', () => {
     fs.copy('./mocks/rs-catalog.json', 'mocks/rs-catalog.temp.json', () => {
       fs.copy('./mocks/rs-access.json', 'mocks/rs-access.temp.json', () => {
