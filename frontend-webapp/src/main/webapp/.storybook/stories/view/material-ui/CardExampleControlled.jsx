@@ -6,7 +6,7 @@ import Toggle from 'material-ui/Toggle'
 export default class CardExampleControlled extends React.Component {
 
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       expanded: false,
     }
@@ -48,11 +48,11 @@ export default class CardExampleControlled extends React.Component {
         </CardText>
         <CardMedia
           expandable
-          overlay={<CardTitle title="Overlay title" subtitle="Overlay subtitle"/>}
+          overlay={<CardTitle title="Overlay title" subtitle="Overlay subtitle" />}
         >
-          <img src="http://www.material-ui.com/images/nature-600-337.jpg" alt="Background"/>
+          <img src="http://www.material-ui.com/images/nature-600-337.jpg" alt="Background" />
         </CardMedia>
-        <CardTitle title="Card title" subtitle="Card subtitle" expandable/>
+        <CardTitle title="Card title" subtitle="Card subtitle" expandable />
         <CardText expandable>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit.
           Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
@@ -60,8 +60,8 @@ export default class CardExampleControlled extends React.Component {
           Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.
         </CardText>
         <CardActions>
-          <FlatButton label="Expand" onTouchTap={this.handleExpand}/>
-          <FlatButton label="Reduce" onTouchTap={this.handleReduce}/>
+          <FlatButton label="Expand" onTouchTap={this.handleExpand} />
+          <FlatButton label="Reduce" onTouchTap={this.handleReduce} />
         </CardActions>
       </Card>
     )

@@ -7,14 +7,18 @@ storiesOf('Material Design', module)
   .addDecorator((story) => {
     const storyKind = story()
     return (
-      <div style={{
-        display: 'flex',
-        justifyContent: 'center'
-      }}>
-        <div style={{
-          maxWidth: 1000,
-          minWidth: 600
-        }}>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+        }}
+      >
+        <div
+          style={{
+            maxWidth: 1000,
+            minWidth: 600,
+          }}
+        >
           {storyKind}
         </div>
       </div>)

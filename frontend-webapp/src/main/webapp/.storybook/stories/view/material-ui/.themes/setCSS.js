@@ -1,5 +1,5 @@
 export default function setCSS(palette, className) {
-    const style = `
+  const style = `
 .${className} div {
     color: ${palette.textColor};
     /*color: red;*/
@@ -40,6 +40,6 @@ export default function setCSS(palette, className) {
     color: ${palette.primary2Color};
     background: ${palette.primary3Color};
 }
-`;
-    return style;
+`
+  return style
 }
