@@ -6,9 +6,10 @@ import ProjectConnectionEditContainer from '../src/containers/ProjectConnectionE
 describe('[ADMIN DATABASE MANAGEMENT] Testing router', () => {
   it('should return the correct value', () => {
     assert.isNotNull(Routes)
-    expect(Routes.childRoutes).to.have.length(2)
+    expect(Routes.childRoutes).to.have.length(3)
     expect(Routes.childRoutes[0].path).to.eq('list')
     expect(Routes.childRoutes[1].path).to.eq(':project_connection_id/edit')
+    expect(Routes.childRoutes[2].path).to.eq('guided')
   })
   it('list should return ProjectConnectionListContainer', (done) => {
     Routes.childRoutes[0].getComponents(undefined, (smth, component) => {
