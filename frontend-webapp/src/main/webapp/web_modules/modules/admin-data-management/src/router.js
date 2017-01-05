@@ -27,9 +27,19 @@ export const modelManagementRouter = {
 export const attributeModelManagementRouter = {
   path: 'attribute/model',
   getChildRoutes(nextState, cb) {
-    const adminDataModelManagement = require('@regardsoss/admin-data-attributemodel-management')
+    const adminDataAttrModelManagement = require('@regardsoss/admin-data-attributemodel-management')
     require.ensure([], (require) => {
-      cb(null, [adminDataModelManagement.attributeModelDataManagementRouter])
+      cb(null, [adminDataAttrModelManagement.attributeModelDataManagementRouter])
+    })
+  },
+}
+
+export const fragmentModelManagementRouter = {
+  path: 'fragment',
+  getChildRoutes(nextState, cb) {
+    const adminDataFragmentManagement = require('@regardsoss/admin-data-fragment-management')
+    require.ensure([], (require) => {
+      cb(null, [adminDataFragmentManagement.fragmentDataManagementRouter])
     })
   },
 }
@@ -40,6 +50,7 @@ const dataManagementRouter = {
     homeDataRoute,
     modelManagementRouter,
     attributeModelManagementRouter,
+    fragmentModelManagementRouter,
   ],
 }
 

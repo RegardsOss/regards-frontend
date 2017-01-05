@@ -106,6 +106,63 @@
       "container": "projects",
       "applicationId": "portal",
       "id": 7
+    }, {
+      "id": 8,
+      "applicationId": "user",
+      "active": false,
+      "name": "form",
+      "description": "Module de test",
+      "container": "user",
+      "conf": {
+        "resultType": "dataobjects",
+        "datasets": {
+          "type": "selectedDatasets",
+          "datasets": [
+            {
+              "content": {
+                "id": 1,
+                "name": "PremierDataSet"
+              },
+              "links": []
+            },
+            {
+              "content": {
+                "id": 3,
+                "name": "TroisiemeDataSet"
+              },
+              "links": []
+            },
+            {
+              "content": {
+                "id": 5,
+                "name": "CinquiemeDataSet"
+              },
+              "links": []
+            },
+            {
+              "content": {
+                "id": 19,
+                "name": "Dataset number 19"
+              },
+              "links": []
+            },
+            {
+              "content": {
+                "id": 16,
+                "name": "Dataset number 16"
+              },
+              "links": []
+            },
+            {
+              "content": {
+                "id": 21,
+                "name": "Dataset number 21"
+              },
+              "links": []
+            }
+          ]
+        }
+      }
     }
   ],
   "layouts": [

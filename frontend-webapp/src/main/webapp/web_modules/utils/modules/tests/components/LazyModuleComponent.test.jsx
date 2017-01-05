@@ -18,5 +18,5 @@ describe('[MODULES] Testing LazyModuleComponent', () => {
     const wrapper = shallow(<LazyModuleComponent appName={'testApp'} module={module} />, { context })
 
     expect(wrapper.find(moduleContainer)).to.have.length(1)
-  }).timeout(20000)
+  }).timeout(60000)
 })

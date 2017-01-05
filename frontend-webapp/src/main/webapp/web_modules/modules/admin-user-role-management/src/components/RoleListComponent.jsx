@@ -28,6 +28,11 @@ export class RoleListComponent extends React.Component {
     ...i18nContextType,
   }
 
+  /**
+   *
+   * @param isDeleted
+   * @returns {*}
+   */
   getState = (isDeleted) => {
     if (isDeleted) {
       return (<FormattedMessage id="projects.table.isDeleted" />)
@@ -35,6 +40,11 @@ export class RoleListComponent extends React.Component {
     return (null)
   }
 
+  /**
+   * Return the parent role as string
+   * @param parentRole Role
+   * @returns {string}
+   */
   getParentRoleName = (parentRole) => {
     if (parentRole) {
       return parentRole.name
@@ -74,8 +84,7 @@ export class RoleListComponent extends React.Component {
               <TableRow>
                 <TableHeaderColumn><FormattedMessage id="role.list.table.name" /></TableHeaderColumn>
                 <TableHeaderColumn><FormattedMessage id="role.list.table.parentRole" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="role.list.table.isDefault" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="role.list.table.isNative" /></TableHeaderColumn>
+                <TableHeaderColumn><FormattedMessage id="role.list.table.isCorsRequestsAuthorized" /></TableHeaderColumn>
                 <TableHeaderColumn><FormattedMessage id="role.list.table.actions" /></TableHeaderColumn>
               </TableRow>
             </TableHeader>
@@ -88,8 +97,7 @@ export class RoleListComponent extends React.Component {
                 <TableRow key={i}>
                   <TableRowColumn>{role.content.name}</TableRowColumn>
                   <TableRowColumn>{this.getParentRoleName(role.content.parentRole)}</TableRowColumn>
-                  <TableRowColumn>{this.getBooleanAsString(role.content.isDefault)}</TableRowColumn>
-                  <TableRowColumn>{this.getBooleanAsString(role.content.isNative)}</TableRowColumn>
+                  <TableRowColumn>{this.getBooleanAsString(role.content.isCorsRequestsAuthorized)}</TableRowColumn>
                   <TableRowColumn>
                     <IconButton onTouchTap={() => handleEdit(role.content.id)}>
                       <Edit hoverColor={style.hoverButtonEdit} />

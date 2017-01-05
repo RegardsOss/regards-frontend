@@ -1,7 +1,7 @@
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
-import { RenderTextField, RenderCheckbox, RenderSelectField, Field } from '@regardsoss/form-utils'
+import { RenderTextField, RenderCheckbox, RenderSelectField, Field, ValidationHelpers, ErrorTypes } from '@regardsoss/form-utils'
 import { themeContextType } from '@regardsoss/theme'
 import { reduxForm } from 'redux-form'
 import MenuItem from 'material-ui/MenuItem'
@@ -186,7 +186,7 @@ export class AttributeModelFormComponent extends React.Component {
               name="type"
               fullWidth
               component={RenderSelectField}
-              onChange={this.handleChange}
+              onSelect={this.handleChange}
               label={<FormattedMessage id="attrmodel.form.type" />}
               disabled={!this.state.isCreating}
             >
@@ -267,8 +267,8 @@ export class AttributeModelFormComponent extends React.Component {
 function validate(values) {
   const errors = {}
   if (values.name) {
-    if (!/^[a-zA-Z0-9]+$/i.test(values.name)) {
-      errors.name = 'invalid.only_alphanumeric'
+    if (!ValidationHelpers.isValidAlphaNumericUnderscore(values.name)) {
+      errors.name = ErrorTypes.ALPHA_NUMERIC
     }
     if (values.name.length < 3) {
       errors.name = 'invalid.min_3_carac'

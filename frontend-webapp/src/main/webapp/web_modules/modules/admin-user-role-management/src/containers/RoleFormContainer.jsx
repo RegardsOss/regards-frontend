@@ -1,7 +1,8 @@
 import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
 import { I18nProvider } from '@regardsoss/i18n'
-import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
+import { FormLoadingComponent, FormEntityNotFoundComponent, EnumInputsHelper } from '@regardsoss/form-utils'
+import { Role } from '@regardsoss/model'
 import RoleActions from '../model/RoleActions'
 import RoleFormComponent from '../components/RoleFormComponent'
 import RoleSelectors from '../model/RoleSelectors'
@@ -14,22 +15,11 @@ export class RoleFormContainer extends React.Component {
       role_id: React.PropTypes.string,
     }),
     // from mapStateToProps
-    role: React.PropTypes.shape({
-      content: React.PropTypes.shape({
-        id: React.PropTypes.number,
-        name: React.PropTypes.string,
-        parentRole: React.PropTypes.shape({
-          id: React.PropTypes.number,
-        }),
-        isDefault: React.PropTypes.bool,
-        isNative: React.PropTypes.bool,
-        authorizedAddresses: [],
-      }),
-    }),
+    roleList: React.PropTypes.objectOf(Role),
     isFetching: React.PropTypes.bool,
     // from mapDispatchToProps
     createRole: React.PropTypes.func,
-    fetchRole: React.PropTypes.func,
+    fetchRoleList: React.PropTypes.func,
     updateRole: React.PropTypes.func,
   }
 
@@ -41,26 +31,27 @@ export class RoleFormContainer extends React.Component {
   }
 
   componentDidMount() {
-    if (this.state.isEditing) {
-      this.props.fetchRole(this.props.params.role_id)
-    }
+    this.props.fetchRoleList()
   }
   getBackUrl = () => {
     const { params: { project } } = this.props
-    return `/admin/project/${project}/user/role/list`
+    return `/admin/${project}/user/role/list`
   }
 
   getFormComponent = () => {
+    const { roleList } = this.props
     if (this.state.isEditing) {
-      const { role, isFetching } = this.props
+      const { isFetching, params } = this.props
       if (isFetching) {
         return (<FormLoadingComponent />)
       }
+      const role = roleList[params.role_id]
       if (role) {
         return (<RoleFormComponent
           onSubmit={this.handleUpdate}
           backUrl={this.getBackUrl()}
           currentRole={role}
+          roleList={roleList}
         />)
       }
       return (<FormEntityNotFoundComponent />)
@@ -68,16 +59,23 @@ export class RoleFormContainer extends React.Component {
     return (<RoleFormComponent
       onSubmit={this.handleCreate}
       backUrl={this.getBackUrl()}
+      roleList={roleList}
     />)
   }
 
   handleUpdate = (values) => {
-    const updatedProject = Object.assign({}, this.props.role.content, {
-      description: values.description,
-      icon: values.icon,
-      isPublic: values.isPublic,
+    const role = this.props.roleList[this.props.params.role_id]
+    const authorizedAddresses = EnumInputsHelper.formValuesIntoApiData(values, 'authorizedAddresses')
+    const updatedRole = Object.assign({}, role.content, {
+      authorizedAddresses,
+      name: values.name,
+      isCorsRequestsAuthorized: values.isCorsRequestsAuthorized,
     })
-    Promise.resolve(this.props.updateRole(this.props.role.content.id, updatedProject))
+    // The PUBLIC role doesn't have any parent
+    if (this.props.params.role_id !== '1') {
+      updatedRole.parentRole = this.props.roleList[values.parentRole].content
+    }
+    Promise.resolve(this.props.updateRole(role.content.id, updatedRole))
     .then((actionResult) => {
       // We receive here the action
       if (!actionResult.error) {
@@ -88,11 +86,13 @@ export class RoleFormContainer extends React.Component {
   }
 
   handleCreate = (values) => {
+    const authorizedAddresses = EnumInputsHelper.formValuesIntoApiData(values, 'authorizedAddresses')
+    const parentRole = this.props.roleList[values.parentRole].content
     Promise.resolve(this.props.createRole({
       name: values.name,
-      description: values.description,
-      icon: values.icon,
-      isPublic: values.isPublic,
+      isCorsRequestsAuthorized: values.isCorsRequestsAuthorized,
+      authorizedAddresses,
+      parentRole,
     }))
     .then((actionResult) => {
       // We receive here the action
@@ -111,14 +111,14 @@ export class RoleFormContainer extends React.Component {
   }
 }
 const mapStateToProps = (state, ownProps) => ({
-  project: ownProps.params.role_id ? RoleSelectors.getById(state, ownProps.params.role_id) : null,
+  roleList: RoleSelectors.getList(state),
   isFetching: RoleSelectors.isFetching(state),
 })
 
 const mapDispatchToProps = dispatch => ({
   createRole: values => dispatch(RoleActions.createEntity(values)),
   updateRole: (id, values) => dispatch(RoleActions.updateEntity(id, values)),
-  fetchRole: id => dispatch(RoleActions.fetchEntity(id)),
+  fetchRoleList: id => dispatch(RoleActions.fetchEntityList(dispatch)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(RoleFormContainer)

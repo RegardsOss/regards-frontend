@@ -4,6 +4,7 @@
 import { map, replace } from 'lodash'
 import { normalize } from 'normalizr'
 import ErrorHandler from '../ErrorHandler'
+
 const { CALL_API, getJSON } = require('redux-api-middleware')
 /**
  *  Provide actions for a specific type of entity list

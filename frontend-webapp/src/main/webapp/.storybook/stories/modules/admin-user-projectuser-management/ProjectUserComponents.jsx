@@ -11,7 +11,10 @@ const defaultProjectUsersList = {
   0: {
     content: {
       id: 0,
-      role_id: 0,
+      role: {
+        id: 2,
+        name: 'ADMIN',
+      },
       email: 'email@cnes.com',
       lastupdate: 'yesterday',
       lastconnection: 'a week ago',

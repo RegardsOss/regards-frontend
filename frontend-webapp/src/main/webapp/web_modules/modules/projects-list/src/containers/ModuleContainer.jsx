@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { forEach } from 'lodash'
-import connect from '@regardsoss/redux'
+import { connect } from '@regardsoss/redux'
 import { AccessProjectShape } from '@regardsoss/api'
 import { FormLoadingComponent } from '@regardsoss/form-utils'
 import ProjectListComponent from '../components/ProjectListComponent'

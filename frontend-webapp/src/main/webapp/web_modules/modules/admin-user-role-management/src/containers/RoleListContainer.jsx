@@ -1,6 +1,7 @@
 import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
 import { I18nProvider } from '@regardsoss/i18n'
+import { Role } from '@regardsoss/model'
 import RoleActions from '../model/RoleActions'
 import RoleSelectors from '../model/RoleSelectors'
 import RoleListComponent from '../components/RoleListComponent'
@@ -12,20 +13,7 @@ import RoleListComponent from '../components/RoleListComponent'
 export class RoleListContainer extends React.Component {
 
   static propTypes = {
-    roleList: React.PropTypes.objectOf(
-      React.PropTypes.shape({
-        content: React.PropTypes.shape({
-          id: React.PropTypes.number,
-          name: React.PropTypes.string,
-          parentRole: React.PropTypes.shape({
-            name: React.PropTypes.string,
-          }),
-          isDefault: React.PropTypes.bool,
-          isNative: React.PropTypes.bool,
-          authorizedAddresses: [],
-        }),
-      }),
-    ),
+    roleList: React.PropTypes.objectOf(Role),
     fetchRoleList: React.PropTypes.func,
     deleteRole: React.PropTypes.func,
     // from router

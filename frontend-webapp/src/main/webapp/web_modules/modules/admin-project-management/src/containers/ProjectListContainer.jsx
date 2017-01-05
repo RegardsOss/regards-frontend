@@ -3,7 +3,7 @@
  **/
 import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
-import { ProjectShape } from '@regardsoss/api'
+import { Project } from '@regardsoss/model'
 import { I18nProvider } from '@regardsoss/i18n'
 import { logout } from '@regardsoss/authentication-manager'
 import ProjectActions from '../model/ProjectActions'
@@ -20,11 +20,7 @@ import ProjectListComponent from '../components/ProjectListComponent'
 export class ProjectListContainer extends React.Component {
 
   static propTypes = {
-    projectList: React.PropTypes.objectOf(
-      React.PropTypes.shape({
-        content: ProjectShape,
-      }),
-    ),
+    projectList: React.PropTypes.objectOf({ Project }),
     fetchProjectList: React.PropTypes.func,
     deleteProject: React.PropTypes.func,
     onLogout: React.PropTypes.func,
@@ -71,7 +67,7 @@ const mapStateToProps = state => ({
   projectList: ProjectSelectors.getList(state),
 })
 const mapDispatchToProps = dispatch => ({
-  fetchProjectList: () => dispatch(ProjectActions.fetchEntityList()),
+  fetchProjectList: () => dispatch(ProjectActions.fetchPagedEntityList(dispatch, 0, 100)),
   deleteProject: id => dispatch(ProjectActions.deleteEntity(id)),
   onLogout: () => dispatch(logout()),
 })

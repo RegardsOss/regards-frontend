@@ -3,6 +3,7 @@ import attributeModelReducer from './model/AttributeModelReducers'
 import attributeModelRestrictionReducers from './model/AttributeModelRestrictionReducers'
 import attrModelTypeReducer from './model/AttributeModelTypeReducers'
 import fragmentReducer from './model/FragmentReducers'
+
 const attributeModelDataManagementReducer = combineReducers({
   'attribute-model': attributeModelReducer,
   'attribute-model-type': attrModelTypeReducer,

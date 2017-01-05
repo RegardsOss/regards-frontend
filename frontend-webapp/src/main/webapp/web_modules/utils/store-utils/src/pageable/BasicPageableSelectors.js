@@ -7,6 +7,10 @@ import BasicListSelectors from '../list/BasicListSelectors'
  */
 class BasicPageableSelectors extends BasicListSelectors {
 
+  getMetaData(state) {
+    return this.uncombineStore(state).metadata
+  }
+
 }
 
 export default BasicPageableSelectors

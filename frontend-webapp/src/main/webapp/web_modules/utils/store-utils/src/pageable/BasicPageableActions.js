@@ -26,13 +26,20 @@ class BasicPageableActions extends BasicListActions {
   /**
    * Fetch a page of entities
    * @param dispatch redux store dispatch function
-   * @param params params to replace in endpoint uri
+   * @param index pagination param : index of the first result of the request
+   * @param size pagination param : number of elements for the asked page
+   * @param params [optional] params to replace in endpoint uri
    * @returns {{}}
    */
-  fetchEntityList(dispatch, params) {
-    let endpoint = this.entityEndpoint
-    if (params) {
-      endpoint = this.handleRequestParameters(this.entityEndpoint, params)
+  fetchPagedEntityList(dispatch, index, size, params) {
+    let endpoint = this.handleRequestParameters(this.entityEndpoint, params)
+
+    if (size && size > 0) {
+      if (endpoint.includes('?')) {
+        endpoint = `${endpoint}&_start=${index}&_limit=${size}`
+      } else {
+        endpoint = `${endpoint}?_start=${index}&_limit=${size}`
+      }
     }
 
     return {

@@ -10,4 +10,5 @@ export default [
   'authentication',
   'news',
   'projects-list',
+  'form',
 ]

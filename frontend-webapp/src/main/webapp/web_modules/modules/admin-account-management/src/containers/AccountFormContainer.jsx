@@ -2,6 +2,7 @@ import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
+import { Account } from '@regardsoss/model'
 import AccountActions from '../model/AccountActions'
 import AccountFormComponent from '../components/AccountFormComponent'
 import AccountSelectors from '../model/AccountSelectors'
@@ -13,15 +14,7 @@ export class AccountFormContainer extends React.Component {
       account_id: React.PropTypes.string,
     }),
     // from mapStateToProps
-    account: React.PropTypes.shape({
-      content: React.PropTypes.shape({
-        id: React.PropTypes.number,
-        lastName: React.PropTypes.string,
-        email: React.PropTypes.string,
-        firstName: React.PropTypes.string,
-        status: React.PropTypes.string,
-      }),
-    }),
+    account: React.PropTypes.objectOf({ Account }),
     isFetching: React.PropTypes.bool,
     // from mapDispatchToProps
     fetchAccount: React.PropTypes.func,

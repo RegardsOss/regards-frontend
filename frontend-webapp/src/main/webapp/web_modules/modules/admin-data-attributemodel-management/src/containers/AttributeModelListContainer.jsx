@@ -1,5 +1,5 @@
 import { browserHistory } from 'react-router'
-import connect from '@regardsoss/redux'
+import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { AttributeModel } from '@regardsoss/model'
 import AttributeModelActions from '../model/AttributeModelActions'
@@ -48,12 +48,6 @@ export class AttributeModelListContainer extends React.Component {
 
   handleDelete =(attrModelId) => {
     this.props.deleteAttrModel(attrModelId)
-  }
-
-  handleOpen =(projectName) => {
-    this.props.onLogout()
-    const url = `/admin/${projectName}`
-    browserHistory.push(url)
   }
 
 

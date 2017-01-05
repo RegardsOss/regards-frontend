@@ -3,7 +3,6 @@
  **/
 import Account, { AccountConfiguration } from './schemas/Account'
 import Project, { ProjectConfiguration } from './schemas/Project'
-import ProjectShape from './admin/ProjectShape'
 import ProjectConnection, { ProjectConnectionConfiguration } from './schemas/ProjectConnection'
 import ProjectUser, { ProjectUserConfiguration } from './schemas/ProjectUser'
 import Role, { RoleConfiguration } from './schemas/Role'
@@ -16,6 +15,7 @@ import Layout, { LayoutConfiguration } from './access/Layout'
 import Theme, { ThemeConfiguration } from './access/Theme'
 import AccessProjectShape from './access/ProjectShape'
 import Fragment, { FragmentConfiguration } from './dam/Fragment'
+import Dataset, { DatasetConfiguration } from './schemas/Dataset'
 
 // We use this Normalizr schemas to transform API responses from a nested form
 // to a flat form where repos and users are placed in `entities`, and nested
@@ -32,7 +32,6 @@ export default {
   PROJECT: Project.PROJECT,
   PROJECT_ARRAY: Project.PROJECT_ARRAY,
   ProjectConfiguration,
-  ProjectShape,
   AccessProjectShape,
 
   PROJECT_USER: ProjectUser.PROJECT_USER,
@@ -76,4 +75,8 @@ export default {
 
   THEME: Theme.THEME,
   ThemeConfiguration,
+
+  DATASET: Dataset.DATASET,
+  DATASET_ARRAY: Dataset.DATASET_ARRAY,
+  DatasetConfiguration,
 }

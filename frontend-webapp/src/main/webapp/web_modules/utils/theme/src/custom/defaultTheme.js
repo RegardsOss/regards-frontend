@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { grey200, white, grey50 } from 'material-ui/styles/colors'
+import { grey200, grey50 } from 'material-ui/styles/colors'
 
 /**
  * Default theme. Every theme must overrides this one.
