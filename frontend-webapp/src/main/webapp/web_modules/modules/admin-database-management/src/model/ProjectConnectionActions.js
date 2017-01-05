@@ -8,7 +8,7 @@ class ProjectConnectionActions extends BasicPageableActions {
   constructor() {
     super({
       namespace: 'admin-database-management',
-      entityEndpoint: `${GATEWAY_HOSTNAME}/api/v1/rs-admin/projects/connections`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/api/v1/rs-admin/project_connections`,
       schemaTypes: {
         ENTITY: Schemas.PROJECT_CONNECTION,
         ENTITY_ARRAY: Schemas.PROJECT_CONNECTION_ARRAY,

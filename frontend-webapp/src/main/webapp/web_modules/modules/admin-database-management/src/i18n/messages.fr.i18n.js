@@ -22,6 +22,7 @@ const messages = {
   'database.list.password': 'Mot de passe',
   'database.list.test': 'Tester la connexion',
   'database.list.action': 'Actions',
+  'database.list.access.guided.configuration': 'Configuration guidée',
 
   'database.form.edit.title': 'Connecter {microservice} à une base de données',
   'database.form.input.driverClassName': 'Driver',
