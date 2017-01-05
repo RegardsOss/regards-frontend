@@ -1,14 +1,14 @@
 import { RadioButtonGroup } from 'material-ui/RadioButton'
 import { themeContextType } from '@regardsoss/theme'
 
-const RenderRadio = ({ input, onChange, defaultSelected, children, meta: { error }, intl }, { muiTheme }) => (
+const RenderRadio = ({ input, onSelect, defaultSelected, children, meta: { error }, intl }, { muiTheme }) => (
   <div>
     <RadioButtonGroup
       {...input}
       defaultSelected={defaultSelected}
-      onChange={(event, value) => {
-        if (onChange) {
-          onChange(event, value)
+      onChange={(event, index, value) => {
+        if (onSelect) {
+          onSelect(event, index, value, input)
         }
         return input.onChange(value)
       }}
@@ -34,7 +34,7 @@ RenderRadio.propTypes = {
     formatMessage: React.PropTypes.func,
   }),
   defaultSelected: React.PropTypes.string,
-  onChange: React.PropTypes.func,
+  onSelect: React.PropTypes.func,
   children: React.PropTypes.arrayOf(React.PropTypes.element),
 }
 export default RenderRadio

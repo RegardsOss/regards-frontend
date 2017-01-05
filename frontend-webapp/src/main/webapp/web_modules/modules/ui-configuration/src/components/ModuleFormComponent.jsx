@@ -57,6 +57,7 @@ class ModuleFormComponent extends React.Component {
   }
 
   selectModuleType = (event, index, value, input) => {
+    console.log("module selecte",value)
     input.onChange(value)
     this.setState({
       moduleSelected: true,
@@ -90,12 +91,8 @@ class ModuleFormComponent extends React.Component {
       )
     }
 
-    console.log('PROPS', this.props)
-    console.log('CONTEXT', this.context)
-
     return (
       <ReduxConnectedForm
-        intl={this.context.intl}
         onSubmit={this.props.handleSubmit(this.props.onSubmit)}
         i18nMessagesDir="modules/ui-configuration/src/i18n"
       >
@@ -116,7 +113,7 @@ class ModuleFormComponent extends React.Component {
                   fullWidth
                   component={RenderSelectField}
                   type="text"
-                  onChange={this.selectModuleType}
+                  onSelect={this.selectModuleType}
                   label={<FormattedMessage id="module.form.name" />}
                 >
                   {map(AvailableModules, (module, id) => (

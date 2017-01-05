@@ -1,14 +1,14 @@
 import SelectField from 'material-ui/SelectField'
 
-const renderSelectField = ({ input, label, meta: { touched, error }, fullWidth, children, disabled, onChange }) => (
+const renderSelectField = ({ input, label, meta: { touched, error }, fullWidth, children, disabled, onSelect }) => (
   <SelectField
     floatingLabelText={label}
     errorText={touched && error}
     {...input}
     fullWidth={fullWidth}
     onChange={(event, index, value) => {
-      if (onChange) {
-        return onChange(event, index, value, input)
+      if (onSelect) {
+        return onSelect(event, index, value, input)
       }
       return input.onChange(value)
     }}
