@@ -8,8 +8,11 @@ import { PageableListContainer } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import DatasetLineComponent from './DatasetLineComponent'
+import DatasetModelLineComponent from './DatasetLineComponent'
 import DatasetActions from '../../models/datasets/DatasetActions'
 import DatasetSelector from '../../models/datasets/DatasetSelector'
+import DatasetModelActions from '../../models/datasets/DatasetModelActions'
+import DatasetModelSelector from '../../models/datasets/DatasetModelSelector'
 import FormDatasetsTypeSelection from './FormDatasetsTypeSelection'
 
 /**
@@ -20,6 +23,7 @@ class FormDatasetsConfigurationComponent extends React.Component {
   state = {
     type: this.props.type ? this.props.type : 'all',
     selectedDataset: this.props.selectedDatasets,
+    selectedDatasetModels: this.props.selectedDatasetModels,
   }
 
   static contextTypes = {
@@ -40,7 +44,7 @@ class FormDatasetsConfigurationComponent extends React.Component {
   }
 
 
-  selectType = (event, index, value, input) => {
+  selectType = (event, value, input) => {
     this.setState({
       type: value,
     })
@@ -54,9 +58,23 @@ class FormDatasetsConfigurationComponent extends React.Component {
     this.props.change('conf.datasets.datasets', newSelectedDatasets)
   }
 
+  onDatasetModelSelection = (model) => {
+    const newSelectedModels = xor(this.state.selectedDatasetModels, [model])
+    this.setState({
+      selectedDatasetModels: newSelectedModels,
+    })
+    this.props.change('conf.datasets.models', newSelectedModels)
+  }
+
   unselectAll = () => {
     this.setState({
       selectedDataset: [],
+    })
+  }
+
+  unselectAllModels = () => {
+    this.setState({
+      selectedDatasetModels: [],
     })
   }
 
@@ -66,17 +84,24 @@ class FormDatasetsConfigurationComponent extends React.Component {
     })
   }
 
+  resetModelsSelection = () => {
+    this.setState({
+      selectedDatasetModels: this.props.selectedDatasetModels,
+    })
+  }
+
   renderType() {
-    const title = this.context.intl.formatMessage({ id: 'form.datasets.select.dataset.list.title' })
+
     switch (this.state.type) {
       case 'selectedDatasets' :
         return (
           <PageableListContainer
-            title={title}
+            key={this.state.type}
+            title={this.context.intl.formatMessage({ id: 'form.datasets.select.dataset.list.title' })}
             entityIdentifier="name"
             nbEntityByPage={10}
             entitiesActions={DatasetActions}
-            entitiesSelector={DatasetSelector(this.props.appName)}
+            entitiesSelector={DatasetSelector}
             lineComponent={DatasetLineComponent}
             displayCheckbox
             onEntityCheck={this.onDatasetSelection}
@@ -87,7 +112,23 @@ class FormDatasetsConfigurationComponent extends React.Component {
           />
         )
       case 'seletedDatasetModels' :
-        return (<div>Selected dataset models : </div>)
+        return (
+          <PageableListContainer
+            key={this.state.type}
+            title={this.context.intl.formatMessage({ id: 'form.datasets.select.dataset.models.list.title' })}
+            entityIdentifier="name"
+            nbEntityByPage={10}
+            entitiesActions={DatasetModelActions}
+            entitiesSelector={DatasetModelSelector}
+            lineComponent={DatasetModelLineComponent}
+            displayCheckbox
+            onEntityCheck={this.onDatasetModelSelection}
+            onUnselectAll={this.unselectAllModels}
+            onReset={this.resetModelsSelection}
+            selectedEntities={this.state.selectedDatasetModels}
+            style={{ width: '90%', margin: '20px auto' }}
+          />
+        )
       default :
         return null
     }
@@ -100,7 +141,7 @@ class FormDatasetsConfigurationComponent extends React.Component {
         <FormDatasetsTypeSelection
           defaultSelected={this.props.type}
           onSelectType={this.selectType}
-          />
+        />
         {this.renderType()}
       </Card>
     )

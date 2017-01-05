@@ -34,6 +34,7 @@ class FormTabsComponent extends React.Component {
             change={this.props.change}
             type={this.props.datasets.type}
             selectedDatasets={this.props.datasets.datasets}
+            selectedDatasetModels={this.props.datasets.models}
           />
         </Tab>
         <Tab label={<FormattedMessage id="form.layout.tab.label" />} />

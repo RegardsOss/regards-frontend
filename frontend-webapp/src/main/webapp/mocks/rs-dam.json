@@ -1,0 +1,28 @@
+{
+  "models": [
+    {
+      "id": 0,
+      "name": "Premier Modele",
+      "descirption": "Description du premier modele de jeux de données",
+      "type": "DATASET"
+    },
+    {
+      "id": 1,
+      "name": "Deuxieme Modele",
+      "descirption": "Description du deuxieme modele de jeux de données",
+      "type": "DATASET"
+    },
+    {
+      "id": 2,
+      "name": "Troisieme Modele",
+      "descirption": "Description du troisieme modele de jeux de données",
+      "type": "DATASET"
+    },
+    {
+      "id": 3,
+      "name": "Modele de collection",
+      "descirption": "Ceci est un modele de collection",
+      "type": "COLLECTION"
+    }
+  ]
+}

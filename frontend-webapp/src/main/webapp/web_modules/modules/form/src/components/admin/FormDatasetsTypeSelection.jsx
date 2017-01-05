@@ -26,15 +26,15 @@ class FormDatasetsTypeSelection extends React.Component {
       >
         <RadioButton
           value="all"
-          label={<FormattedMessage id="form.datasets.all.label"/>}
+          label={<FormattedMessage id="form.datasets.all.label" />}
         />
         <RadioButton
           value="selectedDatasets"
-          label={<FormattedMessage id="form.datasets.selected.label"/>}
+          label={<FormattedMessage id="form.datasets.selected.label" />}
         />
         <RadioButton
           value="seletedDatasetModels"
-          label={<FormattedMessage id="form.datasets.model.selected.label"/>}
+          label={<FormattedMessage id="form.datasets.model.selected.label" />}
         />
       </Field>
     )

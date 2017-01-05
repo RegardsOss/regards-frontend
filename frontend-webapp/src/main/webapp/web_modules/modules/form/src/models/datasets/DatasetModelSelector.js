@@ -6,11 +6,11 @@ import { BasicPageableSelectors } from '@regardsoss/store-utils'
 /**
  * Redux store selectors for Module Entities
  */
-class DatasetSelector extends BasicPageableSelectors {
+class DatasetModelSelector extends BasicPageableSelectors {
   constructor() {
-    super(['admin', 'modules', 'form.datasets'])
+    super(['admin', 'modules', 'form.models'])
   }
 }
 
-const instance = new DatasetSelector()
+const instance = new DatasetModelSelector()
 export default instance

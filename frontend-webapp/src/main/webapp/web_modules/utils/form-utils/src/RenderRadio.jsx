@@ -6,9 +6,9 @@ const RenderRadio = ({ input, onSelect, defaultSelected, children, meta: { error
     <RadioButtonGroup
       {...input}
       defaultSelected={defaultSelected}
-      onChange={(event, index, value) => {
+      onChange={(event, value) => {
         if (onSelect) {
-          onSelect(event, index, value, input)
+          onSelect(event, value, input)
         }
         return input.onChange(value)
       }}

@@ -10,8 +10,8 @@ export const ModelConfiguration = {
 }
 
 const modelSchema = new Schema(ModelConfiguration.normalizrKey, {
-  idAttribute: account =>
-    account.content[ModelConfiguration.entityKey]
+  idAttribute: model =>
+    model.content[ModelConfiguration.entityKey]
   ,
 })
 
