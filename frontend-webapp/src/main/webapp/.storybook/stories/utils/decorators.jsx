@@ -43,7 +43,7 @@ export const ThemeDecorator = ({ theme, children }) => (
 )
 
 ThemeDecorator.propTypes = {
-  theme: React.PropTypes.string.isRequired,
+  theme: React.PropTypes.object.isRequired,
   children: React.PropTypes.element.isRequired,
 }
 
@@ -100,7 +100,7 @@ export const ThemeAndLocaleDecorator = ({ theme, messageDir, children }) => (
 )
 
 ThemeAndLocaleDecorator.propTypes = {
-  theme: React.PropTypes.string.isRequired,
+  theme: React.PropTypes.object.isRequired,
   messageDir: React.PropTypes.string.isRequired,
   children: React.PropTypes.element.isRequired,
 }

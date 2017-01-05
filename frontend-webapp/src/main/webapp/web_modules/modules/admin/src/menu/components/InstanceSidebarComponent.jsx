@@ -62,7 +62,7 @@ class InstanceSidebarComponent extends React.Component {
           <HateoasSidebarElement
             endpointKey="projects_users_url"
             key="2"
-            to={'/admin/database/list'}
+            to={'/admin/project-connection/list'}
             linkStyle={style.link.styles}
             primaryText={<FormattedMessage id="menu.databases" />}
             leftIcon={<Weekend />}

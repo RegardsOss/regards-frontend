@@ -1,5 +1,6 @@
 import Schemas from '@regardsoss/api'
 import { BasicListActions } from '@regardsoss/store-utils'
+
 class FragmentActions extends BasicListActions {
   constructor() {
     super({

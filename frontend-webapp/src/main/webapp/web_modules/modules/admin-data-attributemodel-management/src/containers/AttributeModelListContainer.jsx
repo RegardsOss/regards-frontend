@@ -50,12 +50,6 @@ export class AttributeModelListContainer extends React.Component {
     this.props.deleteAttrModel(attrModelId)
   }
 
-  handleOpen =(projectName) => {
-    this.props.onLogout()
-    const url = `/admin/${projectName}`
-    browserHistory.push(url)
-  }
-
 
   render() {
     const { attrModelList } = this.props

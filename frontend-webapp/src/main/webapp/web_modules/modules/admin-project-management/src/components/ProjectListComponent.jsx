@@ -9,6 +9,7 @@ import Delete from 'material-ui/svg-icons/action/delete'
 import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
+import { Project } from '@regardsoss/model'
 
 /**
  * React components to list project.
@@ -16,16 +17,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 export class ProjectListComponent extends React.Component {
 
   static propTypes = {
-    projectList: React.PropTypes.objectOf(
-      React.PropTypes.shape({
-        content: React.PropTypes.shape({
-          id: React.PropTypes.number,
-          name: React.PropTypes.string,
-          description: React.PropTypes.string,
-          isPublic: React.PropTypes.bool,
-        }),
-      }),
-    ),
+    projectList: React.PropTypes.objectOf({ Project }),
     handleDelete: React.PropTypes.func.isRequired,
     handleOpen: React.PropTypes.func.isRequired,
     handleEdit: React.PropTypes.func.isRequired,

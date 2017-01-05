@@ -10,6 +10,9 @@ import Field from './Field'
 import ValidationHelpers from './ValidationHelpers'
 import FormEntityNotFoundComponent from './FormEntityNotFoundComponent'
 import FormLoadingComponent from './FormLoadingComponent'
+import EnumInputsComponent from './EnumInputs/EnumInputsComponent'
+import EnumInputsHelper from './EnumInputs/EnumInputsHelper'
+
 
 export default {
   RenderTextField,
@@ -24,4 +27,6 @@ export default {
   ValidationHelpers,
   FormLoadingComponent,
   FormEntityNotFoundComponent,
+  EnumInputsComponent,
+  EnumInputsHelper,
 }

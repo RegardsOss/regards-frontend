@@ -2,11 +2,11 @@
  * LICENSE_PLACEHOLDER
  **/
 import { assert, expect } from 'chai'
+import { databaseManagementRouter } from '@regardsoss/admin-database-management'
 import { dataManagementRouter } from '@regardsoss/admin-data-management'
 import { userManagementRouter } from '@regardsoss/admin-user-management'
 import { projectManagementRouter } from '@regardsoss/admin-project-management'
 import { accountManagementRouter } from '@regardsoss/admin-account-management'
-import { databaseManagementRouter } from '@regardsoss/admin-database-management'
 import Routes from '../src/router'
 
 describe('[ADMIN MANAGEMENT] Testing admin router', () => {
@@ -15,7 +15,7 @@ describe('[ADMIN MANAGEMENT] Testing admin router', () => {
     expect(Routes.childRoutes).to.have.length(7)
     expect(Routes.childRoutes[0].path).to.eq('project')
     expect(Routes.childRoutes[1].path).to.eq('account')
-    expect(Routes.childRoutes[2].path).to.eq('database')
+    expect(Routes.childRoutes[2].path).to.eq('project-connection')
     expect(Routes.childRoutes[3].path).to.eq(':project/data')
     expect(Routes.childRoutes[4].path).to.eq(':project/user')
     expect(Routes.childRoutes[5].path).to.eq(':project/ui-configuration')

@@ -10,4 +10,5 @@ export default {
   EMAIL: 'invalid.email',
   INVLID_JSON_FORMAT: 'invalid.json',
   ALPHA_NUMERIC: 'invalid.only_alphanumeric',
+  INVALID_IP: 'invalid.ip',
 }

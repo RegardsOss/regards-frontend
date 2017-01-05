@@ -19,7 +19,7 @@ const renderSelectField = ({ input, label, meta: { touched, error }, fullWidth, 
 )
 renderSelectField.propTypes = {
   input: React.PropTypes.shape({
-    value: React.PropTypes.string,
+    value: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]),
     name: React.PropTypes.string,
   }),
   label: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.element]),

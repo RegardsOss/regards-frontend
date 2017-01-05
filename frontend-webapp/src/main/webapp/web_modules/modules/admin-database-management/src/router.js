@@ -13,10 +13,37 @@ export const listProjectConnectionRoute = {
   },
 }
 
+
+export const editProjectConnectionRoute = {
+  path: ':project_connection_id/edit',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const ProjectConnectionEditContainer = require('./containers/ProjectConnectionEditContainer')
+      cb(null, {
+        content: ProjectConnectionEditContainer.default,
+      })
+    })
+  },
+}
+
+export const guidedConfigurationRoute = {
+  path: 'guided',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const GuidedProjectConfigurationContainer = require('./containers/GuidedProjectConfigurationContainer')
+      cb(null, {
+        content: GuidedProjectConfigurationContainer.default,
+      })
+    })
+  },
+}
+
 const databaseManagementRouter = {
   path: '',
   childRoutes: [
     listProjectConnectionRoute,
+    editProjectConnectionRoute,
+    guidedConfigurationRoute,
   ],
 }
 

@@ -65,7 +65,7 @@ export const accountRouter = {
  * @type {{path: string, getChildRoutes: ((nextState, cb))}}
  */
 export const databaseRouter = {
-  path: 'database',
+  path: 'project-connection',
   getChildRoutes(nextState, cb) {
     const adminDatabaseManagement = require('@regardsoss/admin-database-management')
     require.ensure([], (require) => {

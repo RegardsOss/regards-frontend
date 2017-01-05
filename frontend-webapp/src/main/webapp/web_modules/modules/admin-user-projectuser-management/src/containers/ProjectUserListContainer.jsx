@@ -18,13 +18,13 @@ export class ProjectUserListContainer extends React.Component {
     // from mapStateToProps
     projectUserList: React.PropTypes.objectOf(ProjectUser),
     // from mapDispatchToProps
-    fetchAccountList: React.PropTypes.func,
+    fetchProjectUserList: React.PropTypes.func,
     deleteAccount: React.PropTypes.func,
   }
 
 
   componentWillMount() {
-    this.props.fetchAccountList()
+    this.props.fetchProjectUserList()
   }
 
   getBackUrl = () => {
@@ -70,7 +70,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchAccountList: () => dispatch(ProjectUserActions.fetchEntityList()),
+  fetchProjectUserList: () => dispatch(ProjectUserActions.fetchPagedEntityList(dispatch, 0, 100)),
   deleteAccount: accountId => dispatch(ProjectUserActions.deleteEntity(accountId)),
 })
 

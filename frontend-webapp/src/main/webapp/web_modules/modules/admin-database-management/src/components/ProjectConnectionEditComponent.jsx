@@ -19,17 +19,13 @@ export class ProjectConnectionEditComponent extends React.Component {
 
   static propTypes = {
     projectConnection: ProjectConnection.isRequired,
+    onBack: React.PropTypes.func.isRequired,
     onSubmit: React.PropTypes.func.isRequired,
     onCancel: React.PropTypes.func.isRequired,
   }
 
-
-  handleBackClick = () => {
-    browserHistory.goBack()
-  }
-
   render() {
-    const { projectConnection, onSubmit, onCancel } = this.props
+    const { projectConnection, onBack, onCancel, onSubmit } = this.props
     return (
       <Card>
         <AppBar
@@ -39,7 +35,7 @@ export class ProjectConnectionEditComponent extends React.Component {
               microservice: projectConnection.content.microservice,
             }}
           />}
-          iconElementLeft={<IconButton onTouchTap={this.handleBackClick}><ArrowBack /></IconButton>}
+          iconElementLeft={<IconButton onTouchTap={onBack}><ArrowBack /></IconButton>}
         />
         <CardText>
           <ProjectConnectionFormComponent
