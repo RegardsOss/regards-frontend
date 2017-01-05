@@ -297,31 +297,39 @@ const colorsList = {
   lightWhite,
 }
 
-const stylePaper = {
-  height: 200,
-  width: 200,
-  margin: 20,
-  textAlign: 'center',
-  display: 'inline-block',
-  paddingTop: 60,
-  fontSize: 'small',
+const style = {
+  wrapper: {
+    width: '100%',
+  },
+  paletteItem: {
+    height: 200,
+    width: 200,
+    margin: 20,
+    textAlign: 'center',
+    display: 'inline-block',
+    paddingTop: 60,
+    fontSize: 'small',
+  },
+  paletteItemHexaText: {
+    fontWeight: 900,
+    fontSize: '1.3em',
+  },
 }
-
 
 const merge = (style, color) => Object.assign({}, style, { backgroundColor: color })
 const ColorBoxes = function () {
   return (
-    <div>
+    <div style={style.wrapper}>
       {
         map(colorsList, (value, key) => (
           <Paper
             key={key}
-            style={merge(stylePaper, value)}
+            style={merge(style.paletteItem, value)}
           >
             <div>
               {key}
               <br />
-              <div>{value}</div>
+              <div style={style.paletteItemHexaText}>{value}</div>
             </div>
           </Paper>
           ))

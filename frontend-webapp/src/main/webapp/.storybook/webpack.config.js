@@ -44,12 +44,17 @@ config = merge(config, {
         ],
       },
       {
-        test: /\.(jpg|png|gif|eot|svg|ttf|woff|woff2)(\?.*)?$/,
+        test: /\.(jpg|gif|eot|svg|ttf|woff|woff2)(\?.*)?$/,
         exclude: [/node_modules/, /json/],
         loader: require.resolve('file-loader'),
         query: {
           name: 'static/media/[name].[hash:8].[ext]',
         },
+      },
+      {
+        test: /\.png$/,
+        loader: 'url-loader',
+        query: { mimetype: 'image/png' },
       },
     ],
   },
