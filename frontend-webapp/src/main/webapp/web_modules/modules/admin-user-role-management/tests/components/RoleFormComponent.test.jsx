@@ -11,13 +11,14 @@ describe('[ADMIN USER ROLE MANAGEMENT] Testing form container', () => {
 
   it('should render edit form', () => {
     const props = {
-      currentProject: {
+      currentRole: {
         content: {
           id: '1',
           name: 'project name',
           description: 'project desc',
           icon: 'project icon',
           isPublic: true,
+          authorizedAddresses: ['1.2.3.4', '15.87.65.42'],
         },
       },
       backUrl: '/some/url',

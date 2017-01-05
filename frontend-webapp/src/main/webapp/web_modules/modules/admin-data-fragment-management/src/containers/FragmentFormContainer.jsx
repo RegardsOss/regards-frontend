@@ -4,7 +4,6 @@
 import { browserHistory } from 'react-router'
 import connect from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
-import { map } from 'lodash'
 import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
 import { Fragment } from '@regardsoss/model'
 import FragmentFormComponent from '../components/FragmentFormComponent'

@@ -3,7 +3,6 @@
  **/
 import Account, { AccountConfiguration } from './schemas/Account'
 import Project, { ProjectConfiguration } from './schemas/Project'
-import ProjectShape from './admin/ProjectShape'
 import ProjectConnection, { ProjectConnectionConfiguration } from './schemas/ProjectConnection'
 import ProjectUser, { ProjectUserConfiguration } from './schemas/ProjectUser'
 import Role, { RoleConfiguration } from './schemas/Role'
@@ -33,7 +32,6 @@ export default {
   PROJECT: Project.PROJECT,
   PROJECT_ARRAY: Project.PROJECT_ARRAY,
   ProjectConfiguration,
-  ProjectShape,
   AccessProjectShape,
 
   PROJECT_USER: ProjectUser.PROJECT_USER,

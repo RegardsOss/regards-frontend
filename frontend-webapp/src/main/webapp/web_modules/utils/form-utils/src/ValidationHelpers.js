@@ -8,4 +8,12 @@ export default {
   isValidAlphaNumericUnderscore(value) {
     return /^[A-Z0-9_]+$/i.test(value)
   },
+  /**
+   * @source : http://stackoverflow.com/a/27434991/2294168
+   * @param value
+   * @returns {boolean}
+   */
+  isValidIP(value) {
+    return /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(value)
+  },
 }

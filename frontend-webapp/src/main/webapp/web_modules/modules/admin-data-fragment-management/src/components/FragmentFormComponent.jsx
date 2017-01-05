@@ -1,11 +1,10 @@
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
-import { RenderTextField, RenderCheckbox, RenderSelectField, Field, ValidationHelpers, ErrorTypes } from '@regardsoss/form-utils'
+import { RenderTextField, Field, ValidationHelpers, ErrorTypes } from '@regardsoss/form-utils'
 import { themeContextType } from '@regardsoss/theme'
 import { reduxForm } from 'redux-form'
 import { Fragment } from '@regardsoss/model'
-import { map } from 'lodash'
 
 
 /**
@@ -23,7 +22,6 @@ export class FragmentFormComponent extends React.Component {
     invalid: React.PropTypes.bool,
     handleSubmit: React.PropTypes.func.isRequired,
     initialize: React.PropTypes.func.isRequired,
-    change: React.PropTypes.func.isRequired,
   }
 
   static contextTypes = {

@@ -28,7 +28,6 @@ storiesOf('InstanceAdmin - Project', module)
       <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-project-management/src/i18n">
         <ProjectListComponent
           projectList={projectList}
-          theme=""
           createUrl="dfjgisjdf"
           handleView={action('open project')}
           handleDelete={action('delete project')}

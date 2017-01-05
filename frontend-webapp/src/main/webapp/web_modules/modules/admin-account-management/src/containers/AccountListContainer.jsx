@@ -1,6 +1,7 @@
 import { connect } from 'react-redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { browserHistory } from 'react-router'
+import { Account } from '@regardsoss/model'
 import AccountActions from '../model/AccountActions'
 import AccountSelectors from '../model/AccountSelectors'
 import AccountListComponent from '../components/AccountListComponent'
@@ -12,17 +13,9 @@ export class AccountListContainer extends React.Component {
 
   static propTypes = {
     // from mapStateToProps
-    accountList: React.PropTypes.objectOf(
-      React.PropTypes.shape({
-        content: React.PropTypes.shape({
-          id: React.PropTypes.number,
-          lastName: React.PropTypes.string,
-          email: React.PropTypes.string,
-          firstName: React.PropTypes.string,
-          status: React.PropTypes.string,
-        }),
-      }),
-    ),
+    account: React.PropTypes.shape({
+      content: React.PropTypes.objectOf({ Account }),
+    }),
     // from mapDispatchToProps
     fetchAccountList: React.PropTypes.func,
     deleteAccount: React.PropTypes.func,
@@ -64,7 +57,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchAccountList: () => dispatch(AccountActions.fetchEntityList()),
+  fetchAccountList: () => dispatch(AccountActions.fetchPagedEntityList(dispatch, 0, 100)),
   deleteAccount: accountId => dispatch(AccountActions.deleteEntity(accountId)),
 })
 
