@@ -2,7 +2,8 @@
  * LICENSE_PLACEHOLDER
  **/
 import './Welcome'
-import './view/material-ui/all'
+import './view/material-ui/index.story'
+import './view/material-design/index.story'
 import './view/components/CardActions'
 import './view/components/News'
 import './view/components/Buttons'
