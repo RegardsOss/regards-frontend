@@ -2,16 +2,15 @@
  * LICENSE_PLACEHOLDER
  **/
 import { xor } from 'lodash'
-import { RadioButton } from 'material-ui/RadioButton'
 import { Card, CardTitle } from 'material-ui/Card'
 import { FormattedMessage } from 'react-intl'
-import { Field, RenderRadio } from '@regardsoss/form-utils'
 import { PageableListContainer } from '@regardsoss/components'
+import { i18nContextType } from '@regardsoss/i18n'
+import { themeContextType } from '@regardsoss/theme'
 import DatasetLineComponent from './DatasetLineComponent'
 import DatasetActions from '../../models/datasets/DatasetActions'
 import DatasetSelector from '../../models/datasets/DatasetSelector'
-import { i18nContextType } from '@regardsoss/i18n'
-import { themeContextType } from '@regardsoss/theme'
+import FormDatasetsTypeSelection from './FormDatasetsTypeSelection'
 
 /**
  * Display form to configure associated datasers of search form.
@@ -40,7 +39,8 @@ class FormDatasetsConfigurationComponent extends React.Component {
     })),
   }
 
-  selectType = (event, value) => {
+
+  selectType = (event, index, value, input) => {
     this.setState({
       type: value,
     })
@@ -55,7 +55,6 @@ class FormDatasetsConfigurationComponent extends React.Component {
   }
 
   unselectAll = () => {
-    console.log('unselected all ....')
     this.setState({
       selectedDataset: [],
     })
@@ -98,25 +97,10 @@ class FormDatasetsConfigurationComponent extends React.Component {
     return (
       <Card>
         <CardTitle subtitle={<FormattedMessage id="form.datasets.tab.title" />} />
-        <Field
-          name="conf.datasets.type"
-          component={RenderRadio}
+        <FormDatasetsTypeSelection
           defaultSelected={this.props.type}
-          onChange={this.selectType}
-        >
-          <RadioButton
-            value="all"
-            label={<FormattedMessage id="form.datasets.all.label" />}
+          onSelectType={this.selectType}
           />
-          <RadioButton
-            value="selectedDatasets"
-            label={<FormattedMessage id="form.datasets.selected.label" />}
-          />
-          <RadioButton
-            value="seletedDatasetModels"
-            label={<FormattedMessage id="form.datasets.model.selected.label" />}
-          />
-        </Field>
         {this.renderType()}
       </Card>
     )

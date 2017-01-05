@@ -5,7 +5,7 @@ import { browserHistory } from 'react-router'
 import { FormLoadingComponent } from '@regardsoss/form-utils'
 import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
 import { ModuleShape } from '@regardsoss/modules'
-import connect from '@regardsoss/redux'
+import { connect } from '@regardsoss/redux'
 import ModulesSelector from '../model/modules/ModulesSelector'
 import ModulesActions from '../model/modules/ModulesActions'
 import ModuleListComponent from '../components/ModuleListComponent'
@@ -84,7 +84,7 @@ const mapStateToProps = state => ({
   isFetching: ModulesSelector.isFetching(state),
 })
 const mapDispatchToProps = dispatch => ({
-  fetchModules: applicationId => dispatch(ModulesActions.fetchEntityList(dispatch, [applicationId])),
+  fetchModules: applicationId => dispatch(ModulesActions.fetchPagedEntityList(dispatch, 0, 100, [applicationId])),
   updateModule: (applicationId, module) => dispatch(ModulesActions.updateEntity(module.id, module, dispatch, [applicationId])),
   deleteModule: (applicationId, module) => dispatch(ModulesActions.deleteEntity(module.id, dispatch, [applicationId])),
 })

@@ -186,7 +186,7 @@ export class AttributeModelFormComponent extends React.Component {
               name="type"
               fullWidth
               component={RenderSelectField}
-              onChange={this.handleChange}
+              onSelect={this.handleChange}
               label={<FormattedMessage id="attrmodel.form.type" />}
               disabled={!this.state.isCreating}
             >

@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import connect from '@regardsoss/redux'
+import { connect } from '@regardsoss/redux'
 import Infinite from 'react-infinite'
 import { map, merge, concat, isEqual, forEach, findIndex } from 'lodash'
 import RefreshIndicator from 'material-ui/RefreshIndicator'
