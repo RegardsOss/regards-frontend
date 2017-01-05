@@ -49,7 +49,6 @@ config = merge(config, {
       'process.env': {
         NODE_ENV: JSON.stringify('development'),
       },
-      GATEWAY_HOSTNAME: JSON.stringify('http://localhost:3000'),
     }),
   ],
 })
