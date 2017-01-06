@@ -1,0 +1,3 @@
+[submodule "frontend-webapp/src/main/webapp/web_modules/submodules/storybook-addon-material-ui"]
+	path = frontend-webapp/src/main/webapp/web_modules/submodules/storybook-addon-material-ui
+	url = https://github.com/sm-react/storybook-addon-material-ui.git
