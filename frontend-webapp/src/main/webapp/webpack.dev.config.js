@@ -41,6 +41,8 @@ config = merge(config, {
       },
       ],
     },
+    // Allow to expose plugins
+    publicPath: "/plugins/",
   },
   plugins: [
     // Allow to define React as a global variable for JSX.

@@ -115,6 +115,7 @@
       "container": "user",
       "conf": {
         "resultType": "dataobjects",
+        "layout": "{\n  \"id\": \"main\",\n  \"type\": \"FormMainContainer\",\n  \"classes\": [],\n  \"styles\": {},\n  \"containers\": [{\n    \"id\": \"row\",\n    \"type\": \"RowContainer\",\n    \"classes\": [],\n    \"styles\": {\"minHeight\":\"50px\",\"backgroundColor\":\"Red\"},\n    \"containers\": [{\n      \"id\": \"block1\",\n      \"type\": \"LargeColumnContainer\",\n      \"classes\": [],\n      \"styles\": {\"minHeight\":\"50px\",\"backgroundColor\":\"White\"},\n      \"containers\": []\n    }, {\n      \"id\": \"block2\",\n      \"type\": \"SmallColumnContainer\",\n      \"classes\": [],\n      \"styles\": {\"minHeight\":\"50px\",\"backgroundColor\":\"White\"},\n      \"containers\": []\n    }]\n  }, {\n    \"id\": \"row2\",\n    \"type\": \"RowContainer\",\n    \"styles\": {\"minHeight\":\"50px\",\"backgroundColor\":\"Blue\"},\n    \"classes\": [],\n    \"containers\": [{\n      \"id\": \"block21\",\n      \"type\": \"SmallColumnContainer\",\n      \"classes\": [],\n      \"styles\": {\"minHeight\":\"50px\",\"backgroundColor\":\"White\"},\n      \"containers\": []\n    }, {\n      \"id\": \"block22\",\n      \"type\": \"LargeColumnContainer\",\n      \"classes\": [],\n      \"styles\": {\"minHeight\":\"50px\",\"backgroundColor\":\"White\"},\n      \"containers\": []\n    }]\n  }]\n}\n"
         "datasets": {
           "type": "selectedDatasets",
           "datasets": [
