@@ -40,7 +40,6 @@ const messages = Object.assign({
   'module.form.description': 'Description',
   'module.form.container': 'Conteneur du layout',
   'module.form.active': 'Activation du module',
-  'module.form.special.parameters.title': 'Paramètres du module {name}',
   'module.form.submit.button': 'Creer module',
   'module.form.update.button': 'Mettre à jour',
   'module.form.cancel.button': 'Annuler',

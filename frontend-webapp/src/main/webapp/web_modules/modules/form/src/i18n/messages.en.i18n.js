@@ -25,6 +25,9 @@ const messages = Object.assign({
   'form.datasets.model.selected.label': 'Link with one or many models of dataset',
   'form.datasets.select.dataset.list.title': 'Select datasets to link with search form',
   'form.datasets.select.dataset.models.list.title': 'Select dataset models to link with search form',
+  // Layout tab
+  'form.layout.tab.title': 'Search form layout configuration',
+  'form.layout.tab.reset': 'Reset',
 }, Locales.en)
 
 export default messages

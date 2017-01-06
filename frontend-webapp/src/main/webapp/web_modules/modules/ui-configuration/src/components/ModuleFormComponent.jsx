@@ -57,7 +57,7 @@ class ModuleFormComponent extends React.Component {
   }
 
   selectModuleType = (event, index, value, input) => {
-    console.log('module selecte', value)
+    console.log('MODULE PROPS', this.props)
     input.onChange(value)
     this.setState({
       moduleSelected: true,
@@ -72,12 +72,6 @@ class ModuleFormComponent extends React.Component {
     if (this.state.moduleSelected) {
       moduleConf = (
         <Card style={this.context.muiTheme.layout.cardEspaced}>
-          <CardTitle
-            title={<FormattedMessage
-              id="module.form.special.parameters.title"
-              values={{ name: this.state.module.name }}
-            />}
-          />
           <CardText>
             <LazyModuleComponent
               module={this.state.module}

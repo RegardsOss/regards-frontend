@@ -22,6 +22,21 @@ export default {
     },
   },
   /**
+   * Default application main container.
+   */
+  FormMainContainer: {
+    classes: [],
+    styles: {
+      backgroundColor: 'Grey',
+      backgroundAttachment: 'fixed',
+      backgroundSize: 'cover',
+      minHeight: '30vh',
+      paddingTop: '10px',
+      paddingRight: '1px', // Quick fix for bootstrap grid .row
+    },
+  },
+
+  /**
    * Row container to display a responsive row.
    */
   RowContainer: {

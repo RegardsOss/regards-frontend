@@ -51,8 +51,6 @@ class PageableListContainer extends React.Component {
    * @param nextProps
    */
   componentWillReceiveProps(nextProps) {
-    // if (!isEqual(this.props.entities, nextProps.entities)) {
-    console.log(this.props, nextProps)
     if (nextProps.entitiesFetching === false && this.props.entitiesFetching === true) {
       const newEntities = []
       forEach(nextProps.entities, entity => newEntities.push(entity))

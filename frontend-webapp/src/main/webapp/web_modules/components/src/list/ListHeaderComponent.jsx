@@ -24,7 +24,6 @@ class ListHeaderComponent extends React.Component {
   }
 
   render() {
-    console.log('THEME', this.context.muiTheme)
     const style = {
       container: {
         height: '40px',

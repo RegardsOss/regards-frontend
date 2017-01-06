@@ -60,7 +60,6 @@ class ModuleContainer extends React.Component {
 
   handleUpdate = (values) => {
     const submitModel = Object.assign({}, this.props.module, values)
-    console.log('UPDATING....', values, submitModel)
     Promise.resolve(this.props.updateModule(this.props.params.applicationId, submitModel))
       .then(this.handleBack)
   }
@@ -78,8 +77,6 @@ class ModuleContainer extends React.Component {
     if (this.props.params.module_id && !this.props.module) {
       return (<FormEntityNotFoundComponent />)
     }
-
-    console.log(this.props)
 
     return (
       <ModuleFormComponent

@@ -8,6 +8,7 @@ import { CardActionsComponent } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { Field, TextAreaField, ErrorTypes } from '@regardsoss/form-utils'
 import { LayoutShape } from '@regardsoss/layout'
+import { ReduxConnectedForm } from '@regardsoss/redux'
 
 /**
  * React component to display and configure a given layout
@@ -48,7 +49,10 @@ class ApplicationLayoutComponent extends React.Component {
   render() {
     const { pristine, submitting } = this.props
     return (
-      <form onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
+      <ReduxConnectedForm
+        onSubmit={this.props.handleSubmit(this.props.onSubmit)}
+        i18nMessagesDir="modules/ui-configuration/src/i18n"
+      >
         <Card>
           <CardTitle
             title={<FormattedMessage id="layout.title" />}
@@ -68,7 +72,7 @@ class ApplicationLayoutComponent extends React.Component {
             />
           </CardActions>
         </Card>
-      </form>
+      </ReduxConnectedForm>
     )
   }
 }
@@ -76,7 +80,6 @@ class ApplicationLayoutComponent extends React.Component {
 function validate(values) {
   const errors = {}
   if (values.layout) {
-    console.log(values, errors)
     try {
       JSON.parse(values.layout)
     } catch (e) {

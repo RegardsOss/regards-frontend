@@ -6,6 +6,8 @@ import { Tabs, Tab } from 'material-ui/Tabs'
 import DatasetsConfShape from '../../models/datasets/DatasetsConfShape'
 import FormParameters from './FormParametersConfigurationComponent'
 import FormDasets from './FormDatasetsConfigurationComponent'
+import FormLayoutComponent from './FormLayoutComponent'
+import FormPreviewComponent from './FormPreviewComponent'
 
 /**
  * Display form divided with tabs to handle search form module configuration
@@ -37,9 +39,16 @@ class FormTabsComponent extends React.Component {
             selectedDatasetModels={this.props.datasets.models}
           />
         </Tab>
-        <Tab label={<FormattedMessage id="form.layout.tab.label" />} />
+        <Tab label={<FormattedMessage id="form.layout.tab.label" />} >
+          <FormLayoutComponent
+            layout={this.props.layout}
+            change={this.props.change}
+          />
+        </Tab>
         <Tab label={<FormattedMessage id="form.criterions.tab.label" />} />
-        <Tab label={<FormattedMessage id="form.preview.tab.label" />} />
+        <Tab label={<FormattedMessage id="form.preview.tab.label" />} >
+          <FormPreviewComponent />
+        </Tab>
       </Tabs>
     )
   }

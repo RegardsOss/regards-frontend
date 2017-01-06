@@ -25,6 +25,9 @@ const messages = Object.assign({
   'form.datasets.model.selected.label': 'Associer aux jeux de données des models selectionnés',
   'form.datasets.select.dataset.list.title': 'Jeux de données associés',
   'form.datasets.select.dataset.models.list.title': 'Modèles de jeu de données associés',
+  // Layout tab
+  'form.layout.tab.title': 'Configuration de l\'agencement des critères de recherche du formulaire',
+  'form.layout.tab.reset': 'Réinitialiser',
 }, Locales.fr)
 
 export default messages
