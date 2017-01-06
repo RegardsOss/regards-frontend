@@ -20,3 +20,5 @@ import './modules/admin-user-role-management/RoleComponents'
 import './modules/news/NewsComponent'
 import './modules/menu/MenuComponent'
 import './modules/projects-list/ProjectsListComponent'
+
+import './theme-configuration/index.story'

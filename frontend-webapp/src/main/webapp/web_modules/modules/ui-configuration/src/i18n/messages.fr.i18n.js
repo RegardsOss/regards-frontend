@@ -44,6 +44,10 @@ const messages = Object.assign({
   'module.form.update.button': 'Mettre à jour',
   'module.form.cancel.button': 'Annuler',
   'invalid.json': 'Format json invalid',
+  'application.theme.title': 'Configuration du thème',
+  'application.theme.save': 'Sauvegarder',
+  'application.theme.download': 'Télécharger',
+
 }, Locales.fr)
 
 export default messages

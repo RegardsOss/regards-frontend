@@ -14,8 +14,7 @@ import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import ProjectConnectionList from '@regardsoss/model/src/admin/ProjectConnection'
 import DatabaseConnectionTesterIconButton from './DatabaseConnectionTesterIconButton'
-import FloatingActionButton from 'material-ui/FloatingActionButton'
-import ContentAdd from 'material-ui/svg-icons/content/add'
+
 /**
  * React component to list the {@link ProjectConnection}s for all microservices of a project.
  *

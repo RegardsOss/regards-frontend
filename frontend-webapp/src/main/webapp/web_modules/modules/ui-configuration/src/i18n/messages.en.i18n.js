@@ -44,6 +44,9 @@ const messages = Object.assign({
   'module.form.update.button': 'Update module',
   'module.form.cancel.button': 'Cancel',
   'invalid.json': 'Invalid json file',
+  'application.theme.title': 'Configure the theme',
+  'application.theme.save': 'Save',
+  'application.theme.download': 'Download',
 
 }, Locales.en)
 

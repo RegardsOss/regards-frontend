@@ -73,7 +73,12 @@ module.exports = {
       {
         test: /\.html/,
         loader: 'file?name=[name].[ext]',
-      }
+      },
+      {
+        test: /\.png$/,
+        loader: 'url-loader',
+        query: { mimetype: 'image/png' },
+      },
     ],
   },
   plugins: [
