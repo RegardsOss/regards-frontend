@@ -123,16 +123,13 @@ export default class ThemePropBlock extends React.Component {
         }}
       >
         <BlockHeader
-{...{
-          settingsName,
-          openThis,
-          onSelect,
-        }}
+          {...{
+            settingsName,
+            openThis,
+            onSelect,
+          }}
         />
-        <div style={{ /* height: 16*/} />
-
         {this.renderColl()}
-
       </Paper>
     )
   }
