@@ -42,28 +42,30 @@ const PageAndHateoasMiddleWare = (req, res) => {
         limit = replace(limit[0], "_limit=", '')
       }
 
-      meta = {
-        "number": index,
-        "size": limit,
-        "totalElements":res._headers['x-total-count'].value(),
-      }
+      if (index && limit) {
+        meta = {
+          "number": index,
+          "size": limit,
+          "totalElements": res._headers['x-total-count'].value(),
+        }
 
-      if (res._headers.link){
-        const reslinks = split(res._headers.link, ',')
-        forEach(reslinks, (clink, idx)=> {
-          const elements = split(clink,";")
-          let url = replace(elements[0],'<','')
-          url = trim(replace(url,'>',''))
+        if (res._headers.link) {
+          const reslinks = split(res._headers.link, ',')
+          forEach(reslinks, (clink, idx) => {
+            const elements = split(clink, ";")
+            let url = replace(elements[0], '<', '')
+            url = trim(replace(url, '>', ''))
 
-          let rel = replace(elements[1],'rel=','')
-          rel = replace(rel,'"','')
-          rel = trim(replace(rel,'"',''))
-          const link = {
-            rel,
-            url
-          }
-          links.push(link)
-        })
+            let rel = replace(elements[1], 'rel=', '')
+            rel = replace(rel, '"', '')
+            rel = trim(replace(rel, '"', ''))
+            const link = {
+              rel,
+              url
+            }
+            links.push(link)
+          })
+        }
       }
     }
 
@@ -115,6 +117,7 @@ const runServer = () => {
 
   server.use(jsonServer.rewriter({
     '/api/v1/rs-access/applications/:application_id/modules/:module_id': '/api/v1/rs-access/modules/:module_id',
+    '/api/v1/rs-access/plugins/:type' : '/api/v1/rs-access/plugins?type=:type',
     '/oauth/token' :'/tokens/1'
   }))
   server.use('/api/v1/rs-access/', accessMicroServiceRouter)

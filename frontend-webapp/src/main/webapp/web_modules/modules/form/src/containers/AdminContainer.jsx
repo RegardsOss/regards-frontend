@@ -2,6 +2,8 @@
  * LICENSE_PLACEHOLDER
  **/
 import FormTabsComponent from '../components/admin/FormTabsComponent'
+import DatasetConfShape from '../models/datasets/DatasetsConfShape'
+import Criteria from '../models/criterion/Criteria'
 /**
  * Main container to display administration view of the module form.
  */
@@ -11,16 +13,8 @@ class AdminContainer extends React.Component {
     appName: React.PropTypes.string,
     project: React.PropTypes.string,
     change: React.PropTypes.func,
-    datasets: React.PropTypes.shape({
-      type: React.PropTypes.string,
-      datasets: React.PropTypes.arrayOf(React.PropTypes.shape({
-        name: React.PropTypes.string,
-      })),
-      models: React.PropTypes.arrayOf(React.PropTypes.shape({
-        name: React.PropTypes.string,
-      })),
-    }),
-    criterion: React.PropTypes.string,
+    datasets: DatasetConfShape,
+    criterion: React.PropTypes.arrayOf(Criteria),
     layout: React.PropTypes.string,
     resultType: React.PropTypes.string,
   }
@@ -33,6 +27,8 @@ class AdminContainer extends React.Component {
       datasets: this.props.datasets ? this.props.datasets : {
         type: 'all',
       },
+      criterion: this.props.criterion ? this.props.criterion : [],
+      layout: this.props.layout,
     }
   }
 

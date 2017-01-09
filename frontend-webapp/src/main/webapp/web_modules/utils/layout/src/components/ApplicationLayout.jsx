@@ -1,6 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import { Plugin } from '@regardsoss/model'
 import { ModuleShape } from '@regardsoss/modules'
 import Container from './Container'
 import ContainerShape from '../model/ContainerShape'
@@ -16,6 +17,7 @@ class ApplicationLayout extends React.Component {
     appName: React.PropTypes.string.isRequired,
     layout: ContainerShape,
     modules: React.PropTypes.arrayOf(ModuleShape),
+    plugins: React.PropTypes.arrayOf(Plugin),
   }
 
   /**
@@ -29,6 +31,7 @@ class ApplicationLayout extends React.Component {
         project={this.props.project}
         container={this.props.layout}
         modules={this.props.modules}
+        plugins={this.props.plugins}
       />
     )
   }

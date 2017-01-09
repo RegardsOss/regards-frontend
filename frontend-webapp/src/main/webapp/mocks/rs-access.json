@@ -26,6 +26,14 @@
       "id": "admin"
     }
   ],
+  "plugins": [
+    {
+      "id": 1,
+      "name": "string-criteria",
+      "type": "criterion",
+      "sourcesPath": "/plugins/criterion/string/bundle.js"
+    }
+  ],
   "modules": [
     {
       "id": 1,
