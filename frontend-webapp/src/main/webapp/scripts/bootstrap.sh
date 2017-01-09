@@ -34,6 +34,7 @@ npm link web_modules/modules/admin-data-management
 npm link web_modules/modules/admin-data-model-management
 npm link web_modules/modules/admin-data-attributemodel-management
 npm link web_modules/modules/admin-data-fragment-management
+npm link web_modules/modules/admin-microservice-management
 npm link web_modules/modules/admin-project-management
 npm link web_modules/modules/admin-user-management
 npm link web_modules/modules/admin-user-projectuser-management
