@@ -1,4 +1,5 @@
-import PluginComponent, { PluginComponent as PluginComponentUnconnected } from './PluginComponent'
+//import PluginComponent, { PluginComponent as PluginComponentUnconnected } from './PluginComponent'
+import PluginComponent from './components/PluginComponent'
 import PluginReducer from './PluginReducers'
 import { fetchPlugins, pluginInitialized, intializePlugin } from './PluginsActions'
 
@@ -6,4 +7,4 @@ const PluginActions = {
   fetchPlugins, pluginInitialized, intializePlugin,
 }
 
-export { PluginComponent, PluginComponentUnconnected, PluginReducer, PluginActions }
+export { PluginComponent, PluginReducer, PluginActions }

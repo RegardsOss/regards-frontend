@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { map } from 'lodash'
-import { AccessProject } from '@regardsoss/api'
+import { AccessProject } from '@regardsoss/model'
 import { themeContextType } from '@regardsoss/theme'
 import ProjectComponent from './ProjectComponent'
 

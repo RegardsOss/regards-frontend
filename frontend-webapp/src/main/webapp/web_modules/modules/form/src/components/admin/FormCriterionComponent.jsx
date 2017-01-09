@@ -36,7 +36,7 @@ class FormCriterionComponent extends React.Component {
 
   renderCriterionRows = () => {
     const rows = []
-    if (this.props.module.conf.criterion && this.props.module.conf.criterion.length > 0) {
+    if (this.props.module && this.props.module.conf.criterion && this.props.module.conf.criterion.length > 0) {
       forEach(this.props.module.conf.criterion, (criteria, idx) => {
         rows.push(
           <TableRow key={idx}>
