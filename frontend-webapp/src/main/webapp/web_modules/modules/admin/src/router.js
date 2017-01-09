@@ -75,7 +75,7 @@ export const databaseRouter = {
 }
 
 /**
- * Main route to access UI-Confiuration module fonctioanlities
+ * Main route to access UI-Confiuration module functionalities
  * @type {{path: string, getChildRoutes: ((nextState, cb))}}
  */
 export const projectAdminUiConfigurationRouter = {
@@ -84,6 +84,21 @@ export const projectAdminUiConfigurationRouter = {
     const adminUiConfiguration = require('@regardsoss/ui-configuration')
     require.ensure([], (require) => {
       cb(null, [adminUiConfiguration.uiConfigurationRouter])
+    })
+  },
+}
+
+/**
+ * Main route to access Microservice Management module functionalities
+ *
+ * @type {{path: string, getChildRoutes: ((nextState, cb))}}
+ */
+export const adminMicroserviceManagementRouter = {
+  path: ':project/microservice',
+  getChildRoutes(nextState, cb) {
+    const adminMicroserviceManagement = require('@regardsoss/admin-microservice-management')
+    require.ensure([], (require) => {
+      cb(null, [adminMicroserviceManagement.microserviceManagementRouter])
     })
   },
 }
@@ -102,6 +117,7 @@ export default {
     projectAdminUserProjectRouter,
     projectAdminUiConfigurationRouter,
     projectAdminRouter,
+    adminMicroserviceManagementRouter,
   ],
   getComponent(nextState, cb) {
     const AdminApp = require('./containers/AdminApp')
