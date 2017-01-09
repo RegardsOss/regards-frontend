@@ -42,8 +42,8 @@
     "@regardsoss/authentication-manager": "0.0.1",
     "@regardsoss/components": "0.0.1",
     "@regardsoss/display-control": "0.0.1",
-    "@regardsoss/form-utils": "0.0.1",
     "@regardsoss/form": "0.0.1",
+    "@regardsoss/form-utils": "0.0.1",
     "@regardsoss/global-sytem-error": "0.0.1",
     "@regardsoss/i18n": "0.0.1",
     "@regardsoss/layout": "0.0.1",
@@ -83,6 +83,7 @@
     "scriptjs": "~2.5.8",
     "sockjs-client": "~1.1.1",
     "stompjs": "~2.3.3",
+    "storybook-addon-material-ui": "^0.7.4",
     "window-or-global": "^1.0.1"
   },
   "devDependencies": {

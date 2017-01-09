@@ -86,6 +86,22 @@ export const layoutRoute = {
 
 /**
  *
+ * @type {{path: string, getComponents: ((nextState, cb))}}
+ */
+export const themesRoute = {
+  path: 'applications/:applicationId/themes/list',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const ApplicationThemeContainer = require('./containers/ApplicationThemeContainer')
+      cb(null, {
+        content: ApplicationThemeContainer,
+      })
+    })
+  },
+}
+
+/**
+ *
  * @type {{childRoutes: [*]}}
  */
 const uiConfigurationRouter = {
@@ -95,6 +111,7 @@ const uiConfigurationRouter = {
     editModuleRoute,
     createModuleRoute,
     layoutRoute,
+    themesRoute,
   ],
 }
 

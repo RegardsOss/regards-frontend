@@ -71,7 +71,7 @@ class MenuContainer extends React.Component {
         <ToolbarGroup firstChild>
           <ToolbarTitle text={title} style={style.title} />
         </ToolbarGroup>
-        <ToolbarGroup>
+        <ToolbarGroup lastChild>
           {authentication}
           <ToolbarSeparator style={this.displaySeparator(localeSelector)} />
           {localeSelector}
