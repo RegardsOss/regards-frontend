@@ -12,6 +12,7 @@ import { Toolbar, ToolbarGroup, ToolbarTitle } from 'material-ui/Toolbar'
 import Divider from 'material-ui/Divider'
 import Subheader from 'material-ui/Subheader'
 import DropDownMenu from 'material-ui/DropDownMenu'
+import Paper from 'material-ui/Paper'
 import { themeContextType } from '@regardsoss/theme'
 import { muiTheme } from '@regardsoss/components/src/storybook-addon-material-ui/src/muiTheme'
 import MaterialUiComponentsShowcase from '@regardsoss/components/src/MaterialUiComponentsShowcase'
@@ -46,9 +47,13 @@ class ApplicationThemeComponent extends React.Component {
   }
 
   render() {
-    const appPreview = <MaterialUiComponentsShowcase />
-    const themeConfigurer = muiTheme()(() => (appPreview))
+    const previewWrapper = <MaterialUiComponentsShowcase />
+    const themeConfigurer = muiTheme()(() => (previewWrapper))
     const style = {
+      mainWrapper: {
+        position: 'relative',
+        height: 880,
+      },
       toolbar: {
         root: {
           backgroundColor: this.context.muiTheme.palette.primary1Color,
@@ -72,16 +77,16 @@ class ApplicationThemeComponent extends React.Component {
           },
         },
       },
-      contentLayout: {
-        display: 'flex',
-        justifyContent: 'center',
+      contentWrapper: {
+        //display: 'flex',
+        //justifyContent: 'center',
       },
-      appPreviewWrapper: {
-        margin: 50,
+      previewWrapper: {
+        //margin: 50,
       },
     }
     return (
-      <Card style={{ position: 'relative' }}>
+      <Paper style={style.mainWrapper}>
         <Toolbar style={style.toolbar.root}>
           <ToolbarGroup firstChild>
             <IconButton onTouchTap={this.handleClose}><Close color={style.toolbar.icon.color} /></IconButton>
@@ -114,15 +119,10 @@ class ApplicationThemeComponent extends React.Component {
             ><FileDownload color={style.toolbar.icon.color} /></IconButton>
           </ToolbarGroup>
         </Toolbar>
-        <CardText>
-          <div style={style.contentLayout}>
-            {themeConfigurer}
-            <div style={style.appPreviewWrapper}>
-              {appPreview}
-            </div>
-          </div>
-        </CardText>
-      </Card>
+        <div style={style.contentWrapper}>
+          {themeConfigurer}
+        </div>
+      </Paper>
     )
   }
 }
