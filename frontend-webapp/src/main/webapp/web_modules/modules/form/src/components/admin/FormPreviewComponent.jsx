@@ -16,7 +16,6 @@ class FormPreviewComponent extends React.Component {
 
   render() {
     if (this.props.module && this.props.module.name) {
-      console.log(this.props)
       return (
         <LazyModuleComponent
           module={this.props.module}

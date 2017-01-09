@@ -3,7 +3,7 @@
  **/
 import { forEach } from 'lodash'
 import { connect } from '@regardsoss/redux'
-import { AccessProjectShape } from '@regardsoss/api'
+import { AccessProject } from '@regardsoss/model'
 import { FormLoadingComponent } from '@regardsoss/form-utils'
 import ProjectListComponent from '../components/ProjectListComponent'
 import ProjectsSelector from '../model/ProjectsSelector'
@@ -17,7 +17,7 @@ export class ModuleContainer extends React.Component {
     // Set by module loader
     appName: React.PropTypes.string.isRequired,
     // Set by mapStateToProps
-    projects: React.PropTypes.objectOf(AccessProjectShape),
+    projects: React.PropTypes.objectOf(AccessProject),
     isFetching: React.PropTypes.bool,
     // Set by mapDispatchToProps
     fetchProjects: React.PropTypes.func,

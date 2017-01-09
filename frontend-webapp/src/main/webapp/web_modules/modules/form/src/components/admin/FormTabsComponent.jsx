@@ -7,7 +7,9 @@ import DatasetsConfShape from '../../models/datasets/DatasetsConfShape'
 import FormParameters from './FormParametersConfigurationComponent'
 import FormDasets from './FormDatasetsConfigurationComponent'
 import FormLayoutComponent from './FormLayoutComponent'
+import FromCriterionComponent from './FormCriterionComponent'
 import FormPreviewComponent from './FormPreviewComponent'
+import Criteria from '../../models/criterion/Criteria'
 
 /**
  * Display form divided with tabs to handle search form module configuration
@@ -19,7 +21,7 @@ class FormTabsComponent extends React.Component {
     project: React.PropTypes.string,
     change: React.PropTypes.func,
     datasets: DatasetsConfShape,
-    criterion: React.PropTypes.string,
+    criterion: React.PropTypes.arrayOf(Criteria),
     layout: React.PropTypes.string,
     resultType: React.PropTypes.string,
   }
@@ -45,9 +47,15 @@ class FormTabsComponent extends React.Component {
             change={this.props.change}
           />
         </Tab>
-        <Tab label={<FormattedMessage id="form.criterions.tab.label" />} />
+        <Tab label={<FormattedMessage id="form.criterions.tab.label" />} >
+          <FromCriterionComponent
+            change={this.props.change}
+          />
+        </Tab>
         <Tab label={<FormattedMessage id="form.preview.tab.label" />} >
-          <FormPreviewComponent />
+          <FormPreviewComponent
+            criterion={this.props.criterion}
+          />
         </Tab>
       </Tabs>
     )

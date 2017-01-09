@@ -1,7 +1,10 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import { forEach } from 'lodash'
 import { LazyModuleComponent, ModuleShape } from '@regardsoss/modules'
+import { Plugin } from '@regardsoss/model'
+import { PluginComponent } from '@regardsoss/plugins'
 import ContainerShape from '../model/ContainerShape'
 import ContainerHelper from '../ContainerHelper'
 
@@ -16,6 +19,7 @@ class Container extends React.Component {
     appName: React.PropTypes.string.isRequired,
     container: ContainerShape,
     modules: React.PropTypes.arrayOf(ModuleShape),
+    plugins: React.PropTypes.arrayOf(Plugin),
   }
 
   /**
@@ -28,29 +32,42 @@ class Container extends React.Component {
     const containerClasses = ContainerHelper.getContainerClassNames(this.props.container)
     const containerStyles = ContainerHelper.getContainerStyles(this.props.container)
 
-    let children = []
+    const renderContainers = []
     if (this.props.container.containers) {
-      children = this.props.container.containers.map(c => (
-        <Container
-          key={c.id}
-          project={this.props.project}
-          appName={this.props.appName}
-          container={c}
-          modules={this.props.modules}
-        />))
+      forEach(this.props.container.containers, (c, idx) => (
+        renderContainers.push(
+          <Container
+            key={c.id}
+            project={this.props.project}
+            appName={this.props.appName}
+            container={c}
+            modules={this.props.modules}
+            plugins={this.props.plugins}
+          />,
+        )
+      ))
     }
 
-    let renderModules = []
+    const renderModules = []
     if (this.props.modules) {
       const containerModules = this.props.modules.filter(module => module.content.active && module.content.container === this.props.container.id && module.content.applicationId === this.props.appName)
-      renderModules = containerModules.map(module => (
-        <LazyModuleComponent
-          key={module.content.id}
+      forEach(containerModules, (module, idx) => (
+        renderModules.push(<LazyModuleComponent
+          key={idx}
           module={module.content}
           appName={this.props.appName}
           project={this.props.project}
-        />
+        />,
+        )
       ))
+    }
+
+    const renderPlugins = []
+    if (this.props.plugins) {
+      const containerPlugins = this.props.plugins.filter(plugin => plugin.container === this.props.container.id)
+      forEach(containerPlugins, (plugin, idx) => {
+        renderPlugins.push(<PluginComponent key={idx} plugin={plugin} />)
+      })
     }
 
     return (
@@ -60,7 +77,8 @@ class Container extends React.Component {
         key={this.props.container.id}
       >
         {renderModules}
-        {children}
+        {renderPlugins}
+        {renderContainers}
       </div>
     )
   }

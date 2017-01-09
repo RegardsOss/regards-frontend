@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { map } from 'lodash'
-import { AccessProjectShape } from '@regardsoss/api'
+import { AccessProject } from '@regardsoss/api'
 import { themeContextType } from '@regardsoss/theme'
 import ProjectComponent from './ProjectComponent'
 
@@ -14,7 +14,7 @@ class ProjectListComponent extends React.Component {
    * @type {{projects: *, theme: *}}
    */
   static propTypes = {
-    projects: React.PropTypes.arrayOf(AccessProjectShape),
+    projects: React.PropTypes.arrayOf(AccessProject),
   }
 
   /**

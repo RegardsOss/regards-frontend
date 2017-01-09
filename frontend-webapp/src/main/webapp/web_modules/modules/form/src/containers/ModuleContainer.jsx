@@ -2,6 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { ApplicationLayout } from '@regardsoss/layout'
+import { PluginComponent } from '@regardsoss/plugins'
 /**
  * Main container to display module form.
  */
@@ -16,10 +17,13 @@ class ModuleContainer extends React.Component {
       const layoutObj = JSON.parse(this.props.layout)
 
       return (
-        <ApplicationLayout
-          appName="user"
-          layout={layoutObj}
-        />
+        <div>
+          <ApplicationLayout
+            appName="user"
+            layout={layoutObj}
+            plugins={this.props.criterion}
+          />
+        </div>
       )
     } else {
       return <div>Loading ... </div>
