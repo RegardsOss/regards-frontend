@@ -1,23 +1,23 @@
-import React from 'react';
-import addons from '@kadira/storybook-addons';
-import PanelContainer from './containers/PanelContainer';
-import { ADDON_ID, PANEL_ID } from './';
+import React from 'react'
+import addons from '@kadira/storybook-addons'
+import PanelContainer from './containers/PanelContainer'
+import { ADDON_ID, PANEL_ID } from './'
 
 
-import injectTapEventPlugin from 'react-tap-event-plugin';
+import injectTapEventPlugin from 'react-tap-event-plugin'
 function inject() {
-    try {
-        injectTapEventPlugin();
-    } catch (err) {
-        console.warn(err);
-    }
+  try {
+    injectTapEventPlugin()
+  } catch (err) {
+    console.warn(err)
+  }
 }
-inject();
+inject()
 
 addons.register(ADDON_ID, (api) => {
-    const channel = addons.getChannel();
-    addons.addPanel(PANEL_ID, {
-        title: 'Material-UI',
-        render: () => <PanelContainer channel={channel} api={api} />,
-    });
-});
+  const channel = addons.getChannel()
+  addons.addPanel(PANEL_ID, {
+    title: 'Material-UI',
+    render: () => <PanelContainer channel={channel} api={api} />,
+  })
+})
