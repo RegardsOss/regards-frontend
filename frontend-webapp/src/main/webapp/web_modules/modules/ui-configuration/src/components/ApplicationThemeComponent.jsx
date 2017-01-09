@@ -1,7 +1,6 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { Card, CardText } from 'material-ui/Card'
 import { FormattedMessage } from 'react-intl'
 import IconButton from 'material-ui/IconButton'
 import Close from 'material-ui/svg-icons/navigation/close'
@@ -14,7 +13,7 @@ import Subheader from 'material-ui/Subheader'
 import DropDownMenu from 'material-ui/DropDownMenu'
 import Paper from 'material-ui/Paper'
 import { themeContextType } from '@regardsoss/theme'
-import { muiTheme } from '@regardsoss/components/src/storybook-addon-material-ui/src/muiTheme'
+import { muiTheme } from '@regardsoss/components/src/storybook-addon-material-ui-custom/src/muiTheme'
 import MaterialUiComponentsShowcase from '@regardsoss/components/src/MaterialUiComponentsShowcase'
 
 /**
@@ -77,13 +76,6 @@ class ApplicationThemeComponent extends React.Component {
           },
         },
       },
-      contentWrapper: {
-        //display: 'flex',
-        //justifyContent: 'center',
-      },
-      previewWrapper: {
-        //margin: 50,
-      },
     }
     return (
       <Paper style={style.mainWrapper}>
@@ -119,9 +111,7 @@ class ApplicationThemeComponent extends React.Component {
             ><FileDownload color={style.toolbar.icon.color} /></IconButton>
           </ToolbarGroup>
         </Toolbar>
-        <div style={style.contentWrapper}>
-          {themeConfigurer}
-        </div>
+        {themeConfigurer}
       </Paper>
     )
   }
