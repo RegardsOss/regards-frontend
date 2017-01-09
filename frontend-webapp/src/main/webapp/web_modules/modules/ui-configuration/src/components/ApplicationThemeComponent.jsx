@@ -76,6 +76,9 @@ class ApplicationThemeComponent extends React.Component {
         display: 'flex',
         justifyContent: 'center',
       },
+      appPreviewWrapper: {
+        margin: 50,
+      },
     }
     return (
       <Card style={{ position: 'relative' }}>
@@ -114,7 +117,9 @@ class ApplicationThemeComponent extends React.Component {
         <CardText>
           <div style={style.contentLayout}>
             {themeConfigurer}
-            {appPreview}
+            <div style={style.appPreviewWrapper}>
+              {appPreview}
+            </div>
           </div>
         </CardText>
       </Card>
