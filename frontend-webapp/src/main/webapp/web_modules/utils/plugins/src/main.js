@@ -1,4 +1,4 @@
-//import PluginComponent, { PluginComponent as PluginComponentUnconnected } from './PluginComponent'
+// import PluginComponent, { PluginComponent as PluginComponentUnconnected } from './PluginComponent'
 import PluginComponent from './components/PluginComponent'
 import PluginReducer from './PluginReducers'
 import { fetchPlugins, pluginInitialized, intializePlugin } from './PluginsActions'

@@ -11,7 +11,7 @@ import Palette from 'material-ui/svg-icons/image/palette'
  * @param intl
  */
 export default (project, intl) => [
-  /**{
+  /** {
     title: intl.formatMessage({ id: 'admin.app.title' }),
     description: intl.formatMessage({ id: 'admin.app.description' }),
     advanced: false,
