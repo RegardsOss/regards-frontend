@@ -14,13 +14,6 @@ module.exports = {
   context: __dirname,
   // Javascript main entry
   entry: './main.js',
-  output: {
-    // Webpack compilation directory
-    path: `${__dirname}/build`,
-    // Webpack main bundle file name
-    filename: 'bundle.js',
-    publicPath: '/',
-  },
   node: {
     net: 'empty',
     tls: 'empty',
@@ -34,7 +27,7 @@ module.exports = {
   ],
   output: {
     path: __dirname + '/target/build',
-    filename: "bundle.js",
+    filename: "plugin.js",
     chunkFilename: "[id].hw.chunck.js"
   },
   resolve: {
