@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
 import { I18nProvider } from '@regardsoss/i18n'
@@ -66,7 +69,7 @@ const mapStateToProps = state => ({
   roleList: RoleSelectors.getList(state),
 })
 const mapDispatchToProps = dispatch => ({
-  fetchRoleList: () => dispatch(RoleActions.fetchEntityList()),
+  fetchRoleList: () => dispatch(RoleActions.fetchPagedEntityList(dispatch, 0, 100)),
   deleteRole: id => dispatch(RoleActions.deleteEntity(id)),
 })
 

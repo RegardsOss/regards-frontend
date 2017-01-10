@@ -1,6 +1,12 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { I18nProvider } from '@regardsoss/i18n'
-import BoardComponent from '../components/BoardComponent'
+import UserManagementBoardComponent from '../components/UserManagementBoardComponent'
 
+/**
+ * Display user management functionalities
+ */
 export class BoardContainer extends React.Component {
   static propTypes = {
     params: React.PropTypes.shape({
@@ -11,7 +17,7 @@ export class BoardContainer extends React.Component {
     const { params: { project } } = this.props
     return (
       <I18nProvider messageDir="modules/admin-user-management/src/i18n">
-        <BoardComponent projectName={project} />
+        <UserManagementBoardComponent projectName={project} />
       </I18nProvider>
     )
   }
