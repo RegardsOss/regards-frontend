@@ -17,7 +17,7 @@ class ModuleContainer extends React.Component {
       const layoutObj = JSON.parse(this.props.layout)
 
       return (
-        <div>
+        <div style={{marginTop: 20, marginRight: 20, marginLeft: 20}}>
           <ApplicationLayout
             appName="user"
             layout={layoutObj}

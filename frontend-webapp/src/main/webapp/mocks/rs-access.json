@@ -35,28 +35,6 @@
   "modules": [
     {
       "id": 1,
-      "name": "form",
-      "description": "Search form module",
-      "applicationId": "user",
-      "container": "",
-      "active": false,
-      "conf": {
-        "resulttype": "dataset"
-      }
-    },
-    {
-      "id": 2,
-      "name": "form",
-      "description": "Search form module",
-      "applicationId": "user",
-      "container": "",
-      "active": false,
-      "conf": {
-        "resulttype": "dataobject"
-      }
-    },
-    {
-      "id": 3,
       "name": "menu",
       "description": "Header menu module",
       "applicationId": "user",
@@ -81,7 +59,7 @@
         "displayThemeSelector": true
       },
       "applicationId": "portal",
-      "id": 4
+      "id": 2
     },
     {
       "active": true,
@@ -89,36 +67,28 @@
       "description": "Nouvelles du projet",
       "container": "news",
       "applicationId": "portal",
-      "id": 5
-    },
-    {
-      "active": false,
-      "name": "menu",
-      "description": "menu de test désactivé",
-      "container": "header",
-      "conf": {
-        "title": "nouveau titre",
-        "displayAuthentication": true,
-        "displayLocaleSelector": true,
-        "displayThemeSelector": true
-      },
-      "applicationId": "portal",
-      "id": 6
-    },
-    {
+      "id": 3
+    }, {
       "active": true,
       "name": "projects-list",
       "description": "liste des projets",
       "container": "projects",
       "applicationId": "portal",
-      "id": 7
+      "id": 5
     }, {
-      "id": 8,
+      "active": true,
+      "name": "news",
+      "description": "News ihm projet",
+      "container": "content",
       "applicationId": "user",
-      "active": false,
+      "id": 6
+    }, {
+      "id": 7,
+      "applicationId": "user",
+      "active": true,
       "name": "form",
       "description": "Module de test",
-      "container": "user",
+      "container": "content",
       "conf": {
         "resultType": "dataobjects",
         "layout": "{\n  \"id\": \"main\",\n  \"type\": \"FormMainContainer\",\n  \"classes\": [],\n  \"styles\": {},\n  \"containers\": [{\n    \"id\": \"row\",\n    \"type\": \"RowContainer\",\n    \"classes\": [],\n    \"styles\": {\"minHeight\":\"50px\",\"backgroundColor\":\"Red\"},\n    \"containers\": [{\n      \"id\": \"block1\",\n      \"type\": \"LargeColumnContainer\",\n      \"classes\": [],\n      \"styles\": {\"minHeight\":\"50px\",\"backgroundColor\":\"White\"},\n      \"containers\": []\n    }, {\n      \"id\": \"block2\",\n      \"type\": \"SmallColumnContainer\",\n      \"classes\": [],\n      \"styles\": {\"minHeight\":\"50px\",\"backgroundColor\":\"White\"},\n      \"containers\": []\n    }]\n  }, {\n    \"id\": \"row2\",\n    \"type\": \"RowContainer\",\n    \"styles\": {\"minHeight\":\"50px\",\"backgroundColor\":\"Blue\"},\n    \"classes\": [],\n    \"containers\": [{\n      \"id\": \"block21\",\n      \"type\": \"SmallColumnContainer\",\n      \"classes\": [],\n      \"styles\": {\"minHeight\":\"50px\",\"backgroundColor\":\"White\"},\n      \"containers\": []\n    }, {\n      \"id\": \"block22\",\n      \"type\": \"LargeColumnContainer\",\n      \"classes\": [],\n      \"styles\": {\"minHeight\":\"50px\",\"backgroundColor\":\"White\"},\n      \"containers\": []\n    }]\n  }]\n}\n",
@@ -182,6 +152,16 @@
       "containers": [
         {
           "id": "header",
+          "type": "RowContainer",
+          "classes": [],
+          "styles": {}
+        },{
+          "id": "content",
+          "type": "RowContainer",
+          "classes": [],
+          "styles": {}
+        },{
+          "id": "footer",
           "type": "RowContainer",
           "classes": [],
           "styles": {}
