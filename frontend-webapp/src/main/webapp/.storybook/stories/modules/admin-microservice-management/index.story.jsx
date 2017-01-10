@@ -4,7 +4,7 @@ import { withKnobs } from '@kadira/storybook-addon-knobs'
 import { StoreDecorator, addLocaleAndThemeSelectors, ThemeAndLocaleDecorator } from '../../utils/decorators'
 import MicroservicePluginTypesComponent from '@regardsoss/admin-microservice-management/src/components/MicroservicePluginTypesComponent'
 import MicroservicePluginsComponent from '@regardsoss/admin-microservice-management/src/components/MicroservicePluginsComponent'
-import MicroservicePluginConfigurationEditComponent from '@regardsoss/admin-microservice-management/src/components/MicroservicePluginConfigurationEditComponent'
+import SexyMicroserviceBoardComponent from '@regardsoss/admin-microservice-management/src/components/SexyMicroserviceBoardComponent'
 
 storiesOf('Admin - Microservice management', module)
   .addDecorator(withKnobs)
@@ -30,6 +30,14 @@ storiesOf('Admin - Microservice management', module)
       return (
         <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-microservice-management/src/i18n">
           <MicroservicePluginConfigurationEditComponent microserviceName='rs-gateway'/>
+        </ThemeAndLocaleDecorator>
+      )
+    })
+    .add('New board component', () => {
+      const themeName = addLocaleAndThemeSelectors()
+      return (
+        <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-microservice-management/src/i18n">
+          <SexyMicroserviceBoardComponent microserviceName='rs-gateway'/>
         </ThemeAndLocaleDecorator>
       )
     })

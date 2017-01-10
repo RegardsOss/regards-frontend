@@ -21,10 +21,6 @@ const microserviceNameList = [
 
 class SexyMicroserviceBoardComponent extends React.Component {
 
-  static propTypes = {
-    project: React.PropTypes.string.isRequired,
-  }
-
   static contextTypes = {
     ...i18nContextType,
   }
