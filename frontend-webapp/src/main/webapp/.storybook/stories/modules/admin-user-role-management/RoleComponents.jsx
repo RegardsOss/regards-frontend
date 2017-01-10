@@ -49,6 +49,7 @@ storiesOf('Project admin - Role', module)
           createUrl={'create/url'}
           handleDelete={action('handleDelete')}
           handleEdit={action('handleEdit')}
+          handleEditResourceAccess={action('handleEditResourceAccess')}
           roleList={roleList}
         />
       </ThemeAndLocaleDecorator>

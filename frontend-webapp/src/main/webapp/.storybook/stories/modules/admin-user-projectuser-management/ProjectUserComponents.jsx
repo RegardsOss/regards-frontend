@@ -16,8 +16,10 @@ const defaultProjectUsersList = {
         name: 'ADMIN',
       },
       email: 'email@cnes.com',
-      lastupdate: 'yesterday',
-      lastconnection: 'a week ago',
+      lastUpdate: {
+        date: { year: 2017, month: 1, day: 9 },
+        time: { hour: 15, minute: 46, second: 12, nano: 453000000 },
+      },
       status: 'ACCESS_GRANTED',
     },
     links: [],
@@ -52,8 +54,8 @@ storiesOf('Project admin - Project user', module)
         <ProjectUserListComponent
           backUrl={'back/url'}
           createUrl={'create/url'}
-          onDelete={() => alert('called delete')}
-          onEdit={() => alert('called edit')}
+          onDelete={action('called delete')}
+          onEdit={action('called edit')}
           projectUserList={projectUsersList}
         />
       </ThemeAndLocaleDecorator>
@@ -74,7 +76,7 @@ storiesOf('Project admin - Project user', module)
       <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-user-projectuser-management/src/i18n">
         <ProjectUserCreateComponent
           backUrl={'back/url'}
-          handleSubmit={() => console.log('called submit')}
+          handleSubmit={action('called submit')}
           roleList={rolesList}
         />
       </ThemeAndLocaleDecorator>

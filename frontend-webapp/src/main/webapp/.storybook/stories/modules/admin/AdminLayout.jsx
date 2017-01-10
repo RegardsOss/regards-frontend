@@ -12,6 +12,7 @@ storiesOf('Admin template', module)
     const themeName = addLocaleAndThemeSelectors()
     const isInstance = select('Type of menu', ['Instance', 'Project'], 'Project')
     const params = isInstance === 'Instance' ? {} : { project: 'cdpp' }
+    console.log(params)
     return (
       <ThemeAndLocaleDecorator theme={themeName} messageDir={'modules/admin/src/i18n'} >
         <AdminLayout
