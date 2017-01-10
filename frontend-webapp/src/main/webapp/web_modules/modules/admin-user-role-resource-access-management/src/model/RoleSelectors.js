@@ -2,7 +2,7 @@ import { BasicListSelectors } from '@regardsoss/store-utils'
 
 class RoleSelectors extends BasicListSelectors {
   constructor() {
-    super(['admin', 'user-management', 'role-management', 'role'])
+    super(['admin', 'user-management', 'role-resource-access-management', 'role'])
   }
 }
 

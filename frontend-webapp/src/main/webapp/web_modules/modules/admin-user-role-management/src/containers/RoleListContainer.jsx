@@ -42,6 +42,12 @@ export class RoleListContainer extends React.Component {
     browserHistory.push(url)
   }
 
+  handleEditResourceAccess = (roleId) => {
+    const { params: { project } } = this.props
+    const url = `/admin/${project}/user/role-resource-access/${roleId}/edit`
+    browserHistory.push(url)
+  }
+
   handleDelete =(roleId) => {
     this.props.deleteRole(roleId)
   }
@@ -56,6 +62,7 @@ export class RoleListContainer extends React.Component {
           backUrl={this.getBackUrl()}
           handleDelete={this.handleDelete}
           handleEdit={this.handleEdit}
+          handleEditResourceAccess={this.handleEditResourceAccess}
           handleOpen={this.handleOpen}
         />
       </I18nProvider>

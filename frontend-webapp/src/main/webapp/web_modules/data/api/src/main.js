@@ -16,6 +16,7 @@ import Theme, { ThemeConfiguration } from './access/Theme'
 import Plugin, { PluginConfiguration } from './access/Plugin'
 import Fragment, { FragmentConfiguration } from './dam/Fragment'
 import Dataset, { DatasetConfiguration } from './schemas/Dataset'
+import ResourceAccess, { ResourceAccessConfiguration } from './admin/ResourceAccess'
 
 // We use this Normalizr schemas to transform API responses from a nested form
 // to a flat form where repos and users are placed in `entities`, and nested
@@ -82,4 +83,9 @@ export default {
   DATASET: Dataset.DATASET,
   DATASET_ARRAY: Dataset.DATASET_ARRAY,
   DatasetConfiguration,
+
+  RESOURCE_ACCESS: ResourceAccess.RESOURCE_ACCESS,
+  RESOURCE_ACCESS_ARRAY: ResourceAccess.RESOURCE_ACCESS_ARRAY,
+  ResourceAccessConfiguration,
+
 }

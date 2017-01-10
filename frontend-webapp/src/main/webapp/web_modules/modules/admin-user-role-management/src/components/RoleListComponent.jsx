@@ -5,6 +5,7 @@ import { FormattedMessage } from 'react-intl'
 import IconButton from 'material-ui/IconButton'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
+import Key from 'material-ui/svg-icons/communication/vpn-key'
 import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -19,6 +20,7 @@ export class RoleListComponent extends React.Component {
     roleList: React.PropTypes.objectOf(Role),
     handleDelete: React.PropTypes.func.isRequired,
     handleEdit: React.PropTypes.func.isRequired,
+    handleEditResourceAccess: React.PropTypes.func.isRequired,
     createUrl: React.PropTypes.string.isRequired,
     backUrl: React.PropTypes.string.isRequired,
   }
@@ -60,7 +62,7 @@ export class RoleListComponent extends React.Component {
   }
 
   render() {
-    const { roleList, handleEdit, handleDelete, createUrl } = this.props
+    const { roleList, handleEdit, handleDelete, createUrl, handleEditResourceAccess } = this.props
     const style = {
       hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
       hoverButtonDelete: this.context.muiTheme.palette.accent1Color,
@@ -99,6 +101,10 @@ export class RoleListComponent extends React.Component {
                   <TableRowColumn>{this.getParentRoleName(role.content.parentRole)}</TableRowColumn>
                   <TableRowColumn>{this.getBooleanAsString(role.content.isCorsRequestsAuthorized)}</TableRowColumn>
                   <TableRowColumn>
+                    <IconButton onTouchTap={() => handleEditResourceAccess(role.content.id)}>
+                      <Key />
+                    </IconButton>
+
                     <IconButton onTouchTap={() => handleEdit(role.content.id)}>
                       <Edit hoverColor={style.hoverButtonEdit} />
                     </IconButton>

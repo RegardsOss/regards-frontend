@@ -13,7 +13,7 @@ export class AccountListContainer extends React.Component {
 
   static propTypes = {
     // from mapStateToProps
-    account: React.PropTypes.shape({
+    accountList: React.PropTypes.shape({
       content: React.PropTypes.objectOf({ Account }),
     }),
     // from mapDispatchToProps
@@ -21,11 +21,9 @@ export class AccountListContainer extends React.Component {
     deleteAccount: React.PropTypes.func,
   }
 
-
   componentWillMount() {
     this.props.fetchAccountList()
   }
-
 
   handleEdit = (accountId) => {
     const url = `/admin/account/${accountId}/edit`
