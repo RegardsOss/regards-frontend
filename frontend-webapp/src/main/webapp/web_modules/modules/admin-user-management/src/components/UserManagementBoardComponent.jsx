@@ -20,7 +20,7 @@ class UserManagementBoardComponent extends React.Component {
 
 
   render() {
-    const items = UserManagementItems(this.props.project, this.context.intl)
+    const items = UserManagementItems(this.props.projectName, this.context.intl)
     return (
       <BoardComponent items={items} />
     )
