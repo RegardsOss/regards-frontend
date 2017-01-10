@@ -2,7 +2,14 @@
  * LICENSE_PLACEHOLDER
  */
 const microserviceManagementStyles = theme => ({
-  // TODO
+  board: {
+    block: {
+      maxWidth: 250,
+    },
+    checkbox: {
+      marginBottom: 16,
+    },
+  },
 })
 
 export default microserviceManagementStyles

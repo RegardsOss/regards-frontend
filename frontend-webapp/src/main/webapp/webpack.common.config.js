@@ -49,11 +49,6 @@ module.exports = {
         loader: ExtractTextPlugin.extract('style-loader', 'css-loader'),
       },
       {
-        test: /\.json$/,
-        exclude: [/node_modules/],
-        loader: 'json-loader',
-      },
-      {
         test: /\.jpg$/,
         exclude: [/node_modules/],
         loader: 'file-loader?name=/img/[name].[ext]',
@@ -68,8 +63,15 @@ module.exports = {
       },
       {
         test: /\.json$/,
+        exclude: [/node_modules/],
+        loader: 'json-loader',
+      },
+      /*
+      {
+        test: /\.json$/,
         loader: 'file-loader?name=/json/[name].[ext]',
       },
+      */
       {
         test: /\.html/,
         loader: 'file?name=[name].[ext]',

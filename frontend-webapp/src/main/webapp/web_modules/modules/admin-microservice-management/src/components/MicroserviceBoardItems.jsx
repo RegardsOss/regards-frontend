@@ -7,7 +7,8 @@ import Settings from 'material-ui/svg-icons/action/settings'
 import Checkbox from 'material-ui/Checkbox'
 import Cloud from 'material-ui/svg-icons/file/cloud'
 import CloudOff from 'material-ui/svg-icons/file/cloud-off'
-
+import microservices from '../data/microservices.json'
+import styles from '../styles/styles'
 
 /**
  * Configuration file for the Microservice Management boards items.
@@ -16,36 +17,18 @@ import CloudOff from 'material-ui/svg-icons/file/cloud-off'
  * @param intl
  * @author Xavier-Alexandre Brochard
  */
-
-// TODO make this list dynamic
-const microserviceNameList = [
-  'rs-access',
-  'rs-admin',
-  'rs-cloud',
-  'rs-dam',
-  'rs-gateway',
-]
-
-const styles = {
-  block: {
-    maxWidth: 250,
-  },
-  checkbox: {
-    marginBottom: 16,
-  },
-}
-
-const items = (project, intl) => map(microserviceNameList, microserviceName => (
+const computedStyles = styles()
+const items = (project, intl) => map(microservices, microservice => (
   {
-    title: microserviceName,
-    description: intl.formatMessage({ id: `microservice-management.${microserviceName}.description` }),
+    title: microservice.name,
+    description: intl.formatMessage({ id: `microservice-management.${microservice.name}.description` }),
     advanced: false,
     actions: [{
-      path: `/admin/${project}/microservice/${microserviceName}/configuration`,
+      path: `/admin/${project}/microservice/${microservice.name}/configuration`,
       icon: <Settings />,
       tooltipMsg: intl.formatMessage({ id: 'microservice-management.configuration.tooltip' }),
     }, {
-      path: `/admin/${project}/microservice/${microserviceName}/plugins`,
+      path: `/admin/${project}/microservice/${microservice.name}/plugins`,
       icon: <ExtensionIcon />,
       tooltipMsg: intl.formatMessage({ id: 'microservice-management.plugins.tooltip' }),
     }, {
@@ -53,7 +36,7 @@ const items = (project, intl) => map(microserviceNameList, microserviceName => (
         checkedIcon={<Cloud />}
         uncheckedIcon={<CloudOff />}
         label="Custom icon of different shapes"
-        style={styles.checkbox}
+        style={computedStyles.board.checkbox}
       />,
       // icon: <Palette onTouchTap={() => alert('TODO: Switch the microservice to maintenance')} />,
       tooltipMsg: intl.formatMessage({ id: 'microservice-management.maintenance.tooltip' }),

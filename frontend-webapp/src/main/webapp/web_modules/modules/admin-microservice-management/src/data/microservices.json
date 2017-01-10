@@ -1,0 +1,17 @@
+[
+  {
+    "name": "rs-access"
+  },
+  {
+    "name": "rs-admin"
+  },
+  {
+    "name": "rs-cloud"
+  },
+  {
+    "name": "rs-dam"
+  },
+  {
+    "name": "rs-gateway"
+  }
+]
