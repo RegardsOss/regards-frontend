@@ -1,10 +1,5 @@
 // import PluginComponent, { PluginComponent as PluginComponentUnconnected } from './PluginComponent'
 import PluginComponent from './components/PluginComponent'
-import PluginReducer from './PluginReducers'
-import { fetchPlugins, pluginInitialized, intializePlugin } from './PluginsActions'
+import PluginReducer from './model/PluginReducer'
 
-const PluginActions = {
-  fetchPlugins, pluginInitialized, intializePlugin,
-}
-
-export { PluginComponent, PluginReducer, PluginActions }
+export { PluginComponent, PluginReducer }
