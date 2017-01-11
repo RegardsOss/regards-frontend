@@ -1,9 +1,19 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-const {map, split, filter, forEach, startsWith, replace, trim} = require('lodash')
+const { map, split, filter, forEach, startsWith, replace, trim } = require('lodash')
 const jsonServer = require('json-server')
-const fs = require('fs-extra');
+const fs = require('fs-extra')
+
+// gateway service is handled separately as its route does not work exactly the same
+const gatewayService = 'rs-gateway'
+/**
+ * Controls the mocked service files and corresponding json services.
+ * Add the service name it to get it deployed as mock service
+ */
+const mockServiceNames = ['rs-access', 'rs-admin', 'rs-archival-storage', 'rs-catalog', 'rs-dam', gatewayService]
+/** Rewriter configurations  */
+const mockRewriters = ['rs-access.rewriter']
 
 /**
  * Add pagination format to response list and HAteoas format to each elements
@@ -22,37 +32,33 @@ const PageAndHateoasMiddleWare = (req, res) => {
     })
 
     let meta = {
-      "number": res.locals.data.length,
-      "size": res.locals.data.length,
-      "totalElements": res.locals.data.length
+      number: res.locals.data.length,
+      size: res.locals.data.length,
+      totalElements: res.locals.data.length,
     }
-    let links = []
+    const links = []
     if (req._parsedUrl.query) {
       const params = split(req._parsedUrl.query, '&')
-      let index = filter(params, (param) => {
-        return startsWith(param, "_start")
-      })
+      let index = filter(params, param => startsWith(param, '_start'))
       if (index) {
-        index = replace(index[0], "_start=", '')
+        index = replace(index[0], '_start=', '')
       }
-      let limit = filter(params, (param) => {
-        return startsWith(param, "_limit")
-      })
+      let limit = filter(params, param => startsWith(param, '_limit'))
       if (limit) {
-        limit = replace(limit[0], "_limit=", '')
+        limit = replace(limit[0], '_limit=', '')
       }
 
       if (index && limit) {
         meta = {
-          "number": index,
-          "size": limit,
-          "totalElements": res._headers['x-total-count'].value(),
+          number: index,
+          size: limit,
+          totalElements: res._headers['x-total-count'].value(),
         }
 
         if (res._headers.link) {
           const reslinks = split(res._headers.link, ',')
           forEach(reslinks, (clink, idx) => {
-            const elements = split(clink, ";")
+            const elements = split(clink, ';')
             let url = replace(elements[0], '<', '')
             url = trim(replace(url, '>', ''))
 
@@ -61,7 +67,7 @@ const PageAndHateoasMiddleWare = (req, res) => {
             rel = trim(replace(rel, '"', ''))
             const link = {
               rel,
-              url
+              url,
             }
             links.push(link)
           })
@@ -72,7 +78,7 @@ const PageAndHateoasMiddleWare = (req, res) => {
     results = {
       content: datas,
       metadata: meta,
-      links: links,
+      links,
     }
   } else {
     results = {
@@ -89,27 +95,30 @@ const PageAndHateoasMiddleWare = (req, res) => {
  */
 const runServer = () => {
   const server = jsonServer.create()
-  const accessMicroServiceRouter = jsonServer.router('mocks/rs-access.temp.json')
-  const gatewayMicroServiceRouter = jsonServer.router('mocks/rs-gateway.temp.json')
-  const adminMicroServiceRouter = jsonServer.router('mocks/rs-admin.temp.json')
-  const catalogMicroServiceRouter = jsonServer.router('mocks/rs-catalog.temp.json')
-  const damMicroServiceRouter = jsonServer.router('mocks/rs-dam.temp.json')
-  const accessMicroServiceRewriter = jsonServer.rewriter('mocks/rs-access.rewriter.json')
-  const middlewares = jsonServer.defaults()
 
-  accessMicroServiceRouter.render = PageAndHateoasMiddleWare
-  adminMicroServiceRouter.render = PageAndHateoasMiddleWare
-  catalogMicroServiceRouter.render = PageAndHateoasMiddleWare
-  damMicroServiceRouter.render = PageAndHateoasMiddleWare
+  // declare all routes, store router references
+  const serviceRoutersByName = mockServiceNames.map((serviceName) => {
+    const serviceRouter = jsonServer.router(`mocks/${serviceName}.json`)
+    serviceRouter.render = PageAndHateoasMiddleWare // TODO check if still working (render was initially configured after middlewares)
+    return {
+      serviceName,
+      serviceRouter,
+    }
+  })
 
-  server.use(middlewares)
+  // declare all rewriters
+  mockRewriters.forEach((rewriterName) => {
+    jsonServer.rewriter(`mocks/${rewriterName}.json`)
+  })
+
+  server.use(jsonServer.defaults())
 
   server.use(jsonServer.bodyParser)
-  server.use(function (req, res, next) {
+  server.use((req, res, next) => {
     if (req.method === 'POST' &&
       req.originalUrl.startsWith('/oauth/token?grant_type=password&username=admin@cnes.fr&password=admin&scope=')) {
       req.method = 'GET'
-      console.log("done")
+      console.log('done')
     }
     // Continue to JSON Server router
     next()
@@ -117,31 +126,34 @@ const runServer = () => {
 
   server.use(jsonServer.rewriter({
     '/api/v1/rs-access/applications/:application_id/modules/:module_id': '/api/v1/rs-access/modules/:module_id',
-    '/api/v1/rs-access/plugins/:type' : '/api/v1/rs-access/plugins?type=:type',
-    '/oauth/token' :'/tokens/1'
+    '/api/v1/rs-access/plugins/:type': '/api/v1/rs-access/plugins?type=:type',
+    '/oauth/token': '/tokens/1',
   }))
-  server.use('/api/v1/rs-access/', accessMicroServiceRouter)
-  server.use('/api/v1/rs-catalog/', catalogMicroServiceRouter)
-  server.use('/api/v1/rs-dam/', damMicroServiceRouter)
-  server.use('/api/v1/rs-admin/', adminMicroServiceRouter)
-  server.use(gatewayMicroServiceRouter)
 
+  serviceRoutersByName.forEach(({ serviceName, serviceRouter }) => {
+    // rs-gateway is handled as a specific case here
+    if (serviceName === gatewayService) {
+      // always in use
+      server.use(serviceRouter)
+    } else {
+      server.use(`api/v1/${serviceName}/`, serviceRouter)
+    }
+  })
 
   server.listen(3000, () => {
     console.log('JSON Server is running')
   })
 }
 
-/**
- * Copy mock json database to temp file for trash use during mock usage
- */
-fs.copy('./mocks/rs-admin.json', 'mocks/rs-admin.temp.json', ()=> {
-  fs.copy('./mocks/rs-dam.json', 'mocks/rs-dam.temp.json', () => {
-    fs.copy('./mocks/rs-catalog.json', 'mocks/rs-catalog.temp.json', () => {
-      fs.copy('./mocks/rs-access.json', 'mocks/rs-access.temp.json', () => {
-        fs.copy('./mocks/rs-gateway.json', 'mocks/rs-gateway.temp.json', runServer)
-      })
-    })
+function copyAllMocks([headMockName, ...mockNames]) {
+  const sourceMockFIle = `./mocks/${headMockName}.json`
+  const targetMockPath = `mocks/${headMockName}.temp.json`
+  fs.copy(sourceMockFIle, targetMockPath, () => {
+    // iter on next files if any
+    if (mockNames.length) {
+      copyAllMocks(mockNames)
+    }
   })
-})
+}
+copyAllMocks(mockServiceNames)
 
