@@ -3,7 +3,7 @@
  **/
 import { forEach } from 'lodash'
 import { LazyModuleComponent, ModuleShape } from '@regardsoss/modules'
-import { Plugin } from '@regardsoss/model'
+import { PluginConf } from '@regardsoss/model'
 import { PluginComponent } from '@regardsoss/plugins'
 import ContainerShape from '../model/ContainerShape'
 import ContainerHelper from '../ContainerHelper'
@@ -19,7 +19,7 @@ class Container extends React.Component {
     appName: React.PropTypes.string.isRequired,
     container: ContainerShape,
     modules: React.PropTypes.arrayOf(ModuleShape),
-    plugins: React.PropTypes.arrayOf(Plugin),
+    plugins: React.PropTypes.arrayOf(PluginConf),
   }
 
   /**
@@ -66,7 +66,7 @@ class Container extends React.Component {
     if (this.props.plugins) {
       const containerPlugins = this.props.plugins.filter(plugin => plugin.container === this.props.container.id)
       forEach(containerPlugins, (plugin, idx) => {
-        renderPlugins.push(<PluginComponent key={idx} plugin={plugin} />)
+        renderPlugins.push(<PluginComponent key={idx} pluginId={plugin.pluginId} />)
       })
     }
 

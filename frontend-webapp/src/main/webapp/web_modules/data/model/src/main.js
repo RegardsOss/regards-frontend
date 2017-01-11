@@ -9,6 +9,7 @@ import AttributeModel from './dam/AttributeModel'
 import JavaTypes from './dam/JavaTypes'
 import Fragment from './dam/Fragment'
 import Plugin from './access/Plugin'
+import PluginConf from './access/PluginConf'
 import AccessProject from './access/Project'
 
 export default {
@@ -25,5 +26,6 @@ export default {
 
   // ACCESS
   Plugin,
+  PluginConf,
   AccessProject,
 }

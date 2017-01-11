@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { ApplicationLayout } from '@regardsoss/layout'
-import { PluginComponent } from '@regardsoss/plugins'
+import Criteria from '../models/criterion/Criteria'
 /**
  * Main container to display module form.
  */
@@ -10,6 +10,7 @@ class ModuleContainer extends React.Component {
 
   static propTypes = {
     layout: React.PropTypes.string.isRequired,
+    criterion: React.PropTypes.arrayOf(Criteria),
   }
 
   render() {
@@ -17,7 +18,7 @@ class ModuleContainer extends React.Component {
       const layoutObj = JSON.parse(this.props.layout)
 
       return (
-        <div style={{marginTop: 20, marginRight: 20, marginLeft: 20}}>
+        <div style={{ marginTop: 20, marginRight: 20, marginLeft: 20 }}>
           <ApplicationLayout
             appName="user"
             layout={layoutObj}

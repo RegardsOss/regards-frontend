@@ -79,9 +79,16 @@ class FormCriterionComponent extends React.Component {
     return items
   }
 
+  renderCriteriaConfiguration = () => {
+    if (this.state.selectedCriterion && !this.props.criterionFetching) {
+      // const attributes = this.props.availableCriterion[0].attributes
+    }
+    return null
+  }
+
   updateCriteria = () => {
     this.props.addCriteria({
-      type: this.state.selectedCriterion,
+      pluginId: this.state.selectedCriterion,
       container: this.state.selectedContainer,
     })
   }
@@ -107,6 +114,7 @@ class FormCriterionComponent extends React.Component {
           <MenuItem value={null} primaryText="" />
           {this.renderContainersList()}
         </SelectField>
+        {this.renderCriteriaConfiguration()}
         <MainActionButtonComponent
           label={'Create'}
           onTouchTap={this.updateCriteria}

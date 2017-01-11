@@ -4,36 +4,42 @@
 import { merge } from 'lodash'
 import { connect } from '@regardsoss/redux'
 import { Plugin } from '@regardsoss/model'
-import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
+import { i18nSelectors } from '@regardsoss/i18n'
 import { loadPlugin } from '../model/PluginActions'
+import { IntlProvider } from 'react-intl'
 import PluginSelector from '../model/PluginSelector'
 
+/**
+ * This component allow to load a given plugin and display it.
+ * Display of the plugin is asynchrone and effective when the plugin is loaded.
+ */
 class PluginComponent extends React.Component {
 
   static propTypes = {
-    plugin: Plugin.isRequired,
+    pluginId: React.PropTypes.string,
+    pluginConf: React.PropTypes.any,
     // Set by mapstatetoprops
-    loadedPlugins: React.PropTypes.arrayOf(Plugin),
+    loadedPlugin: Plugin,
     loadPlugin: React.PropTypes.func,
-  }
-
-  state = {
-    loadedPlugins: [],
-  }
-
-  static contextTypes = {
-    ...i18nContextType,
+    locale: React.PropTypes.string,
   }
 
   componentWillMount() {
-    this.props.loadPlugin(merge(this.props.plugin, { sourcesPath: '/criterion/string/target/build/plugin.js' }))
+    this.props.loadPlugin('/criterion/string/target/build/plugin.js')
   }
 
   render() {
-    if (this.props.loadedPlugins && this.props.loadedPlugins.length > 0) {
+    if (this.props.loadedPlugin) {
       const defaultProps = {}
-      console.log('CONTEXT', this.context)
-      return React.createElement(this.props.loadedPlugins[0].plugin, defaultProps, this.context)
+      const element = React.createElement(this.props.loadedPlugin.plugin)
+      return (
+        <IntlProvider
+          locale={this.props.locale}
+          messages={this.props.loadedPlugin.messages[this.props.locale]}
+        >
+          {element}
+        </IntlProvider>
+      )
     } else {
       return <div>Plugin loading ... </div>
     }
@@ -41,12 +47,13 @@ class PluginComponent extends React.Component {
 
 }
 
-const mapStateToProps = state => ({
-  loadedPlugins: PluginSelector.getPlugins(state),
+const mapStateToProps = (state, ownProps) => ({
+  loadedPlugin: PluginSelector.getPluginByName(ownProps.pluginId, state),
+  locale: i18nSelectors.getLocale(state),
 })
 
-const mapDispatchToProps = dispatch => ({
-  loadPlugin: plugin => loadPlugin(plugin, dispatch),
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  loadPlugin: sourcePath => loadPlugin(ownProps.pluginId, sourcePath, dispatch),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PluginComponent)

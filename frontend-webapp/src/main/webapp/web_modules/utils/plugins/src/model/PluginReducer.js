@@ -1,18 +1,28 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { concat } from 'lodash'
 import { PLUGIN_LOADED } from './PluginActions'
+
+/**
+ * Plugin loader reducer
+ * @param state
+ * @param action
+ * @returns {*}
+ */
 export default (state = {
-  items: [],
+  items: {},
 }, action) => {
   switch (action.type) {
      // The given plugin as been successfully initialized
     case PLUGIN_LOADED:
-      const plugin = {
+      const newItems = Object.assign({}, state.items)
+      newItems[action.name] = {
         plugin: action.plugin,
         name: action.name,
+        messages: action.messages,
       }
-      return {
-        items: state.items ? concat(state.items, [plugin]) : [plugin],
-      }
+      return newItems
     default:
       return state
   }
