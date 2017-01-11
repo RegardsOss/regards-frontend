@@ -10,6 +10,18 @@ const microserviceManagementStyles = theme => ({
       marginBottom: 16,
     },
   },
+  plugins: {
+    root: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      justifyContent: 'space-around',
+    },
+    gridList: {
+      height: 450,
+      overflowY: 'auto',
+      margin: 0,
+    },
+  },
 })
 
 export default microserviceManagementStyles

@@ -9,19 +9,20 @@ import Close from 'material-ui/svg-icons/navigation/close'
 import { List, ListItem } from 'material-ui/List'
 import Subheader from 'material-ui/Subheader'
 import { GridList, GridTile } from 'material-ui/GridList'
-import StarBorder from 'material-ui/svg-icons/toggle/star-border'
-import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card'
+import { Card, CardActions, CardHeader, CardText, CardTitle } from 'material-ui/Card'
 import FlatButton from 'material-ui/FlatButton'
+import Divider from 'material-ui/Divider'
 
 const styles = {
   root: {
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'space-around',
+    paddingBottom: 10,
   },
   gridList: {
     //width: 500,
-    //height: 450,
+    height: 450,
     overflowY: 'auto',
   },
 }
@@ -94,11 +95,15 @@ class MicroservicePluginConfigurationEditComponent extends React.Component {
           iconElementLeft={<IconButton><Close /></IconButton>}
         />
         <div style={styles.root}>
+          <Subheader>December</Subheader>
           <GridList
-            //cellHeight={180}
+            cellHeight={'auto'}
+            cols={3}
+            padding={20}
             style={styles.gridList}
           >
-            <Subheader>December</Subheader>
+
+
             {tilesData.map((tile) => (
               <GridTile
                 key={tile.img}
@@ -106,26 +111,48 @@ class MicroservicePluginConfigurationEditComponent extends React.Component {
                 //subtitle={<span>by <b>{tile.author}</b></span>}
                 //actionIcon={<IconButton><StarBorder color="white"/></IconButton>}
               >
-                <Card>
-                  <CardHeader
+                <Card style={{ margin: 20 }}>
+                  <CardTitle
                     title="Without Avatar"
                     subtitle="Subtitle"
-                    actAsExpander={true}
-                    showExpandableButton={true}
                   />
+                  <CardText>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec mattis pretium massa. Aliquam erat
+                    volutpat. Nulla facilisi.
+                  </CardText>
                   <CardActions>
                     <FlatButton label="Action1"/>
                     <FlatButton label="Action2"/>
                   </CardActions>
-                  <CardText expandable={true}>
+                </Card>
+              </GridTile>
+            ))}
+
+
+            <Divider />
+            <Subheader>December</Subheader>
+            {tilesData.map((tile) => (
+              <GridTile key={tile.img}>
+                <Card style={{ margin: 20 }}>
+                  <CardTitle
+                    title="Without Avatar"
+                    subtitle="Subtitle"
+                  />
+                  <CardText>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                     Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
                     Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.
                     Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.
                   </CardText>
+                  <CardActions>
+                    <FlatButton label="Action1"/>
+                    <FlatButton label="Action2"/>
+                  </CardActions>
                 </Card>
               </GridTile>
             ))}
+
+
           </GridList>
         </div>
       </Paper>
