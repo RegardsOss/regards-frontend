@@ -5,7 +5,6 @@ import { StoreDecorator, addLocaleAndThemeSelectors, ThemeAndLocaleDecorator } f
 import MicroservicePluginTypesComponent from '@regardsoss/admin-microservice-management/src/components/MicroservicePluginTypesComponent'
 import MicroservicePluginsComponent from '@regardsoss/admin-microservice-management/src/components/MicroservicePluginsComponent'
 import MicroservicePluginConfigurationEditComponent from '@regardsoss/admin-microservice-management/src/components/MicroservicePluginConfigurationEditComponent'
-import MicroservicePluginTypesComponentSol3 from '@regardsoss/admin-microservice-management/src/components/MicroservicePluginTypesComponentSol3'
 
 storiesOf('Admin - Microservice management', module)
   .addDecorator(withKnobs)
@@ -17,11 +16,12 @@ storiesOf('Admin - Microservice management', module)
         <MicroservicePluginTypesComponent microserviceName='rs-gateway'/>
       </ThemeAndLocaleDecorator>
     )
-  }).add('Microservice plugin types sol 3', () => {
+  })
+  .add('Microservice plugin types', () => {
     const themeName = addLocaleAndThemeSelectors()
     return (
       <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-microservice-management/src/i18n">
-        <MicroservicePluginTypesComponentSol3 microserviceName='rs-gateway'/>
+        <MicroservicePluginTypesComponent microserviceName='rs-gateway'/>
       </ThemeAndLocaleDecorator>
     )
   })
