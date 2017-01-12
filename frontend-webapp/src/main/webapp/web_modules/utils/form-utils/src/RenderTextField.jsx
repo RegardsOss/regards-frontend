@@ -11,22 +11,22 @@ class renderTextField extends React.Component {
       touched: React.PropTypes.bool,
       error: React.PropTypes.string,
     }),
-    fullWidth: React.PropTypes.bool,
+    // fullWidth: React.PropTypes.bool,
     type: React.PropTypes.string,
     intl: React.PropTypes.shape({
       formatMessage: React.PropTypes.func,
     }),
   }
   render() {
-    const { input, label, fullWidth, type, meta: { touched, error }, intl } = this.props
+    const { input, label, type, meta: { touched, error }, intl, ...rest } = this.props
     return (
       <TextField
         hintText={label}
         floatingLabelText={label}
         errorText={touched && error && intl.formatMessage({ id: error })}
         {...input}
-        fullWidth={fullWidth}
         type={type}
+        {...rest}
       />
     )
   }

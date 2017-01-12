@@ -100,3 +100,16 @@ storiesOf('Admin - Microservice management', module)
       </ThemeAndLocaleDecorator>
     )
   })
+  .add('Plugin configuration form', () => {
+    const themeName = addLocaleAndThemeSelectors()
+    const pluginConfiguration = object('Plugin configuration', defaultPluginConfigurationList['0'])
+    return (
+      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-microservice-management/src/i18n">
+        <PluginConfigurationFormComponent
+          onSubmit={action('onSubmit')}
+          backUrl={'back/url'}
+          pluginConfiguration={pluginConfiguration}
+        />
+      </ThemeAndLocaleDecorator>
+    )
+  })
