@@ -22,6 +22,17 @@ export const projectUserAdminRouter = {
 }
 
 
+export const roleResourceAccessAdminRouter = {
+  path: 'role-resource-access',
+  getChildRoutes(nextState, cb) {
+    const adminResourceAccessProjectUserManagement = require('@regardsoss/admin-user-role-resource-access-management')
+    require.ensure([], (require) => {
+      cb(null, [adminResourceAccessProjectUserManagement.roleResourceAccessManagementRouter])
+    })
+  },
+}
+
+
 export const roleAdminRouter = {
   path: 'role',
   getChildRoutes(nextState, cb) {
@@ -36,6 +47,7 @@ export const roleAdminRouter = {
 const projectUserManagementRouter = {
   childRoutes: [
     homeUserProjectAdminRoute,
+    roleResourceAccessAdminRouter,
     projectUserAdminRouter,
     roleAdminRouter,
   ],

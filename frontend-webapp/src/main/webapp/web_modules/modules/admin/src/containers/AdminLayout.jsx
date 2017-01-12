@@ -78,16 +78,17 @@ export class AdminLayout extends React.Component {
     const menuModule = {
       name: 'menu',
       conf: {
-        project: this.props.params.project,
+        project: this.props.params.project ? this.props.params.project : 'instance',
         title: 'REGARDS admin dashboard',
         displayAuthentication: true,
         displayLocaleSelector: true,
         displayThemeSelector: true,
       },
     }
+
     return (
       <div className={style.app.classes} style={style.app.styles}>
-        <LazyModuleComponent appName={'adminApp'} module={menuModule} />
+        <LazyModuleComponent appName={'admin'} module={menuModule} />
         <div className={style.bodyContainer.classes} style={style.bodyContainer.styles}>
           {this.getSidebar(isOnInstanceDashboard)}
           <div className={style.contentContainer.classes} style={style.contentContainer.styles}>

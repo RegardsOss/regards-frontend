@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
 import { I18nProvider } from '@regardsoss/i18n'
@@ -118,7 +121,7 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = dispatch => ({
   createRole: values => dispatch(RoleActions.createEntity(values)),
   updateRole: (id, values) => dispatch(RoleActions.updateEntity(id, values)),
-  fetchRoleList: id => dispatch(RoleActions.fetchEntityList(dispatch)),
+  fetchRoleList: id => dispatch(RoleActions.fetchPagedEntityList(dispatch, 0, 100)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(RoleFormContainer)

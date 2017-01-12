@@ -4,7 +4,7 @@ import { BasicListActions } from '@regardsoss/store-utils'
 class RoleActions extends BasicListActions {
   constructor() {
     super({
-      namespace: 'admin-user-role-management',
+      namespace: 'admin-user-role-resource-access-management',
       entityEndpoint: `${GATEWAY_HOSTNAME}/api/v1/rs-admin/roles`,
       schemaTypes: {
         ENTITY: Schemas.ROLE,

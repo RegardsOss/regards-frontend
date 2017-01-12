@@ -17,6 +17,8 @@ import './modules/admin-microservice-management/index.story'
 import './modules/admin-project-management/ProjectComponents'
 import './modules/admin-user-projectuser-management/ProjectUserComponents'
 import './modules/admin-user-role-management/RoleComponents'
+import './modules/admin-data-attributemodel-management/AttributeModelComponents'
+import './modules/admin-data-fragment-management/FragmentComponents'
 
 import './modules/news/NewsComponent'
 import './modules/menu/MenuComponent'

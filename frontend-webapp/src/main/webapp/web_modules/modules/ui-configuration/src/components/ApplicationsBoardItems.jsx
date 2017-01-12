@@ -11,7 +11,7 @@ import Palette from 'material-ui/svg-icons/image/palette'
  * @param intl
  */
 export default (project, intl) => [
-  {
+  /** {
     title: intl.formatMessage({ id: 'admin.app.title' }),
     description: intl.formatMessage({ id: 'admin.app.description' }),
     advanced: false,
@@ -28,7 +28,7 @@ export default (project, intl) => [
       icon: <Palette />,
       tooltipMsg: intl.formatMessage({ id: 'admin.app.themes.tooltip' }),
     }],
-  },
+  },*/
   {
     title: intl.formatMessage({ id: 'project.app.title' }),
     description: intl.formatMessage({ id: 'project.app.description' }),

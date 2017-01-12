@@ -12,7 +12,7 @@ storiesOf('Menu', module)
   .add('Simple', () => {
     const themeName = addLocaleAndThemeSelectors()
     const module = object('Menu module', {
-      id: 'menu',
+      name: 'menu',
       conf: {
         title: 'Menu Component',
         displayAuthentication: false,
@@ -27,7 +27,7 @@ storiesOf('Menu', module)
   .add('With authentication', () => {
     const themeName = addLocaleAndThemeSelectors()
     const module = object('Menu module', {
-      id: 'menu',
+      name: 'menu',
       conf: {
         title: 'Menu Component with authentication',
         displayAuthentication: true,

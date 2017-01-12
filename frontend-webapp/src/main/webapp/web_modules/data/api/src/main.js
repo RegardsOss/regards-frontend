@@ -13,9 +13,10 @@ import AttributeModelRestriction, { AttributeModelRestrictionConfiguration } fro
 import Module, { ModuleConfiguration } from './access/Module'
 import Layout, { LayoutConfiguration } from './access/Layout'
 import Theme, { ThemeConfiguration } from './access/Theme'
-import AccessProjectShape from './access/ProjectShape'
+import Plugin, { PluginConfiguration } from './access/Plugin'
 import Fragment, { FragmentConfiguration } from './dam/Fragment'
 import Dataset, { DatasetConfiguration } from './schemas/Dataset'
+import ResourceAccess, { ResourceAccessConfiguration } from './admin/ResourceAccess'
 
 // We use this Normalizr schemas to transform API responses from a nested form
 // to a flat form where repos and users are placed in `entities`, and nested
@@ -32,7 +33,6 @@ export default {
   PROJECT: Project.PROJECT,
   PROJECT_ARRAY: Project.PROJECT_ARRAY,
   ProjectConfiguration,
-  AccessProjectShape,
 
   PROJECT_USER: ProjectUser.PROJECT_USER,
   PROJECT_USER_ARRAY: ProjectUser.PROJECT_USER_ARRAY,
@@ -76,7 +76,16 @@ export default {
   THEME: Theme.THEME,
   ThemeConfiguration,
 
+  PLUGIN: Plugin.PLUGIN,
+  PLUGIN_ARRAY: Plugin.PLUGIN_ARRAY,
+  PluginConfiguration,
+
   DATASET: Dataset.DATASET,
   DATASET_ARRAY: Dataset.DATASET_ARRAY,
   DatasetConfiguration,
+
+  RESOURCE_ACCESS: ResourceAccess.RESOURCE_ACCESS,
+  RESOURCE_ACCESS_ARRAY: ResourceAccess.RESOURCE_ACCESS_ARRAY,
+  ResourceAccessConfiguration,
+
 }

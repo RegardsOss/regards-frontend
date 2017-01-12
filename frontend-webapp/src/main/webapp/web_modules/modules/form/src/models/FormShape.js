@@ -3,15 +3,16 @@
  **/
 import { ContainerShape } from '@regardsoss/layout'
 import DatasetsConfShape from './datasets/DatasetsConfShape'
+import { Criteria } from './criterion/Criteria'
 /**
  * Form entity description
  */
 const FormShape = React.PropTypes.shape({
-  id: React.PropTypes.string,
+  id: React.PropTypes.number,
   resultType: React.PropTypes.string,
   datasets: DatasetsConfShape,
   layout: ContainerShape,
-  criterions: CriterionWidgetShape,
+  criterion: React.PropTypes.arrayOf(Criteria),
 })
 
 export default FormShape

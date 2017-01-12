@@ -1,3 +1,4 @@
 {
-  "/applications/:application_id/modules/:module_id": "/modules/:module_id"
+  "/applications/:application_id/modules/:module_id": "/modules/:module_id",
+  "/plugins/criterion?_start=:start&_limit=:limit": "/plugins?type=criterion&_start=:start&_limit=:limit"
 }

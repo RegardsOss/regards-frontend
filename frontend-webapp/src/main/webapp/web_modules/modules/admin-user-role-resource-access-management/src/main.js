@@ -1,7 +1,7 @@
-import roleManagementReducer from './reducer'
-import roleManagementRouter from './router'
+import roleResourceAccessManagementReducer from './reducer'
+import roleResourceAccessManagementRouter from './router'
 
 export default {
-  roleManagementReducer,
-  roleManagementRouter,
+  roleResourceAccessManagementReducer,
+  roleResourceAccessManagementRouter,
 }

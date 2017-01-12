@@ -6,7 +6,7 @@ import Avatar from 'material-ui/Avatar'
 import Lock from 'material-ui/svg-icons/action/lock-outline'
 import IconButton from 'material-ui/IconButton'
 import { themeContextType } from '@regardsoss/theme'
-import { AccessProjectShape } from '@regardsoss/api'
+import { AccessProject } from '@regardsoss/model'
 import { Link } from 'react-router'
 /*
 interface ProjectProps {
@@ -23,7 +23,7 @@ class ProjectComponent extends React.Component {
    * @type {{projects: *, theme: *}}
    */
   static propTypes = {
-    project: AccessProjectShape,
+    project: AccessProject,
   }
 
   static contextTypes = {

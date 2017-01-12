@@ -14,7 +14,7 @@ import DefaultFormLayout from './DefaultFormLayout'
 class FormLayoutComponent extends React.Component {
 
   static propTypes = {
-    layout: LayoutShape,
+    layout: React.PropTypes.string,
     change: React.PropTypes.func,
   }
 
