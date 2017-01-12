@@ -2,15 +2,13 @@
  * LICENSE_PLACEHOLDER
  **/
 import { i18nContextType } from '@regardsoss/i18n'
-import { PluginConfigurationList } from '@regardsoss/model/src/admin/PluginConfiguration'
+import { PluginConfigurationList } from '@regardsoss/model'
 import Paper from 'material-ui/Paper'
 import AppBar from 'material-ui/AppBar'
 import IconButton from 'material-ui/IconButton'
 import ArrowBack from 'material-ui/svg-icons/navigation/arrow-back'
 import AddCircle from 'material-ui/svg-icons/content/add-circle'
-import { List, ListItem } from 'material-ui/List'
 import Subheader from 'material-ui/Subheader'
-import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card'
 import { chain } from 'lodash'
 import MicroservicePluginConfigurationComponent from './MicroservicePluginConfigurationComponent'
 

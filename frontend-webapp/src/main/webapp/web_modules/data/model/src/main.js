@@ -11,6 +11,10 @@ import Fragment from './dam/Fragment'
 import Plugin from './access/Plugin'
 import PluginConf from './access/PluginConf'
 import AccessProject from './access/Project'
+import PluginMetaData, { PluginMetaDataList } from './admin/PluginMetaData'
+import PluginConfiguration, { PluginConfigurationList } from './admin/PluginConfiguration'
+import PluginParameter, { PluginParameterist } from './admin/PluginParameter'
+import PluginDynamicValue, { PluginDynamicValueList } from './admin/PluginDynamicValue'
 
 export default {
   // ADMIN
@@ -28,4 +32,15 @@ export default {
   Plugin,
   PluginConf,
   AccessProject,
+
+  // MICROSERVICE
+  PluginMetaData,
+  PluginMetaDataList,
+  PluginConfiguration,
+  PluginConfigurationList,
+  PluginParameter,
+  PluginParameterist,
+  PluginDynamicValue,
+  PluginDynamicValueList,
+
 }

@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { i18nContextType } from '@regardsoss/i18n'
-import PluginConfiguration from '@regardsoss/model/src/admin/PluginConfiguration'
+import PluginConfiguration from '@regardsoss/model'
 import { Card, CardActions, CardText } from 'material-ui/Card'
 import Delete from 'material-ui/svg-icons/action/delete'
 import ArrowUpward from 'material-ui/svg-icons/navigation/arrow-upward'
