@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 
-const projectsReducer = {
+const menuReducer = {
 }
 
-export default projectsReducer
+export default menuReducer

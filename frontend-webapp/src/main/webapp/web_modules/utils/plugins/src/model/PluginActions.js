@@ -14,11 +14,12 @@ if (typeof document !== 'undefined') {
  */
 export const PLUGIN_LOADED = 'PLUGIN_LOADED'
 
-export const pluginLoaded = (name, plugin, messages) => ({
+export const pluginLoaded = plugin => ({
   type: PLUGIN_LOADED,
-  name,
-  plugin,
-  messages,
+  name: plugin.name,
+  plugin: plugin.plugin,
+  messages: plugin.messages,
+  info: plugin.info,
 })
 
 /**
@@ -30,7 +31,7 @@ export const pluginLoaded = (name, plugin, messages) => ({
 export const loadPlugin = (pluginName, sourcePath, dispatchAction) => {
   // Listen for pluin initialization done
   document.addEventListener('plugin', (event) => {
-    const action = pluginLoaded(event.detail.name, event.detail.plugin, event.detail.messages)
+    const action = pluginLoaded(event.detail)
     dispatchAction(action)
   })
 

@@ -3,13 +3,13 @@
  **/
 import { FormattedMessage } from 'react-intl'
 import { Tabs, Tab } from 'material-ui/Tabs'
-import DatasetsConfShape from '../../models/datasets/DatasetsConfShape'
-import FormParameters from './FormParametersConfigurationComponent'
-import FormDasets from './FormDatasetsConfigurationComponent'
-import FormLayoutComponent from './FormLayoutComponent'
-import FromCriterionComponent from './FormCriterionComponent'
-import FormPreviewComponent from './FormPreviewComponent'
 import Criteria from '../../models/criterion/Criteria'
+import DatasetsConfShape from '../../models/datasets/DatasetsConfShape'
+import FormParameters from './parameters/FormParametersConfigurationComponent'
+import FormDasets from './datasets/FormDatasetsConfigurationComponent'
+import FormLayoutComponent from './layout/FormLayoutComponent'
+import FromCriterionComponent from './criterion/FormCriterionComponent'
+import FormPreviewComponent from './preview/FormPreviewComponent'
 
 /**
  * Display form divided with tabs to handle search form module configuration
@@ -17,9 +17,10 @@ import Criteria from '../../models/criterion/Criteria'
 class FormTabsComponent extends React.Component {
 
   static propTypes = {
-    appName: React.PropTypes.string.isRequired,
-    project: React.PropTypes.string,
-    change: React.PropTypes.func,
+    // Props supplied by redux-form to get the current form values
+    changeField: React.PropTypes.func,
+    formConf: React.PropTypes.any,
+    // Default props given to the form
     datasets: DatasetsConfShape,
     criterion: React.PropTypes.arrayOf(Criteria),
     layout: React.PropTypes.string,
@@ -34,8 +35,7 @@ class FormTabsComponent extends React.Component {
         </Tab>
         <Tab label={<FormattedMessage id="form.dataset.selection.tab.label" />} >
           <FormDasets
-            appName={this.props.appName}
-            change={this.props.change}
+            changeField={this.props.changeField}
             type={this.props.datasets.type}
             selectedDatasets={this.props.datasets.datasets}
             selectedDatasetModels={this.props.datasets.models}
@@ -44,17 +44,18 @@ class FormTabsComponent extends React.Component {
         <Tab label={<FormattedMessage id="form.layout.tab.label" />} >
           <FormLayoutComponent
             layout={this.props.layout}
-            change={this.props.change}
+            changeField={this.props.changeField}
           />
         </Tab>
         <Tab label={<FormattedMessage id="form.criterions.tab.label" />} >
           <FromCriterionComponent
-            change={this.props.change}
+            criterion={this.props.formConf.criterion}
+            changeField={this.props.changeField}
           />
         </Tab>
         <Tab label={<FormattedMessage id="form.preview.tab.label" />} >
           <FormPreviewComponent
-            criterion={this.props.criterion}
+            module={this.props.formConf}
           />
         </Tab>
       </Tabs>

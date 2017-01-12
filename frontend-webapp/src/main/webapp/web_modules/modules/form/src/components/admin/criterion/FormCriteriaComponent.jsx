@@ -8,11 +8,16 @@ import { getFormValues } from 'redux-form'
 import { connect } from '@regardsoss/redux'
 import { MainActionButtonComponent } from '@regardsoss/components'
 import { Plugin } from '@regardsoss/model'
-import CriterionActions from '../../models/criterion/CriterionActions'
-import CriterionSelector from '../../models/criterion/CriterionSelector'
-import FormShape from '../../models/FormShape'
 import { ContainerHelper } from '@regardsoss/layout'
+import { PluginProvider } from '@regardsoss/plugins'
+import CriterionActions from '../../../models/criterion/CriterionActions'
+import CriterionSelector from '../../../models/criterion/CriterionSelector'
+import FormShape from '../../../models/FormShape'
+import CriteriaConfigurationComponent from './CriteriaConfigurationComponent'
 
+/**
+ * Component to display a creation or edition of a criterion
+ */
 class FormCriterionComponent extends React.Component {
 
   static propTypes = {
@@ -81,7 +86,11 @@ class FormCriterionComponent extends React.Component {
 
   renderCriteriaConfiguration = () => {
     if (this.state.selectedCriterion && !this.props.criterionFetching) {
-      // const attributes = this.props.availableCriterion[0].attributes
+      return (
+        <PluginProvider pluginId={this.state.selectedCriterion}>
+          <CriteriaConfigurationComponent />
+        </PluginProvider>
+      )
     }
     return null
   }

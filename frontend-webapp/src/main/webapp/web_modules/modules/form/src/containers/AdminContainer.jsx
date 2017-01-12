@@ -1,6 +1,8 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import { getFormValues, change } from 'redux-form'
+import { connect } from '@regardsoss/redux'
 import FormTabsComponent from '../components/admin/FormTabsComponent'
 import DatasetConfShape from '../models/datasets/DatasetsConfShape'
 import Criteria from '../models/criterion/Criteria'
@@ -10,9 +12,13 @@ import Criteria from '../models/criterion/Criteria'
 class AdminContainer extends React.Component {
 
   static propTypes = {
+    // Props supplied by LazyModuleComponent
     appName: React.PropTypes.string,
     project: React.PropTypes.string,
-    change: React.PropTypes.func,
+    // Props supplied by redux-form to get the current form values
+    changeField: React.PropTypes.func,
+    formConf: React.PropTypes.any,
+    // Default props given to the form
     datasets: DatasetConfShape,
     criterion: React.PropTypes.arrayOf(Criteria),
     layout: React.PropTypes.string,
@@ -22,7 +28,8 @@ class AdminContainer extends React.Component {
   initEmptyProps() {
     return {
       appName: this.props.appName,
-      change: this.props.change,
+      changeField: this.props.changeField,
+      formConf: this.props.formConf.conf,
       resultType: this.props.resultType ? this.props.resultType : 'datasets',
       datasets: this.props.datasets ? this.props.datasets : {
         type: 'all',
@@ -33,6 +40,8 @@ class AdminContainer extends React.Component {
   }
 
   render() {
+    console.log('PROPS', this.props.formConf)
+
     const props = this.initEmptyProps()
     return (
       <div>
@@ -44,4 +53,14 @@ class AdminContainer extends React.Component {
   }
 }
 
-export default AdminContainer
+const mapStateToProps = (state, ownProps) => ({
+  formConf: getFormValues('edit-module-form')(state),
+})
+
+const mapDispatchToProps = dispatch => ({
+  changeField: (field, value) => dispatch(change('edit-module-form', field, value)),
+})
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(AdminContainer)
+

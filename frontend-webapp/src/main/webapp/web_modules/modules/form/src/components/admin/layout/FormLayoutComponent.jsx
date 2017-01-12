@@ -15,12 +15,12 @@ class FormLayoutComponent extends React.Component {
 
   static propTypes = {
     layout: React.PropTypes.string,
-    change: React.PropTypes.func,
+    changeField: React.PropTypes.func,
   }
 
   componentWillMount() {
     if (!this.props.layout || this.props.layout.length === 0) {
-      this.props.change('conf.layout', JSON.stringify(DefaultFormLayout, null, 4),)
+      this.props.changeField('conf.layout', JSON.stringify(DefaultFormLayout, null, 4),)
     }
   }
 
@@ -43,9 +43,9 @@ class FormLayoutComponent extends React.Component {
 
   resetLayout = () => {
     if (!this.props.layout || this.props.layout.length === 0) {
-      this.props.change('conf.layout', JSON.stringify(DefaultFormLayout, null, 4),)
+      this.props.changeField('conf.layout', JSON.stringify(DefaultFormLayout, null, 4),)
     } else {
-      this.props.change('conf.layout', this.props.layout)
+      this.props.changeField('conf.layout', this.props.layout)
     }
   }
 

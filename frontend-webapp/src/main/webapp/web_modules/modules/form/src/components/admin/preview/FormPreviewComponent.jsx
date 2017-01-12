@@ -30,8 +30,4 @@ class FormPreviewComponent extends React.Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  module: getFormValues('edit-module-form')(state),
-})
-
-export default connect(mapStateToProps, null)(FormPreviewComponent)
+export default FormPreviewComponent

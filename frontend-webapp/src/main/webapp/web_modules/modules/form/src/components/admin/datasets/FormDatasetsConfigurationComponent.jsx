@@ -9,10 +9,10 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import DatasetLineComponent from './DatasetLineComponent'
 import DatasetModelLineComponent from './DatasetLineComponent'
-import DatasetActions from '../../models/datasets/DatasetActions'
-import DatasetSelector from '../../models/datasets/DatasetSelector'
-import DatasetModelActions from '../../models/datasets/DatasetModelActions'
-import DatasetModelSelector from '../../models/datasets/DatasetModelSelector'
+import DatasetActions from '../../../models/datasets/DatasetActions'
+import DatasetSelector from '../../../models/datasets/DatasetSelector'
+import DatasetModelActions from '../../../models/datasets/DatasetModelActions'
+import DatasetModelSelector from '../../../models/datasets/DatasetModelSelector'
 import FormDatasetsTypeSelection from './FormDatasetsTypeSelection'
 
 /**
@@ -32,8 +32,7 @@ class FormDatasetsConfigurationComponent extends React.Component {
   }
 
   static propTypes = {
-    appName: React.PropTypes.string.isRequired,
-    change: React.PropTypes.func,
+    changeField: React.PropTypes.func,
     type: React.PropTypes.string,
     selectedDatasets: React.PropTypes.arrayOf(React.PropTypes.shape({
       name: React.PropTypes.string,
@@ -55,7 +54,7 @@ class FormDatasetsConfigurationComponent extends React.Component {
     this.setState({
       selectedDataset: newSelectedDatasets,
     })
-    this.props.change('conf.datasets.datasets', newSelectedDatasets)
+    this.props.changeField('conf.datasets.datasets', newSelectedDatasets)
   }
 
   onDatasetModelSelection = (model) => {
@@ -63,7 +62,7 @@ class FormDatasetsConfigurationComponent extends React.Component {
     this.setState({
       selectedDatasetModels: newSelectedModels,
     })
-    this.props.change('conf.datasets.models', newSelectedModels)
+    this.props.changeField('conf.datasets.models', newSelectedModels)
   }
 
   unselectAll = () => {

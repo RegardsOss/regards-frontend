@@ -21,6 +21,7 @@ export default (state = {
         plugin: action.plugin,
         name: action.name,
         messages: action.messages,
+        info: action.info,
       }
       return newItems
     default:

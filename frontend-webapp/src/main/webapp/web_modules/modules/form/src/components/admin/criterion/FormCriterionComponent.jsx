@@ -12,31 +12,27 @@ import {
 } from 'material-ui/Table'
 import { forEach, concat } from 'lodash'
 import Dialog from 'material-ui/Dialog'
-import { getFormValues } from 'redux-form'
-import { connect } from '@regardsoss/redux'
 import { MainActionButtonComponent } from '@regardsoss/components'
-import Criteria from '../../models/criterion/Criteria'
+import Criteria from '../../../models/criterion/Criteria'
 import FormCriteriaComponent from './FormCriteriaComponent'
 
+/**
+ * Component to display all criterion associated to the current form
+ */
 class FormCriterionComponent extends React.Component {
 
   static propTypes = {
-    change: React.PropTypes.func,
-    // Set by redux form
-    module: React.PropTypes.any,
+    changeField: React.PropTypes.func,
+    criterion: React.PropTypes.arrayOf(Criteria),
   }
 
   state = {
     criteriaViewOpened: false,
   }
 
-  componentWillMount() {
-
-  }
-
   renderCriterionRows = () => {
     const rows = []
-    if (this.props.module && this.props.module.conf.criterion && this.props.module.conf.criterion.length > 0) {
+    if (this.props.module && this.props.criterion && this.props.criterion.length > 0) {
       forEach(this.props.module.conf.criterion, (criteria, idx) => {
         rows.push(
           <TableRow key={idx}>
@@ -50,8 +46,8 @@ class FormCriterionComponent extends React.Component {
   }
 
   addCriteria = (criteria) => {
-    this.props.change('conf.criterion',
-      this.props.module.conf.criterion ? concat(this.props.module.conf.criterion, criteria) : [criteria])
+    this.props.changeField('conf.criterion',
+      this.props.criterion ? concat(this.props.criterion, criteria) : [criteria])
     this.closeCriteriaView()
   }
 
@@ -106,8 +102,4 @@ class FormCriterionComponent extends React.Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  module: getFormValues('edit-module-form')(state),
-})
-
-export default connect(mapStateToProps, null)(FormCriterionComponent)
+export default FormCriterionComponent

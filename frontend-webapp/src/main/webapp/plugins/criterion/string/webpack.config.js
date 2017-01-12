@@ -11,7 +11,7 @@ module.exports = {
   stats: { children: false },
   context: __dirname,
   // Javascript main entry
-  entry: './main.js',
+  entry: './src/main.js',
   node: {
     net: 'empty',
     tls: 'empty',
@@ -36,9 +36,14 @@ module.exports = {
       // Transpile ES6 Javascript into ES5 with babel loader
       {
         test: /\.jsx?$/,
-        exclude: [/node_modules/, /json/],
+        exclude: [/node_modules/],
         loader: 'babel',
-      },
+      }, {
+        test: /\.json$/,
+        exclude: [/node_modules/],
+        loader: "json-loader",
+      }
+
     ],
   },
   eslint: {

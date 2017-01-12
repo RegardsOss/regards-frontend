@@ -29,7 +29,6 @@ class ModuleFormComponent extends React.Component {
     pristine: React.PropTypes.bool,
     handleSubmit: React.PropTypes.func.isRequired,
     initialize: React.PropTypes.func.isRequired,
-    change: React.PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -78,7 +77,6 @@ class ModuleFormComponent extends React.Component {
               admin
               appName={this.props.applicationId}
               refresh
-              change={this.props.change}
             />
           </CardText>
         </Card>
