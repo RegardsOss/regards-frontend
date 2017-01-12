@@ -24,7 +24,7 @@ const styles = {
   },
 }
 
-class PluginConfigurationsListComponent extends React.Component {
+class PluginConfigurationListComponent extends React.Component {
 
   static propTypes = {
     microserviceName: React.PropTypes.string.isRequired,
@@ -84,4 +84,4 @@ class PluginConfigurationsListComponent extends React.Component {
   }
 }
 
-export default PluginConfigurationsListComponent
+export default PluginConfigurationListComponent

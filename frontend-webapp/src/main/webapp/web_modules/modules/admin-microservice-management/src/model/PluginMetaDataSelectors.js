@@ -2,7 +2,7 @@ import { BasicPageableSelectors } from '@regardsoss/store-utils'
 
 class PluginMetaDataSelectors extends BasicPageableSelectors {
   constructor() {
-    super(['admin', 'microservice-management', 'plugin'])
+    super(['admin', 'microservice-management', 'pluginMetaData'])
   }
 }
 

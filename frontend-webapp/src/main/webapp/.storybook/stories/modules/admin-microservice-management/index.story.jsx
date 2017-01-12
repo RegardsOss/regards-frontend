@@ -3,7 +3,7 @@ import { storiesOf, action } from '@kadira/storybook'
 import { withKnobs, object } from '@kadira/storybook-addon-knobs'
 import { StoreDecorator, addLocaleAndThemeSelectors, ThemeAndLocaleDecorator } from '../../utils/decorators'
 import PluginMetaDataListComponent from '@regardsoss/admin-microservice-management/src/components/PluginMetaDataListComponent'
-import PluginConfigurationsListComponent from '@regardsoss/admin-microservice-management/src/components/PluginConfigurationsListComponent'
+import PluginConfigurationListComponent from '@regardsoss/admin-microservice-management/src/components/PluginConfigurationListComponent'
 import PluginConfigurationComponent from '@regardsoss/admin-microservice-management/src/components/PluginConfigurationComponent'
 import PluginConfigurationFormComponent from '@regardsoss/admin-microservice-management/src/components/PluginConfigurationFormComponent'
 
@@ -70,7 +70,7 @@ storiesOf('Admin - Microservice management', module)
     const pluginConfigurationList = object('Plugin configuration list', defaultPluginConfigurationList)
     return (
       <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-microservice-management/src/i18n">
-        <PluginConfigurationsListComponent
+        <PluginConfigurationListComponent
           microserviceName='rs-gateway'
           pluginConfigurationList={pluginConfigurationList}
           onBackClick={action('onBackClick')}

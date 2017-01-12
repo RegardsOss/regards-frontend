@@ -28,7 +28,7 @@ const items = (project, intl) => map(microservices, microservice => (
       icon: <Settings />,
       tooltipMsg: intl.formatMessage({ id: 'microservice-management.configuration.tooltip' }),
     }, {
-      path: `/admin/${project}/microservice/${microservice.name}/plugins`,
+      path: `/admin/${project}/microservice/${microservice.name}/plugin/list`,
       icon: <ExtensionIcon />,
       tooltipMsg: intl.formatMessage({ id: 'microservice-management.plugins.tooltip' }),
     }, {
