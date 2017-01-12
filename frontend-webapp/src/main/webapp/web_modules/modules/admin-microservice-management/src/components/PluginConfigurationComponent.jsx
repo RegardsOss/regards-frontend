@@ -18,7 +18,7 @@ import moduleStyles from '../styles/styles'
  */
 const styles = moduleStyles().pluginConfiguration
 
-class MicroservicePluginConfigurationComponent extends React.Component {
+class PluginConfigurationComponent extends React.Component {
 
   static contextTypes = {
     ...i18nContextType,
@@ -82,4 +82,4 @@ class MicroservicePluginConfigurationComponent extends React.Component {
   }
 }
 
-export default MicroservicePluginConfigurationComponent
+export default PluginConfigurationComponent

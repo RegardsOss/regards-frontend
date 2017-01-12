@@ -2,9 +2,10 @@ import React from 'react'
 import { storiesOf, action } from '@kadira/storybook'
 import { withKnobs, object } from '@kadira/storybook-addon-knobs'
 import { StoreDecorator, addLocaleAndThemeSelectors, ThemeAndLocaleDecorator } from '../../utils/decorators'
-import MicroservicePluginsComponent from '@regardsoss/admin-microservice-management/src/components/MicroservicePluginsComponent'
-import MicroservicePluginConfigurationsComponent from '@regardsoss/admin-microservice-management/src/components/MicroservicePluginConfigurationsComponent'
-import MicroservicePluginConfigurationComponent from '@regardsoss/admin-microservice-management/src/components/MicroservicePluginConfigurationComponent'
+import PluginsListComponent from '@regardsoss/admin-microservice-management/src/components/PluginsListComponent'
+import PluginConfigurationsListComponent from '@regardsoss/admin-microservice-management/src/components/PluginConfigurationsListComponent'
+import PluginConfigurationComponent from '@regardsoss/admin-microservice-management/src/components/PluginConfigurationComponent'
+import PluginConfigurationFormComponent from '@regardsoss/admin-microservice-management/src/components/PluginConfigurationFormComponent'
 
 const defaultPluginConfigurationList = {
   '0': {
@@ -56,20 +57,20 @@ const defaultPluginConfigurationList = {
 storiesOf('Admin - Microservice management', module)
   .addDecorator(withKnobs)
   .addDecorator(StoreDecorator)
-  .add('Microservice plugins', () => {
+  .add('Plugins list', () => {
     const themeName = addLocaleAndThemeSelectors()
     return (
       <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-microservice-management/src/i18n">
-        <MicroservicePluginsComponent microserviceName='rs-gateway'/>
+        <PluginsListComponent microserviceName='rs-gateway'/>
       </ThemeAndLocaleDecorator>
     )
   })
-  .add('Microservice plugin configurations', () => {
+  .add('Plugin configurations list', () => {
     const themeName = addLocaleAndThemeSelectors()
     const pluginConfigurationList = object('Plugin configuration list', defaultPluginConfigurationList)
     return (
       <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-microservice-management/src/i18n">
-        <MicroservicePluginConfigurationsComponent
+        <PluginConfigurationsListComponent
           microserviceName='rs-gateway'
           pluginConfigurationList={pluginConfigurationList}
           onBackClick={action('onBackClick')}
@@ -82,12 +83,12 @@ storiesOf('Admin - Microservice management', module)
       </ThemeAndLocaleDecorator>
     )
   })
-  .add('Microservice plugin configuration item', () => {
+  .add('Plugin configuration item', () => {
     const themeName = addLocaleAndThemeSelectors()
     const pluginConfiguration = object('Plugin configuration', defaultPluginConfigurationList['0'])
     return (
       <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-microservice-management/src/i18n">
-        <MicroservicePluginConfigurationComponent
+        <PluginConfigurationComponent
           pluginConfiguration={pluginConfiguration}
           onBackClick={action('onBackClick')}
           onAddClick={action('onAddClick')}

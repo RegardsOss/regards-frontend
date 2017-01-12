@@ -10,7 +10,7 @@ import ArrowBack from 'material-ui/svg-icons/navigation/arrow-back'
 import AddCircle from 'material-ui/svg-icons/content/add-circle'
 import Subheader from 'material-ui/Subheader'
 import { chain } from 'lodash'
-import MicroservicePluginConfigurationComponent from './MicroservicePluginConfigurationComponent'
+import PluginConfigurationComponent from './PluginConfigurationComponent'
 
 /**
  * React component displaying a configurable microservice.
@@ -24,7 +24,7 @@ const styles = {
   },
 }
 
-class MicroservicePluginConfigurationsComponent extends React.Component {
+class PluginConfigurationsListComponent extends React.Component {
 
   static propTypes = {
     microserviceName: React.PropTypes.string.isRequired,
@@ -42,21 +42,21 @@ class MicroservicePluginConfigurationsComponent extends React.Component {
   }
 
   render() {
-    const { microserviceName, pluginConfigurationList, onUpwardClick, onDownwardClick, onDeleteClick, onActiveToggle } = this.props
+    const { microserviceName, pluginConfigurationList, onBackClick, onAddClick, onUpwardClick, onDownwardClick, onDeleteClick, onActiveToggle } = this.props
 
     return (
       <Paper>
         <AppBar
           title={`${microserviceName} > Plugins > Kerberos`}
-          iconElementLeft={<IconButton><ArrowBack /></IconButton>}
-          iconElementRight={<IconButton><AddCircle /></IconButton>}
+          iconElementLeft={<IconButton onTouchTap={onBackClick}><ArrowBack /></IconButton>}
+          iconElementRight={<IconButton onTouchTap={onAddClick}><AddCircle /></IconButton>}
         />
         <div style={styles.root}>
           <Subheader>Active</Subheader>
           {chain(pluginConfigurationList)
             .filter(pluginConfiguration => pluginConfiguration.content.active)
             .sortBy(pluginConfiguration => pluginConfiguration.content.priorityOrder)
-            .map(pluginConfiguration => <MicroservicePluginConfigurationComponent
+            .map(pluginConfiguration => <PluginConfigurationComponent
               key={pluginConfiguration.content.id}
               pluginConfiguration={pluginConfiguration}
               onUpwardClick={onUpwardClick}
@@ -69,7 +69,7 @@ class MicroservicePluginConfigurationsComponent extends React.Component {
           {chain(pluginConfigurationList)
             .filter(pluginConfiguration => !pluginConfiguration.content.active)
             .sortBy(pluginConfiguration => pluginConfiguration.content.priorityOrder)
-            .map(pluginConfiguration => <MicroservicePluginConfigurationComponent
+            .map(pluginConfiguration => <PluginConfigurationComponent
               key={pluginConfiguration.content.id}
               pluginConfiguration={pluginConfiguration}
               onUpwardClick={onUpwardClick}
@@ -84,4 +84,4 @@ class MicroservicePluginConfigurationsComponent extends React.Component {
   }
 }
 
-export default MicroservicePluginConfigurationsComponent
+export default PluginConfigurationsListComponent

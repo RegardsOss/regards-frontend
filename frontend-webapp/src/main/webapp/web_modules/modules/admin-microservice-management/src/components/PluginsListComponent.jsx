@@ -98,7 +98,7 @@ const types = [
  *
  * @author Xavier-Alexandre Brochard
  */
-class MicroservicePluginTypesComponent extends React.Component {
+class PluginsListComponent extends React.Component {
 
   static propTypes = {
     microserviceName: React.PropTypes.string.isRequired,
@@ -235,4 +235,4 @@ class MicroservicePluginTypesComponent extends React.Component {
   }
 }
 
-export default MicroservicePluginTypesComponent
+export default PluginsListComponent
