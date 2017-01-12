@@ -1,10 +1,10 @@
 import { BasicPageableSelectors } from '@regardsoss/store-utils'
 
-class PluginSelectors extends BasicPageableSelectors {
+class PluginMetaDataSelectors extends BasicPageableSelectors {
   constructor() {
     super(['admin', 'microservice-management', 'plugin'])
   }
 }
 
-const instance = new PluginSelectors()
+const instance = new PluginMetaDataSelectors()
 export default instance

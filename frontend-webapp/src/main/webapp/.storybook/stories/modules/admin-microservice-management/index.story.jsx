@@ -2,7 +2,7 @@ import React from 'react'
 import { storiesOf, action } from '@kadira/storybook'
 import { withKnobs, object } from '@kadira/storybook-addon-knobs'
 import { StoreDecorator, addLocaleAndThemeSelectors, ThemeAndLocaleDecorator } from '../../utils/decorators'
-import PluginsListComponent from '@regardsoss/admin-microservice-management/src/components/PluginsListComponent'
+import PluginMetaDataListComponent from '@regardsoss/admin-microservice-management/src/components/PluginMetaDataListComponent'
 import PluginConfigurationsListComponent from '@regardsoss/admin-microservice-management/src/components/PluginConfigurationsListComponent'
 import PluginConfigurationComponent from '@regardsoss/admin-microservice-management/src/components/PluginConfigurationComponent'
 import PluginConfigurationFormComponent from '@regardsoss/admin-microservice-management/src/components/PluginConfigurationFormComponent'
@@ -57,11 +57,11 @@ const defaultPluginConfigurationList = {
 storiesOf('Admin - Microservice management', module)
   .addDecorator(withKnobs)
   .addDecorator(StoreDecorator)
-  .add('Plugins list', () => {
+  .add('Plugin meta data list', () => {
     const themeName = addLocaleAndThemeSelectors()
     return (
       <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-microservice-management/src/i18n">
-        <PluginsListComponent microserviceName='rs-gateway'/>
+        <PluginMetaDataListComponent microserviceName='rs-gateway'/>
       </ThemeAndLocaleDecorator>
     )
   })
