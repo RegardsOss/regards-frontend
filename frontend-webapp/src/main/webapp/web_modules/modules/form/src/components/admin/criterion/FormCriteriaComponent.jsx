@@ -7,28 +7,29 @@ import MenuItem from 'material-ui/MenuItem'
 import { getFormValues } from 'redux-form'
 import { connect } from '@regardsoss/redux'
 import { MainActionButtonComponent } from '@regardsoss/components'
-import { Plugin } from '@regardsoss/model'
+import { PluginDefinition } from '@regardsoss/model'
 import { ContainerHelper } from '@regardsoss/layout'
 import { PluginProvider } from '@regardsoss/plugins'
 import CriterionActions from '../../../models/criterion/CriterionActions'
 import CriterionSelector from '../../../models/criterion/CriterionSelector'
-import FormShape from '../../../models/FormShape'
 import CriteriaConfigurationComponent from './CriteriaConfigurationComponent'
+import { Model } from '@regardsoss/model'
 
 /**
  * Component to display a creation or edition of a criterion
  */
-class FormCriterionComponent extends React.Component {
+class FormCriteriaComponent extends React.Component {
 
   static propTypes = {
-    onClose: React.PropTypes.func,
     addCriteria: React.PropTypes.func,
+    layout: React.PropTypes.string,
+    selectableModels: React.PropTypes.arrayOf(Model),
     // Set by React Redux connection
-    availableCriterion: React.PropTypes.objectOf(Plugin),
+    availableCriterion: React.PropTypes.objectOf(React.PropTypes.shape({
+      content: PluginDefinition,
+    })),
     criterionFetching: React.PropTypes.bool,
     fetchCriterion: React.PropTypes.func,
-    // Set by redux form connection
-    module: FormShape,
   }
 
   state = {
@@ -50,6 +51,13 @@ class FormCriterionComponent extends React.Component {
   selectContainer = (event, index, value) => {
     this.setState({
       selectedContainer: value,
+    })
+  }
+
+  updateCriteria = () => {
+    this.props.addCriteria({
+      pluginId: this.state.selectedCriterion,
+      container: this.state.selectedContainer,
     })
   }
 
@@ -88,18 +96,13 @@ class FormCriterionComponent extends React.Component {
     if (this.state.selectedCriterion && !this.props.criterionFetching) {
       return (
         <PluginProvider pluginId={this.state.selectedCriterion}>
-          <CriteriaConfigurationComponent />
+          <CriteriaConfigurationComponent
+            selectableModels={this.props.selectableModels}
+          />
         </PluginProvider>
       )
     }
     return null
-  }
-
-  updateCriteria = () => {
-    this.props.addCriteria({
-      pluginId: this.state.selectedCriterion,
-      container: this.state.selectedContainer,
-    })
   }
 
   render() {
@@ -137,11 +140,10 @@ class FormCriterionComponent extends React.Component {
 const mapStateToProps = state => ({
   availableCriterion: CriterionSelector.getList(state),
   criterionFetching: CriterionSelector.isFetching(state),
-  module: getFormValues('edit-module-form')(state),
 })
 
 const mapDispatchToProps = dispatch => ({
   fetchCriterion: () => dispatch(CriterionActions.fetchPagedEntityList(dispatch, 0, 100)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(FormCriterionComponent)
+export default connect(mapStateToProps, mapDispatchToProps)(FormCriteriaComponent)

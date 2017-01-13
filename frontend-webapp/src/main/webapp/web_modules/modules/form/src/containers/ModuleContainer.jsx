@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { ApplicationLayout } from '@regardsoss/layout'
-import Criteria from '../models/criterion/Criteria'
+import { PluginConf } from '@regardsoss/model'
 /**
  * Main container to display module form.
  */
@@ -10,7 +10,7 @@ class ModuleContainer extends React.Component {
 
   static propTypes = {
     layout: React.PropTypes.string.isRequired,
-    criterion: React.PropTypes.arrayOf(Criteria),
+    criterion: React.PropTypes.arrayOf(PluginConf),
   }
 
   render() {

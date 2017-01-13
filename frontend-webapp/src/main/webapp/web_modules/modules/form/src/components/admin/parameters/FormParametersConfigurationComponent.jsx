@@ -12,14 +12,14 @@ import { FormattedMessage } from 'react-intl'
 class FormParametersConfigurationComponent extends React.Component {
 
   static propTypes = {
-    resultType: React.PropTypes.string,
+    defaultResultType: React.PropTypes.string,
   }
 
   render() {
     return (
       <Card>
         <CardTitle subtitle={<FormattedMessage id="form.configuration.tab.title" />} />
-        <Field name="conf.resultType" component={RenderRadio} defaultSelected={this.props.resultType}>
+        <Field name="conf.resultType" component={RenderRadio} defaultSelected={this.props.defaultResultType}>
           <RadioButton
             value="datasets"
             label={<FormattedMessage id="form.configuration.result.type.datasets" />}

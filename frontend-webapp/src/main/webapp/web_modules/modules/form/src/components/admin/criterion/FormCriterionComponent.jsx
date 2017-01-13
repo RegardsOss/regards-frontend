@@ -13,8 +13,9 @@ import {
 import { forEach, concat } from 'lodash'
 import Dialog from 'material-ui/Dialog'
 import { MainActionButtonComponent } from '@regardsoss/components'
-import Criteria from '../../../models/criterion/Criteria'
+import { PluginConf } from '@regardsoss/model'
 import FormCriteriaComponent from './FormCriteriaComponent'
+import { Model } from '@regardsoss/model'
 
 /**
  * Component to display all criterion associated to the current form
@@ -23,26 +24,13 @@ class FormCriterionComponent extends React.Component {
 
   static propTypes = {
     changeField: React.PropTypes.func,
-    criterion: React.PropTypes.arrayOf(Criteria),
+    defaultCriterion: React.PropTypes.arrayOf(PluginConf),
+    layout: React.PropTypes.string,
+    selectableModels: React.PropTypes.arrayOf(Model),
   }
 
   state = {
     criteriaViewOpened: false,
-  }
-
-  renderCriterionRows = () => {
-    const rows = []
-    if (this.props.module && this.props.criterion && this.props.criterion.length > 0) {
-      forEach(this.props.module.conf.criterion, (criteria, idx) => {
-        rows.push(
-          <TableRow key={idx}>
-            <TableRowColumn>{criteria.type}</TableRowColumn>
-            <TableRowColumn>{criteria.container}</TableRowColumn>
-          </TableRow>,
-        )
-      })
-    }
-    return rows
   }
 
   addCriteria = (criteria) => {
@@ -61,6 +49,21 @@ class FormCriterionComponent extends React.Component {
     this.setState({
       criteriaViewOpened: false,
     })
+  }
+
+  renderCriterionRows = () => {
+    const rows = []
+    if (this.props.criterion && this.props.criterion.length > 0) {
+      forEach(this.props.criterion, (criteria, idx) => {
+        rows.push(
+          <TableRow key={idx}>
+            <TableRowColumn>{criteria.type}</TableRowColumn>
+            <TableRowColumn>{criteria.container}</TableRowColumn>
+          </TableRow>,
+        )
+      })
+    }
+    return rows
   }
 
   render() {
@@ -95,6 +98,8 @@ class FormCriterionComponent extends React.Component {
           <FormCriteriaComponent
             onClose={this.closeCriteriaView}
             addCriteria={this.addCriteria}
+            layout={this.props.layout}
+            selectableModels={this.props.selectableModels}
           />
         </Dialog>
       </div>

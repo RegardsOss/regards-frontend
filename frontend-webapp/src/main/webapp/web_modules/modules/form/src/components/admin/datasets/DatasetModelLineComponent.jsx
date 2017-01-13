@@ -1,19 +1,19 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { Model } from '@regardsoss/api'
+import { Model } from '@regardsoss/model'
 /**
  * Display a dataset element into the infinite scroll list.
  */
 class DatasetModelLineComponent extends React.Component {
 
   static propTypes = {
-    entity: Model,
+    entity: Model.isRequired,
   }
 
   render() {
     return (
-      <div>{this.props.entity.content.name}</div>
+      <div>{this.props.entity.name}</div>
     )
   }
 }

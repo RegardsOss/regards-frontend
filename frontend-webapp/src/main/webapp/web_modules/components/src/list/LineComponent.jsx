@@ -12,7 +12,7 @@ import { themeContextType } from '@regardsoss/theme'
 class LineComponent extends React.Component {
 
   static propTypes = {
-    entity: React.PropTypes.any.isRequired,
+    entity: React.PropTypes.object.isRequired,
     lineComponent: React.PropTypes.func.isRequired,
     displayCheckbox: React.PropTypes.bool,
     onEntityCheck: React.PropTypes.func,
@@ -27,14 +27,14 @@ class LineComponent extends React.Component {
   render() {
     const element = React.createElement(
       this.props.lineComponent,
-      merge({}, { entity: this.props.entity }),
+      merge({}, { entity: this.props.entity.content }),
     )
 
     let checkbox = null
     if (this.props.displayCheckbox === true) {
       checkbox = (
         <div style={{ maxWidth: 150, display: 'inline-block' }}>
-          <Checkbox checked={this.props.isSelected} onCheck={() => this.props.onEntityCheck(this.props.entity)} />
+          <Checkbox checked={this.props.isSelected} onCheck={() => this.props.onEntityCheck(this.props.entity.content)} />
         </div>
       )
     }

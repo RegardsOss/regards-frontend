@@ -14,12 +14,12 @@ import DefaultFormLayout from './DefaultFormLayout'
 class FormLayoutComponent extends React.Component {
 
   static propTypes = {
-    layout: React.PropTypes.string,
+    defaultLayout: React.PropTypes.string,
     changeField: React.PropTypes.func,
   }
 
   componentWillMount() {
-    if (!this.props.layout || this.props.layout.length === 0) {
+    if (!this.props.defaultLayout || this.props.defaultLayout.length === 0) {
       this.props.changeField('conf.layout', JSON.stringify(DefaultFormLayout, null, 4),)
     }
   }
@@ -42,10 +42,10 @@ class FormLayoutComponent extends React.Component {
   }
 
   resetLayout = () => {
-    if (!this.props.layout || this.props.layout.length === 0) {
+    if (!this.props.defaultLayout || this.props.defaultLayout.length === 0) {
       this.props.changeField('conf.layout', JSON.stringify(DefaultFormLayout, null, 4),)
     } else {
-      this.props.changeField('conf.layout', this.props.layout)
+      this.props.changeField('conf.layout', this.props.defaultLayout)
     }
   }
 

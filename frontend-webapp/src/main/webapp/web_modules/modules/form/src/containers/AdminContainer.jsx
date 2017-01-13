@@ -3,9 +3,10 @@
  **/
 import { getFormValues, change } from 'redux-form'
 import { connect } from '@regardsoss/redux'
+import { PluginConf } from '@regardsoss/model'
 import FormTabsComponent from '../components/admin/FormTabsComponent'
 import DatasetConfShape from '../models/datasets/DatasetsConfShape'
-import Criteria from '../models/criterion/Criteria'
+
 /**
  * Main container to display administration view of the module form.
  */
@@ -20,7 +21,7 @@ class AdminContainer extends React.Component {
     formConf: React.PropTypes.any,
     // Default props given to the form
     datasets: DatasetConfShape,
-    criterion: React.PropTypes.arrayOf(Criteria),
+    criterion: React.PropTypes.arrayOf(PluginConf),
     layout: React.PropTypes.string,
     resultType: React.PropTypes.string,
   }
@@ -29,19 +30,19 @@ class AdminContainer extends React.Component {
     return {
       appName: this.props.appName,
       changeField: this.props.changeField,
-      formConf: this.props.formConf.conf,
-      resultType: this.props.resultType ? this.props.resultType : 'datasets',
-      datasets: this.props.datasets ? this.props.datasets : {
-        type: 'all',
+      currentConf: this.props.formConf.conf,
+      defaultConf: {
+        resultType: this.props.resultType ? this.props.resultType : 'datasets',
+        datasets: this.props.datasets ? this.props.datasets : {
+          type: 'all',
+        },
+        criterion: this.props.criterion ? this.props.criterion : [],
+        layout: this.props.layout,
       },
-      criterion: this.props.criterion ? this.props.criterion : [],
-      layout: this.props.layout,
     }
   }
 
   render() {
-    console.log('PROPS', this.props.formConf)
-
     const props = this.initEmptyProps()
     return (
       <div>

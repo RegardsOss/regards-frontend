@@ -44,9 +44,9 @@ const PageAndHateoasMiddleWare = (req, res) => {
 
       if (index && limit) {
         meta = {
-          "number": index,
-          "size": limit,
-          "totalElements": res._headers['x-total-count'].value(),
+          "number": Number(index),
+          "size": Number(limit),
+          "totalElements": Number(res._headers['x-total-count'].value()),
         }
 
         if (res._headers.link) {
