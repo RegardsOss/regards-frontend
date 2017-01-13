@@ -10,11 +10,36 @@ export class StorageCapacity {
     this.unit = unit
   }
 
+  /**
+   * Converts into (returns a new object)
+   * @param newUnit new unit
+   * @return Capacity in new unit (new object)
+   */
   convert(newUnit) {
     const valueInNU = this.value * (this.unit.toBits / newUnit.toBits)
     return new StorageCapacity(valueInNU, newUnit)
   }
 
+  /**
+   * Scales this capacity into unit scale as parameter, attempting to find the first unit where the capacity has an integer part. ie. the returned
+   * capacity uses [unit m] in unitsScale where:
+   * Y [unit m+1] <= 1 <= X [unit m] <= Z [unit m-1]
+   * @param unitsScale a unit scale like bits, bytes... see StorageUnit file
+   * @return Capacity in new unit (new object)
+   */
+  scaleAndConvert(unitsScale) {
+    // pre: units are ordered from smallest to biggest
+    // algorithm: find X [unit] where X >= 1 or on lowest unit
+    // impl: keep previous converted until the lowest unit, recompute only when previous converted does not match the conditions
+    const availableUnits = StorageUnit.getOrderedUnitsInScale(unitsScale)
+    availableUnits.reverse()
+    // eslint-disable-next-line no-confusing-arrow
+    return availableUnits.reduce((previousConverted, unit) =>
+      previousConverted && previousConverted.value >= 1
+        ? previousConverted
+        : this.convert(unit)
+      , null)
+  }
 }
 
 export function capacityFromValue(textValue) {

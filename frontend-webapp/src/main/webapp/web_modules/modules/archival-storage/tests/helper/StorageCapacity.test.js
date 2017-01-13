@@ -1,5 +1,5 @@
 import { assert } from 'chai'
-import { findMatchingUnit } from '../../src/helper/StorageUnit'
+import { findMatchingUnit, bitsScale, bytesScale} from '../../src/helper/StorageUnit'
 import { StorageCapacity, capacityFromValue } from '../../src/helper/StorageCapacity'
 
 // Test capacity functions a components rendering
@@ -58,5 +58,18 @@ describe('[Archival storage] Testing capacity object', () => {
     converted = new StorageCapacity(1, findMatchingUnit('Kio')).convert(findMatchingUnit('Ko'))
     assert.equal(converted.value, 1.024)
     assert.equal(converted.unit.symbol, 'Ko')
+  })
+  it('should be able to find the best matching unit in a unit scale', () => {
+    // 0.5To should be shown as
+    const halfTo = new StorageCapacity(0.5, findMatchingUnit('To'))
+    // 500Go
+    const inBytes = halfTo.scaleAndConvert(bytesScale)
+    console.info(inBytes)
+    assert.equal(inBytes.value, 500)
+    assert.equal(inBytes.unit.symbol, 'Go')
+    // 4Tb
+    const inBits = halfTo.scaleAndConvert(bitsScale)
+    assert.equal(inBits.value, 4)
+    assert.equal(inBytes.unit.symbol, 'Tb')
   })
 })
