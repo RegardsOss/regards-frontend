@@ -5,15 +5,15 @@ import { forEach } from 'lodash'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 import { getFormValues } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
 import { connect } from '@regardsoss/redux'
-import { MainActionButtonComponent } from '@regardsoss/components'
-import { PluginDefinition } from '@regardsoss/model'
+import { CardActionsComponent } from '@regardsoss/components'
+import { PluginDefinition, PluginConf, AttributeModel } from '@regardsoss/model'
 import { ContainerHelper } from '@regardsoss/layout'
 import { PluginProvider } from '@regardsoss/plugins'
 import CriterionActions from '../../../models/criterion/CriterionActions'
 import CriterionSelector from '../../../models/criterion/CriterionSelector'
 import CriteriaConfigurationComponent from './CriteriaConfigurationComponent'
-import { Model } from '@regardsoss/model'
 
 /**
  * Component to display a creation or edition of a criterion
@@ -21,9 +21,16 @@ import { Model } from '@regardsoss/model'
 class FormCriteriaComponent extends React.Component {
 
   static propTypes = {
-    addCriteria: React.PropTypes.func,
+    // Criteria to edit or null to create a new one.
+    criteria: PluginConf,
+    // Callback to submit the current criteria
+    saveCriteria: React.PropTypes.func,
+    // Cancel criteria edition
+    cancel: React.PropTypes.func,
+    // Form layout
     layout: React.PropTypes.string,
-    selectableModels: React.PropTypes.arrayOf(Model),
+    // All selectable attributes for the current form
+    selectableAttributes: React.PropTypes.objectOf(AttributeModel),
     // Set by React Redux connection
     availableCriterion: React.PropTypes.objectOf(React.PropTypes.shape({
       content: PluginDefinition,
@@ -32,35 +39,84 @@ class FormCriteriaComponent extends React.Component {
     fetchCriterion: React.PropTypes.func,
   }
 
-  state = {
-    selectedCriterion: null,
-    selectedContainer: null,
+  /**
+   * Init values to null or with the given criteria to edit
+   * @param props
+   */
+  constructor(props) {
+    super()
+    this.state = {
+      selectedCriteria: props.criteria ? props.criteria.pluginId : null,
+      selectedContainer: props.criteria ? props.criteria.container : null,
+      pluginConf: props.criteria ? props.criteria.pluginConf : null,
+    }
   }
 
+
+  /**
+   * Load available criterion plugins
+   */
   componentWillMount() {
     // Load available criterion plugins
     this.props.fetchCriterion()
   }
 
-  selectCriterion = (event, index, value) => {
+  /**
+   * Callback used when a criteria plugin is selected
+   * @param event
+   * @param index
+   * @param value
+   */
+  selectCriteria = (event, index, value) => {
     this.setState({
-      selectedCriterion: value,
+      selectedCriteria: value,
     })
   }
 
+  /**
+   * Callback when a container is selected
+   * @param event
+   * @param index
+   * @param value
+   */
   selectContainer = (event, index, value) => {
     this.setState({
       selectedContainer: value,
     })
   }
 
+  /**
+   * Action to update the current criteria configuration
+   */
   updateCriteria = () => {
-    this.props.addCriteria({
-      pluginId: this.state.selectedCriterion,
+    this.props.saveCriteria({
+      pluginId: this.state.selectedCriteria,
       container: this.state.selectedContainer,
+      pluginConf: this.state.pluginConf,
     })
   }
 
+  /**
+   * Action to update the locale plugin configuration before saving see updateCriteria.
+   * @param conf
+   */
+  updatePluginConf = (conf) => {
+    this.setState({
+      pluginConf: conf,
+    })
+  }
+
+  /**
+   * Action to cancel the current criteria edition
+   */
+  onCancel = () => {
+    this.props.cancel()
+  }
+
+  /**
+   * Render all avaiable criterion plugins for selection.
+   * @returns {Array}
+   */
   renderCriterionTypesList = () => {
     const items = []
     if (!this.props.criterionFetching && this.props.availableCriterion) {
@@ -73,11 +129,15 @@ class FormCriteriaComponent extends React.Component {
     return items
   }
 
+  /**
+   * Render all available containers from the given layout
+   * @returns {Array}
+   */
   renderContainersList = () => {
     const items = []
     try {
-      if (this.props.module && this.props.module.conf && this.props.module.conf.layout) {
-        const containers = ContainerHelper.getAvailableContainersInLayout(JSON.parse(this.props.module.conf.layout))
+      if (this.props.layout) {
+        const containers = ContainerHelper.getAvailableContainersInLayout(JSON.parse(this.props.layout))
         if (containers && containers.length > 0) {
           forEach(containers, (container, idx) => {
             items.push(
@@ -92,12 +152,18 @@ class FormCriteriaComponent extends React.Component {
     return items
   }
 
+  /**
+   * Render the specific criterion plugin configuration form
+   * @returns {*}
+   */
   renderCriteriaConfiguration = () => {
-    if (this.state.selectedCriterion && !this.props.criterionFetching) {
+    if (this.state.selectedCriteria && !this.props.criterionFetching) {
       return (
-        <PluginProvider pluginId={this.state.selectedCriterion}>
+        <PluginProvider pluginId={this.state.selectedCriteria}>
           <CriteriaConfigurationComponent
-            selectableModels={this.props.selectableModels}
+            selectableAttributes={this.props.selectableAttributes}
+            criteriaConf={this.state.pluginConf}
+            updatePluginConf={this.updatePluginConf}
           />
         </PluginProvider>
       )
@@ -105,21 +171,25 @@ class FormCriteriaComponent extends React.Component {
     return null
   }
 
+  /**
+   *
+   * @returns {XML}
+   */
   render() {
     return (
       <div>
         <SelectField
           key="criterion"
-          floatingLabelText="Select a criterion ... "
-          value={this.state.selectedCriterion}
-          onChange={this.selectCriterion}
+          floatingLabelText={<FormattedMessage id="form.criterion.criteria.select.criteria.label" />}
+          value={this.state.selectedCriteria}
+          onChange={this.selectCriteria}
         >
           <MenuItem value={null} primaryText="" />
           {this.renderCriterionTypesList()}
         </SelectField>
         <SelectField
           key="containers"
-          floatingLabelText="Select a container ... "
+          floatingLabelText={<FormattedMessage id="form.criterion.criteria.select.container.label" />}
           value={this.state.selectedContainer}
           onChange={this.selectContainer}
         >
@@ -127,9 +197,11 @@ class FormCriteriaComponent extends React.Component {
           {this.renderContainersList()}
         </SelectField>
         {this.renderCriteriaConfiguration()}
-        <MainActionButtonComponent
-          label={'Create'}
-          onTouchTap={this.updateCriteria}
+        <CardActionsComponent
+          mainButtonLabel={<FormattedMessage id="form.criterion.criteria.submit.button.label" />}
+          mainButtonTouchTap={this.updateCriteria}
+          secondaryButtonLabel={<FormattedMessage id="form.criterion.criteria.cancel.button.label" />}
+          secondaryButtonTouchTap={this.onCancel}
         />
       </div>
     )

@@ -7,7 +7,7 @@ import DatasetsConfShape from './datasets/DatasetsConfShape'
 /**
  * Form entity description
  */
-const FormShape = React.PropTypes.shape({
+const Form = React.PropTypes.shape({
   id: React.PropTypes.number,
   resultType: React.PropTypes.string,
   datasets: DatasetsConfShape,
@@ -15,4 +15,4 @@ const FormShape = React.PropTypes.shape({
   criterion: React.PropTypes.arrayOf(PluginConf),
 })
 
-export default FormShape
+export default Form

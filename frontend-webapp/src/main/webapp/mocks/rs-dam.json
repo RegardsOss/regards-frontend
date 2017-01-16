@@ -24,5 +24,38 @@
       "descirption": "Ceci est un modele de collection",
       "type": "COLLECTION"
     }
+  ],
+  "attributes": [
+    {
+      "id": 0,
+      "name":"Attribute_0_0",
+      "description": "Description de l'attribut 0 - 0",
+      "defaultValue" : null,
+      "type": "STRING",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {},
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup"
+    }, {
+      "id": 1,
+      "name":"Attribute_1_0",
+      "description": "Description de l'attribut 1 - 0",
+      "defaultValue" : null,
+      "type": "STRING",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {},
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup"
+    }
   ]
 }

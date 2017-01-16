@@ -28,6 +28,18 @@ const messages = Object.assign({
   // Layout tab
   'form.layout.tab.title': 'Configuration de l\'agencement des critères de recherche du formulaire',
   'form.layout.tab.reset': 'Réinitialiser',
+  // Criterion tab
+  'form.criterion.list.name': 'Nom du critère',
+  'form.criterion.list.container': 'Conteneur',
+  'form.criterion.list.actions': 'Actions',
+  'form.criterion.new.button.label': 'Créer un nouveau critère',
+  'form.criterion.reset.button.label': 'Réinitialiser',
+  'form.criterion.criteria.new.title': 'Ajouter un nouveau critère',
+  'form.criterion.criteria.select.criteria.label': 'Sélectionner un critère ...',
+  'form.criterion.criteria.select.container.label': 'Sélectionner un conteneur',
+  'form.criterion.criteria.submit.button.label': 'Ajouter',
+  'form.criterion.criteria.cancel.button.label': 'Annuler',
+  'form.criterion.criteria.select.attribute.label': 'Sélectionner un attribut ...',
 }, Locales.fr)
 
 export default messages

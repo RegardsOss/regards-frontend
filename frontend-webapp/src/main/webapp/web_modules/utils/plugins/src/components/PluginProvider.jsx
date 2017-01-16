@@ -45,19 +45,20 @@ class PluginProvider extends React.Component {
       let element = null
       if (this.props.displayPlugin) {
         element = React.createElement(this.props.loadedPlugin.plugin)
+        return (
+          <IntlProvider
+            locale={this.props.locale}
+            messages={this.props.loadedPlugin.messages[this.props.locale]}
+          >
+            {element}
+          </IntlProvider>
+        )
       } else if (this.props.children) {
-        element = React.cloneElement(this.props.children, { plugin: this.props.loadedPlugin })
+        return React.cloneElement(this.props.children, { plugin: this.props.loadedPlugin })
       } else {
+        console.warn('No children defined for plugin provider')
         return null
       }
-      return (
-        <IntlProvider
-          locale={this.props.locale}
-          messages={this.props.loadedPlugin.messages[this.props.locale]}
-        >
-          {element}
-        </IntlProvider>
-      )
     } else {
       return <div>Plugin loading ... </div>
     }

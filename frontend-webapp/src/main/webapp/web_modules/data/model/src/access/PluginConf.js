@@ -6,8 +6,10 @@
  * Plugin configuration for layout display
  */
 const PluginConf = React.PropTypes.shape({
-  pluginId: React.PropTypes.string.isRequired,
-  container: React.PropTypes.string.isRequired,
+  id: React.PropTypes.number,
+  pluginId: React.PropTypes.string,
+  container: React.PropTypes.string,
+  conf: React.PropTypes.object,
 })
 
 export default PluginConf

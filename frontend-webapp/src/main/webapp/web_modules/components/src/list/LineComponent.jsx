@@ -15,8 +15,16 @@ class LineComponent extends React.Component {
     entity: React.PropTypes.object.isRequired,
     lineComponent: React.PropTypes.func.isRequired,
     displayCheckbox: React.PropTypes.bool,
+    disabled: React.PropTypes.bool,
     onEntityCheck: React.PropTypes.func,
     isSelected: React.PropTypes.bool,
+  }
+
+  static defaultProps = {
+    displayCheckbox: true,
+    disabled: false,
+    onEntityCheck: () => {},
+    isSelected: false,
   }
 
   static contextTypes = {
@@ -34,7 +42,11 @@ class LineComponent extends React.Component {
     if (this.props.displayCheckbox === true) {
       checkbox = (
         <div style={{ maxWidth: 150, display: 'inline-block' }}>
-          <Checkbox checked={this.props.isSelected} onCheck={() => this.props.onEntityCheck(this.props.entity.content)} />
+          <Checkbox
+            checked={this.props.isSelected}
+            onCheck={() => this.props.onEntityCheck(this.props.entity.content)}
+            disabled={this.props.disabled}
+          />
         </div>
       )
     }

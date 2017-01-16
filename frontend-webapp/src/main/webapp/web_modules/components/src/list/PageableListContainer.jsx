@@ -29,6 +29,7 @@ class PageableListContainer extends React.Component {
     entitiesSelector: React.PropTypes.instanceOf(BasicPageableSelectors).isRequired,
     selectedEntities: React.PropTypes.arrayOf(React.PropTypes.object),
     displayCheckbox: React.PropTypes.bool,
+    disableActions: React.PropTypes.bool,
     onEntityCheck: React.PropTypes.func,
     onUnselectAll: React.PropTypes.func,
     onReset: React.PropTypes.func,
@@ -41,6 +42,13 @@ class PageableListContainer extends React.Component {
     }),
     fetchEntities: React.PropTypes.func,
     entitiesFetching: React.PropTypes.bool,
+  }
+
+  static defaultProps = {
+    selectedEntities: [],
+    displayCheckbox: true,
+    disableActions: false,
+    style: {},
   }
 
   constructor(props) {
@@ -147,6 +155,7 @@ class PageableListContainer extends React.Component {
                 key={idx}
                 entity={entity}
                 displayCheckbox={this.props.displayCheckbox}
+                disabled={this.props.disableActions}
                 lineComponent={this.props.lineComponent}
                 onEntityCheck={this.props.onEntityCheck}
                 isSelected={selected}

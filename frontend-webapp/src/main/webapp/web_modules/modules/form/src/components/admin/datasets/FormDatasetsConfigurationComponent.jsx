@@ -14,10 +14,9 @@ import DatasetActions from '../../../models/datasets/DatasetActions'
 import DatasetSelector from '../../../models/datasets/DatasetSelector'
 import DatasetModelActions from '../../../models/datasets/DatasetModelActions'
 import DatasetModelSelector from '../../../models/datasets/DatasetModelSelector'
+import { DATASET_MODEL_TYPE, DATASET_TYPE } from '../../../models/datasets/DatasetSelectionTypes'
 import FormDatasetsTypeSelection from './FormDatasetsTypeSelection'
 
-const DATASET_TYPE = 'selectedDatasets'
-const DATASET_MODEL_TYPE = 'seletedDatasetModels'
 /**
  * Display form to configure associated datasers of search form.
  */
@@ -114,6 +113,7 @@ class FormDatasetsConfigurationComponent extends React.Component {
             onUnselectAll={this.unselectAll}
             onReset={this.resetSelection}
             selectedEntities={this.getSelectedDatasetsObjects()}
+            disableActions={this.props.disableChangeDatasets}
             style={{ width: '90%', margin: '20px auto' }}
           />
         )
@@ -132,6 +132,7 @@ class FormDatasetsConfigurationComponent extends React.Component {
             onUnselectAll={this.unselectAllModels}
             onReset={this.resetModelsSelection}
             selectedEntities={this.getSelectedDatasetModelsObjects()}
+            disableActions={this.props.disableChangeDatasets}
             style={{ width: '90%', margin: '20px auto' }}
           />
         )
@@ -147,6 +148,7 @@ class FormDatasetsConfigurationComponent extends React.Component {
         <FormDatasetsTypeSelection
           defaultSelected={this.props.defaultType}
           onSelectType={this.selectType}
+          disabled={this.props.disableChangeDatasets}
         />
         {this.renderType()}
       </Card>
@@ -156,6 +158,4 @@ class FormDatasetsConfigurationComponent extends React.Component {
 
 export default {
   FormDatasetsConfigurationComponent,
-  DATASET_TYPE,
-  DATASET_MODEL_TYPE,
 }

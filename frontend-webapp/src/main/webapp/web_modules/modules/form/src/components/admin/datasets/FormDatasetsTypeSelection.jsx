@@ -14,6 +14,7 @@ class FormDatasetsTypeSelection extends React.Component {
   static propTypes = {
     defaultSelected: React.PropTypes.string,
     onSelectType: React.PropTypes.func,
+    disabled: React.PropTypes.bool,
   }
 
   render() {
@@ -27,14 +28,17 @@ class FormDatasetsTypeSelection extends React.Component {
         <RadioButton
           value="all"
           label={<FormattedMessage id="form.datasets.all.label" />}
+          disabled={this.props.disabled}
         />
         <RadioButton
           value="selectedDatasets"
           label={<FormattedMessage id="form.datasets.selected.label" />}
+          disabled={this.props.disabled}
         />
         <RadioButton
           value="seletedDatasetModels"
           label={<FormattedMessage id="form.datasets.model.selected.label" />}
+          disabled={this.props.disabled}
         />
       </Field>
     )

@@ -4,7 +4,7 @@
 import { forEach } from 'lodash'
 import { FormattedMessage } from 'react-intl'
 import { Tabs, Tab } from 'material-ui/Tabs'
-import { PluginConf } from '@regardsoss/model'
+import { PluginConf, AttributeModel } from '@regardsoss/model'
 import DatasetsConfShape from '../../models/datasets/DatasetsConfShape'
 import FormParameters from './parameters/FormParametersConfigurationComponent'
 import { FormDatasetsConfigurationComponent, DATASET_MODEL_TYPE, DATASET_TYPE } from './datasets/FormDatasetsConfigurationComponent'
@@ -21,6 +21,7 @@ class FormTabsComponent extends React.Component {
     // Props supplied by redux-form to get the current form values
     changeField: React.PropTypes.func,
     currentConf: React.PropTypes.any,
+    module: React.PropTypes.any,
     // Default props given to the form
     defaultConf: React.PropTypes.shape({
       datasets: DatasetsConfShape,
@@ -28,6 +29,8 @@ class FormTabsComponent extends React.Component {
       layout: React.PropTypes.string,
       resultType: React.PropTypes.string,
     }),
+    selectableAttributes: React.PropTypes.objectOf(AttributeModel),
+    disableChangeDatasets: React.PropTypes.bool,
   }
 
   render() {
@@ -42,6 +45,7 @@ class FormTabsComponent extends React.Component {
             defaultType={this.props.defaultConf.datasets.type}
             defaultSelectedDatasets={this.props.defaultConf.datasets.selectedDatasets}
             defaultSelectedDatasetModels={this.props.defaultConf.datasets.selectedModels}
+            disableChange={this.props.disableChangeDatasets}
           />
         </Tab>
         <Tab label={<FormattedMessage id="form.layout.tab.label" />} >
@@ -53,14 +57,15 @@ class FormTabsComponent extends React.Component {
         <Tab label={<FormattedMessage id="form.criterions.tab.label" />} >
           <FromCriterionComponent
             defaultCriterion={this.props.defaultConf.criterion}
+            criterion={this.props.currentConf.criterion}
             layout={this.props.currentConf.layout}
-            selectableModels={[]}
+            selectableAttributes={this.props.selectableAttributes}
             changeField={this.props.changeField}
           />
         </Tab>
         <Tab label={<FormattedMessage id="form.preview.tab.label" />} >
           <FormPreviewComponent
-            module={this.props.currentConf}
+            module={this.props.module}
           />
         </Tab>
       </Tabs>
