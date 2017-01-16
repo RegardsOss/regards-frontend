@@ -15,7 +15,7 @@ const messages = Object.assign({
 
   'role.edit.title': 'Edit the role {name}',
   'role.create.title': 'Add a new role',
-  'role.form.name': 'Attribute name',
+  'role.form.name': 'Role name',
   'role.form.description': 'Description',
   'role.form.isCorsRequestsAuthorized': 'Autorize CORS requests',
   'role.form.authorizedAdresses': 'Define the IP adresses list autorized',

@@ -18,6 +18,7 @@ describe('[FORM UTILS] Testing EnumInputsComponent', () => {
       },
     }
     const props = {
+      nbIntialFields: 0,
       inputName: 'somename',
       change: () => {},
     }

@@ -2,9 +2,9 @@
  * LICENSE_PLACEHOLDER
  **/
 import Schemas from '@regardsoss/api'
-import { BasicPageableActions } from '@regardsoss/store-utils'
+import { BasicListActions } from '@regardsoss/store-utils'
 
-class RoleActions extends BasicPageableActions {
+class RoleActions extends BasicListActions {
   constructor() {
     super({
       namespace: 'admin-user-role-management',

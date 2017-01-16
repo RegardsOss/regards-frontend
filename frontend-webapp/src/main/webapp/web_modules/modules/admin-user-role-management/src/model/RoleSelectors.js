@@ -1,9 +1,9 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { BasicPageableSelectors } from '@regardsoss/store-utils'
+import { BasicListSelectors } from '@regardsoss/store-utils'
 
-class RoleSelectors extends BasicPageableSelectors {
+class RoleSelectors extends BasicListSelectors {
   constructor() {
     super(['admin', 'user-management', 'role-management', 'role'])
   }

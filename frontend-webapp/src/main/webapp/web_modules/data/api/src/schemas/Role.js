@@ -1,7 +1,7 @@
 import { Schema, arrayOf } from 'normalizr'
 
 export const RoleConfiguration = {
-  entityKey: 'id',
+  entityKey: 'name',
   normalizrKey: 'roles',
 }
 

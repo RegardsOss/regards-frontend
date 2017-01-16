@@ -16,6 +16,7 @@ import './modules/admin-account-management/AccountComponents'
 import './modules/admin-database-management/DatabaseComponents'
 import './modules/admin-user-projectuser-management/ProjectUserComponents'
 import './modules/admin-user-role-management/RoleComponents'
+import './modules/admin-user-role-resource-access-management/ResourceAccessFormByMicroserviceComponents'
 import './modules/admin-data-attributemodel-management/AttributeModelComponents'
 import './modules/admin-data-fragment-management/FragmentComponents'
 

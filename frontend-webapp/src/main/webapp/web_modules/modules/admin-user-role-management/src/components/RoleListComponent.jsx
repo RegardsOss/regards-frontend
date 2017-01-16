@@ -101,11 +101,11 @@ export class RoleListComponent extends React.Component {
                   <TableRowColumn>{this.getParentRoleName(role.content.parentRole)}</TableRowColumn>
                   <TableRowColumn>{this.getBooleanAsString(role.content.isCorsRequestsAuthorized)}</TableRowColumn>
                   <TableRowColumn>
-                    <IconButton onTouchTap={() => handleEditResourceAccess(role.content.id)}>
+                    <IconButton onTouchTap={() => handleEditResourceAccess(role.content.name)}>
                       <Key />
                     </IconButton>
 
-                    <IconButton onTouchTap={() => handleEdit(role.content.id)}>
+                    <IconButton onTouchTap={() => handleEdit(role.content.name)}>
                       <Edit hoverColor={style.hoverButtonEdit} />
                     </IconButton>
 

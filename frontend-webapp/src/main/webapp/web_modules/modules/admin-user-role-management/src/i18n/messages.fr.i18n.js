@@ -15,7 +15,7 @@ const messages = Object.assign({
 
   'role.edit.title': 'Editer le rôle {name}',
   'role.create.title': 'Ajouter un rôle',
-  'role.form.name': 'Nom du l\'attribut',
+  'role.form.name': 'Nom du rôle',
   'role.form.description': 'Description',
   'role.form.isCorsRequestsAuthorized': 'Autoriser les requêtes CORS',
   'role.form.authorizedAdresses': 'Définir la liste des adresses IP autorisée (si non spécifié, le filtre est désactivé)',

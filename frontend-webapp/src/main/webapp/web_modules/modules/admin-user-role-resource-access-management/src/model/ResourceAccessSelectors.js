@@ -1,6 +1,6 @@
-import { BasicListSelectors } from '@regardsoss/store-utils'
+import { BasicPageableSelectors } from '@regardsoss/store-utils'
 
-class ResourceAccessSelectors extends BasicListSelectors {
+class ResourceAccessSelectors extends BasicPageableSelectors {
   constructor() {
     super(['admin', 'user-management', 'role-resource-access-management', 'resource-access'])
   }

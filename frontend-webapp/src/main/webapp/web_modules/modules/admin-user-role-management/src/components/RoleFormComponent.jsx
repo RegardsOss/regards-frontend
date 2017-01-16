@@ -47,14 +47,13 @@ export class RoleFormComponent extends React.Component {
       }
       // Not all roles have a parent role
       if (currentRole.content.parentRole) {
-        formValues.parentRole = currentRole.content.parentRole.id
+        formValues.parentRole = currentRole.content.parentRole.name
       }
       formValues = EnumInputsHelper.apiResultIntoFormValues(formValues, currentRole.content.authorizedAddresses, 'authorizedAddresses')
       this.props.initialize(formValues)
     } else {
       this.props.initialize({
-        isPublic: false,
-        parentRole: 1,
+        parentRole: 'PUBLIC',
       })
     }
   }
@@ -91,7 +90,7 @@ export class RoleFormComponent extends React.Component {
             >
               {map(roleList, (role, id) => (
                 <MenuItem
-                  value={role.content.id}
+                  value={role.content.name}
                   key={id}
                   primaryText={role.content.name}
                 />
