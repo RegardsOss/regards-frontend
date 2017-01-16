@@ -47,7 +47,6 @@ storiesOf('Project admin - Resource access', module)
         <ResourceAccessFormByMicroserviceContainer
           microserviceName="microservice-1"
           currentRole={role}
-          getResourceUrl={action('getResourceUrl')}
           controllerList={controllerList}
           resourceList={resourceList}
           fetchControllerList={action('fetchControllerList')}

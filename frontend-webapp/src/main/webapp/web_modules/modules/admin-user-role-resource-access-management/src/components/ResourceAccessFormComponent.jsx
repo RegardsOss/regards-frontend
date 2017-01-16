@@ -16,7 +16,6 @@ export class ResourceAccessFormComponent extends React.Component {
     microserviceList: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
     backUrl: React.PropTypes.string.isRequired,
     currentRole: Role.isRequired,
-    getResourceUrl: React.PropTypes.func,
   }
 
   render() {
@@ -42,7 +41,6 @@ export class ResourceAccessFormComponent extends React.Component {
                 <ResourceAccessFormByMicroserviceContainer
                   microserviceName={microserviceName}
                   currentRole={currentRole}
-                  getResourceUrl={this.props.getResourceUrl}
                 />
               </Tab>
             ))}

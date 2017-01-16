@@ -39,13 +39,6 @@ export class ResourceAccessFormContainer extends React.Component {
     return `/admin/${project}/user/role/list`
   }
 
-  getResourceUrl = (resourceId) => {
-    const { params: { project } } = this.props
-    return `/admin/${project}/user/role-resource-access/${resourceId}/info`
-    browserHistory.push(url)
-  }
-
-
   getForm = () => {
     const { role, isRoleFetching } = this.props
     if (isRoleFetching && !role) {
@@ -57,7 +50,6 @@ export class ResourceAccessFormContainer extends React.Component {
           microserviceList={['rs-admin', 'rs-access', 'rs-dam']}
           backUrl={this.getBackUrl()}
           currentRole={role}
-          getResourceUrl={this.getResourceUrl}
         />)
     }
     return (<FormEntityNotFoundComponent />)

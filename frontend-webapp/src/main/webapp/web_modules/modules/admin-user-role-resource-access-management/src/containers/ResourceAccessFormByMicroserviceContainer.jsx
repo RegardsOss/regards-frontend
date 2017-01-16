@@ -19,7 +19,6 @@ export class ResourceAccessFormByMicroserviceContainer extends React.Component {
   static propTypes = {
     microserviceName: React.PropTypes.string.isRequired,
     currentRole: Role,
-    getResourceUrl: React.PropTypes.func,
     // from mapStateToProps
     controllerList: React.PropTypes.arrayOf(React.PropTypes.string),
     resourceList: React.PropTypes.objectOf(Resource),
@@ -89,7 +88,6 @@ export class ResourceAccessFormByMicroserviceContainer extends React.Component {
           microserviceName={microserviceName}
           handleOpenController={this.handleOpenController}
           handleToggleResourceAccess={this.handleToggleResourceAccess}
-          getResourceUrl={this.props.getResourceUrl}
           handleOpenResourceAccess={this.handleOpenResourceAccessModal}
         />
       </div>

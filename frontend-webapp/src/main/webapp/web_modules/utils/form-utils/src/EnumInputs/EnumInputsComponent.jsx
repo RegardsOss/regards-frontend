@@ -23,7 +23,7 @@ export class EnumInputsComponent extends React.Component {
   constructor(props) {
     super(props)
     // Create a form input for each value
-    const enumValues = fill(Array(props.nbIntialFields), {deleted: false}, 0, props.nbIntialFields)
+    const enumValues = fill(Array(props.nbIntialFields), { deleted: false }, 0, props.nbIntialFields)
     this.state = {
       enumValues,
       newValue: '',

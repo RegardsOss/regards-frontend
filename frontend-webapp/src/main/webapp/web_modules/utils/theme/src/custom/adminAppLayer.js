@@ -118,13 +118,13 @@ export default {
         backgroundColor: purple300,
       },
       description: {
-        style:{
+        style: {
           overflow: 'hidden',
           whiteSpace: 'nowrap',
           textoverflow: 'ellipsis',
         },
-        class: 'col-sm-75'
-      }
+        class: 'col-sm-75',
+      },
     },
   },
 }

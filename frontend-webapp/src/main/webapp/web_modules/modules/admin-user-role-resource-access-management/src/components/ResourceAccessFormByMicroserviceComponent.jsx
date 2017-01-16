@@ -21,7 +21,6 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
     handleOpenController: React.PropTypes.func.isRequired,
     handleToggleResourceAccess: React.PropTypes.func.isRequired,
     handleOpenResourceAccess: React.PropTypes.func.isRequired,
-    getResourceUrl: React.PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -90,14 +89,14 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
   }
 
   renderResource() {
-    const { resourceList, getResourceUrl } = this.props
+    const { resourceList } = this.props
     const styles = {
       listItem: this.context.muiTheme.adminApp.roleResourceAccessOverview.listItem,
       listItemOdd: this.context.muiTheme.adminApp.roleResourceAccessOverview.listItemOdd,
       chip: this.context.muiTheme.adminApp.roleResourceAccessOverview.chipListItem,
       wrapperChipList: this.context.muiTheme.adminApp.roleResourceAccessOverview.wrapperChipList,
       linkColor: this.context.muiTheme.palette.primary1Color,
-      description: this.context.muiTheme.adminApp.roleResourceAccessOverview.description
+      description: this.context.muiTheme.adminApp.roleResourceAccessOverview.description,
     }
     return map(resourceList, (resource, id) => (
       <ListItem
