@@ -39,15 +39,15 @@ export class RoleListContainer extends React.Component {
     return `/admin/${project}/user/board`
   }
 
-  handleEdit = (roleId) => {
+  handleEdit = (roleName) => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/user/role/${roleId}/edit`
+    const url = `/admin/${project}/user/role/${roleName}/edit`
     browserHistory.push(url)
   }
 
-  handleEditResourceAccess = (roleId) => {
+  handleEditResourceAccess = (roleName) => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/user/role-resource-access/${roleId}/edit`
+    const url = `/admin/${project}/user/role-resource-access/${roleName}/edit`
     browserHistory.push(url)
   }
 
@@ -76,7 +76,7 @@ const mapStateToProps = state => ({
   roleList: RoleSelectors.getList(state),
 })
 const mapDispatchToProps = dispatch => ({
-  fetchRoleList: () => dispatch(RoleActions.fetchPagedEntityList(dispatch, 0, 100)),
+  fetchRoleList: () => dispatch(RoleActions.fetchEntityList(dispatch)),
   deleteRole: id => dispatch(RoleActions.deleteEntity(id)),
 })
 

@@ -12,7 +12,7 @@ const defaultRoleList = {
       id: 1,
       name: 'PUBLIC',
       permissions: [],
-      authorizedAddresses: [],
+      authorizedAddresses: ['1.2.3.4'],
       isCorsRequestsAuthorized: true,
     },
     links: [],
@@ -70,14 +70,14 @@ storiesOf('Project admin - Role', module)
   })
   .add('Edit', () => {
     const themeName = addLocaleAndThemeSelectors()
-    const roleList = object('Role list', defaultRoleList)
+    const role = object('Role list', defaultRoleList[1])
     return (
       <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-user-role-management/src/i18n">
         <RoleFormComponent
           backUrl={'back/url'}
           onSubmit={action('handleDelete')}
-          roleList={roleList}
-          currentRole={roleList[1]}
+          roleList={defaultRoleList}
+          currentRole={role}
         />
       </ThemeAndLocaleDecorator>
     )

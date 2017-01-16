@@ -1,11 +1,11 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { BasicPageableReducers } from '@regardsoss/store-utils'
+import { BasicListReducers } from '@regardsoss/store-utils'
 import { RoleConfiguration } from '@regardsoss/api'
 import RoleActions from './RoleActions'
 
-class RoleReducers extends BasicPageableReducers {
+class RoleReducers extends BasicListReducers {
   constructor() {
     super(RoleConfiguration, RoleActions)
   }

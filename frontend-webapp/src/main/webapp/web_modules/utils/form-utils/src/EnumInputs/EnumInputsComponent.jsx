@@ -1,6 +1,6 @@
 import { FormattedMessage } from 'react-intl'
 import TextField from 'material-ui/TextField'
-import { map } from 'lodash'
+import { map, fill } from 'lodash'
 import IconButton from 'material-ui/IconButton'
 import Delete from 'material-ui/svg-icons/action/delete'
 import Add from 'material-ui/svg-icons/content/add-circle-outline'
@@ -23,12 +23,7 @@ export class EnumInputsComponent extends React.Component {
   constructor(props) {
     super(props)
     // Create a form input for each value
-    const enumValues = []
-    for (let i = 0; i < props.nbIntialFields; i++) {
-      enumValues.push({
-        deleted: false,
-      })
-    }
+    const enumValues = fill(Array(props.nbIntialFields), {deleted: false}, 0, props.nbIntialFields)
     this.state = {
       enumValues,
       newValue: '',

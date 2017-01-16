@@ -5,6 +5,7 @@
 /**
  * @author Léo Mieulet
  */
+import { map, replace } from 'lodash'
 import ErrorHandler from '../ErrorHandler'
 
 const { CALL_API, getJSON } = require('redux-api-middleware')
@@ -25,7 +26,24 @@ class BasicArrayActions {
     this.errorHandler = new ErrorHandler()
   }
 
-  fetchEntityList(dispatch) {
+  /**
+   * Replace parameterized value in the current configured endpoint
+   * @param entityEndpoint endpoint entity
+   * @param params parameters to replace in the endpoint entity
+   * @returns {*}
+   */
+  handleRequestParameters = (entityEndpoint, params) => {
+    let endpoint = entityEndpoint
+    if (params) {
+      map(params, (param, id) => {
+        endpoint = replace(endpoint, `%${id}`, param)
+      })
+    }
+    return endpoint
+  }
+
+  fetchEntityList(dispatch, params) {
+    const endpoint = this.handleRequestParameters(this.entityEndpoint, params)
     return {
       [CALL_API]: {
         types: [
@@ -39,7 +57,7 @@ class BasicArrayActions {
             meta: (action, state, res) => this.errorHandler.onRequestFailure(dispatch, action, state, res),
           },
         ],
-        endpoint: this.entityEndpoint,
+        endpoint,
         method: 'GET',
       },
     }

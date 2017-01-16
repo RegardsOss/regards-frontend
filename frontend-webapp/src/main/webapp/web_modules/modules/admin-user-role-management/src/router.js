@@ -23,7 +23,7 @@ export const createRoleRoute = {
 }
 
 export const editRoleRoute = {
-  path: ':role_id/edit',
+  path: ':role_name/edit',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
       const RoleFormContainer = require('./containers/RoleFormContainer')

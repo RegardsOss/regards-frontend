@@ -1,33 +1,19 @@
-export const listRoleResourceAccessRoute = {
-  path: 'list',
-  getComponents(nextState, cb) {
-    require.ensure([], (require) => {
-      const ResourceAccessListContainer = require('./containers/ResourceAccessListContainer')
-      cb(null, {
-        content: ResourceAccessListContainer.default,
-      })
-    })
-  },
-}
-
 export const editRoleResourceAccessRoute = {
-  path: ':role_id/edit',
+  path: ':role_name/edit',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const RoleResourceAccessEditContainer = require('./containers/RoleResourceAccessEditContainer')
+      const ResourceAccessFormContainer = require('./containers/ResourceAccessFormContainer')
       cb(null, {
-        content: RoleResourceAccessEditContainer.default,
+        content: ResourceAccessFormContainer.default,
       })
     })
   },
 }
 
-
-const roleManagementRouter = {
+const roleResourceAccessManagementRouter = {
   childRoutes: [
-    listRoleResourceAccessRoute,
     editRoleResourceAccessRoute,
   ],
 }
 
-export default roleManagementRouter
+export default roleResourceAccessManagementRouter

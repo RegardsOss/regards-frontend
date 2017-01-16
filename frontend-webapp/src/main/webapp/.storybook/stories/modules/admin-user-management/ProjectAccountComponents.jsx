@@ -1,4 +1,4 @@
-import { storiesOf } from '@kadira/storybook'
+import { storiesOf, action } from '@kadira/storybook'
 import { withKnobs, select, object } from '@kadira/storybook-addon-knobs'
 import { ProjectAccountCreateContainer } from '@regardsoss/admin-user-management/src/containers/ProjectAccountCreateContainer'
 import { ProjectAccountEditContainer } from '@regardsoss/admin-user-management/src/containers/ProjectAccountEditContainer'
