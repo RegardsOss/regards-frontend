@@ -8,6 +8,9 @@ import defaultTheme from './defaultTheme'
 
 const backgroundColor = '#2a2a2a'
 export default merge({}, darkBaseTheme, defaultTheme, {
+  appBar: {
+    textColor: white,
+  },
   palette: {
     errorColor: redA400,
     warningColor: orange900,

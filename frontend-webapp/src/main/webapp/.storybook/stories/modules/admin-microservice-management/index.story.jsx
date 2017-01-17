@@ -10,18 +10,18 @@ storiesOf('Admin - Microservice management', module)
   .addDecorator(withKnobs)
   .addDecorator(StoreDecorator)
   .add('Microservice plugin types', () => {
-      const themeName = addLocaleAndThemeSelectors()
-      return (
-        <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-microservice-management/src/i18n">
-          <MicroservicePluginTypesComponent microserviceName='rs-gateway'/>
-        </ThemeAndLocaleDecorator>
-      )
-    })
+    const themeName = addLocaleAndThemeSelectors()
+    return (
+      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-microservice-management/src/i18n">
+        <MicroservicePluginTypesComponent microserviceName="rs-gateway" />
+      </ThemeAndLocaleDecorator>
+    )
+  })
     .add('Microservice plugins', () => {
       const themeName = addLocaleAndThemeSelectors()
       return (
         <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-microservice-management/src/i18n">
-          <MicroservicePluginsComponent microserviceName='rs-gateway'/>
+          <MicroservicePluginsComponent microserviceName="rs-gateway" />
         </ThemeAndLocaleDecorator>
       )
     })
@@ -29,7 +29,7 @@ storiesOf('Admin - Microservice management', module)
       const themeName = addLocaleAndThemeSelectors()
       return (
         <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-microservice-management/src/i18n">
-          <MicroservicePluginConfigurationEditComponent microserviceName='rs-gateway'/>
+          <MicroservicePluginConfigurationEditComponent microserviceName="rs-gateway" />
         </ThemeAndLocaleDecorator>
       )
     })
@@ -37,7 +37,7 @@ storiesOf('Admin - Microservice management', module)
       const themeName = addLocaleAndThemeSelectors()
       return (
         <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-microservice-management/src/i18n">
-          <SexyMicroserviceBoardComponent microserviceName='rs-gateway'/>
+          <SexyMicroserviceBoardComponent microserviceName="rs-gateway" />
         </ThemeAndLocaleDecorator>
       )
     })

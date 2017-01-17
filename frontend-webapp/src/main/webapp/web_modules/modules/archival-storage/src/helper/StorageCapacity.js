@@ -13,7 +13,7 @@ export class StorageCapacity {
   /**
    * Converts into (returns a new object)
    * @param newUnit new unit
-   * @return Capacity in new unit (new object)
+   * @return StorageCapacity in new unit (new object)
    */
   convert(newUnit) {
     const valueInNU = this.value * (this.unit.toBits / newUnit.toBits)
@@ -34,12 +34,61 @@ export class StorageCapacity {
     const availableUnits = StorageUnit.getOrderedUnitsInScale(unitsScale)
     availableUnits.reverse()
     // eslint-disable-next-line no-confusing-arrow
-    return availableUnits.reduce((previousConverted, unit) =>
-      previousConverted && previousConverted.value >= 1
-        ? previousConverted
-        : this.convert(unit)
-      , null)
+    return availableUnits.reduce((previousConverted, unit) => previousConverted && previousConverted.value >= 1 ? previousConverted : this.convert(unit), null)
   }
+
+  /**
+   * Performs binariy arithmetic operation between this and other as parameter
+   * @param other {number|StorageCapacity} other operand
+   * @param binaryOperator operator to apply
+   * @returns {StorageCapacity}, new instance
+   */
+  doArithmeticOperation(binaryOperator, other) {
+    if (typeof other === 'number') {
+      return new StorageCapacity(binaryOperator(this.value, other), this.unit)
+    } else if (other instanceof StorageCapacity) {
+      const converted = other.convert(this.unit)
+      return new StorageCapacity(binaryOperator(this.value, converted.value), this.unit)
+    }
+    throw new Error(`Unsupported value parameter type: ${typeof other} (value: ${other})`)
+  }
+
+  /**
+   * Add an other value to this capacity
+   * @param other {number|StorageCapacity} other value
+   * @returns {StorageCapacity}, new instance
+   */
+  add(other) {
+    return this.doArithmeticOperation((a, b) => a + b, other)
+  }
+
+  /**
+   * Subtract an other value to this capacity
+   * @param other {number|StorageCapacity} other value
+   * @returns {StorageCapacity}, new instance
+   */
+  subtract(other) {
+    return this.doArithmeticOperation((a, b) => a - b, other)
+  }
+
+  /**
+   * Multiply by an other value
+   * @param other {number|StorageCapacity} other value
+   * @returns {StorageCapacity}, new instance
+   */
+  multiply(other) {
+    return this.doArithmeticOperation((a, b) => a * b, other)
+  }
+
+  /**
+   * Divide by an other value
+   * @param other {number|StorageCapacity} other value
+   * @returns {StorageCapacity}, new instance
+   */
+  divide(other) {
+    return this.doArithmeticOperation((a, b) => a / b, other)
+  }
+
 }
 
 export function capacityFromValue(textValue) {
@@ -53,7 +102,6 @@ export function capacityFromValue(textValue) {
   }
 
   // 2 - convert value
-  console.info(matched)
   const valueText = matched[1] // value: first matching group
   const value = Number(valueText)
   if (Number.isNaN(value)) {
