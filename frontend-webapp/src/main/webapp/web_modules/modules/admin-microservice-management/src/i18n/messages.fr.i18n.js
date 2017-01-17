@@ -11,6 +11,10 @@ const messages = Object.assign({
   'microservice-management.plugins.tooltip': 'Plugins',
   'microservice-management.maintenance.tooltip': 'Mode maintenance',
 
+  'microservice-management.plugin.list.title': 'Plugins',
+  'microservice-management.plugin.list.filters': 'Filtres',
+  'microservice-management.plugin.list.configurations': 'Configurations',
+
   'microservice-management.plugin.configuration.form.create.title': 'Ajouter une configuration',
   'microservice-management.plugin.configuration.form.edit.title': 'Editer la configuration',
   'microservice-management.plugin.configuration.form.pluginClassName': 'Classe du plugin (chemin complet)',

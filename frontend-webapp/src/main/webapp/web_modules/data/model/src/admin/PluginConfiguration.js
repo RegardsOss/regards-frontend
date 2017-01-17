@@ -1,6 +1,6 @@
 const PluginConfiguration = React.PropTypes.shape({
   content: React.PropTypes.shape({
-    id: React.PropTypes.string.isRequired,
+    id: React.PropTypes.number.isRequired,
     pluginId: React.PropTypes.string.isRequired,
     label: React.PropTypes.string.isRequired,
     version: React.PropTypes.string.isRequired,

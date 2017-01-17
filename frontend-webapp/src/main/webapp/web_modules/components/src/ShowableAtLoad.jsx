@@ -2,7 +2,7 @@ import ReactTransitionGroup from 'react-addons-transition-group'
 import { MakesFade } from '@regardsoss/components/src/transitions/MaterialDesignMotions'
 import LoadingComponent from './LoadingComponent'
 
-class Loadable extends React.Component {
+class ShowableAtLoad extends React.Component {
 
   static propTypes = {
     isLoading: React.PropTypes.bool.isRequired,
@@ -27,4 +27,4 @@ class Loadable extends React.Component {
   }
 }
 
-export default Loadable
+export default ShowableAtLoad

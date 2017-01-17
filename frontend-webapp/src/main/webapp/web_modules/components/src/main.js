@@ -20,8 +20,6 @@ import ConfirmDialogComponent from './dialogs/ConfirmDialogComponent'
 
 import PageableListContainer from './list/PageableListContainer'
 
-import Loadable from './Loadable'
-
 export {
   ActionButtonComponent,
   ApplicationErrorComponent,
@@ -38,5 +36,4 @@ export {
   BoardComponent,
   ConfirmDialogComponent,
   PageableListContainer,
-  Loadable,
 }

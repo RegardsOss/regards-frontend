@@ -14,7 +14,7 @@ export class PluginConfigurationListContainer extends React.Component {
     // from router
     params: React.PropTypes.shape({
       project: React.PropTypes.string,
-      microservice: React.PropTypes.string,
+      microserviceName: React.PropTypes.string,
       pluginId: React.PropTypes.string,
       pluginConfigurationId: React.PropTypes.string,
     }),
@@ -26,35 +26,54 @@ export class PluginConfigurationListContainer extends React.Component {
   }
 
   componentDidMount() {
-    this.props.fetchPluginConfigurationList()
+    const { params: { microserviceName, pluginId } } = this.props
+    this.props.fetchPluginConfigurationList(microserviceName, pluginId)
   }
 
-  handleClose = () => { // TODO
-    const { params: { project } } = this.props
-    const url = `/admin/${project}/microservice/board`
-    browserHistory.push(url)
+  onActiveToggle = () => {
+
   }
 
-  handleProjectConfigurationListClick = (pluginId) => { // TODO
-    const { params: { project, microservice } } = this.props
-    const url = `/admin/${project}/microservice/${microservice}/plugin/${pluginId}/configuration/list`
+  handleAddClick = () => {
+    alert('open the create modal')
+  }
+
+  handleBackClick = () => {
+    const { params: { project, microserviceName } } = this.props
+    const url = `/admin/${project}/microservice/${microserviceName}/plugin/list`
     browserHistory.push(url)
+  }
+  handleCopy = () => {
+
+  }
+
+  handleDeleteClick = () => {
+
+  }
+
+  handleDownwardClick = () => {
+
+  }
+
+  handleUpwardClick = () => {
+
   }
 
   render() {
-    const { pluginConfigurationList, isPluginConfigurationListFetching } = this.props
-    // TODO: Use decorator for loader display, based on PluginConfigurationFormContainer
+    const { params: { microserviceName }, pluginConfigurationList, isPluginConfigurationFetching } = this.props
     return (
       <I18nProvider messageDir="modules/admin-microservice-management/src/i18n">
         <PluginConfigurationListComponent
-          microserviceName={'mock-ms-name'}
+          microserviceName={microserviceName}
           pluginConfigurationList={pluginConfigurationList}
-          onBackClick={() => console.log('onBackClick')}
-          onAddClick={() => console.log('onAddClick')}
-          onUpwardClick={() => console.log('onUpwardClick')}
-          onDownwardClick={() => console.log('onDownwardClick')}
-          onDeleteClick={() => console.log('onDeleteClick')}
-          onActiveToggle={() => console.log('onActiveToggle')}
+          isLoading={isPluginConfigurationFetching}
+          onAddClick={this.handleAddClick}
+          onBackClick={this.handleBackClick}
+          onCopyClick={this.handleCopy}
+          onUpwardClick={this.handleUpwardClick}
+          onDownwardClick={this.handleDownwardClick}
+          onDeleteClick={this.handleDeleteClick}
+          onActiveToggle={this.onActiveToggle}
         />
       </I18nProvider>
     )
@@ -66,7 +85,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchPluginConfigurationList: () => dispatch(PluginConfigurationActions.fetchPagedEntityList(dispatch, 0, 100)),
+  fetchPluginConfigurationList: (microserviceName, pluginId) => dispatch(PluginConfigurationActions.fetchPagedEntityList(dispatch, 0, 100, [microserviceName, pluginId])),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PluginConfigurationListContainer)

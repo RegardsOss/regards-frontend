@@ -15,6 +15,7 @@ const microserviceManagementStyles = theme => ({
       display: 'flex',
       flexWrap: 'wrap',
       justifyContent: 'space-around',
+      position: 'relative',
     },
     gridList: {
       height: 450,
@@ -23,6 +24,10 @@ const microserviceManagementStyles = theme => ({
     },
   },
   pluginConfiguration: {
+    root: {
+      position: 'relative',
+      padding: '0px 20px 20px 20px',
+    },
     card: {
       margin: '0px 0px',
     },

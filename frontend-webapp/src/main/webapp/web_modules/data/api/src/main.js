@@ -94,7 +94,7 @@ export default {
   PLUGIN_META_DATA_ARRAY: PluginMetaData.PLUGIN_META_DATA_ARRAY,
   PluginMetaDataConfiguration,
 
-  ADMIN_PLUGIN_CONFIGURATION: AdminPluginConfiguration.PLUGIN_CONFIGURATION,
-  ADMIN_PLUGIN_CONFIGURATION_ARRAY: AdminPluginConfiguration.PLUGIN_CONFIGURATION,
+  PLUGIN_CONFIGURATION: AdminPluginConfiguration.PLUGIN_CONFIGURATION,
+  PLUGIN_CONFIGURATION_ARRAY: AdminPluginConfiguration.PLUGIN_CONFIGURATION_ARRAY,
   AdminPluginConfigurationSchemaConfiguration,
 }

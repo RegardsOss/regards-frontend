@@ -25,7 +25,8 @@ class PluginConfigurationComponent extends React.Component {
   }
 
   static propTypes = {
-    pluginConfiguration: PluginConfiguration.isRequired,
+    pluginConfiguration: React.PropTypes.any,
+    // pluginConfiguration: PluginConfiguration.isRequired,
     onUpwardClick: React.PropTypes.func.isRequired,
     onDownwardClick: React.PropTypes.func.isRequired,
     onDeleteClick: React.PropTypes.func.isRequired,

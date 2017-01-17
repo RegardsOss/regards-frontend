@@ -4,11 +4,11 @@ import { BasicPageableActions } from '@regardsoss/store-utils'
 class PluginConfigurationActions extends BasicPageableActions {
   constructor() {
     super({
-      namespace: 'admin-microservice-management',
-      entityEndpoint: `${GATEWAY_HOSTNAME}/api/v1/rs-admin/plugins/%0/configuration`,
+      namespace: 'admin-microservice-management/pluginConfiguration',
+      entityEndpoint: `${GATEWAY_HOSTNAME}/api/v1/%0/plugins/%1/config`,
       schemaTypes: {
-        ENTITY: Schemas.ADMIN_PLUGIN_CONFIGURATION,
-        ENTITY_ARRAY: Schemas.ADMIN_PLUGIN_CONFIGURATION_ARRAY,
+        ENTITY: Schemas.PLUGIN_CONFIGURATION,
+        ENTITY_ARRAY: Schemas.PLUGIN_CONFIGURATION_ARRAY,
       },
     })
   }

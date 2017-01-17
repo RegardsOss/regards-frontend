@@ -1,34 +1,32 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { i18nContextType } from '@regardsoss/i18n'
 import { PluginConfigurationList } from '@regardsoss/model'
-import Paper from 'material-ui/Paper'
 import AppBar from 'material-ui/AppBar'
 import IconButton from 'material-ui/IconButton'
+import Paper from 'material-ui/Paper'
 import ArrowBack from 'material-ui/svg-icons/navigation/arrow-back'
 import AddCircle from 'material-ui/svg-icons/content/add-circle'
 import Subheader from 'material-ui/Subheader'
 import { chain } from 'lodash'
 import PluginConfigurationComponent from './PluginConfigurationComponent'
+import moduleStyles from '../styles/styles'
 
+const styles = moduleStyles().pluginConfiguration
+console.log(styles)
 /**
  * React component displaying a configurable microservice.
  *
  * @author Xavier-Alexandre Brochard
  */
-
-const styles = {
-  root: {
-    padding: '0px 20px 20px 20px',
-  },
-}
-
 class PluginConfigurationListComponent extends React.Component {
 
   static propTypes = {
     microserviceName: React.PropTypes.string.isRequired,
-    pluginConfigurationList: PluginConfigurationList.isRequired,
+    pluginConfigurationList: PluginConfigurationList,
+    isLoading: React.PropTypes.bool.isRequired,
     onBackClick: React.PropTypes.func.isRequired,
     onAddClick: React.PropTypes.func.isRequired,
     onUpwardClick: React.PropTypes.func.isRequired,
@@ -42,7 +40,7 @@ class PluginConfigurationListComponent extends React.Component {
   }
 
   render() {
-    const { microserviceName, pluginConfigurationList, onBackClick, onAddClick, onUpwardClick, onDownwardClick, onDeleteClick, onActiveToggle } = this.props
+    const { microserviceName, pluginConfigurationList, isLoading, onBackClick, onAddClick, onUpwardClick, onDownwardClick, onDeleteClick, onActiveToggle } = this.props
 
     return (
       <Paper>
@@ -52,32 +50,34 @@ class PluginConfigurationListComponent extends React.Component {
           iconElementRight={<IconButton onTouchTap={onAddClick}><AddCircle /></IconButton>}
         />
         <div style={styles.root}>
-          <Subheader>Active</Subheader>
-          {chain(pluginConfigurationList)
-            .filter(pluginConfiguration => pluginConfiguration.content.active)
-            .sortBy(pluginConfiguration => pluginConfiguration.content.priorityOrder)
-            .map(pluginConfiguration => <PluginConfigurationComponent
-              key={pluginConfiguration.content.id}
-              pluginConfiguration={pluginConfiguration}
-              onUpwardClick={onUpwardClick}
-              onDownwardClick={onDownwardClick}
-              onDeleteClick={onDeleteClick}
-              onActiveToggle={onActiveToggle}
-            />)
-            .value()}
-          <Subheader>Inactive</Subheader>
-          {chain(pluginConfigurationList)
-            .filter(pluginConfiguration => !pluginConfiguration.content.active)
-            .sortBy(pluginConfiguration => pluginConfiguration.content.priorityOrder)
-            .map(pluginConfiguration => <PluginConfigurationComponent
-              key={pluginConfiguration.content.id}
-              pluginConfiguration={pluginConfiguration}
-              onUpwardClick={onUpwardClick}
-              onDownwardClick={onDownwardClick}
-              onDeleteClick={onDeleteClick}
-              onActiveToggle={onActiveToggle}
-            />)
-            .value()}
+          <LoadableContentDisplayDecorator isLoading={isLoading}>
+            <Subheader>Active</Subheader>
+            {chain(pluginConfigurationList)
+              .filter(pluginConfiguration => pluginConfiguration.content.active)
+              .sortBy(pluginConfiguration => pluginConfiguration.content.priorityOrder)
+              .map(pluginConfiguration => <PluginConfigurationComponent
+                key={pluginConfiguration.content.id}
+                pluginConfiguration={pluginConfiguration}
+                onUpwardClick={onUpwardClick}
+                onDownwardClick={onDownwardClick}
+                onDeleteClick={onDeleteClick}
+                onActiveToggle={onActiveToggle}
+              />)
+              .value()}
+            <Subheader>Inactive</Subheader>
+            {chain(pluginConfigurationList)
+              .filter(pluginConfiguration => !pluginConfiguration.content.active)
+              .sortBy(pluginConfiguration => pluginConfiguration.content.priorityOrder)
+              .map(pluginConfiguration => <PluginConfigurationComponent
+                key={pluginConfiguration.content.id}
+                pluginConfiguration={pluginConfiguration}
+                onUpwardClick={onUpwardClick}
+                onDownwardClick={onDownwardClick}
+                onDeleteClick={onDeleteClick}
+                onActiveToggle={onActiveToggle}
+              />)
+              .value()}
+          </LoadableContentDisplayDecorator>
         </div>
       </Paper>
     )

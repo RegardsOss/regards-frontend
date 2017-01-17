@@ -1,7 +1,7 @@
 import { Schema, arrayOf } from 'normalizr'
 
 export const PluginMetaDataConfiguration = {
-  entityKey: 'id',
+  entityKey: 'pluginId',
   normalizrKey: 'pluginMetaData',
 }
 

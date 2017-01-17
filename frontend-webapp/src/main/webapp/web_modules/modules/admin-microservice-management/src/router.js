@@ -25,10 +25,9 @@ export const microserviceBoardRoute = {
  * @type {{path: string, getComponents: ((nextState, cb))}}
  */
 export const microservicePluginMetaDataListRoute = {
-  path: ':microservice/plugin/list',
+  path: ':microserviceName/plugin/list',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      // const container = require('./components/PluginMetaDataListComponent')
       const container = require('./containers/PluginMetaDataListContainer')
       cb(null, {
         content: container.default,
@@ -43,7 +42,7 @@ export const microservicePluginMetaDataListRoute = {
  * @type {{path: string, getComponents: ((nextState, cb))}}
  */
 export const microservicePluginConfigurationsListRoute = {
-  path: ':microservice/plugin/:pluginId/configuration/list',
+  path: ':microserviceName/plugin/:pluginId/configuration/list',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
       const container = require('./containers/PluginConfigurationListContainer')
