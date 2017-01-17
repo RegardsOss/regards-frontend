@@ -3,8 +3,6 @@ import { withKnobs, object } from '@kadira/storybook-addon-knobs'
 import RoleListComponent from '@regardsoss/admin-user-role-management/src/components/RoleListComponent'
 import RoleFormComponent from '@regardsoss/admin-user-role-management/src/components/RoleFormComponent'
 import { StoreDecorator, addLocaleAndThemeSelectors, ThemeAndLocaleDecorator } from '../../utils/decorators'
-import { themeContextType } from '@regardsoss/theme'
-import { i18nContextType } from '@regardsoss/i18n'
 
 const defaultRoleList = {
   1: {
@@ -62,7 +60,7 @@ storiesOf('Project admin - Role', module)
       <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-user-role-management/src/i18n">
         <RoleFormComponent
           backUrl={'back/url'}
-          onSubmit={action('handleDelete')}
+          onSubmit={action('save role')}
           roleList={roleList}
         />
       </ThemeAndLocaleDecorator>
@@ -75,7 +73,7 @@ storiesOf('Project admin - Role', module)
       <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-user-role-management/src/i18n">
         <RoleFormComponent
           backUrl={'back/url'}
-          onSubmit={action('handleDelete')}
+          onSubmit={action('save role')}
           roleList={defaultRoleList}
           currentRole={role}
         />

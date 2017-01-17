@@ -1,5 +1,5 @@
 // Default theme
-import { grey100, indigo500, white, deepOrange300, purple300, green300, yellow300, brown50 } from 'material-ui/styles/colors'
+import { grey100, indigo500, white, purple300, green300, yellow300, brown50, lightBlue200 } from 'material-ui/styles/colors'
 
 export default {
   // Reset some part of the material-ui framework
@@ -106,7 +106,7 @@ export default {
         flexWrap: 'wrap',
       },
       getChip: {
-        backgroundColor: deepOrange300,
+        backgroundColor: lightBlue200,
       },
       putChip: {
         backgroundColor: yellow300,

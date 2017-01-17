@@ -1,5 +1,5 @@
 import { storiesOf, action } from '@kadira/storybook'
-import { withKnobs, select, object } from '@kadira/storybook-addon-knobs'
+import { withKnobs, object } from '@kadira/storybook-addon-knobs'
 import AttributeModelFormComponent from '@regardsoss/admin-data-attributemodel-management/src/components/AttributeModelFormComponent'
 import AttributeModelListComponent from '@regardsoss/admin-data-attributemodel-management/src/components/AttributeModelListComponent'
 import { StoreDecorator, addLocaleAndThemeSelectors, ThemeAndLocaleDecorator } from '../../utils/decorators'

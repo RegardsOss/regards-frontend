@@ -45,6 +45,7 @@ export class RoleFormComponent extends React.Component {
         name: currentRole.content.name,
         isCorsRequestsAuthorized: currentRole.content.isCorsRequestsAuthorized,
       }
+
       // Not all roles have a parent role
       if (currentRole.content.parentRole) {
         formValues.parentRole = currentRole.content.parentRole.name

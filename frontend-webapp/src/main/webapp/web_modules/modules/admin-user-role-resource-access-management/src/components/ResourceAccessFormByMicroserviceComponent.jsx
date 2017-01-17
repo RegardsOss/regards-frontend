@@ -24,7 +24,8 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
   }
 
   static contextTypes = {
-    ...themeContextType, ...i18nContextType,
+    ...themeContextType,
+    ...i18nContextType,
   }
 
   constructor(props) {
@@ -81,7 +82,7 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
     return isAutorized
   }
 
-  handleShowDialog = (event, resource, sdfsdf) => {
+  handleShowDialog = (event, resource) => {
     event.preventDefault()
     event.stopImmediatePropagation()
     event.stopPropagation()
@@ -122,7 +123,8 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
             </div>
             <span>
               <a
-                href="javascript:void(0)" onClick={(proxy, event) => {
+                href="javascript:void(0)"
+                onClick={(proxy, event) => {
                   this.handleShowDialog(event, resource)
                 }}
               >
@@ -144,23 +146,26 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
   }
 
   render() {
-    const { controllerList, microserviceName } = this.props
+    const { controllerList } = this.props
     const { isControllerOpen } = this.state
     return (
       <List>
-        {map(controllerList, (controller, id) => (
-          <ListItem
-            key={id}
-            primaryText={controller}
-            initiallyOpen={false}
-            open={isControllerOpen[microserviceName]}
-            primaryTogglesNestedList
-            onNestedListToggle={() => this.handleToggleController(controller)}
-            nestedItems={
-              isControllerOpen[controller] ? this.renderResource(microserviceName, controller) : []
-            }
-          />
-        ))}
+        {map(controllerList, (controller, id) => {
+          const hasChild = isControllerOpen[controller]
+          return (
+            <ListItem
+              key={id}
+              primaryText={controller}
+              initiallyOpen={false}
+              open={hasChild}
+              primaryTogglesNestedList
+              onNestedListToggle={() => this.handleToggleController(controller)}
+              nestedItems={
+                hasChild ? this.renderResource(controller) : [<ListItem key={1} primaryText="Waiting..." />]
+              }
+            />
+          )
+        })}
       </List>
     )
   }
