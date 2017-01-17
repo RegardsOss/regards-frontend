@@ -1,16 +1,19 @@
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
-import { RenderTextField, Field, ValidationHelpers, ErrorTypes } from '@regardsoss/form-utils'
+import { RenderTextField, Field } from '@regardsoss/form-utils'
 import { themeContextType } from '@regardsoss/theme'
 import { reduxForm } from 'redux-form'
 import { PluginMetaData, PluginConfiguration } from '@regardsoss/model'
 import { Toggle } from 'redux-form-material-ui'
+import moduleStyles from '../styles/styles'
+
+const styles = moduleStyles()
 
 /**
  * Display edit and create fragment form
  */
-export class PluginConfigurationFormCoponent extends React.Component {
+export class PluginConfigurationFormComponent extends React.Component {
 
   static propTypes = {
     pluginConfiguration: PluginConfiguration,
@@ -73,7 +76,7 @@ export class PluginConfigurationFormCoponent extends React.Component {
     const pluginMetaDataPluginClassName = pluginMetaData && pluginMetaData.content && pluginMetaData.content.pluginClassName
     const initialValues = {
       id,
-      pluginId: pluginConfigurationPluginId || pluginMetaDataPluginId, // TODO: useless, remove that
+      pluginId: pluginConfigurationPluginId || pluginMetaDataPluginId,
       label: pluginConfiguration && pluginConfiguration && pluginConfiguration.label,
       version: pluginConfiguration && pluginConfiguration && pluginConfiguration.version,
       priorityOrder: pluginConfiguration && pluginConfiguration && pluginConfiguration.priorityOrder,
@@ -139,6 +142,7 @@ export class PluginConfigurationFormCoponent extends React.Component {
               name="active"
               component={Toggle}
               type="boolean"
+              style={styles.pluginConfiguration.form.toggle}
               label={<FormattedMessage id="microservice-management.plugin.configuration.form.active"/>}
             />
           </CardText>
@@ -160,27 +164,17 @@ export class PluginConfigurationFormCoponent extends React.Component {
 
 /**
  * Form validation
+ *
  * @param values
  * @returns {{}} i18n keys
  */
 function validate(values) { // TODO: validation
   const errors = {}
-  if (values.name) {
-    if (!ValidationHelpers.isValidAlphaNumericUnderscore(values.name)) {
-      errors.name = ErrorTypes.ALPHA_NUMERIC
-    }
-    if (values.name.length < 3) {
-      errors.name = 'invalid.min_3_carac'
-    }
-    if (values.name.length > 32) {
-      errors.name = 'invalid.max_32_carac'
-    }
-  }
   return errors
 }
 
 export default reduxForm({
   form: 'plugin-configuration-form',
   validate,
-})(PluginConfigurationFormCoponent)
+})(PluginConfigurationFormComponent)
 

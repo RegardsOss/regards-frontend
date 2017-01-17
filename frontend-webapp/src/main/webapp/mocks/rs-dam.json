@@ -27,6 +27,7 @@
   ],
   "plugins": [
     {
+      "id": "0",
       "pluginId": "0",
       "pluginType": "Authentication",
       "pluginClassName": "Kerberos",
@@ -35,6 +36,7 @@
       "description": "Allows the users to log in with their usual email and password."
     },
     {
+      "id": "1",
       "pluginId": "1",
       "pluginType": "Authentication",
       "pluginClassName": "Hello",
@@ -43,6 +45,7 @@
       "description": "Allows the users to log in with their usual email and password."
     },
     {
+      "id": "2",
       "pluginId": "2",
       "pluginType": "Authentication",
       "pluginClassName": "Toto",
@@ -51,6 +54,7 @@
       "description": "This plugin is pretty useless actually."
     },
     {
+      "id": "3",
       "pluginId": "3",
       "pluginType": "Authentication",
       "pluginClassName": "Titi",
@@ -59,6 +63,7 @@
       "description": "This plugin is pretty useless actually."
     },
     {
+      "id": "4",
       "pluginId": "4",
       "pluginType": "Authentication",
       "pluginClassName": "Toto",
@@ -67,6 +72,7 @@
       "description": "This plugin is pretty useless actually."
     },
     {
+      "id": "5",
       "pluginId": "5",
       "pluginType": "Authentication",
       "pluginClassName": "Titi",
@@ -75,6 +81,7 @@
       "description": "This plugin is pretty useless actually."
     },
     {
+      "id": "6",
       "pluginId": "6",
       "pluginType": "Other",
       "pluginClassName": "Kerberos",
@@ -83,6 +90,7 @@
       "description": "Allows the users to log in with their usual email and password."
     },
     {
+      "id": "7",
       "pluginId": "7",
       "pluginType": "Other",
       "pluginClassName": "Toto",
@@ -91,6 +99,7 @@
       "description": "This plugin is pretty useless actually."
     },
     {
+      "id": "8",
       "pluginId": "8",
       "pluginType": "Other",
       "pluginClassName": "Titi",

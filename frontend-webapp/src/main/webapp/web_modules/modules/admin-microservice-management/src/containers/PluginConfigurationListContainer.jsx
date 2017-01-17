@@ -6,8 +6,8 @@ import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { PluginConfigurationList } from '@regardsoss/model'
 import PluginConfigurationListComponent from '../components/PluginConfigurationListComponent'
-import PluginConfigurationActions from '../model/PluginConfigurationActions'
 import PluginConfigurationSelectors from '../model/PluginConfigurationSelectors'
+import PluginConfigurationActions from '../model/PluginConfigurationActions'
 
 export class PluginConfigurationListContainer extends React.Component {
   static propTypes = {
@@ -35,7 +35,9 @@ export class PluginConfigurationListContainer extends React.Component {
   }
 
   handleAddClick = () => {
-    alert('open the create modal')
+    const { params: { project, microserviceName, pluginId } } = this.props
+    const url = `/admin/${project}/microservice/${microserviceName}/plugin/${pluginId}/configuration/create`
+    browserHistory.push(url)
   }
 
   handleBackClick = () => {
@@ -43,6 +45,7 @@ export class PluginConfigurationListContainer extends React.Component {
     const url = `/admin/${project}/microservice/${microserviceName}/plugin/list`
     browserHistory.push(url)
   }
+
   handleCopy = () => {
 
   }
@@ -61,20 +64,23 @@ export class PluginConfigurationListContainer extends React.Component {
 
   render() {
     const { params: { microserviceName }, pluginConfigurationList, isPluginConfigurationFetching } = this.props
+
     return (
       <I18nProvider messageDir="modules/admin-microservice-management/src/i18n">
-        <PluginConfigurationListComponent
-          microserviceName={microserviceName}
-          pluginConfigurationList={pluginConfigurationList}
-          isLoading={isPluginConfigurationFetching}
-          onAddClick={this.handleAddClick}
-          onBackClick={this.handleBackClick}
-          onCopyClick={this.handleCopy}
-          onUpwardClick={this.handleUpwardClick}
-          onDownwardClick={this.handleDownwardClick}
-          onDeleteClick={this.handleDeleteClick}
-          onActiveToggle={this.onActiveToggle}
-        />
+        <div>
+          <PluginConfigurationListComponent
+            microserviceName={microserviceName}
+            pluginConfigurationList={pluginConfigurationList}
+            isLoading={isPluginConfigurationFetching}
+            onAddClick={this.handleAddClick}
+            onBackClick={this.handleBackClick}
+            onCopyClick={this.handleCopy}
+            onUpwardClick={this.handleUpwardClick}
+            onDownwardClick={this.handleDownwardClick}
+            onDeleteClick={this.handleDeleteClick}
+            onActiveToggle={this.onActiveToggle}
+          />
+        </div>
       </I18nProvider>
     )
   }

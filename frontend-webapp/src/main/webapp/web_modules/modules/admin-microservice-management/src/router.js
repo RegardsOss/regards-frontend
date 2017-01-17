@@ -52,12 +52,29 @@ export const microservicePluginConfigurationsListRoute = {
     })
   },
 }
+/**
+ * Route to show the create plugin configuration route.
+ *
+ * @type {{path: string, getComponents: ((nextState, cb))}}
+ */
+export const microservicePluginConfigurationCreateRoute = {
+  path: ':microserviceName/plugin/:pluginId/configuration/create',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const container = require('./containers/PluginConfigurationFormContainer')
+      cb(null, {
+        content: container.default,
+      })
+    })
+  },
+}
 
 const microserviceManagementRouter = {
   childRoutes: [
     microserviceBoardRoute,
     microservicePluginMetaDataListRoute,
     microservicePluginConfigurationsListRoute,
+    microservicePluginConfigurationCreateRoute,
   ],
 }
 

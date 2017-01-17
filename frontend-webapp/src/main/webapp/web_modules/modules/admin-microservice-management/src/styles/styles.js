@@ -55,6 +55,12 @@ const microserviceManagementStyles = theme => ({
       color: 'rgba(0, 0, 0, 0.541176)',
       marginLeft: 7,
     },
+    form: {
+      toggle: {
+        width: 'auto',
+        marginTop: 14
+      }
+    }
   },
 })
 
