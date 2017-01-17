@@ -30,8 +30,18 @@ class LoadableContentDisplayDecorator extends React.Component {
 
     return (
       <div>
-        <ShowableAtRender show={isLoading}>
-          <LoadingComponent />
+        <ShowableAtRender
+          show={isLoading}
+        >
+          <div style={{
+            height: '100%',
+            width: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+            <LoadingComponent />
+          </div>
         </ShowableAtRender>
         <ShowableAtRender show={isContentError && !isLoading}>
           <ContentErrorComponent />

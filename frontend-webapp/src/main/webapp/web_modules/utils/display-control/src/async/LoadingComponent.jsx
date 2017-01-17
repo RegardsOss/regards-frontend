@@ -5,6 +5,7 @@ const Loading = () => (
     left={0}
     top={0}
     status="loading"
+    style={{ position: 'relative' }}
   />
 )
 
