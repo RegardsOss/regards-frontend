@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { forEach } from 'lodash'
-import { LazyModuleComponent, ModuleShape } from '@regardsoss/modules'
+import { LazyModuleComponent, ModuleListComponent, ModuleShape } from '@regardsoss/modules'
 import { PluginConf } from '@regardsoss/model'
 import { PluginComponent } from '@regardsoss/plugins'
 import ContainerShape from '../model/ContainerShape'
@@ -20,6 +20,8 @@ class Container extends React.Component {
     container: ContainerShape,
     modules: React.PropTypes.arrayOf(ModuleShape),
     plugins: React.PropTypes.arrayOf(PluginConf),
+    dynamicContent: React.PropTypes.element,
+    onDynamicModuleSelection: React.PropTypes.func,
   }
 
   /**
@@ -43,31 +45,45 @@ class Container extends React.Component {
             container={c}
             modules={this.props.modules}
             plugins={this.props.plugins}
+            dynamicContent={this.props.dynamicContent}
+            onDynamicModuleSelection={this.props.onDynamicModuleSelection}
           />,
         )
       ))
     }
 
     const renderModules = []
-    if (this.props.modules) {
-      const containerModules = this.props.modules.filter(module => module.content.active && module.content.container === this.props.container.id && module.content.applicationId === this.props.appName)
-      forEach(containerModules, (module, idx) => (
-        renderModules.push(<LazyModuleComponent
-          key={idx}
-          module={module.content}
-          appName={this.props.appName}
-          project={this.props.project}
-        />,
-        )
-      ))
-    }
-
     const renderPlugins = []
-    if (this.props.plugins) {
-      const containerPlugins = this.props.plugins.filter(plugin => plugin.container === this.props.container.id)
-      forEach(containerPlugins, (plugin, idx) => {
-        renderPlugins.push(<PluginComponent key={idx} pluginId={plugin.pluginId} />)
-      })
+    if (this.props.container.id === 'content'){
+      // Render dynamic content in this dynamic container
+      renderModules.push(this.props.dynamicContent)
+      renderModules.push(<ModuleListComponent
+        modules={this.props.modules}
+        container="content"
+        onModuleSelection={this.props.onDynamicModuleSelection}
+        />
+      )
+    } else {
+      // Render modules and plugins of this static container
+      if (this.props.modules) {
+        const containerModules = this.props.modules.filter(module => module.content.active && module.content.container === this.props.container.id && module.content.applicationId === this.props.appName)
+        forEach(containerModules, (module, idx) => (
+          renderModules.push(<LazyModuleComponent
+              key={idx}
+              module={module.content}
+              appName={this.props.appName}
+              project={this.props.project}
+            />,
+          )
+        ))
+      }
+
+      if (this.props.plugins) {
+        const containerPlugins = this.props.plugins.filter(plugin => plugin.container === this.props.container.id)
+        forEach(containerPlugins, (plugin, idx) => {
+          renderPlugins.push(<PluginComponent key={idx} pluginId={plugin.pluginId}/>)
+        })
+      }
     }
 
     return (

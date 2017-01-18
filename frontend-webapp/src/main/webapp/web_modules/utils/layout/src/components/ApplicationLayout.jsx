@@ -18,6 +18,8 @@ class ApplicationLayout extends React.Component {
     layout: ContainerShape,
     modules: React.PropTypes.arrayOf(ModuleShape),
     plugins: React.PropTypes.arrayOf(PluginConf),
+    dynamicContent: React.PropTypes.element,
+    onDynamicModuleSelection: React.PropTypes.func,
   }
 
   /**
@@ -32,6 +34,8 @@ class ApplicationLayout extends React.Component {
         container={this.props.layout}
         modules={this.props.modules}
         plugins={this.props.plugins}
+        dynamicContent={this.props.dynamicContent}
+        onDynamicModuleSelection={this.props.onDynamicModuleSelection}
       />
     )
   }

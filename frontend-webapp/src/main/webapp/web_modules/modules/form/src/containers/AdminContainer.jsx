@@ -11,6 +11,7 @@ import { DATASET_MODEL_TYPE, DATASET_TYPE } from '../models/datasets/DatasetSele
 import FormTabsComponent from '../components/admin/FormTabsComponent'
 import Form from '../models/Form'
 import DatasetConfShape from '../models/datasets/DatasetsConfShape'
+import { Route } from 'react-router'
 
 /**
  * Main container to display administration view of the module form.

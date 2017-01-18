@@ -25,7 +25,7 @@
       "id": "portal"
     }
   ],
-  "plugins": [
+  "pluginss": [
     {
       "id": 1,
       "name": "string-criteria",

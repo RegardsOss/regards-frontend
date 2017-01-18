@@ -5,6 +5,10 @@ import { forEach } from 'lodash'
 import { combineReducers } from 'redux'
 import AvailableModules from '../AvailableModules'
 
+/**
+ * Generate reducers for all available modules
+ * @type {{}}
+ */
 const reducers = {}
 forEach(AvailableModules, (module) => {
   // eslint-disable-next-line import/no-dynamic-require

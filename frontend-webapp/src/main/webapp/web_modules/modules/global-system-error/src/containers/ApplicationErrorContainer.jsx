@@ -23,7 +23,7 @@ class ApplicationErrorContainer extends React.Component {
         <Snackbar
           open={this.props.snackBarOpened}
           message={this.props.snackBarMessage}
-          autoHideDuration={4000}
+          autoHideDuration={40000}
           onRequestClose={this.props.closeDialog}
           onActionTouchTap={this.props.closeDialog}
           action="OK"
