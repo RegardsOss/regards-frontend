@@ -8,13 +8,14 @@ import { map, pickBy, valuesIn } from 'lodash'
  * @returns {*} object sent to redux-form to correctly initialize form inputs
  */
 function apiResultIntoFormValues(currentFormValues, currentEnumValues, inputKey) {
-  currentFormValues.enumform = {}
-  currentFormValues.enumform[inputKey] = {}
-  currentFormValues.enumform[inputKey].inputs = {}
+  const formValues = currentFormValues
+  formValues.enumform = {}
+  formValues.enumform[inputKey] = {}
+  formValues.enumform[inputKey].inputs = {}
   map(currentEnumValues, (currentEnumValue, key) => {
-    currentFormValues.enumform[inputKey].inputs[`input${key}`] = currentEnumValue
+    formValues.enumform[inputKey].inputs[`input${key}`] = currentEnumValue
   })
-  return currentFormValues
+  return formValues
 }
 
 /**

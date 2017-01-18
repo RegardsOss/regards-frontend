@@ -1,5 +1,5 @@
 import { storiesOf, action } from '@kadira/storybook'
-import { withKnobs, select, object } from '@kadira/storybook-addon-knobs'
+import { withKnobs, object } from '@kadira/storybook-addon-knobs'
 import FragmentFormComponent from '@regardsoss/admin-data-fragment-management/src/components/FragmentFormComponent'
 import FragmentListComponent from '@regardsoss/admin-data-fragment-management/src/components/FragmentListComponent'
 import { StoreDecorator, addLocaleAndThemeSelectors, ThemeAndLocaleDecorator } from '../../utils/decorators'

@@ -1,5 +1,3 @@
-import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
-import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
 import { RenderTextField, RenderCheckbox, RenderSelectField, Field } from '@regardsoss/form-utils'
 import { reduxForm } from 'redux-form'
@@ -13,6 +11,7 @@ import FlatButton from 'material-ui/FlatButton'
 
 /**
  * Handle enumeration restriction
+ * Deprecated: Use FormUtils.EnumInputs instead
  */
 export class EnumerationComponent extends React.Component {
 
@@ -38,6 +37,12 @@ export class EnumerationComponent extends React.Component {
     }
   }
 
+  onTextFieldChange = (event) => {
+    this.setState({
+      newValue: event.target.value,
+    })
+  }
+
   handleCreate = () => {
     let { acceptableValues, newValue } = this.state
     acceptableValues.push({ value: newValue, deleted: false })
@@ -58,12 +63,6 @@ export class EnumerationComponent extends React.Component {
       acceptableValues,
     })
     this.props.change(`restriction.ENUMERATION.inputs.input${id}`, '')
-  }
-
-  onTextFieldChange = (event) => {
-    this.setState({
-      newValue: event.target.value,
-    })
   }
 
   render() {
@@ -136,7 +135,6 @@ export function initializeEnumerationForm(initialValues, currentAttrModel) {
   map(currentAttrModel.content.restriction.acceptableValues, (value, key) => {
     initialValues.restriction.ENUMERATION.inputs[`input${key}`] = value
   })
-  console.log('initialValues', initialValues)
   return initialValues
 }
 

@@ -39,8 +39,8 @@ class ModuleFormComponent extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      creation: this.props.module ? false : true,
-      moduleSelected: this.props.module ? true : false,
+      creation: this.props.module !== undefined,
+      moduleSelected: this.props.module !== undefined,
       module: this.props.module ? this.props.module : {
         active: false,
       },

@@ -316,7 +316,7 @@ const style = {
   },
 }
 
-const merge = (style, color) => Object.assign({}, style, { backgroundColor: color })
+const merge = (currentStyle, color) => Object.assign({}, currentStyle, { backgroundColor: color })
 const ColorBoxes = function () {
   return (
     <div style={style.wrapper}>
