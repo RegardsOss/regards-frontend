@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ */
 import { assert } from 'chai'
 import LocaleEN from '../../src/i18n/messages.en.i18n'
 import LocaleFR from '../../src/i18n/messages.fr.i18n'

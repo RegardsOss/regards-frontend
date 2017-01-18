@@ -11,7 +11,7 @@ const gatewayService = 'rs-gateway'
  * Controls the mocked service files and corresponding json services.
  * Add the service name it to get it deployed as mock service
  */
-const mockServiceNames = ['rs-access', 'rs-admin', 'rs-archival-storage', 'rs-catalog', 'rs-dam', gatewayService]
+const mockServiceNames = ['rs-access', 'rs-admin', 'rs-archival-storage-plugins-monitoring', 'rs-catalog', 'rs-dam', gatewayService]
 /** Rewriter configurations  */
 const mockRewriters = ['rs-access.rewriter']
 

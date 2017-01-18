@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ */
 import { assert } from 'chai'
 import * as StorageUnit from '../../src/helper/StorageUnit'
 

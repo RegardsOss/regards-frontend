@@ -2,16 +2,16 @@ import React from 'react'
 import { storiesOf } from '@kadira/storybook'
 import { withKnobs } from '@kadira/storybook-addon-knobs'
 import { ModuleThemeProvider } from '@regardsoss/modules'
-import AIPStatusComponent from '@regardsoss/archival-storage/src/components/AIPStatusComponent.jsx'
-import StorageMonitoringComponent from '@regardsoss/archival-storage/src/components/StorageMonitoringComponent.jsx'
-import styles from '@regardsoss/archival-storage/src/styles/styles'
+import AIPStatusComponent from '@regardsoss/archival-storage-aip-status-monitoring/src/components/AIPStatusComponent'
+import StorageMonitoringComponent from '@regardsoss/archival-storage-plugins-monitoring/src/components/StorageMonitoringComponent'
+import styles from '@regardsoss/archival-storage-plugins-monitoring/src/styles/styles'
 import { StoreDecorator, addLocaleAndThemeSelectors, ThemeAndLocaleDecorator } from '../../utils/decorators'
 
 storiesOf('Archival storage', module)
   .addDecorator(withKnobs)
   .addDecorator(StoreDecorator)
   .add('AIP status', () => (
-    <ThemeAndLocaleDecorator theme={addLocaleAndThemeSelectors()} messageDir="modules/archival-storage/src/i18n">
+    <ThemeAndLocaleDecorator theme={addLocaleAndThemeSelectors()} messageDir="modules/archival-storage-aip-status-monitoring/src/i18n" >
       <AIPStatusComponent />
     </ThemeAndLocaleDecorator>
   ))
@@ -43,7 +43,7 @@ storiesOf('Archival storage', module)
     const moduleTheme = { styles }
 
     return (
-      <ThemeAndLocaleDecorator theme={themeWithLocale} messageDir="modules/archival-storage/src/i18n">
+      <ThemeAndLocaleDecorator theme={themeWithLocale} messageDir="modules/archival-storage-plugins-monitoring/src/i18n">
         <ModuleThemeProvider module={moduleTheme}>
           <StorageMonitoringComponent
             onClose={() => console.info('Close clicked')}

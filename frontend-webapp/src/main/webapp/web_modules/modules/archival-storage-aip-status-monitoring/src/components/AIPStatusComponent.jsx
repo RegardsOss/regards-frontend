@@ -1,4 +1,7 @@
-import React, { Component} from 'react'
+/**
+ * LICENSE_PLACEHOLDER
+ */
+import React, { Component } from 'react'
 
 class AIPStatus extends Component {
 

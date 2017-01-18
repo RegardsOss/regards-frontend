@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import React, { Component, PropTypes } from 'react'
 import { FormattedMessage } from 'react-intl'
 import Paper from 'material-ui/Paper'
@@ -11,7 +14,7 @@ import { themeContextType } from '@regardsoss/theme'
 import { Pie } from 'react-chartjs-2'
 import { Card, CardTitle, CardMedia } from 'material-ui/Card'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
-import PluginShape from '@regardsoss/model/src/archival-storage/StoragePlugin'
+import PluginShape from '@regardsoss/model/src/archival-storage/StorageMonitoringPlugin'
 import { bytesScale, allUnitScales } from '../helper/StorageUnit'
 import { capacityFromValue } from '../helper/StorageCapacity'
 

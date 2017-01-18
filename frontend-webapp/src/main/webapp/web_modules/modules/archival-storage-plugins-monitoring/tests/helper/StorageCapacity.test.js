@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ */
 import { assert } from 'chai'
 import { findMatchingUnit, bitsScale, bytesScale } from '../../src/helper/StorageUnit'
 import { StorageCapacity, capacityFromValue } from '../../src/helper/StorageCapacity'

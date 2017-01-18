@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 export const bitsScale = 'bits' // exported for tests
 export const bytesScale = 'bytes' // exported for tests
 export const bitsSIPrefixScale = 'bits.si.prefix' // exported for tests

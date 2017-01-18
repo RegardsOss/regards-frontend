@@ -1,19 +1,22 @@
+/**
+ * LICENSE_PLACEHOLDER
+ */
 const messages = {
-  'archival.storage.capacity.monitoring.title': 'Capacité de stockage',
+  'archival.storage.capacity.monitoring.title': 'Storage capacity',
   'archival.storage.capacity.monitoring.units.scale.bits': 'Bits',
-  'archival.storage.capacity.monitoring.units.scale.bits.si.prefix': 'Bits avec préfixe binaire',
-  'archival.storage.capacity.monitoring.units.scale.bytes': 'Octets',
-  'archival.storage.capacity.monitoring.units.scale.bytes.si.prefix': 'Octets avec préfixe binaire',
+  'archival.storage.capacity.monitoring.units.scale.bits.si.prefix': 'Bits with binary prefix',
+  'archival.storage.capacity.monitoring.units.scale.bytes': 'Bytes',
+  'archival.storage.capacity.monitoring.units.scale.bytes.si.prefix': 'Bytes with binary prefix',
   // table
-  'archival.storage.capacity.monitoring.table.total.size': 'Espace total',
-  'archival.storage.capacity.monitoring.table.used.size': 'Espace utilisé',
-  'archival.storage.capacity.monitoring.table.unused.size': 'Espace libre',
+  'archival.storage.capacity.monitoring.table.total.size': 'Total space',
+  'archival.storage.capacity.monitoring.table.used.size': 'Used space',
+  'archival.storage.capacity.monitoring.table.unused.size': 'Free space',
   // chart
-  'archival.storage.capacity.monitoring.chart.total.size': 'Espace total en {unitLabel}',
-  'archival.storage.capacity.monitoring.chart.used.size': 'Espace utilisé (%)',
-  'archival.storage.capacity.monitoring.chart.unused.size': 'Espace libre (%)',
-  'archival.storage.capacity.monitoring.chart.unknown.size': 'Pas d\'information',
-  'archival.storage.capacity.monitoring.capacity.unknown': 'inconnue',
+  'archival.storage.capacity.monitoring.chart.total.size': 'Total space in {unitLabel}',
+  'archival.storage.capacity.monitoring.chart.used.size': 'Used space (%)',
+  'archival.storage.capacity.monitoring.chart.unused.size': 'Unused space (%)',
+  'archival.storage.capacity.monitoring.chart.unknown.size': 'No size information',
+  'archival.storage.capacity.monitoring.capacity.unknown': 'unknown',
   'archival.storage.capacity.monitoring.capacity': '{valueLabel} {unitLabel}',
   // bits
   'archival.storage.capacity.monitoring.unit.b': 'b',

@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import * as StorageUnit from './StorageUnit'
 
 /**
