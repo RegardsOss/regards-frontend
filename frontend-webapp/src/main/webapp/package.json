@@ -43,6 +43,7 @@
     "@regardsoss/archival-storage-plugins-monitoring": "0.0.1",
     "@regardsoss/authentication": "0.0.1",
     "@regardsoss/authentication-manager": "0.0.1",
+    "@regardsoss/charts": "0.0.1",
     "@regardsoss/components": "0.0.1",
     "@regardsoss/display-control": "0.0.1",
     "@regardsoss/form": "0.0.1",
