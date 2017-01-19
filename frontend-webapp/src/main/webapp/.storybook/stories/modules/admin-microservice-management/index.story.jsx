@@ -2,14 +2,13 @@ import React from 'react'
 import { storiesOf, action } from '@kadira/storybook'
 import { withKnobs, object } from '@kadira/storybook-addon-knobs'
 import { StoreDecorator, addLocaleAndThemeSelectors, ThemeAndLocaleDecorator } from '../../utils/decorators'
-import PluginMetaDataListComponent from '@regardsoss/admin-microservice-management/src/components/PluginMetaDataListComponent'
-import PluginConfigurationListComponent from '@regardsoss/admin-microservice-management/src/components/PluginConfigurationListComponent'
 import PluginConfigurationComponent from '@regardsoss/admin-microservice-management/src/components/PluginConfigurationComponent'
 import PluginConfigurationFormComponent from '@regardsoss/admin-microservice-management/src/components/PluginConfigurationFormComponent'
+
 const defaultPluginConfigurationList = {
   0: {
     content: {
-      id: '0',
+      id: 0,
       label: 'Cool configuration',
       version: '2.0.0',
       priorityOrder: 4,
@@ -20,7 +19,7 @@ const defaultPluginConfigurationList = {
   },
   1: {
     content: {
-      id: '1',
+      id: 1,
       label: 'Not cool configuration',
       version: '1.1.1',
       priorityOrder: 3,
@@ -31,7 +30,7 @@ const defaultPluginConfigurationList = {
   },
   2: {
     content: {
-      id: '2',
+      id: 2,
       label: 'Random configuration',
       version: '0.0.1',
       priorityOrder: 1,
@@ -42,7 +41,7 @@ const defaultPluginConfigurationList = {
   },
   3: {
     content: {
-      id: '3',
+      id: 3,
       label: 'Other random configuration',
       version: 'v12',
       priorityOrder: 1,
@@ -52,7 +51,6 @@ const defaultPluginConfigurationList = {
     links: [],
   },
 }
-
 
 const defaultPluginMetaData = {
   0: {
@@ -159,37 +157,6 @@ const defaultPluginMetaData = {
 storiesOf('Admin - Microservice management', module)
   .addDecorator(withKnobs)
   .addDecorator(StoreDecorator)
-  .add('Plugin meta data list', () => {
-    const themeName = addLocaleAndThemeSelectors()
-    return (
-      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-microservice-management/src/i18n">
-        <PluginMetaDataListComponent
-          microserviceName="rs-gateway"
-          pluginMetaDataList={defaultPluginMetaData}
-          onClose={action('onClose')}
-          onProjectConfigurationListClick={action('onProjectConfigurationListClick')}
-        />
-      </ThemeAndLocaleDecorator>
-    )
-  })
-  .add('Plugin configurations list', () => {
-    const themeName = addLocaleAndThemeSelectors()
-    const pluginConfigurationList = object('Plugin configuration list', defaultPluginConfigurationList)
-    return (
-      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-microservice-management/src/i18n">
-        <PluginConfigurationListComponent
-          microserviceName="rs-gateway"
-          pluginConfigurationList={pluginConfigurationList}
-          onBackClick={action('onBackClick')}
-          onAddClick={action('onAddClick')}
-          onUpwardClick={action('onUpwardClick')}
-          onDownwardClick={action('onDownwardClick')}
-          onDeleteClick={action('onDeleteClick')}
-          onActiveToggle={action('onActiveToggle')}
-        />
-      </ThemeAndLocaleDecorator>
-    )
-  })
   .add('Plugin configuration item', () => {
     const themeName = addLocaleAndThemeSelectors()
     const pluginConfiguration = object('Plugin configuration', defaultPluginConfigurationList['0'])
@@ -199,6 +166,8 @@ storiesOf('Admin - Microservice management', module)
           pluginConfiguration={pluginConfiguration}
           onBackClick={action('onBackClick')}
           onAddClick={action('onAddClick')}
+          onCopyClick={action('onCopyClick')}
+          onEditClick={action('onEditClick')}
           onUpwardClick={action('onUpwardClick')}
           onDownwardClick={action('onDownwardClick')}
           onDeleteClick={action('onDeleteClick')}
