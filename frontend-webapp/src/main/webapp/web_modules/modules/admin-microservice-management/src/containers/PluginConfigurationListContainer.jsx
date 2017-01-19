@@ -66,7 +66,7 @@ export class PluginConfigurationListContainer extends React.Component {
             iconElementLeft={<IconButton onTouchTap={this.handleBackClick}><ArrowBack /></IconButton>}
             iconElementRight={
               <IconButton
-                tooltip={<FormattedMessage id="microservice-management.plugin.configuration.list.add"/>}
+                tooltip={<FormattedMessage id="microservice-management.plugin.configuration.list.add" />}
                 onTouchTap={this.handleAddClick}
               >
                 <AddCircle />

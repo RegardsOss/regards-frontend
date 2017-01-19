@@ -7,7 +7,7 @@ import PluginConfigurationListComponent from '@regardsoss/admin-microservice-man
 import PluginConfigurationComponent from '@regardsoss/admin-microservice-management/src/components/PluginConfigurationComponent'
 import PluginConfigurationFormComponent from '@regardsoss/admin-microservice-management/src/components/PluginConfigurationFormComponent'
 const defaultPluginConfigurationList = {
-  '0': {
+  0: {
     content: {
       id: '0',
       label: 'Cool configuration',
@@ -18,7 +18,7 @@ const defaultPluginConfigurationList = {
     },
     links: [],
   },
-  '1': {
+  1: {
     content: {
       id: '1',
       label: 'Not cool configuration',
@@ -29,7 +29,7 @@ const defaultPluginConfigurationList = {
     },
     links: [],
   },
-  '2': {
+  2: {
     content: {
       id: '2',
       label: 'Random configuration',
@@ -40,7 +40,7 @@ const defaultPluginConfigurationList = {
     },
     links: [],
   },
-  '3': {
+  3: {
     content: {
       id: '3',
       label: 'Other random configuration',
@@ -57,103 +57,103 @@ const defaultPluginConfigurationList = {
 const defaultPluginMetaData = {
   0: {
     content: {
-      "id": 0,
-      "pluginType": "Authentication",
-      "pluginClassName": "Kerberos",
-      "author": "Jules Verne",
-      "version": "0.0.5",
-      "description": "Allows the users to log in with their usual email and password."
+      id: 0,
+      pluginType: 'Authentication',
+      pluginClassName: 'Kerberos',
+      author: 'Jules Verne',
+      version: '0.0.5',
+      description: 'Allows the users to log in with their usual email and password.',
     },
-    links: []
+    links: [],
   },
   1: {
     content: {
-      "id": 1,
-      "pluginType": "Authentication",
-      "pluginClassName": "Kerberos",
-      "author": "Jules Verne",
-      "version": "0.0.6",
-      "description": "Allows the users to log in with their usual email and password."
+      id: 1,
+      pluginType: 'Authentication',
+      pluginClassName: 'Kerberos',
+      author: 'Jules Verne',
+      version: '0.0.6',
+      description: 'Allows the users to log in with their usual email and password.',
     },
-    links: []
+    links: [],
   },
   2: {
     content: {
-      "id": 2,
-      "pluginType": "Authentication",
-      "pluginClassName": "Toto",
-      "author": "Jean-Paul Sartre",
-      "version": "2.0.0",
-      "description": "This plugin is pretty useless actually."
+      id: 2,
+      pluginType: 'Authentication',
+      pluginClassName: 'Toto',
+      author: 'Jean-Paul Sartre',
+      version: '2.0.0',
+      description: 'This plugin is pretty useless actually.',
     },
-    links: []
+    links: [],
   },
   3: {
     content: {
-      "id": 3,
-      "pluginType": "Authentication",
-      "pluginClassName": "Titi",
-      "author": "Victor Hugo",
-      "version": "2.0.5",
-      "description": "This plugin is pretty useless actually."
+      id: 3,
+      pluginType: 'Authentication',
+      pluginClassName: 'Titi',
+      author: 'Victor Hugo',
+      version: '2.0.5',
+      description: 'This plugin is pretty useless actually.',
     },
-    links: []
+    links: [],
   },
   4: {
     content: {
-      "id": 4,
-      "pluginType": "Authentication",
-      "pluginClassName": "Toto",
-      "author": "Jean-Paul Sartre",
-      "version": "2.0.0",
-      "description": "This plugin is pretty useless actually."
+      id: 4,
+      pluginType: 'Authentication',
+      pluginClassName: 'Toto',
+      author: 'Jean-Paul Sartre',
+      version: '2.0.0',
+      description: 'This plugin is pretty useless actually.',
     },
-    links: []
+    links: [],
   },
   5: {
     content: {
-      "id": 5,
-      "pluginType": "Authentication",
-      "pluginClassName": "Titi",
-      "author": "Victor Hugo",
-      "version": "2.0.5",
-      "description": "This plugin is pretty useless actually."
+      id: 5,
+      pluginType: 'Authentication',
+      pluginClassName: 'Titi',
+      author: 'Victor Hugo',
+      version: '2.0.5',
+      description: 'This plugin is pretty useless actually.',
     },
-    links: []
+    links: [],
   },
   6: {
     content: {
-      "id": 6,
-      "pluginType": "Other",
-      "pluginClassName": "Kerberos",
-      "author": "Jules Verne",
-      "version": "0.0.5",
-      "description": "Allows the users to log in with their usual email and password."
+      id: 6,
+      pluginType: 'Other',
+      pluginClassName: 'Kerberos',
+      author: 'Jules Verne',
+      version: '0.0.5',
+      description: 'Allows the users to log in with their usual email and password.',
     },
-    links: []
+    links: [],
   },
   7: {
     content: {
-      "id": 7,
-      "pluginType": "Other",
-      "pluginClassName": "Toto",
-      "author": "Jean-Paul Sartre",
-      "version": "2.0.0",
-      "description": "This plugin is pretty useless actually."
+      id: 7,
+      pluginType: 'Other',
+      pluginClassName: 'Toto',
+      author: 'Jean-Paul Sartre',
+      version: '2.0.0',
+      description: 'This plugin is pretty useless actually.',
     },
-    links: []
+    links: [],
   },
   8: {
     content: {
-      "id": 8,
-      "pluginType": "Other",
-      "pluginClassName": "Titi",
-      "author": "Victor Hugo",
-      "version": "2.0.5",
-      "description": "This plugin is pretty useless actually."
+      id: 8,
+      pluginType: 'Other',
+      pluginClassName: 'Titi',
+      author: 'Victor Hugo',
+      version: '2.0.5',
+      description: 'This plugin is pretty useless actually.',
     },
-    links: []
-  }
+    links: [],
+  },
 }
 
 storiesOf('Admin - Microservice management', module)
@@ -164,7 +164,7 @@ storiesOf('Admin - Microservice management', module)
     return (
       <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-microservice-management/src/i18n">
         <PluginMetaDataListComponent
-          microserviceName='rs-gateway'
+          microserviceName="rs-gateway"
           pluginMetaDataList={defaultPluginMetaData}
           onClose={action('onClose')}
           onProjectConfigurationListClick={action('onProjectConfigurationListClick')}
@@ -178,7 +178,7 @@ storiesOf('Admin - Microservice management', module)
     return (
       <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-microservice-management/src/i18n">
         <PluginConfigurationListComponent
-          microserviceName='rs-gateway'
+          microserviceName="rs-gateway"
           pluginConfigurationList={pluginConfigurationList}
           onBackClick={action('onBackClick')}
           onAddClick={action('onAddClick')}

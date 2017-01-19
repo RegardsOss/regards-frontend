@@ -35,13 +35,15 @@ class LoadableContentDisplayDecorator extends React.Component {
         <ShowableAtRender
           show={isLoading}
         >
-          <div style={{
-            height: '100%',
-            width: '100%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
+          <div
+            style={{
+              height: '100%',
+              width: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
             <LoadingComponent />
           </div>
         </ShowableAtRender>

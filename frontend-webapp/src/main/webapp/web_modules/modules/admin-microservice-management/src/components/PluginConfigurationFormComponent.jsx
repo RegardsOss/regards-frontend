@@ -108,7 +108,7 @@ export class PluginConfigurationFormComponent extends React.Component {
           name: pluginConfiguration.content.name,
         }}
       />) :
-      <FormattedMessage id="microservice-management.plugin.configuration.form.create.title"/>
+      <FormattedMessage id="microservice-management.plugin.configuration.form.create.title" />
     return (
       <form onSubmit={handleSubmit(this.props.onSubmit)}>
         <Card>
@@ -122,46 +122,47 @@ export class PluginConfigurationFormComponent extends React.Component {
               fullWidth
               component={RenderTextField}
               type="text"
-              label={<FormattedMessage id="microservice-management.plugin.configuration.form.pluginClassName"/>}
+              label={<FormattedMessage id="microservice-management.plugin.configuration.form.pluginClassName" />}
             />
             <Field
               name="label"
               fullWidth
               component={RenderTextField}
               type="text"
-              label={<FormattedMessage id="microservice-management.plugin.configuration.form.label"/>}
+              label={<FormattedMessage id="microservice-management.plugin.configuration.form.label" />}
             />
             <Field
               name="version"
               fullWidth
               component={RenderTextField}
               type="text"
-              label={<FormattedMessage id="microservice-management.plugin.configuration.form.version"/>}
+              label={<FormattedMessage id="microservice-management.plugin.configuration.form.version" />}
             />
             <Field
               name="priorityOrder"
               fullWidth
               component={RenderTextField}
               type="number"
-              label={<FormattedMessage id="microservice-management.plugin.configuration.form.priorityOrder"/>}
+              label={<FormattedMessage id="microservice-management.plugin.configuration.form.priorityOrder" />}
             />
             <Field
               name="active"
               component={Toggle}
               type="boolean"
               style={styles.pluginConfiguration.form.toggle}
-              label={<FormattedMessage id="microservice-management.plugin.configuration.form.active"/>}
+              label={<FormattedMessage id="microservice-management.plugin.configuration.form.active" />}
             />
           </CardText>
           <CardActions>
             <CardActionsComponent
               mainButtonLabel={this.state.isEditing ?
-                <FormattedMessage id="microservice-management.plugin.configuration.form.action.submit.save"/> :
-                <FormattedMessage id="microservice-management.plugin.configuration.form.action.submit.add"/>}
+                <FormattedMessage id="microservice-management.plugin.configuration.form.action.submit.save" /> :
+                <FormattedMessage id="microservice-management.plugin.configuration.form.action.submit.add" />}
               mainButtonType="submit"
               isMainButtonDisabled={submitting || invalid}
               secondaryButtonLabel={<FormattedMessage
-                id="microservice-management.plugin.configuration.form.action.cancel"/>}
+                id="microservice-management.plugin.configuration.form.action.cancel"
+              />}
               secondaryButtonUrl={backUrl}
             />
           </CardActions>

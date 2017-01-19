@@ -7,7 +7,7 @@ import ActionHome from 'material-ui/svg-icons/action/home'
 import IconButton from 'material-ui/IconButton'
 import {
   Avatar, Checkbox, DatePicker, Dialog, DropDownMenu, FlatButton, Drawer, MenuItem, Paper, RadioButton,
-  RadioButtonGroup, RaisedButton, Snackbar, Slider, Tabs, Tab, TextField, Toggle
+  RadioButtonGroup, RaisedButton, Snackbar, Slider, Tabs, Tab, TextField, Toggle,
 } from 'material-ui'
 
 function getStyles() {
@@ -88,13 +88,13 @@ class ThemesPage extends React.Component {
       <ClearFix>
         <div style={styles.group}>
           <div style={styles.containerCentered}>
-            <RaisedButton label="Secondary" secondary/>
+            <RaisedButton label="Secondary" secondary />
           </div>
           <div style={styles.containerCentered}>
-            <RaisedButton label="Primary" primary/>
+            <RaisedButton label="Primary" primary />
           </div>
           <div style={styles.containerCentered}>
-            <RaisedButton label="Default"/>
+            <RaisedButton label="Default" />
           </div>
           <div style={styles.containerCentered}>
             <IconButton>
@@ -165,20 +165,20 @@ class ThemesPage extends React.Component {
           </div>
           <div style={styles.container}>
             <DropDownMenu value={3} style={{ width: '100%' }}>
-              <MenuItem value={1} primaryText={'Never'}/>
-              <MenuItem value={2} primaryText={'Every Night'}/>
-              <MenuItem value={3} primaryText={'Weeknights'}/>
-              <MenuItem value={4} primaryText={'Weekends'}/>
-              <MenuItem value={5} primaryText={'Weekly'}/>
+              <MenuItem value={1} primaryText={'Never'} />
+              <MenuItem value={2} primaryText={'Every Night'} />
+              <MenuItem value={3} primaryText={'Weeknights'} />
+              <MenuItem value={4} primaryText={'Weekends'} />
+              <MenuItem value={5} primaryText={'Weekly'} />
             </DropDownMenu>
           </div>
         </div>
         <div style={styles.groupSlider}>
-          <Slider style={styles.slider} name="slider2" defaultValue={0.5}/>
+          <Slider style={styles.slider} name="slider2" defaultValue={0.5} />
         </div>
         <div style={styles.group}>
           <div style={styles.containerCentered}>
-            <FlatButton label="View Dialog" onTouchTap={this.handleTouchTapDialog}/>
+            <FlatButton label="View Dialog" onTouchTap={this.handleTouchTapDialog} />
             <Dialog
               open={this.state.dialogOpen}
               title="Dialog With Standard Actions"

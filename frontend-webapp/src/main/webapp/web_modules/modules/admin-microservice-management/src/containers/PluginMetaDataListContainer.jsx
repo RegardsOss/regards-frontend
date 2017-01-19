@@ -118,7 +118,8 @@ export class PluginMetaDataListContainer extends React.Component {
         <CardTitle
           title={<span>{plugin.content.pluginClassName}
             <div
-              style={{ scolor: this.context.muiTheme.palette.secondaryTextColor }}>{plugin.content.version}</div></span>}
+              style={{ scolor: this.context.muiTheme.palette.secondaryTextColor }}
+            >{plugin.content.version}</div></span>}
           subtitle={plugin.content.author}
         />
         <CardText>
@@ -126,7 +127,7 @@ export class PluginMetaDataListContainer extends React.Component {
         </CardText>
         <CardActions>
           <IconButton
-            tooltip={<FormattedMessage id="microservice-management.plugin.list.configurations"/>}
+            tooltip={<FormattedMessage id="microservice-management.plugin.list.configurations" />}
             onTouchTap={() => this.handleProjectConfigurationListClick(plugin.content.pluginId)}
           >
             <IconList />
@@ -185,7 +186,7 @@ export class PluginMetaDataListContainer extends React.Component {
         <Paper>
           <AppBar
             title={`${microserviceName} > Plugins`}
-            iconElementLeft={<IconButton><Close onTouchTap={this.handleClose}/></IconButton>}
+            iconElementLeft={<IconButton><Close onTouchTap={this.handleClose} /></IconButton>}
             iconElementRight={<IconButton onTouchTap={this.handleFilterSwitch}><Filter /></IconButton>}
           />
           <div style={styles.root}>
@@ -204,7 +205,7 @@ export class PluginMetaDataListContainer extends React.Component {
           <Drawer width={200} openSecondary open={this.state.filterOpen}>
             <AppBar
               iconElementLeft={<IconButton onTouchTap={this.handleFilterSwitch}><Close /></IconButton>}
-              title={<FormattedMessage id="microservice-management.plugin.list.filters"/>}
+              title={<FormattedMessage id="microservice-management.plugin.list.filters" />}
             />
             <List>
               {this.getFilterListItems(this.state.pluginsOrganizedByType)}

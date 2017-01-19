@@ -112,13 +112,13 @@ export class PluginConfigurationContainer extends React.Component {
     const deleteDialogActions = [
       <FlatButton
         label="Cancel"
-        primary={true}
+        primary
         onTouchTap={() => this.setState({ deleteDialogOpen: false })}
       />,
       <FlatButton
         label="Submit"
-        primary={true}
-        keyboardFocused={true}
+        primary
+        keyboardFocused
         onTouchTap={this.handleDeleteClick}
       />,
     ]

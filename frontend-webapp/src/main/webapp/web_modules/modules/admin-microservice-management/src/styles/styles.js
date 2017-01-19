@@ -60,9 +60,9 @@ const microserviceManagementStyles = theme => ({
     form: {
       toggle: {
         width: 'auto',
-        marginTop: 14
-      }
-    }
+        marginTop: 14,
+      },
+    },
   },
 })
 

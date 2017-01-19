@@ -64,33 +64,33 @@ class PluginConfigurationComponent extends React.Component {
               <span style={styles.version}>{pluginConfiguration.content.version}</span>
             </div>
             <div style={styles.buttonsGroupWrapper}>
-              <span style={styles.version}><FormattedMessage id="microservice-management.plugin.configuration.priorityOrder"/> {pluginConfiguration.content.priorityOrder}</span>
+              <span style={styles.version}><FormattedMessage id="microservice-management.plugin.configuration.priorityOrder" /> {pluginConfiguration.content.priorityOrder}</span>
               <IconButton
-                tooltip={<FormattedMessage id="microservice-management.plugin.configuration.increment.priorityOrder"/>}
+                tooltip={<FormattedMessage id="microservice-management.plugin.configuration.increment.priorityOrder" />}
                 onTouchTap={onUpwardClick}
               >
                 <ArrowUpward />
               </IconButton>
               <IconButton
-                tooltip={<FormattedMessage id="microservice-management.plugin.configuration.decrement.priorityOrder"/>}
+                tooltip={<FormattedMessage id="microservice-management.plugin.configuration.decrement.priorityOrder" />}
                 onTouchTap={onDownwardClick}
               >
                 <ArrowDownward />
               </IconButton>
               <IconButton
-                tooltip={<FormattedMessage id="microservice-management.plugin.configuration.edit"/>}
+                tooltip={<FormattedMessage id="microservice-management.plugin.configuration.edit" />}
                 onTouchTap={onEditClick}
               >
                 <ModeEdit />
               </IconButton>
               <IconButton
-                tooltip={<FormattedMessage id="microservice-management.plugin.configuration.copy"/>}
+                tooltip={<FormattedMessage id="microservice-management.plugin.configuration.copy" />}
                 onTouchTap={onCopyClick}
               >
                 <ContentCopy />
               </IconButton>
               <IconButton
-                tooltip={<FormattedMessage id="microservice-management.plugin.configuration.delete"/>}
+                tooltip={<FormattedMessage id="microservice-management.plugin.configuration.delete" />}
                 onTouchTap={onDeleteClick}
               >
                 <Delete />
