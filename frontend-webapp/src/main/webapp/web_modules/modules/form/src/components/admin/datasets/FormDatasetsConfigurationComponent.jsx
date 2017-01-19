@@ -7,7 +7,6 @@ import { FormattedMessage } from 'react-intl'
 import { PageableListContainer } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { Model, Entity } from '@regardsoss/model'
 import DatasetLineComponent from './DatasetLineComponent'
 import DatasetModelLineComponent from './DatasetModelLineComponent'
 import DatasetActions from '../../../models/datasets/DatasetActions'
@@ -22,12 +21,6 @@ import FormDatasetsTypeSelection from './FormDatasetsTypeSelection'
  */
 class FormDatasetsConfigurationComponent extends React.Component {
 
-  state = {
-    type: this.props.defaultType ? this.props.defaultType : 'all',
-    selectedDataset: this.props.defaultSelectedDatasets,
-    selectedDatasetModels: this.props.defaultSelectedDatasetModels,
-  }
-
   static contextTypes = {
     ...i18nContextType,
     ...themeContextType,
@@ -38,13 +31,13 @@ class FormDatasetsConfigurationComponent extends React.Component {
     defaultType: React.PropTypes.string,
     defaultSelectedDatasets: React.PropTypes.arrayOf(React.PropTypes.number),
     defaultSelectedDatasetModels: React.PropTypes.arrayOf(React.PropTypes.number),
+    disableChangeDatasets: React.PropTypes.func,
   }
 
-
-  selectType = (event, value, input) => {
-    this.setState({
-      type: value,
-    })
+  state = {
+    type: this.props.defaultType ? this.props.defaultType : 'all',
+    selectedDataset: this.props.defaultSelectedDatasets,
+    selectedDatasetModels: this.props.defaultSelectedDatasetModels,
   }
 
   onDatasetSelection = (dataset) => {
@@ -62,6 +55,20 @@ class FormDatasetsConfigurationComponent extends React.Component {
       selectedDatasetModels: newSelectedModels,
     })
     this.props.changeField('conf.datasets.selectedModels', newSelectedModels)
+  }
+
+  getSelectedDatasetsObjects = () => map(this.state.selectedDataset, dataset => ({
+    id: dataset,
+  }))
+
+  getSelectedDatasetModelsObjects = () => map(this.state.selectedDatasetModels, model => ({
+    id: model,
+  }))
+
+  selectType = (event, value, input) => {
+    this.setState({
+      type: value,
+    })
   }
 
   unselectAll = () => {
@@ -87,14 +94,6 @@ class FormDatasetsConfigurationComponent extends React.Component {
       selectedDatasetModels: this.props.defaultSelectedDatasetModels,
     })
   }
-
-  getSelectedDatasetsObjects = () => map(this.state.selectedDataset, dataset => ({
-    id: dataset,
-  }))
-
-  getSelectedDatasetModelsObjects = () => map(this.state.selectedDatasetModels, model => ({
-    id: model,
-  }))
 
   renderType() {
     switch (this.state.type) {

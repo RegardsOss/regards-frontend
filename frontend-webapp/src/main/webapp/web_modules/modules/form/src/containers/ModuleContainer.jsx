@@ -26,9 +26,8 @@ class ModuleContainer extends React.Component {
           />
         </div>
       )
-    } else {
-      return <div>Loading ... </div>
     }
+    return <div>Loading ... </div>
   }
 
 }

@@ -25,7 +25,7 @@
       "id": "portal"
     }
   ],
-  "pluginss": [
+  "plugins": [
     {
       "id": 1,
       "name": "string-criteria",
@@ -81,7 +81,7 @@
     {
       "active": true,
       "name": "news",
-      "description": "News ihm projet",
+      "description": "Flux atom",
       "container": "content",
       "applicationId": "user",
       "id": 6
@@ -91,16 +91,53 @@
       "applicationId": "user",
       "active": true,
       "name": "form",
-      "description": "Module de test",
+      "description": "Recherche avec layout",
       "container": "content",
       "conf": {
         "resultType": "dataobjects",
         "layout": "{\n  \"id\": \"main\",\n  \"type\": \"FormMainContainer\",\n  \"classes\": [],\n  \"styles\": {},\n  \"containers\": [{\n    \"id\": \"row\",\n    \"type\": \"RowContainer\",\n    \"classes\": [],\n    \"styles\": {\"minHeight\":\"50px\",\"backgroundColor\":\"Red\"},\n    \"containers\": [{\n      \"id\": \"block1\",\n      \"type\": \"LargeColumnContainer\",\n      \"classes\": [],\n      \"styles\": {\"minHeight\":\"50px\",\"backgroundColor\":\"White\"},\n      \"containers\": []\n    }, {\n      \"id\": \"block2\",\n      \"type\": \"SmallColumnContainer\",\n      \"classes\": [],\n      \"styles\": {\"minHeight\":\"50px\",\"backgroundColor\":\"White\"},\n      \"containers\": []\n    }]\n  }, {\n    \"id\": \"row2\",\n    \"type\": \"RowContainer\",\n    \"styles\": {\"minHeight\":\"50px\",\"backgroundColor\":\"Blue\"},\n    \"classes\": [],\n    \"containers\": [{\n      \"id\": \"block21\",\n      \"type\": \"SmallColumnContainer\",\n      \"classes\": [],\n      \"styles\": {\"minHeight\":\"50px\",\"backgroundColor\":\"White\"},\n      \"containers\": []\n    }, {\n      \"id\": \"block22\",\n      \"type\": \"LargeColumnContainer\",\n      \"classes\": [],\n      \"styles\": {\"minHeight\":\"50px\",\"backgroundColor\":\"White\"},\n      \"containers\": []\n    }]\n  }]\n}\n",
         "datasets": {
           "type": "selectedDatasets",
-          "selectedDatasets": [1,3,5,19,16,21]
+          "selectedDatasets": [
+            1,
+            3,
+            5,
+            19,
+            16,
+            21
+          ]
         }
       }
+    },
+    {
+      "active": true,
+      "conf": {
+        "layout": "{\n    \"id\": \"main\",\n    \"type\": \"FormMainContainer\",\n    \"classes\": [],\n    \"styles\": {},\n    \"containers\": []\n}",
+        "datasets": {
+          "type": "selectedDatasets",
+          "selectedDatasets": [
+            1,
+            2,
+            3
+          ]
+        },
+        "criterion": [
+          {
+            "pluginId": "string-criteria",
+            "container": "main",
+            "pluginConf": {
+              "attributes": {
+                "searchField": 0
+              }
+            }
+          }
+        ]
+      },
+      "name": "form",
+      "description": "Recherche simple",
+      "container": "content",
+      "applicationId": "user",
+      "id": 8
     }
   ],
   "layouts": [
@@ -109,7 +146,6 @@
       "type": "MainContainer",
       "classes": [],
       "styles": {},
-      "renderRouterContent": false,
       "containers": [
         {
           "id": "header",
@@ -121,7 +157,8 @@
           "id": "content",
           "type": "RowContainer",
           "classes": [],
-          "styles": {}
+          "styles": {},
+          "dynamicContent": true
         },
         {
           "id": "footer",

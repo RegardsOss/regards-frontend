@@ -15,6 +15,7 @@ import { themeContextType } from '@regardsoss/theme'
 class CriteriaConfigurationComponent extends React.Component {
 
   static propTypes = {
+    // eslint-disable-next-line react/forbid-prop-types
     criteriaConf: React.PropTypes.object,
     selectableAttributes: React.PropTypes.objectOf(AttributeModel),
     updatePluginConf: React.PropTypes.func.isRequired,
@@ -22,13 +23,20 @@ class CriteriaConfigurationComponent extends React.Component {
     plugin: Plugin,
   }
 
+  static contextTypes= {
+    ...themeContextType,
+  }
+
   state = {
     selectedAttributes: this.props.criteriaConf ? this.props.criteriaConf.attributes : {},
   }
 
-  static contextTypes= {
-    ...themeContextType,
-  }
+  /**
+   * Retrieve the locale selected value for the given configurable attribute of the criteria plugin
+   * @param criteriaAttribute
+   * @returns {*}
+   */
+  getAttributeSelectedValue = criteriaAttribute => this.state.selectedAttributes[criteriaAttribute.name]
 
   /**
    * Callback when an attribute is selected
@@ -43,13 +51,6 @@ class CriteriaConfigurationComponent extends React.Component {
       attributes: selectedAttributes,
     })
   }
-
-  /**
-   * Retrieve the locale selected value for the given configurable attribute of the criteria plugin
-   * @param criteriaAttribute
-   * @returns {*}
-   */
-  getAttributeSelectedValue = criteriaAttribute => this.state.selectedAttributes[criteriaAttribute.name]
 
   /**
    * Display a configurable attribute

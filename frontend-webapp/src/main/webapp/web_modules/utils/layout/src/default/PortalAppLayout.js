@@ -10,48 +10,19 @@ export default {
   type: 'MainContainer',
   classes: [],
   styles: {},
-  renderRouterContent: false,
   containers: [
     {
       id: 'header',
       type: 'RowContainer',
       classes: [],
       styles: {},
-      renderRouterContent: false,
-      modules: [
-        {
-          id: 1,
-          name: 'menu',
-          conf: {
-            title: 'Regards - Portal interface',
-            displayAuthentication: false,
-          },
-        },
-      ],
-    },
-    {
-      id: 'news',
+      modules: [],
+    }, {
+      id: 'content',
       type: 'RowContainer',
       classes: [],
       styles: {},
-      renderRouterContent: false,
-      modules: [
-        {
-          id: 'news',
-        },
-      ],
-    },
-    {
-      id: 'projects',
-      type: 'RowContainer',
-      classes: [],
-      styles: {},
-      renderRouterContent: false,
-      modules: [
-        {
-          id: 'projects-list',
-        },
-      ],
+      modules: [],
     },
   ],
 }

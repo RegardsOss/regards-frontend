@@ -4,7 +4,6 @@
 import { forEach } from 'lodash'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
-import { getFormValues } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import { connect } from '@regardsoss/redux'
 import { CardActionsComponent } from '@regardsoss/components'
@@ -52,7 +51,6 @@ class FormCriteriaComponent extends React.Component {
     }
   }
 
-
   /**
    * Load available criterion plugins
    */
@@ -62,14 +60,20 @@ class FormCriteriaComponent extends React.Component {
   }
 
   /**
-   * Callback used when a criteria plugin is selected
-   * @param event
-   * @param index
-   * @param value
+   * Action to cancel the current criteria edition
    */
-  selectCriteria = (event, index, value) => {
-    this.setState({
-      selectedCriteria: value,
+  onCancel = () => {
+    this.props.cancel()
+  }
+
+  /**
+   * Action to update the current criteria configuration
+   */
+  updateCriteria = () => {
+    this.props.saveCriteria({
+      pluginId: this.state.selectedCriteria,
+      container: this.state.selectedContainer,
+      pluginConf: this.state.pluginConf,
     })
   }
 
@@ -86,13 +90,14 @@ class FormCriteriaComponent extends React.Component {
   }
 
   /**
-   * Action to update the current criteria configuration
+   * Callback used when a criteria plugin is selected
+   * @param event
+   * @param index
+   * @param value
    */
-  updateCriteria = () => {
-    this.props.saveCriteria({
-      pluginId: this.state.selectedCriteria,
-      container: this.state.selectedContainer,
-      pluginConf: this.state.pluginConf,
+  selectCriteria = (event, index, value) => {
+    this.setState({
+      selectedCriteria: value,
     })
   }
 
@@ -104,13 +109,6 @@ class FormCriteriaComponent extends React.Component {
     this.setState({
       pluginConf: conf,
     })
-  }
-
-  /**
-   * Action to cancel the current criteria edition
-   */
-  onCancel = () => {
-    this.props.cancel()
   }
 
   /**

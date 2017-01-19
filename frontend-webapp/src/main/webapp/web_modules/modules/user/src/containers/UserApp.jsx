@@ -1,14 +1,14 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import {forEach} from 'lodash'
+import { forEach } from 'lodash'
 import { browserHistory } from 'react-router'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-import {connect} from '@regardsoss/redux'
-import {ThemeHelper, ThemeSelectors} from '@regardsoss/theme'
-import {FormLoadingComponent, FormEntityNotFoundComponent} from '@regardsoss/form-utils'
-import {LayoutShape, ApplicationLayout} from '@regardsoss/layout'
-import {ModuleShape} from '@regardsoss/modules'
+import { connect } from '@regardsoss/redux'
+import { ThemeHelper, ThemeSelectors } from '@regardsoss/theme'
+import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
+import { LayoutShape, ApplicationLayout } from '@regardsoss/layout'
+import { ModuleShape } from '@regardsoss/modules'
 import { ApplicationErrorContainer } from '@regardsoss/global-sytem-error'
 import LayoutSelector from '../model/layout/LayoutSelector'
 import LayoutActions from '../model/layout/LayoutActions'
@@ -52,7 +52,7 @@ export class UserApp extends React.Component {
    * @returns {React.Component}
    */
   render() {
-    const {theme} = this.props
+    const { theme } = this.props
     const muiTheme = ThemeHelper.getByName(theme)
 
     if (this.props.layoutIsFetching || this.props.modulesIsFetching) {

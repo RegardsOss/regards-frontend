@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { isEqual } from 'lodash'
+import { join, map, isEqual } from 'lodash'
 import { getFormValues, change } from 'redux-form'
 import { connect } from '@regardsoss/redux'
 import { PluginConf, AttributeModel } from '@regardsoss/model'
@@ -11,7 +11,6 @@ import { DATASET_MODEL_TYPE, DATASET_TYPE } from '../models/datasets/DatasetSele
 import FormTabsComponent from '../components/admin/FormTabsComponent'
 import Form from '../models/Form'
 import DatasetConfShape from '../models/datasets/DatasetsConfShape'
-import { Route } from 'react-router'
 
 /**
  * Main container to display administration view of the module form.
@@ -21,6 +20,7 @@ class AdminContainer extends React.Component {
   static propTypes = {
     // Props supplied by LazyModuleComponent
     appName: React.PropTypes.string,
+    // eslint-disable-next-line react/no-unused-prop-types
     project: React.PropTypes.string,
     // Props supplied by redux-form to get the current form values
     changeField: React.PropTypes.func,
@@ -33,6 +33,9 @@ class AdminContainer extends React.Component {
     // Calculated attributes set by mapstatetoprops
     selectableAttributes: React.PropTypes.objectOf(AttributeModel),
     selectableAttributesFectching: React.PropTypes.bool,
+    // Set by mapDispatchToProps
+    fetchModelsAttributes: React.PropTypes.func,
+    fetchDatasetsAttributes: React.PropTypes.func,
   }
 
   static defaultProps = {
@@ -41,7 +44,7 @@ class AdminContainer extends React.Component {
   }
 
   componentWillMount() {
-    if (this.props.form) {
+    if (this.props.form && this.props.form.conf && this.props.form.conf.datasets) {
       this.updateSelectableAttributes(this.props.form.conf.datasets.type,
         this.props.form.conf.datasets.datasets,
         this.props.form.conf.datasets.models)
@@ -50,7 +53,7 @@ class AdminContainer extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     // Check if the selectable attributes have to be updated
-    if (this.props.form && !isEqual(this.props.form.conf.datasets, nextProps.form.conf.datasets)) {
+    if (this.props.form && this.props.form.conf && !isEqual(this.props.form.conf.datasets, nextProps.form.conf.datasets)) {
       this.updateSelectableAttributes(nextProps.form.conf.datasets.type,
         nextProps.form.conf.datasets.datasets,
         nextProps.form.conf.datasets.models)
@@ -58,6 +61,7 @@ class AdminContainer extends React.Component {
   }
 
   updateSelectableAttributes = (type, models, datasets) => {
+    // TODO : Manage retreive of availables attributs with backend.
     if (type === DATASET_MODEL_TYPE) {
       this.props.fetchModelsAttributes(models)
     } else if (type === DATASET_TYPE) {
@@ -94,9 +98,8 @@ class AdminContainer extends React.Component {
           />
         </div>
       )
-    } else {
-      return null
     }
+    return null
   }
 }
 

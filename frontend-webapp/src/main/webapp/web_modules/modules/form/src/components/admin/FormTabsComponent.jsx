@@ -1,13 +1,13 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { forEach } from 'lodash'
 import { FormattedMessage } from 'react-intl'
 import { Tabs, Tab } from 'material-ui/Tabs'
 import { PluginConf, AttributeModel } from '@regardsoss/model'
+import { ModuleShape } from '@regardsoss/modules'
 import DatasetsConfShape from '../../models/datasets/DatasetsConfShape'
 import FormParameters from './parameters/FormParametersConfigurationComponent'
-import { FormDatasetsConfigurationComponent, DATASET_MODEL_TYPE, DATASET_TYPE } from './datasets/FormDatasetsConfigurationComponent'
+import { FormDatasetsConfigurationComponent } from './datasets/FormDatasetsConfigurationComponent'
 import FormLayoutComponent from './layout/FormLayoutComponent'
 import FromCriterionComponent from './criterion/FormCriterionComponent'
 import FormPreviewComponent from './preview/FormPreviewComponent'
@@ -20,8 +20,9 @@ class FormTabsComponent extends React.Component {
   static propTypes = {
     // Props supplied by redux-form to get the current form values
     changeField: React.PropTypes.func,
-    currentConf: React.PropTypes.any,
-    module: React.PropTypes.any,
+    // eslint-disable-next-line react/forbid-prop-types
+    currentConf: React.PropTypes.object,
+    module: ModuleShape,
     // Default props given to the form
     defaultConf: React.PropTypes.shape({
       datasets: DatasetsConfShape,
@@ -45,7 +46,7 @@ class FormTabsComponent extends React.Component {
             defaultType={this.props.defaultConf.datasets.type}
             defaultSelectedDatasets={this.props.defaultConf.datasets.selectedDatasets}
             defaultSelectedDatasetModels={this.props.defaultConf.datasets.selectedModels}
-            disableChange={this.props.disableChangeDatasets}
+            disableChangeDatasets={this.props.disableChangeDatasets}
           />
         </Tab>
         <Tab label={<FormattedMessage id="form.layout.tab.label" />} >

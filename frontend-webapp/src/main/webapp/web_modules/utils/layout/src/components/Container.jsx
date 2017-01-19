@@ -54,14 +54,14 @@ class Container extends React.Component {
 
     const renderModules = []
     const renderPlugins = []
-    if (this.props.container.id === 'content'){
+    if (this.props.container.dynamicContent) {
       // Render dynamic content in this dynamic container
       renderModules.push(this.props.dynamicContent)
       renderModules.push(<ModuleListComponent
         modules={this.props.modules}
-        container="content"
+        container={this.props.container.id}
         onModuleSelection={this.props.onDynamicModuleSelection}
-        />
+      />,
       )
     } else {
       // Render modules and plugins of this static container
@@ -69,11 +69,11 @@ class Container extends React.Component {
         const containerModules = this.props.modules.filter(module => module.content.active && module.content.container === this.props.container.id && module.content.applicationId === this.props.appName)
         forEach(containerModules, (module, idx) => (
           renderModules.push(<LazyModuleComponent
-              key={idx}
-              module={module.content}
-              appName={this.props.appName}
-              project={this.props.project}
-            />,
+            key={idx}
+            module={module.content}
+            appName={this.props.appName}
+            project={this.props.project}
+          />,
           )
         ))
       }
@@ -81,7 +81,8 @@ class Container extends React.Component {
       if (this.props.plugins) {
         const containerPlugins = this.props.plugins.filter(plugin => plugin.container === this.props.container.id)
         forEach(containerPlugins, (plugin, idx) => {
-          renderPlugins.push(<PluginComponent key={idx} pluginId={plugin.pluginId}/>)
+          console.log('Rendering plugin', plugin)
+          renderPlugins.push(<PluginComponent key={idx} pluginId={plugin.pluginId} pluginConf={plugin.pluginConf} />)
         })
       }
     }
@@ -100,6 +101,4 @@ class Container extends React.Component {
   }
 }
 
-export
-default
-Container
+export default Container

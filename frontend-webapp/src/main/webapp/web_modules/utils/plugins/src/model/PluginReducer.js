@@ -1,7 +1,6 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { concat } from 'lodash'
 import { PLUGIN_LOADED } from './PluginActions'
 
 /**
@@ -13,10 +12,11 @@ import { PLUGIN_LOADED } from './PluginActions'
 export default (state = {
   items: {},
 }, action) => {
+  let newItems = []
   switch (action.type) {
-     // The given plugin as been successfully initialized
     case PLUGIN_LOADED:
-      const newItems = Object.assign({}, state.items)
+      // The given plugin as been successfully initialized
+      newItems = Object.assign({}, state.items)
       newItems[action.name] = {
         plugin: action.plugin,
         name: action.name,

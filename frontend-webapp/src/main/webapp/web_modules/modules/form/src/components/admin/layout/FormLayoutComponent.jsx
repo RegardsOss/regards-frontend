@@ -5,7 +5,6 @@ import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
 import { Field, TextAreaField } from '@regardsoss/form-utils'
-import { LayoutShape } from '@regardsoss/layout'
 import DefaultFormLayout from './DefaultFormLayout'
 
 /**
@@ -20,7 +19,7 @@ class FormLayoutComponent extends React.Component {
 
   componentWillMount() {
     if (!this.props.defaultLayout || this.props.defaultLayout.length === 0) {
-      this.props.changeField('conf.layout', JSON.stringify(DefaultFormLayout, null, 4),)
+      this.props.changeField('conf.layout', JSON.stringify(DefaultFormLayout, null, 4))
     }
   }
 
@@ -43,7 +42,7 @@ class FormLayoutComponent extends React.Component {
 
   resetLayout = () => {
     if (!this.props.defaultLayout || this.props.defaultLayout.length === 0) {
-      this.props.changeField('conf.layout', JSON.stringify(DefaultFormLayout, null, 4),)
+      this.props.changeField('conf.layout', JSON.stringify(DefaultFormLayout, null, 4))
     } else {
       this.props.changeField('conf.layout', this.props.defaultLayout)
     }

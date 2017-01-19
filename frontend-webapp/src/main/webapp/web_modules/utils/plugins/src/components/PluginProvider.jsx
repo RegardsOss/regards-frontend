@@ -1,12 +1,11 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { merge } from 'lodash'
+import { IntlProvider } from 'react-intl'
 import { connect } from '@regardsoss/redux'
 import { Plugin } from '@regardsoss/model'
 import { i18nSelectors } from '@regardsoss/i18n'
 import { loadPlugin } from '../model/PluginActions'
-import { IntlProvider } from 'react-intl'
 import PluginSelector from '../model/PluginSelector'
 
 /**
@@ -25,7 +24,8 @@ class PluginProvider extends React.Component {
    */
   static propTypes = {
     pluginId: React.PropTypes.string.isRequired,
-    pluginConf: React.PropTypes.any,
+    // eslint-disable-next-line react/forbid-prop-types
+    pluginConf: React.PropTypes.object,
     displayPlugin: React.PropTypes.bool,
     children: React.PropTypes.element,
     // Set by mapstatetoprops
@@ -44,7 +44,10 @@ class PluginProvider extends React.Component {
     if (this.props.loadedPlugin) {
       let element = null
       if (this.props.displayPlugin) {
-        element = React.createElement(this.props.loadedPlugin.plugin)
+        element = React.createElement(this.props.loadedPlugin.plugin, {
+          id: this.props.pluginId,
+          ...this.props.pluginConf,
+        })
         return (
           <IntlProvider
             locale={this.props.locale}
@@ -55,13 +58,12 @@ class PluginProvider extends React.Component {
         )
       } else if (this.props.children) {
         return React.cloneElement(this.props.children, { plugin: this.props.loadedPlugin })
-      } else {
-        console.warn('No children defined for plugin provider')
-        return null
       }
-    } else {
-      return <div>Plugin loading ... </div>
+      console.warn('No children defined for plugin provider')
+      return null
     }
+
+    return <div>Plugin loading ... </div>
   }
 
 }

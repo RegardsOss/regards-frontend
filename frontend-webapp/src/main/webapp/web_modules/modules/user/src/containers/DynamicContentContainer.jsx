@@ -1,9 +1,9 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import {connect} from '@regardsoss/redux'
-import {ModuleShape, LazyModuleComponent, ModuleListComponent} from '@regardsoss/modules'
-import {ApplicationErrorAction} from '@regardsoss/global-sytem-error'
+import { connect } from '@regardsoss/redux'
+import { ModuleShape, LazyModuleComponent } from '@regardsoss/modules'
+import { ApplicationErrorAction } from '@regardsoss/global-sytem-error'
 import ModulesSelector from '../model/modules/ModulesSelector'
 
 /**
@@ -41,8 +41,8 @@ class DynamicContentContainer extends React.Component {
       return (
         <LazyModuleComponent
           key={this.props.module.content.id}
-          appName={"user"}
-          project={this.props.project}
+          appName={'user'}
+          project={this.props.params.project}
           module={this.props.module.content}
         />
       )
@@ -57,8 +57,8 @@ const mapStateToProps = (state, ownProps) => ({
   module: ModulesSelector.getById(state, ownProps.params.moduleId),
 })
 
-const mapDispatchToProps = (dispatch) => ({
-  throwError: (message) => dispatch(ApplicationErrorAction.throwError(message))
+const mapDispatchToProps = dispatch => ({
+  throwError: message => dispatch(ApplicationErrorAction.throwError(message)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(DynamicContentContainer)

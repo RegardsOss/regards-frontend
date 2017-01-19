@@ -27,7 +27,6 @@ export default {
   FormMainContainer: {
     classes: [],
     styles: {
-      backgroundColor: 'Grey',
       backgroundAttachment: 'fixed',
       backgroundSize: 'cover',
       minHeight: '30vh',

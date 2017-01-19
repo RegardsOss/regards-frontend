@@ -10,15 +10,21 @@ export default {
   type: 'MainContainer',
   classes: [],
   styles: {},
-  renderRouterContent: false,
   containers: [
     {
       id: 'header',
       type: 'RowContainer',
       classes: [],
       styles: {},
-      renderRouterContent: false,
-      modules: [{ id: 1, name: 'menu', conf: { title: 'Regards - Data center interface', displayAuthentication: true } }],
+      modules: [],
+    }, {
+      id: 'content',
+      type: 'RowContainer',
+      classes: [],
+      styles: {},
+      modules: [],
+      dynamicContent: true,
     },
+
   ],
 }

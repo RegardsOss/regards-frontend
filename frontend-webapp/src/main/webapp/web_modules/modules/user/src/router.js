@@ -13,10 +13,10 @@ export const dynamicModuleRoot = {
     const content = require('./containers/DynamicContentContainer')
     require.ensure([], (require) => {
       cb(null, {
-        content: content,
+        content,
       })
     })
-  }
+  },
 }
 
 const userRouter = {

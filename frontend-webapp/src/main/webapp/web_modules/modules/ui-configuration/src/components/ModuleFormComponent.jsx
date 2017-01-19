@@ -39,10 +39,11 @@ class ModuleFormComponent extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      creation: this.props.module !== undefined,
-      moduleSelected: this.props.module !== undefined,
+      creation: this.props.module === null,
+      moduleSelected: this.props.module !== null,
       module: this.props.module ? this.props.module : {
         active: false,
+        conf: {},
       },
     }
   }
@@ -56,7 +57,6 @@ class ModuleFormComponent extends React.Component {
   }
 
   selectModuleType = (event, index, value, input) => {
-    console.log('MODULE PROPS', this.props)
     input.onChange(value)
     this.setState({
       moduleSelected: true,

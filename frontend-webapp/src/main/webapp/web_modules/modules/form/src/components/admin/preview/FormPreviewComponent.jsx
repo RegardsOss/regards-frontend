@@ -1,9 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { getFormValues } from 'redux-form'
-import { connect } from '@regardsoss/redux'
-import { LazyModuleComponent } from '@regardsoss/modules'
+import { LazyModuleComponent, ModuleShape } from '@regardsoss/modules'
 
 /**
  * Component to display a preview of the current search form module
@@ -11,11 +9,11 @@ import { LazyModuleComponent } from '@regardsoss/modules'
 class FormPreviewComponent extends React.Component {
 
   static propTypes = {
-    module: React.PropTypes.any,
+    module: ModuleShape,
   }
 
   render() {
-    if (this.props.module && this.props.module.name) {
+    if (this.props.module && this.props.module.name && this.props.module.conf && this.props.module.conf.layout) {
       return (
         <div style={{ marginTop: 10 }}>
           <LazyModuleComponent
@@ -24,9 +22,8 @@ class FormPreviewComponent extends React.Component {
           />
         </div>
       )
-    } else {
-      return <div>Loading</div>
     }
+    return <div>Loading...</div>
   }
 }
 

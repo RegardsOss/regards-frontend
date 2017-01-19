@@ -16,7 +16,7 @@ import ModuleFormComponent from '../components/ModuleFormComponent'
 /**
  * React component to display a edition form for Module entity
  */
-class ModuleContainer extends React.Component {
+class ModuleFormContainer extends React.Component {
 
   static propTypes = {
     // From react router
@@ -105,4 +105,4 @@ const mapDispatchToProps = dispatch => ({
 
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(ModuleContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(ModuleFormContainer)

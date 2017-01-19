@@ -6,13 +6,15 @@ import PluginProvider from './PluginProvider'
 
 /**
  * This component allow to load a given plugin and display it.
- * Display of the plugin is asynchrone and effective when the plugin is loaded.
+ * Display of the plugin is asynchronous and effective when the plugin is loaded.
  */
 class PluginComponent extends React.Component {
 
+
   static propTypes = {
     pluginId: React.PropTypes.string.isRequired,
-    pluginConf: React.PropTypes.any,
+    // eslint-disable-next-line react/forbid-prop-types
+    pluginConf: React.PropTypes.object,
   }
 
   render() {
