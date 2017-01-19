@@ -20,12 +20,17 @@ export class PluginConfigurationFormComponent extends React.Component {
     pluginMetaData: PluginMetaData, // optional for additionnal information on form initialization
     onSubmit: React.PropTypes.func.isRequired,
     backUrl: React.PropTypes.string.isRequired,
+    formMode: React.PropTypes.oneOf(['create', 'edit', 'copy']),
     // from reduxForm
     submitting: React.PropTypes.bool,
     pristine: React.PropTypes.bool,
     invalid: React.PropTypes.bool,
     handleSubmit: React.PropTypes.func.isRequired,
     initialize: React.PropTypes.func.isRequired,
+  }
+
+  static defaultProps = {
+    formMode: 'create',
   }
 
   static contextTypes = {
@@ -36,7 +41,9 @@ export class PluginConfigurationFormComponent extends React.Component {
     super(props)
     this.validateProps(props)
     this.state = {
-      isCreating: props.pluginConfiguration === undefined,
+      isCreating: props.formMode === 'create',
+      isEditing: props.formMode === 'edit',
+      isCopying: props.formMode === 'copy',
     }
   }
 
@@ -56,8 +63,8 @@ export class PluginConfigurationFormComponent extends React.Component {
      * In other words, we passed the correct PluginMetaData of the PluginConfiguation.
      */
     if (props.pluginConfiguration && props.pluginMetaData) {
-      const pluginConfigurationsPluginId = props.pluginConfiguration
-      const pluginMetaDatasPluginId = props.pluginMetaData.pluginId
+      const pluginConfigurationsPluginId = props.pluginConfiguration.content.pluginId
+      const pluginMetaDatasPluginId = props.pluginMetaData.content.pluginId
       if (pluginConfigurationsPluginId !== pluginMetaDatasPluginId) {
         throw new Error('pluginConfiguration\'s pluginId attribute should match passed pluginMetaData\'s pluginId attribute in PluginConfigurationFormComponent')
       }
@@ -69,7 +76,7 @@ export class PluginConfigurationFormComponent extends React.Component {
    */
   handleInitialize = () => {
     const { pluginConfiguration, pluginMetaData } = this.props
-    const id = pluginConfiguration && pluginConfiguration.content && pluginConfiguration.content.id
+    const id = this.state.isEditing ? pluginConfiguration && pluginConfiguration.content && pluginConfiguration.content.id : undefined
     const pluginConfigurationPluginId = pluginConfiguration && pluginConfiguration.content && pluginConfiguration.content.pluginId
     const pluginMetaDataPluginId = pluginMetaData && pluginMetaData.content && pluginMetaData.content.pluginId
     const pluginConfigurationPluginClassName = pluginConfiguration && pluginConfiguration.content && pluginConfiguration.content.pluginClassName
@@ -77,10 +84,10 @@ export class PluginConfigurationFormComponent extends React.Component {
     const initialValues = {
       id,
       pluginId: pluginConfigurationPluginId || pluginMetaDataPluginId,
-      label: pluginConfiguration && pluginConfiguration && pluginConfiguration.label,
-      version: pluginConfiguration && pluginConfiguration && pluginConfiguration.version,
-      priorityOrder: pluginConfiguration && pluginConfiguration && pluginConfiguration.priorityOrder,
-      active: pluginConfiguration && pluginConfiguration && pluginConfiguration.active,
+      label: pluginConfiguration && pluginConfiguration.content && pluginConfiguration.content.label,
+      version: pluginConfiguration && pluginConfiguration.content && pluginConfiguration.content.version,
+      priorityOrder: pluginConfiguration && pluginConfiguration.content && pluginConfiguration.content.priorityOrder,
+      active: pluginConfiguration && pluginConfiguration.content && pluginConfiguration.content.active,
       pluginClassName: pluginConfigurationPluginClassName || pluginMetaDataPluginClassName,
     }
 
@@ -93,17 +100,17 @@ export class PluginConfigurationFormComponent extends React.Component {
    * @returns {XML}
    */
   render() {
-    const { pristine, submitting, invalid } = this.props
-    const title = this.state.isCreating ?
-      <FormattedMessage id="microservice-management.plugin.configuration.form.create.title"/> :
+    const { pluginConfiguration, handleSubmit, submitting, invalid, backUrl } = this.props
+    const title = this.state.isEditing ?
       (<FormattedMessage
         id="microservice-management.plugin.configuration.form.edit.title"
         values={{
-          name: this.props.pluginConfiguration.content.name,
+          name: pluginConfiguration.content.name,
         }}
-      />)
+      />) :
+      <FormattedMessage id="microservice-management.plugin.configuration.form.create.title"/>
     return (
-      <form onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
+      <form onSubmit={handleSubmit(this.props.onSubmit)}>
         <Card>
           <CardTitle
             title={title}
@@ -148,12 +155,14 @@ export class PluginConfigurationFormComponent extends React.Component {
           </CardText>
           <CardActions>
             <CardActionsComponent
-              mainButtonLabel={<FormattedMessage id="microservice-management.plugin.configuration.form.action.submit"/>}
+              mainButtonLabel={this.state.isEditing ?
+                <FormattedMessage id="microservice-management.plugin.configuration.form.action.submit.save"/> :
+                <FormattedMessage id="microservice-management.plugin.configuration.form.action.submit.add"/>}
               mainButtonType="submit"
-              isMainButtonDisabled={pristine || submitting || invalid}
+              isMainButtonDisabled={submitting || invalid}
               secondaryButtonLabel={<FormattedMessage
                 id="microservice-management.plugin.configuration.form.action.cancel"/>}
-              secondaryButtonUrl={this.props.backUrl}
+              secondaryButtonUrl={backUrl}
             />
           </CardActions>
         </Card>
@@ -168,7 +177,7 @@ export class PluginConfigurationFormComponent extends React.Component {
  * @param values
  * @returns {{}} i18n keys
  */
-function validate(values) { // TODO: validation
+function validate(values) {
   const errors = {}
   return errors
 }

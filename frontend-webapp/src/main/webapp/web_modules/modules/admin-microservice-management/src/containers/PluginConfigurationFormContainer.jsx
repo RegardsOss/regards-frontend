@@ -4,8 +4,8 @@
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
-import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
 import { PluginConfiguration, PluginMetaData } from '@regardsoss/model'
+import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import PluginConfigurationFormComponent from '../components/PluginConfigurationFormComponent'
 import PluginConfigurationActions from '../model/PluginConfigurationActions'
 import PluginConfigurationSelectors from '../model/PluginConfigurationSelectors'
@@ -13,6 +13,7 @@ import PluginMetaDataSelectors from '../model/PluginMetaDataSelectors'
 import PluginMetaDataActions from '../model/PluginMetaDataActions'
 
 export class PluginConfigurationFormContainer extends React.Component {
+
   static propTypes = {
     // from router
     params: React.PropTypes.shape({
@@ -20,6 +21,7 @@ export class PluginConfigurationFormContainer extends React.Component {
       microserviceName: React.PropTypes.string,
       pluginId: React.PropTypes.string,
       pluginConfigurationId: React.PropTypes.string,
+      formMode: React.PropTypes.oneOf(['create', 'edit', 'copy']),
     }),
     // from mapStateToProps
     pluginConfiguration: PluginConfiguration,
@@ -32,16 +34,26 @@ export class PluginConfigurationFormContainer extends React.Component {
     fetchPluginMetaData: React.PropTypes.func,
   }
 
+  static defaultProps = {
+    params: {
+      formMode: 'create',
+    },
+  }
+
   constructor(props) {
     super(props)
     this.state = {
-      isEditing: props.params.pluginConfigurationId !== undefined,
+      isCreating: props.params.formMode === 'create',
+      isEditing: props.params.formMode === 'edit',
+      isCopying: props.params.formMode === 'copy',
     }
   }
 
   componentDidMount() {
-    if (this.state.isEditing) {
-      this.props.fetchPluginConfiguration(this.props.params.pluginConfigurationId)
+    const { params: { microserviceName, pluginId } } = this.props
+
+    if (this.state.isEditing || this.state.isCopying) {
+      this.props.fetchPluginConfiguration(this.props.params.pluginConfigurationId, microserviceName, pluginId)
     }
 
     if (this.props.params.pluginId) {
@@ -59,27 +71,22 @@ export class PluginConfigurationFormContainer extends React.Component {
    * @returns {XML}
    */
   getFormComponent = () => {
-    const { isPluginConfigurationFetching, pluginConfiguration, pluginMetaData } = this.props
-
-    if (this.state.isEditing) {
-      if (isPluginConfigurationFetching) {
-        return (<FormLoadingComponent />)
-      }
-      if (pluginConfiguration) {
-        return (<PluginConfigurationFormComponent
-          onSubmit={this.handleUpdate}
+    const { params: { formMode }, isPluginConfigurationFetching, pluginConfiguration, pluginMetaData } = this.props
+    const isEmpty = this.state.isEditing && typeof pluginConfiguration === 'undefined'
+    return (
+      <LoadableContentDisplayDecorator
+        isLoading={isPluginConfigurationFetching}
+        isEmpty={isEmpty}
+      >
+        <PluginConfigurationFormComponent
+          onSubmit={this.state.isEditing ? this.handleUpdate : this.handleCreate}
           backUrl={this.getBackUrl()}
           pluginConfiguration={pluginConfiguration}
           pluginMetaData={pluginMetaData}
-        />)
-      }
-      return (<FormEntityNotFoundComponent />)
-    }
-    return (<PluginConfigurationFormComponent
-      onSubmit={this.handleCreate}
-      backUrl={this.getBackUrl()}
-      pluginMetaData={pluginMetaData}
-    />)
+          formMode={formMode}
+        />
+      </LoadableContentDisplayDecorator>
+    )
   }
 
   /**
@@ -87,11 +94,19 @@ export class PluginConfigurationFormContainer extends React.Component {
    * @param values form updated values
    */
   handleUpdate = (values) => {
+    const { params: { microserviceName, pluginId } } = this.props
     const previousPluginConfiguration = this.props.pluginConfiguration.content
     const updatedPluginConfiguration = Object.assign({}, previousPluginConfiguration, {
-      description: values.description,
+      id: values.id,
+      label: values.label,
+      version: values.version,
+      priorityOrder: parseInt(values.priorityOrder, 10),
+      active: values.active,
+      pluginClassName: values.pluginClassName,
+      pluginId: values.pluginId,
     })
-    Promise.resolve(this.props.updatePluginConfiguration(previousPluginConfiguration.id, updatedPluginConfiguration))
+
+    Promise.resolve(this.props.updatePluginConfiguration(previousPluginConfiguration.id, updatedPluginConfiguration, microserviceName, pluginId))
       .then((actionResult) => {
         // We receive here the action
         if (!actionResult.error) {
@@ -111,11 +126,12 @@ export class PluginConfigurationFormContainer extends React.Component {
     const newPluginConfiguration = {
       label: values.label,
       version: values.version,
-      priorityOrder: values.priorityOrder,
+      priorityOrder: parseInt(values.priorityOrder, 10),
       active: values.active,
       pluginClassName: values.pluginClassName,
       pluginId: values.pluginId,
     }
+
     Promise.resolve(this.props.createPluginConfiguration(newPluginConfiguration, microserviceName, pluginId))
       .then((actionResult) => {
         // We receive here the action
@@ -142,8 +158,8 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = dispatch => ({
   createPluginConfiguration: (values, microserviceName, pluginId) => dispatch(PluginConfigurationActions.createEntity(values, dispatch, [microserviceName, pluginId])),
-  updatePluginConfiguration: (id, values) => dispatch(PluginConfigurationActions.updateEntity(id, values, dispatch)),
-  fetchPluginConfiguration: id => dispatch(PluginConfigurationActions.fetchEntity(id, dispatch)),
+  updatePluginConfiguration: (id, values, microserviceName, pluginId) => dispatch(PluginConfigurationActions.updateEntity(id, values, dispatch, [microserviceName, pluginId])),
+  fetchPluginConfiguration: (id, microserviceName, pluginId) => dispatch(PluginConfigurationActions.fetchEntity(id, dispatch, [microserviceName, pluginId])),
   fetchPluginMetaData: (id, microserviceName) => dispatch(PluginMetaDataActions.fetchEntity(id, dispatch, [microserviceName])),
 })
 

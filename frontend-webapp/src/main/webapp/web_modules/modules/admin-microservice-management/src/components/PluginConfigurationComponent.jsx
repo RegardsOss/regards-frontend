@@ -2,11 +2,14 @@
  * LICENSE_PLACEHOLDER
  **/
 import { i18nContextType } from '@regardsoss/i18n'
-import PluginConfiguration from '@regardsoss/model'
+import { PluginConfiguration } from '@regardsoss/model'
+import { FormattedMessage } from 'react-intl'
 import { Card, CardActions, CardText } from 'material-ui/Card'
 import Delete from 'material-ui/svg-icons/action/delete'
 import ArrowUpward from 'material-ui/svg-icons/navigation/arrow-upward'
 import ArrowDownward from 'material-ui/svg-icons/navigation/arrow-downward'
+import ContentCopy from 'material-ui/svg-icons/content/content-copy'
+import ModeEdit from 'material-ui/svg-icons/editor/mode-edit'
 import IconButton from 'material-ui/IconButton'
 import Toggle from 'material-ui/Toggle'
 import moduleStyles from '../styles/styles'
@@ -25,12 +28,13 @@ class PluginConfigurationComponent extends React.Component {
   }
 
   static propTypes = {
-    pluginConfiguration: React.PropTypes.any,
-    // pluginConfiguration: PluginConfiguration.isRequired,
-    onUpwardClick: React.PropTypes.func.isRequired,
-    onDownwardClick: React.PropTypes.func.isRequired,
-    onDeleteClick: React.PropTypes.func.isRequired,
+    pluginConfiguration: PluginConfiguration.isRequired,
     onActiveToggle: React.PropTypes.func.isRequired,
+    onCopyClick: React.PropTypes.func.isRequired,
+    onDeleteClick: React.PropTypes.func.isRequired,
+    onEditClick: React.PropTypes.func.isRequired,
+    onDownwardClick: React.PropTypes.func.isRequired,
+    onUpwardClick: React.PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -47,7 +51,7 @@ class PluginConfigurationComponent extends React.Component {
   }
 
   render() {
-    const { pluginConfiguration, onUpwardClick, onDownwardClick, onDeleteClick, onActiveToggle } = this.props
+    const { pluginConfiguration, onActiveToggle, onCopyClick, onDeleteClick, onEditClick, onDownwardClick, onUpwardClick } = this.props
     return (
       <Card
         onExpandChange={this.handleExpandChange}
@@ -59,11 +63,38 @@ class PluginConfigurationComponent extends React.Component {
               <span>{pluginConfiguration.content.label}</span>
               <span style={styles.version}>{pluginConfiguration.content.version}</span>
             </div>
-            <span>{pluginConfiguration.content.pluginClassName}</span>
             <div style={styles.buttonsGroupWrapper}>
-              <IconButton onTouchTap={onUpwardClick}><ArrowUpward /></IconButton>
-              <IconButton onTouchTap={onDownwardClick}><ArrowDownward /></IconButton>
-              <IconButton onTouchTap={onDeleteClick}><Delete /></IconButton>
+              <span style={styles.version}><FormattedMessage id="microservice-management.plugin.configuration.priorityOrder"/> {pluginConfiguration.content.priorityOrder}</span>
+              <IconButton
+                tooltip={<FormattedMessage id="microservice-management.plugin.configuration.increment.priorityOrder"/>}
+                onTouchTap={onUpwardClick}
+              >
+                <ArrowUpward />
+              </IconButton>
+              <IconButton
+                tooltip={<FormattedMessage id="microservice-management.plugin.configuration.decrement.priorityOrder"/>}
+                onTouchTap={onDownwardClick}
+              >
+                <ArrowDownward />
+              </IconButton>
+              <IconButton
+                tooltip={<FormattedMessage id="microservice-management.plugin.configuration.edit"/>}
+                onTouchTap={onEditClick}
+              >
+                <ModeEdit />
+              </IconButton>
+              <IconButton
+                tooltip={<FormattedMessage id="microservice-management.plugin.configuration.copy"/>}
+                onTouchTap={onCopyClick}
+              >
+                <ContentCopy />
+              </IconButton>
+              <IconButton
+                tooltip={<FormattedMessage id="microservice-management.plugin.configuration.delete"/>}
+                onTouchTap={onDeleteClick}
+              >
+                <Delete />
+              </IconButton>
               <Toggle
                 onToggle={onActiveToggle}
                 toggled={pluginConfiguration.content.active}
@@ -75,7 +106,7 @@ class PluginConfigurationComponent extends React.Component {
         <CardText expandable>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit.
           Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
-          Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.
+          Donec vulputate interdum sollicitudin. Et nunc lacinia auctor quam sed pellentesque.
           Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.
         </CardText>
       </Card>

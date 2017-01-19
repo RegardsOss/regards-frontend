@@ -15,14 +15,24 @@ const messages = Object.assign({
   'microservice-management.plugin.list.filters': 'Filters',
   'microservice-management.plugin.list.configurations': 'Configurations',
 
+  'microservice-management.plugin.configuration.list.add': 'Add',
+
+  'microservice-management.plugin.configuration.copy': 'Copy',
+  'microservice-management.plugin.configuration.increment.priorityOrder': 'Increase the prority',
+  'microservice-management.plugin.configuration.decrement.priorityOrder': 'Decrease the priority',
+  'microservice-management.plugin.configuration.delete': 'Delete',
+  'microservice-management.plugin.configuration.edit': 'Edit',
+  'microservice-management.plugin.configuration.priorityOrder': 'Priority',
+
   'microservice-management.plugin.configuration.form.create.title': 'Add a configuration',
   'microservice-management.plugin.configuration.form.edit.title': 'Edit a configuration',
   'microservice-management.plugin.configuration.form.pluginClassName': 'Plugin class (full path)',
   'microservice-management.plugin.configuration.form.label': 'Label',
   'microservice-management.plugin.configuration.form.version': 'Version',
   'microservice-management.plugin.configuration.form.priorityOrder': 'Priority',
-  'microservice-management.plugin.configuration.form.active': 'Activeaazeae',
-  'microservice-management.plugin.configuration.form.action.submit': 'Add',
+  'microservice-management.plugin.configuration.form.active': 'Active',
+  'microservice-management.plugin.configuration.form.action.submit.add': 'Add',
+  'microservice-management.plugin.configuration.form.action.submit.save': 'Save',
   'microservice-management.plugin.configuration.form.action.cancel': 'Cancel',
 
 }, Locales.en)

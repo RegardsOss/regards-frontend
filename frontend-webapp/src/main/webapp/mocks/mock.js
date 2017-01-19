@@ -117,6 +117,7 @@ const runServer = () => {
     '/api/v1/rs-access/plugins/:type': '/api/v1/rs-access/plugins?type=:type',
     '/oauth/token': '/tokens/1',
     '/api/v1/rs-dam/plugins/:pluginId/config': '/api/v1/rs-dam/configurations?pluginId=:pluginId',
+    '/api/v1/rs-dam/plugins/:pluginId/config/:pluginConfigurationId': '/api/v1/rs-dam/configurations/:pluginConfigurationId',
   }))
   server.use('/api/v1/rs-access/', accessMicroServiceRouter)
   server.use('/api/v1/rs-catalog/', catalogMicroServiceRouter)

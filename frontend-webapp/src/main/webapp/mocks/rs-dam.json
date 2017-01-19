@@ -81,7 +81,6 @@
       "description": "This plugin is pretty useless actually."
     },
     {
-      "id": "6",
       "pluginId": "6",
       "pluginType": "Other",
       "pluginClassName": "Kerberos",
@@ -90,7 +89,6 @@
       "description": "Allows the users to log in with their usual email and password."
     },
     {
-      "id": "7",
       "pluginId": "7",
       "pluginType": "Other",
       "pluginClassName": "Toto",
@@ -99,7 +97,6 @@
       "description": "This plugin is pretty useless actually."
     },
     {
-      "id": "8",
       "pluginId": "8",
       "pluginType": "Other",
       "pluginClassName": "Titi",
@@ -113,7 +110,7 @@
       "id": 0,
       "label": "Cool configuration",
       "version": "2.0.0",
-      "priorityOrder": 4,
+      "priorityOrder": 0,
       "active": true,
       "pluginClassName": "Kerberos",
       "pluginId": "0"
@@ -122,7 +119,7 @@
       "id": 1,
       "label": "Not cool configuration",
       "version": "1.1.1",
-      "priorityOrder": 3,
+      "priorityOrder": 1,
       "active": true,
       "pluginClassName": "Kerberos",
       "pluginId": "0"
@@ -131,7 +128,7 @@
       "id": 2,
       "label": "Random configuration",
       "version": "0.0.1",
-      "priorityOrder": 1,
+      "priorityOrder": 2,
       "active": false,
       "pluginClassName": "Kerberos",
       "pluginId": "0"
@@ -140,7 +137,7 @@
       "id": 3,
       "label": "Other random configuration",
       "version": "v12",
-      "priorityOrder": 1,
+      "priorityOrder": 3,
       "active": true,
       "pluginClassName": "Kerberos",
       "pluginId": "0"
