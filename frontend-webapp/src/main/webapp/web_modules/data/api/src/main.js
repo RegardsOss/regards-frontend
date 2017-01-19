@@ -17,6 +17,8 @@ import Plugin, { PluginConfiguration } from './access/Plugin'
 import Fragment, { FragmentConfiguration } from './dam/Fragment'
 import Dataset, { DatasetConfiguration } from './schemas/Dataset'
 import ResourceAccess, { ResourceAccessConfiguration } from './admin/ResourceAccess'
+import PluginMetaData, { PluginMetaDataConfiguration } from './admin/PluginMetaData'
+import AdminPluginConfiguration, { AdminPluginConfigurationSchemaConfiguration } from './admin/PluginConfiguration'
 
 // We use this Normalizr schemas to transform API responses from a nested form
 // to a flat form where repos and users are placed in `entities`, and nested
@@ -88,4 +90,11 @@ export default {
   RESOURCE_ACCESS_ARRAY: ResourceAccess.RESOURCE_ACCESS_ARRAY,
   ResourceAccessConfiguration,
 
+  PLUGIN_META_DATA: PluginMetaData.PLUGIN_META_DATA,
+  PLUGIN_META_DATA_ARRAY: PluginMetaData.PLUGIN_META_DATA_ARRAY,
+  PluginMetaDataConfiguration,
+
+  PLUGIN_CONFIGURATION: AdminPluginConfiguration.PLUGIN_CONFIGURATION,
+  PLUGIN_CONFIGURATION_ARRAY: AdminPluginConfiguration.PLUGIN_CONFIGURATION_ARRAY,
+  AdminPluginConfigurationSchemaConfiguration,
 }

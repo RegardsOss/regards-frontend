@@ -1,9 +1,9 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-const {map, split, filter, forEach, startsWith, replace, trim} = require('lodash')
+const { map, split, filter, forEach, startsWith, replace, trim } = require('lodash')
 const jsonServer = require('json-server')
-const fs = require('fs-extra');
+const fs = require('fs-extra')
 
 /**
  * Add pagination format to response list and HAteoas format to each elements
@@ -22,37 +22,33 @@ const PageAndHateoasMiddleWare = (req, res) => {
     })
 
     let meta = {
-      "number": res.locals.data.length,
-      "size": res.locals.data.length,
-      "totalElements": res.locals.data.length
+      number: res.locals.data.length,
+      size: res.locals.data.length,
+      totalElements: res.locals.data.length,
     }
-    let links = []
+    const links = []
     if (req._parsedUrl.query) {
       const params = split(req._parsedUrl.query, '&')
-      let index = filter(params, (param) => {
-        return startsWith(param, "_start")
-      })
+      let index = filter(params, param => startsWith(param, '_start'))
       if (index) {
-        index = replace(index[0], "_start=", '')
+        index = replace(index[0], '_start=', '')
       }
-      let limit = filter(params, (param) => {
-        return startsWith(param, "_limit")
-      })
+      let limit = filter(params, param => startsWith(param, '_limit'))
       if (limit) {
-        limit = replace(limit[0], "_limit=", '')
+        limit = replace(limit[0], '_limit=', '')
       }
 
       if (index && limit) {
         meta = {
-          "number": Number(index),
-          "size": Number(limit),
-          "totalElements": Number(res._headers['x-total-count'].value()),
+          number: index,
+          size: limit,
+          totalElements: res._headers['x-total-count'].value(),
         }
 
         if (res._headers.link) {
           const reslinks = split(res._headers.link, ',')
           forEach(reslinks, (clink, idx) => {
-            const elements = split(clink, ";")
+            const elements = split(clink, ';')
             let url = replace(elements[0], '<', '')
             url = trim(replace(url, '>', ''))
 
@@ -61,7 +57,7 @@ const PageAndHateoasMiddleWare = (req, res) => {
             rel = trim(replace(rel, '"', ''))
             const link = {
               rel,
-              url
+              url,
             }
             links.push(link)
           })
@@ -72,7 +68,7 @@ const PageAndHateoasMiddleWare = (req, res) => {
     results = {
       content: datas,
       metadata: meta,
-      links: links,
+      links,
     }
   } else {
     results = {
@@ -101,15 +97,16 @@ const runServer = () => {
   adminMicroServiceRouter.render = PageAndHateoasMiddleWare
   catalogMicroServiceRouter.render = PageAndHateoasMiddleWare
   damMicroServiceRouter.render = PageAndHateoasMiddleWare
+  //gatewayMicroServiceRouter.render = PageAndHateoasMiddleWare
 
   server.use(middlewares)
 
   server.use(jsonServer.bodyParser)
-  server.use(function (req, res, next) {
+  server.use((req, res, next) => {
     if (req.method === 'POST' &&
       req.originalUrl.startsWith('/oauth/token?grant_type=password&username=admin@cnes.fr&password=admin&scope=')) {
       req.method = 'GET'
-      console.log("done")
+      console.log('done')
     }
     // Continue to JSON Server router
     next()
@@ -117,15 +114,17 @@ const runServer = () => {
 
   server.use(jsonServer.rewriter({
     '/api/v1/rs-access/applications/:application_id/modules/:module_id': '/api/v1/rs-access/modules/:module_id',
-    '/api/v1/rs-access/plugins/:type' : '/api/v1/rs-access/plugins?type=:type',
-    '/oauth/token' :'/tokens/1'
+    '/api/v1/rs-access/plugins/:type': '/api/v1/rs-access/plugins?type=:type',
+    '/oauth/token': '/tokens/1',
+    '/api/v1/rs-dam/plugins/:pluginId/config': '/api/v1/rs-dam/configurations?pluginId=:pluginId',
+    '/api/v1/rs-dam/plugins/:pluginId/config/:pluginConfigurationId': '/api/v1/rs-dam/configurations/:pluginConfigurationId',
   }))
   server.use('/api/v1/rs-access/', accessMicroServiceRouter)
   server.use('/api/v1/rs-catalog/', catalogMicroServiceRouter)
   server.use('/api/v1/rs-dam/', damMicroServiceRouter)
   server.use('/api/v1/rs-admin/', adminMicroServiceRouter)
+  //server.use('/api/v1/rs-gateway/', gatewayMicroServiceRouter)
   server.use(gatewayMicroServiceRouter)
-
 
   server.listen(3000, () => {
     console.log('JSON Server is running')
@@ -135,7 +134,7 @@ const runServer = () => {
 /**
  * Copy mock json database to temp file for trash use during mock usage
  */
-fs.copy('./mocks/rs-admin.json', 'mocks/rs-admin.temp.json', ()=> {
+fs.copy('./mocks/rs-admin.json', 'mocks/rs-admin.temp.json', () => {
   fs.copy('./mocks/rs-dam.json', 'mocks/rs-dam.temp.json', () => {
     fs.copy('./mocks/rs-catalog.json', 'mocks/rs-catalog.temp.json', () => {
       fs.copy('./mocks/rs-access.json', 'mocks/rs-access.temp.json', () => {

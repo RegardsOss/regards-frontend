@@ -89,7 +89,7 @@ class ProjectSidebarComponent extends React.Component {
           <HateoasSidebarElement
             endpointKey="projects_connections_url"
             key="5"
-            to={`/admin/${projectName}/datamanagement`}
+            to={`/admin/${projectName}/microservice/board`}
             linkStyle={style.link.styles}
             primaryText={<FormattedMessage id="menu.microservices" />}
             leftIcon={<CloudQueue />}

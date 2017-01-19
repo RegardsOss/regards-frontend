@@ -16,6 +16,10 @@ import PluginDefinition from './access/PluginDefinition'
 import PluginConf from './access/PluginConf'
 import AccessProject from './access/Project'
 import Entity from './catalog/Entity'
+import PluginMetaData, { PluginMetaDataList } from './admin/PluginMetaData'
+import PluginConfiguration, { PluginConfigurationList } from './admin/PluginConfiguration'
+import PluginParameter, { PluginParameterist } from './admin/PluginParameter'
+import PluginDynamicValue, { PluginDynamicValueList } from './admin/PluginDynamicValue'
 
 export default {
   // ADMIN
@@ -41,4 +45,15 @@ export default {
   PluginTypes,
   PluginConf,
   AccessProject,
+
+  // MICROSERVICE
+  PluginMetaData,
+  PluginMetaDataList,
+  PluginConfiguration,
+  PluginConfigurationList,
+  PluginParameter,
+  PluginParameterist,
+  PluginDynamicValue,
+  PluginDynamicValueList,
+
 }

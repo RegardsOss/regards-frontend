@@ -7,12 +7,13 @@ import { dataManagementRouter } from '@regardsoss/admin-data-management'
 import { userManagementRouter } from '@regardsoss/admin-user-management'
 import { projectManagementRouter } from '@regardsoss/admin-project-management'
 import { accountManagementRouter } from '@regardsoss/admin-account-management'
+import { microserviceManagementRouter } from '@regardsoss/admin-microservice-management'
 import Routes from '../src/router'
 
 describe('[ADMIN MANAGEMENT] Testing admin router', () => {
   it('should return the correct value', () => {
     assert.isNotNull(Routes)
-    expect(Routes.childRoutes).to.have.length(7)
+    expect(Routes.childRoutes).to.have.length(8)
     expect(Routes.childRoutes[0].path).to.eq('project')
     expect(Routes.childRoutes[1].path).to.eq('account')
     expect(Routes.childRoutes[2].path).to.eq('project-connection')
@@ -20,6 +21,7 @@ describe('[ADMIN MANAGEMENT] Testing admin router', () => {
     expect(Routes.childRoutes[4].path).to.eq(':project/user')
     expect(Routes.childRoutes[5].path).to.eq(':project/ui-configuration')
     expect(Routes.childRoutes[6].path).to.eq(':project')
+    expect(Routes.childRoutes[7].path).to.eq(':project/microservice')
   })
 
   it('create should return projectManagementRouter', (done) => {
@@ -50,6 +52,12 @@ describe('[ADMIN MANAGEMENT] Testing admin router', () => {
   it('create should return userManagementRouter', (done) => {
     Routes.childRoutes[4].getChildRoutes(undefined, (smth, component) => {
       expect(component[0]).to.eq(userManagementRouter)
+      done()
+    })
+  })
+  it('create should return microserviceManagementRoute', (done) => {
+    Routes.childRoutes[7].getChildRoutes(undefined, (smth, component) => {
+      expect(component[0]).to.eq(microserviceManagementRouter)
       done()
     })
   })

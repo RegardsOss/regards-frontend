@@ -3,26 +3,11 @@ import muiThemeable from 'material-ui/styles/muiThemeable'
 import withWidth from 'material-ui/utils/withWidth'
 import typography from 'material-ui/styles/typography'
 import ClearFix from 'material-ui/internal/ClearFix'
-
+import ActionHome from 'material-ui/svg-icons/action/home'
+import IconButton from 'material-ui/IconButton'
 import {
-  Avatar,
-  Checkbox,
-  DatePicker,
-  Dialog,
-  DropDownMenu,
-  FlatButton,
-  Drawer,
-  MenuItem,
-  Paper,
-  RadioButton,
-  RadioButtonGroup,
-  RaisedButton,
-  Snackbar,
-  Slider,
-  Tabs,
-  Tab,
-  TextField,
-  Toggle,
+  Avatar, Checkbox, DatePicker, Dialog, DropDownMenu, FlatButton, Drawer, MenuItem, Paper, RadioButton,
+  RadioButtonGroup, RaisedButton, Snackbar, Slider, Tabs, Tab, TextField, Toggle,
 } from 'material-ui'
 
 function getStyles() {
@@ -110,6 +95,11 @@ class ThemesPage extends React.Component {
           </div>
           <div style={styles.containerCentered}>
             <RaisedButton label="Default" />
+          </div>
+          <div style={styles.containerCentered}>
+            <IconButton>
+              <ActionHome />
+            </IconButton>
           </div>
         </div>
         <div style={styles.group}>

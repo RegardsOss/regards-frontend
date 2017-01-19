@@ -11,5 +11,79 @@
       "sub": "admin@cnes.fr",
       "token_type": "bearer"
     }
+  ],
+  "plugins": [
+    {
+      "id": 0,
+      "pluginType": "Authentication",
+      "pluginClassName": "Kerberos",
+      "author": "Jules Verne",
+      "version": "0.0.5",
+      "description": "Allows the users to log in with their usual email and password."
+    },
+    {
+      "id": 1,
+      "pluginType": "Authentication",
+      "pluginClassName": "Kerberos",
+      "author": "Jules Verne",
+      "version": "0.0.6",
+      "description": "Allows the users to log in with their usual email and password."
+    },
+    {
+      "id": 2,
+      "pluginType": "Authentication",
+      "pluginClassName": "Toto",
+      "author": "Jean-Paul Sartre",
+      "version": "2.0.0",
+      "description": "This plugin is pretty useless actually."
+    },
+    {
+      "id": 3,
+      "pluginType": "Authentication",
+      "pluginClassName": "Titi",
+      "author": "Victor Hugo",
+      "version": "2.0.5",
+      "description": "This plugin is pretty useless actually."
+    },
+    {
+      "id": 4,
+      "pluginType": "Authentication",
+      "pluginClassName": "Toto",
+      "author": "Jean-Paul Sartre",
+      "version": "2.0.0",
+      "description": "This plugin is pretty useless actually."
+    },
+    {
+      "id": 5,
+      "pluginType": "Authentication",
+      "pluginClassName": "Titi",
+      "author": "Victor Hugo",
+      "version": "2.0.5",
+      "description": "This plugin is pretty useless actually."
+    },
+    {
+      "id": 6,
+      "pluginType": "Other",
+      "pluginClassName": "Kerberos",
+      "author": "Jules Verne",
+      "version": "0.0.5",
+      "description": "Allows the users to log in with their usual email and password."
+    },
+    {
+      "id": 7,
+      "pluginType": "Other",
+      "pluginClassName": "Toto",
+      "author": "Jean-Paul Sartre",
+      "version": "2.0.0",
+      "description": "This plugin is pretty useless actually."
+    },
+    {
+      "id": 8,
+      "pluginType": "Other",
+      "pluginClassName": "Titi",
+      "author": "Victor Hugo",
+      "version": "2.0.5",
+      "description": "This plugin is pretty useless actually."
+    }
   ]
 }

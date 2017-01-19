@@ -56,6 +56,11 @@ config = merge(config, {
         loader: 'url-loader',
         query: { mimetype: 'image/png' },
       },
+      {
+        test: /\.json$/,
+        exclude: [/node_modules/],
+        loader: 'json-loader',
+      },
     ],
   },
   devServer: {
