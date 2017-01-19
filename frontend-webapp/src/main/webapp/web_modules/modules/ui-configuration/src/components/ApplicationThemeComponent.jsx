@@ -13,7 +13,7 @@ import Subheader from 'material-ui/Subheader'
 import DropDownMenu from 'material-ui/DropDownMenu'
 import Paper from 'material-ui/Paper'
 import { themeContextType } from '@regardsoss/theme'
-import { muiTheme } from '@regardsoss/components/src/storybook-addon-material-ui-custom/src/muiTheme'
+import { muiTheme } from '@regardsoss/vendors'
 import MaterialUiComponentsShowcase from '@regardsoss/components/src/MaterialUiComponentsShowcase'
 
 /**

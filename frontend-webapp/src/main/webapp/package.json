@@ -61,6 +61,7 @@
     "@regardsoss/theme": "0.0.1",
     "@regardsoss/ui-configuration": "0.0.1",
     "@regardsoss/user": "0.0.1",
+    "@regardsoss/vendors": "0.0.1",
     "flux-standard-action": "~1.0.0",
     "gsap": "^1.19.0",
     "immutable": "~3.8.1",

@@ -56,3 +56,6 @@ npm link web_modules/modules/form
 npm link web_modules/modules/admin
 npm link web_modules/modules/user
 npm link web_modules/modules/portal
+
+# Vendors
+npm link web_modules/vendors
