@@ -14,12 +14,13 @@ npm link web_modules/data/store
 npm link web_modules/data/model
 
 # Tools
+npm link web_modules/utils/authentication-manager
+npm link web_modules/utils/charts
 npm link web_modules/utils/form-utils
 npm link web_modules/utils/i18n
 npm link web_modules/utils/plugins
 npm link web_modules/utils/store-utils
 npm link web_modules/utils/theme
-npm link web_modules/utils/authentication-manager
 npm link web_modules/utils/display-control
 npm link web_modules/utils/tests-helpers
 npm link web_modules/utils/redux

@@ -5,7 +5,7 @@ import { combineReducers } from 'redux'
 import { getStoragePluginMonitoringReducer } from './model/StoragePluginMonitoringReducers'
 
 const archivalStorageReducer = combineReducers({
-  'storage-monitoring': getStoragePluginMonitoringReducer,
+  'storage-plugins-monitoring': getStoragePluginMonitoringReducer,
 })
 
 export default archivalStorageReducer

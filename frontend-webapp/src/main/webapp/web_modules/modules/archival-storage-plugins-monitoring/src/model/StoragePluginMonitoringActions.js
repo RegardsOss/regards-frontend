@@ -7,7 +7,7 @@ import { BasicListActions } from '@regardsoss/store-utils'
 class StoragePluginMonitoringActions extends BasicListActions {
   constructor() {
     super({
-      namespace: 'archival-storage-plugins-monitoring/storage-monitoring',
+      namespace: 'archival-storage/plugins-monitoring',
       entityEndpoint: `${GATEWAY_HOSTNAME}/api/v1/archival-storage/storage-plugins`, // TODO check me when back is ready!
       schemaTypes: {
         ENTITY: Schemas.STORAGE_MONITORING_PLUGIN,

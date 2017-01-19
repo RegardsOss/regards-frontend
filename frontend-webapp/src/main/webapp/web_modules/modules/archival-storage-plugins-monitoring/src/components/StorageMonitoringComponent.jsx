@@ -6,22 +6,22 @@ import { FormattedMessage } from 'react-intl'
 import Paper from 'material-ui/Paper'
 import AppBar from 'material-ui/AppBar'
 import IconButton from 'material-ui/IconButton'
-import NavigationClose from 'material-ui/svg-icons/navigation/close'
+import ExpandLess from 'material-ui/svg-icons/navigation/expand-less'
+import ExpandMore from 'material-ui/svg-icons/navigation/expand-more'
 import DropDownMenu from 'material-ui/DropDownMenu'
 import MenuItem from 'material-ui/MenuItem'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { Pie } from 'react-chartjs-2'
 import { Card, CardTitle, CardMedia } from 'material-ui/Card'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
-import PluginShape from '@regardsoss/model/src/archival-storage/StorageMonitoringPlugin'
+import ChartAdapter from '@regardsoss/charts'
+import PluginShape from '@regardsoss/model/src/archival-storage/StoragePluginMonitoring'
 import { bytesScale, allUnitScales } from '../helper/StorageUnit'
 import { capacityFromValue } from '../helper/StorageCapacity'
 
 class StorageMonitoring extends Component {
 
   static propTypes = {
-    onClose: PropTypes.func.isRequired,
     initScale: PropTypes.string.isRequired,
     storagePluginsData: PropTypes.arrayOf(PluginShape).isRequired,
   }
@@ -48,6 +48,17 @@ class StorageMonitoring extends Component {
     this.setState({
       currentScale: newScale,
       plugins: this.toNewScale(currentPlugins, newScale),
+      expanded: true,
+    })
+  }
+
+  /**
+   * On expand / collapse button touch, switches state
+   */
+  onExpandSwitch = () => {
+    this.setState({
+      ...this.state,
+      expanded: !this.state.expanded,
     })
   }
 
@@ -150,10 +161,8 @@ class StorageMonitoring extends Component {
   }
 
   render() {
-    const { onClose } = this.props
     const { moduleTheme, muiTheme } = this.context
-    const { currentScale, plugins } = this.state
-
+    const { currentScale, plugins, expanded } = this.state
     const firstCellStyles = Object.assign({}, moduleTheme.table.firstColumn, moduleTheme.table.row)
     return (
       <Paper >
@@ -163,7 +172,11 @@ class StorageMonitoring extends Component {
               id="archival.storage.capacity.monitoring.title"
             />
           }
-          iconElementLeft={<IconButton onTouchTap={onClose}><NavigationClose /></IconButton>}
+          iconElementLeft={
+            <IconButton onTouchTap={this.onExpandSwitch}>
+              { expanded ? <ExpandLess /> : <ExpandMore /> }
+            </IconButton>
+          }
           iconElementRight={
             <DropDownMenu
               labelStyle={{
@@ -188,8 +201,8 @@ class StorageMonitoring extends Component {
 
         <div className="row">
           {
-            // map all plugins to cards
-            plugins.map(({ label, description, totalSize, usedSize }, index) => (
+            // map all plugins to cards if component is expanded (hide all otherwise)
+            (!expanded) || plugins.map(({ label, description, totalSize, usedSize }, index) => (
               <Card className={moduleTheme.card.classes} key={index} style={moduleTheme.card.root}>
                 <CardTitle
                   title={label}
@@ -233,7 +246,8 @@ class StorageMonitoring extends Component {
                       </TableBody>
                     </Table>
                     <div style={moduleTheme.chart.root}>
-                      <Pie
+                      <ChartAdapter
+                        ChartComponent="Pie"
                         data={this.buildPieData(totalSize, usedSize)}
                         options={{
                           legend: {

@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ */
 import React from 'react'
 import { storiesOf } from '@kadira/storybook'
 import { withKnobs } from '@kadira/storybook-addon-knobs'
@@ -32,10 +35,17 @@ storiesOf('Archival storage', module)
       totalSize: '500To',
       usedSize: '0b',
     }, {
+      // used size not parsable
       label: 'FLUT',
       description: 'FLUT - External safe cloud storage',
       totalSize: '0.5Po',
       usedSize: '0boot',
+    }, {
+      // all size not parsable
+      label: 'Strange plugin',
+      description: 'A strange storage plugin with wrong formats',
+      totalSize: '8Txxo',
+      usedSize: 'ddOp',
     }]
 
     const themeWithLocale = addLocaleAndThemeSelectors()
@@ -45,10 +55,7 @@ storiesOf('Archival storage', module)
     return (
       <ThemeAndLocaleDecorator theme={themeWithLocale} messageDir="modules/archival-storage-plugins-monitoring/src/i18n">
         <ModuleThemeProvider module={moduleTheme}>
-          <StorageMonitoringComponent
-            onClose={() => console.info('Close clicked')}
-            storagePluginsData={mockStoragePlugins}
-          />
+          <StorageMonitoringComponent storagePluginsData={mockStoragePlugins} />
         </ModuleThemeProvider>
       </ThemeAndLocaleDecorator>
     )

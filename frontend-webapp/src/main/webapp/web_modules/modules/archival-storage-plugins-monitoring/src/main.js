@@ -1,13 +1,14 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-// import moduleContainer from './containers/AuthenticationContainer'
+import moduleContainer from './containers/StorageMonitoringContainer'
 import styles from './styles/styles'
+import reducer from './reducer'
 /**
  * Main file of module to expose public interface
  **/
 export default {
-  // moduleContainer,
   styles,
-  messagesDir: 'modules/authentication/src/i18n',
+  moduleContainer,
+  reducer,
 }
