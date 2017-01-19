@@ -5,16 +5,6 @@ const { map, split, filter, forEach, startsWith, replace, trim } = require('loda
 const jsonServer = require('json-server')
 const fs = require('fs-extra')
 
-// gateway service is handled separately as its route does not work exactly the same
-const gatewayService = 'rs-gateway'
-/**
- * Controls the mocked service files and corresponding json services.
- * Add the service name it to get it deployed as mock service
- */
-const mockServiceNames = ['rs-access', 'rs-admin', 'rs-archival-storage-plugins-monitoring', 'rs-catalog', 'rs-dam', gatewayService]
-/** Rewriter configurations  */
-const mockRewriters = ['rs-access.rewriter']
-
 /**
  * Add pagination format to response list and HAteoas format to each elements
  * @param req
@@ -37,8 +27,10 @@ const PageAndHateoasMiddleWare = (req, res) => {
       totalElements: res.locals.data.length,
     }
     const links = []
-    if (req._parsedUrl.query) {
-      const params = split(req._parsedUrl.query, '&')
+    // eslint-disable-next-line no-underscore-dangle
+    const parsedUrl = req._parsedUrl
+    if (parsedUrl.query) {
+      const params = split(parsedUrl.query, '&')
       let index = filter(params, param => startsWith(param, '_start'))
       if (index) {
         index = replace(index[0], '_start=', '')
@@ -48,15 +40,17 @@ const PageAndHateoasMiddleWare = (req, res) => {
         limit = replace(limit[0], '_limit=', '')
       }
 
+      // eslint-disable-next-line no-underscore-dangle
+      const headers = res._headers
       if (index && limit) {
         meta = {
           number: index,
           size: limit,
-          totalElements: res._headers['x-total-count'].value(),
+          totalElements: headers['x-total-count'].value(),
         }
 
-        if (res._headers.link) {
-          const reslinks = split(res._headers.link, ',')
+        if (headers.link) {
+          const reslinks = split(headers.link, ',')
           forEach(reslinks, (clink, idx) => {
             const elements = split(clink, ';')
             let url = replace(elements[0], '<', '')
@@ -95,24 +89,26 @@ const PageAndHateoasMiddleWare = (req, res) => {
  */
 const runServer = () => {
   const server = jsonServer.create()
+  const accessMicroServiceRouter = jsonServer.router('mocks/rs-access.temp.json')
+  const gatewayMicroServiceRouter = jsonServer.router('mocks/rs-gateway.temp.json')
+  const adminMicroServiceRouter = jsonServer.router('mocks/rs-admin.temp.json')
+  const catalogMicroServiceRouter = jsonServer.router('mocks/rs-catalog.temp.json')
+  const damMicroServiceRouter = jsonServer.router('mocks/rs-dam.temp.json')
+  // const accessMicroServiceRewriter = jsonServer.rewriter('mocks/rs-access.rewriter.json')
+  const middlewares = jsonServer.defaults()
 
   accessMicroServiceRouter.render = PageAndHateoasMiddleWare
   adminMicroServiceRouter.render = PageAndHateoasMiddleWare
   catalogMicroServiceRouter.render = PageAndHateoasMiddleWare
   damMicroServiceRouter.render = PageAndHateoasMiddleWare
-  //gatewayMicroServiceRouter.render = PageAndHateoasMiddleWare
+  // gatewayMicroServiceRouter.render = PageAndHateoasMiddleWare
 
-  // declare all rewriters
-  mockRewriters.forEach((rewriterName) => {
-    jsonServer.rewriter(`mocks/${rewriterName}.json`)
-  })
-
-  server.use(jsonServer.defaults())
+  server.use(middlewares)
 
   server.use(jsonServer.bodyParser)
   server.use((req, res, next) => {
-    if (req.method === 'POST' &&
-      req.originalUrl.startsWith('/oauth/token?grant_type=password&username=admin@cnes.fr&password=admin&scope=')) {
+    if (req.method === 'POST' && req.originalUrl.startsWith('/oauth/token?grant_type=password&username=admin@cnes.fr&password=admin&scope=')) {
+      // eslint-disable-next-line no-param-reassign
       req.method = 'GET'
       console.log('done')
     }
@@ -131,7 +127,7 @@ const runServer = () => {
   server.use('/api/v1/rs-catalog/', catalogMicroServiceRouter)
   server.use('/api/v1/rs-dam/', damMicroServiceRouter)
   server.use('/api/v1/rs-admin/', adminMicroServiceRouter)
-  //server.use('/api/v1/rs-gateway/', gatewayMicroServiceRouter)
+  // server.use('/api/v1/rs-gateway/', gatewayMicroServiceRouter)
   server.use(gatewayMicroServiceRouter)
 
   server.listen(3000, () => {
@@ -146,10 +142,11 @@ fs.copy('./mocks/rs-admin.json', 'mocks/rs-admin.temp.json', () => {
   fs.copy('./mocks/rs-dam.json', 'mocks/rs-dam.temp.json', () => {
     fs.copy('./mocks/rs-catalog.json', 'mocks/rs-catalog.temp.json', () => {
       fs.copy('./mocks/rs-access.json', 'mocks/rs-access.temp.json', () => {
-        fs.copy('./mocks/rs-gateway.json', 'mocks/rs-gateway.temp.json', runServer)
+        fs.copy('./mocks/rs-archival-storage.json', 'mocks/rs-archival-storage.temp.json', () => {
+          fs.copy('./mocks/rs-gateway.json', 'mocks/rs-gateway.temp.json', runServer)
+        })
       })
     })
   })
-}
-copyAllMocks(mockServiceNames)
+})
 
