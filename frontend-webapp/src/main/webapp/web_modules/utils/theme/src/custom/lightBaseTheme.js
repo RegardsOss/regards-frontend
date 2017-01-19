@@ -3,10 +3,13 @@
  **/
 import { merge } from 'lodash'
 import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme'
-import { red900, grey900, blueGrey50, amber900 } from 'material-ui/styles/colors'
+import { white, red900, grey900, blueGrey50, amber900 } from 'material-ui/styles/colors'
 import defaultTheme from './defaultTheme'
 
 export default merge({}, lightBaseTheme, defaultTheme, {
+  appBar: {
+    textColor: white,
+  },
   palette: {
     errorColor: red900,
     warningColor: amber900,
