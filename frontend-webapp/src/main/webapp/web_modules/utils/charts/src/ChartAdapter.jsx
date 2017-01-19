@@ -22,7 +22,7 @@ export default class ChartAdapter extends React.Component {
     const { ChartComponent } = this.props
 
     let WrappedComponent
-    if (process.env.NODE_ENV === 'test') {
+    if (process.env.NODE_ENV === 'test' || process.env.NODE_ENV === 'coverage') {
       // in test, avoid loading the library
       WrappedComponent = HeadlessPlaceholder
     } else {
