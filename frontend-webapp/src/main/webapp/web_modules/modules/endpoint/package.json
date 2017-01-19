@@ -1,0 +1,9 @@
+{
+  "name": "@regardsoss/endpoint",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Module exposing backend's endpoints retrieval",
+  "main": "src/main.js",
+  "author": "CS-SI",
+  "license": "GPLv3"
+}

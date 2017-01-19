@@ -1,11 +1,18 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
+import DisplayDecorator from './DisplayDecorator'
+import applyDisplayLogic from './applyDisplayLogic'
 import HateoasDisplayDecorator from './hateoas/HateoasDisplayDecorator'
-import * as EndpointActions from './model/EndpointActions'
-import endpointReducer from './model/EndpointReducers'
+import applyHateoasDisplayLogic from './hateoas/applyHateoasDisplayLogic'
+import hateoasDisplayLogic from './hateoas/hateoasDisplayLogic'
 import LoadableContentDisplayDecorator from './async/LoadableContentDisplayDecorator'
 
 export {
+  DisplayDecorator,
+  applyDisplayLogic,
   HateoasDisplayDecorator,
-  EndpointActions,
-  endpointReducer,
+  applyHateoasDisplayLogic,
+  hateoasDisplayLogic,
   LoadableContentDisplayDecorator,
 }

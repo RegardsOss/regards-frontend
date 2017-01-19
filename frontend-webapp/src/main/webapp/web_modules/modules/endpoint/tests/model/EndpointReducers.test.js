@@ -1,9 +1,10 @@
 import { expect } from 'chai'
-import { EndpointActions, endpointReducer } from '../../src/main'
+import EndpointActions from '../../src/model/EndpointActions'
+import EndpointReducers from '../../src/model/EndpointReducers'
 
 describe('[DISPLAY CONTROL UTILS] Testing endpoints reducer', () => {
   it('should return the initial state', () => {
-    expect(endpointReducer(undefined, {})).to.eql({
+    expect(EndpointReducers(undefined, {})).to.eql({
       isFetching: false,
       items: {},
       lastUpdate: '',
@@ -20,7 +21,7 @@ describe('[DISPLAY CONTROL UTILS] Testing endpoints reducer', () => {
     const expectedState = {
       isFetching: true,
     }
-    expect(endpointReducer(initState, action)).to.eql(expectedState)
+    expect(EndpointReducers(initState, action)).to.eql(expectedState)
   })
 
   it('should handle fetch success', () => {
@@ -44,7 +45,7 @@ describe('[DISPLAY CONTROL UTILS] Testing endpoints reducer', () => {
       },
       lastUpdate: '',
     }
-    expect(endpointReducer(initState, action)).to.eql(expectedState)
+    expect(EndpointReducers(initState, action)).to.eql(expectedState)
   })
 
   it('should handle fetch failure', () => {
@@ -62,6 +63,6 @@ describe('[DISPLAY CONTROL UTILS] Testing endpoints reducer', () => {
       items: {},
       lastUpdate: '',
     }
-    expect(endpointReducer(initState, action)).to.eql(expectedState)
+    expect(EndpointReducers(initState, action)).to.eql(expectedState)
   })
 })
