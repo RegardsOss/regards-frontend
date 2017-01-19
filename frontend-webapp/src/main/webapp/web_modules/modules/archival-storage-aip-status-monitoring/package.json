@@ -1,0 +1,9 @@
+{
+  "name": "@regardsoss/archival-storage-aip-status-monitoring",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Monitoring for API storage status in micro service rs-archival-storage",
+  "main": "src/main.js",
+  "author": "CS-SI",
+  "license": "GPLv3"
+}

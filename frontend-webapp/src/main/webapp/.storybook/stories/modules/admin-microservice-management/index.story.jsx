@@ -1,3 +1,4 @@
+  .addDecorator(withKnobs)
 import React from 'react'
 import { storiesOf, action } from '@kadira/storybook'
 import { withKnobs, object } from '@kadira/storybook-addon-knobs'

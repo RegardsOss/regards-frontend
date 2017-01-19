@@ -25,4 +25,6 @@ import './modules/news/NewsComponent'
 import './modules/menu/MenuComponent'
 import './modules/projects-list/ProjectsListComponent'
 
+import './modules/archival-storage/index.story'
+
 import './theme-configuration/index.story'

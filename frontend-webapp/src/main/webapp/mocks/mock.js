@@ -5,6 +5,16 @@ const { map, split, filter, forEach, startsWith, replace, trim } = require('loda
 const jsonServer = require('json-server')
 const fs = require('fs-extra')
 
+// gateway service is handled separately as its route does not work exactly the same
+const gatewayService = 'rs-gateway'
+/**
+ * Controls the mocked service files and corresponding json services.
+ * Add the service name it to get it deployed as mock service
+ */
+const mockServiceNames = ['rs-access', 'rs-admin', 'rs-archival-storage-plugins-monitoring', 'rs-catalog', 'rs-dam', gatewayService]
+/** Rewriter configurations  */
+const mockRewriters = ['rs-access.rewriter']
+
 /**
  * Add pagination format to response list and HAteoas format to each elements
  * @param req
@@ -85,13 +95,6 @@ const PageAndHateoasMiddleWare = (req, res) => {
  */
 const runServer = () => {
   const server = jsonServer.create()
-  const accessMicroServiceRouter = jsonServer.router('mocks/rs-access.temp.json')
-  const gatewayMicroServiceRouter = jsonServer.router('mocks/rs-gateway.temp.json')
-  const adminMicroServiceRouter = jsonServer.router('mocks/rs-admin.temp.json')
-  const catalogMicroServiceRouter = jsonServer.router('mocks/rs-catalog.temp.json')
-  const damMicroServiceRouter = jsonServer.router('mocks/rs-dam.temp.json')
-  const accessMicroServiceRewriter = jsonServer.rewriter('mocks/rs-access.rewriter.json')
-  const middlewares = jsonServer.defaults()
 
   accessMicroServiceRouter.render = PageAndHateoasMiddleWare
   adminMicroServiceRouter.render = PageAndHateoasMiddleWare
@@ -99,7 +102,12 @@ const runServer = () => {
   damMicroServiceRouter.render = PageAndHateoasMiddleWare
   //gatewayMicroServiceRouter.render = PageAndHateoasMiddleWare
 
-  server.use(middlewares)
+  // declare all rewriters
+  mockRewriters.forEach((rewriterName) => {
+    jsonServer.rewriter(`mocks/${rewriterName}.json`)
+  })
+
+  server.use(jsonServer.defaults())
 
   server.use(jsonServer.bodyParser)
   server.use((req, res, next) => {
@@ -142,5 +150,6 @@ fs.copy('./mocks/rs-admin.json', 'mocks/rs-admin.temp.json', () => {
       })
     })
   })
-})
+}
+copyAllMocks(mockServiceNames)
 

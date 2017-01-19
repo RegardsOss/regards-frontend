@@ -19,6 +19,7 @@ import Dataset, { DatasetConfiguration } from './schemas/Dataset'
 import ResourceAccess, { ResourceAccessConfiguration } from './admin/ResourceAccess'
 import PluginMetaData, { PluginMetaDataConfiguration } from './admin/PluginMetaData'
 import AdminPluginConfiguration, { AdminPluginConfigurationSchemaConfiguration } from './admin/PluginConfiguration'
+import StorageMonitoringPlugin from './archival-storage/StoragePluginMonitoring'
 
 // We use this Normalizr schemas to transform API responses from a nested form
 // to a flat form where repos and users are placed in `entities`, and nested
@@ -44,7 +45,7 @@ export default {
   ROLE_ARRAY: Role.ROLE_ARRAY,
   RoleConfiguration,
 
-  MODEL: Model.MODEL,
+  STORAGE_PLUGIN_MONITORING: Model.STORAGE_PLUGIN_MONITORING,
   MODEL_ARRAY: Model.MODEL_ARRAY,
   ModelConfiguration,
 
@@ -97,4 +98,5 @@ export default {
   PLUGIN_CONFIGURATION: AdminPluginConfiguration.PLUGIN_CONFIGURATION,
   PLUGIN_CONFIGURATION_ARRAY: AdminPluginConfiguration.PLUGIN_CONFIGURATION_ARRAY,
   AdminPluginConfigurationSchemaConfiguration,
+  ...StorageMonitoringPlugin,
 }
