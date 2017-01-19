@@ -1,17 +1,18 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { map } from 'lodash'
+import { map, keys } from 'lodash'
 import { connect } from '@regardsoss/redux'
-import { FormLoadingComponent } from '@regardsoss/form-utils'
 import { PluginShape4Normalizr } from '@regardsoss/model/src/archival-storage/StoragePluginMonitoring'
+import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import StorageMonitoringComponent from '../components/StorageMonitoringComponent'
 import StoragePluginMonitoringSelector from '../model/StoragePluginMonitoringSelectors'
 import StoragePluginMonitoringActions from '../model/StoragePluginMonitoringActions'
+import { bytesScale } from '../helper/StorageUnit'
 /**
- * Display fectches storage plugins monitoring informat them display the corresponding component
+ * Fetches storage plugins monitoring information, then display the corresponding component with fetched data
  */
-export class ModuleContainer extends React.Component {
+export class StorageMonitoringContainer extends React.Component {
 
   static propTypes = {
     // Set by module loader, required for map state to props
@@ -30,20 +31,21 @@ export class ModuleContainer extends React.Component {
    * @returns {React.Component}
    */
   render() {
-    // TODO use XAB component when merged on trunk
-    if (!this.props.storagePlugins && this.props.isFetching) {
-      return (<FormLoadingComponent />)
-    }
-
     return (
-      <StorageMonitoringComponent
-        storagePlugins={map(this.props.storagePlugins, ({ content: { label, description, totalSize, usedSize } }) => ({
-          label,
-          description,
-          totalSize,
-          usedSize,
-        }))}
-      />
+      <LoadableContentDisplayDecorator
+        isLoading={this.props.isFetching}
+        isEmpty={!this.props.storagePlugins || !keys(this.props.storagePlugins).length}
+      >
+        <StorageMonitoringComponent
+          initScale={bytesScale}
+          storagePlugins={map(this.props.storagePlugins, ({ content: { label, description, totalSize, usedSize } }) => ({
+            label,
+            description,
+            totalSize,
+            usedSize,
+          }))}
+        />
+      </LoadableContentDisplayDecorator>
     )
   }
 }
@@ -56,5 +58,5 @@ const mapDispatchToProps = dispatch => ({
   fetchStoragePlugins: () => dispatch(StoragePluginMonitoringActions.fetchEntityList(dispatch)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(ModuleContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(StorageMonitoringContainer)
 

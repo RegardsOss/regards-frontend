@@ -6,7 +6,7 @@ import { findMatchingUnit, bitsScale, bytesScale } from '../../src/helper/Storag
 import { StorageCapacity, capacityFromValue } from '../../src/helper/StorageCapacity'
 
 // Test capacity functions a components rendering
-describe('[Archival storage] Testing capacity object', () => {
+describe('[STORAGE PLUGINS MONITORING] Testing capacity object', () => {
   it('should parse correctly capacities, with or without space, case insensitive', () => {
     const toParse = [{
       input: ' 10   b',
