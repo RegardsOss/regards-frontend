@@ -3,7 +3,6 @@ import { storiesOf } from '@kadira/storybook'
 import { withKnobs } from '@kadira/storybook-addon-knobs'
 import Colors from './Colors'
 import { StoreDecorator, addLocaleAndThemeSelectors, ThemeDecorator } from '../../utils/decorators'
-import ReactTransitionGroupDemo from '@regardsoss/components/src/transitions/ReactTransitionGroupDemo'
 
 storiesOf('Material Design', module)
   .addDecorator(withKnobs)
