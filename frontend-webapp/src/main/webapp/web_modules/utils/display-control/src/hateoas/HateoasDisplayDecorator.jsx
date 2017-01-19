@@ -2,31 +2,34 @@
  * LICENSE_PLACEHOLDER
  **/
 import { connect } from 'react-redux'
+import { EndpointSelectors } from '@regardsoss/endpoint'
 import hateoasDisplayLogic from './hateoasDisplayLogic'
-import EndpointSelectors from '../model/EndpointSelectors'
 import DisplayDecorator from './../DisplayDecorator'
 
 /**
- * Shortcut decorator component with Hateoas display control logic
+ * Component controlling the display of its children with Hateoas display logic
+ *
+ * @author Léo Mieulet
+ * @author Xavier-Alexandre Brochard
  */
 export class HateoasDisplayDecorator extends React.Component {
   static propTypes = {
     children: React.PropTypes.element.isRequired,
-    // Todo : endpoints: React.PropTypes.arrayOf(React.PropTypes.string),
+    requiredEndpoints: React.PropTypes.arrayOf(React.PropTypes.string),
+    availableEndpoints: React.PropTypes.arrayOf(React.PropTypes.string),
   }
 
   render() {
-    const { children } = this.props
+    const { children, requiredEndpoints, availableEndpoints } = this.props
     return (
-      <DisplayDecorator displayLogic={hateoasDisplayLogic}>
+      <DisplayDecorator displayLogic={() => hateoasDisplayLogic(requiredEndpoints, availableEndpoints)}>
         {children}
       </DisplayDecorator>
     )
   }
 }
-
 const mapStateToProps = state => ({
-  endpoints: EndpointSelectors.getEndpointsItems(state),
+  availableEndpoints: EndpointSelectors.getList(state),
 })
 
 export default connect(mapStateToProps)(HateoasDisplayDecorator)

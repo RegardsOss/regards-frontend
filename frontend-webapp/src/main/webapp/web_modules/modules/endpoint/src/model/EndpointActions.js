@@ -17,3 +17,11 @@ export const fetchEndpoints = () => ({
     method: 'GET',
   },
 })
+
+export default {
+  fetchEndpoints,
+  ENDPOINTS_API,
+  ENDPOINTS_REQUEST,
+  ENDPOINTS_SUCCESS,
+  ENDPOINTS_FAILURE,
+}

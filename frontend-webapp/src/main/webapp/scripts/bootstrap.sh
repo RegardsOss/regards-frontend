@@ -54,6 +54,7 @@ npm link web_modules/modules/menu
 npm link web_modules/modules/projects-list
 npm link web_modules/modules/global-system-error
 npm link web_modules/modules/form
+npm link web_modules/modules/endpoint
 
 # Applications
 npm link web_modules/modules/admin

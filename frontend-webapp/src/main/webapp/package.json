@@ -46,6 +46,7 @@
     "@regardsoss/charts": "0.0.1",
     "@regardsoss/components": "0.0.1",
     "@regardsoss/display-control": "0.0.1",
+    "@regardsoss/endpoint": "0.0.1",
     "@regardsoss/form": "0.0.1",
     "@regardsoss/form-utils": "0.0.1",
     "@regardsoss/global-sytem-error": "0.0.1",

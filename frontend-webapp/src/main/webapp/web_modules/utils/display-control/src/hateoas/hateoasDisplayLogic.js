@@ -1,25 +1,21 @@
 /**
+ * LICENSE_PLACEHOLDER
+ **/
+import { every, includes } from 'lodash'
+
+/**
  * A Display Controller is a pure function which implements the logic for
  * displaying or not the passed React component.
  *
- * For HATEOAS, the component's "endpoints" prop must have an entry
- * of key "endpointKey" in order to be displayed
+ * For HATEOAS, all required endpoints must be found in the provided available.
  *
- * For example:
- * endpointKey = "projects_url"
- * endpoints = {
- *  "projects_url": "http://myAwesomeUrl",
- *  "projects_users_url": "http://myOtherAwesomeUrl"
- * }
- *
- * @type {IDisplayController}
- * @param {JSX.Element} component The component on which extract endpoints
+ * @param {String[]} requiredEndpoints The array of endpoints we require in order the component to display
+ * @param {String[]} availableEndpoints The array of all available endpoints
  * @return {boolean}
+ * @author Xavier-Alexandre Brochard
  */
-const HateoasDisplayLogic = component => (
-    // Todo
-    // typeof components.props.endpoints[components.props.endpointKey] !== 'undefined'
-    true
-  )
+const hateoasDisplayLogic = (requiredEndpoints, availableEndpoints) => (
+  every(requiredEndpoints, requiredEndpoint => includes(availableEndpoints, requiredEndpoint))
+)
 
-export default HateoasDisplayLogic
+export default hateoasDisplayLogic
