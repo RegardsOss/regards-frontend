@@ -1,7 +1,6 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-
 /**
  * @author Léo Mieulet
  */
@@ -49,13 +48,13 @@ class BasicPageableActions extends BasicListActions {
           {
             type: this.ENTITY_LIST_SUCCESS,
             payload: (action, state, res) => getJSON(res).then(json => Object.assign(
-                // Only normalize the content of json
-                normalize(json.content, this.schemaTypes.ENTITY_ARRAY),
-                { links: json.links },
-                { metadata: json.metadata },
+              // Only normalize the content of json
+              normalize(json.content, this.schemaTypes.ENTITY_ARRAY),
+              { links: json.links },
+              { metadata: json.metadata },
               ),
               // Merge the normalized object with query metadata and query links
-               ),
+            ),
           },
           {
             type: this.ENTITY_LIST_FAILURE,
@@ -68,7 +67,15 @@ class BasicPageableActions extends BasicListActions {
     }
   }
 
-}
+  /**
+   * Disable because not supported
+   *
+   * @throws {Error}
+   */
+  fetchEntityList() {
+    throw new Error(`Method call forbidden on ${this.constructor.name}. Please use fetchPagedEntityList instead.`)
+  }
 
+}
 
 export default BasicPageableActions

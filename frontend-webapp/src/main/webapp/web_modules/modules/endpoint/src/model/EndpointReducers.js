@@ -1,28 +1,20 @@
-import { pickBy } from 'lodash'
-import * as Immutable from 'immutable'
-import * as actions from './EndpointActions'
+import { BasicPageableReducers } from '@regardsoss/store-utils'
+import { ResourceAccessConfiguration } from '@regardsoss/api'
+import EndpointActions from './EndpointActions'
 
-export default (state = {
-  isFetching: false,
-  items: {},
-  lastUpdate: '',
-}, action) => {
-  const newState = Immutable.fromJS(state).toJS()
-  switch (action.type) {
-    case actions.ENDPOINTS_REQUEST:
-      newState.isFetching = true
-      return newState
-    case actions.ENDPOINTS_SUCCESS:
-      newState.isFetching = false
-      newState.items = action.payload
-      return newState
-    case actions.ENDPOINTS_FAILURE:
-      newState.isFetching = false
-      return newState
-    case actions.DELETE_ENDPOINT:
-      newState.items = pickBy(newState.items, (value, key) => key !== action.id)
-      return newState
-    default:
-      return state
+class EndpointReducers extends BasicPageableReducers {
+  constructor() {
+    super(ResourceAccessConfiguration, EndpointActions)
   }
 }
+
+const instance = new EndpointReducers()
+
+/**
+ * Return an function where the reducer instance exists
+ *
+ * @param state redux previous state
+ * @param action redux action received
+ * @return new state
+ */
+export default (state, action) => instance.reduce(state, action)

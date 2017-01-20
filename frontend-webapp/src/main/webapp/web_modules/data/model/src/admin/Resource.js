@@ -8,3 +8,4 @@ const Resource = React.PropTypes.shape({
 })
 
 export default Resource
+export const ResourceList = React.PropTypes.objectOf(Resource)
