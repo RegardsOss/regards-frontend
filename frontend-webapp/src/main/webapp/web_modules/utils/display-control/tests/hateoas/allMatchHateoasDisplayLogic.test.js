@@ -11,9 +11,9 @@ describe('[DISPLAY CONTROL UTILS] Testing allMatchHateoasDisplayLogic', () => {
     const available = ['tutu', 'titi', 'tata']
     expect(allMatchHateoasDisplayLogic(required, available)).to.eql(true)
   })
-  xit('should return false if at least one does not match', () => {
+  it('should return false if at least one does not match', () => {
     const required = ['titi', 'tutu']
     const available = ['toto', 'titi', 'tata']
-    expect(allMatchHateoasDisplayLogic(required, available)).to.eql(true)
+    expect(allMatchHateoasDisplayLogic(required, available)).to.eql(false)
   })
 })
