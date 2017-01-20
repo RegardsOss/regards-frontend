@@ -1,10 +1,13 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import Schemas from '@regardsoss/api'
 import { BasicListActions } from '@regardsoss/store-utils'
 
 class AttributeModelActions extends BasicListActions {
   constructor() {
     super({
-      namespace: 'admin-data-attributemodel-management',
+      namespace: 'admin-data-modelattribute-management/attribute-model',
       entityEndpoint: `${GATEWAY_HOSTNAME}/api/v1/rs-dam-list/models/attributes`,
       schemaTypes: {
         ENTITY: Schemas.ATTRIBUTE_MODEL,
