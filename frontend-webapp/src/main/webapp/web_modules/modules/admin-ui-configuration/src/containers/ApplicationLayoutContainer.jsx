@@ -72,7 +72,7 @@ class ApplicationLayoutContainer extends React.Component {
       return (<FormEntityNotFoundComponent />)
     }
     return (
-      <I18nProvider messageDir="modules/ui-configuration/src/i18n">
+      <I18nProvider messageDir="modules/admin-ui-configuration/src/i18n">
         <ApplicationLayoutComponent layout={this.props.layout} onSubmit={this.handleSubmit} />
       </I18nProvider>
     )

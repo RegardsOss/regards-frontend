@@ -1,5 +1,5 @@
 {
-  "name": "@regardsoss/ui-configuration",
+  "name": "@regardsoss/admin-ui-configuration",
   "version": "0.0.1",
   "private": true,
   "description": "Module to configure interfaces modules",

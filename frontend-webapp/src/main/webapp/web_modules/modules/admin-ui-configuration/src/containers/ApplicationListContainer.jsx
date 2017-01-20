@@ -21,7 +21,7 @@ class ApplicationListContainer extends React.Component {
 
   render() {
     return (
-      <I18nProvider messageDir="modules/ui-configuration/src/i18n">
+      <I18nProvider messageDir="modules/admin-ui-configuration/src/i18n">
         <ApplicationListComponent project={this.props.params.project} />
       </I18nProvider>
     )
