@@ -84,7 +84,6 @@ const PageAndHateoasMiddleWare = (req, res) => {
   res.jsonp(results)
 }
 
-
 /**
  * Add response list with HAteoas to each element
  * @param req
@@ -122,30 +121,26 @@ const ArrayMiddleWare = (req, res) => {
  */
 const runServer = () => {
   const server = jsonServer.create()
+  const middlewares = jsonServer.defaults()
+
+  // const accessMicroServiceRewriter = jsonServer.rewriter('mocks/rs-access.rewriter.json')
   const accessMicroServiceRouter = jsonServer.router('mocks/rs-access.temp.json')
   const gatewayMicroServiceRouter = jsonServer.router('mocks/rs-gateway.temp.json')
   const adminMicroServiceRouter = jsonServer.router('mocks/rs-admin.temp.json')
   const catalogMicroServiceRouter = jsonServer.router('mocks/rs-catalog.temp.json')
   const damMicroServiceRouter = jsonServer.router('mocks/rs-dam.temp.json')
-  // const accessMicroServiceRewriter = jsonServer.rewriter('mocks/rs-access.rewriter.json')
-  const middlewares = jsonServer.defaults()
-
   const damMicroServiceRouterList = jsonServer.router('mocks/rs-dam-list.temp.json')
   const damMicroServiceRouterArray = jsonServer.router('mocks/rs-dam-array.temp.json')
 
-
+  // gatewayMicroServiceRouter.render = PageAndHateoasMiddleWare
   accessMicroServiceRouter.render = PageAndHateoasMiddleWare
   adminMicroServiceRouter.render = PageAndHateoasMiddleWare
   catalogMicroServiceRouter.render = PageAndHateoasMiddleWare
   damMicroServiceRouter.render = PageAndHateoasMiddleWare
-  // gatewayMicroServiceRouter.render = PageAndHateoasMiddleWare
-
   damMicroServiceRouterList.render = ListMiddleWare
-
   damMicroServiceRouterArray.render = ArrayMiddleWare
 
   server.use(middlewares)
-
   server.use(jsonServer.bodyParser)
   server.use((req, res, next) => {
     if (req.method === 'POST' && req.originalUrl.startsWith('/oauth/token?grant_type=password&username=admin@cnes.fr&password=admin&scope=')) {
@@ -161,29 +156,29 @@ const runServer = () => {
     '/api/v1/rs-access/applications/:application_id/modules/:module_id': '/api/v1/rs-access/modules/:module_id',
     '/api/v1/rs-dam/plugins/:pluginId/config': '/api/v1/rs-dam/configurations?pluginId=:pluginId',
     '/api/v1/rs-dam/plugins/:pluginId/config/:pluginConfigurationId': '/api/v1/rs-dam/configurations/:pluginConfigurationId',
-    '/api/v1/rs-access/plugins/:type' : '/api/v1/rs-access/plugins?type=:type',
-    '/api/v1/rs-dam-list/models/attributes' : '/api/v1/rs-dam-list/attributes-models',
-    '/api/v1/rs-dam-list/models/fragments' : '/api/v1/rs-dam-list/models-fragments',
+    '/api/v1/rs-access/plugins/:type': '/api/v1/rs-access/plugins?type=:type',
+    '/api/v1/rs-dam-list/models/attributes': '/api/v1/rs-dam-list/attributes-models',
+    '/api/v1/rs-dam-list/models/fragments': '/api/v1/rs-dam-list/models-fragments',
     '/api/v1/rs-dam-list/models/:modelid/attributes': '/api/v1/rs-dam-list/models-attributes?model.id=:modelid',
     '/api/v1/rs-dam-list/models/:modelid/attributes/:id': '/api/v1/rs-dam-list/models-attributes/:id?model.id=:modelid',
-    '/api/v1/rs-dam-array/models/attributes/restrictions' : '/api/v1/rs-dam-array/models-attributes-restrictions',
+    '/api/v1/rs-dam-array/models/attributes/restrictions': '/api/v1/rs-dam-array/models-attributes-restrictions',
     '/api/v1/rs-dam-array/models/attributes/types': '/api/v1/rs-dam-array/models-attributes-types',
-    '/oauth/token' :'/tokens/1'
+    '/oauth/token': '/tokens/1',
   }))
+
+  // server.use('/api/v1/rs-gateway/', gatewayMicroServiceRouter)
   server.use('/api/v1/rs-access/', accessMicroServiceRouter)
   server.use('/api/v1/rs-catalog/', catalogMicroServiceRouter)
   server.use('/api/v1/rs-dam/', damMicroServiceRouter)
   server.use('/api/v1/rs-admin/', adminMicroServiceRouter)
   server.use('/api/v1/rs-dam-list/', damMicroServiceRouterList)
   server.use('/api/v1/rs-dam-array/', damMicroServiceRouterArray)
-  // server.use('/api/v1/rs-gateway/', gatewayMicroServiceRouter)
   server.use(gatewayMicroServiceRouter)
 
   server.listen(3000, () => {
     console.log('JSON Server is running on http://localhost:3000/')
   })
 }
-
 
 /**
  * Copy mock json database to temp file for trash use during mock usage

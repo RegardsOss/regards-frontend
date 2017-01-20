@@ -22,12 +22,8 @@ export default function applyHateoasDisplayLogic(passedRequiredEndpoints, hateoa
 
       static propTypes = {
         hateoasDisplayLogic: React.PropTypes.func.isRequired,
-        requiredEndpoints: React.PropTypes.any,
-        availableEndpoints: React.PropTypes.any,
-        // requiredEndpoints: ResourceList,
-        // availableEndpoints: ResourceList,
-        // requiredEndpoints: React.PropTypes.arrayOf(React.PropTypes.string),
-        // availableEndpoints: React.PropTypes.arrayOf(React.PropTypes.string),
+        requiredEndpoints: ResourceList,
+        availableEndpoints: ResourceList,
       }
 
       render() {

@@ -17,8 +17,8 @@ export class HateoasDisplayDecorator extends React.Component {
   static propTypes = {
     children: React.PropTypes.element.isRequired,
     hateoasDisplayLogic: React.PropTypes.func.isRequired,
-    requiredEndpoints: React.PropTypes.any,
-    availableEndpoints: React.PropTypes.any,
+    requiredEndpoints: React.PropTypes.arrayOf(React.PropTypes.string),
+    availableEndpoints: React.PropTypes.arrayOf(React.PropTypes.string),
     // requiredEndpoints: ResourceList,
     // availableEndpoints: ResourceList,
   }
@@ -38,7 +38,8 @@ export class HateoasDisplayDecorator extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  availableEndpoints: EndpointSelectors.getList(state),
+  availableEndpoints: EndpointSelectors.getArray(state),
+  // availableEndpoints: EndpointSelectors.getList(state),
 })
 
 export default connect(mapStateToProps)(HateoasDisplayDecorator)

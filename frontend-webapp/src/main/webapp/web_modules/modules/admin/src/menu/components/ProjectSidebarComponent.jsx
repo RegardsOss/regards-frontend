@@ -16,7 +16,9 @@ import Reply from 'material-ui/svg-icons/content/reply'
 import { FormattedMessage } from 'react-intl'
 import SupervisorAccount from 'material-ui/svg-icons/action/supervisor-account'
 import { I18nProvider } from '@regardsoss/i18n'
-import HateoasSidebarElement from './HateoasSidebarElement'
+import { HateoasDisplayDecorator } from '@regardsoss/display-control'
+import SidebarElement from './SidebarElement'
+import requiredEndpoints from './requiredEndpoints'
 
 /**
  * React sidebar components. Display the admin application menu
@@ -54,56 +56,49 @@ class ProjectSidebarComponent extends React.Component {
       <I18nProvider messageDir="modules/admin/src/menu/i18n">
 
         <Drawer open containerStyle={style.sidebarContainer.styles} className={style.sidebarContainer.classes}>
-          <HateoasSidebarElement
-            endpointKey="projects_users_url"
-            key="1"
-            to={`/admin/${projectName}/user/board`}
-            linkStyle={style.link.styles}
-            primaryText={<FormattedMessage id="menu.users" />}
-            leftIcon={<SupervisorAccount />}
-          />
-          <HateoasSidebarElement
-            endpointKey="projects_connections_url"
+            <SidebarElement
+              key="1"
+              to={`/admin/${projectName}/user/board`}
+              linkStyle={style.link.styles}
+              primaryText={<FormattedMessage id="menu.users" />}
+              leftIcon={<SupervisorAccount />}
+            />
+          <SidebarElement
             key="2"
             to={`/admin/${projectName}/data/board`}
             linkStyle={style.link.styles}
             primaryText={<FormattedMessage id="menu.datamanagement" />}
             leftIcon={<AddBox />}
           />
-          <HateoasSidebarElement
-            endpointKey="projects_connections_url"
+          <SidebarElement
             key="3"
             to={`/admin/${projectName}/data/list`}
             linkStyle={style.link.styles}
             primaryText={<FormattedMessage id="menu.dataaccessrights" />}
             leftIcon={<VerifiedUser />}
           />
-          <HateoasSidebarElement
-            endpointKey="projects_connections_url"
+          <SidebarElement
             key="4"
             to={`/admin/${projectName}/plugins`}
             linkStyle={style.link.styles}
             primaryText={<FormattedMessage id="menu.plugins" />}
             leftIcon={<Widgets />}
           />
-          <HateoasSidebarElement
-            endpointKey="projects_connections_url"
+          <SidebarElement
             key="5"
             to={`/admin/${projectName}/microservice/board`}
             linkStyle={style.link.styles}
             primaryText={<FormattedMessage id="menu.microservices" />}
             leftIcon={<CloudQueue />}
           />
-          <HateoasSidebarElement
-            endpointKey="projects_connections_url"
+          <SidebarElement
             key="6"
             to={`/admin/${projectName}/ui-configuration/applications`}
             linkStyle={style.link.styles}
             primaryText={<FormattedMessage id="menu.ui.configuration" />}
             leftIcon={<Brush />}
           />
-          <HateoasSidebarElement
-            endpointKey="projects_connections_url"
+          <SidebarElement
             key="7"
             to={`/admin/${projectName}/datamanagement`}
             linkStyle={style.link.styles}

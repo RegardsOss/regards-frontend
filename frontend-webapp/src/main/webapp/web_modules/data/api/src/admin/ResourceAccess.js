@@ -5,12 +5,9 @@ export const ResourceAccessConfiguration = {
   normalizrKey: 'resourceaccess',
 }
 
-
 // Read more about Normalizr: https://github.com/paularmstrong/normalizr
 const resourceAccessSchema = new Schema(ResourceAccessConfiguration.normalizrKey, {
-  idAttribute: project =>
-    project.content[ResourceAccessConfiguration.entityKey]
-  ,
+  idAttribute: entity => entity.content[ResourceAccessConfiguration.entityKey],
 })
 
 // Schemas for API responses.

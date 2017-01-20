@@ -1,8 +1,9 @@
-import { BasicPageableReducers } from '@regardsoss/store-utils'
+import { BasicArrayReducers } from '@regardsoss/store-utils'
 import { ResourceAccessConfiguration } from '@regardsoss/api'
 import EndpointActions from './EndpointActions'
 
-class EndpointReducers extends BasicPageableReducers {
+class EndpointReducers extends BasicArrayReducers {
+// class EndpointReducers extends BasicPageableReducers {
   constructor() {
     super(ResourceAccessConfiguration, EndpointActions)
   }
