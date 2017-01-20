@@ -34,6 +34,7 @@ npm link web_modules/components
 npm link web_modules/modules/admin-data-management
 npm link web_modules/modules/admin-data-model-management
 npm link web_modules/modules/admin-data-attributemodel-management
+npm link web_modules/modules/admin-data-modelattribute-management
 npm link web_modules/modules/admin-data-fragment-management
 npm link web_modules/modules/admin-microservice-management
 npm link web_modules/modules/admin-project-management
@@ -54,6 +55,7 @@ npm link web_modules/modules/menu
 npm link web_modules/modules/projects-list
 npm link web_modules/modules/global-system-error
 npm link web_modules/modules/form
+npm link web_modules/modules/endpoint
 
 # Applications
 npm link web_modules/modules/admin

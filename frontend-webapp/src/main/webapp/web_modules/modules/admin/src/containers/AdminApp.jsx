@@ -6,11 +6,10 @@ import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { isAuthenticated, AuthenticationSelectors, AuthenticateShape } from '@regardsoss/authentication-manager'
 import { ThemeHelper, ThemeSelectors } from '@regardsoss/theme'
-import { EndpointActions } from '@regardsoss/display-control'
+import { EndpointActions } from '@regardsoss/endpoint'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import AdminLayout from './AdminLayout'
 import AuthenticationPanel from './AuthenticationPanel'
-
 
 /**
  * React components to manage the instance application.
@@ -98,7 +97,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchEndpoints: () => dispatch(EndpointActions.fetchEndpoints()),
+  fetchEndpoints: () => dispatch(EndpointActions.fetchPagedEntityList(dispatch, 0, 10000)), // TODO
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AdminApp)

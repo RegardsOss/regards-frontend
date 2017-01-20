@@ -9,7 +9,7 @@ import { themeReducers } from '@regardsoss/theme'
 import { PluginReducer } from '@regardsoss/plugins'
 import { i18nReducers } from '@regardsoss/i18n'
 import { authentication } from '@regardsoss/authentication-manager'
-import { endpointReducer } from '@regardsoss/display-control'
+import { EndpointReducers } from '@regardsoss/endpoint'
 import { ApplicationErrorReducer } from '@regardsoss/global-sytem-error'
 import { reducer as reduxFormReducer } from 'redux-form'
 
@@ -20,7 +20,7 @@ const commonReducer = combineReducers({
   i18n: i18nReducers,
   theme: themeReducers,
   plugins: PluginReducer,
-  endpoints: endpointReducer,
+  endpoints: EndpointReducers,
   authentication,
   error: ApplicationErrorReducer,
 })

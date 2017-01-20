@@ -24,7 +24,7 @@ module.exports = {
     // Automaticaly get extensions files from javascript code with import or require.
     // exemple require('main') look for main, main.js or main.sass with our configuration
     // extensions: ['', '.js', '.scss'],
-    extensions: ['', '.webpack.js', '.web.js', '.js', '.jsx'],
+    extensions: ['', '.js', '.jsx'],
     // Root directories from wich requires are made
     root: [
       path.join(__dirname),
@@ -42,7 +42,7 @@ module.exports = {
       {
         test: /\.jsx?$/,
         exclude: [/node_modules/, /json/],
-        loader: 'babel',
+        loader: 'babel'
       },
       {
         test: /\.css$/,

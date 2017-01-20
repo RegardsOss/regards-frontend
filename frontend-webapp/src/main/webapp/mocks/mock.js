@@ -84,6 +84,39 @@ const PageAndHateoasMiddleWare = (req, res) => {
   res.jsonp(results)
 }
 
+
+/**
+ * Add response list with HAteoas to each element
+ * @param req
+ * @param res
+ */
+const ListMiddleWare = (req, res) => {
+  if (Array.isArray(res.locals.data)) {
+    const results = []
+    map(res.locals.data, (elt, i) => {
+      results.push({
+        content: elt,
+        links: [],
+      })
+    })
+    res.jsonp(results)
+  } else {
+    res.jsonp({
+      content: res.locals.data,
+      links: [],
+    })
+  }
+}
+
+/**
+ * Add response array
+ * @param req
+ * @param res
+ */
+const ArrayMiddleWare = (req, res) => {
+  res.jsonp(Array.isArray(res.locals.data) ? res.locals.data : [])
+}
+
 /**
  * Run json server
  */
@@ -97,11 +130,19 @@ const runServer = () => {
   // const accessMicroServiceRewriter = jsonServer.rewriter('mocks/rs-access.rewriter.json')
   const middlewares = jsonServer.defaults()
 
+  const damMicroServiceRouterList = jsonServer.router('mocks/rs-dam-list.temp.json')
+  const damMicroServiceRouterArray = jsonServer.router('mocks/rs-dam-array.temp.json')
+
+
   accessMicroServiceRouter.render = PageAndHateoasMiddleWare
   adminMicroServiceRouter.render = PageAndHateoasMiddleWare
   catalogMicroServiceRouter.render = PageAndHateoasMiddleWare
   damMicroServiceRouter.render = PageAndHateoasMiddleWare
   // gatewayMicroServiceRouter.render = PageAndHateoasMiddleWare
+
+  damMicroServiceRouterList.render = ListMiddleWare
+
+  damMicroServiceRouterArray.render = ArrayMiddleWare
 
   server.use(middlewares)
 
@@ -118,22 +159,31 @@ const runServer = () => {
 
   server.use(jsonServer.rewriter({
     '/api/v1/rs-access/applications/:application_id/modules/:module_id': '/api/v1/rs-access/modules/:module_id',
-    '/api/v1/rs-access/plugins/:type': '/api/v1/rs-access/plugins?type=:type',
-    '/oauth/token': '/tokens/1',
     '/api/v1/rs-dam/plugins/:pluginId/config': '/api/v1/rs-dam/configurations?pluginId=:pluginId',
     '/api/v1/rs-dam/plugins/:pluginId/config/:pluginConfigurationId': '/api/v1/rs-dam/configurations/:pluginConfigurationId',
+    '/api/v1/rs-access/plugins/:type' : '/api/v1/rs-access/plugins?type=:type',
+    '/api/v1/rs-dam-list/models/attributes' : '/api/v1/rs-dam-list/attributes-models',
+    '/api/v1/rs-dam-list/models/fragments' : '/api/v1/rs-dam-list/models-fragments',
+    '/api/v1/rs-dam-list/models/:modelid/attributes': '/api/v1/rs-dam-list/models-attributes?model.id=:modelid',
+    '/api/v1/rs-dam-list/models/:modelid/attributes/:id': '/api/v1/rs-dam-list/models-attributes/:id?model.id=:modelid',
+    '/api/v1/rs-dam-array/models/attributes/restrictions' : '/api/v1/rs-dam-array/models-attributes-restrictions',
+    '/api/v1/rs-dam-array/models/attributes/types': '/api/v1/rs-dam-array/models-attributes-types',
+    '/oauth/token' :'/tokens/1'
   }))
   server.use('/api/v1/rs-access/', accessMicroServiceRouter)
   server.use('/api/v1/rs-catalog/', catalogMicroServiceRouter)
   server.use('/api/v1/rs-dam/', damMicroServiceRouter)
   server.use('/api/v1/rs-admin/', adminMicroServiceRouter)
+  server.use('/api/v1/rs-dam-list/', damMicroServiceRouterList)
+  server.use('/api/v1/rs-dam-array/', damMicroServiceRouterArray)
   // server.use('/api/v1/rs-gateway/', gatewayMicroServiceRouter)
   server.use(gatewayMicroServiceRouter)
 
   server.listen(3000, () => {
-    console.log('JSON Server is running')
+    console.log('JSON Server is running on http://localhost:3000/')
   })
 }
+
 
 /**
  * Copy mock json database to temp file for trash use during mock usage
@@ -143,7 +193,11 @@ fs.copy('./mocks/rs-admin.json', 'mocks/rs-admin.temp.json', () => {
     fs.copy('./mocks/rs-catalog.json', 'mocks/rs-catalog.temp.json', () => {
       fs.copy('./mocks/rs-access.json', 'mocks/rs-access.temp.json', () => {
         fs.copy('./mocks/rs-archival-storage.json', 'mocks/rs-archival-storage.temp.json', () => {
-          fs.copy('./mocks/rs-gateway.json', 'mocks/rs-gateway.temp.json', runServer)
+          fs.copy('./mocks/rs-gateway.json', 'mocks/rs-gateway.temp.json', () => {
+            fs.copy('./mocks/rs-dam-list.json', 'mocks/rs-dam-list.temp.json', () => {
+              fs.copy('./mocks/rs-dam-array.json', 'mocks/rs-dam-array.temp.json', runServer)
+            })
+          })
         })
       })
     })

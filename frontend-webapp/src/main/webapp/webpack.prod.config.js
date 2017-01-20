@@ -37,6 +37,7 @@ config = merge(config, {
     new webpack.ProvidePlugin({
       "React": "react",
     }),
+    new webpack.BannerPlugin("Copyright CNES"),
     // Remove the build folder before building
     new CleanWebpackPlugin(['build'], {
       root: __dirname,
