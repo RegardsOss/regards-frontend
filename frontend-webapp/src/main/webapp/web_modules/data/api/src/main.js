@@ -48,6 +48,8 @@ export default {
   RoleConfiguration,
 
   STORAGE_PLUGIN_MONITORING: Model.STORAGE_PLUGIN_MONITORING,
+
+  MODEL: Model.MODEL,
   MODEL_ARRAY: Model.MODEL_ARRAY,
   ModelConfiguration,
 

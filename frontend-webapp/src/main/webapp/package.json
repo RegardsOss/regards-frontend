@@ -28,6 +28,7 @@
     "@regardsoss/admin": "0.0.1",
     "@regardsoss/admin-account-management": "0.0.1",
     "@regardsoss/admin-data-attributemodel-management": "0.0.1",
+    "@regardsoss/admin-data-modelattribute-management": "0.0.1",
     "@regardsoss/admin-data-fragment-management": "0.0.1",
     "@regardsoss/admin-data-management": "0.0.1",
     "@regardsoss/admin-data-model-management": "0.0.1",
