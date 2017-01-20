@@ -1,6 +1,9 @@
-import { BasicListSelectors } from '@regardsoss/store-utils'
+/**
+ * LICENSE_PLACEHOLDER
+ **/
+import { BasicPageableSelectors } from '@regardsoss/store-utils'
 
-class EndpointSelectors extends BasicListSelectors {
+class EndpointSelectors extends BasicPageableSelectors {
   constructor() {
     super(['common', 'endpoints'])
   }

@@ -1,27 +1,18 @@
-const { CALL_API } = require('redux-api-middleware')
+import Schemas from '@regardsoss/api'
+import { BasicPageableActions } from '@regardsoss/store-utils'
 
-export const ENDPOINTS_API = `${GATEWAY_HOSTNAME}/api/endpoints`
-export const ENDPOINTS_REQUEST = 'ENDPOINTS_REQUEST'
-export const ENDPOINTS_SUCCESS = 'ENDPOINTS_SUCCESS'
-export const ENDPOINTS_FAILURE = 'ENDPOINTS_FAILURE'
-
-// Fetches root endpoints
-export const fetchEndpoints = () => ({
-  [CALL_API]: {
-    types: [
-      ENDPOINTS_REQUEST,
-      ENDPOINTS_SUCCESS,
-      ENDPOINTS_FAILURE,
-    ],
-    endpoint: ENDPOINTS_API,
-    method: 'GET',
-  },
-})
-
-export default {
-  fetchEndpoints,
-  ENDPOINTS_API,
-  ENDPOINTS_REQUEST,
-  ENDPOINTS_SUCCESS,
-  ENDPOINTS_FAILURE,
+class EndpointActions extends BasicPageableActions {
+  constructor() {
+    super({
+      namespace: 'common/endpoint',
+      entityEndpoint: `${GATEWAY_HOSTNAME}/api/v1/rs-admin/resources`,
+      schemaTypes: {
+        ENTITY: Schemas.RESOURCE_ACCESS,
+        ENTITY_ARRAY: Schemas.RESOURCE_ACCESS_ARRAY,
+      },
+    })
+  }
 }
+
+const instance = new EndpointActions()
+export default instance

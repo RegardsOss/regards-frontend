@@ -12,7 +12,7 @@ describe('[ADMIN ACCOUNT MANAGEMENT] Testing form container', () => {
     const props = {
       currentAccount: {
         content: {
-          id: '1',
+          id: 1,
           lastName: 'last name',
           email: 'em@il.com',
           firstName: 'first icon',

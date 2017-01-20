@@ -5,11 +5,12 @@ import ProjectUser from './admin/ProjectUser'
 import Role from './admin/Role'
 import Project from './admin/Project'
 import Account from './admin/Account'
-import Resource from './admin/Resource'
+import Resource, { ResourceList } from './admin/Resource'
 import AttributeModel from './dam/AttributeModel'
 import JavaTypes from './dam/JavaTypes'
 import Fragment from './dam/Fragment'
 import Model from './dam/Model'
+import ModelAttribute from './dam/ModelAttribute'
 import Plugin from './access/Plugin'
 import { PluginInfo, PluginTypes } from './access/PluginInfo'
 import PluginDefinition from './access/PluginDefinition'
@@ -28,12 +29,14 @@ export default {
   Project,
   Account,
   Resource,
+  ResourceList,
 
   // DAM
   AttributeModel,
   JavaTypes,
   Fragment,
   Model,
+  ModelAttribute,
 
   // CATALOG
   Entity,

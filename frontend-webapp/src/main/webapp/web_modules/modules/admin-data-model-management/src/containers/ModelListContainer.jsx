@@ -43,13 +43,21 @@ export class ProjectListContainer extends React.Component {
     const { params: { project } } = this.props
     return `/admin/${project}/data/model/create`
   }
+
   getBackUrl = () => {
     const { params: { project } } = this.props
     return `/admin/${project}/data/board`
   }
 
-  handleEdit = (projectName) => {
-    const url = `/admin/project/${projectName}/edit`
+  handleEdit = (modelId) => {
+    const { params: { project } } = this.props
+    const url = `/admin/${project}/data/model/${modelId}`
+    browserHistory.push(url)
+  }
+
+  handleBindAttributes = (modelId) => {
+    const { params: { project } } = this.props
+    const url = `/admin/${project}/data/model-attribute/${modelId}/edit`
     browserHistory.push(url)
   }
 
@@ -67,6 +75,7 @@ export class ProjectListContainer extends React.Component {
           backUrl={this.getBackUrl()}
           handleDelete={this.handleDelete}
           handleEdit={this.handleEdit}
+          handleBindAttributes={this.handleBindAttributes}
         />
       </I18nProvider>
     )

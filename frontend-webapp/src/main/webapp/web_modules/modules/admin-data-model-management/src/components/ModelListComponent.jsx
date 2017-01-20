@@ -5,6 +5,7 @@ import { FormattedMessage } from 'react-intl'
 import IconButton from 'material-ui/IconButton'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
+import Settings from 'material-ui/svg-icons/action/settings-input-composite'
 import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -27,6 +28,7 @@ export class ProjectListComponent extends React.Component {
     ),
     handleDelete: React.PropTypes.func.isRequired,
     handleEdit: React.PropTypes.func.isRequired,
+    handleBindAttributes: React.PropTypes.func.isRequired,
     createUrl: React.PropTypes.string.isRequired,
     backUrl: React.PropTypes.string.isRequired,
   }
@@ -52,11 +54,11 @@ export class ProjectListComponent extends React.Component {
   }
 
   render() {
-    const { modelList, handleEdit, handleDelete, createUrl, backUrl } = this.props
+    const { modelList, handleEdit, handleDelete, createUrl, handleBindAttributes, backUrl } = this.props
     const style = {
       hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
       hoverButtonDelete: this.context.muiTheme.palette.accent1Color,
-      hoverButtonView: this.context.muiTheme.palette.pickerHeaderColor,
+      hoverButtonBindAttribute: this.context.muiTheme.palette.primary3Color,
     }
     return (
       <Card>
@@ -91,6 +93,9 @@ export class ProjectListComponent extends React.Component {
                   <TableRowColumn>{model.content.description}</TableRowColumn>
                   <TableRowColumn>{this.getType(model.content.type)}</TableRowColumn>
                   <TableRowColumn>
+                    <IconButton onTouchTap={() => handleBindAttributes(model.content.id)}>
+                      <Settings hoverColor={style.hoverButtonBindAttribute} />
+                    </IconButton>
 
                     <IconButton onTouchTap={() => handleEdit(model.content.id)}>
                       <Edit hoverColor={style.hoverButtonEdit} />

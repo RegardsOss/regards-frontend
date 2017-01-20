@@ -10,12 +10,14 @@
 const CommonConfig = require('../webpack.common.config')
 const webpack = require('webpack')
 const merge = require('webpack-merge')
+const HappyPack = require('happypack')
 
 let config = CommonConfig
 // Reset loaders
 config.module.loaders = []
 config.module.plugins = []
 config = merge(config, {
+  devtool: 'cheap-module-eval-source-map',
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
@@ -25,14 +27,20 @@ config = merge(config, {
     }),
     // your custom plugins
     new webpack.ProvidePlugin({ React: 'react' }),
+    // HappyPack makes webpack builds faster by allowing you to transform multiple files in parallel.
+    new HappyPack({
+      loaders: ['babel?cacheDirectory'],
+      threads: 4,
+      tempDir: '.tmp/.happypack/',
+    }),
   ],
   module: {
     loaders: [
-      // Transpile ES6 Javascript into ES5 with babel loader
+      // Transpile ES6 Javascript into ES5 with babel loader and happypack
       {
         test: /\.jsx?$/,
-        exclude: [/node_modules/, /json/],
-        loader: 'babel',
+        exclude: [/node_modules/, /json/, /\.tmp/],
+        loader: 'happypack/loader',
       },
       {
         test: /\.css?$/,
