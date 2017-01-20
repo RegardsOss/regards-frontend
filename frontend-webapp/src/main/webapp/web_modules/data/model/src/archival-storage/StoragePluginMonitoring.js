@@ -1,5 +1,5 @@
 const StoragePluginShape = React.PropTypes.shape({
-  id: React.PropTypes.string,
+  id: React.PropTypes.number,
   label: React.PropTypes.string.isRequired,
   description: React.PropTypes.string.isRequired,
   totalSize: React.PropTypes.string,
@@ -8,5 +8,5 @@ const StoragePluginShape = React.PropTypes.shape({
 export default StoragePluginShape
 
 export const PluginShape4Normalizr = React.PropTypes.shape({
-  content: React.PropTypes.shape(StoragePluginShape),
+  content: StoragePluginShape,
 })

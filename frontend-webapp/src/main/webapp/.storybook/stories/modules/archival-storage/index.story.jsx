@@ -55,7 +55,7 @@ storiesOf('Archival storage', module)
     return (
       <ThemeAndLocaleDecorator theme={themeWithLocale} messageDir="modules/archival-storage-plugins-monitoring/src/i18n">
         <ModuleThemeProvider module={moduleTheme}>
-          <StorageMonitoringComponent storagePluginsData={mockStoragePlugins} />
+          <StorageMonitoringComponent storagePlugins={mockStoragePlugins} />
         </ModuleThemeProvider>
       </ThemeAndLocaleDecorator>
     )

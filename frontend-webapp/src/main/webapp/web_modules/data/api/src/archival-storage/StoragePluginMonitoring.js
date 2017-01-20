@@ -7,20 +7,20 @@ import { Schema, arrayOf } from 'normalizr'
 /**
  * StoragePluginMonitoring (spm) management for normalizer
  */
-const StorageMonitoringPluginConfiguration = {
+export const StoragePluginMonitoringConfiguration = {
   entityKey: 'id', // FIXME : check with backend after implementation
   normalizrKey: 'StorageMonitoringPlugin',
 }
 
-const storageMonitoringPluginSchema = new Schema(StorageMonitoringPluginConfiguration.normalizrKey, {
+const storageMonitoringPluginSchema = new Schema(StoragePluginMonitoringConfiguration.normalizrKey, {
   idAttribute: model =>
-    model.content[StorageMonitoringPluginConfiguration.entityKey]
+    model.content[StoragePluginMonitoringConfiguration.entityKey]
   ,
 })
 
 // Schemas for API responses.
 export default {
-  STORAGE_MONITORING_PLUGIN: storageMonitoringPluginSchema,
-  STORAGE_MONITORING_PLUGIN_ARRAY: arrayOf(storageMonitoringPluginSchema),
-  StorageMonitoringPluginConfiguration,
+  STORAGE_PLUGIN_MONITORING: storageMonitoringPluginSchema,
+  STORAGE_PLUGIN_MONITORING_ARRAY: arrayOf(storageMonitoringPluginSchema),
+  StoragePluginMonitoringConfiguration,
 }

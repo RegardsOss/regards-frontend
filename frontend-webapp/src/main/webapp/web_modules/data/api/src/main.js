@@ -20,7 +20,7 @@ import ResourceAccess, { ResourceAccessConfiguration } from './admin/ResourceAcc
 import ModelAttribute, { ModelAttributeConfiguration } from './dam/ModelAttribute'
 import PluginMetaData, { PluginMetaDataConfiguration } from './admin/PluginMetaData'
 import AdminPluginConfiguration, { AdminPluginConfigurationSchemaConfiguration } from './admin/PluginConfiguration'
-import StorageMonitoringPlugin from './archival-storage/StoragePluginMonitoring'
+import StoragePluginMonitoring from './archival-storage/StoragePluginMonitoring'
 
 
 // We use this Normalizr schemas to transform API responses from a nested form
@@ -105,5 +105,6 @@ export default {
   PLUGIN_CONFIGURATION: AdminPluginConfiguration.PLUGIN_CONFIGURATION,
   PLUGIN_CONFIGURATION_ARRAY: AdminPluginConfiguration.PLUGIN_CONFIGURATION_ARRAY,
   AdminPluginConfigurationSchemaConfiguration,
-  ...StorageMonitoringPlugin,
+
+  ...StoragePluginMonitoring,
 }

@@ -1,6 +1,6 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
+
 import { StorageMonitoringContainer } from '../../src/containers/StorageMonitoringContainer'
 import StorageMonitoringComponent from '../../src/components/StorageMonitoringComponent'
 
@@ -11,7 +11,7 @@ describe('[STORAGE PLUGINS MONITORING] Testing plugins monitoring container', ()
   })
   const props = {
     appName: 'any', // from mapStateToProps
-    isFetching: false,
+    isFetching: false, // from mapStateToProps
     storagePlugins: {
       1: {
         content: {
@@ -28,23 +28,24 @@ describe('[STORAGE PLUGINS MONITORING] Testing plugins monitoring container', ()
   }
   it('should render self and component sub component in nominal case', () => {
     const enzymeWrapper = shallow(<StorageMonitoringContainer {...props} />)
-    expect(enzymeWrapper.find(StorageMonitoringComponent)).to.have.length(1)
-    expect(enzymeWrapper.find(LoadableContentDisplayDecorator)).to.have.length(1)
-    expect(enzymeWrapper.find(LoadableContentDisplayDecorator).props().isLoading).to.equal(false)
-    expect(enzymeWrapper.find(LoadableContentDisplayDecorator).props().isEmpty).to.equal(false)
+    const mainComponent = enzymeWrapper.find(StorageMonitoringComponent)
+    expect(mainComponent).to.have.length(1)
+    assert.isFalse(mainComponent.props().isFetching)
+    assert.isFalse(mainComponent.props().error)
   })
 
   it('should show loading when loading', () => {
     const localProps = { ...props, isFetching: true }
     const enzymeWrapper = shallow(<StorageMonitoringContainer {...localProps} />)
-    expect(enzymeWrapper.find(LoadableContentDisplayDecorator).props().isLoading).to.equal(true)
-    expect(enzymeWrapper.find(LoadableContentDisplayDecorator).props().isEmpty).to.equal(false)
+    const mainComponent = enzymeWrapper.find(StorageMonitoringComponent)
+    assert.isTrue(mainComponent.props().isFetching)
+    assert.isFalse(mainComponent.props().error)
   })
-  it('should show no data when there is no data', () => {
-    const localProps = { ...props, storagePlugins: {} }
+  it('should show error when there is one', () => {
+    const localProps = { ...props, error: 'Test error' }
     const enzymeWrapper = shallow(<StorageMonitoringContainer {...localProps} />)
-    expect(enzymeWrapper.find(LoadableContentDisplayDecorator).props().isLoading).to.equal(false)
-    expect(enzymeWrapper.find(LoadableContentDisplayDecorator).props().isEmpty).to.equal(true)
+    const mainComponent = enzymeWrapper.find(StorageMonitoringComponent)
+    assert.isFalse(mainComponent.props().isFetching)
+    assert.isTrue(mainComponent.props().error)
   })
-
 })

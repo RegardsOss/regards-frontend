@@ -16,6 +16,7 @@ import { Card, CardTitle, CardMedia } from 'material-ui/Card'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
 import ChartAdapter from '@regardsoss/charts'
 import PluginShape from '@regardsoss/model/src/archival-storage/StoragePluginMonitoring'
+import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { bytesScale, allUnitScales } from '../helper/StorageUnit'
 import { capacityFromValue } from '../helper/StorageCapacity'
 
@@ -23,12 +24,16 @@ class StorageMonitoring extends Component {
 
   static propTypes = {
     initScale: PropTypes.string.isRequired,
-    storagePluginsData: PropTypes.arrayOf(PluginShape).isRequired,
+    storagePlugins: PropTypes.arrayOf(PluginShape),
+    expanded: React.PropTypes.bool,
+    isFetching: React.PropTypes.bool,
+    error: React.PropTypes.bool,
   }
 
   static defaultProps = {
-    initScale: bytesScale,
-    storagePluginsData: [],
+    initScale: 'bytes',
+    storagePlugins: [],
+    expanded: true,
   }
 
   /** I18N injection */
@@ -36,21 +41,26 @@ class StorageMonitoring extends Component {
     ...themeContextType, ...i18nContextType,
   }
 
-  componentWillMount() {
-    const { initScale } = this.props
-    // initialize the state, through unit selection converter
-    this.onUnitScaleSelected(initScale)
-  }
-
-  onUnitScaleSelected(newScale) {
-    const currentPlugins = this.state && this.state.plugins ? // initial data input parsing (lazy)
-      this.state.plugins : this.parsePluginsInput(this.props.storagePluginsData)
+  componentWillMount = () => {
+    // set up the default state with unit scale and expanded state
+    const { initScale, storagePlugins, expanded } = this.props
+    const scaleToUse = allUnitScales.includes(initScale) ? initScale : bytesScale
     this.setState({
-      currentScale: newScale,
-      plugins: this.toNewScale(currentPlugins, newScale),
-      expanded: true,
+      currentScale: scaleToUse,
+      expanded,
+      plugins: this.parsePluginsInput(storagePlugins),
     })
   }
+
+  componentWillReceiveProps(nextProps) {
+    // check if next plugins data changed
+    const { storagePlugins } = nextProps
+    if (storagePlugins.length) {
+      this.updatePluginsScale(this.state.currentScale, this.parsePluginsInput(storagePlugins))
+    }
+  }
+
+  onUnitScaleSelected = newScale => this.updatePluginsScale(newScale, this.state.plugins)
 
   /**
    * On expand / collapse button touch, switches state
@@ -59,6 +69,14 @@ class StorageMonitoring extends Component {
     this.setState({
       ...this.state,
       expanded: !this.state.expanded,
+    })
+  }
+
+  updatePluginsScale = (newScale, plugins) => {
+    this.setState({
+      currentScale: newScale,
+      plugins: this.toNewScale(plugins, newScale),
+      expanded: this.state.expanded,
     })
   }
 
@@ -163,6 +181,7 @@ class StorageMonitoring extends Component {
   render() {
     const { moduleTheme, muiTheme } = this.context
     const { currentScale, plugins, expanded } = this.state
+    const { isFetching, error, storagePlugins } = this.props
     const firstCellStyles = Object.assign({}, moduleTheme.table.firstColumn, moduleTheme.table.row)
     return (
       <Paper >
@@ -172,6 +191,8 @@ class StorageMonitoring extends Component {
               id="archival.storage.capacity.monitoring.title"
             />
           }
+          titleStyle={{ color: muiTheme.palette.textColor }}
+          style={{ background: muiTheme.palette.canvas }}
           iconElementLeft={
             <IconButton onTouchTap={this.onExpandSwitch}>
               { expanded ? <ExpandLess /> : <ExpandMore /> }
@@ -180,7 +201,7 @@ class StorageMonitoring extends Component {
           iconElementRight={
             <DropDownMenu
               labelStyle={{
-                color: muiTheme.appBar.textColor,
+                color: muiTheme.palette.textColor,
               }}
               value={currentScale}
               onChange={(evt, i, value) => this.onUnitScaleSelected(value)}
@@ -199,72 +220,79 @@ class StorageMonitoring extends Component {
           }
         />
 
-        <div className="row">
-          {
-            // map all plugins to cards if component is expanded (hide all otherwise)
-            (!expanded) || plugins.map(({ label, description, totalSize, usedSize }, index) => (
-              <Card className={moduleTheme.card.classes} key={index} style={moduleTheme.card.root}>
-                <CardTitle
-                  title={label}
-                  subtitle={description}
-                />
-                <CardMedia style={moduleTheme.card.media}>
-                  <div>
-                    <Table>
-                      <TableHeader
-                        displaySelectAll={false}
-                        adjustForCheckbox={false}
-                        style={moduleTheme.table.header}
-                      >
-                        <TableRow style={Object.assign({}, moduleTheme.table.header, moduleTheme.table.row)}>
-                          <TableHeaderColumn style={firstCellStyles}>
-                            <FormattedMessage id="archival.storage.capacity.monitoring.table.total.size" />
-                          </TableHeaderColumn>
-                          <TableHeaderColumn style={moduleTheme.table.row}>
-                            <FormattedMessage id="archival.storage.capacity.monitoring.table.used.size" />
-                          </TableHeaderColumn>
-                          <TableHeaderColumn style={moduleTheme.table.row}>
-                            <FormattedMessage id="archival.storage.capacity.monitoring.table.unused.size" />
-                          </TableHeaderColumn>
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody displayRowCheckbox={false} style={moduleTheme.table.body}>
-                        <TableRow style={firstCellStyles}>
-                          <TableRowColumn
-                            style={firstCellStyles}
-                          >{ this.buildI18NCapacity(totalSize)}
-                          </TableRowColumn>
-                          <TableRowColumn
-                            style={moduleTheme.table.row}
-                          >{ this.buildI18NCapacity(usedSize)}
-                          </TableRowColumn>
-                          <TableRowColumn
-                            style={moduleTheme.table.row}
-                          >{ this.buildI18NCapacity(usedSize && totalSize ? totalSize.subtract(usedSize) : null)}
-                          </TableRowColumn>
-                        </TableRow>
-                      </TableBody>
-                    </Table>
-                    <div style={moduleTheme.chart.root}>
-                      <ChartAdapter
-                        ChartComponent="Pie"
-                        data={this.buildPieData(totalSize, usedSize)}
-                        options={{
-                          legend: {
-                            position: moduleTheme.chart.legend.position,
-                            labels: {
-                              fontColor: muiTheme.card.subtitleColor,
+        <LoadableContentDisplayDecorator
+          isLoading={isFetching}
+          isEmpty={typeof storagePlugins === 'undefined' || !storagePlugins.length}
+          isContentError={error}
+        >
+          <div className="row">
+            {
+              // map all plugins to cards if component is expanded (hide all otherwise)
+              (!expanded) || plugins.map(({ label, description, totalSize, usedSize }, index) => (
+                <Card className={moduleTheme.card.classes} key={index} style={moduleTheme.card.root}>
+                  <CardTitle
+                    title={label}
+                    subtitle={description}
+                  />
+                  <CardMedia style={moduleTheme.card.media}>
+                    <div>
+                      <Table>
+                        <TableHeader
+                          displaySelectAll={false}
+                          adjustForCheckbox={false}
+                          style={moduleTheme.table.header}
+                        >
+                          <TableRow style={Object.assign({}, moduleTheme.table.header, moduleTheme.table.row)}>
+                            <TableHeaderColumn style={firstCellStyles}>
+                              <FormattedMessage id="archival.storage.capacity.monitoring.table.total.size" />
+                            </TableHeaderColumn>
+                            <TableHeaderColumn style={moduleTheme.table.row}>
+                              <FormattedMessage id="archival.storage.capacity.monitoring.table.used.size" />
+                            </TableHeaderColumn>
+                            <TableHeaderColumn style={moduleTheme.table.row}>
+                              <FormattedMessage id="archival.storage.capacity.monitoring.table.unused.size" />
+                            </TableHeaderColumn>
+                          </TableRow>
+                        </TableHeader>
+                        <TableBody displayRowCheckbox={false} style={moduleTheme.table.body}>
+                          <TableRow style={firstCellStyles}>
+                            <TableRowColumn
+                              style={firstCellStyles}
+                            >{ this.buildI18NCapacity(totalSize)}
+                            </TableRowColumn>
+                            <TableRowColumn
+                              style={moduleTheme.table.row}
+                            >{ this.buildI18NCapacity(usedSize)}
+                            </TableRowColumn>
+                            <TableRowColumn
+                              style={moduleTheme.table.row}
+                            >{ this.buildI18NCapacity(usedSize && totalSize ? totalSize.subtract(usedSize) : null)}
+                            </TableRowColumn>
+                          </TableRow>
+                        </TableBody>
+                      </Table>
+                      <div style={moduleTheme.chart.root}>
+                        <ChartAdapter
+                          ChartComponent="Pie"
+                          data={this.buildPieData(totalSize, usedSize)}
+                          options={{
+                            legend: {
+                              position: moduleTheme.chart.legend.position,
+                              labels: {
+                                fontColor: muiTheme.card.subtitleColor,
+                              },
                             },
-                          },
-                        }}
-                      />
+                          }}
+                        />
+                      </div>
                     </div>
-                  </div>
-                </CardMedia>
-              </Card>
-            ))
-          }
-        </div>
+                  </CardMedia>
+                </Card>
+              ))
+            }
+          </div>
+        </LoadableContentDisplayDecorator>
+
       </Paper>
     )
   }
