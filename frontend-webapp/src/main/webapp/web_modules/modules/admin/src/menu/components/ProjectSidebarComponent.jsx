@@ -16,9 +16,7 @@ import Reply from 'material-ui/svg-icons/content/reply'
 import { FormattedMessage } from 'react-intl'
 import SupervisorAccount from 'material-ui/svg-icons/action/supervisor-account'
 import { I18nProvider } from '@regardsoss/i18n'
-import { HateoasDisplayDecorator } from '@regardsoss/display-control'
 import SidebarElement from './SidebarElement'
-import requiredEndpoints from './requiredEndpoints'
 
 /**
  * React sidebar components. Display the admin application menu
@@ -56,12 +54,12 @@ class ProjectSidebarComponent extends React.Component {
       <I18nProvider messageDir="modules/admin/src/menu/i18n">
 
         <Drawer open containerStyle={style.sidebarContainer.styles} className={style.sidebarContainer.classes}>
-            <SidebarElement
-              key="1"
-              to={`/admin/${projectName}/user/board`}
-              linkStyle={style.link.styles}
-              primaryText={<FormattedMessage id="menu.users" />}
-              leftIcon={<SupervisorAccount />}
+          <SidebarElement
+            key="1"
+            to={`/admin/${projectName}/user/board`}
+            linkStyle={style.link.styles}
+            primaryText={<FormattedMessage id="menu.users" />}
+            leftIcon={<SupervisorAccount />}
             />
           <SidebarElement
             key="2"
@@ -69,49 +67,49 @@ class ProjectSidebarComponent extends React.Component {
             linkStyle={style.link.styles}
             primaryText={<FormattedMessage id="menu.datamanagement" />}
             leftIcon={<AddBox />}
-          />
+            />
           <SidebarElement
             key="3"
             to={`/admin/${projectName}/data/list`}
             linkStyle={style.link.styles}
             primaryText={<FormattedMessage id="menu.dataaccessrights" />}
             leftIcon={<VerifiedUser />}
-          />
+            />
           <SidebarElement
             key="4"
             to={`/admin/${projectName}/plugins`}
             linkStyle={style.link.styles}
             primaryText={<FormattedMessage id="menu.plugins" />}
             leftIcon={<Widgets />}
-          />
+            />
           <SidebarElement
             key="5"
             to={`/admin/${projectName}/microservice/board`}
             linkStyle={style.link.styles}
             primaryText={<FormattedMessage id="menu.microservices" />}
             leftIcon={<CloudQueue />}
-          />
+            />
           <SidebarElement
             key="6"
             to={`/admin/${projectName}/ui-configuration/applications`}
             linkStyle={style.link.styles}
             primaryText={<FormattedMessage id="menu.ui.configuration" />}
             leftIcon={<Brush />}
-          />
+            />
           <SidebarElement
             key="7"
             to={`/admin/${projectName}/datamanagement`}
             linkStyle={style.link.styles}
             primaryText={<FormattedMessage id="menu.news" />}
             leftIcon={<Chat />}
-          />
+            />
 
           <Divider />
           <MenuItem
             primaryText={<FormattedMessage id="menu.logout" />}
             leftIcon={<PowerSettingsNew />}
             onTouchTap={onLogout}
-          />
+            />
           <Divider />
           <Link to={'/admin'} style={style.link.styles}>
             <MenuItem primaryText={<FormattedMessage id="menu.back" />} leftIcon={<Reply />} />

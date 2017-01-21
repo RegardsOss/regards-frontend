@@ -94,8 +94,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchEndpoints: () => dispatch(EndpointActions.fetchEntityList(dispatch)),
-  // fetchEndpoints: () => dispatch(EndpointActions.fetchPagedEntityList(dispatch, 0, 10000)), // TODO
+  fetchEndpoints: () => dispatch(EndpointActions.fetchPagedEntityList(dispatch, 0, 10000)), // TODO
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AdminApp)

@@ -2,17 +2,16 @@
  * LICENSE_PLACEHOLDER
  **/
 import Schemas from '@regardsoss/api'
-import { BasicArrayActions } from '@regardsoss/store-utils'
+import { BasicPageableActions } from '@regardsoss/store-utils'
 
-class EndpointActions extends BasicArrayActions {
-// class EndpointActions extends BasicPageableActions {
+class EndpointActions extends BasicPageableActions {
   constructor() {
     super({
       namespace: 'common/endpoint',
       entityEndpoint: `${GATEWAY_HOSTNAME}/api/v1/rs-admin/resources`,
       schemaTypes: {
-        ENTITY: Schemas.ENDPOINT,
-        ENTITY_ARRAY: Schemas.ENDPOINT_ARRAY,
+        ENTITY: Schemas.RESOURCE_ACCESS,
+        ENTITY_ARRAY: Schemas.RESOURCE_ACCESS_ARRAY,
       },
     })
   }

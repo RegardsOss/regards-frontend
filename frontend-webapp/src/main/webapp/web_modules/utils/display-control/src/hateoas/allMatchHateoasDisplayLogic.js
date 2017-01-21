@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { every, includes } from 'lodash'
+import { every, includes, isEmpty } from 'lodash'
 
 /**
  * A Display Controller is a pure function which implements the logic for
@@ -16,7 +16,7 @@ import { every, includes } from 'lodash'
  * @author Xavier-Alexandre Brochard
  */
 const allMatchHateoasDisplayLogic = (requiredEndpoints, availableEndpoints) => (
-  every(requiredEndpoints, item => includes(availableEndpoints, item))
+  every(requiredEndpoints, item => includes(availableEndpoints, item)) || isEmpty(requiredEndpoints)
 )
 
 export default allMatchHateoasDisplayLogic

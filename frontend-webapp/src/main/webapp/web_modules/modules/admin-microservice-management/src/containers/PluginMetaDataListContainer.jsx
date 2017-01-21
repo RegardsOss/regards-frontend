@@ -2,11 +2,11 @@
  * LICENSE_PLACEHOLDER
  **/
 import { browserHistory } from 'react-router'
+import { FormattedMessage } from 'react-intl'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
-import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
+import { LoadableContentDisplayDecorator, HateoasDisplayDecorator } from '@regardsoss/display-control'
 import { themeContextType } from '@regardsoss/theme'
-import { FormattedMessage } from 'react-intl'
 import AppBar from 'material-ui/AppBar'
 import { Card, CardActions, CardText, CardTitle } from 'material-ui/Card'
 import Checkbox from 'material-ui/Checkbox'
@@ -23,6 +23,7 @@ import { without, union, chain } from 'lodash'
 import PluginMetaDataActions from '../model/PluginMetaDataActions'
 import PluginMetaDataSelectors from '../model/PluginMetaDataSelectors'
 import moduleStyles from '../styles/styles'
+import requiredEndpoints from '../requiredEndpoints'
 
 const styles = moduleStyles().plugins
 
@@ -85,9 +86,9 @@ export class PluginMetaDataListContainer extends React.Component {
             <Checkbox
               checked={this.state.displayedTypes.includes(type)}
               onCheck={() => this.handleFilterCheck(type)}
-            />
+              />
           }
-        />
+          />
       ))
       .value()
   )
@@ -119,9 +120,9 @@ export class PluginMetaDataListContainer extends React.Component {
           title={<span>{plugin.content.pluginClassName}
             <div
               style={{ scolor: this.context.muiTheme.palette.secondaryTextColor }}
-            >{plugin.content.version}</div></span>}
+              >{plugin.content.version}</div></span>}
           subtitle={plugin.content.author}
-        />
+          />
         <CardText>
           {plugin.content.description}
         </CardText>
@@ -129,7 +130,7 @@ export class PluginMetaDataListContainer extends React.Component {
           <IconButton
             tooltip={<FormattedMessage id="microservice-management.plugin.list.configurations" />}
             onTouchTap={() => this.handleProjectConfigurationListClick(plugin.content.pluginId)}
-          >
+            >
             <IconList />
           </IconButton>
         </CardActions>
@@ -181,40 +182,38 @@ export class PluginMetaDataListContainer extends React.Component {
     const { params: { microserviceName }, isPluginMetaDataListFetching } = this.props
 
     return (
-      <I18nProvider messageDir="modules/admin-microservice-management/src/i18n">
-
-        <Paper>
-          <AppBar
-            title={`${microserviceName} > Plugins`}
-            iconElementLeft={<IconButton><Close onTouchTap={this.handleClose} /></IconButton>}
-            iconElementRight={<IconButton onTouchTap={this.handleFilterSwitch}><Filter /></IconButton>}
-          />
-          <div style={styles.root}>
-            <LoadableContentDisplayDecorator isLoading={isPluginMetaDataListFetching}>
-              <GridList
-                cellHeight={'auto'}
-                cols={3}
-                padding={20}
-                style={styles.gridList}
-              >
-                {this.getGridListItems()}
-              </GridList>
-            </LoadableContentDisplayDecorator>
-          </div>
-
-          <Drawer width={200} openSecondary open={this.state.filterOpen}>
+      <HateoasDisplayDecorator requiredEndpoints={requiredEndpoints.PluginMetaDataListContainer}>
+        <I18nProvider messageDir="modules/admin-microservice-management/src/i18n">
+          <Paper>
             <AppBar
-              iconElementLeft={<IconButton onTouchTap={this.handleFilterSwitch}><Close /></IconButton>}
-              title={<FormattedMessage id="microservice-management.plugin.list.filters" />}
-            />
-            <List>
-              {this.getFilterListItems(this.state.pluginsOrganizedByType)}
-            </List>
-          </Drawer>
-
-        </Paper>
-
-      </I18nProvider>
+              title={`${microserviceName} > Plugins`}
+              iconElementLeft={<IconButton><Close onTouchTap={this.handleClose} /></IconButton>}
+              iconElementRight={<IconButton onTouchTap={this.handleFilterSwitch}><Filter /></IconButton>}
+              />
+            <div style={styles.root}>
+              <LoadableContentDisplayDecorator isLoading={isPluginMetaDataListFetching}>
+                <GridList
+                  cellHeight={'auto'}
+                  cols={3}
+                  padding={20}
+                  style={styles.gridList}
+                  >
+                  {this.getGridListItems()}
+                </GridList>
+              </LoadableContentDisplayDecorator>
+            </div>
+            <Drawer width={200} openSecondary open={this.state.filterOpen}>
+              <AppBar
+                iconElementLeft={<IconButton onTouchTap={this.handleFilterSwitch}><Close /></IconButton>}
+                title={<FormattedMessage id="microservice-management.plugin.list.filters" />}
+                />
+              <List>
+                {this.getFilterListItems(this.state.pluginsOrganizedByType)}
+              </List>
+            </Drawer>
+          </Paper>
+        </I18nProvider>
+      </HateoasDisplayDecorator >
     )
   }
 }
