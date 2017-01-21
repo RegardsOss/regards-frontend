@@ -16,6 +16,7 @@ import './modules/admin-account-management/AccountComponents'
 import './modules/admin-database-management/DatabaseComponents'
 import './modules/admin-user-projectuser-management/ProjectUserComponents'
 import './modules/admin-user-role-management/RoleComponents'
+import './modules/admin-microservice-management/index.story'
 
 import './modules/news/NewsComponent'
 import './modules/menu/MenuComponent'
