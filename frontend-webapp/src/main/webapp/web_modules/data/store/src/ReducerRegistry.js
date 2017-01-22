@@ -8,19 +8,19 @@
   */
 class ReducerRegistry {
   constructor(initialReducers = {}) {
-    this._reducers = {...initialReducers}
+    this._reducers = { ...initialReducers }
     this._emitChange = null
   }
   register(newReducers) {
-    console.log("Registered reducers",this._reducers)
-    console.log("Registering reducers", newReducers)
-    this._reducers = {...this._reducers, ...newReducers}
+    console.log('Registered reducers', this._reducers)
+    console.log('Registering reducers', newReducers)
+    this._reducers = { ...this._reducers, ...newReducers }
     if (this._emitChange != null) {
       this._emitChange(this.getReducers())
     }
   }
   getReducers() {
-    return {...this._reducers}
+    return { ...this._reducers }
   }
   setChangeListener(listener) {
     if (this._emitChange != null) {
@@ -33,7 +33,7 @@ class ReducerRegistry {
 let ReducerRegistryInstance = null
 
 const getReducerRegistry = (reducers) => {
-  console.log("Getting Registry",ReducerRegistryInstance)
+  console.log('Getting Registry', ReducerRegistryInstance)
   ReducerRegistryInstance ? ReducerRegistryInstance : ReducerRegistryInstance = new ReducerRegistry(reducers)
   return ReducerRegistryInstance
 }

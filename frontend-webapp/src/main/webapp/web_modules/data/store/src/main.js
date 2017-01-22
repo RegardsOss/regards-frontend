@@ -6,4 +6,4 @@ import preloadedState from './preloadedState'
 import getReducerRegistry from './ReducerRegistry'
 import configureReducers from './configureReducers'
 
-export default { configureStore,configureReducers, preloadedState, getReducerRegistry }
+export default { configureStore, configureReducers, preloadedState, getReducerRegistry }

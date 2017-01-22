@@ -66,7 +66,7 @@ class ModuleFormContainer extends React.Component {
 
   handleBack = () => {
     const { params: { project, applicationId } } = this.props
-    browserHistory.push(`/admin/${project}/admin-ui-configuration/applications/${applicationId}/modules/list`)
+    browserHistory.push(`/admin/${project}/ui-configuration/applications/${applicationId}/modules/list`)
   }
 
   render() {

@@ -86,7 +86,7 @@ class ModuleFormComponent extends React.Component {
     return (
       <ReduxConnectedForm
         onSubmit={this.props.handleSubmit(this.props.onSubmit)}
-        i18nMessagesDir="modules/ui-configuration/src/i18n"
+        i18nMessagesDir="modules/admin-ui-configuration/src/i18n"
       >
         <div>
           <Card>

@@ -39,11 +39,11 @@ class ModulesListContainer extends React.Component {
   }
 
   handleEditModule = (module) => {
-    const url = `/admin/${this.props.params.project}/admin-ui-configuration/applications/${this.props.params.applicationId}/modules/${module.id}/edit`
+    const url = `/admin/${this.props.params.project}/ui-configuration/applications/${this.props.params.applicationId}/modules/${module.id}/edit`
     browserHistory.push(url)
   }
   handleCreateModule = () => {
-    const url = `/admin/${this.props.params.project}/admin-ui-configuration/applications/${this.props.params.applicationId}/modules/create`
+    const url = `/admin/${this.props.params.project}/ui-configuration/applications/${this.props.params.applicationId}/modules/create`
     browserHistory.push(url)
   }
 

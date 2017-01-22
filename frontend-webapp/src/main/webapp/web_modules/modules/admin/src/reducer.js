@@ -22,7 +22,7 @@ const adminReducer = combineReducers({
   'microservice-management': microserviceManagementReducer,
   'project-management': projectManagementReducer,
   'ui-configuration': uiConfigurationtReducer,
-  'user-management': userManagementReducer
+  'user-management': userManagementReducer,
 })
 
 export default adminReducer

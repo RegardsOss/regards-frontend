@@ -1,9 +1,9 @@
 /**
  * LICENSE_PLACEHOLDER
  */
-import {merge} from 'lodash'
-import {I18nProvider} from '@regardsoss/i18n'
-import {getReducerRegistry, configureReducers} from '@regardsoss/store'
+import { merge } from 'lodash'
+import { I18nProvider } from '@regardsoss/i18n'
+import { getReducerRegistry, configureReducers } from '@regardsoss/store'
 import ModuleThemeProvider from './ModuleThemeProvider'
 import DecoratorShape from '../model/DecoratorShape'
 import ModuleShape from '../model/ModuleShape'
@@ -100,7 +100,7 @@ class LazyModuleComponent extends React.Component {
    * @returns {XML}
    */
   render() {
-    const {isLoaded, module} = this.state
+    const { isLoaded, module } = this.state
 
     // If module is loaded then render. The module load is asynchrone due to require.ensure method.
     if (isLoaded) {
@@ -123,7 +123,7 @@ class LazyModuleComponent extends React.Component {
 
       // Add a decorator arround the module rendering ?
       if (this.props.decorator) {
-        const element = React.createElement(this.props.decorator.element, merge({}, this.props.decorator.conf, {children: moduleElt}))
+        const element = React.createElement(this.props.decorator.element, merge({}, this.props.decorator.conf, { children: moduleElt }))
         return (
           <I18nProvider messageDir={moduleMessageDir}>
             <ModuleThemeProvider module={module}>

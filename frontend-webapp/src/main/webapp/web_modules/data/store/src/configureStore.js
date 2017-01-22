@@ -7,7 +7,7 @@ import { authorizationMiddleware } from '@regardsoss/authentication-manager'
 import createLogger from 'redux-logger'
 import root from 'window-or-global'
 import preloadedState from './preloadedState'
-import configureReducers from  './configureReducers'
+import configureReducers from './configureReducers'
 
 // Middlewares
 const { apiMiddleware } = require('redux-api-middleware')
@@ -37,7 +37,7 @@ function configureStore(reducerRegistry) {
   // depend on this for loading reducers via code splitting and for hot
   // reloading reducer modules.
   reducerRegistry.setChangeListener((reducers) => {
-    console.log("Replacing reducers with ", reducers)
+    console.log('Replacing reducers with ', reducers)
     store.replaceReducer(configureReducers(reducers))
   })
 

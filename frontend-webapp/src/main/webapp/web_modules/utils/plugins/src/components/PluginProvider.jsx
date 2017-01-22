@@ -4,7 +4,7 @@
 import { IntlProvider } from 'react-intl'
 import { connect } from '@regardsoss/redux'
 import { Plugin } from '@regardsoss/model'
-import {getReducerRegistry, configureReducers} from '@regardsoss/store'
+import { getReducerRegistry, configureReducers } from '@regardsoss/store'
 import { i18nSelectors } from '@regardsoss/i18n'
 import { loadPlugin } from '../model/PluginActions'
 import PluginSelector from '../model/PluginSelector'
@@ -43,9 +43,9 @@ class PluginProvider extends React.Component {
 
   render() {
     if (this.props.loadedPlugin) {
-      console.log("Registering PLUGIN reducer",this.props.loadedPlugin)
+      console.log('Registering PLUGIN reducer', this.props.loadedPlugin)
       const loadedPluginReducerName = `plugins.${loadPlugin.name}`
-      /*const loadedPluginReducer = {}
+      /* const loadedPluginReducer = {}
       loadedPluginReducer[loadedPluginReducerName] = configureReducers(this.props.loadedPlugin.reducer)
       getReducerRegistry().register(loadedPluginReducer)*/
       let element = null

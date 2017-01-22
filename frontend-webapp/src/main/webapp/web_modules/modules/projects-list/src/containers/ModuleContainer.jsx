@@ -24,7 +24,7 @@ export class ModuleContainer extends React.Component {
     fetchProjects: React.PropTypes.func,
   }
 
-  constructor(){
+  constructor() {
     super()
   }
 
