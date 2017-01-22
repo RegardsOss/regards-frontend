@@ -39,11 +39,11 @@ class ModulesListContainer extends React.Component {
   }
 
   handleEditModule = (module) => {
-    const url = `/admin/${this.props.params.project}/ui-configuration/applications/${this.props.params.applicationId}/modules/${module.id}/edit`
+    const url = `/admin/${this.props.params.project}/admin-ui-configuration/applications/${this.props.params.applicationId}/modules/${module.id}/edit`
     browserHistory.push(url)
   }
   handleCreateModule = () => {
-    const url = `/admin/${this.props.params.project}/ui-configuration/applications/${this.props.params.applicationId}/modules/create`
+    const url = `/admin/${this.props.params.project}/admin-ui-configuration/applications/${this.props.params.applicationId}/modules/create`
     browserHistory.push(url)
   }
 
@@ -65,7 +65,7 @@ class ModulesListContainer extends React.Component {
     }
 
     return (
-      <I18nProvider messageDir="modules/ui-configuration/src/i18n">
+      <I18nProvider messageDir="modules/admin-ui-configuration/src/i18n">
         <ModuleListComponent
           modules={this.props.modules}
           onCreate={this.handleCreateModule}

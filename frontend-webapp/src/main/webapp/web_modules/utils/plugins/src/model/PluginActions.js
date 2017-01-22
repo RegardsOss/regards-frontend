@@ -18,6 +18,7 @@ export const pluginLoaded = plugin => ({
   type: PLUGIN_LOADED,
   name: plugin.name,
   plugin: plugin.plugin,
+  reducer: plugin.reducer,
   messages: plugin.messages,
   info: plugin.info,
 })

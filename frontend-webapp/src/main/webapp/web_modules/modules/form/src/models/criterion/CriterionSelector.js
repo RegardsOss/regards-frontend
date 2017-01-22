@@ -8,7 +8,7 @@ import { BasicPageableSelectors } from '@regardsoss/store-utils'
  */
 class CriterionSelector extends BasicPageableSelectors {
   constructor() {
-    super(['admin', 'modules', 'form.criterion'])
+    super(['modules.form', 'criterion'])
   }
 }
 

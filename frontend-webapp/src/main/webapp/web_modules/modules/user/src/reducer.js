@@ -11,6 +11,5 @@ import LayoutModulesReducer from './model/modules/ModulesReducer'
 
 export default combineReducers({
   layout: LayoutReducer,
-  'layout.modules': LayoutModulesReducer,
-  modules: ModulesReducers,
+  'layout.modules': LayoutModulesReducer
 })

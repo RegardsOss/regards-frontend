@@ -1,14 +1,16 @@
 import * as ReactDOM from 'react-dom'
 import { Router, browserHistory } from 'react-router'
 import { Provider } from 'react-redux'
-import { configureStore } from '@regardsoss/store'
+import { getReducerRegistry, configureStore } from '@regardsoss/store'
 import rootReducer from './rootReducer'
 import rootRouter from './rootRouter'
 
 // Import the index.html file
 require('../index.html')
 
-const store = configureStore(rootReducer)
+const reducerRegistry = getReducerRegistry(rootReducer)
+
+const store = configureStore(reducerRegistry)
 
 ReactDOM.render(
   <Provider store={store}>

@@ -19,6 +19,7 @@ export default (state = {
       newItems = Object.assign({}, state.items)
       newItems[action.name] = {
         plugin: action.plugin,
+        reducer: action.reducer,
         name: action.name,
         messages: action.messages,
         info: action.info,
