@@ -62,5 +62,5 @@ describe('[ADMIN DATA MODEL ATTRIBUTE MANAGEMENT] Testing ModelAttributeComponen
     expect(subComponentSelectField).to.have.length(1)
     subComponentSelectField.simulate('change', 'FROM_DESCENDANTS')
     expect(onSelectFieldChange.calledOnce).to.equal(true)
-  })
+  }).timeout(60000)
 })

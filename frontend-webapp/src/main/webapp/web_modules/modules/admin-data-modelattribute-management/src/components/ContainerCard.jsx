@@ -5,7 +5,7 @@ import { DropTarget } from 'react-dnd'
 import { Card, CardTitle, CardText } from 'material-ui/Card'
 import { themeContextType } from '@regardsoss/theme'
 
-class Container extends React.Component {
+export class Container extends React.Component {
 
   static propTypes = {
     title: React.PropTypes.element.isRequired,

@@ -1,6 +1,5 @@
 import { storiesOf, action } from '@kadira/storybook'
 import { withKnobs, object } from '@kadira/storybook-addon-knobs'
-import ProjectAccountReadComponent from '@regardsoss/admin-user-projectuser-management/src/components/ProjectAccountReadComponent'
 import ProjectUserListComponent from '@regardsoss/admin-user-projectuser-management/src/components/ProjectUserListComponent'
 import ProjectUserCreateComponent from '@regardsoss/admin-user-projectuser-management/src/components/ProjectUserCreateComponent'
 import { StoreDecorator, addLocaleAndThemeSelectors, ThemeAndLocaleDecorator } from '../../utils/decorators'
@@ -56,14 +55,6 @@ storiesOf('Project admin - Project user', module)
           onEdit={action('called edit')}
           projectUserList={projectUsersList}
         />
-      </ThemeAndLocaleDecorator>
-    )
-  })
-  .add('Read', () => {
-    const themeName = addLocaleAndThemeSelectors()
-    return (
-      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-user-projectuser-management/src/i18n">
-        <ProjectAccountReadComponent />
       </ThemeAndLocaleDecorator>
     )
   })

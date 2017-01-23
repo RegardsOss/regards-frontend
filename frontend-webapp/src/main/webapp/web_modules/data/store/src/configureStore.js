@@ -8,12 +8,16 @@ import createLogger from 'redux-logger'
 import root from 'window-or-global'
 import preloadedState from './preloadedState'
 import configureReducers from './configureReducers'
+import getReducerRegistry from './ReducerRegistry'
+
 
 // Middlewares
 const { apiMiddleware } = require('redux-api-middleware')
 
-function configureStore(reducerRegistry) {
+function configureStore(rootReducer) {
   const logger = createLogger() // Pass an options object for specific configuration
+
+  const reducerRegistry = getReducerRegistry(rootReducer)
 
   // Define the used middlewares (order matters)
   const middlewares = [
