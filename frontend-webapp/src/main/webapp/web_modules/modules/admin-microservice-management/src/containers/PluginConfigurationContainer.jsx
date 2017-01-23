@@ -5,9 +5,9 @@ import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { PluginConfiguration } from '@regardsoss/model'
 import Dialog from 'material-ui/Dialog'
+import FlatButton from 'material-ui/FlatButton'
 import PluginConfigurationComponent from '../components/PluginConfigurationComponent'
 import PluginConfigurationActions from '../model/PluginConfigurationActions'
-import FlatButton from 'material-ui/FlatButton'
 
 /**
  * Container connecting a {@link PluginConfigurationComponent} to the redux store.

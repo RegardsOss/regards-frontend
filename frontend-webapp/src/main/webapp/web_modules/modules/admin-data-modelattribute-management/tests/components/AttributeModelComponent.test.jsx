@@ -3,8 +3,8 @@
  **/
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import AttributeModelComponent from '../../src/components/AttributeModelComponent'
 import { TableRowColumn } from 'material-ui/Table'
+import AttributeModelComponent from '../../src/components/AttributeModelComponent'
 
 // Test a component rendering
 describe('[ADMIN DATA MODEL ATTRIBUTE MANAGEMENT] Testing AttributeModelComponent', () => {

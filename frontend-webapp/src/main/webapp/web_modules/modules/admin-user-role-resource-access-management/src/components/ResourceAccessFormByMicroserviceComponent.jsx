@@ -1,3 +1,4 @@
+/* eslint no-script-url: 0 */
 import { map, forEach } from 'lodash'
 import { FormattedMessage } from 'react-intl'
 import Chip from 'material-ui/Chip'

@@ -1,7 +1,5 @@
 import Schemas from '@regardsoss/api'
 import { BasicPageableActions } from '@regardsoss/store-utils'
-const { CALL_API, getJSON } = require('redux-api-middleware')
-import { normalize } from 'normalizr'
 
 class ProjectUserActions extends BasicPageableActions {
   constructor() {

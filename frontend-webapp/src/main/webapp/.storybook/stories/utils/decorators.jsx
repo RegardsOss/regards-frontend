@@ -43,6 +43,7 @@ export const ThemeDecorator = ({ theme, children }) => (
 )
 
 ThemeDecorator.propTypes = {
+  // eslint-disable-next-line react/forbid-prop-types
   theme: React.PropTypes.object.isRequired,
   children: React.PropTypes.element.isRequired,
 }
@@ -100,6 +101,7 @@ export const ThemeAndLocaleDecorator = ({ theme, messageDir, children }) => (
 )
 
 ThemeAndLocaleDecorator.propTypes = {
+  // eslint-disable-next-line react/forbid-prop-types
   theme: React.PropTypes.object.isRequired,
   messageDir: React.PropTypes.string.isRequired,
   children: React.PropTypes.element.isRequired,

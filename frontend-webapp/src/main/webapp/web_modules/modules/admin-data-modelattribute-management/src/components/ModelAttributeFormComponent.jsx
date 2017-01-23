@@ -1,16 +1,12 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
-import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
+import { Card, CardActions, CardTitle } from 'material-ui/Card'
+import { CardActionsComponent } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
-import { RenderTextField, RenderCheckbox, RenderSelectField, Field, ValidationHelpers, ErrorTypes } from '@regardsoss/form-utils'
 import { themeContextType } from '@regardsoss/theme'
-import { reduxForm } from 'redux-form'
-import MenuItem from 'material-ui/MenuItem'
-import { AttributeModel, Model, ModelAttribute, Fragment } from '@regardsoss/model'
+import { AttributeModel, Model } from '@regardsoss/model'
 import { map, keys } from 'lodash'
-import Paper from 'material-ui/Paper'
 import HTML5Backend from 'react-dnd-html5-backend'
 import { DragDropContext } from 'react-dnd'
 import ContainerCard from './ContainerCard'

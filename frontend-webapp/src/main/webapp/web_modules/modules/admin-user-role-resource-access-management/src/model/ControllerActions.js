@@ -1,4 +1,3 @@
-import Schemas from '@regardsoss/api'
 import { BasicArrayActions } from '@regardsoss/store-utils'
 
 class ControllerActions extends BasicArrayActions {

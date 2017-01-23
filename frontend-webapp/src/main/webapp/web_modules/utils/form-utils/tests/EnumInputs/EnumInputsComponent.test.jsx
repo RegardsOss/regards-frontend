@@ -1,8 +1,8 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
+import TextField from 'material-ui/TextField'
 import Field from '../../src/Field'
 import EnumInputsComponent from '../../src/EnumInputs/EnumInputsComponent'
-import TextField from 'material-ui/TextField'
 
 // Test a components rendering
 describe('[FORM UTILS] Testing EnumInputsComponent', () => {

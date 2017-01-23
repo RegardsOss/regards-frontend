@@ -1,13 +1,11 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
-import { map, keys } from 'lodash'
-import Paper from 'material-ui/Paper'
+import { keys, map } from 'lodash'
 import { AttributeModel } from '@regardsoss/model'
 import AttributeModelComponent from './AttributeModelComponent'
-import ItemTypes from './ItemTypes'
 import ModelAttributeContainer from '../containers/ModelAttributeContainer'
+import ItemTypes from './ItemTypes'
 
 class Fragment extends React.Component {
   static propTypes = {

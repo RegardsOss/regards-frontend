@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import { Role, Resource } from '@regardsoss/model'
-import { forEach, indexOf, remove } from 'lodash'
+import { remove } from 'lodash'
 import { ShowableAtRender } from '@regardsoss/components'
 import RoleActions from '../model/RoleActions'
 import ControllerSelectors from '../model/ControllerSelectors'

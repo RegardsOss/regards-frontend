@@ -1,7 +1,6 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import ItemTypes from './ItemTypes'
 import { DragSource } from 'react-dnd'
 import Paper from 'material-ui/Paper'
 import { themeContextType } from '@regardsoss/theme'
@@ -13,11 +12,14 @@ class CardDragContainer extends React.Component {
     // eslint-disable-next-line react/forbid-prop-types
     value: React.PropTypes.any,
     children: React.PropTypes.element.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
     draggableToContainerType: React.PropTypes.string.isRequired,
     shadow: React.PropTypes.number,
+    // eslint-disable-next-line react/forbid-prop-types
     isFragment: React.PropTypes.bool,
     // From DragSource
     isDragging: React.PropTypes.bool,
+    connectDragSource: React.PropTypes.func,
   }
 
   static contextTypes = {

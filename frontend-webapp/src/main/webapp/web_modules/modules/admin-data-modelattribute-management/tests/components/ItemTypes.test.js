@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { assert, expect } from 'chai'
+import { assert } from 'chai'
 import ItemTypes from '../../src/components/ItemTypes'
 
 describe('[ADMIN DATA MODEL ATTRIBUTE MANAGEMENT] Testing ItemTypes', () => {

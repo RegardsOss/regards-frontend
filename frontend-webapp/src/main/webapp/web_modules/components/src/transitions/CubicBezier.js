@@ -1,3 +1,4 @@
+/*eslint-disable*/
 /*!
  * The MIT License (MIT)
  *
@@ -147,3 +148,4 @@ const CubicBezier = (function () {
 }())
 
 export default CubicBezier
+/*eslint-enable*/
