@@ -13,7 +13,6 @@ const menuStyles = theme => (
       color: theme.palette.textColor,
       marginLeft: '40px',
     },
-    classes: ['col-sm-98', 'col-sm-offset-1'],
     localeDropdown: {
       color: theme.palette.primary2Color,
     },

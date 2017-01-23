@@ -65,6 +65,9 @@ export class AdminLayout extends React.Component {
         classes: this.context.muiTheme.adminApp.layout.app.classes.join(' '),
         styles: this.context.muiTheme.adminApp.layout.app.styles,
       },
+      menu: {
+        classes: this.context.muiTheme.menu.classes.join(' '),
+      },
       bodyContainer: {
         classes: this.context.muiTheme.adminApp.layout.bodyContainer.classes.join(' '),
         styles: this.context.muiTheme.adminApp.layout.bodyContainer.styles,
@@ -89,7 +92,9 @@ export class AdminLayout extends React.Component {
 
     return (
       <div className={style.app.classes} style={style.app.styles}>
-        <LazyModuleComponent appName={'admin'} module={menuModule} />
+        <div className={style.menu.classes}>
+          <LazyModuleComponent appName={'admin'} module={menuModule} />
+        </div>
         <div className={style.bodyContainer.classes} style={style.bodyContainer.styles}>
           {this.getSidebar(isOnInstanceDashboard)}
           <div className={style.contentContainer.classes} style={style.contentContainer.styles}>
