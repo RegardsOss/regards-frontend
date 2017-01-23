@@ -311,7 +311,6 @@ describe('[ADMIN DATA MODEL ATTRIBUTE MANAGEMENT]Testing form container', () => 
       bindFragment: () => {},
       unbindFragment: () => {},
     }
-      // from mapStateToProps
 
     const enzymeWrapper = shallow(<ModelAttributeFormContainer {...props} />)
     const subComponent = enzymeWrapper.find(ModelAttributeFormComponent)

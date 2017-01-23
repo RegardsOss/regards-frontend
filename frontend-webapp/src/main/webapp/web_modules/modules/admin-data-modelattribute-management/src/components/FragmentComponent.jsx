@@ -7,7 +7,7 @@ import AttributeModelComponent from './AttributeModelComponent'
 import ModelAttributeContainer from '../containers/ModelAttributeContainer'
 import ItemTypes from './ItemTypes'
 
-class Fragment extends React.Component {
+class FragmentComponent extends React.Component {
   static propTypes = {
     attributes: React.PropTypes.arrayOf(AttributeModel).isRequired,
     type: React.PropTypes.string.isRequired,
@@ -37,4 +37,4 @@ class Fragment extends React.Component {
   }
 }
 
-export default Fragment
+export default FragmentComponent
