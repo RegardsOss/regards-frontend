@@ -27,7 +27,7 @@ class StorageMonitoring extends Component {
     storagePlugins: PropTypes.arrayOf(PluginShape),
     expanded: React.PropTypes.bool,
     isFetching: React.PropTypes.bool,
-    error: React.PropTypes.bool,
+    hasError: React.PropTypes.bool,
   }
 
   static defaultProps = {
@@ -181,7 +181,7 @@ class StorageMonitoring extends Component {
   render() {
     const { moduleTheme, muiTheme } = this.context
     const { currentScale, plugins, expanded } = this.state
-    const { isFetching, error, storagePlugins } = this.props
+    const { isFetching, hasError, storagePlugins } = this.props
     const firstCellStyles = Object.assign({}, moduleTheme.table.firstColumn, moduleTheme.table.row)
     return (
       <Paper >
@@ -223,7 +223,7 @@ class StorageMonitoring extends Component {
         <LoadableContentDisplayDecorator
           isLoading={isFetching}
           isEmpty={typeof storagePlugins === 'undefined' || !storagePlugins.length}
-          isContentError={error}
+          isContentError={hasError}
         >
           <div className="row">
             {

@@ -1,6 +1,7 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 
+
 import { StorageMonitoringContainer } from '../../src/containers/StorageMonitoringContainer'
 import StorageMonitoringComponent from '../../src/components/StorageMonitoringComponent'
 
@@ -26,12 +27,13 @@ describe('[STORAGE PLUGINS MONITORING] Testing plugins monitoring container', ()
     fetchStoragePlugins: () => {
     },
   }
+
   it('should render self and component sub component in nominal case', () => {
     const enzymeWrapper = shallow(<StorageMonitoringContainer {...props} />)
     const mainComponent = enzymeWrapper.find(StorageMonitoringComponent)
     expect(mainComponent).to.have.length(1)
     assert.isFalse(mainComponent.props().isFetching)
-    assert.isFalse(mainComponent.props().error)
+    assert.isFalse(mainComponent.props().hasError)
   })
 
   it('should show loading when loading', () => {
@@ -39,10 +41,11 @@ describe('[STORAGE PLUGINS MONITORING] Testing plugins monitoring container', ()
     const enzymeWrapper = shallow(<StorageMonitoringContainer {...localProps} />)
     const mainComponent = enzymeWrapper.find(StorageMonitoringComponent)
     assert.isTrue(mainComponent.props().isFetching)
-    assert.isFalse(mainComponent.props().error)
+    assert.isFalse(mainComponent.props().hasError)
   })
+
   it('should show error when there is one', () => {
-    const localProps = { ...props, error: 'Test error' }
+    const localProps = { ...props, hasError: 'Test error' }
     const enzymeWrapper = shallow(<StorageMonitoringContainer {...localProps} />)
     const mainComponent = enzymeWrapper.find(StorageMonitoringComponent)
     assert.isFalse(mainComponent.props().isFetching)

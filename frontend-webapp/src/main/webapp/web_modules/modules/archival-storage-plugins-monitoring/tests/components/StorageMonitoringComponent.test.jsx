@@ -44,7 +44,7 @@ describe('[STORAGE PLUGINS MONITORING] Testing component', () => {
     const props = {
       initScale: bitsScale,
       isFecthing: false,
-      error: null,
+      hasError: false,
       storagePlugins: [{
         id: '1',
         label: 'Plugin1',
@@ -76,7 +76,7 @@ describe('[STORAGE PLUGINS MONITORING] Testing component', () => {
     // check rendering state:
     const displayableComponent = enzymeWrapper.find(LoadableContentDisplayDecorator)
     assert.isFalse(displayableComponent.props().isLoading, 'Loading should be false')
-    assert.isFalse(displayableComponent.props().isContentError, 'Content error should be false')
+    assert.isFalse(displayableComponent.props().error, 'Content error should be false')
     assert.isFalse(displayableComponent.props().isEmpty, 'Empty content should be false')
   })
 
@@ -84,7 +84,7 @@ describe('[STORAGE PLUGINS MONITORING] Testing component', () => {
     const props = {
       initScale: bitsScale,
       isFetching: true,
-      error: 'Test error',
+      error: true,
       storagePlugins: [],
     }
     // is rendering ok?
@@ -92,7 +92,7 @@ describe('[STORAGE PLUGINS MONITORING] Testing component', () => {
     // is marked as loading?
     const displayableComponent = enzymeWrapper.find(LoadableContentDisplayDecorator)
     assert.isTrue(displayableComponent.props().isLoading, 'Loading should be true')
-    assert.isTrue(displayableComponent.props().isContentError, 'Content error should be true')
+    assert.isTrue(displayableComponent.props().error, 'Content error should be true')
     assert.isTrue(displayableComponent.props().isEmpty, 'Empty content should be true')
   })
 })

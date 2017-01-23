@@ -19,7 +19,7 @@ export class StorageMonitoringContainer extends React.Component {
     appName: React.PropTypes.string.isRequired, // Set by mapStateToProps
     storagePlugins: React.PropTypes.objectOf(PluginShape4Normalizr),
     isFetching: React.PropTypes.bool, // Set by mapDispatchToProps
-    error: React.PropTypes.bool, // Set by mapDispatchToProps
+    hasError: React.PropTypes.bool, // Set by mapDispatchToProps
     fetchStoragePlugins: React.PropTypes.func,
   }
 
@@ -31,11 +31,11 @@ export class StorageMonitoringContainer extends React.Component {
    * @returns {React.Component}
    */
   render() {
-    const { isFetching, storagePlugins, error } = this.props
+    const { isFetching, storagePlugins, hasError } = this.props
     return (
       <StorageMonitoringComponent
         isFetching={isFetching}
-        error={error}
+        hasError={hasError}
         initScale={bytesScale}
         storagePlugins={map(storagePlugins, ({ content: { label, description, totalSize, usedSize } }) => ({
           label,
@@ -53,7 +53,7 @@ const mapStateToProps = (state, props) => {
   return {
     storagePlugins: selector.getList(state),
     isFetching: selector.isFetching(state),
-    error: selector.getError(state).hasError,
+    hasError: selector.getError(state).hasError,
   }
 }
 
