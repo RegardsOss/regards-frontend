@@ -11,7 +11,6 @@ class PluginSelector extends BasicSelector {
   getPlugins = store => store.common.plugins
 
   getPluginByName = (name, store) => {
-    console.log('Search', name, store.common)
     return store.common.plugins[name]
   }
 }

@@ -8,12 +8,7 @@ import { combineReducers } from 'redux'
  * @param reducers
  * @returns {Reducer<S>}
  */
-const configureReducers = (reducers) => {
-  if (typeof reducers === 'function') {
-    return reducers
-  }
-  return combineReducers({
-    ...reducers,
-  })
-}
+const configureReducers = reducers => combineReducers({
+  ...reducers,
+})
 export default configureReducers

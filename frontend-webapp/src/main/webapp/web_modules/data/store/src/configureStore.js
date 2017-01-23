@@ -37,7 +37,6 @@ function configureStore(reducerRegistry) {
   // depend on this for loading reducers via code splitting and for hot
   // reloading reducer modules.
   reducerRegistry.setChangeListener((reducers) => {
-    console.log('Replacing reducers with ', reducers)
     store.replaceReducer(configureReducers(reducers))
   })
 
