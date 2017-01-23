@@ -8,7 +8,7 @@ import { BasicPageableSelectors } from '@regardsoss/store-utils'
  */
 class ModelAttributeSelector extends BasicPageableSelectors {
   constructor() {
-    super(['admin', 'modules', 'form.attributes'])
+    super(['modules.form', 'attributes'])
   }
 }
 

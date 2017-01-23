@@ -29,10 +29,10 @@ const commonReducer = combineReducers({
  * Combine all reducers module to a single root reducer.
  */
 
-export default combineReducers({
+export default {
   portal: portalReducer,
   common: commonReducer,
   admin: adminReducer,
   user: userReducer,
   form: reduxFormReducer,
-})
+}

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 // Init the regards plugin in the application.
 // The plugin is added to the application store to be used by the application.
-const initPlugin = ( pluginName, pluginClass, messages, pluginInfo ) => {
+const initPlugin = ( pluginName, pluginClass, reducer, messages, pluginInfo ) => {
 
   const mapStateToProps= (state) => ({
     locale: state.common.i18n.locale,
@@ -17,7 +17,7 @@ const initPlugin = ( pluginName, pluginClass, messages, pluginInfo ) => {
   })
 
   const plugin = connect(mapStateToProps, mapDispatchToProps)(pluginClass)
-  let event = new CustomEvent('plugin', { 'detail': {name: pluginName, plugin: plugin, messages: messages, info: pluginInfo}})
+  let event = new CustomEvent('plugin', { 'detail': {name: pluginName, plugin: plugin, messages: messages, reducer: reducer, info: pluginInfo}})
   document.dispatchEvent(event)
 }
 

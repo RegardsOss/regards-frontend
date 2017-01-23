@@ -65,12 +65,12 @@ export class ModelAttributeFormContainer extends React.Component {
 
   handleDeleteFragment = (fragment) => {
     Promise.resolve(this.props.unbindFragment(fragment.id, [this.props.model.content.id]))
-      .then((actionResult) => {
-        // We receive here the action
-        if (!actionResult.error) {
-          this.props.fetchModelAttributeList()
-        }
-      })
+    .then((actionResult) => {
+      // We receive here the action
+      if (!actionResult.error) {
+        this.props.fetchModelAttributeList()
+      }
+    })
   }
 
   handleCreateAttributeModel = (attributeModel) => {
@@ -142,7 +142,6 @@ export class ModelAttributeFormContainer extends React.Component {
     if ((isAttributeModelFetching || isModelFetching || isModelAttributeFetching) && (!model && !attributeModelList)) {
       return (<FormLoadingComponent />)
     }
-
     if (model) {
       return (<ModelAttributeFormComponent
         onCreateFragment={this.handleCreateFragment}

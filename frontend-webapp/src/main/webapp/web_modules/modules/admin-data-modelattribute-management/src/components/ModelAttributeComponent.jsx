@@ -9,6 +9,7 @@ import ItemTypes from './ItemTypes'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
+import { FormattedMessage } from 'react-intl'
 
 class ModelAttributeComponent extends React.Component {
 
@@ -38,13 +39,13 @@ class ModelAttributeComponent extends React.Component {
             <TableRowColumn>{modelAttribute.content.attribute.type}</TableRowColumn>
             <TableRowColumn>
               <SelectField
-                floatingLabelText="Computation"
+                floatingLabelText={<FormattedMessage id="modelattr.edit.computation.label" />}
                 value={modelAttribute.content.mode}
                 onChange={this.handleComputationChange}
               >
-                <MenuItem value="GIVEN" primaryText="GIVEN" />
-                <MenuItem value="FROM_DESCENDANTS" primaryText="FROM_DESCENDANTS" />
-                <MenuItem value="CUSTOM" primaryText="CUSTOM" />
+                <MenuItem value="GIVEN" primaryText={<FormattedMessage id="modelattr.edit.computation.GIVEN" />} />
+                <MenuItem value="FROM_DESCENDANTS" primaryText={<FormattedMessage id="modelattr.edit.computation.FROM_DESCENDANTS" />} />
+                <MenuItem value="CUSTOM" primaryText={<FormattedMessage id="modelattr.edit.computation.CUSTOM" />} />
               </SelectField>
             </TableRowColumn>
           </TableRow>

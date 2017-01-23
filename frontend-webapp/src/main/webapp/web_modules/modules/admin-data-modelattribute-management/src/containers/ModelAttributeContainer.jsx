@@ -12,7 +12,7 @@ import ModelAttributeSelectors from '../model/ModelAttributeSelectors'
 import ModelAttributeComponent from '../components/ModelAttributeComponent'
 import ModelAttributeActions from '../model/ModelAttributeActions'
 
-class ModelAttributeContainer extends React.Component {
+export class ModelAttributeContainer extends React.Component {
   static propTypes = {
     attribute: AttributeModel,
     // from mapStateToProps

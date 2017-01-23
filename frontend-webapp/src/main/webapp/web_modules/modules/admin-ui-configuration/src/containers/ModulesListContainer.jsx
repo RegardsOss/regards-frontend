@@ -65,7 +65,7 @@ class ModulesListContainer extends React.Component {
     }
 
     return (
-      <I18nProvider messageDir="modules/ui-configuration/src/i18n">
+      <I18nProvider messageDir="modules/admin-ui-configuration/src/i18n">
         <ModuleListComponent
           modules={this.props.modules}
           onCreate={this.handleCreateModule}

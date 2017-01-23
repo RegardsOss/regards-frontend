@@ -23,6 +23,11 @@ export class ModuleContainer extends React.Component {
     // Set by mapDispatchToProps
     fetchProjects: React.PropTypes.func,
   }
+
+  constructor() {
+    super()
+  }
+
   componentWillMount() {
     this.props.fetchProjects()
   }

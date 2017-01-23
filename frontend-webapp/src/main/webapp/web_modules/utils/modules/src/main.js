@@ -6,7 +6,6 @@ import ModuleThemeProvider from './components/ModuleThemeProvider'
 import ModuleListComponent from './components/ModuleListComponent'
 import ModuleShape from './model/ModuleShape'
 import AvailableModules from './AvailableModules'
-import ModulesReducers from './model/ModulesReducers'
 
 /**
  * Main module file to expose public interface
@@ -17,5 +16,4 @@ export {
   ModuleListComponent,
   ModuleThemeProvider,
   ModuleShape,
-  ModulesReducers,
 }

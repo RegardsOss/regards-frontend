@@ -4,6 +4,7 @@
 import { BoardComponent } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import applicationItems from './ApplicationsBoardItems'
+import instanceApplicationItems from './ApplicationsInstanceBoardItems'
 
 /**
  * Component to display the configured board items with the file ApplicationBoardItems.
@@ -11,7 +12,7 @@ import applicationItems from './ApplicationsBoardItems'
 class ListApplicationsComponent extends React.Component {
 
   static propTypes = {
-    project: React.PropTypes.string.isRequired,
+    project: React.PropTypes.string,
   }
 
   static contextTypes = {
@@ -19,7 +20,12 @@ class ListApplicationsComponent extends React.Component {
   }
 
   render() {
-    const items = applicationItems(this.props.project, this.context.intl)
+    let items = {}
+    if (this.props.project) {
+      items = applicationItems(this.props.project, this.context.intl)
+    } else {
+      items = instanceApplicationItems(this.context.intl)
+    }
     return (
       <BoardComponent items={items} />
     )
