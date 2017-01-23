@@ -20,6 +20,7 @@ import './modules/admin-user-role-management/RoleComponents'
 import './modules/admin-user-role-resource-access-management/ResourceAccessFormByMicroserviceComponents'
 import './modules/admin-data-attributemodel-management/AttributeModelComponents'
 import './modules/admin-data-fragment-management/FragmentComponents'
+import './modules/admin-data-modelattribute-management/ModelAttributeFormComponent'
 
 import './modules/news/NewsComponent'
 import './modules/menu/MenuComponent'
