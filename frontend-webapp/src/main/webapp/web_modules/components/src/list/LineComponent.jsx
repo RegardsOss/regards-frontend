@@ -12,6 +12,7 @@ import { themeContextType } from '@regardsoss/theme'
 class LineComponent extends React.Component {
 
   static propTypes = {
+    // eslint-disable-next-line react/forbid-prop-types
     entity: React.PropTypes.object.isRequired,
     lineComponent: React.PropTypes.func.isRequired,
     displayCheckbox: React.PropTypes.bool,

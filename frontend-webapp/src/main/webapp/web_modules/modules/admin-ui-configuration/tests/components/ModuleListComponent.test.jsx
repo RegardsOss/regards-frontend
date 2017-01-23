@@ -5,8 +5,6 @@ import { shallow } from 'enzyme'
 import { expect } from 'chai'
 import { TableBody, TableRow } from 'material-ui/Table'
 import sinon from 'sinon'
-import Edit from 'material-ui/svg-icons/editor/mode-edit'
-import Delete from 'material-ui/svg-icons/action/delete'
 import IconButton from 'material-ui/IconButton'
 import ModuleListComponent from '../../src/components/ModuleListComponent'
 
@@ -21,7 +19,7 @@ const options = {
     },
     intl: {
       formatMessage: opt => opt.id,
-      formatTime: () => {}
+      formatTime: () => {},
     },
   },
 }
@@ -59,12 +57,11 @@ const testModules = {
       container: 'content',
       conf: {},
     },
-  }
+  },
 }
 
 describe('[ADMIN UI-CONFIGURATION] Testing Modules list component', () => {
   it('Should render correctly a list of availables modules', () => {
-
     const props = {
       modules: testModules,
       onActivation: () => {},
@@ -81,14 +78,13 @@ describe('[ADMIN UI-CONFIGURATION] Testing Modules list component', () => {
   })
 
   it('Check actions on ModuleListComponent', () => {
-
     const onEditCallback = sinon.spy()
     const onDeleteCallback = sinon.spy()
 
     const props = {
       modules: testModules,
       onActivation: () => {},
-      onCreate: ()=> {},
+      onCreate: () => {},
       onEdit: onEditCallback,
       onDelete: onDeleteCallback,
     }
@@ -104,6 +100,5 @@ describe('[ADMIN UI-CONFIGURATION] Testing Modules list component', () => {
     const editButton = buttons.first()
     editButton.simulate('touchTap')
     expect(onEditCallback.calledOnce).to.equal(true)
-
   })
 })
