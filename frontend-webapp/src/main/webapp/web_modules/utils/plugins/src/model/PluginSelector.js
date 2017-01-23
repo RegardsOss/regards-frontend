@@ -10,9 +10,7 @@ class PluginSelector extends BasicSelector {
 
   getPlugins = store => store.common.plugins
 
-  getPluginByName = (name, store) => {
-    return store.common.plugins[name]
-  }
+  getPluginByName = (name, store) => store.common.plugins[name]
 }
 
 const instance = new PluginSelector()

@@ -1,6 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import { themeContextType } from '@regardsoss/theme'
 import { PluginConf } from '@regardsoss/model'
 import { ModuleShape } from '@regardsoss/modules'
 import Container from './Container'
@@ -22,21 +23,30 @@ class ApplicationLayout extends React.Component {
     onDynamicModuleSelection: React.PropTypes.func,
   }
 
+  static contextTypes = {
+    ...themeContextType,
+  }
+
   /**
    * Display the layout of the given appName (props parameter) from the current loaded theme.
    * @returns {React.Component}
    */
   render() {
+    const bodyStyles = {
+      backgroundColor: this.context.muiTheme.palette.canvasColor,
+    }
     return (
-      <Container
-        appName={this.props.appName}
-        project={this.props.project}
-        container={this.props.layout}
-        modules={this.props.modules}
-        plugins={this.props.plugins}
-        dynamicContent={this.props.dynamicContent}
-        onDynamicModuleSelection={this.props.onDynamicModuleSelection}
-      />
+      <div style={bodyStyles}>
+        <Container
+          appName={this.props.appName}
+          project={this.props.project}
+          container={this.props.layout}
+          modules={this.props.modules}
+          plugins={this.props.plugins}
+          dynamicContent={this.props.dynamicContent}
+          onDynamicModuleSelection={this.props.onDynamicModuleSelection}
+        />
+      </div>
     )
   }
 }

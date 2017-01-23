@@ -69,7 +69,7 @@ class ModuleListComponent extends React.Component {
         >
           <List>
             {map(this.props.modules, (module, idx) => {
-              if (module.content.container === this.props.container) {
+              if (module.content.container === this.props.container && module.content.active) {
                 return (
                   <ListItem
                     key={idx}

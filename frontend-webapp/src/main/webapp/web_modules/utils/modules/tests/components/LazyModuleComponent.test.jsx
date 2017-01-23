@@ -16,11 +16,27 @@ describe('[MODULES] Testing LazyModuleComponent', () => {
     }
     const module = {
       name: 'authentication',
+      active: true,
     }
     const wrapper = shallow(<LazyModuleComponent appName={'testApp'} module={module} />, { context })
 
     expect(wrapper.find(moduleContainer)).to.have.length(1)
     expect(wrapper.find(ModuleThemeProvider)).to.have.length(1)
     expect(wrapper.find(I18nProvider)).to.have.length(1)
+  }).timeout(60000)
+
+  it('Should not render a desable module', () => {
+    const context = {
+
+    }
+    const module = {
+      name: 'authentication',
+      active: false,
+    }
+    const wrapper = shallow(<LazyModuleComponent appName={'testApp'} module={module} />, { context })
+
+    expect(wrapper.find(moduleContainer)).to.have.length(0)
+    expect(wrapper.find(ModuleThemeProvider)).to.have.length(0)
+    expect(wrapper.find(I18nProvider)).to.have.length(0)
   }).timeout(60000)
 })
