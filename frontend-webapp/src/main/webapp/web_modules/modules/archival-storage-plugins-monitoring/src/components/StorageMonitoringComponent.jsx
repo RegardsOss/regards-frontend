@@ -14,7 +14,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import PluginShape from '@regardsoss/model/src/archival-storage/StoragePluginMonitoring'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import StoragePluringCapacityComponent from './StoragePluginCapacityComponent'
+import StoragePluginCapacityComponent from './StoragePluginCapacityComponent'
 import { bytesScale, allUnitScales } from '../helper/StorageUnit'
 import { capacityFromValue } from '../helper/StorageCapacity'
 
@@ -22,10 +22,10 @@ class StorageMonitoring extends Component {
 
   static propTypes = {
     initScale: PropTypes.string.isRequired,
-    storagePlugins: PropTypes.arrayOf(PluginShape),
+    storagePlugins: PropTypes.arrayOf(PluginShape).isRequired,
     expanded: React.PropTypes.bool,
-    isFetching: React.PropTypes.bool,
-    hasError: React.PropTypes.bool,
+    isFetching: React.PropTypes.bool.isRequired,
+    hasError: React.PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
@@ -47,8 +47,8 @@ class StorageMonitoring extends Component {
     const { initScale, storagePlugins, expanded } = this.props
     const scaleToUse = allUnitScales.includes(initScale) ? initScale : bytesScale
     this.setState({
-      currentScale: scaleToUse,
       expanded,
+      currentScale: scaleToUse,
       plugins: this.parsePluginsInput(storagePlugins),
     })
   }
@@ -150,7 +150,7 @@ class StorageMonitoring extends Component {
             {
               // map all plugins to cards if component is expanded (hide all otherwise)
               (!expanded) || plugins.map((pluginModel, index) => (
-                <StoragePluringCapacityComponent key={index} scale={currentScale} {...pluginModel} />
+                <StoragePluginCapacityComponent key={index} scale={currentScale} {...pluginModel} />
               ))
             }
           </div>

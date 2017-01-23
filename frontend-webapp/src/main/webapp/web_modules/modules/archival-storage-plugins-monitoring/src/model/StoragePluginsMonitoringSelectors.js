@@ -9,4 +9,6 @@ class StorageMonitoringSelectors extends BasicListSelectors {
   }
 }
 
-export default StorageMonitoringSelectors
+
+const instance = new StorageMonitoringSelectors()
+export default instance
