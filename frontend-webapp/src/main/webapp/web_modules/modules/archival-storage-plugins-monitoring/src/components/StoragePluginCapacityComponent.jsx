@@ -123,7 +123,7 @@ class StoragePluginCapacityComponent extends React.Component {
         />
         <CardMedia style={moduleTheme.card.media}>
           <div>
-            <Table>
+            <Table selectable={false} >
               <TableHeader
                 displaySelectAll={false}
                 adjustForCheckbox={false}
