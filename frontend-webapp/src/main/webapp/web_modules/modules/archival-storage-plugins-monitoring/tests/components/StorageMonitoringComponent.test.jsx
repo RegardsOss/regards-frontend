@@ -17,6 +17,7 @@ describe('[STORAGE PLUGINS MONITORING] Testing component', () => {
   const context = {
     intl: {
       formatMessage: message => message,
+      formatDate: date => date,
     },
     muiTheme: {
       palette: {
@@ -34,19 +35,19 @@ describe('[STORAGE PLUGINS MONITORING] Testing component', () => {
     const props = {
       initScale: bitsScale,
       storagePlugins: [{
-        id: '1',
+        id: 1,
         label: 'Plugin1',
         description: 'storage plugin 1',
         totalSize: '10 To',
         usedSize: '5 To',
       }, {
-        id: '2',
+        id: 2,
         label: 'Plugin2',
         description: 'storage plugin 2',
         totalSize: '5 Tio',
         usedSize: '0gb',
       }, {
-        id: '3',
+        id: 3,
         label: 'Plugin3',
         description: 'storage plugin 3',
         totalSize: '8Txxo',
