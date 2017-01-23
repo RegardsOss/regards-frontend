@@ -49,7 +49,7 @@ export class StorageMonitoringContainer extends React.Component {
 }
 
 const mapStateToProps = (state, props) => {
-  const selector = StoragePluginMonitoringSelector(props.appName)
+  const selector = new StoragePluginMonitoringSelector()
   return {
     storagePlugins: selector.getList(state),
     isFetching: selector.isFetching(state),
