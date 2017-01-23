@@ -58,6 +58,7 @@ class Container extends React.Component {
       // Render dynamic content in this dynamic container
       renderModules.push(this.props.dynamicContent)
       renderModules.push(<ModuleListComponent
+        key={0}
         modules={this.props.modules}
         container={this.props.container.id}
         onModuleSelection={this.props.onDynamicModuleSelection}

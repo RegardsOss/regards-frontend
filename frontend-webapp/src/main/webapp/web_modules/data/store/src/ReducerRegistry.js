@@ -1,41 +1,52 @@
 /**
- * LICENSE_PLACEHOLDER
+ * LICENSEPLACEHOLDER
  **/
-
+import { forEach, keys, isEmpty } from 'lodash'
 // Based on https://github.com/rackt/redux/issues/37#issue-85098222
 /**
  * Registry to handle add of new dynamic reducers during application runtime
   */
 class ReducerRegistry {
   constructor(initialReducers = {}) {
-    this._reducers = { ...initialReducers }
-    this._emitChange = null
+    this.reducers = { ...initialReducers }
+    this.emitChange = null
   }
   register(newReducers) {
-    console.log('Registered reducers', this._reducers)
-    console.log('Registering reducers', newReducers)
-    this._reducers = { ...this._reducers, ...newReducers }
-    if (this._emitChange != null) {
-      this._emitChange(this.getReducers())
+    const reducersToAdd = {}
+    forEach(keys(newReducers), (key, idx) => {
+      if (!this.reducers[key]) {
+        reducersToAdd[key] = newReducers[key]
+      } else {
+        console.warn('Reducer already initialized for key', key)
+      }
+    })
+    if (!isEmpty(reducersToAdd)) {
+      this.reducers = { ...this.reducers, ...reducersToAdd }
+      if (this.emitChange != null) {
+        this.emitChange(this.getReducers())
+      }
+    } else {
+      console.warn('No new reducers to initialize')
     }
   }
   getReducers() {
-    return { ...this._reducers }
+    return { ...this.reducers }
   }
   setChangeListener(listener) {
-    if (this._emitChange != null) {
+    if (this.emitChange != null) {
       throw new Error('Can only set the listener for a ReducerRegistry once.')
     }
-    this._emitChange = listener
+    this.emitChange = listener
   }
 }
 
-let ReducerRegistryInstance = null
+let reducerRegistryInstance = null
 
 const getReducerRegistry = (reducers) => {
-  console.log('Getting Registry', ReducerRegistryInstance)
-  ReducerRegistryInstance ? ReducerRegistryInstance : ReducerRegistryInstance = new ReducerRegistry(reducers)
-  return ReducerRegistryInstance
+  if (reducerRegistryInstance === null) {
+    reducerRegistryInstance = new ReducerRegistry(reducers)
+  }
+  return reducerRegistryInstance
 }
 
 export default getReducerRegistry

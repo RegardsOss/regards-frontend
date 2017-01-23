@@ -6,10 +6,11 @@ import { initPlugin } from './common/RegardsPlugin'
 import messagesEn from './i18n/messages.en.i18n'
 import messagesFr from './i18n/messages.fr.i18n'
 import pluginInfo from './plugin-info.json'
+import reducer from './model/pluginReducer'
 
 const messages = {
   en: messagesEn,
-  fr: messagesFr
+  fr: messagesFr,
 }
 
-initPlugin("string-criteria",StringCriteria,messages,pluginInfo)
+initPlugin('string-criteria', StringCriteria, reducer, messages, pluginInfo)

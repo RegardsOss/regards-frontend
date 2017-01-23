@@ -1,7 +1,6 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { ModulesReducers } from '@regardsoss/modules'
 import { combineReducers } from 'redux'
 import { userManagementReducer } from '@regardsoss/admin-user-management'
 import { dataManagementReducer } from '@regardsoss/admin-data-management'
