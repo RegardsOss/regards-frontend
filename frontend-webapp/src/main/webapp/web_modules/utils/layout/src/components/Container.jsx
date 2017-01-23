@@ -58,7 +58,7 @@ class Container extends React.Component {
       // Render dynamic content in this dynamic container
       renderModules.push(this.props.dynamicContent)
       renderModules.push(<ModuleListComponent
-        key={0}
+        key="dynamicContent"
         modules={this.props.modules}
         container={this.props.container.id}
         onModuleSelection={this.props.onDynamicModuleSelection}
@@ -82,7 +82,6 @@ class Container extends React.Component {
       if (this.props.plugins) {
         const containerPlugins = this.props.plugins.filter(plugin => plugin.container === this.props.container.id)
         forEach(containerPlugins, (plugin, idx) => {
-          console.log('Rendering plugin', plugin)
           renderPlugins.push(<PluginComponent key={idx} pluginId={plugin.pluginId} pluginConf={plugin.pluginConf} />)
         })
       }

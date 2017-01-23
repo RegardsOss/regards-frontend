@@ -11,4 +11,5 @@ export default [
   'news',
   'projects-list',
   'form',
+  'archival-storage-plugins-monitoring',
 ]

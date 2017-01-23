@@ -127,6 +127,7 @@ const runServer = () => {
   const adminMicroServiceRouter = jsonServer.router('mocks/rs-admin.temp.json')
   const catalogMicroServiceRouter = jsonServer.router('mocks/rs-catalog.temp.json')
   const damMicroServiceRouter = jsonServer.router('mocks/rs-dam.temp.json')
+  const archivalStoragePluginsMonitoringRouter = jsonServer.router('mocks/rs-archival-storage.json')
   // const accessMicroServiceRewriter = jsonServer.rewriter('mocks/rs-access.rewriter.json')
   const middlewares = jsonServer.defaults()
 
@@ -138,6 +139,7 @@ const runServer = () => {
   adminMicroServiceRouter.render = PageAndHateoasMiddleWare
   catalogMicroServiceRouter.render = PageAndHateoasMiddleWare
   damMicroServiceRouter.render = PageAndHateoasMiddleWare
+  archivalStoragePluginsMonitoringRouter.render = ListMiddleWare
   // gatewayMicroServiceRouter.render = PageAndHateoasMiddleWare
 
   damMicroServiceRouterList.render = ListMiddleWare
@@ -176,6 +178,7 @@ const runServer = () => {
   server.use('/api/v1/rs-admin/', adminMicroServiceRouter)
   server.use('/api/v1/rs-dam-list/', damMicroServiceRouterList)
   server.use('/api/v1/rs-dam-array/', damMicroServiceRouterArray)
+  server.use('/api/v1/rs-archival-storage', archivalStoragePluginsMonitoringRouter)
   // server.use('/api/v1/rs-gateway/', gatewayMicroServiceRouter)
   server.use(gatewayMicroServiceRouter)
 

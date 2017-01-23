@@ -5,7 +5,7 @@ import { assert } from 'chai'
 import * as StorageUnit from '../../src/helper/StorageUnit'
 
 // Test unit functions
-describe('[Archival storage] Testing unit object', () => {
+describe('[STORAGE PLUGINS MONITORING] Testing unit object', () => {
   it('should parse correctly standard units, case insensitve', () => {
     assert.equal(StorageUnit.findMatchingUnit('b').symbol, 'b')
     assert.equal(StorageUnit.findMatchingUnit('o').symbol, 'o')

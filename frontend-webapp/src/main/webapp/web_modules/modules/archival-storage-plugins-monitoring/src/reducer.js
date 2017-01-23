@@ -1,12 +1,11 @@
 /**
  * LICENSE_PLACEHOLDER
  */
-import { combineReducers } from 'redux'
-import { getStoragePluginMonitoringReducer } from './model/StoragePluginMonitoringReducers'
+import getStoragePluginMonitoringReducer from './model/StoragePluginsMonitoringReducer'
 
-const archivalStorageReducer = combineReducers({
-  'storage-plugins-monitoring': getStoragePluginMonitoringReducer,
-})
+const archivalStorageReducer = {
+  'storage-plugins': getStoragePluginMonitoringReducer,
+}
 
 export default archivalStorageReducer
 

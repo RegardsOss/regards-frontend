@@ -11,4 +11,5 @@ export default {
   styles,
   moduleContainer,
   reducer,
+  messagesDir: 'modules/archival-storage-plugins-monitoring/src/i18n',
 }

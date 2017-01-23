@@ -138,6 +138,15 @@
       "container": "content",
       "applicationId": "user",
       "id": 8
+    },
+    {
+      "active": true,
+      "conf": {},
+      "name": "archival-storage-plugins-monitoring",
+      "description": "Storage plugins overview",
+      "container": "content",
+      "applicationId": "user",
+      "id": 9
     }
   ],
   "layouts": [

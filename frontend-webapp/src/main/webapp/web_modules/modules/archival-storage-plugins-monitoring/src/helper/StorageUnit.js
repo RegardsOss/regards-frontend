@@ -1,3 +1,5 @@
+import React from 'react'
+
 /**
  * LICENSE_PLACEHOLDER
  **/
@@ -73,3 +75,5 @@ export function getOrderedUnitsInScale(unitScale) {
   // post: units are still ordered from small to big in returned partition
   return allUnits.filter(unit => unit.scaleFamilies.includes(unitScale))
 }
+
+export const UnitScaleShape = React.PropTypes.oneOf(allUnitScales).isRequired
