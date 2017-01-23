@@ -1,7 +1,6 @@
 /**
  * LICENSE_PLACEHOLDER
  */
-import React, { Component, PropTypes } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { Card, CardTitle, CardMedia } from 'material-ui/Card'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
@@ -14,11 +13,11 @@ import { UnitScaleShape, bytesScale } from '../helper/StorageUnit'
 /**
  * Displays storage plugin capacity information
  */
-class StoragePluginCapacityComponent extends Component {
+class StoragePluginCapacityComponent extends React.Component {
 
   static propTypes = {
-    label: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired, // null or capacity
+    label: React.PropTypes.string.isRequired,
+    description: React.PropTypes.string.isRequired, // null or capacity
     scale: UnitScaleShape,
     totalSize: StorageCapacityShape, // null or capacity
     usedSize: StorageCapacityShape,

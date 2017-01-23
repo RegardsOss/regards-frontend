@@ -1,8 +1,9 @@
-import React from 'react'
-
 /**
  * LICENSE_PLACEHOLDER
  **/
+import React from 'react'
+
+
 export const bitsScale = 'bits' // exported for tests
 export const bytesScale = 'bytes' // exported for tests
 export const bitsSIPrefixScale = 'bits.si.prefix' // exported for tests

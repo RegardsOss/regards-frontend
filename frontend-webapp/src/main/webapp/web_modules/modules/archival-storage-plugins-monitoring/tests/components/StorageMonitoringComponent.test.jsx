@@ -9,7 +9,7 @@ import StoragePluginCapacityComponent from '../../src/components/StoragePluginCa
 import { bitsScale } from '../../src/helper/StorageUnit'
 import { capacityFromValue } from '../../src/helper/StorageCapacity'
 
-describe('[STORAGE PLUGINS MONITORING] Testing component', () => {
+describe('[STORAGE PLUGINS MONITORING] Testing StorageMonitoringComponent', () => {
   it('should exists', () => {
     assert.isDefined(StorageMonitoringComponent)
   })
@@ -70,8 +70,8 @@ describe('[STORAGE PLUGINS MONITORING] Testing component', () => {
       // check each
       const { label, description, usedSize, totalSize } = node.props()
       const plugin = props.storagePlugins[i]
-      assert.equal(label, plugin.label, label)
-      assert.equal(description, plugin.description, description)
+      assert.equal(label, plugin.label)
+      assert.equal(description, plugin.description)
       if (capacityFromValue(plugin.usedSize)) {
         assert.isOk(usedSize)
       } else {

@@ -11,7 +11,7 @@ describe('[STORAGE PLUGINS MONITORING] Testing unit object', () => {
     assert.equal(StorageUnit.findMatchingUnit('o').symbol, 'o')
     assert.equal(StorageUnit.findMatchingUnit('mo').symbol, 'Mo')
     assert.equal(StorageUnit.findMatchingUnit('gb').symbol, 'Gb')
-    assert.equal(StorageUnit.findMatchingUnit('Tib').symbol, 'Tib')
+    assert.equal(StorageUnit.findMatchingUnit('TIb').symbol, 'Tib')
     assert.equal(StorageUnit.findMatchingUnit('Zio').symbol, 'Zio')
   })
   it('should retrieve the right unit scale', () => {
@@ -32,7 +32,7 @@ describe('[STORAGE PLUGINS MONITORING] Testing unit object', () => {
       const scaleUnits = StorageUnit.getOrderedUnitsInScale(scale)
       scaleUnits.reduce((previousUnit, unit) => {
         assert.isAbove(unit.toBits, previousUnit.toBits,
-          `${unit.symbol} has lower to bit factor (x${unit.toBits}) factor 
+          `${unit.symbol} has lower to bit factor (${unit.toBits}) factor 
           than previous unit! ${previousUnit.symbol}, x${previousUnit.toBits}`)
         return unit
       })
