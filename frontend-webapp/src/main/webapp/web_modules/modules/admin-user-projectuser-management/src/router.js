@@ -25,7 +25,6 @@ export const createProjectUserRoute = {
 }
 
 
-
 const projectUserManagementRouter = {
   childRoutes: [
     listProjectUserRoute,

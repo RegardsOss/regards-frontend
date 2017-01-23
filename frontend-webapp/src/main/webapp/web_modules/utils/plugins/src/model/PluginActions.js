@@ -1,10 +1,11 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import root from 'window-or-global'
 
 // Load scriptjs library. This lib is used to asynchronously load new external javascript files.
 let scriptjs
-if (typeof document !== 'undefined') {
+if (typeof root.document !== 'undefined' && typeof root.document.getElementsByTagName !== 'undefined') {
   scriptjs = require('scriptjs')
 }
 
@@ -31,7 +32,7 @@ export const pluginLoaded = plugin => ({
  */
 export const loadPlugin = (pluginName, sourcePath, dispatchAction) => {
   // Listen for pluin initialization done
-  document.addEventListener('plugin', (event) => {
+  root.document.addEventListener('plugin', (event) => {
     const action = pluginLoaded(event.detail)
     dispatchAction(action)
   })

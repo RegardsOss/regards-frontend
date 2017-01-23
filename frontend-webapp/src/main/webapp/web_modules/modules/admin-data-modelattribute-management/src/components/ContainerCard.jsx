@@ -5,7 +5,7 @@ import { DropTarget } from 'react-dnd'
 import { Card, CardTitle, CardText } from 'material-ui/Card'
 import { themeContextType } from '@regardsoss/theme'
 
-export class Container extends React.Component {
+export class ContainerCard extends React.Component {
 
   static propTypes = {
     title: React.PropTypes.element.isRequired,
@@ -61,4 +61,4 @@ export default DropTarget(props => props.acceptAttrType, cardTarget, (connect, m
   connectDropTarget: connect.dropTarget(),
   isOver: monitor.isOver(),
   canDrop: monitor.canDrop(),
-}))(Container)
+}))(ContainerCard)
