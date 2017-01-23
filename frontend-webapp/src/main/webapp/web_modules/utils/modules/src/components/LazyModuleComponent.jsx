@@ -104,6 +104,11 @@ class LazyModuleComponent extends React.Component {
 
     // If module is loaded then render. The module load is asynchrone due to require.ensure method.
     if (isLoaded) {
+      // Does the module is active ?
+      if (!this.props.module.active) {
+        return null
+      }
+
       // By default the i18n directory for a module is fixed to : src/i18n.
       // Nevertheless, it possible for a module to override this property by setting messagesDir in his main.js exported props
       const moduleMessageDir = module.messagesDir ? module.messagesDir : `modules/${this.props.module.name}/src/i18n`

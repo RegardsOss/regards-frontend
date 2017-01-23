@@ -2,20 +2,18 @@
  * LICENSE_PLACEHOLDER
  **/
 import { DropTarget } from 'react-dnd'
-import { FormattedMessage } from 'react-intl'
-import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
-import { map } from 'lodash'
-import ItemTypes from './ItemTypes'
-import Paper from 'material-ui/Paper'
+import { Card, CardTitle, CardText } from 'material-ui/Card'
 import { themeContextType } from '@regardsoss/theme'
 
-class Container extends React.Component {
+export class ContainerCard extends React.Component {
 
   static propTypes = {
     title: React.PropTypes.element.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
     acceptAttrType: React.PropTypes.string.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
     children: React.PropTypes.any,
+    // eslint-disable-next-line react/no-unused-prop-types
     onChange: React.PropTypes.func.isRequired,
     // from DropTarget
     connectDropTarget: React.PropTypes.func.isRequired,
@@ -63,4 +61,4 @@ export default DropTarget(props => props.acceptAttrType, cardTarget, (connect, m
   connectDropTarget: connect.dropTarget(),
   isOver: monitor.isOver(),
   canDrop: monitor.canDrop(),
-}))(Container)
+}))(ContainerCard)

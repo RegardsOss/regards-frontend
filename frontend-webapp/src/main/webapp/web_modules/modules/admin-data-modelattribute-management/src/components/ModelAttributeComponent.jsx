@@ -1,12 +1,8 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
-import { map } from 'lodash'
-import Paper from 'material-ui/Paper'
 import { ModelAttribute } from '@regardsoss/model'
-import ItemTypes from './ItemTypes'
-import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
+import { Table, TableBody, TableRow, TableRowColumn } from 'material-ui/Table'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 import { FormattedMessage } from 'react-intl'

@@ -41,13 +41,17 @@ class PluginProvider extends React.Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.loadedPlugin && nextProps.loadedPlugin.reducer) {
+      const loadedPluginReducerName = `plugins.${nextProps.loadedPlugin.name}`
+      const loadedPluginReducer = {}
+      loadedPluginReducer[loadedPluginReducerName] = configureReducers(nextProps.loadedPlugin.reducer)
+      getReducerRegistry().register(loadedPluginReducer)
+    }
+  }
+
   render() {
     if (this.props.loadedPlugin) {
-      console.log('Registering PLUGIN reducer', this.props.loadedPlugin)
-      const loadedPluginReducerName = `plugins.${loadPlugin.name}`
-      /* const loadedPluginReducer = {}
-      loadedPluginReducer[loadedPluginReducerName] = configureReducers(this.props.loadedPlugin.reducer)
-      getReducerRegistry().register(loadedPluginReducer)*/
       let element = null
       if (this.props.displayPlugin) {
         element = React.createElement(this.props.loadedPlugin.plugin, {

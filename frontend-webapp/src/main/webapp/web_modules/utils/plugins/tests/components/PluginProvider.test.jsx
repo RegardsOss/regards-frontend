@@ -9,7 +9,6 @@ import { UnconnectedPluginProvider } from '../../src/components/PluginProvider'
 
 describe('[PLUGINS] Testing Plugins load', () => {
   it('Should render correctly that a plugin is loading', () => {
-    const context = {}
     const wrapper = shallow(
       <UnconnectedPluginProvider
         pluginId="test"

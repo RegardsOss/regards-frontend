@@ -6,7 +6,7 @@ import ClearFix from 'material-ui/internal/ClearFix'
 import ActionHome from 'material-ui/svg-icons/action/home'
 import IconButton from 'material-ui/IconButton'
 import {
-  Avatar, Checkbox, DatePicker, Dialog, DropDownMenu, FlatButton, Drawer, MenuItem, Paper, RadioButton,
+  Checkbox, DatePicker, Dialog, DropDownMenu, FlatButton, Drawer, MenuItem, Paper, RadioButton,
   RadioButtonGroup, RaisedButton, Snackbar, Slider, Tabs, Tab, TextField, Toggle,
 } from 'material-ui'
 

@@ -5,13 +5,11 @@ import typography from 'material-ui/styles/typography'
 import ClearFix from 'material-ui/internal/ClearFix'
 
 import {
-  Avatar,
   Checkbox,
   DatePicker,
   Dialog,
   DropDownMenu,
   FlatButton,
-  Drawer,
   MenuItem,
   Paper,
   RadioButton,

@@ -33,6 +33,7 @@ export class PortalApp extends React.Component {
   }
 
   componentWillMount() {
+    console.log('Loading portal')
     this.props.fetchLayout()
     this.props.fetchModules()
   }

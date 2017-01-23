@@ -1,13 +1,11 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
-import { map, find, partition, includes, indexOf, some } from 'lodash'
-import { RequestErrorShape } from '@regardsoss/store-utils'
+import { map, partition, some } from 'lodash'
 import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
-import { AttributeModel, Fragment, Model, ModelAttribute } from '@regardsoss/model'
+import { AttributeModel, Model, ModelAttribute } from '@regardsoss/model'
 import AttributeModelActions from '../model/AttributeModelActions'
 import ModelActions from '../model/ModelActions'
 import ModelAttributeFormComponent from '../components/ModelAttributeFormComponent'
@@ -51,6 +49,26 @@ export class ModelAttributeFormContainer extends React.Component {
   getBackUrl = () => {
     const { params: { project } } = this.props
     return `/admin/${project}/data/model/list`
+  }
+
+  getFormComponent = () => {
+    const { attributeModelList, model, modelAttributeList } = this.props
+    const { isAttributeModelFetching, isModelFetching, isModelAttributeFetching } = this.props
+    if ((isAttributeModelFetching || isModelFetching || isModelAttributeFetching) && (!model && !attributeModelList)) {
+      return (<FormLoadingComponent />)
+    }
+    if (model) {
+      return (<ModelAttributeFormComponent
+        onCreateFragment={this.handleCreateFragment}
+        onDeleteFragment={this.handleDeleteFragment}
+        onCreateAttributeModel={this.handleCreateAttributeModel}
+        onDeleteAttributeModel={this.handleDeleteAttributeModel}
+        backUrl={this.getBackUrl()}
+        currentModel={model}
+        distributedAttrModels={this.distributeAttrModel(attributeModelList, model, modelAttributeList)}
+      />)
+    }
+    return (<FormEntityNotFoundComponent />)
   }
 
   handleCreateFragment = (fragment) => {
@@ -135,26 +153,6 @@ export class ModelAttributeFormContainer extends React.Component {
     return result
   }
 
-
-  getFormComponent = () => {
-    const { attributeModelList, model, modelAttributeList } = this.props
-    const { isAttributeModelFetching, isModelFetching, isModelAttributeFetching } = this.props
-    if ((isAttributeModelFetching || isModelFetching || isModelAttributeFetching) && (!model && !attributeModelList)) {
-      return (<FormLoadingComponent />)
-    }
-    if (model) {
-      return (<ModelAttributeFormComponent
-        onCreateFragment={this.handleCreateFragment}
-        onDeleteFragment={this.handleDeleteFragment}
-        onCreateAttributeModel={this.handleCreateAttributeModel}
-        onDeleteAttributeModel={this.handleDeleteAttributeModel}
-        backUrl={this.getBackUrl()}
-        currentModel={model}
-        distributedAttrModels={this.distributeAttrModel(attributeModelList, model, modelAttributeList)}
-      />)
-    }
-    return (<FormEntityNotFoundComponent />)
-  }
 
   render() {
     return (

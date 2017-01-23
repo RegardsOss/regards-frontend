@@ -13,7 +13,7 @@ export default {
     classes: [],
     styles: {
       backgroundColor: 'transparent',
-      background: "url('/img/background.jpg') top right no-repeat",
+      // background: "url('/img/background.jpg') top right no-repeat",
       backgroundAttachment: 'fixed',
       backgroundSize: 'cover',
       minHeight: '100vh',

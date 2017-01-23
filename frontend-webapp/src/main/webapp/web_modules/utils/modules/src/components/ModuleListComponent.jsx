@@ -3,9 +3,10 @@
  **/
 import { map } from 'lodash'
 import Drawer from 'material-ui/Drawer'
-import MenuItem from 'material-ui/MenuItem'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import FilterList from 'material-ui/svg-icons/action/list'
+import { List, ListItem } from 'material-ui/List'
+import Divider from 'material-ui/Divider'
 import ModuleShape from '../model/ModuleShape'
 
 /**
@@ -66,19 +67,21 @@ class ModuleListComponent extends React.Component {
           openSecondary
           onRequestChange={this.handleClose}
         >
-          {map(this.props.modules, (module, idx) => {
-            if (module.content.container === this.props.container) {
-              return (
-                <MenuItem
-                  key={idx}
-                  onTouchTap={() => this.onModuleSelection(module)}
-                >
-                  {module.content.description}
-                </MenuItem>
-              )
-            }
-            return null
-          })}
+          <List>
+            {map(this.props.modules, (module, idx) => {
+              if (module.content.container === this.props.container && module.content.active) {
+                return (
+                  <ListItem
+                    key={idx}
+                    primaryText={module.content.description}
+                    onTouchTap={() => this.onModuleSelection(module)}
+                  />
+                )
+              }
+              return null
+            })}
+            <Divider />
+          </List>
         </Drawer>
       </div>
     )

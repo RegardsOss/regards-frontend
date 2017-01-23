@@ -1,9 +1,8 @@
 import { FormattedMessage } from 'react-intl'
-import { RenderTextField, RenderCheckbox, RenderSelectField, Field } from '@regardsoss/form-utils'
-import { reduxForm } from 'redux-form'
+import { RenderTextField, RenderCheckbox, Field } from '@regardsoss/form-utils'
 import { AttributeModel } from '@regardsoss/model'
 import TextField from 'material-ui/TextField'
-import { map, remove } from 'lodash'
+import { map } from 'lodash'
 import IconButton from 'material-ui/IconButton'
 import Delete from 'material-ui/svg-icons/action/delete'
 import Add from 'material-ui/svg-icons/content/add-circle-outline'
@@ -44,7 +43,7 @@ export class EnumerationComponent extends React.Component {
   }
 
   handleCreate = () => {
-    let { acceptableValues, newValue } = this.state
+    const { acceptableValues, newValue } = this.state
     acceptableValues.push({ value: newValue, deleted: false })
     this.setState({
       acceptableValues,
@@ -129,13 +128,14 @@ export class EnumerationComponent extends React.Component {
  * @returns {*} object sent to redux-form to correctly initialize form inputs
  */
 export function initializeEnumerationForm(initialValues, currentAttrModel) {
-  initialValues.restriction.ENUMERATION = {}
-  initialValues.restriction.ENUMERATION.active = true
-  initialValues.restriction.ENUMERATION.inputs = {}
+  const formValues = initialValues
+  formValues.restriction.ENUMERATION = {}
+  formValues.restriction.ENUMERATION.active = true
+  formValues.restriction.ENUMERATION.inputs = {}
   map(currentAttrModel.content.restriction.acceptableValues, (value, key) => {
-    initialValues.restriction.ENUMERATION.inputs[`input${key}`] = value
+    formValues.restriction.ENUMERATION.inputs[`input${key}`] = value
   })
-  return initialValues
+  return formValues
 }
 
 export default EnumerationComponent

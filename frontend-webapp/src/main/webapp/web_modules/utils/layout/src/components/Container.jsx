@@ -67,7 +67,7 @@ class Container extends React.Component {
     } else {
       // Render modules and plugins of this static container
       if (this.props.modules) {
-        const containerModules = this.props.modules.filter(module => module.content.active && module.content.container === this.props.container.id && module.content.applicationId === this.props.appName)
+        const containerModules = this.props.modules.filter(module => module.content.container === this.props.container.id && module.content.applicationId === this.props.appName)
         forEach(containerModules, (module, idx) => (
           renderModules.push(<LazyModuleComponent
             key={idx}

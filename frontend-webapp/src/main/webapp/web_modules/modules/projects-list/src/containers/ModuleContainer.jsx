@@ -24,10 +24,6 @@ export class ModuleContainer extends React.Component {
     fetchProjects: React.PropTypes.func,
   }
 
-  constructor() {
-    super()
-  }
-
   componentWillMount() {
     this.props.fetchProjects()
   }

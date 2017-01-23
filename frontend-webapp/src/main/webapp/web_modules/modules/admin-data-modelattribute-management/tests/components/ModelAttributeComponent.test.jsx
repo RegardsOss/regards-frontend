@@ -3,10 +3,10 @@
  **/
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import ModelAttributeComponent from '../../src/components/ModelAttributeComponent'
 import { TableRowColumn } from 'material-ui/Table'
 import sinon from 'sinon'
 import SelectField from 'material-ui/SelectField'
+import ModelAttributeComponent from '../../src/components/ModelAttributeComponent'
 
 
 // Test a component rendering
@@ -62,5 +62,5 @@ describe('[ADMIN DATA MODEL ATTRIBUTE MANAGEMENT] Testing ModelAttributeComponen
     expect(subComponentSelectField).to.have.length(1)
     subComponentSelectField.simulate('change', 'FROM_DESCENDANTS')
     expect(onSelectFieldChange.calledOnce).to.equal(true)
-  })
+  }).timeout(60000)
 })
