@@ -6,7 +6,7 @@ import Paper from 'material-ui/Paper'
 import { themeContextType } from '@regardsoss/theme'
 
 
-class CardDragContainer extends React.Component {
+export class DraggableCard extends React.Component {
 
   static propTypes = {
     // eslint-disable-next-line react/forbid-prop-types
@@ -77,4 +77,4 @@ function collect(connect, monitor) {
   }
 }
 
-export default DragSource(props => props.draggableToContainerType, CardSource, collect)(CardDragContainer)
+export default DragSource(props => props.draggableToContainerType, CardSource, collect)(DraggableCard)
