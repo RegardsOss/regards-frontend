@@ -100,7 +100,6 @@ export function capacityFromValue(textValue) {
   const matched = textValue.match(parsingExpression)
   if (!matched || matched.length < 3) {
     // text is not matching expecting format
-    console.error('Could not parse unit and value in storage information: ', textValue)
     return null
   }
 
@@ -108,7 +107,6 @@ export function capacityFromValue(textValue) {
   const valueText = matched[1] // value: first matching group
   const value = Number(valueText)
   if (Number.isNaN(value)) {
-    console.error('Cannot extract a numeric value from parsed value ', valueText)
     return null
   }
 
@@ -117,9 +115,10 @@ export function capacityFromValue(textValue) {
   const unit = StorageUnit.findMatchingUnit(unitText)
   if (!unit) {
     // found no matching unit
-    console.error('No matching unit for unit text: ', unitText)
     return null
   }
 
   return new StorageCapacity(value, unit)
 }
+
+export const StorageCapacityShape = React.PropTypes.instanceOf(StorageCapacity)

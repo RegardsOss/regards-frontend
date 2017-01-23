@@ -45,10 +45,10 @@ describe('[STORAGE PLUGINS MONITORING] Testing plugins monitoring container', ()
   })
 
   it('should show error when there is one', () => {
-    const localProps = { ...props, hasError: 'Test error' }
+    const localProps = { ...props, hasError: true }
     const enzymeWrapper = shallow(<StorageMonitoringContainer {...localProps} />)
     const mainComponent = enzymeWrapper.find(StorageMonitoringComponent)
     assert.isFalse(mainComponent.props().isFetching)
-    assert.isTrue(mainComponent.props().error)
+    assert.isTrue(mainComponent.props().hasError)
   })
 })
