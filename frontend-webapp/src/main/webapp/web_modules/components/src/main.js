@@ -10,7 +10,11 @@ import ShowableAtRender from './cards/ShowableAtRender'
 import NewsItemComponent from './NewsItemComponent'
 import ErrorDecoratorComponent from './ErrorDecoratorComponent'
 import CenteredDiv from './CenteredDiv'
-import BoardComponent from './board/BoardComponent'
+
+import ParameterizedBoardComponent from './boardNew/ParamerizedBoardComponent'
+import BoardComponent from './boardNew/BoardComponent'
+import ParameterizedBoardItemComponent from './boardNew/ParameterizedBoardItemComponent'
+import BoardItemComponent from './boardNew/BoardItemComponent'
 
 import OnHoverSwitchFlatButton from './buttons/OnHoverSwitchFlatButton'
 import OnHoverSwitchIconButton from './buttons/OnHoverSwitchIconButton'
@@ -33,7 +37,10 @@ export {
   OnHoverSwitchIconButton,
   OnHoverSwitchRaisedButton,
   CenteredDiv,
-  BoardComponent,
   ConfirmDialogComponent,
   PageableListContainer,
+  BoardComponent,
+  ParameterizedBoardComponent,
+  ParameterizedBoardItemComponent,
+  BoardItemComponent,
 }
