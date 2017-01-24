@@ -89,4 +89,9 @@ const mapDispatchToProps = dispatch => ({
   updateLayout: (applicationId, layout) => dispatch(LayoutActions.updateEntity(applicationId, layout, dispatch)),
 })
 
+const UnconnectedApplicationLayoutContainer = ApplicationLayoutContainer
+export {
+  UnconnectedApplicationLayoutContainer,
+}
+
 export default connect(mapStateToProps, mapDispatchToProps)(ApplicationLayoutContainer)

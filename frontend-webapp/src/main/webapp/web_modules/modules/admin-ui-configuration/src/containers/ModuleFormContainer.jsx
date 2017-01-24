@@ -37,7 +37,7 @@ class ModuleFormContainer extends React.Component {
   }
 
   componentWillMount() {
-    if (this.props.params.module_id) {
+    if (this.props.params.module_id && !this.props.module) {
       this.props.fetchModule(this.props.params.applicationId, this.props.params.module_id)
     }
     if (!this.props.layout) {
@@ -104,5 +104,10 @@ const mapDispatchToProps = dispatch => ({
   createModule: (applicationId, module) => dispatch(ModulesActions.createEntity(module, dispatch, [applicationId])),
 
 })
+
+const UnconnectedModuleFormContainer = ModuleFormContainer
+export {
+  UnconnectedModuleFormContainer,
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(ModuleFormContainer)

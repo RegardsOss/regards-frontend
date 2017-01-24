@@ -18,7 +18,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing form container', () => {
       // from mapStateToProps
       project: {
         content: {
-          id: '1',
+          id: 1,
           name: 'project name',
           description: 'project desc',
           icon: 'project icon',

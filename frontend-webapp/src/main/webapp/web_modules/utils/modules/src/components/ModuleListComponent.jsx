@@ -52,7 +52,7 @@ class ModuleListComponent extends React.Component {
           position: 'absolute',
           top: '50vh',
           right: 50,
-          zIndex: 7000
+          zIndex: 7000,
         }}
       >
         <FloatingActionButton
