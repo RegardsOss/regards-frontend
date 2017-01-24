@@ -14,7 +14,6 @@ import { UnconnectedModuleFormComponent } from '../../src/components/ModuleFormC
 
 
 describe('[ADMIN UI-CONFIGURATION] Testing Modules form component', () => {
-
   const options = {
     context: {
       muiTheme: getMuiTheme({

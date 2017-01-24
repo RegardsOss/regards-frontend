@@ -12,7 +12,6 @@ import { ShowableAtRender } from '@regardsoss/components'
 import ModuleListComponent from '../../src/components/ModuleListComponent'
 
 describe('[ADMIN UI-CONFIGURATION] Testing Modules list component', () => {
-
   const options = {
     context: {
       muiTheme: getMuiTheme({}),
