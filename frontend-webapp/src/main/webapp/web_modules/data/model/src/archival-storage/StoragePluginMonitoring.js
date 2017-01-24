@@ -7,6 +7,6 @@ const StoragePluginShape = React.PropTypes.shape({
 })
 export default StoragePluginShape
 
-export const PluginShape4Normalizr = React.PropTypes.shape({
+export const StoragePluginShape4Normalizr = React.PropTypes.shape({
   content: StoragePluginShape,
 })

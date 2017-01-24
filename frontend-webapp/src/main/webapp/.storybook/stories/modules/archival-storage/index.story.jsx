@@ -5,7 +5,7 @@ import React from 'react'
 import { withKnobs, object } from '@kadira/storybook-addon-knobs'
 import { storiesOf } from '@kadira/storybook'
 import { ModuleThemeProvider } from '@regardsoss/modules'
-import AIPStatusComponent from '@regardsoss/archival-storage-aip-status-monitoring/src/components/AIPStatusComponent'
+import AIPStatusComponent from '@regardsoss/archival-storage-aip-status/src/components/AIPStatusComponent'
 import StorageMonitoringComponent from '@regardsoss/archival-storage-plugins-monitoring/src/components/StorageMonitoringComponent'
 import styles from '@regardsoss/archival-storage-plugins-monitoring/src/styles/styles'
 import { StoreDecorator, addLocaleAndThemeSelectors, ThemeAndLocaleDecorator } from '../../utils/decorators'
@@ -14,7 +14,7 @@ storiesOf('Archival storage', module)
   .addDecorator(withKnobs)
   .addDecorator(StoreDecorator)
   .add('AIP status', () => (
-    <ThemeAndLocaleDecorator theme={addLocaleAndThemeSelectors()} messageDir="modules/archival-storage-aip-status-monitoring/src/i18n" >
+    <ThemeAndLocaleDecorator theme={addLocaleAndThemeSelectors()} messageDir="modules/archival-storage-aip-status/src/i18n" >
       <AIPStatusComponent />
     </ThemeAndLocaleDecorator>
   ))
