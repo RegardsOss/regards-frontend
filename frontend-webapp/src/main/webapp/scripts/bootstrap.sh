@@ -45,6 +45,7 @@ npm link web_modules/modules/admin-user-role-management
 npm link web_modules/modules/admin-database-management
 npm link web_modules/modules/admin-account-management
 npm link web_modules/modules/admin-ui-configuration
+npm link web_modules/modules/admin-ui-plugins-management
 npm link web_modules/modules/archival-storage-aip-status-monitoring
 npm link web_modules/modules/archival-storage-plugins-monitoring
 
