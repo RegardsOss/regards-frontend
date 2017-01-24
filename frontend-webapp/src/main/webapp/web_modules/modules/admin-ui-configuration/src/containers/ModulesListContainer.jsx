@@ -1,6 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import { isEmpty } from 'lodash'
 import { browserHistory } from 'react-router'
 import { FormLoadingComponent } from '@regardsoss/form-utils'
 import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
@@ -35,7 +36,9 @@ class ModulesListContainer extends React.Component {
   }
 
   componentWillMount() {
-    this.props.fetchModules(this.props.params.applicationId)
+    if (!this.props.modules || isEmpty(this.props.modules)) {
+      this.props.fetchModules(this.props.params.applicationId)
+    }
   }
 
   handleEditModule = (module) => {
@@ -60,7 +63,7 @@ class ModulesListContainer extends React.Component {
   }
 
   render() {
-    if (!this.props.modules && this.props.isFetching) {
+    if (!this.props.modules || this.props.isFetching) {
       return (<FormLoadingComponent />)
     }
 
@@ -77,6 +80,11 @@ class ModulesListContainer extends React.Component {
       </I18nProvider>
     )
   }
+}
+
+const UnconnectedModulesListContainer = ModulesListContainer
+export {
+  UnconnectedModulesListContainer,
 }
 
 const mapStateToProps = state => ({

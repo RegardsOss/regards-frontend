@@ -28,4 +28,9 @@ class ApplicationListContainer extends React.Component {
   }
 }
 
+const UnconnectedApplicationListContainer = ApplicationListContainer
+export {
+  UnconnectedApplicationListContainer,
+}
+
 export default ApplicationListContainer

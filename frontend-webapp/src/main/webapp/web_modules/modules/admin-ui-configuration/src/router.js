@@ -14,7 +14,7 @@ export const listApplicationsRoute = {
     require.ensure([], (require) => {
       const applicationContainer = require('./containers/ApplicationListContainer')
       cb(null, {
-        content: applicationContainer,
+        content: applicationContainer.default,
       })
     })
   },
@@ -28,9 +28,9 @@ export const listModulesRoute = {
   path: 'applications/:applicationId/modules/list',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const appMoulesContainer = require('./containers/ModulesListContainer')
+      const appModuleContainer = require('./containers/ModulesListContainer')
       cb(null, {
-        content: appMoulesContainer,
+        content: appModuleContainer.default,
       })
     })
   },
@@ -46,7 +46,7 @@ export const editModuleRoute = {
     require.ensure([], (require) => {
       const moduleContainer = require('./containers/ModuleFormContainer')
       cb(null, {
-        content: moduleContainer,
+        content: moduleContainer.default,
       })
     })
   },
@@ -62,7 +62,7 @@ export const createModuleRoute = {
     require.ensure([], (require) => {
       const moduleContainer = require('./containers/ModuleFormContainer')
       cb(null, {
-        content: moduleContainer,
+        content: moduleContainer.default,
       })
     })
   },
@@ -78,7 +78,7 @@ export const layoutRoute = {
     require.ensure([], (require) => {
       const appLayoutContainer = require('./containers/ApplicationLayoutContainer')
       cb(null, {
-        content: appLayoutContainer,
+        content: appLayoutContainer.default,
       })
     })
   },

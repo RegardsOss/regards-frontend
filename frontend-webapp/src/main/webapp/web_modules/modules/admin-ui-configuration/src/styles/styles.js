@@ -4,19 +4,28 @@
 const formStyles = theme => ({
   board: {
     section: {
-      classes: theme.adminApp.datamanagement.home.section1.container.classes.join(' '),
-      styles: theme.adminApp.datamanagement.home.section1.container.styles,
+      classes: 'row',
     },
     items: {
-      classes: theme.adminApp.datamanagement.home.section1.items.classes.join(' '),
-      styles: theme.adminApp.datamanagement.home.section1.items.styles,
-
+      classes: 'col-xs-50 col-sm-40 col-lg-33',
+      styles: {
+        padding: '10px 0',
+        textAlign: 'center',
+        marginBottom: '30px',
+      },
     },
     action: {
-      classes: theme.adminApp.datamanagement.home.action.classes.join(' '),
-      styles: theme.adminApp.datamanagement.home.action.styles,
+      classes: 'row',
+      styles: {
+        display: 'flex',
+        justifyContent: 'center',
+        marginTop: '30px',
+      },
     },
     links: theme.linkWithoutDecoration,
+  },
+  cardEspaced: {
+    marginTop: '20px',
   },
 })
 

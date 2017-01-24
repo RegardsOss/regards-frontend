@@ -12,6 +12,7 @@ import { RenderTextField, RenderSelectField, Field, RenderCheckbox, ErrorTypes }
 import { reduxForm } from 'redux-form'
 import { ReduxConnectedForm } from '@regardsoss/redux'
 import { ModuleShape, AvailableModules, LazyModuleComponent } from '@regardsoss/modules'
+import Styles from '../styles/styles'
 
 /**
  * React component to display and configure a given layout
@@ -39,8 +40,8 @@ class ModuleFormComponent extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      creation: this.props.module === null,
-      moduleSelected: this.props.module !== null,
+      creation: this.props.module === null || this.props.module === undefined,
+      moduleSelected: this.props.module !== null && this.props.module !== undefined,
       module: this.props.module ? this.props.module : {
         active: false,
         conf: {},
@@ -66,11 +67,11 @@ class ModuleFormComponent extends React.Component {
 
   render() {
     const { pristine, submitting } = this.props
-
+    const style = Styles(this.context.muiTheme)
     let moduleConf = null
     if (this.state.moduleSelected) {
       moduleConf = (
-        <Card style={this.context.muiTheme.layout.cardEspaced}>
+        <Card id="dynamicFields" style={style.cardEspaced}>
           <CardText>
             <LazyModuleComponent
               module={this.state.module}
@@ -98,7 +99,7 @@ class ModuleFormComponent extends React.Component {
                 }}
               />}
             />
-            <CardText>
+            <CardText id="staticFields">
               <ShowableAtRender show={this.state.creation}>
                 <Field
                   name="name"
@@ -149,7 +150,7 @@ class ModuleFormComponent extends React.Component {
 
           {moduleConf}
 
-          <Card style={this.context.muiTheme.layout.cardEspaced}>
+          <Card style={style.cardEspaced}>
             <CardActions>
               <CardActionsComponent
                 mainButtonLabel={<FormattedMessage
@@ -177,6 +178,11 @@ function validate(values) {
     errors.description = ErrorTypes.REQUIRED
   }
   return errors
+}
+
+const UnconnectedModuleFormComponent = ModuleFormComponent
+export {
+  UnconnectedModuleFormComponent,
 }
 
 export default reduxForm({

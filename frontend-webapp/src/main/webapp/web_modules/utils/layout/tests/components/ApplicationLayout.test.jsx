@@ -59,7 +59,7 @@ describe('[LAYOUT] Testing Application Container', () => {
       />
       , { context })
 
-    expect(wrapper2.find('.row')).to.have.length(1)
+    expect(wrapper2.find('.col-sm-98')).to.have.length(1)
     expect(wrapper2.find('.header')).to.have.length(0)
     expect(wrapper2.find('.body')).to.have.length(1)
     expect(wrapper2.find(LazyModuleComponent)).to.have.length(2)
