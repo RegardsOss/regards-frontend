@@ -28,9 +28,7 @@ class PluginListContainer extends React.Component {
     deletePlugin: React.PropTypes.func,
     // Set by mapStateToProps
     isFetching: React.PropTypes.bool,
-    plugins: React.PropTypes.objectOf({
-      content: PluginDefinition
-    }),
+    plugins: React.PropTypes.objectOf(PluginDefinition),
   }
 
   static contextTypes = {
@@ -44,11 +42,11 @@ class PluginListContainer extends React.Component {
   }
 
   handleEditPlugin = (plugin) => {
-    const url = `/admin/${this.props.params.project}/ui-plugins/${plugin.id}/edit`
+    const url = `/admin/${this.props.params.project}/ui-plugins/plugins/${plugin.id}/edit`
     browserHistory.push(url)
   }
   handleCreatePlugin = () => {
-    const url = `/admin/${this.props.params.project}/ui-plugins/create`
+    const url = `/admin/${this.props.params.project}/ui-plugins/plugins/create`
     browserHistory.push(url)
   }
 
@@ -61,6 +59,7 @@ class PluginListContainer extends React.Component {
   }
 
   render() {
+    console.log('plugins', this.props)
     if (!this.props.plugins || this.props.isFetching) {
       return (<FormLoadingComponent />)
     }
@@ -90,8 +89,8 @@ const mapStateToProps = state => ({
 })
 const mapDispatchToProps = dispatch => ({
   fetchPlugins: () => dispatch(PluginsActions.fetchPagedEntityList(dispatch, 0, 100)),
-  updatePlugin: (plugin) => dispatch(PluginsActions.updateEntity(plugin.id, plugin, dispatch)),
-  deletePlugin: (plugin) => dispatch(PluginsActions.deleteEntity(plugin.id, dispatch)),
+  updatePlugin: plugin => dispatch(PluginsActions.updateEntity(plugin.id, plugin, dispatch)),
+  deletePlugin: plugin => dispatch(PluginsActions.deleteEntity(plugin.id, dispatch)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PluginListContainer)

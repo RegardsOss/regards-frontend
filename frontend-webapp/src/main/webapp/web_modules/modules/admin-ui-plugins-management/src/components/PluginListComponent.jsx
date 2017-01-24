@@ -3,7 +3,6 @@
  **/
 import { map } from 'lodash'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
-import Toggle from 'material-ui/Toggle'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
 import IconButton from 'material-ui/IconButton'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
@@ -20,12 +19,10 @@ import { themeContextType } from '@regardsoss/theme'
 class PluginListComponent extends React.Component {
 
   static propTypes = {
-    plugins: React.PropTypes.objectOf({
-      content: PluginDefinition
-    }).isRequired,
+    plugins: React.PropTypes.objectOf(PluginDefinition),
     onCreate: React.PropTypes.func.isRequired,
     onEdit: React.PropTypes.func.isRequired,
-    onDelete: React.PropTypes.func.isRequired
+    onDelete: React.PropTypes.func.isRequired,
   }
 
   static contextTypes = {

@@ -10,7 +10,7 @@ import { BasicPageableActions } from '@regardsoss/store-utils'
 class PluginsActions extends BasicPageableActions {
   constructor() {
     super({
-      namespace: 'ui-plugins/plugins',
+      namespace: 'ui-plugins-management/plugins',
       entityEndpoint: `${GATEWAY_HOSTNAME}/api/v1/rs-access/plugins`,
       schemaTypes: {
         ENTITY: Schemas.PLUGIN,

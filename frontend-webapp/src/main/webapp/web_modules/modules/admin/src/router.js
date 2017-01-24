@@ -79,7 +79,7 @@ export const uiConfigurationRouter = {
  * Main route to access UI-Confiuration module functionalities
  * @type {{path: string, getChildRoutes: ((nextState, cb))}}
  */
-export const uiPluginsRouter = {
+export const projectAdminUiPluginsRouter = {
   path: ':project/ui-plugins',
   getChildRoutes(nextState, cb) {
     const adminUiPlugins = require('@regardsoss/admin-ui-plugins-management')
@@ -142,10 +142,10 @@ export default {
     accountRouter,
     databaseRouter,
     uiConfigurationRouter,
-    uiPluginsRouter,
     projectAdminDataRouter,
     projectAdminUserProjectRouter,
     projectAdminUiConfigurationRouter,
+    projectAdminUiPluginsRouter,
     projectAdminRouter,
     adminMicroserviceManagementRouter,
   ],
