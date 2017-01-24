@@ -2,67 +2,234 @@
   "datasets": [
     {
       "id": 1,
-      "name": "PremierDataSet"
-    }, {
+      "label": "PremierDataSet",
+      "type": "DATASET",
+      "model": {
+        "id": 0,
+        "name": "Premier Modele",
+        "descirption": "Description du premier modele de jeux de données",
+        "type": "DATASET"
+      }
+    },
+    {
       "id": 2,
-      "name": "DeuxiemeDataSet"
-    }, {
+      "label": "DeuxiemeDataSet",
+      "type": "DATASET",
+      "model": {
+        "id": 0,
+        "name": "Premier Modele",
+        "descirption": "Description du premier modele de jeux de données",
+        "type": "DATASET"
+      }
+    },
+    {
       "id": 3,
-      "name": "TroisiemeDataSet"
-    }, {
+      "label": "TroisiemeDataSet",
+      "type": "DATASET",
+      "model": {
+        "id": 0,
+        "name": "Premier Modele",
+        "descirption": "Description du premier modele de jeux de données",
+        "type": "DATASET"
+      }
+    },
+    {
       "id": 4,
-      "name": "QuatriemDataSet"
-    }, {
+      "label": "QuatriemDataSet",
+      "type": "DATASET",
+      "model": {
+        "id": 0,
+        "name": "Premier Modele",
+        "descirption": "Description du premier modele de jeux de données",
+        "type": "DATASET"
+      }
+    },
+    {
       "id": 5,
-      "name": "CinquiemeDataSet"
-    }, {
+      "label": "CinquiemeDataSet",
+      "type": "DATASET",
+      "model": {
+        "id": 0,
+        "name": "Premier Modele",
+        "descirption": "Description du premier modele de jeux de données",
+        "type": "DATASET"
+      }
+    },
+    {
       "id": 6,
-      "name": "SixiemeDataSet"
-    }, {
+      "label": "SixiemeDataSet",
+      "type": "DATASET",
+      "model": {
+        "id": 0,
+        "name": "Premier Modele",
+        "descirption": "Description du premier modele de jeux de données",
+        "type": "DATASET"
+      }
+    },
+    {
       "id": 7,
-      "name": "SeptiemeDataSet"
-    }, {
+      "label": "SeptiemeDataSet",
+      "type": "DATASET",
+      "model": {
+        "id": 0,
+        "name": "Premier Modele",
+        "descirption": "Description du premier modele de jeux de données",
+        "type": "DATASET"
+      }
+    },
+    {
       "id": 8,
-      "name": "HuitiemeDataSet"
-    }, {
+      "label": "HuitiemeDataSet",
+      "type": "DATASET",
+      "model": {
+        "id": 0,
+        "name": "Premier Modele",
+        "descirption": "Description du premier modele de jeux de données",
+        "type": "DATASET"
+      }
+    },
+    {
       "id": 9,
-      "name": "NeuviemeDataSet"
-    }, {
+      "label": "NeuviemeDataSet",
+      "type": "DATASET",
+      "model": {
+        "id": 0,
+        "name": "Premier Modele",
+        "descirption": "Description du premier modele de jeux de données",
+        "type": "DATASET"
+      }
+    },
+    {
       "id": 10,
-      "name": "DixiemeDataSet"
-    }, {
+      "label": "DixiemeDataSet",
+      "type": "DATASET",
+      "model": {
+        "id": 0,
+        "name": "Premier Modele",
+        "descirption": "Description du premier modele de jeux de données",
+        "type": "DATASET"
+      }
+    },
+    {
       "id": 11,
-      "name": "Dataset number 11"
-    }, {
+      "label": "Dataset number 11",
+      "type": "DATASET",
+      "model": {
+        "id": 0,
+        "name": "Premier Modele",
+        "descirption": "Description du premier modele de jeux de données",
+        "type": "DATASET"
+      }
+    },
+    {
       "id": 12,
-      "name": "Dataset number 12"
-    }, {
+      "label": "Dataset number 12",
+      "type": "DATASET",
+      "model": {
+        "id": 0,
+        "name": "Premier Modele",
+        "descirption": "Description du premier modele de jeux de données",
+        "type": "DATASET"
+      }
+    },
+    {
       "id": 13,
-      "name": "Dataset number 13"
-    }, {
+      "label": "Dataset number 13",
+      "type": "DATASET",
+      "model": {
+        "id": 0,
+        "name": "Premier Modele",
+        "descirption": "Description du premier modele de jeux de données",
+        "type": "DATASET"
+      }
+    },
+    {
       "id": 14,
-      "name": "Dataset number 14"
-    }, {
+      "label": "Dataset number 14",
+      "type": "DATASET",
+      "model": {
+        "id": 0,
+        "name": "Premier Modele",
+        "descirption": "Description du premier modele de jeux de données",
+        "type": "DATASET"
+      }
+    },
+    {
       "id": 15,
-      "name": "Dataset number 15"
-    }, {
+      "label": "Dataset number 15",
+      "type": "DATASET",
+      "model": {
+        "id": 0,
+        "name": "Premier Modele",
+        "descirption": "Description du premier modele de jeux de données",
+        "type": "DATASET"
+      }
+    },
+    {
       "id": 16,
-      "name": "Dataset number 16"
-    }, {
+      "label": "Dataset number 16",
+      "type": "DATASET",
+      "model": {
+        "id": 0,
+        "name": "Premier Modele",
+        "descirption": "Description du premier modele de jeux de données",
+        "type": "DATASET"
+      }
+    },
+    {
       "id": 17,
-      "name": "Dataset number 17"
-    }, {
+      "label": "Dataset number 17",
+      "type": "DATASET",
+      "model": {
+        "id": 0,
+        "name": "Premier Modele",
+        "descirption": "Description du premier modele de jeux de données",
+        "type": "DATASET"
+      }
+    },
+    {
       "id": 18,
-      "name": "Dataset number 18"
-    }, {
+      "label": "Dataset number 18",
+      "type": "DATASET",
+      "model": {
+        "id": 0,
+        "name": "Premier Modele",
+        "descirption": "Description du premier modele de jeux de données",
+        "type": "DATASET"
+      }
+    },
+    {
       "id": 19,
-      "name": "Dataset number 19"
-    }, {
+      "label": "Dataset number 19",
+      "type": "DATASET",
+      "model": {
+        "id": 0,
+        "name": "Premier Modele",
+        "descirption": "Description du premier modele de jeux de données",
+        "type": "DATASET"
+      }
+    },
+    {
       "id": 20,
-      "name": "Dataset number 20"
-    }, {
+      "label": "Dataset number 20",
+      "type": "DATASET",
+      "model": {
+        "id": 0,
+        "name": "Premier Modele",
+        "descirption": "Description du premier modele de jeux de données",
+        "type": "DATASET"
+      }
+    },
+    {
       "id": 21,
-      "name": "Dataset number 21"
+      "label": "Dataset number 21",
+      "type": "DATASET",
+      "model": {
+        "id": 0,
+        "name": "Premier Modele",
+        "descirption": "Description du premier modele de jeux de données",
+        "type": "DATASET"
+      }
     }
   ]
 }

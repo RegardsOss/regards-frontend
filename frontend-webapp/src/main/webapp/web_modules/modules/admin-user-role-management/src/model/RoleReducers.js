@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { BasicListReducers } from '@regardsoss/store-utils'
 import { RoleConfiguration } from '@regardsoss/api'
 import RoleActions from './RoleActions'

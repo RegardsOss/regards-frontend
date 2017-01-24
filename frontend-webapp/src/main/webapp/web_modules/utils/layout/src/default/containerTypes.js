@@ -13,7 +13,7 @@ export default {
     classes: [],
     styles: {
       backgroundColor: 'transparent',
-      background: "url('/img/background.jpg') top right no-repeat",
+      // background: "url('/img/background.jpg') top right no-repeat",
       backgroundAttachment: 'fixed',
       backgroundSize: 'cover',
       minHeight: '100vh',
@@ -27,7 +27,6 @@ export default {
   FormMainContainer: {
     classes: [],
     styles: {
-      backgroundColor: 'Grey',
       backgroundAttachment: 'fixed',
       backgroundSize: 'cover',
       minHeight: '30vh',
@@ -40,7 +39,7 @@ export default {
    * Row container to display a responsive row.
    */
   RowContainer: {
-    classes: ['row'],
+    classes: ['col-sm-98', 'col-sm-offset-1'],
     styles: {
       marginBottom: '10px',
     },

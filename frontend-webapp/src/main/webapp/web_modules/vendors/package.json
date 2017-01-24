@@ -1,0 +1,9 @@
+{
+  "name": "@regardsoss/vendors",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Vendors whose sources need to be adapted to be used by Regards.",
+  "main": "main.js",
+  "author": "CS-SI",
+  "license": "GPLv3"
+}

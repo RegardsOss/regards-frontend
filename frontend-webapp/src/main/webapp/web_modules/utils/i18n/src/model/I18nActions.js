@@ -48,7 +48,6 @@ export function updateMessages(messagesDir, locale) {
   }
 }
 
-
 export function updateLocale(locale) {
   return (dispatch, getState) => (
     dispatch(setLocale(locale)).then(() => {

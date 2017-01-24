@@ -1,7 +1,7 @@
 import { Schema, arrayOf } from 'normalizr'
 
 export const DatasetConfiguration = {
-  entityKey: 'name',
+  entityKey: 'id',
   normalizrKey: 'datasets',
 }
 

@@ -1,12 +1,14 @@
 /**
- * @author lmieulet
- */
+ * LICENSE_PLACEHOLDER
+ **/
 import { ShowableAtRender } from '@regardsoss/components'
 
 /**
  * Generic decorator for controlling display
  * Use this decorator on a React.Component class in order to control its display
  * with the passed controller logic.
+ *
+ * @author Léo Mieulet
  */
 class DisplayDecorator extends React.Component {
   static propTypes = {

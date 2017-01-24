@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
 import { I18nProvider } from '@regardsoss/i18n'
@@ -36,9 +39,15 @@ export class RoleListContainer extends React.Component {
     return `/admin/${project}/user/board`
   }
 
-  handleEdit = (roleId) => {
+  handleEdit = (roleName) => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/user/role/${roleId}/edit`
+    const url = `/admin/${project}/user/role/${roleName}/edit`
+    browserHistory.push(url)
+  }
+
+  handleEditResourceAccess = (roleName) => {
+    const { params: { project } } = this.props
+    const url = `/admin/${project}/user/role-resource-access/${roleName}/edit`
     browserHistory.push(url)
   }
 
@@ -56,6 +65,7 @@ export class RoleListContainer extends React.Component {
           backUrl={this.getBackUrl()}
           handleDelete={this.handleDelete}
           handleEdit={this.handleEdit}
+          handleEditResourceAccess={this.handleEditResourceAccess}
           handleOpen={this.handleOpen}
         />
       </I18nProvider>
@@ -66,7 +76,7 @@ const mapStateToProps = state => ({
   roleList: RoleSelectors.getList(state),
 })
 const mapDispatchToProps = dispatch => ({
-  fetchRoleList: () => dispatch(RoleActions.fetchEntityList()),
+  fetchRoleList: () => dispatch(RoleActions.fetchEntityList(dispatch)),
   deleteRole: id => dispatch(RoleActions.deleteEntity(id)),
 })
 

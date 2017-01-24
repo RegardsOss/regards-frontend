@@ -40,7 +40,6 @@ class MenuContainer extends React.Component {
     const title = this.props.title ? this.props.title : ''
     const style = {
       headContainer: {
-        classes: moduleTheme.classes.join(' '),
         styles: moduleTheme.bar,
       },
       title: moduleTheme.title,
@@ -67,7 +66,7 @@ class MenuContainer extends React.Component {
     }
 
     return (
-      <Toolbar className={style.headContainer.classes} style={style.headContainer.styles}>
+      <Toolbar style={style.headContainer.styles}>
         <ToolbarGroup firstChild>
           <ToolbarTitle text={title} style={style.title} />
         </ToolbarGroup>

@@ -20,37 +20,22 @@
   "applications": [
     {
       "id": "user"
-    }, {
+    },
+    {
       "id": "portal"
-    }, {
-      "id": "admin"
+    }
+  ],
+  "plugins": [
+    {
+      "id": 1,
+      "name": "string-criteria",
+      "type": "criterion",
+      "sourcesPath": "/plugins/criterion/string/bundle.js"
     }
   ],
   "modules": [
     {
       "id": 1,
-      "name": "form",
-      "description": "Search form module",
-      "applicationId": "user",
-      "container": "",
-      "active": false,
-      "conf": {
-        "resulttype": "dataset"
-      }
-    },
-    {
-      "id": 2,
-      "name": "form",
-      "description": "Search form module",
-      "applicationId": "user",
-      "container": "",
-      "active": false,
-      "conf": {
-        "resulttype": "dataobject"
-      }
-    },
-    {
-      "id": 3,
       "name": "menu",
       "description": "Header menu module",
       "applicationId": "user",
@@ -75,7 +60,7 @@
         "displayThemeSelector": true
       },
       "applicationId": "portal",
-      "id": 4
+      "id": 2
     },
     {
       "active": true,
@@ -83,21 +68,7 @@
       "description": "Nouvelles du projet",
       "container": "news",
       "applicationId": "portal",
-      "id": 5
-    },
-    {
-      "active": false,
-      "name": "menu",
-      "description": "menu de test désactivé",
-      "container": "header",
-      "conf": {
-        "title": "nouveau titre",
-        "displayAuthentication": true,
-        "displayLocaleSelector": true,
-        "displayThemeSelector": true
-      },
-      "applicationId": "portal",
-      "id": 6
+      "id": 3
     },
     {
       "active": true,
@@ -105,65 +76,77 @@
       "description": "liste des projets",
       "container": "projects",
       "applicationId": "portal",
-      "id": 7
-    }, {
-      "id": 8,
+      "id": 5
+    },
+    {
+      "active": true,
+      "name": "news",
+      "description": "Flux atom",
+      "container": "content",
       "applicationId": "user",
-      "active": false,
+      "id": 6
+    },
+    {
+      "id": 7,
+      "applicationId": "user",
+      "active": true,
       "name": "form",
-      "description": "Module de test",
-      "container": "user",
+      "description": "Recherche avec layout",
+      "container": "content",
       "conf": {
         "resultType": "dataobjects",
         "layout": "{\n  \"id\": \"main\",\n  \"type\": \"FormMainContainer\",\n  \"classes\": [],\n  \"styles\": {},\n  \"containers\": [{\n    \"id\": \"row\",\n    \"type\": \"RowContainer\",\n    \"classes\": [],\n    \"styles\": {\"minHeight\":\"50px\",\"backgroundColor\":\"Red\"},\n    \"containers\": [{\n      \"id\": \"block1\",\n      \"type\": \"LargeColumnContainer\",\n      \"classes\": [],\n      \"styles\": {\"minHeight\":\"50px\",\"backgroundColor\":\"White\"},\n      \"containers\": []\n    }, {\n      \"id\": \"block2\",\n      \"type\": \"SmallColumnContainer\",\n      \"classes\": [],\n      \"styles\": {\"minHeight\":\"50px\",\"backgroundColor\":\"White\"},\n      \"containers\": []\n    }]\n  }, {\n    \"id\": \"row2\",\n    \"type\": \"RowContainer\",\n    \"styles\": {\"minHeight\":\"50px\",\"backgroundColor\":\"Blue\"},\n    \"classes\": [],\n    \"containers\": [{\n      \"id\": \"block21\",\n      \"type\": \"SmallColumnContainer\",\n      \"classes\": [],\n      \"styles\": {\"minHeight\":\"50px\",\"backgroundColor\":\"White\"},\n      \"containers\": []\n    }, {\n      \"id\": \"block22\",\n      \"type\": \"LargeColumnContainer\",\n      \"classes\": [],\n      \"styles\": {\"minHeight\":\"50px\",\"backgroundColor\":\"White\"},\n      \"containers\": []\n    }]\n  }]\n}\n",
         "datasets": {
           "type": "selectedDatasets",
-          "datasets": [
-            {
-              "content": {
-                "id": 1,
-                "name": "PremierDataSet"
-              },
-              "links": []
-            },
-            {
-              "content": {
-                "id": 3,
-                "name": "TroisiemeDataSet"
-              },
-              "links": []
-            },
-            {
-              "content": {
-                "id": 5,
-                "name": "CinquiemeDataSet"
-              },
-              "links": []
-            },
-            {
-              "content": {
-                "id": 19,
-                "name": "Dataset number 19"
-              },
-              "links": []
-            },
-            {
-              "content": {
-                "id": 16,
-                "name": "Dataset number 16"
-              },
-              "links": []
-            },
-            {
-              "content": {
-                "id": 21,
-                "name": "Dataset number 21"
-              },
-              "links": []
-            }
+          "selectedDatasets": [
+            1,
+            3,
+            5,
+            19,
+            16,
+            21
           ]
         }
       }
+    },
+    {
+      "active": true,
+      "conf": {
+        "layout": "{\n    \"id\": \"main\",\n    \"type\": \"FormMainContainer\",\n    \"classes\": [],\n    \"styles\": {},\n    \"containers\": []\n}",
+        "datasets": {
+          "type": "selectedDatasets",
+          "selectedDatasets": [
+            1,
+            2,
+            3
+          ]
+        },
+        "criterion": [
+          {
+            "pluginId": "string-criteria",
+            "container": "main",
+            "pluginConf": {
+              "attributes": {
+                "searchField": 0
+              }
+            }
+          }
+        ]
+      },
+      "name": "form",
+      "description": "Recherche simple",
+      "container": "content",
+      "applicationId": "user",
+      "id": 8
+    },
+    {
+      "active": true,
+      "conf": {},
+      "name": "archival-storage-plugins-monitoring",
+      "description": "Storage plugins overview",
+      "container": "content",
+      "applicationId": "user",
+      "id": 9
     }
   ],
   "layouts": [
@@ -172,10 +155,22 @@
       "type": "MainContainer",
       "classes": [],
       "styles": {},
-      "renderRouterContent": false,
       "containers": [
         {
           "id": "header",
+          "type": "RowContainer",
+          "classes": [],
+          "styles": {}
+        },
+        {
+          "id": "content",
+          "type": "RowContainer",
+          "classes": [],
+          "styles": {},
+          "dynamicContent": true
+        },
+        {
+          "id": "footer",
           "type": "RowContainer",
           "classes": [],
           "styles": {}
@@ -209,12 +204,12 @@
       ]
     }
   ],
-  "themes" : [
+  "themes": [
     {
       "id": 1,
       "name": "cdpp",
       "projectId": "cdpp",
-      "configuration" : {
+      "configuration": {
         "appBar": {
           "height": 100
         },

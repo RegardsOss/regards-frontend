@@ -5,7 +5,7 @@ const messages = {
   'menu.accounts': 'Accounts',
   'menu.ui.configuration': 'UI Configuration',
   'menu.microservices': 'Microservices',
-  'menu.forms': 'SearchForms',
+  'menu.plugins': 'Plugins',
   'menu.datamanagement': 'Data Management',
   'menu.dataaccessrights': 'Data Access Rights',
   'menu.news': 'News',

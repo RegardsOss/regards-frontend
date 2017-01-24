@@ -1,5 +1,5 @@
 // Default theme
-import { grey100, indigo500, white } from 'material-ui/styles/colors'
+import { grey100, indigo500, white, purple300, green300, yellow300, brown50, lightBlue200 } from 'material-ui/styles/colors'
 
 export default {
   // Reset some part of the material-ui framework
@@ -89,6 +89,41 @@ export default {
             marginTop: '30px',
           },
         },
+      },
+    },
+    roleResourceAccessOverview: {
+      listItem: {
+        paddingLeft: '100px',
+      },
+      listItemOdd: {
+        backgroundColor: brown50,
+      },
+      chipListItem: {
+        margin: 4,
+      },
+      wrapperChipList: {
+        display: 'flex',
+        flexWrap: 'wrap',
+      },
+      getChip: {
+        backgroundColor: lightBlue200,
+      },
+      putChip: {
+        backgroundColor: yellow300,
+      },
+      deleteChip: {
+        backgroundColor: green300,
+      },
+      postChip: {
+        backgroundColor: purple300,
+      },
+      description: {
+        style: {
+          overflow: 'hidden',
+          whiteSpace: 'nowrap',
+          textoverflow: 'ellipsis',
+        },
+        class: 'col-sm-75',
       },
     },
   },

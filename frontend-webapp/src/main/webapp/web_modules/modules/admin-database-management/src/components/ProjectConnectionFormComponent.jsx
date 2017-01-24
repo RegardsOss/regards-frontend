@@ -24,7 +24,6 @@ export class ProjectConnectionFormComponent extends React.Component {
     onCancel: React.PropTypes.func.isRequired,
     // from reduxForm
     submitting: React.PropTypes.bool,
-    pristine: React.PropTypes.bool,
     handleSubmit: React.PropTypes.func.isRequired,
     initialize: React.PropTypes.func.isRequired,
     invalid: React.PropTypes.bool,

@@ -1,18 +1,39 @@
 /** @module common */
 
+class ShowableAtRender extends React.Component {
 
-function ShowableAtRender(props) {
-  if (props.show) {
-    const children = props.children
-    if (React.Children.count(children) === 1) {
-      return React.Children.only(children)
-    }
-    return (<div>{children}</div>)
+  static propTypes = {
+    show: React.PropTypes.bool,
+    children: React.PropTypes.oneOfType([
+      React.PropTypes.arrayOf(React.PropTypes.node),
+      React.PropTypes.node,
+    ]),
   }
-  return null
+
+  render() {
+    const { show, children } = this.props
+    if (show) {
+      if (React.Children.count(children) === 1) {
+        return React.Children.only(children)
+      }
+      return (<div>{children}</div>)
+    }
+    return null
+  }
 }
-ShowableAtRender.propTypes = {
-  show: React.PropTypes.bool.isRequired,
-  children: React.PropTypes.element.isRequired,
-}
+//
+// function ShowableAtRender(props) {
+//   if (props.show) {
+//     const children = props.children
+//     if (React.Children.count(children) === 1) {
+//       return React.Children.only(children)
+//     }
+//     return (<div>{children}</div>)
+//   }
+//   return null
+// }
+// ShowableAtRender.propTypes = {
+//   show: React.PropTypes.bool.isRequired,
+//   children: React.PropTypes.element.isRequired,
+// }
 export default ShowableAtRender

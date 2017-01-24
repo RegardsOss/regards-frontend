@@ -14,6 +14,7 @@ const ContainerShape = React.PropTypes.shape({
   renderRouterContent: React.PropTypes.bool,
   modules: React.PropTypes.arrayOf(ModuleShape),
   containers: React.PropTypes.arrayOf(React.PropTypes.object),
+  dynamicContent: React.PropTypes.bool,
 })
 
 export default ContainerShape

@@ -2,12 +2,14 @@
  * LICENSE_PLACEHOLDER
  **/
 import { forEach } from 'lodash'
+import { browserHistory } from 'react-router'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { connect } from '@regardsoss/redux'
 import { ThemeHelper, ThemeSelectors } from '@regardsoss/theme'
 import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
 import { LayoutShape, ApplicationLayout } from '@regardsoss/layout'
 import { ModuleShape } from '@regardsoss/modules'
+import { ApplicationErrorContainer } from '@regardsoss/global-sytem-error'
 import LayoutSelector from '../model/layout/LayoutSelector'
 import LayoutActions from '../model/layout/LayoutActions'
 import ModulesSelector from '../model/modules/ModulesSelector'
@@ -22,6 +24,7 @@ export class UserApp extends React.Component {
    */
   static propTypes = {
     // From React router
+    content: React.PropTypes.element,
     params: React.PropTypes.shape({
       project: React.PropTypes.string,
     }),
@@ -39,6 +42,10 @@ export class UserApp extends React.Component {
   componentWillMount() {
     this.props.fetchLayout()
     this.props.fetchModules()
+  }
+
+  onDynamicModuleSelection = (module) => {
+    browserHistory.push(`/user/${this.props.params.project}/modules/${module.content.id}`)
   }
 
   /**
@@ -63,12 +70,17 @@ export class UserApp extends React.Component {
 
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
-        <ApplicationLayout
-          appName="user"
-          layout={this.props.layout}
-          modules={modulesList}
-          project={this.props.params.project}
-        />
+        <div>
+          <ApplicationLayout
+            appName="user"
+            layout={this.props.layout}
+            modules={modulesList}
+            project={this.props.params.project}
+            dynamicContent={this.props.content}
+            onDynamicModuleSelection={this.onDynamicModuleSelection}
+          />
+          <ApplicationErrorContainer />
+        </div>
       </MuiThemeProvider>
     )
   }

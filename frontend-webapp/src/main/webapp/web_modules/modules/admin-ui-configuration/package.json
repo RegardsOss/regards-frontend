@@ -1,0 +1,9 @@
+{
+  "name": "@regardsoss/admin-ui-configuration",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Module to configure interfaces modules",
+  "main": "src/main.js",
+  "author": "CS-SI",
+  "license": "GPLv3"
+}

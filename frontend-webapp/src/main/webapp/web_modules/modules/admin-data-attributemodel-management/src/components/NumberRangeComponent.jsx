@@ -1,5 +1,5 @@
 import { FormattedMessage } from 'react-intl'
-import { RenderTextField, RenderCheckbox, RenderSelectField, Field } from '@regardsoss/form-utils'
+import { RenderTextField, RenderCheckbox, Field } from '@regardsoss/form-utils'
 
 /**
  * Handle integer or float range restriction
@@ -54,21 +54,22 @@ export class NumberRangeComponent extends React.Component {
  * @returns {*} object sent to redux-form to correctly initialize form inputs
  */
 export function initializeNumberRangeForm(type, initialValues, currentAttrModel) {
-  initialValues.restriction[type] = {}
-  initialValues.restriction[type].active = true
+  const formValues = initialValues
+  formValues.restriction[type] = {}
+  formValues.restriction[type].active = true
   if (currentAttrModel.content.restriction.minInclusive) {
-    initialValues.restriction[type].min = currentAttrModel.content.restriction.minInclusive
-    initialValues.restriction[type].isMinInclusive = true
+    formValues.restriction[type].min = currentAttrModel.content.restriction.minInclusive
+    formValues.restriction[type].isMinInclusive = true
   } else if (currentAttrModel.content.restriction.minExclusive) {
-    initialValues.restriction[type].min = currentAttrModel.content.restriction.minExclusive
-    initialValues.restriction[type].isMinInclusive = false
+    formValues.restriction[type].min = currentAttrModel.content.restriction.minExclusive
+    formValues.restriction[type].isMinInclusive = false
   }
   if (currentAttrModel.content.restriction.maxInclusive) {
-    initialValues.restriction[type].max = currentAttrModel.content.restriction.maxInclusive
-    initialValues.restriction[type].isMaxInclusive = true
+    formValues.restriction[type].max = currentAttrModel.content.restriction.maxInclusive
+    formValues.restriction[type].isMaxInclusive = true
   } else if (currentAttrModel.content.restriction.maxExclusive) {
-    initialValues.restriction[type].max = currentAttrModel.content.restriction.maxExclusive
-    initialValues.restriction[type].isMaxInclusive = false
+    formValues.restriction[type].max = currentAttrModel.content.restriction.maxExclusive
+    formValues.restriction[type].isMaxInclusive = false
   }
   return initialValues
 }

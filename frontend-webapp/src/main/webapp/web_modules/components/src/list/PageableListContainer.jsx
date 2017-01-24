@@ -1,10 +1,11 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { connect } from '@regardsoss/redux'
 import Infinite from 'react-infinite'
-import { map, merge, concat, isEqual, forEach, findIndex } from 'lodash'
+import { map, merge, concat, forEach, findIndex } from 'lodash'
 import RefreshIndicator from 'material-ui/RefreshIndicator'
+import { connect } from '@regardsoss/redux'
+import { BasicPageableSelectors, BasicPageableActions } from '@regardsoss/store-utils'
 import LineComponent from './LineComponent'
 import ListHeaderComponent from './ListHeaderComponent'
 
@@ -24,16 +25,32 @@ class PageableListContainer extends React.Component {
     entityIdentifier: React.PropTypes.string.isRequired,
     lineComponent: React.PropTypes.func.isRequired,
     nbEntityByPage: React.PropTypes.number.isRequired,
-    entitiesActions: React.PropTypes.any.isRequired,
-    entitiesSelector: React.PropTypes.any.isRequired,
-    selectedEntities: React.PropTypes.array,
+    entitiesActions: React.PropTypes.instanceOf(BasicPageableActions).isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
+    entitiesSelector: React.PropTypes.instanceOf(BasicPageableSelectors).isRequired,
+    selectedEntities: React.PropTypes.arrayOf(React.PropTypes.object),
     displayCheckbox: React.PropTypes.bool,
+    disableActions: React.PropTypes.bool,
     onEntityCheck: React.PropTypes.func,
     onUnselectAll: React.PropTypes.func,
     onReset: React.PropTypes.func,
+    // eslint-disable-next-line react/forbid-prop-types
+    style: React.PropTypes.object,
     // Set by redux store connection
+    pageMetadata: React.PropTypes.shape({
+      number: React.PropTypes.number,
+      size: React.PropTypes.number,
+      totalElements: React.PropTypes.number,
+    }),
     fetchEntities: React.PropTypes.func,
     entitiesFetching: React.PropTypes.bool,
+  }
+
+  static defaultProps = {
+    selectedEntities: [],
+    displayCheckbox: true,
+    disableActions: false,
+    style: {},
   }
 
   constructor(props) {
@@ -67,9 +84,8 @@ class PageableListContainer extends React.Component {
    */
   handleInfiniteLoad = () => {
     if (!this.state.lastIndexReached && !this.props.entitiesFetching) {
-      const that = this
-      const index = that.state.loadedEntities ? that.state.loadedEntities.length : 0
-      that.props.fetchEntities(index)
+      const index = this.state.loadedEntities ? this.state.loadedEntities.length : 0
+      this.props.fetchEntities(index, this.props.entitiesActions, this.props.nbEntityByPage)
     }
   }
 
@@ -108,9 +124,8 @@ class PageableListContainer extends React.Component {
   calculateOffset = () => {
     if (this.state.lastIndexReached) {
       return undefined
-    } else {
-      return this.state.autoLoadOffset
     }
+    return this.state.autoLoadOffset
   }
 
   render() {
@@ -135,13 +150,14 @@ class PageableListContainer extends React.Component {
         >
           {map(this.state.loadedEntities, (entity, idx) => {
             const selected = findIndex(this.props.selectedEntities,
-                selectedEntity => selectedEntity.content[this.props.entityIdentifier] === entity.content[this.props.entityIdentifier],
+                selectedEntity => selectedEntity[this.props.entityIdentifier] === entity.content[this.props.entityIdentifier],
               ) >= 0
             return (
               <LineComponent
                 key={idx}
                 entity={entity}
                 displayCheckbox={this.props.displayCheckbox}
+                disabled={this.props.disableActions}
                 lineComponent={this.props.lineComponent}
                 onEntityCheck={this.props.onEntityCheck}
                 isSelected={selected}
@@ -166,7 +182,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  fetchEntities: index => dispatch(ownProps.entitiesActions.fetchPagedEntityList(dispatch, index, ownProps.nbEntityByPage)),
+  fetchEntities: (index, actions, nbEntityByPage) => dispatch(actions.fetchPagedEntityList(dispatch, index, nbEntityByPage)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PageableListContainer)

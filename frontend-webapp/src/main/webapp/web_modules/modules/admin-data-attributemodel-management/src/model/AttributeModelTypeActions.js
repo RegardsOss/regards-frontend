@@ -4,7 +4,7 @@ class AttributeModelTypeActions extends BasicArrayActions {
   constructor() {
     super({
       namespace: 'admin-data-attributemodel-management/types',
-      entityEndpoint: `${GATEWAY_HOSTNAME}/api/v1/rs-dam/models/attributes/types`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/api/v1/rs-dam-array/models/attributes/types`,
     })
   }
 }

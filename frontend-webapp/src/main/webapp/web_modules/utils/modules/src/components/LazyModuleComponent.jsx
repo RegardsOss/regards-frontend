@@ -3,6 +3,7 @@
  */
 import { merge } from 'lodash'
 import { I18nProvider } from '@regardsoss/i18n'
+import { getReducerRegistry, configureReducers } from '@regardsoss/store'
 import ModuleThemeProvider from './ModuleThemeProvider'
 import DecoratorShape from '../model/DecoratorShape'
 import ModuleShape from '../model/ModuleShape'
@@ -28,9 +29,6 @@ class LazyModuleComponent extends React.Component {
     decorator: DecoratorShape,
     admin: React.PropTypes.bool,
     onLoadAction: React.PropTypes.func,
-    // Only used for administration modules. Used to add a value to the saving module configuration form
-    // usage : this.props.change("conf.<property>",<value>)
-    change: React.PropTypes.func,
   }
 
   constructor(props) {
@@ -79,6 +77,13 @@ class LazyModuleComponent extends React.Component {
             module: null,
           })
         } else {
+          if (loadedModule.reducer) {
+            const loadedModuleReducerName = `modules.${module.name}`
+            const loadedModuleReducer = {}
+            loadedModuleReducer[loadedModuleReducerName] = configureReducers(loadedModule.reducer)
+            getReducerRegistry().register(loadedModuleReducer)
+          }
+
           self.setState({
             isLoaded: true,
             module: loadedModule,
@@ -99,15 +104,19 @@ class LazyModuleComponent extends React.Component {
 
     // If module is loaded then render. The module load is asynchrone due to require.ensure method.
     if (isLoaded) {
+      // Does the module is active ?
+      if (!this.props.module.active) {
+        return null
+      }
+
       // By default the i18n directory for a module is fixed to : src/i18n.
       // Nevertheless, it possible for a module to override this property by setting messagesDir in his main.js exported props
-      const moduleMessageDir = module.messagesDir ? module.messagesDir : `modules/${this.props.module.id}/src/i18n`
+      const moduleMessageDir = module.messagesDir ? module.messagesDir : `modules/${this.props.module.name}/src/i18n`
 
       let moduleElt = null
       const defaultModuleProps = {
         appName: this.props.appName,
         project: this.props.project,
-        change: this.props.change,
       }
 
       // Display module with admin or normal container ?

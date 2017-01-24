@@ -29,7 +29,7 @@ renderSelectField.propTypes = {
   }),
   children: React.PropTypes.arrayOf(React.PropTypes.element),
   fullWidth: React.PropTypes.bool,
-  onChange: React.PropTypes.func,
   disabled: React.PropTypes.bool,
+  onSelect: React.PropTypes.func,
 }
 export default renderSelectField

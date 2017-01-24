@@ -28,6 +28,19 @@ const messages = Object.assign({
   // Layout tab
   'form.layout.tab.title': 'Search form layout configuration',
   'form.layout.tab.reset': 'Reset',
+  // Criterion tab
+  'form.criterion.list.name': 'Name',
+  'form.criterion.list.container': 'Container',
+  'form.criterion.list.actions': 'Actions',
+  'form.criterion.new.button.label': 'Create',
+  'form.criterion.reset.button.label': 'Reset',
+  'form.criterion.criteria.new.title': 'Create new criterion',
+  'form.criterion.criteria.select.criteria.label': 'Select a criteria ...',
+  'form.criterion.criteria.select.container.label': 'Select a container ...',
+  'form.criterion.criteria.submit.button.label': 'Create',
+  'form.criterion.criteria.cancel.button.label': 'Cancel',
+  'form.criterion.criteria.select.attribute.label': 'Select model attribute ...',
+
 }, Locales.en)
 
 export default messages

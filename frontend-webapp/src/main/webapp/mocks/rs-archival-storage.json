@@ -1,0 +1,39 @@
+{
+  "storage-plugins": [
+    {
+      "id": 1,
+      "label": "ServerHDD",
+      "description": "Main server hard drives",
+      "totalSize": "25To",
+      "usedSize": "0.9To"
+    },
+    {
+      "id": 2,
+      "label": "STAFF",
+      "description": "STAFF storage engine",
+      "totalSize": "1500Tib",
+      "usedSize": "152.85666Tib"
+    },
+    {
+      "id": 3,
+      "label": "Emergency server HDD",
+      "description": "DB Storage with postgreSQL",
+      "totalSize": "500To",
+      "usedSize": "0b"
+    },
+    {
+      "id": 4,
+      "label": "FLUT",
+      "description": "FLUT - External safe cloud storage",
+      "totalSize": "0.5Po",
+      "usedSize": "0boot"
+    },
+    {
+      "id": 5,
+      "label": "Strange plugin",
+      "description": "A strange storage plugin with wrong formats",
+      "totalSize": "8Txxo",
+      "usedSize": "ddOp"
+    }
+  ]
+}

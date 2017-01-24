@@ -29,6 +29,7 @@ class AuthenticationPanel extends React.Component {
     }
     const module = {
       name: 'authentication',
+      active: true,
       conf: {
         project: this.props.project,
         title: this.context.intl.formatMessage({ id: 'loginFormTitle' }),

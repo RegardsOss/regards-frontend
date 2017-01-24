@@ -5,6 +5,7 @@ import Divider from 'material-ui/Divider'
 import Settings from 'material-ui/svg-icons/action/settings'
 import { FormattedMessage } from 'react-intl'
 import Weekend from 'material-ui/svg-icons/content/weekend'
+import Brush from 'material-ui/svg-icons/image/brush'
 import { I18nProvider } from '@regardsoss/i18n'
 import SupervisorAccount from 'material-ui/svg-icons/action/supervisor-account'
 import HateoasSidebarElement from './HateoasSidebarElement'
@@ -66,6 +67,14 @@ class InstanceSidebarComponent extends React.Component {
             linkStyle={style.link.styles}
             primaryText={<FormattedMessage id="menu.databases" />}
             leftIcon={<Weekend />}
+          />
+          <HateoasSidebarElement
+            endpointKey="projects_users_url"
+            key="3"
+            to={'/admin/ui-configuration/applications'}
+            linkStyle={style.link.styles}
+            primaryText={<FormattedMessage id="menu.ui.configuration" />}
+            leftIcon={<Brush />}
           />
           <Divider />
           <MenuItem

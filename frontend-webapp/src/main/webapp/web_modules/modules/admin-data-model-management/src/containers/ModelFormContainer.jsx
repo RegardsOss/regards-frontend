@@ -24,9 +24,9 @@ export class ProjectFormContainer extends React.Component {
     }),
     isFetching: React.PropTypes.bool,
     // from mapDispatchToProps
-    createProject: React.PropTypes.func,
-    fetchProject: React.PropTypes.func,
-    updateProject: React.PropTypes.func,
+    createModel: React.PropTypes.func,
+    fetchModel: React.PropTypes.func,
+    updateModel: React.PropTypes.func,
   }
 
   constructor(props) {

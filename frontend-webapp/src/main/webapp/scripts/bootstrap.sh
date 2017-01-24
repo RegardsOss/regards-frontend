@@ -14,12 +14,13 @@ npm link web_modules/data/store
 npm link web_modules/data/model
 
 # Tools
+npm link web_modules/utils/authentication-manager
+npm link web_modules/utils/charts
 npm link web_modules/utils/form-utils
 npm link web_modules/utils/i18n
 npm link web_modules/utils/plugins
 npm link web_modules/utils/store-utils
 npm link web_modules/utils/theme
-npm link web_modules/utils/authentication-manager
 npm link web_modules/utils/display-control
 npm link web_modules/utils/tests-helpers
 npm link web_modules/utils/redux
@@ -33,6 +34,7 @@ npm link web_modules/components
 npm link web_modules/modules/admin-data-management
 npm link web_modules/modules/admin-data-model-management
 npm link web_modules/modules/admin-data-attributemodel-management
+npm link web_modules/modules/admin-data-modelattribute-management
 npm link web_modules/modules/admin-data-fragment-management
 npm link web_modules/modules/admin-microservice-management
 npm link web_modules/modules/admin-project-management
@@ -42,7 +44,10 @@ npm link web_modules/modules/admin-user-role-resource-access-management
 npm link web_modules/modules/admin-user-role-management
 npm link web_modules/modules/admin-database-management
 npm link web_modules/modules/admin-account-management
-npm link web_modules/modules/ui-configuration
+npm link web_modules/modules/admin-ui-configuration
+npm link web_modules/modules/admin-ui-plugins-management
+npm link web_modules/modules/archival-storage-aip-status
+npm link web_modules/modules/archival-storage-plugins-monitoring
 
 # Global modules
 npm link web_modules/modules/authentication
@@ -51,8 +56,12 @@ npm link web_modules/modules/menu
 npm link web_modules/modules/projects-list
 npm link web_modules/modules/global-system-error
 npm link web_modules/modules/form
+npm link web_modules/modules/endpoint
 
 # Applications
 npm link web_modules/modules/admin
 npm link web_modules/modules/user
 npm link web_modules/modules/portal
+
+# Vendors
+npm link web_modules/vendors

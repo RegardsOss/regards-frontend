@@ -25,7 +25,8 @@
     // ignore unused variable on functions arguments
     "no-unused-vars": ["error", { "args": "none" }],
     // Allow annonymous functions
-    "func-names":  0
+    "func-names":  0,
+    "no-confusing-arrow": "off"
   },
   "plugins": [
     "react"

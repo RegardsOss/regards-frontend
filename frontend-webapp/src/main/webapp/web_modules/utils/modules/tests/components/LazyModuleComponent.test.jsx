@@ -4,6 +4,8 @@
 import { shallow } from 'enzyme'
 import { expect } from 'chai'
 import { moduleContainer } from '@regardsoss/authentication'
+import { I18nProvider } from '@regardsoss/i18n'
+import ModuleThemeProvider from '../../src/components/ModuleThemeProvider'
 import LazyModuleComponent from '../../src/components/LazyModuleComponent'
 
 describe('[MODULES] Testing LazyModuleComponent', () => {
@@ -14,9 +16,27 @@ describe('[MODULES] Testing LazyModuleComponent', () => {
     }
     const module = {
       name: 'authentication',
+      active: true,
     }
     const wrapper = shallow(<LazyModuleComponent appName={'testApp'} module={module} />, { context })
 
     expect(wrapper.find(moduleContainer)).to.have.length(1)
+    expect(wrapper.find(ModuleThemeProvider)).to.have.length(1)
+    expect(wrapper.find(I18nProvider)).to.have.length(1)
+  }).timeout(60000)
+
+  it('Should not render a desable module', () => {
+    const context = {
+
+    }
+    const module = {
+      name: 'authentication',
+      active: false,
+    }
+    const wrapper = shallow(<LazyModuleComponent appName={'testApp'} module={module} />, { context })
+
+    expect(wrapper.find(moduleContainer)).to.have.length(0)
+    expect(wrapper.find(ModuleThemeProvider)).to.have.length(0)
+    expect(wrapper.find(I18nProvider)).to.have.length(0)
   }).timeout(60000)
 })

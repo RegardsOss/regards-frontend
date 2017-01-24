@@ -1,0 +1,200 @@
+{
+  "models": [
+    {
+      "id": 0,
+      "name": "Premier Modele",
+      "description": "Description du premier modele de jeux de données",
+      "type": "DATASET"
+    },
+    {
+      "id": 1,
+      "name": "Deuxieme Modele",
+      "description": "Description du deuxieme modele de jeux de données",
+      "type": "DATASET"
+    },
+    {
+      "id": 2,
+      "name": "Troisieme Modele",
+      "description": "Description du troisieme modele de jeux de données",
+      "type": "DATASET"
+    },
+    {
+      "id": 3,
+      "name": "Modele de collection",
+      "description": "Ceci est un modele de collection",
+      "type": "COLLECTION"
+    }
+  ],
+  "models-attributes": [
+    {
+      "id": 0,
+      "pos":0,
+      "mode": "GIVEN",
+      "model": {
+        "id": 1,
+        "name": "Deuxieme Modele",
+        "description": "Description du deuxieme modele de jeux de données",
+        "type": "DATASET"
+      },
+      "attribute": {
+        "id": 0,
+        "name":"Attribute_0_0",
+        "description": "Description de l'attribut 0 - 0",
+        "defaultValue" : null,
+        "type": "STRING",
+        "unit": null,
+        "precision": null,
+        "arraysize": 0,
+        "queryable": true,
+        "facetable": true,
+        "alterable": true,
+        "optional": true,
+        "group": "leGroup",
+        "fragment": {
+          "id": 1,
+          "name": "Fragment 1"
+        }
+      }
+    },
+    {
+      "id": 1,
+      "pos":0,
+      "mode": "GIVEN",
+      "model": {
+        "id": 1,
+        "name": "Deuxieme Modele",
+        "description": "Description du deuxieme modele de jeux de données",
+        "type": "DATASET"
+      },
+      "attribute": {
+        "id": 4,
+        "name":"Attribute_4",
+        "description": "Description de l'attribut 0 - 0",
+        "defaultValue" : null,
+        "type": "STRING",
+        "unit": null,
+        "precision": null,
+        "arraysize": 0,
+        "queryable": true,
+        "facetable": true,
+        "alterable": true,
+        "optional": true,
+        "group": "leGroup",
+        "fragment": {
+          "id": 2,
+          "name": "Fragment 2"
+        }
+      }
+    }
+  ],
+  "attributes-models": [
+    {
+      "id": 0,
+      "name":"Attribute_0_0",
+      "description": "Description de l'attribut 0 - 0",
+      "defaultValue" : null,
+      "type": "STRING",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup",
+      "fragment": {
+        "id": 1,
+        "name": "Default"
+      }
+    },
+    {
+      "id": 3,
+      "name":"Attribute_0_0",
+      "description": "Description de l'attribut 0 - 0",
+      "defaultValue" : null,
+      "type": "STRING",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup",
+      "fragment": {
+        "id": 2,
+        "name": "Fragment 2"
+      }
+    },
+    {
+      "id": 2,
+      "name":"Attribute_0_0",
+      "description": "Description de l'attribut 0 - 0",
+      "defaultValue" : null,
+      "type": "STRING",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup",
+      "fragment": {
+        "id": 3,
+        "name": "Fragment 3"
+      }
+    }, {
+      "id": 1,
+      "name":"Attribute_1_0",
+      "description": "Description de l'attribut 1 - 0",
+      "defaultValue" : null,
+      "type": "STRING",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup",
+      "fragment": {
+        "id": 1,
+        "name": "Default"
+      }
+    },
+    {
+      "id": 4,
+      "name":"Attribute_4",
+      "description": "Description de l'attribut 0 - 0",
+      "defaultValue" : null,
+      "type": "STRING",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup",
+      "fragment": {
+        "id": 2,
+        "name": "Fragment 2"
+      }
+    }
+  ],
+  "models-fragments": [
+    {
+      "id": 1,
+      "name": "Default"
+    },
+    {
+      "id": 2,
+      "name": "fragment 2"
+    },
+    {
+      "id": 3,
+      "name": "fragment 3"
+    }
+  ]
+}

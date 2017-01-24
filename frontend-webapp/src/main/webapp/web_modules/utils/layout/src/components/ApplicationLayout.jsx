@@ -1,6 +1,8 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import { themeContextType } from '@regardsoss/theme'
+import { PluginConf } from '@regardsoss/model'
 import { ModuleShape } from '@regardsoss/modules'
 import Container from './Container'
 import ContainerShape from '../model/ContainerShape'
@@ -16,6 +18,13 @@ class ApplicationLayout extends React.Component {
     appName: React.PropTypes.string.isRequired,
     layout: ContainerShape,
     modules: React.PropTypes.arrayOf(ModuleShape),
+    plugins: React.PropTypes.arrayOf(PluginConf),
+    dynamicContent: React.PropTypes.element,
+    onDynamicModuleSelection: React.PropTypes.func,
+  }
+
+  static contextTypes = {
+    ...themeContextType,
   }
 
   /**
@@ -23,13 +32,21 @@ class ApplicationLayout extends React.Component {
    * @returns {React.Component}
    */
   render() {
+    const bodyStyles = {
+      backgroundColor: this.context.muiTheme.palette.canvasColor,
+    }
     return (
-      <Container
-        appName={this.props.appName}
-        project={this.props.project}
-        container={this.props.layout}
-        modules={this.props.modules}
-      />
+      <div style={bodyStyles}>
+        <Container
+          appName={this.props.appName}
+          project={this.props.project}
+          container={this.props.layout}
+          modules={this.props.modules}
+          plugins={this.props.plugins}
+          dynamicContent={this.props.dynamicContent}
+          onDynamicModuleSelection={this.props.onDynamicModuleSelection}
+        />
+      </div>
     )
   }
 }

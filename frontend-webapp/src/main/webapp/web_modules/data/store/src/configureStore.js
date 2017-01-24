@@ -1,15 +1,23 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { createStore, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
 import { authorizationMiddleware } from '@regardsoss/authentication-manager'
 import createLogger from 'redux-logger'
 import root from 'window-or-global'
 import preloadedState from './preloadedState'
+import configureReducers from './configureReducers'
+import getReducerRegistry from './ReducerRegistry'
+
 
 // Middlewares
 const { apiMiddleware } = require('redux-api-middleware')
 
 function configureStore(rootReducer) {
   const logger = createLogger() // Pass an options object for specific configuration
+
+  const reducerRegistry = getReducerRegistry(rootReducer)
 
   // Define the used middlewares (order matters)
   const middlewares = [
@@ -21,13 +29,20 @@ function configureStore(rootReducer) {
 
   // Create the application store
   const store = createStore(
-    rootReducer,
+    configureReducers(reducerRegistry.getReducers()),
     preloadedState,
     compose(
       applyMiddleware(...middlewares),
       root.devToolsExtension ? root.devToolsExtension() : f => f, // Enable redux dev tools
     ),
   )
+
+  // Reconfigure the store's reducer when the reducer registry is changed - we
+  // depend on this for loading reducers via code splitting and for hot
+  // reloading reducer modules.
+  reducerRegistry.setChangeListener((reducers) => {
+    store.replaceReducer(configureReducers(reducers))
+  })
 
   return store
 }

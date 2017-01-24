@@ -2,7 +2,7 @@ import { map } from 'lodash'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
-import { RenderTextField, FormErrorMessage, ErrorTypes, Field, ValidationHelpers, RenderSelectField } from '@regardsoss/form-utils'
+import { RenderTextField, ErrorTypes, Field, ValidationHelpers, RenderSelectField } from '@regardsoss/form-utils'
 import { reduxForm } from 'redux-form'
 import { Role } from '@regardsoss/model'
 import MenuItem from 'material-ui/MenuItem'
@@ -20,7 +20,6 @@ export class ProjectUserCreateComponent extends React.Component {
     submitting: React.PropTypes.bool,
     pristine: React.PropTypes.bool,
     handleSubmit: React.PropTypes.func.isRequired,
-    initialize: React.PropTypes.func.isRequired,
   }
 
 

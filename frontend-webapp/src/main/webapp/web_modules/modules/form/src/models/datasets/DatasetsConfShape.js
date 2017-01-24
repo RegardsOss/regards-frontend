@@ -7,12 +7,8 @@
  */
 const DatasetsConfShape = React.PropTypes.shape({
   type: React.PropTypes.string,
-  datasets: React.PropTypes.arrayOf(React.PropTypes.shape({
-    name: React.PropTypes.string,
-  })),
-  models: React.PropTypes.arrayOf(React.PropTypes.shape({
-    name: React.PropTypes.string,
-  })),
+  selectedDatasets: React.PropTypes.arrayOf(React.PropTypes.number),
+  selectedModels: React.PropTypes.arrayOf(React.PropTypes.number),
 })
 
 export default DatasetsConfShape

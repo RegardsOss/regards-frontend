@@ -12,10 +12,13 @@ storiesOf('Menu', module)
   .add('Simple', () => {
     const themeName = addLocaleAndThemeSelectors()
     const module = object('Menu module', {
-      id: 'menu',
+      name: 'menu',
+      active: true,
       conf: {
         title: 'Menu Component',
         displayAuthentication: false,
+        displayLocaleSelector: false,
+        displayThemeSelector: false,
       },
     })
     return (
@@ -27,10 +30,13 @@ storiesOf('Menu', module)
   .add('With authentication', () => {
     const themeName = addLocaleAndThemeSelectors()
     const module = object('Menu module', {
-      id: 'menu',
+      name: 'menu',
+      active: true,
       conf: {
         title: 'Menu Component with authentication',
         displayAuthentication: true,
+        displayLocaleSelector: true,
+        displayThemeSelector: true,
       },
     })
     return (

@@ -4,14 +4,13 @@
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
-import { map } from 'lodash'
-import { RequestErrorShape } from '@regardsoss/store-utils'
+import { map, find } from 'lodash'
 import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
+import { AttributeModel, Fragment } from '@regardsoss/model'
 import AttributeModelActions from '../model/AttributeModelActions'
 import AttributeModelFormComponent from '../components/AttributeModelFormComponent'
 import AttributeModelSelectors from '../model/AttributeModelSelectors'
 import AttributeModelTypeSelectors from '../model/AttributeModelTypeSelectors'
-import { AttributeModel, AttributeModelType, Fragment } from '@regardsoss/model'
 import AttributeModelTypeActions from '../model/AttributeModelTypeActions'
 import AttributeModelRestrictionActions from '../model/AttributeModelRestrictionActions'
 import AttributeModelRestrictionSelectors from '../model/AttributeModelRestrictionSelectors'
@@ -42,6 +41,7 @@ export class AttributeModelFormContainer extends React.Component {
     fetchAttributeModelTypeList: React.PropTypes.func,
     flushAttributeModelRestriction: React.PropTypes.func,
     fetchFragmentList: React.PropTypes.func,
+    fetchAttributeModelRestrictionList: React.PropTypes.func,
   }
 
   constructor(props) {
@@ -201,9 +201,19 @@ export class AttributeModelFormContainer extends React.Component {
     return restriction
   }
 
+  getFragment = (values) => {
+    if (values.fragment !== 1) {
+      return find(this.props.fragmentList, fragment => (fragment.id === values.fragment))
+    }
+    return {}
+  }
+
   handleCreate = (values) => {
     const restriction = this.getRestriction(values)
+    const fragment = this.getFragment(values)
+    console.log('Fragment', fragment)
     const updatedAttrModel = {
+      fragment,
       name: values.name,
       description: values.description,
       type: values.type,
@@ -214,6 +224,10 @@ export class AttributeModelFormContainer extends React.Component {
     }
     // Check if restriction is defined
     if (restriction.type) {
+      updatedAttrModel.restriction = restriction
+    }
+    // Check if restriction is defined
+    if (fragment) {
       updatedAttrModel.restriction = restriction
     }
     Promise.resolve(this.props.createAttrModel(updatedAttrModel))

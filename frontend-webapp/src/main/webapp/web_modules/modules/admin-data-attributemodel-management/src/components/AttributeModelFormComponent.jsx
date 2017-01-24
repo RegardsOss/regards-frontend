@@ -53,6 +53,38 @@ export class AttributeModelFormComponent extends React.Component {
   }
 
   /**
+   * Display a restriction form component
+   * @param restrictionName
+   * @returns {XML}
+   */
+  getRestrictionForm = (restrictionName) => {
+    switch (restrictionName) {
+      case 'INTEGER_RANGE':
+        return (
+          <NumberRangeComponent type="INTEGER_RANGE" />
+        )
+      case 'FLOAT_RANGE':
+        return (
+          <NumberRangeComponent type="FLOAT_RANGE" />
+        )
+      case 'ENUMERATION':
+        return (
+          <EnumerationComponent
+            currentAttrModel={this.props.currentAttrModel}
+            change={this.props.change}
+          />
+        )
+      case 'PATTERN':
+        return (
+          <PatternComponent />
+        )
+      default:
+        throw new Error(`The API sent a restriction name ${restrictionName} that is not supported on the frontend`)
+
+    }
+  }
+
+  /**
    * Initialize form fields
    */
   handleInitialize = () => {
@@ -84,6 +116,8 @@ export class AttributeModelFormComponent extends React.Component {
           case 'PATTERN':
             initialValues = initializePatternForm(initialValues, currentAttrModel)
             break
+          default:
+            throw new Error(`The API sent a restriction name ${currentAttrModel.content.restriction.type} that is not supported on the frontend`)
         }
       }
       this.props.initialize(initialValues)
@@ -92,7 +126,7 @@ export class AttributeModelFormComponent extends React.Component {
       this.props.initialize({
         alterable: true,
         queryable: true,
-        fragment: parseInt(this.props.defaultFragmentId) || 1,
+        fragment: parseInt(this.props.defaultFragmentId, 10) || 1,
       })
     }
   }
@@ -109,41 +143,6 @@ export class AttributeModelFormComponent extends React.Component {
     this.props.handleUpdateAttributeModelRestriction(value)
   }
 
-  /**
-   * Display a restriction form component
-   * @param restrictionName
-   * @returns {XML}
-   */
-  getRestrictionForm = (restrictionName) => {
-    switch (restrictionName) {
-      case 'INTEGER_RANGE':
-        return (
-          <NumberRangeComponent type="INTEGER_RANGE" />
-        )
-        break
-      case 'FLOAT_RANGE':
-        return (
-          <NumberRangeComponent type="FLOAT_RANGE" />
-        )
-        break
-      case 'ENUMERATION':
-        return (
-          <EnumerationComponent
-            currentAttrModel={this.props.currentAttrModel}
-            change={this.props.change}
-          />
-        )
-        break
-      case 'PATTERN':
-        return (
-          <PatternComponent />
-        )
-        break
-      default:
-        throw new Error(`The API sent a restriction name ${restrictionName} that is not supported on the frontend`)
-
-    }
-  }
 
   /**
    * return react component

@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
 import { I18nProvider } from '@regardsoss/i18n'
@@ -12,7 +15,7 @@ export class RoleFormContainer extends React.Component {
     // from router
     params: React.PropTypes.shape({
       project: React.PropTypes.string,
-      role_id: React.PropTypes.string,
+      role_name: React.PropTypes.string,
     }),
     // from mapStateToProps
     roleList: React.PropTypes.objectOf(Role),
@@ -26,7 +29,7 @@ export class RoleFormContainer extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      isEditing: props.params.role_id !== undefined,
+      isEditing: props.params.role_name !== undefined,
     }
   }
 
@@ -45,7 +48,7 @@ export class RoleFormContainer extends React.Component {
       if (isFetching) {
         return (<FormLoadingComponent />)
       }
-      const role = roleList[params.role_id]
+      const role = roleList[params.role_name]
       if (role) {
         return (<RoleFormComponent
           onSubmit={this.handleUpdate}
@@ -64,7 +67,7 @@ export class RoleFormContainer extends React.Component {
   }
 
   handleUpdate = (values) => {
-    const role = this.props.roleList[this.props.params.role_id]
+    const role = this.props.roleList[this.props.params.role_name]
     const authorizedAddresses = EnumInputsHelper.formValuesIntoApiData(values, 'authorizedAddresses')
     const updatedRole = Object.assign({}, role.content, {
       authorizedAddresses,
@@ -72,7 +75,7 @@ export class RoleFormContainer extends React.Component {
       isCorsRequestsAuthorized: values.isCorsRequestsAuthorized,
     })
     // The PUBLIC role doesn't have any parent
-    if (this.props.params.role_id !== '1') {
+    if (this.props.params.role_name !== 'PUBLIC') {
       updatedRole.parentRole = this.props.roleList[values.parentRole].content
     }
     Promise.resolve(this.props.updateRole(role.content.id, updatedRole))
@@ -102,6 +105,7 @@ export class RoleFormContainer extends React.Component {
       }
     })
   }
+
   render() {
     return (
       <I18nProvider messageDir="modules/admin-user-role-management/src/i18n">

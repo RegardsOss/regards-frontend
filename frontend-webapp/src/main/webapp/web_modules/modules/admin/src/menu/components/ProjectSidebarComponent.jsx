@@ -81,9 +81,9 @@ class ProjectSidebarComponent extends React.Component {
           <HateoasSidebarElement
             endpointKey="projects_connections_url"
             key="4"
-            to={`/admin/${projectName}/datamanagement`}
+            to={`/admin/${projectName}/ui-plugins/plugins`}
             linkStyle={style.link.styles}
-            primaryText={<FormattedMessage id="menu.forms" />}
+            primaryText={<FormattedMessage id="menu.plugins" />}
             leftIcon={<Widgets />}
           />
           <HateoasSidebarElement
