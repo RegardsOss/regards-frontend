@@ -1,3 +1,5 @@
+const url = require('url')
+
 /**
  * LICENSE_PLACEHOLDER
  **/
@@ -5,12 +7,13 @@ const { map, split, filter, forEach, startsWith, replace, trim } = require('loda
 const jsonServer = require('json-server')
 const fs = require('fs-extra')
 
+
 /**
  * Add pagination format to response list and HAteoas format to each elements
  * @param req
  * @param res
  */
-const PageAndHateoasMiddleWare = (req, res) => {
+const PageMiddleWare = (req, res) => {
   let results = ''
   if (Array.isArray(res.locals.data)) {
     const datas = []
@@ -53,15 +56,15 @@ const PageAndHateoasMiddleWare = (req, res) => {
           const reslinks = split(headers.link, ',')
           forEach(reslinks, (clink, idx) => {
             const elements = split(clink, ';')
-            let url = replace(elements[0], '<', '')
-            url = trim(replace(url, '>', ''))
+            let localURL = replace(elements[0], '<', '')
+            localURL = trim(replace(localURL, '>', ''))
 
             let rel = replace(elements[1], 'rel=', '')
             rel = replace(rel, '"', '')
             rel = trim(replace(rel, '"', ''))
             const link = {
               rel,
-              url,
+              localURL,
             }
             links.push(link)
           })
@@ -108,6 +111,14 @@ const ListMiddleWare = (req, res) => {
   }
 }
 
+const RenderMiddleWare = (req, res) => {
+  const parsedUrl = url.parse(req.url, true)
+  // eslint-disable-next-line no-underscore-dangle
+  return typeof parsedUrl.query._start !== 'undefined' && typeof parsedUrl.query._limit !== 'undefined'
+    ? PageMiddleWare(req, res)
+    : ListMiddleWare(req, res)
+}
+
 /**
  * Add response array
  * @param req
@@ -135,14 +146,14 @@ const runServer = () => {
   const damMicroServiceRouterArray = jsonServer.router('mocks/rs-dam-array.temp.json')
 
 
-  accessMicroServiceRouter.render = PageAndHateoasMiddleWare
-  adminMicroServiceRouter.render = PageAndHateoasMiddleWare
-  catalogMicroServiceRouter.render = PageAndHateoasMiddleWare
-  damMicroServiceRouter.render = PageAndHateoasMiddleWare
-  archivalStoragePluginsMonitoringRouter.render = ListMiddleWare
-  // gatewayMicroServiceRouter.render = PageAndHateoasMiddleWare
+  accessMicroServiceRouter.render = RenderMiddleWare
+  adminMicroServiceRouter.render = RenderMiddleWare
+  catalogMicroServiceRouter.render = RenderMiddleWare
+  damMicroServiceRouter.render = RenderMiddleWare
+  archivalStoragePluginsMonitoringRouter.render = RenderMiddleWare // ListMiddleWare
+  // gatewayMicroServiceRouter.render = PageMiddleWare
 
-  damMicroServiceRouterList.render = ListMiddleWare
+  damMicroServiceRouterList.render = RenderMiddleWare
 
   damMicroServiceRouterArray.render = ArrayMiddleWare
 
@@ -163,14 +174,14 @@ const runServer = () => {
     '/api/v1/rs-access/applications/:application_id/modules/:module_id': '/api/v1/rs-access/modules/:module_id',
     '/api/v1/rs-dam/plugins/:pluginId/config': '/api/v1/rs-dam/configurations?pluginId=:pluginId',
     '/api/v1/rs-dam/plugins/:pluginId/config/:pluginConfigurationId': '/api/v1/rs-dam/configurations/:pluginConfigurationId',
-    '/api/v1/rs-access/plugins/:type' : '/api/v1/rs-access/plugins?type=:type',
-    '/api/v1/rs-dam-list/models/attributes' : '/api/v1/rs-dam-list/attributes-models',
-    '/api/v1/rs-dam-list/models/fragments' : '/api/v1/rs-dam-list/models-fragments',
+    '/api/v1/rs-access/plugins/:type': '/api/v1/rs-access/plugins?type=:type',
+    '/api/v1/rs-dam-list/models/attributes': '/api/v1/rs-dam-list/attributes-models',
+    '/api/v1/rs-dam-list/models/fragments': '/api/v1/rs-dam-list/models-fragments',
     '/api/v1/rs-dam-list/models/:modelid/attributes': '/api/v1/rs-dam-list/models-attributes?model.id=:modelid',
     '/api/v1/rs-dam-list/models/:modelid/attributes/:id': '/api/v1/rs-dam-list/models-attributes/:id?model.id=:modelid',
-    '/api/v1/rs-dam-array/models/attributes/restrictions' : '/api/v1/rs-dam-array/models-attributes-restrictions',
+    '/api/v1/rs-dam-array/models/attributes/restrictions': '/api/v1/rs-dam-array/models-attributes-restrictions',
     '/api/v1/rs-dam-array/models/attributes/types': '/api/v1/rs-dam-array/models-attributes-types',
-    '/oauth/token' :'/tokens/1'
+    '/oauth/token': '/tokens/1',
   }))
   server.use('/api/v1/rs-access/', accessMicroServiceRouter)
   server.use('/api/v1/rs-catalog/', catalogMicroServiceRouter)

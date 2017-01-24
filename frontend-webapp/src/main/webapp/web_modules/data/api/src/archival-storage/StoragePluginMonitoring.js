@@ -8,7 +8,7 @@ import { Schema, arrayOf } from 'normalizr'
  * StoragePluginMonitoring (spm) management for normalizer
  */
 export const StoragePluginMonitoringConfiguration = {
-  entityKey: 'id', // FIXME : check with backend after implementation
+  entityKey: 'id',
   normalizrKey: 'StorageMonitoringPlugin',
 }
 

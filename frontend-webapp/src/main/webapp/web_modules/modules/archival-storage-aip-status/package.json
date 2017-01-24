@@ -1,0 +1,9 @@
+{
+  "name": "@regardsoss/archival-storage-aip-status",
+  "version": "0.0.1",
+  "private": true,
+  "description": "AIP objects storage status in micro service rs-archival-storage",
+  "main": "src/main.js",
+  "author": "CS-SI",
+  "license": "GPLv3"
+}
