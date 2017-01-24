@@ -12,8 +12,10 @@ import styles from './styles/styles'
 
 /**
  * React component to dislay a full board element.
- * The board items to display are given by the props items of type BoardItemShape.
- * Each Board item has a list of BoardActionShape
+ * The board items to display are expected to be either {@link BoardItemComponent}s or {@link ParameterizedBoardItemComponent}s.
+ *
+ * @author Léo Mieulet
+ * @author Xavier-Alexandre Brochard
  */
 class BoardComponent extends React.Component {
 
@@ -65,8 +67,8 @@ class BoardComponent extends React.Component {
                 {this.props.advancedBoardItemComponents}
               </div>
             </ShowableAtRender>
-            </div>
-          
+          </div>
+
           <div
             className={computedStyles.action.classes}
             style={computedStyles.action.styles}

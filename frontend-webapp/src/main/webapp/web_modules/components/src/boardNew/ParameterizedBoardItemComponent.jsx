@@ -12,6 +12,8 @@ import BoardItemComponent from './BoardItemComponent'
 
 /**
  * Adapter to facilitate the use of the {@link BoardItemComponent} by passing an parameter object.
+ *
+ * @author Xavier-Alexandre Brochard
  */
 class ParameterizedBoardItemComponent extends React.Component {
 
@@ -26,14 +28,14 @@ class ParameterizedBoardItemComponent extends React.Component {
 
   render() {
     const { item } = this.props
-    const computedStyles = styles(this.context.muiTheme) 
+    const computedStyles = styles(this.context.muiTheme)
     const actions = map(item.actions, (action, index) => (
       <Link
         to={action.path}
         style={computedStyles.links}
         key={index}
       >
-        <IconButton 
+        <IconButton
           iconStyle={computedStyles.icon.smallIcon}
           style={computedStyles.icon.small}
           tooltip={action.tooltipMsg}

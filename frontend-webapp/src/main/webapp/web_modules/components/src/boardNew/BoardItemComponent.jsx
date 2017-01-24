@@ -1,22 +1,24 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { map } from 'lodash'
-import { Card, CardActions, CardTitle, CardText, CardMedia } from 'material-ui/Card'
+import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import styles from './styles/styles'
 
 /**
  * React component to display a board item.
- * Every BoardItem as a list of BoardAction
+ * Every BoardItem as a list of BoardAction.
+ *
+ * @author Léo Mieulet
+ * @author Xavier-Alexandre Brochard
  */
 class BoardItemComponent extends React.Component {
 
   static propTypes = {
     title: React.PropTypes.string.isRequired,
-    subtitle:React.PropTypes.string,
+    subtitle: React.PropTypes.string,
     description: React.PropTypes.string.isRequired,
     actions: React.PropTypes.arrayOf(React.PropTypes.element),
     advanced: React.PropTypes.bool,
@@ -42,13 +44,12 @@ class BoardItemComponent extends React.Component {
           style={computedStyles.items.styles}
           containerStyle={computedStyles.items.contentStyles}
         >
-          <CardMedia overlay={<CardTitle title={title}  subtitle={subtitle} />}>
-            <div style={{height:100}}/>
-          </CardMedia>
           <CardTitle
-            title={title} 
-            subtitle={subtitle} 
-            style={{backgroundColor:this.context.muiTheme.palette.accent2Color}}
+            title={title}
+            subtitle={subtitle}
+            style={{
+              backgroundColor: this.context.muiTheme.palette.accent2Color,
+            }}
           />
           <CardText>
             {description}

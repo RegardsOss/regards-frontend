@@ -16,7 +16,7 @@ const items = [
   {
     title: 'A title',
     subtitle: 'This is the subtitle',
-    description: 'A description',
+    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur nisi tortor, pharetra et porta vitae, luctus at mauris. Proin dignissim porta vehicula. Suspendisse eleifend nulla sapien, sed sollicitudin orci maximus sit amet. Maecenas eget lorem elementum, sagittis mi non, congue enim. Integer maximus nibh ut sollicitudin hendrerit.',
     advanced: false,
     actions: [{
       path: '/some/path',
@@ -35,7 +35,7 @@ const items = [
   {
     title: 'An other title',
     subtitle: 'This is the subtitle',
-    description: 'An other description',
+    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur nisi tortor, pharetra et porta vitae, luctus at mauris. Proin dignissim porta vehicula. Suspendisse eleifend nulla sapien, sed sollicitudin orci maximus sit amet. Maecenas eget lorem elementum, sagittis mi non, congue enim. Integer maximus nibh ut sollicitudin hendrerit.',
     advanced: false,
     actions: [{
       path: '/some/other/path',
@@ -54,7 +54,7 @@ const items = [
   {
     title: 'An advanced title',
     subtitle: 'This is the subtitle',
-    description: 'A advanced description',
+    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur nisi tortor, pharetra et porta vitae, luctus at mauris. Proin dignissim porta vehicula. Suspendisse eleifend nulla sapien, sed sollicitudin orci maximus sit amet. Maecenas eget lorem elementum, sagittis mi non, congue enim.',
     advanced: true,
     actions: [{
       path: '/some/advanced/path',
@@ -109,29 +109,29 @@ storiesOf('Test more sexy BoardItemComponent', module)
     const themeName = addLocaleAndThemeSelectors()
     return (
       <ThemeDecorator theme={themeName}>
-        <BoardItemComponent 
-          title={"This is the title"} 
-          subtitle={"It has a subtitle"}
-          description={"This is the description"}
+        <BoardItemComponent
+          title={'This is the title'}
+          subtitle={'It has a subtitle'}
+          description={'This is the description'}
           actions={[
-             <IconButton
-               iconStyle={iconStyles.smallIcon}
-               style={iconStyles.small}
-           >
-             <ActionHome />
-           </IconButton>,
-           <IconButton
+            <IconButton
+              iconStyle={iconStyles.smallIcon}
+              style={iconStyles.small}
+            >
+              <ActionHome />
+            </IconButton>,
+            <IconButton
               iconStyle={iconStyles.smallIcon}
               style={iconStyles.small}
             >
               <FileCloudDownload />
             </IconButton>,
             <IconButton
-             iconStyle={iconStyles.smallIcon}
-             style={iconStyles.small}
-             >
-               <HardwareVideogameAsset />
-             </IconButton>
+              iconStyle={iconStyles.smallIcon}
+              style={iconStyles.small}
+            >
+              <HardwareVideogameAsset />
+            </IconButton>,
           ]}
         />
       </ThemeDecorator>

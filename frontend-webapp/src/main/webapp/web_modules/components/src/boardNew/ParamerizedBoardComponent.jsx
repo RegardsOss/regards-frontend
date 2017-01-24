@@ -8,7 +8,7 @@ import BoardComponent from './BoardComponent'
 
 /**
  * Adapter to facilitate the use of the {@link BoardComponent} by passing an array of parameters.
- * 
+ *
  * @author Xavier-Alexandre Brochard
  */
 class ParameterizedBoardComponent extends React.Component {
@@ -35,7 +35,8 @@ class ParameterizedBoardComponent extends React.Component {
     return (
       <BoardComponent
         boardItemComponents={boardItemComponents}
-        advancedBoardItemComponents={advancedBoardItemComponents} />
+        advancedBoardItemComponents={advancedBoardItemComponents}
+      />
     )
   }
 }
