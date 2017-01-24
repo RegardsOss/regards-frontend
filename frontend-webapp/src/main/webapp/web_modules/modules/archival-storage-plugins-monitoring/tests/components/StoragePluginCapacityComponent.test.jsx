@@ -9,7 +9,7 @@ import StoragePluginCapacityComponent from '../../src/components/StoragePluginCa
 import styles from '../../src/styles/styles'
 import { capacityFromValue } from '../../src/helper/StorageCapacity'
 
-describe('[StoragePluginCapacityComponent] Testing component', () => {
+describe('[STORAGE PLUGINS MONITORING] Testing StoragePluginCapacityComponent', () => {
   it('should exists', () => {
     assert.isDefined(StoragePluginCapacityComponent)
   })
@@ -60,7 +60,7 @@ describe('[StoragePluginCapacityComponent] Testing component', () => {
     assert.equal(unknownCount, 0, 'There should be no unknown values here')
   })
 
-  it('Should intenrationalize unknown values', () => {
+  it('Should internationalize unknown values', () => {
     shallow(<StoragePluginCapacityComponent
       label="A label"
       description="A description"

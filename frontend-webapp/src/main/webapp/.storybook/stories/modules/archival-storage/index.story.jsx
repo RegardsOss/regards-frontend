@@ -2,8 +2,8 @@
  * LICENSE_PLACEHOLDER
  */
 import React from 'react'
+import { withKnobs, object } from '@kadira/storybook-addon-knobs'
 import { storiesOf } from '@kadira/storybook'
-import { withKnobs } from '@kadira/storybook-addon-knobs'
 import { ModuleThemeProvider } from '@regardsoss/modules'
 import AIPStatusComponent from '@regardsoss/archival-storage-aip-status-monitoring/src/components/AIPStatusComponent'
 import StorageMonitoringComponent from '@regardsoss/archival-storage-plugins-monitoring/src/components/StorageMonitoringComponent'
@@ -19,7 +19,7 @@ storiesOf('Archival storage', module)
     </ThemeAndLocaleDecorator>
   ))
   .add('Storage monitoring', () => {
-    const mockStoragePlugins = [{
+    const storagePlugins = object('Storage plugins', [{
       label: 'ServerHDD',
       description: 'Main server hard drives',
       totalSize: '25To',
@@ -46,7 +46,7 @@ storiesOf('Archival storage', module)
       description: 'A strange storage plugin with wrong formats',
       totalSize: '8Txxo',
       usedSize: 'ddOp',
-    }]
+    }])
 
     const themeWithLocale = addLocaleAndThemeSelectors()
     // provide module styles to components
@@ -55,7 +55,7 @@ storiesOf('Archival storage', module)
     return (
       <ThemeAndLocaleDecorator theme={themeWithLocale} messageDir="modules/archival-storage-plugins-monitoring/src/i18n">
         <ModuleThemeProvider module={moduleTheme}>
-          <StorageMonitoringComponent storagePlugins={mockStoragePlugins} />
+          <StorageMonitoringComponent storagePlugins={storagePlugins} />
         </ModuleThemeProvider>
       </ThemeAndLocaleDecorator>
     )

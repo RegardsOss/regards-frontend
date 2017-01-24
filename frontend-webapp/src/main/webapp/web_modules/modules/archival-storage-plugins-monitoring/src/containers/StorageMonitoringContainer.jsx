@@ -8,18 +8,19 @@ import StorageMonitoringComponent from '../components/StorageMonitoringComponent
 import StoragePluginMonitoringSelector from '../model/StoragePluginsMonitoringSelectors'
 import StoragePluginMonitoringActions from '../model/StoragePluginsMonitoringActions'
 import { bytesScale } from '../helper/StorageUnit'
+
 /**
  * Fetches storage plugins monitoring information, then display the corresponding component with fetched data
  */
 export class StorageMonitoringContainer extends React.Component {
 
   static propTypes = {
+    // from mapStateToProps
     // Set by module loader, required for map state to props
-    // eslint-disable-next-line react/no-unused-prop-types
-    appName: React.PropTypes.string.isRequired, // Set by mapStateToProps
     storagePlugins: React.PropTypes.objectOf(PluginShape4Normalizr),
-    isFetching: React.PropTypes.bool, // Set by mapDispatchToProps
-    hasError: React.PropTypes.bool, // Set by mapDispatchToProps
+    isFetching: React.PropTypes.bool,
+    hasError: React.PropTypes.bool,
+    // from mapDispatchToProps
     fetchStoragePlugins: React.PropTypes.func,
   }
 
@@ -48,14 +49,11 @@ export class StorageMonitoringContainer extends React.Component {
   }
 }
 
-const mapStateToProps = (state, props) => {
-  const selector = new StoragePluginMonitoringSelector()
-  return {
-    storagePlugins: selector.getList(state),
-    isFetching: selector.isFetching(state),
-    hasError: selector.getError(state).hasError,
-  }
-}
+const mapStateToProps = (state, props) => ({
+  storagePlugins: StoragePluginMonitoringSelector.getList(state),
+  isFetching: StoragePluginMonitoringSelector.isFetching(state),
+  hasError: StoragePluginMonitoringSelector.getError(state).hasError,
+})
 
 const mapDispatchToProps = dispatch => ({
   fetchStoragePlugins: () => dispatch(StoragePluginMonitoringActions.fetchEntityList(dispatch)),

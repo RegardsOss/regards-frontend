@@ -9,7 +9,7 @@ import StoragePluginCapacityComponent from '../../src/components/StoragePluginCa
 import { bitsScale } from '../../src/helper/StorageUnit'
 import { capacityFromValue } from '../../src/helper/StorageCapacity'
 
-describe('[STORAGE PLUGINS MONITORING] Testing component', () => {
+describe('[STORAGE PLUGINS MONITORING] Testing StorageMonitoringComponent', () => {
   it('should exists', () => {
     assert.isDefined(StorageMonitoringComponent)
   })
@@ -17,6 +17,7 @@ describe('[STORAGE PLUGINS MONITORING] Testing component', () => {
   const context = {
     intl: {
       formatMessage: message => message,
+      formatDate: date => date,
     },
     muiTheme: {
       palette: {
@@ -34,19 +35,19 @@ describe('[STORAGE PLUGINS MONITORING] Testing component', () => {
     const props = {
       initScale: bitsScale,
       storagePlugins: [{
-        id: '1',
+        id: 1,
         label: 'Plugin1',
         description: 'storage plugin 1',
         totalSize: '10 To',
         usedSize: '5 To',
       }, {
-        id: '2',
+        id: 2,
         label: 'Plugin2',
         description: 'storage plugin 2',
         totalSize: '5 Tio',
         usedSize: '0gb',
       }, {
-        id: '3',
+        id: 3,
         label: 'Plugin3',
         description: 'storage plugin 3',
         totalSize: '8Txxo',
@@ -69,8 +70,8 @@ describe('[STORAGE PLUGINS MONITORING] Testing component', () => {
       // check each
       const { label, description, usedSize, totalSize } = node.props()
       const plugin = props.storagePlugins[i]
-      assert.equal(label, plugin.label, label)
-      assert.equal(description, plugin.description, description)
+      assert.equal(label, plugin.label)
+      assert.equal(description, plugin.description)
       if (capacityFromValue(plugin.usedSize)) {
         assert.isOk(usedSize)
       } else {
