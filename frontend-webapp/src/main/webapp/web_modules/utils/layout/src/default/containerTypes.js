@@ -39,7 +39,7 @@ export default {
    * Row container to display a responsive row.
    */
   RowContainer: {
-    classes: ['row'],
+    classes: ['col-sm-98', 'col-sm-offset-1'],
     styles: {
       marginBottom: '10px',
     },

@@ -1,5 +1,4 @@
 import { assert } from 'chai'
-import { combineReducers } from 'redux'
 import configureStore from '../src/configureStore'
 import getReducerRegistry from '../src/ReducerRegistry'
 

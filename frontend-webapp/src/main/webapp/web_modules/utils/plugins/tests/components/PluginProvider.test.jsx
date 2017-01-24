@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { shallow } from 'enzyme'
-import { expect } from 'chai'
+import { expect, assert } from 'chai'
 import { IntlProvider } from 'react-intl'
 import PluginTest from './PluginTest'
 import { UnconnectedPluginProvider } from '../../src/components/PluginProvider'
@@ -26,7 +26,6 @@ describe('[PLUGINS] Testing Plugins load', () => {
   })
 
   it('Should render correctly a plugin', () => {
-    const context = {}
     const wrapper = shallow(
       <UnconnectedPluginProvider
         pluginId="test"
@@ -94,7 +93,8 @@ describe('[PLUGINS] Testing Plugins load', () => {
 
     expect(wrapper.find(PluginTest)).to.have.length(0)
     expect(wrapper.find('div')).to.have.length(1)
-    expect(wrapper.find('div').prop('plugin')).to.exist
+    const pluginParam = wrapper.find('div').prop('plugin')
+    assert.isDefined(pluginParam)
     expect(wrapper.find(IntlProvider)).to.have.length(0)
   })
 })

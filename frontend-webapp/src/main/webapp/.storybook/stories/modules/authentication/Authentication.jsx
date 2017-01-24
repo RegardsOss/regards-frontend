@@ -10,6 +10,7 @@ storiesOf('Authentication', module)
     const themeName = addLocaleAndThemeSelectors()
     const module = {
       name: 'authentication',
+      active: true,
       conf: {
         cancelButton: false,
         title: 'Authentication form',
@@ -26,6 +27,7 @@ storiesOf('Authentication', module)
     const themeName = addLocaleAndThemeSelectors()
     const module = {
       name: 'authentication',
+      active: true,
       conf: {
         cancelButton: true,
         title: 'Authentication form',

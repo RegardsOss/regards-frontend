@@ -26,6 +26,7 @@ class PageableListContainer extends React.Component {
     lineComponent: React.PropTypes.func.isRequired,
     nbEntityByPage: React.PropTypes.number.isRequired,
     entitiesActions: React.PropTypes.instanceOf(BasicPageableActions).isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
     entitiesSelector: React.PropTypes.instanceOf(BasicPageableSelectors).isRequired,
     selectedEntities: React.PropTypes.arrayOf(React.PropTypes.object),
     displayCheckbox: React.PropTypes.bool,
@@ -33,6 +34,7 @@ class PageableListContainer extends React.Component {
     onEntityCheck: React.PropTypes.func,
     onUnselectAll: React.PropTypes.func,
     onReset: React.PropTypes.func,
+    // eslint-disable-next-line react/forbid-prop-types
     style: React.PropTypes.object,
     // Set by redux store connection
     pageMetadata: React.PropTypes.shape({
