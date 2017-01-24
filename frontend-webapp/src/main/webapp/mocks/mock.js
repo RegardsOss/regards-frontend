@@ -146,7 +146,7 @@ const runServer = () => {
   const damMicroServiceRouterArray = jsonServer.router('mocks/rs-dam-array.temp.json')
 
 
-  accessMicroServiceRouter.render = RenderMiddleWare
+  accessMicroServiceRouter.render = PageMiddleWare
   adminMicroServiceRouter.render = RenderMiddleWare
   catalogMicroServiceRouter.render = RenderMiddleWare
   damMicroServiceRouter.render = RenderMiddleWare
