@@ -4,15 +4,14 @@
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import IconButton from 'material-ui/IconButton'
 import SearchIcon from 'material-ui/svg-icons/action/search'
-import { themeContextType } from '@regardsoss/theme'
 import { FormattedMessage } from 'react-intl'
-import { connect } from '@regardsoss/redux'
+import { themeContextType } from '@regardsoss/theme'
+import { connect, ReduxConnectedForm } from '@regardsoss/redux'
 import { CardActionsComponent } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { PluginDefinition } from '@regardsoss/model'
 import { RenderTextField, Field, ErrorTypes } from '@regardsoss/form-utils'
 import { reduxForm, formValueSelector } from 'redux-form'
-import { ReduxConnectedForm } from '@regardsoss/redux'
 import { PluginProvider } from '@regardsoss/plugins'
 import PluginDefinitionComponent from './PluginDefinitionComponent'
 
@@ -33,6 +32,7 @@ class pluginFormComponent extends React.Component {
     handleSubmit: React.PropTypes.func.isRequired,
     initialize: React.PropTypes.func.isRequired,
     change: React.PropTypes.func.isRequired,
+    pathField: React.PropTypes.string,
   }
 
   static contextTypes = {
@@ -62,9 +62,9 @@ class pluginFormComponent extends React.Component {
   }
 
   searchPlugin = (path) => {
-    if (this.props.path && this.props.path !== '') {
+    if (this.props.pathField && this.props.pathField !== '') {
       this.setState({
-        path: this.props.path,
+        path: this.props.pathField,
         pluginIsValid: false,
       })
     } else if (path) {
@@ -91,7 +91,6 @@ class pluginFormComponent extends React.Component {
 
   renderPlugin = () => {
     if (this.state.path) {
-      console.log('plugin to load', this.state.path)
       return (
         <Card>
           <CardText>
@@ -190,7 +189,7 @@ export {
 }
 const selector = formValueSelector('edit-plugin-form')
 const mapStateToProps = state => ({
-  path: selector(state, 'sourcesPath'),
+  pathField: selector(state, 'sourcesPath'),
 })
 const ConnectedComponent = connect(mapStateToProps)(pluginFormComponent)
 

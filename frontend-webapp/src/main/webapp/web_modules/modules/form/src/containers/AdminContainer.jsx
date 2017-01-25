@@ -100,7 +100,7 @@ class AdminContainer extends React.Component {
       selectableAttributes: this.props.selectableAttributes,
       disableChangeDatasets: this.props.selectableAttributesFectching,
       availableCriterion: this.props.availableCriterion,
-      criterionFetching: this.props.criterionFetching
+      criterionFetching: this.props.criterionFetching,
     }
   }
 

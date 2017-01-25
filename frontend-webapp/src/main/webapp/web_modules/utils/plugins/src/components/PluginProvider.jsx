@@ -1,11 +1,8 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { IntlProvider } from 'react-intl'
 import { connect } from '@regardsoss/redux'
 import { PluginDefinition } from '@regardsoss/model'
-import { getReducerRegistry, configureReducers } from '@regardsoss/store'
-import { i18nSelectors } from '@regardsoss/i18n'
 import PluginActions from '../model/PluginActions'
 import PluginSelector from '../model/PluginSelector'
 import PluginLoader from './PluginLoader'
@@ -36,7 +33,6 @@ class PluginProvider extends React.Component {
   }
 
   componentWillMount() {
-    console.log("PROPS",this.props)
     if (!this.props.pluginToLoad) {
       this.props.fetchPlugin(this.props.pluginId)
     }
@@ -49,8 +45,9 @@ class PluginProvider extends React.Component {
           pluginPath={this.props.pluginToLoad.content.sourcesPath}
           displayPlugin={this.props.displayPlugin}
           pluginConf={this.props.pluginConf}
-          children={this.props.children}
-        />
+        >
+          {this.props.children}
+        </PluginLoader>
       )
     }
 
@@ -60,11 +57,11 @@ class PluginProvider extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  pluginToLoad: PluginSelector.getById(state, ownProps.pluginId)
+  pluginToLoad: PluginSelector.getById(state, ownProps.pluginId),
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  fetchPlugin: pluginId => dispatch(PluginActions.fetchEntity(pluginId,dispatch,[''])),
+  fetchPlugin: pluginId => dispatch(PluginActions.fetchEntity(pluginId, dispatch, [''])),
 })
 
 // Export for tests

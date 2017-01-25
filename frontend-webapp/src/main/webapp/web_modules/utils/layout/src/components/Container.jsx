@@ -82,14 +82,14 @@ class Container extends React.Component {
       if (this.props.plugins) {
         const containerPlugins = this.props.plugins.filter(plugin => plugin.container === this.props.container.id)
         forEach(containerPlugins, (plugin, idx) => {
-          console.log("PLUGIN",plugin)
+          console.log('PLUGIN', plugin)
           renderPlugins.push(
             <PluginProvider
               key={idx}
               pluginId={plugin.pluginId}
               pluginConf={plugin.pluginConf}
               displayPlugin
-            />
+            />,
           )
         })
       }

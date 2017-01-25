@@ -32,9 +32,9 @@ export const pluginLoaded = plugin => ({
  */
 export const loadPlugin = (sourcePath, dispatchAction) => {
   // Listen for pluin initialization done
-  console.log("PLUGIN TO LOAD")
+  console.log('PLUGIN TO LOAD')
   root.document.addEventListener('plugin', (event) => {
-    console.log("PLUGIN LOADED !!!!!!!!")
+    console.log('PLUGIN LOADED !!!!!!!!')
     const action = pluginLoaded(event.detail)
     action.sourcesPath = sourcePath
     dispatchAction(action)

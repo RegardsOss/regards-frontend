@@ -8,7 +8,7 @@ import { BasicPageableSelectors } from '@regardsoss/store-utils'
  */
 class CriterionSelector extends BasicPageableSelectors {
   constructor() {
-    super(['common', 'plugins','plugins'])
+    super(['common', 'plugins', 'plugins'])
   }
 }
 

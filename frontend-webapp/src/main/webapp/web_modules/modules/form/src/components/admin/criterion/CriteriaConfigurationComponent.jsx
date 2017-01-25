@@ -1,15 +1,13 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import {map} from 'lodash'
-import {Card, CardTitle, CardText} from 'material-ui/Card'
-import SelectField from 'material-ui/SelectField'
+import { map } from 'lodash'
+import { Card, CardTitle, CardText } from 'material-ui/Card'
 import MenuItem from 'material-ui/MenuItem'
-import {FormattedMessage} from 'react-intl'
-import {RenderSelectField, Field} from '@regardsoss/form-utils'
-import {AttributeModel, Plugin} from '@regardsoss/model'
-import {themeContextType} from '@regardsoss/theme'
-import TextField from 'material-ui/TextField'
+import { FormattedMessage } from 'react-intl'
+import { RenderSelectField, Field } from '@regardsoss/form-utils'
+import { AttributeModel, Plugin } from '@regardsoss/model'
+import { themeContextType } from '@regardsoss/theme'
 
 /**
  * Component to render a Criteria plugin configuration page.
@@ -51,7 +49,7 @@ class CriteriaConfigurationComponent extends React.Component {
         component={RenderSelectField}
         type="text"
         onSelect={this.selectAttribute}
-        label={<FormattedMessage id="form.criterion.criteria.select.attribute.label"/>}
+        label={<FormattedMessage id="form.criterion.criteria.select.attribute.label" />}
       >
         {map(this.props.selectableAttributes, selectableAttribute => (
           <MenuItem

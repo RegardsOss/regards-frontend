@@ -1,18 +1,16 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import {forEach} from 'lodash'
-import SelectField from 'material-ui/SelectField'
+import { forEach } from 'lodash'
 import MenuItem from 'material-ui/MenuItem'
-import {FormattedMessage} from 'react-intl'
-import {reduxForm} from 'redux-form'
-import {connect} from '@regardsoss/redux'
-import {RenderTextField, RenderSelectField, Field, ErrorTypes} from '@regardsoss/form-utils'
-import {CardActionsComponent} from '@regardsoss/components'
-import {PluginDefinition, PluginConf, AttributeModel} from '@regardsoss/model'
-import {ContainerHelper} from '@regardsoss/layout'
-import {PluginProvider} from '@regardsoss/plugins'
-import {ReduxConnectedForm} from '@regardsoss/redux'
+import { FormattedMessage } from 'react-intl'
+import { reduxForm } from 'redux-form'
+import { RenderSelectField, Field } from '@regardsoss/form-utils'
+import { CardActionsComponent } from '@regardsoss/components'
+import { PluginDefinition, PluginConf, AttributeModel } from '@regardsoss/model'
+import { ContainerHelper } from '@regardsoss/layout'
+import { PluginProvider } from '@regardsoss/plugins'
+import { ReduxConnectedForm } from '@regardsoss/redux'
 
 import CriteriaConfigurationComponent from './CriteriaConfigurationComponent'
 
@@ -37,7 +35,6 @@ class FormCriteriaComponent extends React.Component {
       content: PluginDefinition,
     })),
     criterionFetching: React.PropTypes.bool,
-    fetchCriterion: React.PropTypes.func,
     // from reduxForm
     submitting: React.PropTypes.bool,
     pristine: React.PropTypes.bool,
@@ -62,17 +59,20 @@ class FormCriteriaComponent extends React.Component {
     this.handleInitialize()
   }
 
-  handleInitialize = () => {
-    if (this.props.criteria) {
-      this.props.initialize({...this.props.criteria})
-    }
-  }
-
   /**
    * Action to cancel the current criteria edition
    */
   onCancel = () => {
     this.props.cancel()
+  }
+
+  /**
+   * Initialize redux-form fields
+   */
+  handleInitialize = () => {
+    if (this.props.criteria) {
+      this.props.initialize({ ...this.props.criteria })
+    }
   }
 
   /**
@@ -110,7 +110,7 @@ class FormCriteriaComponent extends React.Component {
     if (!this.props.criterionFetching && this.props.availableCriterion) {
       forEach(this.props.availableCriterion, (criterion, idx) => {
         items.push(
-          <MenuItem key={idx} value={criterion.content.id} primaryText={criterion.content.name}/>,
+          <MenuItem key={idx} value={criterion.content.id} primaryText={criterion.content.name} />,
         )
       })
     }
@@ -129,7 +129,7 @@ class FormCriteriaComponent extends React.Component {
         if (containers && containers.length > 0) {
           forEach(containers, (container, idx) => {
             items.push(
-              <MenuItem key={idx} value={container} primaryText={container}/>,
+              <MenuItem key={idx} value={container} primaryText={container} />,
             )
           })
         }
@@ -145,7 +145,7 @@ class FormCriteriaComponent extends React.Component {
    * @returns {*}
    */
   renderCriteriaConfiguration = () => {
-    if (this.state.selectedCriteria && !this.props.criterionFetching)  {
+    if (this.state.selectedCriteria && !this.props.criterionFetching) {
       return (
         <PluginProvider
           pluginId={this.state.selectedCriteria}
@@ -165,7 +165,7 @@ class FormCriteriaComponent extends React.Component {
    * @returns {XML}
    */
   render() {
-    const {pristine, submitting} = this.props
+    const { pristine, submitting } = this.props
     return (
       <ReduxConnectedForm
         onSubmit={this.props.handleSubmit(this.props.saveCriteria)}
@@ -178,7 +178,7 @@ class FormCriteriaComponent extends React.Component {
             component={RenderSelectField}
             type="text"
             onSelect={this.selectCriteria}
-            label={<FormattedMessage id="form.criterion.criteria.select.criteria.label"/>}
+            label={<FormattedMessage id="form.criterion.criteria.select.criteria.label" />}
           >
             {this.renderCriterionTypesList()}
           </Field>
@@ -188,7 +188,7 @@ class FormCriteriaComponent extends React.Component {
             component={RenderSelectField}
             type="text"
             onSelect={this.selectContainer}
-            label={<FormattedMessage id="form.criterion.criteria.select.container.label"/>}
+            label={<FormattedMessage id="form.criterion.criteria.select.container.label" />}
           >
             {this.renderContainersList()}
           </Field>
@@ -196,10 +196,10 @@ class FormCriteriaComponent extends React.Component {
           {this.renderCriteriaConfiguration()}
 
           <CardActionsComponent
-            mainButtonLabel={<FormattedMessage id="form.criterion.criteria.submit.button.label"/>}
+            mainButtonLabel={<FormattedMessage id="form.criterion.criteria.submit.button.label" />}
             mainButtonType="submit"
             isMainButtonDisabled={pristine || submitting}
-            secondaryButtonLabel={<FormattedMessage id="form.criterion.criteria.cancel.button.label"/>}
+            secondaryButtonLabel={<FormattedMessage id="form.criterion.criteria.cancel.button.label" />}
             secondaryButtonTouchTap={this.onCancel}
           />
         </div>
@@ -208,7 +208,7 @@ class FormCriteriaComponent extends React.Component {
   }
 }
 
-const validate = values => {
+const validate = (values) => {
   const errors = {}
   return errors
 }

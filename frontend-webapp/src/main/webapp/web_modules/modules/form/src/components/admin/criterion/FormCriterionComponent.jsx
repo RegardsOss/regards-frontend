@@ -102,9 +102,7 @@ class FormCriterionComponent extends React.Component {
    * @param criteria
    */
   handleDelete = (criteria, idx) => {
-    const criterion = filter(this.props.criterion, (crit, index) => {
-      return idx !== index
-    })
+    const criterion = filter(this.props.criterion, (crit, index) => idx !== index)
     this.props.changeField('conf.criterion', criterion)
   }
 
@@ -128,19 +126,19 @@ class FormCriterionComponent extends React.Component {
         if (criteriaType) {
           label = criteriaType.content.name
         }
-          rows.push(
-            <TableRow key={idx}>
-              <TableRowColumn>{label}</TableRowColumn>
-              <TableRowColumn>{criteria.container}</TableRowColumn>
-              <TableRowColumn>
-                <IconButton onTouchTap={() => this.handleEdit(criteria, idx)}>
-                  <Edit />
-                </IconButton>
-                <IconButton onTouchTap={() => this.handleDelete(criteria, idx)}>
-                  <Delete />
-                </IconButton>
-              </TableRowColumn>
-            </TableRow>,
+        rows.push(
+          <TableRow key={idx}>
+            <TableRowColumn>{label}</TableRowColumn>
+            <TableRowColumn>{criteria.container}</TableRowColumn>
+            <TableRowColumn>
+              <IconButton onTouchTap={() => this.handleEdit(criteria, idx)}>
+                <Edit />
+              </IconButton>
+              <IconButton onTouchTap={() => this.handleDelete(criteria, idx)}>
+                <Delete />
+              </IconButton>
+            </TableRowColumn>
+          </TableRow>,
           )
       })
     }
