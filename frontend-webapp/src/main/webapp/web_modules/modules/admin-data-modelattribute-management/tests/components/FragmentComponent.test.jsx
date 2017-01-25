@@ -3,7 +3,6 @@
  **/
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import Paper from 'material-ui/Paper'
 import sinon from 'sinon'
 import FragmentComponent from '../../src/components/FragmentComponent'
 import ItemTypes from '../../src/components/ItemTypes'

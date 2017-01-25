@@ -5,9 +5,9 @@ import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { Collection } from '@regardsoss/model'
+import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import CollectionActions from '../model/CollectionActions'
 import CollectionSelectors from '../model/CollectionSelectors'
-import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import CollectionListComponent from '../components/CollectionListComponent'
 
 /**
