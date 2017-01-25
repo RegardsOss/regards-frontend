@@ -4,10 +4,11 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { Table } from 'material-ui/Table'
+import { IntlStub } from '@regardsoss/tests-helpers'
 import ChartAdapter from '@regardsoss/charts'
 import StoragePluginCapacityComponent from '../../src/components/StoragePluginCapacityComponent'
 import styles from '../../src/styles/styles'
-import { capacityFromValue } from '../../src/helper/StorageCapacity'
+import StorageCapacity from '../../src/helper/StorageCapacity'
 
 describe('[STORAGE PLUGINS MONITORING] Testing StoragePluginCapacityComponent', () => {
   it('should exists', () => {
@@ -17,7 +18,8 @@ describe('[STORAGE PLUGINS MONITORING] Testing StoragePluginCapacityComponent', 
   let unknownCount = 0
   const unknownTextKey = 'archival.storage.capacity.monitoring.capacity.unknown'
   const context = {
-    intl: {
+    intl: Object.assign({}, IntlStub, {
+      // replace formatMessage to spy it
       formatMessage: (message) => {
         // mark unknown instance count
         if (message.id === unknownTextKey) {
@@ -25,7 +27,7 @@ describe('[STORAGE PLUGINS MONITORING] Testing StoragePluginCapacityComponent', 
         }
         return message.id
       },
-    },
+    }),
     muiTheme: {
       palette: {
         textColor: {},
@@ -48,8 +50,8 @@ describe('[STORAGE PLUGINS MONITORING] Testing StoragePluginCapacityComponent', 
   it('Should render properly', () => {
     const enzymeWrapper = shallow(<StoragePluginCapacityComponent
       label="A label" description="A description"
-      totalSize={capacityFromValue('10To')}
-      usedSize={capacityFromValue('2To')}
+      totalSize={StorageCapacity.fromValue('10To')}
+      usedSize={StorageCapacity.fromValue('2To')}
     />, { context })
 
     // check one table is built for the plugin
