@@ -26,7 +26,7 @@ describe('[STORAGE PLUGINS MONITORING] Testing capacity object', () => {
         value: 500,
         unitSymbol: 'MB',
       },
-    },  {
+    }, {
       input: '500MB',
       expected: {
         value: 500,

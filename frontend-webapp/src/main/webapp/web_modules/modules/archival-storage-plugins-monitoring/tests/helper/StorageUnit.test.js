@@ -6,7 +6,6 @@ import StorageUnitScale from '../../src/helper/StorageUnit'
 
 // Test unit functions
 describe('[STORAGE PLUGINS MONITORING] Testing units', () => {
-
   const tests = [ // bits scale
     {
       // general failure case: should not allow text representing a unit and some more characters
