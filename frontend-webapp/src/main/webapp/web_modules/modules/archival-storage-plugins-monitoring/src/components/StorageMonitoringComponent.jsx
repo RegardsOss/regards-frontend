@@ -116,7 +116,7 @@ class StorageMonitoringComponent extends Component {
           iconElementLeft={
             <IconButton onTouchTap={this.onExpandSwitch}>
               { expanded ? <ExpandLess color={muiTheme.palette.textColor} /> :
-                <ExpandMore color={muiTheme.palette.textColor} /> }
+              <ExpandMore color={muiTheme.palette.textColor} /> }
             </IconButton>
           }
           iconElementRight={
