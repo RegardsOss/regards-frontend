@@ -2,12 +2,16 @@
  * LICENSE_PLACEHOLDER
  */
 import { assert } from 'chai'
-import LocaleEN from '../../src/i18n/messages.en.i18n'
-import LocaleFR from '../../src/i18n/messages.fr.i18n'
+import { keys } from 'lodash'
+import MessagesEN from '../../src/i18n/messages.en.i18n'
+import MessagesFR from '../../src/i18n/messages.fr.i18n'
 
 describe('[FORM UTILS] Testing i18n', () => {
   it('should exist', () => {
-    assert.isDefined(LocaleEN)
-    assert.isDefined(LocaleFR)
+    assert.isDefined(MessagesEN)
+    assert.isDefined(MessagesFR)
+  })
+  it('should define same sentences', () => {
+    assert.deepEqual(keys(MessagesFR), keys(MessagesEN))
   })
 })
