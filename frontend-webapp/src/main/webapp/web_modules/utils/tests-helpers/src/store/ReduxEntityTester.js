@@ -1,9 +1,7 @@
 import nock from 'nock'
-import { expect, assert } from 'chai'
-import { map } from 'lodash'
-import { combineReducers } from 'redux'
+import { assert } from 'chai'
 import thunk from 'redux-thunk'
-import { createStore, applyMiddleware, compose } from 'redux'
+import { combineReducers, createStore, applyMiddleware, compose } from 'redux'
 import sinon from 'sinon'
 
 const { apiMiddleware } = require('redux-api-middleware')
