@@ -8,7 +8,7 @@ import ChartAdapter from '@regardsoss/charts'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { StorageCapacityShape } from '../helper/StorageCapacity'
-import { UnitScaleShape, bytesScale } from '../helper/StorageUnit'
+import StorageUnitScale, { StorageUnitScaleShape } from '../helper/StorageUnit'
 
 /**
  * Displays storage plugin capacity information
@@ -18,13 +18,13 @@ class StoragePluginCapacityComponent extends React.Component {
   static propTypes = {
     label: React.PropTypes.string.isRequired,
     description: React.PropTypes.string.isRequired, // null or capacity
-    scale: UnitScaleShape,
+    scale: StorageUnitScaleShape,
     totalSize: StorageCapacityShape, // null or capacity
     usedSize: StorageCapacityShape,
   }
 
   static defaultProps = {
-    scale: bytesScale,
+    scale: StorageUnitScale.bytesScale,
   }
 
   /** I18N injection & themes */
@@ -36,9 +36,10 @@ class StoragePluginCapacityComponent extends React.Component {
    * Builds I18N label for capacity as parameter
    */
   buildI18NCapacity = (capacity) => {
+    const { formatMessage } = this.context.intl
     if (!capacity) {
       // unknown capacity
-      return this.context.intl.formatMessage({ id: 'archival.storage.capacity.monitoring.capacity.unknown' })
+      return formatMessage({ id: 'archival.storage.capacity.monitoring.capacity.unknown' })
     }
     // recover current scale unit
     const { scale } = this.props
@@ -46,7 +47,7 @@ class StoragePluginCapacityComponent extends React.Component {
     const capacityToShow = capacity.scaleAndConvert(scale)
     const unitLabel = this.buildI18NUnit(capacityToShow.unit)
     const valueLabel = this.formatNumber(capacityToShow.value)
-    return this.context.intl.formatMessage({
+    return formatMessage({
       id: 'archival.storage.capacity.monitoring.capacity',
     }, {
       valueLabel,
@@ -54,9 +55,7 @@ class StoragePluginCapacityComponent extends React.Component {
     })
   }
 
-  buildI18NUnit = unit => this.context.intl.formatMessage({
-    id: `archival.storage.capacity.monitoring.unit.${unit.symbol.toLowerCase()}`,
-  })
+  buildI18NUnit = unit => this.context.intl.formatMessage({ id: unit.messageKey })
 
   /** Formats a number on 2 digits (presentation need) */
   formatNumber = number => (Math.round(number * 100) / 100).toString()
@@ -123,7 +122,7 @@ class StoragePluginCapacityComponent extends React.Component {
         />
         <CardMedia style={moduleTheme.card.media}>
           <div>
-            <Table selectable={false} >
+            <Table selectable={false}>
               <TableHeader
                 displaySelectAll={false}
                 adjustForCheckbox={false}
@@ -149,7 +148,7 @@ class StoragePluginCapacityComponent extends React.Component {
                   <TableRowColumn style={moduleTheme.table.row}>
                     { this.buildI18NCapacity(usedSize)}
                   </TableRowColumn>
-                  <TableRowColumn style={moduleTheme.table.row} >
+                  <TableRowColumn style={moduleTheme.table.row}>
                     { this.buildI18NCapacity(usedSize && totalSize ? totalSize.subtract(usedSize) : null)}
                   </TableRowColumn>
                 </TableRow>

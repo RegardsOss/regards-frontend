@@ -1,3 +1,7 @@
 import defaultFluxStandardError from './DefaultFluxStandardError'
+import IntlStub from './IntlStub'
 
-export default defaultFluxStandardError
+export default {
+  defaultFluxStandardError,
+  IntlStub,
+}

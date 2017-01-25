@@ -1,12 +1,12 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import * as StorageUnit from './StorageUnit'
+import StorageUnitScale from './StorageUnit'
 
 /**
  * A storage capacity (like 8Mo, 36 Gio...)
  */
-export class StorageCapacity {
+class StorageCapacity {
 
   constructor(value = 0, unit) {
     this.value = value
@@ -34,10 +34,8 @@ export class StorageCapacity {
     // pre: units are ordered from smallest to biggest
     // algorithm: find X [unit] where X >= 1 or on lowest unit
     // impl: keep previous converted until the lowest unit, recompute only when previous converted does not match the conditions
-    const availableUnits = StorageUnit.getOrderedUnitsInScale(unitsScale)
-    availableUnits.reverse()
-    // eslint-disable-next-line no-confusing-arrow
-    return availableUnits.reduce((previousConverted, unit) => previousConverted && previousConverted.value >= 1 ? previousConverted : this.convert(unit), null)
+    const availableUnits = unitsScale.units
+    return availableUnits.reduceRight((previousConverted, unit) => previousConverted && previousConverted.value >= 1 ? previousConverted : this.convert(unit), null)
   }
 
   /**
@@ -92,33 +90,28 @@ export class StorageCapacity {
     return this.doArithmeticOperation((a, b) => a / b, other)
   }
 
+  /**
+   * Parses capacity from value
+   * @param textValue text value
+   * @returns {StorageCapacity | null} null if text cannot get parsed
+   */
+  static fromValue(textValue) {
+    // 1 - extract the value and unit text from provided text
+    const parsingExpression = /^\s*([0-9]+\.?[0-9]*)\s*(\w+)\s*$/i
+    const matched = textValue.match(parsingExpression)
+    if (!matched || matched.length < 3) {
+      // text is not matching expecting format
+      return null
+    }
+    // 2 - convert value
+    const value = Number(matched[1])
+    // 3 - convert unit
+    const unit = StorageUnitScale.getMatchingUnit(matched[2])
+    return unit && !Number.isNaN(value) ? new StorageCapacity(value, unit) : null
+  }
+
 }
 
-export function capacityFromValue(textValue) {
-  // 1 - extract the value and unit text from provided text
-  const parsingExpression = /^\s*([0-9]+\.?[0-9]*)\s*(\w+)\s*$/i
-  const matched = textValue.match(parsingExpression)
-  if (!matched || matched.length < 3) {
-    // text is not matching expecting format
-    return null
-  }
-
-  // 2 - convert value
-  const valueText = matched[1] // value: first matching group
-  const value = Number(valueText)
-  if (Number.isNaN(value)) {
-    return null
-  }
-
-  // 3 - convert unit
-  const unitText = matched[2] // unit: second matching group
-  const unit = StorageUnit.findMatchingUnit(unitText)
-  if (!unit) {
-    // found no matching unit
-    return null
-  }
-
-  return new StorageCapacity(value, unit)
-}
+export default StorageCapacity
 
 export const StorageCapacityShape = React.PropTypes.instanceOf(StorageCapacity)

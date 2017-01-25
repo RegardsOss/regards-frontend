@@ -1,6 +1,7 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { Table, TableRow } from 'material-ui/Table'
+import { IntlStub } from '@regardsoss/tests-helpers'
 import { CardActionsComponent } from '@regardsoss/components'
 import { ProjectListComponent } from '../../src/components/ProjectListComponent'
 
@@ -39,9 +40,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing project list container', () => {
     }
     const options = {
       context: {
-        intl: {
-          formatMessage: message => message.id,
-        },
+        intl: IntlStub,
         muiTheme: {
           palette: {
             primary1Color: '789456',
