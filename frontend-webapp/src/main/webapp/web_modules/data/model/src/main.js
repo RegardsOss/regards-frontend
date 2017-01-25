@@ -10,6 +10,7 @@ import AttributeModel from './dam/AttributeModel'
 import JavaTypes from './dam/JavaTypes'
 import Fragment from './dam/Fragment'
 import Model from './dam/Model'
+import Collection from './dam/Collection'
 import ModelAttribute from './dam/ModelAttribute'
 import Plugin from './access/Plugin'
 import { PluginInfo, PluginTypes } from './access/PluginInfo'
@@ -37,6 +38,7 @@ export default {
   Fragment,
   Model,
   ModelAttribute,
+  Collection,
 
   // CATALOG
   Entity,

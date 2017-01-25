@@ -11,6 +11,16 @@ import ModelAttributeComponent from '../../src/components/ModelAttributeComponen
 
 // Test a component rendering
 describe('[ADMIN DATA MODEL ATTRIBUTE MANAGEMENT] Testing ModelAttributeComponent', () => {
+  // Since react will console.error propType warnings, that which we'd rather have
+  // as errors, we use sinon.js to stub it into throwing these warning as errors
+  // instead.
+  before(() => {
+    sinon.stub(console, 'error', (warning) => { throw new Error(warning) })
+  })
+  after(() => {
+    console.error.restore()
+  })
+
   it('should exists', () => {
     assert.isDefined(ModelAttributeComponent)
   })

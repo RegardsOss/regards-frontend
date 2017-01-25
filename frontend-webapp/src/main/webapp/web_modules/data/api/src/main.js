@@ -21,8 +21,8 @@ import ModelAttribute, { ModelAttributeConfiguration } from './dam/ModelAttribut
 import PluginMetaData, { PluginMetaDataConfiguration } from './admin/PluginMetaData'
 import AdminPluginConfiguration, { AdminPluginConfigurationSchemaConfiguration } from './admin/PluginConfiguration'
 import StoragePluginMonitoring from './archival-storage/StoragePluginMonitoring'
+import Collection from './dam/Collection'
 import AIPStatus from './archival-storage/AIPStatus'
-
 
 // We use this Normalizr schemas to transform API responses from a nested form
 // to a flat form where repos and users are placed in `entities`, and nested
@@ -110,5 +110,7 @@ export default {
   AdminPluginConfigurationSchemaConfiguration,
 
   ...StoragePluginMonitoring,
+
+  ...Collection,
   ...AIPStatus,
 }
