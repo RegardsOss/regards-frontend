@@ -1,24 +1,31 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { Card, CardText } from 'material-ui/Card'
-import CardActions from 'material-ui/Card/CardActions'
-import IconButton from 'material-ui/IconButton'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { map } from 'lodash'
-import { Link } from 'react-router'
-import BoardItemShape from './BoardItemShape'
+import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import styles from './styles/styles'
 
 /**
  * React component to display a board item.
- * Every BoardItem as a list of BoardAction
+ * Every BoardItem as a list of BoardAction.
+ *
+ * @author Léo Mieulet
+ * @author Xavier-Alexandre Brochard
  */
 class BoardItemComponent extends React.Component {
 
   static propTypes = {
-    item: BoardItemShape.isRequired,
+    title: React.PropTypes.string.isRequired,
+    subtitle: React.PropTypes.string,
+    description: React.PropTypes.string.isRequired,
+    actions: React.PropTypes.arrayOf(React.PropTypes.element),
+    advanced: React.PropTypes.bool,
+  }
+
+  static defaultProp = {
+    advanced: false,
   }
 
   static contextTypes = {
@@ -27,33 +34,28 @@ class BoardItemComponent extends React.Component {
   }
 
   render() {
-    const boardItemStyles = styles(this.context.muiTheme)
-    const { item } = this.props
+    const { title, subtitle, description, actions } = this.props
+    const keyedActions = map(actions, (action, index) => <div key={index}>{action}</div>)
+    const computedStyles = styles(this.context.muiTheme)
+
     return (
-      <div className={boardItemStyles.board.items.classes}>
+      <div className={computedStyles.items.classes}>
         <Card
-          initiallyExpanded
-          style={boardItemStyles.board.items.styles}
-          containerStyle={boardItemStyles.board.items.contentStyles}
+          style={computedStyles.items.styles}
+          containerStyle={computedStyles.items.contentStyles}
         >
+          <CardTitle
+            title={title}
+            subtitle={subtitle}
+            style={{
+              backgroundColor: this.context.muiTheme.palette.accent2Color,
+            }}
+          />
           <CardText>
-            {item.title}
+            {description}
           </CardText>
-          <CardText >
-            {item.description}
-          </CardText>
-          <CardActions>
-            {map(item.actions, (action, id) => (
-              <Link
-                to={action.path}
-                style={boardItemStyles.board.links}
-                key={id}
-              >
-                <IconButton tooltip={action.tooltipMsg}>
-                  { action.icon }
-                </IconButton>
-              </Link>
-            ))}
+          <CardActions style={computedStyles.cardActionsStyles}>
+            {keyedActions}
           </CardActions>
         </Card>
       </div>

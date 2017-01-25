@@ -2,25 +2,26 @@
  * LICENSE_PLACEHOLDER
  **/
 import { FormattedMessage } from 'react-intl'
-import { map } from 'lodash'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType, I18nProvider } from '@regardsoss/i18n'
+import { ShowableAtRender } from '@regardsoss/components'
 import KeyboardArrowUp from 'material-ui/svg-icons/hardware/keyboard-arrow-up'
 import KeyboardArrowDown from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
 import RaisedButton from 'material-ui/RaisedButton'
 import styles from './styles/styles'
-import BoardItemShape from './BoardItemShape'
-import BoardItemComponent from './BoardItemComponent'
 
 /**
  * React component to dislay a full board element.
- * The board items to display are given by the props items of type BoardItemShape.
- * Eachh Board item as a list of BoardActionShape
+ * The board items to display are expected to be either {@link BoardItemComponent}s or {@link ParameterizedBoardItemComponent}s.
+ *
+ * @author Léo Mieulet
+ * @author Xavier-Alexandre Brochard
  */
 class BoardComponent extends React.Component {
 
   static propTypes = {
-    items: React.PropTypes.arrayOf(BoardItemShape).isRequired,
+    boardItemComponents: React.PropTypes.arrayOf(React.PropTypes.element),
+    advancedBoardItemComponents: React.PropTypes.arrayOf(React.PropTypes.element),
   }
 
   static contextTypes = {
@@ -43,7 +44,7 @@ class BoardComponent extends React.Component {
   }
 
   render() {
-    const boardItemStyles = styles(this.context.muiTheme)
+    const computedStyles = styles(this.context.muiTheme)
     const labelToggleAdvanced = this.state.showAdvanced ?
       <FormattedMessage id="hideAdvanced" /> :
       <FormattedMessage id="showAdvanced" />
@@ -54,22 +55,26 @@ class BoardComponent extends React.Component {
     return (
       <I18nProvider messageDir={'components/src/board/i18n'}>
         <div>
+
           <div
-            className={boardItemStyles.board.section.classes}
-            style={boardItemStyles.board.section.styles}
+            className={computedStyles.section.classes}
+            style={computedStyles.section.styles}
           >
-            {map(this.props.items, (item, id) => {
-              if (!item.advanced || this.state.showAdvanced) {
-                return (
-                  <BoardItemComponent item={item} key={id} />
-                )
-              }
-              return null
-            })}
+            {this.props.boardItemComponents}
           </div>
+
+          <ShowableAtRender show={this.state.showAdvanced} >
+            <div
+              className={computedStyles.section.classes}
+              style={computedStyles.section.styles}
+            >
+              {this.props.advancedBoardItemComponents}
+              </div>
+            </ShowableAtRender>
+
           <div
-            className={boardItemStyles.board.action.classes}
-            style={boardItemStyles.board.action.styles}
+            className={computedStyles.action.classes}
+            style={computedStyles.action.styles}
           >
             <RaisedButton
               label={labelToggleAdvanced}
@@ -78,6 +83,7 @@ class BoardComponent extends React.Component {
               onTouchTap={this.handleToggleAdvanced}
             />
           </div>
+
         </div>
       </I18nProvider>
     )

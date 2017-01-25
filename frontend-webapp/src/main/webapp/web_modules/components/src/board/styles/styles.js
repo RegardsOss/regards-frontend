@@ -1,33 +1,47 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-const formStyles = theme => ({
-  board: {
-    section: {
-      classes: ['row'].join(' '),
-      styles: {},
+const styles = theme => ({
+  section: {
+    classes: ['row'].join(' '),
+    styles: {
+      display: 'flex',
+      flexWrap: 'wrap',
     },
-    items: {
-      classes: ['col-xs-50', 'col-sm-40', 'col-lg-33'].join(' '),
-      styles: {
-        padding: '10px 0',
-        textAlign: 'center',
-        marginBottom: '30px',
-      },
-      contentStyles: {
-        minHeight: '170px',
-      },
+  },
+  items: {
+    classes: ['col-xs-50', 'col-sm-50', 'col-lg-33'].join(' '),
+    styles: {
+      margin: 10,
     },
-    action: {
-      classes: ['row'].join(' '),
-      styles: {
-        display: 'flex',
-        justifyContent: 'center',
-        marginTop: '30px',
-      },
+    contentStyles: {
+      minHeight: '170px',
     },
-    links: theme.linkWithoutDecoration,
+  },
+  action: {
+    classes: ['row'].join(' '),
+    styles: {
+      display: 'flex',
+      justifyContent: 'center',
+      marginTop: '30px',
+    },
+  },
+  cardActionsStyles: {
+    display: 'flex',
+    justifyContent: 'space-around',
+  },
+  links: theme.linkWithoutDecoration,
+  icon: {
+    smallIcon: {
+      width: 36,
+      height: 36,
+    },
+    small: {
+      width: 72,
+      height: 72,
+      padding: 16,
+    },
   },
 })
 
-export default formStyles
+export default styles
