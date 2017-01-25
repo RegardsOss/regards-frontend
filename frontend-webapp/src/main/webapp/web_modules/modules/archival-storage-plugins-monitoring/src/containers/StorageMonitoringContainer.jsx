@@ -7,7 +7,7 @@ import { StoragePluginShape4Normalizr } from '@regardsoss/model/src/archival-sto
 import StorageMonitoringComponent from '../components/StorageMonitoringComponent'
 import StoragePluginMonitoringSelector from '../model/StoragePluginsMonitoringSelectors'
 import StoragePluginMonitoringActions from '../model/StoragePluginsMonitoringActions'
-import { bytesScale } from '../helper/StorageUnit'
+import StorageUnitScale from '../helper/StorageUnit'
 
 /**
  * Fetches storage plugins monitoring information, then display the corresponding component with fetched data
@@ -37,7 +37,7 @@ export class StorageMonitoringContainer extends React.Component {
       <StorageMonitoringComponent
         isFetching={isFetching}
         hasError={hasError}
-        initScale={bytesScale}
+        initScale={StorageUnitScale.bytesScale}
         storagePlugins={map(storagePlugins, ({ content: { label, description, totalSize, usedSize } }) => ({
           label,
           description,

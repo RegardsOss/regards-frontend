@@ -22,23 +22,23 @@ storiesOf('Archival storage', module)
     const storagePlugins = object('Storage plugins', [{
       label: 'ServerHDD',
       description: 'Main server hard drives',
-      totalSize: '25To',
-      usedSize: '0.9To',
+      totalSize: '25TB',
+      usedSize: '0.9TB',
     }, {
       label: 'STAFF',
       description: 'STAFF storage engine',
-      totalSize: '1500Tib',
-      usedSize: '152.85666Tib',
+      totalSize: '1500tib',
+      usedSize: '152.85666tib',
     }, {
       label: 'Emergency server HDD',
       description: 'DB Storage with postgreSQL',
-      totalSize: '500To',
+      totalSize: '500to',
       usedSize: '0b',
     }, {
       // used size not parsable
       label: 'FLUT',
       description: 'FLUT - External safe cloud storage',
-      totalSize: '0.5Po',
+      totalSize: '0.5PB',
       usedSize: '0boot',
     }, {
       // all size not parsable

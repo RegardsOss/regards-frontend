@@ -2,12 +2,14 @@
  * LICENSE_PLACEHOLDER
  */
 import { shallow } from 'enzyme'
+import { IntlStub } from '@regardsoss/tests-helpers'
 import { expect, assert } from 'chai'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import StorageMonitoringComponent from '../../src/components/StorageMonitoringComponent'
 import StoragePluginCapacityComponent from '../../src/components/StoragePluginCapacityComponent'
-import { bitsScale } from '../../src/helper/StorageUnit'
-import { capacityFromValue } from '../../src/helper/StorageCapacity'
+import StorageCapacity from '../../src/helper/StorageCapacity'
+import StorageUnitScale from '../../src/helper/StorageUnit'
+
 
 describe('[STORAGE PLUGINS MONITORING] Testing StorageMonitoringComponent', () => {
   it('should exists', () => {
@@ -15,10 +17,8 @@ describe('[STORAGE PLUGINS MONITORING] Testing StorageMonitoringComponent', () =
   })
   // define context
   const context = {
-    intl: {
-      formatMessage: message => message,
-      formatDate: date => date,
-    },
+    initScale: StorageUnitScale.bytesScale,
+    intl: IntlStub,
     muiTheme: {
       palette: {
         textColor: {},
@@ -33,7 +33,6 @@ describe('[STORAGE PLUGINS MONITORING] Testing StorageMonitoringComponent', () =
   it('should render storage plugins in nominal case, with parsing errors', () => {
     // initialize properties
     const props = {
-      initScale: bitsScale,
       storagePlugins: [{
         id: 1,
         label: 'Plugin1',
@@ -72,12 +71,12 @@ describe('[STORAGE PLUGINS MONITORING] Testing StorageMonitoringComponent', () =
       const plugin = props.storagePlugins[i]
       assert.equal(label, plugin.label)
       assert.equal(description, plugin.description)
-      if (capacityFromValue(plugin.usedSize)) {
+      if (StorageCapacity.fromValue(plugin.usedSize)) {
         assert.isOk(usedSize)
       } else {
         assert.isNotOk(usedSize)
       }
-      if (capacityFromValue(plugin.totalSize)) {
+      if (StorageCapacity.fromValue(plugin.totalSize)) {
         assert.isOk(totalSize)
       } else {
         assert.isNotOk(totalSize)
@@ -87,7 +86,6 @@ describe('[STORAGE PLUGINS MONITORING] Testing StorageMonitoringComponent', () =
 
   it('should render correctly in loading / error / empty states', () => {
     const props = {
-      initScale: bitsScale,
       isFetching: true,
       hasError: true,
       storagePlugins: [],

@@ -2,7 +2,7 @@ import configureStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import nock from 'nock'
 import { expect } from 'chai'
-import defaultFluxStandardError from '@regardsoss/tests-helpers'
+import { defaultFluxStandardError } from '@regardsoss/tests-helpers'
 import * as actions from '../src/AuthenticateActions'
 
 const { apiMiddleware } = require('redux-api-middleware')

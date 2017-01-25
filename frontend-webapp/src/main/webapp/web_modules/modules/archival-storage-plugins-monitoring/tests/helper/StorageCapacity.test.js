@@ -2,12 +2,12 @@
  * LICENSE_PLACEHOLDER
  */
 import { assert } from 'chai'
-import { findMatchingUnit, bitsScale, bytesScale } from '../../src/helper/StorageUnit'
-import { StorageCapacity, capacityFromValue } from '../../src/helper/StorageCapacity'
+import StorageUnitScale from '../../src/helper/StorageUnit'
+import StorageCapacity from '../../src/helper/StorageCapacity'
 
 // Test capacity functions a components rendering
 describe('[STORAGE PLUGINS MONITORING] Testing capacity object', () => {
-  it('should parse correctly capacities, with or without space, case insensitive', () => {
+  it('should parse correctly capacities, with or without space', () => {
     const toParse = [{
       input: ' 10   b',
       expected: {
@@ -15,7 +15,7 @@ describe('[STORAGE PLUGINS MONITORING] Testing capacity object', () => {
         unitSymbol: 'b',
       },
     }, {
-      input: ' 0b',
+      input: ' 0bits',
       expected: {
         value: 0,
         unitSymbol: 'b',
@@ -24,23 +24,29 @@ describe('[STORAGE PLUGINS MONITORING] Testing capacity object', () => {
       input: '500Mo',
       expected: {
         value: 500,
-        unitSymbol: 'Mo',
+        unitSymbol: 'MB',
+      },
+    },  {
+      input: '500MB',
+      expected: {
+        value: 500,
+        unitSymbol: 'MB',
       },
     }, {
       input: '500Tio',
       expected: {
         value: 500,
-        unitSymbol: 'Tio',
+        unitSymbol: 'TiB',
       },
     }, {
-      input: '0.25Gib',
+      input: '0.25gib',
       expected: {
         value: 0.25,
-        unitSymbol: 'Gib',
+        unitSymbol: 'gib',
       },
     }]
     toParse.forEach(({ input, expected: { value, unitSymbol } }) => {
-      const actualCapacity = capacityFromValue(input)
+      const actualCapacity = StorageCapacity.fromValue(input)
       assert.isNotNull(actualCapacity, `Failed parsing ${input}`)
       assert.equal(actualCapacity.value, value)
       assert.equal(actualCapacity.unit.symbol, unitSymbol)
@@ -48,58 +54,58 @@ describe('[STORAGE PLUGINS MONITORING] Testing capacity object', () => {
   })
   it('should not parse capactities with invalid formats/units', () => {
     const toNotParse = [' 10 gigo ', 'n go', '10go go', '15.4.3 o', '10 10 go']
-    toNotParse.forEach(input => assert.isNull(capacityFromValue(input), `This input should not be parsed as valid capacity: '${input}'`))
+    toNotParse.forEach(input => assert.isNull(StorageCapacity.fromValue(input), `This input should not be parsed as valid capacity: '${input}'`))
   })
   it('should be able to convert into other units', () => {
     // 0.5 To => 500 000 000 000 x 8 bits
-    const halfTo = new StorageCapacity(0.5, findMatchingUnit('To'))
-    let converted = halfTo.convert(findMatchingUnit('b'))
+    const halfTo = new StorageCapacity(0.5, StorageUnitScale.getMatchingUnit('TB'))
+    let converted = halfTo.convert(StorageUnitScale.getMatchingUnit('b'))
     assert.equal(converted.value, 8 * 0.5 * (10 ** 12))
     assert.equal(converted.unit.symbol, 'b')
 
     // 0.5 To => 500 Go
-    converted = halfTo.convert(findMatchingUnit('Go'))
+    converted = halfTo.convert(StorageUnitScale.getMatchingUnit('GB'))
     assert.equal(converted.value, 500)
-    assert.equal(converted.unit.symbol, 'Go')
+    assert.equal(converted.unit.symbol, 'GB')
 
-    // 1 Kio => 1024 o => 1,024 Ko
-    converted = new StorageCapacity(1, findMatchingUnit('Kio')).convert(findMatchingUnit('Ko'))
+    // 1 KiB => 1024B => 1,024 KB
+    converted = new StorageCapacity(1, StorageUnitScale.getMatchingUnit('KiB')).convert(StorageUnitScale.getMatchingUnit('Ko'))
     assert.equal(converted.value, 1.024)
-    assert.equal(converted.unit.symbol, 'Ko')
+    assert.equal(converted.unit.symbol, 'KB')
   })
   it('should be able to find the best matching unit in a unit scale', () => {
     // 0.5To should be shown as
-    const halfTo = new StorageCapacity(0.5, findMatchingUnit('To'))
+    const halfTo = new StorageCapacity(0.5, StorageUnitScale.getMatchingUnit('TB'))
     // 500Go
-    const inBytes = halfTo.scaleAndConvert(bytesScale)
+    const inBytes = halfTo.scaleAndConvert(StorageUnitScale.bytesScale)
     assert.equal(inBytes.value, 500)
-    assert.equal(inBytes.unit.symbol, 'Go')
+    assert.equal(inBytes.unit.symbol, 'GB')
     // 4Tb
-    const inBits = halfTo.scaleAndConvert(bitsScale)
+    const inBits = halfTo.scaleAndConvert(StorageUnitScale.bitsScale)
     assert.equal(inBits.value, 4)
-    assert.equal(inBits.unit.symbol, 'Tb')
+    assert.equal(inBits.unit.symbol, 'tb')
   })
   it('should be able to do basic arithmetic operations with other capacities', () => {
-    const oneMo = new StorageCapacity(1, findMatchingUnit('Mo'))
-    const fiveHundredKo = new StorageCapacity(500, findMatchingUnit('Ko'))
+    const oneMo = new StorageCapacity(1, StorageUnitScale.getMatchingUnit('Mo'))
+    const fiveHundredKo = new StorageCapacity(500, StorageUnitScale.getMatchingUnit('Ko'))
     // add
-    assert.deepEqual(oneMo.add(fiveHundredKo), new StorageCapacity(1.5, findMatchingUnit('Mo')), 'Add capacity fails')
+    assert.deepEqual(oneMo.add(fiveHundredKo), new StorageCapacity(1.5, StorageUnitScale.getMatchingUnit('Mo')), 'Add capacity fails')
     // substract
-    assert.deepEqual(oneMo.subtract(fiveHundredKo), new StorageCapacity(0.5, findMatchingUnit('Mo')), 'Subtract capacity fails')
+    assert.deepEqual(oneMo.subtract(fiveHundredKo), new StorageCapacity(0.5, StorageUnitScale.getMatchingUnit('Mo')), 'Subtract capacity fails')
     // multiply (also it is very useless as operation)
-    assert.deepEqual(oneMo.multiply(fiveHundredKo), new StorageCapacity(0.5, findMatchingUnit('Mo')), 'Multiply capacity fails')
+    assert.deepEqual(oneMo.multiply(fiveHundredKo), new StorageCapacity(0.5, StorageUnitScale.getMatchingUnit('Mo')), 'Multiply capacity fails')
     // divide
-    assert.deepEqual(oneMo.divide(fiveHundredKo), new StorageCapacity(2, findMatchingUnit('Mo')), 'Divide capacity fails')
+    assert.deepEqual(oneMo.divide(fiveHundredKo), new StorageCapacity(2, StorageUnitScale.getMatchingUnit('Mo')), 'Divide capacity fails')
   })
   it('should be able to do basic arithmetic operations with numbers', () => {
-    const oneMo = new StorageCapacity(1, findMatchingUnit('Mo'))
+    const oneMo = new StorageCapacity(1, StorageUnitScale.getMatchingUnit('Mo'))
     // add
-    assert.deepEqual(oneMo.add(1), new StorageCapacity(2, findMatchingUnit('Mo')), 'Add number fails')
+    assert.deepEqual(oneMo.add(1), new StorageCapacity(2, StorageUnitScale.getMatchingUnit('Mo')), 'Add number fails')
     // substract
-    assert.deepEqual(oneMo.subtract(0.5), new StorageCapacity(0.5, findMatchingUnit('Mo')), 'Subtract number fails')
+    assert.deepEqual(oneMo.subtract(0.5), new StorageCapacity(0.5, StorageUnitScale.getMatchingUnit('Mo')), 'Subtract number fails')
     // multiply
-    assert.deepEqual(oneMo.multiply(5), new StorageCapacity(5, findMatchingUnit('Mo')), 'Multiply number fails')
+    assert.deepEqual(oneMo.multiply(5), new StorageCapacity(5, StorageUnitScale.getMatchingUnit('Mo')), 'Multiply number fails')
     // divide
-    assert.deepEqual(oneMo.divide(4), new StorageCapacity(0.25, findMatchingUnit('Mo')), 'Divide number fails')
+    assert.deepEqual(oneMo.divide(4), new StorageCapacity(0.25, StorageUnitScale.getMatchingUnit('Mo')), 'Divide number fails')
   })
 })

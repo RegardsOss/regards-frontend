@@ -15,13 +15,13 @@ import { themeContextType } from '@regardsoss/theme'
 import PluginShape from '@regardsoss/model/src/archival-storage/StoragePluginMonitoring'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import StoragePluginCapacityComponent from './StoragePluginCapacityComponent'
-import { bytesScale, allUnitScales } from '../helper/StorageUnit'
-import { capacityFromValue } from '../helper/StorageCapacity'
+import StorageUnitScale, { StorageUnitScaleShape } from '../helper/StorageUnit'
+import StorageCapacity from '../helper/StorageCapacity'
 
-class StorageMonitoring extends Component {
+class StorageMonitoringComponent extends Component {
 
   static propTypes = {
-    initScale: PropTypes.string.isRequired,
+    initScale: StorageUnitScaleShape,
     storagePlugins: PropTypes.arrayOf(PluginShape).isRequired,
     expanded: React.PropTypes.bool,
     isFetching: React.PropTypes.bool.isRequired,
@@ -30,7 +30,7 @@ class StorageMonitoring extends Component {
 
   static defaultProps = {
     ...Component.defaultProps,
-    initScale: 'bytes',
+    initScale: StorageUnitScale.bytesScale,
     isFetching: false,
     hasError: false,
     storagePlugins: [],
@@ -45,10 +45,9 @@ class StorageMonitoring extends Component {
   componentWillMount = () => {
     // set up the default state with unit scale and expanded state
     const { initScale, storagePlugins, expanded } = this.props
-    const scaleToUse = allUnitScales.includes(initScale) ? initScale : bytesScale
     this.setState({
       expanded,
-      currentScale: scaleToUse,
+      currentScale: initScale,
       plugins: this.parsePluginsInput(storagePlugins),
     })
   }
@@ -84,8 +83,8 @@ class StorageMonitoring extends Component {
   parsePluginsInput = pluginsInput => pluginsInput.map(({ label, description, totalSize, usedSize }) => ({
     label,
     description,
-    totalSize: capacityFromValue(totalSize),
-    usedSize: capacityFromValue(usedSize),
+    totalSize: StorageCapacity.fromValue(totalSize),
+    usedSize: StorageCapacity.fromValue(usedSize),
   }))
 
   /**
@@ -116,7 +115,8 @@ class StorageMonitoring extends Component {
           style={{ background: muiTheme.palette.canvas }}
           iconElementLeft={
             <IconButton onTouchTap={this.onExpandSwitch}>
-              { expanded ? <ExpandLess color={muiTheme.palette.textColor} /> : <ExpandMore color={muiTheme.palette.textColor} /> }
+              { expanded ? <ExpandLess color={muiTheme.palette.textColor} /> :
+                <ExpandMore color={muiTheme.palette.textColor} /> }
             </IconButton>
           }
           iconElementRight={
@@ -127,13 +127,11 @@ class StorageMonitoring extends Component {
               value={currentScale}
               onChange={(evt, i, value) => this.onUnitScaleSelected(value)}
             >
-              {allUnitScales.map((scale, index) => (
+              {StorageUnitScale.all.map((scale, index) => (
                 <MenuItem
                   value={scale} key={index}
                   primaryText={
-                    <FormattedMessage
-                      id={`archival.storage.capacity.monitoring.units.scale.${scale}`}
-                    />
+                    <FormattedMessage id={scale.messageKey} />
                   }
                 />
               ))}
@@ -162,4 +160,4 @@ class StorageMonitoring extends Component {
 
 }
 
-export default StorageMonitoring
+export default StorageMonitoringComponent
