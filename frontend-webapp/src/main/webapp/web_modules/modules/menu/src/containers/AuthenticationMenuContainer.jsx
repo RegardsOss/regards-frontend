@@ -73,6 +73,7 @@ class AuthenticationMenuContainer extends React.Component {
 
       const module = {
         name: 'authentication',
+        active: true,
         conf: {
           title: this.context.intl.formatMessage({ id: 'loginFormTitle' }),
           cancelButton: true,
