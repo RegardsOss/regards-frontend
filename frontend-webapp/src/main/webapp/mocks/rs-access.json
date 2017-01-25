@@ -123,11 +123,20 @@
         },
         "criterion": [
           {
-            "pluginId": "string-criteria",
+            "pluginId": 1,
             "container": "main",
             "pluginConf": {
               "attributes": {
                 "searchField": 0
+              }
+            }
+          },
+          {
+            "pluginId": 1,
+            "container": "main",
+            "pluginConf": {
+              "attributes": {
+                "searchField": 1
               }
             }
           }

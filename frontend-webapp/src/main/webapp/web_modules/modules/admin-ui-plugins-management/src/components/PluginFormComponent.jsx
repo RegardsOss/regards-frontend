@@ -12,7 +12,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { PluginDefinition } from '@regardsoss/model'
 import { RenderTextField, Field, ErrorTypes } from '@regardsoss/form-utils'
 import { reduxForm, formValueSelector } from 'redux-form'
-import { PluginProvider } from '@regardsoss/plugins'
+import { PluginLoader } from '@regardsoss/plugins'
 import PluginDefinitionComponent from './PluginDefinitionComponent'
 
 /**
@@ -94,13 +94,15 @@ class pluginFormComponent extends React.Component {
       return (
         <Card>
           <CardText>
-            <PluginProvider
+            <PluginLoader
+              key={this.state.path}
               pluginPath={this.state.path}
+              displayPlugin={false}
             >
               <PluginDefinitionComponent
                 handlePluginValid={this.handlePluginValid}
               />
-            </PluginProvider>
+            </PluginLoader>
           </CardText>
         </Card>
       )
@@ -157,7 +159,7 @@ class pluginFormComponent extends React.Component {
                   id={this.state.creation ? 'plugin.form.submit.button' : 'plugin.form.update.button'}
                 />}
                 mainButtonType="submit"
-                isMainButtonDisabled={pristine || submitting || !this.state.pluginIsValid}
+                isMainButtonDisabled={pristine || submitting || !this.state.pluginIsValid || this.state.path !== this.props.pathField}
                 secondaryButtonLabel={<FormattedMessage id="plugin.form.cancel.button" />}
                 secondaryButtonTouchTap={this.props.onBack}
               />
