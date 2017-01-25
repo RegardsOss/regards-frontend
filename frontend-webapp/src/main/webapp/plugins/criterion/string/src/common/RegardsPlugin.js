@@ -14,6 +14,7 @@ const initPlugin = (pluginName, pluginClass, reducer, messages, pluginInfo) => {
       info: pluginInfo,
     },
   })
+  console.log("Plugin event dispatched",event)
   document.dispatchEvent(event)
 }
 

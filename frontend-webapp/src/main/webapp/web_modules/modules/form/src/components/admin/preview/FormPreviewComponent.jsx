@@ -14,10 +14,12 @@ class FormPreviewComponent extends React.Component {
 
   render() {
     if (this.props.module && this.props.module.name && this.props.module.conf && this.props.module.conf.layout) {
+      const previewModule = Object.assign({}, this.props.module, { active: true })
+      console.log('PREVIEW', previewModule)
       return (
         <div style={{ marginTop: 10 }}>
           <LazyModuleComponent
-            module={this.props.module}
+            module={previewModule}
             appName={'admin'}
           />
         </div>

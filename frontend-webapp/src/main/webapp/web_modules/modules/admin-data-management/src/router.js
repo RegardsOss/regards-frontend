@@ -55,6 +55,16 @@ export const fragmentModelManagementRouter = {
   },
 }
 
+export const collectionManagementRouter = {
+  path: 'collection',
+  getChildRoutes(nextState, cb) {
+    const adminDataCollectionManagement = require('@regardsoss/admin-data-collection-management')
+    require.ensure([], (require) => {
+      cb(null, [adminDataCollectionManagement.collectionDataManagementRouter])
+    })
+  },
+}
+
 
 const dataManagementRouter = {
   childRoutes: [
@@ -63,6 +73,7 @@ const dataManagementRouter = {
     modelAttributeManagementRouter,
     attributeModelManagementRouter,
     fragmentModelManagementRouter,
+    collectionManagementRouter,
   ],
 }
 

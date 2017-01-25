@@ -175,6 +175,19 @@
       "pluginClassName": "Kerberos",
       "pluginId": "0"
     }
+  ],
+  "collections": [
+    {
+      "id": 0,
+      "label": "Cool configuration",
+      "description": "2.0.0",
+      "model": {
+        "id": 3,
+        "name": "Modele de collection",
+        "descirption": "Ceci est un modele de collection",
+        "type": "COLLECTION"
+      }
+    }
   ]
 }
 

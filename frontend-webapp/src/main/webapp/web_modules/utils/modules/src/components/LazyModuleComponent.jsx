@@ -105,7 +105,7 @@ class LazyModuleComponent extends React.Component {
     // If module is loaded then render. The module load is asynchrone due to require.ensure method.
     if (isLoaded) {
       // Does the module is active ?
-      if (!this.props.module.active) {
+      if (!this.props.module.active && !this.props.admin) {
         return null
       }
 

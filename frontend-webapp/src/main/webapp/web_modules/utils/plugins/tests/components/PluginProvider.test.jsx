@@ -5,13 +5,13 @@ import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { IntlProvider } from 'react-intl'
 import PluginTest from './PluginTest'
-import { UnconnectedPluginProvider } from '../../src/components/PluginProvider'
+import { UnconnectedPluginLoader } from '../../src/components/PluginLoader'
 
 describe('[PLUGINS] Testing Plugins load', () => {
   it('Should render correctly that a plugin is loading', () => {
     const wrapper = shallow(
-      <UnconnectedPluginProvider
-        pluginId="test"
+      <UnconnectedPluginLoader
+        pluginPath="test"
         pluginConf={{
           parameter: 'value',
         }}
@@ -27,8 +27,8 @@ describe('[PLUGINS] Testing Plugins load', () => {
 
   it('Should render correctly a plugin', () => {
     const wrapper = shallow(
-      <UnconnectedPluginProvider
-        pluginId="test"
+      <UnconnectedPluginLoader
+        pluginPath="test"
         pluginConf={{
           parameter: 'value',
         }}
@@ -55,15 +55,15 @@ describe('[PLUGINS] Testing Plugins load', () => {
     )
 
     expect(wrapper.find(PluginTest)).to.have.length(1)
-    expect(wrapper.find(PluginTest).prop('id')).to.equal('test')
     expect(wrapper.find(PluginTest).prop('parameter')).to.equal('value')
     expect(wrapper.find(IntlProvider)).to.have.length(1)
   })
 
   it('Should render correctly a element with a plugin as a prop', () => {
+    console.log('PLOPP')
     const wrapper = shallow(
-      <UnconnectedPluginProvider
-        pluginId="test"
+      <UnconnectedPluginLoader
+        pluginPath="test"
         pluginConf={{
           parameter: 'value',
         }}
@@ -88,7 +88,7 @@ describe('[PLUGINS] Testing Plugins load', () => {
         locale="fr"
       >
         <div>Test</div>
-      </UnconnectedPluginProvider>,
+      </UnconnectedPluginLoader>,
     )
 
     expect(wrapper.find(PluginTest)).to.have.length(0)

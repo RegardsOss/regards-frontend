@@ -2,14 +2,18 @@
  * LICENSE_PLACEHOLDER
  **/
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
-import { themeContextType } from '@regardsoss/theme'
+import IconButton from 'material-ui/IconButton'
+import SearchIcon from 'material-ui/svg-icons/action/search'
 import { FormattedMessage } from 'react-intl'
+import { themeContextType } from '@regardsoss/theme'
+import { connect, ReduxConnectedForm } from '@regardsoss/redux'
 import { CardActionsComponent } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { PluginDefinition } from '@regardsoss/model'
 import { RenderTextField, Field, ErrorTypes } from '@regardsoss/form-utils'
-import { reduxForm } from 'redux-form'
-import { ReduxConnectedForm } from '@regardsoss/redux'
+import { reduxForm, formValueSelector } from 'redux-form'
+import { PluginLoader } from '@regardsoss/plugins'
+import PluginDefinitionComponent from './PluginDefinitionComponent'
 
 /**
  * React component to display and configure a given layout
@@ -27,6 +31,8 @@ class pluginFormComponent extends React.Component {
     pristine: React.PropTypes.bool,
     handleSubmit: React.PropTypes.func.isRequired,
     initialize: React.PropTypes.func.isRequired,
+    change: React.PropTypes.func.isRequired,
+    pathField: React.PropTypes.string,
   }
 
   static contextTypes = {
@@ -37,19 +43,71 @@ class pluginFormComponent extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      path: null,
       creation: this.props.plugin === null || this.props.plugin === undefined,
       pluginSelected: this.props.plugin !== null && this.props.plugin !== undefined,
-      plugin: this.props.plugin ? this.props.plugin.content : {},
+      plugin: this.props.plugin ? this.props.plugin : {},
     }
   }
 
   componentDidMount() {
     this.handleInitialize()
+    if (this.props.plugin && this.props.plugin.content && this.props.plugin.content.sourcesPath) {
+      this.searchPlugin(this.props.plugin.content.sourcesPath)
+    }
   }
 
   handleInitialize = () => {
-    console.log('init', this.state.plugin, this.props)
-    this.props.initialize({ ...this.state.plugin })
+    this.props.initialize({ ...this.state.plugin.content })
+  }
+
+  searchPlugin = (path) => {
+    if (this.props.pathField && this.props.pathField !== '') {
+      this.setState({
+        path: this.props.pathField,
+        pluginIsValid: false,
+      })
+    } else if (path) {
+      this.setState({
+        path,
+        pluginIsValid: false,
+      })
+    }
+  }
+
+  handlePluginValid = (plugin) => {
+    if (plugin) {
+      this.props.change('name', plugin.info.name)
+      this.props.change('type', plugin.info.type)
+      this.setState({
+        pluginIsValid: true,
+      })
+    } else {
+      this.setState({
+        pluginIsValid: false,
+      })
+    }
+  }
+
+  renderPlugin = () => {
+    if (this.state.path) {
+      return (
+        <Card>
+          <CardText>
+            <PluginLoader
+              key={this.state.path}
+              pluginPath={this.state.path}
+              displayPlugin={false}
+            >
+              <PluginDefinitionComponent
+                handlePluginValid={this.handlePluginValid}
+              />
+            </PluginLoader>
+          </CardText>
+        </Card>
+      )
+    }
+    return null
   }
 
   render() {
@@ -66,34 +124,33 @@ class pluginFormComponent extends React.Component {
               title={<FormattedMessage
                 id={this.state.creation ? 'plugin.form.title.create' : 'plugin.form.title.update'}
                 values={this.state.creation ? {} : {
-                  name: this.state.plugin.name,
+                  name: this.state.plugin.content.name,
                 }}
               />}
+              subtitle={<FormattedMessage id={'plugin.form.subtitle'} />}
             />
             <CardText id="staticFields">
-              <Field
-                name="name"
-                fullWidth
-                component={RenderTextField}
-                type="text"
-                label={<FormattedMessage id="plugin.form.sourcePath" />}
-              />
-              <Field
-                name="type"
-                fullWidth
-                component={RenderTextField}
-                type="text"
-                label={<FormattedMessage id="plugin.form.type" />}
-              />
-              <Field
-                name="sourcesPath"
-                fullWidth
-                component={RenderTextField}
-                type="text"
-                label={<FormattedMessage id="plugin.form.sourcePath" />}
-              />
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'flex-end',
+                }}
+              >
+                <Field
+                  name="sourcesPath"
+                  component={RenderTextField}
+                  fullWidth
+                  type="text"
+                  label={<FormattedMessage id="plugin.form.sourcesPath" />}
+                />
+                <IconButton tooltip="Search plugin" onTouchTap={this.searchPlugin}>
+                  <SearchIcon />
+                </IconButton>
+              </div>
             </CardText>
           </Card>
+
+          {this.renderPlugin()}
 
           <Card>
             <CardActions>
@@ -102,7 +159,7 @@ class pluginFormComponent extends React.Component {
                   id={this.state.creation ? 'plugin.form.submit.button' : 'plugin.form.update.button'}
                 />}
                 mainButtonType="submit"
-                isMainButtonDisabled={pristine || submitting}
+                isMainButtonDisabled={pristine || submitting || !this.state.pluginIsValid || this.state.path !== this.props.pathField}
                 secondaryButtonLabel={<FormattedMessage id="plugin.form.cancel.button" />}
                 secondaryButtonTouchTap={this.props.onBack}
               />
@@ -114,26 +171,31 @@ class pluginFormComponent extends React.Component {
   }
 }
 
-function validate(values) {
+const validate = (values) => {
   const errors = {}
-  if (!values.name || values.name === '') {
+  if (values.name === '') {
     errors.name = ErrorTypes.REQUIRED
   }
-  if (!values.type || values.type === '') {
+  if (values.type === '') {
     errors.type = ErrorTypes.REQUIRED
   }
-  if (!values.sourcesPath || values.sourcesPath === '') {
+  if (values.sourcesPath === '') {
     errors.sourcesPath = ErrorTypes.REQUIRED
   }
   return errors
 }
 
-const UnconnectedpluginFormComponent = pluginFormComponent
+const UnconnectedPluginFormComponent = pluginFormComponent
 export {
-  UnconnectedpluginFormComponent,
+  UnconnectedPluginFormComponent,
 }
+const selector = formValueSelector('edit-plugin-form')
+const mapStateToProps = state => ({
+  pathField: selector(state, 'sourcesPath'),
+})
+const ConnectedComponent = connect(mapStateToProps)(pluginFormComponent)
 
 export default reduxForm({
   form: 'edit-plugin-form',
   validate,
-})(pluginFormComponent)
+})(ConnectedComponent)

@@ -25,12 +25,12 @@
       "id": "portal"
     }
   ],
-  "plugins": [
+  "plugin": [
     {
       "id": 1,
       "name": "string-criteria",
       "type": "criterion",
-      "sourcesPath": "/plugins/criterion/string/bundle.js"
+      "sourcesPath": "/criterion/string/target/build/plugin.js"
     }
   ],
   "modules": [
@@ -123,11 +123,20 @@
         },
         "criterion": [
           {
-            "pluginId": "string-criteria",
+            "pluginId": 1,
             "container": "main",
             "pluginConf": {
               "attributes": {
                 "searchField": 0
+              }
+            }
+          },
+          {
+            "pluginId": 1,
+            "container": "main",
+            "pluginConf": {
+              "attributes": {
+                "searchField": 1
               }
             }
           }

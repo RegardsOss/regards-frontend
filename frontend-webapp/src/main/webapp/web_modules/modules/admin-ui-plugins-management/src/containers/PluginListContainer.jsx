@@ -1,7 +1,6 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { isEmpty } from 'lodash'
 import { browserHistory } from 'react-router'
 import { FormLoadingComponent } from '@regardsoss/form-utils'
 import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
@@ -36,9 +35,7 @@ class PluginListContainer extends React.Component {
   }
 
   componentWillMount() {
-    if (!this.props.plugins || isEmpty(this.props.plugins)) {
-      this.props.fetchPlugins()
-    }
+    this.props.fetchPlugins()
   }
 
   handleEditPlugin = (plugin) => {
