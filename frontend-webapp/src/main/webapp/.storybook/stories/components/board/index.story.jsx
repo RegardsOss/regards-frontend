@@ -1,7 +1,7 @@
 import React from 'react'
 import { storiesOf } from '@kadira/storybook'
 import { withKnobs } from '@kadira/storybook-addon-knobs'
-import { ParameterizedBoardComponent, BoardItemComponent } from '@regardsoss/components'
+import { BoardComponent, BaseBoardItemComponent } from '@regardsoss/components'
 import { StoreDecorator, addLocaleAndThemeSelectors, ThemeDecorator } from '../../utils/decorators'
 import ExtensionIcon from 'material-ui/svg-icons/action/extension'
 import ViewQuilt from 'material-ui/svg-icons/action/view-quilt'
@@ -102,14 +102,14 @@ const iconStyles = {
   },
 }
 
-storiesOf('Test more sexy BoardItemComponent', module)
+storiesOf('Board', module)
   .addDecorator(withKnobs)
   .addDecorator(StoreDecorator)
-  .add('Board item', () => {
+  .add('Base board item', () => {
     const themeName = addLocaleAndThemeSelectors()
     return (
       <ThemeDecorator theme={themeName}>
-        <BoardItemComponent
+        <BaseBoardItemComponent
           title={'This is the title'}
           subtitle={'It has a subtitle'}
           description={'This is the description'}
@@ -137,11 +137,11 @@ storiesOf('Test more sexy BoardItemComponent', module)
       </ThemeDecorator>
     )
   })
-  .add('ParameterizedBoardComponent', () => {
+  .add('BoardComponent', () => {
     const themeName = addLocaleAndThemeSelectors()
     return (
       <ThemeDecorator theme={themeName}>
-        <ParameterizedBoardComponent items={items} />
+        <BoardComponent items={items} />
       </ThemeDecorator>
     )
   })

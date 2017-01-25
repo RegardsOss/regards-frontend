@@ -11,10 +11,10 @@ import NewsItemComponent from './NewsItemComponent'
 import ErrorDecoratorComponent from './ErrorDecoratorComponent'
 import CenteredDiv from './CenteredDiv'
 
-import ParameterizedBoardComponent from './board/ParamerizedBoardComponent'
 import BoardComponent from './board/BoardComponent'
-import ParameterizedBoardItemComponent from './board/ParameterizedBoardItemComponent'
+import BaseBoardComponent from './board/BaseBoardComponent'
 import BoardItemComponent from './board/BoardItemComponent'
+import BaseBoardItemComponent from './board/BaseBoardItemComponent'
 
 import OnHoverSwitchFlatButton from './buttons/OnHoverSwitchFlatButton'
 import OnHoverSwitchIconButton from './buttons/OnHoverSwitchIconButton'
@@ -40,7 +40,7 @@ export {
   ConfirmDialogComponent,
   PageableListContainer,
   BoardComponent,
-  ParameterizedBoardComponent,
-  ParameterizedBoardItemComponent,
+  BaseBoardComponent,
   BoardItemComponent,
+  BaseBoardItemComponent,
 }

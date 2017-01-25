@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { ParameterizedBoardComponent } from '@regardsoss/components'
+import { BoardComponent } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import microserviceBoardItems from './MicroserviceBoardItems'
 
@@ -23,7 +23,7 @@ class MicroserviceBoardComponent extends React.Component {
   render() {
     const items = microserviceBoardItems(this.props.project, this.context.intl)
     return (
-      <ParameterizedBoardComponent items={items} />
+      <BoardComponent items={items} />
     )
   }
 }

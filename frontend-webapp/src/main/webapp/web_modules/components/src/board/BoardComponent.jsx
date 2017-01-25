@@ -1,91 +1,42 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { FormattedMessage } from 'react-intl'
-import { themeContextType } from '@regardsoss/theme'
-import { i18nContextType, I18nProvider } from '@regardsoss/i18n'
-import { ShowableAtRender } from '@regardsoss/components'
-import KeyboardArrowUp from 'material-ui/svg-icons/hardware/keyboard-arrow-up'
-import KeyboardArrowDown from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
-import RaisedButton from 'material-ui/RaisedButton'
-import styles from './styles/styles'
+import { chain } from 'lodash'
+import BoardItemShape from './BoardItemShape'
+import BoardItemComponent from './BoardItemComponent'
+import BaseBoardComponent from './BaseBoardComponent'
 
 /**
- * React component to dislay a full board element.
- * The board items to display are expected to be either {@link BoardItemComponent}s or {@link ParameterizedBoardItemComponent}s.
+ * Adapter to facilitate the use of the {@link BaseBoardComponent} by passing an array of parameters.
  *
- * @author Léo Mieulet
  * @author Xavier-Alexandre Brochard
  */
 class BoardComponent extends React.Component {
 
   static propTypes = {
-    boardItemComponents: React.PropTypes.arrayOf(React.PropTypes.element),
-    advancedBoardItemComponents: React.PropTypes.arrayOf(React.PropTypes.element),
+    items: React.PropTypes.arrayOf(BoardItemShape).isRequired,
   }
 
-  static contextTypes = {
-    ...themeContextType,
-    ...i18nContextType,
-  }
-
-  constructor(props) {
-    super(props)
-    this.state = {
-      showAdvanced: false,
-    }
-  }
-
-  handleToggleAdvanced = () => {
-    const { showAdvanced } = this.state
-    this.setState({
-      showAdvanced: !showAdvanced,
-    })
+  static defaultProps = {
+    items: [],
   }
 
   render() {
-    const computedStyles = styles(this.context.muiTheme)
-    const labelToggleAdvanced = this.state.showAdvanced ?
-      <FormattedMessage id="hideAdvanced" /> :
-      <FormattedMessage id="showAdvanced" />
-    const iconToggleAdvanced = this.state.showAdvanced ?
-      <KeyboardArrowUp /> :
-      <KeyboardArrowDown />
+    const boardItemComponents = chain(this.props.items)
+      .filter(item => !item.advanced)
+      .map((item, index) => <BoardItemComponent item={item} key={index} />)
+      .value()
+
+    const advancedBoardItemComponents = chain(this.props.items)
+      .filter(item => item.advanced)
+      .map((item, index) => <BoardItemComponent item={item} key={index} />)
+      .value()
 
     return (
-      <I18nProvider messageDir={'components/src/board/i18n'}>
-        <div>
-
-          <div
-            className={computedStyles.section.classes}
-            style={computedStyles.section.styles}
-          >
-            {this.props.boardItemComponents}
-          </div>
-
-          <ShowableAtRender show={this.state.showAdvanced} >
-            <div
-              className={computedStyles.section.classes}
-              style={computedStyles.section.styles}
-            >
-              {this.props.advancedBoardItemComponents}
-              </div>
-            </ShowableAtRender>
-
-          <div
-            className={computedStyles.action.classes}
-            style={computedStyles.action.styles}
-          >
-            <RaisedButton
-              label={labelToggleAdvanced}
-              primary
-              icon={iconToggleAdvanced}
-              onTouchTap={this.handleToggleAdvanced}
-            />
-          </div>
-
-        </div>
-      </I18nProvider>
+      <BaseBoardComponent
+        boardItemComponents={boardItemComponents}
+        advancedBoardItemComponents={advancedBoardItemComponents}
+      />
     )
   }
 }
