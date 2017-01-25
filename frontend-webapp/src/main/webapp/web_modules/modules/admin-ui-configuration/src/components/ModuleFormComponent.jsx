@@ -171,10 +171,10 @@ class ModuleFormComponent extends React.Component {
 
 function validate(values) {
   const errors = {}
-  if (!values.name || values.name === '') {
+  if (values.name === '') {
     errors.name = ErrorTypes.REQUIRED
   }
-  if (!values.description || values.description === '') {
+  if (values.description === '') {
     errors.description = ErrorTypes.REQUIRED
   }
   return errors

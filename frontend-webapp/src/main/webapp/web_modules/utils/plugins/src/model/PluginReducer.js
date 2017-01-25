@@ -1,31 +1,28 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { PLUGIN_LOADED } from './PluginActions'
+import { BasicPageableReducers } from '@regardsoss/store-utils'
+import { PluginConfiguration } from '@regardsoss/api'
+import PluginActions from './PluginActions'
 
 /**
- * Plugin loader reducer
- * @param state
- * @param action
- * @returns {*}
+ * Redux store reducer for Module entities
  */
-export default (state = {
-  items: {},
-}, action) => {
-  let newItems = []
-  switch (action.type) {
-    case PLUGIN_LOADED:
-      // The given plugin as been successfully initialized
-      newItems = Object.assign({}, state.items)
-      newItems[action.name] = {
-        plugin: action.plugin,
-        reducer: action.reducer,
-        name: action.name,
-        messages: action.messages,
-        info: action.info,
-      }
-      return newItems
-    default:
-      return state
+class PluginReducer extends BasicPageableReducers {
+  constructor() {
+    super(PluginConfiguration, PluginActions)
   }
+
 }
+
+const instance = new PluginReducer()
+
+/**
+ * Return an function where the reducer instance exists
+ * @param state redux previous state
+ * @param action redux action received
+ * @return new state
+ */
+const getPluginReducer = (state, action) => instance.reduce(state, action)
+
+export default getPluginReducer

@@ -3,11 +3,12 @@
  **/
 import { IntlProvider } from 'react-intl'
 import { connect } from '@regardsoss/redux'
-import { Plugin } from '@regardsoss/model'
+import { PluginDefinition } from '@regardsoss/model'
 import { getReducerRegistry, configureReducers } from '@regardsoss/store'
 import { i18nSelectors } from '@regardsoss/i18n'
-import { loadPlugin } from '../model/PluginActions'
+import PluginActions from '../model/PluginActions'
 import PluginSelector from '../model/PluginSelector'
+import PluginLoader from './PluginLoader'
 
 /**
  * This component allow to load a given plugin and display it.
@@ -24,53 +25,33 @@ class PluginProvider extends React.Component {
    * @type {{pluginId: *, pluginConf: *, displayPlugin: *, children: *, loadedPlugin: *, loadPlugin: *, locale: *}}
    */
   static propTypes = {
-    pluginId: React.PropTypes.string.isRequired,
+    pluginId: React.PropTypes.number.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
     pluginConf: React.PropTypes.object,
     displayPlugin: React.PropTypes.bool,
     children: React.PropTypes.element,
     // Set by mapstatetoprops
-    loadedPlugin: Plugin,
-    loadPlugin: React.PropTypes.func,
-    locale: React.PropTypes.string,
+    pluginToLoad: PluginDefinition,
+    fetchPlugin: React.PropTypes.func,
   }
 
   componentWillMount() {
-    if (!this.props.loadedPlugin) {
-      this.props.loadPlugin('/criterion/string/target/build/plugin.js')
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.loadedPlugin && nextProps.loadedPlugin.reducer) {
-      const loadedPluginReducerName = `plugins.${nextProps.loadedPlugin.name}`
-      const loadedPluginReducer = {}
-      loadedPluginReducer[loadedPluginReducerName] = configureReducers(nextProps.loadedPlugin.reducer)
-      getReducerRegistry().register(loadedPluginReducer)
+    console.log("PROPS",this.props)
+    if (!this.props.pluginToLoad) {
+      this.props.fetchPlugin(this.props.pluginId)
     }
   }
 
   render() {
-    if (this.props.loadedPlugin) {
-      let element = null
-      if (this.props.displayPlugin) {
-        element = React.createElement(this.props.loadedPlugin.plugin, {
-          id: this.props.pluginId,
-          ...this.props.pluginConf,
-        })
-        return (
-          <IntlProvider
-            locale={this.props.locale}
-            messages={this.props.loadedPlugin.messages[this.props.locale]}
-          >
-            {element}
-          </IntlProvider>
-        )
-      } else if (this.props.children) {
-        return React.cloneElement(this.props.children, { plugin: this.props.loadedPlugin })
-      }
-      console.warn('No children defined for plugin provider')
-      return null
+    if (this.props.pluginToLoad) {
+      return (
+        <PluginLoader
+          pluginPath={this.props.pluginToLoad.content.sourcesPath}
+          displayPlugin={this.props.displayPlugin}
+          pluginConf={this.props.pluginConf}
+          children={this.props.children}
+        />
+      )
     }
 
     return <div>Plugin loading ... </div>
@@ -79,12 +60,11 @@ class PluginProvider extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  loadedPlugin: PluginSelector.getPluginByName(ownProps.pluginId, state),
-  locale: i18nSelectors.getLocale(state),
+  pluginToLoad: PluginSelector.getById(state, ownProps.pluginId)
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  loadPlugin: sourcePath => loadPlugin(ownProps.pluginId, sourcePath, dispatch),
+  fetchPlugin: pluginId => dispatch(PluginActions.fetchEntity(pluginId,dispatch,[''])),
 })
 
 // Export for tests

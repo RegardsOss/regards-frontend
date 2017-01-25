@@ -4,9 +4,11 @@
 import { join, map, isEqual } from 'lodash'
 import { getFormValues, change } from 'redux-form'
 import { connect } from '@regardsoss/redux'
-import { PluginConf, AttributeModel } from '@regardsoss/model'
+import { PluginConf, AttributeModel, PluginDefinition } from '@regardsoss/model'
 import ModelAttributeActions from '../models/attributes/ModelAttributeActions'
 import ModelAttributeSelector from '../models/attributes/ModelAttributeSelector'
+import CriterionActions from '../models/criterion/CriterionActions'
+import CriterionSelector from '../models/criterion/CriterionSelector'
 import { DATASET_MODEL_TYPE, DATASET_TYPE } from '../models/datasets/DatasetSelectionTypes'
 import FormTabsComponent from '../components/admin/FormTabsComponent'
 import Form from '../models/Form'
@@ -33,8 +35,14 @@ class AdminContainer extends React.Component {
     // Calculated attributes set by mapstatetoprops
     selectableAttributes: React.PropTypes.objectOf(AttributeModel),
     selectableAttributesFectching: React.PropTypes.bool,
+    availableCriterion: React.PropTypes.objectOf(React.PropTypes.shape({
+      content: PluginDefinition,
+    })),
+    criterionFetching: React.PropTypes.bool,
     // Set by mapDispatchToProps
+    fetchCriterion: React.PropTypes.func,
     fetchModelsAttributes: React.PropTypes.func,
+    fetchAllModelsAttributes: React.PropTypes.func,
     fetchDatasetsAttributes: React.PropTypes.func,
   }
 
@@ -48,7 +56,11 @@ class AdminContainer extends React.Component {
       this.updateSelectableAttributes(this.props.form.conf.datasets.type,
         this.props.form.conf.datasets.datasets,
         this.props.form.conf.datasets.models)
+    } else {
+      this.updateSelectableAttributes()
     }
+    // Load available criterion plugins
+    this.props.fetchCriterion()
   }
 
   componentWillReceiveProps(nextProps) {
@@ -66,6 +78,8 @@ class AdminContainer extends React.Component {
       this.props.fetchModelsAttributes(models)
     } else if (type === DATASET_TYPE) {
       this.props.fetchDatasetsAttributes(datasets)
+    } else {
+      this.props.fetchAllModelsAttributes()
     }
   }
 
@@ -85,6 +99,8 @@ class AdminContainer extends React.Component {
       },
       selectableAttributes: this.props.selectableAttributes,
       disableChangeDatasets: this.props.selectableAttributesFectching,
+      availableCriterion: this.props.availableCriterion,
+      criterionFetching: this.props.criterionFetching
     }
   }
 
@@ -107,6 +123,8 @@ const mapStateToProps = (state, ownProps) => ({
   form: getFormValues('edit-module-form')(state),
   selectableAttributes: ModelAttributeSelector.getList(state),
   selectableAttributesFectching: ModelAttributeSelector.isFetching(state),
+  availableCriterion: CriterionSelector.getList(state),
+  criterionFetching: CriterionSelector.isFetching(state),
 })
 
 const listToQueryParam = (list, key) => {
@@ -118,6 +136,9 @@ const listToQueryParam = (list, key) => {
 }
 
 const mapDispatchToProps = dispatch => ({
+  // Function to retrieve all available criterion plugins
+  fetchCriterion: () => dispatch(CriterionActions.fetchPagedEntityList(dispatch, 0, 100)),
+  fetchAllModelsAttributes: () => dispatch(ModelAttributeActions.fetchPagedEntityList(dispatch, 0, 100)),
   // Function to retrieve attributes associated to the selected models
   fetchModelsAttributes: modelsId => dispatch(
     ModelAttributeActions.fetchPagedEntityList(dispatch, 0, 100, listToQueryParam(modelsId, 'model'))),

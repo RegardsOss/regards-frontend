@@ -1,17 +1,16 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { BasicSelector } from '@regardsoss/store-utils'
+import { BasicPageableSelectors } from '@regardsoss/store-utils'
 
 /**
- * Selector for plugins from redux store
+ * Redux store selectors for Module Entities
  */
-class PluginSelector extends BasicSelector {
-
-  getPlugins = store => store.common.plugins
-
-  getPluginByName = (name, store) => store.common.plugins[name]
+class CriterionSelector extends BasicPageableSelectors {
+  constructor() {
+    super(['common', 'plugins','plugins'])
+  }
 }
 
-const instance = new PluginSelector()
+const instance = new CriterionSelector()
 export default instance

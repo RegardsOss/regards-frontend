@@ -1,6 +1,8 @@
-// import PluginComponent, { PluginComponent as PluginComponentUnconnected } from './PluginComponent'
-import PluginComponent from './components/PluginComponent'
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import PluginProvider from './components/PluginProvider'
-import PluginReducer from './model/PluginReducer'
+import PluginLoader from './components/PluginLoader'
+import PluginReducer from './reducer'
 
-export { PluginComponent, PluginReducer, PluginProvider }
+export { PluginReducer, PluginLoader, PluginProvider }

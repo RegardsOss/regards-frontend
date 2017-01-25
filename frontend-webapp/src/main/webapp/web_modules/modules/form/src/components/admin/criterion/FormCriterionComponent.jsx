@@ -16,7 +16,7 @@ import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
 import { FormattedMessage } from 'react-intl'
 import { CardActionsComponent } from '@regardsoss/components'
-import { PluginConf, AttributeModel } from '@regardsoss/model'
+import { PluginConf, PluginDefinition, AttributeModel } from '@regardsoss/model'
 import { i18nContextType } from '@regardsoss/i18n'
 import FormCriteriaComponent from './FormCriteriaComponent'
 
@@ -31,6 +31,9 @@ class FormCriterionComponent extends React.Component {
     criterion: React.PropTypes.arrayOf(PluginConf),
     layout: React.PropTypes.string,
     selectableAttributes: React.PropTypes.objectOf(AttributeModel),
+    availableCriterion: React.PropTypes.objectOf(React.PropTypes.shape({
+      content: PluginDefinition,
+    })),
   }
 
   static contextTypes = {
@@ -100,7 +103,6 @@ class FormCriterionComponent extends React.Component {
    */
   handleDelete = (criteria, idx) => {
     const criterion = filter(this.props.criterion, (crit, index) => {
-      console.log('IDX', idx, index)
       return idx !== index
     })
     this.props.changeField('conf.criterion', criterion)
@@ -121,20 +123,25 @@ class FormCriterionComponent extends React.Component {
     const rows = []
     if (this.props.criterion && this.props.criterion.length > 0) {
       forEach(this.props.criterion, (criteria, idx) => {
-        rows.push(
-          <TableRow key={idx}>
-            <TableRowColumn>{criteria.pluginId}</TableRowColumn>
-            <TableRowColumn>{criteria.container}</TableRowColumn>
-            <TableRowColumn>
-              <IconButton onTouchTap={() => this.handleEdit(criteria, idx)}>
-                <Edit />
-              </IconButton>
-              <IconButton onTouchTap={() => this.handleDelete(criteria, idx)}>
-                <Delete />
-              </IconButton>
-            </TableRowColumn>
-          </TableRow>,
-        )
+        const criteriaType = this.props.availableCriterion[criteria.pluginId]
+        let label = criteria.pluginId
+        if (criteriaType) {
+          label = criteriaType.content.name
+        }
+          rows.push(
+            <TableRow key={idx}>
+              <TableRowColumn>{label}</TableRowColumn>
+              <TableRowColumn>{criteria.container}</TableRowColumn>
+              <TableRowColumn>
+                <IconButton onTouchTap={() => this.handleEdit(criteria, idx)}>
+                  <Edit />
+                </IconButton>
+                <IconButton onTouchTap={() => this.handleDelete(criteria, idx)}>
+                  <Delete />
+                </IconButton>
+              </TableRowColumn>
+            </TableRow>,
+          )
       })
     }
     return rows
@@ -177,6 +184,7 @@ class FormCriterionComponent extends React.Component {
             criteria={this.state.editingCriteria ? this.state.editingCriteria.criteria : null}
             layout={this.props.layout}
             selectableAttributes={this.props.selectableAttributes}
+            availableCriterion={this.props.availableCriterion}
           />
         </Dialog>
       </div>

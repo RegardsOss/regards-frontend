@@ -3,7 +3,7 @@
  **/
 import { FormattedMessage } from 'react-intl'
 import { Tabs, Tab } from 'material-ui/Tabs'
-import { PluginConf, AttributeModel } from '@regardsoss/model'
+import { PluginConf, PluginDefinition, AttributeModel } from '@regardsoss/model'
 import { ModuleShape } from '@regardsoss/modules'
 import DatasetsConfShape from '../../models/datasets/DatasetsConfShape'
 import FormParameters from './parameters/FormParametersConfigurationComponent'
@@ -32,6 +32,26 @@ class FormTabsComponent extends React.Component {
     }),
     selectableAttributes: React.PropTypes.objectOf(AttributeModel),
     disableChangeDatasets: React.PropTypes.bool,
+    availableCriterion:  React.PropTypes.objectOf(React.PropTypes.shape({
+      content: PluginDefinition,
+    })),
+    criterionFetching: React.PropTypes.bool,
+  }
+
+  renderCriterionTab = () => {
+    if (!this.props.criterionFetching) {
+      return (
+        <FromCriterionComponent
+          defaultCriterion={this.props.defaultConf.criterion}
+          criterion={this.props.currentConf.criterion}
+          layout={this.props.currentConf.layout}
+          selectableAttributes={this.props.selectableAttributes}
+          changeField={this.props.changeField}
+          availableCriterion={this.props.availableCriterion}
+        />
+      )
+    }
+    return null
   }
 
   render() {
@@ -56,13 +76,7 @@ class FormTabsComponent extends React.Component {
           />
         </Tab>
         <Tab label={<FormattedMessage id="form.criterions.tab.label" />} >
-          <FromCriterionComponent
-            defaultCriterion={this.props.defaultConf.criterion}
-            criterion={this.props.currentConf.criterion}
-            layout={this.props.currentConf.layout}
-            selectableAttributes={this.props.selectableAttributes}
-            changeField={this.props.changeField}
-          />
+          {this.renderCriterionTab()}
         </Tab>
         <Tab label={<FormattedMessage id="form.preview.tab.label" />} >
           <FormPreviewComponent

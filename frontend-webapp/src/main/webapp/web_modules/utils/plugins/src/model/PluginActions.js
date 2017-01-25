@@ -1,43 +1,24 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import root from 'window-or-global'
-
-// Load scriptjs library. This lib is used to asynchronously load new external javascript files.
-let scriptjs
-if (typeof root.document !== 'undefined' && typeof root.document.getElementsByTagName !== 'undefined') {
-  scriptjs = require('scriptjs')
-}
+import Schemas from '@regardsoss/api'
+import { BasicPageableActions } from '@regardsoss/store-utils'
 
 /**
- * Action type to define that a plugin is loaded
- * @type {string}
+ * Redux store Actions for Module entities.
  */
-export const PLUGIN_LOADED = 'PLUGIN_LOADED'
-
-export const pluginLoaded = plugin => ({
-  type: PLUGIN_LOADED,
-  name: plugin.name,
-  plugin: plugin.plugin,
-  reducer: plugin.reducer,
-  messages: plugin.messages,
-  info: plugin.info,
-})
-
-/**
- * Load a plugin with a given name and a given sourcepath
- * @param pluginName
- * @param sourcePath
- * @param dispatchAction
- */
-export const loadPlugin = (pluginName, sourcePath, dispatchAction) => {
-  // Listen for pluin initialization done
-  root.document.addEventListener('plugin', (event) => {
-    const action = pluginLoaded(event.detail)
-    dispatchAction(action)
-  })
-
-  if (typeof document !== 'undefined') {
-    scriptjs([`${window.location.origin}/plugins/${sourcePath}`], pluginName)
+class CriterionActions extends BasicPageableActions {
+  constructor() {
+    super({
+      namespace: 'common/plugins',
+      entityEndpoint: `${GATEWAY_HOSTNAME}/api/v1/rs-access/plugin%0`,
+      schemaTypes: {
+        ENTITY: Schemas.PLUGIN,
+        ENTITY_ARRAY: Schemas.PLUGIN_ARRAY,
+      },
+    })
   }
 }
+
+const instance = new CriterionActions()
+export default instance

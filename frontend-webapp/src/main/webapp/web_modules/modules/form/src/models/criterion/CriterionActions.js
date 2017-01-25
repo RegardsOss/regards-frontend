@@ -11,7 +11,7 @@ class CriterionActions extends BasicPageableActions {
   constructor() {
     super({
       namespace: 'form/criterion',
-      entityEndpoint: `${GATEWAY_HOSTNAME}/api/v1/rs-access/plugins/criterion`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/api/v1/rs-access/plugin?type=criterion`,
       schemaTypes: {
         ENTITY: Schemas.PLUGIN,
         ENTITY_ARRAY: Schemas.PLUGIN_ARRAY,

@@ -31,7 +31,7 @@ class FormDatasetsConfigurationComponent extends React.Component {
     defaultType: React.PropTypes.string,
     defaultSelectedDatasets: React.PropTypes.arrayOf(React.PropTypes.number),
     defaultSelectedDatasetModels: React.PropTypes.arrayOf(React.PropTypes.number),
-    disableChangeDatasets: React.PropTypes.func,
+    disableChangeDatasets: React.PropTypes.bool,
   }
 
   state = {

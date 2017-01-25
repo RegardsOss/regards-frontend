@@ -36,9 +36,7 @@ class PluginListContainer extends React.Component {
   }
 
   componentWillMount() {
-    if (!this.props.plugins || isEmpty(this.props.plugins)) {
-      this.props.fetchPlugins()
-    }
+    this.props.fetchPlugins()
   }
 
   handleEditPlugin = (plugin) => {

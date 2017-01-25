@@ -7,7 +7,8 @@
  */
 const PluginConf = React.PropTypes.shape({
   id: React.PropTypes.number,
-  pluginId: React.PropTypes.string,
+  label: React.PropTypes.string,
+  pluginId: React.PropTypes.number,
   container: React.PropTypes.string,
   conf: React.PropTypes.object,
 })
