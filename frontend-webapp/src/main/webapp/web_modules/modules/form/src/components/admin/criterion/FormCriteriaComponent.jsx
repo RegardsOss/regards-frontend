@@ -11,7 +11,7 @@ import {RenderTextField, RenderSelectField, Field, ErrorTypes} from '@regardsoss
 import {CardActionsComponent} from '@regardsoss/components'
 import {PluginDefinition, PluginConf, AttributeModel} from '@regardsoss/model'
 import {ContainerHelper} from '@regardsoss/layout'
-import {PluginLoader} from '@regardsoss/plugins'
+import {PluginProvider} from '@regardsoss/plugins'
 import {ReduxConnectedForm} from '@regardsoss/redux'
 
 import CriteriaConfigurationComponent from './CriteriaConfigurationComponent'
@@ -52,7 +52,7 @@ class FormCriteriaComponent extends React.Component {
   constructor(props) {
     super()
     this.state = {
-      selectedCriteria: props.criteria ? props.availableCriterion[props.criteria.pluginId] : null,
+      selectedCriteria: props.criteria ? props.criteria.pluginId : null,
       selectedContainer: props.criteria ? props.criteria.container : null,
       pluginConf: props.criteria ? props.criteria.pluginConf : null,
     }
@@ -97,7 +97,7 @@ class FormCriteriaComponent extends React.Component {
   selectCriteria = (event, index, value, input) => {
     input.onChange(value)
     this.setState({
-      selectedCriteria: this.props.availableCriterion[value],
+      selectedCriteria: value,
     })
   }
 
@@ -147,11 +147,14 @@ class FormCriteriaComponent extends React.Component {
   renderCriteriaConfiguration = () => {
     if (this.state.selectedCriteria && !this.props.criterionFetching)  {
       return (
-        <PluginLoader pluginPath={this.state.selectedCriteria.content.sourcesPath}>
+        <PluginProvider
+          pluginId={this.state.selectedCriteria}
+          displayPlugin={false}
+        >
           <CriteriaConfigurationComponent
             selectableAttributes={this.props.selectableAttributes}
           />
-        </PluginLoader>
+        </PluginProvider>
       )
     }
     return null
