@@ -58,6 +58,7 @@ export default class ReduxEntityTester {
     assert.isDefined(this.entityActions, 'Action undefined')
     assert.isDefined(this.entityReducers, 'Reducer undefined')
     assert.isDefined(this.entitySelectors, 'Selector undefined')
+    assert.isFunction(this.entityShape, 'Your shape is not correctly defined')
     this.runActionTest(done)
   }
 

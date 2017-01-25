@@ -3,10 +3,8 @@
  **/
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import { CardText } from 'material-ui/Card'
 import sinon from 'sinon'
 import { ModelAttributeFormComponent } from '../../src/components/ModelAttributeFormComponent'
-import ItemTypes from '../../src/components/ItemTypes'
 import DraggableCard from '../../src/components/DraggableCard'
 import ContainerCard from '../../src/components/ContainerCard'
 
