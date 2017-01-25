@@ -4,7 +4,7 @@
 import { forEach } from 'lodash'
 import { LazyModuleComponent, ModuleListComponent, ModuleShape } from '@regardsoss/modules'
 import { PluginConf } from '@regardsoss/model'
-import { PluginComponent } from '@regardsoss/plugins'
+import { PluginProvider } from '@regardsoss/plugins'
 import ContainerShape from '../model/ContainerShape'
 import ContainerHelper from '../ContainerHelper'
 
@@ -82,7 +82,15 @@ class Container extends React.Component {
       if (this.props.plugins) {
         const containerPlugins = this.props.plugins.filter(plugin => plugin.container === this.props.container.id)
         forEach(containerPlugins, (plugin, idx) => {
-          renderPlugins.push(<PluginComponent key={idx} pluginId={plugin.pluginId} pluginConf={plugin.pluginConf} />)
+          console.log('PLUGIN', plugin)
+          renderPlugins.push(
+            <PluginProvider
+              key={idx}
+              pluginId={plugin.pluginId}
+              pluginConf={plugin.pluginConf}
+              displayPlugin
+            />,
+          )
         })
       }
     }
