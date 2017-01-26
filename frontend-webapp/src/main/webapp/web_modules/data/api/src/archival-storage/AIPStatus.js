@@ -4,7 +4,7 @@
 import { Schema, arrayOf } from 'normalizr'
 
 /**
- * StoragePluginMonitoring (spm) management for normalizer
+ * AIP status management for normalizr
  */
 export const AIPStatusConfiguration = {
   entityKey: 'id',

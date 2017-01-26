@@ -1,8 +1,6 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { Card, CardText } from 'material-ui/Card'
-import CardActions from 'material-ui/Card/CardActions'
 import IconButton from 'material-ui/IconButton'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -10,10 +8,12 @@ import { map } from 'lodash'
 import { Link } from 'react-router'
 import BoardItemShape from './BoardItemShape'
 import styles from './styles/styles'
+import BaseBoardItemComponent from './BaseBoardItemComponent'
 
 /**
- * React component to display a board item.
- * Every BoardItem as a list of BoardAction
+ * Adapter to facilitate the use of the {@link BaseBoardItemComponent} by passing an parameter object.
+ *
+ * @author Xavier-Alexandre Brochard
  */
 class BoardItemComponent extends React.Component {
 
@@ -27,36 +27,30 @@ class BoardItemComponent extends React.Component {
   }
 
   render() {
-    const boardItemStyles = styles(this.context.muiTheme)
     const { item } = this.props
-    return (
-      <div className={boardItemStyles.board.items.classes}>
-        <Card
-          initiallyExpanded
-          style={boardItemStyles.board.items.styles}
-          containerStyle={boardItemStyles.board.items.contentStyles}
+    const computedStyles = styles(this.context.muiTheme)
+    const actions = map(item.actions, (action, index) => (
+      <Link
+        to={action.path}
+        style={computedStyles.links}
+        key={index}
+      >
+        <IconButton
+          tooltip={action.tooltipMsg}
         >
-          <CardText>
-            {item.title}
-          </CardText>
-          <CardText >
-            {item.description}
-          </CardText>
-          <CardActions>
-            {map(item.actions, (action, id) => (
-              <Link
-                to={action.path}
-                style={boardItemStyles.board.links}
-                key={id}
-              >
-                <IconButton tooltip={action.tooltipMsg}>
-                  { action.icon }
-                </IconButton>
-              </Link>
-            ))}
-          </CardActions>
-        </Card>
-      </div>
+          {action.icon}
+        </IconButton>
+      </Link>
+    ))
+
+    return (
+      <BaseBoardItemComponent
+        title={item.title}
+        subtitle={item.subtitle}
+        description={item.description}
+        actions={actions}
+        advanced={item.advanced}
+      />
     )
   }
 }

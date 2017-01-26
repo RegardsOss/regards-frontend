@@ -77,8 +77,8 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchCollectionList: () => dispatch(CollectionActions.fetchEntityList(dispatch)),
-  deleteCollection: id => dispatch(CollectionActions.deleteEntity(dispatch)),
+  fetchCollectionList: () => dispatch(CollectionActions.fetchEntityList()),
+  deleteCollection: id => dispatch(CollectionActions.deleteEntity()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CollectionListContainer)

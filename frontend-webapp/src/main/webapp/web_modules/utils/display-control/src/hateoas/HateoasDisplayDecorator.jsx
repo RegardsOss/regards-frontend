@@ -3,7 +3,6 @@
  **/
 import { connect } from 'react-redux'
 import { EndpointSelectors } from '@regardsoss/endpoint'
-import { ResourceList } from '@regardsoss/model'
 import allMatchHateoasDisplayLogic from './allMatchHateoasDisplayLogic'
 import DisplayDecorator from './../DisplayDecorator'
 
@@ -17,10 +16,8 @@ export class HateoasDisplayDecorator extends React.Component {
   static propTypes = {
     children: React.PropTypes.element.isRequired,
     hateoasDisplayLogic: React.PropTypes.func.isRequired,
-    requiredEndpoints: React.PropTypes.any,
-    availableEndpoints: React.PropTypes.any,
-    // requiredEndpoints: ResourceList,
-    // availableEndpoints: ResourceList,
+    requiredEndpoints: React.PropTypes.arrayOf(React.PropTypes.string),
+    availableEndpoints: React.PropTypes.arrayOf(React.PropTypes.string),
   }
 
   static defaultProps = {
@@ -38,7 +35,7 @@ export class HateoasDisplayDecorator extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  availableEndpoints: EndpointSelectors.getList(state),
+  availableEndpoints: EndpointSelectors.getListOfKeys(state),
 })
 
 export default connect(mapStateToProps)(HateoasDisplayDecorator)

@@ -9,7 +9,7 @@ import root from 'window-or-global'
 import preloadedState from './preloadedState'
 import configureReducers from './configureReducers'
 import getReducerRegistry from './ReducerRegistry'
-
+import errorMiddleware from './errorMiddleware'
 
 // Middlewares
 const { apiMiddleware } = require('redux-api-middleware')
@@ -25,6 +25,7 @@ function configureStore(rootReducer) {
     authorizationMiddleware, // inject authorization headers in all request actions
     apiMiddleware, // middleware for calling an REST API
     logger, // Logger must be the last middleware in chain, otherwise it will log thunk and promise, not actual actions
+    errorMiddleware,
   ]
 
   // Create the application store

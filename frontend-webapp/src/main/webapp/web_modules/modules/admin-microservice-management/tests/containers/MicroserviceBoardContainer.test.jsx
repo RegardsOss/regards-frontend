@@ -1,6 +1,6 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import MicroserviceBoardContainer from '../../src/containers/MicroserviceBoardContainer'
+import { MicroserviceBoardContainer } from '../../src/containers/MicroserviceBoardContainer'
 import MicroserviceBoardComponent from '../../src/components/MicroserviceBoardComponent'
 
 // Test a components rendering

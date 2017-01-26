@@ -122,7 +122,7 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = dispatch => ({
   createRole: values => dispatch(RoleActions.createEntity(values)),
   updateRole: (id, values) => dispatch(RoleActions.updateEntity(id, values)),
-  fetchRoleList: id => dispatch(RoleActions.fetchEntityList(dispatch)),
+  fetchRoleList: id => dispatch(RoleActions.fetchEntityList()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(RoleFormContainer)

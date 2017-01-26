@@ -4,7 +4,6 @@
 import React, { Component, PropTypes } from 'react'
 import { FormattedMessage } from 'react-intl'
 import Paper from 'material-ui/Paper'
-import AppBar from 'material-ui/AppBar'
 import IconButton from 'material-ui/IconButton'
 import ExpandLess from 'material-ui/svg-icons/navigation/expand-less'
 import ExpandMore from 'material-ui/svg-icons/navigation/expand-more'
@@ -12,7 +11,8 @@ import DropDownMenu from 'material-ui/DropDownMenu'
 import MenuItem from 'material-ui/MenuItem'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import PluginShape from '@regardsoss/model/src/archival-storage/StoragePluginMonitoring'
+import { StoragePluginShape } from '@regardsoss/model'
+import { ModuleAppBar } from '@regardsoss/components'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import StoragePluginCapacityComponent from './StoragePluginCapacityComponent'
 import StorageUnitScale, { StorageUnitScaleShape } from '../helper/StorageUnit'
@@ -22,7 +22,7 @@ class StorageMonitoringComponent extends Component {
 
   static propTypes = {
     initScale: StorageUnitScaleShape,
-    storagePlugins: PropTypes.arrayOf(PluginShape).isRequired,
+    storagePlugins: PropTypes.arrayOf(StoragePluginShape).isRequired,
     expanded: React.PropTypes.bool,
     isFetching: React.PropTypes.bool.isRequired,
     hasError: React.PropTypes.bool.isRequired,
@@ -105,7 +105,7 @@ class StorageMonitoringComponent extends Component {
     const { isFetching, hasError, storagePlugins } = this.props
     return (
       <Paper >
-        <AppBar
+        <ModuleAppBar
           title={
             <FormattedMessage
               id="archival.storage.capacity.monitoring.title"

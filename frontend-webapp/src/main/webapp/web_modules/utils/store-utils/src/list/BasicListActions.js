@@ -1,7 +1,7 @@
 /**
  * @author Léo Mieulet
  */
-import { map, replace, split } from 'lodash'
+import { map, replace } from 'lodash'
 import { normalize } from 'normalizr'
 import ErrorHandler from '../ErrorHandler'
 
@@ -59,7 +59,7 @@ class BasicListActions {
    * @param dispatch dispatch redux store dispatch function
    * @returns {{}}
    */
-  fetchEntityList(dispatch, params) {
+  fetchEntityList(params) {
     const endpoint = this.handleRequestParameters(this.entityEndpoint, params)
     return {
       [CALL_API]: {
@@ -69,17 +69,14 @@ class BasicListActions {
             type: this.ENTITY_LIST_SUCCESS,
             payload: (action, state, res) => getJSON(res).then(json => normalize(json, this.schemaTypes.ENTITY_ARRAY)),
           },
-          {
-            type: this.ENTITY_LIST_FAILURE,
-            meta: (action, state, res) => this.errorHandler.onRequestFailure(dispatch, action, state, res),
-          },
+          this.ENTITY_LIST_FAILURE,
         ],
         endpoint,
         method: 'GET',
       },
     }
   }
-  fetchEntity(keyValue, dispatch, params) {
+  fetchEntity(keyValue, params) {
     let endpoint = this.handleRequestParameters(this.entityEndpoint, params)
     let queryParams = ''
     const endpointSplit = split(endpoint, '?')
@@ -95,10 +92,7 @@ class BasicListActions {
             type: this.ENTITY_SUCCESS,
             payload: (action, state, res) => getJSON(res).then(json => normalize(json, this.schemaTypes.ENTITY)),
           },
-          {
-            type: this.ENTITY_FAILURE,
-            meta: (action, state, res) => this.errorHandler.onRequestFailure(dispatch, action, state, res),
-          },
+          this.ENTITY_FAILURE,
         ],
         endpoint: `${endpoint}/${keyValue}${queryParams}`,
         method: 'GET',
@@ -107,7 +101,7 @@ class BasicListActions {
   }
 
 
-  createEntity(values, dispatch, params) {
+  createEntity(values, params) {
     const endpoint = this.handleRequestParameters(this.entityEndpoint, params)
     return {
       [CALL_API]: {
@@ -117,10 +111,7 @@ class BasicListActions {
             type: this.CREATE_ENTITY_SUCCESS,
             payload: (action, state, res) => getJSON(res).then(json => normalize(json, this.schemaTypes.ENTITY)),
           },
-          {
-            type: this.CREATE_ENTITY_FAILURE,
-            meta: (action, state, res) => this.errorHandler.onRequestFailure(dispatch, action, state, res),
-          },
+          this.CREATE_ENTITY_FAILURE,
         ],
         endpoint,
         method: 'POST',
@@ -129,7 +120,7 @@ class BasicListActions {
     }
   }
 
-  updateEntity(keyValue, values, dispatch, params) {
+  updateEntity(keyValue, values, params) {
     const endpoint = this.handleRequestParameters(this.entityEndpoint, params)
     return {
       [CALL_API]: {
@@ -139,10 +130,7 @@ class BasicListActions {
             type: this.UPDATE_ENTITY_SUCCESS,
             payload: (action, state, res) => getJSON(res).then(json => normalize(json, this.schemaTypes.ENTITY)),
           },
-          {
-            type: this.UPDATE_ENTITY_FAILURE,
-            meta: (action, state, res) => this.errorHandler.onRequestFailure(dispatch, action, state, res),
-          },
+          this.UPDATE_ENTITY_FAILURE,
         ],
         endpoint: `${endpoint}/${keyValue}`,
         method: 'PUT',
@@ -151,7 +139,7 @@ class BasicListActions {
     }
   }
 
-  deleteEntity(keyValue, dispatch, params) {
+  deleteEntity(keyValue, params) {
     const endpoint = this.handleRequestParameters(this.entityEndpoint, params)
     return {
       [CALL_API]: {
@@ -161,10 +149,7 @@ class BasicListActions {
             type: this.DELETE_ENTITY_SUCCESS,
             payload: keyValue,
           },
-          {
-            type: this.DELETE_ENTITY_FAILURE,
-            meta: (action, state, res) => this.errorHandler.onRequestFailure(dispatch, action, state, res),
-          },
+          this.DELETE_ENTITY_FAILURE,
         ],
         endpoint: `${endpoint}/${keyValue}`,
         method: 'DELETE',

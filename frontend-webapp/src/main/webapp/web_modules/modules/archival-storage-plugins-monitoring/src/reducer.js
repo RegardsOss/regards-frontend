@@ -1,10 +1,10 @@
 /**
  * LICENSE_PLACEHOLDER
  */
-import getStoragePluginMonitoringReducer from './model/StoragePluginsMonitoringReducer'
+import getStoragePluginReducers from './model/StoragePluginReducers'
 
 const archivalStorageReducer = {
-  'storage-plugins': getStoragePluginMonitoringReducer,
+  'storage-plugins': getStoragePluginReducers,
 }
 
 export default archivalStorageReducer

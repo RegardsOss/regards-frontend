@@ -85,8 +85,8 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchLayout: applicationId => dispatch(LayoutActions.fetchEntity(applicationId, dispatch)),
-  updateLayout: (applicationId, layout) => dispatch(LayoutActions.updateEntity(applicationId, layout, dispatch)),
+  fetchLayout: applicationId => dispatch(LayoutActions.fetchEntity(applicationId)),
+  updateLayout: (applicationId, layout) => dispatch(LayoutActions.updateEntity(applicationId, layout)),
 })
 
 const UnconnectedApplicationLayoutContainer = ApplicationLayoutContainer

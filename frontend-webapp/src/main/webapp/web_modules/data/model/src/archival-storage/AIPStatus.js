@@ -1,5 +1,5 @@
 /** Possible states for AIP in storage process */
-export const possibleAIPStates = [
+export const aipStates = [
   'VALID', // Valid, waiting for storage
   'PENDING', // storage in progress
   'STORED', // stored
@@ -16,13 +16,13 @@ const AIPStatusJSON = React.PropTypes.shape({
   ipId: React.PropTypes.string.isRequired,
   sipId: React.PropTypes.string.isRequired,
   type: React.PropTypes.oneOf(aipDataTypes).isRequired,
-  state: React.PropTypes.oneOf(possibleAIPStates).isRequired, // last event date
-  date: React.PropTypes.date.isRequired, // last even comment
-  comment: React.PropTypes.string,
+  state: React.PropTypes.oneOf(aipStates).isRequired,
+  date: React.PropTypes.string.isRequired, // last event date
+  comment: React.PropTypes.string, // last even comment
 })
 
 /** Normalizr shape for one AIP status */
-const AIPStatusShape = React.PropTypes.shape({
+const AIPStatus = React.PropTypes.shape({
   content: AIPStatusJSON,
 })
-export default AIPStatusShape
+export default AIPStatus

@@ -67,7 +67,7 @@ const mapStateToProps = state => ({
   projectList: ProjectSelectors.getList(state),
 })
 const mapDispatchToProps = dispatch => ({
-  fetchProjectList: () => dispatch(ProjectActions.fetchPagedEntityList(dispatch, 0, 100)),
+  fetchProjectList: () => dispatch(ProjectActions.fetchPagedEntityList(0, 100)),
   deleteProject: id => dispatch(ProjectActions.deleteEntity(id)),
   onLogout: () => dispatch(logout()),
 })
