@@ -32,6 +32,7 @@ class PluginProvider extends React.Component {
     pluginId: React.PropTypes.number.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
     pluginConf: React.PropTypes.object,
+    // eslint-disable-next-line react/forbid-prop-types
     pluginProps: React.PropTypes.object,
     displayPlugin: React.PropTypes.bool,
     children: React.PropTypes.element,

@@ -28,6 +28,7 @@ class PluginLoader extends React.Component {
     pluginPath: React.PropTypes.string.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
     pluginConf: React.PropTypes.object,
+    // eslint-disable-next-line react/forbid-prop-types
     pluginProps: React.PropTypes.object,
     displayPlugin: React.PropTypes.bool,
     children: React.PropTypes.element,
@@ -37,10 +38,10 @@ class PluginLoader extends React.Component {
     locale: React.PropTypes.string,
   }
 
-  constructor(props){
+  constructor(props) {
     super(props)
     this.state = {
-      registered: false
+      registered: false,
     }
   }
 
@@ -57,7 +58,7 @@ class PluginLoader extends React.Component {
       loadedPluginReducer[loadedPluginReducerName] = configureReducers(nextProps.loadedPlugin.reducer)
       getReducerRegistry().register(loadedPluginReducer)
       this.setState({
-        registered: true
+        registered: true,
       })
     }
   }
@@ -69,7 +70,7 @@ class PluginLoader extends React.Component {
         element = React.createElement(this.props.loadedPlugin.plugin, {
           pluginInstanceId: this.props.pluginInstanceId,
           ...this.props.pluginConf,
-          ...this.props.pluginProps
+          ...this.props.pluginProps,
         })
         return (
           <IntlProvider

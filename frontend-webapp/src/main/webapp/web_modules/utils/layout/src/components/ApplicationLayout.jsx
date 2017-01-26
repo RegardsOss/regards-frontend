@@ -19,6 +19,7 @@ class ApplicationLayout extends React.Component {
     layout: ContainerShape,
     modules: React.PropTypes.arrayOf(ModuleShape),
     plugins: React.PropTypes.arrayOf(PluginConf),
+    // eslint-disable-next-line react/forbid-prop-types
     pluginProps: React.PropTypes.object,
     dynamicContent: React.PropTypes.element,
     onDynamicModuleSelection: React.PropTypes.func,
