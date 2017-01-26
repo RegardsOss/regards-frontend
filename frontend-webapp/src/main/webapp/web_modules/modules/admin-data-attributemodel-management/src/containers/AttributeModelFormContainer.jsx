@@ -262,16 +262,16 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  createAttrModel: values => dispatch(AttributeModelActions.createEntity(values, dispatch)),
-  updateAttrModel: (id, values) => dispatch(AttributeModelActions.updateEntity(id, values, dispatch)),
-  fetchAttrModel: id => dispatch(AttributeModelActions.fetchEntity(id, dispatch)),
+  createAttrModel: values => dispatch(AttributeModelActions.createEntity(values)),
+  updateAttrModel: (id, values) => dispatch(AttributeModelActions.updateEntity(id, values)),
+  fetchAttrModel: id => dispatch(AttributeModelActions.fetchEntity(id)),
 
-  fetchAttributeModelTypeList: () => dispatch(AttributeModelTypeActions.fetchEntityList(dispatch)),
+  fetchAttributeModelTypeList: () => dispatch(AttributeModelTypeActions.fetchEntityList()),
 
-  fetchAttributeModelRestrictionList: type => dispatch(AttributeModelRestrictionActions.getList(type, dispatch)),
+  fetchAttributeModelRestrictionList: type => dispatch(AttributeModelRestrictionActions.getList(type)),
   flushAttributeModelRestriction: () => dispatch(AttributeModelRestrictionActions.flush()),
 
-  fetchFragmentList: type => dispatch(FragmentActions.fetchEntityList(type, dispatch)),
+  fetchFragmentList: type => dispatch(FragmentActions.fetchEntityList(type)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AttributeModelFormContainer)

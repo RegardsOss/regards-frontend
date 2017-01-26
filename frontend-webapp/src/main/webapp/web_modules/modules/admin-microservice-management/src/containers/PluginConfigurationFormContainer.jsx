@@ -157,10 +157,10 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  createPluginConfiguration: (values, microserviceName, pluginId) => dispatch(PluginConfigurationActions.createEntity(values, dispatch, [microserviceName, pluginId])),
-  updatePluginConfiguration: (id, values, microserviceName, pluginId) => dispatch(PluginConfigurationActions.updateEntity(id, values, dispatch, [microserviceName, pluginId])),
-  fetchPluginConfiguration: (id, microserviceName, pluginId) => dispatch(PluginConfigurationActions.fetchEntity(id, dispatch, [microserviceName, pluginId])),
-  fetchPluginMetaData: (id, microserviceName) => dispatch(PluginMetaDataActions.fetchEntity(id, dispatch, [microserviceName])),
+  createPluginConfiguration: (values, microserviceName, pluginId) => dispatch(PluginConfigurationActions.createEntity(values, [microserviceName, pluginId])),
+  updatePluginConfiguration: (id, values, microserviceName, pluginId) => dispatch(PluginConfigurationActions.updateEntity(id, values, [microserviceName, pluginId])),
+  fetchPluginConfiguration: (id, microserviceName, pluginId) => dispatch(PluginConfigurationActions.fetchEntity(id, [microserviceName, pluginId])),
+  fetchPluginMetaData: (id, microserviceName) => dispatch(PluginMetaDataActions.fetchEntity(id, [microserviceName])),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PluginConfigurationFormContainer)

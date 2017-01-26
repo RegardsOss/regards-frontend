@@ -67,7 +67,7 @@ const mapStateToProps = (state, ownProps) => ({
   isRoleFetching: RoleSelectors.isFetching(state),
 })
 const mapDispatchToProps = dispatch => ({
-  fetchRole: roleName => dispatch(RoleActions.fetchEntity(roleName, dispatch)),
+  fetchRole: roleName => dispatch(RoleActions.fetchEntity(roleName)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ResourceAccessFormContainer)

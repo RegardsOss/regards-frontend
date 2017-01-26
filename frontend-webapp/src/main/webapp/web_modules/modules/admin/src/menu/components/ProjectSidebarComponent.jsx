@@ -60,56 +60,56 @@ class ProjectSidebarComponent extends React.Component {
             linkStyle={style.link.styles}
             primaryText={<FormattedMessage id="menu.users" />}
             leftIcon={<SupervisorAccount />}
-            />
+          />
           <SidebarElement
             key="2"
             to={`/admin/${projectName}/data/board`}
             linkStyle={style.link.styles}
             primaryText={<FormattedMessage id="menu.datamanagement" />}
             leftIcon={<AddBox />}
-            />
+          />
           <SidebarElement
             key="3"
             to={`/admin/${projectName}/data/list`}
             linkStyle={style.link.styles}
             primaryText={<FormattedMessage id="menu.dataaccessrights" />}
             leftIcon={<VerifiedUser />}
-            />
+          />
           <SidebarElement
             key="4"
             to={`/admin/${projectName}/ui-plugins/plugins`}
             linkStyle={style.link.styles}
             primaryText={<FormattedMessage id="menu.plugins" />}
             leftIcon={<Widgets />}
-            />
+          />
           <SidebarElement
             key="5"
             to={`/admin/${projectName}/microservice/board`}
             linkStyle={style.link.styles}
             primaryText={<FormattedMessage id="menu.microservices" />}
             leftIcon={<CloudQueue />}
-            />
+          />
           <SidebarElement
             key="6"
             to={`/admin/${projectName}/ui-configuration/applications`}
             linkStyle={style.link.styles}
             primaryText={<FormattedMessage id="menu.ui.configuration" />}
             leftIcon={<Brush />}
-            />
+          />
           <SidebarElement
             key="7"
             to={`/admin/${projectName}/datamanagement`}
             linkStyle={style.link.styles}
             primaryText={<FormattedMessage id="menu.news" />}
             leftIcon={<Chat />}
-            />
+          />
 
           <Divider />
           <MenuItem
             primaryText={<FormattedMessage id="menu.logout" />}
             leftIcon={<PowerSettingsNew />}
             onTouchTap={onLogout}
-            />
+          />
           <Divider />
           <Link to={'/admin'} style={style.link.styles}>
             <MenuItem primaryText={<FormattedMessage id="menu.back" />} leftIcon={<Reply />} />

@@ -86,9 +86,9 @@ export class PluginMetaDataListContainer extends React.Component {
             <Checkbox
               checked={this.state.displayedTypes.includes(type)}
               onCheck={() => this.handleFilterCheck(type)}
-              />
+            />
           }
-          />
+        />
       ))
       .value()
   )
@@ -120,9 +120,9 @@ export class PluginMetaDataListContainer extends React.Component {
           title={<span>{plugin.content.pluginClassName}
             <div
               style={{ scolor: this.context.muiTheme.palette.secondaryTextColor }}
-              >{plugin.content.version}</div></span>}
+            >{plugin.content.version}</div></span>}
           subtitle={plugin.content.author}
-          />
+        />
         <CardText>
           {plugin.content.description}
         </CardText>
@@ -130,7 +130,7 @@ export class PluginMetaDataListContainer extends React.Component {
           <IconButton
             tooltip={<FormattedMessage id="microservice-management.plugin.list.configurations" />}
             onTouchTap={() => this.handleProjectConfigurationListClick(plugin.content.pluginId)}
-            >
+          >
             <IconList />
           </IconButton>
         </CardActions>
@@ -189,7 +189,7 @@ export class PluginMetaDataListContainer extends React.Component {
               title={`${microserviceName} > Plugins`}
               iconElementLeft={<IconButton><Close onTouchTap={this.handleClose} /></IconButton>}
               iconElementRight={<IconButton onTouchTap={this.handleFilterSwitch}><Filter /></IconButton>}
-              />
+            />
             <div style={styles.root}>
               <LoadableContentDisplayDecorator isLoading={isPluginMetaDataListFetching}>
                 <GridList
@@ -197,7 +197,7 @@ export class PluginMetaDataListContainer extends React.Component {
                   cols={3}
                   padding={20}
                   style={styles.gridList}
-                  >
+                >
                   {this.getGridListItems()}
                 </GridList>
               </LoadableContentDisplayDecorator>
@@ -206,7 +206,7 @@ export class PluginMetaDataListContainer extends React.Component {
               <AppBar
                 iconElementLeft={<IconButton onTouchTap={this.handleFilterSwitch}><Close /></IconButton>}
                 title={<FormattedMessage id="microservice-management.plugin.list.filters" />}
-                />
+              />
               <List>
                 {this.getFilterListItems(this.state.pluginsOrganizedByType)}
               </List>
@@ -224,7 +224,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchPluginMetaDataList: microservice => dispatch(PluginMetaDataActions.fetchPagedEntityList(dispatch, 0, 100, [microservice])),
+  fetchPluginMetaDataList: microservice => dispatch(PluginMetaDataActions.fetchPagedEntityList(0, 100, [microservice])),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PluginMetaDataListContainer)

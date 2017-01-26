@@ -120,8 +120,8 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchLayout: () => dispatch(LayoutActions.fetchEntity('user', dispatch)),
-  fetchModules: () => dispatch(ModulesActions.fetchPagedEntityList(dispatch, 0, 100, ['user'])),
+  fetchLayout: () => dispatch(LayoutActions.fetchEntity('user')),
+  fetchModules: () => dispatch(ModulesActions.fetchPagedEntityList(0, 100, ['user'])),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserApp)

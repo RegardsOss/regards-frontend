@@ -11,7 +11,7 @@ import requiredEndpoints from '../requiredEndpoints'
  *
  * @author Xavier-Alexandre Brochard
  */
-class MicroserviceBoardContainer extends React.Component {
+export class MicroserviceBoardContainer extends React.Component {
 
   static propTypes = {
     params: React.PropTypes.shape({

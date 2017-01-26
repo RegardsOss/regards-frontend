@@ -9,10 +9,10 @@ class EndpointSelectors extends BasicPageableSelectors {
     super(['common', 'endpoints'])
   }
 
-   getListOfKeys(state) {
-     const list = this.getList(state)
-     return map(list, item => `${item.content.resource}@${item.content.verb}`)
-   }
+  getListOfKeys(state) {
+    const list = this.getList(state)
+    return map(list, item => `${item.content.resource}@${item.content.verb}`)
+  }
 }
 
 const instance = new EndpointSelectors()

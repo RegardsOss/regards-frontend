@@ -69,8 +69,8 @@ class BaseBoardComponent extends React.Component {
               style={computedStyles.section.styles}
             >
               {this.props.advancedBoardItemComponents}
-              </div>
-            </ShowableAtRender>
+            </div>
+          </ShowableAtRender>
 
           <div
             className={computedStyles.action.classes}

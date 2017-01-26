@@ -75,8 +75,8 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchLayout: () => dispatch(LayoutActions.fetchEntity('portal', dispatch)),
-  fetchModules: () => dispatch(ModulesActions.fetchPagedEntityList(dispatch, 0, 100, ['portal'])),
+  fetchLayout: () => dispatch(LayoutActions.fetchEntity('portal')),
+  fetchModules: () => dispatch(ModulesActions.fetchPagedEntityList(0, 100, ['portal'])),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PortalApp)

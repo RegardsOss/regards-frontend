@@ -137,8 +137,8 @@ const listToQueryParam = (list, key) => {
 
 const mapDispatchToProps = dispatch => ({
   // Function to retrieve all available criterion plugins
-  fetchCriterion: () => dispatch(CriterionActions.fetchPagedEntityList(dispatch, 0, 100)),
-  fetchAllModelsAttributes: () => dispatch(ModelAttributeActions.fetchPagedEntityList(dispatch, 0, 100)),
+  fetchCriterion: () => dispatch(CriterionActions.fetchPagedEntityList(0, 100)),
+  fetchAllModelsAttributes: () => dispatch(ModelAttributeActions.fetchPagedEntityList(0, 100)),
   // Function to retrieve attributes associated to the selected models
   fetchModelsAttributes: modelsId => dispatch(
     ModelAttributeActions.fetchPagedEntityList(dispatch, 0, 100, listToQueryParam(modelsId, 'model'))),

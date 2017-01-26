@@ -19,8 +19,6 @@ describe('[ADMIN UI-CONFIGURATION] Testing Layout actions', () => {
   })
 
   it('Generate action to retrieve a given layout', () => {
-    const mockDispatch = () => {
-    }
     nock(`${LayoutAction.entityEndpoint}/user`)
       .get('')
       .reply(200, layoutsResponse)
@@ -40,15 +38,13 @@ describe('[ADMIN UI-CONFIGURATION] Testing Layout actions', () => {
       meta: undefined,
     }
 
-    store.dispatch(LayoutAction.fetchEntity('user', mockDispatch))
+    store.dispatch(LayoutAction.fetchEntity('user'))
       .then(() => { // return of async actions
         expect(store.getActions()).to.deep.contain(expectedAction)
       })
   })
 
   it('Generate action to retrieve a non existing layout', () => {
-    const mockDispatch = () => {
-    }
     nock(`${LayoutAction.entityEndpoint}/unknown`)
       .get('')
       .reply(404)
@@ -68,7 +64,7 @@ describe('[ADMIN UI-CONFIGURATION] Testing Layout actions', () => {
       error: true,
     }
 
-    store.dispatch(LayoutAction.fetchEntity('unknown', mockDispatch))
+    store.dispatch(LayoutAction.fetchEntity('unknown'))
       .then(() => { // return of async actions
         expect(store.getActions()).to.deep.contain(expectedAction)
       })

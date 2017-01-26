@@ -150,8 +150,8 @@ export class PluginConfigurationContainer extends React.Component {
 const mapStateToProps = (state, ownProps) => ({})
 
 const mapDispatchToProps = dispatch => ({
-  updatePluginConfiguration: (id, values, microserviceName, pluginId) => dispatch(PluginConfigurationActions.updateEntity(id, values, dispatch, [microserviceName, pluginId])),
-  deletePluginConfiguration: (pluginConfigurationId, microserviceName, pluginId) => dispatch(PluginConfigurationActions.deleteEntity(pluginConfigurationId, dispatch, [microserviceName, pluginId])),
+  updatePluginConfiguration: (id, values, microserviceName, pluginId) => dispatch(PluginConfigurationActions.updateEntity(id, values, [microserviceName, pluginId])),
+  deletePluginConfiguration: (pluginConfigurationId, microserviceName, pluginId) => dispatch(PluginConfigurationActions.deleteEntity(pluginConfigurationId, [microserviceName, pluginId])),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PluginConfigurationContainer)

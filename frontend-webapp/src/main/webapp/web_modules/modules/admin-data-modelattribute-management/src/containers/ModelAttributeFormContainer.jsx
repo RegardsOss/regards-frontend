@@ -174,14 +174,14 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchAttributeModelList: () => dispatch(AttributeModelActions.fetchEntityList(dispatch)),
-  fetchModelAttributeList: modelId => dispatch(ModelAttributeActions.fetchEntityList(dispatch, [modelId])),
-  createModelAttribute: (modelAttribute, modelId) => dispatch(ModelAttributeActions.createEntity(modelAttribute, dispatch, [modelId])),
-  deleteModelAttribute: (id, modelId) => dispatch(ModelAttributeActions.deleteEntity(id, dispatch, [modelId])),
-  fetchModel: id => dispatch(ModelActions.fetchEntity(id, dispatch)),
+  fetchAttributeModelList: () => dispatch(AttributeModelActions.fetchEntityList()),
+  fetchModelAttributeList: modelId => dispatch(ModelAttributeActions.fetchEntityList([modelId])),
+  createModelAttribute: (modelAttribute, modelId) => dispatch(ModelAttributeActions.createEntity(modelAttribute, [modelId])),
+  deleteModelAttribute: (id, modelId) => dispatch(ModelAttributeActions.deleteEntity(id, [modelId])),
+  fetchModel: id => dispatch(ModelActions.fetchEntity(id)),
 
-  bindFragment: (fragment, modelId) => dispatch(ModelAttributeFragmentActions.createEntity(fragment, dispatch, [modelId])),
-  unbindFragment: (fragmentId, modelId) => dispatch(ModelAttributeFragmentActions.deleteEntity(fragmentId, dispatch, [modelId])),
+  bindFragment: (fragment, modelId) => dispatch(ModelAttributeFragmentActions.createEntity(fragment, [modelId])),
+  unbindFragment: (fragmentId, modelId) => dispatch(ModelAttributeFragmentActions.deleteEntity(fragmentId, [modelId])),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ModelAttributeFormContainer)

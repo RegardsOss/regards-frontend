@@ -109,8 +109,8 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchPluginConfigurationList: (microserviceName, pluginId) => dispatch(PluginConfigurationActions.fetchPagedEntityList(dispatch, 0, 100, [microserviceName, pluginId])),
-  deletePluginConfiguration: (pluginConfigurationId, microserviceName, pluginId) => dispatch(PluginConfigurationActions.deleteEntity(pluginConfigurationId, dispatch, [microserviceName, pluginId])),
+  fetchPluginConfigurationList: (microserviceName, pluginId) => dispatch(PluginConfigurationActions.fetchPagedEntityList(0, 100, [microserviceName, pluginId])),
+  deletePluginConfiguration: (pluginConfigurationId, microserviceName, pluginId) => dispatch(PluginConfigurationActions.deleteEntity(pluginConfigurationId, [microserviceName, pluginId])),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PluginConfigurationListContainer)
