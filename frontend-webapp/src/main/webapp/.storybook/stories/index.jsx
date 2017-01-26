@@ -7,7 +7,7 @@ import './view/material-design/index.story'
 import './view/components/CardActions'
 import './view/components/News'
 import './view/components/Buttons'
-
+import './components/board/index.story'
 import './modules/admin/AdminLayout'
 
 import './modules/authentication/Authentication'
