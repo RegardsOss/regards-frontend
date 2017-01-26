@@ -4,6 +4,7 @@
 import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
 import { applyHateoasDisplayLogic, someMatchHateoasDisplayLogic } from '@regardsoss/display-control'
 import MicroserviceBoardComponent from '../components/MicroserviceBoardComponent'
+import requiredEndpoints from '../requiredEndpoints'
 
 /**
  * Module container connecting {@link MicroserviceBoardComponent} to redux in order to display the list of microservices.
@@ -31,28 +32,5 @@ class MicroserviceBoardContainer extends React.Component {
   }
 }
 
-const requiredEndpoints = {
-  5: {
-    id: 5,
-    description: 'retrieve the account with his unique email',
-    microservice: 'rs-admin',
-    resource: '/accounts/account/{account_email}',
-    verb: 'GET',
-  },
-  6: {
-    id: 6,
-    description: 'update the account account_id according to the body specified.',
-    microservice: 'rs-admin',
-    resource: '/accounts/{account_id}',
-    verb: 'PUT',
-  },
-  7: {
-    id: 7,
-    description: 'remove the account account_id',
-    microservice: 'rs-admin',
-    resource: '/accounts/{account_id}',
-    verb: 'DELETE',
-  },
-}
-export default MicroserviceBoardContainer
-// export default applyHateoasDisplayLogic(requiredEndpoints, someMatchHateoasDisplayLogic)(MicroserviceBoardContainer)
+// Decorate with hateoas display logic
+export default applyHateoasDisplayLogic(requiredEndpoints.MicroserviceBoardContainer, someMatchHateoasDisplayLogic)(MicroserviceBoardContainer)

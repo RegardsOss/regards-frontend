@@ -87,7 +87,6 @@ const PageMiddleWare = (req, res) => {
   res.jsonp(results)
 }
 
-
 /**
  * Add response list with HAteoas to each element
  * @param req
@@ -133,6 +132,9 @@ const ArrayMiddleWare = (req, res) => {
  */
 const runServer = () => {
   const server = jsonServer.create()
+  const middlewares = jsonServer.defaults()
+
+  // const accessMicroServiceRewriter = jsonServer.rewriter('mocks/rs-access.rewriter.json')
   const accessMicroServiceRouter = jsonServer.router('mocks/rs-access.temp.json')
   const gatewayMicroServiceRouter = jsonServer.router('mocks/rs-gateway.temp.json')
   const adminMicroServiceRouter = jsonServer.router('mocks/rs-admin.temp.json')
@@ -140,8 +142,6 @@ const runServer = () => {
   const damMicroServiceRouter = jsonServer.router('mocks/rs-dam.temp.json')
   const archivalStoragePluginsMonitoringRouter = jsonServer.router('mocks/rs-archival-storage.json')
   // const accessMicroServiceRewriter = jsonServer.rewriter('mocks/rs-access.rewriter.json')
-  const middlewares = jsonServer.defaults()
-
   const damMicroServiceRouterList = jsonServer.router('mocks/rs-dam-list.temp.json')
   const damMicroServiceRouterArray = jsonServer.router('mocks/rs-dam-array.temp.json')
 
@@ -152,13 +152,10 @@ const runServer = () => {
   damMicroServiceRouter.render = RenderMiddleWare
   archivalStoragePluginsMonitoringRouter.render = RenderMiddleWare // ListMiddleWare
   // gatewayMicroServiceRouter.render = PageMiddleWare
-
   damMicroServiceRouterList.render = RenderMiddleWare
-
   damMicroServiceRouterArray.render = ArrayMiddleWare
 
   server.use(middlewares)
-
   server.use(jsonServer.bodyParser)
   server.use((req, res, next) => {
     if (req.method === 'POST' && req.originalUrl.startsWith('/oauth/token?grant_type=password&username=admin@cnes.fr&password=admin&scope=')) {
@@ -183,6 +180,8 @@ const runServer = () => {
     '/api/v1/rs-dam-array/models/attributes/types': '/api/v1/rs-dam-array/models-attributes-types',
     '/oauth/token': '/tokens/1',
   }))
+
+  // server.use('/api/v1/rs-gateway/', gatewayMicroServiceRouter)
   server.use('/api/v1/rs-access/', accessMicroServiceRouter)
   server.use('/api/v1/rs-catalog/', catalogMicroServiceRouter)
   server.use('/api/v1/rs-dam/', damMicroServiceRouter)
@@ -197,7 +196,6 @@ const runServer = () => {
     console.log('JSON Server is running on http://localhost:3000/')
   })
 }
-
 
 /**
  * Copy mock json database to temp file for trash use during mock usage

@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { every, includes } from 'lodash'
+import { every, includes, isEmpty } from 'lodash'
 
 /**
  * A Display Controller is a pure function which implements the logic for
@@ -10,13 +10,13 @@ import { every, includes } from 'lodash'
  * With this HATEOAS "all match" strategy, all required endpoint must be found in the available endpoints in order to
  * accept the the display.
  *
- * @param {String[]} requiredEndpoints The array of endpoints we require in order the component to display
- * @param {String[]} availableEndpoints The array of all available endpoints
+ * @param {String[]} requiredEndpoints The array of endpoints as "resource@verb" strings we require in order to allow the component to display
+ * @param {String[]} availableEndpoints The array of all available endpoints as "resource@verb" strings
  * @return {boolean}
  * @author Xavier-Alexandre Brochard
  */
 const allMatchHateoasDisplayLogic = (requiredEndpoints, availableEndpoints) => (
-  every(requiredEndpoints, requiredEndpoint => includes(availableEndpoints, requiredEndpoint))
+  every(requiredEndpoints, item => includes(availableEndpoints, item)) || isEmpty(requiredEndpoints)
 )
 
 export default allMatchHateoasDisplayLogic

@@ -17,9 +17,6 @@ import AuthenticationPanel from './AuthenticationPanel'
  */
 class AdminApp extends React.Component {
 
-  /**
-   * @type {{theme: *, authentication-manager: *, content: *}}
-   */
   static propTypes = {
     content: React.PropTypes.element,
     // from router
