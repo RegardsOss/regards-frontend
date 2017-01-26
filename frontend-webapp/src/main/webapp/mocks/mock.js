@@ -195,6 +195,35 @@ const runServer = () => {
   })
 }
 
+// TODO remove after final mock generation
+/*
+const allStatus = ['VALID', 'PENDING', 'STORED', 'STORAGE_ERROR', 'DELETED']
+const statusComment = ['AIP was Validated', 'AIP is now pending', 'AIP stored', 'The following error occured...', 'AIP deleted']
+const fakeMissions = ['SaturnTv', 'MikonosSkyObservation', 'AlpineIronFalls', 'HubbleDeepSpaceWatch1996']
+const types = ['COLLECTION', 'DATASET', 'DOCUMENT', 'DATA']
+const dates = ['2020-02-28', '2017-04-12', '2017-05-01', '2017-11-13' ]
+const data = []
+const countByStatus = 10000
+for (let j = 0 ; j < allStatus.length ; j ++) {
+  for (let i = j * countByStatus; i < (j + 1) * countByStatus; i++) {
+    const sipIndex = Math.round(Math.random() * (fakeMissions.length - 1))
+    data.push({
+      id: i,
+      ipId: `IP_id_${i}`,
+      sipId: `SIP_${fakeMissions[sipIndex]}`,
+      type: types[Math.round(Math.random() * (types.length - 1))],
+      state: allStatus[Math.round(Math.random() * (allStatus.length - 1))],
+      date: dates[sipIndex],
+      comment: statusComment[j],
+    })
+  }
+}
+console.error(JSON.stringify(data))
+*/
+
+
+
+
 /**
  * Copy mock json database to temp file for trash use during mock usage
  */
