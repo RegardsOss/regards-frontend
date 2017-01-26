@@ -7,7 +7,6 @@ const { map, split, filter, forEach, startsWith, replace, trim } = require('loda
 const jsonServer = require('json-server')
 const fs = require('fs-extra')
 
-
 /**
  * Add pagination format to response list and HAteoas format to each elements
  * @param req
@@ -135,25 +134,24 @@ const runServer = () => {
   const middlewares = jsonServer.defaults()
 
   // const accessMicroServiceRewriter = jsonServer.rewriter('mocks/rs-access.rewriter.json')
+  // const accessMicroServiceRewriter = jsonServer.rewriter('mocks/rs-access.rewriter.json')
   const accessMicroServiceRouter = jsonServer.router('mocks/rs-access.temp.json')
-  const gatewayMicroServiceRouter = jsonServer.router('mocks/rs-gateway.temp.json')
   const adminMicroServiceRouter = jsonServer.router('mocks/rs-admin.temp.json')
+  const archivalStoragePluginsMonitoringRouter = jsonServer.router('mocks/rs-archival-storage.json')
   const catalogMicroServiceRouter = jsonServer.router('mocks/rs-catalog.temp.json')
   const damMicroServiceRouter = jsonServer.router('mocks/rs-dam.temp.json')
-  const archivalStoragePluginsMonitoringRouter = jsonServer.router('mocks/rs-archival-storage.json')
-  // const accessMicroServiceRewriter = jsonServer.rewriter('mocks/rs-access.rewriter.json')
   const damMicroServiceRouterList = jsonServer.router('mocks/rs-dam-list.temp.json')
   const damMicroServiceRouterArray = jsonServer.router('mocks/rs-dam-array.temp.json')
-
+  const gatewayMicroServiceRouter = jsonServer.router('mocks/rs-gateway.temp.json')
 
   accessMicroServiceRouter.render = PageMiddleWare
   adminMicroServiceRouter.render = RenderMiddleWare
   catalogMicroServiceRouter.render = RenderMiddleWare
-  damMicroServiceRouter.render = RenderMiddleWare
   archivalStoragePluginsMonitoringRouter.render = RenderMiddleWare // ListMiddleWare
-  // gatewayMicroServiceRouter.render = PageMiddleWare
+  damMicroServiceRouter.render = PageMiddleWare
   damMicroServiceRouterList.render = RenderMiddleWare
   damMicroServiceRouterArray.render = ArrayMiddleWare
+  // gatewayMicroServiceRouter.render = PageMiddleWare
 
   server.use(middlewares)
   server.use(jsonServer.bodyParser)
@@ -169,9 +167,9 @@ const runServer = () => {
 
   server.use(jsonServer.rewriter({
     '/api/v1/rs-access/applications/:application_id/modules/:module_id': '/api/v1/rs-access/modules/:module_id',
+    '/api/v1/rs-access/plugins/:type': '/api/v1/rs-access/plugins?type=:type',
     '/api/v1/rs-dam/plugins/:pluginId/config': '/api/v1/rs-dam/configurations?pluginId=:pluginId',
     '/api/v1/rs-dam/plugins/:pluginId/config/:pluginConfigurationId': '/api/v1/rs-dam/configurations/:pluginConfigurationId',
-    '/api/v1/rs-access/plugins/:type': '/api/v1/rs-access/plugins?type=:type',
     '/api/v1/rs-dam-list/models/attributes': '/api/v1/rs-dam-list/attributes-models',
     '/api/v1/rs-dam-list/models/fragments': '/api/v1/rs-dam-list/models-fragments',
     '/api/v1/rs-dam-list/models/:modelid/attributes': '/api/v1/rs-dam-list/models-attributes?model.id=:modelid',
@@ -183,9 +181,9 @@ const runServer = () => {
 
   // server.use('/api/v1/rs-gateway/', gatewayMicroServiceRouter)
   server.use('/api/v1/rs-access/', accessMicroServiceRouter)
+  server.use('/api/v1/rs-admin/', adminMicroServiceRouter)
   server.use('/api/v1/rs-catalog/', catalogMicroServiceRouter)
   server.use('/api/v1/rs-dam/', damMicroServiceRouter)
-  server.use('/api/v1/rs-admin/', adminMicroServiceRouter)
   server.use('/api/v1/rs-dam-list/', damMicroServiceRouterList)
   server.use('/api/v1/rs-dam-array/', damMicroServiceRouterArray)
   server.use('/api/v1/rs-archival-storage', archivalStoragePluginsMonitoringRouter)
