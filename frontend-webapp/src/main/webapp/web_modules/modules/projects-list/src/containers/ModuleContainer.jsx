@@ -51,7 +51,7 @@ const mapStateToProps = (state, props) => ({
   isFetching: ProjectsSelector(props.appName).isFetching(state),
 })
 const mapDispatchToProps = dispatch => ({
-  fetchProjects: () => dispatch(ProjectsAction.fetchPagedEntityList(dispatch, 0, 100)),
+  fetchProjects: () => dispatch(ProjectsAction.fetchPagedEntityList(0, 100)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ModuleContainer)

@@ -83,7 +83,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  loadPlugin: sourcePath => loadPlugin(sourcePath, dispatch),
+  loadPlugin: sourcePath => loadPlugin(sourcePath),
 })
 
 // Export for tests

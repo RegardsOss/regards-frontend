@@ -23,6 +23,7 @@ import AdminPluginConfiguration, { AdminPluginConfigurationSchemaConfiguration }
 import StoragePlugin from './archival-storage/StoragePlugin'
 import Collection from './dam/Collection'
 import AIPStatus from './archival-storage/AIPStatus'
+import Endpoint, { EndpointConfiguration } from './admin/Endpoint'
 
 // We use this Normalizr schemas to transform API responses from a nested form
 // to a flat form where repos and users are placed in `entities`, and nested
@@ -65,7 +66,6 @@ export default {
   ATTRIBUTE_MODEL: AttributeModel.ATTRIBUTE_MODEL,
   ATTRIBUTE_MODEL_ARRAY: AttributeModel.ATTRIBUTE_MODEL_ARRAY,
   AttributeModelConfiguration,
-
 
   MODEL_ATTRIBUTE: ModelAttribute.MODEL_ATTRIBUTE,
   MODEL_ATTRIBUTE_ARRAY: ModelAttribute.MODEL_ATTRIBUTE_ARRAY,
@@ -112,4 +112,8 @@ export default {
   ...Collection,
   ...StoragePlugin,
   ...AIPStatus,
+
+  ENDPOINT: Endpoint.ENDPOINT,
+  ENDPOINT_ARRAY: Endpoint.ENDPOINT_ARRAY,
+  EndpointConfiguration,
 }

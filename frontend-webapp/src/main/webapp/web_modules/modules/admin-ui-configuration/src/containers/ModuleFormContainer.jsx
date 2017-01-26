@@ -98,10 +98,10 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchModule: (applicationId, moduleId) => dispatch(ModulesActions.fetchEntity(moduleId, dispatch, [applicationId])),
-  fetchLayout: applicationId => dispatch(LayoutActions.fetchEntity(applicationId, dispatch)),
-  updateModule: (applicationId, module) => dispatch(ModulesActions.updateEntity(module.id, module, dispatch, [applicationId])),
-  createModule: (applicationId, module) => dispatch(ModulesActions.createEntity(module, dispatch, [applicationId])),
+  fetchModule: (applicationId, moduleId) => dispatch(ModulesActions.fetchEntity(moduleId, [applicationId])),
+  fetchLayout: applicationId => dispatch(LayoutActions.fetchEntity(applicationId)),
+  updateModule: (applicationId, module) => dispatch(ModulesActions.updateEntity(module.id, module, [applicationId])),
+  createModule: (applicationId, module) => dispatch(ModulesActions.createEntity(module, [applicationId])),
 
 })
 

@@ -17,9 +17,6 @@ import AuthenticationPanel from './AuthenticationPanel'
  */
 class AdminApp extends React.Component {
 
-  /**
-   * @type {{theme: *, authentication-manager: *, content: *}}
-   */
   static propTypes = {
     content: React.PropTypes.element,
     // from router
@@ -97,7 +94,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchEndpoints: () => dispatch(EndpointActions.fetchPagedEntityList(dispatch, 0, 10000)), // TODO
+  fetchEndpoints: () => dispatch(EndpointActions.fetchPagedEntityList(0, 10000)), // TODO
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AdminApp)

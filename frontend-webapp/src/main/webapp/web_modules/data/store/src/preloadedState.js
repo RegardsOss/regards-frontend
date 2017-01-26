@@ -17,9 +17,6 @@ const preloadedState = {
       messages: [],
     },
     authentication: {},
-    endpoints: {
-      items: [],
-    },
     error: {
       opened: false,
       message: '',

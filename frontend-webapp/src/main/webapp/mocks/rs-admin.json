@@ -292,6 +292,148 @@
       "isAccessible": false,
       "icon": "http://www.mercator-ocean.fr/wp-content/uploads/2015/03/Logo-AVISO.jpg"
     }
+  ],
+  "resources": [
+    {
+      "id": 1,
+      "description": "Retrieves the settings managing the access requests",
+      "microservice": "rs-admin",
+      "resource": "/accesses/settings",
+      "verb": "GET"
+    },
+    {
+      "id": 2,
+      "description": "Updates the setting managing the access requests",
+      "microservice": "rs-admin",
+      "resource": "/accesses/settings",
+      "verb": "PUT"
+    },
+    {
+      "id": 3,
+      "description": "create an new account",
+      "microservice": "rs-admin",
+      "resource": "/accounts",
+      "verb": "POST"
+    },
+    {
+      "id": 4,
+      "description": "retrieve the account account_id",
+      "microservice": "rs-admin",
+      "resource": "/accounts/{account_id}",
+      "verb": "GET"
+    },
+    {
+      "id": 5,
+      "description": "retrieve the account with his unique email",
+      "microservice": "rs-admin",
+      "resource": "/accounts/account/{account_email}",
+      "verb": "GET"
+    },
+    {
+      "id": 6,
+      "description": "update the account account_id according to the body specified",
+      "microservice": "rs-admin",
+      "resource": "/accounts/{account_id}",
+      "verb": "PUT"
+    },
+    {
+      "id": 7,
+      "description": "remove the account account_id",
+      "microservice": "rs-admin",
+      "resource": "/accounts/{account_id}",
+      "verb": "DELETE"
+    },
+    {
+      "id": 8,
+      "description": "send a code of type type to the email specified",
+      "microservice": "rs-admin",
+      "resource": "/accounts/{account_id}/accountUnlock",
+      "verb": "GET"
+    },
+    {
+      "id": 9,
+      "description": "unlock the account account_id according to the code unlock_code",
+      "microservice": "rs-admin",
+      "resource": "/accounts/{account_id}/unlock/{unlock_code}",
+      "verb": "GET"
+    },
+    {
+      "id": 10,
+      "description": "change the passsword of account account_id according to the code reset_code",
+      "microservice": "rs-admin",
+      "resource": "/accounts/{account_id}/password/{reset_code}",
+      "verb": "PUT"
+    },
+    {
+      "id": 11,
+      "description": "send a code of type type to the email specified",
+      "microservice": "rs-admin",
+      "resource": "/accounts/code",
+      "verb": "GET"
+    },
+    {
+      "id": 12,
+      "description": "Validate the account password",
+      "microservice": "rs-admin",
+      "resource": "/accounts/{account_email}/validate",
+      "verb": "GET"
+    },
+    {
+      "id": 13,
+      "description": "retrieve the list of account in the instance",
+      "microservice": "rs-admin",
+      "resource": "/accounts",
+      "verb": "GET"
+    },
+    {
+      "id": 14,
+      "description": "Retrieve all resource accesses of the REGARDS system",
+      "microservice": "rs-admin",
+      "resource": "/resources/microservices/{microservice}",
+      "verb": "GET"
+    },
+    {
+      "id": 15,
+      "description": "Retrieve all resource accesses of the REGARDS system",
+      "microservice": "rs-admin",
+      "resource": "/resources",
+      "verb": "GET"
+    },
+    {
+      "id": 16,
+      "description": "Retrieve all resource accesses of the REGARDS system",
+      "microservice": "rs-admin",
+      "resource": "/resources/{resource_id}",
+      "verb": "GET"
+    },
+    {
+      "id": 17,
+      "description": "Update access to a given resource",
+      "microservice": "rs-admin",
+      "resource": "/resources/{resource_id}",
+      "verb": "PUT"
+    },
+    {
+      "id": 18,
+      "description": "retrieve the list of specific access rights and the role of the project user",
+      "microservice": "rs-admin",
+      "resource": "/resources/users/{user_email}",
+      "verb": "GET"
+    },
+    {
+      "id": 19,
+      "description": "update the list of specific user access rights",
+      "microservice": "rs-admin",
+      "resource": "/resources/users/{user_email}",
+      "verb": "PUT"
+    },
+    {
+      "id": 20,
+      "description": "remove all the specific access rights",
+      "microservice": "rs-admin",
+      "resource": "/resources/users/{user_email}",
+      "verb": "DELETE"
+    }
   ]
 }
 

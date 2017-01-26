@@ -56,7 +56,7 @@ const mapStateToProps = (state, props) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchStoragePlugins: () => dispatch(StoragePluginActions.fetchEntityList(dispatch)),
+  fetchStoragePlugins: () => dispatch(StoragePluginActions.fetchEntityList()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(StorageMonitoringContainer)

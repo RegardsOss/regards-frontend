@@ -75,8 +75,8 @@ const mapStateToProps = state => ({
   fragmentList: FragmentSelectors.getList(state),
 })
 const mapDispatchToProps = dispatch => ({
-  fetchFragmentList: () => dispatch(FragmentActions.fetchEntityList(dispatch)),
-  deleteFragment: id => dispatch(FragmentActions.deleteEntity(id, dispatch)),
+  fetchFragmentList: () => dispatch(FragmentActions.fetchEntityList()),
+  deleteFragment: id => dispatch(FragmentActions.deleteEntity(id)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(FragmentListContainer)

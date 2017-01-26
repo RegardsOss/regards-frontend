@@ -23,6 +23,7 @@ import PluginMetaData, { PluginMetaDataList } from './admin/PluginMetaData'
 import PluginConfiguration, { PluginConfigurationList } from './admin/PluginConfiguration'
 import PluginParameter, { PluginParameterist } from './admin/PluginParameter'
 import PluginDynamicValue, { PluginDynamicValueList } from './admin/PluginDynamicValue'
+import Endpoint from './admin/Endpoint'
 import AIPStatus, { aipStates, aipDataTypes } from './archival-storage/AIPStatus'
 import StoragePlugin, { StoragePluginShape } from './archival-storage/StoragePlugin'
 
@@ -34,6 +35,7 @@ export default {
   Account,
   Resource,
   ResourceList,
+  Endpoint,
 
   // DAM
   AttributeModel,
