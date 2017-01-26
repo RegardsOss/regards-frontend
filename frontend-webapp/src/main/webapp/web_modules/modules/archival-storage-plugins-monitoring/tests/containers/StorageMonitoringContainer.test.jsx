@@ -45,8 +45,8 @@ describe('[STORAGE PLUGINS MONITORING] Testing plugins monitoring container', ()
     const enzymeWrapper = shallow(<StorageMonitoringContainer {...props} />)
     const mainComponent = enzymeWrapper.find(StorageMonitoringComponent)
     expect(mainComponent).to.have.length(1)
-    assert.isFalse(mainComponent.props().isFetching)
-    assert.isFalse(mainComponent.props().hasError)
+    assert.isFalse(mainComponent.props().isFetching, 'The component should not be fetching')
+    assert.isFalse(mainComponent.props().hasError, 'The component should show no error')
   })
 
   it('should show loading when loading', () => {
