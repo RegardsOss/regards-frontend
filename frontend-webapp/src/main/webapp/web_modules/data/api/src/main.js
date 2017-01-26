@@ -20,7 +20,7 @@ import ResourceAccess, { ResourceAccessConfiguration } from './admin/ResourceAcc
 import ModelAttribute, { ModelAttributeConfiguration } from './dam/ModelAttribute'
 import PluginMetaData, { PluginMetaDataConfiguration } from './admin/PluginMetaData'
 import AdminPluginConfiguration, { AdminPluginConfigurationSchemaConfiguration } from './admin/PluginConfiguration'
-import StoragePluginMonitoring from './archival-storage/StoragePluginMonitoring'
+import StoragePlugin from './archival-storage/StoragePlugin'
 import Collection from './dam/Collection'
 import AIPStatus from './archival-storage/AIPStatus'
 
@@ -48,7 +48,7 @@ export default {
   ROLE_ARRAY: Role.ROLE_ARRAY,
   RoleConfiguration,
 
-  STORAGE_PLUGIN_MONITORING: Model.STORAGE_PLUGIN_MONITORING,
+  STORAGE_PLUGIN: Model.STORAGE_PLUGIN,
 
   MODEL: Model.MODEL,
   MODEL_ARRAY: Model.MODEL_ARRAY,
@@ -109,8 +109,7 @@ export default {
   PLUGIN_CONFIGURATION_ARRAY: AdminPluginConfiguration.PLUGIN_CONFIGURATION_ARRAY,
   AdminPluginConfigurationSchemaConfiguration,
 
-  ...StoragePluginMonitoring,
-
   ...Collection,
+  ...StoragePlugin,
   ...AIPStatus,
 }

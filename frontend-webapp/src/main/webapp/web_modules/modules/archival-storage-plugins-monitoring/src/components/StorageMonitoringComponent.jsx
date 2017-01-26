@@ -12,7 +12,7 @@ import DropDownMenu from 'material-ui/DropDownMenu'
 import MenuItem from 'material-ui/MenuItem'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import PluginShape from '@regardsoss/model/src/archival-storage/StoragePluginMonitoring'
+import {StoragePluginShape} from '@regardsoss/model'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import StoragePluginCapacityComponent from './StoragePluginCapacityComponent'
 import StorageUnitScale, { StorageUnitScaleShape } from '../helper/StorageUnit'
@@ -22,7 +22,7 @@ class StorageMonitoringComponent extends Component {
 
   static propTypes = {
     initScale: StorageUnitScaleShape,
-    storagePlugins: PropTypes.arrayOf(PluginShape).isRequired,
+    storagePlugins: PropTypes.arrayOf(StoragePluginShape).isRequired,
     expanded: React.PropTypes.bool,
     isFetching: React.PropTypes.bool.isRequired,
     hasError: React.PropTypes.bool.isRequired,

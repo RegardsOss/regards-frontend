@@ -1,14 +1,14 @@
 /**
  * LICENSE_PLACEHOLDER
  */
-import { BasicListSelectors } from '@regardsoss/store-utils'
+import { BasicPageableSelectors } from '@regardsoss/store-utils'
 
-class AIPStatusMonitoringSelectors extends BasicListSelectors {
+class AIPStatusSelectors extends BasicPageableSelectors {
   constructor() {
     super(['modules.archival-storage-aip-status', 'aip'])
   }
 }
 
 
-const instance = new AIPStatusMonitoringSelectors()
+const instance = new AIPStatusSelectors()
 export default instance

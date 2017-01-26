@@ -3,12 +3,12 @@
  */
 import { BasicListSelectors } from '@regardsoss/store-utils'
 
-class StorageMonitoringSelectors extends BasicListSelectors {
+class StoragePluginSelectors extends BasicListSelectors {
   constructor() {
     super(['modules.archival-storage-plugins-monitoring', 'storage-plugins'])
   }
 }
 
 
-const instance = new StorageMonitoringSelectors()
+const instance = new StoragePluginSelectors()
 export default instance
