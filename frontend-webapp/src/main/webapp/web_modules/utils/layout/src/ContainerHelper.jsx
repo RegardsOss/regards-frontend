@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { merge, union, forEach } from 'lodash'
+import { merge, union, forEach, find } from 'lodash'
 import containerTypes from './default/containerTypes'
 
 class ContainerHelper {
@@ -54,6 +54,27 @@ class ContainerHelper {
     }
 
     return containers
+  }
+
+  /**
+   * Define if the given containerName is a dynamic container from the given list of containers
+   * @param containerName
+   * @param containers
+   * @returns {boolean}
+   */
+  static isDynamicContent(containerName, containers) {
+    const dynamicContainer = find(containers, (container, idx) => {
+      if (container.id === containerName) {
+        return container.dynamicContent
+      } else if (container.containers) {
+        return this.isDynamicContent(containerName, container.containers)
+      }
+      return false
+    })
+    if (dynamicContainer) {
+      return true
+    }
+    return false
   }
 
 

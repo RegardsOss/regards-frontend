@@ -7,7 +7,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { connect } from '@regardsoss/redux'
 import { ThemeHelper, ThemeSelectors } from '@regardsoss/theme'
 import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
-import { LayoutShape, ApplicationLayout } from '@regardsoss/layout'
+import { LayoutShape, ApplicationLayout, ContainerHelper } from '@regardsoss/layout'
 import { ModuleShape } from '@regardsoss/modules'
 import { ApplicationErrorContainer } from '@regardsoss/global-sytem-error'
 import LayoutSelector from '../model/layout/LayoutSelector'
@@ -39,11 +39,36 @@ export class UserApp extends React.Component {
     fetchModules: React.PropTypes.func,
   }
 
+  /**
+   * At first render, fetch application layout and modules
+   */
   componentWillMount() {
     this.props.fetchLayout()
     this.props.fetchModules()
   }
 
+  /**
+   * Go to default module page if no module is defiend in the dynamic content container
+   * @param nextProps
+   */
+  componentWillReceiveProps(nextProps) {
+    // If there is no dynamic content display the default module
+    if (!nextProps.content && nextProps.modules && nextProps.layout) {
+      forEach(nextProps.modules, (module, idx) => {
+        if (module.content.isDefault) {
+          if (ContainerHelper.isDynamicContent(module.content.container, nextProps.layout.containers)) {
+            console.log('Default module ', module)
+            browserHistory.push(`/user/${this.props.params.project}/modules/${module.content.id}`)
+          }
+        }
+      })
+    }
+  }
+
+  /**
+   * Callback when a dynamic module is selected
+   * @param module
+   */
   onDynamicModuleSelection = (module) => {
     browserHistory.push(`/user/${this.props.params.project}/modules/${module.content.id}`)
   }

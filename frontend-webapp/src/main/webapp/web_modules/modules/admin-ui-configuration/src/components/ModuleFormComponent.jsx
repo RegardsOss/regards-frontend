@@ -145,6 +145,11 @@ class ModuleFormComponent extends React.Component {
                 component={RenderCheckbox}
                 label={<FormattedMessage id="module.form.active" />}
               />
+              <Field
+                name="isDefault"
+                component={RenderCheckbox}
+                label={<FormattedMessage id="module.form.isDefault" />}
+              />
             </CardText>
           </Card>
 
