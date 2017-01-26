@@ -78,6 +78,10 @@ class StringCriteriaComponent extends React.Component {
 }
 const mapStateToProps = state => ({
   test: state['plugins.string-criteria'].pluginTest,
+  // Needed to be linked with the dynamic change of locale
+  locale: state.common.i18n.locale,
+  // Needed to be linked with the dynamic change of theme
+  theme: state.common.theme,
 })
 const mapDispatchToProps = dispatch => ({
   testDispatch: () => dispatch({type: 'plugin/TEST'}),
