@@ -17,7 +17,7 @@ class StringCriteriaComponent extends React.Component {
     /**
      * Callback to change the current criteria values in form
      * Parameters :
-     * criteria : an object like : {attributeId:<id>, value:<value>}
+     * criteria : an object like : {attribute:<AttributeModel>, comparator:<ComparatorEnumType>, value:<value>}
      * id: current plugin identifier
      */
     onChange: React.PropTypes.func,
@@ -35,13 +35,14 @@ class StringCriteriaComponent extends React.Component {
 
   changeValue = (value) => {
     this.props.onChange({
-      attributeId: this.props.attributes.searchField,
+      attribute: this.props.attributes.searchField,
+      comparator: "EQ",
       value: value,
     }, this.props.pluginInstanceId)
   }
 
   render() {
-    console.log("PLUGIN", this.props)
+    console.log("PLUGIN Loaded with props : ", this.props)
 
     const attributeLAbel = this.props.attributes.searchField.name ? this.props.attributes.searchField.name : null
     return (

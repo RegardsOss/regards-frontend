@@ -86,7 +86,7 @@ class ModuleContainer extends React.Component {
    */
   handleSearch = () => {
     // TODO Manage search
-    console.log('Running search', this.state.criterion)
+    console.log('Running search', this.state.criterionValues)
   }
 
   render() {
