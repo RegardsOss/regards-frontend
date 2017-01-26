@@ -39,6 +39,10 @@ export const loadPlugin = (sourcePath, dispatchAction) => {
   })
 
   if (typeof document !== 'undefined') {
-    scriptjs([`${window.location.origin}/plugins/${sourcePath}`], sourcePath)
+    if (sourcePath[0] === '/') {
+      scriptjs([`${window.location.origin}${sourcePath}`], sourcePath)
+    } else {
+      scriptjs([`${window.location.origin}/${sourcePath}`], sourcePath)
+    }
   }
 }

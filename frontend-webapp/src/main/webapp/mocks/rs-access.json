@@ -30,7 +30,7 @@
       "id": 1,
       "name": "string-criteria",
       "type": "criterion",
-      "sourcesPath": "/criterion/string/target/build/plugin.js"
+      "sourcesPath": "/plugins/criterion/string/plugin.js"
     }
   ],
   "modules": [

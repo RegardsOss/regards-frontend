@@ -4,6 +4,7 @@
 import { forEach, find, cloneDeep } from 'lodash'
 import { connect } from '@regardsoss/redux'
 import { PluginConf, AttributeModel } from '@regardsoss/model'
+import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import FormComponent from '../components/user/FormComponent'
 import ModelAttributeActions from '../models/attributes/ModelAttributeActions'
 import ModelAttributeSelector from '../models/attributes/ModelAttributeSelector'
@@ -97,12 +98,16 @@ class ModuleContainer extends React.Component {
       }
 
       return (
-        <FormComponent
-          layout={layoutObj}
-          plugins={this.state.criterion}
-          pluginsProps={pluginsProps}
-          handleSearch={this.handleSearch}
-        />
+        <LoadableContentDisplayDecorator
+          isLoading={this.props.attributesFetching}
+        >
+          <FormComponent
+            layout={layoutObj}
+            plugins={this.state.criterion}
+            pluginsProps={pluginsProps}
+            handleSearch={this.handleSearch}
+          />
+        </LoadableContentDisplayDecorator>
       )
     }
     return <div>Loading ... </div>

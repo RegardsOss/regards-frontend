@@ -1,7 +1,7 @@
 /**
  * @author Léo Mieulet
  */
-import { map, replace } from 'lodash'
+import { map, replace, split } from 'lodash'
 import { normalize } from 'normalizr'
 import ErrorHandler from '../ErrorHandler'
 
