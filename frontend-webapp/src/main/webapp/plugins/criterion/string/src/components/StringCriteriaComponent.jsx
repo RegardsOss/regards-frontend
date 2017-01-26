@@ -8,12 +8,38 @@ import { connect } from 'react-redux'
 
 class StringCriteriaComponent extends React.Component {
 
+  static propTypes = {
+    /**
+     * Plugin identifier
+     */
+    pluginInstanceId: React.PropTypes.number,
+    /**
+     * Callback to change the current criteria values in form
+     * Parameters :
+     * criteria : an object like : {attributeId:<id>, value:<value>}
+     * id: current plugin identifier
+     */
+    onChange: React.PropTypes.func,
+    /**
+     * List of attributes associated to the plugin.
+     * Keys of this object are the "name" props of the attributes defined in the plugin-info.json
+     * Value of each keys are the attribute id (retrieved from the server) associated
+     */
+    attributes: React.PropTypes.object,
+  }
+
   componentDidMount() {
     this.props.testDispatch()
   }
 
+  changeValue = (value) => {
+    this.props.onChange({
+      attributeId: this.props.attributes.searchField,
+      value: value,
+    },this.props.pluginInstanceId)
+  }
+
   render() {
-    console.log('TEST', this.props.test)
     return (
       <div
         style={{
@@ -24,7 +50,7 @@ class StringCriteriaComponent extends React.Component {
         <TextField
           id="search"
           floatingLabelText={<FormattedMessage id="criterion.search.field.label" />}
-          onChange={(event, value) => console.log(`Running search for attributeId=${this.props.attributes.searchField} and value=${value}`)}
+          onChange={(event, value) => {this.changeValue(value)}}
         />
       </div>
     )

@@ -20,6 +20,7 @@ class Container extends React.Component {
     container: ContainerShape,
     modules: React.PropTypes.arrayOf(ModuleShape),
     plugins: React.PropTypes.arrayOf(PluginConf),
+    pluginProps: React.PropTypes.object,
     dynamicContent: React.PropTypes.element,
     onDynamicModuleSelection: React.PropTypes.func,
   }
@@ -45,6 +46,7 @@ class Container extends React.Component {
             container={c}
             modules={this.props.modules}
             plugins={this.props.plugins}
+            pluginProps={this.props.pluginProps}
             dynamicContent={this.props.dynamicContent}
             onDynamicModuleSelection={this.props.onDynamicModuleSelection}
           />,
@@ -82,12 +84,13 @@ class Container extends React.Component {
       if (this.props.plugins) {
         const containerPlugins = this.props.plugins.filter(plugin => plugin.container === this.props.container.id)
         forEach(containerPlugins, (plugin, idx) => {
-          console.log('PLUGIN', plugin)
           renderPlugins.push(
             <PluginProvider
               key={idx}
+              pluginInstanceId={idx}
               pluginId={plugin.pluginId}
               pluginConf={plugin.pluginConf}
+              pluginProps={this.props.pluginProps}
               displayPlugin
             />,
           )

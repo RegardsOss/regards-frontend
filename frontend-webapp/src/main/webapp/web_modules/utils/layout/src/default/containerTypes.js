@@ -29,7 +29,6 @@ export default {
     styles: {
       backgroundAttachment: 'fixed',
       backgroundSize: 'cover',
-      minHeight: '30vh',
       paddingTop: '10px',
       paddingRight: '1px', // Quick fix for bootstrap grid .row
     },

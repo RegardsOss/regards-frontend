@@ -22,9 +22,17 @@ class PluginProvider extends React.Component {
    * @type {{pluginId: *, pluginConf: *, displayPlugin: *, children: *, loadedPlugin: *, loadPlugin: *, locale: *}}
    */
   static propTypes = {
+    /**
+     * Id of the plugin configuration instance
+     */
+    pluginInstanceId: React.PropTypes.number.isRequired,
+    /**
+     * Id of a plugin definition (plugin type to instanciate)
+     */
     pluginId: React.PropTypes.number.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
     pluginConf: React.PropTypes.object,
+    pluginProps: React.PropTypes.object,
     displayPlugin: React.PropTypes.bool,
     children: React.PropTypes.element,
     // Set by mapstatetoprops
@@ -42,9 +50,11 @@ class PluginProvider extends React.Component {
     if (this.props.pluginToLoad) {
       return (
         <PluginLoader
+          pluginInstanceId={this.props.pluginInstanceId}
           pluginPath={this.props.pluginToLoad.content.sourcesPath}
           displayPlugin={this.props.displayPlugin}
           pluginConf={this.props.pluginConf}
+          pluginProps={this.props.pluginProps}
         >
           {this.props.children}
         </PluginLoader>

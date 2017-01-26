@@ -9,7 +9,6 @@ function reducer(state = {
 }, action) {
   switch (action.type) {
     case PLUGIN_TEST:
-      console.log('RECEIVING ACTION', action)
       return { ...state, pluginTest: true }
   }
   return state
