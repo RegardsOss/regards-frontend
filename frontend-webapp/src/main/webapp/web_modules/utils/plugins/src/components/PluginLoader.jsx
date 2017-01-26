@@ -98,7 +98,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  loadPlugin: sourcePath => loadPlugin(sourcePath),
+  loadPlugin: sourcePath => loadPlugin(sourcePath, dispatch),
 })
 
 // Export for tests
@@ -107,4 +107,5 @@ export {
   UnconnectedPluginLoader,
 }
 // Default export
-export default connect(mapStateToProps, mapDispatchToProps)(PluginLoader)
+const connectedPluginLoader = connect(mapStateToProps, mapDispatchToProps)(PluginLoader)
+export default connectedPluginLoader
