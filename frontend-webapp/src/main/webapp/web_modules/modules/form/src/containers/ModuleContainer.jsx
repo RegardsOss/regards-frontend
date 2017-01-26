@@ -18,7 +18,7 @@ class ModuleContainer extends React.Component {
     // Set by mapDispatchToProps
     fetchAttribute: React.PropTypes.func,
     // eslint-disable-next-line react/no-unused-prop-types
-    attributes: React.PropTypes.arrayOf(AttributeModel),
+    attributes: React.PropTypes.objectOf(AttributeModel),
   }
 
   constructor(props) {
