@@ -36,8 +36,6 @@ class BoardItemComponent extends React.Component {
         key={index}
       >
         <IconButton
-          iconStyle={computedStyles.icon.smallIcon}
-          style={computedStyles.icon.small}
           tooltip={action.tooltipMsg}
         >
           {action.icon}

@@ -48,7 +48,7 @@ class BaseBoardItemComponent extends React.Component {
             title={title}
             subtitle={subtitle}
             style={{
-              backgroundColor: this.context.muiTheme.palette.accent2Color,
+              backgroundColor: this.context.muiTheme.palette.primary3Color,
             }}
           />
           <CardText>
