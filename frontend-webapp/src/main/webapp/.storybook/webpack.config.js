@@ -35,6 +35,10 @@ config = merge(config, {
     }),
   ],
   module: {
+    noParse: [
+      /node_modules\/sinon/,
+      /node_modules\/nock/,
+    ],
     loaders: [
       // Transpile ES6 Javascript into ES5 with babel loader and happypack
       {
