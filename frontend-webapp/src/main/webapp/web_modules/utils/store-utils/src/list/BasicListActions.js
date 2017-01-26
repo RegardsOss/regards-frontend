@@ -1,7 +1,7 @@
 /**
  * @author Léo Mieulet
  */
-import { map, replace } from 'lodash'
+import { map, replace, split } from 'lodash'
 import { normalize } from 'normalizr'
 import ErrorHandler from '../ErrorHandler'
 
@@ -77,7 +77,13 @@ class BasicListActions {
     }
   }
   fetchEntity(keyValue, params) {
-    const endpoint = this.handleRequestParameters(this.entityEndpoint, params)
+    let endpoint = this.handleRequestParameters(this.entityEndpoint, params)
+    let queryParams = ''
+    const endpointSplit = split(endpoint, '?')
+    if (endpointSplit && endpointSplit.length > 1) {
+      endpoint = endpointSplit[0]
+      queryParams = `?${endpointSplit[1]}`
+    }
     return {
       [CALL_API]: {
         types: [
@@ -88,7 +94,7 @@ class BasicListActions {
           },
           this.ENTITY_FAILURE,
         ],
-        endpoint: `${endpoint}/${keyValue}`,
+        endpoint: `${endpoint}/${keyValue}${queryParams}`,
         method: 'GET',
       },
     }
