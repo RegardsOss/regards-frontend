@@ -3,10 +3,10 @@
  **/
 import { map } from 'lodash'
 import { connect } from '@regardsoss/redux'
-import { StoragePluginShape4Normalizr } from '@regardsoss/model/src/archival-storage/StoragePluginMonitoring'
+import StoragePlugin from '@regardsoss/model'
 import StorageMonitoringComponent from '../components/StorageMonitoringComponent'
-import StoragePluginMonitoringSelector from '../model/StoragePluginsMonitoringSelectors'
-import StoragePluginMonitoringActions from '../model/StoragePluginsMonitoringActions'
+import StoragePluginSelectors from '../model/StoragePluginSelectors'
+import StoragePluginActions from '../model/StoragePluginActions'
 import StorageUnitScale from '../helper/StorageUnit'
 
 /**
@@ -17,7 +17,7 @@ export class StorageMonitoringContainer extends React.Component {
   static propTypes = {
     // from mapStateToProps
     // Set by module loader, required for map state to props
-    storagePlugins: React.PropTypes.objectOf(StoragePluginShape4Normalizr),
+    storagePlugins: React.PropTypes.objectOf(StoragePlugin),
     isFetching: React.PropTypes.bool,
     hasError: React.PropTypes.bool,
     // from mapDispatchToProps
@@ -50,13 +50,13 @@ export class StorageMonitoringContainer extends React.Component {
 }
 
 const mapStateToProps = (state, props) => ({
-  storagePlugins: StoragePluginMonitoringSelector.getList(state),
-  isFetching: StoragePluginMonitoringSelector.isFetching(state),
-  hasError: StoragePluginMonitoringSelector.getError(state).hasError,
+  storagePlugins: StoragePluginSelectors.getList(state),
+  isFetching: StoragePluginSelectors.isFetching(state),
+  hasError: StoragePluginSelectors.getError(state).hasError,
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchStoragePlugins: () => dispatch(StoragePluginMonitoringActions.fetchEntityList(dispatch)),
+  fetchStoragePlugins: () => dispatch(StoragePluginActions.fetchEntityList()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(StorageMonitoringContainer)

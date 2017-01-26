@@ -92,9 +92,9 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchPlugin: pluginId => dispatch(PluginsActions.fetchEntity(pluginId, dispatch)),
-  updatePlugin: plugin => dispatch(PluginsActions.updateEntity(plugin.id, plugin, dispatch)),
-  createPlugin: plugin => dispatch(PluginsActions.createEntity(plugin, dispatch)),
+  fetchPlugin: pluginId => dispatch(PluginsActions.fetchEntity(pluginId)),
+  updatePlugin: plugin => dispatch(PluginsActions.updateEntity(plugin.id, plugin)),
+  createPlugin: plugin => dispatch(PluginsActions.createEntity(plugin)),
 
 })
 

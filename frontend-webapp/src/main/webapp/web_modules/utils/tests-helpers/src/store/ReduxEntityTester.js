@@ -63,15 +63,17 @@ export default class ReduxEntityTester {
   }
 
   runSelectorTest(store, done) {
+    let shapeResult
     try {
       const entityList = this.entitySelectors.getList(store.getState())
-      const shapeResult = this.entityShape({ entityList }, 'entityList', 'ReduxEntityTester')
+      shapeResult = this.entityShape({ entityList }, 'entityList', 'ReduxEntityTester')
       assert.isNull(shapeResult, 'There is a shape error')
       assert.isDefined(entityList, 'There is no result returned by the selector')
       this.afterAll()
       done()
     } catch (e) {
-      done(e)
+      done(new Error(`${e}.
+      Full shape error: ${JSON.stringify(shapeResult)}`))
     }
   }
 
@@ -87,14 +89,13 @@ export default class ReduxEntityTester {
 
   runActionTest(done) {
     const store = this.getStore()
-    const spy = done
     if (this.entityActions.fetchPagedEntityList) {
       assert.isDefined(this.backendServerResultList.metadata, 'Your Action is Pageable but the result you provided comes from a list entrypoint')
-      store.dispatch(this.entityActions.fetchPagedEntityList(spy, null, null, this.options.urlParams))
+      store.dispatch(this.entityActions.fetchPagedEntityList(null, null, this.options.urlParams))
         .then((action) => { this.onPostActionTest(action, store, done) })
     } else if (this.entityActions.fetchEntityList) {
       assert.isUndefined(this.backendServerResultList.metadata, 'Your Action is a List but the result you provided comes from a pageable entrypoint')
-      store.dispatch(this.entityActions.fetchEntityList(spy, this.options.urlParams))
+      store.dispatch(this.entityActions.fetchEntityList(this.options.urlParams))
         .then((action) => { this.onPostActionTest(action, store, done) })
     } else {
       done("Action can't be tested. Is it a Basic[Array|List|Pageable]Actions that you provided ?")

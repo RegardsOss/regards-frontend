@@ -22,17 +22,13 @@ export default function applyHateoasDisplayLogic(passedRequiredEndpoints, hateoa
 
       static propTypes = {
         hateoasDisplayLogic: React.PropTypes.func.isRequired,
-        requiredEndpoints: React.PropTypes.any,
-        availableEndpoints: React.PropTypes.any,
-        // requiredEndpoints: ResourceList,
-        // availableEndpoints: ResourceList,
-        // requiredEndpoints: React.PropTypes.arrayOf(React.PropTypes.string),
-        // availableEndpoints: React.PropTypes.arrayOf(React.PropTypes.string),
+        requiredEndpoints: React.PropTypes.arrayOf(React.PropTypes.string),
+        availableEndpoints: React.PropTypes.arrayOf(React.PropTypes.string),
       }
 
       render() {
         const { requiredEndpoints, availableEndpoints } = this.props
-        const decoratedComponentElement = React.createElement(DecoratedComponent)
+        const decoratedComponentElement = React.createElement(DecoratedComponent, this.props)
         return (
           <DisplayDecorator displayLogic={() => this.props.hateoasDisplayLogic(requiredEndpoints, availableEndpoints)}>
             {decoratedComponentElement}
@@ -44,7 +40,7 @@ export default function applyHateoasDisplayLogic(passedRequiredEndpoints, hateoa
     const mapStateToProps = state => ({
       hateoasDisplayLogic,
       requiredEndpoints: passedRequiredEndpoints,
-      availableEndpoints: EndpointSelectors.getList(state),
+      availableEndpoints: EndpointSelectors.getListOfKeys(state),
     })
 
     return connect(mapStateToProps)(ApplyHateoasDisplayLogic)

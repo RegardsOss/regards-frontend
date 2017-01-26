@@ -85,9 +85,9 @@ const mapStateToProps = state => ({
   isFetching: PluginsSelector.isFetching(state),
 })
 const mapDispatchToProps = dispatch => ({
-  fetchPlugins: () => dispatch(PluginsActions.fetchPagedEntityList(dispatch, 0, 100)),
-  updatePlugin: plugin => dispatch(PluginsActions.updateEntity(plugin.id, plugin, dispatch)),
-  deletePlugin: plugin => dispatch(PluginsActions.deleteEntity(plugin.id, dispatch)),
+  fetchPlugins: () => dispatch(PluginsActions.fetchPagedEntityList(0, 100)),
+  updatePlugin: plugin => dispatch(PluginsActions.updateEntity(plugin.id, plugin)),
+  deletePlugin: plugin => dispatch(PluginsActions.deleteEntity(plugin.id)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PluginListContainer)

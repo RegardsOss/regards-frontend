@@ -76,7 +76,7 @@ const mapStateToProps = state => ({
   roleList: RoleSelectors.getList(state),
 })
 const mapDispatchToProps = dispatch => ({
-  fetchRoleList: () => dispatch(RoleActions.fetchEntityList(dispatch)),
+  fetchRoleList: () => dispatch(RoleActions.fetchEntityList()),
   deleteRole: id => dispatch(RoleActions.deleteEntity(id)),
 })
 

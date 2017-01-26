@@ -55,7 +55,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchAccountList: () => dispatch(AccountActions.fetchPagedEntityList(dispatch, 0, 100)),
+  fetchAccountList: () => dispatch(AccountActions.fetchPagedEntityList(0, 100)),
   deleteAccount: accountId => dispatch(AccountActions.deleteEntity(accountId)),
 })
 

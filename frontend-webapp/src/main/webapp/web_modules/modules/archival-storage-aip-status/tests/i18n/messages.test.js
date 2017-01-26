@@ -6,7 +6,7 @@ import { keys } from 'lodash'
 import MessagesEN from '../../src/i18n/messages.en.i18n'
 import MessagesFR from '../../src/i18n/messages.fr.i18n'
 
-describe('[FORM UTILS] Testing i18n', () => {
+describe('[ARCHIVAL STORAGE AIP STATUS] Testing i18n', () => {
   it('should exist', () => {
     assert.isDefined(MessagesEN)
     assert.isDefined(MessagesFR)

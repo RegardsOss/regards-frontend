@@ -17,11 +17,15 @@ import { PluginInfo, PluginTypes } from './access/PluginInfo'
 import PluginDefinition from './access/PluginDefinition'
 import PluginConf from './access/PluginConf'
 import AccessProject from './access/Project'
+import Module from './access/Module'
 import Entity from './catalog/Entity'
 import PluginMetaData, { PluginMetaDataList } from './admin/PluginMetaData'
 import PluginConfiguration, { PluginConfigurationList } from './admin/PluginConfiguration'
 import PluginParameter, { PluginParameterist } from './admin/PluginParameter'
 import PluginDynamicValue, { PluginDynamicValueList } from './admin/PluginDynamicValue'
+import Endpoint from './admin/Endpoint'
+import AIPStatus, { aipStates, aipDataTypes } from './archival-storage/AIPStatus'
+import StoragePlugin, { StoragePluginShape } from './archival-storage/StoragePlugin'
 
 export default {
   // ADMIN
@@ -31,6 +35,7 @@ export default {
   Account,
   Resource,
   ResourceList,
+  Endpoint,
 
   // DAM
   AttributeModel,
@@ -50,6 +55,7 @@ export default {
   PluginTypes,
   PluginConf,
   AccessProject,
+  Module,
 
   // MICROSERVICE
   PluginMetaData,
@@ -61,4 +67,10 @@ export default {
   PluginDynamicValue,
   PluginDynamicValueList,
 
+  // Archival storage
+  AIPStatus,
+  aipStates,
+  aipDataTypes,
+  StoragePlugin,
+  StoragePluginShape,
 }

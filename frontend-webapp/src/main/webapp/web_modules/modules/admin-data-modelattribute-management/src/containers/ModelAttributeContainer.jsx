@@ -43,7 +43,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  updateModelAttribute: (id, values, modelId) => dispatch(ModelAttributeActions.updateEntity(id, values, dispatch, [modelId])),
+  updateModelAttribute: (id, values, modelId) => dispatch(ModelAttributeActions.updateEntity(id, values, [modelId])),
 })
 
 

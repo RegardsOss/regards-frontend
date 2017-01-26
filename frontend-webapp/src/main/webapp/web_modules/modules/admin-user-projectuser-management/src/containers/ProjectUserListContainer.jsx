@@ -70,7 +70,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchProjectUserList: () => dispatch(ProjectUserActions.fetchPagedEntityList(dispatch, 0, 100)),
+  fetchProjectUserList: () => dispatch(ProjectUserActions.fetchPagedEntityList(0, 100)),
   deleteAccount: accountId => dispatch(ProjectUserActions.deleteEntity(accountId)),
 })
 

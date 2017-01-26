@@ -13,7 +13,7 @@ export const microserviceBoardRoute = {
     require.ensure([], (require) => {
       const microserviceBoardContainer = require('./containers/MicroserviceBoardContainer')
       cb(null, {
-        content: microserviceBoardContainer,
+        content: microserviceBoardContainer.default,
       })
     })
   },

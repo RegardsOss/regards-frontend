@@ -30,7 +30,7 @@ class BasicPageableActions extends BasicListActions {
    * @param params [optional] params to replace in endpoint uri
    * @returns {{}}
    */
-  fetchPagedEntityList(dispatch, index, size, params) {
+  fetchPagedEntityList(index, size, params) {
     let endpoint = this.handleRequestParameters(this.entityEndpoint, params)
 
     if (size && size > 0) {
@@ -56,10 +56,7 @@ class BasicPageableActions extends BasicListActions {
               // Merge the normalized object with query metadata and query links
             ),
           },
-          {
-            type: this.ENTITY_LIST_FAILURE,
-            meta: (action, state, res) => this.errorHandler.onRequestFailure(dispatch, action, state, res),
-          },
+          this.ENTITY_LIST_FAILURE,
         ],
         endpoint,
         method: 'GET',

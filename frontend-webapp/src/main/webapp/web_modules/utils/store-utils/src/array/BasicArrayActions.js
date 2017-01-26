@@ -42,7 +42,7 @@ class BasicArrayActions {
     return endpoint
   }
 
-  fetchEntityList(dispatch, params) {
+  fetchEntityList(params) {
     const endpoint = this.handleRequestParameters(this.entityEndpoint, params)
     return {
       [CALL_API]: {
@@ -52,10 +52,7 @@ class BasicArrayActions {
             type: this.ENTITY_LIST_SUCCESS,
             payload: (action, state, res) => getJSON(res),
           },
-          {
-            type: this.ENTITY_LIST_FAILURE,
-            meta: (action, state, res) => this.errorHandler.onRequestFailure(dispatch, action, state, res),
-          },
+          this.ENTITY_LIST_FAILURE,
         ],
         endpoint,
         method: 'GET',

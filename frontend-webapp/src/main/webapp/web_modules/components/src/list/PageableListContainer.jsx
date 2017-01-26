@@ -182,7 +182,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  fetchEntities: (index, actions, nbEntityByPage) => dispatch(actions.fetchPagedEntityList(dispatch, index, nbEntityByPage)),
+  fetchEntities: (index, actions, nbEntityByPage) => dispatch(actions.fetchPagedEntityList(index, nbEntityByPage)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PageableListContainer)

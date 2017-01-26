@@ -8,6 +8,7 @@ import BoardActionShape from './BoardActionShape'
  */
 const BoardItemShape = React.PropTypes.shape({
   title: React.PropTypes.string,
+  subtitle: React.PropTypes.string,
   description: React.PropTypes.string,
   actions: React.PropTypes.arrayOf(BoardActionShape),
   advanced: React.PropTypes.bool.isRequired,

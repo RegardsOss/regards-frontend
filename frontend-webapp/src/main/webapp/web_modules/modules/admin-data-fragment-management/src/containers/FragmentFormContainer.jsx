@@ -121,9 +121,9 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  createFragment: values => dispatch(FragmentActions.createEntity(values, dispatch)),
-  updateFragment: (id, values) => dispatch(FragmentActions.updateEntity(id, values, dispatch)),
-  fetchFragment: id => dispatch(FragmentActions.fetchEntity(id, dispatch)),
+  createFragment: values => dispatch(FragmentActions.createEntity(values)),
+  updateFragment: (id, values) => dispatch(FragmentActions.updateEntity(id, values)),
+  fetchFragment: id => dispatch(FragmentActions.fetchEntity(id)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(FragmentFormContainer)

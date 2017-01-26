@@ -20,9 +20,10 @@ import ResourceAccess, { ResourceAccessConfiguration } from './admin/ResourceAcc
 import ModelAttribute, { ModelAttributeConfiguration } from './dam/ModelAttribute'
 import PluginMetaData, { PluginMetaDataConfiguration } from './admin/PluginMetaData'
 import AdminPluginConfiguration, { AdminPluginConfigurationSchemaConfiguration } from './admin/PluginConfiguration'
-import StoragePluginMonitoring from './archival-storage/StoragePluginMonitoring'
+import StoragePlugin from './archival-storage/StoragePlugin'
 import Collection from './dam/Collection'
 import AIPStatus from './archival-storage/AIPStatus'
+import Endpoint, { EndpointConfiguration } from './admin/Endpoint'
 
 // We use this Normalizr schemas to transform API responses from a nested form
 // to a flat form where repos and users are placed in `entities`, and nested
@@ -48,7 +49,7 @@ export default {
   ROLE_ARRAY: Role.ROLE_ARRAY,
   RoleConfiguration,
 
-  STORAGE_PLUGIN_MONITORING: Model.STORAGE_PLUGIN_MONITORING,
+  STORAGE_PLUGIN: Model.STORAGE_PLUGIN,
 
   MODEL: Model.MODEL,
   MODEL_ARRAY: Model.MODEL_ARRAY,
@@ -65,7 +66,6 @@ export default {
   ATTRIBUTE_MODEL: AttributeModel.ATTRIBUTE_MODEL,
   ATTRIBUTE_MODEL_ARRAY: AttributeModel.ATTRIBUTE_MODEL_ARRAY,
   AttributeModelConfiguration,
-
 
   MODEL_ATTRIBUTE: ModelAttribute.MODEL_ATTRIBUTE,
   MODEL_ATTRIBUTE_ARRAY: ModelAttribute.MODEL_ATTRIBUTE_ARRAY,
@@ -109,8 +109,11 @@ export default {
   PLUGIN_CONFIGURATION_ARRAY: AdminPluginConfiguration.PLUGIN_CONFIGURATION_ARRAY,
   AdminPluginConfigurationSchemaConfiguration,
 
-  ...StoragePluginMonitoring,
-
   ...Collection,
+  ...StoragePlugin,
   ...AIPStatus,
+
+  ENDPOINT: Endpoint.ENDPOINT,
+  ENDPOINT_ARRAY: Endpoint.ENDPOINT_ARRAY,
+  EndpointConfiguration,
 }

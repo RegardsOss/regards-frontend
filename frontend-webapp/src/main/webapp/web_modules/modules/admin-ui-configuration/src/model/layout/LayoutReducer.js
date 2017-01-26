@@ -1,14 +1,14 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { BasicPageableReducers } from '@regardsoss/store-utils'
+import { BasicListReducers } from '@regardsoss/store-utils'
 import { LayoutConfiguration } from '@regardsoss/api'
 import LayoutActions from './LayoutActions'
 
 /**
  * Redux store reducers for Layout entities
  */
-class LayoutsReducer extends BasicPageableReducers {
+class LayoutsReducer extends BasicListReducers {
   constructor() {
     super(LayoutConfiguration, LayoutActions)
   }
