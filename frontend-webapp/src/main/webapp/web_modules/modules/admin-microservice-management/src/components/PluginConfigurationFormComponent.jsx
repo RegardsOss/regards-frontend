@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import { RenderTextField, Field } from '@regardsoss/form-utils'
 import { themeContextType } from '@regardsoss/theme'
 import { reduxForm } from 'redux-form'
+import { ReduxConnectedForm } from '@regardsoss/redux'
 import { PluginMetaData, PluginConfiguration } from '@regardsoss/model'
 import { Toggle } from 'redux-form-material-ui'
 import moduleStyles from '../styles/styles'
@@ -23,7 +24,7 @@ export class PluginConfigurationFormComponent extends React.Component {
     formMode: React.PropTypes.oneOf(['create', 'edit', 'copy']),
     // from reduxForm
     submitting: React.PropTypes.bool,
-    pristine: React.PropTypes.bool,
+    // TODO use or delete pristine: React.PropTypes.bool,
     invalid: React.PropTypes.bool,
     handleSubmit: React.PropTypes.func.isRequired,
     initialize: React.PropTypes.func.isRequired,
@@ -110,7 +111,10 @@ export class PluginConfigurationFormComponent extends React.Component {
       />) :
       <FormattedMessage id="microservice-management.plugin.configuration.form.create.title" />
     return (
-      <form onSubmit={handleSubmit(this.props.onSubmit)}>
+      <ReduxConnectedForm
+        onSubmit={handleSubmit(this.props.onSubmit)}
+        i18nMessagesDir="modules/admin-microservice-management/src/i18n"
+      >
         <Card>
           <CardTitle
             title={title}
@@ -167,7 +171,7 @@ export class PluginConfigurationFormComponent extends React.Component {
             />
           </CardActions>
         </Card>
-      </form>
+      </ReduxConnectedForm>
     )
   }
 }
@@ -179,8 +183,7 @@ export class PluginConfigurationFormComponent extends React.Component {
  * @returns {{}} i18n keys
  */
 function validate(values) {
-  const errors = {}
-  return errors
+  return {}
 }
 
 export default reduxForm({

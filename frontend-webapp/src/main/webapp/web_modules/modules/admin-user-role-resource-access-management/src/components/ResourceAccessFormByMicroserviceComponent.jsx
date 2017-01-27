@@ -17,7 +17,8 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
   static propTypes = {
     currentRole: Role,
     controllerList: React.PropTypes.arrayOf(React.PropTypes.string),
-    microserviceName: React.PropTypes.string.isRequired,
+    // TODO use or delete
+    // microserviceName: React.PropTypes.string.isRequired,
     resourceList: React.PropTypes.objectOf(Resource).isRequired,
     handleOpenController: React.PropTypes.func.isRequired,
     handleToggleResourceAccess: React.PropTypes.func.isRequired,
@@ -41,6 +42,21 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
     }
   }
 
+  getChipColor = (verb) => {
+    switch (verb) {
+      case 'GET':
+        return this.context.muiTheme.adminApp.roleResourceAccessOverview.getChip
+      case 'POST':
+        return this.context.muiTheme.adminApp.roleResourceAccessOverview.postChip
+      case 'DELETE':
+        return this.context.muiTheme.adminApp.roleResourceAccessOverview.deleteChip
+      case 'PUT':
+        return this.context.muiTheme.adminApp.roleResourceAccessOverview.putChip
+      default:
+        return {}
+    }
+  }
+
   handleToggleController = (controller) => {
     const { isControllerOpen } = this.state
     forEach(isControllerOpen, (isOpen, controllerName) => {
@@ -56,21 +72,6 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
     this.setState({
       isControllerOpen,
     })
-  }
-
-  getChipColor = (verb) => {
-    switch (verb) {
-      case 'GET':
-        return this.context.muiTheme.adminApp.roleResourceAccessOverview.getChip
-      case 'POST':
-        return this.context.muiTheme.adminApp.roleResourceAccessOverview.postChip
-      case 'DELETE':
-        return this.context.muiTheme.adminApp.roleResourceAccessOverview.deleteChip
-      case 'PUT':
-        return this.context.muiTheme.adminApp.roleResourceAccessOverview.putChip
-      default:
-        return {}
-    }
   }
 
   isResourceAutorized = (resource) => {

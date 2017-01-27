@@ -35,6 +35,7 @@ export class PluginConfigurationListContainer extends React.Component {
     isPluginConfigurationFetching: React.PropTypes.bool,
     // from mapDispatchToProps
     fetchPluginConfigurationList: React.PropTypes.func,
+    // eslint-disable-next-line react/no-unused-prop-types
     deletePluginConfiguration: React.PropTypes.func,
   }
 

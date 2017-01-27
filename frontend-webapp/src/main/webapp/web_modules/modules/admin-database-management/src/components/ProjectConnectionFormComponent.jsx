@@ -4,6 +4,7 @@
 import * as React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
+import { ReduxConnectedForm } from '@regardsoss/redux'
 import TextField from 'material-ui/TextField'
 import MainActionButtonComponent from '@regardsoss/components/src/cards/MainActionButtonComponent'
 import SecondaryActionButtonComponent from '@regardsoss/components/src/cards/SecondaryActionButtonComponent'
@@ -46,7 +47,10 @@ export class ProjectConnectionFormComponent extends React.Component {
 
   render() {
     return (
-      <form onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
+      <ReduxConnectedForm
+        onSubmit={this.props.handleSubmit(this.props.onSubmit)}
+        i18nMessagesDir="modules/admin-database-management/src/i18n"
+      >
         <TextField
           hintText={this.props.projectConnection.content.driverClassName}
           floatingLabelText={<FormattedMessage id="database.form.input.driverClassName" />}
@@ -88,7 +92,7 @@ export class ProjectConnectionFormComponent extends React.Component {
             type="submit"
           />
         </div>
-      </form>
+      </ReduxConnectedForm>
     )
   }
 }

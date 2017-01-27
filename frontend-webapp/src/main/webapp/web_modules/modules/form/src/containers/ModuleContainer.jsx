@@ -20,6 +20,7 @@ class ModuleContainer extends React.Component {
     fetchAttribute: React.PropTypes.func,
     // eslint-disable-next-line react/no-unused-prop-types
     attributes: React.PropTypes.objectOf(AttributeModel),
+    attributesFetching: React.PropTypes.bool.isRequired,
   }
 
   constructor(props) {

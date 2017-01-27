@@ -18,7 +18,6 @@ export class StorageMonitoringContainer extends React.Component {
     // from mapStateToProps
     // Set by module loader, required for map state to props
     storagePlugins: React.PropTypes.objectOf(StoragePlugin).isRequired,
-      // React.PropTypes.objectOf(StoragePlugin),
     isFetching: React.PropTypes.bool,
     hasError: React.PropTypes.bool,
     // from mapDispatchToProps
