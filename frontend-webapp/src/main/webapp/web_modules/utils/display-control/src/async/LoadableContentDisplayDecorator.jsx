@@ -20,7 +20,6 @@ class LoadableContentDisplayDecorator extends React.Component {
     isLoading: React.PropTypes.bool,
     isContentError: React.PropTypes.bool,
     isEmpty: React.PropTypes.bool,
-    children: React.PropTypes.element,
   }
 
   static defaultProps = {

@@ -56,7 +56,6 @@ class PluginListContainer extends React.Component {
   }
 
   render() {
-    console.log('plugins', this.props)
     if (!this.props.plugins || this.props.isFetching) {
       return (<FormLoadingComponent />)
     }

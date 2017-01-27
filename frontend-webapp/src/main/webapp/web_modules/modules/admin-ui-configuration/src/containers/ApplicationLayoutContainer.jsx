@@ -64,7 +64,7 @@ class ApplicationLayoutContainer extends React.Component {
           browserHistory.push(url)
         })
     } catch (e) {
-      console.log('Invalid JSON Format for layout update.')
+      console.warn('Invalid JSON Format for layout update.')
     }
   }
 
@@ -77,7 +77,6 @@ class ApplicationLayoutContainer extends React.Component {
       return (<FormEntityNotFoundComponent />)
     }
 
-    console.log('layout', this.props)
     return (
       <I18nProvider messageDir="modules/admin-ui-configuration/src/i18n">
         <ApplicationLayoutComponent layout={this.props.layout.content.layout} onSubmit={this.handleSubmit} />

@@ -50,6 +50,11 @@ class ModulesListContainer extends React.Component {
     browserHistory.push(url)
   }
 
+  handleDuplicateModule = (module) => {
+    const url = `/admin/${this.props.params.project}/ui-configuration/applications/${this.props.params.applicationId}/modules/${module.id}/duplicate`
+    browserHistory.push(url)
+  }
+
   openDeleteDialogConfirm = (module) => {
 
   }
@@ -73,6 +78,7 @@ class ModulesListContainer extends React.Component {
           modules={this.props.modules}
           onCreate={this.handleCreateModule}
           onEdit={this.handleEditModule}
+          onDuplicate={this.handleDuplicateModule}
           onDelete={this.handleDeleteModule}
           onActivation={this.handleModuleActivation}
           handleUpdate={this.props.updateModule}

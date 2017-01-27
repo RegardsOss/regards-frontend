@@ -7,7 +7,6 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { connect } from '@regardsoss/redux'
 import { Layout } from '@regardsoss/model'
 import { ThemeHelper, ThemeSelectors } from '@regardsoss/theme'
-import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
 import { ApplicationLayout, ContainerHelper } from '@regardsoss/layout'
 import { ModuleShape } from '@regardsoss/modules'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
@@ -59,7 +58,7 @@ export class UserApp extends React.Component {
       forEach(nextProps.modules, (module, idx) => {
         if (module.content.isDefault) {
           if (ContainerHelper.isDynamicContent(module.content.container, nextProps.layout.content.layout.containers)) {
-            console.log('Default module selection', module)
+            console.log('Default module selection : ', module)
             browserHistory.push(`/user/${this.props.params.project}/modules/${module.content.id}`)
           }
         }

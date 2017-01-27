@@ -54,7 +54,6 @@ class ProjectSidebarComponent extends React.Component {
       },
     }
 
-    console.log('DEP', uiPluginsDependencies)
     return (
       <I18nProvider messageDir="modules/admin/src/menu/i18n">
 

@@ -36,6 +36,7 @@ const messages = Object.assign({
   'layout.submit': 'Update layout',
   'module.form.title.create': 'Create a new interface module',
   'module.form.title.update': 'Update {name} interface module',
+  'module.form.title.duplicate': 'Duplicate module {name}',
   'module.form.name': 'Module name',
   'module.form.description': 'Description',
   'module.form.container': 'Layout container',
