@@ -7,6 +7,7 @@ import { Plugin } from '@regardsoss/model'
 import { getReducerRegistry, configureReducers } from '@regardsoss/store'
 import { i18nSelectors } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
+import { ErrorCardComponent } from '@regardsoss/components'
 import { loadPlugin } from '../model/LoadPluginActions'
 import PluginSelector from '../model/LoadPluginSelector'
 
@@ -43,12 +44,13 @@ class PluginLoader extends React.Component {
     super(props)
     this.state = {
       registered: false,
+      loadError: false,
     }
   }
 
   componentWillMount() {
     if (!this.props.loadedPlugin) {
-      this.props.loadPlugin(this.props.pluginPath)
+      this.props.loadPlugin(this.props.pluginPath, this.errorCallback)
     }
   }
 
@@ -62,6 +64,13 @@ class PluginLoader extends React.Component {
         registered: true,
       })
     }
+  }
+
+  errorCallback = (deps) => {
+    this.setState({
+      loadError: true,
+      errorDep: deps,
+    })
   }
 
   renderPlugin() {
@@ -92,6 +101,13 @@ class PluginLoader extends React.Component {
 
   render() {
     const isLoading = this.props.loadedPlugin === undefined || this.props.loadedPlugin === null
+    if (this.state.loadError) {
+      return (
+        <ErrorCardComponent
+          message={`Error loading plugin ${this.state.errorDep}`}
+        />
+      )
+    }
     return (
       <LoadableContentDisplayDecorator
         isLoading={isLoading}
@@ -109,7 +125,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  loadPlugin: sourcePath => loadPlugin(sourcePath, dispatch),
+  loadPlugin: (sourcePath, errorCallback) => loadPlugin(sourcePath, errorCallback, dispatch),
 })
 
 // Export for tests

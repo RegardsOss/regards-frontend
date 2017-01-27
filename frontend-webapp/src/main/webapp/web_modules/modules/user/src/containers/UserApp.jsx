@@ -1,17 +1,16 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import {forEach} from 'lodash'
-import {browserHistory} from 'react-router'
+import { forEach } from 'lodash'
+import { browserHistory } from 'react-router'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-import {connect} from '@regardsoss/redux'
-import {Layout} from '@regardsoss/model'
-import {ThemeHelper, ThemeSelectors} from '@regardsoss/theme'
-import {FormLoadingComponent, FormEntityNotFoundComponent} from '@regardsoss/form-utils'
-import {ApplicationLayout, ContainerHelper} from '@regardsoss/layout'
-import {ModuleShape} from '@regardsoss/modules'
-import {LoadableContentDisplayDecorator} from '@regardsoss/display-control'
-import {ApplicationErrorContainer} from '@regardsoss/global-sytem-error'
+import { connect } from '@regardsoss/redux'
+import { Layout } from '@regardsoss/model'
+import { ThemeHelper, ThemeSelectors } from '@regardsoss/theme'
+import { ApplicationLayout, ContainerHelper } from '@regardsoss/layout'
+import { ModuleShape } from '@regardsoss/modules'
+import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
+import { ApplicationErrorContainer } from '@regardsoss/global-sytem-error'
 import LayoutSelector from '../model/layout/LayoutSelector'
 import LayoutActions from '../model/layout/LayoutActions'
 import ModulesSelector from '../model/modules/ModulesSelector'
@@ -76,7 +75,7 @@ export class UserApp extends React.Component {
   }
 
   renderLayout(modulesList) {
-    if(this.props.layout && this.props.layout.content) {
+    if (this.props.layout && this.props.layout.content) {
       return (
         <ApplicationLayout
           appName="user"
@@ -95,7 +94,7 @@ export class UserApp extends React.Component {
    * @returns {React.Component}
    */
   render() {
-    const {theme} = this.props
+    const { theme } = this.props
     const muiTheme = ThemeHelper.getByName(theme)
 
     const modulesList = []
@@ -129,7 +128,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchLayout: () => dispatch(LayoutActions.fetchEntity('user')),
-  fetchModules: () => dispatch(ModulesActions.fetchPagedEntityList(0, 100, {applicationId: 'user'})),
+  fetchModules: () => dispatch(ModulesActions.fetchPagedEntityList(0, 100, { applicationId: 'user' })),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserApp)

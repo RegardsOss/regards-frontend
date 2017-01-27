@@ -25,6 +25,8 @@ import ConfirmDialogComponent from './dialogs/ConfirmDialogComponent'
 import PageableListContainer from './list/PageableListContainer'
 import ModuleAppBar from './module/ModuleAppBar'
 
+import ErrorCardComponent from './error/ErrorCardComponent'
+
 export {
   ActionButtonComponent,
   ApplicationErrorComponent,
@@ -45,4 +47,5 @@ export {
   BoardItemComponent,
   BaseBoardItemComponent,
   ModuleAppBar,
+  ErrorCardComponent,
 }
