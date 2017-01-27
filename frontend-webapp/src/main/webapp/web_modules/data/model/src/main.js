@@ -21,7 +21,8 @@ import Module from './access/Module'
 import Entity from './catalog/Entity'
 import PluginMetaData, { PluginMetaDataList } from './admin/PluginMetaData'
 import PluginConfiguration, { PluginConfigurationList } from './admin/PluginConfiguration'
-import PluginParameter, { PluginParameterist } from './admin/PluginParameter'
+import PluginParameter from './admin/PluginParameter'
+import PluginParameterType from './admin/PluginParameterType'
 import PluginDynamicValue, { PluginDynamicValueList } from './admin/PluginDynamicValue'
 import Endpoint from './admin/Endpoint'
 import AIPStatus, { aipStates, aipDataTypes } from './archival-storage/AIPStatus'
@@ -63,7 +64,7 @@ export default {
   PluginConfiguration,
   PluginConfigurationList,
   PluginParameter,
-  PluginParameterist,
+  PluginParameterType,
   PluginDynamicValue,
   PluginDynamicValueList,
 

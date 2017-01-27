@@ -1,11 +1,13 @@
+import { chain } from 'lodash'
+import { reduxForm } from 'redux-form'
+import { Toggle } from 'redux-form-material-ui'
+import { FormattedMessage } from 'react-intl'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent } from '@regardsoss/components'
-import { FormattedMessage } from 'react-intl'
-import { RenderTextField, Field } from '@regardsoss/form-utils'
 import { themeContextType } from '@regardsoss/theme'
-import { reduxForm } from 'redux-form'
+import { RenderTextField, Field } from '@regardsoss/form-utils'
 import { PluginMetaData, PluginConfiguration } from '@regardsoss/model'
-import { Toggle } from 'redux-form-material-ui'
+import PluginParameterListSubFormComponent from './PluginParameterListSubFormComponent'
 import moduleStyles from '../styles/styles'
 
 const styles = moduleStyles()
@@ -81,6 +83,9 @@ export class PluginConfigurationFormComponent extends React.Component {
     const pluginMetaDataPluginId = pluginMetaData && pluginMetaData.content && pluginMetaData.content.pluginId
     const pluginConfigurationPluginClassName = pluginConfiguration && pluginConfiguration.content && pluginConfiguration.content.pluginClassName
     const pluginMetaDataPluginClassName = pluginMetaData && pluginMetaData.content && pluginMetaData.content.pluginClassName
+    const parameters = pluginConfiguration && pluginConfiguration.content && pluginConfiguration.content.parameters
+    const formatedParemeters = chain(parameters).map(parameter => [parameter.name, parameter.value]).fromPairs().value()
+
     const initialValues = {
       id,
       pluginId: pluginConfigurationPluginId || pluginMetaDataPluginId,
@@ -89,8 +94,8 @@ export class PluginConfigurationFormComponent extends React.Component {
       priorityOrder: pluginConfiguration && pluginConfiguration.content && pluginConfiguration.content.priorityOrder,
       active: pluginConfiguration && pluginConfiguration.content && pluginConfiguration.content.active,
       pluginClassName: pluginConfigurationPluginClassName || pluginMetaDataPluginClassName,
+      ...formatedParemeters,
     }
-
     this.props.initialize(initialValues)
   }
 
@@ -100,7 +105,7 @@ export class PluginConfigurationFormComponent extends React.Component {
    * @returns {XML}
    */
   render() {
-    const { pluginConfiguration, handleSubmit, submitting, invalid, backUrl } = this.props
+    const { pluginConfiguration, pluginMetaData, handleSubmit, submitting, invalid, backUrl } = this.props
     const title = this.state.isEditing ?
       (<FormattedMessage
         id="microservice-management.plugin.configuration.form.edit.title"
@@ -108,7 +113,7 @@ export class PluginConfigurationFormComponent extends React.Component {
           name: pluginConfiguration.content.name,
         }}
       />) :
-      <FormattedMessage id="microservice-management.plugin.configuration.form.create.title" />
+      <FormattedMessage id="microservice-management.plugin.configuration.form.create.title"/>
     return (
       <form onSubmit={handleSubmit(this.props.onSubmit)}>
         <Card>
@@ -122,42 +127,50 @@ export class PluginConfigurationFormComponent extends React.Component {
               fullWidth
               component={RenderTextField}
               type="text"
-              label={<FormattedMessage id="microservice-management.plugin.configuration.form.pluginClassName" />}
+              label={<FormattedMessage id="microservice-management.plugin.configuration.form.pluginClassName"/>}
             />
             <Field
               name="label"
               fullWidth
               component={RenderTextField}
               type="text"
-              label={<FormattedMessage id="microservice-management.plugin.configuration.form.label" />}
+              label={<FormattedMessage id="microservice-management.plugin.configuration.form.label"/>}
             />
             <Field
               name="version"
               fullWidth
               component={RenderTextField}
               type="text"
-              label={<FormattedMessage id="microservice-management.plugin.configuration.form.version" />}
+              label={<FormattedMessage id="microservice-management.plugin.configuration.form.version"/>}
             />
             <Field
               name="priorityOrder"
               fullWidth
               component={RenderTextField}
               type="number"
-              label={<FormattedMessage id="microservice-management.plugin.configuration.form.priorityOrder" />}
+              label={<FormattedMessage id="microservice-management.plugin.configuration.form.priorityOrder"/>}
             />
             <Field
               name="active"
               component={Toggle}
               type="boolean"
               style={styles.pluginConfiguration.form.toggle}
-              label={<FormattedMessage id="microservice-management.plugin.configuration.form.active" />}
+              label={<FormattedMessage id="microservice-management.plugin.configuration.form.active"/>}
             />
           </CardText>
+        </Card>
+
+        <PluginParameterListSubFormComponent
+          pluginParameterList={pluginConfiguration.content.parameters}
+          pluginParameterTypeList={pluginMetaData && pluginMetaData.content.parameters}
+        />
+
+        <Card style={{ marginTop: 20 }}>
           <CardActions>
             <CardActionsComponent
               mainButtonLabel={this.state.isEditing ?
-                <FormattedMessage id="microservice-management.plugin.configuration.form.action.submit.save" /> :
-                <FormattedMessage id="microservice-management.plugin.configuration.form.action.submit.add" />}
+                <FormattedMessage id="microservice-management.plugin.configuration.form.action.submit.save"/> :
+                <FormattedMessage id="microservice-management.plugin.configuration.form.action.submit.add"/>}
               mainButtonType="submit"
               isMainButtonDisabled={submitting || invalid}
               secondaryButtonLabel={<FormattedMessage

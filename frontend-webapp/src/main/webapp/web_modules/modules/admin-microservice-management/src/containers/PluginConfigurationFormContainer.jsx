@@ -27,6 +27,7 @@ export class PluginConfigurationFormContainer extends React.Component {
     pluginConfiguration: PluginConfiguration,
     pluginMetaData: PluginMetaData,
     isPluginConfigurationFetching: React.PropTypes.bool,
+    isPluginMetaDataFetching: React.PropTypes.bool,
     // from mapDispatchToProps
     createPluginConfiguration: React.PropTypes.func,
     fetchPluginConfiguration: React.PropTypes.func,
@@ -71,11 +72,11 @@ export class PluginConfigurationFormContainer extends React.Component {
    * @returns {XML}
    */
   getFormComponent = () => {
-    const { params: { formMode }, isPluginConfigurationFetching, pluginConfiguration, pluginMetaData } = this.props
+    const { params: { formMode }, isPluginConfigurationFetching, isPluginMetaDataFetching, pluginConfiguration, pluginMetaData } = this.props
     const isEmpty = this.state.isEditing && typeof pluginConfiguration === 'undefined'
     return (
       <LoadableContentDisplayDecorator
-        isLoading={isPluginConfigurationFetching}
+        isLoading={isPluginConfigurationFetching || isPluginMetaDataFetching}
         isEmpty={isEmpty}
       >
         <PluginConfigurationFormComponent
@@ -154,6 +155,7 @@ const mapStateToProps = (state, ownProps) => ({
   pluginConfiguration: ownProps.params.pluginConfigurationId ? PluginConfigurationSelectors.getById(state, ownProps.params.pluginConfigurationId) : null,
   isPluginConfigurationFetching: PluginConfigurationSelectors.isFetching(state),
   pluginMetaData: ownProps.params.pluginId ? PluginMetaDataSelectors.getById(state, ownProps.params.pluginId) : null,
+  isPluginMetaDataFetching: PluginMetaDataSelectors.isFetching(state),
 })
 
 const mapDispatchToProps = dispatch => ({

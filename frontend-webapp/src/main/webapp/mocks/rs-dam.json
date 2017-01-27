@@ -66,7 +66,20 @@
       "pluginClassName": "Kerberos",
       "author": "Jules Verne",
       "version": "0.0.5",
-      "description": "Allows the users to log in with their usual email and password."
+      "description": "Allows the users to log in with their usual email and password.",
+      "parameters": [{
+        "name": "suffix",
+        "type": "java.lang.String",
+        "paramType": "PRIMITIVE"
+      }, {
+        "name": "coeff",
+        "type": "java.lang.Integer",
+        "paramType": "PRIMITIVE"
+      }, {
+        "name": "isActive",
+        "type": "java.lang.Boolean",
+        "paramType": "PRIMITIVE"
+      }]
     },
     {
       "id": "1",
@@ -146,7 +159,27 @@
       "priorityOrder": 0,
       "active": true,
       "pluginClassName": "Kerberos",
-      "pluginId": "0"
+      "pluginId": "0",
+      "parameters": [
+        {
+          "id": 0,
+          "name": "suffix",
+          "value": "_thesuffix",
+          "dynamic": false
+        },
+        {
+          "id": 1,
+          "name": "coeff",
+          "value": "9",
+          "dynamic": false
+        },
+        {
+          "id": 2,
+          "name": "isActive",
+          "value": "true",
+          "dynamic": false
+        }
+      ]
     },
     {
       "id": 1,
@@ -155,7 +188,27 @@
       "priorityOrder": 1,
       "active": true,
       "pluginClassName": "Kerberos",
-      "pluginId": "0"
+      "pluginId": "0",
+      "parameters": [
+        {
+          "id": 0,
+          "name": "suffix",
+          "value": "_theothersuffix",
+          "dynamic": false
+        },
+        {
+          "id": 1,
+          "name": "coeff",
+          "value": "2",
+          "dynamic": false
+        },
+        {
+          "id": 2,
+          "name": "isActive",
+          "value": "false",
+          "dynamic": false
+        }
+      ]
     },
     {
       "id": 2,
@@ -164,7 +217,27 @@
       "priorityOrder": 2,
       "active": false,
       "pluginClassName": "Kerberos",
-      "pluginId": "0"
+      "pluginId": "0",
+      "parameters": [
+        {
+          "id": 0,
+          "name": "suffix",
+          "value": "_thesuffix",
+          "dynamic": false
+        },
+        {
+          "id": 1,
+          "name": "coeff",
+          "value": "9",
+          "dynamic": false
+        },
+        {
+          "id": 2,
+          "name": "isActive",
+          "value": "true",
+          "dynamic": false
+        }
+      ]
     },
     {
       "id": 3,
@@ -173,7 +246,27 @@
       "priorityOrder": 3,
       "active": true,
       "pluginClassName": "Kerberos",
-      "pluginId": "0"
+      "pluginId": "0",
+      "parameters": [
+        {
+          "id": 0,
+          "name": "suffix",
+          "value": "_çasuffix",
+          "dynamic": false
+        },
+        {
+          "id": 1,
+          "name": "coeff",
+          "value": "3",
+          "dynamic": false
+        },
+        {
+          "id": 2,
+          "name": "isActive",
+          "value": "true",
+          "dynamic": false
+        }
+      ]
     }
   ],
   "collections": [

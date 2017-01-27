@@ -1,3 +1,5 @@
+import PluginParameter from './PluginParameter'
+
 const PluginConfiguration = React.PropTypes.shape({
   content: React.PropTypes.shape({
     id: React.PropTypes.number.isRequired,
@@ -7,6 +9,7 @@ const PluginConfiguration = React.PropTypes.shape({
     priorityOrder: React.PropTypes.number.isRequired,
     active: React.PropTypes.bool.isRequired,
     pluginClassName: React.PropTypes.string.isRequired,
+    parameters: React.PropTypes.arrayOf(PluginParameter).isRequired,
   }),
 })
 

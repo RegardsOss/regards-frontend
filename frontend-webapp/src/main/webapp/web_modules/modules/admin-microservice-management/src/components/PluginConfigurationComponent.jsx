@@ -1,6 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import { map } from 'lodash'
 import { i18nContextType } from '@regardsoss/i18n'
 import { PluginConfiguration } from '@regardsoss/model'
 import { FormattedMessage } from 'react-intl'
@@ -12,6 +13,9 @@ import ContentCopy from 'material-ui/svg-icons/content/content-copy'
 import ModeEdit from 'material-ui/svg-icons/editor/mode-edit'
 import IconButton from 'material-ui/IconButton'
 import Toggle from 'material-ui/Toggle'
+import {List, ListItem} from 'material-ui/List'
+import Subheader from 'material-ui/Subheader'
+import Divider from 'material-ui/Divider'
 import moduleStyles from '../styles/styles'
 
 /**
@@ -52,6 +56,8 @@ class PluginConfigurationComponent extends React.Component {
 
   render() {
     const { pluginConfiguration, onActiveToggle, onCopyClick, onDeleteClick, onEditClick, onDownwardClick, onUpwardClick } = this.props
+    const parameters = map(pluginConfiguration.content.parameters, (parameter, index) => <ListItem disabled key={index}>{parameter.name}: {parameter.value}</ListItem>)
+
     return (
       <Card
         onExpandChange={this.handleExpandChange}
@@ -104,10 +110,10 @@ class PluginConfigurationComponent extends React.Component {
           </div>
         </CardActions>
         <CardText expandable>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
-          Donec vulputate interdum sollicitudin. Et nunc lacinia auctor quam sed pellentesque.
-          Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.
+          <List>
+            <Subheader>Parameters (TODO)</Subheader>
+            {parameters}
+          </List>
         </CardText>
       </Card>
     )

@@ -1,3 +1,5 @@
+import PluginParameterType from './PluginParameterType'
+
 const PluginMetaData = React.PropTypes.shape({
   content: React.PropTypes.shape({
     pluginId: React.PropTypes.string.isRequired,
@@ -5,7 +7,7 @@ const PluginMetaData = React.PropTypes.shape({
     author: React.PropTypes.string.isRequired,
     description: React.PropTypes.string,
     version: React.PropTypes.string.isRequired,
-    parameters: React.PropTypes.arrayOf(React.PropTypes.string),
+    parameters: React.PropTypes.arrayOf(PluginParameterType),
   }),
 })
 

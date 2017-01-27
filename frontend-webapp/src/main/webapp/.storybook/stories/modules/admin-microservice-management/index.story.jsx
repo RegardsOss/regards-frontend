@@ -4,6 +4,7 @@ import { withKnobs, object } from '@kadira/storybook-addon-knobs'
 import { StoreDecorator, addLocaleAndThemeSelectors, ThemeAndLocaleDecorator } from '../../utils/decorators'
 import PluginConfigurationComponent from '@regardsoss/admin-microservice-management/src/components/PluginConfigurationComponent'
 import PluginConfigurationFormComponent from '@regardsoss/admin-microservice-management/src/components/PluginConfigurationFormComponent'
+import PluginParameterListSubFormComponent from '@regardsoss/admin-microservice-management/src/components/PluginParameterListSubFormComponent'
 
 const defaultPluginConfigurationList = {
   0: {
@@ -14,6 +15,26 @@ const defaultPluginConfigurationList = {
       priorityOrder: 4,
       active: true,
       pluginClassName: 'Kerberos',
+      parameters: [
+        {
+          id: 0,
+          name: "suffix",
+          value: "_çasuffix",
+          dynamic: false,
+        },
+        {
+          id: 1,
+          name: "coeff",
+          value: "3",
+          dynamic: false,
+        },
+        {
+          id: 2,
+          name: "isActive",
+          value: "true",
+          dynamic: false,
+        }
+      ]
     },
     links: [],
   },
@@ -185,6 +206,17 @@ storiesOf('Admin - Microservice management', module)
           onSubmit={action('onSubmit')}
           backUrl={'back/url'}
           pluginConfiguration={pluginConfiguration}
+        />
+      </ThemeAndLocaleDecorator>
+    )
+  })
+  .add('Plugin parameter list sub form', () => {
+    const themeName = addLocaleAndThemeSelectors()
+    const pluginParameterList = object('Plugin configuration', defaultPluginConfigurationList['0'].parameters)
+    return (
+      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-microservice-management/src/i18n">
+        <PluginParameterListSubFormComponent
+          pluginParameterList={pluginParameterList}
         />
       </ThemeAndLocaleDecorator>
     )
