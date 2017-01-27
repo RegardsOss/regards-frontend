@@ -36,14 +36,20 @@ export class CollectionListContainer extends React.Component {
     const { params: { project } } = this.props
     return `/admin/${project}/data/collection/create`
   }
+
   getBackUrl = () => {
     const { params: { project } } = this.props
     return `/admin/${project}/data/board`
   }
 
-  handleEdit = (attrModelId) => {
+  handleDuplicate = (collectionId) => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/data/collection/${attrModelId}/edit`
+    return `/admin/${project}/data/collection/${collectionId}/duplicate`
+  }
+
+  handleEdit = (collectionId) => {
+    const { params: { project } } = this.props
+    const url = `/admin/${project}/data/collection/${collectionId}/edit`
     browserHistory.push(url)
   }
 
@@ -60,6 +66,7 @@ export class CollectionListContainer extends React.Component {
         >
           <CollectionListComponent
             collectionList={collectionList}
+            handleDuplicate={this.handleDuplicate}
             handleDelete={this.handleDelete}
             handleEdit={this.handleEdit}
             backUrl={this.getBackUrl()}
@@ -77,7 +84,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchCollectionList: () => dispatch(CollectionActions.fetchEntityList()),
+  fetchCollectionList: () => dispatch(CollectionActions.fetchPagedEntityList(0, 100)),
   deleteCollection: id => dispatch(CollectionActions.deleteEntity()),
 })
 
