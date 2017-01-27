@@ -3,6 +3,7 @@ import { CardActionsComponent } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
 import { RenderTextField, Field, RenderCheckbox, RenderSelectField, EnumInputsComponent, EnumInputsHelper, ErrorTypes, ValidationHelpers } from '@regardsoss/form-utils'
 import { reduxForm } from 'redux-form'
+import { ReduxConnectedForm } from '@regardsoss/redux'
 import { Role } from '@regardsoss/model'
 import MenuItem from 'material-ui/MenuItem'
 import { map, forEach } from 'lodash'
@@ -70,7 +71,10 @@ export class RoleFormComponent extends React.Component {
         }}
       />)
     return (
-      <form onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
+      <ReduxConnectedForm
+        onSubmit={this.props.handleSubmit(this.props.onSubmit)}
+        i18nMessagesDir="modules/admin-user-role-management/src/i18n"
+      >
         <Card>
           <CardTitle
             title={title}
@@ -121,7 +125,7 @@ export class RoleFormComponent extends React.Component {
             />
           </CardActions>
         </Card>
-      </form>
+      </ReduxConnectedForm>
     )
   }
 }

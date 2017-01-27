@@ -1,9 +1,9 @@
 import React from 'react'
 import { storiesOf, action } from '@kadira/storybook'
 import { withKnobs, object } from '@kadira/storybook-addon-knobs'
-import { StoreDecorator, addLocaleAndThemeSelectors, ThemeAndLocaleDecorator } from '../../utils/decorators'
 import PluginConfigurationComponent from '@regardsoss/admin-microservice-management/src/components/PluginConfigurationComponent'
 import PluginConfigurationFormComponent from '@regardsoss/admin-microservice-management/src/components/PluginConfigurationFormComponent'
+import { StoreDecorator, addLocaleAndThemeSelectors, ThemeAndLocaleDecorator } from '../../utils/decorators'
 
 const defaultPluginConfigurationList = {
   0: {
@@ -51,7 +51,8 @@ const defaultPluginConfigurationList = {
     links: [],
   },
 }
-
+/*
+TODO use or delete
 const defaultPluginMetaData = {
   0: {
     content: {
@@ -153,6 +154,7 @@ const defaultPluginMetaData = {
     links: [],
   },
 }
+*/
 
 storiesOf('Admin - Microservice management', module)
   .addDecorator(withKnobs)

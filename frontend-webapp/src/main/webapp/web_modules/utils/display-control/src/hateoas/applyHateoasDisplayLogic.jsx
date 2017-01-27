@@ -4,7 +4,6 @@
 import { connect } from '@regardsoss/redux'
 import { EndpointSelectors } from '@regardsoss/endpoint'
 import { DisplayDecorator } from '@regardsoss/display-control'
-import { ResourceList } from '@regardsoss/model'
 import allMatchHateoasDisplayLogic from './allMatchHateoasDisplayLogic'
 
 /**
