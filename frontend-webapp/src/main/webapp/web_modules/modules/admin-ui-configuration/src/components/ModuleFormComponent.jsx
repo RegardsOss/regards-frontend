@@ -25,6 +25,7 @@ class ModuleFormComponent extends React.Component {
     onSubmit: React.PropTypes.func.isRequired,
     onBack: React.PropTypes.func.isRequired,
     applicationId: React.PropTypes.string.isRequired,
+    duplication: React.PropTypes.bool,
     // from reduxForm
     submitting: React.PropTypes.bool,
     pristine: React.PropTypes.bool,
@@ -40,7 +41,7 @@ class ModuleFormComponent extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      creation: this.props.module === null || this.props.module === undefined,
+      creation: this.props.duplication || this.props.module === null || this.props.module === undefined,
       moduleSelected: this.props.module !== null && this.props.module !== undefined,
       module: this.props.module ? this.props.module : {
         active: false,
@@ -84,6 +85,13 @@ class ModuleFormComponent extends React.Component {
       )
     }
 
+    let title = 'module.form.title.update'
+    if (this.props.duplication) {
+      title = 'module.form.title.duplicate'
+    } else if (this.state.creation) {
+      title = 'module.form.title.create'
+    }
+
     return (
       <ReduxConnectedForm
         onSubmit={this.props.handleSubmit(this.props.onSubmit)}
@@ -93,8 +101,8 @@ class ModuleFormComponent extends React.Component {
           <Card>
             <CardTitle
               title={<FormattedMessage
-                id={this.state.creation ? 'module.form.title.create' : 'module.form.title.update'}
-                values={this.state.creation ? {} : {
+                id={title}
+                values={{
                   name: this.state.module.name,
                 }}
               />}

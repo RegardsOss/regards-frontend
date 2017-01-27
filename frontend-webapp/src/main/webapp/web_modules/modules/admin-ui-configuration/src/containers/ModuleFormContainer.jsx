@@ -24,6 +24,7 @@ class ModuleFormContainer extends React.Component {
       project: React.PropTypes.string,
       applicationId: React.PropTypes.string,
       module_id: React.PropTypes.string,
+      duplicate_module_id: React.PropTypes.string,
     }),
     // Set by mapDispatchToProps
     updateModule: React.PropTypes.func,
@@ -33,6 +34,7 @@ class ModuleFormContainer extends React.Component {
     // Set by mapStateToProps
     isFetching: React.PropTypes.bool,
     module: Module,
+    duplicatedModule: Module,
     layout: Layout,
   }
 
@@ -40,6 +42,11 @@ class ModuleFormContainer extends React.Component {
     if (this.props.params.module_id && !this.props.module) {
       this.props.fetchModule(this.props.params.applicationId, this.props.params.module_id)
     }
+
+    if (this.props.params.duplicate_module_id && !this.props.module) {
+      this.props.fetchModule(this.props.params.applicationId, this.props.params.duplicate_module_id)
+    }
+
     if (!this.props.layout) {
       this.props.fetchLayout(this.props.params.applicationId)
     }
@@ -74,8 +81,24 @@ class ModuleFormContainer extends React.Component {
       return (<FormLoadingComponent />)
     }
 
+    if (this.props.params.duplicate_module_id && !this.props.duplicatedModule && this.props.isFetching) {
+      return (<FormLoadingComponent />)
+    }
+
     if (this.props.params.module_id && !this.props.module) {
       return (<FormEntityNotFoundComponent />)
+    }
+
+    if (this.props.params.duplicate_module_id && !this.props.duplicatedModule) {
+      return (<FormEntityNotFoundComponent />)
+    }
+
+    let module = null
+    if (this.props.params.duplicate_module_id !== undefined) {
+      module = Object.assign({}, this.props.duplicatedModule)
+      module.id = null
+    } else {
+      module = this.props.module
     }
 
     return (
@@ -83,7 +106,8 @@ class ModuleFormContainer extends React.Component {
         applicationId={this.props.params.applicationId}
         onSubmit={this.handleSubmit}
         onBack={this.handleBack}
-        module={this.props.module}
+        module={module}
+        duplication={this.props.params.duplicate_module_id !== undefined}
         containers={ContainerHelper.getAvailableContainersInLayout(this.props.layout)}
       />
     )
@@ -93,16 +117,16 @@ class ModuleFormContainer extends React.Component {
 
 const mapStateToProps = (state, ownProps) => ({
   module: ownProps.params.module_id ? ModulesSelector.getContentById(state, ownProps.params.module_id) : null,
+  duplicatedModule: ownProps.params.duplicate_module_id ? ModulesSelector.getContentById(state, ownProps.params.duplicate_module_id) : null,
   layout: ownProps.params.applicationId ? LayoutSelector.getContentById(state, ownProps.params.applicationId) : null,
   isFetching: ModulesSelector.isFetching(state),
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchModule: (applicationId, moduleId) => dispatch(ModulesActions.fetchEntity(moduleId, [applicationId])),
+  fetchModule: (applicationId, moduleId) => dispatch(ModulesActions.fetchEntity(moduleId, { applicationId })),
   fetchLayout: applicationId => dispatch(LayoutActions.fetchEntity(applicationId)),
-  updateModule: (applicationId, module) => dispatch(ModulesActions.updateEntity(module.id, module, [applicationId])),
-  createModule: (applicationId, module) => dispatch(ModulesActions.createEntity(module, [applicationId])),
-
+  updateModule: (applicationId, module) => dispatch(ModulesActions.updateEntity(module.id, module, { applicationId })),
+  createModule: (applicationId, module) => dispatch(ModulesActions.createEntity(module, { applicationId })),
 })
 
 const UnconnectedModuleFormContainer = ModuleFormContainer

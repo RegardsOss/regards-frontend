@@ -58,7 +58,7 @@ export class UserApp extends React.Component {
       forEach(nextProps.modules, (module, idx) => {
         if (module.content.isDefault) {
           if (ContainerHelper.isDynamicContent(module.content.container, nextProps.layout.content.layout.containers)) {
-            console.log('Default module selection', module)
+            console.log('Default module selection : ', module)
             browserHistory.push(`/user/${this.props.params.project}/modules/${module.content.id}`)
           }
         }

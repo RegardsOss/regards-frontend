@@ -8,6 +8,7 @@ import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowCol
 import IconButton from 'material-ui/IconButton'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
+import Copy from 'material-ui/svg-icons/content/content-copy'
 import { FormattedMessage } from 'react-intl'
 import { CardActionsComponent, ConfirmDialogComponent, ShowableAtRender } from '@regardsoss/components'
 import { ModuleShape } from '@regardsoss/modules'
@@ -24,6 +25,7 @@ class ModuleListComponent extends React.Component {
     onCreate: React.PropTypes.func.isRequired,
     onEdit: React.PropTypes.func.isRequired,
     onDelete: React.PropTypes.func.isRequired,
+    onDuplicate: React.PropTypes.func.isRequired,
     onActivation: React.PropTypes.func.isRequired,
   }
 
@@ -112,6 +114,9 @@ class ModuleListComponent extends React.Component {
                   <TableRowColumn>
                     <IconButton onTouchTap={() => this.props.onEdit(module.content)}>
                       <Edit hoverColor={style.hoverButtonEdit} />
+                    </IconButton>
+                    <IconButton onTouchTap={() => this.props.onDuplicate(module.content)}>
+                      <Copy hoverColor={style.hoverButtonEdit} />
                     </IconButton>
                     <IconButton onTouchTap={() => this.openDeleteDialog(module.content)}>
                       <Delete hoverColor={style.hoverButtonDelete} />
