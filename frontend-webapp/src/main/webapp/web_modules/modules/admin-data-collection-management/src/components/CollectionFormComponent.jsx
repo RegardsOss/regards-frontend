@@ -1,20 +1,24 @@
-import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
-import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
+/**
+ * LICENSE_PLACEHOLDER
+ **/
+import { map } from 'lodash'
+import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
+import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
 import { FormattedMessage } from 'react-intl'
-import { RenderTextField, Field, ValidationHelpers, ErrorTypes } from '@regardsoss/form-utils'
-import { themeContextType } from '@regardsoss/theme'
 import { reduxForm } from 'redux-form'
-import { ReduxConnectedForm } from '@regardsoss/redux'
-import { Fragment } from '@regardsoss/model'
-
+import { Collection } from '@regardsoss/model'
+import { RenderTextField, RenderCheckbox, RenderSelectField, Field, ValidationHelpers, ErrorTypes } from '@regardsoss/form-utils'
+import { CardActionsComponent } from '@regardsoss/components'
+import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
 
 /**
- * Display edit and create fragment form
+ * React component to list collections.
  */
-export class FragmentFormComponent extends React.Component {
+export class CollectionFormComponent extends React.Component {
 
   static propTypes = {
-    currentFragment: Fragment,
+    currentCollection: Collection,
     onSubmit: React.PropTypes.func.isRequired,
     backUrl: React.PropTypes.string.isRequired,
     // from reduxForm
@@ -23,16 +27,18 @@ export class FragmentFormComponent extends React.Component {
     invalid: React.PropTypes.bool,
     handleSubmit: React.PropTypes.func.isRequired,
     initialize: React.PropTypes.func.isRequired,
+    change: React.PropTypes.func.isRequired,
   }
 
   static contextTypes = {
     ...themeContextType,
+    ...i18nContextType,
   }
 
   constructor(props) {
     super(props)
     this.state = {
-      isCreating: props.currentFragment === undefined,
+      isCreating: props.currentAttrModel === undefined,
     }
   }
 
@@ -45,65 +51,58 @@ export class FragmentFormComponent extends React.Component {
    */
   handleInitialize = () => {
     if (!this.state.isCreating) {
-      const { currentFragment } = this.props
+      const { currentCollection } = this.props
       const initialValues = {
-        description: currentFragment.content.description,
+        todo: 'todo',
       }
       this.props.initialize(initialValues)
     }
   }
 
-  /**
-   * return react component
-   * @returns {XML}
-   */
+
   render() {
-    const { pristine, submitting, invalid } = this.props
-    const title = this.state.isCreating ? <FormattedMessage id="fragment.create.title" /> :
+    const { pristine, submitting, invalid, backUrl } = this.props
+    const title = this.state.isCreating ? <FormattedMessage id="attrmodel.create.title" /> :
       (<FormattedMessage
-        id="fragment.edit.title"
+        id="collection.edit.title"
         values={{
-          name: this.props.currentFragment.content.name,
+          name: this.props.currentAttrModel.content.name,
         }}
       />)
     return (
-      <ReduxConnectedForm
-        i18nMessagesDir="modules/admin-data-collection-management/src/i18n"
-        onSubmit={this.props.handleSubmit(this.props.onSubmit)}
-      >
+      <form onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
         <Card>
           <CardTitle
             title={title}
+            subtitle={<FormattedMessage id="collection.form.subtitle" />}
           />
           <CardText>
-            <ShowableAtRender show={this.state.isCreating}>
-              <Field
-                name="name"
-                fullWidth
-                component={RenderTextField}
-                type="text"
-                label={<FormattedMessage id="fragment.form.name" />}
-              />
-            </ShowableAtRender>
+            <Field
+              name="name"
+              fullWidth
+              component={RenderTextField}
+              type="text"
+              label={<FormattedMessage id="collection.form.name" />}
+            />
             <Field
               name="description"
               fullWidth
               component={RenderTextField}
               type="text"
-              label={<FormattedMessage id="fragment.form.description" />}
+              label={<FormattedMessage id="collection.form.description" />}
             />
           </CardText>
           <CardActions>
             <CardActionsComponent
-              mainButtonLabel={<FormattedMessage id="fragment.form.action.submit" />}
+              mainButtonLabel={<FormattedMessage id="collection.form.action.submit" />}
               mainButtonType="submit"
               isMainButtonDisabled={pristine || submitting || invalid}
-              secondaryButtonLabel={<FormattedMessage id="fragment.form.action.cancel" />}
+              secondaryButtonLabel={<FormattedMessage id="collection.form.action.cancel" />}
               secondaryButtonUrl={this.props.backUrl}
             />
           </CardActions>
         </Card>
-      </ReduxConnectedForm>
+      </form>
     )
   }
 }
@@ -130,7 +129,7 @@ function validate(values) {
 }
 
 export default reduxForm({
-  form: 'fragment-form',
+  form: 'collection-form',
   validate,
-})(FragmentFormComponent)
+})(CollectionFormComponent)
 

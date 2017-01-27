@@ -51,7 +51,8 @@ const defaultPluginConfigurationList = {
     links: [],
   },
 }
-
+/*
+TODO use or delete
 const defaultPluginMetaData = {
   0: {
     content: {
@@ -153,6 +154,7 @@ const defaultPluginMetaData = {
     links: [],
   },
 }
+*/
 
 storiesOf('Admin - Microservice management', module)
   .addDecorator(withKnobs)

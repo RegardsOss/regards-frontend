@@ -108,35 +108,6 @@ export class AttributeModelFormContainer extends React.Component {
       defaultFragmentId={this.props.params.fragment_id}
     />)
   }
-  handleUpdate = (values) => {
-    const restriction = this.getRestriction(values)
-    const previousAttrModel = this.props.attrModel.content
-    const updatedAttrModel = Object.assign({}, previousAttrModel, {
-      name: values.name,
-      description: values.description,
-      type: values.type,
-      alterable: values.alterable,
-      optional: values.optional,
-      queryable: values.queryable,
-      facetable: values.facetable,
-      restriction,
-    })
-    // Delete the object if it does not exists
-    if (!restriction.type) {
-      delete updatedAttrModel.restriction
-    }
-    Promise.resolve(this.props.updateAttrModel(this.props.attrModel.content.id, updatedAttrModel))
-    .then((actionResult) => {
-      // We receive here the action
-      if (!actionResult.error) {
-        const url = this.getBackUrl()
-        browserHistory.push(url)
-      }
-    })
-  }
-  handleUpdateAttributeModelRestriction = (type) => {
-    this.props.fetchAttributeModelRestrictionList(type)
-  }
 
   /**
    * Extract values from the form result
@@ -180,11 +151,7 @@ export class AttributeModelFormContainer extends React.Component {
       }
       // Handle enumeration
       if (values.restriction.ENUMERATION && values.restriction.ENUMERATION.active) {
-        const acceptableValues = map(values.restriction.ENUMERATION.inputs, (val) => {
-          if (val.length > 0) {
-            return val
-          }
-        })
+        const acceptableValues = map(values.restriction.ENUMERATION.inputs, val => val.length > 0 ? val : undefined)
         restriction = {
           type: 'ENUMERATION',
           acceptableValues,
@@ -206,6 +173,37 @@ export class AttributeModelFormContainer extends React.Component {
       return find(this.props.fragmentList, fragment => (fragment.id === values.fragment))
     }
     return {}
+  }
+
+  handleUpdateAttributeModelRestriction = (type) => {
+    this.props.fetchAttributeModelRestrictionList(type)
+  }
+
+  handleUpdate = (values) => {
+    const restriction = this.getRestriction(values)
+    const previousAttrModel = this.props.attrModel.content
+    const updatedAttrModel = Object.assign({}, previousAttrModel, {
+      name: values.name,
+      description: values.description,
+      type: values.type,
+      alterable: values.alterable,
+      optional: values.optional,
+      queryable: values.queryable,
+      facetable: values.facetable,
+      restriction,
+    })
+    // Delete the object if it does not exists
+    if (!restriction.type) {
+      delete updatedAttrModel.restriction
+    }
+    Promise.resolve(this.props.updateAttrModel(this.props.attrModel.content.id, updatedAttrModel))
+      .then((actionResult) => {
+        // We receive here the action
+        if (!actionResult.error) {
+          const url = this.getBackUrl()
+          browserHistory.push(url)
+        }
+      })
   }
 
   handleCreate = (values) => {

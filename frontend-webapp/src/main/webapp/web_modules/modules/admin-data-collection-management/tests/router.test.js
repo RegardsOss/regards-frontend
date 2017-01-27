@@ -12,7 +12,7 @@ describe('[ADMIN DATA COLLECTION MANAGEMENT] Testing router', () => {
     expect(Routes.childRoutes).to.have.length(3)
     expect(Routes.childRoutes[0].path).to.eq('list')
     expect(Routes.childRoutes[1].path).to.eq('create')
-    expect(Routes.childRoutes[2].path).to.eq(':collectionId/edit')
+    expect(Routes.childRoutes[2].path).to.eq(':collectionId/:mode')
   })
   it('list should return CollectionListContainer', (done) => {
     Routes.childRoutes[0].getComponents(undefined, (smth, component) => {

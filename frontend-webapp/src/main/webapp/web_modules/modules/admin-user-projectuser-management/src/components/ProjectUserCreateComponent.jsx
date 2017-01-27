@@ -4,6 +4,7 @@ import { CardActionsComponent } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
 import { RenderTextField, ErrorTypes, Field, ValidationHelpers, RenderSelectField } from '@regardsoss/form-utils'
 import { reduxForm } from 'redux-form'
+import { ReduxConnectedForm } from '@regardsoss/redux'
 import { Role } from '@regardsoss/model'
 import MenuItem from 'material-ui/MenuItem'
 
@@ -26,7 +27,10 @@ export class ProjectUserCreateComponent extends React.Component {
   render() {
     const { pristine, submitting, roleList } = this.props
     return (
-      <form onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
+      <ReduxConnectedForm
+        onSubmit={this.props.handleSubmit(this.props.onSubmit)}
+        i18nMessagesDir="modules/admin-user-projectuser-management/src/i18n"
+      >
         <Card>
           <CardTitle
             title={<FormattedMessage id="projectUser.create.title" />}
@@ -86,7 +90,7 @@ export class ProjectUserCreateComponent extends React.Component {
             />
           </CardActions>
         </Card>
-      </form>
+      </ReduxConnectedForm>
     )
   }
 }

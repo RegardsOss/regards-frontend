@@ -16,6 +16,7 @@ import ContentErrorComponent from './ContentErrorComponent'
 class LoadableContentDisplayDecorator extends React.Component {
 
   static propTypes = {
+    children: React.PropTypes.element,
     isLoading: React.PropTypes.bool,
     isContentError: React.PropTypes.bool,
     isEmpty: React.PropTypes.bool,

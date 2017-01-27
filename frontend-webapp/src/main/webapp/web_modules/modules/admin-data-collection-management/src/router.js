@@ -26,7 +26,7 @@ export const createCollectionRoute = {
 }
 
 export const editCollectionRoute = {
-  path: ':collectionId/edit',
+  path: ':collectionId/:mode',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
       const CollectionFormContainer = require('./containers/CollectionFormContainer')

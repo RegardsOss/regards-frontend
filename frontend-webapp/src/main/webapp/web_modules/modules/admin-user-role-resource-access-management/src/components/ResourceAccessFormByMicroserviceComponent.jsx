@@ -17,7 +17,8 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
   static propTypes = {
     currentRole: Role,
     controllerList: React.PropTypes.arrayOf(React.PropTypes.string),
-    microserviceName: React.PropTypes.string.isRequired,
+    // TODO use or delete
+    // microserviceName: React.PropTypes.string.isRequired,
     resourceList: React.PropTypes.objectOf(Resource).isRequired,
     handleOpenController: React.PropTypes.func.isRequired,
     handleToggleResourceAccess: React.PropTypes.func.isRequired,
