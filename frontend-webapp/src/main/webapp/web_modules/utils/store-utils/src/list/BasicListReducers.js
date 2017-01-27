@@ -78,9 +78,9 @@ class BasicListReducers {
         })
       case this.basicListActionInstance.CREATE_ENTITY_SUCCESS:
       case this.basicListActionInstance.UPDATE_ENTITY_SUCCESS:
-        return this.rewriteEntity(state, action, { isFetching: false })
-      case this.basicListActionInstance.ENTITY_SUCCESS:
         return this.rewriteEntity(state, action, { isSyncing: false })
+      case this.basicListActionInstance.ENTITY_SUCCESS:
+        return this.rewriteEntity(state, action, { isFetching: false })
       case this.basicListActionInstance.DELETE_ENTITY_SUCCESS:
         return this.deleteEntityFromState(state, action)
       default:
