@@ -99,7 +99,7 @@ export class UserApp extends React.Component {
     const muiTheme = ThemeHelper.getByName(theme)
 
     const modulesList = []
-    if (this.props.modules && this.props.modules.length > 0) {
+    if (this.props.modules) {
       forEach(this.props.modules, (module, key) => {
         modulesList.push(module)
       })
@@ -109,7 +109,7 @@ export class UserApp extends React.Component {
       <MuiThemeProvider muiTheme={muiTheme}>
         <LoadableContentDisplayDecorator
           isLoading={this.props.layoutIsFetching || this.props.modulesIsFetching}
-          isContentError={!this.props.layout || !this.props.modules}
+          isContentError={!this.props.layout}
         >
           {this.renderLayout(modulesList)}
           <ApplicationErrorContainer />
