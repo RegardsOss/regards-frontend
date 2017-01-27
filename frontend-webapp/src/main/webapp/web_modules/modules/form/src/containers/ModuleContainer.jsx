@@ -20,6 +20,7 @@ class ModuleContainer extends React.Component {
     fetchAttribute: React.PropTypes.func,
     // eslint-disable-next-line react/no-unused-prop-types
     attributes: React.PropTypes.objectOf(AttributeModel),
+    attributesFetching: React.PropTypes.bool,
   }
 
   constructor(props) {
@@ -48,11 +49,18 @@ class ModuleContainer extends React.Component {
     })
   }
 
+  /**
+   * Load attributes associated by their id to the criterion plugins of this form
+   * @param nextProps
+   */
   componentWillReceiveProps(nextProps) {
     let updateState = false
     const newCriterion = cloneDeep(this.state.criterion)
+    // For each criteria of this form
     forEach(newCriterion, (newCriteria) => {
+      // For each attributes of the criteria
       forEach(newCriteria.pluginConf.attributes, (attributeId, key) => {
+        // If the associated attribute has already been retrieved from server, the update the criteria
         if (nextProps.attributes[attributeId]) {
           updateState = true
           // eslint-disable-next-line no-param-reassign

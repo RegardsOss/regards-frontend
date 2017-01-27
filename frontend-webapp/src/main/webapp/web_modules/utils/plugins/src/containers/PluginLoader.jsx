@@ -6,12 +6,13 @@ import { connect } from '@regardsoss/redux'
 import { Plugin } from '@regardsoss/model'
 import { getReducerRegistry, configureReducers } from '@regardsoss/store'
 import { i18nSelectors } from '@regardsoss/i18n'
+import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { loadPlugin } from '../model/LoadPluginActions'
 import PluginSelector from '../model/LoadPluginSelector'
 
 /**
  * This component allow to load a given plugin and display it.
- * Display of the plugin is asynchrone and effective when the plugin is loaded.
+ * Display of the plugin is asynchronous and effective when the plugin is loaded.
  *
  */
 class PluginLoader extends React.Component {
@@ -63,7 +64,7 @@ class PluginLoader extends React.Component {
     }
   }
 
-  render() {
+  renderPlugin() {
     if (this.props.loadedPlugin) {
       let element = null
       if (this.props.displayPlugin) {
@@ -86,8 +87,18 @@ class PluginLoader extends React.Component {
       console.warn('No children defined for plugin provider')
       return null
     }
+    return null
+  }
 
-    return <div>Plugin loading ... </div>
+  render() {
+    const isLoading = this.props.loadedPlugin === undefined || this.props.loadedPlugin === null
+    return (
+      <LoadableContentDisplayDecorator
+        isLoading={isLoading}
+      >
+        {this.renderPlugin()}
+      </LoadableContentDisplayDecorator>
+    )
   }
 
 }
