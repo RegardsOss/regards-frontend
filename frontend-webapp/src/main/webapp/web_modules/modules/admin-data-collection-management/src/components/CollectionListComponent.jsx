@@ -79,11 +79,9 @@ export class CollectionListComponent extends React.Component {
                     <IconButton onTouchTap={() => handleDuplicate(collection.content.id)}>
                       <ContentCopy hoverColor={style.hoverButtonDuplicate} />
                     </IconButton>
-
                     <IconButton onTouchTap={() => handleEdit(collection.content.id)}>
                       <Edit hoverColor={style.hoverButtonEdit} />
                     </IconButton>
-
                     <IconButton onTouchTap={() => handleDelete(collection.content.id)}>
                       <Delete hoverColor={style.hoverButtonDelete} />
                     </IconButton>

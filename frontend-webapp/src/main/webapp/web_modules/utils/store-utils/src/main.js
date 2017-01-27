@@ -13,6 +13,10 @@ import BasicArraySelectors from './array/BasicArraySelectors'
 import BasicArrayActions from './array/BasicArrayActions'
 import BasicArrayReducers from './array/BasicArrayReducers'
 
+import BasicSignalSelectors from './signal/BasicSignalSelectors'
+import BasicSignalActions from './signal/BasicSignalActions'
+import BasicSignalReducers from './signal/BasicSignalReducers'
+
 import RequestErrorShape from './RequestErrorShape'
 
 
@@ -27,5 +31,8 @@ export default {
   BasicArraySelectors,
   BasicArrayActions,
   BasicArrayReducers,
+  BasicSignalSelectors,
+  BasicSignalActions,
+  BasicSignalReducers,
   RequestErrorShape,
 }
