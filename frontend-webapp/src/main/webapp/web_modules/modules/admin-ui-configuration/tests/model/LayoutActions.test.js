@@ -1,72 +1,26 @@
-/**
- * LICENSE_PLACEHOLDER
- **/
-import configureStore from 'redux-mock-store'
-import thunk from 'redux-thunk'
-import nock from 'nock'
-import { expect } from 'chai'
-import LayoutAction from '../../src/model/layout/LayoutActions'
-import layoutsResponse from './mockLayoutsResponse'
+import { ReduxEntityTester } from '@regardsoss/tests-helpers'
+import { Layout } from '@regardsoss/model'
+import LayoutActions from '../../src/model/layout/LayoutActions'
+import LayoutReducer from '../../src/model/layout/LayoutReducer'
+import LayoutSelector from '../../src/model/layout/LayoutSelector'
+import MockResponse from './mockLayoutsResponse'
 
-const { apiMiddleware } = require('redux-api-middleware')
+const backendServerResultList = MockResponse
+const options = {
+  urlParams: { applicationId: 'user' },
+}
 
-const middlewares = [thunk, apiMiddleware]
-const mockStore = configureStore(middlewares)
+const entityTester = new ReduxEntityTester(LayoutActions, LayoutReducer, LayoutSelector, React.PropTypes.objectOf(Layout).isRequired, backendServerResultList, options)
 
-describe('[ADMIN UI-CONFIGURATION] Testing Layout actions', () => {
-  afterEach(() => {
-    nock.cleanAll()
+describe('[ADMIN UI CONFIGURATION] Testing model Layout', () => {
+  before(() => {
+    entityTester.beforeAll()
   })
 
-  it('Generate action to retrieve a given layout', () => {
-    nock(`${LayoutAction.entityEndpoint}/user`)
-      .get('')
-      .reply(200, layoutsResponse)
-    const initialState = {}
-    const store = mockStore(initialState)
-
-    const expectedAction = {
-      type: LayoutAction.ENTITY_SUCCESS,
-      payload: {
-        entities: {
-          layout: {
-            user: layoutsResponse,
-          },
-        },
-        result: 'user',
-      },
-      meta: undefined,
-    }
-
-    store.dispatch(LayoutAction.fetchEntity('user'))
-      .then(() => { // return of async actions
-        expect(store.getActions()).to.deep.contain(expectedAction)
-      })
+  after(() => {
+    entityTester.afterAll()
   })
-
-  it('Generate action to retrieve a non existing layout', () => {
-    nock(`${LayoutAction.entityEndpoint}/unknown`)
-      .get('')
-      .reply(404)
-    const initialState = {}
-    const store = mockStore(initialState)
-
-    const expectedAction = {
-      type: LayoutAction.ENTITY_FAILURE,
-      payload: {
-        name: 'ApiError',
-        status: 404,
-        statusText: 'Not Found',
-        response: undefined,
-        message: '404 - Not Found',
-      },
-      meta: { errorMessage: 'Not Found' },
-      error: true,
-    }
-
-    store.dispatch(LayoutAction.fetchEntity('unknown'))
-      .then(() => { // return of async actions
-        expect(store.getActions()).to.deep.contain(expectedAction)
-      })
+  xit('should retrieve the list of items, reduce it, and store it on the store.', (done) => {
+    entityTester.runTests(done)
   })
 })

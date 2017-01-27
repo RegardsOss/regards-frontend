@@ -4,9 +4,10 @@
 import { forEach } from 'lodash'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { connect } from '@regardsoss/redux'
+import { Layout } from '@regardsoss/model'
 import { ThemeHelper, ThemeSelectors } from '@regardsoss/theme'
 import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
-import { LayoutShape, ApplicationLayout } from '@regardsoss/layout'
+import { ApplicationLayout } from '@regardsoss/layout'
 import { ModuleShape } from '@regardsoss/modules'
 import LayoutSelector from '../model/layout/LayoutSelector'
 import LayoutActions from '../model/layout/LayoutActions'
@@ -25,7 +26,7 @@ export class PortalApp extends React.Component {
     theme: React.PropTypes.string,
     layoutIsFetching: React.PropTypes.bool,
     modulesIsFetching: React.PropTypes.bool,
-    layout: LayoutShape,
+    layout: Layout,
     modules: React.PropTypes.objectOf(ModuleShape),
     // Set by mapDispatchToProps
     fetchLayout: React.PropTypes.func,
@@ -60,14 +61,14 @@ export class PortalApp extends React.Component {
 
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
-        <ApplicationLayout appName="portal" layout={this.props.layout} modules={modulesList} />
+        <ApplicationLayout appName="portal" layout={this.props.layout.content.layout} modules={modulesList} />
       </MuiThemeProvider>
     )
   }
 }
 const mapStateToProps = (state, ownProps) => ({
   theme: ThemeSelectors.getCurrentTheme(state),
-  layout: LayoutSelector.getContentById(state, 'portal'),
+  layout: LayoutSelector.getById(state, 'portal'),
   modules: ModulesSelector.getList(state),
   layoutIsFetching: LayoutSelector.isFetching(state),
   modulesIsFetching: ModulesSelector.isFetching(state),
@@ -76,7 +77,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchLayout: () => dispatch(LayoutActions.fetchEntity('portal')),
-  fetchModules: () => dispatch(ModulesActions.fetchPagedEntityList(0, 100, ['portal'])),
+  fetchModules: () => dispatch(ModulesActions.fetchPagedEntityList(0, 100, { applicationId: 'portal' })),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PortalApp)

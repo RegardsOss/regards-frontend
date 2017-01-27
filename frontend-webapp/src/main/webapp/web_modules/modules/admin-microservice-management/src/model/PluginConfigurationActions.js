@@ -5,7 +5,7 @@ class PluginConfigurationActions extends BasicPageableActions {
   constructor() {
     super({
       namespace: 'admin-microservice-management/pluginConfiguration',
-      entityEndpoint: `${GATEWAY_HOSTNAME}/api/v1/%0/plugins/%1/config`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/{microserviceName}/plugins/{pluginId}/config`,
       schemaTypes: {
         ENTITY: Schemas.PLUGIN_CONFIGURATION,
         ENTITY_ARRAY: Schemas.PLUGIN_CONFIGURATION_ARRAY,

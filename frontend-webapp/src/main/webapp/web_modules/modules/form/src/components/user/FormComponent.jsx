@@ -4,8 +4,8 @@
 import RaisedButton from 'material-ui/RaisedButton'
 import SearchIcon from 'material-ui/svg-icons/action/search'
 import { FormattedMessage } from 'react-intl'
-import { ApplicationLayout, LayoutShape } from '@regardsoss/layout'
-import { PluginConf } from '@regardsoss/model'
+import { LayoutContent, PluginConf } from '@regardsoss/model'
+import { ApplicationLayout } from '@regardsoss/layout'
 import { themeContextType } from '@regardsoss/theme'
 
 /**
@@ -14,7 +14,7 @@ import { themeContextType } from '@regardsoss/theme'
 class FormComponent extends React.Component {
 
   static propTypes = {
-    layout: LayoutShape.isRequired,
+    layout: LayoutContent.isRequired,
     plugins: React.PropTypes.arrayOf(PluginConf),
     pluginsProps: React.PropTypes.shape({
       onChange: React.PropTypes.func.isRequired,

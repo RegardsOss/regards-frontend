@@ -5,9 +5,10 @@ import { forEach } from 'lodash'
 import { browserHistory } from 'react-router'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { connect } from '@regardsoss/redux'
+import { Layout } from '@regardsoss/model'
 import { ThemeHelper, ThemeSelectors } from '@regardsoss/theme'
 import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
-import { LayoutShape, ApplicationLayout, ContainerHelper } from '@regardsoss/layout'
+import { ApplicationLayout, ContainerHelper } from '@regardsoss/layout'
 import { ModuleShape } from '@regardsoss/modules'
 import { ApplicationErrorContainer } from '@regardsoss/global-sytem-error'
 import LayoutSelector from '../model/layout/LayoutSelector'
@@ -32,7 +33,7 @@ export class UserApp extends React.Component {
     theme: React.PropTypes.string,
     layoutIsFetching: React.PropTypes.bool,
     modulesIsFetching: React.PropTypes.bool,
-    layout: LayoutShape,
+    layout: Layout,
     modules: React.PropTypes.objectOf(ModuleShape),
     // Set by mapDispatchToProps
     fetchLayout: React.PropTypes.func,
@@ -53,11 +54,11 @@ export class UserApp extends React.Component {
    */
   componentWillReceiveProps(nextProps) {
     // If there is no dynamic content display the default module
-    if (!nextProps.content && nextProps.modules && nextProps.layout) {
+    if (!nextProps.content && nextProps.modules && nextProps.layout && nextProps.layout.content.layout) {
       forEach(nextProps.modules, (module, idx) => {
         if (module.content.isDefault) {
-          if (ContainerHelper.isDynamicContent(module.content.container, nextProps.layout.containers)) {
-            console.log('Default module ', module)
+          if (ContainerHelper.isDynamicContent(module.content.container, nextProps.layout.content.layout.containers)) {
+            console.log('Default module selection', module)
             browserHistory.push(`/user/${this.props.params.project}/modules/${module.content.id}`)
           }
         }
@@ -98,7 +99,7 @@ export class UserApp extends React.Component {
         <div>
           <ApplicationLayout
             appName="user"
-            layout={this.props.layout}
+            layout={this.props.layout.content.layout}
             modules={modulesList}
             project={this.props.params.project}
             dynamicContent={this.props.content}
@@ -112,7 +113,7 @@ export class UserApp extends React.Component {
 }
 const mapStateToProps = (state, ownProps) => ({
   theme: ThemeSelectors.getCurrentTheme(state),
-  layout: LayoutSelector.getContentById(state, 'user'),
+  layout: LayoutSelector.getById(state, 'user'),
   modules: ModulesSelector.getList(state),
   layoutIsFetching: LayoutSelector.isFetching(state),
   modulesIsFetching: ModulesSelector.isFetching(state),
@@ -121,7 +122,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchLayout: () => dispatch(LayoutActions.fetchEntity('user')),
-  fetchModules: () => dispatch(ModulesActions.fetchPagedEntityList(0, 100, ['user'])),
+  fetchModules: () => dispatch(ModulesActions.fetchPagedEntityList(0, 100, { applicationId: 'user' })),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserApp)

@@ -8,7 +8,7 @@ class StoragePluginActions extends BasicListActions {
   constructor() {
     super({
       namespace: 'archival-storage/storage-plugins',
-      entityEndpoint: `${GATEWAY_HOSTNAME}/api/v1/rs-archival-storage/storage-plugins`, // TODO check me when back is ready!
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-archival-storage/storage-plugins`, // TODO check me when back is ready!
       schemaTypes: {
         ENTITY: Schemas.STORAGE_PLUGIN,
         ENTITY_ARRAY: Schemas.STORAGE_PLUGIN_ARRAY,

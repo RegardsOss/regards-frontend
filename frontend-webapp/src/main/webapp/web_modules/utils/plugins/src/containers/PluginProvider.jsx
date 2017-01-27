@@ -85,7 +85,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  fetchPlugin: pluginId => dispatch(PluginActions.fetchEntity(pluginId, [''])),
+  fetchPlugin: pluginId => dispatch(PluginActions.fetchEntity(pluginId)),
 })
 
 // Export for tests

@@ -16,6 +16,9 @@ import Reply from 'material-ui/svg-icons/content/reply'
 import { FormattedMessage } from 'react-intl'
 import SupervisorAccount from 'material-ui/svg-icons/action/supervisor-account'
 import { I18nProvider } from '@regardsoss/i18n'
+import { uiPluginsDependencies } from '@regardsoss/admin-ui-plugins-management'
+import { uiConfigurationDependencies } from '@regardsoss/admin-ui-configuration'
+import { HateoasDisplayDecorator, someMatchHateoasDisplayLogic } from '@regardsoss/display-control'
 import SidebarElement from './SidebarElement'
 
 /**
@@ -50,6 +53,8 @@ class ProjectSidebarComponent extends React.Component {
         styles: muiTheme.linkWithoutDecoration,
       },
     }
+
+    console.log('DEP', uiPluginsDependencies)
     return (
       <I18nProvider messageDir="modules/admin/src/menu/i18n">
 
@@ -75,13 +80,17 @@ class ProjectSidebarComponent extends React.Component {
             primaryText={<FormattedMessage id="menu.dataaccessrights" />}
             leftIcon={<VerifiedUser />}
           />
-          <SidebarElement
-            key="4"
-            to={`/admin/${projectName}/ui-plugins/plugins`}
-            linkStyle={style.link.styles}
-            primaryText={<FormattedMessage id="menu.plugins" />}
-            leftIcon={<Widgets />}
-          />
+          <HateoasDisplayDecorator
+            requiredEndpoints={uiPluginsDependencies}
+          >
+            <SidebarElement
+              key="4"
+              to={`/admin/${projectName}/ui-plugins/plugins`}
+              linkStyle={style.link.styles}
+              primaryText={<FormattedMessage id="menu.plugins" />}
+              leftIcon={<Widgets />}
+            />
+          </HateoasDisplayDecorator>
           <SidebarElement
             key="5"
             to={`/admin/${projectName}/microservice/board`}
@@ -89,13 +98,18 @@ class ProjectSidebarComponent extends React.Component {
             primaryText={<FormattedMessage id="menu.microservices" />}
             leftIcon={<CloudQueue />}
           />
-          <SidebarElement
-            key="6"
-            to={`/admin/${projectName}/ui-configuration/applications`}
-            linkStyle={style.link.styles}
-            primaryText={<FormattedMessage id="menu.ui.configuration" />}
-            leftIcon={<Brush />}
-          />
+          <HateoasDisplayDecorator
+            requiredEndpoints={uiConfigurationDependencies}
+            hateoasDisplayLogic={someMatchHateoasDisplayLogic}
+          >
+            <SidebarElement
+              key="6"
+              to={`/admin/${projectName}/ui-configuration/applications`}
+              linkStyle={style.link.styles}
+              primaryText={<FormattedMessage id="menu.ui.configuration" />}
+              leftIcon={<Brush />}
+            />
+          </HateoasDisplayDecorator>
           <SidebarElement
             key="7"
             to={`/admin/${projectName}/datamanagement`}

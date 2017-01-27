@@ -11,7 +11,7 @@ class EndpointSelectors extends BasicPageableSelectors {
 
   getListOfKeys(state) {
     const list = this.getList(state)
-    return map(list, item => `${item.content.resource}@${item.content.verb}`)
+    return map(list, item => `${item.content.microservice}@${item.content.resource}@${item.content.verb}`)
   }
 }
 

@@ -92,9 +92,9 @@ const mapStateToProps = state => ({
   isFetching: ModulesSelector.isFetching(state),
 })
 const mapDispatchToProps = dispatch => ({
-  fetchModules: applicationId => dispatch(ModulesActions.fetchPagedEntityList(0, 100, [applicationId])),
-  updateModule: (applicationId, module) => dispatch(ModulesActions.updateEntity(module.id, module, [applicationId])),
-  deleteModule: (applicationId, module) => dispatch(ModulesActions.deleteEntity(module.id, [applicationId])),
+  fetchModules: applicationId => dispatch(ModulesActions.fetchPagedEntityList(0, 100, { applicationId })),
+  updateModule: (applicationId, module) => dispatch(ModulesActions.updateEntity(module.id, module, { applicationId })),
+  deleteModule: (applicationId, module) => dispatch(ModulesActions.deleteEntity(module.id, { applicationId })),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ModulesListContainer)

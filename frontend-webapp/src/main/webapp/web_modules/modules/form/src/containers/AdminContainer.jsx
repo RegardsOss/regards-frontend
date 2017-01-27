@@ -132,7 +132,7 @@ const listToQueryParam = (list, key) => {
   if (list && list.length > 0) {
     param = `&${join(map(list, element => `${key}=${element}`), ',')}`
   }
-  return [param]
+  return param
 }
 
 const mapDispatchToProps = dispatch => ({
@@ -141,10 +141,10 @@ const mapDispatchToProps = dispatch => ({
   fetchAllModelsAttributes: () => dispatch(ModelAttributeActions.fetchPagedEntityList(0, 100)),
   // Function to retrieve attributes associated to the selected models
   fetchModelsAttributes: modelsId => dispatch(
-    ModelAttributeActions.fetchPagedEntityList(dispatch, 0, 100, listToQueryParam(modelsId, 'model'))),
+    ModelAttributeActions.fetchPagedEntityList(dispatch, 0, 100, { queryParam: listToQueryParam(modelsId, 'model') })),
   // Function to retrieve attributes associated to the selected datasets
   fetchDatasetsAttributes: datasetsId => dispatch(
-    ModelAttributeActions.fetchPagedEntityList(dispatch, 0, 100, listToQueryParam(datasetsId, 'dataset'))),
+    ModelAttributeActions.fetchPagedEntityList(dispatch, 0, 100, { queryPAram: listToQueryParam(datasetsId, 'dataset') })),
   // funcution to update a value of the current redux-form
   changeField: (field, value) => dispatch(change('edit-module-form', field, value)),
 })

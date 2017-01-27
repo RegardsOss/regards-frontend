@@ -13,6 +13,7 @@ const schema = new Schema(EndpointConfiguration.normalizrKey, {
     console.log('value', value)
     console.log('input', input)
     if (key === 'content') {
+      // eslint-disable-next-line no-param-reassign
       output = `${output.content.resource}@${output.content.verb}`
     }
   },

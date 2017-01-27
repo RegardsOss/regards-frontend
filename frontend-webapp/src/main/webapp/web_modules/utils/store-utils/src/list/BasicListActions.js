@@ -1,7 +1,7 @@
 /**
  * @author Léo Mieulet
  */
-import { map, replace, split } from 'lodash'
+import { map, replace, split, join, takeRight } from 'lodash'
 import { normalize } from 'normalizr'
 import ErrorHandler from '../ErrorHandler'
 
@@ -36,6 +36,21 @@ class BasicListActions {
     this.UPDATE_ENTITY_FAILURE = `${options.namespace}/UPDATE_FAILURE`
   }
 
+  getDependency = (verb) => {
+    let dependency = this.entityEndpoint
+    // Remove query params if any
+    dependency = split(dependency, '?')[0]
+    // Remove GATEWAY path
+    dependency = replace(dependency, GATEWAY_HOSTNAME, '')
+    dependency = replace(dependency, `/${API_URL}`, '')
+    // add a first '/' car if missing
+    dependency = dependency[0] === '/' ? `${dependency}` : `/${dependency}`
+    // Retrieve microservice as the first element of the path
+    const parts = split(dependency, '/')
+    // Contatn microservice@endpoint@verb
+    return `${parts[1]}@/${join(takeRight(parts, parts.length - 2), '/')}@${verb}`
+  }
+
 
   /**
    * Replace parameterized value in the current configured endpoint
@@ -46,8 +61,8 @@ class BasicListActions {
   handleRequestParameters = (entityEndpoint, params) => {
     let endpoint = entityEndpoint
     if (params) {
-      map(params, (param, id) => {
-        endpoint = replace(endpoint, `%${id}`, param)
+      map(params, (param, key) => {
+        endpoint = replace(endpoint, `{${key}}`, param)
       })
     }
     return endpoint

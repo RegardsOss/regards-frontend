@@ -7,7 +7,6 @@ import MockResponse from './mockPluginResponse'
 
 const backendServerResultList = MockResponse
 const options = {
-  urlParams: ['user'],
 }
 
 const entityTester = new ReduxEntityTester(PluginActions, PluginReducer, PluginSelector, React.PropTypes.objectOf(PluginDefinition).isRequired, backendServerResultList, options)

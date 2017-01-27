@@ -7,7 +7,7 @@ import MockResponse from './mockModulesResponse'
 
 const backendServerResultList = MockResponse
 const options = {
-  urlParams: ['user'],
+  urlParams: { applicationId: 'user' },
 }
 
 const entityTester = new ReduxEntityTester(ModulesActions, ModulesReducer, ModulesSelector, React.PropTypes.objectOf(Module).isRequired, backendServerResultList, options)

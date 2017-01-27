@@ -21,11 +21,6 @@ class BaseBoardItemComponent extends React.Component {
     subtitle: React.PropTypes.string,
     description: React.PropTypes.string.isRequired,
     actions: React.PropTypes.arrayOf(React.PropTypes.element),
-    advanced: React.PropTypes.bool,
-  }
-
-  static defaultProp = {
-    advanced: false,
   }
 
   static contextTypes = {

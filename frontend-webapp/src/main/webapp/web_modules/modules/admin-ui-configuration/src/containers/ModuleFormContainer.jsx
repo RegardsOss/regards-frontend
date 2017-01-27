@@ -4,8 +4,8 @@
 import { browserHistory } from 'react-router'
 import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
 import { connect } from '@regardsoss/redux'
-import { ModuleShape } from '@regardsoss/modules'
-import { LayoutShape, ContainerHelper } from '@regardsoss/layout'
+import { Module, Layout } from '@regardsoss/model'
+import { ContainerHelper } from '@regardsoss/layout'
 import ModulesActions from '../model/modules/ModulesActions'
 import ModulesSelector from '../model/modules/ModulesSelector'
 import LayoutSelector from '../model/layout/LayoutSelector'
@@ -32,8 +32,8 @@ class ModuleFormContainer extends React.Component {
     fetchLayout: React.PropTypes.func,
     // Set by mapStateToProps
     isFetching: React.PropTypes.bool,
-    module: ModuleShape,
-    layout: LayoutShape,
+    module: Module,
+    layout: Layout,
   }
 
   componentWillMount() {

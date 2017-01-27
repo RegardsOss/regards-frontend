@@ -53,6 +53,7 @@ config = merge(config, {
         NODE_ENV: JSON.stringify('coverage'),
       },
       GATEWAY_HOSTNAME: JSON.stringify('http://localhost:8000'),
+      API_URL: JSON.stringify('/api/v1/'),
     }),
   ],
   // enable sourcemaps support
