@@ -5,12 +5,14 @@ const FormErrorMessage = ({ children }) => {
   return (
     <ShowableAtRender show={active}>
       <ErrorDecoratorComponent>
-        {children}
+        { active ? children : ''}
       </ErrorDecoratorComponent>
     </ShowableAtRender>
   )
 }
 FormErrorMessage.propTypes = {
-  children: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.element]),
+  // only string expected here, but resolves false values too
+  // eslint-disable-next-line
+  children: React.PropTypes.any,
 }
 export default FormErrorMessage

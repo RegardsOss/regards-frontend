@@ -12,19 +12,19 @@ import { RenderTextField, FormErrorMessage, ErrorTypes, Field, ValidationHelpers
 /**
  * React components for login form in administration applicationstat
  */
-class LoginComponent extends React.Component {
+export class LoginComponent extends React.Component {
 
   static propTypes = {
     title: React.PropTypes.string.isRequired,
     onLogin: React.PropTypes.func.isRequired,
     errorMessage: React.PropTypes.string,
+    onCancelAction: React.PropTypes.func,
+    cancelButton: React.PropTypes.bool,
     // from reduxForm
     submitting: React.PropTypes.bool,
     pristine: React.PropTypes.bool,
     invalid: React.PropTypes.bool,
     handleSubmit: React.PropTypes.func.isRequired,
-    cancelButton: React.PropTypes.bool,
-    onCancelAction: React.PropTypes.func,
   }
 
   static contextTypes = {
@@ -48,12 +48,8 @@ class LoginComponent extends React.Component {
    * @returns {React.Component} components
    */
   render() {
-    const style = {
-      layout: this.context.moduleTheme.layout,
-      action: this.context.moduleTheme.action,
-    }
     const { errorMessage } = this.props
-    const { intl } = this.context
+    const { intl, moduleTheme } = this.context
     let cancelButton = null
     if (this.props.cancelButton) {
       cancelButton = (
@@ -65,7 +61,7 @@ class LoginComponent extends React.Component {
       )
     }
     return (
-      <div style={style.layout}>
+      <div style={moduleTheme.layout}>
         <ReduxConnectedForm
           onSubmit={this.props.handleSubmit(this.props.onLogin)}
           i18nMessagesDir="modules/authentication/src/i18n"
@@ -95,7 +91,7 @@ class LoginComponent extends React.Component {
                 label={<FormattedMessage id="login.password" />}
               />
             </CardText>
-            <CardActions style={style.action}>
+            <CardActions style={moduleTheme.action}>
               <RaisedButton
                 disabled={this.props.pristine || this.props.submitting || this.props.invalid}
                 label={<FormattedMessage id="login.button" />}

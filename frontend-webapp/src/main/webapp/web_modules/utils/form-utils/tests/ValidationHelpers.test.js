@@ -25,4 +25,8 @@ describe('[FORM UTILS] Testing validation helpers', () => {
     assert.isTrue(ValidationHelpers.isValidIP('110.234.52.124'))
     assert.isTrue(ValidationHelpers.isValidIP('115.42.150.37'))
   })
+  it('should should accept only valid passwords', () => {
+    assert.isFalse(ValidationHelpers.isValidPassword('aaa'))
+    assert.isTrue(ValidationHelpers.isValidPassword('aaaaaa'))
+  })
 })
