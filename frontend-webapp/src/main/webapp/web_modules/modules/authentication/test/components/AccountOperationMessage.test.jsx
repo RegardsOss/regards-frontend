@@ -5,8 +5,6 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import sinon from 'sinon'
 import { IntlStub } from '@regardsoss/tests-helpers'
-import { FormattedMessage } from 'react-intl'
-import RaisedButton from 'material-ui/RaisedButton'
 import AccountOperationMessage, { operationIds } from '../../src/components/AccountOperationMessage'
 
 import styles from '../../src/styles/styles'

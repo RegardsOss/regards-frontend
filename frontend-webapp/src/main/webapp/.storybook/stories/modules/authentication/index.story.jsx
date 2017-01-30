@@ -1,7 +1,7 @@
 import { storiesOf, action } from '@kadira/storybook'
 import { ModuleThemeProvider } from '@regardsoss/modules'
-import AccountRequestFormComponent, {requestFormIds} from '@regardsoss/authentication/src/components/AccountRequestFormComponent'
-import AccountOperationMessage, {operationIds} from '@regardsoss/authentication/src/components/AccountOperationMessage'
+import AccountRequestFormComponent, { requestFormIds } from '@regardsoss/authentication/src/components/AccountRequestFormComponent'
+import AccountOperationMessage, { operationIds } from '@regardsoss/authentication/src/components/AccountOperationMessage'
 import CompleteResetPasswordFormComponent from '@regardsoss/authentication/src/components/CompleteResetPasswordFormComponent'
 import LoginComponent from '@regardsoss/authentication/src/components/LoginComponent'
 import styles from '@regardsoss/authentication/src/styles/styles'
@@ -15,18 +15,18 @@ storiesOf('Authentication', module)
     const themeName = addLocaleAndThemeSelectors()
     const moduleTheme = { styles }
     return (
-    <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/authentication/src/i18n">
-      <ModuleThemeProvider module={moduleTheme}>
-        <LoginComponent
-          title="Authentication form"
-          onLogin={action('Login')}
-          onSubmit={action('reset password')}
-          errorMessage={text('Message error', '')}
-          cancelButton={boolean('Cancel button',true)}
-          onCancelAction={action('cancel')}
-        />
-      </ModuleThemeProvider>
-    </ThemeAndLocaleDecorator>
+      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/authentication/src/i18n">
+        <ModuleThemeProvider module={moduleTheme}>
+          <LoginComponent
+            title="Authentication form"
+            onLogin={action('Login')}
+            onSubmit={action('reset password')}
+            errorMessage={text('Message error', '')}
+            cancelButton={boolean('Cancel button', true)}
+            onCancelAction={action('cancel')}
+          />
+        </ModuleThemeProvider>
+      </ThemeAndLocaleDecorator>
     )
   })
   .add('Account operation requests', () => {
@@ -34,7 +34,7 @@ storiesOf('Authentication', module)
     const moduleTheme = { styles }
 
     return (
-    <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/authentication/src/i18n">
+      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/authentication/src/i18n">
         <ModuleThemeProvider module={moduleTheme}>
           <AccountRequestFormComponent
             sendFailed={boolean('Send failed')}
@@ -73,6 +73,4 @@ storiesOf('Authentication', module)
       </ThemeAndLocaleDecorator>
     )
   })
-
-
 

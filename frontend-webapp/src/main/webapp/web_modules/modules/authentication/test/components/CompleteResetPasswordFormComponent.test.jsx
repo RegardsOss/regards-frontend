@@ -39,6 +39,6 @@ describe('[AUTHENTICATION] Testing CompleteResetPasswordFormComponent', () => {
     }
     const render = shallow(<CompleteResetPasswordFormComponent {...props} />, { context })
     // 2 fields for password and password confirmation
-    assert.equal(render.find(Field), 2, 'There should be 2 field for new password and confirm password')
+    assert.equal(render.find(Field).length, 2, 'There should be 2 field for new password and confirm password')
   })
 })
