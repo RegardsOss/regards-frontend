@@ -10,7 +10,7 @@ import './view/components/Buttons'
 import './components/board/index.story'
 import './modules/admin/AdminLayout'
 
-import './modules/authentication/Authentication'
+import './modules/authentication/index.story'
 import './modules/admin-account-management/AccountComponents'
 import './modules/admin-database-management/DatabaseComponents'
 import './modules/admin-microservice-management/index.story'

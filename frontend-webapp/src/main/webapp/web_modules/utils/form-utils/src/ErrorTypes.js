@@ -11,4 +11,6 @@ export default {
   INVLID_JSON_FORMAT: 'invalid.json',
   ALPHA_NUMERIC: 'invalid.only_alphanumeric',
   INVALID_IP: 'invalid.ip',
+  DIFFERENT_PASSWORDS: 'different.password',
+  INVALID_PASSWORD: 'invalid.password',
 }
