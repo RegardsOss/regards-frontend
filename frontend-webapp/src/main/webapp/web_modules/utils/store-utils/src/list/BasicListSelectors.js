@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-
+import { keys } from 'lodash'
 /**
  * @author Léo Mieulet
  */
@@ -22,6 +22,9 @@ class BasicListSelectors extends BasicSelector {
       return response.content
     }
     return undefined
+  }
+  getSize(state) {
+    return keys(this.uncombineStore(state).items).length
   }
   getError(state) {
     return this.uncombineStore(state).error

@@ -63,7 +63,6 @@ class PluginFormContainer extends React.Component {
   }
 
   render() {
-
     if (this.props.params.plugin_id && !this.props.plugin && this.props.isFetching) {
       return (<FormLoadingComponent />)
     }

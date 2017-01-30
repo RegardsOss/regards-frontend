@@ -154,6 +154,4 @@ class FormDatasetsConfigurationComponent extends React.Component {
   }
 }
 
-export default {
-  FormDatasetsConfigurationComponent,
-}
+export default FormDatasetsConfigurationComponent
