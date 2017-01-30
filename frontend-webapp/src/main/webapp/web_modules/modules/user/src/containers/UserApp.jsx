@@ -5,10 +5,11 @@ import { forEach } from 'lodash'
 import { browserHistory } from 'react-router'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { connect } from '@regardsoss/redux'
+import { Layout } from '@regardsoss/model'
 import { ThemeHelper, ThemeSelectors } from '@regardsoss/theme'
-import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
-import { LayoutShape, ApplicationLayout, ContainerHelper } from '@regardsoss/layout'
+import { ApplicationLayout, ContainerHelper } from '@regardsoss/layout'
 import { ModuleShape } from '@regardsoss/modules'
+import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { ApplicationErrorContainer } from '@regardsoss/global-sytem-error'
 import LayoutSelector from '../model/layout/LayoutSelector'
 import LayoutActions from '../model/layout/LayoutActions'
@@ -32,7 +33,7 @@ export class UserApp extends React.Component {
     theme: React.PropTypes.string,
     layoutIsFetching: React.PropTypes.bool,
     modulesIsFetching: React.PropTypes.bool,
-    layout: LayoutShape,
+    layout: Layout,
     modules: React.PropTypes.objectOf(ModuleShape),
     // Set by mapDispatchToProps
     fetchLayout: React.PropTypes.func,
@@ -56,8 +57,8 @@ export class UserApp extends React.Component {
     if (!nextProps.content && nextProps.modules && nextProps.layout) {
       forEach(nextProps.modules, (module, idx) => {
         if (module.content.isDefault) {
-          if (ContainerHelper.isDynamicContent(module.content.container, nextProps.layout.containers)) {
-            console.log('Default module ', module)
+          if (ContainerHelper.isDynamicContent(module.content.container, nextProps.layout.content.layout.containers)) {
+            console.log('Default module selection : ', module)
             browserHistory.push(`/user/${this.props.params.project}/modules/${module.content.id}`)
           }
         }
@@ -73,6 +74,22 @@ export class UserApp extends React.Component {
     browserHistory.push(`/user/${this.props.params.project}/modules/${module.content.id}`)
   }
 
+  renderLayout(modulesList) {
+    if (this.props.layout && this.props.layout.content) {
+      return (
+        <ApplicationLayout
+          appName="user"
+          layout={this.props.layout.content.layout}
+          modules={modulesList}
+          project={this.props.params.project}
+          dynamicContent={this.props.content}
+          onDynamicModuleSelection={this.onDynamicModuleSelection}
+        />
+      )
+    }
+    return null
+  }
+
   /**
    * @returns {React.Component}
    */
@@ -80,39 +97,29 @@ export class UserApp extends React.Component {
     const { theme } = this.props
     const muiTheme = ThemeHelper.getByName(theme)
 
-    if (this.props.layoutIsFetching || this.props.modulesIsFetching) {
-      return (<FormLoadingComponent />)
-    }
-
-    if (!this.props.layout) {
-      return (<FormEntityNotFoundComponent />)
-    }
-
     const modulesList = []
-    forEach(this.props.modules, (module, key) => {
-      modulesList.push(module)
-    })
+    if (this.props.modules) {
+      forEach(this.props.modules, (module, key) => {
+        modulesList.push(module)
+      })
+    }
 
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
-        <div>
-          <ApplicationLayout
-            appName="user"
-            layout={this.props.layout}
-            modules={modulesList}
-            project={this.props.params.project}
-            dynamicContent={this.props.content}
-            onDynamicModuleSelection={this.onDynamicModuleSelection}
-          />
+        <LoadableContentDisplayDecorator
+          isLoading={this.props.layoutIsFetching || this.props.modulesIsFetching}
+          isContentError={!this.props.layout}
+        >
+          {this.renderLayout(modulesList)}
           <ApplicationErrorContainer />
-        </div>
+        </LoadableContentDisplayDecorator>
       </MuiThemeProvider>
     )
   }
 }
 const mapStateToProps = (state, ownProps) => ({
   theme: ThemeSelectors.getCurrentTheme(state),
-  layout: LayoutSelector.getContentById(state, 'user'),
+  layout: LayoutSelector.getById(state, 'user'),
   modules: ModulesSelector.getList(state),
   layoutIsFetching: LayoutSelector.isFetching(state),
   modulesIsFetching: ModulesSelector.isFetching(state),
@@ -121,7 +128,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchLayout: () => dispatch(LayoutActions.fetchEntity('user')),
-  fetchModules: () => dispatch(ModulesActions.fetchPagedEntityList(0, 100, ['user'])),
+  fetchModules: () => dispatch(ModulesActions.fetchPagedEntityList(0, 100, { applicationId: 'user' })),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserApp)

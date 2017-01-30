@@ -3,9 +3,9 @@
  **/
 import { browserHistory } from 'react-router'
 import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
+import { Layout } from '@regardsoss/model'
 import { connect } from 'react-redux'
 import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
-import { LayoutShape } from '@regardsoss/layout'
 import LayoutSelector from '../model/layout/LayoutSelector'
 import LayoutActions from '../model/layout/LayoutActions'
 import ApplicationLayoutComponent from '../components/ApplicationLayoutComponent'
@@ -23,7 +23,7 @@ class ApplicationLayoutContainer extends React.Component {
     }),
     // Set by mapStateToProps
     isFetching: React.PropTypes.bool,
-    layout: LayoutShape,
+    layout: Layout,
     // Set by mapDispatchToProps
     fetchLayout: React.PropTypes.func,
     updateLayout: React.PropTypes.func,
@@ -53,13 +53,18 @@ class ApplicationLayoutContainer extends React.Component {
    */
   handleSubmit = (values) => {
     try {
-      Promise.resolve(this.props.updateLayout(this.props.layout.id, JSON.parse(values.layout)))
+      Promise.resolve(this.props.updateLayout(this.props.layout.content.id,
+        {
+          id: this.props.layout.content.id,
+          layout: JSON.parse(values.layout),
+        },
+      ))
         .then(() => {
           const url = this.getBackUrl()
           browserHistory.push(url)
         })
     } catch (e) {
-      console.log('Invalid JSON Format for layout update.')
+      console.warn('Invalid JSON Format for layout update.')
     }
   }
 
@@ -71,16 +76,17 @@ class ApplicationLayoutContainer extends React.Component {
     if (!this.props.layout) {
       return (<FormEntityNotFoundComponent />)
     }
+
     return (
       <I18nProvider messageDir="modules/admin-ui-configuration/src/i18n">
-        <ApplicationLayoutComponent layout={this.props.layout} onSubmit={this.handleSubmit} />
+        <ApplicationLayoutComponent layout={this.props.layout.content.layout} onSubmit={this.handleSubmit} />
       </I18nProvider>
     )
   }
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  layout: ownProps.params.applicationId ? LayoutSelector.getContentById(state, ownProps.params.applicationId) : null,
+  layout: ownProps.params.applicationId ? LayoutSelector.getById(state, ownProps.params.applicationId) : null,
   isFetching: LayoutSelector.isFetching(state),
 })
 

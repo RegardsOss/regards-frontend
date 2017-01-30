@@ -1,5 +1,6 @@
 const autoprefixer = require('autoprefixer')
 const path = require('path')
+const webpack = require('webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 module.exports = {
@@ -85,7 +86,10 @@ module.exports = {
   },
   plugins: [
     // Create a single css file for the whole application instead of setting css inline in the javascript
-    new ExtractTextPlugin('/css/styles.css', { allChunks: true })
+    new ExtractTextPlugin('/css/styles.css', { allChunks: true }),
+    new webpack.DefinePlugin({
+      API_URL: JSON.stringify('api/v1'),
+    }),
   ],
   eslint: {
     failOnWarning: false,

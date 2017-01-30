@@ -7,6 +7,17 @@ const formStyles = theme => ({
       marginRight: 20,
     },
   },
+  user: {
+    searchButtonContainer: {
+      display: 'flex',
+      alignItems: 'center',
+      flexDirection: 'column',
+    },
+    searchButton: {
+      marginTop: 10,
+      width: 200,
+    },
+  },
 })
 
 export default formStyles

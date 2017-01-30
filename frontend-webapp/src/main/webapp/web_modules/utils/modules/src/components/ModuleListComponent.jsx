@@ -7,6 +7,7 @@ import FloatingActionButton from 'material-ui/FloatingActionButton'
 import FilterList from 'material-ui/svg-icons/action/list'
 import { List, ListItem } from 'material-ui/List'
 import Divider from 'material-ui/Divider'
+import Styles from '../styles/styles'
 import ModuleShape from '../model/ModuleShape'
 
 /**
@@ -48,12 +49,7 @@ class ModuleListComponent extends React.Component {
   render() {
     return (
       <div
-        style={{
-          position: 'absolute',
-          top: '50vh',
-          right: 50,
-          zIndex: 7000,
-        }}
+        style={Styles.moduleListButton}
       >
         <FloatingActionButton
           onTouchTap={this.handleToggle}

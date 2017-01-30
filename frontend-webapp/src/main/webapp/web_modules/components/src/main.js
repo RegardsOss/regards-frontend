@@ -23,6 +23,9 @@ import OnHoverSwitchRaisedButton from './buttons/OnHoverSwitchRaisedButton'
 import ConfirmDialogComponent from './dialogs/ConfirmDialogComponent'
 
 import PageableListContainer from './list/PageableListContainer'
+import ModuleAppBar from './module/ModuleAppBar'
+
+import ErrorCardComponent from './error/ErrorCardComponent'
 
 export {
   ActionButtonComponent,
@@ -43,4 +46,6 @@ export {
   BaseBoardComponent,
   BoardItemComponent,
   BaseBoardItemComponent,
+  ModuleAppBar,
+  ErrorCardComponent,
 }

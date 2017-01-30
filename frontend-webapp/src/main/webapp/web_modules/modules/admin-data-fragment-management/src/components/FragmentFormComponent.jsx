@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import { RenderTextField, Field, ValidationHelpers, ErrorTypes } from '@regardsoss/form-utils'
 import { themeContextType } from '@regardsoss/theme'
 import { reduxForm } from 'redux-form'
+import { ReduxConnectedForm } from '@regardsoss/redux'
 import { Fragment } from '@regardsoss/model'
 
 
@@ -66,7 +67,10 @@ export class FragmentFormComponent extends React.Component {
         }}
       />)
     return (
-      <form onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
+      <ReduxConnectedForm
+        i18nMessagesDir="modules/admin-data-collection-management/src/i18n"
+        onSubmit={this.props.handleSubmit(this.props.onSubmit)}
+      >
         <Card>
           <CardTitle
             title={title}
@@ -99,7 +103,7 @@ export class FragmentFormComponent extends React.Component {
             />
           </CardActions>
         </Card>
-      </form>
+      </ReduxConnectedForm>
     )
   }
 }

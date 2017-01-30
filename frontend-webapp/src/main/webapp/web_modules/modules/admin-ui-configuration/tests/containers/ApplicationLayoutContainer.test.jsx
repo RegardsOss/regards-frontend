@@ -18,7 +18,9 @@ describe('[ADMIN UI-CONFIGURATION] Testing Layout container', () => {
         applicationId: 'testApp',
       },
       isFetching: false,
-      layout: {},
+      layout: {
+        content: {},
+      },
       fetchLayout: fetchLayoutCallBack,
       updateLayout: updateLayoutCallBack,
     }

@@ -18,6 +18,8 @@ import PluginDefinition from './access/PluginDefinition'
 import PluginConf from './access/PluginConf'
 import AccessProject from './access/Project'
 import Module from './access/Module'
+import Layout from './access/Layout'
+import LayoutContent from './access/LayoutContent'
 import Entity from './catalog/Entity'
 import PluginMetaData, { PluginMetaDataList } from './admin/PluginMetaData'
 import PluginConfiguration, { PluginConfigurationList } from './admin/PluginConfiguration'
@@ -57,6 +59,8 @@ export default {
   PluginConf,
   AccessProject,
   Module,
+  Layout,
+  LayoutContent,
 
   // MICROSERVICE
   PluginMetaData,

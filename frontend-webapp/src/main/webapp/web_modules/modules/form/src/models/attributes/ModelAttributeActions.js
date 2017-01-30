@@ -11,7 +11,7 @@ class ModelAttributeActions extends BasicPageableActions {
   constructor() {
     super({
       namespace: 'form/attributes',
-      entityEndpoint: `${GATEWAY_HOSTNAME}/api/v1/rs-dam/attributes?queryable=true&%0`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-dam/attributes?queryable=true&{queryParam}`,
       schemaTypes: {
         ENTITY: Schemas.ATTRIBUTE_MODEL,
         ENTITY_ARRAY: Schemas.ATTRIBUTE_MODEL_ARRAY,

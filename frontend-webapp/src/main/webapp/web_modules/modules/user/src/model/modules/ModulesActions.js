@@ -11,7 +11,7 @@ class ModulesActions extends BasicPageableActions {
   constructor() {
     super({
       namespace: 'user/layout/modules',
-      entityEndpoint: `${GATEWAY_HOSTNAME}/api/v1/rs-access/applications/%0/modules`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-access/applications/{applicationId}/modules`,
       schemaTypes: {
         ENTITY: Schemas.MODULE,
         ENTITY_ARRAY: Schemas.MODULE_ARRAY,

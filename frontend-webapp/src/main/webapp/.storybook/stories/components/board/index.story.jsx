@@ -2,15 +2,14 @@ import React from 'react'
 import { storiesOf } from '@kadira/storybook'
 import { withKnobs } from '@kadira/storybook-addon-knobs'
 import { BoardComponent, BaseBoardItemComponent } from '@regardsoss/components'
-import { StoreDecorator, addLocaleAndThemeSelectors, ThemeDecorator } from '../../utils/decorators'
 import ExtensionIcon from 'material-ui/svg-icons/action/extension'
 import ViewQuilt from 'material-ui/svg-icons/action/view-quilt'
 import Palette from 'material-ui/svg-icons/image/palette'
 import ActionHome from 'material-ui/svg-icons/action/home'
 import FileCloudDownload from 'material-ui/svg-icons/file/cloud-download'
 import HardwareVideogameAsset from 'material-ui/svg-icons/hardware/videogame-asset'
-import FileUpload from 'material-ui/svg-icons/file/file-upload'
 import IconButton from 'material-ui/IconButton'
+import { StoreDecorator, addLocaleAndThemeSelectors, ThemeDecorator } from '../../utils/decorators'
 
 const items = [
   {

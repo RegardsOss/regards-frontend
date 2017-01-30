@@ -8,6 +8,9 @@ import { Locales } from '@regardsoss/form-utils'
  * @type {*}
  */
 const messages = Object.assign({
+
+  // Administration messages
+
   // Tabulation labels
   'form.configuration.tab.label': 'Parameters',
   'form.dataset.selection.tab.label': 'Datasets',
@@ -40,6 +43,10 @@ const messages = Object.assign({
   'form.criterion.criteria.submit.button.label': 'Create',
   'form.criterion.criteria.cancel.button.label': 'Cancel',
   'form.criterion.criteria.select.attribute.label': 'Select model attribute ...',
+
+  // User display component
+
+  'form.search.button.label': 'Search',
 
 }, Locales.en)
 

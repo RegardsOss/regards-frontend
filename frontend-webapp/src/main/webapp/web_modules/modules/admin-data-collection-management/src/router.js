@@ -25,8 +25,21 @@ export const createCollectionRoute = {
   },
 }
 
+export const editCollectionLinksRoute = {
+  path: ':collectionId/links',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const CollectionEditLinksContainer = require('./containers/CollectionEditLinksContainer')
+      cb(null, {
+        content: CollectionEditLinksContainer.default,
+      })
+    })
+  },
+}
+
+
 export const editCollectionRoute = {
-  path: ':collectionId/edit',
+  path: ':collectionId/:mode',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
       const CollectionFormContainer = require('./containers/CollectionFormContainer')
@@ -42,6 +55,7 @@ const collectionDataManagementRouter = {
   childRoutes: [
     listCollectionRoute,
     createCollectionRoute,
+    editCollectionLinksRoute,
     editCollectionRoute,
   ],
 }

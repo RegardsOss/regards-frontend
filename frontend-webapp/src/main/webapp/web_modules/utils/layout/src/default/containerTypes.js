@@ -29,7 +29,6 @@ export default {
     styles: {
       backgroundAttachment: 'fixed',
       backgroundSize: 'cover',
-      minHeight: '30vh',
       paddingTop: '10px',
       paddingRight: '1px', // Quick fix for bootstrap grid .row
     },
@@ -39,9 +38,19 @@ export default {
    * Row container to display a responsive row.
    */
   RowContainer: {
+    classes: ['row'],
+    styles: {
+      margin: '0px 10px 10px 10px',
+    },
+  },
+
+  /**
+   * Full width column
+   */
+  FullWidthColumnContainer: {
     classes: ['col-sm-98', 'col-sm-offset-1'],
     styles: {
-      marginBottom: '10px',
+      marginBottom: '1px',
     },
   },
   /**
@@ -50,7 +59,7 @@ export default {
   LargeColumnContainer: {
     classes: ['col-sm-75'],
     styles: {
-      margin: '5px',
+      margin: '1px',
     },
   },
   /**
@@ -59,7 +68,7 @@ export default {
   SmallColumnContainer: {
     classes: ['col-sm-23'],
     styles: {
-      margin: '5px',
+      margin: '1px',
     },
   },
 }

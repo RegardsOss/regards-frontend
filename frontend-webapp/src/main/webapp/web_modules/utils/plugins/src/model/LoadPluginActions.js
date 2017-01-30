@@ -30,17 +30,28 @@ export const pluginLoaded = plugin => ({
  * @param sourcePath
  * @param dispatchAction
  */
-export const loadPlugin = (sourcePath, dispatchAction) => {
+export const loadPlugin = (sourcePath, onErrorCallback, dispatchAction) => {
   // Listen for pluin initialization done
-  console.log('PLUGIN TO LOAD')
   root.document.addEventListener('plugin', (event) => {
-    console.log('PLUGIN LOADED !!!!!!!!')
     const action = pluginLoaded(event.detail)
     action.sourcesPath = sourcePath
     dispatchAction(action)
   })
 
   if (typeof document !== 'undefined') {
-    scriptjs([`${window.location.origin}/plugins/${sourcePath}`], sourcePath)
+    let fullSourcePlugin = ''
+    if (sourcePath[0] === '/') {
+      fullSourcePlugin = `${window.location.origin}${sourcePath}`
+    } else {
+      fullSourcePlugin = `${window.location.origin}/${sourcePath}`
+    }
+    scriptjs(fullSourcePlugin, sourcePath)
+
+    root.window.addEventListener('error', (e, url) => {
+      console.log(e.srcElement.src, fullSourcePlugin)
+      if (e && e.srcElement && e.srcElement.src === fullSourcePlugin) {
+        onErrorCallback(fullSourcePlugin)
+      }
+    }, true)
   }
 }

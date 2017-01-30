@@ -37,9 +37,21 @@ class BasicSelector {
     return partialStore
   }
 
-
+  /**
+   * Return true when the app is downloading a list of or a piece of entity
+   * @param state
+   */
   isFetching(state) {
     return this.uncombineStore(state).isFetching
+  }
+
+  /**
+   * Return true when the app is saving, updating or creating a entity
+   * @param state
+   * @returns {BasicSelector.isSyncing|boolean}
+   */
+  isSyncing(state) {
+    return this.uncombineStore(state).isSyncing
   }
 }
 

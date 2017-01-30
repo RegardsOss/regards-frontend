@@ -5,7 +5,7 @@ class CollectionActions extends BasicPageableActions {
   constructor() {
     super({
       namespace: 'admin-data-collection-management',
-      entityEndpoint: `${GATEWAY_HOSTNAME}/api/v1/rs-dam/collections`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-dam/collections`,
       schemaTypes: {
         ENTITY: Schemas.COLLECTION,
         ENTITY_ARRAY: Schemas.COLLECTION_ARRAY,

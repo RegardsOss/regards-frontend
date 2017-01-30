@@ -8,6 +8,9 @@ import { Locales } from '@regardsoss/form-utils'
  * @type {*}
  */
 const messages = Object.assign({
+
+  // Administration messages
+
   // Tabulation labels
   'form.configuration.tab.label': 'Paramètres',
   'form.dataset.selection.tab.label': 'Jeux',
@@ -40,6 +43,11 @@ const messages = Object.assign({
   'form.criterion.criteria.submit.button.label': 'Ajouter',
   'form.criterion.criteria.cancel.button.label': 'Annuler',
   'form.criterion.criteria.select.attribute.label': 'Sélectionner un attribut ...',
+
+  // User display component
+
+  'form.search.button.label': 'Rechercher',
+
 }, Locales.fr)
 
 export default messages

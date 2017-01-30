@@ -37,7 +37,7 @@ config = merge(config, {
       colors: true,
     },
     // Web directory serve by the webpack dev server
-    contentBase: __dirname,
+    contentBase: './build',
     // ??? Without this there is no hot replacement during developpment
     inline: true,
     // inline: true,
@@ -59,6 +59,13 @@ config = merge(config, {
     //publicPath: "/plugins/",
   },
   plugins: [
+    new webpack.DllReferencePlugin({
+      // The path to the manifest file which maps between
+      // modules included in a bundle and the internal IDs
+      // within that bundle
+      manifest: require(`${__dirname}/build/core-manifest.json`),
+      context: __dirname
+    }),
     // Allow to define React as a global variable for JSX.
     new webpack.ProvidePlugin({ React: 'react' }),
     new webpack.optimize.OccurenceOrderPlugin(),

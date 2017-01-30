@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import { RenderTextField, RenderCheckbox, RenderSelectField, Field, ValidationHelpers, ErrorTypes } from '@regardsoss/form-utils'
 import { themeContextType } from '@regardsoss/theme'
 import { reduxForm } from 'redux-form'
+import { ReduxConnectedForm } from '@regardsoss/redux'
 import MenuItem from 'material-ui/MenuItem'
 import { AttributeModel, Fragment } from '@regardsoss/model'
 import { map } from 'lodash'
@@ -159,7 +160,10 @@ export class AttributeModelFormComponent extends React.Component {
         }}
       />)
     return (
-      <form onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
+      <ReduxConnectedForm
+        onSubmit={this.props.handleSubmit(this.props.onSubmit)}
+        i18nMessagesDir="modules/admin-data-attributemodel-management/src/i18n"
+      >
         <Card>
           <CardTitle
             title={title}
@@ -253,7 +257,7 @@ export class AttributeModelFormComponent extends React.Component {
             />
           </CardActions>
         </Card>
-      </form>
+      </ReduxConnectedForm>
     )
   }
 }

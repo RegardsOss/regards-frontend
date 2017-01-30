@@ -1,7 +1,7 @@
 /**
  * @author Léo Mieulet
  */
-import { map, replace } from 'lodash'
+import { map, replace, split, join, takeRight } from 'lodash'
 import { normalize } from 'normalizr'
 import ErrorHandler from '../ErrorHandler'
 
@@ -36,6 +36,21 @@ class BasicListActions {
     this.UPDATE_ENTITY_FAILURE = `${options.namespace}/UPDATE_FAILURE`
   }
 
+  getDependency = (verb) => {
+    let dependency = this.entityEndpoint
+    // Remove query params if any
+    dependency = split(dependency, '?')[0]
+    // Remove GATEWAY path
+    dependency = replace(dependency, GATEWAY_HOSTNAME, '')
+    dependency = replace(dependency, `/${API_URL}`, '')
+    // add a first '/' car if missing
+    dependency = dependency[0] === '/' ? `${dependency}` : `/${dependency}`
+    // Retrieve microservice as the first element of the path
+    const parts = split(dependency, '/')
+    // Contatn microservice@endpoint@verb
+    return `${parts[1]}@/${join(takeRight(parts, parts.length - 2), '/')}@${verb}`
+  }
+
 
   /**
    * Replace parameterized value in the current configured endpoint
@@ -46,8 +61,8 @@ class BasicListActions {
   handleRequestParameters = (entityEndpoint, params) => {
     let endpoint = entityEndpoint
     if (params) {
-      map(params, (param, id) => {
-        endpoint = replace(endpoint, `%${id}`, param)
+      map(params, (param, key) => {
+        endpoint = replace(endpoint, `{${key}}`, param)
       })
     }
     return endpoint
@@ -77,7 +92,13 @@ class BasicListActions {
     }
   }
   fetchEntity(keyValue, params) {
-    const endpoint = this.handleRequestParameters(this.entityEndpoint, params)
+    let endpoint = this.handleRequestParameters(this.entityEndpoint, params)
+    let queryParams = ''
+    const endpointSplit = split(endpoint, '?')
+    if (endpointSplit && endpointSplit.length > 1) {
+      endpoint = endpointSplit[0]
+      queryParams = `?${endpointSplit[1]}`
+    }
     return {
       [CALL_API]: {
         types: [
@@ -88,7 +109,7 @@ class BasicListActions {
           },
           this.ENTITY_FAILURE,
         ],
-        endpoint: `${endpoint}/${keyValue}`,
+        endpoint: `${endpoint}/${keyValue}${queryParams}`,
         method: 'GET',
       },
     }

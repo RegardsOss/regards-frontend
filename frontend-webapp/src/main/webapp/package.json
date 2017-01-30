@@ -5,13 +5,15 @@
   "private": true,
   "scripts": {
     "bootstrap": "./scripts/bootstrap.sh",
-    "build:production": "webpack --progress --config webpack.prod.config.js",
+    "build:dll": "webpack --progress --config webpack.dll.config.js --display-error-details",
+    "build:production": "webpack --progress --config webpack.prod.config.js --display-error-details",
     "prestart": "npm run lint:fix || true",
-    "start": "webpack-dev-server --progress --hot --config webpack.dev.preprod.config.js",
+    "start": "npm run start:withpreprod",
     "start:withpreprod": "webpack-dev-server --progress --hot --config webpack.dev.preprod.config.js",
     "start:withmock": "webpack-dev-server --progress --hot --config webpack.dev.mock.config.js",
     "start:mock": "nodemon --watch ./mocks --ignore '*.temp.js' ./mocks/mock.js",
     "pretest": "npm run lint:fix || true",
+    "postinstall": "npm run build:dll",
     "test": "npm run test:mocha --silent",
     "test:coverage": "nyc node --max_old_space_size=4096 --optimize_for_size --max_executable_size=4096 --stack_size=4096 ./node_modules/.bin/mocha-webpack --timeout 5000 --webpack-config webpack.coverage.config.js \"**/@(tests|web_modules)/**/*.test.js{,x}\" --recursive --require source-map-support/register",
     "test:mocha": "mocha-webpack --webpack-config webpack.test.config.js \"**/@(tests|web_modules)/**/*.test.js{,x}\" --timeout 20000 --recursive --require source-map-support/register --inline-diffs --reporter mochawesome --reporter-options reportDir='./reports/mocha',reportName='Regards Frontend tests'",
@@ -98,7 +100,6 @@
     "scriptjs": "~2.5.8",
     "sockjs-client": "~1.1.1",
     "stompjs": "~2.3.3",
-    "storybook-addon-material-ui": "^0.7.4",
     "window-or-global": "^1.0.1"
   },
   "devDependencies": {

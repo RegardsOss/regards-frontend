@@ -30,7 +30,7 @@
       "id": 1,
       "name": "string-criteria",
       "type": "criterion",
-      "sourcesPath": "/criterion/string/target/build/plugin.js"
+      "sourcesPath": "/plugins/criterion/string/plugin.js"
     }
   ],
   "modules": [
@@ -169,56 +169,62 @@
   "layouts": [
     {
       "id": "user",
-      "type": "MainContainer",
-      "classes": [],
-      "styles": {},
-      "containers": [
-        {
-          "id": "header",
-          "type": "RowContainer",
-          "classes": [],
-          "styles": {}
-        },
-        {
-          "id": "content",
-          "type": "RowContainer",
-          "classes": [],
-          "styles": {},
-          "dynamicContent": true
-        },
-        {
-          "id": "footer",
-          "type": "RowContainer",
-          "classes": [],
-          "styles": {}
-        }
-      ]
+      "layout": {
+        "id": "user",
+        "type": "MainContainer",
+        "classes": [],
+        "styles": {},
+        "containers": [
+          {
+            "id": "header",
+            "type": "RowContainer",
+            "classes": [],
+            "styles": {}
+          },
+          {
+            "id": "content",
+            "type": "RowContainer",
+            "classes": [],
+            "styles": {},
+            "dynamicContent": true
+          },
+          {
+            "id": "footer",
+            "type": "RowContainer",
+            "classes": [],
+            "styles": {}
+          }
+        ]
+      }
     },
     {
       "id": "portal",
-      "type": "MainContainer",
-      "classes": [],
-      "styles": {},
-      "containers": [
-        {
-          "id": "header",
-          "type": "RowContainer",
-          "classes": [],
-          "styles": {}
-        },
-        {
-          "id": "news",
-          "type": "RowContainer",
-          "classes": [],
-          "styles": {}
-        },
-        {
-          "id": "projects",
-          "type": "RowContainer",
-          "classes": [],
-          "styles": {}
-        }
-      ]
+      "layout": {
+        "id": "portal",
+        "type": "MainContainer",
+        "classes": [],
+        "styles": {},
+        "containers": [
+          {
+            "id": "header",
+            "type": "RowContainer",
+            "classes": [],
+            "styles": {}
+          },
+          {
+            "id": "news",
+            "type": "RowContainer",
+            "classes": [],
+            "styles": {}
+          },
+          {
+            "id": "projects",
+            "type": "RowContainer",
+            "classes": [],
+            "styles": {}
+          }
+        ]
+      }
     }
   ],
   "themes": [

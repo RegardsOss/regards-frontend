@@ -224,7 +224,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchPluginMetaDataList: microservice => dispatch(PluginMetaDataActions.fetchPagedEntityList(0, 100, [microservice])),
+  fetchPluginMetaDataList: microservice => dispatch(PluginMetaDataActions.fetchPagedEntityList(0, 100, { microserviceName: microservice })),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PluginMetaDataListContainer)

@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { map, random } from 'lodash'
+import { map } from 'lodash'
 import ExtensionIcon from 'material-ui/svg-icons/action/extension'
 import Settings from 'material-ui/svg-icons/action/settings'
 import Checkbox from 'material-ui/Checkbox'

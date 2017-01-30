@@ -7,6 +7,7 @@ import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowCol
 import { FormattedMessage } from 'react-intl'
 import IconButton from 'material-ui/IconButton'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
+import ContentCopy from 'material-ui/svg-icons/content/content-copy'
 import Delete from 'material-ui/svg-icons/action/delete'
 import { Collection } from '@regardsoss/model'
 import { CardActionsComponent } from '@regardsoss/components'
@@ -22,6 +23,7 @@ export class CollectionListComponent extends React.Component {
     collectionList: React.PropTypes.objectOf(Collection),
     handleDelete: React.PropTypes.func.isRequired,
     handleEdit: React.PropTypes.func.isRequired,
+    handleDuplicate: React.PropTypes.func.isRequired,
     createUrl: React.PropTypes.string.isRequired,
     backUrl: React.PropTypes.string.isRequired,
   }
@@ -33,10 +35,11 @@ export class CollectionListComponent extends React.Component {
 
 
   render() {
-    const { collectionList, handleEdit, handleDelete, createUrl, backUrl } = this.props
+    const { collectionList, handleEdit, handleDelete, handleDuplicate, createUrl, backUrl } = this.props
     const style = {
       hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
       hoverButtonDelete: this.context.muiTheme.palette.accent1Color,
+      hoverButtonDuplicate: this.context.muiTheme.palette.primary3Color,
     }
     return (
       <Card>
@@ -68,15 +71,17 @@ export class CollectionListComponent extends React.Component {
             >
               {map(collectionList, (collection, i) => (
                 <TableRow key={i}>
-                  <TableRowColumn>{collection.content.fragment.name}</TableRowColumn>
+                  <TableRowColumn>{collection.content.name}</TableRowColumn>
                   <TableRowColumn>{collection.content.name}</TableRowColumn>
                   <TableRowColumn>{collection.content.description}</TableRowColumn>
                   <TableRowColumn>{collection.content.type}</TableRowColumn>
                   <TableRowColumn>
+                    <IconButton onTouchTap={() => handleDuplicate(collection.content.id)}>
+                      <ContentCopy hoverColor={style.hoverButtonDuplicate} />
+                    </IconButton>
                     <IconButton onTouchTap={() => handleEdit(collection.content.id)}>
                       <Edit hoverColor={style.hoverButtonEdit} />
                     </IconButton>
-
                     <IconButton onTouchTap={() => handleDelete(collection.content.id)}>
                       <Delete hoverColor={style.hoverButtonDelete} />
                     </IconButton>

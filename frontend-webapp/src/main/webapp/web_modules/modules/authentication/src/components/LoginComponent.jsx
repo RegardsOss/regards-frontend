@@ -5,6 +5,7 @@ import { FormattedMessage, intlShape } from 'react-intl'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import { reduxForm } from 'redux-form'
+import { ReduxConnectedForm } from '@regardsoss/redux'
 import { themeContextType } from '@regardsoss/theme'
 import { RenderTextField, FormErrorMessage, ErrorTypes, Field, ValidationHelpers } from '@regardsoss/form-utils'
 
@@ -37,7 +38,7 @@ class LoginComponent extends React.Component {
    */
   componentWillMount() {
     if (process.env.NODE_ENV === 'development') {
-      console.log('DEV', 'Auto connection')
+      /* console.log('DEV', 'Auto connection')*/
       this.props.onLogin({ username: 'admin@cnes.fr', password: 'admin' })
     }
   }
@@ -65,7 +66,10 @@ class LoginComponent extends React.Component {
     }
     return (
       <div style={style.layout}>
-        <form onSubmit={this.props.handleSubmit(this.props.onLogin)}>
+        <ReduxConnectedForm
+          onSubmit={this.props.handleSubmit(this.props.onLogin)}
+          i18nMessagesDir="modules/authentication/src/i18n"
+        >
           <Card>
             <CardTitle
               title={this.props.title}
@@ -101,7 +105,7 @@ class LoginComponent extends React.Component {
               {cancelButton}
             </CardActions>
           </Card>
-        </form>
+        </ReduxConnectedForm>
       </div>
     )
   }

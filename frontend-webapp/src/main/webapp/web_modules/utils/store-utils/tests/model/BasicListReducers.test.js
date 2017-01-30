@@ -32,6 +32,7 @@ describe('[STORE UTILS] Testing project reducer', () => {
         type: '',
       },
       isFetching: false,
+      isSyncing: false,
       items: {},
       lastUpdate: '',
     })
@@ -43,27 +44,47 @@ describe('[STORE UTILS] Testing project reducer', () => {
         type: actionType,
       }
       const initState = {
+        isSyncing: false,
         isFetching: false,
       }
       const expectedState = {
+        isSyncing: false,
         isFetching: true,
       }
       expect(projectReducers.reduce(initState, action)).to.eql(expectedState)
     }
     it('check PROJECT_LIST_REQUEST', shallSetIsFetching(projectActions.ENTITY_LIST_REQUEST))
     it('check PROJECT_REQUEST', shallSetIsFetching(projectActions.ENTITY_REQUEST))
-    it('check DELETE_PROJECT_REQUEST', shallSetIsFetching(projectActions.DELETE_ENTITY_REQUEST))
-    it('check UPDATE_PROJECT_REQUEST', shallSetIsFetching(projectActions.UPDATE_ENTITY_REQUEST))
-    it('check CREATE_PROJECT_REQUEST', shallSetIsFetching(projectActions.CREATE_ENTITY_REQUEST))
   })
 
-  describe('should reduce requests errors', () => {
-    const shallSetError = actionType => function () {
+  describe('should reduce requests syncing', () => {
+    const shallSetIsSyncing = actionType => function () {
       const action = {
         type: actionType,
       }
       const initState = {
-        isFetching: true,
+        isSyncing: false,
+        isFetching: false,
+      }
+      const expectedState = {
+        isSyncing: true,
+        isFetching: false,
+      }
+      expect(projectReducers.reduce(initState, action)).to.eql(expectedState)
+    }
+    it('check DELETE_PROJECT_REQUEST', shallSetIsSyncing(projectActions.DELETE_ENTITY_REQUEST))
+    it('check UPDATE_PROJECT_REQUEST', shallSetIsSyncing(projectActions.UPDATE_ENTITY_REQUEST))
+    it('check CREATE_PROJECT_REQUEST', shallSetIsSyncing(projectActions.CREATE_ENTITY_REQUEST))
+  })
+
+  describe('should reduce requests errors', () => {
+    const shallSetErrorSync = actionType => function () {
+      const action = {
+        type: actionType,
+      }
+      const initState = {
+        isFetching: false,
+        isSyncing: true,
       }
       const expectedState = {
         error: {
@@ -72,14 +93,35 @@ describe('[STORE UTILS] Testing project reducer', () => {
           type: actionType,
         },
         isFetching: false,
+        isSyncing: false,
       }
       expect(projectReducers.reduce(initState, action)).to.eql(expectedState)
     }
-    it('check PROJECT_LIST_FAILURE', shallSetError(projectActions.ENTITY_LIST_FAILURE))
-    it('check CREATE_PROJECT_FAILURE', shallSetError(projectActions.CREATE_ENTITY_FAILURE))
-    it('check DELETE_PROJECT_FAILURE', shallSetError(projectActions.DELETE_ENTITY_FAILURE))
-    it('check UPDATE_PROJECT_FAILURE', shallSetError(projectActions.UPDATE_ENTITY_FAILURE))
-    it('check PROJECT_FAILURE', shallSetError(projectActions.ENTITY_FAILURE))
+    const shallSetErrorFetch = actionType => function () {
+      const action = {
+        type: actionType,
+      }
+      const initState = {
+        isFetching: true,
+        isSyncing: false,
+      }
+      const expectedState = {
+        error: {
+          hasError: true,
+          message: '',
+          type: actionType,
+        },
+        isFetching: false,
+        isSyncing: false,
+      }
+      expect(projectReducers.reduce(initState, action)).to.eql(expectedState)
+    }
+
+    it('check PROJECT_LIST_FAILURE', shallSetErrorFetch(projectActions.ENTITY_LIST_FAILURE))
+    it('check PROJECT_FAILURE', shallSetErrorFetch(projectActions.ENTITY_FAILURE))
+    it('check CREATE_PROJECT_FAILURE', shallSetErrorSync(projectActions.CREATE_ENTITY_FAILURE))
+    it('check DELETE_PROJECT_FAILURE', shallSetErrorSync(projectActions.DELETE_ENTITY_FAILURE))
+    it('check UPDATE_PROJECT_FAILURE', shallSetErrorSync(projectActions.UPDATE_ENTITY_FAILURE))
   })
 
   it('should reduce PROJECT_LIST_SUCCESS', () => {
@@ -106,11 +148,13 @@ describe('[STORE UTILS] Testing project reducer', () => {
     }
     const initState = {
       isFetching: true,
+      isSyncing: false,
       items: {},
       lastUpdate: '',
     }
     const expectedState = {
       isFetching: false,
+      isSyncing: false,
       items: {
         1: {
           content: {
@@ -136,6 +180,7 @@ describe('[STORE UTILS] Testing project reducer', () => {
     }
     const initState = {
       isFetching: true,
+      isSyncing: false,
       items: {
         cdpp: {
           content: {
@@ -162,7 +207,8 @@ describe('[STORE UTILS] Testing project reducer', () => {
       lastUpdate: '',
     }
     const expectedState = {
-      isFetching: false,
+      isFetching: true,
+      isSyncing: false,
       items: {
         cdpp: {
           content: {
@@ -201,7 +247,8 @@ describe('[STORE UTILS] Testing project reducer', () => {
         },
       }
       const initState = {
-        isFetching: true,
+        isFetching: false,
+        isSyncing: false,
         items: {
           cdpp: {
             id: '0',
@@ -216,6 +263,7 @@ describe('[STORE UTILS] Testing project reducer', () => {
       }
       const expectedState = {
         isFetching: false,
+        isSyncing: false,
         items: {
           cdpp: {
             id: '0',

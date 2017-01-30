@@ -3,9 +3,7 @@ import { I18nProvider } from '@regardsoss/i18n'
 import { Role } from '@regardsoss/model'
 import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
 import RoleActions from '../model/RoleActions'
-import ResourceAccessActions from '../model/ResourceAccessActions'
 import RoleSelectors from '../model/RoleSelectors'
-import ResourceAccessSelectors from '../model/ResourceAccessSelectors'
 import ResourceAccessFormComponent from '../components/ResourceAccessFormComponent'
 
 /**

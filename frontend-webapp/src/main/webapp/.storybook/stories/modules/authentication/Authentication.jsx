@@ -1,5 +1,7 @@
 import { storiesOf } from '@kadira/storybook'
-import { LazyModuleComponent } from '@regardsoss/modules'
+import { LazyModuleComponent, ModuleThemeProvider } from '@regardsoss/modules'
+import ResetPasswordComponent from '@regardsoss/authentication/src/components/ResetPasswordComponent'
+import styles from '@regardsoss/authentication/src/styles/styles'
 import { withKnobs, text } from '@kadira/storybook-addon-knobs'
 import { StoreDecorator, addLocaleAndThemeSelectors, ThemeAndLocaleDecorator } from '../../utils/decorators'
 
@@ -40,3 +42,17 @@ storiesOf('Authentication', module)
       </ThemeAndLocaleDecorator>
     )
   })
+  .add('Reset password', () => {
+    const themeName = addLocaleAndThemeSelectors()
+    const moduleTheme = { styles }
+
+    return (
+      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/authentication/src/i18n">
+        kaka ici
+        <ModuleThemeProvider module={moduleTheme}>
+          <ResetPasswordComponent />
+        </ModuleThemeProvider>
+      </ThemeAndLocaleDecorator>
+    )
+  })
+
