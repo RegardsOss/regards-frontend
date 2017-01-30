@@ -1,56 +1,61 @@
-import { storiesOf } from '@kadira/storybook'
-import { LazyModuleComponent, ModuleThemeProvider } from '@regardsoss/modules'
-import ResetPasswordComponent from '@regardsoss/authentication/src/components/ResetPasswordComponent'
+import { storiesOf, action } from '@kadira/storybook'
+import { ModuleThemeProvider } from '@regardsoss/modules'
+import AccountRequestFormComponent, {requestFormIds} from '@regardsoss/authentication/src/components/AccountRequestFormComponent'
+import AccountOperationMessage, {operationIds} from '@regardsoss/authentication/src/components/AccountOperationMessage'
+import LoginComponent from '@regardsoss/authentication/src/components/LoginComponent'
 import styles from '@regardsoss/authentication/src/styles/styles'
-import { withKnobs, text } from '@kadira/storybook-addon-knobs'
+import { withKnobs, text, boolean, select } from '@kadira/storybook-addon-knobs'
 import { StoreDecorator, addLocaleAndThemeSelectors, ThemeAndLocaleDecorator } from '../../utils/decorators'
 
 storiesOf('Authentication', module)
   .addDecorator(withKnobs)
   .addDecorator(StoreDecorator)
-  .add('Without cancel', () => {
+  .add('Login', () => {
     const themeName = addLocaleAndThemeSelectors()
-    const module = {
-      name: 'authentication',
-      active: true,
-      conf: {
-        cancelButton: false,
-        title: 'Authentication form',
-        errorMessage: text('Message error', ''),
-      },
-    }
+    const moduleTheme = { styles }
     return (
-      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/authentication/src/i18n">
-        <LazyModuleComponent appName={'test'} module={module} />
+    <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/authentication/src/i18n">
+      <ModuleThemeProvider module={moduleTheme}>
+        <LoginComponent
+          title="Authentication form"
+          onLogin={action('Login')}
+          onSubmit={action('reset password')}
+          errorMessage={text('Message error', '')}
+          cancelButton={boolean('Cancel button',true)}
+          onCancelAction={action('cancel')}
+        />
+      </ModuleThemeProvider>
+    </ThemeAndLocaleDecorator>
+    )
+  })
+  .add('Account operation requests', () => {
+    const themeName = addLocaleAndThemeSelectors()
+    const moduleTheme = { styles }
+
+    return (
+    <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/authentication/src/i18n">
+        <ModuleThemeProvider module={moduleTheme}>
+          <AccountRequestFormComponent
+            sendFailed={boolean('Send failed')}
+            requestFormId={select('Operation type', requestFormIds, requestFormIds[0])}
+            onRequestAction={action('form action')}
+            onBack={action('Back clicked')}
+          />
+        </ModuleThemeProvider>
       </ThemeAndLocaleDecorator>
     )
   })
-  .add('With cancel', () => {
-    const themeName = addLocaleAndThemeSelectors()
-    const module = {
-      name: 'authentication',
-      active: true,
-      conf: {
-        cancelButton: true,
-        title: 'Authentication form',
-        errorMessage: text('Message error', ''),
-      },
-    }
-    return (
-      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/authentication/src/i18n">
-        <LazyModuleComponent appName={'test'} module={module} />
-      </ThemeAndLocaleDecorator>
-    )
-  })
-  .add('Reset password', () => {
+  .add('Account operation message', () => {
     const themeName = addLocaleAndThemeSelectors()
     const moduleTheme = { styles }
 
     return (
       <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/authentication/src/i18n">
-        kaka ici
         <ModuleThemeProvider module={moduleTheme}>
-          <ResetPasswordComponent />
+          <AccountOperationMessage
+            operationId={select('Message type', operationIds, operationIds[0])}
+            operationAction={action('done click')}
+          />
         </ModuleThemeProvider>
       </ThemeAndLocaleDecorator>
     )
