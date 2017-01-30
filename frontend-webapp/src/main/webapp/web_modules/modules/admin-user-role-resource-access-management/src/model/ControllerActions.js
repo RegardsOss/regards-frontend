@@ -4,7 +4,7 @@ class ControllerActions extends BasicArrayActions {
   constructor() {
     super({
       namespace: 'admin-user-role-resource-access-management/controller',
-      entityEndpoint: `${GATEWAY_HOSTNAME}/api/v1/rs-admin/resources/controller/%0`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-admin/resources/controller/{microserviceName}`,
     })
   }
 }

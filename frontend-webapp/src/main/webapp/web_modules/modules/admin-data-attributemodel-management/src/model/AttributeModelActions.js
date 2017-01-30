@@ -5,7 +5,7 @@ class AttributeModelActions extends BasicListActions {
   constructor() {
     super({
       namespace: 'admin-data-attributemodel-management',
-      entityEndpoint: `${GATEWAY_HOSTNAME}/api/v1/rs-dam-list/models/attributes`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-dam-list/models/attributes`,
       schemaTypes: {
         ENTITY: Schemas.ATTRIBUTE_MODEL,
         ENTITY_ARRAY: Schemas.ATTRIBUTE_MODEL_ARRAY,

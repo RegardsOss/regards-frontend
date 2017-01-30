@@ -56,6 +56,22 @@ export const editModuleRoute = {
  *
  * @type {{path: string, getComponents: ((nextState, cb))}}
  */
+export const duplicateModuleRoute = {
+  path: 'applications/:applicationId/modules/:duplicate_module_id/duplicate',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const moduleContainer = require('./containers/ModuleFormContainer')
+      cb(null, {
+        content: moduleContainer.default,
+      })
+    })
+  },
+}
+
+/**
+ *
+ * @type {{path: string, getComponents: ((nextState, cb))}}
+ */
 export const createModuleRoute = {
   path: 'applications/:applicationId/modules/create',
   getComponents(nextState, cb) {
@@ -109,6 +125,7 @@ const uiConfigurationRouter = {
     listApplicationsRoute,
     listModulesRoute,
     editModuleRoute,
+    duplicateModuleRoute,
     createModuleRoute,
     layoutRoute,
     themesRoute,

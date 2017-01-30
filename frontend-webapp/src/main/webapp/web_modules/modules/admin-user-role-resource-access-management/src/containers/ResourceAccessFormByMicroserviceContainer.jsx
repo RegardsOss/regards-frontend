@@ -99,8 +99,8 @@ const mapStateToProps = state => ({
   resourceList: ResourceAccessSelectors.getList(state),
 })
 const mapDispatchToProps = dispatch => ({
-  fetchControllerList: microserviceName => dispatch(ControllerActions.fetchEntityList([microserviceName])),
-  fetchResourceList: (microserviceName, controllerName) => dispatch(ResourceAccessActions.fetchEntityList([microserviceName, controllerName])),
+  fetchControllerList: microserviceName => dispatch(ControllerActions.fetchEntityList({ microserviceName })),
+  fetchResourceList: (microserviceName, controllerName) => dispatch(ResourceAccessActions.fetchEntityList({ microserviceName, controllerName })),
   updateRole: (roleName, updatedRole) => dispatch(RoleActions.updateEntity(roleName, updatedRole)),
 })
 

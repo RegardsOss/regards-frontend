@@ -26,11 +26,17 @@ import FormCriteriaComponent from './FormCriteriaComponent'
 class FormCriterionComponent extends React.Component {
 
   static propTypes = {
+    // Fu,ction to update current redux-form
     changeField: React.PropTypes.func,
+    // Default form criterion list
     defaultCriterion: React.PropTypes.arrayOf(PluginConf),
+    // Current form criterion list
     criterion: React.PropTypes.arrayOf(PluginConf),
+    // Current layout form
     layout: React.PropTypes.string,
+    // List of availables attributes to edit criterion configuration
     selectableAttributes: React.PropTypes.objectOf(AttributeModel),
+    // List of available criterion plugins
     availableCriterion: React.PropTypes.objectOf(React.PropTypes.shape({
       content: PluginDefinition,
     })),

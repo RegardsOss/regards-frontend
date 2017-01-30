@@ -7,7 +7,7 @@ import { reduxForm } from 'redux-form'
 import { CardActionsComponent } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { Field, TextAreaField, ErrorTypes } from '@regardsoss/form-utils'
-import { LayoutShape } from '@regardsoss/layout'
+import { Layout } from '@regardsoss/model'
 import { ReduxConnectedForm } from '@regardsoss/redux'
 
 /**
@@ -16,7 +16,7 @@ import { ReduxConnectedForm } from '@regardsoss/redux'
 class ApplicationLayoutComponent extends React.Component {
 
   static propTypes = {
-    layout: LayoutShape,
+    layout: Layout,
     onSubmit: React.PropTypes.func,
     // from reduxForm
     submitting: React.PropTypes.bool,

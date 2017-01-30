@@ -33,7 +33,8 @@
   ],
   "globals": {
     "React": true,
-    "GATEWAY_HOSTNAME": true
+    "GATEWAY_HOSTNAME": true,
+    "API_URL":true
   },
   "parserOptions": {
     "ecmaVersion": 6,

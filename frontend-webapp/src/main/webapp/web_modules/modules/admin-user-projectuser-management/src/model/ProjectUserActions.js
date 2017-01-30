@@ -5,7 +5,7 @@ class ProjectUserActions extends BasicPageableActions {
   constructor() {
     super({
       namespace: 'admin-user-projectuser-management',
-      entityEndpoint: `${GATEWAY_HOSTNAME}/api/v1/rs-admin/users`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-admin/users`,
       schemaTypes: {
         ENTITY: Schemas.PROJECT_USER,
         ENTITY_ARRAY: Schemas.PROJECT_USER_ARRAY,

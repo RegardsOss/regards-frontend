@@ -1,8 +1,8 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import PluginProvider from './components/PluginProvider'
-import PluginLoader from './components/PluginLoader'
+import PluginProvider from './containers/PluginProvider'
+import PluginLoader from './containers/PluginLoader'
 import PluginReducer from './reducer'
 
 export { PluginReducer, PluginLoader, PluginProvider }

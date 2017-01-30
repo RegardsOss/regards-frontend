@@ -5,7 +5,7 @@ class ResourceAccessActions extends BasicPageableActions {
   constructor() {
     super({
       namespace: 'admin-user-role-resource-access-management/resource-access',
-      entityEndpoint: `${GATEWAY_HOSTNAME}/api/v1/rs-admin/resources/%0/%1`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-admin/resources/{microserviceName}/{controllerName}`,
       schemaTypes: {
         ENTITY: Schemas.RESOURCE_ACCESS,
         ENTITY_ARRAY: Schemas.RESOURCE_ACCESS_ARRAY,

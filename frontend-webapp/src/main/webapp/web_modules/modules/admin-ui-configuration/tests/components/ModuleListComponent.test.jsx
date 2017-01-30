@@ -83,11 +83,13 @@ describe('[ADMIN UI-CONFIGURATION] Testing Modules list component', () => {
   it('Check actions on ModuleListComponent', () => {
     const onEditCallback = sinon.spy()
     const onDeleteCallback = sinon.spy()
+    const onDuplicateCallBack = sinon.spy()
 
     const props = {
       modules: testModules,
       onActivation: () => {},
       onCreate: () => {},
+      onDuplicate: onDuplicateCallBack,
       onEdit: onEditCallback,
       onDelete: onDeleteCallback,
     }
@@ -98,13 +100,17 @@ describe('[ADMIN UI-CONFIGURATION] Testing Modules list component', () => {
 
 
     const buttons = wrapper.find(TableBody).find(TableRow).find(IconButton)
-    expect(buttons).to.have.length(6)
+    assert.lengthOf(buttons, 9, 'There should be 9 buttons available in the module form page')
 
     const editButton = buttons.first()
     editButton.simulate('touchTap')
-    expect(onEditCallback.calledOnce).to.equal(true)
+    assert.isTrue(onEditCallback.calledOnce, 'After click on the edit button, the edit callback function should be called')
 
-    const deleteButton = buttons.at(1)
+    const duplicateButton = buttons.at(1)
+    duplicateButton.simulate('touchTap')
+    assert.isTrue(onDuplicateCallBack.calledOnce, 'After click on the duplicate button, the duplicate callback function should be called')
+
+    const deleteButton = buttons.at(2)
     assert.isDefined(deleteButton)
     assert.equal(wrapper.find(ShowableAtRender).prop('show'), false, 'Confirm dialog should not be displayed')
     deleteButton.simulate('touchTap')

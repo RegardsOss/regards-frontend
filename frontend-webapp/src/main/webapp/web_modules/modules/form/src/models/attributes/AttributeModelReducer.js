@@ -3,18 +3,18 @@
  **/
 import { BasicPageableReducers } from '@regardsoss/store-utils'
 import { AttributeModelConfiguration } from '@regardsoss/api'
-import ModelAttributeActions from './ModelAttributeActions'
+import AttributeModelActions from './AttributeModelActions'
 
 /**
  * Redux store reducer for Module entities
  */
-class ModelAttributeReducer extends BasicPageableReducers {
+class AttributeModelReducer extends BasicPageableReducers {
   constructor() {
-    super(AttributeModelConfiguration, ModelAttributeActions)
+    super(AttributeModelConfiguration, AttributeModelActions)
   }
 }
 
-const instance = new ModelAttributeReducer()
+const instance = new AttributeModelReducer()
 
 /**
  * Return an function where the reducer instance exists

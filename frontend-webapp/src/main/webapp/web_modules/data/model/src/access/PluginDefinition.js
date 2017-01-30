@@ -6,10 +6,12 @@
  * IHM Plugin entity definition
  */
 const PluginDefinition = React.PropTypes.shape({
-  id: React.PropTypes.number,
-  name: React.PropTypes.string,
-  type: React.PropTypes.string,
-  sourcesPath: React.PropTypes.string,
+  content: React.PropTypes.shape({
+    id: React.PropTypes.number,
+    name: React.PropTypes.string,
+    type: React.PropTypes.string,
+    sourcesPath: React.PropTypes.string,
+  }).isRequired,
 })
 
 export default PluginDefinition

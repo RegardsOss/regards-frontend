@@ -5,7 +5,7 @@ class AccessesActions extends BasicListActions {
   constructor() {
     super({
       namespace: 'admin-user-projectuser-management/accesses',
-      entityEndpoint: `${GATEWAY_HOSTNAME}/api/v1/rs-admin/accesses`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-admin/accesses`,
       schemaTypes: {
         ENTITY: Schemas.ACCESSES,
         ENTITY_ARRAY: Schemas.ACCESSES_ARRAY,

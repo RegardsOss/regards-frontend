@@ -5,7 +5,7 @@ class PluginMetaDataActions extends BasicPageableActions {
   constructor() {
     super({
       namespace: 'admin-microservice-management/pluginMetaData',
-      entityEndpoint: `${GATEWAY_HOSTNAME}/api/v1/%0/plugins`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/{microserviceName}/plugins`,
       schemaTypes: {
         ENTITY: Schemas.PLUGIN_META_DATA,
         ENTITY_ARRAY: Schemas.PLUGIN_META_DATA_ARRAY,

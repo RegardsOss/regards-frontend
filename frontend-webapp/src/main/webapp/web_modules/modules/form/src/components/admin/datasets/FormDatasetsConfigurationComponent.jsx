@@ -41,7 +41,6 @@ class FormDatasetsConfigurationComponent extends React.Component {
   }
 
   onDatasetSelection = (dataset) => {
-    console.log(dataset)
     const newSelectedDatasets = xor(this.state.selectedDataset, [dataset.id])
     this.setState({
       selectedDataset: newSelectedDatasets,
@@ -155,6 +154,4 @@ class FormDatasetsConfigurationComponent extends React.Component {
   }
 }
 
-export default {
-  FormDatasetsConfigurationComponent,
-}
+export default FormDatasetsConfigurationComponent

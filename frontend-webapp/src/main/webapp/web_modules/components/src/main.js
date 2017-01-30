@@ -4,6 +4,7 @@
 import ActionButtonComponent from './cards/ActionButtonComponent'
 import ApplicationErrorComponent from './ApplicationErrorComponent'
 import CardActionsComponent from './cards/CardActionsComponent'
+import CardActionsView from './cards/CardActionsView'
 import MainActionButtonComponent from './cards/MainActionButtonComponent'
 import SecondaryActionButtonComponent from './cards/SecondaryActionButtonComponent'
 import ShowableAtRender from './cards/ShowableAtRender'
@@ -25,10 +26,13 @@ import ConfirmDialogComponent from './dialogs/ConfirmDialogComponent'
 import PageableListContainer from './list/PageableListContainer'
 import ModuleAppBar from './module/ModuleAppBar'
 
+import ErrorCardComponent from './error/ErrorCardComponent'
+
 export {
   ActionButtonComponent,
   ApplicationErrorComponent,
   CardActionsComponent,
+  CardActionsView,
   MainActionButtonComponent,
   SecondaryActionButtonComponent,
   ShowableAtRender,
@@ -45,4 +49,5 @@ export {
   BoardItemComponent,
   BaseBoardItemComponent,
   ModuleAppBar,
+  ErrorCardComponent,
 }
