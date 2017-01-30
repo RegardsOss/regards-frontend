@@ -8,19 +8,16 @@ import { ReduxConnectedForm } from '@regardsoss/redux'
 import RaisedButton from 'material-ui/RaisedButton'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { RenderTextField, FormErrorMessage, Field, ErrorTypes } from '@regardsoss/form-utils'
+import { RenderTextField, Field, ErrorTypes, ValidationHelpers } from '@regardsoss/form-utils'
 
 /**
  * Reset password request form component
  */
-export class TerminateResetPasswordFormComponent extends React.Component {
+export class CompleteResetPasswordFormComponent extends React.Component {
 
   static propTypes = {
-    // Is token invalid now?
-    tokenInvalid: React.PropTypes.bool,
-    // calls reset password action
+    // calls update password action or shows token expired message
     onUpdatePassword: React.PropTypes.func.isRequired,
-    onNewResetPasswordRequest: React.PropTypes.func.isRequired,
     // from reduxForm
     pristine: React.PropTypes.bool,
     submitting: React.PropTypes.bool,
@@ -37,8 +34,8 @@ export class TerminateResetPasswordFormComponent extends React.Component {
    * @returns {React.Component} components
    */
   render() {
-    const { pristine, submitting, invalid, tokenInvalid, onNewResetPasswordRequest, onUpdatePassword, handleSubmit } = this.props
-    const { moduleTheme, intl } = this.context
+    const { pristine, submitting, invalid, onUpdatePassword, handleSubmit } = this.props
+    const { moduleTheme } = this.context
     return (
       <div style={moduleTheme.layout}>
         <ReduxConnectedForm
@@ -48,11 +45,6 @@ export class TerminateResetPasswordFormComponent extends React.Component {
           <Card>
             <CardTitle
               title={<FormattedMessage id="reset.password.update.request.title" />}
-              subtitle={
-                <FormErrorMessage>
-                  {tokenInvalid && intl.formatMessage({ id: 'reset.password.update.token.invalid' })}
-                </FormErrorMessage>
-              }
             />
             <CardText>
               <FormattedMessage id="reset.password.update.request.message" />
@@ -72,23 +64,12 @@ export class TerminateResetPasswordFormComponent extends React.Component {
               />
             </CardText>
             <CardActions style={moduleTheme.action}>
-              { tokenInvalid
-                ? (
-                  <RaisedButton
-                    label={<FormattedMessage id="reset.password.update.new.reset.request" />}
-                    primary
-                    onClick={onNewResetPasswordRequest}
-                  />
-                )
-                : (
-                  <RaisedButton
-                    disabled={submitting || invalid || pristine}
-                    label={<FormattedMessage id="reset.password.update.send" />}
-                    primary
-                    type="submit"
-                  />
-                )
-              }
+              <RaisedButton
+                disabled={submitting || invalid || pristine}
+                label={<FormattedMessage id="reset.password.update.send" />}
+                primary
+                type="submit"
+              />
             </CardActions>
           </Card>
         </ReduxConnectedForm>
@@ -105,8 +86,11 @@ function validate(values) {
   if (!values.confirmPassword) {
     errors.confirmPassword = ErrorTypes.REQUIRED
   }
+  if (!ValidationHelpers.isValidPassword(values.newPassword)) {
+    errors.newPassword = ErrorTypes.INVALID_PASSWORD
+  }
   if (values.confirmPassword && values.newPassword && values.newPassword !== values.confirmPassword) {
-    errors.confirmPassword = ErrorTypes.REQUIRED
+    errors.confirmPassword = ErrorTypes.DIFFERENT_PASSWORDS
   }
   return errors
 }
@@ -114,5 +98,5 @@ function validate(values) {
 export default reduxForm({
   form: 'reset.password.update',
   validate,
-})(TerminateResetPasswordFormComponent)
+})(CompleteResetPasswordFormComponent)
 

@@ -54,8 +54,7 @@ const messages = Object.assign({
   'reset.password.update.request.message': 'Veuillez entrer votre nouveau mot de passe pour finaliser la mise à jour de votre compte utilisateur',
   'reset.password.update.new.password': 'Nouveau mot de passe',
   'reset.password.update.confirm.password': 'Confirmation du mot de passe',
-  'reset.password.update.new.reset.request': 'Nouvelle requête',
-  'reset.password.update.token.invalid': 'Votre requête précédente a expiré, veuillez la renouveler',
+  'reset.password.update.send': 'ENVOYER',
 }, Locales.fr)
 
 export default messages

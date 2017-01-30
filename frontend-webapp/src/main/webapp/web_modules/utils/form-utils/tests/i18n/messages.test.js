@@ -1,3 +1,4 @@
+import { keys } from 'lodash'
 import { assert } from 'chai'
 import Locales from '../../src/i18n/Locales'
 
@@ -6,5 +7,8 @@ describe('[FORM UTILS] Testing i18n', () => {
     assert.isDefined(Locales)
     assert.isDefined(Locales.en)
     assert.isDefined(Locales.fr)
+  })
+  it('should define same sentences', () => {
+    assert.deepEqual(keys(Locales.fr), keys(Locales.en))
   })
 })

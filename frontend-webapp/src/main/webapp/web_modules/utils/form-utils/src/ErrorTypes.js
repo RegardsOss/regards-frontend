@@ -12,4 +12,5 @@ export default {
   ALPHA_NUMERIC: 'invalid.only_alphanumeric',
   INVALID_IP: 'invalid.ip',
   DIFFERENT_PASSWORDS: 'different.password',
+  INVALID_PASSWORD: 'invalid.password',
 }

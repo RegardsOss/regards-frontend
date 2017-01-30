@@ -30,7 +30,7 @@ const messages = Object.assign({
   'unlock.request.sent.option': 'Back',
 
   'unlock.request.done.title': 'Account unlocked',
-  'unlock.request.done.message': 'Your account has been successfully unlocked, you can proceed to site',
+  'unlock.request.done.message': 'Your account has been successfully reset unlocked, you can proceed to site',
   'unlock.request.done.option': 'Proceed',
 
   'unlock.request.token.expired.title': 'Unlock account failed',
@@ -54,8 +54,7 @@ const messages = Object.assign({
   'reset.password.update.request.message': 'Please provide your new password to complete your account update',
   'reset.password.update.new.password': 'New password',
   'reset.password.update.confirm.password': 'Confirm password',
-  'reset.password.update.new.reset.request': 'New request',
-  'reset.password.update.token.invalid': 'Your previous request is expired, please send a new change request password',
+  'reset.password.update.send': 'SEND',
 }, Locales.en)
 
 export default messages
