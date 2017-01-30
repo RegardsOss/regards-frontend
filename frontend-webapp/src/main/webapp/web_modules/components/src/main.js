@@ -4,6 +4,7 @@
 import ActionButtonComponent from './cards/ActionButtonComponent'
 import ApplicationErrorComponent from './ApplicationErrorComponent'
 import CardActionsComponent from './cards/CardActionsComponent'
+import CardActionsView from './cards/CardActionsView'
 import MainActionButtonComponent from './cards/MainActionButtonComponent'
 import SecondaryActionButtonComponent from './cards/SecondaryActionButtonComponent'
 import ShowableAtRender from './cards/ShowableAtRender'
@@ -31,6 +32,7 @@ export {
   ActionButtonComponent,
   ApplicationErrorComponent,
   CardActionsComponent,
+  CardActionsView,
   MainActionButtonComponent,
   SecondaryActionButtonComponent,
   ShowableAtRender,
