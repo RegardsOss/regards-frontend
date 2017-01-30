@@ -1,4 +1,4 @@
-import { expect } from 'chai'
+import { expect, assert } from 'chai'
 import { PROJECT, PROJECT_ARRAY } from '@regardsoss/api'
 import BasicListReducers from '../../src/list/BasicListReducers'
 import BasicListActions from '../../src/list/BasicListActions'
@@ -22,6 +22,46 @@ class ProjectReducers extends BasicListReducers {
   }
 }
 const projectReducers = new ProjectReducers()
+
+describe('[STORE UTILS] Testing rewrite entity', () => {
+  it('should return a different state', () => {
+
+    const options = {
+      entityKey: "id",
+      normalizrKey: "tests",
+    }
+    const reducer = new BasicListReducers(options, null)
+
+    const state = {
+      items: {
+        0 : {
+          plop:"plop"
+        },
+        1 : {
+          plop:"plip"
+        }
+      }
+    }
+
+    const action = {
+      payload: {
+        result: 0,
+        entities : {
+          tests: {
+            0 : {
+              plop:"ploup"
+            },
+          }
+        }
+      }
+    }
+
+    const newState = reducer.rewriteEntity(state,action,{})
+    console.log("SEB",newState, state)
+    assert(newState===state,"Plop error !!")
+
+  })
+})
 
 describe('[STORE UTILS] Testing project reducer', () => {
   it('should return the initial state', () => {

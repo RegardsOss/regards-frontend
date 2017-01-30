@@ -17,7 +17,9 @@ class BasicListReducers {
   rewriteEntity = function (state, action, stateUpdated) {
     const newState = Object.assign({}, state, stateUpdated)
     const entityId = action.payload.result
-    newState.items[entityId] = action.payload.entities[this.normalizrKey][entityId]
+    const items = Object.assign({}, newState.items)
+    items[entityId] = action.payload.entities[this.normalizrKey][entityId]
+    newState.items = items
     return newState
   }
 

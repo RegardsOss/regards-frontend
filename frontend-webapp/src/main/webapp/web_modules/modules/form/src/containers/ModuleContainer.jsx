@@ -128,9 +128,6 @@ class ModuleContainer extends React.Component {
 const mapStateToProps = state => ({
   attributes: AttributeModelSelector.getList(state),
   attributesFetching: AttributeModelSelector.isFetching(state),
-  // Fix to handle a prop change when a new element is added to the list,
-  // Without this, the attributes prop is not enought
-  attributesSize: AttributeModelSelector.getSize(state),
 })
 
 const mapDispatchToProps = dispatch => ({
