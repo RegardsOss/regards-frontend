@@ -124,9 +124,9 @@ class LazyModuleComponent extends React.Component {
       let moduleDependencies = []
       if (this.props.admin && module.adminContainer) {
         moduleElt = React.createElement(module.adminContainer, merge({}, defaultModuleProps, this.props.module.conf))
-        moduleDependencies = module.dependencies ? (module.dependencies.admin ? module.dependencies.admin : []) : []
+        moduleDependencies = module && module.dependencies && module.dependencies.admin || []
       } else if (!this.props.admin && module.moduleContainer) {
-        moduleDependencies = module.dependencies ? (module.dependencies.user ? module.dependencies.user : []) : []
+        moduleDependencies = module && module.dependencies && module.dependencies.user || []
         moduleElt = React.createElement(module.moduleContainer, merge({}, defaultModuleProps, this.props.module.conf))
       }
 

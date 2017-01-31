@@ -1,7 +1,9 @@
 /*
  * LICENSE_PLACEHOLDER
  */
-const messages = {
+import { Locales } from '@regardsoss/form-utils'
+
+const messages = Object.assign({
   'database.connectionTester.start': 'Tester',
   'database.connectionTester.restart': 'Réessayer',
   'database.connectionTester.connected': 'Connecté',
@@ -32,6 +34,6 @@ const messages = {
   'database.form.action.save': 'Sauvegarder',
   'database.form.action.cancel': 'Annuler',
 
-}
+}, Locales.fr)
 
 export default messages

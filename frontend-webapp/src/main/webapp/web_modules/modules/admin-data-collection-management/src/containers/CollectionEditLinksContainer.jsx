@@ -5,6 +5,7 @@ import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { Collection } from '@regardsoss/model'
 import { I18nProvider } from '@regardsoss/i18n'
+import { partition, some } from 'lodash'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import CollectionSelectors from './../model/CollectionSelectors'
 import CollectionActions from './../model/CollectionActions'
@@ -23,19 +24,20 @@ export class CollectionEditLinksContainer extends React.Component {
     }),
     // from mapStateToProps
     currentCollection: Collection,
+    collectionList: React.PropTypes.objectOf(Collection),
     isFetching: React.PropTypes.bool,
     // from mapDispatchToProps
     updateCollection: React.PropTypes.func,
-    fetchCollection: React.PropTypes.func,
+    fetchCollectionList: React.PropTypes.func,
   }
 
   componentDidMount() {
-    this.props.fetchCollection(this.props.params.collectionId)
+    this.props.fetchCollectionList()
   }
 
   getBackUrl = () => {
-    const { params: { project }, currentCollection } = this.props
-    return `/admin/${project}/data/collection/${currentCollection.content.id}/edit`
+    const { params: { project, collectionId } } = this.props
+    return `/admin/${project}/data/collection/${collectionId}/edit`
   }
 
   getDoneUrl = () => {
@@ -54,19 +56,38 @@ export class CollectionEditLinksContainer extends React.Component {
         }
       })
   }
+  handleAdd = () => {
+    console.log('Add')
+  }
+
+  handleDelete = () => {
+    console.log('Delete')
+  }
+
+  getRemainingCollection = (currentCollection, collectionList) => {
+    partition(collectionList, (collection) => {
+      some(currentCollection.content.tags, tag => tag === '')
+    })
+  }
 
   render() {
-    const { isFetching, currentCollection } = this.props
+    const { isFetching, currentCollection, collectionList } = this.props
+    const collectionRemaining = this.getRemainingCollection(currentCollection, collectionList)
+    console.log(isFetching, typeof currentCollection)
+    const isLoading = isFetching || typeof currentCollection === 'undefined'
     return (
       <I18nProvider messageDir="modules/admin-data-collection-management/src/i18n">
         <LoadableContentDisplayDecorator
-          isLoading={isFetching}
+          isLoading={isLoading}
         >
-          <CollectionEditLinksComponent
-            currentCollection={currentCollection}
-            onSubmit={this.handleEdit}
-            backUrl={this.getBackUrl()}
-          />
+          {() => (
+            <CollectionEditLinksComponent
+              currentCollection={currentCollection}
+              handleAdd={this.handleAdd}
+              handleDelete={this.handleDelete}
+              backUrl={this.getBackUrl()}
+            />)
+          }
         </LoadableContentDisplayDecorator>
       </I18nProvider>
     )
@@ -75,11 +96,12 @@ export class CollectionEditLinksContainer extends React.Component {
 
 const mapStateToProps = (state, ownProps) => ({
   currentCollection: CollectionSelectors.getById(state, ownProps.params.collectionId),
+  collectionList: CollectionSelectors.getList(state),
   isFetching: CollectionSelectors.isFetching(state),
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchCollection: id => dispatch(CollectionActions.fetchEntity(id)),
+  fetchCollectionList: () => dispatch(CollectionActions.fetchPagedEntityList(0, 100)),
   updateCollection: (id, values) => dispatch(CollectionActions.updateEntity(id, values)),
 })
 

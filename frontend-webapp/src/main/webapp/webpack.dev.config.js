@@ -15,7 +15,7 @@ config.module.loaders[0] = {
 
 config = merge(config, {
   // Enable sourcemaps for debugging webpack's output.
-  devtool: 'cheap-module-eval-source-map',
+  devtool: 'source-map',
   output: {
     // Webpack compilation directory
     path: `${__dirname}/build`,
