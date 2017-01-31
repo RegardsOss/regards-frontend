@@ -1,4 +1,4 @@
-import { expect, assert } from 'chai'
+import { expect } from 'chai'
 import { PROJECT, PROJECT_ARRAY } from '@regardsoss/api'
 import BasicListReducers from '../../src/list/BasicListReducers'
 import BasicListActions from '../../src/list/BasicListActions'

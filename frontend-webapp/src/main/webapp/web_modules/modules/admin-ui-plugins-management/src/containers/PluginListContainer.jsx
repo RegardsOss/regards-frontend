@@ -81,7 +81,7 @@ export {
 
 const mapStateToProps = state => ({
   plugins: PluginsSelector.getList(state),
-  isFetching: PluginsSelector.isFetching(state)
+  isFetching: PluginsSelector.isFetching(state),
 })
 const mapDispatchToProps = dispatch => ({
   fetchPlugins: () => dispatch(PluginsActions.fetchPagedEntityList(0, 100)),
