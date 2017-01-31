@@ -4,11 +4,11 @@
 import { Locales } from '@regardsoss/form-utils'
 
 const messages = Object.assign({
-  'login.username': 'E-mail address',
-  'login.password': 'Password',
-  'login.button': 'Log in',
-  'login.cancel': 'Cancel',
-  'login.title': 'Connect to the admin panel',
+  'authentication.username': 'E-mail address',
+  'authentication.password': 'Password',
+  'authentication.button': 'Log in',
+  'authentication.cancel': 'Cancel',
+  'authentication.message': 'Please enter your username and password to log in',
   'authentication.error': 'Invalid Username/Password',
   'authentication.error.500': 'Server unavailable',
 
@@ -51,7 +51,7 @@ const messages = Object.assign({
 
   // reset password update (after receiving mail)
   'reset.password.update.request.title': 'Reset password',
-  'reset.password.update.request.message': 'Please provide your new password to complete your account update',
+  'reset.password.update.request.message': 'Please provide the new password to complete operation',
   'reset.password.update.new.password': 'New password',
   'reset.password.update.confirm.password': 'Confirm password',
   'reset.password.update.send': 'SEND',

@@ -3,7 +3,7 @@
  **/
 import { connect } from '@regardsoss/redux'
 import { fetchAuthenticate } from '@regardsoss/authentication-manager'
-import LoginComponent from '../components/LoginComponent'
+import AuthenticationComponent from '../components/AuthenticationComponent'
 
 export class Authentication extends React.Component {
 
@@ -22,7 +22,7 @@ export class Authentication extends React.Component {
 
   render() {
     return (
-      <LoginComponent
+      <AuthenticationComponent
         title={this.props.title}
         onLogin={this.showResults}
         errorMessage={this.props.errorMessage}

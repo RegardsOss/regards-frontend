@@ -128,11 +128,12 @@ class LazyModuleComponent extends React.Component {
 
       // Add a decorator arround the module rendering ?
       if (this.props.decorator) {
-        const element = React.createElement(this.props.decorator.element, merge({}, this.props.decorator.conf, { children: moduleElt }))
         return (
           <I18nProvider messageDir={moduleMessageDir}>
             <ModuleThemeProvider module={module}>
-              { element }
+              <this.props.decorator.element {...this.props.decorator.conf} >
+                {moduleElt}
+              </this.props.decorator.element>
             </ModuleThemeProvider>
           </I18nProvider>
         )

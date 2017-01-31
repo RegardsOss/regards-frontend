@@ -6,11 +6,11 @@ import { assert } from 'chai'
 import sinon from 'sinon'
 import { IntlStub } from '@regardsoss/tests-helpers'
 import { ReduxConnectedForm } from '@regardsoss/redux'
-import { LoginComponent } from '../../src/components/LoginComponent'
+import { AuthenticationComponent } from '../../src/components/AuthenticationComponent'
 
 import styles from '../../src/styles/styles'
 
-describe('[AUTHENTICATION] Testing LoginComponent', () => {
+describe('[AUTHENTICATION] Testing AuthenticationComponent', () => {
   // Since react will console.error propType warnings, that which we'd rather have
   // as errors, we use sinon.js to stub it into throwing these warning as errors
   // instead.
@@ -23,7 +23,7 @@ describe('[AUTHENTICATION] Testing LoginComponent', () => {
     console.error.restore()
   })
   it('should exists', () => {
-    assert.isDefined(LoginComponent)
+    assert.isDefined(AuthenticationComponent)
   })
   const context = {
     intl: IntlStub,
@@ -44,7 +44,7 @@ describe('[AUTHENTICATION] Testing LoginComponent', () => {
       cancelButton: true,
       onCancelAction: () => {},
     }
-    const enzymeShallow = shallow(<LoginComponent {...props} />, { context })
+    const enzymeShallow = shallow(<AuthenticationComponent {...props} />, { context })
     // check it uses one connected form component from regards
     assert(enzymeShallow.find(ReduxConnectedForm).length, 1, 'There should be one and only redux connected form in component')
   })
