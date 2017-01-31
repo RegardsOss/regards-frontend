@@ -1,7 +1,6 @@
 /**
  * @author Léo Mieulet
  */
-import { omitBy } from 'lodash'
 
 /**
  *  Handle reduction for lists

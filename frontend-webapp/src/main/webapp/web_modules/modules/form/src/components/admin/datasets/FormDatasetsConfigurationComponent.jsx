@@ -27,10 +27,15 @@ class FormDatasetsConfigurationComponent extends React.Component {
   }
 
   static propTypes = {
+    // Callback to update the list of selected entities
     changeField: React.PropTypes.func,
+    // Current type (dataset, models, all)
     defaultType: React.PropTypes.string,
+    // List of currently associated datasets (id)
     defaultSelectedDatasets: React.PropTypes.arrayOf(React.PropTypes.number),
+    // List of currently associated dataset models (id)
     defaultSelectedDatasetModels: React.PropTypes.arrayOf(React.PropTypes.number),
+    // Does the datasets / models are available for change (not available during server fetching)
     disableChangeDatasets: React.PropTypes.bool,
   }
 
