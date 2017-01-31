@@ -1,12 +1,13 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { map } from 'lodash'
+import { map, concat } from 'lodash'
 import Drawer from 'material-ui/Drawer'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import FilterList from 'material-ui/svg-icons/action/list'
 import { List, ListItem } from 'material-ui/List'
 import Divider from 'material-ui/Divider'
+import { HateoasDisplayDecorator } from '@regardsoss/display-control'
 import Styles from '../styles/styles'
 import ModuleShape from '../model/ModuleShape'
 
@@ -23,7 +24,18 @@ class ModuleListComponent extends React.Component {
 
   constructor(props) {
     super(props)
-    this.state = { open: false }
+    this.state = {
+      open: false,
+      modulesElements: [],
+    }
+  }
+
+  componentWillMount() {
+    map(this.props.modules, (module, idx) => {
+      if (module.content.container === this.props.container && module.content.active) {
+        const element = this.renderModule(module, idx)
+      }
+    })
   }
 
   /**
@@ -38,12 +50,41 @@ class ModuleListComponent extends React.Component {
   /**
    * Toggle the sidebar containing modules
    */
-  handleToggle = () => this.setState({ open: !this.state.open });
+  handleToggle = () => this.setState({ open: !this.state.open })
 
   /**
    * Close the sidebar containing modules
    */
-  handleClose = () => this.setState({ open: false });
+  handleClose = () => this.setState({ open: false })
+
+  renderModule = (module, key) => {
+    require.ensure([], (require) => {
+      try {
+        const loadedModule = require(`@regardsoss/${module.content.name}/src/main.js`)
+        const moduleDependencies = loadedModule.dependencies ? (loadedModule.dependencies.user ? loadedModule.dependencies.user : null) : []
+
+        const that = this
+        if (loadedModule.moduleContainer) {
+          const element = (
+            <HateoasDisplayDecorator
+              key={key}
+              requiredEndpoints={moduleDependencies}
+            >
+              <ListItem
+                primaryText={module.content.description}
+                onTouchTap={() => that.onModuleSelection(module)}
+              />
+            </HateoasDisplayDecorator>
+          )
+          that.setState({
+            modulesElements: concat(that.state.modulesElements, element),
+          })
+        }
+      } catch (e) {
+        console.error('Module loading error', module, e, e.stack)
+      }
+    })
+  }
 
 
   render() {
@@ -65,19 +106,7 @@ class ModuleListComponent extends React.Component {
           onRequestChange={this.handleClose}
         >
           <List>
-            {map(this.props.modules, (module, idx) => {
-              if (module.content.container === this.props.container && module.content.active) {
-                return (
-                  <ListItem
-                    key={idx}
-                    primaryText={module.content.description}
-                    onTouchTap={() => this.onModuleSelection(module)}
-                  />
-                )
-              }
-              return null
-            })}
-            <Divider />
+            {this.state.modulesElements}
           </List>
         </Drawer>
       </div>

@@ -110,8 +110,10 @@ export class UserApp extends React.Component {
           isLoading={this.props.layoutIsFetching || this.props.modulesIsFetching}
           isContentError={!this.props.layout}
         >
-          {this.renderLayout(modulesList)}
-          <ApplicationErrorContainer />
+          <div>
+            {this.renderLayout(modulesList)}
+            <ApplicationErrorContainer />
+          </div>
         </LoadableContentDisplayDecorator>
       </MuiThemeProvider>
     )
