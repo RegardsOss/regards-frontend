@@ -73,7 +73,7 @@ export class UserApp extends React.Component {
     // If a new authentication is present, refresh availables endpoints
     if (nextProps.authentication) {
       if (!this.props.authentication ||
-        nextProps.authentication.authenticateDate !== this.props.authentication.authenticateDate){
+        nextProps.authentication.authenticateDate !== this.props.authentication.authenticateDate) {
         this.props.fetchEndpoints()
       }
     }
