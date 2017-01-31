@@ -14,6 +14,6 @@ export default {
   adminContainer,
   styles,
   reducer,
-  messagesDir: 'modules/form/src/i18n',
+  messagesDir: 'modules/search-form/src/i18n',
   dependencies,
 }

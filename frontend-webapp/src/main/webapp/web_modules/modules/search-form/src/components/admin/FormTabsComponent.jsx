@@ -32,9 +32,7 @@ class FormTabsComponent extends React.Component {
     }),
     selectableAttributes: React.PropTypes.objectOf(AttributeModel),
     disableChangeDatasets: React.PropTypes.bool,
-    availableCriterion: React.PropTypes.objectOf(React.PropTypes.shape({
-      content: PluginDefinition,
-    })),
+    availableCriterion: React.PropTypes.objectOf(PluginDefinition),
     criterionFetching: React.PropTypes.bool,
   }
 

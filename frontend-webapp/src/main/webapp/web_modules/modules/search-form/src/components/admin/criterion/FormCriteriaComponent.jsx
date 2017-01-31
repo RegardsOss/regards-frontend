@@ -169,7 +169,7 @@ class FormCriteriaComponent extends React.Component {
     return (
       <ReduxConnectedForm
         onSubmit={this.props.handleSubmit(this.props.saveCriteria)}
-        i18nMessagesDir="modules/form/src/i18n"
+        i18nMessagesDir="modules/search-form/src/i18n"
       >
         <div>
           <Field

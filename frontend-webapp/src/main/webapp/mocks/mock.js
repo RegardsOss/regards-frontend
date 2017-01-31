@@ -46,9 +46,9 @@ const PageMiddleWare = (req, res) => {
       const headers = res._headers
       if (index && limit) {
         meta = {
-          number: index,
-          size: limit,
-          totalElements: headers['x-total-count'].value(),
+          number: Number(index),
+          size: Number(limit),
+          totalElements: Number(headers['x-total-count'].value()),
         }
 
         if (headers.link) {

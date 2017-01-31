@@ -37,9 +37,7 @@ class FormCriterionComponent extends React.Component {
     // List of availables attributes to edit criterion configuration
     selectableAttributes: React.PropTypes.objectOf(AttributeModel),
     // List of available criterion plugins
-    availableCriterion: React.PropTypes.objectOf(React.PropTypes.shape({
-      content: PluginDefinition,
-    })),
+    availableCriterion: React.PropTypes.objectOf(PluginDefinition),
   }
 
   static contextTypes = {

@@ -8,7 +8,7 @@ import { BasicPageableSelectors } from '@regardsoss/store-utils'
  */
 class DatasetModelSelector extends BasicPageableSelectors {
   constructor() {
-    super(['modules.form', 'models'])
+    super(['modules.search-form', 'models'])
   }
 }
 

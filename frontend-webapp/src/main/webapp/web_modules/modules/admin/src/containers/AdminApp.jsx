@@ -6,7 +6,7 @@ import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { isAuthenticated, AuthenticationSelectors, AuthenticateShape } from '@regardsoss/authentication-manager'
 import { ThemeHelper, ThemeSelectors } from '@regardsoss/theme'
-import { EndpointActions } from '@regardsoss/endpoint'
+import { EndpointActions, EndpointSelectors } from '@regardsoss/endpoint'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import AdminLayout from './AdminLayout'
 import AuthenticationPanel from './AuthenticationPanel'
@@ -26,12 +26,17 @@ class AdminApp extends React.Component {
     // from mapStateToProps
     theme: React.PropTypes.string,
     authentication: AuthenticateShape,
+    endpointsFetching: React.PropTypes.bool,
     // from mapDispatchToProps
     fetchEndpoints: React.PropTypes.func,
   }
 
   static contextTypes = {
     intl: intlShape,
+  }
+
+  componentWillMount() {
+    this.props.fetchEndpoints()
   }
 
   /**
@@ -75,15 +80,18 @@ class AdminApp extends React.Component {
     const isAuth = isAuthenticated(authentication)
     const hmi = this.getContent(isAuth, content)
 
-    return (
-      <MuiThemeProvider muiTheme={muiTheme}>
-        <I18nProvider messageDir={'modules/admin/src/i18n'}>
-          <div>
-            {hmi}
-          </div>
-        </I18nProvider>
-      </MuiThemeProvider>
-    )
+    if (!this.props.endpointsFetching) {
+      return (
+        <MuiThemeProvider muiTheme={muiTheme}>
+          <I18nProvider messageDir={'modules/admin/src/i18n'}>
+            <div>
+              {hmi}
+            </div>
+          </I18nProvider>
+        </MuiThemeProvider>
+      )
+    }
+    return null
   }
 }
 
@@ -91,6 +99,7 @@ const mapStateToProps = state => ({
   // Add theme from store to the components props
   theme: ThemeSelectors.getCurrentTheme(state),
   authentication: AuthenticationSelectors.getAuthentication(state),
+  endpointsFetching: EndpointSelectors.isFetching(state),
 })
 
 const mapDispatchToProps = dispatch => ({

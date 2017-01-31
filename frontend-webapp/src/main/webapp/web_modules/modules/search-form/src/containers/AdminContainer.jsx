@@ -35,9 +35,7 @@ class AdminContainer extends React.Component {
     // Calculated attributes set by mapstatetoprops
     selectableAttributes: React.PropTypes.objectOf(AttributeModel),
     selectableAttributesFectching: React.PropTypes.bool,
-    availableCriterion: React.PropTypes.objectOf(React.PropTypes.shape({
-      content: PluginDefinition,
-    })),
+    availableCriterion: React.PropTypes.objectOf(PluginDefinition),
     criterionFetching: React.PropTypes.bool,
     // Set by mapDispatchToProps
     fetchCriterion: React.PropTypes.func,

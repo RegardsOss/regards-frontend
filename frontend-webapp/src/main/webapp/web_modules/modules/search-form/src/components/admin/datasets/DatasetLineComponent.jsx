@@ -13,7 +13,7 @@ class DatasetLineComponent extends React.Component {
 
   render() {
     return (
-      <div>{this.props.entity.label}</div>
+      <div>{this.props.entity.content.label}</div>
     )
   }
 }

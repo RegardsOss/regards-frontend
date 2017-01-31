@@ -6,7 +6,7 @@ import LayoutContent from './LayoutContent'
  * Layout shape entity
  */
 const Layout = React.PropTypes.shape({
-  content: LayoutContent.isRequired,
+  content: LayoutContent,
 })
 
 export default Layout
