@@ -23,6 +23,7 @@ const messages = Object.assign({
   'microservice-management.plugin.configuration.delete': 'Supprimer',
   'microservice-management.plugin.configuration.edit': 'Editer',
   'microservice-management.plugin.configuration.priorityOrder': 'Priorité',
+  'microservice-management.plugin.configuration.parameters': 'Paramètres',
 
   'microservice-management.plugin.configuration.form.create.title': 'Ajouter une configuration',
   'microservice-management.plugin.configuration.form.edit.title': 'Editer la configuration',

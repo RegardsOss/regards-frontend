@@ -91,6 +91,20 @@ class BasicListActions {
       },
     }
   }
+
+  /**
+   * Fetch a single entity of id attribute keyValue.
+   * Url params are expected to be like so:
+   * {
+   *   param1Key: param1Value,
+   *   param2Key: param2Value,
+   *   ...
+   * }
+   *
+   * @param keyValue
+   * @param {Object} params
+   * @returns {{}}
+   */
   fetchEntity(keyValue, params) {
     let endpoint = this.handleRequestParameters(this.entityEndpoint, params)
     let queryParams = ''

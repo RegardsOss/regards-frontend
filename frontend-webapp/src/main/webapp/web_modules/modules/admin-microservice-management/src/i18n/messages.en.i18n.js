@@ -23,6 +23,7 @@ const messages = Object.assign({
   'microservice-management.plugin.configuration.delete': 'Delete',
   'microservice-management.plugin.configuration.edit': 'Edit',
   'microservice-management.plugin.configuration.priorityOrder': 'Priority',
+  'microservice-management.plugin.configuration.parameters': 'Parameters',
 
   'microservice-management.plugin.configuration.form.create.title': 'Add a configuration',
   'microservice-management.plugin.configuration.form.edit.title': 'Edit a configuration',
@@ -34,6 +35,8 @@ const messages = Object.assign({
   'microservice-management.plugin.configuration.form.action.submit.add': 'Add',
   'microservice-management.plugin.configuration.form.action.submit.save': 'Save',
   'microservice-management.plugin.configuration.form.action.cancel': 'Cancel',
+  'microservice-management.plugin.configuration.form.datepicker.ok': 'OK',
+  'microservice-management.plugin.configuration.form.datepicker.cancel': 'Cancel',
 
 }, Locales.en)
 

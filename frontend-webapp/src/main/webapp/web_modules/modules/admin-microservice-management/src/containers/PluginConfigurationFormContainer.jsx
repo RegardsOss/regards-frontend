@@ -1,6 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import { map } from 'lodash'
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
@@ -12,6 +13,11 @@ import PluginConfigurationSelectors from '../model/PluginConfigurationSelectors'
 import PluginMetaDataSelectors from '../model/PluginMetaDataSelectors'
 import PluginMetaDataActions from '../model/PluginMetaDataActions'
 
+/**
+ * TODO
+ *
+ * @author Xavier-Alexandre Brochard
+ */
 export class PluginConfigurationFormContainer extends React.Component {
 
   static propTypes = {
@@ -57,7 +63,7 @@ export class PluginConfigurationFormContainer extends React.Component {
       this.props.fetchPluginConfiguration(this.props.params.pluginConfigurationId, microserviceName, pluginId)
     }
 
-    if (this.props.params.pluginId) {
+    if (typeof this.props.params.pluginId !== 'undefined' && this.props.params.pluginId != null) {
       this.props.fetchPluginMetaData(this.props.params.pluginId, this.props.params.microserviceName)
     }
   }
@@ -95,21 +101,23 @@ export class PluginConfigurationFormContainer extends React.Component {
    * @param values form updated values
    */
   handleUpdate = (values) => {
-    const { params: { microserviceName, pluginId } } = this.props
+    const { params: { microserviceName } } = this.props
+    const { id, label, version, priorityOrder, active, pluginClassName, pluginId, ...rest } = values
     const previousPluginConfiguration = this.props.pluginConfiguration.content
-    const updatedPluginConfiguration = Object.assign({}, previousPluginConfiguration, {
-      id: values.id,
-      label: values.label,
-      version: values.version,
-      priorityOrder: parseInt(values.priorityOrder, 10),
-      active: values.active,
-      pluginClassName: values.pluginClassName,
-      pluginId: values.pluginId,
-    })
+    const updatedPluginConfiguration = {
+      id,
+      label,
+      version,
+      priorityOrder: parseInt(priorityOrder, 10),
+      active,
+      pluginClassName,
+      pluginId,
+      parameters: map(previousPluginConfiguration.parameters, parameter => Object.assign({}, parameter, { value: rest[parameter.name] })),
+    }
 
     Promise.resolve(this.props.updatePluginConfiguration(previousPluginConfiguration.id, updatedPluginConfiguration, microserviceName, pluginId))
       .then((actionResult) => {
-        // We receive here the action
+        // We receive here the actions
         if (!actionResult.error) {
           const url = this.getBackUrl()
           browserHistory.push(url)
@@ -123,14 +131,23 @@ export class PluginConfigurationFormContainer extends React.Component {
    * @param values form values
    */
   handleCreate = (values) => {
-    const { params: { microserviceName, pluginId } } = this.props
+    const { params: { microserviceName }, pluginMetaData } = this.props
+    const { id, label, version, priorityOrder, active, pluginClassName, pluginId, ...rest } = values
     const newPluginConfiguration = {
-      label: values.label,
-      version: values.version,
-      priorityOrder: parseInt(values.priorityOrder, 10),
-      active: values.active,
-      pluginClassName: values.pluginClassName,
-      pluginId: values.pluginId,
+      id,
+      label,
+      version,
+      priorityOrder: parseInt(priorityOrder, 10),
+      active,
+      pluginClassName,
+      pluginId,
+      parameters: map(pluginMetaData.content.parameters, parameterType => ({
+        id: null,
+        name: parameterType.name,
+        value: rest[parameterType.name],
+        dynamic: false,
+        dynamicsValues: null,
+      })),
     }
 
     Promise.resolve(this.props.createPluginConfiguration(newPluginConfiguration, microserviceName, pluginId))
@@ -159,9 +176,18 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  createPluginConfiguration: (values, microserviceName, pluginId) => dispatch(PluginConfigurationActions.createEntity(values, { microserviceName, pluginId })),
-  updatePluginConfiguration: (id, values, microserviceName, pluginId) => dispatch(PluginConfigurationActions.updateEntity(id, values, { microserviceName, pluginId })),
-  fetchPluginConfiguration: (id, microserviceName, pluginId) => dispatch(PluginConfigurationActions.fetchEntity(id, { microserviceName, pluginId })),
+  createPluginConfiguration: (values, microserviceName, pluginId) => dispatch(PluginConfigurationActions.createEntity(values, {
+    microserviceName,
+    pluginId,
+  })),
+  updatePluginConfiguration: (id, values, microserviceName, pluginId) => dispatch(PluginConfigurationActions.updateEntity(id, values, {
+    microserviceName,
+    pluginId,
+  })),
+  fetchPluginConfiguration: (id, microserviceName, pluginId) => dispatch(PluginConfigurationActions.fetchEntity(id, {
+    microserviceName,
+    pluginId,
+  })),
   fetchPluginMetaData: (id, microserviceName) => dispatch(PluginMetaDataActions.fetchEntity(id, { microserviceName })),
 })
 

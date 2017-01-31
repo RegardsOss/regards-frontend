@@ -13,10 +13,10 @@ import ContentCopy from 'material-ui/svg-icons/content/content-copy'
 import ModeEdit from 'material-ui/svg-icons/editor/mode-edit'
 import IconButton from 'material-ui/IconButton'
 import Toggle from 'material-ui/Toggle'
-import {List, ListItem} from 'material-ui/List'
+import { List, ListItem } from 'material-ui/List'
 import Subheader from 'material-ui/Subheader'
-import Divider from 'material-ui/Divider'
 import moduleStyles from '../styles/styles'
+import PluginParameterComponent from './PluginParameterComponent'
 
 /**
  * React component displaying a configurable microservice.
@@ -56,7 +56,14 @@ class PluginConfigurationComponent extends React.Component {
 
   render() {
     const { pluginConfiguration, onActiveToggle, onCopyClick, onDeleteClick, onEditClick, onDownwardClick, onUpwardClick } = this.props
-    const parameters = map(pluginConfiguration.content.parameters, (parameter, index) => <ListItem disabled key={index}>{parameter.name}: {parameter.value}</ListItem>)
+    const parameters = map(pluginConfiguration.content.parameters, (pluginParameter, index) =>
+      <PluginParameterComponent
+        key={index}
+        pluginParameter={pluginParameter}
+        pluginParameterType={null}
+        mode={'view'}
+      />,
+    )
 
     return (
       <Card
@@ -70,33 +77,34 @@ class PluginConfigurationComponent extends React.Component {
               <span style={styles.version}>{pluginConfiguration.content.version}</span>
             </div>
             <div style={styles.buttonsGroupWrapper}>
-              <span style={styles.version}><FormattedMessage id="microservice-management.plugin.configuration.priorityOrder" /> {pluginConfiguration.content.priorityOrder}</span>
+              <span style={styles.version}><FormattedMessage
+                id="microservice-management.plugin.configuration.priorityOrder"/> {pluginConfiguration.content.priorityOrder}</span>
               <IconButton
-                tooltip={<FormattedMessage id="microservice-management.plugin.configuration.increment.priorityOrder" />}
+                tooltip={<FormattedMessage id="microservice-management.plugin.configuration.increment.priorityOrder"/>}
                 onTouchTap={onUpwardClick}
               >
                 <ArrowUpward />
               </IconButton>
               <IconButton
-                tooltip={<FormattedMessage id="microservice-management.plugin.configuration.decrement.priorityOrder" />}
+                tooltip={<FormattedMessage id="microservice-management.plugin.configuration.decrement.priorityOrder"/>}
                 onTouchTap={onDownwardClick}
               >
                 <ArrowDownward />
               </IconButton>
               <IconButton
-                tooltip={<FormattedMessage id="microservice-management.plugin.configuration.edit" />}
+                tooltip={<FormattedMessage id="microservice-management.plugin.configuration.edit"/>}
                 onTouchTap={onEditClick}
               >
                 <ModeEdit />
               </IconButton>
               <IconButton
-                tooltip={<FormattedMessage id="microservice-management.plugin.configuration.copy" />}
+                tooltip={<FormattedMessage id="microservice-management.plugin.configuration.copy"/>}
                 onTouchTap={onCopyClick}
               >
                 <ContentCopy />
               </IconButton>
               <IconButton
-                tooltip={<FormattedMessage id="microservice-management.plugin.configuration.delete" />}
+                tooltip={<FormattedMessage id="microservice-management.plugin.configuration.delete"/>}
                 onTouchTap={onDeleteClick}
               >
                 <Delete />
@@ -111,7 +119,7 @@ class PluginConfigurationComponent extends React.Component {
         </CardActions>
         <CardText expandable>
           <List>
-            <Subheader>Parameters (TODO)</Subheader>
+            <Subheader><FormattedMessage id="microservice-management.plugin.configuration.parameters"/></Subheader>
             {parameters}
           </List>
         </CardText>

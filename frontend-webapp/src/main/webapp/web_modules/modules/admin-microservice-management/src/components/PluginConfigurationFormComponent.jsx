@@ -1,4 +1,4 @@
-import { chain } from 'lodash'
+import { chain, map } from 'lodash'
 import { reduxForm } from 'redux-form'
 import { Toggle } from 'redux-form-material-ui'
 import { FormattedMessage } from 'react-intl'
@@ -107,6 +107,10 @@ export class PluginConfigurationFormComponent extends React.Component {
    */
   render() {
     const { pluginConfiguration, pluginMetaData, handleSubmit, submitting, invalid, backUrl } = this.props
+    const pluginParameterTypeList = pluginMetaData && pluginMetaData.content.parameters
+    const pluginParameterListIfExistingConfiguration = pluginConfiguration && pluginConfiguration.content.parameters
+    const pluginParameterListIfNoConfiguration = pluginMetaData && map(pluginParameterTypeList, parameterTypeToEmptyParameter)
+
     const title = this.state.isEditing ?
       (<FormattedMessage
         id="microservice-management.plugin.configuration.form.edit.title"
@@ -120,74 +124,84 @@ export class PluginConfigurationFormComponent extends React.Component {
         onSubmit={handleSubmit(this.props.onSubmit)}
         i18nMessagesDir="modules/admin-microservice-management/src/i18n"
       >
-        <Card>
-          <CardTitle
-            title={title}
+        <div>
+          <Card>
+            <CardTitle
+              title={title}
+            />
+            <CardText>
+              <Field
+                disabled
+                name="pluginClassName"
+                fullWidth
+                component={RenderTextField}
+                type="text"
+                label={<FormattedMessage id="microservice-management.plugin.configuration.form.pluginClassName"/>}
+              />
+              <Field
+                name="label"
+                fullWidth
+                component={RenderTextField}
+                type="text"
+                label={<FormattedMessage id="microservice-management.plugin.configuration.form.label"/>}
+              />
+              <Field
+                name="version"
+                fullWidth
+                component={RenderTextField}
+                type="text"
+                label={<FormattedMessage id="microservice-management.plugin.configuration.form.version"/>}
+              />
+              <Field
+                name="priorityOrder"
+                fullWidth
+                component={RenderTextField}
+                type="number"
+                label={<FormattedMessage id="microservice-management.plugin.configuration.form.priorityOrder"/>}
+              />
+              <Field
+                name="active"
+                component={Toggle}
+                type="boolean"
+                style={styles.pluginConfiguration.form.toggle}
+                label={<FormattedMessage id="microservice-management.plugin.configuration.form.active"/>}
+              />
+            </CardText>
+          </Card>
+
+          <PluginParameterListSubFormComponent
+            pluginParameterList={pluginParameterListIfExistingConfiguration || pluginParameterListIfNoConfiguration}
+            pluginParameterTypeList={pluginParameterTypeList}
           />
-          <CardText>
-            <Field
-              disabled
-              name="pluginClassName"
-              fullWidth
-              component={RenderTextField}
-              type="text"
-              label={<FormattedMessage id="microservice-management.plugin.configuration.form.pluginClassName"/>}
-            />
-            <Field
-              name="label"
-              fullWidth
-              component={RenderTextField}
-              type="text"
-              label={<FormattedMessage id="microservice-management.plugin.configuration.form.label"/>}
-            />
-            <Field
-              name="version"
-              fullWidth
-              component={RenderTextField}
-              type="text"
-              label={<FormattedMessage id="microservice-management.plugin.configuration.form.version"/>}
-            />
-            <Field
-              name="priorityOrder"
-              fullWidth
-              component={RenderTextField}
-              type="number"
-              label={<FormattedMessage id="microservice-management.plugin.configuration.form.priorityOrder"/>}
-            />
-            <Field
-              name="active"
-              component={Toggle}
-              type="boolean"
-              style={styles.pluginConfiguration.form.toggle}
-              label={<FormattedMessage id="microservice-management.plugin.configuration.form.active"/>}
-            />
-          </CardText>
-        </Card>
 
-        <PluginParameterListSubFormComponent
-          pluginParameterList={pluginConfiguration.content.parameters}
-          pluginParameterTypeList={pluginMetaData && pluginMetaData.content.parameters}
-        />
-
-        <Card style={{ marginTop: 20 }}>
-          <CardActions>
-            <CardActionsComponent
-              mainButtonLabel={this.state.isEditing ?
-                <FormattedMessage id="microservice-management.plugin.configuration.form.action.submit.save"/> :
-                <FormattedMessage id="microservice-management.plugin.configuration.form.action.submit.add"/>}
-              mainButtonType="submit"
-              isMainButtonDisabled={submitting || invalid}
-              secondaryButtonLabel={<FormattedMessage
-                id="microservice-management.plugin.configuration.form.action.cancel"
-              />}
-              secondaryButtonUrl={backUrl}
-            />
-          </CardActions>
-        </Card>
+          <Card style={{ marginTop: 20 }}>
+            <CardActions>
+              <CardActionsComponent
+                mainButtonLabel={this.state.isEditing ?
+                  <FormattedMessage id="microservice-management.plugin.configuration.form.action.submit.save"/> :
+                  <FormattedMessage id="microservice-management.plugin.configuration.form.action.submit.add"/>}
+                mainButtonType="submit"
+                isMainButtonDisabled={submitting || invalid}
+                secondaryButtonLabel={<FormattedMessage
+                  id="microservice-management.plugin.configuration.form.action.cancel"
+                />}
+                secondaryButtonUrl={backUrl}
+              />
+            </CardActions>
+          </Card>
+        </div>
       </ReduxConnectedForm>
     )
   }
 }
+
+const parameterTypeToEmptyParameter = parameterType => ({
+  id: null,
+  name: parameterType.name,
+  value: null,
+  dynamic: false,
+  dynamicsValues: null,
+})
 
 /**
  * Form validation

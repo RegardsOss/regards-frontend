@@ -1,10 +1,10 @@
 import { PluginDynamicValueList } from './PluginDynamicValue'
 
 const PluginParameter = React.PropTypes.shape({
-  id: React.PropTypes.number.isRequired,
-  name: React.PropTypes.string.isRequired,
-  value: React.PropTypes.string.isRequired,
-  dynamic: React.PropTypes.bool.isRequired,
+  id: React.PropTypes.number,
+  name: React.PropTypes.string,
+  value: React.PropTypes.oneOfType([React.PropTypes.string,React.PropTypes.bool]),
+  dynamic: React.PropTypes.bool,
   dynamicsValues: PluginDynamicValueList,
 })
 

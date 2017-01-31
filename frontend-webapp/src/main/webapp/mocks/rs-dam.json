@@ -28,9 +28,9 @@
   "attributes": [
     {
       "id": 0,
-      "name":"Attribute_0_0",
+      "name": "Attribute_0_0",
       "description": "Description de l'attribut 0 - 0",
-      "defaultValue" : null,
+      "defaultValue": null,
       "type": "STRING",
       "unit": null,
       "precision": null,
@@ -41,11 +41,12 @@
       "alterable": true,
       "optional": true,
       "group": "leGroup"
-    }, {
+    },
+    {
       "id": 1,
-      "name":"Attribute_1_0",
+      "name": "Attribute_1_0",
       "description": "Description de l'attribut 1 - 0",
-      "defaultValue" : null,
+      "defaultValue": null,
       "type": "STRING",
       "unit": null,
       "precision": null,
@@ -67,19 +68,23 @@
       "author": "Jules Verne",
       "version": "0.0.5",
       "description": "Allows the users to log in with their usual email and password.",
-      "parameters": [{
-        "name": "suffix",
-        "type": "java.lang.String",
-        "paramType": "PRIMITIVE"
-      }, {
-        "name": "coeff",
-        "type": "java.lang.Integer",
-        "paramType": "PRIMITIVE"
-      }, {
-        "name": "isActive",
-        "type": "java.lang.Boolean",
-        "paramType": "PRIMITIVE"
-      }]
+      "parameters": [
+        {
+          "name": "suffix",
+          "type": "java.lang.String",
+          "paramType": "PRIMITIVE"
+        },
+        {
+          "name": "coeff",
+          "type": "java.lang.Integer",
+          "paramType": "PRIMITIVE"
+        },
+        {
+          "name": "isActive",
+          "type": "java.lang.Boolean",
+          "paramType": "PRIMITIVE"
+        }
+      ]
     },
     {
       "id": "1",
