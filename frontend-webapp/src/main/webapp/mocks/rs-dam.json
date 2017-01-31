@@ -83,6 +83,11 @@
           "name": "isActive",
           "type": "java.lang.Boolean",
           "paramType": "PRIMITIVE"
+        },
+        {
+          "name": "plgInterface",
+          "type": "Kerberos",
+          "paramType": "PLUGIN"
         }
       ]
     },
@@ -182,6 +187,12 @@
           "id": 2,
           "name": "isActive",
           "value": "true",
+          "dynamic": false
+        },
+        {
+          "id": 3,
+          "name": "plgInterface",
+          "value": "0",
           "dynamic": false
         }
       ]
