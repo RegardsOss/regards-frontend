@@ -10,7 +10,7 @@ const PluginConf = React.PropTypes.shape({
   label: React.PropTypes.string,
   pluginId: React.PropTypes.number,
   container: React.PropTypes.string,
-  conf: React.PropTypes.object,
+  pluginConf: React.PropTypes.object,
 })
 
 export default PluginConf

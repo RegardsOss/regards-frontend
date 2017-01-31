@@ -28,7 +28,7 @@ config = merge(config, {
     loaders: [
       {
         test: /\.jsx?$/,
-        exclude: [/node_modules/, /json/, /test/],
+        exclude: [/node_modules/, /json/, /test/, /vendors/],
         loaders: ['istanbul-instrumenter', 'babel'],
       },
       {

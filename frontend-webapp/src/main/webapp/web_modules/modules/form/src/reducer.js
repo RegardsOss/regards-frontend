@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import getAttributesReducer from './models/attributes/ModelAttributeReducer'
+import getAttributesReducer from './models/attributes/AttributeModelReducer'
 import getDatasetsReducer from './models/datasets/DatasetReducer'
 import getDatasetModelsReducer from './models/datasets/DatasetModelReducer'
 import getCriterionReducer from './models/criterion/CriterionReducer'

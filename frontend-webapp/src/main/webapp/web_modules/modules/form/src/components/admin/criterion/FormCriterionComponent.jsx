@@ -26,11 +26,17 @@ import FormCriteriaComponent from './FormCriteriaComponent'
 class FormCriterionComponent extends React.Component {
 
   static propTypes = {
+    // Fu,ction to update current redux-form
     changeField: React.PropTypes.func,
+    // Default form criterion list
     defaultCriterion: React.PropTypes.arrayOf(PluginConf),
+    // Current form criterion list
     criterion: React.PropTypes.arrayOf(PluginConf),
+    // Current layout form
     layout: React.PropTypes.string,
+    // List of availables attributes to edit criterion configuration
     selectableAttributes: React.PropTypes.objectOf(AttributeModel),
+    // List of available criterion plugins
     availableCriterion: React.PropTypes.objectOf(React.PropTypes.shape({
       content: PluginDefinition,
     })),
@@ -41,7 +47,7 @@ class FormCriterionComponent extends React.Component {
   }
 
   state = {
-    editingCriteria: null,
+    criteriaToEdit: null,
     criteriaViewOpened: false,
   }
 
@@ -53,9 +59,9 @@ class FormCriterionComponent extends React.Component {
    */
   updateCriterion = (criteria) => {
     let criterion = []
-    if (this.state.editingCriteria) {
+    if (this.state.criteriaToEdit) {
       criterion = concat([], this.props.criterion)
-      criterion[this.state.editingCriteria.idx] = criteria
+      criterion[this.state.criteriaToEdit.idx] = criteria
     } else {
       criterion = this.props.criterion ? concat(this.props.criterion, criteria) : [criteria]
     }
@@ -89,7 +95,7 @@ class FormCriterionComponent extends React.Component {
    */
   handleEdit = (criteria, idx) => {
     this.setState({
-      editingCriteria: {
+      criteriaToEdit: {
         criteria,
         idx,
       },
@@ -179,7 +185,7 @@ class FormCriterionComponent extends React.Component {
           <FormCriteriaComponent
             cancel={this.closeCriteriaView}
             saveCriteria={this.updateCriterion}
-            criteria={this.state.editingCriteria ? this.state.editingCriteria.criteria : null}
+            criteria={this.state.criteriaToEdit ? this.state.criteriaToEdit.criteria : null}
             layout={this.props.layout}
             selectableAttributes={this.props.selectableAttributes}
             availableCriterion={this.props.availableCriterion}

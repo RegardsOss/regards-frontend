@@ -8,6 +8,7 @@ import applyHateoasDisplayLogic from './hateoas/applyHateoasDisplayLogic'
 import allMatchHateoasDisplayLogic from './hateoas/allMatchHateoasDisplayLogic'
 import someMatchHateoasDisplayLogic from './hateoas/someMatchHateoasDisplayLogic'
 import LoadableContentDisplayDecorator from './async/LoadableContentDisplayDecorator'
+import LoadingComponent from './async/LoadingComponent'
 
 export {
   DisplayDecorator,
@@ -17,4 +18,5 @@ export {
   allMatchHateoasDisplayLogic,
   someMatchHateoasDisplayLogic,
   LoadableContentDisplayDecorator,
+  LoadingComponent,
 }

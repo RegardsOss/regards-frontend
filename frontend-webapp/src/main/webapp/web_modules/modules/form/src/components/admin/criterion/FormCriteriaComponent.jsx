@@ -31,9 +31,7 @@ class FormCriteriaComponent extends React.Component {
     // All selectable attributes for the current form
     selectableAttributes: React.PropTypes.objectOf(AttributeModel),
     // Set by React Redux connection
-    availableCriterion: React.PropTypes.objectOf(React.PropTypes.shape({
-      content: PluginDefinition,
-    })),
+    availableCriterion: React.PropTypes.objectOf(PluginDefinition),
     criterionFetching: React.PropTypes.bool,
     // from reduxForm
     submitting: React.PropTypes.bool,
@@ -55,7 +53,7 @@ class FormCriteriaComponent extends React.Component {
     }
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.handleInitialize()
   }
 
@@ -145,7 +143,9 @@ class FormCriteriaComponent extends React.Component {
    * @returns {*}
    */
   renderCriteriaConfiguration = () => {
-    if (this.state.selectedCriteria && !this.props.criterionFetching) {
+    if (this.state.selectedCriteria !== null
+      && this.state.selectedCriteria !== undefined
+      && !this.props.criterionFetching) {
       return (
         <PluginProvider
           pluginId={this.state.selectedCriteria}
@@ -206,6 +206,11 @@ class FormCriteriaComponent extends React.Component {
       </ReduxConnectedForm>
     )
   }
+}
+
+const UnconnectedFormCriteriaComponent = FormCriteriaComponent
+export {
+  UnconnectedFormCriteriaComponent,
 }
 
 const validate = (values) => {

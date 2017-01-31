@@ -10,15 +10,18 @@ import MenuItem from 'material-ui/MenuItem'
 import { Field } from '@regardsoss/form-utils'
 import { ShowableAtRender, CardActionsComponent } from '@regardsoss/components'
 import { AvailableModules } from '@regardsoss/modules'
+import Styles from '../../src/styles/styles'
 import { UnconnectedModuleFormComponent } from '../../src/components/ModuleFormComponent'
 
 
 describe('[ADMIN UI-CONFIGURATION] Testing Modules form component', () => {
+  const muiTheme = getMuiTheme({
+    linkWithoutDecoration: {},
+  })
   const options = {
     context: {
-      muiTheme: getMuiTheme({
-        linkWithoutDecoration: {},
-      }),
+      muiTheme,
+      moduleTheme: Styles(muiTheme),
       intl: {
         formatMessage: opt => opt.id,
         formatTime: () => {},
