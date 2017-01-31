@@ -447,6 +447,13 @@
       "microservice": "rs-access",
       "resource": "/applications/{applicationId}/modules",
       "verb": "GET"
+    },
+    {
+      "id": 23,
+      "description": "Retrieves attributes",
+      "microservice": "rs-dam",
+      "resource": "/attributes",
+      "verb": "GET"
     }
   ]
 }
