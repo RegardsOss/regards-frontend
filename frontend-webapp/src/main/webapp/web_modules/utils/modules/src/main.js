@@ -3,7 +3,7 @@
  */
 import LazyModuleComponent from './components/LazyModuleComponent'
 import ModuleThemeProvider from './components/ModuleThemeProvider'
-import ModuleListComponent from './components/ModuleListComponent'
+import ModuleListProvider from './components/ModuleListProvider'
 import ModuleShape from './model/ModuleShape'
 import AvailableModules from './AvailableModules'
 
@@ -13,7 +13,7 @@ import AvailableModules from './AvailableModules'
 export {
   AvailableModules,
   LazyModuleComponent,
-  ModuleListComponent,
+  ModuleListProvider,
   ModuleThemeProvider,
   ModuleShape,
 }

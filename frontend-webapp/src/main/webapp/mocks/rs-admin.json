@@ -447,6 +447,34 @@
       "microservice": "rs-access",
       "resource": "/applications/{applicationId}/modules",
       "verb": "GET"
+    },
+    {
+      "id": 23,
+      "description": "Retrieves attributes",
+      "microservice": "rs-dam",
+      "resource": "/attributes",
+      "verb": "GET"
+    },
+    {
+      "id": 24,
+      "description": "Retrieves attributes",
+      "microservice": "rs-dam",
+      "resource": "/models",
+      "verb": "GET"
+    },
+    {
+      "id": 25,
+      "description": "Retrieves plugins",
+      "microservice": "rs-access",
+      "resource": "/plugin",
+      "verb": "GET"
+    },
+    {
+      "id": 26,
+      "description": "Retrieves plugins",
+      "microservice": "rs-catalog",
+      "resource": "/datasets",
+      "verb": "GET"
     }
   ]
 }

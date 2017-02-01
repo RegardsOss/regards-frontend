@@ -16,7 +16,7 @@ import ContentErrorComponent from './ContentErrorComponent'
 class LoadableContentDisplayDecorator extends React.Component {
 
   static propTypes = {
-    children: React.PropTypes.node,
+    children: React.PropTypes.oneOfType([React.PropTypes.node, React.PropTypes.func]),
     isLoading: React.PropTypes.bool,
     isContentError: React.PropTypes.bool,
     isEmpty: React.PropTypes.bool,
@@ -28,8 +28,23 @@ class LoadableContentDisplayDecorator extends React.Component {
     isEmpty: false,
   }
 
+  /**
+   * Don't try to render the child if it's loading
+   * Then execute the children function if it is, or just render it
+   * @returns {XML}
+   */
+  renderChild = () => {
+    if (this.props.isLoading) {
+      return (<div />)
+    }
+    if (typeof this.props.children === 'function') {
+      return this.props.children()
+    }
+    return this.props.children
+  }
+
   render() {
-    const { children, isLoading, isContentError, isEmpty } = this.props
+    const { isLoading, isContentError, isEmpty } = this.props
 
     return (
       <div>
@@ -55,7 +70,7 @@ class LoadableContentDisplayDecorator extends React.Component {
           <div>No content!</div>
         </ShowableAtRender>
         <ShowableAtRender show={!isEmpty && !isContentError && !isLoading}>
-          {children}
+          {this.renderChild()}
         </ShowableAtRender>
       </div>
     )

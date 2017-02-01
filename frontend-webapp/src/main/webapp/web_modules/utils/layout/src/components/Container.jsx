@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { forEach } from 'lodash'
-import { LazyModuleComponent, ModuleListComponent, ModuleShape } from '@regardsoss/modules'
+import { LazyModuleComponent, ModuleListProvider, ModuleShape } from '@regardsoss/modules'
 import { PluginConf } from '@regardsoss/model'
 import { PluginProvider } from '@regardsoss/plugins'
 import ContainerShape from '../model/ContainerShape'
@@ -60,7 +60,7 @@ class Container extends React.Component {
     if (this.props.container.dynamicContent) {
       // Render dynamic content in this dynamic container
       renderModules.push(this.props.dynamicContent)
-      renderModules.push(<ModuleListComponent
+      renderModules.push(<ModuleListProvider
         key="dynamicContent"
         modules={this.props.modules}
         container={this.props.container.id}

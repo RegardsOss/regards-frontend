@@ -6,7 +6,7 @@ import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { isAuthenticated, AuthenticationSelectors, AuthenticateShape } from '@regardsoss/authentication-manager'
 import { ThemeHelper, ThemeSelectors } from '@regardsoss/theme'
-import { EndpointActions } from '@regardsoss/endpoint'
+import { EndpointActions, EndpointSelectors } from '@regardsoss/endpoint'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import AdminLayout from './AdminLayout'
 import AuthenticationPanel from './AuthenticationPanel'
@@ -34,6 +34,17 @@ class AdminApp extends React.Component {
     intl: intlShape,
   }
 
+  constructor(props) {
+    super(props)
+    this.state = {
+      isLoadingEndpoints: false
+    }
+  }
+
+  componentWillMount() {
+    this.props.fetchEndpoints()
+  }
+
   /**
    * On authentication-manager fetch autorized endpoints
    * @param nextProps
@@ -42,7 +53,21 @@ class AdminApp extends React.Component {
     if (this.props.authentication &&
       this.props.authentication.user === undefined &&
       nextProps.authentication.user !== undefined) {
-      this.props.fetchEndpoints()
+      // Prevent the HMI to show the admin app before endpoints have been retrieved
+      this.setState ({
+        isLoadingEndpoints: true
+      })
+      Promise.resolve(this.props.fetchEndpoints())
+        .then((actionResult) => {
+          // We receive here the action
+          if (!actionResult.error) {
+            this.setState ({
+              isLoadingEndpoints: false
+            })
+          } else {
+            throw new Error("Failed to retrieve endpoint list, which is required on the admin dashboard")
+          }
+        })
     }
   }
 
@@ -75,15 +100,18 @@ class AdminApp extends React.Component {
     const isAuth = isAuthenticated(authentication)
     const hmi = this.getContent(isAuth, content)
 
-    return (
-      <MuiThemeProvider muiTheme={muiTheme}>
-        <I18nProvider messageDir={'modules/admin/src/i18n'}>
-          <div>
-            {hmi}
-          </div>
-        </I18nProvider>
-      </MuiThemeProvider>
-    )
+    if (!this.state.isLoadingEndpoints) {
+      return (
+        <MuiThemeProvider muiTheme={muiTheme}>
+          <I18nProvider messageDir={'modules/admin/src/i18n'}>
+            <div>
+              {hmi}
+            </div>
+          </I18nProvider>
+        </MuiThemeProvider>
+      )
+    }
+    return null
   }
 }
 

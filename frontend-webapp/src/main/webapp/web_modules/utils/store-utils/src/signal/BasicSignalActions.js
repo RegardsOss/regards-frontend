@@ -1,8 +1,7 @@
 /**
  * @author Léo Mieulet
  */
-import { map, replace, split, join, takeRight } from 'lodash'
-import ErrorHandler from '../ErrorHandler'
+import { map, replace } from 'lodash'
 
 const { CALL_API, getJSON } = require('redux-api-middleware')
 /**

@@ -8,7 +8,7 @@ import { ReduxConnectedForm } from '@regardsoss/redux'
 import TextField from 'material-ui/TextField'
 import MainActionButtonComponent from '@regardsoss/components/src/cards/MainActionButtonComponent'
 import SecondaryActionButtonComponent from '@regardsoss/components/src/cards/SecondaryActionButtonComponent'
-import { RenderTextField, Field, ValidationHelpers } from '@regardsoss/form-utils'
+import { RenderTextField, Field, ValidationHelpers, ErrorTypes } from '@regardsoss/form-utils'
 import ProjectConnection from '@regardsoss/model/src/admin/ProjectConnection'
 import DatabaseConnectionTester from './DatabaseConnectionTester'
 
@@ -100,16 +100,16 @@ export class ProjectConnectionFormComponent extends React.Component {
 function validate(values) {
   const errors = {}
   if (!values.driverClassName) {
-    errors.driverClassName = 'invalid.required'
+    errors.driverClassName = ErrorTypes.REQUIRED
   }
   if (!ValidationHelpers.isValidUrl(values.url)) {
-    errors.url = 'invalid.url'
+    errors.url = ErrorTypes.INVALID_URL
   }
   if (!values.userName) {
-    errors.userName = 'invalid.required'
+    errors.userName = ErrorTypes.REQUIRED
   }
   if (!values.password) {
-    errors.password = 'invalid.required'
+    errors.password = ErrorTypes.REQUIRED
   }
   return errors
 }

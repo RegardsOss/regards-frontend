@@ -4,7 +4,7 @@ import { BasicPageableActions } from '@regardsoss/store-utils'
 class CollectionActions extends BasicPageableActions {
   constructor() {
     super({
-      namespace: 'admin-data-collection-management',
+      namespace: 'admin-data-collection-management/collection',
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-dam/collections`,
       schemaTypes: {
         ENTITY: Schemas.COLLECTION,

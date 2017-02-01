@@ -24,7 +24,8 @@ class LineComponent extends React.Component {
   static defaultProps = {
     displayCheckbox: true,
     disabled: false,
-    onEntityCheck: () => {},
+    onEntityCheck: () => {
+    },
     isSelected: false,
   }
 
@@ -34,32 +35,36 @@ class LineComponent extends React.Component {
   }
 
   render() {
-    const element = React.createElement(
-      this.props.lineComponent,
-      merge({}, { entity: this.props.entity.content }),
-    )
+    if (this.props.entity) {
+      const element = React.createElement(
+        this.props.lineComponent,
+        merge({}, { entity: this.props.entity }),
+      )
 
-    let checkbox = null
-    if (this.props.displayCheckbox === true) {
-      checkbox = (
-        <div style={{ maxWidth: 150, display: 'inline-block' }}>
-          <Checkbox
-            checked={this.props.isSelected}
-            onCheck={() => this.props.onEntityCheck(this.props.entity.content)}
-            disabled={this.props.disabled}
-          />
+      let checkbox = null
+      if (this.props.displayCheckbox === true) {
+        checkbox = (
+          <div style={{ maxWidth: 150, display: 'inline-block' }}>
+            <Checkbox
+              checked={this.props.isSelected}
+              onCheck={() => this.props.onEntityCheck(this.props.entity.content)}
+              disabled={this.props.disabled}
+            />
+          </div>
+        )
+      }
+
+      return (
+        <div className="infinite-list-item" style={{ lineHeight: '38px' }}>
+          {checkbox}
+          <div style={{ display: 'inline-block' }}>
+            {element}
+          </div>
         </div>
       )
     }
 
-    return (
-      <div className="infinite-list-item" style={{ lineHeight: '38px' }}>
-        {checkbox}
-        <div style={{ display: 'inline-block' }}>
-          {element}
-        </div>
-      </div>
-    )
+    return null
   }
 
 }

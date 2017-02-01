@@ -16,7 +16,13 @@ import { every, includes, isEmpty } from 'lodash'
  * @author Xavier-Alexandre Brochard
  */
 const allMatchHateoasDisplayLogic = (requiredEndpoints, availableEndpoints) => (
-  every(requiredEndpoints, item => includes(availableEndpoints, item)) || isEmpty(requiredEndpoints)
+  every(requiredEndpoints, (item) => {
+    if (includes(availableEndpoints, item)) {
+      return true
+    }
+    console.warn(`Access denied to resource ${item}`)
+    return false
+  }) || isEmpty(requiredEndpoints)
 )
 
 export default allMatchHateoasDisplayLogic

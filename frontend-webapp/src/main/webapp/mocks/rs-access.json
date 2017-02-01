@@ -96,7 +96,7 @@
       "applicationId": "user",
       "active": true,
       "isDefault": false,
-      "name": "form",
+      "name": "search-form",
       "description": "Recherche avec layout",
       "container": "content",
       "conf": {
@@ -149,7 +149,7 @@
           }
         ]
       },
-      "name": "form",
+      "name": "search-form",
       "description": "Recherche simple",
       "container": "content",
       "applicationId": "user",

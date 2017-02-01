@@ -14,5 +14,5 @@ export default React.PropTypes.shape({
     applicationId: React.PropTypes.string,
     container: React.PropTypes.string,
     conf: React.PropTypes.objectOf(React.PropTypes.any),
-  }).isRequired,
+  }),
 })

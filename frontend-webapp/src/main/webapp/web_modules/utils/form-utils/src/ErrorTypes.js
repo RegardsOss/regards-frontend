@@ -13,4 +13,5 @@ export default {
   INVALID_IP: 'invalid.ip',
   DIFFERENT_PASSWORDS: 'different.password',
   INVALID_PASSWORD: 'invalid.password',
+  INVALID_URL: 'invalid.url',
 }
