@@ -3,10 +3,6 @@
  **/
 import { browserHistory } from 'react-router'
 import { FormattedMessage } from 'react-intl'
-import { connect } from '@regardsoss/redux'
-import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
-import { LoadableContentDisplayDecorator, HateoasDisplayDecorator } from '@regardsoss/display-control'
-import { themeContextType } from '@regardsoss/theme'
 import AppBar from 'material-ui/AppBar'
 import { Card, CardActions, CardText, CardTitle } from 'material-ui/Card'
 import Checkbox from 'material-ui/Checkbox'
@@ -19,7 +15,14 @@ import Subheader from 'material-ui/Subheader'
 import IconList from 'material-ui/svg-icons/action/list'
 import Filter from 'material-ui/svg-icons/content/filter-list'
 import Close from 'material-ui/svg-icons/navigation/close'
-import { without, union, chain } from 'lodash'
+import { map, without, union, chain, difference } from 'lodash'
+import { connect } from '@regardsoss/redux'
+import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
+import { LoadableContentDisplayDecorator, HateoasDisplayDecorator } from '@regardsoss/display-control'
+import { themeContextType } from '@regardsoss/theme'
+import { PluginMetaDataList } from '@regardsoss/model'
+import PluginTypeActions from '../model/PluginTypeActions'
+import PluginTypeSelectors from '../model/PluginTypeSelectors'
 import PluginMetaDataActions from '../model/PluginMetaDataActions'
 import PluginMetaDataSelectors from '../model/PluginMetaDataSelectors'
 import moduleStyles from '../styles/styles'
@@ -42,9 +45,12 @@ export class PluginMetaDataListContainer extends React.Component {
       microserviceName: React.PropTypes.string,
     }),
     // from mapStateToProps
-    pluginMetaDataListOrganizedByType: React.PropTypes.arrayOf(React.PropTypes.object),
+    pluginTypes: React.PropTypes.arrayOf(React.PropTypes.string),
+    pluginMetaDataList: PluginMetaDataList,
+    // pluginMetaDataListOrganizedByType: React.PropTypes.arrayOf(React.PropTypes.object),
     isPluginMetaDataListFetching: React.PropTypes.bool,
     // from mapDispatchToProps
+    fetchPluginTypeList: React.PropTypes.func,
     fetchPluginMetaDataList: React.PropTypes.func,
   }
 
@@ -62,80 +68,84 @@ export class PluginMetaDataListContainer extends React.Component {
   }
 
   componentDidMount() {
-    this.props.fetchPluginMetaDataList(this.props.params.microserviceName)
+    const { params: { microserviceName } } = this.props
+    this.props.fetchPluginTypeList(microserviceName) // Fetch the plugin types
   }
 
   componentWillReceiveProps(newProps) {
-    const allTypes = chain(newProps.pluginMetaDataListOrganizedByType).map(plugin => plugin.type).sortedUniq().value()
-    this.setState({
-      displayedTypes: allTypes,
-    })
+    const { params: { microserviceName } } = this.props
+    const oldPluginTypes = this.props.pluginTypes
+    const newPluginTypes = newProps.pluginTypes
+
+    // Only update sate if necessary
+    if (newPluginTypes !== oldPluginTypes) {
+      this.setState({
+        displayedTypes: newProps.pluginTypes.sort(),
+      })
+    }
+
+    // Fetch the plugin meta data associated to each new plugin type
+    difference(newPluginTypes, oldPluginTypes).forEach(pluginType => this.props.fetchPluginMetaDataList(microserviceName, pluginType))
   }
 
   /**
    * Builds the array of {@link ListItem}.
    */
   getFilterListItems = () => (
-    chain(this.props.pluginMetaDataListOrganizedByType)
-      .map(plugin => plugin.type)
-      .map(type => (
-        <ListItem
-          key={type}
-          primaryText={type}
-          leftCheckbox={
-            <Checkbox
-              checked={this.state.displayedTypes.includes(type)}
-              onCheck={() => this.handleFilterCheck(type)}
-            />
-          }
-        />
-      ))
-      .value()
+    map(this.props.pluginTypes, type => (
+      <ListItem
+        key={type}
+        primaryText={type}
+        leftCheckbox={
+          <Checkbox
+            checked={this.state.displayedTypes.includes(type)}
+            onCheck={() => this.handleFilterCheck(type)}
+          />
+        }
+      />
+    ))
   )
 
   /**
-   * Builds the array of {@link GridList}.
+   * Builds the grid of tiles.
    */
-  getGridListItems = () => (
-    chain(this.props.pluginMetaDataListOrganizedByType)
-      .filter(type => this.state.displayedTypes.includes(type.type))
-      .map(el => (
-        [
-          <Subheader>{el.type}</Subheader>,
-          el.items.map(plugin => this.getPluginGridTile(plugin)),
-        ]
-      ))
-      .value()
+  getGrid = () => (
+    map(this.state.displayedTypes, pluginType => (
+      [
+        <Subheader>{pluginType}</Subheader>,
+        chain(this.props.pluginMetaDataList)
+          .filter(pluginMetaData => pluginMetaData.content.interfaceClassName.includes(pluginType))
+          .map(pluginMetaData => this.getTile(pluginMetaData))
+          .value(),
+      ]
+    ))
   )
 
   /**
-   * Returns a grid tile displaying the passed plugin.
+   * Returns a tile displaying the passed plugin.
    *
    * @param plugin
    */
-  getPluginGridTile = plugin => (
-    <GridTile key={plugin.content.pluginId}>
-      <Card style={{ margin: 20 }}>
+  getTile = plugin => (
+    <div className={styles.tile.classes}>
+      <Card key={plugin.content.pluginId} style={styles.tile.styles}>
         <CardTitle
-          title={<span>{plugin.content.pluginClassName}
-            <div
-              style={{ scolor: this.context.muiTheme.palette.secondaryTextColor }}
-            >{plugin.content.version}</div></span>}
-          subtitle={plugin.content.author}
+          title={plugin.content.pluginId}
+          subtitle={`${plugin.content.author} | ${plugin.content.version}`}
         />
         <CardText>
           {plugin.content.description}
         </CardText>
         <CardActions>
           <IconButton
-            tooltip={<FormattedMessage id="microservice-management.plugin.list.configurations" />}
+            tooltip={<FormattedMessage id="microservice-management.plugin.list.configurations"/>}
             onTouchTap={() => this.handleProjectConfigurationListClick(plugin.content.pluginId)}
           >
             <IconList />
           </IconButton>
         </CardActions>
       </Card>
-    </GridTile>
+    </div>
   )
 
   /**
@@ -165,7 +175,7 @@ export class PluginMetaDataListContainer extends React.Component {
    */
   handleFilterCheck = (type) => {
     this.setState({
-      displayedTypes: this.state.displayedTypes.includes(type) ? without(this.state.displayedTypes, type) : union(this.state.displayedTypes, [type]),
+      displayedTypes: this.state.displayedTypes.includes(type) ? without(this.state.displayedTypes, type).sort() : union(this.state.displayedTypes, [type]).sort(),
     })
   }
 
@@ -187,28 +197,30 @@ export class PluginMetaDataListContainer extends React.Component {
           <Paper>
             <AppBar
               title={`${microserviceName} > Plugins`}
-              iconElementLeft={<IconButton><Close onTouchTap={this.handleClose} /></IconButton>}
-              iconElementRight={<IconButton onTouchTap={this.handleFilterSwitch}><Filter /></IconButton>}
+              iconElementLeft={<IconButton><Close onTouchTap={this.handleClose}/></IconButton>}
+              iconElementRight={
+                <IconButton
+                  onTouchTap={this.handleFilterSwitch}
+                  tooltip={<FormattedMessage id="microservice-management.plugin.list.filter.tooltip"/>}
+                >
+                  <Filter />
+                </IconButton>
+              }
             />
             <div style={styles.root}>
               <LoadableContentDisplayDecorator isLoading={isPluginMetaDataListFetching}>
-                <GridList
-                  cellHeight={'auto'}
-                  cols={3}
-                  padding={20}
-                  style={styles.gridList}
-                >
-                  {this.getGridListItems()}
-                </GridList>
+                <div style={styles.grid}>
+                  {this.getGrid()}
+                </div>
               </LoadableContentDisplayDecorator>
             </div>
-            <Drawer width={200} openSecondary open={this.state.filterOpen}>
+            <Drawer width={500} openSecondary open={this.state.filterOpen}>
               <AppBar
                 iconElementLeft={<IconButton onTouchTap={this.handleFilterSwitch}><Close /></IconButton>}
-                title={<FormattedMessage id="microservice-management.plugin.list.filters" />}
+                title={<FormattedMessage id="microservice-management.plugin.list.filter.title"/>}
               />
               <List>
-                {this.getFilterListItems(this.state.pluginsOrganizedByType)}
+                {this.getFilterListItems()}
               </List>
             </Drawer>
           </Paper>
@@ -217,14 +229,29 @@ export class PluginMetaDataListContainer extends React.Component {
     )
   }
 }
+//
+// <GridList
+//   cellHeight={'auto'}
+//   cols={3}
+//   padding={20}
+//   style={styles.gridList}
+// >
+//   {this.getGridListItems()}
+// </GridList>
 
 const mapStateToProps = (state, ownProps) => ({
-  pluginMetaDataListOrganizedByType: PluginMetaDataSelectors.getListWrappedWithType(state),
+  pluginTypes: PluginTypeSelectors.getList(state),
+  isPluginTypesFetching: PluginTypeSelectors.isFetching(state),
+  pluginMetaDataList: PluginMetaDataSelectors.getList(state),
   isPluginMetaDataFetching: PluginMetaDataSelectors.isFetching(state),
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchPluginMetaDataList: microservice => dispatch(PluginMetaDataActions.fetchPagedEntityList(0, 100, { microserviceName: microservice })),
+  fetchPluginTypeList: microserviceName => dispatch(PluginTypeActions.fetchEntityList({ microserviceName })),
+  fetchPluginMetaDataList: (microserviceName, pluginType) => dispatch(PluginMetaDataActions.fetchPagedEntityList(0, 100, {
+    microserviceName,
+    pluginType,
+  })),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PluginMetaDataListContainer)

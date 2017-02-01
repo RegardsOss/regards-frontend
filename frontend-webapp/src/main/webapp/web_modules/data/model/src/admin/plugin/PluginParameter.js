@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { PluginDynamicValueList } from './PluginDynamicValue'
 
 const PluginParameter = React.PropTypes.shape({

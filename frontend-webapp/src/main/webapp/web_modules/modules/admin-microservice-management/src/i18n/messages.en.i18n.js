@@ -12,7 +12,8 @@ const messages = Object.assign({
   'microservice-management.maintenance.tooltip': 'Maintenance mode',
 
   'microservice-management.plugin.list.title': 'Plugins',
-  'microservice-management.plugin.list.filters': 'Filters',
+  'microservice-management.plugin.list.filter.tooltip': 'Filter',
+  'microservice-management.plugin.list.filter.title': 'Types',
   'microservice-management.plugin.list.configurations': 'Configurations',
 
   'microservice-management.plugin.configuration.list.add': 'Add',
@@ -35,8 +36,6 @@ const messages = Object.assign({
   'microservice-management.plugin.configuration.form.action.submit.add': 'Add',
   'microservice-management.plugin.configuration.form.action.submit.save': 'Save',
   'microservice-management.plugin.configuration.form.action.cancel': 'Cancel',
-  'microservice-management.plugin.configuration.form.datepicker.ok': 'OK',
-  'microservice-management.plugin.configuration.form.datepicker.cancel': 'Cancel',
 
 }, Locales.en)
 

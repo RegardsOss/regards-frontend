@@ -61,13 +61,34 @@
   ],
   "plugins": [
     {
-      "id": "0",
-      "pluginId": "0",
-      "pluginType": "Authentication",
-      "pluginClassName": "Kerberos",
-      "author": "Jules Verne",
-      "version": "0.0.5",
-      "description": "Allows the users to log in with their usual email and password.",
+      "id": "aComplexErrorPlugin",
+      "pluginId": "aComplexErrorPlugin",
+      "pluginClassName": "fr.cnes.regards.framework.plugins.ComplexErrorPlugin",
+      "interfaceClassName": [
+        "fr.cnes.regards.framework.plugins.ISamplePlugin",
+        "fr.cnes.regards.framework.plugins.IComplexInterfacePlugin"
+      ],
+      "author": "CSSI",
+      "version": "0.0.1",
+      "description": "Complex plugin test",
+      "parameters": [
+        {
+          "name": "coeff",
+          "type": "java.lang.Integer",
+          "paramType": "PRIMITIVE"
+        }
+      ]
+    },
+    {
+      "id": "aSamplePlugin",
+      "pluginId": "aSamplePlugin",
+      "pluginClassName": "fr.cnes.regards.framework.plugins.SamplePlugin",
+      "interfaceClassName": [
+        "fr.cnes.regards.framework.plugins.ISamplePlugin"
+      ],
+      "author": "CSSI",
+      "version": "12345-6789-11",
+      "description": "Sample plugin test",
       "parameters": [
         {
           "name": "suffix",
@@ -83,203 +104,99 @@
           "name": "isActive",
           "type": "java.lang.Boolean",
           "paramType": "PRIMITIVE"
-        },
-        {
-          "name": "plgInterface",
-          "type": "Kerberos",
-          "paramType": "PLUGIN"
         }
       ]
     },
     {
-      "id": "1",
-      "pluginId": "1",
-      "pluginType": "Authentication",
-      "pluginClassName": "Hello",
-      "author": "Jules Verne",
-      "version": "0.0.6",
-      "description": "Allows the users to log in with their usual email and password."
+      "id": "aSampleErrorPlugin",
+      "pluginId": "aSampleErrorPlugin",
+      "pluginClassName": "fr.cnes.regards.framework.plugins.SampleErrorPlugin",
+      "interfaceClassName": [
+        "fr.cnes.regards.framework.plugins.ISamplePlugin"
+      ],
+      "author": "CSSI",
+      "version": "0.0.1",
+      "description": "Sample plugin test",
+      "parameters": [
+        {
+          "name": "suffix",
+          "type": "java.lang.String",
+          "paramType": "PRIMITIVE"
+        },
+        {
+          "name": "coeff",
+          "type": "java.lang.Integer",
+          "paramType": "PRIMITIVE"
+        },
+        {
+          "name": "isActive",
+          "type": "java.lang.Boolean",
+          "paramType": "PRIMITIVE"
+        }
+      ]
     },
     {
-      "id": "2",
-      "pluginId": "2",
-      "pluginType": "Authentication",
-      "pluginClassName": "Toto",
-      "author": "Jean-Paul Sartre",
-      "version": "2.0.0",
-      "description": "This plugin is pretty useless actually."
-    },
-    {
-      "id": "3",
-      "pluginId": "3",
-      "pluginType": "Authentication",
-      "pluginClassName": "Titi",
-      "author": "Victor Hugo",
-      "version": "2.0.5",
-      "description": "This plugin is pretty useless actually."
-    },
-    {
-      "id": "4",
-      "pluginId": "4",
-      "pluginType": "Authentication",
-      "pluginClassName": "Toto",
-      "author": "Jean-Paul Sartre",
-      "version": "2.0.0",
-      "description": "This plugin is pretty useless actually."
-    },
-    {
-      "id": "5",
-      "pluginId": "5",
-      "pluginType": "Authentication",
-      "pluginClassName": "Titi",
-      "author": "Victor Hugo",
-      "version": "2.0.5",
-      "description": "This plugin is pretty useless actually."
-    },
-    {
-      "pluginId": "6",
-      "pluginType": "Other",
-      "pluginClassName": "Kerberos",
-      "author": "Jules Verne",
-      "version": "0.0.5",
-      "description": "Allows the users to log in with their usual email and password."
-    },
-    {
-      "pluginId": "7",
-      "pluginType": "Other",
-      "pluginClassName": "Toto",
-      "author": "Jean-Paul Sartre",
-      "version": "2.0.0",
-      "description": "This plugin is pretty useless actually."
-    },
-    {
-      "pluginId": "8",
-      "pluginType": "Other",
-      "pluginClassName": "Titi",
-      "author": "Victor Hugo",
-      "version": "2.0.5",
-      "description": "This plugin is pretty useless actually."
+      "id": "aComplexPlugin",
+      "pluginId": "aComplexPlugin",
+      "pluginClassName": "fr.cnes.regards.framework.plugins.ComplexPlugin",
+      "interfaceClassName": [
+        "fr.cnes.regards.framework.plugins.ISamplePlugin"
+      ],
+      "author": "CSSI",
+      "version": "0.0.1",
+      "description": "Complex plugin test",
+      "parameters": [
+        {
+          "name": "plgInterface",
+          "type": "fr.cnes.regards.framework.plugins.IComplexInterfacePlugin",
+          "paramType": "PLUGIN"
+        },
+        {
+          "name": "coeff",
+          "type": "java.lang.Integer",
+          "paramType": "PRIMITIVE"
+        },
+        {
+          "name": "isActive",
+          "type": "java.lang.Boolean",
+          "paramType": "PRIMITIVE"
+        }
+      ]
     }
   ],
   "configurations": [
     {
-      "id": 0,
-      "label": "Cool configuration",
-      "version": "2.0.0",
+      "id": 40,
+      "pluginId": "aComplexErrorPlugin",
+      "label": "a plugin configuration for the test",
+      "version": "12345-6789-11",
       "priorityOrder": 0,
       "active": true,
-      "pluginClassName": "Kerberos",
-      "pluginId": "0",
+      "pluginClassName": "java.lang.Integer",
       "parameters": [
         {
-          "id": 0,
-          "name": "suffix",
-          "value": "_thesuffix",
+          "name": "param31",
+          "value": "value31",
+          "dynamic": true
+        },
+        {
+          "name": "param32",
+          "value": "value32",
           "dynamic": false
         },
         {
-          "id": 1,
-          "name": "coeff",
-          "value": "9",
+          "name": "param33",
+          "value": "value33",
           "dynamic": false
         },
         {
-          "id": 2,
-          "name": "isActive",
-          "value": "true",
+          "name": "param34",
+          "value": "value34",
           "dynamic": false
         },
         {
-          "id": 3,
-          "name": "plgInterface",
-          "value": "0",
-          "dynamic": false
-        }
-      ]
-    },
-    {
-      "id": 1,
-      "label": "Not cool configuration",
-      "version": "1.1.1",
-      "priorityOrder": 1,
-      "active": true,
-      "pluginClassName": "Kerberos",
-      "pluginId": "0",
-      "parameters": [
-        {
-          "id": 0,
-          "name": "suffix",
-          "value": "_theothersuffix",
-          "dynamic": false
-        },
-        {
-          "id": 1,
-          "name": "coeff",
-          "value": "2",
-          "dynamic": false
-        },
-        {
-          "id": 2,
-          "name": "isActive",
-          "value": "false",
-          "dynamic": false
-        }
-      ]
-    },
-    {
-      "id": 2,
-      "label": "Random configuration",
-      "version": "0.0.1",
-      "priorityOrder": 2,
-      "active": false,
-      "pluginClassName": "Kerberos",
-      "pluginId": "0",
-      "parameters": [
-        {
-          "id": 0,
-          "name": "suffix",
-          "value": "_thesuffix",
-          "dynamic": false
-        },
-        {
-          "id": 1,
-          "name": "coeff",
-          "value": "9",
-          "dynamic": false
-        },
-        {
-          "id": 2,
-          "name": "isActive",
-          "value": "true",
-          "dynamic": false
-        }
-      ]
-    },
-    {
-      "id": 3,
-      "label": "Other random configuration",
-      "version": "v12",
-      "priorityOrder": 3,
-      "active": true,
-      "pluginClassName": "Kerberos",
-      "pluginId": "0",
-      "parameters": [
-        {
-          "id": 0,
-          "name": "suffix",
-          "value": "_çasuffix",
-          "dynamic": false
-        },
-        {
-          "id": 1,
-          "name": "coeff",
-          "value": "3",
-          "dynamic": false
-        },
-        {
-          "id": 2,
-          "name": "isActive",
-          "value": "true",
+          "name": "param35",
+          "value": "value35",
           "dynamic": false
         }
       ]

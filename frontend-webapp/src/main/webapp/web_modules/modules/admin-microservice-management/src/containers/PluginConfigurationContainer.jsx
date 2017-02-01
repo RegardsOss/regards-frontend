@@ -103,6 +103,7 @@ export class PluginConfigurationContainer extends React.Component {
         // We receive here the action
         if (!actionResult.error) {
           console.log('decrease priority successfull')
+
         }
       })
   }

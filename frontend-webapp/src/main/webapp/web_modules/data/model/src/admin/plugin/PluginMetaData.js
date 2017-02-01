@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import PluginParameterType from './PluginParameterType'
 
 const PluginMetaData = React.PropTypes.shape({

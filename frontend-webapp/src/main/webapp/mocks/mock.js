@@ -165,6 +165,7 @@ const runServer = () => {
     next()
   })
 
+  // Rewriters
   server.use(jsonServer.rewriter({
     '/api/v1/rs-access/applications/:application_id/modules/:module_id': '/api/v1/rs-access/modules/:module_id',
     '/api/v1/rs-access/plugins/:type': '/api/v1/rs-access/plugins?type=:type',
@@ -176,6 +177,7 @@ const runServer = () => {
     '/api/v1/rs-dam-list/models/:modelid/attributes/:id': '/api/v1/rs-dam-list/models-attributes/:id?model.id=:modelid',
     '/api/v1/rs-dam-array/models/attributes/restrictions': '/api/v1/rs-dam-array/models-attributes-restrictions',
     '/api/v1/rs-dam-array/models/attributes/types': '/api/v1/rs-dam-array/models-attributes-types',
+    '/api/v1/rs-dam/plugintypes': '/api/v1/rs-dam-array/plugintypes',
     '/oauth/token': '/tokens/1',
   }))
 

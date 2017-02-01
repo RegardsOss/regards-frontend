@@ -13,10 +13,10 @@ import ContentCopy from 'material-ui/svg-icons/content/content-copy'
 import ModeEdit from 'material-ui/svg-icons/editor/mode-edit'
 import IconButton from 'material-ui/IconButton'
 import Toggle from 'material-ui/Toggle'
-import { List, ListItem } from 'material-ui/List'
+import { List } from 'material-ui/List'
 import Subheader from 'material-ui/Subheader'
 import moduleStyles from '../styles/styles'
-import PluginParameterComponent from './PluginParameterComponent'
+import PluginParameterContainer from '../containers/PluginParameterContainer'
 
 /**
  * React component displaying a configurable microservice.
@@ -57,7 +57,7 @@ class PluginConfigurationComponent extends React.Component {
   render() {
     const { pluginConfiguration, onActiveToggle, onCopyClick, onDeleteClick, onEditClick, onDownwardClick, onUpwardClick } = this.props
     const parameters = map(pluginConfiguration.content.parameters, (pluginParameter, index) =>
-      <PluginParameterComponent
+      <PluginParameterContainer
         key={index}
         pluginParameter={pluginParameter}
         pluginParameterType={null}

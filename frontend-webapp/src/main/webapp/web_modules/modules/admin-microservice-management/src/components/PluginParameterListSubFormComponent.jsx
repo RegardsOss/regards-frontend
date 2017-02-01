@@ -4,7 +4,7 @@
 import { map, find } from 'lodash'
 import { Card, CardTitle, CardText } from 'material-ui/Card'
 import { PluginParameter, PluginParameterType } from '@regardsoss/model'
-import PluginParameterComponent from './PluginParameterComponent'
+import PluginParameterContainer from '../containers/PluginParameterContainer'
 
 /**
  * React component displaying a configurable microservice.
@@ -21,7 +21,7 @@ class PluginParameterListSubFormComponent extends React.Component {
   render() {
     const { pluginParameterList, pluginParameterTypeList } = this.props
     const fields = map(pluginParameterList, (pluginParameter, index) =>
-      <PluginParameterComponent
+      <PluginParameterContainer
         key={index}
         pluginParameter={pluginParameter}
         pluginParameterType={find(pluginParameterTypeList, pluginParameterType => pluginParameterType.name === pluginParameter.name)}

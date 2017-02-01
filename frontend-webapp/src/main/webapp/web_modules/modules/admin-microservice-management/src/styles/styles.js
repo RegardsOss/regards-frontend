@@ -12,14 +12,21 @@ const microserviceManagementStyles = theme => ({
   },
   plugins: {
     root: {
+      position: 'relative',
+      height: 600,
+      overflowY: 'auto',
+    },
+    grid: {
       display: 'flex',
       flexWrap: 'wrap',
-      justifyContent: 'space-around',
-      position: 'relative',
+    },
+    tile: {
+      classes: ['col-xs-50', 'col-sm-50', 'col-lg-33'].join(' '),
+      styles: {
+        margin: 20,
+      },
     },
     gridList: {
-      height: 450,
-      overflowY: 'auto',
       margin: 0,
     },
   },
