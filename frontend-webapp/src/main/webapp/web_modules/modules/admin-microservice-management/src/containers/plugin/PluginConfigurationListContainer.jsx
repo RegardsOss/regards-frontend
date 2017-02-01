@@ -15,11 +15,11 @@ import AddCircle from 'material-ui/svg-icons/content/add-circle'
 import Subheader from 'material-ui/Subheader'
 import { chain } from 'lodash'
 import PluginConfigurationContainer from './PluginConfigurationContainer'
-import PluginConfigurationSelectors from '../model/PluginConfigurationSelectors'
-import PluginMetaDataSelectors from '../model/PluginMetaDataSelectors'
-import PluginConfigurationActions from '../model/PluginConfigurationActions'
-import PluginMetaDataActions from '../model/PluginMetaDataActions'
-import moduleStyles from '../styles/styles'
+import PluginConfigurationSelectors from '../../model/plugin/PluginConfigurationSelectors'
+import PluginMetaDataSelectors from '../../model/plugin/PluginMetaDataSelectors'
+import PluginConfigurationActions from '../../model/plugin/PluginConfigurationActions'
+import PluginMetaDataActions from '../../model/plugin/PluginMetaDataActions'
+import moduleStyles from '../../styles/styles'
 
 const styles = moduleStyles().pluginConfiguration
 

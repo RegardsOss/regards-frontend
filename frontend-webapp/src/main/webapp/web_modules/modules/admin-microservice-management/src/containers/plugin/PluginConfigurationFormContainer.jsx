@@ -7,11 +7,11 @@ import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { PluginConfiguration, PluginMetaData } from '@regardsoss/model'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import PluginConfigurationFormComponent from '../components/PluginConfigurationFormComponent'
-import PluginConfigurationActions from '../model/PluginConfigurationActions'
-import PluginConfigurationSelectors from '../model/PluginConfigurationSelectors'
-import PluginMetaDataSelectors from '../model/PluginMetaDataSelectors'
-import PluginMetaDataActions from '../model/PluginMetaDataActions'
+import PluginConfigurationFormComponent from '../../components/plugin/PluginConfigurationFormComponent'
+import PluginConfigurationActions from '../../model/plugin/PluginConfigurationActions'
+import PluginConfigurationSelectors from '../../model/plugin/PluginConfigurationSelectors'
+import PluginMetaDataSelectors from '../../model/plugin/PluginMetaDataSelectors'
+import PluginMetaDataActions from '../../model/plugin/PluginMetaDataActions'
 
 /**
  * TODO

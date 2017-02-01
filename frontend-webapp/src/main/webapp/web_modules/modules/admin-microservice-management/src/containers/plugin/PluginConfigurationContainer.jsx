@@ -6,8 +6,8 @@ import { connect } from '@regardsoss/redux'
 import { PluginConfiguration } from '@regardsoss/model'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
-import PluginConfigurationComponent from '../components/PluginConfigurationComponent'
-import PluginConfigurationActions from '../model/PluginConfigurationActions'
+import PluginConfigurationComponent from '../../components/plugin/PluginConfigurationComponent'
+import PluginConfigurationActions from '../../model/plugin/PluginConfigurationActions'
 
 /**
  * Container connecting a {@link PluginConfigurationComponent} to the redux store.

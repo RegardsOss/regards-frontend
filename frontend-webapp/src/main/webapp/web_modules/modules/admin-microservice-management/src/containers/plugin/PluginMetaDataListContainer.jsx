@@ -21,12 +21,12 @@ import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator, HateoasDisplayDecorator } from '@regardsoss/display-control'
 import { themeContextType } from '@regardsoss/theme'
 import { PluginMetaDataList } from '@regardsoss/model'
-import PluginTypeActions from '../model/PluginTypeActions'
-import PluginTypeSelectors from '../model/PluginTypeSelectors'
-import PluginMetaDataActions from '../model/PluginMetaDataActions'
-import PluginMetaDataSelectors from '../model/PluginMetaDataSelectors'
-import moduleStyles from '../styles/styles'
-import requiredEndpoints from '../requiredEndpoints'
+import PluginTypeActions from '../../model/plugin/PluginTypeActions'
+import PluginTypeSelectors from '../../model/plugin/PluginTypeSelectors'
+import PluginMetaDataActions from '../../model/plugin/PluginMetaDataActions'
+import PluginMetaDataSelectors from '../../model/plugin/PluginMetaDataSelectors'
+import moduleStyles from '../../styles/styles'
+import requiredEndpoints from '../../requiredEndpoints'
 
 const styles = moduleStyles().plugins
 

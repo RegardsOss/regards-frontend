@@ -15,8 +15,8 @@ import IconButton from 'material-ui/IconButton'
 import Toggle from 'material-ui/Toggle'
 import { List } from 'material-ui/List'
 import Subheader from 'material-ui/Subheader'
-import moduleStyles from '../styles/styles'
-import PluginParameterContainer from '../containers/PluginParameterContainer'
+import moduleStyles from '../../styles/styles'
+import PluginParameterContainer from '../../containers/plugin/PluginParameterContainer'
 
 /**
  * React component displaying a configurable microservice.

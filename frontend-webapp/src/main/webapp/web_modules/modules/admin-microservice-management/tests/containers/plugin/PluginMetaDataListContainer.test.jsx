@@ -2,7 +2,7 @@ import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import AppBar from 'material-ui/AppBar'
 import { IntlStub } from '@regardsoss/tests-helpers'
-import { PluginMetaDataListContainer } from '../../src/containers/PluginMetaDataListContainer'
+import { PluginMetaDataListContainer } from '../../../src/containers/plugin/PluginMetaDataListContainer'
 
 // Test a components rendering
 describe('[ADMIN MICROSERVICE MANAGEMENT] Testing plugin metata data list container', () => {

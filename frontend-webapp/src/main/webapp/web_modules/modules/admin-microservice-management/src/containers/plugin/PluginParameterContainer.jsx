@@ -8,11 +8,11 @@ import { Toggle, SelectField } from 'redux-form-material-ui'
 import { connect } from '@regardsoss/redux'
 import { PluginParameter, PluginParameterType, PluginConfigurationList } from '@regardsoss/model'
 import { RenderTextField, Field } from '@regardsoss/form-utils'
-import PluginMetaDataSelectors from '../model/PluginMetaDataSelectors'
-import PluginMetaDataActions from '../model/PluginMetaDataActions'
-import PluginConfigurationSelectors from '../model/PluginConfigurationSelectors'
-import PluginConfigurationActions from '../model/PluginConfigurationActions'
-import moduleStyles from '../styles/styles'
+import PluginMetaDataSelectors from '../../model/plugin/PluginMetaDataSelectors'
+import PluginMetaDataActions from '../../model/plugin/PluginMetaDataActions'
+import PluginConfigurationSelectors from '../../model/plugin/PluginConfigurationSelectors'
+import PluginConfigurationActions from '../../model/plugin/PluginConfigurationActions'
+import moduleStyles from '../../styles/styles'
 
 // validation functions
 const required = value => value == null ? 'Required' : undefined

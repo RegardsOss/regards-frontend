@@ -2,7 +2,7 @@ import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { ListItem } from 'material-ui/List'
 import { Field } from '@regardsoss/form-utils'
-import { PluginParameterContainer } from '../../src/containers/PluginParameterContainer'
+import { PluginParameterContainer } from '../../../src/containers/plugin/PluginParameterContainer'
 
 describe('[ADMIN PROJECT MANAGEMENT] Testing plugin parameter component', () => {
   it('should exists', () => {

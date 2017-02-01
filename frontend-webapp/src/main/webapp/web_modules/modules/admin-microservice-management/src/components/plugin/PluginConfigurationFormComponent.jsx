@@ -9,7 +9,7 @@ import { RenderTextField, Field } from '@regardsoss/form-utils'
 import { ReduxConnectedForm } from '@regardsoss/redux'
 import { PluginMetaData, PluginConfiguration } from '@regardsoss/model'
 import PluginParameterListSubFormComponent from './PluginParameterListSubFormComponent'
-import moduleStyles from '../styles/styles'
+import moduleStyles from '../../styles/styles'
 
 const styles = moduleStyles()
 

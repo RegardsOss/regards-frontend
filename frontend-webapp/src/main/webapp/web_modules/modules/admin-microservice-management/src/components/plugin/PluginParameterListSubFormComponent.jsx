@@ -4,7 +4,7 @@
 import { map, find } from 'lodash'
 import { Card, CardTitle, CardText } from 'material-ui/Card'
 import { PluginParameter, PluginParameterType } from '@regardsoss/model'
-import PluginParameterContainer from '../containers/PluginParameterContainer'
+import PluginParameterContainer from '../../containers/plugin/PluginParameterContainer'
 
 /**
  * React component displaying a configurable microservice.

@@ -1,7 +1,7 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { ReduxConnectedForm } from '@regardsoss/redux'
-import { PluginConfigurationFormComponent } from '../../src/components/PluginConfigurationFormComponent'
+import { PluginConfigurationFormComponent } from '../../../src/components/plugin/PluginConfigurationFormComponent'
 
 describe('[ADMIN PROJECT MANAGEMENT] Testing plugin configuration form component', () => {
   it('should exists', () => {
