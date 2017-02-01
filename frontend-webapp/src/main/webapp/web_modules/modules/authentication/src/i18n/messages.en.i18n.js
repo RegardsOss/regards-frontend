@@ -11,6 +11,9 @@ const messages = Object.assign({
   'authentication.message': 'Please enter your username and password to log in',
   'authentication.error': 'Invalid Username/Password',
   'authentication.error.500': 'Server unavailable',
+  'authentication.goto.reset.password': 'Reset password',
+  'authentication.goto.create.account': 'Create account',
+  'authentication.goto.unlock.account': 'Unlock account',
 
   // common to account requests forms (reset password and unlock account
   'account.request.form.mail': 'E-mail address',
@@ -48,6 +51,10 @@ const messages = Object.assign({
   'reset.password.done.title': 'Password reset',
   'reset.password.done.message': 'Your password has been successfully reset, you can proceed to site',
   'reset.password.done.option': 'Proceed',
+
+  'create.account.sent.title': 'Create account sent',
+  'create.account.sent.message': 'Your request has been sent, please wait for confirmation email',
+  'create.account.sent.option': 'Back',
 
   // reset password update (after receiving mail)
   'reset.password.update.request.title': 'Reset password',

@@ -9,9 +9,9 @@ import { themeContextType } from '@regardsoss/theme'
 class PictureLinkComponent extends React.Component {
 
   static propTypes = {
-    text: React.PropTypes.string.isRequired,
-    IconComponent: React.PropTypes.constructor.isRequired,
-
+    text: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.element]).isRequired,
+    IconComponent: React.PropTypes.func.isRequired,
+    onAction: React.PropTypes.func.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
     iconStyles: React.PropTypes.object,
     iconToTextGap: React.PropTypes.string,
@@ -45,7 +45,7 @@ class PictureLinkComponent extends React.Component {
   }
 
   render() {
-    const { text, IconComponent, iconStyles, iconToTextGap } = this.props
+    const { onAction, text, IconComponent, iconStyles, iconToTextGap } = this.props
     const { isOver } = this.state
     const { palette } = this.context.muiTheme
 
@@ -61,6 +61,7 @@ class PictureLinkComponent extends React.Component {
     const iconColor = isOver ? overImageColor : defaultImageColor
     return (
       <div
+        onTouchTap={onAction}
         onMouseOut={() => this.switchOver(false)}
         onMouseOver={() => this.switchOver(true)}
         style={{ display: 'inline-flex', alignItems: 'center', textDecoration: 'none', cursor: 'pointer' }}

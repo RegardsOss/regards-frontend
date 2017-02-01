@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  */
 import { shallow } from 'enzyme'
-import { expect, assert } from 'chai'
+import { assert } from 'chai'
 import sinon from 'sinon'
 import AuthenticationDialogComponent from '../../src/components/AuthenticationDialogComponent'
 import styles from '../../src/styles/styles'

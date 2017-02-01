@@ -37,12 +37,14 @@ describe('[AUTHENTICATION] Testing AuthenticationComponent', () => {
       title: 'A title',
       onLogin: () => {},
       errorMessage: undefined,
-      // submitting: false,
-      // pristine: false,
-      // invalid: false,
+      onGotoResetPassword: () => {},
+      onGotoUnlockAccount: () => {},
+      onGotoCreateAccount: () => {},
+      // redux forms
       handleSubmit: () => {},
       cancelButton: true,
       onCancelAction: () => {},
+      initialize: () => {},
     }
     const enzymeShallow = shallow(<AuthenticationComponent {...props} />, { context })
     // check it uses one connected form component from regards

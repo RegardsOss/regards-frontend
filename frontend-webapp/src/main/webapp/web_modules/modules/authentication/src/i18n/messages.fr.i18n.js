@@ -11,6 +11,9 @@ const messages = Object.assign({
   'authentication.message': 'Veuillez saisir vos identifiants pour vous connecter',
   'authentication.error': 'Identifiant et/ou mot de passe invalide(s)',
   'authentication.error.500': 'Service indisponible',
+  'authentication.goto.reset.password': 'Ré-initialiser le mot de passe',
+  'authentication.goto.create.account': 'Créer un compte',
+  'authentication.goto.unlock.account': 'Débloquer un compte',
 
   // common to account requests forms (reset password and unlock account
   'account.request.form.mail': 'Adresse e-mail',
@@ -48,6 +51,10 @@ const messages = Object.assign({
   'reset.password.done.title': 'Mot de passe mis à jour',
   'reset.password.done.message': 'Votre mot de passe a été mis à jour, vous pouvez accéder à l\'appliction',
   'reset.password.done.option': 'Accès à l\'application',
+
+  'create.account.sent.title': 'Demande de création envoyée',
+  'create.account.sent.message': 'Votre demande a été envoyée, vous recevrez un e-mail confirmant la création',
+  'create.account.sent.option': 'Retour',
 
   // reset password update (after receiving mail)
   'reset.password.update.request.title': 'Ré-initialisation du mot de passe',
