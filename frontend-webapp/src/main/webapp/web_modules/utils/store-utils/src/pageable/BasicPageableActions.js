@@ -1,16 +1,15 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-/**
- * @author Léo Mieulet
- */
 import { normalize } from 'normalizr'
 import BasicListActions from '../list/BasicListActions'
 
 const { CALL_API, getJSON } = require('redux-api-middleware')
 /**
  *  Provide actions for a specific type of entity pageable list
- *  @Return dispatcheable redux actions
+ *
+ *  @returns dispatcheable redux actions
+ *  @author Léo Mieulet
  */
 class BasicPageableActions extends BasicListActions {
 
@@ -24,7 +23,7 @@ class BasicPageableActions extends BasicListActions {
 
   /**
    * Fetch a page of entities
-   * @param dispatch redux store dispatch function
+   *
    * @param index pagination param : index of the first result of the request
    * @param size pagination param : number of elements for the asked page
    * @param params [optional] params to replace in endpoint uri
