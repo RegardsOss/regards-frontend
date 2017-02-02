@@ -1,1 +1,3 @@
-export default React.PropTypes.string
+const Endpoint = React.PropTypes.string
+
+export default Endpoint

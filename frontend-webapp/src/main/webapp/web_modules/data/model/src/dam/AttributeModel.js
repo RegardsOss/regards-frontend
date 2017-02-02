@@ -1,6 +1,5 @@
 import Fragment from './Fragment'
-
-export default React.PropTypes.shape({
+const AttributeModel =  React.PropTypes.shape({
   content: React.PropTypes.shape({
     id: React.PropTypes.number,
     name: React.PropTypes.string,
@@ -18,3 +17,5 @@ export default React.PropTypes.shape({
     group: React.PropTypes.string,
   }),
 })
+
+export default AttributeModel

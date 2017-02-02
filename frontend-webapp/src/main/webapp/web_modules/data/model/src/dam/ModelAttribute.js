@@ -1,7 +1,6 @@
 import Model from './Model'
 import AttributeModel from './AttributeModel'
-
-export default React.PropTypes.shape({
+const ModelAttribute = React.PropTypes.shape({
   content: React.PropTypes.shape({
     id: React.PropTypes.number,
     mode: React.PropTypes.string,
@@ -9,3 +8,5 @@ export default React.PropTypes.shape({
     attribute: AttributeModel,
   }),
 })
+
+export default ModelAttribute

@@ -5,7 +5,7 @@
 /**
  * Definition of type DecoratorShape. Decorator are used in LazyModuleComponent to add a decorator element to modules
  */
-export default React.PropTypes.shape({
+const Plugin = React.PropTypes.shape({
   content: React.PropTypes.shape({
     id: React.PropTypes.number,
     name: React.PropTypes.string,
@@ -16,3 +16,5 @@ export default React.PropTypes.shape({
     conf: React.PropTypes.objectOf(React.PropTypes.any),
   }),
 })
+
+export default Plugin

@@ -1,5 +1,9 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { assert } from 'chai'
 import Models from '../src/main'
+
 
 describe('[MODEL] Testing all models (aka shape in the react world)', () => {
   it('should exists', () => {

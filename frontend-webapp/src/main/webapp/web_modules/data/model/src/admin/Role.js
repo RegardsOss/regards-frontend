@@ -1,4 +1,4 @@
-export default React.PropTypes.shape({
+const Role = React.PropTypes.shape({
   content: React.PropTypes.shape({
     id: React.PropTypes.number,
     name: React.PropTypes.string,
@@ -11,3 +11,5 @@ export default React.PropTypes.shape({
     authorizedAddresses: React.PropTypes.arrayOf(React.PropTypes.string),
   }),
 })
+
+export default Role

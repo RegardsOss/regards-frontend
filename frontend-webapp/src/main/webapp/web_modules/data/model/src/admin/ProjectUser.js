@@ -1,4 +1,4 @@
-export default React.PropTypes.shape({
+const ProjectUser = React.PropTypes.shape({
   content: React.PropTypes.shape({
     id: React.PropTypes.number,
     role: React.PropTypes.shape({
@@ -23,3 +23,6 @@ export default React.PropTypes.shape({
     }),
   }),
 })
+
+
+export default ProjectUser
