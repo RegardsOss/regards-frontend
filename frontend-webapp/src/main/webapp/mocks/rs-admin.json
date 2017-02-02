@@ -472,8 +472,15 @@
     {
       "id": 26,
       "description": "Retrieves plugins",
-      "microservice": "rs-catalog",
+      "microservice": "rs-dam",
       "resource": "/datasets",
+      "verb": "GET"
+    },
+    {
+      "id": 27,
+      "description": "Run entity search",
+      "microservice": "rs-catalog",
+      "resource": "/search",
       "verb": "GET"
     }
   ]

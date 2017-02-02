@@ -11,7 +11,7 @@ class DatasetActions extends BasicPageableActions {
   constructor() {
     super({
       namespace: 'form/datasets',
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-catalog/datasets`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-dam/datasets`,
       schemaTypes: {
         ENTITY: Schemas.DATASET,
         ENTITY_ARRAY: Schemas.DATASET_ARRAY,

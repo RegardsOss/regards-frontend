@@ -1,8 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import EntityGeoProperties from './EntityGeoProperties'
-import KeyValueObject from '../common/KeyValueObject'
+import Model from '../dam/Model'
 
 /**
  * Entity definition for all catalog entities like datasets, dataobjects, collections or documents.
@@ -10,11 +9,8 @@ import KeyValueObject from '../common/KeyValueObject'
 export default React.PropTypes.shape({
   content: React.PropTypes.shape({
     id: React.PropTypes.number,
-    sip_id: React.PropTypes.number,
     label: React.PropTypes.string.isRequired,
     type: React.PropTypes.oneOf(['DATASET', 'COLLECTION', 'DATAOBJECT', 'DOCUMENT']).isRequired,
-    geometry: EntityGeoProperties,
-    properties: KeyValueObject,
-    tags: React.PropTypes.arrayOf(React.PropTypes.string),
+    model: Model.isRequired,
   }).isRequired,
 })
