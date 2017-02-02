@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { map, difference, isEmpty, filter } from 'lodash'
+import { map, chain, isEmpty, filter, find } from 'lodash'
 import RaisedButton from 'material-ui/RaisedButton'
 import { ListItem } from 'material-ui/List'
 import IconMenu from 'material-ui/IconMenu'
@@ -74,7 +74,7 @@ export class PluginParameterPlugin extends React.Component {
   handleChange = (value) => {
     this.setState({
       value,
-      selectedPluginConfiguration: this.props.pluginConfigurationList[value],
+      selectedPluginConfiguration: find(this.props.pluginConfigurationList, el => el.content.id === value),
     })
     this.props.change(this.props.name, value)
   }
@@ -103,7 +103,6 @@ export class PluginParameterPlugin extends React.Component {
               autoWidth
               style={{ visibility: 'hidden' }}
             >
-              {pluginParameterType ? <Subheader>{pluginParameterType.type}</Subheader> : null}
               {map(pluginMetaDataList, (pluginMetaData) => {
                 const pluginConfigurationListForThisPluginMetaData = filter(pluginConfigurationList, pluginConfiguration => pluginConfiguration.content.pluginId === pluginMetaData.content.pluginId)
                 const pluginConfigurationListIsEmpty = isEmpty(pluginConfigurationListForThisPluginMetaData)
@@ -114,14 +113,16 @@ export class PluginParameterPlugin extends React.Component {
                     rightIcon={<ArrowDropRight />}
                     disabled={pluginConfigurationListIsEmpty}
                     menuItems={
-                      map(pluginConfigurationListForThisPluginMetaData, pluginConfiguration =>
-                        <MenuItem
-                          key={pluginConfiguration.content.id}
-                          primaryText={buildMenuItemPrimaryText(pluginConfiguration.content.label, pluginConfiguration.content.version)}
-                          onTouchTap={() => this.handleChange(pluginConfiguration.content.id)}
-                          checked={pluginConfiguration.content.id === this.state.value}
-                        />,
-                      )
+                      chain(pluginConfigurationListForThisPluginMetaData)
+                        .map(pluginConfiguration =>
+                          <MenuItem
+                            key={pluginConfiguration.content.id}
+                            primaryText={buildMenuItemPrimaryText(pluginConfiguration.content.label, pluginConfiguration.content.version)}
+                            onTouchTap={() => this.handleChange(pluginConfiguration.content.id)}
+                            checked={pluginConfiguration.content.id === this.state.value}
+                          />,
+                        )
+                        .value()
                     }
                   />
                 )
@@ -141,11 +142,11 @@ export class PluginParameterPlugin extends React.Component {
     }
   }
 }
-
+// {pluginParameterType ? <Subheader>{pluginParameterType.type}</Subheader> : null}
 const mapStateToProps = (state, ownProps) => ({
   pluginMetaDataList: PluginMetaDataSelectors.getList(state),
   isPluginMetaDataFetching: PluginMetaDataSelectors.isFetching(state),
-  pluginConfigurationList: PluginConfigurationSelectors.getList(state),
+  pluginConfigurationList: PluginConfigurationSelectors.getListActiveAndSorted(state),
   isPluginConfigurationFetching: PluginConfigurationSelectors.isFetching(state),
 })
 
