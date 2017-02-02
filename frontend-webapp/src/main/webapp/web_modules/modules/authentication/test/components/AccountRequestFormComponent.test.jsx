@@ -4,6 +4,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import sinon from 'sinon'
+import { forEach } from 'lodash'
 import { IntlStub } from '@regardsoss/tests-helpers'
 import { ReduxConnectedForm } from '@regardsoss/redux'
 import { AccountRequestFormComponent, requestFormIds } from '../../src/components/AccountRequestFormComponent'
@@ -40,9 +41,8 @@ describe('[AUTHENTICATION] Testing AccountRequestFormComponent', () => {
       initialize: () => {},
       requestFormId: '',
     }
-
     // test all rendering
-    requestFormIds.forEach((formId) => {
+    forEach(requestFormIds, (formId) => {
       props.requestFormId = formId
       const enzymeShallow = shallow(<AccountRequestFormComponent {...props} />, { context })
       // check it uses one connected form component from regards

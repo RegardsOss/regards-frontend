@@ -13,6 +13,7 @@ class ReduxFormComponent extends React.Component {
 
   static propTypes = {
     children: React.PropTypes.element,
+    onChange: React.PropTypes.func,
     onSubmit: React.PropTypes.func.isRequired,
     i18nMessagesDir: React.PropTypes.string.isRequired,
     // Set by redux store connection
@@ -22,7 +23,7 @@ class ReduxFormComponent extends React.Component {
   render() {
     const muiTheme = ThemeHelper.getByName(this.props.theme)
     return (
-      <form onSubmit={this.props.onSubmit}>
+      <form onChange={this.props.onChange} onSubmit={this.props.onSubmit}>
         <I18nProvider messageDir={this.props.i18nMessagesDir}>
           <MuiThemeProvider muiTheme={muiTheme}>
             {this.props.children}

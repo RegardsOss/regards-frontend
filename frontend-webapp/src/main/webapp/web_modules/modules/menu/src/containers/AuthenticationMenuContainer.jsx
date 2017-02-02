@@ -5,7 +5,7 @@ import { intlShape } from 'react-intl'
 import { connect } from '@regardsoss/redux'
 import { LazyModuleComponent } from '@regardsoss/modules'
 import { isAuthenticated, logout, AuthenticationSelectors, AuthenticateShape } from '@regardsoss/authentication-manager'
-import Dialog from 'material-ui/Dialog'
+import AuthenticationDialogComponent from '../components/AuthenticationDialogComponent'
 import LoginButton from '../components/LoginButton'
 import LoggedUserComponent from '../components/LoggedUserComponent'
 
@@ -66,11 +66,6 @@ class AuthenticationMenuContainer extends React.Component {
 
     // If dialog is opened and user not authenticated, then display modal with login information
     if (this.state.dialogOpened && !userAuthenticated) {
-      const dialogConf = {
-        open: true,
-        onRequestClose: buttonClicked => this.setState({ dialogOpened: false }),
-      }
-
       const module = {
         name: 'authentication',
         active: true,
@@ -84,11 +79,15 @@ class AuthenticationMenuContainer extends React.Component {
       return (
         <div>
           <LoginButton style={{}} onLoginAction={this.openDialog} />
-          <LazyModuleComponent
-            module={module}
-            appName={this.props.appName}
-            decorator={{ element: Dialog, conf: dialogConf }}
-          />
+          <AuthenticationDialogComponent
+            onRequestClose={buttonClicked => this.setState({ dialogOpened: false })}
+            open
+          >
+            <LazyModuleComponent
+              module={module}
+              appName={this.props.appName}
+            />
+          </AuthenticationDialogComponent>
         </div>
       )
     } else if (userAuthenticated) {

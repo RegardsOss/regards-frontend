@@ -37,11 +37,12 @@ class AuthenticationPanel extends React.Component {
     }
     return (
       <div className={style.app.classes} style={style.app.styles}>
-        <LazyModuleComponent
-          module={module}
-          appName={'admin'}
-          decorator={{ element: CenteredDiv }}
-        />
+        <CenteredDiv>
+          <LazyModuleComponent
+            module={module}
+            appName={'admin'}
+          />
+        </CenteredDiv>
       </div>
     )
   }

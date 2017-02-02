@@ -27,6 +27,5 @@ const PluginInfo = React.PropTypes.shape({
 })
 
 export default {
-  PluginTypes,
   PluginInfo,
 }

@@ -26,13 +26,19 @@ class AdminApp extends React.Component {
     // from mapStateToProps
     theme: React.PropTypes.string,
     authentication: AuthenticateShape,
-    endpointsFetching: React.PropTypes.bool,
     // from mapDispatchToProps
     fetchEndpoints: React.PropTypes.func,
   }
 
   static contextTypes = {
     intl: intlShape,
+  }
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      isLoadingEndpoints: false,
+    }
   }
 
   componentWillMount() {
@@ -47,7 +53,21 @@ class AdminApp extends React.Component {
     if (this.props.authentication &&
       this.props.authentication.user === undefined &&
       nextProps.authentication.user !== undefined) {
-      this.props.fetchEndpoints()
+      // Prevent the HMI to show the admin app before endpoints have been retrieved
+      this.setState({
+        isLoadingEndpoints: true,
+      })
+      Promise.resolve(this.props.fetchEndpoints())
+        .then((actionResult) => {
+          // We receive here the action
+          if (!actionResult.error) {
+            this.setState({
+              isLoadingEndpoints: false,
+            })
+          } else {
+            throw new Error('Failed to retrieve endpoint list, which is required on the admin dashboard')
+          }
+        })
     }
   }
 
@@ -80,7 +100,7 @@ class AdminApp extends React.Component {
     const isAuth = isAuthenticated(authentication)
     const hmi = this.getContent(isAuth, content)
 
-    if (!this.props.endpointsFetching) {
+    if (!this.state.isLoadingEndpoints) {
       return (
         <MuiThemeProvider muiTheme={muiTheme}>
           <I18nProvider messageDir={'modules/admin/src/i18n'}>
@@ -99,7 +119,6 @@ const mapStateToProps = state => ({
   // Add theme from store to the components props
   theme: ThemeSelectors.getCurrentTheme(state),
   authentication: AuthenticationSelectors.getAuthentication(state),
-  endpointsFetching: EndpointSelectors.isFetching(state),
 })
 
 const mapDispatchToProps = dispatch => ({

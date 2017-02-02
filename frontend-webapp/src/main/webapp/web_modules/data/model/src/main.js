@@ -56,7 +56,6 @@ export default {
   Plugin,
   PluginDefinition,
   PluginInfo,
-  PluginTypes,
   PluginConf,
   AccessProject,
   Module,

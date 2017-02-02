@@ -7,7 +7,7 @@ import KeyValueObject from '../common/KeyValueObject'
 /**
  * Entity definition for all catalog entities like datasets, dataobjects, collections or documents.
  */
-export default React.PropTypes.shape({
+const Entity = React.PropTypes.shape({
   content: React.PropTypes.shape({
     id: React.PropTypes.number,
     sip_id: React.PropTypes.number,
@@ -18,3 +18,5 @@ export default React.PropTypes.shape({
     tags: React.PropTypes.arrayOf(React.PropTypes.string),
   }).isRequired,
 })
+
+export default Entity
