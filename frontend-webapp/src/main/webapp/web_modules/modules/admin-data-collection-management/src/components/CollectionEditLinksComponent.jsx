@@ -23,7 +23,6 @@ export class CollectionListComponent extends React.Component {
   static propTypes = {
     linkedCollections: React.PropTypes.arrayOf(Collection),
     remainingCollections: React.PropTypes.arrayOf(Collection),
-    currentCollection: Collection,
     handleAdd: React.PropTypes.func.isRequired,
     handleDelete: React.PropTypes.func.isRequired,
     backUrl: React.PropTypes.string.isRequired,
@@ -37,7 +36,7 @@ export class CollectionListComponent extends React.Component {
 
 
   render() {
-    const { linkedCollections, remainingCollections, currentCollection, handleAdd, handleDelete, doneUrl, backUrl } = this.props
+    const { linkedCollections, remainingCollections, handleAdd, handleDelete, doneUrl, backUrl } = this.props
     return (
       <Card>
         <CardTitle

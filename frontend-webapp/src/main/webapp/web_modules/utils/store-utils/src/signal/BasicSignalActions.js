@@ -1,7 +1,6 @@
 /**
  * @author Léo Mieulet
  */
-import { map, replace } from 'lodash'
 import BasicActions from '../BasicActions'
 
 const { CALL_API, getJSON } = require('redux-api-middleware')

@@ -1,4 +1,3 @@
-import Schemas from '@regardsoss/api'
 import { BasicSignalActions } from '@regardsoss/store-utils'
 
 class CollectionLinkActions extends BasicSignalActions {
