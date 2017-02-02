@@ -43,7 +43,7 @@ const messages = Object.assign({
   'module.form.active': 'Activation du module',
   'module.form.isDefault': 'Utiliser comme module par defaut ?',
   'module.form.submit.button': 'Creer module',
-  'module.form.update.button': 'Mettre à jour le module {name}',
+  'module.form.update.button': 'Mettre à jour',
   'module.form.cancel.button': 'Annuler',
   'invalid.json': 'Format json invalid',
   'application.theme.title': 'Configuration du thème',

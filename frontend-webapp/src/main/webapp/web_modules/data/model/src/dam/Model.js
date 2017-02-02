@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-export default React.PropTypes.shape({
+const Model =  React.PropTypes.shape({
   content: React.PropTypes.shape({
     id: React.PropTypes.number,
     type: React.PropTypes.string,
@@ -9,3 +9,5 @@ export default React.PropTypes.shape({
     name: React.PropTypes.string,
   }),
 })
+
+export default Model

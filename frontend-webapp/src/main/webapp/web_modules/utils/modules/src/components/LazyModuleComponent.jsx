@@ -4,6 +4,7 @@
 import { merge } from 'lodash'
 import { I18nProvider } from '@regardsoss/i18n'
 import { getReducerRegistry, configureReducers } from '@regardsoss/store'
+import { HateoasDisplayDecorator } from '@regardsoss/display-control'
 import ModuleThemeProvider from './ModuleThemeProvider'
 import DecoratorShape from '../model/DecoratorShape'
 import ModuleShape from '../model/ModuleShape'
@@ -120,9 +121,12 @@ class LazyModuleComponent extends React.Component {
       }
 
       // Display module with admin or normal container ?
+      let moduleDependencies = []
       if (this.props.admin && module.adminContainer) {
         moduleElt = React.createElement(module.adminContainer, merge({}, defaultModuleProps, this.props.module.conf))
+        moduleDependencies = (module && module.dependencies && module.dependencies.admin) || []
       } else if (!this.props.admin && module.moduleContainer) {
+        moduleDependencies = (module && module.dependencies && module.dependencies.user) || []
         moduleElt = React.createElement(module.moduleContainer, merge({}, defaultModuleProps, this.props.module.conf))
       }
 
@@ -131,9 +135,13 @@ class LazyModuleComponent extends React.Component {
         return (
           <I18nProvider messageDir={moduleMessageDir}>
             <ModuleThemeProvider module={module}>
-              <this.props.decorator.element {...this.props.decorator.conf} >
-                {moduleElt}
-              </this.props.decorator.element>
+              <HateoasDisplayDecorator
+                requiredEndpoints={moduleDependencies}
+              >
+                <this.props.decorator.element {...this.props.decorator.conf} >
+                  { moduleElt }
+                </this.props.decorator.element>
+              </HateoasDisplayDecorator>
             </ModuleThemeProvider>
           </I18nProvider>
         )
@@ -141,7 +149,11 @@ class LazyModuleComponent extends React.Component {
       return (
         <I18nProvider messageDir={moduleMessageDir}>
           <ModuleThemeProvider module={module}>
-            { moduleElt }
+            <HateoasDisplayDecorator
+              requiredEndpoints={moduleDependencies}
+            >
+              { moduleElt }
+            </HateoasDisplayDecorator>
           </ModuleThemeProvider>
         </I18nProvider>
       )

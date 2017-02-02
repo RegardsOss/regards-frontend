@@ -6,11 +6,13 @@ import { browserHistory } from 'react-router'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { connect } from '@regardsoss/redux'
 import { Layout } from '@regardsoss/model'
+import { EndpointActions } from '@regardsoss/endpoint'
 import { ThemeHelper, ThemeSelectors } from '@regardsoss/theme'
 import { ApplicationLayout, ContainerHelper } from '@regardsoss/layout'
 import { ModuleShape } from '@regardsoss/modules'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { ApplicationErrorContainer } from '@regardsoss/global-sytem-error'
+import { AuthenticationSelectors, AuthenticateShape } from '@regardsoss/authentication-manager'
 import LayoutSelector from '../model/layout/LayoutSelector'
 import LayoutActions from '../model/layout/LayoutActions'
 import ModulesSelector from '../model/modules/ModulesSelector'
@@ -35,9 +37,11 @@ export class UserApp extends React.Component {
     modulesIsFetching: React.PropTypes.bool,
     layout: Layout,
     modules: React.PropTypes.objectOf(ModuleShape),
+    authentication: AuthenticateShape,
     // Set by mapDispatchToProps
     fetchLayout: React.PropTypes.func,
     fetchModules: React.PropTypes.func,
+    fetchEndpoints: React.PropTypes.func,
   }
 
   /**
@@ -46,6 +50,7 @@ export class UserApp extends React.Component {
   componentWillMount() {
     this.props.fetchLayout()
     this.props.fetchModules()
+    this.props.fetchEndpoints()
   }
 
   /**
@@ -63,6 +68,14 @@ export class UserApp extends React.Component {
           }
         }
       })
+    }
+
+    // If a new authentication is present, refresh availables endpoints
+    if (nextProps.authentication) {
+      if (!this.props.authentication ||
+        nextProps.authentication.authenticateDate !== this.props.authentication.authenticateDate) {
+        this.props.fetchEndpoints()
+      }
     }
   }
 
@@ -110,8 +123,10 @@ export class UserApp extends React.Component {
           isLoading={this.props.layoutIsFetching || this.props.modulesIsFetching}
           isContentError={!this.props.layout}
         >
-          {this.renderLayout(modulesList)}
-          <ApplicationErrorContainer />
+          <div>
+            {this.renderLayout(modulesList)}
+            <ApplicationErrorContainer />
+          </div>
         </LoadableContentDisplayDecorator>
       </MuiThemeProvider>
     )
@@ -123,12 +138,13 @@ const mapStateToProps = (state, ownProps) => ({
   modules: ModulesSelector.getList(state),
   layoutIsFetching: LayoutSelector.isFetching(state),
   modulesIsFetching: ModulesSelector.isFetching(state),
-
+  authentication: AuthenticationSelectors.getAuthentication(state),
 })
 
 const mapDispatchToProps = dispatch => ({
   fetchLayout: () => dispatch(LayoutActions.fetchEntity('user')),
   fetchModules: () => dispatch(ModulesActions.fetchPagedEntityList(0, 100, { applicationId: 'user' })),
+  fetchEndpoints: () => dispatch(EndpointActions.fetchPagedEntityList(0, 10000)), // TODO
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserApp)

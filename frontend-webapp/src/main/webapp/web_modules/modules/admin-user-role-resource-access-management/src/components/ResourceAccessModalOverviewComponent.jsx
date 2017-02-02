@@ -76,29 +76,20 @@ class ResourceAccessModalOverviewComponent extends React.Component {
                 <div style={styles.wrapperChipList}>
                   <Chip>Role #1</Chip>
                   <Chip>Role #2</Chip>
-                  <Chip>User #1</Chip>
-                  <Chip>Role #1</Chip>
-                  <Chip>Role #2</Chip>
-                  <Chip>User #1</Chip>
-                  <Chip>Role #1</Chip>
-                  <Chip>Role #2</Chip>
-                  <Chip>User #1</Chip>
-                  <Chip>Role #1</Chip>
-                  <Chip>Role #2</Chip>
-                  <Chip>User #1</Chip>
-                  <Chip>Role #1</Chip>
-                  <Chip>Role #2</Chip>
-                  <Chip>User #1</Chip>
-                  <Chip>Role #1</Chip>
-                  <Chip>Role #2</Chip>
-                  <Chip>User #1</Chip>
-                  <Chip>Role #1</Chip>
-                  <Chip>Role #2</Chip>
-                  <Chip>User #1</Chip>
-                  <Chip>Role #1</Chip>
-                  <Chip>Role #2</Chip>
-                  <Chip>User #1</Chip>
-                  <Chip>User #1</Chip>
+                  <Chip>Role #3</Chip>
+                  <Chip>Role #4</Chip>
+                  <Chip>Role #5</Chip>
+                  <Chip>Role #6</Chip>
+                  <Chip>Role #7</Chip>
+                  <Chip>Role #8</Chip>
+                  <Chip>Role #9</Chip>
+                  <Chip>Role #10</Chip>
+                  <Chip>Role #11</Chip>
+                  <Chip>Role #12</Chip>
+                  <Chip>Role #13</Chip>
+                  <Chip>Role #14</Chip>
+                  <Chip>Role #15</Chip>
+                  <Chip>Role #16</Chip>
                 </div>
               </div>
             }

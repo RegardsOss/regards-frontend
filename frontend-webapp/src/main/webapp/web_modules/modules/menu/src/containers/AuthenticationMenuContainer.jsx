@@ -91,7 +91,6 @@ class AuthenticationMenuContainer extends React.Component {
         </div>
       )
     } else if (userAuthenticated) {
-      this.closeDialog()
       // Else, if user is authenticated, display is name
       return (
         <LoggedUserComponent name={authentication.user.sub} onLogout={this.props.onLogout} />

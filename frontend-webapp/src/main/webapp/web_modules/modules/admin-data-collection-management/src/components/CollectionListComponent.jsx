@@ -57,10 +57,8 @@ export class CollectionListComponent extends React.Component {
               displaySelectAll={false}
             >
               <TableRow>
-                <TableHeaderColumn><FormattedMessage id="collection.list.table.fragment" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="collection.list.table.name" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="collection.list.table.description" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="collection.list.table.type" /></TableHeaderColumn>
+                <TableHeaderColumn><FormattedMessage id="collection.list.table.label" /></TableHeaderColumn>
+                <TableHeaderColumn><FormattedMessage id="collection.list.table.model" /></TableHeaderColumn>
                 <TableHeaderColumn><FormattedMessage id="collection.list.table.actions" /></TableHeaderColumn>
               </TableRow>
             </TableHeader>
@@ -71,10 +69,8 @@ export class CollectionListComponent extends React.Component {
             >
               {map(collectionList, (collection, i) => (
                 <TableRow key={i}>
-                  <TableRowColumn>{collection.content.name}</TableRowColumn>
-                  <TableRowColumn>{collection.content.name}</TableRowColumn>
-                  <TableRowColumn>{collection.content.description}</TableRowColumn>
-                  <TableRowColumn>{collection.content.type}</TableRowColumn>
+                  <TableRowColumn>{collection.content.label}</TableRowColumn>
+                  <TableRowColumn>{collection.content.model.name}</TableRowColumn>
                   <TableRowColumn>
                     <IconButton onTouchTap={() => handleDuplicate(collection.content.id)}>
                       <ContentCopy hoverColor={style.hoverButtonDuplicate} />

@@ -10,7 +10,7 @@ export default [
   'authentication',
   'news',
   'projects-list',
-  'form',
+  'search-form',
   'archival-storage-aip-status',
   'archival-storage-plugins-monitoring',
 ]

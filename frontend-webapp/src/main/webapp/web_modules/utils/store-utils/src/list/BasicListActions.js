@@ -1,27 +1,32 @@
 /**
- * @author Léo Mieulet
- */
-import { map, replace, split, join, takeRight } from 'lodash'
+ * LICENSE_PLACEHOLDER
+ **/
+import { split } from 'lodash'
 import { normalize } from 'normalizr'
-import ErrorHandler from '../ErrorHandler'
+import BasicActions from '../BasicActions'
 
 const { CALL_API, getJSON } = require('redux-api-middleware')
+
 /**
  *  Provide actions for a specific type of entity list
- *  @Return dispatcheable redux actions
+ *
+ *  @returns dispatcheable redux actions
+ *  @author Léo Mieulet
  */
-class BasicListActions {
+class BasicListActions extends BasicActions {
 
+  /**
+   * Class constructor
+   *
+   * @param options
+   */
   constructor(options) {
-    this.entityEndpoint = options.entityEndpoint
+    super(options)
+
     this.schemaTypes = {
       ENTITY: options.schemaTypes.ENTITY,
       ENTITY_ARRAY: options.schemaTypes.ENTITY_ARRAY,
     }
-    this.errorHandler = new ErrorHandler()
-    this.ENTITY_LIST_REQUEST = `${options.namespace}/LIST_REQUEST`
-    this.ENTITY_LIST_SUCCESS = `${options.namespace}/LIST_SUCCESS`
-    this.ENTITY_LIST_FAILURE = `${options.namespace}/LIST_FAILURE`
     this.ENTITY_REQUEST = `${options.namespace}/REQUEST`
     this.ENTITY_SUCCESS = `${options.namespace}/SUCCESS`
     this.ENTITY_FAILURE = `${options.namespace}/FAILURE`
@@ -36,42 +41,10 @@ class BasicListActions {
     this.UPDATE_ENTITY_FAILURE = `${options.namespace}/UPDATE_FAILURE`
   }
 
-  getDependency = (verb) => {
-    let dependency = this.entityEndpoint
-    // Remove query params if any
-    dependency = split(dependency, '?')[0]
-    // Remove GATEWAY path
-    dependency = replace(dependency, GATEWAY_HOSTNAME, '')
-    dependency = replace(dependency, `/${API_URL}`, '')
-    // add a first '/' car if missing
-    dependency = dependency[0] === '/' ? `${dependency}` : `/${dependency}`
-    // Retrieve microservice as the first element of the path
-    const parts = split(dependency, '/')
-    // Contatn microservice@endpoint@verb
-    return `${parts[1]}@/${join(takeRight(parts, parts.length - 2), '/')}@${verb}`
-  }
-
-
-  /**
-   * Replace parameterized value in the current configured endpoint
-   * @param entityEndpoint endpoint entity
-   * @param params parameters to replace in the endpoint entity
-   * @returns {*}
-   */
-  handleRequestParameters = (entityEndpoint, params) => {
-    let endpoint = entityEndpoint
-    if (params) {
-      map(params, (param, key) => {
-        endpoint = replace(endpoint, `{${key}}`, param)
-      })
-    }
-    return endpoint
-  }
-
   /**
    * Fetch entities
    *
-   * @param dispatch dispatch redux store dispatch function
+   * @param params url params TODO Specify the expected format
    * @returns {{}}
    */
   fetchEntityList(params) {
@@ -114,7 +87,6 @@ class BasicListActions {
       },
     }
   }
-
 
   createEntity(values, params) {
     const endpoint = this.handleRequestParameters(this.entityEndpoint, params)
@@ -172,6 +144,5 @@ class BasicListActions {
     }
   }
 }
-
 
 export default BasicListActions

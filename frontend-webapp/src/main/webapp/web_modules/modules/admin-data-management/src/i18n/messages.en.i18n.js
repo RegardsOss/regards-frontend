@@ -13,6 +13,16 @@ const messages = {
 
   'data.board.fragment.description': 'Gestion des fragments d\'attributs',
   'data.board.fragment.title': 'Attributs de fragments',
+
+  'data.board.collection.title': 'Collection',
+  'data.board.collection.description': 'Collection',
+
+  'data.board.datasource.title': 'datasource',
+  'data.board.datasource.description': 'datasource',
+
+  'data.board.dataset.title': 'dataset',
+  'data.board.dataset.description': 'dataset',
+
 }
 
 export default messages
