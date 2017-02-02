@@ -26,7 +26,7 @@
     "no-unused-vars": ["error", { "args": "none" }],
     // Allow annonymous functions
     "func-names":  0,
-    "no-confusing-arrow": "off"
+    "no-confusing-arrow": "off",
   },
   "plugins": [
     "react"

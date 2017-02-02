@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-const Model =  React.PropTypes.shape({
+const Model = React.PropTypes.shape({
   content: React.PropTypes.shape({
     id: React.PropTypes.number,
     type: React.PropTypes.string,

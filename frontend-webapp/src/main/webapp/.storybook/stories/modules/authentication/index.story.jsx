@@ -1,9 +1,10 @@
 import { storiesOf, action } from '@kadira/storybook'
 import { ModuleThemeProvider } from '@regardsoss/modules'
+import { values } from 'lodash'
 import AccountRequestFormComponent, { requestFormIds } from '@regardsoss/authentication/src/components/AccountRequestFormComponent'
 import AccountOperationMessage, { operationIds } from '@regardsoss/authentication/src/components/AccountOperationMessage'
 import CompleteResetPasswordFormComponent from '@regardsoss/authentication/src/components/CompleteResetPasswordFormComponent'
-import LoginComponent from '@regardsoss/authentication/src/components/LoginComponent'
+import AuthenticationComponent from '@regardsoss/authentication/src/components/AuthenticationComponent'
 import styles from '@regardsoss/authentication/src/styles/styles'
 import { withKnobs, text, boolean, select } from '@kadira/storybook-addon-knobs'
 import { StoreDecorator, addLocaleAndThemeSelectors, ThemeAndLocaleDecorator } from '../../utils/decorators'
@@ -17,13 +18,16 @@ storiesOf('Authentication', module)
     return (
       <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/authentication/src/i18n">
         <ModuleThemeProvider module={moduleTheme}>
-          <LoginComponent
+          <AuthenticationComponent
             title="Authentication form"
             onLogin={action('Login')}
             onSubmit={action('reset password')}
             errorMessage={text('Message error', '')}
             cancelButton={boolean('Cancel button', true)}
             onCancelAction={action('cancel')}
+            onGotoResetPassword={action('goto reset account')}
+            onGotoUnlockAccount={action('goto unlock account')}
+            onGotoCreateAccount={action('goto create account')}
           />
         </ModuleThemeProvider>
       </ThemeAndLocaleDecorator>
@@ -38,7 +42,7 @@ storiesOf('Authentication', module)
         <ModuleThemeProvider module={moduleTheme}>
           <AccountRequestFormComponent
             sendFailed={boolean('Send failed')}
-            requestFormId={select('Operation type', requestFormIds, requestFormIds[0])}
+            requestFormId={select('Operation type', values(requestFormIds), requestFormIds.resetPasswordRequest)}
             onRequestAction={action('form action')}
             onBack={action('Back clicked')}
           />
@@ -54,7 +58,7 @@ storiesOf('Authentication', module)
       <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/authentication/src/i18n">
         <ModuleThemeProvider module={moduleTheme}>
           <AccountOperationMessage
-            operationId={select('Message type', operationIds, operationIds[0])}
+            operationId={select('Message type', values(operationIds), operationIds.unlockRequestSent)}
             operationAction={action('done click')}
           />
         </ModuleThemeProvider>

@@ -37,7 +37,7 @@ class AdminApp extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      isLoadingEndpoints: false
+      isLoadingEndpoints: false,
     }
   }
 
@@ -54,18 +54,18 @@ class AdminApp extends React.Component {
       this.props.authentication.user === undefined &&
       nextProps.authentication.user !== undefined) {
       // Prevent the HMI to show the admin app before endpoints have been retrieved
-      this.setState ({
-        isLoadingEndpoints: true
+      this.setState({
+        isLoadingEndpoints: true,
       })
       Promise.resolve(this.props.fetchEndpoints())
         .then((actionResult) => {
           // We receive here the action
           if (!actionResult.error) {
-            this.setState ({
-              isLoadingEndpoints: false
+            this.setState({
+              isLoadingEndpoints: false,
             })
           } else {
-            throw new Error("Failed to retrieve endpoint list, which is required on the admin dashboard")
+            throw new Error('Failed to retrieve endpoint list, which is required on the admin dashboard')
           }
         })
     }
