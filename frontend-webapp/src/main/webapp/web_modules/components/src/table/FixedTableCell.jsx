@@ -1,6 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import { omit } from 'lodash'
 import { Cell } from 'fixed-data-table'
 import { themeContextType } from '@regardsoss/theme'
 
@@ -21,10 +22,13 @@ class FixedTableCell extends React.Component {
 
   getAttribute = () => {
     const entity = this.props.data[this.props.rowIndex]
-    if (entity.content[this.props.col]) {
-      return entity.content[this.props.col]
+    if (entity && entity.content) {
+      if (entity.content[this.props.col]) {
+        return entity.content[this.props.col]
+      }
+      return entity.content.attributes[this.props.col]
     }
-    return entity.content.attributes[this.props.col]
+    return ''
   }
 
 
@@ -33,7 +37,8 @@ class FixedTableCell extends React.Component {
     const theme = this.context.muiTheme
     return (
       <Cell
-        {...this.props} style={{
+        {...omit(this.props, ['col'])}
+        style={{
           backgroundColor: theme.table.backgroundColor,
           borderBottom: `1px solid ${theme.tableRow.borderColor}`,
           borderRight: `1px solid ${theme.tableRow.borderColor}`,

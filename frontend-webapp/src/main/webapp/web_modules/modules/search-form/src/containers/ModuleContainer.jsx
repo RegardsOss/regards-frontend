@@ -6,7 +6,7 @@ import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { PluginConf, AttributeModel } from '@regardsoss/model'
 import { LoadableContentDisplayDecorator, LoadingComponent } from '@regardsoss/display-control'
-import SearchResultsContainer from './SearchResultsContainer'
+import SearchResultsComponent from '../components/user/SearchResultsComponent'
 import FormComponent from '../components/user/FormComponent'
 import { DATAOBJECT_RESULTS } from '../components/admin/parameters/ResultTypesEnum'
 import AttributeModelActions from '../models/attributes/AttributeModelActions'
@@ -149,7 +149,7 @@ class ModuleContainer extends React.Component {
   renderResults() {
     if (!this.props.preview) {
       return (
-        <SearchResultsContainer
+        <SearchResultsComponent
           searchQuery={this.state.searchQuery}
         />
       )
