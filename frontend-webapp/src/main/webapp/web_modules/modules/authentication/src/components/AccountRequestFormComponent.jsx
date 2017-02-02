@@ -3,15 +3,24 @@
  */
 import { FormattedMessage } from 'react-intl'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
-import { reduxForm } from 'redux-form'
-import { ReduxConnectedForm } from '@regardsoss/redux'
+import { reduxForm, formValueSelector } from 'redux-form'
+import { values } from 'lodash'
+import { ReduxConnectedForm, connect } from '@regardsoss/redux'
 import RaisedButton from 'material-ui/RaisedButton'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { RenderTextField, FormErrorMessage, Field, ValidationHelpers, ErrorTypes } from '@regardsoss/form-utils'
 
+const unlockAccountRequest = 'unlock.account.request'
+const resetPasswordRequest = 'reset.password.request'
+
 /** Possible form Ids, matching with corresponding request */
-export const requestFormIds = ['unlock.account.request', 'reset.password.request']
+export const requestFormIds = {
+  unlockAccountRequest,
+  resetPasswordRequest,
+}
+
+const mailFieldId = 'mail'
 
 /**
  * Account request form component (the user enters his mail address and emits the request to admin here)
@@ -24,11 +33,13 @@ export class AccountRequestFormComponent extends React.Component {
     // calls reset password action
     onRequestAction: React.PropTypes.func.isRequired,
     // action form text id: prefixes all keys
-    requestFormId: React.PropTypes.oneOf(requestFormIds).isRequired,
+    requestFormId: React.PropTypes.oneOf(values(requestFormIds)).isRequired,
     // back
     onBack: React.PropTypes.func.isRequired,
     // Form initial value
     initialMail: React.PropTypes.string,
+    // from reduxFormSelector
+    currentMailValue: React.PropTypes.string,
     // from reduxForm
     submitting: React.PropTypes.bool,
     invalid: React.PropTypes.bool,
@@ -41,9 +52,9 @@ export class AccountRequestFormComponent extends React.Component {
   }
 
   componentWillMount = () => {
-    this.props.initialize({
-      mail: this.props.initialMail,
-    })
+    const initialValues = {}
+    initialValues[mailFieldId] = this.props.initialMail
+    this.props.initialize(initialValues)
   }
 
   /**
@@ -51,7 +62,11 @@ export class AccountRequestFormComponent extends React.Component {
    * @returns {React.Component} components
    */
   render() {
-    const { requestFormId, sendFailed, onBack, submitting, invalid, onRequestAction, handleSubmit } = this.props
+    const {
+      currentMailValue, requestFormId,
+      sendFailed, onBack, submitting, invalid,
+      onRequestAction, handleSubmit,
+    } = this.props
     const { intl, moduleTheme } = this.context
     return (
       <div style={moduleTheme.layout}>
@@ -71,7 +86,7 @@ export class AccountRequestFormComponent extends React.Component {
             <CardText>
               <FormattedMessage id={`${requestFormId}.message`} />
               <Field
-                name="mail"
+                name={mailFieldId}
                 fullWidth
                 component={RenderTextField}
                 type="text"
@@ -88,7 +103,7 @@ export class AccountRequestFormComponent extends React.Component {
               <RaisedButton
                 label={<FormattedMessage id="account.request.form.back" />}
                 primary
-                onClick={onBack}
+                onClick={() => onBack(currentMailValue)}
               />
             </CardActions>
           </Card>
@@ -98,18 +113,35 @@ export class AccountRequestFormComponent extends React.Component {
   }
 }
 
-function validate(values) {
+function validate(fieldValues) {
   const errors = {}
-  if (!values.mail) {
-    errors.mail = ErrorTypes.REQUIRED
-  } else if (!ValidationHelpers.isValidEmail(values.mail)) {
-    errors.mail = ErrorTypes.EMAIL
+  if (!values(fieldValues).length) {
+    // XXX workaround for redux form bug initial validation:
+    // Do not return anything when fields are not yet initialized (first render invalid state is wrong otherwise)...
+    return errors
+  }
+  const mailValue = fieldValues[mailFieldId]
+  if (!mailValue) {
+    errors[mailFieldId] = ErrorTypes.REQUIRED
+  } else if (!ValidationHelpers.isValidEmail(mailValue)) {
+    errors[mailFieldId] = ErrorTypes.EMAIL
   }
   return errors
 }
 
-export default reduxForm({
-  form: 'account.request.form',
+
+// prepare redux form
+const formId = 'account-request-form'
+const connectedReduxForm = reduxForm({
+  form: formId,
   validate,
 })(AccountRequestFormComponent)
 
+
+// connect with selector to select the last mail value
+const selector = formValueSelector(formId)
+export default connect(
+  state => ({
+    currentMailValue: selector(state, mailFieldId),
+  }),
+)(connectedReduxForm)

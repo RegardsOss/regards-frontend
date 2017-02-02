@@ -20,7 +20,8 @@ import AccessProject from './access/Project'
 import Module from './access/Module'
 import Layout from './access/Layout'
 import LayoutContent from './access/LayoutContent'
-import Entity from './catalog/Entity'
+import Entity from './dam/Entity'
+import CatalogEntity from './catalog/Entity'
 import PluginMetaData, { PluginMetaDataList } from './admin/PluginMetaData'
 import PluginConfiguration, { PluginConfigurationList } from './admin/PluginConfiguration'
 import PluginParameter, { PluginParameterist } from './admin/PluginParameter'
@@ -41,6 +42,7 @@ export default {
 
   // DAM
   AttributeModel,
+  Entity,
   JavaTypes,
   Fragment,
   Model,
@@ -48,7 +50,7 @@ export default {
   Collection,
 
   // CATALOG
-  Entity,
+  CatalogEntity,
 
   // ACCESS
   Plugin,

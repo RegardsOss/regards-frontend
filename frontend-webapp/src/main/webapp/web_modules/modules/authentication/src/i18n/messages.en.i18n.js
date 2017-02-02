@@ -4,13 +4,16 @@
 import { Locales } from '@regardsoss/form-utils'
 
 const messages = Object.assign({
-  'login.username': 'E-mail address',
-  'login.password': 'Password',
-  'login.button': 'Log in',
-  'login.cancel': 'Cancel',
-  'login.title': 'Connect to the admin panel',
+  'authentication.username': 'E-mail address',
+  'authentication.password': 'Password',
+  'authentication.button': 'Log in',
+  'authentication.cancel': 'Cancel',
+  'authentication.message': 'Please enter your username and password to log in',
   'authentication.error': 'Invalid Username/Password',
   'authentication.error.500': 'Server unavailable',
+  'authentication.goto.reset.password': 'Reset password',
+  'authentication.goto.create.account': 'Create account',
+  'authentication.goto.unlock.account': 'Unlock account',
 
   // common to account requests forms (reset password and unlock account
   'account.request.form.mail': 'E-mail address',
@@ -49,9 +52,13 @@ const messages = Object.assign({
   'reset.password.done.message': 'Your password has been successfully reset, you can proceed to site',
   'reset.password.done.option': 'Proceed',
 
+  'create.account.sent.title': 'Create account sent',
+  'create.account.sent.message': 'Your request has been sent, please wait for confirmation email',
+  'create.account.sent.option': 'Back',
+
   // reset password update (after receiving mail)
   'reset.password.update.request.title': 'Reset password',
-  'reset.password.update.request.message': 'Please provide your new password to complete your account update',
+  'reset.password.update.request.message': 'Please provide the new password to complete operation',
   'reset.password.update.new.password': 'New password',
   'reset.password.update.confirm.password': 'Confirm password',
   'reset.password.update.send': 'SEND',

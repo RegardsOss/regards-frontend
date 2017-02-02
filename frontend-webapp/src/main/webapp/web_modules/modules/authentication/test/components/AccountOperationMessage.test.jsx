@@ -4,6 +4,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import sinon from 'sinon'
+import { forEach } from 'lodash'
 import { IntlStub } from '@regardsoss/tests-helpers'
 import AccountOperationMessage, { operationIds } from '../../src/components/AccountOperationMessage'
 
@@ -32,7 +33,7 @@ describe('[AUTHENTICATION] Testing AccountOperationMessage', () => {
     moduleTheme: styles({}),
   }
   it('Should render properly all modes', () => {
-    operationIds.forEach((operationId) => {
+    forEach(operationIds, (operationId) => {
       const props = {
         operationId,
         operationAction: () => {},

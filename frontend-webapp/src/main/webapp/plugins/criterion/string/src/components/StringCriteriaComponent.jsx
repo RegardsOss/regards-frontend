@@ -57,6 +57,7 @@ class StringCriteriaComponent extends React.Component {
             alignItems: 'baseline',
             paddingTop: 0,
             paddingBottom: 2,
+            minWidth: 400,
           }}>
             <span style={{
               marginRight: 20

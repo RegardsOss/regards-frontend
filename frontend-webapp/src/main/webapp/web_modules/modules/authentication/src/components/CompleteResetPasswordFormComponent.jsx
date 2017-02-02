@@ -95,8 +95,9 @@ function validate(values) {
   return errors
 }
 
+export const formId = 'reset-password-update'
 export default reduxForm({
-  form: 'reset.password.update',
+  form: formId,
   validate,
 })(CompleteResetPasswordFormComponent)
 

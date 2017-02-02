@@ -21,12 +21,17 @@ import OnHoverSwitchFlatButton from './buttons/OnHoverSwitchFlatButton'
 import OnHoverSwitchIconButton from './buttons/OnHoverSwitchIconButton'
 import OnHoverSwitchRaisedButton from './buttons/OnHoverSwitchRaisedButton'
 
+import PictureLinkComponent from './links/PictureLinkComponent'
+
 import ConfirmDialogComponent from './dialogs/ConfirmDialogComponent'
 
 import PageableListContainer from './list/PageableListContainer'
 import ModuleAppBar from './module/ModuleAppBar'
 
 import ErrorCardComponent from './error/ErrorCardComponent'
+
+import Table from './table/Table'
+import FixedTable from './table/FixedTable'
 
 export {
   ActionButtonComponent,
@@ -41,6 +46,7 @@ export {
   OnHoverSwitchFlatButton,
   OnHoverSwitchIconButton,
   OnHoverSwitchRaisedButton,
+  PictureLinkComponent,
   CenteredDiv,
   ConfirmDialogComponent,
   PageableListContainer,
@@ -50,4 +56,6 @@ export {
   BaseBoardItemComponent,
   ModuleAppBar,
   ErrorCardComponent,
+  Table,
+  FixedTable,
 }
