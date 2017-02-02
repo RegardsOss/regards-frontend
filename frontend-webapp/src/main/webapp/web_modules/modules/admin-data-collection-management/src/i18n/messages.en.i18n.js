@@ -10,7 +10,7 @@ const messages = Object.assign({
   'collection.form.links.collection.subtitle': 'Lien de la collection',
   'collection.form.links.subtitle': 'Les collections disposes de lien entre elles afin de simplifier la recherche',
   'collection.form.links.title': 'Mise à jour des liens entre collection',
-  'collection.form.links.action.add': 'Save',
+  'collection.form.links.action.done': 'Terminer',
   'collection.form.links.action.cancel': 'Back',
   'collection.list.table.label': 'Label',
   'collection.list.table.actions': 'Actions',
@@ -19,11 +19,17 @@ const messages = Object.assign({
   'collection.form.action.cancel': 'Annuler',
   'collection.form.model': 'Modèles de collection',
   'collection.form.label': 'Libellé',
+  'collection.form.table.value': 'Valeur fixe',
+  'collection.form.table.label': 'Attribut du modèle',
+  'collection.form.table.fragment': 'Fragment',
+  'collection.form.table.input': 'Valeur de l\'attribut',
   'collection.form.subtitle': 'Gestion des attributs d\'une collection',
   'collection.edit.title': 'Edition de la collection {name}',
   'collection.create.title': 'Création d\'une nouvelle collection',
   'collection.duplicate.title': 'Dupliquer la collection {name}',
   'invalid.max_128_carac': 'Le label d\'une collection ne peut dépasser 128 caractères',
+  'collection.stepper.links': 'Edition des liens avec les autres collections',
+  'collection.stepper.attributes': 'Saisie des attributs d\'une collection',
 }, Locales.en)
 
 export default messages

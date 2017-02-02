@@ -5,17 +5,37 @@ import { ApplicationErrorAction } from '@regardsoss/global-sytem-error'
 
 export default store => next => (action) => {
   if (action.error) {
-    const statusText = action.payload.response && action.payload.response.message ? action.payload.response.message : 'Server request error'
-    const url = action.payload.response && action.payload.response.url ? action.payload.response.url : action.type
-    const message = `${statusText}. (${url})`
+    if (action.payload) {
+      const url = action.payload.response && action.payload.response.url ? action.payload.response.url : action.type
+      let statusText
+      if (action.payload.response && action.payload.response.message) {
+        statusText = action.payload.response.message
+      } else if (action.payload.status) {
+        switch (action.payload.status) {
+          case 404:
+            statusText = 'Error 404: Server did not recognized that URL'
+            break
+          default:
+            statusText = 'Server request error'
+        }
+      }
+      const message = `${statusText}. (${url})`
 
-    store.dispatch(
-      ApplicationErrorAction.throwError(
-        message,
-        action.meta,
-        action.payload,
-      ),
-    )
+      store.dispatch(
+        ApplicationErrorAction.throwError(
+          message,
+          action.meta,
+          action.payload,
+        ),
+      )
+    } else {
+      const message = `An internal error occurred: ${action.type}`
+      store.dispatch(
+        ApplicationErrorAction.throwError(
+          message,
+        ),
+      )
+    }
   }
   return next(action)
 }

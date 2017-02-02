@@ -25,7 +25,7 @@ class BasicSignalReducers {
         return Object.assign({}, state, {
           isFetching: true,
         })
-      case this.basicListActionInstance.SIGNAL_FAILURE:
+      case this.basicSignalActionInstance.SIGNAL_FAILURE:
         return Object.assign({}, state, {
           isFetching: false,
           error: {
@@ -34,10 +34,20 @@ class BasicSignalReducers {
             message: action.meta ? action.meta.errorMessage : '',
           },
         })
-      case this.basicListActionInstance.SIGNAL_SUCCESS:
+      case this.basicSignalActionInstance.SIGNAL_SUCCESS:
         return Object.assign({}, state, {
           isFetching: false,
           result: action.payload,
+        })
+      case this.basicSignalActionInstance.FLUSH:
+        return Object.assign({}, state, {
+          isFetching: false,
+          error: {
+            hasError: false,
+            type: '',
+            message: '',
+          },
+          result: {},
         })
       default:
         return state
