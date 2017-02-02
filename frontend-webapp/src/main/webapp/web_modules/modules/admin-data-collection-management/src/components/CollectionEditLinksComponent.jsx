@@ -18,7 +18,7 @@ import CollectionStepperComponent from './CollectionStepperComponent'
 /**
  * React component to list collections.
  */
-export class CollectionListComponent extends React.Component {
+export class CollectionEditLinksComponent extends React.Component {
 
   static propTypes = {
     linkedCollections: React.PropTypes.arrayOf(Collection),
@@ -95,5 +95,5 @@ export class CollectionListComponent extends React.Component {
   }
 }
 
-export default CollectionListComponent
+export default CollectionEditLinksComponent
 

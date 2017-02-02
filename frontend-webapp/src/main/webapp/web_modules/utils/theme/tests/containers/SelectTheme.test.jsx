@@ -27,7 +27,7 @@ function setup() {
 }
 
 // Test a components rendering
-describe('[COMMON] Testing select theme container', () => {
+describe('[COMMON THEME] Testing select theme container', () => {
   /**
    * Not tested
    * Behaviour is expected to be extracted from mapStateToProps

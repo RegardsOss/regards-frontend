@@ -13,7 +13,7 @@ import {
 /**
  * React component to list collections.
  */
-export class CollectionListComponent extends React.Component {
+export class CollectionStepperComponent extends React.Component {
 
   static propTypes = {
     stepIndex: React.PropTypes.number,
@@ -44,5 +44,5 @@ export class CollectionListComponent extends React.Component {
   }
 }
 
-export default CollectionListComponent
+export default CollectionStepperComponent
 
