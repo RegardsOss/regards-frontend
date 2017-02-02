@@ -2,7 +2,7 @@ import { assert, expect } from 'chai'
 import Routes from '../src/router'
 import ResourceAccessFormContainer from '../src/containers/ResourceAccessFormContainer'
 
-describe('[ADMIN USER ROLE MANAGEMENT] Testing project router', () => {
+describe('[ADMIN USER ROLE RESOURCE ACCESS MANAGEMENT] Testing project router', () => {
   it('should return the correct value', () => {
     assert.isDefined(Routes)
     expect(Routes.childRoutes).to.have.length(1)

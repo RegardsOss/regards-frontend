@@ -7,7 +7,7 @@ import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowCol
 import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
 import { Collection, Model, ModelAttribute } from '@regardsoss/model'
-import { RenderTextField, RenderCheckbox, RenderSelectField, Field, ValidationHelpers, ErrorTypes } from '@regardsoss/form-utils'
+import { RenderTextField, RenderSelectField, Field, ErrorTypes } from '@regardsoss/form-utils'
 import { ReduxConnectedForm } from '@regardsoss/redux'
 import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
@@ -30,11 +30,9 @@ export class CollectionFormComponent extends React.Component {
     handleUpdateModel: React.PropTypes.func.isRequired,
     // from reduxForm
     submitting: React.PropTypes.bool,
-    pristine: React.PropTypes.bool,
     invalid: React.PropTypes.bool,
     handleSubmit: React.PropTypes.func.isRequired,
     initialize: React.PropTypes.func.isRequired,
-    change: React.PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -66,8 +64,8 @@ export class CollectionFormComponent extends React.Component {
       forEach(currentCollection.content.attributes, (attributeValueOrFragment, key) => {
         if (typeof attributeValueOrFragment === 'object') {
           // It's a fragment
-          forEach(attributeValueOrFragment, (attribute, key) => {
-            attributes[key] = attribute
+          forEach(attributeValueOrFragment, (attribute, id) => {
+            attributes[id] = attribute
           })
         } else {
           // This is an attribute
@@ -100,20 +98,24 @@ export class CollectionFormComponent extends React.Component {
 
   render() {
     const { modelList, modelAttributeList, submitting, invalid, backUrl } = this.props
-    const title = this.state.isCreating ? <FormattedMessage id="collection.create.title" /> :
-      this.state.isDuplicating ?
-        (<FormattedMessage
-          id="collection.duplicate.title"
-          values={{
-            name: this.props.currentCollection.content.label,
-          }}
-        />) :
-        (<FormattedMessage
-          id="collection.edit.title"
-          values={{
-            name: this.props.currentCollection.content.label,
-          }}
-        />)
+    let title
+    if (this.state.isCreating) {
+      title = <FormattedMessage id="collection.create.title" />
+    } else if (this.state.isDuplicating) {
+      title = (<FormattedMessage
+        id="collection.duplicate.title"
+        values={{
+          name: this.props.currentCollection.content.label,
+        }}
+      />)
+    } else {
+      title = (<FormattedMessage
+        id="collection.edit.title"
+        values={{
+          name: this.props.currentCollection.content.label,
+        }}
+      />)
+    }
     return (
       <ReduxConnectedForm
         i18nMessagesDir="modules/admin-data-collection-management/src/i18n"
@@ -196,7 +198,7 @@ export class CollectionFormComponent extends React.Component {
               mainButtonType="submit"
               isMainButtonDisabled={submitting || invalid}
               secondaryButtonLabel={<FormattedMessage id="collection.form.action.cancel" />}
-              secondaryButtonUrl={this.props.backUrl}
+              secondaryButtonUrl={backUrl}
             />
           </CardActions>
         </Card>

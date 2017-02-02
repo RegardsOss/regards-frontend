@@ -36,6 +36,8 @@ export class CollectionFormContainer extends React.Component {
     modelAttributeList: React.PropTypes.objectOf(ModelAttribute),
     isFetchingCollection: React.PropTypes.bool,
     modelList: React.PropTypes.objectOf(Model),
+    isFetchingModelAttribute: React.PropTypes.bool,
+    isFetchingModel: React.PropTypes.bool,
     // from mapDispatchToProps
     createCollection: React.PropTypes.func,
     updateCollection: React.PropTypes.func,
@@ -169,8 +171,8 @@ export class CollectionFormContainer extends React.Component {
 
   render() {
     const { isFetchingCollection, currentCollection, modelList, modelAttributeList, isFetchingModel, isFetchingModelAttribute } = this.props
-    const { isCreating, isEditing, isDuplicating } = this.state
-    const isLoading = (isEditing || isDuplicating) && (isFetchingCollection || (isFetchingModelAttribute && Object.keys(modelAttributeList).length === 0) || isFetchingModel) || isFetchingModel
+    const { isEditing, isDuplicating } = this.state
+    const isLoading = ((isEditing || isDuplicating) && (isFetchingCollection || (isFetchingModelAttribute && Object.keys(modelAttributeList).length === 0) || isFetchingModel)) || isFetchingModel
     return (
       <I18nProvider messageDir="modules/admin-data-collection-management/src/i18n">
         <LoadableContentDisplayDecorator
