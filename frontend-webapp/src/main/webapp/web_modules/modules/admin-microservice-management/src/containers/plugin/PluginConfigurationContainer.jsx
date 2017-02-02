@@ -3,7 +3,7 @@
  **/
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
-import { PluginConfiguration } from '@regardsoss/model'
+import { PluginConfiguration, PluginMetaData } from '@regardsoss/model'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
 import PluginConfigurationComponent from '../../components/plugin/PluginConfigurationComponent'
@@ -23,8 +23,9 @@ export class PluginConfigurationContainer extends React.Component {
       microserviceName: React.PropTypes.string.isRequired,
       pluginId: React.PropTypes.string.isRequired,
     }),
-    // from mapStateToProps
     pluginConfiguration: PluginConfiguration,
+    pluginMetaData: PluginMetaData,
+    // from mapStateToProps
     // from mapDispatchToProps
     updatePluginConfiguration: React.PropTypes.func,
     deletePluginConfiguration: React.PropTypes.func,
@@ -103,13 +104,12 @@ export class PluginConfigurationContainer extends React.Component {
         // We receive here the action
         if (!actionResult.error) {
           console.log('decrease priority successfull')
-
         }
       })
   }
 
   render() {
-    const { pluginConfiguration } = this.props
+    const { pluginConfiguration, pluginMetaData } = this.props
     const deleteDialogActions = [
       <FlatButton
         label="Cancel"
@@ -127,6 +127,7 @@ export class PluginConfigurationContainer extends React.Component {
       <div>
         <PluginConfigurationComponent
           pluginConfiguration={pluginConfiguration}
+          pluginMetaData={pluginMetaData}
           onActiveToggle={this.handleActiveToggle}
           onCopyClick={this.handleCopy}
           onDeleteClick={this.handleDeleteClick}

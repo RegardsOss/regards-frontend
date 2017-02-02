@@ -200,6 +200,58 @@
           "dynamic": false
         }
       ]
+    },
+    {
+      "id": 12,
+      "pluginId": "aComplexPlugin",
+      "label": "This is a configuration",
+      "version": "1.2.0",
+      "priorityOrder": 0,
+      "active": true,
+      "pluginClassName": "java.lang.Integer",
+      "parameters": [
+        {
+          "name": "coeff",
+          "value": "thecoeffvalue",
+          "dynamic": true
+        },
+        {
+          "name": "isActive",
+          "value": "true",
+          "dynamic": false
+        },
+        {
+          "name": "plgInterface",
+          "value": "40",
+          "dynamic": false
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "pluginId": "aComplexPlugin",
+      "label": "A configuration",
+      "version": "1.0.0",
+      "priorityOrder": 0,
+      "active": true,
+      "pluginClassName": "java.lang.Integer",
+      "parameters": [
+        {
+          "name": "coeff",
+          "value": "thecoeffvalue",
+          "dynamic": true
+        },
+        {
+          "name": "isActive",
+          "value": "true",
+          "dynamic": false
+        },
+        {
+          "name": "plgInterface",
+          "value": "40",
+          "dynamic": false
+        }
+      ]
     }
   ],
   "collections": [

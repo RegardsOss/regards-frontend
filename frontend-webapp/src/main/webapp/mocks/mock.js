@@ -171,6 +171,7 @@ const runServer = () => {
     '/api/v1/rs-access/plugins/:type': '/api/v1/rs-access/plugins?type=:type',
     '/api/v1/rs-dam/plugins/:pluginId/config': '/api/v1/rs-dam/configurations?pluginId=:pluginId',
     '/api/v1/rs-dam/plugins/:pluginId/config/:pluginConfigurationId': '/api/v1/rs-dam/configurations/:pluginConfigurationId',
+    '/api/v1/rs-dam/plugins/configs': '/api/v1/rs-dam/configurations',
     '/api/v1/rs-dam-list/models/attributes': '/api/v1/rs-dam-list/attributes-models',
     '/api/v1/rs-dam-list/models/fragments': '/api/v1/rs-dam-list/models-fragments',
     '/api/v1/rs-dam-list/models/:modelid/attributes': '/api/v1/rs-dam-list/models-attributes?model.id=:modelid',

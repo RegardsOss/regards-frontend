@@ -99,6 +99,7 @@ export class PluginConfigurationListContainer extends React.Component {
                   key={pluginConfiguration.content.id}
                   params={this.props.params}
                   pluginConfiguration={pluginConfiguration}
+                  pluginMetaData={pluginMetaData}
                 />)
                 .value()}
               <Subheader>Inactive</Subheader>
@@ -109,6 +110,7 @@ export class PluginConfigurationListContainer extends React.Component {
                   key={pluginConfiguration.content.id}
                   params={this.props.params}
                   pluginConfiguration={pluginConfiguration}
+                  pluginMetaData={pluginMetaData}
                 />)
                 .value()}
             </LoadableContentDisplayDecorator>
@@ -121,7 +123,7 @@ export class PluginConfigurationListContainer extends React.Component {
 
 const mapStateToProps = (state, ownProps) => ({
   pluginMetaData: PluginMetaDataSelectors.getById(state, ownProps.params.pluginId),
-  pluginConfigurationList: PluginConfigurationSelectors.getList(state),
+  pluginConfigurationList: PluginConfigurationSelectors.getListByPluginId(state, ownProps.params.pluginId),
   isPluginConfigurationFetching: PluginConfigurationSelectors.isFetching(state),
 })
 

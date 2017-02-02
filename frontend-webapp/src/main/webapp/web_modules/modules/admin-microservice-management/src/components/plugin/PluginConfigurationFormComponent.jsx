@@ -1,4 +1,4 @@
-import { chain, map } from 'lodash'
+import { chain, map, find } from 'lodash'
 import { reduxForm } from 'redux-form'
 import { Toggle } from 'redux-form-material-ui'
 import { FormattedMessage } from 'react-intl'
@@ -7,20 +7,32 @@ import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { RenderTextField, Field } from '@regardsoss/form-utils'
 import { ReduxConnectedForm } from '@regardsoss/redux'
-import { PluginMetaData, PluginConfiguration } from '@regardsoss/model'
-import PluginParameterListSubFormComponent from './PluginParameterListSubFormComponent'
+import { PluginMetaData, PluginMetaDataList, PluginConfiguration, PluginConfigurationList } from '@regardsoss/model'
+import PluginParameterListContainer from '../../containers/plugin/PluginParameterListContainer'
 import moduleStyles from '../../styles/styles'
 
 const styles = moduleStyles()
 
 /**
  * Display edit and create fragment form
+ *
+ * @author Xavier-Alexandre Brochard
  */
 export class PluginConfigurationFormComponent extends React.Component {
 
   static propTypes = {
-    pluginConfiguration: PluginConfiguration,
-    pluginMetaData: PluginMetaData, // optional for additionnal information on form initialization
+    // from router
+    params: React.PropTypes.shape({
+      project: React.PropTypes.string,
+      microserviceName: React.PropTypes.string,
+      pluginId: React.PropTypes.string,
+      pluginConfigurationId: React.PropTypes.string,
+      formMode: React.PropTypes.oneOf(['create', 'edit', 'copy']),
+    }),
+    currentPluginConfiguration: PluginConfiguration,
+    currentPluginMetaData: PluginMetaData, // optional for additionnal information on form initialization
+    pluginMetaDataList: PluginMetaDataList,
+    pluginConfigurationList: PluginConfigurationList,
     onSubmit: React.PropTypes.func.isRequired,
     backUrl: React.PropTypes.string.isRequired,
     formMode: React.PropTypes.oneOf(['create', 'edit', 'copy']),
@@ -30,6 +42,7 @@ export class PluginConfigurationFormComponent extends React.Component {
     invalid: React.PropTypes.bool,
     handleSubmit: React.PropTypes.func.isRequired,
     initialize: React.PropTypes.func.isRequired,
+    change: React.PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -60,44 +73,46 @@ export class PluginConfigurationFormComponent extends React.Component {
    * @param props
    */
   validateProps = (props) => {
-    /**
-     * If both pluginConfiguration & pluginMetaData props are passed, check that pluginMetaData's pluginId attribute matches
-     * pluginConfiguration's pluginId attribute.
-     * In other words, we passed the correct PluginMetaData of the PluginConfiguation.
-     */
-    if (props.pluginConfiguration && props.pluginMetaData) {
-      const pluginConfigurationsPluginId = props.pluginConfiguration.content.pluginId
-      const pluginMetaDatasPluginId = props.pluginMetaData.content.pluginId
-      if (pluginConfigurationsPluginId !== pluginMetaDatasPluginId) {
-        throw new Error('pluginConfiguration\'s pluginId attribute should match passed pluginMetaData\'s pluginId attribute in PluginConfigurationFormComponent')
-      }
-    }
+    // TODO
+    // /**
+    //  * If both pluginConfiguration & pluginMetaData props are passed, check that pluginMetaData's pluginId attribute matches
+    //  * pluginConfiguration's pluginId attribute.
+    //  * In other words, we passed the correct PluginMetaData of the PluginConfiguation.
+    //  */
+    // if (props.pluginConfiguration && props.pluginMetaData) {
+    //   const pluginConfigurationsPluginId = props.pluginConfiguration.content.pluginId
+    //   const pluginMetaDatasPluginId = props.pluginMetaData.content.pluginId
+    //   if (pluginConfigurationsPluginId !== pluginMetaDatasPluginId) {
+    //     throw new Error('pluginConfiguration\'s pluginId attribute should match passed pluginMetaData\'s pluginId attribute in PluginConfigurationFormComponent')
+    //   }
+    // }
   }
 
   /**
    * Initialize form fields
    */
   handleInitialize = () => {
-    const { pluginConfiguration, pluginMetaData } = this.props
-    const id = this.state.isEditing ? pluginConfiguration && pluginConfiguration.content && pluginConfiguration.content.id : undefined
-    const pluginConfigurationPluginId = pluginConfiguration && pluginConfiguration.content && pluginConfiguration.content.pluginId
-    const pluginMetaDataPluginId = pluginMetaData && pluginMetaData.content && pluginMetaData.content.pluginId
-    const pluginConfigurationPluginClassName = pluginConfiguration && pluginConfiguration.content && pluginConfiguration.content.pluginClassName
-    const pluginMetaDataPluginClassName = pluginMetaData && pluginMetaData.content && pluginMetaData.content.pluginClassName
-    const parameters = pluginConfiguration && pluginConfiguration.content && pluginConfiguration.content.parameters
-    const formatedParemeters = chain(parameters).map(parameter => [parameter.name, parameter.value]).fromPairs().value()
-
-    const initialValues = {
-      id,
-      pluginId: pluginConfigurationPluginId || pluginMetaDataPluginId,
-      label: pluginConfiguration && pluginConfiguration.content && pluginConfiguration.content.label,
-      version: pluginConfiguration && pluginConfiguration.content && pluginConfiguration.content.version,
-      priorityOrder: pluginConfiguration && pluginConfiguration.content && pluginConfiguration.content.priorityOrder,
-      active: pluginConfiguration && pluginConfiguration.content && pluginConfiguration.content.active,
-      pluginClassName: pluginConfigurationPluginClassName || pluginMetaDataPluginClassName,
-      ...formatedParemeters,
-    }
-    this.props.initialize(initialValues)
+    // TODO
+    // const { pluginConfiguration, pluginMetaData } = this.props
+    // const id = this.state.isEditing ? pluginConfiguration && pluginConfiguration.content && pluginConfiguration.content.id : undefined
+    // const pluginConfigurationPluginId = pluginConfiguration && pluginConfiguration.content && pluginConfiguration.content.pluginId
+    // const pluginMetaDataPluginId = pluginMetaData && pluginMetaData.content && pluginMetaData.content.pluginId
+    // const pluginConfigurationPluginClassName = pluginConfiguration && pluginConfiguration.content && pluginConfiguration.content.pluginClassName
+    // const pluginMetaDataPluginClassName = pluginMetaData && pluginMetaData.content && pluginMetaData.content.pluginClassName
+    // const parameters = pluginConfiguration && pluginConfiguration.content && pluginConfiguration.content.parameters
+    // const formatedParemeters = chain(parameters).map(parameter => [parameter.name, parameter.value]).fromPairs().value()
+    //
+    // const initialValues = {
+    //   id,
+    //   pluginId: pluginConfigurationPluginId || pluginMetaDataPluginId,
+    //   label: pluginConfiguration && pluginConfiguration.content && pluginConfiguration.content.label,
+    //   version: pluginConfiguration && pluginConfiguration.content && pluginConfiguration.content.version,
+    //   priorityOrder: pluginConfiguration && pluginConfiguration.content && pluginConfiguration.content.priorityOrder,
+    //   active: pluginConfiguration && pluginConfiguration.content && pluginConfiguration.content.active,
+    //   pluginClassName: pluginConfigurationPluginClassName || pluginMetaDataPluginClassName,
+    //   ...formatedParemeters,
+    // }
+    // this.props.initialize(initialValues)
   }
 
   /**
@@ -106,19 +121,22 @@ export class PluginConfigurationFormComponent extends React.Component {
    * @returns {XML}
    */
   render() {
-    const { pluginConfiguration, pluginMetaData, handleSubmit, submitting, invalid, backUrl } = this.props
-    const pluginParameterTypeList = pluginMetaData && pluginMetaData.content.parameters
-    const pluginParameterListIfExistingConfiguration = pluginConfiguration && pluginConfiguration.content.parameters
-    const pluginParameterListIfNoConfiguration = pluginMetaData && map(pluginParameterTypeList, parameterTypeToEmptyParameter)
-
+    const { currentPluginMetaData, pluginMetaDataList, currentPluginConfiguration, pluginConfigurationList, handleSubmit, submitting, invalid, backUrl, formMode, change } = this.props
+    // const currentPluginMetaDataList = find(pluginMetaDataList, pluginMetaData)
+    // const { pluginConfiguration, pluginMetaData, handleSubmit, submitting, invalid, backUrl, formMode } = this.props
+    // const pluginParameterTypeList = pluginMetaData && pluginMetaData.content.parameters
+    // const pluginParameterListIfExistingConfiguration = pluginConfiguration && pluginConfiguration.content.parameters
+    // const pluginParameterListIfNoConfiguration = pluginMetaData && map(pluginParameterTypeList, parameterTypeToEmptyParameter)
+    // const pluginParameterList = pluginParameterListIfExistingConfiguration || pluginParameterListIfNoConfiguration
     const title = this.state.isEditing ?
       (<FormattedMessage
         id="microservice-management.plugin.configuration.form.edit.title"
         values={{
-          name: pluginConfiguration.content.name,
+          name: currentPluginConfiguration.content.name,
         }}
       />) :
       <FormattedMessage id="microservice-management.plugin.configuration.form.create.title"/>
+
     return (
       <ReduxConnectedForm
         onSubmit={handleSubmit(this.props.onSubmit)}
@@ -169,9 +187,10 @@ export class PluginConfigurationFormComponent extends React.Component {
             </CardText>
           </Card>
 
-          <PluginParameterListSubFormComponent
-            pluginParameterList={pluginParameterListIfExistingConfiguration || pluginParameterListIfNoConfiguration}
-            pluginParameterTypeList={pluginParameterTypeList}
+          <PluginParameterListContainer
+            formMode={formMode}
+            pluginConfiguration={currentPluginConfiguration}
+            change={change}
           />
 
           <Card style={{ marginTop: 20 }}>
@@ -194,14 +213,6 @@ export class PluginConfigurationFormComponent extends React.Component {
     )
   }
 }
-
-const parameterTypeToEmptyParameter = parameterType => ({
-  id: null,
-  name: parameterType.name,
-  value: null,
-  dynamic: false,
-  dynamicsValues: null,
-})
 
 /**
  * Form validation

@@ -229,15 +229,6 @@ export class PluginMetaDataListContainer extends React.Component {
     )
   }
 }
-//
-// <GridList
-//   cellHeight={'auto'}
-//   cols={3}
-//   padding={20}
-//   style={styles.gridList}
-// >
-//   {this.getGridListItems()}
-// </GridList>
 
 const mapStateToProps = (state, ownProps) => ({
   pluginTypes: PluginTypeSelectors.getList(state),

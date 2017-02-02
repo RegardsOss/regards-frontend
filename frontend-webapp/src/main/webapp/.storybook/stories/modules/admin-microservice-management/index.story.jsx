@@ -1,181 +1,193 @@
 import React from 'react'
 import { storiesOf, action } from '@kadira/storybook'
 import { withKnobs, object } from '@kadira/storybook-addon-knobs'
-import PluginConfigurationComponent from '@regardsoss/admin-microservice-management/src/components/PluginConfigurationComponent'
-import PluginConfigurationFormComponent from '@regardsoss/admin-microservice-management/src/components/PluginConfigurationFormComponent'
-import PluginParameterListSubFormComponent from '@regardsoss/admin-microservice-management/src/components/PluginParameterListSubFormComponent'
+import PluginConfigurationComponent from '@regardsoss/admin-microservice-management/src/components/plugin/PluginConfigurationComponent'
+import PluginConfigurationFormComponent from '@regardsoss/admin-microservice-management/src/components/plugin/PluginConfigurationFormComponent'
+import { PluginParameterPlugin } from '@regardsoss/admin-microservice-management/src/components/plugin/parameter/PluginParameterPlugin'
 import { StoreDecorator, addLocaleAndThemeSelectors, ThemeAndLocaleDecorator } from '../../utils/decorators'
 
-const defaultPluginConfigurationList = {
-  0: {
+const defaultPluginMetaDataList = {
+  aComplexErrorPlugin: {
     content: {
-      id: 0,
-      label: 'Cool configuration',
-      version: '2.0.0',
-      priorityOrder: 4,
-      active: true,
-      pluginClassName: 'Kerberos',
-      parameters: [
+      "id": "aComplexErrorPlugin",
+      "pluginId": "aComplexErrorPlugin",
+      "pluginClassName": "fr.cnes.regards.framework.plugins.ComplexErrorPlugin",
+      "interfaceClassName": [
+        "fr.cnes.regards.framework.plugins.ISamplePlugin",
+        "fr.cnes.regards.framework.plugins.IComplexInterfacePlugin"
+      ],
+      "author": "CSSI",
+      "version": "0.0.1",
+      "description": "Complex plugin test",
+      "parameters": [
         {
-          id: 0,
-          name: "suffix",
-          value: "_çasuffix",
-          dynamic: false,
-        },
-        {
-          id: 1,
-          name: "coeff",
-          value: "3",
-          dynamic: false,
-        },
-        {
-          id: 2,
-          name: "isActive",
-          value: "true",
-          dynamic: false,
+          "name": "coeff",
+          "type": "java.lang.Integer",
+          "paramType": "PRIMITIVE"
         }
       ]
     },
-    links: [],
   },
-  1: {
+  aSamplePlugin: {
     content: {
-      id: 1,
-      label: 'Not cool configuration',
-      version: '1.1.1',
-      priorityOrder: 3,
-      active: true,
-      pluginClassName: 'Kerberos',
+      "id": "aSamplePlugin",
+      "pluginId": "aSamplePlugin",
+      "pluginClassName": "fr.cnes.regards.framework.plugins.SamplePlugin",
+      "interfaceClassName": [
+        "fr.cnes.regards.framework.plugins.ISamplePlugin"
+      ],
+      "author": "CSSI",
+      "version": "12345-6789-11",
+      "description": "Sample plugin test",
+      "parameters": [
+        {
+          "name": "suffix",
+          "type": "java.lang.String",
+          "paramType": "PRIMITIVE"
+        },
+        {
+          "name": "coeff",
+          "type": "java.lang.Integer",
+          "paramType": "PRIMITIVE"
+        },
+        {
+          "name": "isActive",
+          "type": "java.lang.Boolean",
+          "paramType": "PRIMITIVE"
+        }
+      ]
     },
-    links: [],
   },
-  2: {
+  aSampleErrorPlugin: {
     content: {
-      id: 2,
-      label: 'Random configuration',
-      version: '0.0.1',
-      priorityOrder: 1,
-      active: false,
-      pluginClassName: 'Kerberos',
+      "id": "aSampleErrorPlugin",
+      "pluginId": "aSampleErrorPlugin",
+      "pluginClassName": "fr.cnes.regards.framework.plugins.SampleErrorPlugin",
+      "interfaceClassName": [
+        "fr.cnes.regards.framework.plugins.ISamplePlugin"
+      ],
+      "author": "CSSI",
+      "version": "0.0.1",
+      "description": "Sample plugin test",
+      "parameters": [
+        {
+          "name": "suffix",
+          "type": "java.lang.String",
+          "paramType": "PRIMITIVE"
+        },
+        {
+          "name": "coeff",
+          "type": "java.lang.Integer",
+          "paramType": "PRIMITIVE"
+        },
+        {
+          "name": "isActive",
+          "type": "java.lang.Boolean",
+          "paramType": "PRIMITIVE"
+        }
+      ]
     },
-    links: [],
   },
-  3: {
+  aComplexPlugin: {
     content: {
-      id: 3,
-      label: 'Other random configuration',
-      version: 'v12',
-      priorityOrder: 1,
-      active: true,
-      pluginClassName: 'Kerberos',
+      "id": "aComplexPlugin",
+      "pluginId": "aComplexPlugin",
+      "pluginClassName": "fr.cnes.regards.framework.plugins.ComplexPlugin",
+      "interfaceClassName": [
+        "fr.cnes.regards.framework.plugins.ISamplePlugin"
+      ],
+      "author": "CSSI",
+      "version": "0.0.1",
+      "description": "Complex plugin test",
+      "parameters": [
+        {
+          "name": "plgInterface",
+          "type": "fr.cnes.regards.framework.plugins.IComplexInterfacePlugin",
+          "paramType": "PLUGIN"
+        },
+        {
+          "name": "coeff",
+          "type": "java.lang.Integer",
+          "paramType": "PRIMITIVE"
+        },
+        {
+          "name": "isActive",
+          "type": "java.lang.Boolean",
+          "paramType": "PRIMITIVE"
+        },
+      ]
     },
-    links: [],
   },
 }
-/*
-TODO use or delete
-const defaultPluginMetaData = {
-  0: {
+
+const defaultPluginConfigurationList = {
+  12: {
     content: {
-      id: 0,
-      pluginType: 'Authentication',
-      pluginClassName: 'Kerberos',
-      author: 'Jules Verne',
-      version: '0.0.5',
-      description: 'Allows the users to log in with their usual email and password.',
+      "id": 12,
+      "pluginId": "aComplexPlugin",
+      "label": "This is a configuration",
+      "version": "1.2.0",
+      "priorityOrder": 0,
+      "active": true,
+      "pluginClassName": "java.lang.Integer",
+      "parameters": [
+        {
+          "name": "coeff",
+          "value": "thecoeffvalue",
+          "dynamic": true
+        },
+        {
+          "name": "isActive",
+          "value": "true",
+          "dynamic": false
+        },
+        {
+          "name": "plgInterface",
+          "value": "40",
+          "dynamic": false
+        }
+      ]
     },
-    links: [],
   },
-  1: {
+  40: {
     content: {
-      id: 1,
-      pluginType: 'Authentication',
-      pluginClassName: 'Kerberos',
-      author: 'Jules Verne',
-      version: '0.0.6',
-      description: 'Allows the users to log in with their usual email and password.',
+      "id": 40,
+      "pluginId": "aComplexErrorPlugin",
+      "label": "a plugin configuration for the test",
+      "version": "12345-6789-11",
+      "priorityOrder": 0,
+      "active": true,
+      "pluginClassName": "java.lang.Integer",
+      "parameters": [
+        {
+          "name": "param31",
+          "value": "value31",
+          "dynamic": true
+        },
+        {
+          "name": "param32",
+          "value": "value32",
+          "dynamic": false
+        },
+        {
+          "name": "param33",
+          "value": "value33",
+          "dynamic": false
+        },
+        {
+          "name": "param34",
+          "value": "value34",
+          "dynamic": false
+        },
+        {
+          "name": "param35",
+          "value": "value35",
+          "dynamic": false
+        }
+      ]
     },
-    links: [],
-  },
-  2: {
-    content: {
-      id: 2,
-      pluginType: 'Authentication',
-      pluginClassName: 'Toto',
-      author: 'Jean-Paul Sartre',
-      version: '2.0.0',
-      description: 'This plugin is pretty useless actually.',
-    },
-    links: [],
-  },
-  3: {
-    content: {
-      id: 3,
-      pluginType: 'Authentication',
-      pluginClassName: 'Titi',
-      author: 'Victor Hugo',
-      version: '2.0.5',
-      description: 'This plugin is pretty useless actually.',
-    },
-    links: [],
-  },
-  4: {
-    content: {
-      id: 4,
-      pluginType: 'Authentication',
-      pluginClassName: 'Toto',
-      author: 'Jean-Paul Sartre',
-      version: '2.0.0',
-      description: 'This plugin is pretty useless actually.',
-    },
-    links: [],
-  },
-  5: {
-    content: {
-      id: 5,
-      pluginType: 'Authentication',
-      pluginClassName: 'Titi',
-      author: 'Victor Hugo',
-      version: '2.0.5',
-      description: 'This plugin is pretty useless actually.',
-    },
-    links: [],
-  },
-  6: {
-    content: {
-      id: 6,
-      pluginType: 'Other',
-      pluginClassName: 'Kerberos',
-      author: 'Jules Verne',
-      version: '0.0.5',
-      description: 'Allows the users to log in with their usual email and password.',
-    },
-    links: [],
-  },
-  7: {
-    content: {
-      id: 7,
-      pluginType: 'Other',
-      pluginClassName: 'Toto',
-      author: 'Jean-Paul Sartre',
-      version: '2.0.0',
-      description: 'This plugin is pretty useless actually.',
-    },
-    links: [],
-  },
-  8: {
-    content: {
-      id: 8,
-      pluginType: 'Other',
-      pluginClassName: 'Titi',
-      author: 'Victor Hugo',
-      version: '2.0.5',
-      description: 'This plugin is pretty useless actually.',
-    },
-    links: [],
   },
 }
-*/
 
 storiesOf('Admin - Microservice management', module)
   .addDecorator(withKnobs)
@@ -212,13 +224,44 @@ storiesOf('Admin - Microservice management', module)
       </ThemeAndLocaleDecorator>
     )
   })
-  .add('Plugin parameter list sub form', () => {
+  .add('Plugin parameter plugin - view', () => {
     const themeName = addLocaleAndThemeSelectors()
-    const pluginParameterList = object('Plugin configuration', defaultPluginConfigurationList['0'].parameters)
+    const pluginMetaDataList = object('Plugin meta data', defaultPluginMetaDataList)
+    const pluginConfigurationList = object('Plugin configuration', defaultPluginConfigurationList)
     return (
       <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-microservice-management/src/i18n">
-        <PluginParameterListSubFormComponent
-          pluginParameterList={pluginParameterList}
+        <PluginParameterPlugin
+          name={'parameter1'}
+          value={"12"}
+          mode={'view'}
+          pluginParameterType={"fr.cnes.regards.framework.plugins.IComplexInterfacePlugin"}
+          pluginMetaDataList={pluginMetaDataList}
+          isPluginMetaDataListFetching={false}
+          pluginConfigurationList={pluginConfigurationList}
+          isPluginConfigurationListFetching={false}
+          fetchPluginMetaDataList={action('fetchPluginMetaDataList')}
+          fetchPluginConfigurationList={action('fetchPluginConfigurationList')}
+        />
+      </ThemeAndLocaleDecorator>
+    )
+  })
+  .add('Plugin parameter plugin - edit', () => {
+    const themeName = addLocaleAndThemeSelectors()
+    const pluginMetaDataList = object('Plugin meta data', defaultPluginMetaDataList)
+    const pluginConfigurationList = object('Plugin configuration', defaultPluginConfigurationList)
+    return (
+      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-microservice-management/src/i18n">
+        <PluginParameterPlugin
+          name={'parameter1'}
+          value={"12"}
+          mode={'edit'}
+          pluginParameterType={"fr.cnes.regards.framework.plugins.IComplexInterfacePlugin"}
+          pluginMetaDataList={pluginMetaDataList}
+          isPluginMetaDataListFetching={false}
+          pluginConfigurationList={pluginConfigurationList}
+          isPluginConfigurationListFetching={false}
+          fetchPluginMetaDataList={action('fetchPluginMetaDataList')}
+          fetchPluginConfigurationList={action('fetchPluginConfigurationList')}
         />
       </ThemeAndLocaleDecorator>
     )

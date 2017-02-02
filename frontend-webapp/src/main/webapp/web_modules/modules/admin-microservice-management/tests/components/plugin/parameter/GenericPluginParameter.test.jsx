@@ -2,11 +2,11 @@ import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { ListItem } from 'material-ui/List'
 import { Field } from '@regardsoss/form-utils'
-import { PluginParameterContainer } from '../../../src/containers/plugin/PluginParameterContainer'
+import GenericPluginParameter from '../../../../src/components/plugin/parameter/GenericPluginParameter'
 
-describe('[ADMIN PROJECT MANAGEMENT] Testing plugin parameter component', () => {
+describe('[ADMIN PROJECT MANAGEMENT] Testing generic plugin parameter component', () => {
   it('should exists', () => {
-    assert.isDefined(PluginParameterContainer)
+    assert.isDefined(GenericPluginParameter)
   })
 
   it('should render a ListItem in view mode', () => {
@@ -24,7 +24,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing plugin parameter component', () => 
       },
       mode: 'view',
     }
-    const enzymeWrapper = shallow(<PluginParameterContainer {...props} />)
+    const enzymeWrapper = shallow(<GenericPluginParameter {...props} />)
     const subComponent = enzymeWrapper.find(ListItem)
     expect(subComponent).to.have.length(1)
   })
@@ -44,7 +44,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing plugin parameter component', () => 
       },
       mode: 'edit',
     }
-    const enzymeWrapper = shallow(<PluginParameterContainer {...props} />)
+    const enzymeWrapper = shallow(<GenericPluginParameter {...props} />)
     const subComponent = enzymeWrapper.find(Field)
     expect(subComponent).to.have.length(1)
   })

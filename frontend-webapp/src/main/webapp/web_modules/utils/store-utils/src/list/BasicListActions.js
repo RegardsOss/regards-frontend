@@ -71,7 +71,7 @@ class BasicListActions extends BasicActions {
    * {
    *   param1Key: param1Value,
    *   param2Key: param2Value,
-   *   ...
+   *   ..
    * }
    *
    * @param keyValue
