@@ -141,9 +141,7 @@ const connectedReduxForm = reduxForm({
 // connect with selector to select the last mail value
 const selector = formValueSelector(formId)
 export default connect(
-  (state) => {
-    return {
-      currentMailValue: selector(state, mailFieldId),
-    }
-  },
+  state => ({
+    currentMailValue: selector(state, mailFieldId),
+  }),
 )(connectedReduxForm)

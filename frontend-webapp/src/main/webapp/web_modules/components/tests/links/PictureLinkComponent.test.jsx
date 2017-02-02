@@ -37,5 +37,4 @@ describe('[COMPONENTS] Testing PictureLinkComponent', () => {
     const enzymeWrapper = shallow(<PictureLinkComponent {...props} />, { context })
     expect(enzymeWrapper.find(Refresh)).to.have.length(1)
   })
-
 })
