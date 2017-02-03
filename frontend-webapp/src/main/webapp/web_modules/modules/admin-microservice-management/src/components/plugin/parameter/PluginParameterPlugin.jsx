@@ -13,7 +13,7 @@ import Subheader from 'material-ui/Subheader'
 import Divider from 'material-ui/Divider'
 import Delete from 'material-ui/svg-icons/action/delete'
 import { connect } from '@regardsoss/redux'
-import { PluginParameterType, PluginMetaDataList, PluginConfigurationList } from '@regardsoss/model'
+import { PluginParameterType, PluginMetaDataList, PluginConfiguration } from '@regardsoss/model'
 import PluginMetaDataSelectors from '../../../model/plugin/PluginMetaDataSelectors'
 import PluginConfigurationSelectors from '../../../model/plugin/PluginConfigurationSelectors'
 import { buildMenuItemPrimaryText } from './utils'
@@ -38,7 +38,7 @@ export class PluginParameterPlugin extends React.Component {
     // form mapStateToProps
     pluginMetaDataList: PluginMetaDataList,
     isPluginMetaDataListFetching: React.PropTypes.bool,
-    pluginConfigurationList: PluginConfigurationList,
+    pluginConfigurationList: React.PropTypes.arrayOf(PluginConfiguration),
     isPluginConfigurationListFetching: React.PropTypes.bool,
     // from mapDispatchToProps
     fetchPluginMetaDataList: React.PropTypes.func,
