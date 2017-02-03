@@ -12,7 +12,10 @@ import FormLayoutComponent from '../../../src/components/admin/layout/FormLayout
 import FormCriterionComponent from '../../../src/components/admin/criterion/FormCriterionComponent'
 import FormPreviewComponent from '../../../src/components/admin/preview/FormPreviewComponent'
 
-
+/**
+ * Tests for FormTabsComponent
+ * @author Sébastien binda
+ */
 describe('[FORM MODULE] Testing FormTabsComponent', () => {
   const muiTheme = getMuiTheme({})
   const options = {

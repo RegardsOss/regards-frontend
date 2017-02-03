@@ -8,9 +8,9 @@
     },
     {
       "id": 1,
-      "name": "Deuxieme Modele",
-      "description": "Description du deuxieme modele de jeux de données",
-      "type": "DATASET"
+      "name": "Modele de collection",
+      "description": "Ceci est un modele de collection",
+      "type": "COLLECTION"
     },
     {
       "id": 2,
@@ -19,9 +19,9 @@
       "type": "DATASET"
     },
     {
-      "id": 3,
-      "name": "Modele de collection",
-      "description": "Ceci est un modele de collection",
+      "id": 4,
+      "name": "Autre modele de collection",
+      "descirption": "Description du deuxieme modele de jeux de données",
       "type": "COLLECTION"
     }
   ],

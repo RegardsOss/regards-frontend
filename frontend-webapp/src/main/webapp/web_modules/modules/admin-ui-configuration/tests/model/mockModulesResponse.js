@@ -1,3 +1,11 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
+
+/**
+ * Mock server response for Modules entities
+ * @author Sébastien binda
+ */
 export default {
   content: [
     {

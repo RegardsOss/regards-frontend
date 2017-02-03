@@ -11,6 +11,7 @@ import { themeContextType } from '@regardsoss/theme'
 
 /**
  * Component to render a Criteria plugin configuration page.
+ * @author Sébastien binda
  */
 class CriteriaConfigurationComponent extends React.Component {
 

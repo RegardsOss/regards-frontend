@@ -15,6 +15,7 @@ import ModulesSelector from '../model/modules/ModulesSelector'
 import ModulesActions from '../model/modules/ModulesActions'
 /**
  * Provides the theme to sub containers
+ * @author Sébastien Binda
  */
 export class PortalApp extends React.Component {
 

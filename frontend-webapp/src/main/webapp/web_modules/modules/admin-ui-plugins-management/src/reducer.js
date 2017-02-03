@@ -7,6 +7,7 @@ import getPluginsReducer from './model/PluginsReducer'
 /**
  * UI-Configuration module reducers
  * @type {Function}
+ * @author Sébastien Binda
  */
 const uiConfigurationReducer = combineReducers({
   plugins: getPluginsReducer,

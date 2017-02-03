@@ -1,9 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { map, replace } from 'lodash'
 import BasicActions from '../BasicActions'
-import ErrorHandler from '../ErrorHandler'
 
 const { CALL_API, getJSON } = require('redux-api-middleware')
 /**

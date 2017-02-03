@@ -6,6 +6,7 @@ import { themeContextType } from '@regardsoss/theme'
 
 /**
  * Dialog container for authentication
+ * @author Sébastien binda
  */
 class AuthenticationDialog extends React.Component {
 

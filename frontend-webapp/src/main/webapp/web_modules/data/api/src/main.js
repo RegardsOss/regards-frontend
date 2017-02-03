@@ -15,7 +15,8 @@ import Layout, { LayoutConfiguration } from './access/Layout'
 import Theme, { ThemeConfiguration } from './access/Theme'
 import Plugin, { PluginConfiguration } from './access/Plugin'
 import Fragment, { FragmentConfiguration } from './dam/Fragment'
-import Dataset, { DatasetConfiguration } from './schemas/Dataset'
+import Dataset, { DatasetConfiguration } from './dam/Dataset'
+import Entity, { EntityConfiguration } from './catalog/Entity'
 import ResourceAccess, { ResourceAccessConfiguration } from './admin/ResourceAccess'
 import ModelAttribute, { ModelAttributeConfiguration } from './dam/ModelAttribute'
 import PluginMetaData, { PluginMetaDataConfiguration } from './admin/PluginMetaData'
@@ -92,6 +93,10 @@ export default {
   PLUGIN: Plugin.PLUGIN,
   PLUGIN_ARRAY: Plugin.PLUGIN_ARRAY,
   PluginConfiguration,
+
+  ENTITY: Entity.ENTITY,
+  ENTITY_ARRAY: Entity.ENTITY_ARRAY,
+  EntityConfiguration,
 
   DATASET: Dataset.DATASET,
   DATASET_ARRAY: Dataset.DATASET_ARRAY,

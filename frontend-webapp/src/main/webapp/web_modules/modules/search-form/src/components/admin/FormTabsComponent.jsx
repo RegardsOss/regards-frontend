@@ -14,6 +14,7 @@ import FormPreviewComponent from './preview/FormPreviewComponent'
 
 /**
  * Display form divided with tabs to handle search form module configuration
+ * @author Sébastien binda
  */
 class FormTabsComponent extends React.Component {
 

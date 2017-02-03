@@ -17,6 +17,7 @@ import ListHeaderComponent from './ListHeaderComponent'
  * nbEntityByPage : Number used to load a page of entities.
  * entitiesActions : Store Actions class derived from BasicPageableActions
  * entitiesSelector : Store Selectors class derived from BasicPageableSelector
+ * @author Sébastien Binda
  */
 class PageableListContainer extends React.Component {
 

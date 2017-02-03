@@ -72,11 +72,11 @@ export class CollectionListComponent extends React.Component {
                   <TableRowColumn>{collection.content.label}</TableRowColumn>
                   <TableRowColumn>{collection.content.model.name}</TableRowColumn>
                   <TableRowColumn>
-                    <IconButton onTouchTap={() => handleDuplicate(collection.content.id)}>
-                      <ContentCopy hoverColor={style.hoverButtonDuplicate} />
-                    </IconButton>
                     <IconButton onTouchTap={() => handleEdit(collection.content.id)}>
                       <Edit hoverColor={style.hoverButtonEdit} />
+                    </IconButton>
+                    <IconButton onTouchTap={() => handleDuplicate(collection.content.id)}>
+                      <ContentCopy hoverColor={style.hoverButtonDuplicate} />
                     </IconButton>
                     <IconButton onTouchTap={() => handleDelete(collection.content.id)}>
                       <Delete hoverColor={style.hoverButtonDelete} />

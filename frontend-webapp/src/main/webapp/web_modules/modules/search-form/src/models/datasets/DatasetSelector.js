@@ -4,7 +4,8 @@
 import { BasicPageableSelectors } from '@regardsoss/store-utils'
 
 /**
- * Redux store selectors for Module Entities
+ * Redux store selectors for Dataset Entities
+ * @author Sébastien binda
  */
 class DatasetSelector extends BasicPageableSelectors {
   constructor() {

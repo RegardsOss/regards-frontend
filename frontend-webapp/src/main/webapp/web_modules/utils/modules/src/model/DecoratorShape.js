@@ -4,6 +4,7 @@
 
 /**
  * Definition of type DecoratorShape. Decorator are used in LazyModuleComponent to add a decorator element to modules
+ * @author Sébastien Binda
  */
 export default React.PropTypes.shape({
   element: React.PropTypes.func,

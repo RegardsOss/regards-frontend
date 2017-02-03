@@ -16,6 +16,7 @@ import Styles from '../styles/styles'
 
 /**
  * React component to display and configure a given layout
+ * @author Sébastien binda
  */
 class ModuleFormComponent extends React.Component {
 

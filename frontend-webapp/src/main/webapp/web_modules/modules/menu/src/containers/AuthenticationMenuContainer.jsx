@@ -12,6 +12,7 @@ import LoggedUserComponent from '../components/LoggedUserComponent'
 /**
  * Manages authentication state machine. The callbacks are provided by parent
  * This container display the login button and the modal with login informations.
+ * @author Sébastien binda
  */
 class AuthenticationMenuContainer extends React.Component {
 

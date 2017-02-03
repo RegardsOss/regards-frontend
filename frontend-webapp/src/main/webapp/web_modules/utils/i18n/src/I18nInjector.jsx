@@ -1,5 +1,7 @@
 /** @module common */
-
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { intlShape } from 'react-intl'
 
 /**

@@ -8,6 +8,10 @@ import { combineReducers } from 'redux'
 import LayoutReducer from './model/layout/LayoutReducer'
 import LayoutModulesReducer from './model/modules/ModulesReducer'
 
+/**
+ * Reducers for user module
+ * @author Sébastien binda
+ */
 export default combineReducers({
   layout: LayoutReducer,
   'layout.modules': LayoutModulesReducer,

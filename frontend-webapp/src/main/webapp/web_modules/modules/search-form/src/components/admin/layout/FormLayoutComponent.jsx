@@ -9,6 +9,7 @@ import DefaultFormLayout from './DefaultFormLayout'
 
 /**
  * Component to display the search form layout configuration panel
+ * @author Sébastien binda
  */
 class FormLayoutComponent extends React.Component {
 

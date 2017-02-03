@@ -1,3 +1,11 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
+
+/**
+ * Mock server response for plugin entities
+ * @author Sébastien Binda
+ */
 export default {
   content: [
     {

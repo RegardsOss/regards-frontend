@@ -1,4 +1,5 @@
 import Fragment from './Fragment'
+
 const AttributeModel = React.PropTypes.shape({
   content: React.PropTypes.shape({
     id: React.PropTypes.number,

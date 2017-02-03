@@ -10,6 +10,10 @@ import PluginTest from './PluginTest'
 import PluginLoader, { UnconnectedPluginLoader } from '../../src/containers/PluginLoader'
 import { UnconnectedPluginProvider } from '../../src/containers/PluginProvider'
 
+/**
+ * Tests for PluginProvider
+ * @author Sébastien Binda
+ */
 describe('[PLUGINS] Testing Plugins load', () => {
   it('Should fetch the pluginDefinition with the given pluginId in props', () => {
     const pluginDefinitionId = 12

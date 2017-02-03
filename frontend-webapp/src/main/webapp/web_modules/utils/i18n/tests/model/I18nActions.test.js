@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import configureStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import { expect } from 'chai'

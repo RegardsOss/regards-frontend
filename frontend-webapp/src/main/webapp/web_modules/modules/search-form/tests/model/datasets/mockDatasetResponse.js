@@ -1,3 +1,11 @@
+/**
+ * LICENSE_PLACEHOLDER
+ */
+
+/**
+ * Mock server response for Datasets request
+ * @author Sébastien binda
+ */
 export default {
   content: [
     {

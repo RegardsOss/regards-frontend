@@ -7,6 +7,7 @@ import DatasetModelActions from './DatasetModelActions'
 
 /**
  * Redux store reducer for Module entities
+ * @author Sébastien binda
  */
 class DatasetModelReducer extends BasicPageableReducers {
   constructor() {

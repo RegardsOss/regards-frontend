@@ -5,7 +5,7 @@ import { Locales } from '@regardsoss/form-utils'
 
 /**
  * i18n messages English language
- * @type {*}
+ * @author Sébastien binda
  */
 const messages = Object.assign({
 

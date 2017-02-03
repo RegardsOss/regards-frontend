@@ -4,6 +4,7 @@
 import { Model } from '@regardsoss/model'
 /**
  * Display a dataset element into the infinite scroll list.
+ * @author Sébastien binda
  */
 class DatasetModelLineComponent extends React.Component {
 

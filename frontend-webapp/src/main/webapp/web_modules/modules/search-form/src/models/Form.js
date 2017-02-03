@@ -6,6 +6,7 @@ import { PluginConf } from '@regardsoss/model'
 import DatasetsConfShape from './datasets/DatasetsConfShape'
 /**
  * Form entity description
+ * @author Sébastien binda
  */
 const Form = React.PropTypes.shape({
   id: React.PropTypes.number,

@@ -7,6 +7,7 @@ import LayoutActions from './LayoutActions'
 
 /**
  * Redux store reducers for Layout entities
+ * @author Sébastien binda
  */
 class LayoutsReducer extends BasicListReducers {
   constructor() {

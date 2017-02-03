@@ -11,6 +11,10 @@ import Toggle from 'material-ui/Toggle'
 import { ShowableAtRender } from '@regardsoss/components'
 import ModuleListComponent from '../../src/components/ModuleListComponent'
 
+/**
+ * Tests for ModuleListComponent
+ * @author Sébastien binda
+ */
 describe('[ADMIN UI-CONFIGURATION] Testing Modules list component', () => {
   const options = {
     context: {

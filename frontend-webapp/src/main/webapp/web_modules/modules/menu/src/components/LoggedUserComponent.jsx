@@ -13,6 +13,7 @@ import { themeContextType } from '@regardsoss/theme'
 
 /**
  * Component to display action available on connected user.
+ * @author Sébastien binda
  */
 class LoggedUserComponent extends React.Component {
 

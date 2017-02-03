@@ -13,6 +13,7 @@ import ModuleListComponent from '../components/ModuleListComponent'
 
 /**
  * Module container to display list of configured modules for a given application id.
+ * @author Sébastien binda
  */
 class ModulesListContainer extends React.Component {
 

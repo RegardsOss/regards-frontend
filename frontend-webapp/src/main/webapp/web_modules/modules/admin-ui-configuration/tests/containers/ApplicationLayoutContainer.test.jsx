@@ -8,6 +8,10 @@ import { I18nProvider } from '@regardsoss/i18n'
 import ApplicationLayoutComponent from '../../src/components/ApplicationLayoutComponent'
 import { UnconnectedApplicationLayoutContainer } from '../../src/containers/ApplicationLayoutContainer'
 
+/**
+ * Tests for ApplicationLayoutContainer
+ * @author Sébastien binda
+ */
 describe('[ADMIN UI-CONFIGURATION] Testing Layout container', () => {
   it('Should render correctly a layout container', () => {
     const fetchLayoutCallBack = sinon.spy()

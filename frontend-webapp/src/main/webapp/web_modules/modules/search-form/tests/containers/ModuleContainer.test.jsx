@@ -8,6 +8,10 @@ import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { UnconnectedModuleContainer } from '../../src/containers/ModuleContainer'
 import FormComponent from '../../src/components/user/FormComponent'
 
+/**
+ * Tests for ModuleContainer
+ * @author Sébastien binda
+ */
 describe('[FORM MODULE] Testing User Container', () => {
   it('Should fetch the model attributes before rendering the criterion plugins', () => {
     const fetchAttributeCallback = sinon.spy()

@@ -7,6 +7,10 @@ import sinon from 'sinon'
 import ModuleFormComponent from '../../src/components/ModuleFormComponent'
 import { UnconnectedModuleFormContainer } from '../../src/containers/ModuleFormContainer'
 
+/**
+ * Tests for ModuleFormContainer
+ * @author Sébastien binda
+ */
 describe('[ADMIN UI-CONFIGURATION] Testing Module form container', () => {
   it('Should fetch module before renderinf component', () => {
     const fetchModuleCallback = sinon.spy()

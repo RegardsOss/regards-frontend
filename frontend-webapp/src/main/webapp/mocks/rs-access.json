@@ -119,6 +119,7 @@
       "active": true,
       "isDefault": true,
       "conf": {
+        "resultType": "dataobjects",
         "layout": "{\n    \"id\": \"main\",\n    \"type\": \"FormMainContainer\",\n    \"classes\": [],\n    \"styles\": {},\n    \"containers\": []\n}",
         "datasets": {
           "type": "selectedDatasets",

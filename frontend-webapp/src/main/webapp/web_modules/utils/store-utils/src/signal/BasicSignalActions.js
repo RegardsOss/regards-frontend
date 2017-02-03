@@ -1,46 +1,30 @@
 /**
  * @author Léo Mieulet
  */
-import { map, replace } from 'lodash'
+import BasicActions from '../BasicActions'
 
 const { CALL_API, getJSON } = require('redux-api-middleware')
 /**
  *  Provide actions for calling any url of the backend
  *  @Return dispatcheable redux actions
  */
-class BasicSignalActions {
+class BasicSignalActions extends BasicActions {
 
   constructor(options) {
-    this.entityEndpoint = options.entityEndpoint
-    this.verb = options.verb
+    super(options)
     this.SIGNAL_REQUEST = `${options.namespace}/REQUEST`
     this.SIGNAL_SUCCESS = `${options.namespace}/SUCCESS`
     this.SIGNAL_FAILURE = `${options.namespace}/FAILURE`
   }
 
   /**
-   * Replace parameterized value in the current configured endpoint
-   * @param entityEndpoint endpoint entity
-   * @param params parameters to replace in the endpoint entity
-   * @returns {*}
-   */
-  handleRequestParameters = (entityEndpoint, params) => {
-    let endpoint = entityEndpoint
-    if (params) {
-      map(params, (param, key) => {
-        endpoint = replace(endpoint, `{${key}}`, param)
-      })
-    }
-    return endpoint
-  }
-
-  /**
-   * Fetch entities
-   *
+   * Fetch the corresponding route using your verb, body param and url parameters
+   * @param verb
    * @param bodyParam
+   * @param params
    * @returns {{}}
    */
-  sendSignal(bodyParam, params) {
+  sendSignal(verb, bodyParam, params) {
     const endpoint = this.handleRequestParameters(this.entityEndpoint, params)
     return {
       [CALL_API]: {
@@ -53,7 +37,7 @@ class BasicSignalActions {
           this.SIGNAL_FAILURE,
         ],
         endpoint,
-        method: this.verb,
+        method: verb,
         body: bodyParam ? JSON.stringify(bodyParam) : undefined,
       },
     }

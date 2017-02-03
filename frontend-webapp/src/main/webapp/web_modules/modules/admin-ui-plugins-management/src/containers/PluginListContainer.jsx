@@ -12,6 +12,7 @@ import PluginsActions from '../model/PluginsActions'
 
 /**
  * Module container to display list of configured modules for a given application id.
+ * @author Sébastien Binda
  */
 class PluginListContainer extends React.Component {
 

@@ -8,6 +8,10 @@ import { UnconnectedAdminContainer } from '../../src/containers/AdminContainer'
 import FormTabsComponent from '../../src/components/admin/FormTabsComponent'
 import { DATASET_TYPE, DATASET_MODEL_TYPE } from '../../src/models/datasets/DatasetSelectionTypes'
 
+/**
+ * Tests for AdminContainer
+ * @author Sébastien binda
+ */
 describe('[FORM MODULE] Testing Admin Container', () => {
   it('Create new configuration : Should fetch missings props', () => {
     const fetchDatasetsAttributesCallback = sinon.spy()

@@ -5,6 +5,7 @@ import BoardActionShape from './BoardActionShape'
 
 /**
  * BoardItem Entity definition
+ * @author Sébastien Binda
  */
 const BoardItemShape = React.PropTypes.shape({
   title: React.PropTypes.string,

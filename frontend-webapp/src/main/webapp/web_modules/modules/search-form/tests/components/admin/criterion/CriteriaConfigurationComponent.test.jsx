@@ -10,6 +10,10 @@ import TestPluginInfo from './TestPlugin-info.json'
 import Styles from '../../../../src/styles/styles'
 import CriteriaConfigurationComponent from '../../../../src/components/admin/criterion/CriteriaConfigurationComponent'
 
+/**
+ * Tests for CriteriaConfigurationComponent
+ * @author Sébastien binda
+ */
 describe('[FORM MODULE] Testing CriteriaConfigurationComponent', () => {
   const muiTheme = getMuiTheme({})
   const options = {

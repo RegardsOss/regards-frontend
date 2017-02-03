@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 import reducer from '../../src/model/ThemeReducers'
 
-describe('[COMMON] Testing theme reducer', () => {
+describe('[COMMON THEME] Testing theme reducer', () => {
   it('should return the initial state', () => {
     expect(reducer(undefined, {})).to.eql({})
   })

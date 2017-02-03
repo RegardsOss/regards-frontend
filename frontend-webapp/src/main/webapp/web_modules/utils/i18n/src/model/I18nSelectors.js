@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { BasicSelector } from '@regardsoss/store-utils'
 
 // Selectors

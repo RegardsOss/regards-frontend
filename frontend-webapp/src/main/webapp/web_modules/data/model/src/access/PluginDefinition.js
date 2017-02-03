@@ -4,6 +4,7 @@
 
 /**
  * IHM Plugin entity definition
+ * @author Sébastien Binda
  */
 const PluginDefinition = React.PropTypes.shape({
   content: React.PropTypes.shape({

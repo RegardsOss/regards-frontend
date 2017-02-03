@@ -8,6 +8,7 @@ import ModuleShape from '../model/ModuleShape'
 /**
  * Component to display all available modules for a given container
  * with messages internationalisation provider
+ * @author Sébastien Binda
  */
 class ModuleListProvider extends React.Component {
 

@@ -8,6 +8,7 @@ import { i18nSelectors } from '@regardsoss/i18n'
 /**
  * Merge the given mapStateToProps function to add the theme and i18n properties.
  * @param mapStateToProps
+ * @author Sébastien Binda
  */
 const mergeMapStateToProps = mapStateToProps => (
   (state, ownProps) => ({
@@ -22,6 +23,7 @@ const mergeMapStateToProps = mapStateToProps => (
  * refreshed when theme or i18n messages changed.
  * @param mapStateToProps
  * @param mapDispatchToProps
+ * @author Sébastien Binda
  */
 const connect = (mapStateToProps, mapDispatchToProps) => {
   const newMapStateToProps = mapStateToProps ? mergeMapStateToProps(mapStateToProps) : null

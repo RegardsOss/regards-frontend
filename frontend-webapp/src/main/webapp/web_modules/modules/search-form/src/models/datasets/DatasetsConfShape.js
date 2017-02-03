@@ -4,6 +4,7 @@
 
 /**
  * Form entity description
+ * @author Sébastien binda
  */
 const DatasetsConfShape = React.PropTypes.shape({
   type: React.PropTypes.string,

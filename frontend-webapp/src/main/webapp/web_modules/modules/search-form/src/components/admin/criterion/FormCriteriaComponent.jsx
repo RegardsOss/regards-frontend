@@ -16,6 +16,7 @@ import CriteriaConfigurationComponent from './CriteriaConfigurationComponent'
 
 /**
  * Component to display a creation or edition of a criterion
+ * @author Sébastien binda
  */
 class FormCriteriaComponent extends React.Component {
 

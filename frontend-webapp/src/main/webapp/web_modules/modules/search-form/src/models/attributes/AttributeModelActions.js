@@ -6,6 +6,7 @@ import { BasicPageableActions } from '@regardsoss/store-utils'
 
 /**
  * Redux store Actions for Module entities.
+ * @author Sébastien binda
  */
 class AttributeModelActions extends BasicPageableActions {
   constructor() {

@@ -1,3 +1,11 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
+
+/**
+ * Modules examples
+ * @author Sébastien Binda
+ */
 export default [
   {
     content: {

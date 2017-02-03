@@ -9,6 +9,10 @@ import DefaultLayout from '../../../../src/components/admin/layout/DefaultFormLa
 import Styles from '../../../../src/styles/styles'
 import FormPreviewComponent from '../../../../src/components/admin/preview/FormPreviewComponent'
 
+/**
+ * Tests for FormPreviewComponent
+ * @author Sébastien binda
+ */
 describe('[FORM MODULE] Testing FormPreviewComponent', () => {
   const muiTheme = getMuiTheme({})
   const options = {

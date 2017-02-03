@@ -13,7 +13,10 @@ import { AvailableModules } from '@regardsoss/modules'
 import Styles from '../../src/styles/styles'
 import { UnconnectedModuleFormComponent } from '../../src/components/ModuleFormComponent'
 
-
+/**
+ * Tests for ModuleFormComponent
+ * @author Sébastien binda
+ */
 describe('[ADMIN UI-CONFIGURATION] Testing Modules form component', () => {
   const muiTheme = getMuiTheme({
     linkWithoutDecoration: {},

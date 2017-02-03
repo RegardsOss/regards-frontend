@@ -1,17 +1,19 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { map } from 'lodash'
+import { map, forEach, keys } from 'lodash'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
 import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
 import { Collection, Model, ModelAttribute } from '@regardsoss/model'
-import { RenderTextField, RenderCheckbox, RenderSelectField, Field, ValidationHelpers, ErrorTypes } from '@regardsoss/form-utils'
-import { CardActionsComponent } from '@regardsoss/components'
+import { RenderTextField, RenderSelectField, Field, ErrorTypes } from '@regardsoss/form-utils'
+import { ReduxConnectedForm } from '@regardsoss/redux'
+import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import MenuItem from 'material-ui/MenuItem'
+import CollectionStepperComponent from './CollectionStepperComponent'
 
 /**
  * React component to list collections.
@@ -28,11 +30,9 @@ export class CollectionFormComponent extends React.Component {
     handleUpdateModel: React.PropTypes.func.isRequired,
     // from reduxForm
     submitting: React.PropTypes.bool,
-    pristine: React.PropTypes.bool,
     invalid: React.PropTypes.bool,
     handleSubmit: React.PropTypes.func.isRequired,
     initialize: React.PropTypes.func.isRequired,
-    change: React.PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -42,10 +42,11 @@ export class CollectionFormComponent extends React.Component {
 
   constructor(props) {
     super(props)
-    console.log(props)
+    const isCreating = props.currentCollection === null || props.currentCollection === undefined
     this.state = {
-      isCreating: props.currentCollection === null || props.currentCollection === undefined,
+      isCreating,
       isDuplicating: props.isDuplicating,
+      isDisplayAttributeValue: !isCreating,
     }
   }
 
@@ -59,9 +60,22 @@ export class CollectionFormComponent extends React.Component {
   handleInitialize = () => {
     if (!this.state.isCreating) {
       const { currentCollection } = this.props
+      const attributes = {}
+      forEach(currentCollection.content.attributes, (attributeValueOrFragment, key) => {
+        if (typeof attributeValueOrFragment === 'object') {
+          // It's a fragment
+          forEach(attributeValueOrFragment, (attribute, id) => {
+            attributes[id] = attribute
+          })
+        } else {
+          // This is an attribute
+          attributes[key] = attributeValueOrFragment
+        }
+      })
       const initialValues = {
         label: currentCollection.content.label,
         model: currentCollection.content.model.id,
+        attributes,
       }
       this.props.initialize(initialValues)
     }
@@ -75,34 +89,44 @@ export class CollectionFormComponent extends React.Component {
    * @param input
    */
   handleChange = (event, index, value, input) => {
+    this.setState({
+      isDisplayAttributeValue: true,
+    })
     input.onChange(value)
     this.props.handleUpdateModel(value)
   }
 
   render() {
     const { modelList, modelAttributeList, submitting, invalid, backUrl } = this.props
-    console.log(this.state.isCreating)
-    const title = this.state.isCreating ? <FormattedMessage id="collection.create.title" /> :
-      this.state.isDuplicating ?
-        (<FormattedMessage
-          id="collection.duplicate.title"
-          values={{
-            name: this.props.currentCollection.content.label,
-          }}
-        />) :
-        (<FormattedMessage
-          id="collection.edit.title"
-          values={{
-            name: this.props.currentCollection.content.label,
-          }}
-        />)
+    let title
+    if (this.state.isCreating) {
+      title = <FormattedMessage id="collection.create.title" />
+    } else if (this.state.isDuplicating) {
+      title = (<FormattedMessage
+        id="collection.duplicate.title"
+        values={{
+          name: this.props.currentCollection.content.label,
+        }}
+      />)
+    } else {
+      title = (<FormattedMessage
+        id="collection.edit.title"
+        values={{
+          name: this.props.currentCollection.content.label,
+        }}
+      />)
+    }
     return (
-      <form onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
+      <ReduxConnectedForm
+        i18nMessagesDir="modules/admin-data-collection-management/src/i18n"
+        onSubmit={this.props.handleSubmit(this.props.onSubmit)}
+      >
         <Card>
           <CardTitle
             title={title}
             subtitle={<FormattedMessage id="collection.form.subtitle" />}
           />
+          <CollectionStepperComponent stepIndex={0} />
           <CardText>
             <Field
               name="label"
@@ -127,14 +151,46 @@ export class CollectionFormComponent extends React.Component {
                 />
               ))}
             </Field>
-
-            {map(modelAttributeList, (modelAttribute, id) => (
-              <MenuItem
-                value={modelAttribute.content.id}
-                key={id}
-                primaryText={modelAttribute.content.attribute.name}
-              />
-            ))}
+            <ShowableAtRender show={this.state.isDisplayAttributeValue}>
+              <Table
+                selectable={false}
+              >
+                <TableHeader
+                  enableSelectAll={false}
+                  adjustForCheckbox={false}
+                  displaySelectAll={false}
+                >
+                  <TableRow>
+                    <TableHeaderColumn><FormattedMessage id="collection.form.table.fragment" /></TableHeaderColumn>
+                    <TableHeaderColumn><FormattedMessage id="collection.form.table.label" /></TableHeaderColumn>
+                    <TableHeaderColumn><FormattedMessage id="collection.form.table.value" /></TableHeaderColumn>
+                  </TableRow>
+                </TableHeader>
+                <TableBody
+                  displayRowCheckbox={false}
+                  preScanRows={false}
+                  showRowHover
+                >
+                  {map(modelAttributeList, (modelAttribute, id) => (
+                    <TableRow key={id}>
+                      <TableRowColumn>{modelAttribute.content.attribute.fragment.name}</TableRowColumn>
+                      <TableRowColumn>{modelAttribute.content.attribute.name}</TableRowColumn>
+                      <TableRowColumn>
+                        <ShowableAtRender show={modelAttribute.content.mode === 'GIVEN'}>
+                          <Field
+                            name={`attributes.${modelAttribute.content.attribute.name}`}
+                            fullWidth
+                            component={RenderTextField}
+                            type="text"
+                            label={<FormattedMessage id="collection.form.table.input" />}
+                          />
+                        </ShowableAtRender>
+                      </TableRowColumn>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </ShowableAtRender>
           </CardText>
           <CardActions>
             <CardActionsComponent
@@ -142,11 +198,11 @@ export class CollectionFormComponent extends React.Component {
               mainButtonType="submit"
               isMainButtonDisabled={submitting || invalid}
               secondaryButtonLabel={<FormattedMessage id="collection.form.action.cancel" />}
-              secondaryButtonUrl={this.props.backUrl}
+              secondaryButtonUrl={backUrl}
             />
           </CardActions>
         </Card>
-      </form>
+      </ReduxConnectedForm>
     )
   }
 }
@@ -158,13 +214,20 @@ export class CollectionFormComponent extends React.Component {
  */
 function validate(values) {
   const errors = {}
-  if (values.name) {
-    if (!ValidationHelpers.isValidAlphaNumericUnderscore(values.name)) {
-      errors.name = ErrorTypes.ALPHA_NUMERIC
+  if (!keys(values).length) {
+    // XXX workaround for redux form bug initial validation:
+    // Do not return anything when fields are not yet initialized (first render invalid state is wrong otherwise)...
+    return errors
+  }
+  if (values.label) {
+    if (values.label.length > 128) {
+      errors.label = 'invalid.max_128_carac'
     }
-    if (values.name.length > 128) {
-      errors.name = 'invalid.max_128_carac'
-    }
+  } else {
+    errors.label = ErrorTypes.REQUIRED
+  }
+  if (!values.model) {
+    errors.model = ErrorTypes.REQUIRED
   }
   return errors
 }

@@ -4,6 +4,7 @@
 import Container from './Container'
 /**
  * Layout shape entity
+ * @author Sébastien Binda
  */
 const Layout = React.PropTypes.shape({
   id: React.PropTypes.string,

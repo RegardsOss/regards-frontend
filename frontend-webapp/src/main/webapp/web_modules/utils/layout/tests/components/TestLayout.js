@@ -1,6 +1,11 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+
+/**
+ * Layout example
+ * @author Sébastien Binda
+ */
 const layout = {
   id: 'application',
   type: 'MainContainer',

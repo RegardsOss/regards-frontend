@@ -6,9 +6,9 @@ import { updateLocale } from '../model/I18nActions'
 import SelectLocalComponent from '../components/SelectLocaleComponent'
 import I18nProvider from '../I18nProvider'
 
-
 /**
  * React component to display the language selector widget
+ * @author Sébastien Binda
  */
 export class SelectLocaleContainer extends React.Component {
 

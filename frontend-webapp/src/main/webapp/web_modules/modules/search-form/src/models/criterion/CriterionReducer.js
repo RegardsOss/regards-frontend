@@ -7,6 +7,7 @@ import CriterionActions from './CriterionActions'
 
 /**
  * Redux store reducer for Module entities
+ * @author Sébastien binda
  */
 class CriterionReducer extends BasicPageableReducers {
   constructor() {

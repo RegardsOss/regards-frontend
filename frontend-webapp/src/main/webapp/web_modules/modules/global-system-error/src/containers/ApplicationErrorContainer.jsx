@@ -7,6 +7,7 @@ import { closeErrorDialog } from '../model/action'
 
 /**
  * React component to display a dialog box containing the global current error message
+ * @author Sébastien binda
  */
 class ApplicationErrorContainer extends React.Component {
 

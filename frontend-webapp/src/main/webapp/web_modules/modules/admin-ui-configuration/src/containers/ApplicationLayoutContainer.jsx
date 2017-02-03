@@ -12,6 +12,7 @@ import ApplicationLayoutComponent from '../components/ApplicationLayoutComponent
 
 /**
  * Module container to retrieve and display a layout entity associated to an application id.
+ * @author Sébastien binda
  */
 class ApplicationLayoutContainer extends React.Component {
 

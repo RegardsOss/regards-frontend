@@ -7,6 +7,7 @@ import { themeContextType } from '@regardsoss/theme'
  * Provide specific module theme styles into the context of children component.
  * Each module surrounded by the ModuleThemeProvider must expose a public Styles
  * function as : export Styles = (theme) => {}
+ * @author Sébastien Binda
  */
 class ModuleThemeProvider extends React.Component {
 

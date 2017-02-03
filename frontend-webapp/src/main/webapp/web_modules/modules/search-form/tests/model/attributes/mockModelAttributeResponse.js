@@ -1,3 +1,11 @@
+/**
+ * LICENSE_PLACEHOLDER
+ */
+
+/**
+ * Mock server response for AttributeModels request
+ * @author Sébastien binda
+ */
 export default {
   content: [
     {

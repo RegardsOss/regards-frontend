@@ -12,6 +12,7 @@ if (typeof root.document !== 'undefined' && typeof root.document.getElementsByTa
 /**
  * Action type to define that a plugin is loaded
  * @type {string}
+ * @author Sébastien Binda
  */
 export const PLUGIN_LOADED = 'LOAD_PLUGINS/PLUGIN_LOADED'
 

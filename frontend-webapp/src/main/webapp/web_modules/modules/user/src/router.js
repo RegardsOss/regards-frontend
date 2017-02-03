@@ -5,7 +5,7 @@
 
 /**
  * Main route to access UI-Confiuration module fonctioanlities
- * @type {{path: string, getChildRoutes: ((nextState, cb))}}
+ * @author Sébastien binda
  */
 export const dynamicModuleRoot = {
   path: 'modules/:moduleId',

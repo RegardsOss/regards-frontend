@@ -4,6 +4,7 @@
 import { PluginInfo } from './PluginInfo'
 /**
  * IHM Plugin entity definition
+ * @author Sébastien Binda
  */
 const Plugin = React.PropTypes.shape({
   name: React.PropTypes.string.isRequired,

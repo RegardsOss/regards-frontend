@@ -6,6 +6,10 @@ import { keys } from 'lodash'
 import MessagesEN from '../../src/i18n/messages.en.i18n'
 import MessagesFR from '../../src/i18n/messages.fr.i18n'
 
+/**
+ * Tests for i18n messages of menu module
+ * @author Sébastien binda
+ */
 describe('[MENU MODULE] Testing i18n', () => {
   it('should exist', () => {
     assert.isDefined(MessagesEN)

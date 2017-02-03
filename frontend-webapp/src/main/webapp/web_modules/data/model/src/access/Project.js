@@ -4,8 +4,9 @@
 
 /**
  * Project Entity definition
+ * @author Sébastien Binda
  */
-export default React.PropTypes.shape({
+const Project = React.PropTypes.shape({
   content: React.PropTypes.shape({
     id: React.PropTypes.string,
     name: React.PropTypes.string,
@@ -15,3 +16,5 @@ export default React.PropTypes.shape({
     isAccessible: React.PropTypes.bool,
   }),
 })
+
+export default Project

@@ -14,6 +14,7 @@ import PluginSelector from '../model/LoadPluginSelector'
 /**
  * This component allow to load a given plugin and display it.
  * Display of the plugin is asynchronous and effective when the plugin is loaded.
+ * @author Sébastien Binda
  *
  */
 class PluginLoader extends React.Component {

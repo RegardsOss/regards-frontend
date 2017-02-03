@@ -11,6 +11,7 @@ import ContainerHelper from '../ContainerHelper'
 /**
  * Component to display a container into an application layout.
  * This element display the children containers and  modules.
+ * @author Sébastien Binda
  */
 class Container extends React.Component {
 

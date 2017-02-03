@@ -17,6 +17,7 @@ import { themeContextType } from '@regardsoss/theme'
 
 /**
  * React component to display a given list of modules
+ * @author Sébastien binda
  */
 class ModuleListComponent extends React.Component {
 

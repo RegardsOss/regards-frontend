@@ -1,6 +1,11 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+
+/**
+ * Mock server response for Layout entities
+ * @author Sébastien binda
+ */
 export default {
   content: {
     id: 'user',

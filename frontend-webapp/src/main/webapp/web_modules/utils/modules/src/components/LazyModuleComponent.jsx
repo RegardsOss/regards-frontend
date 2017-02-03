@@ -17,6 +17,7 @@ import ModuleShape from '../model/ModuleShape'
  * - styles          : (optional) The styles of the module based on the current theme
  * - reducers        : (optional) The combined reducers of the module
  * - messagesDir     : (optional) The directory of the i18n messages files. Default src/i18n
+ * @author Sébastien Binda
  */
 class LazyModuleComponent extends React.Component {
 

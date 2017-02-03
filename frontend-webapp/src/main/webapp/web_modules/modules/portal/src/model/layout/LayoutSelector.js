@@ -5,6 +5,7 @@ import { BasicListSelectors } from '@regardsoss/store-utils'
 
 /**
  * Redux store Selectors for Layout entities
+ * @author Sébastien Binda
  */
 class LayoutsSelector extends BasicListSelectors {
   constructor() {

@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { SET_LOCALE, SET_LOCALE_MSG } from './I18nActions'
 
 // If navigator is not defined, set the locale to english

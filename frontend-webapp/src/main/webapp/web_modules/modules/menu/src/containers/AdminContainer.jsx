@@ -6,6 +6,7 @@ import { FormattedMessage } from 'react-intl'
 
 /**
  * React component to display module administration module.
+ * @author Sébastien binda
  */
 class AdminContainer extends React.Component {
 

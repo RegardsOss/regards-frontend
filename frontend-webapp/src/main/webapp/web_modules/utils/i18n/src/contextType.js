@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { intlShape } from 'react-intl'
 
 const contextType = {

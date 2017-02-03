@@ -7,6 +7,10 @@ import sinon from 'sinon'
 import AuthenticationDialogComponent from '../../src/components/AuthenticationDialogComponent'
 import styles from '../../src/styles/styles'
 
+/**
+ * Tests for AuthenticationDialogComponent
+ * @author Sébastien binda
+ */
 describe('[MENU] Testing AuthenticationDialogComponent', () => {
   // Since react will console.error propType warnings, that which we'd rather have
   // as errors, we use sinon.js to stub it into throwing these warning as errors

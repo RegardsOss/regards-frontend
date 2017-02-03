@@ -6,6 +6,7 @@ import { BasicListActions } from '@regardsoss/store-utils'
 
 /**
  * Redux store Actions for Layout entities
+ * @author Sébastien Binda
  */
 class LayoutActions extends BasicListActions {
   constructor() {

@@ -4,6 +4,7 @@
 
 /**
  * Default available types of container for layout configuration
+ * @author Sébastien Binda
  */
 export default {
   /**
@@ -16,7 +17,6 @@ export default {
       // background: "url('/img/background.jpg') top right no-repeat",
       backgroundAttachment: 'fixed',
       backgroundSize: 'cover',
-      minHeight: '100vh',
       paddingTop: '10px',
       paddingRight: '1px', // Quick fix for bootstrap grid .row
     },

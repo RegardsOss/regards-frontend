@@ -10,6 +10,7 @@ import ContainerShape from '../model/ContainerShape'
 /**
  * ApplicationLayout
  * Component to display a customizable layout. The layout configuration is the muiTheme from Theme module.
+ * @author Sébastien Binda
  */
 class ApplicationLayout extends React.Component {
 

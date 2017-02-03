@@ -4,6 +4,7 @@
 
 /**
  * List of available modules for ui-configuration
+ * @author Sébastien Binda
  */
 export default [
   'menu',

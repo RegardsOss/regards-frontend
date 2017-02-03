@@ -9,6 +9,10 @@ import { FormLoadingComponent } from '@regardsoss/form-utils'
 import ModuleListComponent from '../../src/components/ModuleListComponent'
 import { UnconnectedModulesListContainer } from '../../src/containers/ModulesListContainer'
 
+/**
+ * Tests for ModulesListContainer
+ * @author Sébastien binda
+ */
 describe('[ADMIN UI-CONFIGURATION] Testing Modules list container', () => {
   it('Should fetch the modules list before rendering', () => {
     const fetchModulesCallback = sinon.spy()

@@ -8,6 +8,7 @@ import { RECEIVE_ERROR, CLOSE_ERROR_DIALOG } from './action'
  * @param state
  * @param action
  * @returns {*}
+ * @author Sébastien binda
  */
 export default (state = {
   opened: false,

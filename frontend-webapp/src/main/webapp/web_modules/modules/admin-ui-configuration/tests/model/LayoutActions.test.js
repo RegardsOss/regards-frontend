@@ -12,6 +12,10 @@ const options = {
 
 const entityTester = new ReduxEntityTester(LayoutActions, LayoutReducer, LayoutSelector, React.PropTypes.objectOf(Layout).isRequired, backendServerResultList, options)
 
+/**
+ * Tests for Layout entities
+ * @author Sébastien binda
+ */
 describe('[ADMIN UI CONFIGURATION] Testing model Layout', () => {
   before(() => {
     entityTester.beforeAll()

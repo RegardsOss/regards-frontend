@@ -1,3 +1,11 @@
+/**
+ * LICENSE_PLACEHOLDER
+ */
+
+/**
+ * Mock server response for Criterion request
+ * @author Sébastien binda
+ */
 export default {
   content: [
     {

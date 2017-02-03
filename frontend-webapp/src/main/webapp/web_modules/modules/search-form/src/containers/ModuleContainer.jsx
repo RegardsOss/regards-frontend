@@ -1,31 +1,39 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { forEach, find, cloneDeep } from 'lodash'
+import { forEach, find, cloneDeep, reduce } from 'lodash'
+import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { PluginConf, AttributeModel } from '@regardsoss/model'
 import { LoadableContentDisplayDecorator, LoadingComponent } from '@regardsoss/display-control'
+import SearchResultsComponent from '../components/user/SearchResultsComponent'
 import FormComponent from '../components/user/FormComponent'
+import { DATAOBJECT_RESULTS } from '../components/admin/parameters/ResultTypesEnum'
 import AttributeModelActions from '../models/attributes/AttributeModelActions'
 import AttributeModelSelector from '../models/attributes/AttributeModelSelector'
 /**
  * Main container to display module form.
+ * @author Sébastien binda
  */
 class ModuleContainer extends React.Component {
 
   static propTypes = {
     layout: React.PropTypes.string.isRequired,
     criterion: React.PropTypes.arrayOf(PluginConf),
+    resultType: React.PropTypes.string,
     // Set by mapDispatchToProps
     fetchAttribute: React.PropTypes.func,
     // eslint-disable-next-line react/no-unused-prop-types
     attributes: React.PropTypes.objectOf(AttributeModel),
     attributesFetching: React.PropTypes.bool,
+    preview: React.PropTypes.bool,
   }
 
   constructor(props) {
     super(props)
+    const type = props.resultType === DATAOBJECT_RESULTS ? 'DATAOBJECT' : 'DATASET'
     this.state = {
+      searchQuery: `type=${type}`,
       criterion: this.props.criterion,
       criterionValues: {},
     }
@@ -97,10 +105,25 @@ class ModuleContainer extends React.Component {
    */
   handleSearch = () => {
     // TODO Manage search
-    console.log('Running search', this.state.criterionValues)
+    let query = reduce(this.state.criterionValues, (result, criteria, key) => {
+      if (result && criteria.value) {
+        return `${result}&attributes.${criteria.attribute.name}=${criteria.value}`
+      } else if (criteria.value) {
+        return `attributes.${criteria.attribute.name}=${criteria.value}`
+      }
+      return result
+    }, '')
+
+    const type = this.props.resultType === DATAOBJECT_RESULTS ? 'DATAOBJECT' : 'DATASET'
+    query = `${query}&type=${type}`
+
+    this.setState({
+      searchQuery: query,
+    })
+    browserHistory.push(`${browserHistory.getCurrentLocation().pathname}?${query}`)
   }
 
-  render() {
+  renderForm() {
     if (this.props.layout) {
       const layoutObj = JSON.parse(this.props.layout)
 
@@ -122,6 +145,27 @@ class ModuleContainer extends React.Component {
       )
     }
     return <LoadingComponent />
+  }
+
+  renderResults() {
+    if (!this.props.preview) {
+      return (
+        <SearchResultsComponent
+          searchQuery={this.state.searchQuery}
+        />
+      )
+    }
+    return null
+  }
+
+  render() {
+    return (
+      <div>
+        {this.renderForm()}
+        <div style={{ marginTop: 50 }} />
+        {this.renderResults()}
+      </div>
+    )
   }
 }
 

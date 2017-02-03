@@ -7,6 +7,7 @@ import AttributeModelActions from './AttributeModelActions'
 
 /**
  * Redux store reducer for Module entities
+ * @author Sébastien binda
  */
 class AttributeModelReducer extends BasicPageableReducers {
   constructor() {
