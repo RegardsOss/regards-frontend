@@ -13,7 +13,7 @@ const messages = Object.assign({
   'authentication.error.500': 'Service indisponible',
   'authentication.goto.reset.password': 'Ré-initialiser le mot de passe',
   'authentication.goto.create.account': 'Créer un compte',
-  'authentication.goto.unlock.account': 'Débloquer un compte',
+  'authentication.goto.unlock.account': 'Débloquer mon compte',
 
   // common to account requests forms (reset password and unlock account
   'account.request.form.mail': 'Adresse e-mail',
@@ -28,33 +28,37 @@ const messages = Object.assign({
   'unlock.account.request.title': 'Dévérouillage du compte utilisateur',
 
   // account operations results
-  'unlock.request.sent.title': 'Demande de dévérouillage envoyée',
-  'unlock.request.sent.message': 'Votre demande a été envoyée, vous recevrez un e-mail lorsque le compte sera dévérouillé',
-  'unlock.request.sent.option': 'Retour',
+  'ask.reset.password.sent.title': 'Demande de ré-initialisation envoyée',
+  'ask.reset.password.sent.message': 'Votre demande a été envoyée, vous recevrez un e-mail contenant le lien de ré-initialisation',
+  'ask.reset.password.sent.option': 'Retour',
 
-  'unlock.request.done.title': 'Compte dévérouillé',
-  'unlock.request.done.message': 'Votre compte utilisateur a été dévérouillé, vous pouvez accéder à l\'appliction',
-  'unlock.request.done.option': 'Accès à l\'application',
+  'ask.reset.password.token.expired.title': 'Echec de la ré-initialisation',
+  'ask.reset.password.token.expired.message': 'Votre requête a expiré, veuillez renouveller la demande de réinitialisation du mot de passe',
+  'ask.reset.password.token.expired.option': 'Retour',
 
-  'unlock.request.token.expired.title': 'Echec du dévérouillage',
-  'unlock.request.token.expired.message': 'Votre requête a expiré, veuillez renouveller la demande dévérouillage du compte',
-  'unlock.request.token.expired.option': 'Dévérouiller le compte',
-
-  'reset.password.sent.title': 'Demande de ré-initialisation envoyée',
-  'reset.password.sent.message': 'Votre demande a été envoyée, vous recevrez un e-mail contenant le lien de ré-initialisation',
-  'reset.password.sent.option': 'Retour',
-
-  'reset.password.token.expired.title': 'Echec de la ré-initialisation',
-  'reset.password.token.expired.message': 'Votre requête a expiré, veuillez renouveller la demande de réinitialisation du mot de passe',
-  'reset.password.token.expired.option': 'Ré-initialisation',
-
-  'reset.password.done.title': 'Mot de passe mis à jour',
-  'reset.password.done.message': 'Votre mot de passe a été mis à jour, vous pouvez accéder à l\'appliction',
-  'reset.password.done.option': 'Accès à l\'application',
+  'change.password.done.title': 'Mot de passe mis à jour',
+  'change.password.done.message': 'Votre mot de passe a été mis à jour, vous pouvez accéder à l\'application',
+  'change.password.done.option': 'Connexion',
 
   'create.account.sent.title': 'Demande de création envoyée',
   'create.account.sent.message': 'Votre demande a été envoyée, vous recevrez un e-mail confirmant la création',
   'create.account.sent.option': 'Retour',
+
+  'create.account.done.title': 'Compte utilisateur créé',
+  'create.account.done.message': 'Votre compte utilisateur a été créé, vous pouvez accéder à l\'application',
+  'create.account.done.option': 'Connexion',
+
+  'unlock.request.done.title': 'Compte dévérouillé',
+  'unlock.request.done.message': 'Votre compte utilisateur a été dévérouillé, vous pouvez accéder à l\'application',
+  'unlock.request.done.option': 'Connexion',
+
+  'unlock.request.sent.title': 'Demande de dévérouillage envoyée',
+  'unlock.request.sent.message': 'Votre demande a été envoyée, vous recevrez un e-mail lorsque le compte sera dévérouillé',
+  'unlock.request.sent.option': 'Retour',
+
+  'unlock.request.token.expired.title': 'Echec du dévérouillage',
+  'unlock.request.token.expired.message': 'Votre requête a expiré, veuillez renouveller la demande dévérouillage du compte',
+  'unlock.request.token.expired.option': 'Retour',
 
   // reset password update (after receiving mail)
   'reset.password.update.request.title': 'Ré-initialisation du mot de passe',

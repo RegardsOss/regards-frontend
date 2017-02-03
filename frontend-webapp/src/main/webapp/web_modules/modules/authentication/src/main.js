@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import moduleContainer from './containers/AuthenticationContainer'
+import moduleContainer from './containers/AuthenticationModuleContainer'
 import styles from './styles/styles'
 /**
  * Main file of module to expose public interface
