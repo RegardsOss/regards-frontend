@@ -14,7 +14,7 @@ import Subheader from 'material-ui/Subheader'
 import Divider from 'material-ui/Divider'
 import Delete from 'material-ui/svg-icons/action/delete'
 import { connect } from '@regardsoss/redux'
-import { PluginParameterType, PluginMetaDataList, PluginConfiguration } from '@regardsoss/model'
+import { PluginParameter, PluginParameterType, PluginMetaDataList, PluginConfiguration } from '@regardsoss/model'
 import PluginMetaDataSelectors from '../../../model/plugin/PluginMetaDataSelectors'
 import PluginConfigurationSelectors from '../../../model/plugin/PluginConfigurationSelectors'
 import { buildMenuItemPrimaryText } from './utils'
@@ -31,9 +31,11 @@ const required = value => value == null ? 'Required' : undefined
 export class PluginParameterPlugin extends React.Component {
 
   static propTypes = {
+    fieldKey: React.PropTypes.string,
     microserviceName: React.PropTypes.string,
-    name: React.PropTypes.string,
-    value: React.PropTypes.string,
+    // name: React.PropTypes.string,
+    // value: React.PropTypes.string,
+    pluginParameter: PluginParameter.isRequired,
     pluginParameterType: PluginParameterType,
     mode: React.PropTypes.oneOf(['view', 'edit']),
     change: React.PropTypes.func, // Callback provided by redux-form in order to manually change a field value
@@ -56,8 +58,8 @@ export class PluginParameterPlugin extends React.Component {
     this.state = {
       mode: 'view',
       openMenu: false,
-      value: undefined,
-      selectedPluginConfiguration: undefined,
+      value: props.pluginParameter && props.pluginParameter.value,
+      selectedPluginConfiguration: find(props.pluginConfigurationList, el => el.content.id === parseInt(props.pluginParameter.value, 10)),
     }
   }
 
@@ -78,11 +80,11 @@ export class PluginParameterPlugin extends React.Component {
       value,
       selectedPluginConfiguration: find(this.props.pluginConfigurationList, el => el.content.id === value),
     })
-    this.props.change(this.props.name, value)
+    this.props.change(this.props.fieldKey, value.toString())
   }
 
   render() {
-    const { name, value, mode, pluginParameterType, pluginMetaDataList, pluginConfigurationList } = this.props
+    const { mode, pluginParameter: { name, value }, pluginParameterType, pluginMetaDataList, pluginConfigurationList } = this.props
     const { openMenu, selectedPluginConfiguration } = this.state
 
     switch (mode) {
@@ -95,7 +97,7 @@ export class PluginParameterPlugin extends React.Component {
             <RaisedButton
               label={selectedPluginConfiguration ? selectedPluginConfiguration.content.label : <FormattedMessage id="microservice-management.plugin.parameter.plugin.choose" />}
               onTouchTap={this.handleOpenMenu}
-              style={{ marginLeft: 10 }}
+              style={{ marginLeft: 10 }} //TODO
             />
             <IconMenu
               iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
@@ -103,7 +105,7 @@ export class PluginParameterPlugin extends React.Component {
               onRequestChange={this.handleOnRequestChange}
               desktop
               autoWidth
-              style={{ visibility: 'hidden' }}
+              style={{ visibility: 'hidden' }}//TODO
             >
               {map(pluginMetaDataList, (pluginMetaData) => {
                 const pluginConfigurationListForThisPluginMetaData = filter(pluginConfigurationList, pluginConfiguration => pluginConfiguration.content.pluginId === pluginMetaData.content.pluginId)
@@ -140,7 +142,7 @@ export class PluginParameterPlugin extends React.Component {
           </div>
         )
       default:
-        return <ListItem>{name}: {value.toString()}</ListItem>
+        return <ListItem>{name}: {selectedPluginConfiguration && selectedPluginConfiguration.content.label}</ListItem>
     }
   }
 }

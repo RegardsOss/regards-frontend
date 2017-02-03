@@ -212,7 +212,7 @@
       "parameters": [
         {
           "name": "coeff",
-          "value": "thecoeffvalue",
+          "value": "42",
           "dynamic": true
         },
         {
@@ -238,12 +238,12 @@
       "parameters": [
         {
           "name": "coeff",
-          "value": "thecoeffvalue",
+          "value": "43",
           "dynamic": true
         },
         {
           "name": "isActive",
-          "value": "true",
+          "value": "false",
           "dynamic": false
         },
         {
@@ -264,7 +264,7 @@
       "parameters": [
         {
           "name": "coeff",
-          "value": "thecoeffvalue",
+          "value": "44",
           "dynamic": true
         },
         {
@@ -274,7 +274,7 @@
         },
         {
           "name": "plgInterface",
-          "value": "40",
+          "value": "12",
           "dynamic": false
         }
       ]

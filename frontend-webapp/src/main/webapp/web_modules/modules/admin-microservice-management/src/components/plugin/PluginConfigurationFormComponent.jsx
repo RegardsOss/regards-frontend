@@ -92,6 +92,22 @@ export class PluginConfigurationFormComponent extends React.Component {
    * Initialize form fields
    */
   handleInitialize = () => {
+    const { formMode, currentPluginConfiguration } = this.props
+    let initialValues
+
+    switch (formMode) {
+      case 'edit':
+        initialValues = Object.assign({}, currentPluginConfiguration.content)
+        break
+      case 'create':
+        break
+      case 'copy':
+        initialValues = Object.assign({}, currentPluginConfiguration.content)
+        initialValues.id = n
+        break
+      default:
+        break
+    }
     // TODO
     // const { pluginConfiguration, pluginMetaData } = this.props
     // const id = this.state.isEditing ? pluginConfiguration && pluginConfiguration.content && pluginConfiguration.content.id : undefined
@@ -112,7 +128,7 @@ export class PluginConfigurationFormComponent extends React.Component {
     //   pluginClassName: pluginConfigurationPluginClassName || pluginMetaDataPluginClassName,
     //   ...formatedParemeters,
     // }
-    // this.props.initialize(initialValues)
+    this.props.initialize(initialValues)
   }
 
   /**

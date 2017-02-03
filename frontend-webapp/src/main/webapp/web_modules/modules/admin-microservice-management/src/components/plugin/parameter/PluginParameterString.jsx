@@ -3,6 +3,7 @@
  **/
 import { ListItem } from 'material-ui/List'
 import { RenderTextField, Field } from '@regardsoss/form-utils'
+import { PluginParameter, PluginParameterType } from '@regardsoss/model'
 
 /**
  * Renders a form field in view or edit mode for a plugin parameter of types
@@ -14,24 +15,18 @@ import { RenderTextField, Field } from '@regardsoss/form-utils'
 export class PluginParameterString extends React.Component {
 
   static propTypes = {
-    name: React.PropTypes.string,
-    value: React.PropTypes.string,
+    fieldKey: React.PropTypes.string,
+    pluginParameter: PluginParameter,
     mode: React.PropTypes.oneOf(['view', 'edit']),
+    change: React.PropTypes.func, // Callback provided by redux-form in order to manually change a field value
   }
 
   static defaultProps = {
     mode: 'view',
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      mode: 'view',
-    }
-  }
-
   render() {
-    const { name, value, mode } = this.props
+    const { fieldKey, pluginParameter: { name, value }, mode, change } = this.props
 
     switch (mode) {
       case 'view':
@@ -39,7 +34,7 @@ export class PluginParameterString extends React.Component {
       case 'edit':
         return (
           <Field
-            name={name}
+            name={fieldKey}
             fullWidth
             component={RenderTextField}
             type={'text'}

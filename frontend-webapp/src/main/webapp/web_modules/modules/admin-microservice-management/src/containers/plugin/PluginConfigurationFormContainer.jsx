@@ -12,7 +12,6 @@ import PluginConfigurationActions from '../../model/plugin/PluginConfigurationAc
 import PluginConfigurationSelectors from '../../model/plugin/PluginConfigurationSelectors'
 import PluginMetaDataSelectors from '../../model/plugin/PluginMetaDataSelectors'
 import PluginMetaDataActions from '../../model/plugin/PluginMetaDataActions'
-import { extractUniqueTypesFromConfiguration } from '../../model/plugin/utils'
 
 /**
  * Container connecting the plugin configuration from to the redux store and handling user actions.
@@ -69,11 +68,11 @@ export class PluginConfigurationFormContainer extends React.Component {
     this.props.fetchPluginConfigurationList(microserviceName)
 
     // if (this.state.isEditing || this.state.isCopying) {
-      // this.props.fetchPluginConfiguration(this.props.params.pluginConfigurationId, microserviceName, pluginId)
+    // this.props.fetchPluginConfiguration(this.props.params.pluginConfigurationId, microserviceName, pluginId)
     // }
 
     // if (typeof this.props.params.pluginId !== 'undefined' && this.props.params.pluginId != null) {
-      // this.props.fetchPluginMetaData(this.props.params.pluginId, this.props.params.microserviceName)
+    // this.props.fetchPluginMetaData(this.props.params.pluginId, this.props.params.microserviceName)
     // }
   }
 
@@ -112,21 +111,9 @@ export class PluginConfigurationFormContainer extends React.Component {
    * @param vals form updated values
    */
   handleUpdate = (vals) => {
-    const { params: { microserviceName } } = this.props
-    const { id, label, version, priorityOrder, active, pluginClassName, pluginId, ...rest } = vals
-    const previousPluginConfiguration = this.props.pluginConfiguration.content
-    const updatedPluginConfiguration = {
-      id,
-      label,
-      version,
-      priorityOrder: parseInt(priorityOrder, 10),
-      active,
-      pluginClassName,
-      pluginId,
-      parameters: map(previousPluginConfiguration.parameters, parameter => Object.assign({}, parameter, { value: rest[parameter.name] })),
-    }
+    const { params: { microserviceName, pluginId, pluginConfigurationId } } = this.props
 
-    Promise.resolve(this.props.updatePluginConfiguration(previousPluginConfiguration.id, updatedPluginConfiguration, microserviceName, pluginId))
+    Promise.resolve(this.props.updatePluginConfiguration(pluginConfigurationId, vals, microserviceName, pluginId))
       .then((actionResult) => {
         // We receive here the actions
         if (!actionResult.error) {

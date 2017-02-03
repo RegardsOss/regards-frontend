@@ -56,6 +56,7 @@ export class PluginParameterListContainer extends React.Component {
           {map(pluginParameterList, (pluginParameter, index) =>
             <GenericPluginParameter
               key={index}
+              fieldKey={`parameters[${index}].value`}
               pluginParameter={pluginParameter}
               pluginParameterType={mapPluginParameterToPluginParameterType(pluginParameter, pluginMetaData)}
               mode={formMode}
