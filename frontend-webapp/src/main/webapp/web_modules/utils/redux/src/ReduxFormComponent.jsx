@@ -12,12 +12,23 @@ import connect from './Connect'
 class ReduxFormComponent extends React.Component {
 
   static propTypes = {
-    children: React.PropTypes.element,
+    children: React.PropTypes.oneOfType([React.PropTypes.node, React.PropTypes.arrayOf(React.PropTypes.node)]),
     onChange: React.PropTypes.func,
     onSubmit: React.PropTypes.func.isRequired,
     i18nMessagesDir: React.PropTypes.string.isRequired,
     // Set by redux store connection
     theme: React.PropTypes.string,
+  }
+  /**
+   * Handle when children is an array of node or single node
+   * @returns {*}
+   */
+  renderChildren= () => {
+    const { children } = this.props
+    if (! React.isValidElement(children)) {
+      return (<div>{children}</div>)
+    }
+    return (children)
   }
 
   render() {
@@ -26,7 +37,7 @@ class ReduxFormComponent extends React.Component {
       <form onChange={this.props.onChange} onSubmit={this.props.onSubmit}>
         <I18nProvider messageDir={this.props.i18nMessagesDir}>
           <MuiThemeProvider muiTheme={muiTheme}>
-            {this.props.children}
+            {this.renderChildren()}
           </MuiThemeProvider>
         </I18nProvider>
       </form>
