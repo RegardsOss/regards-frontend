@@ -24,7 +24,7 @@ import moduleStyles from '../../styles/styles'
 const styles = moduleStyles().pluginConfiguration
 
 /**
- * TODO
+ * Container connecting the plugin configuration list to the redux store and handling user interface actions.
  *
  * @author Xavier-Alexandre Brochard
  */

@@ -4,11 +4,11 @@
 import { chain, find } from 'lodash'
 
 /**
- * TODO
+ * Find the pluginParameterType of the {@code pluginParameter}
  *
- * @param pluginParameter
- * @param pluginMetaData
- * @returns {*}
+ * @param pluginParameter Of which we want the type
+ * @param pluginMetaData The lookup table providing all available types
+ * @returns {String || undefined}
  */
 const mapPluginParameterToPluginParameterType = (pluginParameter, pluginMetaData) => {
   let pluginParameterType
@@ -19,10 +19,10 @@ const mapPluginParameterToPluginParameterType = (pluginParameter, pluginMetaData
 }
 
 /**
- * TODO
+ * Exrtact all plugin parameter types (java.lang.Bool, fr.cnes.regard.ISamplePlugin...) from the plugin configuration
  *
- * @param pluginConfiguration
- * @param pluginMetaData
+ * @param pluginConfiguration Of which we want to extract types
+ * @param pluginMetaData The lookup table providing all available types
  */
 const extractUniqueTypesFromConfiguration = (pluginConfiguration, pluginMetaData) =>
   chain(pluginConfiguration && pluginConfiguration.content.parameters) // For all parameters of the defined configuration
@@ -34,9 +34,9 @@ const extractUniqueTypesFromConfiguration = (pluginConfiguration, pluginMetaData
     .value()
 
 /**
- * TODO
+ * Builds an empty parameter from the passed parameter type
  *
- * @param parameterType
+ * @param parameterType sefl expl.
  */
 const parameterTypeToEmptyParameter = parameterType => ({
   id: null,
@@ -49,5 +49,5 @@ const parameterTypeToEmptyParameter = parameterType => ({
 export {
   mapPluginParameterToPluginParameterType,
   extractUniqueTypesFromConfiguration,
-  parameterTypeToEmptyParameter
+  parameterTypeToEmptyParameter,
 }

@@ -7,7 +7,8 @@ import { Toggle } from 'redux-form-material-ui'
 import moduleStyles from '../../../styles/styles'
 
 /**
- * TODO
+ * Renders a form field in view or edit mode for a plugin parameter of types
+ * java.lang.Boolean
  *
  * @author Xavier-Alexandre Brochard
  */

@@ -5,7 +5,13 @@ import { ListItem } from 'material-ui/List'
 import { RenderTextField, Field } from '@regardsoss/form-utils'
 
 /**
- * TODO
+ * Renders a form field in view or edit mode for a plugin parameter of types
+ * 'java.lang.Byte'
+ * 'java.lang.Integer'
+ * 'java.lang.Long'
+ * 'java.lang.Float'
+ * 'java.lang.Double'
+ * 'java.lang.Short'
  *
  * @author Xavier-Alexandre Brochard
  */

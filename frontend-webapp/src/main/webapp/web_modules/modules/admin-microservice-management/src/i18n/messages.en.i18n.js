@@ -37,6 +37,11 @@ const messages = Object.assign({
   'microservice-management.plugin.configuration.form.action.submit.save': 'Save',
   'microservice-management.plugin.configuration.form.action.cancel': 'Cancel',
 
+  'microservice-management.plugin.parameter.list.title': 'Parameters',
+
+  'microservice-management.plugin.parameter.plugin.choose': 'Choose a plugin',
+  'microservice-management.plugin.parameter.plugin.empty.menu.item': 'None',
+
 }, Locales.en)
 
 export default messages

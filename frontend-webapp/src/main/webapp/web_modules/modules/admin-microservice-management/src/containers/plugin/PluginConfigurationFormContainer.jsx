@@ -15,7 +15,7 @@ import PluginMetaDataActions from '../../model/plugin/PluginMetaDataActions'
 import { extractUniqueTypesFromConfiguration } from '../../model/plugin/utils'
 
 /**
- * TODO
+ * Container connecting the plugin configuration from to the redux store and handling user actions.
  *
  * @author Xavier-Alexandre Brochard
  */

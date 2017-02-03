@@ -2,6 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { map, chain, isEmpty, filter, find } from 'lodash'
+import { FormattedMessage } from 'react-intl'
 import RaisedButton from 'material-ui/RaisedButton'
 import { ListItem } from 'material-ui/List'
 import IconMenu from 'material-ui/IconMenu'
@@ -22,7 +23,8 @@ import { buildMenuItemPrimaryText } from './utils'
 const required = value => value == null ? 'Required' : undefined
 
 /**
- * TODO
+ * Component displaying a menu allowing to pick a plugin configuration for the passed plugin paramater.
+ * Connected to redux store.
  *
  * @author Xavier-Alexandre Brochard
  */
@@ -91,7 +93,7 @@ export class PluginParameterPlugin extends React.Component {
           <div>
             {name}:
             <RaisedButton
-              label={selectedPluginConfiguration ? selectedPluginConfiguration.content.label : 'Choisir le plugin(todo)'}
+              label={selectedPluginConfiguration ? selectedPluginConfiguration.content.label : <FormattedMessage id="microservice-management.plugin.parameter.plugin.choose" />}
               onTouchTap={this.handleOpenMenu}
               style={{ marginLeft: 10 }}
             />
@@ -130,7 +132,7 @@ export class PluginParameterPlugin extends React.Component {
               <Divider />
               <MenuItem
                 key={'none'}
-                primaryText={'None(TODO)'}
+                primaryText={<FormattedMessage id="microservice-management.plugin.parameter.plugin.empty.menu.item" />}
                 onTouchTap={() => this.handleChange(undefined)}
                 rightIcon={<Delete />}
               />

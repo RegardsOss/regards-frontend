@@ -5,9 +5,9 @@ import { ListItem } from 'material-ui/List'
 import { RenderTextField, Field } from '@regardsoss/form-utils'
 
 /**
- * Renders a field in view or edit mode based on a pluginParameter and it's type.
- * For example, a parameter of type java.lang.String will be rendered as a {@link TextField},
- * and a paramater of type java.lang.Boolean will be rendered as a {@link Toggle}.
+ * Renders a form field in view or edit mode for a plugin parameter of types
+ * java.lang.String
+ * java.lang.Character
  *
  * @author Xavier-Alexandre Brochard
  */

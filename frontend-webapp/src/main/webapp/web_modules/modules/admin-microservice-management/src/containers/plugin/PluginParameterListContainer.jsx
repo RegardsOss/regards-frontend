@@ -19,7 +19,7 @@ import moduleStyles from '../../styles/styles'
 const styles = moduleStyles()
 
 /**
- * TODO
+ * Container connecting the plugin parameter list to the redux store.
  *
  * @author Xavier-Alexandre Brochard
  */
@@ -51,7 +51,7 @@ export class PluginParameterListContainer extends React.Component {
 
     return (
       <Card style={{ marginTop: 20 }}>
-        <CardTitle title={'Parameters (TODO)'} />
+        <CardTitle title={<FormattedMessage id="microservice-management.plugin.parameter.list.title"/>}/>
         <CardText>
           {map(pluginParameterList, (pluginParameter, index) =>
             <GenericPluginParameter
@@ -72,8 +72,8 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 // const mapDispatchToProps = dispatch => ({
-  // updatePluginConfiguration: (id, values, microserviceName, pluginId) => dispatch(PluginConfigurationActions.updateEntity(id, values, { microserviceName, pluginId })),
-  // deletePluginConfiguration: (pluginConfigurationId, microserviceName, pluginId) => dispatch(PluginConfigurationActions.deleteEntity(pluginConfigurationId, { microserviceName, pluginId })),
+// updatePluginConfiguration: (id, values, microserviceName, pluginId) => dispatch(PluginConfigurationActions.updateEntity(id, values, { microserviceName, pluginId })),
+// deletePluginConfiguration: (pluginConfigurationId, microserviceName, pluginId) => dispatch(PluginConfigurationActions.deleteEntity(pluginConfigurationId, { microserviceName, pluginId })),
 // })
 
 export default connect(mapStateToProps)(PluginParameterListContainer)
