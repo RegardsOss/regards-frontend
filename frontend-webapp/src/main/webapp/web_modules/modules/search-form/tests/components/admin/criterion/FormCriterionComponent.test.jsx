@@ -18,6 +18,10 @@ import Styles from '../../../../src/styles/styles'
 import FormCriterionComponent from '../../../../src/components/admin/criterion/FormCriterionComponent'
 import FormCriteriaComponent from '../../../../src/components/admin/criterion/FormCriteriaComponent'
 
+/**
+ * Tests for FormCriterionComponent
+ * @author Sébastien binda
+ */
 describe('[FORM MODULE] Testing formCriterionComponent', () => {
   const muiTheme = getMuiTheme({})
   const options = {

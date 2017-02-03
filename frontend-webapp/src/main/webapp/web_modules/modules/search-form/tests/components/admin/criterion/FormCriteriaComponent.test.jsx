@@ -14,6 +14,10 @@ import DefaultLayout from '../../../../src/components/admin/layout/DefaultFormLa
 import CriteriaConfigurationComponent from '../../../../src/components/admin/criterion/CriteriaConfigurationComponent'
 import { UnconnectedFormCriteriaComponent } from '../../../../src/components/admin/criterion/FormCriteriaComponent'
 
+/**
+ * Tests for FormCriteriaComponent
+ * @author Sébastien binda
+ */
 describe('[FORM MODULE] Testing FormCriteriaComponent', () => {
   const muiTheme = getMuiTheme({})
   const options = {

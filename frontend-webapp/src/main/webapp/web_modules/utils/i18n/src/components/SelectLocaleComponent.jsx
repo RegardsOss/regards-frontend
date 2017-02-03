@@ -6,6 +6,7 @@ import { FormattedMessage } from 'react-intl'
 
 /**
  * React component to display the language selector widget
+ * @author Sébastien Binda
  */
 class SelectLocaleComponent extends React.Component {
   static propTypes = {

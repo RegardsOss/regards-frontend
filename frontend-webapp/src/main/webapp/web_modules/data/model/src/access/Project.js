@@ -4,6 +4,7 @@
 
 /**
  * Project Entity definition
+ * @author Sébastien Binda
  */
 const Project = React.PropTypes.shape({
   content: React.PropTypes.shape({

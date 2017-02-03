@@ -11,6 +11,10 @@ import { DATASET_RESULTS } from '../../../../src/components/admin/parameters/Res
 import Styles from '../../../../src/styles/styles'
 import FormParametersConfigurationComponent from '../../../../src/components/admin/parameters/FormParametersConfigurationComponent'
 
+/**
+ * Tests for FormParametersConfigurationComponent
+ * @author Sébastien binda
+ */
 describe('[FORM MODULE] Testing FormParametersConfigurationComponent', () => {
   const muiTheme = getMuiTheme({})
   const options = {

@@ -9,6 +9,7 @@ import AvailableModules from './AvailableModules'
 
 /**
  * Main module file to expose public interface
+ * @author Sébastien Binda
  */
 export {
   AvailableModules,

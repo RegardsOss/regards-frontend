@@ -1,6 +1,14 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
+
 import { Card, CardHeader, CardText } from 'material-ui/Card'
 import { Plugin } from '@regardsoss/model'
 
+/**
+ * React component to display static informations from loaded plugin
+ * @author Sébastien Binda
+ */
 class PluginDefinitionComponent extends React.Component {
 
   static propTypes = {

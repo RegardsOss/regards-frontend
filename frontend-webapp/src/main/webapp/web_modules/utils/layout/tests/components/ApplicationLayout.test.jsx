@@ -9,6 +9,10 @@ import testLayout from './TestLayout'
 import testModules from './TestModules'
 import Container from '../../src/components/Container'
 
+/**
+ * Tests for ApplicationLayout
+ * @author Sébastien Binda
+ */
 describe('[LAYOUT] Testing Application layout factory', () => {
   it('Should render correctly an application layout with ApplicationLayout', () => {
     const context = {

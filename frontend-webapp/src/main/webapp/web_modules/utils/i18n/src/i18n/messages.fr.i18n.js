@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 const messages = {
   title: 'Langue',
   label: 'Langue: Français',

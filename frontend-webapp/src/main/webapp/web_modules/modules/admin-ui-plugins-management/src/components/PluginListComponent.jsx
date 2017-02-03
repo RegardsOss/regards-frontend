@@ -15,6 +15,7 @@ import { themeContextType } from '@regardsoss/theme'
 
 /**
  * React component to display a given list of plugins
+ * @author Sébastien Binda
  */
 class PluginListComponent extends React.Component {
 

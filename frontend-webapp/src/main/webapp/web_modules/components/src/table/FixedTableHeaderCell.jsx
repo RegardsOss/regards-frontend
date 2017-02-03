@@ -5,11 +5,13 @@ import { themeContextType } from '@regardsoss/theme'
 
 /**
  * Column header cell rendering for FixedTable
+ * @author Sébastien Binda
  */
 class FixedTableCell extends React.Component {
 
   static propTypes = {
     label: React.PropTypes.string,
+    lineHeight: React.PropTypes.number,
   }
 
   static contextTypes = {
@@ -18,10 +20,11 @@ class FixedTableCell extends React.Component {
 
   render() {
     const theme = this.context.muiTheme
+    const lineHeight = this.props.lineHeight ? this.props.lineHeight - 1 : 40
     return (
       <div
         style={{
-          lineHeight: '39px',
+          lineHeight: `${lineHeight}px`,
           backgroundColor: theme.table.backgroundColor,
           color: theme.tableHeaderColumn.textColor,
           fontFamily: theme.rawTheme.fontFamily,

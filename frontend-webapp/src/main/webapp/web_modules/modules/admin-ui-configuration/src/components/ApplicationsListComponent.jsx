@@ -8,6 +8,7 @@ import instanceApplicationItems from './ApplicationsInstanceBoardItems'
 
 /**
  * Component to display the configured board items with the file ApplicationBoardItems.
+ * @author Sébastien binda
  */
 class ListApplicationsComponent extends React.Component {
 

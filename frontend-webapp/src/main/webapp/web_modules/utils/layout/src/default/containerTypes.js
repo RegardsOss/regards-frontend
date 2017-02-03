@@ -4,6 +4,7 @@
 
 /**
  * Default available types of container for layout configuration
+ * @author Sébastien Binda
  */
 export default {
   /**

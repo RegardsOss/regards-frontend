@@ -12,6 +12,7 @@ import { ReduxConnectedForm } from '@regardsoss/redux'
 
 /**
  * React component to display and configure a given layout
+ * @author Sébastien binda
  */
 class ApplicationLayoutComponent extends React.Component {
 

@@ -17,6 +17,7 @@ import PluginDefinitionComponent from './PluginDefinitionComponent'
 
 /**
  * React component to display and configure a given layout
+ * @author Sébastien Binda
  */
 class pluginFormComponent extends React.Component {
 

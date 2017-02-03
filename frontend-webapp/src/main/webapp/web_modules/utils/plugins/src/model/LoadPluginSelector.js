@@ -5,6 +5,7 @@ import { BasicSelector } from '@regardsoss/store-utils'
 
 /**
  * Selector for plugins from redux store
+ * @author Sébastien Binda
  */
 class PluginSelector extends BasicSelector {
 

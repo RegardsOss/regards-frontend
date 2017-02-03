@@ -4,6 +4,7 @@
 
 /**
  * Plugin configuration for layout display
+ * @author Sébastien Binda
  */
 const PluginConf = React.PropTypes.shape({
   id: React.PropTypes.number,

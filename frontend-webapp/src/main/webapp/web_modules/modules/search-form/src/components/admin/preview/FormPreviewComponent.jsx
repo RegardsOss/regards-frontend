@@ -5,6 +5,7 @@ import { LazyModuleComponent, ModuleShape } from '@regardsoss/modules'
 
 /**
  * Component to display a preview of the current search form module
+ * @author Sébastien binda
  */
 class FormPreviewComponent extends React.Component {
 

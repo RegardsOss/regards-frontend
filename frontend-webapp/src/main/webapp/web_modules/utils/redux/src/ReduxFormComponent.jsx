@@ -8,6 +8,7 @@ import connect from './Connect'
 
 /**
  * Component to allow theme and i18n management throught refux-form
+ * @author Sébastien Binda
  */
 class ReduxFormComponent extends React.Component {
 

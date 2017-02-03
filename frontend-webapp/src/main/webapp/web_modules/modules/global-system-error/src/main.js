@@ -8,6 +8,7 @@ import ApplicationErrorReducer from './model/reducer'
 
 /**
  * global-system-error module allow to manage errors for an application.
+ * @author Sébastien binda
  */
 export {
   ApplicationErrorContainer,

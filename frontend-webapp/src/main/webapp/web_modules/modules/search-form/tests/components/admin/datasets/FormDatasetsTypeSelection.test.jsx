@@ -11,7 +11,11 @@ import { DATASET_MODEL_TYPE } from '../../../../src/models/datasets/DatasetSelec
 import Styles from '../../../../src/styles/styles'
 import FormDatasetsTypeSelection from '../../../../src/components/admin/datasets/FormDatasetsTypeSelection'
 
-describe('[FORM MODULE] Testing FormDatasetsConfigurationComponent', () => {
+/**
+ * Tests for FormDatasetsTypeSelection
+ * @author Sébastien binda
+ */
+describe('[FORM MODULE] Testing FormDatasetsTypeSelection', () => {
   const muiTheme = getMuiTheme({})
   const options = {
     context: {
@@ -23,7 +27,7 @@ describe('[FORM MODULE] Testing FormDatasetsConfigurationComponent', () => {
     },
   }
 
-  it('Should render a FormDatasetsConfigurationComponent to configure datasets', () => {
+  it('Should render a FormDatasetsTypeSelection to configure datasets', () => {
     const selectCallback = sinon.spy()
     const props = {
       defaultSelected: DATASET_MODEL_TYPE,

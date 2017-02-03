@@ -12,6 +12,10 @@ const options = {
 
 const entityTester = new ReduxEntityTester(ModulesActions, ModulesReducer, ModulesSelector, React.PropTypes.objectOf(Module).isRequired, backendServerResultList, options)
 
+/**
+ * Tests for Modules entities
+ * @author Sébastien binda
+ */
 describe('[ADMIN UI CONFIGURATION] Testing model Module', () => {
   before(() => {
     entityTester.beforeAll()

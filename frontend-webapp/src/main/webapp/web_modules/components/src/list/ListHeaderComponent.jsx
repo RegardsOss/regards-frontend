@@ -10,6 +10,10 @@ import MenuItem from 'material-ui/MenuItem'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 
+/**
+ * React component to display an header before the infinite scroll list
+ * @author Sébastien Binda
+ */
 class ListHeaderComponent extends React.Component {
 
   static contextTypes = {

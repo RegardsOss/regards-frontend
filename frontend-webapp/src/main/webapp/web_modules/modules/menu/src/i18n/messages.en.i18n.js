@@ -5,7 +5,7 @@ import { Locales } from '@regardsoss/form-utils'
 
 /**
  * i18n messages english language
- * @type {*}
+ * @author Sébastien binda
  */
 const messages = Object.assign({
   loginFormTitle: 'Login to project interface',

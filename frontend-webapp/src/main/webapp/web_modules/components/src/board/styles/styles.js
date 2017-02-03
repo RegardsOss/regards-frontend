@@ -1,6 +1,12 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+
+/**
+ * Styles for board items components
+ * @param theme
+ * @author Sébastien Binda
+ */
 const styles = theme => ({
   section: {
     classes: ['row'].join(' '),

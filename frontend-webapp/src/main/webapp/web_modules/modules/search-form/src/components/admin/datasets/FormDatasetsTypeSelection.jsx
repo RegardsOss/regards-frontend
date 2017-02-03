@@ -8,6 +8,7 @@ import { Field, RenderRadio } from '@regardsoss/form-utils'
 /**
  * React component to display a radio group box to select the search form dataset assocation type
  * Types are : all, datasets, datasetModels
+ * @author Sébastien binda
  */
 class FormDatasetsTypeSelection extends React.Component {
 

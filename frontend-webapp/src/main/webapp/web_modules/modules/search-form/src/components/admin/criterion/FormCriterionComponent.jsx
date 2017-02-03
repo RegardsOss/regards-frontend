@@ -22,6 +22,7 @@ import FormCriteriaComponent from './FormCriteriaComponent'
 
 /**
  * Component to display all criterion associated to the current form
+ * @author Sébastien binda
  */
 class FormCriterionComponent extends React.Component {
 

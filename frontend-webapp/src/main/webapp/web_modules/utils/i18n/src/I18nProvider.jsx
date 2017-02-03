@@ -1,5 +1,7 @@
 /** @module common */
-
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { connect } from '@regardsoss/redux'
 import { addLocaleData, IntlProvider } from 'react-intl'
 import frLocaleData from 'react-intl/locale-data/fr'

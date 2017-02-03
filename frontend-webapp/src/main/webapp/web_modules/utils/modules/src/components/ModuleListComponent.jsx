@@ -17,6 +17,7 @@ import ModuleShape from '../model/ModuleShape'
 
 /**
  * Component to display all available modules for a given container
+ * @author Sébastien Binda
  */
 class ModuleListComponent extends React.Component {
 
@@ -115,51 +116,54 @@ class ModuleListComponent extends React.Component {
 
 
   render() {
+    const styles = Styles(this.context.muiTheme)
     return (
       <div
-        style={Styles.moduleListButton}
+        style={styles.moduleListButtonsGroup}
       >
-        <FloatingActionButton
-          onTouchTap={this.handleToggle}
-          secondary
+        <div
+          style={styles.moduleListButton}
         >
-          <FilterList />
-        </FloatingActionButton>
-        <Drawer
-          open={this.state.open}
-          docked={false}
-          width={200}
-          openSecondary
-          onRequestChange={this.handleClose}
-        >
-          <List>
-            <Subheader
-              style={{
-                backgroundColor: this.context.muiTheme.palette.accent2Color,
-              }}
-            ><FormattedMessage id="modules.list.menu.label" /></Subheader>
-            <Divider />
-            {map(this.state.sections, (modules, section) => {
-              if (modules.length > 1) {
+          <FloatingActionButton
+            onTouchTap={this.handleToggle}
+            secondary
+          >
+            <FilterList />
+          </FloatingActionButton>
+          <Drawer
+            open={this.state.open}
+            docked={false}
+            width={200}
+            openSecondary
+            onRequestChange={this.handleClose}
+          >
+            <List>
+              <Subheader style={styles.moduleListSection}>
+                <FormattedMessage id="modules.list.menu.label" />
+              </Subheader>
+              <Divider />
+              {map(this.state.sections, (modules, section) => {
+                if (modules.length > 1) {
+                  return (
+                    <div key={section}>
+                      <ListItem
+                        primaryText={this.getSectionLabel(section)}
+                        initiallyOpen={false}
+                        primaryTogglesNestedList
+                        nestedItems={modules}
+                      />
+                    </div>
+                  )
+                }
                 return (
                   <div key={section}>
-                    <ListItem
-                      primaryText={this.getSectionLabel(section)}
-                      initiallyOpen={false}
-                      primaryTogglesNestedList
-                      nestedItems={modules}
-                    />
+                    {modules}
                   </div>
                 )
-              }
-              return (
-                <div key={section}>
-                  {modules}
-                </div>
-              )
-            })}
-          </List>
-        </Drawer>
+              })}
+            </List>
+          </Drawer>
+        </div>
       </div>
     )
   }

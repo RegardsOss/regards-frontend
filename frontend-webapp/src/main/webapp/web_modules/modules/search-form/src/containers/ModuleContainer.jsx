@@ -13,6 +13,7 @@ import AttributeModelActions from '../models/attributes/AttributeModelActions'
 import AttributeModelSelector from '../models/attributes/AttributeModelSelector'
 /**
  * Main container to display module form.
+ * @author Sébastien binda
  */
 class ModuleContainer extends React.Component {
 

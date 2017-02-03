@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { forOwn } from 'lodash'
 import I18nSelectors from './I18nSelectors'
 

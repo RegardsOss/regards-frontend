@@ -9,6 +9,7 @@ import Palette from 'material-ui/svg-icons/image/palette'
  * Configuration file for UI-Configuration boards items.
  * @param project
  * @param intl
+ * @author Sébastien binda
  */
 export default intl => [
   {

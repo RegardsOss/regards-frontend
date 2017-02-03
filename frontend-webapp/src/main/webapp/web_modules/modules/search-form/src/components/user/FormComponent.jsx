@@ -10,6 +10,7 @@ import { themeContextType } from '@regardsoss/theme'
 
 /**
  * Component to display a configured Search form module
+ * @author Sébastien binda
  */
 class FormComponent extends React.Component {
 

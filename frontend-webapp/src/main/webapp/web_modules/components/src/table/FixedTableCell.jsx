@@ -7,37 +7,29 @@ import { themeContextType } from '@regardsoss/theme'
 
 /**
  * Cell rendering for FixedTable
+ * @author Sébastien Binda
  */
 class FixedTableCell extends React.Component {
 
   static propTypes = {
     rowIndex: React.PropTypes.number,
-    data: React.PropTypes.arrayOf(React.PropTypes.object),
-    col: React.PropTypes.string,
+    col: React.PropTypes.shape({
+      attributes: React.PropTypes.arrayOf(React.PropTypes.string),
+      label: React.PropTypes.string,
+    }),
+    getCellValue: React.PropTypes.func,
   }
 
   static contextTypes = {
     ...themeContextType,
   }
 
-  getAttribute = () => {
-    const entity = this.props.data[this.props.rowIndex]
-    if (entity && entity.content) {
-      if (entity.content[this.props.col]) {
-        return entity.content[this.props.col]
-      }
-      return entity.content.attributes[this.props.col]
-    }
-    return ''
-  }
-
-
   render() {
-    const attribute = this.getAttribute()
+    const attribute = this.props.getCellValue(this.props.rowIndex, this.props.col)
     const theme = this.context.muiTheme
     return (
       <Cell
-        {...omit(this.props, ['col'])}
+        {...omit(this.props, ['col', 'getCellValue'])}
         style={{
           backgroundColor: theme.table.backgroundColor,
           borderBottom: `1px solid ${theme.tableRow.borderColor}`,

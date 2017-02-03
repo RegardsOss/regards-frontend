@@ -12,6 +12,7 @@ import PluginFormComponent from '../components/PluginFormComponent'
 
 /**
  * React component to display a edition form for plugin entity
+ * @author Sébastien Binda
  */
 class PluginFormContainer extends React.Component {
 

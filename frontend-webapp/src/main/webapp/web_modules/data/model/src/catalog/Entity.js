@@ -6,6 +6,7 @@ import KeyValueObject from '../common/KeyValueObject'
 
 /**
  * Entity definition for all catalog entities like datasets, dataobjects, collections or documents.
+ * @author Sébastien Binda
  */
 const Entity = React.PropTypes.shape({
   content: React.PropTypes.shape({

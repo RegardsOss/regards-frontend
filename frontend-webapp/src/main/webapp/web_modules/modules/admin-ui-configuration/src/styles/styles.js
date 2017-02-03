@@ -1,6 +1,12 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+
+/**
+ * Module styles
+ * @param theme
+ * @author Sébastien binda
+ */
 const formStyles = theme => ({
   board: {
     section: {

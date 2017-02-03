@@ -8,6 +8,7 @@ import getLayoutReducer from './model/layout/LayoutReducer'
 /**
  * UI-Configuration module reducers
  * @type {Function}
+ * @author Sébastien binda
  */
 const uiConfigurationtReducer = combineReducers({
   layout: getLayoutReducer,

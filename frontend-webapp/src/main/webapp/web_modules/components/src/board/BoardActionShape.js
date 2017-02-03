@@ -4,6 +4,7 @@
 
 /**
  * Board action Entity definition.
+ * @author Sébastien Binda
  */
 const BoardActionShape = React.PropTypes.shape({
   path: React.PropTypes.string,

@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ */
 import { ReduxEntityTester } from '@regardsoss/tests-helpers'
 import { Entity } from '@regardsoss/model'
 import DatasetActions from '../../../src/models/datasets/DatasetActions'
@@ -11,6 +14,10 @@ const options = {
 
 const entityTester = new ReduxEntityTester(DatasetActions, DatasetReducer, DatasetSelector, React.PropTypes.objectOf(Entity).isRequired, backendServerResultList, options)
 
+/**
+ * Tests for Datasets
+ * @author Sébastien binda
+ */
 describe('[FORM MODULE] Testing model Entity (dataset)', () => {
   before(() => {
     entityTester.beforeAll()

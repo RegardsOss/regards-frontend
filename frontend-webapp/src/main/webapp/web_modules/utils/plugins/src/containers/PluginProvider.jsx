@@ -15,6 +15,7 @@ import PluginLoader from './PluginLoader'
  *
  * This class do not load the plugin but only the plugin definition form the server.
  * @see PluginProvider for more information about Plugin loading.
+ * @author Sébastien Binda
  */
 class PluginProvider extends React.Component {
 

@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { expect } from 'chai'
 import reducer from '../../src/model/I18nReducers'
 import { SET_LOCALE, SET_LOCALE_MSG } from '../../src/model/I18nActions'

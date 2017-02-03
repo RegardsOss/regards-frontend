@@ -11,6 +11,10 @@ import DatasetModelLineComponent from '../../../../src/components/admin/datasets
 import DatasetLineComponent from '../../../../src/components/admin/datasets/DatasetLineComponent'
 import FormDatasetsConfigurationComponent from '../../../../src/components/admin/datasets/FormDatasetsConfigurationComponent'
 
+/**
+ * Tests for FormDatasetsConfigurationComponent
+ * @author Sébastien binda
+ */
 describe('[FORM MODULE] Testing FormDatasetsConfigurationComponent', () => {
   const muiTheme = getMuiTheme({})
   const options = {

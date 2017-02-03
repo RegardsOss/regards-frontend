@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ */
 import { ReduxEntityTester } from '@regardsoss/tests-helpers'
 import { PluginDefinition } from '@regardsoss/model'
 import CriterionActions from '../../../src/models/criterion/CriterionActions'
@@ -12,6 +15,10 @@ const options = {
 
 const entityTester = new ReduxEntityTester(CriterionActions, CriterionReducer, CriterionSelector, React.PropTypes.objectOf(PluginDefinition).isRequired, backendServerResultList, options)
 
+/**
+ * Tests for Criterion entities
+ * @author Sébastien binda
+ */
 describe('[FORM MODULE] Testing model Criterion', () => {
   before(() => {
     entityTester.beforeAll()

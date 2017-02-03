@@ -7,6 +7,7 @@ import CatalogEntityActions from './CatalogEntityActions'
 
 /**
  * Redux store reducer for Module entities
+ * @author Sébastien binda
  */
 class CatalogEntityReducer extends BasicPageableReducers {
   constructor() {

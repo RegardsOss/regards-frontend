@@ -7,6 +7,7 @@ import PluginActions from './PluginActions'
 
 /**
  * Redux store reducer for Module entities
+ * @author Sébastien Binda
  */
 class PluginReducer extends BasicPageableReducers {
   constructor() {

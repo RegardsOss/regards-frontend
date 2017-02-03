@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { concat, keys, isEqual } from 'lodash'
+import { concat, forEach, isEqual, keys, map } from 'lodash'
 import { Table, Column } from 'fixed-data-table'
 import { LoadingComponent } from '@regardsoss/display-control'
 import { themeContextType } from '@regardsoss/theme'
@@ -28,6 +28,7 @@ import FixedTableHeaderCell from './FixedTableHeaderCell'
  * to retrieve 3*X elements after the first missing entity index around the current first visible index.
  * 4. FixedDataTable, display the object from the array with the current visible indexes
  *
+ * @author Sébastien Binda
  */
 class FixedTable extends React.Component {
 
@@ -35,6 +36,7 @@ class FixedTable extends React.Component {
    * PageActions : BasicPageableActions of the entities to manage
    * PageSelector : BasicPageableSelectors of the entities to manage
    * pageSize : Optional, number of visible entity into the table. Default 20.
+   * lineHeight: Optional, default 40px
    * @type {{PageActions: *, PageSelector: *, pageSize: *, requestParams: *, entities: *, pageMetadata: *, fetchEntities: *, entitiesFetching: *}}
    */
   static propTypes = {
@@ -43,6 +45,7 @@ class FixedTable extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     PageSelector: React.PropTypes.instanceOf(BasicPageableSelectors).isRequired,
     pageSize: React.PropTypes.number,
+    lineHeight: React.PropTypes.number,
     // eslint-disable-next-line react/forbid-prop-types
     requestParams: React.PropTypes.object,
     // Set by redux store connection
@@ -64,15 +67,16 @@ class FixedTable extends React.Component {
   constructor(props) {
     super(props)
     const defaultLineHeight = 40
+    const lineHeight = this.props.lineHeight ? this.props.lineHeight : defaultLineHeight
     // 20 + 1 for header line
     const defaultPageSize = 21
     const defaultNbEntitiesByPage = defaultPageSize * 3
-    const defaultHeight = defaultPageSize * defaultLineHeight
+    const defaultHeight = defaultPageSize * lineHeight
     // +1 for header row
-    const height = this.props.pageSize ? defaultLineHeight * (this.props.pageSize + 1) : defaultHeight
+    const height = this.props.pageSize ? lineHeight * (this.props.pageSize + 1) : defaultHeight
     const width = window.innerWidth - 60
     this.state = {
-      rowHeight: defaultLineHeight,
+      rowHeight: lineHeight,
       pageSize: this.props.pageSize ? this.props.pageSize : defaultPageSize,
       nbEntitiesByPage: this.props.pageSize ? this.props.pageSize * 3 : defaultNbEntitiesByPage,
       entities: [],
@@ -139,17 +143,36 @@ class FixedTable extends React.Component {
    */
   onScrollEnd = (scrollStartOffset, scrollEndOffset) => {
     // the scroll offset is the first element to fetch if it is missing
-    const index = Math.floor(scrollEndOffset / 50)
+    const index = Math.floor(scrollEndOffset / this.state.rowHeight)
 
     // Search for first missing key in viewport
+    let firstIndexToFetch = null
     if (index > this.state.pageSize) {
       let i = 0
-      for (i = index - this.state.pageSize; i < index + (2 * this.state.pageSize); i += 1) {
+      for (i = index - this.state.pageSize; i < (index + (2 * this.state.pageSize)) && i < this.state.entities.length; i += 1) {
         if (keys(this.state.entities[i]).length === 0) {
-          this.props.fetchEntities(i, this.state.nbEntitiesByPage, this.props.requestParams)
+          firstIndexToFetch = i
+          // Init pending information in the current state for fetching missing entities.
+          // The pending information allow not to run a new request for an already fetching entity
+          // An entity is fetch only if the entity is an empty object in the cache object state.entities
+          const entities = concat([], this.state.entities)
+          let j = 0
+          for (j = firstIndexToFetch; j < this.state.nbEntitiesByPage; j += 1) {
+            if (keys(entities[j]).length === 0) {
+              entities[j] = { pending: true }
+            }
+          }
+          this.setState({
+            entities,
+          })
           break
         }
       }
+    }
+
+    // Run search
+    if (firstIndexToFetch !== null) {
+      this.props.fetchEntities(firstIndexToFetch, this.state.nbEntitiesByPage, this.props.requestParams)
     }
   }
 
@@ -166,6 +189,45 @@ class FixedTable extends React.Component {
         [columnKey]: newColumnWidth,
       },
     }))
+  }
+
+  /**
+   * Return a cell content value with the rox index and the column name.
+   * @param rowIndex
+   * @param column
+   * @returns {string}
+   */
+  getCellValue = (rowIndex, column) => {
+    let value = ''
+    const entity = this.state.entities[rowIndex].content
+    if (entity) {
+      let i = 0
+      for (i = 0; i < column.attributes.length; i += 1) {
+        if (entity[column.attributes[i]]) {
+          value += ` ${entity[column.attributes[i]]}`
+        } else {
+          value += ` ${entity.attributes[column.attributes[i]]}`
+        }
+      }
+    }
+    return value
+  }
+
+  /**
+   * Return columns form first result entity attributes
+   * @returns {Array}
+   */
+  getAllColumns = () => {
+    const entity = this.state.entities[0]
+    const columns = []
+    // Add default attributes
+    if (entity.content && entity.content.label) {
+      columns.push({ attributes: ['label'], label: 'label' })
+    }
+    forEach(entity.content.attributes, (attr, key) => {
+      columns.push({ attributes: [key], label: key })
+    })
+    return columns
   }
 
   /**
@@ -200,8 +262,7 @@ class FixedTable extends React.Component {
   render() {
     if (this.props.pageMetadata && this.props.pageMetadata.totalElements > 0) {
       const totalNumberOfEntities = this.props.pageMetadata.totalElements
-      const { columnWidths, width, height, entities } = this.state
-
+      const { columnWidths, width, height } = this.state
       return (
         <div
           style={{
@@ -223,33 +284,17 @@ class FixedTable extends React.Component {
             height={height}
             {...this.props}
           >
-            <Column
-              columnKey="label"
-              header={<FixedTableHeaderCell label="label" />}
-              cell={<FixedTableCell data={entities} col="label" />}
-              fixed
-              width={columnWidths.label}
-              felxgrow={1}
-              isResizable
-            />
-            <Column
-              columnKey="format"
-              header={<FixedTableHeaderCell label="format" />}
-              cell={<FixedTableCell data={entities} col="format" />}
-              fixed
-              width={columnWidths.format}
-              felxgrow={1}
-              isResizable
-            />
-            <Column
-              columnKey="language"
-              header={<FixedTableHeaderCell label="language" />}
-              cell={<FixedTableCell data={entities} col="language" />}
-              fixed
-              width={columnWidths.language}
-              flexGrow={1}
-              isResizable
-            />
+            {map(this.getAllColumns(), (column, idx) => (
+              <Column
+                key={idx}
+                columnKey={column.label}
+                header={<FixedTableHeaderCell label={column.label} lineHeight={this.state.rowHeight} />}
+                cell={<FixedTableCell getCellValue={(rowIndex, col) => this.getCellValue(rowIndex, col)} col={column} />}
+                fixed
+                width={columnWidths.label}
+                felxgrow={1}
+                isResizable
+              />))}
           </Table>
         </div>
       )

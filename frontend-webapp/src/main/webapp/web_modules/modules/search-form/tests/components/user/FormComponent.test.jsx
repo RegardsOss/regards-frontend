@@ -10,7 +10,10 @@ import { ApplicationLayout } from '@regardsoss/layout'
 import FormComponent from '../../../src/components/user/FormComponent'
 import Styles from '../../../src/styles/styles'
 
-
+/**
+ * Tests form FomComponent
+ * @author Sébastien binda
+ */
 describe('[FORM MODULE] Testing Form User component', () => {
   const muiTheme = getMuiTheme({})
   const options = {

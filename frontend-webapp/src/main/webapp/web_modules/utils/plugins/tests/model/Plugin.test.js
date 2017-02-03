@@ -1,3 +1,7 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
+
 import { ReduxEntityTester } from '@regardsoss/tests-helpers'
 import { PluginDefinition } from '@regardsoss/model'
 import PluginActions from '../../src/model/PluginActions'
@@ -11,6 +15,10 @@ const options = {
 
 const entityTester = new ReduxEntityTester(PluginActions, PluginReducer, PluginSelector, React.PropTypes.objectOf(PluginDefinition).isRequired, backendServerResultList, options)
 
+/**
+ * Tests for PluginDefinition model
+ * @author Sébastien Binda
+ */
 describe('[PLUGINS] Testing model PluginDefinition', () => {
   before(() => {
     entityTester.beforeAll()

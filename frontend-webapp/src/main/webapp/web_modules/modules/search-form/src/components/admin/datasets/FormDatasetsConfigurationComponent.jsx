@@ -18,6 +18,7 @@ import FormDatasetsTypeSelection from './FormDatasetsTypeSelection'
 
 /**
  * Display form to configure associated datasers of search form.
+ * @author Sébastien binda
  */
 class FormDatasetsConfigurationComponent extends React.Component {
 

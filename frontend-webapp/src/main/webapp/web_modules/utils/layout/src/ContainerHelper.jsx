@@ -4,6 +4,10 @@
 import { merge, union, forEach, find } from 'lodash'
 import containerTypes from './default/containerTypes'
 
+/**
+ * Helper to navigate into applications layouts containers
+ * @author Sébastien Binda
+ */
 class ContainerHelper {
   /*
    * Retrieve class names for the given container

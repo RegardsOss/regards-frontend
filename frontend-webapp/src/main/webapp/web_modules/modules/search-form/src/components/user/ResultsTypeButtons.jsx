@@ -1,38 +1,34 @@
-import FloatingActionButton from 'material-ui/FloatingActionButton'
-import DocumentLibrary from 'material-ui/svg-icons/image/collections-bookmark'
-import ImageLibrary from 'material-ui/svg-icons/action/perm-media'
-import Map from 'material-ui/svg-icons/social/public'
-import DataLibrary from 'material-ui/svg-icons/av/library-books'
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 
+import FloatingActionButton from 'material-ui/FloatingActionButton'
+import DatasetLibrary from 'material-ui/svg-icons/image/collections-bookmark'
+import DataLibrary from 'material-ui/svg-icons/av/library-books'
+import { themeContextType } from '@regardsoss/theme'
+
+/**
+ * React component to display buttons to manage results visualisations
+ * @author Sébastien binda
+ */
 class ResultsTypeButtons extends React.Component {
+
+  static contextTypes = {
+    ...themeContextType,
+  }
   render() {
     return (
       <div
-        style={{
-          top: 0,
-          position: 'fixed',
-          height: '100%',
-        }}
+        style={this.context.moduleTheme.resultsButtonsType.buttonsGroup}
       >
         <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            height: '100%',
-          }}
+          style={this.context.moduleTheme.resultsButtonsType.buttons}
         >
           <FloatingActionButton style={{ marginBottom: 10 }}>
+            <DatasetLibrary />
+          </FloatingActionButton>
+          <FloatingActionButton style={{ marginBottom: 10 }}>
             <DataLibrary />
-          </FloatingActionButton>
-          <FloatingActionButton style={{ marginBottom: 10 }}>
-            <ImageLibrary />
-          </FloatingActionButton>
-          <FloatingActionButton style={{ marginBottom: 10 }}>
-            <DocumentLibrary />
-          </FloatingActionButton>
-          <FloatingActionButton>
-            <Map />
           </FloatingActionButton>
         </div>
       </div>

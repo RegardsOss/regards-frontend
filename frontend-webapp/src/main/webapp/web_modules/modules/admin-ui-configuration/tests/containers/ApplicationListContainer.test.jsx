@@ -7,6 +7,10 @@ import { I18nProvider } from '@regardsoss/i18n'
 import ApplicationsListComponent from '../../src/components/ApplicationsListComponent'
 import { UnconnectedApplicationListContainer } from '../../src/containers/ApplicationListContainer'
 
+/**
+ * Tests for ApplicationListContainer
+ * @author Sébastien binda
+ */
 describe('[ADMIN UI-CONFIGURATION] Testing Application list container', () => {
   it('Should render correctly the ApplicationListComponent', () => {
     const props = {

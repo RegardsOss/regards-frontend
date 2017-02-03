@@ -8,6 +8,7 @@ import { PLUGIN_LOADED } from './LoadPluginActions'
  * @param state
  * @param action
  * @returns {*}
+ * @author Sébastien Binda
  */
 export default (state = {
   items: {},

@@ -9,6 +9,7 @@ import { DATAOBJECT_RESULTS, DATASET_RESULTS } from './ResultTypesEnum'
 
 /**
  * Display form to configure main parameters of search form.
+ * @author Sébastien binda
  */
 class FormParametersConfigurationComponent extends React.Component {
 

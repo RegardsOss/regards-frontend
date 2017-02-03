@@ -5,6 +5,7 @@
 /**
  * List of valid plugin types
  * @type {[*]}
+ * @author Sébastien Binda
  */
 const PluginTypes = [
   'criteria',

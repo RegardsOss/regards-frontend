@@ -8,6 +8,7 @@ import { themeContextType } from '@regardsoss/theme'
 
 /**
  * Display a line into the PageableListComponent.
+ * @author Sébastien Binda
  */
 class LineComponent extends React.Component {
 

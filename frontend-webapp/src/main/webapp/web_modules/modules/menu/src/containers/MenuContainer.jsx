@@ -8,6 +8,7 @@ import AuthenticationMenuContainer from './AuthenticationMenuContainer'
 
 /**
  * Main component of module menu
+ * @author Sébastien binda
  **/
 class MenuContainer extends React.Component {
 

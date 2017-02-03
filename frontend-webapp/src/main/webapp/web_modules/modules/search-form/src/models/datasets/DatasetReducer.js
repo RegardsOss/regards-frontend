@@ -6,7 +6,8 @@ import { DatasetConfiguration } from '@regardsoss/api'
 import DatasetActions from './DatasetActions'
 
 /**
- * Redux store reducer for Module entities
+ * Redux store reducer for Dataset entities
+ * @author Sébastien binda
  */
 class DatasetReducer extends BasicPageableReducers {
   constructor() {

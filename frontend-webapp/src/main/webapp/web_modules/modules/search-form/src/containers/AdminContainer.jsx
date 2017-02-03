@@ -16,6 +16,7 @@ import DatasetConfShape from '../models/datasets/DatasetsConfShape'
 
 /**
  * Main container to display administration view of the module form.
+ * @author Sébastien binda
  */
 class AdminContainer extends React.Component {
 

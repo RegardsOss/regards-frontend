@@ -1,6 +1,11 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+
+/**
+ * Container entity
+ * @author Sébastien Binda
+ */
 const Container = React.PropTypes.shape({
   id: React.PropTypes.string.isRequired,
   type: React.PropTypes.string.isRequired,

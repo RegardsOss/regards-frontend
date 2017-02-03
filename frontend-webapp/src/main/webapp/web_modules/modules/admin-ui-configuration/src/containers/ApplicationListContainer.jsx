@@ -6,6 +6,7 @@ import ApplicationListComponent from '../components/ApplicationsListComponent'
 
 /**
  * Module container to display the list of applications.
+ * @author Sébastien binda
  */
 class ApplicationListContainer extends React.Component {
 

@@ -9,7 +9,7 @@ import CatalogEntityActions from './models/catalog/CatalogEntityActions'
 
 /**
  * Dependencies needed to display user page of the module
- * @type {[*]}
+ * @author Sébastien binda
  */
 const user = [
   AttributeModelActions.getDependency('GET'),

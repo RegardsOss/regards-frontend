@@ -7,6 +7,7 @@ import { FormattedMessage } from 'react-intl'
 
 /**
  * Component to display a login button
+ * @author Sébastien binda
  */
 class LoginButton extends React.Component {
 
