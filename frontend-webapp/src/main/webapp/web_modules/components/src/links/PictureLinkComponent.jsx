@@ -9,6 +9,7 @@ import { themeContextType } from '@regardsoss/theme'
 class PictureLinkComponent extends React.Component {
 
   static propTypes = {
+    disabled: React.PropTypes.bool,
     text: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.element]).isRequired,
     IconComponent: React.PropTypes.func.isRequired,
     onAction: React.PropTypes.func.isRequired,
@@ -45,7 +46,7 @@ class PictureLinkComponent extends React.Component {
   }
 
   render() {
-    const { onAction, text, IconComponent, iconStyles, iconToTextGap } = this.props
+    const { disabled, onAction, text, IconComponent, iconStyles, iconToTextGap } = this.props
     const { isOver } = this.state
     const { palette } = this.context.muiTheme
 
@@ -57,11 +58,18 @@ class PictureLinkComponent extends React.Component {
     overImageColor = overImageColor || palette.primary1Color
 
     // compute the colors to use in current state
-    const textColor = isOver ? overTextColor : defaultTextColor
-    const iconColor = isOver ? overImageColor : defaultImageColor
+    let textColor
+    let iconColor
+    if (disabled) {
+      [textColor, iconColor] = [palette.disabledColor, palette.disabledColor]
+    } else if (isOver) {
+      [textColor, iconColor] = [overTextColor, overImageColor]
+    } else {
+      [textColor, iconColor] = [defaultTextColor, defaultImageColor]
+    }
     return (
       <div
-        onTouchTap={onAction}
+        onTouchTap={() => !disabled && onAction()}
         onMouseOut={() => this.switchOver(false)}
         onMouseOver={() => this.switchOver(true)}
         style={{ display: 'inline-flex', alignItems: 'center', textDecoration: 'none', cursor: 'pointer' }}

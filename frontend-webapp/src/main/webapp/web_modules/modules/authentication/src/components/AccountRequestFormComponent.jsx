@@ -4,20 +4,17 @@
 import { FormattedMessage } from 'react-intl'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { reduxForm, formValueSelector } from 'redux-form'
-import { values } from 'lodash'
+import { values, isEmpty } from 'lodash'
 import { ReduxConnectedForm, connect } from '@regardsoss/redux'
 import RaisedButton from 'material-ui/RaisedButton'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { RenderTextField, FormErrorMessage, Field, ValidationHelpers, ErrorTypes } from '@regardsoss/form-utils'
 
-const unlockAccountRequest = 'unlock.account.request'
-const resetPasswordRequest = 'reset.password.request'
-
 /** Possible form Ids, matching with corresponding request */
 export const requestFormIds = {
-  unlockAccountRequest,
-  resetPasswordRequest,
+  unlockAccountRequest: 'unlock.account.request',
+  resetPasswordRequest: 'reset.password.request',
 }
 
 const mailFieldId = 'mail'
@@ -115,7 +112,7 @@ export class AccountRequestFormComponent extends React.Component {
 
 function validate(fieldValues) {
   const errors = {}
-  if (!values(fieldValues).length) {
+  if (isEmpty(fieldValues)) {
     // XXX workaround for redux form bug initial validation:
     // Do not return anything when fields are not yet initialized (first render invalid state is wrong otherwise)...
     return errors

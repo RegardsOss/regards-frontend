@@ -6,11 +6,11 @@ import { assert } from 'chai'
 import sinon from 'sinon'
 import { IntlStub } from '@regardsoss/tests-helpers'
 import { ReduxConnectedForm } from '@regardsoss/redux'
-import { AuthenticationComponent } from '../../src/components/AuthenticationComponent'
+import { AuthenticationFormComponent } from '../../src/components/AuthenticationFormComponent'
 
 import styles from '../../src/styles/styles'
 
-describe('[AUTHENTICATION] Testing AuthenticationComponent', () => {
+describe('[AUTHENTICATION] Testing AuthenticationFormComponent', () => {
   // Since react will console.error propType warnings, that which we'd rather have
   // as errors, we use sinon.js to stub it into throwing these warning as errors
   // instead.
@@ -23,20 +23,22 @@ describe('[AUTHENTICATION] Testing AuthenticationComponent', () => {
     console.error.restore()
   })
   it('should exists', () => {
-    assert.isDefined(AuthenticationComponent)
+    assert.isDefined(AuthenticationFormComponent)
   })
+  const muiTheme = {
+    palette: {},
+  }
   const context = {
     intl: IntlStub,
-    muiTheme: {
-      palette: {},
-    },
-    moduleTheme: styles({}),
+    muiTheme,
+    moduleTheme: styles(muiTheme),
   }
   it('Render properly', () => {
     const props = {
       title: 'A title',
       onLogin: () => {},
       errorMessage: undefined,
+      createAccount: true,
       onGotoResetPassword: () => {},
       onGotoUnlockAccount: () => {},
       onGotoCreateAccount: () => {},
@@ -46,7 +48,7 @@ describe('[AUTHENTICATION] Testing AuthenticationComponent', () => {
       onCancelAction: () => {},
       initialize: () => {},
     }
-    const enzymeShallow = shallow(<AuthenticationComponent {...props} />, { context })
+    const enzymeShallow = shallow(<AuthenticationFormComponent {...props} />, { context })
     // check it uses one connected form component from regards
     assert(enzymeShallow.find(ReduxConnectedForm).length, 1, 'There should be one and only redux connected form in component')
   })
