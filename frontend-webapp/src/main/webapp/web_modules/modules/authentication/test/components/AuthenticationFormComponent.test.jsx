@@ -33,7 +33,6 @@ describe('[AUTHENTICATION] Testing AuthenticationFormComponent', () => {
     muiTheme,
     moduleTheme: styles(muiTheme),
   }
-
   it('Render properly', () => {
     const props = {
       title: 'A title',

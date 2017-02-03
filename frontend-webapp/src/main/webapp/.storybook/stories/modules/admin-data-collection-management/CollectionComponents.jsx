@@ -45,7 +45,7 @@ const defaultCollectionList = {
 }
 
 
-const defaultModelList= {
+const defaultModelList = {
   1: {
     content: {
       id: 1,
@@ -203,7 +203,7 @@ storiesOf('Project admin - Collection', module)
           backUrl="#"
           modelList={modelList}
           modelAttributeList={modelAttributeList}
-          isDuplicating={true}
+          isDuplicating
           handleUpdateModel={action('fetch model attributes')}
         />
       </ThemeAndLocaleDecorator>

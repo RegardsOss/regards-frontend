@@ -26,7 +26,7 @@ class ReduxFormComponent extends React.Component {
    */
   renderChildren= () => {
     const { children } = this.props
-    if (! React.isValidElement(children)) {
+    if (!React.isValidElement(children)) {
       return (<div>{children}</div>)
     }
     return (children)
