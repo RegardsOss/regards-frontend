@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { chain, map, find } from 'lodash'
 import { reduxForm } from 'redux-form'
 import { Toggle } from 'redux-form-material-ui'
@@ -9,6 +12,7 @@ import { RenderTextField, Field } from '@regardsoss/form-utils'
 import { ReduxConnectedForm } from '@regardsoss/redux'
 import { PluginMetaData, PluginMetaDataList, PluginConfiguration, PluginConfigurationList } from '@regardsoss/model'
 import PluginParameterListContainer from '../../containers/plugin/PluginParameterListContainer'
+import { buildEmptyParameterList } from '../../model/plugin/utils'
 import moduleStyles from '../../styles/styles'
 
 const styles = moduleStyles()
@@ -30,7 +34,7 @@ export class PluginConfigurationFormComponent extends React.Component {
       formMode: React.PropTypes.oneOf(['create', 'edit', 'copy']),
     }),
     currentPluginConfiguration: PluginConfiguration,
-    currentPluginMetaData: PluginMetaData, // optional for additionnal information on form initialization
+    currentPluginMetaData: PluginMetaData,
     pluginMetaDataList: PluginMetaDataList,
     pluginConfigurationList: PluginConfigurationList,
     onSubmit: React.PropTypes.func.isRequired,
@@ -92,7 +96,7 @@ export class PluginConfigurationFormComponent extends React.Component {
    * Initialize form fields
    */
   handleInitialize = () => {
-    const { formMode, currentPluginConfiguration } = this.props
+    const { formMode, currentPluginMetaData, currentPluginConfiguration } = this.props
     let initialValues
 
     switch (formMode) {
@@ -100,10 +104,14 @@ export class PluginConfigurationFormComponent extends React.Component {
         initialValues = Object.assign({}, currentPluginConfiguration.content)
         break
       case 'create':
+        initialValues = {
+          pluginId: currentPluginMetaData && currentPluginMetaData.content.pluginId,
+          pluginClassName: currentPluginMetaData && currentPluginMetaData.content.pluginClassName,
+          parameters: currentPluginMetaData && buildEmptyParameterList(currentPluginMetaData.content.parameters)
+        }
         break
       case 'copy':
         initialValues = Object.assign({}, currentPluginConfiguration.content)
-        initialValues.id = n
         break
       default:
         break
@@ -191,6 +199,7 @@ export class PluginConfigurationFormComponent extends React.Component {
                 fullWidth
                 component={RenderTextField}
                 type="number"
+                normalize={val => parseFloat(val)}
                 label={<FormattedMessage id="microservice-management.plugin.configuration.form.priorityOrder"/>}
               />
               <Field
@@ -206,6 +215,7 @@ export class PluginConfigurationFormComponent extends React.Component {
           <PluginParameterListContainer
             formMode={formMode}
             pluginConfiguration={currentPluginConfiguration}
+            pluginMetaData={currentPluginMetaData}
             change={change}
           />
 

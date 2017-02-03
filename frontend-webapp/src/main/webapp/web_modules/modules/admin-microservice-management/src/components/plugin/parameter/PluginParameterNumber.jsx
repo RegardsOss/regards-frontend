@@ -21,7 +21,7 @@ export class PluginParameterNumber extends React.Component {
   static propTypes = {
     fieldKey: React.PropTypes.string,
     pluginParameter: PluginParameter,
-    mode: React.PropTypes.oneOf(['view', 'edit']),
+    mode: React.PropTypes.oneOf(['view', 'edit', 'create', 'copy']),
     change: React.PropTypes.func, // Callback provided by redux-form in order to manually change a field value
   }
 
@@ -36,6 +36,8 @@ export class PluginParameterNumber extends React.Component {
       case 'view':
         return <ListItem>{name}: {value}</ListItem>
       case 'edit':
+      case 'create':
+      case 'copy':
         return (
           <Field
             name={fieldKey}

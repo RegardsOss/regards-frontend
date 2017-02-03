@@ -23,7 +23,7 @@ const styles = moduleStyles()
  *
  * @author Xavier-Alexandre Brochard
  */
-export class PluginParameterListContainer extends React.Component {
+class PluginParameterListContainer extends React.Component { //TODO change to component
 
   static propTypes = {
     // from parent or router
@@ -68,14 +68,15 @@ export class PluginParameterListContainer extends React.Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  pluginMetaData: PluginMetaDataSelectors.getById(state, ownProps.pluginConfiguration.content.pluginId),
-})
+// const mapStateToProps = (state, ownProps) => ({
+//   pluginMetaData: PluginMetaDataSelectors.getById(state, ownProps.pluginConfiguration.content.pluginId),
+// })
 
 // const mapDispatchToProps = dispatch => ({
 // updatePluginConfiguration: (id, values, microserviceName, pluginId) => dispatch(PluginConfigurationActions.updateEntity(id, values, { microserviceName, pluginId })),
 // deletePluginConfiguration: (pluginConfigurationId, microserviceName, pluginId) => dispatch(PluginConfigurationActions.deleteEntity(pluginConfigurationId, { microserviceName, pluginId })),
 // })
 
-export default connect(mapStateToProps)(PluginParameterListContainer)
+// export default connect(mapStateToProps)(PluginParameterListContainer)
 // export default connect(mapStateToProps, mapDispatchToProps)(PluginParameterListContainer)
+export default PluginParameterListContainer

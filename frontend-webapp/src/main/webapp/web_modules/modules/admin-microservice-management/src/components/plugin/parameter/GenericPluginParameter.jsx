@@ -18,7 +18,7 @@ export class GenericPluginParameter extends React.Component {
     fieldKey: React.PropTypes.string,
     pluginParameter: PluginParameter,
     pluginParameterType: PluginParameterType,
-    mode: React.PropTypes.oneOf(['view', 'edit']),
+    mode: React.PropTypes.oneOf(['view', 'edit', 'create', 'copy']),
     change: React.PropTypes.func, // Callback provided by redux-form in order to manually change a field value
   }
 

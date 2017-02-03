@@ -129,26 +129,30 @@ export class PluginConfigurationFormContainer extends React.Component {
    * @param vals form values
    */
   handleCreate = (vals) => {
-    const { params: { microserviceName }, pluginMetaData } = this.props
-    const { id, label, version, priorityOrder, active, pluginClassName, pluginId, ...rest } = vals
-    const newPluginConfiguration = {
-      id,
-      label,
-      version,
-      priorityOrder: parseInt(priorityOrder, 10),
-      active,
-      pluginClassName,
-      pluginId,
-      parameters: map(pluginMetaData.content.parameters, parameterType => ({
-        id: null,
-        name: parameterType.name,
-        value: rest[parameterType.name],
-        dynamic: false,
-        dynamicsValues: null,
-      })),
-    }
+    // const { params: { microserviceName }, pluginMetaData } = this.props
+    // const { id, label, version, priorityOrder, active, pluginClassName, pluginId, ...rest } = vals
+    // const newPluginConfiguration = {
+    //   id,
+    //   label,
+    //   version,
+    //   priorityOrder: parseInt(priorityOrder, 10),
+    //   active,
+    //   pluginClassName,
+    //   pluginId,
+    //   parameters: map(pluginMetaData.content.parameters, parameterType => ({
+    //     id: null,
+    //     name: parameterType.name,
+    //     value: rest[parameterType.name],
+    //     dynamic: false,
+    //     dynamicsValues: null,
+    //   })),
+    // }
+    const { params: { microserviceName, pluginId } } = this.props
 
-    Promise.resolve(this.props.createPluginConfiguration(newPluginConfiguration, microserviceName, pluginId))
+    // vals.priorityOrder = parseFloat(vals.priorityOrder)
+
+
+    Promise.resolve(this.props.createPluginConfiguration(vals, microserviceName, pluginId))
       .then((actionResult) => {
         // We receive here the action
         if (!actionResult.error) {

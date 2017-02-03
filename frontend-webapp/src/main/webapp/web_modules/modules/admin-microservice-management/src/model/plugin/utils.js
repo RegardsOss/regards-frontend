@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { chain, find } from 'lodash'
+import { chain, find, map } from 'lodash'
 
 /**
  * Find the pluginParameterType of the {@code pluginParameter}
@@ -39,15 +39,22 @@ const extractUniqueTypesFromConfiguration = (pluginConfiguration, pluginMetaData
  * @param parameterType sefl expl.
  */
 const parameterTypeToEmptyParameter = parameterType => ({
-  id: null,
+  // id: null,
   name: parameterType.name,
   value: null,
   dynamic: false,
-  dynamicsValues: null,
+  // dynamicsValues: null,
 })
+
+/**
+ * Initializes an array of empty parameters from the passed types list.
+ *
+ * @param pluginParameterTypeList the array of plugn parameterType
+ */
+const buildEmptyParameterList = pluginParameterTypeList => map(pluginParameterTypeList, parameterTypeToEmptyParameter)
 
 export {
   mapPluginParameterToPluginParameterType,
   extractUniqueTypesFromConfiguration,
-  parameterTypeToEmptyParameter,
+  buildEmptyParameterList,
 }

@@ -37,7 +37,7 @@ export class PluginParameterPlugin extends React.Component {
     // value: React.PropTypes.string,
     pluginParameter: PluginParameter.isRequired,
     pluginParameterType: PluginParameterType,
-    mode: React.PropTypes.oneOf(['view', 'edit']),
+    mode: React.PropTypes.oneOf(['view', 'edit', 'create', 'copy']),
     change: React.PropTypes.func, // Callback provided by redux-form in order to manually change a field value
     // form mapStateToProps
     pluginMetaDataList: PluginMetaDataList,
@@ -91,6 +91,8 @@ export class PluginParameterPlugin extends React.Component {
       case 'view':
         return <ListItem>{name}: {selectedPluginConfiguration && selectedPluginConfiguration.content.label}</ListItem>
       case 'edit':
+      case 'create':
+      case 'copy':
         return (
           <div>
             {name}:
