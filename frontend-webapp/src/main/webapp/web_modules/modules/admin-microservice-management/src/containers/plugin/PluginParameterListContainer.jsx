@@ -68,15 +68,4 @@ class PluginParameterListContainer extends React.Component { //TODO change to co
   }
 }
 
-// const mapStateToProps = (state, ownProps) => ({
-//   pluginMetaData: PluginMetaDataSelectors.getById(state, ownProps.pluginConfiguration.content.pluginId),
-// })
-
-// const mapDispatchToProps = dispatch => ({
-// updatePluginConfiguration: (id, values, microserviceName, pluginId) => dispatch(PluginConfigurationActions.updateEntity(id, values, { microserviceName, pluginId })),
-// deletePluginConfiguration: (pluginConfigurationId, microserviceName, pluginId) => dispatch(PluginConfigurationActions.deleteEntity(pluginConfigurationId, { microserviceName, pluginId })),
-// })
-
-// export default connect(mapStateToProps)(PluginParameterListContainer)
-// export default connect(mapStateToProps, mapDispatchToProps)(PluginParameterListContainer)
 export default PluginParameterListContainer

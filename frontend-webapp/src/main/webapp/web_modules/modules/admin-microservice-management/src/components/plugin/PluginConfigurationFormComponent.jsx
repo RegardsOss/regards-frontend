@@ -107,35 +107,17 @@ export class PluginConfigurationFormComponent extends React.Component {
         initialValues = {
           pluginId: currentPluginMetaData && currentPluginMetaData.content.pluginId,
           pluginClassName: currentPluginMetaData && currentPluginMetaData.content.pluginClassName,
-          parameters: currentPluginMetaData && buildEmptyParameterList(currentPluginMetaData.content.parameters)
+          parameters: currentPluginMetaData && buildEmptyParameterList(currentPluginMetaData.content.parameters),
         }
         break
       case 'copy':
-        initialValues = Object.assign({}, currentPluginConfiguration.content)
+        initialValues = Object.assign({}, currentPluginConfiguration && currentPluginConfiguration.content)
+        initialValues.id = undefined
         break
       default:
         break
     }
-    // TODO
-    // const { pluginConfiguration, pluginMetaData } = this.props
-    // const id = this.state.isEditing ? pluginConfiguration && pluginConfiguration.content && pluginConfiguration.content.id : undefined
-    // const pluginConfigurationPluginId = pluginConfiguration && pluginConfiguration.content && pluginConfiguration.content.pluginId
-    // const pluginMetaDataPluginId = pluginMetaData && pluginMetaData.content && pluginMetaData.content.pluginId
-    // const pluginConfigurationPluginClassName = pluginConfiguration && pluginConfiguration.content && pluginConfiguration.content.pluginClassName
-    // const pluginMetaDataPluginClassName = pluginMetaData && pluginMetaData.content && pluginMetaData.content.pluginClassName
-    // const parameters = pluginConfiguration && pluginConfiguration.content && pluginConfiguration.content.parameters
-    // const formatedParemeters = chain(parameters).map(parameter => [parameter.name, parameter.value]).fromPairs().value()
-    //
-    // const initialValues = {
-    //   id,
-    //   pluginId: pluginConfigurationPluginId || pluginMetaDataPluginId,
-    //   label: pluginConfiguration && pluginConfiguration.content && pluginConfiguration.content.label,
-    //   version: pluginConfiguration && pluginConfiguration.content && pluginConfiguration.content.version,
-    //   priorityOrder: pluginConfiguration && pluginConfiguration.content && pluginConfiguration.content.priorityOrder,
-    //   active: pluginConfiguration && pluginConfiguration.content && pluginConfiguration.content.active,
-    //   pluginClassName: pluginConfigurationPluginClassName || pluginMetaDataPluginClassName,
-    //   ...formatedParemeters,
-    // }
+
     this.props.initialize(initialValues)
   }
 
@@ -145,13 +127,8 @@ export class PluginConfigurationFormComponent extends React.Component {
    * @returns {XML}
    */
   render() {
-    const { currentPluginMetaData, pluginMetaDataList, currentPluginConfiguration, pluginConfigurationList, handleSubmit, submitting, invalid, backUrl, formMode, change } = this.props
-    // const currentPluginMetaDataList = find(pluginMetaDataList, pluginMetaData)
-    // const { pluginConfiguration, pluginMetaData, handleSubmit, submitting, invalid, backUrl, formMode } = this.props
-    // const pluginParameterTypeList = pluginMetaData && pluginMetaData.content.parameters
-    // const pluginParameterListIfExistingConfiguration = pluginConfiguration && pluginConfiguration.content.parameters
-    // const pluginParameterListIfNoConfiguration = pluginMetaData && map(pluginParameterTypeList, parameterTypeToEmptyParameter)
-    // const pluginParameterList = pluginParameterListIfExistingConfiguration || pluginParameterListIfNoConfiguration
+    const { currentPluginMetaData, currentPluginConfiguration, handleSubmit, submitting, invalid, backUrl, formMode, change } = this.props
+
     const title = this.state.isEditing ?
       (<FormattedMessage
         id="microservice-management.plugin.configuration.form.edit.title"

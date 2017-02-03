@@ -39,11 +39,9 @@ const extractUniqueTypesFromConfiguration = (pluginConfiguration, pluginMetaData
  * @param parameterType sefl expl.
  */
 const parameterTypeToEmptyParameter = parameterType => ({
-  // id: null,
   name: parameterType.name,
   value: null,
   dynamic: false,
-  // dynamicsValues: null,
 })
 
 /**

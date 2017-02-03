@@ -31,15 +31,12 @@ export class PluginConfigurationFormContainer extends React.Component {
     }),
     // from mapStateToProps
     currentPluginMetaData: PluginMetaData,
-    // isPluginMetaDataFetching: React.PropTypes.bool,
     pluginMetaDataList: PluginMetaDataList,
-    isPluginMetaDataListFetching: React.PropTypes.bool,
+    isPluginMetaDataFetching: React.PropTypes.bool,
     currentPluginConfiguration: PluginConfiguration,
-    // isPluginConfigurationFetching: React.PropTypes.bool,
     pluginConfigurationList: PluginConfigurationList,
-    isPluginConfigurationListFetching: React.PropTypes.bool,
+    isPluginConfigurationFetching: React.PropTypes.bool,
     // from mapDispatchToProps
-    // fetchPluginConfiguration: React.PropTypes.func,
     fetchPluginConfigurationList: React.PropTypes.func,
     createPluginConfiguration: React.PropTypes.func,
     updatePluginConfiguration: React.PropTypes.func,
@@ -66,14 +63,6 @@ export class PluginConfigurationFormContainer extends React.Component {
 
     this.props.fetchPluginMetaDataList(microserviceName)
     this.props.fetchPluginConfigurationList(microserviceName)
-
-    // if (this.state.isEditing || this.state.isCopying) {
-    // this.props.fetchPluginConfiguration(this.props.params.pluginConfigurationId, microserviceName, pluginId)
-    // }
-
-    // if (typeof this.props.params.pluginId !== 'undefined' && this.props.params.pluginId != null) {
-    // this.props.fetchPluginMetaData(this.props.params.pluginId, this.props.params.microserviceName)
-    // }
   }
 
   getBackUrl = () => {
@@ -129,28 +118,7 @@ export class PluginConfigurationFormContainer extends React.Component {
    * @param vals form values
    */
   handleCreate = (vals) => {
-    // const { params: { microserviceName }, pluginMetaData } = this.props
-    // const { id, label, version, priorityOrder, active, pluginClassName, pluginId, ...rest } = vals
-    // const newPluginConfiguration = {
-    //   id,
-    //   label,
-    //   version,
-    //   priorityOrder: parseInt(priorityOrder, 10),
-    //   active,
-    //   pluginClassName,
-    //   pluginId,
-    //   parameters: map(pluginMetaData.content.parameters, parameterType => ({
-    //     id: null,
-    //     name: parameterType.name,
-    //     value: rest[parameterType.name],
-    //     dynamic: false,
-    //     dynamicsValues: null,
-    //   })),
-    // }
     const { params: { microserviceName, pluginId } } = this.props
-
-    // vals.priorityOrder = parseFloat(vals.priorityOrder)
-
 
     Promise.resolve(this.props.createPluginConfiguration(vals, microserviceName, pluginId))
       .then((actionResult) => {
@@ -180,18 +148,11 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  // fetchPluginMetaData: (id, microserviceName) => dispatch(PluginMetaDataActions.fetchEntity(id, { microserviceName })),
   fetchPluginMetaDataList: microserviceName => dispatch(PluginMetaDataActions.fetchPagedEntityList(0, 100, {
     microserviceName,
   })),
-  // fetchPluginConfiguration: (id, microserviceName, pluginId) => dispatch(PluginConfigurationActions.fetchEntity(id, {
-  //   microserviceName,
-  //   pluginId,
-  // })),
   fetchPluginConfigurationList: microserviceName => dispatch(PluginConfigurationActions.fetchPagedEntityList(0, 100, {
     microserviceName,
-    // endpoint: 'configs',
-    // pluginId,
   })),
   createPluginConfiguration: (vals, microserviceName, pluginId) => dispatch(PluginConfigurationActions.createEntity(vals, {
     microserviceName,
