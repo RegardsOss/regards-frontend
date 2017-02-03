@@ -13,10 +13,30 @@ import FixedTableHeaderCell from './FixedTableHeaderCell'
 
 /**
  * Fixed data table from facebook library integrated with material ui theme
- * and infinite scroll functionnality
+ * and infinite scroll functionality.
+ *
+ * The FixedDataTable from facebook library, use an array with all elements to display.
+ * If X is the number of elements visible in the table, so 3*X elements are present in the DOM.
+ * There is X elements cached before the first visible element and X elements cached after the last
+ * visible element.
+ *
+ * To manage the infinite scroll:
+ * 1. Initialize an array with empty objects with N empty objects where N=total number of elements.
+ * 2. Initialize first search by running a request to the server from index 0 with 3*X elements per page. Where
+ * X is the number of visible elements in the table. (Configurable with the pagesize props).
+ * 3. After each scroll end, this class run a request to the server
+ * to retrieve 3*X elements after the first missing entity index around the current first visible index.
+ * 4. FixedDataTable, display the object from the array with the current visible indexes
+ *
  */
 class FixedTable extends React.Component {
 
+  /**
+   * PageActions : BasicPageableActions of the entities to manage
+   * PageSelector : BasicPageableSelectors of the entities to manage
+   * pageSize : Optional, number of visible entity into the table. Default 20.
+   * @type {{PageActions: *, PageSelector: *, pageSize: *, requestParams: *, entities: *, pageMetadata: *, fetchEntities: *, entitiesFetching: *}}
+   */
   static propTypes = {
     // eslint-disable-next-line react/no-unused-prop-types
     PageActions: React.PropTypes.instanceOf(BasicPageableActions).isRequired,
@@ -43,14 +63,16 @@ class FixedTable extends React.Component {
 
   constructor(props) {
     super(props)
-    // const height = window.innerHeight - 400
-    const defaultLineHeight = 50
-    const defaultPageSize = 10
-    const defaultNbEntitiesByPage = 30
-    const defaultHeight = 500
-    const height = this.props.pageSize ? defaultLineHeight * this.props.pageSize : defaultHeight
+    const defaultLineHeight = 40
+    // 20 + 1 for header line
+    const defaultPageSize = 21
+    const defaultNbEntitiesByPage = defaultPageSize * 3
+    const defaultHeight = defaultPageSize * defaultLineHeight
+    // +1 for header row
+    const height = this.props.pageSize ? defaultLineHeight * (this.props.pageSize + 1) : defaultHeight
     const width = window.innerWidth - 60
     this.state = {
+      rowHeight: defaultLineHeight,
       pageSize: this.props.pageSize ? this.props.pageSize : defaultPageSize,
       nbEntitiesByPage: this.props.pageSize ? this.props.pageSize * 3 : defaultNbEntitiesByPage,
       entities: [],
@@ -64,12 +86,19 @@ class FixedTable extends React.Component {
     }
   }
 
+  /**
+   * First, run a search from index 0 to initiliaz first search results
+   */
   componentWillMount() {
     this.props.fetchEntities(0, this.state.nbEntitiesByPage, this.props.requestParams)
   }
 
+  /**
+   * Update retrieved entities into the state.entities
+   * @param nextProps
+   */
   componentWillReceiveProps(nextProps) {
-    // If request changed, run new search
+    // If request changed, run new search and reset the entities stored in the state
     if (isEqual(nextProps.requestParams, this.props.requestParams) === false) {
       this.setState({
         entities: [],
@@ -77,18 +106,23 @@ class FixedTable extends React.Component {
       this.props.fetchEntities(0, this.state.nbEntitiesByPage, nextProps.requestParams)
     }
 
+    // If there is no entities in the state, so we have to initialize the entities with empty objects.
+    // One empty object per possbile result of the current request. The number of possible result of
+    // a request is the totalElements in the page metadata provded with the server response.
     let entities = null
     if (this.state.entities.length === 0 && nextProps.pageMetadata && nextProps.entities) {
-      // First page retrieved
-      // Create the list of entities in the cache by adding fetched entity at the right index in the list
       entities = Array(nextProps.pageMetadata.totalElements).fill({})
     } else if (nextProps.pageMetadata && nextProps.entities) {
-      // Update entities with retrieved page
+      // Entities are already initialize in the state, juste duplicate the list to update it if necessary
+      // with the new entities fetched from server
       entities = concat([], this.state.entities)
     }
 
-    if (entities !== null && nextProps.entities) {
+    // If new entities has been retrieved, then add them to th right index in the state.entities list.
+    if (nextProps.entities &&
+      (!this.props.entities || !isEqual(keys(this.props.entities), keys(nextProps.entities)))) {
       let i = 0
+      // Add each nex entity retrieved at the right index in the state.entities list
       for (i = 0; i < keys(nextProps.entities).length; i += 1) {
         entities[nextProps.pageMetadata.number + i] = nextProps.entities[keys(nextProps.entities)[i]]
       }
@@ -98,6 +132,11 @@ class FixedTable extends React.Component {
     }
   }
 
+  /**
+   * After each scroll end retrieve missing entities
+   * @param scrollStartOffset
+   * @param scrollEndOffset
+   */
   onScrollEnd = (scrollStartOffset, scrollEndOffset) => {
     // the scroll offset is the first element to fetch if it is missing
     const index = Math.floor(scrollEndOffset / 50)
@@ -115,6 +154,11 @@ class FixedTable extends React.Component {
   }
 
 
+  /**
+   * Resize column
+   * @param newColumnWidth
+   * @param columnKey
+   */
   onColumnResizeEndCallback = (newColumnWidth, columnKey) => {
     this.setState(({ columnWidths }) => ({
       columnWidths: {
@@ -124,6 +168,11 @@ class FixedTable extends React.Component {
     }))
   }
 
+  /**
+   * Render the loading to inform user thaht entities are fetching
+   * @param height
+   * @returns {*}
+   */
   renderLoadingFilter = (height) => {
     if (this.props.entitiesFetching) {
       return (
@@ -132,7 +181,7 @@ class FixedTable extends React.Component {
             bottom: '0px',
             position: 'absolute',
             width: '100%',
-            height: '40px',
+            height: this.state.rowHeight,
             backgroundColor: this.context.muiTheme.palette.primary1Color,
             display: 'flex',
             justifyContent: 'center',
@@ -164,8 +213,8 @@ class FixedTable extends React.Component {
         >
           {this.renderLoadingFilter(height)}
           <Table
-            rowHeight={50}
-            headerHeight={40}
+            rowHeight={this.state.rowHeight}
+            headerHeight={this.state.rowHeight}
             rowsCount={totalNumberOfEntities}
             onColumnResizeEndCallback={this.onColumnResizeEndCallback}
             isColumnResizing={false}
@@ -207,10 +256,6 @@ class FixedTable extends React.Component {
     }
     return null
   }
-}
-
-FixedTable.defaultProps = {
-  nbEntityByPage: 20,
 }
 
 const mapStateToProps = (state, ownProps) => ({

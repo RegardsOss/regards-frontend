@@ -20,6 +20,7 @@ class SearchResultsComponent extends React.Component {
       <FixedTable
         PageActions={CatalogEntityActions}
         PageSelector={CatalogEntitySelector}
+        pageSize={15}
         requestParams={{ queryParams: this.props.searchQuery }}
       />
     )
