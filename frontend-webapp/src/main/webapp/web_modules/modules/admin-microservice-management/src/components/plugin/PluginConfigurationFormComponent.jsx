@@ -11,7 +11,7 @@ import { themeContextType } from '@regardsoss/theme'
 import { RenderTextField, Field } from '@regardsoss/form-utils'
 import { ReduxConnectedForm } from '@regardsoss/redux'
 import { PluginMetaData, PluginMetaDataList, PluginConfiguration, PluginConfigurationList } from '@regardsoss/model'
-import PluginParameterListContainer from '../../containers/plugin/PluginParameterListContainer'
+import PluginParameterListComponent from './parameter/PluginParameterListComponent'
 import { buildEmptyParameterList } from '../../model/plugin/utils'
 import moduleStyles from '../../styles/styles'
 
@@ -189,7 +189,7 @@ export class PluginConfigurationFormComponent extends React.Component {
             </CardText>
           </Card>
 
-          <PluginParameterListContainer
+          <PluginParameterListComponent
             formMode={formMode}
             pluginConfiguration={currentPluginConfiguration}
             pluginMetaData={currentPluginMetaData}

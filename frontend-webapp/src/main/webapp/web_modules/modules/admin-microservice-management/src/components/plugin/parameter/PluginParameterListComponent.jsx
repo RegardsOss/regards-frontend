@@ -1,20 +1,13 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { chain, map, find } from 'lodash'
-import { reduxForm } from 'redux-form'
-import { Toggle } from 'redux-form-material-ui'
+import { map } from 'lodash'
 import { FormattedMessage } from 'react-intl'
-import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
-import { CardActionsComponent } from '@regardsoss/components'
-import { themeContextType } from '@regardsoss/theme'
-import { RenderTextField, Field } from '@regardsoss/form-utils'
-import { connect } from '@regardsoss/redux'
+import { Card, CardTitle, CardText } from 'material-ui/Card'
 import { PluginMetaData, PluginConfiguration } from '@regardsoss/model'
-import GenericPluginParameter from '../../components/plugin/parameter/GenericPluginParameter'
-import PluginMetaDataSelectors from '../../model/plugin/PluginMetaDataSelectors'
-import { mapPluginParameterToPluginParameterType, parameterTypeToEmptyParameter } from '../../model/plugin/utils'
-import moduleStyles from '../../styles/styles'
+import GenericPluginParameter from './GenericPluginParameter'
+import { mapPluginParameterToPluginParameterType, parameterTypeToEmptyParameter } from '../../../model/plugin/utils'
+import moduleStyles from '../../../styles/styles'
 
 const styles = moduleStyles()
 
@@ -23,23 +16,13 @@ const styles = moduleStyles()
  *
  * @author Xavier-Alexandre Brochard
  */
-class PluginParameterListContainer extends React.Component { //TODO change to component
+class PluginParameterListComponent extends React.Component {
 
   static propTypes = {
-    // from parent or router
-    // params: React.PropTypes.shape({
-    //   project: React.PropTypes.string.isRequired,
-    //   microserviceName: React.PropTypes.string.isRequired,
-    //   pluginId: React.PropTypes.string.isRequired,
-    // }),
     pluginConfiguration: PluginConfiguration,
     formMode: React.PropTypes.oneOf(['create', 'edit', 'copy']),
-    // from mapStateToProps
     pluginMetaData: PluginMetaData,
     change: React.PropTypes.func, // Callback provided by redux-form in order to manually change a field value
-    // from mapDispatchToProps
-    // updatePluginConfiguration: React.PropTypes.func,
-    // deletePluginConfiguration: React.PropTypes.func,
   }
 
   render() {
@@ -68,4 +51,4 @@ class PluginParameterListContainer extends React.Component { //TODO change to co
   }
 }
 
-export default PluginParameterListContainer
+export default PluginParameterListComponent
