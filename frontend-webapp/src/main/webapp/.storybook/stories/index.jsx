@@ -21,6 +21,7 @@ import './modules/admin-user-role-resource-access-management/ResourceAccessFormB
 import './modules/admin-data-attributemodel-management/AttributeModelComponents'
 import './modules/admin-data-fragment-management/FragmentComponents'
 import './modules/admin-data-modelattribute-management/ModelAttributeFormComponent'
+import './modules/admin-data-collection-management/CollectionComponents'
 
 import './modules/news/NewsComponent'
 import './modules/menu/MenuComponent'

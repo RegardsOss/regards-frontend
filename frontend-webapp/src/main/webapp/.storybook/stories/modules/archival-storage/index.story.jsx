@@ -12,12 +12,12 @@ import { StoreDecorator, addLocaleAndThemeSelectors, ThemeAndLocaleDecorator } f
 
 storiesOf('Archival storage', module)
   .addDecorator(withKnobs)
-  .addDecorator(StoreDecorator)
+  .addDecorator(StoreDecorator)/*
   .add('AIP status', () => (
     <ThemeAndLocaleDecorator theme={addLocaleAndThemeSelectors()} messageDir="modules/archival-storage-aip-status/src/i18n" >
       <AIPStatusComponent />
     </ThemeAndLocaleDecorator>
-  ))
+  ))*/
   .add('Storage monitoring', () => {
     const storagePlugins = object('Storage plugins', [{
       label: 'ServerHDD',

@@ -8,7 +8,7 @@ import { StoreDecorator, addLocaleAndThemeSelectors, ThemeAndLocaleDecorator } f
 const defaultFragmentList = {
   1: {
     content: {
-      id: '1',
+      id: 1,
       description: 'some description',
       name: 'Fragment_1',
     },

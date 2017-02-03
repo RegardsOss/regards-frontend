@@ -68,7 +68,7 @@ export class FragmentFormComponent extends React.Component {
       />)
     return (
       <ReduxConnectedForm
-        i18nMessagesDir="modules/admin-data-collection-management/src/i18n"
+        i18nMessagesDir="modules/admin-data-fragment-management/src/i18n"
         onSubmit={this.props.handleSubmit(this.props.onSubmit)}
       >
         <Card>
