@@ -1,9 +1,9 @@
 import { assert, expect } from 'chai'
 import Routes from '../src/router'
 import MicroserviceBoardContainer from '../src/containers/MicroserviceBoardContainer'
-import PluginMetaDataListContainer from '../src/containers/PluginMetaDataListContainer'
-import PluginConfigurationListContainer from '../src/containers/PluginConfigurationListContainer'
-import PluginConfigurationFormContainer from '../src/containers/PluginConfigurationFormContainer'
+import PluginMetaDataListContainer from '../src/containers/plugin/PluginMetaDataListContainer'
+import PluginConfigurationListContainer from '../src/containers/plugin/PluginConfigurationListContainer'
+import PluginConfigurationFormContainer from '../src/containers/plugin/PluginConfigurationFormContainer'
 
 describe('[ADMIN MICROSERVICE MANAGEMENT] Testing data board router', () => {
   it('should return the correct value', () => {

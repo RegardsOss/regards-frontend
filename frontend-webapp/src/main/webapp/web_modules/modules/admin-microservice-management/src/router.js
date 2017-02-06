@@ -28,7 +28,7 @@ export const microservicePluginMetaDataListRoute = {
   path: ':microserviceName/plugin/list',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const container = require('./containers/PluginMetaDataListContainer')
+      const container = require('./containers/plugin/PluginMetaDataListContainer')
       cb(null, {
         content: container.default,
       })
@@ -45,7 +45,7 @@ export const microservicePluginConfigurationsListRoute = {
   path: ':microserviceName/plugin/:pluginId/configuration/list',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const container = require('./containers/PluginConfigurationListContainer')
+      const container = require('./containers/plugin/PluginConfigurationListContainer')
       cb(null, {
         content: container.default,
       })
@@ -62,7 +62,7 @@ export const microservicePluginConfigurationCreateRoute = {
   path: ':microserviceName/plugin/:pluginId/configuration/:formMode',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const container = require('./containers/PluginConfigurationFormContainer')
+      const container = require('./containers/plugin/PluginConfigurationFormContainer')
       cb(null, {
         content: container.default,
       })
@@ -79,7 +79,7 @@ export const microservicePluginConfigurationEditOrCopyRoute = {
   path: ':microserviceName/plugin/:pluginId/configuration/:pluginConfigurationId/:formMode',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const container = require('./containers/PluginConfigurationFormContainer')
+      const container = require('./containers/plugin/PluginConfigurationFormContainer')
       cb(null, {
         content: container.default,
       })

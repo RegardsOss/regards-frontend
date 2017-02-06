@@ -1,10 +1,12 @@
 import { combineReducers } from 'redux'
-import getPluginMetaDataReducer from './model/PluginMetaDataReducers'
-import getPluginConfigurationReducers from './model/PluginConfigurationReducers'
+import pluginType from './model/plugin/PluginTypeReducers'
+import pluginMetaData from './model/plugin/PluginMetaDataReducers'
+import pluginConfiguration from './model/plugin/PluginConfigurationReducers'
 
 const microserviceManagementReducer = combineReducers({
-  pluginMetaData: getPluginMetaDataReducer,
-  pluginConfiguration: getPluginConfigurationReducers,
+  pluginType,
+  pluginMetaData,
+  pluginConfiguration,
 })
 
 export default microserviceManagementReducer

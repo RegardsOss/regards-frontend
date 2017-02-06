@@ -3,11 +3,11 @@
  **/
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
-import { PluginConfiguration } from '@regardsoss/model'
+import { PluginConfiguration, PluginMetaData } from '@regardsoss/model'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
-import PluginConfigurationComponent from '../components/PluginConfigurationComponent'
-import PluginConfigurationActions from '../model/PluginConfigurationActions'
+import PluginConfigurationComponent from '../../components/plugin/PluginConfigurationComponent'
+import PluginConfigurationActions from '../../model/plugin/PluginConfigurationActions'
 
 /**
  * Container connecting a {@link PluginConfigurationComponent} to the redux store.
@@ -23,8 +23,9 @@ export class PluginConfigurationContainer extends React.Component {
       microserviceName: React.PropTypes.string.isRequired,
       pluginId: React.PropTypes.string.isRequired,
     }),
-    // from mapStateToProps
     pluginConfiguration: PluginConfiguration,
+    pluginMetaData: PluginMetaData,
+    // from mapStateToProps
     // from mapDispatchToProps
     updatePluginConfiguration: React.PropTypes.func,
     deletePluginConfiguration: React.PropTypes.func,
@@ -108,7 +109,7 @@ export class PluginConfigurationContainer extends React.Component {
   }
 
   render() {
-    const { pluginConfiguration } = this.props
+    const { pluginConfiguration, pluginMetaData } = this.props
     const deleteDialogActions = [
       <FlatButton
         label="Cancel"
@@ -126,6 +127,7 @@ export class PluginConfigurationContainer extends React.Component {
       <div>
         <PluginConfigurationComponent
           pluginConfiguration={pluginConfiguration}
+          pluginMetaData={pluginMetaData}
           onActiveToggle={this.handleActiveToggle}
           onCopyClick={this.handleCopy}
           onDeleteClick={this.handleDeleteClick}

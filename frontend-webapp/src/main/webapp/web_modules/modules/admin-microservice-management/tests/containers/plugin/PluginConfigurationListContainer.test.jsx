@@ -1,7 +1,7 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import { PluginConfigurationListContainer } from '../../src/containers/PluginConfigurationListContainer'
-import PluginConfigurationContainer from '../../src/containers/PluginConfigurationContainer'
+import { PluginConfigurationListContainer } from '../../../src/containers/plugin/PluginConfigurationListContainer'
+import PluginConfigurationContainer from '../../../src/containers/plugin/PluginConfigurationContainer'
 
 // Test a components rendering
 describe('[ADMIN MICROSERVICE MANAGEMENT] Testing plugin configuration list container', () => {

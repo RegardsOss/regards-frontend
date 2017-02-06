@@ -1,5 +1,6 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
+import { IntlStub } from '@regardsoss/tests-helpers'
 import { BoardComponent } from '@regardsoss/components'
 import MicroserviceBoardComponent from '../../src/components/MicroserviceBoardComponent'
 
@@ -13,7 +14,12 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing microservice board component', () =
     const props = {
       project: 'someProject',
     }
-    const enzymeWrapper = shallow(<MicroserviceBoardComponent {...props} />)
+    const options = {
+      context: {
+        intl: IntlStub,
+      },
+    }
+    const enzymeWrapper = shallow(<MicroserviceBoardComponent {...props} />, options)
     const subComponent = enzymeWrapper.find(BoardComponent)
     expect(subComponent).to.have.length(1)
   })

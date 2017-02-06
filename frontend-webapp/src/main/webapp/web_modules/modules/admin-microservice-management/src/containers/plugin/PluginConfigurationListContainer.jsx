@@ -4,7 +4,7 @@
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
-import { PluginConfigurationList } from '@regardsoss/model'
+import { PluginMetaData, PluginConfigurationList } from '@regardsoss/model'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { FormattedMessage } from 'react-intl'
 import AppBar from 'material-ui/AppBar'
@@ -15,12 +15,19 @@ import AddCircle from 'material-ui/svg-icons/content/add-circle'
 import Subheader from 'material-ui/Subheader'
 import { chain } from 'lodash'
 import PluginConfigurationContainer from './PluginConfigurationContainer'
-import PluginConfigurationSelectors from '../model/PluginConfigurationSelectors'
-import PluginConfigurationActions from '../model/PluginConfigurationActions'
-import moduleStyles from '../styles/styles'
+import PluginConfigurationSelectors from '../../model/plugin/PluginConfigurationSelectors'
+import PluginMetaDataSelectors from '../../model/plugin/PluginMetaDataSelectors'
+import PluginConfigurationActions from '../../model/plugin/PluginConfigurationActions'
+import PluginMetaDataActions from '../../model/plugin/PluginMetaDataActions'
+import moduleStyles from '../../styles/styles'
 
 const styles = moduleStyles().pluginConfiguration
 
+/**
+ * Container connecting the plugin configuration list to the redux store and handling user interface actions.
+ *
+ * @author Xavier-Alexandre Brochard
+ */
 export class PluginConfigurationListContainer extends React.Component {
   static propTypes = {
     // from router
@@ -31,9 +38,11 @@ export class PluginConfigurationListContainer extends React.Component {
       pluginConfigurationId: React.PropTypes.string,
     }),
     // from mapStateToProps
+    pluginMetaData: PluginMetaData,
     pluginConfigurationList: PluginConfigurationList,
     isPluginConfigurationFetching: React.PropTypes.bool,
     // from mapDispatchToProps
+    fetchPluginMetaData: React.PropTypes.func,
     fetchPluginConfigurationList: React.PropTypes.func,
     // eslint-disable-next-line react/no-unused-prop-types
     deletePluginConfiguration: React.PropTypes.func,
@@ -41,6 +50,7 @@ export class PluginConfigurationListContainer extends React.Component {
 
   componentDidMount() {
     const { params: { microserviceName, pluginId } } = this.props
+    this.props.fetchPluginMetaData(pluginId, microserviceName)
     this.props.fetchPluginConfigurationList(microserviceName, pluginId)
   }
 
@@ -57,13 +67,18 @@ export class PluginConfigurationListContainer extends React.Component {
   }
 
   render() {
-    const { params: { microserviceName }, pluginConfigurationList, isPluginConfigurationFetching } = this.props
+    const {
+      params: { microserviceName },
+      pluginMetaData,
+      pluginConfigurationList,
+      isPluginConfigurationFetching,
+    } = this.props
 
     return (
       <I18nProvider messageDir="modules/admin-microservice-management/src/i18n">
         <Paper>
           <AppBar
-            title={`${microserviceName} > Plugins > Kerberos`}
+            title={`${microserviceName} > Plugins > ${pluginMetaData && pluginMetaData.content.pluginClassName}`}
             iconElementLeft={<IconButton onTouchTap={this.handleBackClick}><ArrowBack /></IconButton>}
             iconElementRight={
               <IconButton
@@ -84,6 +99,7 @@ export class PluginConfigurationListContainer extends React.Component {
                   key={pluginConfiguration.content.id}
                   params={this.props.params}
                   pluginConfiguration={pluginConfiguration}
+                  pluginMetaData={pluginMetaData}
                 />)
                 .value()}
               <Subheader>Inactive</Subheader>
@@ -94,6 +110,7 @@ export class PluginConfigurationListContainer extends React.Component {
                   key={pluginConfiguration.content.id}
                   params={this.props.params}
                   pluginConfiguration={pluginConfiguration}
+                  pluginMetaData={pluginMetaData}
                 />)
                 .value()}
             </LoadableContentDisplayDecorator>
@@ -105,13 +122,21 @@ export class PluginConfigurationListContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  pluginConfigurationList: PluginConfigurationSelectors.getList(state),
+  pluginMetaData: PluginMetaDataSelectors.getById(state, ownProps.params.pluginId),
+  pluginConfigurationList: PluginConfigurationSelectors.getListByPluginId(state, ownProps.params.pluginId),
   isPluginConfigurationFetching: PluginConfigurationSelectors.isFetching(state),
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchPluginConfigurationList: (microserviceName, pluginId) => dispatch(PluginConfigurationActions.fetchPagedEntityList(0, 100, { microserviceName, pluginId })),
-  deletePluginConfiguration: (pluginConfigurationId, microserviceName, pluginId) => dispatch(PluginConfigurationActions.deleteEntity(pluginConfigurationId, { microserviceName, pluginId })),
+  fetchPluginMetaData: (pluginId, microserviceName) => dispatch(PluginMetaDataActions.fetchEntity(pluginId, { microserviceName })),
+  fetchPluginConfigurationList: (microserviceName, pluginId) => dispatch(PluginConfigurationActions.fetchPagedEntityList(0, 100, {
+    microserviceName,
+    pluginId,
+  })),
+  deletePluginConfiguration: (pluginConfigurationId, microserviceName, pluginId) => dispatch(PluginConfigurationActions.deleteEntity(pluginConfigurationId, {
+    microserviceName,
+    pluginId,
+  })),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PluginConfigurationListContainer)
