@@ -1,7 +1,6 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { chain, map, find } from 'lodash'
 import { reduxForm } from 'redux-form'
 import { Toggle } from 'redux-form-material-ui'
 import { FormattedMessage } from 'react-intl'
@@ -42,7 +41,6 @@ export class PluginConfigurationFormComponent extends React.Component {
     formMode: React.PropTypes.oneOf(['create', 'edit', 'copy']),
     // from reduxForm
     submitting: React.PropTypes.bool,
-    // TODO use or delete pristine: React.PropTypes.bool,
     invalid: React.PropTypes.bool,
     handleSubmit: React.PropTypes.func.isRequired,
     initialize: React.PropTypes.func.isRequired,
@@ -196,7 +194,7 @@ export class PluginConfigurationFormComponent extends React.Component {
             change={change}
           />
 
-          <Card style={{ marginTop: 20 }}>
+          <Card style={styles.pluginConfiguration.form.section}>
             <CardActions>
               <CardActionsComponent
                 mainButtonLabel={this.state.isEditing ?

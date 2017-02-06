@@ -65,10 +65,21 @@ const microserviceManagementStyles = theme => ({
       marginLeft: 7,
     },
     form: {
+      section: {
+        marginTop: 20,
+      },
       toggle: {
         width: 'auto',
         marginTop: 14,
       },
+    },
+  },
+  pluginParameter: {
+    pluginButton: {
+      marginLeft: 10,
+    },
+    iconMenu: {
+      visibility: 'hidden',
     },
   },
 })

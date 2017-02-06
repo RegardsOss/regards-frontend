@@ -10,7 +10,6 @@ import MenuItem from 'material-ui/MenuItem'
 import IconButton from 'material-ui/IconButton'
 import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right'
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
-import Subheader from 'material-ui/Subheader'
 import Divider from 'material-ui/Divider'
 import Delete from 'material-ui/svg-icons/action/delete'
 import { connect } from '@regardsoss/redux'
@@ -18,9 +17,11 @@ import { PluginParameter, PluginParameterType, PluginMetaDataList, PluginConfigu
 import PluginMetaDataSelectors from '../../../model/plugin/PluginMetaDataSelectors'
 import PluginConfigurationSelectors from '../../../model/plugin/PluginConfigurationSelectors'
 import { buildMenuItemPrimaryText } from './utils'
+import moduleStyles from '../../../styles/styles'
 
 // validation functions
 const required = value => value == null ? 'Required' : undefined
+const styles = moduleStyles()
 
 /**
  * Component displaying a menu allowing to pick a plugin configuration for the passed plugin paramater.
@@ -33,8 +34,6 @@ export class PluginParameterPlugin extends React.Component {
   static propTypes = {
     fieldKey: React.PropTypes.string,
     microserviceName: React.PropTypes.string,
-    // name: React.PropTypes.string,
-    // value: React.PropTypes.string,
     pluginParameter: PluginParameter.isRequired,
     pluginParameterType: PluginParameterType,
     mode: React.PropTypes.oneOf(['view', 'edit', 'create', 'copy']),
@@ -84,7 +83,7 @@ export class PluginParameterPlugin extends React.Component {
   }
 
   render() {
-    const { mode, pluginParameter: { name, value }, pluginParameterType, pluginMetaDataList, pluginConfigurationList } = this.props
+    const { mode, pluginParameter: { name }, pluginMetaDataList, pluginConfigurationList } = this.props
     const { openMenu, selectedPluginConfiguration } = this.state
 
     switch (mode) {
@@ -99,7 +98,7 @@ export class PluginParameterPlugin extends React.Component {
             <RaisedButton
               label={selectedPluginConfiguration ? selectedPluginConfiguration.content.label : <FormattedMessage id="microservice-management.plugin.parameter.plugin.choose" />}
               onTouchTap={this.handleOpenMenu}
-              style={{ marginLeft: 10 }} //TODO
+              style={styles.pluginParameter.pluginButton}
             />
             <IconMenu
               iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
@@ -107,7 +106,7 @@ export class PluginParameterPlugin extends React.Component {
               onRequestChange={this.handleOnRequestChange}
               desktop
               autoWidth
-              style={{ visibility: 'hidden' }}//TODO
+              style={styles.pluginParameter.iconMenu}
             >
               {map(pluginMetaDataList, (pluginMetaData) => {
                 const pluginConfigurationListForThisPluginMetaData = filter(pluginConfigurationList, pluginConfiguration => pluginConfiguration.content.pluginId === pluginMetaData.content.pluginId)
@@ -148,7 +147,7 @@ export class PluginParameterPlugin extends React.Component {
     }
   }
 }
-// {pluginParameterType ? <Subheader>{pluginParameterType.type}</Subheader> : null}
+
 const mapStateToProps = (state, ownProps) => ({
   pluginMetaDataList: PluginMetaDataSelectors.getList(state),
   isPluginMetaDataFetching: PluginMetaDataSelectors.isFetching(state),

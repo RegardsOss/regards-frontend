@@ -27,7 +27,7 @@ export class PluginParameterBoolean extends React.Component {
   }
 
   render() {
-    const { fieldKey, pluginParameter: { name, value }, mode, change } = this.props
+    const { fieldKey, pluginParameter: { name, value }, mode } = this.props
     const styles = moduleStyles()
 
     switch (mode) {

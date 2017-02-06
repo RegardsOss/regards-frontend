@@ -3,7 +3,7 @@
  **/
 import { ListItem } from 'material-ui/List'
 import { RenderTextField, Field } from '@regardsoss/form-utils'
-import { PluginParameter, PluginParameterType } from '@regardsoss/model'
+import { PluginParameter } from '@regardsoss/model'
 
 /**
  * Renders a form field in view or edit mode for a plugin parameter of types
@@ -26,7 +26,7 @@ export class PluginParameterString extends React.Component {
   }
 
   render() {
-    const { fieldKey, pluginParameter: { name, value }, mode, change } = this.props
+    const { fieldKey, pluginParameter: { name, value }, mode } = this.props
 
     switch (mode) {
       case 'view':

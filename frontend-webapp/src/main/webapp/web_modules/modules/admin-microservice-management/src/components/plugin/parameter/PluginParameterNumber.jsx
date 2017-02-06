@@ -30,7 +30,7 @@ export class PluginParameterNumber extends React.Component {
   }
 
   render() {
-    const { fieldKey, pluginParameter: { name, value }, mode, change } = this.props
+    const { fieldKey, pluginParameter: { name, value }, mode } = this.props
 
     switch (mode) {
       case 'view':

@@ -33,7 +33,7 @@ class PluginParameterListComponent extends React.Component {
     const pluginParameterList = pluginParameterListIfExistingConfiguration || pluginParameterListIfNoConfiguration
 
     return (
-      <Card style={{ marginTop: 20 }}>
+      <Card style={styles.pluginConfiguration.form.section}>
         <CardTitle title={<FormattedMessage id="microservice-management.plugin.parameter.list.title"/>}/>
         <CardText>
           {map(pluginParameterList, (pluginParameter, index) =>
