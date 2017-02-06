@@ -15,7 +15,7 @@ import AttributeModelSelector from '../models/attributes/AttributeModelSelector'
  * Main container to display module form.
  * @author Sébastien binda
  */
-class ModuleContainer extends React.Component {
+class ModuleContainer extends React.PureComponent {
 
   static propTypes = {
     layout: React.PropTypes.string.isRequired,
@@ -117,6 +117,7 @@ class ModuleContainer extends React.Component {
     const type = this.props.resultType === DATAOBJECT_RESULTS ? 'DATAOBJECT' : 'DATASET'
     query = `${query}&type=${type}`
 
+
     this.setState({
       searchQuery: query,
     })
@@ -149,6 +150,7 @@ class ModuleContainer extends React.Component {
 
   renderResults() {
     if (!this.props.preview) {
+      console.log('Running search ', this.state.searchQuery)
       return (
         <SearchResultsComponent
           searchQuery={this.state.searchQuery}

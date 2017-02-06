@@ -17,7 +17,7 @@ import PluginLoader from './PluginLoader'
  * @see PluginProvider for more information about Plugin loading.
  * @author Sébastien Binda
  */
-class PluginProvider extends React.Component {
+class PluginProvider extends React.PureComponent {
 
   /**
    * pluginId: Indetifier of the plugin to provide

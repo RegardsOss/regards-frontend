@@ -10,7 +10,7 @@ import ModuleShape from '../model/ModuleShape'
  * with messages internationalisation provider
  * @author Sébastien Binda
  */
-class ModuleListProvider extends React.Component {
+class ModuleListProvider extends React.PureComponent {
 
   static propTypes = {
     container: React.PropTypes.string,

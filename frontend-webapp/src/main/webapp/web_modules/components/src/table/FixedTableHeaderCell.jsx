@@ -2,16 +2,18 @@
  * LICENSE_PLACEHOLDER
  **/
 import { themeContextType } from '@regardsoss/theme'
+import Styles from './FixedTableStyles'
 
 /**
  * Column header cell rendering for FixedTable
  * @author Sébastien Binda
  */
-class FixedTableCell extends React.Component {
+class FixedTableCell extends React.PureComponent {
 
   static propTypes = {
     label: React.PropTypes.string,
-    lineHeight: React.PropTypes.number,
+    lineHeight: React.PropTypes.number.isRequired,
+    fixed: React.PropTypes.bool,
   }
 
   static contextTypes = {
@@ -19,25 +21,26 @@ class FixedTableCell extends React.Component {
   }
 
   render() {
-    const theme = this.context.muiTheme
-    const lineHeight = this.props.lineHeight ? this.props.lineHeight - 1 : 40
+    const styles = Styles(this.context.muiTheme)
+    const lineHeight = this.props.lineHeight - 1
+    let cellStyle = styles.cellHeader
+    if (this.props.fixed) {
+      cellStyle = styles.fixedCellHeader
+    }
+    cellStyle.lineHeight = `${lineHeight}px`
+    if (!this.props.label) {
+      cellStyle.minHeight = `${this.props.lineHeight}px`
+    }
     return (
-      <div
-        style={{
-          lineHeight: `${lineHeight}px`,
-          backgroundColor: theme.table.backgroundColor,
-          color: theme.tableHeaderColumn.textColor,
-          fontFamily: theme.rawTheme.fontFamily,
-          display: 'flex',
-          justifyContent: 'center',
-          borderBottom: `1px solid ${theme.tableRow.borderColor}`,
-          borderRight: `1px solid ${theme.tableRow.borderColor}`,
-        }}
-      >
+      <div style={cellStyle}>
         <div>{this.props.label}</div>
       </div>
     )
   }
+}
+
+FixedTableCell.defaultProps = {
+  fixed: false,
 }
 
 export default FixedTableCell

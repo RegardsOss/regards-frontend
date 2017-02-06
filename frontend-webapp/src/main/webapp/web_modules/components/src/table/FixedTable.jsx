@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { concat, forEach, isEqual, keys, map } from 'lodash'
+import { concat, forEach, isEqual, keys, map, filter } from 'lodash'
 import { Table, Column } from 'fixed-data-table'
 import { LoadingComponent } from '@regardsoss/display-control'
 import { themeContextType } from '@regardsoss/theme'
@@ -9,7 +9,9 @@ import { connect } from '@regardsoss/redux'
 import { BasicPageableSelectors, BasicPageableActions } from '@regardsoss/store-utils'
 import './fixed-data-table-mui.css'
 import FixedTableCell from './FixedTableCell'
+import FixedTableCheckBoxCell from './FixedTableCheckBoxCell'
 import FixedTableHeaderCell from './FixedTableHeaderCell'
+import Styles from './FixedTableStyles'
 
 /**
  * Fixed data table from facebook library integrated with material ui theme
@@ -30,7 +32,7 @@ import FixedTableHeaderCell from './FixedTableHeaderCell'
  *
  * @author Sébastien Binda
  */
-class FixedTable extends React.Component {
+class FixedTable extends React.PureComponent {
 
   /**
    * PageActions : BasicPageableActions of the entities to manage
@@ -46,6 +48,8 @@ class FixedTable extends React.Component {
     PageSelector: React.PropTypes.instanceOf(BasicPageableSelectors).isRequired,
     pageSize: React.PropTypes.number,
     lineHeight: React.PropTypes.number,
+    displayCheckbox: React.PropTypes.bool,
+    onSelectionChange: React.PropTypes.func,
     // eslint-disable-next-line react/forbid-prop-types
     requestParams: React.PropTypes.object,
     // Set by redux store connection
@@ -66,26 +70,20 @@ class FixedTable extends React.Component {
 
   constructor(props) {
     super(props)
-    const defaultLineHeight = 40
-    const lineHeight = this.props.lineHeight ? this.props.lineHeight : defaultLineHeight
-    // 20 + 1 for header line
-    const defaultPageSize = 21
-    const defaultNbEntitiesByPage = defaultPageSize * 3
-    const defaultHeight = defaultPageSize * lineHeight
+    const nbEntitiesByPage = this.props.pageSize * 3
     // +1 for header row
-    const height = this.props.pageSize ? lineHeight * (this.props.pageSize + 1) : defaultHeight
+    const height = this.props.lineHeight * (this.props.pageSize + 1)
     const width = window.innerWidth - 60
+    const columnsWidth = width - 110
     this.state = {
-      rowHeight: lineHeight,
-      pageSize: this.props.pageSize ? this.props.pageSize : defaultPageSize,
-      nbEntitiesByPage: this.props.pageSize ? this.props.pageSize * 3 : defaultNbEntitiesByPage,
+      nbEntitiesByPage,
       entities: [],
       height,
       width,
       columnWidths: {
-        label: width / 3,
-        format: width / 3,
-        language: width / 3,
+        label: columnsWidth / 3,
+        format: columnsWidth / 3,
+        language: columnsWidth / 3,
       },
     }
   }
@@ -143,13 +141,14 @@ class FixedTable extends React.Component {
    */
   onScrollEnd = (scrollStartOffset, scrollEndOffset) => {
     // the scroll offset is the first element to fetch if it is missing
-    const index = Math.floor(scrollEndOffset / this.state.rowHeight)
+
+    const index = Math.floor(scrollEndOffset / this.props.lineHeight)
 
     // Search for first missing key in viewport
     let firstIndexToFetch = null
-    if (index > this.state.pageSize) {
+    if (index > this.props.pageSize) {
       let i = 0
-      for (i = index - this.state.pageSize; i < (index + (2 * this.state.pageSize)) && i < this.state.entities.length; i += 1) {
+      for (i = index - this.props.pageSize; i < (index + (2 * this.props.pageSize)) && i < this.state.entities.length; i += 1) {
         if (keys(this.state.entities[i]).length === 0) {
           firstIndexToFetch = i
           // Init pending information in the current state for fetching missing entities.
@@ -227,7 +226,47 @@ class FixedTable extends React.Component {
     forEach(entity.content.attributes, (attr, key) => {
       columns.push({ attributes: [key], label: key })
     })
+
     return columns
+  }
+
+  /**
+   * Callback to select a row on checkbox click
+   * @param rowIndex
+   */
+  selectRow = (rowIndex) => {
+    const entities = concat([], this.state.entities)
+    const selectedRowIndex = Object.assign(entities[rowIndex])
+    selectedRowIndex.selected = selectedRowIndex.selected ? !selectedRowIndex.selected : true
+    entities[rowIndex] = selectedRowIndex
+    const selectedEntities = filter(entities, entity => entity.selected)
+    this.setState({
+      entities,
+    })
+    this.props.onSelectionChange(selectedEntities)
+  }
+
+  /**
+   * Render the first column with a checkbox inside to allow line selection
+   * @returns {*}
+   */
+  renderCheckBoxColumn = () => {
+    if (this.props.displayCheckbox) {
+      return (
+        <Column
+          key={'checkbox'}
+          columnKey={'checkbox'}
+          header={<FixedTableHeaderCell lineHeight={this.props.lineHeight} fixed />}
+          cell={<FixedTableCheckBoxCell
+            selectRow={this.selectRow}
+            isSelected={idx => this.state.entities[idx].selected}
+          />}
+          fixed
+          width={100}
+        />
+      )
+    }
+    return null
   }
 
   /**
@@ -237,21 +276,11 @@ class FixedTable extends React.Component {
    */
   renderLoadingFilter = (height) => {
     if (this.props.entitiesFetching) {
+      const styles = Styles(this.context.muiTheme).loadingFilter
+      styles.height = this.props.lineHeight
+      styles.headerHeight = this.props.lineHeight
       return (
-        <div
-          style={{
-            bottom: '0px',
-            position: 'absolute',
-            width: '100%',
-            height: this.state.rowHeight,
-            backgroundColor: this.context.muiTheme.palette.primary1Color,
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            opacity: '0.5',
-            zIndex: '1000',
-          }}
-        >
+        <div style={styles}>
           <LoadingComponent />
         </div>
       )
@@ -260,22 +289,18 @@ class FixedTable extends React.Component {
   }
 
   render() {
-    if (this.props.pageMetadata && this.props.pageMetadata.totalElements > 0) {
+    const { columnWidths, width, height } = this.state
+    const styles = Styles(this.context.muiTheme)
+    if (this.props.pageMetadata && this.props.pageMetadata.totalElements > 0 && this.state.entities.length > 0) {
       const totalNumberOfEntities = this.props.pageMetadata.totalElements
-      const { columnWidths, width, height } = this.state
       return (
         <div
-          style={{
-            position: 'relative',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
+          style={styles.table}
         >
           {this.renderLoadingFilter(height)}
           <Table
-            rowHeight={this.state.rowHeight}
-            headerHeight={this.state.rowHeight}
+            rowHeight={this.props.lineHeight}
+            headerHeight={this.props.lineHeight}
             rowsCount={totalNumberOfEntities}
             onColumnResizeEndCallback={this.onColumnResizeEndCallback}
             isColumnResizing={false}
@@ -284,11 +309,12 @@ class FixedTable extends React.Component {
             height={height}
             {...this.props}
           >
+            {this.renderCheckBoxColumn()}
             {map(this.getAllColumns(), (column, idx) => (
               <Column
                 key={idx}
                 columnKey={column.label}
-                header={<FixedTableHeaderCell label={column.label} lineHeight={this.state.rowHeight} />}
+                header={<FixedTableHeaderCell label={column.label} lineHeight={this.props.lineHeight} />}
                 cell={<FixedTableCell getCellValue={(rowIndex, col) => this.getCellValue(rowIndex, col)} col={column} />}
                 fixed
                 width={columnWidths.label}
@@ -301,6 +327,16 @@ class FixedTable extends React.Component {
     }
     return null
   }
+}
+
+/**
+ * FixedTable default props
+ * @type {{pageSize: number, lineHeight: number, displayCheckbox: boolean}}
+ */
+FixedTable.defaultProps = {
+  pageSize: 20,
+  lineHeight: 42,
+  displayCheckbox: false,
 }
 
 const mapStateToProps = (state, ownProps) => ({

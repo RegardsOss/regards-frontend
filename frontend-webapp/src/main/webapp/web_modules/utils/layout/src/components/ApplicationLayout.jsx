@@ -12,7 +12,7 @@ import ContainerShape from '../model/ContainerShape'
  * Component to display a customizable layout. The layout configuration is the muiTheme from Theme module.
  * @author Sébastien Binda
  */
-class ApplicationLayout extends React.Component {
+class ApplicationLayout extends React.PureComponent {
 
   static propTypes = {
     project: React.PropTypes.string,
@@ -28,6 +28,11 @@ class ApplicationLayout extends React.Component {
 
   static contextTypes = {
     ...themeContextType,
+  }
+
+  constructor(props) {
+    super(props)
+    console.log('NEW Layout')
   }
 
   /**

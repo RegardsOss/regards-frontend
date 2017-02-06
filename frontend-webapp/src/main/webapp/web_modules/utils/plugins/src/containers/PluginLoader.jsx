@@ -17,7 +17,7 @@ import PluginSelector from '../model/LoadPluginSelector'
  * @author Sébastien Binda
  *
  */
-class PluginLoader extends React.Component {
+class PluginLoader extends React.PureComponent {
 
   /**
    * pluginId: Indetifier of the plugin to provide
@@ -57,13 +57,17 @@ class PluginLoader extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (!this.state.registered && nextProps.loadedPlugin && nextProps.loadedPlugin.reducer) {
+      console.log('Updating plugin', this.state, this.props)
       const loadedPluginReducerName = `plugins.${nextProps.loadedPlugin.name}`
       const loadedPluginReducer = {}
-      loadedPluginReducer[loadedPluginReducerName] = configureReducers(nextProps.loadedPlugin.reducer)
-      getReducerRegistry().register(loadedPluginReducer)
       this.setState({
         registered: true,
       })
+      loadedPluginReducer[loadedPluginReducerName] = configureReducers(nextProps.loadedPlugin.reducer)
+      if (!getReducerRegistry().isRegistered(loadedPluginReducer)) {
+        console.log('REGISTERED')
+        getReducerRegistry().register(loadedPluginReducer)
+      }
     }
   }
 

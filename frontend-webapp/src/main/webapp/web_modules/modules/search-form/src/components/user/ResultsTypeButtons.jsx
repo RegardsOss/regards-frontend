@@ -11,7 +11,7 @@ import { themeContextType } from '@regardsoss/theme'
  * React component to display buttons to manage results visualisations
  * @author Sébastien binda
  */
-class ResultsTypeButtons extends React.Component {
+class ResultsTypeButtons extends React.PureComponent {
 
   static contextTypes = {
     ...themeContextType,
