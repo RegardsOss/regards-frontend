@@ -65,6 +65,25 @@ export const collectionManagementRouter = {
   },
 }
 
+export const datasetManagementRouter = {
+  path: 'dataset',
+  getChildRoutes(nextState, cb) {
+    const adminDataDatasetManagement = require('@regardsoss/admin-data-dataset-management')
+    require.ensure([], (require) => {
+      cb(null, [adminDataDatasetManagement.datasetDataManagementRouter])
+    })
+  },
+}
+
+export const datasourceManagementRouter = {
+  path: 'datasource',
+  getChildRoutes(nextState, cb) {
+    const adminDataDatasourceManagement = require('@regardsoss/admin-data-datasource-management')
+    require.ensure([], (require) => {
+      cb(null, [adminDataDatasourceManagement.datasourceDataManagementRouter])
+    })
+  },
+}
 
 const dataManagementRouter = {
   childRoutes: [
@@ -74,6 +93,8 @@ const dataManagementRouter = {
     attributeModelManagementRouter,
     fragmentModelManagementRouter,
     collectionManagementRouter,
+    datasetManagementRouter,
+    datasourceManagementRouter,
   ],
 }
 

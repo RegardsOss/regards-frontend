@@ -33,6 +33,8 @@
     "@regardsoss/admin-account-management": "0.0.1",
     "@regardsoss/admin-data-attributemodel-management": "0.0.1",
     "@regardsoss/admin-data-collection-management": "0.0.1",
+    "@regardsoss/admin-data-dataset-management": "0.0.1",
+    "@regardsoss/admin-data-datasource-management": "0.0.1",
     "@regardsoss/admin-data-fragment-management": "0.0.1",
     "@regardsoss/admin-data-management": "0.0.1",
     "@regardsoss/admin-data-model-management": "0.0.1",

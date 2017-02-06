@@ -81,7 +81,7 @@ const items = (projectName, intl) => [
   {
     title: intl.formatMessage({ id: 'data.board.dataset.title' }),
     description: intl.formatMessage({ id: 'data.board.dataset.description' }),
-    advanced: true,
+    advanced: false,
     actions: [
       {
         path: `/admin/${projectName}/data/dataset/list`,
@@ -101,12 +101,12 @@ const items = (projectName, intl) => [
     advanced: true,
     actions: [
       {
-        path: `/admin/${projectName}/data/connection/list`,
+        path: `/admin/${projectName}/data/datasource/list`,
         icon: <ViewLinesIcon />,
         tooltipMsg: intl.formatMessage({ id: 'data.board.action.list.tooltip' }),
       },
       {
-        path: `/admin/${projectName}/data/connection/create`,
+        path: `/admin/${projectName}/data/datasource/create`,
         icon: <AddIcon />,
         tooltipMsg: intl.formatMessage({ id: 'data.board.action.add.tooltip' }),
       },
