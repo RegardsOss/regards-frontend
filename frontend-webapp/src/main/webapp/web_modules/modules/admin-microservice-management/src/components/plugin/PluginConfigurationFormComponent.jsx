@@ -134,7 +134,7 @@ export class PluginConfigurationFormComponent extends React.Component {
           name: currentPluginConfiguration.content.name,
         }}
       />) :
-      <FormattedMessage id="microservice-management.plugin.configuration.form.create.title"/>
+      <FormattedMessage id="microservice-management.plugin.configuration.form.create.title" />
 
     return (
       <ReduxConnectedForm
@@ -154,7 +154,7 @@ export class PluginConfigurationFormComponent extends React.Component {
                 component={RenderTextField}
                 type="text"
                 validate={validRequiredString}
-                label={<FormattedMessage id="microservice-management.plugin.configuration.form.pluginClassName"/>}
+                label={<FormattedMessage id="microservice-management.plugin.configuration.form.pluginClassName" />}
               />
               <Field
                 name="label"
@@ -162,7 +162,7 @@ export class PluginConfigurationFormComponent extends React.Component {
                 component={RenderTextField}
                 type="text"
                 validate={validRequiredString}
-                label={<FormattedMessage id="microservice-management.plugin.configuration.form.label"/>}
+                label={<FormattedMessage id="microservice-management.plugin.configuration.form.label" />}
               />
               <Field
                 name="version"
@@ -170,7 +170,7 @@ export class PluginConfigurationFormComponent extends React.Component {
                 component={RenderTextField}
                 type="text"
                 validate={validRequiredString}
-                label={<FormattedMessage id="microservice-management.plugin.configuration.form.version"/>}
+                label={<FormattedMessage id="microservice-management.plugin.configuration.form.version" />}
               />
               <Field
                 name="priorityOrder"
@@ -179,14 +179,14 @@ export class PluginConfigurationFormComponent extends React.Component {
                 type="number"
                 parse={val => parseFloat(val)}
                 validate={validRequiredNumber}
-                label={<FormattedMessage id="microservice-management.plugin.configuration.form.priorityOrder"/>}
+                label={<FormattedMessage id="microservice-management.plugin.configuration.form.priorityOrder" />}
               />
               <Field
                 name="active"
                 component={Toggle}
                 type="boolean"
                 style={styles.pluginConfiguration.form.toggle}
-                label={<FormattedMessage id="microservice-management.plugin.configuration.form.active"/>}
+                label={<FormattedMessage id="microservice-management.plugin.configuration.form.active" />}
               />
             </CardText>
           </Card>
@@ -202,8 +202,8 @@ export class PluginConfigurationFormComponent extends React.Component {
             <CardActions>
               <CardActionsComponent
                 mainButtonLabel={this.state.isEditing ?
-                  <FormattedMessage id="microservice-management.plugin.configuration.form.action.submit.save"/> :
-                  <FormattedMessage id="microservice-management.plugin.configuration.form.action.submit.add"/>}
+                  <FormattedMessage id="microservice-management.plugin.configuration.form.action.submit.save" /> :
+                  <FormattedMessage id="microservice-management.plugin.configuration.form.action.submit.add" />}
                 mainButtonType="submit"
                 isMainButtonDisabled={submitting || invalid}
                 secondaryButtonLabel={<FormattedMessage

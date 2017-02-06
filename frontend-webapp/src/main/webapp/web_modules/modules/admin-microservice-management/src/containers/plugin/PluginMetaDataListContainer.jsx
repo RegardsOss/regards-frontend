@@ -138,7 +138,7 @@ export class PluginMetaDataListContainer extends React.Component {
         </CardText>
         <CardActions>
           <IconButton
-            tooltip={<FormattedMessage id="microservice-management.plugin.list.configurations"/>}
+            tooltip={<FormattedMessage id="microservice-management.plugin.list.configurations" />}
             onTouchTap={() => this.handleProjectConfigurationListClick(plugin.content.pluginId)}
           >
             <IconList />
@@ -197,11 +197,11 @@ export class PluginMetaDataListContainer extends React.Component {
           <Paper>
             <AppBar
               title={`${microserviceName} > Plugins`}
-              iconElementLeft={<IconButton><Close onTouchTap={this.handleClose}/></IconButton>}
+              iconElementLeft={<IconButton><Close onTouchTap={this.handleClose} /></IconButton>}
               iconElementRight={
                 <IconButton
                   onTouchTap={this.handleFilterSwitch}
-                  tooltip={<FormattedMessage id="microservice-management.plugin.list.filter.tooltip"/>}
+                  tooltip={<FormattedMessage id="microservice-management.plugin.list.filter.tooltip" />}
                 >
                   <Filter />
                 </IconButton>
@@ -217,7 +217,7 @@ export class PluginMetaDataListContainer extends React.Component {
             <Drawer width={500} openSecondary open={this.state.filterOpen}>
               <AppBar
                 iconElementLeft={<IconButton onTouchTap={this.handleFilterSwitch}><Close /></IconButton>}
-                title={<FormattedMessage id="microservice-management.plugin.list.filter.title"/>}
+                title={<FormattedMessage id="microservice-management.plugin.list.filter.title" />}
               />
               <List>
                 {this.getFilterListItems()}

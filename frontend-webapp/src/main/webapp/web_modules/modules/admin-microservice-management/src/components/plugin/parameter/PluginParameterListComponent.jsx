@@ -34,7 +34,7 @@ class PluginParameterListComponent extends React.Component {
 
     return (
       <Card style={styles.pluginConfiguration.form.section}>
-        <CardTitle title={<FormattedMessage id="microservice-management.plugin.parameter.list.title"/>}/>
+        <CardTitle title={<FormattedMessage id="microservice-management.plugin.parameter.list.title" />} />
         <CardText>
           {map(pluginParameterList, (pluginParameter, index) =>
             <GenericPluginParameter

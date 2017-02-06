@@ -9,113 +9,113 @@ import { StoreDecorator, addLocaleAndThemeSelectors, ThemeAndLocaleDecorator } f
 const defaultPluginMetaDataList = {
   aComplexErrorPlugin: {
     content: {
-      "id": "aComplexErrorPlugin",
-      "pluginId": "aComplexErrorPlugin",
-      "pluginClassName": "fr.cnes.regards.framework.plugins.ComplexErrorPlugin",
-      "interfaceClassName": [
-        "fr.cnes.regards.framework.plugins.ISamplePlugin",
-        "fr.cnes.regards.framework.plugins.IComplexInterfacePlugin"
+      id: 'aComplexErrorPlugin',
+      pluginId: 'aComplexErrorPlugin',
+      pluginClassName: 'fr.cnes.regards.framework.plugins.ComplexErrorPlugin',
+      interfaceClassName: [
+        'fr.cnes.regards.framework.plugins.ISamplePlugin',
+        'fr.cnes.regards.framework.plugins.IComplexInterfacePlugin',
       ],
-      "author": "CSSI",
-      "version": "0.0.1",
-      "description": "Complex plugin test",
-      "parameters": [
+      author: 'CSSI',
+      version: '0.0.1',
+      description: 'Complex plugin test',
+      parameters: [
         {
-          "name": "coeff",
-          "type": "java.lang.Integer",
-          "paramType": "PRIMITIVE"
-        }
-      ]
+          name: 'coeff',
+          type: 'java.lang.Integer',
+          paramType: 'PRIMITIVE',
+        },
+      ],
     },
   },
   aSamplePlugin: {
     content: {
-      "id": "aSamplePlugin",
-      "pluginId": "aSamplePlugin",
-      "pluginClassName": "fr.cnes.regards.framework.plugins.SamplePlugin",
-      "interfaceClassName": [
-        "fr.cnes.regards.framework.plugins.ISamplePlugin"
+      id: 'aSamplePlugin',
+      pluginId: 'aSamplePlugin',
+      pluginClassName: 'fr.cnes.regards.framework.plugins.SamplePlugin',
+      interfaceClassName: [
+        'fr.cnes.regards.framework.plugins.ISamplePlugin',
       ],
-      "author": "CSSI",
-      "version": "12345-6789-11",
-      "description": "Sample plugin test",
-      "parameters": [
+      author: 'CSSI',
+      version: '12345-6789-11',
+      description: 'Sample plugin test',
+      parameters: [
         {
-          "name": "suffix",
-          "type": "java.lang.String",
-          "paramType": "PRIMITIVE"
+          name: 'suffix',
+          type: 'java.lang.String',
+          paramType: 'PRIMITIVE',
         },
         {
-          "name": "coeff",
-          "type": "java.lang.Integer",
-          "paramType": "PRIMITIVE"
+          name: 'coeff',
+          type: 'java.lang.Integer',
+          paramType: 'PRIMITIVE',
         },
         {
-          "name": "isActive",
-          "type": "java.lang.Boolean",
-          "paramType": "PRIMITIVE"
-        }
-      ]
+          name: 'isActive',
+          type: 'java.lang.Boolean',
+          paramType: 'PRIMITIVE',
+        },
+      ],
     },
   },
   aSampleErrorPlugin: {
     content: {
-      "id": "aSampleErrorPlugin",
-      "pluginId": "aSampleErrorPlugin",
-      "pluginClassName": "fr.cnes.regards.framework.plugins.SampleErrorPlugin",
-      "interfaceClassName": [
-        "fr.cnes.regards.framework.plugins.ISamplePlugin"
+      id: 'aSampleErrorPlugin',
+      pluginId: 'aSampleErrorPlugin',
+      pluginClassName: 'fr.cnes.regards.framework.plugins.SampleErrorPlugin',
+      interfaceClassName: [
+        'fr.cnes.regards.framework.plugins.ISamplePlugin',
       ],
-      "author": "CSSI",
-      "version": "0.0.1",
-      "description": "Sample plugin test",
-      "parameters": [
+      author: 'CSSI',
+      version: '0.0.1',
+      description: 'Sample plugin test',
+      parameters: [
         {
-          "name": "suffix",
-          "type": "java.lang.String",
-          "paramType": "PRIMITIVE"
+          name: 'suffix',
+          type: 'java.lang.String',
+          paramType: 'PRIMITIVE',
         },
         {
-          "name": "coeff",
-          "type": "java.lang.Integer",
-          "paramType": "PRIMITIVE"
+          name: 'coeff',
+          type: 'java.lang.Integer',
+          paramType: 'PRIMITIVE',
         },
         {
-          "name": "isActive",
-          "type": "java.lang.Boolean",
-          "paramType": "PRIMITIVE"
-        }
-      ]
+          name: 'isActive',
+          type: 'java.lang.Boolean',
+          paramType: 'PRIMITIVE',
+        },
+      ],
     },
   },
   aComplexPlugin: {
     content: {
-      "id": "aComplexPlugin",
-      "pluginId": "aComplexPlugin",
-      "pluginClassName": "fr.cnes.regards.framework.plugins.ComplexPlugin",
-      "interfaceClassName": [
-        "fr.cnes.regards.framework.plugins.ISamplePlugin"
+      id: 'aComplexPlugin',
+      pluginId: 'aComplexPlugin',
+      pluginClassName: 'fr.cnes.regards.framework.plugins.ComplexPlugin',
+      interfaceClassName: [
+        'fr.cnes.regards.framework.plugins.ISamplePlugin',
       ],
-      "author": "CSSI",
-      "version": "0.0.1",
-      "description": "Complex plugin test",
-      "parameters": [
+      author: 'CSSI',
+      version: '0.0.1',
+      description: 'Complex plugin test',
+      parameters: [
         {
-          "name": "plgInterface",
-          "type": "fr.cnes.regards.framework.plugins.IComplexInterfacePlugin",
-          "paramType": "PLUGIN"
+          name: 'plgInterface',
+          type: 'fr.cnes.regards.framework.plugins.IComplexInterfacePlugin',
+          paramType: 'PLUGIN',
         },
         {
-          "name": "coeff",
-          "type": "java.lang.Integer",
-          "paramType": "PRIMITIVE"
+          name: 'coeff',
+          type: 'java.lang.Integer',
+          paramType: 'PRIMITIVE',
         },
         {
-          "name": "isActive",
-          "type": "java.lang.Boolean",
-          "paramType": "PRIMITIVE"
+          name: 'isActive',
+          type: 'java.lang.Boolean',
+          paramType: 'PRIMITIVE',
         },
-      ]
+      ],
     },
   },
 }
@@ -123,68 +123,68 @@ const defaultPluginMetaDataList = {
 const defaultPluginConfigurationList = {
   12: {
     content: {
-      "id": 12,
-      "pluginId": "aComplexPlugin",
-      "label": "This is a configuration",
-      "version": "1.2.0",
-      "priorityOrder": 0,
-      "active": true,
-      "pluginClassName": "java.lang.Integer",
-      "parameters": [
+      id: 12,
+      pluginId: 'aComplexPlugin',
+      label: 'This is a configuration',
+      version: '1.2.0',
+      priorityOrder: 0,
+      active: true,
+      pluginClassName: 'java.lang.Integer',
+      parameters: [
         {
-          "name": "coeff",
-          "value": "thecoeffvalue",
-          "dynamic": true
+          name: 'coeff',
+          value: 'thecoeffvalue',
+          dynamic: true,
         },
         {
-          "name": "isActive",
-          "value": "true",
-          "dynamic": false
+          name: 'isActive',
+          value: 'true',
+          dynamic: false,
         },
         {
-          "name": "plgInterface",
-          "value": "40",
-          "dynamic": false
-        }
-      ]
+          name: 'plgInterface',
+          value: '40',
+          dynamic: false,
+        },
+      ],
     },
   },
   40: {
     content: {
-      "id": 40,
-      "pluginId": "aComplexErrorPlugin",
-      "label": "a plugin configuration for the test",
-      "version": "12345-6789-11",
-      "priorityOrder": 0,
-      "active": true,
-      "pluginClassName": "java.lang.Integer",
-      "parameters": [
+      id: 40,
+      pluginId: 'aComplexErrorPlugin',
+      label: 'a plugin configuration for the test',
+      version: '12345-6789-11',
+      priorityOrder: 0,
+      active: true,
+      pluginClassName: 'java.lang.Integer',
+      parameters: [
         {
-          "name": "param31",
-          "value": "value31",
-          "dynamic": true
+          name: 'param31',
+          value: 'value31',
+          dynamic: true,
         },
         {
-          "name": "param32",
-          "value": "value32",
-          "dynamic": false
+          name: 'param32',
+          value: 'value32',
+          dynamic: false,
         },
         {
-          "name": "param33",
-          "value": "value33",
-          "dynamic": false
+          name: 'param33',
+          value: 'value33',
+          dynamic: false,
         },
         {
-          "name": "param34",
-          "value": "value34",
-          "dynamic": false
+          name: 'param34',
+          value: 'value34',
+          dynamic: false,
         },
         {
-          "name": "param35",
-          "value": "value35",
-          "dynamic": false
-        }
-      ]
+          name: 'param35',
+          value: 'value35',
+          dynamic: false,
+        },
+      ],
     },
   },
 }
@@ -232,9 +232,9 @@ storiesOf('Admin - Microservice management', module)
       <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-microservice-management/src/i18n">
         <PluginParameterPlugin
           name={'parameter1'}
-          value={"12"}
+          value={'12'}
           mode={'view'}
-          pluginParameterType={"fr.cnes.regards.framework.plugins.IComplexInterfacePlugin"}
+          pluginParameterType={'fr.cnes.regards.framework.plugins.IComplexInterfacePlugin'}
           pluginMetaDataList={pluginMetaDataList}
           isPluginMetaDataListFetching={false}
           pluginConfigurationList={pluginConfigurationList}
@@ -253,9 +253,9 @@ storiesOf('Admin - Microservice management', module)
       <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-microservice-management/src/i18n">
         <PluginParameterPlugin
           name={'parameter1'}
-          value={"12"}
+          value={'12'}
           mode={'edit'}
-          pluginParameterType={"fr.cnes.regards.framework.plugins.IComplexInterfacePlugin"}
+          pluginParameterType={'fr.cnes.regards.framework.plugins.IComplexInterfacePlugin'}
           pluginMetaDataList={pluginMetaDataList}
           isPluginMetaDataListFetching={false}
           pluginConfigurationList={pluginConfigurationList}
