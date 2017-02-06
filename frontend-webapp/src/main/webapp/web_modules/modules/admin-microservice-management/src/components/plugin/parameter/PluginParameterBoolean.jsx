@@ -4,7 +4,7 @@
 import { Toggle } from 'redux-form-material-ui'
 import { ListItem } from 'material-ui/List'
 import { Field } from '@regardsoss/form-utils'
-import { PluginParameter, PluginParameterType } from '@regardsoss/model'
+import { PluginParameter } from '@regardsoss/model'
 import moduleStyles from '../../../styles/styles'
 
 /**
@@ -40,7 +40,7 @@ export class PluginParameterBoolean extends React.Component {
           <Field
             name={fieldKey}
             format={val => val === 'true'} // Parse value to boolean
-            normalize={val => val.toString()}
+            parse={val => val.toString()}
             component={Toggle}
             type={'boolean'}
             style={styles.pluginConfiguration.form.toggle}

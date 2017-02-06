@@ -14,13 +14,13 @@ import Divider from 'material-ui/Divider'
 import Delete from 'material-ui/svg-icons/action/delete'
 import { connect } from '@regardsoss/redux'
 import { PluginParameter, PluginParameterType, PluginMetaDataList, PluginConfiguration } from '@regardsoss/model'
+import { RenderTextField, Field, ValidationHelpers } from '@regardsoss/form-utils'
 import PluginMetaDataSelectors from '../../../model/plugin/PluginMetaDataSelectors'
 import PluginConfigurationSelectors from '../../../model/plugin/PluginConfigurationSelectors'
 import { buildMenuItemPrimaryText } from './utils'
 import moduleStyles from '../../../styles/styles'
 
-// validation functions
-const required = value => value == null ? 'Required' : undefined
+const { validRequiredString } = ValidationHelpers
 const styles = moduleStyles()
 
 /**
@@ -79,11 +79,11 @@ export class PluginParameterPlugin extends React.Component {
       value,
       selectedPluginConfiguration: find(this.props.pluginConfigurationList, el => el.content.id === value),
     })
-    this.props.change(this.props.fieldKey, value.toString())
+    this.props.change(this.props.fieldKey, value ? value.toString() : null)
   }
 
   render() {
-    const { mode, pluginParameter: { name }, pluginMetaDataList, pluginConfigurationList } = this.props
+    const { fieldKey, mode, pluginParameter: { name }, pluginMetaDataList, pluginConfigurationList } = this.props
     const { openMenu, selectedPluginConfiguration } = this.state
 
     switch (mode) {
@@ -140,6 +140,14 @@ export class PluginParameterPlugin extends React.Component {
                 rightIcon={<Delete />}
               />
             </IconMenu>
+            <Field
+              style={styles.pluginParameter.field}
+              name={fieldKey}
+              component={RenderTextField}
+              type={'text'}
+              label={name}
+              validate={validRequiredString}
+            />
           </div>
         )
       default:

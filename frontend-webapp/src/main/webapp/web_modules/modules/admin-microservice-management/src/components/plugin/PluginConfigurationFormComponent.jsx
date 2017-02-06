@@ -7,13 +7,14 @@ import { FormattedMessage } from 'react-intl'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
-import { RenderTextField, Field } from '@regardsoss/form-utils'
+import { RenderTextField, Field, ValidationHelpers } from '@regardsoss/form-utils'
 import { ReduxConnectedForm } from '@regardsoss/redux'
 import { PluginMetaData, PluginMetaDataList, PluginConfiguration, PluginConfigurationList } from '@regardsoss/model'
 import PluginParameterListComponent from './parameter/PluginParameterListComponent'
 import { buildEmptyParameterList } from '../../model/plugin/utils'
 import moduleStyles from '../../styles/styles'
 
+const { validRequiredString, validRequiredNumber } = ValidationHelpers
 const styles = moduleStyles()
 
 /**
@@ -75,19 +76,18 @@ export class PluginConfigurationFormComponent extends React.Component {
    * @param props
    */
   validateProps = (props) => {
-    // TODO
-    // /**
-    //  * If both pluginConfiguration & pluginMetaData props are passed, check that pluginMetaData's pluginId attribute matches
-    //  * pluginConfiguration's pluginId attribute.
-    //  * In other words, we passed the correct PluginMetaData of the PluginConfiguation.
-    //  */
-    // if (props.pluginConfiguration && props.pluginMetaData) {
-    //   const pluginConfigurationsPluginId = props.pluginConfiguration.content.pluginId
-    //   const pluginMetaDatasPluginId = props.pluginMetaData.content.pluginId
-    //   if (pluginConfigurationsPluginId !== pluginMetaDatasPluginId) {
-    //     throw new Error('pluginConfiguration\'s pluginId attribute should match passed pluginMetaData\'s pluginId attribute in PluginConfigurationFormComponent')
-    //   }
-    // }
+    /**
+     * If both pluginConfiguration & pluginMetaData props are passed, check that pluginMetaData's pluginId attribute matches
+     * pluginConfiguration's pluginId attribute.
+     * In other words, we passed the correct PluginMetaData of the PluginConfiguation.
+     */
+    if (props.pluginConfiguration && props.pluginMetaData) {
+      const pluginConfigurationsPluginId = props.pluginConfiguration.content.pluginId
+      const pluginMetaDatasPluginId = props.pluginMetaData.content.pluginId
+      if (pluginConfigurationsPluginId !== pluginMetaDatasPluginId) {
+        throw new Error('pluginConfiguration\'s pluginId attribute should match passed pluginMetaData\'s pluginId attribute in PluginConfigurationFormComponent')
+      }
+    }
   }
 
   /**
@@ -153,6 +153,7 @@ export class PluginConfigurationFormComponent extends React.Component {
                 fullWidth
                 component={RenderTextField}
                 type="text"
+                validate={validRequiredString}
                 label={<FormattedMessage id="microservice-management.plugin.configuration.form.pluginClassName"/>}
               />
               <Field
@@ -160,6 +161,7 @@ export class PluginConfigurationFormComponent extends React.Component {
                 fullWidth
                 component={RenderTextField}
                 type="text"
+                validate={validRequiredString}
                 label={<FormattedMessage id="microservice-management.plugin.configuration.form.label"/>}
               />
               <Field
@@ -167,6 +169,7 @@ export class PluginConfigurationFormComponent extends React.Component {
                 fullWidth
                 component={RenderTextField}
                 type="text"
+                validate={validRequiredString}
                 label={<FormattedMessage id="microservice-management.plugin.configuration.form.version"/>}
               />
               <Field
@@ -174,7 +177,8 @@ export class PluginConfigurationFormComponent extends React.Component {
                 fullWidth
                 component={RenderTextField}
                 type="number"
-                normalize={val => parseFloat(val)}
+                parse={val => parseFloat(val)}
+                validate={validRequiredNumber}
                 label={<FormattedMessage id="microservice-management.plugin.configuration.form.priorityOrder"/>}
               />
               <Field
@@ -215,18 +219,7 @@ export class PluginConfigurationFormComponent extends React.Component {
   }
 }
 
-/**
- * Form validation
- *
- * @param values
- * @returns {{}} i18n keys
- */
-function validate(values) {
-  return {}
-}
-
 export default reduxForm({
   form: 'plugin-configuration-form',
-  validate,
 })(PluginConfigurationFormComponent)
 

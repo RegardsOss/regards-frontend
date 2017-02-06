@@ -2,8 +2,10 @@
  * LICENSE_PLACEHOLDER
  **/
 import { ListItem } from 'material-ui/List'
-import { RenderTextField, Field } from '@regardsoss/form-utils'
+import { RenderTextField, Field, ValidationHelpers } from '@regardsoss/form-utils'
 import { PluginParameter } from '@regardsoss/model'
+
+const { validRequiredString } = ValidationHelpers
 
 /**
  * Renders a form field in view or edit mode for a plugin parameter of types
@@ -41,6 +43,7 @@ export class PluginParameterString extends React.Component {
             component={RenderTextField}
             type={'text'}
             label={name}
+            validate={validRequiredString}
           />
         )
       default:

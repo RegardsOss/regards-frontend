@@ -81,6 +81,9 @@ const microserviceManagementStyles = theme => ({
     iconMenu: {
       visibility: 'hidden',
     },
+    field: {
+      display: 'none',
+    },
   },
 })
 
