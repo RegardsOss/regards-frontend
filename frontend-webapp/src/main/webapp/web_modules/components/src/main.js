@@ -30,7 +30,7 @@ import ModuleAppBar from './module/ModuleAppBar'
 
 import ErrorCardComponent from './error/ErrorCardComponent'
 
-import FixedTable from './table/FixedTable'
+import FixedTableContainer from './table/FixedTableContainer'
 
 export {
   ActionButtonComponent,
@@ -55,5 +55,5 @@ export {
   BaseBoardItemComponent,
   ModuleAppBar,
   ErrorCardComponent,
-  FixedTable,
+  FixedTableContainer,
 }

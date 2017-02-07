@@ -58,27 +58,6 @@ class ModuleContainer extends React.Component {
   }
 
   /**
-   * Search attributes associated to criterion
-   */
-  loadCriterionAttributes = () => {
-    const attributesToLoad = []
-    forEach(this.props.criterion, (criteriaPlugin) => {
-      if (criteriaPlugin && criteriaPlugin.pluginConf) {
-        forEach(criteriaPlugin.pluginConf.attributes, (attribute) => {
-          // Load attributes only once
-          if (!find(attributesToLoad, attr => attr === attribute) && !this.props.attributes[attribute]) {
-            attributesToLoad.push(attribute)
-          }
-        })
-      }
-    })
-    forEach(attributesToLoad, (attr) => {
-      // Fetch entity from server
-      this.props.fetchAttribute(attr)
-    })
-  }
-
-  /**
    * Criteria plugin callback to update there criteria values for the current search
    * @param criteria
    * @param pluginId
@@ -110,6 +89,27 @@ class ModuleContainer extends React.Component {
       })
     })
     return criterionWithAttributtes
+  }
+
+  /**
+   * Search attributes associated to criterion
+   */
+  loadCriterionAttributes = () => {
+    const attributesToLoad = []
+    forEach(this.props.criterion, (criteriaPlugin) => {
+      if (criteriaPlugin && criteriaPlugin.pluginConf) {
+        forEach(criteriaPlugin.pluginConf.attributes, (attribute) => {
+          // Load attributes only once
+          if (!find(attributesToLoad, attr => attr === attribute) && !this.props.attributes[attribute]) {
+            attributesToLoad.push(attribute)
+          }
+        })
+      }
+    })
+    forEach(attributesToLoad, (attr) => {
+      // Fetch entity from server
+      this.props.fetchAttribute(attr)
+    })
   }
 
   /**

@@ -46,6 +46,12 @@ class FormComponent extends React.Component {
     })
   }
 
+  keypress = (e) => {
+    if (e.charCode === 13) {
+      this.onHandleSearch()
+    }
+  }
+
   render() {
     let title = ''
     if (!this.state.expanded) {
@@ -60,7 +66,7 @@ class FormComponent extends React.Component {
           showExpandableButton
           style={styles.user.formHeader}
         />
-        <CardText expandable>
+        <CardText expandable onKeyPress={this.keypress}>
           <ApplicationLayout
             appName="user"
             layout={this.props.layout}
