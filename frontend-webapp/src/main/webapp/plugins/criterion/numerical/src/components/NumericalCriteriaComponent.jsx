@@ -85,27 +85,33 @@ export class NumericalCriteriaComponent extends React.Component {
     const attributeLabel = this.props.attributes && this.props.attributes.searchField && this.props.attributes.searchField.name
 
     return (
-      <Paper style={{
+      <div style={{
         display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: '0px 16px',
-        maxWidth: 400,
+        justifyContent: 'center',
+        alignItems: 'baseline',
       }}>
-        <span>{attributeLabel}</span>
-        <NumericalComparatorComponent onChange={this.handleChangeComparator}/>
-        <TextField
-          id="search"
-          type="number"
-          floatingLabelText={'Nombre...'} // TODO
-          value={this.format(this.state.value)}
-          onChange={this.handleChangeValue}
-          style={{
-            top: -10,
-            width: '33%',
-          }}
-        />
-      </Paper>
+        <Paper style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          padding: '0px 16px',
+          maxWidth: 400,
+        }}>
+          <span>{attributeLabel}</span>
+          <NumericalComparatorComponent onChange={this.handleChangeComparator}/>
+          <TextField
+            id="search"
+            type="number"
+            floatingLabelText={'Nombre...'} // TODO
+            value={this.format(this.state.value)}
+            onChange={this.handleChangeValue}
+            style={{
+              top: -10,
+              width: '33%',
+            }}
+          />
+        </Paper>
+      </div>
     )
   }
 }
