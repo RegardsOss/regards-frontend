@@ -16,6 +16,7 @@ import Theme, { ThemeConfiguration } from './access/Theme'
 import Plugin, { PluginConfiguration } from './access/Plugin'
 import Fragment, { FragmentConfiguration } from './dam/Fragment'
 import Dataset, { DatasetConfiguration } from './dam/Dataset'
+import Datasource from './dam/Datasource'
 import Entity, { EntityConfiguration } from './catalog/Entity'
 import ResourceAccess, { ResourceAccessConfiguration } from './admin/ResourceAccess'
 import ModelAttribute, { ModelAttributeConfiguration } from './dam/ModelAttribute'
@@ -124,4 +125,6 @@ export default {
   EndpointConfiguration,
 
   ...PluginParameter,
+
+  ...Datasource,
 }
