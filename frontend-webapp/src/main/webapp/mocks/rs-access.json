@@ -31,6 +31,12 @@
       "name": "string-criteria",
       "type": "criterion",
       "sourcesPath": "/plugins/criterion/string/plugin.js"
+    },
+    {
+      "id": 2,
+      "name": "numerical-criteria",
+      "type": "criterion",
+      "sourcesPath": "/plugins/criterion/numerical/plugin.js"
     }
   ],
   "modules": [
