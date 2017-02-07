@@ -1,26 +1,26 @@
 /**
  * LICENSE_PLACEHOLDER
  */
-import { connect } from '@regardsoss/redux'
-import { fetchAuthenticate, AuthenticationRouteParameters, AuthenticationParametersHelper } from '@regardsoss/authentication-manager'
-import AuthenticationStatesContainer, { initialModes } from '../components/AuthenticationWorkflowsComponent'
+
+import { AuthenticationRouteParameters, AuthenticationParametersHelper } from '@regardsoss/authentication-manager'
+import AuthenticationWorkflowsComponent, { initialModes } from '../components/AuthenticationWorkflowsComponent'
 
 /**
  * Mount the authentication module, according with current URL requirements
  */
-export class AuthenticationModuleContainer extends React.Component {
+export default class AuthenticationModuleContainer extends React.Component {
 
   static propTypes = {
-    title: React.PropTypes.string.isRequired,
-    createAccount: React.PropTypes.bool.isRequired,
-    cancelButton: React.PropTypes.bool.isRequired,
+    // current project (undefined or empty if admin)
+    project: React.PropTypes.string,
+    // login screen title
+    loginTitle: React.PropTypes.string.isRequired,
+    // show create account link?
+    showCreateAccount: React.PropTypes.bool.isRequired,
+    // show cancel button?
+    showCancel: React.PropTypes.bool.isRequired,
+    // on cancel button callback, or none if behavior not available
     onCancelAction: React.PropTypes.func,
-    // from module system
-    project: React.PropTypes.string.isRequired,
-    // from map state to props
-    lastError: React.PropTypes.string,
-    // from map dispatch to props
-    fetchAuthenticate: React.PropTypes.func,
   }
 
   componentWillMount = () => {
@@ -28,12 +28,8 @@ export class AuthenticationModuleContainer extends React.Component {
     // Note: not stored in state as it is immutable
     this.initialViewMode = this.getInitialViewMode(AuthenticationParametersHelper.getMailAuthenticationAction())
     this.initialMail = AuthenticationParametersHelper.getAccountEmail()
-  }
-
-  onLogin = (authenticationValues) => {
-    this.props.fetchAuthenticate(authenticationValues.username, authenticationValues.password, this.props.project)
-    // TODO use extern origin URL to redirect after login if possible
-    // TODO : when back from mail, always redirect!!
+    this.actionToken = AuthenticationParametersHelper.getToken()
+    this.redirectURL = AuthenticationParametersHelper.getOriginURL()
   }
 
   /**
@@ -46,53 +42,32 @@ export class AuthenticationModuleContainer extends React.Component {
     switch (urlAction) {
       case modes.accountCreated:
         return initialModes.createAccountConfirmation
-      case modes.accountUnlocked:
-        return initialModes.unlockAccountConfirmation
+      case modes.unlockAccount:
+        return initialModes.finishUnlockAccount
       case modes.changePassword:
-        return initialModes.changePasswordForm
+        return initialModes.finishChangePassword
       default:
         // no external acces, default view state (login)
         return initialModes.loginForm
     }
   }
 
-/*  onViewChanged = () => {
-    // lets this component flush error messages in store
-    // TODO
-    const {flushResetPasswordData, flushFetchAuthenticationData, flushAccountUnlockData} = this.props
-    flushResetPasswordData()
-    flushFetchAuthenticationData()
-    flushAccountUnlockData()
-  }*/
-
   render() {
     // parse initial state from parameters
-    const { title, createAccount, cancelButton, onCancelAction, lastError } = this.props
-
+    const { project, loginTitle, showCreateAccount, showCancel, onCancelAction } = this.props
     return (
-      <AuthenticationStatesContainer
-        title={title}
-        cancelButton={cancelButton}
-        createAccount={createAccount}
+      <AuthenticationWorkflowsComponent
+        project={project || ''}
+        loginTitle={loginTitle}
+        showCancel={showCancel}
+        showCreateAccount={showCreateAccount}
         onCancelAction={onCancelAction}
-        lastError={lastError}
-        onLogin={this.onLogin}
         initialMode={this.initialViewMode}
         initialEmail={this.initialMail}
-        onViewChanged={this.onViewChanged}
+        actionToken={this.actionToken}
+        redirectURL={this.redirectURL}
       />
     )
   }
 }
-
-// TODO: right connetion
-const mapStateToProps = state => ({
-  lastError: state.common.authentication.error,
-})
-// TODO right dispatch
-const mapDispatchToProps = dispatch => ({
-  fetchAuthenticate: (username, password, scope) => dispatch(fetchAuthenticate(username, password, scope)),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(AuthenticationModuleContainer)
 

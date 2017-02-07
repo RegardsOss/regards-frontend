@@ -26,9 +26,7 @@ class BasicListSelectors extends BasicSelector {
   getSize(state) {
     return keys(this.uncombineStore(state).items).length
   }
-  getError(state) {
-    return this.uncombineStore(state).error
-  }
+
 }
 
 export default BasicListSelectors

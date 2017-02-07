@@ -34,7 +34,7 @@ class BasicSignalActions extends BasicActions {
             type: this.SIGNAL_SUCCESS,
             payload: (action, state, res) => getJSON(res),
           },
-          this.SIGNAL_FAILURE,
+          this.buildFailureAction(this.SIGNAL_FAILURE),
         ],
         endpoint,
         method: verb,

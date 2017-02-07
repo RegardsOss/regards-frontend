@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { FormattedMessage, intlShape } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { isEmpty } from 'lodash'
 import RaisedButton from 'material-ui/RaisedButton'
@@ -22,16 +22,25 @@ const mailFieldId = 'username'
 export class AuthenticationFormComponent extends React.Component {
 
   static propTypes = {
-    title: React.PropTypes.string.isRequired,
-    onLogin: React.PropTypes.func.isRequired,
-    errorMessage: React.PropTypes.string,
-    onCancelAction: React.PropTypes.func,
-    createAccount: React.PropTypes.bool.isRequired,
-    cancelButton: React.PropTypes.bool,
+
+    // initial mail value
     initialMail: React.PropTypes.string,
+    // form title
+    title: React.PropTypes.string.isRequired,
+    // show create account link?
+    showCreateAccount: React.PropTypes.bool.isRequired,
+    // show cancel button?
+    showCancel: React.PropTypes.bool.isRequired,
+    // on cancel button callback, or none if behavior not available
+    onCancelAction: React.PropTypes.func,
+    // other authentication forms links
+    onGotoCreateAccount: React.PropTypes.func.isRequired,
     onGotoResetPassword: React.PropTypes.func.isRequired,
     onGotoUnlockAccount: React.PropTypes.func.isRequired,
-    onGotoCreateAccount: React.PropTypes.func.isRequired,
+    // on login submit
+    onLogin: React.PropTypes.func.isRequired,
+    // Form general error
+    error: React.PropTypes.string,
     // from reduxFormSelector
     currentMailValue: React.PropTypes.string,
     // from reduxForm
@@ -42,10 +51,7 @@ export class AuthenticationFormComponent extends React.Component {
     initialize: React.PropTypes.func.isRequired,
   }
 
-  static contextTypes = {
-    ...themeContextType,
-    intl: intlShape,
-  }
+  static contextTypes = { ...themeContextType }
 
 
   /**
@@ -67,13 +73,13 @@ export class AuthenticationFormComponent extends React.Component {
    */
   render() {
     const {
-      errorMessage, currentMailValue, initialMail,
-      createAccount, cancelButton, onCancelAction, handleSubmit,
+      error, currentMailValue, initialMail,
+      showCreateAccount, showCancel, onCancelAction, handleSubmit,
       onLogin, onGotoUnlockAccount, onGotoResetPassword, onGotoCreateAccount,
     } = this.props
-    const { intl, moduleTheme } = this.context
+    const { moduleTheme } = this.context
     let cancelButtonElt
-    if (cancelButton) {
+    if (showCancel) {
       cancelButtonElt = (
         <RaisedButton
           label={<FormattedMessage id="authentication.cancel" />}
@@ -92,9 +98,7 @@ export class AuthenticationFormComponent extends React.Component {
             <CardTitle
               title={this.props.title}
               subtitle={
-                <FormErrorMessage>
-                  {errorMessage && intl.formatMessage({ id: errorMessage })}
-                </FormErrorMessage>
+                <FormErrorMessage>{error || ''}</FormErrorMessage>
               }
             />
             <CardText>
@@ -127,7 +131,7 @@ export class AuthenticationFormComponent extends React.Component {
             </CardActions>
             <div style={moduleTheme.linksBar}>
               <PictureLinkComponent
-                disabled={!createAccount}
+                disabled={!showCreateAccount}
                 IconComponent={Portrait}
                 text={<FormattedMessage id="authentication.goto.create.account" />}
                 onAction={() => onGotoCreateAccount(currentMailValue)}
