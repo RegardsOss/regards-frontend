@@ -19,7 +19,7 @@ import ModuleShape from '../model/ModuleShape'
  * - messagesDir     : (optional) The directory of the i18n messages files. Default src/i18n
  * @author Sébastien Binda
  */
-class LazyModuleComponent extends React.PureComponent {
+class LazyModuleComponent extends React.Component {
 
   /**
    * @type {{appName: *, moduleId: *}}

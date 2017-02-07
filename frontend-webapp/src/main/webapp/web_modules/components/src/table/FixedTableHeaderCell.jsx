@@ -8,7 +8,7 @@ import Styles from './FixedTableStyles'
  * Column header cell rendering for FixedTable
  * @author Sébastien Binda
  */
-class FixedTableCell extends React.PureComponent {
+class FixedTableCell extends React.Component {
 
   static propTypes = {
     label: React.PropTypes.string,

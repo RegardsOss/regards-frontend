@@ -11,7 +11,7 @@ import Styles from './FixedTableStyles'
  * Cell rendering for FixedTable checkbox column
  * @author Sébastien Binda
  */
-class FixedTableCheckBoxCell extends React.PureComponent {
+class FixedTableCheckBoxCell extends React.Component {
 
   static propTypes = {
     rowIndex: React.PropTypes.number,

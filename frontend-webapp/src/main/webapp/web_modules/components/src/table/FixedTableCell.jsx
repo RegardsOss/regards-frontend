@@ -10,7 +10,7 @@ import Styles from './FixedTableStyles'
  * Cell rendering for FixedTable
  * @author Sébastien Binda
  */
-class FixedTableCell extends React.PureComponent {
+class FixedTableCell extends React.Component {
 
   static propTypes = {
     rowIndex: React.PropTypes.number,
@@ -28,12 +28,18 @@ class FixedTableCell extends React.PureComponent {
   render() {
     const attribute = this.props.getCellValue(this.props.rowIndex, this.props.col)
     const styles = Styles(this.context.muiTheme)
+    let cellStyle = styles.cellOdd
+    let cellContentStyle = styles.cellOddContent
+    if (this.props.rowIndex % 2) {
+      cellStyle = styles.cellEven
+      cellContentStyle = styles.cellEvenContent
+    }
     return (
       <Cell
         {...omit(this.props, ['col', 'getCellValue'])}
-        style={styles.cell}
+        style={cellStyle}
       >
-        <div style={styles.cellContent}>
+        <div style={cellContentStyle}>
           <div>{attribute}</div>
         </div>
       </Cell>

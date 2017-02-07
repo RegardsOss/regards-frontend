@@ -52,7 +52,6 @@ class StringCriteriaComponent extends React.Component {
   }
 
   render() {
-    console.log("PLUGIN Loaded with props : ", this.props, this.state)
 
     const attributeLAbel = this.props.attributes.searchField.name ? this.props.attributes.searchField.name : null
     return (

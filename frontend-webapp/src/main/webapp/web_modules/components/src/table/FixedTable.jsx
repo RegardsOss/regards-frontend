@@ -32,7 +32,7 @@ import Styles from './FixedTableStyles'
  *
  * @author Sébastien Binda
  */
-class FixedTable extends React.PureComponent {
+class FixedTable extends React.Component {
 
   /**
    * PageActions : BasicPageableActions of the entities to manage
@@ -73,8 +73,8 @@ class FixedTable extends React.PureComponent {
     const nbEntitiesByPage = this.props.pageSize * 3
     // +1 for header row
     const height = this.props.lineHeight * (this.props.pageSize + 1)
-    const width = window.innerWidth - 60
-    const columnsWidth = width - 110
+    const width = window.innerWidth
+    const columnsWidth = width - 40
     this.state = {
       nbEntitiesByPage,
       entities: [],
@@ -262,7 +262,7 @@ class FixedTable extends React.PureComponent {
             isSelected={idx => this.state.entities[idx].selected}
           />}
           fixed
-          width={100}
+          width={40}
         />
       )
     }

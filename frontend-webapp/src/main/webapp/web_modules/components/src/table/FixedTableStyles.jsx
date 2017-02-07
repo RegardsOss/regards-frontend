@@ -14,8 +14,13 @@ export default theme => ({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  cell: {
+  cellOdd: {
     backgroundColor: theme.table.backgroundColor,
+    borderBottom: `1px solid ${theme.tableRow.borderColor}`,
+    borderRight: `1px solid ${theme.tableRow.borderColor}`,
+  },
+  cellEven: {
+    backgroundColor: theme.palette.primary3Color,
     borderBottom: `1px solid ${theme.tableRow.borderColor}`,
     borderRight: `1px solid ${theme.tableRow.borderColor}`,
   },
@@ -40,8 +45,15 @@ export default theme => ({
     justifyContent: 'center',
     borderBottom: `1px solid ${theme.tableRow.borderColor}`,
   },
-  cellContent: {
+  cellOddContent: {
     backgroundColor: theme.table.backgroundColor,
+    color: theme.tableRow.textColor,
+    fontFamily: theme.rawTheme.fontFamily,
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  cellEvenContent: {
+    backgroundColor: theme.palette.primary3Color,
     color: theme.tableRow.textColor,
     fontFamily: theme.rawTheme.fontFamily,
     display: 'flex',
