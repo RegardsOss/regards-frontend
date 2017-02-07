@@ -11,6 +11,8 @@ import JavaTypes from './dam/JavaTypes'
 import Fragment from './dam/Fragment'
 import Model from './dam/Model'
 import Collection from './dam/Collection'
+import Dataset from './dam/Dataset'
+import Datasource from './dam/Datasource'
 import ModelAttribute from './dam/ModelAttribute'
 import Plugin from './access/Plugin'
 import { PluginInfo } from './access/PluginInfo'
@@ -49,6 +51,8 @@ export default {
   Model,
   ModelAttribute,
   Collection,
+  Dataset,
+  Datasource,
 
   // CATALOG
   CatalogEntity,

@@ -22,5 +22,9 @@ describe('[COMMON] Testing schemas', () => {
     assert.isDefined(Schemas.PROJECT_CONNECTION)
     assert.isDefined(Schemas.PROJECT_CONNECTION_ARRAY)
     assert.isDefined(Schemas.ProjectConnectionConfiguration)
+
+    assert.isDefined(Schemas.DATASOURCE)
+    assert.isDefined(Schemas.DATASOURCE_ARRAY)
+    assert.isDefined(Schemas.DatasourceConfiguration)
   })
 })
