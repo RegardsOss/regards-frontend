@@ -1,7 +1,7 @@
 {
   "name": "numerical-criteria-plugin",
   "version": "1.0.0",
-  "description": "REGARDS frontend criteria plugin",
+  "description": "REGARDS frontend criteria plugin for numerical attributes",
   "private": true,
   "scripts": {
     "build": "webpack --progress --config webpack.config.js",
