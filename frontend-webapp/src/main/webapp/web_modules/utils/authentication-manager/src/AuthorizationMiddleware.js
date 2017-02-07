@@ -22,11 +22,20 @@ const getAuthorization = (state, callAPI) => {
 const putAuthorization = () => next => (action) => {
   const callAPI = action[CALL_API]
   if (callAPI) {
-    callAPI.headers = callStore => ({
-      Accept: 'application/json',
-      'Content-type': 'application/json',
-      Authorization: getAuthorization(callStore, callAPI),
-    })
+    callAPI.headers = (callStore) => {
+      const headers = {
+        Accept: 'application/json',
+        'Content-type': 'application/json',
+      }
+      const auth = getAuthorization(callStore, callAPI)
+      if (auth.length > 0) {
+        headers.Authorization = auth
+      } else {
+        // TODO: Find scope on the store
+        headers.scope = ''
+      }
+      return headers
+    }
   }
 
   return next(action)
