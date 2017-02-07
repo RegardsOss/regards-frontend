@@ -1,0 +1,17 @@
+import PluginParameter from './PluginParameter'
+
+const PluginConfiguration = React.PropTypes.shape({
+  content: React.PropTypes.shape({
+    id: React.PropTypes.number,
+    pluginId: React.PropTypes.string,
+    label: React.PropTypes.string,
+    version: React.PropTypes.string,
+    priorityOrder: React.PropTypes.number,
+    active: React.PropTypes.bool,
+    pluginClassName: React.PropTypes.string,
+    parameters: React.PropTypes.arrayOf(PluginParameter),
+  }),
+})
+
+export default PluginConfiguration
+export const PluginConfigurationList = React.PropTypes.objectOf(PluginConfiguration)

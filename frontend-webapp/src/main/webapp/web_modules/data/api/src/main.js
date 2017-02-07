@@ -16,6 +16,7 @@ import Theme, { ThemeConfiguration } from './access/Theme'
 import Plugin, { PluginConfiguration } from './access/Plugin'
 import Fragment, { FragmentConfiguration } from './dam/Fragment'
 import Dataset, { DatasetConfiguration } from './dam/Dataset'
+import Datasource from './dam/Datasource'
 import Entity, { EntityConfiguration } from './catalog/Entity'
 import ResourceAccess, { ResourceAccessConfiguration } from './admin/ResourceAccess'
 import ModelAttribute, { ModelAttributeConfiguration } from './dam/ModelAttribute'
@@ -25,6 +26,7 @@ import StoragePlugin from './archival-storage/StoragePlugin'
 import Collection from './dam/Collection'
 import AIPStatus from './archival-storage/AIPStatus'
 import Endpoint, { EndpointConfiguration } from './admin/Endpoint'
+import PluginParameter from './admin/PluginParameter'
 
 // We use this Normalizr schemas to transform API responses from a nested form
 // to a flat form where repos and users are placed in `entities`, and nested
@@ -121,4 +123,8 @@ export default {
   ENDPOINT: Endpoint.ENDPOINT,
   ENDPOINT_ARRAY: Endpoint.ENDPOINT_ARRAY,
   EndpointConfiguration,
+
+  ...PluginParameter,
+
+  ...Datasource,
 }

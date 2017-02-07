@@ -3,6 +3,7 @@
  **/
 import RaisedButton from 'material-ui/RaisedButton'
 import SearchIcon from 'material-ui/svg-icons/action/search'
+import { Card, CardHeader, CardText } from 'material-ui/Card'
 import { FormattedMessage } from 'react-intl'
 import { LayoutContent, PluginConf } from '@regardsoss/model'
 import { ApplicationLayout } from '@regardsoss/layout'
@@ -27,28 +28,65 @@ class FormComponent extends React.Component {
     ...themeContextType,
   }
 
+  constructor(props) {
+    super(props)
+    this.state = {
+      expanded: true,
+    }
+  }
+
+  onHandleSearch = () => {
+    this.props.handleSearch()
+    // this.handleExpandChange()
+  }
+
+  handleExpandChange = () => {
+    this.setState({
+      expanded: !this.state.expanded,
+    })
+  }
+
+  keypress = (e) => {
+    if (e.charCode === 13) {
+      this.onHandleSearch()
+    }
+  }
+
   render() {
+    let title = ''
+    if (!this.state.expanded) {
+      title = 'Run new search ...'
+    }
+    const styles = this.context.moduleTheme
     return (
-      <div style={{ marginTop: 20, marginRight: 20, marginLeft: 20 }}>
-        <ApplicationLayout
-          appName="user"
-          layout={this.props.layout}
-          plugins={this.props.plugins}
-          pluginProps={this.props.pluginsProps}
+      <Card expanded={this.state.expanded} onExpandChange={this.handleExpandChange}>
+        <CardHeader
+          title={title}
+          actAsExpander
+          showExpandableButton
+          style={styles.user.formHeader}
         />
-        <div
-          style={this.context.moduleTheme.user.searchButtonContainer}
-        >
-          <RaisedButton
-            label={<FormattedMessage id="form.search.button.label" />}
-            labelPosition="before"
-            primary
-            icon={<SearchIcon />}
-            style={this.context.moduleTheme.user.searchButton}
-            onTouchTap={this.props.handleSearch}
+        <CardText expandable onKeyPress={this.keypress}>
+          <ApplicationLayout
+            appName="user"
+            layout={this.props.layout}
+            plugins={this.props.plugins}
+            pluginProps={this.props.pluginsProps}
           />
-        </div>
-      </div>
+          <div
+            style={this.context.moduleTheme.user.searchButtonContainer}
+          >
+            <RaisedButton
+              label={<FormattedMessage id="form.search.button.label" />}
+              labelPosition="before"
+              primary
+              icon={<SearchIcon />}
+              style={this.context.moduleTheme.user.searchButton}
+              onTouchTap={this.onHandleSearch}
+            />
+          </div>
+        </CardText>
+      </Card>
     )
   }
 }

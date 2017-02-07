@@ -1,7 +1,7 @@
 /**
  * LICENSEPLACEHOLDER
  **/
-import { forEach, keys, isEmpty } from 'lodash'
+import { forEach, keys, isEmpty, find } from 'lodash'
 // Based on https://github.com/rackt/redux/issues/37#issue-85098222
 /**
  * Registry to handle add of new dynamic reducers during application runtime
@@ -10,6 +10,10 @@ class ReducerRegistry {
   constructor(initialReducers = {}) {
     this.reducers = { ...initialReducers }
     this.emitChange = null
+  }
+
+  isRegistered(newReducers) {
+    return find(keys(newReducers), (key, idx) => this.reducers[key] !== undefined)
   }
   register(newReducers) {
     const reducersToAdd = {}

@@ -11,6 +11,8 @@ import JavaTypes from './dam/JavaTypes'
 import Fragment from './dam/Fragment'
 import Model from './dam/Model'
 import Collection from './dam/Collection'
+import Dataset from './dam/Dataset'
+import Datasource from './dam/Datasource'
 import ModelAttribute from './dam/ModelAttribute'
 import Plugin from './access/Plugin'
 import { PluginInfo } from './access/PluginInfo'
@@ -22,10 +24,11 @@ import Layout from './access/Layout'
 import LayoutContent from './access/LayoutContent'
 import Entity from './dam/Entity'
 import CatalogEntity from './catalog/Entity'
-import PluginMetaData, { PluginMetaDataList } from './admin/PluginMetaData'
-import PluginConfiguration, { PluginConfigurationList } from './admin/PluginConfiguration'
-import PluginParameter, { PluginParameterist } from './admin/PluginParameter'
-import PluginDynamicValue, { PluginDynamicValueList } from './admin/PluginDynamicValue'
+import PluginMetaData, { PluginMetaDataList } from './admin/plugin/PluginMetaData'
+import PluginConfiguration, { PluginConfigurationList } from './admin/plugin/PluginConfiguration'
+import PluginParameter from './admin/plugin/PluginParameter'
+import PluginParameterType from './admin/plugin/PluginParameterType'
+import PluginDynamicValue, { PluginDynamicValueList } from './admin/plugin/PluginDynamicValue'
 import Endpoint from './admin/Endpoint'
 import AIPStatus, { aipStates, aipDataTypes } from './archival-storage/AIPStatus'
 import StoragePlugin, { StoragePluginShape } from './archival-storage/StoragePlugin'
@@ -48,6 +51,8 @@ export default {
   Model,
   ModelAttribute,
   Collection,
+  Dataset,
+  Datasource,
 
   // CATALOG
   CatalogEntity,
@@ -68,7 +73,7 @@ export default {
   PluginConfiguration,
   PluginConfigurationList,
   PluginParameter,
-  PluginParameterist,
+  PluginParameterType,
   PluginDynamicValue,
   PluginDynamicValueList,
 

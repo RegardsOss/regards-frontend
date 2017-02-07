@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { FixedTable } from '@regardsoss/components'
+import { FixedTableContainer } from '@regardsoss/components'
 import CatalogEntitySelector from '../../models/catalog/CatalogEntitySelector'
 import CatalogEntityActions from '../../models/catalog/CatalogEntityActions'
 import ResulsTypeButtons from './ResultsTypeButtons'
@@ -17,16 +17,22 @@ class SearchResultsComponent extends React.Component {
     searchQuery: React.PropTypes.string,
   }
 
+  resultSelection = (selectedEntities) => {
+    console.log('Selected entities', selectedEntities)
+  }
+
+
   render() {
     return (
       <div>
         <ResulsTypeButtons />
-        <div style={{ marginRight: 40 }}>
-          <FixedTable
+        <div style={{ marginRight: 50, marginLeft: 60 }}>
+          <FixedTableContainer
             PageActions={CatalogEntityActions}
             PageSelector={CatalogEntitySelector}
-            pageSize={15}
-            lineHeight={35}
+            pageSize={17}
+            displayCheckbox
+            onSelectionChange={this.resultSelection}
             requestParams={{ queryParams: this.props.searchQuery }}
           />
         </div>

@@ -29,6 +29,13 @@ class StringCriteriaComponent extends React.Component {
     attributes: React.PropTypes.object,
   }
 
+  constructor(props){
+    super(props)
+    this.state = {
+      value: '',
+    };
+  }
+
   componentDidMount() {
     this.props.testDispatch()
   }
@@ -39,10 +46,12 @@ class StringCriteriaComponent extends React.Component {
       comparator: "EQ",
       value: value,
     }, this.props.pluginInstanceId)
+    this.setState({
+      value
+    })
   }
 
   render() {
-    console.log("PLUGIN Loaded with props : ", this.props)
 
     const attributeLAbel = this.props.attributes.searchField.name ? this.props.attributes.searchField.name : null
     return (
@@ -67,6 +76,7 @@ class StringCriteriaComponent extends React.Component {
             <TextField
               id="search"
               floatingLabelText={<FormattedMessage id="criterion.search.field.label"/>}
+              value={this.state.value}
               onChange={(event, value) => {
                 this.changeValue(value)
               }}

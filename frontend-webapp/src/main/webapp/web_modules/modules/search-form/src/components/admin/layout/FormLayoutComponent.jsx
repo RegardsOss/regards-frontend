@@ -29,15 +29,15 @@ class FormLayoutComponent extends React.Component {
       try {
         const layoutObj = JSON.parse(layout)
         if (!layoutObj.id || !layoutObj.type) {
-          return 'Invalid layout. Id and type should be supplied'
+          return 'layout.invalid.error'
         }
         return undefined
       } catch (e) {
         console.warn(e)
-        return 'Invalid layout'
+        return 'layout.invalid.error'
       }
     } else {
-      return 'Invalid layout'
+      return 'layout.invalid.error'
     }
   }
 
