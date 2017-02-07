@@ -49,8 +49,8 @@ export const loadPlugin = (sourcePath, onErrorCallback, dispatchAction) => {
     scriptjs(fullSourcePlugin, sourcePath)
 
     root.window.addEventListener('error', (e, url) => {
-      console.log(e.srcElement.src, fullSourcePlugin)
       if (e && e.srcElement && e.srcElement.src === fullSourcePlugin) {
+        console.log(e.srcElement.src, fullSourcePlugin)
         onErrorCallback(fullSourcePlugin)
       }
     }, true)

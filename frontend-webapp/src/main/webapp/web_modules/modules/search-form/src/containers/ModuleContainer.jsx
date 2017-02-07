@@ -6,6 +6,7 @@ import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { PluginConf, AttributeModel } from '@regardsoss/model'
 import { LoadableContentDisplayDecorator, LoadingComponent } from '@regardsoss/display-control'
+import { themeContextType } from '@regardsoss/theme'
 import SearchResultsComponent from '../components/user/SearchResultsComponent'
 import FormComponent from '../components/user/FormComponent'
 import { DATAOBJECT_RESULTS } from '../components/admin/parameters/ResultTypesEnum'
@@ -29,61 +30,30 @@ class ModuleContainer extends React.Component {
     preview: React.PropTypes.bool,
   }
 
+  static contextTypes = {
+    ...themeContextType,
+  }
+
   constructor(props) {
     super(props)
     const type = props.resultType === DATAOBJECT_RESULTS ? 'DATAOBJECT' : 'DATASET'
     this.state = {
       searchQuery: `type=${type}`,
-      criterion: this.props.criterion,
       criterionValues: {},
     }
   }
 
-  /**
-   * Search attributes associated to criterions
-   */
+
   componentWillMount() {
-    const attributesToLoad = []
-    forEach(this.props.criterion, (criteriaPlugin) => {
-      if (criteriaPlugin && criteriaPlugin.pluginConf) {
-        forEach(criteriaPlugin.pluginConf.attributes, (attribute) => {
-          // Load attributes only once
-          if (!find(attributesToLoad, attr => attr === attribute)) {
-            attributesToLoad.push(attribute)
-          }
-        })
-      }
-    })
-    forEach(attributesToLoad, (attr) => {
-      // Fetch entity from server
-      this.props.fetchAttribute(attr)
-    })
+    this.loadCriterionAttributes()
   }
 
-  /**
-   * Load attributes associated by their id to the criterion plugins of this form
-   * @param nextProps
-   */
   componentWillReceiveProps(nextProps) {
-    let updateState = false
-    const newCriterion = cloneDeep(this.state.criterion)
-    // For each criteria of this form
-    forEach(newCriterion, (newCriteria) => {
-      // For each attributes of the criteria
-      forEach(newCriteria.pluginConf.attributes, (attributeId, key) => {
-        // If the associated attribute has already been retrieved from server, the update the criteria
-        if (nextProps.attributes[attributeId]) {
-          updateState = true
-          // eslint-disable-next-line no-param-reassign
-          newCriteria.pluginConf.attributes[key] = nextProps.attributes[attributeId].content
-        }
-      })
-    })
-
-    if (updateState) {
-      this.setState({
-        criterion: newCriterion,
-      })
+    /**
+     * If criterion props changed, so load missing attributes
+     */
+    if (this.props.criterion !== nextProps.criterion) {
+      this.loadCriterionAttributes()
     }
   }
 
@@ -97,6 +67,48 @@ class ModuleContainer extends React.Component {
     clone[pluginId] = criteria
     this.setState({
       criterionValues: clone,
+    })
+  }
+
+
+  /**
+   * Add the attributes properties to the criterion conf
+   * @returns {*}
+   */
+  getCriterionWithAttributes = () => {
+    const criterionWithAttributtes = cloneDeep(this.props.criterion)
+    // For each criteria of this form
+    forEach(criterionWithAttributtes, (criteria) => {
+      // For each attributes of the criteria
+      forEach(criteria.pluginConf.attributes, (attributeId, key) => {
+        // If the associated attribute has already been retrieved from server, the update the criteria
+        if (this.props.attributes[attributeId]) {
+          // eslint-disable-next-line no-param-reassign
+          criteria.pluginConf.attributes[key] = this.props.attributes[attributeId].content
+        }
+      })
+    })
+    return criterionWithAttributtes
+  }
+
+  /**
+   * Search attributes associated to criterion
+   */
+  loadCriterionAttributes = () => {
+    const attributesToLoad = []
+    forEach(this.props.criterion, (criteriaPlugin) => {
+      if (criteriaPlugin && criteriaPlugin.pluginConf) {
+        forEach(criteriaPlugin.pluginConf.attributes, (attribute) => {
+          // Load attributes only once
+          if (!find(attributesToLoad, attr => attr === attribute) && !this.props.attributes[attribute]) {
+            attributesToLoad.push(attribute)
+          }
+        })
+      }
+    })
+    forEach(attributesToLoad, (attr) => {
+      // Fetch entity from server
+      this.props.fetchAttribute(attr)
     })
   }
 
@@ -117,6 +129,7 @@ class ModuleContainer extends React.Component {
     const type = this.props.resultType === DATAOBJECT_RESULTS ? 'DATAOBJECT' : 'DATASET'
     query = `${query}&type=${type}`
 
+
     this.setState({
       searchQuery: query,
     })
@@ -125,30 +138,36 @@ class ModuleContainer extends React.Component {
 
   renderForm() {
     if (this.props.layout) {
-      const layoutObj = JSON.parse(this.props.layout)
+      try {
+        const layoutObj = JSON.parse(this.props.layout)
 
-      const pluginsProps = {
-        onChange: this.onCriteriaChange,
+        const pluginsProps = {
+          onChange: this.onCriteriaChange,
+        }
+        const criterionWithAttributes = this.getCriterionWithAttributes()
+        return (
+          <LoadableContentDisplayDecorator
+            isLoading={this.props.attributesFetching}
+          >
+            <FormComponent
+              layout={layoutObj}
+              plugins={criterionWithAttributes}
+              pluginsProps={pluginsProps}
+              handleSearch={this.handleSearch}
+            />
+          </LoadableContentDisplayDecorator>
+        )
+      } catch (error) {
+        console.error('Invalid layout for form FormComponent', error)
+        return null
       }
-
-      return (
-        <LoadableContentDisplayDecorator
-          isLoading={this.props.attributesFetching}
-        >
-          <FormComponent
-            layout={layoutObj}
-            plugins={this.state.criterion}
-            pluginsProps={pluginsProps}
-            handleSearch={this.handleSearch}
-          />
-        </LoadableContentDisplayDecorator>
-      )
     }
     return <LoadingComponent />
   }
 
   renderResults() {
     if (!this.props.preview) {
+      console.log('Running search ', this.state.searchQuery)
       return (
         <SearchResultsComponent
           searchQuery={this.state.searchQuery}

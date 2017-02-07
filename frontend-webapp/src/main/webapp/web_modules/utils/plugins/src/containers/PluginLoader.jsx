@@ -59,11 +59,13 @@ class PluginLoader extends React.Component {
     if (!this.state.registered && nextProps.loadedPlugin && nextProps.loadedPlugin.reducer) {
       const loadedPluginReducerName = `plugins.${nextProps.loadedPlugin.name}`
       const loadedPluginReducer = {}
-      loadedPluginReducer[loadedPluginReducerName] = configureReducers(nextProps.loadedPlugin.reducer)
-      getReducerRegistry().register(loadedPluginReducer)
       this.setState({
         registered: true,
       })
+      loadedPluginReducer[loadedPluginReducerName] = configureReducers(nextProps.loadedPlugin.reducer)
+      if (!getReducerRegistry().isRegistered(loadedPluginReducer)) {
+        getReducerRegistry().register(loadedPluginReducer)
+      }
     }
   }
 

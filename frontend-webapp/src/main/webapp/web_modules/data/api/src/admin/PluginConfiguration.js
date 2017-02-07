@@ -7,9 +7,12 @@ export const AdminPluginConfigurationSchemaConfiguration = {
 
 // Read more about Normalizr: https://github.com/paularmstrong/normalizr
 const schema = new Schema(AdminPluginConfigurationSchemaConfiguration.normalizrKey, {
-  idAttribute: entity =>
-    entity.content[AdminPluginConfigurationSchemaConfiguration.entityKey]
-  ,
+  idAttribute: entity => entity.content[AdminPluginConfigurationSchemaConfiguration.entityKey],
+})
+
+// Specify relationships between different entities
+schema.define({
+  parameters: Schema.PLUGIN_PARAMETER_ARRAY,
 })
 
 // Schemas for API responses.

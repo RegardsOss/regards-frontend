@@ -22,6 +22,9 @@ const formStyles = theme => ({
       marginTop: 10,
       width: 200,
     },
+    formHeader: {
+      backgroundColor: theme.palette.primary2Color,
+    },
   },
   resultsButtonsType: {
     buttonsGroup: {

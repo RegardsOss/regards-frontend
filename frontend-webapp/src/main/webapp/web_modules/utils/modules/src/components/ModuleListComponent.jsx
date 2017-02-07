@@ -121,49 +121,45 @@ class ModuleListComponent extends React.Component {
       <div
         style={styles.moduleListButtonsGroup}
       >
-        <div
-          style={styles.moduleListButton}
+        <FloatingActionButton
+          onTouchTap={this.handleToggle}
+          secondary
         >
-          <FloatingActionButton
-            onTouchTap={this.handleToggle}
-            secondary
-          >
-            <FilterList />
-          </FloatingActionButton>
-          <Drawer
-            open={this.state.open}
-            docked={false}
-            width={200}
-            openSecondary
-            onRequestChange={this.handleClose}
-          >
-            <List>
-              <Subheader style={styles.moduleListSection}>
-                <FormattedMessage id="modules.list.menu.label" />
-              </Subheader>
-              <Divider />
-              {map(this.state.sections, (modules, section) => {
-                if (modules.length > 1) {
-                  return (
-                    <div key={section}>
-                      <ListItem
-                        primaryText={this.getSectionLabel(section)}
-                        initiallyOpen={false}
-                        primaryTogglesNestedList
-                        nestedItems={modules}
-                      />
-                    </div>
-                  )
-                }
+          <FilterList />
+        </FloatingActionButton>
+        <Drawer
+          open={this.state.open}
+          docked={false}
+          width={200}
+          openSecondary
+          onRequestChange={this.handleClose}
+        >
+          <List>
+            <Subheader style={styles.moduleListSection}>
+              <FormattedMessage id="modules.list.menu.label" />
+            </Subheader>
+            <Divider />
+            {map(this.state.sections, (modules, section) => {
+              if (modules.length > 1) {
                 return (
                   <div key={section}>
-                    {modules}
+                    <ListItem
+                      primaryText={this.getSectionLabel(section)}
+                      initiallyOpen={false}
+                      primaryTogglesNestedList
+                      nestedItems={modules}
+                    />
                   </div>
                 )
-              })}
-            </List>
-          </Drawer>
-        </div>
+              }
+              return (
+                <div key={section}>
+                  {modules}
+                </div>
+              )
+            })}
+          </List>
+        </Drawer>
       </div>
     )
   }

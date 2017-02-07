@@ -14,7 +14,7 @@ class ModuleThemeProvider extends React.Component {
   /**
    * Retrieve mui theme from context provide by upper MuiThemeProvider
    * @type {{}}
-   */
+  */
   static contextTypes = {
     ...themeContextType,
   }
