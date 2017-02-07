@@ -1,12 +1,14 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { map, replace, split, join, takeRight } from 'lodash'
+import { map, replace, split, join, takeRight, trim } from 'lodash'
 
 /**
  *  Abstract Action class providing common methods for different Actions implementations
  *
  *  @returns dispatcheable redux actions
+ *  @author Léo Mieulet
+ *  @author Sébastien Binda
  *  @author Xavier-Alexandre Brochard
  */
 class BasicActions {
@@ -41,6 +43,8 @@ class BasicActions {
         endpoint = replace(endpoint, `{${key}}`, param)
       })
     }
+    // endpoint = replace(endpoint, /{.*}/, '') // Remove unspecified parameters
+    // endpoint = trim(endpoint, '?') // Remove the trailing '?' if last character
     return endpoint
   }
 

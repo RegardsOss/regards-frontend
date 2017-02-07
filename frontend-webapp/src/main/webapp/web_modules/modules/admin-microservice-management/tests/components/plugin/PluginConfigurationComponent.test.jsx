@@ -1,7 +1,7 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { Card } from 'material-ui/Card'
-import PluginConfigurationComponent from '../../src/components/PluginConfigurationComponent'
+import PluginConfigurationComponent from '../../../src/components/plugin/PluginConfigurationComponent'
 
 describe('[ADMIN PROJECT MANAGEMENT] Testing plugin configuration component', () => {
   it('should exists', () => {

@@ -1,12 +1,12 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import { Field } from '@regardsoss/form-utils'
-import PluginConfigurationFormComponent from '../../src/components/PluginConfigurationFormComponent'
+import { ReduxConnectedForm } from '@regardsoss/redux'
+import { PluginConfigurationFormComponent } from '../../../src/components/plugin/PluginConfigurationFormComponent'
 
 describe('[ADMIN PROJECT MANAGEMENT] Testing plugin configuration form component', () => {
   it('should exists', () => {
     assert.isDefined(PluginConfigurationFormComponent)
-    assert.isDefined(Field)
+    assert.isDefined(ReduxConnectedForm)
   })
 
   it('should render sub-components', () => {
@@ -42,7 +42,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing plugin configuration form component
       initialize: () => {},
     }
     const enzymeWrapper = shallow(<PluginConfigurationFormComponent {...props} />)
-    const subComponent = enzymeWrapper.find(Field)
-    expect(subComponent).to.have.length(5)
+    const subComponent = enzymeWrapper.find(ReduxConnectedForm)
+    expect(subComponent).to.have.length(1)
   })
 })
