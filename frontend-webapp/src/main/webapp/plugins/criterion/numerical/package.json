@@ -12,7 +12,7 @@
     "test:watch": "node --max_old_space_size=4096 --optimize_for_size --max_executable_size=4096 --stack_size=4096 ./node_modules/.bin/mocha-webpack --timeout 5000 --webpack-config webpack.test.config.js \"tests/**/*.test.js{,x}\" --recursive --require source-map-support/register --inline-diffs --watch",
     "esdoc": "esdoc -c esdoc.json",
     "lint": "eslint .storybook src tests --ext .js,.jsx",
-    "lint:fix": "eslint --fix .storybook src tests --ext .js,.jsx",
+    "lint:fix": "eslint --fix .storybook src --ext .js,.jsx",
     "storybook:start": "start-storybook -p 6006 --dont-track",
     "storybook:build": "build-storybook -o reports/storybook"
   },
