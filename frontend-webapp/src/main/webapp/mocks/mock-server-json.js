@@ -7,6 +7,9 @@ const { map, split, filter, forEach, startsWith, replace, trim } = require('loda
 const jsonServer = require('json-server')
 const fs = require('fs-extra')
 
+// definitions
+const serverPort = 3001
+
 /**
  * Add pagination format to response list and HAteoas format to each elements
  * @param req
@@ -159,7 +162,7 @@ const runServer = () => {
     if (req.method === 'POST' && req.originalUrl.startsWith('/oauth/token?grant_type=password&username=admin@cnes.fr&password=admin&scope=')) {
       // eslint-disable-next-line no-param-reassign
       req.method = 'GET'
-      console.log('done')
+      console.log('[JSon Mock server]', 'done')
     }
     // Continue to JSON Server router
     next()
@@ -193,8 +196,8 @@ const runServer = () => {
   // server.use('/api/v1/rs-gateway/', gatewayMicroServiceRouter)
   server.use(gatewayMicroServiceRouter)
 
-  server.listen(3000, () => {
-    console.log('JSON Server is running on http://localhost:3000/')
+  server.listen(serverPort, () => {
+    console.log('[JSon Mock server]', `running on http://localhost:${serverPort}/`)
   })
 }
 
@@ -223,8 +226,6 @@ for (let j = 0 ; j < allStatus.length ; j ++) {
 }
 console.error(JSON.stringify(data))
 */
-
-
 
 
 /**
