@@ -70,10 +70,10 @@ class AuthenticationMenuContainer extends React.Component {
               name: 'authentication',
               active: true,
               conf: {
-                title: this.context.intl.formatMessage({ id: 'loginFormTitle' }),
+                loginTitle: this.context.intl.formatMessage({ id: 'loginFormTitle' }),
                 // show cancel button only when not in a specific authentication URL
-                cancelButton: !isBackFromAuthenticationMail(),
-                createAccount: true,
+                showCancel: !isBackFromAuthenticationMail(),
+                showCreateAccount: true,
                 onCancelAction: this.onCloseDialog,
                 project: this.props.project,
               },

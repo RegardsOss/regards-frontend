@@ -15,12 +15,12 @@ import { values } from 'lodash'
 export const operationIds = {
   askResetPasswordSent: 'ask.reset.password.sent',
   askResetPasswordTokenExpired: 'ask.reset.password.token.expired',
-  changePasswordDone: 'change.password.done',
+  resetPasswordDone: 'reset.password.done',
+  askUnlockAccountSent: 'ask.unlock.account.sent',
+  askUnlockAccountTokenExpired: 'ask.unlock.account.token.expired',
+  unlockAccountDone: 'unlock.account.done',
   createAccountSent: 'create.account.sent',
   createAccountDone: 'create.account.done',
-  unlockRequestSent: 'unlock.request.sent',
-  unlockRequestDone: 'unlock.request.done',
-  unlockRequestTokenExpired: 'unlock.request.token.expired',
 }
 
 /**

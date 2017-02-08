@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { BasicSignalReducers } from '@regardsoss/store-utils'
 import CollectionLinkActions from './CollectionLinkActions'
 

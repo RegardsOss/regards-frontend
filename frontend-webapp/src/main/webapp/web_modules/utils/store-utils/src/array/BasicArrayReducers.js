@@ -15,7 +15,13 @@ class BasicListReducer {
 
   reduce(state = {
     isFetching: false,
-    items: [],
+    error: {
+      hasError: false,
+      type: '',
+      message: '',
+      status: '',
+      items: [],
+    },
   }, action) {
     switch (action.type) {
       case this.basicArrayActionInstance.ENTITY_LIST_REQUEST:
@@ -25,6 +31,12 @@ class BasicListReducer {
       case this.basicArrayActionInstance.ENTITY_LIST_FAILURE:
         return Object.assign({}, state, {
           isFetching: false,
+          error: {
+            hasError: true,
+            type: action.type,
+            message: action.meta ? action.meta.errorMessage : '',
+            status: action.meta ? action.meta.status : '',
+          },
         })
       case this.basicArrayActionInstance.ENTITY_LIST_SUCCESS:
         return Object.assign({}, state, {

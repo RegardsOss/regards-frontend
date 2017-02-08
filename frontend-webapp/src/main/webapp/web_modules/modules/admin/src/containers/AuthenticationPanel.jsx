@@ -31,10 +31,10 @@ class AuthenticationPanel extends React.Component {
       name: 'authentication',
       active: true,
       conf: {
-        cancelButton: true,
-        createAccount: false,
+        showCancel: true,
+        showCreateAccount: false,
         project: this.props.project,
-        title: this.context.intl.formatMessage({ id: 'loginFormTitle' }),
+        loginTitle: this.context.intl.formatMessage({ id: 'loginFormTitle' }),
       },
     }
     return (

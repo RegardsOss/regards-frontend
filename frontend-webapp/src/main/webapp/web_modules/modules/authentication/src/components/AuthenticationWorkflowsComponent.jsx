@@ -4,54 +4,32 @@
 
 import { values } from 'lodash'
 import root from 'window-or-global'
-import AuthenticationFormComponent from './AuthenticationFormComponent'
+import AuthenticationFormContainer from '../containers/AuthenticationFormContainer'
 import AccountOperationMessage, { operationIds } from './AccountOperationMessage'
-import ChangePasswordFormComponent from './ChangePasswordFormComponent'
-import AccountRequestFormComponent, { requestFormIds } from './AccountRequestFormComponent'
+import ChangePasswordFormContainer from '../containers/ChangePasswordFormContainer'
+import FinishUnlockAccountContainer from '../containers/FinishUnlockAccountContainer'
+import { AskResetPasswordFormContainer, AskUnlockAccountFormContainer } from '../containers/AccountRequestFormContainer'
 
 /**
  * Possible view states with messageOperationId for messages view states (allow really smaller code for view instantiation as
  * every message view is handled by the same component type) */
 const viewStates = {
-  authenticationFormView: {
-    id: 'authentication.form.view',
-  },
-  askResetPasswordFormView: {
-    id: 'reset.password.form.view',
-  },
-  askResetPasswordSentMessageView: {
-    id: 'reset.password.sent.message.view',
-    messageOperationId: operationIds.askResetPasswordSent,
-  },
-  changePasswordFormView: {
-    id: 'change.password.form.view',
-  },
-  changePasswordDoneMessageView: {
-    id: 'change.password.done.message.view',
-    messageOperationId: operationIds.changePasswordDone,
-  },
-  createAccountFormView: {
-    id: 'create.account.form.view',
-  },
-  createAccountSentMessageView: {
-    id: 'create.account.sent.message.view',
-    messageOperationId: operationIds.createAccountSent,
-  },
-  createAccountDoneMessageView: {
-    id: 'account.created.message.view',
-    messageOperationId: operationIds.createAccountDone,
-  },
-  unlockAccountFormView: {
-    id: 'unlock.account.form.view',
-  },
-  unlockAccountDoneMessageView: {
-    id: 'account.unlocked.message.view',
-    messageOperationId: operationIds.unlockRequestDone,
-  },
-  unlockAccountSentMessageView: {
-    id: 'unlock.account.sent.message.view',
-    messageOperationId: operationIds.unlockRequestSent,
-  },
+  authenticationFormView: {},
+  askResetPasswordFormView: {},
+  askUnlockAccountFormView: { },
+  askResetPasswordSentMessageView: { messageOperationId: operationIds.askResetPasswordSent },
+  askUnlockAccountSentMessageView: { messageOperationId: operationIds.askUnlockAccountSent },
+  // form view to complete reset password operation
+  finishResetPasswordFormView: { },
+  resetPasswordDoneMessageView: { messageOperationId: operationIds.resetPasswordDone },
+  resetPasswordExpiredMessageView: { messageOperationId: operationIds.askResetPasswordTokenExpired },
+  // message view to complete unlock account operation
+  finishUnlockAccountFetchingView: { },
+  unlockAccountExpiredMessageView: { messageOperationId: operationIds.askUnlockRequestTokenExpired },
+  unlockAccountDoneMessageView: { messageOperationId: operationIds.unlockAccountDone },
+  createAccountFormView: { },
+  createAccountSent: { messageOperationId: operationIds.createAccountSent },
+  createAccountDoneMessageView: { messageOperationId: operationIds.createAccountDone },
 }
 
 /**
@@ -61,12 +39,12 @@ const viewStates = {
 export const initialModes = {
   // initially on login form
   loginForm: viewStates.authenticationFormView,
-  // mail confirmation: the account was unlocked
-  unlockAccountConfirmation: viewStates.unlockAccountDoneMessageView,
+  // mail reset password: finish reset password operation
+  finishChangePassword: viewStates.finishResetPasswordFormView,
+  // mail unlock account: finish unlock account operation
+  finishUnlockAccount: viewStates.finishUnlockAccountFetchingView,
   // mail confirmation: the account was unlocked
   createAccountConfirmation: viewStates.createAccountDoneMessageView,
-  // mail reset password: the password was reset, the user need to provided the new one
-  changePasswordForm: viewStates.changePasswordFormView,
 }
 
 /**
@@ -76,19 +54,24 @@ export const initialModes = {
 export default class AuthenticationStatesContainer extends React.Component {
 
   static propTypes = {
-    title: React.PropTypes.string.isRequired,
-    // extern access mode
-    // when back from mail, this mode indicates the initial action to handle, other extern parameters
-    // may be provided at same time, depending on on access type (reset password, account unlocked...)
-    initialMode: React.PropTypes.oneOf(values(initialModes)).isRequired,
+    // current project (empty if admin)
+    project: React.PropTypes.string.isRequired,
+    // extern access mode (from email): initial mail value
     initialEmail: React.PropTypes.string,
-    createAccount: React.PropTypes.bool.isRequired,
-    cancelButton: React.PropTypes.bool.isRequired,
-    lastError: React.PropTypes.string,
+    // extern access mode (from mail): token for action to finish
+    actionToken: React.PropTypes.string,
+    // login screen title
+    loginTitle: React.PropTypes.string.isRequired,
+    // show create account link?
+    showCreateAccount: React.PropTypes.bool.isRequired,
+    // show cancel button?
+    showCancel: React.PropTypes.bool.isRequired,
+    // on cancel button callback, or none if behavior not available
     onCancelAction: React.PropTypes.func,
-    onLogin: React.PropTypes.func.isRequired,
-    // anchor callback: notifies parent that view changed
-    onViewChanged: React.PropTypes.func.isRequired,
+    // extern access mode (from email): mail back entry point in authentication
+    initialMode: React.PropTypes.oneOf(values(initialModes)).isRequired,
+    // redirect URL after login (or none for no redirection)
+    redirectURL: React.PropTypes.string,
   }
 
   componentWillMount = () => {
@@ -114,19 +97,6 @@ export default class AuthenticationStatesContainer extends React.Component {
     }
   }
 
-  onResetPassword = () => {
-    // this.context.router.getCurrentLocation()
-    // TODO
-  }
-
-  onUnlockAccount = () => {
-    // TODO
-  }
-
-  onChangePassword = () => {
-    // TODO
-  }
-
   /**
    * Creates a goto callback expecting current mail value as first parameter.
    * Using no parameter corresponds to BACK behavior (show authentication, do not update mail)
@@ -137,8 +107,6 @@ export default class AuthenticationStatesContainer extends React.Component {
   onGoto = (nextView = viewStates.authenticationFormView, mailUpdate = false) => (currentMailValue) => {
     const mailParam = mailUpdate ? currentMailValue : null
     this.updateState(nextView, mailParam)
-      // notify parent
-    this.props.onViewChanged()
   }
 
 
@@ -160,7 +128,7 @@ export default class AuthenticationStatesContainer extends React.Component {
 
   render() {
     const { currentView, currentMail } = this.state
-    const { title, onLogin, createAccount, cancelButton, onCancelAction, lastError } = this.props
+    const { project, actionToken, loginTitle, redirectURL, showCreateAccount, showCancel, onCancelAction } = this.props
 
     // 1 - render messages states first (to write a bit less code in switch!)
     if (currentView.messageOperationId) {
@@ -173,17 +141,17 @@ export default class AuthenticationStatesContainer extends React.Component {
     switch (currentView) {
       case viewStates.authenticationFormView:
         return (
-          <AuthenticationFormComponent
-            title={title}
-            onLogin={onLogin}
+          <AuthenticationFormContainer
             initialMail={currentMail}
-            lastError={lastError}
-            createAccount={createAccount}
-            cancelButton={cancelButton}
+            project={project}
+            title={loginTitle}
+            showCreateAccount={showCreateAccount}
+            showCancel={showCancel}
             onCancelAction={onCancelAction}
             onGotoCreateAccount={this.onGoto(viewStates.createAccountFormView, true)}
             onGotoResetPassword={this.onGoto(viewStates.askResetPasswordFormView, true)}
-            onGotoUnlockAccount={this.onGoto(viewStates.unlockAccountFormView, true)}
+            onGotoUnlockAccount={this.onGoto(viewStates.askUnlockAccountFormView, true)}
+            redirectURL={redirectURL}
           />
         )
       // TODO
@@ -191,26 +159,36 @@ export default class AuthenticationStatesContainer extends React.Component {
       //   return ()
       case viewStates.askResetPasswordFormView:
         return (
-          <AccountRequestFormComponent
-            requestFormId={requestFormIds.resetPasswordRequest}
-            sendFailed={lastError !== undefined && lastError != null}
+          <AskResetPasswordFormContainer
             initialMail={currentMail}
-            onRequestAction={this.onResetPassword}
             onBack={this.onGoto(viewStates.authenticationFormView, true)}
+            onDone={this.onGoto(viewStates.askResetPasswordSentMessageView, true)}
           />
         )
-      case viewStates.unlockAccountFormView:
+      case viewStates.askUnlockAccountFormView:
         return (
-          <AccountRequestFormComponent
-            requestFormId={requestFormIds.unlockAccountRequest}
-            sendFailed={lastError !== undefined && lastError !== null}
+          <AskUnlockAccountFormContainer
             initialMail={currentMail}
-            onRequestAction={this.onUnlockAccount}
             onBack={this.onGoto(viewStates.authenticationFormView, true)}
+            onDone={this.onGoto(viewStates.askUnlockAccountSentMessageView, true)}
           />)
-      case viewStates.changePasswordFormView:
+      case viewStates.finishResetPasswordFormView:
         return (
-          <ChangePasswordFormComponent onChangePassword={this.onChangePassword} />)
+          <ChangePasswordFormContainer
+            mail={currentMail}
+            token={actionToken}
+            onDone={this.onGoto(viewStates.resetPasswordDoneMessageView)}
+            onTokenExpired={this.onGoto(viewStates.resetPasswordExpiredMessageView)}
+          />)
+      case viewStates.finishUnlockAccountFetchingView:
+        return (
+          <FinishUnlockAccountContainer
+            mail={currentMail}
+            token={actionToken}
+            onDone={this.onGoto(viewStates.unlockAccountDoneMessageView, true)}
+            onTokenExpired={this.onGoto(viewStates.unlockAccountExpiredMessageView)}
+          />
+        )
       default:
         throw new Error(`Unknown view state ${currentView}`)
     }

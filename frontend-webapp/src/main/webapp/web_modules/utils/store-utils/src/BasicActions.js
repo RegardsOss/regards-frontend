@@ -27,7 +27,20 @@ class BasicActions {
     this.ENTITY_LIST_SUCCESS = `${options.namespace}/LIST_SUCCESS`
     this.ENTITY_LIST_FAILURE = `${options.namespace}/LIST_FAILURE`
     this.FLUSH = `${options.namespace}/FLUSH`
+    this.bypassErrorMiddleware = !!options.bypassErrorMiddleware
   }
+
+  /**
+   * Builds a failure action, storing status code and allowing bypass middleware (see constructor)
+   * @param type action type
+   */
+  buildFailureAction = type => ({
+    type,
+    meta: (action, state, res) => ({
+      status: res ? res.status : '',
+      bypassErrorMiddleware: this.bypassErrorMiddleware,
+    }),
+  })
 
   /**
    * Replace parameterized value in the current configured endpoint

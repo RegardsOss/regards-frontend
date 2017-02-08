@@ -32,11 +32,12 @@ export class AccountFormContainer extends React.Component {
       return (<FormLoadingComponent />)
     }
     if (account) {
-      return (<AccountFormComponent
-        onSubmit={this.handleUpdate}
-        backUrl={this.getBackUrl()}
-        currentAccount={this.props.account}
-      />)
+      return (
+        <AccountFormComponent
+          onSubmit={this.handleUpdate}
+          backUrl={this.getBackUrl()}
+          currentAccount={this.props.account}
+        />)
     }
     return (<FormEntityNotFoundComponent />)
   }

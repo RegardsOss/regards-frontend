@@ -38,13 +38,13 @@ describe('[AUTHENTICATION] Testing AuthenticationFormComponent', () => {
       title: 'A title',
       onLogin: () => {},
       errorMessage: undefined,
-      createAccount: true,
+      showCreateAccount: true,
       onGotoResetPassword: () => {},
       onGotoUnlockAccount: () => {},
       onGotoCreateAccount: () => {},
       // redux forms
       handleSubmit: () => {},
-      cancelButton: true,
+      showCancel: true,
       onCancelAction: () => {},
       initialize: () => {},
     }

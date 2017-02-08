@@ -19,53 +19,63 @@ const messages = Object.assign({
   'account.request.form.mail': 'E-mail address',
   'account.request.form.back': 'BACK',
   'account.request.form.send': 'SEND',
-  'account.request.form.send.failed': 'Unknown e-mail address, please check spelling. Does this account exist?',
-  // request account password request form
-  'reset.password.request.message': 'Please enter your mail address to receive a reset password link',
-  'reset.password.request.title': 'Reset password',
-  // unlock account request form
-  'unlock.account.request.message': 'Please enter your mail address to request account unlocking',
-  'unlock.account.request.title': 'Unlock user account',
 
-  // account operations results
+  // request account password request form
+  'ask.reset.password.form.message': 'Please enter your mail address to receive a reset password link',
+  'ask.reset.password.form.title': 'Reset password',
+  'ask.reset.password.form.send.failed': '{status, select, ' +
+    '404: { Entered e-mail address is unknown. } ' +
+    'other: { An unknown error occurred } }',
+
+  // unlock account request form
+  'ask.unlock.account.form.message': 'Please enter your mail address to request account unlocking',
+  'ask.unlock.account.form.title': 'Unlock user account',
+  'ask.unlock.account.form.send.failed': '{status, select, ' +
+    '404: { Entered e-mail address is unknown. }' +
+    '403: { That related account is not locked }' +
+    'other: { An unknown error occurred } }',
+
+  // reset password operation
   'ask.reset.password.sent.title': 'Reset password sent',
   'ask.reset.password.sent.message': 'Your request has been sent, please wait for reset email',
   'ask.reset.password.sent.option': 'Back',
-
   'ask.reset.password.token.expired.title': 'Reset password failed',
   'ask.reset.password.token.expired.message': 'Your request has expired, please request password reset again',
   'ask.reset.password.token.expired.option': 'Back',
+  'reset.password.done.title': 'Password reset',
+  'reset.password.done.message': 'Your password has been successfully reset, you can proceed to site',
+  'reset.password.done.option': 'Login',
 
-  'change.password.done.title': 'Password reset',
-  'change.password.done.message': 'Your password has been successfully reset, you can proceed to site',
-  'change.password.done.option': 'Login',
-
-  'create.account.sent.title': 'Create account sent',
+  // create account operation
+  'create.account.sent.title': 'Account request sent',
   'create.account.sent.message': 'Your request has been sent, please wait for confirmation email',
   'create.account.sent.option': 'Back',
-
   'create.account.done.title': 'Account created',
   'create.account.done.message': 'Your account has been successfully created, you can proceed to site',
   'create.account.done.option': 'Login',
 
-  'unlock.request.done.title': 'Account unlocked',
-  'unlock.request.done.message': 'Your account has been successfully reset unlocked, you can proceed to site',
-  'unlock.request.done.option': 'Login',
+  // unlock account operation
+  'ask.unlock.account.sent.title': 'Unlock request sent',
+  'ask.unlock.account.sent.message': 'Your request has been sent, please wait for unlock confirmation email',
+  'ask.unlock.account.sent.option': 'Back',
+  'ask.unlock.account.token.expired.title': 'Unlock account failed',
+  'ask.unlock.account.token.expired.message': 'Your request has expired, please request unlock again',
+  'ask.unlock.account.token.expired.option': 'Back',
+  'unlock.account.done.title': 'Account unlocked',
+  'unlock.account.done.message': 'Your account has been successfully reset unlocked, you can proceed to site',
+  'unlock.account.done.option': 'Login',
 
-  'unlock.request.sent.title': 'Unlock request sent',
-  'unlock.request.sent.message': 'Your request has been sent, please wait for unlock confirmation email',
-  'unlock.request.sent.option': 'Back',
-
-  'unlock.request.token.expired.title': 'Unlock account failed',
-  'unlock.request.token.expired.message': 'Your request has expired, please request unlock again',
-  'unlock.request.token.expired.option': 'Back',
-
-  // reset password update (after receiving mail)
+  // password update form (after receiving reset mail)
   'reset.password.update.request.title': 'Reset password',
   'reset.password.update.request.message': 'Please provide the new password to complete operation',
   'reset.password.update.new.password': 'New password',
   'reset.password.update.confirm.password': 'Confirm password',
   'reset.password.update.send': 'SEND',
+
+  // finish unlock account loading pane
+  'finish.unlock.account.title': 'Unlocking account',
+  'finish.unlock.account.message': 'We are unlocking your account, please wait...',
+
 }, Locales.en)
 
 export default messages
