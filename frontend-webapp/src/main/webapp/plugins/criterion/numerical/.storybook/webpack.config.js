@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 const path = require('path')
 const webpack = require('webpack')
 

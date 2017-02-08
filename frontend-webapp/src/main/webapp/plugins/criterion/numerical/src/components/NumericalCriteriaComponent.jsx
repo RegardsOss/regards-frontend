@@ -7,6 +7,8 @@ import Paper from 'material-ui/Paper'
 import NumericalComparatorComponent from './NumericalComparatorComponent'
 
 /**
+ * TODO
+ *
  * @author Xavier-Alexandre Brochard
  */
 export class NumericalCriteriaComponent extends React.Component {

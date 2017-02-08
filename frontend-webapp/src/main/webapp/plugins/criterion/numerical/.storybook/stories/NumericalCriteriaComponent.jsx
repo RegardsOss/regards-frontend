@@ -1,4 +1,7 @@
-import { storiesOf, addDecorator, action } from '@kadira/storybook'
+/**
+ * LICENSE_PLACEHOLDER
+ **/
+import { storiesOf, action } from '@kadira/storybook'
 import { withKnobs, object } from '@kadira/storybook-addon-knobs'
 import { muiTheme } from 'storybook-addon-material-ui'
 import NumericalCriteriaComponent from '../../src/components/NumericalCriteriaComponent'
