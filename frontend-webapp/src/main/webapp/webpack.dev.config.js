@@ -2,7 +2,7 @@
 const CommonConfig = require('./webpack.common.config')
 const webpack = require('webpack')
 const merge = require('webpack-merge')
-const HappyPack = require('happypack');
+const HappyPack = require('happypack')
 
 let config = CommonConfig
 
@@ -10,7 +10,7 @@ let config = CommonConfig
 config.module.loaders[0] = {
   test: /\.jsx?$/,
   exclude: [/node_modules/, /json/, /\.tmp/],
-  loader: 'happypack/loader'
+  loader: 'happypack/loader',
 }
 
 config = merge(config, {
@@ -33,8 +33,11 @@ config = merge(config, {
   },
   devServer: {
     stats: {
+      assets: false,
+      chunks: false,
       children: false,
       colors: true,
+      hash: false,
     },
     // Web directory serve by the webpack dev server
     contentBase: './build',
@@ -64,10 +67,8 @@ config = merge(config, {
       // modules included in a bundle and the internal IDs
       // within that bundle
       manifest: require(`${__dirname}/build/core-manifest.json`),
-      context: __dirname
+      context: __dirname,
     }),
-    // Allow to define React as a global variable for JSX.
-    new webpack.ProvidePlugin({ React: 'react' }),
     new webpack.optimize.OccurenceOrderPlugin(),
     // HappyPack makes webpack builds faster by allowing you to transform multiple files in parallel.
     new HappyPack({

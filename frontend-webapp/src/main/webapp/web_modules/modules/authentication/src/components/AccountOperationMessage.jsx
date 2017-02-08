@@ -8,25 +8,19 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { values } from 'lodash'
 
-const unlockRequestSent = 'unlock.request.sent'
-const unlockRequestDone = 'unlock.request.done'
-const unlockRequestTokenExpired = 'unlock.request.token.expired'
-const resetPasswordSent = 'reset.password.sent'
-const resetPasswordDone = 'reset.password.done'
-const resetPaswordTokenExpired = 'reset.password.token.expired'
-const createAccountSent = 'create.account.sent'
 
 /**
  * Possible Ids for this message displayer, corresponds to the message / stage to show
  */
 export const operationIds = {
-  unlockRequestSent,
-  unlockRequestDone,
-  unlockRequestTokenExpired,
-  resetPasswordSent,
-  resetPasswordDone,
-  resetPaswordTokenExpired,
-  createAccountSent,
+  askResetPasswordSent: 'ask.reset.password.sent',
+  askResetPasswordTokenExpired: 'ask.reset.password.token.expired',
+  resetPasswordDone: 'reset.password.done',
+  askUnlockAccountSent: 'ask.unlock.account.sent',
+  askUnlockAccountTokenExpired: 'ask.unlock.account.token.expired',
+  unlockAccountDone: 'unlock.account.done',
+  createAccountSent: 'create.account.sent',
+  createAccountDone: 'create.account.done',
 }
 
 /**

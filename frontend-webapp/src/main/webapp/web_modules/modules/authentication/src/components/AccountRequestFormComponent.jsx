@@ -4,23 +4,19 @@
 import { FormattedMessage } from 'react-intl'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { reduxForm, formValueSelector } from 'redux-form'
-import { values } from 'lodash'
+import { values, isEmpty } from 'lodash'
 import { ReduxConnectedForm, connect } from '@regardsoss/redux'
 import RaisedButton from 'material-ui/RaisedButton'
-import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { RenderTextField, FormErrorMessage, Field, ValidationHelpers, ErrorTypes } from '@regardsoss/form-utils'
 
-const unlockAccountRequest = 'unlock.account.request'
-const resetPasswordRequest = 'reset.password.request'
-
 /** Possible form Ids, matching with corresponding request */
 export const requestFormIds = {
-  unlockAccountRequest,
-  resetPasswordRequest,
+  unlockAccountRequest: 'ask.unlock.account.form',
+  resetPasswordRequest: 'ask.reset.password.form',
 }
 
-const mailFieldId = 'mail'
+export const mailFieldId = 'mail'
 
 /**
  * Account request form component (the user enters his mail address and emits the request to admin here)
@@ -28,8 +24,8 @@ const mailFieldId = 'mail'
 export class AccountRequestFormComponent extends React.Component {
 
   static propTypes = {
-    // Did send failed
-    sendFailed: React.PropTypes.bool,
+    // Submit error
+    error: React.PropTypes.string,
     // calls reset password action
     onRequestAction: React.PropTypes.func.isRequired,
     // action form text id: prefixes all keys
@@ -47,9 +43,7 @@ export class AccountRequestFormComponent extends React.Component {
     initialize: React.PropTypes.func.isRequired,
   }
 
-  static contextTypes = {
-    ...themeContextType, ...i18nContextType,
-  }
+  static contextTypes = { ...themeContextType }
 
   componentWillMount = () => {
     const initialValues = {}
@@ -64,10 +58,10 @@ export class AccountRequestFormComponent extends React.Component {
   render() {
     const {
       currentMailValue, requestFormId,
-      sendFailed, onBack, submitting, invalid,
+      error, onBack, submitting, invalid,
       onRequestAction, handleSubmit,
     } = this.props
-    const { intl, moduleTheme } = this.context
+    const { moduleTheme } = this.context
     return (
       <div style={moduleTheme.layout}>
         <ReduxConnectedForm
@@ -78,9 +72,7 @@ export class AccountRequestFormComponent extends React.Component {
             <CardTitle
               title={<FormattedMessage id={`${requestFormId}.title`} />}
               subtitle={
-                <FormErrorMessage>
-                  {sendFailed && intl.formatMessage({ id: 'account.request.form.send.failed' })}
-                </FormErrorMessage>
+                <FormErrorMessage>{error}</FormErrorMessage>
               }
             />
             <CardText>
@@ -101,6 +93,7 @@ export class AccountRequestFormComponent extends React.Component {
                 type="submit"
               />
               <RaisedButton
+                disabled={submitting}
                 label={<FormattedMessage id="account.request.form.back" />}
                 primary
                 onClick={() => onBack(currentMailValue)}
@@ -115,7 +108,7 @@ export class AccountRequestFormComponent extends React.Component {
 
 function validate(fieldValues) {
   const errors = {}
-  if (!values(fieldValues).length) {
+  if (isEmpty(fieldValues)) {
     // XXX workaround for redux form bug initial validation:
     // Do not return anything when fields are not yet initialized (first render invalid state is wrong otherwise)...
     return errors

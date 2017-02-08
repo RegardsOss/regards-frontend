@@ -28,7 +28,7 @@ class BasicArrayActions extends BasicActions {
             type: this.ENTITY_LIST_SUCCESS,
             payload: (action, state, res) => getJSON(res),
           },
-          this.ENTITY_LIST_FAILURE,
+          this.buildFailureAction(this.ENTITY_LIST_FAILURE),
         ],
         endpoint,
         method: 'GET',

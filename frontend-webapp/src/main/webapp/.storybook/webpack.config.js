@@ -15,7 +15,6 @@ const HappyPack = require('happypack')
 let config = CommonConfig
 // Reset loaders
 config.module.loaders = []
-config.module.plugins = []
 config = merge(config, {
   devtool: 'cheap-module-eval-source-map',
   plugins: [

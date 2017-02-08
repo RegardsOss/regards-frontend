@@ -4,7 +4,7 @@
 import { ApplicationErrorAction } from '@regardsoss/global-sytem-error'
 
 export default store => next => (action) => {
-  if (action.error) {
+  if (action.error && (!action.meta || !action.meta.bypassErrorMiddleware)) {
     if (action.payload) {
       const url = action.payload.response && action.payload.response.url ? action.payload.response.url : action.type
       let statusText

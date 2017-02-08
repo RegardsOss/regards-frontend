@@ -38,6 +38,15 @@ class BasicSelector {
   }
 
   /**
+   * Returns error from state, if available.
+   * @param state state
+   * @return {hasError(bool), message(string), status(int, code), type (string, request failure type)}
+   */
+  getError(state) {
+    return this.uncombineStore(state).error
+  }
+
+  /**
    * Return true when the app is downloading a list of or a piece of entity
    * @param state
    */

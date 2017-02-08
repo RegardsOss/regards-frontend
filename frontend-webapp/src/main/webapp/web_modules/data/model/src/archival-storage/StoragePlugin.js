@@ -1,5 +1,5 @@
 export const StoragePluginShape = React.PropTypes.shape({
-  id: React.PropTypes.number,
+  id: React.PropTypes.number.isRequired,
   label: React.PropTypes.string.isRequired,
   description: React.PropTypes.string.isRequired,
   totalSize: React.PropTypes.string,

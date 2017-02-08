@@ -55,7 +55,7 @@ class BasicPageableActions extends BasicListActions {
               // Merge the normalized object with query metadata and query links
             ),
           },
-          this.ENTITY_LIST_FAILURE,
+          this.buildFailureAction(this.ENTITY_LIST_FAILURE),
         ],
         endpoint,
         method: 'GET',
