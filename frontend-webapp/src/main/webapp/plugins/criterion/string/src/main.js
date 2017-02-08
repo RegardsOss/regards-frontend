@@ -13,4 +13,4 @@ const messages = {
   fr: messagesFr,
 }
 
-initPlugin('string-criteria', StringCriteria, reducer, messages, pluginInfo)
+initPlugin(StringCriteria, reducer, messages, pluginInfo)

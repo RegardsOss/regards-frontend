@@ -57,6 +57,7 @@ class PluginProvider extends React.Component {
       return (
         <PluginLoader
           pluginInstanceId={this.props.pluginInstanceId}
+          pluginName={this.props.pluginToLoad.content.name}
           pluginPath={this.props.pluginToLoad.content.sourcesPath}
           displayPlugin={this.props.displayPlugin}
           pluginConf={this.props.pluginConf}

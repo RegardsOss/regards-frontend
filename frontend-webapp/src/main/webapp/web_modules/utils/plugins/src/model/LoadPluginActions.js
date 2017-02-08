@@ -18,7 +18,7 @@ export const PLUGIN_LOADED = 'LOAD_PLUGINS/PLUGIN_LOADED'
 
 export const pluginLoaded = plugin => ({
   type: PLUGIN_LOADED,
-  name: plugin.name,
+  name: plugin.info.name,
   plugin: plugin.plugin,
   reducer: plugin.reducer,
   messages: plugin.messages,
@@ -32,22 +32,27 @@ export const pluginLoaded = plugin => ({
  * @param dispatchAction
  */
 export const loadPlugin = (sourcePath, onErrorCallback, dispatchAction) => {
-  // Listen for pluin initialization done
-  root.document.addEventListener('plugin', (event) => {
-    const action = pluginLoaded(event.detail)
-    action.sourcesPath = sourcePath
-    dispatchAction(action)
-  })
 
-  if (typeof document !== 'undefined') {
-    let fullSourcePlugin = ''
+  let fullSourcePlugin = ''
+  if (typeof root.document !== 'undefined') {
     if (sourcePath[0] === '/') {
       fullSourcePlugin = `${window.location.origin}${sourcePath}`
     } else {
       fullSourcePlugin = `${window.location.origin}/${sourcePath}`
     }
-    scriptjs(fullSourcePlugin, sourcePath)
+  }
 
+  // Listen for pluin initialization done
+  root.document.addEventListener('plugin', (event) => {
+    if (fullSourcePlugin === event.detail.sourcePath) {
+      const action = pluginLoaded(event.detail)
+      action.sourcesPath = sourcePath
+      dispatchAction(action)
+    }
+  })
+
+  if (typeof root.document !== 'undefined') {
+    scriptjs(fullSourcePlugin, sourcePath)
     root.window.addEventListener('error', (e, url) => {
       if (e && e.srcElement && e.srcElement.src === fullSourcePlugin) {
         console.log(e.srcElement.src, fullSourcePlugin)
