@@ -82,39 +82,42 @@ export class TwoNumericalCriteriaComposedComponent extends React.Component {
   // format = value => value
 
   render() {
-    const attributeLabel = this.props.attributes && this.props.attributes.searchField && this.props.attributes.searchField.name
-
     return (
-      <div style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'baseline',
-      }}>
-        <Paper style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          padding: '0px 16px',
-          maxWidth: 400,
-        }}>
-          /*
-          <span>{attributeLabel}</span>
-          <NumericalComparatorComponent onChange={this.handleChangeComparator}/>
-          <TextField
-            id="search"
-            type="number"
-            floatingLabelText={'Nombre...'} // TODO
-            value={this.format(this.state.value)}
-            onChange={this.handleChangeValue}
-            style={{
-              top: -10,
-              width: '33%',
-            }}
-          />
-          */
-        </Paper>
-      </div>
+      <div>Coucou</div>
     )
+    // const attributeLabel = this.props.attributes && this.props.attributes.searchField && this.props.attributes.searchField.name
+    //
+    // return (
+    //   <div style={{
+    //     display: 'flex',
+    //     justifyContent: 'center',
+    //     alignItems: 'baseline',
+    //   }}>
+    //     <Paper style={{
+    //       display: 'flex',
+    //       justifyContent: 'space-between',
+    //       alignItems: 'center',
+    //       padding: '0px 16px',
+    //       maxWidth: 400,
+    //     }}>
+    //       /*
+    //       <span>{attributeLabel}</span>
+    //       <NumericalComparatorComponent onChange={this.handleChangeComparator}/>
+    //       <TextField
+    //         id="search"
+    //         type="number"
+    //         floatingLabelText={'Nombre...'} // TODO
+    //         value={this.format(this.state.value)}
+    //         onChange={this.handleChangeValue}
+    //         style={{
+    //           top: -10,
+    //           width: '33%',
+    //         }}
+    //       />
+    //       */
+    //     </Paper>
+    //   </div>
+    // )
   }
 }
 

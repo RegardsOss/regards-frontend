@@ -37,6 +37,12 @@
       "name": "numerical-criteria",
       "type": "criterion",
       "sourcesPath": "/plugins/criterion/numerical/plugin.js"
+    },
+    {
+      "id": 3,
+      "name": "two-numerical-criteria",
+      "type": "criterion",
+      "sourcesPath": "/plugins/criterion/two-numerical/plugin.js"
     }
   ],
   "modules": [
