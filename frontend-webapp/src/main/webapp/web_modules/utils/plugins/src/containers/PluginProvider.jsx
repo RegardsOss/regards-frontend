@@ -17,7 +17,7 @@ import PluginLoader from './PluginLoader'
  * @see PluginProvider for more information about Plugin loading.
  * @author Sébastien Binda
  */
-class PluginProvider extends React.PureComponent {
+class PluginProvider extends React.Component {
 
   /**
    * pluginId: Indetifier of the plugin to provide
@@ -57,6 +57,7 @@ class PluginProvider extends React.PureComponent {
       return (
         <PluginLoader
           pluginInstanceId={this.props.pluginInstanceId}
+          pluginName={this.props.pluginToLoad.content.name}
           pluginPath={this.props.pluginToLoad.content.sourcesPath}
           displayPlugin={this.props.displayPlugin}
           pluginConf={this.props.pluginConf}

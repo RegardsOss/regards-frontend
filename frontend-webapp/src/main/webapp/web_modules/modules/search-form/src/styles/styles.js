@@ -23,7 +23,7 @@ const formStyles = theme => ({
       width: 200,
     },
     formHeader: {
-      backgroundColor: theme.palette.accent2Color,
+      backgroundColor: theme.palette.primary2Color,
     },
   },
   resultsButtonsType: {

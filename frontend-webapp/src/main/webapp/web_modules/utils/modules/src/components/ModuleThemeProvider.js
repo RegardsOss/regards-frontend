@@ -9,7 +9,7 @@ import { themeContextType } from '@regardsoss/theme'
  * function as : export Styles = (theme) => {}
  * @author Sébastien Binda
  */
-class ModuleThemeProvider extends React.PureComponent {
+class ModuleThemeProvider extends React.Component {
 
   /**
    * Retrieve mui theme from context provide by upper MuiThemeProvider

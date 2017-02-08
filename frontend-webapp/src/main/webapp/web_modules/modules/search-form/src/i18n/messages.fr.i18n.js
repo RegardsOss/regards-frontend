@@ -31,6 +31,7 @@ const messages = Object.assign({
   // Layout tab
   'form.layout.tab.title': 'Configuration de l\'agencement des critères de recherche du formulaire',
   'form.layout.tab.reset': 'Réinitialiser',
+  'layout.invalid.error': 'Layout invalide',
   // Criterion tab
   'form.criterion.list.name': 'Nom du critère',
   'form.criterion.list.container': 'Conteneur',

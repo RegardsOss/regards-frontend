@@ -13,7 +13,7 @@ import { themeContextType } from '@regardsoss/theme'
  * Component to display a configured Search form module
  * @author Sébastien binda
  */
-class FormComponent extends React.PureComponent {
+class FormComponent extends React.Component {
 
   static propTypes = {
     layout: LayoutContent.isRequired,
@@ -46,6 +46,12 @@ class FormComponent extends React.PureComponent {
     })
   }
 
+  keypress = (e) => {
+    if (e.charCode === 13) {
+      this.onHandleSearch()
+    }
+  }
+
   render() {
     let title = ''
     if (!this.state.expanded) {
@@ -60,7 +66,7 @@ class FormComponent extends React.PureComponent {
           showExpandableButton
           style={styles.user.formHeader}
         />
-        <CardText expandable>
+        <CardText expandable onKeyPress={this.keypress}>
           <ApplicationLayout
             appName="user"
             layout={this.props.layout}

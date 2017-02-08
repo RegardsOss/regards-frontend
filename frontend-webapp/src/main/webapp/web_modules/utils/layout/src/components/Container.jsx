@@ -13,7 +13,7 @@ import ContainerHelper from '../ContainerHelper'
  * This element display the children containers and  modules.
  * @author Sébastien Binda
  */
-class Container extends React.PureComponent {
+class Container extends React.Component {
 
   static propTypes = {
     project: React.PropTypes.string,

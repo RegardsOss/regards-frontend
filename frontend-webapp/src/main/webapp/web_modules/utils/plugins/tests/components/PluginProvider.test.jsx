@@ -58,7 +58,6 @@ describe('[PLUGINS] Testing Plugins load', () => {
       />,
     )
 
-    console.log()
     assert.isFalse(fetchPluginSpy.called, 'The pluginDefinition is already fetched so the fetch method should not be called')
     assert.lengthOf(wrapper.find(PluginLoader), 1, 'The PluginLoader component should be rendered')
     assert.equal(wrapper.find(LoadableContentDisplayDecorator).prop('isLoading'), false, 'Loading component should not be display as the pluginDefinition is already fetched')

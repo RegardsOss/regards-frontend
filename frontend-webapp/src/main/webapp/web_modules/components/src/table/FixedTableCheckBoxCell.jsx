@@ -11,34 +11,39 @@ import Styles from './FixedTableStyles'
  * Cell rendering for FixedTable checkbox column
  * @author Sébastien Binda
  */
-class FixedTableCheckBoxCell extends React.PureComponent {
-
-  static propTypes = {
-    rowIndex: React.PropTypes.number,
-    selectRow: React.PropTypes.func.isRequired,
-    isSelected: React.PropTypes.func.isRequired,
+const FixedTableCheckBoxCell = (props, context) => {
+  const styles = Styles(context.muiTheme)
+  let cellStyle = styles.cellOdd
+  let cellContentStyle = styles.cellOddContent
+  if (props.rowIndex % 2) {
+    cellStyle = styles.cellEven
+    cellContentStyle = styles.cellEvenContent
   }
+  return (
+    <Cell
+      {...omit(props, ['selectRow', 'isSelected'])}
+      style={cellStyle}
+    >
+      <div style={cellContentStyle}>
+        <Checkbox
+          onCheck={() => {
+            props.selectRow(props.rowIndex)
+          }}
+          defaultChecked={props.isSelected(props.rowIndex)}
+        />
+      </div>
+    </Cell>
+  )
+}
 
-  static contextTypes = {
-    ...themeContextType,
-  }
+FixedTableCheckBoxCell.propTypes = {
+  rowIndex: React.PropTypes.number,
+  selectRow: React.PropTypes.func.isRequired,
+  isSelected: React.PropTypes.func.isRequired,
+}
 
-  render() {
-    const styles = Styles(this.context.muiTheme)
-    return (
-      <Cell
-        {...omit(this.props, ['selectRow', 'isSelected'])}
-        style={styles.checkBoxCell}
-      >
-        <div style={styles.cellContent}>
-          <Checkbox
-            onCheck={() => { this.props.selectRow(this.props.rowIndex) }}
-            defaultChecked={this.props.isSelected(this.props.rowIndex)}
-          />
-        </div>
-      </Cell>
-    )
-  }
+FixedTableCheckBoxCell.contextTypes = {
+  ...themeContextType,
 }
 
 export default FixedTableCheckBoxCell

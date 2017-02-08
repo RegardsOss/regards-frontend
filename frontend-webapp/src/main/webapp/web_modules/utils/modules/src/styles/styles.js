@@ -14,6 +14,6 @@ export default theme => ({
     zIndex: 1000,
   },
   moduleListSection: {
-    backgroundColor: theme.palette.accent2Color,
+    backgroundColor: theme.palette.primary2Color,
   },
 })

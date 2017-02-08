@@ -31,6 +31,7 @@ const messages = Object.assign({
   // Layout tab
   'form.layout.tab.title': 'Search form layout configuration',
   'form.layout.tab.reset': 'Reset',
+  'layout.invalid.error': 'Error layout',
   // Criterion tab
   'form.criterion.list.name': 'Name',
   'form.criterion.list.container': 'Container',

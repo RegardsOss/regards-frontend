@@ -19,7 +19,7 @@ import ModuleShape from '../model/ModuleShape'
  * Component to display all available modules for a given container
  * @author Sébastien Binda
  */
-class ModuleListComponent extends React.PureComponent {
+class ModuleListComponent extends React.Component {
 
   static propTypes = {
     container: React.PropTypes.string,
