@@ -32,7 +32,6 @@ export const pluginLoaded = plugin => ({
  * @param dispatchAction
  */
 export const loadPlugin = (sourcePath, onErrorCallback, dispatchAction) => {
-
   let fullSourcePlugin = ''
   if (typeof root.document !== 'undefined') {
     if (sourcePath[0] === '/') {

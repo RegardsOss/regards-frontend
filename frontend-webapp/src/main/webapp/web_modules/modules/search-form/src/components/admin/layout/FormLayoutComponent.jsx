@@ -5,6 +5,7 @@ import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
 import { Field, TextAreaField } from '@regardsoss/form-utils'
+import { LayoutConfigurationComponent } from '@regardsoss/layout'
 import DefaultFormLayout from './DefaultFormLayout'
 
 /**
@@ -50,27 +51,31 @@ class FormLayoutComponent extends React.Component {
   }
 
   render() {
-    return (
-      <Card>
-        <CardTitle
-          subtitle={<FormattedMessage id="form.layout.tab.title" />}
-        />
-        <CardText style={{ width: '100%' }}>
-          <Field
-            name="conf.layout"
-            component={TextAreaField}
-            validate={this.validateLayout}
+    try {
+      const layoutObj = JSON.parse(this.props.defaultLayout)
+      return (
+        <Card>
+          <CardTitle
+            subtitle={<FormattedMessage id="form.layout.tab.title"/>}
           />
-        </CardText>
-        <CardActions>
-          <CardActionsComponent
-            mainButtonLabel={<FormattedMessage id="form.layout.tab.reset" />}
-            mainButtonType="reset"
-            mainButtonTouchTap={this.resetLayout}
-          />
-        </CardActions>
-      </Card>
-    )
+          <CardText style={{width: '100%'}}>
+            <LayoutConfigurationComponent
+              layout={layoutObj}
+            />
+          </CardText>
+          <CardActions>
+            <CardActionsComponent
+              mainButtonLabel={<FormattedMessage id="form.layout.tab.reset"/>}
+              mainButtonType="reset"
+              mainButtonTouchTap={this.resetLayout}
+            />
+          </CardActions>
+        </Card>
+      )
+    } catch (error) {
+      console.log("Error layout",error)
+      return null
+    }
   }
 
 }

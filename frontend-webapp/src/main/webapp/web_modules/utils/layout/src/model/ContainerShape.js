@@ -15,6 +15,7 @@ const ContainerShape = React.PropTypes.shape({
   modules: React.PropTypes.arrayOf(ModuleShape),
   containers: React.PropTypes.arrayOf(React.PropTypes.object),
   dynamicContent: React.PropTypes.bool,
+  mainContainer: React.PropTypes.bool,
 })
 
 export default ContainerShape

@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { merge, union, forEach, find } from 'lodash'
+import { merge, union, forEach, find, remove, concat,cloneDeep } from 'lodash'
 import containerTypes from './default/containerTypes'
 
 /**
@@ -79,6 +79,29 @@ class ContainerHelper {
       return true
     }
     return false
+  }
+
+  static removeContainerFromLayout(containerName, layout) {
+    const newLayout = cloneDeep(layout)
+    newLayout.containers = this.removeContainerFromContainers(containerName, newLayout.containers)
+    return newLayout
+  }
+
+  static removeContainerFromContainers(containerName, containers){
+    let newContainers = concat([], containers)
+    let i =0
+    console.log("Removing",containerName,containers)
+    for (i=0;i<containers.length;i++){
+      if (containers[i].id === containerName){
+        console.log("Removing .....",containers,i)
+        newContainers.splice(i, 1)
+        console.log("Removed",newContainers)
+        break
+      } else if (containers[i].containers) {
+        newContainers[i].containers =  this.removeContainerFromContainers(containerName,containers[i].containers)
+      }
+    }
+    return newContainers
   }
 
 

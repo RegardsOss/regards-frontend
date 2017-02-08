@@ -56,6 +56,15 @@ export default {
   /**
    * Column container to display a large responsive column.
    */
+  '50PercentColumnContainer': {
+    classes: ['col-sm-48'],
+    styles: {
+      margin: '1px',
+    },
+  },
+  /**
+   * Column container to display a large responsive column.
+   */
   LargeColumnContainer: {
     classes: ['col-sm-75'],
     styles: {
