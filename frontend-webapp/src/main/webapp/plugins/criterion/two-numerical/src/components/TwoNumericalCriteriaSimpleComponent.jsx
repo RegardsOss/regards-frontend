@@ -1,15 +1,14 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import React from 'react'
-import { FormattedMessage } from 'react-intl'
-import { connect } from 'react-redux'
-import TextField from 'material-ui/TextField'
-import { Card, CardText } from 'material-ui/Card'
+import { chain, mapValues, keys, uniqueId } from 'lodash'
 import Paper from 'material-ui/Paper'
-import NumericalComparatorComponent from './NumericalComparatorComponent'
+import NumericalCriteriaComponent from './NumericalCriteriaComponent'
 
 /**
+ * Component allowing the user to fill to configure the numerical value of two attributes with a mathematical comparator (=, >, <=, ...).
+ * The plugin's output is the execution of the passed {@code onChange} prop.
+ *
  * @author Xavier-Alexandre Brochard
  */
 export class TwoNumericalCriteriaSimpleComponent extends React.Component {
@@ -37,79 +36,46 @@ export class TwoNumericalCriteriaSimpleComponent extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      value: undefined,
-      comparator: 'EQ',
+      criteria: mapValues(props.attributes, el => ({
+        value: undefined,
+        comparator: 'EQ',
+      })),
     }
   }
 
-  /**
-   * Callback function that is fired when the textfield's value changes.
-   *
-   * @param {Object} event Change event targeting the text field.
-   * @param {String} newValue The new value of the text field.
-   */
-  handleChangeValue = (event, newValue) => {
-    const { attributes, pluginInstanceId, onChange } = this.props
-    const { comparator } = this.state
-    this.setState({
-      value: this.parse(newValue),
-    })
-    onChange({
-      attribute: attributes.searchField,
-      comparator,
-      value: newValue,
-    }, pluginInstanceId)
-  }
-
-  handleChangeComparator = (comparator) => {
-    this.setState({
-      comparator,
-    })
-  }
-
-  /**
-   * Parses the value given from the field input component.
-   *
-   * @param {String} value
-   */
-  parse = value => parseFloat(value)
-
-  /**
-   * Formats the value before displaying in the field input component.
-   *
-   * @param {String} value
-   */
-  format = value => value
-
   render() {
-    const attributeLabel = this.props.attributes && this.props.attributes.searchField && this.props.attributes.searchField.name
+    const { attributes, pluginInstanceId, onChange } = this.props
 
     return (
-      <div style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'baseline',
-      }}>
-        <Paper style={{
+      <div
+        style={{
           display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          padding: '0px 16px',
-          maxWidth: 400,
-        }}>
-          <span>{attributeLabel}</span>
-          <NumericalComparatorComponent onChange={this.handleChangeComparator}/>
-          <TextField
-            id="search"
-            type="number"
-            floatingLabelText={'Nombre...'} // TODO
-            value={this.format(this.state.value)}
-            onChange={this.handleChangeValue}
-            style={{
-              top: -10,
-              width: '33%',
-            }}
-          />
+          justifyContent: 'center',
+          alignItems: 'baseline',
+        }}
+      >
+        <Paper
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            flexWrap: 'wrap',
+          }}
+        >
+
+          {chain(attributes)
+            .map((attribute, attributeName) => <NumericalCriteriaComponent // we are mapping on an object this is why we disable the lint next line
+              key={attributeName} // eslint-disable-line react/no-array-index-key
+              attribute={attribute}
+              pluginInstanceId={pluginInstanceId}
+              onChange={onChange}
+            />)
+            .zip(new Array(keys(attributes).length).fill(<span key={uniqueId('react_generated_uuid_')}>et</span>))
+            .flatten()
+            .initial()
+            .value()
+          }
+
         </Paper>
       </div>
     )

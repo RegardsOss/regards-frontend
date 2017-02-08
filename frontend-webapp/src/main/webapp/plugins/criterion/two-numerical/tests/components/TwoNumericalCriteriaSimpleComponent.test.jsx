@@ -4,22 +4,37 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import TwoNumericalCriteriaSimpleComponent from '../../src/components/TwoNumericalCriteriaSimpleComponent'
+import NumericalCriteriaComponent from '../../src/components/NumericalCriteriaComponent'
 
 /**
  * Test case for {@link TwoNumericalCriteriaSimpleComponent}
  *
  * @author Xavier-Alexandre Brochard
  */
-describe('[PLUGIN TWO NUMERICAL CRITERIA] Testing the two numerical criteria simple component', () => {
+describe('[PLUGIN TWO NUMERICAL CRITERIA SIMPLE] Testing the two numerical criteria simple component', () => {
   it('should exists', () => {
     assert.isDefined(TwoNumericalCriteriaSimpleComponent)
+    assert.isDefined(NumericalCriteriaComponent)
   })
   it('should render self and subcomponents', () => {
-    assert.fail(null, null, 'Implement this test')
-    // const props = {
-    //   onChange: () => {
-    //   },
-    // }
-    // const enzymeWrapper = shallow(<TwoNumericalCriteriaComponent {...props} />)
+    const props = {
+      attributes: {
+        firstAttribute: {
+          name: 'firstAttribute',
+          description: 'First attribute to search',
+          type: 'numerical',
+        },
+        secondAttribute: {
+          name: 'secondAttribute',
+          description: 'Second attribute to search',
+          type: 'numerical',
+        },
+      },
+      pluginInstanceId: 42,
+      onChange: () => {
+      },
+    }
+    const enzymeWrapper = shallow(<TwoNumericalCriteriaSimpleComponent {...props} />)
+    expect(enzymeWrapper.find(NumericalCriteriaComponent)).to.have.length(2)
   })
 })

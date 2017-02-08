@@ -73,10 +73,12 @@ export class NumericalComparatorComponent extends React.Component {
           }}
         >
           {map(EnumNumericalComparator, (value, key) => (
-            <MenuItem style={{
-              display: 'flex',
-              justifyContent: 'center',
-            }} key={key} primaryText={value} value={key}/>
+            <MenuItem
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+              }} key={key} primaryText={value} value={key}
+            />
           ))}
         </IconMenu>
       </div>

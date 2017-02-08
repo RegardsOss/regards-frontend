@@ -44,7 +44,6 @@ export class TwoNumericalCriteriaComponent extends React.Component {
     this.state = {
       // Switch to composed mode if only one attribute passed
       isComposed: keys(props.attributes).length === 1,
-      // isComposed: chain(props.attributes).map('name').uniq().value().length === 1,
       criteria: mapValues(props.attributes, el => ({
         value: undefined,
         comparator: 'EQ',
@@ -54,16 +53,9 @@ export class TwoNumericalCriteriaComponent extends React.Component {
 
   render() {
     const { isComposed } = this.state
-    // return (
-    // <div>coucou</div>
-    // <TwoNumericalCriteriaSimpleComponent
-    //   attributes={this.props.attributes[0]}
-    //   onChange={this.props.onChange}
-    //   pluginInstanceId={this.props.pluginInstanceId}
-    // />
-    // )
+
     return isComposed ? <TwoNumericalCriteriaComposedComponent {...this.props} /> :
-      <TwoNumericalCriteriaSimpleComponent {...this.props} />
+    <TwoNumericalCriteriaSimpleComponent {...this.props} />
   }
 }
 

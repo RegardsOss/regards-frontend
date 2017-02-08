@@ -10,7 +10,7 @@ import TwoNumericalCriteriaComposedComponent from '../../src/components/TwoNumer
  *
  * @author Xavier-Alexandre Brochard
  */
-describe('[PLUGIN TWO NUMERICAL CRITERIA] Testing the two numerical criteria composed component', () => {
+describe('[PLUGIN TWO NUMERICAL CRITERIA COMPOSED] Testing the two numerical criteria composed component', () => {
   it('should exists', () => {
     assert.isDefined(TwoNumericalCriteriaComposedComponent)
   })

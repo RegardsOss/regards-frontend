@@ -2,12 +2,6 @@
  * LICENSE_PLACEHOLDER
  **/
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
-import { connect } from 'react-redux'
-import TextField from 'material-ui/TextField'
-import { Card, CardText } from 'material-ui/Card'
-import Paper from 'material-ui/Paper'
-import NumericalComparatorComponent from './NumericalComparatorComponent'
 
 /**
  * @author Xavier-Alexandre Brochard

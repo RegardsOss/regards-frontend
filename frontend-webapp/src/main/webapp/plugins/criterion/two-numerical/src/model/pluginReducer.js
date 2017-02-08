@@ -9,9 +9,13 @@ function reducer(state = {
 }, action) {
   switch (action.type) {
     case PLUGIN_TEST:
-      return { ...state, pluginTest: true }
+      return {
+        ...state,
+        pluginTest: true
+      }
+    default:
+      return state
   }
-  return state
 }
 
 export default {
