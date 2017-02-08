@@ -8,7 +8,7 @@ import { ReduxConnectedForm } from '@regardsoss/redux'
 import RaisedButton from 'material-ui/RaisedButton'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { RenderTextField, FormErrorMessage, Field, ErrorTypes, ValidationHelpers } from '@regardsoss/form-utils'
+import { RenderTextField, Field, ErrorTypes, ValidationHelpers } from '@regardsoss/form-utils'
 
 /**
  * Reset password request form component

@@ -18,21 +18,6 @@ const styles = theme => (
       borderStyle: 'solid',
       borderColor: theme.palette.borderColor,
     },
-    finishAccountUnlock: {
-      loadingContainer: {
-        style: {
-          display: 'flex',
-          flexDirection: 'horizontal',
-          paddingBottom: '90px',
-          alignItems: 'center',
-          height: '330px',
-          justifyContent: 'space-around'
-        },
-        loadingComponent: {
-          size: 150,
-        },
-      },
-    },
   })
 
 export default styles

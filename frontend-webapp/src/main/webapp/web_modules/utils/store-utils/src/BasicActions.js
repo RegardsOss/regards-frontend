@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { map, replace, split, join, takeRight, trim } from 'lodash'
+import { map, replace, split, join, takeRight } from 'lodash'
 
 /**
  *  Abstract Action class providing common methods for different Actions implementations
