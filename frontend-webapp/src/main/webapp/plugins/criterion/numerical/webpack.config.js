@@ -1,14 +1,12 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-var fs = require('fs')
-var path = require('path')
-var webpack = require('webpack')
-var path = require('path')
+const path = require('path')
+const webpack = require('webpack')
 
 module.exports = {
   // Hide stats information from children during webpack compilation
-  stats: {children: false},
+  stats: { children: false },
   context: __dirname,
   // Javascript main entry
   entry: './src/main.js',
@@ -19,7 +17,7 @@ module.exports = {
   },
   output: {
     path: __dirname + '/target/build',
-    filename: "plugin.js"
+    filename: 'plugin.js',
   },
   resolve: {
     // Automaticaly get extensions files from javascript code with import or require.
@@ -41,9 +39,8 @@ module.exports = {
       }, {
         test: /\.json$/,
         exclude: [/node_modules/],
-        loader: "json-loader",
-      }
-
+        loader: 'json-loader',
+      },
     ],
   },
   eslint: {
@@ -58,7 +55,7 @@ module.exports = {
       // modules included in a bundle and the internal IDs
       // within that bundle
       manifest: require(`${__dirname}/../../../build/core-manifest.json`),
-      context: __dirname
+      context: __dirname,
     }),
     // Search for equal or similar files and deduplicate them in the output. This comes with some overhead for the entry chunk, but can reduce file size effectively.
     new webpack.optimize.DedupePlugin(),
@@ -74,10 +71,8 @@ module.exports = {
       },
     }),
     // Makes a module available as a variable in every module
-    new webpack.ProvidePlugin({
-      "React": "react",
-    }),
-    new webpack.BannerPlugin("Copyright CNES"),
+    new webpack.ProvidePlugin({ React: 'react' }),
+    new webpack.BannerPlugin('Copyright CNES'),
     // Define environment variables
     new webpack.DefinePlugin({
       'process.env': {
@@ -86,4 +81,4 @@ module.exports = {
       GATEWAY_HOSTNAME: JSON.stringify('http://172.26.47.52:8000'),
     }),
   ],
-};
+}

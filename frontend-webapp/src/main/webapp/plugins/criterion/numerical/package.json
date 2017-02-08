@@ -13,7 +13,9 @@
     "test:watch": "mocha-webpack --timeout 5000 --webpack-config webpack.test.config.js \"web_modules/**/*.test.js{,x}\" --recursive --require source-map-support/register --inline-diffs --watch",
     "esdoc": "esdoc -c esdoc.json",
     "lint": "eslint web_modules .storybook src --ext .js,.jsx",
-    "lint:fix": "eslint --fix web_modules .storybook src --ext .js,.jsx"
+    "lint:fix": "eslint --fix web_modules .storybook src --ext .js,.jsx",
+    "storybook:start": "start-storybook -p 6006 --dont-track",
+    "storybook:build": "build-storybook -o reports/storybook"
   },
   "author": "CS-SI",
   "license": "GPLv3",
@@ -27,6 +29,8 @@
     "window-or-global": "^1.0.1"
   },
   "devDependencies": {
+    "@kadira/storybook": "^2.35.3",
+    "@kadira/storybook-addon-knobs": "~1.7.1",
     "autoprefixer": "^6.6.0",
     "babel-cli": "~6.18.0",
     "babel-core": "~6.21.0",
@@ -74,6 +78,7 @@
     "sinon": "^1.17.7",
     "source-map-loader": "~0.1.5",
     "source-map-support": "^0.4.8",
+    "storybook-addon-material-ui": "^0.7.4",
     "style-loader": "~0.13.1",
     "url-loader": "~0.5.7",
     "webpack": "~1.14.0",

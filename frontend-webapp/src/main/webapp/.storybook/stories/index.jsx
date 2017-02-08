@@ -30,5 +30,3 @@ import './modules/projects-list/ProjectsListComponent'
 import './modules/archival-storage/index.story'
 
 import './theme-configuration/index.story'
-
-import './plugins/index.story'
