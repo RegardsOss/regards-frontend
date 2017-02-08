@@ -2,8 +2,6 @@
 const CommonConfig = require('./webpack.common.config')
 const webpack = require('webpack')
 const merge = require('webpack-merge')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
-
 
 let config = CommonConfig
 
@@ -30,7 +28,7 @@ config = merge(config, {
       // modules included in a bundle and the internal IDs
       // within that bundle
       manifest: require(`${__dirname}/build/core-manifest.json`),
-      context: __dirname
+      context: __dirname,
     }),
     // Search for equal or similar files and deduplicate them in the output. This comes with some overhead for the entry chunk, but can reduce file size effectively.
     new webpack.optimize.DedupePlugin(),
@@ -45,11 +43,7 @@ config = merge(config, {
         warnings: false,
       },
     }),
-    // Makes a module available as a variable in every module
-    new webpack.ProvidePlugin({
-      "React": "react",
-    }),
-    new webpack.BannerPlugin("Copyright CNES"),
+    new webpack.BannerPlugin('Copyright CNES'),
     // Define environment variables
     new webpack.DefinePlugin({
       'process.env': {

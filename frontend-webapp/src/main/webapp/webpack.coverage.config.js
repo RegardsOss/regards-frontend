@@ -44,10 +44,8 @@ config = merge(config, {
       // modules included in a bundle and the internal IDs
       // within that bundle
       manifest: require(`${__dirname}/build/core-manifest.json`),
-      context: __dirname
+      context: __dirname,
     }),
-    // Allow to define React as a global variable for JSX.
-    new webpack.ProvidePlugin({ React: 'react' }),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('coverage'),
