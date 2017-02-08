@@ -14,6 +14,7 @@ config = merge(config, {
   // Enable sourcemaps for debugging webpack's output.
   devtool: 'inline-source-map',
   stats: {
+    chunks: false,
     colors: true,
     reasons: true,
   },
