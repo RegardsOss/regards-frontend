@@ -7,8 +7,6 @@ import NumericalComparatorComponent from '../../src/components/NumericalComparat
 storiesOf('NumericalComparatorComponent', module)
   .addDecorator(withKnobs)
   .addDecorator(muiTheme())
-  .add('Default', () => {
-    return (
-      <NumericalComparatorComponent onChange={action('onChange')}/>
-    )
-  })
+  .add('Default', () => (
+    <NumericalComparatorComponent onChange={action('onChange')} />
+    ))

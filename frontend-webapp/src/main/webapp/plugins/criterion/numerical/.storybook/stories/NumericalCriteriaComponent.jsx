@@ -15,6 +15,6 @@ storiesOf('NumericalCriteriaComponent', module)
       },
     })
     return (
-      <NumericalCriteriaComponent attributes={attributes} onChange={action('onChange')} pluginInstanceId={42}/>
+      <NumericalCriteriaComponent attributes={attributes} onChange={action('onChange')} pluginInstanceId={42} />
     )
   })

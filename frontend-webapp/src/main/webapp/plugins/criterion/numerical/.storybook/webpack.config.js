@@ -1,17 +1,17 @@
-const path = require('path');
+const path = require('path')
 const webpack = require('webpack')
 
 module.exports = {
   module: {
     loaders: [
       {
-        test:   /\.scss$/,
+        test: /\.scss$/,
         loaders: ['style', 'raw', 'sass'],
-        include: path.resolve(__dirname, '../css/')
+        include: path.resolve(__dirname, '../css/'),
       },
       {
         test: /\.svg$/,
-        loader: 'babel!react-svg'
+        loader: 'babel!react-svg',
       },
       {
         test: /\.(jpg|gif|eot|svg|ttf|woff|woff2)(\?.*)?$/,
@@ -26,7 +26,7 @@ module.exports = {
         loader: 'url-loader',
         query: { mimetype: 'image/png' },
       },
-    ]
+    ],
   },
   resolve: {
     extensions: ['', '.js', '.jsx'],
@@ -41,4 +41,4 @@ module.exports = {
     emitWarning: true,
     fix: true,
   },
-};
+}

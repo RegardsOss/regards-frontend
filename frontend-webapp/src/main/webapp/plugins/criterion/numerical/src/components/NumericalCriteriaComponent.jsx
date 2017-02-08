@@ -2,10 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
-import { connect } from 'react-redux'
 import TextField from 'material-ui/TextField'
-import { Card, CardText } from 'material-ui/Card'
 import Paper from 'material-ui/Paper'
 import NumericalComparatorComponent from './NumericalComparatorComponent'
 
@@ -85,20 +82,24 @@ export class NumericalCriteriaComponent extends React.Component {
     const attributeLabel = this.props.attributes && this.props.attributes.searchField && this.props.attributes.searchField.name
 
     return (
-      <div style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'baseline',
-      }}>
-        <Paper style={{
+      <div
+        style={{
           display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          padding: '0px 16px',
-          maxWidth: 400,
-        }}>
+          justifyContent: 'center',
+          alignItems: 'baseline',
+        }}
+      >
+        <Paper
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            padding: '0px 16px',
+            maxWidth: 400,
+          }}
+        >
           <span>{attributeLabel}</span>
-          <NumericalComparatorComponent onChange={this.handleChangeComparator}/>
+          <NumericalComparatorComponent onChange={this.handleChangeComparator} />
           <TextField
             id="search"
             type="number"
