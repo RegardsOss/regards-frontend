@@ -33,7 +33,7 @@ module.exports = {
       // The name of the global variable which the library's
       // require function has been assigned to. This must match the
       // output.library option above
-      name: '[name]'
+      name: '[name]',
     }),
     // Remove the build folder before building
     new CleanWebpackPlugin(['build'], {

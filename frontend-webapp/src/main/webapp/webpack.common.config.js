@@ -32,7 +32,8 @@ module.exports = {
     ],
     modulesDirectories: ['web_modules', 'node_modules'],
   },
-  module: {/*
+  module: {
+    /*
     preLoaders: [{
       test: /\.jsx?$/,
       loader: 'eslint-loader',
@@ -43,7 +44,7 @@ module.exports = {
       {
         test: /\.jsx?$/,
         exclude: [/node_modules/, /json/],
-        loader: 'babel'
+        loader: 'babel',
       },
       {
         test: /\.css$/,
@@ -85,6 +86,8 @@ module.exports = {
     ],
   },
   plugins: [
+    // Allow to define React as a global variable for JSX.
+    new webpack.ProvidePlugin({ React: 'react' }),
     // Create a single css file for the whole application instead of setting css inline in the javascript
     new ExtractTextPlugin('/css/styles.css', { allChunks: true }),
     new webpack.DefinePlugin({
