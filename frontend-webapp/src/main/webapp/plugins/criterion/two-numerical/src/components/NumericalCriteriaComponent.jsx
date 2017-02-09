@@ -2,6 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { keys } from 'lodash'
+import { FormattedMessage } from 'react-intl'
 import TextField from 'material-ui/TextField'
 import NumericalComparatorComponent from './NumericalComparatorComponent'
 import EnumNumericalComparator from '../model/EnumNumericalComparator'
@@ -141,7 +142,7 @@ export class NumericalCriteriaComponent extends React.Component {
         id="search"
         key="field"
         type="number"
-        floatingLabelText={'Nombre...'} // TODO
+        floatingLabelText={<FormattedMessage id="criterion.search.field.label" />}
         value={this.format(this.state.value)}
         onChange={this.handleChangeValue}
         style={{

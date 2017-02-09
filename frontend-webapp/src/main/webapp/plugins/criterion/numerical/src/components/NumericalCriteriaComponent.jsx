@@ -2,8 +2,9 @@
  * LICENSE_PLACEHOLDER
  **/
 import React from 'react'
-import TextField from 'material-ui/TextField'
+import { FormattedMessage } from 'react-intl'
 import Paper from 'material-ui/Paper'
+import TextField from 'material-ui/TextField'
 import NumericalComparatorComponent from './NumericalComparatorComponent'
 
 /**
@@ -105,7 +106,7 @@ export class NumericalCriteriaComponent extends React.Component {
           <TextField
             id="search"
             type="number"
-            floatingLabelText={'Nombre...'} // TODO
+            floatingLabelText={<FormattedMessage id="criterion.search.field.label" />}
             value={this.format(this.state.value)}
             onChange={this.handleChangeValue}
             style={{

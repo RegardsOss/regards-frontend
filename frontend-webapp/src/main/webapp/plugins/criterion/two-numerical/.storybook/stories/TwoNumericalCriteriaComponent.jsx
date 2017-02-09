@@ -4,11 +4,13 @@
 import { storiesOf, action } from '@kadira/storybook'
 import { withKnobs, object } from '@kadira/storybook-addon-knobs'
 import { muiTheme } from 'storybook-addon-material-ui'
+import reactIntl from '../decorators/reactIntl'
 import TwoNumericalCriteriaComponent from '../../src/components/TwoNumericalCriteriaComponent'
 
 storiesOf('TwoNumericalCriteriaComponent', module)
   .addDecorator(withKnobs)
   .addDecorator(muiTheme())
+  .addDecorator(reactIntl)
   .add('with two different attributes', () => {
     const attributes = object('Attributes', {
       firstAttribute: {

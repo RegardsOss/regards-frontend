@@ -7,7 +7,7 @@
  * @type {*}
  */
 const messages = {
-  'criterion.search.field.label': 'Champ de recherche ...',
+  'criterion.search.field.label': 'Nombre ...',
 }
 
 export default messages
