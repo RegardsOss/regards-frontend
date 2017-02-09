@@ -148,11 +148,9 @@ class StorageMonitoringComponent extends Component {
           <div className="row">
             {
               // map all plugins to cards if component is expanded (hide all otherwise)
-              (!expanded) || plugins.map((pluginModel) => {
-                return (
-                  <StoragePluginCapacityComponent key={pluginModel.id} scale={currentScale} {...pluginModel} />
-                )
-              })
+              (!expanded) || plugins.map(pluginModel => (
+                <StoragePluginCapacityComponent key={pluginModel.id} scale={currentScale} {...pluginModel} />
+                ))
             }
           </div>
         </LoadableContentDisplayDecorator>

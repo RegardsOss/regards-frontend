@@ -23,6 +23,12 @@
       "name": "Autre modele de collection",
       "descirption": "Description du deuxieme modele de jeux de données",
       "type": "COLLECTION"
+    },
+    {
+      "id": 5,
+      "name": "Troisieme Modele",
+      "descirption": "Description du troisieme modele de jeux de données",
+      "type": "OBJECT"
     }
   ],
   "models-attributes": [
@@ -31,7 +37,7 @@
       "pos":0,
       "mode": "GIVEN",
       "model": {
-        "id": 1,
+        "id": 2,
         "name": "Deuxieme Modele",
         "description": "Description du deuxieme modele de jeux de données",
         "type": "DATASET"
@@ -61,7 +67,7 @@
       "pos":0,
       "mode": "GIVEN",
       "model": {
-        "id": 1,
+        "id": 2,
         "name": "Deuxieme Modele",
         "description": "Description du deuxieme modele de jeux de données",
         "type": "DATASET"

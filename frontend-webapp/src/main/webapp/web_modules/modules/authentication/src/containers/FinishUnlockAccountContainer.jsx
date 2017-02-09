@@ -2,7 +2,8 @@
  * LICENSE_PLACEHOLDER
  */
 import { connect } from '@regardsoss/redux'
-import FinishUnlockAccountComponent from '../components/FinishUnlockAccountComponent'
+import { FormattedMessage } from 'react-intl'
+import { LoadingPaneComponent } from '@regardsoss/components'
 import UnlockAccountActions from '../model/UnlockAccountActions'
 import UnlockAccountSelectors from '../model/UnlockAccountSelectors'
 
@@ -30,13 +31,16 @@ export class FinishUnlockAccountContainer extends React.Component {
 
   onComponentDidMount() {
     // start fetching account unlock finish request after showing loading screen
-    const {mail, token, fetchRequestAction} = this.props
+    const { mail, token, fetchRequestAction } = this.props
     fetchRequestAction(mail, token)
   }
 
   render() {
     return (
-      <FinishUnlockAccountComponent />
+      <LoadingPaneComponent
+        title={<FormattedMessage id="finish.unlock.account.title" />}
+        subtitle={<FormattedMessage id="finish.unlock.account.message" />}
+      />
     )
   }
 }
