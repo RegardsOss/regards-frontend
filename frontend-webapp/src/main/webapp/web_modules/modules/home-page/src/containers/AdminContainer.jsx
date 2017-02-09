@@ -11,17 +11,21 @@ import { formValueSelector } from 'redux-form'
  */
 class AdminContainer extends React.Component {
 
+  static propTypes = {
+    getHtmlPath: React.PropTypes.string,
+  }
+
   static contextTypes= {
     ...themeContextType,
     intl: intlShape,
   }
 
   state = {
-    test : false
+    test: false,
   }
 
   handleTest() {
-    this.setState({test: true, filePath: this.props.getHtmlPath})
+    this.setState({ test: true, filePath: this.props.getHtmlPath })
   }
 
   render() {
@@ -33,17 +37,17 @@ class AdminContainer extends React.Component {
           fullWidth
           component={RenderTextField}
           type="text"
-          label={<FormattedMessage id="homepage.admin.url"/>}
+          label={<FormattedMessage id="homepage.admin.url" />}
         />
         <RaisedButton
-          label={<FormattedMessage id="homepage.admin.test"/>}
-          primary={true}
-          onTouchTap={this.handleTest.bind(this)}
+          label={<FormattedMessage id="homepage.admin.test" />}
+          primary
+          onTouchTap={() => this.handleTest()}
         />
         {this.state.test ? <iframe
           style={moduleTheme.adminFrame}
           src={this.state.filePath}
-        ></iframe> : ""}
+        /> : ''}
       </div>
     )
   }
@@ -52,7 +56,7 @@ class AdminContainer extends React.Component {
 // TODO : get form name for parent component
 const selector = formValueSelector('edit-module-form')
 
-const mapStateToProps = (state) => ({
-  getHtmlPath: selector(state, 'conf.htmlPath')
+const mapStateToProps = state => ({
+  getHtmlPath: selector(state, 'conf.htmlPath'),
 })
 export default connect(mapStateToProps)(AdminContainer)
