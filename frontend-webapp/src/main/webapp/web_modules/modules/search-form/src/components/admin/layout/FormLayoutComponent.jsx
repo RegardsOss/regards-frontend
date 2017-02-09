@@ -1,11 +1,11 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
-import { CardActionsComponent } from '@regardsoss/components'
-import { FormattedMessage } from 'react-intl'
-import { Field, TextAreaField } from '@regardsoss/form-utils'
-import { LayoutConfigurationComponent } from '@regardsoss/layout'
+import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card'
+import {CardActionsComponent} from '@regardsoss/components'
+import {FormattedMessage} from 'react-intl'
+import {Field, TextAreaField} from '@regardsoss/form-utils'
+import {LayoutConfigurationComponent} from '@regardsoss/layout'
 import DefaultFormLayout from './DefaultFormLayout'
 
 /**
@@ -20,64 +20,55 @@ class FormLayoutComponent extends React.Component {
   }
 
   componentWillMount() {
-    if (!this.props.defaultLayout || this.props.defaultLayout.length === 0) {
-      this.props.changeField('conf.layout', JSON.stringify(DefaultFormLayout, null, 4))
-    }
+    const initialLayout = this.getInitialLayout(this.props.defaultLayout)
+    this.setState({
+      currentLayout: initialLayout
+    })
+    this.props.changeField('conf.layout', JSON.stringify(initialLayout, null, 4))
   }
 
-  validateLayout = (layout) => {
-    if (layout) {
-      try {
-        const layoutObj = JSON.parse(layout)
-        if (!layoutObj.id || !layoutObj.type) {
-          return 'layout.invalid.error'
-        }
-        return undefined
-      } catch (e) {
-        console.warn(e)
-        return 'layout.invalid.error'
-      }
-    } else {
-      return 'layout.invalid.error'
-    }
+  getInitialLayout = (layout) => {
+    const initialLayout = layout ? JSON.parse(layout) : DefaultFormLayout
+    return initialLayout.id && initialLayout.type ? initialLayout : DefaultFormLayout
+  }
+
+  changeLayout = (layout) => {
+    this.props.changeField('conf.layout', JSON.stringify(layout, null, 4))
+    this.setState({
+      currentLayout: layout,
+    })
   }
 
   resetLayout = () => {
-    if (!this.props.defaultLayout || this.props.defaultLayout.length === 0) {
-      this.props.changeField('conf.layout', JSON.stringify(DefaultFormLayout, null, 4))
-    } else {
-      this.props.changeField('conf.layout', this.props.defaultLayout)
-    }
+    const initialLayout = this.getInitialLayout(this.props.defaultLayout)
+    this.props.changeField('conf.layout', JSON.stringify(initialLayout), null, 4)
+    this.setState({
+      currentLayout: initialLayout,
+    })
   }
 
   render() {
-    try {
-      const layoutObj = JSON.parse(this.props.defaultLayout)
-      return (
-        <Card>
-          <CardTitle
-            subtitle={<FormattedMessage id="form.layout.tab.title"/>}
+    return (
+      <Card>
+        <CardTitle
+          subtitle={<FormattedMessage id="form.layout.tab.title"/>}
+        />
+        <CardText style={{width: '100%'}}>
+          <LayoutConfigurationComponent
+            layout={this.state.currentLayout}
+            onChange={this.changeLayout}
           />
-          <CardText style={{width: '100%'}}>
-            <LayoutConfigurationComponent
-              layout={layoutObj}
-            />
-          </CardText>
-          <CardActions>
-            <CardActionsComponent
-              mainButtonLabel={<FormattedMessage id="form.layout.tab.reset"/>}
-              mainButtonType="reset"
-              mainButtonTouchTap={this.resetLayout}
-            />
-          </CardActions>
-        </Card>
-      )
-    } catch (error) {
-      console.log("Error layout",error)
-      return null
-    }
+        </CardText>
+        <CardActions>
+          <CardActionsComponent
+            mainButtonLabel={<FormattedMessage id="form.layout.tab.reset"/>}
+            mainButtonType="reset"
+            mainButtonTouchTap={this.resetLayout}
+          />
+        </CardActions>
+      </Card>
+    )
   }
-
 }
 
 export default FormLayoutComponent

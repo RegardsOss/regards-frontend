@@ -120,7 +120,7 @@
       "isDefault": true,
       "conf": {
         "resultType": "dataobjects",
-        "layout": "{\n    \"id\": \"main\",\n    \"type\": \"FormMainContainer\",\n    \"classes\": [],\n    \"styles\": {},\n    \"containers\": []\n}",
+        "layout": "{\n    \"id\": \"main\",\n    \"type\": \"FormMainContainer\",\n    \"classes\": [\"plop\",\"plip\"],\n    \"styles\": {},\n    \"containers\": []\n}",
         "datasets": {
           "type": "selectedDatasets",
           "selectedDatasets": [

@@ -3,7 +3,9 @@
  **/
 import {Layout} from '@regardsoss/model'
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import Dialog from 'material-ui/Dialog';
 import Container from './Container'
+import ContainerConfigurationComponent from './ContainerConfigurationComponent'
 import ContainerHelper from '../ContainerHelper'
 
 /**
@@ -16,40 +18,70 @@ class LayoutConfigurationComponent extends React.Component {
   static propTypes = {
     layout: Layout,
     project: React.PropTypes.string,
+    onChange: React.PropTypes.func,
   }
 
   constructor(props) {
     super(props)
     this.state = {
-      editingLayout: props.layout
+      editorOpened: false,
+      containerToEdit: null,
+      actionType: ''
     }
   }
 
   containerSelection = (action, container) => {
-    console.log("Click on container : ", action, container)
     switch (action) {
       case 'DELETE':
-        console.log("Deleting",container.id, this.state.editingLayout)
-        const newLayout = ContainerHelper.removeContainerFromLayout(container.id, this.state.editingLayout)
-        console.log("New layout",newLayout)
-        this.setState({
-          editingLayout: newLayout
-        })
+        const newLayout = ContainerHelper.removeContainerFromLayout(container.id, this.props.layout)
+        this.props.onChange(newLayout)
+        break
+      case 'EDIT':
+      case 'ADD':
+        this.handleOpen(action, container)
         break
       default:
         console.error("Undefined action")
     }
   }
 
+  handleOpen = (action, container) => {
+    this.setState({
+      editorOpened: true,
+      containerToEdit: action === 'EDIT' ? container : null,
+      parentContainer: action === 'ADD' ? container: null,
+      actionType: action,
+    })
+  }
+
+  handleClose = () => {
+    this.setState({editorOpened: false});
+  }
+
+  onUpdate = (container) => {
+    const newLayout = ContainerHelper.replaceContainerInLayout(container, this.props.layout)
+    this.props.onChange(newLayout)
+    this.handleClose()
+  }
+
+  onCreate = (container) => {
+    const newLayout = ContainerHelper.addContainerInLayout(this.state.parentContainer, container, this.props.layout)
+    this.props.onChange(newLayout)
+    this.handleClose()
+  }
+
 
   render() {
 
+    const dialogTitle = 'Container configuration'
+
     return (
+      <div>
       <Card>
         <CardText>
           <Container
             appName="admin"
-            container={this.state.editingLayout}
+            container={this.props.layout}
             project={this.props.project}
             onContainerClick={this.containerSelection}
             configurationMode
@@ -57,6 +89,20 @@ class LayoutConfigurationComponent extends React.Component {
           />
         </CardText>
       </Card>
+        <Dialog
+          title={dialogTitle}
+          modal={false}
+          open={this.state.editorOpened}
+          onRequestClose={this.handleClose}
+        >
+          <ContainerConfigurationComponent
+            key={this.state.containerToEdit ? this.state.containerToEdit.id : 'create'}
+            container={this.state.containerToEdit}
+            onCancel={this.handleClose}
+            onSubmit={this.state.containerToEdit ? this.onUpdate : this.onCreate}
+          />
+        </Dialog>
+      </div>
     )
 
   }

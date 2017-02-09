@@ -102,6 +102,11 @@ class ModuleFormContainer extends React.Component {
       module = this.props.module
     }
 
+    let availablecontainers = []
+    if (this.props.layout && this.props.layout.layout) {
+      availablecontainers = ContainerHelper.getAvailableContainersInLayout(this.props.layout.layout)
+    }
+
     return (
       <ModuleFormComponent
         applicationId={this.props.params.applicationId}
@@ -109,7 +114,7 @@ class ModuleFormContainer extends React.Component {
         onBack={this.handleBack}
         module={module}
         duplication={this.props.params.duplicate_module_id !== undefined}
-        containers={ContainerHelper.getAvailableContainersInLayout(this.props.layout)}
+        containers={availablecontainers}
       />
     )
   }
