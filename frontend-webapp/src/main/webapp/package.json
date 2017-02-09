@@ -152,6 +152,7 @@
     "nodemon": "^1.11.0",
     "npm-run-all": "^4.0.1",
     "nyc": "~10.1.2",
+    "parse-body": "^1.0.3",
     "postcss-loader": "~1.2.2",
     "react-addons-test-utils": "~15.4.2",
     "react-hot-loader": "~3.0.0-beta.3",
