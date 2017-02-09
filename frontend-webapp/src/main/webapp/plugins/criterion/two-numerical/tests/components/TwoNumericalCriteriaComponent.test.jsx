@@ -19,12 +19,12 @@ describe('[PLUGIN TWO NUMERICAL CRITERIA] Testing the two numerical criteria com
   it('should render the simple component when two different attributes', () => {
     const props = {
       attributes: {
-        firstAttribute: {
+        firstField: {
           name: 'firstAttribute',
           description: 'First attribute to search',
           type: 'numerical',
         },
-        secondAttribute: {
+        secondField: {
           name: 'secondAttribute',
           description: 'Second attribute to search',
           type: 'numerical',
@@ -42,7 +42,7 @@ describe('[PLUGIN TWO NUMERICAL CRITERIA] Testing the two numerical criteria com
     const props = {
       attributes: {
         firstAttribute: {
-          name: 'firstAttribute',
+          name: 'attribute',
           description: 'First attribute to search',
           type: 'numerical',
         },

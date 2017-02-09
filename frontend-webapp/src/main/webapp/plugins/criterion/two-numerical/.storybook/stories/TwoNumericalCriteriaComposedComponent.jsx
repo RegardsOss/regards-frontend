@@ -13,8 +13,8 @@ storiesOf('TwoNumericalCriteriaComposedComponent', module)
   .addDecorator(reactIntl)
   .add('Default', () => {
     const attributes = object('Attributes', {
-      firstAttribute: {
-        name: 'firstAttribute',
+      firstField: {
+        name: 'attribute',
         description: 'First and unique attribute to search',
         type: 'numerical',
       },

@@ -3,7 +3,6 @@
  **/
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import Paper from 'material-ui/Paper'
 import TextField from 'material-ui/TextField'
 import NumericalComparatorComponent from './NumericalComparatorComponent'
 
@@ -88,33 +87,30 @@ export class NumericalCriteriaComponent extends React.Component {
       <div
         style={{
           display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'baseline',
+          alignItems: 'center',
+          flexWrap: 'wrap',
         }}
       >
-        <Paper
+        <span
           style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            padding: '0px 16px',
-            maxWidth: 400,
+            margin: '0px 10px',
           }}
         >
-          <span>{attributeLabel}</span>
-          <NumericalComparatorComponent onChange={this.handleChangeComparator} />
-          <TextField
-            id="search"
-            type="number"
-            floatingLabelText={<FormattedMessage id="criterion.search.field.label" />}
-            value={this.format(this.state.value)}
-            onChange={this.handleChangeValue}
-            style={{
-              top: -10,
-              width: '33%',
-            }}
-          />
-        </Paper>
+          {attributeLabel}
+        </span>
+        <NumericalComparatorComponent onChange={this.handleChangeComparator} />
+        <TextField
+          id="search"
+          type="number"
+          floatingLabelText={<FormattedMessage id="criterion.search.field.label" />}
+          value={this.format(this.state.value)}
+          onChange={this.handleChangeValue}
+          style={{
+            top: -13,
+            maxWidth: 80,
+            margin: '0px 10px',
+          }}
+        />
       </div>
     )
   }

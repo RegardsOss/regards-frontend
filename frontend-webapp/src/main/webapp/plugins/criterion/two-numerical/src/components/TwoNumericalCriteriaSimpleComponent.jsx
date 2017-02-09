@@ -3,7 +3,6 @@
  **/
 import { chain, keys, uniqueId } from 'lodash'
 import { FormattedMessage } from 'react-intl'
-import Paper from 'material-ui/Paper'
 import NumericalCriteriaComponent from './NumericalCriteriaComponent'
 
 /**
@@ -41,22 +40,15 @@ export class TwoNumericalCriteriaSimpleComponent extends React.Component {
     const { attributes, pluginInstanceId, onChange } = this.props
 
     return (
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'baseline',
-        }}
-      >
-        <Paper
+      <div style={{ display: 'flex' }}>
+        <div
           style={{
             display: 'flex',
-            justifyContent: 'space-between',
             alignItems: 'center',
+            justifyContent: 'center',
             flexWrap: 'wrap',
           }}
         >
-
           {chain(attributes)
             .map((attribute, attributeName) =>
               <NumericalCriteriaComponent // we are mapping on an object this is why we disable the lint next line
@@ -66,13 +58,14 @@ export class TwoNumericalCriteriaSimpleComponent extends React.Component {
                 onChange={onChange}
               />)
             .zip(new Array(keys(attributes).length).fill(<span key={uniqueId('react_generated_uuid_')}><FormattedMessage
-              id="criterion.aggregator.text"/></span>))
+              id="criterion.aggregator.text"
+            /></span>))
             .flatten()
             .initial()
             .value()
           }
 
-        </Paper>
+        </div>
       </div>
     )
   }

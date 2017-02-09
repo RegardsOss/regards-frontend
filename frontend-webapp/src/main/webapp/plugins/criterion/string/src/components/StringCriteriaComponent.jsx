@@ -4,7 +4,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import TextField from 'material-ui/TextField'
-import { Card, CardText } from 'material-ui/Card'
 import { connect } from 'react-redux'
 
 export class StringCriteriaComponent extends React.Component {
@@ -65,37 +64,30 @@ export class StringCriteriaComponent extends React.Component {
       <div
         style={{
           display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'baseline',
+          alignItems: 'center',
+          flexWrap: 'wrap',
         }}
       >
-        <Card>
-          <CardText
-            style={{
-              display: 'flex',
-              alignItems: 'baseline',
-              paddingTop: 0,
-              paddingBottom: 2,
-              minWidth: 400,
-            }}
-          >
-            <span
-              style={{
-                marginRight: 20,
-              }}
-            >
-              {attributeLabel}
-            </span>
-            <TextField
-              id="search"
-              floatingLabelText={<FormattedMessage id="criterion.search.field.label" />}
-              value={this.state.value}
-              onChange={(event, value) => {
-                this.changeValue(value)
-              }}
-            />
-          </CardText>
-        </Card>
+        <span
+          style={{
+            margin: '0px 10px',
+          }}
+        >
+          {attributeLabel}
+        </span>
+        <TextField
+          id="search"
+          floatingLabelText={<FormattedMessage id="criterion.search.field.label" />}
+          value={this.state.value}
+          onChange={(event, value) => {
+            this.changeValue(value)
+          }}
+          style={{
+            top: -13,
+            margin: '0px 10px',
+            maxWidth: 165,
+          }}
+        />
       </div>
     )
   }

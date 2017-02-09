@@ -13,12 +13,12 @@ storiesOf('TwoNumericalCriteriaComponent', module)
   .addDecorator(reactIntl)
   .add('with two different attributes', () => {
     const attributes = object('Attributes', {
-      firstAttribute: {
+      firstField: {
         name: 'firstAttribute',
         description: 'First attribute to search',
         type: 'numerical',
       },
-      secondAttribute: {
+      secondField: {
         name: 'secondAttribute',
         description: 'Second attribute to search',
         type: 'numerical',
@@ -28,11 +28,16 @@ storiesOf('TwoNumericalCriteriaComponent', module)
       <TwoNumericalCriteriaComponent attributes={attributes} onChange={action('onChange')} pluginInstanceId={42} />
     )
   })
-  .add('with a single attribute', () => {
+  .add('with the same attribute', () => {
     const attributes = object('Attributes', {
-      firstAttribute: {
-        name: 'firstAttribute',
-        description: 'First and unique attribute to search',
+      firstField: {
+        name: 'attribute',
+        description: 'First attribute to search',
+        type: 'numerical',
+      },
+      secondField: {
+        name: 'attribute',
+        description: 'Second attribute to search',
         type: 'numerical',
       },
     })

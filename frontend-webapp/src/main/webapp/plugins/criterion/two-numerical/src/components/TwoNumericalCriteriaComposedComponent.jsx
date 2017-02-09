@@ -2,7 +2,6 @@
  * LICENSE_PLACEHOLDER
  **/
 import { values } from 'lodash'
-import Paper from 'material-ui/Paper'
 import NumericalCriteriaComponent from './NumericalCriteriaComponent'
 
 /**
@@ -41,22 +40,15 @@ export class TwoNumericalCriteriaComposedComponent extends React.Component {
     const attribute = values(attributes)[0]
 
     return (
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'baseline',
-        }}
-      >
-        <Paper
+      <div style={{ display: 'flex' }}>
+        <div
           style={{
             display: 'flex',
-            justifyContent: 'space-between',
             alignItems: 'center',
+            justifyContent: 'center',
             flexWrap: 'wrap',
           }}
         >
-
           <NumericalCriteriaComponent
             attribute={attribute}
             pluginInstanceId={pluginInstanceId}
@@ -65,7 +57,7 @@ export class TwoNumericalCriteriaComposedComponent extends React.Component {
             hideAttributeName
             reversed
           />
-          <span>{attribute.name}</span>
+          <span style={{ margin: '0px 10px' }}>{attribute.name}</span>
           <NumericalCriteriaComponent
             attribute={attribute}
             pluginInstanceId={pluginInstanceId}
@@ -73,8 +65,7 @@ export class TwoNumericalCriteriaComposedComponent extends React.Component {
             comparator="LE"
             hideAttributeName
           />
-
-        </Paper>
+        </div>
       </div>
     )
   }

@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { mapValues, keys } from 'lodash'
+import { mapValues, chain } from 'lodash'
 import TwoNumericalCriteriaSimpleComponent from './TwoNumericalCriteriaSimpleComponent'
 import TwoNumericalCriteriaComposedComponent from './TwoNumericalCriteriaComposedComponent'
 
@@ -43,7 +43,7 @@ export class TwoNumericalCriteriaComponent extends React.Component {
     super(props)
     this.state = {
       // Switch to composed mode if only one attribute passed
-      isComposed: keys(props.attributes).length === 1,
+      isComposed: chain(props.attributes).map('name').uniq().value().length === 1,
       criteria: mapValues(props.attributes, el => ({
         value: undefined,
         comparator: 'EQ',

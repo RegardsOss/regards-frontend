@@ -129,7 +129,7 @@ export class NumericalCriteriaComponent extends React.Component {
 
     // Store the content in an array because we need to maybe reverse to order
     const content = []
-    if (!hideAttributeName) content.push(<span key="attributeName">{attribute.name}</span>)
+    if (!hideAttributeName) content.push(<span key="attributeName" style={{ margin: '0px 10px' }}>{attribute.name}</span>)
     content.push(
       <NumericalComparatorComponent
         key="comparator"
@@ -146,8 +146,9 @@ export class NumericalCriteriaComponent extends React.Component {
         value={this.format(this.state.value)}
         onChange={this.handleChangeValue}
         style={{
-          top: -10,
-          width: '33%',
+          top: -13,
+          maxWidth: 80,
+          margin: '0px 10px',
         }}
       />,
     )
@@ -158,20 +159,12 @@ export class NumericalCriteriaComponent extends React.Component {
       <div
         style={{
           display: 'flex',
+          alignItems: 'center',
           justifyContent: 'center',
-          alignItems: 'baseline',
+          flexWrap: 'wrap',
         }}
       >
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-around',
-            alignItems: 'center',
-            padding: '0px 16px',
-          }}
-        >
-          {content}
-        </div>
+        {content}
       </div>
     )
   }
