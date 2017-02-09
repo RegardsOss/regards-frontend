@@ -28,22 +28,8 @@ class FormComponent extends React.Component {
     ...themeContextType,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      expanded: true,
-    }
-  }
-
   onHandleSearch = () => {
     this.props.handleSearch()
-    // this.handleExpandChange()
-  }
-
-  handleExpandChange = () => {
-    this.setState({
-      expanded: !this.state.expanded,
-    })
   }
 
   keypress = (e) => {
@@ -59,14 +45,8 @@ class FormComponent extends React.Component {
     }
     const styles = this.context.moduleTheme
     return (
-      <Card expanded={this.state.expanded} onExpandChange={this.handleExpandChange}>
-        <CardHeader
-          title={title}
-          actAsExpander
-          showExpandableButton
-          style={styles.user.formHeader}
-        />
-        <CardText expandable onKeyPress={this.keypress}>
+      <Card>
+        <CardText>
           <ApplicationLayout
             appName="user"
             layout={this.props.layout}
