@@ -1,13 +1,13 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import {map,join,split} from 'lodash'
-import {reduxForm} from 'redux-form'
-import {FormattedMessage} from 'react-intl'
+import { map, join, split } from 'lodash'
+import { reduxForm } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
 import MenuItem from 'material-ui/MenuItem'
 import { CardActionsComponent } from '@regardsoss/components'
-import {ReduxConnectedForm} from '@regardsoss/redux'
-import {RenderTextField, RenderSelectField, Field, RenderCheckbox, ErrorTypes} from '@regardsoss/form-utils'
+import { ReduxConnectedForm } from '@regardsoss/redux'
+import { RenderTextField, RenderSelectField, Field, RenderCheckbox } from '@regardsoss/form-utils'
 import ContainerShape from '../model/ContainerShape'
 import containerTypes from '../default/containerTypes'
 
@@ -32,7 +32,6 @@ class ContainerConfigurationComponent extends React.Component {
   }
 
   handleInitialize = () => {
-    console.log("plop",this.props.container)
     this.props.initialize({ ...this.props.container })
   }
 
@@ -54,7 +53,7 @@ class ContainerConfigurationComponent extends React.Component {
             component={RenderTextField}
             type="text"
             disabled={this.props.container !== null}
-            label={<FormattedMessage id="container.form.id"/>}
+            label={<FormattedMessage id="container.form.id" />}
           />
           <Field
             name="type"
@@ -62,7 +61,7 @@ class ContainerConfigurationComponent extends React.Component {
             component={RenderSelectField}
             type="text"
             onSelect={this.selectContainerType}
-            label={<FormattedMessage id="container.form.type"/>}
+            label={<FormattedMessage id="container.form.type" />}
           >
             {map(containerTypes, (type, typeName) => (
               <MenuItem
@@ -74,12 +73,12 @@ class ContainerConfigurationComponent extends React.Component {
           </Field>
           <Field
             name="classes"
-            format={(values, name) => join(values,',')}
-            parse={(value, name) => split(value,',')}
+            format={(values, name) => join(values, ',')}
+            parse={(value, name) => split(value, ',')}
             fullWidth
             component={RenderTextField}
             type="text"
-            label={<FormattedMessage id="container.form.classes"/>}
+            label={<FormattedMessage id="container.form.classes" />}
           />
           <Field
             name="styles"
@@ -88,12 +87,12 @@ class ContainerConfigurationComponent extends React.Component {
             fullWidth
             component={RenderTextField}
             type="text"
-            label={<FormattedMessage id="container.form.styles"/>}
+            label={<FormattedMessage id="container.form.styles" />}
           />
           <Field
             name="dynamicContent"
             component={RenderCheckbox}
-            label={<FormattedMessage id="container.form.dynamicContent"/>}
+            label={<FormattedMessage id="container.form.dynamicContent" />}
           />
           <CardActionsComponent
             mainButtonLabel={<FormattedMessage
@@ -101,7 +100,7 @@ class ContainerConfigurationComponent extends React.Component {
             />}
             mainButtonType="submit"
             isMainButtonDisabled={pristine || submitting}
-            secondaryButtonLabel={<FormattedMessage id="container.form.cancel.button"/>}
+            secondaryButtonLabel={<FormattedMessage id="container.form.cancel.button" />}
             secondaryButtonTouchTap={this.props.onCancel}
           />
         </div>
@@ -113,7 +112,7 @@ class ContainerConfigurationComponent extends React.Component {
 
 function validate(values) {
   const errors = {}
-  /*if (values.name === '') {
+  /* if (values.name === '') {
    errors.name = ErrorTypes.REQUIRED
    }
    if (values.description === '') {
@@ -124,7 +123,7 @@ function validate(values) {
 
 const UnconnectedContainerConfigurationComponent = ContainerConfigurationComponent
 export {
-  ContainerConfigurationComponent,
+  UnconnectedContainerConfigurationComponent,
 }
 
 export default reduxForm({

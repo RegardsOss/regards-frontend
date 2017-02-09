@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { merge, union, forEach, find, remove, concat,cloneDeep } from 'lodash'
+import { merge, union, forEach, find, concat, cloneDeep } from 'lodash'
 import containerTypes from './default/containerTypes'
 
 /**
@@ -98,15 +98,15 @@ class ContainerHelper {
    * @param containers
    * @returns {*}
    */
-  static removeContainerFromContainers(containerName, containers){
-    let newContainers = concat([], containers)
-    let i =0
-    for (i=0;i<containers.length;i++){
-      if (containers[i].id === containerName){
+  static removeContainerFromContainers(containerName, containers) {
+    const newContainers = concat([], containers)
+    let i = 0
+    for (i = 0; i < containers.length; i += 1) {
+      if (containers[i].id === containerName) {
         newContainers.splice(i, 1)
         break
       } else if (containers[i].containers) {
-        newContainers[i].containers = this.removeContainerFromContainers(containerName,newContainers[i].containers)
+        newContainers[i].containers = this.removeContainerFromContainers(containerName, newContainers[i].containers)
       }
     }
     return newContainers
@@ -120,9 +120,9 @@ class ContainerHelper {
    */
   static replaceContainerInLayout(containerToReplace, layout) {
     let newLayout = cloneDeep(layout)
-    if (newLayout.id === containerToReplace.id){
+    if (newLayout.id === containerToReplace.id) {
       newLayout = containerToReplace
-    } else if (newLayout.containers){
+    } else if (newLayout.containers) {
       newLayout.containers = this.replaceContainerInContainers(containerToReplace, newLayout.containers)
     }
     return newLayout
@@ -134,10 +134,10 @@ class ContainerHelper {
    * @param containersList
    * @returns {*}
    */
-  static replaceContainerInContainers(containerToReplace, containersList){
-    let newContainers = concat([], containersList)
-    forEach(containersList, (container,idx) => {
-      if (container.id === containerToReplace.id){
+  static replaceContainerInContainers(containerToReplace, containersList) {
+    const newContainers = concat([], containersList)
+    forEach(containersList, (container, idx) => {
+      if (container.id === containerToReplace.id) {
         newContainers[idx] = containerToReplace
       } else if (container.containers) {
         newContainers[idx].containers = this.replaceContainerInContainers(containerToReplace, container.containers)
@@ -153,9 +153,9 @@ class ContainerHelper {
    * @param layout
    * @returns {*}
    */
-  static addContainerInLayout(parentContainer, containerToAdd, layout){
-    let newLayout = cloneDeep(layout)
-    if (newLayout.id === parentContainer.id){
+  static addContainerInLayout(parentContainer, containerToAdd, layout) {
+    const newLayout = cloneDeep(layout)
+    if (newLayout.id === parentContainer.id) {
       newLayout.containers.push(containerToAdd)
     } else if (newLayout.containers) {
       this.addContainerInContainers(parentContainer, containerToAdd, newLayout.containers)
@@ -170,13 +170,14 @@ class ContainerHelper {
    * @param containersList
    * @returns {*}
    */
-  static addContainerInContainers (parentContainer, containerToAdd, containersList){
-    let newContainers = concat([], containersList)
-    forEach(containersList, (container,idx) => {
-      if (container.id === parentContainer.id){
+  static addContainerInContainers(parentContainer, containerToAdd, containersList) {
+    const newContainers = concat([], containersList)
+    forEach(containersList, (container, idx) => {
+      if (container.id === parentContainer.id) {
         if (container.containers) {
           container.containers.push(containerToAdd)
         } else {
+          // eslint-disable-next-line no-param-reassign
           container.containers = [containerToAdd]
         }
       } else if (container.containers) {

@@ -6,9 +6,9 @@ import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
 import { CardActionsComponent } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
-import { Field, TextAreaField, ErrorTypes } from '@regardsoss/form-utils'
 import { Layout } from '@regardsoss/model'
 import { ReduxConnectedForm } from '@regardsoss/redux'
+import { LayoutConfigurationComponent, DefaultLayout } from '@regardsoss/layout'
 
 /**
  * React component to display and configure a given layout
@@ -19,7 +19,9 @@ class ApplicationLayoutComponent extends React.Component {
   static propTypes = {
     layout: Layout,
     onSubmit: React.PropTypes.func,
+    onCancel: React.PropTypes.func,
     // from reduxForm
+    change: React.PropTypes.func,
     submitting: React.PropTypes.bool,
     pristine: React.PropTypes.bool,
     handleSubmit: React.PropTypes.func.isRequired,
@@ -30,21 +32,33 @@ class ApplicationLayoutComponent extends React.Component {
     ...i18nContextType,
   }
 
-  componentDidMount() {
-    this.handleInitialize()
+  constructor(props) {
+    super(props)
+    this.state = {
+      currentLayout: null,
+    }
   }
 
-  handleInitialize = () => {
-    try {
-      this.props.initialize({
-        layout: JSON.stringify(this.props.layout, null, 4),
-      })
-    } catch (e) {
-      console.error('Invalid JSON format', e)
-      this.props.initialize({
-        layout: this.props.layout,
-      })
-    }
+  componentWillMount() {
+    const initialLayout = this.getInitialLayout(this.props.layout)
+    this.setState({
+      currentLayout: initialLayout,
+    })
+    this.props.initialize({
+      layout: initialLayout,
+    })
+  }
+
+  getInitialLayout = (layout) => {
+    const initialLayout = layout || DefaultLayout
+    return initialLayout.id && initialLayout.type ? initialLayout : DefaultLayout
+  }
+
+  changeLayout = (layout) => {
+    this.props.change('layout', layout)
+    this.setState({
+      currentLayout: layout,
+    })
   }
 
   render() {
@@ -60,9 +74,9 @@ class ApplicationLayoutComponent extends React.Component {
             subtitle={<FormattedMessage id="layout.subtitle" />}
           />
           <CardText style={{ width: '100%' }} >
-            <Field
-              name="layout"
-              component={TextAreaField}
+            <LayoutConfigurationComponent
+              layout={this.state.currentLayout}
+              onChange={this.changeLayout}
             />
           </CardText>
           <CardActions>
@@ -70,6 +84,8 @@ class ApplicationLayoutComponent extends React.Component {
               mainButtonLabel={<FormattedMessage id="layout.submit" />}
               mainButtonType="submit"
               isMainButtonDisabled={pristine || submitting}
+              secondaryButtonLabel={<FormattedMessage id="layout.cancel" />}
+              secondaryButtonTouchTap={this.props.onCancel}
             />
           </CardActions>
         </Card>
@@ -80,13 +96,6 @@ class ApplicationLayoutComponent extends React.Component {
 
 function validate(values) {
   const errors = {}
-  if (values.layout) {
-    try {
-      JSON.parse(values.layout)
-    } catch (e) {
-      errors.layout = ErrorTypes.INVLID_JSON_FORMAT
-    }
-  }
   return errors
 }
 

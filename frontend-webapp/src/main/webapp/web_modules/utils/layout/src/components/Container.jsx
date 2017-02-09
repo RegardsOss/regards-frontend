@@ -1,17 +1,18 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import {forEach} from 'lodash'
+import { forEach } from 'lodash'
 import IconButton from 'material-ui/IconButton'
-import IconMenu from 'material-ui/IconMenu';
-import MenuItem from 'material-ui/MenuItem';
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
-import {LazyModuleComponent, ModuleListProvider, ModuleShape} from '@regardsoss/modules'
-import {PluginConf} from '@regardsoss/model'
-import {PluginProvider} from '@regardsoss/plugins'
+import IconMenu from 'material-ui/IconMenu'
+import MenuItem from 'material-ui/MenuItem'
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
+import { Toolbar, ToolbarGroup, ToolbarTitle } from 'material-ui/Toolbar'
+import { LazyModuleComponent, ModuleListProvider, ModuleShape } from '@regardsoss/modules'
+import { PluginConf } from '@regardsoss/model'
+import { PluginProvider } from '@regardsoss/plugins'
 import ContainerShape from '../model/ContainerShape'
 import ContainerHelper from '../ContainerHelper'
+import { DELETE_ACTION, ADD_ACTION, EDIT_ACTION } from './LayoutConfigurationComponent'
 
 /**
  * Component to display a container into an application layout.
@@ -76,26 +77,24 @@ class Container extends React.Component {
       // Render dynamic content in this dynamic container
       renderModules.push(this.props.dynamicContent)
       renderModules.push(<ModuleListProvider
-          key="dynamicContent"
-          modules={this.props.modules}
-          container={this.props.container.id}
-          onModuleSelection={this.props.onDynamicModuleSelection}
-        />,
+        key="dynamicContent"
+        modules={this.props.modules}
+        container={this.props.container.id}
+        onModuleSelection={this.props.onDynamicModuleSelection}
+      />,
       )
-    } else {
       // Render modules and plugins of this static container
-      if (this.props.modules) {
-        const containerModules = this.props.modules.filter(module => module.content.container === this.props.container.id && module.content.applicationId === this.props.appName)
-        forEach(containerModules, (module, idx) => (
-          renderModules.push(<LazyModuleComponent
-              key={idx}
-              module={module.content}
-              appName={this.props.appName}
-              project={this.props.project}
-            />,
-          )
-        ))
-      }
+    } else if (this.props.modules) {
+      const containerModules = this.props.modules.filter(module => module.content.container === this.props.container.id && module.content.applicationId === this.props.appName)
+      forEach(containerModules, (module, idx) => (
+        renderModules.push(<LazyModuleComponent
+          key={idx}
+          module={module.content}
+          appName={this.props.appName}
+          project={this.props.project}
+        />,
+        )
+      ))
     }
     return renderModules
   }
@@ -136,37 +135,40 @@ class Container extends React.Component {
       let deleteAction = null
       if (this.props.mainContainer === false) {
         deleteAction = (<MenuItem
-            key="delete"
-            onTouchTap={() => {
-              this.props.onContainerClick('DELETE', this.props.container)
-            }}
-            primaryText="Delete section"/>
+          key="delete"
+          onTouchTap={() => {
+            this.props.onContainerClick(DELETE_ACTION, this.props.container)
+          }}
+          primaryText="Delete section"
+        />
         )
       }
       return (
-        <div className='row'>
-          <Toolbar style={{height: 40}}>
+        <div className="row">
+          <Toolbar style={{ height: 40 }}>
             <ToolbarGroup key="name">
-              <ToolbarTitle text={this.props.container.id}/>
+              <ToolbarTitle text={this.props.container.id} />
             </ToolbarGroup>
             <ToolbarGroup key="actions">
               <IconMenu
                 iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
-                anchorOrigin={{horizontal: 'left', vertical: 'top'}}
-                targetOrigin={{horizontal: 'left', vertical: 'top'}}
+                anchorOrigin={{ horizontal: 'left', vertical: 'top' }}
+                targetOrigin={{ horizontal: 'left', vertical: 'top' }}
               >
                 <MenuItem
                   key="add"
                   onTouchTap={() => {
-                    this.props.onContainerClick('ADD', this.props.container)
+                    this.props.onContainerClick(ADD_ACTION, this.props.container)
                   }}
-                  primaryText="Add sub-section"/>
+                  primaryText="Add sub-section"
+                />
                 <MenuItem
                   key="edit"
                   onTouchTap={() => {
-                    this.props.onContainerClick('EDIT', this.props.container)
+                    this.props.onContainerClick(EDIT_ACTION, this.props.container)
                   }}
-                  primaryText="Edit section"/>
+                  primaryText="Edit section"
+                />
                 {deleteAction}
               </IconMenu>
             </ToolbarGroup>
@@ -190,9 +192,9 @@ class Container extends React.Component {
     const containerStyles = ContainerHelper.getContainerStyles(this.props.container)
 
     if (this.props.configurationMode) {
-      containerStyles.border = "1px dotted black"
-      containerStyles.padding = "5px"
-      containerStyles.margin = "5px"
+      containerStyles.border = '1px dotted black'
+      containerStyles.padding = '5px'
+      containerStyles.margin = '5px'
     }
 
     return (
@@ -212,7 +214,7 @@ class Container extends React.Component {
 
 Container.defaultProps = {
   configurationMode: false,
-  mainContainer: false
+  mainContainer: false,
 }
 
 export default Container

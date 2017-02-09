@@ -13,9 +13,9 @@ const messages = {
   'container.form.classes': 'CSS Classes',
   'container.form.styles': 'HTML Styles',
   'container.form.dynamicContent': 'Does this container contains dynamic modules ?',
-  'container.form.update.button' : 'Update',
-  'container.form.submit.button' : 'Create',
-  'container.form.cancel.button' : 'Cancel',
+  'container.form.update.button': 'Update',
+  'container.form.submit.button': 'Create',
+  'container.form.cancel.button': 'Cancel',
 }
 
 export default messages

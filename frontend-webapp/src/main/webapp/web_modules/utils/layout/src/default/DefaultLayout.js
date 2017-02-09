@@ -6,8 +6,8 @@
  * @author Sébastien binda
  */
 export default {
-  id: 'main',
-  type: 'FormMainContainer',
+  id: 'application',
+  type: 'MainContainer',
   classes: [],
   styles: {},
   containers: [],
