@@ -2,6 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { chain, keys, uniqueId } from 'lodash'
+import { FormattedMessage } from 'react-intl'
 import Paper from 'material-ui/Paper'
 import NumericalCriteriaComponent from './NumericalCriteriaComponent'
 
@@ -57,13 +58,15 @@ export class TwoNumericalCriteriaSimpleComponent extends React.Component {
         >
 
           {chain(attributes)
-            .map((attribute, attributeName) => <NumericalCriteriaComponent // we are mapping on an object this is why we disable the lint next line
-              key={attributeName} // eslint-disable-line react/no-array-index-key
-              attribute={attribute}
-              pluginInstanceId={pluginInstanceId}
-              onChange={onChange}
-            />)
-            .zip(new Array(keys(attributes).length).fill(<span key={uniqueId('react_generated_uuid_')}>et</span>))
+            .map((attribute, attributeName) =>
+              <NumericalCriteriaComponent // we are mapping on an object this is why we disable the lint next line
+                key={attributeName} // eslint-disable-line react/no-array-index-key
+                attribute={attribute}
+                pluginInstanceId={pluginInstanceId}
+                onChange={onChange}
+              />)
+            .zip(new Array(keys(attributes).length).fill(<span key={uniqueId('react_generated_uuid_')}><FormattedMessage
+              id="criterion.aggregator.text"/></span>))
             .flatten()
             .initial()
             .value()

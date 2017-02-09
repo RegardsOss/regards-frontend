@@ -8,6 +8,7 @@
  */
 const messages = {
   'criterion.search.field.label': 'Number ...',
+  'criterion.aggregator.text': 'and',
 }
 
 export default messages
