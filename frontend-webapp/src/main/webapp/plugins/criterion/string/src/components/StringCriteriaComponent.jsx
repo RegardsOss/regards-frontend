@@ -27,6 +27,13 @@ export class StringCriteriaComponent extends React.Component {
      * Value of each keys are the attribute id (retrieved from the server) associated
      */
     attributes: React.PropTypes.object,
+    // From mapStateToProps
+    test: React.PropTypes.string,
+    // From mapDispatchToProps
+    /**
+     * Just for checking that  we can dispatch an action from the plugin
+     */
+    testDispatch: React.PropTypes.func,
   }
 
   constructor(props) {
@@ -55,27 +62,33 @@ export class StringCriteriaComponent extends React.Component {
     const attributeLabel = this.props.attributes.searchField.name ? this.props.attributes.searchField.name : null
 
     return (
-      <div style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'baseline',
-      }}>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'baseline',
+        }}
+      >
         <Card>
-          <CardText style={{
-            display: 'flex',
-            alignItems: 'baseline',
-            paddingTop: 0,
-            paddingBottom: 2,
-            minWidth: 400,
-          }}>
-            <span style={{
-              marginRight: 20
-            }}>
-            {attributeLabel}
+          <CardText
+            style={{
+              display: 'flex',
+              alignItems: 'baseline',
+              paddingTop: 0,
+              paddingBottom: 2,
+              minWidth: 400,
+            }}
+          >
+            <span
+              style={{
+                marginRight: 20,
+              }}
+            >
+              {attributeLabel}
             </span>
             <TextField
               id="search"
-              floatingLabelText={<FormattedMessage id="criterion.search.field.label"/>}
+              floatingLabelText={<FormattedMessage id="criterion.search.field.label" />}
               value={this.state.value}
               onChange={(event, value) => {
                 this.changeValue(value)
@@ -89,10 +102,6 @@ export class StringCriteriaComponent extends React.Component {
 }
 const mapStateToProps = state => ({
   test: state['plugins.string-criteria'].pluginTest,
-  // Needed to be linked with the dynamic change of locale
-  locale: state.common.i18n.locale,
-  // Needed to be linked with the dynamic change of theme
-  theme: state.common.theme,
 })
 const mapDispatchToProps = dispatch => ({
   testDispatch: () => dispatch({ type: 'plugin/TEST' }),
