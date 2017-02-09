@@ -58,6 +58,8 @@ describe('[MODEL] Testing all models (aka shape in the react world)', () => {
       it('check Collection', shallExist(Models.Collection))
       it('check Dataset', shallExist(Models.Dataset))
       it('check Datasource', shallExist(Models.Datasource))
+      it('check AccessGroup', shallExist(Models.AccessGroup))
+      it('check AccessRight', shallExist(Models.AccessRight))
     })
   })
 })

@@ -38,4 +38,18 @@ export default (project, intl) => [
       tooltipMsg: intl.formatMessage({ id: 'user.board.tooltip.add' }),
     }],
   },
+  {
+    title: intl.formatMessage({ id: 'user.board.accessgroup.title' }),
+    description: intl.formatMessage({ id: 'user.board.accessgroup.description' }),
+    advanced: false,
+    actions: [{
+      path: `/admin/${project}/user/accessgroup/list`,
+      icon: <ViewLinesIcon />,
+      tooltipMsg: intl.formatMessage({ id: 'user.board.tooltip.list' }),
+    }, {
+      path: `/admin/${project}/user/accessgroup/create`,
+      icon: <AddIcon />,
+      tooltipMsg: intl.formatMessage({ id: 'user.board.tooltip.add' }),
+    }],
+  },
 ]

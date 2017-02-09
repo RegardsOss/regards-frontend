@@ -54,6 +54,28 @@ export class CollectionFormComponent extends React.Component {
     this.handleInitialize()
   }
 
+  getTitle = () => {
+    let title
+    if (this.state.isCreating) {
+      title = <FormattedMessage id="collection.create.title" />
+    } else if (this.state.isDuplicating) {
+      title = (<FormattedMessage
+        id="collection.duplicate.title"
+        values={{
+          name: this.props.currentCollection.content.label,
+        }}
+      />)
+    } else {
+      title = (<FormattedMessage
+        id="collection.edit.title"
+        values={{
+          name: this.props.currentCollection.content.label,
+        }}
+      />)
+    }
+    return title
+  }
+
   /**
    * Initialize form fields
    */
@@ -98,24 +120,7 @@ export class CollectionFormComponent extends React.Component {
 
   render() {
     const { modelList, modelAttributeList, submitting, invalid, backUrl } = this.props
-    let title
-    if (this.state.isCreating) {
-      title = <FormattedMessage id="collection.create.title" />
-    } else if (this.state.isDuplicating) {
-      title = (<FormattedMessage
-        id="collection.duplicate.title"
-        values={{
-          name: this.props.currentCollection.content.label,
-        }}
-      />)
-    } else {
-      title = (<FormattedMessage
-        id="collection.edit.title"
-        values={{
-          name: this.props.currentCollection.content.label,
-        }}
-      />)
-    }
+    const title = this.getTitle()
     return (
       <ReduxConnectedForm
         i18nMessagesDir="modules/admin-data-collection-management/src/i18n"

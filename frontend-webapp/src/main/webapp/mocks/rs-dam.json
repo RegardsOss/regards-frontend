@@ -332,7 +332,7 @@
       "label": "PremierDataSet",
       "type": "DATASET",
       "model": {
-        "id": 0,
+        "id": 2,
         "name": "Premier Modele",
         "descirption": "Description du premier modele de jeux de données",
         "type": "DATASET"
@@ -343,7 +343,7 @@
       "label": "DeuxiemeDataSet",
       "type": "DATASET",
       "model": {
-        "id": 0,
+        "id": 2,
         "name": "Premier Modele",
         "descirption": "Description du premier modele de jeux de données",
         "type": "DATASET"
@@ -354,7 +354,7 @@
       "label": "TroisiemeDataSet",
       "type": "DATASET",
       "model": {
-        "id": 0,
+        "id": 2,
         "name": "Premier Modele",
         "descirption": "Description du premier modele de jeux de données",
         "type": "DATASET"
@@ -365,7 +365,7 @@
       "label": "QuatriemDataSet",
       "type": "DATASET",
       "model": {
-        "id": 0,
+        "id": 2,
         "name": "Premier Modele",
         "descirption": "Description du premier modele de jeux de données",
         "type": "DATASET"
@@ -376,7 +376,7 @@
       "label": "CinquiemeDataSet",
       "type": "DATASET",
       "model": {
-        "id": 0,
+        "id": 2,
         "name": "Premier Modele",
         "descirption": "Description du premier modele de jeux de données",
         "type": "DATASET"
@@ -387,7 +387,7 @@
       "label": "SixiemeDataSet",
       "type": "DATASET",
       "model": {
-        "id": 0,
+        "id": 2,
         "name": "Premier Modele",
         "descirption": "Description du premier modele de jeux de données",
         "type": "DATASET"
@@ -398,7 +398,7 @@
       "label": "SeptiemeDataSet",
       "type": "DATASET",
       "model": {
-        "id": 0,
+        "id": 2,
         "name": "Premier Modele",
         "descirption": "Description du premier modele de jeux de données",
         "type": "DATASET"
@@ -409,7 +409,7 @@
       "label": "HuitiemeDataSet",
       "type": "DATASET",
       "model": {
-        "id": 0,
+        "id": 2,
         "name": "Premier Modele",
         "descirption": "Description du premier modele de jeux de données",
         "type": "DATASET"
@@ -420,7 +420,7 @@
       "label": "NeuviemeDataSet",
       "type": "DATASET",
       "model": {
-        "id": 0,
+        "id": 2,
         "name": "Premier Modele",
         "descirption": "Description du premier modele de jeux de données",
         "type": "DATASET"
@@ -431,7 +431,7 @@
       "label": "DixiemeDataSet",
       "type": "DATASET",
       "model": {
-        "id": 0,
+        "id": 2,
         "name": "Premier Modele",
         "descirption": "Description du premier modele de jeux de données",
         "type": "DATASET"
@@ -442,7 +442,7 @@
       "label": "Dataset number 11",
       "type": "DATASET",
       "model": {
-        "id": 0,
+        "id": 2,
         "name": "Premier Modele",
         "descirption": "Description du premier modele de jeux de données",
         "type": "DATASET"
@@ -453,7 +453,7 @@
       "label": "Dataset number 12",
       "type": "DATASET",
       "model": {
-        "id": 0,
+        "id": 2,
         "name": "Premier Modele",
         "descirption": "Description du premier modele de jeux de données",
         "type": "DATASET"
@@ -464,7 +464,7 @@
       "label": "Dataset number 13",
       "type": "DATASET",
       "model": {
-        "id": 0,
+        "id": 2,
         "name": "Premier Modele",
         "descirption": "Description du premier modele de jeux de données",
         "type": "DATASET"
@@ -475,7 +475,7 @@
       "label": "Dataset number 14",
       "type": "DATASET",
       "model": {
-        "id": 0,
+        "id": 2,
         "name": "Premier Modele",
         "descirption": "Description du premier modele de jeux de données",
         "type": "DATASET"
@@ -557,6 +557,35 @@
         "descirption": "Description du premier modele de jeux de données",
         "type": "DATASET"
       }
+    }
+  ],
+  "datasources": [
+    {
+      "id": 1,
+      "label": "Datasource #1"
+    },
+    {
+      "id": 2,
+      "label": "Datasource #2"
+    },
+    {
+      "id": 3,
+      "label": "Datasource #3"
+    }
+  ],
+  "accessgroups": [
+    {
+      "id": "AG1",
+      "name": "AG1",
+      "users": [{"email": "florian.philippot@facholand.fr"}],
+      "accessRights": [],
+      "isPrivate": true
+    }, {
+      "id":"AG2",
+      "name": "AG2",
+      "users": [],
+      "accessRights": [],
+      "isPrivate": true
     }
   ]
 }

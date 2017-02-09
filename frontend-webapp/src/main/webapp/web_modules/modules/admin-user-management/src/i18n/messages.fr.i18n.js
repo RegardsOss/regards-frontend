@@ -8,6 +8,8 @@ const messages = {
   'user.board.role.description': 'Gestion des rôles utilisateurs',
   'user.board.role.title': 'Rôles',
 
+  'user.board.accessgroup.title': 'Groupes d\'accès',
+  'user.board.accessgroup.description': 'Gestion des groupes d\'accès, afin de permettre aux utilisateurs d\'acceder aux jeux de données',
 }
 
 export default messages
