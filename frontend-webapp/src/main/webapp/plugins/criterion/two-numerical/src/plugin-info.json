@@ -13,7 +13,7 @@
         "type":"numerical"
       },
       {
-        "name":"firstField",
+        "name":"secondField",
         "description": "Second attribute to search",
         "type":"numerical"
       }

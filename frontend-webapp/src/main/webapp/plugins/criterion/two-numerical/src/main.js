@@ -13,4 +13,4 @@ const messages = {
   fr: messagesFr,
 }
 
-initPlugin('two-numerical-criteria', TwoNumericalCriteria, reducer, messages, pluginInfo)
+initPlugin(TwoNumericalCriteria, reducer, messages, pluginInfo)

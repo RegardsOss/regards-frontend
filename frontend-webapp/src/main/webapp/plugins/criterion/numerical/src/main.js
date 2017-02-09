@@ -13,4 +13,4 @@ const messages = {
   fr: messagesFr,
 }
 
-initPlugin('numerical-criteria', NumericalCriteria, reducer, messages, pluginInfo)
+initPlugin( NumericalCriteria, reducer, messages, pluginInfo)
