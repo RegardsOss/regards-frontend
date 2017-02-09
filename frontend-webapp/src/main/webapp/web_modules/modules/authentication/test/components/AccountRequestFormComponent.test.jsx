@@ -26,12 +26,13 @@ describe('[AUTHENTICATION] Testing AccountRequestFormComponent', () => {
   it('should exists', () => {
     assert.isDefined(AccountRequestFormComponent)
   })
+  const muiTheme = {
+    palette: {},
+  }
   const context = {
     intl: IntlStub,
-    muiTheme: {
-      palette: {},
-    },
-    moduleTheme: styles({}),
+    muiTheme,
+    moduleTheme: styles(muiTheme),
   }
   it('should render properly, in all modes', () => {
     const props = {

@@ -13,15 +13,12 @@ const projectActions = new BasicListActions({
     ENTITY_ARRAY: PROJECT_ARRAY,
   },
 })
-class ProjectReducers extends BasicListReducers {
-  constructor() {
-    super({
-      entityKey: 'name',
-      normalizrKey: 'projects',
-    }, projectActions)
-  }
-}
-const projectReducers = new ProjectReducers()
+
+const projectReducers = new BasicListReducers({
+  entityKey: 'name',
+  normalizrKey: 'projects',
+}, projectActions)
+
 
 describe('[STORE UTILS] Testing project reducer', () => {
   it('should return the initial state', () => {
@@ -30,6 +27,7 @@ describe('[STORE UTILS] Testing project reducer', () => {
         hasError: false,
         message: '',
         type: '',
+        status: '',
       },
       isFetching: false,
       isSyncing: false,
@@ -91,6 +89,7 @@ describe('[STORE UTILS] Testing project reducer', () => {
           hasError: true,
           message: '',
           type: actionType,
+          status: '',
         },
         isFetching: false,
         isSyncing: false,
@@ -110,6 +109,7 @@ describe('[STORE UTILS] Testing project reducer', () => {
           hasError: true,
           message: '',
           type: actionType,
+          status: '',
         },
         isFetching: false,
         isSyncing: false,

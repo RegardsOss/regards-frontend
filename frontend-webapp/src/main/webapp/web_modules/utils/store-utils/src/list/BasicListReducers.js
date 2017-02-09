@@ -36,6 +36,7 @@ class BasicListReducers {
       hasError: false,
       type: '',
       message: '',
+      status: '',
     },
     items: {},
     lastUpdate: '',
@@ -60,6 +61,7 @@ class BasicListReducers {
             hasError: true,
             type: action.type,
             message: action.meta ? action.meta.errorMessage : '',
+            status: action.meta ? action.meta.status : '',
           },
         })
       case this.basicListActionInstance.CREATE_ENTITY_FAILURE:
@@ -71,6 +73,7 @@ class BasicListReducers {
             hasError: true,
             type: action.type,
             message: action.meta ? action.meta.errorMessage : '',
+            status: action.meta ? action.meta.status : '',
           },
         })
       case this.basicListActionInstance.ENTITY_LIST_SUCCESS:

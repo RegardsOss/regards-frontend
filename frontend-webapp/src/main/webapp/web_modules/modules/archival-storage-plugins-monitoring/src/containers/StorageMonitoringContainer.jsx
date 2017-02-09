@@ -38,12 +38,7 @@ export class StorageMonitoringContainer extends React.Component {
         isFetching={isFetching}
         hasError={hasError}
         initScale={StorageUnitScale.bytesScale}
-        storagePlugins={map(storagePlugins, ({ content: { label, description, totalSize, usedSize } }) => ({
-          label,
-          description,
-          totalSize,
-          usedSize,
-        }))}
+        storagePlugins={map(storagePlugins, ({ content }) => content)}
       />
     )
   }

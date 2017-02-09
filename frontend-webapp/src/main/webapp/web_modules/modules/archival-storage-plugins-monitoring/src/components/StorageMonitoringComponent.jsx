@@ -9,7 +9,6 @@ import ExpandLess from 'material-ui/svg-icons/navigation/expand-less'
 import ExpandMore from 'material-ui/svg-icons/navigation/expand-more'
 import DropDownMenu from 'material-ui/DropDownMenu'
 import MenuItem from 'material-ui/MenuItem'
-import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { StoragePluginShape } from '@regardsoss/model'
 import { ModuleAppBar } from '@regardsoss/components'
@@ -39,7 +38,7 @@ class StorageMonitoringComponent extends Component {
 
   /** I18N injection & themes */
   static contextTypes = {
-    ...themeContextType, ...i18nContextType,
+    ...themeContextType,
   }
 
   componentWillMount = () => {
@@ -80,7 +79,8 @@ class StorageMonitoringComponent extends Component {
     })
   }
 
-  parsePluginsInput = pluginsInput => pluginsInput.map(({ label, description, totalSize, usedSize }) => ({
+  parsePluginsInput = pluginsInput => pluginsInput.map(({ id, label, description, totalSize, usedSize }) => ({
+    id,
     label,
     description,
     totalSize: StorageCapacity.fromValue(totalSize),
@@ -92,7 +92,8 @@ class StorageMonitoringComponent extends Component {
    * @param plugins plugins
    * @param newScale new storage capacity scale
    */
-  toNewScale = (plugins, newScale) => plugins.map(({ label, description, totalSize, usedSize }) => ({
+  toNewScale = (plugins, newScale) => plugins.map(({ id, label, description, totalSize, usedSize }) => ({
+    id,
     label,
     description,
     totalSize: totalSize ? totalSize.scaleAndConvert(newScale) : null,
@@ -127,9 +128,9 @@ class StorageMonitoringComponent extends Component {
               value={currentScale}
               onChange={(evt, i, value) => this.onUnitScaleSelected(value)}
             >
-              {StorageUnitScale.all.map((scale, index) => (
+              {StorageUnitScale.all.map(scale => (
                 <MenuItem
-                  value={scale} key={index}
+                  value={scale} key={scale.id}
                   primaryText={
                     <FormattedMessage id={scale.messageKey} />
                   }
@@ -147,9 +148,9 @@ class StorageMonitoringComponent extends Component {
           <div className="row">
             {
               // map all plugins to cards if component is expanded (hide all otherwise)
-              (!expanded) || plugins.map((pluginModel, index) => (
-                <StoragePluginCapacityComponent key={index} scale={currentScale} {...pluginModel} />
-              ))
+              (!expanded) || plugins.map(pluginModel => (
+                <StoragePluginCapacityComponent key={pluginModel.id} scale={currentScale} {...pluginModel} />
+                ))
             }
           </div>
         </LoadableContentDisplayDecorator>

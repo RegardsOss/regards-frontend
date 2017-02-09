@@ -13,11 +13,11 @@ import { RenderTextField, Field, ErrorTypes, ValidationHelpers } from '@regardso
 /**
  * Reset password request form component
  */
-export class CompleteResetPasswordFormComponent extends React.Component {
+export class ChangePasswordFormComponent extends React.Component {
 
   static propTypes = {
     // calls update password action or shows token expired message
-    onUpdatePassword: React.PropTypes.func.isRequired,
+    onChangePassword: React.PropTypes.func.isRequired,
     // from reduxForm
     pristine: React.PropTypes.bool,
     submitting: React.PropTypes.bool,
@@ -34,18 +34,16 @@ export class CompleteResetPasswordFormComponent extends React.Component {
    * @returns {React.Component} components
    */
   render() {
-    const { pristine, submitting, invalid, onUpdatePassword, handleSubmit } = this.props
+    const { onChangePassword, pristine, submitting, invalid, handleSubmit } = this.props
     const { moduleTheme } = this.context
     return (
       <div style={moduleTheme.layout}>
         <ReduxConnectedForm
-          onSubmit={handleSubmit(onUpdatePassword)}
+          onSubmit={handleSubmit(onChangePassword)}
           i18nMessagesDir="modules/authentication/src/i18n"
         >
           <Card>
-            <CardTitle
-              title={<FormattedMessage id="reset.password.update.request.title" />}
-            />
+            <CardTitle title={<FormattedMessage id="reset.password.update.request.title" />} />
             <CardText>
               <FormattedMessage id="reset.password.update.request.message" />
               <Field
@@ -99,5 +97,5 @@ export const formId = 'reset-password-update'
 export default reduxForm({
   form: formId,
   validate,
-})(CompleteResetPasswordFormComponent)
+})(ChangePasswordFormComponent)
 

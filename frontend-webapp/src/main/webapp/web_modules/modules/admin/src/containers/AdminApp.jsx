@@ -4,7 +4,7 @@
 import { intlShape } from 'react-intl'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
-import { isAuthenticated, AuthenticationSelectors, AuthenticateShape } from '@regardsoss/authentication-manager'
+import { AuthenticationSelectors } from '@regardsoss/authentication-manager'
 import { ThemeHelper, ThemeSelectors } from '@regardsoss/theme'
 import { EndpointActions } from '@regardsoss/endpoint'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
@@ -25,7 +25,8 @@ class AdminApp extends React.Component {
     }),
     // from mapStateToProps
     theme: React.PropTypes.string,
-    authentication: AuthenticateShape,
+    isFecthingAuthentication: React.PropTypes.bool,
+    isAuthenticated: React.PropTypes.bool,
     // from mapDispatchToProps
     fetchEndpoints: React.PropTypes.func,
   }
@@ -50,9 +51,8 @@ class AdminApp extends React.Component {
    * @param nextProps
    */
   componentWillReceiveProps(nextProps) {
-    if (this.props.authentication &&
-      this.props.authentication.user === undefined &&
-      nextProps.authentication.user !== undefined) {
+    // when authentication has been fetched
+    if (this.props.isFecthingAuthentication && !nextProps.isFecthingAuthentication) {
       // Prevent the HMI to show the admin app before endpoints have been retrieved
       this.setState({
         isLoadingEndpoints: true,
@@ -83,29 +83,27 @@ class AdminApp extends React.Component {
         <AuthenticationPanel project={this.props.params.project ? this.props.params.project : 'instance'} />
       )
     }
-    return (<AdminLayout key="2" {...this.props}>
-      {content}
-    </AdminLayout>)
+    return (
+      <AdminLayout key="2" {...this.props}>
+        {content}
+      </AdminLayout>
+    )
   }
 
   /**
    * @returns {React.Component}
    */
   render() {
-    const { theme, authentication, content } = this.props
+    const { theme, isAuthenticated, content } = this.props
     // Build theme
     const muiTheme = ThemeHelper.getByName(theme)
-
-    // Authentication
-    const isAuth = isAuthenticated(authentication)
-    const hmi = this.getContent(isAuth, content)
 
     if (!this.state.isLoadingEndpoints) {
       return (
         <MuiThemeProvider muiTheme={muiTheme}>
           <I18nProvider messageDir={'modules/admin/src/i18n'}>
             <div>
-              {hmi}
+              {this.getContent(isAuthenticated, content)}
             </div>
           </I18nProvider>
         </MuiThemeProvider>
@@ -118,7 +116,8 @@ class AdminApp extends React.Component {
 const mapStateToProps = state => ({
   // Add theme from store to the components props
   theme: ThemeSelectors.getCurrentTheme(state),
-  authentication: AuthenticationSelectors.getAuthentication(state),
+  isAuthenticated: AuthenticationSelectors.isAuthenticated(state),
+  isFecthingAuthentication: AuthenticationSelectors.isFetching(state),
 })
 
 const mapDispatchToProps = dispatch => ({

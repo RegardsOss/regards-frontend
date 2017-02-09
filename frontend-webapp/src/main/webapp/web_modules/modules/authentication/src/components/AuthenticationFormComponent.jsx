@@ -1,9 +1,9 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { FormattedMessage, intlShape } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
-import { values } from 'lodash'
+import { isEmpty } from 'lodash'
 import RaisedButton from 'material-ui/RaisedButton'
 import { reduxForm, formValueSelector } from 'redux-form'
 import { ReduxConnectedForm, connect } from '@regardsoss/redux'
@@ -19,18 +19,28 @@ const mailFieldId = 'username'
 /**
  * React components for login form
  */
-export class AuthenticationComponent extends React.Component {
+export class AuthenticationFormComponent extends React.Component {
 
   static propTypes = {
-    title: React.PropTypes.string.isRequired,
-    onLogin: React.PropTypes.func.isRequired,
-    errorMessage: React.PropTypes.string,
-    onCancelAction: React.PropTypes.func,
-    cancelButton: React.PropTypes.bool,
+
+    // initial mail value
     initialMail: React.PropTypes.string,
+    // form title
+    title: React.PropTypes.string.isRequired,
+    // show create account link?
+    showCreateAccount: React.PropTypes.bool.isRequired,
+    // show cancel button?
+    showCancel: React.PropTypes.bool.isRequired,
+    // on cancel button callback, or none if behavior not available
+    onCancelAction: React.PropTypes.func,
+    // other authentication forms links
+    onGotoCreateAccount: React.PropTypes.func.isRequired,
     onGotoResetPassword: React.PropTypes.func.isRequired,
     onGotoUnlockAccount: React.PropTypes.func.isRequired,
-    onGotoCreateAccount: React.PropTypes.func.isRequired,
+    // on login submit
+    onLogin: React.PropTypes.func.isRequired,
+    // Form general error
+    error: React.PropTypes.string,
     // from reduxFormSelector
     currentMailValue: React.PropTypes.string,
     // from reduxForm
@@ -41,10 +51,7 @@ export class AuthenticationComponent extends React.Component {
     initialize: React.PropTypes.func.isRequired,
   }
 
-  static contextTypes = {
-    ...themeContextType,
-    intl: intlShape,
-  }
+  static contextTypes = { ...themeContextType }
 
 
   /**
@@ -52,8 +59,8 @@ export class AuthenticationComponent extends React.Component {
    */
   componentWillMount() {
     if (process.env.NODE_ENV === 'development') {
-      /* console.log('DEV', 'Auto connection')*/
-      // this.props.onLogin({ username: 'admin@cnes.fr', password: 'admin' })
+      console.log('DEV', 'Auto connection')
+      this.props.onLogin({ username: 'admin@cnes.fr', password: 'admin' })
     }
     const initialValues = {}
     initialValues[mailFieldId] = this.props.initialMail
@@ -66,13 +73,13 @@ export class AuthenticationComponent extends React.Component {
    */
   render() {
     const {
-      errorMessage, currentMailValue, initialMail,
-      cancelButton, onCancelAction, handleSubmit,
+      error, currentMailValue, initialMail,
+      showCreateAccount, showCancel, onCancelAction, handleSubmit,
       onLogin, onGotoUnlockAccount, onGotoResetPassword, onGotoCreateAccount,
     } = this.props
-    const { intl, moduleTheme, muiTheme } = this.context
+    const { moduleTheme } = this.context
     let cancelButtonElt
-    if (cancelButton) {
+    if (showCancel) {
       cancelButtonElt = (
         <RaisedButton
           label={<FormattedMessage id="authentication.cancel" />}
@@ -91,9 +98,7 @@ export class AuthenticationComponent extends React.Component {
             <CardTitle
               title={this.props.title}
               subtitle={
-                <FormErrorMessage>
-                  {errorMessage && intl.formatMessage({ id: errorMessage })}
-                </FormErrorMessage>
+                <FormErrorMessage>{error || ''}</FormErrorMessage>
               }
             />
             <CardText>
@@ -124,19 +129,18 @@ export class AuthenticationComponent extends React.Component {
               />
               {cancelButtonElt}
             </CardActions>
-            <div style={{ display: 'flex', padding: '10px', margin: '20px 10px 10px 10px', justifyContent: 'space-around', borderWidth: '1px 0 0 0', borderStyle: 'solid', borderColor: muiTheme.palette.borderColor }}>
+            <div style={moduleTheme.linksBar}>
               <PictureLinkComponent
+                disabled={!showCreateAccount}
                 IconComponent={Portrait}
                 text={<FormattedMessage id="authentication.goto.create.account" />}
                 onAction={() => onGotoCreateAccount(currentMailValue)}
               />
-              <br />
               <PictureLinkComponent
                 IconComponent={Refresh}
                 text={<FormattedMessage id="authentication.goto.reset.password" />}
                 onAction={() => onGotoResetPassword(currentMailValue)}
               />
-              <br />
               <PictureLinkComponent
                 IconComponent={LockOutline}
                 text={<FormattedMessage id="authentication.goto.unlock.account" />}
@@ -152,7 +156,7 @@ export class AuthenticationComponent extends React.Component {
 
 function validate(fieldValues) {
   const errors = {}
-  if (!values(fieldValues).length) {
+  if (isEmpty(fieldValues)) {
     // XXX workaround for redux form bug initial validation:
     // Do not return anything when fields are not yet initialized (first render invalid state is wrong otherwise)...
     return errors
@@ -174,7 +178,7 @@ const formId = 'authentication-form'
 const connectedReduxForm = reduxForm({
   form: formId,
   validate,
-})(AuthenticationComponent)
+})(AuthenticationFormComponent)
 
 // connect with selector to select the last mail value
 const selector = formValueSelector(formId)

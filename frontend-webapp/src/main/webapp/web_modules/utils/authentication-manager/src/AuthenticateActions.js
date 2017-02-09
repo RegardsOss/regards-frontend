@@ -35,3 +35,8 @@ export function logout() {
     type: LOGOUT,
   }
 }
+
+// alias logout for flush
+export const FLUSH = LOGOUT
+export const flush = logout
+

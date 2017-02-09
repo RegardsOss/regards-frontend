@@ -25,12 +25,13 @@ describe('[AUTHENTICATION] Testing AccountOperationMessage', () => {
   it('should exists', () => {
     assert.isDefined(AccountOperationMessage)
   })
+  const muiTheme = {
+    palette: {},
+  }
   const context = {
     intl: IntlStub,
-    muiTheme: {
-      palette: {},
-    },
-    moduleTheme: styles({}),
+    muiTheme,
+    moduleTheme: styles(muiTheme),
   }
   it('Should render properly all modes', () => {
     forEach(operationIds, (operationId) => {

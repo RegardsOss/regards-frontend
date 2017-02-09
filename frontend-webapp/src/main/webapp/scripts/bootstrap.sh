@@ -53,6 +53,7 @@ npm link web_modules/modules/archival-storage-plugins-monitoring
 # Global modules
 npm link web_modules/modules/authentication
 npm link web_modules/modules/news
+npm link web_modules/modules/home-page
 npm link web_modules/modules/menu
 npm link web_modules/modules/projects-list
 npm link web_modules/modules/global-system-error
