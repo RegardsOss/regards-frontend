@@ -26,19 +26,6 @@ class AdminContainer extends React.Component {
 
   render() {
     const { moduleTheme, intl } = this.context
-    let iframeTest
-    if(this.state.test) {
-      try {
-        iframeTest =
-          <iframe
-            style={moduleTheme.adminFrame}
-            src={require('file-loader!extract-loader!html-loader!./' + this.state.filePath)}
-          ></iframe>
-      }
-      catch(e) {
-        iframeTest = <p style={moduleTheme.error}>{e.message}</p>
-      }
-    }
     return (
       <div>
         <Field
@@ -53,7 +40,10 @@ class AdminContainer extends React.Component {
           primary={true}
           onTouchTap={this.handleTest.bind(this)}
         />
-        {iframeTest}
+        {this.state.test ? <iframe
+          style={moduleTheme.adminFrame}
+          src={this.state.filePath}
+        ></iframe> : ""}
       </div>
     )
   }
