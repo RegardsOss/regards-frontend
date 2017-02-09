@@ -39,10 +39,6 @@ class FormComponent extends React.Component {
   }
 
   render() {
-    let title = ''
-    if (!this.state.expanded) {
-      title = 'Run new search ...'
-    }
     const styles = this.context.moduleTheme
     return (
       <Card>
