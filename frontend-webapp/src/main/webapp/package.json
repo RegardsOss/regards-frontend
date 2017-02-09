@@ -43,6 +43,7 @@
     "@regardsoss/admin-ui-configuration": "0.0.1",
     "@regardsoss/admin-ui-plugins-management": "0.0.1",
     "@regardsoss/admin-user-management": "0.0.1",
+    "@regardsoss/admin-user-accessgroup-management": "0.0.1",
     "@regardsoss/admin-user-projectuser-management": "0.0.1",
     "@regardsoss/admin-user-role-management": "0.0.1",
     "@regardsoss/admin-user-role-resource-access-management": "0.0.1",

@@ -4,8 +4,8 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import { DefaultLayout } from '@regardsoss/layout'
 import { LazyModuleComponent } from '@regardsoss/modules'
-import DefaultLayout from '../../../../src/components/admin/layout/DefaultFormLayout'
 import Styles from '../../../../src/styles/styles'
 import FormPreviewComponent from '../../../../src/components/admin/preview/FormPreviewComponent'
 

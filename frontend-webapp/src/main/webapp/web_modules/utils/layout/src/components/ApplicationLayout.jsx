@@ -49,6 +49,7 @@ class ApplicationLayout extends React.Component {
           pluginProps={this.props.pluginProps}
           dynamicContent={this.props.dynamicContent}
           onDynamicModuleSelection={this.props.onDynamicModuleSelection}
+          mainContainer
         />
       </div>
     )

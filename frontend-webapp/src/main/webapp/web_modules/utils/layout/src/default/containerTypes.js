@@ -21,18 +21,6 @@ export default {
       paddingRight: '1px', // Quick fix for bootstrap grid .row
     },
   },
-  /**
-   * Default application main container.
-   */
-  FormMainContainer: {
-    classes: [],
-    styles: {
-      backgroundAttachment: 'fixed',
-      backgroundSize: 'cover',
-      paddingTop: '10px',
-      paddingRight: '1px', // Quick fix for bootstrap grid .row
-    },
-  },
 
   /**
    * Row container to display a responsive row.
@@ -51,6 +39,15 @@ export default {
     classes: ['col-sm-98', 'col-sm-offset-1'],
     styles: {
       marginBottom: '1px',
+    },
+  },
+  /**
+   * Column container to display a large responsive column.
+   */
+  '50PercentColumnContainer': {
+    classes: ['col-sm-48'],
+    styles: {
+      margin: '1px',
     },
   },
   /**

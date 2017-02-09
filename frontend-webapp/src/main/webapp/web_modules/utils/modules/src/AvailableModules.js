@@ -14,5 +14,5 @@ export default [
   'search-form',
   'archival-storage-aip-status',
   'archival-storage-plugins-monitoring',
-  'home-page'
+  'home-page',
 ]

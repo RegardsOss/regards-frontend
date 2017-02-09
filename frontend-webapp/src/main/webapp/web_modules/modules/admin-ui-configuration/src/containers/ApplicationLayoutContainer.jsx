@@ -48,25 +48,24 @@ class ApplicationLayoutContainer extends React.Component {
     return `/admin/${project}/ui-configuration/applications`
   }
 
+  handleCancel = () => {
+    browserHistory.push(this.getBackUrl())
+  }
+
   /**
    * Manage action to update an application layout to the backend
    * @param values
    */
   handleSubmit = (values) => {
-    try {
-      Promise.resolve(this.props.updateLayout(this.props.layout.content.id,
-        {
-          id: this.props.layout.content.id,
-          layout: JSON.parse(values.layout),
-        },
-      ))
-        .then(() => {
-          const url = this.getBackUrl()
-          browserHistory.push(url)
-        })
-    } catch (e) {
-      console.warn('Invalid JSON Format for layout update.')
-    }
+    Promise.resolve(this.props.updateLayout(this.props.layout.content.id,
+      {
+        id: this.props.layout.content.id,
+        layout: values.layout,
+      },
+    ))
+      .then(() => {
+        browserHistory.push(this.getBackUrl())
+      })
   }
 
   render() {
@@ -80,7 +79,11 @@ class ApplicationLayoutContainer extends React.Component {
 
     return (
       <I18nProvider messageDir="modules/admin-ui-configuration/src/i18n">
-        <ApplicationLayoutComponent layout={this.props.layout.content.layout} onSubmit={this.handleSubmit} />
+        <ApplicationLayoutComponent
+          layout={this.props.layout.content.layout}
+          onSubmit={this.handleSubmit}
+          onCancel={this.handleCancel}
+        />
       </I18nProvider>
     )
   }

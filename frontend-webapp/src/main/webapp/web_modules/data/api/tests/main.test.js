@@ -26,5 +26,13 @@ describe('[COMMON] Testing schemas', () => {
     assert.isDefined(Schemas.DATASOURCE)
     assert.isDefined(Schemas.DATASOURCE_ARRAY)
     assert.isDefined(Schemas.DatasourceConfiguration)
+
+    assert.isDefined(Schemas.ACCESS_RIGHT)
+    assert.isDefined(Schemas.ACCESS_RIGHT_ARRAY)
+    assert.isDefined(Schemas.AccessRightConfiguration)
+
+    assert.isDefined(Schemas.ACCESS_GROUP)
+    assert.isDefined(Schemas.ACCESS_GROUP_ARRAY)
+    assert.isDefined(Schemas.AccessGroupConfiguration)
   })
 })

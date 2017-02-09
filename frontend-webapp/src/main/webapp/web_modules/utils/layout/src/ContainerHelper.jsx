@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { merge, union, forEach, find } from 'lodash'
+import { merge, union, forEach, find, concat, cloneDeep } from 'lodash'
 import containerTypes from './default/containerTypes'
 
 /**
@@ -56,7 +56,6 @@ class ContainerHelper {
         })
       }
     }
-
     return containers
   }
 
@@ -79,6 +78,113 @@ class ContainerHelper {
       return true
     }
     return false
+  }
+
+  /**
+   * Remove a container from the given layout and return a new copy of the updated layout
+   * @param containerName
+   * @param layout
+   * @returns {*}
+   */
+  static removeContainerFromLayout(containerName, layout) {
+    const newLayout = cloneDeep(layout)
+    newLayout.containers = this.removeContainerFromContainers(containerName, newLayout.containers)
+    return newLayout
+  }
+
+  /**
+   * Remove a container from the given containers list and return a new copy of the array
+   * @param containerName
+   * @param containers
+   * @returns {*}
+   */
+  static removeContainerFromContainers(containerName, containers) {
+    const newContainers = concat([], containers)
+    let i = 0
+    for (i = 0; i < containers.length; i += 1) {
+      if (containers[i].id === containerName) {
+        newContainers.splice(i, 1)
+        break
+      } else if (containers[i].containers) {
+        newContainers[i].containers = this.removeContainerFromContainers(containerName, newContainers[i].containers)
+      }
+    }
+    return newContainers
+  }
+
+  /**
+   * Replace a container from the given layout and return a new copy of the updated layout
+   * @param containerToReplace
+   * @param layout
+   * @returns {*}
+   */
+  static replaceContainerInLayout(containerToReplace, layout) {
+    let newLayout = cloneDeep(layout)
+    if (newLayout.id === containerToReplace.id) {
+      newLayout = containerToReplace
+    } else if (newLayout.containers) {
+      newLayout.containers = this.replaceContainerInContainers(containerToReplace, newLayout.containers)
+    }
+    return newLayout
+  }
+
+  /**
+   * Replace a container from the given containers list and return a new copy of the array
+   * @param containerToReplace
+   * @param containersList
+   * @returns {*}
+   */
+  static replaceContainerInContainers(containerToReplace, containersList) {
+    const newContainers = concat([], containersList)
+    forEach(containersList, (container, idx) => {
+      if (container.id === containerToReplace.id) {
+        newContainers[idx] = containerToReplace
+      } else if (container.containers) {
+        newContainers[idx].containers = this.replaceContainerInContainers(containerToReplace, container.containers)
+      }
+    })
+    return newContainers
+  }
+
+  /**
+   * Add a container to the given layout and return a new copy of the updated layout
+   * @param parentContainer
+   * @param containerToAdd
+   * @param layout
+   * @returns {*}
+   */
+  static addContainerInLayout(parentContainer, containerToAdd, layout) {
+    const newLayout = cloneDeep(layout)
+    if (newLayout.id === parentContainer.id) {
+      newLayout.containers.push(containerToAdd)
+    } else if (newLayout.containers) {
+      this.addContainerInContainers(parentContainer, containerToAdd, newLayout.containers)
+    }
+    return newLayout
+  }
+
+  /**
+   * Add a container to the given containers list and return a new copy of the array
+   * @param parentContainer
+   * @param containerToAdd
+   * @param containersList
+   * @returns {*}
+   */
+  static addContainerInContainers(parentContainer, containerToAdd, containersList) {
+    const newContainers = concat([], containersList)
+    forEach(containersList, (container, idx) => {
+      if (container.id === parentContainer.id) {
+        if (container.containers) {
+          container.containers.push(containerToAdd)
+        } else {
+          // eslint-disable-next-line no-param-reassign
+          container.containers = [containerToAdd]
+        }
+      } else if (container.containers) {
+        this.addContainerInContainers(parentContainer, containerToAdd, container.containers)
+      }
+    })
+    return newContainers
   }
 
 

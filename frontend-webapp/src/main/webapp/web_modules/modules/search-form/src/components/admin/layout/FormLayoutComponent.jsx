@@ -4,8 +4,7 @@
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
-import { Field, TextAreaField } from '@regardsoss/form-utils'
-import DefaultFormLayout from './DefaultFormLayout'
+import { LayoutConfigurationComponent, DefaultLayout } from '@regardsoss/layout'
 
 /**
  * Component to display the search form layout configuration panel
@@ -19,34 +18,31 @@ class FormLayoutComponent extends React.Component {
   }
 
   componentWillMount() {
-    if (!this.props.defaultLayout || this.props.defaultLayout.length === 0) {
-      this.props.changeField('conf.layout', JSON.stringify(DefaultFormLayout, null, 4))
-    }
+    const initialLayout = this.getInitialLayout(this.props.defaultLayout)
+    this.setState({
+      currentLayout: initialLayout,
+    })
+    this.props.changeField('conf.layout', JSON.stringify(initialLayout, null, 4))
   }
 
-  validateLayout = (layout) => {
-    if (layout) {
-      try {
-        const layoutObj = JSON.parse(layout)
-        if (!layoutObj.id || !layoutObj.type) {
-          return 'layout.invalid.error'
-        }
-        return undefined
-      } catch (e) {
-        console.warn(e)
-        return 'layout.invalid.error'
-      }
-    } else {
-      return 'layout.invalid.error'
-    }
+  getInitialLayout = (layout) => {
+    const initialLayout = layout ? JSON.parse(layout) : DefaultLayout
+    return initialLayout.id && initialLayout.type ? initialLayout : DefaultLayout
+  }
+
+  changeLayout = (layout) => {
+    this.props.changeField('conf.layout', JSON.stringify(layout, null, 4))
+    this.setState({
+      currentLayout: layout,
+    })
   }
 
   resetLayout = () => {
-    if (!this.props.defaultLayout || this.props.defaultLayout.length === 0) {
-      this.props.changeField('conf.layout', JSON.stringify(DefaultFormLayout, null, 4))
-    } else {
-      this.props.changeField('conf.layout', this.props.defaultLayout)
-    }
+    const initialLayout = this.getInitialLayout(this.props.defaultLayout)
+    this.props.changeField('conf.layout', JSON.stringify(initialLayout), null, 4)
+    this.setState({
+      currentLayout: initialLayout,
+    })
   }
 
   render() {
@@ -56,10 +52,9 @@ class FormLayoutComponent extends React.Component {
           subtitle={<FormattedMessage id="form.layout.tab.title" />}
         />
         <CardText style={{ width: '100%' }}>
-          <Field
-            name="conf.layout"
-            component={TextAreaField}
-            validate={this.validateLayout}
+          <LayoutConfigurationComponent
+            layout={this.state.currentLayout}
+            onChange={this.changeLayout}
           />
         </CardText>
         <CardActions>
@@ -72,7 +67,6 @@ class FormLayoutComponent extends React.Component {
       </Card>
     )
   }
-
 }
 
 export default FormLayoutComponent
