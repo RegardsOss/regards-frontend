@@ -2,12 +2,12 @@
  * LICENSE_PLACEHOLDER
  **/
 import React from 'react'
-import {FormattedMessage} from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import TextField from 'material-ui/TextField'
-import {Card, CardText} from 'material-ui/Card'
-import {connect} from 'react-redux'
+import { Card, CardText } from 'material-ui/Card'
+import { connect } from 'react-redux'
 
-class StringCriteriaComponent extends React.Component {
+export class StringCriteriaComponent extends React.Component {
 
   static propTypes = {
     /**
@@ -29,11 +29,11 @@ class StringCriteriaComponent extends React.Component {
     attributes: React.PropTypes.object,
   }
 
-  constructor(props){
+  constructor(props) {
     super(props)
     this.state = {
       value: '',
-    };
+    }
   }
 
   componentDidMount() {
@@ -43,17 +43,17 @@ class StringCriteriaComponent extends React.Component {
   changeValue = (value) => {
     this.props.onChange({
       attribute: this.props.attributes.searchField,
-      comparator: "EQ",
-      value: value,
+      comparator: 'EQ',
+      value,
     }, this.props.pluginInstanceId)
     this.setState({
-      value
+      value,
     })
   }
 
   render() {
+    const attributeLabel = this.props.attributes.searchField.name ? this.props.attributes.searchField.name : null
 
-    const attributeLAbel = this.props.attributes.searchField.name ? this.props.attributes.searchField.name : null
     return (
       <div style={{
         display: 'flex',
@@ -71,7 +71,7 @@ class StringCriteriaComponent extends React.Component {
             <span style={{
               marginRight: 20
             }}>
-            {attributeLAbel}
+            {attributeLabel}
             </span>
             <TextField
               id="search"
@@ -95,7 +95,7 @@ const mapStateToProps = state => ({
   theme: state.common.theme,
 })
 const mapDispatchToProps = dispatch => ({
-  testDispatch: () => dispatch({type: 'plugin/TEST'}),
+  testDispatch: () => dispatch({ type: 'plugin/TEST' }),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(StringCriteriaComponent)
