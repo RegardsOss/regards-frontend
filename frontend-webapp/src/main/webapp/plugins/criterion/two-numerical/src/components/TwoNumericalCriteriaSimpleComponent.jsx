@@ -1,12 +1,15 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { chain, mapValues, keys, uniqueId } from 'lodash'
+import { chain, keys, uniqueId } from 'lodash'
 import Paper from 'material-ui/Paper'
 import NumericalCriteriaComponent from './NumericalCriteriaComponent'
 
 /**
- * Component allowing the user to fill to configure the numerical value of two attributes with a mathematical comparator (=, >, <=, ...).
+ * Component allowing the user to configure the numerical value of two different attributes with a mathematical comparator (=, >, <=, ...).
+ * For example, it will display:
+ *   [attributeName1] < 1400    et    [attributeName2] !=  15
+ *
  * The plugin's output is the execution of the passed {@code onChange} prop.
  *
  * @author Xavier-Alexandre Brochard
@@ -31,16 +34,6 @@ export class TwoNumericalCriteriaSimpleComponent extends React.Component {
      * Value of each keys are the attribute id (retrieved from the server) associated
      */
     attributes: React.PropTypes.object,
-  }
-
-  constructor(props) {
-    super(props)
-    this.state = {
-      criteria: mapValues(props.attributes, el => ({
-        value: undefined,
-        comparator: 'EQ',
-      })),
-    }
   }
 
   render() {

@@ -1,9 +1,10 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import React from 'react'
+import { keys } from 'lodash'
 import TextField from 'material-ui/TextField'
 import NumericalComparatorComponent from './NumericalComparatorComponent'
+import EnumNumericalComparator from '../model/EnumNumericalComparator'
 
 /**
  * Plugin component allowing the user to configure the numerical value of an attribute with a mathematical comparator (=, >, <=, ...).
@@ -35,13 +36,32 @@ export class NumericalCriteriaComponent extends React.Component {
       description: React.PropTypes.string,
       type: React.PropTypes.string,
     }),
+    /**
+     * Init with a specific comparator set.
+     */
+    comparator: React.PropTypes.oneOf(keys(EnumNumericalComparator)),
+    /**
+     * If true, the attribute name, comparator and and field will be rendered in reversed order
+     * Default to false.
+     */
+    reversed: React.PropTypes.bool,
+    /**
+     * If true, the attribute name will not be rendered.
+     * Default to false.
+     */
+    hideAttributeName: React.PropTypes.bool,
+  }
+
+  static defaultProps = {
+    reversed: false,
+    hideAttributeName: false,
   }
 
   constructor(props) {
     super(props)
     this.state = {
       value: undefined,
-      comparator: 'EQ',
+      comparator: props.comparator || 'EQ',
     }
   }
 
@@ -103,7 +123,35 @@ export class NumericalCriteriaComponent extends React.Component {
   format = value => value
 
   render() {
-    const { attribute } = this.props
+    const { attribute, reversed, hideAttributeName } = this.props
+    const { comparator } = this.state
+
+    // Store the content in an array because we need to maybe reverse to order
+    const content = []
+    if (!hideAttributeName) content.push(<span key="attributeName">{attribute.name}</span>)
+    content.push(
+      <NumericalComparatorComponent
+        key="comparator"
+        value={comparator}
+        onChange={this.handleChangeComparator}
+      />,
+    )
+    content.push(
+      <TextField
+        id="search"
+        key="field"
+        type="number"
+        floatingLabelText={'Nombre...'} // TODO
+        value={this.format(this.state.value)}
+        onChange={this.handleChangeValue}
+        style={{
+          top: -10,
+          width: '33%',
+        }}
+      />,
+    )
+
+    if (reversed) content.reverse()
 
     return (
       <div
@@ -116,24 +164,12 @@ export class NumericalCriteriaComponent extends React.Component {
         <div
           style={{
             display: 'flex',
-            justifyContent: 'space-between',
+            justifyContent: 'space-around',
             alignItems: 'center',
             padding: '0px 16px',
           }}
         >
-          <span>{attribute.name}</span>
-          <NumericalComparatorComponent onChange={this.handleChangeComparator} />
-          <TextField
-            id="search"
-            type="number"
-            floatingLabelText={'Nombre...'} // TODO
-            value={this.format(this.state.value)}
-            onChange={this.handleChangeValue}
-            style={{
-              top: -10,
-              width: '33%',
-            }}
-          />
+          {content}
         </div>
       </div>
     )

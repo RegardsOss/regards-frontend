@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { map } from 'lodash'
+import { map, keys } from 'lodash'
 import IconMenu from 'material-ui/IconMenu'
 import MenuItem from 'material-ui/MenuItem'
 import IconButton from 'material-ui/IconButton'
@@ -21,13 +21,17 @@ export class NumericalComparatorComponent extends React.Component {
      * function(value: EnumNumericalComparator) => void
      */
     onChange: React.PropTypes.func.isRequired,
+    /**
+     * Init with a specific comparator set.
+     */
+    value: React.PropTypes.oneOf(keys(EnumNumericalComparator)),
   }
 
   constructor(props) {
     super(props)
     this.state = {
       openMenu: false,
-      value: 'EQ',
+      value: props.value || 'EQ',
     }
   }
 
@@ -67,6 +71,7 @@ export class NumericalComparatorComponent extends React.Component {
           open={this.state.openMenu}
           onChange={this.handleChange}
           onRequestChange={this.handleOnRequestChange}
+          value={this.state.value}
           style={{
             visibility: 'hidden',
             width: 0,

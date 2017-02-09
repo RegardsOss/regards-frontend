@@ -1,9 +1,17 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import React from 'react'
+import { values } from 'lodash'
+import Paper from 'material-ui/Paper'
+import NumericalCriteriaComponent from './NumericalCriteriaComponent'
 
 /**
+ * Component allowing the user to configure the numerical value of a single attribute with two mathematical comparators (=, >, <=, ...).
+ * For example, it will display:
+ *   1400 < [attributeName] < 15
+ *
+ * The plugin's output is the execution of the passed {@code onChange} prop.
+ *
  * @author Xavier-Alexandre Brochard
  */
 export class TwoNumericalCriteriaComposedComponent extends React.Component {
@@ -28,90 +36,47 @@ export class TwoNumericalCriteriaComposedComponent extends React.Component {
     attributes: React.PropTypes.object,
   }
 
-  // constructor(props) {
-  //   super(props)
-  //   this.state = {
-  //     value: undefined,
-  //     comparator: 'EQ',
-  //   }
-  // }
-
-  // /**
-  //  * Callback function that is fired when the textfield's value changes.
-  //  *
-  //  * @param {Object} event Change event targeting the text field.
-  //  * @param {String} newValue The new value of the text field.
-  //  */
-  // handleChangeValue = (event, newValue) => {
-  //   const { attributes, pluginInstanceId, onChange } = this.props
-  //   const { comparator } = this.state
-  //   this.setState({
-  //     value: this.parse(newValue),
-  //   })
-  //   onChange({
-  //     attribute: attributes.searchField,
-  //     comparator,
-  //     value: newValue,
-  //   }, pluginInstanceId)
-  // }
-
-  // handleChangeComparator = (comparator) => {
-  //   this.setState({
-  //     comparator,
-  //   })
-  // }
-
-  // /**
-  //  * Parses the value given from the field input component.
-  //  *
-  //  * @param {String} value
-  //  */
-  // parse = value => parseFloat(value)
-
-  // /**
-  //  * Formats the value before displaying in the field input component.
-  //  *
-  //  * @param {String} value
-  //  */
-  // format = value => value
-
   render() {
+    const { attributes, pluginInstanceId, onChange } = this.props
+    const attribute = values(attributes)[0]
+
     return (
-      <div>Coucou</div>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'baseline',
+        }}
+      >
+        <Paper
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            flexWrap: 'wrap',
+          }}
+        >
+
+          <NumericalCriteriaComponent
+            attribute={attribute}
+            pluginInstanceId={pluginInstanceId}
+            onChange={onChange}
+            comparator="LE"
+            hideAttributeName
+            reversed
+          />
+          <span>{attribute.name}</span>
+          <NumericalCriteriaComponent
+            attribute={attribute}
+            pluginInstanceId={pluginInstanceId}
+            onChange={onChange}
+            comparator="LE"
+            hideAttributeName
+          />
+
+        </Paper>
+      </div>
     )
-    // const attributeLabel = this.props.attributes && this.props.attributes.searchField && this.props.attributes.searchField.name
-    //
-    // return (
-    //   <div style={{
-    //     display: 'flex',
-    //     justifyContent: 'center',
-    //     alignItems: 'baseline',
-    //   }}>
-    //     <Paper style={{
-    //       display: 'flex',
-    //       justifyContent: 'space-between',
-    //       alignItems: 'center',
-    //       padding: '0px 16px',
-    //       maxWidth: 400,
-    //     }}>
-    //       /*
-    //       <span>{attributeLabel}</span>
-    //       <NumericalComparatorComponent onChange={this.handleChangeComparator}/>
-    //       <TextField
-    //         id="search"
-    //         type="number"
-    //         floatingLabelText={'Nombre...'} // TODO
-    //         value={this.format(this.state.value)}
-    //         onChange={this.handleChangeValue}
-    //         style={{
-    //           top: -10,
-    //           width: '33%',
-    //         }}
-    //       />
-    //       */
-    //     </Paper>
-    //   </div>
-    // )
   }
 }
 

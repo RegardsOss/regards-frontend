@@ -11,7 +11,7 @@ function reducer(state = {
     case PLUGIN_TEST:
       return {
         ...state,
-        pluginTest: true
+        pluginTest: true,
       }
     default:
       return state
