@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { BasicSignalReducers } from '@regardsoss/store-utils'
-import ResetPasswordActions from './ResetPasswordActions'
+import { ResetPasswordActions } from './ResetPasswordActions'
 
 
 const instance = new BasicSignalReducers(ResetPasswordActions)

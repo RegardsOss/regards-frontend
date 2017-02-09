@@ -23,17 +23,17 @@ const messages = Object.assign({
   // request account password request form
   'ask.reset.password.form.message': 'Veuillez entrer votre adresse mail, un lien de ré-initialisation du mot de passe vous sera envoyé',
   'ask.reset.password.form.title': 'Ré-initialisation du mot de passe',
-  'ask.reset.password.form.send.failed': '{status, select, ' +
-    '404: { L\'adresse e-mail saisie est inconnue }' +
-    'other: { Une erreur inconnue s\'est produite } }',
+  'ask.reset.password.form.send.failed': '{status, plural, ' +
+    '=404 {L\'adresse e-mail saisie est inconnue}' +
+    'other {Une erreur inconnue s\'est produite (#)}}',
 
   // unlock account request form
   'ask.unlock.account.form.message': 'Veuillez entrer votre adresse mail pour demander le dévérouillage du compte',
   'ask.unlock.account.form.title': 'Dévérouillage du compte utilisateur',
-  'ask.unlock.account.form.send.failed': '{status, select, ' +
-    '404: { L\'adresse e-mail saisie est inconnue. }' +
-    '403: { Le compte lié à ce mail n\'est pas bloqué }' +
-    'other: { Une erreur inconnue s\'est produite } }',
+  'ask.unlock.account.form.send.failed': '{status, plural, ' +
+    '=403 {Le compte lié à ce mail n\'est pas bloqué}' +
+    '=404 {L\'adresse e-mail saisie est inconnue.}' +
+    'other {Une erreur inconnue s\'est produite (#)}}',
 
   // reset password operation
   'ask.reset.password.sent.title': 'Demande de ré-initialisation envoyée',

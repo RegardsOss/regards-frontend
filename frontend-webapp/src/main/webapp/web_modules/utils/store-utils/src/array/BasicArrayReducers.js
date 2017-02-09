@@ -4,50 +4,52 @@
 /**
  * @author Léo Mieulet
  */
+const defaultState = {
+  isFetching: false,
+  error: {
+    hasError: false,
+    type: '',
+    message: '',
+    status: 200,
+  },
+    items: [],
+}
 /**
  *  Handle reduction for arrays
  */
-class BasicListReducer {
+class BasicArrayReducer {
 
   constructor(basicArrayActionInstance) {
     this.basicArrayActionInstance = basicArrayActionInstance
   }
 
-  reduce(state = {
-    isFetching: false,
-    error: {
-      hasError: false,
-      type: '',
-      message: '',
-      status: '',
-      items: [],
-    },
-  }, action) {
+  reduce(state = defaultState, action) {
     switch (action.type) {
       case this.basicArrayActionInstance.ENTITY_LIST_REQUEST:
-        return Object.assign({}, state, {
+        return {
+          ...state,
           isFetching: true,
-        })
+          error: defaultState.error,
+        }
       case this.basicArrayActionInstance.ENTITY_LIST_FAILURE:
-        return Object.assign({}, state, {
-          isFetching: false,
+        return {
+          ...state,
           error: {
             hasError: true,
             type: action.type,
             message: action.meta ? action.meta.errorMessage : '',
             status: action.meta ? action.meta.status : '',
           },
-        })
-      case this.basicArrayActionInstance.ENTITY_LIST_SUCCESS:
-        return Object.assign({}, state, {
-          isFetching: false,
-          items: action.payload,
-        })
-      case this.basicArrayActionInstance.FLUSH:
-        return {
-          isFetching: false,
-          items: [],
         }
+      case this.basicArrayActionInstance.ENTITY_LIST_SUCCESS:
+        return {
+          ...state,
+          isFetching: false,
+          error: defaultState.error,
+          items: action.payload,
+        }
+      case this.basicArrayActionInstance.FLUSH:
+        return defaultState
       default:
         return state
     }
@@ -55,4 +57,4 @@ class BasicListReducer {
 
 }
 
-export default BasicListReducer
+export default BasicArrayReducer

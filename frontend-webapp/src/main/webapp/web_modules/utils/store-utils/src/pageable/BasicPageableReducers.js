@@ -12,9 +12,10 @@ class BasicPageableReducer extends BasicListReducers {
     const newState = super.reduce(state, action)
     switch (action.type) {
       case this.basicListActionInstance.ENTITY_LIST_SUCCESS :
-        return Object.assign({}, newState, {
+        return {
+          ...newState,
           metadata: action.payload.metadata,
-        })
+        }
       default :
         return newState
     }

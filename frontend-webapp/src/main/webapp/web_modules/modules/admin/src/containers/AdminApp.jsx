@@ -4,7 +4,7 @@
 import { intlShape } from 'react-intl'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
-import { AuthenticationSelectors } from '@regardsoss/authentication-manager'
+import { AuthenticationSelectors, routeHelpers } from '@regardsoss/authentication-manager'
 import { ThemeHelper, ThemeSelectors } from '@regardsoss/theme'
 import { EndpointActions } from '@regardsoss/endpoint'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
@@ -25,7 +25,6 @@ class AdminApp extends React.Component {
     }),
     // from mapStateToProps
     theme: React.PropTypes.string,
-    isFecthingAuthentication: React.PropTypes.bool,
     isAuthenticated: React.PropTypes.bool,
     // from mapDispatchToProps
     fetchEndpoints: React.PropTypes.func,
@@ -51,23 +50,29 @@ class AdminApp extends React.Component {
    * @param nextProps
    */
   componentWillReceiveProps(nextProps) {
-    // when authentication has been fetched
-    if (this.props.isFecthingAuthentication && !nextProps.isFecthingAuthentication) {
-      // Prevent the HMI to show the admin app before endpoints have been retrieved
-      this.setState({
-        isLoadingEndpoints: true,
-      })
-      Promise.resolve(this.props.fetchEndpoints())
-        .then((actionResult) => {
-          // We receive here the action
-          if (!actionResult.error) {
-            this.setState({
-              isLoadingEndpoints: false,
-            })
-          } else {
-            throw new Error('Failed to retrieve endpoint list, which is required on the admin dashboard')
-          }
+    // when authentication has been fetched:
+    if (!this.props.isAuthenticated && nextProps.isAuthenticated) {
+      // case A: back from authentication mail: do redirection to initial URL
+      if (routeHelpers.isBackFromAuthenticationMail()) {
+        routeHelpers.doRedirection()
+      } else {
+        // case B default login case
+        // Prevent the HMI to show the admin app before endpoints have been retrieved
+        this.setState({
+          isLoadingEndpoints: true,
         })
+        Promise.resolve(this.props.fetchEndpoints())
+          .then((actionResult) => {
+            // We receive here the action
+            if (!actionResult.error) {
+              this.setState({
+                isLoadingEndpoints: false,
+              })
+            } else {
+              throw new Error('Failed to retrieve endpoint list, which is required on the admin dashboard')
+            }
+          })
+      }
     }
   }
 
@@ -117,7 +122,6 @@ const mapStateToProps = state => ({
   // Add theme from store to the components props
   theme: ThemeSelectors.getCurrentTheme(state),
   isAuthenticated: AuthenticationSelectors.isAuthenticated(state),
-  isFecthingAuthentication: AuthenticationSelectors.isFetching(state),
 })
 
 const mapDispatchToProps = dispatch => ({

@@ -31,7 +31,7 @@ class AuthenticationPanel extends React.Component {
       name: 'authentication',
       active: true,
       conf: {
-        showCancel: true,
+        showCancel: false,
         showCreateAccount: false,
         project: this.props.project,
         loginTitle: this.context.intl.formatMessage({ id: 'loginFormTitle' }),

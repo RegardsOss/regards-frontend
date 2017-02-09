@@ -4,8 +4,8 @@
 import { AuthenticationRouteParameters } from '@regardsoss/authentication-manager'
 import AccountActions from './AccountActions'
 
-const instance = new AccountActions('unlockAccount', AuthenticationRouteParameters.mailAuthenticationAction.values.unlockAccount)
+export const UnlockAccountActions = new AccountActions('unlockAccount', AuthenticationRouteParameters.mailAuthenticationAction.values.unlockAccount)
 export default {
-  sendAskUnlockAccount: mail => instance.sendAskRequest(mail),
-  sendFinishUnlockAccount: (mail, token) => instance.sendFinishRequest(mail, token),
+  sendAskUnlockAccount: mail => UnlockAccountActions.sendAskRequest(mail),
+  sendFinishUnlockAccount: (mail, token) => UnlockAccountActions.sendFinishRequest(mail, token),
 }
