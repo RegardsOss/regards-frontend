@@ -3,9 +3,9 @@
  **/
 import {forEach} from 'lodash'
 import IconButton from 'material-ui/IconButton'
-import Edit from 'material-ui/svg-icons/editor/mode-edit'
-import Delete from 'material-ui/svg-icons/action/delete'
-import Add from 'material-ui/svg-icons/content/add-circle'
+import IconMenu from 'material-ui/IconMenu';
+import MenuItem from 'material-ui/MenuItem';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 import {LazyModuleComponent, ModuleListProvider, ModuleShape} from '@regardsoss/modules'
 import {PluginConf} from '@regardsoss/model'
@@ -133,50 +133,42 @@ class Container extends React.Component {
    */
   renderConfigurationMode = () => {
     if (this.props.configurationMode) {
-      let deleteAction = []
+      let deleteAction = null
       if (this.props.mainContainer === false) {
-        deleteAction.push(
-          <IconButton
+        deleteAction = (<MenuItem
             key="delete"
-            style={{width:'20px'}}
             onTouchTap={() => {
               this.props.onContainerClick('DELETE', this.props.container)
             }}
-            tooltip="Remove section">
-            <Delete />
-          </IconButton>
+            primaryText="Delete section"/>
         )
-        deleteAction.push(<ToolbarSeparator key="fourth" />)
       }
       return (
         <div className='row'>
-          <Toolbar>
+          <Toolbar style={{height: 40}}>
             <ToolbarGroup key="name">
               <ToolbarTitle text={this.props.container.id}/>
             </ToolbarGroup>
             <ToolbarGroup key="actions">
-              <ToolbarSeparator key="first"/>
-              <IconButton
-                key="add"
-                style={{width:'20px'}}
-                onTouchTap={() => {
-                  this.props.onContainerClick('ADD', this.props.container)
-                }}
-                tooltip="Add sub-section">
-                <Add />
-              </IconButton>
-              <ToolbarSeparator key="second"/>
-              <IconButton
-                key="edit"
-                style={{width:'20px'}}
-                onTouchTap={() => {
-                  this.props.onContainerClick('EDIT', this.props.container)
-                }}
-                tooltip="Edit section">
-                <Edit />
-              </IconButton>
-              <ToolbarSeparator key="third"/>
-              {deleteAction}
+              <IconMenu
+                iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
+                anchorOrigin={{horizontal: 'left', vertical: 'top'}}
+                targetOrigin={{horizontal: 'left', vertical: 'top'}}
+              >
+                <MenuItem
+                  key="add"
+                  onTouchTap={() => {
+                    this.props.onContainerClick('ADD', this.props.container)
+                  }}
+                  primaryText="Add sub-section"/>
+                <MenuItem
+                  key="edit"
+                  onTouchTap={() => {
+                    this.props.onContainerClick('EDIT', this.props.container)
+                  }}
+                  primaryText="Edit section"/>
+                {deleteAction}
+              </IconMenu>
             </ToolbarGroup>
           </Toolbar>
 
@@ -199,7 +191,8 @@ class Container extends React.Component {
 
     if (this.props.configurationMode) {
       containerStyles.border = "1px dotted black"
-      containerStyles.padding = "20px"
+      containerStyles.padding = "5px"
+      containerStyles.margin = "5px"
     }
 
     return (
