@@ -27,7 +27,7 @@ describe('[STORE UTILS] Testing project reducer', () => {
         hasError: false,
         message: '',
         type: '',
-        status: '',
+        status: 200,
       },
       isFetching: false,
       isSyncing: false,
@@ -44,10 +44,22 @@ describe('[STORE UTILS] Testing project reducer', () => {
       const initState = {
         isSyncing: false,
         isFetching: false,
+        error: {
+          hasError: false,
+          type: '',
+          message: '',
+          status: 200,
+        },
       }
       const expectedState = {
         isSyncing: false,
         isFetching: true,
+        error: {
+          hasError: false,
+          type: '',
+          message: '',
+          status: 200,
+        },
       }
       expect(projectReducers.reduce(initState, action)).to.eql(expectedState)
     }
@@ -63,10 +75,22 @@ describe('[STORE UTILS] Testing project reducer', () => {
       const initState = {
         isSyncing: false,
         isFetching: false,
+        error: {
+          hasError: false,
+          type: '',
+          message: '',
+          status: 200,
+        },
       }
       const expectedState = {
         isSyncing: true,
         isFetching: false,
+        error: {
+          hasError: false,
+          type: '',
+          message: '',
+          status: 200,
+        },
       }
       expect(projectReducers.reduce(initState, action)).to.eql(expectedState)
     }
@@ -89,7 +113,7 @@ describe('[STORE UTILS] Testing project reducer', () => {
           hasError: true,
           message: '',
           type: actionType,
-          status: '',
+          status: 200,
         },
         isFetching: false,
         isSyncing: false,
@@ -109,7 +133,7 @@ describe('[STORE UTILS] Testing project reducer', () => {
           hasError: true,
           message: '',
           type: actionType,
-          status: '',
+          status: 200,
         },
         isFetching: false,
         isSyncing: false,
@@ -155,6 +179,12 @@ describe('[STORE UTILS] Testing project reducer', () => {
     const expectedState = {
       isFetching: false,
       isSyncing: false,
+      error: {
+        hasError: false,
+        type: '',
+        message: '',
+        status: 200,
+      },
       items: {
         1: {
           content: {
@@ -207,8 +237,14 @@ describe('[STORE UTILS] Testing project reducer', () => {
       lastUpdate: '',
     }
     const expectedState = {
-      isFetching: true,
+      isFetching: false,
       isSyncing: false,
+      error: {
+        hasError: false,
+        type: '',
+        message: '',
+        status: 200,
+      },
       items: {
         cdpp: {
           content: {
@@ -279,6 +315,12 @@ describe('[STORE UTILS] Testing project reducer', () => {
           },
         },
         lastUpdate: '',
+        error: {
+          hasError: false,
+          type: '',
+          message: '',
+          status: 200,
+        },
       }
       expect(projectReducers.reduce(initState, action)).to.eql(expectedState)
     }

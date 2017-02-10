@@ -2,10 +2,10 @@
  * LICENSE_PLACEHOLDER
  **/
 import React from 'react'
-import {FormattedMessage} from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import TextField from 'material-ui/TextField'
-import {Card, CardText} from 'material-ui/Card'
-import {connect} from 'react-redux'
+import { Card, CardText } from 'material-ui/Card'
+import { connect } from 'react-redux'
 
 class StringCriteriaComponent extends React.Component {
 
@@ -26,14 +26,17 @@ class StringCriteriaComponent extends React.Component {
      * Keys of this object are the "name" props of the attributes defined in the plugin-info.json
      * Value of each keys are the attribute id (retrieved from the server) associated
      */
+    // eslint-disable-next-line
     attributes: React.PropTypes.object,
+    // From map dispatch to props
+    testDispatch: React.PropTypes.func,
   }
 
-  constructor(props){
+  constructor(props) {
     super(props)
     this.state = {
       value: '',
-    };
+    }
   }
 
   componentDidMount() {
@@ -43,39 +46,44 @@ class StringCriteriaComponent extends React.Component {
   changeValue = (value) => {
     this.props.onChange({
       attribute: this.props.attributes.searchField,
-      comparator: "EQ",
-      value: value,
+      comparator: 'EQ',
+      value,
     }, this.props.pluginInstanceId)
     this.setState({
-      value
+      value,
     })
   }
 
   render() {
-
     const attributeLAbel = this.props.attributes.searchField.name ? this.props.attributes.searchField.name : null
     return (
-      <div style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'baseline',
-      }}>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'baseline',
+        }}
+      >
         <Card>
-          <CardText style={{
-            display: 'flex',
-            alignItems: 'baseline',
-            paddingTop: 0,
-            paddingBottom: 2,
-            minWidth: 400,
-          }}>
-            <span style={{
-              marginRight: 20
-            }}>
-            {attributeLAbel}
+          <CardText
+            style={{
+              display: 'flex',
+              alignItems: 'baseline',
+              paddingTop: 0,
+              paddingBottom: 2,
+              minWidth: 400,
+            }}
+          >
+            <span
+              style={{
+                marginRight: 20,
+              }}
+            >
+              {attributeLAbel}
             </span>
             <TextField
               id="search"
-              floatingLabelText={<FormattedMessage id="criterion.search.field.label"/>}
+              floatingLabelText={<FormattedMessage id="criterion.search.field.label" />}
               value={this.state.value}
               onChange={(event, value) => {
                 this.changeValue(value)
@@ -95,7 +103,7 @@ const mapStateToProps = state => ({
   theme: state.common.theme,
 })
 const mapDispatchToProps = dispatch => ({
-  testDispatch: () => dispatch({type: 'plugin/TEST'}),
+  testDispatch: () => dispatch({ type: 'plugin/TEST' }),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(StringCriteriaComponent)

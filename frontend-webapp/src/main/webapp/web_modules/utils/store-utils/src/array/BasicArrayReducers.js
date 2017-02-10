@@ -12,7 +12,7 @@ const defaultState = {
     message: '',
     status: 200,
   },
-    items: [],
+  items: [],
 }
 /**
  *  Handle reduction for arrays
@@ -38,7 +38,7 @@ class BasicArrayReducer {
             hasError: true,
             type: action.type,
             message: action.meta ? action.meta.errorMessage : '',
-            status: action.meta ? action.meta.status : '',
+            status: action.meta ? action.meta.status : defaultState.error.status,
           },
         }
       case this.basicArrayActionInstance.ENTITY_LIST_SUCCESS:

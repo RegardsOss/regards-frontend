@@ -23,7 +23,7 @@ export class AccountRequestFormContainer extends React.Component {
     // done callback
     onDone: React.PropTypes.func.isRequired,
     // request form ID (used internally)
-    requestFormId: React.PropTypes.oneOf(values(requestFormIds)),
+    requestFormId: React.PropTypes.oneOf(values(requestFormIds)).isRequired,
 
     // from map state to props
     isFetching: React.PropTypes.bool,

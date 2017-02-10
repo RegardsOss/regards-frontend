@@ -67,7 +67,7 @@ class BasicListReducers {
             hasError: true,
             type: action.type,
             message: action.meta ? action.meta.errorMessage : '',
-            status: action.meta ? action.meta.status : '',
+            status: action.meta ? action.meta.status : defaultState.error.status,
           },
         }
       case this.basicListActionInstance.CREATE_ENTITY_FAILURE:
@@ -80,7 +80,7 @@ class BasicListReducers {
             hasError: true,
             type: action.type,
             message: action.meta ? action.meta.errorMessage : '',
-            status: action.meta ? action.meta.status : '',
+            status: action.meta ? action.meta.status : defaultState.error.status,
           },
         }
       case this.basicListActionInstance.ENTITY_LIST_SUCCESS:

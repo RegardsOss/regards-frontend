@@ -13,7 +13,7 @@ import { AskResetPasswordFormContainer, AskUnlockAccountFormContainer } from '..
 /**
  * Possible view states with messageOperationId for messages view states (allow really smaller code for view instantiation as
  * every message view is handled by the same component type) */
-const viewStates = {
+export const viewStates = {
   authenticationFormView: {},
   askResetPasswordFormView: {},
   askUnlockAccountFormView: { },

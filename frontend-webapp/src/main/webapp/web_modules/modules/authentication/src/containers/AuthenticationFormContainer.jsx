@@ -1,7 +1,6 @@
 /**
  * LICENSE_PLACEHOLDER
  */
-import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { fetchAuthenticate, AuthenticationSelectors } from '@regardsoss/authentication-manager'
 import AuthenticationFormComponent from '../components/AuthenticationFormComponent'

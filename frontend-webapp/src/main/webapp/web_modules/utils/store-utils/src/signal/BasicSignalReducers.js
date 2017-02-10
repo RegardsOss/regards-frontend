@@ -37,7 +37,7 @@ class BasicSignalReducers {
             hasError: true,
             type: action.type,
             message: action.meta ? action.meta.errorMessage : '',
-            status: action.meta ? action.meta.status : '',
+            status: action.meta ? action.meta.status : defaultState.error.status,
           },
         }
       case this.basicSignalActionInstance.SIGNAL_SUCCESS:

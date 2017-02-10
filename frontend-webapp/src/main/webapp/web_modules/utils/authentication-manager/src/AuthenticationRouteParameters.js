@@ -49,8 +49,6 @@ export const AuthenticationParametersHelper = {
 }
 
 
-
-
 export const routeHelpers = {
   /**
    * Determinates if user in back in UI from an authentication request mail
