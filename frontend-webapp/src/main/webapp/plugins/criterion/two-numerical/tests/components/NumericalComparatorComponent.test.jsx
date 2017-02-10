@@ -14,7 +14,7 @@ import EnumNumericalComparator from '../../src/model/EnumNumericalComparator'
  *
  * @author Xavier-Alexandre Brochard
  */
-describe('[PLUGIN NUMERICAL CRITERIA] Testing the numerical criteria component', () => {
+describe('[PLUGIN TWO NUMERICAL CRITERIA] Testing the numerical comparator component', () => {
   it('should exists', () => {
     assert.isDefined(NumericalComparatorComponent)
     assert.isDefined(EnumNumericalComparator)

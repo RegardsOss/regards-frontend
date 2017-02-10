@@ -14,7 +14,7 @@ import EnumTemporalComparator from '../../src/model/EnumTemporalComparator'
  *
  * @author Xavier-Alexandre Brochard
  */
-describe('[PLUGIN TWO TEMPORAL CRITERIA] Testing the temporal criteria component', () => {
+describe('[PLUGIN TWO TEMPORAL CRITERIA] Testing the temporal comparator component', () => {
   it('should exists', () => {
     assert.isDefined(TemporalComparatorComponent)
     assert.isDefined(EnumTemporalComparator)
