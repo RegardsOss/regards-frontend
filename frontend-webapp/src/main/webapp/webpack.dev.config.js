@@ -33,8 +33,11 @@ config = merge(config, {
   },
   devServer: {
     stats: {
+      assets: false,
+      chunks: false,
       children: false,
       colors: true,
+      hash: false,
     },
     // Web directory serve by the webpack dev server
     contentBase: './build',

@@ -40,6 +40,7 @@ npm link web_modules/modules/admin-data-fragment-management
 npm link web_modules/modules/admin-microservice-management
 npm link web_modules/modules/admin-project-management
 npm link web_modules/modules/admin-user-management
+npm link web_modules/modules/admin-user-accessgroup-management
 npm link web_modules/modules/admin-user-projectuser-management
 npm link web_modules/modules/admin-user-role-resource-access-management
 npm link web_modules/modules/admin-user-role-management
@@ -53,6 +54,7 @@ npm link web_modules/modules/archival-storage-plugins-monitoring
 # Global modules
 npm link web_modules/modules/authentication
 npm link web_modules/modules/news
+npm link web_modules/modules/home-page
 npm link web_modules/modules/menu
 npm link web_modules/modules/projects-list
 npm link web_modules/modules/global-system-error

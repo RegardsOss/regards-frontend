@@ -23,6 +23,8 @@ import Module from './access/Module'
 import Layout from './access/Layout'
 import LayoutContent from './access/LayoutContent'
 import Entity from './dam/Entity'
+import AccessGroup from './dam/AccessGroup'
+import AccessRight from './dam/AccessRight'
 import CatalogEntity from './catalog/Entity'
 import PluginMetaData, { PluginMetaDataList } from './admin/plugin/PluginMetaData'
 import PluginConfiguration, { PluginConfigurationList } from './admin/plugin/PluginConfiguration'
@@ -53,6 +55,8 @@ export default {
   Collection,
   Dataset,
   Datasource,
+  AccessGroup,
+  AccessRight,
 
   // CATALOG
   CatalogEntity,
