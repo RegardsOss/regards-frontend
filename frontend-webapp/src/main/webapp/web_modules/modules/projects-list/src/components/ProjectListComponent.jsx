@@ -41,7 +41,6 @@ class ProjectListComponent extends React.Component {
           >
             <ProjectComponent
               project={project}
-              isAccessible={id === 0}
             />
           </div>
         ))}

@@ -27,18 +27,18 @@ class HomePageContainer extends React.Component {
     frameHeight: '750px',
   }
 
-  handleClose() {
+  handleClose = () => {
     this.setState({ open: false })
   }
 
-  handleHide() {
+  handleHide = () => {
     this.handleClose()
     localStorage.setItem(`${this.props.project}HomePageHidden`, true)
   }
 
-  handleFrameLoad() {
+  handleFrameLoad = () => {
     this.setState({
-      frameHeight: this.refs.iframe.contentWindow.document.body.scrollHeight + 37,
+      frameHeight: this.frameRef.contentWindow.document.body.scrollHeight + 37,
     })
   }
 
@@ -47,12 +47,12 @@ class HomePageContainer extends React.Component {
     const actions = [
       <FlatButton
         label={<FormattedMessage id="homepage.hide" />}
-        onTouchTap={() => this.handleHide()}
+        onTouchTap={this.handleHide}
       />,
       <FlatButton
         label={<FormattedMessage id="homepage.ok" />}
         primary
-        onTouchTap={() => this.handleClose()}
+        onTouchTap={this.handleClose}
       />,
     ]
 
@@ -65,11 +65,11 @@ class HomePageContainer extends React.Component {
         autoScrollBodyContent
       >
         <iframe
-          ref="iframe"
+          ref={(ref) => { this.frameRef = ref }}
           style={moduleTheme.frame}
           height={this.state.frameHeight}
           src={this.props.htmlPath}
-          onLoad={() => this.handleFrameLoad()}
+          onLoad={this.handleFrameLoad}
         />
       </Dialog>
     )

@@ -24,7 +24,7 @@ class AdminContainer extends React.Component {
     test: false,
   }
 
-  handleTest() {
+  handleTest = () => {
     this.setState({ test: true, filePath: this.props.getHtmlPath })
   }
 
@@ -42,7 +42,7 @@ class AdminContainer extends React.Component {
         <RaisedButton
           label={<FormattedMessage id="homepage.admin.test" />}
           primary
-          onTouchTap={() => this.handleTest()}
+          onTouchTap={this.handleTest}
         />
         {this.state.test ? <iframe
           style={moduleTheme.adminFrame}

@@ -10,7 +10,9 @@ import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { Project } from '@regardsoss/model'
+import moduleStyle from '../styles/styles'
 
+const styles = moduleStyle()
 /**
  * React components to list project.
  */
@@ -36,6 +38,13 @@ export class ProjectListComponent extends React.Component {
     return (<FormattedMessage id="project.list.value.isPrivate" />)
   }
 
+  getAccessibility = (isAccessible) => {
+    if (isAccessible) {
+      return (<FormattedMessage id="project.list.value.isAccessible" />)
+    }
+    return (<FormattedMessage id="project.list.value.isNotAccessible" />)
+  }
+
   getState = (isDeleted) => {
     if (isDeleted) {
       return (<FormattedMessage id="project.list.value.isDeleted" />)
@@ -44,6 +53,7 @@ export class ProjectListComponent extends React.Component {
   }
 
   render() {
+    const { intl } = this.context
     const { projectList, handleEdit, handleDelete, handleOpen, createUrl } = this.props
     const style = {
       hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
@@ -66,11 +76,24 @@ export class ProjectListComponent extends React.Component {
               displaySelectAll={false}
             >
               <TableRow>
-                <TableHeaderColumn><FormattedMessage id="project.list.table.name" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="project.list.table.description" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="project.list.table.isPublic" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="project.list.table.isDeleted" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="project.list.table.actions" /></TableHeaderColumn>
+                <TableHeaderColumn style={styles.tableRow} className="col-md-13">
+                  <FormattedMessage id="project.list.table.name" />
+                </TableHeaderColumn>
+                <TableHeaderColumn style={styles.tableRow} className="col-md-33">
+                  <FormattedMessage id="project.list.table.description" />
+                </TableHeaderColumn>
+                <TableHeaderColumn style={styles.tableRow} className="col-md-12">
+                  <FormattedMessage id="project.list.table.isPublic" />
+                </TableHeaderColumn>
+                <TableHeaderColumn style={styles.tableRow} className="col-md-12">
+                  <FormattedMessage id="project.list.table.isAccessible" />
+                </TableHeaderColumn>
+                <TableHeaderColumn style={styles.tableRow} className="col-md-12">
+                  <FormattedMessage id="project.list.table.isDeleted" />
+                </TableHeaderColumn>
+                <TableHeaderColumn style={styles.tableRow} className="col-md-18">
+                  <FormattedMessage id="project.list.table.actions" />
+                </TableHeaderColumn>
               </TableRow>
             </TableHeader>
             <TableBody
@@ -80,22 +103,40 @@ export class ProjectListComponent extends React.Component {
             >
               {map(projectList, (project, i) => (
                 <TableRow key={i}>
-                  <TableRowColumn>{project.content.name}</TableRowColumn>
-                  <TableRowColumn>{project.content.description}</TableRowColumn>
-                  <TableRowColumn>{this.getVisibility(project.content.isPublic)}</TableRowColumn>
-                  <TableRowColumn>{this.getState(project.content.isDeleted)}</TableRowColumn>
-                  <TableRowColumn>
+                  <TableRowColumn style={styles.tableRow} className="col-md-13">{project.content.name}</TableRowColumn>
+                  <TableRowColumn style={styles.tableRow} className="col-md-33">
+                    <abbr style={styles.abbr} title={project.content.description}>
+                      {project.content.description}
+                    </abbr>
+                  </TableRowColumn>
+                  <TableRowColumn style={styles.tableRow} className="col-md-12">
+                    {this.getVisibility(project.content.isPublic)}
+                  </TableRowColumn>
+                  <TableRowColumn style={styles.tableRow} className="col-md-12">
+                    {this.getAccessibility(project.content.isAccessible)}
+                  </TableRowColumn>
+                  <TableRowColumn style={styles.tableRow} className="col-md-12">
+                    {this.getState(project.content.isDeleted)}
+                  </TableRowColumn>
+                  <TableRowColumn style={styles.tableRow} className="col-md-18">
                     <IconButton
+                      title={intl.formatMessage({ id: 'project.list.action.openbutton' })}
                       onTouchTap={() => handleOpen(project.content.name)}
                     >
                       <Input hoverColor={style.hoverButtonView} />
                     </IconButton>
 
-                    <IconButton onTouchTap={() => handleEdit(project.content.name)}>
+                    <IconButton
+                      title={intl.formatMessage({ id: 'project.list.action.editbutton' })}
+                      onTouchTap={() => handleEdit(project.content.name)}
+                    >
                       <Edit hoverColor={style.hoverButtonEdit} />
                     </IconButton>
 
-                    <IconButton onTouchTap={() => handleDelete(project.content.name)}>
+                    <IconButton
+                      title={intl.formatMessage({ id: 'project.list.action.deletebutton' })}
+                      onTouchTap={() => handleDelete(project.content.name)}
+                    >
                       <Delete hoverColor={style.hoverButtonDelete} />
                     </IconButton>
                   </TableRowColumn>
