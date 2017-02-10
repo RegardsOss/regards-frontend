@@ -4,7 +4,7 @@
 import { intlShape } from 'react-intl'
 import { connect } from '@regardsoss/redux'
 import { LazyModuleComponent } from '@regardsoss/modules'
-import { logout, AuthenticationSelectors, isBackFromAuthenticationMail } from '@regardsoss/authentication-manager'
+import { logout, AuthenticationSelectors, routeHelpers } from '@regardsoss/authentication-manager'
 import AuthenticationDialogComponent from '../components/AuthenticationDialogComponent'
 import LoginButton from '../components/LoginButton'
 import LoggedUserComponent from '../components/LoggedUserComponent'
@@ -32,10 +32,10 @@ class AuthenticationMenuContainer extends React.Component {
   }
 
   // when user access interface from mail (like reset password), he should see dialog initially
-  componentWillMount = () => this.setAuthenticationVisible(isBackFromAuthenticationMail())
+  componentWillMount = () => this.setAuthenticationVisible(routeHelpers.isBackFromAuthenticationMail())
 
     // forbid closing when we are in a specific authentication URL (to avoid inconsistent states)
-  onCloseDialog = () => !isBackFromAuthenticationMail() && this.setAuthenticationVisible(false)
+  onCloseDialog = () => !routeHelpers.isBackFromAuthenticationMail() && this.setAuthenticationVisible(false)
 
   /**
    * Shows and hide authentication dialog
@@ -72,7 +72,7 @@ class AuthenticationMenuContainer extends React.Component {
               conf: {
                 loginTitle: this.context.intl.formatMessage({ id: 'loginFormTitle' }),
                 // show cancel button only when not in a specific authentication URL
-                showCancel: !isBackFromAuthenticationMail(),
+                showCancel: !routeHelpers.isBackFromAuthenticationMail(),
                 showCreateAccount: true,
                 onCancelAction: this.onCloseDialog,
                 project: this.props.project,

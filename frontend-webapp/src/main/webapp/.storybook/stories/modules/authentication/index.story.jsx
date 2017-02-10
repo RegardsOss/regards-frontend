@@ -20,11 +20,11 @@ storiesOf('Authentication', module)
         <ModuleThemeProvider module={moduleTheme}>
           <AuthenticationFormComponent
             title="Authentication form"
-            createAccount={boolean('create account', true)}
+            showCreateAccount={boolean('create account', true)}
             onLogin={action('Login')}
             onSubmit={action('reset password')}
             errorMessage={text('Message error', '')}
-            cancelButton={boolean('Cancel button', true)}
+            showCancel={boolean('Cancel button', true)}
             onCancelAction={action('cancel')}
             onGotoResetPassword={action('goto reset account')}
             onGotoUnlockAccount={action('goto unlock account')}
@@ -59,7 +59,7 @@ storiesOf('Authentication', module)
       <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/authentication/src/i18n">
         <ModuleThemeProvider module={moduleTheme}>
           <AccountOperationMessage
-            operationId={select('Message type', values(operationIds), operationIds.unlockRequestSent)}
+            operationId={select('Message type', values(operationIds), operationIds.askUnlockAccountSent)}
             operationAction={action('done click')}
           />
         </ModuleThemeProvider>

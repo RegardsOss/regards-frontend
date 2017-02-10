@@ -90,7 +90,6 @@ describe('[STORAGE PLUGINS MONITORING] Testing StorageMonitoringComponent', () =
       hasError: true,
       storagePlugins: [],
     }
-
     // is rendering ok?
     const enzymeWrapper = shallow(<StorageMonitoringComponent {...props} />, { context })
     // is marked as loading?

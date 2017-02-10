@@ -4,8 +4,8 @@
 import { AuthenticationRouteParameters } from '@regardsoss/authentication-manager'
 import AccountActions from './AccountActions'
 
-const instance = new AccountActions('resetPassword', AuthenticationRouteParameters.mailAuthenticationAction.values.changePassword)
+export const ResetPasswordActions = new AccountActions('resetPassword', AuthenticationRouteParameters.mailAuthenticationAction.values.changePassword)
 export default {
-  sendAskResetPassword: mail => instance.sendAskRequest(mail),
-  sendFinishResetPassword: (mail, token, newPassword) => instance.sendFinishRequest(mail, token, newPassword),
+  sendAskResetPassword: mail => ResetPasswordActions.sendAskRequest(mail),
+  sendFinishResetPassword: (mail, token, newPassword) => ResetPasswordActions.sendFinishRequest(mail, token, newPassword),
 }

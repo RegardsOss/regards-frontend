@@ -24,6 +24,11 @@ class AuthenticationSelectors extends BasicSelector {
     return false
   }
 
+  getError(state) {
+    const auth = this.getAuthentication(state)
+    return auth && auth.error
+  }
+
 }
 
 const instance = new AuthenticationSelectors()

@@ -12,7 +12,7 @@ export default class AuthenticationModuleContainer extends React.Component {
 
   static propTypes = {
     // current project (undefined or empty if admin)
-    project: React.PropTypes.string,
+    project: React.PropTypes.string.isRequired,
     // login screen title
     loginTitle: React.PropTypes.string.isRequired,
     // show create account link?
@@ -29,7 +29,6 @@ export default class AuthenticationModuleContainer extends React.Component {
     this.initialViewMode = this.getInitialViewMode(AuthenticationParametersHelper.getMailAuthenticationAction())
     this.initialMail = AuthenticationParametersHelper.getAccountEmail()
     this.actionToken = AuthenticationParametersHelper.getToken()
-    this.redirectURL = AuthenticationParametersHelper.getOriginURL()
   }
 
   /**
@@ -65,7 +64,6 @@ export default class AuthenticationModuleContainer extends React.Component {
         initialMode={this.initialViewMode}
         initialEmail={this.initialMail}
         actionToken={this.actionToken}
-        redirectURL={this.redirectURL}
       />
     )
   }

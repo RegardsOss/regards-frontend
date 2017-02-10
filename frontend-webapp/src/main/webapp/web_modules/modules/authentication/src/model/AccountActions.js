@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { BasicSignalActions } from '@regardsoss/store-utils'
-import { browserHistory } from 'react-router'
+import root from 'window-or-global'
 import { AuthenticationRouteParameters } from '@regardsoss/authentication-manager'
 
 export default class AccountActions extends BasicSignalActions {
@@ -14,8 +14,8 @@ export default class AccountActions extends BasicSignalActions {
    */
   constructor(endpointName, mailAuthenticationActionValue) {
     super({
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/account/{accountEmail}/${endpointName}`,
-      namespace: `account/${endpointName}`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/accounts/{accountEmail}/${endpointName}`,
+      namespace: `accounts/${endpointName}`,
       bypassErrorMiddleware: true,
     })
     this.mailAuthenticationActionValue = mailAuthenticationActionValue
@@ -27,12 +27,11 @@ export default class AccountActions extends BasicSignalActions {
    */
   sendAskRequest(accountEmail) {
     // compute reset URL: use current URL without parameters
-    const originURL = browserHistory.getCurrentLocation().pathname
-    const rootInterfaceURL = originURL.includes('?') ? originURL.substring(0, originURL.lastIndexOf('?')) : originURL
-    const resetURL = `${rootInterfaceURL}?${AuthenticationRouteParameters.mailAuthenticationAction.urlKey}=${this.mailAuthenticationActionValue}`
+    const originUrl = root.location.href
+    const resetUrl = `${root.location.host}${root.location.pathname}?${AuthenticationRouteParameters.mailAuthenticationAction.urlKey}=${this.mailAuthenticationActionValue}`
     return this.sendSignal('POST', {
-      resetURL,
-      originURL,
+      resetUrl,
+      originUrl,
     }, { accountEmail })
   }
 

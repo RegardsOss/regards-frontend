@@ -12,7 +12,7 @@ import { ApplicationLayout, ContainerHelper } from '@regardsoss/layout'
 import { ModuleShape } from '@regardsoss/modules'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { ApplicationErrorContainer } from '@regardsoss/global-sytem-error'
-import { AuthenticationSelectors, AuthenticateShape } from '@regardsoss/authentication-manager'
+import { AuthenticationSelectors, AuthenticateShape, routeHelpers } from '@regardsoss/authentication-manager'
 import LayoutSelector from '../model/layout/LayoutSelector'
 import LayoutActions from '../model/layout/LayoutActions'
 import ModulesSelector from '../model/modules/ModulesSelector'
@@ -37,7 +37,7 @@ export class UserApp extends React.Component {
     modulesIsFetching: React.PropTypes.bool,
     layout: Layout,
     modules: React.PropTypes.objectOf(ModuleShape),
-    authentication: AuthenticateShape,
+    isAuthenticated: React.PropTypes.bool,
     // Set by mapDispatchToProps
     fetchLayout: React.PropTypes.func,
     fetchModules: React.PropTypes.func,
@@ -70,10 +70,13 @@ export class UserApp extends React.Component {
       })
     }
 
-    // If a new authentication is present, refresh availables endpoints
-    if (nextProps.authentication) {
-      if (!this.props.authentication ||
-        nextProps.authentication.authenticateDate !== this.props.authentication.authenticateDate) {
+    // If a new authentication is present...
+    if (!this.props.isAuthenticated && nextProps.isAuthenticated) {
+        // ...when back from email, redirect
+      if (routeHelpers.isBackFromAuthenticationMail()) {
+        routeHelpers.doRedirection()
+      } else {
+        // ...otherwise, refresh availables endpoints
         this.props.fetchEndpoints()
       }
     }
@@ -138,7 +141,7 @@ const mapStateToProps = (state, ownProps) => ({
   modules: ModulesSelector.getList(state),
   layoutIsFetching: LayoutSelector.isFetching(state),
   modulesIsFetching: ModulesSelector.isFetching(state),
-  authentication: AuthenticationSelectors.getAuthentication(state),
+  isAuthenticated: AuthenticationSelectors.isAuthenticated(state),
 })
 
 const mapDispatchToProps = dispatch => ({

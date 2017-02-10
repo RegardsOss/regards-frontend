@@ -4,14 +4,14 @@
 import React, { Component, PropTypes } from 'react'
 import { FormattedMessage } from 'react-intl'
 import Paper from 'material-ui/Paper'
+import IconMenu from 'material-ui/IconMenu'
 import IconButton from 'material-ui/IconButton'
-import ExpandLess from 'material-ui/svg-icons/navigation/expand-less'
-import ExpandMore from 'material-ui/svg-icons/navigation/expand-more'
-import DropDownMenu from 'material-ui/DropDownMenu'
 import MenuItem from 'material-ui/MenuItem'
+import LinearScale from 'material-ui/svg-icons/editor/linear-scale'
+import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { StoragePluginShape } from '@regardsoss/model'
-import { ModuleAppBar } from '@regardsoss/components'
+import { Toolbar, ToolbarGroup, ToolbarTitle } from 'material-ui/Toolbar'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import StoragePluginCapacityComponent from './StoragePluginCapacityComponent'
 import StorageUnitScale, { StorageUnitScaleShape } from '../helper/StorageUnit'
@@ -22,7 +22,6 @@ class StorageMonitoringComponent extends Component {
   static propTypes = {
     initScale: StorageUnitScaleShape,
     storagePlugins: PropTypes.arrayOf(StoragePluginShape).isRequired,
-    expanded: React.PropTypes.bool,
     isFetching: React.PropTypes.bool.isRequired,
     hasError: React.PropTypes.bool.isRequired,
   }
@@ -33,49 +32,31 @@ class StorageMonitoringComponent extends Component {
     isFetching: false,
     hasError: false,
     storagePlugins: [],
-    expanded: true,
   }
 
   /** I18N injection & themes */
-  static contextTypes = {
-    ...themeContextType,
-  }
+  static contextTypes = { ...themeContextType, ...i18nContextType }
 
   componentWillMount = () => {
-    // set up the default state with unit scale and expanded state
-    const { initScale, storagePlugins, expanded } = this.props
-    this.setState({
-      expanded,
-      currentScale: initScale,
-      plugins: this.parsePluginsInput(storagePlugins),
-    })
+    // set up the default state with unit scale
+    const { initScale, storagePlugins } = this.props
+    this.updateState(initScale, this.parsePluginsInput(storagePlugins), false)
   }
 
   componentWillReceiveProps(nextProps) {
     // check if next plugins data changed
     const { storagePlugins } = nextProps
     if (storagePlugins.length) {
-      this.updatePluginsScale(this.state.currentScale, this.parsePluginsInput(storagePlugins))
+      this.updateState(this.state.currentScale, this.parsePluginsInput(storagePlugins))
     }
   }
 
-  onUnitScaleSelected = newScale => this.updatePluginsScale(newScale, this.state.plugins)
+  onUnitScaleSelected = newScale => this.updateState(newScale, this.state.plugins)
 
-  /**
-   * On expand / collapse button touch, switches state
-   */
-  onExpandSwitch = () => {
+  updateState = (currentScale, plugins) => {
     this.setState({
-      ...this.state,
-      expanded: !this.state.expanded,
-    })
-  }
-
-  updatePluginsScale = (newScale, plugins) => {
-    this.setState({
-      currentScale: newScale,
-      plugins: this.toNewScale(plugins, newScale),
-      expanded: this.state.expanded,
+      currentScale,
+      plugins,
     })
   }
 
@@ -101,44 +82,36 @@ class StorageMonitoringComponent extends Component {
   }))
 
   render() {
-    const { muiTheme } = this.context
-    const { currentScale, plugins, expanded } = this.state
+    const { intl } = this.context
+    const { currentScale, plugins } = this.state
     const { isFetching, hasError, storagePlugins } = this.props
+  /*  // */
     return (
       <Paper >
-        <ModuleAppBar
-          title={
-            <FormattedMessage
-              id="archival.storage.capacity.monitoring.title"
-            />
-          }
-          titleStyle={{ color: muiTheme.palette.textColor }}
-          style={{ background: muiTheme.palette.canvas }}
-          iconElementLeft={
-            <IconButton onTouchTap={this.onExpandSwitch}>
-              { expanded ? <ExpandLess color={muiTheme.palette.textColor} /> :
-              <ExpandMore color={muiTheme.palette.textColor} /> }
-            </IconButton>
-          }
-          iconElementRight={
-            <DropDownMenu
-              labelStyle={{
-                color: muiTheme.palette.textColor,
-              }}
+
+        <Toolbar>
+          <ToolbarGroup firstChild>
+            <ToolbarTitle text={intl.formatMessage({ id: 'archival.storage.capacity.monitoring.title' })} />
+          </ToolbarGroup>
+          <ToolbarGroup>
+            <FormattedMessage id={currentScale.messageKey} />
+            <IconMenu
+              iconButtonElement={<IconButton><LinearScale /></IconButton>}
               value={currentScale}
-              onChange={(evt, i, value) => this.onUnitScaleSelected(value)}
+              onChange={(evt, value) => this.onUnitScaleSelected(value)}
             >
               {StorageUnitScale.all.map(scale => (
                 <MenuItem
-                  value={scale} key={scale.id}
+                  key={scale.id}
+                  value={scale}
                   primaryText={
                     <FormattedMessage id={scale.messageKey} />
                   }
                 />
               ))}
-            </DropDownMenu>
-          }
-        />
+            </IconMenu>
+          </ToolbarGroup>
+        </Toolbar>
 
         <LoadableContentDisplayDecorator
           isLoading={isFetching}
@@ -147,8 +120,8 @@ class StorageMonitoringComponent extends Component {
         >
           <div className="row">
             {
-              // map all plugins to cards if component is expanded (hide all otherwise)
-              (!expanded) || plugins.map(pluginModel => (
+              // map all plugins to cards
+              plugins.map(pluginModel => (
                 <StoragePluginCapacityComponent key={pluginModel.id} scale={currentScale} {...pluginModel} />
                 ))
             }

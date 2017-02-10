@@ -36,24 +36,33 @@ const routeParameters = {
 
 export default routeParameters
 
-/**
- * Determinates if user in back in UI from an authentication request mail
- * @return boolean - true if the UI in current state has been opened when back from a mail
- */
-export function isBackFromAuthenticationMail() {
-  const query = browserHistory.getCurrentLocation().query
-  return !!query[routeParameters.mailAuthenticationAction.urlKey]
-}
-
-const getParameterClosure = param => () => browserHistory.getCurrentLocation().query && browserHistory.getCurrentLocation().query[param.urlKey]
+const getParameterClosure = param => () => (browserHistory.getCurrentLocation().query && browserHistory.getCurrentLocation().query[param.urlKey])
 
 /**
  * Parameter values util
  */
 export const AuthenticationParametersHelper = {
   getToken: getParameterClosure(routeParameters.token),
-  getOriginURL: getParameterClosure(decodeURIComponent(routeParameters.originURL || '')),
+  getOriginURL: () => decodeURIComponent(getParameterClosure(routeParameters.originURL)()),
   getAccountEmail: getParameterClosure(routeParameters.accountEmail),
   getMailAuthenticationAction: getParameterClosure(routeParameters.mailAuthenticationAction),
+}
+
+
+export const routeHelpers = {
+  /**
+   * Determinates if user in back in UI from an authentication request mail
+   * @return boolean - true if the UI in current state has been opened when back from a mail
+   */
+  isBackFromAuthenticationMail: () => {
+    const query = browserHistory.getCurrentLocation().query
+    return !!query[routeParameters.mailAuthenticationAction.urlKey]
+  },
+  /**
+   * Does redirection, to be used only when back from authentication mail
+   */
+  doRedirection: () => {
+    browserHistory.push(AuthenticationParametersHelper.getOriginURL())
+  },
 }
 

@@ -24,6 +24,8 @@ export class ChangePasswordFormContainer extends React.Component {
 
     // from map state to props
     isFetching: React.PropTypes.bool,
+    // used only in next props
+    // eslint-disable-next-line
     hasError: React.PropTypes.bool,
     // from map dispatch to props
     fetchRequestAction: React.PropTypes.func,
@@ -31,9 +33,22 @@ export class ChangePasswordFormContainer extends React.Component {
 
   static contextTypes= { ...i18nContextType }
 
+  componentWillReceiveProps = (nextProps) => {
+    // Detect last fetch finished
+    const { isFetching, onDone, onTokenExpired } = this.props
+    if (isFetching && !nextProps.isFetching) {
+      // redirection: error pane or OK pane?
+      if (nextProps.hasError) {
+        onTokenExpired()
+      } else {
+        onDone()
+      }
+    }
+  }
+
   onSubmit = ({ newPassword }) => {
     const { mail, token, fetchRequestAction } = this.props
-    fetchRequestAction(mail, token, newPassword)
+    fetchRequestAction(token, mail, { newPassword })
   }
 
   render() {
