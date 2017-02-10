@@ -23,12 +23,12 @@ export class AccountRequestFormContainer extends React.Component {
     // done callback
     onDone: React.PropTypes.func.isRequired,
     // request form ID (used internally)
-    requestFormId: React.PropTypes.oneOf(values(requestFormIds)),
+    requestFormId: React.PropTypes.oneOf(values(requestFormIds)).isRequired,
 
     // from map state to props
-    isFectching: React.PropTypes.bool,
+    isFetching: React.PropTypes.bool,
     hasError: React.PropTypes.bool,
-    errorStatus: React.PropTypes.string,
+    errorStatus: React.PropTypes.number,
     // from dispatch to props
     fetchRequestAction: React.PropTypes.func,
   }
@@ -38,15 +38,10 @@ export class AccountRequestFormContainer extends React.Component {
   }
 
   componentWillReceiveProps = (nextProps) => {
-    console.error('Did I receive props????? ', nextProps)
-    // verify submission state: if done without error, invoke onDone() (only when data is fully defined, marking a real state change)
-    const { isFectching, onDone } = this.props
-    const wasFetching = typeof isFectching === 'boolean' && isFectching
-    const isNoLongerFetching = typeof nextProps.isFetching === 'boolean' && !nextProps.isFectching
-    if (wasFetching && isNoLongerFetching && !nextProps.hasError) {
+    // Detect is last fetch is DONE and OK
+    const { isFetching, onDone } = this.props
+    if (isFetching && !nextProps.hasError && !nextProps.isFetching) {
       onDone(this.submittedMail)
-    } else {
-      console.error('Fetch status was: ', wasFetching, ' is not:', isNoLongerFetching, ' error:', nextProps.hasError)
     }
   }
 
@@ -58,20 +53,22 @@ export class AccountRequestFormContainer extends React.Component {
   }
 
   render() {
-    const { errorStatus, requestFormId, ...otherProps } = this.props
-    const errorMessage = errorStatus && this.context.intl.formatMessage(
-      {
-        id: `${requestFormId}.send.failed`,
-      }, {
-        status: errorStatus,
-      })
-
+    const { initialMail, onBack, hasError, errorStatus, requestFormId } = this.props
+    // should show error message?
+    const errorMessage = hasError ?
+      this.context.intl.formatMessage(
+        {
+          id: `${requestFormId}.send.failed`,
+        }, {
+          status: errorStatus,
+        }) : null
     return (
       <AccountRequestFormComponent
         onRequestAction={this.onRequestAction}
-        error={errorMessage}
+        errorMessage={errorMessage}
         requestFormId={requestFormId}
-        {...otherProps}
+        onBack={onBack}
+        initialMail={initialMail}
       />
     )
   }
@@ -86,8 +83,8 @@ const buildMapStateToProps = selectors => (state) => {
   const error = selectors.getError(state)
   return {
     isFetching: selectors.isFetching(state),
-    errorStatus: error && error.status,
-    hasError: error && error.hasError,
+    errorStatus: error.status,
+    hasError: error.hasError,
   }
 }
 

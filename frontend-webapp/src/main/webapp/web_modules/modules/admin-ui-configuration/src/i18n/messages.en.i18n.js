@@ -34,6 +34,7 @@ const messages = Object.assign({
   'layout.title': 'Application layout configuration',
   'layout.subtitle': 'This section allow you to manage your interface layout. Each declared container can be use to locate your interface modules.',
   'layout.submit': 'Update layout',
+  'layout.cancel': 'Cancel',
   'module.form.title.create': 'Create a new interface module',
   'module.form.title.update': 'Update {name} interface module',
   'module.form.title.duplicate': 'Duplicate module {name}',

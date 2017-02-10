@@ -23,17 +23,17 @@ const messages = Object.assign({
   // request account password request form
   'ask.reset.password.form.message': 'Please enter your mail address to receive a reset password link',
   'ask.reset.password.form.title': 'Reset password',
-  'ask.reset.password.form.send.failed': '{status, select, ' +
-    '404: { Entered e-mail address is unknown. } ' +
-    'other: { An unknown error occurred } }',
+  'ask.reset.password.form.send.failed': '{status, plural, ' +
+    '=404 { Entered e-mail address is unknown. } ' +
+    'other: {An unknown error occurred (#)}}',
 
   // unlock account request form
   'ask.unlock.account.form.message': 'Please enter your mail address to request account unlocking',
   'ask.unlock.account.form.title': 'Unlock user account',
-  'ask.unlock.account.form.send.failed': '{status, select, ' +
-    '404: { Entered e-mail address is unknown. }' +
-    '403: { That related account is not locked }' +
-    'other: { An unknown error occurred } }',
+  'ask.unlock.account.form.send.failed': '{status, plural, ' +
+    '=403 {That related account is not locked}' +
+    '=404 {Entered e-mail address is unknown.}' +
+    'other: {An unknown error occurred (#)}}',
 
   // reset password operation
   'ask.reset.password.sent.title': 'Reset password sent',

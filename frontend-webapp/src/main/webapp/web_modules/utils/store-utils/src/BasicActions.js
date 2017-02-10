@@ -37,7 +37,7 @@ class BasicActions {
   buildFailureAction = type => ({
     type,
     meta: (action, state, res) => ({
-      status: res ? res.status : '',
+      status: res && res.status,
       bypassErrorMiddleware: this.bypassErrorMiddleware,
     }),
   })

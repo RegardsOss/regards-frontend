@@ -25,7 +25,7 @@ export class AccountRequestFormComponent extends React.Component {
 
   static propTypes = {
     // Submit error
-    error: React.PropTypes.string,
+    errorMessage: React.PropTypes.string,
     // calls reset password action
     onRequestAction: React.PropTypes.func.isRequired,
     // action form text id: prefixes all keys
@@ -58,7 +58,7 @@ export class AccountRequestFormComponent extends React.Component {
   render() {
     const {
       currentMailValue, requestFormId,
-      error, onBack, submitting, invalid,
+      errorMessage, onBack, submitting, invalid,
       onRequestAction, handleSubmit,
     } = this.props
     const { moduleTheme } = this.context
@@ -72,7 +72,7 @@ export class AccountRequestFormComponent extends React.Component {
             <CardTitle
               title={<FormattedMessage id={`${requestFormId}.title`} />}
               subtitle={
-                <FormErrorMessage>{error}</FormErrorMessage>
+                <FormErrorMessage>{errorMessage}</FormErrorMessage>
               }
             />
             <CardText>

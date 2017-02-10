@@ -10,8 +10,9 @@ function reducer(state = {
   switch (action.type) {
     case PLUGIN_TEST:
       return { ...state, pluginTest: true }
+    default:
+      return state
   }
-  return state
 }
 
 export default {

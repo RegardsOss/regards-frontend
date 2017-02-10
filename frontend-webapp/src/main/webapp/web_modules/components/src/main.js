@@ -32,8 +32,6 @@ import PageableListContainer from './list/PageableListContainer'
 
 import LoadingPaneComponent from './loading/LoadingPaneComponent'
 
-import ModuleAppBar from './module/ModuleAppBar'
-
 import FixedTableContainer from './table/FixedTableContainer'
 
 export {
@@ -52,7 +50,6 @@ export {
   FixedTableContainer,
   LoadingPaneComponent,
   MainActionButtonComponent,
-  ModuleAppBar,
   NewsItemComponent,
   OnHoverSwitchFlatButton,
   OnHoverSwitchIconButton,

@@ -2,6 +2,16 @@
  * @author Léo Mieulet
  */
 
+const defaultState = {
+  isFetching: false,
+  error: {
+    hasError: false,
+    type: '',
+    message: '',
+    status: 200,
+  },
+  result: {},
+}
 /**
  *  Handle reduction for lists
  */
@@ -11,47 +21,36 @@ class BasicSignalReducers {
     this.basicSignalActionInstance = basicSignalActionInstance
   }
 
-  reduce(state = {
-    isFetching: false,
-    error: {
-      hasError: false,
-      type: '',
-      message: '',
-      status: '',
-    },
-    result: {},
-  }, action) {
+  reduce(state = defaultState, action) {
     switch (action.type) {
       case this.basicSignalActionInstance.SIGNAL_REQUEST:
-        return Object.assign({}, state, {
+        return {
+          ...state,
           isFetching: true,
-        })
+          error: defaultState.error,
+        }
       case this.basicSignalActionInstance.SIGNAL_FAILURE:
-        return Object.assign({}, state, {
+        return {
+          ...state,
           isFetching: false,
           error: {
             hasError: true,
             type: action.type,
             message: action.meta ? action.meta.errorMessage : '',
-            status: action.meta ? action.meta.status : '',
+            status: action.meta ? action.meta.status : defaultState.error.status,
           },
-        })
+        }
       case this.basicSignalActionInstance.SIGNAL_SUCCESS:
-        return Object.assign({}, state, {
+        return {
+          ...state,
           isFetching: false,
+          error: defaultState.error,
           result: action.payload,
-        })
+        }
       case this.basicSignalActionInstance.FLUSH:
-        return Object.assign({}, state, {
-          isFetching: false,
-          error: {
-            hasError: false,
-            type: '',
-            message: '',
-          },
-          result: {},
-        })
+        return defaultState
       default:
+        // not in this reducer
         return state
     }
   }

@@ -7,10 +7,10 @@ import { assert } from 'chai'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import MenuItem from 'material-ui/MenuItem'
 import { Field } from '@regardsoss/form-utils'
+import { DefaultLayout } from '@regardsoss/layout'
 import { ReduxConnectedForm } from '@regardsoss/redux'
 import { PluginProvider } from '@regardsoss/plugins'
 import Styles from '../../../../src/styles/styles'
-import DefaultLayout from '../../../../src/components/admin/layout/DefaultFormLayout'
 import CriteriaConfigurationComponent from '../../../../src/components/admin/criterion/CriteriaConfigurationComponent'
 import { UnconnectedFormCriteriaComponent } from '../../../../src/components/admin/criterion/FormCriteriaComponent'
 
@@ -66,7 +66,7 @@ describe('[FORM MODULE] Testing FormCriteriaComponent', () => {
     assert(containerField.length === 1, 'The container field should be rendered')
     const containerElements = containerField.find(MenuItem)
     assert.lengthOf(containerElements, 1, 'There should be 1 selectable container')
-    assert.equal(containerElements.first().prop('value'), 'main', 'The selectable container from defaultFormLayout should be main')
+    assert.equal(containerElements.first().prop('value'), 'application', 'The selectable container from defaultFormLayout should be application')
 
     // Check for specific criteria configuration
     let criteriaConf = reduxForm.find(CriteriaConfigurationComponent)
@@ -138,7 +138,7 @@ describe('[FORM MODULE] Testing FormCriteriaComponent', () => {
     assert(containerField.length === 1, 'The container field should be rendered')
     const containerElements = containerField.find(MenuItem)
     assert.lengthOf(containerElements, 1, 'There should be 1 selectable container')
-    assert.equal(containerElements.first().prop('value'), 'main', 'The selectable container from defaultFormLayout should be main')
+    assert.equal(containerElements.first().prop('value'), 'application', 'The selectable container from defaultFormLayout should be application')
 
     // Check for specific criteria configuration
     const criteriaConf = reduxForm.find(CriteriaConfigurationComponent)

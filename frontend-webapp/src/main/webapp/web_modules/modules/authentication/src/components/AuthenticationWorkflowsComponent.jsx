@@ -13,7 +13,7 @@ import { AskResetPasswordFormContainer, AskUnlockAccountFormContainer } from '..
 /**
  * Possible view states with messageOperationId for messages view states (allow really smaller code for view instantiation as
  * every message view is handled by the same component type) */
-const viewStates = {
+export const viewStates = {
   authenticationFormView: {},
   askResetPasswordFormView: {},
   askUnlockAccountFormView: { },
@@ -25,7 +25,7 @@ const viewStates = {
   resetPasswordExpiredMessageView: { messageOperationId: operationIds.askResetPasswordTokenExpired },
   // message view to complete unlock account operation
   finishUnlockAccountFetchingView: { },
-  unlockAccountExpiredMessageView: { messageOperationId: operationIds.askUnlockRequestTokenExpired },
+  unlockAccountExpiredMessageView: { messageOperationId: operationIds.askUnlockAccountTokenExpired },
   unlockAccountDoneMessageView: { messageOperationId: operationIds.unlockAccountDone },
   createAccountFormView: { },
   createAccountSent: { messageOperationId: operationIds.createAccountSent },
@@ -70,8 +70,6 @@ export default class AuthenticationStatesContainer extends React.Component {
     onCancelAction: React.PropTypes.func,
     // extern access mode (from email): mail back entry point in authentication
     initialMode: React.PropTypes.oneOf(values(initialModes)).isRequired,
-    // redirect URL after login (or none for no redirection)
-    redirectURL: React.PropTypes.string,
   }
 
   componentWillMount = () => {
@@ -128,7 +126,7 @@ export default class AuthenticationStatesContainer extends React.Component {
 
   render() {
     const { currentView, currentMail } = this.state
-    const { project, actionToken, loginTitle, redirectURL, showCreateAccount, showCancel, onCancelAction } = this.props
+    const { project, actionToken, loginTitle, showCreateAccount, showCancel, onCancelAction } = this.props
 
     // 1 - render messages states first (to write a bit less code in switch!)
     if (currentView.messageOperationId) {
@@ -151,7 +149,6 @@ export default class AuthenticationStatesContainer extends React.Component {
             onGotoCreateAccount={this.onGoto(viewStates.createAccountFormView, true)}
             onGotoResetPassword={this.onGoto(viewStates.askResetPasswordFormView, true)}
             onGotoUnlockAccount={this.onGoto(viewStates.askUnlockAccountFormView, true)}
-            redirectURL={redirectURL}
           />
         )
       // TODO
@@ -185,7 +182,7 @@ export default class AuthenticationStatesContainer extends React.Component {
           <FinishUnlockAccountContainer
             mail={currentMail}
             token={actionToken}
-            onDone={this.onGoto(viewStates.unlockAccountDoneMessageView, true)}
+            onDone={this.onGoto(viewStates.unlockAccountDoneMessageView)}
             onTokenExpired={this.onGoto(viewStates.unlockAccountExpiredMessageView)}
           />
         )

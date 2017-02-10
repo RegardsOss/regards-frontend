@@ -120,7 +120,7 @@
       "isDefault": true,
       "conf": {
         "resultType": "dataobjects",
-        "layout": "{\n    \"id\": \"main\",\n    \"type\": \"FormMainContainer\",\n    \"classes\": [],\n    \"styles\": {},\n    \"containers\": []\n}",
+        "layout": "{\n    \"id\": \"main\",\n    \"type\": \"FormMainContainer\",\n    \"classes\": [],\n    \"styles\": {},\n    \"containers\": [\n        {\n            \"id\": \"Plop\",\n            \"type\": \"RowContainer\",\n            \"containers\": [\n                {\n                    \"id\": \"Column1\",\n                    \"type\": \"50PercentColumnContainer\"\n                },\n                {\n                    \"id\": \"Column2\",\n                    \"type\": \"50PercentColumnContainer\"\n                }\n            ]\n        }\n    ]\n}",
         "datasets": {
           "type": "selectedDatasets",
           "selectedDatasets": [
@@ -132,7 +132,7 @@
         "criterion": [
           {
             "pluginId": 1,
-            "container": "main",
+            "container": "Column1",
             "pluginConf": {
               "attributes": {
                 "searchField": 0
@@ -141,7 +141,7 @@
           },
           {
             "pluginId": 1,
-            "container": "main",
+            "container": "Column2",
             "pluginConf": {
               "attributes": {
                 "searchField": 1

@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  */
 import { connect } from '@regardsoss/redux'
-import { fetchAuthenticate } from '@regardsoss/authentication-manager'
+import { fetchAuthenticate, AuthenticationSelectors } from '@regardsoss/authentication-manager'
 import AuthenticationFormComponent from '../components/AuthenticationFormComponent'
 
 /**
@@ -27,15 +27,11 @@ export class AuthenticationFormContainer extends React.Component {
     onGotoCreateAccount: React.PropTypes.func.isRequired,
     onGotoResetPassword: React.PropTypes.func.isRequired,
     onGotoUnlockAccount: React.PropTypes.func.isRequired,
-    // redirect URL after login (or none for no redirection)
-    redirectURL: React.PropTypes.string,
-
     // from map state to props
     error: React.PropTypes.string,
     // from map dispatch to props
     dispatchLoginRequest: React.PropTypes.func,
   }
-
 
   onLoginRequest = ({ username, password }) => {
     const { project, dispatchLoginRequest } = this.props
@@ -65,7 +61,7 @@ export class AuthenticationFormContainer extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  error: state.common.authentication.error,
+  error: AuthenticationSelectors.getError(state),
 })
 
 const mapDispatchToProps = dispatch => ({

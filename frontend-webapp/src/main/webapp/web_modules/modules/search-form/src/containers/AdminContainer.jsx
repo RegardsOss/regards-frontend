@@ -145,6 +145,7 @@ const mapDispatchToProps = dispatch => ({
   fetchDatasetsAttributes: datasetsId => dispatch(
     AttributeModelActions.fetchPagedEntityList(dispatch, 0, 100, { queryPAram: listToQueryParam(datasetsId, 'dataset') })),
   // funcution to update a value of the current redux-form
+  // TODO get form name from upper container (admin-ui-configuration module)
   changeField: (field, value) => dispatch(change('edit-module-form', field, value)),
 })
 

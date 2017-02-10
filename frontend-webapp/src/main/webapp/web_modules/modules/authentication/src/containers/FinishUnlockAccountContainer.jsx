@@ -24,15 +24,30 @@ export class FinishUnlockAccountContainer extends React.Component {
 
     // from map state to props
     isFetching: React.PropTypes.bool,
+    // used only in next props
+    // eslint-disable-next-line
     hasError: React.PropTypes.bool,
     // from dispatch state to props
     fetchRequestAction: React.PropTypes.func,
   }
 
-  onComponentDidMount() {
+  componentDidMount = () => {
     // start fetching account unlock finish request after showing loading screen
     const { mail, token, fetchRequestAction } = this.props
-    fetchRequestAction(mail, token)
+    fetchRequestAction(token, mail)
+  }
+
+  componentWillReceiveProps = (nextProps) => {
+    // Detect last fetch finished
+    const { isFetching, onDone, onTokenExpired } = this.props
+    if (isFetching && !nextProps.isFetching) {
+      // redirection: error pane or OK pane?
+      if (nextProps.hasError) {
+        onTokenExpired()
+      } else {
+        onDone()
+      }
+    }
   }
 
   render() {

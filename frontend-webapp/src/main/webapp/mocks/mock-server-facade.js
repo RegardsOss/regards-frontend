@@ -14,9 +14,33 @@ const _ = require('lodash')
 
 // Definitions
 const serverPort = 3000
+const uiPort = 3333
 const jsonMockURL = 'http://localhost:3001'
 const proxy = httpProxy.createProxyServer({})
 const urlStart = '/api/v1'
+const responseHeaders = {
+  'Access-Control-Allow-Origin': `http://localhost:${uiPort}`,
+  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
+  'Access-Control-Allow-Headers': 'X-Requested-With,content-type',
+  'Access-Control-Allow-Credentials': true,
+}
+
+const validToken = '123456'
+
+
+// TODO Raph : refactor to extract some as external components and keep the methods map first in this file
+const processAccountPOSTRequest = (logSubheader, { accountEmail }, { originUrl, resetUrl }) => {
+  const failureMail = 'test@fail.com'
+  console.info('[Facade mock server]', logSubheader, `use ${failureMail} to test failure case`)
+  if (accountEmail === failureMail) {
+    console.info('[Facade mock server]', logSubheader, 'Sending unknown mail')
+    return { code: 404 }
+  }
+  console.info('[Facade mock server]', logSubheader, 'Simulate mail callback by clicking the link \n',
+    `${resetUrl}&token=${validToken}&account_email=${accountEmail}&origin_url=${encodeURI(originUrl)}`)
+  return { code: 204 }
+}
+
 
 /**
  * Mock server entry point: provide here the delegate for a given URL and method
@@ -37,14 +61,40 @@ const entryDelegates = {
     // exemple URL: POST http://localhost:3000/api/v1/test-url/myTest1/hop/444 (think about adding some encoded form data)
     '/test-url/{myParam1}/hop/{myParam2}': (request, query, pathParameters, bodyParameters) =>
       ({ content:
-`Et hop! 
-\tPath parameter: ${_.keys(pathParameters).reduce((acc, key) => `${acc}\n\t\t-${key}:${pathParameters[key]}`, '')}
-\tBody parameters: ${_.keys(bodyParameters).reduce((acc, key) => `${acc}\n\t\t-${key}:${bodyParameters[key]}`, '')}
+          `Et hop! 
+          \tPath parameter: ${_.keys(pathParameters).reduce((acc, key) => `${acc}\n\t\t-${key}:${pathParameters[key]}`, '')}
+          \tBody parameters: ${_.keys(bodyParameters).reduce((acc, key) => `${acc}\n\t\t-${key}:${bodyParameters[key]}`, '')}
 ` }),
+
+    // ask unlock account
+    'accounts/{accountEmail}/unlockAccount': (request, query, pathParameters, bodyParameters) => {
+      const notLockMail = 'admin@cnes.fr'
+      console.info('[Facade mock server]', 'accounts/{accountEmail}/unlockAccount', `use ${notLockMail} to not locked case case`)
+      if (pathParameters.accountEmail === notLockMail) {
+        return { code: 403 }
+      }
+      return processAccountPOSTRequest('accounts/{accountEmail}/resetPassword', pathParameters, bodyParameters)
+    },
+    // ask reset password
+    'accounts/{accountEmail}/resetPassword': (request, query, pathParameters, bodyParameters) =>
+      processAccountPOSTRequest('accounts/{accountEmail}/resetPassword', pathParameters, bodyParameters),
   },
   PUT: {
+    // complete unlock account
+    '/accounts/{accountEmail}/unlockAccount': (request, query, { accountEmail }, { token }) => {
+      console.info('[Facade mock server]', '[/accounts/{accountEmail}/unlockAccount]', '\n\tEmail', accountEmail, '\n\tToken', token)
+      console.info('[Facade mock server]', '[/accounts/{accountEmail}/unlockAccount]', `Only valid token consider is ${validToken}`)
+      return { code: token === validToken ? 204 : 403 }
+    },
+    // complete reset password
+    '/accounts/{accountEmail}/resetPassword': (request, query, { accountEmail }, { token, newPassword }) => {
+      console.info('[Facade mock server]', '[/accounts/{accountEmail}/resetPassword]', '\n\tEmail', accountEmail, '\n\tToken', token, '\n\tnewPassword', newPassword)
+      console.info('[Facade mock server]', '[/accounts/{accountEmail}/resetPassword]', `Only valid token consider is ${validToken}`)
+      return { code: token === validToken ? 204 : 403 }
+    },
   },
 }
+
 
 // proxy handler
 const proxyHandler = (request, response) => {
@@ -65,9 +115,9 @@ const localHandler = (timeBefore, entryDelegate, query, pathParameters, bodyPara
 
 // run delegate to get code and text
   const { content = '', code = 200 } = entryDelegate(request, query, pathParameters, bodyParameters)
-// publish code
-  response.writeHead(code)
-// end answer with text
+  // publish code
+  response.writeHead(code, responseHeaders)
+  // end answer with text
   response.end(content)
 // log access info
   console.info('[Facade mock server]', request.method, request.url, code, new Date().getTime() - timeBefore, 'ms')
@@ -91,7 +141,7 @@ const findMatchingDelegate = (delegates, relativePath) => {
     const pathParametersDictionnary = []
     const matchURLText = urlkey.replace(findParamExp, (match, paramName) => {
       pathParametersDictionnary.push(paramName)
-      return '/([a-zA-Z0-9\\-_.]+)'
+      return '/([a-zA-Z0-9\\-_.@]+)'
     })
 
     // match corresponding regexp againts current route
