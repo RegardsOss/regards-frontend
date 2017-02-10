@@ -7,8 +7,12 @@
  * @type {*}
  */
 const messages = {
-  'criterion.date.field.label': 'Date ...',
-  'criterion.time.field.label': 'Heure ...',
+  'criterion.date.field.label': 'Date',
+  'criterion.date.picker.ok': 'Ok',
+  'criterion.date.picker.cancel': 'Annuler',
+  'criterion.time.field.label': 'Heure',
+  'criterion.time.picker.ok': 'Ok',
+  'criterion.time.picker.cancel': 'Annuler',
 
   'criterion.comparator.before': 'avant',
   'criterion.comparator.after': 'après',

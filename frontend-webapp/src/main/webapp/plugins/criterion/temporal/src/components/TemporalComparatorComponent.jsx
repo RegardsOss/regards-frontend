@@ -23,13 +23,17 @@ export class TemporalComparatorComponent extends React.Component {
      * function(value: EnumTemporalComparator) => void
      */
     onChange: React.PropTypes.func.isRequired,
+    /**
+     * Optionally init with a specific value
+     */
+    value: React.PropTypes.oneOf(EnumTemporalComparator),
   }
 
   constructor(props) {
     super(props)
     this.state = {
       openMenu: false,
-      value: EnumTemporalComparator[0],
+      value: props.value || EnumTemporalComparator[0],
     }
   }
 
@@ -52,7 +56,7 @@ export class TemporalComparatorComponent extends React.Component {
     })
   }
 
-  format = value => <FormattedMessage id={`criterion.comparator.${value}`}/>
+  format = value => <FormattedMessage id={`criterion.comparator.${value}`} />
 
   render() {
     return (
