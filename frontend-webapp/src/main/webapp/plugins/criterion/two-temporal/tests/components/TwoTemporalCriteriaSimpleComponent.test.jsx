@@ -3,7 +3,7 @@
  **/
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import TwoNumericalCriteriaSimpleComponent from '../../src/components/TwoTemporalCriteriaSimpleComponent'
+import TwoTemporalCriteriaSimpleComponent from '../../src/components/TwoTemporalCriteriaSimpleComponent'
 import TemporalCriteriaComponent from '../../src/components/TemporalCriteriaComponent'
 
 /**
@@ -13,7 +13,7 @@ import TemporalCriteriaComponent from '../../src/components/TemporalCriteriaComp
  */
 describe('[PLUGIN TWO TEMPORAL CRITERIA SIMPLE] Testing the two temporal criteria simple component', () => {
   it('should exists', () => {
-    assert.isDefined(TwoNumericalCriteriaSimpleComponent)
+    assert.isDefined(TwoTemporalCriteriaSimpleComponent)
     assert.isDefined(TemporalCriteriaComponent)
   })
   it('should render self and subcomponents', () => {

@@ -49,6 +49,12 @@
       "name": "temporal-criteria",
       "type": "criterion",
       "sourcesPath": "/plugins/criterion/temporal/plugin.js"
+    },
+    {
+      "id": 5,
+      "name": "two-temporal-criteria",
+      "type": "criterion",
+      "sourcesPath": "/plugins/criterion/two-temporal/plugin.js"
     }
   ],
   "modules": [

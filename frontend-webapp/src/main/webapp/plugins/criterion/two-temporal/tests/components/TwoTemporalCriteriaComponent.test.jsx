@@ -14,7 +14,7 @@ import TwoTemporalCriteriaComposedComponent from '../../src/components/TwoTempor
  */
 describe('[PLUGIN TWO TEMPORAL CRITERIA] Testing the two temporal criteria component', () => {
   it('should exists', () => {
-    assert.isDefined(TwoNumericalCriteriaComponent)
+    assert.isDefined(TwoTemporalCriteriaComponent)
   })
   it('should render the simple component when two different attributes', () => {
     const props = {
