@@ -67,15 +67,11 @@ export class NumericalComparatorComponent extends React.Component {
           }}
         />
         <IconMenu
-          iconButtonElement={<Paper><IconButton><MoreVertIcon /></IconButton></Paper>}
+          iconButtonElement={<IconButton style={{ display: 'none' }}><MoreVertIcon /></IconButton>}
           open={this.state.openMenu}
           onChange={this.handleChange}
           onRequestChange={this.handleOnRequestChange}
           value={this.state.value}
-          style={{
-            visibility: 'hidden',
-            width: 0,
-          }}
         >
           {map(EnumNumericalComparator, (value, key) => (
             <MenuItem
