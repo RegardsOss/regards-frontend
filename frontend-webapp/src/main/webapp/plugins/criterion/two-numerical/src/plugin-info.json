@@ -1,0 +1,22 @@
+{
+  "name": "two-numerical-criteria",
+  "description": "Criteria widget to search for two given numerical values into two model attributes",
+  "version" : 1.0,
+  "author" : "Xavier-Alexandre Brochard",
+  "company" : "CS-SI",
+  "type" : "criteria",
+  "conf" : {
+    "attributes": [
+      {
+        "name":"firstField",
+        "description": "First attribute to search",
+        "type":"numerical"
+      },
+      {
+        "name":"secondField",
+        "description": "Second attribute to search",
+        "type":"numerical"
+      }
+    ]
+  }
+}

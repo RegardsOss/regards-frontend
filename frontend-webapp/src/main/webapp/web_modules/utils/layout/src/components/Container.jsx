@@ -5,6 +5,7 @@ import { forEach } from 'lodash'
 import IconButton from 'material-ui/IconButton'
 import IconMenu from 'material-ui/IconMenu'
 import MenuItem from 'material-ui/MenuItem'
+import Paper from 'material-ui/Paper'
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
 import { Toolbar, ToolbarGroup, ToolbarTitle } from 'material-ui/Toolbar'
 import { LazyModuleComponent, ModuleListProvider, ModuleShape } from '@regardsoss/modules'
@@ -77,22 +78,22 @@ class Container extends React.Component {
       // Render dynamic content in this dynamic container
       renderModules.push(this.props.dynamicContent)
       renderModules.push(<ModuleListProvider
-        key="dynamicContent"
-        modules={this.props.modules}
-        container={this.props.container.id}
-        onModuleSelection={this.props.onDynamicModuleSelection}
-      />,
+          key="dynamicContent"
+          modules={this.props.modules}
+          container={this.props.container.id}
+          onModuleSelection={this.props.onDynamicModuleSelection}
+        />,
       )
       // Render modules and plugins of this static container
     } else if (this.props.modules) {
       const containerModules = this.props.modules.filter(module => module.content.container === this.props.container.id && module.content.applicationId === this.props.appName)
       forEach(containerModules, (module, idx) => (
         renderModules.push(<LazyModuleComponent
-          key={idx}
-          module={module.content}
-          appName={this.props.appName}
-          project={this.props.project}
-        />,
+            key={idx}
+            module={module.content}
+            appName={this.props.appName}
+            project={this.props.project}
+          />,
         )
       ))
     }
@@ -112,14 +113,22 @@ class Container extends React.Component {
       const containerPlugins = this.props.plugins.filter(plugin => plugin.container === this.props.container.id)
       forEach(containerPlugins, (plugin, idx) => {
         renderPlugins.push(
-          <PluginProvider
-            key={idx}
-            pluginInstanceId={idx}
-            pluginId={plugin.pluginId}
-            pluginConf={plugin.pluginConf}
-            pluginProps={this.props.pluginProps}
-            displayPlugin
-          />,
+          <Paper key={idx}
+            style={{
+              //display: 'flex',
+              //justifyContent: 'space-between',
+              width:'100%'
+            }}
+          >
+            <PluginProvider
+              key={idx}
+              pluginInstanceId={idx}
+              pluginId={plugin.pluginId}
+              pluginConf={plugin.pluginConf}
+              pluginProps={this.props.pluginProps}
+              displayPlugin
+            />
+          </Paper>,
         )
       })
     }
@@ -135,25 +144,31 @@ class Container extends React.Component {
       let deleteAction = null
       if (this.props.mainContainer === false) {
         deleteAction = (<MenuItem
-          key="delete"
-          onTouchTap={() => {
-            this.props.onContainerClick(DELETE_ACTION, this.props.container)
-          }}
-          primaryText="Delete section"
-        />
+            key="delete"
+            onTouchTap={() => {
+              this.props.onContainerClick(DELETE_ACTION, this.props.container)
+            }}
+            primaryText="Delete section"
+          />
         )
       }
       return (
         <div className="row">
           <Toolbar style={{ height: 40 }}>
             <ToolbarGroup key="name">
-              <ToolbarTitle text={this.props.container.id} />
+              <ToolbarTitle text={this.props.container.id}/>
             </ToolbarGroup>
             <ToolbarGroup key="actions">
               <IconMenu
                 iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
-                anchorOrigin={{ horizontal: 'left', vertical: 'top' }}
-                targetOrigin={{ horizontal: 'left', vertical: 'top' }}
+                anchorOrigin={{
+                  horizontal: 'left',
+                  vertical: 'top'
+                }}
+                targetOrigin={{
+                  horizontal: 'left',
+                  vertical: 'top'
+                }}
               >
                 <MenuItem
                   key="add"
@@ -205,7 +220,14 @@ class Container extends React.Component {
       >
         {this.renderConfigurationMode()}
         {this.renderModules()}
-        {this.renderPlugins()}
+        <div style={{
+          display: 'flex',
+          alignItems: 'flex-start',
+          flexDirection: 'column',
+        }}
+        >
+          {this.renderPlugins()}
+        </div>
         {this.renderSubContainers()}
       </div>
     )

@@ -1,0 +1,22 @@
+{
+  "name": "two-temporal-criteria",
+  "description": "Criteria widget to search for two given temporal values into two model attributes",
+  "version" : 1.0,
+  "author" : "Xavier-Alexandre Brochard",
+  "company" : "CS-SI",
+  "type" : "criteria",
+  "conf" : {
+    "attributes": [
+      {
+        "name":"firstField",
+        "description": "First attribute to search",
+        "type":"temporal"
+      },
+      {
+        "name":"secondField",
+        "description": "Second attribute to search",
+        "type":"temporal"
+      }
+    ]
+  }
+}

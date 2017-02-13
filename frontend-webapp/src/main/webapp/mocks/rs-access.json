@@ -31,6 +31,30 @@
       "name": "string-criteria",
       "type": "criterion",
       "sourcesPath": "/plugins/criterion/string/plugin.js"
+    },
+    {
+      "id": 2,
+      "name": "numerical-criteria",
+      "type": "criterion",
+      "sourcesPath": "/plugins/criterion/numerical/plugin.js"
+    },
+    {
+      "id": 3,
+      "name": "two-numerical-criteria",
+      "type": "criterion",
+      "sourcesPath": "/plugins/criterion/two-numerical/plugin.js"
+    },
+    {
+      "id": 4,
+      "name": "temporal-criteria",
+      "type": "criterion",
+      "sourcesPath": "/plugins/criterion/temporal/plugin.js"
+    },
+    {
+      "id": 5,
+      "name": "two-temporal-criteria",
+      "type": "criterion",
+      "sourcesPath": "/plugins/criterion/two-temporal/plugin.js"
     }
   ],
   "modules": [

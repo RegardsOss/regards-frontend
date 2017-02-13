@@ -1,14 +1,14 @@
 {
-  "name": "string-criteria-plugin",
+  "name": "two-temporal-criteria-plugin",
   "version": "1.0.0",
-  "description": "REGARDS frontend criteria plugin for string attributes",
+  "description": "REGARDS frontend criteria plugin for two temporal attributes",
   "private": true,
   "scripts": {
     "build": "webpack --progress --config webpack.config.js",
-    "postbuild": "mkdir -p ../../../build/plugins/criterion/string/ && cp target/build/plugin.js ../../../build/plugins/criterion/string/",
+    "postbuild": "mkdir -p ../../../build/plugins/criterion/two-temporal/ && cp target/build/plugin.js ../../../build/plugins/criterion/two-temporal/",
     "test": "npm run test:mocha --silent",
     "test:coverage": "nyc node --max_old_space_size=4096 --optimize_for_size --max_executable_size=4096 --stack_size=4096 ./node_modules/.bin/mocha-webpack --timeout 5000 --webpack-config webpack.coverage.config.js \"**/@(tests|web_modules)/**/*.test.js{,x}\" --recursive --require source-map-support/register",
-    "test:mocha": "node --max_old_space_size=4096 --optimize_for_size --max_executable_size=4096 --stack_size=4096 ./node_modules/.bin/mocha-webpack --timeout 5000 --webpack-config webpack.test.config.js \"tests/**/*.test.js{,x}\" --recursive --require source-map-support/register --inline-diffs --reporter mochawesome --reporter-options reportDir='./reports/mocha',reportName='Regards Frontend - Plugin String Criterion tests'",
+    "test:mocha": "node --max_old_space_size=4096 --optimize_for_size --max_executable_size=4096 --stack_size=4096 ./node_modules/.bin/mocha-webpack --timeout 5000 --webpack-config webpack.test.config.js \"tests/**/*.test.js{,x}\" --recursive --require source-map-support/register --inline-diffs --reporter mochawesome --reporter-options reportDir='./reports/mocha',reportName='Regards Frontend - Plugin Two Temporal Criterion tests'",
     "test:watch": "node --max_old_space_size=4096 --optimize_for_size --max_executable_size=4096 --stack_size=4096 ./node_modules/.bin/mocha-webpack --timeout 5000 --webpack-config webpack.test.config.js \"tests/**/*.test.js{,x}\" --recursive --require source-map-support/register --inline-diffs --watch",
     "esdoc": "esdoc -c esdoc.json",
     "lint": "eslint .storybook src tests --ext .js,.jsx",
