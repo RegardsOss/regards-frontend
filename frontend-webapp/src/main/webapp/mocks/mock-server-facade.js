@@ -29,7 +29,7 @@ const validToken = '123456'
 
 
 // TODO Raph : refactor to extract some as external components and keep the methods map first in this file
-const processAccountPOSTRequest = (logSubheader, { accountEmail }, { originUrl, resetUrl }) => {
+const processAccountPOSTRequest = (logSubheader, { accountEmail }, { originUrl, requestLink }) => {
   const failureMail = 'test@fail.com'
   console.info('[Facade mock server]', logSubheader, `use ${failureMail} to test failure case`)
   if (accountEmail === failureMail) {
@@ -37,7 +37,7 @@ const processAccountPOSTRequest = (logSubheader, { accountEmail }, { originUrl, 
     return { code: 404 }
   }
   console.info('[Facade mock server]', logSubheader, 'Simulate mail callback by clicking the link \n',
-    `${resetUrl}&token=${validToken}&account_email=${accountEmail}&origin_url=${encodeURI(originUrl)}`)
+    `${requestLink}&token=${validToken}&account_email=${accountEmail}&origin_url=${encodeURI(originUrl)}`)
   return { code: 204 }
 }
 
