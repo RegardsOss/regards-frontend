@@ -18,6 +18,7 @@ export class ProjectFormContainer extends React.Component {
         id: React.PropTypes.number,
         name: React.PropTypes.string,
         description: React.PropTypes.string,
+        license: React.PropTypes.string,
         icon: React.PropTypes.string,
         isPublic: React.PropTypes.bool,
       }),
@@ -67,7 +68,9 @@ export class ProjectFormContainer extends React.Component {
     const updatedProject = Object.assign({}, this.props.project.content, {
       description: values.description,
       icon: values.icon,
+      license: values.license,
       isPublic: values.isPublic,
+      isAccessible: values.isAccessible,
     })
     Promise.resolve(this.props.updateProject(this.props.project.content.name, updatedProject))
     .then((actionResult) => {
@@ -83,6 +86,7 @@ export class ProjectFormContainer extends React.Component {
     Promise.resolve(this.props.createProject({
       name: values.name,
       description: values.description,
+      license: values.license,
       icon: values.icon,
       isPublic: values.isPublic,
     }))

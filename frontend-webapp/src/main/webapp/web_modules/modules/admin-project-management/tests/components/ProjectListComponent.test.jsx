@@ -21,6 +21,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing project list container', () => {
             description: 'project desc',
             icon: 'project icon',
             isPublic: true,
+            isAccessible: true,
           },
         },
         'project name 2': {
@@ -30,6 +31,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing project list container', () => {
             description: 'project desc',
             icon: 'project icon',
             isPublic: true,
+            isAccessible: true,
           },
         },
       },

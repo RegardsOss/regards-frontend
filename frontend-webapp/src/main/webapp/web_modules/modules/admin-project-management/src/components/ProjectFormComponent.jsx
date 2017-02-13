@@ -17,7 +17,9 @@ export class ProjectFormComponent extends React.Component {
         name: React.PropTypes.string,
         description: React.PropTypes.string,
         icon: React.PropTypes.string,
+        license: React.PropTypes.string,
         isPublic: React.PropTypes.bool,
+        isAccessible: React.PropTypes.bool,
       }),
     }),
     onSubmit: React.PropTypes.func.isRequired,
@@ -46,7 +48,9 @@ export class ProjectFormComponent extends React.Component {
       this.props.initialize({
         description: currentProject.content.description,
         icon: currentProject.content.icon,
+        license: currentProject.content.license,
         isPublic: currentProject.content.isPublic,
+        isAccessible: currentProject.content.isAccessible,
       })
     } else {
       this.props.initialize({
@@ -86,6 +90,7 @@ export class ProjectFormComponent extends React.Component {
             <Field
               name="description"
               fullWidth
+              multiLine
               component={RenderTextField}
               type="text"
               label={<FormattedMessage id="project.form.description" />}
@@ -98,9 +103,21 @@ export class ProjectFormComponent extends React.Component {
               label={<FormattedMessage id="project.form.icon" />}
             />
             <Field
+              name="license"
+              fullWidth
+              component={RenderTextField}
+              type="text"
+              label={<FormattedMessage id="project.form.license" />}
+            />
+            <Field
               name="isPublic"
               component={RenderCheckbox}
               label={<FormattedMessage id="project.form.isPublic" />}
+            />
+            <Field
+              name="isAccessible"
+              component={RenderCheckbox}
+              label={<FormattedMessage id="project.form.isAccessible" />}
             />
           </CardText>
           <CardActions>
