@@ -88,7 +88,6 @@ export class AuthenticationFormComponent extends React.Component {
         />
       )
     }
-    console.error(' errr', errorMessage)
     return (
       <div style={moduleTheme.layout}>
         <ReduxConnectedForm
