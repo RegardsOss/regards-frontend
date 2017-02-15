@@ -26,11 +26,11 @@ export default class AccountActions extends BasicSignalActions {
    * @param accountEmail mail of the related account
    */
   sendAskRequest(accountEmail) {
-    // compute reset URL: use current URL without parameters
+    // compute request link: use current URL without parameters
     const originUrl = root.location.href
-    const resetUrl = `${root.location.host}${root.location.pathname}?${AuthenticationRouteParameters.mailAuthenticationAction.urlKey}=${this.mailAuthenticationActionValue}`
+    const requestLink = `${root.location.host}${root.location.pathname}?${AuthenticationRouteParameters.mailAuthenticationAction.urlKey}=${this.mailAuthenticationActionValue}`
     return this.sendSignal('POST', {
-      resetUrl,
+      requestLink,
       originUrl,
     }, { accountEmail })
   }

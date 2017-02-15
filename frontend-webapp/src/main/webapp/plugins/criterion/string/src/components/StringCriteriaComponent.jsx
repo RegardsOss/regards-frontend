@@ -4,10 +4,9 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import TextField from 'material-ui/TextField'
-import { Card, CardText } from 'material-ui/Card'
 import { connect } from 'react-redux'
 
-class StringCriteriaComponent extends React.Component {
+export class StringCriteriaComponent extends React.Component {
 
   static propTypes = {
     /**
@@ -28,7 +27,12 @@ class StringCriteriaComponent extends React.Component {
      */
     // eslint-disable-next-line
     attributes: React.PropTypes.object,
-    // From map dispatch to props
+    // From mapStateToProps
+    test: React.PropTypes.string,
+    // From mapDispatchToProps
+    /**
+     * Just for checking that  we can dispatch an action from the plugin
+     */
     testDispatch: React.PropTypes.func,
   }
 
@@ -55,52 +59,42 @@ class StringCriteriaComponent extends React.Component {
   }
 
   render() {
-    const attributeLAbel = this.props.attributes.searchField.name ? this.props.attributes.searchField.name : null
+    const attributeLabel = this.props.attributes.searchField.name ? this.props.attributes.searchField.name : null
+
     return (
       <div
         style={{
           display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'baseline',
+          alignItems: 'center',
+          flexWrap: 'wrap',
         }}
       >
-        <Card>
-          <CardText
-            style={{
-              display: 'flex',
-              alignItems: 'baseline',
-              paddingTop: 0,
-              paddingBottom: 2,
-              minWidth: 400,
-            }}
-          >
-            <span
-              style={{
-                marginRight: 20,
-              }}
-            >
-              {attributeLAbel}
-            </span>
-            <TextField
-              id="search"
-              floatingLabelText={<FormattedMessage id="criterion.search.field.label" />}
-              value={this.state.value}
-              onChange={(event, value) => {
-                this.changeValue(value)
-              }}
-            />
-          </CardText>
-        </Card>
+        <span
+          style={{
+            margin: '0px 10px',
+          }}
+        >
+          {attributeLabel}
+        </span>
+        <TextField
+          id="search"
+          floatingLabelText={<FormattedMessage id="criterion.search.field.label" />}
+          value={this.state.value}
+          onChange={(event, value) => {
+            this.changeValue(value)
+          }}
+          style={{
+            top: -13,
+            margin: '0px 10px',
+            maxWidth: 165,
+          }}
+        />
       </div>
     )
   }
 }
 const mapStateToProps = state => ({
   test: state['plugins.string-criteria'].pluginTest,
-  // Needed to be linked with the dynamic change of locale
-  locale: state.common.i18n.locale,
-  // Needed to be linked with the dynamic change of theme
-  theme: state.common.theme,
 })
 const mapDispatchToProps = dispatch => ({
   testDispatch: () => dispatch({ type: 'plugin/TEST' }),

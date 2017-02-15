@@ -1,0 +1,17 @@
+{
+  "name": "temporal-criteria",
+  "description": "Criteria widget to search for a given temporal value into a model attribute",
+  "version" : 1.0,
+  "author" : "Xavier-Alexandre Brochard",
+  "company" : "CS-SI",
+  "type" : "criteria",
+  "conf" : {
+    "attributes": [
+      {
+        "name":"searchField",
+        "description": "Attribute to search",
+        "type":"temporal"
+      }
+    ]
+  }
+}

@@ -18,6 +18,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing form container', () => {
           description: 'project desc',
           icon: 'project icon',
           isPublic: true,
+          isAccessible: false,
         },
       },
       backUrl: '/some/url',
@@ -30,7 +31,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing form container', () => {
     }
     const enzymeWrapper = shallow(<ProjectFormComponent {...props} />)
     const subComponent = enzymeWrapper.find(Field)
-    expect(subComponent).to.have.length(4)
+    expect(subComponent).to.have.length(6)
   })
 
   it('should render create form', () => {
@@ -45,6 +46,6 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing form container', () => {
     }
     const enzymeWrapper = shallow(<ProjectFormComponent {...props} />)
     const subComponent = enzymeWrapper.find(Field)
-    expect(subComponent).to.have.length(4)
+    expect(subComponent).to.have.length(6)
   })
 })
