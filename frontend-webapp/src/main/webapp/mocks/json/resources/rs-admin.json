@@ -1,0 +1,488 @@
+{
+  "project_connections": [
+    {
+      "id": 0,
+      "projectName": "cdpp",
+      "microservice": "rs-admin",
+      "userName": "Alice",
+      "password": "password",
+      "driverClassName": "PostgreSQL",
+      "url": "http://google.com",
+      "connectivity": "EnumConnectivity.SUCCESS"
+    },
+    {
+      "id": 1,
+      "projectName": "cdpp",
+      "microservice": "rs-cloud",
+      "userName": "Bob",
+      "password": "azerty",
+      "driverClassName": "PostgreSQL",
+      "url": "http://google.com",
+      "connectivity": "EnumConnectivity.ERROR"
+    },
+    {
+      "id": 2,
+      "projectName": "cdpp",
+      "microservice": "rs-dam",
+      "userName": "Charlie",
+      "password": "qsdfgh",
+      "driverClassName": "PostgreSQL",
+      "url": "http://google.com",
+      "connectivity": "EnumConnectivity.NOT_TESTED"
+    }
+  ],
+  "roles": [
+    {
+      "id": 1,
+      "name": "PUBLIC",
+      "permissions": [],
+      "authorizedAddresses": [],
+      "isCorsRequestsAuthorized": true,
+      "isDefault": true,
+      "isNative": true
+    },
+    {
+      "id": 2,
+      "name": "REGISTERED_USER",
+      "parentRole": {
+        "id": 1,
+        "name": "PUBLIC",
+        "permissions": [],
+        "authorizedAddresses": [],
+        "isCorsRequestsAuthorized": true,
+        "isDefault": true,
+        "isNative": true
+      },
+      "permissions": [],
+      "authorizedAddresses": [],
+      "isCorsRequestsAuthorized": true,
+      "isDefault": false,
+      "isNative": true
+    },
+    {
+      "id": 3,
+      "name": "ADMIN",
+      "parentRole": {
+        "id": 2,
+        "name": "REGISTERED_USER",
+        "parentRole": {
+          "id": 1,
+          "name": "PUBLIC",
+          "permissions": [],
+          "authorizedAddresses": [],
+          "isCorsRequestsAuthorized": true,
+          "isDefault": true,
+          "isNative": true
+        },
+        "permissions": [],
+        "authorizedAddresses": [],
+        "isCorsRequestsAuthorized": true,
+        "isDefault": false,
+        "isNative": true
+      },
+      "permissions": [],
+      "authorizedAddresses": [],
+      "isCorsRequestsAuthorized": true,
+      "isDefault": false,
+      "isNative": true
+    },
+    {
+      "id": 4,
+      "name": "PROJECT_ADMIN",
+      "parentRole": {
+        "id": 3,
+        "name": "ADMIN",
+        "parentRole": {
+          "id": 2,
+          "name": "REGISTERED_USER",
+          "parentRole": {
+            "id": 1,
+            "name": "PUBLIC",
+            "permissions": [],
+            "authorizedAddresses": [],
+            "isCorsRequestsAuthorized": true,
+            "isDefault": true,
+            "isNative": true
+          },
+          "permissions": [],
+          "authorizedAddresses": [],
+          "isCorsRequestsAuthorized": true,
+          "isDefault": false,
+          "isNative": true
+        },
+        "permissions": [],
+        "authorizedAddresses": [],
+        "isCorsRequestsAuthorized": true,
+        "isDefault": false,
+        "isNative": true
+      },
+      "permissions": [],
+      "authorizedAddresses": [],
+      "isCorsRequestsAuthorized": true,
+      "isDefault": false,
+      "isNative": true
+    },
+    {
+      "id": 5,
+      "name": "INSTANCE_ADMIN",
+      "parentRole": {
+        "id": 4,
+        "name": "PROJECT_ADMIN",
+        "parentRole": {
+          "id": 3,
+          "name": "ADMIN",
+          "parentRole": {
+            "id": 2,
+            "name": "REGISTERED_USER",
+            "parentRole": {
+              "id": 1,
+              "name": "PUBLIC",
+              "permissions": [],
+              "authorizedAddresses": [],
+              "isCorsRequestsAuthorized": true,
+              "isDefault": true,
+              "isNative": true
+            },
+            "permissions": [],
+            "authorizedAddresses": [],
+            "isCorsRequestsAuthorized": true,
+            "isDefault": false,
+            "isNative": true
+          },
+          "permissions": [],
+          "authorizedAddresses": [],
+          "isCorsRequestsAuthorized": true,
+          "isDefault": false,
+          "isNative": true
+        },
+        "permissions": [],
+        "authorizedAddresses": [],
+        "isCorsRequestsAuthorized": true,
+        "isDefault": false,
+        "isNative": true
+      },
+      "permissions": [],
+      "authorizedAddresses": [
+        "1.2.3.74",
+        "89.56.12.44"
+      ],
+      "isCorsRequestsAuthorized": true,
+      "isDefault": false,
+      "isNative": true
+    },
+    {
+      "id": 8,
+      "name": "Mon_ROLE",
+      "parentRole": {
+        "id": 4,
+        "name": "PROJECT_ADMIN",
+        "parentRole": {
+          "id": 3,
+          "name": "ADMIN",
+          "parentRole": {
+            "id": 2,
+            "name": "REGISTERED_USER",
+            "parentRole": {
+              "id": 1,
+              "name": "PUBLIC",
+              "permissions": [],
+              "authorizedAddresses": [],
+              "isCorsRequestsAuthorized": true,
+              "isDefault": true,
+              "isNative": true
+            },
+            "permissions": [],
+            "authorizedAddresses": [],
+            "isCorsRequestsAuthorized": true,
+            "isDefault": false,
+            "isNative": true
+          },
+          "permissions": [],
+          "authorizedAddresses": [],
+          "isCorsRequestsAuthorized": true,
+          "isDefault": false,
+          "isNative": true
+        },
+        "permissions": [],
+        "authorizedAddresses": [],
+        "isCorsRequestsAuthorized": true,
+        "isDefault": false,
+        "isNative": true
+      },
+      "permissions": [],
+      "authorizedAddresses": [
+        "1.2.3.4",
+        "5.6.7.99"
+      ],
+      "isCorsRequestsAuthorized": true,
+      "isDefault": false,
+      "isNative": false
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "email": "mon@adresse.em",
+      "lastUpdate": {
+        "date": {
+          "year": 2017,
+          "month": 1,
+          "day": 9
+        },
+        "time": {
+          "hour": 15,
+          "minute": 46,
+          "second": 12,
+          "nano": 453000000
+        }
+      },
+      "status": "WAITING_ACCESS",
+      "metaData": [],
+      "role": {
+        "id": 2,
+        "name": "REGISTERED_USER",
+        "parentRole": {
+          "id": 1,
+          "name": "PUBLIC",
+          "permissions": [],
+          "authorizedAddresses": [],
+          "isCorsRequestsAuthorized": true,
+          "isDefault": true,
+          "isNative": true
+        },
+        "permissions": [],
+        "authorizedAddresses": [],
+        "isCorsRequestsAuthorized": true,
+        "isDefault": false,
+        "isNative": true
+      },
+      "permissions": []
+    }
+  ],
+  "accounts": [
+    {
+      "id": 1,
+      "email": "admin@cnes.fr",
+      "firstName": "admin@cnes.fr",
+      "lastName": "admin@cnes.fr",
+      "status": "PENDING"
+    },
+    {
+      "id": 2,
+      "email": "mon@adresse.em",
+      "firstName": "Leo",
+      "lastName": "Mieulet",
+      "status": "PENDING"
+    }
+  ],
+  "projects": [
+    {
+      "id": "CDPP",
+      "name": "CDPP",
+      "description": "Viking was the first Swedish satellite. It was successfully launched from Kourou (French Guiana) by Ariane 1 on February 22, 1986. The satellite was placed into a final 817 km x 13,527 km polar orbit with an inclination of 98.8° and a period of 262 mn. This orbit thus allowed the spacecraft to spend 208 mn in the region between 4000 and 14000 km above the Earth's surface on the geomagnetic field lines leading down to the northern auroral zone. The satellite spinned at a rate of about 3 rpm with its spin axis perpendicular to the orbital plane (cartwheel mode).   The nominal life time of the satellite was 8 months ; it sent data for about 15 months, until May 1987. There is one data taking period per orbit ; its duration is up to 160 minutes.",
+      "isPublic": true,
+      "isAccessible": true,
+      "icon": "https://cdpp-archive.cnes.fr/templates/cdpp/img/cdpp-logo-h70.png"
+    },
+    {
+      "id": "SSALTO",
+      "name": "SSALTO",
+      "description": "Access to AVISO data center. Altimetry satellite missions",
+      "isPublic": true,
+      "isAccessible": false,
+      "icon": "http://www.mercator-ocean.fr/wp-content/uploads/2015/03/Logo-AVISO.jpg"
+    }
+  ],
+  "resources": [
+    {
+      "id": 1,
+      "description": "Retrieves the settings managing the access requests",
+      "microservice": "rs-admin",
+      "resource": "/accesses/settings",
+      "verb": "GET"
+    },
+    {
+      "id": 2,
+      "description": "Updates the setting managing the access requests",
+      "microservice": "rs-admin",
+      "resource": "/accesses/settings",
+      "verb": "PUT"
+    },
+    {
+      "id": 3,
+      "description": "create an new account",
+      "microservice": "rs-admin",
+      "resource": "/accounts",
+      "verb": "POST"
+    },
+    {
+      "id": 4,
+      "description": "retrieve the account account_id",
+      "microservice": "rs-admin",
+      "resource": "/accounts/{account_id}",
+      "verb": "GET"
+    },
+    {
+      "id": 5,
+      "description": "retrieve the account with his unique email",
+      "microservice": "rs-admin",
+      "resource": "/accounts/account/{account_email}",
+      "verb": "GET"
+    },
+    {
+      "id": 6,
+      "description": "update the account account_id according to the body specified",
+      "microservice": "rs-admin",
+      "resource": "/accounts/{account_id}",
+      "verb": "PUT"
+    },
+    {
+      "id": 7,
+      "description": "remove the account account_id",
+      "microservice": "rs-admin",
+      "resource": "/accounts/{account_id}",
+      "verb": "DELETE"
+    },
+    {
+      "id": 8,
+      "description": "send a code of type type to the email specified",
+      "microservice": "rs-admin",
+      "resource": "/accounts/{account_id}/accountUnlock",
+      "verb": "GET"
+    },
+    {
+      "id": 9,
+      "description": "unlock the account account_id according to the code unlock_code",
+      "microservice": "rs-admin",
+      "resource": "/accounts/{account_id}/unlock/{unlock_code}",
+      "verb": "GET"
+    },
+    {
+      "id": 10,
+      "description": "change the passsword of account account_id according to the code reset_code",
+      "microservice": "rs-admin",
+      "resource": "/accounts/{account_id}/password/{reset_code}",
+      "verb": "PUT"
+    },
+    {
+      "id": 11,
+      "description": "send a code of type type to the email specified",
+      "microservice": "rs-admin",
+      "resource": "/accounts/code",
+      "verb": "GET"
+    },
+    {
+      "id": 12,
+      "description": "Validate the account password",
+      "microservice": "rs-admin",
+      "resource": "/accounts/{account_email}/validate",
+      "verb": "GET"
+    },
+    {
+      "id": 13,
+      "description": "retrieve the list of account in the instance",
+      "microservice": "rs-admin",
+      "resource": "/accounts",
+      "verb": "GET"
+    },
+    {
+      "id": 14,
+      "description": "Retrieve all resource accesses of the REGARDS system",
+      "microservice": "rs-admin",
+      "resource": "/resources/microservices/{microservice}",
+      "verb": "GET"
+    },
+    {
+      "id": 15,
+      "description": "Retrieve all resource accesses of the REGARDS system",
+      "microservice": "rs-admin",
+      "resource": "/resources",
+      "verb": "GET"
+    },
+    {
+      "id": 16,
+      "description": "Retrieve all resource accesses of the REGARDS system",
+      "microservice": "rs-admin",
+      "resource": "/resources/{resource_id}",
+      "verb": "GET"
+    },
+    {
+      "id": 17,
+      "description": "Update access to a given resource",
+      "microservice": "rs-admin",
+      "resource": "/resources/{resource_id}",
+      "verb": "PUT"
+    },
+    {
+      "id": 18,
+      "description": "retrieve the list of specific access rights and the role of the project user",
+      "microservice": "rs-admin",
+      "resource": "/resources/users/{user_email}",
+      "verb": "GET"
+    },
+    {
+      "id": 19,
+      "description": "update the list of specific user access rights",
+      "microservice": "rs-admin",
+      "resource": "/resources/users/{user_email}",
+      "verb": "PUT"
+    },
+    {
+      "id": 20,
+      "description": "remove all the specific access rights",
+      "microservice": "rs-admin",
+      "resource": "/resources/users/{user_email}",
+      "verb": "DELETE"
+    },
+    {
+      "id": 21,
+      "description": "Retrieves the IHM Plugins",
+      "microservice": "rs-access",
+      "resource": "/plugin",
+      "verb": "GET"
+    },
+    {
+      "id": 22,
+      "description": "Retrieves the IHM modules",
+      "microservice": "rs-access",
+      "resource": "/applications/{applicationId}/modules",
+      "verb": "GET"
+    },
+    {
+      "id": 23,
+      "description": "Retrieves attributes",
+      "microservice": "rs-dam",
+      "resource": "/attributes",
+      "verb": "GET"
+    },
+    {
+      "id": 24,
+      "description": "Retrieves attributes",
+      "microservice": "rs-dam",
+      "resource": "/models",
+      "verb": "GET"
+    },
+    {
+      "id": 25,
+      "description": "Retrieves plugins",
+      "microservice": "rs-access",
+      "resource": "/plugin",
+      "verb": "GET"
+    },
+    {
+      "id": 26,
+      "description": "Retrieves plugins",
+      "microservice": "rs-dam",
+      "resource": "/datasets",
+      "verb": "GET"
+    },
+    {
+      "id": 27,
+      "description": "Run entity search",
+      "microservice": "rs-catalog",
+      "resource": "/search",
+      "verb": "GET"
+    }
+  ]
+}
+
