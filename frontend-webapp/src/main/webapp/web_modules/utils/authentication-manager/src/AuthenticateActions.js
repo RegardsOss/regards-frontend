@@ -15,12 +15,10 @@ export const fetchAuthenticate = (username, password, scope = 'project1') => ({
       },
       {
         type: FAILED_AUTHENTICATE,
-        meta: (action, state, res) => {
-          if (res.status === '500') {
-            return { errorMessage: 'authentication.error.500' }
-          }
-          return { errorMessage: 'authentication.error' }
-        },
+        meta: (action, state, res) => ({
+          errorMessage: res.status === '500' ? 'authentication.error.500' : 'authentication.error',
+          bypassErrorMiddleware: true,
+        }),
       },
 
     ],

@@ -6,7 +6,6 @@ import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { reduxForm } from 'redux-form'
 import { ReduxConnectedForm } from '@regardsoss/redux'
 import RaisedButton from 'material-ui/RaisedButton'
-import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { RenderTextField, Field, ErrorTypes, ValidationHelpers } from '@regardsoss/form-utils'
 
@@ -25,9 +24,7 @@ export class ChangePasswordFormComponent extends React.Component {
     handleSubmit: React.PropTypes.func.isRequired,
   }
 
-  static contextTypes = {
-    ...themeContextType, ...i18nContextType,
-  }
+  static contextTypes = { ...themeContextType }
 
   /**
    * Render function
@@ -43,9 +40,11 @@ export class ChangePasswordFormComponent extends React.Component {
           i18nMessagesDir="modules/authentication/src/i18n"
         >
           <Card>
-            <CardTitle title={<FormattedMessage id="reset.password.update.request.title" />} />
+            <CardTitle
+              title={<FormattedMessage id="reset.password.update.request.title" />}
+              subtitle={<FormattedMessage id="reset.password.update.request.message" />}
+            />
             <CardText>
-              <FormattedMessage id="reset.password.update.request.message" />
               <Field
                 name="newPassword"
                 fullWidth

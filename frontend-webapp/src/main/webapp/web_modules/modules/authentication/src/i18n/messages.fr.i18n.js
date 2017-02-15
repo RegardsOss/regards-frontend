@@ -11,9 +11,9 @@ const messages = Object.assign({
   'authentication.message': 'Veuillez saisir vos identifiants pour vous connecter',
   'authentication.error': 'Identifiant et/ou mot de passe invalide(s)',
   'authentication.error.500': 'Service indisponible',
-  'authentication.goto.reset.password': 'Ré-initialiser le mot de passe',
-  'authentication.goto.create.account': 'Créer un compte',
-  'authentication.goto.unlock.account': 'Débloquer mon compte',
+  'authentication.goto.reset.password': 'Mot de passe oublié?',
+  'authentication.goto.create.account': 'Nouvel utilisateur?',
+  'authentication.goto.unlock.account': 'Compte bloqué?',
 
   // common to account requests forms (reset password and unlock account
   'account.request.form.mail': 'Adresse e-mail',
@@ -35,6 +35,16 @@ const messages = Object.assign({
     '=404 {L\'adresse e-mail saisie est inconnue.}' +
     'other {Une erreur inconnue s\'est produite (#)}}',
 
+  'create.account.request.title': 'Créer un compte',
+  'create.account.request.message': 'Veuillez renseigner ci-dessous vos données personnelles. Votre compte REGARDS peut être utilisé avec tous les projets à cet adresse.',
+  'create.account.mail': 'Adresse e-mail',
+  'create.account.first.name': 'Prénom',
+  'create.account.last.name': 'Nom',
+  'create.account.new.password': 'Mot de passe',
+  'create.account.confirm.password': 'Confirmation du mot de passe',
+  'create.account.send': 'Créer',
+  'create.account.form.back': 'Retour',
+
   // reset password operation
   'ask.reset.password.sent.title': 'Demande de ré-initialisation envoyée',
   'ask.reset.password.sent.message': 'Votre demande a été envoyée, vous recevrez un e-mail contenant le lien de ré-initialisation',
@@ -47,11 +57,11 @@ const messages = Object.assign({
   'reset.password.done.option': 'Connexion',
 
   // create account operation
-  'create.account.sent.title': 'Demande de création envoyée',
-  'create.account.sent.message': 'Votre demande a été envoyée, vous recevrez un e-mail confirmant la création',
+  'create.account.sent.title': 'Demande de compte envoyée',
+  'create.account.sent.message': 'Votre demande a été envoyée, vous recevrez un e-mail pour activer votre compte',
   'create.account.sent.option': 'Retour',
-  'create.account.done.title': 'Compte utilisateur créé',
-  'create.account.done.message': 'Votre compte utilisateur a été créé, vous pouvez accéder à l\'application',
+  'create.account.done.title': 'Compte activé',
+  'create.account.done.message': 'Votre compte utilisateur a été activé',
   'create.account.done.option': 'Connexion',
 
   // unlock account operation

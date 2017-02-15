@@ -11,9 +11,9 @@ const messages = Object.assign({
   'authentication.message': 'Please enter your username and password to log in',
   'authentication.error': 'Invalid Username/Password',
   'authentication.error.500': 'Server unavailable',
-  'authentication.goto.reset.password': 'Reset password',
-  'authentication.goto.create.account': 'Create account',
-  'authentication.goto.unlock.account': 'Unlock account',
+  'authentication.goto.reset.password': 'Lost password?',
+  'authentication.goto.create.account': 'New user?',
+  'authentication.goto.unlock.account': 'Account locked?',
 
   // common to account requests forms (reset password and unlock account
   'account.request.form.mail': 'E-mail address',
@@ -35,6 +35,17 @@ const messages = Object.assign({
     '=404 {Entered e-mail address is unknown.}' +
     'other: {An unknown error occurred (#)}}',
 
+  // ask project access form
+  'create.account.request.title': 'Create account',
+  'create.account.request.message': 'Please enter below your personal data. Your REGARDS account can be used on every project at this address.',
+  'create.account.mail': 'E-mail address',
+  'create.account.first.name': 'First name',
+  'create.account.last.name': 'Last name',
+  'create.account.new.password': 'Password',
+  'create.account.confirm.password': 'Confirm password',
+  'create.account.send': 'Create',
+  'create.account.form.back': 'Cancel',
+
   // reset password operation
   'ask.reset.password.sent.title': 'Reset password sent',
   'ask.reset.password.sent.message': 'Your request has been sent, please wait for reset email',
@@ -46,12 +57,12 @@ const messages = Object.assign({
   'reset.password.done.message': 'Your password has been successfully reset, you can proceed to site',
   'reset.password.done.option': 'Login',
 
-  // create account operation
-  'create.account.sent.title': 'Account request sent',
-  'create.account.sent.message': 'Your request has been sent, please wait for confirmation email',
+  // ask project access operation
+  'create.account.sent.title': 'Create account sent',
+  'create.account.sent.message': 'Your request has been sent, you will receive a mail to activate it',
   'create.account.sent.option': 'Back',
-  'create.account.done.title': 'Account created',
-  'create.account.done.message': 'Your account has been successfully created, you can proceed to site',
+  'create.account.done.title': 'User account activated',
+  'create.account.done.message': 'Your user account has been activated',
   'create.account.done.option': 'Login',
 
   // unlock account operation

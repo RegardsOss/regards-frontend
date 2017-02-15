@@ -8,7 +8,7 @@ import { values, isEmpty } from 'lodash'
 import { ReduxConnectedForm, connect } from '@regardsoss/redux'
 import RaisedButton from 'material-ui/RaisedButton'
 import { themeContextType } from '@regardsoss/theme'
-import { RenderTextField, FormErrorMessage, Field, ValidationHelpers, ErrorTypes } from '@regardsoss/form-utils'
+import { Field, RenderTextField, FormErrorMessage, ValidationHelpers, ErrorTypes } from '@regardsoss/form-utils'
 
 /** Possible form Ids, matching with corresponding request */
 export const requestFormIds = {
@@ -71,12 +71,10 @@ export class AccountRequestFormComponent extends React.Component {
           <Card>
             <CardTitle
               title={<FormattedMessage id={`${requestFormId}.title`} />}
-              subtitle={
-                <FormErrorMessage>{errorMessage}</FormErrorMessage>
-              }
+              subtitle={<FormattedMessage id={`${requestFormId}.message`} />}
             />
             <CardText>
-              <FormattedMessage id={`${requestFormId}.message`} />
+              <FormErrorMessage>{errorMessage}</FormErrorMessage>
               <Field
                 name={mailFieldId}
                 fullWidth
