@@ -1,14 +1,14 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { BasicListReducers } from '@regardsoss/store-utils'
+import { BasicPageableReducers } from '@regardsoss/store-utils'
 import { ThemeConfiguration } from '@regardsoss/api'
 import ThemeActions from '../actions/ThemeActions'
 
 /**
  * Define CRUD reducers
  */
-class ThemeReducers extends BasicListReducers {
+class ThemeReducers extends BasicPageableReducers {
   constructor() {
     super(ThemeConfiguration, ThemeActions)
   }

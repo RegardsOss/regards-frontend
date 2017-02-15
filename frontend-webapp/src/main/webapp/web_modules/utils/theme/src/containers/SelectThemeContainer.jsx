@@ -1,14 +1,14 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import { map } from 'lodash'
 import IconButton from 'material-ui/IconButton'
 import Palette from 'material-ui/svg-icons/image/palette'
 import IconMenu from 'material-ui/IconMenu'
-import { connect } from 'react-redux'
 import MenuItem from 'material-ui/MenuItem'
-import { map, keys } from 'lodash'
+import { connect } from 'react-redux'
 import { I18nProvider } from '@regardsoss/i18n'
-import ThemeHelper from '../ThemeHelper'
+import { Theme, ThemeList, ThemeDefault } from '@regardsoss/model'
 import getCurrentTheme from '../model/selectors/getCurrentTheme'
 import setCurrentTheme from '../model/actions/setCurrentTheme'
 import ThemeSelectors from '../model/selectors/ThemeSelectors'
@@ -18,10 +18,11 @@ import ThemeSelectors from '../model/selectors/ThemeSelectors'
  *
  * @author Xavier-Alexandre Brochard
  */
-export class SelectTheme extends React.Component {
+export class SelectThemeContainer extends React.Component {
 
   static propTypes = {
-    theme: React.PropTypes.string,
+    currentTheme: Theme,
+    themeList: ThemeList,
     onChange: React.PropTypes.func,
   }
 
@@ -29,12 +30,14 @@ export class SelectTheme extends React.Component {
     muiTheme: React.PropTypes.object.isRequired,
   }
 
+  static defaultProps = {
+    currentTheme: ThemeDefault,
+  }
+
   render() {
-    const { onChange } = this.props
-    const themes = ThemeHelper.getThemes()
-    const themeNames = keys(themes)
-    const items = map(themeNames, themeName => (
-      <MenuItem value={themeName} key={themeName} primaryText={themeName} />
+    const { currentTheme, themeList, onChange } = this.props
+    const items = map(themeList, item => (
+      <MenuItem value={item.content.id} key={item.content.id} primaryText={item.content.name} />
     ))
 
     return (
@@ -43,7 +46,7 @@ export class SelectTheme extends React.Component {
           iconButtonElement={<IconButton><Palette /></IconButton>}
           anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
           targetOrigin={{ horizontal: 'middle', vertical: 'bottom' }}
-          value={this.props.theme}
+          value={currentTheme.content.id}
           onChange={(event, value) => onChange(value)}
           iconStyle={this.context.muiTheme.menu.localeDropdown}
         >
@@ -55,11 +58,11 @@ export class SelectTheme extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  theme: getCurrentTheme(state),
+  currentTheme: getCurrentTheme(state),
   themeList: ThemeSelectors.getList(state),
 })
 const mapDispatchToProps = dispatch => ({
   onChange: themeId => dispatch(setCurrentTheme(themeId)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(SelectTheme)
+export default connect(mapStateToProps, mapDispatchToProps)(SelectThemeContainer)

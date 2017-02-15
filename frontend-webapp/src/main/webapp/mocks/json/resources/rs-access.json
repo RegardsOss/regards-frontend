@@ -254,9 +254,15 @@
   ],
   "themes": [
     {
+      "id": 0,
+      "name": "Light",
+      "active": false,
+      "configuration": {}
+    },
+    {
       "id": 1,
       "name": "cdpp",
-      "projectId": "cdpp",
+      "active": true,
       "configuration": {
         "appBar": {
           "height": 100
@@ -281,6 +287,30 @@
           "shadowColor": "#263238",
           "errorColor": "#b71c1c",
           "warningColor": "#4527a0"
+        },
+        "linkWithoutDecoration": {
+          "textDecoration": "blink"
+        },
+        "adminApp": {
+          "loginForm": {
+            "layout": {
+              "backgroundColor": "#616161"
+            }
+          },
+          "layout": {
+            "backgroundColor": "transparent",
+            "backgroundImage": "url('/img/background.jpg')"
+          }
+        }
+      }
+    },
+    {
+      "id": 2,
+      "name": "somethemename",
+      "active": false,
+      "configuration": {
+        "palette": {
+          "primary1Color": "#8bc34a"
         },
         "linkWithoutDecoration": {
           "textDecoration": "blink"

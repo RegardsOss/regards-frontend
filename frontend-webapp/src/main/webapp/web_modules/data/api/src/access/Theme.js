@@ -3,11 +3,10 @@
  **/
 import { Schema, arrayOf } from 'normalizr'
 
-export const ThemeConfiguration = {
+const ThemeConfiguration = {
   entityKey: 'id',
   normalizrKey: 'theme',
 }
-
 
 // Read more about Normalizr: https://github.com/paularmstrong/normalizr
 const themeSchema = new Schema(ThemeConfiguration.normalizrKey, {

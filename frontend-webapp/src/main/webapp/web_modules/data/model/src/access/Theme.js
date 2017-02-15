@@ -1,12 +1,11 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-export const ThemeShape = React.PropTypes.shape({
+const ThemeShape = React.PropTypes.shape({
   id: React.PropTypes.number.isRequired,
   name: React.PropTypes.string.isRequired,
-  value: React.PropTypes.string,
   active: React.PropTypes.bool,
-  current: React.PropTypes.bool,
+  configuration: React.PropTypes.object,
 }).isRequired
 
 const Theme = React.PropTypes.shape({
@@ -14,5 +13,20 @@ const Theme = React.PropTypes.shape({
   links: [],
 }).isRequired
 
-export default Theme
-export const ThemeList = React.PropTypes.objectOf(Theme)
+const ThemeList = React.PropTypes.shape(Theme)
+
+const defaultTheme = {
+  content: {
+    id: 0,
+    name: 'Light',
+    active: true,
+    configuration: {},
+  },
+}
+
+export default {
+  ThemeShape,
+  Theme,
+  ThemeList,
+  defaultTheme,
+}

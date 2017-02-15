@@ -1,9 +1,9 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { BasicListSelectors } from '@regardsoss/store-utils'
+import { BasicPageableSelectors } from '@regardsoss/store-utils'
 
-class ThemeSelectors extends BasicListSelectors {
+class ThemeSelectors extends BasicPageableSelectors {
   constructor() {
     super(['common', 'theme', 'list'])
   }

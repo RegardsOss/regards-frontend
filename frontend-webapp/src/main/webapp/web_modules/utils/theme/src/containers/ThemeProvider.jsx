@@ -1,11 +1,11 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { isEqual } from 'lodash'
+import { isEqual, find } from 'lodash'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { connect } from 'react-redux'
-import { ThemeList } from '@regardsoss/model'
+import { ThemeList, defaultTheme } from '@regardsoss/model'
 import ThemeActions from '../model/actions/ThemeActions'
 import ThemeSelectors from '../model/selectors/ThemeSelectors'
 import getCurrentTheme from '../model/selectors/getCurrentTheme'
@@ -27,13 +27,13 @@ export class ThemeProvider extends React.Component {
   }
 
   static defaultProps = {
-    currentTheme: { value: {} },
+    currentTheme: defaultTheme,
   }
 
   constructor(props) {
     super(props)
     this.state = {
-      mergedTheme: getMuiTheme(props.currentTheme.value),
+      mergedTheme: getMuiTheme(props.currentTheme.configuration),
     }
   }
 
@@ -41,15 +41,23 @@ export class ThemeProvider extends React.Component {
     this.props.fetchThemeList()
   }
 
-  componentWillReceiveProps({ newThemeList }) {
-    const { currentTheme, dispatchSetCurrentTheme } = this.props
+  componentWillReceiveProps(nextProps) {
+    const { currentTheme, themeList, dispatchSetCurrentTheme } = this.props
 
-    const newCurrentTheme = find(newThemeList, theme => theme.active)
-    if (!isEqual(newCurrentTheme, currentTheme)) {
+    // Init the current theme from the new list
+    if (!isEqual(nextProps.themeList, themeList)) {
+      const nextCurrentTheme = find(nextProps.themeList, theme => theme.content.active) || defaultTheme
       this.setState({
-        mergedTheme: getMuiTheme(newCurrentTheme.value),
+        mergedTheme: getMuiTheme(nextCurrentTheme.content.configuration),
       })
-      // dispatchSetCurrentTheme(newCurrentTheme.id)
+      dispatchSetCurrentTheme(nextCurrentTheme.content.id)
+    }
+
+    // Recompute the merged theme when the current theme has changed
+    if (!isEqual(nextProps.currentTheme, currentTheme)) {
+      this.setState({
+        mergedTheme: getMuiTheme(nextProps.currentTheme.content.configuration),
+      })
     }
   }
 
@@ -68,7 +76,7 @@ const mapStateToProps = state => ({
   currentTheme: getCurrentTheme(state),
 })
 const mapDispatchToProps = dispatch => ({
-  fetchThemeList: () => dispatch(ThemeActions.fetchEntityList()),
+  fetchThemeList: () => dispatch(ThemeActions.fetchPagedEntityList(0, 100)),
   dispatchSetCurrentTheme: themeId => dispatch(setCurrentTheme(themeId)),
 })
 
