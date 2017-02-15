@@ -9,6 +9,7 @@ import injectTheme from './ThemeInjectionDecorator'
 import reducers from './model/reducers'
 import ThemeSelectors from './model/selectors/ThemeSelectors'
 import getCurrentTheme from './model/selectors/getCurrentTheme'
+import ThemeProvider from './containers/ThemeProvider'
 
 export {
   themeContextType,
@@ -19,4 +20,5 @@ export {
   reducers,
   ThemeSelectors,
   getCurrentTheme,
+  ThemeProvider,
 }

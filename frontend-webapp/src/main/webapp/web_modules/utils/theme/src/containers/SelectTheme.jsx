@@ -22,25 +22,15 @@ export class SelectTheme extends React.Component {
 
   static propTypes = {
     theme: React.PropTypes.string,
-    setTheme: React.PropTypes.func,
+    onChange: React.PropTypes.func,
   }
 
-  /**
-   * @type {{muiTheme: *}}
-   */
   static contextTypes = {
     muiTheme: React.PropTypes.object.isRequired,
   }
 
-  componentWillMount() {
-    this.handleChange = this.handleChange.bind(this)
-  }
-
-  handleChange = (event, value) => {
-    this.props.setTheme(value)
-  }
-
   render() {
+    const { onChange } = this.props
     const themes = ThemeHelper.getThemes()
     const themeNames = keys(themes)
     const items = map(themeNames, themeName => (
@@ -54,7 +44,7 @@ export class SelectTheme extends React.Component {
           anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
           targetOrigin={{ horizontal: 'middle', vertical: 'bottom' }}
           value={this.props.theme}
-          onChange={this.handleChange}
+          onChange={(event, value) => onChange(value)}
           iconStyle={this.context.muiTheme.menu.localeDropdown}
         >
           {items}
@@ -69,7 +59,7 @@ const mapStateToProps = state => ({
   themeList: ThemeSelectors.getList(state),
 })
 const mapDispatchToProps = dispatch => ({
-  setTheme: themeId => dispatch(setCurrentTheme(themeId)),
+  onChange: themeId => dispatch(setCurrentTheme(themeId)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SelectTheme)
