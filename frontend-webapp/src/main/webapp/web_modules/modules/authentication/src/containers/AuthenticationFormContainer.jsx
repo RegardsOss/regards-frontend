@@ -2,6 +2,7 @@
  * LICENSE_PLACEHOLDER
  */
 import { connect } from '@regardsoss/redux'
+import { i18nContextType } from '@regardsoss/i18n'
 import { fetchAuthenticate, AuthenticationSelectors } from '@regardsoss/authentication-manager'
 import AuthenticationFormComponent from '../components/AuthenticationFormComponent'
 
@@ -33,6 +34,10 @@ export class AuthenticationFormContainer extends React.Component {
     dispatchLoginRequest: React.PropTypes.func,
   }
 
+  /** I18N injection & themes */
+  static contextTypes = { ...i18nContextType }
+
+
   onLoginRequest = ({ username, password }) => {
     const { project, dispatchLoginRequest } = this.props
     dispatchLoginRequest(username, password, project)
@@ -43,12 +48,13 @@ export class AuthenticationFormContainer extends React.Component {
       initialMail, title,
       showCreateAccount, showCancel, onCancelAction, error, onGotoCreateAccount, onGotoResetPassword, onGotoUnlockAccount,
        } = this.props
+    const { intl } = this.context
     return (
       <AuthenticationFormComponent
         title={title}
         onLogin={this.onLoginRequest}
         initialMail={initialMail}
-        error={error}
+        errorMessage={error && intl.formatMessage({ id: error })}
         showCreateAccount={showCreateAccount}
         showCancel={showCancel}
         onCancelAction={onCancelAction}

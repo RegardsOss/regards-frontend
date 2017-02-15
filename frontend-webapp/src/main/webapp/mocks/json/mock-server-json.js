@@ -138,14 +138,14 @@ const runServer = () => {
 
   // const accessMicroServiceRewriter = jsonServer.rewriter('mocks/rs-access.rewriter.json')
   // const accessMicroServiceRewriter = jsonServer.rewriter('mocks/rs-access.rewriter.json')
-  const accessMicroServiceRouter = jsonServer.router('mocks/rs-access.temp.json')
-  const adminMicroServiceRouter = jsonServer.router('mocks/rs-admin.temp.json')
-  const archivalStoragePluginsMonitoringRouter = jsonServer.router('mocks/rs-archival-storage.json')
-  const catalogMicroServiceRouter = jsonServer.router('mocks/rs-catalog.temp.json')
-  const damMicroServiceRouter = jsonServer.router('mocks/rs-dam.temp.json')
-  const damMicroServiceRouterList = jsonServer.router('mocks/rs-dam-list.temp.json')
-  const damMicroServiceRouterArray = jsonServer.router('mocks/rs-dam-array.temp.json')
-  const gatewayMicroServiceRouter = jsonServer.router('mocks/rs-gateway.temp.json')
+  const accessMicroServiceRouter = jsonServer.router('mocks/json/runtime/rs-access.temp.json')
+  const adminMicroServiceRouter = jsonServer.router('mocks/json/runtime/rs-admin.temp.json')
+  const archivalStoragePluginsMonitoringRouter = jsonServer.router('mocks/json/runtime/rs-archival-storage.temp.json')
+  const catalogMicroServiceRouter = jsonServer.router('mocks/json/runtime/rs-catalog.temp.json')
+  const damMicroServiceRouter = jsonServer.router('mocks/json/runtime/rs-dam.temp.json')
+  const damMicroServiceRouterList = jsonServer.router('mocks/json/runtime/rs-dam-list.temp.json')
+  const damMicroServiceRouterArray = jsonServer.router('mocks/json/runtime/rs-dam-array.temp.json')
+  const gatewayMicroServiceRouter = jsonServer.router('mocks/json/runtime/rs-gateway.temp.json')
 
   accessMicroServiceRouter.render = PageMiddleWare
   adminMicroServiceRouter.render = RenderMiddleWare
@@ -231,14 +231,14 @@ console.error(JSON.stringify(data))
 /**
  * Copy mock json database to temp file for trash use during mock usage
  */
-fs.copy('./mocks/rs-admin.json', 'mocks/rs-admin.temp.json', () => {
-  fs.copy('./mocks/rs-dam.json', 'mocks/rs-dam.temp.json', () => {
-    fs.copy('./mocks/rs-catalog.json', 'mocks/rs-catalog.temp.json', () => {
-      fs.copy('./mocks/rs-access.json', 'mocks/rs-access.temp.json', () => {
-        fs.copy('./mocks/rs-archival-storage.json', 'mocks/rs-archival-storage.temp.json', () => {
-          fs.copy('./mocks/rs-gateway.json', 'mocks/rs-gateway.temp.json', () => {
-            fs.copy('./mocks/rs-dam-list.json', 'mocks/rs-dam-list.temp.json', () => {
-              fs.copy('./mocks/rs-dam-array.json', 'mocks/rs-dam-array.temp.json', runServer)
+fs.copy('./mocks/json/resources/rs-admin.json', 'mocks/json/runtime/rs-admin.temp.json', () => {
+  fs.copy('./mocks/json/resources/rs-dam.json', 'mocks/json/runtime/rs-dam.temp.json', () => {
+    fs.copy('./mocks/json/resources/rs-catalog.json', 'mocks/json/runtime/rs-catalog.temp.json', () => {
+      fs.copy('./mocks/json/resources/rs-access.json', 'mocks/json/runtime/rs-access.temp.json', () => {
+        fs.copy('./mocks/json/resources/rs-archival-storage.json', 'mocks/json/runtime/rs-archival-storage.temp.json', () => {
+          fs.copy('./mocks/json/resources/rs-gateway.json', 'mocks/json/runtime/rs-gateway.temp.json', () => {
+            fs.copy('./mocks/json/resources/rs-dam-list.json', 'mocks/json/runtime/rs-dam-list.temp.json', () => {
+              fs.copy('./mocks/json/resources/rs-dam-array.json', 'mocks/json/runtime/rs-dam-array.temp.json', runServer)
             })
           })
         })
