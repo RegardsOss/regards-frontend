@@ -4,15 +4,15 @@
 import { FormattedMessage } from 'react-intl'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { isEmpty } from 'lodash'
-import RaisedButton from 'material-ui/RaisedButton'
 import { reduxForm, formValueSelector } from 'redux-form'
+import RaisedButton from 'material-ui/RaisedButton'
+import UnlockAccountIcon from 'material-ui/svg-icons/action/lock'
+import ResetPasswordIcon from 'material-ui/svg-icons/action/restore-page'
+import ProjectAccessIcon from 'material-ui/svg-icons/action/assignment-ind'
 import { ReduxConnectedForm, connect } from '@regardsoss/redux'
 import { themeContextType } from '@regardsoss/theme'
-import LockOutline from 'material-ui/svg-icons/action/lock-outline'
-import Refresh from 'material-ui/svg-icons/navigation/refresh'
-import Portrait from 'material-ui/svg-icons/image/portrait'
 import { PictureLinkComponent } from '@regardsoss/components'
-import { RenderTextField, FormErrorMessage, ErrorTypes, Field, ValidationHelpers } from '@regardsoss/form-utils'
+import { RenderTextField, Field, FormErrorMessage, ErrorTypes, ValidationHelpers } from '@regardsoss/form-utils'
 
 const mailFieldId = 'username'
 
@@ -97,16 +97,13 @@ export class AuthenticationFormComponent extends React.Component {
           <Card>
             <CardTitle
               title={this.props.title}
-              subtitle={
-                <FormErrorMessage>{error || ''}</FormErrorMessage>
-              }
+              subtitle={<FormattedMessage id="authentication.message" />}
             />
             <CardText>
-              <FormattedMessage id="authentication.message" />
+              <FormErrorMessage>{error}</FormErrorMessage>
               <Field
                 name={mailFieldId}
                 value={initialMail}
-
                 fullWidth
                 component={RenderTextField}
                 type="text"
@@ -132,17 +129,17 @@ export class AuthenticationFormComponent extends React.Component {
             <div style={moduleTheme.linksBar}>
               <PictureLinkComponent
                 disabled={!showCreateAccount}
-                IconComponent={Portrait}
+                IconComponent={ProjectAccessIcon}
                 text={<FormattedMessage id="authentication.goto.create.account" />}
                 onAction={() => onGotoCreateAccount(currentMailValue)}
               />
               <PictureLinkComponent
-                IconComponent={Refresh}
+                IconComponent={ResetPasswordIcon}
                 text={<FormattedMessage id="authentication.goto.reset.password" />}
                 onAction={() => onGotoResetPassword(currentMailValue)}
               />
               <PictureLinkComponent
-                IconComponent={LockOutline}
+                IconComponent={UnlockAccountIcon}
                 text={<FormattedMessage id="authentication.goto.unlock.account" />}
                 onAction={() => onGotoUnlockAccount(currentMailValue)}
               />

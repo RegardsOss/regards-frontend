@@ -35,7 +35,7 @@ const menuStyles = theme => (
       },
     },
     authenticationDialog: {
-      preferredWidth: '620px',
+      preferredWidth: '680px',
     },
   })
 

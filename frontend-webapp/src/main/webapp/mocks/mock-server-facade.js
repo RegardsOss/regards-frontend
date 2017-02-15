@@ -11,6 +11,7 @@ const url = require('url')
 const httpProxy = require('http-proxy')
 const parseBody = require('parse-body')
 const _ = require('lodash')
+const fs = require('fs')
 
 // Definitions
 const serverPort = 3000
@@ -44,7 +45,8 @@ const processAccountPOSTRequest = (logSubheader, { accountEmail }, { originUrl, 
 
 /**
  * Mock server entry point: provide here the delegate for a given URL and method
- * Note1 : delegate signature is (request, query, pathParameters, bodyParameters) => {content:string (optional), code:int (optional)}
+ * Note1 : delegate signature is:
+ * (request, query, pathParameters, bodyParameters) => {content:string (optional), code:int (optional), contentType: string (optional)}
  * Note2 : you can get the parameters in request using query[paramName]. works the same way for body and path parameters
  * Note3 : see 2 examples in GET and POST
  */
@@ -52,7 +54,16 @@ const entryDelegates = {
   GET: {
     // EXAMPLE : GET http://localhost:3000/api/v1/test-url ==> 200 and [...]test-url?nok=whatiwant ==> 500
     '/test-url': (request, query) =>
-      (query.nok ? { content: 'Everything is NOT OK ', code: 500 } : { content: 'Everything is OK ', code: 200 }),
+      (query.nok ? { content: 'Everything is NOT OK ', code: 500 } : { content: 'Everything is OK ', code: 200, contentType: 'text/plain' }),
+    // project license
+    '/rs-admin/projects/{projectName}/license': () =>
+      ({
+        code: 200,
+        contentType: 'text/markdown',
+        content: {
+          content: fs.readFileSync('./mocks/mock-license.md').toString(),
+        },
+      }),
   },
   DELETE: {
   },
@@ -61,7 +72,7 @@ const entryDelegates = {
     // exemple URL: POST http://localhost:3000/api/v1/test-url/myTest1/hop/444 (think about adding some encoded form data)
     '/test-url/{myParam1}/hop/{myParam2}': (request, query, pathParameters, bodyParameters) =>
       ({ content:
-          `Et hop! 
+          `Et hop!
           \tPath parameter: ${_.keys(pathParameters).reduce((acc, key) => `${acc}\n\t\t-${key}:${pathParameters[key]}`, '')}
           \tBody parameters: ${_.keys(bodyParameters).reduce((acc, key) => `${acc}\n\t\t-${key}:${bodyParameters[key]}`, '')}
 ` }),
@@ -114,11 +125,12 @@ const localHandler = (timeBefore, entryDelegate, query, pathParameters, bodyPara
   console.info('[Facade mock server]', 'Serving locally')
 
 // run delegate to get code and text
-  const { content = '', code = 200 } = entryDelegate(request, query, pathParameters, bodyParameters)
+  const { content = '', code = 200, contentType } = entryDelegate(request, query, pathParameters, bodyParameters)
   // publish code
-  response.writeHead(code, responseHeaders)
-  // end answer with text
-  response.end(content)
+  const headers = Object.assign({ }, responseHeaders, contentType ? { 'Content-Type': contentType } : {})
+  response.writeHead(code, headers)
+  // end answer with text (or stringified object)
+  response.end(typeof content === 'object' ? JSON.stringify(content) : content)
 // log access info
   console.info('[Facade mock server]', request.method, request.url, code, new Date().getTime() - timeBefore, 'ms')
 }
