@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { combineReducers } from 'redux'
 import ListReducers from './ThemeReducers'
 import CurrentThemeReducers from './CurrentThemeReducers'

@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import themeContextType from './contextType'
 import ThemeInjector from './ThemeInjector'
 import ThemeHelper from './ThemeHelper'
