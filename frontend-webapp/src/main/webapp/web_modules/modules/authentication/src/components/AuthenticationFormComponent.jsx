@@ -40,7 +40,7 @@ export class AuthenticationFormComponent extends React.Component {
     // on login submit
     onLogin: React.PropTypes.func.isRequired,
     // Form general error
-    error: React.PropTypes.string,
+    errorMessage: React.PropTypes.string,
     // from reduxFormSelector
     currentMailValue: React.PropTypes.string,
     // from reduxForm
@@ -73,7 +73,7 @@ export class AuthenticationFormComponent extends React.Component {
    */
   render() {
     const {
-      error, currentMailValue, initialMail,
+      errorMessage, currentMailValue, initialMail,
       showCreateAccount, showCancel, onCancelAction, handleSubmit,
       onLogin, onGotoUnlockAccount, onGotoResetPassword, onGotoCreateAccount,
     } = this.props
@@ -88,6 +88,7 @@ export class AuthenticationFormComponent extends React.Component {
         />
       )
     }
+    console.error(' errr', errorMessage)
     return (
       <div style={moduleTheme.layout}>
         <ReduxConnectedForm
@@ -100,7 +101,7 @@ export class AuthenticationFormComponent extends React.Component {
               subtitle={<FormattedMessage id="authentication.message" />}
             />
             <CardText>
-              <FormErrorMessage>{error}</FormErrorMessage>
+              <FormErrorMessage>{errorMessage}</FormErrorMessage>
               <Field
                 name={mailFieldId}
                 value={initialMail}

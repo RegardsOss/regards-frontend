@@ -1,0 +1,89 @@
+{
+  "tokens": [
+    {
+      "id": 1,
+      "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBjbmVzLmZyIiwiYXVkIjpbInJzLWdhdGV3YXkiXSwicm9sZSI6IklOU1RBTkNFX0FETUlOIiwidXNlcl9uYW1lIjoiZnIuY25lcy5yZWdhcmRzLmZyYW1ld29yay5zZWN1cml0eS51dGlscy5qd3QuVXNlckRldGFpbHNANTdiZmQ5ZGYiLCJzY29wZSI6WyJjZHBwIl0sInByb2plY3QiOiJjZHBwIiwiZXhwIjoxNDgyNTI3NjI0LCJhdXRob3JpdGllcyI6WyJJTlNUQU5DRV9BRE1JTiJdLCJqdGkiOiI0ZGUzMDBkOC03ODgwLTQ4M2MtYWJhOC1mYzQ1NjBiOTYxYjEiLCJjbGllbnRfaWQiOiJjbGllbnQifQ.GcbFi0J6OUIDqDgCzDYSVel7xI8k_59oP0wn_zvYxqE",
+      "expires_in": 43199,
+      "jti": "4de300d8-7880-483c-aba8-fc4560b961b1",
+      "project": "cdpp",
+      "role": "INSTANCE_ADMIN",
+      "scope": "cdpp",
+      "sub": "admin@cnes.fr",
+      "token_type": "bearer"
+    }
+  ],
+  "plugins": [
+    {
+      "id": 0,
+      "pluginType": "Authentication",
+      "pluginClassName": "Kerberos",
+      "author": "Jules Verne",
+      "version": "0.0.5",
+      "description": "Allows the users to log in with their usual email and password."
+    },
+    {
+      "id": 1,
+      "pluginType": "Authentication",
+      "pluginClassName": "Kerberos",
+      "author": "Jules Verne",
+      "version": "0.0.6",
+      "description": "Allows the users to log in with their usual email and password."
+    },
+    {
+      "id": 2,
+      "pluginType": "Authentication",
+      "pluginClassName": "Toto",
+      "author": "Jean-Paul Sartre",
+      "version": "2.0.0",
+      "description": "This plugin is pretty useless actually."
+    },
+    {
+      "id": 3,
+      "pluginType": "Authentication",
+      "pluginClassName": "Titi",
+      "author": "Victor Hugo",
+      "version": "2.0.5",
+      "description": "This plugin is pretty useless actually."
+    },
+    {
+      "id": 4,
+      "pluginType": "Authentication",
+      "pluginClassName": "Toto",
+      "author": "Jean-Paul Sartre",
+      "version": "2.0.0",
+      "description": "This plugin is pretty useless actually."
+    },
+    {
+      "id": 5,
+      "pluginType": "Authentication",
+      "pluginClassName": "Titi",
+      "author": "Victor Hugo",
+      "version": "2.0.5",
+      "description": "This plugin is pretty useless actually."
+    },
+    {
+      "id": 6,
+      "pluginType": "Other",
+      "pluginClassName": "Kerberos",
+      "author": "Jules Verne",
+      "version": "0.0.5",
+      "description": "Allows the users to log in with their usual email and password."
+    },
+    {
+      "id": 7,
+      "pluginType": "Other",
+      "pluginClassName": "Toto",
+      "author": "Jean-Paul Sartre",
+      "version": "2.0.0",
+      "description": "This plugin is pretty useless actually."
+    },
+    {
+      "id": 8,
+      "pluginType": "Other",
+      "pluginClassName": "Titi",
+      "author": "Victor Hugo",
+      "version": "2.0.5",
+      "description": "This plugin is pretty useless actually."
+    }
+  ]
+}
