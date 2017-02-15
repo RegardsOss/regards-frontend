@@ -7,12 +7,12 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { connect } from '@regardsoss/redux'
 import { Layout } from '@regardsoss/model'
 import { EndpointActions } from '@regardsoss/endpoint'
-import { ThemeHelper, ThemeSelectors } from '@regardsoss/theme'
+import { ThemeHelper, getCurrentTheme } from '@regardsoss/theme'
 import { ApplicationLayout, ContainerHelper } from '@regardsoss/layout'
 import { ModuleShape } from '@regardsoss/modules'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { ApplicationErrorContainer } from '@regardsoss/global-sytem-error'
-import { AuthenticationSelectors, AuthenticateShape, routeHelpers } from '@regardsoss/authentication-manager'
+import { AuthenticationSelectors, routeHelpers } from '@regardsoss/authentication-manager'
 import LayoutSelector from '../model/layout/LayoutSelector'
 import LayoutActions from '../model/layout/LayoutActions'
 import ModulesSelector from '../model/modules/ModulesSelector'
@@ -136,7 +136,7 @@ export class UserApp extends React.Component {
   }
 }
 const mapStateToProps = (state, ownProps) => ({
-  theme: ThemeSelectors.getCurrentTheme(state),
+  theme: getCurrentTheme(state),
   layout: LayoutSelector.getById(state, 'user'),
   modules: ModulesSelector.getList(state),
   layoutIsFetching: LayoutSelector.isFetching(state),

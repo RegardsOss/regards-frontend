@@ -5,7 +5,7 @@ import { forEach } from 'lodash'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { connect } from '@regardsoss/redux'
 import { Layout } from '@regardsoss/model'
-import { ThemeHelper, ThemeSelectors } from '@regardsoss/theme'
+import { ThemeHelper, getCurrentTheme } from '@regardsoss/theme'
 import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
 import { ApplicationLayout } from '@regardsoss/layout'
 import { ModuleShape } from '@regardsoss/modules'
@@ -67,7 +67,7 @@ export class PortalApp extends React.Component {
   }
 }
 const mapStateToProps = (state, ownProps) => ({
-  theme: ThemeSelectors.getCurrentTheme(state),
+  theme: getCurrentTheme(state),
   layout: LayoutSelector.getById(state, 'portal'),
   modules: ModulesSelector.getList(state),
   layoutIsFetching: LayoutSelector.isFetching(state),

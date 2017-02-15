@@ -3,7 +3,7 @@
  **/
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { I18nProvider } from '@regardsoss/i18n'
-import { ThemeHelper, ThemeSelectors } from '@regardsoss/theme'
+import { ThemeHelper, getCurrentTheme } from '@regardsoss/theme'
 import connect from './Connect'
 
 /**
@@ -49,7 +49,7 @@ class ReduxFormComponent extends React.Component {
 
 const mapStateToProps = state => ({
   // Add theme from store to the components props
-  theme: ThemeSelectors.getCurrentTheme(state),
+  theme: getCurrentTheme(state),
 })
 
 export default connect(mapStateToProps)(ReduxFormComponent)

@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import IconButton from 'material-ui/IconButton'
 import Palette from 'material-ui/svg-icons/image/palette'
 import IconMenu from 'material-ui/IconMenu'
@@ -5,9 +8,16 @@ import { connect } from 'react-redux'
 import MenuItem from 'material-ui/MenuItem'
 import { map, keys } from 'lodash'
 import { I18nProvider } from '@regardsoss/i18n'
-import setTheme from '../model/ThemeActions'
 import ThemeHelper from '../ThemeHelper'
+import getCurrentTheme from '../model/selectors/getCurrentTheme'
+import setCurrentTheme from '../model/actions/setCurrentTheme'
+import ThemeSelectors from '../model/selectors/ThemeSelectors'
 
+/**
+ * Selector allowing the user to change the app's theme.
+ *
+ * @author Xavier-Alexandre Brochard
+ */
 export class SelectTheme extends React.Component {
 
   static propTypes = {
@@ -55,10 +65,11 @@ export class SelectTheme extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  theme: state.common.theme,
+  theme: getCurrentTheme(state),
+  themeList: ThemeSelectors.getList(state),
 })
 const mapDispatchToProps = dispatch => ({
-  setTheme: theme => dispatch(setTheme(theme)),
+  setTheme: themeId => dispatch(setCurrentTheme(themeId)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SelectTheme)

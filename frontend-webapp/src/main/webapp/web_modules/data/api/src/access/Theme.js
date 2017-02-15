@@ -1,8 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-
-import { Schema } from 'normalizr'
+import { Schema, arrayOf } from 'normalizr'
 
 export const ThemeConfiguration = {
   entityKey: 'id',
@@ -12,12 +11,12 @@ export const ThemeConfiguration = {
 
 // Read more about Normalizr: https://github.com/paularmstrong/normalizr
 const themeSchema = new Schema(ThemeConfiguration.normalizrKey, {
-  idAttribute: theme =>
-    theme.content[ThemeConfiguration.entityKey]
-  ,
+  idAttribute: theme => theme.content[ThemeConfiguration.entityKey],
 })
 
 // Schemas for API responses.
 export default {
   THEME: themeSchema,
+  THEME_ARRAY: arrayOf(themeSchema),
+  ThemeConfiguration,
 }

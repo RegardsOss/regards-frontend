@@ -5,7 +5,7 @@ import { intlShape } from 'react-intl'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { AuthenticationSelectors, routeHelpers } from '@regardsoss/authentication-manager'
-import { ThemeHelper, ThemeSelectors } from '@regardsoss/theme'
+import { ThemeHelper, getCurrentTheme } from '@regardsoss/theme'
 import { EndpointActions } from '@regardsoss/endpoint'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import AdminLayout from './AdminLayout'
@@ -117,10 +117,9 @@ class AdminApp extends React.Component {
     return null
   }
 }
-
 const mapStateToProps = state => ({
   // Add theme from store to the components props
-  theme: ThemeSelectors.getCurrentTheme(state),
+  theme: getCurrentTheme(state),
   isAuthenticated: AuthenticationSelectors.isAuthenticated(state),
 })
 
