@@ -8,8 +8,8 @@ import sinon from 'sinon'
 import { IntlStub } from '@regardsoss/tests-helpers'
 import AuthenticationFormContainer from '../../src/containers/AuthenticationFormContainer'
 import AccountOperationMessage, { operationIds } from '../../src/components/AccountOperationMessage'
-import ChangePasswordFormContainer from '../../src//containers/ChangePasswordFormContainer'
-import FinishUnlockAccountContainer from '../../src//containers/FinishUnlockAccountContainer'
+import ChangePasswordFormContainer from '../../src/containers/ChangePasswordFormContainer'
+import FinishUnlockAccountContainer from '../../src/containers/FinishUnlockAccountContainer'
 import AuthenticationWorkflowsComponent, { initialModes } from '../../src/components/AuthenticationWorkflowsComponent'
 
 import styles from '../../src/styles/styles'
@@ -60,7 +60,7 @@ describe('[AUTHENTICATION] Testing AuthenticationWorkflowsComponent', () => {
           assert.equal(render.find(FinishUnlockAccountContainer).length, 1, 'Inner component matching the initial mode "finishUnlockAccount" should be rendered!')
           break
         case initialModes.createAccountConfirmation:
-          assert.equal(render.find(AccountOperationMessage).length, 1, 'Inner component matching the initial mode "finishUnlockAccount" should be rendered!')
+          assert.equal(render.find(AccountOperationMessage).length, 1, 'Inner component matching the initial mode "createAccountConfirmation" should be rendered!')
           assert.equal(render.find(AccountOperationMessage).props().operationId, operationIds.createAccountDone, 'The message should match the case!')
           break
         default:

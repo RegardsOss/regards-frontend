@@ -8,6 +8,7 @@ import AuthenticationFormContainer from '../containers/AuthenticationFormContain
 import AccountOperationMessage, { operationIds } from './AccountOperationMessage'
 import ChangePasswordFormContainer from '../containers/ChangePasswordFormContainer'
 import FinishUnlockAccountContainer from '../containers/FinishUnlockAccountContainer'
+import CreateAccountFormContainer from '../containers/CreateAccountFormContainer'
 import { AskResetPasswordFormContainer, AskUnlockAccountFormContainer } from '../containers/AccountRequestFormContainer'
 
 /**
@@ -27,8 +28,8 @@ export const viewStates = {
   finishUnlockAccountFetchingView: { },
   unlockAccountExpiredMessageView: { messageOperationId: operationIds.askUnlockAccountTokenExpired },
   unlockAccountDoneMessageView: { messageOperationId: operationIds.unlockAccountDone },
-  createAccountFormView: { },
-  createAccountSent: { messageOperationId: operationIds.createAccountSent },
+  askProjectAccessFormView: { },
+  createAccountSentMessageView: { messageOperationId: operationIds.createAccountSent },
   createAccountDoneMessageView: { messageOperationId: operationIds.createAccountDone },
 }
 
@@ -146,14 +147,11 @@ export default class AuthenticationStatesContainer extends React.Component {
             showCreateAccount={showCreateAccount}
             showCancel={showCancel}
             onCancelAction={onCancelAction}
-            onGotoCreateAccount={this.onGoto(viewStates.createAccountFormView, true)}
+            onGotoCreateAccount={this.onGoto(viewStates.askProjectAccessFormView, true)}
             onGotoResetPassword={this.onGoto(viewStates.askResetPasswordFormView, true)}
             onGotoUnlockAccount={this.onGoto(viewStates.askUnlockAccountFormView, true)}
           />
         )
-      // TODO
-      // case viewStates.createAccountFormView:
-      //   return ()
       case viewStates.askResetPasswordFormView:
         return (
           <AskResetPasswordFormContainer
@@ -186,6 +184,15 @@ export default class AuthenticationStatesContainer extends React.Component {
             onTokenExpired={this.onGoto(viewStates.unlockAccountExpiredMessageView)}
           />
         )
+      case viewStates.askProjectAccessFormView:
+        return (
+          <CreateAccountFormContainer
+            project={project}
+            initialMail={currentMail}
+            onBack={this.onGoto(viewStates.authenticationFormView, true)}
+            onDone={this.onGoto(viewStates.askUnlockAccountSentMessageView, true)}
+          />)
+        // TODO : also add container when back from mail (for new account, it should call activation link)
       default:
         throw new Error(`Unknown view state ${currentView}`)
     }
