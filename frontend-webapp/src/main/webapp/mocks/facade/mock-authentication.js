@@ -4,6 +4,13 @@
 
 const unlockAccountURL = 'accounts/{accountEmail}/unlockAccount'
 
+const accountPool = {
+
+
+
+}
+
+
 const validToken = '123456'
 const processAccountPOSTRequest = (logSubheader, { accountEmail }, { originUrl, requestLink }) => {
   const failureMail = 'test@fail.com'
