@@ -56,7 +56,7 @@ export class ThemeProvider extends React.Component {
     // Recompute the merged theme when the current theme has changed
     if (!isEqual(nextProps.currentTheme, currentTheme)) {
       this.setState({
-        mergedTheme: getMuiTheme(nextProps.currentTheme.content.configuration),
+        mergedTheme: getMuiTheme(nextProps.currentTheme.content.configuration || defaultTheme),
       })
     }
   }

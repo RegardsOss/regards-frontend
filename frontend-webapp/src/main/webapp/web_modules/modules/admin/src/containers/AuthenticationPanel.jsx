@@ -5,6 +5,7 @@ import { intlShape } from 'react-intl'
 import { themeContextType } from '@regardsoss/theme'
 import { LazyModuleComponent } from '@regardsoss/modules'
 import { CenteredDiv } from '@regardsoss/components'
+import getModuleStyles from '../styles/styles'
 
 /**
  * Authentication page before access to admin layout
@@ -21,12 +22,8 @@ class AuthenticationPanel extends React.Component {
   }
 
   render() {
-    const style = {
-      app: {
-        classes: this.context.muiTheme.adminApp.layout.app.classes.join(' '),
-        styles: this.context.muiTheme.adminApp.layout.app.styles,
-      },
-    }
+    const moduleStyles = getModuleStyles(this.context.muiTheme)
+
     const module = {
       name: 'authentication',
       active: true,
@@ -38,7 +35,7 @@ class AuthenticationPanel extends React.Component {
       },
     }
     return (
-      <div className={style.app.classes} style={style.app.styles}>
+      <div className={moduleStyles.adminApp.layout.app.classes.join(' ')} style={moduleStyles.adminApp.layout.app.styles}>
         <CenteredDiv>
           <LazyModuleComponent
             module={module}
