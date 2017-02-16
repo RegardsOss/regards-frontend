@@ -2,13 +2,13 @@
  * LICENSE_PLACEHOLDER
  **/
 import { browserHistory } from 'react-router'
+import { I18nProvider } from '@regardsoss/i18n'
 import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
 import { connect } from '@regardsoss/redux'
 import { PluginDefinition } from '@regardsoss/model'
 import PluginsActions from '../model/PluginsActions'
 import PluginsSelector from '../model/PluginsSelector'
 import PluginFormComponent from '../components/PluginFormComponent'
-
 
 /**
  * React component to display a edition form for plugin entity
@@ -72,17 +72,17 @@ class PluginFormContainer extends React.Component {
       return (<FormEntityNotFoundComponent />)
     }
 
-
     return (
-      <PluginFormComponent
-        onSubmit={this.handleSubmit}
-        onBack={this.handleBack}
-        plugin={this.props.plugin}
-      />
+      <I18nProvider messageDir="modules/admin-ui-plugins-management/src/i18n">
+        <PluginFormComponent
+          onSubmit={this.handleSubmit}
+          onBack={this.handleBack}
+          plugin={this.props.plugin}
+        />
+      </I18nProvider>
     )
   }
 }
-
 
 const mapStateToProps = (state, ownProps) => ({
   plugin: ownProps.params.plugin_id ? PluginsSelector.getById(state, ownProps.params.plugin_id) : null,
@@ -93,7 +93,6 @@ const mapDispatchToProps = dispatch => ({
   fetchPlugin: pluginId => dispatch(PluginsActions.fetchEntity(pluginId)),
   updatePlugin: plugin => dispatch(PluginsActions.updateEntity(plugin.id, plugin)),
   createPlugin: plugin => dispatch(PluginsActions.createEntity(plugin)),
-
 })
 
 const UnconnectedPluginFormContainer = PluginFormContainer

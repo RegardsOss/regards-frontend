@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { browserHistory } from 'react-router'
-import { connect } from 'react-redux'
+import { connect } from '@regardsoss/redux'
 import { Project } from '@regardsoss/model'
 import { I18nProvider } from '@regardsoss/i18n'
 import { logout } from '@regardsoss/authentication-manager'

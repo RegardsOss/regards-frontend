@@ -4,7 +4,7 @@
 import { browserHistory } from 'react-router'
 import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
 import { Layout } from '@regardsoss/model'
-import { connect } from 'react-redux'
+import { connect } from '@regardsoss/redux'
 import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
 import LayoutSelector from '../model/layout/LayoutSelector'
 import LayoutActions from '../model/layout/LayoutActions'

@@ -5,10 +5,8 @@ import { map, forEach, keys } from 'lodash'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
 import { FormattedMessage } from 'react-intl'
-import { reduxForm } from 'redux-form'
 import { Collection, Model, ModelAttribute } from '@regardsoss/model'
-import { RenderTextField, RenderSelectField, Field, ErrorTypes } from '@regardsoss/form-utils'
-import { ReduxConnectedForm } from '@regardsoss/redux'
+import { RenderTextField, RenderSelectField, Field, ErrorTypes, reduxForm } from '@regardsoss/form-utils'
 import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -122,8 +120,7 @@ export class CollectionFormComponent extends React.Component {
     const { modelList, modelAttributeList, submitting, invalid, backUrl } = this.props
     const title = this.getTitle()
     return (
-      <ReduxConnectedForm
-        i18nMessagesDir="modules/admin-data-collection-management/src/i18n"
+      <form
         onSubmit={this.props.handleSubmit(this.props.onSubmit)}
       >
         <Card>
@@ -207,7 +204,7 @@ export class CollectionFormComponent extends React.Component {
             />
           </CardActions>
         </Card>
-      </ReduxConnectedForm>
+      </form>
     )
   }
 }

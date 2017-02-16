@@ -130,7 +130,12 @@ export class PluginConfigurationFormContainer extends React.Component {
       })
   }
 
+  componentWillReceiveProps(nextProps, nextState) {
+    console.log('PluginConfigurationFormContainer::componentWillReceiveProps', nextProps, nextState)
+  }
+
   render() {
+    console.log('PluginConfigurationFormContainer::render')
     return (
       <I18nProvider messageDir="modules/admin-microservice-management/src/i18n">
         {this.getFormComponent()}

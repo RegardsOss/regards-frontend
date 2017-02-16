@@ -14,7 +14,6 @@ const mergeMapStateToProps = mapStateToProps => (
   (state, ownProps) => ({
     ...mapStateToProps(state, ownProps),
     theme: getCurrentTheme(state),
-    // theme: ThemeSelectors.getCurrentTheme(state),
     i18n: i18nSelectors.getMessages(state),
   })
 )

@@ -3,12 +3,10 @@
  */
 import * as React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { reduxForm } from 'redux-form'
-import { ReduxConnectedForm } from '@regardsoss/redux'
 import TextField from 'material-ui/TextField'
 import MainActionButtonComponent from '@regardsoss/components/src/cards/MainActionButtonComponent'
 import SecondaryActionButtonComponent from '@regardsoss/components/src/cards/SecondaryActionButtonComponent'
-import { RenderTextField, Field, ValidationHelpers, ErrorTypes } from '@regardsoss/form-utils'
+import { RenderTextField, Field, ValidationHelpers, ErrorTypes, reduxForm} from '@regardsoss/form-utils'
 import ProjectConnection from '@regardsoss/model/src/admin/ProjectConnection'
 import DatabaseConnectionTester from './DatabaseConnectionTester'
 
@@ -47,9 +45,8 @@ export class ProjectConnectionFormComponent extends React.Component {
 
   render() {
     return (
-      <ReduxConnectedForm
+      <form
         onSubmit={this.props.handleSubmit(this.props.onSubmit)}
-        i18nMessagesDir="modules/admin-database-management/src/i18n"
       >
         <TextField
           hintText={this.props.projectConnection.content.driverClassName}
@@ -92,7 +89,7 @@ export class ProjectConnectionFormComponent extends React.Component {
             type="submit"
           />
         </div>
-      </ReduxConnectedForm>
+      </form>
     )
   }
 }
