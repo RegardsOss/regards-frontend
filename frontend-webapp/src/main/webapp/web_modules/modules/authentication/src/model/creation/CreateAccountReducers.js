@@ -2,10 +2,10 @@
  * LICENSE_PLACEHOLDER
  **/
 import { BasicSignalReducers } from '@regardsoss/store-utils'
-import { UnlockAccountActions } from './UnlockAccountActions'
+import { CreateAccountActions } from './CreateAccountActions'
 
 
-const instance = new BasicSignalReducers(UnlockAccountActions)
+const instance = new BasicSignalReducers(CreateAccountActions)
 
 /**
  * Return an function where the reducer instance exists
@@ -14,3 +14,5 @@ const instance = new BasicSignalReducers(UnlockAccountActions)
  * @return new state
  */
 export default (state, action) => instance.reduce(state, action)
+
+export const pathname = 'createAccount'

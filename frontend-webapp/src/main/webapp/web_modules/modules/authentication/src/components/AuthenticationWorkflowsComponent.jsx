@@ -30,7 +30,8 @@ export const viewStates = {
   unlockAccountDoneMessageView: { messageOperationId: operationIds.unlockAccountDone },
   askProjectAccessFormView: { },
   createAccountSentMessageView: { messageOperationId: operationIds.createAccountSent },
-  createAccountDoneMessageView: { messageOperationId: operationIds.createAccountDone },
+  validateCreatedAccount: {},
+    // TODO when validated { messageOperationId: operationIds.createAccountDone },
 }
 
 /**
@@ -45,7 +46,7 @@ export const initialModes = {
   // mail unlock account: finish unlock account operation
   finishUnlockAccount: viewStates.finishUnlockAccountFetchingView,
   // mail confirmation: the account was unlocked
-  createAccountConfirmation: viewStates.createAccountDoneMessageView,
+  validateCreatedAccount: viewStates.validateCreatedAccount,
 }
 
 /**

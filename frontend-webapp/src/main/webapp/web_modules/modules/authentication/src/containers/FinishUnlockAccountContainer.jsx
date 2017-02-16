@@ -4,8 +4,8 @@
 import { connect } from '@regardsoss/redux'
 import { FormattedMessage } from 'react-intl'
 import { LoadingPaneComponent } from '@regardsoss/components'
-import UnlockAccountActions from '../model/UnlockAccountActions'
-import UnlockAccountSelectors from '../model/UnlockAccountSelectors'
+import UnlockAccountActions from '../model/operation/UnlockAccountActions'
+import UnlockAccountSelectors from '../model/operation/UnlockAccountSelectors'
 
 /**
  * Completes unlock account when back from mail or fails if token is now invalid

@@ -4,8 +4,8 @@
 import { connect } from '@regardsoss/redux'
 import { i18nContextType } from '@regardsoss/i18n'
 import ChangePasswordForm from '../components/ChangePasswordFormComponent'
-import ResetPasswordActions from '../model/ResetPasswordActions'
-import ResetPasswordSelectors from '../model/ResetPasswordSelectors'
+import ResetPasswordActions from '../model/operation/ResetPasswordActions'
+import ResetPasswordSelectors from '../model/operation/ResetPasswordSelectors'
 
 /**
  * Change password form container

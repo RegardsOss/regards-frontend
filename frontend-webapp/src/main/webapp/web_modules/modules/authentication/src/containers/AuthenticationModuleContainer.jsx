@@ -39,8 +39,8 @@ export default class AuthenticationModuleContainer extends React.Component {
   getInitialViewMode = (urlAction = '') => {
     const modes = AuthenticationRouteParameters.mailAuthenticationAction.values
     switch (urlAction) {
-      case modes.accountCreated:
-        return initialModes.createAccountConfirmation
+      case modes.validateAccount:
+        return initialModes.validateCreatedAccount
       case modes.unlockAccount:
         return initialModes.finishUnlockAccount
       case modes.changePassword:

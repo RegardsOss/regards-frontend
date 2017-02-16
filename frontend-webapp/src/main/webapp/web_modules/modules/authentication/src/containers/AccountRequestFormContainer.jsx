@@ -4,10 +4,10 @@
 import { connect } from '@regardsoss/redux'
 import { values } from 'lodash'
 import { i18nContextType } from '@regardsoss/i18n'
-import ResetPasswordActions from '../model/ResetPasswordActions'
-import ResetPasswordSelectors from '../model/ResetPasswordSelectors'
-import UnlockAccountActions from '../model/UnlockAccountActions'
-import UnlockAccountSelectors from '../model/UnlockAccountSelectors'
+import ResetPasswordActions from '../model/operation/ResetPasswordActions'
+import ResetPasswordSelectors from '../model/operation/ResetPasswordSelectors'
+import UnlockAccountActions from '../model/operation/UnlockAccountActions'
+import UnlockAccountSelectors from '../model/operation/UnlockAccountSelectors'
 import AccountRequestFormComponent, { requestFormIds, mailFieldId } from '../components/AccountRequestFormComponent'
 
 /**
