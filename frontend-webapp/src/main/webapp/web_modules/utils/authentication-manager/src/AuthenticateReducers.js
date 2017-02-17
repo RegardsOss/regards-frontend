@@ -38,7 +38,6 @@ class AuthenticateReducers extends BasicSignalReducers {
         }
       // keep logged user
       case this.basicSignalActionInstance.SIGNAL_SUCCESS:
-        console.error('OKKKKKK AM I HERE???')
         return {
           ...newState,
           authenticateDate: Date.now(),

@@ -1,4 +1,5 @@
-import { REQUEST_AUTHENTICATE } from './AuthenticateActions'
+import AuthenticateActions from './AuthenticateActions'
+import AuthenticationSelectors from './AuthenticateSelectors'
 
 // Redux middleware provides a third-party extension point
 // between dispatching an action, and the moment it reaches the reducer
@@ -7,9 +8,9 @@ const { CALL_API } = require('redux-api-middleware')
 
 const getAuthorization = (state, callAPI) => {
   // Init the authorization bearer of the fetch request
-  const authentication = state.common.authentication
+  const authentication = AuthenticationSelectors.getAuthentication(state)
   // Todo: Extract this value to lets the administrator deploys the frontend with another key
-  if (callAPI.types[0] === REQUEST_AUTHENTICATE) {
+  if (callAPI.types[0] === AuthenticateActions.SIGNAL_REQUEST) {
     return `Basic ${btoa('client:secret')}`
   } else if (authentication && authentication.user && authentication.user.access_token) {
     return `Bearer ${authentication.user.access_token}`
