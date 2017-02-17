@@ -18,10 +18,10 @@ class AuthenticateReducers extends BasicSignalReducers {
         // same behavior as parent, add specific state fields: authentication date, user, error.loginError
         return {
           ...newState,
-          authenticateDate: '',
+          authenticateDate: null,
           user: {},
           error: {
-            loginError: '',
+            loginError: null,
             ...error,
           },
         }
@@ -29,7 +29,7 @@ class AuthenticateReducers extends BasicSignalReducers {
         // keep login error
         return {
           ...newState,
-          authenticateDate: '',
+          authenticateDate: null,
           user: {},
           error: {
             loginError: action.payload && action.payload.response ? action.payload.response.error : 'UNKNOWN_ERROR',
@@ -43,7 +43,7 @@ class AuthenticateReducers extends BasicSignalReducers {
           authenticateDate: Date.now(),
           user: action.payload,
           error: {
-            loginError: '',
+            loginError: null,
             ...error,
           },
         }

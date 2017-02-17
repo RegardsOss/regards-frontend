@@ -3,7 +3,7 @@
  */
 import { connect } from '@regardsoss/redux'
 import { i18nContextType } from '@regardsoss/i18n'
-import { AuthenticateActions, AuthenticateSelectors } from '@regardsoss/authentication-manager'
+import { AuthenticateActions, AuthenticateSelectors, AuthenticationErrorShape } from '@regardsoss/authentication-manager'
 import AuthenticationFormComponent from '../components/AuthenticationFormComponent'
 
 /**
@@ -29,7 +29,7 @@ export class AuthenticationFormContainer extends React.Component {
     onGotoResetPassword: React.PropTypes.func.isRequired,
     onGotoUnlockAccount: React.PropTypes.func.isRequired,
     // from map state to props
-    error: React.PropTypes.string,
+    loginError: AuthenticationErrorShape,
     // from map dispatch to props
     dispatchLoginRequest: React.PropTypes.func,
   }
@@ -46,7 +46,7 @@ export class AuthenticationFormContainer extends React.Component {
   render() {
     const {
       initialMail, title,
-      showAskProjectAccess, showCancel, onCancelAction, error, onGotoCreateAccount, onGotoResetPassword, onGotoUnlockAccount,
+      showAskProjectAccess, showCancel, onCancelAction, loginError, onGotoCreateAccount, onGotoResetPassword, onGotoUnlockAccount,
     } = this.props
     const { intl } = this.context
     return (
@@ -54,7 +54,7 @@ export class AuthenticationFormContainer extends React.Component {
         title={title}
         onLogin={this.onLoginRequest}
         initialMail={initialMail}
-        errorMessage={error && intl.formatMessage({ id: error })}
+        errorMessage={loginError && intl.formatMessage({ id: `authentication.error.${loginError}` })}
         showAskProjectAccess={showAskProjectAccess}
         showCancel={showCancel}
         onCancelAction={onCancelAction}
@@ -67,7 +67,7 @@ export class AuthenticationFormContainer extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  error: AuthenticateSelectors.getError(state),
+  loginError: AuthenticateSelectors.getError(state) && AuthenticateSelectors.getError(state).loginError,
 })
 
 const mapDispatchToProps = dispatch => ({

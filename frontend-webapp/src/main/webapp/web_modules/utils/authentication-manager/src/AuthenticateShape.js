@@ -9,7 +9,7 @@ export default React.PropTypes.shape({
   authenticateDate: React.PropTypes.number,
 })
 
-const errorTypes = [
+export const errorTypes = [
   'ACCOUNT_UNKNOWN',
   'ACCOUNT_PENDING',
   'ACCOUNT_ACCEPTED',
@@ -21,4 +21,4 @@ const errorTypes = [
   'UNKNOWN_ERROR',
 ]
 
-export const AuthenticationErrorShape = React.PropTypes.oneOf(errorTypes).isRequired
+export const AuthenticationErrorShape = React.PropTypes.oneOf(errorTypes)

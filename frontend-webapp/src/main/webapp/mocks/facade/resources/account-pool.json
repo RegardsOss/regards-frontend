@@ -3,25 +3,26 @@
     "password": "admin",
     "state": "ACTIVE",
     "cdpp": "ACCESS_GRANTED",
-    "ssalto": "ACCESS_GRANTED"
+    "ssalto": "ACCESS_GRANTED",
+    "instance": "ACCESS_GRANTED"
   },
-  "'testNotAccepted@cnes.fr": {
+  "testNotAccepted@cnes.fr": {
     "password": "test",
     "state": "PENDING"
   },
-  "'testNotValidated@cnes.fr": {
+  "testNotValidated@cnes.fr": {
     "password": "test",
     "state": "ACCEPTED"
   },
-  "'testUNoAccess@cnes.fr": {
+  "testUNoAccess@cnes.fr": {
     "password": "test",
     "state": "ACTIVE"
   },
-  "'testInactive@cnes.fr": {
+  "testInactive@cnes.fr": {
     "password": "test",
     "state": "INACTIVE"
   },
-  "'testLocked@cnes.fr": {
+  "testLocked@cnes.fr": {
     "password": "test",
     "state": "LOCKED"
   },
