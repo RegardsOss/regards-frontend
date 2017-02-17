@@ -2,7 +2,7 @@ import AuthenticateActions from './AuthenticateActions'
 import authorizationMiddleware from './AuthorizationMiddleware'
 import AuthenticateReducers, { pathname as authenticateReducersPath } from './AuthenticateReducers'
 import AuthenticateSelectors from './AuthenticateSelectors'
-import AuthenticateShape from './AuthenticateShape'
+import AuthenticateShape, { AuthenticationErrorShape } from './AuthenticateShape'
 import AuthenticationRouteParameters, { AuthenticationParametersHelper, routeHelpers } from './AuthenticationRouteParameters'
 
 export {
@@ -12,6 +12,7 @@ export {
   AuthenticateSelectors,
   authorizationMiddleware,
   AuthenticateShape,
+  AuthenticationErrorShape,
   AuthenticationRouteParameters,
   AuthenticationParametersHelper,
   routeHelpers,

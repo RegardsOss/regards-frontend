@@ -70,7 +70,7 @@ export class AskProjectAccessFormComponent extends React.Component {
               subtitle={<FormattedMessage id="ask.project.access.request.message" values={{ project }} />}
             />
             <CardText>
-              <FormErrorMessage>{errorMessage /* TODO : make uniform with others, space bottom! */}</FormErrorMessage>
+              <FormErrorMessage>{errorMessage}</FormErrorMessage>
               <Field
                 name={useExistingAccountFieldId}
                 component={RenderCheckbox}
@@ -83,8 +83,8 @@ export class AskProjectAccessFormComponent extends React.Component {
                 type="text"
                 floatingLabelText={<FormattedMessage id="ask.project.access.mail" />}
               />
-              {
-                useExistingAccount || [
+              {useExistingAccount || (
+                <div>
                   <Field
                     key="firstName"
                     name="firstName"
@@ -92,7 +92,7 @@ export class AskProjectAccessFormComponent extends React.Component {
                     component={RenderTextField}
                     type="text"
                     floatingLabelText={<FormattedMessage id="ask.project.access.first.name" />}
-                  />,
+                  />
                   <Field
                     key="lastName"
                     name="lastName"
@@ -100,7 +100,7 @@ export class AskProjectAccessFormComponent extends React.Component {
                     component={RenderTextField}
                     type="text"
                     floatingLabelText={<FormattedMessage id="ask.project.access.last.name" />}
-                  />,
+                  />
                   <Field
                     key="newPassword"
                     name="newPassword"
@@ -108,7 +108,7 @@ export class AskProjectAccessFormComponent extends React.Component {
                     component={RenderTextField}
                     type="password"
                     floatingLabelText={<FormattedMessage id="ask.project.access.new.password" />}
-                  />,
+                  />
                   <Field
                     key="confirmPassword"
                     name="confirmPassword"
@@ -116,9 +116,9 @@ export class AskProjectAccessFormComponent extends React.Component {
                     component={RenderTextField}
                     type="password"
                     floatingLabelText={<FormattedMessage id="ask.project.access.confirm.password" />}
-                  />,
-                ]
-              }
+                  />
+                </div>
+              )}
             </CardText>
             <CardActions style={moduleTheme.action}>
               <RaisedButton
