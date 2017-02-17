@@ -8,7 +8,7 @@ import IconMenu from 'material-ui/IconMenu'
 import MenuItem from 'material-ui/MenuItem'
 import { connect } from 'react-redux'
 import { I18nProvider } from '@regardsoss/i18n'
-import { Theme, ThemeList, ThemeDefault } from '@regardsoss/model'
+import { Theme, ThemeList, defaultTheme } from '@regardsoss/model'
 import getCurrentTheme from '../model/selectors/getCurrentTheme'
 import setCurrentTheme from '../model/actions/setCurrentTheme'
 import ThemeSelectors from '../model/selectors/ThemeSelectors'
@@ -26,12 +26,8 @@ export class SelectThemeContainer extends React.Component {
     onChange: React.PropTypes.func,
   }
 
-  static contextTypes = {
-    muiTheme: React.PropTypes.object.isRequired,
-  }
-
   static defaultProps = {
-    currentTheme: ThemeDefault,
+    currentTheme: defaultTheme,
   }
 
   render() {
@@ -48,7 +44,6 @@ export class SelectThemeContainer extends React.Component {
           targetOrigin={{ horizontal: 'middle', vertical: 'bottom' }}
           value={currentTheme.content.id}
           onChange={(event, value) => onChange(value)}
-          iconStyle={this.context.muiTheme.menu.localeDropdown}
         >
           {items}
         </IconMenu>

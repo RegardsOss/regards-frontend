@@ -43,6 +43,6 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing plugin configuration form component
     }
     const enzymeWrapper = shallow(<PluginConfigurationFormComponent {...props} />)
     const subComponent = enzymeWrapper.find(Card)
-    expect(subComponent).to.have.length(1)
+    expect(subComponent).to.have.length(2)
   })
 })
