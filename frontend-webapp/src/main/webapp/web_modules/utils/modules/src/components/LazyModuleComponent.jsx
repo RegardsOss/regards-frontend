@@ -7,6 +7,7 @@ import { getReducerRegistry, configureReducers } from '@regardsoss/store'
 import { HateoasDisplayDecorator } from '@regardsoss/display-control'
 import DecoratorShape from '../model/DecoratorShape'
 import ModuleShape from '../model/ModuleShape'
+import ModuleThemeProvider from './ModuleThemeProvider'
 
 /**
  * React Component to display a module.

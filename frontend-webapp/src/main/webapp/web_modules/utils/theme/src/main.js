@@ -3,7 +3,6 @@
  **/
 import themeContextType from './contextType'
 import ThemeInjector from './ThemeInjector'
-import ThemeHelper from './ThemeHelper'
 import SelectThemeContainer from './containers/SelectThemeContainer'
 import injectTheme from './ThemeInjectionDecorator'
 import reducers from './model/reducers'
@@ -15,7 +14,6 @@ export {
   themeContextType,
   ThemeInjector,
   SelectThemeContainer,
-  ThemeHelper,
   injectTheme,
   reducers,
   ThemeSelectors,
