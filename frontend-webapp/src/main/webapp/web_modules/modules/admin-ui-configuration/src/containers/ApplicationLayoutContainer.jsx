@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { browserHistory } from 'react-router'
-import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
+import { I18nProvider } from '@regardsoss/i18n'
 import { Layout } from '@regardsoss/model'
 import { connect } from '@regardsoss/redux'
 import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
@@ -29,10 +29,6 @@ class ApplicationLayoutContainer extends React.Component {
     fetchLayout: React.PropTypes.func,
     updateLayout: React.PropTypes.func,
 
-  }
-
-  static contextTypes = {
-    ...i18nContextType,
   }
 
   componentWillMount() {

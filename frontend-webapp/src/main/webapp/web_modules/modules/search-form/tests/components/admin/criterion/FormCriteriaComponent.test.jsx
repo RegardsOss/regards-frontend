@@ -8,7 +8,7 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import MenuItem from 'material-ui/MenuItem'
 import { Field } from '@regardsoss/form-utils'
 import { DefaultLayout } from '@regardsoss/layout'
-import { ReduxConnectedForm } from '@regardsoss/redux'
+import { Card } from 'material-ui/Card'
 import { PluginProvider } from '@regardsoss/plugins'
 import Styles from '../../../../src/styles/styles'
 import CriteriaConfigurationComponent from '../../../../src/components/admin/criterion/CriteriaConfigurationComponent'
@@ -53,9 +53,9 @@ describe('[FORM MODULE] Testing FormCriteriaComponent', () => {
       <UnconnectedFormCriteriaComponent {...props} />, options,
     )
 
-    // Check for ReduxFormComponent
-    const reduxForm = wrapper.find(ReduxConnectedForm)
-    assert(reduxForm.length === 1, 'The ReduxConnectedForm should be rendered')
+    // Check for Card
+    const card = wrapper.find(Card)
+    assert(reduxForm.length === 1, 'The Card should be rendered')
 
     // Check for plugin selection field
     const pluginIdField = reduxForm.find(Field).find({ name: 'pluginId' })
@@ -125,9 +125,9 @@ describe('[FORM MODULE] Testing FormCriteriaComponent', () => {
       <UnconnectedFormCriteriaComponent {...props} />, options,
     )
 
-    // Check for ReduxFormComponent
-    const reduxForm = wrapper.find(ReduxConnectedForm)
-    assert(reduxForm.length === 1, 'The ReduxConnectedForm should be rendered')
+    // Check for Card
+    const card = wrapper.find(Card)
+    assert(reduxForm.length === 1, 'The Card should be rendered')
 
     // Check for plugin selection field
     const pluginIdField = reduxForm.find(Field).find({ name: 'pluginId' })

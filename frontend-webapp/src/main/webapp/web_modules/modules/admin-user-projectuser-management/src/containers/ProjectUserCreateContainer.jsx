@@ -1,5 +1,5 @@
 import { browserHistory } from 'react-router'
-import { connect } from 'react-redux'
+import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import RoleActions from '../model/RoleActions'
 import RoleSelectors from '../model/RoleSelectors'
@@ -54,6 +54,7 @@ export class ProjectUserCreateContainer extends React.Component {
     })
   }
   render() {
+    console.log('ProjectUserCreateContainer::render')
     const { roleList } = this.props
     return (
       <I18nProvider messageDir="modules/admin-user-projectuser-management/src/i18n">

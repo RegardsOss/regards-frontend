@@ -4,11 +4,11 @@
 
 import { FormattedMessage } from 'react-intl'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
-import { reduxForm, formValueSelector } from 'redux-form'
-import { ReduxConnectedForm, connect } from '@regardsoss/redux'
+import { formValueSelector } from 'redux-form'
+import { connect } from '@regardsoss/redux'
 import RaisedButton from 'material-ui/RaisedButton'
 import { themeContextType } from '@regardsoss/theme'
-import { RenderTextField, Field, FormErrorMessage, ErrorTypes, ValidationHelpers } from '@regardsoss/form-utils'
+import { RenderTextField, Field, FormErrorMessage, ErrorTypes, ValidationHelpers, reduxForm } from '@regardsoss/form-utils'
 
 const mailFieldId = 'mail'
 
@@ -55,9 +55,8 @@ export class CreateAccountFormComponent extends React.Component {
     const { moduleTheme } = this.context
     return (
       <div style={moduleTheme.layout}>
-        <ReduxConnectedForm
+        <form
           onSubmit={handleSubmit(onRequestAction)}
-          i18nMessagesDir="modules/authentication/src/i18n"
         >
           <Card>
             <CardTitle
@@ -121,7 +120,7 @@ export class CreateAccountFormComponent extends React.Component {
               />
             </CardActions>
           </Card>
-        </ReduxConnectedForm>
+        </form>
       </div>
     )
   }

@@ -2,12 +2,11 @@
  * LICENSE_PLACEHOLDER
  **/
 import { map, join, split } from 'lodash'
-import { reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import MenuItem from 'material-ui/MenuItem'
 import { CardActionsComponent } from '@regardsoss/components'
-import { ReduxConnectedForm } from '@regardsoss/redux'
-import { RenderTextField, RenderSelectField, Field, RenderCheckbox } from '@regardsoss/form-utils'
+import { RenderTextField, RenderSelectField, Field, RenderCheckbox, reduxForm } from '@regardsoss/form-utils'
+import { I18nProvider } from '@regardsoss/i18n'
 import ContainerShape from '../model/ContainerShape'
 import containerTypes from '../default/containerTypes'
 
@@ -42,9 +41,9 @@ class ContainerConfigurationComponent extends React.Component {
   render() {
     const { pristine, submitting } = this.props
     return (
-      <ReduxConnectedForm
+      <I18nProvider messageDir="utils/layout/src/i18n">
+      <form
         onSubmit={this.props.handleSubmit(this.props.onSubmit)}
-        i18nMessagesDir="utils/layout/src/i18n"
       >
         <div>
           <Field
@@ -104,7 +103,8 @@ class ContainerConfigurationComponent extends React.Component {
             secondaryButtonTouchTap={this.props.onCancel}
           />
         </div>
-      </ReduxConnectedForm>
+      </form>
+      </I18nProvider>
     )
   }
 

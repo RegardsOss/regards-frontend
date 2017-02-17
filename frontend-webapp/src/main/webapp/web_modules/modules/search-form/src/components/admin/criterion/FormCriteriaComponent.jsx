@@ -4,13 +4,11 @@
 import { forEach } from 'lodash'
 import MenuItem from 'material-ui/MenuItem'
 import { FormattedMessage } from 'react-intl'
-import { reduxForm } from 'redux-form'
-import { RenderSelectField, Field } from '@regardsoss/form-utils'
+import { RenderSelectField, Field, reduxForm } from '@regardsoss/form-utils'
 import { CardActionsComponent } from '@regardsoss/components'
 import { PluginDefinition, PluginConf, AttributeModel } from '@regardsoss/model'
 import { ContainerHelper } from '@regardsoss/layout'
 import { PluginProvider } from '@regardsoss/plugins'
-import { ReduxConnectedForm } from '@regardsoss/redux'
 
 import CriteriaConfigurationComponent from './CriteriaConfigurationComponent'
 
@@ -169,9 +167,8 @@ class FormCriteriaComponent extends React.Component {
   render() {
     const { pristine, submitting } = this.props
     return (
-      <ReduxConnectedForm
+      <form
         onSubmit={this.props.handleSubmit(this.props.saveCriteria)}
-        i18nMessagesDir="modules/search-form/src/i18n"
       >
         <div>
           <Field
@@ -205,7 +202,7 @@ class FormCriteriaComponent extends React.Component {
             secondaryButtonTouchTap={this.onCancel}
           />
         </div>
-      </ReduxConnectedForm>
+      </form>
     )
   }
 }
