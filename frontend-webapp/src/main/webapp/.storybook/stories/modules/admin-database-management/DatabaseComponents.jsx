@@ -10,7 +10,8 @@ import ProjectConnectionEditComponent from '@regardsoss/admin-database-managemen
 import ProjectConnectionFormComponent from '@regardsoss/admin-database-management/src/components/ProjectConnectionFormComponent'
 import GuidedProjectConfigurationComponent from '@regardsoss/admin-database-management/src/components/GuidedProjectConfigurationComponent'
 import EnumConnectivity from '@regardsoss/model/src/admin/EnumConnectivity'
-import { StoreDecorator, addLocaleAndThemeSelectors, ThemeAndLocaleDecorator } from '../../utils/decorators'
+import { muiTheme } from 'storybook-addon-material-ui'
+import { withStore, withLocale } from '../../decorators/index'
 
 const testProjectConnections = {
   0: {
@@ -55,79 +56,63 @@ const testProjectConnections = {
 }
 
 storiesOf('InstanceAdmin - Database', module)
+  .addDecorator(withLocale('modules/admin-database-management/src/i18n'))
   .addDecorator(withKnobs)
-  .addDecorator(StoreDecorator)
+  .addDecorator(withStore)
+  .addDecorator(muiTheme())
   .add('Connection tester', () => {
-    const themeName = addLocaleAndThemeSelectors()
     const projectConnection = object('Project connection', testProjectConnections[2])
     return (
-      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-database-management/src/i18n">
-        <DatabaseConnectionTester projectConnection={projectConnection} />
-      </ThemeAndLocaleDecorator>
+      <DatabaseConnectionTester projectConnection={projectConnection} />
     )
   })
   .add('Icon Button connection tester', () => {
-    const themeName = addLocaleAndThemeSelectors()
     const projectConnection = object('Project connection', testProjectConnections[2])
     return (
-      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-database-management/src/i18n">
-        <DatabaseConnectionTesterIconButton
-          projectConnection={projectConnection}
-        />
-      </ThemeAndLocaleDecorator>
+      <DatabaseConnectionTesterIconButton
+        projectConnection={projectConnection}
+      />
     )
   })
   .add('List', () => {
-    const themeName = addLocaleAndThemeSelectors()
     const projectConnections = object('Connections list', testProjectConnections)
     return (
-      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-database-management/src/i18n">
-        <ProjectConnectionListComponent
-          projectConnections={projectConnections}
-          onClose={action('onClose')}
-          onEdit={action('onEdit')}
-          onGuidedConfiguration={action('onGuidedConfiguration')}
-        />
-      </ThemeAndLocaleDecorator>
+      <ProjectConnectionListComponent
+        projectConnections={projectConnections}
+        onClose={action('onClose')}
+        onEdit={action('onEdit')}
+        onGuidedConfiguration={action('onGuidedConfiguration')}
+      />
     )
   })
   .add('Form', () => {
-    const themeName = addLocaleAndThemeSelectors()
     const projectConnection = object('Form content', testProjectConnections[0])
     return (
-      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-database-management/src/i18n">
-        <ProjectConnectionFormComponent
-          projectConnection={projectConnection}
-          onSubmit={action('onCreate')}
-          onCancel={action('onCancel')}
-        />
-      </ThemeAndLocaleDecorator>
+      <ProjectConnectionFormComponent
+        projectConnection={projectConnection}
+        onSubmit={action('onCreate')}
+        onCancel={action('onCancel')}
+      />
     )
   })
   .add('Edit', () => {
-    const themeName = addLocaleAndThemeSelectors()
     const connectionToEdit = object('Connection to edit', testProjectConnections[0])
     return (
-      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-database-management/src/i18n">
-        <ProjectConnectionEditComponent
-          projectConnection={connectionToEdit}
-          onSubmit={action('onCreate')}
-          onCancel={action('onCancel')}
-          onBack={action('onBack')}
-        />
-      </ThemeAndLocaleDecorator>
+      <ProjectConnectionEditComponent
+        projectConnection={connectionToEdit}
+        onSubmit={action('onCreate')}
+        onCancel={action('onCancel')}
+        onBack={action('onBack')}
+      />
     )
   })
   .add('Guided configuration', () => {
-    const themeName = addLocaleAndThemeSelectors()
     const projectConnections = object('Connections list', testProjectConnections)
     return (
-      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-database-management/src/i18n">
-        <GuidedProjectConfigurationComponent
-          projectConnections={projectConnections}
-          onStepSave={action('onStepSave')}
-        />
-      </ThemeAndLocaleDecorator>
+      <GuidedProjectConfigurationComponent
+        projectConnections={projectConnections}
+        onStepSave={action('onStepSave')}
+      />
     )
   })
 

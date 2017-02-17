@@ -15,6 +15,7 @@ import OnHoverSwitchFlatButton from '@regardsoss/components/src/buttons/OnHoverS
 import ProjectConnection from '@regardsoss/model/src/admin/ProjectConnection'
 import EnumConnectivity from '@regardsoss/model/src/admin/EnumConnectivity'
 import ConnectionTesterProgress from './ConnectionTesterProgress'
+import moduleStyles from '../styles/styles'
 
 /**
  * An ergonmy button starting a connectivity test for the passed {@link ProjectConnection}.<br>
@@ -100,6 +101,7 @@ class DatabaseConnectionTester extends React.Component {
 
   render() {
     const { projectConnection } = this.props
+    const styles = moduleStyles(this.context.muiTheme)
 
     const testButton = (<FlatButton
       label={<FormattedMessage id="database.connectionTester.start" />}
@@ -120,8 +122,8 @@ class DatabaseConnectionTester extends React.Component {
       (<OnHoverSwitchFlatButton
         label={[<FormattedMessage id="database.connectionTester.warning" />,
           <FormattedMessage id="database.connectionTester.restart" />]}
-        icon={[<Warning color={this.context.muiTheme.palette.warningColor} />, <PlayArrow />]}
-        labelStyle={[{ color: this.context.muiTheme.palette.warningColor }, null]}
+        icon={[<Warning color={styles.palette.warningColor} />, <PlayArrow />]}
+        labelStyle={[{ color: styles.palette.warningColor }, null]}
         onTouchTap={[this.handleTouchTap, this.handleTouchTap]}
       />)
 

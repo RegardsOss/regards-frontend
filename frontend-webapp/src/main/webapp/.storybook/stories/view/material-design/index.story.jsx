@@ -3,12 +3,12 @@ import { storiesOf } from '@kadira/storybook'
 import { withKnobs } from '@kadira/storybook-addon-knobs'
 import ReactTransitionGroupDemo from '@regardsoss/components/src/transitions/ReactTransitionGroupDemo'
 import Colors from './Colors'
-import { StoreDecorator } from '../../utils/decorators'
 import { muiTheme } from 'storybook-addon-material-ui'
+import withStore from '../../decorators/withStore'
 
 storiesOf('Material Design', module)
   .addDecorator(withKnobs)
-  .addDecorator(StoreDecorator)
+  .addDecorator(withStore)
   .addDecorator(muiTheme())
   .addDecorator((story) => {
     const storyKind = story()
@@ -29,13 +29,9 @@ storiesOf('Material Design', module)
         </div>
       </div>)
   })
-  .add('Colors', () => {
-    return (
-        <Colors />
-    )
-  })
-  .add('Motion', () => {
-    return (
-        <ReactTransitionGroupDemo />
-    )
-  })
+  .add('Colors', () => (
+    <Colors />
+    ))
+  .add('Motion', () => (
+    <ReactTransitionGroupDemo />
+    ))

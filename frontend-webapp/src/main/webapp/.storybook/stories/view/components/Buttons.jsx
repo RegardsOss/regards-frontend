@@ -4,37 +4,31 @@ import { OnHoverSwitchFlatButton, OnHoverSwitchRaisedButton, OnHoverSwitchIconBu
 import PlayArrow from 'material-ui/svg-icons/av/play-arrow'
 import Check from 'material-ui/svg-icons/navigation/check'
 import { muiTheme } from 'storybook-addon-material-ui'
-import { StoreDecorator } from '../../utils/decorators'
+import withStore from '../../decorators/withStore'
 
 storiesOf('Generic components - Buttons', module)
   .addDecorator(withKnobs)
-  .addDecorator(StoreDecorator)
+  .addDecorator(withStore)
   .addDecorator(muiTheme())
-  .add('On hover switch FlatButton', () => {
-    return (
-      <OnHoverSwitchFlatButton
-        label={['not hovered', 'hovered']}
-        icon={[<Check />, <PlayArrow />]}
-        primary={[true, false]}
-        secondary={[false, true]}
-      />
-    )
-  })
-  .add('On hover switch RaisedButton', () => {
-    return (
-      <OnHoverSwitchRaisedButton
-        label={['not hovered', 'hovered']}
-        icon={[<Check />, <PlayArrow />]}
-        primary={[true, false]}
-        secondary={[false, true]}
-      />
-    )
-  })
-  .add('On hover switch IconButton', () => {
-    return (
-      <OnHoverSwitchIconButton tooltip={[null, 'Hovered']}>
-        <Check />
-        <PlayArrow />
-      </OnHoverSwitchIconButton>
-    )
-  })
+  .add('On hover switch FlatButton', () => (
+    <OnHoverSwitchFlatButton
+      label={['not hovered', 'hovered']}
+      icon={[<Check />, <PlayArrow />]}
+      primary={[true, false]}
+      secondary={[false, true]}
+    />
+    ))
+  .add('On hover switch RaisedButton', () => (
+    <OnHoverSwitchRaisedButton
+      label={['not hovered', 'hovered']}
+      icon={[<Check />, <PlayArrow />]}
+      primary={[true, false]}
+      secondary={[false, true]}
+    />
+    ))
+  .add('On hover switch IconButton', () => (
+    <OnHoverSwitchIconButton tooltip={[null, 'Hovered']}>
+      <Check />
+      <PlayArrow />
+    </OnHoverSwitchIconButton>
+    ))

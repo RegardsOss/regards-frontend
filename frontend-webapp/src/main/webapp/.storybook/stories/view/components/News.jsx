@@ -1,12 +1,12 @@
 import { storiesOf } from '@kadira/storybook'
 import { NewsItemComponent } from '@regardsoss/components'
 import { withKnobs, select, object } from '@kadira/storybook-addon-knobs'
-import { StoreDecorator } from '../../utils/decorators'
 import { muiTheme } from 'storybook-addon-material-ui'
+import withStore from '../../decorators/withStore'
 
 storiesOf('Generic components - News', module)
   .addDecorator(withKnobs)
-  .addDecorator(StoreDecorator)
+  .addDecorator(withStore)
   .addDecorator(muiTheme())
   .add('', () => {
     // Example: https://cnes.fr/fr/feed
@@ -17,8 +17,8 @@ storiesOf('Generic components - News', module)
       link: 'http://www.cnrs.fr/fr/science-direct/video/video.php#05/08/2016',
     })
     return (
-        <NewsItemComponent
-          news={news}
-        />
+      <NewsItemComponent
+        news={news}
+      />
     )
   })
