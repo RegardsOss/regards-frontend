@@ -22,7 +22,7 @@ class AuthenticateActions extends BasicSignalActions {
   }
 
   logout() {
-    this.flush()
+    return this.flush()
   }
 }
 
