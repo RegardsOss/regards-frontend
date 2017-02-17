@@ -6,7 +6,6 @@ import { AuthenticationSelectors, routeHelpers } from '@regardsoss/authenticatio
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { EndpointActions } from '@regardsoss/endpoint'
 import { I18nProvider } from '@regardsoss/i18n'
-// import { connect } from 'react-redux'
 import { connect } from '@regardsoss/redux'
 import { ThemeProvider } from '@regardsoss/theme'
 import AdminLayout from './AdminLayout'

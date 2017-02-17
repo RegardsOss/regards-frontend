@@ -2,23 +2,23 @@
  * LICENSE_PLACEHOLDER
  **/
 import { forEach } from 'lodash'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { connect } from '@regardsoss/redux'
 import { Layout } from '@regardsoss/model'
-import { ThemeHelper, getCurrentTheme } from '@regardsoss/theme'
+import { getCurrentTheme } from '@regardsoss/theme'
 import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
 import { ApplicationLayout } from '@regardsoss/layout'
 import { ModuleShape } from '@regardsoss/modules'
+import { ThemeProvider } from '@regardsoss/theme'
 import LayoutSelector from '../model/layout/LayoutSelector'
 import LayoutActions from '../model/layout/LayoutActions'
 import ModulesSelector from '../model/modules/ModulesSelector'
 import ModulesActions from '../model/modules/ModulesActions'
+
 /**
  * Provides the theme to sub containers
  * @author Sébastien Binda
  */
 export class PortalApp extends React.Component {
-
   /**
    * @type {{theme: string, content: React.Component}}
    */
@@ -43,9 +43,6 @@ export class PortalApp extends React.Component {
    * @returns {React.Component}
    */
   render() {
-    const { theme } = this.props
-    const muiTheme = ThemeHelper.getByName(theme)
-
     if (this.props.layoutIsFetching || this.props.modulesIsFetching) {
       return (<FormLoadingComponent />)
     }
@@ -60,19 +57,17 @@ export class PortalApp extends React.Component {
     })
 
     return (
-      <MuiThemeProvider muiTheme={muiTheme}>
+      <ThemeProvider>
         <ApplicationLayout appName="portal" layout={this.props.layout.content.layout} modules={modulesList} />
-      </MuiThemeProvider>
+      </ThemeProvider>
     )
   }
 }
 const mapStateToProps = (state, ownProps) => ({
-  theme: getCurrentTheme(state),
   layout: LayoutSelector.getById(state, 'portal'),
   modules: ModulesSelector.getList(state),
   layoutIsFetching: LayoutSelector.isFetching(state),
   modulesIsFetching: ModulesSelector.isFetching(state),
-
 })
 
 const mapDispatchToProps = dispatch => ({
