@@ -11,7 +11,6 @@ interface ModelAttributeRadioGroupProps {
 class DatasetModelAttributeRadioGroupComponent extends React.Component {
   static contextTypes = {
     intl: intlShape,
-    muiTheme: React.PropTypes.object.isRequired,
   }
 
   state = {

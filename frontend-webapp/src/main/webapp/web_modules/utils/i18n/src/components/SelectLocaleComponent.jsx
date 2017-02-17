@@ -37,7 +37,7 @@ class SelectLocaleComponent extends React.Component {
       <DropDownMenu
         value={currentLocale}
         onChange={handleLocaleChange}
-        labelStyle={muiTheme.menu.localeDropdown}
+        // labelStyle={muiTheme.menu.localeDropdown} //TODO
       >
         {items}
       </DropDownMenu>
