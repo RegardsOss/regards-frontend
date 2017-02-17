@@ -40,38 +40,39 @@ class InstanceSidebarComponent extends React.Component {
         <Drawer
           open
           containerStyle={moduleStyles.adminApp.layout.sidebarContainer.styles}
-          className={moduleStyles.adminApp.layout.sidebarContainer.classes.join(' ')}>
+          className={moduleStyles.adminApp.layout.sidebarContainer.classes.join(' ')}
+        >
           <HateoasSidebarElement
             endpointKey="projects_url"
             key="0"
             to={'/admin/project/list'}
-            primaryText={<FormattedMessage id="menu.projects"/>}
+            primaryText={<FormattedMessage id="menu.projects" />}
             leftIcon={<Settings />}
           />
           <HateoasSidebarElement
             endpointKey="projects_users_url"
             key="1"
             to={'/admin/account/list'}
-            primaryText={<FormattedMessage id="menu.accounts"/>}
+            primaryText={<FormattedMessage id="menu.accounts" />}
             leftIcon={<SupervisorAccount />}
           />
           <HateoasSidebarElement
             endpointKey="projects_users_url"
             key="2"
             to={'/admin/project-connection/list'}
-            primaryText={<FormattedMessage id="menu.databases"/>}
+            primaryText={<FormattedMessage id="menu.databases" />}
             leftIcon={<Weekend />}
           />
           <HateoasSidebarElement
             endpointKey="projects_users_url"
             key="3"
             to={'/admin/ui-configuration/applications'}
-            primaryText={<FormattedMessage id="menu.ui.configuration"/>}
+            primaryText={<FormattedMessage id="menu.ui.configuration" />}
             leftIcon={<Brush />}
           />
           <Divider />
           <MenuItem
-            primaryText={<FormattedMessage id="menu.logout"/>}
+            primaryText={<FormattedMessage id="menu.logout" />}
             leftIcon={<PowerSettingsNew />}
             onTouchTap={onLogout}
           />
