@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { connect } from '@regardsoss/redux'
-import { logout } from '@regardsoss/authentication-manager'
+import { AuthenticateActions } from '@regardsoss/authentication-manager'
 import { themeContextType } from '@regardsoss/theme'
 import { LazyModuleComponent } from '@regardsoss/modules'
 import { ApplicationErrorContainer } from '@regardsoss/global-sytem-error'
@@ -108,7 +108,7 @@ export class AdminLayout extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  onLogout: () => dispatch(logout()),
+  onLogout: () => dispatch(AuthenticateActions.logout()),
 })
 
 export default connect(null, mapDispatchToProps)(AdminLayout)

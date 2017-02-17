@@ -3,12 +3,12 @@
  */
 import { connect } from '@regardsoss/redux'
 import { i18nContextType } from '@regardsoss/i18n'
-import CreateAccountFormComponent, { mailFieldId } from '../components/CreateAccountFormComponent'
+import AskProjectAccessFormComponent, { mailFieldId } from '../components/AskProjectAccessFormComponent'
 
 /**
  * Container for create account request forms.
  */
-export class CreateAccountFormContainer extends React.Component {
+export class AskProjectAccessFormContainer extends React.Component {
 
   static propTypes = {
     // Form initial value
@@ -55,7 +55,7 @@ export class CreateAccountFormContainer extends React.Component {
     const { project, initialMail, onBack, hasError } = this.props
     // TODO error message
     return (
-      <CreateAccountFormComponent
+      <AskProjectAccessFormComponent
         // current project (empty if admin)
         project={project}
         initialMail={initialMail}
@@ -78,5 +78,5 @@ const mapDispatchToProps = dispatch => ({
   fetchRequestAction: mail => console.info('Y a d\'la joie'),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateAccountFormContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(AskProjectAccessFormContainer)
 

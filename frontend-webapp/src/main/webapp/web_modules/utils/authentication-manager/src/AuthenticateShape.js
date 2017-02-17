@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ */
 export default React.PropTypes.shape({
   isFetching: React.PropTypes.bool,
   user: React.PropTypes.shape({
@@ -5,3 +8,17 @@ export default React.PropTypes.shape({
   }),
   authenticateDate: React.PropTypes.number,
 })
+
+const errorTypes = [
+  'ACCOUNT_UNKNOWN',
+  'ACCOUNT_PENDING',
+  'ACCOUNT_ACCEPTED',
+  'ACCOUNT_INACTIVE',
+  'ACCOUNT_LOCKED',
+  'USER_WAITING_ACCESS',
+  'USER_ACCESS_DENIED',
+  'USER_ACCESS_INACTIVE',
+  'UNKNOWN_ERROR',
+]
+
+export const AuthenticationErrorShape = React.PropTypes.oneOf(errorTypes).isRequired

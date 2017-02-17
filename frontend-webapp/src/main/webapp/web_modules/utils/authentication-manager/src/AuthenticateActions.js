@@ -1,40 +1,29 @@
-const { CALL_API } = require('redux-api-middleware')
+/**
+ * LICENSE_PLACEHOLDER
+ **/
+import { BasicSignalActions } from '@regardsoss/store-utils'
 
-export const AUTHENTICATE_API = `${GATEWAY_HOSTNAME}/oauth/token`
-export const REQUEST_AUTHENTICATE = 'REQUEST_AUTHENTICATE'
-export const RECEIVE_AUTHENTICATE = 'RECEIVE_AUTHENTICATE'
-export const FAILED_AUTHENTICATE = 'FAILED_AUTHENTICATE'
+class AuthenticateActions extends BasicSignalActions {
 
-export const fetchAuthenticate = (username, password, scope = 'project1') => ({
-  [CALL_API]: {
-    types: [
-      REQUEST_AUTHENTICATE,
-      {
-        type: RECEIVE_AUTHENTICATE,
-        meta: { authenticateDate: Date.now(), name },
-      },
-      {
-        type: FAILED_AUTHENTICATE,
-        meta: (action, state, res) => ({
-          errorMessage: res.status === '500' ? 'authentication.error.500' : 'authentication.error',
-          bypassErrorMiddleware: true,
-        }),
-      },
 
-    ],
-    endpoint: `${AUTHENTICATE_API}?grant_type=password&username=${username}&password=${password}&scope=${scope}`,
-    method: 'POST',
-  },
-})
+  /**
+   * Constructor
+   */
+  constructor() {
+    super({
+      entityEndpoint: `${GATEWAY_HOSTNAME}/oauth/token?grant_type=password&username={username}&password={password}&scope={scope}`,
+      namespace: 'common/authentication-manager',
+      bypassErrorMiddleware: true,
+    })
+  }
 
-export const LOGOUT = 'LOGOUT'
-export function logout() {
-  return {
-    type: LOGOUT,
+  login(username, password, scope = 'instance') {
+    return this.sendSignal('POST', {}, { username, password, scope })
+  }
+
+  logout() {
+    this.flush()
   }
 }
 
-// alias logout for flush
-export const FLUSH = LOGOUT
-export const flush = logout
-
+export default new AuthenticateActions()

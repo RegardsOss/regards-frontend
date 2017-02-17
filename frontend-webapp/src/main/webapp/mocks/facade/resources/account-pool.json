@@ -1,0 +1,43 @@
+{
+  "admin@cnes.fr": {
+    "password": "admin",
+    "state": "ACTIVE",
+    "cdpp": "ACCESS_GRANTED",
+    "ssalto": "ACCESS_GRANTED"
+  },
+  "'testNotAccepted@cnes.fr": {
+    "password": "test",
+    "state": "PENDING"
+  },
+  "'testNotValidated@cnes.fr": {
+    "password": "test",
+    "state": "ACCEPTED"
+  },
+  "'testUNoAccess@cnes.fr": {
+    "password": "test",
+    "state": "ACTIVE"
+  },
+  "'testInactive@cnes.fr": {
+    "password": "test",
+    "state": "INACTIVE"
+  },
+  "'testLocked@cnes.fr": {
+    "password": "test",
+    "state": "LOCKED"
+  },
+  "testUWaitingAccess@cnes.fr": {
+    "password": "test",
+    "state": "ACTIVE",
+    "cdpp": "WAITING_ACCESS"
+  },
+  "testUAccessDenied@cnes.fr": {
+    "password": "test",
+    "state": "ACTIVE",
+    "cdpp": "ACCESS_DENIED"
+  },
+  "testUAccessInactive@cnes.fr": {
+    "password": "test",
+    "state": "ACTIVE",
+    "cdpp": "ACCESS_INACTIVE"
+  }
+}

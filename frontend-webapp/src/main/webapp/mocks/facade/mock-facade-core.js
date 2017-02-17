@@ -9,10 +9,7 @@ const _ = require('lodash')
 
 const proxy = httpProxy.createProxyServer({})
 
-const proxyHandler = (jsonMockURL, request, response) => {
-  console.info('[Facade mock server]', 'Pass through to mock server')
-  proxy.web(request, response, { target: jsonMockURL })
-}
+const proxyHandlerClosure = jsonMockURL => (request, response) => console.info('[Facade mock server]', 'Pass through to JSON mock server') || proxy.web(request, response, { target: jsonMockURL })
 
 const buildBasicHeaders = uiPort => ({
   'Access-Control-Allow-Origin': `http://localhost:${uiPort}`,
@@ -21,7 +18,7 @@ const buildBasicHeaders = uiPort => ({
   'Access-Control-Allow-Credentials': true,
 })
 /**
- * Answers for a given delegate
+ * Provides request handler (closure) for a given delegate
  * @param uiPort UI port for instance
  * @param timeBefore time before
  * @param entryDelegate URL entry delegate
@@ -31,14 +28,15 @@ const buildBasicHeaders = uiPort => ({
  * @param request -
  * @param response -
  */
-const localHandler = (uiPort, timeBefore, entryDelegate, query, pathParameters, bodyParameters, request, response) => {
+const localHandlerClosure = (uiPort, timeBefore, entryDelegate, query = {}, pathParameters = {}, bodyParameters = {}) => (request, response) => {
   console.info('[Facade mock server]', 'Serving locally')
 
   // run delegate to get code and text
   const { content = '', code = 200, contentType } = entryDelegate(request, query, pathParameters, bodyParameters)
   // publish code
-  const headers = Object.assign({ }, buildBasicHeaders(uiPort), contentType ? { 'Content-Type': contentType } : {})
+  const headers = Object.assign({}, buildBasicHeaders(uiPort), contentType ? { 'Content-Type': contentType } : {})
   response.writeHead(code, headers)
+
   // end answer with text (or stringified object)
   response.end(typeof content === 'object' ? JSON.stringify(content) : content)
   // log access info
@@ -90,45 +88,57 @@ const findMatchingDelegate = (delegates, relativePath) => {
  * Server request handling method closure provider
  */
 const requestHandlerClosure = (urlStart, jsonMockURL, uiPort, entryDelegates) =>
- // Actual request handler: finds matching delegate or uses proxy
+  // Actual request handler: finds matching delegate or uses proxy
   (request, response) => {
-  // computing service time
+    // computing service time
     const timeBefore = new Date().getTime()
-
     const methodDelegates = entryDelegates[request.method]
-    let handleRequest = false
-    if (methodDelegates) {
-      const parsedUrl = url.parse(request.url, true)
-    // is that path handled in method?
-      if (parsedUrl.path) {
-        const relativePathWihtoutGateway = parsedUrl.pathname.replace(urlStart, '')
-      // matching URL with possible parameters in URL (and parse URL parameters
-        const delegationData = findMatchingDelegate(methodDelegates, relativePathWihtoutGateway)
-        if (delegationData) {
-          handleRequest = true
-        // handler for delegate and parsed query
-        // compute post parameters if required, then run request
-        // parse body parameters if post or put
-          if (['POST', 'PUT'].includes(request.method)) {
-          // POST / PUT: parse body and run
-            parseBody(request, 1e6, (err, bodyParameters = {}) => {
-              if (err) {
-                console.error('[Facade mock server]', 'Failed parsing body parameters with error:', err)
+
+    const prepareRequest = (callback) => {
+      // handler if directly handled
+      let handler = proxyHandlerClosure(jsonMockURL)
+      // replace proxy with local delegate?
+      if (methodDelegates) {
+        const parsedUrl = url.parse(request.url, true)
+        // is that path handled in method?
+        if (parsedUrl.path) {
+          const relativePathWihtoutGateway = parsedUrl.pathname.replace(urlStart, '')
+          // matching URL with possible parameters in URL (and parse URL parameters
+          const delegationData = findMatchingDelegate(methodDelegates, relativePathWihtoutGateway)
+          if (delegationData) {
+            const localHandler = localHandlerClosure(uiPort, timeBefore, delegationData.delegate, parsedUrl.query, delegationData.pathParameters)
+            if (['POST', 'PUT'].includes(request.method)) {
+              // POST / PUT: parse body and run directly callback (asynchronous parsing) - inhibit default handler
+              // catching empty body exceptions
+              const emptyBodyHander = (err) => {
+                console.info('[Facade mock server] empty POST request body')
+                callback(localHandler)
               }
-            // run request, with our without body parameters
-              localHandler(uiPort, timeBefore, delegationData.delegate, parsedUrl.query, delegationData.pathParameters, bodyParameters, request, response)
-            })
-          } else {
-          // GET / delete / others... directly handle
-            localHandler(uiPort, timeBefore, delegationData.delegate, parsedUrl.query, delegationData.pathParameters, request, response)
+              process.on('uncaughtException', emptyBodyHander)
+              parseBody(request, 1e6, (error, bodyParameters) => {
+                // remove empty body  handler
+                process.removeListener('uncaughtException', emptyBodyHander)
+                if (error) {
+                  console.error('[Facade mock server] Failed parsing request body', error)
+                }
+                callback(localHandlerClosure(uiPort, timeBefore, delegationData.delegate, parsedUrl.query, delegationData.pathParameters, bodyParameters))
+              })
+
+              // remove default handler to prevent using callback on it
+              handler = null
+            } else {
+              // use default local handler
+              handler = localHandler
+            }
           }
         }
       }
+      if (handler) {
+        callback(handler)
+      }
     }
-    if (!handleRequest) {
-    // pass through to JSON server
-      proxyHandler(jsonMockURL, request, response)
-    }
+    const doRequestCallback = handler => handler(request, response)
+    prepareRequest(doRequestCallback)
   }
 
 

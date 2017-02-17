@@ -7,8 +7,9 @@ import root from 'window-or-global'
 import AuthenticationFormContainer from '../containers/AuthenticationFormContainer'
 import AccountOperationMessage, { operationIds } from './AccountOperationMessage'
 import ChangePasswordFormContainer from '../containers/ChangePasswordFormContainer'
-import FinishUnlockAccountContainer from '../containers/FinishUnlockAccountContainer'
-import CreateAccountFormContainer from '../containers/CreateAccountFormContainer'
+import FinishAccountUnlockingContainer from '../containers/FinishAccountUnlockingContainer'
+import FinishAccountValidationContainer from '../containers/FinishAccountValidationContainer'
+import AskProjectAccessFormContainer from '../containers/AskProjectAccessFormContainer'
 import { AskResetPasswordFormContainer, AskUnlockAccountFormContainer } from '../containers/AccountRequestFormContainer'
 
 /**
@@ -17,20 +18,23 @@ import { AskResetPasswordFormContainer, AskUnlockAccountFormContainer } from '..
 export const viewStates = {
   authenticationFormView: {},
   askResetPasswordFormView: {},
-  askUnlockAccountFormView: { },
+  askUnlockAccountFormView: {},
   askResetPasswordSentMessageView: { messageOperationId: operationIds.askResetPasswordSent },
   askUnlockAccountSentMessageView: { messageOperationId: operationIds.askUnlockAccountSent },
   // form view to complete reset password operation
-  finishResetPasswordFormView: { },
+  finishResetPasswordFormView: {},
   resetPasswordDoneMessageView: { messageOperationId: operationIds.resetPasswordDone },
   resetPasswordExpiredMessageView: { messageOperationId: operationIds.askResetPasswordTokenExpired },
   // message view to complete unlock account operation
-  finishUnlockAccountFetchingView: { },
+  finishAccountUnlockingFetchingView: {},
   unlockAccountExpiredMessageView: { messageOperationId: operationIds.askUnlockAccountTokenExpired },
   unlockAccountDoneMessageView: { messageOperationId: operationIds.unlockAccountDone },
-  askProjectAccessFormView: { },
+  askProjectAccessFormView: {},
+  askProjectAccessSentMessageView: { messageOperationId: operationIds.askProjectAccessSent },
   createAccountSentMessageView: { messageOperationId: operationIds.createAccountSent },
-  createAccountDoneMessageView: { messageOperationId: operationIds.createAccountDone },
+  validateCreatedAccount: {},
+  newAccountValidatedMessageView: { messageOperationId: operationIds.newAccountValidated },
+  newAccountTokenExpiredMessageView: { messageOperationId: operationIds.newAccountTokenExpired },
 }
 
 /**
@@ -43,9 +47,9 @@ export const initialModes = {
   // mail reset password: finish reset password operation
   finishChangePassword: viewStates.finishResetPasswordFormView,
   // mail unlock account: finish unlock account operation
-  finishUnlockAccount: viewStates.finishUnlockAccountFetchingView,
+  finishAccountUnlocking: viewStates.finishAccountUnlockingFetchingView,
   // mail confirmation: the account was unlocked
-  createAccountConfirmation: viewStates.createAccountDoneMessageView,
+  validateCreatedAccount: viewStates.validateCreatedAccount,
 }
 
 /**
@@ -64,7 +68,7 @@ export default class AuthenticationStatesContainer extends React.Component {
     // login screen title
     loginTitle: React.PropTypes.string.isRequired,
     // show create account link?
-    showCreateAccount: React.PropTypes.bool.isRequired,
+    showAskProjectAccess: React.PropTypes.bool.isRequired,
     // show cancel button?
     showCancel: React.PropTypes.bool.isRequired,
     // on cancel button callback, or none if behavior not available
@@ -127,7 +131,7 @@ export default class AuthenticationStatesContainer extends React.Component {
 
   render() {
     const { currentView, currentMail } = this.state
-    const { project, actionToken, loginTitle, showCreateAccount, showCancel, onCancelAction } = this.props
+    const { project, actionToken, loginTitle, showAskProjectAccess, showCancel, onCancelAction } = this.props
 
     // 1 - render messages states first (to write a bit less code in switch!)
     if (currentView.messageOperationId) {
@@ -144,7 +148,7 @@ export default class AuthenticationStatesContainer extends React.Component {
             initialMail={currentMail}
             project={project}
             title={loginTitle}
-            showCreateAccount={showCreateAccount}
+            showAskProjectAccess={showAskProjectAccess}
             showCancel={showCancel}
             onCancelAction={onCancelAction}
             onGotoCreateAccount={this.onGoto(viewStates.askProjectAccessFormView, true)}
@@ -175,9 +179,9 @@ export default class AuthenticationStatesContainer extends React.Component {
             onDone={this.onGoto(viewStates.resetPasswordDoneMessageView)}
             onTokenExpired={this.onGoto(viewStates.resetPasswordExpiredMessageView)}
           />)
-      case viewStates.finishUnlockAccountFetchingView:
+      case viewStates.finishAccountUnlockingFetchingView:
         return (
-          <FinishUnlockAccountContainer
+          <FinishAccountUnlockingContainer
             mail={currentMail}
             token={actionToken}
             onDone={this.onGoto(viewStates.unlockAccountDoneMessageView)}
@@ -186,13 +190,18 @@ export default class AuthenticationStatesContainer extends React.Component {
         )
       case viewStates.askProjectAccessFormView:
         return (
-          <CreateAccountFormContainer
+          <AskProjectAccessFormContainer
             project={project}
             initialMail={currentMail}
             onBack={this.onGoto(viewStates.authenticationFormView, true)}
             onDone={this.onGoto(viewStates.askUnlockAccountSentMessageView, true)}
           />)
-        // TODO : also add container when back from mail (for new account, it should call activation link)
+      case viewStates.validateCreatedAccount:
+        return (<FinishAccountValidationContainer
+          token={actionToken}
+          onDone={this.onGoto(viewStates.newAccountValidatedMessageView)}
+          onTokenExpired={this.onGoto(viewStates.newAccountTokenExpiredMessageView)}
+        />)
       default:
         throw new Error(`Unknown view state ${currentView}`)
     }

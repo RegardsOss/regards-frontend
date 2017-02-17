@@ -2,10 +2,12 @@
  * LICENSE_PLACEHOLDER
  **/
 import { BasicSignalActions } from '@regardsoss/store-utils'
-import root from 'window-or-global'
-import { AuthenticationRouteParameters } from '@regardsoss/authentication-manager'
+import { getRequestLinkURL, getOriginURL } from '../Common'
 
-export default class AccountActions extends BasicSignalActions {
+/**
+ * Actions for existing account requests
+ */
+export default class AccountOperationActions extends BasicSignalActions {
 
   /**
    * Constructor
@@ -26,12 +28,9 @@ export default class AccountActions extends BasicSignalActions {
    * @param accountEmail mail of the related account
    */
   sendAskRequest(accountEmail) {
-    // compute request link: use current URL without parameters
-    const originUrl = root.location.href
-    const requestLink = `${root.location.host}${root.location.pathname}?${AuthenticationRouteParameters.mailAuthenticationAction.urlKey}=${this.mailAuthenticationActionValue}`
     return this.sendSignal('POST', {
-      requestLink,
-      originUrl,
+      requestLink: getRequestLinkURL(this.mailAuthenticationActionValue),
+      originUrl: getOriginURL(),
     }, { accountEmail })
   }
 
