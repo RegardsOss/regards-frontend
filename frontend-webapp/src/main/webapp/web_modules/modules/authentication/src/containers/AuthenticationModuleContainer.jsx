@@ -16,7 +16,7 @@ export default class AuthenticationModuleContainer extends React.Component {
     // login screen title
     loginTitle: React.PropTypes.string.isRequired,
     // show create account link?
-    showCreateAccount: React.PropTypes.bool.isRequired,
+    showAskProjectAccess: React.PropTypes.bool.isRequired,
     // show cancel button?
     showCancel: React.PropTypes.bool.isRequired,
     // on cancel button callback, or none if behavior not available
@@ -42,7 +42,7 @@ export default class AuthenticationModuleContainer extends React.Component {
       case modes.validateAccount:
         return initialModes.validateCreatedAccount
       case modes.unlockAccount:
-        return initialModes.finishUnlockAccount
+        return initialModes.finishAccountUnlocking
       case modes.changePassword:
         return initialModes.finishChangePassword
       default:
@@ -53,13 +53,13 @@ export default class AuthenticationModuleContainer extends React.Component {
 
   render() {
     // parse initial state from parameters
-    const { project, loginTitle, showCreateAccount, showCancel, onCancelAction } = this.props
+    const { project, loginTitle, showAskProjectAccess, showCancel, onCancelAction } = this.props
     return (
       <AuthenticationWorkflowsComponent
         project={project || ''}
         loginTitle={loginTitle}
         showCancel={showCancel}
-        showCreateAccount={showCreateAccount}
+        showAskProjectAccess={showAskProjectAccess}
         onCancelAction={onCancelAction}
         initialMode={this.initialViewMode}
         initialEmail={this.initialMail}

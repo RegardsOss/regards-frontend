@@ -3,7 +3,7 @@
  */
 import { connect } from '@regardsoss/redux'
 import { i18nContextType } from '@regardsoss/i18n'
-import { fetchAuthenticate, AuthenticationSelectors } from '@regardsoss/authentication-manager'
+import { AuthenticateActions, AuthenticateSelectors } from '@regardsoss/authentication-manager'
 import AuthenticationFormComponent from '../components/AuthenticationFormComponent'
 
 /**
@@ -19,7 +19,7 @@ export class AuthenticationFormContainer extends React.Component {
     // form title
     title: React.PropTypes.string.isRequired,
     // show create account link?
-    showCreateAccount: React.PropTypes.bool.isRequired,
+    showAskProjectAccess: React.PropTypes.bool.isRequired,
     // show cancel button?
     showCancel: React.PropTypes.bool.isRequired,
     // on cancel button callback, or none if behavior not available
@@ -46,8 +46,8 @@ export class AuthenticationFormContainer extends React.Component {
   render() {
     const {
       initialMail, title,
-      showCreateAccount, showCancel, onCancelAction, error, onGotoCreateAccount, onGotoResetPassword, onGotoUnlockAccount,
-       } = this.props
+      showAskProjectAccess, showCancel, onCancelAction, error, onGotoCreateAccount, onGotoResetPassword, onGotoUnlockAccount,
+    } = this.props
     const { intl } = this.context
     return (
       <AuthenticationFormComponent
@@ -55,7 +55,7 @@ export class AuthenticationFormContainer extends React.Component {
         onLogin={this.onLoginRequest}
         initialMail={initialMail}
         errorMessage={error && intl.formatMessage({ id: error })}
-        showCreateAccount={showCreateAccount}
+        showAskProjectAccess={showAskProjectAccess}
         showCancel={showCancel}
         onCancelAction={onCancelAction}
         onGotoCreateAccount={onGotoCreateAccount}
@@ -67,11 +67,11 @@ export class AuthenticationFormContainer extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  error: AuthenticationSelectors.getError(state),
+  error: AuthenticateSelectors.getError(state),
 })
 
 const mapDispatchToProps = dispatch => ({
-  dispatchLoginRequest: (username, password, scope) => dispatch(fetchAuthenticate(username, password, scope)),
+  dispatchLoginRequest: (username, password, scope) => dispatch(AuthenticateActions.login(username, password, scope)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AuthenticationFormContainer)

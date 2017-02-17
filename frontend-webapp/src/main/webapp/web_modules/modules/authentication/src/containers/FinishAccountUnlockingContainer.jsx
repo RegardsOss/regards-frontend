@@ -10,7 +10,7 @@ import UnlockAccountSelectors from '../model/operation/UnlockAccountSelectors'
 /**
  * Completes unlock account when back from mail or fails if token is now invalid
  */
-export class FinishUnlockAccountContainer extends React.Component {
+export class FinishAccountUnlockingContainer extends React.Component {
 
   static propTypes = {
     // user email
@@ -70,7 +70,7 @@ const mapStatesToProps = (state) => {
 
 
 const mapDispatchToProps = dispatch => ({
-  fetchRequestAction: (token, mail) => dispatch(UnlockAccountActions.sendFinishUnlockAccount(token, mail)),
+  fetchRequestAction: (token, mail) => dispatch(UnlockAccountActions.sendFinishAccountUnlocking(token, mail)),
 })
 
-export default connect(mapStatesToProps, mapDispatchToProps)(FinishUnlockAccountContainer)
+export default connect(mapStatesToProps, mapDispatchToProps)(FinishAccountUnlockingContainer)

@@ -9,7 +9,7 @@ import { adminReducer } from '@regardsoss/admin'
 import { userReducer } from '@regardsoss/user'
 import { PluginReducer } from '@regardsoss/plugins'
 import { i18nReducers } from '@regardsoss/i18n'
-import { authentication } from '@regardsoss/authentication-manager'
+import { AuthenticateReducers, authenticateReducersPath } from '@regardsoss/authentication-manager'
 import { EndpointReducers } from '@regardsoss/endpoint'
 import { ApplicationErrorReducer } from '@regardsoss/global-sytem-error'
 
@@ -21,7 +21,7 @@ const commonReducer = combineReducers({
   theme: themeReducers,
   plugins: PluginReducer,
   endpoints: EndpointReducers,
-  authentication,
+  [authenticateReducersPath]: AuthenticateReducers,
   error: ApplicationErrorReducer,
 })
 

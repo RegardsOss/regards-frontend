@@ -7,9 +7,9 @@ import { values } from 'lodash'
 import sinon from 'sinon'
 import { IntlStub } from '@regardsoss/tests-helpers'
 import AuthenticationFormContainer from '../../src/containers/AuthenticationFormContainer'
-import AccountOperationMessage, { operationIds } from '../../src/components/AccountOperationMessage'
 import ChangePasswordFormContainer from '../../src/containers/ChangePasswordFormContainer'
-import FinishUnlockAccountContainer from '../../src/containers/FinishUnlockAccountContainer'
+import FinishAccountUnlockingContainer from '../../src/containers/FinishAccountUnlockingContainer'
+import FinishAccountValidationContainer from '../../src/containers/FinishAccountValidationContainer'
 import AuthenticationWorkflowsComponent, { initialModes } from '../../src/components/AuthenticationWorkflowsComponent'
 
 import styles from '../../src/styles/styles'
@@ -43,7 +43,7 @@ describe('[AUTHENTICATION] Testing AuthenticationWorkflowsComponent', () => {
         project: 'any',
         actionToken: '1',
         loginTitle: 'any',
-        showCreateAccount: false,
+        showAskProjectAccess: false,
         showCancel: false,
         initialMode: mode,
       }
@@ -56,12 +56,11 @@ describe('[AUTHENTICATION] Testing AuthenticationWorkflowsComponent', () => {
         case initialModes.finishChangePassword:
           assert.equal(render.find(ChangePasswordFormContainer).length, 1, 'Inner component matching the initial mode "finishChangePassword" should be rendered!')
           break
-        case initialModes.finishUnlockAccount:
-          assert.equal(render.find(FinishUnlockAccountContainer).length, 1, 'Inner component matching the initial mode "finishUnlockAccount" should be rendered!')
+        case initialModes.finishAccountUnlocking:
+          assert.equal(render.find(FinishAccountUnlockingContainer).length, 1, 'Inner component matching the initial mode "finishAccountUnlocking" should be rendered!')
           break
-        case initialModes.createAccountConfirmation:
-          assert.equal(render.find(AccountOperationMessage).length, 1, 'Inner component matching the initial mode "createAccountConfirmation" should be rendered!')
-          assert.equal(render.find(AccountOperationMessage).props().operationId, operationIds.createAccountDone, 'The message should match the case!')
+        case initialModes.validateCreatedAccount:
+          assert.equal(render.find(FinishAccountValidationContainer).length, 1, 'Inner component matching the initial mode "validateCreatedAccount" should be rendered!')
           break
         default:
           throw new Error('unknown mode')

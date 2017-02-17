@@ -19,8 +19,10 @@ export const operationIds = {
   askUnlockAccountSent: 'ask.unlock.account.sent',
   askUnlockAccountTokenExpired: 'ask.unlock.account.token.expired',
   unlockAccountDone: 'unlock.account.done',
+  askProjectAccessSent: 'ask.project.access.sent',
   createAccountSent: 'create.account.sent',
-  createAccountDone: 'create.account.done',
+  newAccountValidated: 'new.account.validated',
+  newAccountTokenExpired: 'new.account.token.expired',
 }
 
 /**

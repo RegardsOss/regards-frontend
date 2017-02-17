@@ -1,16 +1,16 @@
-import { logout, fetchAuthenticate } from './AuthenticateActions'
+import AuthenticateActions from './AuthenticateActions'
 import authorizationMiddleware from './AuthorizationMiddleware'
-import authentication from './AuthenticateReducers'
-import AuthenticationSelectors from './AuthenticationSelectors'
+import AuthenticateReducers, { pathname as authenticateReducersPath } from './AuthenticateReducers'
+import AuthenticateSelectors from './AuthenticateSelectors'
 import AuthenticateShape from './AuthenticateShape'
 import AuthenticationRouteParameters, { AuthenticationParametersHelper, routeHelpers } from './AuthenticationRouteParameters'
 
 export {
-  logout,
-  fetchAuthenticate,
+  AuthenticateActions,
+  AuthenticateReducers,
+  authenticateReducersPath,
+  AuthenticateSelectors,
   authorizationMiddleware,
-  authentication,
-  AuthenticationSelectors,
   AuthenticateShape,
   AuthenticationRouteParameters,
   AuthenticationParametersHelper,

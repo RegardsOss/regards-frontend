@@ -1,8 +1,12 @@
+/**
+ * LICENSE_PLACEHOLDER
+ */
 import { BasicSelector } from '@regardsoss/store-utils'
+import { pathname as reducerPath } from './AuthenticateReducers'
 
-class AuthenticationSelectors extends BasicSelector {
+class AuthenticateSelectors extends BasicSelector {
   constructor() {
-    super(['common', 'authentication'])
+    super(['common', reducerPath])
   }
 
   getAuthentication(state) {
@@ -31,5 +35,5 @@ class AuthenticationSelectors extends BasicSelector {
 
 }
 
-const instance = new AuthenticationSelectors()
+const instance = new AuthenticateSelectors()
 export default instance
