@@ -50,10 +50,10 @@ const authenticate = (login, password, scope) => {
       return { content: { error: 'ACCOUNT_LOCKED' }, contentType: JSON_CONTENT_TYPE, code: 403 }
     case 'ACTIVE':
       // check user state on project
-      if (!loginUser[scope]) {
+      if (!loginUser[scope.toLowerCase()]) {
         return { content: { error: 'USER_UNKNOWN' }, contentType: JSON_CONTENT_TYPE, code: 403 }
       }
-      switch (loginUser[scope]) {
+      switch (loginUser[scope.toLowerCase()]) {
         case 'WAITING_ACCESS':
           return { content: { error: 'USER_WAITING_ACCESS' }, contentType: JSON_CONTENT_TYPE, code: 403 }
         case 'ACCESS_DENIED':
