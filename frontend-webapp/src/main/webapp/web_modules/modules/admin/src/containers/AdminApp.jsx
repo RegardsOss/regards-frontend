@@ -98,7 +98,6 @@ class AdminApp extends React.Component {
    * @returns {React.Component}
    */
   render() {
-    console.log('AdminApp::render')
     const { isAuthenticated, content } = this.props
     const { isLoadingEndpoints } = this.state
 

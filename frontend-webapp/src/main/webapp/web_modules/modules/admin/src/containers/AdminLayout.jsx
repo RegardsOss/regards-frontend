@@ -47,7 +47,6 @@ export class AdminLayout extends React.Component {
   }
 
   render() {
-    console.log('AdminLayout::render')
     const { content, params } = this.props
     const isOnInstanceDashboard = params.project !== undefined
     const moduleStyles = getModuleStyles(this.context.muiTheme)
