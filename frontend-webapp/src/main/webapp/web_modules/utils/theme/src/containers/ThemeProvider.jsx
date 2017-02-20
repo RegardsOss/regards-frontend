@@ -10,6 +10,10 @@ import ThemeActions from '../model/actions/ThemeActions'
 import ThemeSelectors from '../model/selectors/ThemeSelectors'
 import getCurrentTheme from '../model/selectors/getCurrentTheme'
 import setCurrentTheme from '../model/actions/setCurrentTheme'
+import '../custom/reset.css'
+import '../custom/main.css'
+import '../custom/bootstrap_grid_100.css'
+import '../custom/background.jpg'
 
 /**
  * React HOC customizing the default MMaterial-Ui's theme before injecting it in the context of all children tree.
