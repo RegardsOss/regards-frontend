@@ -1,0 +1,12 @@
+{
+  "maintenances": {
+    "CDPP": true,
+    "SSALTO": false
+  },
+  "activate": {
+    "activate": true
+  },
+  "desactivate": {
+    "deactivated": true
+  }
+}

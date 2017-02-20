@@ -18,7 +18,7 @@ import styles from '../styles/styles'
  * @author Xavier-Alexandre Brochard
  */
 const computedStyles = styles()
-const items = (project, intl) => map(microservices, microservice => (
+const items = (project, fetchMaintenance, maintenanceList, activateMaintenance, deactivateMaintenance, intl) => map(microservices, microservice => (
   {
     title: microservice.name,
     description: intl.formatMessage({ id: `microservice-management.${microservice.name}.description` }),
@@ -35,11 +35,23 @@ const items = (project, intl) => map(microservices, microservice => (
       icon: <Checkbox
         checkedIcon={<Cloud />}
         uncheckedIcon={<CloudOff />}
-        label="Custom icon of different shapes"
+        checked={!maintenanceList[microservice.name][project]}
+        onTouchTap={
+          () => {
+            if (maintenanceList[microservice.name][project]) {
+              deactivateMaintenance[microservice.name](project)
+            } else {
+              activateMaintenance[microservice.name](project)
+            }
+            fetchMaintenance[microservice.name]()
+          }
+        }
         style={computedStyles.board.checkbox}
       />,
       // icon: <Palette onTouchTap={() => alert('TODO: Switch the microservice to maintenance')} />,
-      tooltipMsg: intl.formatMessage({ id: 'microservice-management.maintenance.tooltip' }),
+      tooltipMsg: intl.formatMessage({
+        id: maintenanceList[microservice.name][project] ? 'microservice-management.maintenance.tooltip.on' : 'microservice-management.maintenance.tooltip.off',
+      }),
     }],
   }
 ))

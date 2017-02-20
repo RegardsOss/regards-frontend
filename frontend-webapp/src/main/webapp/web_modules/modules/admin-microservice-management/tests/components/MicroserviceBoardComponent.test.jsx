@@ -13,6 +13,28 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing microservice board component', () =
   it('should render sub-components', () => {
     const props = {
       project: 'someProject',
+      maintenanceList: {
+        'rs-access': {
+          CDPP: true,
+          SSALTO: false,
+        },
+        'rs-admin': {
+          CDPP: true,
+          SSALTO: false,
+        },
+        'rs-cloud': {
+          CDPP: false,
+          SSALTO: false,
+        },
+        'rs-dam': {
+          CDPP: false,
+          SSALTO: false,
+        },
+        'rs-gateway': {
+          CDPP: false,
+          SSALTO: true,
+        },
+      },
     }
     const options = {
       context: {
