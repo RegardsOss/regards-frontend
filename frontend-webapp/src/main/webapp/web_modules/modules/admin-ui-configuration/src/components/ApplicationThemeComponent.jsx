@@ -1,20 +1,21 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { FormattedMessage } from 'react-intl'
+import { map, find  } from 'lodash'
 import IconButton from 'material-ui/IconButton'
 import Close from 'material-ui/svg-icons/navigation/close'
+import AddCircle from 'material-ui/svg-icons/content/add-circle'
 import Save from 'material-ui/svg-icons/content/save'
-import FileDownload from 'material-ui/svg-icons/file/file-download'
 import MenuItem from 'material-ui/MenuItem'
 import { Toolbar, ToolbarGroup, ToolbarTitle } from 'material-ui/Toolbar'
-import Divider from 'material-ui/Divider'
-import Subheader from 'material-ui/Subheader'
 import DropDownMenu from 'material-ui/DropDownMenu'
 import Paper from 'material-ui/Paper'
+import { FormattedMessage } from 'react-intl'
+import MaterialUiComponentsShowcase from '@regardsoss/components/src/MaterialUiComponentsShowcase'
+import { ThemeList, defaultTheme } from '@regardsoss/model'
 import { themeContextType } from '@regardsoss/theme'
 import { muiTheme } from '@regardsoss/vendors'
-import MaterialUiComponentsShowcase from '@regardsoss/components/src/MaterialUiComponentsShowcase'
+import moduleStyles from '../styles/styles'
 
 /**
  * React component defining the user interface for customizing the themes of Regards.
@@ -23,95 +24,73 @@ import MaterialUiComponentsShowcase from '@regardsoss/components/src/MaterialUiC
  */
 class ApplicationThemeComponent extends React.Component {
 
+  static propTypes = {
+    themeList: ThemeList,
+    currentTheme: React.PropTypes.object,
+    isFetching: React.PropTypes.bool,
+    onAdd: React.PropTypes.func,
+    onClose: React.PropTypes.func,
+    onSave: React.PropTypes.func,
+  }
+
+  static defaultProps = {
+    currentTheme: defaultTheme,
+  }
+
   static contextTypes = {
     ...themeContextType,
   }
 
-  state = {
-    value: 2,
-  };
-
-  handleChange = (event, index, value) => this.setState({ value })
-
-  handleClose = () => {
-    console.log('handleClose')
+  constructor(props) {
+    super(props)
+    this.state = {
+      editingTheme: defaultTheme,
+    }
   }
 
-  handleSave = () => {
-    console.log('handleSave')
-  }
-
-  handleDownload = () => {
-    console.log('handleDownload')
-  }
+  onChange = (event, index, value) => this.setState({ editingTheme: find(this.props.themeList, theme => theme.content.id === value) })
 
   render() {
+    const { onAdd, onClose, onSave, themeList } = this.props
+    const { editingTheme } = this.state
     const previewWrapper = <MaterialUiComponentsShowcase />
     const themeConfigurer = muiTheme()(() => (previewWrapper))
-    const style = {
-      mainWrapper: {
-        position: 'relative',
-        height: 880,
-      },
-      toolbar: {
-        root: {
-          backgroundColor: this.context.muiTheme.palette.primary1Color,
-        },
-        title: {
-          color: this.context.muiTheme.palette.alternateTextColor,
-        },
-        icon: {
-          color: this.context.muiTheme.palette.alternateTextColor,
-        },
-        themeDropDownMenu: {
-          style: {
-            top: -2,
-            left: -10,
-          },
-          labelStyle: {
-            color: this.context.muiTheme.palette.alternateTextColor,
-            paddingLeft: 0,
-            fontSize: this.context.muiTheme.toolbar.titleFontSize,
-            fontWeight: 'bold',
-          },
-        },
-      },
-    }
+    const style = moduleStyles(this.context.muiTheme).theme
+
     return (
       <Paper style={style.mainWrapper}>
         <Toolbar style={style.toolbar.root}>
           <ToolbarGroup firstChild>
-            <IconButton onTouchTap={this.handleClose}><Close color={style.toolbar.icon.color} /></IconButton>
+            <IconButton onTouchTap={onClose}><Close color={style.toolbar.icon.color} /></IconButton>
             <ToolbarTitle
               text={<FormattedMessage id="application.theme.title" />}
               style={style.toolbar.title}
             />
             <DropDownMenu
-              value={this.state.value}
-              onChange={this.handleChange}
+              value={editingTheme.content.id}
+              onChange={this.onChange}
               style={style.toolbar.themeDropDownMenu.style}
               labelStyle={style.toolbar.themeDropDownMenu.labelStyle}
             >
-              <MenuItem value={2} primaryText="CDPP" />
-              <MenuItem value={3} primaryText="SSALTO" />
-              <Divider />
-              <Subheader>Default</Subheader>
-              <MenuItem value={0} primaryText="Light" />
-              <MenuItem value={1} primaryText="Dark" />
+              {map(themeList, theme => (
+                <MenuItem key={theme.content.id} value={theme.content.id} primaryText={theme.content.name} />
+              ))}
             </DropDownMenu>
           </ToolbarGroup>
           <ToolbarGroup lastChild>
             <IconButton
-              onTouchTap={this.handleSave}
+              onTouchTap={onSave}
               tooltip={<FormattedMessage id="application.theme.save" />}
             ><Save color={style.toolbar.icon.color} /></IconButton>
             <IconButton
-              onTouchTap={this.handleDownload}
-              tooltip={<FormattedMessage id="application.theme.download" />}
-            ><FileDownload color={style.toolbar.icon.color} /></IconButton>
+              onTouchTap={onAdd}
+              tooltip={<FormattedMessage id="application.theme.add" />}
+            ><AddCircle color={style.toolbar.icon.color} /></IconButton>
           </ToolbarGroup>
         </Toolbar>
-        {themeConfigurer}
+        <div style={style.contentWrapper}>
+          {themeConfigurer}
+        </div>
       </Paper>
     )
   }

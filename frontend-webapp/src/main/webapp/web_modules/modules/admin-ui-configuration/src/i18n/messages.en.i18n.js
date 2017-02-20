@@ -49,7 +49,7 @@ const messages = Object.assign({
   'invalid.json': 'Invalid json file',
   'application.theme.title': 'Configure the theme',
   'application.theme.save': 'Save',
-  'application.theme.download': 'Download',
+  'application.theme.add': 'Add',
 
 }, Locales.en)
 
