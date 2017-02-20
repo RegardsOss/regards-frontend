@@ -20,6 +20,8 @@ class LineComponent extends React.Component {
     disabled: React.PropTypes.bool,
     onEntityCheck: React.PropTypes.func,
     isSelected: React.PropTypes.bool,
+    // eslint-disable-next-line react/forbid-prop-types
+    additionalPropToLineComponent: React.PropTypes.object,
   }
 
   static defaultProps = {
@@ -39,7 +41,7 @@ class LineComponent extends React.Component {
     if (this.props.entity) {
       const element = React.createElement(
         this.props.lineComponent,
-        merge({}, { entity: this.props.entity }),
+        merge({}, { entity: this.props.entity }, this.props.additionalPropToLineComponent),
       )
 
       let checkbox = null

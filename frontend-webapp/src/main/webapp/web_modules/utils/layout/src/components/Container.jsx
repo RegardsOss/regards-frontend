@@ -78,22 +78,22 @@ class Container extends React.Component {
       // Render dynamic content in this dynamic container
       renderModules.push(this.props.dynamicContent)
       renderModules.push(<ModuleListProvider
-          key="dynamicContent"
-          modules={this.props.modules}
-          container={this.props.container.id}
-          onModuleSelection={this.props.onDynamicModuleSelection}
-        />,
+        key="dynamicContent"
+        modules={this.props.modules}
+        container={this.props.container.id}
+        onModuleSelection={this.props.onDynamicModuleSelection}
+      />,
       )
       // Render modules and plugins of this static container
     } else if (this.props.modules) {
       const containerModules = this.props.modules.filter(module => module.content.container === this.props.container.id && module.content.applicationId === this.props.appName)
       forEach(containerModules, (module, idx) => (
         renderModules.push(<LazyModuleComponent
-            key={idx}
-            module={module.content}
-            appName={this.props.appName}
-            project={this.props.project}
-          />,
+          key={idx}
+          module={module.content}
+          appName={this.props.appName}
+          project={this.props.project}
+        />,
         )
       ))
     }
@@ -113,11 +113,12 @@ class Container extends React.Component {
       const containerPlugins = this.props.plugins.filter(plugin => plugin.container === this.props.container.id)
       forEach(containerPlugins, (plugin, idx) => {
         renderPlugins.push(
-          <Paper key={idx}
+          <Paper
+            key={idx}
             style={{
-              //display: 'flex',
-              //justifyContent: 'space-between',
-              width:'100%'
+              // display: 'flex',
+              // justifyContent: 'space-between',
+              width: '100%',
             }}
           >
             <PluginProvider
@@ -144,30 +145,30 @@ class Container extends React.Component {
       let deleteAction = null
       if (this.props.mainContainer === false) {
         deleteAction = (<MenuItem
-            key="delete"
-            onTouchTap={() => {
-              this.props.onContainerClick(DELETE_ACTION, this.props.container)
-            }}
-            primaryText="Delete section"
-          />
+          key="delete"
+          onTouchTap={() => {
+            this.props.onContainerClick(DELETE_ACTION, this.props.container)
+          }}
+          primaryText="Delete section"
+        />
         )
       }
       return (
         <div className="row">
           <Toolbar style={{ height: 40 }}>
             <ToolbarGroup key="name">
-              <ToolbarTitle text={this.props.container.id}/>
+              <ToolbarTitle text={this.props.container.id} />
             </ToolbarGroup>
             <ToolbarGroup key="actions">
               <IconMenu
                 iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
                 anchorOrigin={{
                   horizontal: 'left',
-                  vertical: 'top'
+                  vertical: 'top',
                 }}
                 targetOrigin={{
                   horizontal: 'left',
-                  vertical: 'top'
+                  vertical: 'top',
                 }}
               >
                 <MenuItem
@@ -220,11 +221,12 @@ class Container extends React.Component {
       >
         {this.renderConfigurationMode()}
         {this.renderModules()}
-        <div style={{
-          display: 'flex',
-          alignItems: 'flex-start',
-          flexDirection: 'column',
-        }}
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'flex-start',
+            flexDirection: 'column',
+          }}
         >
           {this.renderPlugins()}
         </div>

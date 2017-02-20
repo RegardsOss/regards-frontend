@@ -74,7 +74,7 @@ class ProjectSidebarComponent extends React.Component {
           />
           <SidebarElement
             key="3"
-            to={`/admin/${projectName}/data/list`}
+            to={`/admin/${projectName}/access-right/edit`}
             linkStyle={style.link.styles}
             primaryText={<FormattedMessage id="menu.dataaccessrights" />}
             leftIcon={<VerifiedUser />}

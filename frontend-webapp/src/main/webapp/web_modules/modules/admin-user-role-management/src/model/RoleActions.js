@@ -8,7 +8,7 @@ class RoleActions extends BasicListActions {
   constructor() {
     super({
       namespace: 'admin-user-role-management',
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-admin-list/roles`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-admin/roles`,
       schemaTypes: {
         ENTITY: Schemas.ROLE,
         ENTITY_ARRAY: Schemas.ROLE_ARRAY,

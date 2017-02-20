@@ -39,6 +39,7 @@ npm link web_modules/modules/admin-data-collection-management
 npm link web_modules/modules/admin-data-fragment-management
 npm link web_modules/modules/admin-microservice-management
 npm link web_modules/modules/admin-project-management
+npm link web_modules/modules/admin-accessright-management
 npm link web_modules/modules/admin-user-management
 npm link web_modules/modules/admin-user-accessgroup-management
 npm link web_modules/modules/admin-user-projectuser-management

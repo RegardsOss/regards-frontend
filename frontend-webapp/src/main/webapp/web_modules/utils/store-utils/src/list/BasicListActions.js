@@ -1,7 +1,6 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { split } from 'lodash'
 import { normalize } from 'normalizr'
 import BasicActions from '../BasicActions'
 
@@ -45,10 +44,12 @@ class BasicListActions extends BasicActions {
    * Fetch entities
    *
    * @param params url params TODO Specify the expected format
+   * @param {Object} queryParams
    * @returns {{}}
    */
-  fetchEntityList(params) {
-    const endpoint = this.handleRequestParameters(this.entityEndpoint, params)
+  fetchEntityList(params, queryParams) {
+    let endpoint = this.handleRequestQueryParams(this.entityEndpoint, queryParams)
+    endpoint = this.handleRequestPathParameters(endpoint, params)
     return {
       [CALL_API]: {
         types: [
@@ -76,16 +77,13 @@ class BasicListActions extends BasicActions {
    *
    * @param keyValue
    * @param {Object} params
+   * @param {Object} queryParams
    * @returns {{}}
    */
-  fetchEntity(keyValue, params) {
-    let endpoint = this.handleRequestParameters(this.entityEndpoint, params)
-    let queryParams = ''
-    const endpointSplit = split(endpoint, '?')
-    if (endpointSplit && endpointSplit.length > 1) {
-      endpoint = endpointSplit[0]
-      queryParams = `?${endpointSplit[1]}`
-    }
+  fetchEntity(keyValue, params, queryParams) {
+    let endpoint = this.handleRequestPathParameters(this.entityEndpoint, params)
+    endpoint = `${endpoint}/${keyValue}`
+    endpoint = this.handleRequestQueryParams(endpoint, queryParams)
     return {
       [CALL_API]: {
         types: [
@@ -96,14 +94,15 @@ class BasicListActions extends BasicActions {
           },
           this.buildFailureAction(this.ENTITY_FAILURE),
         ],
-        endpoint: `${endpoint}/${keyValue}${queryParams}`,
+        endpoint,
         method: 'GET',
       },
     }
   }
 
-  createEntity(values, params) {
-    const endpoint = this.handleRequestParameters(this.entityEndpoint, params)
+  createEntity(values, params, queryParams) {
+    let endpoint = this.handleRequestQueryParams(this.entityEndpoint, queryParams)
+    endpoint = this.handleRequestPathParameters(endpoint, params)
     return {
       [CALL_API]: {
         types: [
@@ -121,8 +120,10 @@ class BasicListActions extends BasicActions {
     }
   }
 
-  updateEntity(keyValue, values, params) {
-    const endpoint = this.handleRequestParameters(this.entityEndpoint, params)
+  updateEntity(keyValue, values, params, queryParams) {
+    let endpoint = this.handleRequestPathParameters(this.entityEndpoint, params)
+    endpoint = `${endpoint}/${keyValue}`
+    endpoint = this.handleRequestQueryParams(endpoint, queryParams)
     return {
       [CALL_API]: {
         types: [
@@ -133,15 +134,17 @@ class BasicListActions extends BasicActions {
           },
           this.buildFailureAction(this.UPDATE_ENTITY_FAILURE),
         ],
-        endpoint: `${endpoint}/${keyValue}`,
+        endpoint,
         method: 'PUT',
         body: JSON.stringify(values),
       },
     }
   }
 
-  deleteEntity(keyValue, params) {
-    const endpoint = this.handleRequestParameters(this.entityEndpoint, params)
+  deleteEntity(keyValue, params, queryParams) {
+    let endpoint = this.handleRequestPathParameters(this.entityEndpoint, params)
+    endpoint = `${endpoint}/${keyValue}`
+    endpoint = this.handleRequestQueryParams(endpoint, queryParams)
     return {
       [CALL_API]: {
         types: [
@@ -152,7 +155,7 @@ class BasicListActions extends BasicActions {
           },
           this.buildFailureAction(this.DELETE_ENTITY_FAILURE),
         ],
-        endpoint: `${endpoint}/${keyValue}`,
+        endpoint,
         method: 'DELETE',
       },
     }

@@ -49,7 +49,7 @@ class BasicActions {
    * @param params parameters to replace in the endpoint entity
    * @returns {*}
    */
-  handleRequestParameters = (entityEndpoint, params) => {
+  handleRequestPathParameters = (entityEndpoint, params) => {
     let endpoint = entityEndpoint
     if (params) {
       map(params, (param, key) => {
@@ -58,6 +58,20 @@ class BasicActions {
     }
     // endpoint = replace(endpoint, /{.*}/, '') // Remove unspecified parameters
     // endpoint = trim(endpoint, '?') // Remove the trailing '?' if last character
+    return endpoint
+  }
+
+  handleRequestQueryParams = (entityEndpoint, queryParams) => {
+    let endpoint = entityEndpoint
+    if (queryParams) {
+      map(queryParams, (param, key) => {
+        if (endpoint.includes('?')) {
+          endpoint = `${endpoint}&${key}=${param}`
+        } else {
+          endpoint = `${endpoint}?${key}=${param}`
+        }
+      })
+    }
     return endpoint
   }
 

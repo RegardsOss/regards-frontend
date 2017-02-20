@@ -73,7 +73,9 @@ export default class ReduxEntityTester {
       done()
     } catch (e) {
       done(new Error(`${e}.
-      Full shape error: ${JSON.stringify(shapeResult)}`))
+      Full shape error: ${JSON.stringify(shapeResult)}
+      Store: ${JSON.stringify(store.getState())}
+      `))
     }
   }
 
@@ -108,7 +110,7 @@ export default class ReduxEntityTester {
   beforeAll() {
     let entityEndpoint = this.entityActions.entityEndpoint
     if (this.options.urlParams) {
-      entityEndpoint = this.entityActions.handleRequestParameters(this.entityActions.entityEndpoint, this.options.urlParams)
+      entityEndpoint = this.entityActions.handleRequestPathParameters(this.entityActions.entityEndpoint, this.options.urlParams)
     }
     nock(GATEWAY_HOSTNAME)
       .get(entityEndpoint.replace(GATEWAY_HOSTNAME, ''))

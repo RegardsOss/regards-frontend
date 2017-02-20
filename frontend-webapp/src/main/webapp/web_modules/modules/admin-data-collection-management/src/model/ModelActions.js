@@ -5,7 +5,7 @@ class ModelActions extends BasicListActions {
   constructor() {
     super({
       namespace: 'admin-data-collection-management/model',
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-dam-list/models?type={type}`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-dam/models`,
       schemaTypes: {
         ENTITY: Schemas.MODEL,
         ENTITY_ARRAY: Schemas.MODEL_ARRAY,

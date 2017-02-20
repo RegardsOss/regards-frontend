@@ -1,9 +1,9 @@
 import SelectField from 'material-ui/SelectField'
 
-const renderSelectField = ({ input, label, meta: { touched, error }, fullWidth, children, disabled, onSelect }) => (
+const renderSelectField = ({ input, label, meta: { touched, error }, fullWidth, children, disabled, onSelect, intl }) => (
   <SelectField
     floatingLabelText={label}
-    errorText={touched && error}
+    errorText={error && intl.formatMessage({ id: error })}
     {...input}
     fullWidth={fullWidth}
     onChange={(event, index, value) => {
@@ -31,5 +31,8 @@ renderSelectField.propTypes = {
   fullWidth: React.PropTypes.bool,
   disabled: React.PropTypes.bool,
   onSelect: React.PropTypes.func,
+  intl: React.PropTypes.shape({
+    formatMessage: React.PropTypes.func,
+  }),
 }
 export default renderSelectField
