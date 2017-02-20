@@ -6,7 +6,6 @@ import { expect, assert } from 'chai'
 import sinon from 'sinon'
 import { IntlStub } from '@regardsoss/tests-helpers'
 import { Field } from '@regardsoss/form-utils'
-import MenuItem from 'material-ui/MenuItem'
 import { AccessGroupFormComponent } from '../../src/components/AccessGroupFormComponent'
 
 describe('[ADMIN USER ACCESSGROUP MANAGEMENT] Testing AccessGroupFormComponent', () => {

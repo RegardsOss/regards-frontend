@@ -32,6 +32,8 @@ import PageableListContainer from './list/PageableListContainer'
 
 import LoadingPaneComponent from './loading/LoadingPaneComponent'
 
+import PluginConfigurationPickerComponent from './plugin/PluginConfigurationPickerComponent'
+
 import FixedTableContainer from './table/FixedTableContainer'
 
 export {
@@ -58,4 +60,5 @@ export {
   PictureLinkComponent,
   SecondaryActionButtonComponent,
   ShowableAtRender,
+  PluginConfigurationPickerComponent,
 }

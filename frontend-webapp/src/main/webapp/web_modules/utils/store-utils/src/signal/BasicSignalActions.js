@@ -27,8 +27,9 @@ class BasicSignalActions extends BasicActions {
    * @param params
    * @returns {{}}
    */
-  sendSignal(verb, bodyParam, params) {
-    const endpoint = this.handleRequestParameters(this.entityEndpoint, params)
+  sendSignal(verb, bodyParam, params, queryParams) {
+    let endpoint = this.handleRequestQueryParams(this.entityEndpoint, queryParams)
+    endpoint = this.handleRequestPathParameters(endpoint, params)
     return {
       [CALL_API]: {
         types: [

@@ -18,8 +18,9 @@ class BasicArrayActions extends BasicActions {
    * @param params TODO Provide params expected format
    * @returns {{}}
    */
-  fetchEntityList(params) {
-    const endpoint = this.handleRequestParameters(this.entityEndpoint, params)
+  fetchEntityList(params, queryParams) {
+    let endpoint = this.handleRequestQueryParams(this.entityEndpoint, queryParams)
+    endpoint = this.handleRequestPathParameters(endpoint, params)
     return {
       [CALL_API]: {
         types: [

@@ -10,6 +10,7 @@ import { databaseManagementReducer } from '@regardsoss/admin-database-management
 import { uiConfigurationtReducer } from '@regardsoss/admin-ui-configuration'
 import { uiPluginsReducer } from '@regardsoss/admin-ui-plugins-management'
 import { microserviceManagementReducer } from '@regardsoss/admin-microservice-management'
+import { accessRightManagementReducer } from '@regardsoss/admin-accessright-management'
 
 /**
  * Redux store reducers for the administration application
@@ -24,6 +25,7 @@ const adminReducer = combineReducers({
   'ui-configuration': uiConfigurationtReducer,
   'ui-plugins-management': uiPluginsReducer,
   'user-management': userManagementReducer,
+  'access-right': accessRightManagementReducer,
 })
 
 export default adminReducer
