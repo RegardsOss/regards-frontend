@@ -207,7 +207,7 @@ const mapDispatchToProps = dispatch => ({
   fetchCollection: id => dispatch(CollectionActions.fetchEntity(id)),
   createCollection: values => dispatch(CollectionActions.createEntity(values)),
   updateCollection: (id, values) => dispatch(CollectionActions.updateEntity(id, values)),
-  fetchModelList: () => dispatch(ModelActions.fetchEntityList({ type: 'COLLECTION' })),
+  fetchModelList: () => dispatch(ModelActions.fetchEntityList({}, { type: 'COLLECTION' })),
   fetchModelAttributeList: id => dispatch(ModelAttributeActions.fetchEntityList({ id })),
   unregisterField: (form, name) => dispatch(unregisterField(form, name)),
 })

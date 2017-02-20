@@ -5,7 +5,7 @@ class FragmentActions extends BasicListActions {
   constructor() {
     super({
       namespace: 'admin-data-attributemodel-management/fragment',
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-dam-list/models/fragments`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-dam/models/fragments`,
       schemaTypes: {
         ENTITY: Schemas.FRAGMENT,
         ENTITY_ARRAY: Schemas.FRAGMENT_ARRAY,

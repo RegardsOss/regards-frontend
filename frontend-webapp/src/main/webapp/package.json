@@ -40,6 +40,7 @@
     "@regardsoss/admin-database-management": "0.0.1",
     "@regardsoss/admin-microservice-management": "0.0.1",
     "@regardsoss/admin-project-management": "0.0.1",
+    "@regardsoss/admin-accessright-management": "0.0.1",
     "@regardsoss/admin-ui-configuration": "0.0.1",
     "@regardsoss/admin-ui-plugins-management": "0.0.1",
     "@regardsoss/admin-user-management": "0.0.1",

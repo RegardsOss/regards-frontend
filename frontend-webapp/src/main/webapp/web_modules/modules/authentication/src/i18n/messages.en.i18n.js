@@ -9,10 +9,18 @@ const messages = Object.assign({
   'authentication.button': 'Log in',
   'authentication.cancel': 'Cancel',
   'authentication.message': 'Please enter your username and password to log in',
-  'authentication.error': 'Invalid Username/Password',
-  'authentication.error.500': 'Server unavailable',
+  'authentication.error.ACCOUNT_UNKNOWN': 'Unknown user login and / or password',
+  'authentication.error.ACCOUNT_PENDING': 'Your REGARDS account is not ready yet. You will receive a notification by email when it changes',
+  'authentication.error.ACCOUNT_ACCEPTED': 'You have not yet validated your account. Please click on the validation link in the email you have received',
+  'authentication.error.ACCOUNT_INACTIVE': 'Your account is inactive. Please contact system administrator',
+  'authentication.error.ACCOUNT_LOCKED': 'Your account is locked. You can unlock it using "Account locked?" link below the window',
+  'authentication.error.USER_UNKNOWN': 'You do not have project access rights. You can ask them using "New user?" link, with option "I already have a REGARDS user account"',
+  'authentication.error.USER_WAITING_ACCESS': 'Your project access has not yet been validated. You will receive a notification by email when it changes',
+  'authentication.error.USER_ACCESS_DENIED': 'Your project access  has been denied',
+  'authentication.error.USER_ACCESS_INACTIVE': 'Your project access is inactive. Please contact project administrator',
+  'authentication.error.UNKNOWN_ERROR': 'An unknown error occurred',
   'authentication.goto.reset.password': 'Lost password?',
-  'authentication.goto.create.account': 'New user?',
+  'authentication.goto.ask.access': 'New user?',
   'authentication.goto.unlock.account': 'Account locked?',
 
   // common to account requests forms (reset password and unlock account
@@ -24,27 +32,28 @@ const messages = Object.assign({
   'ask.reset.password.form.message': 'Please enter your mail address to receive a reset password link',
   'ask.reset.password.form.title': 'Reset password',
   'ask.reset.password.form.send.failed': '{status, plural, ' +
-    '=404 { Entered e-mail address is unknown. } ' +
-    'other: {An unknown error occurred (#)}}',
+  '=404 { Entered e-mail address is unknown. } ' +
+  'other: {An unknown error occurred (#)}}',
 
   // unlock account request form
   'ask.unlock.account.form.message': 'Please enter your mail address to request account unlocking',
   'ask.unlock.account.form.title': 'Unlock user account',
   'ask.unlock.account.form.send.failed': '{status, plural, ' +
-    '=403 {That related account is not locked}' +
-    '=404 {Entered e-mail address is unknown.}' +
-    'other: {An unknown error occurred (#)}}',
+  '=403 {That related account is not locked}' +
+  '=404 {Entered e-mail address is unknown.}' +
+  'other: {An unknown error occurred (#)}}',
 
   // ask project access form
-  'create.account.request.title': 'Create account',
-  'create.account.request.message': 'Please enter below your personal data. Your REGARDS account can be used on every project at this address.',
-  'create.account.mail': 'E-mail address',
-  'create.account.first.name': 'First name',
-  'create.account.last.name': 'Last name',
-  'create.account.new.password': 'Password',
-  'create.account.confirm.password': 'Confirm password',
-  'create.account.send': 'Create',
-  'create.account.form.back': 'Cancel',
+  'ask.project.access.request.title': 'Request project access',
+  'ask.project.access.request.message': 'Please enter below your personal data to request access, or provide your REGARDS account email address if you own already one',
+  'ask.project.access.using.existing.account': 'I already have a REGARDS user account',
+  'ask.project.access.mail': 'E-mail address',
+  'ask.project.access.first.name': 'First name',
+  'ask.project.access.last.name': 'Last name',
+  'ask.project.access.new.password': 'Password',
+  'ask.project.access.confirm.password': 'Confirm password',
+  'ask.project.access.send': 'Create',
+  'ask.project.access.form.back': 'Cancel',
 
   // reset password operation
   'ask.reset.password.sent.title': 'Reset password sent',
@@ -57,13 +66,26 @@ const messages = Object.assign({
   'reset.password.done.message': 'Your password has been successfully reset, you can proceed to site',
   'reset.password.done.option': 'Login',
 
-  // ask project access operation
+  // Ask project access operation
+  'ask.project.access.sent.title': 'Project access request sent',
+  'ask.project.access.sent.message': 'Your request to access project private data has been sent. Its acknowledgement will be noticed to you by email',
+  'ask.project.access.sent.option': 'Back',
+
+  // New account operation
   'create.account.sent.title': 'Create account sent',
   'create.account.sent.message': 'Your request has been sent, you will receive a mail to activate it',
   'create.account.sent.option': 'Back',
-  'create.account.done.title': 'User account activated',
-  'create.account.done.message': 'Your user account has been activated',
-  'create.account.done.option': 'Login',
+  'new.account.validated.title': 'User account validated',
+  'new.account.validated.message': 'Your user account has been validated',
+  'new.account.validated.option': 'Login',
+  'new.account.token.expired.title': 'Account creation failed',
+  'new.account.token.expired.message': 'Your user account cannot be validated, please retry creating it',
+  'new.account.token.expired.option': 'Back',
+
+  // Validating new account
+  'new.acount.validating.title': 'Account validation',
+  'new.acount.validating.message': 'We are handling the validation request, please wait',
+
 
   // unlock account operation
   'ask.unlock.account.sent.title': 'Unlock request sent',

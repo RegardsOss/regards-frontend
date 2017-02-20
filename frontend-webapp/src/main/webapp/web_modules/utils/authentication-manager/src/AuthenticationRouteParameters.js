@@ -12,7 +12,7 @@ const routeParameters = {
     urlKey: 'external_auth_action',
     values: {
         // back from an account creation mail
-      accountCreated: 'account_created',
+      validateAccount: 'validate_account',
       // back from an unlock mail
       unlockAccount: 'unlock_account',
         // back from a reset password request

@@ -5,7 +5,7 @@ import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
 import { Project } from '@regardsoss/model'
 import { I18nProvider } from '@regardsoss/i18n'
-import { logout } from '@regardsoss/authentication-manager'
+import { AuthenticateActions } from '@regardsoss/authentication-manager'
 import ProjectActions from '../model/ProjectActions'
 import ProjectSelectors from '../model/ProjectSelectors'
 import ProjectListComponent from '../components/ProjectListComponent'
@@ -37,11 +37,11 @@ export class ProjectListContainer extends React.Component {
     browserHistory.push(url)
   }
 
-  handleDelete =(projectName) => {
+  handleDelete = (projectName) => {
     this.props.deleteProject(projectName)
   }
 
-  handleOpen =(projectName) => {
+  handleOpen = (projectName) => {
     this.props.onLogout()
     const url = `/admin/${projectName}`
     browserHistory.push(url)
@@ -69,7 +69,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   fetchProjectList: () => dispatch(ProjectActions.fetchPagedEntityList(0, 100)),
   deleteProject: id => dispatch(ProjectActions.deleteEntity(id)),
-  onLogout: () => dispatch(logout()),
+  onLogout: () => dispatch(AuthenticateActions.logout()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectListContainer)

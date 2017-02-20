@@ -28,7 +28,7 @@ export class AuthenticationFormComponent extends React.Component {
     // form title
     title: React.PropTypes.string.isRequired,
     // show create account link?
-    showCreateAccount: React.PropTypes.bool.isRequired,
+    showAskProjectAccess: React.PropTypes.bool.isRequired,
     // show cancel button?
     showCancel: React.PropTypes.bool.isRequired,
     // on cancel button callback, or none if behavior not available
@@ -59,8 +59,8 @@ export class AuthenticationFormComponent extends React.Component {
    */
   componentWillMount() {
     if (process.env.NODE_ENV === 'development') {
-      /* console.log('DEV', 'Auto connection')*/
-      // this.props.onLogin({ username: 'admin@cnes.fr', password: 'admin' })
+      console.log('DEV', 'Auto connection')
+      this.props.onLogin({ username: 'admin@cnes.fr', password: 'admin' })
     }
     const initialValues = {}
     initialValues[mailFieldId] = this.props.initialMail
@@ -74,7 +74,7 @@ export class AuthenticationFormComponent extends React.Component {
   render() {
     const {
       errorMessage, currentMailValue, initialMail,
-      showCreateAccount, showCancel, onCancelAction, handleSubmit,
+      showAskProjectAccess, showCancel, onCancelAction, handleSubmit,
       onLogin, onGotoUnlockAccount, onGotoResetPassword, onGotoCreateAccount,
     } = this.props
     const { moduleTheme } = this.context
@@ -88,7 +88,6 @@ export class AuthenticationFormComponent extends React.Component {
         />
       )
     }
-    console.error(' errr', errorMessage)
     return (
       <div style={moduleTheme.layout}>
         <ReduxConnectedForm
@@ -129,9 +128,9 @@ export class AuthenticationFormComponent extends React.Component {
             </CardActions>
             <div style={moduleTheme.linksBar}>
               <PictureLinkComponent
-                disabled={!showCreateAccount}
+                disabled={!showAskProjectAccess}
                 IconComponent={ProjectAccessIcon}
-                text={<FormattedMessage id="authentication.goto.create.account" />}
+                text={<FormattedMessage id="authentication.goto.ask.access" />}
                 onAction={() => onGotoCreateAccount(currentMailValue)}
               />
               <PictureLinkComponent

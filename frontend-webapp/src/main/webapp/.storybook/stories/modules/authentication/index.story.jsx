@@ -5,6 +5,7 @@ import AccountRequestFormComponent, { requestFormIds } from '@regardsoss/authent
 import AccountOperationMessage, { operationIds } from '@regardsoss/authentication/src/components/AccountOperationMessage'
 import CompleteResetPasswordFormComponent from '@regardsoss/authentication/src/components/ChangePasswordFormComponent'
 import AuthenticationFormComponent from '@regardsoss/authentication/src/components/AuthenticationFormComponent'
+import AskProjectAccessFormComponent from '@regardsoss/authentication/src/components/AskProjectAccessFormComponent'
 import styles from '@regardsoss/authentication/src/styles/styles'
 import { withKnobs, text, boolean, select } from '@kadira/storybook-addon-knobs'
 import { StoreDecorator, addLocaleAndThemeSelectors, ThemeAndLocaleDecorator } from '../../utils/decorators'
@@ -20,7 +21,7 @@ storiesOf('Authentication', module)
         <ModuleThemeProvider module={moduleTheme}>
           <AuthenticationFormComponent
             title="Authentication form"
-            showCreateAccount={boolean('create account', true)}
+            showAskProjectAccess={boolean('create account', true)}
             onLogin={action('Login')}
             onSubmit={action('reset password')}
             errorMessage={text('Message error', '')}
@@ -29,6 +30,22 @@ storiesOf('Authentication', module)
             onGotoResetPassword={action('goto reset account')}
             onGotoUnlockAccount={action('goto unlock account')}
             onGotoCreateAccount={action('goto create account')}
+          />
+        </ModuleThemeProvider>
+      </ThemeAndLocaleDecorator>
+    )
+  })
+  .add('Create account', () => {
+    const themeName = addLocaleAndThemeSelectors()
+    const moduleTheme = { styles }
+
+    return (
+      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/authentication/src/i18n">
+        <ModuleThemeProvider module={moduleTheme}>
+          <AskProjectAccessFormComponent
+            onRequestAction={action('done click')}
+            onBack={action('done click')}
+            project="any"
           />
         </ModuleThemeProvider>
       </ThemeAndLocaleDecorator>

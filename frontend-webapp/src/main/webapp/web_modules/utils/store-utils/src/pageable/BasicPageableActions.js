@@ -27,17 +27,18 @@ class BasicPageableActions extends BasicListActions {
    * @param index pagination param : index of the first result of the request
    * @param size pagination param : number of elements for the asked page
    * @param params [optional] params to replace in endpoint uri
+   * @param queryParams [optional] query params to add to the end of the endpoint uri
    * @returns {{}}
    */
-  fetchPagedEntityList(index, size, params) {
-    let endpoint = this.handleRequestParameters(this.entityEndpoint, params)
-
+  fetchPagedEntityList(index, size, params, queryParams) {
+    // Compute the endpoint URI
+    let endpoint = this.handleRequestQueryParams(this.entityEndpoint, queryParams)
+    endpoint = this.handleRequestPathParameters(endpoint, params)
     if (size && size > 0) {
-      if (endpoint.includes('?')) {
-        endpoint = `${endpoint}&_start=${index}&_limit=${size}`
-      } else {
-        endpoint = `${endpoint}?_start=${index}&_limit=${size}`
-      }
+      endpoint = this.handleRequestQueryParams(endpoint, {
+        _start: index,
+        _limit: size,
+      })
     }
 
     return {

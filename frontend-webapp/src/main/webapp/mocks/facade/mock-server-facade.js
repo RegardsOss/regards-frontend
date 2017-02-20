@@ -39,11 +39,13 @@ const entryDelegates = {
     // EXAMPLE : using a dynamic parameter and body content, with implicit answer 200
     // exemple URL: POST http://localhost:3000/api/v1/test-url/myTest1/hop/444 (think about adding some encoded form data)
     '/test-url/{myParam1}/hop/{myParam2}': (request, query, pathParameters, bodyParameters) =>
-      ({ content:
-          `Et hop!
+      ({
+        content:
+        `Et hop!
           \tPath parameter: ${_.keys(pathParameters).reduce((acc, key) => `${acc}\n\t\t-${key}:${pathParameters[key]}`, '')}
           \tBody parameters: ${_.keys(bodyParameters).reduce((acc, key) => `${acc}\n\t\t-${key}:${bodyParameters[key]}`, '')}
 ` }),
+    [MockAuthentication.POST.login.url]: MockAuthentication.POST.login.handler,
     [MockAuthentication.POST.unlock.url]: MockAuthentication.POST.unlock.handler,
     [MockAuthentication.POST.reset.url]: MockAuthentication.POST.reset.handler,
   },

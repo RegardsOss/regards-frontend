@@ -133,6 +133,22 @@ export const adminMicroserviceManagementRouter = {
 
 
 /**
+ * Main route to manage Access rights between Dataset and AccessGroup
+ *
+ * @type {{path: string, getChildRoutes: ((nextState, cb))}}
+ */
+export const adminAccessRightManagementRouter = {
+  path: ':project/access-right',
+  getChildRoutes(nextState, cb) {
+    const adminAccessRightManagement = require('@regardsoss/admin-accessright-management')
+    require.ensure([], (require) => {
+      cb(null, [adminAccessRightManagement.accessRightManagementRouter])
+    })
+  },
+}
+
+
+/**
  * Main Routes for administration application
  */
 export default {
@@ -148,6 +164,7 @@ export default {
     projectAdminUiPluginsRouter,
     projectAdminRouter,
     adminMicroserviceManagementRouter,
+    adminAccessRightManagementRouter,
   ],
   getComponent(nextState, cb) {
     const AdminApp = require('./containers/AdminApp')
