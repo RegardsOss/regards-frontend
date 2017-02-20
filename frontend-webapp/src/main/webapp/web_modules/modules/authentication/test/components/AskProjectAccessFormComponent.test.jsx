@@ -43,6 +43,7 @@ describe('[AUTHENTICATION] Testing AskProjectAccessFormComponent', () => {
     // render disconnected
     shallow(<AskProjectAccessFormComponent {...props} />, { context })
   })
+
   it('should show create user fields when "use existing account" is unticked, and hide it otherwise', () => {
     // render disconnected
     const existingAccountRender = shallow(<AskProjectAccessFormComponent useExistingAccount {...props} />, { context })
