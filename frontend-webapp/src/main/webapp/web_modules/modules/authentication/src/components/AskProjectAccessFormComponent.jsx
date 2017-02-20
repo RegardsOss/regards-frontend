@@ -83,7 +83,7 @@ export class AskProjectAccessFormComponent extends React.Component {
                 type="text"
                 floatingLabelText={<FormattedMessage id="ask.project.access.mail" />}
               />
-              {useExistingAccount || (
+              {useExistingAccount ? null : (
                 <div>
                   <Field
                     key="firstName"
