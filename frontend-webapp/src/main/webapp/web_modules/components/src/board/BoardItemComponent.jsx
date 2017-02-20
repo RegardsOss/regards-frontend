@@ -37,6 +37,7 @@ class BoardItemComponent extends React.Component {
       >
         <IconButton
           tooltip={action.tooltipMsg}
+          onTouchTap={action.touchTapAction}
         >
           {action.icon}
         </IconButton>

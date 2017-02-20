@@ -35,23 +35,22 @@ const items = (project, fetchMaintenance, maintenanceList, activateMaintenance, 
       icon: <Checkbox
         checkedIcon={<Cloud />}
         uncheckedIcon={<CloudOff />}
-        checked={!maintenanceList[microservice.name][project]}
-        onTouchTap={
-          () => {
-            if (maintenanceList[microservice.name][project]) {
-              deactivateMaintenance[microservice.name](project)
-            } else {
-              activateMaintenance[microservice.name](project)
-            }
-            fetchMaintenance[microservice.name]()
-          }
-        }
+        checked={!maintenanceList[microservice.name][project.toUpperCase()]}
         style={computedStyles.board.checkbox}
       />,
-      // icon: <Palette onTouchTap={() => alert('TODO: Switch the microservice to maintenance')} />,
       tooltipMsg: intl.formatMessage({
-        id: maintenanceList[microservice.name][project] ? 'microservice-management.maintenance.tooltip.on' : 'microservice-management.maintenance.tooltip.off',
+        id: maintenanceList[microservice.name][project.toUpperCase()] ?
+          'microservice-management.maintenance.tooltip.on' :
+          'microservice-management.maintenance.tooltip.off',
       }),
+      touchTapAction: () => {
+        if (maintenanceList[microservice.name][project.toUpperCase()]) {
+          deactivateMaintenance[microservice.name](project.toUpperCase())
+        } else {
+          activateMaintenance[microservice.name](project.toUpperCase())
+        }
+        fetchMaintenance[microservice.name]()
+      },
     }],
   }
 ))

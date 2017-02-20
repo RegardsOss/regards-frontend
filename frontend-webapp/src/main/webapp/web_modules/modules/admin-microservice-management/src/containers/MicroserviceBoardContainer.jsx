@@ -59,10 +59,11 @@ export class MicroserviceBoardContainer extends React.Component {
   }
 
   componentDidMount() {
-    setInterval(() => {
+    const fetchAll = () => {
       forEach(this.props.fetchMaintenance, microservice => microservice())
-    }, 10000)
-    this.props.activateMaintenance['rs-cloud']('CDPP')
+    }
+    fetchAll()
+    setInterval(fetchAll, 10000)
   }
 
   render() {
