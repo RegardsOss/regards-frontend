@@ -38,7 +38,7 @@ export class AccountRequestFormContainer extends React.Component {
   }
 
   componentWillReceiveProps = (nextProps) => {
-    // Detect is last fetch is DONE and OK
+    // Detect if last fetch is DONE and OK
     const { isFetching, onDone } = this.props
     if (isFetching && !nextProps.hasError && !nextProps.isFetching) {
       onDone(this.submittedMail)
@@ -100,12 +100,12 @@ const buildMapDispatchToProps = fetchMethod => dispatch => ({
 /** Export connected Ask reset password form container */
 const AskResetPasswordForm = props => <AccountRequestFormContainer requestFormId={requestFormIds.resetPasswordRequest} {...props} />
 export const AskResetPasswordFormContainer = connect(
-    buildMapStateToProps(ResetPasswordSelectors),
-    buildMapDispatchToProps(ResetPasswordActions.sendAskResetPassword))(AskResetPasswordForm)
+  buildMapStateToProps(ResetPasswordSelectors),
+  buildMapDispatchToProps(ResetPasswordActions.sendAskResetPassword))(AskResetPasswordForm)
 
 /** Export connected ask unlock account form container */
 const AskUnlockAccountForm = props => <AccountRequestFormContainer requestFormId={requestFormIds.unlockAccountRequest} {...props} />
 export const AskUnlockAccountFormContainer = connect(
-    buildMapStateToProps(UnlockAccountSelectors),
-    buildMapDispatchToProps(UnlockAccountActions.sendAskUnlockAccount))(AskUnlockAccountForm)
+  buildMapStateToProps(UnlockAccountSelectors),
+  buildMapDispatchToProps(UnlockAccountActions.sendAskUnlockAccount))(AskUnlockAccountForm)
 

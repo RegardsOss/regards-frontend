@@ -3,6 +3,7 @@
  **/
 const fs = require('fs')
 const fsExtra = require('fs-extra')
+const logTools = require('./log-tools')
 
 const JSON_CONTENT_TYPE = 'application/json; charset=utf-8'
 
@@ -14,21 +15,9 @@ const runtimeUsersFile = './mocks/facade/runtime/account-pool.temp.json'
 fsExtra.copy(sourceUsersFile, runtimeUsersFile)
 
 // load users pool (tool for every method in authentication)
-const loadUsersPool = () => JSON.parse(fs.readFileSync(runtimeUsersFile, 'utf8') || console.error('Failed reading file') || {})
-
-const validToken = '123456'
-const processAccountPOSTRequest = (logSubheader, { accountEmail }, { originUrl, requestLink }) => {
-  const failureMail = 'test@fail.com'
-  console.info('[Facade mock server]', logSubheader, `use ${failureMail} to test failure case`)
-  if (accountEmail === failureMail) {
-    console.info('[Facade mock server]', logSubheader, 'Sending unknown mail')
-    return { code: 404 }
-  }
-  console.info('[Facade mock server]', logSubheader, 'Simulate mail callback by clicking the link \n',
-    `${requestLink}&token=${validToken}&account_email=${accountEmail}&origin_url=${encodeURI(originUrl)}`)
-  return { code: 204 }
-}
-
+const loadUsersPool = () => JSON.parse(fs.readFileSync(runtimeUsersFile, 'utf8') || logTools.logMessage('Failed reading file', true) || {})
+// write users pool
+const writeUsersPool = users => fs.writeFileSync(runtimeUsersFile, JSON.stringify(users), 'utf8')
 
 const authenticate = (login, password, scope) => {
   // 1 - check user
@@ -84,48 +73,164 @@ const authenticate = (login, password, scope) => {
   }
 }
 
+const validToken = '123456'
+
+
+const mockSendMail = (logSubheader, email, requestLink, originUrl) => {
+  logTools.logMessage(`Request acknowledged, back URL:
+\x1b[4m${requestLink}&token=${validToken}&account_email=${email}&origin_url=${encodeURI(originUrl)}\x1b[0m`, false, logSubheader)
+}
+
+/**
+ * Do ask an account operation
+ */
+const doAskOnAccount = (logSubheader, { accountEmail }, { originUrl, requestLink }, doOrFail) => {
+  const users = loadUsersPool()
+  const user = users[accountEmail]
+  const { code, errorMessage } = doOrFail(user, users)
+  if (errorMessage) {
+    // KO
+    logTools.logMessage(errorMessage, true, logSubheader)
+    return { code }
+  }
+  // OK
+  mockSendMail(logSubheader, accountEmail, requestLink, originUrl)
+  return { code }
+}
+
+/**
+ * Do perform an account operation (generally finishes an operation asked previously through 'doAskOnAccount')
+ */
+const doPerformOnAccount = (logSubheader, { accountEmail }, bodyparameters, doOrFail) => {
+  const users = loadUsersPool()
+  const user = users[accountEmail]
+  // here we can check user is already known (no way to perform the operation otherwise)
+  if (!user) {
+    logTools.logMessage(`Cannot finish operation on unknown user "${accountEmail}"`, true, logSubheader)
+    return { code: 400 }
+  }
+  // always check the token
+  if (bodyparameters.token !== validToken) {
+    logTools.logMessage(`Invalid token, you may use the valid token "${validToken}"`, true, logSubheader)
+    return { code: 403 }
+  }
+
+  const { code, errorMessage } = doOrFail(user, bodyparameters)
+  if (errorMessage) {
+    logTools.logMessage(errorMessage, true, logSubheader)
+    return { code }
+  }
+  // now save the new users pool
+  writeUsersPool(users)
+  logTools.logMessage('Request correctly handled', false, logSubheader)
+  return { code }
+}
+
 module.exports = {
-  // ask unlock account
+  GET: {
+    // complete create account (validate)
+    validateAccount: {
+      url: 'rs-admin/accesses/validateAccount/{token}',
+      handler: (request, query, { token }) => {
+        if (token === validToken) {
+          logTools.logMessage('Account validation OK (mock, no user update) ', false, '>Validate account')
+          return { code: 201 }
+        }
+        logTools.logMessage('Account validation: token NOK ', true, '>Validate account')
+        return { code: 403 }
+      },
+    },
+  },
   POST: {
+    // login
     login: {
       url: 'oauth/token',
       handler: (request, { username, password, scope }) => authenticate(username, password, scope),
     },
+    // ask unlock account
     unlock: {
       url: 'accounts/{accountEmail}/unlockAccount',
-      handler: (request, query, pathParameters, bodyParameters) => {
-        const notLockMail = 'admin@cnes.fr'
-        console.info('[Facade mock server]', 'accounts/{accountEmail}/unlockAccount', `use ${notLockMail} to not locked case case`)
-        if (pathParameters.accountEmail === notLockMail) {
-          return { code: 403 }
-        }
-        return processAccountPOSTRequest('accounts/{accountEmail}/resetPassword', pathParameters, bodyParameters)
-      },
-    }, // ask reset password
+      handler: (request, query, pathParameters, bodyParameters) => doAskOnAccount('>Ask unlock account', pathParameters, bodyParameters,
+        (user) => {
+          if (!user) {
+            return { code: 404, errorMessage: 'Unknown user' }
+          }
+          if (user.state !== 'LOCKED') {
+            return { code: 403, errorMessage: 'User not locked' }
+          }
+          // nothing to do
+          return { code: 204 }
+        }),
+    },
+    // ask reset password
     reset: {
       url: 'accounts/{accountEmail}/resetPassword',
-      handler: (request, query, pathParameters, bodyParameters) => processAccountPOSTRequest('accounts/{accountEmail}/resetPassword', pathParameters, bodyParameters),
+      handler: (request, query, pathParameters, bodyParameters) => doAskOnAccount('>Ask reset password', pathParameters, bodyParameters,
+        (user) => {
+          if (!user) {
+            return { code: 404, errorMessage: 'Unknown user' }
+          }
+          // nothing to do
+          return { code: 204 }
+        }),
+    },
+    // ask create account / user
+    createAccount: {
+      url: '/rs-admin/accesses/',
+      handler: (request, query, pathParameters, { email, firstName, lastName, password, requestLink, originUrl }) => {
+        const users = loadUsersPool()
+        if (firstName && lastName && password) {
+          // creating project account (autovalidated so far)
+          if (users[email]) {
+            logTools.logMessage(`User already exist for mail "${email}"`, true, 'Ask new account')
+            return { code: 409 }
+          }
+          users[email] = {
+            firstName,
+            lastName,
+            password,
+            state: 'ACCEPTED',
+          }
+          logTools.logMessage(`New account created for ${email} (auto accepted).`, false, 'Ask new account')
+          mockSendMail('Ask new account', email, requestLink, originUrl)
+        } else {
+          // creating project user (for CDPP, mock mode)
+          const user = users[email]
+          if (!user) {
+            logTools.logMessage(`No existing account for mail "${email}"`, true, 'Ask new user')
+            return { code: 404 }
+          } else if (user.cdpp) {
+            logTools.logMessage(`Account for "${email}" has already CDPP user`, true, 'Ask new user')
+            return { code: 409 }
+          }
+          user.cdpp = 'ACCESS_GRANTED'
+          logTools.logMessage(`User for account "${email}" created for CDPP`, false, 'Ask new user')
+        }
+        writeUsersPool(users)
+        return { code: 201 }
+      },
     },
   },
   PUT: {
     // complete unlock account
     unlock: {
       url: '/accounts/{accountEmail}/unlockAccount',
-      handler: (request, query, { accountEmail }, { token }) => {
-        console.info('[Facade mock server]', '[/accounts/{accountEmail}/unlockAccount]', '\n\tEmail', accountEmail, '\n\tToken', token)
-        console.info('[Facade mock server]', '[/accounts/{accountEmail}/unlockAccount]', `Only valid token consider is ${validToken}`)
-        return { code: token === validToken ? 204 : 403 }
-      },
+      handler: (request, query, pathParameters, bodyParameters) => doPerformOnAccount('> Finish unlock account', pathParameters, bodyParameters,
+        (user) => {
+          // update user state
+          user.state = 'ACTIVE' // eslint-disable-line
+          return { code: 204 }
+        }),
     },
     // complete reset password
     reset: {
-
       url: '/accounts/{accountEmail}/resetPassword',
-      handler: (request, query, { accountEmail }, { token, newPassword }) => {
-        console.info('[Facade mock server]', '[/accounts/{accountEmail}/resetPassword]', '\n\tEmail', accountEmail, '\n\tToken', token, '\n\tnewPassword', newPassword)
-        console.info('[Facade mock server]', '[/accounts/{accountEmail}/resetPassword]', `Only valid token consider is ${validToken}`)
-        return { code: token === validToken ? 204 : 403 }
-      },
+      handler: (request, query, pathParameters, bodyParameters) => doPerformOnAccount('> Finish unlock account', pathParameters, bodyParameters,
+        (user, { newPassword }) => {
+          // update user state
+          user.password = newPassword // eslint-disable-line
+          return { code: 204 }
+        }),
     },
   },
 

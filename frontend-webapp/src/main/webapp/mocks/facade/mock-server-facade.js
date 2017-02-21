@@ -45,15 +45,22 @@ const entryDelegates = {
           \tPath parameter: ${_.keys(pathParameters).reduce((acc, key) => `${acc}\n\t\t-${key}:${pathParameters[key]}`, '')}
           \tBody parameters: ${_.keys(bodyParameters).reduce((acc, key) => `${acc}\n\t\t-${key}:${bodyParameters[key]}`, '')}
 ` }),
-    [MockAuthentication.POST.login.url]: MockAuthentication.POST.login.handler,
-    [MockAuthentication.POST.unlock.url]: MockAuthentication.POST.unlock.handler,
-    [MockAuthentication.POST.reset.url]: MockAuthentication.POST.reset.handler,
+    // [MockAuthentication.POST.login.url]: MockAuthentication.POST.login.handler,
+    // [MockAuthentication.POST.unlock.url]: MockAuthentication.POST.unlock.handler,
+    // [MockAuthentication.POST.reset.url]: MockAuthentication.POST.reset.handler,
   },
   PUT: {
     [MockAuthentication.PUT.unlock.url]: MockAuthentication.PUT.unlock.handler,
     [MockAuthentication.PUT.reset.url]: MockAuthentication.PUT.reset.handler,
   },
 }
+
+// report mock authentication endpoints in entry points
+_.forEach(MockAuthentication, (methodEntries, method) =>
+  _.forEach(methodEntries, (entryPoint) => {
+    entryDelegates[method][entryPoint.url] = entryPoint.handler
+  }))
+
 
 // Definitions
 const serverPort = 3000

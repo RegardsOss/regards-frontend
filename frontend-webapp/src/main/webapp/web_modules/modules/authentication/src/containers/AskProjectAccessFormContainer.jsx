@@ -3,10 +3,19 @@
  */
 import { connect } from '@regardsoss/redux'
 import { i18nContextType } from '@regardsoss/i18n'
-import AskProjectAccessFormComponent, { mailFieldId } from '../components/AskProjectAccessFormComponent'
+import AskProjectAccessFormComponent, { mailFieldId, useExistingAccountFieldId } from '../components/AskProjectAccessFormComponent'
+import CreateAccountActions from '../model/creation/CreateAccountActions'
+import CreateAccountSelectors from '../model/creation/CreateAccountSelectors'
+import CreateUserActions from '../model/creation/CreateUserActions'
+import CreateUserSelectors from '../model/creation/CreateUserSelectors'
+
+const requestTypes = {
+  createUser: 'create.user',
+  createAccount: 'create.account',
+}
 
 /**
- * Container for create account request forms.
+ * Container for project access requests
  */
 export class AskProjectAccessFormContainer extends React.Component {
 
@@ -17,14 +26,17 @@ export class AskProjectAccessFormContainer extends React.Component {
     project: React.PropTypes.string.isRequired,
     // back callback
     onBack: React.PropTypes.func.isRequired,
-    // done callback
-    onDone: React.PropTypes.func.isRequired,
-
+    // New account done callback
+    onNewAccountDone: React.PropTypes.func.isRequired,
+    // new user done callback
+    onNewUserDone: React.PropTypes.func.isRequired,
     // from map state to props
     isFetching: React.PropTypes.bool,
-    hasError: React.PropTypes.bool,
+    newAccountFetchStatus: React.PropTypes.number,
+    newUserFetchStatus: React.PropTypes.number,
     // from dispatch to props
-    fetchRequestAction: React.PropTypes.func,
+    fetchNewAccount: React.PropTypes.func, // create a new REGARD account
+    fetchNewUser: React.PropTypes.func, // create a new project user ('I have already a REGARD account'...)
   }
 
   static contextTypes = {
@@ -32,34 +44,66 @@ export class AskProjectAccessFormContainer extends React.Component {
   }
 
   componentWillReceiveProps = (nextProps) => {
-    // TODO use it
-    // Detect is last fetch  DONE and OK
-    const { isFetching, onDone } = this.props
-    // if (isFetching && !nextProps.hasError && !nextProps.isFetching) {
-    //   onDone(this.submittedMail)
-    // }
+    // Detect if last fetch is DONE and OK
+    const { isFetching, onNewAccountDone, onNewUserDone } = this.props
+    if (isFetching && !nextProps.isFetching) {
+      // based on request type, check if it was OK
+      const { lastRequestType } = this.state
+      if (lastRequestType === requestTypes.createAccount && nextProps.newAccountFetchStatus < 300) {
+        // create account done without error
+        onNewAccountDone(this.submittedMail)
+      } else if (lastRequestType === requestTypes.createUser && nextProps.newUserFetchStatus < 300) {
+        // create user done without error
+        onNewUserDone(this.submittedMail)
+      }
+    }
   }
 
-  onRequestAction = (formValues) => {
-    // store current mail value
+  onRequestAction = ({ firstName, lastName, newPassword, ...formValues }) => {
+    // store current mail value (for done operation)
     this.submittedMail = formValues[mailFieldId]
-    const { fetchRequestAction } = this.props
-    // TODO impl (other than mails ;)
-    // fetchRequestAction(this.submittedMail)
+    const { fetchNewAccount, fetchNewUser } = this.props
 
-    // TODO remove that, naturally
-    this.props.onDone(this.submittedMail)
+    // prepare request according with type
+    if (formValues[useExistingAccountFieldId]) {
+      // keep request type
+      this.setState({ lastRequestType: requestTypes.createUser })
+      // create a new project user
+      fetchNewUser(this.submittedMail)
+    } else {
+      // keep request type
+      this.setState({ lastRequestType: requestTypes.createAccount })
+      // create a new account, plus corresponding user
+      fetchNewAccount(this.submittedMail, firstName, lastName, newPassword)
+    }
   }
 
   render() {
-    const { project, initialMail, onBack, hasError } = this.props
-    // TODO error message
+    const { project, initialMail, onBack, newAccountFetchStatus, newUserFetchStatus } = this.props
+    const { lastRequestType } = (this.state || {})
+    const { intl } = this.context
+    // select error to show in current mode
+    let errorMessage = null
+    const isCreateAccount = lastRequestType === requestTypes.createAccount
+    const lastFetchErrorCode = isCreateAccount ? newAccountFetchStatus : newUserFetchStatus
+    if (lastFetchErrorCode >= 300) {
+      // find corresponding error if anyt
+      const baseErrorId = `ask.create.${isCreateAccount ? 'account' : 'user'}.error`
+      const specificStatusId = `${baseErrorId}.${lastFetchErrorCode}`
+      if (intl.messages[specificStatusId]) {
+        // found message for code
+        errorMessage = intl.formatMessage({ id: specificStatusId })
+      } else {
+        // unknown error code
+        errorMessage = intl.formatMessage({ id: `${baseErrorId}.unknown` }, { status: lastFetchErrorCode })
+      }
+    }
+
     return (
       <AskProjectAccessFormComponent
-        // current project (empty if admin)
         project={project}
         initialMail={initialMail}
-        errorMessage={null}
+        errorMessage={errorMessage}
         onRequestAction={this.onRequestAction}
         onBack={onBack}
       />
@@ -68,14 +112,14 @@ export class AskProjectAccessFormContainer extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  // TODO
-  isFetching: false,
-  hasError: false,
+  isFetching: CreateAccountSelectors.isFetching(state) || CreateUserSelectors.isFetching(state),
+  newAccountFetchStatus: CreateAccountSelectors.getError(state).status,
+  newUserFetchStatus: CreateUserSelectors.getError(state).status,
 })
 
 const mapDispatchToProps = dispatch => ({
-  // TODO
-  fetchRequestAction: mail => console.info('Y a d\'la joie'),
+  fetchNewAccount: (mail, firstName, lastName, password) => dispatch(CreateAccountActions.sendCreateAccount(mail, firstName, lastName, password)),
+  fetchNewUser: mail => dispatch(CreateUserActions.sendCreateUser(mail)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AskProjectAccessFormContainer)

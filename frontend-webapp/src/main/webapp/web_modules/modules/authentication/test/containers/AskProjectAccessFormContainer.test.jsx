@@ -32,6 +32,8 @@ describe('[AUTHENTICATION] Testing AskProjectAccessFormContainer', () => {
       project: 'any',
       onBack: () => { },
       onDone: () => { },
+      onNewAccountDone: () => { },
+      onNewUserDone: () => { },
     }
 
     // very small tests for component rendering

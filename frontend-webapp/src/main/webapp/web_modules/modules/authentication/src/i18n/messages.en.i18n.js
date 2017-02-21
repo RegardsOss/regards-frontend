@@ -28,7 +28,7 @@ const messages = Object.assign({
   'account.request.form.back': 'BACK',
   'account.request.form.send': 'SEND',
 
-  // request account password request form
+  // reset account password request form
   'ask.reset.password.form.message': 'Please enter your mail address to receive a reset password link',
   'ask.reset.password.form.title': 'Reset password',
   'ask.reset.password.form.send.failed': '{status, plural, ' +
@@ -52,8 +52,13 @@ const messages = Object.assign({
   'ask.project.access.last.name': 'Last name',
   'ask.project.access.new.password': 'Password',
   'ask.project.access.confirm.password': 'Confirm password',
-  'ask.project.access.send': 'Create',
+  'ask.project.access.send': 'Send',
   'ask.project.access.form.back': 'Cancel',
+  'ask.create.account.error.409': 'That email address is already used by an existing REGARDS account',
+  'ask.create.account.error.unknown': 'An unknown error occurred ({status})',
+  'ask.create.user.error.404': 'There is no REGARDS user for entered email address',
+  'ask.create.user.error.409': 'You have already asked access to that project',
+  'ask.create.user.error.unknown': 'An unknown error occurred ({status})',
 
   // reset password operation
   'ask.reset.password.sent.title': 'Reset password sent',
@@ -68,12 +73,12 @@ const messages = Object.assign({
 
   // Ask project access operation
   'ask.project.access.sent.title': 'Project access request sent',
-  'ask.project.access.sent.message': 'Your request to access project private data has been sent. Its acknowledgement will be noticed to you by email',
+  'ask.project.access.sent.message': 'Your request to access project data has been sent. Its acknowledgement will be noticed to you by email',
   'ask.project.access.sent.option': 'Back',
 
   // New account operation
   'create.account.sent.title': 'Create account sent',
-  'create.account.sent.message': 'Your request has been sent, you will receive a mail to activate it',
+  'create.account.sent.message': 'Your request has been sent, you will receive a mail to activate your user account',
   'create.account.sent.option': 'Back',
   'new.account.validated.title': 'User account validated',
   'new.account.validated.message': 'Your user account has been validated',
@@ -85,7 +90,6 @@ const messages = Object.assign({
   // Validating new account
   'new.acount.validating.title': 'Account validation',
   'new.acount.validating.message': 'We are handling the validation request, please wait',
-
 
   // unlock account operation
   'ask.unlock.account.sent.title': 'Unlock request sent',

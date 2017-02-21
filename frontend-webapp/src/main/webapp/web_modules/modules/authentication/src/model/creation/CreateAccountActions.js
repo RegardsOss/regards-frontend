@@ -1,7 +1,9 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import { AuthenticationRouteParameters } from '@regardsoss/authentication-manager'
 import AccountCreationActions from './AccountCreationActions'
+import { getRequestLinkURL } from '../Common'
 
 /**
  * Actions to create a REGARDS account (linked with the global instance)
@@ -16,5 +18,12 @@ export default {
    * @param lastName last name
    * @param password password
    */
-  sendCreateAccount: (email, firstName, lastName, password) => CreateAccountActions.sendCreateRequest({ email, firstName, lastName, password }),
+  sendCreateAccount: (email, firstName, lastName, password) =>
+    CreateAccountActions.sendCreateRequest({
+      email,
+      firstName,
+      lastName,
+      password,
+      requestLink: getRequestLinkURL(AuthenticationRouteParameters.mailAuthenticationAction.values.validateAccount),
+    }),
 }
