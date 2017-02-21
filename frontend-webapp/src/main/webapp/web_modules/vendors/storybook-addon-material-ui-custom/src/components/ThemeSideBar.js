@@ -89,104 +89,9 @@ export default class ThemeSideBar extends React.Component {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'stretch',
-          padding: '5px 25px 0px 10px',
+
         }}
       >
-        <div>
-          <Paper style={{ paddingLeft: 16, paddingRight: 8, paddingTop: 8 }} >
-            <h3
-              style={{
-                margin: 0,
-                marginBottom: 4,
-                color: palette.secondaryTextColor,
-                fontSize: 16,
-              }}
-            >
-              {`${this.props.themeName} properties`}
-            </h3>
-            <div style={styleHR} />
-            <div
-              style={{
-                marginTop: 8,
-                display: 'flex',
-                alignItems: 'center',
-                fontSize: 14,
-                color: palette.secondaryTextColor,
-              }}
-            >
-              <div
-                style={{
-                  color: !this.props.fullTheme() ? palette.textColor : '',
-                }}
-              >
-                      Theme Settings
-                  </div>
-              <SclToggle
-                label=""
-                labelPosition="right"
-                labelStyle={this.toggleHeadStyle}
-                toggled={this.props.fullTheme()}
-                onToggle={() => this.props.fullTheme(!this.props.fullTheme())}
-              />
-              <div
-                style={{
-                  color: this.props.fullTheme() ? palette.textColor : '',
-                }}
-              >Full Settings</div>
-            </div>
-            <div
-              style={{
-                paddingBottom: 8,
-                paddingRight: 8,
-              }}
-            >
-              <div
-                style={{
-                  marginTop: 8,
-                  //                      paddingBottom: 8,
-//                        padding: 2,
-                  width: '100%',
-                        // height: 24,
-                  display: 'flex',
-                  alignItems: 'center',
-                  border: '1px grey solid',
-                  borderColor: palette.borderColor,
-                  backgroundColor: 'rgba(128, 128, 128, 0.1)',
-                }}
-              >
-                <input
-                  type="text"
-                  onChange={null}
-                  value={this.clipString()}
-                  title={'click to copy to clipboard'}
-                  disabled
-                  style={{
-                    width: '100%',
-                    padding: 2,
-                    margin: 0,
-                    border: 'none',
-                    backgroundColor: 'rgba(0, 0, 0, 0)',
-                    color: palette.secondaryTextColor,
-                    cursor: 'text',
-                  }}
-                />
-                <SvgButton
-                  icon={<IconCopy />}
-                  tooltip="Copy to clipboard"
-                  width={48}
-                  onTouchTap={this.onCopy}
-                />
-                <div style={{ width: 4 }} />
-                <SvgButton
-                  icon={<IconSwch />}
-                  tooltip="switch style"
-                  width={48}
-                  onTouchTap={this.onSwitchStyleObj}
-                />
-              </div>
-            </div>
-          </Paper>
-        </div>
         {this.props.shouldShowData ?
                   themesList(
                     this.props.fullTheme() ? this.props.muiTheme : this.props.theme,
@@ -278,10 +183,10 @@ function themesList(themeObj, _props, onSelect) {
     return null
   })
 
-  // const scrollStyle = {
-  //   height: '100%',
-  //   overflowY: 'scroll',
-  // }
+  const scrollStyle = {
+    height: '100%',
+    overflowY: 'scroll',
+  }
   return (
     <div
       className={`${CSS_CLASS}-theme_sidebar-tables`}
@@ -293,8 +198,15 @@ function themesList(themeObj, _props, onSelect) {
     >
       <div
         className={`${CSS_CLASS}-theme_sidebar-tables-scroll`}
+        style={scrollStyle}
       >
-        <div>
+        <div
+          style={{
+            paddingLeft: 3,
+            paddingRight: 12,
+
+          }}
+        >
           <div style={{ backgroundColor: 'rgba(128, 128, 128, 0.04)' }}>
             {paletteList}
             {tablesListObj}

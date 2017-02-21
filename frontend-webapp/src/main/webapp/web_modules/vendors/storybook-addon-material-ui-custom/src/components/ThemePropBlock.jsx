@@ -27,7 +27,7 @@ export default class ThemePropBlock extends React.Component {
     this.state = {
       toolCollapsedList: {},
     }
-    this.needComponentUpdate = false
+    // this.needComponentUpdate = false
     this.valueHandler = this.valueHandler.bind(this)
     this.onToolCollapse = this.onToolCollapse.bind(this)
     this.onSelect = this.onSelect.bind(this)
@@ -35,17 +35,18 @@ export default class ThemePropBlock extends React.Component {
     this.renderColl = this.renderColl.bind(this)
   }
 
-  shouldComponentUpdate() {
-    const f = this.needComponentUpdate
-    this.needComponentUpdate = false
-    return f
-  }
+  // shouldComponentUpdate() {
+  //   // return false
+  //   const f = this.needComponentUpdate
+  //   this.needComponentUpdate = false
+  //   return f
+  // }
 
   onToolCollapse(val) {
     return (isCol) => {
       const { toolCollapsedList } = this.state
       toolCollapsedList[val] = isCol
-      this.needComponentUpdate = true
+      // this.needComponentUpdate = true
       this.setState({ toolCollapsedList })
     }
   }
@@ -62,7 +63,7 @@ export default class ThemePropBlock extends React.Component {
 
   valueHandler(propName) {
     return (event) => {
-      this.needComponentUpdate = true
+      // this.needComponentUpdate = true
       this.props.onThemeTableOverride(propName, event.target.value)
     }
   }
@@ -104,11 +105,12 @@ export default class ThemePropBlock extends React.Component {
   }
 
   render() {
+    console.log('ThemePropBlock::render')
     const { settingsName, open } = this.props
     const onSelect = this.onSelect
     const openThis = (f) => {
       if (typeof (f) === 'undefined') return open()
-      this.needComponentUpdate = true
+      // this.needComponentUpdate = true
       open(f)
       return null
     }

@@ -26,6 +26,7 @@ class ApplicationThemeContainer extends React.Component {
     isFetching: React.PropTypes.bool,
     // Set by mapDispatchToProps
     fetchThemeList: React.PropTypes.func,
+    updateTheme: React.PropTypes.func,
   }
 
   static contextTypes = {
@@ -40,13 +41,6 @@ class ApplicationThemeContainer extends React.Component {
     this.props.fetchThemeList()
   }
 
-  onSave = (theme) => {
-    console.log('updating the theme')
-  }
-
-  /**
-   * Navigate back when clicking on close button
-   */
   onClose = () => {
     const { params: { project } } = this.props
     const url = `/admin/${project}/ui-configuration/applications`
@@ -58,7 +52,7 @@ class ApplicationThemeContainer extends React.Component {
   }
 
   render() {
-    const {themeList, currentTheme, isFetching} = this.props
+    const {themeList, currentTheme, isFetching, updateTheme} = this.props
 
     return (
       <I18nProvider messageDir="modules/admin-ui-configuration/src/i18n">
@@ -68,7 +62,7 @@ class ApplicationThemeContainer extends React.Component {
           isFetching={isFetching}
           onAdd={this.onAdd}
           onClose={this.onClose}
-          onSave={this.onSave}
+          onSave={updateTheme}
         />
       </I18nProvider>
     )
@@ -83,6 +77,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchThemeList: () => dispatch(ThemeActions.fetchPagedEntityList(0, 100)),
+  updateTheme: (theme) => dispatch(ThemeActions.updateEntity(theme.content.id, theme.content)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ApplicationThemeContainer)

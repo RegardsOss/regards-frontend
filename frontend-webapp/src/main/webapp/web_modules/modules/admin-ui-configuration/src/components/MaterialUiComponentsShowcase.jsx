@@ -68,7 +68,7 @@ function getStyles() {
       color: typography.textDarkBlack,
     },
     liveExamplePaper: {
-      marginBottom: 32,
+      //marginBottom: 32,
       overflow: 'hidden',
     },
     bottomBorderWrapper: {

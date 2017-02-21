@@ -1,8 +1,6 @@
 import React from 'react'
-
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-
 import { EVENT_ID_DATA, CSS_CLASS } from '../' // future: add CSS_CLASS
 // future: [x] remove ThemeToolbar
 import ThemeSideBar from '../components/ThemeSideBar'
@@ -43,19 +41,27 @@ export default class MuiTheme extends React.Component {
     this.dataChannelSend = this.dataChannelSend.bind(this)
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      themesAppliedList: nextProps.themesAppliedListInit,
+      muiTheme: getMuiTheme(nextProps.themesAppliedListInit[nextProps.initState.themeInd])
+    })
+  }
+
   componentDidMount() {
     // this.props.channel.on(EVENT_ID_DATA, this.onChannel);
     if (!this.state.isMount) {
       setTimeout(() => {
-        this.needComponentUpdate('ThemeSideBar')
+        // this.needComponentUpdate('ThemeSideBar')
         this.setState({ isMount: true })
       }, 1)
     }
+
   }
 
-  shouldComponentUpdate() {
-    return true // fixme: shouldComponentUpdate
-  }
+  // shouldComponentUpdate() {
+  //   return true // fixme: shouldComponentUpdate
+  // }
 
   componentWillUpdate(nextProps, nextState) {
     this.props.onChangeState(nextState)
@@ -68,8 +74,7 @@ export default class MuiTheme extends React.Component {
   }
 
   onChannel(state) {
-    console.log('onChannel')
-    this.needComponentUpdate('ThemeSideBar')
+    // this.needComponentUpdate('ThemeSideBar')
     this.isChannelData = true
     // fixme: onThemeOverride - to store theme
     this.setState({
@@ -84,11 +89,10 @@ export default class MuiTheme extends React.Component {
   }
 
   onThemeOverride() {
-    console.log('onThemeOverride')
     const propsThemeOverFunc = this.props.onThemeOverride(this.state.themeInd)
     return (overTheme) => {
       const themesAppliedList = propsThemeOverFunc(overTheme)
-      this.needComponentUpdate('ThemeSideBar')
+      // this.needComponentUpdate('ThemeSideBar')
       this.setState({ themesAppliedList })
     }
   }
@@ -101,7 +105,7 @@ export default class MuiTheme extends React.Component {
   }
 
   changeTheme(ind) {
-    this.needComponentUpdate('ThemeSideBar')
+    // this.needComponentUpdate('ThemeSideBar')
     this.setState({
       muiTheme: getMuiTheme(this.state.themesAppliedList[ind]),
       themeInd: ind,
@@ -109,7 +113,7 @@ export default class MuiTheme extends React.Component {
   }
 
   openSideBar(f) {
-    this.needComponentUpdate('ThemeSideBar')
+    // this.needComponentUpdate('ThemeSideBar')
     this.setState({
       isSideBarOpen: f,
     })
@@ -123,7 +127,7 @@ export default class MuiTheme extends React.Component {
       const subState = {}
       subState[prop] = val
       this.setState(subState)
-      this.needComponentUpdate(componentName)
+      // this.needComponentUpdate(componentName)
       return val
     }
   }
@@ -142,6 +146,7 @@ export default class MuiTheme extends React.Component {
   }
 
   render() {
+    console.log('MuiTheme::render')
     const ThemesNameList = this.state.themesAppliedList
       .map((val, ind) => (val.themeName || `Theme ${ind + 1}`))
     const muiTheme = getMuiTheme(
@@ -149,44 +154,42 @@ export default class MuiTheme extends React.Component {
     )
 
     const isSideBarOpen = true // this.state.isSideBarOpen
-
     return (
-      <MuiThemeProvider muiTheme={muiTheme}>
-        <SplitPane
-          split="vertical"
-          // minSize={isSideBarOpen ? 200 : 0}
-          defaultSize={isSideBarOpen ? 450 : 0}
-          // primary="second"
-          pane1Style={{
-            margin: 20,
-            overflowX: 'hidden',
-            overflowY: 'auto',
-          }}
-          pane2Style={{
-            margin: 10,
-            padding: 10,
-            overflowY: 'auto',
-            //  width: isSideBarOpen ? 'auto' : 0
-          }}
-          resizerStyle={{ display: isSideBarOpen ? 'auto' : 'none' }}
-        >
-          <ThemeSideBar
-            shouldComponentUpdate
-            shouldShowData={this.state.isMount}
-            open
-            theme={this.state.themesAppliedList[this.state.themeInd]}
-            muiTheme={muiTheme}
-            themeName={ThemesNameList[this.state.themeInd]}
-            fullTheme={this.subState('ThemeSideBar', 'isFullTheme')}
-            collapseList={this.subState('ThemeSideBar', 'collapseList')}
-            themesOverrideList={this.subState('ThemeSideBar', 'currentThemeOverride')}
-            onThemeOverride={this.onThemeOverride()}
-          />
-          <div>
-            {this.props.story}
-          </div>
-        </SplitPane>
-      </MuiThemeProvider>
+
+      <SplitPane
+        split="vertical"
+        // minSize={isSideBarOpen ? 200 : 0}
+        defaultSize={isSideBarOpen ? 450 : 0}
+        // primary="second"
+        pane1Style={{
+          margin: '20px 20px 0px 20px',
+          overflowX: 'hidden',
+          overflowY: 'auto',
+        }}
+        pane2Style={{
+          margin: '10px 10px 0px 10px',
+          padding: 10,
+          overflowY: 'auto',
+          //  width: isSideBarOpen ? 'auto' : 0
+        }}
+        resizerStyle={{ display: isSideBarOpen ? 'auto' : 'none' }}>
+        <ThemeSideBar
+          shouldComponentUpdate
+          shouldShowData={this.state.isMount}
+          open
+          theme={this.state.themesAppliedList[this.state.themeInd]}
+          muiTheme={muiTheme}
+          themeName={ThemesNameList[this.state.themeInd]}
+          fullTheme={() => true}
+          //fullTheme={this.subState('ThemeSideBar', 'isFullTheme')}
+          collapseList={this.subState('ThemeSideBar', 'collapseList')}
+          themesOverrideList={this.subState('ThemeSideBar', 'currentThemeOverride')}
+          onThemeOverride={this.onThemeOverride()}
+        />
+        <MuiThemeProvider muiTheme={muiTheme}>
+          {this.props.story}
+        </MuiThemeProvider>
+      </SplitPane>
     )
   }
 }
