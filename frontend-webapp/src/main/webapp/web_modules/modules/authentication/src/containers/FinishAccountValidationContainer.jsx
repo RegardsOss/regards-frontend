@@ -68,7 +68,7 @@ const mapStatesToProps = (state) => {
 
 
 const mapDispatchToProps = dispatch => ({
-  fetchRequestAction: token => dispatch(ValidateAccountActions.sendFinishAccountUnlocking(token)),
+  fetchRequestAction: token => dispatch(ValidateAccountActions.sendValidationRequest(token)),
 })
 
 export default connect(mapStatesToProps, mapDispatchToProps)(FinishAccountValidationContainer)

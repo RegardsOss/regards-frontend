@@ -24,7 +24,9 @@
   },
   "testLocked@cnes.fr": {
     "password": "test",
-    "state": "LOCKED"
+    "state": "LOCKED",
+    "cdpp": "ACCESS_GRANTED",
+    "ssalto": "ACCESS_GRANTED"
   },
   "testUWaitingAccess@cnes.fr": {
     "password": "test",

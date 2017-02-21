@@ -18,7 +18,7 @@ const messages = Object.assign({
   'authentication.error.USER_WAITING_ACCESS': 'Votre demande d\'accès au projet est en cours de traitement. Vous recevrez un courriel en cas de changement',
   'authentication.error.USER_ACCESS_DENIED': 'Votre demande d\'accès au projet a été rejetée',
   'authentication.error.USER_ACCESS_INACTIVE': 'Vos droits d\'accès au projet sont désactivés, veuillez contacter l\'administrateur du projet',
-  'authentication.error.UNKNOWN_ERROR': 'An unknown error occurred',
+  'authentication.error.UNKNOWN_ERROR': 'Une erreur inconnue s\'est produite',
   'authentication.goto.reset.password': 'Mot de passe oublié?',
   'authentication.goto.ask.access': 'Nouvel utilisateur?',
   'authentication.goto.unlock.account': 'Compte bloqué?',
@@ -28,7 +28,7 @@ const messages = Object.assign({
   'account.request.form.back': 'RETOUR',
   'account.request.form.send': 'ENVOYER',
 
-  // request account password request form
+  // reset account password request form
   'ask.reset.password.form.message': 'Veuillez entrer votre adresse mail, un lien de ré-initialisation du mot de passe vous sera envoyé',
   'ask.reset.password.form.title': 'Ré-initialisation du mot de passe',
   'ask.reset.password.form.send.failed': '{status, plural, ' +
@@ -43,6 +43,7 @@ const messages = Object.assign({
   '=404 {L\'adresse e-mail saisie est inconnue.}' +
   'other {Une erreur inconnue s\'est produite (#)}}',
 
+  // ask project access form
   'ask.project.access.request.title': 'Demander un accès projet',
   'ask.project.access.request.message': 'Veuillez renseigner ci-dessous vos données personnelles pour obtenir un accès au projet ou renseigner l\'adresse email de votre compte REGARDS si vous en avez déjà un.',
   'ask.project.access.using.existing.account': 'J\'ai déjà un compte utilisateur REGARDS',
@@ -51,8 +52,13 @@ const messages = Object.assign({
   'ask.project.access.last.name': 'Nom',
   'ask.project.access.new.password': 'Mot de passe',
   'ask.project.access.confirm.password': 'Confirmation du mot de passe',
-  'ask.project.access.send': 'Créer',
+  'ask.project.access.send': 'Envoyer',
   'ask.project.access.form.back': 'Retour',
+  'ask.create.account.error.409': 'Cette adresse e-mail est déjà utilisée par un compte REGARDS existant',
+  'ask.create.account.error.unknown': 'Une erreur inconnue s\'est produite  ({status})',
+  'ask.create.user.error.404': 'Il n\'existe aucun compte REGARDS pour l\'adresse e-mail saisie',
+  'ask.create.user.error.409': 'Vous avez déjà demandé l\'accès à ce projet',
+  'ask.create.user.error.unknown': 'Une erreur inconnue s\'est produite  ({status})',
 
   // reset password operation
   'ask.reset.password.sent.title': 'Demande de ré-initialisation envoyée',
@@ -84,8 +90,6 @@ const messages = Object.assign({
   // Validating new account
   'new.acount.validating.title': 'Validation du compte',
   'new.acount.validating.message': 'Nous traitons la requête de validation du compte, veuillez patienter',
-
-  // New account validated
 
   // unlock account operation
   'ask.unlock.account.sent.title': 'Demande de dévérouillage envoyée',

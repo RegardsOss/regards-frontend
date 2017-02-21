@@ -4,6 +4,7 @@
 /**
  * @author Léo Mieulet
  */
+import { isEmpty } from 'lodash'
 import BasicActions from '../BasicActions'
 
 const { CALL_API, getJSON } = require('redux-api-middleware')
@@ -30,6 +31,13 @@ class BasicSignalActions extends BasicActions {
   sendSignal(verb, bodyParam, params, queryParams) {
     let endpoint = this.handleRequestQueryParams(this.entityEndpoint, queryParams)
     endpoint = this.handleRequestPathParameters(endpoint, params)
+    let body
+    if (!isEmpty(bodyParam)) {
+      if (verb === 'GET') {
+        throw new Error('There should be no body parameter on GET method')
+      }
+      body = JSON.stringify(bodyParam)
+    }
     return {
       [CALL_API]: {
         types: [
@@ -42,7 +50,7 @@ class BasicSignalActions extends BasicActions {
         ],
         endpoint,
         method: verb,
-        body: bodyParam ? JSON.stringify(bodyParam) : undefined,
+        body,
       },
     }
   }

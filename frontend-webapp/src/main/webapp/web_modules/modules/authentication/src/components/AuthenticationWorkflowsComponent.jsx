@@ -194,7 +194,8 @@ export default class AuthenticationStatesContainer extends React.Component {
             project={project}
             initialMail={currentMail}
             onBack={this.onGoto(viewStates.authenticationFormView, true)}
-            onDone={this.onGoto(viewStates.askUnlockAccountSentMessageView, true)}
+            onNewAccountDone={this.onGoto(viewStates.createAccountSentMessageView, true)}
+            onNewUserDone={this.onGoto(viewStates.askProjectAccessSentMessageView, true)}
           />)
       case viewStates.validateCreatedAccount:
         return (<FinishAccountValidationContainer
