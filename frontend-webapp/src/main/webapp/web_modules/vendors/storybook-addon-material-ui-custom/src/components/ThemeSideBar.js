@@ -89,10 +89,10 @@ export default class ThemeSideBar extends React.Component {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'stretch',
-
+          padding: '5px 25px 0px 10px',
         }}
       >
-        <div style={{ paddingLeft: 3, paddingBottom: 6 }} >
+        <div>
           <Paper style={{ paddingLeft: 16, paddingRight: 8, paddingTop: 8 }} >
             <h3
               style={{
@@ -278,10 +278,10 @@ function themesList(themeObj, _props, onSelect) {
     return null
   })
 
-  const scrollStyle = {
-    height: '100%',
-    overflowY: 'scroll',
-  }
+  // const scrollStyle = {
+  //   height: '100%',
+  //   overflowY: 'scroll',
+  // }
   return (
     <div
       className={`${CSS_CLASS}-theme_sidebar-tables`}
@@ -293,15 +293,8 @@ function themesList(themeObj, _props, onSelect) {
     >
       <div
         className={`${CSS_CLASS}-theme_sidebar-tables-scroll`}
-        style={scrollStyle}
       >
-        <div
-          style={{
-            paddingLeft: 3,
-            paddingRight: 12,
-
-          }}
-        >
+        <div>
           <div style={{ backgroundColor: 'rgba(128, 128, 128, 0.04)' }}>
             {paletteList}
             {tablesListObj}

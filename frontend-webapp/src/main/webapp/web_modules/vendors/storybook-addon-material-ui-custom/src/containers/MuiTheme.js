@@ -68,6 +68,7 @@ export default class MuiTheme extends React.Component {
   }
 
   onChannel(state) {
+    console.log('onChannel')
     this.needComponentUpdate('ThemeSideBar')
     this.isChannelData = true
     // fixme: onThemeOverride - to store theme
@@ -83,6 +84,7 @@ export default class MuiTheme extends React.Component {
   }
 
   onThemeOverride() {
+    console.log('onThemeOverride')
     const propsThemeOverFunc = this.props.onThemeOverride(this.state.themeInd)
     return (overTheme) => {
       const themesAppliedList = propsThemeOverFunc(overTheme)
@@ -157,14 +159,16 @@ export default class MuiTheme extends React.Component {
           // primary="second"
           pane1Style={{
             margin: 20,
-            //  overflowX: 'auto',
-            //  overflowY: 'auto',
+            overflowX: 'hidden',
+            overflowY: 'auto',
           }}
           pane2Style={{
-            margin: 20,
+            margin: 10,
+            padding: 10,
+            overflowY: 'auto',
             //  width: isSideBarOpen ? 'auto' : 0
           }}
-          // resizerStyle={{ display: isSideBarOpen ? 'auto' : 'none' }}
+          resizerStyle={{ display: isSideBarOpen ? 'auto' : 'none' }}
         >
           <ThemeSideBar
             shouldComponentUpdate
