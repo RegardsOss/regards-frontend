@@ -1,16 +1,9 @@
 import React from 'react'
-import Paper from 'material-ui/Paper'
-
-import SclToggle from '../material-desktop/SclToggle'
-import SvgButton from '../material-desktop/SvgButton'
-import IconCopy from 'material-ui/svg-icons/content/content-copy'
-import IconSwch from 'material-ui/svg-icons/image/switch-camera'
-
-
 import { CSS_CLASS } from '../'
 import ThemePropBlock from './ThemePropBlock'
 import { copyToClipboardThis } from '../Utils'
-
+import SelectField from 'material-ui/SelectField'
+import MenuItem from 'material-ui/MenuItem'
 const BAR_WIDTH = 400
 
 const propTypes = {
@@ -22,6 +15,7 @@ const propTypes = {
   collapseList: React.PropTypes.func.isRequired,
   shouldComponentUpdate: React.PropTypes.bool.isRequired,
   shouldShowData: React.PropTypes.bool.isRequired,
+  specificProp: React.PropTypes.string,
 }
 
 export default class ThemeSideBar extends React.Component {
@@ -32,6 +26,7 @@ export default class ThemeSideBar extends React.Component {
       selectedProp: '',
       selectedVal: '',
       isSelectedStyleObj: true,
+      specificProperty: 'palette'
     }
 
     this.clipString = this.clipString.bind(this)
@@ -41,7 +36,7 @@ export default class ThemeSideBar extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-        // fixme shouldComponentUpdate - remove
+    // fixme shouldComponentUpdate - remove
     return nextProps.shouldComponentUpdate
   }
 
@@ -70,17 +65,93 @@ export default class ThemeSideBar extends React.Component {
     return prop ? strVal : strTbl
   }
 
+  themesList = (themeObj, _props, onSelect) => {
+    const onThemeTableOverride = tableName => (propName, value) => {
+      const overTheme = {}
+      if (tableName === 'miscellaneous') {
+        overTheme[propName] = value
+        _props.onThemeOverride(overTheme)
+        return
+      }
+      overTheme[tableName] = {}
+      overTheme[tableName][propName] = value
+      _props.onThemeOverride(overTheme)
+    }
+
+    const themePropTable = (tableName, table) => (
+      <ThemePropBlock
+        key={tableName}
+        settingsObj={table}
+        settingsName={tableName}
+        //open={forTable(tableName, _props.collapseList)}
+        open={() => true}
+        override={forTable(tableName, _props.themesOverrideList)}
+        onThemeTableOverride={onThemeTableOverride(tableName)}
+        onSelect={onSelect}
+        hideBlockHeader
+      />
+    )
+
+    const keyList = Object.keys(themeObj)
+
+    const strList = {}
+    keyList.forEach((val) => {
+      if (typeof (themeObj[val]) === 'string') {
+        strList[val] = themeObj[val]
+      }
+    })
+
+    // const strListNode = themePropTable('miscellaneous', strList)
+    const paletteList = themeObj.palette ? themePropTable('palette', themeObj.palette)
+      : <div> {'No palette here'} </div>
+
+    const { specificProperty } = this.state
+    const specificPropertyBlock = themePropTable(specificProperty, themeObj[specificProperty])
+
+    const tablesListObj = keyList.map((val) => {
+      if (typeof (themeObj[val]) === 'object' && val !== 'palette') {
+        return (themePropTable(val, themeObj[val])
+        )
+      }
+      return null
+    })
+
+    const scrollStyle = {
+      height: '100%',
+      overflowY: 'auto',
+    }
+    return (
+      <div
+        className={`${CSS_CLASS}-theme_sidebar-tables`}
+        style={{
+          // height: 100,
+          flexGrow: 1,
+          flexShrink: 1,
+        }}
+      >
+        <div
+          className={`${CSS_CLASS}-theme_sidebar-tables-scroll`}
+          style={scrollStyle}
+        >
+          <div
+            style={{
+              paddingLeft: 3,
+              paddingRight: 12,
+
+            }}
+          >
+            <div>
+              {specificPropertyBlock}
+              <div style={{ height: 16 }}/>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   renderContent() {
     const { palette } = this.context.muiTheme
-    const styleHR = { borderBottom: `solid ${palette.borderColor} 1px` }
-    const blockStyle = {
-      width: 21,
-      height: 21,
-      marginLeft: 4,
-      border: `solid 1px ${palette.borderColor}`,
-      backgroundColor: 'rgba(0, 0, 0, 0)',
-      cursor: 'pointer',
-    }
     return (
       <div
         className={`${CSS_CLASS}-theme_sidebar-content`}
@@ -93,23 +164,32 @@ export default class ThemeSideBar extends React.Component {
         }}
       >
         {this.props.shouldShowData ?
-                  themesList(
-                    this.props.fullTheme() ? this.props.muiTheme : this.props.theme,
-                    this.props, this.onSelect,
-                  )
-               : null}
+          this.themesList(
+            this.props.fullTheme() ? this.props.muiTheme : this.props.theme,
+            this.props, this.onSelect,
+          )
+          : null}
       </div>
     )
   }
 
+  handleChange = (event, index, value) => this.setState({specificProperty: value})
+
   render() {
-//        const barWidth = this.props.open ? BAR_WIDTH : 0; // fixme BAR_WIDTH
+    const { muiTheme } = this.props
+    const keyList = Object.keys(muiTheme)
 
     return (
-      <div
-        className={`${CSS_CLASS}-theme_sidebar`}
-        style={{ width: '100%', height: '100%' }}
-      >
+      <div className={`${CSS_CLASS}-theme_sidebar`}>
+        <SelectField
+          floatingLabelText="Component"
+          value={this.state.specificProperty}
+          onChange={this.handleChange}
+        >
+          {keyList.map(key => (
+            <MenuItem value={key} primaryText={key}/>
+          ))}
+        </SelectField>
         {this.props.open ? this.renderContent() : null}
       </div>
     )
@@ -136,85 +216,3 @@ function forTable(tableTame, objListFunc) {
   }
 }
 
-function themesList(themeObj, _props, onSelect) {
-  const onThemeTableOverride = tableName => (propName, value) => {
-    const overTheme = {}
-    if (tableName === 'miscellaneous') {
-      overTheme[propName] = value
-      _props.onThemeOverride(overTheme)
-      return
-    }
-    overTheme[tableName] = {}
-    overTheme[tableName][propName] = value
-    _props.onThemeOverride(overTheme)
-  }
-
-  const themePropTable = (tableName, table) => (
-    <ThemePropBlock
-      key={tableName}
-      settingsObj={table}
-      settingsName={tableName}
-      open={forTable(tableName, _props.collapseList)}
-      override={forTable(tableName, _props.themesOverrideList)}
-      onThemeTableOverride={onThemeTableOverride(tableName)}
-      onSelect={onSelect}
-    />
-    )
-
-
-  const keyList = Object.keys(themeObj)
-
-  const strList = {}
-  keyList.forEach((val) => {
-    if (typeof (themeObj[val]) === 'string') {
-      strList[val] = themeObj[val]
-    }
-  })
-
-  const strListNode = themePropTable('miscellaneous', strList)
-  const paletteList = themeObj.palette ? themePropTable('palette', themeObj.palette)
-             : <div> {'No palette here'} </div>
-
-  const tablesListObj = keyList.map((val) => {
-    if (typeof (themeObj[val]) === 'object' && val !== 'palette') {
-      return (themePropTable(val, themeObj[val])
-      )
-    }
-    return null
-  })
-
-  const scrollStyle = {
-    height: '100%',
-    overflowY: 'scroll',
-  }
-  return (
-    <div
-      className={`${CSS_CLASS}-theme_sidebar-tables`}
-      style={{
-            // height: 100,
-        flexGrow: 1,
-        flexShrink: 1,
-      }}
-    >
-      <div
-        className={`${CSS_CLASS}-theme_sidebar-tables-scroll`}
-        style={scrollStyle}
-      >
-        <div
-          style={{
-            paddingLeft: 3,
-            paddingRight: 12,
-
-          }}
-        >
-          <div style={{ backgroundColor: 'rgba(128, 128, 128, 0.04)' }}>
-            {paletteList}
-            {tablesListObj}
-            {strListNode}
-            <div style={{ height: 16 }} />
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-}

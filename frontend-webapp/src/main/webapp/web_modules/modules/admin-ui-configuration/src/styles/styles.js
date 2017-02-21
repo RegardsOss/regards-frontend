@@ -63,7 +63,7 @@ const formStyles = theme => ({
     },
     contentWrapper: {
       position: 'relative',
-      height: 600,
+      height: 700,
       overflowY: 'auto',
     }
   }

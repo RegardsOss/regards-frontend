@@ -15,6 +15,7 @@ const propTypes = {
   settingsName: React.PropTypes.string.isRequired,
   open: React.PropTypes.func.isRequired,
   onThemeTableOverride: React.PropTypes.func.isRequired,
+  hideBlockHeader: React.PropTypes.bool,
 }
 
 const contextTypes = {
@@ -22,6 +23,11 @@ const contextTypes = {
 }
 
 export default class ThemePropBlock extends React.Component {
+
+  static defaultProps = {
+    hideBlockHeader: false,
+  }
+
   constructor(props, ...args) {
     super(props, ...args)
     this.state = {
@@ -106,7 +112,7 @@ export default class ThemePropBlock extends React.Component {
 
   render() {
     console.log('ThemePropBlock::render')
-    const { settingsName, open } = this.props
+    const { settingsName, open, hideBlockHeader } = this.props
     const onSelect = this.onSelect
     const openThis = (f) => {
       if (typeof (f) === 'undefined') return open()
@@ -124,13 +130,7 @@ export default class ThemePropBlock extends React.Component {
           marginTop: 8,
         }}
       >
-        <BlockHeader
-          {...{
-            settingsName,
-            openThis,
-            onSelect,
-          }}
-        />
+        {!hideBlockHeader ? <BlockHeader {...{settingsName,openThis,onSelect}} /> : null}
         {this.renderColl()}
       </Paper>
     )
