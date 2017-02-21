@@ -139,13 +139,18 @@ const runServer = () => {
   // const accessMicroServiceRewriter = jsonServer.rewriter('mocks/rs-access.rewriter.json')
   // const accessMicroServiceRewriter = jsonServer.rewriter('mocks/rs-access.rewriter.json')
   const accessMicroServiceRouter = jsonServer.router('mocks/json/runtime/rs-access.temp.json')
+  const accessMicroServiceSignalRouter = jsonServer.router('mocks/json/runtime/rs-access-signal.temp.json')
   const adminMicroServiceRouter = jsonServer.router('mocks/json/runtime/rs-admin.temp.json')
+  const adminMicroServiceSignalRouter = jsonServer.router('mocks/json/runtime/rs-admin-signal.temp.json')
   const archivalStoragePluginsMonitoringRouter = jsonServer.router('mocks/json/runtime/rs-archival-storage.temp.json')
   const catalogMicroServiceRouter = jsonServer.router('mocks/json/runtime/rs-catalog.temp.json')
+  const cloudMicroServiceSignalRouter = jsonServer.router('mocks/json/runtime/rs-cloud-signal.temp.json')
   const damMicroServiceRouter = jsonServer.router('mocks/json/runtime/rs-dam.temp.json')
   const damMicroServiceRouterList = jsonServer.router('mocks/json/runtime/rs-dam-list.temp.json')
   const damMicroServiceRouterArray = jsonServer.router('mocks/json/runtime/rs-dam-array.temp.json')
+  const damMicroServiceSignalRouter = jsonServer.router('mocks/json/runtime/rs-dam-signal.temp.json')
   const gatewayMicroServiceRouter = jsonServer.router('mocks/json/runtime/rs-gateway.temp.json')
+  const gatewayMicroServiceSignalRouter = jsonServer.router('mocks/json/runtime/rs-gateway-signal.temp.json')
 
   accessMicroServiceRouter.render = PageMiddleWare
   adminMicroServiceRouter.render = RenderMiddleWare
@@ -172,6 +177,21 @@ const runServer = () => {
   server.use(jsonServer.rewriter({
     '/api/v1/rs-access/applications/:application_id/modules/:module_id': '/api/v1/rs-access/modules/:module_id',
     '/api/v1/rs-access/plugins/:type': '/api/v1/rs-access/plugins?type=:type',
+    '/api/v1/rs-access/maintenances': '/api/v1/rs-access-signal/maintenances',
+    '/api/v1/rs-access/maintenances/:project/activate': '/api/v1/rs-access-signal/activate',
+    '/api/v1/rs-access/maintenances/:project/desactivate': '/api/v1/rs-access-signal/desactivate',
+    '/api/v1/rs-admin/maintenances': '/api/v1/rs-admin-signal/maintenances',
+    '/api/v1/rs-admin/maintenances/:project/activate': '/api/v1/rs-admin-signal/activate',
+    '/api/v1/rs-admin/maintenances/:project/desactivate': '/api/v1/rs-admin-signal/desactivate',
+    '/api/v1/rs-cloud/maintenances': '/api/v1/rs-cloud-signal/maintenances',
+    '/api/v1/rs-cloud/maintenances/:project/activate': '/api/v1/rs-cloud-signal/activate',
+    '/api/v1/rs-cloud/maintenances/:project/desactivate': '/api/v1/rs-cloud-signal/desactivate',
+    '/api/v1/rs-dam/maintenances': '/api/v1/rs-dam-signal/maintenances',
+    '/api/v1/rs-dam/maintenances/:project/activate': '/api/v1/rs-dam-signal/activate',
+    '/api/v1/rs-dam/maintenances/:project/desactivate': '/api/v1/rs-dam-signal/desactivate',
+    '/api/v1/rs-gateway/maintenances': '/api/v1/rs-gateway-signal/maintenances',
+    '/api/v1/rs-gateway/maintenances/:project/activate': '/api/v1/rs-gateway-signal/activate',
+    '/api/v1/rs-gateway/maintenances/:project/desactivate': '/api/v1/rs-gateway-signal/desactivate',
     '/api/v1/rs-dam/plugins/:pluginId/config': '/api/v1/rs-dam/configurations?pluginId=:pluginId',
     '/api/v1/rs-dam/plugins/:pluginId/config/:pluginConfigurationId': '/api/v1/rs-dam/configurations/:pluginConfigurationId',
     '/api/v1/rs-dam/plugins/configs': '/api/v1/rs-dam/configurations',
@@ -187,13 +207,18 @@ const runServer = () => {
 
   // server.use('/api/v1/rs-gateway/', gatewayMicroServiceRouter)
   server.use('/api/v1/rs-access/', accessMicroServiceRouter)
+  server.use('/api/v1/rs-access-signal/', accessMicroServiceSignalRouter)
   server.use('/api/v1/rs-admin/', adminMicroServiceRouter)
+  server.use('/api/v1/rs-admin-signal/', adminMicroServiceSignalRouter)
   server.use('/api/v1/rs-catalog/', catalogMicroServiceRouter)
+  server.use('/api/v1/rs-cloud-signal/', cloudMicroServiceSignalRouter)
   server.use('/api/v1/rs-dam/', damMicroServiceRouter)
   server.use('/api/v1/rs-dam-list/', damMicroServiceRouterList)
   server.use('/api/v1/rs-dam-array/', damMicroServiceRouterArray)
+  server.use('/api/v1/rs-dam-signal/', damMicroServiceSignalRouter)
   server.use('/api/v1/rs-archival-storage', archivalStoragePluginsMonitoringRouter)
   // server.use('/api/v1/rs-gateway/', gatewayMicroServiceRouter)
+  server.use('/api/v1/rs-gateway-signal/', gatewayMicroServiceSignalRouter)
   server.use(gatewayMicroServiceRouter)
 
   server.listen(serverPort, () => {
@@ -204,14 +229,24 @@ const runServer = () => {
 /**
  * Copy mock json database to temp file for trash use during mock usage
  */
-fs.copy('./mocks/json/resources/rs-admin.json', 'mocks/json/runtime/rs-admin.temp.json', () => {
-  fs.copy('./mocks/json/resources/rs-dam.json', 'mocks/json/runtime/rs-dam.temp.json', () => {
-    fs.copy('./mocks/json/resources/rs-catalog.json', 'mocks/json/runtime/rs-catalog.temp.json', () => {
-      fs.copy('./mocks/json/resources/rs-access.json', 'mocks/json/runtime/rs-access.temp.json', () => {
-        fs.copy('./mocks/json/resources/rs-archival-storage.json', 'mocks/json/runtime/rs-archival-storage.temp.json', () => {
-          fs.copy('./mocks/json/resources/rs-gateway.json', 'mocks/json/runtime/rs-gateway.temp.json', () => {
-            fs.copy('./mocks/json/resources/rs-dam-list.json', 'mocks/json/runtime/rs-dam-list.temp.json', () => {
-              fs.copy('./mocks/json/resources/rs-dam-array.json', 'mocks/json/runtime/rs-dam-array.temp.json', runServer)
+fs.copy('./mocks/json/resources/rs-access-signal.json', 'mocks/json/runtime/rs-access-signal.temp.json', () => {
+  fs.copy('./mocks/json/resources/rs-admin-signal.json', 'mocks/json/runtime/rs-admin-signal.temp.json', () => {
+    fs.copy('./mocks/json/resources/rs-cloud-signal.json', 'mocks/json/runtime/rs-cloud-signal.temp.json', () => {
+      fs.copy('./mocks/json/resources/rs-dam-signal.json', 'mocks/json/runtime/rs-dam-signal.temp.json', () => {
+        fs.copy('./mocks/json/resources/rs-gateway-signal.json', 'mocks/json/runtime/rs-gateway-signal.temp.json', () => {
+          fs.copy('./mocks/json/resources/rs-admin.json', 'mocks/json/runtime/rs-admin.temp.json', () => {
+            fs.copy('./mocks/json/resources/rs-dam.json', 'mocks/json/runtime/rs-dam.temp.json', () => {
+              fs.copy('./mocks/json/resources/rs-catalog.json', 'mocks/json/runtime/rs-catalog.temp.json', () => {
+                fs.copy('./mocks/json/resources/rs-access.json', 'mocks/json/runtime/rs-access.temp.json', () => {
+                  fs.copy('./mocks/json/resources/rs-archival-storage.json', 'mocks/json/runtime/rs-archival-storage.temp.json', () => {
+                    fs.copy('./mocks/json/resources/rs-gateway.json', 'mocks/json/runtime/rs-gateway.temp.json', () => {
+                      fs.copy('./mocks/json/resources/rs-dam-list.json', 'mocks/json/runtime/rs-dam-list.temp.json', () => {
+                        fs.copy('./mocks/json/resources/rs-dam-array.json', 'mocks/json/runtime/rs-dam-array.temp.json', runServer)
+                      })
+                    })
+                  })
+                })
+              })
             })
           })
         })
@@ -219,4 +254,3 @@ fs.copy('./mocks/json/resources/rs-admin.json', 'mocks/json/runtime/rs-admin.tem
     })
   })
 })
-
