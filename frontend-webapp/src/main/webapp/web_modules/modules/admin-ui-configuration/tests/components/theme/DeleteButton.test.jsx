@@ -2,8 +2,8 @@ import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import sinon from 'sinon'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
-import DeleteButton from '../../../src/components/theme/DeleteButton'
 import IconButton from 'material-ui/IconButton'
+import DeleteButton from '../../../src/components/theme/DeleteButton'
 
 describe('[ADMIN UI MANAGEMENT] Testing delete button component', () => {
   it('should exists', () => {

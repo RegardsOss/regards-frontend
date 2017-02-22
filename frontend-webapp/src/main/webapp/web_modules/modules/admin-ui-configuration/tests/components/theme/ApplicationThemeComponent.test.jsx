@@ -17,31 +17,31 @@ describe('[ADMIN UI MANAGEMENT] Testing application theme component', () => {
       themeList: {
         1: {
           content: {
-            "id": 1,
-            "name": "Light",
-            "active": true,
-            "configuration": {}
+            id: 1,
+            name: 'Light',
+            active: true,
+            configuration: {},
           },
         },
         2: {
           content: {
-            "id": 2,
-            "name": "Dark",
-            "active": false,
-            "configuration": {
-              "palette": {
-                "primary1Color": "#a7000b",
-              }
-            }
+            id: 2,
+            name: 'Dark',
+            active: false,
+            configuration: {
+              palette: {
+                primary1Color: '#a7000b',
+              },
+            },
           },
         },
       },
       currentTheme: {
         content: {
-          "id": 1,
-          "name": "Light",
-          "active": true,
-          "configuration": {}
+          id: 1,
+          name: 'Light',
+          active: true,
+          configuration: {},
         },
         isFetching: false,
         onAdd: sinon.spy(),

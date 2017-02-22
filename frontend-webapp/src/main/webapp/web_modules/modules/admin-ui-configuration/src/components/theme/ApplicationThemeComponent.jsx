@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { map, find, isEmpty, isUndefined, stubTrue } from 'lodash'
+import { map, find, isEmpty, stubTrue } from 'lodash'
 import IconButton from 'material-ui/IconButton'
 import Close from 'material-ui/svg-icons/navigation/close'
 import Save from 'material-ui/svg-icons/content/save'
@@ -11,12 +11,12 @@ import DropDownMenu from 'material-ui/DropDownMenu'
 import Paper from 'material-ui/Paper'
 import Snackbar from 'material-ui/Snackbar'
 import { FormattedMessage } from 'react-intl'
-import MaterialUiComponentsShowcase from '../MaterialUiComponentsShowcase'
 import { ShowableAtRender } from '@regardsoss/components'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { ThemeList, defaultTheme } from '@regardsoss/model'
+import { ThemeList, Theme, defaultTheme } from '@regardsoss/model'
 import { themeContextType } from '@regardsoss/theme'
 import { muiTheme } from '@regardsoss/vendors'
+import MaterialUiComponentsShowcase from '../MaterialUiComponentsShowcase'
 import DeleteButton from './DeleteButton'
 import CreateButton from './CreateButton'
 import moduleStyles from '../../styles/styles'
@@ -30,9 +30,9 @@ class ApplicationThemeComponent extends React.Component {
 
   static propTypes = {
     themeList: ThemeList,
-    currentTheme: React.PropTypes.object,
+    currentTheme: Theme,
     isFetching: React.PropTypes.bool,
-    onAdd: React.PropTypes.func,
+    onCreate: React.PropTypes.func,
     onClose: React.PropTypes.func,
     onSave: React.PropTypes.func,
     onDelete: React.PropTypes.func,
@@ -66,31 +66,31 @@ class ApplicationThemeComponent extends React.Component {
     })
   }
 
-  handleSnackbarRequestClose = () => {
-    this.setState({
-      snackBarOpen: false,
-    })
-  }
-
-  handleSnackbarActionTouchTap = () => {
-    this.setState({
-      snackBarOpen: false,
-    })
-  }
-
   onSave = (theme) => {
     const { onSave } = this.props
     onSave(theme).then(actionResult => this.setState({
       snackBarOpen: true,
-      snackBarMessageId: !actionResult.error ? 'application.theme.save.success' : 'application.theme.save.error'
+      snackBarMessageId: !actionResult.error ? 'application.theme.save.success' : 'application.theme.save.error',
     }))
+  }
+
+  onSnackbarRequestClose = () => {
+    this.setState({
+      snackBarOpen: false,
+    })
+  }
+
+  onSnackbarActionTouchTap = () => {
+    this.setState({
+      snackBarOpen: false,
+    })
   }
 
   onDelete = (theme) => {
     const { onDelete } = this.props
     onDelete(theme).then(actionResult => this.setState({
       snackBarOpen: true,
-      snackBarMessageId: !actionResult.error ? 'application.theme.remove.success' : 'application.theme.remove.error'
+      snackBarMessageId: !actionResult.error ? 'application.theme.remove.success' : 'application.theme.remove.error',
     }))
   }
 
@@ -98,11 +98,11 @@ class ApplicationThemeComponent extends React.Component {
     const { onCreate } = this.props
     const { editingTheme } = this.state
 
-    onCreate(theme).then(actionResult => {
+    onCreate(theme).then((actionResult) => {
       this.setState({
         editingTheme: !actionResult.error ? find(actionResult.payload.entities.theme, stubTrue) : editingTheme,
         snackBarOpen: true,
-        snackBarMessageId: !actionResult.error ? 'application.theme.create.success' : 'application.theme.create.error'
+        snackBarMessageId: !actionResult.error ? 'application.theme.create.success' : 'application.theme.create.error',
       })
     })
   }
@@ -114,18 +114,18 @@ class ApplicationThemeComponent extends React.Component {
     const previewWrapper = <MaterialUiComponentsShowcase />
     const style = moduleStyles(this.context.muiTheme).theme
 
-    let themeForDecorator = editingTheme.content.configuration
+    const themeForDecorator = editingTheme.content.configuration
     themeForDecorator.themeName = editingTheme.content.name
     const themeConfigurer = muiTheme(themeForDecorator, this.onThemeOverride)(() => (previewWrapper))
 
     const saveButton = (
       <IconButton
         onTouchTap={() => this.onSave(editingTheme)}
-        tooltip={<FormattedMessage id="application.theme.save"/>}
-      ><Save color={style.toolbar.icon.color}/></IconButton>
+        tooltip={<FormattedMessage id="application.theme.save" />}
+      ><Save color={style.toolbar.icon.color} /></IconButton>
     )
-    const deleteButton = <DeleteButton onDelete={() => this.onDelete(editingTheme)}/>
-    const createButton = <CreateButton onCreate={this.onCreate}/>
+    const deleteButton = <DeleteButton onDelete={() => this.onDelete(editingTheme)} />
+    const createButton = <CreateButton onCreate={this.onCreate} />
 
     const themeSelect = (
       <DropDownMenu
@@ -135,7 +135,7 @@ class ApplicationThemeComponent extends React.Component {
         labelStyle={style.toolbar.themeDropDownMenu.labelStyle}
       >
         {map(themeList, theme => (
-          <MenuItem key={theme.content.id} value={theme.content.id} primaryText={theme.content.name}/>
+          <MenuItem key={theme.content.id} value={theme.content.id} primaryText={theme.content.name} />
         ))}
       </DropDownMenu>
     )
@@ -146,8 +146,8 @@ class ApplicationThemeComponent extends React.Component {
         <ShowableAtRender show={!isThemeListEmpty}>
           <Toolbar style={style.toolbar.root}>
             <ToolbarGroup firstChild>
-              <IconButton onTouchTap={onClose}><Close color={style.toolbar.icon.color}/></IconButton>
-              <ToolbarTitle text={<FormattedMessage id="application.theme.title"/>}/>
+              <IconButton onTouchTap={onClose}><Close color={style.toolbar.icon.color} /></IconButton>
+              <ToolbarTitle text={<FormattedMessage id="application.theme.title" />} />
               {themeSelect}
             </ToolbarGroup>
             <ToolbarGroup lastChild>
@@ -161,8 +161,8 @@ class ApplicationThemeComponent extends React.Component {
         <ShowableAtRender show={isThemeListEmpty}>
           <Toolbar style={style.toolbar.root}>
             <ToolbarGroup firstChild>
-              <IconButton onTouchTap={onClose}><Close color={style.toolbar.icon.color}/></IconButton>
-              <ToolbarTitle text={<FormattedMessage id="application.theme.title"/>}/>
+              <IconButton onTouchTap={onClose}><Close color={style.toolbar.icon.color} /></IconButton>
+              <ToolbarTitle text={<FormattedMessage id="application.theme.title" />} />
             </ToolbarGroup>
             <ToolbarGroup lastChild>
               {createButton}
@@ -178,10 +178,10 @@ class ApplicationThemeComponent extends React.Component {
 
         <Snackbar
           open={snackBarOpen}
-          message={<FormattedMessage id={snackBarMessageId}/>}
+          message={<FormattedMessage id={snackBarMessageId} />}
           autoHideDuration={4000}
-          onRequestClose={this.handleSnackbarRequestClose}
-          onActionTouchTap={this.handleSnackbarActionTouchTap}
+          onRequestClose={this.onSnackbarRequestClose}
+          onActionTouchTap={this.onSnackbarActionTouchTap}
           action="OK"
         />
       </Paper>

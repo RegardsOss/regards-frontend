@@ -78,7 +78,7 @@ const formStyles = theme => ({
         justifyContent: 'flex-end',
       },
     },
-  }
+  },
 })
 
 export default formStyles

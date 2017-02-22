@@ -12,7 +12,7 @@ class ThemeSelectors extends BasicPageableSelectors {
   getById(state, id) {
     try {
       return this.uncombineStore(state).items[id]
-    } catch(e) {
+    } catch (e) {
       return defaultTheme
     }
   }

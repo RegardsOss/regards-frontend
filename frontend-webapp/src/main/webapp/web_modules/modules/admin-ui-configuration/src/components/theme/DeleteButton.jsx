@@ -7,7 +7,6 @@ import FlatButton from 'material-ui/FlatButton'
 import Delete from 'material-ui/svg-icons/action/delete'
 import { FormattedMessage } from 'react-intl'
 import { themeContextType } from '@regardsoss/theme'
-import { muiTheme } from '@regardsoss/vendors'
 import moduleStyles from '../../styles/styles'
 
 /**
@@ -30,11 +29,11 @@ class DeleteButton extends React.Component {
   }
 
   handleOpen = () => {
-    this.setState({open: true})
+    this.setState({ open: true })
   }
 
   handleClose = () => {
-    this.setState({open: false})
+    this.setState({ open: false })
   }
 
   handleDiscard = () => {
@@ -47,13 +46,13 @@ class DeleteButton extends React.Component {
 
     const actions = [
       <FlatButton
-        label={<FormattedMessage id="application.theme.remove.confirm.cancel"/>}
-        secondary={true}
+        label={<FormattedMessage id="application.theme.remove.confirm.cancel" />}
+        secondary
         onTouchTap={this.handleClose}
       />,
       <FlatButton
-        label={<FormattedMessage id="application.theme.remove.confirm.remove"/>}
-        primary={true}
+        label={<FormattedMessage id="application.theme.remove.confirm.remove" />}
+        primary
         onTouchTap={this.handleDiscard}
       />,
     ]
@@ -62,16 +61,16 @@ class DeleteButton extends React.Component {
       <div>
         <IconButton
           onTouchTap={this.handleOpen}
-          tooltip={<FormattedMessage id="application.theme.remove.tooltip"/>}
-        ><Delete color={style.toolbar.icon.color}/></IconButton>
+          tooltip={<FormattedMessage id="application.theme.remove.tooltip" />}
+        ><Delete color={style.toolbar.icon.color} /></IconButton>
         <Dialog
           actions={actions}
           modal={false}
           open={this.state.open}
           onRequestClose={this.handleClose}
-          contentStyle={{width:'auto'}}
+          contentStyle={{ width: 'auto' }}
         >
-          <FormattedMessage id="application.theme.remove.confirm"/>
+          <FormattedMessage id="application.theme.remove.confirm" />
         </Dialog>
       </div>
     )

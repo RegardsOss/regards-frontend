@@ -2,13 +2,12 @@
  * LICENSE_PLACEHOLDER
  **/
 import { FormattedMessage } from 'react-intl'
-import { Toggle } from 'redux-form-material-ui'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
 import { RenderTextField, Field, ValidationHelpers, reduxForm } from '@regardsoss/form-utils'
+import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import moduleStyles from '../../styles/styles'
-import { i18nContextType } from '@regardsoss/i18n'
 
 const { validRequiredString } = ValidationHelpers
 
@@ -37,7 +36,7 @@ export class ThemeCreateComponent extends React.Component {
 
   onSubmit = (values) => {
     const { onSubmit, onRequestClose, reset } = this.props
-    Promise.resolve(onSubmit(values)).then(actionResult => {
+    Promise.resolve(onSubmit(values)).then((actionResult) => {
       if (!actionResult.error) {
         onRequestClose()
         reset()
@@ -58,16 +57,16 @@ export class ThemeCreateComponent extends React.Component {
     const actions = (
       <div style={styles.form.actionsWrapper}>
         <FlatButton
-          label={<FormattedMessage id="application.theme.create.form.cancel"/>}
-          primary={true}
+          label={<FormattedMessage id="application.theme.create.form.cancel" />}
+          primary
           onTouchTap={onRequestClose}
         />
         <FlatButton
           type="submit"
           disabled={submitting || invalid}
-          label={<FormattedMessage id="application.theme.create.form.submit"/>}
-          primary={true}
-          keyboardFocused={true}
+          label={<FormattedMessage id="application.theme.create.form.submit" />}
+          primary
+          keyboardFocused
         />
       </div>
     )
@@ -85,15 +84,15 @@ export class ThemeCreateComponent extends React.Component {
             component={RenderTextField}
             type="text"
             validate={validRequiredString}
-            label={<FormattedMessage id="application.theme.create.form.name"/>}
+            label={<FormattedMessage id="application.theme.create.form.name" />}
           />
-          {/*<Field*/}
-            {/*name="active"*/}
-            {/*component={Toggle}*/}
-            {/*type="boolean"*/}
-            {/*style={styles.form.toggle}*/}
-            {/*label={<FormattedMessage id="application.theme.create.form.active"/>}*/}
-          {/*/>*/}
+          {/* <Field*/}
+          {/* name="active"*/}
+          {/* component={Toggle}*/}
+          {/* type="boolean"*/}
+          {/* style={styles.form.toggle}*/}
+          {/* label={<FormattedMessage id="application.theme.create.form.active"/>}*/}
+          {/* />*/}
           {actions}
         </form>
       </Dialog>
@@ -107,6 +106,6 @@ export default reduxForm({
     name: '',
     active: false,
     configuration: {},
-  }
+  },
 })(ThemeCreateComponent)
 

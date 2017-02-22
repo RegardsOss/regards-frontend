@@ -5,7 +5,6 @@ import IconButton from 'material-ui/IconButton'
 import AddCircle from 'material-ui/svg-icons/content/add-circle'
 import { FormattedMessage } from 'react-intl'
 import { themeContextType } from '@regardsoss/theme'
-import { muiTheme } from '@regardsoss/vendors'
 import ThemeCreateComponent from './ThemeCreateComponent'
 import moduleStyles from '../../styles/styles'
 
@@ -45,8 +44,8 @@ class CreateButton extends React.Component {
       <div>
         <IconButton
           onTouchTap={this.onOpen}
-          tooltip={<FormattedMessage id="application.theme.create.tooltip"/>}
-        ><AddCircle color={style.toolbar.icon.color}/></IconButton>
+          tooltip={<FormattedMessage id="application.theme.create.tooltip" />}
+        ><AddCircle color={style.toolbar.icon.color} /></IconButton>
         <ThemeCreateComponent
           open={open}
           onRequestClose={this.onClose}

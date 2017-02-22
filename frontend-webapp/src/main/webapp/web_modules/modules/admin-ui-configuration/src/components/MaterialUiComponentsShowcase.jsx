@@ -3,7 +3,7 @@ import muiThemeable from 'material-ui/styles/muiThemeable'
 import withWidth from 'material-ui/utils/withWidth'
 import typography from 'material-ui/styles/typography'
 import ClearFix from 'material-ui/internal/ClearFix'
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card'
+import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card'
 import {
   Checkbox,
   DatePicker,
@@ -68,7 +68,7 @@ function getStyles() {
       color: typography.textDarkBlack,
     },
     liveExamplePaper: {
-      //marginBottom: 32,
+      // marginBottom: 32,
       overflow: 'hidden',
     },
     bottomBorderWrapper: {
@@ -191,8 +191,8 @@ class ThemesPage extends React.Component {
               title="URL Avatar"
               subtitle="Subtitle"
               avatar={rocket}
-              actAsExpander={true}
-              showExpandableButton={true}
+              actAsExpander
+              showExpandableButton
             />
             <CardText>
               <Toggle
@@ -203,13 +203,13 @@ class ThemesPage extends React.Component {
               />
             </CardText>
             <CardMedia
-              expandable={true}
+              expandable
               overlay={<CardTitle title="Overlay title" subtitle="Overlay subtitle" />}
             >
-              <img src={rocket} />
+              <img src={rocket} alt="A rocket illustration" />
             </CardMedia>
-            <CardTitle title="Card title" subtitle="Card subtitle" expandable={true} />
-            <CardText expandable={true}>
+            <CardTitle title="Card title" subtitle="Card subtitle" expandable />
+            <CardText expandable>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit.
               Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
               Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.

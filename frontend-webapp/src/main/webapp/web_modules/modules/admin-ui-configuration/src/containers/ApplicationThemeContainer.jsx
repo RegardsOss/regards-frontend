@@ -1,10 +1,9 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { FormattedMessage } from 'react-intl'
 import { browserHistory } from 'react-router'
-import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
-import { ThemeList, defaultTheme } from '@regardsoss/model'
+import { I18nProvider } from '@regardsoss/i18n'
+import { ThemeList, Theme, defaultTheme } from '@regardsoss/model'
 import { connect } from '@regardsoss/redux'
 import { ThemeActions, ThemeSelectors, getCurrentTheme } from '@regardsoss/theme'
 import ApplicationThemeComponent from '../components/theme/ApplicationThemeComponent'
@@ -23,7 +22,7 @@ export class ApplicationThemeContainer extends React.Component {
     }),
     // Set by mapStateToProps
     themeList: ThemeList,
-    currentTheme: React.PropTypes.object,
+    currentTheme: Theme,
     isFetching: React.PropTypes.bool,
     // Set by mapDispatchToProps
     fetchThemeList: React.PropTypes.func,
@@ -51,7 +50,7 @@ export class ApplicationThemeContainer extends React.Component {
   }
 
   render() {
-    const {themeList, currentTheme, isFetching, updateTheme, deleteTheme, createTheme} = this.props
+    const { themeList, currentTheme, isFetching, updateTheme, deleteTheme, createTheme } = this.props
 
     return (
       <I18nProvider messageDir="modules/admin-ui-configuration/src/i18n">
@@ -78,9 +77,9 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchThemeList: () => dispatch(ThemeActions.fetchPagedEntityList(0, 100)),
-  updateTheme: (theme) => dispatch(ThemeActions.updateEntity(theme.content.id, theme.content)),
-  deleteTheme: (theme) => dispatch(ThemeActions.deleteEntity(theme.content.id)),
-  createTheme: (theme) => dispatch(ThemeActions.createEntity(theme)),
+  updateTheme: theme => dispatch(ThemeActions.updateEntity(theme.content.id, theme.content)),
+  deleteTheme: theme => dispatch(ThemeActions.deleteEntity(theme.content.id)),
+  createTheme: theme => dispatch(ThemeActions.createEntity(theme)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ApplicationThemeContainer)

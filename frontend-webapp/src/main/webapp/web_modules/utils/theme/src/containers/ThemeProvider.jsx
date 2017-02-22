@@ -5,7 +5,7 @@ import { isEqual, find } from 'lodash'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { connect } from 'react-redux'
-import { ThemeList, defaultTheme } from '@regardsoss/model'
+import { ThemeList, Theme, defaultTheme } from '@regardsoss/model'
 import ThemeActions from '../model/actions/ThemeActions'
 import ThemeSelectors from '../model/selectors/ThemeSelectors'
 import getCurrentTheme from '../model/selectors/getCurrentTheme'
@@ -23,11 +23,11 @@ import '../custom/background.jpg'
 export class ThemeProvider extends React.Component {
 
   static propTypes = {
-    // An object providing default theme properties to override
     themeList: ThemeList,
-    currentTheme: React.PropTypes.object,
+    currentTheme: Theme,
     fetchThemeList: React.PropTypes.func,
     dispatchSetCurrentTheme: React.PropTypes.func,
+    children: React.PropTypes.node,
   }
 
   static defaultProps = {
@@ -43,7 +43,7 @@ export class ThemeProvider extends React.Component {
 
   componentDidMount() {
     const { dispatchSetCurrentTheme } = this.props
-    this.props.fetchThemeList().then(actionResult => {
+    this.props.fetchThemeList().then((actionResult) => {
       // Init the current theme from the new list
       const activeTheme = find(actionResult.payload.entities.theme, theme => theme.content.active) || defaultTheme
       this.setState({

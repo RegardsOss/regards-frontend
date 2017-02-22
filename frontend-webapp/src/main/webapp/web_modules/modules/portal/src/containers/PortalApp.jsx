@@ -4,7 +4,6 @@
 import { forEach } from 'lodash'
 import { connect } from '@regardsoss/redux'
 import { Layout } from '@regardsoss/model'
-import { getCurrentTheme } from '@regardsoss/theme'
 import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
 import { ApplicationLayout } from '@regardsoss/layout'
 import { ModuleShape } from '@regardsoss/modules'
@@ -24,7 +23,6 @@ export class PortalApp extends React.Component {
    */
   static propTypes = {
     // Set by mapStateToProps
-    theme: React.PropTypes.string,
     layoutIsFetching: React.PropTypes.bool,
     modulesIsFetching: React.PropTypes.bool,
     layout: Layout,
