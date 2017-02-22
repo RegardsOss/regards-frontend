@@ -2,11 +2,10 @@
  * LICENSE_PLACEHOLDER
  **/
 import { FormattedMessage } from 'react-intl'
-import { reduxForm } from '@regardsoss/form-utils'
 import { Toggle } from 'redux-form-material-ui'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent } from '@regardsoss/components'
-import { RenderTextField, Field, ValidationHelpers } from '@regardsoss/form-utils'
+import { RenderTextField, Field, ValidationHelpers, reduxForm } from '@regardsoss/form-utils'
 import { PluginMetaData, PluginMetaDataList, PluginConfiguration, PluginConfigurationList } from '@regardsoss/model'
 import { themeContextType } from '@regardsoss/theme'
 import PluginParameterListComponent from './parameter/PluginParameterListComponent'

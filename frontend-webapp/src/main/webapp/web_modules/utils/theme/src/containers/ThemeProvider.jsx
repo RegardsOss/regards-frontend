@@ -42,20 +42,19 @@ export class ThemeProvider extends React.Component {
   }
 
   componentDidMount() {
-    this.props.fetchThemeList()
+    const { dispatchSetCurrentTheme } = this.props
+    this.props.fetchThemeList().then(actionResult => {
+      // Init the current theme from the new list
+      const activeTheme = find(actionResult.payload.entities.theme, theme => theme.content.active) || defaultTheme
+      this.setState({
+        mergedTheme: getMuiTheme(activeTheme.content.configuration),
+      })
+      dispatchSetCurrentTheme(activeTheme.content.id)
+    })
   }
 
   componentWillReceiveProps(nextProps) {
-    const { currentTheme, themeList, dispatchSetCurrentTheme } = this.props
-
-    // Init the current theme from the new list
-    if (!isEqual(nextProps.themeList, themeList)) {
-      const nextCurrentTheme = find(nextProps.themeList, theme => theme.content.active) || defaultTheme
-      this.setState({
-        mergedTheme: getMuiTheme(nextCurrentTheme.content.configuration),
-      })
-      dispatchSetCurrentTheme(nextCurrentTheme.content.id)
-    }
+    const { currentTheme } = this.props
 
     // Recompute the merged theme when the current theme has changed
     if (!isEqual(nextProps.currentTheme, currentTheme)) {

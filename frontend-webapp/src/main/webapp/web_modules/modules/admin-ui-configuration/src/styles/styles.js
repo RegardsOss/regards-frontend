@@ -28,7 +28,9 @@ const formStyles = theme => ({
         marginTop: '30px',
       },
     },
-    links: theme.linkWithoutDecoration,
+    links: {
+      textDecoration: 'blink',
+    },
   },
   cardEspaced: {
     marginTop: '20px',
