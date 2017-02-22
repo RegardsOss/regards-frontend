@@ -6,8 +6,8 @@ import ProjectListComponent from '../../src/components/ProjectListComponent'
 // Test a components rendering
 describe('[ADMIN PROJECT MANAGEMENT] Testing project list container', () => {
   it('should exists', () => {
-    assert.isNotNull(ProjectListContainer)
-    assert.isNotNull(ProjectListComponent)
+    assert.isDefined(ProjectListContainer)
+    assert.isDefined(ProjectListComponent)
   })
 
   it('should render self and subcomponents', () => {

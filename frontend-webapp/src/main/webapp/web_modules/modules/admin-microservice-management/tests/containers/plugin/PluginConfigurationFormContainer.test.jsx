@@ -6,8 +6,8 @@ import PluginConfigurationFormComponent from '../../../src/components/plugin/Plu
 // Test a components rendering
 describe('[ADMIN MICROSERVICE MANAGEMENT] Testing plugin configuration form container', () => {
   it('should exists', () => {
-    assert.isNotNull(PluginConfigurationFormContainer)
-    assert.isNotNull(PluginConfigurationFormComponent)
+    assert.isDefined(PluginConfigurationFormContainer)
+    assert.isDefined(PluginConfigurationFormComponent)
   })
 
   it('should render self and subcomponents in create mode', () => {
