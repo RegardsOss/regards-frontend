@@ -14,7 +14,7 @@ import ApplicationThemeComponent from '../components/theme/ApplicationThemeCompo
  *
  * @author Xavier-Alexandre Brochard
  */
-class ApplicationThemeContainer extends React.Component {
+export class ApplicationThemeContainer extends React.Component {
 
   static propTypes = {
     // from router
@@ -30,10 +30,6 @@ class ApplicationThemeContainer extends React.Component {
     updateTheme: React.PropTypes.func,
     deleteTheme: React.PropTypes.func,
     createTheme: React.PropTypes.func,
-  }
-
-  static contextTypes = {
-    ...i18nContextType,
   }
 
   static defaultProps = {
