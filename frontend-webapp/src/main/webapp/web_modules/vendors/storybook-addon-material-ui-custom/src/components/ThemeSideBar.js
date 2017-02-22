@@ -83,7 +83,6 @@ export default class ThemeSideBar extends React.Component {
         key={tableName}
         settingsObj={table}
         settingsName={tableName}
-        //open={forTable(tableName, _props.collapseList)}
         open={() => true}
         override={forTable(tableName, _props.themesOverrideList)}
         onThemeTableOverride={onThemeTableOverride(tableName)}
@@ -101,20 +100,8 @@ export default class ThemeSideBar extends React.Component {
       }
     })
 
-    // const strListNode = themePropTable('miscellaneous', strList)
-    const paletteList = themeObj.palette ? themePropTable('palette', themeObj.palette)
-      : <div> {'No palette here'} </div>
-
     const { specificProperty } = this.state
     const specificPropertyBlock = themePropTable(specificProperty, themeObj[specificProperty])
-
-    const tablesListObj = keyList.map((val) => {
-      if (typeof (themeObj[val]) === 'object' && val !== 'palette') {
-        return (themePropTable(val, themeObj[val])
-        )
-      }
-      return null
-    })
 
     const scrollStyle = {
       height: '100%',
@@ -124,7 +111,6 @@ export default class ThemeSideBar extends React.Component {
       <div
         className={`${CSS_CLASS}-theme_sidebar-tables`}
         style={{
-          // height: 100,
           flexGrow: 1,
           flexShrink: 1,
         }}
@@ -151,7 +137,6 @@ export default class ThemeSideBar extends React.Component {
   }
 
   renderContent() {
-    const { palette } = this.context.muiTheme
     return (
       <div
         className={`${CSS_CLASS}-theme_sidebar-content`}
@@ -187,7 +172,7 @@ export default class ThemeSideBar extends React.Component {
           onChange={this.handleChange}
         >
           {keyList.map(key => (
-            <MenuItem value={key} primaryText={key}/>
+            <MenuItem key={key} value={key} primaryText={key}/>
           ))}
         </SelectField>
         {this.props.open ? this.renderContent() : null}

@@ -1,6 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import { FormattedMessage } from 'react-intl'
 import { browserHistory } from 'react-router'
 import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
 import { ThemeList, defaultTheme } from '@regardsoss/model'
@@ -27,6 +28,7 @@ class ApplicationThemeContainer extends React.Component {
     // Set by mapDispatchToProps
     fetchThemeList: React.PropTypes.func,
     updateTheme: React.PropTypes.func,
+    deleteTheme: React.PropTypes.func,
   }
 
   static contextTypes = {
@@ -52,7 +54,7 @@ class ApplicationThemeContainer extends React.Component {
   }
 
   render() {
-    const {themeList, currentTheme, isFetching, updateTheme} = this.props
+    const {themeList, currentTheme, isFetching, updateTheme, deleteTheme} = this.props
 
     return (
       <I18nProvider messageDir="modules/admin-ui-configuration/src/i18n">
@@ -63,6 +65,7 @@ class ApplicationThemeContainer extends React.Component {
           onAdd={this.onAdd}
           onClose={this.onClose}
           onSave={updateTheme}
+          onDelete={deleteTheme}
         />
       </I18nProvider>
     )
@@ -78,6 +81,7 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = dispatch => ({
   fetchThemeList: () => dispatch(ThemeActions.fetchPagedEntityList(0, 100)),
   updateTheme: (theme) => dispatch(ThemeActions.updateEntity(theme.content.id, theme.content)),
+  deleteTheme: (theme) => dispatch(ThemeActions.deleteEntity(theme.content.id)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ApplicationThemeContainer)

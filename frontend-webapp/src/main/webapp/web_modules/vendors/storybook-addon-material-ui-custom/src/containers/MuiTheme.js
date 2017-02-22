@@ -48,29 +48,10 @@ export default class MuiTheme extends React.Component {
     })
   }
 
-  componentDidMount() {
-    // this.props.channel.on(EVENT_ID_DATA, this.onChannel);
-    if (!this.state.isMount) {
-      setTimeout(() => {
-        // this.needComponentUpdate('ThemeSideBar')
-        this.setState({ isMount: true })
-      }, 1)
-    }
-
-  }
-
-  // shouldComponentUpdate() {
-  //   return true // fixme: shouldComponentUpdate
-  // }
-
   componentWillUpdate(nextProps, nextState) {
     this.props.onChangeState(nextState)
     this.dataChannelSend(nextState)
     this.isChannelData = false
-  }
-
-  componentWillUnmount() {
-    // this.props.channel.removeListener(EVENT_ID_DATA, this.onChannel);
   }
 
   onChannel(state) {
@@ -146,7 +127,6 @@ export default class MuiTheme extends React.Component {
   }
 
   render() {
-    console.log('MuiTheme::render')
     const ThemesNameList = this.state.themesAppliedList
       .map((val, ind) => (val.themeName || `Theme ${ind + 1}`))
     const muiTheme = getMuiTheme(
@@ -175,13 +155,12 @@ export default class MuiTheme extends React.Component {
         resizerStyle={{ display: isSideBarOpen ? 'auto' : 'none' }}>
         <ThemeSideBar
           shouldComponentUpdate
-          shouldShowData={this.state.isMount}
+          shouldShowData
           open
           theme={this.state.themesAppliedList[this.state.themeInd]}
           muiTheme={muiTheme}
           themeName={ThemesNameList[this.state.themeInd]}
           fullTheme={() => true}
-          //fullTheme={this.subState('ThemeSideBar', 'isFullTheme')}
           collapseList={this.subState('ThemeSideBar', 'collapseList')}
           themesOverrideList={this.subState('ThemeSideBar', 'currentThemeOverride')}
           onThemeOverride={this.onThemeOverride()}

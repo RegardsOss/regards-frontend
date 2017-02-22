@@ -49,7 +49,15 @@ const messages = Object.assign({
   'invalid.json': 'Format json invalid',
   'application.theme.title': 'Configuration du thème',
   'application.theme.save': 'Sauvegarder',
-  'application.theme.add': 'Ajouter',
+  'application.theme.save.success': 'Le thème a été mis à jour',
+  'application.theme.save.error': 'Le thème n\'a pas pu être mis à jour',
+  'application.theme.add': 'Nouveau thème',
+  'application.theme.remove.tooltip': 'Supprimer',
+  'application.theme.remove.confirm': 'Supprimer le thème?',
+  'application.theme.remove.confirm.cancel': 'Annuler',
+  'application.theme.remove.confirm.remove': 'Supprimer',
+  'application.theme.remove.success': 'Le thème a été supprimé',
+  'application.theme.remove.error': 'Le thème n\'a pas pu être supprimé',
 
 }, Locales.fr)
 

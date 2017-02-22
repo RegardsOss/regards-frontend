@@ -18,7 +18,7 @@ const ThemeList = React.PropTypes.shape(Theme)
 const defaultTheme = {
   content: {
     id: 0,
-    name: 'Light',
+    name: 'Default',
     active: true,
     configuration: {},
   },

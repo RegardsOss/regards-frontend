@@ -48,8 +48,16 @@ const messages = Object.assign({
   'module.form.cancel.button': 'Cancel',
   'invalid.json': 'Invalid json file',
   'application.theme.title': 'Configure the theme',
+  'application.theme.add': 'New theme',
   'application.theme.save': 'Save',
-  'application.theme.add': 'Add',
+  'application.theme.save.success': 'The theme was updated',
+  'application.theme.save.error': 'The theme could not be updated',
+  'application.theme.remove.tooltip': 'Remove',
+  'application.theme.remove.confirm': 'Remove theme?',
+  'application.theme.remove.confirm.cancel': 'Cancel',
+  'application.theme.remove.confirm.remove': 'Remove',
+  'application.theme.remove.success': 'The theme was removed',
+  'application.theme.remove.error': 'The theme could not be removed',
 
 }, Locales.en)
 
