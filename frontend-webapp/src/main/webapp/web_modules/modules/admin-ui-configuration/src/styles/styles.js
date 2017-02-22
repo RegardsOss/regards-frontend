@@ -67,7 +67,17 @@ const formStyles = theme => ({
       position: 'relative',
       height: 700,
       overflowY: 'auto',
-    }
+    },
+    form: {
+      toggle: {
+        marginTop: 30,
+        width: 180,
+      },
+      actionsWrapper: {
+        display: 'flex',
+        justifyContent: 'flex-end',
+      },
+    },
   }
 })
 

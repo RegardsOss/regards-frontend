@@ -1,26 +1,25 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { map, find, isEmpty, isUndefined } from 'lodash'
+import { map, find, isEmpty, isUndefined, stubTrue } from 'lodash'
 import IconButton from 'material-ui/IconButton'
 import Close from 'material-ui/svg-icons/navigation/close'
-import AddCircle from 'material-ui/svg-icons/content/add-circle'
 import Save from 'material-ui/svg-icons/content/save'
-import Delete from 'material-ui/svg-icons/action/delete'
 import MenuItem from 'material-ui/MenuItem'
 import { Toolbar, ToolbarGroup, ToolbarTitle } from 'material-ui/Toolbar'
 import DropDownMenu from 'material-ui/DropDownMenu'
 import Paper from 'material-ui/Paper'
 import Snackbar from 'material-ui/Snackbar'
 import { FormattedMessage } from 'react-intl'
-import MaterialUiComponentsShowcase from './MaterialUiComponentsShowcase'
+import MaterialUiComponentsShowcase from '../MaterialUiComponentsShowcase'
 import { ShowableAtRender } from '@regardsoss/components'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { ThemeList, defaultTheme } from '@regardsoss/model'
 import { themeContextType } from '@regardsoss/theme'
 import { muiTheme } from '@regardsoss/vendors'
-import DeleteButton from './theme/DeleteButton'
-import moduleStyles from '../styles/styles'
+import DeleteButton from './DeleteButton'
+import CreateButton from './CreateButton'
+import moduleStyles from '../../styles/styles'
 
 /**
  * React component defining the user interface for customizing the themes of Regards.
@@ -95,8 +94,21 @@ class ApplicationThemeComponent extends React.Component {
     }))
   }
 
+  onCreate = (theme) => {
+    const { onCreate } = this.props
+    const { editingTheme } = this.state
+
+    onCreate(theme).then(actionResult => {
+      this.setState({
+        editingTheme: !actionResult.error ? find(actionResult.payload.entities.theme, stubTrue) : editingTheme,
+        snackBarOpen: true,
+        snackBarMessageId: !actionResult.error ? 'application.theme.create.success' : 'application.theme.create.error'
+      })
+    })
+  }
+
   render() {
-    const { themeList, onAdd, onClose, isFetching } = this.props
+    const { themeList, onClose, isFetching } = this.props
     const { editingTheme, snackBarOpen, snackBarMessageId } = this.state
     const isThemeListEmpty = isEmpty(themeList)
     const previewWrapper = <MaterialUiComponentsShowcase />
@@ -106,21 +118,14 @@ class ApplicationThemeComponent extends React.Component {
     themeForDecorator.themeName = editingTheme.content.name
     const themeConfigurer = muiTheme(themeForDecorator, this.onThemeOverride)(() => (previewWrapper))
 
-    const addButton = (
-      <IconButton
-        onTouchTap={onAdd}
-        tooltip={<FormattedMessage id="application.theme.add"/>}
-      ><AddCircle color={style.toolbar.icon.color}/></IconButton>
-    )
-
     const saveButton = (
       <IconButton
         onTouchTap={() => this.onSave(editingTheme)}
         tooltip={<FormattedMessage id="application.theme.save"/>}
       ><Save color={style.toolbar.icon.color}/></IconButton>
     )
-
-    const deleteButton = <DeleteButton onDelete={() => this.onDelete(editingTheme)} />
+    const deleteButton = <DeleteButton onDelete={() => this.onDelete(editingTheme)}/>
+    const createButton = <CreateButton onCreate={this.onCreate}/>
 
     const themeSelect = (
       <DropDownMenu
@@ -146,7 +151,7 @@ class ApplicationThemeComponent extends React.Component {
               {themeSelect}
             </ToolbarGroup>
             <ToolbarGroup lastChild>
-              {addButton}
+              {createButton}
               {saveButton}
               {deleteButton}
             </ToolbarGroup>
@@ -160,11 +165,10 @@ class ApplicationThemeComponent extends React.Component {
               <ToolbarTitle text={<FormattedMessage id="application.theme.title"/>}/>
             </ToolbarGroup>
             <ToolbarGroup lastChild>
-              {addButton}
+              {createButton}
             </ToolbarGroup>
           </Toolbar>
         </ShowableAtRender>
-
 
         <LoadableContentDisplayDecorator isLoading={isFetching} isEmpty={isThemeListEmpty}>
           <div style={style.contentWrapper}>
