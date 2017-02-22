@@ -7,35 +7,10 @@ import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
 import { applyHateoasDisplayLogic, someMatchHateoasDisplayLogic } from '@regardsoss/display-control'
 import MicroserviceBoardComponent from '../components/MicroserviceBoardComponent'
 import requiredEndpoints from '../requiredEndpoints'
-import {
-  accessMaintenanceActions,
-  adminMaintenanceActions,
-  cloudMaintenanceActions,
-  damMaintenanceActions,
-  gatewayMaintenanceActions,
-} from '../model/MaintenanceModeActions'
-import {
-  accessMaintenanceSelectors,
-  adminMaintenanceSelectors,
-  cloudMaintenanceSelectors,
-  damMaintenanceSelectors,
-  gatewayMaintenanceSelectors,
-} from '../model/MaintenanceModeSelectors'
-import {
-  accessActivateMaintenanceActions,
-  adminActivateMaintenanceActions,
-  cloudActivateMaintenanceActions,
-  damActivateMaintenanceActions,
-  gatewayActivateMaintenanceActions,
-} from '../model/ActivateMaintenanceActions'
-
-import {
-  accessDeactivateMaintenanceActions,
-  adminDeactivateMaintenanceActions,
-  cloudDeactivateMaintenanceActions,
-  damDeactivateMaintenanceActions,
-  gatewayDeactivateMaintenanceActions,
-} from '../model/DeactivateMaintenanceActions'
+import MaintenanceModeActions from '../model/MaintenanceModeActions'
+import MaintenanceModeSelectors from '../model/MaintenanceModeSelectors'
+import SetMaintenanceModeActions from '../model/SetMaintenanceModeActions'
+import microservices from '../data/microservices.json'
 
 /**
  * Module container connecting {@link MicroserviceBoardComponent} to redux in order to display the list of microservices.
@@ -48,10 +23,9 @@ export class MicroserviceBoardContainer extends React.Component {
     params: React.PropTypes.shape({
       project: React.PropTypes.string,
     }),
-    fetchMaintenance: React.PropTypes.objectOf(React.PropTypes.func),
-    activateMaintenance: React.PropTypes.objectOf(React.PropTypes.func),
-    deactivateMaintenance: React.PropTypes.objectOf(React.PropTypes.func),
-    maintenanceList: React.PropTypes.objectOf(React.PropTypes.objectOf(React.PropTypes.bool)),
+    fetchMaintenance: React.PropTypes.func,
+    setMaintenance: React.PropTypes.func,
+    maintenanceList: React.PropTypes.func,
   }
 
   static contextTypes = {
@@ -59,11 +33,31 @@ export class MicroserviceBoardContainer extends React.Component {
   }
 
   componentDidMount() {
-    const fetchAll = () => {
-      forEach(this.props.fetchMaintenance, microservice => microservice())
-    }
-    fetchAll()
-    setInterval(fetchAll, 10000)
+    this.maintenance = {}
+    const tasks = []
+
+    forEach(microservices, (microservice) => {
+      this.maintenance[microservice.name] = {}
+      this.maintenance[microservice.name].isOn = projectName => this.props.maintenanceList(microservice.name)[projectName]
+      this.maintenance[microservice.name].fetch = () => this.props.fetchMaintenance(microservice.name)
+      this.maintenance[microservice.name].set = (projectName, value) =>
+        this.handleSetMaintenance(microservice.name, projectName, value ? 'activate' : 'desactivate')
+      tasks.push(this.maintenance[microservice.name].fetch())
+    })
+
+    Promise.all(tasks)
+    this.interval = setInterval(() => Promise.all(tasks), 10000)
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval)
+  }
+
+  handleSetMaintenance = (microserviceName, projectName, action) => {
+    Promise.resolve(this.props.setMaintenance(microserviceName, projectName, action))
+      .then((actionResult) => {
+        this.props.fetchMaintenance(microserviceName)
+      })
   }
 
   render() {
@@ -71,59 +65,28 @@ export class MicroserviceBoardContainer extends React.Component {
       <I18nProvider messageDir="modules/admin-microservice-management/src/i18n">
         <MicroserviceBoardComponent
           project={this.props.params.project}
-          fetchMaintenance={this.props.fetchMaintenance}
-          maintenanceList={this.props.maintenanceList}
-          activateMaintenance={this.props.activateMaintenance}
-          deactivateMaintenance={this.props.deactivateMaintenance}
+          maintenance={this.maintenance}
         />
       </I18nProvider>
     )
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  fetchMaintenance: {
-    'rs-access': () => dispatch(accessMaintenanceActions.sendSignal('GET')),
-    'rs-admin': () => dispatch(adminMaintenanceActions.sendSignal('GET')),
-    'rs-cloud': () => dispatch(cloudMaintenanceActions.sendSignal('GET')),
-    'rs-dam': () => dispatch(damMaintenanceActions.sendSignal('GET')),
-    'rs-gateway': () => dispatch(gatewayMaintenanceActions.sendSignal('GET')),
-  },
-  activateMaintenance: {
-    'rs-access': projectName =>
-      dispatch(accessActivateMaintenanceActions(projectName).sendSignal('GET')),
-    'rs-admin': projectName =>
-      dispatch(adminActivateMaintenanceActions(projectName).sendSignal('GET')),
-    'rs-cloud': projectName =>
-      dispatch(cloudActivateMaintenanceActions(projectName).sendSignal('GET')),
-    'rs-dam': projectName =>
-      dispatch(damActivateMaintenanceActions(projectName).sendSignal('GET')),
-    'rs-gateway': projectName =>
-      dispatch(gatewayActivateMaintenanceActions(projectName).sendSignal('GET')),
-  },
-  deactivateMaintenance: {
-    'rs-access': projectName =>
-      dispatch(accessDeactivateMaintenanceActions(projectName).sendSignal('GET')),
-    'rs-admin': projectName =>
-      dispatch(adminDeactivateMaintenanceActions(projectName).sendSignal('GET')),
-    'rs-cloud': projectName =>
-      dispatch(cloudDeactivateMaintenanceActions(projectName).sendSignal('GET')),
-    'rs-dam': projectName =>
-      dispatch(damDeactivateMaintenanceActions(projectName).sendSignal('GET')),
-    'rs-gateway': projectName =>
-      dispatch(gatewayDeactivateMaintenanceActions(projectName).sendSignal('GET')),
+const mapStateToProps = state => ({
+  maintenanceList(microservice) {
+    return MaintenanceModeSelectors(microservice).getResult(state)
   },
 })
 
-const mapStateToProps = state => ({
-  maintenanceList: {
-    'rs-access': accessMaintenanceSelectors.getResult(state),
-    'rs-admin': adminMaintenanceSelectors.getResult(state),
-    'rs-cloud': cloudMaintenanceSelectors.getResult(state),
-    'rs-dam': damMaintenanceSelectors.getResult(state),
-    'rs-gateway': gatewayMaintenanceSelectors.getResult(state),
+const mapDispatchToProps = dispatch => ({
+  fetchMaintenance(microservice) {
+    dispatch(MaintenanceModeActions(microservice).sendSignal('GET'))
+  },
+  setMaintenance(microservice, projectName, action) {
+    dispatch(SetMaintenanceModeActions(microservice).sendSignal('GET', null, { microservice, action, projectName }))
   },
 })
+
 
 // Decorate with hateoas display logic
 export default applyHateoasDisplayLogic(requiredEndpoints.MicroserviceBoardContainer, someMatchHateoasDisplayLogic)(connect(mapStateToProps, mapDispatchToProps)(MicroserviceBoardContainer))
