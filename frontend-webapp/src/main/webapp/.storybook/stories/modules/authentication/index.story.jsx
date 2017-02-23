@@ -6,6 +6,7 @@ import AccountOperationMessage, { operationIds } from '@regardsoss/authenticatio
 import CompleteResetPasswordFormComponent from '@regardsoss/authentication/src/components/ChangePasswordFormComponent'
 import AuthenticationFormComponent from '@regardsoss/authentication/src/components/AuthenticationFormComponent'
 import AskProjectAccessFormComponent from '@regardsoss/authentication/src/components/AskProjectAccessFormComponent'
+import SessionLockedFormComponent from '@regardsoss/authentication/src/components/SessionLockedFormComponent'
 import styles from '@regardsoss/authentication/src/styles/styles'
 import { withKnobs, text, boolean, select } from '@kadira/storybook-addon-knobs'
 import { StoreDecorator, addLocaleAndThemeSelectors, ThemeAndLocaleDecorator } from '../../utils/decorators'
@@ -95,4 +96,18 @@ storiesOf('Authentication', module)
       </ThemeAndLocaleDecorator>
     )
   })
+  .add('Session locked', () => {
+    const themeName = addLocaleAndThemeSelectors()
+    const moduleTheme = { styles }
+
+    return (
+      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/authentication/src/i18n">
+        <ModuleThemeProvider module={moduleTheme}>
+          <SessionLockedFormComponent onUnlock={action('Unlock')} />
+        </ModuleThemeProvider>
+      </ThemeAndLocaleDecorator>
+    )
+  })
+
+
 

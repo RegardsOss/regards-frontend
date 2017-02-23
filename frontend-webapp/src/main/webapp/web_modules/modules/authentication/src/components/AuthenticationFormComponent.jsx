@@ -45,7 +45,6 @@ export class AuthenticationFormComponent extends React.Component {
     currentMailValue: React.PropTypes.string,
     // from reduxForm
     submitting: React.PropTypes.bool,
-    pristine: React.PropTypes.bool,
     invalid: React.PropTypes.bool,
     handleSubmit: React.PropTypes.func.isRequired,
     initialize: React.PropTypes.func.isRequired,
@@ -67,10 +66,6 @@ export class AuthenticationFormComponent extends React.Component {
     this.props.initialize(initialValues)
   }
 
-  /**
-   * Render function
-   * @returns {React.Component} components
-   */
   render() {
     const {
       errorMessage, currentMailValue, initialMail,
@@ -119,7 +114,7 @@ export class AuthenticationFormComponent extends React.Component {
             </CardText>
             <CardActions style={moduleTheme.action}>
               <RaisedButton
-                disabled={this.props.pristine || this.props.submitting || this.props.invalid}
+                disabled={this.props.submitting || this.props.invalid}
                 label={<FormattedMessage id="authentication.button" />}
                 primary
                 type="submit"

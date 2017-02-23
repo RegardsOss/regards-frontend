@@ -34,9 +34,6 @@ const menuStyles = theme => (
         color: theme.palette.textColor,
       },
     },
-    authenticationDialog: {
-      preferredWidth: '680px',
-    },
   })
 
 export default menuStyles

@@ -113,6 +113,12 @@ const messages = Object.assign({
   'finish.unlock.account.title': 'Unlocking account',
   'finish.unlock.account.message': 'We are unlocking your account, please wait...',
 
+  // session locked pane
+  'session.locked.title': 'Session locked',
+  'session.locked.subtitle': 'Your session has expired, please enter your password below to unlock it',
+  'session.locked.password': 'Password',
+  'session.locked.button': 'Unlock',
+
 }, Locales.en)
 
 export default messages
