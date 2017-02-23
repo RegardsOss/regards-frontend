@@ -4,16 +4,17 @@
 import { intlShape } from 'react-intl'
 import { themeContextType } from '@regardsoss/theme'
 import { LazyModuleComponent } from '@regardsoss/modules'
-import { CenteredDiv } from '@regardsoss/components'
 import getModuleStyles from '../styles/styles'
 
 /**
- * Authentication page before access to admin layout
+ * Authentication container before access to admin layout (if logged, passes through)
  */
-class AuthenticationPanel extends React.Component {
+class AuthenticationContainer extends React.Component {
 
   static propTypes = {
     project: React.PropTypes.string,
+    isAuthenticated: React.PropTypes.bool.isRequired,
+    children: React.PropTypes.any, // eslint-disable-line
   }
 
   static contextTypes = {
@@ -22,29 +23,31 @@ class AuthenticationPanel extends React.Component {
   }
 
   render() {
+    const { isAuthenticated, children } = this.props
     const moduleStyles = getModuleStyles(this.context.muiTheme)
-
     const module = {
       name: 'authentication',
       active: true,
       conf: {
+        showLoginWindow: !isAuthenticated,
         showCancel: false,
         showAskProjectAccess: false,
         project: this.props.project,
         loginTitle: this.context.intl.formatMessage({ id: 'loginFormTitle' }),
+        onCancelAction: null,
       },
     }
+
     return (
       <div className={moduleStyles.adminApp.layout.app.classes.join(' ')} style={moduleStyles.adminApp.layout.app.styles}>
-        <CenteredDiv>
-          <LazyModuleComponent
-            module={module}
-            appName={'admin'}
-          />
-        </CenteredDiv>
+        <LazyModuleComponent
+          module={module}
+          appName={'admin'}
+        />
+        {isAuthenticated && children ? children : null}
       </div>
     )
   }
 }
 
-export default AuthenticationPanel
+export default AuthenticationContainer

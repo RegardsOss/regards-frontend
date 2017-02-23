@@ -5,6 +5,7 @@ import AccountOperationMessage, { operationIds } from '@regardsoss/authenticatio
 import CompleteResetPasswordFormComponent from '@regardsoss/authentication/src/components/ChangePasswordFormComponent'
 import AuthenticationFormComponent from '@regardsoss/authentication/src/components/AuthenticationFormComponent'
 import AskProjectAccessFormComponent from '@regardsoss/authentication/src/components/AskProjectAccessFormComponent'
+import SessionLockedFormComponent from '@regardsoss/authentication/src/components/SessionLockedFormComponent'
 import styles from '@regardsoss/authentication/src/styles/styles'
 import { withKnobs, text, boolean, select } from '@kadira/storybook-addon-knobs'
 import { withStore, withLocale, withModuleTheme } from '../../decorators/index'
@@ -52,6 +53,11 @@ storiesOf('Authentication', module)
     />
   ))
   .add('Complete password update', () => (
-    <CompleteResetPasswordFormComponent onChangePassword={action('done click')}/>
+    <CompleteResetPasswordFormComponent onChangePassword={action('done click')} />
   ))
+  .add('Session locked', () => (
+    <CompleteResetPasswordFormComponent onUnlock={action('done click')} />
+  ))
+
+
 

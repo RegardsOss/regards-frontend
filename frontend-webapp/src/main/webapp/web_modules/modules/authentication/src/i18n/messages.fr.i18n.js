@@ -113,6 +113,11 @@ const messages = Object.assign({
   'finish.unlock.account.title': 'Dévérouillage du compte',
   'finish.unlock.account.message': 'Nous débloquons votre compte, veuillez patienter...',
 
+  'session.locked.title': 'Session vérouillée',
+  'session.locked.subtitle': 'Votre session a expiré, veuillez entrer votre mot de passe ci-dessous pour la dévérouiller',
+  'session.locked.password': 'Mot de passe',
+  'session.locked.button': 'Dévérouiller',
+
 }, Locales.fr)
 
 export default messages
