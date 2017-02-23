@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { connect } from 'react-redux'
-import { forEach } from 'lodash'
+import { forEach, map } from 'lodash'
 import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
 import { applyHateoasDisplayLogic, someMatchHateoasDisplayLogic } from '@regardsoss/display-control'
 import MicroserviceBoardComponent from '../components/MicroserviceBoardComponent'
@@ -32,9 +32,8 @@ export class MicroserviceBoardContainer extends React.Component {
     ...i18nContextType,
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.maintenance = {}
-    const tasks = []
 
     forEach(microservices, (microservice) => {
       this.maintenance[microservice.name] = {}
@@ -42,15 +41,18 @@ export class MicroserviceBoardContainer extends React.Component {
       this.maintenance[microservice.name].fetch = () => this.props.fetchMaintenance(microservice.name)
       this.maintenance[microservice.name].set = (projectName, value) =>
         this.handleSetMaintenance(microservice.name, projectName, value ? 'activate' : 'desactivate')
-      tasks.push(this.maintenance[microservice.name].fetch())
     })
 
-    Promise.all(tasks)
-    this.interval = setInterval(() => Promise.all(tasks), 10000)
+    this.refreshMaintenanceStatusAlt()
   }
 
   componentWillUnmount() {
-    clearInterval(this.interval)
+    clearTimeout(this.timeout)
+  }
+
+  refreshMaintenanceStatusAlt = () => {
+    const tasks = map(microservices, microservice => this.props.fetchMaintenance(microservice.name))
+    Promise.all(tasks).then(this.timeout = setTimeout(this.refreshMaintenanceStatusAlt, 10000))
   }
 
   handleSetMaintenance = (microserviceName, projectName, action) => {
