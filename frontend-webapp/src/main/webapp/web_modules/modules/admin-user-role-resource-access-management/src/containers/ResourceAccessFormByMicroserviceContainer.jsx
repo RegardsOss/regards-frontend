@@ -1,4 +1,4 @@
-import { connect } from 'react-redux'
+import { connect } from '@regardsoss/redux'
 import { Role, Resource } from '@regardsoss/model'
 import { remove } from 'lodash'
 import { ShowableAtRender } from '@regardsoss/components'

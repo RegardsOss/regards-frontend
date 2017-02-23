@@ -4,7 +4,7 @@
 import { DragSource } from 'react-dnd'
 import Paper from 'material-ui/Paper'
 import { themeContextType } from '@regardsoss/theme'
-
+import moduleStyles from '../styles/styles'
 
 export class DraggableCard extends React.Component {
 
@@ -28,7 +28,7 @@ export class DraggableCard extends React.Component {
 
   render() {
     const { connectDragSource, isDragging, shadow, value, children } = this.props
-    const style = this.context.muiTheme.layout.cardEspaced
+    const style = moduleStyles(this.context.theme).cardEspaced
 
     return connectDragSource(
       <div>

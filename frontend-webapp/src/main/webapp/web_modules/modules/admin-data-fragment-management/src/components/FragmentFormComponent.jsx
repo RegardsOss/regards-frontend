@@ -1,10 +1,8 @@
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
-import { RenderTextField, Field, ValidationHelpers, ErrorTypes } from '@regardsoss/form-utils'
+import { RenderTextField, Field, ValidationHelpers, ErrorTypes, reduxForm } from '@regardsoss/form-utils'
 import { themeContextType } from '@regardsoss/theme'
-import { reduxForm } from 'redux-form'
-import { ReduxConnectedForm } from '@regardsoss/redux'
 import { Fragment } from '@regardsoss/model'
 
 
@@ -67,8 +65,7 @@ export class FragmentFormComponent extends React.Component {
         }}
       />)
     return (
-      <ReduxConnectedForm
-        i18nMessagesDir="modules/admin-data-fragment-management/src/i18n"
+      <form
         onSubmit={this.props.handleSubmit(this.props.onSubmit)}
       >
         <Card>
@@ -103,7 +100,7 @@ export class FragmentFormComponent extends React.Component {
             />
           </CardActions>
         </Card>
-      </ReduxConnectedForm>
+      </form>
     )
   }
 }

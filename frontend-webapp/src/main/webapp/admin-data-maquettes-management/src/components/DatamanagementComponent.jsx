@@ -132,7 +132,9 @@ class DatamanagementComponent extends React.Component {
         classes: theme.adminApp.datamanagement.home.action.classes.join(' '),
         styles: theme.adminApp.datamanagement.home.action.styles,
       },
-      links: theme.linkWithoutDecoration,
+      links: {
+        textDecoration: 'blink',
+      },
     }
     const elementsCommon = [
       {

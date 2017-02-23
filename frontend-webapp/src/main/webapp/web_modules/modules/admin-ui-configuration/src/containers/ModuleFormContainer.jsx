@@ -2,6 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { browserHistory } from 'react-router'
+import { I18nProvider } from '@regardsoss/i18n'
 import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
 import { connect } from '@regardsoss/redux'
 import { Module, Layout } from '@regardsoss/model'
@@ -11,7 +12,6 @@ import ModulesSelector from '../model/modules/ModulesSelector'
 import LayoutSelector from '../model/layout/LayoutSelector'
 import LayoutActions from '../model/layout/LayoutActions'
 import ModuleFormComponent from '../components/ModuleFormComponent'
-
 
 /**
  * React component to display a edition form for Module entity
@@ -108,18 +108,19 @@ class ModuleFormContainer extends React.Component {
     }
 
     return (
-      <ModuleFormComponent
-        applicationId={this.props.params.applicationId}
-        onSubmit={this.handleSubmit}
-        onBack={this.handleBack}
-        module={module}
-        duplication={this.props.params.duplicate_module_id !== undefined}
-        containers={availablecontainers}
-      />
+      <I18nProvider messageDir="modules/admin-ui-configuration/src/i18n">
+        <ModuleFormComponent
+          applicationId={this.props.params.applicationId}
+          onSubmit={this.handleSubmit}
+          onBack={this.handleBack}
+          module={module}
+          duplication={this.props.params.duplicate_module_id !== undefined}
+          containers={availablecontainers}
+        />
+      </I18nProvider>
     )
   }
 }
-
 
 const mapStateToProps = (state, ownProps) => ({
   module: ownProps.params.module_id ? ModulesSelector.getContentById(state, ownProps.params.module_id) : null,

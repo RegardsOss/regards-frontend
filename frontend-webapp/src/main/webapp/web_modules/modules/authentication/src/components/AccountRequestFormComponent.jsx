@@ -3,12 +3,12 @@
  */
 import { FormattedMessage } from 'react-intl'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
-import { reduxForm, formValueSelector } from 'redux-form'
+import { formValueSelector } from 'redux-form'
 import { values, isEmpty } from 'lodash'
-import { ReduxConnectedForm, connect } from '@regardsoss/redux'
+import { connect } from '@regardsoss/redux'
 import RaisedButton from 'material-ui/RaisedButton'
 import { themeContextType } from '@regardsoss/theme'
-import { Field, RenderTextField, FormErrorMessage, ValidationHelpers, ErrorTypes } from '@regardsoss/form-utils'
+import { Field, RenderTextField, FormErrorMessage, ValidationHelpers, ErrorTypes, reduxForm } from '@regardsoss/form-utils'
 
 /** Possible form Ids, matching with corresponding request */
 export const requestFormIds = {
@@ -64,9 +64,8 @@ export class AccountRequestFormComponent extends React.Component {
     const { moduleTheme } = this.context
     return (
       <div style={moduleTheme.layout}>
-        <ReduxConnectedForm
+        <form
           onSubmit={handleSubmit(onRequestAction)}
-          i18nMessagesDir="modules/authentication/src/i18n"
         >
           <Card>
             <CardTitle
@@ -98,7 +97,7 @@ export class AccountRequestFormComponent extends React.Component {
               />
             </CardActions>
           </Card>
-        </ReduxConnectedForm>
+        </form>
       </div>
     )
   }

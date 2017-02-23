@@ -4,11 +4,12 @@ import { EVENT_ID_INIT } from './'
 import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme'
 import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme'
 import MuiTheme from './containers/MuiTheme'
+import getMuiTheme from 'material-ui/styles/getMuiTheme'
 
 lightBaseTheme.themeName = 'Light Theme'
 darkBaseTheme.themeName = 'Dark Theme'
 
-export function muiTheme(themes) {
+export function muiTheme(themes, callback) {
 /** note: muiTheme arguments
  *
  *  the agrument 'themes' should be:
@@ -44,7 +45,8 @@ export function muiTheme(themes) {
 
   const themesOverrideList = themesInitList.map(val => ({
     themeName: val.themeName,
-    palette: {},
+    // palette: {},
+    palette: getMuiTheme(val).palette,
   }))
   const themesAppliedList = makeClone(themesInitList)
   themesAppliedList[0] = themeApply(themesInitList[0], themesOverrideList[0])
@@ -86,9 +88,8 @@ export function muiTheme(themes) {
 
   const onThemeOverride = themeInd => (overTheme) => {
     themesOverrideList[themeInd] = themeApply(themesOverrideList[themeInd], overTheme)
-    themesAppliedList[themeInd] = themeApply(
-              themesInitList[themeInd], themesOverrideList[themeInd],
-            )
+    themesAppliedList[themeInd] = themeApply(themesInitList[themeInd], themesOverrideList[themeInd])
+    callback(themesAppliedList[themeInd])
     return themesAppliedList
   }
 

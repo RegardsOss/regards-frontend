@@ -1,6 +1,6 @@
 /**
- * @author Xavier-Alexandre Brochard
- */
+ * LICENSE_PLACEHOLDER
+ **/
 import { ShowableAtRender } from '@regardsoss/components'
 import LoadingComponent from './LoadingComponent'
 import ContentErrorComponent from './ContentErrorComponent'
@@ -45,7 +45,6 @@ class LoadableContentDisplayDecorator extends React.Component {
 
   render() {
     const { isLoading, isContentError, isEmpty } = this.props
-
     return (
       <div>
         <ShowableAtRender

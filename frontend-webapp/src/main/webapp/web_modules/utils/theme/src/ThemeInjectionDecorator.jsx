@@ -1,5 +1,6 @@
-/** @module Common.Theme */
-
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import ThemeInjector from './ThemeInjector'
 
 /**

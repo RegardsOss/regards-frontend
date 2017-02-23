@@ -4,14 +4,11 @@
 import { keys } from 'lodash'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { FormattedMessage } from 'react-intl'
-import { reduxForm } from 'redux-form'
 import { AccessGroup } from '@regardsoss/model'
-import { RenderTextField, RenderCheckbox, Field, ValidationHelpers } from '@regardsoss/form-utils'
-import { ReduxConnectedForm } from '@regardsoss/redux'
+import { RenderTextField, RenderCheckbox, Field, ValidationHelpers, reduxForm } from '@regardsoss/form-utils'
 import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-
 
 /**
  * React component to edit/create/duplicate an accessgroup.
@@ -82,8 +79,7 @@ export class AccessGroupFormComponent extends React.Component {
     const { submitting, invalid, backUrl } = this.props
     const title = this.getTitle()
     return (
-      <ReduxConnectedForm
-        i18nMessagesDir="modules/admin-user-accessgroup-management/src/i18n"
+      <form
         onSubmit={this.props.handleSubmit(this.props.onSubmit)}
       >
         <Card>
@@ -119,7 +115,7 @@ export class AccessGroupFormComponent extends React.Component {
             />
           </CardActions>
         </Card>
-      </ReduxConnectedForm>
+      </form>
     )
   }
 }

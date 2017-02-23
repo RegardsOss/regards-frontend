@@ -1,5 +1,6 @@
-/** @module CommonTheme */
-
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import themeContextType from './contextType'
 
 /**

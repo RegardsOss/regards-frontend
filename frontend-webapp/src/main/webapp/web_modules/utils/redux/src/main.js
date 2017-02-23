@@ -3,7 +3,6 @@
  **/
 
 import connect from './Connect'
-import ReduxConnectedForm from './ReduxFormComponent'
 
 /**
  * Main interface for regards redux tools
@@ -11,6 +10,5 @@ import ReduxConnectedForm from './ReduxFormComponent'
  */
 export {
   connect,
-  ReduxConnectedForm,
 }
 

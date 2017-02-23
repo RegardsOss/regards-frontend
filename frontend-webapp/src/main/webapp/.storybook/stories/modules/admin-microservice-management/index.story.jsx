@@ -4,7 +4,8 @@ import { withKnobs, object } from '@kadira/storybook-addon-knobs'
 import PluginConfigurationComponent from '@regardsoss/admin-microservice-management/src/components/plugin/PluginConfigurationComponent'
 import PluginConfigurationFormComponent from '@regardsoss/admin-microservice-management/src/components/plugin/PluginConfigurationFormComponent'
 import { PluginParameterPlugin } from '@regardsoss/admin-microservice-management/src/components/plugin/parameter/PluginParameterPlugin'
-import { StoreDecorator, addLocaleAndThemeSelectors, ThemeAndLocaleDecorator } from '../../utils/decorators'
+import { muiTheme } from 'storybook-addon-material-ui'
+import { withStore, withLocale } from '../../decorators/index'
 
 const defaultPluginMetaDataList = {
   aComplexErrorPlugin: {
@@ -121,34 +122,6 @@ const defaultPluginMetaDataList = {
 }
 
 const defaultPluginConfigurationList = {
-  12: {
-    content: {
-      id: 12,
-      pluginId: 'aComplexPlugin',
-      label: 'This is a configuration',
-      version: '1.2.0',
-      priorityOrder: 0,
-      active: true,
-      pluginClassName: 'java.lang.Integer',
-      parameters: [
-        {
-          name: 'coeff',
-          value: 'thecoeffvalue',
-          dynamic: true,
-        },
-        {
-          name: 'isActive',
-          value: 'true',
-          dynamic: false,
-        },
-        {
-          name: 'plgInterface',
-          value: '40',
-          dynamic: false,
-        },
-      ],
-    },
-  },
   40: {
     content: {
       id: 40,
@@ -187,82 +160,158 @@ const defaultPluginConfigurationList = {
       ],
     },
   },
+  12: {
+    content: {
+      id: 12,
+      pluginId: 'aComplexPlugin',
+      label: 'This is a configuration',
+      version: '1.2.0',
+      priorityOrder: 0,
+      active: true,
+      pluginClassName: 'java.lang.Integer',
+      parameters: [
+        {
+          name: 'coeff',
+          value: '42',
+          dynamic: true,
+        },
+        {
+          name: 'isActive',
+          value: 'true',
+          dynamic: false,
+        },
+        {
+          name: 'plgInterface',
+          value: '40',
+          dynamic: false,
+        },
+      ],
+    },
+  },
+  11: {
+    content: {
+      id: 11,
+      pluginId: 'aComplexPlugin',
+      label: 'A configuration',
+      version: '1.0.0',
+      priorityOrder: 0,
+      active: true,
+      pluginClassName: 'java.lang.Integer',
+      parameters: [
+        {
+          name: 'coeff',
+          value: '43',
+          dynamic: true,
+        },
+        {
+          name: 'isActive',
+          value: 'false',
+          dynamic: false,
+        },
+        {
+          name: 'plgInterface',
+          value: '40',
+          dynamic: false,
+        },
+      ],
+    },
+  },
+  10: {
+    content: {
+      id: 10,
+      pluginId: 'aComplexPlugin',
+      label: 'An other configuration',
+      version: '1.0.0',
+      priorityOrder: 0,
+      active: false,
+      pluginClassName: 'java.lang.Integer',
+      parameters: [
+        {
+          name: 'coeff',
+          value: '44',
+          dynamic: true,
+        },
+        {
+          name: 'isActive',
+          value: 'true',
+          dynamic: false,
+        },
+        {
+          name: 'plgInterface',
+          value: '12',
+          dynamic: false,
+        },
+      ],
+    },
+  },
 }
 
 storiesOf('Admin - Microservice management', module)
+  .addDecorator(withLocale('modules/admin-microservice-management/src/i18n'))
   .addDecorator(withKnobs)
-  .addDecorator(StoreDecorator)
+  .addDecorator(withStore)
+  .addDecorator(muiTheme())
   .add('Plugin configuration item', () => {
-    const themeName = addLocaleAndThemeSelectors()
-    const pluginConfiguration = object('Plugin configuration', defaultPluginConfigurationList['0'])
+    const pluginConfiguration = object('Plugin configuration', defaultPluginConfigurationList[40])
+    const pluginMetaData = object('Plugin meta data', defaultPluginMetaDataList['0'])
     return (
-      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-microservice-management/src/i18n">
-        <PluginConfigurationComponent
-          pluginConfiguration={pluginConfiguration}
-          onBackClick={action('onBackClick')}
-          onAddClick={action('onAddClick')}
-          onCopyClick={action('onCopyClick')}
-          onEditClick={action('onEditClick')}
-          onUpwardClick={action('onUpwardClick')}
-          onDownwardClick={action('onDownwardClick')}
-          onDeleteClick={action('onDeleteClick')}
-          onActiveToggle={action('onActiveToggle')}
-        />
-      </ThemeAndLocaleDecorator>
+      <PluginConfigurationComponent
+        pluginConfiguration={pluginConfiguration}
+        pluginMetaData={pluginMetaData}
+        onActiveToggle={action('onActiveToggle')}
+        onCopyClick={action('onCopyClick')}
+        onDeleteClick={action('onDeleteClick')}
+        onEditClick={action('onEditClick')}
+        onDownwardClick={action('onDownwardClick')}
+        onUpwardClick={action('onUpwardClick')}
+      />
     )
   })
   .add('Plugin configuration form', () => {
-    const themeName = addLocaleAndThemeSelectors()
-    const pluginConfiguration = object('Plugin configuration', defaultPluginConfigurationList['0'])
+    const pluginConfiguration = object('Plugin configuration', defaultPluginConfigurationList[40])
     return (
-      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-microservice-management/src/i18n">
-        <PluginConfigurationFormComponent
-          onSubmit={action('onSubmit')}
-          backUrl={'back/url'}
-          pluginConfiguration={pluginConfiguration}
-        />
-      </ThemeAndLocaleDecorator>
+      <PluginConfigurationFormComponent
+        onSubmit={action('onSubmit')}
+        backUrl={'back/url'}
+        pluginConfiguration={pluginConfiguration}
+      />
     )
   })
   .add('Plugin parameter plugin - view', () => {
-    const themeName = addLocaleAndThemeSelectors()
     const pluginMetaDataList = object('Plugin meta data', defaultPluginMetaDataList)
     const pluginConfigurationList = object('Plugin configuration', defaultPluginConfigurationList)
     return (
-      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-microservice-management/src/i18n">
-        <PluginParameterPlugin
-          name={'parameter1'}
-          value={'12'}
-          mode={'view'}
-          pluginParameterType={'fr.cnes.regards.framework.plugins.IComplexInterfacePlugin'}
-          pluginMetaDataList={pluginMetaDataList}
-          isPluginMetaDataListFetching={false}
-          pluginConfigurationList={pluginConfigurationList}
-          isPluginConfigurationListFetching={false}
-          fetchPluginMetaDataList={action('fetchPluginMetaDataList')}
-          fetchPluginConfigurationList={action('fetchPluginConfigurationList')}
-        />
-      </ThemeAndLocaleDecorator>
+      <PluginParameterPlugin
+        fieldKey={'afieldkey'}
+        microserviceName={'rs-truc'}
+        pluginParameter={pluginConfigurationList[12].content.parameters[2]}
+        pluginParameterType={'fr.cnes.regards.framework.plugins.IComplexInterfacePlugin'}
+        mode={'view'}
+        change={action('change')}
+        pluginMetaDataList={pluginMetaDataList}
+        isPluginMetaDataListFetching={false}
+        pluginConfigurationList={pluginConfigurationList}
+        isPluginConfigurationListFetching={false}
+      />
     )
   })
   .add('Plugin parameter plugin - edit', () => {
-    const themeName = addLocaleAndThemeSelectors()
     const pluginMetaDataList = object('Plugin meta data', defaultPluginMetaDataList)
     const pluginConfigurationList = object('Plugin configuration', defaultPluginConfigurationList)
     return (
-      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-microservice-management/src/i18n">
-        <PluginParameterPlugin
-          name={'parameter1'}
-          value={'12'}
-          mode={'edit'}
-          pluginParameterType={'fr.cnes.regards.framework.plugins.IComplexInterfacePlugin'}
-          pluginMetaDataList={pluginMetaDataList}
-          isPluginMetaDataListFetching={false}
-          pluginConfigurationList={pluginConfigurationList}
-          isPluginConfigurationListFetching={false}
-          fetchPluginMetaDataList={action('fetchPluginMetaDataList')}
-          fetchPluginConfigurationList={action('fetchPluginConfigurationList')}
-        />
-      </ThemeAndLocaleDecorator>
+      <PluginParameterPlugin
+        fieldKey={'afieldkey'}
+        microserviceName={'rs-truc'}
+        pluginParameter={pluginConfigurationList[12].content.parameters[2]}
+        pluginParameterType={'fr.cnes.regards.framework.plugins.IComplexInterfacePlugin'}
+        mode={'edit'}
+        change={action('change')}
+        pluginMetaDataList={pluginMetaDataList}
+        isPluginMetaDataListFetching={false}
+        pluginConfigurationList={pluginConfigurationList}
+        isPluginConfigurationListFetching={false}
+        fetchPluginMetaDataList={action('fetchPluginMetaDataList')}
+        fetchPluginConfigurationList={action('fetchPluginConfigurationList')}
+      />
     )
   })

@@ -30,7 +30,6 @@ class ProjectComponent extends React.Component {
     ...themeContextType,
   }
 
-
   getProjectUrl = () => (
      `/user/${this.props.project.id}/`
   )
@@ -90,7 +89,7 @@ class ProjectComponent extends React.Component {
     return null
   }
   render() {
-    const { muiTheme } = this.context
+    const { moduleTheme } = this.context
     const { isAccessible } = this.props.project
     if (isAccessible === false) {
       return this.renderProject()
@@ -98,7 +97,7 @@ class ProjectComponent extends React.Component {
     return (
       <Link
         to={this.getProjectUrl()}
-        style={muiTheme.linkWithoutDecoration}
+        style={moduleTheme.linkWithoutDecoration}
       >
         {this.renderProject()}
       </Link>

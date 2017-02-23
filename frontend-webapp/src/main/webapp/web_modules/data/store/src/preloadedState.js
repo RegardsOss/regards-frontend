@@ -10,7 +10,6 @@ if (root.navigator && root.navigator.language) {
 
 const preloadedState = {
   common: {
-    theme: 'Light',
     plugins: {},
     i18n: {
       locale: navigatorLanguage,
