@@ -58,10 +58,7 @@
       "id": "aComplexErrorPlugin",
       "pluginId": "aComplexErrorPlugin",
       "pluginClassName": "fr.cnes.regards.framework.plugins.ComplexErrorPlugin",
-      "interfaceClassName": [
-        "fr.cnes.regards.framework.plugins.ISamplePlugin",
-        "fr.cnes.regards.framework.plugins.IComplexInterfacePlugin"
-      ],
+      "interfaceName": "fr.cnes.regards.framework.plugins.ISamplePlugin",
       "author": "CSSI",
       "version": "0.0.1",
       "description": "Complex plugin test",
@@ -77,9 +74,7 @@
       "id": "aSamplePlugin",
       "pluginId": "aSamplePlugin",
       "pluginClassName": "fr.cnes.regards.framework.plugins.SamplePlugin",
-      "interfaceClassName": [
-        "fr.cnes.regards.framework.plugins.ISamplePlugin"
-      ],
+      "interfaceName": "fr.cnes.regards.framework.plugins.ISamplePlugin",
       "author": "CSSI",
       "version": "12345-6789-11",
       "description": "Sample plugin test",
@@ -105,9 +100,7 @@
       "id": "aSampleErrorPlugin",
       "pluginId": "aSampleErrorPlugin",
       "pluginClassName": "fr.cnes.regards.framework.plugins.SampleErrorPlugin",
-      "interfaceClassName": [
-        "fr.cnes.regards.framework.plugins.ISamplePlugin"
-      ],
+      "interfaceName": "fr.cnes.regards.framework.plugins.ISamplePlugin",
       "author": "CSSI",
       "version": "0.0.1",
       "description": "Sample plugin test",
@@ -133,9 +126,7 @@
       "id": "aComplexPlugin",
       "pluginId": "aComplexPlugin",
       "pluginClassName": "fr.cnes.regards.framework.plugins.ComplexPlugin",
-      "interfaceClassName": [
-        "fr.cnes.regards.framework.plugins.ISamplePlugin"
-      ],
+      "interfaceName": "fr.cnes.regards.framework.plugins.ISamplePlugin",
       "author": "CSSI",
       "version": "0.0.1",
       "description": "Complex plugin test",

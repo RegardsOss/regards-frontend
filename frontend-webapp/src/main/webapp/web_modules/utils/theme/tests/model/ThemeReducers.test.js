@@ -1,18 +1,18 @@
 import { expect } from 'chai'
-import reducer from '../../src/model/reducers/ThemeReducers'
+import currentThemeReducer from '../../src/model/reducers/currentThemeReducer'
 
-describe('[COMMON THEME] Testing theme reducer', () => {
+describe('[COMMON THEME] Testing current theme reducer', () => {
   it('should return the initial state', () => {
-    expect(reducer(undefined, {})).to.eql({})
+    expect(currentThemeReducer(undefined, {})).to.eql({})
   })
 
-  it('should set the theme', () => {
+  it('should set the current theme', () => {
     const action = {
-      type: 'SET_THEME',
-      theme: 1,
+      type: 'SET_CURRENT_THEME',
+      themeId: 1,
     }
     const initState = 0
     const expectedState = 1
-    expect(reducer(initState, action)).to.eql(expectedState)
+    expect(currentThemeReducer(initState, action)).to.eql(expectedState)
   })
 })
