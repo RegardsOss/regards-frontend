@@ -3,7 +3,8 @@ import { withKnobs, object } from '@kadira/storybook-addon-knobs'
 import CollectionEditLinksComponent from '@regardsoss/admin-data-collection-management/src/components/CollectionEditLinksComponent'
 import CollectionFormComponent from '@regardsoss/admin-data-collection-management/src/components/CollectionFormComponent'
 import CollectionListComponent from '@regardsoss/admin-data-collection-management/src/components/CollectionListComponent'
-import { StoreDecorator, addLocaleAndThemeSelectors, ThemeAndLocaleDecorator } from '../../utils/decorators'
+import { muiTheme } from 'storybook-addon-material-ui'
+import { withStore, withLocale } from '../../decorators/index'
 
 const defaultCollectionList = {
   1: { content: {
@@ -43,8 +44,6 @@ const defaultCollectionList = {
     },
   } },
 }
-
-
 const defaultModelList = {
   1: {
     content: {
@@ -134,95 +133,81 @@ const defaultModelAttributeList = {
   },
 }
 
-
 storiesOf('Project admin - Collection', module)
+  .addDecorator(withLocale('modules/admin-data-collection-management/src/i18n'))
   .addDecorator(withKnobs)
-  .addDecorator(StoreDecorator)
+  .addDecorator(withStore)
+  .addDecorator(muiTheme())
   .add('List', () => {
-    const themeName = addLocaleAndThemeSelectors()
     const collectionList = object('Collections', defaultCollectionList)
     return (
-      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-data-collection-management/src/i18n">
-        <CollectionListComponent
-          collectionList={collectionList}
-          createUrl="#"
-          backUrl="#"
-          handleEdit={action('handleEdit')}
-          handleDelete={action('handleDelete')}
-          handleDuplicate={action('handleDuplicate')}
-        />
-      </ThemeAndLocaleDecorator>
+      <CollectionListComponent
+        collectionList={collectionList}
+        createUrl="#"
+        backUrl="#"
+        handleEdit={action('handleEdit')}
+        handleDelete={action('handleDelete')}
+        handleDuplicate={action('handleDuplicate')}
+      />
     )
   })
   .add('Create', () => {
-    const themeName = addLocaleAndThemeSelectors()
     const modelList = object('Models', defaultModelList)
     const modelAttributeList = object('Model attributes', defaultModelAttributeList)
     return (
-      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-data-collection-management/src/i18n">
-        <CollectionFormComponent
-          onSubmit={action('submit')}
-          backUrl="#"
-          modelList={modelList}
-          modelAttributeList={modelAttributeList}
-          isDuplicating={false}
-          handleUpdateModel={action('fetch model attributes')}
-        />
-      </ThemeAndLocaleDecorator>
+      <CollectionFormComponent
+        onSubmit={action('submit')}
+        backUrl="#"
+        modelList={modelList}
+        modelAttributeList={modelAttributeList}
+        isDuplicating={false}
+        handleUpdateModel={action('fetch model attributes')}
+      />
     )
   })
   .add('Edit', () => {
-    const themeName = addLocaleAndThemeSelectors()
     const currentCollection = object('Collection', defaultCollectionList['1'])
     const modelList = object('Models', defaultModelList)
     const modelAttributeList = object('Model attributes', defaultModelAttributeList)
     return (
-      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-data-collection-management/src/i18n">
-        <CollectionFormComponent
-          currentCollection={currentCollection}
-          onSubmit={action('submit')}
-          backUrl="#"
-          modelList={modelList}
-          modelAttributeList={modelAttributeList}
-          isDuplicating={false}
-          handleUpdateModel={action('fetch model attributes')}
-        />
-      </ThemeAndLocaleDecorator>
+      <CollectionFormComponent
+        currentCollection={currentCollection}
+        onSubmit={action('submit')}
+        backUrl="#"
+        modelList={modelList}
+        modelAttributeList={modelAttributeList}
+        isDuplicating={false}
+        handleUpdateModel={action('fetch model attributes')}
+      />
     )
   })
   .add('Duplicate', () => {
-    const themeName = addLocaleAndThemeSelectors()
     const currentCollection = object('Collection', defaultCollectionList['1'])
     const modelList = object('Models', defaultModelList)
     const modelAttributeList = object('Model attributes', defaultModelAttributeList)
     return (
-      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-data-collection-management/src/i18n">
-        <CollectionFormComponent
-          currentCollection={currentCollection}
-          onSubmit={action('submit')}
-          backUrl="#"
-          modelList={modelList}
-          modelAttributeList={modelAttributeList}
-          isDuplicating
-          handleUpdateModel={action('fetch model attributes')}
-        />
-      </ThemeAndLocaleDecorator>
+      <CollectionFormComponent
+        currentCollection={currentCollection}
+        onSubmit={action('submit')}
+        backUrl="#"
+        modelList={modelList}
+        modelAttributeList={modelAttributeList}
+        isDuplicating
+        handleUpdateModel={action('fetch model attributes')}
+      />
     )
   })
   .add('Links', () => {
-    const themeName = addLocaleAndThemeSelectors()
     const linkedCollections = object('Collections linked', defaultCollectionList)
     const remainingCollections = object('Collections remaining', defaultCollectionList)
     return (
-      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-data-collection-management/src/i18n">
-        <CollectionEditLinksComponent
-          linkedCollections={linkedCollections}
-          remainingCollections={remainingCollections}
-          handleAdd={action('add')}
-          handleDelete={action('delete')}
-          backUrl="#"
-          doneUrl="#"
-        />
-      </ThemeAndLocaleDecorator>
+      <CollectionEditLinksComponent
+        linkedCollections={linkedCollections}
+        remainingCollections={remainingCollections}
+        handleAdd={action('add')}
+        handleDelete={action('delete')}
+        backUrl="#"
+        doneUrl="#"
+      />
     )
   })

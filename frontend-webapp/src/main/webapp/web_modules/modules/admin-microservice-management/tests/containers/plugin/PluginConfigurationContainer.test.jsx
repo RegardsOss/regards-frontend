@@ -6,8 +6,8 @@ import PluginConfigurationComponent from '../../../src/components/plugin/PluginC
 // Test a components rendering
 describe('[ADMIN MICROSERVICE MANAGEMENT] Testing plugin configuration container', () => {
   it('should exists', () => {
-    assert.isNotNull(PluginConfigurationContainer)
-    assert.isNotNull(PluginConfigurationComponent)
+    assert.isDefined(PluginConfigurationContainer)
+    assert.isDefined(PluginConfigurationComponent)
   })
 
   it('should render self and subcomponents', () => {

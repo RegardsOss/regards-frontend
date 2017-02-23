@@ -1,35 +1,29 @@
-import { CardActionsComponent } from '@regardsoss/components'
 import { storiesOf } from '@kadira/storybook'
 import { withKnobs, text, select } from '@kadira/storybook-addon-knobs'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-import { getThemeByName, themeList, defaultTheme } from '../../utils/decorators'
+import { muiTheme } from 'storybook-addon-material-ui'
+import { CardActionsComponent } from '@regardsoss/components'
 
 storiesOf('Generic components - Card Actions', module)
   .addDecorator(withKnobs)
+  .addDecorator(muiTheme())
   .add('main button', () => {
     const mainButtonText = text('Main button text', 'Main button')
-    const theme = getThemeByName(select('Theme', themeList, defaultTheme))
     return (
-      <MuiThemeProvider muiTheme={theme}>
-        <CardActionsComponent
-          mainButtonLabel={mainButtonText}
-          mainButtonUrl="#"
-        />
-      </MuiThemeProvider>
+      <CardActionsComponent
+        mainButtonLabel={mainButtonText}
+        mainButtonUrl="#"
+      />
     )
   })
   .add('main button & secondary button', () => {
     const mainButtonText = text('Main button text', 'Main button')
     const secondaryButtonText = text('Secondary button text', 'Secondary button')
-    const theme = getThemeByName(select('Theme', themeList, defaultTheme))
     return (
-      <MuiThemeProvider muiTheme={theme}>
-        <CardActionsComponent
-          mainButtonLabel={mainButtonText}
-          mainButtonUrl="#"
-          secondaryButtonLabel={secondaryButtonText}
-          secondaryButtonUrl="#"
-        />
-      </MuiThemeProvider>
+      <CardActionsComponent
+        mainButtonLabel={mainButtonText}
+        mainButtonUrl="#"
+        secondaryButtonLabel={secondaryButtonText}
+        secondaryButtonUrl="#"
+      />
     )
   })

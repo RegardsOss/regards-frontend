@@ -1,5 +1,5 @@
 import { browserHistory } from 'react-router'
-import { connect } from 'react-redux'
+import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
 import ModelActions from '../model/ModelActions'

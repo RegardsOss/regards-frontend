@@ -8,9 +8,7 @@ import MenuItem from 'material-ui/MenuItem'
 import { FormattedMessage } from 'react-intl'
 import { ShowableAtRender, CardActionsComponent } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
-import { RenderTextField, RenderSelectField, Field, RenderCheckbox, ErrorTypes } from '@regardsoss/form-utils'
-import { reduxForm } from 'redux-form'
-import { ReduxConnectedForm } from '@regardsoss/redux'
+import { RenderTextField, RenderSelectField, Field, RenderCheckbox, ErrorTypes, reduxForm } from '@regardsoss/form-utils'
 import { ModuleShape, AvailableModules, LazyModuleComponent } from '@regardsoss/modules'
 import Styles from '../styles/styles'
 
@@ -94,9 +92,8 @@ class ModuleFormComponent extends React.Component {
     }
 
     return (
-      <ReduxConnectedForm
+      <form
         onSubmit={this.props.handleSubmit(this.props.onSubmit)}
-        i18nMessagesDir="modules/admin-ui-configuration/src/i18n"
       >
         <div>
           <Card>
@@ -178,7 +175,7 @@ class ModuleFormComponent extends React.Component {
             </CardActions>
           </Card>
         </div>
-      </ReduxConnectedForm>
+      </form>
     )
   }
 }

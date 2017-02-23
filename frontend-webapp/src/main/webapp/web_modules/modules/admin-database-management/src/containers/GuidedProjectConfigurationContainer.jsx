@@ -1,7 +1,7 @@
 /*
  * LICENSE_PLACEHOLDER
  */
-import { connect } from 'react-redux'
+import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import ProjectConnectionList from '@regardsoss/model/src/admin/ProjectConnection'
 import ProjectConnectionActions from '../model/ProjectConnectionActions'

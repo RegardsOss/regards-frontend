@@ -4,20 +4,17 @@
 import React from 'react'
 import { withKnobs, object } from '@kadira/storybook-addon-knobs'
 import { storiesOf } from '@kadira/storybook'
-import { ModuleThemeProvider } from '@regardsoss/modules'
-// import AIPStatusComponent from '@regardsoss/archival-storage-aip-status/src/components/AIPStatusComponent'
 import StorageMonitoringComponent from '@regardsoss/archival-storage-plugins-monitoring/src/components/StorageMonitoringComponent'
 import styles from '@regardsoss/archival-storage-plugins-monitoring/src/styles/styles'
-import { StoreDecorator, addLocaleAndThemeSelectors, ThemeAndLocaleDecorator } from '../../utils/decorators'
+import { muiTheme } from 'storybook-addon-material-ui'
+import { withStore, withLocale, withModuleTheme } from '../../decorators/index'
 
 storiesOf('Archival storage', module)
+  .addDecorator(withLocale('modules/archival-storage-plugins-monitoring/src/i18n'))
   .addDecorator(withKnobs)
-  .addDecorator(StoreDecorator)/*
-  .add('AIP status', () => (
-    <ThemeAndLocaleDecorator theme={addLocaleAndThemeSelectors()} messageDir="modules/archival-storage-aip-status/src/i18n" >
-      <AIPStatusComponent />
-    </ThemeAndLocaleDecorator>
-  ))*/
+  .addDecorator(withStore)
+  .addDecorator(withModuleTheme({ styles }))
+  .addDecorator(muiTheme())
   .add('Storage monitoring', () => {
     const storagePlugins = object('Storage plugins', [{
       label: 'ServerHDD',
@@ -48,16 +45,8 @@ storiesOf('Archival storage', module)
       usedSize: 'ddOp',
     }])
 
-    const themeWithLocale = addLocaleAndThemeSelectors()
-    // provide module styles to components
-    const moduleTheme = { styles }
-
     return (
-      <ThemeAndLocaleDecorator theme={themeWithLocale} messageDir="modules/archival-storage-plugins-monitoring/src/i18n">
-        <ModuleThemeProvider module={moduleTheme}>
-          <StorageMonitoringComponent storagePlugins={storagePlugins} />
-        </ModuleThemeProvider>
-      </ThemeAndLocaleDecorator>
+      <StorageMonitoringComponent storagePlugins={storagePlugins} />
     )
   })
 

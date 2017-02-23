@@ -5,8 +5,8 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import sinon from 'sinon'
 import { forEach } from 'lodash'
+import { Card } from 'material-ui/Card'
 import { IntlStub } from '@regardsoss/tests-helpers'
-import { ReduxConnectedForm } from '@regardsoss/redux'
 import { AccountRequestFormComponent, requestFormIds } from '../../src/components/AccountRequestFormComponent'
 
 import styles from '../../src/styles/styles'
@@ -46,8 +46,7 @@ describe('[AUTHENTICATION] Testing AccountRequestFormComponent', () => {
     forEach(requestFormIds, (formId) => {
       props.requestFormId = formId
       const enzymeShallow = shallow(<AccountRequestFormComponent {...props} />, { context })
-      // check it uses one connected form component from regards
-      assert(enzymeShallow.find(ReduxConnectedForm).length, 1, 'There should be one and only redux connected form in component')
+      assert(enzymeShallow.find(Card).length, 1, 'There should be one and only material-ui Card in component')
     })
   })
 })

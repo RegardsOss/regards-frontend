@@ -1,9 +1,7 @@
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { ShowableAtRender, CardActionsComponent } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
-import { RenderTextField, Field, RenderCheckbox, ValidationHelpers, ErrorTypes } from '@regardsoss/form-utils'
-import { reduxForm } from 'redux-form'
-import { ReduxConnectedForm } from '@regardsoss/redux'
+import { RenderTextField, Field, RenderCheckbox, ValidationHelpers, ErrorTypes, reduxForm } from '@regardsoss/form-utils'
 
 /**
  * Display edit and create project form
@@ -69,9 +67,8 @@ export class ProjectFormComponent extends React.Component {
         }}
       />)
     return (
-      <ReduxConnectedForm
+      <form
         onSubmit={this.props.handleSubmit(this.props.onSubmit)}
-        i18nMessagesDir="modules/admin-project-management/src/i18n"
       >
         <Card>
           <CardTitle
@@ -130,7 +127,7 @@ export class ProjectFormComponent extends React.Component {
             />
           </CardActions>
         </Card>
-      </ReduxConnectedForm>
+      </form>
     )
   }
 }

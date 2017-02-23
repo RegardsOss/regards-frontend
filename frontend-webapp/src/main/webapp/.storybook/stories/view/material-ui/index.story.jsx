@@ -12,6 +12,7 @@ reqThemes.keys().forEach((filename) => {
 })
 
 storiesOf('Material-UI', module)
+  .addDecorator(muiTheme(themesList))
   .addDecorator((story) => {
     const storyKind = story()
     return (
@@ -31,7 +32,6 @@ storiesOf('Material-UI', module)
         </div>
       </div>)
   })
-  .addDecorator(muiTheme(themesList))
   .add('Components', () => (
     <Components />
   ))

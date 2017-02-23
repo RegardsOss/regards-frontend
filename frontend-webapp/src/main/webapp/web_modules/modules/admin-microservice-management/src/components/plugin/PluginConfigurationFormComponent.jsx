@@ -1,15 +1,13 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { reduxForm } from 'redux-form'
-import { Toggle } from 'redux-form-material-ui'
 import { FormattedMessage } from 'react-intl'
+import { Toggle } from 'redux-form-material-ui'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent } from '@regardsoss/components'
-import { themeContextType } from '@regardsoss/theme'
-import { RenderTextField, Field, ValidationHelpers } from '@regardsoss/form-utils'
-import { ReduxConnectedForm } from '@regardsoss/redux'
+import { RenderTextField, Field, ValidationHelpers, reduxForm } from '@regardsoss/form-utils'
 import { PluginMetaData, PluginMetaDataList, PluginConfiguration, PluginConfigurationList } from '@regardsoss/model'
+import { themeContextType } from '@regardsoss/theme'
 import PluginParameterListComponent from './parameter/PluginParameterListComponent'
 import { buildEmptyParameterList } from '../../model/plugin/utils'
 import moduleStyles from '../../styles/styles'
@@ -137,9 +135,8 @@ export class PluginConfigurationFormComponent extends React.Component {
       <FormattedMessage id="microservice-management.plugin.configuration.form.create.title" />
 
     return (
-      <ReduxConnectedForm
+      <form
         onSubmit={handleSubmit(this.props.onSubmit)}
-        i18nMessagesDir="modules/admin-microservice-management/src/i18n"
       >
         <div>
           <Card>
@@ -214,7 +211,7 @@ export class PluginConfigurationFormComponent extends React.Component {
             </CardActions>
           </Card>
         </div>
-      </ReduxConnectedForm>
+      </form>
     )
   }
 }

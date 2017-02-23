@@ -6,8 +6,8 @@ import MicroserviceBoardComponent from '../../src/components/MicroserviceBoardCo
 // Test a components rendering
 describe('[ADMIN MICROSERVICE MANAGEMENT] Testing microservice board container', () => {
   it('should exists', () => {
-    assert.isNotNull(MicroserviceBoardContainer)
-    assert.isNotNull(MicroserviceBoardComponent)
+    assert.isDefined(MicroserviceBoardContainer)
+    assert.isDefined(MicroserviceBoardComponent)
   })
 
   it('should render self and subcomponents', () => {

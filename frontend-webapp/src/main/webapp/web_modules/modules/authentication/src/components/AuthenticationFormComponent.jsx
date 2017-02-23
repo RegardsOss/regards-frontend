@@ -4,15 +4,15 @@
 import { FormattedMessage } from 'react-intl'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { isEmpty } from 'lodash'
-import { reduxForm, formValueSelector } from 'redux-form'
+import { formValueSelector } from 'redux-form'
 import RaisedButton from 'material-ui/RaisedButton'
 import UnlockAccountIcon from 'material-ui/svg-icons/action/lock'
 import ResetPasswordIcon from 'material-ui/svg-icons/action/restore-page'
 import ProjectAccessIcon from 'material-ui/svg-icons/action/assignment-ind'
-import { ReduxConnectedForm, connect } from '@regardsoss/redux'
+import { connect } from '@regardsoss/redux'
 import { themeContextType } from '@regardsoss/theme'
 import { PictureLinkComponent } from '@regardsoss/components'
-import { RenderTextField, Field, FormErrorMessage, ErrorTypes, ValidationHelpers } from '@regardsoss/form-utils'
+import { RenderTextField, Field, FormErrorMessage, ErrorTypes, ValidationHelpers, reduxForm } from '@regardsoss/form-utils'
 
 const mailFieldId = 'username'
 
@@ -58,8 +58,8 @@ export class AuthenticationFormComponent extends React.Component {
    */
   componentWillMount() {
     if (process.env.NODE_ENV === 'development') {
-      // console.log('DEV', 'Auto connection')
-      // this.props.onLogin({ username: 'admin@cnes.fr', password: 'admin' })
+      console.log('DEV', 'Auto connection')
+      this.props.onLogin({ username: 'admin@cnes.fr', password: 'admin' })
     }
     const initialValues = {}
     initialValues[mailFieldId] = this.props.initialMail
@@ -85,9 +85,8 @@ export class AuthenticationFormComponent extends React.Component {
     }
     return (
       <div style={moduleTheme.layout}>
-        <ReduxConnectedForm
+        <form
           onSubmit={handleSubmit(onLogin)}
-          i18nMessagesDir="modules/authentication/src/i18n"
         >
           <Card>
             <CardTitle
@@ -140,7 +139,7 @@ export class AuthenticationFormComponent extends React.Component {
               />
             </div>
           </Card>
-        </ReduxConnectedForm>
+        </form>
       </div>
     )
   }

@@ -6,6 +6,7 @@ import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { Resource } from '@regardsoss/model'
 import Dialog from 'material-ui/Dialog'
+import moduleStyles from '../styles/styles'
 
 /**
  * React container to show User and Role which has an access to the
@@ -24,27 +25,25 @@ class ResourceAccessModalOverviewComponent extends React.Component {
   }
 
   getChipColor = (verb) => {
+    const styles = moduleStyles(this.context.muiTheme)
     switch (verb) {
       case 'GET':
-        return this.context.muiTheme.adminApp.roleResourceAccessOverview.getChip
+        return styles.getChip
       case 'POST':
-        return this.context.muiTheme.adminApp.roleResourceAccessOverview.postChip
+        return styles.postChip
       case 'DELETE':
-        return this.context.muiTheme.adminApp.roleResourceAccessOverview.deleteChip
+        return styles.deleteChip
       case 'PUT':
-        return this.context.muiTheme.adminApp.roleResourceAccessOverview.putChip
+        return styles.putChip
       default:
         return {}
     }
   }
   render() {
     const { currentResource } = this.props
-    const styles = {
-      listItem: this.context.muiTheme.adminApp.roleResourceAccessOverview.listItem,
-      chip: this.context.muiTheme.adminApp.roleResourceAccessOverview.chipListItem,
-      wrapperChipList: this.context.muiTheme.adminApp.roleResourceAccessOverview.wrapperChipList,
-    }
+    const styles = moduleStyles(this.context.muiTheme)
     const title = this.context.intl.formatMessage({ id: 'role.modal.title' })
+
     return (
       <Dialog
         title={title}

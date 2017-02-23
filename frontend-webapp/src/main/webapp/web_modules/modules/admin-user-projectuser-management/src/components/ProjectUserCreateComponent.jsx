@@ -2,9 +2,7 @@ import { map } from 'lodash'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
-import { RenderTextField, ErrorTypes, Field, ValidationHelpers, RenderSelectField } from '@regardsoss/form-utils'
-import { reduxForm } from 'redux-form'
-import { ReduxConnectedForm } from '@regardsoss/redux'
+import { RenderTextField, ErrorTypes, Field, ValidationHelpers, RenderSelectField, reduxForm } from '@regardsoss/form-utils'
 import { Role } from '@regardsoss/model'
 import MenuItem from 'material-ui/MenuItem'
 
@@ -27,9 +25,8 @@ export class ProjectUserCreateComponent extends React.Component {
   render() {
     const { pristine, submitting, roleList } = this.props
     return (
-      <ReduxConnectedForm
+      <form
         onSubmit={this.props.handleSubmit(this.props.onSubmit)}
-        i18nMessagesDir="modules/admin-user-projectuser-management/src/i18n"
       >
         <Card>
           <CardTitle
@@ -90,7 +87,7 @@ export class ProjectUserCreateComponent extends React.Component {
             />
           </CardActions>
         </Card>
-      </ReduxConnectedForm>
+      </form>
     )
   }
 }

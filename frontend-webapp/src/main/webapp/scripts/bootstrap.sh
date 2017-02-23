@@ -26,7 +26,6 @@ npm link web_modules/utils/tests-helpers
 npm link web_modules/utils/redux
 npm link web_modules/utils/modules
 npm link web_modules/utils/layout
-npm link web_modules/utils/session-management
 
 # Common components
 npm link web_modules/components

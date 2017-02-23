@@ -6,12 +6,12 @@ import IconButton from 'material-ui/IconButton'
 import SearchIcon from 'material-ui/svg-icons/action/search'
 import { FormattedMessage } from 'react-intl'
 import { themeContextType } from '@regardsoss/theme'
-import { connect, ReduxConnectedForm } from '@regardsoss/redux'
+import { connect } from '@regardsoss/redux'
 import { CardActionsComponent } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { PluginDefinition } from '@regardsoss/model'
-import { RenderTextField, Field, ErrorTypes } from '@regardsoss/form-utils'
-import { reduxForm, formValueSelector } from 'redux-form'
+import { RenderTextField, Field, ErrorTypes, reduxForm } from '@regardsoss/form-utils'
+import { formValueSelector } from 'redux-form'
 import { PluginLoader } from '@regardsoss/plugins'
 import PluginDefinitionComponent from './PluginDefinitionComponent'
 
@@ -115,9 +115,8 @@ class pluginFormComponent extends React.Component {
     const { pristine, submitting } = this.props
 
     return (
-      <ReduxConnectedForm
+      <form
         onSubmit={this.props.handleSubmit(this.props.onSubmit)}
-        i18nMessagesDir="modules/admin-ui-plugins-management/src/i18n"
       >
         <div>
           <Card>
@@ -167,7 +166,7 @@ class pluginFormComponent extends React.Component {
             </CardActions>
           </Card>
         </div>
-      </ReduxConnectedForm>
+      </form>
     )
   }
 }

@@ -2,8 +2,8 @@ import { storiesOf, action } from '@kadira/storybook'
 import { withKnobs, object } from '@kadira/storybook-addon-knobs'
 import RoleListComponent from '@regardsoss/admin-user-role-management/src/components/RoleListComponent'
 import RoleFormComponent from '@regardsoss/admin-user-role-management/src/components/RoleFormComponent'
-import { StoreDecorator, addLocaleAndThemeSelectors, ThemeAndLocaleDecorator } from '../../utils/decorators'
-
+import { muiTheme } from 'storybook-addon-material-ui'
+import { withStore, withLocale } from '../../decorators/index'
 const defaultRoleList = {
   1: {
     content: {
@@ -35,49 +35,42 @@ const defaultRoleList = {
 }
 
 storiesOf('Project admin - Role', module)
+  .addDecorator(withLocale('modules/admin-user-role-management/src/i18n'))
   .addDecorator(withKnobs)
-  .addDecorator(StoreDecorator)
+  .addDecorator(withStore)
+  .addDecorator(muiTheme())
   .add('List', () => {
-    const themeName = addLocaleAndThemeSelectors()
     const roleList = object('Role list', defaultRoleList)
     return (
-      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-user-role-management/src/i18n">
-        <RoleListComponent
-          backUrl={'back/url'}
-          createUrl={'create/url'}
-          handleDelete={action('handleDelete')}
-          handleEdit={action('handleEdit')}
-          handleEditResourceAccess={action('handleEditResourceAccess')}
-          roleList={roleList}
-        />
-      </ThemeAndLocaleDecorator>
+      <RoleListComponent
+        backUrl={'back/url'}
+        createUrl={'create/url'}
+        handleDelete={action('handleDelete')}
+        handleEdit={action('handleEdit')}
+        handleEditResourceAccess={action('handleEditResourceAccess')}
+        roleList={roleList}
+      />
     )
   })
   .add('Create', () => {
-    const themeName = addLocaleAndThemeSelectors()
     const roleList = object('Role list', defaultRoleList)
     return (
-      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-user-role-management/src/i18n">
-        <RoleFormComponent
-          backUrl={'back/url'}
-          onSubmit={action('save role')}
-          roleList={roleList}
-        />
-      </ThemeAndLocaleDecorator>
+      <RoleFormComponent
+        backUrl={'back/url'}
+        onSubmit={action('save role')}
+        roleList={roleList}
+      />
     )
   })
   .add('Edit', () => {
-    const themeName = addLocaleAndThemeSelectors()
     const role = object('Role list', defaultRoleList[1])
     return (
-      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-user-role-management/src/i18n">
-        <RoleFormComponent
-          backUrl={'back/url'}
-          onSubmit={action('save role')}
-          roleList={defaultRoleList}
-          currentRole={role}
-        />
-      </ThemeAndLocaleDecorator>
+      <RoleFormComponent
+        backUrl={'back/url'}
+        onSubmit={action('save role')}
+        roleList={defaultRoleList}
+        currentRole={role}
+      />
     )
   })
 
