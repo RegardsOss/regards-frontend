@@ -3,10 +3,8 @@
 **/
 import { FormattedMessage } from 'react-intl'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
-import { reduxForm } from 'redux-form'
 import RaisedButton from 'material-ui/RaisedButton'
-import { ReduxConnectedForm } from '@regardsoss/redux'
-import { RenderTextField, Field, FormErrorMessage } from '@regardsoss/form-utils'
+import { RenderTextField, Field, FormErrorMessage, reduxForm } from '@regardsoss/form-utils'
 import { themeContextType } from '@regardsoss/theme'
 
 /**
@@ -37,10 +35,7 @@ export class SessionLockedFormComponent extends React.Component {
     const { moduleTheme } = this.context
     return (
       <div style={moduleTheme.layout}>
-        <ReduxConnectedForm
-          onSubmit={handleSubmit(onUnlock)}
-          i18nMessagesDir="modules/authentication/src/i18n"
-        >
+        <form onSubmit={handleSubmit(onUnlock)}>
           <Card>
             <CardTitle
               title={<FormattedMessage id="session.locked.title" />}
@@ -65,7 +60,7 @@ export class SessionLockedFormComponent extends React.Component {
               />
             </CardActions>
           </Card>
-        </ReduxConnectedForm>
+        </form>
       </div>
     )
   }
