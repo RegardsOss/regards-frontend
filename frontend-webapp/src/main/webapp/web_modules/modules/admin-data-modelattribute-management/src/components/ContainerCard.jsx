@@ -4,6 +4,7 @@
 import { DropTarget } from 'react-dnd'
 import { Card, CardTitle, CardText } from 'material-ui/Card'
 import { themeContextType } from '@regardsoss/theme'
+import moduleStyles from '../styles/styles'
 
 export class ContainerCard extends React.Component {
 
@@ -25,11 +26,10 @@ export class ContainerCard extends React.Component {
     ...themeContextType,
   }
 
-
   render() {
     const { title, children, canDrop, isOver, connectDropTarget } = this.props
     const isActive = canDrop && isOver
-    const style = this.context.muiTheme.layout.cardEspaced
+    const style = moduleStyles(this.context.muiTheme).cardEspaced
     const styles = {}
     if (isActive) {
       styles.backgroundColor = 'lightgreen'

@@ -18,8 +18,8 @@ describe('[ADMIN MICROSERVICE MANAGEMENT] Testing microservice board container',
     console.error.restore()
   })
   it('should exists', () => {
-    assert.isNotNull(MicroserviceBoardContainer)
-    assert.isNotNull(MicroserviceBoardComponent)
+    assert.isDefined(MicroserviceBoardContainer)
+    assert.isDefined(MicroserviceBoardComponent)
   })
 
   it('should render self and subcomponents', () => {

@@ -2,24 +2,52 @@ import { shallow } from 'enzyme'
 import { expect } from 'chai'
 import MenuItem from 'material-ui/MenuItem'
 import { IconMenu } from 'material-ui/IconMenu'
-import { SelectTheme } from '../../src/containers/SelectTheme'
-import ThemeHelper from '../../src/ThemeHelper'
+import { SelectThemeContainer } from '../../src/containers/SelectThemeContainer'
 
 function setup() {
   const props = {
-    theme: 'titi',
-  }
-
-
-  const context = {
-    muiTheme: {
-      menu: {
-        localeDropdown: {
+    themeList: {
+      0: {
+        content: {
+          id: 0,
+          name: 'Light',
+          active: false,
+          configuration: {},
         },
+        links: [],
+      },
+      1: {
+        content: {
+          id: 1,
+          name: 'cdpp',
+          active: true,
+          configuration: {
+            palette: {
+              primary1Color: '#673ab7',
+              accent1Color: '#ff8f00',
+              canvasColor: '#eeeeee',
+            },
+          },
+        },
+        links: [],
+      },
+      2: {
+        content: {
+          id: 2,
+          name: 'somethemename',
+          active: false,
+          configuration: {
+            palette: {
+              primary1Color: '#8bc34a',
+            },
+          },
+        },
+        links: [],
       },
     },
   }
-  const enzymeWrapper = shallow(<SelectTheme {...props} />, { context })
+
+  const enzymeWrapper = shallow(<SelectThemeContainer {...props} />)
   return {
     props,
     enzymeWrapper,
@@ -49,23 +77,12 @@ describe('[COMMON THEME] Testing select theme container', () => {
   // });
 
   it('should render self and subcomponents', () => {
-    // Mock the themes list
-    ThemeHelper.getThemes = () => ['titi', 'toto']
-
     const { enzymeWrapper } = setup()
     const iconMenu = enzymeWrapper.find(IconMenu)
     expect(iconMenu).to.have.length(1)
     const selectFieldProps = iconMenu.props()
-    expect(selectFieldProps.value).to.equal('titi')
-    // expect(selectFieldProps.onChange).to.equal(SelectTheme.prototype.handleChange)
+    expect(selectFieldProps.value).to.equal(0)
     const menuItems = iconMenu.find(MenuItem)
-    expect(menuItems).to.have.length(2)
-    // expect(menuItem0Props.value).to.equal('titi')
-    // expect(menuItem0Props.key).to.equal('titi')
-    // expect(menuItem0Props.primaryText).to.equal('titi')
-    // const menuItem1Props: MenuItemPropTypes = menuItems[1].props()
-    // expect(menuItem1Props.value).to.equal('toto')
-    // expect(menuItem1Props.key).to.equal('toto')
-    // expect(menuItem1Props.primaryText).to.equal('toto')
+    expect(menuItems).to.have.length(3)
   })
 })

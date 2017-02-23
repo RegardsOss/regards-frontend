@@ -24,4 +24,4 @@ export const getOriginURL = () => root.location.href
  * @return request link URL
  */
 export const getRequestLinkURL = mailAuthenticationActionValue =>
-  `${root.location.host}${root.location.pathname}?${AuthenticationRouteParameters.mailAuthenticationAction.urlKey}=${mailAuthenticationActionValue}`
+  `${root.location.protocol}//${root.location.host}${root.location.pathname}?${AuthenticationRouteParameters.mailAuthenticationAction.urlKey}=${mailAuthenticationActionValue}`

@@ -1,4 +1,7 @@
 /* eslint no-script-url: 0 */
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { map, forEach } from 'lodash'
 import { FormattedMessage } from 'react-intl'
 import Chip from 'material-ui/Chip'
@@ -7,6 +10,7 @@ import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import Toggle from 'material-ui/Toggle'
 import { Role, Resource } from '@regardsoss/model'
+import moduleStyles from '../styles/styles'
 
 /**
  * React container to edit resource access allowed for the
@@ -43,15 +47,16 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
   }
 
   getChipColor = (verb) => {
+    const styles = moduleStyles(this.context.muiTheme)
     switch (verb) {
       case 'GET':
-        return this.context.muiTheme.adminApp.roleResourceAccessOverview.getChip
+        return styles.getChip
       case 'POST':
-        return this.context.muiTheme.adminApp.roleResourceAccessOverview.postChip
+        return styles.postChip
       case 'DELETE':
-        return this.context.muiTheme.adminApp.roleResourceAccessOverview.deleteChip
+        return styles.deleteChip
       case 'PUT':
-        return this.context.muiTheme.adminApp.roleResourceAccessOverview.putChip
+        return styles.putChip
       default:
         return {}
     }
@@ -93,14 +98,8 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
 
   renderResource() {
     const { resourceList } = this.props
-    const styles = {
-      listItem: this.context.muiTheme.adminApp.roleResourceAccessOverview.listItem,
-      listItemOdd: this.context.muiTheme.adminApp.roleResourceAccessOverview.listItemOdd,
-      chip: this.context.muiTheme.adminApp.roleResourceAccessOverview.chipListItem,
-      wrapperChipList: this.context.muiTheme.adminApp.roleResourceAccessOverview.wrapperChipList,
-      linkColor: this.context.muiTheme.palette.primary1Color,
-      description: this.context.muiTheme.adminApp.roleResourceAccessOverview.description,
-    }
+    const styles = moduleStyles(this.context.muiTheme)
+
     return map(resourceList, (resource, id) => (
       <ListItem
         style={id % 2 === 0 ? styles.listItemOdd : {}}

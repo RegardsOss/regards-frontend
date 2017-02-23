@@ -1,17 +1,15 @@
-import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
-import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
-import { FormattedMessage } from 'react-intl'
-import { RenderTextField, RenderCheckbox, RenderSelectField, Field, ValidationHelpers, ErrorTypes } from '@regardsoss/form-utils'
-import { themeContextType } from '@regardsoss/theme'
-import { reduxForm } from 'redux-form'
-import { ReduxConnectedForm } from '@regardsoss/redux'
-import MenuItem from 'material-ui/MenuItem'
-import { AttributeModel, Fragment } from '@regardsoss/model'
 import { map } from 'lodash'
+import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
+import { FormattedMessage } from 'react-intl'
+import { RenderTextField, RenderCheckbox, RenderSelectField, Field, ValidationHelpers, ErrorTypes, reduxForm } from '@regardsoss/form-utils'
+import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
+import { themeContextType } from '@regardsoss/theme'
+import { AttributeModel, Fragment } from '@regardsoss/model'
+import MenuItem from 'material-ui/MenuItem'
 import NumberRangeComponent, { initializeNumberRangeForm } from './NumberRangeComponent'
 import EnumerationComponent, { initializeEnumerationForm } from './EnumerationComponent'
 import PatternComponent, { initializePatternForm } from './PatternComponent'
-
+import moduleStyles from '../styles/styles'
 
 /**
  * Display edit and create attribute model form
@@ -144,14 +142,13 @@ export class AttributeModelFormComponent extends React.Component {
     this.props.handleUpdateAttributeModelRestriction(value)
   }
 
-
   /**
    * return react component
    * @returns {XML}
    */
   render() {
     const { attrModelTypeList, attrModelRestrictionList, fragmentList, pristine, submitting, invalid } = this.props
-    const style = this.context.muiTheme.layout.cardEspaced
+    const styles = moduleStyles(this.context.muiTheme)
     const title = this.state.isCreating ? <FormattedMessage id="attrmodel.create.title" /> :
       (<FormattedMessage
         id="attrmodel.edit.title"
@@ -160,10 +157,7 @@ export class AttributeModelFormComponent extends React.Component {
         }}
       />)
     return (
-      <ReduxConnectedForm
-        onSubmit={this.props.handleSubmit(this.props.onSubmit)}
-        i18nMessagesDir="modules/admin-data-attributemodel-management/src/i18n"
-      >
+      <form onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
         <Card>
           <CardTitle
             title={title}
@@ -240,13 +234,13 @@ export class AttributeModelFormComponent extends React.Component {
           </CardText>
         </Card>
         {map(attrModelRestrictionList, (restriction, id) => (
-          <Card style={style} key={id}>
+          <Card style={styles.cardEspaced} key={id}>
             <CardText>
               {this.getRestrictionForm(restriction)}
             </CardText>
           </Card>
         ))}
-        <Card style={style}>
+        <Card style={styles.cardEspaced}>
           <CardActions>
             <CardActionsComponent
               mainButtonLabel={<FormattedMessage id="attrmodel.form.action.submit" />}
@@ -257,7 +251,7 @@ export class AttributeModelFormComponent extends React.Component {
             />
           </CardActions>
         </Card>
-      </ReduxConnectedForm>
+      </form>
     )
   }
 }

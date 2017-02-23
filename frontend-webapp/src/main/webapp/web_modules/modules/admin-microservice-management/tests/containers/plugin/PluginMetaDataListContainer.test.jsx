@@ -7,7 +7,7 @@ import { PluginMetaDataListContainer } from '../../../src/containers/plugin/Plug
 // Test a components rendering
 describe('[ADMIN MICROSERVICE MANAGEMENT] Testing plugin metata data list container', () => {
   it('should exists', () => {
-    assert.isNotNull(PluginMetaDataListContainer)
+    assert.isDefined(PluginMetaDataListContainer)
   })
 
   it('should render self and subcomponents', () => {

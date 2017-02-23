@@ -4,21 +4,22 @@
 import { storiesOf } from '@kadira/storybook'
 import { withKnobs } from '@kadira/storybook-addon-knobs'
 import { LazyModuleComponent } from '@regardsoss/modules'
-import { StoreDecorator, addLocaleAndThemeSelectors, ThemeDecorator } from '../../utils/decorators'
+import styles from '@regardsoss/news/src/styles/styles'
+import { muiTheme } from 'storybook-addon-material-ui'
+import { withStore, withModuleTheme } from '../../decorators/index'
 
 storiesOf('News module', module)
   .addDecorator(withKnobs)
-  .addDecorator(StoreDecorator)
+  .addDecorator(withStore)
+  .addDecorator(withModuleTheme({ styles }))
+  .addDecorator(muiTheme())
   .add('', () => {
     const module = {
       name: 'news',
       active: true,
       conf: {},
     }
-    const themeName = addLocaleAndThemeSelectors()
     return (
-      <ThemeDecorator theme={themeName}>
-        <LazyModuleComponent appName={'test'} module={module} />
-      </ThemeDecorator>
+      <LazyModuleComponent appName={'test'} module={module} />
     )
   })

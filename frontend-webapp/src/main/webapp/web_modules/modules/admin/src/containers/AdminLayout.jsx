@@ -8,18 +8,7 @@ import { LazyModuleComponent } from '@regardsoss/modules'
 import { ApplicationErrorContainer } from '@regardsoss/global-sytem-error'
 import InstanceSidebarComponent from '../menu/components/InstanceSidebarComponent'
 import ProjectSidebarComponent from '../menu/components/ProjectSidebarComponent'
-
-/*
-interface MainAdminLayoutProps {
-  content: any,
-  onLogout?: () => void
-
-  // Looks useless
-  location: any,
-  theme?: string,
-  authentication-manager?: any,
-}
-*/
+import getModuleStyles from '../styles/styles'
 
 /**
  * React components to manage Administration application.
@@ -60,21 +49,22 @@ export class AdminLayout extends React.Component {
   render() {
     const { content, params } = this.props
     const isOnInstanceDashboard = params.project !== undefined
+    const moduleStyles = getModuleStyles(this.context.muiTheme)
     const style = {
       app: {
-        classes: this.context.muiTheme.adminApp.layout.app.classes.join(' '),
-        styles: this.context.muiTheme.adminApp.layout.app.styles,
+        classes: moduleStyles.adminApp.layout.app.classes.join(' '),
+        styles: moduleStyles.adminApp.layout.app.styles,
       },
       menu: {
-        classes: this.context.muiTheme.menu.classes.join(' '),
+        classes: moduleStyles.menu.classes.join(' '),
       },
       bodyContainer: {
-        classes: this.context.muiTheme.adminApp.layout.bodyContainer.classes.join(' '),
-        styles: this.context.muiTheme.adminApp.layout.bodyContainer.styles,
+        classes: moduleStyles.adminApp.layout.bodyContainer.classes.join(' '),
+        styles: moduleStyles.adminApp.layout.bodyContainer.styles,
       },
       contentContainer: {
-        classes: this.context.muiTheme.adminApp.layout.contentContainer.classes.join(' '),
-        styles: this.context.muiTheme.adminApp.layout.contentContainer.styles,
+        classes: moduleStyles.adminApp.layout.contentContainer.classes.join(' '),
+        styles: moduleStyles.adminApp.layout.contentContainer.styles,
       },
     }
 

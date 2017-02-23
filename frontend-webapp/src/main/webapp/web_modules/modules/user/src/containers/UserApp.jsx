@@ -3,16 +3,15 @@
  **/
 import { forEach } from 'lodash'
 import { browserHistory } from 'react-router'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { connect } from '@regardsoss/redux'
 import { Layout } from '@regardsoss/model'
 import { EndpointActions } from '@regardsoss/endpoint'
-import { ThemeHelper, ThemeSelectors } from '@regardsoss/theme'
+import { ThemeProvider } from '@regardsoss/theme'
 import { ApplicationLayout, ContainerHelper } from '@regardsoss/layout'
 import { ModuleShape } from '@regardsoss/modules'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { ApplicationErrorContainer } from '@regardsoss/global-sytem-error'
-import { AuthenticateSelectors, AuthenticateShape, routeHelpers } from '@regardsoss/authentication-manager'
+import { AuthenticateSelectors, routeHelpers } from '@regardsoss/authentication-manager'
 import LayoutSelector from '../model/layout/LayoutSelector'
 import LayoutActions from '../model/layout/LayoutActions'
 import ModulesSelector from '../model/modules/ModulesSelector'
@@ -32,7 +31,6 @@ export class UserApp extends React.Component {
       project: React.PropTypes.string,
     }),
     // Set by mapStateToProps
-    theme: React.PropTypes.string,
     layoutIsFetching: React.PropTypes.bool,
     modulesIsFetching: React.PropTypes.bool,
     layout: Layout,
@@ -110,9 +108,6 @@ export class UserApp extends React.Component {
    * @returns {React.Component}
    */
   render() {
-    const { theme } = this.props
-    const muiTheme = ThemeHelper.getByName(theme)
-
     const modulesList = []
     if (this.props.modules) {
       forEach(this.props.modules, (module, key) => {
@@ -121,7 +116,7 @@ export class UserApp extends React.Component {
     }
 
     return (
-      <MuiThemeProvider muiTheme={muiTheme}>
+      <ThemeProvider>
         <LoadableContentDisplayDecorator
           isLoading={this.props.layoutIsFetching || this.props.modulesIsFetching}
           isContentError={!this.props.layout}
@@ -131,12 +126,11 @@ export class UserApp extends React.Component {
             <ApplicationErrorContainer />
           </div>
         </LoadableContentDisplayDecorator>
-      </MuiThemeProvider>
+      </ThemeProvider>
     )
   }
 }
 const mapStateToProps = (state, ownProps) => ({
-  theme: ThemeSelectors.getCurrentTheme(state),
   layout: LayoutSelector.getById(state, 'user'),
   modules: ModulesSelector.getList(state),
   layoutIsFetching: LayoutSelector.isFetching(state),

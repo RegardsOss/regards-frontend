@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { connect as reduxConnect } from 'react-redux'
-import { ThemeSelectors } from '@regardsoss/theme'
+import { getCurrentTheme } from '@regardsoss/theme'
 import { i18nSelectors } from '@regardsoss/i18n'
 
 /**
@@ -13,7 +13,7 @@ import { i18nSelectors } from '@regardsoss/i18n'
 const mergeMapStateToProps = mapStateToProps => (
   (state, ownProps) => ({
     ...mapStateToProps(state, ownProps),
-    theme: ThemeSelectors.getCurrentTheme(state),
+    theme: getCurrentTheme(state),
     i18n: i18nSelectors.getMessages(state),
   })
 )

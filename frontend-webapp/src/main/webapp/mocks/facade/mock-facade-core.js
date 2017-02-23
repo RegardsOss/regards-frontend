@@ -6,10 +6,13 @@ const url = require('url')
 const parseBody = require('parse-body')
 const httpProxy = require('http-proxy')
 const _ = require('lodash')
+const logTools = require('./log-tools')
+
 
 const proxy = httpProxy.createProxyServer({})
 
-const proxyHandlerClosure = jsonMockURL => (request, response) => console.info('[Facade mock server]', 'Pass through to JSON mock server') || proxy.web(request, response, { target: jsonMockURL })
+const proxyHandlerClosure = jsonMockURL => (request, response) =>
+  logTools.logMessage('Pass through to JSON mock server') || proxy.web(request, response, { target: jsonMockURL })
 
 const buildBasicHeaders = uiPort => ({
   'Access-Control-Allow-Origin': `http://localhost:${uiPort}`,
@@ -29,7 +32,7 @@ const buildBasicHeaders = uiPort => ({
  * @param response -
  */
 const localHandlerClosure = (uiPort, timeBefore, entryDelegate, query = {}, pathParameters = {}, bodyParameters = {}) => (request, response) => {
-  console.info('[Facade mock server]', 'Serving locally')
+  logTools.logMessage('Serving locally')
 
   // run delegate to get code and text
   const { content = '', code = 200, contentType } = entryDelegate(request, query, pathParameters, bodyParameters)
@@ -40,7 +43,7 @@ const localHandlerClosure = (uiPort, timeBefore, entryDelegate, query = {}, path
   // end answer with text (or stringified object)
   response.end(typeof content === 'object' ? JSON.stringify(content) : content)
   // log access info
-  console.info('[Facade mock server]', request.method, request.url, code, new Date().getTime() - timeBefore, 'ms')
+  logTools.logMessage(`${request.method} ${request.url} ${code} ${new Date().getTime() - timeBefore}ms`)
 }
 
 /**
@@ -77,7 +80,7 @@ const findMatchingDelegate = (delegates, relativePath) => {
   }, [])
   if (matchingDelegationData) {
     if (matchingDelegationData.length > 1) {
-      console.warn('There are two conflicting path matching the path', relativePath, ', selecting the first...')
+      logTools.logMessage(`There are two conflicting path matching the path ${relativePath}, seleting the first`, true)
     }
     return matchingDelegationData[0]
   }
@@ -111,7 +114,7 @@ const requestHandlerClosure = (urlStart, jsonMockURL, uiPort, entryDelegates) =>
               // POST / PUT: parse body and run directly callback (asynchronous parsing) - inhibit default handler
               // catching empty body exceptions
               const emptyBodyHander = (err) => {
-                console.info('[Facade mock server] empty POST request body')
+                logTools.logMessage('empty POST request body')
                 callback(localHandler)
               }
               process.on('uncaughtException', emptyBodyHander)
@@ -119,7 +122,7 @@ const requestHandlerClosure = (urlStart, jsonMockURL, uiPort, entryDelegates) =>
                 // remove empty body  handler
                 process.removeListener('uncaughtException', emptyBodyHander)
                 if (error) {
-                  console.error('[Facade mock server] Failed parsing request body', error)
+                  logTools.logMessage(`Failed parsing request body: ${error}`, error, true)
                 }
                 callback(localHandlerClosure(uiPort, timeBefore, delegationData.delegate, parsedUrl.query, delegationData.pathParameters, bodyParameters))
               })
@@ -155,10 +158,10 @@ module.exports = {
     const server = http.createServer(requestHandlerClosure(urlStart, jsonMockURL, uiPort, entryDelegates))
     server.listen(serverPort, (err) => {
       if (err) {
-        console.error('[Facade mock server]', 'start failed', err)
+        logTools.logMessage(`start failed ${err}`)
       } else {
-        console.info('[Facade mock server]', `running on http://localhost:${serverPort}`)
-        console.info('[Facade mock server]', `using JSON server at ${jsonMockURL}`)
+        logTools.logMessage(`running on http://localhost:${serverPort}`)
+        logTools.logMessage(`using JSON server at ${jsonMockURL}`)
       }
     })
   },

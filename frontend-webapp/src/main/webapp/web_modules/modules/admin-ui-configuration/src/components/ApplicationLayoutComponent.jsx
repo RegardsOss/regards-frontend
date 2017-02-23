@@ -3,11 +3,10 @@
  **/
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { FormattedMessage } from 'react-intl'
-import { reduxForm } from 'redux-form'
 import { CardActionsComponent } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { Layout } from '@regardsoss/model'
-import { ReduxConnectedForm } from '@regardsoss/redux'
+import { reduxForm } from '@regardsoss/form-utils'
 import { LayoutConfigurationComponent, DefaultLayout } from '@regardsoss/layout'
 
 /**
@@ -64,9 +63,8 @@ class ApplicationLayoutComponent extends React.Component {
   render() {
     const { pristine, submitting } = this.props
     return (
-      <ReduxConnectedForm
+      <form
         onSubmit={this.props.handleSubmit(this.props.onSubmit)}
-        i18nMessagesDir="modules/admin-ui-configuration/src/i18n"
       >
         <Card>
           <CardTitle
@@ -89,7 +87,7 @@ class ApplicationLayoutComponent extends React.Component {
             />
           </CardActions>
         </Card>
-      </ReduxConnectedForm>
+      </form>
     )
   }
 }

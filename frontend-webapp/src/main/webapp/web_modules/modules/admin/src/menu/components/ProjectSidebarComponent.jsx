@@ -20,6 +20,7 @@ import { uiPluginsDependencies } from '@regardsoss/admin-ui-plugins-management'
 import { uiConfigurationDependencies } from '@regardsoss/admin-ui-configuration'
 import { HateoasDisplayDecorator, someMatchHateoasDisplayLogic } from '@regardsoss/display-control'
 import SidebarElement from './SidebarElement'
+import getModuleStyles from '../../styles/styles'
 
 /**
  * React sidebar components. Display the admin application menu
@@ -42,15 +43,15 @@ class ProjectSidebarComponent extends React.Component {
   }
 
   render() {
-    const { muiTheme } = this.context
     const { onLogout, projectName } = this.props
+    const moduleStyles = getModuleStyles(this.context.muiTheme)
     const style = {
       sidebarContainer: {
-        classes: muiTheme.adminApp.layout.sidebarContainer.classes.join(' '),
-        styles: muiTheme.adminApp.layout.sidebarContainer.styles,
+        classes: moduleStyles.adminApp.layout.sidebarContainer.classes.join(' '),
+        styles: moduleStyles.adminApp.layout.sidebarContainer.styles,
       },
       link: {
-        styles: muiTheme.linkWithoutDecoration,
+        styles: moduleStyles.linkWithoutDecoration,
       },
     }
 
@@ -61,21 +62,18 @@ class ProjectSidebarComponent extends React.Component {
           <SidebarElement
             key="1"
             to={`/admin/${projectName}/user/board`}
-            linkStyle={style.link.styles}
             primaryText={<FormattedMessage id="menu.users" />}
             leftIcon={<SupervisorAccount />}
           />
           <SidebarElement
             key="2"
             to={`/admin/${projectName}/data/board`}
-            linkStyle={style.link.styles}
             primaryText={<FormattedMessage id="menu.datamanagement" />}
             leftIcon={<AddBox />}
           />
           <SidebarElement
             key="3"
             to={`/admin/${projectName}/access-right/edit`}
-            linkStyle={style.link.styles}
             primaryText={<FormattedMessage id="menu.dataaccessrights" />}
             leftIcon={<VerifiedUser />}
           />
@@ -85,7 +83,6 @@ class ProjectSidebarComponent extends React.Component {
             <SidebarElement
               key="4"
               to={`/admin/${projectName}/ui-plugins/plugins`}
-              linkStyle={style.link.styles}
               primaryText={<FormattedMessage id="menu.plugins" />}
               leftIcon={<Widgets />}
             />
@@ -93,7 +90,6 @@ class ProjectSidebarComponent extends React.Component {
           <SidebarElement
             key="5"
             to={`/admin/${projectName}/microservice/board`}
-            linkStyle={style.link.styles}
             primaryText={<FormattedMessage id="menu.microservices" />}
             leftIcon={<CloudQueue />}
           />
@@ -104,7 +100,6 @@ class ProjectSidebarComponent extends React.Component {
             <SidebarElement
               key="6"
               to={`/admin/${projectName}/ui-configuration/applications`}
-              linkStyle={style.link.styles}
               primaryText={<FormattedMessage id="menu.ui.configuration" />}
               leftIcon={<Brush />}
             />
@@ -112,7 +107,6 @@ class ProjectSidebarComponent extends React.Component {
           <SidebarElement
             key="7"
             to={`/admin/${projectName}/datamanagement`}
-            linkStyle={style.link.styles}
             primaryText={<FormattedMessage id="menu.news" />}
             leftIcon={<Chat />}
           />

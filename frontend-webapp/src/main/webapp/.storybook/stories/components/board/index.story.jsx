@@ -9,7 +9,8 @@ import ActionHome from 'material-ui/svg-icons/action/home'
 import FileCloudDownload from 'material-ui/svg-icons/file/cloud-download'
 import HardwareVideogameAsset from 'material-ui/svg-icons/hardware/videogame-asset'
 import IconButton from 'material-ui/IconButton'
-import { StoreDecorator, addLocaleAndThemeSelectors, ThemeDecorator } from '../../utils/decorators'
+import withStore from '../../decorators/withStore'
+import { muiTheme } from 'storybook-addon-material-ui'
 
 const items = [
   {
@@ -103,44 +104,35 @@ const iconStyles = {
 
 storiesOf('Board', module)
   .addDecorator(withKnobs)
-  .addDecorator(StoreDecorator)
-  .add('Base board item', () => {
-    const themeName = addLocaleAndThemeSelectors()
-    return (
-      <ThemeDecorator theme={themeName}>
-        <BaseBoardItemComponent
-          title={'This is the title'}
-          subtitle={'It has a subtitle'}
-          description={'This is the description'}
-          actions={[
-            <IconButton
-              iconStyle={iconStyles.smallIcon}
-              style={iconStyles.small}
-            >
-              <ActionHome />
-            </IconButton>,
-            <IconButton
-              iconStyle={iconStyles.smallIcon}
-              style={iconStyles.small}
-            >
-              <FileCloudDownload />
-            </IconButton>,
-            <IconButton
-              iconStyle={iconStyles.smallIcon}
-              style={iconStyles.small}
-            >
-              <HardwareVideogameAsset />
-            </IconButton>,
-          ]}
-        />
-      </ThemeDecorator>
-    )
-  })
-  .add('BoardComponent', () => {
-    const themeName = addLocaleAndThemeSelectors()
-    return (
-      <ThemeDecorator theme={themeName}>
-        <BoardComponent items={items} />
-      </ThemeDecorator>
-    )
-  })
+  .addDecorator(withStore)
+  .addDecorator(muiTheme())
+  .add('Base board item', () => (
+    <BaseBoardItemComponent
+      title={'This is the title'}
+      subtitle={'It has a subtitle'}
+      description={'This is the description'}
+      actions={[
+        <IconButton
+          iconStyle={iconStyles.smallIcon}
+          style={iconStyles.small}
+        >
+          <ActionHome />
+        </IconButton>,
+        <IconButton
+          iconStyle={iconStyles.smallIcon}
+          style={iconStyles.small}
+        >
+          <FileCloudDownload />
+        </IconButton>,
+        <IconButton
+          iconStyle={iconStyles.smallIcon}
+          style={iconStyles.small}
+        >
+          <HardwareVideogameAsset />
+        </IconButton>,
+      ]}
+    />
+    ))
+  .add('BoardComponent', () => (
+    <BoardComponent items={items} />
+    ))

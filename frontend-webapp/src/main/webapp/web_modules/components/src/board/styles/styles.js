@@ -36,7 +36,9 @@ const styles = theme => ({
     display: 'flex',
     justifyContent: 'space-around',
   },
-  links: theme.linkWithoutDecoration,
+  links: {
+    textDecoration: 'blink',
+  },
   icon: {
     smallIcon: {
       width: 36,

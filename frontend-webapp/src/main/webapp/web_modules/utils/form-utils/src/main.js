@@ -12,7 +12,7 @@ import FormEntityNotFoundComponent from './FormEntityNotFoundComponent'
 import FormLoadingComponent from './FormLoadingComponent'
 import EnumInputsComponent from './EnumInputs/EnumInputsComponent'
 import EnumInputsHelper from './EnumInputs/EnumInputsHelper'
-
+import reduxForm from './reduxForm'
 
 export default {
   RenderTextField,
@@ -29,4 +29,5 @@ export default {
   FormEntityNotFoundComponent,
   EnumInputsComponent,
   EnumInputsHelper,
+  reduxForm,
 }

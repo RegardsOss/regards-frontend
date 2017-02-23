@@ -3,7 +3,7 @@
  */
 import { combineReducers } from 'redux'
 import { reducer as reduxFormReducer } from 'redux-form'
-import { themeReducers } from '@regardsoss/theme'
+import { reducers as ThemeReducers } from '@regardsoss/theme'
 import { portalReducer } from '@regardsoss/portal'
 import { adminReducer } from '@regardsoss/admin'
 import { userReducer } from '@regardsoss/user'
@@ -18,7 +18,7 @@ import { ApplicationErrorReducer } from '@regardsoss/global-sytem-error'
  */
 const commonReducer = combineReducers({
   i18n: i18nReducers,
-  theme: themeReducers,
+  theme: ThemeReducers,
   plugins: PluginReducer,
   endpoints: EndpointReducers,
   [authenticateReducersPath]: AuthenticateReducers,

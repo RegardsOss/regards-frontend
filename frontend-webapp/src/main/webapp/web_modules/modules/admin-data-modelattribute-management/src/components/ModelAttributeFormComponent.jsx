@@ -15,6 +15,7 @@ import DraggableCard from './DraggableCard'
 import AttributeModelComponent from './AttributeModelComponent'
 import FragmentComponent from './FragmentComponent'
 import ModelAttributeContainer from '../containers/ModelAttributeContainer'
+import moduleStyles from '../styles/styles'
 
 /**
  * Display edit and create attribute model form
@@ -69,7 +70,8 @@ export class ModelAttributeFormComponent extends React.Component {
    */
   render() {
     const { backUrl, distributedAttrModels } = this.props
-    const style = this.context.muiTheme.layout.cardEspaced
+    const style = moduleStyles(this.context.muiTheme)
+
     return (
       <div>
         <Card>
@@ -145,7 +147,7 @@ export class ModelAttributeFormComponent extends React.Component {
             </ContainerCard>
           </div>
         </div>
-        <Card style={style}>
+        <Card style={style.cardEspaced}>
           <CardActions>
             <CardActionsComponent
               mainButtonLabel={<FormattedMessage id="modelattr.form.action.back" />}

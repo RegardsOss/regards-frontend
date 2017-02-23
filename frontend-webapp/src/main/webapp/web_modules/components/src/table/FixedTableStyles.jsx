@@ -31,7 +31,7 @@ export default theme => ({
   cellHeader: {
     backgroundColor: theme.table.backgroundColor,
     color: theme.tableHeaderColumn.textColor,
-    fontFamily: theme.rawTheme.fontFamily,
+    fontFamily: theme.fontFamily,
     display: 'flex',
     justifyContent: 'center',
     borderBottom: `1px solid ${theme.tableRow.borderColor}`,
@@ -40,7 +40,7 @@ export default theme => ({
   fixedCellHeader: {
     backgroundColor: theme.table.backgroundColor,
     color: theme.tableHeaderColumn.textColor,
-    fontFamily: theme.rawTheme.fontFamily,
+    fontFamily: theme.fontFamily,
     display: 'flex',
     justifyContent: 'center',
     borderBottom: `1px solid ${theme.tableRow.borderColor}`,
@@ -48,14 +48,14 @@ export default theme => ({
   cellOddContent: {
     backgroundColor: theme.table.backgroundColor,
     color: theme.tableRow.textColor,
-    fontFamily: theme.rawTheme.fontFamily,
+    fontFamily: theme.fontFamily,
     display: 'flex',
     justifyContent: 'center',
   },
   cellEvenContent: {
     backgroundColor: theme.palette.primary3Color,
     color: theme.tableRow.textColor,
-    fontFamily: theme.rawTheme.fontFamily,
+    fontFamily: theme.fontFamily,
     display: 'flex',
     justifyContent: 'center',
   },

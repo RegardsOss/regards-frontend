@@ -10,8 +10,8 @@ import RaisedButton from 'material-ui/RaisedButton'
 import { themeContextType } from '@regardsoss/theme'
 import { RenderTextField, RenderCheckbox, Field, FormErrorMessage, ErrorTypes, ValidationHelpers } from '@regardsoss/form-utils'
 
-const mailFieldId = 'mail'
-const useExistingAccountFieldId = 'hasAlreadyAccount'
+export const mailFieldId = 'mail'
+export const useExistingAccountFieldId = 'hasAlreadyAccount'
 
 /**
  * Form to request access to a project. Handles new account (internal or external) and existing account

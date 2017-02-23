@@ -3,7 +3,7 @@ import muiThemeable from 'material-ui/styles/muiThemeable'
 import withWidth from 'material-ui/utils/withWidth'
 import typography from 'material-ui/styles/typography'
 import ClearFix from 'material-ui/internal/ClearFix'
-
+import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card'
 import {
   Checkbox,
   DatePicker,
@@ -22,6 +22,7 @@ import {
   TextField,
   Toggle,
 } from 'material-ui'
+import rocket from '../resources/rocket.png'
 
 function getStyles() {
   const styles = {
@@ -67,7 +68,7 @@ function getStyles() {
       color: typography.textDarkBlack,
     },
     liveExamplePaper: {
-      marginBottom: 32,
+      // marginBottom: 32,
       overflow: 'hidden',
     },
     bottomBorderWrapper: {
@@ -183,6 +184,42 @@ class ThemesPage extends React.Component {
         </div>
         <div style={styles.groupSlider}>
           <Slider style={styles.slider} name="slider2" defaultValue={0.5} />
+        </div>
+        <div style={styles.groupSlider}>
+          <Card expanded={this.state.expanded} onExpandChange={this.handleExpandChange}>
+            <CardHeader
+              title="URL Avatar"
+              subtitle="Subtitle"
+              avatar={rocket}
+              actAsExpander
+              showExpandableButton
+            />
+            <CardText>
+              <Toggle
+                toggled={this.state.expanded}
+                onToggle={this.handleToggle}
+                labelPosition="right"
+                label="This toggle controls the expanded state of the component."
+              />
+            </CardText>
+            <CardMedia
+              expandable
+              overlay={<CardTitle title="Overlay title" subtitle="Overlay subtitle" />}
+            >
+              <img src={rocket} alt="A rocket illustration" />
+            </CardMedia>
+            <CardTitle title="Card title" subtitle="Card subtitle" expandable />
+            <CardText expandable>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
+              Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.
+              Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.
+            </CardText>
+            <CardActions>
+              <FlatButton label="Expand" onTouchTap={this.handleExpand} />
+              <FlatButton label="Reduce" onTouchTap={this.handleReduce} />
+            </CardActions>
+          </Card>
         </div>
         <div style={styles.group}>
           <div style={styles.containerCentered}>

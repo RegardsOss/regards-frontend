@@ -2,12 +2,12 @@
  * LICENSE_PLACEHOLDER
  **/
 import { intlShape } from 'react-intl'
-import { connect } from '@regardsoss/redux'
-import { I18nProvider } from '@regardsoss/i18n'
 import { AuthenticateSelectors, routeHelpers } from '@regardsoss/authentication-manager'
-import { ThemeHelper, ThemeSelectors } from '@regardsoss/theme'
+import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { EndpointActions } from '@regardsoss/endpoint'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import { I18nProvider } from '@regardsoss/i18n'
+import { connect } from '@regardsoss/redux'
+import { ThemeProvider } from '@regardsoss/theme'
 import AdminLayout from './AdminLayout'
 import AuthenticationPanel from './AuthenticationPanel'
 
@@ -24,7 +24,6 @@ class AdminApp extends React.Component {
       project: React.PropTypes.string,
     }),
     // from mapStateToProps
-    theme: React.PropTypes.string,
     isAuthenticated: React.PropTypes.bool,
     // from mapDispatchToProps
     fetchEndpoints: React.PropTypes.func,
@@ -89,7 +88,7 @@ class AdminApp extends React.Component {
       )
     }
     return (
-      <AdminLayout key="2" {...this.props}>
+      <AdminLayout {...this.props}>
         {content}
       </AdminLayout>
     )
@@ -99,28 +98,22 @@ class AdminApp extends React.Component {
    * @returns {React.Component}
    */
   render() {
-    const { theme, isAuthenticated, content } = this.props
-    // Build theme
-    const muiTheme = ThemeHelper.getByName(theme)
+    const { isAuthenticated, content } = this.props
+    const { isLoadingEndpoints } = this.state
 
-    if (!this.state.isLoadingEndpoints) {
-      return (
-        <MuiThemeProvider muiTheme={muiTheme}>
-          <I18nProvider messageDir={'modules/admin/src/i18n'}>
-            <div>
-              {this.getContent(isAuthenticated, content)}
-            </div>
-          </I18nProvider>
-        </MuiThemeProvider>
-      )
-    }
-    return null
+    return (
+      <ThemeProvider>
+        <I18nProvider messageDir={'modules/admin/src/i18n'}>
+          <LoadableContentDisplayDecorator isLoading={isLoadingEndpoints}>
+            {this.getContent(isAuthenticated, content)}
+          </LoadableContentDisplayDecorator>
+        </I18nProvider>
+      </ThemeProvider>
+    )
   }
 }
 
 const mapStateToProps = state => ({
-  // Add theme from store to the components props
-  theme: ThemeSelectors.getCurrentTheme(state),
   isAuthenticated: AuthenticateSelectors.isAuthenticated(state),
 })
 

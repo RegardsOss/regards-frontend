@@ -21,7 +21,7 @@ class ValidateAccountActions extends BasicSignalActions {
    * @param token validation token
    */
   sendValidationRequest(token) {
-    return this.sendSignal('GET', { }, { token })
+    return this.sendSignal('GET', {}, { token })
   }
 
 }
