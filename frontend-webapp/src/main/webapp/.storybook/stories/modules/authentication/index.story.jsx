@@ -52,6 +52,6 @@ storiesOf('Authentication', module)
     />
   ))
   .add('Complete password update', () => (
-    <CompleteResetPasswordFormComponent onChangePassword={action('done click')}/>
+    <CompleteResetPasswordFormComponent onChangePassword={action('done click')} />
   ))
 
