@@ -3,6 +3,7 @@
  */
 
 import { FormattedMessage } from 'react-intl'
+import { formValueSelector } from 'redux-form'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { connect } from '@regardsoss/redux'
 import RaisedButton from 'material-ui/RaisedButton'
