@@ -3,9 +3,9 @@
  **/
 import { combineReducers } from 'redux'
 import ListReducers from './ThemeReducers'
-import CurrentThemeReducers from './CurrentThemeReducers'
+import currentThemeReducer from './currentThemeReducer'
 
 export default combineReducers({
   list: ListReducers,
-  current: CurrentThemeReducers,
+  current: currentThemeReducer,
 })

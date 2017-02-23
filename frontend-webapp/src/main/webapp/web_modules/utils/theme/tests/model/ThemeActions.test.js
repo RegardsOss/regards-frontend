@@ -1,12 +1,12 @@
 import { expect } from 'chai'
-import setTheme from '../../src/model/actions/ThemeActions'
+import setCurrentTheme from '../../src/model/actions/setCurrentTheme'
 
-describe('[COMMON THEME] Testing theme actions', () => {
+describe('[COMMON THEME] Testing current theme actions', () => {
   it('should create an action to set the theme', () => {
     const expectedAction = {
-      type: 'SET_THEME',
-      theme: 2,
+      type: 'SET_CURRENT_THEME',
+      themeId: 2,
     }
-    expect(setTheme(2)).to.eql(expectedAction)
+    expect(setCurrentTheme(2)).to.eql(expectedAction)
   })
 })
