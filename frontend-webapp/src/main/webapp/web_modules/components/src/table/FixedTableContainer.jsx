@@ -7,7 +7,6 @@ import { BasicPageableSelectors, BasicPageableActions } from '@regardsoss/store-
 import './fixed-data-table-mui.css'
 import FixedTable from './FixedTable'
 
-
 /**
  * Fixed data table from facebook library integrated with material ui theme
  * and infinite scroll functionality.
@@ -57,9 +56,6 @@ class FixedTableContainer extends React.Component {
     }),
     fetchEntities: React.PropTypes.func,
     entitiesFetching: React.PropTypes.bool,
-    // Set by @regardsoss/redux connect
-    theme: React.PropTypes.string,
-    locale: React.PropTypes.string,
   }
 
   constructor(props) {
@@ -120,15 +116,6 @@ class FixedTableContainer extends React.Component {
         entities,
       })
     }
-  }
-
-  shouldComponentUpdate(nextProps) {
-    let update = isEqual(nextProps.requestParams, this.props.requestParams) === false
-    update = update || isEqual(nextProps.entities, this.props.entities) === false
-    update = update || nextProps.theme !== this.props.theme
-    update = update || nextProps.entitiesFetching !== this.props.entitiesFetching
-    update = update || nextProps.locale !== this.props.locale
-    return update
   }
 
   /**
