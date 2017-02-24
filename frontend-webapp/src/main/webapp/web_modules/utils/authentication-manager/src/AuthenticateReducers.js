@@ -11,15 +11,16 @@ class AuthenticateReducers extends BasicSignalReducers {
 
   reduce(state, action) {
     const { error, ...newState } = super.reduce(state, action)
+
     // apply required state changes
     switch (action.type) {
       case this.basicSignalActionInstance.SIGNAL_REQUEST:
       case this.basicSignalActionInstance.FLUSH:
-        // same behavior as parent, add specific state fields: authentication date, user, error.loginError
+        // same behavior as parent, add specific state fields: error.loginError (user is in result)
         return {
           ...newState,
           authenticateDate: null,
-          user: {},
+          sessionLocked: false,
           error: {
             loginError: null,
             ...error,
@@ -29,27 +30,33 @@ class AuthenticateReducers extends BasicSignalReducers {
         // keep login error
         return {
           ...newState,
-          authenticateDate: null,
-          user: {},
+          sessionLocked: state ? state.sessionLocked : false,
           error: {
             loginError: action.payload && action.payload.response ? action.payload.response.error : 'UNKNOWN_ERROR',
             ...error,
           },
         }
-      // keep logged user
+      // update authentication date and unlock session
       case this.basicSignalActionInstance.SIGNAL_SUCCESS:
         return {
           ...newState,
+          sessionLocked: false,
           authenticateDate: Date.now(),
-          user: action.payload,
           error: {
             loginError: null,
             ...error,
           },
         }
+      // mark session locked, keep authentication date
+      case AuthenticateActions.LOCK_SESSION:
+        return {
+          ...state,
+          authenticateDate: state.authenticateDate,
+          sessionLocked: true,
+        }
       default:
         // not in this reducer
-        return { ...newState, error }
+        return { error, ...newState }
     }
   }
 }

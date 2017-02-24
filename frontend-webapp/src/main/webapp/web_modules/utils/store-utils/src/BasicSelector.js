@@ -37,6 +37,11 @@ class BasicSelector {
     return partialStore
   }
 
+  hasError(state) {
+    const error = this.getError(state)
+    return !!error && error.hasError
+  }
+
   /**
    * Returns error from state, if available.
    * @param state state

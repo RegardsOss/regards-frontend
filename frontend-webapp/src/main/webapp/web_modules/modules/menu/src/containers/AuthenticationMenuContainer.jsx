@@ -40,7 +40,6 @@ class AuthenticationMenuContainer extends React.Component {
     }
   }
 
-
   // forbid closing when we are in a specific authentication URL (to avoid inconsistent states)
   onCloseDialog = () => this.setAuthenticationVisible(false)
 
@@ -89,7 +88,7 @@ class AuthenticationMenuContainer extends React.Component {
 const mapStateToProps = (state) => {
   const isAuthenticated = AuthenticateSelectors.isAuthenticated(state)
   return {
-    authenticationName: isAuthenticated ? AuthenticateSelectors.getAuthentication(state).user.sub : '',
+    authenticationName: isAuthenticated ? AuthenticateSelectors.getAuthentication(state).result.sub : '',
     isAuthenticated,
   }
 }

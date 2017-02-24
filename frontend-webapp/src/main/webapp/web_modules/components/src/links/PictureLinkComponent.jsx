@@ -67,21 +67,25 @@ class PictureLinkComponent extends React.Component {
     } else {
       [textColor, iconColor] = [defaultTextColor, defaultImageColor]
     }
+    /* eslint-disable jsx-a11y/no-static-element-interactions*/
     return (
       <div
-        onTouchTap={() => !disabled && onAction()}
+        style={{ display: 'inline-flex', alignItems: 'center', textDecoration: 'none', cursor: 'pointer' }}
+        onClick={() => !disabled && onAction()}
         onMouseOut={() => this.switchOver(false)}
         onMouseOver={() => this.switchOver(true)}
-        style={{ display: 'inline-flex', alignItems: 'center', textDecoration: 'none', cursor: 'pointer' }}
       >
         <div style={{ flexGrow: '0', flexShrink: '0' }}>
-          <IconComponent style={{ color: iconColor, ...iconStyles }} />
+          <IconComponent
+            style={{ color: iconColor, ...iconStyles }}
+          />
         </div>
         <div style={{ color: textColor, textAlign: 'center', flexGrow: '1', flexShrink: '1', marginLeft: iconToTextGap }}>
           {text}
         </div>
       </div>
     )
+    /* eslint-enable jsx-a11y/no-static-element-interactions*/
   }
 }
 

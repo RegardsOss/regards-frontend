@@ -14,23 +14,18 @@ class AuthenticateSelectors extends BasicSelector {
   }
 
   /**
-   * Is a user authenticated
+   * Is a user authenticated (based on last fetch result)
    * @param state state
    * @returns {boolean}
    */
   isAuthenticated(state) {
     const authentication = this.getAuthentication(state)
     if (authentication && authentication.authenticateDate &&
-      authentication.user && authentication.user.expires_in) {
-      const expired = authentication.authenticateDate + (authentication.user.expires_in * 1000) < Date.now()
-      return authentication.user.name !== undefined && !expired
+      authentication.result && authentication.result.expires_in) {
+      const expired = authentication.authenticateDate + (authentication.result.expires_in * 1000) < Date.now()
+      return authentication.result.name !== undefined && !expired
     }
     return false
-  }
-
-  getError(state) {
-    const auth = this.getAuthentication(state)
-    return auth && auth.error
   }
 
 }
