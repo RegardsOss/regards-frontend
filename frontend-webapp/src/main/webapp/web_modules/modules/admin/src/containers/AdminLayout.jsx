@@ -26,6 +26,7 @@ export class AdminLayout extends React.Component {
     params: React.PropTypes.shape({
       project: React.PropTypes.string,
     }),
+    location: React.PropTypes.objectOf(React.PropTypes.object),
     // from mapDispatchToProps
     onLogout: React.PropTypes.func,
   }
@@ -36,14 +37,15 @@ export class AdminLayout extends React.Component {
   }
 
   getSidebar = (isInstanceDashboard) => {
-    const { onLogout, params } = this.props
+    const { onLogout, params, location } = this.props
     if (isInstanceDashboard) {
       return (<ProjectSidebarComponent
         onLogout={onLogout}
         projectName={params.project}
+        currentPath={location.pathname}
       />)
     }
-    return (<InstanceSidebarComponent onLogout={onLogout} />)
+    return (<InstanceSidebarComponent currentPath={location.pathname} onLogout={onLogout} />)
   }
 
   render() {

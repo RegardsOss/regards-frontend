@@ -28,6 +28,7 @@ class InstanceSidebarComponent extends React.Component {
    */
   static propTypes = {
     onLogout: React.PropTypes.func.isRequired,
+    currentPath: React.PropTypes.string,
   }
 
   render() {
@@ -46,6 +47,7 @@ class InstanceSidebarComponent extends React.Component {
             endpointKey="projects_url"
             key="0"
             to={'/admin/project/list'}
+            currentPath={this.props.currentPath}
             primaryText={<FormattedMessage id="menu.projects" />}
             leftIcon={<Settings />}
           />
@@ -53,6 +55,7 @@ class InstanceSidebarComponent extends React.Component {
             endpointKey="projects_users_url"
             key="1"
             to={'/admin/account/list'}
+            currentPath={this.props.currentPath}
             primaryText={<FormattedMessage id="menu.accounts" />}
             leftIcon={<SupervisorAccount />}
           />
@@ -60,6 +63,7 @@ class InstanceSidebarComponent extends React.Component {
             endpointKey="projects_users_url"
             key="2"
             to={'/admin/project-connection/list'}
+            currentPath={this.props.currentPath}
             primaryText={<FormattedMessage id="menu.databases" />}
             leftIcon={<Weekend />}
           />
@@ -67,6 +71,7 @@ class InstanceSidebarComponent extends React.Component {
             endpointKey="projects_users_url"
             key="3"
             to={'/admin/ui-configuration/applications'}
+            currentPath={this.props.currentPath}
             primaryText={<FormattedMessage id="menu.ui.configuration" />}
             leftIcon={<Brush />}
           />

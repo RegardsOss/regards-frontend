@@ -40,6 +40,7 @@ class ProjectSidebarComponent extends React.Component {
   static propTypes = {
     projectName: React.PropTypes.string,
     onLogout: React.PropTypes.func.isRequired,
+    currentPath: React.PropTypes.string,
   }
 
   render() {
@@ -62,18 +63,21 @@ class ProjectSidebarComponent extends React.Component {
           <SidebarElement
             key="1"
             to={`/admin/${projectName}/user/board`}
+            currentPath={this.props.currentPath}
             primaryText={<FormattedMessage id="menu.users" />}
             leftIcon={<SupervisorAccount />}
           />
           <SidebarElement
             key="2"
             to={`/admin/${projectName}/data/board`}
+            currentPath={this.props.currentPath}
             primaryText={<FormattedMessage id="menu.datamanagement" />}
             leftIcon={<AddBox />}
           />
           <SidebarElement
             key="3"
             to={`/admin/${projectName}/access-right/edit`}
+            currentPath={this.props.currentPath}
             primaryText={<FormattedMessage id="menu.dataaccessrights" />}
             leftIcon={<VerifiedUser />}
           />
@@ -83,6 +87,7 @@ class ProjectSidebarComponent extends React.Component {
             <SidebarElement
               key="4"
               to={`/admin/${projectName}/ui-plugins/plugins`}
+              currentPath={this.props.currentPath}
               primaryText={<FormattedMessage id="menu.plugins" />}
               leftIcon={<Widgets />}
             />
@@ -90,6 +95,7 @@ class ProjectSidebarComponent extends React.Component {
           <SidebarElement
             key="5"
             to={`/admin/${projectName}/microservice/board`}
+            currentPath={this.props.currentPath}
             primaryText={<FormattedMessage id="menu.microservices" />}
             leftIcon={<CloudQueue />}
           />
@@ -100,6 +106,7 @@ class ProjectSidebarComponent extends React.Component {
             <SidebarElement
               key="6"
               to={`/admin/${projectName}/ui-configuration/applications`}
+              currentPath={this.props.currentPath}
               primaryText={<FormattedMessage id="menu.ui.configuration" />}
               leftIcon={<Brush />}
             />
@@ -107,6 +114,7 @@ class ProjectSidebarComponent extends React.Component {
           <SidebarElement
             key="7"
             to={`/admin/${projectName}/datamanagement`}
+            currentPath={this.props.currentPath}
             primaryText={<FormattedMessage id="menu.news" />}
             leftIcon={<Chat />}
           />
