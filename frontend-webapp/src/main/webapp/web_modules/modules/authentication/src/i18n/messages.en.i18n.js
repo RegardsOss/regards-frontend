@@ -118,6 +118,7 @@ const messages = Object.assign({
   'session.locked.subtitle': 'Your session has expired, please enter your password below to unlock it',
   'session.locked.password': 'Password',
   'session.locked.button': 'Unlock',
+  'session.locked.error': 'Invalid identifiers',
 
 }, Locales.en)
 

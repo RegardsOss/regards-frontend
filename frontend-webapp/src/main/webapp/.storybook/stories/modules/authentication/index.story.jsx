@@ -1,3 +1,4 @@
+import { muiTheme } from 'storybook-addon-material-ui'
 import { storiesOf, action } from '@kadira/storybook'
 import { values } from 'lodash'
 import AccountRequestFormComponent, { requestFormIds } from '@regardsoss/authentication/src/components/AccountRequestFormComponent'
@@ -9,7 +10,6 @@ import SessionLockedFormComponent from '@regardsoss/authentication/src/component
 import styles from '@regardsoss/authentication/src/styles/styles'
 import { withKnobs, text, boolean, select } from '@kadira/storybook-addon-knobs'
 import { withStore, withLocale, withModuleTheme } from '../../decorators/index'
-import { muiTheme } from 'storybook-addon-material-ui'
 
 storiesOf('Authentication', module)
   .addDecorator(withLocale('modules/authentication/src/i18n'))
@@ -56,8 +56,6 @@ storiesOf('Authentication', module)
     <CompleteResetPasswordFormComponent onChangePassword={action('done click')} />
   ))
   .add('Session locked', () => (
-    <CompleteResetPasswordFormComponent onUnlock={action('done click')} />
+    <SessionLockedFormComponent onUnlock={action('done click')} />
   ))
-
-
 

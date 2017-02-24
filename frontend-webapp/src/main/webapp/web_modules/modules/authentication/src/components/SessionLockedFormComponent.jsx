@@ -3,6 +3,7 @@
 **/
 import { FormattedMessage } from 'react-intl'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
+import { i18nContextType } from '@regardsoss/i18n'
 import RaisedButton from 'material-ui/RaisedButton'
 import { RenderTextField, Field, FormErrorMessage, reduxForm } from '@regardsoss/form-utils'
 import { themeContextType } from '@regardsoss/theme'
@@ -16,7 +17,7 @@ export class SessionLockedFormComponent extends React.Component {
     // on submit unlock
     onUnlock: React.PropTypes.func.isRequired,
     // Form general error
-    errorMessage: React.PropTypes.string,
+    hasUnlockingError: React.PropTypes.bool,
     // from reduxForm
     submitting: React.PropTypes.bool,
     pristine: React.PropTypes.bool,
@@ -24,14 +25,15 @@ export class SessionLockedFormComponent extends React.Component {
     handleSubmit: React.PropTypes.func.isRequired,
   }
 
-  static contextTypes = { ...themeContextType }
+  static contextTypes = { ...themeContextType, ...i18nContextType }
 
   /**
    * Render function
    * @returns {React.Component} components
    */
   render() {
-    const { errorMessage, handleSubmit, onUnlock } = this.props
+    const { hasUnlockingError, handleSubmit, onUnlock } = this.props
+    const { intl } = this.context
     const { moduleTheme } = this.context
     return (
       <div style={moduleTheme.layout}>
@@ -42,7 +44,7 @@ export class SessionLockedFormComponent extends React.Component {
               subtitle={<FormattedMessage id="session.locked.subtitle" />}
             />
             <CardText>
-              <FormErrorMessage>{errorMessage}</FormErrorMessage>
+              <FormErrorMessage>{hasUnlockingError ? intl.formatMessage({ id: 'session.locked.error' }) : ''}</FormErrorMessage>
               <Field
                 name="password"
                 fullWidth

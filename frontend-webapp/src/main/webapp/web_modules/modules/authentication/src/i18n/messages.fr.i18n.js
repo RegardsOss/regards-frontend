@@ -14,7 +14,7 @@ const messages = Object.assign({
   'authentication.error.ACCOUNT_ACCEPTED': 'Vous n\'avez pas encore validé votre compte, veuillez suivre le lien d\'activation fourni par courriel',
   'authentication.error.ACCOUNT_INACTIVE': 'Votre compte utilisateur est désactivé, veuillez contacter l\'administrateur du sytème',
   'authentication.error.ACCOUNT_LOCKED': 'Votre compte est bloqué, vous pouvez le débloquer en suivant le lien "Compte bloqué?" au bas de cette fenêtre',
-  'authentication.error.USER_UNKNOWN': 'Vous n\'avez pas les droits d\'accès à ce projet. Vous pouvez les demander en suivant le lien "Compte bloqué?", avec l\'option "J\'ai déjà un compte utilisateur REGARDS"',
+  'authentication.error.USER_UNKNOWN': 'Vous n\'avez pas les droits d\'accès à ce projet. Vous pouvez les demander en suivant le lien "Nouvel utilisateur?", avec l\'option "J\'ai déjà un compte utilisateur REGARDS"',
   'authentication.error.USER_WAITING_ACCESS': 'Votre demande d\'accès au projet est en cours de traitement. Vous recevrez un courriel en cas de changement',
   'authentication.error.USER_ACCESS_DENIED': 'Votre demande d\'accès au projet a été rejetée',
   'authentication.error.USER_ACCESS_INACTIVE': 'Vos droits d\'accès au projet sont désactivés, veuillez contacter l\'administrateur du projet',
@@ -117,6 +117,8 @@ const messages = Object.assign({
   'session.locked.subtitle': 'Votre session a expiré, veuillez entrer votre mot de passe ci-dessous pour la dévérouiller',
   'session.locked.password': 'Mot de passe',
   'session.locked.button': 'Dévérouiller',
+  'session.locked.error': 'Identifiants invalides',
+
 
 }, Locales.fr)
 

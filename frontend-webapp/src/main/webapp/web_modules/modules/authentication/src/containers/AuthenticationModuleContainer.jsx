@@ -85,7 +85,6 @@ export class AuthenticationModuleContainer extends React.Component {
       <SessionManagementContainer
         onRequestClose={routeHelpers.isBackFromAuthenticationMail() ? null : onCancelAction}
         showLoginWindow={showLoginWindow}
-        isSessionLocked
       >
         <AuthenticationWorkflowsComponent
           project={project || ''}

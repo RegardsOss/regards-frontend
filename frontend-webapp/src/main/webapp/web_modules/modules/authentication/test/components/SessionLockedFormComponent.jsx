@@ -5,7 +5,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import sinon from 'sinon'
 import { IntlStub } from '@regardsoss/tests-helpers'
-import { Field } from '@regardsoss/form-utils'
+import { Field, FormErrorMessage } from '@regardsoss/form-utils'
 import { SessionLockedFormComponent } from '../../src/components/SessionLockedFormComponent'
 
 import styles from '../../src/styles/styles'
@@ -33,11 +33,22 @@ describe('[AUTHENTICATION] Testing SessionLockedFormComponent', () => {
     muiTheme,
     moduleTheme: styles(muiTheme),
   }
-  it('Renders properly', () => {
+  it('Renders properly without error', () => {
     const props = {
+      hasUnlockingError: false,
       onUnlock: () => { },
     }
     const render = shallow(<SessionLockedFormComponent {...props} />, { context })
     assert.equal(render.find(Field).length, 1, 'There should be 1 field for password')
+    assert.equal(render.find(FormErrorMessage).length, 0, 'There should be no error text')
+  })
+  it('Renders error', () => {
+    const props = {
+      hasUnlockingError: true,
+      onUnlock: () => { },
+    }
+    const render = shallow(<SessionLockedFormComponent {...props} />, { context })
+    assert.equal(render.find(Field).length, 1, 'There should be 1 field for password')
+    assert.equal(render.find(FormErrorMessage).length, 1, 'There should be an error text')
   })
 })
