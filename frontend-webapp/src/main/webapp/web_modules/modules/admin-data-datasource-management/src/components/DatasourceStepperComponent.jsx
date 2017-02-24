@@ -32,6 +32,9 @@ export class DatasourceStepperComponent extends React.Component {
         <div className="col-sm-50 col-sm-offset-25">
           <Stepper activeStep={stepIndex}>
             <Step>
+              <StepLabel><FormattedMessage id="Saisie de la connexion" /></StepLabel>
+            </Step>
+            <Step>
               <StepLabel><FormattedMessage id="datasource.stepper.attributes" /></StepLabel>
             </Step>
             <Step>

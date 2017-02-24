@@ -11,6 +11,7 @@ import JavaTypes from './dam/JavaTypes'
 import Fragment from './dam/Fragment'
 import Model from './dam/Model'
 import Collection from './dam/Collection'
+import Connection from './dam/Connection'
 import Dataset from './dam/Dataset'
 import Datasource from './dam/Datasource'
 import ModelAttribute from './dam/ModelAttribute'
@@ -53,6 +54,7 @@ export default {
   Model,
   ModelAttribute,
   Collection,
+  Connection,
   Dataset,
   Datasource,
   AccessGroup,

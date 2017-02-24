@@ -106,7 +106,24 @@ const items = (projectName, intl) => [
         tooltipMsg: intl.formatMessage({ id: 'data.board.action.list.tooltip' }),
       },
       {
-        path: `/admin/${projectName}/data/datasource/create`,
+        path: `/admin/${projectName}/data/datasource/create/connection`,
+        icon: <AddIcon />,
+        tooltipMsg: intl.formatMessage({ id: 'data.board.action.add.tooltip' }),
+      },
+    ],
+  },
+  {
+    title: intl.formatMessage({ id: 'data.board.connection.title' }),
+    description: intl.formatMessage({ id: 'data.board.connection.description' }),
+    advanced: true,
+    actions: [
+      {
+        path: `/admin/${projectName}/data/connection/list`,
+        icon: <ViewLinesIcon />,
+        tooltipMsg: intl.formatMessage({ id: 'data.board.action.list.tooltip' }),
+      },
+      {
+        path: `/admin/${projectName}/data/connection/create`,
         icon: <AddIcon />,
         tooltipMsg: intl.formatMessage({ id: 'data.board.action.add.tooltip' }),
       },

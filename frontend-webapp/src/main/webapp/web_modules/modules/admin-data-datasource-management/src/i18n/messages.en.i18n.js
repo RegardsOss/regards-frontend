@@ -8,7 +8,7 @@ const messages = Object.assign({
   'datasource.form.links.component.subtitle': 'Lien de la datasource courante',
   'datasource.form.links.remainingdatasource.subtitle': 'Datasource disponibles',
   'datasource.form.links.datasource.subtitle': 'Lien de la datasource',
-  'datasource.form.links.subtitle': 'Les datasources disposes de lien entre elles afin de simplifier la recherche',
+  'datasource.form.links.subtitle': 'Les datasources disposent de lien entre elles afin de simplifier la recherche',
   'datasource.form.links.title': 'Mise à jour des liens entre datasource',
   'datasource.form.links.action.done': 'Terminer',
   'datasource.form.links.action.cancel': 'Back',

@@ -26,6 +26,7 @@ import PluginMetaData, { PluginMetaDataConfiguration } from './admin/PluginMetaD
 import AdminPluginConfiguration, { AdminPluginConfigurationSchemaConfiguration } from './admin/PluginConfiguration'
 import StoragePlugin from './archival-storage/StoragePlugin'
 import Collection from './dam/Collection'
+import Connection from './dam/Connection'
 import AIPStatus from './archival-storage/AIPStatus'
 import Endpoint, { EndpointConfiguration } from './admin/Endpoint'
 import PluginParameter from './admin/PluginParameter'
@@ -131,4 +132,5 @@ export default {
   ...Datasource,
   ...AccessRight,
   ...AccessGroup,
+  ...Connection,
 }

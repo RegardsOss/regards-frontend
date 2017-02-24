@@ -34,18 +34,12 @@ export class DatasourceListContainer extends React.Component {
 
   getCreateUrl = () => {
     const { params: { project } } = this.props
-    return `/admin/${project}/data/datasource/create`
+    return `/admin/${project}/data/datasource/create/connection`
   }
 
   getBackUrl = () => {
     const { params: { project } } = this.props
     return `/admin/${project}/data/board`
-  }
-
-  handleDuplicate = (datasourceId) => {
-    const { params: { project } } = this.props
-    const url = `/admin/${project}/data/datasource/${datasourceId}/duplicate`
-    browserHistory.push(url)
   }
 
   handleEdit = (datasourceId) => {
@@ -67,7 +61,6 @@ export class DatasourceListContainer extends React.Component {
         >
           <DatasourceListComponent
             datasourceList={datasourceList}
-            handleDuplicate={this.handleDuplicate}
             handleDelete={this.handleDelete}
             handleEdit={this.handleEdit}
             backUrl={this.getBackUrl()}

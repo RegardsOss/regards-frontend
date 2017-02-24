@@ -5,7 +5,7 @@ import { assert, expect } from 'chai'
 import Routes from '../src/router'
 import DatasourceFormContainer from '../src/containers/DatasourceFormContainer'
 import DatasourceListContainer from '../src/containers/DatasourceListContainer'
-import DatasourceEditLinksContainer from '../src/containers/DatasourceEditLinksContainer'
+import DatasourceCreateOrPickConnectionContainer from '../src/containers/DatasourceCreateOrPickConnectionContainer'
 
 describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing router', () => {
   it('should return the correct value', () => {
@@ -30,7 +30,7 @@ describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing router', () => {
   })
   it('create should return DatasourceFormContainer', (done) => {
     Routes.childRoutes[2].getComponents(undefined, (smth, component) => {
-      expect(component.content).to.eq(DatasourceEditLinksContainer)
+      expect(component.content).to.eq(DatasourceCreateOrPickConnectionContainer)
       done()
     })
   })

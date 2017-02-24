@@ -32,6 +32,7 @@ export class AccessRightFormComponent extends React.Component {
     currentAccessRight: AccessRight,
     pluginConfigurationList: React.PropTypes.objectOf(PluginConfiguration),
     pluginMetaDataList: React.PropTypes.objectOf(PluginMetaData),
+    nbSelectedDataset: React.PropTypes.number.isRequired,
     // from reduxForm
     submitting: React.PropTypes.bool,
     invalid: React.PropTypes.bool,
@@ -148,7 +149,7 @@ export class AccessRightFormComponent extends React.Component {
   }
 
   render() {
-    const { submitting, invalid, currentAccessRight, pluginMetaDataList, pluginConfigurationList } = this.props
+    const { submitting, invalid, currentAccessRight, pluginMetaDataList, pluginConfigurationList, nbSelectedDataset } = this.props
     const { isDisplayPluginConf, isDisplayAdvancedForm } = this.state
     return (
       <ReduxConnectedForm
@@ -158,7 +159,9 @@ export class AccessRightFormComponent extends React.Component {
         <div>
           <CardTitle
             title={<FormattedMessage id="accessright.form.title" />}
-            subtitle={<FormattedMessage id="accessright.form.subtitle" />}
+            subtitle={<FormattedMessage id="accessright.form.subtitle" values={{
+              nbSelectedDataset
+            }} />}
           />
           <CardText>
             <Field

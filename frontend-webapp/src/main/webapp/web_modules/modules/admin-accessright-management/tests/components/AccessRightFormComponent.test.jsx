@@ -35,6 +35,7 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT]  Testing AccessRightFormComponent', () 
       currentAccessRight: undefined,
       pluginConfigurationList: {},
       pluginMetaDataList: {},
+      nbSelectedDataset: 15,
       // from reduxForm
       submitting: false,
       invalid: false,

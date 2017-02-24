@@ -23,6 +23,7 @@ import './modules/admin-accessright-management/AccessRightComponents'
 import './modules/admin-data-attributemodel-management/AttributeModelComponents'
 import './modules/admin-data-fragment-management/FragmentComponents'
 import './modules/admin-data-modelattribute-management/ModelAttributeFormComponent'
+import './modules/admin-data-connection-management/ConnectionComponents'
 import './modules/admin-data-collection-management/CollectionComponents'
 
 import './modules/news/NewsComponent'

@@ -11,9 +11,9 @@ storiesOf('Project admin - Access Right', module)
   .addDecorator(StoreDecorator)
   .add('List', () => {
     const themeName = addLocaleAndThemeSelectors()
-    const accessGroupList = object('Account list', AccessGroupDump)
-    const pluginMetaDataList = object('Account list', PluginMetaDataDump)
-    const pluginConfigurationList = object('Account list', PluginConfigurationDump)
+    const accessGroupList = object('Access group list', AccessGroupDump)
+    const pluginMetaDataList = object('Plugin Metadata list', PluginMetaDataDump)
+    const pluginConfigurationList = object('Plugin Configuration list', PluginConfigurationDump)
     return (
       <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-account-management/src/i18n">
         <AccessRightComponent

@@ -15,7 +15,7 @@ const datasetDataManagementReducer = combineReducers({
   model,
   datasource,
   'model-attribute': modelAttribute,
-  'dataset-link': datasetLinkSignal
+  'dataset-link': datasetLinkSignal,
 })
 
 export default datasetDataManagementReducer

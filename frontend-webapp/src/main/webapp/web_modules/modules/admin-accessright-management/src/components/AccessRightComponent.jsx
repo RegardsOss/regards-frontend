@@ -34,7 +34,6 @@ export class AccessRightComponent extends React.Component {
 
   constructor(props) {
     super(props)
-    console.log(JSON.stringify(props))
     this.state = {
       selectedDataset: [],
       selectedAccessGroupName: '',
@@ -149,6 +148,7 @@ export class AccessRightComponent extends React.Component {
                     pluginConfigurationList={pluginConfigurationList}
                     pluginMetaDataList={pluginMetaDataList}
                     currentAccessRight={firstAccessRightSelected}
+                    nbSelectedDataset={selectedDataset.length}
                   />
                 </Card>
               </ShowableAtRender>

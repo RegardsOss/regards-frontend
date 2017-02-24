@@ -13,7 +13,7 @@ import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import MenuItem from 'material-ui/MenuItem'
-import SelectField from 'material-ui/SelectField';
+import SelectField from 'material-ui/SelectField'
 import DatasetStepperComponent from './DatasetStepperComponent'
 
 /**
@@ -110,7 +110,7 @@ export class DatasetFormComponent extends React.Component {
       />)
     }
     const datasource = currentDataset && currentDataset.content && currentDataset.content.datasource || currentDatasource && currentDatasource.content
-    console.log("HELLOOOOOOOOOOOOOOOOOOOOO3", datasource,currentDataset)
+    console.log('HELLOOOOOOOOOOOOOOOOOOOOO3', datasource, currentDataset)
     return (
       <ReduxConnectedForm
         i18nMessagesDir="modules/admin-data-dataset-management/src/i18n"

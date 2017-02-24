@@ -152,7 +152,7 @@ export class DatasetFormContainer extends React.Component {
       attributes,
       datasource,
       type: 'DATASET',
-      tags: []
+      tags: [],
     }
     Promise.resolve(this.props.createDataset(newDataset))
       .then((actionResult) => {
@@ -221,7 +221,7 @@ const mapDispatchToProps = dispatch => ({
   fetchModelList: () => dispatch(ModelActions.fetchEntityList({ type: 'DATASET' })),
   fetchModelAttributeList: id => dispatch(ModelAttributeActions.fetchEntityList({ id })),
   unregisterField: (form, name) => dispatch(unregisterField(form, name)),
-  fetchDatasource: (id) => dispatch(DatasourceActions.fetchEntity(id)),
+  fetchDatasource: id => dispatch(DatasourceActions.fetchEntity(id)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(DatasetFormContainer)
