@@ -26,8 +26,8 @@ class SidebarElement extends React.Component {
     if (this.props.to.toLowerCase().includes('datamanagement')) {
       urlToSearch = undefined
     } else {
-      // removes the last / and everything after it (/board etc.)
-      urlToSearch = this.props.to.substring(0, this.props.to.lastIndexOf('/')).toLowerCase()
+      // removes everything after the last / (/board etc.)
+      urlToSearch = this.props.to.substring(0, this.props.to.lastIndexOf('/') + 1).toLowerCase()
     }
 
     return (
