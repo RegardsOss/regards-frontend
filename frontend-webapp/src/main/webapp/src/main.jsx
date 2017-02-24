@@ -1,10 +1,10 @@
 import * as ReactDOM from 'react-dom'
+import injectTapEventPlugin from 'react-tap-event-plugin'
 import { Router, browserHistory } from 'react-router'
 import { Provider } from 'react-redux'
 import { configureStore } from '@regardsoss/store'
 import rootReducer from './rootReducer'
 import rootRouter from './rootRouter'
-import injectTapEventPlugin from 'react-tap-event-plugin'
 
 // Import the index.html file
 require('../index.html')

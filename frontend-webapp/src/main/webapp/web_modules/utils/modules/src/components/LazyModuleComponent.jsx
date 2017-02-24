@@ -140,7 +140,7 @@ class LazyModuleComponent extends React.Component {
                 requiredEndpoints={moduleDependencies}
               >
                 <this.props.decorator.element {...this.props.decorator.conf} >
-                  { moduleElt }
+                  {moduleElt}
                 </this.props.decorator.element>
               </HateoasDisplayDecorator>
             </ModuleThemeProvider>
@@ -153,7 +153,7 @@ class LazyModuleComponent extends React.Component {
             <HateoasDisplayDecorator
               requiredEndpoints={moduleDependencies}
             >
-              { moduleElt }
+              {moduleElt}
             </HateoasDisplayDecorator>
           </ModuleThemeProvider>
         </I18nProvider>

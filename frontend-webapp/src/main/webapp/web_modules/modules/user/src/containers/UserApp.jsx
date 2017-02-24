@@ -11,7 +11,7 @@ import { ApplicationLayout, ContainerHelper } from '@regardsoss/layout'
 import { ModuleShape } from '@regardsoss/modules'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { ApplicationErrorContainer } from '@regardsoss/global-sytem-error'
-import { AuthenticateSelectors, routeHelpers } from '@regardsoss/authentication-manager'
+import { AuthenticateSelectors } from '@regardsoss/authentication-manager'
 import LayoutSelector from '../model/layout/LayoutSelector'
 import LayoutActions from '../model/layout/LayoutActions'
 import ModulesSelector from '../model/modules/ModulesSelector'
@@ -70,13 +70,8 @@ export class UserApp extends React.Component {
 
     // If a new authentication is present...
     if (!this.props.isAuthenticated && nextProps.isAuthenticated) {
-      // ...when back from email, redirect
-      if (routeHelpers.isBackFromAuthenticationMail()) {
-        routeHelpers.doRedirection()
-      } else {
-        // ...otherwise, refresh availables endpoints
-        this.props.fetchEndpoints()
-      }
+      // ... refresh availables endpoints
+      this.props.fetchEndpoints()
     }
   }
 

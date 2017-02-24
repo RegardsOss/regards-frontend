@@ -1,3 +1,4 @@
+import { muiTheme } from 'storybook-addon-material-ui'
 import { storiesOf, action } from '@kadira/storybook'
 import { values } from 'lodash'
 import AccountRequestFormComponent, { requestFormIds } from '@regardsoss/authentication/src/components/AccountRequestFormComponent'
@@ -5,10 +6,10 @@ import AccountOperationMessage, { operationIds } from '@regardsoss/authenticatio
 import CompleteResetPasswordFormComponent from '@regardsoss/authentication/src/components/ChangePasswordFormComponent'
 import AuthenticationFormComponent from '@regardsoss/authentication/src/components/AuthenticationFormComponent'
 import AskProjectAccessFormComponent from '@regardsoss/authentication/src/components/AskProjectAccessFormComponent'
+import SessionLockedFormComponent from '@regardsoss/authentication/src/components/SessionLockedFormComponent'
 import styles from '@regardsoss/authentication/src/styles/styles'
 import { withKnobs, text, boolean, select } from '@kadira/storybook-addon-knobs'
 import { withStore, withLocale, withModuleTheme } from '../../decorators/index'
-import { muiTheme } from 'storybook-addon-material-ui'
 
 storiesOf('Authentication', module)
   .addDecorator(withLocale('modules/authentication/src/i18n'))
@@ -52,6 +53,9 @@ storiesOf('Authentication', module)
     />
   ))
   .add('Complete password update', () => (
-    <CompleteResetPasswordFormComponent onChangePassword={action('done click')}/>
+    <CompleteResetPasswordFormComponent onChangePassword={action('done click')} />
+  ))
+  .add('Session locked', () => (
+    <SessionLockedFormComponent onUnlock={action('done click')} />
   ))
 
