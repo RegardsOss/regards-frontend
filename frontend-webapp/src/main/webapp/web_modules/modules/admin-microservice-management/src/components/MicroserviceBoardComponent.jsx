@@ -14,10 +14,7 @@ class MicroserviceBoardComponent extends React.Component {
 
   static propTypes = {
     project: React.PropTypes.string.isRequired,
-    fetchMaintenance: React.PropTypes.objectOf(React.PropTypes.func),
-    maintenanceList: React.PropTypes.objectOf(React.PropTypes.objectOf(React.PropTypes.bool)).isRequired,
-    activateMaintenance: React.PropTypes.objectOf(React.PropTypes.func),
-    deactivateMaintenance: React.PropTypes.objectOf(React.PropTypes.func),
+    maintenance: React.PropTypes.objectOf(React.PropTypes.objectOf(React.PropTypes.func)).isRequired,
   }
 
   static contextTypes = {
@@ -27,10 +24,7 @@ class MicroserviceBoardComponent extends React.Component {
   render() {
     const items = microserviceBoardItems(
       this.props.project,
-      this.props.fetchMaintenance,
-      this.props.maintenanceList,
-      this.props.activateMaintenance,
-      this.props.deactivateMaintenance,
+      this.props.maintenance,
       this.context.intl,
     )
     return (
