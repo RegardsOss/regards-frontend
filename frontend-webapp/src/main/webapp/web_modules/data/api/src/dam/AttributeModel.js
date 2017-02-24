@@ -8,9 +8,7 @@ export const AttributeModelConfiguration = {
 }
 
 const attributeModel = new Schema(AttributeModelConfiguration.normalizrKey, {
-  idAttribute: entity =>
-    entity.content[AttributeModelConfiguration.entityKey]
-  ,
+  idAttribute: entity => entity.content[AttributeModelConfiguration.entityKey],
 })
 
 // Schemas for API responses.

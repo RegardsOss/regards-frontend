@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { forEach, find, cloneDeep, reduce } from 'lodash'
+import { chain, forEach, find, cloneDeep, reduce, isEqual, values } from 'lodash'
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { PluginConf, AttributeModel } from '@regardsoss/model'
@@ -52,7 +52,8 @@ class ModuleContainer extends React.Component {
     /**
      * If criterion props changed, so load missing attributes
      */
-    if (this.props.criterion !== nextProps.criterion) {
+    if (!isEqual(this.props.criterion, nextProps.criterion)) {
+    // if (this.props.criterion !== nextProps.criterion) {
       this.loadCriterionAttributes()
     }
   }
@@ -95,21 +96,15 @@ class ModuleContainer extends React.Component {
    * Search attributes associated to criterion
    */
   loadCriterionAttributes = () => {
-    const attributesToLoad = []
-    forEach(this.props.criterion, (criteriaPlugin) => {
-      if (criteriaPlugin && criteriaPlugin.pluginConf) {
-        forEach(criteriaPlugin.pluginConf.attributes, (attribute) => {
-          // Load attributes only once
-          if (!find(attributesToLoad, attr => attr === attribute) && !this.props.attributes[attribute]) {
-            attributesToLoad.push(attribute)
-          }
-        })
-      }
-    })
-    forEach(attributesToLoad, (attr) => {
-      // Fetch entity from server
-      this.props.fetchAttribute(attr)
-    })
+    // Get uniq list of criterion attributes id to load
+    chain(this.props.criterion)
+      .map(criteria => criteria.pluginConf && criteria.pluginConf.attributes)
+      .map(attribute => values(attribute))
+      .flatten()
+      .uniq()
+      // Fetch each form server
+      .each(attribute => this.props.fetchAttribute(attribute))
+      .value()
   }
 
   /**
@@ -146,16 +141,12 @@ class ModuleContainer extends React.Component {
         }
         const criterionWithAttributes = this.getCriterionWithAttributes()
         return (
-          <LoadableContentDisplayDecorator
-            isLoading={this.props.attributesFetching}
-          >
-            <FormComponent
-              layout={layoutObj}
-              plugins={criterionWithAttributes}
-              pluginsProps={pluginsProps}
-              handleSearch={this.handleSearch}
-            />
-          </LoadableContentDisplayDecorator>
+          <FormComponent
+            layout={layoutObj}
+            plugins={criterionWithAttributes}
+            pluginsProps={pluginsProps}
+            handleSearch={this.handleSearch}
+          />
         )
       } catch (error) {
         console.error('Invalid layout for form FormComponent', error)
@@ -194,7 +185,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchAttribute: attributeId => dispatch(AttributeModelActions.fetchEntity(attributeId, { queryParam: '' })),
+  fetchAttribute: attributeId => dispatch(AttributeModelActions.fetchEntity(attributeId, {}, { queryable: 'true' })),
 })
 
 const UnconnectedModuleContainer = ModuleContainer
