@@ -4,6 +4,8 @@ import { browserHistory } from 'react-router'
 import { ProjectUser } from '@regardsoss/model'
 import ProjectUserActions from '../model/ProjectUserActions'
 import ProjectUserSelectors from '../model/ProjectUserSelectors'
+import WaitingAccessProjectUserActions from '../model/WaitingAccessProjectUserActions'
+import WaitingAccessProjectUserSelectors from '../model/WaitingAccessProjectUserSelectors'
 import ProjectUserListComponent from '../components/ProjectUserListComponent'
 /**
  * Show the user list for the current project
@@ -16,15 +18,17 @@ export class ProjectUserListContainer extends React.Component {
       project: React.PropTypes.string,
     }),
     // from mapStateToProps
-    projectUserList: React.PropTypes.objectOf(ProjectUser),
+    users: React.PropTypes.objectOf(ProjectUser),
+    waitingAccessUsers: React.PropTypes.objectOf(ProjectUser),
     // from mapDispatchToProps
-    fetchProjectUserList: React.PropTypes.func,
-    deleteAccount: React.PropTypes.func,
+    fetchProjectUserList: React.PropTypes.func.isRequired,
+    deleteAccount: React.PropTypes.func.isRequired,
   }
 
 
   componentWillMount() {
     this.props.fetchProjectUserList()
+    // we do not fetch waiting users here, the notification component of admin already does it
   }
 
   getBackUrl = () => {
@@ -48,16 +52,19 @@ export class ProjectUserListContainer extends React.Component {
   }
 
   render() {
-    const { projectUserList } = this.props
+    const { users, waitingAccessUsers } = this.props
 
+    // TODO inject : onValidate, validateAll, isFetching
     return (
       <I18nProvider messageDir="modules/admin-user-projectuser-management/src/i18n">
         <ProjectUserListComponent
-          projectUserList={projectUserList}
+          users={users}
+          waitingAccessUsers={waitingAccessUsers}
           createUrl={this.getCreateUrl()}
           backUrl={this.getBackUrl()}
           onEdit={this.handleEdit}
           onDelete={this.handleDelete}
+
         />
       </I18nProvider>
     )
@@ -66,7 +73,8 @@ export class ProjectUserListContainer extends React.Component {
 
 
 const mapStateToProps = (state, ownProps) => ({
-  projectUserList: ProjectUserSelectors.getList(state),
+  users: ProjectUserSelectors.getList(state),
+  waitingAccessUsers: WaitingAccessProjectUserSelectors.getList(state),
 })
 
 const mapDispatchToProps = dispatch => ({

@@ -1,10 +1,13 @@
+/**
+ * LICENSE_PLACEHOLDER
+ */
 import { BasicPageableReducers } from '@regardsoss/store-utils'
 import { ProjectUserConfiguration } from '@regardsoss/api'
 import ProjectUserActions from './ProjectUserActions'
 
-class ProjectUserReducers extends BasicPageableReducers {
-  constructor() {
-    super(ProjectUserConfiguration, ProjectUserActions)
+export class ProjectUserReducers extends BasicPageableReducers {
+  constructor(Actions = ProjectUserActions) {
+    super(ProjectUserConfiguration, Actions)
   }
 }
 
@@ -20,3 +23,5 @@ export default instance
 export function getProjectUserReducer(state, action) {
   return instance.reduce(state, action)
 }
+
+export const reducerPath = 'project-user'

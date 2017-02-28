@@ -1,10 +1,12 @@
 import { combineReducers } from 'redux'
-import { getProjectUserReducer } from './model/ProjectUserReducers'
-import { getRoleReducer } from './model/RoleReducers'
+import { getProjectUserReducer, reducerPath as projectUserReducerPath } from './model/ProjectUserReducers'
+import { getWaitingAccessProjectUserReducer, reducerPath as waitingAccessProjectUserReducerPath } from './model/WaitingAccessProjectUserReducers'
+import { getRoleReducer, reducerPath as roleReducerPath } from './model/RoleReducers'
 
 const projectUserManagementReducer = combineReducers({
-  'project-user': getProjectUserReducer,
-  role: getRoleReducer,
+  [projectUserReducerPath]: getProjectUserReducer,
+  [waitingAccessProjectUserReducerPath]: getWaitingAccessProjectUserReducer,
+  [roleReducerPath]: getRoleReducer,
 })
 
 

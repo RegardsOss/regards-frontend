@@ -8,7 +8,6 @@ const messages = {
   'menu.plugins': 'Plugins',
   'menu.datamanagement': 'Data Management',
   'menu.dataaccessrights': 'Data Access Rights',
-  'menu.news': 'News',
   'menu.back': 'Back',
   'menu.databases': 'Databases',
 }

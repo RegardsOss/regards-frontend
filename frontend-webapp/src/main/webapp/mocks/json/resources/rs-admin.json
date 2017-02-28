@@ -223,19 +223,7 @@
     {
       "id": 1,
       "email": "mon@adresse.em",
-      "lastUpdate": {
-        "date": {
-          "year": 2017,
-          "month": 1,
-          "day": 9
-        },
-        "time": {
-          "hour": 15,
-          "minute": 46,
-          "second": 12,
-          "nano": 453000000
-        }
-      },
+      "lastUpdate": "2017-02-27T10:11:03.022",
       "status": "WAITING_ACCESS",
       "metaData": [],
       "role": {
@@ -485,4 +473,3 @@
     }
   ]
 }
-

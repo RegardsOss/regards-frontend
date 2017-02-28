@@ -8,19 +8,7 @@ const ProjectUser = React.PropTypes.shape({
     email: React.PropTypes.string,
     lastconnection: React.PropTypes.string,
     status: React.PropTypes.string,
-    lastUpdate: React.PropTypes.shape({
-      date: React.PropTypes.shape({
-        year: React.PropTypes.string,
-        month: React.PropTypes.string,
-        day: React.PropTypes.string,
-      }),
-      time: React.PropTypes.shape({
-        hour: React.PropTypes.string,
-        minute: React.PropTypes.string,
-        second: React.PropTypes.string,
-        nano: React.PropTypes.string,
-      }),
-    }),
+    lastUpdate: React.PropTypes.date,
   }),
 })
 

@@ -1,10 +1,13 @@
+/**
+ * LICENSE_PLACEHOLDER
+ */
 import Schemas from '@regardsoss/api'
 import { BasicPageableActions } from '@regardsoss/store-utils'
 
-class ProjectUserActions extends BasicPageableActions {
-  constructor() {
+export class ProjectUserActions extends BasicPageableActions {
+  constructor(namespace = 'admin-user-projectuser-management') {
     super({
-      namespace: 'admin-user-projectuser-management',
+      namespace,
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-admin/users`,
       schemaTypes: {
         ENTITY: Schemas.PROJECT_USER,
@@ -12,7 +15,8 @@ class ProjectUserActions extends BasicPageableActions {
       },
     })
   }
+
 }
 
-const instance = new ProjectUserActions()
-export default instance
+// default instance
+export default new ProjectUserActions()

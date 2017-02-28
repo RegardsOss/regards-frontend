@@ -6,21 +6,23 @@ import Drawer from 'material-ui/Drawer'
 import MenuItem from 'material-ui/MenuItem'
 import PowerSettingsNew from 'material-ui/svg-icons/action/power-settings-new'
 import Divider from 'material-ui/Divider'
-import Chat from 'material-ui/svg-icons/communication/chat'
 import VerifiedUser from 'material-ui/svg-icons/action/verified-user'
 import AddBox from 'material-ui/svg-icons/content/add-box'
 import CloudQueue from 'material-ui/svg-icons/file/cloud-queue'
 import Widgets from 'material-ui/svg-icons/device/widgets'
 import Brush from 'material-ui/svg-icons/image/brush'
 import Reply from 'material-ui/svg-icons/content/reply'
+import Badge from 'material-ui/Badge'
 import { FormattedMessage } from 'react-intl'
 import SupervisorAccount from 'material-ui/svg-icons/action/supervisor-account'
 import { I18nProvider } from '@regardsoss/i18n'
 import { uiPluginsDependencies } from '@regardsoss/admin-ui-plugins-management'
 import { uiConfigurationDependencies } from '@regardsoss/admin-ui-configuration'
 import { HateoasDisplayDecorator, someMatchHateoasDisplayLogic } from '@regardsoss/display-control'
-import SidebarElement from './SidebarElement'
 import getModuleStyles from '../../styles/styles'
+import SidebarElement from './SidebarElement'
+import WaitingAccessNotificationContainer from '../containers/WaitingAccessNotificationContainer'
+
 
 /**
  * React sidebar components. Display the admin application menu
@@ -66,6 +68,7 @@ class ProjectSidebarComponent extends React.Component {
             currentPath={this.props.currentPath}
             primaryText={<FormattedMessage id="menu.users" />}
             leftIcon={<SupervisorAccount />}
+            rightIcon={<Badge badgeContent={<WaitingAccessNotificationContainer />} primary />}
           />
           <SidebarElement
             key="2"
@@ -111,13 +114,6 @@ class ProjectSidebarComponent extends React.Component {
               leftIcon={<Brush />}
             />
           </HateoasDisplayDecorator>
-          <SidebarElement
-            key="7"
-            to={`/admin/${projectName}/datamanagement`}
-            currentPath={this.props.currentPath}
-            primaryText={<FormattedMessage id="menu.news" />}
-            leftIcon={<Chat />}
-          />
 
           <Divider />
           <MenuItem

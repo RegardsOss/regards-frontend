@@ -1,10 +1,13 @@
+/**
+ * LICENSE_PLACEHOLDER
+ */
 import { BasicPageableSelectors } from '@regardsoss/store-utils'
+import { reducerPath as projectUsersReducerPath } from './ProjectUserReducers'
 
-class ProjectUserSelectors extends BasicPageableSelectors {
-  constructor() {
-    super(['admin', 'user-management', 'project-user-management', 'project-user'])
+export class ProjectUserSelectors extends BasicPageableSelectors {
+  constructor(reducerPath = projectUsersReducerPath) {
+    super(['admin', 'user-management', 'project-user-management', reducerPath])
   }
 }
 
-const instance = new ProjectUserSelectors()
-export default instance
+export default new ProjectUserSelectors()

@@ -6,9 +6,11 @@ export const ProjectUserConfiguration = {
 }
 
 const projectUserSchema = new Schema(ProjectUserConfiguration.normalizrKey, {
-  idAttribute: projectUser =>
-    projectUser.content[ProjectUserConfiguration.entityKey]
-  ,
+  idAttribute: projectUser => projectUser.content[ProjectUserConfiguration.entityKey],
+  assignEntity: (output, key, value, input) => {
+    // eslint-disable-next-line no-param-reassign
+    output[key] = key === 'lastUpdate' ? new Date(value) : value
+  },
 })
 
 // Schemas for API responses.

@@ -1,14 +1,24 @@
-import { map } from 'lodash'
+/**
+ * LICENSE_PLACEHOLDER
+ **/
+import { isEmpty, map } from 'lodash'
+import { Tabs, Tab } from 'material-ui/Tabs'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, FormattedDate } from 'react-intl'
 import IconButton from 'material-ui/IconButton'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
+import Done from 'material-ui/svg-icons/action/done'
 import { ProjectUser } from '@regardsoss/model'
 import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
-import { i18nContextType, FormattedDateComponent } from '@regardsoss/i18n'
+import { i18nContextType } from '@regardsoss/i18n'
+
+const tabs = {
+  waiting: 0,
+  all: 1,
+}
 
 /**
  * React component to list all REGARDS account.
@@ -16,8 +26,10 @@ import { i18nContextType, FormattedDateComponent } from '@regardsoss/i18n'
 export class ProjectUserListComponent extends React.Component {
 
   static propTypes = {
-    projectUserList: React.PropTypes.objectOf(ProjectUser),
+    users: React.PropTypes.objectOf(ProjectUser),
+    waitingAccessUsers: React.PropTypes.objectOf(ProjectUser),
     onEdit: React.PropTypes.func.isRequired,
+    onValidate: React.PropTypes.func.isRequired,
     onDelete: React.PropTypes.func.isRequired,
     createUrl: React.PropTypes.string.isRequired,
     backUrl: React.PropTypes.string.isRequired,
@@ -28,27 +40,52 @@ export class ProjectUserListComponent extends React.Component {
     ...i18nContextType,
   }
 
+  componentWillMount = () => {
+    // on first loading, show waiting access users if there is any loaded waiting user
+    this.selectTab(!isEmpty(this.props.waitingAccessUsers) ? tabs.waiting : tabs.all)
+  }
+
+  onTabChange = (value) => {
+    this.selectTab(value)
+  }
+
+  selectTab = (selectedTab) => {
+    this.setState({ selectedTab })
+  }
+
   render() {
-    const { projectUserList, onEdit, onDelete, createUrl, backUrl } = this.props
+    const { users, waitingAccessUsers, onEdit, onValidate, onDelete, createUrl, backUrl } = this.props
     const style = {
       hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
+      hoverButtonValidate: this.context.muiTheme.palette.primary1Color,
       hoverButtonDelete: this.context.muiTheme.palette.accent1Color,
       hoverButtonView: this.context.muiTheme.palette.pickerHeaderColor,
     }
+    const selectedTab = this.state ? this.state.selectedTab : tabs.all
+
+    // compute users list to use
+    const currentUserList = selectedTab === tabs.waiting ? waitingAccessUsers : users
+
     return (
-      <Card>
+      <Card >
+        <Tabs onChange={this.onTabChange} value={selectedTab}>
+          <Tab label={<FormattedMessage id="projectUser.list.waiting.tab" />} value={tabs.waiting} />
+          <Tab label={<FormattedMessage id="projectUser.list.all.tab" />} value={tabs.all} />
+        </Tabs>
         <CardTitle
-          title={<FormattedMessage id="projectUser.list.title" />}
-          subtitle={<FormattedMessage id="projectUser.list.subtitle" />}
+          subtitle={
+            <FormattedMessage
+              id={selectedTab === tabs.all ? 'projectUser.list.all.subtitle' : 'projectUser.list.waiting.subtitle'}
+            />}
         />
         <CardText>
           <Table
             selectable={false}
           >
             <TableHeader
-              enableSelectAll={false}
               adjustForCheckbox={false}
               displaySelectAll={false}
+              enableSelectAll={false}
             >
               <TableRow>
                 <TableHeaderColumn><FormattedMessage id="projectUser.list.table.email" /></TableHeaderColumn>
@@ -63,7 +100,7 @@ export class ProjectUserListComponent extends React.Component {
               preScanRows={false}
               showRowHover
             >
-              {map(projectUserList, (projectUser, id) => (
+              {map(currentUserList, (projectUser, id) => (
                 <TableRow key={id}>
                   <TableRowColumn>
                     {projectUser.content.email}
@@ -75,17 +112,30 @@ export class ProjectUserListComponent extends React.Component {
                     {projectUser.content.status}
                   </TableRowColumn>
                   <TableRowColumn>
-                    <FormattedDateComponent value={projectUser.content.lastUpdate} />
+                    <FormattedDate
+                      value={projectUser.content.lastUpdate}
+                      year="numeric"
+                      month="long"
+                      day="2-digit"
+                      hour="2-digit"
+                      minute="2-digit"
+                      second="2-digit"
+                    />
                   </TableRowColumn>
                   <TableRowColumn>
-                    <IconButton onTouchTap={() => onEdit(projectUser.content.id)}>
-                      <Edit hoverColor={style.hoverButtonEdit} />
-                    </IconButton>
-
+                    {
+                      selectedTab === tabs.all ?
+                        <IconButton onTouchTap={() => onEdit(projectUser.content.id)}>
+                          <Edit hoverColor={style.hoverButtonEdit} />
+                        </IconButton> :
+                        <IconButton onTouchTap={() => onValidate(projectUser.content.id)}>
+                          <Done hoverColor={style.hoverButtonValidate} />
+                        </IconButton>
+                    }
                     <IconButton onTouchTap={() => onDelete(projectUser.content.id)}>
                       <Delete hoverColor={style.hoverButtonDelete} />
                     </IconButton>
-                  </TableRowColumn>
+                  </TableRowColumn> :
                 </TableRow>
               ))}
             </TableBody>
@@ -94,12 +144,12 @@ export class ProjectUserListComponent extends React.Component {
         <CardActions>
           <CardActionsComponent
             mainButtonUrl={createUrl}
-            mainButtonLabel={<FormattedMessage id="projectUser.list.action.create" />}
-            secondaryButtonLabel={<FormattedMessage id="projectUser.list.action.cancel" />}
+            mainButtonLabel={<FormattedMessage id="projectUser.list.all.action.create" />}
+            secondaryButtonLabel={<FormattedMessage id="projectUser.list.all.action.cancel" />}
             secondaryButtonUrl={backUrl}
           />
         </CardActions>
-      </Card>
+      </Card >
     )
   }
 }
