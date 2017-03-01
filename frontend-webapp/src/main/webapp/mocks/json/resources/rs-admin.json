@@ -245,6 +245,58 @@
         "isNative": true
       },
       "permissions": []
+    },
+    {
+      "id": 2,
+      "email": "some1@leets.ru",
+      "lastUpdate": "2014-06-01T01:01:01.000",
+      "status": "WAITING_ACCESS",
+      "metaData": [],
+      "role": {
+        "id": 2,
+        "name": "REGISTERED_USER",
+        "parentRole": {
+          "id": 1,
+          "name": "PUBLIC",
+          "permissions": [],
+          "authorizedAddresses": [],
+          "isCorsRequestsAuthorized": true,
+          "isDefault": true,
+          "isNative": true
+        },
+        "permissions": [],
+        "authorizedAddresses": [],
+        "isCorsRequestsAuthorized": true,
+        "isDefault": false,
+        "isNative": true
+      },
+      "permissions": []
+    },
+    {
+      "id": 3,
+      "email": "some1@thatcouldenter.ca",
+      "lastUpdate": "2023-04-30T18:20:02.012",
+      "status": "ACCESS_GRANTED",
+      "metaData": [],
+      "role": {
+        "id": 2,
+        "name": "REGISTERED_USER",
+        "parentRole": {
+          "id": 1,
+          "name": "PUBLIC",
+          "permissions": [],
+          "authorizedAddresses": [],
+          "isCorsRequestsAuthorized": true,
+          "isDefault": true,
+          "isNative": true
+        },
+        "permissions": [],
+        "authorizedAddresses": [],
+        "isCorsRequestsAuthorized": true,
+        "isDefault": false,
+        "isNative": true
+      },
+      "permissions": []
     }
   ],
   "accounts": [

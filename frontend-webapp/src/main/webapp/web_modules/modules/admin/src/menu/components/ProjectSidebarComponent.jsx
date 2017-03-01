@@ -12,7 +12,6 @@ import CloudQueue from 'material-ui/svg-icons/file/cloud-queue'
 import Widgets from 'material-ui/svg-icons/device/widgets'
 import Brush from 'material-ui/svg-icons/image/brush'
 import Reply from 'material-ui/svg-icons/content/reply'
-import Badge from 'material-ui/Badge'
 import { FormattedMessage } from 'react-intl'
 import SupervisorAccount from 'material-ui/svg-icons/action/supervisor-account'
 import { I18nProvider } from '@regardsoss/i18n'
@@ -68,7 +67,7 @@ class ProjectSidebarComponent extends React.Component {
             currentPath={this.props.currentPath}
             primaryText={<FormattedMessage id="menu.users" />}
             leftIcon={<SupervisorAccount />}
-            rightIcon={<Badge badgeContent={<WaitingAccessNotificationContainer />} primary />}
+            rightIcon={<WaitingAccessNotificationContainer />}
           />
           <SidebarElement
             key="2"

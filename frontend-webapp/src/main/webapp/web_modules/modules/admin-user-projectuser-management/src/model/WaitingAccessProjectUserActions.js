@@ -10,7 +10,7 @@ class WaitingAccessProjectUserActions extends ProjectUserActions {
   }
 
   fetchWaitingUsersEntityList(index, size) {
-    return this.fetchPagedEntityList(index, size, { state: 'WAITING_ACCESS' })
+    return this.fetchPagedEntityList(index, size, { status: 'WAITING_ACCESS' })
   }
 
 }

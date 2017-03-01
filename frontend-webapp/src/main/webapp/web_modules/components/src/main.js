@@ -6,6 +6,7 @@ import CenteredDiv from './CenteredDiv'
 import ErrorDecoratorComponent from './ErrorDecoratorComponent'
 import NewsItemComponent from './NewsItemComponent'
 
+import ActionIconWithNotifications from './board/ActionIconWithNotifications'
 import BoardComponent from './board/BoardComponent'
 import BaseBoardComponent from './board/BaseBoardComponent'
 import BoardItemComponent from './board/BoardItemComponent'
@@ -38,6 +39,7 @@ import FixedTableContainer from './table/FixedTableContainer'
 
 export {
   ActionButtonComponent,
+  ActionIconWithNotifications,
   ApplicationErrorComponent,
   BoardComponent,
   BaseBoardComponent,

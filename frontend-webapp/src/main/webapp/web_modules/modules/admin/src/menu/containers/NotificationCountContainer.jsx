@@ -2,31 +2,24 @@
 * LICENSE_PLACEHOLDER
 **/
 import { connect } from '@regardsoss/redux'
+import Badge from 'material-ui/Badge'
 
 
 const refreshTimerMS = 10000
 
 /**
-* Container for users sidebar elements in project (fetches the results on timer, to show the notifications count changes)
+* Container for observable list counts (fetches the results on timer, to show the notifications count changes)
 */
 class NotificationCountContainer extends React.Component {
 
   static propTypes = {
     notificationsCount: React.PropTypes.number.isRequired,
-    fetchEntities: React.PropTypes.func.isRequired,
-  }
-
-  componentWillMount = () => {
-    this.startTimer()
-  }
-
-  componentWillUnmount = () => {
-    // delete the refresh timer
-    clearTimeout(this.refreshTimer)
-  }
-
-  refresh = () => {
-    this.props.fetchEntities()
+    // used in map state to props
+    // eslint-disable-next-line react/no-unused-prop-types
+    entitiesCounter: React.PropTypes.func.isRequired,
+    // required, see workaround comment in render method
+    // eslint-disable-next-line react/forbid-prop-types
+    style: React.PropTypes.object,
   }
 
   startTimer = () => {
@@ -36,29 +29,16 @@ class NotificationCountContainer extends React.Component {
     this.refreshTimer = setTimeout(() => this.startTimer(), refreshTimerMS)
   }
 
-
   render() {
-    const notificationsCount = this.props.notificationsCount
-    return notificationsCount ? <span>{notificationsCount}</span> : null
+    const { notificationsCount, style } = this.props
+    /* XXX-workaround material UI MenuItem uses style directly on contained components,
+    which is terribly wrong and forces this container to report it here */
+    return notificationsCount ? <Badge badgeContent={notificationsCount} style={style} primary /> : null
   }
 }
 
-const getMapStateToProps = entitiesCounter => state => ({
+const mapStateToProps = (state, { entitiesCounter }) => ({
   notificationsCount: entitiesCounter(state),
 })
 
-const getMapDispatchToProps = fetchAction => dispatch => ({
-  fetchEntities: () => dispatch(fetchAction(...arguments)),
-})
-
-// Connected container builder, requires both entity fetcher (action fetch list method) and entitiesCounter
-const getConnected = (fetchAction, entitiesCounter) => connect(getMapStateToProps(entitiesCounter), getMapDispatchToProps(fetchAction))(NotificationCountContainer)
-
-// export the connected ccontainer builder
-const ConnectedContainer = ({ fetchAction, entitiesCounter }) => {
-  const Connected = getConnected(fetchAction, entitiesCounter)
-  return <Connected />
-}
-ConnectedContainer.propTypes = { fetchAction: React.PropTypes.func.isRequired, entitiesCounter: React.PropTypes.func.isRequired }
-
-export default ConnectedContainer
+export default connect(mapStateToProps, null)(NotificationCountContainer)

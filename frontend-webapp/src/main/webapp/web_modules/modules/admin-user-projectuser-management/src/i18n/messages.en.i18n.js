@@ -7,15 +7,13 @@ const messages = Object.assign({
   'projectUser.list.table.status': 'Status',
   'projectUser.list.table.lastconnection': 'Last connection',
   'projectUser.list.table.action': 'Actions',
-
-  // by tab
+  'projectUser.list.action.cancel': 'Cancel',
+  'projectUser.list.all.tab': 'All users ({count})',
   'projectUser.list.all.subtitle': 'List of all project users',
   'projectUser.list.all.action.create': 'Add',
-  'projectUser.list.all.action.cancel': 'Cancel',
-  'projectUser.list.all.tab': 'All users',
-
+  'projectUser.list.waiting.tab': 'New users ({count})',
   'projectUser.list.waiting.subtitle': 'List of new project users waiting for access validation',
-  'projectUser.list.waiting.tab': 'New users',
+  'projectUser.list.waiting.validate.all': 'Validate all',
 
   'projectUser.create.title': 'Create a new user',
   'projectUser.create.input.role': 'Role',
