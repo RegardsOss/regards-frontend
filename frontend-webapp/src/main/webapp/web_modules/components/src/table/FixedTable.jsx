@@ -1,8 +1,12 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { map } from 'lodash'
+import root from 'window-or-global'
+import { map, forEach, reduce, split, remove, concat } from 'lodash'
 import { Table, Column } from 'fixed-data-table'
+import { Toolbar, ToolbarGroup, ToolbarTitle } from 'material-ui/Toolbar'
+import FilterList from 'material-ui/svg-icons/content/filter-list'
+import IconButton from 'material-ui/IconButton'
 import { LoadingComponent } from '@regardsoss/display-control'
 import { themeContextType } from '@regardsoss/theme'
 import './fixed-data-table-mui.css'
@@ -10,6 +14,8 @@ import FixedTableCell from './FixedTableCell'
 import FixedTableCheckBoxCell from './FixedTableCheckBoxCell'
 import FixedTableHeaderCell from './FixedTableHeaderCell'
 import Styles from './FixedTableStyles'
+import ColumnConfiguration from './model/ColumnConfiguration'
+import TableColumnFilterComponent from './TableColumnFilterComponent'
 
 /**
  * Fixed data table from facebook library integrated with material ui theme
@@ -37,7 +43,7 @@ class FixedTable extends React.Component {
     lineHeight: React.PropTypes.number.isRequired,
     pageSize: React.PropTypes.number.isRequired,
     onScrollEnd: React.PropTypes.func.isRequired,
-    columns: React.PropTypes.arrayOf(React.PropTypes.object),
+    columns: React.PropTypes.arrayOf(ColumnConfiguration),
     displayCheckbox: React.PropTypes.bool,
     onRowSelection: React.PropTypes.func,
   }
@@ -51,18 +57,27 @@ class FixedTable extends React.Component {
     const nbEntitiesByPage = this.props.pageSize * 3
     // +1 for header row
     const height = this.props.lineHeight * (this.props.pageSize + 1)
-    const width = window.innerWidth
-    const columnsWidth = width - 40
+    const width = window.innerWidth - 30
+    const totalColumnsWidth = width - 40
+
+    // Init columns width
+    const columnWidths = {}
+    forEach(this.props.columns, (column) => {
+      columnWidths[column.label] = totalColumnsWidth / this.props.columns.length
+    })
+
     this.state = {
       nbEntitiesByPage,
       height,
       width,
-      columnWidths: {
-        label: columnsWidth / 3,
-        format: columnsWidth / 3,
-        language: columnsWidth / 3,
-      },
+      columnWidths,
+      columnsFilterPanelOpened: false,
+      hiddenColumns: [],
     }
+  }
+
+  componentDidMount() {
+    root.window.addEventListener('resize', this.updateColumnSize)
   }
 
   /**
@@ -86,19 +101,71 @@ class FixedTable extends React.Component {
    * @returns {string}
    */
   getCellValue = (rowIndex, column) => {
-    let value = ''
+    let resultValue = ''
     const entity = this.props.entities[rowIndex].content
     if (entity) {
       let i = 0
       for (i = 0; i < column.attributes.length; i += 1) {
+        const attrValue = reduce(split(column.attributes[i], '.'), (result, value, key) => result[value], entity)
         if (entity[column.attributes[i]]) {
-          value += ` ${entity[column.attributes[i]]}`
+          resultValue += ` ${attrValue}`
         } else {
-          value += ` ${entity.attributes[column.attributes[i]]}`
+          resultValue += ` ${attrValue}`
         }
       }
     }
-    return value
+    return resultValue
+  }
+
+  /**
+   * Callback to update columns size after window resize event
+   */
+  updateColumnSize = () => {
+    const width = window.innerWidth - 30
+    const totalColumnsWidth = width - 40
+    // Init columns width
+    const columnWidths = {}
+    forEach(this.props.columns, (column) => {
+      columnWidths[column.label] = totalColumnsWidth / this.props.columns.length
+    })
+    this.setState({
+      width,
+      columnWidths,
+    })
+  }
+
+  /**
+   * Open the column visibility panel
+   */
+  openColumnsFilterPanel = () => {
+    this.setState({
+      columnsFilterPanelOpened: true,
+    })
+  }
+
+  /**
+   * Close the column visibility panel
+   */
+  closeColumnsFilterPanel = () => {
+    this.setState({
+      columnsFilterPanelOpened: false,
+    })
+  }
+
+  /**
+   * Update column visibility
+   * @param column
+   */
+  changeColumnVisibility = (column) => {
+    const hc = concat([], this.state.hiddenColumns)
+    if (hc.includes(column)) {
+      remove(hc, col => column === col)
+    } else {
+      hc.push(column)
+    }
+    this.setState({
+      hiddenColumns: hc,
+    })
   }
 
   /**
@@ -131,7 +198,6 @@ class FixedTable extends React.Component {
    */
   renderLoadingFilter = () => {
     if (this.props.entitiesFetching) {
-      console.log('LOADING FILTER')
       const styles = Styles(this.context.muiTheme).loadingFilter
       return (
         <div style={styles}>
@@ -142,14 +208,44 @@ class FixedTable extends React.Component {
     return null
   }
 
+  /**
+   * Render the toolbar over the table
+   */
+  renderToolbar = () => (
+    <Toolbar style={{ minWidth: this.state.width }}>
+      <ToolbarTitle text={`${this.props.entities.length} results`} />
+      <ToolbarGroup>
+        <IconButton tooltip="Filter columns" onTouchTap={this.openColumnsFilterPanel}>
+          <FilterList />
+        </IconButton>
+      </ToolbarGroup>
+    </Toolbar>
+  )
+
+  /**
+   * Display the cloumn filter panel
+   * @returns {*}
+   */
+  renderColumnsFilterPanel = () => {
+    if (this.state.columnsFilterPanelOpened) {
+      return (
+        <TableColumnFilterComponent
+          columns={this.props.columns}
+          hiddenColumns={this.state.hiddenColumns}
+          changeColumnVisibility={this.changeColumnVisibility}
+          closePanel={this.closeColumnsFilterPanel}
+        />
+      )
+    }
+    return null
+  }
+
   render() {
     const { columnWidths, width, height } = this.state
-    const styles = Styles(this.context.muiTheme)
     const totalNumberOfEntities = this.props.entities.length
     return (
-      <div
-        style={styles.table}
-      >
+      <div>
+        {this.renderToolbar()}
         {this.renderLoadingFilter()}
         <Table
           rowHeight={this.props.lineHeight}
@@ -162,18 +258,22 @@ class FixedTable extends React.Component {
           height={height}
         >
           {this.renderCheckBoxColumn()}
-          {map(this.props.columns, column => (
-            <Column
+          {map(this.props.columns, (column) => {
+            if (this.state.hiddenColumns.includes(column.label)) {
+              return null
+            }
+            return (<Column
               key={column.label}
               columnKey={column.label}
               header={<FixedTableHeaderCell label={column.label} lineHeight={this.props.lineHeight} />}
               cell={<FixedTableCell getCellValue={(rowIndex, col) => this.getCellValue(rowIndex, col)} col={column} />}
-              fixed
-              width={columnWidths.label}
-              flexgrow={1}
+              width={columnWidths[column.label]}
+              flexGrow={1}
               isResizable
-            />))}
+            />)
+          })}
         </Table>
+        {this.renderColumnsFilterPanel()}
       </div>
     )
   }

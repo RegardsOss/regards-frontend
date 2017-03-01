@@ -1,11 +1,11 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { chain, forEach, find, cloneDeep, reduce, isEqual, values } from 'lodash'
+import { chain, forEach, cloneDeep, reduce, isEqual, values } from 'lodash'
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { PluginConf, AttributeModel } from '@regardsoss/model'
-import { LoadableContentDisplayDecorator, LoadingComponent } from '@regardsoss/display-control'
+import { LoadingComponent } from '@regardsoss/display-control'
 import { themeContextType } from '@regardsoss/theme'
 import SearchResultsComponent from '../components/user/SearchResultsComponent'
 import FormComponent from '../components/user/FormComponent'
@@ -26,6 +26,7 @@ class ModuleContainer extends React.Component {
     fetchAttribute: React.PropTypes.func,
     // eslint-disable-next-line react/no-unused-prop-types
     attributes: React.PropTypes.objectOf(AttributeModel),
+    // eslint-disable-next-line react/no-unused-prop-types
     attributesFetching: React.PropTypes.bool,
     preview: React.PropTypes.bool,
   }
@@ -37,9 +38,9 @@ class ModuleContainer extends React.Component {
   constructor(props) {
     super(props)
     const type = props.resultType === DATAOBJECT_RESULTS ? 'DATAOBJECT' : 'DATASET'
+    this.criterionValues = {}
     this.state = {
       searchQuery: `type=${type}`,
-      criterionValues: {},
     }
   }
 
@@ -64,11 +65,7 @@ class ModuleContainer extends React.Component {
    * @param pluginId
    */
   onCriteriaChange = (criteria, pluginId) => {
-    const clone = Object.assign({}, this.state.criterionValues)
-    clone[pluginId] = criteria
-    this.setState({
-      criterionValues: clone,
-    })
+    this.criterionValues[pluginId] = criteria
   }
 
 
@@ -112,7 +109,7 @@ class ModuleContainer extends React.Component {
    */
   handleSearch = () => {
     // TODO Manage search
-    let query = reduce(this.state.criterionValues, (result, criteria, key) => {
+    let query = reduce(this.criterionValues, (result, criteria, key) => {
       if (result && criteria.value) {
         return `${result}&attributes.${criteria.attribute.name}=${criteria.value}`
       } else if (criteria.value) {

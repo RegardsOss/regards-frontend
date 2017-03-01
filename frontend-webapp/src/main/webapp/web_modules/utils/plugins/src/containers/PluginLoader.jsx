@@ -27,7 +27,7 @@ class PluginLoader extends React.Component {
    * @type {{pluginId: *, pluginConf: *, displayPlugin: *, children: *, loadedPlugin: *, loadPlugin: *, locale: *}}
    */
   static propTypes = {
-    pluginInstanceId: React.PropTypes.number.isRequired,
+    pluginInstanceId: React.PropTypes.string.isRequired,
     pluginPath: React.PropTypes.string.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
     pluginConf: React.PropTypes.object,

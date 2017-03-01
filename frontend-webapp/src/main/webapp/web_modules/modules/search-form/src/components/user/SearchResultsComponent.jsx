@@ -21,21 +21,27 @@ class SearchResultsComponent extends React.Component {
     console.log('Selected entities', selectedEntities)
   }
 
-
   render() {
+    const columns = []
+    columns.push({ label: 'Internal Identifier', attributes: ['id'] })
+    columns.push({ label: 'Identifier', attributes: ['sip_id'] })
+    columns.push({ label: 'Label', attributes: ['label'] })
+    columns.push({ label: 'Format', attributes: ['attributes.format'] })
+    columns.push({ label: 'Language', attributes: ['attributes.language'] })
+    columns.push({ label: 'Test Group', attributes: ['attributes.language', 'label'] })
+
     return (
       <div>
         <ResulsTypeButtons />
-        <div style={{ marginRight: 50, marginLeft: 60 }}>
-          <FixedTableContainer
-            PageActions={CatalogEntityActions}
-            PageSelector={CatalogEntitySelector}
-            pageSize={17}
-            displayCheckbox
-            onSelectionChange={this.resultSelection}
-            requestParams={{ queryParams: this.props.searchQuery }}
-          />
-        </div>
+        <FixedTableContainer
+          PageActions={CatalogEntityActions}
+          PageSelector={CatalogEntitySelector}
+          pageSize={17}
+          displayCheckbox
+          columns={columns}
+          onSelectionChange={this.resultSelection}
+          requestParams={{ queryParams: this.props.searchQuery }}
+        />
       </div>
     )
   }
