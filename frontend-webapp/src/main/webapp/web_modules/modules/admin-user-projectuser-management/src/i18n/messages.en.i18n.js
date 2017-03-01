@@ -12,6 +12,9 @@ const messages = Object.assign({
   'projectUser.list.action.create': 'Add',
   'projectUser.list.action.cancel': 'Cancel',
 
+  'projectUser.edit.title': 'Edit the user {email}',
+  'projectUser.edit.action.save': 'Save',
+  'projectUser.create.using.existing.account': 'The user already have a REGARDS user account',
   'projectUser.create.title': 'Create a new user',
   'projectUser.create.input.role': 'Role',
   'projectUser.create.input.email': 'E-mail',
@@ -19,6 +22,7 @@ const messages = Object.assign({
   'projectUser.create.input.lastName': 'Lastname',
   'projectUser.create.input.password': 'Password',
   'projectUser.create.input.status': 'Status',
+  'projectUser.create.input.groups': 'Groups',
   'projectUser.create.action.create': 'Create',
   'projectUser.create.action.cancel': 'Cancel',
 }, Locales.en)
