@@ -20,6 +20,8 @@ const ColumnConfiguration = React.PropTypes.shape({
   fixed: React.PropTypes.number,
   // True to hide the column label in the header line of the table
   hideLabel: React.PropTypes.bool,
+  // Does the column is sortable
+  sortable: React.PropTypes.bool,
 })
 
 export default ColumnConfiguration

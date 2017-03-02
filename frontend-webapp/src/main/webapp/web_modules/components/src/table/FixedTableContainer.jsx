@@ -59,6 +59,8 @@ class FixedTableContainer extends React.Component {
     displayCheckbox: React.PropTypes.bool,
     // Action callback called when an line is selected. the list of entities selected are passed as a parameter
     onSelectionChange: React.PropTypes.func,
+    // Action callback to sort by column
+    onSortByColumn: React.PropTypes.func,
     // [Optional] server request parameters as query params or path params defined in the PageActions given.
     // eslint-disable-next-line react/forbid-prop-types
     requestParams: React.PropTypes.object,
@@ -107,27 +109,33 @@ class FixedTableContainer extends React.Component {
         entities: [],
       })
       this.props.fetchEntities(0, this.state.nbEntitiesByPage, nextProps.requestParams)
+      return
     }
 
-    // If there is no entities in the state, so we have to initialize the entities with empty objects.
-    // One empty object per possbile result of the current request. The number of possible result of
-    // a request is the totalElements in the page metadata provded with the server response.
     let entities = null
-    if ((!this.state.entities || this.state.entities.length === 0) && nextProps.pageMetadata && nextProps.entities) {
-      entities = Array(nextProps.pageMetadata.totalElements).fill({})
-    } else if (nextProps.pageMetadata && nextProps.entities && (nextProps.entities !== this.props.entities)) {
-      // Entities are already initialize in the state, juste duplicate the list to update it if necessary
-      // with the new entities fetched from server
-      entities = concat([], this.state.entities)
-    }
+    // New entities retrieved
+    if (this.props.entitiesFetching && !nextProps.entitiesFetching) {
+      // If there is no entities in the state, so we have to initialize the entities with empty objects.
+      // One empty object per possible result of the current request. The number of possible result of
+      // a request is the totalElements in the page metadata provded with the server response.
+      let newResults = false
+      if ((!this.state.entities || this.state.entities.length === 0) && nextProps.pageMetadata && nextProps.entities) {
+        entities = Array(nextProps.pageMetadata.totalElements).fill({})
+        newResults = true
+      } else if (nextProps.pageMetadata && nextProps.entities && (nextProps.entities !== this.props.entities)) {
+        // Entities are already initialize in the state, juste duplicate the list to update it if necessary
+        // with the new entities fetched from server
+        entities = concat([], this.state.entities)
+      }
 
-    // If new entities has been retrieved, then add them to th right index in the state.entities list.
-    if (entities !== null && nextProps.entities &&
-      (!this.state.entities || !this.props.entities || !isEqual(keys(this.props.entities), keys(nextProps.entities)))) {
-      let i = 0
-      // Add each nex entity retrieved at the right index in the state.entities list
-      for (i = 0; i < keys(nextProps.entities).length; i += 1) {
-        entities[nextProps.pageMetadata.number + i] = nextProps.entities[keys(nextProps.entities)[i]]
+      // If new entities has been retrieved, then add them to th right index in the state.entities list.
+      if (entities !== null && nextProps.entities &&
+        (newResults || !this.state.entities || !this.props.entities || !isEqual(keys(this.props.entities), keys(nextProps.entities)))) {
+        let i = 0
+        // Add each nex entity retrieved at the right index in the state.entities list
+        for (i = 0; i < keys(nextProps.entities).length; i += 1) {
+          entities[nextProps.pageMetadata.number + i] = nextProps.entities[keys(nextProps.entities)[i]]
+        }
       }
       this.setState({
         entities,
@@ -220,6 +228,7 @@ class FixedTableContainer extends React.Component {
           columns={this.getAllColumns()}
           displayCheckbox={this.props.displayCheckbox}
           onRowSelection={this.selectRow}
+          onSortByColumn={this.props.onSortByColumn}
         />
       )
     }

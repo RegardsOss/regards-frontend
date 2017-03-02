@@ -46,6 +46,7 @@ class FixedTable extends React.Component {
     columns: React.PropTypes.arrayOf(ColumnConfiguration),
     displayCheckbox: React.PropTypes.bool,
     onRowSelection: React.PropTypes.func,
+    onSortByColumn: React.PropTypes.func,
   }
 
   static contextTypes = {
@@ -256,6 +257,9 @@ class FixedTable extends React.Component {
 
   render() {
     const { columnWidths, width, height } = this.state
+    if (!this.props.entities){
+      return null
+    }
     const totalNumberOfEntities = this.props.entities.length
     return (
       <div>
@@ -279,7 +283,12 @@ class FixedTable extends React.Component {
             return (<Column
               key={column.label}
               columnKey={column.label}
-              header={<FixedTableHeaderCell label={column.hideLabel ? '' : column.label} lineHeight={this.props.lineHeight} />}
+              header={<FixedTableHeaderCell
+                label={column.hideLabel ? '' : column.label}
+                lineHeight={this.props.lineHeight}
+                sortable={column.sortable}
+                sortAction={(type) => this.props.onSortByColumn(column, type)}
+              />}
               cell={<FixedTableCell
                 getCellValue={(rowIndex, col) => this.getCellValue(rowIndex, col, column.customCell)}
                 col={column}
