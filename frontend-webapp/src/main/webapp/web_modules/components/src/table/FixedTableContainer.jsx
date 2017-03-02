@@ -103,7 +103,6 @@ class FixedTableContainer extends React.Component {
   componentWillReceiveProps(nextProps) {
     // If request changed, run new search and reset the entities stored in the state
     if (isEqual(nextProps.requestParams, this.props.requestParams) === false) {
-      console.log('Reinit entities')
       this.setState({
         entities: [],
       })

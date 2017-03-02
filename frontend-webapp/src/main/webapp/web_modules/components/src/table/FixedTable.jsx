@@ -98,13 +98,26 @@ class FixedTable extends React.Component {
    * Return a cell content value with the rox index and the column name.
    * @param rowIndex
    * @param column
+   * @param rendererComponent type {customCell, props}
    * @returns {string}
    */
-  getCellValue = (rowIndex, column) => {
-    let resultValue = ''
+  getCellValue = (rowIndex, column, rendererComponent) => {
     const entity = this.props.entities[rowIndex].content
     if (entity) {
       let i = 0
+      // If a custom renderer is provided use it
+      if (rendererComponent) {
+        const attributes = {}
+        for (i = 0; i < column.attributes.length; i += 1) {
+          attributes[column.attributes[i]] = reduce(
+            split(column.attributes[i], '.'),
+            (result, value, key) => result[value],
+            entity)
+        }
+        return React.createElement(rendererComponent.component, { attributes, lineHeight: this.props.lineHeight, ...rendererComponent.props })
+      }
+        // No custom component, render attribute as a string.
+      let resultValue = ''
       for (i = 0; i < column.attributes.length; i += 1) {
         const attrValue = reduce(split(column.attributes[i], '.'), (result, value, key) => result[value], entity)
         if (entity[column.attributes[i]]) {
@@ -113,8 +126,9 @@ class FixedTable extends React.Component {
           resultValue += ` ${attrValue}`
         }
       }
+      return resultValue
     }
-    return resultValue
+    return null
   }
 
   /**
@@ -265,11 +279,14 @@ class FixedTable extends React.Component {
             return (<Column
               key={column.label}
               columnKey={column.label}
-              header={<FixedTableHeaderCell label={column.label} lineHeight={this.props.lineHeight} />}
-              cell={<FixedTableCell getCellValue={(rowIndex, col) => this.getCellValue(rowIndex, col)} col={column} />}
-              width={columnWidths[column.label]}
+              header={<FixedTableHeaderCell label={column.hideLabel ? '' : column.label} lineHeight={this.props.lineHeight} />}
+              cell={<FixedTableCell
+                getCellValue={(rowIndex, col) => this.getCellValue(rowIndex, col, column.customCell)}
+                col={column}
+              />}
+              width={column.fixed ? column.fixed : columnWidths[column.label]}
               flexGrow={1}
-              isResizable
+              isResizable={column.fixed === undefined}
             />)
           })}
         </Table>

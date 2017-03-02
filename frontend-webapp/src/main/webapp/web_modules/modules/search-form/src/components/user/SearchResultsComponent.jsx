@@ -5,6 +5,7 @@ import { FixedTableContainer } from '@regardsoss/components'
 import CatalogEntitySelector from '../../models/catalog/CatalogEntitySelector'
 import CatalogEntityActions from '../../models/catalog/CatalogEntityActions'
 import ResulsTypeButtons from './ResultsTypeButtons'
+import ThumbmailCellComponent from './ThumbmailCellComponent'
 
 /**
  * React container to manage search requests and display results.
@@ -23,6 +24,7 @@ class SearchResultsComponent extends React.Component {
 
   render() {
     const columns = []
+    columns.push({ label: 'Image', attributes: ['files'], customCell: {component: ThumbmailCellComponent, props: {}}, fixed: 40, hideLabel: true })
     columns.push({ label: 'Internal Identifier', attributes: ['id'] })
     columns.push({ label: 'Identifier', attributes: ['sip_id'] })
     columns.push({ label: 'Label', attributes: ['label'] })
