@@ -8,6 +8,8 @@ import { getAccessGroupReducer } from '../../src/model/AccessGroupReducers'
 import AccessGroupSelectors from '../../src/model/AccessGroupSelectors'
 import AccessGroupNetworkDump from './dump/AccessGroupNetworkDump'
 
+import { assert } from 'chai'
+
 const backendServerResultList = AccessGroupNetworkDump
 const options = {
 }
