@@ -6,7 +6,7 @@ import { assert } from 'chai'
 import sinon from 'sinon'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import RaisedButton from 'material-ui/RaisedButton'
-import { ApplicationLayout } from '@regardsoss/layout'
+import { Container } from '@regardsoss/layout'
 import FormComponent from '../../../src/components/user/FormComponent'
 import Styles from '../../../src/styles/styles'
 
@@ -33,7 +33,7 @@ describe('[FORM MODULE] Testing Form User component', () => {
     )
 
     const button = wrapper.find(RaisedButton)
-    assert.isTrue(wrapper.find(ApplicationLayout).length === 1, 'Form module should render configured layout')
+    assert.isTrue(wrapper.find(Container).length === 1, 'Form module should render configured layout')
     assert.isTrue(button.length === 1, 'There should be a button to run search')
 
     assert(handleSearchCallback.notCalled)
