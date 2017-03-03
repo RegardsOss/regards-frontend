@@ -26,6 +26,7 @@ import Entity from './dam/Entity'
 import AccessGroup from './dam/AccessGroup'
 import AccessRight from './dam/AccessRight'
 import CatalogEntity from './catalog/Entity'
+import { ObjectLinkedFile, ObjectLinkedFileTypes } from './catalog/ObjectLinkedFile'
 import PluginMetaData, { PluginMetaDataList } from './admin/plugin/PluginMetaData'
 import PluginConfiguration, { PluginConfigurationList } from './admin/plugin/PluginConfiguration'
 import PluginParameter from './admin/plugin/PluginParameter'
@@ -61,6 +62,8 @@ export default {
 
   // CATALOG
   CatalogEntity,
+  ObjectLinkedFile,
+  ObjectLinkedFileTypes,
 
   // ACCESS
   Plugin,

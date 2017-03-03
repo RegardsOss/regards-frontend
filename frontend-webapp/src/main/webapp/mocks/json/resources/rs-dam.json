@@ -568,7 +568,7 @@
     {
       "id": "AG1",
       "name": "AG1",
-      "users": [{"email": "florian.philippot@facholand.fr"}],
+      "users": [{"email": "florian.philippot@facholand.fr"}, {"email": "mon@adresse.em"}],
       "accessRights": [
         {
           "qualityFilter": {

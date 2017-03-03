@@ -34,6 +34,7 @@ export default theme => ({
     fontFamily: theme.fontFamily,
     display: 'flex',
     justifyContent: 'center',
+    alignItems: 'center',
     borderBottom: `1px solid ${theme.tableRow.borderColor}`,
     borderRight: `1px solid ${theme.tableRow.borderColor}`,
   },
@@ -60,9 +61,6 @@ export default theme => ({
     justifyContent: 'center',
   },
   loadingFilter: {
-    bottom: '0px',
-    position: 'absolute',
-    width: '100%',
     backgroundColor: theme.palette.primary1Color,
     display: 'flex',
     justifyContent: 'center',

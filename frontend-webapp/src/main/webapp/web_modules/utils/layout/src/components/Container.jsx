@@ -114,7 +114,7 @@ class Container extends React.Component {
       forEach(containerPlugins, (plugin, idx) => {
         renderPlugins.push(
           <Paper
-            key={idx}
+            key={`${this.props.container.id}-${idx}`}
             style={{
               // display: 'flex',
               // justifyContent: 'space-between',
@@ -122,8 +122,8 @@ class Container extends React.Component {
             }}
           >
             <PluginProvider
-              key={idx}
-              pluginInstanceId={idx}
+              key={`${this.props.container.id}-${idx}`}
+              pluginInstanceId={`${this.props.container.id}-${idx}`}
               pluginId={plugin.pluginId}
               pluginConf={plugin.pluginConf}
               pluginProps={this.props.pluginProps}

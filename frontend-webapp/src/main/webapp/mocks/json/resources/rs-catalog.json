@@ -5,6 +5,10 @@
       "sip_id": 100,
       "label": "Le parain",
       "type": "DATAOBJECT",
+      "files": [{
+        "type": "THUMBMAIL",
+        "uri": "https://cnes.fr/sites/default/files/drupal/201511/image/is_venus-nasa.jpg"
+      }],
       "tags": ["col:movie","col:classic","col:action","ds:ParisLibrary"],
       "attributes":{
         "format": "dvd",
@@ -17,6 +21,10 @@
       "sip_id": 101,
       "label": "Matrix",
       "type": "DATAOBJECT",
+      "files": [{
+        "type": "THUMBMAIL",
+        "uri": "http://images.toucharger.com/img/graphiques/fonds_d_ecran/espace/planetes/planete.2208.jpg"
+      }],
       "tags": ["col:movie","col:science-fiction","ds:ParisLibrary"],
       "attributes":{
         "format": "dvd",
@@ -29,6 +37,10 @@
       "sip_id": 102,
       "label": "La grande vadrouille",
       "type": "DATAOBJECT",
+      "files": [{
+        "type": "THUMBMAIL",
+        "uri": "http://meyer10000.m.e.pic.centerblog.net/w7ei60ha.jpg"
+      }],
       "tags": ["col:movie","col:classic","col:aventure","ds:ParisLibrary","ds:NYCLibrary"],
       "attributes":{
         "format": "dvd",

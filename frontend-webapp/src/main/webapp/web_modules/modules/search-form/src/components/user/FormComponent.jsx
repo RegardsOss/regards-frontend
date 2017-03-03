@@ -3,7 +3,7 @@
  **/
 import RaisedButton from 'material-ui/RaisedButton'
 import SearchIcon from 'material-ui/svg-icons/action/search'
-import { Card, CardHeader, CardText } from 'material-ui/Card'
+import { Card, CardText } from 'material-ui/Card'
 import { FormattedMessage } from 'react-intl'
 import { LayoutContent, PluginConf } from '@regardsoss/model'
 import { ApplicationLayout } from '@regardsoss/layout'
@@ -39,7 +39,6 @@ class FormComponent extends React.Component {
   }
 
   render() {
-    const styles = this.context.moduleTheme
     return (
       <Card>
         <CardText>
