@@ -30,7 +30,6 @@ export class AuthenticationModuleContainer extends React.Component {
     onCancelAction: React.PropTypes.func,
     // from mapStateToProps
     authenticated: React.PropTypes.bool,
-
   }
 
   componentWillMount = () => {

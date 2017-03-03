@@ -2,23 +2,36 @@
  * LICENSE_PLACEHOLDER
  **/
 const fs = require('fs')
+const _ = require('lodash')
 const fsExtra = require('fs-extra')
-const logTools = require('./log-tools')
+const { logMessage } = require('./mock-front-core')
 
 const JSON_CONTENT_TYPE = 'application/json; charset=utf-8'
 
 /**
  * Account pool used to test all possible authentication states: bind model to temp file
  */
-const sourceUsersFile = './mocks/facade/resources/account-pool.json'
-const runtimeUsersFile = './mocks/facade/runtime/account-pool.temp.json'
+const sourceUsersFile = './mocks/front/resources/account-pool.json'
+const runtimeUsersFile = './mocks/front/runtime/account-pool.temp.json'
 fsExtra.copy(sourceUsersFile, runtimeUsersFile)
 
 // load users pool (tool for every method in authentication)
-const loadUsersPool = () => JSON.parse(fs.readFileSync(runtimeUsersFile, 'utf8') || logTools.logMessage('Failed reading file', true) || {})
+const loadUsersPool = () => JSON.parse(fs.readFileSync(runtimeUsersFile, 'utf8') || logMessage('Failed reading file', true) || {})
 // write users pool
 const writeUsersPool = users => fs.writeFileSync(runtimeUsersFile, JSON.stringify(users), 'utf8')
 
+const sessionTokens = [
+  {
+    scope: 'cdpp',
+    value: 1,
+  }, {
+    scope: 'ssalto',
+    value: 2,
+  }, {
+    scope: 'instance',
+    value: 3,
+  },
+]
 const authenticate = (login, password, scope) => {
   // 1 - check user
   const users = loadUsersPool()
@@ -42,7 +55,7 @@ const authenticate = (login, password, scope) => {
       if (!loginUser[scope.toLowerCase()]) {
         return { content: { error: 'USER_UNKNOWN' }, contentType: JSON_CONTENT_TYPE, code: 403 }
       }
-      switch (loginUser[scope.toLowerCase()]) {
+      switch (loginUser[scope.toLowerCase()].status) {
         case 'WAITING_ACCESS':
           return { content: { error: 'USER_WAITING_ACCESS' }, contentType: JSON_CONTENT_TYPE, code: 403 }
         case 'ACCESS_DENIED':
@@ -50,20 +63,23 @@ const authenticate = (login, password, scope) => {
         case 'ACCESS_INACTIVE':
           return { content: { error: 'USER_ACCESS_INACTIVE' }, contentType: JSON_CONTENT_TYPE, code: 403 }
         case 'ACCESS_GRANTED':
-          return {
-            contentType: JSON_CONTENT_TYPE,
-            content: {
-              id: 1,
-              access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBjbmVzLmZyIiwiYXVkIjpbInJzLWdhdGV3YXkiXSwicm9sZSI6IklOU1RBTkNFX0FETUlOIiwidXNlcl9uYW1lIjoiZnIuY25lcy5yZWdhcmRzLmZyYW1ld29yay5zZWN1cml0eS51dGlscy5qd3QuVXNlckRldGFpbHNANTdiZmQ5ZGYiLCJzY29wZSI6WyJjZHBwIl0sInByb2plY3QiOiJjZHBwIiwiZXhwIjoxNDgyNTI3NjI0LCJhdXRob3JpdGllcyI6WyJJTlNUQU5DRV9BRE1JTiJdLCJqdGkiOiI0ZGUzMDBkOC03ODgwLTQ4M2MtYWJhOC1mYzQ1NjBiOTYxYjEiLCJjbGllbnRfaWQiOiJjbGllbnQifQ.GcbFi0J6OUIDqDgCzDYSVel7xI8k_59oP0wn_zvYxqE',
-              expires_in: 43199,
-              jti: '4de300d8-7880-483c-aba8-fc4560b961b1',
-              project: scope,
-              role: 'INSTANCE_ADMIN',
-              scope,
-              sub: login,
-              token_type: 'bearer',
-              name: '',
-            },
+          {
+            const token = _.find(sessionTokens, t => t.scope === scope.toLowerCase())
+            return {
+              contentType: JSON_CONTENT_TYPE,
+              content: {
+                id: 1,
+                access_token: token.value,
+                expires_in: 3600,
+                jti: '4de300d8-7880-483c-aba8-fc4560b961b1',
+                project: token.scope,
+                role: 'INSTANCE_ADMIN',
+                token: token.value,
+                sub: login,
+                token_type: 'bearer',
+                name: '',
+              },
+            }
           }
         default:
           return { code: 500 }
@@ -77,7 +93,7 @@ const validToken = '123456'
 
 
 const mockSendMail = (logSubheader, email, requestLink, originUrl) => {
-  logTools.logMessage(`Request acknowledged, back URL:
+  logMessage(`Request acknowledged, back URL:
 \x1b[4m${requestLink}&token=${validToken}&account_email=${email}&origin_url=${encodeURI(originUrl)}\x1b[0m`, false, logSubheader)
 }
 
@@ -90,7 +106,7 @@ const doAskOnAccount = (logSubheader, { accountEmail }, { originUrl, requestLink
   const { code, errorMessage } = doOrFail(user, users)
   if (errorMessage) {
     // KO
-    logTools.logMessage(errorMessage, true, logSubheader)
+    logMessage(errorMessage, true, logSubheader)
     return { code }
   }
   // OK
@@ -106,25 +122,98 @@ const doPerformOnAccount = (logSubheader, { accountEmail }, bodyparameters, doOr
   const user = users[accountEmail]
   // here we can check user is already known (no way to perform the operation otherwise)
   if (!user) {
-    logTools.logMessage(`Cannot finish operation on unknown user "${accountEmail}"`, true, logSubheader)
+    logMessage(`Cannot finish operation on unknown user "${accountEmail}"`, true, logSubheader)
     return { code: 400 }
   }
   // always check the token
   if (bodyparameters.token !== validToken) {
-    logTools.logMessage(`Invalid token, you may use the valid token "${validToken}"`, true, logSubheader)
+    logMessage(`Invalid token, you may use the valid token "${validToken}"`, true, logSubheader)
     return { code: 403 }
   }
 
   const { code, errorMessage } = doOrFail(user, bodyparameters)
   if (errorMessage) {
-    logTools.logMessage(errorMessage, true, logSubheader)
+    logMessage(errorMessage, true, logSubheader)
     return { code }
   }
   // now save the new users pool
   writeUsersPool(users)
-  logTools.logMessage('Request correctly handled', false, logSubheader)
+  logMessage('Request correctly handled', false, logSubheader)
   return { code }
 }
+
+/**
+ *  Executes a service  with the token scope (or returns 403 as unauthentified)
+ * @callback scope (String) => { code, content, contentType }
+ * @return { code, content, contentType } for request response
+ */
+const doWithTokenScope = (request, callback) => {
+  const tokenBearer = request.headers.authorization
+  if (!tokenBearer) {
+    return { code: 403 }
+  }
+  const matched = /Bearer ([0-9]+)/.exec(tokenBearer)
+  const tokenValue = (matched && matched[1] && parseInt(matched[1], 10)) || 3
+  const scope = _.find(sessionTokens, t => t.value === tokenValue).scope
+  return callback(scope)
+}
+
+/**
+ * Returns scope users, can filter with status (optional)
+ */
+const getScopeUsers = (users, scope, status) => _.pickBy(users, u => u[scope] && (!status || u[scope].status === status))
+
+const getUsersList = (request, { status }, pathParameters) => {
+  const doInScope = (scope) => {
+    const users = loadUsersPool()
+    const correspondingUsers = getScopeUsers(users, scope, status)
+    const formattedResponse = _.reduce(correspondingUsers, ({ content, links, metadata }, user, userMail) => {
+      const { id, role, status: userStatus } = user[scope]
+      return {
+        content: content.concat([{
+          content: {
+            id,
+            email: userMail,
+            lastUpdate: user.lastUpdate,
+            lastConnection: user.lastConnection,
+            role,
+            status: userStatus,
+            permissions: [],
+          },
+          links: [],
+        }]),
+        links,
+        metadata,
+      }
+    }, {
+        content: [],
+        links: [],
+        metadata: { number: 0, size: 100, totalElements: _.size(correspondingUsers) },
+      })
+    return {
+      content: formattedResponse,
+      code: 200,
+      contentType: JSON_CONTENT_TYPE,
+    }
+  }
+  return doWithTokenScope(request, doInScope)
+}
+
+/**
+ * Changes a user status in current scope.
+ */
+const changeUserStatus = (request, pathParameters, toStatus) => doWithTokenScope(request, (scope) => {
+  const users = loadUsersPool()
+  const waitingScopeUsers = getScopeUsers(users, scope)
+  const userId = parseInt(pathParameters.userId, 10)
+  const userToValidate = _.find(waitingScopeUsers, user => user[scope].id === userId)
+  if (_.isEmpty(userToValidate)) {
+    return { code: 404 }
+  }
+  userToValidate[scope].status = toStatus
+  writeUsersPool(users)
+  return { code: 204 }
+})
 
 module.exports = {
   GET: {
@@ -133,12 +222,16 @@ module.exports = {
       url: 'rs-admin/accesses/validateAccount/{token}',
       handler: (request, query, { token }) => {
         if (token === validToken) {
-          logTools.logMessage('Account validation OK (mock, no user update) ', false, '>Validate account')
+          logMessage('Account validation OK (mock, no user update) ', false, '>Validate account')
           return { code: 201 }
         }
-        logTools.logMessage('Account validation: token NOK ', true, '>Validate account')
+        logMessage('Account validation: token NOK ', true, '>Validate account')
         return { code: 403 }
       },
+    },
+    getUsers: {
+      url: 'users',
+      handler: getUsersList,
     },
   },
   POST: {
@@ -182,7 +275,7 @@ module.exports = {
         if (firstName && lastName && password) {
           // creating project account (autovalidated so far)
           if (users[email]) {
-            logTools.logMessage(`User already exist for mail "${email}"`, true, 'Ask new account')
+            logMessage(`User already exist for mail "${email}"`, true, 'Ask new account')
             return { code: 409 }
           }
           users[email] = {
@@ -191,20 +284,20 @@ module.exports = {
             password,
             state: 'ACCEPTED',
           }
-          logTools.logMessage(`New account created for ${email} (auto accepted).`, false, 'Ask new account')
+          logMessage(`New account created for ${email} (auto accepted).`, false, 'Ask new account')
           mockSendMail('Ask new account', email, requestLink, originUrl)
         } else {
           // creating project user (for CDPP, mock mode)
           const user = users[email]
           if (!user) {
-            logTools.logMessage(`No existing account for mail "${email}"`, true, 'Ask new user')
+            logMessage(`No existing account for mail "${email}"`, true, 'Ask new user')
             return { code: 404 }
           } else if (user.cdpp) {
-            logTools.logMessage(`Account for "${email}" has already CDPP user`, true, 'Ask new user')
+            logMessage(`Account for "${email}" has already CDPP user`, true, 'Ask new user')
             return { code: 409 }
           }
           user.cdpp = 'ACCESS_GRANTED'
-          logTools.logMessage(`User for account "${email}" created for CDPP`, false, 'Ask new user')
+          logMessage(`User for account "${email}" created for CDPP`, false, 'Ask new user')
         }
         writeUsersPool(users)
         return { code: 201 }
@@ -231,6 +324,14 @@ module.exports = {
           user.password = newPassword // eslint-disable-line
           return { code: 204 }
         }),
+    },
+    acceptProjectAccess: {
+      url: '/rs-admin/accesses/accept/{userId}',
+      handler: (request, query, pathParameters) => changeUserStatus(request, pathParameters, 'ACCESS_GRANTED'),
+    },
+    denyProjectAccess: {
+      url: '/rs-admin/accesses/deny/{userId}',
+      handler: (request, query, pathParameters) => changeUserStatus(request, pathParameters, 'ACCESS_DENIED'),
     },
   },
 

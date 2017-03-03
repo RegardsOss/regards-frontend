@@ -1,10 +1,6 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-
-/**
- * LICENSE_PLACEHOLDER
- **/
 import { BasicSignalActions } from '@regardsoss/store-utils'
 
 import { getOriginURL } from '../Common'

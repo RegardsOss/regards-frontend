@@ -10,7 +10,7 @@ const ThemeShape = React.PropTypes.shape({
 
 const Theme = React.PropTypes.shape({
   content: ThemeShape,
-  links: [],
+  links: React.PropTypes.array,
 }).isRequired
 
 const ThemeList = React.PropTypes.shape(Theme)

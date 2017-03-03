@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { isEmpty, map } from 'lodash'
+import { isEmpty, map, size } from 'lodash'
 import { Tabs, Tab } from 'material-ui/Tabs'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
@@ -10,13 +10,12 @@ import IconButton from 'material-ui/IconButton'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
 import Done from 'material-ui/svg-icons/action/done'
-import Block from 'material-ui/svg-icons/content/block'
+import RemoveCircle from 'material-ui/svg-icons/content/remove-circle'
 import { ProjectUser } from '@regardsoss/model'
-import { CardActionsComponent } from '@regardsoss/components'
+import { CardActionsComponent, NoContentMessageInfo } from '@regardsoss/components'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-
 
 const tabs = {
   waiting: 0,
@@ -30,9 +29,7 @@ export class ProjectUserListComponent extends React.Component {
 
   static propTypes = {
     users: React.PropTypes.objectOf(ProjectUser),
-    usersCount: React.PropTypes.number.isRequired,
     waitingAccessUsers: React.PropTypes.objectOf(ProjectUser),
-    waitingAccessUsersCount: React.PropTypes.number.isRequired,
     onEdit: React.PropTypes.func.isRequired,
     onDelete: React.PropTypes.func.isRequired,
     onValidate: React.PropTypes.func.isRequired,
@@ -40,7 +37,7 @@ export class ProjectUserListComponent extends React.Component {
     onValidateAll: React.PropTypes.func.isRequired,
     createUrl: React.PropTypes.string.isRequired,
     backUrl: React.PropTypes.string.isRequired,
-    isFetchingContent: React.PropTypes.bool.isRequired,
+    initialFecthing: React.PropTypes.bool.isRequired,
     isFetchingActions: React.PropTypes.bool.isRequired,
   }
 
@@ -62,63 +59,38 @@ export class ProjectUserListComponent extends React.Component {
    * Returns content configuration
    */
   getWaitingUsersTabContent = (style) => {
-    const { waitingAccessUsers, waitingAccessUsersCount, isFetchingActions,
-      onValidate, onDeny, onValidateAll, isFetchingContent } = this.props
+    const { waitingAccessUsers, isFetchingActions, onValidateAll, initialFecthing } = this.props
     return {
       tabSubtitleKey: 'projectUser.list.waiting.subtitle',
+      noDataMessageKey: 'projectUser.list.waiting.no.content.message',
       currentUserList: waitingAccessUsers,
-      currentUsersCount: waitingAccessUsersCount,
       // validate all users
-      mainButtonKey: 'projectUser.list.waiting.validate.all',
+      mainButtonKey: 'projectUser.list.waiting.accept.all',
       mainButtonAction: () => onValidateAll(),
-      mainButtonDisabled: isFetchingActions || isFetchingContent,
-      elementActions: [
-        {
-          // line action : validate access request
-          key: 'validate',
-          action: onValidate,
-          icon: <Done hoverColor={style.commonActionHoverColor} />,
-          disabled: isFetchingActions,
-        }, {
-          // line action : deny access request
-          key: 'deny',
-          action: onDeny,
-          icon: <Block hoverColor={style.deleteActionHoverColor} />,
-          disabled: isFetchingActions,
-        },
-      ],
+      mainButtonDisabled: isFetchingActions || initialFecthing,
     }
   }
 
   getAllUsersTabContent = (style) => {
-    const { users, usersCount, onEdit, onDelete, createUrl, isFetchingContent } = this.props
+    const { users, createUrl, initialFecthing } = this.props
     return {
       tabSubtitleKey: 'projectUser.list.all.subtitle',
+      noDataMessageKey: 'projectUser.list.all.no.content.message',
       currentUserList: users,
-      currentUsersCount: usersCount,
       // create new user
       mainButtonKey: 'projectUser.list.all.action.create',
       mainButtonUrl: createUrl,
-      mainButtonDisabled: isFetchingContent,
-      elementActions: [
-        {
-          // line action : edit user
-          key: 'edit',
-          action: onEdit,
-          icon: <Edit hoverColor={style.commonActionHoverColor} />,
-        }, {
-          // line action : delete user
-          key: 'delete',
-          action: onDelete,
-          icon: <Delete hoverColor={style.deleteActionHoverColor} />,
-        },
-      ],
+      mainButtonDisabled: initialFecthing,
     }
   }
 
   selectTab = (selectedTab) => {
     this.setState({ selectedTab })
   }
+
+  isGrantedUser = user => user.content.status === 'ACCESS_GRANTED'
+
+  isDeniedUser = user => user.content.status === 'ACCESS_DENIED'
 
   render() {
     const selectedTab = this.state ? this.state.selectedTab : tabs.all
@@ -127,77 +99,107 @@ export class ProjectUserListComponent extends React.Component {
       deleteActionHoverColor: this.context.muiTheme.palette.accent1Color,
     }
     const tabContent = selectedTab === tabs.waiting ? this.getWaitingUsersTabContent(style) : this.getAllUsersTabContent(style)
-    const { isFetchingContent, backUrl } = this.props
-
+    const {
+      users, waitingAccessUsers, initialFecthing, backUrl,
+      onValidate, onDeny, onEdit, onDelete, isFetchingActions,
+    } = this.props
+    const { intl } = this.context
+    //
     // do render
     return (
       <Card >
         <Tabs onChange={this.onTabChange} value={selectedTab}>
-          <Tab label={<FormattedMessage id="projectUser.list.waiting.tab" values={{ count: tabContent.currentUsersCount }} />} value={tabs.waiting} />
-          <Tab label={<FormattedMessage id="projectUser.list.all.tab" values={{ count: tabContent.currentUsersCount }} />} value={tabs.all} />
+          <Tab label={<FormattedMessage id="projectUser.list.waiting.tab" values={{ count: size(waitingAccessUsers) || '0' }} />} value={tabs.waiting} />
+          <Tab label={<FormattedMessage id="projectUser.list.all.tab" values={{ count: size(users) || '0' }} />} value={tabs.all} />
         </Tabs>
-        <CardTitle subtitle={<FormattedMessage id={tabContent.tabSubtitleKey} />} />
-        <CardText>
-          <LoadableContentDisplayDecorator isLoading={isFetchingContent}>
-            <Table selectable={false} >
-              <TableHeader
-                adjustForCheckbox={false}
-                displaySelectAll={false}
-                enableSelectAll={false}
-              >
-                <TableRow>
-                  <TableHeaderColumn><FormattedMessage id="projectUser.list.table.email" /></TableHeaderColumn>
-                  <TableHeaderColumn><FormattedMessage id="projectUser.list.table.role" /></TableHeaderColumn>
-                  <TableHeaderColumn><FormattedMessage id="projectUser.list.table.status" /></TableHeaderColumn>
-                  <TableHeaderColumn><FormattedMessage id="projectUser.list.table.lastupdate" /></TableHeaderColumn>
-                  <TableHeaderColumn><FormattedMessage id="projectUser.list.table.action" /></TableHeaderColumn>
-                </TableRow>
-              </TableHeader>
-              <TableBody
-                displayRowCheckbox={false}
-                preScanRows={false}
-                showRowHover
-              >
-                {map(tabContent.currentUserList, (projectUser, id) => (
-                  <TableRow key={id}>
-                    <TableRowColumn>
-                      {projectUser.content.email}
-                    </TableRowColumn>
-                    <TableRowColumn>
-                      {projectUser.content.role.name}
-                    </TableRowColumn>
-                    <TableRowColumn>
-                      {projectUser.content.status}
-                    </TableRowColumn>
-                    <TableRowColumn>
-                      <FormattedDate
-                        value={projectUser.content.lastUpdate}
-                        year="numeric"
-                        month="long"
-                        day="2-digit"
-                        hour="2-digit"
-                        minute="2-digit"
-                        second="2-digit"
-                      />
-                    </TableRowColumn>
-                    <TableRowColumn>
-                      {tabContent.elementActions.map(({ action, icon, disabled, key }) =>
-                        <IconButton
-                          key={key}
-                          onTouchTap={() => action(projectUser.content.id)}
-                          disabled={disabled}
-                        >
-                          {icon}
-                        </IconButton>,
-                      )
-                      }
-                    </TableRowColumn>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </LoadableContentDisplayDecorator>
-        </CardText>
+        <NoContentMessageInfo
+          noContent={isEmpty(tabContent.currentUserList) && !initialFecthing}
+          title={<FormattedMessage id="projectUser.list.table.no.content.title" />}
+          message={<FormattedMessage id={tabContent.noDataMessageKey} />}
+        >
+          <div>
+            <CardTitle subtitle={<FormattedMessage id={tabContent.tabSubtitleKey} />} />
+            <CardText>
+              <LoadableContentDisplayDecorator isLoading={initialFecthing}>
+                <Table selectable={false} >
+                  <TableHeader
+                    adjustForCheckbox={false}
+                    displaySelectAll={false}
+                    enableSelectAll={false}
+                  >
+                    <TableRow>
+                      <TableHeaderColumn><FormattedMessage id="projectUser.list.table.email" /></TableHeaderColumn>
+                      <TableHeaderColumn><FormattedMessage id="projectUser.list.table.role" /></TableHeaderColumn>
+                      <TableHeaderColumn><FormattedMessage id="projectUser.list.table.status" /></TableHeaderColumn>
+                      <TableHeaderColumn><FormattedMessage id="projectUser.list.table.lastupdate" /></TableHeaderColumn>
+                      <TableHeaderColumn><FormattedMessage id="projectUser.list.table.action" /></TableHeaderColumn>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody
+                    displayRowCheckbox={false}
+                    preScanRows={false}
+                    showRowHover
+                  >
+                    {map(tabContent.currentUserList, (projectUser, id) => (
+                      <TableRow key={id}>
+                        <TableRowColumn>
+                          {projectUser.content.email}
+                        </TableRowColumn>
+                        <TableRowColumn>
+                          {projectUser.content.role.name}
+                        </TableRowColumn>
+                        <TableRowColumn>
+                          <FormattedMessage id={`projectUser.list.table.status.label.${projectUser.content.status}`} />
+                        </TableRowColumn>
+                        <TableRowColumn>
+                          <FormattedDate
+                            value={projectUser.content.lastUpdate}
+                            year="numeric"
+                            month="long"
+                            day="2-digit"
+                            hour="2-digit"
+                            minute="2-digit"
+                            second="2-digit"
+                          />
+                        </TableRowColumn>
+                        <TableRowColumn>
+                          <IconButton
+                            title={intl.formatMessage({ id: 'projectUser.list.table.action.edit.tooltip' })}
+                            onTouchTap={() => onEdit(projectUser.content.id)}
+                            disabled={isFetchingActions}
+                          >
+                            <Edit hoverColor={style.commonActionHoverColor} />
+                          </IconButton>
+                          <IconButton
+                            title={intl.formatMessage({ id: 'projectUser.list.table.action.acccept.tooltip' })}
+                            onTouchTap={() => onValidate(projectUser.content.id)}
+                            disabled={isFetchingActions || this.isGrantedUser(projectUser)}
+                          >
+                            <Done hoverColor={style.commonActionHoverColor} />
+                          </IconButton>
+                          <IconButton
+                            title={intl.formatMessage({ id: 'projectUser.list.table.action.deny.tooltip' })}
+                            onTouchTap={() => onDeny(projectUser.content.id)}
+                            disabled={isFetchingActions || this.isDeniedUser(projectUser)}
+                          >
+                            <RemoveCircle hoverColor={style.deleteActionHoverColor} />
+                          </IconButton>
+                          <IconButton
+                            title={intl.formatMessage({ id: 'projectUser.list.table.action.delete.tooltip' })}
+                            onTouchTap={() => onDelete(projectUser.content.id)}
+                            disabled={isFetchingActions}
+                          >
+                            <Delete hoverColor={style.deleteActionHoverColor} />
+                          </IconButton>
+                        </TableRowColumn>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </LoadableContentDisplayDecorator>
+            </CardText>
+          </div>
+        </NoContentMessageInfo>
         <CardActions>
           <CardActionsComponent
             mainButtonUrl={tabContent.mainButtonUrl}

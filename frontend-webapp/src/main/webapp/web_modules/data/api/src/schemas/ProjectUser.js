@@ -9,7 +9,7 @@ const projectUserSchema = new Schema(ProjectUserConfiguration.normalizrKey, {
   idAttribute: projectUser => projectUser.content[ProjectUserConfiguration.entityKey],
   assignEntity: (output, key, value, input) => {
     // eslint-disable-next-line no-param-reassign
-    output[key] = key === 'lastUpdate' ? new Date(value) : value
+    output[key] = ['lastUpdate', 'lastConnection'].includes(key) ? new Date(value) : value
   },
 })
 

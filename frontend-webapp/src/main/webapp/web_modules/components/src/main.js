@@ -20,6 +20,7 @@ import ActionButtonComponent from './cards/ActionButtonComponent'
 import CardActionsComponent from './cards/CardActionsComponent'
 import CardActionsView from './cards/CardActionsView'
 import MainActionButtonComponent from './cards/MainActionButtonComponent'
+import NoContentMessageInfo from './cards/NoContentMessageInfo'
 import SecondaryActionButtonComponent from './cards/SecondaryActionButtonComponent'
 import ShowableAtRender from './cards/ShowableAtRender'
 
@@ -55,6 +56,7 @@ export {
   LoadingPaneComponent,
   MainActionButtonComponent,
   NewsItemComponent,
+  NoContentMessageInfo,
   OnHoverSwitchFlatButton,
   OnHoverSwitchIconButton,
   OnHoverSwitchRaisedButton,

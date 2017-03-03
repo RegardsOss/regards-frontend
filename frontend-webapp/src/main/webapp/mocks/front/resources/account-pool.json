@@ -1,0 +1,155 @@
+{
+  "admin@cnes.fr": {
+    "id": 1,
+    "password": "admin",
+    "state": "ACTIVE",
+    "lastUpdate": "2017-02-20T11:55:05.012",
+    "lastConnection": "2023-04-30T18:20:02.012",
+    "cdpp": {
+      "id": 1,
+      "status": "ACCESS_GRANTED",
+      "role": {
+        "id": 2,
+        "name": "REGISTERED_USER"
+      }
+    },
+    "ssalto": {
+      "status": "ACCESS_GRANTED",
+      "role": {
+        "id": 2,
+        "name": "REGISTERED_USER"
+      }
+    },
+    "instance": {
+      "status": "ACCESS_GRANTED",
+      "role": {
+        "id": 2,
+        "name": "REGISTERED_USER"
+      }
+    }
+  },
+  "testNotAccepted@cnes.fr": {
+    "id": 2,
+    "password": "test",
+    "state": "PENDING",
+    "lastUpdate": "2017-02-20T11:55:05.012",
+    "lastConnection": "2023-04-30T18:20:02.012"
+  },
+  "testNotValidated@cnes.fr": {
+    "id": 3,
+    "password": "test",
+    "state": "ACCEPTED",
+    "lastUpdate": "2017-02-20T11:55:05.012",
+    "lastConnection": "2023-04-30T18:20:02.012"
+  },
+  "testUNoAccess@cnes.fr": {
+    "id": 4,
+    "password": "test",
+    "state": "ACTIVE"
+  },
+  "testInactive@cnes.fr": {
+    "id": 5,
+    "password": "test",
+    "state": "INACTIVE",
+    "lastUpdate": "2017-02-20T11:55:05.012",
+    "lastConnection": "2023-04-30T18:20:02.012"
+  },
+  "testLocked@cnes.fr": {
+    "id": 6,
+    "password": "test",
+    "state": "LOCKED",
+    "lastUpdate": "2017-02-20T11:55:05.012",
+    "lastConnection": "2023-04-30T18:20:02.018",
+    "cdpp": {
+      "id": 2,
+      "status": "ACCESS_GRANTED",
+      "role": {
+        "id": 2,
+        "name": "REGISTERED_USER"
+      }
+    },
+    "ssalto": {
+      "id": 3,
+      "status": "ACCESS_GRANTED",
+      "role": {
+        "id": 2,
+        "name": "REGISTERED_USER"
+      }
+    }
+  },
+  "testUWaitingAccess@cnes.fr": {
+    "id": 7,
+    "password": "test",
+    "state": "ACTIVE",
+    "lastUpdate": "2017-02-20T11:55:05.015",
+    "lastConnection": "2023-04-30T18:20:02.012",
+    "cdpp": {
+      "id": 4,
+      "status": "WAITING_ACCESS",
+      "role": {
+        "id": 2,
+        "name": "REGISTERED_USER"
+      }
+    }
+  },
+  "testUWaitingAccess2@cnes.fr": {
+    "id": 8,
+    "password": "test",
+    "state": "ACTIVE",
+    "lastUpdate": "2017-02-20T11:55:05.012",
+    "lastConnection": "2023-04-30T18:20:02.012",
+    "cdpp": {
+      "id": 5,
+      "status": "WAITING_ACCESS",
+      "role": {
+        "id": 2,
+        "name": "REGISTERED_USER"
+      }
+    }
+  },
+  "testUWaitingAccess3@cnes.fr": {
+    "id": 9,
+    "password": "test",
+    "state": "ACTIVE",
+    "lastUpdate": "2017-02-20T11:55:05.012",
+    "lastConnection": "2023-04-30T18:20:02.012",
+    "cdpp": {
+      "id": 6,
+      "status": "WAITING_ACCESS",
+      "role": {
+        "id": 2,
+        "name": "REGISTERED_USER"
+      }
+    }
+  },
+  "testUAccessDenied@cnes.fr": {
+    "id": 10,
+    "password": "test",
+    "state": "ACCESS_DENIED",
+    "lastUpdate": "2017-02-20T11:55:05.012",
+    "lastConnection": "2023-04-30T18:20:02.012",
+    "cdpp": {
+      "id": 7,
+      "status": "ACCESS_DENIED",
+      "role": {
+        "id": 2,
+        "name": "REGISTERED_USER"
+      }
+    }
+  },
+  "testUAccessInactive@cnes.fr": {
+    "id": 11,
+    "password": "test",
+    "state": "ACTIVE",
+    "lastUpdate": "2017-02-20T11:55:05.012",
+    "lastConnection": "2023-04-30T18:20:02.012",
+    "cdpp": {
+      "id": 8,
+      "status": "ACCESS_INACTIVE",
+      "role": {
+        "id": 2,
+        "name": "REGISTERED_USER"
+      }
+    }
+  }
+}
