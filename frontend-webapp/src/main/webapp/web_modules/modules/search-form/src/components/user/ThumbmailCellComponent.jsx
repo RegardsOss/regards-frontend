@@ -37,12 +37,13 @@ class ThumbmailCellComponent extends React.Component {
           open
         >
           <div>
-            <img src={uri} style={{ maxWidth: 500 }} />
+            <img src={uri} alt="" style={{ maxWidth: 500 }} />
             {this.state.plop}
           </div>
         </Dialog>
       )
     }
+    return null
   }
 
   render() {

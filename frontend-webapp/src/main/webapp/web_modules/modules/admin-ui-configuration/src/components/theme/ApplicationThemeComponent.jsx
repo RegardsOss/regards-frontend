@@ -11,7 +11,7 @@ import DropDownMenu from 'material-ui/DropDownMenu'
 import Paper from 'material-ui/Paper'
 import Snackbar from 'material-ui/Snackbar'
 import { FormattedMessage } from 'react-intl'
-import {i18nContextType} from '@regardsoss/i18n'
+import { i18nContextType } from '@regardsoss/i18n'
 import { ShowableAtRender } from '@regardsoss/components'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { ThemeList, Theme, defaultTheme } from '@regardsoss/model'
@@ -46,7 +46,7 @@ class ApplicationThemeComponent extends React.Component {
 
   static contextTypes = {
     ...themeContextType,
-    ...i18nContextType
+    ...i18nContextType,
   }
 
   constructor(props) {
@@ -58,9 +58,7 @@ class ApplicationThemeComponent extends React.Component {
     }
   }
 
-  getEditingTheme = () => {
-    return merge({},{content: {configuration: defaultCustomConfiguration}},this.state.editingTheme)
-  }
+  getEditingTheme = () => merge({}, { content: { configuration: defaultCustomConfiguration } }, this.state.editingTheme)
 
   onThemeSelect = (event, index, value) => this.setState({ editingTheme: find(this.props.themeList, theme => theme.content.id === value) })
 
@@ -125,7 +123,7 @@ class ApplicationThemeComponent extends React.Component {
     themeForDecorator.themeName = editingTheme.content.name
     const themeConfigurer = muiTheme(themeForDecorator, this.onThemeOverride)(() => (previewWrapper))
 
-    const toolbarTitle = this.context.intl.formatMessage({id:"application.theme.title"})
+    const toolbarTitle = this.context.intl.formatMessage({ id: 'application.theme.title' })
 
     const saveButton = (
       <IconButton

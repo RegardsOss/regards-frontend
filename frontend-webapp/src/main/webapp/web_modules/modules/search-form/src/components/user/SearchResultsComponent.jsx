@@ -26,15 +26,11 @@ class SearchResultsComponent extends React.Component {
     }
   }
 
-  resultSelection = (selectedEntities) => {
-    console.log('Selected entities', selectedEntities)
-  }
-
   getFullQuery = () => {
     let fullQuery = this.props.searchQuery
 
     if (this.state.sortedColumns.length > 0) {
-      const sortQuery = reduce(this.state.sortedColumns, (sortQuery, column) => {
+      const result = reduce(this.state.sortedColumns, (sortQuery, column) => {
         if (column.type === null) {
           return sortQuery
         }
@@ -43,17 +39,21 @@ class SearchResultsComponent extends React.Component {
         }
         return `${column.attribute}:${column.type}`
       }, '')
-      if (sortQuery.length > 0) {
-        fullQuery = `${this.props.searchQuery}&sort=(${sortQuery})`
+      if (result.length > 0) {
+        fullQuery = `${this.props.searchQuery}&sort=(${result})`
       }
     }
     return fullQuery
   }
 
+  resultSelection = (selectedEntities) => {
+    console.log('Selected entities', selectedEntities)
+  }
+
   sortResultsByColumn = (column, type) => {
     const attributeToSort = column.attributes[0]
     const sortedColumns = concat([], this.state.sortedColumns)
-    const col = find(sortedColumns, col => col.attribute === attributeToSort)
+    const col = find(sortedColumns, lcol => lcol.attribute === attributeToSort)
     if (!col) {
       sortedColumns.push({
         attribute: attributeToSort,
@@ -68,7 +68,7 @@ class SearchResultsComponent extends React.Component {
           col.type = 'DESC'
           break
         default:
-          remove(sortedColumns, col => col.attribute === attributeToSort)
+          remove(sortedColumns, lcol => lcol.attribute === attributeToSort)
       }
     }
     this.setState({

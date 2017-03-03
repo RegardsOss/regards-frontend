@@ -34,15 +34,20 @@ export class ThemeProvider extends React.Component {
     currentTheme: defaultTheme,
   }
 
+  /**
+   * Get MuiTheme with default application custom properties
+   * @param conf
+   * @returns {*}
+   */
+  static getCustomMuiTheme(conf) {
+    return merge({}, defaultCustomConfiguration, getMuiTheme(conf))
+  }
+
   constructor(props) {
     super(props)
     this.state = {
-      mergedTheme: this.getMuiTheme(props.currentTheme.configuration),
+      mergedTheme: ThemeProvider.getCustomMuiTheme(props.currentTheme.configuration),
     }
-  }
-
-  getMuiTheme(conf) {
-    return merge({}, defaultCustomConfiguration, getMuiTheme(conf))
   }
 
   componentDidMount() {
@@ -51,7 +56,7 @@ export class ThemeProvider extends React.Component {
       // Init the current theme from the new list
       const activeTheme = find(actionResult.payload.entities.theme, theme => theme.content.active) || defaultTheme
       this.setState({
-        mergedTheme: this.getMuiTheme(activeTheme.content.configuration),
+        mergedTheme: ThemeProvider.getCustomMuiTheme(activeTheme.content.configuration),
       })
       dispatchSetCurrentTheme(activeTheme.content.id)
     })
@@ -63,7 +68,7 @@ export class ThemeProvider extends React.Component {
     // Recompute the merged theme when the current theme has changed
     if (!isEqual(nextProps.currentTheme, currentTheme)) {
       this.setState({
-        mergedTheme: this.getMuiTheme(nextProps.currentTheme.content.configuration || defaultTheme),
+        mergedTheme: ThemeProvider.getCustomMuiTheme(nextProps.currentTheme.content.configuration || defaultTheme),
       })
     }
   }

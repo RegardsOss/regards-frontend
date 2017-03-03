@@ -93,7 +93,7 @@ export class UserApp extends React.Component {
           project={this.props.params.project}
           dynamicContent={this.props.content}
           onDynamicModuleSelection={this.onDynamicModuleSelection}
-          style={{minHeight: '100vh'}}
+          style={{ minHeight: '100vh' }}
         />
       )
     }
