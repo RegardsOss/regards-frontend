@@ -303,7 +303,7 @@
           "accent3Color": "#ff6d00",
           "primary1Color": "#2196f3",
           "accent1Color": "#ff6d00",
-          "backgroundImage": "http://plop"
+          "backgroundImage": "http://localhost:3333/img/background.jpg"
         },
         "themeName": "Dark",
         "tableRow": {
