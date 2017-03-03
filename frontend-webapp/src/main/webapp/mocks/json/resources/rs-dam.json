@@ -22,9 +22,9 @@
   "attributes": [
     {
       "id": 0,
-      "name":"language",
+      "name": "language",
       "description": "Language for movies",
-      "defaultValue" : null,
+      "defaultValue": null,
       "type": "STRING",
       "unit": null,
       "precision": null,
@@ -38,9 +38,9 @@
     },
     {
       "id": 1,
-      "name":"format",
+      "name": "format",
       "description": "Format for movies",
-      "defaultValue" : null,
+      "defaultValue": null,
       "type": "STRING",
       "unit": null,
       "precision": null,
@@ -566,9 +566,16 @@
   ],
   "accessgroups": [
     {
-      "id": "AG1",
+      "id": 1,
       "name": "AG1",
-      "users": [{"email": "florian.philippot@facholand.fr"}, {"email": "mon@adresse.em"}],
+      "users": [
+        {
+          "email": "florian.philippot@facholand.fr"
+        },
+        {
+          "email": "mon@adresse.em"
+        }
+      ],
       "accessRights": [
         {
           "qualityFilter": {
@@ -665,8 +672,9 @@
         }
       ],
       "isPrivate": true
-    }, {
-      "id":"AG2",
+    },
+    {
+      "id": 2,
       "name": "AG2",
       "users": [],
       "accessRights": [],
@@ -674,4 +682,3 @@
     }
   ]
 }
-
