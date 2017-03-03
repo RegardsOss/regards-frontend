@@ -5,6 +5,7 @@ import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import sinon from 'sinon'
 import { Field } from '@regardsoss/form-utils'
+import { ShowableAtRender } from '@regardsoss/components'
 import { ProjectUserCreateComponent } from '../../src/components/ProjectUserCreateComponent'
 
 // Test a component rendering
@@ -70,11 +71,11 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing projectuser form component', ()
           links: [],
         },
       },
-      onSubmit: () => {},
+      onSubmit: () => { },
       backUrl: 'some/url',
       // from Redux Form
-      handleSubmit: () => {},
-      initialize: () => {},
+      handleSubmit: () => { },
+      initialize: () => { },
     }
     const options = {
       context: {
@@ -91,7 +92,11 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing projectuser form component', ()
     }
     const enzymeWrapper = shallow(<ProjectUserCreateComponent {...props} />, options)
     const subComponent = enzymeWrapper.find(Field)
-    expect(subComponent).to.have.length(2)
+    expect(subComponent).to.have.length(5)
+
+    const showableComps = enzymeWrapper.find(ShowableAtRender)
+    assert.isFalse(showableComps.at(0).props().show, 'We are editing a user, re use account check box should be hidden')
+    assert.isFalse(showableComps.at(1).props().show, 'We are editing a user, The account fields should be hidden')
   })
 
   it('should render create form', () => {
@@ -126,11 +131,11 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing projectuser form component', ()
           links: [],
         },
       },
-      onSubmit: () => {},
+      onSubmit: () => { },
       backUrl: 'some/url',
       // from Redux Form
-      handleSubmit: () => {},
-      initialize: () => {},
+      handleSubmit: () => { },
+      initialize: () => { },
     }
     const options = {
       context: {
@@ -148,10 +153,14 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing projectuser form component', ()
     const enzymeWrapper = shallow(<ProjectUserCreateComponent {...props} />, options)
     const subComponent = enzymeWrapper.find(Field)
     expect(subComponent).to.have.length(5)
+    let showableComps = enzymeWrapper.find(ShowableAtRender)
+    assert.isTrue(showableComps.at(0).props().show, 'We are creating a user, re use account check box should be visible')
+    assert.isTrue(showableComps.at(1).props().show, 'The account fields should be visible')
 
     // Test if it hides Fields when using an existing REGARDS account
     enzymeWrapper.setState({ useExistingAccount: true })
-    const subComponentExistingAccount = enzymeWrapper.find(Field)
-    expect(subComponentExistingAccount).to.have.length(2)
+    showableComps = enzymeWrapper.find(ShowableAtRender)
+    assert.isTrue(showableComps.at(0).props().show, 'We are creating a user, re use account check box should be visible')
+    assert.isFalse(showableComps.at(1).props().show, 'The account fields should be visible')
   })
 })
