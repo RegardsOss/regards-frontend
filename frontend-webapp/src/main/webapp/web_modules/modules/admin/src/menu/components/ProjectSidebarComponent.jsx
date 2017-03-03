@@ -60,7 +60,10 @@ class ProjectSidebarComponent extends React.Component {
     return (
       <I18nProvider messageDir="modules/admin/src/menu/i18n">
 
-        <Drawer open containerStyle={style.sidebarContainer.styles} className={style.sidebarContainer.classes}>
+        <Drawer
+          open containerStyle={style.sidebarContainer.styles} className={style.sidebarContainer.classes}
+          width={'100%'}
+        >
           <SidebarElement
             key="1"
             to={`/admin/${projectName}/user/board`}

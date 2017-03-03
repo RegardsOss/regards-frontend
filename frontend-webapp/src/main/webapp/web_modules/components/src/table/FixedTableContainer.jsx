@@ -2,11 +2,13 @@
  * LICENSE_PLACEHOLDER
  **/
 import { concat, forEach, isEqual, keys, filter } from 'lodash'
+import { Card } from 'material-ui/Card'
+import Disatisfied from 'material-ui/svg-icons/social/sentiment-dissatisfied'
 import { connect } from '@regardsoss/redux'
 import { BasicPageableSelectors, BasicPageableActions } from '@regardsoss/store-utils'
 import './fixed-data-table-mui.css'
 import FixedTable from './FixedTable'
-import NoResultsFoundComponent from './NoResultsFoundComponent'
+import NoContentMessageInfo from '../cards/NoContentMessageInfo'
 import ColumnConfiguration from './model/ColumnConfiguration'
 
 /**
@@ -234,7 +236,15 @@ class FixedTableContainer extends React.Component {
     }
 
     if (this.props.pageMetadata && this.props.pageMetadata.totalElements === 0) {
-      return (<NoResultsFoundComponent />)
+      return (
+        <Card>
+          <NoContentMessageInfo
+            noContent
+            title={'No results found'}
+            message={'Your research returned no results. Please change your search criterion'}
+            Icon={Disatisfied}
+          />
+        </Card>)
     }
     return null
   }

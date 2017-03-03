@@ -1,6 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import { merge } from 'lodash'
 import { themeContextType } from '@regardsoss/theme'
 import { PluginConf } from '@regardsoss/model'
 import { ModuleShape } from '@regardsoss/modules'
@@ -20,7 +21,8 @@ class ApplicationLayout extends React.Component {
     layout: ContainerShape,
     modules: React.PropTypes.arrayOf(ModuleShape),
     plugins: React.PropTypes.arrayOf(PluginConf),
-    layoutBodyStyles: React.PropTypes.object,
+    // eslint-disable-next-line react/forbid-prop-types
+    style: React.PropTypes.object,
     // eslint-disable-next-line react/forbid-prop-types
     pluginProps: React.PropTypes.object,
     dynamicContent: React.PropTypes.element,
@@ -36,10 +38,21 @@ class ApplicationLayout extends React.Component {
    * @returns {React.Component}
    */
   render() {
+    let bodyStyles = {}
+    if (this.context.muiTheme) {
+      if (this.context.muiTheme.palette.backgroundImage) {
+        bodyStyles = {
+          background: `url('${this.context.muiTheme.palette.backgroundImage}') no-repeat fixed center center`,
+          backgroundSize: 'cover',
+        }
+      } else {
+        bodyStyles = {
+          background: this.context.muiTheme.palette.canvasColor,
+        }
+      }
+    }
 
-    let background = this.context.muiTheme ? this.context.muiTheme.palette.canvasColor : 'transparent'
-    background = this.context.muiTheme && this.context.muiTheme.palette.backgroundImage ? `repeat-y top/100%  url('${this.context.muiTheme.palette.backgroundImage}')` : background
-    const bodyStyles = this.props.layoutBodyStyles ? this.props.layoutBodyStyles : {background: background}
+    bodyStyles = merge({}, bodyStyles, this.props.style)
     return (
       <div style={bodyStyles}>
         <Container
@@ -54,6 +67,7 @@ class ApplicationLayout extends React.Component {
           mainContainer
         />
       </div>
+
     )
   }
 }

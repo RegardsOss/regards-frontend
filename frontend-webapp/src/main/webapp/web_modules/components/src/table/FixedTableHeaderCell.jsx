@@ -49,6 +49,7 @@ class FixedTableHeaderCell extends React.Component {
         this.setState({ sortType: 'DESC' })
     }
   }
+
   renderSortAction = () => {
     if (this.props.sortable) {
       const iconStyle = {
@@ -81,6 +82,7 @@ class FixedTableHeaderCell extends React.Component {
         </IconButton>
       )
     }
+    return null
   }
 
   render() {

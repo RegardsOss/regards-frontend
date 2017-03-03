@@ -9,12 +9,12 @@ import {
   green300,
   yellow300,
   brown50,
-  lightBlue200
+  lightBlue200,
 } from 'material-ui/styles/colors'
 
-const styles = theme => {
+const styles = (theme) => {
   let background = theme ? theme.palette.canvasColor : 'transparent'
-  background = theme && theme.palette.backgroundImage ? `no-repeat top/100% url('${theme.palette.backgroundImage}')` : background
+  background = theme && theme.palette.backgroundImage ? `url('${theme.palette.backgroundImage}') no-repeat fixed center center` : background
   return {
     drawer: {
       width: '100%',
@@ -57,7 +57,8 @@ const styles = theme => {
         app: {
           classes: [],
           styles: {
-            background: background,
+            background,
+            backgroundSize: 'cover',
             backgroundAttachment: 'fixed',
             minHeight: '100vh',
             paddingTop: '10px',
@@ -69,13 +70,13 @@ const styles = theme => {
           styles: {},
         },
         contentContainer: {
-          classes: ['col-sm-75', 'col-sm-offset-1'],
+          classes: ['col-xs-98', 'col-sm-67', 'col-sm-offset-1', 'col-md-74', 'col-lg-77'],
           styles: {
             marginTop: '10px',
           },
         },
         sidebarContainer: {
-          classes: ['col-sm-22', 'col-sm-offset-1'],
+          classes: ['col-xs-98', 'col-sm-30', 'col-xs-offset-1', 'col-md-23', 'col-lg-20'],
           styles: {
             position: 'relative',
             marginTop: '10px',
@@ -147,4 +148,4 @@ const styles = theme => {
   }
 }
 
-  export default styles
+export default styles

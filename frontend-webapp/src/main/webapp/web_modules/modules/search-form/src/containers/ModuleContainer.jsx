@@ -169,7 +169,7 @@ class ModuleContainer extends React.Component {
     return (
       <div>
         {this.renderForm()}
-        <div style={{ marginTop: 50 }} />
+        <div style={{ marginTop: 10 }} />
         {this.renderResults()}
       </div>
     )

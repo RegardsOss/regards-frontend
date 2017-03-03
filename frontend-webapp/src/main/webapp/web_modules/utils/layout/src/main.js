@@ -1,6 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import Container from './components/Container'
 import ContainerShape from './model/ContainerShape'
 import ContainerHelper from './ContainerHelper'
 import DefaultLayout from './default/DefaultLayout'
@@ -11,6 +12,7 @@ import LayoutConfigurationComponent from './components/LayoutConfigurationCompon
  * Main interface to expose Layout utils
  */
 export default {
+  Container,
   ContainerShape,
   ContainerHelper,
   ApplicationLayout,

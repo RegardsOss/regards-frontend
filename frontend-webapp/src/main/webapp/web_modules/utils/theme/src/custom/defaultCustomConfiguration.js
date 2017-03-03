@@ -8,6 +8,6 @@
  */
 export default {
   palette: {
-    backgroundImage: ''
-  }
+    backgroundImage: '',
+  },
 }
