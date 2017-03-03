@@ -20,9 +20,23 @@ export default theme => ({
     borderRight: `1px solid ${theme.tableRow.borderColor}`,
   },
   cellEven: {
-    backgroundColor: theme.palette.primary3Color,
+    backgroundColor: theme.tableRow.stripeColor,
     borderBottom: `1px solid ${theme.tableRow.borderColor}`,
     borderRight: `1px solid ${theme.tableRow.borderColor}`,
+  },
+  cellOddContent: {
+    backgroundColor: theme.table.backgroundColor,
+    color: theme.tableRow.textColor,
+    fontFamily: theme.fontFamily,
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  cellEvenContent: {
+    backgroundColor: 'transparent',
+    color: theme.tableRow.textColor,
+    fontFamily: theme.fontFamily,
+    display: 'flex',
+    justifyContent: 'center',
   },
   checkBoxCell: {
     backgroundColor: theme.table.backgroundColor,
@@ -45,20 +59,6 @@ export default theme => ({
     display: 'flex',
     justifyContent: 'center',
     borderBottom: `1px solid ${theme.tableRow.borderColor}`,
-  },
-  cellOddContent: {
-    backgroundColor: theme.table.backgroundColor,
-    color: theme.tableRow.textColor,
-    fontFamily: theme.fontFamily,
-    display: 'flex',
-    justifyContent: 'center',
-  },
-  cellEvenContent: {
-    backgroundColor: theme.palette.primary3Color,
-    color: theme.tableRow.textColor,
-    fontFamily: theme.fontFamily,
-    display: 'flex',
-    justifyContent: 'center',
   },
   loadingFilter: {
     backgroundColor: theme.palette.primary1Color,

@@ -92,7 +92,7 @@ class SearchResultsComponent extends React.Component {
         <FixedTableContainer
           PageActions={CatalogEntityActions}
           PageSelector={CatalogEntitySelector}
-          pageSize={7}
+          pageSize={20}
           displayCheckbox
           columns={columns}
           onSelectionChange={this.resultSelection}

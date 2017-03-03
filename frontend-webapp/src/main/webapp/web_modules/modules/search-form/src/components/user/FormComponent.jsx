@@ -47,6 +47,7 @@ class FormComponent extends React.Component {
             layout={this.props.layout}
             plugins={this.props.plugins}
             pluginProps={this.props.pluginsProps}
+            layoutBodyStyles={{}}
           />
           <div
             style={this.context.moduleTheme.user.searchButtonContainer}

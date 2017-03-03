@@ -113,17 +113,6 @@ class ProjectSidebarComponent extends React.Component {
               leftIcon={<Brush />}
             />
           </HateoasDisplayDecorator>
-
-          <Divider />
-          <MenuItem
-            primaryText={<FormattedMessage id="menu.logout" />}
-            leftIcon={<PowerSettingsNew />}
-            onTouchTap={onLogout}
-          />
-          <Divider />
-          <Link to={'/admin'} style={style.link.styles}>
-            <MenuItem primaryText={<FormattedMessage id="menu.back" />} leftIcon={<Reply />} />
-          </Link>
         </Drawer>
       </I18nProvider>
     )
