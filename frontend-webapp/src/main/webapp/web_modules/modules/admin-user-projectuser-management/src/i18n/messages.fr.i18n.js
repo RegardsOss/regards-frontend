@@ -12,6 +12,9 @@ const messages = Object.assign({
   'projectUser.list.action.create': 'Ajouter',
   'projectUser.list.action.cancel': 'Annuler',
 
+  'projectUser.edit.title': 'Éditer l\'utilisateur {email}',
+  'projectUser.edit.action.save': 'Sauvegarder',
+  'projectUser.create.using.existing.account': 'L\'utilisateur a déjà un compte utilisateur REGARDS',
   'projectUser.create.title': 'Créer un nouvel utilisateur du projet',
   'projectUser.create.input.role': 'Rôle',
   'projectUser.create.input.email': 'E-mail',
@@ -19,6 +22,7 @@ const messages = Object.assign({
   'projectUser.create.input.lastName': 'Nom de famille',
   'projectUser.create.input.password': 'Mot de passe',
   'projectUser.create.input.status': 'Statut',
+  'projectUser.create.input.groups': 'Groupes',
   'projectUser.create.action.create': 'Créer',
   'projectUser.create.action.cancel': 'Annuler',
 
