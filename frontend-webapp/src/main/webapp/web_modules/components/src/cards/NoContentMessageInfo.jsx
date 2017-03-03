@@ -35,11 +35,11 @@ class NoContentMessageInfo extends React.Component {
       <div>
         <ShowableAtRender show={noContent}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', minHeight: '30vh' }}>
-            <Icon color={theme.palette.primary2Color} style={{ width: '128px', height: '128px', opacity: '0.2' }} />
+            <Icon color={theme.palette.primary1Color} style={{ width: '128px', height: '128px', opacity: '0.2' }} />
             <div style={{ maxWidth: '40%', marginTop: '0.2em', color: theme.palette.textColor, fontSize: '1.5em' }}>
               {title || <FormattedMessage id="no.content.information.title" />}
             </div>
-            <div style={{ maxWidth: '40%', marginTop: '0.6em', color: theme.palette.accent3Color, textAlign: 'center', fontSize: '1em' }}>
+            <div style={{ maxWidth: '40%', marginTop: '0.6em', color: theme.palette.secondaryTextColor, textAlign: 'center', fontSize: '1em' }}>
               {message}
             </div>
           </div>
