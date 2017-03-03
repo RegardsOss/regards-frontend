@@ -1,16 +1,16 @@
 import React from 'react'
-import { storiesOf } from '@kadira/storybook'
-import { withKnobs } from '@kadira/storybook-addon-knobs'
-import { BoardComponent, BaseBoardItemComponent } from '@regardsoss/components'
 import ExtensionIcon from 'material-ui/svg-icons/action/extension'
 import ViewQuilt from 'material-ui/svg-icons/action/view-quilt'
 import Palette from 'material-ui/svg-icons/image/palette'
 import ActionHome from 'material-ui/svg-icons/action/home'
 import FileCloudDownload from 'material-ui/svg-icons/file/cloud-download'
 import HardwareVideogameAsset from 'material-ui/svg-icons/hardware/videogame-asset'
-import IconButton from 'material-ui/IconButton'
-import withStore from '../../decorators/withStore'
 import { muiTheme } from 'storybook-addon-material-ui'
+import IconButton from 'material-ui/IconButton'
+import { storiesOf } from '@kadira/storybook'
+import { withKnobs } from '@kadira/storybook-addon-knobs'
+import { BoardComponent, BaseBoardItemComponent } from '@regardsoss/components'
+import withStore from '../../decorators/withStore'
 
 const items = [
   {
@@ -132,7 +132,7 @@ storiesOf('Board', module)
         </IconButton>,
       ]}
     />
-    ))
+  ))
   .add('BoardComponent', () => (
     <BoardComponent items={items} />
-    ))
+  ))

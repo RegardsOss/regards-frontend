@@ -7,14 +7,14 @@
  */
 const _ = require('lodash')
 const fs = require('fs')
-const FacadeCore = require('./mock-facade-core')
-const MockAuthentication = require('./mock-authentication')
+const FacadeCore = require('./mock-front-core')
+const MockUsers = require('./mock-users')
 
 
 /**
  * Mock server entry point: provide here the delegate for a given URL and method
  * Note1 : delegate signature is:
- * (request, query, pathParameters, bodyParameters) => {content:string (optional), code:int (optional), contentType: string (optional)}
+ * (request, query, pathParameters, bodyParameters, response) => {content:string (optional), code:int (optional), contentType: string (optional)}
  * Note2 : you can get the parameters in request using query[paramName]. works the same way for body and path parameters
  * Note3 : see 2 examples in GET and POST
  */
@@ -45,18 +45,13 @@ const entryDelegates = {
           \tPath parameter: ${_.keys(pathParameters).reduce((acc, key) => `${acc}\n\t\t-${key}:${pathParameters[key]}`, '')}
           \tBody parameters: ${_.keys(bodyParameters).reduce((acc, key) => `${acc}\n\t\t-${key}:${bodyParameters[key]}`, '')}
 ` }),
-    // [MockAuthentication.POST.login.url]: MockAuthentication.POST.login.handler,
-    // [MockAuthentication.POST.unlock.url]: MockAuthentication.POST.unlock.handler,
-    // [MockAuthentication.POST.reset.url]: MockAuthentication.POST.reset.handler,
   },
   PUT: {
-    [MockAuthentication.PUT.unlock.url]: MockAuthentication.PUT.unlock.handler,
-    [MockAuthentication.PUT.reset.url]: MockAuthentication.PUT.reset.handler,
   },
 }
 
 // report mock authentication endpoints in entry points
-_.forEach(MockAuthentication, (methodEntries, method) =>
+_.forEach(MockUsers, (methodEntries, method) =>
   _.forEach(methodEntries, (entryPoint) => {
     entryDelegates[method][entryPoint.url] = entryPoint.handler
   }))
@@ -65,7 +60,8 @@ _.forEach(MockAuthentication, (methodEntries, method) =>
 // Definitions
 const serverPort = 3000
 const uiPort = 3333
-const jsonMockURL = 'http://localhost:3001'
+const jsonMockPort = 3001
+const jsonMockURL = `http://localhost:${jsonMockPort}`
 const urlStart = '/api/v1'
 
 FacadeCore.startServer(urlStart, serverPort, uiPort, jsonMockURL, entryDelegates)

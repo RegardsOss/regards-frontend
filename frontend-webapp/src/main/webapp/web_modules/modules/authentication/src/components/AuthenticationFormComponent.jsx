@@ -52,15 +52,7 @@ export class AuthenticationFormComponent extends React.Component {
 
   static contextTypes = { ...themeContextType }
 
-
-  /**
-   * On component mount
-   */
   componentWillMount() {
-    if (process.env.NODE_ENV === 'development') {
-      // console.log('DEV', 'Auto connection')
-      // this.props.onLogin({ username: 'admin@cnes.fr', password: 'admin' })
-    }
     const initialValues = {}
     initialValues[mailFieldId] = this.props.initialMail
     this.props.initialize(initialValues)

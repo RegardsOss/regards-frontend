@@ -5,7 +5,7 @@ import { isEqual, find } from 'lodash'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { connect } from 'react-redux'
-import { ThemeList, Theme, defaultTheme } from '@regardsoss/model'
+import { Theme, defaultTheme } from '@regardsoss/model'
 import ThemeActions from '../model/actions/ThemeActions'
 import ThemeSelectors from '../model/selectors/ThemeSelectors'
 import getCurrentTheme from '../model/selectors/getCurrentTheme'
@@ -23,7 +23,6 @@ import '../custom/background.jpg'
 export class ThemeProvider extends React.Component {
 
   static propTypes = {
-    themeList: ThemeList,
     currentTheme: Theme,
     fetchThemeList: React.PropTypes.func,
     dispatchSetCurrentTheme: React.PropTypes.func,

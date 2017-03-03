@@ -22,13 +22,11 @@ class AuthenticateSelectors extends BasicSelector {
     const authentication = this.getAuthentication(state)
     if (authentication && authentication.authenticateDate &&
       authentication.result && authentication.result.expires_in) {
-      const expired = authentication.authenticateDate + (authentication.result.expires_in * 1000) < Date.now()
-      return authentication.result.name !== undefined && !expired
+      return authentication.result.sub !== undefined
     }
     return false
   }
 
 }
 
-const instance = new AuthenticateSelectors()
-export default instance
+export default new AuthenticateSelectors()

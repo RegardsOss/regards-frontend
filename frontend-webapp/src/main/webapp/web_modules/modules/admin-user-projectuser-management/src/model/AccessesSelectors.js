@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ */
 import { BasicListSelectors } from '@regardsoss/store-utils'
 
 class AccessesSelectors extends BasicListSelectors {

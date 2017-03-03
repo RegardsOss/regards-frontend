@@ -22,16 +22,16 @@ class BasicSignalActions extends BasicActions {
   }
 
   /**
-   * Fetch the corresponding route using your verb, body param and url parameters
+   * Fetch the corresponding route using your verb, body, path and query parameters
    * @param verb
    * @param bodyParam
-   * @param params
+   * @param pathParams
    * @param callApi method,
    * @returns {{}}
    */
-  sendSignal(verb, bodyParam, params, queryParams, callApi = (endpoint, verb2, body) => this.doCallApi(endpoint, verb2, body)) {
+  sendSignal(verb, bodyParam, pathParams, queryParams, callApi = (endpoint, verb2, body) => this.doCallApi(endpoint, verb2, body)) {
     let endpoint = this.handleRequestQueryParams(this.entityEndpoint, queryParams)
-    endpoint = this.handleRequestPathParameters(endpoint, params)
+    endpoint = this.handleRequestPathParameters(endpoint, pathParams)
     let body
     if (!isEmpty(bodyParam)) {
       if (verb === 'GET') {

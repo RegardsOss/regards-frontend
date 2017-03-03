@@ -6,13 +6,13 @@ const url = require('url')
 const parseBody = require('parse-body')
 const httpProxy = require('http-proxy')
 const _ = require('lodash')
-const logTools = require('./log-tools')
+const { logMessage } = require('./mock-front-utils')
 
 
 const proxy = httpProxy.createProxyServer({})
 
 const proxyHandlerClosure = jsonMockURL => (request, response) =>
-  logTools.logMessage('Pass through to JSON mock server') || proxy.web(request, response, { target: jsonMockURL })
+  logMessage('Pass through to JSON mock server') || proxy.web(request, response, { target: jsonMockURL })
 
 const buildBasicHeaders = uiPort => ({
   'Access-Control-Allow-Origin': `http://localhost:${uiPort}`,
@@ -20,6 +20,7 @@ const buildBasicHeaders = uiPort => ({
   'Access-Control-Allow-Headers': 'X-Requested-With,content-type',
   'Access-Control-Allow-Credentials': true,
 })
+
 /**
  * Provides request handler (closure) for a given delegate
  * @param uiPort UI port for instance
@@ -32,10 +33,10 @@ const buildBasicHeaders = uiPort => ({
  * @param response -
  */
 const localHandlerClosure = (uiPort, timeBefore, entryDelegate, query = {}, pathParameters = {}, bodyParameters = {}) => (request, response) => {
-  logTools.logMessage('Serving locally')
+  logMessage('Serving locally')
 
   // run delegate to get code and text
-  const { content = '', code = 200, contentType } = entryDelegate(request, query, pathParameters, bodyParameters)
+  const { content = '', code = 200, contentType } = entryDelegate(request, query, pathParameters, bodyParameters, response)
   // publish code
   const headers = Object.assign({}, buildBasicHeaders(uiPort), contentType ? { 'Content-Type': contentType } : {})
   response.writeHead(code, headers)
@@ -43,7 +44,7 @@ const localHandlerClosure = (uiPort, timeBefore, entryDelegate, query = {}, path
   // end answer with text (or stringified object)
   response.end(typeof content === 'object' ? JSON.stringify(content) : content)
   // log access info
-  logTools.logMessage(`${request.method} ${request.url} ${code} ${new Date().getTime() - timeBefore}ms`)
+  logMessage(`${request.method} ${request.url} ${code} ${new Date().getTime() - timeBefore}ms`)
 }
 
 /**
@@ -80,7 +81,7 @@ const findMatchingDelegate = (delegates, relativePath) => {
   }, [])
   if (matchingDelegationData) {
     if (matchingDelegationData.length > 1) {
-      logTools.logMessage(`There are two conflicting path matching the path ${relativePath}, seleting the first`, true)
+      logMessage(`There are two conflicting path matching the path ${relativePath}, seleting the first`, true)
     }
     return matchingDelegationData[0]
   }
@@ -114,7 +115,7 @@ const requestHandlerClosure = (urlStart, jsonMockURL, uiPort, entryDelegates) =>
               // POST / PUT: parse body and run directly callback (asynchronous parsing) - inhibit default handler
               // catching empty body exceptions
               const emptyBodyHander = (err) => {
-                logTools.logMessage('empty POST request body')
+                logMessage('empty POST request body')
                 callback(localHandler)
               }
               process.on('uncaughtException', emptyBodyHander)
@@ -122,7 +123,7 @@ const requestHandlerClosure = (urlStart, jsonMockURL, uiPort, entryDelegates) =>
                 // remove empty body  handler
                 process.removeListener('uncaughtException', emptyBodyHander)
                 if (error) {
-                  logTools.logMessage(`Failed parsing request body: ${error}`, error, true)
+                  logMessage(`Failed parsing request body: ${error}`, error, true)
                 }
                 callback(localHandlerClosure(uiPort, timeBefore, delegationData.delegate, parsedUrl.query, delegationData.pathParameters, bodyParameters))
               })
@@ -144,7 +145,6 @@ const requestHandlerClosure = (urlStart, jsonMockURL, uiPort, entryDelegates) =>
     prepareRequest(doRequestCallback)
   }
 
-
 module.exports = {
   /**
    * Starts server
@@ -158,10 +158,10 @@ module.exports = {
     const server = http.createServer(requestHandlerClosure(urlStart, jsonMockURL, uiPort, entryDelegates))
     server.listen(serverPort, (err) => {
       if (err) {
-        logTools.logMessage(`start failed ${err}`)
+        logMessage(`start failed ${err}`)
       } else {
-        logTools.logMessage(`running on http://localhost:${serverPort}`)
-        logTools.logMessage(`using JSON server at ${jsonMockURL}`)
+        logMessage(`running on http://localhost:${serverPort}`)
+        logMessage(`using JSON server at ${jsonMockURL}`)
       }
     })
   },

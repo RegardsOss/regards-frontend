@@ -20,7 +20,6 @@ const allMatchHateoasDisplayLogic = (requiredEndpoints, availableEndpoints) => (
     if (includes(availableEndpoints, item)) {
       return true
     }
-    console.warn(`Access denied to resource ${item}`)
     return false
   }) || isEmpty(requiredEndpoints)
 )

@@ -12,15 +12,9 @@ const { CALL_API, getJSON } = require('redux-api-middleware')
  */
 class BasicArrayActions extends BasicActions {
 
-  /**
-   * TODO Comment
-   *
-   * @param params TODO Provide params expected format
-   * @returns {{}}
-   */
-  fetchEntityList(params, queryParams) {
+  fetchEntityList(pathParams, queryParams) {
     let endpoint = this.handleRequestQueryParams(this.entityEndpoint, queryParams)
-    endpoint = this.handleRequestPathParameters(endpoint, params)
+    endpoint = this.handleRequestPathParameters(endpoint, pathParams)
     return {
       [CALL_API]: {
         types: [

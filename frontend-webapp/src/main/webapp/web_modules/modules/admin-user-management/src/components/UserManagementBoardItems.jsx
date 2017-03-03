@@ -3,6 +3,7 @@
  **/
 import AddIcon from 'material-ui/svg-icons/content/add-circle'
 import ViewLinesIcon from 'material-ui/svg-icons/action/view-headline'
+import UsersListWithCountIconContainer from '../containers/UsersListWithCountIconContainer'
 
 /**
  * Configuration file for user management boards items.
@@ -16,7 +17,7 @@ export default (project, intl) => [
     advanced: false,
     actions: [{
       path: `/admin/${project}/user/project-user/list`,
-      icon: <ViewLinesIcon />,
+      icon: <UsersListWithCountIconContainer />,
       tooltipMsg: intl.formatMessage({ id: 'user.board.tooltip.list' }),
     }, {
       path: `/admin/${project}/user/project-user/create`,

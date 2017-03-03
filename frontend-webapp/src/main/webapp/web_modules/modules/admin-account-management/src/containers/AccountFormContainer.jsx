@@ -5,7 +5,6 @@ import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { I18nProvider } from '@regardsoss/i18n'
-import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
 import { Account } from '@regardsoss/model'
 import AccountActions from '../model/AccountActions'
 import AccountFormComponent from '../components/AccountFormComponent'
@@ -38,13 +37,13 @@ export class AccountFormContainer extends React.Component {
       lastName: values.lastName,
     })
     Promise.resolve(this.props.updateAccount(this.props.account.content.id, updatedAccount))
-    .then((actionResult) => {
-      // We receive here the action
-      if (!actionResult.error) {
-        const url = this.getBackUrl()
-        browserHistory.push(url)
-      }
-    })
+      .then((actionResult) => {
+        // We receive here the action
+        if (!actionResult.error) {
+          const url = this.getBackUrl()
+          browserHistory.push(url)
+        }
+      })
   }
 
   render() {
