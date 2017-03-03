@@ -20,3 +20,5 @@ export default instance
 export function getAccessGroupReducer(state, action) {
   return instance.reduce(state, action)
 }
+
+export const reducerPath = 'access-group'

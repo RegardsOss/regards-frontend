@@ -15,5 +15,4 @@ const projectUserManagementReducer = combineReducers({
   [userGroupReducerPath]: getUserGroupReducer,
 })
 
-
 export default projectUserManagementReducer
