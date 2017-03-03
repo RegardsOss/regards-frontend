@@ -45,10 +45,6 @@ export class ApplicationThemeContainer extends React.Component {
     browserHistory.push(url)
   }
 
-  onAdd = () => {
-    console.log('add a new theme')
-  }
-
   render() {
     const { themeList, currentTheme, isFetching, updateTheme, deleteTheme, createTheme } = this.props
 
@@ -58,7 +54,6 @@ export class ApplicationThemeContainer extends React.Component {
           themeList={themeList}
           currentTheme={currentTheme}
           isFetching={isFetching}
-          onAdd={this.onAdd}
           onClose={this.onClose}
           onCreate={createTheme}
           onSave={updateTheme}

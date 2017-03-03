@@ -1,4 +1,8 @@
 /**
+ * LICENSE_PLACEHOLDER
+ **/
+
+/**
  * @author lmieulet
  */
 import { Link } from 'react-router'
@@ -12,6 +16,7 @@ class SidebarElement extends React.Component {
     currentPath: React.PropTypes.string,
     primaryText: React.PropTypes.element.isRequired,
     leftIcon: React.PropTypes.element.isRequired,
+    rightIcon: React.PropTypes.element,
   }
 
   static contextTypes = {
@@ -35,10 +40,11 @@ class SidebarElement extends React.Component {
         <MenuItem
           style={
             this.props.currentPath.toLowerCase().includes(urlToSearch) ?
-            { backgroundColor: this.context.muiTheme.baseTheme.palette.primary3Color } : null
+            { backgroundColor: this.context.muiTheme.palette.accent2Color } : null
           }
           primaryText={this.props.primaryText}
           leftIcon={this.props.leftIcon}
+          rightIcon={this.props.rightIcon}
         />
       </Link>
     )

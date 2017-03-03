@@ -1,6 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import { locationShape } from 'react-router/lib/PropTypes'
 import { connect } from '@regardsoss/redux'
 import { AuthenticateActions } from '@regardsoss/authentication-manager'
 import { themeContextType } from '@regardsoss/theme'
@@ -8,6 +9,7 @@ import { LazyModuleComponent } from '@regardsoss/modules'
 import { ApplicationErrorContainer } from '@regardsoss/global-sytem-error'
 import InstanceSidebarComponent from '../menu/components/InstanceSidebarComponent'
 import ProjectSidebarComponent from '../menu/components/ProjectSidebarComponent'
+import NotificationsManagerContainer from './NotificationsManagerContainer'
 import getModuleStyles from '../styles/styles'
 
 /**
@@ -26,9 +28,7 @@ export class AdminLayout extends React.Component {
     params: React.PropTypes.shape({
       project: React.PropTypes.string,
     }),
-    location: React.PropTypes.shape({
-      pathname: React.PropTypes.string,
-    }),
+    location: locationShape.isRequired,
     // from mapDispatchToProps
     onLogout: React.PropTypes.func,
   }
@@ -84,19 +84,22 @@ export class AdminLayout extends React.Component {
       },
     }
 
+    // install notification manager and application error containers when starting app
     return (
-      <div className={style.app.classes} style={style.app.styles}>
-        <div className={style.menu.classes}>
-          <LazyModuleComponent appName={'admin'} module={menuModule} />
-        </div>
-        <div className={style.bodyContainer.classes} style={style.bodyContainer.styles}>
-          {this.getSidebar(isOnInstanceDashboard)}
-          <div className={style.contentContainer.classes} style={style.contentContainer.styles}>
-            {content}
+      <NotificationsManagerContainer isOnInstanceDashboard={isOnInstanceDashboard} >
+        <div className={style.app.classes} style={style.app.styles}>
+          <div className={style.menu.classes}>
+            <LazyModuleComponent appName={'admin'} module={menuModule} />
+          </div>
+          <div className={style.bodyContainer.classes} style={style.bodyContainer.styles}>
+            {this.getSidebar(isOnInstanceDashboard)}
+            <div className={style.contentContainer.classes} style={style.contentContainer.styles}>
+              {content}
+            </div>
           </div>
         </div>
         <ApplicationErrorContainer />
-      </div>
+      </NotificationsManagerContainer>
     )
   }
 }

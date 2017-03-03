@@ -7,7 +7,7 @@ const messageStyles = {
 }
 
 module.exports = {
-
+  doIt: () => { },
   logMessage: (message, isError = false, subheader = '') => {
     console.log(headerStyles, 'Facade mock server - ', subheaderStyles, subheader, isError ? messageStyles.errorStyle : messageStyles.defaultStyle, message)
   },

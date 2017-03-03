@@ -7,6 +7,7 @@ class CardActionsView extends React.Component {
     secondaryButtonLabel: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.element]),
     secondaryButtonUrl: React.PropTypes.string,
     secondaryButtonTouchTap: React.PropTypes.func,
+    isSecondaryButtonDisabled: React.PropTypes.bool,
     isSecondaryButtonVisible: React.PropTypes.bool,
 
     mainButtonLabel: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.element]).isRequired,
@@ -32,13 +33,14 @@ class CardActionsView extends React.Component {
       justifyContent: 'flex-end',
     }
     const isVisible = (
-          (this.props.secondaryButtonUrl || this.props.secondaryButtonTouchTap) &&
-          this.props.isSecondaryButtonVisible
-      )
+      (this.props.secondaryButtonUrl || this.props.secondaryButtonTouchTap) &&
+      this.props.isSecondaryButtonVisible
+    )
     const secondaryActionButtonComponent = isVisible ? (<SecondaryActionButtonComponent
       label={this.props.secondaryButtonLabel}
       url={this.props.secondaryButtonUrl}
       onTouchTap={this.props.secondaryButtonTouchTap}
+      disabled={this.props.isSecondaryButtonDisabled}
     />) : null
 
     return (

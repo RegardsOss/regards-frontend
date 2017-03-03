@@ -20,3 +20,5 @@ export default instance
 export function getUserGroupReducer(state, action) {
   return instance.reduce(state, action)
 }
+
+export const reducerPath = 'user-group'

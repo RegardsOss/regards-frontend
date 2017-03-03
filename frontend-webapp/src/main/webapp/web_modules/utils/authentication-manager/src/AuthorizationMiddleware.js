@@ -7,13 +7,14 @@ const { CALL_API } = require('redux-api-middleware')
 
 
 const getAuthorization = (state, callAPI) => {
-  // Init the authorization bearer of the fetch request
-  const authentication = AuthenticationSelectors.getAuthentication(state)
   // Todo: Extract this value to lets the administrator deploys the frontend with another key
-  if (callAPI.types[0] === AuthenticateActions.SIGNAL_REQUEST) {
+  // Init the authorization bearer of the fetch authentication request
+  // TODO : check that thing: it supposes that the non authentified user can NEVER send a non authenticated signal
+  if (!AuthenticationSelectors.isAuthenticated(state) && callAPI.types[0] === AuthenticateActions.SIGNAL_REQUEST) {
     return `Basic ${btoa('client:secret')}`
-  } else if (authentication && authentication.user && authentication.user.access_token) {
-    return `Bearer ${authentication.user.access_token}`
+  } else if (AuthenticationSelectors.isAuthenticated(state)) {
+    const authentication = AuthenticationSelectors.getAuthentication(state)
+    return `Bearer ${authentication.result.access_token}`
   }
   return ''
 }
@@ -29,7 +30,7 @@ const putAuthorization = () => next => (action) => {
         'Content-type': 'application/json',
       }
       const auth = getAuthorization(callStore, callAPI)
-      if (auth.length > 0) {
+      if (auth.length) {
         headers.Authorization = auth
       } else {
         // TODO: Find scope on the store
