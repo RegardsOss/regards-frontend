@@ -186,10 +186,10 @@ const getUsersList = (request, { status }, pathParameters) => {
         metadata,
       }
     }, {
-        content: [],
-        links: [],
-        metadata: { number: 0, size: 100, totalElements: _.size(correspondingUsers) },
-      })
+      content: [],
+      links: [],
+      metadata: { number: 0, size: 100, totalElements: _.size(correspondingUsers) },
+    })
     return {
       content: formattedResponse,
       code: 200,
