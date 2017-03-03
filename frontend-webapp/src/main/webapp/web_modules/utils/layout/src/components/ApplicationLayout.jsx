@@ -1,9 +1,10 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { themeContextType } from '@regardsoss/theme'
-import { PluginConf } from '@regardsoss/model'
-import { ModuleShape } from '@regardsoss/modules'
+import {merge} from 'lodash'
+import {themeContextType} from '@regardsoss/theme'
+import {PluginConf} from '@regardsoss/model'
+import {ModuleShape} from '@regardsoss/modules'
 import Container from './Container'
 import ContainerShape from '../model/ContainerShape'
 
@@ -38,10 +39,21 @@ class ApplicationLayout extends React.Component {
    */
   render() {
 
-    let background = this.context.muiTheme ? this.context.muiTheme.palette.canvasColor : 'transparent'
-    background = this.context.muiTheme && this.context.muiTheme.palette.backgroundImage ? `repeat-y top/100%  url('${this.context.muiTheme.palette.backgroundImage}')` : background
-    let bodyStyles = this.props.layoutBodyStyles ? this.props.layoutBodyStyles : {background: background}
-    bodyStyles = this.props.style ? {...bodyStyles,...this.props.style} : bodyStyles
+    let bodyStyles = {}
+    if (this.context.muiTheme) {
+      if (this.context.muiTheme.palette.backgroundImage) {
+        bodyStyles = {
+          background: `url('${this.context.muiTheme.palette.backgroundImage}') no-repeat fixed center center`,
+          backgroundSize: 'cover'
+        }
+      } else {
+        bodyStyles = {
+          background: this.context.muiTheme.palette.canvasColor
+        }
+      }
+    }
+
+    bodyStyles = merge({}, bodyStyles, this.props.style)
     return (
       <div style={bodyStyles}>
         <Container
@@ -56,6 +68,7 @@ class ApplicationLayout extends React.Component {
           mainContainer
         />
       </div>
+
     )
   }
 }
