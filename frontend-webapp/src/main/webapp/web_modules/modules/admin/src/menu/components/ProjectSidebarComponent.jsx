@@ -111,24 +111,6 @@ class ProjectSidebarComponent extends React.Component {
               leftIcon={<Brush />}
             />
           </HateoasDisplayDecorator>
-          <SidebarElement
-            key="7"
-            to={`/admin/${projectName}/datamanagement`}
-            currentPath={this.props.currentPath}
-            primaryText={<FormattedMessage id="menu.news" />}
-            leftIcon={<Chat />}
-          />
-
-          <Divider />
-          <MenuItem
-            primaryText={<FormattedMessage id="menu.logout" />}
-            leftIcon={<PowerSettingsNew />}
-            onTouchTap={onLogout}
-          />
-          <Divider />
-          <Link to={'/admin'} style={style.link.styles}>
-            <MenuItem primaryText={<FormattedMessage id="menu.back" />} leftIcon={<Reply />} />
-          </Link>
         </Drawer>
       </I18nProvider>
     )

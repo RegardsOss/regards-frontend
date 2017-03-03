@@ -26,7 +26,7 @@ export class AdminLayout extends React.Component {
     params: React.PropTypes.shape({
       project: React.PropTypes.string,
     }),
-    location: React.PropTypes.objectOf(React.PropTypes.object),
+    location: React.PropTypes.object,
     // from mapDispatchToProps
     onLogout: React.PropTypes.func,
   }

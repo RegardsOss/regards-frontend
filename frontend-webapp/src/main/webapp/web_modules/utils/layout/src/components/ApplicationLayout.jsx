@@ -20,6 +20,7 @@ class ApplicationLayout extends React.Component {
     layout: ContainerShape,
     modules: React.PropTypes.arrayOf(ModuleShape),
     plugins: React.PropTypes.arrayOf(PluginConf),
+    layoutBodyStyles: React.PropTypes.object,
     // eslint-disable-next-line react/forbid-prop-types
     pluginProps: React.PropTypes.object,
     dynamicContent: React.PropTypes.element,
@@ -35,9 +36,10 @@ class ApplicationLayout extends React.Component {
    * @returns {React.Component}
    */
   render() {
-    const bodyStyles = {
-      backgroundColor: this.context.muiTheme.palette.canvasColor,
-    }
+
+    let background = this.context.muiTheme ? this.context.muiTheme.palette.canvasColor : 'transparent'
+    background = this.context.muiTheme && this.context.muiTheme.palette.backgroundImage ? `repeat-y top/100%  url('${this.context.muiTheme.palette.backgroundImage}')` : background
+    const bodyStyles = this.props.layoutBodyStyles ? this.props.layoutBodyStyles : {background: background}
     return (
       <div style={bodyStyles}>
         <Container

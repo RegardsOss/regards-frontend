@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { isEqual, find } from 'lodash'
+import { isEqual, find, merge } from 'lodash'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { connect } from 'react-redux'
@@ -10,6 +10,7 @@ import ThemeActions from '../model/actions/ThemeActions'
 import ThemeSelectors from '../model/selectors/ThemeSelectors'
 import getCurrentTheme from '../model/selectors/getCurrentTheme'
 import setCurrentTheme from '../model/actions/setCurrentTheme'
+import defaultCustomConfiguration from '../custom/defaultCustomConfiguration'
 import '../custom/reset.css'
 import '../custom/main.css'
 import '../custom/bootstrap_grid_100.css'
@@ -37,8 +38,12 @@ export class ThemeProvider extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      mergedTheme: getMuiTheme(props.currentTheme.configuration),
+      mergedTheme: this.getMuiTheme(props.currentTheme.configuration),
     }
+  }
+
+  getMuiTheme(conf) {
+    return merge({}, defaultCustomConfiguration, getMuiTheme(conf))
   }
 
   componentDidMount() {
@@ -47,7 +52,7 @@ export class ThemeProvider extends React.Component {
       // Init the current theme from the new list
       const activeTheme = find(actionResult.payload.entities.theme, theme => theme.content.active) || defaultTheme
       this.setState({
-        mergedTheme: getMuiTheme(activeTheme.content.configuration),
+        mergedTheme: this.getMuiTheme(activeTheme.content.configuration),
       })
       dispatchSetCurrentTheme(activeTheme.content.id)
     })
@@ -59,7 +64,7 @@ export class ThemeProvider extends React.Component {
     // Recompute the merged theme when the current theme has changed
     if (!isEqual(nextProps.currentTheme, currentTheme)) {
       this.setState({
-        mergedTheme: getMuiTheme(nextProps.currentTheme.content.configuration || defaultTheme),
+        mergedTheme: this.getMuiTheme(nextProps.currentTheme.content.configuration || defaultTheme),
       })
     }
   }

@@ -55,7 +55,7 @@ class ThumbmailCellComponent extends React.Component {
           <div>
             <Avatar
               src={thumbmail.uri}
-              size={this.props.lineHeight - 10}
+              size={this.props.lineHeight - 20}
               style={style}
               onTouchTap={() => this.setState({ displayFullSize: !this.state.displayFullSize })}
             />

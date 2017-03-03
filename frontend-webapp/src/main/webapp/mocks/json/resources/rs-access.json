@@ -256,7 +256,7 @@
     {
       "id": 1,
       "name": "Light",
-      "active": true,
+      "active": false,
       "configuration": {}
     },
     {
@@ -284,6 +284,40 @@
     },
     {
       "id": 3,
+      "name": "Dark2",
+      "active": true,
+      "configuration": {
+        "palette": {
+          "primary2Color": "#0097A7",
+          "primary3Color": "#757575",
+          "textColor": "#FFFFFF",
+          "secondaryTextColor": "rgba(255, 255, 255, 0.7)",
+          "alternateTextColor": "#303030",
+          "canvasColor": "#303030",
+          "borderColor": "rgba(255, 255, 255, 0.3)",
+          "disabledColor": "rgba(255, 255, 255, 0.3)",
+          "pickerHeaderColor": "rgba(255, 255, 255, 0.12)",
+          "clockCircleColor": "rgba(255, 255, 255, 0.12)",
+          "shadowColor": "rgba(0, 0, 0, 1)",
+          "accent2Color": "#2196f3",
+          "accent3Color": "#ff6d00",
+          "primary1Color": "#2196f3",
+          "accent1Color": "#ff6d00",
+          "backgroundImage": "http://plop"
+        },
+        "themeName": "Dark",
+        "tableRow": {
+          "stripeColor": "#212121"
+        },
+        "menuItem": {
+          "rightIconDesktopFill": "#fb8c00",
+          "selectedTextColor": "#ff6d00",
+          "hoverColor": "#1e88e5"
+        }
+      }
+    },
+    {
+      "id": 4,
       "name": "Custom 1",
       "active": false,
       "configuration": {
@@ -304,7 +338,7 @@
       }
     },
     {
-      "id": 4,
+      "id": 5,
       "name": "Custom 2",
       "active": false,
       "configuration": {

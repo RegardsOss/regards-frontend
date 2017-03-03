@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { map, find, isEmpty, stubTrue } from 'lodash'
+import { map, find, isEmpty, stubTrue, merge } from 'lodash'
 import IconButton from 'material-ui/IconButton'
 import Close from 'material-ui/svg-icons/navigation/close'
 import Save from 'material-ui/svg-icons/content/save'
@@ -11,10 +11,11 @@ import DropDownMenu from 'material-ui/DropDownMenu'
 import Paper from 'material-ui/Paper'
 import Snackbar from 'material-ui/Snackbar'
 import { FormattedMessage } from 'react-intl'
+import {i18nContextType} from '@regardsoss/i18n'
 import { ShowableAtRender } from '@regardsoss/components'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { ThemeList, Theme, defaultTheme } from '@regardsoss/model'
-import { themeContextType } from '@regardsoss/theme'
+import { themeContextType, defaultCustomConfiguration } from '@regardsoss/theme'
 import { muiTheme } from '@regardsoss/vendors'
 import MaterialUiComponentsShowcase from '../MaterialUiComponentsShowcase'
 import DeleteButton from './DeleteButton'
@@ -45,6 +46,7 @@ class ApplicationThemeComponent extends React.Component {
 
   static contextTypes = {
     ...themeContextType,
+    ...i18nContextType
   }
 
   constructor(props) {
@@ -54,6 +56,10 @@ class ApplicationThemeComponent extends React.Component {
       snackBarOpen: false,
       snackBarMessageId: 'application.theme.save.success',
     }
+  }
+
+  getEditingTheme = () => {
+    return merge({},{content: {configuration: defaultCustomConfiguration}},this.state.editingTheme)
   }
 
   onThemeSelect = (event, index, value) => this.setState({ editingTheme: find(this.props.themeList, theme => theme.content.id === value) })
@@ -96,7 +102,7 @@ class ApplicationThemeComponent extends React.Component {
 
   onCreate = (theme) => {
     const { onCreate } = this.props
-    const { editingTheme } = this.state
+    const editingTheme = this.getEditingTheme()
 
     onCreate(theme).then((actionResult) => {
       this.setState({
@@ -109,7 +115,8 @@ class ApplicationThemeComponent extends React.Component {
 
   render() {
     const { themeList, onClose, isFetching } = this.props
-    const { editingTheme, snackBarOpen, snackBarMessageId } = this.state
+    const { snackBarOpen, snackBarMessageId } = this.state
+    const editingTheme = this.getEditingTheme()
     const isThemeListEmpty = isEmpty(themeList)
     const previewWrapper = <MaterialUiComponentsShowcase />
     const style = moduleStyles(this.context.muiTheme).theme
@@ -117,6 +124,8 @@ class ApplicationThemeComponent extends React.Component {
     const themeForDecorator = editingTheme.content.configuration
     themeForDecorator.themeName = editingTheme.content.name
     const themeConfigurer = muiTheme(themeForDecorator, this.onThemeOverride)(() => (previewWrapper))
+
+    const toolbarTitle = this.context.intl.formatMessage({id:"application.theme.title"})
 
     const saveButton = (
       <IconButton
@@ -147,7 +156,7 @@ class ApplicationThemeComponent extends React.Component {
           <Toolbar style={style.toolbar.root}>
             <ToolbarGroup firstChild>
               <IconButton onTouchTap={onClose}><Close color={style.toolbar.icon.color} /></IconButton>
-              <ToolbarTitle text={<FormattedMessage id="application.theme.title" />} />
+              <ToolbarTitle text={toolbarTitle} />
               {themeSelect}
             </ToolbarGroup>
             <ToolbarGroup lastChild>
@@ -162,7 +171,7 @@ class ApplicationThemeComponent extends React.Component {
           <Toolbar style={style.toolbar.root}>
             <ToolbarGroup firstChild>
               <IconButton onTouchTap={onClose}><Close color={style.toolbar.icon.color} /></IconButton>
-              <ToolbarTitle text={<FormattedMessage id="application.theme.title" />} />
+              <ToolbarTitle text={toolbarTitle} />
             </ToolbarGroup>
             <ToolbarGroup lastChild>
               {createButton}
