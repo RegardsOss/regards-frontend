@@ -17,13 +17,26 @@ import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 
+/**
+ * User statuses constants, as returned by the server
+ */
+const status = {
+  accessGranted: 'ACCESS_GRANTED',
+  waitingAccess: 'WAITING_ACCESS',
+  accesDenied: 'ACCESS_DENIED',
+  inactive: 'ACCESS_INACTIVE',
+}
+
+/**
+ * Tabs Id
+ */
 const tabs = {
   waiting: 0,
   all: 1,
 }
 
 /**
- * React component to list all REGARDS account.
+ * React component to list all project user and manage them.
  */
 export class ProjectUserListComponent extends React.Component {
 
@@ -88,9 +101,9 @@ export class ProjectUserListComponent extends React.Component {
     this.setState({ selectedTab })
   }
 
-  isGrantedUser = user => user.content.status === 'ACCESS_GRANTED'
+  canAcceptUser = user => [status.accesDenied, status.waitingAccess].includes(user.content.status)
 
-  isDeniedUser = user => user.content.status === 'ACCESS_DENIED'
+  canDenyUser = user => [status.accessGranted, status.waitingAccess, status.inactive].includes(user.content.status)
 
   render() {
     const selectedTab = this.state ? this.state.selectedTab : tabs.all
@@ -173,14 +186,14 @@ export class ProjectUserListComponent extends React.Component {
                           <IconButton
                             title={intl.formatMessage({ id: 'projectUser.list.table.action.acccept.tooltip' })}
                             onTouchTap={() => onValidate(projectUser.content.id)}
-                            disabled={isFetchingActions || this.isGrantedUser(projectUser)}
+                            disabled={isFetchingActions || !this.canAcceptUser(projectUser)}
                           >
                             <Done hoverColor={style.commonActionHoverColor} />
                           </IconButton>
                           <IconButton
                             title={intl.formatMessage({ id: 'projectUser.list.table.action.deny.tooltip' })}
                             onTouchTap={() => onDeny(projectUser.content.id)}
-                            disabled={isFetchingActions || this.isDeniedUser(projectUser)}
+                            disabled={isFetchingActions || !this.canDenyUser(projectUser)}
                           >
                             <RemoveCircle hoverColor={style.deleteActionHoverColor} />
                           </IconButton>

@@ -257,7 +257,7 @@ class FixedTable extends React.Component {
 
   render() {
     const { columnWidths, width, height } = this.state
-    if (!this.props.entities){
+    if (!this.props.entities) {
       return null
     }
     const totalNumberOfEntities = this.props.entities.length
@@ -287,7 +287,7 @@ class FixedTable extends React.Component {
                 label={column.hideLabel ? '' : column.label}
                 lineHeight={this.props.lineHeight}
                 sortable={column.sortable}
-                sortAction={(type) => this.props.onSortByColumn(column, type)}
+                sortAction={type => this.props.onSortByColumn(column, type)}
               />}
               cell={<FixedTableCell
                 getCellValue={(rowIndex, col) => this.getCellValue(rowIndex, col, column.customCell)}

@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import {concat,reduce,find,remove} from 'lodash'
+import { concat, reduce, find, remove } from 'lodash'
 import { FixedTableContainer } from '@regardsoss/components'
 import CatalogEntitySelector from '../../models/catalog/CatalogEntitySelector'
 import CatalogEntityActions from '../../models/catalog/CatalogEntityActions'
@@ -19,10 +19,10 @@ class SearchResultsComponent extends React.Component {
     searchQuery: React.PropTypes.string,
   }
 
-  constructor(props){
+  constructor(props) {
     super(props)
-    this.state={
-      sortedColumns: []
+    this.state = {
+      sortedColumns: [],
     }
   }
 
@@ -33,19 +33,18 @@ class SearchResultsComponent extends React.Component {
   getFullQuery = () => {
     let fullQuery = this.props.searchQuery
 
-    if (this.state.sortedColumns.length > 0){
+    if (this.state.sortedColumns.length > 0) {
       const sortQuery = reduce(this.state.sortedColumns, (sortQuery, column) => {
         if (column.type === null) {
           return sortQuery
-        } else {
-          if (sortQuery.length > 0){
-            return `${sortQuery}&${column.attribute}:${column.type}`
-          }
-          return `${column.attribute}:${column.type}`
         }
-      },'')
-      if (sortQuery.length > 0){
-        fullQuery= `${this.props.searchQuery}&sort=(${sortQuery})`
+        if (sortQuery.length > 0) {
+          return `${sortQuery}&${column.attribute}:${column.type}`
+        }
+        return `${column.attribute}:${column.type}`
+      }, '')
+      if (sortQuery.length > 0) {
+        fullQuery = `${this.props.searchQuery}&sort=(${sortQuery})`
       }
     }
     return fullQuery
@@ -53,20 +52,18 @@ class SearchResultsComponent extends React.Component {
 
   sortResultsByColumn = (column, type) => {
     const attributeToSort = column.attributes[0]
-    const sortedColumns = concat([],this.state.sortedColumns)
-    const col = find(sortedColumns, col => {
-      return col.attribute === attributeToSort
-    })
-    if (!col){
+    const sortedColumns = concat([], this.state.sortedColumns)
+    const col = find(sortedColumns, col => col.attribute === attributeToSort)
+    if (!col) {
       sortedColumns.push({
         attribute: attributeToSort,
-        type: type,
+        type,
       })
     } else {
-      switch(type){
+      switch (type) {
         case 'ASC':
           col.type = 'ASC'
-              break
+          break
         case 'DESC':
           col.type = 'DESC'
           break
@@ -75,13 +72,13 @@ class SearchResultsComponent extends React.Component {
       }
     }
     this.setState({
-      sortedColumns
+      sortedColumns,
     })
   }
 
   render() {
     const columns = []
-    columns.push({ label: 'Image', attributes: ['files'], customCell: {component: ThumbmailCellComponent, props: {}}, fixed: 40, hideLabel: true })
+    columns.push({ label: 'Image', attributes: ['files'], customCell: { component: ThumbmailCellComponent, props: {} }, fixed: 40, hideLabel: true })
     columns.push({ label: 'Internal Identifier', attributes: ['id'] })
     columns.push({ label: 'Identifier', attributes: ['sip_id'] })
     columns.push({ label: 'Label', attributes: ['label'], sortable: true })
