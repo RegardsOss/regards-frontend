@@ -7,7 +7,7 @@ import { BasicListActions } from '@regardsoss/store-utils'
 class ModelAttributeActions extends BasicListActions {
   constructor() {
     super({
-      namespace: 'admin-data-modelattribute-management/model-attribute',
+      namespace: 'admin-data-datasource-management/model-attribute',
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-dam-list/models/{id}/attributes`,
       schemaTypes: {
         ENTITY: Schemas.MODEL_ATTRIBUTE,

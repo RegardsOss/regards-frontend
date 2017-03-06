@@ -1,23 +1,15 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { ReduxEntityTester } from '@regardsoss/tests-helpers'
 import { Datasource } from '@regardsoss/model'
 import DatasourceActions from '../../src/model/DatasourceActions'
 import DatasourceReducers from '../../src/model/DatasourceReducers'
 import DatasourceSelectors from '../../src/model/DatasourceSelectors'
+import DatasourceNetworkDump from './dump/DatasourceNetworkDump'
 
-const backendServerResultList = {
-  content: [{
-    content: {
-      id: 1,
-    },
-    links: [],
-  }],
-  metadata: {
-    number: '0',
-    size: '100',
-    totalElements: 1,
-  },
-  links: [],
-}
+const backendServerResultList = DatasourceNetworkDump
+
 const options = {
 }
 

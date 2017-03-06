@@ -13,9 +13,9 @@ storiesOf('Project admin - Access Right', module)
   .addDecorator(muiTheme())
   .addDecorator(withStore)
   .add('List', () => {
-    const accessGroupList = object('Account list', AccessGroupDump)
-    const pluginMetaDataList = object('Account list', PluginMetaDataDump)
-    const pluginConfigurationList = object('Account list', PluginConfigurationDump)
+    const accessGroupList = object('Access group list', AccessGroupDump)
+    const pluginMetaDataList = object('Plugin Metadata list', PluginMetaDataDump)
+    const pluginConfigurationList = object('Plugin Configuration list', PluginConfigurationDump)
     return (
       <AccessRightComponent
         accessGroupList={accessGroupList}

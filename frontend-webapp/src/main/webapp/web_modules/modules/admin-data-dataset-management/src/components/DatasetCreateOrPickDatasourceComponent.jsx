@@ -13,9 +13,9 @@ import { CardActionsComponent } from '@regardsoss/components'
 import IconButton from 'material-ui/IconButton'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
-import RaisedButton from 'material-ui/RaisedButton';
+import SelectField from 'material-ui/SelectField'
+import MenuItem from 'material-ui/MenuItem'
+import RaisedButton from 'material-ui/RaisedButton'
 import DatasetStepperComponent from './DatasetStepperComponent'
 
 /**
@@ -35,7 +35,7 @@ export class DatasetCreateOrPickDatasourceComponent extends React.Component {
     ...i18nContextType,
   }
 
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       currentDatasource: undefined,
@@ -49,13 +49,13 @@ export class DatasetCreateOrPickDatasourceComponent extends React.Component {
 
   render() {
     const style = Object.assign({}, this.context.muiTheme.layout.cardEspaced, {
-      display:'flex',
-      alignItems: "center",
-      justifyContent: "center",
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
     })
     const { currentDatasource } = this.state
     const styleButton = {
-      margin: '30px 0'
+      margin: '30px 0',
     }
     const { datasourceList, createDatasourceUrl, handleDone, backUrl } = this.props
     console.log(datasourceList, currentDatasource === undefined)
@@ -85,7 +85,7 @@ export class DatasetCreateOrPickDatasourceComponent extends React.Component {
           </CardText>
           <CardActions>
             <CardActionsComponent
-              mainButtonTouchTap={() => {handleDone(currentDatasource)}}
+              mainButtonTouchTap={() => { handleDone(currentDatasource) }}
               mainButtonLabel={
                 <FormattedMessage
                   id="dataset.form.create.action.next"
@@ -101,7 +101,7 @@ export class DatasetCreateOrPickDatasourceComponent extends React.Component {
           <div style={style}>
             <RaisedButton
               label={<FormattedMessage id="dataset.form.create.action.datasource" />}
-              secondary={true}
+              secondary
               style={styleButton}
               href={createDatasourceUrl}
             />

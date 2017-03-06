@@ -1,31 +1,31 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { map, forEach, keys } from 'lodash'
+import { map, keys } from 'lodash'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
-import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
 import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
-import { Datasource, Model, ModelAttribute } from '@regardsoss/model'
+import { Datasource, Model, Connection } from '@regardsoss/model'
 import { RenderTextField, RenderSelectField, Field, ErrorTypes } from '@regardsoss/form-utils'
 import { ReduxConnectedForm } from '@regardsoss/redux'
-import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
+import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import MenuItem from 'material-ui/MenuItem'
+import SelectField from 'material-ui/SelectField'
 import DatasourceStepperComponent from './DatasourceStepperComponent'
 
 /**
- * React component to list datasources.
+ * React component to edit datasources attributes.
  */
-export class DatasourceFormComponent extends React.Component {
+export class DatasourceFormAttributesComponent extends React.Component {
 
   static propTypes = {
     currentDatasource: Datasource,
+    currentConnection: Connection,
     onSubmit: React.PropTypes.func.isRequired,
     backUrl: React.PropTypes.string.isRequired,
     modelList: React.PropTypes.objectOf(Model),
-    isDuplicating: React.PropTypes.bool,
     // from reduxForm
     submitting: React.PropTypes.bool,
     invalid: React.PropTypes.bool,
@@ -43,13 +43,25 @@ export class DatasourceFormComponent extends React.Component {
     const isCreating = props.currentDatasource === null || props.currentDatasource === undefined
     this.state = {
       isCreating,
-      isDuplicating: props.isDuplicating,
     }
   }
 
   componentDidMount() {
     this.handleInitialize()
   }
+
+  getTitle = () => {
+    if (this.state.isCreating) {
+      return <FormattedMessage id="datasource.create.title" />
+    }
+    return (<FormattedMessage
+      id="datasource.edit.title"
+      values={{
+        name: this.props.currentDatasource.content.label,
+      }}
+    />)
+  }
+
 
   /**
    * Initialize form fields
@@ -59,32 +71,15 @@ export class DatasourceFormComponent extends React.Component {
       const { currentDatasource } = this.props
       const initialValues = {
         label: currentDatasource.content.label,
-        model: currentDatasource.content.model.id,
+        model: currentDatasource.content.mapping.model,
       }
       this.props.initialize(initialValues)
     }
   }
 
   render() {
-    const { modelList, submitting, invalid, backUrl } = this.props
-    let title
-    if (this.state.isCreating) {
-      title = <FormattedMessage id="datasource.create.title" />
-    } else if (this.state.isDuplicating) {
-      title = (<FormattedMessage
-        id="datasource.duplicate.title"
-        values={{
-          name: this.props.currentDatasource.content.label,
-        }}
-      />)
-    } else {
-      title = (<FormattedMessage
-        id="datasource.edit.title"
-        values={{
-          name: this.props.currentDatasource.content.label,
-        }}
-      />)
-    }
+    const { currentConnection, modelList, submitting, invalid, backUrl } = this.props
+    const title = this.getTitle()
     return (
       <ReduxConnectedForm
         i18nMessagesDir="modules/admin-data-datasource-management/src/i18n"
@@ -95,7 +90,7 @@ export class DatasourceFormComponent extends React.Component {
             title={title}
             subtitle={<FormattedMessage id="datasource.form.subtitle" />}
           />
-          <DatasourceStepperComponent stepIndex={0} />
+          <DatasourceStepperComponent stepIndex={1} />
           <CardText>
             <Field
               name="label"
@@ -104,12 +99,22 @@ export class DatasourceFormComponent extends React.Component {
               type="text"
               label={<FormattedMessage id="datasource.form.label" />}
             />
+            <SelectField
+              floatingLabelText={<FormattedMessage id="datasource.form.connection" />}
+              fullWidth
+              value={currentConnection.content.id}
+              disabled
+            >
+              <MenuItem
+                value={currentConnection.content.id}
+                primaryText={currentConnection.content.label}
+              />
+            </SelectField>
             <Field
               name="model"
               fullWidth
               component={RenderSelectField}
               label={<FormattedMessage id="datasource.form.model" />}
-              disabled={!this.state.isCreating && !this.state.isDuplicating}
             >
               {map(modelList, (model, id) => (
                 <MenuItem
@@ -163,5 +168,5 @@ function validate(values) {
 export default reduxForm({
   form: 'datasource-form',
   validate,
-})(DatasourceFormComponent)
+})(DatasourceFormAttributesComponent)
 

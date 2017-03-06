@@ -14,7 +14,19 @@ export const listDatasourceRoute = {
 }
 
 export const createDatasourceRoute = {
-  path: 'create',
+  path: 'create/connection',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const DatasourceCreateOrPickConnectionContainer = require('./containers/DatasourceCreateOrPickConnectionContainer')
+      cb(null, {
+        content: DatasourceCreateOrPickConnectionContainer.default,
+      })
+    })
+  },
+}
+
+export const pickConnectionDatasourceRoute = {
+  path: 'create/:connectionId',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
       const DatasourceFormContainer = require('./containers/DatasourceFormContainer')
@@ -26,7 +38,7 @@ export const createDatasourceRoute = {
 }
 
 export const editDatasourceRoute = {
-  path: ':datasourceId/:mode',
+  path: ':datasourceId/edit',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
       const DatasourceFormContainer = require('./containers/DatasourceFormContainer')
@@ -42,6 +54,7 @@ const datasourceDataManagementRouter = {
   childRoutes: [
     listDatasourceRoute,
     createDatasourceRoute,
+    pickConnectionDatasourceRoute,
     editDatasourceRoute,
   ],
 }

@@ -1,13 +1,13 @@
 import { BasicSignalReducers } from '@regardsoss/store-utils'
-import DatasourceLinkActions from './DatasourceLinkActions'
+import TestConnectionActions from './TestConnectionActions'
 
-class DatasourceLinkReducers extends BasicSignalReducers {
+class TestConnectionReducers extends BasicSignalReducers {
   constructor() {
-    super(DatasourceLinkActions)
+    super(TestConnectionActions)
   }
 }
 
-const instance = new DatasourceLinkReducers()
+const instance = new TestConnectionReducers()
 
 /**
  * Return an function where the reducer instance exists

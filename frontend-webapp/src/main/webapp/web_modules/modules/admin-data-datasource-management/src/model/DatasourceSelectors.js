@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { BasicPageableSelectors } from '@regardsoss/store-utils'
 
 class FragmentSelectors extends BasicPageableSelectors {

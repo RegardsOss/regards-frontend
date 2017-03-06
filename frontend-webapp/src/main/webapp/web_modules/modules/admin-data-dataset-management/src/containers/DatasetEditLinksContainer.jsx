@@ -4,7 +4,7 @@
 import { connect } from '@regardsoss/redux'
 import { Dataset } from '@regardsoss/model'
 import { I18nProvider } from '@regardsoss/i18n'
-import { partition, some, filter } from 'lodash'
+import { partition, some } from 'lodash'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import DatasetSelectors from './../model/DatasetSelectors'
 import DatasetActions from './../model/DatasetActions'
@@ -62,7 +62,7 @@ export class DatasetEditLinksContainer extends React.Component {
     const collectionLinkedToCurrentCollection = partition(collectionList, collection =>
       some(currentDataset.content.tags, tag =>
         tag === collection.content.ipId,
-      )
+      ),
     )
     return [
       collectionLinkedToCurrentCollection[0],
@@ -95,7 +95,7 @@ export class DatasetEditLinksContainer extends React.Component {
   render() {
     const { isFetchingDataset, isFetchingCollection, currentDataset, collectionList } = this.props
     const collectionLinkedToCurrentDataset = this.getRemainingCollection(currentDataset, collectionList)
-    const isLoading = (isFetchingDataset  && typeof currentDataset === 'undefined') || isFetchingCollection
+    const isLoading = (isFetchingDataset && typeof currentDataset === 'undefined') || isFetchingCollection
     return (
       <I18nProvider messageDir="modules/admin-data-dataset-management/src/i18n">
         <LoadableContentDisplayDecorator

@@ -4,14 +4,18 @@
 import { combineReducers } from 'redux'
 import datasource from './model/DatasourceReducers'
 import model from './model/ModelReducers'
+import connection from './model/ConnectionReducers'
+import connectionTable from './model/ConnectionTableReducers'
+import connectionTableAttributes from './model/ConnectionTableAttributesReducers'
 import modelAttribute from './model/ModelAttributeReducers'
-import datasourceLinkSignal from './model/DatasourceLinkReducers'
 
 const datasourceDataManagementReducer = combineReducers({
   datasource,
   model,
+  connection,
   'model-attribute': modelAttribute,
-  'datasource-link': datasourceLinkSignal,
+  'connection-table': connectionTable,
+  'connection-table-attributes': connectionTableAttributes,
 })
 
 export default datasourceDataManagementReducer

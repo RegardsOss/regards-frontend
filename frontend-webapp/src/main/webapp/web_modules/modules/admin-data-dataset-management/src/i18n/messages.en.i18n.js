@@ -8,7 +8,7 @@ const messages = Object.assign({
   'dataset.form.links.component.subtitle': 'Lien de la dataset courante',
   'dataset.form.links.remainingdataset.subtitle': 'Dataset disponibles',
   'dataset.form.links.dataset.subtitle': 'Lien de la dataset',
-  'dataset.form.links.subtitle': 'Les datasets disposes de lien entre elles afin de simplifier la recherche',
+  'dataset.form.links.subtitle': 'Les datasets disposent de lien entre elles afin de simplifier la recherche',
   'dataset.form.links.title': 'Mise à jour des liens entre dataset',
   'dataset.form.links.action.done': 'Terminer',
   'dataset.form.links.action.cancel': 'Back',

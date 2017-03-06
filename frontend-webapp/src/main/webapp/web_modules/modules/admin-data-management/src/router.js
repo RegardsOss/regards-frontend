@@ -85,6 +85,16 @@ export const datasourceManagementRouter = {
   },
 }
 
+export const connectionManagementRouter = {
+  path: 'connection',
+  getChildRoutes(nextState, cb) {
+    const adminDataConnectionManagement = require('@regardsoss/admin-data-connection-management')
+    require.ensure([], (require) => {
+      cb(null, [adminDataConnectionManagement.connectionDataManagementRouter])
+    })
+  },
+}
+
 const dataManagementRouter = {
   childRoutes: [
     homeDataRoute,
@@ -95,6 +105,7 @@ const dataManagementRouter = {
     collectionManagementRouter,
     datasetManagementRouter,
     datasourceManagementRouter,
+    connectionManagementRouter,
   ],
 }
 
