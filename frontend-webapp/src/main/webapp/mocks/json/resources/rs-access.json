@@ -189,6 +189,17 @@
       "container": "content",
       "applicationId": "user",
       "id": 9
+    },
+    {
+      "active": true,
+      "name": "home-page",
+      "description": "Page d'acceuil",
+      "container": "user",
+      "conf": {
+        "htmlPath": "http://cdpp.eu/"
+      },
+      "applicationId": "user",
+      "id": 10
     }
   ],
   "layouts": [
