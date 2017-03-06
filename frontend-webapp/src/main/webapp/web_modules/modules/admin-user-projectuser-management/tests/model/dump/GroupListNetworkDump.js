@@ -1,5 +1,5 @@
 export default {
-  AG1: {
+  1: {
     content: {
       id: 1,
       name: 'AG1',
@@ -9,8 +9,14 @@ export default {
     },
     links: [],
   },
-  AG2: {
-    content: { id: 2, name: 'AG2', users: [], accessRights: [], isPrivate: true },
+  2: {
+    content: {
+      id: 2,
+      name: 'AG2',
+      users: [],
+      accessRights: [],
+      isPrivate: true,
+    },
     links: [],
   },
 }

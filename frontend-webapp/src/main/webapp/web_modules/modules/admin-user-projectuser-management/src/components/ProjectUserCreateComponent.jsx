@@ -157,9 +157,8 @@ export class ProjectUserCreateComponent extends React.Component {
     >
       <Menu>
         {map(this.props.groupList, group => (
-          <ShowableAtRender show={!find(this.state.tempGroup, o => isEqual(o, group))}>
+          <ShowableAtRender key={group.content.name} show={!find(this.state.tempGroup, o => isEqual(o, group))}>
             <MenuItem
-              key={group.content.name}
               primaryText={group.content.name}
               onTouchTap={() => this.handleAddGroup(group)}
             />
