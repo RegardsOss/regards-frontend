@@ -69,6 +69,6 @@ describe('[ADMIN UI-CONFIGURATION] Testing Modules list container', () => {
     assert.isTrue(wrapper.find(ModuleListComponent).length === 1, 'There should not be a ModuleListComponent displayed')
     assert.isTrue(wrapper.find(FormLoadingComponent).length === 0, 'There should not be a FormLoadingComponent displayed')
     assert.isTrue(wrapper.find(I18nProvider).length === 1, 'There should not be a I18nProvider')
-    assert.isFalse(fetchModulesCallback.called, 'The container should fetch the modules list at mount')
+    assert.isTrue(fetchModulesCallback.called, 'The container should fetch the modules list at mount')
   })
 })

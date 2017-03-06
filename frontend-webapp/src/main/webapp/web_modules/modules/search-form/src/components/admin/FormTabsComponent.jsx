@@ -11,6 +11,8 @@ import FormDatasetsConfigurationComponent from './datasets/FormDatasetsConfigura
 import FormLayoutComponent from './layout/FormLayoutComponent'
 import FromCriterionComponent from './criterion/FormCriterionComponent'
 import FormPreviewComponent from './preview/FormPreviewComponent'
+import AttributeConfiguration from '../../models/attributes/AttributeConfiguration'
+import AttributesRegroupementConfiguration from '../../models/attributes/AttributesRegroupementConfiguration'
 
 /**
  * Display form divided with tabs to handle search form module configuration
@@ -30,6 +32,9 @@ class FormTabsComponent extends React.Component {
       criterion: React.PropTypes.arrayOf(PluginConf),
       layout: React.PropTypes.string,
       resultType: React.PropTypes.string,
+      enableFacettes: React.PropTypes.bool,
+      attributes: React.PropTypes.arrayOf(AttributeConfiguration),
+      attributesRegroupements: React.PropTypes.arrayOf(AttributesRegroupementConfiguration),
     }),
     selectableAttributes: React.PropTypes.objectOf(AttributeModel),
     disableChangeDatasets: React.PropTypes.bool,
@@ -56,9 +61,6 @@ class FormTabsComponent extends React.Component {
   render() {
     return (
       <Tabs>
-        <Tab label={<FormattedMessage id="form.configuration.tab.label" />} >
-          <FormParameters defaultResultType={this.props.defaultConf.resultType} />
-        </Tab>
         <Tab label={<FormattedMessage id="form.dataset.selection.tab.label" />} >
           <FormDatasetsConfigurationComponent
             changeField={this.props.changeField}
@@ -66,6 +68,18 @@ class FormTabsComponent extends React.Component {
             defaultSelectedDatasets={this.props.defaultConf.datasets.selectedDatasets}
             defaultSelectedDatasetModels={this.props.defaultConf.datasets.selectedModels}
             disableChangeDatasets={this.props.disableChangeDatasets}
+          />
+        </Tab>
+        <Tab label={<FormattedMessage id="form.configuration.tab.label" />} >
+          <FormParameters
+            defaultResultType={this.props.defaultConf.resultType}
+            defaultEnableFacettes={this.props.defaultConf.enableFacettes}
+            selectableAttributes={this.props.selectableAttributes}
+            defaultAttributesConf={this.props.defaultConf.attributes}
+            defaultAttributesRegroupementsConf={this.props.defaultConf.attributesRegroupements}
+            attributesConf={this.props.currentConf.attributes}
+            attributesRegrouementsConf={this.props.currentConf.attributesRegroupements}
+            changeField={this.props.changeField}
           />
         </Tab>
         <Tab label={<FormattedMessage id="form.layout.tab.label" />} >

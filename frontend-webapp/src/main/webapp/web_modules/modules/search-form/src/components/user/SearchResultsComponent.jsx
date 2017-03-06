@@ -1,12 +1,14 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { concat, reduce, find, remove } from 'lodash'
+import { concat, reduce, find, remove, forEach } from 'lodash'
 import { FixedTableContainer } from '@regardsoss/components'
+import { AttributeModel } from '@regardsoss/model'
 import CatalogEntitySelector from '../../models/catalog/CatalogEntitySelector'
 import CatalogEntityActions from '../../models/catalog/CatalogEntityActions'
 import ResulsTypeButtons from './ResultsTypeButtons'
 import ThumbmailCellComponent from './ThumbmailCellComponent'
+import AttributeConfiguration from '../../models/attributes/AttributeConfiguration'
 
 /**
  * React container to manage search requests and display results.
@@ -17,6 +19,8 @@ class SearchResultsComponent extends React.Component {
 
   static propTypes = {
     searchQuery: React.PropTypes.string,
+    attributesConf: React.PropTypes.arrayOf(AttributeConfiguration),
+    attributeModels: React.PropTypes.objectOf(AttributeModel),
   }
 
   constructor(props) {
@@ -78,12 +82,26 @@ class SearchResultsComponent extends React.Component {
 
   render() {
     const columns = []
+
     columns.push({ label: 'Image', attributes: ['files'], customCell: { component: ThumbmailCellComponent, props: {} }, fixed: 40, hideLabel: true })
     columns.push({ label: 'Internal Identifier', attributes: ['id'] })
     columns.push({ label: 'Identifier', attributes: ['sip_id'] })
     columns.push({ label: 'Label', attributes: ['label'], sortable: true })
-    columns.push({ label: 'Format', attributes: ['attributes.format'], sortable: true })
-    columns.push({ label: 'Language', attributes: ['attributes.language'], sortable: true })
+
+    // Read module configuration to get attributes to display
+    forEach(this.props.attributesConf, (attributeConf) => {
+      if (attributeConf.visibility === true) {
+        const attribute = find(this.props.attributeModels, att => att.content.id === attributeConf.id)
+        if (attribute) {
+          columns.push({
+            label: attribute.content.name,
+            attributes: [`attributes.${attribute.content.name}`],
+            sortable: true,
+          })
+        }
+      }
+    })
+
     columns.push({ label: 'Test Group', attributes: ['attributes.language', 'label'] })
 
     return (
