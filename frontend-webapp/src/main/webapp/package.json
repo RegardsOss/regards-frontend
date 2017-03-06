@@ -17,7 +17,7 @@
     "pretest": "npm run lint:fix || true",
     "postinstall": "npm run build:dll",
     "test": "npm run test:mocha --silent",
-    "test:coverage": "node --max_old_space_size=4096 --optimize_for_size --max_executable_size=4096 --stack_size=4096 ./node_modules/.bin/nyc node --max_old_space_size=4096 --optimize_for_size --max_executable_size=4096 --stack_size=4096 ./node_modules/.bin/mocha-webpack --timeout 5000 --webpack-config webpack.coverage.config.js \"@(tests|web_modules)/**/*.test.js{,x}\" --recursive --require source-map-support/register",
+    "test:coverage": "node --max_old_space_size=8192 ./node_modules/.bin/nyc node --max_old_space_size=8192 ./node_modules/.bin/mocha-webpack --timeout 5000 --webpack-config webpack.coverage.config.js \"@(tests|web_modules)/**/*.test.js{,x}\" --recursive --require source-map-support/register",
     "test:mocha": "node --max_old_space_size=4096 --optimize_for_size --max_executable_size=4096 --stack_size=4096 ./node_modules/.bin/mocha-webpack --webpack-config webpack.test.config.js \"@(tests|web_modules)/**/*.test.js{,x}\" --timeout 20000 --recursive --require source-map-support/register --inline-diffs --reporter mochawesome --reporter-options reportDir='./reports/mocha',reportName='Regards Frontend tests'",
     "test:watch": "mocha-webpack --timeout 5000 --webpack-config webpack.test.config.js \"web_modules/**/*.test.js{,x}\" --recursive --require source-map-support/register --inline-diffs --watch",
     "storybook:start": "start-storybook -p 6006 --dont-track",
