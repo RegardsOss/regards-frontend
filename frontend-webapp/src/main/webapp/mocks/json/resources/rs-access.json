@@ -294,11 +294,9 @@
       }
     },
     {
-      "id": 3,
-      "name": "Dark2",
-      "active": true,
       "configuration": {
         "palette": {
+          "backgroundImage": "http://localhost:3333/img/background.jpg",
           "primary2Color": "#0097A7",
           "primary3Color": "#757575",
           "textColor": "#FFFFFF",
@@ -313,10 +311,9 @@
           "accent2Color": "#2196f3",
           "accent3Color": "#ff6d00",
           "primary1Color": "#2196f3",
-          "accent1Color": "#ff6d00",
-          "backgroundImage": "http://localhost:3333/img/background.jpg"
+          "accent1Color": "#ff6d00"
         },
-        "themeName": "Dark",
+        "themeName": "Dark2",
         "tableRow": {
           "stripeColor": "#212121"
         },
@@ -324,8 +321,20 @@
           "rightIconDesktopFill": "#fb8c00",
           "selectedTextColor": "#ff6d00",
           "hoverColor": "#1e88e5"
+        },
+        "badge": {
+          "primaryTextColor": "#FFFFFF",
+          "secondaryTextColor": "#FFFFFF",
+          "primaryColor": "#ff6d00",
+          "secondaryColor": "#2196f3"
+        },
+        "appBar": {
+          "textColor": "#FFFFFF"
         }
-      }
+      },
+      "id": 3,
+      "name": "Dark2",
+      "active": true
     },
     {
       "id": 4,
