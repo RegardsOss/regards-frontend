@@ -7,7 +7,6 @@ import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
 import { Datasource, Model, Connection } from '@regardsoss/model'
 import { RenderTextField, RenderSelectField, Field, ErrorTypes } from '@regardsoss/form-utils'
-import { ReduxConnectedForm } from '@regardsoss/redux'
 import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -81,8 +80,7 @@ export class DatasourceFormAttributesComponent extends React.Component {
     const { currentConnection, modelList, submitting, invalid, backUrl } = this.props
     const title = this.getTitle()
     return (
-      <ReduxConnectedForm
-        i18nMessagesDir="modules/admin-data-datasource-management/src/i18n"
+      <form
         onSubmit={this.props.handleSubmit(this.props.onSubmit)}
       >
         <Card>
@@ -135,7 +133,7 @@ export class DatasourceFormAttributesComponent extends React.Component {
             />
           </CardActions>
         </Card>
-      </ReduxConnectedForm>
+      </form>
     )
   }
 }

@@ -1,4 +1,3 @@
-import { Provider } from 'react-redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import * as I18nActions from '@regardsoss/i18n/src/model/I18nActions'
 import { select } from '@kadira/storybook-addon-knobs'

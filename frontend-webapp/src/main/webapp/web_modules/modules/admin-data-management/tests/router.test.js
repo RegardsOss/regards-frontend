@@ -12,7 +12,7 @@ import ModuleContainer from '../src/components/ModuleContainer'
 describe('[ADMIN DATA MANAGEMENT] Testing data board router', () => {
   it('should return the correct value', () => {
     assert.isNotNull(Routes)
-    expect(Routes.childRoutes).to.have.length(8)
+    expect(Routes.childRoutes).to.have.length(9)
     expect(Routes.childRoutes[0].path).to.eq('board')
     expect(Routes.childRoutes[1].path).to.eq('model')
     expect(Routes.childRoutes[2].path).to.eq('model-attribute')
@@ -21,7 +21,10 @@ describe('[ADMIN DATA MANAGEMENT] Testing data board router', () => {
     expect(Routes.childRoutes[5].path).to.eq('collection')
     expect(Routes.childRoutes[6].path).to.eq('dataset')
     expect(Routes.childRoutes[7].path).to.eq('datasource')
+    expect(Routes.childRoutes[8].path).to.eq('connection')
   })
+
+
   it('should return BoardContainer', (done) => {
     Routes.childRoutes[0].getComponents(undefined, (smth, component) => {
       expect(component.content).to.eq(ModuleContainer)

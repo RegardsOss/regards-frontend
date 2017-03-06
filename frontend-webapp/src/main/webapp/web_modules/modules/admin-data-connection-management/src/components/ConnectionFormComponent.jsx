@@ -7,7 +7,6 @@ import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
 import { Connection, PluginMetaData } from '@regardsoss/model'
 import { RenderTextField, RenderCheckbox, RenderSelectField, Field, ErrorTypes, ValidationHelpers } from '@regardsoss/form-utils'
-import { ReduxConnectedForm } from '@regardsoss/redux'
 import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -114,8 +113,7 @@ export class ConnectionFormComponent extends React.Component {
     const { pluginMetaDataList, submitting, invalid, backUrl } = this.props
     const title = this.getTitle()
     return (
-      <ReduxConnectedForm
-        i18nMessagesDir="modules/admin-data-connection-management/src/i18n"
+      <form
         onSubmit={this.props.handleSubmit(this.props.onSubmit)}
       >
         <Card>
@@ -229,7 +227,7 @@ export class ConnectionFormComponent extends React.Component {
             />
           </CardActions>
         </Card>
-      </ReduxConnectedForm>
+      </form>
     )
   }
 }

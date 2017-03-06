@@ -1,5 +1,5 @@
 import { storiesOf } from '@kadira/storybook'
-import { withKnobs, text, select } from '@kadira/storybook-addon-knobs'
+import { withKnobs, text } from '@kadira/storybook-addon-knobs'
 import { muiTheme } from 'storybook-addon-material-ui'
 import { CardActionsComponent } from '@regardsoss/components'
 

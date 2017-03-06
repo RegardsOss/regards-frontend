@@ -8,7 +8,6 @@ import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
 import { Dataset, Model, ModelAttribute, Datasource } from '@regardsoss/model'
 import { RenderTextField, RenderSelectField, Field, ErrorTypes } from '@regardsoss/form-utils'
-import { ReduxConnectedForm } from '@regardsoss/redux'
 import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -112,8 +111,7 @@ export class DatasetFormComponent extends React.Component {
     const datasource = currentDataset && currentDataset.content && currentDataset.content.datasource || currentDatasource && currentDatasource.content
     console.log('HELLOOOOOOOOOOOOOOOOOOOOO3', datasource, currentDataset)
     return (
-      <ReduxConnectedForm
-        i18nMessagesDir="modules/admin-data-dataset-management/src/i18n"
+      <form
         onSubmit={this.props.handleSubmit(this.props.onSubmit)}
       >
         <Card>
@@ -208,7 +206,7 @@ export class DatasetFormComponent extends React.Component {
             />
           </CardActions>
         </Card>
-      </ReduxConnectedForm>
+      </form>
     )
   }
 }

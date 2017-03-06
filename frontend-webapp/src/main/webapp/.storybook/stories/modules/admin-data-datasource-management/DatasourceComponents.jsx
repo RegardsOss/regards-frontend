@@ -10,77 +10,67 @@ import ConnectionDump from '@regardsoss/admin-data-datasource-management/tests/m
 import ModelAttributeDump from '@regardsoss/admin-data-datasource-management/tests/model/dump/ModelAttributeDump'
 import DatasourceDump from '@regardsoss/admin-data-datasource-management/tests/model/dump/DatasourceDump'
 import ModelDump from '@regardsoss/admin-data-datasource-management/tests/model/dump/ModelDump'
-import { StoreDecorator, addLocaleAndThemeSelectors, ThemeAndLocaleDecorator } from '../../utils/decorators'
+import { muiTheme } from 'storybook-addon-material-ui'
+import { withStore, withLocale } from '../../decorators/index'
 
 storiesOf('Project admin - Datasource', module)
+  .addDecorator(withLocale('modules/admin-data-datasource-management/src/i18n'))
   .addDecorator(withKnobs)
-  .addDecorator(StoreDecorator)
+  .addDecorator(muiTheme())
+  .addDecorator(withStore)
   .add('List', () => {
-    const themeName = addLocaleAndThemeSelectors()
-    const datasourceList = object('Datasource', DatasourceDump)
-
+    const datasourceList = object('Datasource list', DatasourceDump)
     return (
-      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-data-datasource-management/src/i18n">
-        <DatasourceListComponent
-          datasourceList={datasourceList}
-          handleDelete={action('handleDelete')}
-          handleEdit={action('handleEdit')}
-          createUrl="#"
-          backUrl="#"
-        />
-      </ThemeAndLocaleDecorator>
+      <DatasourceListComponent
+        datasourceList={datasourceList}
+        handleDelete={action('handleDelete')}
+        handleEdit={action('handleEdit')}
+        createUrl="#"
+        backUrl="#"
+      />
     )
   })
   .add('Create (first step)', () => {
-    const themeName = addLocaleAndThemeSelectors()
     const connectionList = object('Connection list', ConnectionDump)
     return (
-      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-data-datasource-management/src/i18n">
-        <DatasourceCreateOrPickConnectionComponent
-          handleDone={action('handleDone')}
-          backUrl="#"
-          createConnectionUrl="#"
-          connectionList={connectionList}
-        />
-      </ThemeAndLocaleDecorator>
+      <DatasourceCreateOrPickConnectionComponent
+        handleDone={action('handleDone')}
+        backUrl="#"
+        createConnectionUrl="#"
+        connectionList={connectionList}
+      />
     )
   })
   .add('Edit (second step)', () => {
-    const themeName = addLocaleAndThemeSelectors()
-    const modelList = object('Plugin metadata list', ModelDump)
-    const currentDatasource = object('Plugin metadata list', DatasourceDump[4])
-    const currentConnection = object('Plugin metadata list', ConnectionDump[1352])
+    const modelList = object('Model list', ModelDump)
+    const currentDatasource = object('Datasource', DatasourceDump[4])
+    const currentConnection = object('Connection', ConnectionDump[1352])
     return (
-      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-data-datasource-management/src/i18n">
-        <DatasourceFormAttributesComponent
-          onSubmit={action('onSubmit')}
-          backUrl="#"
-          currentDatasource={currentDatasource}
-          currentConnection={currentConnection}
-          modelList={modelList}
-        />
-      </ThemeAndLocaleDecorator>
+      <DatasourceFormAttributesComponent
+        onSubmit={action('onSubmit')}
+        backUrl="#"
+        currentDatasource={currentDatasource}
+        currentConnection={currentConnection}
+        modelList={modelList}
+      />
     )
   })
   .add('Edit (last step)', () => {
-    const themeName = addLocaleAndThemeSelectors()
-    const tableAttributeList = object('Plugin metadata list', ConnectionTableAttributeDump)
-    const modelAttributeList = object('Plugin metadata list', ModelAttributeDump)
-    const tableList = object('Plugin metadata list', ConnectionTableDump)
+    const tableAttributeList = object('Table attributes list', ConnectionTableAttributeDump)
+    const modelAttributeList = object('Model attribute list', ModelAttributeDump)
+    const tableList = object('Table list', ConnectionTableDump)
     const currentDatasource = object('Datasource', DatasourceDump[4])
     return (
-      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-data-datasource-management/src/i18n">
-        <DatasourceFormMappingComponent
-          onSubmit={action('onSubmit')}
-          handleBack={action('handleBack')}
-          onTableSelected={action('onTableSelected')}
-          isEditing
-          isCreating={false}
-          currentDatasource={currentDatasource}
-          tableList={tableList}
-          modelAttributeList={modelAttributeList}
-          tableAttributeList={tableAttributeList}
-        />
-      </ThemeAndLocaleDecorator>
+      <DatasourceFormMappingComponent
+        onSubmit={action('onSubmit')}
+        handleBack={action('handleBack')}
+        onTableSelected={action('onTableSelected')}
+        isEditing
+        isCreating={false}
+        currentDatasource={currentDatasource}
+        tableList={tableList}
+        modelAttributeList={modelAttributeList}
+        tableAttributeList={tableAttributeList}
+      />
     )
   })

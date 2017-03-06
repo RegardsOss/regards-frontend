@@ -5,6 +5,7 @@ export default {
         id: 'aComplexErrorPlugin',
         pluginId: 'aComplexErrorPlugin',
         pluginClassName: 'fr.cnes.regards.framework.plugins.ComplexErrorPlugin',
+        interfaceName: 'fr.cnes.regards.framework.plugins.ComplexErrorPlugin',
         interfaceClassName: [
           'fr.cnes.regards.framework.plugins.ISamplePlugin',
           'fr.cnes.regards.framework.plugins.IComplexInterfacePlugin',
@@ -27,6 +28,7 @@ export default {
         id: 'aSamplePlugin',
         pluginId: 'aSamplePlugin',
         pluginClassName: 'fr.cnes.regards.framework.plugins.SamplePlugin',
+        interfaceName: 'fr.cnes.regards.framework.plugins.SamplePlugin',
         interfaceClassName: [
           'fr.cnes.regards.framework.plugins.ISamplePlugin',
         ],
@@ -57,6 +59,7 @@ export default {
       content: {
         id: 'aSampleErrorPlugin',
         pluginId: 'aSampleErrorPlugin',
+        interfaceName: 'fr.cnes.regards.framework.plugins.SampleErrorPlugin',
         pluginClassName: 'fr.cnes.regards.framework.plugins.SampleErrorPlugin',
         interfaceClassName: [
           'fr.cnes.regards.framework.plugins.ISamplePlugin',
@@ -88,6 +91,7 @@ export default {
       content: {
         id: 'aComplexPlugin',
         pluginId: 'aComplexPlugin',
+        interfaceName: 'fr.cnes.regards.framework.plugins.ComplexPlugin',
         pluginClassName: 'fr.cnes.regards.framework.plugins.ComplexPlugin',
         interfaceClassName: [
           'fr.cnes.regards.framework.plugins.ISamplePlugin',

@@ -4,11 +4,15 @@ import ConnectionFormComponent from '@regardsoss/admin-data-connection-managemen
 import ConnectionListComponent from '@regardsoss/admin-data-connection-management/src/components/ConnectionListComponent'
 import ConnectionDump from '@regardsoss/admin-data-connection-management/tests/model/dump/ConnectionDump'
 import PluginMetaDataDump from '@regardsoss/admin-data-connection-management/tests/model/dump/PluginMetaDataDump'
+import { muiTheme } from 'storybook-addon-material-ui'
 import { StoreDecorator, addLocaleAndThemeSelectors, ThemeAndLocaleDecorator } from '../../utils/decorators'
+import { withStore, withLocale } from '../../decorators/index'
 
 storiesOf('Project admin - Connection', module)
+  .addDecorator(withLocale('modules/admin-data-connection-management/src/i18n'))
   .addDecorator(withKnobs)
-  .addDecorator(StoreDecorator)
+  .addDecorator(muiTheme())
+  .addDecorator(withStore)
   .add('List', () => {
     const themeName = addLocaleAndThemeSelectors()
     const connectionList = object('Connection list', ConnectionDump)

@@ -7,6 +7,7 @@ export default {
       priorityOrder: '42',
       active: false,
       pluginClassName: 'fr.cnes.regards.framework.plugins.SampleErrorPlugin',
+      interfaceName: 'fr.cnes.regards.framework.plugins.SampleErrorPlugin',
       parameters: [
         {
           name: 'user',

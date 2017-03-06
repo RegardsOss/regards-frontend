@@ -56,7 +56,6 @@ export class DatasourceFormMappingContainer extends React.Component {
       this.props.fetchModelAttributeList(currentDatasource.content.mapping.model),
     ]
     // If we edit a datasource and that datasource has a tableName, fetch the list of attributes from that table
-    console.log(isEditing, currentDatasource.content.tableName)
     if (isEditing && currentDatasource.content.tableName) {
       tasks.push(this.props.fetchTableAttributes(currentDatasource.content.pluginConfigurationConnectionId, currentDatasource.content.tableName))
     }
@@ -79,7 +78,6 @@ export class DatasourceFormMappingContainer extends React.Component {
   render() {
     const { currentDatasource, tableList, tableAttributeList, modelAttributeList, handleBack, handleSave, isEditing, isCreating } = this.props
     const { isLoading } = this.state
-    console.log(JSON.stringify(modelAttributeList))
     return (
       <I18nProvider messageDir="modules/admin-data-datasource-management/src/i18n">
         <LoadableContentDisplayDecorator

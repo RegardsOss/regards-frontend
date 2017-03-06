@@ -4,8 +4,8 @@ import AccessRightComponent from '@regardsoss/admin-accessright-management/src/c
 import AccessGroupDump from '@regardsoss/admin-accessright-management/tests/model/dump/AccessGroupDump'
 import PluginMetaDataDump from '@regardsoss/admin-accessright-management/tests/model/dump/PluginMetaDataDump'
 import PluginConfigurationDump from '@regardsoss/admin-accessright-management/tests/model/dump/PluginConfigurationDump'
-import { withStore, withLocale } from '../../decorators/index'
 import { muiTheme } from 'storybook-addon-material-ui'
+import { withStore, withLocale } from '../../decorators/index'
 
 storiesOf('Project admin - Access Right', module)
   .addDecorator(withLocale('modules/admin-account-management/src/i18n'))

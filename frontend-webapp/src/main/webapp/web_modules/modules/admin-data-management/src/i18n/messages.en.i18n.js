@@ -23,6 +23,9 @@ const messages = {
   'data.board.dataset.title': 'Dataset',
   'data.board.dataset.description': 'Manage dataset to regroup similar data',
 
+  'data.board.connection.title': 'External connections',
+  'data.board.connection.description': 'Manage connections to external databases',
+
 }
 
 export default messages
