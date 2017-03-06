@@ -110,7 +110,7 @@ export const themesRoute = {
     require.ensure([], (require) => {
       const ApplicationThemeContainer = require('./containers/ApplicationThemeContainer')
       cb(null, {
-        content: ApplicationThemeContainer,
+        content: ApplicationThemeContainer.default,
       })
     })
   },

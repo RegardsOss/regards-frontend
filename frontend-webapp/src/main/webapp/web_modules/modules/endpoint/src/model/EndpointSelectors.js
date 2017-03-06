@@ -1,7 +1,6 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { map } from 'lodash'
 import { BasicPageableSelectors } from '@regardsoss/store-utils'
 
 class EndpointSelectors extends BasicPageableSelectors {
@@ -10,8 +9,7 @@ class EndpointSelectors extends BasicPageableSelectors {
   }
 
   getListOfKeys(state) {
-    const list = this.getList(state)
-    return map(list, item => `${item.content.microservice}@${item.content.resource}@${item.content.verb}`)
+    return this.uncombineStore(state).listOfKeys
   }
 }
 

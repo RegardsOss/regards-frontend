@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ */
 import { BasicListReducers } from '@regardsoss/store-utils'
 import { AccessesConfiguration } from '@regardsoss/api'
 import AccessesActions from './AccessesActions'

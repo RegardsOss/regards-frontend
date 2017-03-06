@@ -1,20 +1,16 @@
 import React from 'react'
-
 import Paper from 'material-ui/Paper'
-import Avatar from 'material-ui/Avatar'
-import Chip from 'material-ui/Chip'
-import Toggle from 'material-ui/Toggle'
 import SclToggle from '../material-desktop/SclToggle'
 import SclAvatar from '../material-desktop/SclAvatar'
-
-import { CSS_CLASS } from '../'
 import ThemePropItem from './ThemePropItem'
+import { CSS_CLASS } from '../'
 
 const propTypes = {
   settingsObj: React.PropTypes.object.isRequired,
   settingsName: React.PropTypes.string.isRequired,
   open: React.PropTypes.func.isRequired,
   onThemeTableOverride: React.PropTypes.func.isRequired,
+  hideBlockHeader: React.PropTypes.bool,
 }
 
 const contextTypes = {
@@ -22,12 +18,16 @@ const contextTypes = {
 }
 
 export default class ThemePropBlock extends React.Component {
+
+  static defaultProps = {
+    hideBlockHeader: false,
+  }
+
   constructor(props, ...args) {
     super(props, ...args)
     this.state = {
       toolCollapsedList: {},
     }
-    this.needComponentUpdate = false
     this.valueHandler = this.valueHandler.bind(this)
     this.onToolCollapse = this.onToolCollapse.bind(this)
     this.onSelect = this.onSelect.bind(this)
@@ -35,17 +35,10 @@ export default class ThemePropBlock extends React.Component {
     this.renderColl = this.renderColl.bind(this)
   }
 
-  shouldComponentUpdate() {
-    const f = this.needComponentUpdate
-    this.needComponentUpdate = false
-    return f
-  }
-
   onToolCollapse(val) {
     return (isCol) => {
       const { toolCollapsedList } = this.state
       toolCollapsedList[val] = isCol
-      this.needComponentUpdate = true
       this.setState({ toolCollapsedList })
     }
   }
@@ -62,7 +55,6 @@ export default class ThemePropBlock extends React.Component {
 
   valueHandler(propName) {
     return (event) => {
-      this.needComponentUpdate = true
       this.props.onThemeTableOverride(propName, event.target.value)
     }
   }
@@ -87,7 +79,6 @@ export default class ThemePropBlock extends React.Component {
           isHeader={isHeader || false}
           onSelect={this.onSelect}
         /> : null}
-
       </div>
     )
   }
@@ -104,11 +95,10 @@ export default class ThemePropBlock extends React.Component {
   }
 
   render() {
-    const { settingsName, open } = this.props
+    const { settingsName, open, hideBlockHeader } = this.props
     const onSelect = this.onSelect
     const openThis = (f) => {
       if (typeof (f) === 'undefined') return open()
-      this.needComponentUpdate = true
       open(f)
       return null
     }
@@ -122,13 +112,7 @@ export default class ThemePropBlock extends React.Component {
           marginTop: 8,
         }}
       >
-        <BlockHeader
-          {...{
-            settingsName,
-            openThis,
-            onSelect,
-          }}
-        />
+        {!hideBlockHeader ? <BlockHeader {...{settingsName,openThis,onSelect}} /> : null}
         {this.renderColl()}
       </Paper>
     )
@@ -158,12 +142,6 @@ function BlockHeader(props, context) {
         onTouchTap={props.onSelect}
         text={props.settingsName}
       />
-      {/* <Chip onTouchTap={copyToClipboard(props.settingsName)} >
-
-       <Avatar size={18}>{props.settingsName[0]}</Avatar>
-       {props.settingsName}
-       </Chip>*/}
-
       <div>
         <SclToggle
           label=""
@@ -173,7 +151,6 @@ function BlockHeader(props, context) {
           onToggle={toggleOpen}
         />
       </div>
-
     </div>
   )
 }

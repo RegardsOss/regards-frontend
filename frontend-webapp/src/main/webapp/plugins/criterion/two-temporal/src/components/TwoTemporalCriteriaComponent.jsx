@@ -22,7 +22,7 @@ export class TwoTemporalCriteriaComponent extends React.Component {
     /**
      * Plugin identifier
      */
-    pluginInstanceId: React.PropTypes.number,
+    pluginInstanceId: React.PropTypes.string,
     /**
      * Callback to change the current criteria values in form
      * Parameters :

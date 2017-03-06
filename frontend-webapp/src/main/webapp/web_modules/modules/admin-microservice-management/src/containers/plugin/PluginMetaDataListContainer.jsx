@@ -114,7 +114,7 @@ export class PluginMetaDataListContainer extends React.Component {
       [
         <Subheader>{pluginType}</Subheader>,
         chain(this.props.pluginMetaDataList)
-          .filter(pluginMetaData => pluginMetaData.content.interfaceClassName.includes(pluginType))
+          .filter(pluginMetaData => ['interfaceName', pluginType])
           .map(pluginMetaData => this.getTile(pluginMetaData))
           .value(),
       ]

@@ -5,7 +5,6 @@ import { intlShape } from 'react-intl'
 import { connect } from '@regardsoss/redux'
 import { LazyModuleComponent } from '@regardsoss/modules'
 import { AuthenticateActions, AuthenticateSelectors, routeHelpers } from '@regardsoss/authentication-manager'
-import AuthenticationDialogComponent from '../components/AuthenticationDialogComponent'
 import LoginButton from '../components/LoginButton'
 import LoggedUserComponent from '../components/LoggedUserComponent'
 
@@ -34,8 +33,15 @@ class AuthenticationMenuContainer extends React.Component {
   // when user access interface from mail (like reset password), he should see dialog initially
   componentWillMount = () => this.setAuthenticationVisible(routeHelpers.isBackFromAuthenticationMail())
 
+  componentWillReceiveProps(nextProps) {
+    if (!this.props.isAuthenticated && nextProps.isAuthenticated && this.state && this.state.authenticationVisible) {
+      // user logged in, hide the dialog
+      this.onCloseDialog()
+    }
+  }
+
   // forbid closing when we are in a specific authentication URL (to avoid inconsistent states)
-  onCloseDialog = () => !routeHelpers.isBackFromAuthenticationMail() && this.setAuthenticationVisible(false)
+  onCloseDialog = () => this.setAuthenticationVisible(false)
 
   /**
    * Shows and hide authentication dialog
@@ -50,37 +56,30 @@ class AuthenticationMenuContainer extends React.Component {
   render() {
     const { authenticationName, isAuthenticated } = this.props
     const { authenticationVisible } = this.state
-
-    if (isAuthenticated) {
-      return (
-        <LoggedUserComponent name={authenticationName} onLogout={this.props.onLogout} />
-      )
-    }
-
     return (
       <div>
-        <LoginButton style={{}} onLoginAction={() => this.setAuthenticationVisible(true)} />
-        <AuthenticationDialogComponent
-          onRequestClose={this.onCloseDialog}
-          open={authenticationVisible}
-          repositionOnUpdate
-        >
-          <LazyModuleComponent
-            module={{
-              name: 'authentication',
-              active: true,
-              conf: {
-                loginTitle: this.context.intl.formatMessage({ id: 'loginFormTitle' }),
-                // show cancel button only when not in a specific authentication URL
-                showCancel: !routeHelpers.isBackFromAuthenticationMail(),
-                showAskProjectAccess: true,
-                onCancelAction: this.onCloseDialog,
-                project: this.props.project,
-              },
-            }}
-            appName={this.props.appName}
-          />
-        </AuthenticationDialogComponent>
+        {
+          // in bar: render user status or connection button
+          isAuthenticated ?
+            <LoggedUserComponent name={authenticationName} onLogout={this.props.onLogout} /> :
+            <LoginButton style={{}} onLoginAction={() => this.setAuthenticationVisible(true)} />
+        }
+        <LazyModuleComponent
+          module={{
+            name: 'authentication',
+            active: true,
+            conf: {
+              showLoginWindow: authenticationVisible,
+              loginTitle: this.context.intl.formatMessage({ id: 'loginFormTitle' }),
+              // show cancel button only when not in a specific authentication URL
+              showCancel: !routeHelpers.isBackFromAuthenticationMail(),
+              showAskProjectAccess: true,
+              onCancelAction: this.onCloseDialog,
+              project: this.props.project,
+            },
+          }}
+          appName={this.props.appName}
+        />
       </div>
     )
   }
@@ -89,7 +88,7 @@ class AuthenticationMenuContainer extends React.Component {
 const mapStateToProps = (state) => {
   const isAuthenticated = AuthenticateSelectors.isAuthenticated(state)
   return {
-    authenticationName: isAuthenticated ? AuthenticateSelectors.getAuthentication(state).user.sub : '',
+    authenticationName: isAuthenticated ? AuthenticateSelectors.getAuthentication(state).result.sub : '',
     isAuthenticated,
   }
 }

@@ -22,9 +22,9 @@
   "attributes": [
     {
       "id": 0,
-      "name":"language",
+      "name": "language",
       "description": "Language for movies",
-      "defaultValue" : null,
+      "defaultValue": null,
       "type": "STRING",
       "unit": null,
       "precision": null,
@@ -38,9 +38,9 @@
     },
     {
       "id": 1,
-      "name":"format",
+      "name": "format",
       "description": "Format for movies",
-      "defaultValue" : null,
+      "defaultValue": null,
       "type": "STRING",
       "unit": null,
       "precision": null,
@@ -58,10 +58,7 @@
       "id": "aComplexErrorPlugin",
       "pluginId": "aComplexErrorPlugin",
       "pluginClassName": "fr.cnes.regards.framework.plugins.ComplexErrorPlugin",
-      "interfaceClassName": [
-        "fr.cnes.regards.framework.plugins.ISamplePlugin",
-        "fr.cnes.regards.framework.plugins.IComplexInterfacePlugin"
-      ],
+      "interfaceName": "fr.cnes.regards.framework.plugins.ISamplePlugin",
       "author": "CSSI",
       "version": "0.0.1",
       "description": "Complex plugin test",
@@ -77,9 +74,7 @@
       "id": "aSamplePlugin",
       "pluginId": "aSamplePlugin",
       "pluginClassName": "fr.cnes.regards.framework.plugins.SamplePlugin",
-      "interfaceClassName": [
-        "fr.cnes.regards.framework.plugins.ISamplePlugin"
-      ],
+      "interfaceName": "fr.cnes.regards.framework.plugins.ISamplePlugin",
       "author": "CSSI",
       "version": "12345-6789-11",
       "description": "Sample plugin test",
@@ -105,9 +100,7 @@
       "id": "aSampleErrorPlugin",
       "pluginId": "aSampleErrorPlugin",
       "pluginClassName": "fr.cnes.regards.framework.plugins.SampleErrorPlugin",
-      "interfaceClassName": [
-        "fr.cnes.regards.framework.plugins.ISamplePlugin"
-      ],
+      "interfaceName": "fr.cnes.regards.framework.plugins.ISamplePlugin",
       "author": "CSSI",
       "version": "0.0.1",
       "description": "Sample plugin test",
@@ -133,9 +126,7 @@
       "id": "aComplexPlugin",
       "pluginId": "aComplexPlugin",
       "pluginClassName": "fr.cnes.regards.framework.plugins.ComplexPlugin",
-      "interfaceClassName": [
-        "fr.cnes.regards.framework.plugins.ISamplePlugin"
-      ],
+      "interfaceName": "fr.cnes.regards.framework.plugins.ISamplePlugin",
       "author": "CSSI",
       "version": "0.0.1",
       "description": "Complex plugin test",
@@ -575,9 +566,16 @@
   ],
   "accessgroups": [
     {
-      "id": "AG1",
+      "id": 1,
       "name": "AG1",
-      "users": [{"email": "florian.philippot@facholand.fr"}],
+      "users": [
+        {
+          "email": "florian.philippot@facholand.fr"
+        },
+        {
+          "email": "mon@adresse.em"
+        }
+      ],
       "accessRights": [
         {
           "qualityFilter": {
@@ -600,7 +598,7 @@
               "type": "DATASET"
             }
           },
-          "id": "SybXqImYe"
+          "id": 1
         },
         {
           "qualityFilter": {
@@ -623,7 +621,7 @@
               "type": "DATASET"
             }
           },
-          "id": "H1lZXcU7tg"
+          "id": 2
         },
         {
           "qualityFilter": {
@@ -674,8 +672,9 @@
         }
       ],
       "isPrivate": true
-    }, {
-      "id":"AG2",
+    },
+    {
+      "id": 2,
       "name": "AG2",
       "users": [],
       "accessRights": [],
@@ -683,4 +682,3 @@
     }
   ]
 }
-

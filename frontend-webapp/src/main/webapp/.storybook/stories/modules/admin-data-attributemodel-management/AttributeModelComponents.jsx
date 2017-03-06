@@ -2,8 +2,8 @@ import { storiesOf, action } from '@kadira/storybook'
 import { withKnobs, object } from '@kadira/storybook-addon-knobs'
 import AttributeModelFormComponent from '@regardsoss/admin-data-attributemodel-management/src/components/AttributeModelFormComponent'
 import AttributeModelListComponent from '@regardsoss/admin-data-attributemodel-management/src/components/AttributeModelListComponent'
-import { StoreDecorator, addLocaleAndThemeSelectors, ThemeAndLocaleDecorator } from '../../utils/decorators'
-
+import { muiTheme } from 'storybook-addon-material-ui'
+import { withStore, withLocale } from '../../decorators/index'
 
 const defaultAttrModelList = {
   1: {
@@ -47,55 +47,44 @@ const defaultFragmentList = {
 const attrModelTypeList = []
 const attrModelRestrictionList = ['INTEGER_RANGE', 'FLOAT_RANGE', 'ENUMERATION', 'PATTERN']
 storiesOf('Project admin - Attribute model', module)
+  .addDecorator(withLocale('modules/admin-data-attributemodel-management/src/i18n'))
   .addDecorator(withKnobs)
-  .addDecorator(StoreDecorator)
+  .addDecorator(withStore)
+  .addDecorator(muiTheme())
   .add('List', () => {
-    const themeName = addLocaleAndThemeSelectors()
     const fragmentList = object('Fragment', defaultFragmentList)
     return (
-      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-data-attributemodel-management/src/i18n">
-        <AttributeModelListComponent
-          fragmentList={fragmentList}
-          createUrl="#"
-          backUrl="#"
-          handleEdit={action('handleEdit')}
-          handleDelete={action('handleDelete')}
-        />
-      </ThemeAndLocaleDecorator>
+      <AttributeModelListComponent
+        fragmentList={fragmentList}
+        createUrl="#"
+        backUrl="#"
+        handleEdit={action('handleEdit')}
+        handleDelete={action('handleDelete')}
+      />
     )
   })
-
-
-  .add('Create', () => {
-    const themeName = addLocaleAndThemeSelectors()
-    return (
-      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-data-attributemodel-management/src/i18n">
-        <AttributeModelFormComponent
-          attrModelTypeList={attrModelTypeList}
-          attrModelRestrictionList={attrModelRestrictionList}
-          fragmentList={defaultFragmentList}
-          flushAttributeModelRestriction={action('flush Attribute Model Restriction')}
-          handleUpdateAttributeModelRestriction={action('fetch corresponding attribute model restriction')}
-          onSubmit={action('submit')}
-          backUrl="#"
-        />
-      </ThemeAndLocaleDecorator>
-    )
-  })
+  .add('Create', () => (
+    <AttributeModelFormComponent
+      attrModelTypeList={attrModelTypeList}
+      attrModelRestrictionList={attrModelRestrictionList}
+      fragmentList={defaultFragmentList}
+      flushAttributeModelRestriction={action('flush Attribute Model Restriction')}
+      handleUpdateAttributeModelRestriction={action('fetch corresponding attribute model restriction')}
+      onSubmit={action('submit')}
+      backUrl="#"
+    />
+    ))
   .add('Edit', () => {
-    const themeName = addLocaleAndThemeSelectors()
     const attrModel = object('Fragment', defaultAttrModelList['1'])
     return (
-      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-data-attributemodel-management/src/i18n">
-        <AttributeModelFormComponent
-          currentAttrModel={attrModel}
-          attrModelTypeList={attrModelTypeList}
-          attrModelRestrictionList={attrModelRestrictionList}
-          fragmentList={defaultFragmentList}
-          handleUpdateAttributeModelRestriction={action('fetch corresponding attribute model restriction')}
-          onSubmit={action('submit')}
-          backUrl="#"
-        />
-      </ThemeAndLocaleDecorator>
+      <AttributeModelFormComponent
+        currentAttrModel={attrModel}
+        attrModelTypeList={attrModelTypeList}
+        attrModelRestrictionList={attrModelRestrictionList}
+        fragmentList={defaultFragmentList}
+        handleUpdateAttributeModelRestriction={action('fetch corresponding attribute model restriction')}
+        onSubmit={action('submit')}
+        backUrl="#"
+      />
     )
   })

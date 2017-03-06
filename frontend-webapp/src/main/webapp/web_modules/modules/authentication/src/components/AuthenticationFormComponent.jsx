@@ -4,15 +4,15 @@
 import { FormattedMessage } from 'react-intl'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { isEmpty } from 'lodash'
-import { reduxForm, formValueSelector } from 'redux-form'
+import { formValueSelector } from 'redux-form'
 import RaisedButton from 'material-ui/RaisedButton'
 import UnlockAccountIcon from 'material-ui/svg-icons/action/lock'
 import ResetPasswordIcon from 'material-ui/svg-icons/action/restore-page'
 import ProjectAccessIcon from 'material-ui/svg-icons/action/assignment-ind'
-import { ReduxConnectedForm, connect } from '@regardsoss/redux'
+import { connect } from '@regardsoss/redux'
 import { themeContextType } from '@regardsoss/theme'
 import { PictureLinkComponent } from '@regardsoss/components'
-import { RenderTextField, Field, FormErrorMessage, ErrorTypes, ValidationHelpers } from '@regardsoss/form-utils'
+import { RenderTextField, Field, FormErrorMessage, ErrorTypes, ValidationHelpers, reduxForm } from '@regardsoss/form-utils'
 
 const mailFieldId = 'username'
 
@@ -45,7 +45,6 @@ export class AuthenticationFormComponent extends React.Component {
     currentMailValue: React.PropTypes.string,
     // from reduxForm
     submitting: React.PropTypes.bool,
-    pristine: React.PropTypes.bool,
     invalid: React.PropTypes.bool,
     handleSubmit: React.PropTypes.func.isRequired,
     initialize: React.PropTypes.func.isRequired,
@@ -53,24 +52,12 @@ export class AuthenticationFormComponent extends React.Component {
 
   static contextTypes = { ...themeContextType }
 
-
-  /**
-   * On component mount
-   */
   componentWillMount() {
-    if (process.env.NODE_ENV === 'development') {
-      console.log('DEV', 'Auto connection')
-      this.props.onLogin({ username: 'admin@cnes.fr', password: 'admin' })
-    }
     const initialValues = {}
     initialValues[mailFieldId] = this.props.initialMail
     this.props.initialize(initialValues)
   }
 
-  /**
-   * Render function
-   * @returns {React.Component} components
-   */
   render() {
     const {
       errorMessage, currentMailValue, initialMail,
@@ -90,9 +77,8 @@ export class AuthenticationFormComponent extends React.Component {
     }
     return (
       <div style={moduleTheme.layout}>
-        <ReduxConnectedForm
+        <form
           onSubmit={handleSubmit(onLogin)}
-          i18nMessagesDir="modules/authentication/src/i18n"
         >
           <Card>
             <CardTitle
@@ -119,7 +105,7 @@ export class AuthenticationFormComponent extends React.Component {
             </CardText>
             <CardActions style={moduleTheme.action}>
               <RaisedButton
-                disabled={this.props.pristine || this.props.submitting || this.props.invalid}
+                disabled={this.props.submitting || this.props.invalid}
                 label={<FormattedMessage id="authentication.button" />}
                 primary
                 type="submit"
@@ -145,7 +131,7 @@ export class AuthenticationFormComponent extends React.Component {
               />
             </div>
           </Card>
-        </ReduxConnectedForm>
+        </form>
       </div>
     )
   }

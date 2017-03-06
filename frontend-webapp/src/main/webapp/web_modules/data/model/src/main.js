@@ -26,6 +26,7 @@ import Entity from './dam/Entity'
 import AccessGroup from './dam/AccessGroup'
 import AccessRight from './dam/AccessRight'
 import CatalogEntity from './catalog/Entity'
+import { ObjectLinkedFile, ObjectLinkedFileTypes } from './catalog/ObjectLinkedFile'
 import PluginMetaData, { PluginMetaDataList } from './admin/plugin/PluginMetaData'
 import PluginConfiguration, { PluginConfigurationList } from './admin/plugin/PluginConfiguration'
 import PluginParameter from './admin/plugin/PluginParameter'
@@ -34,6 +35,7 @@ import PluginDynamicValue, { PluginDynamicValueList } from './admin/plugin/Plugi
 import Endpoint from './admin/Endpoint'
 import AIPStatus, { aipStates, aipDataTypes } from './archival-storage/AIPStatus'
 import StoragePlugin, { StoragePluginShape } from './archival-storage/StoragePlugin'
+import Theme from './access/Theme'
 
 export default {
   // ADMIN
@@ -60,6 +62,8 @@ export default {
 
   // CATALOG
   CatalogEntity,
+  ObjectLinkedFile,
+  ObjectLinkedFileTypes,
 
   // ACCESS
   Plugin,
@@ -87,4 +91,7 @@ export default {
   aipDataTypes,
   StoragePlugin,
   StoragePluginShape,
+
+  // Theme
+  ...Theme,
 }

@@ -2,7 +2,8 @@ import { storiesOf, action } from '@kadira/storybook'
 import { withKnobs, object } from '@kadira/storybook-addon-knobs'
 import AccountListComponent from '@regardsoss/admin-account-management/src/components/AccountListComponent'
 import AccountFormComponent from '@regardsoss/admin-account-management/src/components/AccountFormComponent'
-import { StoreDecorator, addLocaleAndThemeSelectors, ThemeAndLocaleDecorator } from '../../utils/decorators'
+import { muiTheme } from 'storybook-addon-material-ui'
+import { withStore, withLocale } from '../../decorators/index'
 
 const defaultAccountList = {
   1: {
@@ -18,32 +19,28 @@ const defaultAccountList = {
 }
 
 storiesOf('InstanceAdmin - Account', module)
+  .addDecorator(withLocale('modules/admin-account-management/src/i18n'))
   .addDecorator(withKnobs)
-  .addDecorator(StoreDecorator)
+  .addDecorator(withStore)
+  .addDecorator(muiTheme())
   .add('List', () => {
-    const themeName = addLocaleAndThemeSelectors()
     const accountList = object('Account list', defaultAccountList)
     return (
-      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-account-management/src/i18n">
-        <AccountListComponent
-          accountList={accountList}
-          createUrl="dfjgisjdf"
-          onDelete={action('delete account')}
-          onEdit={action('edit account')}
-        />
-      </ThemeAndLocaleDecorator>
+      <AccountListComponent
+        accountList={accountList}
+        createUrl="dfjgisjdf"
+        onDelete={action('delete account')}
+        onEdit={action('edit account')}
+      />
     )
   })
   .add('Edit', () => {
-    const themeName = addLocaleAndThemeSelectors()
     const accountList = object('Account list', defaultAccountList)
     return (
-      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-account-management/src/i18n">
-        <AccountFormComponent
-          currentAccount={accountList[1]}
-          backUrl="/some/url"
-          onSubmit={action('onEdit')}
-        />
-      </ThemeAndLocaleDecorator>
+      <AccountFormComponent
+        currentAccount={accountList[1]}
+        backUrl="/some/url"
+        onSubmit={action('onEdit')}
+      />
     )
   })

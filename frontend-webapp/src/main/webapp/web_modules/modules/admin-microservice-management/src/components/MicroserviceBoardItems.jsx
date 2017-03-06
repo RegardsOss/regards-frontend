@@ -18,7 +18,7 @@ import styles from '../styles/styles'
  * @author Xavier-Alexandre Brochard
  */
 const computedStyles = styles()
-const items = (project, intl) => map(microservices, microservice => (
+const items = (project, maintenance, intl) => map(microservices, microservice => (
   {
     title: microservice.name,
     description: intl.formatMessage({ id: `microservice-management.${microservice.name}.description` }),
@@ -35,11 +35,17 @@ const items = (project, intl) => map(microservices, microservice => (
       icon: <Checkbox
         checkedIcon={<Cloud />}
         uncheckedIcon={<CloudOff />}
-        label="Custom icon of different shapes"
+        checked={!maintenance[microservice.name].isOn(project)}
         style={computedStyles.board.checkbox}
       />,
-      // icon: <Palette onTouchTap={() => alert('TODO: Switch the microservice to maintenance')} />,
-      tooltipMsg: intl.formatMessage({ id: 'microservice-management.maintenance.tooltip' }),
+      tooltipMsg: intl.formatMessage({
+        id: maintenance[microservice.name].isOn(project) ?
+          'microservice-management.maintenance.tooltip.on' :
+          'microservice-management.maintenance.tooltip.off',
+      }),
+      touchTapAction: () => {
+        maintenance[microservice.name].set(project, !maintenance[microservice.name].isOn(project))
+      },
     }],
   }
 ))

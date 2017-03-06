@@ -24,12 +24,16 @@ class ResultsTypeButtons extends React.Component {
         <div
           style={this.context.moduleTheme.resultsButtonsType.buttons}
         >
-          <FloatingActionButton style={{ marginBottom: 10 }}>
-            <DatasetLibrary />
-          </FloatingActionButton>
-          <FloatingActionButton style={{ marginBottom: 10 }}>
-            <DataLibrary />
-          </FloatingActionButton>
+          <abr title="Datasets">
+            <FloatingActionButton style={{ marginBottom: 10 }}>
+              <DatasetLibrary />
+            </FloatingActionButton>
+          </abr>
+          <abr title="Data objects">
+            <FloatingActionButton style={{ marginBottom: 10 }}>
+              <DataLibrary />
+            </FloatingActionButton>
+          </abr>
         </div>
       </div>
     )

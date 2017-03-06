@@ -14,6 +14,7 @@ class MicroserviceBoardComponent extends React.Component {
 
   static propTypes = {
     project: React.PropTypes.string.isRequired,
+    maintenance: React.PropTypes.objectOf(React.PropTypes.objectOf(React.PropTypes.func)).isRequired,
   }
 
   static contextTypes = {
@@ -21,7 +22,11 @@ class MicroserviceBoardComponent extends React.Component {
   }
 
   render() {
-    const items = microserviceBoardItems(this.props.project, this.context.intl)
+    const items = microserviceBoardItems(
+      this.props.project,
+      this.props.maintenance,
+      this.context.intl,
+    )
     return (
       <BoardComponent items={items} />
     )

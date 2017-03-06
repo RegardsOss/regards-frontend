@@ -12,7 +12,7 @@ import AttributeModel, { AttributeModelConfiguration } from './dam/AttributeMode
 import AttributeModelRestriction, { AttributeModelRestrictionConfiguration } from './dam/AttributeModelRestriction'
 import Module, { ModuleConfiguration } from './access/Module'
 import Layout, { LayoutConfiguration } from './access/Layout'
-import Theme, { ThemeConfiguration } from './access/Theme'
+import Theme from './access/Theme'
 import Plugin, { PluginConfiguration } from './access/Plugin'
 import Fragment, { FragmentConfiguration } from './dam/Fragment'
 import Dataset, { DatasetConfiguration } from './dam/Dataset'
@@ -91,8 +91,7 @@ export default {
   LAYOUT: Layout.LAYOUT,
   LayoutConfiguration,
 
-  THEME: Theme.THEME,
-  ThemeConfiguration,
+  ...Theme,
 
   PLUGIN: Plugin.PLUGIN,
   PLUGIN_ARRAY: Plugin.PLUGIN_ARRAY,

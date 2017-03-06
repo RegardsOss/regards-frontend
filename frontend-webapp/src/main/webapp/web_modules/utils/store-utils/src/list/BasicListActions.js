@@ -40,23 +40,24 @@ class BasicListActions extends BasicActions {
     this.UPDATE_ENTITY_FAILURE = `${options.namespace}/UPDATE_FAILURE`
   }
 
+
   /**
    * Fetch entities
    *
-   * @param params url params TODO Specify the expected format
+   * @param pathParams url path parameters TODO Specify the expected format
    * @param {Object} queryParams
    * @returns {{}}
    */
-  fetchEntityList(params, queryParams) {
+  fetchEntityList(pathParams, queryParams) {
     let endpoint = this.handleRequestQueryParams(this.entityEndpoint, queryParams)
-    endpoint = this.handleRequestPathParameters(endpoint, params)
+    endpoint = this.handleRequestPathParameters(endpoint, pathParams)
     return {
       [CALL_API]: {
         types: [
           this.ENTITY_LIST_REQUEST,
           {
             type: this.ENTITY_LIST_SUCCESS,
-            payload: (action, state, res) => getJSON(res).then(json => normalize(json, this.schemaTypes.ENTITY_ARRAY)),
+            payload: (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntitiesListPayload(json)),
           },
           this.buildFailureAction(this.ENTITY_LIST_FAILURE),
         ],
@@ -66,9 +67,10 @@ class BasicListActions extends BasicActions {
     }
   }
 
+
   /**
    * Fetch a single entity of id attribute keyValue.
-   * Url params are expected to be like so:
+   * Url path parameters are expected to be like so:
    * {
    *   param1Key: param1Value,
    *   param2Key: param2Value,
@@ -76,12 +78,12 @@ class BasicListActions extends BasicActions {
    * }
    *
    * @param keyValue
-   * @param {Object} params
+   * @param {Object} pathParams
    * @param {Object} queryParams
    * @returns {{}}
    */
-  fetchEntity(keyValue, params, queryParams) {
-    let endpoint = this.handleRequestPathParameters(this.entityEndpoint, params)
+  fetchEntity(keyValue, pathParams, queryParams) {
+    let endpoint = this.handleRequestPathParameters(this.entityEndpoint, pathParams)
     endpoint = `${endpoint}/${keyValue}`
     endpoint = this.handleRequestQueryParams(endpoint, queryParams)
     return {
@@ -90,7 +92,7 @@ class BasicListActions extends BasicActions {
           this.ENTITY_REQUEST,
           {
             type: this.ENTITY_SUCCESS,
-            payload: (action, state, res) => getJSON(res).then(json => normalize(json, this.schemaTypes.ENTITY)),
+            payload: (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntityPayload(json)),
           },
           this.buildFailureAction(this.ENTITY_FAILURE),
         ],
@@ -100,16 +102,16 @@ class BasicListActions extends BasicActions {
     }
   }
 
-  createEntity(values, params, queryParams) {
+  createEntity(values, pathParams, queryParams) {
     let endpoint = this.handleRequestQueryParams(this.entityEndpoint, queryParams)
-    endpoint = this.handleRequestPathParameters(endpoint, params)
+    endpoint = this.handleRequestPathParameters(endpoint, pathParams)
     return {
       [CALL_API]: {
         types: [
           this.CREATE_ENTITY_REQUEST,
           {
             type: this.CREATE_ENTITY_SUCCESS,
-            payload: (action, state, res) => getJSON(res).then(json => normalize(json, this.schemaTypes.ENTITY)),
+            payload: (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntityPayload(json)),
           },
           this.buildFailureAction(this.CREATE_ENTITY_FAILURE),
         ],
@@ -120,8 +122,8 @@ class BasicListActions extends BasicActions {
     }
   }
 
-  updateEntity(keyValue, values, params, queryParams) {
-    let endpoint = this.handleRequestPathParameters(this.entityEndpoint, params)
+  updateEntity(keyValue, values, pathParams, queryParams) {
+    let endpoint = this.handleRequestPathParameters(this.entityEndpoint, pathParams)
     endpoint = `${endpoint}/${keyValue}`
     endpoint = this.handleRequestQueryParams(endpoint, queryParams)
     return {
@@ -130,7 +132,7 @@ class BasicListActions extends BasicActions {
           this.UPDATE_ENTITY_REQUEST,
           {
             type: this.UPDATE_ENTITY_SUCCESS,
-            payload: (action, state, res) => getJSON(res).then(json => normalize(json, this.schemaTypes.ENTITY)),
+            payload: (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntityPayload(json)),
           },
           this.buildFailureAction(this.UPDATE_ENTITY_FAILURE),
         ],
@@ -141,8 +143,8 @@ class BasicListActions extends BasicActions {
     }
   }
 
-  deleteEntity(keyValue, params, queryParams) {
-    let endpoint = this.handleRequestPathParameters(this.entityEndpoint, params)
+  deleteEntity(keyValue, pathParams, queryParams) {
+    let endpoint = this.handleRequestPathParameters(this.entityEndpoint, pathParams)
     endpoint = `${endpoint}/${keyValue}`
     endpoint = this.handleRequestQueryParams(endpoint, queryParams)
     return {
@@ -160,6 +162,35 @@ class BasicListActions extends BasicActions {
       },
     }
   }
+
+  /**
+      * Extracts paylod from action result
+      * @param res action result
+      * @param normalizer function to normalize, (js ojbect) => (normalizedJsObject)
+      * @return normalization promise
+      */
+  static extractPayload(res, normalizer) {
+    return getJSON(res).then(json => normalizer(json))
+  }
+
+  /**
+    * Normalizes action payload as direct entities list payload
+    * @param json JS object parsed from JSON result
+    * @return normalized content
+    */
+  normalizeEntitiesListPayload(json) {
+    return normalize(json, this.schemaTypes.ENTITY_ARRAY)
+  }
+
+  /**
+    * Normalizes single entity payload
+    * @param json JS object parsed from JSON result
+    * @return normalized content
+    */
+  normalizeEntityPayload(json) {
+    return normalize(json, this.schemaTypes.ENTITY)
+  }
+
 }
 
 export default BasicListActions

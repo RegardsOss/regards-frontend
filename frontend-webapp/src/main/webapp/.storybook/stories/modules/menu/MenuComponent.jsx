@@ -4,13 +4,17 @@
 import { LazyModuleComponent } from '@regardsoss/modules'
 import { storiesOf } from '@kadira/storybook'
 import { withKnobs, object } from '@kadira/storybook-addon-knobs'
-import { StoreDecorator, addLocaleAndThemeSelectors, ThemeAndLocaleDecorator } from '../../utils/decorators'
+import styles from '@regardsoss/menu/src/styles/styles'
+import { muiTheme } from 'storybook-addon-material-ui'
+import { withStore, withLocale, withModuleTheme } from '../../decorators/index'
 
 storiesOf('Menu', module)
+  .addDecorator(withLocale('modules/menu/src/i18n'))
   .addDecorator(withKnobs)
-  .addDecorator(StoreDecorator)
+  .addDecorator(withStore)
+  .addDecorator(withModuleTheme({ styles }))
+  .addDecorator(muiTheme())
   .add('Simple', () => {
-    const themeName = addLocaleAndThemeSelectors()
     const module = object('Menu module', {
       name: 'menu',
       active: true,
@@ -22,13 +26,10 @@ storiesOf('Menu', module)
       },
     })
     return (
-      <ThemeAndLocaleDecorator theme={themeName} messageDir={'modules/menu/src/i18n'}>
-        <LazyModuleComponent appName={'test'} module={module} />
-      </ThemeAndLocaleDecorator>
+      <LazyModuleComponent appName={'test'} module={module} />
     )
   })
   .add('With authentication', () => {
-    const themeName = addLocaleAndThemeSelectors()
     const module = object('Menu module', {
       name: 'menu',
       active: true,
@@ -40,8 +41,6 @@ storiesOf('Menu', module)
       },
     })
     return (
-      <ThemeAndLocaleDecorator theme={themeName} messageDir={'modules/menu/src/i18n'}>
-        <LazyModuleComponent appName={'test'} module={module} />
-      </ThemeAndLocaleDecorator>
+      <LazyModuleComponent appName={'test'} module={module} />
     )
   })

@@ -43,9 +43,6 @@ export class PluginParameterPlugin extends React.Component {
     isPluginMetaDataListFetching: React.PropTypes.bool,
     pluginConfigurationList: React.PropTypes.arrayOf(PluginConfiguration),
     isPluginConfigurationListFetching: React.PropTypes.bool,
-    // from mapDispatchToProps
-    fetchPluginMetaDataList: React.PropTypes.func,
-    fetchPluginConfigurationList: React.PropTypes.func,
   }
 
   static defaultProps = {
@@ -54,6 +51,7 @@ export class PluginParameterPlugin extends React.Component {
 
   constructor(props) {
     super(props)
+    console.log('xab', props)
     this.state = {
       mode: 'view',
       openMenu: false,

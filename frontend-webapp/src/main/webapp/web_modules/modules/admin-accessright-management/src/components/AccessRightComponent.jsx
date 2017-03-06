@@ -14,6 +14,8 @@ import DatasetLineComponent from './DatasetLineComponent'
 import DatasetActions from '../model/DatasetActions'
 import DatasetSelectors from '../model/DatasetSelectors'
 import AccessRightFormComponent from './AccessRightFormComponent'
+import moduleStyles from '../styles/styles'
+
 /**
  * Display edit and create accessright form
  */
@@ -91,7 +93,8 @@ export class AccessRightComponent extends React.Component {
   render() {
     const { accessGroupList, pluginMetaDataList, pluginConfigurationList } = this.props
     const { selectedAccessGroupName, selectedDataset, firstAccessRightSelected } = this.state
-    const style = this.context.muiTheme.layout.cardEspaced
+    const style = moduleStyles(this.context.muiTheme)
+
     return (
       <div>
         <Card>
@@ -119,7 +122,7 @@ export class AccessRightComponent extends React.Component {
         <ShowableAtRender show={selectedAccessGroupName.length > 0}>
           <div className="row">
             <div className="col-md-30 col-xs-50">
-              <Card style={style}>
+              <Card style={style.layout.cardEspaced}>
                 <PageableListContainer
                   title={this.context.intl.formatMessage({ id: 'accessright.form.dataset.title' })}
                   entityIdentifier="id"
@@ -143,7 +146,7 @@ export class AccessRightComponent extends React.Component {
             </div>
             <div className="col-md-68 col-md-offset-2 col-xs-48 col-xs-offset-2">
               <ShowableAtRender show={selectedDataset.length > 0}>
-                <Card style={style}>
+                <Card style={style.layout.cardEspaced}>
                   <AccessRightFormComponent
                     onSubmit={this.onFormSubmit}
                     pluginConfigurationList={pluginConfigurationList}

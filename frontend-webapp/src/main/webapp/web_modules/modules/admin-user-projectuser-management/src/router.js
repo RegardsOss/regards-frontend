@@ -24,11 +24,24 @@ export const createProjectUserRoute = {
   },
 }
 
+export const editProjectUserRoute = {
+  path: ':user_id/edit',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const ProjectUserCreateContainer = require('./containers/ProjectUserCreateContainer')
+      cb(null, {
+        content: ProjectUserCreateContainer.default,
+      })
+    })
+  },
+}
+
 
 const projectUserManagementRouter = {
   childRoutes: [
     listProjectUserRoute,
     createProjectUserRoute,
+    editProjectUserRoute,
   ],
 }
 

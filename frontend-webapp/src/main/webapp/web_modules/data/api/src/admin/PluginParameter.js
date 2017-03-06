@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { Schema, arrayOf } from 'normalizr'
 
 const PluginParameterConfiguration = {

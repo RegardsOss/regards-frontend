@@ -18,6 +18,9 @@ const styles = theme => (
       borderStyle: 'solid',
       borderColor: theme.palette.borderColor,
     },
+    dialog: {
+      preferredWidth: '680px',
+    },
   })
 
 export default styles

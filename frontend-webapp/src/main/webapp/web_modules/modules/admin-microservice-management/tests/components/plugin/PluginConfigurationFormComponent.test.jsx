@@ -1,12 +1,12 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import { ReduxConnectedForm } from '@regardsoss/redux'
+import { Card } from 'material-ui/Card'
 import { PluginConfigurationFormComponent } from '../../../src/components/plugin/PluginConfigurationFormComponent'
 
 describe('[ADMIN PROJECT MANAGEMENT] Testing plugin configuration form component', () => {
   it('should exists', () => {
     assert.isDefined(PluginConfigurationFormComponent)
-    assert.isDefined(ReduxConnectedForm)
+    assert.isDefined(Card)
   })
 
   it('should render sub-components', () => {
@@ -42,7 +42,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing plugin configuration form component
       initialize: () => {},
     }
     const enzymeWrapper = shallow(<PluginConfigurationFormComponent {...props} />)
-    const subComponent = enzymeWrapper.find(ReduxConnectedForm)
-    expect(subComponent).to.have.length(1)
+    const subComponent = enzymeWrapper.find(Card)
+    expect(subComponent).to.have.length(2)
   })
 })

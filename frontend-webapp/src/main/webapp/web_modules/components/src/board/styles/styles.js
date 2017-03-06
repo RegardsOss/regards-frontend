@@ -36,7 +36,9 @@ const styles = theme => ({
     display: 'flex',
     justifyContent: 'space-around',
   },
-  links: theme.linkWithoutDecoration,
+  links: {
+    textDecoration: 'blink',
+  },
   icon: {
     smallIcon: {
       width: 36,
@@ -46,6 +48,24 @@ const styles = theme => ({
       width: 72,
       height: 72,
       padding: 16,
+    },
+  },
+  actionIconWithNotifications: {
+    badgeCustomStyles: {
+      position: 'absolute',
+      zIndex: '1',
+      top: '-5px',
+      right: '7px',
+      width: '16px',
+      height: '16px',
+    },
+    iconStyles: {
+      position: 'absolute',
+      left: '0',
+      right: '0',
+      top: '0',
+      bottom: '0',
+      margin: 'auto',
     },
   },
 })

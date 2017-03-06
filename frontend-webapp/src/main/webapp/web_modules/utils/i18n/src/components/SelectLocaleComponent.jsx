@@ -3,7 +3,6 @@ import MenuItem from 'material-ui/MenuItem'
 import DropDownMenu from 'material-ui/DropDownMenu'
 import { FormattedMessage } from 'react-intl'
 
-
 /**
  * React component to display the language selector widget
  * @author Sébastien Binda
@@ -15,15 +14,7 @@ class SelectLocaleComponent extends React.Component {
     handleLocaleChange: React.PropTypes.func,
   }
 
-  /**
-   * @type {{muiTheme: *}}
-   */
-  static contextTypes = {
-    muiTheme: React.PropTypes.object.isRequired,
-  }
-
   render() {
-    const { muiTheme } = this.context
     const { locales, currentLocale, handleLocaleChange } = this.props
     const items = map(locales, locale => (
       <MenuItem
@@ -37,7 +28,7 @@ class SelectLocaleComponent extends React.Component {
       <DropDownMenu
         value={currentLocale}
         onChange={handleLocaleChange}
-        labelStyle={muiTheme.menu.localeDropdown}
+        // labelStyle={muiTheme.menu.localeDropdown} //TODO
       >
         {items}
       </DropDownMenu>

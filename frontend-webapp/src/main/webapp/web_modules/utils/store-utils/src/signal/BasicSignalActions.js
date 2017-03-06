@@ -4,6 +4,7 @@
 /**
  * @author Léo Mieulet
  */
+import { isEmpty } from 'lodash'
 import BasicActions from '../BasicActions'
 
 const { CALL_API, getJSON } = require('redux-api-middleware')
@@ -21,15 +22,23 @@ class BasicSignalActions extends BasicActions {
   }
 
   /**
-   * Fetch the corresponding route using your verb, body param and url parameters
+   * Fetch the corresponding route using your verb, body, path and query parameters
    * @param verb
    * @param bodyParam
-   * @param params
+   * @param pathParams
+   * @param callApi method,
    * @returns {{}}
    */
-  sendSignal(verb, bodyParam, params, queryParams) {
+  sendSignal(verb, bodyParam, pathParams, queryParams, callApi = (endpoint, verb2, body) => this.doCallApi(endpoint, verb2, body)) {
     let endpoint = this.handleRequestQueryParams(this.entityEndpoint, queryParams)
-    endpoint = this.handleRequestPathParameters(endpoint, params)
+    endpoint = this.handleRequestPathParameters(endpoint, pathParams)
+    let body
+    if (!isEmpty(bodyParam)) {
+      if (verb === 'GET') {
+        throw new Error('There should be no body parameter on GET method')
+      }
+      body = JSON.stringify(bodyParam)
+    }
     return {
       [CALL_API]: {
         types: [
@@ -42,10 +51,11 @@ class BasicSignalActions extends BasicActions {
         ],
         endpoint,
         method: verb,
-        body: bodyParam ? JSON.stringify(bodyParam) : undefined,
+        body,
       },
     }
   }
+
 }
 
 

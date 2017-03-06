@@ -3,15 +3,15 @@
  */
 
 import { FormattedMessage } from 'react-intl'
+import { formValueSelector } from 'redux-form'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
-import { reduxForm, formValueSelector } from 'redux-form'
-import { ReduxConnectedForm, connect } from '@regardsoss/redux'
+import { connect } from '@regardsoss/redux'
 import RaisedButton from 'material-ui/RaisedButton'
 import { themeContextType } from '@regardsoss/theme'
-import { RenderTextField, RenderCheckbox, Field, FormErrorMessage, ErrorTypes, ValidationHelpers } from '@regardsoss/form-utils'
+import { reduxForm, RenderTextField, RenderCheckbox, Field, FormErrorMessage, ErrorTypes, ValidationHelpers } from '@regardsoss/form-utils'
 
-const mailFieldId = 'mail'
-const useExistingAccountFieldId = 'hasAlreadyAccount'
+export const mailFieldId = 'mail'
+export const useExistingAccountFieldId = 'hasAlreadyAccount'
 
 /**
  * Form to request access to a project. Handles new account (internal or external) and existing account
@@ -60,10 +60,7 @@ export class AskProjectAccessFormComponent extends React.Component {
     const { moduleTheme } = this.context
     return (
       <div style={moduleTheme.layout}>
-        <ReduxConnectedForm
-          onSubmit={handleSubmit(onRequestAction)}
-          i18nMessagesDir="modules/authentication/src/i18n"
-        >
+        <form onSubmit={handleSubmit(onRequestAction)}>
           <Card>
             <CardTitle
               title={<FormattedMessage id="ask.project.access.request.title" values={{ project }} />}
@@ -135,7 +132,7 @@ export class AskProjectAccessFormComponent extends React.Component {
               />
             </CardActions>
           </Card>
-        </ReduxConnectedForm>
+        </form>
       </div>
     )
   }

@@ -5,9 +5,9 @@ import { merge } from 'lodash'
 import { I18nProvider } from '@regardsoss/i18n'
 import { getReducerRegistry, configureReducers } from '@regardsoss/store'
 import { HateoasDisplayDecorator } from '@regardsoss/display-control'
-import ModuleThemeProvider from './ModuleThemeProvider'
 import DecoratorShape from '../model/DecoratorShape'
 import ModuleShape from '../model/ModuleShape'
+import ModuleThemeProvider from './ModuleThemeProvider'
 
 /**
  * React Component to display a module.
@@ -140,7 +140,7 @@ class LazyModuleComponent extends React.Component {
                 requiredEndpoints={moduleDependencies}
               >
                 <this.props.decorator.element {...this.props.decorator.conf} >
-                  { moduleElt }
+                  {moduleElt}
                 </this.props.decorator.element>
               </HateoasDisplayDecorator>
             </ModuleThemeProvider>
@@ -153,7 +153,7 @@ class LazyModuleComponent extends React.Component {
             <HateoasDisplayDecorator
               requiredEndpoints={moduleDependencies}
             >
-              { moduleElt }
+              {moduleElt}
             </HateoasDisplayDecorator>
           </ModuleThemeProvider>
         </I18nProvider>

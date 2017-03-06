@@ -6,9 +6,12 @@ import Settings from 'material-ui/svg-icons/action/settings'
 import { FormattedMessage } from 'react-intl'
 import Weekend from 'material-ui/svg-icons/content/weekend'
 import Brush from 'material-ui/svg-icons/image/brush'
-import { I18nProvider } from '@regardsoss/i18n'
 import SupervisorAccount from 'material-ui/svg-icons/action/supervisor-account'
+import Badge from 'material-ui/Badge'
+import { I18nProvider } from '@regardsoss/i18n'
+import getModuleStyles from '../../styles/styles'
 import HateoasSidebarElement from './HateoasSidebarElement'
+import WaitingAccessNotificationContainer from '../containers/WaitingAccessNotificationContainer'
 
 /**
  * React sidebar components. Display the admin application menu
@@ -27,28 +30,26 @@ class InstanceSidebarComponent extends React.Component {
    */
   static propTypes = {
     onLogout: React.PropTypes.func.isRequired,
+    currentPath: React.PropTypes.string,
   }
 
   render() {
     const { muiTheme } = this.context
     const { onLogout } = this.props
-    const style = {
-      sidebarContainer: {
-        classes: muiTheme.adminApp.layout.sidebarContainer.classes.join(' '),
-        styles: muiTheme.adminApp.layout.sidebarContainer.styles,
-      },
-      link: {
-        styles: muiTheme.linkWithoutDecoration,
-      },
-    }
+    const moduleStyles = getModuleStyles(muiTheme)
+
     return (
       <I18nProvider messageDir="modules/admin/src/menu/i18n">
-        <Drawer open containerStyle={style.sidebarContainer.styles} className={style.sidebarContainer.classes}>
+        <Drawer
+          open
+          containerStyle={moduleStyles.adminApp.layout.sidebarContainer.styles}
+          className={moduleStyles.adminApp.layout.sidebarContainer.classes.join(' ')}
+        >
           <HateoasSidebarElement
             endpointKey="projects_url"
             key="0"
             to={'/admin/project/list'}
-            linkStyle={style.link.styles}
+            currentPath={this.props.currentPath}
             primaryText={<FormattedMessage id="menu.projects" />}
             leftIcon={<Settings />}
           />
@@ -56,15 +57,16 @@ class InstanceSidebarComponent extends React.Component {
             endpointKey="projects_users_url"
             key="1"
             to={'/admin/account/list'}
-            linkStyle={style.link.styles}
+            currentPath={this.props.currentPath}
             primaryText={<FormattedMessage id="menu.accounts" />}
             leftIcon={<SupervisorAccount />}
+            rightIcon={<Badge badgeContent={<WaitingAccessNotificationContainer />} primary />}
           />
           <HateoasSidebarElement
             endpointKey="projects_users_url"
             key="2"
             to={'/admin/project-connection/list'}
-            linkStyle={style.link.styles}
+            currentPath={this.props.currentPath}
             primaryText={<FormattedMessage id="menu.databases" />}
             leftIcon={<Weekend />}
           />
@@ -72,7 +74,7 @@ class InstanceSidebarComponent extends React.Component {
             endpointKey="projects_users_url"
             key="3"
             to={'/admin/ui-configuration/applications'}
-            linkStyle={style.link.styles}
+            currentPath={this.props.currentPath}
             primaryText={<FormattedMessage id="menu.ui.configuration" />}
             leftIcon={<Brush />}
           />

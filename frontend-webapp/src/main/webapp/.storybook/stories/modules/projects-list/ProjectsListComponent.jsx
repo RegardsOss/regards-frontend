@@ -3,17 +3,18 @@
  **/
 import ProjectListComponent from '@regardsoss/projects-list/src/components/ProjectListComponent'
 import ProjectListStyles from '@regardsoss/projects-list/src/styles/styles'
-import { ModuleThemeProvider } from '@regardsoss/modules'
 import { storiesOf } from '@kadira/storybook'
 import { withKnobs, object } from '@kadira/storybook-addon-knobs'
-import { StoreDecorator, addLocaleAndThemeSelectors, ThemeAndLocaleDecorator } from '../../utils/decorators'
+import { muiTheme } from 'storybook-addon-material-ui'
+import { withStore, withLocale, withModuleTheme } from '../../decorators/index'
 
 storiesOf('Projects list', module)
+  .addDecorator(withLocale('modules/projects-list/src/i18n'))
   .addDecorator(withKnobs)
-  .addDecorator(StoreDecorator)
+  .addDecorator(withModuleTheme({ styles: ProjectListStyles }))
+  .addDecorator(withStore)
+  .addDecorator(muiTheme())
   .add('', () => {
-    const themeName = addLocaleAndThemeSelectors()
-
     const defaultProjects = [
       {
         id: 0,
@@ -41,16 +42,9 @@ storiesOf('Projects list', module)
 
     const projects = object('Projects list', defaultProjects)
 
-    const module = {
-      styles: ProjectListStyles,
-    }
     return (
-      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/projects-list/src/i18n">
-        <ModuleThemeProvider module={module}>
-          <ProjectListComponent
-            projects={projects}
-          />
-        </ModuleThemeProvider>
-      </ThemeAndLocaleDecorator>
+      <ProjectListComponent
+        projects={projects}
+      />
     )
   })

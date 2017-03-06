@@ -3,11 +3,9 @@
  */
 import { FormattedMessage } from 'react-intl'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
-import { reduxForm } from 'redux-form'
-import { ReduxConnectedForm } from '@regardsoss/redux'
 import RaisedButton from 'material-ui/RaisedButton'
 import { themeContextType } from '@regardsoss/theme'
-import { RenderTextField, Field, ErrorTypes, ValidationHelpers } from '@regardsoss/form-utils'
+import { RenderTextField, Field, ErrorTypes, ValidationHelpers, reduxForm } from '@regardsoss/form-utils'
 
 /**
  * Reset password request form component
@@ -35,9 +33,8 @@ export class ChangePasswordFormComponent extends React.Component {
     const { moduleTheme } = this.context
     return (
       <div style={moduleTheme.layout}>
-        <ReduxConnectedForm
+        <form
           onSubmit={handleSubmit(onChangePassword)}
-          i18nMessagesDir="modules/authentication/src/i18n"
         >
           <Card>
             <CardTitle
@@ -69,7 +66,7 @@ export class ChangePasswordFormComponent extends React.Component {
               />
             </CardActions>
           </Card>
-        </ReduxConnectedForm>
+        </form>
       </div>
     )
   }

@@ -3,6 +3,7 @@
  **/
 import EntityGeoProperties from './EntityGeoProperties'
 import KeyValueObject from '../common/KeyValueObject'
+import { ObjectLinkedFile } from './ObjectLinkedFile'
 
 /**
  * Entity definition for all catalog entities like datasets, dataobjects, collections or documents.
@@ -14,6 +15,7 @@ const Entity = React.PropTypes.shape({
     sip_id: React.PropTypes.number,
     label: React.PropTypes.string.isRequired,
     type: React.PropTypes.oneOf(['DATASET', 'COLLECTION', 'DATAOBJECT', 'DOCUMENT']).isRequired,
+    files: React.PropTypes.arrayOf(ObjectLinkedFile),
     geometry: EntityGeoProperties,
     properties: KeyValueObject,
     tags: React.PropTypes.arrayOf(React.PropTypes.string),

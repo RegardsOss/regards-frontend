@@ -1,7 +1,10 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { browserHistory } from 'react-router'
-import { connect } from 'react-redux'
+import { connect } from '@regardsoss/redux'
+import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { I18nProvider } from '@regardsoss/i18n'
-import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
 import { Account } from '@regardsoss/model'
 import AccountActions from '../model/AccountActions'
 import AccountFormComponent from '../components/AccountFormComponent'
@@ -24,23 +27,9 @@ export class AccountFormContainer extends React.Component {
   componentDidMount() {
     this.props.fetchAccount(this.props.params.account_id)
   }
+
   getBackUrl = () => ('/admin/account/list')
 
-  getFormComponent = () => {
-    const { account, isFetching } = this.props
-    if (isFetching) {
-      return (<FormLoadingComponent />)
-    }
-    if (account) {
-      return (
-        <AccountFormComponent
-          onSubmit={this.handleUpdate}
-          backUrl={this.getBackUrl()}
-          currentAccount={this.props.account}
-        />)
-    }
-    return (<FormEntityNotFoundComponent />)
-  }
   handleUpdate = (values) => {
     const updatedAccount = Object.assign({}, this.props.account.content, {
       email: values.email,
@@ -48,19 +37,30 @@ export class AccountFormContainer extends React.Component {
       lastName: values.lastName,
     })
     Promise.resolve(this.props.updateAccount(this.props.account.content.id, updatedAccount))
-    .then((actionResult) => {
-      // We receive here the action
-      if (!actionResult.error) {
-        const url = this.getBackUrl()
-        browserHistory.push(url)
-      }
-    })
+      .then((actionResult) => {
+        // We receive here the action
+        if (!actionResult.error) {
+          const url = this.getBackUrl()
+          browserHistory.push(url)
+        }
+      })
   }
 
   render() {
+    const { account, isFetching } = this.props
+
     return (
       <I18nProvider messageDir="modules/admin-account-management/src/i18n">
-        {this.getFormComponent()}
+        <LoadableContentDisplayDecorator
+          isLoading={isFetching}
+          isEmpty={!account}
+        >
+          <AccountFormComponent
+            onSubmit={this.handleUpdate}
+            backUrl={this.getBackUrl()}
+            currentAccount={this.props.account}
+          />)
+        </LoadableContentDisplayDecorator>
       </I18nProvider>
     )
   }

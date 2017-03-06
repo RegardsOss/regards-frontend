@@ -1,7 +1,8 @@
 import { storiesOf, action } from '@kadira/storybook'
 import { withKnobs, object } from '@kadira/storybook-addon-knobs'
 import ModelAttributeFormComponent from '@regardsoss/admin-data-modelattribute-management/src/components/ModelAttributeFormComponent'
-import { StoreDecorator, addLocaleAndThemeSelectors, ThemeAndLocaleDecorator } from '../../utils/decorators'
+import { muiTheme } from 'storybook-addon-material-ui'
+import { withStore, withLocale } from '../../decorators/index'
 
 const defaultModel = {
   content: {
@@ -111,23 +112,22 @@ const defaultDistributedAttrModels = {
 }
 
 storiesOf('Project admin - Link Model to attributes', module)
+  .addDecorator(withLocale('modules/admin-data-modelattribute-management/src/i18n'))
   .addDecorator(withKnobs)
-  .addDecorator(StoreDecorator)
+  .addDecorator(withStore)
+  .addDecorator(muiTheme())
   .add('List', () => {
-    const themeName = addLocaleAndThemeSelectors()
     const distributedAttrModels = object('Fragment', defaultDistributedAttrModels)
     const model = object('Mdoel', defaultModel)
     return (
-      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-data-modelattribute-management/src/i18n">
-        <ModelAttributeFormComponent
-          onCreateFragment={action('handleCreateFragment')}
-          onDeleteFragment={action('handleDeleteFragment')}
-          onCreateAttributeModel={action('handleCreateAttributeModel')}
-          onDeleteAttributeModel={action('handleDeleteAttributeModel')}
-          backUrl="#"
-          currentModel={model}
-          distributedAttrModels={distributedAttrModels}
-        />
-      </ThemeAndLocaleDecorator>
+      <ModelAttributeFormComponent
+        onCreateFragment={action('handleCreateFragment')}
+        onDeleteFragment={action('handleDeleteFragment')}
+        onCreateAttributeModel={action('handleCreateAttributeModel')}
+        onDeleteAttributeModel={action('handleDeleteAttributeModel')}
+        backUrl="#"
+        currentModel={model}
+        distributedAttrModels={distributedAttrModels}
+      />
     )
   })

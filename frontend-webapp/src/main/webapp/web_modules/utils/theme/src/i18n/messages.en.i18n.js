@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 const messages = {
   'select.theme.label': 'Select your theme : ',
 }

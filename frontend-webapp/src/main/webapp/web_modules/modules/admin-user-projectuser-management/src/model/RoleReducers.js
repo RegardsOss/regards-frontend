@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ */
 import { BasicListReducers } from '@regardsoss/store-utils'
 import { RoleConfiguration } from '@regardsoss/api'
 import RoleActions from './RoleActions'
@@ -20,3 +23,5 @@ export default instance
 export function getRoleReducer(state, action) {
   return instance.reduce(state, action)
 }
+
+export const reducerPath = 'role'

@@ -3,6 +3,7 @@ import { expect, assert } from 'chai'
 import { IntlStub } from '@regardsoss/tests-helpers'
 import { BoardComponent } from '@regardsoss/components'
 import MicroserviceBoardComponent from '../../src/components/MicroserviceBoardComponent'
+import microservices from '../../src/data/microservices.json'
 
 describe('[ADMIN PROJECT MANAGEMENT] Testing microservice board component', () => {
   it('should exists', () => {
@@ -11,8 +12,17 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing microservice board component', () =
   })
 
   it('should render sub-components', () => {
+    const maintenance = {}
+    microservices.forEach((microservice) => {
+      maintenance[microservice.name] = {}
+      maintenance[microservice.name].isOn = () => {}
+      maintenance[microservice.name].fetch = () => {}
+      maintenance[microservice.name].set = () => {}
+    })
+
     const props = {
       project: 'someProject',
+      maintenance,
     }
     const options = {
       context: {

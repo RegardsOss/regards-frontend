@@ -70,6 +70,9 @@ const projectsStyles = theme => (
       marginTop: '10px',
       marginBottom: '10px',
     },
+    linkWithoutDecoration: {
+      textDecoration: 'blink',
+    },
   })
 
 export default projectsStyles

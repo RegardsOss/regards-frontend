@@ -16,6 +16,11 @@ const styles = theme => ({
       marginTop: '30px',
     },
   },
+  layout: {
+    cardEspaced: {
+      marginTop: '20px',
+    },
+  },
 })
 
 export default styles

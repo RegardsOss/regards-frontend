@@ -1,9 +1,9 @@
 import { storiesOf, action } from '@kadira/storybook'
-import { withKnobs, object } from '@kadira/storybook-addon-knobs'
+import { withKnobs, boolean, object } from '@kadira/storybook-addon-knobs'
 import ProjectUserListComponent from '@regardsoss/admin-user-projectuser-management/src/components/ProjectUserListComponent'
 import ProjectUserCreateComponent from '@regardsoss/admin-user-projectuser-management/src/components/ProjectUserCreateComponent'
-import { StoreDecorator, addLocaleAndThemeSelectors, ThemeAndLocaleDecorator } from '../../utils/decorators'
-
+import { muiTheme } from 'storybook-addon-material-ui'
+import { withStore, withLocale } from '../../decorators/index'
 const defaultProjectUsersList = {
   0: {
     content: {
@@ -13,11 +13,37 @@ const defaultProjectUsersList = {
         name: 'ADMIN',
       },
       email: 'email@cnes.com',
-      lastUpdate: {
-        date: { year: 2017, month: 1, day: 9 },
-        time: { hour: 15, minute: 46, second: 12, nano: 453000000 },
-      },
+      lastUpdate: '2017-02-20T11:55:05.012',
       status: 'ACCESS_GRANTED',
+    },
+    links: [],
+  },
+  1: {
+    content: {
+      id: 1,
+      role: {
+        id: 3,
+        name: 'REGISTERD_USER',
+      },
+      email: 'email2@cnes.com',
+      lastUpdate: '2017-02-20T11:55:05.012',
+      status: 'WAITING_ACCESS',
+    },
+    links: [],
+  },
+}
+
+const defaultWaitingUsersList = {
+  1: {
+    content: {
+      id: 1,
+      role: {
+        id: 3,
+        name: 'REGISTERD_USER',
+      },
+      email: 'email2@cnes.com',
+      lastUpdate: '2017-02-20T11:55:05.012',
+      status: 'WAITING_ACCESS',
     },
     links: [],
   },
@@ -40,35 +66,82 @@ const defaultRolesList = {
   },
 }
 
+const defaultGroupList = {
+  1: {
+    content: {
+      id: 1,
+      name: 'AG1',
+      users: [{ email: 'test@test.fr' }, { email: 'mon@adresse.em' }],
+      accessRights: [],
+      isPrivate: true,
+    },
+    links: [],
+  },
+  2: {
+    content: {
+      id: 2,
+      name: 'AG2',
+      users: [],
+      accessRights: [],
+      isPrivate: true,
+    },
+    links: [],
+  },
+}
+
+
 storiesOf('Project admin - Project user', module)
+  .addDecorator(withLocale('modules/admin-user-projectuser-management/src/i18n'))
   .addDecorator(withKnobs)
-  .addDecorator(StoreDecorator)
+  .addDecorator(withStore)
+  .addDecorator(muiTheme())
   .add('List', () => {
-    const themeName = addLocaleAndThemeSelectors()
     const projectUsersList = object('Project users list', defaultProjectUsersList)
     return (
-      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-user-projectuser-management/src/i18n">
-        <ProjectUserListComponent
-          backUrl={'back/url'}
-          createUrl={'create/url'}
-          onDelete={action('called delete')}
-          onEdit={action('called edit')}
-          projectUserList={projectUsersList}
-        />
-      </ThemeAndLocaleDecorator>
+      <ProjectUserListComponent
+        initialFecthing={boolean('Loading initial data?', false)}
+        isFetchingActions={boolean('Loading after action?', false)}
+        users={object('Users list', defaultProjectUsersList)}
+        waitingAccessUsers={object('Users list', defaultWaitingUsersList)}
+        onEdit={action('onEdit')}
+        onDelete={action('onDelete')}
+        onValidate={action('onValidate')}
+        onDeny={action('onDeny')}
+        onValidateAll={action('onValidateAll')}
+        backUrl={'back/url'}
+        createUrl={'create/url'}
+      />
     )
   })
   .add('Create', () => {
-    const themeName = addLocaleAndThemeSelectors()
     const rolesList = object('Roles list', defaultRolesList)
     return (
-      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-user-projectuser-management/src/i18n">
-        <ProjectUserCreateComponent
-          backUrl={'back/url'}
-          handleSubmit={action('called submit')}
-          roleList={rolesList}
-        />
-      </ThemeAndLocaleDecorator>
+      <ProjectUserCreateComponent
+        change={() => { }}
+        currentUser={undefined}
+        groupList={object('Group list', defaultGroupList)}
+        roleList={rolesList}
+        backUrl={'back/url'}
+        onSubmit={action('onSubmit')}
+        handleSubmit={action('called submit')}
+        pristine={true}
+        initialize={() => { }}
+      />
     )
   })
-
+  .add('Edit', () => {
+    const rolesList = object('Roles list', defaultRolesList)
+    return (
+      <ProjectUserCreateComponent
+        change={() => { }}
+        currentUser={object('Edited user (none for new)', defaultProjectUsersList[1])}
+        groupList={object('Group list', defaultGroupList)}
+        roleList={rolesList}
+        backUrl={'back/url'}
+        onSubmit={action('onSubmit')}
+        handleSubmit={action('called submit')}
+        pristine={true}
+        initialize={() => { }}
+      />
+    )
+  })
