@@ -34,7 +34,7 @@ storiesOf('Project admin - Connection', module)
           pluginMetaDataList={pluginMetaDataList}
           onSubmit={action('onSubmit')}
           backUrl="#"
-          isCreating={true}
+          isCreating
           isEditing={false}
         />
       </ThemeAndLocaleDecorator>
@@ -52,7 +52,7 @@ storiesOf('Project admin - Connection', module)
           onSubmit={action('onSubmit')}
           backUrl="#"
           isCreating={false}
-          isEditing={true}
+          isEditing
         />
       </ThemeAndLocaleDecorator>
     )

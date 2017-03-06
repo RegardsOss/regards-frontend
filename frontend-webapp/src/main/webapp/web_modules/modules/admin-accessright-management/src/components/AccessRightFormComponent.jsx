@@ -159,9 +159,11 @@ export class AccessRightFormComponent extends React.Component {
         <div>
           <CardTitle
             title={<FormattedMessage id="accessright.form.title" />}
-            subtitle={<FormattedMessage id="accessright.form.subtitle" values={{
-              nbSelectedDataset
-            }} />}
+            subtitle={<FormattedMessage
+              id="accessright.form.subtitle" values={{
+                nbSelectedDataset,
+              }}
+            />}
           />
           <CardText>
             <Field

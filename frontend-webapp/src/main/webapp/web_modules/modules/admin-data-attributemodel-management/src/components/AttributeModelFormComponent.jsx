@@ -98,8 +98,6 @@ export class AttributeModelFormComponent extends React.Component {
         description: currentAttrModel.content.description,
         alterable: currentAttrModel.content.alterable,
         optional: currentAttrModel.content.optional,
-        queryable: currentAttrModel.content.queryable,
-        facetable: currentAttrModel.content.facetable,
         restriction: {},
       }
       if (currentAttrModel.content.restriction) {
@@ -126,7 +124,6 @@ export class AttributeModelFormComponent extends React.Component {
       this.props.flushAttributeModelRestriction()
       this.props.initialize({
         alterable: true,
-        queryable: true,
         fragment: parseInt(this.props.defaultFragmentId, 10) || 1,
       })
     }
@@ -226,16 +223,6 @@ export class AttributeModelFormComponent extends React.Component {
               name="optional"
               component={RenderCheckbox}
               label={<FormattedMessage id="attrmodel.form.optional" />}
-            />
-            <Field
-              name="queryable"
-              component={RenderCheckbox}
-              label={<FormattedMessage id="attrmodel.form.queryable" />}
-            />
-            <Field
-              name="facetable"
-              component={RenderCheckbox}
-              label={<FormattedMessage id="attrmodel.form.facetable" />}
             />
           </CardText>
         </Card>

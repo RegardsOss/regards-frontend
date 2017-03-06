@@ -5,9 +5,9 @@ import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import sinon from 'sinon'
 import { IntlStub } from '@regardsoss/tests-helpers'
+import { Field } from '@regardsoss/form-utils'
 import { ConnectionFormComponent } from '../../src/components/ConnectionFormComponent'
 import PluginMetaDataDump from '../model/dump/PluginMetaDataDump'
-import {  Field } from '@regardsoss/form-utils'
 
 describe('[ADMIN DATA CONNECTION MANAGEMENT] Testing ConnectionFormComponent', () => {
   // Since react will console.error propType warnings, that which we'd rather have
@@ -42,8 +42,8 @@ describe('[ADMIN DATA CONNECTION MANAGEMENT] Testing ConnectionFormComponent', (
       isCreating: true,
       isEditing: false,
 
-      submitting:  false,
-      invalid:  false,
+      submitting: false,
+      invalid: false,
       handleSubmit: () => {},
       initialize: () => {},
 

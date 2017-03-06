@@ -1,20 +1,17 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { browserHistory } from 'react-router'
-import { map, find, forEach, keys } from 'lodash'
 import { connect } from '@regardsoss/redux'
-import { Datasource, Model, ModelAttribute } from '@regardsoss/model'
+import { Datasource, ModelAttribute } from '@regardsoss/model'
 import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { unregisterField } from 'redux-form'
-import DatasourceSelectors from './../model/DatasourceSelectors'
-import DatasourceActions from './../model/DatasourceActions'
 import DatasourceFormMappingComponent from '../components/DatasourceFormMappingComponent'
-import ModelSelectors from '../model/ModelSelectors'
-import ModelActions from '../model/ModelActions'
 import ModelAttributeActions from '../model/ModelAttributeActions'
 import ModelAttributeSelectors from '../model/ModelAttributeSelectors'
+import ConnectionTableActions from '../model/ConnectionTableActions'
+import ConnectionTableSelectors from '../model/ConnectionTableSelectors'
+import ConnectionTableAttributesActions from '../model/ConnectionTableAttributesActions'
+import ConnectionTableAttributesSelectors from '../model/ConnectionTableAttributesSelectors'
 
 
 /**
@@ -23,39 +20,81 @@ import ModelAttributeSelectors from '../model/ModelAttributeSelectors'
 export class DatasourceFormMappingContainer extends React.Component {
 
   static propTypes = {
-    // from mapStateToProps
     currentDatasource: Datasource,
-    isFetchingDatasource: React.PropTypes.bool,
-    modelList: React.PropTypes.objectOf(Model),
-    isFetchingModel: React.PropTypes.bool,
+    isEditing: React.PropTypes.bool,
+    isCreating: React.PropTypes.bool,
+    handleSave: React.PropTypes.func,
+    handleBack: React.PropTypes.func,
+    // from mapStateToProps
+    tableList: React.PropTypes.shape({
+      name: React.PropTypes.string,
+      schema: React.PropTypes.string,
+      pKey: React.PropTypes.string,
+    }),
+    tableAttributeList: React.PropTypes.shape({
+      name: React.PropTypes.string,
+      javaSqlType: React.PropTypes.string,
+      isPrimaryKey: React.PropTypes.bool,
+    }),
+    modelAttributeList: React.PropTypes.objectOf(ModelAttribute),
     // from mapDispatchToProps
-    createDatasource: React.PropTypes.func,
-    updateDatasource: React.PropTypes.func,
-    fetchDatasource: React.PropTypes.func,
-    fetchModelList: React.PropTypes.func,
+    fetchTable: React.PropTypes.func,
+    fetchTableAttributes: React.PropTypes.func,
+    fetchModelAttributeList: React.PropTypes.func,
   }
 
+  constructor(props) {
+    super(props)
+    this.state = {
+      isLoading: true,
+    }
+  }
   componentDidMount() {
+    const { isEditing, currentDatasource } = this.props
+    const tasks = [
+      this.props.fetchTable(currentDatasource.content.pluginConfigurationConnectionId),
+      this.props.fetchModelAttributeList(currentDatasource.content.mapping.model),
+    ]
+    // If we edit a datasource and that datasource has a tableName, fetch the list of attributes from that table
+    console.log(isEditing, currentDatasource.content.tableName)
+    if (isEditing && currentDatasource.content.tableName) {
+      tasks.push(this.props.fetchTableAttributes(currentDatasource.content.pluginConfigurationConnectionId, currentDatasource.content.tableName))
+    }
+    Promise.all(tasks)
+      .then(() => {
+        this.setState({
+          isLoading: false,
+        })
+      })
   }
 
-  getBackUrl = () => {
-    const { params: { project } } = this.props
-    return `/admin/${project}/data/datasource/list`
+  handleTableSelected = (tableName) => {
+    const { currentDatasource } = this.props
+    // Do not fetch table attributes if table is empty
+    if (tableName.length > 0) {
+      this.props.fetchTableAttributes(currentDatasource.content.pluginConfigurationConnectionId, tableName)
+    }
   }
 
   render() {
-    const { currentDatasource, modelList } = this.props
+    const { currentDatasource, tableList, tableAttributeList, modelAttributeList, handleBack, handleSave, isEditing, isCreating } = this.props
+    const { isLoading } = this.state
+    console.log(JSON.stringify(modelAttributeList))
     return (
       <I18nProvider messageDir="modules/admin-data-datasource-management/src/i18n">
         <LoadableContentDisplayDecorator
           isLoading={isLoading}
         >
           {() => (<DatasourceFormMappingComponent
-            modelList={modelList}
             currentDatasource={currentDatasource}
-            isDuplicating={isDuplicating}
-            onSubmit={isEditing ? this.handleUpdate : this.handleCreate}
-            backUrl={this.getBackUrl()}
+            tableList={tableList}
+            tableAttributeList={tableAttributeList}
+            modelAttributeList={modelAttributeList}
+            onTableSelected={this.handleTableSelected}
+            onSubmit={handleSave}
+            handleBack={handleBack}
+            isEditing={isEditing}
+            isCreating={isCreating}
           />)
           }
         </LoadableContentDisplayDecorator>
@@ -65,9 +104,20 @@ export class DatasourceFormMappingContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
+  tableList: ConnectionTableSelectors.getResult(state),
+  tableAttributeList: ConnectionTableAttributesSelectors.getResult(state),
+  modelAttributeList: ModelAttributeSelectors.getList(state),
 })
 
 const mapDispatchToProps = dispatch => ({
+  fetchTable: connectionId => dispatch(ConnectionTableActions.sendSignal('GET', null, {
+    connectionId,
+  })),
+  fetchTableAttributes: (connectionId, tableName) => dispatch(ConnectionTableAttributesActions.sendSignal('GET', null, {
+    connectionId,
+    tableName,
+  })),
+  fetchModelAttributeList: id => dispatch(ModelAttributeActions.fetchEntityList({ id })),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(DatasourceFormMappingContainer)

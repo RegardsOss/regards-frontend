@@ -38,7 +38,6 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
     })
     this.state = {
       isControllerOpen,
-      showAllInfoFor: undefined,
     }
   }
 

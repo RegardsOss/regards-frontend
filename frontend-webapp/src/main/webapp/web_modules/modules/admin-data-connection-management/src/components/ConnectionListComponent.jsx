@@ -77,7 +77,7 @@ export class ConnectionListComponent extends React.Component {
                 <TableRow key={i}>
                   <TableRowColumn>{connection.content.label}</TableRowColumn>
                   <TableRowColumn>{this.printIsActive(connection.content.active)}</TableRowColumn>
-                  <TableRowColumn><ConnectionTesterIconButton connection={connection} handleTestConnection={handleTestConnection}/></TableRowColumn>
+                  <TableRowColumn><ConnectionTesterIconButton connection={connection} handleTestConnection={handleTestConnection} /></TableRowColumn>
                   <TableRowColumn>
                     <IconButton onTouchTap={() => handleEdit(connection.content.id)}>
                       <Edit hoverColor={style.hoverButtonEdit} />

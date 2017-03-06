@@ -6,21 +6,19 @@ import IconButton from 'material-ui/IconButton'
 import PlayArrow from 'material-ui/svg-icons/av/play-arrow'
 import Check from 'material-ui/svg-icons/navigation/check'
 import Error from 'material-ui/svg-icons/alert/error'
-import Warning from 'material-ui/svg-icons/alert/warning'
 import { FormattedMessage } from 'react-intl'
 import Snackbar from 'material-ui/Snackbar'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { OnHoverSwitchIconButton } from '@regardsoss/components'
 import { Connection } from '@regardsoss/model'
-import EnumConnectivity from '@regardsoss/model/src/admin/EnumConnectivity'
 import ConnectionTesterProgress from './ConnectionTesterProgress'
 
 const states = {
   NOT_TESTED: 'not_tested',
   PENDING: 'pending',
   SUCCESS: 'success',
-  ERROR: 'error'
+  ERROR: 'error',
 }
 /**
  * An ergonmy button starting a connectivity test for the passed {@link Connection}.<br>
@@ -124,18 +122,18 @@ class ConnectionTesterIconButton extends React.Component {
     const pendingProgress = <ConnectionTesterProgress />
 
     const snackbar = (<Snackbar
-        open={this.state.snackBarOpen}
-        message={<FormattedMessage
-          id={this.getSnackBarMessageId(this.state.status)}
-          values={{
-            label: connection.content.label,
-          }}
-        />}
-        autoHideDuration={4000}
-        onRequestClose={this.handleSnackbarRequestClose}
-        onActionTouchTap={this.handleSnackbarActionTouchTap}
-        action="OK"
-      />)
+      open={this.state.snackBarOpen}
+      message={<FormattedMessage
+        id={this.getSnackBarMessageId(this.state.status)}
+        values={{
+          label: connection.content.label,
+        }}
+      />}
+      autoHideDuration={4000}
+      onRequestClose={this.handleSnackbarRequestClose}
+      onActionTouchTap={this.handleSnackbarActionTouchTap}
+      action="OK"
+    />)
 
     let result = testButton
     switch (this.state.status) {

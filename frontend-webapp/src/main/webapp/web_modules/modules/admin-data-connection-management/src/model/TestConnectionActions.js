@@ -1,4 +1,3 @@
-import Schemas from '@regardsoss/api'
 import { BasicSignalActions } from '@regardsoss/store-utils'
 
 class TestConnectionActions extends BasicSignalActions {
@@ -6,7 +5,6 @@ class TestConnectionActions extends BasicSignalActions {
     super({
       namespace: 'admin-data-connection-management/test-connection',
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-dam/connections/{connectionId}`,
-      bypassErrorMiddleware: true
     })
   }
 }

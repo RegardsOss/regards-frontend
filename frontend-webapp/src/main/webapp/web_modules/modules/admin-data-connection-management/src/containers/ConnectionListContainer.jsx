@@ -5,10 +5,10 @@ import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { Connection } from '@regardsoss/model'
+import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import ConnectionActions from '../model/ConnectionActions'
 import ConnectionSelectors from '../model/ConnectionSelectors'
 import ConnectionListComponent from '../components/ConnectionListComponent'
-import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import TestConnectionActions from '../model/TestConnectionActions'
 /**
  * List connection
@@ -64,9 +64,7 @@ export class ConnectionListContainer extends React.Component {
     this.props.deleteConnection(connectionId)
   }
 
-  handleTestConnection = (connectionId) => {
-    return this.props.testConnection(connectionId)
-  }
+  handleTestConnection = connectionId => this.props.testConnection(connectionId)
 
   render() {
     const { isLoading } = this.state
@@ -97,8 +95,8 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchConnectionList: () => dispatch(ConnectionActions.fetchEntityList()),
-  deleteConnection: (id) => dispatch(ConnectionActions.deleteEntity(id)),
-  testConnection: (id) => dispatch(TestConnectionActions.sendSignal("POST", null, {connectionId: id})),
+  deleteConnection: id => dispatch(ConnectionActions.deleteEntity(id)),
+  testConnection: id => dispatch(TestConnectionActions.sendSignal('POST', null, { connectionId: id })),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ConnectionListContainer)

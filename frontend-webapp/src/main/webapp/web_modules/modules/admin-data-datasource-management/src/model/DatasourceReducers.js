@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { BasicPageableReducers } from '@regardsoss/store-utils'
 import { DatasourceConfiguration } from '@regardsoss/api'
 import DatasourceActions from './DatasourceActions'

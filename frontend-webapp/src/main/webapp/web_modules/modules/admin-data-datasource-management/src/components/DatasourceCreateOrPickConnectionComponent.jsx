@@ -2,15 +2,10 @@
  * LICENSE_PLACEHOLDER
  **/
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
-import { List, ListItem } from 'material-ui/List'
 import { FormattedMessage } from 'react-intl'
 import { map } from 'lodash'
-import Add from 'material-ui/svg-icons/content/add-circle-outline'
-import Clear from 'material-ui/svg-icons/content/clear'
 import { Connection } from '@regardsoss/model'
-import Subheader from 'material-ui/Subheader'
 import { CardActionsComponent } from '@regardsoss/components'
-import IconButton from 'material-ui/IconButton'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import SelectField from 'material-ui/SelectField'
@@ -19,7 +14,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 import DatasourceStepperComponent from './DatasourceStepperComponent'
 
 /**
- * React component to list datasets.
+ * React component to prevent user to create datasource if he doesn't have a connection yet
  */
 export class DatasourceCreateOrPickConnectionComponent extends React.Component {
 
@@ -48,11 +43,12 @@ export class DatasourceCreateOrPickConnectionComponent extends React.Component {
   }
 
   render() {
-    const style = Object.assign({}, this.context.muiTheme.layout.cardEspaced, {
+    const style = {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-    })
+      marginTop: '20px',
+    }
     const { currentConnection } = this.state
     const styleButton = {
       margin: '30px 0',
@@ -73,16 +69,13 @@ export class DatasourceCreateOrPickConnectionComponent extends React.Component {
               value={currentConnection}
               fullWidth
             >
-              {map(connectionList, (connection, id) => {
-
-                return connection.content.active ? (
-                  <MenuItem
-                    value={connection.content.id}
-                    key={id}
-                    primaryText={connection.content.label}
-                  />
-                ) : null
-                }
+              {map(connectionList, (connection, id) => connection.content.active ? (
+                <MenuItem
+                  value={connection.content.id}
+                  key={id}
+                  primaryText={connection.content.label}
+                />
+                ) : null,
               )}
             </SelectField>
           </CardText>
@@ -91,7 +84,7 @@ export class DatasourceCreateOrPickConnectionComponent extends React.Component {
               mainButtonTouchTap={() => { handleDone(currentConnection) }}
               mainButtonLabel={
                 <FormattedMessage
-                  id="dataset.form.create.action.next"
+                  id="datasource.form.create.action.next"
                 />
               }
               isMainButtonDisabled={currentConnection === undefined}

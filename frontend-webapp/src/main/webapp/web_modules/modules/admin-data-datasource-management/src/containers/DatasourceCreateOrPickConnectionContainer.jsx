@@ -2,7 +2,6 @@
  * LICENSE_PLACEHOLDER
  **/
 import { browserHistory } from 'react-router'
-import { map, find, forEach, keys } from 'lodash'
 import { connect } from '@regardsoss/redux'
 import { Connection } from '@regardsoss/model'
 import { I18nProvider } from '@regardsoss/i18n'
@@ -15,7 +14,7 @@ import DatasourceCreateOrPickConnectionComponent from '../components/DatasourceC
 /**
  * Pick the datasource if existing or ask the user to create a new one
  */
-export class DatasourceCreateOrPickDatasourceContainer extends React.Component {
+export class DatasourceCreateOrPickConnectionContainer extends React.Component {
 
   static propTypes = {
     // from router
@@ -88,4 +87,4 @@ const mapDispatchToProps = dispatch => ({
   fetchConnectionList: () => dispatch(ConnectionActions.fetchEntityList()),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(DatasourceCreateOrPickDatasourceContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(DatasourceCreateOrPickConnectionContainer)

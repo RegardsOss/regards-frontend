@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  */
 import React from 'react'
-import CircularProgress from 'material-ui/CircularProgress';
+import CircularProgress from 'material-ui/CircularProgress'
 import { FormattedMessage } from 'react-intl'
 
 /**

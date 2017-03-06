@@ -25,6 +25,7 @@ import './modules/admin-data-fragment-management/FragmentComponents'
 import './modules/admin-data-modelattribute-management/ModelAttributeFormComponent'
 import './modules/admin-data-connection-management/ConnectionComponents'
 import './modules/admin-data-collection-management/CollectionComponents'
+import './modules/admin-data-datasource-management/DatasourceComponents'
 
 import './modules/news/NewsComponent'
 import './modules/menu/MenuComponent'

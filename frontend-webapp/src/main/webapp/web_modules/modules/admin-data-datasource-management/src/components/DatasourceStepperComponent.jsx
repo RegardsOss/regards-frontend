@@ -1,4 +1,3 @@
-
 /**
  * LICENSE_PLACEHOLDER
  **/
@@ -11,7 +10,7 @@ import {
   StepLabel,
 } from 'material-ui/Stepper'
 /**
- * React component to list datasources.
+ * React component to show the progress of datasource edition/creation.
  */
 export class DatasourceStepperComponent extends React.Component {
 
@@ -29,16 +28,16 @@ export class DatasourceStepperComponent extends React.Component {
     const { stepIndex } = this.props
     return (
       <div className="row">
-        <div className="col-sm-50 col-sm-offset-25">
+        <div className="col-sm-50 col-sm-offset-15">
           <Stepper activeStep={stepIndex}>
             <Step>
-              <StepLabel><FormattedMessage id="Saisie de la connexion" /></StepLabel>
+              <StepLabel><FormattedMessage id="datasource.stepper.connection" /></StepLabel>
             </Step>
             <Step>
               <StepLabel><FormattedMessage id="datasource.stepper.attributes" /></StepLabel>
             </Step>
             <Step>
-              <StepLabel><FormattedMessage id="La suite..." /></StepLabel>
+              <StepLabel><FormattedMessage id="datasource.stepper.mapping" /></StepLabel>
             </Step>
           </Stepper>
         </div>

@@ -34,7 +34,7 @@ describe('[ADMIN DATA CONNECTION MANAGEMENT] Testing ConnectionFormContainer', (
       // from router
       params: {
         project: 'lambda',
-        connectionId: '1234'
+        connectionId: '1234',
       },
       // from mapStateToProps
       currentConnection: ConnectionDump[1353],

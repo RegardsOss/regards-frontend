@@ -5,11 +5,10 @@ import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import sinon from 'sinon'
 import { IntlStub } from '@regardsoss/tests-helpers'
+import { TableRow } from 'material-ui/Table'
 import ConnectionListComponent from '../../src/components/ConnectionListComponent'
 import ConnectionTesterIconButton from '../../src/components/ConnectionTesterIconButton'
-import PluginMetaDataDump from '../model/dump/PluginMetaDataDump'
 import ConnectionDump from '../model/dump/ConnectionDump'
-import { TableRow } from 'material-ui/Table'
 
 describe('[ADMIN DATA CONNECTION MANAGEMENT] Testing ConnectionListComponent', () => {
   // Since react will console.error propType warnings, that which we'd rather have
@@ -33,8 +32,8 @@ describe('[ADMIN DATA CONNECTION MANAGEMENT] Testing ConnectionListComponent', (
     muiTheme: {
       palette: {
         primary1Color: 'red',
-        accent1Color: 'red'
-      }
+        accent1Color: 'red',
+      },
     },
   }
   it('Render properly', () => {

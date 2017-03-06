@@ -1,13 +1,16 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { BasicSignalReducers } from '@regardsoss/store-utils'
-import DatasourceLinkActions from './DatasourceLinkActions'
+import ConnectionTableAttributesActions from './ConnectionTableAttributesActions'
 
-class DatasourceLinkReducers extends BasicSignalReducers {
+class ConnectionTableAttributesReducers extends BasicSignalReducers {
   constructor() {
-    super(DatasourceLinkActions)
+    super(ConnectionTableAttributesActions)
   }
 }
 
-const instance = new DatasourceLinkReducers()
+const instance = new ConnectionTableAttributesReducers()
 
 /**
  * Return an function where the reducer instance exists

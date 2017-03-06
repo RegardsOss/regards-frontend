@@ -2,24 +2,19 @@
  * LICENSE_PLACEHOLDER
  **/
 import { browserHistory } from 'react-router'
-import { map, find, forEach, keys } from 'lodash'
+import { find, forEach, cloneDeep } from 'lodash'
 import { connect } from '@regardsoss/redux'
-import { Datasource, Model, ModelAttribute } from '@regardsoss/model'
 import { I18nProvider } from '@regardsoss/i18n'
+import { Datasource } from '@regardsoss/model'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { unregisterField } from 'redux-form'
 import DatasourceSelectors from './../model/DatasourceSelectors'
 import DatasourceActions from './../model/DatasourceActions'
-import ModelSelectors from '../model/ModelSelectors'
-import ModelActions from '../model/ModelActions'
-import ModelAttributeActions from '../model/ModelAttributeActions'
-import ModelAttributeSelectors from '../model/ModelAttributeSelectors'
 import DatasourceFormAttributesContainer from './DatasourceFormAttributesContainer'
 import DatasourceFormMappingContainer from './DatasourceFormMappingContainer'
 
 const states = {
-  'FORM_ATTRIBUTE': 'FORM_ATTRIBUTE',
-  'FORM_MAPPING_CONNECTION':'FORM_MAPPING_CONNECTION'
+  FORM_ATTRIBUTE: 'FORM_ATTRIBUTE',
+  FORM_MAPPING_CONNECTION: 'FORM_MAPPING_CONNECTION',
 }
 /**
  * Show the datasource form
@@ -59,62 +54,90 @@ export class DatasourceFormContainer extends React.Component {
       Promise.resolve(this.props.fetchDatasource(this.props.params.datasourceId))
         .then(() => {
           this.setState({
-            isLoading: false
+            isLoading: false,
           })
         })
     }
   }
-
   componentWillReceiveProps(nextProps) {
-    if (this.props.currentDatasource == null && nextProps.currentDatasource != null) {
+    if ((this.state.currentDatasource == null || this.props.currentDatasource == null) && nextProps.currentDatasource != null) {
       this.setState({
-        currentDatasource: nextProps.currentDatasource
+        currentDatasource: cloneDeep(nextProps.currentDatasource),
       })
     }
   }
 
-  handleUpdate = (values) => {
-    const updatedDatasource = Object.assign({}, {
-    }, {
-    })
-    Promise.resolve(this.props.updateDatasource(this.props.currentDatasource.content.id, updatedDatasource))
+  getFormAttributeBackUrl = () => {
+    const { params: { project } } = this.props
+    const { isEditing } = this.state
+    if (isEditing) {
+      return `/admin/${project}/data/datasource/list`
+    }
+    return `/admin/${project}/data/datasource/create/connection`
+  }
+
+  redirectToList = () => {
+    const { params: { project } } = this.props
+    const url = `/admin/${project}/data/datasource/list`
+    browserHistory.push(url)
+  }
+
+  /**
+   * Called by saveMapping to save the updatedDatasource
+   * @param newDatasource
+   */
+  handleUpdate = (updatedDatasource) => {
+    Promise.resolve(this.props.updateDatasource(updatedDatasource.content.id, updatedDatasource.content))
       .then((actionResult) => {
         // We receive here the action
         if (!actionResult.error) {
-          this.redirectToLinksPage(this.props.params.datasourceId)
+          this.redirectToList()
         }
       })
   }
 
-  handleCreate = (values) => {
-    const model = this.props.modelList[values.model].content
-    const newDatasource = {
-      label: values.label,
-      model,
-      type: 'DATASOURCE',
-    }
-    Promise.resolve(this.props.createDatasource(newDatasource))
+  /**
+   * Called by saveMapping to save the newDatasource
+   * @param newDatasource
+   */
+  handleCreate = (newDatasource) => {
+    Promise.resolve(this.props.createDatasource(newDatasource.content))
       .then((actionResult) => {
         // We receive here the action
         if (!actionResult.error) {
-          // We extract the datasource id from the action
-          const datasource = this.extractDatasourceFromActionResult(actionResult)
-          this.redirectToLinksPage(datasource.id)
+          this.redirectToList()
         }
       })
   }
 
   /**
    * Runned by DatasourceFormAttributesContainer when the user saves his form
-   * This does not save the entity on the server
+   * This does not save the entity on the server but in the state of the container
    * @param values
    */
   saveAttributes = (values) => {
-    console.log(values)
-    /*
-    this.setState({
-      state: states.FORM_MAPPING_CONNECTION,
-    })*/
+    const { isCreating, currentDatasource } = this.state
+    if (isCreating) {
+      const newValues = {
+        content: {
+          label: values.label,
+          pluginConfigurationConnectionId: this.props.params.connectionId,
+          mapping: {
+            model: values.model,
+          },
+        },
+      }
+      this.setState({
+        state: states.FORM_MAPPING_CONNECTION,
+        currentDatasource: newValues,
+      })
+    } else {
+      currentDatasource.content.label = values.label
+      this.setState({
+        currentDatasource,
+        state: states.FORM_MAPPING_CONNECTION,
+      })
+    }
   }
 
   /**
@@ -122,34 +145,60 @@ export class DatasourceFormContainer extends React.Component {
    * This function saves the entity on the server
    * @param values
    */
-  saveMapping = (values) => {
-
-  }
-
-
-  getFormAttributeBackUrl = () => {
-    const { isEditing, params: { project } } = this.props
-    if (isEditing) {
-      return `/admin/${project}/data/datasource/list`
+  saveMapping = (formValuesSubset, modelAttributeList, tableAttributeList) => {
+    const attributesMapping = []
+    forEach(formValuesSubset.attributes, (attribute, attributeName) => {
+      const modelAttr = find(modelAttributeList, modelAttribute => modelAttribute.content.attribute.name === attributeName)
+      const newAttributeMapping = {
+        name: attributeName,
+        type: modelAttr.content.attribute.type,
+        nameSpace: modelAttr.content.attribute.fragment.name,
+        isPrimaryKey: attribute.pk === true,
+      }
+      if (attribute.sql && attribute.sql.length > 0) {
+        newAttributeMapping.nameDS = attribute.sql
+      } else if (attribute.tableAttribute && attribute.tableAttribute.length > 0) {
+        // Retrieve the corresponding table attribute
+        const tableAttr = find(tableAttributeList, tableAttribute => tableAttribute.name === attribute.tableAttribute)
+        newAttributeMapping.typeDS = tableAttr.javaSqlType
+        newAttributeMapping.nameDS = attribute.tableAttribute
+      }
+      attributesMapping.push(newAttributeMapping)
+    })
+    const { currentDatasource } = this.state
+    if (formValuesSubset.table) {
+      currentDatasource.content.tableName = formValuesSubset.table
+      currentDatasource.content.fromClause = ''
+    } else if (formValuesSubset.fromClause) {
+      currentDatasource.content.fromClause = formValuesSubset.fromClause
+      currentDatasource.content.tableName = ''
     }
-    return `/admin/${project}/data/datasource/create/connection`
+    currentDatasource.content.mapping.attributesMapping = attributesMapping
+    this.setState({
+      currentDatasource,
+    })
+    if (this.state.isEditing) {
+      this.handleUpdate(currentDatasource)
+    } else {
+      this.handleCreate(currentDatasource)
+    }
   }
+
 
   handleFormMappingBack = () => {
     this.setState({
       state: states.FORM_ATTRIBUTE,
     })
   }
+
   renderSubContainer = () => {
-    const {  params: {connectionId} } = this.props
+    const { params: { connectionId } } = this.props
     const { isEditing, isCreating, state, currentDatasource } = this.state
     switch (state) {
       case states.FORM_ATTRIBUTE:
         return (<DatasourceFormAttributesContainer
           currentDatasource={currentDatasource}
-          currentConnectionId={isCreating ? connectionId : currentDatasource.content.connection.id}
-          isEditing={isEditing}
-          isCreating={isCreating}
+          currentConnectionId={isCreating ? connectionId : currentDatasource.content.pluginConfigurationConnectionId}
           handleSave={this.saveAttributes}
           backUrl={this.getFormAttributeBackUrl()}
         />)
@@ -161,6 +210,8 @@ export class DatasourceFormContainer extends React.Component {
           handleSave={this.saveMapping}
           handleBack={this.handleFormMappingBack}
         />)
+      default:
+        return null
     }
   }
   render() {
@@ -170,7 +221,7 @@ export class DatasourceFormContainer extends React.Component {
         <LoadableContentDisplayDecorator
           isLoading={isLoading}
         >
-          {this.renderSubContainer()}
+          {this.renderSubContainer}
         </LoadableContentDisplayDecorator>
       </I18nProvider>
     )

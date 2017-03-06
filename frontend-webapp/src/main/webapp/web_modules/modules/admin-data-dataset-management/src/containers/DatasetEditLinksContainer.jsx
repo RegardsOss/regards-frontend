@@ -4,7 +4,7 @@
 import { connect } from '@regardsoss/redux'
 import { Dataset } from '@regardsoss/model'
 import { I18nProvider } from '@regardsoss/i18n'
-import { partition, some, filter } from 'lodash'
+import { partition, some } from 'lodash'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import DatasetSelectors from './../model/DatasetSelectors'
 import DatasetActions from './../model/DatasetActions'

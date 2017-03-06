@@ -4,7 +4,7 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import sinon from 'sinon'
-import CircularProgress from 'material-ui/CircularProgress';
+import CircularProgress from 'material-ui/CircularProgress'
 import ConnectionTesterProgress from '../../src/components/ConnectionTesterProgress'
 
 describe('[ADMIN DATA CONNECTION MANAGEMENT] Testing ConnectionTesterProgress', () => {

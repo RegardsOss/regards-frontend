@@ -1,23 +1,22 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { map, forEach, keys } from 'lodash'
+import { map, keys } from 'lodash'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
-import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
 import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
-import { Datasource, Model, ModelAttribute, Connection } from '@regardsoss/model'
+import { Datasource, Model, Connection } from '@regardsoss/model'
 import { RenderTextField, RenderSelectField, Field, ErrorTypes } from '@regardsoss/form-utils'
 import { ReduxConnectedForm } from '@regardsoss/redux'
-import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
+import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import MenuItem from 'material-ui/MenuItem'
-import DatasourceStepperComponent from './DatasourceStepperComponent'
 import SelectField from 'material-ui/SelectField'
+import DatasourceStepperComponent from './DatasourceStepperComponent'
 
 /**
- * React component to list datasources.
+ * React component to edit datasources attributes.
  */
 export class DatasourceFormAttributesComponent extends React.Component {
 
@@ -44,7 +43,6 @@ export class DatasourceFormAttributesComponent extends React.Component {
     const isCreating = props.currentDatasource === null || props.currentDatasource === undefined
     this.state = {
       isCreating,
-      isDuplicating: props.isDuplicating,
     }
   }
 
@@ -52,19 +50,6 @@ export class DatasourceFormAttributesComponent extends React.Component {
     this.handleInitialize()
   }
 
-  /**
-   * Initialize form fields
-   */
-  handleInitialize = () => {
-    if (!this.state.isCreating) {
-      const { currentDatasource } = this.props
-      const initialValues = {
-        label: currentDatasource.content.label,
-        model: currentDatasource.content.model.id,
-      }
-      this.props.initialize(initialValues)
-    }
-  }
   getTitle = () => {
     if (this.state.isCreating) {
       return <FormattedMessage id="datasource.create.title" />
@@ -76,9 +61,25 @@ export class DatasourceFormAttributesComponent extends React.Component {
       }}
     />)
   }
+
+
+  /**
+   * Initialize form fields
+   */
+  handleInitialize = () => {
+    if (!this.state.isCreating) {
+      const { currentDatasource } = this.props
+      const initialValues = {
+        label: currentDatasource.content.label,
+        model: currentDatasource.content.mapping.model,
+      }
+      this.props.initialize(initialValues)
+    }
+  }
+
   render() {
     const { currentConnection, modelList, submitting, invalid, backUrl } = this.props
-    let title = this.getTitle()
+    const title = this.getTitle()
     return (
       <ReduxConnectedForm
         i18nMessagesDir="modules/admin-data-datasource-management/src/i18n"
@@ -102,7 +103,7 @@ export class DatasourceFormAttributesComponent extends React.Component {
               floatingLabelText={<FormattedMessage id="datasource.form.connection" />}
               fullWidth
               value={currentConnection.content.id}
-              disabled={true}
+              disabled
             >
               <MenuItem
                 value={currentConnection.content.id}

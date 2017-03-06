@@ -89,7 +89,7 @@ const items = (projectName, intl) => [
         tooltipMsg: intl.formatMessage({ id: 'data.board.action.list.tooltip' }),
       },
       {
-        path: `/admin/${projectName}/data/dataset/create`,
+        path: `/admin/${projectName}/data/dataset/create/datasource`,
         icon: <AddIcon />,
         tooltipMsg: intl.formatMessage({ id: 'data.board.action.add.tooltip' }),
       },

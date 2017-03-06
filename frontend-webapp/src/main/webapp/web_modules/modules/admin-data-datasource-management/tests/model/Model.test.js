@@ -1,15 +1,15 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { ReduxEntityTester } from '@regardsoss/tests-helpers'
 import { Model } from '@regardsoss/model'
 import ModelActions from '../../src/model/ModelActions'
 import ModelReducers from '../../src/model/ModelReducers'
 import ModelSelectors from '../../src/model/ModelSelectors'
+import ModelNetworkDump from './dump/ModelNetworkDump'
 
-const backendServerResultList = [{
-  content: {
-    id: 1,
-  },
-  links: [],
-}]
+const backendServerResultList = ModelNetworkDump
+
 const options = {
   urlParams: { type: 'DATASOURCE' },
 }

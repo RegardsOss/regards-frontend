@@ -3,6 +3,7 @@
     "password": "admin",
     "state": "ACTIVE",
     "cdpp": "ACCESS_GRANTED",
+    "michelin": "ACCESS_GRANTED",
     "ssalto": "ACCESS_GRANTED",
     "instance": "ACCESS_GRANTED"
   },

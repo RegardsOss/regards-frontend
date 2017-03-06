@@ -3,13 +3,12 @@
  **/
 import { map, forEach, keys } from 'lodash'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
-import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
 import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
-import { Connection, Model, ModelAttribute, PluginMetaData } from '@regardsoss/model'
+import { Connection, PluginMetaData } from '@regardsoss/model'
 import { RenderTextField, RenderCheckbox, RenderSelectField, Field, ErrorTypes, ValidationHelpers } from '@regardsoss/form-utils'
 import { ReduxConnectedForm } from '@regardsoss/redux'
-import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
+import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import MenuItem from 'material-ui/MenuItem'
@@ -94,6 +93,8 @@ export class ConnectionFormComponent extends React.Component {
           case 'minPoolSize':
             initialValues.minPoolSize = parameter.value
             break
+          default:
+            break
         }
       })
     } else {
@@ -136,13 +137,12 @@ export class ConnectionFormComponent extends React.Component {
               fullWidth
               component={RenderSelectField}
               label={<FormattedMessage id="connection.form.pluginClassName" />}
-              validate={[ValidationHelpers.validRequiredString]}
             >
               {map(pluginMetaDataList, (pluginMetaData, id) => (
                 <MenuItem
                   value={pluginMetaData.content.pluginClassName}
+                  primaryText={`${pluginMetaData.content.pluginId} (${pluginMetaData.content.version})`}
                   key={id}
-                  primaryText={pluginMetaData.content.pluginId}
                 />
               ))}
             </Field>
@@ -203,14 +203,6 @@ export class ConnectionFormComponent extends React.Component {
               validate={[ValidationHelpers.validRequiredNumber]}
             />
             <Field
-              name="version"
-              fullWidth
-              component={RenderTextField}
-              type="text"
-              label={<FormattedMessage id="connection.form.version" />}
-              validate={[ValidationHelpers.validRequiredString]}
-            />
-            <Field
               name="priorityOrder"
               fullWidth
               component={RenderTextField}
@@ -253,6 +245,9 @@ function validate(values) {
     // XXX workaround for redux form bug initial validation:
     // Do not return anything when fields are not yet initialized (first render invalid state is wrong otherwise)...
     return errors
+  }
+  if (!values.pluginClassName) {
+    errors.pluginClassName = ErrorTypes.REQUIRED
   }
   return errors
 }

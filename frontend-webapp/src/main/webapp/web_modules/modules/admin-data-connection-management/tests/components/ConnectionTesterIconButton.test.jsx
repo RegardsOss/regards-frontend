@@ -30,8 +30,8 @@ describe('[ADMIN DATA CONNECTION MANAGEMENT] Testing ConnectionTesterIconButton'
     muiTheme: {
       palette: {
         primary1Color: 'red',
-        accent1Color: 'red'
-      }
+        accent1Color: 'red',
+      },
     },
   }
   it('Render properly', () => {
