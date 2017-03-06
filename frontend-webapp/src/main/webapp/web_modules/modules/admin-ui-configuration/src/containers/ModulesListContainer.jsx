@@ -37,9 +37,7 @@ class ModulesListContainer extends React.Component {
   }
 
   componentWillMount() {
-    if (!this.props.modules || isEmpty(this.props.modules)) {
-      this.props.fetchModules(this.props.params.applicationId)
-    }
+    this.props.fetchModules(this.props.params.applicationId)
   }
 
   handleEditModule = (module) => {

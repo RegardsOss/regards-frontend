@@ -21,7 +21,8 @@ const messages = Object.assign({
   'form.configuration.tab.title': 'Configure main parameters for current search form module',
   'form.configuration.result.type.datasets': 'Display results grouped by datasets',
   'form.configuration.result.type.dataobjects': 'Display dataobjects results',
-  // Datasets tab
+  'form.configuration.result.enable.facettes.label': 'Enable facetes : Results filtering with criterion depending on initial search results',
+  // Datasets ta
   'form.datasets.tab.title': 'Link this search form to one or many datasets, or to one or many models of dataset',
   'form.datasets.all.label': 'Link with all datasets',
   'form.datasets.selected.label': 'Link with one or many datasets',

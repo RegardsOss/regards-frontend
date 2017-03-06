@@ -21,6 +21,7 @@ const messages = Object.assign({
   'form.configuration.tab.title': 'Configurer les paramètres principaux du formulaire de recherche',
   'form.configuration.result.type.datasets': 'Afficher les jeux de données résultats de la recherche',
   'form.configuration.result.type.dataobjects': 'Afficher les objets de données résultats de recherche',
+  'form.configuration.result.enable.facettes.label': 'Activer les facettes : Critères de filtrage dépendant des résultats de la recherche initiale',
   // Datasets tab
   'form.datasets.tab.title': 'Associer le formulaire de recherche aux jeux de données du catalogue',
   'form.datasets.all.label': 'Associer à tous les jeux de données du catalogue',

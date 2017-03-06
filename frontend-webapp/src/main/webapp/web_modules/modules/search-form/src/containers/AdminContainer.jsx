@@ -11,6 +11,8 @@ import CriterionActions from '../models/criterion/CriterionActions'
 import CriterionSelector from '../models/criterion/CriterionSelector'
 import { DATASET_MODEL_TYPE, DATASET_TYPE } from '../models/datasets/DatasetSelectionTypes'
 import FormTabsComponent from '../components/admin/FormTabsComponent'
+import AttributeConfiguration from '../models/attributes/AttributeConfiguration'
+import AttributesRegroupementConfiguration from '../models/attributes/AttributesRegroupementConfiguration'
 import Form from '../models/Form'
 import DatasetConfShape from '../models/datasets/DatasetsConfShape'
 
@@ -33,6 +35,8 @@ class AdminContainer extends React.Component {
     criterion: React.PropTypes.arrayOf(PluginConf),
     layout: React.PropTypes.string,
     resultType: React.PropTypes.string,
+    attributes: React.PropTypes.arrayOf(AttributeConfiguration),
+    attributesRegroupements: React.PropTypes.arrayOf(AttributesRegroupementConfiguration),
     // Calculated attributes set by mapstatetoprops
     selectableAttributes: React.PropTypes.objectOf(AttributeModel),
     selectableAttributesFectching: React.PropTypes.bool,
@@ -89,12 +93,15 @@ class AdminContainer extends React.Component {
       currentConf: this.props.form.conf,
       module: this.props.form,
       defaultConf: {
+        enableFacettes: this.props.enableFacettes,
         resultType: this.props.resultType ? this.props.resultType : 'datasets',
         datasets: this.props.datasets ? this.props.datasets : {
           type: 'all',
         },
         criterion: this.props.criterion ? this.props.criterion : [],
         layout: this.props.layout,
+        attributes: this.props.attributes ? this.props.attributes : [],
+        attributesRegroupements: this.props.attributesRegroupements ? this.props.attributesRegroupements : [],
       },
       selectableAttributes: this.props.selectableAttributes,
       disableChangeDatasets: this.props.selectableAttributesFectching,
