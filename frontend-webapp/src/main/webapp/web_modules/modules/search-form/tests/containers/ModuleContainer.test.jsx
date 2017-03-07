@@ -46,8 +46,8 @@ describe('[FORM MODULE] Testing User Container', () => {
       layout: '{}',
       criterion,
       fetchAttribute: fetchAttributeCallback,
-      attributes: {},
-      attributesFetching: true,
+      attributeModels: {},
+      attributeModelsFetching: true,
     }
     const wrapper = shallow(
       <UnconnectedModuleContainer

@@ -81,7 +81,7 @@ const items = (projectName, intl) => [
   {
     title: intl.formatMessage({ id: 'data.board.dataset.title' }),
     description: intl.formatMessage({ id: 'data.board.dataset.description' }),
-    advanced: true,
+    advanced: false,
     actions: [
       {
         path: `/admin/${projectName}/data/dataset/list`,
@@ -89,7 +89,7 @@ const items = (projectName, intl) => [
         tooltipMsg: intl.formatMessage({ id: 'data.board.action.list.tooltip' }),
       },
       {
-        path: `/admin/${projectName}/data/dataset/create`,
+        path: `/admin/${projectName}/data/dataset/create/datasource`,
         icon: <AddIcon />,
         tooltipMsg: intl.formatMessage({ id: 'data.board.action.add.tooltip' }),
       },
@@ -98,6 +98,23 @@ const items = (projectName, intl) => [
   {
     title: intl.formatMessage({ id: 'data.board.datasource.title' }),
     description: intl.formatMessage({ id: 'data.board.datasource.description' }),
+    advanced: true,
+    actions: [
+      {
+        path: `/admin/${projectName}/data/datasource/list`,
+        icon: <ViewLinesIcon />,
+        tooltipMsg: intl.formatMessage({ id: 'data.board.action.list.tooltip' }),
+      },
+      {
+        path: `/admin/${projectName}/data/datasource/create/connection`,
+        icon: <AddIcon />,
+        tooltipMsg: intl.formatMessage({ id: 'data.board.action.add.tooltip' }),
+      },
+    ],
+  },
+  {
+    title: intl.formatMessage({ id: 'data.board.connection.title' }),
+    description: intl.formatMessage({ id: 'data.board.connection.description' }),
     advanced: true,
     actions: [
       {

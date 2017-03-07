@@ -32,6 +32,8 @@ import PictureLinkComponent from './links/PictureLinkComponent'
 
 import PageableListContainer from './list/PageableListContainer'
 
+import ChipList from './list/ChipList'
+
 import LoadingPaneComponent from './loading/LoadingPaneComponent'
 
 import PluginConfigurationPickerComponent from './plugin/PluginConfigurationPickerComponent'
@@ -49,6 +51,7 @@ export {
   CardActionsComponent,
   CardActionsView,
   CenteredDiv,
+  ChipList,
   ConfirmDialogComponent,
   ErrorCardComponent,
   ErrorDecoratorComponent,

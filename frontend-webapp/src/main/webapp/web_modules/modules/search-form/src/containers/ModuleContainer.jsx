@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { chain, forEach, cloneDeep, reduce, isEqual, values } from 'lodash'
+import { chain, forEach, cloneDeep, reduce, isEqual, values, unionBy } from 'lodash'
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { PluginConf, AttributeModel } from '@regardsoss/model'
@@ -12,6 +12,8 @@ import FormComponent from '../components/user/FormComponent'
 import { DATAOBJECT_RESULTS } from '../components/admin/parameters/ResultTypesEnum'
 import AttributeModelActions from '../models/attributes/AttributeModelActions'
 import AttributeModelSelector from '../models/attributes/AttributeModelSelector'
+import AttributeConfiguration from '../models/attributes/AttributeConfiguration'
+
 /**
  * Main container to display module form.
  * @author Sébastien binda
@@ -22,12 +24,13 @@ class ModuleContainer extends React.Component {
     layout: React.PropTypes.string.isRequired,
     criterion: React.PropTypes.arrayOf(PluginConf),
     resultType: React.PropTypes.string,
+    attributes: React.PropTypes.arrayOf(AttributeConfiguration),
     // Set by mapDispatchToProps
     fetchAttribute: React.PropTypes.func,
     // eslint-disable-next-line react/no-unused-prop-types
-    attributes: React.PropTypes.objectOf(AttributeModel),
+    attributeModels: React.PropTypes.objectOf(AttributeModel),
     // eslint-disable-next-line react/no-unused-prop-types
-    attributesFetching: React.PropTypes.bool,
+    attributeModelsFetching: React.PropTypes.bool,
     preview: React.PropTypes.bool,
   }
 
@@ -46,16 +49,16 @@ class ModuleContainer extends React.Component {
 
 
   componentWillMount() {
-    this.loadCriterionAttributes()
+    this.loadCriterionAttributeModels()
   }
 
   componentWillReceiveProps(nextProps) {
     /**
-     * If criterion props changed, so load missing attributes
+     * If criterion props changed, so load missing attributeModels
      */
     if (!isEqual(this.props.criterion, nextProps.criterion)) {
     // if (this.props.criterion !== nextProps.criterion) {
-      this.loadCriterionAttributes()
+      this.loadCriterionAttributeModels()
     }
   }
 
@@ -70,19 +73,19 @@ class ModuleContainer extends React.Component {
 
 
   /**
-   * Add the attributes properties to the criterion conf
+   * Add the attributeModels properties to the criterion conf
    * @returns {*}
    */
-  getCriterionWithAttributes = () => {
+  getCriterionWithAttributeModels = () => {
     const criterionWithAttributtes = cloneDeep(this.props.criterion)
     // For each criteria of this form
     forEach(criterionWithAttributtes, (criteria) => {
-      // For each attributes of the criteria
+      // For each attributeModels of the criteria
       forEach(criteria.pluginConf.attributes, (attributeId, key) => {
         // If the associated attribute has already been retrieved from server, the update the criteria
-        if (this.props.attributes[attributeId]) {
+        if (this.props.attributeModels[attributeId]) {
           // eslint-disable-next-line no-param-reassign
-          criteria.pluginConf.attributes[key] = this.props.attributes[attributeId].content
+          criteria.pluginConf.attributes[key] = this.props.attributeModels[attributeId].content
         }
       })
     })
@@ -90,18 +93,26 @@ class ModuleContainer extends React.Component {
   }
 
   /**
-   * Search attributes associated to criterion
+   * Search attributeModels associated to criterion
    */
-  loadCriterionAttributes = () => {
-    // Get uniq list of criterion attributes id to load
-    chain(this.props.criterion)
+  loadCriterionAttributeModels = () => {
+    // Get uniq list of criterion attributeModels id to load
+    const pluginsAttributesToLoad = chain(this.props.criterion)
       .map(criteria => criteria.pluginConf && criteria.pluginConf.attributes)
       .map(attribute => values(attribute))
       .flatten()
       .uniq()
-      // Fetch each form server
-      .each(attribute => this.props.fetchAttribute(attribute))
       .value()
+
+    const attributesToLoad = chain(this.props.attributes)
+      .map(attribute => values(attribute.id))
+      .flatten()
+      .uniq()
+      .value()
+
+
+      // Fetch each form server
+    forEach(unionBy(pluginsAttributesToLoad, attributesToLoad), (attribute => this.props.fetchAttribute(attribute)))
   }
 
   /**
@@ -136,7 +147,7 @@ class ModuleContainer extends React.Component {
         const pluginsProps = {
           onChange: this.onCriteriaChange,
         }
-        const criterionWithAttributes = this.getCriterionWithAttributes()
+        const criterionWithAttributes = this.getCriterionWithAttributeModels()
         return (
           <FormComponent
             layout={layoutObj}
@@ -155,10 +166,11 @@ class ModuleContainer extends React.Component {
 
   renderResults() {
     if (!this.props.preview) {
-      console.log('Running search ', this.state.searchQuery)
       return (
         <SearchResultsComponent
           searchQuery={this.state.searchQuery}
+          attributesConf={this.props.attributes}
+          attributeModels={this.props.attributeModels}
         />
       )
     }
@@ -177,8 +189,8 @@ class ModuleContainer extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  attributes: AttributeModelSelector.getList(state),
-  attributesFetching: AttributeModelSelector.isFetching(state),
+  attributeModels: AttributeModelSelector.getList(state),
+  attributeModelsFetching: AttributeModelSelector.isFetching(state),
 })
 
 const mapDispatchToProps = dispatch => ({

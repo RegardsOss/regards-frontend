@@ -2,8 +2,8 @@ import { storiesOf, action } from '@kadira/storybook'
 import { withKnobs, object } from '@kadira/storybook-addon-knobs'
 import FragmentFormComponent from '@regardsoss/admin-data-fragment-management/src/components/FragmentFormComponent'
 import FragmentListComponent from '@regardsoss/admin-data-fragment-management/src/components/FragmentListComponent'
-import { withStore, withLocale } from '../../decorators/index'
 import { muiTheme } from 'storybook-addon-material-ui'
+import { withStore, withLocale } from '../../decorators/index'
 
 const defaultFragmentList = {
   1: {

@@ -332,9 +332,8 @@
           "textColor": "#FFFFFF"
         },
         "tabs": {
-          "textColor": "rgba(255, 255, 255, 0.7)",
-          "selectedTextColor": "#FFFFFF",
-          "backgroundColor": "#2196f3"
+          "textColor": "#fafafa",
+          "selectedTextColor": "#ff9100"
         }
       },
       "id": 3,

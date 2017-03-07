@@ -23,7 +23,7 @@ const messages = Object.assign({
   'accessright.form.action.advanced.hide': 'Cacher',
   'accessright.form.action.advanced.show': 'Afficher les paramètres avancés',
   'accessright.form.title': 'Formulaire de saisie d\'un ou de plusieurs droits d\'accès',
-  'accessright.form.subtitle': 'Lorem lipsum',
+  'accessright.form.subtitle': 'Mise en place des droits d\'acces pour {nbSelectedDataset} jeux de données',
   'accessright.form.quality': 'Qualité des données récupérées',
   'accessright.form.quality.min': 'Qualité minimale requise',
   'accessright.form.quality.max': 'Qualité maximale autorisée',
