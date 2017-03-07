@@ -54,9 +54,11 @@ class ResultsAttributesConfigurationComponent extends React.Component {
    * At mount, check that the configuration is valid with the available attributes.
    */
   componentDidMount() {
-    const updatedConf = this.removeUnavailableAttributesConfiguration(this.props.attributesConf)
-    if (!isEqual(updatedConf, this.props.attributesConf)) {
-      this.props.changeField('conf.attributes', updatedConf)
+    if (this.props.attributesConf) {
+      const updatedConf = this.removeUnavailableAttributesConfiguration(this.props.attributesConf)
+      if (!isEqual(updatedConf, this.props.attributesConf)) {
+        this.props.changeField('conf.attributes', updatedConf)
+      }
     }
   }
 
@@ -67,8 +69,12 @@ class ResultsAttributesConfigurationComponent extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (isEqual(!nextProps.selectableAttributes, this.props.selectableAttributes)) {
       // The available attributes changed. So the current configuration is no longer valid.
-      this.props.changeField('conf.attributes', this.removeUnavailableAttributesConfiguration(this.props.defaultAttributesConf))
-      this.props.changeField('conf.attributesRegroupements', this.props.defaultAttributesRegroupementsConf)
+      if (this.props.attributesConf) {
+        this.props.changeField('conf.attributes', this.removeUnavailableAttributesConfiguration(this.props.defaultAttributesConf))
+      }
+      if (this.props.attributesRegroupementsConf) {
+        this.props.changeField('conf.attributesRegroupements', this.props.defaultAttributesRegroupementsConf)
+      }
     }
   }
 
@@ -158,8 +164,7 @@ class ResultsAttributesConfigurationComponent extends React.Component {
     // Remove attribute configuration for unavailable attributes
     const updatedAttributesConf = concat([], attributesConf)
     remove(updatedAttributesConf, (attributeConf) => {
-      const result = !find(this.props.selectableAttributes, attribute => attribute.content.id === attributeConf.id)
-      return result
+      return !find(this.props.selectableAttributes, attribute => attribute.content.id === attributeConf.id)
     })
     return updatedAttributesConf
   }
@@ -212,6 +217,7 @@ class ResultsAttributesConfigurationComponent extends React.Component {
         >
           <AttributeRegroupementFormComponent
             attributesRegrp={this.state.editingRegroupement}
+            selectableAttributes={this.props.selectableAttributes}
             onClose={this.handleCloseDialog}
             onSubmit={this.addNewRegrp}
           />

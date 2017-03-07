@@ -1,13 +1,15 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import {map} from 'lodash'
+import {map, find, isEqual} from 'lodash'
 import MenuItem from 'material-ui/MenuItem'
 import Chip from 'material-ui/Chip'
 import AddSvg from 'material-ui/svg-icons/content/add'
 import Avatar from 'material-ui/Avatar'
 import Popover, { PopoverAnimationVertical } from 'material-ui/Popover'
 import Menu from 'material-ui/Menu'
+import {FormattedMessage} from 'react-intl'
+import {I18nProvider} from '@regardsoss/i18n'
 import {themeContextType} from '@regardsoss/theme'
 import {ShowableAtRender} from '@regardsoss/components'
 
@@ -48,6 +50,7 @@ class ChipList extends React.Component {
       },
       chip: {
         margin: 4,
+        display: 'inline-flex'
       },
       groupsLabel: {
         color: this.context.muiTheme.textField.floatingLabelColor,
@@ -77,6 +80,7 @@ class ChipList extends React.Component {
 
   renderNewChipButton = () => {
     return (
+      <I18nProvider messageDir={'components/src/list/i18n'}>
       <div>
         <Chip style={this.style.chip} onTouchTap={this.handlePopoverOpen} backgroundColor={this.style.chipBackground}>
           <Avatar
@@ -84,7 +88,7 @@ class ChipList extends React.Component {
             size={32}
             icon={<AddSvg />}
           />
-          Add
+          <FormattedMessage id="chip.add.button" />
         </Chip>
         <Popover
           open={this.state.popoverOpen}
@@ -96,7 +100,7 @@ class ChipList extends React.Component {
           <Menu>
             {map(this.props.availableEntities, entity => {
               const key = this.props.getEntityLabel(entity)
-              return (<ShowableAtRender key={key} show={!find(this.props.availableEntities, o => isEqual(o, entity))}>
+              return (<ShowableAtRender key={key} show={!find(this.props.selectedEntities, o => isEqual(o, entity))}>
                 <MenuItem
                   key={key}
                   primaryText={key}
@@ -110,6 +114,7 @@ class ChipList extends React.Component {
           </Menu>
         </Popover>
       </div>
+      </I18nProvider>
     )
   }
 
