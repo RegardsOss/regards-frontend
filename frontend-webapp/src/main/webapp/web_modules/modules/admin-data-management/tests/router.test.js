@@ -4,20 +4,27 @@ import { fragmentDataManagementRouter } from '@regardsoss/admin-data-fragment-ma
 import { modelDataManagementRouter } from '@regardsoss/admin-data-model-management'
 import { modelAttributeDataManagementRouter } from '@regardsoss/admin-data-modelattribute-management'
 import { collectionDataManagementRouter } from '@regardsoss/admin-data-collection-management'
+import { datasetDataManagementRouter } from '@regardsoss/admin-data-dataset-management'
+import { datasourceDataManagementRouter } from '@regardsoss/admin-data-datasource-management'
 import Routes from '../src/router'
 import ModuleContainer from '../src/components/ModuleContainer'
 
 describe('[ADMIN DATA MANAGEMENT] Testing data board router', () => {
   it('should return the correct value', () => {
     assert.isNotNull(Routes)
-    expect(Routes.childRoutes).to.have.length(6)
+    expect(Routes.childRoutes).to.have.length(9)
     expect(Routes.childRoutes[0].path).to.eq('board')
     expect(Routes.childRoutes[1].path).to.eq('model')
     expect(Routes.childRoutes[2].path).to.eq('model-attribute')
     expect(Routes.childRoutes[3].path).to.eq('attribute/model')
     expect(Routes.childRoutes[4].path).to.eq('fragment')
     expect(Routes.childRoutes[5].path).to.eq('collection')
+    expect(Routes.childRoutes[6].path).to.eq('dataset')
+    expect(Routes.childRoutes[7].path).to.eq('datasource')
+    expect(Routes.childRoutes[8].path).to.eq('connection')
   })
+
+
   it('should return BoardContainer', (done) => {
     Routes.childRoutes[0].getComponents(undefined, (smth, component) => {
       expect(component.content).to.eq(ModuleContainer)
@@ -52,6 +59,18 @@ describe('[ADMIN DATA MANAGEMENT] Testing data board router', () => {
   it('should return collectionDataManagementRouter', (done) => {
     Routes.childRoutes[5].getChildRoutes(undefined, (smth, component) => {
       expect(component[0]).to.eq(collectionDataManagementRouter)
+      done()
+    })
+  })
+  it('should return datasetDataManagementRouter', (done) => {
+    Routes.childRoutes[6].getChildRoutes(undefined, (smth, component) => {
+      expect(component[0]).to.eq(datasetDataManagementRouter)
+      done()
+    })
+  })
+  it('should return datasourceDataManagementRouter', (done) => {
+    Routes.childRoutes[7].getChildRoutes(undefined, (smth, component) => {
+      expect(component[0]).to.eq(datasourceDataManagementRouter)
       done()
     })
   })

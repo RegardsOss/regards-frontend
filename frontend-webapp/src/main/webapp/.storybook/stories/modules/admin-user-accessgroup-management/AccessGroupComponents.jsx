@@ -5,6 +5,7 @@ import AccessGroupListComponent from '@regardsoss/admin-user-accessgroup-managem
 import AccessGroupList from '@regardsoss/admin-user-accessgroup-management/tests/model/dump/AccessGroupList'
 import { muiTheme } from 'storybook-addon-material-ui'
 import { withStore, withLocale } from '../../decorators/index'
+
 const defaultAccessGroupList = AccessGroupList
 
 storiesOf('Project admin - Access group', module)

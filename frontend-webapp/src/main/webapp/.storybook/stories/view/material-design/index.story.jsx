@@ -2,8 +2,8 @@ import React from 'react'
 import { storiesOf } from '@kadira/storybook'
 import { withKnobs } from '@kadira/storybook-addon-knobs'
 import ReactTransitionGroupDemo from '@regardsoss/components/src/transitions/ReactTransitionGroupDemo'
-import Colors from './Colors'
 import { muiTheme } from 'storybook-addon-material-ui'
+import Colors from './Colors'
 import withStore from '../../decorators/withStore'
 
 storiesOf('Material Design', module)

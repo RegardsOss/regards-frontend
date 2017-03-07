@@ -202,6 +202,7 @@ const runServer = () => {
     '/api/v1/rs-dam-array/models/attributes/restrictions': '/api/v1/rs-dam-array/models-attributes-restrictions',
     '/api/v1/rs-dam-array/models/attributes/types': '/api/v1/rs-dam-array/models-attributes-types',
     '/api/v1/rs-dam/plugintypes': '/api/v1/rs-dam-array/plugintypes',
+    '/api/v1/rs-dam/connections': '/api/v1/rs-dam-list/connections',
     '/oauth/token': '/tokens/1',
   }))
 

@@ -4,6 +4,10 @@ import { attributeModelDataManagementReducer } from '@regardsoss/admin-data-attr
 import { fragmentDataManagementReducer } from '@regardsoss/admin-data-fragment-management'
 import { modelAttributeDataManagementReducer } from '@regardsoss/admin-data-modelattribute-management'
 import { collectionDataManagementReducer } from '@regardsoss/admin-data-collection-management'
+import { datasetDataManagementReducer } from '@regardsoss/admin-data-dataset-management'
+import { datasourceDataManagementReducer } from '@regardsoss/admin-data-datasource-management'
+import { connectionDataManagementReducer } from '@regardsoss/admin-data-connection-management'
+
 
 const dataManagementReducer = combineReducers({
   'model-management': modelDataManagementReducer,
@@ -11,6 +15,9 @@ const dataManagementReducer = combineReducers({
   'model-attribute-management': modelAttributeDataManagementReducer,
   'fragment-management': fragmentDataManagementReducer,
   collection: collectionDataManagementReducer,
+  dataset: datasetDataManagementReducer,
+  datasource: datasourceDataManagementReducer,
+  connection: connectionDataManagementReducer,
 })
 
 

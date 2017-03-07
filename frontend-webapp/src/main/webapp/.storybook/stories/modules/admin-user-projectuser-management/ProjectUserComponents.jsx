@@ -4,6 +4,7 @@ import ProjectUserListComponent from '@regardsoss/admin-user-projectuser-managem
 import ProjectUserCreateComponent from '@regardsoss/admin-user-projectuser-management/src/components/ProjectUserCreateComponent'
 import { muiTheme } from 'storybook-addon-material-ui'
 import { withStore, withLocale } from '../../decorators/index'
+
 const defaultProjectUsersList = {
   0: {
     content: {

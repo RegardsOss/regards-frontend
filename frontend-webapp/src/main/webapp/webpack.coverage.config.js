@@ -3,13 +3,15 @@ const merge = require('webpack-merge')
 const nodeExternals = require('webpack-node-externals')
 const CommonConfig = require('./webpack.common.config')
 
-let config = CommonConfig
+// Setup babel coverage environment
+process.env.NODE_ENV = 'coverage'
 
+let config = CommonConfig
 config = merge(config, {
   target: 'node', // in order to ignore built-in modules like path, fs, etc.
   externals: [nodeExternals({
     // this WILL include `*regardsoss*` in the bundle
-    whitelist: [/regardsoss/],
+    whitelist: [/regardsoss/, /react-material-color-picker/],
   })], // in order to ignore all modules in node_modules folder
   // Enable sourcemaps for debugging webpack's output.
   devtool: 'source-map',
@@ -24,18 +26,6 @@ config = merge(config, {
       /sinon/,
       /iconv-loader/,
       /enzyme/,
-    ],
-    loaders: [
-      {
-        test: /\.jsx?$/,
-        exclude: [/node_modules/, /json/, /test/, /vendors/],
-        loaders: ['istanbul-instrumenter', 'babel'],
-      },
-      {
-        test: /\.jsx?$/,
-        exclude: [/node_modules/, /json/],
-        loaders: ['babel'],
-      },
     ],
   },
   plugins: [
