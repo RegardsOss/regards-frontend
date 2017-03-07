@@ -7,11 +7,10 @@ import { FormattedMessage } from 'react-intl'
 import Weekend from 'material-ui/svg-icons/content/weekend'
 import Brush from 'material-ui/svg-icons/image/brush'
 import SupervisorAccount from 'material-ui/svg-icons/action/supervisor-account'
-import Badge from 'material-ui/Badge'
 import { I18nProvider } from '@regardsoss/i18n'
 import getModuleStyles from '../../styles/styles'
 import HateoasSidebarElement from './HateoasSidebarElement'
-import WaitingAccessNotificationContainer from '../containers/WaitingAccessNotificationContainer'
+import WaitingAccountsNotificationContainer from '../containers/WaitingAccountsNotificationContainer'
 
 /**
  * React sidebar components. Display the admin application menu
@@ -60,7 +59,7 @@ class InstanceSidebarComponent extends React.Component {
             currentPath={this.props.currentPath}
             primaryText={<FormattedMessage id="menu.accounts" />}
             leftIcon={<SupervisorAccount />}
-            rightIcon={<Badge badgeContent={<WaitingAccessNotificationContainer />} primary />}
+            rightIcon={<WaitingAccountsNotificationContainer />}
           />
           <HateoasSidebarElement
             endpointKey="projects_users_url"

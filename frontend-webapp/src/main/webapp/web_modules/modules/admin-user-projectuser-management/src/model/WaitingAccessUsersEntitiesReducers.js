@@ -2,9 +2,9 @@
  * LICENSE_PLACEHOLDER
  */
 import { ProjectUserReducers } from './ProjectUserReducers'
-import WaitingAccessUsersFetchActions from './WaitingAccessUsersFetchActions'
+import WaitingAccessUsersEntitiesActions from './WaitingAccessUsersEntitiesActions'
 
-const instance = new ProjectUserReducers(WaitingAccessUsersFetchActions)
+const instance = new ProjectUserReducers(WaitingAccessUsersEntitiesActions)
 export default instance
 
 /**
@@ -13,8 +13,8 @@ export default instance
  * @param action redux action received
  * @return new state
  */
-export function getWaitingAccessProjectFetchReducer(state, action) {
+export function getWaitingAccessProjectEntitiesReducer(state, action) {
   return instance.reduce(state, action)
 }
 
-export const reducerPath = 'waiting-access-project-user'
+export const reducerPath = 'waiting-access-users-entities'

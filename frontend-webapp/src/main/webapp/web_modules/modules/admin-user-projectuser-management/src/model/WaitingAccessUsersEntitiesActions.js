@@ -3,10 +3,10 @@
  */
 import { ProjectUserActions } from './ProjectUserActions'
 
-class WaitingAccessUsersFetchActions extends ProjectUserActions {
+class WaitingAccessUsersEntitiesActions extends ProjectUserActions {
 
   constructor() {
-    super('admin-user-projectuser-management/waiting-access-users')
+    super('admin-user-projectuser-management/waiting-access-users-entities')
   }
 
   fetchWaitingUsersEntityList(index, size) {
@@ -16,4 +16,4 @@ class WaitingAccessUsersFetchActions extends ProjectUserActions {
 }
 
 // default instance
-export default new WaitingAccessUsersFetchActions()
+export default new WaitingAccessUsersEntitiesActions()

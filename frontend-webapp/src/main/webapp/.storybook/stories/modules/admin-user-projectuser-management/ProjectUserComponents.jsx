@@ -97,7 +97,6 @@ storiesOf('Project admin - Project user', module)
   .addDecorator(withStore)
   .addDecorator(muiTheme())
   .add('List', () => {
-    const projectUsersList = object('Project users list', defaultProjectUsersList)
     return (
       <ProjectUserListComponent
         initialFecthing={boolean('Loading initial data?', false)}

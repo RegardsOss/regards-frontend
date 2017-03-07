@@ -4,7 +4,7 @@
 import { ActionIconWithNotifications } from '@regardsoss/components'
 import { connect } from '@regardsoss/redux'
 import ViewLinesIcon from 'material-ui/svg-icons/action/view-headline'
-import { WaitingAccessUsersFetchSelectors } from '@regardsoss/admin-user-projectuser-management'
+import { WaitingAccessUsersEntitiesSelectors } from '@regardsoss/admin-user-projectuser-management'
 
 /**
  * Display user management functionalities
@@ -26,7 +26,7 @@ export class UsersListWithCountIconContainer extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  notificationsCount: WaitingAccessUsersFetchSelectors.getSize(state),
+  notificationsCount: WaitingAccessUsersEntitiesSelectors.getSize(state),
 })
 
 export default connect(mapStateToProps)(UsersListWithCountIconContainer)
