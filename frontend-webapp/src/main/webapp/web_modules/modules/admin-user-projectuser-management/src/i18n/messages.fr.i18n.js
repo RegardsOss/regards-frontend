@@ -13,7 +13,7 @@ const messages = Object.assign({
   'projectUser.list.table.lastConnection': 'Dernière connexion',
   'projectUser.list.table.action': 'Actions',
   'projectUser.list.table.action.edit.tooltip': 'Editer cet utilisateur',
-  'projectUser.list.table.action.acccept.tooltip': 'Accorder l\'accès projet à cet utilisateur',
+  'projectUser.list.table.action.accept.tooltip': 'Accorder l\'accès projet à cet utilisateur',
   'projectUser.list.table.action.deny.tooltip': 'Refuser l\'accès projet cet utilisateur',
   'projectUser.list.table.action.delete.tooltip': 'Supprimer cet utilisateur',
   'projectUser.list.action.cancel': 'Annuler',
@@ -24,7 +24,7 @@ const messages = Object.assign({
   'projectUser.list.waiting.tab': 'Nouveaux utilisateurs ({count})',
   'projectUser.list.waiting.subtitle': 'Liste des nouveaux utilisateurs du projet en attente de validation',
   'projectUser.list.waiting.accept.all': 'Tout accepter',
-  'projectUser.list.waiting.no.content.message': 'Il n\'y a pas d\'utilisateur en attente d\'un accès au projet. Vous pouvez consulter et éditer la liste des utilisateur dans l\'onglet "tous les utilisateurs"',
+  'projectUser.list.waiting.no.content.message': 'Il n\'y a pas d\'utilisateur en attente d\'un accès au projet. Vous pouvez consulter et éditer la liste des utilisateurs dans l\'onglet "tous les utilisateurs"',
 
   'projectUser.edit.title': 'Éditer l\'utilisateur {email}',
   'projectUser.edit.action.save': 'Sauvegarder',

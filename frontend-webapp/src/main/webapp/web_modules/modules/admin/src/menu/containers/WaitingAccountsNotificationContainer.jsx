@@ -1,15 +1,15 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
-import { WaitingAccessUsersEntitiesSelectors } from '@regardsoss/admin-user-projectuser-management'
+import { WaitingAccountEntitiesSelectors } from '@regardsoss/admin-account-management'
 import NotificationCountContainer from './NotificationCountContainer'
 
 /**
 * Shows users waiting access notification count
 */
-class WaitingAccessNotificationContainer extends React.Component {
+class WaitingAccountsNotificationContainer extends React.Component {
 
-  countEntities = state => WaitingAccessUsersEntitiesSelectors.getSize(state)
+  countEntities = state => WaitingAccountEntitiesSelectors.getSize(state)
 
   render() {
     // instantiate refresh handler and notification displayer
@@ -17,4 +17,4 @@ class WaitingAccessNotificationContainer extends React.Component {
   }
 
 }
-export default WaitingAccessNotificationContainer
+export default WaitingAccountsNotificationContainer

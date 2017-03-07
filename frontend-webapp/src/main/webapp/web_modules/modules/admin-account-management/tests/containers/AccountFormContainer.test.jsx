@@ -1,10 +1,22 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
+import sinon from 'sinon'
 import { AccountFormContainer } from '../../src/containers/AccountFormContainer'
 import AccountFormComponent from '../../src/components/AccountFormComponent'
 
 // Test a component rendering
-describe('[ADMIN ACCOUNT MANAGEMENT] Testing form container', () => {
+describe('[ADMIN ACCOUNT MANAGEMENT] Testing account form container', () => {
+  // Since react will console.error propType warnings, that which we'd rather have
+  // as errors, we use sinon.js to stub it into throwing these warning as errors
+  // instead.
+  before(() => {
+    sinon.stub(console, 'error', (warning) => {
+      throw new Error(warning)
+    })
+  })
+  after(() => {
+    console.error.restore()
+  })
   it('should exists', () => {
     assert.isDefined(AccountFormContainer)
     assert.isDefined(AccountFormComponent)
@@ -27,9 +39,9 @@ describe('[ADMIN ACCOUNT MANAGEMENT] Testing form container', () => {
       },
       isFetching: false,
       // from mapDispatchToProps
-      createAccount: () => {},
-      fetchAccount: () => {},
-      updateAccount: () => {},
+      createAccount: () => { },
+      fetchAccount: () => { },
+      updateAccount: () => { },
     }
 
     const enzymeWrapper = shallow(<AccountFormContainer {...props} />)

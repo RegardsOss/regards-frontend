@@ -3,11 +3,11 @@
  **/
 import { BasicSignalActions } from '@regardsoss/store-utils'
 
-export class WaitingAccessUsersUpdateActions extends BasicSignalActions {
+export class WaitingAccessUsersSignalActions extends BasicSignalActions {
   constructor() {
     super({
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-admin/accesses/{updateOperation}/{userId}`,
-      namespace: 'admin-user-projectuser-management/',
+      namespace: 'admin-user-projectuser-management/waiting-accounts-signals',
     })
   }
 
@@ -28,4 +28,4 @@ export class WaitingAccessUsersUpdateActions extends BasicSignalActions {
 }
 
 // export singleton instance
-export default new WaitingAccessUsersUpdateActions()
+export default new WaitingAccessUsersSignalActions()

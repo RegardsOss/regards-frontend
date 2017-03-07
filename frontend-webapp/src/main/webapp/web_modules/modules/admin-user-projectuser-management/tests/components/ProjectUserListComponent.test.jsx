@@ -7,38 +7,67 @@ import IconButton from 'material-ui/IconButton'
 import { IntlStub } from '@regardsoss/tests-helpers'
 import { NoContentMessageInfo } from '@regardsoss/components'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { AccountListComponent, TABS } from '../../src/components/AccountListComponent'
+import { ProjectUserListComponent, TABS, canAcceptUser, canDenyUser } from '../../src/components/ProjectUserListComponent'
 
-const allAccounts = {
+
+const users = {
   1: {
     content: {
       id: 1,
-      firstName: 'first name',
-      lastName: 'last name',
-      email: 'em@il.com',
-      status: 'PENDING',
+      email: 'admin@cnes.fr',
+      lastUpdate: '2017-02-20T11:55:05.012',
+      lastConnection: '2023-04-30T18:20:02.012',
+      role: { id: 2, name: 'REGISTERED_USER' },
+      status: 'ACCESS_GRANTED',
+      permissions: [],
     },
+    links: [],
   },
   2: {
     content: {
       id: 2,
-      firstName: 'first name',
-      lastName: 'last name',
-      email: 'em@il.com',
-      status: 'ACTIVE',
+      email: 'testUWaitingAccess@cnes.fr',
+      lastUpdate: '2017-02-20T11:55:05.015',
+      lastConnection: '2023-04-30T18:20:02.012',
+      role: {
+        id: 2,
+        name: 'REGISTERED_USER',
+      },
+      status: 'WAITING_ACCESS',
+      permissions: [],
     },
+    links: [],
+  },
+  3: {
+    content: {
+      id: 3,
+      email: 'testUWaitingAccess2@cnes.fr',
+      lastUpdate: '2017-02-20T11:55:05.012',
+      lastConnection: '2023-04-30T18:20:02.012',
+      role: {
+        id: 2,
+        name: 'REGISTERED_USER',
+      },
+      status: 'WAITING_ACCESS',
+      permissions: [],
+    },
+    links: [],
   },
 }
 
-
-const waitingAccounts = pickBy(allAccounts, account => account.content.status === 'PENDING')
+const waitingAccessUsers = pickBy(users, user => user.content.status === 'WAITING_ACCESS')
 
 const initialProps = {
-  allAccounts: {},
-  waitingAccounts: {},
+  users: {},
+  waitingAccessUsers: {},
   onAccept: () => { },
   onEdit: () => { },
   onDelete: () => { },
+  onValidate: () => { },
+  onValidateAll: () => { },
+  onDeny: () => { },
+  createUrl: 'url/create',
+  backUrl: 'url/back',
   initialFecthing: true,
   isFetchingActions: false,
 }
@@ -67,7 +96,7 @@ const countDisabled = (Type, wrapper) => {
 }
 
 // Test a component rendering
-describe('[ADMIN ACCOUNT MANAGEMENT] Testing account list component', () => {
+describe('[ADMIN PROJECTUSER MANAGEMENT] Testing project user list component', () => {
   // Since react will console.error propType warnings, that which we'd rather have
   // as errors, we use sinon.js to stub it into throwing these warning as errors
   // instead.
@@ -80,11 +109,11 @@ describe('[ADMIN ACCOUNT MANAGEMENT] Testing account list component', () => {
     console.error.restore()
   })
   it('should exists', () => {
-    assert.isDefined(AccountListComponent)
+    assert.isDefined(ProjectUserListComponent)
   })
   it('should render self after loading, opening the waitin tab if there is any waiting request', () => {
     // 1 - loading
-    const enzymeWrapper = shallow(<AccountListComponent {...initialProps} />, options)
+    const enzymeWrapper = shallow(<ProjectUserListComponent {...initialProps} />, options)
     let noContentDisplayers = enzymeWrapper.find(NoContentMessageInfo)
     assert.equal(noContentDisplayers.length, 1, 'There should be a no content displayer')
     assert.isFalse(noContentDisplayers.at(0).props().noContent, 'The no content displayer should not be visible at initial loading')
@@ -96,12 +125,12 @@ describe('[ADMIN ACCOUNT MANAGEMENT] Testing account list component', () => {
     let tableRows = enzymeWrapper.find(TableRow)
     assert.equal(tableRows.length, 1, 'There should be only the header row at loading')
 
-    // 2 - After loading, render WITH waiting users
+    // 2 - After loading, render with waiting users
     const afterLoadingProps = {
       ...initialProps,
       initialFecthing: false,
-      allAccounts,
-      waitingAccounts,
+      users,
+      waitingAccessUsers,
     }
     enzymeWrapper.setProps(afterLoadingProps)
     assert.equal(enzymeWrapper.state('selectedTab'), TABS.waiting, 'The component should display waiting tab, as he was loaded with initial waiting users')
@@ -114,37 +143,39 @@ describe('[ADMIN ACCOUNT MANAGEMENT] Testing account list component', () => {
     tables = enzymeWrapper.find(Table)
     assert.equal(tables.length, 1, 'There should be the main table displayer, always!')
     tableRows = enzymeWrapper.find(TableRow)
-    assert.equal(tableRows.length, 1 + size(waitingAccounts), 'There should be the header row plus one row for each waiting user')
+    assert.equal(tableRows.length, 1 + size(waitingAccessUsers), 'There should be the header row plus one row for each waiting user')
     assert.equal(countDisabled(IconButton, enzymeWrapper), 0, 'All line options should be available in waiting users tab while not processing anything')
   })
   it('should render self after loading, opening all users tab there is no waiting user', () => {
     // 1 - loading (render already tested in previous test)
-    const enzymeWrapper = shallow(<AccountListComponent {...initialProps} />, options)
-    // 1 - loading, already tests in previous test
+    const enzymeWrapper = shallow(<ProjectUserListComponent {...initialProps} />, options)
     // 2 - After loading, render without waiting users
     const afterLoadingProps = {
       ...initialProps,
       initialFecthing: false,
-      allAccounts,
-      waitingAccounts: {},
+      users,
+      waitingAccessUsers: {},
     }
     enzymeWrapper.setProps(afterLoadingProps)
     assert.equal(enzymeWrapper.state('selectedTab'), TABS.all, 'The component should display all users tab, as he was loaded without initial waiting users')
     const tableRows = enzymeWrapper.find(TableRow)
-    assert.equal(tableRows.length, 1 + size(allAccounts), 'There should be the header row plus one row for each application user')
-    assert.equal(countDisabled(IconButton, enzymeWrapper), filter(allAccounts, account => account.content.status !== 'PENDING').length, 'Accept options should be disabled for accounts not in PENDING state')
+    assert.equal(tableRows.length, 1 + size(users), 'There should be the header row plus one row for each application user')
+
+    // disabled actions : count actions to disable for users and actions
+    const disabledCount = filter(users, u => !canAcceptUser(u)).length + filter(users, u => !canDenyUser(u)).length
+    assert.equal(countDisabled(IconButton, enzymeWrapper), disabledCount, 'Options should be disabled for users that are not matching conditions')
     // other elements: tested in previous tests
   })
   it('should show no content for each tab if there is no users for that tab', () => {
     // 1 - loading, already tests in previous test
-    const enzymeWrapper = shallow(<AccountListComponent {...initialProps} />, options)
+    const enzymeWrapper = shallow(<ProjectUserListComponent {...initialProps} />, options)
 
     // 2.1 - After loading, render without any user
     const afterLoadingProps = {
       ...initialProps,
       initialFecthing: false,
-      allAccounts: {},
-      waitingAccounts: {},
+      users: {},
+      waitingAccessUsers: {},
     }
     enzymeWrapper.setProps(afterLoadingProps)
     assert.equal(enzymeWrapper.state('selectedTab'), TABS.all, 'The component should display all users tab, as he was loaded without initial waiting users')
@@ -159,25 +190,25 @@ describe('[ADMIN ACCOUNT MANAGEMENT] Testing account list component', () => {
   })
   it('should disable signal actions when already processing', () => {
     // 1 - loading, already tests in previous test
-    const enzymeWrapper = shallow(<AccountListComponent {...initialProps} />, options)
+    const enzymeWrapper = shallow(<ProjectUserListComponent {...initialProps} />, options)
     // 2 - After loading (there are waiting users, so falling into waiting state, as tested before)
     const afterLoadingProps = {
       ...initialProps,
       initialFecthing: false,
       isFetchingActions: true,
-      allAccounts,
-      waitingAccounts,
+      users,
+      waitingAccessUsers,
     }
     enzymeWrapper.setProps(afterLoadingProps)
 
     // assertion all row actions (3 for each line) are disabled
-    const actionsByRow = 3
+    const actionsByRow = 4
     assert.equal(enzymeWrapper.state('selectedTab'), TABS.waiting, 'The component should display waiting users tab, as he was loaded with initial waiting users')
-    assert.equal(countDisabled(IconButton, enzymeWrapper), size(waitingAccounts) * actionsByRow, 'The line actions should be disabled')
+    assert.equal(countDisabled(IconButton, enzymeWrapper), size(waitingAccessUsers) * actionsByRow, 'The line actions should be disabled')
 
     // 2.2 - change tab to show all users and check the same
     enzymeWrapper.setState({ selectedTab: TABS.all })
     assert.equal(enzymeWrapper.state('selectedTab'), TABS.all, 'The component should display all users tab, as he was loaded without initial waiting users')
-    assert.equal(countDisabled(IconButton, enzymeWrapper), size(allAccounts) * actionsByRow, 'The line actions should be disabled')
+    assert.equal(countDisabled(IconButton, enzymeWrapper), size(users) * actionsByRow, 'The line actions should be disabled')
   })
 })

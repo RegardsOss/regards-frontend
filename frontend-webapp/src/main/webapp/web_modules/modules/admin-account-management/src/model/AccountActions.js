@@ -1,10 +1,10 @@
 import Schemas from '@regardsoss/api'
 import { BasicPageableActions } from '@regardsoss/store-utils'
 
-class AccountActions extends BasicPageableActions {
-  constructor() {
+export class AccountActions extends BasicPageableActions {
+  constructor(namespace = 'admin-account-management/accounts') {
     super({
-      namespace: 'admin-account-management',
+      namespace,
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-admin/accounts`,
       schemaTypes: {
         ENTITY: Schemas.ACCOUNT,
