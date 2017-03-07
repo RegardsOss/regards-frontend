@@ -18,6 +18,7 @@ SecondaryActionButtonComponent.propTypes = {
   style: React.PropTypes.objectOf(React.PropTypes.string),
   onTouchTap: React.PropTypes.func,
   isVisible: React.PropTypes.bool,
+  disabled: React.PropTypes.bool,
 }
 
 export default SecondaryActionButtonComponent

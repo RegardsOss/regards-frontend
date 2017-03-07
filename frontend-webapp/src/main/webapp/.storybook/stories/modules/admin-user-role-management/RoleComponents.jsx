@@ -4,6 +4,7 @@ import RoleListComponent from '@regardsoss/admin-user-role-management/src/compon
 import RoleFormComponent from '@regardsoss/admin-user-role-management/src/components/RoleFormComponent'
 import { muiTheme } from 'storybook-addon-material-ui'
 import { withStore, withLocale } from '../../decorators/index'
+
 const defaultRoleList = {
   1: {
     content: {

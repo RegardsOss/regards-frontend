@@ -6,10 +6,11 @@ import Settings from 'material-ui/svg-icons/action/settings'
 import { FormattedMessage } from 'react-intl'
 import Weekend from 'material-ui/svg-icons/content/weekend'
 import Brush from 'material-ui/svg-icons/image/brush'
-import { I18nProvider } from '@regardsoss/i18n'
 import SupervisorAccount from 'material-ui/svg-icons/action/supervisor-account'
-import HateoasSidebarElement from './HateoasSidebarElement'
+import { I18nProvider } from '@regardsoss/i18n'
 import getModuleStyles from '../../styles/styles'
+import HateoasSidebarElement from './HateoasSidebarElement'
+import WaitingAccountsNotificationContainer from '../containers/WaitingAccountsNotificationContainer'
 
 /**
  * React sidebar components. Display the admin application menu
@@ -28,6 +29,7 @@ class InstanceSidebarComponent extends React.Component {
    */
   static propTypes = {
     onLogout: React.PropTypes.func.isRequired,
+    currentPath: React.PropTypes.string,
   }
 
   render() {
@@ -46,6 +48,7 @@ class InstanceSidebarComponent extends React.Component {
             endpointKey="projects_url"
             key="0"
             to={'/admin/project/list'}
+            currentPath={this.props.currentPath}
             primaryText={<FormattedMessage id="menu.projects" />}
             leftIcon={<Settings />}
           />
@@ -53,13 +56,16 @@ class InstanceSidebarComponent extends React.Component {
             endpointKey="projects_users_url"
             key="1"
             to={'/admin/account/list'}
+            currentPath={this.props.currentPath}
             primaryText={<FormattedMessage id="menu.accounts" />}
             leftIcon={<SupervisorAccount />}
+            rightIcon={<WaitingAccountsNotificationContainer />}
           />
           <HateoasSidebarElement
             endpointKey="projects_users_url"
             key="2"
             to={'/admin/project-connection/list'}
+            currentPath={this.props.currentPath}
             primaryText={<FormattedMessage id="menu.databases" />}
             leftIcon={<Weekend />}
           />
@@ -67,6 +73,7 @@ class InstanceSidebarComponent extends React.Component {
             endpointKey="projects_users_url"
             key="3"
             to={'/admin/ui-configuration/applications'}
+            currentPath={this.props.currentPath}
             primaryText={<FormattedMessage id="menu.ui.configuration" />}
             leftIcon={<Brush />}
           />

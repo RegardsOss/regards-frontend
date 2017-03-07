@@ -1,9 +1,13 @@
 import { connect } from 'react-redux'
+import { keys } from 'lodash'
 import { I18nProvider } from '@regardsoss/i18n'
 import { browserHistory } from 'react-router'
 import { ProjectUser } from '@regardsoss/model'
 import ProjectUserActions from '../model/ProjectUserActions'
 import ProjectUserSelectors from '../model/ProjectUserSelectors'
+import WaitingAccessUsersEntitiesActions from '../model/WaitingAccessUsersEntitiesActions'
+import WaitingAccessUsersSignalsActions from '../model/WaitingAccessUsersSignalActions'
+import WaitingAccessUsersEntitiesSelectors from '../model/WaitingAccessUsersEntitiesSelectors'
 import ProjectUserListComponent from '../components/ProjectUserListComponent'
 /**
  * Show the user list for the current project
@@ -16,15 +20,52 @@ export class ProjectUserListContainer extends React.Component {
       project: React.PropTypes.string,
     }),
     // from mapStateToProps
-    projectUserList: React.PropTypes.objectOf(ProjectUser),
+    users: React.PropTypes.objectOf(ProjectUser),
+    waitingAccessUsers: React.PropTypes.objectOf(ProjectUser),
+    isFetchingContent: React.PropTypes.bool.isRequired,
     // from mapDispatchToProps
-    fetchProjectUserList: React.PropTypes.func,
-    deleteAccount: React.PropTypes.func,
+    fetchUsers: React.PropTypes.func.isRequired,
+    fetchWaitingAccessUsers: React.PropTypes.func.isRequired,
+    denyProjectUser: React.PropTypes.func.isRequired,
+    validateProjectUser: React.PropTypes.func.isRequired,
+    deleteAccount: React.PropTypes.func.isRequired,
   }
 
+  componentWillMount = () => {
+    this.props.fetchUsers()
+    this.props.fetchWaitingAccessUsers()
+    this.setState({ initialFecthing: true, isFetchingActions: false })
+  }
 
-  componentWillMount() {
-    this.props.fetchProjectUserList()
+  componentWillReceiveProps = (nextProps) => {
+    // mark initial fetching done (ignore next ones)
+    if (this.props.isFetchingContent && !nextProps.isFetchingContent) {
+      this.setInitialFetching(false)
+    }
+  }
+
+  onDeny = (userId) => {
+    this.performAll([this.props.denyProjectUser(userId)])
+  }
+
+  onDelete = (userId) => {
+    this.performAll([this.props.deleteAccount(userId)])
+  }
+
+  onEdit = (userId) => {
+    const { params: { project } } = this.props
+    const url = `/admin/${project}/user/project-user/${userId}/edit`
+    browserHistory.push(url)
+  }
+
+  onValidate = (userId) => {
+    this.performAll([this.props.validateProjectUser(userId)])
+  }
+
+  onValidateAll = () => {
+    // validate all visible requests
+    const tasks = keys(this.props.waitingAccessUsers).map(userId => this.props.validateProjectUser(userId))
+    this.performAll(tasks)
   }
 
   getBackUrl = () => {
@@ -37,41 +78,58 @@ export class ProjectUserListContainer extends React.Component {
     return `/admin/${project}/user/project-user/create`
   }
 
-  handleEdit = (accountId) => {
-    const { params: { project } } = this.props
-    const url = `/admin/${project}/user/project-user/${accountId}/edit`
-    browserHistory.push(url)
-  }
+  setInitialFetching = initialFecthing => this.updateState({ initialFecthing })
 
-  handleDelete = (accountId) => {
-    this.props.deleteAccount(accountId)
+  setFetchingActions = isFetchingActions => this.updateState({ isFetchingActions })
+
+  updateState = newValues => this.setState({ ...this.state, ...newValues })
+
+  /**
+   * Marks fetching true, performs all promises as parameter, update waiting users state then marks fetching false
+   * @param promises promises
+   */
+  performAll = (promises) => {
+    this.setFetchingActions(true)
+    const onDone = () => { this.setFetchingActions(false) }
+    Promise.all(promises).then(() =>
+      Promise.all(this.props.fetchWaitingAccessUsers(), this.props.fetchUsers()).then(onDone).catch(onDone)).catch(onDone)
   }
 
   render() {
-    const { projectUserList } = this.props
-
+    const { users, waitingAccessUsers } = this.props
+    const { isFetchingActions, initialFecthing } = this.state
     return (
       <I18nProvider messageDir="modules/admin-user-projectuser-management/src/i18n">
         <ProjectUserListComponent
-          projectUserList={projectUserList}
+          users={users}
+          waitingAccessUsers={waitingAccessUsers}
+          initialFecthing={initialFecthing}
+          isFetchingActions={isFetchingActions}
           createUrl={this.getCreateUrl()}
           backUrl={this.getBackUrl()}
-          onEdit={this.handleEdit}
-          onDelete={this.handleDelete}
+          onEdit={this.onEdit}
+          onDelete={this.onDelete}
+          onValidate={this.onValidate}
+          onValidateAll={this.onValidateAll}
+          onDeny={this.onDeny}
         />
       </I18nProvider>
     )
   }
 }
 
-
 const mapStateToProps = (state, ownProps) => ({
-  projectUserList: ProjectUserSelectors.getList(state),
+  users: ProjectUserSelectors.getList(state) || {},
+  waitingAccessUsers: WaitingAccessUsersEntitiesSelectors.getList(state) || {},
+  isFetchingContent: ProjectUserSelectors.isFetching(state) || WaitingAccessUsersEntitiesSelectors.isFetching(state),
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchProjectUserList: () => dispatch(ProjectUserActions.fetchPagedEntityList(0, 100)),
-  deleteAccount: accountId => dispatch(ProjectUserActions.deleteEntity(accountId)),
+  fetchUsers: () => dispatch(ProjectUserActions.fetchPagedEntityList()),
+  fetchWaitingAccessUsers: () => dispatch(WaitingAccessUsersEntitiesActions.fetchWaitingUsersEntityList()),
+  validateProjectUser: userId => dispatch(WaitingAccessUsersSignalsActions.sendAccept(userId)),
+  denyProjectUser: userId => dispatch(WaitingAccessUsersSignalsActions.sendDeny(userId)),
+  deleteAccount: userId => dispatch(ProjectUserActions.deleteEntity(userId)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectUserListContainer)

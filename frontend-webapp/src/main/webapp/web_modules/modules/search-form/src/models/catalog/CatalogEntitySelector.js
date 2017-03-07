@@ -11,11 +11,6 @@ class CatalogEntitySelector extends BasicPageableSelectors {
   constructor() {
     super(['modules.search-form', 'results'])
   }
-
-  getMetaData(state) {
-    const plop = this.uncombineStore(state)
-    return plop.metadata
-  }
 }
 
 const instance = new CatalogEntitySelector()

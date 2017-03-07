@@ -1,10 +1,9 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { normalize } from 'normalizr'
 import BasicListActions from '../list/BasicListActions'
 
-const { CALL_API, getJSON } = require('redux-api-middleware')
+const { CALL_API } = require('redux-api-middleware')
 /**
  *  Provide actions for a specific type of entity pageable list
  *
@@ -26,18 +25,26 @@ class BasicPageableActions extends BasicListActions {
    *
    * @param index pagination param : index of the first result of the request
    * @param size pagination param : number of elements for the asked page
-   * @param params [optional] params to replace in endpoint uri
-   * @param queryParams [optional] query params to add to the end of the endpoint uri
+   * @param pathParams [optional] path parameters to replace in endpoint uri
+   * @param queryParams [optional] query path parameters to add to the end of the endpoint uri
    * @returns {{}}
    */
-  fetchPagedEntityList(index, size, params, queryParams) {
+  fetchPagedEntityList(index, size, pathParams, queryParams) {
     // Compute the endpoint URI
     let endpoint = this.handleRequestQueryParams(this.entityEndpoint, queryParams)
-    endpoint = this.handleRequestPathParameters(endpoint, params)
+    endpoint = this.handleRequestPathParameters(endpoint, pathParams)
     if (size && size > 0) {
       endpoint = this.handleRequestQueryParams(endpoint, {
         _start: index,
         _limit: size,
+      })
+    }
+
+    // force paging return value in development mode
+    if (process.env.NODE_ENV === 'development' && !size) {
+      endpoint = this.handleRequestQueryParams(endpoint, {
+        _start: 0,
+        _limit: 10000,
       })
     }
 
@@ -47,20 +54,27 @@ class BasicPageableActions extends BasicListActions {
           this.ENTITY_LIST_REQUEST,
           {
             type: this.ENTITY_LIST_SUCCESS,
-            payload: (action, state, res) => getJSON(res).then(json => Object.assign(
-              // Only normalize the content of json
-              normalize(json.content, this.schemaTypes.ENTITY_ARRAY),
-              { links: json.links },
-              { metadata: json.metadata },
-              ),
-              // Merge the normalized object with query metadata and query links
-            ),
+            payload: (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntitiesPagePayload(json)),
           },
           this.buildFailureAction(this.ENTITY_LIST_FAILURE),
         ],
         endpoint,
         method: 'GET',
       },
+    }
+  }
+
+  /**
+    * Normalizes action payload as page or list payload
+    * @param json JS object parsed from JSON result
+    * @return normalized content
+    */
+  normalizeEntitiesPagePayload(json) {
+    return {
+      // entities are in content field
+      ...super.normalizeEntitiesListPayload(json.content),
+      links: json.links,
+      metadata: json.metadata,
     }
   }
 

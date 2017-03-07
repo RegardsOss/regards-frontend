@@ -38,6 +38,14 @@ export class AuthenticationFormContainer extends React.Component {
   static contextTypes = { ...i18nContextType }
 
 
+  componentWillMount = () => {
+    if (process.env.NODE_ENV === 'development') {
+      console.log('DEV', 'Auto connection')
+      this.onLoginRequest({ username: 'admin@cnes.fr', password: 'admin' })
+    }
+  }
+
+
   onLoginRequest = ({ username, password }) => {
     const { project, dispatchLoginRequest } = this.props
     dispatchLoginRequest(username, password, project)

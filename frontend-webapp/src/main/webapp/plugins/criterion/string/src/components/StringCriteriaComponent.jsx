@@ -12,7 +12,7 @@ export class StringCriteriaComponent extends React.Component {
     /**
      * Plugin identifier
      */
-    pluginInstanceId: React.PropTypes.number,
+    pluginInstanceId: React.PropTypes.string,
     /**
      * Callback to change the current criteria values in form
      * Parameters :
@@ -28,7 +28,7 @@ export class StringCriteriaComponent extends React.Component {
     // eslint-disable-next-line
     attributes: React.PropTypes.object,
     // From mapStateToProps
-    test: React.PropTypes.string,
+    test: React.PropTypes.bool,
     // From mapDispatchToProps
     /**
      * Just for checking that  we can dispatch an action from the plugin
@@ -94,7 +94,7 @@ export class StringCriteriaComponent extends React.Component {
   }
 }
 const mapStateToProps = state => ({
-  test: state['plugins.string-criteria'].pluginTest,
+  test: state['plugins.string-criteria'].pluginTest.pluginTest,
 })
 const mapDispatchToProps = dispatch => ({
   testDispatch: () => dispatch({ type: 'plugin/TEST' }),

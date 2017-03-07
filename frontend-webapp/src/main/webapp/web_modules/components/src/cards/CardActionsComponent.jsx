@@ -1,12 +1,15 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { ThemeInjector } from '@regardsoss/theme'
 import CardActionsView from './CardActionsView'
-/**
- */
+
 class CardActionsComponent extends React.Component {
   static propTypes = {
     secondaryButtonLabel: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.element]),
     secondaryButtonUrl: React.PropTypes.string,
     secondaryButtonTouchTap: React.PropTypes.func,
+    isSecondaryButtonDisabled: React.PropTypes.bool,
     isSecondaryButtonVisible: React.PropTypes.bool,
 
     mainButtonLabel: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.element]).isRequired,
@@ -28,6 +31,7 @@ class CardActionsComponent extends React.Component {
           secondaryButtonLabel={this.props.secondaryButtonLabel}
           secondaryButtonUrl={this.props.secondaryButtonUrl}
           secondaryButtonTouchTap={this.props.secondaryButtonTouchTap}
+          isSecondaryButtonDisabled={this.props.isSecondaryButtonDisabled}
           isSecondaryButtonVisible={this.props.isSecondaryButtonVisible}
 
           mainButtonUrl={this.props.mainButtonUrl}

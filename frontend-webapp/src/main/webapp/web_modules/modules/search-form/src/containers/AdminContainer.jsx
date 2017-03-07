@@ -5,12 +5,15 @@ import { join, map, isEqual } from 'lodash'
 import { getFormValues, change } from 'redux-form'
 import { connect } from '@regardsoss/redux'
 import { PluginConf, AttributeModel, PluginDefinition } from '@regardsoss/model'
+import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import AttributeModelActions from '../models/attributes/AttributeModelActions'
 import AttributeModelSelector from '../models/attributes/AttributeModelSelector'
 import CriterionActions from '../models/criterion/CriterionActions'
 import CriterionSelector from '../models/criterion/CriterionSelector'
 import { DATASET_MODEL_TYPE, DATASET_TYPE } from '../models/datasets/DatasetSelectionTypes'
 import FormTabsComponent from '../components/admin/FormTabsComponent'
+import AttributeConfiguration from '../models/attributes/AttributeConfiguration'
+import AttributesRegroupementConfiguration from '../models/attributes/AttributesRegroupementConfiguration'
 import Form from '../models/Form'
 import DatasetConfShape from '../models/datasets/DatasetsConfShape'
 
@@ -33,11 +36,11 @@ class AdminContainer extends React.Component {
     criterion: React.PropTypes.arrayOf(PluginConf),
     layout: React.PropTypes.string,
     resultType: React.PropTypes.string,
+    attributes: React.PropTypes.arrayOf(AttributeConfiguration),
+    attributesRegroupements: React.PropTypes.arrayOf(AttributesRegroupementConfiguration),
     // Calculated attributes set by mapstatetoprops
     selectableAttributes: React.PropTypes.objectOf(AttributeModel),
-    selectableAttributesFectching: React.PropTypes.bool,
     availableCriterion: React.PropTypes.objectOf(PluginDefinition),
-    criterionFetching: React.PropTypes.bool,
     // Set by mapDispatchToProps
     fetchCriterion: React.PropTypes.func,
     fetchModelsAttributes: React.PropTypes.func,
@@ -50,7 +53,15 @@ class AdminContainer extends React.Component {
     selectableAttributesFectching: false,
   }
 
-  componentWillMount() {
+  constructor(props) {
+    super(props)
+    this.state = {
+      attributesLoading: true,
+      criterionLoading: true,
+    }
+  }
+
+  componentDidMount() {
     if (this.props.form && this.props.form.conf && this.props.form.conf.datasets) {
       this.updateSelectableAttributes(this.props.form.conf.datasets.type,
         this.props.form.conf.datasets.datasets,
@@ -59,7 +70,11 @@ class AdminContainer extends React.Component {
       this.updateSelectableAttributes()
     }
     // Load available criterion plugins
-    this.props.fetchCriterion()
+    Promise.resolve(this.props.fetchCriterion()).then(() => {
+      this.setState({
+        criterionLoading: false,
+      })
+    })
   }
 
   componentWillReceiveProps(nextProps) {
@@ -73,13 +88,18 @@ class AdminContainer extends React.Component {
 
   updateSelectableAttributes = (type, models, datasets) => {
     // TODO : Manage retreive of availables attributs with backend.
+    let task
     if (type === DATASET_MODEL_TYPE) {
-      this.props.fetchModelsAttributes(models)
+      task = this.props.fetchModelsAttributes(models)
     } else if (type === DATASET_TYPE) {
-      this.props.fetchDatasetsAttributes(datasets)
+      task = this.props.fetchDatasetsAttributes(datasets)
     } else {
-      this.props.fetchAllModelsAttributes()
+      task = this.props.fetchAllModelsAttributes()
     }
+
+    Promise.resolve(task).then(() => {
+      this.setState({ attributesLoading: false })
+    })
   }
 
   initEmptyProps() {
@@ -89,17 +109,21 @@ class AdminContainer extends React.Component {
       currentConf: this.props.form.conf,
       module: this.props.form,
       defaultConf: {
+        enableFacettes: this.props.enableFacettes,
         resultType: this.props.resultType ? this.props.resultType : 'datasets',
         datasets: this.props.datasets ? this.props.datasets : {
           type: 'all',
         },
         criterion: this.props.criterion ? this.props.criterion : [],
         layout: this.props.layout,
+        attributes: this.props.attributes ? this.props.attributes : [],
+        attributesRegroupements: this.props.attributesRegroupements ? this.props.attributesRegroupements : [],
       },
       selectableAttributes: this.props.selectableAttributes,
+      selectableAttributesFectching: this.state.attributesLoading,
       disableChangeDatasets: this.props.selectableAttributesFectching,
       availableCriterion: this.props.availableCriterion,
-      criterionFetching: this.props.criterionFetching,
+      criterionFetching: this.state.criterionLoading,
     }
   }
 
@@ -107,11 +131,13 @@ class AdminContainer extends React.Component {
     if (this.props.form) {
       const props = this.initEmptyProps()
       return (
-        <div>
+        <LoadableContentDisplayDecorator
+          isLoading={this.state.attributesLoading || this.state.criterionLoading}
+        >
           <FormTabsComponent
             {...props}
           />
-        </div>
+        </LoadableContentDisplayDecorator>
       )
     }
     return null
@@ -121,9 +147,7 @@ class AdminContainer extends React.Component {
 const mapStateToProps = (state, ownProps) => ({
   form: getFormValues('edit-module-form')(state),
   selectableAttributes: AttributeModelSelector.getList(state),
-  selectableAttributesFectching: AttributeModelSelector.isFetching(state),
   availableCriterion: CriterionSelector.getList(state),
-  criterionFetching: CriterionSelector.isFetching(state),
 })
 
 const listToQueryParam = (list, key) => {

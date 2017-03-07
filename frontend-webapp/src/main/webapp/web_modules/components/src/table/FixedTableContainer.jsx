@@ -2,10 +2,14 @@
  * LICENSE_PLACEHOLDER
  **/
 import { concat, forEach, isEqual, keys, filter } from 'lodash'
+import { Card } from 'material-ui/Card'
+import Disatisfied from 'material-ui/svg-icons/social/sentiment-dissatisfied'
 import { connect } from '@regardsoss/redux'
 import { BasicPageableSelectors, BasicPageableActions } from '@regardsoss/store-utils'
 import './fixed-data-table-mui.css'
 import FixedTable from './FixedTable'
+import NoContentMessageInfo from '../cards/NoContentMessageInfo'
+import ColumnConfiguration from './model/ColumnConfiguration'
 
 /**
  * Fixed data table from facebook library integrated with material ui theme
@@ -36,17 +40,34 @@ class FixedTableContainer extends React.Component {
    * @type {{PageActions: *, PageSelector: *, pageSize: *, requestParams: *, entities: *, pageMetadata: *, fetchEntities: *, entitiesFetching: *}}
    */
   static propTypes = {
+    // Parameters to set
+    // BasicPageableActions to retrieve entities from server
     // eslint-disable-next-line react/no-unused-prop-types
     PageActions: React.PropTypes.instanceOf(BasicPageableActions).isRequired,
+    // BasicPageableSelectors to retrieve entities from store
     // eslint-disable-next-line react/no-unused-prop-types
     PageSelector: React.PropTypes.instanceOf(BasicPageableSelectors).isRequired,
+    // [Optional] Size of a given table page. Default is 20 visible items in the table.
     pageSize: React.PropTypes.number,
+    // [optional] Line height. Default is 42
     lineHeight: React.PropTypes.number,
+    // [Optional] Columns configurations. Default all attributes of entities are displayed as column.
+    // An column configuration is an object with
+    // - label : Displayed label of the column in the Header line
+    // - attributes : Array of String. Each element is an entity attribute to display in the column. It is also
+    //                possible to define deep attributes like user.login
+    columns: React.PropTypes.arrayOf(ColumnConfiguration),
+    // [Optional] Display the checkbox action on each line. Default false
     displayCheckbox: React.PropTypes.bool,
+    // Action callback called when an line is selected. the list of entities selected are passed as a parameter
     onSelectionChange: React.PropTypes.func,
+    // Action callback to sort by column
+    onSortByColumn: React.PropTypes.func,
+    // [Optional] server request parameters as query params or path params defined in the PageActions given.
     // eslint-disable-next-line react/forbid-prop-types
     requestParams: React.PropTypes.object,
-    // Set by redux store connection
+
+    // Parameters set by redux store connection
     // eslint-disable-next-line react/no-unused-prop-types
     entities: React.PropTypes.objectOf(React.PropTypes.object),
     pageMetadata: React.PropTypes.shape({
@@ -90,27 +111,33 @@ class FixedTableContainer extends React.Component {
         entities: [],
       })
       this.props.fetchEntities(0, this.state.nbEntitiesByPage, nextProps.requestParams)
+      return
     }
 
-    // If there is no entities in the state, so we have to initialize the entities with empty objects.
-    // One empty object per possbile result of the current request. The number of possible result of
-    // a request is the totalElements in the page metadata provded with the server response.
     let entities = null
-    if (!this.state.entities && nextProps.pageMetadata && nextProps.entities) {
-      entities = Array(nextProps.pageMetadata.totalElements).fill({})
-    } else if (nextProps.pageMetadata && nextProps.entities && (nextProps.entities !== this.props.entities)) {
-      // Entities are already initialize in the state, juste duplicate the list to update it if necessary
-      // with the new entities fetched from server
-      entities = concat([], this.state.entities)
-    }
+    // New entities retrieved
+    if (this.props.entitiesFetching && !nextProps.entitiesFetching) {
+      // If there is no entities in the state, so we have to initialize the entities with empty objects.
+      // One empty object per possible result of the current request. The number of possible result of
+      // a request is the totalElements in the page metadata provded with the server response.
+      let newResults = false
+      if ((!this.state.entities || this.state.entities.length === 0) && nextProps.pageMetadata && nextProps.entities) {
+        entities = Array(nextProps.pageMetadata.totalElements).fill({})
+        newResults = true
+      } else if (nextProps.pageMetadata && nextProps.entities && (nextProps.entities !== this.props.entities)) {
+        // Entities are already initialize in the state, juste duplicate the list to update it if necessary
+        // with the new entities fetched from server
+        entities = concat([], this.state.entities)
+      }
 
-    // If new entities has been retrieved, then add them to th right index in the state.entities list.
-    if (entities !== null && nextProps.entities &&
-      (!this.props.entities || !isEqual(keys(this.props.entities), keys(nextProps.entities)))) {
-      let i = 0
-      // Add each nex entity retrieved at the right index in the state.entities list
-      for (i = 0; i < keys(nextProps.entities).length; i += 1) {
-        entities[nextProps.pageMetadata.number + i] = nextProps.entities[keys(nextProps.entities)[i]]
+      // If new entities has been retrieved, then add them to th right index in the state.entities list.
+      if (entities !== null && nextProps.entities &&
+        (newResults || !this.state.entities || !this.props.entities || !isEqual(keys(this.props.entities), keys(nextProps.entities)))) {
+        let i = 0
+        // Add each nex entity retrieved at the right index in the state.entities list
+        for (i = 0; i < keys(nextProps.entities).length; i += 1) {
+          entities[nextProps.pageMetadata.number + i] = nextProps.entities[keys(nextProps.entities)[i]]
+        }
       }
       this.setState({
         entities,
@@ -163,16 +190,14 @@ class FixedTableContainer extends React.Component {
    * @returns {Array}
    */
   getAllColumns = () => {
+    if (this.props.columns) {
+      return this.props.columns
+    }
     const entity = this.state.entities[0]
     const columns = []
-    // Add default attributes
-    if (entity.content && entity.content.label) {
-      columns.push({ attributes: ['label'], label: 'label' })
-    }
-    forEach(entity.content.attributes, (attr, key) => {
+    forEach(entity.content, (attr, key) => {
       columns.push({ attributes: [key], label: key })
     })
-
     return columns
   }
 
@@ -194,23 +219,32 @@ class FixedTableContainer extends React.Component {
 
   render() {
     if (this.props.pageMetadata &&
-      this.props.pageMetadata.totalElements > 0 &&
-      this.state.entities !== null &&
-      this.state.entities.length > 0) {
+      this.props.pageMetadata.totalElements > 0) {
       return (
-        <div>
-          <FixedTable
-            entities={this.state.entities}
-            entitiesFetching={this.props.entitiesFetching}
-            lineHeight={this.props.lineHeight}
-            pageSize={this.props.pageSize}
-            onScrollEnd={this.onScrollEnd}
-            columns={this.getAllColumns()}
-            displayCheckbox={this.props.displayCheckbox}
-            onRowSelection={this.selectRow}
-          />
-        </div>
+        <FixedTable
+          entities={this.state.entities}
+          entitiesFetching={this.props.entitiesFetching}
+          lineHeight={this.props.lineHeight}
+          pageSize={this.props.pageSize}
+          onScrollEnd={this.onScrollEnd}
+          columns={this.getAllColumns()}
+          displayCheckbox={this.props.displayCheckbox}
+          onRowSelection={this.selectRow}
+          onSortByColumn={this.props.onSortByColumn}
+        />
       )
+    }
+
+    if (this.props.pageMetadata && this.props.pageMetadata.totalElements === 0) {
+      return (
+        <Card>
+          <NoContentMessageInfo
+            noContent
+            title={'No results found'}
+            message={'Your research returned no results. Please change your search criterion'}
+            Icon={Disatisfied}
+          />
+        </Card>)
     }
     return null
   }

@@ -6,7 +6,7 @@ import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
 import { RenderTextField, Field, ValidationHelpers, reduxForm } from '@regardsoss/form-utils'
 import { i18nContextType } from '@regardsoss/i18n'
-import { themeContextType } from '@regardsoss/theme'
+import { themeContextType, defaultCustomConfiguration } from '@regardsoss/theme'
 import moduleStyles from '../../styles/styles'
 
 const { validRequiredString } = ValidationHelpers
@@ -105,7 +105,7 @@ export default reduxForm({
   initialValues: {
     name: '',
     active: false,
-    configuration: {},
+    configuration: defaultCustomConfiguration,
   },
 })(ThemeCreateComponent)
 

@@ -38,6 +38,9 @@ npm link web_modules/modules/admin-data-model-management
 npm link web_modules/modules/admin-data-attributemodel-management
 npm link web_modules/modules/admin-data-modelattribute-management
 npm link web_modules/modules/admin-data-collection-management
+npm link web_modules/modules/admin-data-connection-management
+npm link web_modules/modules/admin-data-dataset-management
+npm link web_modules/modules/admin-data-datasource-management
 npm link web_modules/modules/admin-data-fragment-management
 npm link web_modules/modules/admin-database-management
 npm link web_modules/modules/admin-microservice-management

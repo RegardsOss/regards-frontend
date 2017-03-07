@@ -30,7 +30,7 @@ class PluginProvider extends React.Component {
     /**
      * Id of the plugin configuration instance
      */
-    pluginInstanceId: React.PropTypes.number.isRequired,
+    pluginInstanceId: React.PropTypes.string.isRequired,
     /**
      * Id of a plugin definition (plugin type to instanciate)
      */

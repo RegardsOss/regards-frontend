@@ -8,7 +8,7 @@ const messages = Object.assign({
   'collection.form.links.component.subtitle': 'Lien de la collection courante',
   'collection.form.links.remainingcollection.subtitle': 'Collection disponibles',
   'collection.form.links.collection.subtitle': 'Lien de la collection',
-  'collection.form.links.subtitle': 'Les collections disposes de lien entre elles afin de simplifier la recherche',
+  'collection.form.links.subtitle': 'Les collections disposent de lien entre elles afin de simplifier la recherche',
   'collection.form.links.title': 'Mise à jour des liens entre collection',
   'collection.form.links.action.done': 'Terminer',
   'collection.form.links.action.cancel': 'Back',

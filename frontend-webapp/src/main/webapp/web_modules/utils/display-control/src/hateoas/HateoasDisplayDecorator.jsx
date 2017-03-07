@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { connect } from 'react-redux'
+import { connect } from '@regardsoss/redux'
 import { EndpointSelectors } from '@regardsoss/endpoint'
 import allMatchHateoasDisplayLogic from './allMatchHateoasDisplayLogic'
 import DisplayDecorator from './../DisplayDecorator'

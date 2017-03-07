@@ -188,8 +188,6 @@ export class AttributeModelFormContainer extends React.Component {
       type: values.type,
       alterable: values.alterable,
       optional: values.optional,
-      queryable: values.queryable,
-      facetable: values.facetable,
       restriction,
     })
     // Delete the object if it does not exists
@@ -209,7 +207,6 @@ export class AttributeModelFormContainer extends React.Component {
   handleCreate = (values) => {
     const restriction = this.getRestriction(values)
     const fragment = this.getFragment(values)
-    console.log('Fragment', fragment)
     const updatedAttrModel = {
       fragment,
       name: values.name,
@@ -217,8 +214,6 @@ export class AttributeModelFormContainer extends React.Component {
       type: values.type,
       alterable: values.alterable,
       optional: values.optional,
-      queryable: values.queryable,
-      facetable: values.facetable,
     }
     // Check if restriction is defined
     if (restriction.type) {

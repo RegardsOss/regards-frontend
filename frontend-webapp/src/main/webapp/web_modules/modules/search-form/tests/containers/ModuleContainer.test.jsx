@@ -4,7 +4,6 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import sinon from 'sinon'
-import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { UnconnectedModuleContainer } from '../../src/containers/ModuleContainer'
 import FormComponent from '../../src/components/user/FormComponent'
 
@@ -47,8 +46,8 @@ describe('[FORM MODULE] Testing User Container', () => {
       layout: '{}',
       criterion,
       fetchAttribute: fetchAttributeCallback,
-      attributes: {},
-      attributesFetching: true,
+      attributeModels: {},
+      attributeModelsFetching: true,
     }
     const wrapper = shallow(
       <UnconnectedModuleContainer
@@ -56,8 +55,6 @@ describe('[FORM MODULE] Testing User Container', () => {
       />,
     )
 
-    assert.isTrue(wrapper.find(LoadableContentDisplayDecorator).length === 1, 'There should be a LoadableContentDisplayDecorator displayed')
-    assert.equal(wrapper.find(LoadableContentDisplayDecorator).prop('isLoading'), true, 'The LoadableContentDisplayDecorator should be displaying a loading component')
     assert.equal(fetchAttributeCallback.callCount, 3, 'There sould be 3 attributes to fetch')
     assert.isTrue(fetchAttributeCallback.calledWith(0), 'The attribute with id 0 should be fetched')
     assert.isTrue(fetchAttributeCallback.calledWith(1), 'The attribute with id 1 should be fetched')

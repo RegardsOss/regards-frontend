@@ -6,6 +6,7 @@ import CenteredDiv from './CenteredDiv'
 import ErrorDecoratorComponent from './ErrorDecoratorComponent'
 import NewsItemComponent from './NewsItemComponent'
 
+import ActionIconWithNotifications from './board/ActionIconWithNotifications'
 import BoardComponent from './board/BoardComponent'
 import BaseBoardComponent from './board/BaseBoardComponent'
 import BoardItemComponent from './board/BoardItemComponent'
@@ -19,6 +20,7 @@ import ActionButtonComponent from './cards/ActionButtonComponent'
 import CardActionsComponent from './cards/CardActionsComponent'
 import CardActionsView from './cards/CardActionsView'
 import MainActionButtonComponent from './cards/MainActionButtonComponent'
+import NoContentMessageInfo from './cards/NoContentMessageInfo'
 import SecondaryActionButtonComponent from './cards/SecondaryActionButtonComponent'
 import ShowableAtRender from './cards/ShowableAtRender'
 
@@ -30,6 +32,8 @@ import PictureLinkComponent from './links/PictureLinkComponent'
 
 import PageableListContainer from './list/PageableListContainer'
 
+import ChipList from './list/ChipList'
+
 import LoadingPaneComponent from './loading/LoadingPaneComponent'
 
 import PluginConfigurationPickerComponent from './plugin/PluginConfigurationPickerComponent'
@@ -38,6 +42,7 @@ import FixedTableContainer from './table/FixedTableContainer'
 
 export {
   ActionButtonComponent,
+  ActionIconWithNotifications,
   ApplicationErrorComponent,
   BoardComponent,
   BaseBoardComponent,
@@ -46,6 +51,7 @@ export {
   CardActionsComponent,
   CardActionsView,
   CenteredDiv,
+  ChipList,
   ConfirmDialogComponent,
   ErrorCardComponent,
   ErrorDecoratorComponent,
@@ -53,6 +59,7 @@ export {
   LoadingPaneComponent,
   MainActionButtonComponent,
   NewsItemComponent,
+  NoContentMessageInfo,
   OnHoverSwitchFlatButton,
   OnHoverSwitchIconButton,
   OnHoverSwitchRaisedButton,

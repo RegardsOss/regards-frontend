@@ -1,10 +1,14 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import { concat, reduce, find, remove, forEach } from 'lodash'
 import { FixedTableContainer } from '@regardsoss/components'
+import { AttributeModel } from '@regardsoss/model'
 import CatalogEntitySelector from '../../models/catalog/CatalogEntitySelector'
 import CatalogEntityActions from '../../models/catalog/CatalogEntityActions'
 import ResulsTypeButtons from './ResultsTypeButtons'
+import ThumbmailCellComponent from './ThumbmailCellComponent'
+import AttributeConfiguration from '../../models/attributes/AttributeConfiguration'
 
 /**
  * React container to manage search requests and display results.
@@ -15,27 +19,104 @@ class SearchResultsComponent extends React.Component {
 
   static propTypes = {
     searchQuery: React.PropTypes.string,
+    attributesConf: React.PropTypes.arrayOf(AttributeConfiguration),
+    attributeModels: React.PropTypes.objectOf(AttributeModel),
+  }
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      sortedColumns: [],
+    }
+  }
+
+  getFullQuery = () => {
+    let fullQuery = this.props.searchQuery
+
+    if (this.state.sortedColumns.length > 0) {
+      const result = reduce(this.state.sortedColumns, (sortQuery, column) => {
+        if (column.type === null) {
+          return sortQuery
+        }
+        if (sortQuery.length > 0) {
+          return `${sortQuery}&${column.attribute}:${column.type}`
+        }
+        return `${column.attribute}:${column.type}`
+      }, '')
+      if (result.length > 0) {
+        fullQuery = `${this.props.searchQuery}&sort=(${result})`
+      }
+    }
+    return fullQuery
   }
 
   resultSelection = (selectedEntities) => {
     console.log('Selected entities', selectedEntities)
   }
 
+  sortResultsByColumn = (column, type) => {
+    const attributeToSort = column.attributes[0]
+    const sortedColumns = concat([], this.state.sortedColumns)
+    const col = find(sortedColumns, lcol => lcol.attribute === attributeToSort)
+    if (!col) {
+      sortedColumns.push({
+        attribute: attributeToSort,
+        type,
+      })
+    } else {
+      switch (type) {
+        case 'ASC':
+          col.type = 'ASC'
+          break
+        case 'DESC':
+          col.type = 'DESC'
+          break
+        default:
+          remove(sortedColumns, lcol => lcol.attribute === attributeToSort)
+      }
+    }
+    this.setState({
+      sortedColumns,
+    })
+  }
 
   render() {
+    const columns = []
+
+    columns.push({ label: 'Image', attributes: ['files'], customCell: { component: ThumbmailCellComponent, props: {} }, fixed: 40, hideLabel: true })
+    columns.push({ label: 'Internal Identifier', attributes: ['id'] })
+    columns.push({ label: 'Identifier', attributes: ['sip_id'] })
+    columns.push({ label: 'Label', attributes: ['label'], sortable: true })
+
+    // Read module configuration to get attributes to display
+    forEach(this.props.attributesConf, (attributeConf) => {
+      if (attributeConf.visibility === true) {
+        const attribute = find(this.props.attributeModels, att => att.content.id === attributeConf.id)
+        if (attribute) {
+          columns.push({
+            label: attribute.content.name,
+            attributes: [`attributes.${attribute.content.name}`],
+            sortable: true,
+          })
+        }
+      }
+    })
+
+    columns.push({ label: 'Test Group', attributes: ['attributes.language', 'label'] })
+
     return (
       <div>
         <ResulsTypeButtons />
-        <div style={{ marginRight: 50, marginLeft: 60 }}>
-          <FixedTableContainer
-            PageActions={CatalogEntityActions}
-            PageSelector={CatalogEntitySelector}
-            pageSize={17}
-            displayCheckbox
-            onSelectionChange={this.resultSelection}
-            requestParams={{ queryParams: this.props.searchQuery }}
-          />
-        </div>
+        <FixedTableContainer
+          PageActions={CatalogEntityActions}
+          PageSelector={CatalogEntitySelector}
+          pageSize={20}
+          displayCheckbox
+          columns={columns}
+          onSelectionChange={this.resultSelection}
+          onSortByColumn={this.sortResultsByColumn}
+          requestParams={{ queryParams: this.getFullQuery() }}
+        />
       </div>
     )
   }

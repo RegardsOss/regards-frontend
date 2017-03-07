@@ -11,6 +11,7 @@ import JavaTypes from './dam/JavaTypes'
 import Fragment from './dam/Fragment'
 import Model from './dam/Model'
 import Collection from './dam/Collection'
+import Connection from './dam/Connection'
 import Dataset from './dam/Dataset'
 import Datasource from './dam/Datasource'
 import ModelAttribute from './dam/ModelAttribute'
@@ -26,6 +27,7 @@ import Entity from './dam/Entity'
 import AccessGroup from './dam/AccessGroup'
 import AccessRight from './dam/AccessRight'
 import CatalogEntity from './catalog/Entity'
+import { ObjectLinkedFile, ObjectLinkedFileTypes } from './catalog/ObjectLinkedFile'
 import PluginMetaData, { PluginMetaDataList } from './admin/plugin/PluginMetaData'
 import PluginConfiguration, { PluginConfigurationList } from './admin/plugin/PluginConfiguration'
 import PluginParameter from './admin/plugin/PluginParameter'
@@ -54,6 +56,7 @@ export default {
   Model,
   ModelAttribute,
   Collection,
+  Connection,
   Dataset,
   Datasource,
   AccessGroup,
@@ -61,6 +64,8 @@ export default {
 
   // CATALOG
   CatalogEntity,
+  ObjectLinkedFile,
+  ObjectLinkedFileTypes,
 
   // ACCESS
   Plugin,
