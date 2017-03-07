@@ -1,8 +1,10 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import { keys } from 'lodash'
 import { Card, CardTitle } from 'material-ui/Card'
 import Divider from 'material-ui/Divider'
+import Subheader from 'material-ui/Subheader'
 import { FormattedMessage } from 'react-intl'
 import { RadioButton } from 'material-ui/RadioButton'
 import { AttributeModel } from '@regardsoss/model'
@@ -30,21 +32,16 @@ class FormParametersConfigurationComponent extends React.Component {
   }
 
 
-  renderAttributesConfiguration = () => {
-    if (this.props.selectableAttributes) {
-      return (
-        <ResultsAttributesConfigurationComponent
-          attributesConf={this.props.attributesConf}
-          attributesRegroupementsConf={this.props.attributesRegroupementsConf}
-          defaultAttributesConf={this.props.defaultAttributesConf}
-          defaultAttributesRegroupementsConf={this.props.defaultAttributesRegroupementsConf}
-          selectableAttributes={this.props.selectableAttributes}
-          changeField={this.props.changeField}
-        />
-      )
-    }
-    return null
-  }
+  renderAttributesConfiguration = () => (
+    <ResultsAttributesConfigurationComponent
+      attributesConf={this.props.attributesConf}
+      attributesRegroupementsConf={this.props.attributesRegroupementsConf}
+      defaultAttributesConf={this.props.defaultAttributesConf}
+      defaultAttributesRegroupementsConf={this.props.defaultAttributesRegroupementsConf}
+      selectableAttributes={this.props.selectableAttributes}
+      changeField={this.props.changeField}
+    />
+    )
 
   render() {
     return (
@@ -64,7 +61,6 @@ class FormParametersConfigurationComponent extends React.Component {
             label={<FormattedMessage id="form.configuration.result.type.dataobjects" />}
           />
         </Field>
-        <Divider style={{ marginTop: 10, marginBottom: 10 }} />
         <Field
           name="conf.enableFacettes"
           component={RenderCheckbox}
@@ -72,6 +68,7 @@ class FormParametersConfigurationComponent extends React.Component {
           label={<FormattedMessage id="form.configuration.result.enable.facettes.label" />}
         />
         <Divider style={{ marginTop: 10, marginBottom: 10 }} />
+        <Subheader><FormattedMessage id="form.attributes.parameters.title" /></Subheader>
         {this.renderAttributesConfiguration()}
       </Card>
     )

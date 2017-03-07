@@ -37,13 +37,14 @@ class FormTabsComponent extends React.Component {
       attributesRegroupements: React.PropTypes.arrayOf(AttributesRegroupementConfiguration),
     }),
     selectableAttributes: React.PropTypes.objectOf(AttributeModel),
+    selectableAttributesFectching: React.PropTypes.bool,
     disableChangeDatasets: React.PropTypes.bool,
     availableCriterion: React.PropTypes.objectOf(PluginDefinition),
     criterionFetching: React.PropTypes.bool,
   }
 
   renderCriterionTab = () => {
-    if (!this.props.criterionFetching) {
+    if (!this.props.criterionFetching && !this.props.selectableAttributesFectching) {
       return (
         <FromCriterionComponent
           defaultCriterion={this.props.defaultConf.criterion}
@@ -58,10 +59,23 @@ class FormTabsComponent extends React.Component {
     return null
   }
 
+  renderAttributesParameterTab = () => (
+    <FormParameters
+      defaultResultType={this.props.defaultConf.resultType}
+      defaultEnableFacettes={this.props.defaultConf.enableFacettes}
+      selectableAttributes={this.props.selectableAttributes}
+      defaultAttributesConf={this.props.defaultConf.attributes}
+      defaultAttributesRegroupementsConf={this.props.defaultConf.attributesRegroupements}
+      attributesConf={this.props.currentConf.attributes}
+      attributesRegroupementsConf={this.props.currentConf.attributesRegroupements}
+      changeField={this.props.changeField}
+    />
+    )
+
   render() {
     return (
       <Tabs>
-        <Tab label={<FormattedMessage id="form.dataset.selection.tab.label" />} >
+        <Tab label={<FormattedMessage id="form.dataset.selection.tab.label" />}>
           <FormDatasetsConfigurationComponent
             changeField={this.props.changeField}
             defaultType={this.props.defaultConf.datasets.type}
@@ -70,28 +84,19 @@ class FormTabsComponent extends React.Component {
             disableChangeDatasets={this.props.disableChangeDatasets}
           />
         </Tab>
-        <Tab label={<FormattedMessage id="form.configuration.tab.label" />} >
-          <FormParameters
-            defaultResultType={this.props.defaultConf.resultType}
-            defaultEnableFacettes={this.props.defaultConf.enableFacettes}
-            selectableAttributes={this.props.selectableAttributes}
-            defaultAttributesConf={this.props.defaultConf.attributes}
-            defaultAttributesRegroupementsConf={this.props.defaultConf.attributesRegroupements}
-            attributesConf={this.props.currentConf.attributes}
-            attributesRegrouementsConf={this.props.currentConf.attributesRegroupements}
-            changeField={this.props.changeField}
-          />
+        <Tab label={<FormattedMessage id="form.configuration.tab.label" />}>
+          {this.renderAttributesParameterTab()}
         </Tab>
-        <Tab label={<FormattedMessage id="form.layout.tab.label" />} >
+        <Tab label={<FormattedMessage id="form.layout.tab.label" />}>
           <FormLayoutComponent
             defaultLayout={this.props.defaultConf.layout}
             changeField={this.props.changeField}
           />
         </Tab>
-        <Tab label={<FormattedMessage id="form.criterions.tab.label" />} >
+        <Tab label={<FormattedMessage id="form.criterions.tab.label" />}>
           {this.renderCriterionTab()}
         </Tab>
-        <Tab label={<FormattedMessage id="form.preview.tab.label" />} >
+        <Tab label={<FormattedMessage id="form.preview.tab.label" />}>
           <FormPreviewComponent
             module={this.props.module}
           />

@@ -124,7 +124,7 @@ storiesOf('Project admin - Project user', module)
         backUrl={'back/url'}
         onSubmit={action('onSubmit')}
         handleSubmit={action('called submit')}
-        pristine={true}
+        pristine
         initialize={() => { }}
       />
     )
@@ -140,7 +140,7 @@ storiesOf('Project admin - Project user', module)
         backUrl={'back/url'}
         onSubmit={action('onSubmit')}
         handleSubmit={action('called submit')}
-        pristine={true}
+        pristine
         initialize={() => { }}
       />
     )

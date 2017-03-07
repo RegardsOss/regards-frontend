@@ -33,11 +33,6 @@ export class AdminLayout extends React.Component {
     onLogout: React.PropTypes.func,
   }
 
-  constructor() {
-    super()
-    this.state = { instance: false }
-  }
-
   getSidebar = (isInstanceDashboard) => {
     const { onLogout, params, location } = this.props
     if (isInstanceDashboard) {

@@ -3,12 +3,13 @@
  **/
 import { merge } from 'lodash'
 import { AttributeModel } from '@regardsoss/model'
-import { ListItem } from 'material-ui/List'
+import { Card, CardHeader, CardText } from 'material-ui/Card'
 import Checkbox from 'material-ui/Checkbox'
 import Visibility from 'material-ui/svg-icons/action/visibility'
 import VisibilityOff from 'material-ui/svg-icons/action/visibility-off'
 import Search from 'material-ui/svg-icons/action/search'
 import Locked from 'material-ui/svg-icons/action/lock'
+import { FormattedMessage } from 'react-intl'
 import AttributeConfiguration from '../../../models/attributes/AttributeConfiguration'
 
 /**
@@ -25,9 +26,8 @@ class AttributeConfigurationComponent extends React.Component {
 
   constructor(props) {
     super(props)
-    const conf = this.props.conf ? this.props.conf : { id: this.props.attribute.id, visibility: false, facetable: false }
     this.state = {
-      conf,
+      conf: this.props.conf,
     }
   }
 
@@ -45,23 +45,30 @@ class AttributeConfigurationComponent extends React.Component {
 
   render() {
     return (
-      <ListItem>
-        {this.props.attribute.name} - {this.props.attribute.description}
-        <Checkbox
-          label="Visible"
-          checked={this.state.conf.visibility}
-          checkedIcon={<Visibility />}
-          uncheckedIcon={<VisibilityOff />}
-          onCheck={this.changeVisibility}
+      <Card
+        style={{ width: 300, margin: 5 }}
+      >
+        <CardHeader
+          title={this.props.attribute.name}
+          subtitle={this.props.attribute.description}
         />
-        <Checkbox
-          label="Filterable"
-          checked={this.state.conf.facetable}
-          checkedIcon={<Search />}
-          uncheckedIcon={<Locked />}
-          onCheck={this.changeFacetable}
-        />
-      </ListItem>
+        <CardText>
+          <Checkbox
+            label={<FormattedMessage id="form.attributes.visibility.label" />}
+            checked={this.state.conf.visibility}
+            checkedIcon={<Visibility />}
+            uncheckedIcon={<VisibilityOff />}
+            onCheck={this.changeVisibility}
+          />
+          <Checkbox
+            label={<FormattedMessage id="form.attributes.facetable.label" />}
+            checked={this.state.conf.facetable}
+            checkedIcon={<Search />}
+            uncheckedIcon={<Locked />}
+            onCheck={this.changeFacetable}
+          />
+        </CardText>
+      </Card>
     )
   }
 }

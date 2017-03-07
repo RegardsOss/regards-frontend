@@ -330,6 +330,10 @@
         },
         "appBar": {
           "textColor": "#FFFFFF"
+        },
+        "tabs": {
+          "textColor": "#fafafa",
+          "selectedTextColor": "#ff9100"
         }
       },
       "id": 3,

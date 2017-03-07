@@ -7,8 +7,6 @@
  * @author Sébastien binda
  */
 export default React.PropTypes.shape({
-  // Regroupement id
-  id: React.PropTypes.number,
   // Regroupement label
   label: React.PropTypes.string,
   // Attributes associated to this regroupement
