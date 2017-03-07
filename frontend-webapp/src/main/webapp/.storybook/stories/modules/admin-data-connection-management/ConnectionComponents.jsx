@@ -5,7 +5,6 @@ import ConnectionListComponent from '@regardsoss/admin-data-connection-managemen
 import ConnectionDump from '@regardsoss/admin-data-connection-management/tests/model/dump/ConnectionDump'
 import PluginMetaDataDump from '@regardsoss/admin-data-connection-management/tests/model/dump/PluginMetaDataDump'
 import { muiTheme } from 'storybook-addon-material-ui'
-import { StoreDecorator, addLocaleAndThemeSelectors, ThemeAndLocaleDecorator } from '../../utils/decorators'
 import { withStore, withLocale } from '../../decorators/index'
 
 storiesOf('Project admin - Connection', module)
@@ -14,50 +13,41 @@ storiesOf('Project admin - Connection', module)
   .addDecorator(muiTheme())
   .addDecorator(withStore)
   .add('List', () => {
-    const themeName = addLocaleAndThemeSelectors()
     const connectionList = object('Connection list', ConnectionDump)
     return (
-      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-data-connection-management/src/i18n">
-        <ConnectionListComponent
-          connectionList={connectionList}
-          handleDelete={action('handleDelete')}
-          handleEdit={action('handleEdit')}
-          handleTestConnection={action('handleTestConnection')}
-          createUrl="#"
-          backUrl="#"
-        />
-      </ThemeAndLocaleDecorator>
+      <ConnectionListComponent
+        connectionList={connectionList}
+        handleDelete={action('handleDelete')}
+        handleEdit={action('handleEdit')}
+        handleTestConnection={action('handleTestConnection')}
+        createUrl="#"
+        backUrl="#"
+      />
     )
   })
   .add('Create', () => {
-    const themeName = addLocaleAndThemeSelectors()
     const pluginMetaDataList = object('Plugin metadata list', PluginMetaDataDump)
     return (
-      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-data-connection-management/src/i18n">
-        <ConnectionFormComponent
-          pluginMetaDataList={pluginMetaDataList}
-          onSubmit={action('onSubmit')}
-          backUrl="#"
-          isCreating
-          isEditing={false}
-        />
-      </ThemeAndLocaleDecorator>
+      <ConnectionFormComponent
+        pluginMetaDataList={pluginMetaDataList}
+        onSubmit={action('onSubmit')}
+        backUrl="#"
+        isCreating
+        isEditing={false}
+      />
     )
   })
   .add('Edit', () => {
-    const themeName = addLocaleAndThemeSelectors()
     const currentConnection = object('Connection', ConnectionDump[1353])
     const pluginMetaDataList = object('Plugin metadata list', PluginMetaDataDump)
     return (
-      <ThemeAndLocaleDecorator theme={themeName} messageDir="modules/admin-data-connection-management/src/i18n">
-        <ConnectionFormComponent
-          currentConnection={currentConnection}
-          pluginMetaDataList={pluginMetaDataList}
-          onSubmit={action('onSubmit')}
-          backUrl="#"
-          isCreating={false}
-          isEditing
-        />
-      </ThemeAndLocaleDecorator>
+      <ConnectionFormComponent
+        currentConnection={currentConnection}
+        pluginMetaDataList={pluginMetaDataList}
+        onSubmit={action('onSubmit')}
+        backUrl="#"
+        isCreating={false}
+        isEditing
+      />
     )
   })
