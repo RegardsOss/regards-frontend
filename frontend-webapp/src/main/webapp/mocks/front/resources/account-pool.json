@@ -2,7 +2,9 @@
   "admin@cnes.fr": {
     "id": 1,
     "password": "admin",
-    "state": "ACTIVE",
+    "firstName": "Jean-Paul",
+    "lastName": "Theboss",
+    "status": "ACTIVE",
     "lastUpdate": "2017-02-20T11:55:05.012",
     "lastConnection": "2023-04-30T18:20:02.012",
     "cdpp": {
@@ -30,34 +32,44 @@
   },
   "testNotAccepted@cnes.fr": {
     "id": 2,
+    "firstName": "Henry",
+    "lastName": "Tumaimepo",
     "password": "test",
-    "state": "PENDING",
+    "status": "PENDING",
     "lastUpdate": "2017-02-20T11:55:05.012",
     "lastConnection": "2023-04-30T18:20:02.012"
   },
   "testNotValidated@cnes.fr": {
     "id": 3,
+    "firstName": "Vincent",
+    "lastName": "Chuyrantrai",
     "password": "test",
-    "state": "ACCEPTED",
+    "status": "ACCEPTED",
     "lastUpdate": "2017-02-20T11:55:05.012",
     "lastConnection": "2023-04-30T18:20:02.012"
   },
   "testUNoAccess@cnes.fr": {
     "id": 4,
+    "firstName": "Geoges",
+    "lastName": "Moyossi",
     "password": "test",
-    "state": "ACTIVE"
+    "status": "ACTIVE"
   },
   "testInactive@cnes.fr": {
     "id": 5,
+    "firstName": "Jean",
+    "lastName": "Taipala",
     "password": "test",
-    "state": "INACTIVE",
+    "status": "INACTIVE",
     "lastUpdate": "2017-02-20T11:55:05.012",
     "lastConnection": "2023-04-30T18:20:02.012"
   },
   "testLocked@cnes.fr": {
     "id": 6,
+    "firstName": "Jérôme",
+    "lastName": "Maipourquoi",
     "password": "test",
-    "state": "LOCKED",
+    "status": "LOCKED",
     "lastUpdate": "2017-02-20T11:55:05.012",
     "lastConnection": "2023-04-30T18:20:02.018",
     "cdpp": {
@@ -79,8 +91,10 @@
   },
   "testUWaitingAccess@cnes.fr": {
     "id": 7,
+    "firstName": "Julien",
+    "lastName": "Doriphore",
     "password": "test",
-    "state": "ACTIVE",
+    "status": "ACTIVE",
     "lastUpdate": "2017-02-20T11:55:05.015",
     "lastConnection": "2023-04-30T18:20:02.012",
     "cdpp": {
@@ -94,8 +108,10 @@
   },
   "testUWaitingAccess2@cnes.fr": {
     "id": 8,
+    "firstName": "Mathieu",
+    "lastName": "Mezchevye",
     "password": "test",
-    "state": "ACTIVE",
+    "status": "ACTIVE",
     "lastUpdate": "2017-02-20T11:55:05.012",
     "lastConnection": "2023-04-30T18:20:02.012",
     "cdpp": {
@@ -109,8 +125,10 @@
   },
   "testUWaitingAccess3@cnes.fr": {
     "id": 9,
+    "firstName": "Josette",
+    "lastName": "Cedepepes",
     "password": "test",
-    "state": "ACTIVE",
+    "status": "ACTIVE",
     "lastUpdate": "2017-02-20T11:55:05.012",
     "lastConnection": "2023-04-30T18:20:02.012",
     "cdpp": {
@@ -124,8 +142,10 @@
   },
   "testUAccessDenied@cnes.fr": {
     "id": 10,
+    "firstName": "Martin",
+    "lastName": "Lincruste",
     "password": "test",
-    "state": "ACCESS_DENIED",
+    "status": "ACTIVE",
     "lastUpdate": "2017-02-20T11:55:05.012",
     "lastConnection": "2023-04-30T18:20:02.012",
     "cdpp": {
@@ -139,13 +159,32 @@
   },
   "testUAccessInactive@cnes.fr": {
     "id": 11,
+    "firstName": "Emilie",
+    "lastName": "Tesreparti",
     "password": "test",
-    "state": "ACTIVE",
+    "status": "ACTIVE",
     "lastUpdate": "2017-02-20T11:55:05.012",
     "lastConnection": "2023-04-30T18:20:02.012",
     "cdpp": {
       "id": 8,
       "status": "ACCESS_INACTIVE",
+      "role": {
+        "id": 2,
+        "name": "REGISTERED_USER"
+      }
+    }
+  },
+  "hasbeen381@hotmail.com": {
+    "id": 12,
+    "firstName": "Marie-Claire",
+    "lastName": "Cheverentrez",
+    "password": "test",
+    "status": "PENDING",
+    "lastUpdate": "2017-02-20T11:55:05.012",
+    "lastConnection": "2023-04-30T18:20:02.012",
+    "cdpp": {
+      "id": 9,
+      "status": "WAITING_ACCESS",
       "role": {
         "id": 2,
         "name": "REGISTERED_USER"

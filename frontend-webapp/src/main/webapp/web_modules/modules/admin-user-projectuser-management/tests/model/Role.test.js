@@ -14,7 +14,7 @@ const options = {
 
 const entityTester = new ReduxEntityTester(RoleActions, getRoleReducer, RoleSelectors, React.PropTypes.objectOf(Role).isRequired, backendServerResultList, options)
 
-describe('[ADMIN Role MANAGEMENT] Testing model Role', () => {
+describe('[ADMIN PROJECT USER MANAGEMENT] Testing model Role', () => {
   before(() => {
     entityTester.beforeAll()
   })

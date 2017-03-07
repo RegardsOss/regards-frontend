@@ -16,7 +16,7 @@ const options = {
 
 const entityTester = new ReduxEntityTester(AccessGroupActions, getAccessGroupReducer, AccessGroupSelectors, React.PropTypes.objectOf(AccessGroup).isRequired, backendServerResultList, options)
 
-describe('[ADMIN AccessGroup MANAGEMENT] Testing model AccessGroup', () => {
+describe('[ADMIN PROJECT USER MANAGEMENT] Testing model AccessGroup', () => {
   before(() => {
     entityTester.beforeAll()
   })

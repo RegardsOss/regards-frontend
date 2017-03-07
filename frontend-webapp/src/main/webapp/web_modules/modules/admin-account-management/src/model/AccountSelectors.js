@@ -1,10 +1,12 @@
-import { BasicListSelectors } from '@regardsoss/store-utils'
+import { BasicPageableSelectors } from '@regardsoss/store-utils'
+import { PATHNAME } from './AccountReducers'
 
-class AccountSelectors extends BasicListSelectors {
+class AccountSelectors extends BasicPageableSelectors {
   constructor() {
-    super(['admin', 'account-management', 'account'])
+    super(['admin', 'account-management', PATHNAME])
   }
 }
 
 const instance = new AccountSelectors()
 export default instance
+

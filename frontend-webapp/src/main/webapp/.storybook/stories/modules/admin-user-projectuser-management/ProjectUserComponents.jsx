@@ -4,6 +4,7 @@ import ProjectUserListComponent from '@regardsoss/admin-user-projectuser-managem
 import ProjectUserCreateComponent from '@regardsoss/admin-user-projectuser-management/src/components/ProjectUserCreateComponent'
 import { muiTheme } from 'storybook-addon-material-ui'
 import { withStore, withLocale } from '../../decorators/index'
+
 const defaultProjectUsersList = {
   0: {
     content: {
@@ -96,7 +97,6 @@ storiesOf('Project admin - Project user', module)
   .addDecorator(withStore)
   .addDecorator(muiTheme())
   .add('List', () => {
-    const projectUsersList = object('Project users list', defaultProjectUsersList)
     return (
       <ProjectUserListComponent
         initialFecthing={boolean('Loading initial data?', false)}
@@ -124,7 +124,7 @@ storiesOf('Project admin - Project user', module)
         backUrl={'back/url'}
         onSubmit={action('onSubmit')}
         handleSubmit={action('called submit')}
-        pristine={true}
+        pristine
         initialize={() => { }}
       />
     )
@@ -140,7 +140,7 @@ storiesOf('Project admin - Project user', module)
         backUrl={'back/url'}
         onSubmit={action('onSubmit')}
         handleSubmit={action('called submit')}
-        pristine={true}
+        pristine
         initialize={() => { }}
       />
     )

@@ -4,9 +4,7 @@
 const fs = require('fs')
 const _ = require('lodash')
 const fsExtra = require('fs-extra')
-const { logMessage } = require('./mock-front-core')
-
-const JSON_CONTENT_TYPE = 'application/json; charset=utf-8'
+const { JSON_CONTENT_TYPE, logMessage, makePageResult } = require('./mock-front-utils')
 
 /**
  * Account pool used to test all possible authentication states: bind model to temp file
@@ -32,6 +30,7 @@ const sessionTokens = [
     value: 3,
   },
 ]
+const validationTokensPool = {}
 const authenticate = (login, password, scope) => {
   // 1 - check user
   const users = loadUsersPool()
@@ -41,7 +40,7 @@ const authenticate = (login, password, scope) => {
     return { content: { error: 'ACCOUNT_UNKNOWN' }, contentType: JSON_CONTENT_TYPE, code: 403 }
   }
   // no check if there is any  error with account / user state
-  switch (loginUser.state) {
+  switch (loginUser.status) {
     case 'PENDING':
       return { content: { error: 'ACCOUNT_PENDING' }, contentType: JSON_CONTENT_TYPE, code: 403 }
     case 'ACCEPTED':
@@ -92,9 +91,9 @@ const authenticate = (login, password, scope) => {
 const validToken = '123456'
 
 
-const mockSendMail = (logSubheader, email, requestLink, originUrl) => {
+const mockSendMail = (logSubheader, email, requestLink, originUrl, token = validToken) => {
   logMessage(`Request acknowledged, back URL:
-\x1b[4m${requestLink}&token=${validToken}&account_email=${email}&origin_url=${encodeURI(originUrl)}\x1b[0m`, false, logSubheader)
+\x1b[4m${requestLink}&token=${token}&account_email=${email}&origin_url=${encodeURI(originUrl)}\x1b[0m`, false, logSubheader)
 }
 
 /**
@@ -158,44 +157,42 @@ const doWithTokenScope = (request, callback) => {
   return callback(scope)
 }
 
+const getAccountList = (filterStatus) => {
+  const correspondingAccounts = _.pickBy(loadUsersPool(), u => !filterStatus || u.status === filterStatus)
+  return makePageResult(correspondingAccounts, ({ id, lastName, firstName, status }, email) => ({
+    content: { id, lastName, email, firstName, status },
+    links: [],
+  }))
+}
+
+
 /**
  * Returns scope users, can filter with status (optional)
  */
 const getScopeUsers = (users, scope, status) => _.pickBy(users, u => u[scope] && (!status || u[scope].status === status))
 
+
 const getUsersList = (request, { status }, pathParameters) => {
+  // convert account / users in scope
   const doInScope = (scope) => {
-    const users = loadUsersPool()
-    const correspondingUsers = getScopeUsers(users, scope, status)
-    const formattedResponse = _.reduce(correspondingUsers, ({ content, links, metadata }, user, userMail) => {
+    const correspondingUsers = getScopeUsers(loadUsersPool(), scope, status)
+    return makePageResult(correspondingUsers, (user, userMail) => {
       const { id, role, status: userStatus } = user[scope]
       return {
-        content: content.concat([{
-          content: {
-            id,
-            email: userMail,
-            lastUpdate: user.lastUpdate,
-            lastConnection: user.lastConnection,
-            role,
-            status: userStatus,
-            permissions: [],
-          },
-          links: [],
-        }]),
-        links,
-        metadata,
+        content: {
+          id,
+          email: userMail,
+          lastUpdate: user.lastUpdate,
+          lastConnection: user.lastConnection,
+          role,
+          status: userStatus,
+          permissions: [],
+        },
+        links: [],
       }
-    }, {
-      content: [],
-      links: [],
-      metadata: { number: 0, size: 100, totalElements: _.size(correspondingUsers) },
     })
-    return {
-      content: formattedResponse,
-      code: 200,
-      contentType: JSON_CONTENT_TYPE,
-    }
   }
+  // do users list conversion, in token scope
   return doWithTokenScope(request, doInScope)
 }
 
@@ -217,12 +214,21 @@ const changeUserStatus = (request, pathParameters, toStatus) => doWithTokenScope
 
 module.exports = {
   GET: {
+    accounts: {
+      url: 'rs-admin/accounts',
+      handler: (request, { status }) => getAccountList(status),
+    },
     // complete create account (validate)
     validateAccount: {
       url: 'rs-admin/accesses/validateAccount/{token}',
       handler: (request, query, { token }) => {
-        if (token === validToken) {
-          logMessage('Account validation OK (mock, no user update) ', false, '>Validate account')
+        const userLogin = validationTokensPool[token]
+        if (userLogin) {
+          delete validationTokensPool[token]
+          const users = loadUsersPool()
+          logMessage('Account validation OK ', false, '>Validate account')
+          users[userLogin].status = 'ACTIVE'
+          writeUsersPool(users)
           return { code: 201 }
         }
         logMessage('Account validation: token NOK ', true, '>Validate account')
@@ -248,7 +254,7 @@ module.exports = {
           if (!user) {
             return { code: 404, errorMessage: 'Unknown user' }
           }
-          if (user.state !== 'LOCKED') {
+          if (user.status !== 'LOCKED') {
             return { code: 403, errorMessage: 'User not locked' }
           }
           // nothing to do
@@ -278,14 +284,31 @@ module.exports = {
             logMessage(`User already exist for mail "${email}"`, true, 'Ask new account')
             return { code: 409 }
           }
+          const prevAccountId = _.reduce(users, (acc, user, value) => Math.max(acc, user.id), 0)
+          const prevUserId = _.reduce(users, (acc, user, value) => user.cdpp ? Math.max(acc, user.cdpp.id) : acc, 0)
+          const token = prevAccountId + 1000
+          validationTokensPool[token.toString()] = email
+
           users[email] = {
+            id: prevAccountId + 1,
             firstName,
             lastName,
             password,
-            state: 'ACCEPTED',
+            lastUpdate: '2017-02-20T11:55:05.012',
+            lastConnection: '2023-04-30T18:20:02.012',
+            status: 'PENDING',
+            cdpp: {
+              id: prevUserId + 1,
+              status: 'WAITING_ACCESS',
+              role: {
+                id: 2,
+                name: 'REGISTERED_USER',
+              },
+            },
           }
+          writeUsersPool(users)
           logMessage(`New account created for ${email} (auto accepted).`, false, 'Ask new account')
-          mockSendMail('Ask new account', email, requestLink, originUrl)
+          mockSendMail('Ask new account', email, requestLink, originUrl, token)
         } else {
           // creating project user (for CDPP, mock mode)
           const user = users[email]
@@ -305,13 +328,27 @@ module.exports = {
     },
   },
   PUT: {
+    acceptAccount: {
+      url: '/accounts/acceptAccount/{accountId}',
+      handler: (request, query, { accountId }) => {
+        const id = parseInt(accountId, 10)
+        const users = loadUsersPool()
+        const acceptedUser = _.find(users, user => user.id === id)
+        if (!acceptedUser) {
+          return { code: 404 }
+        }
+        acceptedUser.status = 'ACCEPTED'
+        writeUsersPool(users)
+        return { code: 204 }
+      },
+    },
     // complete unlock account
     unlock: {
       url: '/accounts/{accountEmail}/unlockAccount',
       handler: (request, query, pathParameters, bodyParameters) => doPerformOnAccount('> Finish unlock account', pathParameters, bodyParameters,
         (user) => {
           // update user state
-          user.state = 'ACTIVE' // eslint-disable-line
+          user.status = 'ACTIVE' // eslint-disable-line
           return { code: 204 }
         }),
     },
@@ -334,5 +371,16 @@ module.exports = {
       handler: (request, query, pathParameters) => changeUserStatus(request, pathParameters, 'ACCESS_DENIED'),
     },
   },
-
+  DELETE: {
+    deleteAccount: {
+      url: 'rs-admin/accounts/{accountId}',
+      handler: (request, query, { accountId }) => {
+        const users = loadUsersPool()
+        const id = parseInt(accountId, 10)
+        const filtered = _.pickBy(users, u => u.id !== id)
+        writeUsersPool(filtered)
+        return { code: 204 }
+      },
+    },
+  },
 }
