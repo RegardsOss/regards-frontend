@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { connect } from 'react-redux'
+import { connect } from '@regardsoss/redux'
 import { map, find } from 'lodash'
 import { I18nProvider } from '@regardsoss/i18n'
 import { AccessGroup, PluginConfiguration, PluginMetaData } from '@regardsoss/model'

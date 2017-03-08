@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { connect } from 'react-redux'
+import { connect } from '@regardsoss/redux'
 import Snackbar from 'material-ui/Snackbar'
 import { closeErrorDialog } from '../model/action'
 
