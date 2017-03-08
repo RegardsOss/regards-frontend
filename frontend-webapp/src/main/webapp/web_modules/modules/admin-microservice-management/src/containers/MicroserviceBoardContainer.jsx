@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { connect } from 'react-redux'
+import { connect } from '@regardsoss/redux'
 import { forEach, map } from 'lodash'
 import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
 import { applyHateoasDisplayLogic, someMatchHateoasDisplayLogic } from '@regardsoss/display-control'

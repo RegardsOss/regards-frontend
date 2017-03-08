@@ -1,4 +1,4 @@
-import { connect } from 'react-redux'
+import { connect } from '@regardsoss/redux'
 
 /**
  * React components to display a global application error.

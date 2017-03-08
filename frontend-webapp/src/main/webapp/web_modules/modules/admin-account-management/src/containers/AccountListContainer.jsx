@@ -1,4 +1,4 @@
-import { connect } from 'react-redux'
+import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { browserHistory } from 'react-router'
 import { Account } from '@regardsoss/model'

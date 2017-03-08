@@ -4,7 +4,7 @@
 import { isEqual, find, merge } from 'lodash'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-import { connect } from 'react-redux'
+import { connect } from '@regardsoss/redux'
 import { Theme, defaultTheme } from '@regardsoss/model'
 import ThemeActions from '../model/actions/ThemeActions'
 import ThemeSelectors from '../model/selectors/ThemeSelectors'
