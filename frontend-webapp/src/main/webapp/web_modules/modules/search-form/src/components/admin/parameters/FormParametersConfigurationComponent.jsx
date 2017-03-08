@@ -1,7 +1,6 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { keys } from 'lodash'
 import { Card, CardTitle } from 'material-ui/Card'
 import Divider from 'material-ui/Divider'
 import Subheader from 'material-ui/Subheader'

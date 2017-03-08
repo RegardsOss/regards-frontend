@@ -1,10 +1,13 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { FormattedMessage } from 'react-intl'
+import { values, map } from 'lodash'
+import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
+import { FieldArray } from 'redux-form'
+import Divider from 'material-ui/Divider'
 import { reduxForm, RenderTextField, Field } from '@regardsoss/form-utils'
-import { CardActionsComponent } from '@regardsoss/components'
+import { CardActionsComponent, ChipList } from '@regardsoss/components'
 import { AttributeModel } from '@regardsoss/model'
 import AttributesRegroupementConfiguration from '../../../models/attributes/AttributesRegroupementConfiguration'
 
@@ -23,24 +26,89 @@ class AttributeRegroupementFormComponent extends React.Component {
     // from reduxForm
     submitting: React.PropTypes.bool,
     pristine: React.PropTypes.bool,
+    invalid: React.PropTypes.bool,
     handleSubmit: React.PropTypes.func.isRequired,
     initialize: React.PropTypes.func.isRequired,
     error: React.PropTypes.string,
   }
 
+  componentDidMount() {
+    if (this.props.attributesRegrp) {
+      this.props.initialize(this.props.attributesRegrp)
+    }
+  }
+
+  addAttribute = (attribute, fields) => {
+    fields.push(attribute.content.id)
+  }
+
+  removeAttribute = (attribute, fields) => {
+    const attributes = fields.getAll()
+    let index = null
+    for (let i = 0; i < attributes.length; i += 1) {
+      if (attributes[i] === attribute.content.id) {
+        index = i
+        break
+      }
+    }
+    if (index !== null) {
+      fields.remove(index)
+    }
+  }
+
+  renderAttributes = ({ fields, meta: { error } }) => {
+    let attributes = fields.getAll()
+    if (!fields.getAll()) {
+      attributes = []
+    } else {
+      attributes = map(fields.getAll(), (attributeId) => {
+        if (this.props.selectableAttributes[attributeId]) {
+          return this.props.selectableAttributes[attributeId]
+        }
+        return null
+      })
+    }
+
+    return (
+      <div style={{ marginTop: 15 }}>
+        <ChipList
+          availableEntities={values(this.props.selectableAttributes)}
+          selectedEntities={attributes}
+          onAddEntity={entity => this.addAttribute(entity, fields)}
+          onRemoveEntity={entity => this.removeAttribute(entity, fields)}
+          getEntityLabel={entity => entity.content.name}
+          uniqValues
+        />
+      </div>
+    )
+  }
+
+
   render() {
-    const { pristine, submitting, error } = this.props
+    const { pristine, submitting, invalid, error } = this.props
+    let title = <FormattedMessage id="form.attributes.regroupement.form.title" />
+    let saveButton = <FormattedMessage id="form.attributes.regroupement.form.save" />
+    if (this.props.attributesRegrp) {
+      title = (<FormattedMessage
+        id="form.attributes.regroupement.form.title.update" values={{ name: this.props.attributesRegrp.label }}
+      />)
+      saveButton = <FormattedMessage id="form.attributes.regroupement.form.update" />
+    }
+
+
     return (
       <form
         onSubmit={this.props.handleSubmit(this.props.onSubmit)}
       >
         <Card>
           <CardTitle
-            title={<FormattedMessage
-              id="form.attributes.regroupement.form.title"
-            />}
+            title={title}
           />
           <CardText>
+            <Divider />
+            <div style={{ marginTop: 10 }}>
+              <FormattedHTMLMessage id="form.attributes.regroupement.description" />
+            </div>
             {error && <strong>{error}</strong>}
             <Field
               name="label"
@@ -50,12 +118,13 @@ class AttributeRegroupementFormComponent extends React.Component {
               disabled={this.props.attributesRegrp !== null}
               label={<FormattedMessage id="form.attributes.regroupement.form.label" />}
             />
+            <FieldArray name={'attributes'} component={this.renderAttributes} />
           </CardText>
           <CardActions>
             <CardActionsComponent
-              mainButtonLabel={<FormattedMessage id="form.attributes.regroupement.form.save" />}
+              mainButtonLabel={saveButton}
               mainButtonType="submit"
-              isMainButtonDisabled={pristine || submitting}
+              isMainButtonDisabled={pristine || submitting || invalid}
               secondaryButtonLabel={<FormattedMessage id="form.attributes.regroupement.form.cancel" />}
               secondaryButtonTouchTap={this.props.onClose}
             />
@@ -67,12 +136,17 @@ class AttributeRegroupementFormComponent extends React.Component {
 
 }
 
-function validate(values) {
+function validate(formValues) {
   const errors = {}
-  if (values && values.label && values.label.length === 0) {
+  if (!formValues || !formValues.label || formValues.label.length === 0) {
     errors.label = 'Label is required'
   }
   return errors
+}
+
+const UnconnectedAttributeRegroupementFormComponent = AttributeRegroupementFormComponent
+export {
+  UnconnectedAttributeRegroupementFormComponent,
 }
 
 export default reduxForm({

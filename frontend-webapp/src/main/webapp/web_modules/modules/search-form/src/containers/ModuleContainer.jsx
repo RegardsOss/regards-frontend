@@ -13,6 +13,7 @@ import { DATAOBJECT_RESULTS } from '../components/admin/parameters/ResultTypesEn
 import AttributeModelActions from '../models/attributes/AttributeModelActions'
 import AttributeModelSelector from '../models/attributes/AttributeModelSelector'
 import AttributeConfiguration from '../models/attributes/AttributeConfiguration'
+import AttributesRegroupementConfiguration from '../models/attributes/AttributesRegroupementConfiguration'
 
 /**
  * Main container to display module form.
@@ -25,6 +26,7 @@ class ModuleContainer extends React.Component {
     criterion: React.PropTypes.arrayOf(PluginConf),
     resultType: React.PropTypes.string,
     attributes: React.PropTypes.arrayOf(AttributeConfiguration),
+    attributesRegroupements: React.PropTypes.arrayOf(AttributesRegroupementConfiguration),
     // Set by mapDispatchToProps
     fetchAttribute: React.PropTypes.func,
     // eslint-disable-next-line react/no-unused-prop-types
@@ -170,6 +172,7 @@ class ModuleContainer extends React.Component {
         <SearchResultsComponent
           searchQuery={this.state.searchQuery}
           attributesConf={this.props.attributes}
+          attributesRegroupementsConf={this.props.attributesRegroupements}
           attributeModels={this.props.attributeModels}
         />
       )

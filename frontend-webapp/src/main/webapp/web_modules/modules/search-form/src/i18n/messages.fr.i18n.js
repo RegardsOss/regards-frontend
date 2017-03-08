@@ -24,8 +24,11 @@ const messages = Object.assign({
   'form.configuration.result.enable.facettes.label': 'Activer les facettes : Critères de filtrage dépendant des résultats de la recherche initiale',
   'form.attributes.parameters.title': 'Configurer les attributs affichés et/ou utilisés comme filtre depuis chaque résultat de recherche',
   'form.attributes.regroupement.form.title': 'Ajout d\'un nouveau regroupement',
+  'form.attributes.regroupement.description': 'Un regroupement d\'attributs permet de regrouper l\'affichage de plusieurs attributs d\'un même objet résultat d\'une recherche dans une seule colonne du tableau des résultats de recherche.<br/>' +
+  ' Veuillez saisir le label de la colonne voulue (ce label doit être unique) puis sélectionner les attributs à regrouper.',
   'form.attributes.regroupement.form.label': 'Label',
   'form.attributes.regroupement.form.save': 'Ajouter',
+  'form.attributes.regroupement.form.update': 'Mise à jour',
   'form.attributes.regroupement.form.cancel': 'Annuler',
   'form.attributes.regroupement.form.error.label.aleady.exists': 'Ce nom de regroupement est déjà utilisé',
   'form.attributes.regroupement.form.add.regroupement.button': 'Ajouter un regroupement',
@@ -36,6 +39,7 @@ const messages = Object.assign({
   'form.attributes.regroupement.remove': 'Supprimer',
   'form.attributes.regroupement.edit': 'Editer',
   'form.attributes.delete.confirm.title': 'Confirmer la suppression du regroupement {name}',
+  'form.attributes.regroupement.form.title.update': 'Mise à jour du regroupement : {name}',
   // Datasets tab
   'form.datasets.tab.title': 'Associer le formulaire de recherche aux jeux de données du catalogue',
   'form.datasets.all.label': 'Associer à tous les jeux de données du catalogue',

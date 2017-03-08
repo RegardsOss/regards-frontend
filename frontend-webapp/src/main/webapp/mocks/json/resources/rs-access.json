@@ -144,7 +144,7 @@
       "isDefault": true,
       "conf": {
         "resultType": "dataobjects",
-        "layout": "{\n    \"id\": \"main\",\n    \"type\": \"FormMainContainer\",\n    \"classes\": [],\n    \"styles\": {},\n    \"containers\": [\n        {\n            \"id\": \"Plop\",\n            \"type\": \"RowContainer\",\n            \"containers\": [\n                {\n                    \"id\": \"Column1\",\n                    \"type\": \"50PercentColumnContainer\"\n                },\n                {\n                    \"id\": \"Column2\",\n                    \"type\": \"50PercentColumnContainer\"\n                }\n            ]\n        }\n    ]\n}",
+        "layout": "{\"id\":\"main\",\"type\":\"FormMainContainer\",\"classes\":[],\"styles\":{},\"containers\":[{\"id\":\"Plop\",\"type\":\"RowContainer\",\"containers\":[{\"id\":\"Column1\",\"type\":\"50PercentColumnContainer\"},{\"id\":\"Column2\",\"type\":\"50PercentColumnContainer\"}]}]}",
         "datasets": {
           "type": "selectedDatasets",
           "selectedDatasets": [
@@ -171,6 +171,28 @@
                 "searchField": 1
               }
             }
+          }
+        ],
+        "attributesRegroupements": [
+          {
+            "label": "Format / Language",
+            "attributes": [
+              1,
+              0
+            ],
+            "visibility": true
+          }
+        ],
+        "attributes": [
+          {
+            "id": 1,
+            "visibility": true,
+            "facetable": false
+          },
+          {
+            "id": 0,
+            "visibility": true,
+            "facetable": false
           }
         ]
       },

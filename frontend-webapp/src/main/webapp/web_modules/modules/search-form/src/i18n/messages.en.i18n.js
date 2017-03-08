@@ -24,8 +24,11 @@ const messages = Object.assign({
   'form.configuration.result.enable.facettes.label': 'Enable facetes : Results filtering with criterion depending on initial search results',
   'form.attributes.parameters.title': 'Configure attributes displayed and used for filtering from each search results of the current form',
   'form.attributes.regroupement.form.title': 'Add new attributes regrouepement',
+  'form.attributes.regroupement.description': 'A regroupement of attributes allow you to display multiples attributes of a search result object into the same column of the results list.<br/>' +
+  ' Please enter the new regroupement label (that must be unique) and select attributes to regroup.',
   'form.attributes.regroupement.form.label': 'Label',
   'form.attributes.regroupement.form.save': 'Add',
+  'form.attributes.regroupement.form.update': 'Update',
   'form.attributes.regroupement.form.cancel': 'Cancel',
   'form.attributes.regroupement.form.error.label.aleady.exists': 'This regroupement label already exists',
   'form.attributes.regroupement.form.add.regroupement.button': 'Add new regroupement',
@@ -36,6 +39,7 @@ const messages = Object.assign({
   'form.attributes.regroupement.remove': 'Remove',
   'form.attributes.regroupement.edit': 'Edit',
   'form.attributes.delete.confirm.title': 'Confirm deletion of attributs regroupement {name}',
+  'form.attributes.regroupement.form.title.update': 'Update regroupement : {name}',
   // Datasets ta
   'form.datasets.tab.title': 'Link this search form to one or many datasets, or to one or many models of dataset',
   'form.datasets.all.label': 'Link with all datasets',
