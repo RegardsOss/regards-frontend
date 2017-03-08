@@ -37,7 +37,6 @@ class LoadingPaneComponent extends React.Component {
         <CardMedia
           overlay={
             <CardTitle
-
               title={title}
               subtitle={subtitle}
             />}

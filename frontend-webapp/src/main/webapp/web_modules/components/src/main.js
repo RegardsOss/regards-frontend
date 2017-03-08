@@ -25,6 +25,7 @@ import SecondaryActionButtonComponent from './cards/SecondaryActionButtonCompone
 import ShowableAtRender from './cards/ShowableAtRender'
 
 import ConfirmDialogComponent from './dialogs/ConfirmDialogComponent'
+import LoadableContentDialogComponent from './dialogs/LoadableContentDialogComponent'
 
 import ErrorCardComponent from './error/ErrorCardComponent'
 
@@ -57,6 +58,7 @@ export {
   ErrorDecoratorComponent,
   FixedTableContainer,
   LoadingPaneComponent,
+  LoadableContentDialogComponent,
   MainActionButtonComponent,
   NewsItemComponent,
   NoContentMessageInfo,
