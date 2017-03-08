@@ -96,23 +96,21 @@ storiesOf('Project admin - Project user', module)
   .addDecorator(withKnobs)
   .addDecorator(withStore)
   .addDecorator(muiTheme())
-  .add('List', () => {
-    return (
-      <ProjectUserListComponent
-        initialFecthing={boolean('Loading initial data?', false)}
-        isFetchingActions={boolean('Loading after action?', false)}
-        users={object('Users list', defaultProjectUsersList)}
-        waitingAccessUsers={object('Users list', defaultWaitingUsersList)}
-        onEdit={action('onEdit')}
-        onDelete={action('onDelete')}
-        onValidate={action('onValidate')}
-        onDeny={action('onDeny')}
-        onValidateAll={action('onValidateAll')}
-        backUrl={'back/url'}
-        createUrl={'create/url'}
-      />
-    )
-  })
+  .add('List', () => (
+    <ProjectUserListComponent
+      initialFecthing={boolean('Loading initial data?', false)}
+      isFetchingActions={boolean('Loading after action?', false)}
+      users={object('Users list', defaultProjectUsersList)}
+      waitingAccessUsers={object('Users list', defaultWaitingUsersList)}
+      onEdit={action('onEdit')}
+      onDelete={action('onDelete')}
+      onValidate={action('onValidate')}
+      onDeny={action('onDeny')}
+      onValidateAll={action('onValidateAll')}
+      backUrl={'back/url'}
+      createUrl={'create/url'}
+    />
+    ))
   .add('Create', () => {
     const rolesList = object('Roles list', defaultRolesList)
     return (

@@ -163,9 +163,7 @@ class ResultsAttributesConfigurationComponent extends React.Component {
   removeUnavailableAttributesConfiguration(attributesConf) {
     // Remove attribute configuration for unavailable attributes
     const updatedAttributesConf = concat([], attributesConf)
-    remove(updatedAttributesConf, (attributeConf) => {
-      return !find(this.props.selectableAttributes, attribute => attribute.content.id === attributeConf.id)
-    })
+    remove(updatedAttributesConf, attributeConf => !find(this.props.selectableAttributes, attribute => attribute.content.id === attributeConf.id))
     return updatedAttributesConf
   }
 

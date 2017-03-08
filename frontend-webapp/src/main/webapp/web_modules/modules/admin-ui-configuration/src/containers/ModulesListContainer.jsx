@@ -1,7 +1,6 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { isEmpty } from 'lodash'
 import { browserHistory } from 'react-router'
 import { FormLoadingComponent } from '@regardsoss/form-utils'
 import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
