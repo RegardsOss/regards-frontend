@@ -3,7 +3,10 @@
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
-    "airbnb"
+    "airbnb",
+    "plugin:lodash/recommended",
+    "plugin:react-perf/all",
+    "plugin:promise/recommended"
   ],
   "env": {
     "browser": true,
@@ -38,11 +41,37 @@
       }
     ],
     // Allow annonymous functions
-    "func-names": 0,
-    "no-confusing-arrow": "off"
+    "func-names":  0,
+    "no-confusing-arrow": "off",
+    // Configure lodash plugin to use the destructured import
+    "lodash/import-scope": [2, "member"],
+    // Disable useless rule (_.noop instead of empty annonnymous function)
+    "lodash/prefer-noop": 0,
+    // This rule is not satisfying
+    "lodash/prefer-lodash-method": 0,
+
+    // Enable mocha rules
+    // See https://github.com/lo1tuma/eslint-plugin-mocha/tree/master/docs/rules
+    "mocha/no-exclusive-tests": "error",
+    "mocha/max-top-level-suites": "error",
+    "mocha/handle-done-callback": "error",
+    "mocha/no-top-level-hooks": "error",
+    "mocha/no-return-and-callback": "error",
+    "mocha/no-sibling-hooks": "error",
+    "mocha/no-global-tests": "error",
+    "mocha/no-hooks-for-single-case": "error",
+    "mocha/no-mocha-arrows": "error",
+    "mocha/no-nested-tests": "error",
+    "mocha/no-skipped-tests": "error",
+    "mocha/no-identical-title": "error",
+    "mocha/no-synchronous-tests": "error"
   },
   "plugins": [
-    "react"
+    "react",
+    "lodash",
+    "mocha",
+    "promise",
+    "react-perf"
   ],
   "globals": {
     "React": true,
