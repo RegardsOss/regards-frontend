@@ -22,18 +22,21 @@ class HomePageContainer extends React.Component {
     intl: intlShape,
   }
 
-  state = {
-    open: true,
-    frameHeight: '750px',
+
+  componentWillMount = () => {
+    this.setState({
+      open: true,
+    })
   }
+
 
   onClose = () => {
     this.setState({ open: false })
   }
 
   onHide = () => {
-    this.handleClose()
     localStorage.setItem(`${this.props.project}HomePageHidden`, true)
+    this.onClose()
   }
 
   isOpened = () => {
