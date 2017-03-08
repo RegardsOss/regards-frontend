@@ -10,7 +10,7 @@ export default React.PropTypes.shape({
   // Regroupement label
   label: React.PropTypes.string,
   // Attributes associated to this regroupement
-  attributes: React.PropTypes.arrayOf(React.PropTypes.string),
+  attributes: React.PropTypes.arrayOf(React.PropTypes.number),
   // Is the regroupement visible ?
   visibility: React.PropTypes.bool,
 })

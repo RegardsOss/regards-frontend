@@ -15,6 +15,8 @@ import AttributeModelSelector from '../models/attributes/AttributeModelSelector'
 import AttributeConfiguration from '../models/attributes/AttributeConfiguration'
 import AttributesRegroupementConfiguration from '../models/attributes/AttributesRegroupementConfiguration'
 
+
+const TARGET_PARAMETER = 'target'
 /**
  * Main container to display module form.
  * @author Sébastien binda
@@ -42,16 +44,33 @@ class ModuleContainer extends React.Component {
 
   constructor(props) {
     super(props)
-    const type = props.resultType === DATAOBJECT_RESULTS ? 'DATAOBJECT' : 'DATASET'
+    const target = props.resultType === DATAOBJECT_RESULTS ? 'DATAOBJECT' : 'DATASET'
     this.criterionValues = {}
     this.state = {
-      searchQuery: `type=${type}`,
+      searchQuery: '',
+      target: target,
     }
   }
 
-
   componentWillMount() {
     this.loadCriterionAttributeModels()
+
+    // Read query parameters form current URL
+    const query = browserHistory.getCurrentLocation().query
+    let target = this.state.target
+    let q = this.getInitialQuery()
+    if (query && query.target){
+      target = query.target
+    }
+
+    if (query && query.q){
+      q = query.q
+    }
+
+    this.setState({
+      type: target,
+      searchQuery: q ? this.createFullSearchParameters(q,target) : '',
+    })
   }
 
   componentWillReceiveProps(nextProps) {
@@ -62,6 +81,25 @@ class ModuleContainer extends React.Component {
     // if (this.props.criterion !== nextProps.criterion) {
       this.loadCriterionAttributeModels()
     }
+  }
+
+
+  /**
+   * Get the default query for this form at initialization
+   */
+  getInitialQuery = () => {
+    // Add form associated dataset urn
+    const tags = reduce(this.props.datasets.selectedDatasets, (result, dataset) => {
+      if (result && dataset != undefined){
+        return `${result} OR ${dataset}`
+      } else if (dataset != undefined){
+        return dataset
+      }
+    },'')
+    if (tags && tags.length > 0) {
+      return `tags:(${tags})`
+    }
+    return ''
   }
 
   /**
@@ -118,23 +156,69 @@ class ModuleContainer extends React.Component {
   }
 
   /**
-   * Run form search with the stored criteria values in the state.criterion
+   * Format the given search query for opensearch format
+   * @param query
+   * @returns {string}
    */
-  handleSearch = () => {
-    // TODO Manage search
-    let query = reduce(this.criterionValues, (result, criteria, key) => {
-      if (result && criteria.value) {
-        return `${result}&attributes.${criteria.attribute.name}=${criteria.value}`
-      } else if (criteria.value) {
-        return `attributes.${criteria.attribute.name}=${criteria.value}`
+  formatSearchQuery = (query) => {
+    return `q=(${query})`
+  }
+
+  /**
+   * Create query for the search from all the configured criterion
+   */
+  createSearchQueryFromCriterion = () => {
+    let query = reduce(this.criterionValues, (result, criteria) => {
+      if (result && criteria && criteria.length > 0) {
+        return `${result} AND ${criteria}`
+      } else if (criteria) {
+        return criteria
       }
       return result
     }, '')
 
-    const type = this.props.resultType === DATAOBJECT_RESULTS ? 'DATAOBJECT' : 'DATASET'
-    query = `${query}&type=${type}`
+    // Add form associated dataset urn
+    const tags = reduce(this.props.datasets.selectedDatasets, (result, dataset) => {
+      if (result && dataset != undefined){
+        return `${result} OR ${dataset}`
+      } else if (dataset != undefined){
+        return dataset
+      }
+    },'')
 
+    if (query && query.length > 0){
+      query = query + ` AND (tags:(${tags})`
+    } else {
+      query = `tags:(${tags})`
+    }
 
+    if (query && query.length > 0) {
+      return this.formatSearchQuery(query)
+    }
+    return ''
+  }
+
+  /**
+   * Create full search request parameters with :
+   * q : query
+   * target : results target type
+   * @returns {string}
+   */
+  createFullSearchParameters = (query, target) => {
+    if (!query) {
+      return `${this.createSearchQueryFromCriterion()}&${TARGET_PARAMETER}=${this.state.target}`
+    } else if (!target) {
+      return `${this.formatSearchQuery(query)}&${TARGET_PARAMETER}=${this.state.target}`
+    } else {
+      return `${this.formatSearchQuery(query)}&${TARGET_PARAMETER}=${target}`
+    }
+  }
+
+  /**
+   * Run form search with the stored criteria values in the state.criterion
+   */
+  handleSearch = () => {
+    const query = this.createFullSearchParameters()
     this.setState({
       searchQuery: query,
     })

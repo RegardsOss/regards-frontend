@@ -6,6 +6,7 @@ import { FormattedMessage } from 'react-intl'
 import TextField from 'material-ui/TextField'
 import NumericalComparatorComponent from './NumericalComparatorComponent'
 import EnumNumericalComparator from '../model/EnumNumericalComparator'
+import {AttributeModel} from '../common/AttributeModel'
 
 /**
  * Plugin component allowing the user to configure the numerical value of an attribute with a mathematical comparator (=, >, <=, ...).
@@ -32,11 +33,7 @@ export class NumericalCriteriaComponent extends React.Component {
      * Keys of this object are the "name" props of the attributes defined in the plugin-info.json
      * Value of each keys are the attribute id (retrieved from the server) associated
      */
-    attribute: React.PropTypes.shape({
-      name: React.PropTypes.string,
-      description: React.PropTypes.string,
-      type: React.PropTypes.string,
-    }),
+    attribute: AttributeModel,
     /**
      * Init with a specific comparator set.
      */
