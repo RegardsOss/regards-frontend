@@ -12,5 +12,5 @@ export default React.PropTypes.shape({
   // Attributes associated to this regroupement
   attributes: React.PropTypes.arrayOf(React.PropTypes.string),
   // Is the regroupement visible ?
-  visible: React.PropTypes.bool,
+  visibility: React.PropTypes.bool,
 })

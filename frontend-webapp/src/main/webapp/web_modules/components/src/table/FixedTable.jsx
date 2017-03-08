@@ -228,7 +228,10 @@ class FixedTable extends React.Component {
    */
   renderToolbar = () => (
     <Toolbar style={{ minWidth: this.state.width }}>
-      <ToolbarTitle text={`${this.props.entities.length} results`} />
+      <ToolbarTitle
+        text={`${this.props.entities.length} results`}
+        style={{ color: this.context.muiTheme.palette.textColor }}
+      />
       <ToolbarGroup>
         <IconButton tooltip="Filter columns" onTouchTap={this.openColumnsFilterPanel}>
           <FilterList />

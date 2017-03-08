@@ -2,7 +2,6 @@
  * LICENSE_PLACEHOLDER
  **/
 import { map, isEqual, concat, remove, find } from 'lodash'
-import { List } from 'material-ui/List'
 import RaisedButton from 'material-ui/RaisedButton'
 import Subheader from 'material-ui/Subheader'
 import Dialog from 'material-ui/Dialog'
@@ -78,31 +77,6 @@ class ResultsAttributesConfigurationComponent extends React.Component {
     }
   }
 
-  handleOpenDialog = () => {
-    this.setState({ newAttributeRegrpDialogOpened: true })
-  }
-
-  handleCloseDialog = () => {
-    this.setState({
-      editingRegroupement: null,
-      newAttributeRegrpDialogOpened: false,
-    })
-  }
-
-  openDeleteDialog = (regroupementToDelete) => {
-    this.setState({
-      deleteDialogOpened: true,
-      regroupementToDelete,
-    })
-  }
-
-  closeDeleteDialog = () => {
-    this.setState({
-      deleteDialogOpened: false,
-      regroupementToDelete: null,
-    })
-  }
-
   /**
    * Change attribute configuration into the redux-form
    * @param attributeId
@@ -155,16 +129,15 @@ class ResultsAttributesConfigurationComponent extends React.Component {
     this.props.changeField('conf.attributesRegroupements', newAttributesConf)
   }
 
-
   /**
-   * Update given attributes configuration with avaialble attributes.
-   * If configuration contains attributes that are not available, so remove theme
+   * Callback called to edit an existing regroupement
+   * @param regroupementConf
    */
-  removeUnavailableAttributesConfiguration(attributesConf) {
-    // Remove attribute configuration for unavailable attributes
-    const updatedAttributesConf = concat([], attributesConf)
-    remove(updatedAttributesConf, attributeConf => !find(this.props.selectableAttributes, attribute => attribute.content.id === attributeConf.id))
-    return updatedAttributesConf
+  onEditRegroupement = (regroupementConf) => {
+    this.setState({
+      newAttributeRegrpDialogOpened: true,
+      editingRegroupement: regroupementConf,
+    })
   }
 
   /**
@@ -182,13 +155,32 @@ class ResultsAttributesConfigurationComponent extends React.Component {
   }
 
   /**
-   * Callback called to edit an existing regroupement
-   * @param regroupementConf
+   * Update given attributes configuration with avaialble attributes.
+   * If configuration contains attributes that are not available, so remove theme
    */
-  onEditRegroupement = (regroupementConf) => {
+  removeUnavailableAttributesConfiguration(attributesConf) {
+    // Remove attribute configuration for unavailable attributes
+    const updatedAttributesConf = concat([], attributesConf)
+    remove(updatedAttributesConf, attributeConf => !find(this.props.selectableAttributes, attribute => attribute.content.id === attributeConf.id))
+    return updatedAttributesConf
+  }
+
+
+  closeDeleteDialog = () => {
     this.setState({
-      newAttributeRegrpDialogOpened: true,
-      editingRegroupement: regroupementConf,
+      deleteDialogOpened: false,
+      regroupementToDelete: null,
+    })
+  }
+
+  handleOpenDialog = () => {
+    this.setState({ newAttributeRegrpDialogOpened: true })
+  }
+
+  handleCloseDialog = () => {
+    this.setState({
+      editingRegroupement: null,
+      newAttributeRegrpDialogOpened: false,
     })
   }
 
@@ -199,6 +191,13 @@ class ResultsAttributesConfigurationComponent extends React.Component {
     const newAttributesConf = concat([], this.props.attributesRegroupementsConf)
     remove(newAttributesConf, conf => conf.label === regroupementConf.label)
     this.props.changeField('conf.attributesRegroupements', newAttributesConf)
+  }
+
+  openDeleteDialog = (regroupementToDelete) => {
+    this.setState({
+      deleteDialogOpened: true,
+      regroupementToDelete,
+    })
   }
 
   /**
@@ -226,7 +225,7 @@ class ResultsAttributesConfigurationComponent extends React.Component {
   }
 
   /**
-   * Re,der confirm delete regroupement dialog
+   * Render confirm delete regroupement dialog
    * @returns {*}
    */
   renderConfirmDeleteDialog = () => {

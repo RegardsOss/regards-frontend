@@ -10,7 +10,7 @@ export default React.PropTypes.shape({
   // Attribute identifier
   id: React.PropTypes.number,
   // Is the attribute configured to be visible ?
-  visible: React.PropTypes.bool,
+  visibility: React.PropTypes.bool,
   // Is the attribute configured to be used as a facet ?
   facetable: React.PropTypes.bool,
 })

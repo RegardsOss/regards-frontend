@@ -45,7 +45,7 @@ class AttributeRegroupementFormComponent extends React.Component {
   removeAttribute = (attribute, fields) => {
     const attributes = fields.getAll()
     let index = null
-    for (let i = 0; i < attributes.length; i=i+1) {
+    for (let i = 0; i < attributes.length; i += 1) {
       if (attributes[i] === attribute.content.id) {
         index = i
         break
@@ -142,6 +142,11 @@ function validate(formValues) {
     errors.label = 'Label is required'
   }
   return errors
+}
+
+const UnconnectedAttributeRegroupementFormComponent = AttributeRegroupementFormComponent
+export {
+  UnconnectedAttributeRegroupementFormComponent,
 }
 
 export default reduxForm({

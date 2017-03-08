@@ -61,7 +61,7 @@ class AdminContainer extends React.Component {
     }
   }
 
-  componentDidMount() {
+  componentWillMount() {
     if (this.props.form && this.props.form.conf && this.props.form.conf.datasets) {
       this.updateSelectableAttributes(this.props.form.conf.datasets.type,
         this.props.form.conf.datasets.datasets,
