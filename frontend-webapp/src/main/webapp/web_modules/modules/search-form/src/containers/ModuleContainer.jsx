@@ -48,7 +48,7 @@ class ModuleContainer extends React.Component {
     this.criterionValues = {}
     this.state = {
       searchQuery: '',
-      target: target,
+      target,
     }
   }
 
@@ -59,17 +59,17 @@ class ModuleContainer extends React.Component {
     const query = browserHistory.getCurrentLocation().query
     let target = this.state.target
     let q = this.getInitialQuery()
-    if (query && query.target){
+    if (query && query.target) {
       target = query.target
     }
 
-    if (query && query.q){
+    if (query && query.q) {
       q = query.q
     }
 
     this.setState({
       type: target,
-      searchQuery: q ? this.createFullSearchParameters(q,target) : '',
+      searchQuery: q ? this.createFullSearchParameters(q, target) : '',
     })
   }
 
@@ -90,12 +90,12 @@ class ModuleContainer extends React.Component {
   getInitialQuery = () => {
     // Add form associated dataset urn
     const tags = reduce(this.props.datasets.selectedDatasets, (result, dataset) => {
-      if (result && dataset != undefined){
+      if (result && dataset != undefined) {
         return `${result} OR ${dataset}`
-      } else if (dataset != undefined){
+      } else if (dataset != undefined) {
         return dataset
       }
-    },'')
+    }, '')
     if (tags && tags.length > 0) {
       return `tags:(${tags})`
     }
@@ -160,9 +160,7 @@ class ModuleContainer extends React.Component {
    * @param query
    * @returns {string}
    */
-  formatSearchQuery = (query) => {
-    return `q=(${query})`
-  }
+  formatSearchQuery = query => `q=(${query})`
 
   /**
    * Create query for the search from all the configured criterion
@@ -179,15 +177,15 @@ class ModuleContainer extends React.Component {
 
     // Add form associated dataset urn
     const tags = reduce(this.props.datasets.selectedDatasets, (result, dataset) => {
-      if (result && dataset != undefined){
+      if (result && dataset != undefined) {
         return `${result} OR ${dataset}`
-      } else if (dataset != undefined){
+      } else if (dataset != undefined) {
         return dataset
       }
-    },'')
+    }, '')
 
-    if (query && query.length > 0){
-      query = query + ` AND (tags:(${tags})`
+    if (query && query.length > 0) {
+      query = `${query} AND (tags:(${tags})`
     } else {
       query = `tags:(${tags})`
     }
@@ -209,9 +207,8 @@ class ModuleContainer extends React.Component {
       return `${this.createSearchQueryFromCriterion()}&${TARGET_PARAMETER}=${this.state.target}`
     } else if (!target) {
       return `${this.formatSearchQuery(query)}&${TARGET_PARAMETER}=${this.state.target}`
-    } else {
-      return `${this.formatSearchQuery(query)}&${TARGET_PARAMETER}=${target}`
     }
+    return `${this.formatSearchQuery(query)}&${TARGET_PARAMETER}=${target}`
   }
 
   /**

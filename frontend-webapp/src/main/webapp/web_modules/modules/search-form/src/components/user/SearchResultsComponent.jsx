@@ -93,9 +93,8 @@ class SearchResultsComponent extends React.Component {
       !attribute.content.fragment.name ||
       attribute.content.fragment.name === DEFAULT_FRAGMENT) {
       return `${DATA_ATTRIBUTES_FIELD}.${attribute.content.name}`
-    } else {
-      return `${DATA_ATTRIBUTES_FIELD}.${attribute.content.fragment.name}.${attribute.content.name}`
     }
+    return `${DATA_ATTRIBUTES_FIELD}.${attribute.content.fragment.name}.${attribute.content.name}`
   }
 
   render() {
