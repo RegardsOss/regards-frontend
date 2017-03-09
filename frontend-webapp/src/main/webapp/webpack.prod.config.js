@@ -30,18 +30,13 @@ config = merge(config, {
       manifest: require(`${__dirname}/build/core-manifest.json`),
       context: __dirname,
     }),
-    // Search for equal or similar files and deduplicate them in the output. This comes with some overhead for the entry chunk, but can reduce file size effectively.
-    new webpack.optimize.DedupePlugin(),
     // A plugin for a more aggressive chunk merging strategy. Even similar chunks are merged if the total size is reduced enough.
     new webpack.optimize.AggressiveMergingPlugin(),
+    new webpack.optimize.MinChunkSizePlugin({minChunkSize: 10000}),
     // Minimize all JavaScript output of chunks
     new webpack.optimize.UglifyJsPlugin({
-      // Do not generate source map files (this are usefull during developpment)
+      // Do not generate source map files (this is usefull during developpment)
       sourceMap: false,
-      compress: {
-        // Remove warnings generated during compilation
-        warnings: false,
-      },
     }),
     new webpack.BannerPlugin('Copyright CNES'),
     // Define environment variables
