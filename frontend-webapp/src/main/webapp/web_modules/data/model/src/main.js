@@ -23,6 +23,9 @@ import AccessProject from './access/Project'
 import Module from './access/Module'
 import Layout from './access/Layout'
 import LayoutContent from './access/LayoutContent'
+import AttributeConfiguration from './access/AttributeConfiguration'
+import AttributesRegroupementConfiguration from './access/AttributesRegroupementConfiguration'
+import SearchResultsTargetsEnum from './access/SearchResultsTargetsEnum'
 import Entity from './dam/Entity'
 import AccessGroup from './dam/AccessGroup'
 import AccessRight from './dam/AccessRight'
@@ -79,6 +82,9 @@ export default {
   Module,
   Layout,
   LayoutContent,
+  AttributeConfiguration,
+  AttributesRegroupementConfiguration,
+  SearchResultsTargetsEnum,
 
   // MICROSERVICE
   PluginMetaData,

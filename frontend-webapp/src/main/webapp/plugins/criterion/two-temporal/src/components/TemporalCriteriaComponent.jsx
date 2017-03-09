@@ -7,6 +7,7 @@ import TimePicker from 'material-ui/TimePicker'
 import { FormattedMessage } from 'react-intl'
 import TemporalComparatorComponent from './TemporalComparatorComponent'
 import EnumTemporalComparator from '../model/EnumTemporalComparator'
+import {AttributeModel} from '../common/AttributeModel'
 
 let DateTimeFormat
 
@@ -51,11 +52,7 @@ export class TemporalCriteriaComponent extends React.Component {
      * Keys of this object are the "name" props of the attributes defined in the plugin-info.json
      * Value of each keys are the attribute id (retrieved from the server) associated
      */
-    attribute: React.PropTypes.shape({
-      name: React.PropTypes.string,
-      description: React.PropTypes.string,
-      type: React.PropTypes.string,
-    }),
+    attribute: AttributeModel,
     /**
      * Init with a specific comparator set.
      */

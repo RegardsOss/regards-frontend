@@ -2,20 +2,16 @@
  * LICENSE_PLACEHOLDER
  **/
 import { join, map, isEqual } from 'lodash'
-import { getFormValues, change } from 'redux-form'
 import { connect } from '@regardsoss/redux'
-import { PluginConf, AttributeModel, PluginDefinition } from '@regardsoss/model'
+import { AttributeModel, PluginDefinition } from '@regardsoss/model'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
+import ModuleConfiguration from '../models/ModuleConfiguration'
 import AttributeModelActions from '../models/attributes/AttributeModelActions'
 import AttributeModelSelector from '../models/attributes/AttributeModelSelector'
 import CriterionActions from '../models/criterion/CriterionActions'
 import CriterionSelector from '../models/criterion/CriterionSelector'
-import { DATASET_MODEL_TYPE, DATASET_TYPE } from '../models/datasets/DatasetSelectionTypes'
+import DatasetSelectionTypes from '../models/datasets/DatasetSelectionTypes'
 import FormTabsComponent from '../components/admin/FormTabsComponent'
-import AttributeConfiguration from '../models/attributes/AttributeConfiguration'
-import AttributesRegroupementConfiguration from '../models/attributes/AttributesRegroupementConfiguration'
-import Form from '../models/Form'
-import DatasetConfShape from '../models/datasets/DatasetsConfShape'
 
 /**
  * Main container to display administration view of the module form.
@@ -26,22 +22,20 @@ class AdminContainer extends React.Component {
   static propTypes = {
     // Props supplied by LazyModuleComponent
     appName: React.PropTypes.string,
-    // eslint-disable-next-line react/no-unused-prop-types
     project: React.PropTypes.string,
-    // Props supplied by redux-form to get the current form values
-    changeField: React.PropTypes.func,
-    form: Form,
-    // Default props given to the form
-    datasets: DatasetConfShape,
-    criterion: React.PropTypes.arrayOf(PluginConf),
-    layout: React.PropTypes.string,
-    resultType: React.PropTypes.string,
-    attributes: React.PropTypes.arrayOf(AttributeConfiguration),
-    attributesRegroupements: React.PropTypes.arrayOf(AttributesRegroupementConfiguration),
-    // Calculated attributes set by mapstatetoprops
+    adminForm: React.PropTypes.shape({
+      changeField: React.PropTypes.func,
+      // Current module configuration. Values from the redux-form
+      form: ModuleConfiguration,
+    }),
+
+    // Initial module configuration given by LayModuleComponent
+    moduleConf: ModuleConfiguration.isRequired,
+
+    // Set by mapStateToProps and mapDispatchToProps
     selectableAttributes: React.PropTypes.objectOf(AttributeModel),
+    selectableAttributesFectching: React.PropTypes.bool,
     availableCriterion: React.PropTypes.objectOf(PluginDefinition),
-    // Set by mapDispatchToProps
     fetchCriterion: React.PropTypes.func,
     fetchModelsAttributes: React.PropTypes.func,
     fetchAllModelsAttributes: React.PropTypes.func,
@@ -62,10 +56,10 @@ class AdminContainer extends React.Component {
   }
 
   componentWillMount() {
-    if (this.props.form && this.props.form.conf && this.props.form.conf.datasets) {
-      this.updateSelectableAttributes(this.props.form.conf.datasets.type,
-        this.props.form.conf.datasets.datasets,
-        this.props.form.conf.datasets.models)
+    if (this.props.adminForm.form && this.props.adminForm.form.conf && this.props.adminForm.form.conf.datasets) {
+      this.updateSelectableAttributes(this.props.adminForm.form.conf.datasets.type,
+        this.props.adminForm.form.conf.datasets.datasets,
+        this.props.adminForm.form.conf.datasets.models)
     } else {
       this.updateSelectableAttributes()
     }
@@ -79,19 +73,19 @@ class AdminContainer extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     // Check if the selectable attributes have to be updated
-    if (this.props.form && this.props.form.conf && !isEqual(this.props.form.conf.datasets, nextProps.form.conf.datasets)) {
-      this.updateSelectableAttributes(nextProps.form.conf.datasets.type,
-        nextProps.form.conf.datasets.datasets,
-        nextProps.form.conf.datasets.models)
+    if (this.props.adminForm.form && this.props.adminForm.form.conf && !isEqual(this.props.adminForm.form.conf.datasets, nextProps.adminForm.form.conf.datasets)) {
+      this.updateSelectableAttributes(nextProps.adminForm.form.conf.datasets.type,
+        nextProps.adminForm.form.conf.datasets.datasets,
+        nextProps.adminForm.form.conf.datasets.models)
     }
   }
 
   updateSelectableAttributes = (type, models, datasets) => {
     // TODO : Manage retreive of availables attributs with backend.
     let task
-    if (type === DATASET_MODEL_TYPE) {
+    if (type === DatasetSelectionTypes.DATASET_MODEL_TYPE) {
       task = this.props.fetchModelsAttributes(models)
-    } else if (type === DATASET_TYPE) {
+    } else if (type === DatasetSelectionTypes.DATASET_TYPE) {
       task = this.props.fetchDatasetsAttributes(datasets)
     } else {
       task = this.props.fetchAllModelsAttributes()
@@ -105,19 +99,19 @@ class AdminContainer extends React.Component {
   initEmptyProps() {
     return {
       appName: this.props.appName,
-      changeField: this.props.changeField,
-      currentConf: this.props.form.conf,
-      module: this.props.form,
+      project: this.props.project,
+      adminForm: this.props.adminForm,
+      changeField: this.props.adminForm.changeField,
       defaultConf: {
-        enableFacettes: this.props.enableFacettes,
-        resultType: this.props.resultType ? this.props.resultType : 'datasets',
-        datasets: this.props.datasets ? this.props.datasets : {
+        enableFacettes: this.props.moduleConf.enableFacettes,
+        resultType: this.props.moduleConf.resultType ? this.props.moduleConf.resultType : 'datasets',
+        datasets: this.props.moduleConf.datasets ? this.props.moduleConf.datasets : {
           type: 'all',
         },
-        criterion: this.props.criterion ? this.props.criterion : [],
-        layout: this.props.layout,
-        attributes: this.props.attributes ? this.props.attributes : [],
-        attributesRegroupements: this.props.attributesRegroupements ? this.props.attributesRegroupements : [],
+        criterion: this.props.moduleConf.criterion ? this.props.moduleConf.criterion : [],
+        layout: this.props.moduleConf.layout,
+        attributes: this.props.moduleConf.attributes ? this.props.moduleConf.attributes : [],
+        attributesRegroupements: this.props.moduleConf.attributesRegroupements ? this.props.moduleConf.attributesRegroupements : [],
       },
       selectableAttributes: this.props.selectableAttributes,
       selectableAttributesFectching: this.state.attributesLoading,
@@ -128,7 +122,7 @@ class AdminContainer extends React.Component {
   }
 
   render() {
-    if (this.props.form) {
+    if (this.props.adminForm.form) {
       const props = this.initEmptyProps()
       return (
         <LoadableContentDisplayDecorator
@@ -145,7 +139,6 @@ class AdminContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  form: getFormValues('edit-module-form')(state),
   selectableAttributes: AttributeModelSelector.getList(state),
   availableCriterion: CriterionSelector.getList(state),
 })
@@ -169,8 +162,6 @@ const mapDispatchToProps = dispatch => ({
   fetchDatasetsAttributes: datasetsId => dispatch(
     AttributeModelActions.fetchPagedEntityList(dispatch, 0, 100, { queryPAram: listToQueryParam(datasetsId, 'dataset') })),
   // funcution to update a value of the current redux-form
-  // TODO get form name from upper container (admin-ui-configuration module)
-  changeField: (field, value) => dispatch(change('edit-module-form', field, value)),
 })
 
 const UnconnectedAdminContainer = AdminContainer

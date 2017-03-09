@@ -23,6 +23,8 @@ describe('[FORM MODULE] Testing FormDatasetsConfigurationComponent', () => {
       moduleTheme: Styles(muiTheme),
       intl: {
         formatMessage: id => (id.id),
+        formatDate: id => (id.id),
+        formatTime: id => (id.id),
       },
     },
   }

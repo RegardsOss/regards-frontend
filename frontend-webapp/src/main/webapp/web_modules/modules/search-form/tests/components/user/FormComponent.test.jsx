@@ -25,6 +25,7 @@ describe('[FORM MODULE] Testing Form User component', () => {
   it('Should render form configured layout with given plugins', () => {
     const handleSearchCallback = sinon.spy()
     const props = {
+      layout: {},
       handleSearch: handleSearchCallback,
     }
 

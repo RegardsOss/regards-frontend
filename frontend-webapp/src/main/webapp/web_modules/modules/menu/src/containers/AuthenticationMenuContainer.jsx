@@ -75,10 +75,10 @@ class AuthenticationMenuContainer extends React.Component {
               showCancel: !routeHelpers.isBackFromAuthenticationMail(),
               showAskProjectAccess: true,
               onCancelAction: this.onCloseDialog,
-              project: this.props.project,
             },
           }}
           appName={this.props.appName}
+          project={this.props.project}
         />
       </div>
     )

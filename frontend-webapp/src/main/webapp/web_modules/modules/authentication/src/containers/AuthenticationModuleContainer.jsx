@@ -18,16 +18,18 @@ export class AuthenticationModuleContainer extends React.Component {
   static propTypes = {
     // current project (undefined or empty if admin)
     project: React.PropTypes.string.isRequired,
-    // externally controlled login window state
-    showLoginWindow: React.PropTypes.bool.isRequired,
-    // login screen title
-    loginTitle: React.PropTypes.string.isRequired,
-    // show create account link?
-    showAskProjectAccess: React.PropTypes.bool.isRequired,
-    // show cancel button?
-    showCancel: React.PropTypes.bool.isRequired,
-    // on cancel button callback, or none if behavior not available
-    onCancelAction: React.PropTypes.func,
+    moduleConf: React.PropTypes.shape({
+      // externally controlled login window state
+      showLoginWindow: React.PropTypes.bool.isRequired,
+      // login screen title
+      loginTitle: React.PropTypes.string.isRequired,
+      // show create account link?
+      showAskProjectAccess: React.PropTypes.bool.isRequired,
+      // show cancel button?
+      showCancel: React.PropTypes.bool.isRequired,
+      // on cancel button callback, or none if behavior not available
+      onCancelAction: React.PropTypes.func,
+    }),
     // from mapStateToProps
     authenticated: React.PropTypes.bool,
   }
@@ -77,7 +79,7 @@ export class AuthenticationModuleContainer extends React.Component {
 
   render() {
     // parse initial state from parameters
-    const { project, showLoginWindow, loginTitle, showAskProjectAccess, showCancel, onCancelAction } = this.props
+    const { project, moduleConf: { showLoginWindow, loginTitle, showAskProjectAccess, showCancel, onCancelAction } } = this.props
     const { initialViewMode, initialEmail, actionToken } = this.state
     // render in session management HOC (can override 'should show' if session is locked, controls dialog state and content)
     return (

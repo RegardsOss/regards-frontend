@@ -17,10 +17,12 @@ class MenuContainer extends React.Component {
     project: React.PropTypes.string,
     appName: React.PropTypes.string.isRequired,
     // Module configuration.
-    title: React.PropTypes.string,
-    displayAuthentication: React.PropTypes.bool.isRequired,
-    displayLocaleSelector: React.PropTypes.bool.isRequired,
-    displayThemeSelector: React.PropTypes.bool.isRequired,
+    moduleConf: React.PropTypes.shape({
+      title: React.PropTypes.string,
+      displayAuthentication: React.PropTypes.bool.isRequired,
+      displayLocaleSelector: React.PropTypes.bool.isRequired,
+      displayThemeSelector: React.PropTypes.bool.isRequired,
+    }),
   }
 
   static contextTypes = {
@@ -38,7 +40,7 @@ class MenuContainer extends React.Component {
 
   render() {
     const { moduleTheme } = this.context
-    const title = this.props.title ? this.props.title : ''
+    const title = this.props.moduleConf.title ? this.props.moduleConf.title : ''
     const style = {
       headContainer: {
         styles: moduleTheme.bar,
@@ -46,21 +48,21 @@ class MenuContainer extends React.Component {
       title: moduleTheme.title,
     }
     let authentication = null
-    if (this.props.displayAuthentication) {
+    if (this.props.moduleConf.displayAuthentication) {
       authentication = (
         <AuthenticationMenuContainer appName={this.props.appName} project={this.props.project} />
       )
     }
 
     let themeSelector = null
-    if (this.props.displayThemeSelector) {
+    if (this.props.moduleConf.displayThemeSelector) {
       themeSelector = (
         <SelectThemeContainer />
       )
     }
 
     let localeSelector = null
-    if (this.props.displayLocaleSelector) {
+    if (this.props.moduleConf.displayLocaleSelector) {
       localeSelector = (
         <SelectLocaleContainer />
       )
