@@ -54,7 +54,7 @@ class LazyModuleComponent extends React.Component {
   }
 
   componentDidUpdate() {
-    if (this.props.onLoadAction) {
+    if (this.props.onLoadAction && this.state.isLoaded) {
       this.props.onLoadAction()
     }
   }

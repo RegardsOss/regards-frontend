@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { connect } from '@regardsoss/redux'
+import { connect } from 'react-redux'
 import { updateLocale } from '../model/I18nActions'
 import SelectLocalComponent from '../components/SelectLocaleComponent'
 import I18nProvider from '../I18nProvider'

@@ -63,5 +63,5 @@ class LicenseContainer extends React.Component {
     )
   }
 }
-export default connect LicenseContainer
+export default LicenseContainer
 
