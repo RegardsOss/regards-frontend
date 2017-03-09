@@ -4,7 +4,7 @@
 import { connect } from '@regardsoss/redux'
 import { AuthenticateSelectors } from '@regardsoss/authentication-manager'
 import { ShowableAtRender } from '@regardsoss/components'
-import { LicenseDisplayContainer } from './LicenseDisplayContainer'
+import LicenseDisplayContainer from './LicenseDisplayContainer'
 
 /**
 * License module container: only mounts / unmounts the display container when license state changes (lets the sub container )
@@ -12,6 +12,8 @@ import { LicenseDisplayContainer } from './LicenseDisplayContainer'
 class LicenseModuleContainer extends React.Component {
 
   static propTypes = {
+    // from module system
+    project: React.PropTypes.string.isRequired,
     // from mapStateToProps
     isAuthenticated: React.PropTypes.bool.isRequired,
   }
@@ -20,10 +22,10 @@ class LicenseModuleContainer extends React.Component {
 
   render() {
     // we mount / unmount the sub container according with authenticated state
-    const { isAuthenticated } = this.props
+    const { project, isAuthenticated } = this.props
     return (
       <ShowableAtRender show={isAuthenticated}>
-        <LicenseDisplayContainer />
+        <LicenseDisplayContainer project={project} />
       </ShowableAtRender>
     )
   }

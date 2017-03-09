@@ -7,6 +7,9 @@ import { connect } from '@regardsoss/redux'
 import { themeContextType } from '@regardsoss/theme'
 import { LoadableContentDialogComponent } from '@regardsoss/components'
 import { URL } from '@regardsoss/model'
+import { AuthenticateActions } from '@regardsoss/authentication-manager'
+import ProjectLicenseActions from '../model/ProjectLicenseActions'
+import ProjectLicenseSelectors from '../model/ProjectLicenseSelectors'
 
 
 /**
@@ -15,33 +18,40 @@ import { URL } from '@regardsoss/model'
 class LicenseDisplayContainer extends React.Component {
 
   static propTypes = {
+    project: React.PropTypes.string.isRequired,
     // from mapStateToProps
     licenseLink: URL,
-    accepted: React.PropTypes.bool.isRequired,
+    accepted: React.PropTypes.bool,
     // from mapDispatchToProps
-    fetchLicenseState: React.PropTypes.func.isRequired,
-    flushLicenseState: React.PropTypes.func.isRequired,
+    fetchLicenseInformation: React.PropTypes.func.isRequired,
+    flushLicenseInformation: React.PropTypes.func.isRequired,
+    sendAcceptLicense: React.PropTypes.func.isRequired,
+    logout: React.PropTypes.func.isRequired,
   }
+
 
   static contextTypes = {
     ...themeContextType,
     intl: intlShape,
   }
 
-
-  componentWillMount = () => {
+  componentDidMount = () => {
     // mounting: the user just authentified, fetch license state
-    this.props.fetchLicenseState()
+    const { project, fetchLicenseInformation } = this.props
+    fetchLicenseInformation(project)
   }
 
   componentWillUnmount = () => {
     // unmounting: user logged out, clear license state
-    this.props.flushLicenseState()
+    this.props.flushLicenseInformation()
   }
 
-  onAccept = () => { }
+  onAccept = () => {
+    const { project, sendAcceptLicense } = this.props
+    sendAcceptLicense(project)
+  }
 
-  onRefuse = () => { }
+  onRefuse = () => { this.props.logout() }
 
   render() {
     const { licenseLink, accepted } = this.props
@@ -74,14 +84,15 @@ class LicenseDisplayContainer extends React.Component {
   }
 }
 const mapStateToProps = state => ({
-  licenseLink: 'www.google.com', // TODO
-  accepted: false,
+  licenseLink: ProjectLicenseSelectors.getResult(state) && ProjectLicenseSelectors.getResult(state).licenseLink,
+  accepted: ProjectLicenseSelectors.getResult(state) ? ProjectLicenseSelectors.getResult(state).accepted : false,
 })
 
 const mapDispatchToProps = dispatch => ({
-  // rs- admin / project / licence /
-  fetchLicenseState: () => { }, // TODO
-  flushLicenseState: () => { },
+  fetchLicenseInformation: (project) => { dispatch(ProjectLicenseActions.fetchLicenseInformation(project)) },
+  sendAcceptLicense: (project) => { dispatch(ProjectLicenseActions.sendAcceptLicense(project)) },
+  flushLicenseInformation: () => { dispatch(ProjectLicenseActions.flush()) },
+  logout: () => { dispatch(AuthenticateActions.flush()) },
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(LicenseDisplayContainer)

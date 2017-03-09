@@ -4,10 +4,10 @@
 import { assert } from 'chai'
 import Module from '../src/main'
 
-describe('[MENU MODULE] Testing module interface', () => {
+describe('[HOME PAGE] Testing module interface', () => {
   it('Should supply valid module interface', () => {
-    assert.isDefined(Module.moduleContainer, 'News module should define a main container')
-    assert.isDefined(Module.styles, 'News module should define a styles file')
-    assert.isDefined(Module.messagesDir, 'News module should define his internationalization messages dir')
+    assert.isDefined(Module.moduleContainer, 'Home page module should define a main container')
+    assert.isDefined(Module.styles, 'Home page module should define a styles file')
+    assert.isDefined(Module.messagesDir, 'Home page module should define his internationalization messages dir')
   })
 })

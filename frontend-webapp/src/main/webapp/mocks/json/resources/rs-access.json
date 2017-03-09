@@ -222,6 +222,15 @@
       },
       "applicationId": "user",
       "id": 10
+    },
+    {
+      "active": true,
+      "conf": {},
+      "name": "licenses",
+      "description": "License displayer",
+      "container": "user",
+      "applicationId": "user",
+      "id": 11
     }
   ],
   "layouts": [

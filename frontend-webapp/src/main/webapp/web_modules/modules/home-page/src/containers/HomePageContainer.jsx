@@ -13,8 +13,8 @@ import { LoadableContentDialogComponent } from '@regardsoss/components'
 class HomePageContainer extends React.Component {
 
   static propTypes = {
-    project: React.PropTypes.string,
-    htmlPath: React.PropTypes.string,
+    project: React.PropTypes.string.isRequired,
+    htmlPath: React.PropTypes.string.isRequired,
   }
 
   static contextTypes = {

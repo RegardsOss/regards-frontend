@@ -7,7 +7,7 @@ const validURLRegexp = /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:
 /**
  * URL prop type validator (you can use isRequired on it)
  */
-const urlStringValidtor = (props, propName, componentName, required = false) => {
+const urlStringValidtor = (props, propName, componentName, location, required = false) => {
   const url = props[propName]
   if (props[propName]) {
     if (typeof url !== 'string') {
@@ -20,6 +20,6 @@ const urlStringValidtor = (props, propName, componentName, required = false) => 
   }
   return required ? new Error(`${propName} is required in ${componentName}`) : null
 }
-urlStringValidtor.isRequired = (props, propName, componentName) => urlStringValidtor(props, propName, componentName, true)
+urlStringValidtor.isRequired = (props, propName, componentName, location) => urlStringValidtor(props, propName, componentName, location, true)
 
 export default urlStringValidtor
