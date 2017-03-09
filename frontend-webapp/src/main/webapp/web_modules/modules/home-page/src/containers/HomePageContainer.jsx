@@ -1,7 +1,8 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { FormattedMessage, intlShape } from 'react-intl'
+import root from 'window-or-global'
+import { FormattedMessage } from 'react-intl'
 import FlatButton from 'material-ui/FlatButton'
 import { themeContextType } from '@regardsoss/theme'
 import { LoadableContentDialogComponent } from '@regardsoss/components'
@@ -16,12 +17,11 @@ class HomePageContainer extends React.Component {
     project: React.PropTypes.string.isRequired,
     moduleConf: React.PropTypes.shape({
       htmlPath: React.PropTypes.string.isRequired,
-    }),
+    }).isRequired,
   }
 
   static contextTypes = {
     ...themeContextType,
-    intl: intlShape,
   }
 
 
@@ -37,17 +37,17 @@ class HomePageContainer extends React.Component {
   }
 
   onHide = () => {
-    localStorage.setItem(`${this.props.project}HomePageHidden`, true)
+    root.localStorage.setItem(`${this.props.project}HomePageHidden`, true)
     this.onClose()
   }
 
   isOpened = () => {
     const { open } = this.state
-    return open && !JSON.parse(localStorage.getItem(`${this.props.project}HomePageHidden`))
+    return open && !JSON.parse(root.localStorage.getItem(`${this.props.project}HomePageHidden`))
   }
 
   render() {
-    const { moduleConf: {htmlPath} } = this.props
+    const { moduleConf: { htmlPath } } = this.props
     const { dialog: { bodyStyle, heightPercent, widthPercent } } = this.context.moduleTheme
     return (
       <LoadableContentDialogComponent
