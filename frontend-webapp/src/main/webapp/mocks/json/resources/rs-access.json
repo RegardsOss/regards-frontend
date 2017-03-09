@@ -304,6 +304,15 @@
     },
     {
       "active": true,
+      "conf": {},
+      "name": "licenses",
+      "description": "License displayer",
+      "container": "user",
+      "applicationId": "user",
+      "id": 13
+    },
+    {
+      "active": true,
       "conf": {
         "layout": "{\"id\":\"application\",\"type\":\"MainContainer\",\"classes\":[],\"styles\":{},\"containers\":[]}",
         "enableFacettes": true,
@@ -330,7 +339,7 @@
       "description": "Recherche globale",
       "container": "content",
       "applicationId": "user",
-      "id": 13
+      "id": 14
     }
   ],
   "layouts": [
