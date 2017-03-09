@@ -20,7 +20,7 @@ class FormParametersComponent extends React.Component {
     attributes: React.PropTypes.arrayOf(AttributeConfiguration),
     attributesRegroupements: React.PropTypes.arrayOf(AttributesRegroupementConfiguration),
     selectableAttributes: React.PropTypes.objectOf(AttributeModel),
-    resultType: React.PropTypes.bool,
+    resultType: React.PropTypes.string,
   }
 
   render() {

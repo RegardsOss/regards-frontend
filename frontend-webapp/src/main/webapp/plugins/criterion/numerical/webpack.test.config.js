@@ -1,6 +1,3 @@
-/**
- * LICENSE_PLACEHOLDER
- **/
 const webpack = require('webpack')
 const merge = require('webpack-merge')
 const nodeExternals = require('webpack-node-externals')
@@ -14,6 +11,7 @@ config = merge(config, {
   // Enable sourcemaps for debugging webpack's output.
   devtool: 'inline-source-map',
   stats: {
+    chunks: false,
     colors: true,
     reasons: true,
   },

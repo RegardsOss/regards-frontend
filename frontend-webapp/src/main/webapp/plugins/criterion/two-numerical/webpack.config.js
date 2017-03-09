@@ -8,6 +8,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 module.exports = {
   // Hide stats information from children during webpack compilation
   stats: { children: false },
+  // Webpack working directory
   context: __dirname,
   // Javascript main entry
   entry: './src/main.js',
@@ -22,30 +23,29 @@ module.exports = {
   },
   resolve: {
     // Automaticaly get extensions files from javascript code with import or require.
-    // exemple require('main') look for main, main.js or main.sass with our configuration
-    // extensions: ['', '.js', '.scss'],
-    extensions: ['', '.js', '.jsx'],
-    // Root directories from wich requires are made
-    root: [
+    // exemple require('main') look for main, main.js or main.jsx with our configuration
+    extensions: ['.js', '.jsx'],
+    modules: [
+      // Root directories from wich requires are made
       path.join(__dirname),
+      'node_modules'
     ],
   },
   module: {
-    loaders: [
+    rules: [
       // Transpile ES6 Javascript into ES5 with babel loader
       {
         test: /\.jsx?$/,
         exclude: [/node_modules/, /json/],
-        loader: 'babel',
+        loader: 'babel-loader',
       },
       {
         test: /\.css$/,
-        loader: ExtractTextPlugin.extract('style-loader', 'css-loader'),
+        loader: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader' }),
       },
       {
         test: /\.jpg$/,
-        exclude: [/node_modules/],
-        loader: 'file-loader?name=/img/[name].[ext]',
+        loader: 'file-loader?name=[name].[ext]&outputPath=./img/',
       },
       {
         test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
@@ -56,19 +56,8 @@ module.exports = {
         loader: 'file-loader?name=/img/[name].[ext]',
       },
       {
-        test: /\.json$/,
-        exclude: [/node_modules/],
-        loader: 'json-loader',
-      },
-      /*
-       {
-       test: /\.json$/,
-       loader: 'file-loader?name=/json/[name].[ext]',
-       },
-       */
-      {
         test: /\.html/,
-        loader: 'file?name=[name].[ext]',
+        loader: 'file-loader?name=[name].[ext]',
       },
       {
         test: /\.png$/,
@@ -76,12 +65,6 @@ module.exports = {
         query: { mimetype: 'image/png' },
       },
     ],
-  },
-  eslint: {
-    failOnWarning: false,
-    failOnError: false,
-    emitWarning: true,
-    fix: true,
   },
   plugins: [
     new webpack.DllReferencePlugin({
@@ -91,19 +74,10 @@ module.exports = {
       manifest: require(`${__dirname}/../../../build/core-manifest.json`),
       context: __dirname,
     }),
-    // Search for equal or similar files and deduplicate them in the output. This comes with some overhead for the entry chunk, but can reduce file size effectively.
-    new webpack.optimize.DedupePlugin(),
     // A plugin for a more aggressive chunk merging strategy. Even similar chunks are merged if the total size is reduced enough.
     new webpack.optimize.AggressiveMergingPlugin(),
     // Minimize all JavaScript output of chunks
-    new webpack.optimize.UglifyJsPlugin({
-      // Do not generate source map files (this are usefull during developpment)
-      sourceMap: false,
-      compress: {
-        // Remove warnings generated during compilation
-        warnings: false,
-      },
-    }),
+    new webpack.optimize.UglifyJsPlugin(),
     // Makes a module available as a variable in every module
     new webpack.ProvidePlugin({ React: 'react' }),
     new webpack.BannerPlugin('Copyright CNES'),

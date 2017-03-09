@@ -29,32 +29,38 @@
     {
       "id": 1,
       "name": "string-criteria",
-      "type": "criterion",
+      "type": "criteria",
       "sourcesPath": "/plugins/criterion/string/plugin.js"
     },
     {
       "id": 2,
       "name": "numerical-criteria",
-      "type": "criterion",
+      "type": "criteria",
       "sourcesPath": "/plugins/criterion/numerical/plugin.js"
     },
     {
       "id": 3,
       "name": "two-numerical-criteria",
-      "type": "criterion",
+      "type": "criteria",
       "sourcesPath": "/plugins/criterion/two-numerical/plugin.js"
     },
     {
       "id": 4,
       "name": "temporal-criteria",
-      "type": "criterion",
+      "type": "criteria",
       "sourcesPath": "/plugins/criterion/temporal/plugin.js"
     },
     {
       "id": 5,
       "name": "two-temporal-criteria",
-      "type": "criterion",
+      "type": "criteria",
       "sourcesPath": "/plugins/criterion/two-temporal/plugin.js"
+    },
+    {
+      "sourcesPath": "/plugins/criterion/full-text/plugin.js",
+      "name": "full-text-criteria",
+      "type": "criteria",
+      "id": 6
     }
   ],
   "modules": [
@@ -295,6 +301,36 @@
       "isDefault": true,
       "applicationId": "user",
       "id": 12
+    },
+    {
+      "active": true,
+      "conf": {
+        "layout": "{\"id\":\"application\",\"type\":\"MainContainer\",\"classes\":[],\"styles\":{},\"containers\":[]}",
+        "enableFacettes": true,
+        "attributes": [
+          {
+            "id": 0,
+            "visibility": true,
+            "facetable": false
+          },
+          {
+            "id": 1,
+            "visibility": true,
+            "facetable": false
+          }
+        ],
+        "criterion": [
+          {
+            "pluginId": 6,
+            "container": "application"
+          }
+        ]
+      },
+      "name": "search-form",
+      "description": "Recherche globale",
+      "container": "content",
+      "applicationId": "user",
+      "id": 13
     }
   ],
   "layouts": [

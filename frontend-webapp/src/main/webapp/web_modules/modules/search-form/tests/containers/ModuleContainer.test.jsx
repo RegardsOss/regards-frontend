@@ -75,7 +75,7 @@ describe('[FORM MODULE] Testing User Container', () => {
     const wrapper = shallow(
       <UnconnectedModuleContainer
         {...props}
-      />,options
+      />, options,
     )
 
     assert.equal(fetchAttributeCallback.callCount, 3, 'There sould be 3 attributes to fetch')

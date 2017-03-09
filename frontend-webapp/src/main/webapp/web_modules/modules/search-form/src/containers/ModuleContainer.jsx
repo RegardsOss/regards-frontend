@@ -95,16 +95,18 @@ class ModuleContainer extends React.Component {
    */
   getInitialQuery = () => {
     // Add form associated dataset urn
-    const tags = reduce(this.props.moduleConf.datasets.selectedDatasets, (result, dataset) => {
-      if (result && dataset !== undefined) {
-        return `${result} OR ${dataset}`
-      } else if (dataset !== undefined) {
-        return dataset
+    if (this.props.moduleConf.datasets && this.props.moduleConf.datasets.selectedDatasets) {
+      const tags = reduce(this.props.moduleConf.datasets.selectedDatasets, (result, dataset) => {
+        if (result && dataset !== undefined) {
+          return `${result} OR ${dataset}`
+        } else if (dataset !== undefined) {
+          return dataset
+        }
+        return result
+      }, '')
+      if (tags && tags.length > 0) {
+        return `tags:(${tags})`
       }
-      return result
-    }, '')
-    if (tags && tags.length > 0) {
-      return `tags:(${tags})`
     }
     return ''
   }
@@ -119,13 +121,15 @@ class ModuleContainer extends React.Component {
     // For each criteria of this form
     forEach(criterionWithAttributtes, (criteria) => {
       // For each attributeModels of the criteria
-      forEach(criteria.pluginConf.attributes, (attributeId, key) => {
-        // If the associated attribute has already been retrieved from server, the update the criteria
-        if (this.props.attributeModels[attributeId]) {
-          // eslint-disable-next-line no-param-reassign
-          criteria.pluginConf.attributes[key] = this.props.attributeModels[attributeId].content
-        }
-      })
+      if (criteria.pluginConf && criteria.pluginConf.attributes) {
+        forEach(criteria.pluginConf.attributes, (attributeId, key) => {
+          // If the associated attribute has already been retrieved from server, the update the criteria
+          if (this.props.attributeModels[attributeId]) {
+            // eslint-disable-next-line no-param-reassign
+            criteria.pluginConf.attributes[key] = this.props.attributeModels[attributeId].content
+          }
+        })
+      }
     })
     return criterionWithAttributtes
   }
@@ -164,6 +168,7 @@ class ModuleContainer extends React.Component {
    * Create query for the search from all the configured criterion
    */
   createSearchQueryFromCriterion = () => {
+
     let query = reduce(this.criterionValues, (result, criteria) => {
       if (result && criteria && criteria.length > 0) {
         return `${result} AND ${criteria}`
@@ -174,19 +179,24 @@ class ModuleContainer extends React.Component {
     }, '')
 
     // Add form associated dataset urn
-    const tags = reduce(this.props.moduleConf.datasets.selectedDatasets, (result, dataset) => {
-      if (result && dataset !== undefined) {
-        return `${result} OR ${dataset}`
-      } else if (dataset !== undefined) {
-        return dataset
-      }
-      return result
-    }, '')
+    let tags =''
+    if (this.props.moduleConf.datasets && this.props.moduleConf.datasets.selectedDatasets) {
+      tags = reduce(this.props.moduleConf.datasets.selectedDatasets, (result, dataset) => {
+        if (result && dataset !== undefined) {
+          return `${result} OR ${dataset}`
+        } else if (dataset !== undefined) {
+          return dataset
+        }
+        return result
+      }, '')
+    }
 
-    if (query && query.length > 0) {
-      query = `${query} AND (tags:(${tags})`
-    } else {
-      query = `tags:(${tags})`
+    if (tags.length > 0) {
+      if (query && query.length > 0) {
+        query = `${query} AND (tags:(${tags})`
+      } else {
+        query = `tags:(${tags})`
+      }
     }
 
     if (query && query.length > 0) {
