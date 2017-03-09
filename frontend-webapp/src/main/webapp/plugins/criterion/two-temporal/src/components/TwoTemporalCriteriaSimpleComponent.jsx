@@ -4,6 +4,7 @@
 import { chain, keys, uniqueId } from 'lodash'
 import { FormattedMessage } from 'react-intl'
 import TemporalCriteriaComponent from './TemporalCriteriaComponent'
+import {AttributeModel} from '../common/AttributeModel'
 
 /**
  * Component allowing the user to configure the temporal value of two different attributes with a date comparator (after, before, ...).
@@ -33,7 +34,7 @@ export class TwoTemporalCriteriaSimpleComponent extends React.Component {
      * Keys of this object are the "name" props of the attributes defined in the plugin-info.json
      * Value of each keys are the attribute id (retrieved from the server) associated
      */
-    attributes: React.PropTypes.object,
+    attributes: React.PropTypes.objectOf(AttributeModel),
   }
 
   render() {

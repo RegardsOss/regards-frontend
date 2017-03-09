@@ -15,8 +15,6 @@ config = merge(config, {
   })], // in order to ignore all modules in node_modules folder
   // Enable sourcemaps for debugging webpack's output.
   devtool: 'source-map',
-  verbose: true,
-  displayErrorDetails: true,
   stats: {
     colors: true,
     reasons: true,
@@ -37,9 +35,6 @@ config = merge(config, {
       context: __dirname,
     }),
     new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify('coverage'),
-      },
       GATEWAY_HOSTNAME: JSON.stringify('http://localhost:8000'),
       API_URL: JSON.stringify('/api/v1/'),
     }),

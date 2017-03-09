@@ -1,0 +1,9 @@
+{
+  "name": "@regardsoss/search-results",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Module for regards catalog researchs results",
+  "main": "src/main.js",
+  "author": "CS-SI",
+  "license": "GPLv3"
+}

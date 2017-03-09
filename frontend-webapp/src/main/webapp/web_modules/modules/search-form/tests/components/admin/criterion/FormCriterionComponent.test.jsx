@@ -30,6 +30,8 @@ describe('[FORM MODULE] Testing formCriterionComponent', () => {
       moduleTheme: Styles(muiTheme),
       intl: {
         formatMessage: id => (id.id),
+        formatDate: id => (id.id),
+        formatTime: id => (id.id),
       },
     },
   }
@@ -41,9 +43,7 @@ describe('[FORM MODULE] Testing formCriterionComponent', () => {
       criterion: [],
       layout: '',
       selectableAttributes: {},
-      availableCriterion: {
-        content: {},
-      },
+      availableCriterion: {},
     }
     const wrapper = shallow(
       <FormCriterionComponent {...props} />, options,
@@ -95,9 +95,7 @@ describe('[FORM MODULE] Testing formCriterionComponent', () => {
       }],
       layout: '',
       selectableAttributes: {},
-      availableCriterion: {
-        content: {},
-      },
+      availableCriterion: {},
     }
     const wrapper = shallow(
       <FormCriterionComponent {...props} />, options,

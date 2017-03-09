@@ -27,6 +27,7 @@ describe('[FORM MODULE] Testing FormPreviewComponent', () => {
 
   it('Should render a FormPreviewComponent', () => {
     const props = {
+      project: 'test',
       module: {
         id: 12,
         name: 'formModule',

@@ -1,0 +1,19 @@
+image: node:latest
+
+# This folder is cached between builds
+cache:
+  paths:
+  - frontend-webapp/src/main/webapp/node_modules/
+
+stages:
+  - test
+
+test:
+  stage: test
+  script:
+   - cd frontend-webapp/src/main/webapp/
+   - npm config set proxy "http://proxy2.si.c-s.fr:3128/"
+   - npm run bootstrap
+   - npm install
+   - npm run build:dll
+   - npm test

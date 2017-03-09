@@ -22,16 +22,21 @@ describe('[FORM MODULE] Testing Admin Container', () => {
     const props = {
       appName: 'test',
       project: 'project',
-      changeField: () => {},
-      form: {},
-      datasets: {
-        type: null,
-        selectedDatasets: [],
-        selectedModels: [],
+      adminForm: {
+        changeField: () => {
+        },
+        form: {},
       },
-      criterion: [],
-      layout: '',
-      resultType: '',
+      moduleConf: {
+        datasets: {
+          type: null,
+          selectedDatasets: [],
+          selectedModels: [],
+        },
+        criterion: [],
+        layout: '',
+        resultType: '',
+      },
       selectableAttributes: {},
       selectableAttributesFectching: false,
       availableCriterion: {},
@@ -63,20 +68,25 @@ describe('[FORM MODULE] Testing Admin Container', () => {
     const props = {
       appName: 'test',
       project: 'project',
-      changeField: () => {},
-      form: {
-        conf: {
-          datasets: {
-            type: DATASET_TYPE,
-            selectedDatasets: [],
-            selectedModels: [],
+      adminForm: {
+        changeField: () => {
+        },
+        form: {
+          conf: {
+            datasets: {
+              type: DATASET_TYPE,
+              selectedDatasets: [],
+              selectedModels: [],
+            },
           },
         },
       },
-      datasets: {},
-      criterion: [],
-      layout: '',
-      resultType: '',
+      moduleConf: {
+        datasets: {},
+        criterion: [],
+        layout: '',
+        resultType: '',
+      },
       selectableAttributes: {},
       selectableAttributesFectching: false,
       availableCriterion: {},
@@ -108,20 +118,25 @@ describe('[FORM MODULE] Testing Admin Container', () => {
     const props = {
       appName: 'test',
       project: 'project',
-      changeField: () => {},
-      form: {
-        conf: {
-          datasets: {
-            type: DATASET_MODEL_TYPE,
-            selectedDatasets: [],
-            selectedModels: [],
+      adminForm: {
+        changeField: () => {
+        },
+        form: {
+          conf: {
+            datasets: {
+              type: DATASET_MODEL_TYPE,
+              selectedDatasets: [],
+              selectedModels: [],
+            },
           },
         },
       },
-      datasets: {},
-      criterion: [],
-      layout: '',
-      resultType: '',
+      moduleConf: {
+        datasets: {},
+        criterion: [],
+        layout: '',
+        resultType: '',
+      },
       selectableAttributes: {},
       selectableAttributesFectching: false,
       availableCriterion: {},

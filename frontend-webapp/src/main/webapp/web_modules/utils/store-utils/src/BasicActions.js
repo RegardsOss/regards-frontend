@@ -19,9 +19,6 @@ class BasicActions {
    * @param options TODO Specify the expected format
    */
   constructor(options) {
-    if (new.target === BasicActions) {
-      throw new TypeError('Cannot construct BasicActions instances directly')
-    }
     this.entityEndpoint = options.entityEndpoint
     this.ENTITY_LIST_REQUEST = `${options.namespace}/LIST_REQUEST`
     this.ENTITY_LIST_SUCCESS = `${options.namespace}/LIST_SUCCESS`

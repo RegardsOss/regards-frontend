@@ -71,7 +71,6 @@ export class AdminLayout extends React.Component {
       name: 'menu',
       active: true,
       conf: {
-        project: this.props.params.project ? this.props.params.project : 'instance',
         title: 'REGARDS admin dashboard',
         displayAuthentication: true,
         displayLocaleSelector: true,
@@ -80,11 +79,16 @@ export class AdminLayout extends React.Component {
     }
 
     // install notification manager and application error containers when starting app
+    const project = this.props.params.project ? this.props.params.project : 'instance'
     return (
       <NotificationsManagerContainer isOnInstanceDashboard={isOnInstanceDashboard} >
         <div className={style.app.classes} style={style.app.styles}>
           <div className={style.menu.classes}>
-            <LazyModuleComponent appName={'admin'} module={menuModule} />
+            <LazyModuleComponent
+              appName={'admin'}
+              project={project}
+              module={menuModule}
+            />
           </div>
           <div className={style.bodyContainer.classes} style={style.bodyContainer.styles}>
             {this.getSidebar(isOnInstanceDashboard)}
