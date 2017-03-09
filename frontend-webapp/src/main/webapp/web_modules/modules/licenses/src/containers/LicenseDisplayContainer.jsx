@@ -15,7 +15,7 @@ import ProjectLicenseSelectors from '../model/ProjectLicenseSelectors'
 /**
  * License display container, shows license validation dialog after user authenticated (injected by parent)
  */
-class LicenseDisplayContainer extends React.Component {
+export class LicenseDisplayContainer extends React.Component {
 
   static propTypes = {
     project: React.PropTypes.string.isRequired,

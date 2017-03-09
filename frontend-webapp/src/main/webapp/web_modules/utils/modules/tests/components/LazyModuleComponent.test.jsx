@@ -21,7 +21,8 @@ describe('[MODULES] Testing LazyModuleComponent', () => {
       name: 'authentication',
       active: true,
     }
-    const wrapper = shallow(<LazyModuleComponent appName={'testApp'} module={module} onLoadAction={
+    const wrapper = shallow(<LazyModuleComponent
+      appName={'testApp'} module={module} onLoadAction={
       () => {
         try {
           expect(wrapper.find(moduleContainer)).to.have.length(1)
@@ -32,8 +33,8 @@ describe('[MODULES] Testing LazyModuleComponent', () => {
           done(e)
         }
       }
-    }/>, { context })
-
+    }
+    />, { context })
   }).timeout(60000)
 
   it('Should not render a desable module', (done) => {
@@ -44,7 +45,8 @@ describe('[MODULES] Testing LazyModuleComponent', () => {
       name: 'authentication',
       active: false,
     }
-    const wrapper = shallow(<LazyModuleComponent appName={'testApp'} module={module}  onLoadAction={
+    const wrapper = shallow(<LazyModuleComponent
+      appName={'testApp'} module={module} onLoadAction={
       () => {
         try {
           expect(wrapper.find(moduleContainer)).to.have.length(0)
@@ -55,7 +57,7 @@ describe('[MODULES] Testing LazyModuleComponent', () => {
           done(e)
         }
       }
-    }/>, { context })
-
+    }
+    />, { context })
   }).timeout(60000)
 })
