@@ -15,22 +15,16 @@ module.exports = {
     tls: 'empty',
     dns: 'empty',
   },
-  postcss: [
-    // Plugin to Automaticaly add vendors prefix to css classes
-    autoprefixer({
-      browsers: ['last 2 versions'],
-    }),
-  ],
   resolve: {
     // Automaticaly get extensions files from javascript code with import or require.
-    // exemple require('main') look for main, main.js or main.sass with our configuration
-    // extensions: ['', '.js', '.scss'],
-    extensions: ['', '.js', '.jsx'],
-    // Root directories from wich requires are made
-    root: [
+    // exemple require('main') look for main, main.js or main.jsx with our configuration
+    extensions: ['.js', '.jsx'],
+    modules: [
+      // Root directories from wich requires are made
       path.join(__dirname),
+      'web_modules',
+      'node_modules'
     ],
-    modulesDirectories: ['web_modules', 'node_modules'],
   },
   module: {
     /*
@@ -39,21 +33,20 @@ module.exports = {
       loader: 'eslint-loader',
       exclude: [/node_modules/, /json/, /\/\..*!/],
     }],*/
-    loaders: [
+    rules: [
       // Transpile ES6 Javascript into ES5 with babel loader
       {
         test: /\.jsx?$/,
         exclude: [/node_modules/, /json/],
-        loader: 'babel',
+        loader: 'babel-loader',
       },
       {
         test: /\.css$/,
-        loader: ExtractTextPlugin.extract('style-loader', 'css-loader'),
+        loader: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader' }),
       },
       {
         test: /\.jpg$/,
-        exclude: [/node_modules/],
-        loader: 'file-loader?name=/img/[name].[ext]',
+        loader: 'file-loader?name=[name].[ext]&outputPath=./img/',
       },
       {
         test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
@@ -64,19 +57,8 @@ module.exports = {
         loader: 'file-loader?name=/img/[name].[ext]',
       },
       {
-        test: /\.json$/,
-        exclude: [/node_modules/],
-        loader: 'json-loader',
-      },
-      /*
-      {
-        test: /\.json$/,
-        loader: 'file-loader?name=/json/[name].[ext]',
-      },
-      */
-      {
         test: /\.html/,
-        loader: 'file?name=[name].[ext]',
+        loader: 'file-loader?name=[name].[ext]',
       },
       {
         test: /\.png$/,
@@ -89,15 +71,9 @@ module.exports = {
     // Allow to define React as a global variable for JSX.
     new webpack.ProvidePlugin({ React: 'react' }),
     // Create a single css file for the whole application instead of setting css inline in the javascript
-    new ExtractTextPlugin('/css/styles.css', { allChunks: true }),
+    new ExtractTextPlugin({ filename: 'css/styles.css', disable: false, allChunks: true }),
     new webpack.DefinePlugin({
       API_URL: JSON.stringify('api/v1'),
     }),
   ],
-  eslint: {
-    failOnWarning: false,
-    failOnError: false,
-    emitWarning: true,
-    fix: true,
-  },
 }
