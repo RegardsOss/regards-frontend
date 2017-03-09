@@ -15,8 +15,6 @@ config = merge(config, {
   })], // in order to ignore all modules in node_modules folder
   // Enable sourcemaps for debugging webpack's output.
   devtool: 'source-map',
-  verbose: true,
-  displayErrorDetails: true,
   stats: {
     colors: true,
     reasons: true,
