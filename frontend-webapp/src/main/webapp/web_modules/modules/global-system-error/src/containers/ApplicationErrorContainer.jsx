@@ -1,7 +1,8 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { connect } from '@regardsoss/redux'
+// cannot import our connect method here, cyclic dependencies
+import { connect } from 'react-redux'
 import Snackbar from 'material-ui/Snackbar'
 import { closeErrorDialog } from '../model/action'
 
