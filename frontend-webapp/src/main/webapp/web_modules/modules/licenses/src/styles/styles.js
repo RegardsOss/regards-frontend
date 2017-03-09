@@ -4,7 +4,11 @@
 const styles = theme => (
   {
     dialog: {
-      preferredWidth: '680px',
+      heightPercent: 80,
+      widthPercent: 55,
+      bodyStyle: {
+        padding: '5px',
+      },
     },
   })
 

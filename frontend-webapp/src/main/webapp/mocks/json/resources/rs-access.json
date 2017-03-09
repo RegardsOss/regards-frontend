@@ -295,6 +295,15 @@
       "isDefault": true,
       "applicationId": "user",
       "id": 12
+    },
+    {
+      "active": true,
+      "conf": {},
+      "name": "licenses",
+      "description": "License displayer",
+      "container": "user",
+      "applicationId": "user",
+      "id": 13
     }
   ],
   "layouts": [
