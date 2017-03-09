@@ -14,7 +14,9 @@ class HomePageContainer extends React.Component {
 
   static propTypes = {
     project: React.PropTypes.string.isRequired,
-    htmlPath: React.PropTypes.string.isRequired,
+    moduleConf: React.PropTypes.shape({
+      htmlPath: React.PropTypes.string.isRequired,
+    }),
   }
 
   static contextTypes = {
@@ -45,7 +47,7 @@ class HomePageContainer extends React.Component {
   }
 
   render() {
-    const { htmlPath } = this.props
+    const { moduleConf: {htmlPath} } = this.props
     const { dialog: { bodyStyle, heightPercent, widthPercent } } = this.context.moduleTheme
     return (
       <LoadableContentDialogComponent
