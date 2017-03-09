@@ -12,6 +12,7 @@ const messages = Object.assign({
   'homepage.hide': 'Don\'t show again',
   'homepage.admin.url': 'HTML file URL',
   'homepage.admin.test': 'Test file',
+  'homepage.loading.message': 'Loading project home page, please wait...',
 }, Locales.en)
 
 export default messages

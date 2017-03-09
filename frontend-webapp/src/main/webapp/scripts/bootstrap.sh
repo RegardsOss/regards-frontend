@@ -31,6 +31,8 @@ npm link web_modules/utils/layout
 npm link web_modules/components
 
 # Administration modules
+npm link web_modules/modules/admin-accessright-management
+npm link web_modules/modules/admin-account-management
 npm link web_modules/modules/admin-data-management
 npm link web_modules/modules/admin-data-model-management
 npm link web_modules/modules/admin-data-attributemodel-management
@@ -40,36 +42,35 @@ npm link web_modules/modules/admin-data-connection-management
 npm link web_modules/modules/admin-data-dataset-management
 npm link web_modules/modules/admin-data-datasource-management
 npm link web_modules/modules/admin-data-fragment-management
+npm link web_modules/modules/admin-database-management
 npm link web_modules/modules/admin-microservice-management
 npm link web_modules/modules/admin-project-management
-npm link web_modules/modules/admin-accessright-management
+npm link web_modules/modules/admin-ui-configuration
+npm link web_modules/modules/admin-ui-plugins-management
 npm link web_modules/modules/admin-user-management
 npm link web_modules/modules/admin-user-accessgroup-management
 npm link web_modules/modules/admin-user-projectuser-management
 npm link web_modules/modules/admin-user-role-resource-access-management
 npm link web_modules/modules/admin-user-role-management
-npm link web_modules/modules/admin-database-management
-npm link web_modules/modules/admin-account-management
-npm link web_modules/modules/admin-ui-configuration
-npm link web_modules/modules/admin-ui-plugins-management
 npm link web_modules/modules/archival-storage-aip-status
 npm link web_modules/modules/archival-storage-plugins-monitoring
 
 # Global modules
 npm link web_modules/modules/authentication
-npm link web_modules/modules/news
-npm link web_modules/modules/home-page
-npm link web_modules/modules/menu
-npm link web_modules/modules/projects-list
+npm link web_modules/modules/endpoint
 npm link web_modules/modules/global-system-error
+npm link web_modules/modules/home-page
+npm link web_modules/modules/licenses
+npm link web_modules/modules/menu
+npm link web_modules/modules/news
+npm link web_modules/modules/projects-list
 npm link web_modules/modules/search-form
 npm link web_modules/modules/search-results
-npm link web_modules/modules/endpoint
 
 # Applications
 npm link web_modules/modules/admin
-npm link web_modules/modules/user
 npm link web_modules/modules/portal
+npm link web_modules/modules/user
 
 # Vendors
 npm link web_modules/vendors

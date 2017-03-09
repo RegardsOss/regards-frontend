@@ -15,7 +15,7 @@ class AdminContainer extends React.Component {
     getHtmlPath: React.PropTypes.string,
   }
 
-  static contextTypes= {
+  static contextTypes = {
     ...themeContextType,
     intl: intlShape,
   }
@@ -29,7 +29,7 @@ class AdminContainer extends React.Component {
   }
 
   render() {
-    const { moduleTheme, intl } = this.context
+    const { moduleTheme } = this.context
     return (
       <div>
         <Field

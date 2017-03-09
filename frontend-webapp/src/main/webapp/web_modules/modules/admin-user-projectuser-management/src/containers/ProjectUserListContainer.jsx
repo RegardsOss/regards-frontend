@@ -1,4 +1,4 @@
-import { connect } from 'react-redux'
+import { connect } from '@regardsoss/redux'
 import { keys } from 'lodash'
 import { I18nProvider } from '@regardsoss/i18n'
 import { browserHistory } from 'react-router'
@@ -92,7 +92,7 @@ export class ProjectUserListContainer extends React.Component {
     this.setFetchingActions(true)
     const onDone = () => { this.setFetchingActions(false) }
     Promise.all(promises).then(() =>
-      Promise.all(this.props.fetchWaitingAccessUsers(), this.props.fetchUsers()).then(onDone).catch(onDone)).catch(onDone)
+      Promise.all([this.props.fetchWaitingAccessUsers(), this.props.fetchUsers()]).then(onDone).catch(onDone)).catch(onDone)
   }
 
   render() {
