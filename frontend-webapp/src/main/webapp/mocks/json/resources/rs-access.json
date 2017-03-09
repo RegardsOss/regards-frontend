@@ -455,7 +455,8 @@
         },
         "themeName": "Dark2",
         "tableRow": {
-          "stripeColor": "#212121"
+          "stripeColor": "#212121",
+          "hoverColor": "#424242"
         },
         "menuItem": {
           "rightIconDesktopFill": "#fb8c00",
