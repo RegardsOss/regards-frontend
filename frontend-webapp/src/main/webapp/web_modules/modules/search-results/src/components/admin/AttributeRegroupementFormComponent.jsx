@@ -8,8 +8,7 @@ import { FieldArray } from 'redux-form'
 import Divider from 'material-ui/Divider'
 import { reduxForm, RenderTextField, Field } from '@regardsoss/form-utils'
 import { CardActionsComponent, ChipList } from '@regardsoss/components'
-import { AttributeModel } from '@regardsoss/model'
-import AttributesRegroupementConfiguration from '../../../models/attributes/AttributesRegroupementConfiguration'
+import { AttributeModel, AttributesRegroupementConfiguration } from '@regardsoss/model'
 
 /**
  * Component to display an attributes regroupement form.

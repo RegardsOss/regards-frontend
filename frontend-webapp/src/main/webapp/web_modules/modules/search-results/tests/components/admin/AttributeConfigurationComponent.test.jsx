@@ -7,14 +7,14 @@ import { assert } from 'chai'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import { CardHeader } from 'material-ui/Card'
 import Checkbox from 'material-ui/Checkbox'
-import Styles from '../../../../src/styles/styles'
-import AttributeConfigurationComponent from '../../../../src/components/admin/parameters/AttributeConfigurationComponent'
+import Styles from '../../../src/styles/styles'
+import AttributeConfigurationComponent from '../../../src/components/admin/AttributeConfigurationComponent'
 
 /**
  * Tests for AttributeConfigurationComponent
  * @author Sébastien binda
  */
-describe('[FORM MODULE] Testing AttributeConfigurationComponent', () => {
+describe('[RESULTS MODULE] Testing AttributeConfigurationComponent', () => {
   const muiTheme = getMuiTheme({})
   const options = {
     context: {

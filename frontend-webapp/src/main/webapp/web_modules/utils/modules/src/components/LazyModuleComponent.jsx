@@ -26,10 +26,17 @@ class LazyModuleComponent extends React.Component {
    */
   static propTypes = {
     appName: React.PropTypes.string.isRequired,
-    project: React.PropTypes.string,
+    project: React.PropTypes.string.isRequired,
     module: ModuleShape.isRequired,
     decorator: DecoratorShape,
     admin: React.PropTypes.bool,
+    // Form information for admin container. Admin container is a part of the upper redux-form Form.
+    // This parameter contains the redux-form form and the changeField function.
+    adminForm: React.PropTypes.shape({
+      changeField: React.PropTypes.func,
+      // eslint-disable-next-line react/forbid-prop-types
+      form: React.PropTypes.object,
+    }),
     onLoadAction: React.PropTypes.func,
   }
 
@@ -124,11 +131,12 @@ class LazyModuleComponent extends React.Component {
       // Display module with admin or normal container ?
       let moduleDependencies = []
       if (this.props.admin && module.adminContainer) {
-        moduleElt = React.createElement(module.adminContainer, merge({}, defaultModuleProps, this.props.module.conf))
+        moduleElt = React.createElement(module.adminContainer, merge({}, defaultModuleProps, { moduleConf: this.props.module.conf }, { adminForm: this.props.adminForm }))
         moduleDependencies = (module && module.dependencies && module.dependencies.admin) || []
       } else if (!this.props.admin && module.moduleContainer) {
         moduleDependencies = (module && module.dependencies && module.dependencies.user) || []
-        moduleElt = React.createElement(module.moduleContainer, merge({}, defaultModuleProps, this.props.module.conf))
+        const moduleProps = merge({}, defaultModuleProps, { moduleConf: this.props.module.conf })
+        moduleElt = React.createElement(module.moduleContainer, moduleProps)
       }
 
       // Add a decorator arround the module rendering ?

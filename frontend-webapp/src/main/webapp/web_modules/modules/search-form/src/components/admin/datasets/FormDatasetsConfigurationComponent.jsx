@@ -101,7 +101,6 @@ class FormDatasetsConfigurationComponent extends React.Component {
   }
 
   renderType() {
-    console.log('SELECTED', this.getSelectedDatasetsObjects())
     switch (this.state.type) {
       case DATASET_TYPE :
         return (

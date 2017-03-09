@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { merge } from 'lodash'
-import { AttributeModel } from '@regardsoss/model'
+import { AttributeModel, AttributeConfiguration } from '@regardsoss/model'
 import { Card, CardHeader, CardText } from 'material-ui/Card'
 import Checkbox from 'material-ui/Checkbox'
 import Visibility from 'material-ui/svg-icons/action/visibility'
@@ -10,7 +10,6 @@ import VisibilityOff from 'material-ui/svg-icons/action/visibility-off'
 import Search from 'material-ui/svg-icons/action/search'
 import Locked from 'material-ui/svg-icons/action/lock'
 import { FormattedMessage } from 'react-intl'
-import AttributeConfiguration from '../../../models/attributes/AttributeConfiguration'
 
 /**
  * Component to display an attribute configuration.

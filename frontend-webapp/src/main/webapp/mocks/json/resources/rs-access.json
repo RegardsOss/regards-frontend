@@ -117,7 +117,7 @@
     },
     {
       "active": true,
-      "isDefault": true,
+      "isDefault": false,
       "conf": {
         "resultType": "dataobjects",
         "layout": "{\"id\":\"main\",\"type\":\"FormMainContainer\",\"classes\":[],\"styles\":{},\"containers\":[{\"id\":\"Plop\",\"type\":\"RowContainer\",\"containers\":[{\"id\":\"Column1\",\"type\":\"50PercentColumnContainer\"},{\"id\":\"Column2\",\"type\":\"50PercentColumnContainer\"}]}]}",
@@ -270,6 +270,31 @@
       "container": "content",
       "applicationId": "user",
       "id": 11
+    },
+    {
+      "active": true,
+      "conf": {
+        "resultType": "dataobjects",
+        "enableFacettes": true,
+        "attributes": [
+          {
+            "id": 0,
+            "visibility": true,
+            "facetable": false
+          },
+          {
+            "id": 1,
+            "visibility": true,
+            "facetable": false
+          }
+        ]
+      },
+      "name": "search-results",
+      "description": "Catalogue de données",
+      "container": "content",
+      "isDefault": true,
+      "applicationId": "user",
+      "id": 12
     }
   ],
   "layouts": [

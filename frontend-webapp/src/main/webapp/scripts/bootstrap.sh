@@ -63,6 +63,7 @@ npm link web_modules/modules/menu
 npm link web_modules/modules/projects-list
 npm link web_modules/modules/global-system-error
 npm link web_modules/modules/search-form
+npm link web_modules/modules/search-results
 npm link web_modules/modules/endpoint
 
 # Applications

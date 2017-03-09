@@ -40,6 +40,7 @@ describe('[ADMIN UI-CONFIGURATION] Testing Modules form component', () => {
 
   it('Should render correctly form to create a new module', () => {
     const props = {
+      project: 'test',
       containers: ['main', 'second', 'third'],
       onSubmit: () => {},
       onBack: () => {},
@@ -94,6 +95,7 @@ describe('[ADMIN UI-CONFIGURATION] Testing Modules form component', () => {
       conf: {},
     }
     const props = {
+      project: 'test',
       module: moduleToEdit,
       containers: ['main', 'second', 'third'],
       onSubmit: () => {},

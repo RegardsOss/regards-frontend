@@ -8,10 +8,8 @@ import Dialog from 'material-ui/Dialog'
 import { SubmissionError } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import { i18nContextType } from '@regardsoss/i18n'
-import { AttributeModel } from '@regardsoss/model'
+import { AttributeModel, AttributeConfiguration, AttributesRegroupementConfiguration } from '@regardsoss/model'
 import { ConfirmDialogComponent } from '@regardsoss/components'
-import AttributeConfiguration from '../../../models/attributes/AttributeConfiguration'
-import AttributesRegroupementConfiguration from '../../../models/attributes/AttributesRegroupementConfiguration'
 import AttributeConfigurationComponent from './AttributeConfigurationComponent'
 import AttributeRegroupementFormComponent from './AttributeRegroupementFormComponent'
 import AttributeRegroupementComponent from './AttributeRegroupementComponent'
@@ -26,8 +24,8 @@ class ResultsAttributesConfigurationComponent extends React.Component {
     // Available Attributes for configuration
     selectableAttributes: React.PropTypes.objectOf(AttributeModel).isRequired,
     // Initial configuration of the current module
-    defaultAttributesConf: React.PropTypes.arrayOf(AttributeConfiguration).isRequired,
-    defaultAttributesRegroupementsConf: React.PropTypes.arrayOf(AttributesRegroupementConfiguration).isRequired,
+    defaultAttributesConf: React.PropTypes.arrayOf(AttributeConfiguration),
+    defaultAttributesRegroupementsConf: React.PropTypes.arrayOf(AttributesRegroupementConfiguration),
     // Current configuration
     attributesConf: React.PropTypes.arrayOf(AttributeConfiguration),
     attributesRegroupementsConf: React.PropTypes.arrayOf(AttributesRegroupementConfiguration),

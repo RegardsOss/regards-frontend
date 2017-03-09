@@ -20,6 +20,7 @@ import Styles from '../styles/styles'
 class ModuleFormComponent extends React.Component {
 
   static propTypes = {
+    project: React.PropTypes.string.isRequired,
     module: ModuleShape,
     containers: React.PropTypes.arrayOf(React.PropTypes.string),
     onSubmit: React.PropTypes.func.isRequired,
@@ -72,10 +73,11 @@ class ModuleFormComponent extends React.Component {
         <Card id="dynamicFields" style={style.cardEspaced}>
           <CardText>
             <LazyModuleComponent
+              project={this.props.project}
               module={this.state.module}
               admin
+              adminForm={this.props.adminForm}
               appName={this.props.applicationId}
-              refresh
             />
           </CardText>
         </Card>

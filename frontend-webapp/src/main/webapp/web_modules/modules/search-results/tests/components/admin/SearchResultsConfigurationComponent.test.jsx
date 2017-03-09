@@ -7,15 +7,15 @@ import { assert } from 'chai'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import { Field } from '@regardsoss/form-utils'
 import { RadioButton } from 'material-ui/RadioButton'
-import { DATASET_RESULTS } from '../../../../src/components/admin/parameters/ResultTypesEnum'
-import Styles from '../../../../src/styles/styles'
-import FormParametersConfigurationComponent from '../../../../src/components/admin/parameters/FormParametersConfigurationComponent'
+import { SearchResultsTargetsEnum } from '@regardsoss/model'
+import Styles from '../../../src/styles/styles'
+import SearchResultsConfigurationComponent from '../../../src/components/admin/SearchResultsConfigurationComponent'
 
 /**
  * Tests for FormParametersConfigurationComponent
  * @author Sébastien binda
  */
-describe('[FORM MODULE] Testing FormParametersConfigurationComponent', () => {
+describe('[RESULTS MODULE] Testing SearchResultsConfigurationComponent', () => {
   const muiTheme = getMuiTheme({})
   const options = {
     context: {
@@ -27,15 +27,17 @@ describe('[FORM MODULE] Testing FormParametersConfigurationComponent', () => {
     },
   }
 
-  it('Should render a FormParametersConfigurationComponent to configure search results', () => {
+  it('Should render a SearchResultsConfigurationComponent to configure search results', () => {
     const selectCallback = sinon.spy()
     const props = {
-      defaultSelected: DATASET_RESULTS,
+      defaultSelected: SearchResultsTargetsEnum.DATASET_RESULTS,
       onSelectType: selectCallback,
       disabled: false,
+      selectableAttributes: {},
+      changeField: () => {},
     }
     const wrapper = shallow(
-      <FormParametersConfigurationComponent {...props} />, options,
+      <SearchResultsConfigurationComponent {...props} />, options,
     )
 
     const radioField = wrapper.find(Field).find({ name: 'conf.resultType' })

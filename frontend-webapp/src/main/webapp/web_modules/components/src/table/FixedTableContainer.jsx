@@ -218,35 +218,33 @@ class FixedTableContainer extends React.Component {
   }
 
   render() {
-    if (this.props.pageMetadata &&
-      this.props.pageMetadata.totalElements > 0) {
-      return (
-        <FixedTable
-          entities={this.state.entities}
-          entitiesFetching={this.props.entitiesFetching}
-          lineHeight={this.props.lineHeight}
-          pageSize={this.props.pageSize}
-          onScrollEnd={this.onScrollEnd}
-          columns={this.getAllColumns()}
-          displayCheckbox={this.props.displayCheckbox}
-          onRowSelection={this.selectRow}
-          onSortByColumn={this.props.onSortByColumn}
-        />
-      )
-    }
-
+    let noContent = false
     if (this.props.pageMetadata && this.props.pageMetadata.totalElements === 0) {
-      return (
-        <Card>
-          <NoContentMessageInfo
-            noContent
-            title={'No results found'}
-            message={'Your research returned no results. Please change your search criterion'}
-            Icon={Disatisfied}
-          />
-        </Card>)
+      noContent = true
     }
-    return null
+    return (
+      <Card>
+        <NoContentMessageInfo
+          noContent={noContent}
+          title={'No results found'}
+          message={'Your research returned no results. Please change your search criterion'}
+          Icon={Disatisfied}
+        >
+          <FixedTable
+            entities={this.state.entities}
+            entitiesFetching={this.props.entitiesFetching}
+            lineHeight={this.props.lineHeight}
+            pageSize={this.props.pageSize}
+            onScrollEnd={this.onScrollEnd}
+            columns={this.getAllColumns()}
+            displayCheckbox={this.props.displayCheckbox}
+            onRowSelection={this.selectRow}
+            onSortByColumn={this.props.onSortByColumn}
+          />
+        </NoContentMessageInfo>
+      </Card>
+
+    )
   }
 }
 

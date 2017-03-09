@@ -3,13 +3,11 @@
  **/
 import { concat, reduce, find, remove, forEach } from 'lodash'
 import { FixedTableContainer } from '@regardsoss/components'
-import { AttributeModel } from '@regardsoss/model'
+import { AttributeModel, AttributeConfiguration, AttributesRegroupementConfiguration } from '@regardsoss/model'
 import CatalogEntitySelector from '../../models/catalog/CatalogEntitySelector'
 import CatalogEntityActions from '../../models/catalog/CatalogEntityActions'
 import ResulsTypeButtons from './ResultsTypeButtons'
 import ThumbmailCellComponent from './ThumbmailCellComponent'
-import AttributeConfiguration from '../../models/attributes/AttributeConfiguration'
-import AttributesRegroupementConfiguration from '../../models/attributes/AttributesRegroupementConfiguration'
 
 /**
  * Constant to define where to find dynamic attributes in the data objects returned by the search endpoint
@@ -58,8 +56,13 @@ class SearchResultsComponent extends React.Component {
     return fullQuery
   }
 
-  resultSelection = (selectedEntities) => {
-    console.log('Selected entities', selectedEntities)
+  getFullyQualifiedAttributeName =(attribute) => {
+    if (!attribute.content.fragment ||
+      !attribute.content.fragment.name ||
+      attribute.content.fragment.name === DEFAULT_FRAGMENT) {
+      return `${DATA_ATTRIBUTES_FIELD}.${attribute.content.name}`
+    }
+    return `${DATA_ATTRIBUTES_FIELD}.${attribute.content.fragment.name}.${attribute.content.name}`
   }
 
   sortResultsByColumn = (column, type) => {
@@ -88,13 +91,9 @@ class SearchResultsComponent extends React.Component {
     })
   }
 
-  getFullyQualifiedAttributeName =(attribute) => {
-    if (!attribute.content.fragment ||
-      !attribute.content.fragment.name ||
-      attribute.content.fragment.name === DEFAULT_FRAGMENT) {
-      return `${DATA_ATTRIBUTES_FIELD}.${attribute.content.name}`
-    }
-    return `${DATA_ATTRIBUTES_FIELD}.${attribute.content.fragment.name}.${attribute.content.name}`
+  resultSelection = (selectedEntities) => {
+    // TODO Manage entities selection
+    console.log('Selected entities', selectedEntities)
   }
 
   render() {

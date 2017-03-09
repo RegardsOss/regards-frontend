@@ -7,11 +7,11 @@ import { BasicPageableSelectors } from '@regardsoss/store-utils'
  * Redux store selectors for Module Entities
  * @author Sébastien binda
  */
-class CatalogEntitySelector extends BasicPageableSelectors {
+class AttributeModelSelector extends BasicPageableSelectors {
   constructor() {
-    super(['modules.search-form', 'results'])
+    super(['modules.search-results', 'attributes'])
   }
 }
 
-const instance = new CatalogEntitySelector()
+const instance = new AttributeModelSelector()
 export default instance

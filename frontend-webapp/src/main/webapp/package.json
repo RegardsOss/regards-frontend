@@ -74,6 +74,7 @@
     "@regardsoss/projects-list": "0.0.1",
     "@regardsoss/redux": "0.0.1",
     "@regardsoss/search-form": "0.0.1",
+    "@regardsoss/search-results": "0.0.1",
     "@regardsoss/store": "0.0.1",
     "@regardsoss/store-utils": "0.0.1",
     "@regardsoss/theme": "0.0.1",

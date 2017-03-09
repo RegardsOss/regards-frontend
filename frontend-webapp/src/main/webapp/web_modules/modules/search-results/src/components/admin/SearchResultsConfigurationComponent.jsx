@@ -6,18 +6,20 @@ import Divider from 'material-ui/Divider'
 import Subheader from 'material-ui/Subheader'
 import { FormattedMessage } from 'react-intl'
 import { RadioButton } from 'material-ui/RadioButton'
-import { AttributeModel } from '@regardsoss/model'
+import {
+  AttributeModel,
+  SearchResultsTargetsEnum,
+  AttributeConfiguration,
+  AttributesRegroupementConfiguration,
+} from '@regardsoss/model'
 import { Field, RenderRadio, RenderCheckbox } from '@regardsoss/form-utils'
-import { DATAOBJECT_RESULTS, DATASET_RESULTS } from './ResultTypesEnum'
 import ResultsAttributesConfigurationComponent from './ResultsAttributesConfigurationComponent'
-import AttributeConfiguration from '../../../models/attributes/AttributeConfiguration'
-import AttributesRegroupementConfiguration from '../../../models/attributes/AttributesRegroupementConfiguration'
 
 /**
  * Display form to configure main parameters of search form.
  * @author Sébastien binda
  */
-class FormParametersConfigurationComponent extends React.Component {
+class SearchResultsConfigurationComponent extends React.Component {
 
   static propTypes = {
     defaultResultType: React.PropTypes.string,
@@ -27,7 +29,7 @@ class FormParametersConfigurationComponent extends React.Component {
     attributesConf: React.PropTypes.arrayOf(AttributeConfiguration),
     attributesRegroupementsConf: React.PropTypes.arrayOf(AttributesRegroupementConfiguration),
     selectableAttributes: React.PropTypes.objectOf(AttributeModel),
-    changeField: React.PropTypes.func,
+    changeField: React.PropTypes.func.isRequired,
   }
 
 
@@ -52,11 +54,11 @@ class FormParametersConfigurationComponent extends React.Component {
           defaultSelected={this.props.defaultResultType}
         >
           <RadioButton
-            value={DATASET_RESULTS}
+            value={SearchResultsTargetsEnum.DATASET_RESULTS}
             label={<FormattedMessage id="form.configuration.result.type.datasets" />}
           />
           <RadioButton
-            value={DATAOBJECT_RESULTS}
+            value={SearchResultsTargetsEnum.DATAOBJECT_RESULTS}
             label={<FormattedMessage id="form.configuration.result.type.dataobjects" />}
           />
         </Field>
@@ -74,4 +76,4 @@ class FormParametersConfigurationComponent extends React.Component {
   }
 }
 
-export default FormParametersConfigurationComponent
+export default SearchResultsConfigurationComponent

@@ -6,14 +6,14 @@ import { assert } from 'chai'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import { FieldArray } from 'redux-form'
 import { Field } from '@regardsoss/form-utils'
-import Styles from '../../../../src/styles/styles'
-import { UnconnectedAttributeRegroupementFormComponent } from '../../../../src/components/admin/parameters/AttributeRegroupementFormComponent'
+import Styles from '../../../src/styles/styles'
+import { UnconnectedAttributeRegroupementFormComponent } from '../../../src/components/admin/AttributeRegroupementFormComponent'
 
 /**
  * Tests for FormParametersConfigurationComponent
  * @author Sébastien binda
  */
-describe('[FORM MODULE] Testing AttributeRegroupementFormComponent', () => {
+describe('[RESULTS MODULE] Testing AttributeRegroupementFormComponent', () => {
   const muiTheme = getMuiTheme({})
   const options = {
     context: {
@@ -29,7 +29,7 @@ describe('[FORM MODULE] Testing AttributeRegroupementFormComponent', () => {
     const props = {
       onClose: () => {},
       onSubmit: () => {},
-      selectableAttributes: [],
+      selectableAttributes: {},
       submitting: false,
       pristine: false,
       invalid: false,

@@ -9,7 +9,7 @@
 const DATASET_RESULTS = 'datasets'
 const DATAOBJECT_RESULTS = 'dataobjects'
 
-export {
+export default {
   DATASET_RESULTS,
   DATAOBJECT_RESULTS,
 }

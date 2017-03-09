@@ -8,14 +8,14 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import { CardHeader } from 'material-ui/Card'
 import MenuItem from 'material-ui/MenuItem'
 import Checkbox from 'material-ui/Checkbox'
-import Styles from '../../../../src/styles/styles'
-import AttributeRegroupementComponent from '../../../../src/components/admin/parameters/AttributeRegroupementComponent'
+import Styles from '../../../src/styles/styles'
+import AttributeRegroupementComponent from '../../../src/components/admin/AttributeRegroupementComponent'
 
 /**
  * Tests for AttributeConfigurationComponent
  * @author Sébastien binda
  */
-describe('[FORM MODULE] Testing AttributeRegroupementComponent', () => {
+describe('[RESULTS MODULE] Testing AttributeRegroupementComponent', () => {
   const muiTheme = getMuiTheme({})
   const options = {
     context: {
