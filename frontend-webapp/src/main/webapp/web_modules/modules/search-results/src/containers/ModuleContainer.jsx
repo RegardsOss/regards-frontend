@@ -45,15 +45,18 @@ class ModuleContainer extends React.Component {
   }
 
   render() {
+    const { attributeModels, moduleConf: { searchQuery, attributes, attributesRegroupements, resultType } } = this.props
+    const { attributesFetching } = this.state
     return (
       <LoadableContentDisplayDecorator
-        isLoading={this.state.attributesFetching}
+        isLoading={attributesFetching}
       >
         <SearchResultsComponent
-          searchQuery={this.props.moduleConf.searchQuery}
-          attributesConf={this.props.moduleConf.attributes}
-          attributesRegroupementsConf={this.props.moduleConf.attributesRegroupements}
-          attributeModels={this.props.attributeModels}
+          searchQuery={searchQuery}
+          attributesConf={attributes}
+          attributesRegroupementsConf={attributesRegroupements}
+          attributeModels={attributeModels}
+          target={resultType}
         />
       </LoadableContentDisplayDecorator>
     )

@@ -12,20 +12,27 @@ import Styles from './FixedTableStyles'
  */
 const FixedTableCell = (props, context) => {
   const attribute = props.getCellValue(props.rowIndex, props.col)
-  const styles = Styles(context.muiTheme)
-  let cellStyle = styles.cellOdd
-  let cellContentStyle = styles.cellOddContent
-  if (props.rowIndex % 2) {
-    cellStyle = styles.cellEven
-    cellContentStyle = styles.cellEvenContent
+  let cellStyle = {}
+  let cellContentStyle = {}
+  if (!props.cellsStyle) {
+    const styles = Styles(context.muiTheme)
+    cellStyle = styles.cellOdd
+    let cellContentStyle = styles.cellOddContent
+    if (props.rowIndex % 2) {
+      cellStyle = styles.cellEven
+      cellContentStyle = styles.cellEvenContent
+    }
+  } else {
+    cellStyle=props.cellsStyle
+    cellContentStyle=props.cellsStyle
   }
   return (
     <Cell
-      {...omit(props, ['col', 'getCellValue'])}
+      {...omit(props, ['col', 'getCellValue','cellsStyle'])}
       style={cellStyle}
     >
       <div style={cellContentStyle}>
-        <div>{attribute}</div>
+        <div style={{width: '100%'}}>{attribute}</div>
       </div>
     </Cell>
   )

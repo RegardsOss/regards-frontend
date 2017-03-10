@@ -17,7 +17,6 @@ import AttributeModelActions from '../models/attributes/AttributeModelActions'
 import FormComponent from '../components/user/FormComponent'
 
 
-const TARGET_PARAMETER = 'target'
 /**
  * Main container to display module form.
  * @author Sébastien binda
@@ -42,11 +41,9 @@ class ModuleContainer extends React.Component {
 
   constructor(props) {
     super(props)
-    const target = props.moduleConf.resultType === SearchResultsTargetsEnum.DATAOBJECT_RESULTS ? 'DATAOBJECT' : 'DATASET'
     this.criterionValues = {}
     this.state = {
       searchQuery: '',
-      target,
     }
   }
 
@@ -55,19 +52,15 @@ class ModuleContainer extends React.Component {
 
     // Read query parameters form current URL
     const query = browserHistory ? browserHistory.getCurrentLocation().query : null
-    let target = this.state.target
+
     let q = this.getInitialQuery()
-    if (query && query.target) {
-      target = query.target
-    }
 
     if (query && query.q) {
       q = query.q
     }
 
     this.setState({
-      type: target,
-      searchQuery: q ? this.createFullSearchParameters(q, target) : '',
+      searchQuery: q ? this.createFullSearchParameters(q) : '',
     })
   }
 
@@ -158,17 +151,9 @@ class ModuleContainer extends React.Component {
   }
 
   /**
-   * Format the given search query for opensearch format
-   * @param query
-   * @returns {string}
-   */
-  formatSearchQuery = query => `q=(${query})`
-
-  /**
    * Create query for the search from all the configured criterion
    */
   createSearchQueryFromCriterion = () => {
-
     let query = reduce(this.criterionValues, (result, criteria) => {
       if (result && criteria && criteria.length > 0) {
         return `${result} AND ${criteria}`
@@ -179,7 +164,7 @@ class ModuleContainer extends React.Component {
     }, '')
 
     // Add form associated dataset urn
-    let tags =''
+    let tags = ''
     if (this.props.moduleConf.datasets && this.props.moduleConf.datasets.selectedDatasets) {
       tags = reduce(this.props.moduleConf.datasets.selectedDatasets, (result, dataset) => {
         if (result && dataset !== undefined) {
@@ -200,7 +185,7 @@ class ModuleContainer extends React.Component {
     }
 
     if (query && query.length > 0) {
-      return this.formatSearchQuery(query)
+      return query
     }
     return ''
   }
@@ -208,16 +193,13 @@ class ModuleContainer extends React.Component {
   /**
    * Create full search request parameters with :
    * q : query
-   * target : results target type
    * @returns {string}
    */
-  createFullSearchParameters = (query, target) => {
+  createFullSearchParameters = (query) => {
     if (!query) {
-      return `${this.createSearchQueryFromCriterion()}&${TARGET_PARAMETER}=${this.state.target}`
-    } else if (!target) {
-      return `${this.formatSearchQuery(query)}&${TARGET_PARAMETER}=${this.state.target}`
+      return `${this.createSearchQueryFromCriterion()}`
     }
-    return `${this.formatSearchQuery(query)}&${TARGET_PARAMETER}=${target}`
+    return query
   }
 
   /**
@@ -228,7 +210,7 @@ class ModuleContainer extends React.Component {
     this.setState({
       searchQuery: query,
     })
-    browserHistory.push(`${browserHistory.getCurrentLocation().pathname}?${query}`)
+    browserHistory.push(`${browserHistory.getCurrentLocation().pathname}?q=${query}`)
   }
 
   renderForm() {

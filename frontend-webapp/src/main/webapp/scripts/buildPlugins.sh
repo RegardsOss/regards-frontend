@@ -1,0 +1,32 @@
+#./bin/bash
+
+#
+# LICENSE_PLACEHOLDER
+#
+
+# Script to compile all plugins
+
+home=`pwd`
+cd plugins/criterion
+plugins=`find . -maxdepth 1 -type d `
+cd ${home}
+for f in ${plugins}; do
+  if [ -d "plugins/criterion/${f}/target/build/" ]; then
+      echo ""
+      echo "-------------------------------------------"
+      echo "Compiling plugin ${f} ...."
+      echo "-------------------------------------------"
+      echo ""
+      cd plugins/criterion/${f}
+      npm install
+      npm run build
+      cd ${home}
+      echo ""
+      echo ""
+      echo "-------------------------------------------"
+      echo "Copying plugin ${f} to build directory ...."
+      echo "-------------------------------------------"
+      echo ""
+      mkdir -p build/plugins/criterion/${f}/ && cp plugins/criterion/${f}/target/build/plugin.js build/plugins/criterion/${f}/
+  fi
+done

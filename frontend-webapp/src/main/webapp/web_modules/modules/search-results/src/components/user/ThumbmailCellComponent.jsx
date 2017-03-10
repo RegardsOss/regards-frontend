@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { find } from 'lodash'
+import find from 'lodash/find'
 import Dialog from 'material-ui/Dialog'
 import { ObjectLinkedFile, ObjectLinkedFileTypes } from '@regardsoss/model'
 import Avatar from 'material-ui/Avatar'
@@ -17,6 +17,7 @@ class ThumbmailCellComponent extends React.Component {
     attributes: React.PropTypes.shape({
       files: React.PropTypes.arrayOf(ObjectLinkedFile),
     }),
+    entity: React.PropTypes.object,
     lineHeight: React.PropTypes.number.isRequired,
   }
 

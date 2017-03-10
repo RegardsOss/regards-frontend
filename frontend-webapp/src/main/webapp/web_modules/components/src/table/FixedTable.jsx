@@ -2,13 +2,13 @@
  * LICENSE_PLACEHOLDER
  **/
 import root from 'window-or-global'
-import { map, forEach, reduce, split, remove, concat } from 'lodash'
-import { Table, Column } from 'fixed-data-table'
-import { Toolbar, ToolbarGroup, ToolbarTitle } from 'material-ui/Toolbar'
+import {map, forEach, reduce, split, remove, concat} from 'lodash'
+import {Table, Column} from 'fixed-data-table'
+import {Toolbar, ToolbarGroup, ToolbarTitle} from 'material-ui/Toolbar'
 import FilterList from 'material-ui/svg-icons/content/filter-list'
 import IconButton from 'material-ui/IconButton'
-import { LoadingComponent } from '@regardsoss/display-control'
-import { themeContextType } from '@regardsoss/theme'
+import {LoadingComponent} from '@regardsoss/display-control'
+import {themeContextType} from '@regardsoss/theme'
 import './fixed-data-table-mui.css'
 import FixedTableCell from './FixedTableCell'
 import FixedTableCheckBoxCell from './FixedTableCheckBoxCell'
@@ -44,6 +44,7 @@ class FixedTable extends React.Component {
     pageSize: React.PropTypes.number.isRequired,
     onScrollEnd: React.PropTypes.func.isRequired,
     columns: React.PropTypes.arrayOf(ColumnConfiguration),
+    cellsStyle: React.PropTypes.object,
     displayCheckbox: React.PropTypes.bool,
     onRowSelection: React.PropTypes.func,
     onSortByColumn: React.PropTypes.func,
@@ -87,7 +88,7 @@ class FixedTable extends React.Component {
    * @param columnKey
    */
   onColumnResizeEndCallback = (newColumnWidth, columnKey) => {
-    this.setState(({ columnWidths }) => ({
+    this.setState(({columnWidths}) => ({
       columnWidths: {
         ...columnWidths,
         [columnKey]: newColumnWidth,
@@ -115,9 +116,13 @@ class FixedTable extends React.Component {
             (result, value, key) => result[value],
             entity)
         }
-        return React.createElement(rendererComponent.component, { attributes, lineHeight: this.props.lineHeight, ...rendererComponent.props })
+        return React.createElement(rendererComponent.component, {
+          attributes,
+          entity,
+          lineHeight: this.props.lineHeight, ...rendererComponent.props
+        })
       }
-        // No custom component, render attribute as a string.
+      // No custom component, render attribute as a string.
       let resultValue = ''
       for (i = 0; i < column.attributes.length; i += 1) {
         const attrValue = reduce(split(column.attributes[i], '.'), (result, value, key) => result[value], entity)
@@ -193,7 +198,7 @@ class FixedTable extends React.Component {
         <Column
           key={'checkbox'}
           columnKey={'checkbox'}
-          header={<FixedTableHeaderCell lineHeight={this.props.lineHeight} fixed />}
+          header={<FixedTableHeaderCell lineHeight={this.props.lineHeight} fixed/>}
           cell={<FixedTableCheckBoxCell
             selectRow={this.props.onRowSelection}
             isSelected={idx => this.props.entities[idx].selected}
@@ -226,19 +231,24 @@ class FixedTable extends React.Component {
   /**
    * Render the toolbar over the table
    */
-  renderToolbar = () => (
-    <Toolbar style={{ minWidth: this.state.width }}>
-      <ToolbarTitle
-        text={`${this.props.entities.length} results`}
-        style={{ color: this.context.muiTheme.palette.textColor }}
-      />
-      <ToolbarGroup>
-        <IconButton tooltip="Filter columns" onTouchTap={this.openColumnsFilterPanel}>
-          <FilterList />
-        </IconButton>
-      </ToolbarGroup>
-    </Toolbar>
-  )
+  renderToolbar = () => {
+    if (this.props.displayHeader) {
+      return (
+        <Toolbar style={{minWidth: this.state.width}}>
+          <ToolbarTitle
+            text={`${this.props.entities.length} results`}
+            style={{color: this.context.muiTheme.palette.textColor}}
+          />
+          <ToolbarGroup>
+            <IconButton tooltip="Filter columns" onTouchTap={this.openColumnsFilterPanel}>
+              <FilterList />
+            </IconButton>
+          </ToolbarGroup>
+        </Toolbar>
+      )
+    }
+    return null
+  }
 
   /**
    * Display the cloumn filter panel
@@ -259,10 +269,12 @@ class FixedTable extends React.Component {
   }
 
   render() {
-    const { columnWidths, width, height } = this.state
+    const {columnWidths, width, height} = this.state
     if (!this.props.entities) {
       return null
     }
+
+
     const totalNumberOfEntities = this.props.entities.length
     return (
       <div>
@@ -270,7 +282,7 @@ class FixedTable extends React.Component {
         {this.renderLoadingFilter()}
         <Table
           rowHeight={this.props.lineHeight}
-          headerHeight={this.props.lineHeight}
+          headerHeight={this.props.displayHeader ? this.props.lineHeight : 0}
           rowsCount={totalNumberOfEntities}
           onColumnResizeEndCallback={this.onColumnResizeEndCallback}
           isColumnResizing={false}
@@ -283,23 +295,28 @@ class FixedTable extends React.Component {
             if (this.state.hiddenColumns.includes(column.label)) {
               return null
             }
-            return (<Column
-              key={column.label}
-              columnKey={column.label}
-              header={<FixedTableHeaderCell
-                label={column.hideLabel ? '' : column.label}
-                lineHeight={this.props.lineHeight}
-                sortable={column.sortable}
-                sortAction={type => this.props.onSortByColumn(column, type)}
-              />}
-              cell={<FixedTableCell
-                getCellValue={(rowIndex, col) => this.getCellValue(rowIndex, col, column.customCell)}
-                col={column}
-              />}
-              width={column.fixed ? column.fixed : columnWidths[column.label]}
-              flexGrow={1}
-              isResizable={column.fixed === undefined}
-            />)
+            let columnWidth = column.fixed ? column.fixed : columnWidths[column.label]
+            if (columnWidth) {
+              return (<Column
+                key={column.label}
+                columnKey={column.label}
+                header={<FixedTableHeaderCell
+                  label={column.hideLabel ? '' : column.label}
+                  lineHeight={this.props.lineHeight}
+                  sortable={column.sortable}
+                  sortAction={type => this.props.onSortByColumn(column, type)}
+                />}
+                cell={<FixedTableCell
+                  getCellValue={(rowIndex, col) => this.getCellValue(rowIndex, col, column.customCell)}
+                  col={column}
+                  cellsStyle={this.props.cellsStyle}
+                />}
+                width={columnWidth}
+                flexGrow={1}
+                isResizable={column.fixed === undefined}
+              />)
+            }
+            return null
           })}
         </Table>
         {this.renderColumnsFilterPanel()}

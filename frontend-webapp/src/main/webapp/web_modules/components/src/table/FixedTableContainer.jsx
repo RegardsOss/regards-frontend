@@ -66,6 +66,8 @@ class FixedTableContainer extends React.Component {
     // [Optional] server request parameters as query params or path params defined in the PageActions given.
     // eslint-disable-next-line react/forbid-prop-types
     requestParams: React.PropTypes.object,
+    // eslint-disable-next-line react/forbid-prop-types
+    cellsStyle: React.PropTypes.object,
 
     // Parameters set by redux store connection
     // eslint-disable-next-line react/no-unused-prop-types
@@ -190,14 +192,17 @@ class FixedTableContainer extends React.Component {
    * @returns {Array}
    */
   getAllColumns = () => {
-    if (this.props.columns) {
+    if (this.props.columns && this.props.columns.length > 0) {
       return this.props.columns
     }
-    const entity = this.state.entities[0]
     const columns = []
-    forEach(entity.content, (attr, key) => {
-      columns.push({ attributes: [key], label: key })
-    })
+
+    if (this.state.entities && this.state.entities.length > 0) {
+      const entity = this.state.entities[0]
+      forEach(entity.content, (attr, key) => {
+        columns.push({ attributes: [key], label: key })
+      })
+    }
     return columns
   }
 
@@ -223,7 +228,9 @@ class FixedTableContainer extends React.Component {
       noContent = true
     }
     return (
-      <Card>
+      <Card
+        style={noContent ? {} : {backgroundColor: 'transparent'}}
+      >
         <NoContentMessageInfo
           noContent={noContent}
           title={'No results found'}
@@ -238,8 +245,10 @@ class FixedTableContainer extends React.Component {
             onScrollEnd={this.onScrollEnd}
             columns={this.getAllColumns()}
             displayCheckbox={this.props.displayCheckbox}
+            displayHeader={this.props.displayHeader}
             onRowSelection={this.selectRow}
             onSortByColumn={this.props.onSortByColumn}
+            cellsStyle={this.props.cellsStyle}
           />
         </NoContentMessageInfo>
       </Card>
