@@ -18,7 +18,11 @@ const messages = Object.assign({
   'project.list.action.add': 'Add',
   'project.list.action.openbutton': 'Open',
   'project.list.action.editbutton': 'Edit',
-  'project.list.action.deletebutton': 'Delete',
+  'project.list.action.licenseUpdateButton': 'License changed',
+  'project.list.dialog.title.update.license': 'License changed?',
+  'project.list.dialog.message.update.license': 'When you notify a license change, every project user will be prompted to accept the new licenses',
+  'project.list.action.deletebutton': 'Remove',
+  'project.list.dialog.title.delete': 'Remove that project?',
 
   'project.list.action.open': 'Login on that project admin dashboard',
   'project.edit.title': 'Edit the project {name}',

@@ -1,24 +1,40 @@
+import { values } from 'lodash'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
 import { FormattedMessage } from 'react-intl'
 import { I18nProvider } from '@regardsoss/i18n'
 
 /**
- * Confirm action dialog component
+ * Confirm action dialog component. Switches dialog mode,
  */
 class ConfirmDialogComponent extends React.Component {
 
+  /**
+   * possible dialog types
+   */
+  static dialogTypes = {
+    DELETE: {
+      messageId: 'confirm.dialog.delete',
+    },
+    CONFIRM: {
+      messageId: 'confirm.dialog.confirm',
+    },
+  }
+
   static propTypes = {
+    dialogType: React.PropTypes.oneOf(values(ConfirmDialogComponent.dialogTypes)),
     title: React.PropTypes.string.isRequired,
-    onDelete: React.PropTypes.func.isRequired,
+    message: React.PropTypes.string, // optional
+    onConfirm: React.PropTypes.func.isRequired,
     onClose: React.PropTypes.func.isRequired,
   }
 
-  /**
-   *
-   */
+  static defaultProps = {
+    dialogType: ConfirmDialogComponent.dialogTypes.CONFIRM,
+  }
+
   handleDelete = () => {
-    Promise.resolve(this.props.onDelete()).then(this.props.onClose)
+    Promise.resolve(this.props.onConfirm()).then(this.props.onClose)
   }
 
   /**
@@ -26,18 +42,17 @@ class ConfirmDialogComponent extends React.Component {
    * @returns {any}
    */
   render() {
-    const title = this.props.title
+    const { title, message, onClose, dialogType } = this.props
     const actions = [
       <FlatButton
-        label={<FormattedMessage id="dialog.delete.cancel" />}
-        primary
-        onTouchTap={this.props.onClose}
+        label={<FormattedMessage id={dialogType.messageId} />}
+        onTouchTap={this.handleDelete}
       />,
       <FlatButton
-        label={<FormattedMessage id="dialog.delete.accept" />}
+        label={<FormattedMessage id="confirm.dialog.cancel" />}
         primary
         keyboardFocused
-        onTouchTap={this.handleDelete}
+        onTouchTap={onClose}
       />,
     ]
     return (
@@ -47,8 +62,10 @@ class ConfirmDialogComponent extends React.Component {
           actions={actions}
           modal={false}
           open
-          onRequestClose={this.props.onClose}
-        />
+          onRequestClose={onClose}
+        >
+          {message}
+        </Dialog>
       </I18nProvider>
     )
   }

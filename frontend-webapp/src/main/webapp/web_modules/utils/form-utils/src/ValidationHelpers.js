@@ -2,6 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { find } from 'lodash'
+import { validURLRegexp } from '@regardsoss/model'
 import ErrorTypes from './ErrorTypes'
 
 /**
@@ -14,7 +15,7 @@ export const isValidEmail = email => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i
  * Returns {@code true} if the passed String matches an url format.
  * @param {String} url
  */
-export const isValidUrl = url => /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/i.test(url)
+export const isValidUrl = url => validURLRegexp.test(url)
 
 /**
  * Returns {@code true} if the passed String is only composed of alphanumeric or "_" characters.

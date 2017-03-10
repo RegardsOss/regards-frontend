@@ -40,7 +40,7 @@ import Endpoint from './admin/Endpoint'
 import AIPStatus, { aipStates, aipDataTypes } from './archival-storage/AIPStatus'
 import StoragePlugin, { StoragePluginShape } from './archival-storage/StoragePlugin'
 import Theme from './access/Theme'
-import URL from './common/URL'
+import URL, { validURLRegexp } from './common/URL'
 import RangedNumber from './common/RangedNumber'
 import Percent from './common/Percent'
 
@@ -110,4 +110,5 @@ export default {
   URL,
   RangedNumber,
   Percent,
+  validURLRegexp,
 }
