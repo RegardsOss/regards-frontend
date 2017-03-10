@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { BasicSignalReducers } from '@regardsoss/store-utils'
-import ResetProjectLicensesActions from './ResetProjectLicensesActions'
+import ResetProjectLicensesActions from './NotifyLicenseUpdatedActions'
 
 
 const resetProjectLicensesReducers = new BasicSignalReducers(ResetProjectLicensesActions)

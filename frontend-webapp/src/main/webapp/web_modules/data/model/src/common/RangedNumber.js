@@ -1,26 +1,23 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import getChainableTypeChecker from './ChainableTypeChecker'
 
 /**
- * Ranged number prop type validator (you can use isRequired on it)
+ * Ranged number prop type validator (returns range validation closure)
  */
-const RangedNumber = (min = Number.MIN_VALUE, max = Number.MAX_VALUE) => {
-  const validatorInstance = (props, propName, componentName, location, required = false) => {
+const getRangedNumberValidator = (min = Number.MIN_VALUE, max = Number.MAX_VALUE) =>
+  (props, propName, componentName, location) => {
+    const localComponentName = componentName || '[Anonymous component]'
     const number = props[propName]
-    if (number) {
-      if (typeof number !== 'number') {
-        return new Error(`${propName} expects a number in ${componentName}`)
-      }
-      if (number < min || number > max) {
-        return new Error(`${propName} value (${number}) is not in expected range [${min};${max}], in ${componentName}`)
-      }
-      return null
+    // pre : never empty here (see ChainableTypeChecker)
+    if (typeof number !== 'number') {
+      return new Error(`${propName} (${location}) is not a number in ${localComponentName}.`)
     }
-    return required ? new Error(`The property ${propName} is required in ${componentName} (number expected)`) : null
+    if (number < min || number > max) {
+      return new Error(`${propName} (${location}) is not in expected range [${min};${max}] in ${localComponentName}.`)
+    }
+    return null
   }
-  validatorInstance.isRequired = (props, propName, componentName, location) => validatorInstance(props, propName, componentName, location, true)
-  return validatorInstance
-}
 
-export default RangedNumber
+export default (min = Number.MIN_VALUE, max = Number.MAX_VALUE) => getChainableTypeChecker(getRangedNumberValidator(min, max))

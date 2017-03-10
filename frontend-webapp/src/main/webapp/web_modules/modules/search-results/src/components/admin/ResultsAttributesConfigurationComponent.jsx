@@ -231,7 +231,8 @@ class ResultsAttributesConfigurationComponent extends React.Component {
       const title = this.context.intl.formatMessage({ id: 'form.attributes.delete.confirm.title' }, { name: this.state.regroupementToDelete.label })
       return (
         <ConfirmDialogComponent
-          onDelete={() => {
+          dialogType={ConfirmDialogComponent.dialogTypes.DELETE}
+          onConfirm={() => {
             this.deleteRegroupement(this.state.regroupementToDelete)
           }}
           onClose={this.closeDeleteDialog}
