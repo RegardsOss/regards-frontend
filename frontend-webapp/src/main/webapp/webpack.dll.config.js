@@ -4,7 +4,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin')
 
 module.exports = {
   entry: {
-    'core': ["chart.js", "flux-standard-action", "gsap", "immutable", "isomorphic-fetch", "lodash", "material-ui", "moment", "normalizr", "react", "react-chartjs-2", "react-dnd", "react-dnd-html5-backend", "react-dom", "react-infinite", "react-intl", "react-redux", "react-resizable", "react-router", "react-tap-event-plugin", "redux", "redux-api-middleware", "redux-form", "redux-form-material-ui", "redux-logger", "redux-thunk", "scriptjs", "sockjs-client", "window-or-global", "fixed-data-table"],
+    'core': ["flux-standard-action", "immutable", "isomorphic-fetch", "normalizr", "react", "react-dnd", "react-dnd-html5-backend", "react-dom", "react-intl", "react-redux", "react-resizable", "react-router", "react-tap-event-plugin", "redux", "redux-api-middleware", "redux-form", "redux-logger", "redux-thunk", "window-or-global"],
   },
   resolve: {
     // Automaticaly get extensions files from javascript code with import or require.

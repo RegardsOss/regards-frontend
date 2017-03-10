@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "bootstrap": "./scripts/bootstrap.sh",
-    "build:dll": "webpack --progress --config webpack.dll.config.js --display-error-details",
+    "build:dll": "webpack --progress --config webpack.dll.config.js --display-error-details --optimize-minimize",
     "build:production": "webpack --progress --config webpack.prod.config.js --display-error-details",
     "prestart": "npm run lint:fix || true",
     "start": "npm run start:withpreprod",
