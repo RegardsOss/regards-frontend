@@ -4,14 +4,15 @@
 import { BasicSignalActions } from '@regardsoss/store-utils'
 
 
-const baseURL = `${GATEWAY_HOSTNAME}/${API_URL}/rs-admin/project/{project}/license`
-
 /**
  * Project license actions: retrieves and updates user licence accepted state
  */
 export class ProjectLicenseActions extends BasicSignalActions {
-  constructor(namespace = 'licenses/information', urlSubpath = '') {
-    super({ entityEndpoint: `${baseURL}${urlSubpath}`, namespace })
+  constructor() {
+    super({
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-admin/project/{project}/license`,
+      namespace: 'licenses/information',
+    })
   }
   /**
    * Fetch project license information

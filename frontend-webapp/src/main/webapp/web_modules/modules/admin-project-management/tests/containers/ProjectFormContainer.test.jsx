@@ -1,10 +1,19 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
+import sinon from 'sinon'
 import { ProjectFormContainer } from '../../src/containers/ProjectFormContainer'
 import ProjectFormComponent from '../../src/components/ProjectFormComponent'
 
 // Test a component rendering
 describe('[ADMIN PROJECT MANAGEMENT] Testing form container', () => {
+  before(() => {
+    sinon.stub(console, 'error', (warning) => {
+      throw new Error(warning)
+    })
+  })
+  after(() => {
+    console.error.restore()
+  })
   it('should exists', () => {
     assert.isDefined(ProjectFormContainer)
     assert.isDefined(ProjectFormComponent)
@@ -21,15 +30,15 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing form container', () => {
           id: 1,
           name: 'project name',
           description: 'project desc',
-          icon: 'project icon',
+          icon: 'http://localhost:1888/yeah.gif',
           isPublic: true,
         },
       },
       isFetching: false,
       // from mapDispatchToProps
-      createProject: () => {},
-      fetchProject: () => {},
-      updateProject: () => {},
+      createProject: () => { },
+      fetchProject: () => { },
+      updateProject: () => { },
     }
 
     const enzymeWrapper = shallow(<ProjectFormContainer {...props} />)

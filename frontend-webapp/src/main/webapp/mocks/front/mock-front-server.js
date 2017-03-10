@@ -28,7 +28,7 @@ const entryDelegates = {
     '/rs-admin/project/{projectName}/license': () => ({
       contentType: JSON_CONTENT_TYPE,
       content: {
-        licenseLink: 'https://www.gnu.org/licenses/gpl.html',
+        licenseLink: 'https://www.gnu.org/licenses/gpl.html', // or PDF: 'http://www.gchagnon.fr/cours/cours.pdf'
         accepted: false,
       },
     }),

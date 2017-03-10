@@ -68,7 +68,8 @@ class PluginListComponent extends React.Component {
           show={this.state.deleteDialogOpened}
         >
           <ConfirmDialogComponent
-            onDelete={() => { this.props.onDelete(this.state.pluginToDelete) }}
+            dialogType={ConfirmDialogComponent.dialogTypes.DELETE}
+            onConfirm={() => { this.props.onDelete(this.state.pluginToDelete) }}
             onClose={this.closeDeleteDialog}
             title={title}
           />

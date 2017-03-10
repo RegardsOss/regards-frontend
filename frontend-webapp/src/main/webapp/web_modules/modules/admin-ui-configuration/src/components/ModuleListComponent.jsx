@@ -72,7 +72,8 @@ class ModuleListComponent extends React.Component {
           show={this.state.deleteDialogOpened}
         >
           <ConfirmDialogComponent
-            onDelete={() => { this.props.onDelete(this.state.moduleToDelete) }}
+            dialogType={ConfirmDialogComponent.dialogTypes.DELETE}
+            onConfirm={() => { this.props.onDelete(this.state.moduleToDelete) }}
             onClose={this.closeDeleteDialog}
             title={title}
           />

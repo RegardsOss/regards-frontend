@@ -4,8 +4,9 @@
 import { Locales } from '@regardsoss/form-utils'
 
 const messages = Object.assign({
-  'dialog.delete.accept': 'Supprimer',
-  'dialog.delete.cancel': 'Annuler',
+  'confirm.dialog.delete': 'Supprimer',
+  'confirm.dialog.confirm': 'Confirmer',
+  'confirm.dialog.cancel': 'Annuler',
 }, Locales.fr)
 
 export default messages
