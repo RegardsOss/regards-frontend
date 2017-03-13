@@ -31,9 +31,7 @@ const FixedTableCell = (props, context) => {
       {...omit(props, ['col', 'getCellValue', 'cellsStyle'])}
       style={cellStyle}
     >
-      <div style={cellContentStyle}>
-        <div style={{ width: '100%' }}>{attribute}</div>
-      </div>
+      <div style={cellContentStyle}>{attribute}</div>
     </Cell>
   )
 }
