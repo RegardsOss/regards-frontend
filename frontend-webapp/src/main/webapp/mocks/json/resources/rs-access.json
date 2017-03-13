@@ -475,6 +475,10 @@
         "tabs": {
           "textColor": "#fafafa",
           "selectedTextColor": "#ff9100"
+        },
+        "raisedButton": {
+          "primaryTextColor": "#fafafa",
+          "secondaryTextColor": "#fafafa"
         }
       },
       "id": 3,
