@@ -223,6 +223,11 @@ class ModuleContainer extends React.Component {
   }
 
   renderForm() {
+
+    // If a search query is set, hide form component
+    if (this.state.searchQuery && this.state.searchQuery !== this.getInitialQuery()){
+      return null
+    }
     if (this.props.moduleConf.layout) {
       try {
         const layoutObj = JSON.parse(this.props.moduleConf.layout)
