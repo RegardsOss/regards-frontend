@@ -14,22 +14,30 @@ import LazyModuleComponent from '../../src/components/LazyModuleComponent'
  */
 describe('[MODULES] Testing LazyModuleComponent', () => {
   // This test can last ~6s so we override the timeout duration
-  it('Should render correctly an application layout with ApplicationLayout', () => {
+  it('Should render correctly an application layout with ApplicationLayout', (done) => {
     const context = {
-
     }
     const module = {
       name: 'authentication',
       active: true,
     }
-    const wrapper = shallow(<LazyModuleComponent appName={'testApp'} module={module} />, { context })
-
-    expect(wrapper.find(moduleContainer)).to.have.length(1)
-    expect(wrapper.find(ModuleThemeProvider)).to.have.length(1)
-    expect(wrapper.find(I18nProvider)).to.have.length(1)
+    const wrapper = shallow(<LazyModuleComponent
+      appName={'testApp'} module={module} onLoadAction={
+      () => {
+        try {
+          expect(wrapper.find(moduleContainer)).to.have.length(1)
+          expect(wrapper.find(ModuleThemeProvider)).to.have.length(1)
+          expect(wrapper.find(I18nProvider)).to.have.length(1)
+          done()
+        } catch (e) {
+          done(e)
+        }
+      }
+    }
+    />, { context })
   }).timeout(60000)
 
-  it('Should not render a desable module', () => {
+  it('Should not render a desable module', (done) => {
     const context = {
 
     }
@@ -37,10 +45,19 @@ describe('[MODULES] Testing LazyModuleComponent', () => {
       name: 'authentication',
       active: false,
     }
-    const wrapper = shallow(<LazyModuleComponent appName={'testApp'} module={module} />, { context })
-
-    expect(wrapper.find(moduleContainer)).to.have.length(0)
-    expect(wrapper.find(ModuleThemeProvider)).to.have.length(0)
-    expect(wrapper.find(I18nProvider)).to.have.length(0)
+    const wrapper = shallow(<LazyModuleComponent
+      appName={'testApp'} module={module} onLoadAction={
+      () => {
+        try {
+          expect(wrapper.find(moduleContainer)).to.have.length(0)
+          expect(wrapper.find(ModuleThemeProvider)).to.have.length(0)
+          expect(wrapper.find(I18nProvider)).to.have.length(0)
+          done()
+        } catch (e) {
+          done(e)
+        }
+      }
+    }
+    />, { context })
   }).timeout(60000)
 })

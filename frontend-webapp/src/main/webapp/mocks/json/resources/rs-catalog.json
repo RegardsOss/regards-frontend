@@ -2,7 +2,7 @@
   "search" : [
     {
       "id": 0,
-      "sip_id": 100,
+      "ip_id": 100,
       "label": "Le parain",
       "type": "DATAOBJECT",
       "files": [{
@@ -10,7 +10,7 @@
         "uri": "https://cnes.fr/sites/default/files/drupal/201511/image/is_venus-nasa.jpg"
       }],
       "tags": ["col:movie","col:classic","col:action","ds:ParisLibrary"],
-      "attributes":{
+      "properties":{
         "format": "dvd",
         "language": "English"
       },
@@ -18,7 +18,7 @@
     },
     {
       "id": 1,
-      "sip_id": 101,
+      "ip_id": 101,
       "label": "Matrix",
       "type": "DATAOBJECT",
       "files": [{
@@ -26,7 +26,7 @@
         "uri": "http://images.toucharger.com/img/graphiques/fonds_d_ecran/espace/planetes/planete.2208.jpg"
       }],
       "tags": ["col:movie","col:science-fiction","ds:ParisLibrary"],
-      "attributes":{
+      "properties":{
         "format": "dvd",
         "language": "English"
       },
@@ -34,7 +34,7 @@
     },
     {
       "id": 2,
-      "sip_id": 102,
+      "ip_id": 102,
       "label": "La grande vadrouille",
       "type": "DATAOBJECT",
       "files": [{
@@ -42,7 +42,7 @@
         "uri": "http://meyer10000.m.e.pic.centerblog.net/w7ei60ha.jpg"
       }],
       "tags": ["col:movie","col:classic","col:aventure","ds:ParisLibrary","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "dvd",
         "language": "French"
       },
@@ -50,11 +50,11 @@
     },
     {
       "id": 10,
-      "sip_id": 110,
+      "ip_id": 110,
       "label": "Matrix Reloaded",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "French"
       },
@@ -62,11 +62,11 @@
     },
     {
       "id": 11,
-      "sip_id": 111,
+      "ip_id": 111,
       "label": "Matrix Revolution",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "French"
       },
@@ -74,11 +74,11 @@
     },
     {
       "id": 12,
-      "sip_id": 112,
+      "ip_id": 112,
       "label": "Burn after reading",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "English"
       },
@@ -86,11 +86,11 @@
     },
     {
       "id": 13,
-      "sip_id": 113,
+      "ip_id": 113,
       "label": "Starwars I",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "dvd",
         "language": "English"
       },
@@ -98,11 +98,11 @@
     },
     {
       "id": 14,
-      "sip_id": 114,
+      "ip_id": 114,
       "label": "Starwars II",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "dvd",
         "language": "English"
       },
@@ -110,11 +110,11 @@
     },
     {
       "id": 15,
-      "sip_id": 115,
+      "ip_id": 115,
       "label": "Starwars III",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "dvd",
         "language": "English"
       },
@@ -122,11 +122,11 @@
     },
     {
       "id": 16,
-      "sip_id": 116,
+      "ip_id": 116,
       "label": "Starwars IV",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "vhs",
         "language": "English"
       },
@@ -134,11 +134,11 @@
     },
     {
       "id": 17,
-      "sip_id": 117,
+      "ip_id": 117,
       "label": "Starwars V",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "vhs",
         "language": "English"
       },
@@ -146,11 +146,11 @@
     },
     {
       "id": 18,
-      "sip_id": 118,
+      "ip_id": 118,
       "label": "Starwars VI",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "vhs",
         "language": "English"
       },
@@ -158,11 +158,11 @@
     },
     {
       "id": 19,
-      "sip_id": 119,
+      "ip_id": 119,
       "label": "Starwars VII",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "English"
       },
@@ -170,11 +170,11 @@
     },
     {
       "id": 20,
-      "sip_id": 120,
+      "ip_id": 120,
       "label": "Le diner de con",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "French"
       },
@@ -182,11 +182,11 @@
     },
     {
       "id": 21,
-      "sip_id": 121,
+      "ip_id": 121,
       "label": "Polisse",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "French"
       },
@@ -194,11 +194,11 @@
     },
     {
       "id": 22,
-      "sip_id": 122,
+      "ip_id": 122,
       "label": "Intouchable",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "French"
       },
@@ -206,11 +206,11 @@
     },
     {
       "id": 23,
-      "sip_id": 123,
+      "ip_id": 123,
       "label": "Scarface",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "vhs",
         "language": "English"
       },
@@ -218,11 +218,11 @@
     },
     {
       "id": 24,
-      "sip_id": 124,
+      "ip_id": 124,
       "label": "Pulp Fiction",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "vhs",
         "language": "English"
       },
@@ -230,11 +230,11 @@
     },
     {
       "id": 25,
-      "sip_id": 125,
+      "ip_id": 125,
       "label": "Seven",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "vhs",
         "language": "English"
       },
@@ -242,11 +242,11 @@
     },
     {
       "id": 26,
-      "sip_id": 126,
+      "ip_id": 126,
       "label": "Fight Club",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "dvd",
         "language": "English"
       },
@@ -254,11 +254,11 @@
     },
     {
       "id": 27,
-      "sip_id": 127,
+      "ip_id": 127,
       "label": "La cité de la peur",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "dvd",
         "language": "French"
       },
@@ -266,11 +266,11 @@
     },
     {
       "id": 28,
-      "sip_id": 128,
+      "ip_id": 128,
       "label": "Requiem for a dream",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "dvd",
         "language": "English"
       },
@@ -278,11 +278,11 @@
     },
     {
       "id": 29,
-      "sip_id": 129,
+      "ip_id": 129,
       "label": "Sinister",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "English"
       },
@@ -290,11 +290,11 @@
     },
     {
       "id": 30,
-      "sip_id": 130,
+      "ip_id": 130,
       "label": "Insidious",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "English"
       },
@@ -302,11 +302,11 @@
     },
     {
       "id": 31,
-      "sip_id": 131,
+      "ip_id": 131,
       "label": "Insidious 2",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "English"
       },
@@ -314,11 +314,11 @@
     },
     {
       "id": 32,
-      "sip_id": 132,
+      "ip_id": 132,
       "label": "Insidious 3",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "English"
       },
@@ -326,11 +326,11 @@
     },
     {
       "id": 40,
-      "sip_id": 140,
+      "ip_id": 140,
       "label": "Film",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "English"
       },
@@ -338,11 +338,11 @@
     },
     {
       "id": 40,
-      "sip_id": 140,
+      "ip_id": 140,
       "label": "Film",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "English"
       },
@@ -350,11 +350,11 @@
     },
     {
       "id": 40,
-      "sip_id": 140,
+      "ip_id": 140,
       "label": "Film",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "English"
       },
@@ -362,11 +362,11 @@
     },
     {
       "id": 41,
-      "sip_id": 140,
+      "ip_id": 140,
       "label": "Film",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "English"
       },
@@ -374,11 +374,11 @@
     },
     {
       "id": 42,
-      "sip_id": 140,
+      "ip_id": 140,
       "label": "Film",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "English"
       },
@@ -386,11 +386,11 @@
     },
     {
       "id": 43,
-      "sip_id": 140,
+      "ip_id": 140,
       "label": "Film",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "English"
       },
@@ -398,11 +398,11 @@
     },
     {
       "id": 44,
-      "sip_id": 140,
+      "ip_id": 140,
       "label": "Film",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "English"
       },
@@ -410,11 +410,11 @@
     },
     {
       "id": 45,
-      "sip_id": 140,
+      "ip_id": 140,
       "label": "Film",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "English"
       },
@@ -422,11 +422,11 @@
     },
     {
       "id": 46,
-      "sip_id": 140,
+      "ip_id": 140,
       "label": "Film",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "English"
       },
@@ -434,11 +434,11 @@
     },
     {
       "id": 47,
-      "sip_id": 140,
+      "ip_id": 140,
       "label": "Film",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "English"
       },
@@ -446,11 +446,11 @@
     },
     {
       "id": 48,
-      "sip_id": 140,
+      "ip_id": 140,
       "label": "Film",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "English"
       },
@@ -458,11 +458,11 @@
     },
     {
       "id": 49,
-      "sip_id": 140,
+      "ip_id": 140,
       "label": "Film",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "English"
       },
@@ -470,11 +470,11 @@
     },
     {
       "id": 50,
-      "sip_id": 140,
+      "ip_id": 140,
       "label": "Film",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "English"
       },
@@ -482,11 +482,11 @@
     },
     {
       "id": 51,
-      "sip_id": 140,
+      "ip_id": 140,
       "label": "Film",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "English"
       },
@@ -494,11 +494,11 @@
     },
     {
       "id": 52,
-      "sip_id": 140,
+      "ip_id": 140,
       "label": "Film",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "English"
       },
@@ -506,11 +506,11 @@
     },
     {
       "id": 53,
-      "sip_id": 140,
+      "ip_id": 140,
       "label": "Film",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "English"
       },
@@ -518,11 +518,11 @@
     },
     {
       "id": 54,
-      "sip_id": 140,
+      "ip_id": 140,
       "label": "Film",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "English"
       },
@@ -530,11 +530,11 @@
     },
     {
       "id": 55,
-      "sip_id": 140,
+      "ip_id": 140,
       "label": "Film",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "English"
       },
@@ -542,11 +542,11 @@
     },
     {
       "id": 56,
-      "sip_id": 140,
+      "ip_id": 140,
       "label": "Film",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "English"
       },
@@ -554,11 +554,11 @@
     },
     {
       "id": 57,
-      "sip_id": 140,
+      "ip_id": 140,
       "label": "Film",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "English"
       },
@@ -566,11 +566,11 @@
     },
     {
       "id": 58,
-      "sip_id": 140,
+      "ip_id": 140,
       "label": "Film",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "English"
       },
@@ -578,11 +578,11 @@
     },
     {
       "id": 59,
-      "sip_id": 140,
+      "ip_id": 140,
       "label": "Film",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "English"
       },
@@ -590,11 +590,11 @@
     },
     {
       "id": 60,
-      "sip_id": 140,
+      "ip_id": 140,
       "label": "Film",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "English"
       },
@@ -602,11 +602,11 @@
     },
     {
       "id": 61,
-      "sip_id": 140,
+      "ip_id": 140,
       "label": "Film",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "English"
       },
@@ -614,11 +614,11 @@
     },
     {
       "id": 62,
-      "sip_id": 140,
+      "ip_id": 140,
       "label": "Film",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "English"
       },
@@ -626,11 +626,11 @@
     },
     {
       "id": 63,
-      "sip_id": 140,
+      "ip_id": 140,
       "label": "Film",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "English"
       },
@@ -638,11 +638,11 @@
     },
     {
       "id": 64,
-      "sip_id": 140,
+      "ip_id": 140,
       "label": "Film",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "English"
       },
@@ -650,11 +650,11 @@
     },
     {
       "id": 65,
-      "sip_id": 140,
+      "ip_id": 140,
       "label": "Film",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "English"
       },
@@ -662,11 +662,11 @@
     },
     {
       "id": 66,
-      "sip_id": 140,
+      "ip_id": 140,
       "label": "Film",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "English"
       },
@@ -674,11 +674,11 @@
     },
     {
       "id": 67,
-      "sip_id": 140,
+      "ip_id": 140,
       "label": "Film",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "English"
       },
@@ -686,11 +686,11 @@
     },
     {
       "id": 68,
-      "sip_id": 140,
+      "ip_id": 140,
       "label": "Film",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "English"
       },
@@ -698,11 +698,11 @@
     },
     {
       "id": 69,
-      "sip_id": 140,
+      "ip_id": 140,
       "label": "Film",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "English"
       },
@@ -710,11 +710,11 @@
     },
     {
       "id": 70,
-      "sip_id": 140,
+      "ip_id": 140,
       "label": "Film",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "English"
       },
@@ -722,11 +722,11 @@
     },
     {
       "id": 71,
-      "sip_id": 140,
+      "ip_id": 140,
       "label": "Film",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "English"
       },
@@ -734,11 +734,11 @@
     },
     {
       "id": 72,
-      "sip_id": 140,
+      "ip_id": 140,
       "label": "Film",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "English"
       },
@@ -746,11 +746,11 @@
     },
     {
       "id": 73,
-      "sip_id": 140,
+      "ip_id": 140,
       "label": "Film",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "English"
       },
@@ -758,11 +758,11 @@
     },
     {
       "id": 74,
-      "sip_id": 140,
+      "ip_id": 140,
       "label": "Film",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "English"
       },
@@ -770,11 +770,11 @@
     },
     {
       "id": 75,
-      "sip_id": 140,
+      "ip_id": 140,
       "label": "Film",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "English"
       },
@@ -782,11 +782,11 @@
     },
     {
       "id": 76,
-      "sip_id": 140,
+      "ip_id": 140,
       "label": "Film",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "English"
       },
@@ -794,11 +794,11 @@
     },
     {
       "id": 77,
-      "sip_id": 140,
+      "ip_id": 140,
       "label": "Film",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "English"
       },
@@ -806,11 +806,11 @@
     },
     {
       "id": 78,
-      "sip_id": 140,
+      "ip_id": 140,
       "label": "Film",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "English"
       },
@@ -818,11 +818,11 @@
     },
     {
       "id": 79,
-      "sip_id": 140,
+      "ip_id": 140,
       "label": "Film",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "English"
       },
@@ -830,11 +830,11 @@
     },
     {
       "id": 80,
-      "sip_id": 140,
+      "ip_id": 140,
       "label": "Film",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "English"
       },
@@ -842,11 +842,11 @@
     },
     {
       "id": 81,
-      "sip_id": 140,
+      "ip_id": 140,
       "label": "Film",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "English"
       },
@@ -854,11 +854,11 @@
     },
     {
       "id": 82,
-      "sip_id": 140,
+      "ip_id": 140,
       "label": "Film",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "English"
       },
@@ -866,11 +866,11 @@
     },
     {
       "id": 83,
-      "sip_id": 140,
+      "ip_id": 140,
       "label": "Film",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "English"
       },
@@ -878,11 +878,11 @@
     },
     {
       "id": 84,
-      "sip_id": 140,
+      "ip_id": 140,
       "label": "Film",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "English"
       },
@@ -890,11 +890,11 @@
     },
     {
       "id": 85,
-      "sip_id": 140,
+      "ip_id": 140,
       "label": "Film",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "English"
       },
@@ -902,11 +902,11 @@
     },
     {
       "id": 86,
-      "sip_id": 140,
+      "ip_id": 140,
       "label": "Film",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "English"
       },
@@ -914,11 +914,11 @@
     },
     {
       "id": 87,
-      "sip_id": 140,
+      "ip_id": 140,
       "label": "Film",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "English"
       },
@@ -926,11 +926,11 @@
     },
     {
       "id": 88,
-      "sip_id": 140,
+      "ip_id": 140,
       "label": "Film",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "English"
       },
@@ -938,11 +938,11 @@
     },
     {
       "id": 89,
-      "sip_id": 140,
+      "ip_id": 140,
       "label": "Film",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "English"
       },
@@ -950,11 +950,11 @@
     },
     {
       "id": 90,
-      "sip_id": 140,
+      "ip_id": 140,
       "label": "Film",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "English"
       },
@@ -962,11 +962,11 @@
     },
     {
       "id": 91,
-      "sip_id": 140,
+      "ip_id": 140,
       "label": "Film",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "English"
       },
@@ -974,11 +974,11 @@
     },
     {
       "id": 92,
-      "sip_id": 140,
+      "ip_id": 140,
       "label": "Film",
       "type": "DATAOBJECT",
       "tags": ["col:movie","ds:NYCLibrary"],
-      "attributes":{
+      "properties":{
         "format": "blueray",
         "language": "English"
       },
@@ -986,67 +986,67 @@
     },
     {
       "id": 3,
-      "sip_id": 103,
+      "ip_id": 103,
       "label": "movie",
       "type": "COLLECTION",
       "tags": [],
-      "attributes":{},
+      "properties":{},
       "geometry":{}
     },
     {
       "id": 4,
-      "sip_id": 104,
+      "ip_id": 104,
       "label": "classic",
       "type": "COLLECTION",
       "tags": ["col:movie"],
-      "attributes":{},
+      "properties":{},
       "geometry":{}
     },
     {
       "id": 5,
-      "sip_id": 105,
+      "ip_id": 105,
       "label": "aventure",
       "type": "COLLECTION",
       "tags": ["col:movie"],
-      "attributes":{},
+      "properties":{},
       "geometry":{}
     },
     {
       "id": 6,
-      "sip_id": 106,
+      "ip_id": 106,
       "label": "action",
       "type": "COLLECTION",
       "tags": ["col:movie"],
-      "attributes":{},
+      "properties":{},
       "geometry":{}
     },
     {
       "id": 7,
-      "sip_id": 107,
+      "ip_id": 107,
       "label": "science-fiction",
       "type": "COLLECTION",
       "tags": ["col:movie"],
-      "attributes":{},
+      "properties":{},
       "geometry":{}
     },
     {
       "id": 8,
-      "sip_id": 108,
+      "ip_id": 108,
       "label": "ParisLibrary",
       "type": "DATASET",
       "tags": ["col:movie"],
-      "attributes":{
+      "properties":{
         "locattion": "Paris"
       },
       "geometry":{}
     },
     {
       "id": 9,
-      "sip_id": 109,
+      "ip_id": 109,
       "label": "NYCLibrary",
       "type": "DATASET",
       "tags": ["col:movie"],
-      "attributes":{
+      "properties":{
         "locattion": "NewYork"
       },
       "geometry":{}

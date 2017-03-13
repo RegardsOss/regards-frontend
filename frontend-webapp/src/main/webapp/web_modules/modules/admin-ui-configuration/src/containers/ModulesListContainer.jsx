@@ -1,7 +1,6 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { isEmpty } from 'lodash'
 import { browserHistory } from 'react-router'
 import { FormLoadingComponent } from '@regardsoss/form-utils'
 import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
@@ -37,9 +36,7 @@ class ModulesListContainer extends React.Component {
   }
 
   componentWillMount() {
-    if (!this.props.modules || isEmpty(this.props.modules)) {
-      this.props.fetchModules(this.props.params.applicationId)
-    }
+    this.props.fetchModules(this.props.params.applicationId)
   }
 
   handleEditModule = (module) => {

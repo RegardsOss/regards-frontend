@@ -20,8 +20,11 @@ const messages = {
   'data.board.datasource.title': 'datasource',
   'data.board.datasource.description': 'datasource',
 
-  'data.board.dataset.title': 'dataset',
-  'data.board.dataset.description': 'dataset',
+  'data.board.dataset.title': 'Dataset',
+  'data.board.dataset.description': 'Manage dataset to regroup similar data',
+
+  'data.board.connection.title': 'External connections',
+  'data.board.connection.description': 'Manage connections to external databases',
 
 }
 

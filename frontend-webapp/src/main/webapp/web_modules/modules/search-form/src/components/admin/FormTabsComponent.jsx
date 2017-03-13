@@ -3,10 +3,9 @@
  **/
 import { FormattedMessage } from 'react-intl'
 import { Tabs, Tab } from 'material-ui/Tabs'
-import { PluginConf, PluginDefinition, AttributeModel } from '@regardsoss/model'
-import { ModuleShape } from '@regardsoss/modules'
-import DatasetsConfShape from '../../models/datasets/DatasetsConfShape'
-import FormParameters from './parameters/FormParametersConfigurationComponent'
+import { PluginDefinition, AttributeModel } from '@regardsoss/model'
+import ModuleConfiguration from '../../models/ModuleConfiguration'
+import FormParametersComponent from './parameters/FormParametersComponent'
 import FormDatasetsConfigurationComponent from './datasets/FormDatasetsConfigurationComponent'
 import FormLayoutComponent from './layout/FormLayoutComponent'
 import FromCriterionComponent from './criterion/FormCriterionComponent'
@@ -19,33 +18,35 @@ import FormPreviewComponent from './preview/FormPreviewComponent'
 class FormTabsComponent extends React.Component {
 
   static propTypes = {
-    // Props supplied by redux-form to get the current form values
-    changeField: React.PropTypes.func,
-    // eslint-disable-next-line react/forbid-prop-types
-    currentConf: React.PropTypes.object,
-    module: ModuleShape,
-    // Default props given to the form
-    defaultConf: React.PropTypes.shape({
-      datasets: DatasetsConfShape,
-      criterion: React.PropTypes.arrayOf(PluginConf),
-      layout: React.PropTypes.string,
-      resultType: React.PropTypes.string,
+    // Props supplied by LazyModuleComponent
+    appName: React.PropTypes.string,
+    // eslint-disable-next-line react/no-unused-prop-types
+    project: React.PropTypes.string,
+    adminForm: React.PropTypes.shape({
+      changeField: React.PropTypes.func,
+      form: ModuleConfiguration,
     }),
+
+    // Default props given to the form
+    defaultConf: ModuleConfiguration.isRequired,
+
+    // From mapStateToProps and mapDispatchToProps
     selectableAttributes: React.PropTypes.objectOf(AttributeModel),
+    selectableAttributesFectching: React.PropTypes.bool,
     disableChangeDatasets: React.PropTypes.bool,
     availableCriterion: React.PropTypes.objectOf(PluginDefinition),
     criterionFetching: React.PropTypes.bool,
   }
 
   renderCriterionTab = () => {
-    if (!this.props.criterionFetching) {
+    if (!this.props.criterionFetching && !this.props.selectableAttributesFectching) {
       return (
         <FromCriterionComponent
           defaultCriterion={this.props.defaultConf.criterion}
-          criterion={this.props.currentConf.criterion}
-          layout={this.props.currentConf.layout}
+          criterion={this.props.adminForm.form.conf.criterion}
+          layout={this.props.adminForm.form.conf.layout}
           selectableAttributes={this.props.selectableAttributes}
-          changeField={this.props.changeField}
+          changeField={this.props.adminForm.changeField}
           availableCriterion={this.props.availableCriterion}
         />
       )
@@ -53,33 +54,46 @@ class FormTabsComponent extends React.Component {
     return null
   }
 
+  renderAttributesParameterTab = () => (
+    <FormParametersComponent
+      project={this.props.project}
+      appName={this.props.appName}
+      adminForm={this.props.adminForm}
+      attributes={this.props.defaultConf.attributes}
+      attributesRegroupements={this.props.defaultConf.attributesRegroupements}
+      selectableAttributes={this.props.selectableAttributes}
+      resultType={this.props.defaultConf.resultType}
+    />
+    )
+
   render() {
     return (
       <Tabs>
-        <Tab label={<FormattedMessage id="form.configuration.tab.label" />} >
-          <FormParameters defaultResultType={this.props.defaultConf.resultType} />
-        </Tab>
-        <Tab label={<FormattedMessage id="form.dataset.selection.tab.label" />} >
+        <Tab label={<FormattedMessage id="form.dataset.selection.tab.label" />}>
           <FormDatasetsConfigurationComponent
-            changeField={this.props.changeField}
+            changeField={this.props.adminForm.changeField}
             defaultType={this.props.defaultConf.datasets.type}
             defaultSelectedDatasets={this.props.defaultConf.datasets.selectedDatasets}
             defaultSelectedDatasetModels={this.props.defaultConf.datasets.selectedModels}
             disableChangeDatasets={this.props.disableChangeDatasets}
           />
         </Tab>
-        <Tab label={<FormattedMessage id="form.layout.tab.label" />} >
+        <Tab label={<FormattedMessage id="form.configuration.tab.label" />}>
+          {this.renderAttributesParameterTab()}
+        </Tab>
+        <Tab label={<FormattedMessage id="form.layout.tab.label" />}>
           <FormLayoutComponent
             defaultLayout={this.props.defaultConf.layout}
-            changeField={this.props.changeField}
+            changeField={this.props.adminForm.changeField}
           />
         </Tab>
-        <Tab label={<FormattedMessage id="form.criterions.tab.label" />} >
+        <Tab label={<FormattedMessage id="form.criterions.tab.label" />}>
           {this.renderCriterionTab()}
         </Tab>
-        <Tab label={<FormattedMessage id="form.preview.tab.label" />} >
+        <Tab label={<FormattedMessage id="form.preview.tab.label" />}>
           <FormPreviewComponent
-            module={this.props.module}
+            project={this.props.project}
+            module={this.props.adminForm.form}
           />
         </Tab>
       </Tabs>

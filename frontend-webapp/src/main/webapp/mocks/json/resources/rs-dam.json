@@ -29,7 +29,9 @@
       "unit": null,
       "precision": null,
       "arraysize": 0,
-      "fragment": {},
+      "fragment": {
+        "name": "default"
+      },
       "queryable": true,
       "facetable": true,
       "alterable": true,
@@ -45,7 +47,9 @@
       "unit": null,
       "precision": null,
       "arraysize": 0,
-      "fragment": {},
+      "fragment": {
+        "name": "default"
+      },
       "queryable": true,
       "facetable": true,
       "alterable": true,
@@ -320,6 +324,7 @@
   "datasets": [
     {
       "id": 1,
+      "ip_id": "urn://dataset_1",
       "label": "PremierDataSet",
       "type": "DATASET",
       "model": {
@@ -331,6 +336,7 @@
     },
     {
       "id": 2,
+      "ip_id": "urn://dataset_2",
       "label": "DeuxiemeDataSet",
       "type": "DATASET",
       "model": {
@@ -342,6 +348,7 @@
     },
     {
       "id": 3,
+      "ip_id": "urn://dataset_3",
       "label": "TroisiemeDataSet",
       "type": "DATASET",
       "model": {
@@ -353,6 +360,7 @@
     },
     {
       "id": 4,
+      "ip_id": "urn://dataset_4",
       "label": "QuatriemDataSet",
       "type": "DATASET",
       "model": {
@@ -364,6 +372,7 @@
     },
     {
       "id": 5,
+      "ip_id": "urn://dataset_5",
       "label": "CinquiemeDataSet",
       "type": "DATASET",
       "model": {
@@ -375,6 +384,7 @@
     },
     {
       "id": 6,
+      "ip_id": "urn://dataset_6",
       "label": "SixiemeDataSet",
       "type": "DATASET",
       "model": {
@@ -386,6 +396,7 @@
     },
     {
       "id": 7,
+      "ip_id": "urn://dataset_7",
       "label": "SeptiemeDataSet",
       "type": "DATASET",
       "model": {
@@ -397,6 +408,7 @@
     },
     {
       "id": 8,
+      "ip_id": "urn://dataset_8",
       "label": "HuitiemeDataSet",
       "type": "DATASET",
       "model": {
@@ -408,6 +420,7 @@
     },
     {
       "id": 9,
+      "ip_id": "urn://dataset_9",
       "label": "NeuviemeDataSet",
       "type": "DATASET",
       "model": {
@@ -419,6 +432,7 @@
     },
     {
       "id": 10,
+      "ip_id": "urn://dataset_10",
       "label": "DixiemeDataSet",
       "type": "DATASET",
       "model": {
@@ -430,6 +444,7 @@
     },
     {
       "id": 11,
+      "ip_id": "urn://dataset_11",
       "label": "Dataset number 11",
       "type": "DATASET",
       "model": {
@@ -441,6 +456,7 @@
     },
     {
       "id": 12,
+      "ip_id": "urn://dataset_12",
       "label": "Dataset number 12",
       "type": "DATASET",
       "model": {
@@ -452,6 +468,7 @@
     },
     {
       "id": 13,
+      "ip_id": "urn://dataset_13",
       "label": "Dataset number 13",
       "type": "DATASET",
       "model": {
@@ -463,6 +480,7 @@
     },
     {
       "id": 14,
+      "ip_id": "urn://dataset_14",
       "label": "Dataset number 14",
       "type": "DATASET",
       "model": {
@@ -474,6 +492,7 @@
     },
     {
       "id": 15,
+      "ip_id": "urn://dataset_15",
       "label": "Dataset number 15",
       "type": "DATASET",
       "model": {
@@ -485,6 +504,7 @@
     },
     {
       "id": 16,
+      "ip_id": "urn://dataset_16",
       "label": "Dataset number 16",
       "type": "DATASET",
       "model": {
@@ -496,6 +516,7 @@
     },
     {
       "id": 17,
+      "ip_id": "urn://dataset_17",
       "label": "Dataset number 17",
       "type": "DATASET",
       "model": {
@@ -507,6 +528,7 @@
     },
     {
       "id": 18,
+      "ip_id": "urn://dataset_18",
       "label": "Dataset number 18",
       "type": "DATASET",
       "model": {
@@ -518,6 +540,7 @@
     },
     {
       "id": 19,
+      "ip_id": "urn://dataset_19",
       "label": "Dataset number 19",
       "type": "DATASET",
       "model": {
@@ -529,6 +552,7 @@
     },
     {
       "id": 20,
+      "ip_id": "urn://dataset_20",
       "label": "Dataset number 20",
       "type": "DATASET",
       "model": {
@@ -540,6 +564,7 @@
     },
     {
       "id": 21,
+      "ip_id": "urn://dataset_21",
       "label": "Dataset number 21",
       "type": "DATASET",
       "model": {
@@ -598,7 +623,7 @@
               "type": "DATASET"
             }
           },
-          "id": "SybXqImYe"
+          "id": 1
         },
         {
           "qualityFilter": {
@@ -621,7 +646,7 @@
               "type": "DATASET"
             }
           },
-          "id": "H1lZXcU7tg"
+          "id": 2
         },
         {
           "qualityFilter": {

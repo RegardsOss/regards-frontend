@@ -13,7 +13,7 @@ const messages = Object.assign({
   'projectUser.list.table.lastConnection': 'Last connection',
   'projectUser.list.table.action': 'Actions',
   'projectUser.list.table.action.edit.tooltip': 'Edit user',
-  'projectUser.list.table.action.acccept.tooltip': 'Accept user access',
+  'projectUser.list.table.action.accept.tooltip': 'Accept user access',
   'projectUser.list.table.action.deny.tooltip': 'Deny user access',
   'projectUser.list.table.action.delete.tooltip': 'Delete user',
   'projectUser.list.action.cancel': 'Cancel',

@@ -6,6 +6,7 @@ import IconButton from 'material-ui/IconButton'
 import Palette from 'material-ui/svg-icons/image/palette'
 import IconMenu from 'material-ui/IconMenu'
 import MenuItem from 'material-ui/MenuItem'
+// cannot import our connect method here, cyclic dependencies
 import { connect } from 'react-redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { Theme, ThemeList, defaultTheme } from '@regardsoss/model'

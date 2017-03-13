@@ -3,18 +3,11 @@
  **/
 const homePageStyles = theme => ({
   dialog: {
-    width: '95%',
-  },
-  dialogBody: {
-    padding: '5px',
-  },
-  frame: {
-    width: '100%',
-  },
-  adminFrame: {
-    width: '100%',
-    minHeight: '300px',
-    marginTop: '15px',
+    heightPercent: 80,
+    widthPercent: 55,
+    bodyStyle: {
+      padding: '5px',
+    },
   },
 })
 

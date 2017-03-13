@@ -25,12 +25,15 @@ import SecondaryActionButtonComponent from './cards/SecondaryActionButtonCompone
 import ShowableAtRender from './cards/ShowableAtRender'
 
 import ConfirmDialogComponent from './dialogs/ConfirmDialogComponent'
+import LoadableContentDialogComponent from './dialogs/LoadableContentDialogComponent'
 
 import ErrorCardComponent from './error/ErrorCardComponent'
 
 import PictureLinkComponent from './links/PictureLinkComponent'
 
 import PageableListContainer from './list/PageableListContainer'
+
+import ChipList from './list/ChipList'
 
 import LoadingPaneComponent from './loading/LoadingPaneComponent'
 
@@ -49,11 +52,13 @@ export {
   CardActionsComponent,
   CardActionsView,
   CenteredDiv,
+  ChipList,
   ConfirmDialogComponent,
   ErrorCardComponent,
   ErrorDecoratorComponent,
   FixedTableContainer,
   LoadingPaneComponent,
+  LoadableContentDialogComponent,
   MainActionButtonComponent,
   NewsItemComponent,
   NoContentMessageInfo,

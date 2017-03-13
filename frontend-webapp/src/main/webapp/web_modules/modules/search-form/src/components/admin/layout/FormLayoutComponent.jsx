@@ -22,7 +22,7 @@ class FormLayoutComponent extends React.Component {
     this.setState({
       currentLayout: initialLayout,
     })
-    this.props.changeField('conf.layout', JSON.stringify(initialLayout, null, 4))
+    this.props.changeField('conf.layout', JSON.stringify(initialLayout))
   }
 
   getInitialLayout = (layout) => {
@@ -31,7 +31,7 @@ class FormLayoutComponent extends React.Component {
   }
 
   changeLayout = (layout) => {
-    this.props.changeField('conf.layout', JSON.stringify(layout, null, 4))
+    this.props.changeField('conf.layout', JSON.stringify(layout))
     this.setState({
       currentLayout: layout,
     })
@@ -39,7 +39,7 @@ class FormLayoutComponent extends React.Component {
 
   resetLayout = () => {
     const initialLayout = this.getInitialLayout(this.props.defaultLayout)
-    this.props.changeField('conf.layout', JSON.stringify(initialLayout), null, 4)
+    this.props.changeField('conf.layout', JSON.stringify(initialLayout))
     this.setState({
       currentLayout: initialLayout,
     })

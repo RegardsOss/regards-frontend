@@ -29,32 +29,38 @@
     {
       "id": 1,
       "name": "string-criteria",
-      "type": "criterion",
+      "type": "criteria",
       "sourcesPath": "/plugins/criterion/string/plugin.js"
     },
     {
       "id": 2,
       "name": "numerical-criteria",
-      "type": "criterion",
+      "type": "criteria",
       "sourcesPath": "/plugins/criterion/numerical/plugin.js"
     },
     {
       "id": 3,
       "name": "two-numerical-criteria",
-      "type": "criterion",
+      "type": "criteria",
       "sourcesPath": "/plugins/criterion/two-numerical/plugin.js"
     },
     {
       "id": 4,
       "name": "temporal-criteria",
-      "type": "criterion",
+      "type": "criteria",
       "sourcesPath": "/plugins/criterion/temporal/plugin.js"
     },
     {
       "id": 5,
       "name": "two-temporal-criteria",
-      "type": "criterion",
+      "type": "criteria",
       "sourcesPath": "/plugins/criterion/two-temporal/plugin.js"
+    },
+    {
+      "sourcesPath": "/plugins/criterion/full-text/plugin.js",
+      "name": "full-text-criteria",
+      "type": "criteria",
+      "id": 6
     }
   ],
   "modules": [
@@ -107,7 +113,7 @@
       "id": 5
     },
     {
-      "active": true,
+      "active": false,
       "isDefault": false,
       "name": "news",
       "description": "Flux atom",
@@ -116,41 +122,17 @@
       "id": 6
     },
     {
-      "id": 7,
-      "applicationId": "user",
       "active": true,
       "isDefault": false,
-      "name": "search-form",
-      "description": "Recherche avec layout",
-      "container": "content",
       "conf": {
         "resultType": "dataobjects",
-        "layout": "{\n  \"id\": \"main\",\n  \"type\": \"FormMainContainer\",\n  \"classes\": [],\n  \"styles\": {},\n  \"containers\": [{\n    \"id\": \"row\",\n    \"type\": \"RowContainer\",\n    \"classes\": [],\n    \"styles\": {\"minHeight\":\"50px\",\"backgroundColor\":\"Red\"},\n    \"containers\": [{\n      \"id\": \"block1\",\n      \"type\": \"LargeColumnContainer\",\n      \"classes\": [],\n      \"styles\": {\"minHeight\":\"50px\",\"backgroundColor\":\"White\"},\n      \"containers\": []\n    }, {\n      \"id\": \"block2\",\n      \"type\": \"SmallColumnContainer\",\n      \"classes\": [],\n      \"styles\": {\"minHeight\":\"50px\",\"backgroundColor\":\"White\"},\n      \"containers\": []\n    }]\n  }, {\n    \"id\": \"row2\",\n    \"type\": \"RowContainer\",\n    \"styles\": {\"minHeight\":\"50px\",\"backgroundColor\":\"Blue\"},\n    \"classes\": [],\n    \"containers\": [{\n      \"id\": \"block21\",\n      \"type\": \"SmallColumnContainer\",\n      \"classes\": [],\n      \"styles\": {\"minHeight\":\"50px\",\"backgroundColor\":\"White\"},\n      \"containers\": []\n    }, {\n      \"id\": \"block22\",\n      \"type\": \"LargeColumnContainer\",\n      \"classes\": [],\n      \"styles\": {\"minHeight\":\"50px\",\"backgroundColor\":\"White\"},\n      \"containers\": []\n    }]\n  }]\n}\n",
+        "layout": "{\"id\":\"main\",\"type\":\"FormMainContainer\",\"classes\":[],\"styles\":{},\"containers\":[{\"id\":\"Plop\",\"type\":\"RowContainer\",\"containers\":[{\"id\":\"Column1\",\"type\":\"50PercentColumnContainer\"},{\"id\":\"Column2\",\"type\":\"50PercentColumnContainer\"}]}]}",
         "datasets": {
           "type": "selectedDatasets",
           "selectedDatasets": [
-            1,
-            3,
-            5,
-            19,
-            16,
-            21
-          ]
-        }
-      }
-    },
-    {
-      "active": true,
-      "isDefault": true,
-      "conf": {
-        "resultType": "dataobjects",
-        "layout": "{\n    \"id\": \"main\",\n    \"type\": \"FormMainContainer\",\n    \"classes\": [],\n    \"styles\": {},\n    \"containers\": [\n        {\n            \"id\": \"Plop\",\n            \"type\": \"RowContainer\",\n            \"containers\": [\n                {\n                    \"id\": \"Column1\",\n                    \"type\": \"50PercentColumnContainer\"\n                },\n                {\n                    \"id\": \"Column2\",\n                    \"type\": \"50PercentColumnContainer\"\n                }\n            ]\n        }\n    ]\n}",
-        "datasets": {
-          "type": "selectedDatasets",
-          "selectedDatasets": [
-            1,
-            2,
-            3
+            "urn://dataset_1",
+            "urn://dataset_2",
+            "urn://dataset_3"
           ]
         },
         "criterion": [
@@ -172,6 +154,28 @@
               }
             }
           }
+        ],
+        "attributesRegroupements": [
+          {
+            "label": "Format / Language",
+            "attributes": [
+              1,
+              0
+            ],
+            "visibility": true
+          }
+        ],
+        "attributes": [
+          {
+            "id": 1,
+            "visibility": true,
+            "facetable": false
+          },
+          {
+            "id": 0,
+            "visibility": true,
+            "facetable": false
+          }
         ]
       },
       "name": "search-form",
@@ -189,6 +193,153 @@
       "container": "content",
       "applicationId": "user",
       "id": 9
+    },
+    {
+      "active": true,
+      "name": "home-page",
+      "description": "Page d'acceuil",
+      "container": "user",
+      "conf": {
+        "htmlPath": "http://cdpp.eu/"
+      },
+      "applicationId": "user",
+      "id": 10
+    },
+    {
+      "active": true,
+      "isDefault": true,
+      "conf": {
+        "resultType": "dataobjects",
+        "layout": "{\"id\":\"main\",\"type\":\"FormMainContainer\",\"classes\":[],\"styles\":{},\"containers\":[{\"id\":\"Plop\",\"type\":\"RowContainer\",\"containers\":[{\"id\":\"Column1\",\"type\":\"50PercentColumnContainer\"},{\"id\":\"Column2\",\"type\":\"50PercentColumnContainer\"}]}]}",
+        "datasets": {
+          "type": "all",
+          "selectedDatasets": [
+            "urn://dataset_1",
+            "urn://dataset_2",
+            "urn://dataset_3"
+          ]
+        },
+        "criterion": [
+          {
+            "pluginId": 1,
+            "container": "Column1",
+            "pluginConf": {
+              "attributes": {
+                "searchField": 0
+              }
+            }
+          },
+          {
+            "pluginId": 1,
+            "container": "Column2",
+            "pluginConf": {
+              "attributes": {
+                "searchField": 1
+              }
+            }
+          },
+          {
+            "pluginId": 2,
+            "pluginConf": {
+              "attributes": {
+                "searchField": 0
+              }
+            },
+            "container": "Column1"
+          }
+        ],
+        "attributesRegroupements": [
+          {
+            "label": "Format / Language",
+            "attributes": [
+              1,
+              0
+            ],
+            "visibility": true
+          }
+        ],
+        "attributes": [
+          {
+            "id": 1,
+            "visibility": true,
+            "facetable": false
+          },
+          {
+            "id": 0,
+            "visibility": true,
+            "facetable": false
+          }
+        ]
+      },
+      "name": "search-form",
+      "description": "Recherche complexe",
+      "container": "content",
+      "applicationId": "user",
+      "id": 11
+    },
+    {
+      "active": true,
+      "conf": {
+        "resultType": "dataobjects",
+        "enableFacettes": true,
+        "attributes": [
+          {
+            "id": 0,
+            "visibility": true,
+            "facetable": false
+          },
+          {
+            "id": 1,
+            "visibility": true,
+            "facetable": false
+          }
+        ]
+      },
+      "name": "search-results",
+      "description": "Catalogue de données",
+      "container": "content",
+      "isDefault": true,
+      "applicationId": "user",
+      "id": 12
+    },
+    {
+      "active": true,
+      "conf": {},
+      "name": "licenses",
+      "description": "License displayer",
+      "container": "user",
+      "applicationId": "user",
+      "id": 13
+    },
+    {
+      "active": true,
+      "conf": {
+        "layout": "{\"id\":\"application\",\"type\":\"MainContainer\",\"classes\":[],\"styles\":{},\"containers\":[]}",
+        "enableFacettes": true,
+        "attributes": [
+          {
+            "id": 0,
+            "visibility": true,
+            "facetable": false
+          },
+          {
+            "id": 1,
+            "visibility": true,
+            "facetable": false
+          }
+        ],
+        "criterion": [
+          {
+            "pluginId": 6,
+            "container": "application"
+          }
+        ]
+      },
+      "name": "search-form",
+      "description": "Recherche globale",
+      "container": "content",
+      "applicationId": "user",
+      "id": 14
     }
   ],
   "layouts": [
@@ -256,7 +407,7 @@
     {
       "id": 1,
       "name": "Light",
-      "active": true,
+      "active": false,
       "configuration": {}
     },
     {
@@ -283,7 +434,55 @@
       }
     },
     {
+      "configuration": {
+        "palette": {
+          "backgroundImage": "http://localhost:3333/img/background.jpg",
+          "primary2Color": "#0097A7",
+          "primary3Color": "#757575",
+          "textColor": "#FFFFFF",
+          "secondaryTextColor": "rgba(255, 255, 255, 0.7)",
+          "alternateTextColor": "#303030",
+          "canvasColor": "#303030",
+          "borderColor": "rgba(255, 255, 255, 0.3)",
+          "disabledColor": "rgba(255, 255, 255, 0.3)",
+          "pickerHeaderColor": "rgba(255, 255, 255, 0.12)",
+          "clockCircleColor": "rgba(255, 255, 255, 0.12)",
+          "shadowColor": "rgba(0, 0, 0, 1)",
+          "accent2Color": "#2196f3",
+          "accent3Color": "#ff6d00",
+          "primary1Color": "#2196f3",
+          "accent1Color": "#ff6d00"
+        },
+        "themeName": "Dark2",
+        "tableRow": {
+          "stripeColor": "#212121",
+          "hoverColor": "#424242"
+        },
+        "menuItem": {
+          "rightIconDesktopFill": "#fb8c00",
+          "selectedTextColor": "#ff6d00",
+          "hoverColor": "#1e88e5"
+        },
+        "badge": {
+          "primaryTextColor": "#FFFFFF",
+          "secondaryTextColor": "#FFFFFF",
+          "primaryColor": "#ff6d00",
+          "secondaryColor": "#2196f3"
+        },
+        "appBar": {
+          "textColor": "#FFFFFF"
+        },
+        "tabs": {
+          "textColor": "#fafafa",
+          "selectedTextColor": "#ff9100"
+        }
+      },
       "id": 3,
+      "name": "Dark2",
+      "active": true
+    },
+    {
+      "id": 4,
       "name": "Custom 1",
       "active": false,
       "configuration": {
@@ -304,7 +503,7 @@
       }
     },
     {
-      "id": 4,
+      "id": 5,
       "name": "Custom 2",
       "active": false,
       "configuration": {

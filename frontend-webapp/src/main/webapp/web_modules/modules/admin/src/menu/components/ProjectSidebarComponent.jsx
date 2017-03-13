@@ -1,17 +1,12 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { Link } from 'react-router'
 import Drawer from 'material-ui/Drawer'
-import MenuItem from 'material-ui/MenuItem'
-import PowerSettingsNew from 'material-ui/svg-icons/action/power-settings-new'
-import Divider from 'material-ui/Divider'
 import VerifiedUser from 'material-ui/svg-icons/action/verified-user'
 import AddBox from 'material-ui/svg-icons/content/add-box'
 import CloudQueue from 'material-ui/svg-icons/file/cloud-queue'
 import Widgets from 'material-ui/svg-icons/device/widgets'
 import Brush from 'material-ui/svg-icons/image/brush'
-import Reply from 'material-ui/svg-icons/content/reply'
 import { FormattedMessage } from 'react-intl'
 import SupervisorAccount from 'material-ui/svg-icons/action/supervisor-account'
 import { I18nProvider } from '@regardsoss/i18n'
@@ -40,12 +35,11 @@ class ProjectSidebarComponent extends React.Component {
    */
   static propTypes = {
     projectName: React.PropTypes.string,
-    onLogout: React.PropTypes.func.isRequired,
     currentPath: React.PropTypes.string,
   }
 
   render() {
-    const { onLogout, projectName } = this.props
+    const { projectName } = this.props
     const moduleStyles = getModuleStyles(this.context.muiTheme)
     const style = {
       sidebarContainer: {
@@ -60,7 +54,10 @@ class ProjectSidebarComponent extends React.Component {
     return (
       <I18nProvider messageDir="modules/admin/src/menu/i18n">
 
-        <Drawer open containerStyle={style.sidebarContainer.styles} className={style.sidebarContainer.classes}>
+        <Drawer
+          open containerStyle={style.sidebarContainer.styles} className={style.sidebarContainer.classes}
+          width={'100%'}
+        >
           <SidebarElement
             key="1"
             to={`/admin/${projectName}/user/board`}
@@ -113,17 +110,6 @@ class ProjectSidebarComponent extends React.Component {
               leftIcon={<Brush />}
             />
           </HateoasDisplayDecorator>
-
-          <Divider />
-          <MenuItem
-            primaryText={<FormattedMessage id="menu.logout" />}
-            leftIcon={<PowerSettingsNew />}
-            onTouchTap={onLogout}
-          />
-          <Divider />
-          <Link to={'/admin'} style={style.link.styles}>
-            <MenuItem primaryText={<FormattedMessage id="menu.back" />} leftIcon={<Reply />} />
-          </Link>
         </Drawer>
       </I18nProvider>
     )

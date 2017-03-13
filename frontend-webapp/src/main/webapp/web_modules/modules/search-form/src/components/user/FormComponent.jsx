@@ -6,7 +6,7 @@ import SearchIcon from 'material-ui/svg-icons/action/search'
 import { Card, CardText } from 'material-ui/Card'
 import { FormattedMessage } from 'react-intl'
 import { LayoutContent, PluginConf } from '@regardsoss/model'
-import { ApplicationLayout } from '@regardsoss/layout'
+import { Container } from '@regardsoss/layout'
 import { themeContextType } from '@regardsoss/theme'
 
 /**
@@ -42,11 +42,12 @@ class FormComponent extends React.Component {
     return (
       <Card>
         <CardText>
-          <ApplicationLayout
+          <Container
             appName="user"
-            layout={this.props.layout}
+            container={this.props.layout}
             plugins={this.props.plugins}
             pluginProps={this.props.pluginsProps}
+            mainContainer
           />
           <div
             style={this.context.moduleTheme.user.searchButtonContainer}

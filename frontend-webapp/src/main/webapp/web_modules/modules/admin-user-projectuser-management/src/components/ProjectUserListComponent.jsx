@@ -17,13 +17,30 @@ import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 
-const tabs = {
+/**
+ * User statuses constants, as returned by the server
+ */
+const status = {
+  accessGranted: 'ACCESS_GRANTED',
+  waitingAccess: 'WAITING_ACCESS',
+  accesDenied: 'ACCESS_DENIED',
+  inactive: 'ACCESS_INACTIVE',
+}
+
+/**
+ * Tabs Id
+ */
+export const TABS = {
   waiting: 0,
   all: 1,
 }
 
+export const canAcceptUser = user => [status.accesDenied, status.waitingAccess].includes(user.content.status)
+
+export const canDenyUser = user => [status.accessGranted, status.waitingAccess, status.inactive].includes(user.content.status)
+
 /**
- * React component to list all REGARDS account.
+ * React component to list all project user and manage them.
  */
 export class ProjectUserListComponent extends React.Component {
 
@@ -46,19 +63,18 @@ export class ProjectUserListComponent extends React.Component {
     ...i18nContextType,
   }
 
-  componentWillMount = () => {
-    // on first loading, show waiting access users if there is any loaded waiting user
-    this.selectTab(!isEmpty(this.props.waitingAccessUsers) ? tabs.waiting : tabs.all)
+  componentWillReceiveProps = (nextProps) => {
+    if (this.props.initialFecthing && !nextProps.initialFecthing) {
+      // first loading: show waiting tab if there are any waiting users
+      this.selectTab(!isEmpty(nextProps.waitingAccessUsers) ? TABS.waiting : TABS.all)
+    }
   }
 
   onTabChange = (value) => {
     this.selectTab(value)
   }
 
-  /**
-   * Returns content configuration
-   */
-  getWaitingUsersTabContent = (style) => {
+  getWaitingUsersTabContent = () => {
     const { waitingAccessUsers, isFetchingActions, onValidateAll, initialFecthing } = this.props
     return {
       tabSubtitleKey: 'projectUser.list.waiting.subtitle',
@@ -71,7 +87,7 @@ export class ProjectUserListComponent extends React.Component {
     }
   }
 
-  getAllUsersTabContent = (style) => {
+  getAllUsersTabContent = () => {
     const { users, createUrl, initialFecthing } = this.props
     return {
       tabSubtitleKey: 'projectUser.list.all.subtitle',
@@ -88,29 +104,24 @@ export class ProjectUserListComponent extends React.Component {
     this.setState({ selectedTab })
   }
 
-  isGrantedUser = user => user.content.status === 'ACCESS_GRANTED'
-
-  isDeniedUser = user => user.content.status === 'ACCESS_DENIED'
-
   render() {
-    const selectedTab = this.state ? this.state.selectedTab : tabs.all
+    const selectedTab = this.state ? this.state.selectedTab : TABS.all
     const style = {
       commonActionHoverColor: this.context.muiTheme.palette.primary1Color,
       deleteActionHoverColor: this.context.muiTheme.palette.accent1Color,
     }
-    const tabContent = selectedTab === tabs.waiting ? this.getWaitingUsersTabContent(style) : this.getAllUsersTabContent(style)
+    const tabContent = selectedTab === TABS.waiting ? this.getWaitingUsersTabContent() : this.getAllUsersTabContent()
     const {
       users, waitingAccessUsers, initialFecthing, backUrl,
       onValidate, onDeny, onEdit, onDelete, isFetchingActions,
     } = this.props
     const { intl } = this.context
-    //
-    // do render
+
     return (
       <Card >
         <Tabs onChange={this.onTabChange} value={selectedTab}>
-          <Tab label={<FormattedMessage id="projectUser.list.waiting.tab" values={{ count: size(waitingAccessUsers) || '0' }} />} value={tabs.waiting} />
-          <Tab label={<FormattedMessage id="projectUser.list.all.tab" values={{ count: size(users) || '0' }} />} value={tabs.all} />
+          <Tab label={<FormattedMessage id="projectUser.list.waiting.tab" values={{ count: size(waitingAccessUsers) || '0' }} />} value={TABS.waiting} />
+          <Tab label={<FormattedMessage id="projectUser.list.all.tab" values={{ count: size(users) || '0' }} />} value={TABS.all} />
         </Tabs>
         <NoContentMessageInfo
           noContent={isEmpty(tabContent.currentUserList) && !initialFecthing}
@@ -171,16 +182,16 @@ export class ProjectUserListComponent extends React.Component {
                             <Edit hoverColor={style.commonActionHoverColor} />
                           </IconButton>
                           <IconButton
-                            title={intl.formatMessage({ id: 'projectUser.list.table.action.acccept.tooltip' })}
+                            title={intl.formatMessage({ id: 'projectUser.list.table.action.accept.tooltip' })}
                             onTouchTap={() => onValidate(projectUser.content.id)}
-                            disabled={isFetchingActions || this.isGrantedUser(projectUser)}
+                            disabled={isFetchingActions || !canAcceptUser(projectUser)}
                           >
                             <Done hoverColor={style.commonActionHoverColor} />
                           </IconButton>
                           <IconButton
                             title={intl.formatMessage({ id: 'projectUser.list.table.action.deny.tooltip' })}
                             onTouchTap={() => onDeny(projectUser.content.id)}
-                            disabled={isFetchingActions || this.isDeniedUser(projectUser)}
+                            disabled={isFetchingActions || !canDenyUser(projectUser)}
                           >
                             <RemoveCircle hoverColor={style.deleteActionHoverColor} />
                           </IconButton>

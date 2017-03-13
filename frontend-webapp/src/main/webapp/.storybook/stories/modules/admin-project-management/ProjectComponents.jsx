@@ -33,6 +33,7 @@ storiesOf('InstanceAdmin - Project', module)
         handleView={action('open project')}
         handleDelete={action('delete project')}
         handleEdit={action('edit project')}
+        handleUpdateLicense={action('license update')}
       />
     )
   })
@@ -41,7 +42,7 @@ storiesOf('InstanceAdmin - Project', module)
       backUrl="/some/url"
       onSubmit={action('onCreate')}
     />
-    ))
+  ))
   .add('Edit', () => {
     const projectList = object('Project list', defaultProjectList)
     return (

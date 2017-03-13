@@ -11,6 +11,7 @@ import JavaTypes from './dam/JavaTypes'
 import Fragment from './dam/Fragment'
 import Model from './dam/Model'
 import Collection from './dam/Collection'
+import Connection from './dam/Connection'
 import Dataset from './dam/Dataset'
 import Datasource from './dam/Datasource'
 import ModelAttribute from './dam/ModelAttribute'
@@ -22,6 +23,9 @@ import AccessProject from './access/Project'
 import Module from './access/Module'
 import Layout from './access/Layout'
 import LayoutContent from './access/LayoutContent'
+import AttributeConfiguration from './access/AttributeConfiguration'
+import AttributesRegroupementConfiguration from './access/AttributesRegroupementConfiguration'
+import SearchResultsTargetsEnum from './access/SearchResultsTargetsEnum'
 import Entity from './dam/Entity'
 import AccessGroup from './dam/AccessGroup'
 import AccessRight from './dam/AccessRight'
@@ -36,6 +40,9 @@ import Endpoint from './admin/Endpoint'
 import AIPStatus, { aipStates, aipDataTypes } from './archival-storage/AIPStatus'
 import StoragePlugin, { StoragePluginShape } from './archival-storage/StoragePlugin'
 import Theme from './access/Theme'
+import URL, { validURLRegexp } from './common/URL'
+import RangedNumber from './common/RangedNumber'
+import Percent from './common/Percent'
 
 export default {
   // ADMIN
@@ -55,6 +62,7 @@ export default {
   Model,
   ModelAttribute,
   Collection,
+  Connection,
   Dataset,
   Datasource,
   AccessGroup,
@@ -74,6 +82,9 @@ export default {
   Module,
   Layout,
   LayoutContent,
+  AttributeConfiguration,
+  AttributesRegroupementConfiguration,
+  SearchResultsTargetsEnum,
 
   // MICROSERVICE
   PluginMetaData,
@@ -94,4 +105,10 @@ export default {
 
   // Theme
   ...Theme,
+
+  // Common
+  URL,
+  RangedNumber,
+  Percent,
+  validURLRegexp,
 }

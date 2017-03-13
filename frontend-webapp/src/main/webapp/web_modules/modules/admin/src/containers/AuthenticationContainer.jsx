@@ -32,7 +32,6 @@ class AuthenticationContainer extends React.Component {
         showLoginWindow: !isAuthenticated,
         showCancel: false,
         showAskProjectAccess: false,
-        project: this.props.project,
         loginTitle: this.context.intl.formatMessage({ id: 'loginFormTitle' }),
         onCancelAction: null,
       },
@@ -43,6 +42,7 @@ class AuthenticationContainer extends React.Component {
         <LazyModuleComponent
           module={module}
           appName={'admin'}
+          project={this.props.project}
         />
         {isAuthenticated && children ? children : null}
       </div>

@@ -2,9 +2,11 @@
  * LICENSE_PLACEHOLDER
  **/
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
+import {FormattedMessage} from 'react-intl'
 import TextField from 'material-ui/TextField'
 import NumericalComparatorComponent from './NumericalComparatorComponent'
+import EnumNumericalComparator from '../model/EnumNumericalComparator'
+import {AttributeModel, getAttributeName} from '../common/AttributeModel'
 
 /**
  * TODO
@@ -30,7 +32,7 @@ export class NumericalCriteriaComponent extends React.Component {
      * Keys of this object are the "name" props of the attributes defined in the plugin-info.json
      * Value of each keys are the attribute id (retrieved from the server) associated
      */
-    attributes: React.PropTypes.object,
+    attributes: React.PropTypes.objectOf(AttributeModel),
   }
 
   constructor(props) {
@@ -48,22 +50,43 @@ export class NumericalCriteriaComponent extends React.Component {
    * @param {String} newValue The new value of the text field.
    */
   handleChangeValue = (event, newValue) => {
-    const { attributes, pluginInstanceId, onChange } = this.props
-    const { comparator } = this.state
+    const {pluginInstanceId, onChange} = this.props
+    const value = this.parse(newValue)
     this.setState({
-      value: this.parse(newValue),
+      value: value,
     })
-    onChange({
-      attribute: attributes.searchField,
-      comparator,
-      value: newValue,
-    }, pluginInstanceId)
+    onChange(this.criteriaToOpenSearchFormat(value,this.state.comparator),pluginInstanceId)
   }
 
   handleChangeComparator = (comparator) => {
     this.setState({
       comparator,
     })
+    const query = this.criteriaToOpenSearchFormat(this.state.value,comparator)
+    this.props.onChange(query,this.props.pluginInstanceId)
+  }
+
+  criteriaToOpenSearchFormat = (value, comparator) => {
+    let query = ''
+    const attribute = getAttributeName(this.props.attributes.searchField)
+    switch (comparator) {
+      case "EQ":
+        query = `${attribute}:${value}`
+        break
+      case "GE" :
+        query = `${attribute}:[${value} TO *]`
+        break
+      case "LE" :
+        query = `${attribute}:[* TO ${value}]`
+        break
+      case "NE" :
+        query = `${attribute}:!${value}`
+        break
+      default :
+        console.error("Unavailable comparator")
+    }
+
+    return query
   }
 
   /**
@@ -98,11 +121,11 @@ export class NumericalCriteriaComponent extends React.Component {
         >
           {attributeLabel}
         </span>
-        <NumericalComparatorComponent onChange={this.handleChangeComparator} />
+        <NumericalComparatorComponent onChange={this.handleChangeComparator}/>
         <TextField
           id="search"
           type="number"
-          floatingLabelText={<FormattedMessage id="criterion.search.field.label" />}
+          floatingLabelText={<FormattedMessage id="criterion.search.field.label"/>}
           value={this.format(this.state.value)}
           onChange={this.handleChangeValue}
           style={{

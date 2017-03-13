@@ -7,6 +7,7 @@
  */
 const _ = require('lodash')
 const fs = require('fs')
+const { JSON_CONTENT_TYPE } = require('./mock-front-utils')
 const FacadeCore = require('./mock-front-core')
 const MockUsers = require('./mock-users')
 
@@ -24,16 +25,13 @@ const entryDelegates = {
     '/test-url': (request, query) =>
       (query.nok ? { content: 'Everything is NOT OK ', code: 500 } : { content: 'Everything is OK ', code: 200, contentType: 'text/plain' }),
     // project license
-    '/rs-admin/projects/{projectName}/license': () =>
-      ({
-        code: 200,
-        contentType: 'text/markdown',
-        content: {
-          content: fs.readFileSync('./mocks/facade/resources/mock-license.md').toString(),
-        },
-      }),
-  },
-  DELETE: {
+    '/rs-admin/project/{projectName}/license': () => ({
+      contentType: JSON_CONTENT_TYPE,
+      content: {
+        licenseLink: 'https://www.gnu.org/licenses/gpl.html', // or PDF: 'http://www.gchagnon.fr/cours/cours.pdf'
+        accepted: false,
+      },
+    }),
   },
   POST: {
     // EXAMPLE : using a dynamic parameter and body content, with implicit answer 200
@@ -47,6 +45,16 @@ const entryDelegates = {
 ` }),
   },
   PUT: {
+    '/rs-admin/project/{projectName}/license': () => ({
+      // does not store locally anything, just lets the customer end the operation
+      contentType: JSON_CONTENT_TYPE,
+      content: {
+        licenseLink: 'https://www.gnu.org/licenses/gpl.html',
+        accepted: true,
+      },
+    }),
+  },
+  DELETE: {
   },
 }
 

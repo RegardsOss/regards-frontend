@@ -1,6 +1,6 @@
 import { isEqual, find, map, forEach } from 'lodash'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
-import { CardActionsComponent } from '@regardsoss/components'
+import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
 import { RenderTextField, ErrorTypes, Field, ValidationHelpers, RenderSelectField, reduxForm } from '@regardsoss/form-utils'
 import { Role, ProjectUser, AccessGroup } from '@regardsoss/model'
@@ -138,7 +138,7 @@ export class ProjectUserCreateComponent extends React.Component {
       >
         {group.content.name}
       </Chip>)}
-    { this.state.tempGroup.length !== Object.keys(this.props.groupList).length ?
+    <ShowableAtRender show={this.state.tempGroup.length !== Object.keys(this.props.groupList).length}>
       <Chip style={this.style.chip} onTouchTap={this.handlePopoverOpen} backgroundColor={this.style.chipBackground}>
         <Avatar
           backgroundColor={this.style.avatarBackground}
@@ -146,7 +146,8 @@ export class ProjectUserCreateComponent extends React.Component {
           icon={<AddSvg />}
         />
         Add
-      </Chip> : null }
+      </Chip>
+    </ShowableAtRender>
     <Popover
       open={this.state.popoverOpen}
       anchorEl={this.state.popoverAnchor}
@@ -155,16 +156,14 @@ export class ProjectUserCreateComponent extends React.Component {
       onRequestClose={this.handlePopoverClose}
     >
       <Menu>
-        {map(this.props.groupList, (group) => {
-          if (!find(this.state.tempGroup, o => isEqual(o, group))) {
-            return (<MenuItem
-              key={group.content.name}
+        {map(this.props.groupList, group => (
+          <ShowableAtRender key={group.content.name} show={!find(this.state.tempGroup, o => isEqual(o, group))}>
+            <MenuItem
               primaryText={group.content.name}
               onTouchTap={() => this.handleAddGroup(group)}
-            />)
-          }
-          return null
-        })}
+            />
+          </ShowableAtRender>
+        ))}
       </Menu>
     </Popover>
   </div>)
@@ -186,12 +185,12 @@ export class ProjectUserCreateComponent extends React.Component {
           }
           <CardText>
 
-            {this.state.isCreating ?
+            <ShowableAtRender show={this.state.isCreating} >
               <Checkbox
                 onCheck={this.handleCheckbox}
                 label={<FormattedMessage id="projectUser.create.using.existing.account" />}
               />
-            : null}
+            </ShowableAtRender>
 
             <Field
               name="email"
@@ -201,7 +200,7 @@ export class ProjectUserCreateComponent extends React.Component {
               type="text"
               label={<FormattedMessage id="projectUser.create.input.email" />}
             />
-            {!this.state.useExistingAccount && this.state.isCreating ? (
+            <ShowableAtRender show={!this.state.useExistingAccount && this.state.isCreating} >
               <div>
                 <Field
                   name="firstName"
@@ -225,7 +224,7 @@ export class ProjectUserCreateComponent extends React.Component {
                   label={<FormattedMessage id="projectUser.create.input.password" />}
                 />
               </div>
-            ) : null }
+            </ShowableAtRender>
             <Field
               name="roleName"
               fullWidth

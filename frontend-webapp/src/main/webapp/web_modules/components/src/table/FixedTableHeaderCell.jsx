@@ -5,7 +5,7 @@ import IconButton from 'material-ui/IconButton'
 import SortDesc from 'material-ui/svg-icons/navigation/arrow-drop-up'
 import SortAsc from 'material-ui/svg-icons/navigation/arrow-drop-down'
 import Sort from 'material-ui/svg-icons/action/swap-vert'
-import {themeContextType} from '@regardsoss/theme'
+import { themeContextType } from '@regardsoss/theme'
 import Styles from './FixedTableStyles'
 
 /**
@@ -19,7 +19,7 @@ class FixedTableHeaderCell extends React.Component {
     lineHeight: React.PropTypes.number.isRequired,
     fixed: React.PropTypes.bool,
     sortable: React.PropTypes.bool,
-    sortAction : React.PropTypes.func,
+    sortAction: React.PropTypes.func,
   }
 
   static contextTypes = {
@@ -38,17 +38,18 @@ class FixedTableHeaderCell extends React.Component {
     switch (this.state.sortType) {
       case 'ASC' :
         this.props.sortAction(null)
-        this.setState({sortType: null})
+        this.setState({ sortType: null })
         break
       case 'DESC':
         this.props.sortAction('ASC')
-        this.setState({sortType: 'ASC'})
+        this.setState({ sortType: 'ASC' })
         break
       default:
         this.props.sortAction('DESC')
-        this.setState({sortType: 'DESC'})
+        this.setState({ sortType: 'DESC' })
     }
   }
+
   renderSortAction = () => {
     if (this.props.sortable) {
       const iconStyle = {
@@ -58,18 +59,18 @@ class FixedTableHeaderCell extends React.Component {
       const buttonStyle = {
         width: 25,
         height: 25,
-        padding: 0
+        padding: 0,
       }
-      let icon = <Sort/>
+      let icon = <Sort />
       switch (this.state.sortType) {
         case 'ASC' :
-          icon = <SortAsc/>
+          icon = <SortAsc />
           break
         case 'DESC':
-          icon = <SortDesc/>
+          icon = <SortDesc />
           break
         default:
-          icon = <Sort/>
+          icon = <Sort />
       }
       return (
         <IconButton
@@ -81,6 +82,7 @@ class FixedTableHeaderCell extends React.Component {
         </IconButton>
       )
     }
+    return null
   }
 
   render() {

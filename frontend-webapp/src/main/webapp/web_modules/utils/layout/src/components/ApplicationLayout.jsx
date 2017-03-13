@@ -1,6 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import { merge } from 'lodash'
 import { themeContextType } from '@regardsoss/theme'
 import { PluginConf } from '@regardsoss/model'
 import { ModuleShape } from '@regardsoss/modules'
@@ -21,6 +22,8 @@ class ApplicationLayout extends React.Component {
     modules: React.PropTypes.arrayOf(ModuleShape),
     plugins: React.PropTypes.arrayOf(PluginConf),
     // eslint-disable-next-line react/forbid-prop-types
+    style: React.PropTypes.object,
+    // eslint-disable-next-line react/forbid-prop-types
     pluginProps: React.PropTypes.object,
     dynamicContent: React.PropTypes.element,
     onDynamicModuleSelection: React.PropTypes.func,
@@ -35,9 +38,21 @@ class ApplicationLayout extends React.Component {
    * @returns {React.Component}
    */
   render() {
-    const bodyStyles = {
-      backgroundColor: this.context.muiTheme.palette.canvasColor,
+    let bodyStyles = {}
+    if (this.context.muiTheme) {
+      if (this.context.muiTheme.palette.backgroundImage) {
+        bodyStyles = {
+          background: `url('${this.context.muiTheme.palette.backgroundImage}') no-repeat fixed center center`,
+          backgroundSize: 'cover',
+        }
+      } else {
+        bodyStyles = {
+          background: this.context.muiTheme.palette.canvasColor,
+        }
+      }
     }
+
+    bodyStyles = merge({}, bodyStyles, this.props.style)
     return (
       <div style={bodyStyles}>
         <Container
@@ -52,6 +67,7 @@ class ApplicationLayout extends React.Component {
           mainContainer
         />
       </div>
+
     )
   }
 }

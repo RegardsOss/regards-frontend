@@ -7,6 +7,7 @@ import { Project } from '@regardsoss/model'
 import { I18nProvider } from '@regardsoss/i18n'
 import { AuthenticateActions } from '@regardsoss/authentication-manager'
 import ProjectActions from '../model/ProjectActions'
+import NotifyLicenseUpdatedActions from '../model/NotifyLicenseUpdatedActions'
 import ProjectSelectors from '../model/ProjectSelectors'
 import ProjectListComponent from '../components/ProjectListComponent'
 
@@ -20,9 +21,10 @@ import ProjectListComponent from '../components/ProjectListComponent'
 export class ProjectListContainer extends React.Component {
 
   static propTypes = {
-    projectList: React.PropTypes.objectOf({ Project }),
+    projectList: React.PropTypes.objectOf(Project),
     fetchProjectList: React.PropTypes.func,
     deleteProject: React.PropTypes.func,
+    updateLicense: React.PropTypes.func,
     onLogout: React.PropTypes.func,
   }
 
@@ -47,6 +49,10 @@ export class ProjectListContainer extends React.Component {
     browserHistory.push(url)
   }
 
+  handleUpdateLicense = (projectName) => {
+    this.props.updateLicense(projectName)
+  }
+
 
   render() {
     const { projectList } = this.props
@@ -58,6 +64,7 @@ export class ProjectListContainer extends React.Component {
           handleDelete={this.handleDelete}
           handleEdit={this.handleEdit}
           handleOpen={this.handleOpen}
+          handleUpdateLicense={this.handleUpdateLicense}
         />
       </I18nProvider>
     )
@@ -68,7 +75,8 @@ const mapStateToProps = state => ({
 })
 const mapDispatchToProps = dispatch => ({
   fetchProjectList: () => dispatch(ProjectActions.fetchPagedEntityList(0, 100)),
-  deleteProject: id => dispatch(ProjectActions.deleteEntity(id)),
+  deleteProject: projectName => dispatch(ProjectActions.deleteEntity(projectName)),
+  updateLicense: projectName => dispatch(NotifyLicenseUpdatedActions.sendLicenseUpdatedNotification(projectName)),
   onLogout: () => dispatch(AuthenticateActions.logout()),
 })
 

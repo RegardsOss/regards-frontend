@@ -1,0 +1,9 @@
+{
+  "name": "@regardsoss/licenses",
+  "version": "0.0.1",
+  "private": true,
+  "description": "",
+  "main": "src/main.js",
+  "author": "CS-SI",
+  "license": "GPLv3"
+}

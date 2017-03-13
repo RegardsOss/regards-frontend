@@ -3,13 +3,13 @@ import { getProjectUserReducer, reducerPath as projectUserReducerPath } from './
 import { getRoleReducer, reducerPath as roleReducerPath } from './model/RoleReducers'
 import { getAccessGroupReducer, reducerPath as accessGroupReducerPath } from './model/AccessGroupReducers'
 import { getUserGroupReducer, reducerPath as userGroupReducerPath } from './model/UserGroupReducers'
-import { getWaitingAccessProjectFetchReducer, reducerPath as waitingAccessProjectUserReducerPath } from './model/WaitingAccessUsersFetchReducers'
-import { getWaitingAccessProjectUpdateReducer, reducerPath as waitingAccessProjectUpdateReducerPath } from './model/WaitingAccessUsersUpdateReducers'
+import { getWaitingAccessProjectEntitiesReducer, reducerPath as waitingAccessProjectUserReducerPath } from './model/WaitingAccessUsersEntitiesReducers'
+import { getWaitingAccessProjectSignalReducer, reducerPath as waitingAccessProjectSignalReducerPath } from './model/WaitingAccessUsersSignalReducers'
 
 const projectUserManagementReducer = combineReducers({
   [projectUserReducerPath]: getProjectUserReducer,
-  [waitingAccessProjectUserReducerPath]: getWaitingAccessProjectFetchReducer,
-  [waitingAccessProjectUpdateReducerPath]: getWaitingAccessProjectUpdateReducer,
+  [waitingAccessProjectUserReducerPath]: getWaitingAccessProjectEntitiesReducer,
+  [waitingAccessProjectSignalReducerPath]: getWaitingAccessProjectSignalReducer,
   [roleReducerPath]: getRoleReducer,
   [accessGroupReducerPath]: getAccessGroupReducer,
   [userGroupReducerPath]: getUserGroupReducer,

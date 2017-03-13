@@ -17,12 +17,14 @@ const messages = {
   'data.board.collection.title': 'Collection',
   'data.board.collection.description': 'Collection',
 
-  'data.board.datasource.title': 'datasource',
-  'data.board.datasource.description': 'datasource',
+  'data.board.datasource.title': 'Source de données',
+  'data.board.datasource.description': 'Une source de données permet de ...',
 
-  'data.board.dataset.title': 'dataset',
-  'data.board.dataset.description': 'dataset',
+  'data.board.dataset.title': 'Jeux de données',
+  'data.board.dataset.description': 'Les jeux de données contiennent les données',
 
+  'data.board.connection.title': 'Connexions externes',
+  'data.board.connection.description': 'Gestion des connexions aux bases de données externes à REGARDS',
 
 }
 

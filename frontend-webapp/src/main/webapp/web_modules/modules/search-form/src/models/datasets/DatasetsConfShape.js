@@ -8,7 +8,7 @@
  */
 const DatasetsConfShape = React.PropTypes.shape({
   type: React.PropTypes.string,
-  selectedDatasets: React.PropTypes.arrayOf(React.PropTypes.number),
+  selectedDatasets: React.PropTypes.arrayOf(React.PropTypes.string),
   selectedModels: React.PropTypes.arrayOf(React.PropTypes.number),
 })
 

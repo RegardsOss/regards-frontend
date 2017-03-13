@@ -1,35 +1,37 @@
-<?xml version="1.0"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- LICENSE_PLACEHOLDER -->
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	<name>HelloWorldPlugin</name>
 	<artifactId>HelloWorldPlugin</artifactId>
 	<packaging>war</packaging>
-	
+
 	<parent>
 		<groupId>fr.cs.regards</groupId>
 		<artifactId>frontend-plugins</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-	
+
 	<build>
 		<plugins>
 			<plugin>
-		        <groupId>org.apache.maven.plugins</groupId>
-		        <artifactId>maven-compiler-plugin</artifactId>
-		        <configuration>
-		            <source>1.8</source>
-		            <target>1.8</target>
-		        </configuration>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
 			</plugin>
 			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
 				<executions>
-          			<execution>
-            			<id>default-war</id>
-            			<phase>none</phase>
-          			</execution>
-        		</executions>
+					<execution>
+						<id>default-war</id>
+						<phase>none</phase>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -43,7 +45,7 @@
 						</goals>
 						<configuration>
 							<finalName>HelloWorldPlugin-${project.version}</finalName>
-              				<appendAssemblyId>false</appendAssemblyId>
+							<appendAssemblyId>false</appendAssemblyId>
 							<descriptors>
 								<descriptor>src/main/assembly/HelloWorldPlugin-compiled-war.xml</descriptor>
 							</descriptors>

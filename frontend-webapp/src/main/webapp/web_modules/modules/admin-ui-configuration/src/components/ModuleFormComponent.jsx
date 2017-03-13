@@ -8,7 +8,8 @@ import MenuItem from 'material-ui/MenuItem'
 import { FormattedMessage } from 'react-intl'
 import { ShowableAtRender, CardActionsComponent } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
-import { RenderTextField, RenderSelectField, Field, RenderCheckbox, ErrorTypes, reduxForm } from '@regardsoss/form-utils'
+import { reduxForm } from 'redux-form'
+import { RenderTextField, RenderSelectField, Field, RenderCheckbox, ErrorTypes } from '@regardsoss/form-utils'
 import { ModuleShape, AvailableModules, LazyModuleComponent } from '@regardsoss/modules'
 import Styles from '../styles/styles'
 
@@ -19,6 +20,7 @@ import Styles from '../styles/styles'
 class ModuleFormComponent extends React.Component {
 
   static propTypes = {
+    project: React.PropTypes.string.isRequired,
     module: ModuleShape,
     containers: React.PropTypes.arrayOf(React.PropTypes.string),
     onSubmit: React.PropTypes.func.isRequired,
@@ -65,24 +67,83 @@ class ModuleFormComponent extends React.Component {
     })
   }
 
-  render() {
-    const { pristine, submitting } = this.props
-    const style = Styles(this.context.muiTheme)
-    let moduleConf = null
+  renderDynamicModuleConfiguration = (style) => {
     if (this.state.moduleSelected) {
-      moduleConf = (
+      return (
         <Card id="dynamicFields" style={style.cardEspaced}>
           <CardText>
             <LazyModuleComponent
+              project={this.props.project}
               module={this.state.module}
               admin
+              adminForm={this.props.adminForm}
               appName={this.props.applicationId}
-              refresh
             />
           </CardText>
         </Card>
       )
     }
+    return null
+  }
+
+  renderStaticModuleConfiguration = style => (
+    <div>
+      <ShowableAtRender show={this.state.creation}>
+        <Field
+          name="name"
+          fullWidth
+          component={RenderSelectField}
+          type="text"
+          onSelect={this.selectModuleType}
+          label={<FormattedMessage id="module.form.name" />}
+        >
+          {map(AvailableModules, (module, id) => (
+            <MenuItem
+              value={module}
+              key={id}
+              primaryText={module}
+            />
+            ))}
+        </Field>
+      </ShowableAtRender>
+      <Field
+        name="description"
+        fullWidth
+        component={RenderTextField}
+        type="text"
+        label={<FormattedMessage id="module.form.description" />}
+      />
+      <Field
+        name="container"
+        fullWidth
+        component={RenderSelectField}
+        type="text"
+        label={<FormattedMessage id="module.form.container" />}
+      >
+        {map(this.props.containers, (container, id) => (
+          <MenuItem
+            value={container}
+            key={id}
+            primaryText={container}
+          />
+          ))}
+      </Field>
+      <Field
+        name="active"
+        component={RenderCheckbox}
+        label={<FormattedMessage id="module.form.active" />}
+      />
+      <Field
+        name="isDefault"
+        component={RenderCheckbox}
+        label={<FormattedMessage id="module.form.isDefault" />}
+      />
+    </div>
+    )
+  render() {
+    const { pristine, submitting } = this.props
+    const style = Styles(this.context.muiTheme)
+
 
     let title = 'module.form.title.update'
     if (this.props.duplication) {
@@ -106,60 +167,11 @@ class ModuleFormComponent extends React.Component {
               />}
             />
             <CardText id="staticFields">
-              <ShowableAtRender show={this.state.creation}>
-                <Field
-                  name="name"
-                  fullWidth
-                  component={RenderSelectField}
-                  type="text"
-                  onSelect={this.selectModuleType}
-                  label={<FormattedMessage id="module.form.name" />}
-                >
-                  {map(AvailableModules, (module, id) => (
-                    <MenuItem
-                      value={module}
-                      key={id}
-                      primaryText={module}
-                    />
-                  ))}
-                </Field>
-              </ShowableAtRender>
-              <Field
-                name="description"
-                fullWidth
-                component={RenderTextField}
-                type="text"
-                label={<FormattedMessage id="module.form.description" />}
-              />
-              <Field
-                name="container"
-                fullWidth
-                component={RenderSelectField}
-                type="text"
-                label={<FormattedMessage id="module.form.container" />}
-              >
-                {map(this.props.containers, (container, id) => (
-                  <MenuItem
-                    value={container}
-                    key={id}
-                    primaryText={container}
-                  />
-                ))}
-              </Field>
-              <Field
-                name="active"
-                component={RenderCheckbox}
-                label={<FormattedMessage id="module.form.active" />}
-              />
-              <Field
-                name="isDefault"
-                component={RenderCheckbox}
-                label={<FormattedMessage id="module.form.isDefault" />}
-              />
+              {this.renderStaticModuleConfiguration(style)}
             </CardText>
           </Card>
 
-          {moduleConf}
+          {this.renderDynamicModuleConfiguration(style)}
 
           <Card style={style.cardEspaced}>
             <CardActions>

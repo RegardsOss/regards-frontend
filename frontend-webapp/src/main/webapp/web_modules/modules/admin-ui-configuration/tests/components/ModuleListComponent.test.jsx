@@ -75,6 +75,7 @@ describe('[ADMIN UI-CONFIGURATION] Testing Modules list component', () => {
       onCreate: () => {},
       onEdit: () => {},
       onDelete: () => {},
+      onDuplicate: () => {},
     }
 
     const wrapper = shallow(

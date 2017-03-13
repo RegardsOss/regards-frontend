@@ -1,5 +1,6 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
+import sinon from 'sinon'
 import { Table, TableRow } from 'material-ui/Table'
 import { IntlStub } from '@regardsoss/tests-helpers'
 import { CardActionsComponent } from '@regardsoss/components'
@@ -7,6 +8,14 @@ import { ProjectListComponent } from '../../src/components/ProjectListComponent'
 
 // Test a component rendering
 describe('[ADMIN PROJECT MANAGEMENT] Testing project list container', () => {
+  before(() => {
+    sinon.stub(console, 'error', (warning) => {
+      throw new Error(warning)
+    })
+  })
+  after(() => {
+    console.error.restore()
+  })
   it('should exists', () => {
     assert.isDefined(ProjectListComponent)
   })
@@ -19,7 +28,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing project list container', () => {
             id: 1,
             name: 'project name',
             description: 'project desc',
-            icon: 'project icon',
+            icon: 'http://localhost:1888/yeah.gif',
             isPublic: true,
             isAccessible: true,
           },
@@ -29,15 +38,16 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing project list container', () => {
             id: 2,
             name: 'project name 2',
             description: 'project desc',
-            icon: 'project icon',
+            icon: 'http://localhost:1888/yeah.gif',
             isPublic: true,
             isAccessible: true,
           },
         },
       },
-      handleDelete: () => {},
-      handleOpen: () => {},
-      handleEdit: () => {},
+      handleDelete: () => { },
+      handleOpen: () => { },
+      handleEdit: () => { },
+      handleUpdateLicense: () => { },
       createUrl: '/some/url',
     }
     const options = {

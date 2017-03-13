@@ -1,17 +1,22 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { chain, forEach, cloneDeep, reduce, isEqual, values } from 'lodash'
+import { chain, forEach, cloneDeep, reduce, isEqual, values, unionBy } from 'lodash'
 import { browserHistory } from 'react-router'
+import { LazyModuleComponent } from '@regardsoss/modules'
 import { connect } from '@regardsoss/redux'
-import { PluginConf, AttributeModel } from '@regardsoss/model'
+import {
+  AttributeModel,
+  SearchResultsTargetsEnum,
+} from '@regardsoss/model'
 import { LoadingComponent } from '@regardsoss/display-control'
 import { themeContextType } from '@regardsoss/theme'
-import SearchResultsComponent from '../components/user/SearchResultsComponent'
-import FormComponent from '../components/user/FormComponent'
-import { DATAOBJECT_RESULTS } from '../components/admin/parameters/ResultTypesEnum'
-import AttributeModelActions from '../models/attributes/AttributeModelActions'
+import ModuleConfiguration from '../models/ModuleConfiguration'
 import AttributeModelSelector from '../models/attributes/AttributeModelSelector'
+import AttributeModelActions from '../models/attributes/AttributeModelActions'
+import FormComponent from '../components/user/FormComponent'
+
+
 /**
  * Main container to display module form.
  * @author Sébastien binda
@@ -19,16 +24,15 @@ import AttributeModelSelector from '../models/attributes/AttributeModelSelector'
 class ModuleContainer extends React.Component {
 
   static propTypes = {
-    layout: React.PropTypes.string.isRequired,
-    criterion: React.PropTypes.arrayOf(PluginConf),
-    resultType: React.PropTypes.string,
+    // Props supplied by LazyModuleComponent
+    appName: React.PropTypes.string,
+    project: React.PropTypes.string,
+    // Module configuration
+    moduleConf: ModuleConfiguration.isRequired,
     // Set by mapDispatchToProps
     fetchAttribute: React.PropTypes.func,
     // eslint-disable-next-line react/no-unused-prop-types
-    attributes: React.PropTypes.objectOf(AttributeModel),
-    // eslint-disable-next-line react/no-unused-prop-types
-    attributesFetching: React.PropTypes.bool,
-    preview: React.PropTypes.bool,
+    attributeModels: React.PropTypes.objectOf(AttributeModel),
   }
 
   static contextTypes = {
@@ -37,25 +41,36 @@ class ModuleContainer extends React.Component {
 
   constructor(props) {
     super(props)
-    const type = props.resultType === DATAOBJECT_RESULTS ? 'DATAOBJECT' : 'DATASET'
     this.criterionValues = {}
     this.state = {
-      searchQuery: `type=${type}`,
+      searchQuery: '',
     }
   }
 
-
   componentWillMount() {
-    this.loadCriterionAttributes()
+    this.loadCriterionAttributeModels()
+
+    // Read query parameters form current URL
+    const query = browserHistory ? browserHistory.getCurrentLocation().query : null
+
+    let q = this.getInitialQuery()
+
+    if (query && query.q) {
+      q = query.q
+    }
+
+    this.setState({
+      searchQuery: q ? this.createFullSearchParameters(q) : '',
+    })
   }
 
   componentWillReceiveProps(nextProps) {
     /**
-     * If criterion props changed, so load missing attributes
+     * If criterion props changed, so load missing attributeModels
      */
-    if (!isEqual(this.props.criterion, nextProps.criterion)) {
-    // if (this.props.criterion !== nextProps.criterion) {
-      this.loadCriterionAttributes()
+    if (!isEqual(this.props.moduleConf.criterion, nextProps.moduleConf.criterion)) {
+      // if (this.props.criterion !== nextProps.criterion) {
+      this.loadCriterionAttributeModels()
     }
   }
 
@@ -68,75 +83,145 @@ class ModuleContainer extends React.Component {
     this.criterionValues[pluginId] = criteria
   }
 
+  /**
+   * Get the default query for this form at initialization
+   */
+  getInitialQuery = () => {
+    // Add form associated dataset urn
+    if (this.props.moduleConf.datasets && this.props.moduleConf.datasets.selectedDatasets) {
+      const tags = reduce(this.props.moduleConf.datasets.selectedDatasets, (result, dataset) => {
+        if (result && dataset !== undefined) {
+          return `${result} OR ${dataset}`
+        } else if (dataset !== undefined) {
+          return dataset
+        }
+        return result
+      }, '')
+      if (tags && tags.length > 0) {
+        return `tags:(${tags})`
+      }
+    }
+    return ''
+  }
+
 
   /**
-   * Add the attributes properties to the criterion conf
+   * Add the attributeModels properties to the criterion conf
    * @returns {*}
    */
-  getCriterionWithAttributes = () => {
-    const criterionWithAttributtes = cloneDeep(this.props.criterion)
+  getCriterionWithAttributeModels = () => {
+    const criterionWithAttributtes = cloneDeep(this.props.moduleConf.criterion)
     // For each criteria of this form
     forEach(criterionWithAttributtes, (criteria) => {
-      // For each attributes of the criteria
-      forEach(criteria.pluginConf.attributes, (attributeId, key) => {
-        // If the associated attribute has already been retrieved from server, the update the criteria
-        if (this.props.attributes[attributeId]) {
-          // eslint-disable-next-line no-param-reassign
-          criteria.pluginConf.attributes[key] = this.props.attributes[attributeId].content
-        }
-      })
+      // For each attributeModels of the criteria
+      if (criteria.pluginConf && criteria.pluginConf.attributes) {
+        forEach(criteria.pluginConf.attributes, (attributeId, key) => {
+          // If the associated attribute has already been retrieved from server, the update the criteria
+          if (this.props.attributeModels[attributeId]) {
+            // eslint-disable-next-line no-param-reassign
+            criteria.pluginConf.attributes[key] = this.props.attributeModels[attributeId].content
+          }
+        })
+      }
     })
     return criterionWithAttributtes
   }
 
   /**
-   * Search attributes associated to criterion
+   * Search attributeModels associated to criterion
    */
-  loadCriterionAttributes = () => {
-    // Get uniq list of criterion attributes id to load
-    chain(this.props.criterion)
+  loadCriterionAttributeModels = () => {
+    // Get uniq list of criterion attributeModels id to load
+    const pluginsAttributesToLoad = chain(this.props.moduleConf.criterion)
       .map(criteria => criteria.pluginConf && criteria.pluginConf.attributes)
       .map(attribute => values(attribute))
       .flatten()
       .uniq()
-      // Fetch each form server
-      .each(attribute => this.props.fetchAttribute(attribute))
       .value()
+
+    const attributesToLoad = chain(this.props.moduleConf.attributes)
+      .map(attribute => values(attribute.id))
+      .flatten()
+      .uniq()
+      .value()
+
+
+    // Fetch each form server
+    forEach(unionBy(pluginsAttributesToLoad, attributesToLoad), (attribute => this.props.fetchAttribute(attribute)))
+  }
+
+  /**
+   * Create query for the search from all the configured criterion
+   */
+  createSearchQueryFromCriterion = () => {
+    let query = reduce(this.criterionValues, (result, criteria) => {
+      if (result && criteria && criteria.length > 0) {
+        return `${result} AND ${criteria}`
+      } else if (criteria) {
+        return criteria
+      }
+      return result
+    }, '')
+
+    // Add form associated dataset urn
+    let tags = ''
+    if (this.props.moduleConf.datasets && this.props.moduleConf.datasets.selectedDatasets) {
+      tags = reduce(this.props.moduleConf.datasets.selectedDatasets, (result, dataset) => {
+        if (result && dataset !== undefined) {
+          return `${result} OR ${dataset}`
+        } else if (dataset !== undefined) {
+          return dataset
+        }
+        return result
+      }, '')
+    }
+
+    if (tags.length > 0) {
+      if (query && query.length > 0) {
+        query = `${query} AND (tags:(${tags})`
+      } else {
+        query = `tags:(${tags})`
+      }
+    }
+
+    if (query && query.length > 0) {
+      return query
+    }
+    return ''
+  }
+
+  /**
+   * Create full search request parameters with :
+   * q : query
+   * @returns {string}
+   */
+  createFullSearchParameters = (query) => {
+    if (!query) {
+      return `${this.createSearchQueryFromCriterion()}`
+    }
+    return query
   }
 
   /**
    * Run form search with the stored criteria values in the state.criterion
    */
   handleSearch = () => {
-    // TODO Manage search
-    let query = reduce(this.criterionValues, (result, criteria, key) => {
-      if (result && criteria.value) {
-        return `${result}&attributes.${criteria.attribute.name}=${criteria.value}`
-      } else if (criteria.value) {
-        return `attributes.${criteria.attribute.name}=${criteria.value}`
-      }
-      return result
-    }, '')
-
-    const type = this.props.resultType === DATAOBJECT_RESULTS ? 'DATAOBJECT' : 'DATASET'
-    query = `${query}&type=${type}`
-
-
+    const query = this.createFullSearchParameters()
     this.setState({
       searchQuery: query,
     })
-    browserHistory.push(`${browserHistory.getCurrentLocation().pathname}?${query}`)
+    browserHistory.push(`${browserHistory.getCurrentLocation().pathname}?q=${query}`)
   }
 
   renderForm() {
-    if (this.props.layout) {
+    if (this.props.moduleConf.layout) {
       try {
-        const layoutObj = JSON.parse(this.props.layout)
+        const layoutObj = JSON.parse(this.props.moduleConf.layout)
 
         const pluginsProps = {
           onChange: this.onCriteriaChange,
         }
-        const criterionWithAttributes = this.getCriterionWithAttributes()
+        const criterionWithAttributes = this.getCriterionWithAttributeModels()
         return (
           <FormComponent
             layout={layoutObj}
@@ -154,11 +239,26 @@ class ModuleContainer extends React.Component {
   }
 
   renderResults() {
-    if (!this.props.preview) {
-      console.log('Running search ', this.state.searchQuery)
+    if (!this.props.moduleConf.preview) {
+      const module = {
+        name: 'search-results',
+        active: true,
+        applicationId: this.props.appName,
+        conf: {
+          resultType: this.props.moduleConf.resultType,
+          attributesConf: this.props.moduleConf.attributes,
+          attributesRegroupementsConf: this.props.moduleConf.attributesRegroupements,
+          selectableAttributes: this.props.attributeModels,
+          enableFacettes: this.props.moduleConf.enableFacettes,
+          searchQuery: this.state.searchQuery,
+        },
+      }
+
       return (
-        <SearchResultsComponent
-          searchQuery={this.state.searchQuery}
+        <LazyModuleComponent
+          project={this.props.project}
+          appName={this.props.appName}
+          module={module}
         />
       )
     }
@@ -169,7 +269,7 @@ class ModuleContainer extends React.Component {
     return (
       <div>
         {this.renderForm()}
-        <div style={{ marginTop: 50 }} />
+        <div style={{ marginTop: 10 }} />
         {this.renderResults()}
       </div>
     )
@@ -177,8 +277,7 @@ class ModuleContainer extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  attributes: AttributeModelSelector.getList(state),
-  attributesFetching: AttributeModelSelector.isFetching(state),
+  attributeModels: AttributeModelSelector.getList(state),
 })
 
 const mapDispatchToProps = dispatch => ({

@@ -132,7 +132,6 @@ export class ProjectFormComponent extends React.Component {
   }
 }
 
-
 function validate(values) {
   const errors = {}
   if (values.name) {
@@ -140,6 +139,13 @@ function validate(values) {
       errors.name = ErrorTypes.ALPHA_NUMERIC
     }
   }
+  const urlToValidate = ['icon', 'license']
+  urlToValidate.forEach((field) => {
+    // validate only when specified, those fields are optional
+    if (values[field] && !ValidationHelpers.isValidUrl(values[field])) {
+      errors[field] = ErrorTypes.INVALID_URL
+    }
+  })
   return errors
 }
 

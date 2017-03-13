@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { connect } from 'react-redux'
+import { connect } from '@regardsoss/redux'
 import { map, find } from 'lodash'
 import { I18nProvider } from '@regardsoss/i18n'
 import { AccessGroup, PluginConfiguration, PluginMetaData } from '@regardsoss/model'
@@ -95,7 +95,6 @@ export class AccessRightContainer extends React.Component {
    * @param accessRight
    */
   onDelete = (accessGroupName, accessRight) => {
-    console.log(accessRight)
     Promise.resolve(this.props.deleteAccessRight(accessRight.content.id))
       .then(() => {
         this.props.fetchAccessGroup(accessGroupName)

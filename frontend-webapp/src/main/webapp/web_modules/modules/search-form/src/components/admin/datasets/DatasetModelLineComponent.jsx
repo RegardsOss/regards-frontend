@@ -14,7 +14,7 @@ class DatasetModelLineComponent extends React.Component {
 
   render() {
     return (
-      <div>{this.props.entity.name}</div>
+      <div>{this.props.entity.content.name}</div>
     )
   }
 }

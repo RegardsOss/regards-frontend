@@ -22,16 +22,21 @@ describe('[FORM MODULE] Testing Admin Container', () => {
     const props = {
       appName: 'test',
       project: 'project',
-      changeField: () => {},
-      form: {},
-      datasets: {
-        type: null,
-        selectedDatasets: [],
-        selectedModels: [],
+      adminForm: {
+        changeField: () => {
+        },
+        form: {},
       },
-      criterion: [],
-      layout: '',
-      resultType: '',
+      moduleConf: {
+        datasets: {
+          type: null,
+          selectedDatasets: [],
+          selectedModels: [],
+        },
+        criterion: [],
+        layout: '',
+        resultType: '',
+      },
       selectableAttributes: {},
       selectableAttributesFectching: false,
       availableCriterion: {},
@@ -52,7 +57,6 @@ describe('[FORM MODULE] Testing Admin Container', () => {
     assert.isTrue(fetchDatasetsAttributesCallback.notCalled, 'By default if no dataset type is selected, the all datasets type is selected')
     assert.isTrue(fetchModelsAttributesCallback.notCalled, 'By default if no dataset type is selected, the all datasets type is selected')
     assert.isTrue(fetchAllModelsAttributesCallback.calledOnce, 'By default if no dataset type is selected, the all datasets type is selected')
-
     assert.isTrue(fetchCriterionCallback.calledOnce, 'The list of available criterion should be fetched')
   })
 
@@ -64,20 +68,25 @@ describe('[FORM MODULE] Testing Admin Container', () => {
     const props = {
       appName: 'test',
       project: 'project',
-      changeField: () => {},
-      form: {
-        conf: {
-          datasets: {
-            type: DATASET_TYPE,
-            selectedDatasets: [],
-            selectedModels: [],
+      adminForm: {
+        changeField: () => {
+        },
+        form: {
+          conf: {
+            datasets: {
+              type: DATASET_TYPE,
+              selectedDatasets: [],
+              selectedModels: [],
+            },
           },
         },
       },
-      datasets: {},
-      criterion: [],
-      layout: '',
-      resultType: '',
+      moduleConf: {
+        datasets: {},
+        criterion: [],
+        layout: '',
+        resultType: '',
+      },
       selectableAttributes: {},
       selectableAttributesFectching: false,
       availableCriterion: {},
@@ -98,7 +107,6 @@ describe('[FORM MODULE] Testing Admin Container', () => {
     assert.isTrue(fetchDatasetsAttributesCallback.calledOnce, 'The list of datasets attributes should be fetched')
     assert.isTrue(fetchModelsAttributesCallback.notCalled, 'The list of datasets attributes should be fetched')
     assert.isTrue(fetchAllModelsAttributesCallback.notCalled, 'The list of datasets attributes should be fetched')
-
     assert.isTrue(fetchCriterionCallback.calledOnce, 'The list of available criterion should be fetched')
   })
 
@@ -110,20 +118,25 @@ describe('[FORM MODULE] Testing Admin Container', () => {
     const props = {
       appName: 'test',
       project: 'project',
-      changeField: () => {},
-      form: {
-        conf: {
-          datasets: {
-            type: DATASET_MODEL_TYPE,
-            selectedDatasets: [],
-            selectedModels: [],
+      adminForm: {
+        changeField: () => {
+        },
+        form: {
+          conf: {
+            datasets: {
+              type: DATASET_MODEL_TYPE,
+              selectedDatasets: [],
+              selectedModels: [],
+            },
           },
         },
       },
-      datasets: {},
-      criterion: [],
-      layout: '',
-      resultType: '',
+      moduleConf: {
+        datasets: {},
+        criterion: [],
+        layout: '',
+        resultType: '',
+      },
       selectableAttributes: {},
       selectableAttributesFectching: false,
       availableCriterion: {},
@@ -144,7 +157,6 @@ describe('[FORM MODULE] Testing Admin Container', () => {
     assert.isTrue(fetchDatasetsAttributesCallback.notCalled, 'The list of datasets attributes should be fetched')
     assert.isTrue(fetchModelsAttributesCallback.calledOnce, 'The list of datasets attributes should be fetched')
     assert.isTrue(fetchAllModelsAttributesCallback.notCalled, 'The list of datasets attributes should be fetched')
-
     assert.isTrue(fetchCriterionCallback.calledOnce, 'The list of available criterion should be fetched')
   })
 })

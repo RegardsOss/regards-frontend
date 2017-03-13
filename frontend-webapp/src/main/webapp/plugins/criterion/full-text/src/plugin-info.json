@@ -1,0 +1,11 @@
+{
+  "name": "full-text-criteria",
+  "description": "Criteria widget to send an opensearch full-text request",
+  "version" : 1.0,
+  "author" : "Binda sebastien",
+  "company" : "CS-SI",
+  "type" : "criteria",
+  "conf" : {
+    "attributes": []
+  }
+}

@@ -10,6 +10,7 @@ import { LazyModuleComponent, ModuleShape } from '@regardsoss/modules'
 class FormPreviewComponent extends React.Component {
 
   static propTypes = {
+    project: React.PropTypes.string.isRequired,
     module: ModuleShape,
   }
 
@@ -23,6 +24,7 @@ class FormPreviewComponent extends React.Component {
         <div style={{ marginTop: 10 }}>
           <LazyModuleComponent
             module={previewModule}
+            project={this.props.project}
             appName={'admin'}
           />
         </div>

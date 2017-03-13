@@ -33,7 +33,7 @@ class FormDatasetsConfigurationComponent extends React.Component {
     // Current type (dataset, models, all)
     defaultType: React.PropTypes.string,
     // List of currently associated datasets (id)
-    defaultSelectedDatasets: React.PropTypes.arrayOf(React.PropTypes.number),
+    defaultSelectedDatasets: React.PropTypes.arrayOf(React.PropTypes.string),
     // List of currently associated dataset models (id)
     defaultSelectedDatasetModels: React.PropTypes.arrayOf(React.PropTypes.number),
     // Does the datasets / models are available for change (not available during server fetching)
@@ -47,7 +47,7 @@ class FormDatasetsConfigurationComponent extends React.Component {
   }
 
   onDatasetSelection = (dataset) => {
-    const newSelectedDatasets = xor(this.state.selectedDataset, [dataset.id])
+    const newSelectedDatasets = xor(this.state.selectedDataset, [dataset.ip_id])
     this.setState({
       selectedDataset: newSelectedDatasets,
     })
@@ -63,7 +63,7 @@ class FormDatasetsConfigurationComponent extends React.Component {
   }
 
   getSelectedDatasetsObjects = () => map(this.state.selectedDataset, dataset => ({
-    id: dataset,
+    ip_id: dataset,
   }))
 
   getSelectedDatasetModelsObjects = () => map(this.state.selectedDatasetModels, model => ({
@@ -107,7 +107,7 @@ class FormDatasetsConfigurationComponent extends React.Component {
           <PageableListContainer
             key={this.state.type}
             title={this.context.intl.formatMessage({ id: 'form.datasets.select.dataset.list.title' })}
-            entityIdentifier="id"
+            entityIdentifier="ip_id"
             nbEntityByPage={10}
             entitiesActions={DatasetActions}
             entitiesSelector={DatasetSelector}

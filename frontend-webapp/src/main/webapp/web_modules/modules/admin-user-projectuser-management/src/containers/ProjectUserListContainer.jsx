@@ -1,13 +1,13 @@
-import { connect } from 'react-redux'
+import { connect } from '@regardsoss/redux'
 import { keys } from 'lodash'
 import { I18nProvider } from '@regardsoss/i18n'
 import { browserHistory } from 'react-router'
 import { ProjectUser } from '@regardsoss/model'
 import ProjectUserActions from '../model/ProjectUserActions'
 import ProjectUserSelectors from '../model/ProjectUserSelectors'
-import WaitingAccessUsersFetchActions from '../model/WaitingAccessUsersFetchActions'
-import WaitingAccessUsersUpdateActions from '../model/WaitingAccessUsersUpdateActions'
-import WaitingAccessUsersFetchSelectors from '../model/WaitingAccessUsersFetchSelectors'
+import WaitingAccessUsersEntitiesActions from '../model/WaitingAccessUsersEntitiesActions'
+import WaitingAccessUsersSignalsActions from '../model/WaitingAccessUsersSignalActions'
+import WaitingAccessUsersEntitiesSelectors from '../model/WaitingAccessUsersEntitiesSelectors'
 import ProjectUserListComponent from '../components/ProjectUserListComponent'
 /**
  * Show the user list for the current project
@@ -32,7 +32,8 @@ export class ProjectUserListContainer extends React.Component {
   }
 
   componentWillMount = () => {
-    this.updateUsers()
+    this.props.fetchUsers()
+    this.props.fetchWaitingAccessUsers()
     this.setState({ initialFecthing: true, isFetchingActions: false })
   }
 
@@ -91,12 +92,7 @@ export class ProjectUserListContainer extends React.Component {
     this.setFetchingActions(true)
     const onDone = () => { this.setFetchingActions(false) }
     Promise.all(promises).then(() =>
-      Promise.all(this.props.fetchWaitingAccessUsers(), this.props.fetchUsers()).then(onDone).catch(onDone)).catch(onDone)
-  }
-
-  updateUsers = () => {
-    this.props.fetchUsers()
-    this.props.fetchWaitingAccessUsers()
+      Promise.all([this.props.fetchWaitingAccessUsers(), this.props.fetchUsers()]).then(onDone).catch(onDone)).catch(onDone)
   }
 
   render() {
@@ -124,15 +120,15 @@ export class ProjectUserListContainer extends React.Component {
 
 const mapStateToProps = (state, ownProps) => ({
   users: ProjectUserSelectors.getList(state) || {},
-  waitingAccessUsers: WaitingAccessUsersFetchSelectors.getList(state) || {},
-  isFetchingContent: ProjectUserSelectors.isFetching(state) || WaitingAccessUsersFetchSelectors.isFetching(state),
+  waitingAccessUsers: WaitingAccessUsersEntitiesSelectors.getList(state) || {},
+  isFetchingContent: ProjectUserSelectors.isFetching(state) || WaitingAccessUsersEntitiesSelectors.isFetching(state),
 })
 
 const mapDispatchToProps = dispatch => ({
   fetchUsers: () => dispatch(ProjectUserActions.fetchPagedEntityList()),
-  fetchWaitingAccessUsers: () => dispatch(WaitingAccessUsersFetchActions.fetchWaitingUsersEntityList()),
-  validateProjectUser: userId => dispatch(WaitingAccessUsersUpdateActions.sendAccept(userId)),
-  denyProjectUser: userId => dispatch(WaitingAccessUsersUpdateActions.sendDeny(userId)),
+  fetchWaitingAccessUsers: () => dispatch(WaitingAccessUsersEntitiesActions.fetchWaitingUsersEntityList()),
+  validateProjectUser: userId => dispatch(WaitingAccessUsersSignalsActions.sendAccept(userId)),
+  denyProjectUser: userId => dispatch(WaitingAccessUsersSignalsActions.sendDeny(userId)),
   deleteAccount: userId => dispatch(ProjectUserActions.deleteEntity(userId)),
 })
 

@@ -1,0 +1,8 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
+export default {
+  NONE: 'NONE',
+  FROM_TABLE: 'FROM_TABLE',
+  CUSTOM_FROM: 'CUSTOM_FROM',
+}

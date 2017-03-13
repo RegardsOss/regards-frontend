@@ -2,11 +2,13 @@
  * LICENSE_PLACEHOLDER
  **/
 import { concat, forEach, isEqual, keys, filter } from 'lodash'
+import { Card } from 'material-ui/Card'
+import Disatisfied from 'material-ui/svg-icons/social/sentiment-dissatisfied'
 import { connect } from '@regardsoss/redux'
 import { BasicPageableSelectors, BasicPageableActions } from '@regardsoss/store-utils'
 import './fixed-data-table-mui.css'
 import FixedTable from './FixedTable'
-import NoResultsFoundComponent from './NoResultsFoundComponent'
+import NoContentMessageInfo from '../cards/NoContentMessageInfo'
 import ColumnConfiguration from './model/ColumnConfiguration'
 
 /**
@@ -64,6 +66,8 @@ class FixedTableContainer extends React.Component {
     // [Optional] server request parameters as query params or path params defined in the PageActions given.
     // eslint-disable-next-line react/forbid-prop-types
     requestParams: React.PropTypes.object,
+    // eslint-disable-next-line react/forbid-prop-types
+    cellsStyle: React.PropTypes.object,
 
     // Parameters set by redux store connection
     // eslint-disable-next-line react/no-unused-prop-types
@@ -188,14 +192,17 @@ class FixedTableContainer extends React.Component {
    * @returns {Array}
    */
   getAllColumns = () => {
-    if (this.props.columns) {
+    if (this.props.columns && this.props.columns.length > 0) {
       return this.props.columns
     }
-    const entity = this.state.entities[0]
     const columns = []
-    forEach(entity.content, (attr, key) => {
-      columns.push({ attributes: [key], label: key })
-    })
+
+    if (this.state.entities && this.state.entities.length > 0) {
+      const entity = this.state.entities[0]
+      forEach(entity.content, (attr, key) => {
+        columns.push({ attributes: [key], label: key })
+      })
+    }
     return columns
   }
 
@@ -216,27 +223,37 @@ class FixedTableContainer extends React.Component {
   }
 
   render() {
-    if (this.props.pageMetadata &&
-      this.props.pageMetadata.totalElements > 0) {
-      return (
-        <FixedTable
-          entities={this.state.entities}
-          entitiesFetching={this.props.entitiesFetching}
-          lineHeight={this.props.lineHeight}
-          pageSize={this.props.pageSize}
-          onScrollEnd={this.onScrollEnd}
-          columns={this.getAllColumns()}
-          displayCheckbox={this.props.displayCheckbox}
-          onRowSelection={this.selectRow}
-          onSortByColumn={this.props.onSortByColumn}
-        />
-      )
-    }
-
+    let noContent = false
     if (this.props.pageMetadata && this.props.pageMetadata.totalElements === 0) {
-      return (<NoResultsFoundComponent />)
+      noContent = true
     }
-    return null
+    return (
+      <Card
+        style={noContent ? {} : {backgroundColor: 'transparent'}}
+      >
+        <NoContentMessageInfo
+          noContent={noContent}
+          title={'No results found'}
+          message={'Your research returned no results. Please change your search criterion'}
+          Icon={Disatisfied}
+        >
+          <FixedTable
+            entities={this.state.entities}
+            entitiesFetching={this.props.entitiesFetching}
+            lineHeight={this.props.lineHeight}
+            pageSize={this.props.pageSize}
+            onScrollEnd={this.onScrollEnd}
+            columns={this.getAllColumns()}
+            displayCheckbox={this.props.displayCheckbox}
+            displayHeader={this.props.displayHeader}
+            onRowSelection={this.selectRow}
+            onSortByColumn={this.props.onSortByColumn}
+            cellsStyle={this.props.cellsStyle}
+          />
+        </NoContentMessageInfo>
+      </Card>
+
+    )
   }
 }
 

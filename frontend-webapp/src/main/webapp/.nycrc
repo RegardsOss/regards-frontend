@@ -1,20 +1,22 @@
 {
-  "lines": 5,
-  "statements": 5,
-  "functions": 5,
-  "branches": 5,
-  "require": [
-    "babel-core/register",
-    "source-map-support/register"
-  ],
   "extension": [
     ".jsx",
     ".js"
   ],
+  "exclude": [
+    "test",
+    "test{,-*}.js",
+    "**/*.test.js",
+    "**/__tests__/**",
+    "**/node_modules/**",
+    "**/tests/**"
+  ],
   "reporter": [
     "lcov",
-    "html"
+    "html",
+    "text-summary"
   ],
+  "cache": true,
   "sourceMap": false,
   "instrument": false,
   "report-dir": "./reports/coverage"
