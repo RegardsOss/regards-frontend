@@ -69,6 +69,18 @@ class ModuleContainer extends React.Component {
       // if (this.props.criterion !== nextProps.criterion) {
       this.loadCriterionAttributeModels()
     }
+
+    // If query changed from URL
+    const query = browserHistory ? browserHistory.getCurrentLocation().query : null
+    if (query && query.q && query.q !== this.state.searchQuery) {
+      this.setState({
+        searchQuery: query.q
+      })
+    } else if (!query.q && this.state.searchQuery !== this.getInitialQuery()) {
+      this.setState({
+        searchQuery: this.getInitialQuery()
+      })
+    }
   }
 
   /**
