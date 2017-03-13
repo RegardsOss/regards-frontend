@@ -5,10 +5,7 @@ import { chain, forEach, cloneDeep, reduce, isEqual, values, unionBy } from 'lod
 import { browserHistory } from 'react-router'
 import { LazyModuleComponent } from '@regardsoss/modules'
 import { connect } from '@regardsoss/redux'
-import {
-  AttributeModel,
-  SearchResultsTargetsEnum,
-} from '@regardsoss/model'
+import { AttributeModel } from '@regardsoss/model'
 import { LoadingComponent } from '@regardsoss/display-control'
 import { themeContextType } from '@regardsoss/theme'
 import ModuleConfiguration from '../models/ModuleConfiguration'

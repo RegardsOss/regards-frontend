@@ -2,13 +2,13 @@
  * LICENSE_PLACEHOLDER
  **/
 import root from 'window-or-global'
-import {map, forEach, reduce, split, remove, concat} from 'lodash'
-import {Table, Column} from 'fixed-data-table'
-import {Toolbar, ToolbarGroup, ToolbarTitle} from 'material-ui/Toolbar'
+import { map, forEach, reduce, split, remove, concat } from 'lodash'
+import { Table, Column } from 'fixed-data-table'
+import { Toolbar, ToolbarGroup, ToolbarTitle } from 'material-ui/Toolbar'
 import FilterList from 'material-ui/svg-icons/content/filter-list'
 import IconButton from 'material-ui/IconButton'
-import {LoadingComponent} from '@regardsoss/display-control'
-import {themeContextType} from '@regardsoss/theme'
+import { LoadingComponent } from '@regardsoss/display-control'
+import { themeContextType } from '@regardsoss/theme'
 import './fixed-data-table-mui.css'
 import FixedTableCell from './FixedTableCell'
 import FixedTableCheckBoxCell from './FixedTableCheckBoxCell'
@@ -44,8 +44,9 @@ class FixedTable extends React.Component {
     pageSize: React.PropTypes.number.isRequired,
     onScrollEnd: React.PropTypes.func.isRequired,
     columns: React.PropTypes.arrayOf(ColumnConfiguration),
-    cellsStyle: React.PropTypes.object,
+    cellsStyle: React.PropTypes.objectOf(React.PropTypes.string),
     displayCheckbox: React.PropTypes.bool,
+    displayHeader: React.PropTypes.bool,
     onRowSelection: React.PropTypes.func,
     onSortByColumn: React.PropTypes.func,
   }
@@ -88,7 +89,7 @@ class FixedTable extends React.Component {
    * @param columnKey
    */
   onColumnResizeEndCallback = (newColumnWidth, columnKey) => {
-    this.setState(({columnWidths}) => ({
+    this.setState(({ columnWidths }) => ({
       columnWidths: {
         ...columnWidths,
         [columnKey]: newColumnWidth,
@@ -104,8 +105,8 @@ class FixedTable extends React.Component {
    * @returns {string}
    */
   getCellValue = (rowIndex, column, rendererComponent) => {
-    const entity = this.props.entities[rowIndex].content
-    if (entity) {
+    const entity = this.props.entities[rowIndex]
+    if (entity && entity.content) {
       let i = 0
       // If a custom renderer is provided use it
       if (rendererComponent) {
@@ -114,19 +115,20 @@ class FixedTable extends React.Component {
           attributes[column.attributes[i]] = reduce(
             split(column.attributes[i], '.'),
             (result, value, key) => result[value],
-            entity)
+            entity.content)
         }
         return React.createElement(rendererComponent.component, {
           attributes,
           entity,
-          lineHeight: this.props.lineHeight, ...rendererComponent.props
+          lineHeight: this.props.lineHeight,
+          ...rendererComponent.props,
         })
       }
       // No custom component, render attribute as a string.
       let resultValue = ''
       for (i = 0; i < column.attributes.length; i += 1) {
-        const attrValue = reduce(split(column.attributes[i], '.'), (result, value, key) => result[value], entity)
-        if (entity[column.attributes[i]]) {
+        const attrValue = reduce(split(column.attributes[i], '.'), (result, value, key) => result[value], entity.content)
+        if (entity.content[column.attributes[i]]) {
           resultValue += ` ${attrValue}`
         } else {
           resultValue += ` ${attrValue}`
@@ -198,7 +200,7 @@ class FixedTable extends React.Component {
         <Column
           key={'checkbox'}
           columnKey={'checkbox'}
-          header={<FixedTableHeaderCell lineHeight={this.props.lineHeight} fixed/>}
+          header={<FixedTableHeaderCell lineHeight={this.props.lineHeight} fixed />}
           cell={<FixedTableCheckBoxCell
             selectRow={this.props.onRowSelection}
             isSelected={idx => this.props.entities[idx].selected}
@@ -234,10 +236,10 @@ class FixedTable extends React.Component {
   renderToolbar = () => {
     if (this.props.displayHeader) {
       return (
-        <Toolbar style={{minWidth: this.state.width}}>
+        <Toolbar style={{ minWidth: this.state.width }}>
           <ToolbarTitle
             text={`${this.props.entities.length} results`}
-            style={{color: this.context.muiTheme.palette.textColor}}
+            style={{ color: this.context.muiTheme.palette.textColor }}
           />
           <ToolbarGroup>
             <IconButton tooltip="Filter columns" onTouchTap={this.openColumnsFilterPanel}>
@@ -269,7 +271,7 @@ class FixedTable extends React.Component {
   }
 
   render() {
-    const {columnWidths, width, height} = this.state
+    const { columnWidths, width, height } = this.state
     if (!this.props.entities) {
       return null
     }
@@ -295,7 +297,7 @@ class FixedTable extends React.Component {
             if (this.state.hiddenColumns.includes(column.label)) {
               return null
             }
-            let columnWidth = column.fixed ? column.fixed : columnWidths[column.label]
+            const columnWidth = column.fixed ? column.fixed : columnWidths[column.label]
             if (columnWidth) {
               return (<Column
                 key={column.label}

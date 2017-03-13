@@ -1,15 +1,15 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import map from 'lodash/map'
 import values from 'lodash/values'
+import { FormattedMessage } from 'react-intl'
+import LabelIcon from 'material-ui/svg-icons/action/label'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import DatasetLibrary from 'material-ui/svg-icons/image/collections-bookmark'
 import DataLibrary from 'material-ui/svg-icons/av/library-books'
-import {SearchResultsTargetsEnum} from '@regardsoss/model'
-import {themeContextType} from '@regardsoss/theme'
-import {Toolbar, ToolbarGroup, ToolbarTitle} from 'material-ui/Toolbar'
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card'
+import { SearchResultsTargetsEnum, CatalogEntity } from '@regardsoss/model'
+import { themeContextType } from '@regardsoss/theme'
+import { Card, CardTitle } from 'material-ui/Card'
 
 /**
  * Component to display navigation bar
@@ -19,17 +19,26 @@ import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'mat
 class NavigationComponent extends React.Component {
 
   static propTypes = {
-    navigationContext: React.PropTypes.arrayOf(React.PropTypes.string),
     selectedTarget: React.PropTypes.oneOf(values(SearchResultsTargetsEnum)),
     onChangeTarget: React.PropTypes.func.isRequired,
-    selectedDataset: React.PropTypes.object,
+    onUnselectDataset: React.PropTypes.func.isRequired,
+    selectedDataset: CatalogEntity,
   }
 
   static contextTypes = {
-    ...themeContextType
+    ...themeContextType,
+  }
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      catalogHover: false,
+      datasetsHover: false,
+    }
   }
 
   onClickDatasetTarget = () => {
+    this.props.onUnselectDataset()
     this.props.onChangeTarget(SearchResultsTargetsEnum.DATASET_RESULTS)
   }
 
@@ -37,37 +46,88 @@ class NavigationComponent extends React.Component {
     this.props.onChangeTarget(SearchResultsTargetsEnum.DATAOBJECT_RESULTS)
   }
 
+  onClickDatasetsView = () => {
+    this.onClickDatasetTarget()
+  }
+
+  onClickDataobjectsView = () => {
+    this.props.onUnselectDataset()
+    this.props.onChangeTarget(SearchResultsTargetsEnum.DATAOBJECT_RESULTS)
+  }
+
 
   getTitle = () => {
-    let homeLabel = "Catalogue"
-    if ( SearchResultsTargetsEnum.DATASET_RESULTS === this.props.selectedTarget){
-      homeLabel = `${homeLabel} > Jeux de données`
-    } else if (this.props.selectedDataset) {
-      homeLabel = `${homeLabel} > Jeux de données`
-      if (this.props.selectedDataset){
-        homeLabel = `${homeLabel} > ${this.props.selectedDataset.label}`
+    const catalogStyle = {
+      cursor: 'pointer',
+      color: this.state.catalogHover ? this.context.muiTheme.palette.accent1Color : '',
+    }
+
+    const datasetStyle = {
+      cursor: 'pointer',
+      color: this.state.datasetsHover ? this.context.muiTheme.palette.accent1Color : '',
+    }
+    const homeLabel = (
+      <span
+        style={catalogStyle}
+        onClick={this.onClickDataobjectsView}
+        onMouseOver={() => this.setState({ catalogHover: true })}
+        onMouseOut={() => this.setState({ catalogHover: false })}
+      >
+        <FormattedMessage id="navigation.dataobjects.label" />
+      </span>
+    )
+    let dataSetsLabel = null
+    let datasetLabel = null
+    if (SearchResultsTargetsEnum.DATASET_RESULTS === this.props.selectedTarget) {
+      dataSetsLabel = (
+        <span
+          style={datasetStyle}
+          onClick={this.onClickDatasetsView}
+          onMouseOver={() => this.setState({ datasetsHover: true })}
+          onMouseOut={() => this.setState({ datasetsHover: false })}
+        >
+          <FormattedMessage id="navigation.datasets.label" />
+        </span>
+      )
+    } else if (this.props.selectedDataset && this.props.selectedDataset.content) {
+      dataSetsLabel = (
+        <span
+          style={datasetStyle}
+          onClick={this.onClickDatasetsView}
+          onMouseOver={() => this.setState({ datasetsHover: true })}
+          onMouseOut={() => this.setState({ datasetsHover: false })}
+        >
+          <FormattedMessage id="navigation.datasets.label" />
+        </span>
+      )
+      if (this.props.selectedDataset && this.props.selectedDataset.content) {
+        datasetLabel = this.props.selectedDataset.content.label
       }
     }
 
+    datasetLabel = datasetLabel ? <span><LabelIcon style={{ verticalAlign: 'text-bottom' }} /> {datasetLabel}</span> : null
+    dataSetsLabel = dataSetsLabel ? <span><LabelIcon style={{ verticalAlign: 'text-bottom' }} /> {dataSetsLabel}</span> : null
+
     return (
-      <span style={{color: this.context.muiTheme.palette.textColor}}>
-        {homeLabel}
+      <span style={{ color: this.context.muiTheme.palette.textColor }}>
+        {homeLabel} {dataSetsLabel} {datasetLabel}
       </span>
     )
-
   }
 
   renderButtons() {
     return (
-      <div style={{
-        position: 'absolute',
-        top: '10px',
-        right: '10px',
-      }}>
+      <div
+        style={{
+          position: 'absolute',
+          top: '10px',
+          right: '10px',
+        }}
+      >
         <abr title="Datasets">
           <FloatingActionButton
             onTouchTap={this.onClickDatasetTarget}
-            style={{marginBottom: 10, marginRight: 10}}
+            style={{ marginBottom: 10, marginRight: 10 }}
             secondary={this.props.selectedTarget === SearchResultsTargetsEnum.DATASET_RESULTS}
           >
 
@@ -77,7 +137,7 @@ class NavigationComponent extends React.Component {
         <abr title="Data objects">
           <FloatingActionButton
             onTouchTap={this.onClickDataobjectsTarget}
-            style={{marginBottom: 10}}
+            style={{ marginBottom: 10 }}
             secondary={this.props.selectedTarget === SearchResultsTargetsEnum.DATAOBJECT_RESULTS}
           >
             <DataLibrary />
@@ -89,7 +149,7 @@ class NavigationComponent extends React.Component {
 
   render() {
     return (
-      <div style={{position: 'relative'}}>
+      <div style={{ position: 'relative' }}>
         <Card>
           <CardTitle
             title={this.getTitle()}

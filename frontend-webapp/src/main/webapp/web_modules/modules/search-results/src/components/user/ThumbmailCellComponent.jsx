@@ -3,7 +3,7 @@
  **/
 import find from 'lodash/find'
 import Dialog from 'material-ui/Dialog'
-import { ObjectLinkedFile, ObjectLinkedFileTypes } from '@regardsoss/model'
+import { ObjectLinkedFile, ObjectLinkedFileTypes, CatalogEntity } from '@regardsoss/model'
 import Avatar from 'material-ui/Avatar'
 
 /**
@@ -17,7 +17,8 @@ class ThumbmailCellComponent extends React.Component {
     attributes: React.PropTypes.shape({
       files: React.PropTypes.arrayOf(ObjectLinkedFile),
     }),
-    entity: React.PropTypes.object,
+    // eslint-disable-next-line react/no-unused-prop-types
+    entity: CatalogEntity,
     lineHeight: React.PropTypes.number.isRequired,
   }
 

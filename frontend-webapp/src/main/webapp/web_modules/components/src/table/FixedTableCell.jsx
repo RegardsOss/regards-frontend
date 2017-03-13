@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { omit } from 'lodash'
+import omit from 'lodash/omit'
 import { Cell } from 'fixed-data-table'
 import { themeContextType } from '@regardsoss/theme'
 import Styles from './FixedTableStyles'
@@ -17,22 +17,22 @@ const FixedTableCell = (props, context) => {
   if (!props.cellsStyle) {
     const styles = Styles(context.muiTheme)
     cellStyle = styles.cellOdd
-    let cellContentStyle = styles.cellOddContent
+    cellContentStyle = styles.cellOddContent
     if (props.rowIndex % 2) {
       cellStyle = styles.cellEven
       cellContentStyle = styles.cellEvenContent
     }
   } else {
-    cellStyle=props.cellsStyle
-    cellContentStyle=props.cellsStyle
+    cellStyle = props.cellsStyle
+    cellContentStyle = props.cellsStyle
   }
   return (
     <Cell
-      {...omit(props, ['col', 'getCellValue','cellsStyle'])}
+      {...omit(props, ['col', 'getCellValue', 'cellsStyle'])}
       style={cellStyle}
     >
       <div style={cellContentStyle}>
-        <div style={{width: '100%'}}>{attribute}</div>
+        <div style={{ width: '100%' }}>{attribute}</div>
       </div>
     </Cell>
   )
@@ -45,6 +45,7 @@ FixedTableCell.propTypes = {
     label: React.PropTypes.string,
   }).isRequired,
   getCellValue: React.PropTypes.func.isRequired,
+  cellsStyle: React.PropTypes.objectOf(React.PropTypes.string),
 }
 
 FixedTableCell.contextTypes = {

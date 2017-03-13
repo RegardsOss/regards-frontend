@@ -32,6 +32,10 @@ const messages = Object.assign({
   'form.attributes.regroupement.edit': 'Editer',
   'form.attributes.delete.confirm.title': 'Confirmer la suppression du regroupement {name}',
   'form.attributes.regroupement.form.title.update': 'Mise à jour du regroupement : {name}',
+
+  // User messages
+  'navigation.dataobjects.label': 'Catalogue',
+  'navigation.datasets.label': 'Jeux de données',
 }, Locales.fr)
 
 export default messages

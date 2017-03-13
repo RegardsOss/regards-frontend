@@ -1,12 +1,15 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import merge from 'lodash/merge'
+import omit from 'lodash/omit'
 import concat from 'lodash/concat'
 import reduce from 'lodash/reduce'
 import find from 'lodash/find'
 import forEach from 'lodash/forEach'
 import values from 'lodash/values'
 import remove from 'lodash/remove'
+import { browserHistory } from 'react-router'
 import { FixedTableContainer } from '@regardsoss/components'
 import {
   AttributeModel,
@@ -46,33 +49,72 @@ class SearchResultsComponent extends React.Component {
     this.state = {
       sortedColumns: [],
       target: props.target,
-      searchQuery: props.searchQuery,
       selectedDataset: null,
     }
   }
 
+  componentWillMount() {
+    this.updateFromUrlQuery()
+  }
+
   componentWillReceiveProps(nextProps) {
-    if (nextProps.searchQuery !== this.state.searchQuery){
-      this.setState({
-        searchQuery: nextProps.searchQuery
-      })
-    }
+    this.updateFromUrlQuery()
   }
 
   /**
-   * Format the given search query for opensearch format
-   * @param query
-   * @returns {string}
+   * Action to add target parameter to current search request
+   * @param target
    */
-  formatSearchQuery = query => `q=(${query})`
+  onChangeTarget = (target) => {
+    const queries = browserHistory.getCurrentLocation().query
+    browserHistory.push({
+      pathname: browserHistory.getCurrentLocation().pathname,
+      query: merge({}, queries, { t: target }),
+    })
+    this.setState({
+      target,
+    })
+  }
 
   /**
-   * Create full query by adding sort options, target options
+   * Unselect current selected dataset.
+   */
+  onUnselectDataset = () => {
+    this.selectDataset(null)
+  }
+
+  /**
+   * Return the fully qualified name of the given attribute. The fully qualified name is :
+   * <attribute.fragment.name>.<attribute.name>
+   *
+   * @param attribute
+   * @returns {string}
+   */
+  getFullyQualifiedAttributeName = (attribute) => {
+    if (!attribute.content.fragment || !attribute.content.fragment.name ||
+      attribute.content.fragment.name === DEFAULT_FRAGMENT) {
+      return `${DATA_ATTRIBUTES_FIELD}.${attribute.content.name}`
+    }
+    return `${DATA_ATTRIBUTES_FIELD}.${attribute.content.fragment.name}.${attribute.content.name}`
+  }
+
+  /**
+   * Create full query by adding sort options and target options
    * @returns {string}
    */
   getFullQuery = () => {
-    let fullQuery = this.state.searchQuery ? this.formatSearchQuery(this.state.searchQuery): ''
+    let fullQuery = this.props.searchQuery ? this.props.searchQuery : ''
 
+    if (this.state.selectedDataset) {
+      if (fullQuery !== '') {
+        fullQuery = `${fullQuery} AND tags:${this.state.selectedDataset.content.ip_id}`
+      } else {
+        fullQuery = `tags:${this.state.selectedDataset.content.ip_id}`
+      }
+    }
+    if (fullQuery !== '') {
+      fullQuery = this.formatSearchQuery(fullQuery)
+    }
 
     if (this.state.sortedColumns.length > 0) {
       const result = reduce(this.state.sortedColumns, (sortQuery, column) => {
@@ -90,59 +132,16 @@ class SearchResultsComponent extends React.Component {
     }
 
     fullQuery = `${fullQuery}&target=${this.state.target}`
+
     return fullQuery
   }
 
-  getFullyQualifiedAttributeName = (attribute) => {
-    if (!attribute.content.fragment || !attribute.content.fragment.name ||
-      attribute.content.fragment.name === DEFAULT_FRAGMENT) {
-      return `${DATA_ATTRIBUTES_FIELD}.${attribute.content.name}`
-    }
-    return `${DATA_ATTRIBUTES_FIELD}.${attribute.content.fragment.name}.${attribute.content.name}`
-  }
-
-  sortResultsByColumn = (column, type) => {
-    const attributeToSort = column.attributes[0]
-    const sortedColumns = concat([], this.state.sortedColumns)
-    const col = find(sortedColumns, lcol => lcol.attribute === attributeToSort)
-    if (!col) {
-      sortedColumns.push({
-        attribute: attributeToSort,
-        type,
-      })
-    } else {
-      switch (type) {
-        case 'ASC':
-          col.type = 'ASC'
-          break
-        case 'DESC':
-          col.type = 'DESC'
-          break
-        default:
-          remove(sortedColumns, lcol => lcol.attribute === attributeToSort)
-      }
-    }
-    this.setState({
-      sortedColumns,
-    })
-  }
-
-  onChangeTarget = (target) => {
-    let searchQuery = this.state.searchQuery
-    if (target === SearchResultsTargetsEnum.DATASET_RESULTS){
-      searchQuery = this.props.searchQuery
-    }
-    this.setState({
-      target,
-      searchQuery
-    })
-  }
-
-  resultSelection = (selectedEntities) => {
-    // TODO Manage entities selection
-    console.log('Selected entities', selectedEntities)
-  }
-
+  /**
+   * Create columns configuration for the dataobject entities table result component using the given props
+   * attributesConf and attributesRegroupementsConf.
+   *
+   * @returns {Array}
+   */
   getDataObjectsColumns = () => {
     const columns = []
 
@@ -193,16 +192,81 @@ class SearchResultsComponent extends React.Component {
     return columns
   }
 
+  /**
+   * Create columns configuration for dataset entities table result component
+   * @returns {Array}
+   */
   getDataSetsColumns = () => {
     const columns = []
     columns.push({
       label: 'Label',
-      attributes: ['label','ip_id','properties'],
+      attributes: ['label', 'ip_id', 'properties'],
       sortable: false,
-      customCell: { component: DatasetCellComponent, props: {onClick: this.selectDataset} },
-      hideLabel:true
+      customCell: { component: DatasetCellComponent, props: { onClick: this.selectDataset } },
+      hideLabel: true,
     })
     return columns
+  }
+
+  /**
+   * Callback when an entity checkbox is modified.
+   * @param selectedEntities
+   */
+  resultSelection = (selectedEntities) => {
+    // TODO Manage entities selection
+    console.log('Selected entities', selectedEntities)
+  }
+
+  /**
+   * Function to add sort parameters to the current search request with the given attributes from columns.
+   * @param column
+   * @param type
+   */
+  sortResultsByColumn = (column, type) => {
+    const attributeToSort = column.attributes[0]
+    const sortedColumns = concat([], this.state.sortedColumns)
+    const col = find(sortedColumns, lcol => lcol.attribute === attributeToSort)
+    if (!col) {
+      sortedColumns.push({
+        attribute: attributeToSort,
+        type,
+      })
+    } else {
+      switch (type) {
+        case 'ASC':
+          col.type = 'ASC'
+          break
+        case 'DESC':
+          col.type = 'DESC'
+          break
+        default:
+          remove(sortedColumns, lcol => lcol.attribute === attributeToSort)
+      }
+    }
+    this.setState({
+      sortedColumns,
+    })
+  }
+
+  /**
+   * Format the given search query for opensearch format
+   * @param query
+   * @returns {string}
+   */
+  formatSearchQuery = query => `q=(${query})`
+
+  /**
+   * Update component state by reading specifics query parameters
+   */
+  updateFromUrlQuery = () => {
+    // Read query parameters form current URL
+    const query = browserHistory ? browserHistory.getCurrentLocation().query : null
+    if (query && query.t && this.state.target !== query.t) {
+      this.onChangeTarget(query.t)
+    }
+    if (!query.ds && this.state.selectedDataset) {
+      this.setState({ selectedDataset: null })
+    }
   }
 
   /**
@@ -211,27 +275,38 @@ class SearchResultsComponent extends React.Component {
    * @param dataset
    */
   selectDataset = (dataset) => {
-    let newSearchQuery = `tags:${dataset.ip_id}`
-    if (this.state.searchQuery) {
-      newSearchQuery = `${this.state.searchQuery} AND ${newSearchQuery}`
+    this.onChangeTarget(SearchResultsTargetsEnum.DATAOBJECT_RESULTS)
+
+    const queries = browserHistory.getCurrentLocation().query
+    if (dataset && dataset.content && dataset.content.ip_id) {
+      browserHistory.push({
+        pathname: browserHistory.getCurrentLocation().pathname,
+        query: merge({}, queries, { ds: dataset.content.ip_id }),
+      })
+    } else {
+      browserHistory.push({
+        pathname: browserHistory.getCurrentLocation().pathname,
+        query: omit(queries, ['ds']),
+      })
     }
     this.setState({
-      searchQuery : newSearchQuery,
-      target: SearchResultsTargetsEnum.DATAOBJECT_RESULTS,
       selectedDataset: dataset,
     })
   }
 
-  renderNavigation = () => {
+  /**
+   * Display navigation component
+   */
+  renderNavigation = () =>
     // If initial target is dataobject, do not display switch target buttons
-      return (
-        <NavigationComponent
-          selectedTarget={this.state.target}
-          onChangeTarget={this.onChangeTarget}
-          selectedDataset={this.state.selectedDataset}
-        />
-      )
-  }
+     (
+       <NavigationComponent
+         selectedTarget={this.state.target}
+         onChangeTarget={this.onChangeTarget}
+         onUnselectDataset={this.onUnselectDataset}
+         selectedDataset={this.state.selectedDataset}
+       />
+    )
 
   render() {
     let columns = []
@@ -244,7 +319,7 @@ class SearchResultsComponent extends React.Component {
       case SearchResultsTargetsEnum.DATASET_RESULTS :
         columns = this.getDataSetsColumns()
         lineSize = 120
-        cellsStyle = {backgroundColor: 'transparent'}
+        cellsStyle = { backgroundColor: 'transparent' }
         break
       default :
         console.error(`Undefined target type for entity search results : ${this.state.target}`)
