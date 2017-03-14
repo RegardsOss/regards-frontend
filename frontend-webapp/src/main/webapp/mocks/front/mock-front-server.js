@@ -6,8 +6,7 @@
  * Mock service entry point: uses its entry points here or delegates onto json mock server
  */
 const _ = require('lodash')
-const fs = require('fs')
-const { JSON_CONTENT_TYPE } = require('./mock-front-utils')
+const { JSON_CONTENT_TYPE, loadJSONModelFile } = require('./mock-front-utils')
 const FacadeCore = require('./mock-front-core')
 const MockUsers = require('./mock-users')
 
@@ -25,7 +24,7 @@ const entryDelegates = {
     '/test-url': (request, query) =>
       (query.nok ? { content: 'Everything is NOT OK ', code: 500 } : { content: 'Everything is OK ', code: 200, contentType: 'text/plain' }),
     // project license
-    '/rs-admin/project/{projectName}/license': () => ({
+    '/rs-admin/license/{projectName}': () => ({
       contentType: JSON_CONTENT_TYPE,
       content: {
         licenseLink: 'https://www.gnu.org/licenses/gpl.html', // or PDF: 'http://www.gchagnon.fr/cours/cours.pdf'
@@ -45,7 +44,7 @@ const entryDelegates = {
 ` }),
   },
   PUT: {
-    '/rs-admin/project/{projectName}/license': () => ({
+    '/rs-admin/license/{projectName}': () => ({
       // does not store locally anything, just lets the customer end the operation
       contentType: JSON_CONTENT_TYPE,
       content: {

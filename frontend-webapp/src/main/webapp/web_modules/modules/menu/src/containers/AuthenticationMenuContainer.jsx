@@ -4,9 +4,9 @@
 import { intlShape } from 'react-intl'
 import { connect } from '@regardsoss/redux'
 import { LazyModuleComponent } from '@regardsoss/modules'
-import { AuthenticateActions, AuthenticateSelectors, routeHelpers } from '@regardsoss/authentication-manager'
+import { AuthenticateSelectors, routeHelpers } from '@regardsoss/authentication-manager'
 import LoginButton from '../components/LoginButton'
-import LoggedUserComponent from '../components/LoggedUserComponent'
+import LoggedUserContainer from './LoggedUserContainer'
 
 /**
  * Manages authentication state machine. The callbacks are provided by parent
@@ -18,10 +18,8 @@ class AuthenticationMenuContainer extends React.Component {
   static propTypes = {
     project: React.PropTypes.string.isRequired,
     appName: React.PropTypes.string.isRequired,
-    // from mapDispatchToProps
-    authenticationName: React.PropTypes.string,
+    // from mapStateToProps
     isAuthenticated: React.PropTypes.bool,
-    onLogout: React.PropTypes.func,
   }
 
   static contextTypes = {
@@ -54,14 +52,14 @@ class AuthenticationMenuContainer extends React.Component {
   }
 
   render() {
-    const { authenticationName, isAuthenticated } = this.props
+    const { isAuthenticated } = this.props
     const { authenticationVisible } = this.state
     return (
       <div>
         {
           // in bar: render user status or connection button
           isAuthenticated ?
-            <LoggedUserComponent name={authenticationName} onLogout={this.props.onLogout} /> :
+            <LoggedUserContainer /> :
             <LoginButton style={{}} onLoginAction={() => this.setAuthenticationVisible(true)} />
         }
         <LazyModuleComponent
@@ -85,16 +83,8 @@ class AuthenticationMenuContainer extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  const isAuthenticated = AuthenticateSelectors.isAuthenticated(state)
-  return {
-    authenticationName: isAuthenticated ? AuthenticateSelectors.getAuthentication(state).result.sub : '',
-    isAuthenticated,
-  }
-}
-
-const mapDispathToProps = dispatch => ({
-  onLogout: () => dispatch(AuthenticateActions.logout()),
+const mapStateToProps = state => ({
+  isAuthenticated: AuthenticateSelectors.isAuthenticated(state),
 })
 
-export default connect(mapStateToProps, mapDispathToProps)(AuthenticationMenuContainer)
+export default connect(mapStateToProps)(AuthenticationMenuContainer)
