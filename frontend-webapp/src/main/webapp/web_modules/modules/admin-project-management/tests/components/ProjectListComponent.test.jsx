@@ -38,7 +38,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing project list container', () => {
             id: 2,
             name: 'project name 2',
             description: 'project desc',
-            icon: 'http://localhost:1888/yeah.gif',
+            icon: '../../storage-folder/yeah.gif',
             isPublic: true,
             isAccessible: true,
           },

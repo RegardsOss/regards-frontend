@@ -38,6 +38,9 @@ class ModuleFormContainer extends React.Component {
     module: Module,
     duplicatedModule: Module,
     layout: Layout,
+    // eslint-disable-next-line react/no-unused-prop-types
+    form: React.PropTypes.object,
+    changeField: React.PropTypes.func,
   }
 
   componentWillMount() {

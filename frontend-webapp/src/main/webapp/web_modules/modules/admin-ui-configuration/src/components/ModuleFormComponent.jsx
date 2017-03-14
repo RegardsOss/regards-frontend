@@ -27,6 +27,11 @@ class ModuleFormComponent extends React.Component {
     onBack: React.PropTypes.func.isRequired,
     applicationId: React.PropTypes.string.isRequired,
     duplication: React.PropTypes.bool,
+    adminForm: React.PropTypes.shape({
+      changeField: React.PropTypes.func,
+      // Current module configuration. Values from the redux-form
+      form: React.PropTypes.object,
+    }),
     // from reduxForm
     submitting: React.PropTypes.bool,
     pristine: React.PropTypes.bool,
