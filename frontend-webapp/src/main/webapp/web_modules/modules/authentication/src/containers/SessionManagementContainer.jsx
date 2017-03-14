@@ -35,7 +35,7 @@ export class SessionManagementContainer extends React.Component {
         clearTimeout(this.sessionLockTimer)
         this.sessionLockTimer = null
       }
-      // is login in?
+      // is login in or changing role?
       const nextAuthResponse = nextAuthData.result
       if (nextAuthData.authenticateDate && !isEmpty(nextAuthResponse)) {
         // Is in past? - note that such case is not supposed to happen, except maybe for auto log in systems

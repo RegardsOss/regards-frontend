@@ -1,4 +1,5 @@
-import AuthenticateActions from './AuthenticateActions'
+import { AuthenticateActions } from './AuthenticateActions'
+import AuthenticationParametersSelectors from './AuthenticationParametersSelectors'
 import AuthenticationSelectors from './AuthenticateSelectors'
 
 // Redux middleware provides a third-party extension point
@@ -7,15 +8,15 @@ const { CALL_API } = require('redux-api-middleware')
 
 
 const getAuthorization = (state, callAPI) => {
-  // Todo: Extract this value to lets the administrator deploys the frontend with another key
-  // Init the authorization bearer of the fetch authentication request
-  // TODO : check that thing: it supposes that the non authentified user can NEVER send a non authenticated signal
-  if (!AuthenticationSelectors.isAuthenticated(state) && callAPI.types[0] === AuthenticateActions.SIGNAL_REQUEST) {
+  if (!AuthenticationSelectors.isAuthenticated(state) && callAPI.endpoint.includes(AuthenticateActions.SPECIFIC_ENDPOINT_MARKER)) {
+    // for authentication only => provide client secret
     return `Basic ${btoa('client:secret')}`
   } else if (AuthenticationSelectors.isAuthenticated(state)) {
+    // provide known token
     const authentication = AuthenticationSelectors.getAuthentication(state)
     return `Bearer ${authentication.result.access_token}`
   }
+  // not authentified
   return ''
 }
 
@@ -33,8 +34,7 @@ const putAuthorization = () => next => (action) => {
       if (auth.length) {
         headers.Authorization = auth
       } else {
-        // TODO: Find scope on the store
-        headers.scope = ''
+        headers.scope = AuthenticationParametersSelectors.getProject(callStore)
       }
       return headers
     }

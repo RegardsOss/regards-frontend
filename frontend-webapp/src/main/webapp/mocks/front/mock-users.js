@@ -1,36 +1,24 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-const fs = require('fs')
 const _ = require('lodash')
-const fsExtra = require('fs-extra')
-const { JSON_CONTENT_TYPE, logMessage, makePageResult } = require('./mock-front-utils')
+
+const { JSON_CONTENT_TYPE, logMessage, makePageResult, copyFile, loadJSONModelFile, writeJSONModelFile } = require('./mock-front-utils')
 
 /**
  * Account pool used to test all possible authentication states: bind model to temp file
  */
-const sourceUsersFile = './mocks/front/resources/account-pool.json'
-const runtimeUsersFile = './mocks/front/runtime/account-pool.temp.json'
-fsExtra.copy(sourceUsersFile, runtimeUsersFile)
-
-// load users pool (tool for every method in authentication)
-const loadUsersPool = () => JSON.parse(fs.readFileSync(runtimeUsersFile, 'utf8') || logMessage('Failed reading file', true) || {})
+const sourceUsersFile = './mocks/front/resources/accounts.json'
+const runtimeUsersFile = './mocks/front/runtime/accounts.temp.json'
+copyFile(sourceUsersFile, runtimeUsersFile)
+// load users pool
+const loadUsersPool = () => loadJSONModelFile(runtimeUsersFile)
 // write users pool
-const writeUsersPool = users => fs.writeFileSync(runtimeUsersFile, JSON.stringify(users), 'utf8')
+const writeUsersPool = users => writeJSONModelFile(users, runtimeUsersFile)
 
-const sessionTokens = [
-  {
-    scope: 'cdpp',
-    value: 1,
-  }, {
-    scope: 'ssalto',
-    value: 2,
-  }, {
-    scope: 'instance',
-    value: 3,
-  },
-]
 const validationTokensPool = {}
+// static : last user logged (WARN: only one user can consitently be logged on this mock server)
+const usersLogged = []
 const authenticate = (login, password, scope) => {
   // 1 - check user
   const users = loadUsersPool()
@@ -63,21 +51,20 @@ const authenticate = (login, password, scope) => {
           return { content: { error: 'USER_ACCESS_INACTIVE' }, contentType: JSON_CONTENT_TYPE, code: 403 }
         case 'ACCESS_GRANTED':
           {
-            const token = _.find(sessionTokens, t => t.scope === scope.toLowerCase())
+            const newLoggedUser = {
+              project: scope,
+              scope,
+              sub: login,
+              role: loginUser[scope.toLowerCase()].role.name,
+              access_token: usersLogged.length,
+              token_type: 'bearer',
+              expires_in: 3600,
+              jti: '4de300d8-7880-483c-aba8-fc4560b961b1',
+            }
+            usersLogged.push(newLoggedUser)
             return {
               contentType: JSON_CONTENT_TYPE,
-              content: {
-                id: 1,
-                access_token: token.value,
-                expires_in: 3600,
-                jti: '4de300d8-7880-483c-aba8-fc4560b961b1',
-                project: token.scope,
-                role: 'INSTANCE_ADMIN',
-                token: token.value,
-                sub: login,
-                token_type: 'bearer',
-                name: '',
-              },
+              content: newLoggedUser,
             }
           }
         default:
@@ -88,10 +75,10 @@ const authenticate = (login, password, scope) => {
   }
 }
 
-const validToken = '123456'
+const accountRequestValidToken = '123456'
 
 
-const mockSendMail = (logSubheader, email, requestLink, originUrl, token = validToken) => {
+const mockSendMail = (logSubheader, email, requestLink, originUrl, token = accountRequestValidToken) => {
   logMessage(`Request acknowledged, back URL:
 \x1b[4m${requestLink}&token=${token}&account_email=${email}&origin_url=${encodeURI(originUrl)}\x1b[0m`, false, logSubheader)
 }
@@ -125,8 +112,8 @@ const doPerformOnAccount = (logSubheader, { accountEmail }, bodyparameters, doOr
     return { code: 400 }
   }
   // always check the token
-  if (bodyparameters.token !== validToken) {
-    logMessage(`Invalid token, you may use the valid token "${validToken}"`, true, logSubheader)
+  if (bodyparameters.token !== accountRequestValidToken) {
+    logMessage(`Invalid token, you may use the valid token "${accountRequestValidToken}"`, true, logSubheader)
     return { code: 403 }
   }
 
@@ -142,19 +129,22 @@ const doPerformOnAccount = (logSubheader, { accountEmail }, bodyparameters, doOr
 }
 
 /**
- *  Executes a service  with the token scope (or returns 403 as unauthentified)
+ *  Executes a service  with the authentication data (or returns 403 as unauthentified)
  * @callback scope (String) => { code, content, contentType }
  * @return { code, content, contentType } for request response
  */
-const doWithTokenScope = (request, callback) => {
+const doWithAuthData = (request, callback) => {
   const tokenBearer = request.headers.authorization
   if (!tokenBearer) {
     return { code: 403 }
   }
   const matched = /Bearer ([0-9]+)/.exec(tokenBearer)
-  const tokenValue = (matched && matched[1] && parseInt(matched[1], 10)) || 3
-  const scope = _.find(sessionTokens, t => t.value === tokenValue).scope
-  return callback(scope)
+  const tokenValue = (matched && matched[1] && parseInt(matched[1], 10))
+  if (usersLogged.length <= tokenValue) {
+    // unconsitent
+    return { code: 403 }
+  }
+  return callback(usersLogged[tokenValue])
 }
 
 const getAccountList = (filterStatus) => {
@@ -174,7 +164,7 @@ const getScopeUsers = (users, scope, status) => _.pickBy(users, u => u[scope] &&
 
 const getUsersList = (request, { status }, pathParameters) => {
   // convert account / users in scope
-  const doInScope = (scope) => {
+  const withAuthDataCallback = ({ scope }) => {
     const correspondingUsers = getScopeUsers(loadUsersPool(), scope, status)
     return makePageResult(correspondingUsers, (user, userMail) => {
       const { id, role, status: userStatus } = user[scope]
@@ -193,13 +183,13 @@ const getUsersList = (request, { status }, pathParameters) => {
     })
   }
   // do users list conversion, in token scope
-  return doWithTokenScope(request, doInScope)
+  return doWithAuthData(request, withAuthDataCallback)
 }
 
 /**
  * Changes a user status in current scope.
  */
-const changeUserStatus = (request, pathParameters, toStatus) => doWithTokenScope(request, (scope) => {
+const changeUserStatus = (request, pathParameters, toStatus) => doWithAuthData(request, ({ scope }) => {
   const users = loadUsersPool()
   const waitingScopeUsers = getScopeUsers(users, scope)
   const userId = parseInt(pathParameters.userId, 10)
@@ -211,6 +201,8 @@ const changeUserStatus = (request, pathParameters, toStatus) => doWithTokenScope
   writeUsersPool(users)
   return { code: 204 }
 })
+
+const allRoles = loadJSONModelFile('./mocks/front/resources/borrowableRoles.json')
 
 module.exports = {
   GET: {
@@ -238,6 +230,39 @@ module.exports = {
     getUsers: {
       url: 'users',
       handler: getUsersList,
+    },
+    getBorrowableRoles: {
+      url: 'rs-admin/roles/borrowable',
+      handler: request => doWithAuthData(request, (authData) => {
+        const users = loadUsersPool()
+        const localScope = authData.scope ? authData.scope.toLowerCase() : 'instance'
+        const role = users[authData.sub][localScope].role.name
+        const findRole = roleName => (_.find(allRoles, ({ content: { name } }) => name === roleName))
+        const currentRoleData = findRole(role)
+        // make role list using successive parents of the logged user
+        const makeAllRoles = (parentRole) => {
+          if (!parentRole) {
+            return []
+          }
+          return [findRole(parentRole.name)].concat(makeAllRoles(parentRole.parentRole))
+        }
+        const borrowableRoles = [currentRoleData].concat(makeAllRoles(currentRoleData.content.parentRole))
+        return { content: borrowableRoles, contentType: JSON_CONTENT_TYPE }
+      })
+      ,
+    },
+    changeRole: {
+      url: 'borrowRole/{roleName}',
+      handler: (request, query, { roleName }) => doWithAuthData(request, (authData) => {
+        const newAuthData = usersLogged[authData.access_token]
+        newAuthData.role = roleName
+        newAuthData.access_token = usersLogged.length
+        usersLogged.push(newAuthData)
+        return {
+          content: newAuthData,
+          contentType: JSON_CONTENT_TYPE,
+        }
+      }),
     },
   },
   POST: {

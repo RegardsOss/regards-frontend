@@ -1,4 +1,6 @@
 const _ = require('lodash')
+const fs = require('fs')
+const fsExtra = require('fs-extra')
 
 const headerStyles = '\x1b[0m\x1b[34m'
 const subheaderStyles = '\x1b[0m\x1b[36m'
@@ -46,10 +48,14 @@ const makePageResult = (pageEntities, converter, number = 0, size = 100) => {
   }
 }
 
+const logMessage = (message, isError = false, subheader = '') => console.log(headerStyles, 'Facade mock server - ', subheaderStyles, subheader, isError ? messageStyles.errorStyle : messageStyles.defaultStyle, message)
+
 module.exports = {
   JSON_CONTENT_TYPE,
-  logMessage: (message, isError = false, subheader = '') => {
-    console.log(headerStyles, 'Facade mock server - ', subheaderStyles, subheader, isError ? messageStyles.errorStyle : messageStyles.defaultStyle, message)
-  },
+  logMessage,
   makePageResult,
+  copyFile: (sourceFile, targetFile) => fsExtra.copy(sourceFile, targetFile),
+  loadJSONModelFile: file => JSON.parse(fs.readFileSync(file, 'utf8') || this.logMessage(`Failed reading file ${file}`, true) || {}),
+  writeJSONModelFile: (jsModel, file) => fs.writeFileSync(jsModel, JSON.stringify(file), 'utf8'),
+
 }
