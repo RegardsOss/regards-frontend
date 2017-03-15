@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "bootstrap": "./scripts/bootstrap.sh",
-    "build:dll": "webpack --progress --config webpack.dll.config.js --display-error-details --optimize-minimize",
+    "build:dll": "webpack --progress --config webpack.dev.dll.config.js --display-error-details --optimize-minimize",
     "build:production": "webpack --progress --config webpack.prod.config.js --display-error-details",
     "build:plugins": "./scripts/buildPlugins.sh",
     "prestart": "npm run lint:fix || true",
@@ -112,7 +112,6 @@
     "redux-logger": "^2.8.2",
     "redux-thunk": "~2.2.0",
     "scriptjs": "~2.5.8",
-    "sockjs-client": "~1.1.2",
     "stompjs": "~2.3.3",
     "window-or-global": "^1.0.1"
   },
