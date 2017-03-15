@@ -61,7 +61,7 @@ class AuthenticateReducers extends BasicSignalReducers {
           // update token authentication date
           authenticateDate: Date.now(),
           // use new action result authentication state
-          result: { ...action.result },
+          result: { ...(state.result), ...action.result },
         }
       default:
         // not in this reducer
