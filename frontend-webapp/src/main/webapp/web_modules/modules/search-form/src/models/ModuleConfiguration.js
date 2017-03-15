@@ -22,6 +22,8 @@ const ModuleConfiguration = React.PropTypes.shape({
   attributesRegroupements: React.PropTypes.arrayOf(AttributesRegroupementConfiguration),
   // Does search form render for preview or for full use
   preview: React.PropTypes.bool,
+  // should enable facettes?
+  enableFacettes: React.PropTypes.bool.isRequired,
 })
 
 export default ModuleConfiguration

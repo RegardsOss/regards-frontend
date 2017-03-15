@@ -74,11 +74,11 @@ class ModuleContainer extends React.Component {
     const query = browserHistory ? browserHistory.getCurrentLocation().query : null
     if (query && query.q && query.q !== this.state.searchQuery) {
       this.setState({
-        searchQuery: query.q
+        searchQuery: query.q,
       })
     } else if (!query.q && this.state.searchQuery !== this.getInitialQuery()) {
       this.setState({
-        searchQuery: this.getInitialQuery()
+        searchQuery: this.getInitialQuery(),
       })
     }
   }
@@ -223,9 +223,8 @@ class ModuleContainer extends React.Component {
   }
 
   renderForm() {
-
     // If a search query is set, hide form component
-    if (this.state.searchQuery && this.state.searchQuery !== this.getInitialQuery()){
+    if (this.state.searchQuery && this.state.searchQuery !== this.getInitialQuery()) {
       return null
     }
     if (this.props.moduleConf.layout) {

@@ -17,6 +17,8 @@ const Form = React.PropTypes.shape({
   selectableAttributes: React.PropTypes.objectOf(AttributeModel),
   // Initial search query
   searchQuery: React.PropTypes.string,
+  // should enable facettes?
+  enableFacettes: React.PropTypes.bool.isRequired,
 })
 
 export default Form

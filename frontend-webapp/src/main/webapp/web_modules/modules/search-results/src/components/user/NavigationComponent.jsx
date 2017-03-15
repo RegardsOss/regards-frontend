@@ -7,9 +7,12 @@ import LabelIcon from 'material-ui/svg-icons/action/label'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import DatasetLibrary from 'material-ui/svg-icons/image/collections-bookmark'
 import DataLibrary from 'material-ui/svg-icons/av/library-books'
-import { SearchResultsTargetsEnum, CatalogEntity } from '@regardsoss/model'
-import { themeContextType } from '@regardsoss/theme'
+import ShowFacetsSearch from 'material-ui/svg-icons/action/find-in-page'
 import { Card, CardTitle } from 'material-ui/Card'
+import { i18nContextType } from '@regardsoss/i18n'
+import { themeContextType } from '@regardsoss/theme'
+import { ShowableAtRender } from '@regardsoss/components'
+import { SearchResultsTargetsEnum, CatalogEntity } from '@regardsoss/model'
 
 /**
  * Component to display navigation bar
@@ -22,11 +25,14 @@ class NavigationComponent extends React.Component {
     selectedTarget: React.PropTypes.oneOf(values(SearchResultsTargetsEnum)),
     onChangeTarget: React.PropTypes.func.isRequired,
     onUnselectDataset: React.PropTypes.func.isRequired,
+    showingFacetsSearch: React.PropTypes.bool.isRequired,
+    onToggleShowFacetsSearch: React.PropTypes.func.isRequired,
     selectedDataset: CatalogEntity,
   }
 
   static contextTypes = {
     ...themeContextType,
+    ...i18nContextType,
   }
 
   constructor(props) {
@@ -116,33 +122,41 @@ class NavigationComponent extends React.Component {
   }
 
   renderButtons() {
+    const { intl } = this.context
     return (
       <div
         style={{
           position: 'absolute',
           top: '10px',
-          right: '10px',
+          right: '0',
         }}
       >
-        <abr title="Datasets">
+        <ShowableAtRender show={this.props.selectedTarget === SearchResultsTargetsEnum.DATAOBJECT_RESULTS}>
           <FloatingActionButton
-            onTouchTap={this.onClickDatasetTarget}
-            style={{ marginBottom: 10, marginRight: 10 }}
-            secondary={this.props.selectedTarget === SearchResultsTargetsEnum.DATASET_RESULTS}
+            title={intl.formatMessage({ id: 'navigation.filter.by.facets' })}
+            onTouchTap={this.props.onToggleShowFacetsSearch}
+            style={{ marginBottom: 10, marginRight: 60 }}
+            secondary={this.props.showingFacetsSearch}
           >
-
-            <DatasetLibrary />
+            <ShowFacetsSearch />
           </FloatingActionButton>
-        </abr>
-        <abr title="Data objects">
-          <FloatingActionButton
-            onTouchTap={this.onClickDataobjectsTarget}
-            style={{ marginBottom: 10 }}
-            secondary={this.props.selectedTarget === SearchResultsTargetsEnum.DATAOBJECT_RESULTS}
-          >
-            <DataLibrary />
-          </FloatingActionButton>
-        </abr>
+        </ShowableAtRender>
+        <FloatingActionButton
+          title={intl.formatMessage({ id: 'navigation.datasets.label' })}
+          onTouchTap={this.onClickDatasetTarget}
+          style={{ marginBottom: 10, marginRight: 10 }}
+          secondary={this.props.selectedTarget === SearchResultsTargetsEnum.DATASET_RESULTS}
+        >
+          <DatasetLibrary />
+        </FloatingActionButton>
+        <FloatingActionButton
+          title={intl.formatMessage({ id: 'navigation.dataobjects.label' })}
+          onTouchTap={this.onClickDataobjectsTarget}
+          style={{ marginBottom: 10, marginRight: 10 }}
+          secondary={this.props.selectedTarget === SearchResultsTargetsEnum.DATAOBJECT_RESULTS}
+        >
+          <DataLibrary />
+        </FloatingActionButton>
       </div>
     )
   }
