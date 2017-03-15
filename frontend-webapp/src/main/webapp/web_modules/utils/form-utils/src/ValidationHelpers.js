@@ -11,11 +11,13 @@ import ErrorTypes from './ErrorTypes'
  */
 export const isValidEmail = email => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email)
 
+
 /**
  * Returns {@code true} if the passed String matches an url format.
- * @param {String} url
+ * @param {String} url url text
+ * @param {Boolean} relativeAllowed is relative URL allowed?
  */
-export const isValidUrl = url => validURLRegexp.test(url) || relativeURLRegexp.test(url)
+export const isValidUrl = (url, relativeAllowed = true) => validURLRegexp.test(url) || (relativeAllowed && relativeURLRegexp.test(url))
 
 /**
  * Returns {@code true} if the passed String is only composed of alphanumeric or "_" characters.
