@@ -29,7 +29,7 @@ class BasicSignalActions extends BasicActions {
    * @param callApi method,
    * @returns {{}}
    */
-  sendSignal(verb, bodyParam, pathParams, queryParams, callApi = (endpoint, verb2, body) => this.doCallApi(endpoint, verb2, body)) {
+  sendSignal(verb, bodyParam, pathParams, queryParams) {
     let endpoint = this.handleRequestQueryParams(this.entityEndpoint, queryParams)
     endpoint = this.handleRequestPathParameters(endpoint, pathParams)
     let body

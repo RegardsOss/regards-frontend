@@ -5,6 +5,7 @@
     "firstName": "Jean-Paul",
     "lastName": "Theboss",
     "status": "ACTIVE",
+    "role": "INSTANCE_ADMIN",
     "lastUpdate": "2017-02-20T11:55:05.012",
     "lastConnection": "2023-04-30T18:20:02.012",
     "cdpp": {
@@ -12,21 +13,21 @@
       "status": "ACCESS_GRANTED",
       "role": {
         "id": 2,
-        "name": "REGISTERED_USER"
+        "name": "INSTANCE_ADMIN"
       }
     },
     "ssalto": {
       "status": "ACCESS_GRANTED",
       "role": {
         "id": 2,
-        "name": "REGISTERED_USER"
+        "name": "INSTANCE_ADMIN"
       }
     },
     "instance": {
       "status": "ACCESS_GRANTED",
       "role": {
         "id": 2,
-        "name": "REGISTERED_USER"
+        "name": "INSTANCE_ADMIN"
       }
     }
   },

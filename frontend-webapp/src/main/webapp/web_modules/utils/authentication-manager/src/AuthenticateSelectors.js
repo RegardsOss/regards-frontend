@@ -1,12 +1,12 @@
 /**
  * LICENSE_PLACEHOLDER
  */
-import { BasicSelector } from '@regardsoss/store-utils'
-import { pathname as reducerPath } from './AuthenticateReducers'
+import { BasicSignalSelectors } from '@regardsoss/store-utils'
+import { PATH } from './AuthenticateReducers'
 
-class AuthenticateSelectors extends BasicSelector {
+class AuthenticateSelectors extends BasicSignalSelectors {
   constructor() {
-    super(['common', reducerPath])
+    super(['common', PATH])
   }
 
   getAuthentication(state) {

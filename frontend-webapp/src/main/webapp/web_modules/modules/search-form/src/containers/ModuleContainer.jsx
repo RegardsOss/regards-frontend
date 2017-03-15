@@ -5,10 +5,7 @@ import { chain, forEach, cloneDeep, reduce, isEqual, values, unionBy } from 'lod
 import { browserHistory } from 'react-router'
 import { LazyModuleComponent } from '@regardsoss/modules'
 import { connect } from '@regardsoss/redux'
-import {
-  AttributeModel,
-  SearchResultsTargetsEnum,
-} from '@regardsoss/model'
+import { AttributeModel } from '@regardsoss/model'
 import { LoadingComponent } from '@regardsoss/display-control'
 import { themeContextType } from '@regardsoss/theme'
 import ModuleConfiguration from '../models/ModuleConfiguration'
@@ -71,6 +68,18 @@ class ModuleContainer extends React.Component {
     if (!isEqual(this.props.moduleConf.criterion, nextProps.moduleConf.criterion)) {
       // if (this.props.criterion !== nextProps.criterion) {
       this.loadCriterionAttributeModels()
+    }
+
+    // If query changed from URL
+    const query = browserHistory ? browserHistory.getCurrentLocation().query : null
+    if (query && query.q && query.q !== this.state.searchQuery) {
+      this.setState({
+        searchQuery: query.q
+      })
+    } else if (!query.q && this.state.searchQuery !== this.getInitialQuery()) {
+      this.setState({
+        searchQuery: this.getInitialQuery()
+      })
     }
   }
 
@@ -214,6 +223,11 @@ class ModuleContainer extends React.Component {
   }
 
   renderForm() {
+
+    // If a search query is set, hide form component
+    if (this.state.searchQuery && this.state.searchQuery !== this.getInitialQuery()){
+      return null
+    }
     if (this.props.moduleConf.layout) {
       try {
         const layoutObj = JSON.parse(this.props.moduleConf.layout)

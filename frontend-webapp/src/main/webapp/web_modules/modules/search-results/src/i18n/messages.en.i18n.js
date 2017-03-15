@@ -34,6 +34,10 @@ const messages = Object.assign({
   'form.attributes.regroupement.edit': 'Edit',
   'form.attributes.delete.confirm.title': 'Confirm deletion of attributs regroupement {name}',
   'form.attributes.regroupement.form.title.update': 'Update regroupement : {name}',
+
+  // User messages
+  'navigation.dataobjects.label': 'Catalog',
+  'navigation.datasets.label': 'Datasets',
 }, Locales.en)
 
 export default messages

@@ -10,7 +10,7 @@ import { BasicSignalActions } from '@regardsoss/store-utils'
 export class NotifyLicenseUpdatedActions extends BasicSignalActions {
   constructor() {
     super({
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-admin/project/{project}/license/reset`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-admin/license/{project}/reset`,
       namespace: 'licenses/reset',
     })
   }

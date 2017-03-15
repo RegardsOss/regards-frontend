@@ -68,6 +68,8 @@ class FixedTableContainer extends React.Component {
     requestParams: React.PropTypes.object,
     // eslint-disable-next-line react/forbid-prop-types
     cellsStyle: React.PropTypes.object,
+    // Display table header tooblabar ?
+    displayHeader: React.PropTypes.bool,
 
     // Parameters set by redux store connection
     // eslint-disable-next-line react/no-unused-prop-types
@@ -229,7 +231,7 @@ class FixedTableContainer extends React.Component {
     }
     return (
       <Card
-        style={noContent ? {} : {backgroundColor: 'transparent'}}
+        style={noContent ? {} : { backgroundColor: 'transparent' }}
       >
         <NoContentMessageInfo
           noContent={noContent}
