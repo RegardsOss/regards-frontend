@@ -3,7 +3,7 @@
  **/
 import getChainableTypeChecker from './ChainableTypeChecker'
 
-const relativeURLRegexp = new RegExp('^((\\.\\.?\\/)*)([-a-z\\d%_\\.~+]+)' +    // . / .. / and first word
+export const relativeURLRegexp = new RegExp('^((\\.\\.?\\/)*)([-a-z\\d%_\\.~+]+)' +    // . / .. / and first word
   '(\\/[-a-z\\d%_\\.~+]*)*$', 'i') // next words
 
 
