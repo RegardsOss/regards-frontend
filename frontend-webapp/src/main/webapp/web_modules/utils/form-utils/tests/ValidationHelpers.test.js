@@ -11,10 +11,14 @@ describe('[FORM UTILS] Testing validation helpers', () => {
     assert.isTrue(ValidationHelpers.isValidEmail('myemail@cnn.fr'))
   })
   it('should should accept only valid urls', () => {
-    assert.isFalse(ValidationHelpers.isValidUrl('http://google'))
-    assert.isFalse(ValidationHelpers.isValidUrl('google.com'))
-    assert.isTrue(ValidationHelpers.isValidUrl('http://google.com'))
-    assert.isTrue(ValidationHelpers.isValidUrl('https://google.com'))
+    assert.isTrue(ValidationHelpers.isValidUrl('http://monserveur', false), 'A1')
+    assert.isTrue(ValidationHelpers.isValidUrl('http://126.8.40.21:2828/anywhere?type=anything', false), 'A2')
+    assert.isTrue(ValidationHelpers.isValidUrl('http://google.com', false))
+    assert.isTrue(ValidationHelpers.isValidUrl('https://google.com', false))
+    assert.isTrue(ValidationHelpers.isValidUrl('./mes-recettes/ma-petite-tarte.gif', true))
+    assert.isTrue(ValidationHelpers.isValidUrl('../mes_recettes/ma-petite-tarte.gif', true))
+    assert.isFalse(ValidationHelpers.isValidUrl('/mes_recettes/ma-petite-tarte.gif', true))
+    assert.isFalse(ValidationHelpers.isValidUrl('mes:recettes/ma-petite-tarte.gif', true))
   })
   it('should should accept only valid IPs', () => {
     assert.isFalse(ValidationHelpers.isValidIP('210.110'))
