@@ -3,9 +3,6 @@ const path = require('path')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 
 module.exports = {
-  entry: {
-    core: ['flux-standard-action', 'immutable', 'isomorphic-fetch', 'normalizr', 'react', 'react-dnd', 'react-dnd-html5-backend', 'react-dom', 'react-intl', 'react-redux', 'react-resizable', 'react-router', 'react-tap-event-plugin', 'redux', 'redux-api-middleware', 'redux-form', 'redux-logger', 'redux-thunk', 'window-or-global'],
-  },
   resolve: {
     // Automaticaly get extensions files from javascript code with import or require.
     // exemple require('main') look for main, main.js or main.jsx with our configuration

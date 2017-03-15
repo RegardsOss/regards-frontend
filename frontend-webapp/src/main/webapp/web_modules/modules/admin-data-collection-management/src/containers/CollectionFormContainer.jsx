@@ -150,8 +150,8 @@ export class CollectionFormContainer extends React.Component {
         // We receive here the action
         if (!actionResult.error) {
           // We extract the collection id from the action
-          const collection = this.extractCollectionFromActionResult(actionResult)
-          this.redirectToLinksPage(collection.id)
+          const collectionId = actionResult.payload.result
+          this.redirectToLinksPage(collectionId)
         }
       })
   }
