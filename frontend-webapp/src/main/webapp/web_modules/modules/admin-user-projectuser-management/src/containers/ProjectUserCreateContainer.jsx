@@ -4,6 +4,8 @@ import { I18nProvider } from '@regardsoss/i18n'
 import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
 import { ProjectUser, AccessGroup } from '@regardsoss/model'
 import { forEach } from 'lodash'
+import root from 'window-or-global'
+import { AuthenticationRouteParameters } from '@regardsoss/authentication-manager'
 import RoleActions from '../model/RoleActions'
 import RoleSelectors from '../model/RoleSelectors'
 import ProjectUserActions from '../model/ProjectUserActions'
@@ -108,14 +110,21 @@ export class ProjectUserCreateContainer extends React.Component {
   }
 
   handleCreate = (values) => {
+    const { params } = this.props
+    const projectName = params.project
+    const frontendParameter = `${AuthenticationRouteParameters.mailAuthenticationAction.urlKey}=${AuthenticationRouteParameters.mailAuthenticationAction.values.validateAccount}`
+
     Promise.resolve(this.props.createProjectUser({
       email: values.email,
       roleName: values.roleName,
       firstName: values.firstName,
       lastName: values.lastName,
-      password: values.lastName,
+      password: values.password,
       metaData: [],
-      permissions: [],
+      // Destination of logged users
+      originUrl: '/',
+      // the backend will use that URL in the email
+      requestLink: `${root.location.protocol}//${root.location.host}/user/${projectName}?${frontendParameter}`,
     }))
     .then((actionResult) => {
       // We receive here the action

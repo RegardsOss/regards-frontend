@@ -8,7 +8,7 @@ import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/f
 import { connect } from '@regardsoss/redux'
 import { Module, Layout } from '@regardsoss/model'
 import { ContainerHelper } from '@regardsoss/layout'
-import { FormShape } from '../model/FormShape'
+import FormShape from '../model/FormShape'
 import ModulesActions from '../model/modules/ModulesActions'
 import ModulesSelector from '../model/modules/ModulesSelector'
 import LayoutSelector from '../model/layout/LayoutSelector'

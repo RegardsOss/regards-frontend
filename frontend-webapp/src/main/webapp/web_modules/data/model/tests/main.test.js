@@ -68,8 +68,6 @@ describe('[MODEL] Testing all models (aka shape in the react world)', () => {
       it('check URL', shallExist(Models.URL))
       it('check Percent', shallExist(Models.Percent))
       it('check RangedNumber', shallExist(Models.RangedNumber))
-      it('check relativeURLRegexp', shallExist(Models.relativeURLRegexp))
-      it('check validURLRegexp', shallExist(Models.validURLRegexp))
     })
   })
 })

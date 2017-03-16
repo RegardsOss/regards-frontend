@@ -4,7 +4,7 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { TableRowColumn } from 'material-ui/Table'
-import { stub } from 'sinon'
+import { stub, spy } from 'sinon'
 import SelectField from 'material-ui/SelectField'
 import ModelAttributeComponent from '../../src/components/ModelAttributeComponent'
 
