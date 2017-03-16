@@ -3,7 +3,7 @@
  **/
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import sinon from 'sinon'
+import { stub, spy } from 'sinon'
 import { IntlProvider } from 'react-intl'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import PluginTest from './PluginTest'
@@ -17,7 +17,7 @@ import { UnconnectedPluginProvider } from '../../src/containers/PluginProvider'
 describe('[PLUGINS] Testing Plugins load', () => {
   it('Should fetch the pluginDefinition with the given pluginId in props', () => {
     const pluginDefinitionId = 12
-    const fetchPluginSpy = sinon.spy()
+    const fetchPluginSpy = spy()
     const wrapper = shallow(
       <UnconnectedPluginProvider
         pluginInstanceId={0}
@@ -38,7 +38,7 @@ describe('[PLUGINS] Testing Plugins load', () => {
 
   it('Should render a PluginLoader', () => {
     const pluginDefinitionId = 12
-    const fetchPluginSpy = sinon.spy()
+    const fetchPluginSpy = spy()
     const wrapper = shallow(
       <UnconnectedPluginProvider
         pluginInstanceId={0}

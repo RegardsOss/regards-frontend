@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { shallow } from 'enzyme'
-import sinon from 'sinon'
+import { stub, spy } from 'sinon'
 import { assert } from 'chai'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import { CardHeader } from 'material-ui/Card'
@@ -27,7 +27,7 @@ describe('[RESULTS MODULE] Testing AttributeConfigurationComponent', () => {
   }
 
   it('Should render a AttributeConfigurationComponent', () => {
-    const onChangeSpy = sinon.spy()
+    const onChangeSpy = spy()
     const attributeProp = {
       id: 0,
       name: 'Test attribute',
@@ -73,7 +73,7 @@ describe('[RESULTS MODULE] Testing AttributeConfigurationComponent', () => {
 
 
   it('Should render a AttributeConfigurationComponent', () => {
-    const onChangeSpy = sinon.spy()
+    const onChangeSpy = spy()
     const attributeProp = {
       id: 0,
       name: 'Test attribute',
@@ -104,7 +104,7 @@ describe('[RESULTS MODULE] Testing AttributeConfigurationComponent', () => {
   })
 
   it('Should render a AttributeConfigurationComponent', () => {
-    const onChangeSpy = sinon.spy()
+    const onChangeSpy = spy()
     const attributeProp = {
       id: 0,
       name: 'Test attribute',
@@ -136,7 +136,7 @@ describe('[RESULTS MODULE] Testing AttributeConfigurationComponent', () => {
 
 
   it('Should render a AttributeConfigurationComponent', () => {
-    const onChangeSpy = sinon.spy()
+    const onChangeSpy = spy()
     const attributeProp = {
       id: 0,
       name: 'Test attribute',

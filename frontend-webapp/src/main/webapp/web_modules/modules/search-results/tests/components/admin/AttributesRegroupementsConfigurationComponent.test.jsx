@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { shallow } from 'enzyme'
-import sinon from 'sinon'
+import { stub, spy } from 'sinon'
 import { assert } from 'chai'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import { CardHeader } from 'material-ui/Card'
@@ -28,9 +28,9 @@ describe('[RESULTS MODULE] Testing AttributeRegroupementComponent', () => {
   }
 
   it('Should render a AttributeRegroupementComponent', () => {
-    const onChangeSpy = sinon.spy()
-    const onDeleteSpy = sinon.spy()
-    const onEditSpy = sinon.spy()
+    const onChangeSpy = spy()
+    const onDeleteSpy = spy()
+    const onEditSpy = spy()
 
     const attributeConfProp = {
       label: 'Test regroupement',

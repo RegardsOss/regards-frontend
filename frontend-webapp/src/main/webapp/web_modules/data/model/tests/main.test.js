@@ -49,6 +49,7 @@ describe('[MODEL] Testing all models (aka shape in the react world)', () => {
     })
     describe('catalog', () => {
       it('check Entity', shallExist(Models.Entity))
+      it('check LinkPluginDataset', shallExist(Models.LinkPluginDataset))
     })
     describe('dam', () => {
       it('check AttributeModel', shallExist(Models.AttributeModel))
@@ -61,6 +62,14 @@ describe('[MODEL] Testing all models (aka shape in the react world)', () => {
       it('check AccessGroup', shallExist(Models.AccessGroup))
       it('check AccessRight', shallExist(Models.AccessRight))
       it('check Connection', shallExist(Models.Connection))
+    })
+    describe('common', () => {
+      it('check locationShape', shallExist(Models.locationShape))
+      it('check URL', shallExist(Models.URL))
+      it('check Percent', shallExist(Models.Percent))
+      it('check RangedNumber', shallExist(Models.RangedNumber))
+      it('check relativeURLRegexp', shallExist(Models.relativeURLRegexp))
+      it('check validURLRegexp', shallExist(Models.validURLRegexp))
     })
   })
 })

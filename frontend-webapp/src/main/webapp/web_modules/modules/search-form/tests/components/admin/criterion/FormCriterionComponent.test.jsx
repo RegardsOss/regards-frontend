@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { shallow } from 'enzyme'
-import sinon from 'sinon'
+import { stub, spy } from 'sinon'
 import { assert } from 'chai'
 import {
   Table,
@@ -76,7 +76,7 @@ describe('[FORM MODULE] Testing formCriterionComponent', () => {
   })
 
   it('Should render a formCriterionComponent with defined criterion list', () => {
-    const changeFieldCallback = sinon.spy()
+    const changeFieldCallback = spy()
     const props = {
       changeField: changeFieldCallback,
       defaultCriterion: [],

@@ -4,7 +4,7 @@
 import { shallow } from 'enzyme'
 import { assert, expect } from 'chai'
 import { TableBody, TableRow } from 'material-ui/Table'
-import sinon from 'sinon'
+import { stub, spy } from 'sinon'
 import IconButton from 'material-ui/IconButton'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import Toggle from 'material-ui/Toggle'
@@ -86,9 +86,9 @@ describe('[ADMIN UI-CONFIGURATION] Testing Modules list component', () => {
   })
 
   it('Check actions on ModuleListComponent', () => {
-    const onEditCallback = sinon.spy()
-    const onDeleteCallback = sinon.spy()
-    const onDuplicateCallBack = sinon.spy()
+    const onEditCallback = spy()
+    const onDeleteCallback = spy()
+    const onDuplicateCallBack = spy()
 
     const props = {
       modules: testModules,

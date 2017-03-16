@@ -3,7 +3,7 @@
  **/
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import sinon from 'sinon'
+import { stub, spy } from 'sinon'
 import { ApplicationThemeContainer } from '../../src/containers/ApplicationThemeContainer'
 import ApplicationThemeComponent from '../../src/components/theme/ApplicationThemeComponent'
 
@@ -54,10 +54,10 @@ describe('[ADMIN UI MANAGEMENT] Testing theme container', () => {
         },
       },
       isFetching: false,
-      fetchThemeList: sinon.spy(),
-      updateTheme: sinon.spy(),
-      deleteTheme: sinon.spy(),
-      createTheme: sinon.spy(),
+      fetchThemeList: spy(),
+      updateTheme: spy(),
+      deleteTheme: spy(),
+      createTheme: spy(),
     }
     const enzymeWrapper = shallow(<ApplicationThemeContainer {...props} />)
     expect(enzymeWrapper.find(ApplicationThemeComponent)).to.have.length(1)

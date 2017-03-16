@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { shallow } from 'enzyme'
-import sinon from 'sinon'
+import { stub, spy } from 'sinon'
 import { assert } from 'chai'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import { Field } from '@regardsoss/form-utils'
@@ -28,7 +28,7 @@ describe('[FORM MODULE] Testing FormDatasetsTypeSelection', () => {
   }
 
   it('Should render a FormDatasetsTypeSelection to configure datasets', () => {
-    const selectCallback = sinon.spy()
+    const selectCallback = spy()
     const props = {
       defaultSelected: DATASET_MODEL_TYPE,
       onSelectType: selectCallback,

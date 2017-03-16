@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { locationShape } from 'react-router/lib/PropTypes'
+import { locationShape } from '@regardsoss/model'
 import { connect } from '@regardsoss/redux'
 import { AuthenticateActions } from '@regardsoss/authentication-manager'
 import { themeContextType } from '@regardsoss/theme'

@@ -1,6 +1,6 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import sinon from 'sinon'
+import { stub, spy } from 'sinon'
 import Dialog from 'material-ui/Dialog'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import { IntlStub } from '@regardsoss/tests-helpers'
@@ -15,12 +15,12 @@ describe('[ADMIN UI MANAGEMENT] Testing theme create component', () => {
   it('should render a Field', () => {
     const props = {
       open: true,
-      onRequestClose: sinon.spy(),
-      onSubmit: sinon.spy(),
-      submitting: sinon.spy(),
-      invalid: sinon.spy(),
-      handleSubmit: sinon.spy(),
-      reset: sinon.spy(),
+      onRequestClose: spy(),
+      onSubmit: spy(),
+      submitting: spy(),
+      invalid: spy(),
+      handleSubmit: spy(),
+      reset: spy(),
     }
     const options = {
       context: {

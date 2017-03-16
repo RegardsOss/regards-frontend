@@ -3,7 +3,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import sinon from 'sinon'
+import { stub, spy } from 'sinon'
 import { I18nProvider } from '@regardsoss/i18n'
 import ApplicationLayoutComponent from '../../src/components/ApplicationLayoutComponent'
 import { UnconnectedApplicationLayoutContainer } from '../../src/containers/ApplicationLayoutContainer'
@@ -14,8 +14,8 @@ import { UnconnectedApplicationLayoutContainer } from '../../src/containers/Appl
  */
 describe('[ADMIN UI-CONFIGURATION] Testing Layout container', () => {
   it('Should render correctly a layout container', () => {
-    const fetchLayoutCallBack = sinon.spy()
-    const updateLayoutCallBack = sinon.spy()
+    const fetchLayoutCallBack = spy()
+    const updateLayoutCallBack = spy()
     const props = {
       params: {
         project: 'testProject',

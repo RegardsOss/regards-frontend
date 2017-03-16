@@ -1,6 +1,6 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import sinon from 'sinon'
+import { stub, spy } from 'sinon'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import CreateButton from '../../../src/components/theme/CreateButton'
 import ThemeCreateComponent from '../../../src/components/theme/ThemeCreateComponent'
@@ -13,7 +13,7 @@ describe('[ADMIN UI MANAGEMENT] Testing create button component', () => {
 
   it('should render a ThemeCreateComponent', () => {
     const props = {
-      onCreate: sinon.spy(),
+      onCreate: spy(),
     }
     const options = {
       context: {

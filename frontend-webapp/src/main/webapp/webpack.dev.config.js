@@ -40,6 +40,8 @@ config = merge(config, {
       children: false,
       colors: true,
       hash: false,
+      modules: false,
+      source: false,
     },
     // Web directory serve by the webpack dev server
     contentBase: path.resolve(__dirname, 'build'),

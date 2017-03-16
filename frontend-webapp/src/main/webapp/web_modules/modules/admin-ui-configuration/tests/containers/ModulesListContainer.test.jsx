@@ -3,7 +3,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import sinon from 'sinon'
+import { stub, spy } from 'sinon'
 import { I18nProvider } from '@regardsoss/i18n'
 import { FormLoadingComponent } from '@regardsoss/form-utils'
 import ModuleListComponent from '../../src/components/ModuleListComponent'
@@ -15,7 +15,7 @@ import { UnconnectedModulesListContainer } from '../../src/containers/ModulesLis
  */
 describe('[ADMIN UI-CONFIGURATION] Testing Modules list container', () => {
   it('Should fetch the modules list before rendering', () => {
-    const fetchModulesCallback = sinon.spy()
+    const fetchModulesCallback = spy()
     const props = {
       params: {
         project: 'testProject',
@@ -41,7 +41,7 @@ describe('[ADMIN UI-CONFIGURATION] Testing Modules list container', () => {
   })
 
   it('Should render ModuleListComponent', () => {
-    const fetchModulesCallback = sinon.spy()
+    const fetchModulesCallback = spy()
     const props = {
       params: {
         project: 'testProject',

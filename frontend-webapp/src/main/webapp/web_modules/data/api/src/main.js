@@ -30,6 +30,7 @@ import Connection from './dam/Connection'
 import AIPStatus from './archival-storage/AIPStatus'
 import Endpoint, { EndpointConfiguration } from './admin/Endpoint'
 import PluginParameter from './admin/PluginParameter'
+import LinkPluginDataset from './catalog/LinkPluginDataset'
 
 // We use this Normalizr schemas to transform API responses from a nested form
 // to a flat form where repos and users are placed in `entities`, and nested
@@ -132,4 +133,6 @@ export default {
   ...AccessRight,
   ...AccessGroup,
   ...Connection,
+
+  ...LinkPluginDataset,
 }

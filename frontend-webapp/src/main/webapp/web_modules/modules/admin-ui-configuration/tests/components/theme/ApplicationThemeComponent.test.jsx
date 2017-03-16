@@ -1,6 +1,6 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import sinon from 'sinon'
+import { stub, spy } from 'sinon'
 import Paper from 'material-ui/Paper'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import { IntlStub } from '@regardsoss/tests-helpers'
@@ -44,10 +44,10 @@ describe('[ADMIN UI MANAGEMENT] Testing application theme component', () => {
           configuration: {},
         },
         isFetching: false,
-        onAdd: sinon.spy(),
-        onClose: sinon.spy(),
-        onSave: sinon.spy(),
-        onDelete: sinon.spy(),
+        onAdd: spy(),
+        onClose: spy(),
+        onSave: spy(),
+        onDelete: spy(),
       },
     }
     const options = {

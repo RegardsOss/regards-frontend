@@ -1,6 +1,6 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import sinon from 'sinon'
+import { stub } from 'sinon'
 import { Table, TableRow } from 'material-ui/Table'
 import { IntlStub } from '@regardsoss/tests-helpers'
 import { CardActionsComponent } from '@regardsoss/components'
@@ -9,7 +9,7 @@ import { ProjectListComponent } from '../../src/components/ProjectListComponent'
 // Test a component rendering
 describe('[ADMIN PROJECT MANAGEMENT] Testing project list container', () => {
   before(() => {
-    sinon.stub(console, 'error', (warning) => {
+    stub(console, 'error').callsFake((warning) => {
       throw new Error(warning)
     })
   })

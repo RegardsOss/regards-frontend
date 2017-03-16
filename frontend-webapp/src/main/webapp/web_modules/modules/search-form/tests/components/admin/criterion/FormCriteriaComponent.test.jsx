@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { shallow } from 'enzyme'
-import sinon from 'sinon'
+import { stub, spy } from 'sinon'
 import { assert } from 'chai'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import MenuItem from 'material-ui/MenuItem'
@@ -30,11 +30,11 @@ describe('[FORM MODULE] Testing FormCriteriaComponent', () => {
   }
 
   it('Should render a new criteria criteria form', () => {
-    const saveCriteriaCallback = sinon.spy()
-    const cancelCallback = sinon.spy()
-    const reduxFormInitialize = sinon.spy()
-    const handleSubmitCallback = sinon.spy()
-    const onChangeCallback = sinon.spy()
+    const saveCriteriaCallback = spy()
+    const cancelCallback = spy()
+    const reduxFormInitialize = spy()
+    const handleSubmitCallback = spy()
+    const onChangeCallback = spy()
 
     const props = {
       criteria: null,
@@ -93,10 +93,10 @@ describe('[FORM MODULE] Testing FormCriteriaComponent', () => {
   })
 
   it('Should render a edit criteria form', () => {
-    const saveCriteriaCallback = sinon.spy()
-    const cancelCallback = sinon.spy()
-    const reduxFormInitialize = sinon.spy()
-    const handleSubmitCallback = sinon.spy()
+    const saveCriteriaCallback = spy()
+    const cancelCallback = spy()
+    const reduxFormInitialize = spy()
+    const handleSubmitCallback = spy()
 
     const props = {
       criteria: {

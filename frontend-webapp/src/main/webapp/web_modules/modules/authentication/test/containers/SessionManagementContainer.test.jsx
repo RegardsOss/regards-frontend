@@ -3,7 +3,7 @@
  */
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import sinon from 'sinon'
+import { stub } from 'sinon'
 import AuthenticationDialogComponent from '../../src/components/AuthenticationDialogComponent'
 import { SessionManagementContainer } from '../../src/containers/SessionManagementContainer'
 
@@ -12,7 +12,7 @@ describe('[AUTHENTICATION] Testing SessionManagementContainer', () => {
   // as errors, we use sinon.js to stub it into throwing these warning as errors
   // instead.
   before(() => {
-    sinon.stub(console, 'error', (warning) => {
+    stub(console, 'error').callsFake((warning) => {
       throw new Error(warning)
     })
   })

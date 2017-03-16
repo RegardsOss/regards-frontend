@@ -3,7 +3,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import sinon from 'sinon'
+import { stub, spy } from 'sinon'
 import ModuleFormComponent from '../../src/components/ModuleFormComponent'
 import { UnconnectedModuleFormContainer } from '../../src/containers/ModuleFormContainer'
 
@@ -13,8 +13,8 @@ import { UnconnectedModuleFormContainer } from '../../src/containers/ModuleFormC
  */
 describe('[ADMIN UI-CONFIGURATION] Testing Module form container', () => {
   it('Should fetch module before renderinf component', () => {
-    const fetchModuleCallback = sinon.spy()
-    const fetchLayoutCallback = sinon.spy()
+    const fetchModuleCallback = spy()
+    const fetchLayoutCallback = spy()
     const props = {
       params: {
         project: 'testProject',
@@ -40,8 +40,8 @@ describe('[ADMIN UI-CONFIGURATION] Testing Module form container', () => {
   })
 
   it('Should render component', () => {
-    const fetchModuleCallback = sinon.spy()
-    const fetchLayoutCallback = sinon.spy()
+    const fetchModuleCallback = spy()
+    const fetchLayoutCallback = spy()
 
     const props = {
       params: {

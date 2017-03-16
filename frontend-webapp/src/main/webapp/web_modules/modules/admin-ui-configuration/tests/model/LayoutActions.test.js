@@ -24,7 +24,7 @@ describe('[ADMIN UI CONFIGURATION] Testing model Layout', () => {
   after(() => {
     entityTester.afterAll()
   })
-  xit('should retrieve the list of items, reduce it, and store it on the store.', (done) => {
+  it('should retrieve the list of items, reduce it, and store it on the store.', (done) => {
     entityTester.runTests(done)
   })
 })

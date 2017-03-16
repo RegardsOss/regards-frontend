@@ -3,7 +3,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import sinon from 'sinon'
+import { stub, spy } from 'sinon'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import RaisedButton from 'material-ui/RaisedButton'
 import { Container } from '@regardsoss/layout'
@@ -23,7 +23,7 @@ describe('[FORM MODULE] Testing Form User component', () => {
     },
   }
   it('Should render form configured layout with given plugins', () => {
-    const handleSearchCallback = sinon.spy()
+    const handleSearchCallback = spy()
     const props = {
       layout: {},
       handleSearch: handleSearchCallback,

@@ -3,7 +3,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import sinon from 'sinon'
+import { stub, spy } from 'sinon'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import Styles from '../../src/styles/styles'
 import { UnconnectedModuleContainer } from '../../src/containers/ModuleContainer'
@@ -27,7 +27,7 @@ describe('[FORM MODULE] Testing User Container', () => {
     },
   }
   it('Should fetch the model attributes before rendering the criterion plugins', () => {
-    const fetchAttributeCallback = sinon.spy()
+    const fetchAttributeCallback = spy()
 
     const criterion = [
       {
