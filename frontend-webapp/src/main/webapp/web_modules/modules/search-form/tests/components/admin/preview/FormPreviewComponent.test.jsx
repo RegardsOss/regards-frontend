@@ -36,7 +36,7 @@ describe('[FORM MODULE] Testing FormPreviewComponent', () => {
         applicationId: 'test',
         container: 'content',
         conf: {
-          layout: JSON.stringify(DefaultLayout),
+          layout: DefaultLayout,
         },
       },
     }

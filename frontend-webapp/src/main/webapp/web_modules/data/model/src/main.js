@@ -23,6 +23,7 @@ import AccessProject from './access/Project'
 import Module from './access/Module'
 import Layout from './access/Layout'
 import LayoutContent from './access/LayoutContent'
+import Container from './access/Container'
 import AttributeConfiguration from './access/AttributeConfiguration'
 import AttributesRegroupementConfiguration from './access/AttributesRegroupementConfiguration'
 import SearchResultsTargetsEnum from './access/SearchResultsTargetsEnum'
@@ -81,6 +82,7 @@ export default {
   AccessProject,
   Module,
   Layout,
+  Container,
   LayoutContent,
   AttributeConfiguration,
   AttributesRegroupementConfiguration,

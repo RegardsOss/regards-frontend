@@ -4,6 +4,7 @@
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
+import { Container as ContainerShape } from '@regardsoss/model'
 import { LayoutConfigurationComponent, DefaultLayout } from '@regardsoss/layout'
 
 /**
@@ -13,7 +14,7 @@ import { LayoutConfigurationComponent, DefaultLayout } from '@regardsoss/layout'
 class FormLayoutComponent extends React.Component {
 
   static propTypes = {
-    defaultLayout: React.PropTypes.string,
+    defaultLayout: ContainerShape,
     changeField: React.PropTypes.func,
   }
 
@@ -22,16 +23,16 @@ class FormLayoutComponent extends React.Component {
     this.setState({
       currentLayout: initialLayout,
     })
-    this.props.changeField('conf.layout', JSON.stringify(initialLayout))
+    this.props.changeField('conf.layout', initialLayout)
   }
 
   getInitialLayout = (layout) => {
-    const initialLayout = layout ? JSON.parse(layout) : DefaultLayout
+    const initialLayout = layout || DefaultLayout
     return initialLayout.id && initialLayout.type ? initialLayout : DefaultLayout
   }
 
   changeLayout = (layout) => {
-    this.props.changeField('conf.layout', JSON.stringify(layout))
+    this.props.changeField('conf.layout', layout)
     this.setState({
       currentLayout: layout,
     })
@@ -39,7 +40,7 @@ class FormLayoutComponent extends React.Component {
 
   resetLayout = () => {
     const initialLayout = this.getInitialLayout(this.props.defaultLayout)
-    this.props.changeField('conf.layout', JSON.stringify(initialLayout))
+    this.props.changeField('conf.layout', initialLayout)
     this.setState({
       currentLayout: initialLayout,
     })

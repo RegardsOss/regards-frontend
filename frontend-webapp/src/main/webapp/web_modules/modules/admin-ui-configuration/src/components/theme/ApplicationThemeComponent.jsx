@@ -58,8 +58,6 @@ class ApplicationThemeComponent extends React.Component {
     }
   }
 
-  getEditingTheme = () => merge({}, { content: { configuration: defaultCustomConfiguration } }, this.state.editingTheme)
-
   onThemeSelect = (event, index, value) => this.setState({ editingTheme: find(this.props.themeList, theme => theme.content.id === value) })
 
   onThemeOverride = (theme) => {
@@ -110,6 +108,8 @@ class ApplicationThemeComponent extends React.Component {
       })
     })
   }
+
+  getEditingTheme = () => merge({}, { content: { configuration: defaultCustomConfiguration } }, this.state.editingTheme)
 
   render() {
     const { themeList, onClose, isFetching } = this.props

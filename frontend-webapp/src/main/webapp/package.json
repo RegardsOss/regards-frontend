@@ -15,7 +15,7 @@
     "start:mock-front-server": "nodemon --watch ./mocks/front --ignore '*.temp.js' ./mocks/front/mock-front-server.js",
     "start:mock-server-json": "nodemon --watch ./mocks/json --ignore '*.temp.js' ./mocks/json/mock-server-json.js",
     "start:withmock": "npm-run-all --parallel start:mock-*",
-    "start:copy-plugins": "./copy-plugins",
+    "start:copy-plugins": "./scripts/copyPlugins.sh",
     "poststart": "npm run start:copy-plugins",
     "pretest": "npm run lint:fix || true",
     "postinstall": "npm run build:dll",

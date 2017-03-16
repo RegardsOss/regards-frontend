@@ -180,6 +180,8 @@ const runServer = () => {
     '/api/v1/rs-access/maintenances': '/api/v1/rs-access-signal/maintenances',
     '/api/v1/rs-access/maintenances/:project/activate': '/api/v1/rs-access-signal/activate',
     '/api/v1/rs-access/maintenances/:project/desactivate': '/api/v1/rs-access-signal/desactivate',
+    "/api/v1/rs-access/layouts/user": "/api/v1/rs-access/layouts/0",
+    "/api/v1/rs-access/layouts/portal": "/api/v1/rs-access/layouts/1",
     '/api/v1/rs-admin/maintenances': '/api/v1/rs-admin-signal/maintenances',
     '/api/v1/rs-admin/maintenances/:project/activate': '/api/v1/rs-admin-signal/activate',
     '/api/v1/rs-admin/maintenances/:project/desactivate': '/api/v1/rs-admin-signal/desactivate',
