@@ -5,6 +5,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { stub, spy } from 'sinon'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import { IntlStub } from '@regardsoss/tests-helpers'
 import Styles from '../../src/styles/styles'
 import { UnconnectedModuleContainer } from '../../src/containers/ModuleContainer'
 import FormComponent from '../../src/components/user/FormComponent'
@@ -15,15 +16,23 @@ import { DATASET_TYPE } from '../../src/models/datasets/DatasetSelectionTypes'
  * @author Sébastien binda
  */
 describe('[FORM MODULE] Testing User Container', () => {
+  // Since react will console.error propType warnings, that which we'd rather have
+  // as errors, we use sinon.js to stub it into throwing these warning as errors
+  // instead.
+  before(() => {
+    stub(console, 'error').callsFake((warning) => {
+      throw new Error(warning)
+    })
+  })
+  after(() => {
+    console.error.restore()
+  })
   const muiTheme = getMuiTheme({})
   const options = {
     context: {
       muiTheme,
       moduleTheme: Styles(muiTheme),
-      intl: {
-        formatMessage: id => (id.id),
-        formatDate: id => (id.id),
-      },
+      intl: IntlStub
     },
   }
   it('Should fetch the model attributes before rendering the criterion plugins', () => {
@@ -60,7 +69,10 @@ describe('[FORM MODULE] Testing User Container', () => {
       project: 'test',
       appName: 'test',
       moduleConf: {
-        layout: '{}',
+        layout: {
+          id: 'main',
+          type : 'type'
+        },
         criterion,
         datasets: {
           type: DATASET_TYPE,

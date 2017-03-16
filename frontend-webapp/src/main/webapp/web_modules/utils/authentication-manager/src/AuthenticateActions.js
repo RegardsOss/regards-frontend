@@ -32,7 +32,7 @@ export class AuthenticateActions extends BasicSignalActions {
     }
   }
 
-  login(username, password, scope = 'instance') {
+  login(username, password, scope) {
     return this.sendSignal('POST', {}, { username, password, scope })
   }
 

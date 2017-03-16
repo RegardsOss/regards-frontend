@@ -13,6 +13,17 @@ import ApplicationThemeComponent from '../../src/components/theme/ApplicationThe
  * @author Xavier-Alexandre Brochard
  */
 describe('[ADMIN UI MANAGEMENT] Testing theme container', () => {
+  // Since react will console.error propType warnings, that which we'd rather have
+  // as errors, we use sinon.js to stub it into throwing these warning as errors
+  // instead.
+  before(() => {
+    stub(console, 'error').callsFake((warning) => {
+      throw new Error(warning)
+    })
+  })
+  after(() => {
+    console.error.restore()
+  })
   it('should exists', () => {
     assert.isDefined(ApplicationThemeContainer)
     assert.isDefined(ApplicationThemeComponent)

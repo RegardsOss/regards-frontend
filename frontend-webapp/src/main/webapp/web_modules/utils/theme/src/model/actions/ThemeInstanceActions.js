@@ -4,11 +4,11 @@
 import Schemas from '@regardsoss/api'
 import { BasicPageableActions } from '@regardsoss/store-utils'
 
-class ThemeActions extends BasicPageableActions {
+class ThemeInstanceActions extends BasicPageableActions {
   constructor() {
     super({
       namespace: 'common/theme',
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-access-project/themes`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-access-instance/themes`,
       schemaTypes: {
         ENTITY: Schemas.THEME,
         ENTITY_ARRAY: Schemas.THEME_ARRAY,
@@ -16,5 +16,5 @@ class ThemeActions extends BasicPageableActions {
     })
   }
 }
-const instance = new ThemeActions()
+const instance = new ThemeInstanceActions()
 export default instance

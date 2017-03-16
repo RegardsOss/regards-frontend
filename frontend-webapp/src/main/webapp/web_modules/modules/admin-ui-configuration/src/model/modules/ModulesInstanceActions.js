@@ -6,12 +6,13 @@ import { BasicPageableActions } from '@regardsoss/store-utils'
 
 /**
  * Redux store Actions for Module entities.
+ * @author Sébastien binda
  */
-class ModulesActions extends BasicPageableActions {
+class ModulesInstanceActions extends BasicPageableActions {
   constructor() {
     super({
-      namespace: 'user/layout/modules',
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-access-project/applications/{applicationId}/modules`,
+      namespace: 'ui-configuration/modules',
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-access-instance/applications/{applicationId}/modules`,
       schemaTypes: {
         ENTITY: Schemas.MODULE,
         ENTITY_ARRAY: Schemas.MODULE_ARRAY,
@@ -20,5 +21,5 @@ class ModulesActions extends BasicPageableActions {
   }
 }
 
-const instance = new ModulesActions()
+const instance = new ModulesInstanceActions()
 export default instance

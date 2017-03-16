@@ -3,7 +3,9 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import { stub } from 'sinon'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import { IntlStub } from '@regardsoss/tests-helpers'
 import { PageableListContainer } from '@regardsoss/components'
 import Styles from '../../../../src/styles/styles'
 import { DATASET_MODEL_TYPE, DATASET_TYPE, ALL_CATALOG_TYPE } from '../../../../src/models/datasets/DatasetSelectionTypes'
@@ -16,16 +18,23 @@ import FormDatasetsConfigurationComponent from '../../../../src/components/admin
  * @author Sébastien binda
  */
 describe('[FORM MODULE] Testing FormDatasetsConfigurationComponent', () => {
+  // Since react will console.error propType warnings, that which we'd rather have
+  // as errors, we use sinon.js to stub it into throwing these warning as errors
+  // instead.
+  before(() => {
+    stub(console, 'error').callsFake((warning) => {
+      throw new Error(warning)
+    })
+  })
+  after(() => {
+    console.error.restore()
+  })
   const muiTheme = getMuiTheme({})
   const options = {
     context: {
       muiTheme,
       moduleTheme: Styles(muiTheme),
-      intl: {
-        formatMessage: id => (id.id),
-        formatDate: id => (id.id),
-        formatTime: id => (id.id),
-      },
+      intl: IntlStub,
     },
   }
 

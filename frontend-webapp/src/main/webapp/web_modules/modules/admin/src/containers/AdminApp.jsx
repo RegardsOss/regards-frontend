@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { intlShape } from 'react-intl'
-import { AuthenticationParametersActions, AuthenticateSelectors } from '@regardsoss/authentication-manager'
+import { AuthenticationParametersActions, AuthenticationParametersSelectors, AuthenticateSelectors } from '@regardsoss/authentication-manager'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { EndpointActions } from '@regardsoss/endpoint'
 import { I18nProvider } from '@regardsoss/i18n'
@@ -11,7 +11,6 @@ import { ThemeProvider } from '@regardsoss/theme'
 import AdminLayout from './AdminLayout'
 import AuthenticationContainer from './AuthenticationContainer'
 
-const INSTANCE = 'instance'
 /**
  * React components to manage the instance application.
  * This components displays admin layout or login form if the user is not connected
@@ -27,6 +26,7 @@ class AdminApp extends React.Component {
     // from mapStateToProps
     currentRole: React.PropTypes.string.isRequired,
     isAuthenticated: React.PropTypes.bool,
+    project: React.PropTypes.string,
     // from mapDispatchToProps
     initializeApplication: React.PropTypes.func.isRequired,
     fetchEndpoints: React.PropTypes.func,
@@ -44,8 +44,8 @@ class AdminApp extends React.Component {
   }
 
   componentWillMount() {
-    // init with project parameter if available, or fallback on INSTANCE default
-    const project = (this.props.params && this.props.params.project) || INSTANCE
+    // init with project parameter if available
+    const project = (this.props.params && this.props.params.project)
     this.props.initializeApplication(project)
     // fetch endpoints
     this.props.fetchEndpoints()
@@ -79,9 +79,8 @@ class AdminApp extends React.Component {
   }
 
   render() {
-    const { isAuthenticated, content } = this.props
+    const { isAuthenticated, content, project } = this.props
     const { isLoadingEndpoints } = this.state
-    const project = this.props.params.project ? this.props.params.project : 'instance'
 
     return (
       <ThemeProvider>
@@ -104,6 +103,7 @@ const mapStateToProps = (state) => {
   return {
     currentRole: authenticationResult ? authenticationResult.role : '',
     isAuthenticated: AuthenticateSelectors.isAuthenticated(state),
+    project: AuthenticationParametersSelectors.getProject(state),
   }
 }
 

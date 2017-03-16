@@ -1,7 +1,11 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { map, find, isEmpty, stubTrue, merge } from 'lodash'
+import map from 'lodash/map'
+import find from 'lodash/find'
+import isEmpty from 'lodash/isEmpty'
+import stubTrue from 'lodash/stubTrue'
+import merge from 'lodash/merge'
 import IconButton from 'material-ui/IconButton'
 import Close from 'material-ui/svg-icons/navigation/close'
 import Save from 'material-ui/svg-icons/content/save'
@@ -11,6 +15,7 @@ import DropDownMenu from 'material-ui/DropDownMenu'
 import Paper from 'material-ui/Paper'
 import Snackbar from 'material-ui/Snackbar'
 import { FormattedMessage } from 'react-intl'
+import Toggle from 'material-ui/Toggle'
 import { i18nContextType } from '@regardsoss/i18n'
 import { ShowableAtRender } from '@regardsoss/components'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
@@ -37,6 +42,7 @@ class ApplicationThemeComponent extends React.Component {
     onClose: React.PropTypes.func,
     onSave: React.PropTypes.func,
     onDelete: React.PropTypes.func,
+    fetchTheme: React.PropTypes.func,
   }
 
   static defaultProps = {
@@ -58,7 +64,13 @@ class ApplicationThemeComponent extends React.Component {
     }
   }
 
-  onThemeSelect = (event, index, value) => this.setState({ editingTheme: find(this.props.themeList, theme => theme.content.id === value) })
+  onThemeSelect = (event, index, value) => {
+    Promise.resolve(this.props.fetchTheme(value)).then((actionResult) => {
+      if (!actionResult.error) {
+        this.setState({ editingTheme: find(this.props.themeList, theme => theme.content.id === value) })
+      }
+    })
+  }
 
   onThemeOverride = (theme) => {
     const newEditingTheme = this.state.editingTheme
@@ -70,7 +82,9 @@ class ApplicationThemeComponent extends React.Component {
 
   onSave = (theme) => {
     const { onSave } = this.props
-    onSave(theme).then(actionResult => this.setState({
+    const themeToSave = Object.assign({}, theme)
+    themeToSave.content.configuration = JSON.stringify(themeToSave.content.configuration)
+    onSave(themeToSave).then(actionResult => this.setState({
       snackBarOpen: true,
       snackBarMessageId: !actionResult.error ? 'application.theme.save.success' : 'application.theme.save.error',
     }))
@@ -98,11 +112,16 @@ class ApplicationThemeComponent extends React.Component {
 
   onCreate = (theme) => {
     const { onCreate } = this.props
-    const editingTheme = this.getEditingTheme()
+    const newTheme = {
+      content: {
+        name: theme.name,
+        configuration: JSON.stringify(defaultCustomConfiguration),
+      },
+    }
 
-    onCreate(theme).then((actionResult) => {
+    onCreate(newTheme).then((actionResult) => {
       this.setState({
-        editingTheme: !actionResult.error ? find(actionResult.payload.entities.theme, stubTrue) : editingTheme,
+        editingTheme: !actionResult.error ? find(actionResult.payload.entities.theme, stubTrue) : this.state.editingTheme,
         snackBarOpen: true,
         snackBarMessageId: !actionResult.error ? 'application.theme.create.success' : 'application.theme.create.error',
       })
@@ -110,6 +129,14 @@ class ApplicationThemeComponent extends React.Component {
   }
 
   getEditingTheme = () => merge({}, { content: { configuration: defaultCustomConfiguration } }, this.state.editingTheme)
+
+  toggleThemeActivation = () => {
+    const newEditingTheme = this.state.editingTheme
+    newEditingTheme.content.active = !newEditingTheme.content.active
+    this.setState({
+      editingTheme: newEditingTheme,
+    })
+  }
 
   render() {
     const { themeList, onClose, isFetching } = this.props
@@ -133,6 +160,16 @@ class ApplicationThemeComponent extends React.Component {
     )
     const deleteButton = <DeleteButton onDelete={() => this.onDelete(editingTheme)} />
     const createButton = <CreateButton onCreate={this.onCreate} />
+    const themeActivationToggle = (<Toggle
+      label={<FormattedMessage id="application.theme.default.active" />}
+      defaultToggled={editingTheme.content.active}
+      onToggle={this.toggleThemeActivation}
+      style={{
+        marginTop: 10,
+        marginLeft: 20,
+        maxWidth: 250,
+      }}
+    />)
 
     const themeSelect = (
       <DropDownMenu
@@ -179,6 +216,7 @@ class ApplicationThemeComponent extends React.Component {
 
         <LoadableContentDisplayDecorator isLoading={isFetching} isEmpty={isThemeListEmpty}>
           <div style={style.contentWrapper}>
+            {themeActivationToggle}
             {themeConfigurer}
           </div>
         </LoadableContentDisplayDecorator>

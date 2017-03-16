@@ -14,6 +14,17 @@ import { UnconnectedModulesListContainer } from '../../src/containers/ModulesLis
  * @author Sébastien binda
  */
 describe('[ADMIN UI-CONFIGURATION] Testing Modules list container', () => {
+  // Since react will console.error propType warnings, that which we'd rather have
+  // as errors, we use sinon.js to stub it into throwing these warning as errors
+  // instead.
+  before(() => {
+    stub(console, 'error').callsFake((warning) => {
+      throw new Error(warning)
+    })
+  })
+  after(() => {
+    console.error.restore()
+  })
   it('Should fetch the modules list before rendering', () => {
     const fetchModulesCallback = spy()
     const props = {

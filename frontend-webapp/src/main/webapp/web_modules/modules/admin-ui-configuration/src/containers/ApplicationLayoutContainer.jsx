@@ -6,8 +6,10 @@ import { I18nProvider } from '@regardsoss/i18n'
 import { Layout } from '@regardsoss/model'
 import { connect } from '@regardsoss/redux'
 import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
+import { AuthenticationParametersSelectors } from '@regardsoss/authentication-manager'
 import LayoutSelector from '../model/layout/LayoutSelector'
 import LayoutActions from '../model/layout/LayoutActions'
+import LayoutInstanceActions from '../model/layout/LayoutInstanceActions'
 import ApplicationLayoutComponent from '../components/ApplicationLayoutComponent'
 
 /**
@@ -25,14 +27,20 @@ class ApplicationLayoutContainer extends React.Component {
     // Set by mapStateToProps
     isFetching: React.PropTypes.bool,
     layout: Layout,
+    isInstance: React.PropTypes.bool,
     // Set by mapDispatchToProps
     fetchLayout: React.PropTypes.func,
+    fetchInstanceLayout: React.PropTypes.func,
     updateLayout: React.PropTypes.func,
 
   }
 
   componentWillMount() {
-    this.props.fetchLayout(this.props.params.applicationId)
+    if (this.props.isInstance) {
+      this.props.fetchInstanceLayout(this.props.params.applicationId)
+    } else {
+      this.props.fetchLayout(this.props.params.applicationId)
+    }
   }
 
   /**
@@ -88,11 +96,14 @@ class ApplicationLayoutContainer extends React.Component {
 const mapStateToProps = (state, ownProps) => ({
   layout: ownProps.params.applicationId ? LayoutSelector.getById(state, ownProps.params.applicationId) : null,
   isFetching: LayoutSelector.isFetching(state),
+  isInstance: AuthenticationParametersSelectors.isInstance(state),
 })
 
 const mapDispatchToProps = dispatch => ({
   fetchLayout: applicationId => dispatch(LayoutActions.fetchEntity(applicationId)),
+  fetchInstanceLayout: applicationId => dispatch(LayoutInstanceActions.fetchEntity(applicationId)),
   updateLayout: (applicationId, layout) => dispatch(LayoutActions.updateEntity(applicationId, layout)),
+  updateInstanceLayout: (applicationId, layout) => dispatch(LayoutInstanceActions.updateEntity(applicationId, layout)),
 })
 
 const UnconnectedApplicationLayoutContainer = ApplicationLayoutContainer

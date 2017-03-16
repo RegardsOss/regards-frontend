@@ -6,9 +6,7 @@ import LayoutSelector from '../../src/model/layout/LayoutSelector'
 import MockResponse from './mockLayoutsResponse'
 
 const backendServerResultList = MockResponse
-const options = {
-  urlParams: { applicationId: 'user' },
-}
+const options = {}
 
 const entityTester = new ReduxEntityTester(LayoutActions, LayoutReducer, LayoutSelector, React.PropTypes.objectOf(Layout).isRequired, backendServerResultList, options)
 

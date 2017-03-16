@@ -6,7 +6,9 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { connect } from 'react-redux'
 import { Theme, defaultTheme } from '@regardsoss/model'
+import { AuthenticationParametersSelectors } from '@regardsoss/authentication-manager'
 import ThemeActions from '../model/actions/ThemeActions'
+import ThemeInstanceActions from '../model/actions/ThemeInstanceActions'
 import ThemeSelectors from '../model/selectors/ThemeSelectors'
 import getCurrentTheme from '../model/selectors/getCurrentTheme'
 import setCurrentTheme from '../model/actions/setCurrentTheme'
@@ -25,7 +27,9 @@ export class ThemeProvider extends React.Component {
 
   static propTypes = {
     currentTheme: Theme,
+    isInstance: React.PropTypes.bool,
     fetchThemeList: React.PropTypes.func,
+    fetchThemeInstanceList: React.PropTypes.func,
     dispatchSetCurrentTheme: React.PropTypes.func,
     children: React.PropTypes.node,
   }
@@ -52,9 +56,17 @@ export class ThemeProvider extends React.Component {
 
   componentDidMount() {
     const { dispatchSetCurrentTheme } = this.props
-    this.props.fetchThemeList().then((actionResult) => {
+    let fetchAction = this.props.fetchThemeList
+    if (this.props.isInstance) {
+      fetchAction = this.props.fetchThemeInstanceList
+    }
+
+    fetchAction().then((actionResult) => {
       // Init the current theme from the new list
-      const activeTheme = find(actionResult.payload.entities.theme, theme => theme.content.active) || defaultTheme
+      let activeTheme = defaultTheme
+      if (actionResult && actionResult.payload && actionResult.payload.entities && actionResult.payload.entities.theme) {
+        activeTheme = find(actionResult.payload.entities.theme, theme => theme.content.active) || defaultTheme
+      }
       this.setState({
         mergedTheme: ThemeProvider.getCustomMuiTheme(activeTheme.content.configuration),
       })
@@ -86,9 +98,12 @@ export class ThemeProvider extends React.Component {
 const mapStateToProps = state => ({
   themeList: ThemeSelectors.getList(state),
   currentTheme: getCurrentTheme(state),
+  project: AuthenticationParametersSelectors.getProject(state),
+  isInstance: AuthenticationParametersSelectors.isInstance(state),
 })
 const mapDispatchToProps = dispatch => ({
   fetchThemeList: () => dispatch(ThemeActions.fetchPagedEntityList(0, 100)),
+  fetchThemeInstanceList: () => dispatch(ThemeInstanceActions.fetchPagedEntityList(0, 100)),
   dispatchSetCurrentTheme: themeId => dispatch(setCurrentTheme(themeId)),
 })
 

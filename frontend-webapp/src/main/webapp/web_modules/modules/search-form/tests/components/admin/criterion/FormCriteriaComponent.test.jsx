@@ -7,6 +7,7 @@ import { assert } from 'chai'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import MenuItem from 'material-ui/MenuItem'
 import { Field } from '@regardsoss/form-utils'
+import { IntlStub } from '@regardsoss/tests-helpers'
 import { DefaultLayout } from '@regardsoss/layout'
 import { PluginProvider } from '@regardsoss/plugins'
 import Styles from '../../../../src/styles/styles'
@@ -18,14 +19,23 @@ import { UnconnectedFormCriteriaComponent } from '../../../../src/components/adm
  * @author Sébastien binda
  */
 describe('[FORM MODULE] Testing FormCriteriaComponent', () => {
+  // Since react will console.error propType warnings, that which we'd rather have
+  // as errors, we use sinon.js to stub it into throwing these warning as errors
+  // instead.
+  before(() => {
+    stub(console, 'error').callsFake((warning) => {
+      throw new Error(warning)
+    })
+  })
+  after(() => {
+    console.error.restore()
+  })
   const muiTheme = getMuiTheme({})
   const options = {
     context: {
       muiTheme,
       moduleTheme: Styles(muiTheme),
-      intl: {
-        formatMessage: id => (id.id),
-      },
+      intl: IntlStub,
     },
   }
 

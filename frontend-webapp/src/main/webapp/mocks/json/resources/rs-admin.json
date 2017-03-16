@@ -477,14 +477,14 @@
     {
       "id": 21,
       "description": "Retrieves the IHM Plugins",
-      "microservice": "rs-access",
+      "microservice": "rs-access-project",
       "resource": "/plugin",
       "verb": "GET"
     },
     {
       "id": 22,
       "description": "Retrieves the IHM modules",
-      "microservice": "rs-access",
+      "microservice": "rs-access-project",
       "resource": "/applications/{applicationId}/modules",
       "verb": "GET"
     },
@@ -505,7 +505,7 @@
     {
       "id": 25,
       "description": "Retrieves plugins",
-      "microservice": "rs-access",
+      "microservice": "rs-access-project",
       "resource": "/plugin",
       "verb": "GET"
     },

@@ -9,7 +9,7 @@ import Container from './Container'
 const Layout = React.PropTypes.shape({
   id: React.PropTypes.number.isRequired,
   applicationId: React.PropTypes.string.isRequired,
-  layout: React.PropTypes.oneOfType([React.PropTypes.string, Container]).isRequired,
+  layout: Container.isRequired,
 })
 
 export default Layout

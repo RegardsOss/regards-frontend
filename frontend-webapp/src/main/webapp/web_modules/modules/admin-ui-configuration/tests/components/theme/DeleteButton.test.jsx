@@ -6,6 +6,17 @@ import IconButton from 'material-ui/IconButton'
 import DeleteButton from '../../../src/components/theme/DeleteButton'
 
 describe('[ADMIN UI MANAGEMENT] Testing delete button component', () => {
+  // Since react will console.error propType warnings, that which we'd rather have
+  // as errors, we use sinon.js to stub it into throwing these warning as errors
+  // instead.
+  before(() => {
+    stub(console, 'error').callsFake((warning) => {
+      throw new Error(warning)
+    })
+  })
+  after(() => {
+    console.error.restore()
+  })
   it('should exists', () => {
     assert.isDefined(DeleteButton)
     assert.isDefined(IconButton)

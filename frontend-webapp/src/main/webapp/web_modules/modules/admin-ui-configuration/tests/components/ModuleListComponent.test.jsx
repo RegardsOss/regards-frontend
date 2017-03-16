@@ -16,6 +16,17 @@ import ModuleListComponent from '../../src/components/ModuleListComponent'
  * @author Sébastien binda
  */
 describe('[ADMIN UI-CONFIGURATION] Testing Modules list component', () => {
+  // Since react will console.error propType warnings, that which we'd rather have
+  // as errors, we use sinon.js to stub it into throwing these warning as errors
+  // instead.
+  before(() => {
+    stub(console, 'error').callsFake((warning) => {
+      throw new Error(warning)
+    })
+  })
+  after(() => {
+    console.error.restore()
+  })
   const options = {
     context: {
       muiTheme: getMuiTheme({}),

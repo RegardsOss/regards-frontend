@@ -17,8 +17,8 @@ const themeSchema = new Schema(ThemeConfiguration.normalizrKey, {
         // eslint-disable-next-line no-param-reassign
         output.content.configuration = JSON.parse(value.configuration)
       } catch (e) {
-        console.error(`Invalid Module configuration for module ${value.id}`)
-        console.error(`Conf: ${value.configuration}`)
+        console.error(`Invalid Theme configuration for theme ${value.id}`)
+        console.error('Conf:', value.configuration)
       }
     }
   },

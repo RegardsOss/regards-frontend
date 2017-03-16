@@ -2,9 +2,6 @@
   "applications": [
     {
       "id": "user"
-    },
-    {
-      "id": "portal"
     }
   ],
   "plugin": [
@@ -55,34 +52,6 @@
       "active": true,
       "isDefault": false,
       "conf":"{\"title\":\"Regards user interface\",\"displayAuthentication\":true,\"displayLocaleSelector\":true,\"displayThemeSelector\":true}"
-    },
-    {
-      "active": true,
-      "isDefault": false,
-      "name": "menu",
-      "container": "header",
-      "description": "Affichage du menu",
-      "conf": "{\"title\":\"Regards Portal interface\",\"displayAuthentication\":false,\"displayLocaleSelector\":true,\"displayThemeSelector\":true}",
-      "applicationId": "portal",
-      "id": 2
-    },
-    {
-      "active": true,
-      "isDefault": false,
-      "name": "news",
-      "description": "Nouvelles du projet",
-      "container": "news",
-      "applicationId": "portal",
-      "id": 3
-    },
-    {
-      "active": true,
-      "isDefault": false,
-      "name": "projects-list",
-      "description": "liste des projets",
-      "container": "projects",
-      "applicationId": "portal",
-      "id": 5
     },
     {
       "active": false,
@@ -166,11 +135,6 @@
       "id": 0,
       "applicationId" : "user",
       "layout": "{\"id\":\"user\",\"type\":\"MainContainer\",\"classes\":[],\"styles\":{},\"containers\":[{\"id\":\"header\",\"type\":\"RowContainer\",\"classes\":[],\"styles\":{}},{\"id\":\"content\",\"type\":\"RowContainer\",\"classes\":[],\"styles\":{},\"dynamicContent\":true},{\"id\":\"footer\",\"type\":\"RowContainer\",\"classes\":[],\"styles\":{}}]}"
-    },
-    {
-      "id": 1,
-      "applicationId" : "portal",
-      "layout":"{\"id\":\"portal\",\"type\":\"MainContainer\",\"classes\":[],\"styles\":{},\"containers\":[{\"id\":\"header\",\"type\":\"RowContainer\",\"classes\":[],\"styles\":{}},{\"id\":\"news\",\"type\":\"RowContainer\",\"classes\":[],\"styles\":{}},{\"id\":\"projects\",\"type\":\"RowContainer\",\"classes\":[],\"styles\":{}}]}"
     }
   ],
   "themes": [
