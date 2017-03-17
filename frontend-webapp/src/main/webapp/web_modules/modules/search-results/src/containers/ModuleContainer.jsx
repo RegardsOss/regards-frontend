@@ -16,9 +16,7 @@ class ModuleContainer extends React.Component {
 
   static propTypes = {
     // Props supplied by LazyModuleComponent
-    // eslint-disable-next-line react/no-unused-prop-types
     appName: React.PropTypes.string,
-    // eslint-disable-next-line react/no-unused-prop-types
     project: React.PropTypes.string,
     // Default props given to the form
     moduleConf: ModuleConfiguration.isRequired,
@@ -45,13 +43,17 @@ class ModuleContainer extends React.Component {
   }
 
   render() {
-    const { attributeModels, moduleConf: { searchQuery, attributes, attributesRegroupements, resultType } } = this.props
+    const { appName, project } = this.props
+    const { attributeModels, moduleConf: { enableFacettes, searchQuery, attributes, attributesRegroupements, resultType } } = this.props
     const { attributesFetching } = this.state
     return (
       <LoadableContentDisplayDecorator
         isLoading={attributesFetching}
       >
         <SearchResultsComponent
+          appName={appName}
+          project={project}
+          enableFacettes={enableFacettes}
           searchQuery={searchQuery}
           attributesConf={attributes}
           attributesRegroupementsConf={attributesRegroupements}

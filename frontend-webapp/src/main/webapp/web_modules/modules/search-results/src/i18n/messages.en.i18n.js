@@ -38,6 +38,7 @@ const messages = Object.assign({
   // User messages
   'navigation.dataobjects.label': 'Catalog',
   'navigation.datasets.label': 'Datasets',
+  'navigation.filter.by.facets': 'Results filters',
 }, Locales.en)
 
 export default messages

@@ -37,7 +37,7 @@ describe('[ADMIN DATA CONNECTION MANAGEMENT] Testing ConnectionTesterIconButton'
   it('Render properly', () => {
     const props = {
       connection: ConnectionDump[1353],
-      handleTestConnection: () => {},
+      handleTestConnection: () => { },
     }
     const enzymeWrapper = shallow(<ConnectionTesterIconButton {...props} />, { context })
     expect(enzymeWrapper.find(ConnectionTesterProgress)).to.have.length(0)

@@ -42,6 +42,7 @@ import Endpoint from './admin/Endpoint'
 import AIPStatus, { aipStates, aipDataTypes } from './archival-storage/AIPStatus'
 import StoragePlugin, { StoragePluginShape } from './archival-storage/StoragePlugin'
 import Theme from './access/Theme'
+import getChainableTypeChecker from './common/ChainableTypeChecker'
 import URL, { validURLRegexp, relativeURLRegexp } from './common/URL'
 import RangedNumber from './common/RangedNumber'
 import Percent from './common/Percent'
@@ -112,6 +113,7 @@ export default {
   ...Theme,
 
   // Common
+  getChainableTypeChecker,
   URL,
   validURLRegexp,
   relativeURLRegexp,

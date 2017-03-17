@@ -7,10 +7,10 @@ import MessagesEN from '../../src/i18n/messages.en.i18n'
 import MessagesFR from '../../src/i18n/messages.fr.i18n'
 
 /**
- * Tests for i18n messages
- * @author Sébastien Binda
+ * Tests for i18n messages of search-form module
+ * @author Sébastien binda
  */
-describe('[SEARCH UTILS] Testing i18n', () => {
+describe('[SEARCH FACETS] Testing i18n', () => {
   it('should exist', () => {
     assert.isDefined(MessagesEN)
     assert.isDefined(MessagesFR)

@@ -12,6 +12,7 @@ class OnHoverSwitchIconButton extends React.Component {
 
   static propTypes = {
     children: React.PropTypes.element,
+    onTouchTap: React.PropTypes.func,
   }
 
   constructor(props, context) {
@@ -40,7 +41,7 @@ class OnHoverSwitchIconButton extends React.Component {
         <IconButton {...otherProps}>
           {children[this.state.usedPropIndex]}
         </IconButton>
-      </span>
+      </span >
     )
   }
 }
