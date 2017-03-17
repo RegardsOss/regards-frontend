@@ -8,28 +8,9 @@ import { IntlStub } from '@regardsoss/tests-helpers'
 import WordFacetSelectorComponent from '../../src/components/WordFacetSelectorComponent'
 
 import styles from '../../src/styles/styles'
+import facetsNetworkDump from '../network-dump/search-results-dump'
 
-const aFacetModel = {
-  attributeName: 'default.FORMAT',
-  type: 'STRING',
-  values: [
-    {
-      word: 'vhs',
-      count: 6,
-      openSearchQuery: 'default.FORMAT:vhs',
-    },
-    {
-      word: 'dvd',
-      count: 9,
-      openSearchQuery: 'default.FORMAT:dvd',
-    },
-    {
-      word: 'blueray',
-      count: 66,
-      openSearchQuery: 'default.FORMAT:blueray',
-    },
-  ],
-}
+const aFacetModel = facetsNetworkDump.facets[0]
 
 describe('[SEARCH FACETS] Testing WordFacetSelectorComponent', () => {
   // Since react will console.error propType warnings, that which we'd rather have

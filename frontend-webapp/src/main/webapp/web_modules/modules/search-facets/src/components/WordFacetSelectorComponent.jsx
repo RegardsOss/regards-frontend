@@ -15,9 +15,11 @@ class WordFacetSelectorComponent extends React.Component {
   static defaultProps = {}
 
   render() {
-    const { facet } = this.props
+    const { facet: { attributeName, type } } = this.props
     return (
-      <div />
+      <div>
+        {attributeName} : {type}
+      </div>
     )
   }
 }

@@ -9,73 +9,9 @@ import DateRangeFacetSelectorComponent from '../../src/components/DateRangeFacet
 import RangeFacetSelectorComponent from '../../src/components/RangeFacetSelectorComponent'
 
 import styles from '../../src/styles/styles'
+import facetsNetworkDump from '../network-dump/search-results-dump'
 
-const aFacetModel = {
-  attributeName: 'MISC_INFO.PUBLICATION_DATE',
-  type: 'DATE',
-  values: [
-    {
-      lowerBound: null,
-      upperBound: '1960-04-30T18:20:02.056',
-      count: 8,
-      openSearchQuery: 'MISC_INFO.PUBLICATION_DATE: (*..1960-04-30T18:20:02.056)',
-    },
-    {
-      lowerBound: '1960-04-30T18:20:02.056',
-      upperBound: '1972-04-30T01:00:00.000',
-      count: 9,
-      openSearchQuery: 'MISC_INFO.PUBLICATION_DATE: [1960-04-30T18:20:02.056..1972-04-30T01:00:00.000)',
-    },
-    {
-      lowerBound: '1972-04-30T01:00:00.000',
-      upperBound: '1982-06-22T06:45:30.000',
-      count: 7,
-      openSearchQuery: 'MISC_INFO.PUBLICATION_DATE: [1972-04-30T01:00:00.000..1982-06-22T06:45:30.000)',
-    },
-    {
-      lowerBound: '1982-06-22T06:45:30.033',
-      upperBound: '1988-09-11T06:45:30.428',
-      count: 7,
-      openSearchQuery: 'MISC_INFO.PUBLICATION_DATE: [1982-06-22T06:45:30.033..1988-09-11T06:45:30.428)',
-    },
-    {
-      lowerBound: '1988-09-11T06:45:30.428',
-      upperBound: '1995-03-04T08:10:00.998',
-      count: 8,
-      openSearchQuery: 'MISC_INFO.PUBLICATION_DATE: [1988-09-11T06:45:30.428..1995-03-04T08:10:00.998)',
-    },
-    {
-      lowerBound: '1995-03-04T08:10:00.998',
-      upperBound: '1999-11-09T06:10:00.152',
-      count: 9,
-      openSearchQuery: 'MISC_INFO.PUBLICATION_DATE: [1995-03-04T08:10:00.998..1999-11-09T06:10:00.152)',
-    },
-    {
-      lowerBound: '1999-11-09T06:10:00.152',
-      upperBound: '2002-09-21T01:00:00.000',
-      count: 8,
-      openSearchQuery: 'MISC_INFO.PUBLICATION_DATE: [1999-11-09T06:10:00.152..2002-09-21T01:00:00.00)',
-    },
-    {
-      lowerBound: '2004-04-01T05:38:22.025',
-      upperBound: '2006-01-01T00:30:12.038',
-      count: 8,
-      openSearchQuery: 'MISC_INFO.PUBLICATION_DATE: [2004-04-01T05:38:22.025..2006-01-01T00:30:12.038)',
-    },
-    {
-      lowerBound: '2006-01-01T00:30:12.038',
-      upperBound: '2009-02-28T11:59:59.999',
-      count: 7,
-      openSearchQuery: 'MISC_INFO.PUBLICATION_DATE: [2006-01-01T00:30:12.038..2009-02-28T11:59:59.999)',
-    },
-    {
-      lowerBound: '2009-02-28T11:59:59.999',
-      upperBound: null,
-      count: 9,
-      openSearchQuery: 'MISC_INFO.PUBLICATION_DATE: [2009-02-28T11:59:59.999..*)',
-    },
-  ],
-}
+const aFacetModel = facetsNetworkDump.facets[1]
 
 describe('[SEARCH FACETS] Testing DateRangeFacetSelectorComponent', () => {
   // Since react will console.error propType warnings, that which we'd rather have

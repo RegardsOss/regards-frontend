@@ -13,9 +13,11 @@ class RangeFacetSelectorComponent extends React.Component {
   }
 
   render() {
-    const { facet } = this.props
+    const { facet: { attributeName, type } } = this.props
     return (
-      <div />
+      <div>
+        {attributeName} : {type}
+      </div>
     )
   }
 }

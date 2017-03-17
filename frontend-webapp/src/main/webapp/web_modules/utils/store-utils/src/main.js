@@ -5,10 +5,14 @@ import BasicSelector from './BasicSelector'
 import BasicListSelectors from './list/BasicListSelectors'
 import BasicListActions from './list/BasicListActions'
 import BasicListReducers from './list/BasicListReducers'
+
 import BasicPageableSelectors from './pageable/BasicPageableSelectors'
 import BasicPageableActions from './pageable/BasicPageableActions'
 import BasicPageableReducers from './pageable/BasicPageableReducers'
+
 import BasicFacetsPageableSelectors from './facets/BasicFacetsPageableSelectors'
+import BasicFacetsPageableActions from './facets/BasicFacetsPageableActions'
+import BasicFacetsPageableReducers from './facets/BasicFacetsPageableReducers'
 
 import BasicArraySelectors from './array/BasicArraySelectors'
 import BasicArrayActions from './array/BasicArrayActions'
@@ -31,6 +35,8 @@ export default {
   BasicPageableActions,
   BasicPageableReducers,
   BasicFacetsPageableSelectors,
+  BasicFacetsPageableActions,
+  BasicFacetsPageableReducers,
   BasicArraySelectors,
   BasicArrayActions,
   BasicArrayReducers,

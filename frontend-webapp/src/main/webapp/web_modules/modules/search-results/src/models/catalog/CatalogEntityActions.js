@@ -2,13 +2,13 @@
  * LICENSE_PLACEHOLDER
  **/
 import Schemas from '@regardsoss/api'
-import { BasicPageableActions } from '@regardsoss/store-utils'
+import { BasicFacetsPageableActions } from '@regardsoss/store-utils'
 
 /**
  * Redux store Actions for Module entities.
  * @author Sébastien binda
  */
-class CatalogEntityActions extends BasicPageableActions {
+class CatalogEntityActions extends BasicFacetsPageableActions {
   constructor() {
     super({
       namespace: 'search/results',

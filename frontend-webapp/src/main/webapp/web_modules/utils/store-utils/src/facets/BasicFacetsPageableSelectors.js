@@ -9,7 +9,7 @@ class BasicFacetsPageableSelectors extends BasicPageableSelectors {
    * @returns {* | undefined} facets for the current result
    */
   getFacets(state) {
-    return this.uncombineStore(state).metadata
+    return this.uncombineStore(state).facets
   }
 
 }
