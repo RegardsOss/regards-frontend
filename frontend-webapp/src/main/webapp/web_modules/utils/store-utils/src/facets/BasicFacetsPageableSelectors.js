@@ -3,7 +3,7 @@
 **/
 import BasicPageableSelectors from '../pageable/BasicPageableSelectors'
 
-export default class extends BasicPageableSelectors {
+class BasicFacetsPageableSelectors extends BasicPageableSelectors {
   /**
    * @param {*} state redux state
    * @returns {* | undefined} facets for the current result
@@ -13,3 +13,5 @@ export default class extends BasicPageableSelectors {
   }
 
 }
+
+export default BasicFacetsPageableSelectors

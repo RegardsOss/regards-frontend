@@ -8,6 +8,7 @@ import BasicListReducers from './list/BasicListReducers'
 import BasicPageableSelectors from './pageable/BasicPageableSelectors'
 import BasicPageableActions from './pageable/BasicPageableActions'
 import BasicPageableReducers from './pageable/BasicPageableReducers'
+import BasicFacetsPageableSelectors from './facets/BasicFacetsPageableSelectors'
 
 import BasicArraySelectors from './array/BasicArraySelectors'
 import BasicArrayActions from './array/BasicArrayActions'
@@ -29,6 +30,7 @@ export default {
   BasicPageableSelectors,
   BasicPageableActions,
   BasicPageableReducers,
+  BasicFacetsPageableSelectors,
   BasicArraySelectors,
   BasicArrayActions,
   BasicArrayReducers,

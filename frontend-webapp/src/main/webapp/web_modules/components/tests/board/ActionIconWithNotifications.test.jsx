@@ -29,9 +29,12 @@ describe('[COMPONENTS] Testing ActionIconWithNotifications', () => {
       notificationsCount: 1,
       icon: <Notifications />,
     }
-    const render = shallow(<ActionIconWithNotifications {...props} />, context)
+    const context = {
+      muiTheme: {},
+    }
+    const render = shallow(<ActionIconWithNotifications {...props} />, { context })
     assert.isTrue(render.find(ShowableAtRender).props().show, 'The badge should be shown when notificationsCount is greater than zero')
-    assert.equal(Notifications, 1, 'There should be the icon')
+    assert.equal(render.find(Notifications).length, 1, 'There should be the icon')
   })
 
   it('should render properly and hide badge without notifications', () => {
@@ -39,8 +42,11 @@ describe('[COMPONENTS] Testing ActionIconWithNotifications', () => {
       notificationsCount: 0,
       icon: <Notifications />,
     }
-    const render = shallow(<ActionIconWithNotifications {...props} />, context)
+    const context = {
+      muiTheme: {},
+    }
+    const render = shallow(<ActionIconWithNotifications {...props} />, { context })
     assert.isFalse(render.find(ShowableAtRender).props().show, 'The badge should be hidden when notificationsCount is equal to zero')
-    assert.equal(Notifications, 1, 'There should be the icon')
+    assert.equal(render.find(Notifications).length, 1, 'There should be the icon')
   })
 })

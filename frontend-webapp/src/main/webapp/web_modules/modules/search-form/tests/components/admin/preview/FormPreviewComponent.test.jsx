@@ -15,7 +15,7 @@ import FormPreviewComponent from '../../../../src/components/admin/preview/FormP
  * Tests for FormPreviewComponent
  * @author Sébastien binda
  */
-describe('[FORM MODULE] Testing FormPreviewComponent', () => {
+describe('[SEARCH FORM] Testing FormPreviewComponent', () => {
   // Since react will console.error propType warnings, that which we'd rather have
   // as errors, we use sinon.js to stub it into throwing these warning as errors
   // instead.

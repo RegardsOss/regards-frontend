@@ -16,7 +16,7 @@ import FormDatasetsTypeSelection from '../../../../src/components/admin/datasets
  * Tests for FormDatasetsTypeSelection
  * @author Sébastien binda
  */
-describe('[FORM MODULE] Testing FormDatasetsTypeSelection', () => {
+describe('[SEARCH FORM] Testing FormDatasetsTypeSelection', () => {
   // Since react will console.error propType warnings, that which we'd rather have
   // as errors, we use sinon.js to stub it into throwing these warning as errors
   // instead.

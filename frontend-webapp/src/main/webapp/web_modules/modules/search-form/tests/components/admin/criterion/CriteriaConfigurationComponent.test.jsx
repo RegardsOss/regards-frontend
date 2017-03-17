@@ -16,7 +16,7 @@ import CriteriaConfigurationComponent from '../../../../src/components/admin/cri
  * Tests for CriteriaConfigurationComponent
  * @author Sébastien binda
  */
-describe('[FORM MODULE] Testing CriteriaConfigurationComponent', () => {
+describe('[SEARCH FORM] Testing CriteriaConfigurationComponent', () => {
   // Since react will console.error propType warnings, that which we'd rather have
   // as errors, we use sinon.js to stub it into throwing these warning as errors
   // instead.
@@ -61,7 +61,7 @@ describe('[FORM MODULE] Testing CriteriaConfigurationComponent', () => {
       },
       plugin: {
         name: 'test plugin',
-        plugin: () => {},
+        plugin: () => { },
         messages: {},
         info: TestPluginInfo,
       },

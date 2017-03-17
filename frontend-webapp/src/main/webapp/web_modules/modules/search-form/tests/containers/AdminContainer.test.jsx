@@ -12,7 +12,7 @@ import { DATASET_TYPE, DATASET_MODEL_TYPE } from '../../src/models/datasets/Data
  * Tests for AdminContainer
  * @author Sébastien binda
  */
-describe('[FORM MODULE] Testing Admin Container', () => {
+describe('[SEARCH FORM] Testing Admin Container', () => {
   // Since react will console.error propType warnings, that which we'd rather have
   // as errors, we use sinon.js to stub it into throwing these warning as errors
   // instead.
@@ -36,7 +36,9 @@ describe('[FORM MODULE] Testing Admin Container', () => {
       adminForm: {
         changeField: () => {
         },
-        form: {},
+        form: {
+          enableFacettes: false,
+        },
       },
       moduleConf: {
         datasets: {
@@ -50,6 +52,7 @@ describe('[FORM MODULE] Testing Admin Container', () => {
           type: 'type',
         },
         resultType: '',
+        enableFacettes: false,
       },
       selectableAttributes: {},
       selectableAttributesFectching: false,
@@ -86,6 +89,7 @@ describe('[FORM MODULE] Testing Admin Container', () => {
         changeField: () => {
         },
         form: {
+          enableFacettes: false,
           conf: {
             datasets: {
               type: DATASET_TYPE,
@@ -103,6 +107,7 @@ describe('[FORM MODULE] Testing Admin Container', () => {
           type: 'type',
         },
         resultType: '',
+        enableFacettes: true,
       },
       selectableAttributes: {},
       selectableAttributesFectching: false,
@@ -139,6 +144,7 @@ describe('[FORM MODULE] Testing Admin Container', () => {
         changeField: () => {
         },
         form: {
+          enableFacettes: false,
           conf: {
             datasets: {
               type: DATASET_MODEL_TYPE,
@@ -156,6 +162,7 @@ describe('[FORM MODULE] Testing Admin Container', () => {
           type: 'type',
         },
         resultType: '',
+        enableFacettes: true,
       },
       selectableAttributes: {},
       selectableAttributesFectching: false,

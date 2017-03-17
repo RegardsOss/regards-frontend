@@ -15,7 +15,7 @@ import { DATASET_TYPE } from '../../src/models/datasets/DatasetSelectionTypes'
  * Tests for ModuleContainer
  * @author Sébastien binda
  */
-describe('[FORM MODULE] Testing User Container', () => {
+describe('[SEARCH FORM] Testing User Container', () => {
   // Since react will console.error propType warnings, that which we'd rather have
   // as errors, we use sinon.js to stub it into throwing these warning as errors
   // instead.
@@ -69,6 +69,7 @@ describe('[FORM MODULE] Testing User Container', () => {
       project: 'test',
       appName: 'test',
       moduleConf: {
+        enableFacettes: false,
         layout: {
           id: 'main',
           type: 'type',

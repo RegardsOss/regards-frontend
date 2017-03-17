@@ -15,6 +15,12 @@ describe('[SEARCH FACETS] Testing FacetsDisplayerComponent', () => {
   // as errors, we use sinon.js to stub it into throwing these warning as errors
   // instead.
   before(() => {
+    console.info('OMFFFFFFGGG')
+    console.info('OMFFFFFFGGG')
+    console.info('OMFFFFFFGGG')
+    console.info('OMFFFFFFGGG')
+    console.info('OMFFFFFFGGG')
+    console.info(console.error)
     stub(console, 'error').callsFake((warning) => {
       throw new Error(warning)
     })
