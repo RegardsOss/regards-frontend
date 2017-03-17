@@ -62,7 +62,6 @@ class AdminApp extends React.Component {
       this.setState({
         isLoadingEndpoints: true,
       })
-
       // fetch endpoints
       Promise.resolve(this.props.fetchEndpoints())
         .then((actionResult) => {
@@ -75,8 +74,9 @@ class AdminApp extends React.Component {
             throw new Error('Failed to retrieve endpoint list, which is required on the admin dashboard')
           }
         })
+        }
     }
-  }
+  
 
   render() {
     const { isAuthenticated, content, project } = this.props
@@ -86,7 +86,7 @@ class AdminApp extends React.Component {
       <ThemeProvider>
         <I18nProvider messageDir={'modules/admin/src/i18n'}>
           <AuthenticationContainer project={project} isAuthenticated={isAuthenticated}>
-            <LoadableContentDisplayDecorator isLoading={isLoadingEndpoints}>
+            <LoadableContentDisplayDecorator isLoading={isLoading}>
               <AdminLayout {...this.props}>
                 {content}
               </AdminLayout>
