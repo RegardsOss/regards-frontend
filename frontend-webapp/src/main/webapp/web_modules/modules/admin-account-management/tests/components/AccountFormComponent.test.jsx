@@ -1,6 +1,6 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import sinon from 'sinon'
+import { stub } from 'sinon'
 import { Field } from '@regardsoss/form-utils'
 import { AccountFormComponent } from '../../src/components/AccountFormComponent'
 
@@ -10,7 +10,7 @@ describe('[ADMIN ACCOUNT MANAGEMENT] Testing account form component', () => {
   // as errors, we use sinon.js to stub it into throwing these warning as errors
   // instead.
   before(() => {
-    sinon.stub(console, 'error', (warning) => {
+    stub(console, 'error').callsFake((warning) => {
       throw new Error(warning)
     })
   })

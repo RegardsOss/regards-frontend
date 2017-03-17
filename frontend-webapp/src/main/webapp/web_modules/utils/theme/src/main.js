@@ -6,6 +6,7 @@ import ThemeInjector from './ThemeInjector'
 import SelectThemeContainer from './containers/SelectThemeContainer'
 import injectTheme from './ThemeInjectionDecorator'
 import ThemeActions from './model/actions/ThemeActions'
+import ThemeInstanceActions from './model/actions/ThemeInstanceActions'
 import reducers from './model/reducers'
 import ThemeSelectors from './model/selectors/ThemeSelectors'
 import getCurrentTheme from './model/selectors/getCurrentTheme'
@@ -22,5 +23,6 @@ export {
   getCurrentTheme,
   ThemeProvider,
   ThemeActions,
+  ThemeInstanceActions,
   defaultCustomConfiguration,
 }

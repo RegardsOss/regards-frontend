@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { connect } from '@regardsoss/redux'
-import { AttributeModel } from '@regardsoss/model'
+import { AttributeModel, SearchResultsTargetsEnum } from '@regardsoss/model'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import AttributeModelActions from '../models/attributes/AttributeModelActions'
 import AttributeModelSelector from '../models/attributes/AttributeModelSelector'
@@ -58,7 +58,7 @@ class ModuleContainer extends React.Component {
           attributesConf={attributes}
           attributesRegroupementsConf={attributesRegroupements}
           attributeModels={attributeModels}
-          target={resultType}
+          target={resultType || SearchResultsTargetsEnum.DATAOBJECT_RESULTS}
         />
       </LoadableContentDisplayDecorator>
     )

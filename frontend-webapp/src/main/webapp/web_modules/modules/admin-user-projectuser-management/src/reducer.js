@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { combineReducers } from 'redux'
 import { getProjectUserReducer, reducerPath as projectUserReducerPath } from './model/ProjectUserReducers'
 import { getRoleReducer, reducerPath as roleReducerPath } from './model/RoleReducers'

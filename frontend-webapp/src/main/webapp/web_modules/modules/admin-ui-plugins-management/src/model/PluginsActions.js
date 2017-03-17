@@ -12,7 +12,7 @@ class PluginsActions extends BasicPageableActions {
   constructor() {
     super({
       namespace: 'ui-plugins-management/plugins',
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-access/plugin`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-access-project/plugin`,
       schemaTypes: {
         ENTITY: Schemas.PLUGIN,
         ENTITY_ARRAY: Schemas.PLUGIN_ARRAY,

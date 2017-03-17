@@ -1,7 +1,7 @@
-import { Schema } from 'normalizr'
+import { Schema, arrayOf } from 'normalizr'
 
 export const LayoutConfiguration = {
-  entityKey: 'id',
+  entityKey: 'applicationId',
   normalizrKey: 'layout',
 }
 
@@ -9,11 +9,21 @@ export const LayoutConfiguration = {
 // Read more about Normalizr: https://github.com/paularmstrong/normalizr
 const layoutSchema = new Schema(LayoutConfiguration.normalizrKey, {
   idAttribute: layout =>
-    layout.content[LayoutConfiguration.entityKey]
-  ,
+    layout.content[LayoutConfiguration.entityKey],
+  assignEntity(output, key, value, input) {
+    if (value && value.layout) {
+      try {
+        // eslint-disable-next-line no-param-reassign
+        output.content.layout = JSON.parse(value.layout)
+      } catch (e) {
+        console.error(`Invalid layout configuration for layout ${value.id}`, e)
+      }
+    }
+  },
 })
 
 // Schemas for API responses.
 export default {
   LAYOUT: layoutSchema,
+  LAYOUT_ARRAY: arrayOf(layoutSchema),
 }

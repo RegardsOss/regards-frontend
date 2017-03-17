@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { shallow } from 'enzyme'
-import sinon from 'sinon'
+import { stub, spy } from 'sinon'
 import { assert } from 'chai'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import { Field } from '@regardsoss/form-utils'
@@ -16,6 +16,17 @@ import SearchResultsConfigurationComponent from '../../../src/components/admin/S
  * @author Sébastien binda
  */
 describe('[RESULTS MODULE] Testing SearchResultsConfigurationComponent', () => {
+  // Since react will console.error propType warnings, that which we'd rather have
+  // as errors, we use sinon.js to stub it into throwing these warning as errors
+  // instead.
+  before(() => {
+    stub(console, 'error').callsFake((warning) => {
+      throw new Error(warning)
+    })
+  })
+  after(() => {
+    console.error.restore()
+  })
   const muiTheme = getMuiTheme({})
   const options = {
     context: {
@@ -28,7 +39,7 @@ describe('[RESULTS MODULE] Testing SearchResultsConfigurationComponent', () => {
   }
 
   it('Should render a SearchResultsConfigurationComponent to configure search results', () => {
-    const selectCallback = sinon.spy()
+    const selectCallback = spy()
     const props = {
       defaultSelected: SearchResultsTargetsEnum.DATASET_RESULTS,
       onSelectType: selectCallback,

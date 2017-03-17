@@ -8,7 +8,7 @@ class ThemeActions extends BasicPageableActions {
   constructor() {
     super({
       namespace: 'common/theme',
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-access/themes`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-access-project/themes`,
       schemaTypes: {
         ENTITY: Schemas.THEME,
         ENTITY_ARRAY: Schemas.THEME_ARRAY,

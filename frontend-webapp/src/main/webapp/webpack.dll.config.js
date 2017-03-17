@@ -4,13 +4,8 @@ const CleanWebpackPlugin = require('clean-webpack-plugin')
 
 module.exports = {
   resolve: {
-    // Automaticaly get extensions files from javascript code with import or require.
-    // exemple require('main') look for main, main.js or main.jsx with our configuration
-    extensions: ['.js', '.jsx'],
     modules: [
-      // Root directories from which requires are made
-      path.join(__dirname),
-      'node_modules',
+      'node_modules'
     ],
   },
   output: {

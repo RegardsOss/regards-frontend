@@ -1,3 +1,7 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
+
 export const homeUserProjectAdminRoute = {
   path: 'board',
   getComponents(nextState, cb) {

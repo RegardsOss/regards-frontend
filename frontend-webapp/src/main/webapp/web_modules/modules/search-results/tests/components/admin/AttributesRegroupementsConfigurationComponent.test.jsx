@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { shallow } from 'enzyme'
-import sinon from 'sinon'
+import { stub, spy } from 'sinon'
 import { assert } from 'chai'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import { CardHeader } from 'material-ui/Card'
@@ -16,6 +16,17 @@ import AttributeRegroupementComponent from '../../../src/components/admin/Attrib
  * @author Sébastien binda
  */
 describe('[RESULTS MODULE] Testing AttributeRegroupementComponent', () => {
+  // Since react will console.error propType warnings, that which we'd rather have
+  // as errors, we use sinon.js to stub it into throwing these warning as errors
+  // instead.
+  before(() => {
+    stub(console, 'error').callsFake((warning) => {
+      throw new Error(warning)
+    })
+  })
+  after(() => {
+    console.error.restore()
+  })
   const muiTheme = getMuiTheme({})
   const options = {
     context: {
@@ -28,9 +39,9 @@ describe('[RESULTS MODULE] Testing AttributeRegroupementComponent', () => {
   }
 
   it('Should render a AttributeRegroupementComponent', () => {
-    const onChangeSpy = sinon.spy()
-    const onDeleteSpy = sinon.spy()
-    const onEditSpy = sinon.spy()
+    const onChangeSpy = spy()
+    const onDeleteSpy = spy()
+    const onEditSpy = spy()
 
     const attributeConfProp = {
       label: 'Test regroupement',

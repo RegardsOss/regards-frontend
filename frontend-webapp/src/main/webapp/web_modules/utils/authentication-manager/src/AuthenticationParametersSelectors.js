@@ -3,6 +3,7 @@
 **/
 import { BasicSelector } from '@regardsoss/store-utils'
 import { PATH } from './AuthenticationParametersReducers'
+import { INSTANCE } from './AuthenticationParametersActions'
 
 class AuthenticateParametersSelectors extends BasicSelector {
 
@@ -12,6 +13,10 @@ class AuthenticateParametersSelectors extends BasicSelector {
 
   getProject(state) {
     return this.uncombineStore(state)
+  }
+
+  isInstance(state) {
+    return this.getProject(state) === INSTANCE
   }
 
 }

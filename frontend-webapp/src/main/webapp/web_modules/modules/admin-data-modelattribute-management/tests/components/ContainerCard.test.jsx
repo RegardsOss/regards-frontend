@@ -3,7 +3,7 @@
  **/
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import sinon from 'sinon'
+import { stub } from 'sinon'
 import { CardText } from 'material-ui/Card'
 import { ContainerCard } from '../../src/components/ContainerCard'
 import ItemTypes from '../../src/components/ItemTypes'
@@ -14,7 +14,7 @@ describe('[ADMIN DATA MODEL ATTRIBUTE MANAGEMENT] Testing ContainerCard', () => 
   // as errors, we use sinon.js to stub it into throwing these warning as errors
   // instead.
   before(() => {
-    sinon.stub(console, 'error', (warning) => { throw new Error(warning) })
+    stub(console, 'error').callsFake((warning) => { throw new Error(warning) })
   })
   after(() => {
     console.error.restore()

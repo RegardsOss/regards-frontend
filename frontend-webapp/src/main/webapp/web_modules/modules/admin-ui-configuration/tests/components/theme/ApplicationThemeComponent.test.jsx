@@ -1,12 +1,23 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import sinon from 'sinon'
+import { stub, spy } from 'sinon'
 import Paper from 'material-ui/Paper'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import { IntlStub } from '@regardsoss/tests-helpers'
 import ApplicationThemeComponent from '../../../src/components/theme/ApplicationThemeComponent'
 
 describe('[ADMIN UI MANAGEMENT] Testing application theme component', () => {
+  // Since react will console.error propType warnings, that which we'd rather have
+  // as errors, we use sinon.js to stub it into throwing these warning as errors
+  // instead.
+  before(() => {
+    stub(console, 'error').callsFake((warning) => {
+      throw new Error(warning)
+    })
+  })
+  after(() => {
+    console.error.restore()
+  })
   it('should exists', () => {
     assert.isDefined(ApplicationThemeComponent)
     assert.isDefined(Paper)
@@ -44,10 +55,10 @@ describe('[ADMIN UI MANAGEMENT] Testing application theme component', () => {
           configuration: {},
         },
         isFetching: false,
-        onAdd: sinon.spy(),
-        onClose: sinon.spy(),
-        onSave: sinon.spy(),
-        onDelete: sinon.spy(),
+        onAdd: spy(),
+        onClose: spy(),
+        onSave: spy(),
+        onDelete: spy(),
       },
     }
     const options = {

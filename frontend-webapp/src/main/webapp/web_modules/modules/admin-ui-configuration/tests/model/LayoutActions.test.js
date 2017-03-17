@@ -6,9 +6,7 @@ import LayoutSelector from '../../src/model/layout/LayoutSelector'
 import MockResponse from './mockLayoutsResponse'
 
 const backendServerResultList = MockResponse
-const options = {
-  urlParams: { applicationId: 'user' },
-}
+const options = {}
 
 const entityTester = new ReduxEntityTester(LayoutActions, LayoutReducer, LayoutSelector, React.PropTypes.objectOf(Layout).isRequired, backendServerResultList, options)
 
@@ -24,7 +22,7 @@ describe('[ADMIN UI CONFIGURATION] Testing model Layout', () => {
   after(() => {
     entityTester.afterAll()
   })
-  xit('should retrieve the list of items, reduce it, and store it on the store.', (done) => {
+  it('should retrieve the list of items, reduce it, and store it on the store.', (done) => {
     entityTester.runTests(done)
   })
 })

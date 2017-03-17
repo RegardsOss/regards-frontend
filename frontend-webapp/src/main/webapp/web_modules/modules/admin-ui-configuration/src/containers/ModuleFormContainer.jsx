@@ -8,6 +8,7 @@ import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/f
 import { connect } from '@regardsoss/redux'
 import { Module, Layout } from '@regardsoss/model'
 import { ContainerHelper } from '@regardsoss/layout'
+import FormShape from '../model/FormShape'
 import ModulesActions from '../model/modules/ModulesActions'
 import ModulesSelector from '../model/modules/ModulesSelector'
 import LayoutSelector from '../model/layout/LayoutSelector'
@@ -39,7 +40,7 @@ class ModuleFormContainer extends React.Component {
     duplicatedModule: Module,
     layout: Layout,
     // eslint-disable-next-line react/no-unused-prop-types
-    form: React.PropTypes.object,
+    form: FormShape,
     changeField: React.PropTypes.func,
   }
 
@@ -58,10 +59,14 @@ class ModuleFormContainer extends React.Component {
   }
 
   handleSubmit = (values) => {
-    if (this.props.params.module_id) {
-      return this.handleUpdate(values)
+    const valuesToSave = Object.assign({}, values)
+    if (valuesToSave.conf) {
+      valuesToSave.conf = JSON.stringify(values.conf)
     }
-    return this.handleCreate(values)
+    if (this.props.params.module_id) {
+      return this.handleUpdate(valuesToSave)
+    }
+    return this.handleCreate(valuesToSave)
   }
 
   handleCreate = (values) => {

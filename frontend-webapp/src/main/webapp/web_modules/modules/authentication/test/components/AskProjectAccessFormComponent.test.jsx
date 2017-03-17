@@ -3,7 +3,7 @@
  */
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import sinon from 'sinon'
+import { stub } from 'sinon'
 import { Field } from '@regardsoss/form-utils'
 import { AskProjectAccessFormComponent } from '../../src/components/AskProjectAccessFormComponent'
 
@@ -16,7 +16,7 @@ describe('[AUTHENTICATION] Testing AskProjectAccessFormComponent', () => {
   // instead.
 
   before(() => {
-    sinon.stub(console, 'error', (warning) => {
+    stub(console, 'error').callsFake((warning) => {
       throw new Error(warning)
     })
   })

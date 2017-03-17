@@ -4,7 +4,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { values } from 'lodash'
-import sinon from 'sinon'
+import { stub } from 'sinon'
 import { IntlStub } from '@regardsoss/tests-helpers'
 import AuthenticationFormContainer from '../../src/containers/AuthenticationFormContainer'
 import ChangePasswordFormContainer from '../../src/containers/ChangePasswordFormContainer'
@@ -19,7 +19,7 @@ describe('[AUTHENTICATION] Testing AuthenticationWorkflowsComponent', () => {
   // as errors, we use sinon.js to stub it into throwing these warning as errors
   // instead.
   before(() => {
-    sinon.stub(console, 'error', (warning) => {
+    stub(console, 'error').callsFake((warning) => {
       throw new Error(warning)
     })
   })

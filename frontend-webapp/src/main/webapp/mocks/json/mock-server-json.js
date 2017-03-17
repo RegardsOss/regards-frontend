@@ -145,9 +145,8 @@ const runServer = () => {
   const server = jsonServer.create()
   const middlewares = jsonServer.defaults()
 
-  // const accessMicroServiceRewriter = jsonServer.rewriter('mocks/rs-access.rewriter.json')
-  // const accessMicroServiceRewriter = jsonServer.rewriter('mocks/rs-access.rewriter.json')
-  const accessMicroServiceRouter = jsonServer.router('mocks/json/runtime/rs-access.temp.json')
+  const accessProjectMicroServiceRouter = jsonServer.router('mocks/json/runtime/rs-access-project.temp.json')
+  const accessInstanceMicroServiceRouter = jsonServer.router('mocks/json/runtime/rs-access-instance.temp.json')
   const accessMicroServiceSignalRouter = jsonServer.router('mocks/json/runtime/rs-access-signal.temp.json')
   const adminMicroServiceRouter = jsonServer.router('mocks/json/runtime/rs-admin.temp.json')
   const adminMicroServiceSignalRouter = jsonServer.router('mocks/json/runtime/rs-admin-signal.temp.json')
@@ -161,7 +160,8 @@ const runServer = () => {
   const gatewayMicroServiceRouter = jsonServer.router('mocks/json/runtime/rs-gateway.temp.json')
   const gatewayMicroServiceSignalRouter = jsonServer.router('mocks/json/runtime/rs-gateway-signal.temp.json')
 
-  accessMicroServiceRouter.render = PageMiddleWare
+  accessProjectMicroServiceRouter.render = PageMiddleWare
+  accessInstanceMicroServiceRouter.render = PageMiddleWare
   adminMicroServiceRouter.render = RenderMiddleWare
   catalogMicroServiceRouter.render = FacetsPageMiddleWare
   archivalStoragePluginsMonitoringRouter.render = RenderMiddleWare // ListMiddleWare
@@ -184,11 +184,14 @@ const runServer = () => {
 
   // Rewriters
   server.use(jsonServer.rewriter({
-    '/api/v1/rs-access/applications/:application_id/modules/:module_id': '/api/v1/rs-access/modules/:module_id',
-    '/api/v1/rs-access/plugins/:type': '/api/v1/rs-access/plugins?type=:type',
-    '/api/v1/rs-access/maintenances': '/api/v1/rs-access-signal/maintenances',
-    '/api/v1/rs-access/maintenances/:project/activate': '/api/v1/rs-access-signal/activate',
-    '/api/v1/rs-access/maintenances/:project/desactivate': '/api/v1/rs-access-signal/desactivate',
+    '/api/v1/rs-access-project/applications/:application_id/modules/:module_id': '/api/v1/rs-access-project/modules/:module_id',
+    '/api/v1/rs-access-instance/applications/:application_id/modules/:module_id': '/api/v1/rs-access-instance/modules/:module_id',
+    '/api/v1/rs-access-project/plugins/:type': '/api/v1/rs-access-project/plugins?type=:type',
+    '/api/v1/rs-access-project/maintenances': '/api/v1/rs-access-project-signal/maintenances',
+    '/api/v1/rs-access-project/maintenances/:project/activate': '/api/v1/rs-access-project-signal/activate',
+    '/api/v1/rs-access-project/maintenances/:project/desactivate': '/api/v1/rs-access-project-signal/desactivate',
+    "/api/v1/rs-access-project/layouts/user": "/api/v1/rs-access-project/layouts/0",
+    "/api/v1/rs-access-instance/layouts/portal": "/api/v1/rs-access-instance/layouts/1",
     '/api/v1/rs-admin/maintenances': '/api/v1/rs-admin-signal/maintenances',
     '/api/v1/rs-admin/maintenances/:project/activate': '/api/v1/rs-admin-signal/activate',
     '/api/v1/rs-admin/maintenances/:project/desactivate': '/api/v1/rs-admin-signal/desactivate',
@@ -216,8 +219,9 @@ const runServer = () => {
   }))
 
   // server.use('/api/v1/rs-gateway/', gatewayMicroServiceRouter)
-  server.use('/api/v1/rs-access/', accessMicroServiceRouter)
-  server.use('/api/v1/rs-access-signal/', accessMicroServiceSignalRouter)
+  server.use('/api/v1/rs-access-project/', accessProjectMicroServiceRouter)
+  server.use('/api/v1/rs-access-instance/', accessInstanceMicroServiceRouter)
+  server.use('/api/v1/rs-access-project-signal/', accessMicroServiceSignalRouter)
   server.use('/api/v1/rs-admin/', adminMicroServiceRouter)
   server.use('/api/v1/rs-admin-signal/', adminMicroServiceSignalRouter)
   server.use('/api/v1/rs-catalog/', catalogMicroServiceRouter)
@@ -239,7 +243,7 @@ const runServer = () => {
 /**
  * Copy mock json database to temp file for trash use during mock usage
  */
-fs.copy('./mocks/json/resources/rs-access-signal.json', 'mocks/json/runtime/rs-access-signal.temp.json', () => {
+fs.copy('./mocks/json/resources/rs-access-project-signal.json', 'mocks/json/runtime/rs-access-project-signal.temp.json', () => {
   fs.copy('./mocks/json/resources/rs-admin-signal.json', 'mocks/json/runtime/rs-admin-signal.temp.json', () => {
     fs.copy('./mocks/json/resources/rs-cloud-signal.json', 'mocks/json/runtime/rs-cloud-signal.temp.json', () => {
       fs.copy('./mocks/json/resources/rs-dam-signal.json', 'mocks/json/runtime/rs-dam-signal.temp.json', () => {
@@ -247,11 +251,13 @@ fs.copy('./mocks/json/resources/rs-access-signal.json', 'mocks/json/runtime/rs-a
           fs.copy('./mocks/json/resources/rs-admin.json', 'mocks/json/runtime/rs-admin.temp.json', () => {
             fs.copy('./mocks/json/resources/rs-dam.json', 'mocks/json/runtime/rs-dam.temp.json', () => {
               fs.copy('./mocks/json/resources/rs-catalog.json', 'mocks/json/runtime/rs-catalog.temp.json', () => {
-                fs.copy('./mocks/json/resources/rs-access.json', 'mocks/json/runtime/rs-access.temp.json', () => {
-                  fs.copy('./mocks/json/resources/rs-archival-storage.json', 'mocks/json/runtime/rs-archival-storage.temp.json', () => {
-                    fs.copy('./mocks/json/resources/rs-gateway.json', 'mocks/json/runtime/rs-gateway.temp.json', () => {
-                      fs.copy('./mocks/json/resources/rs-dam-list.json', 'mocks/json/runtime/rs-dam-list.temp.json', () => {
-                        fs.copy('./mocks/json/resources/rs-dam-array.json', 'mocks/json/runtime/rs-dam-array.temp.json', runServer)
+                fs.copy('./mocks/json/resources/rs-access-project.json', 'mocks/json/runtime/rs-access-project.temp.json', () => {
+                  fs.copy('./mocks/json/resources/rs-access-instance.json', 'mocks/json/runtime/rs-access-instance.temp.json', () => {
+                    fs.copy('./mocks/json/resources/rs-archival-storage.json', 'mocks/json/runtime/rs-archival-storage.temp.json', () => {
+                      fs.copy('./mocks/json/resources/rs-gateway.json', 'mocks/json/runtime/rs-gateway.temp.json', () => {
+                        fs.copy('./mocks/json/resources/rs-dam-list.json', 'mocks/json/runtime/rs-dam-list.temp.json', () => {
+                          fs.copy('./mocks/json/resources/rs-dam-array.json', 'mocks/json/runtime/rs-dam-array.temp.json', runServer)
+                        })
                       })
                     })
                   })

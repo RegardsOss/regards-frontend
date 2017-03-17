@@ -3,7 +3,7 @@
  **/
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import sinon from 'sinon'
+import { stub, spy } from 'sinon'
 import { ApplicationThemeContainer } from '../../src/containers/ApplicationThemeContainer'
 import ApplicationThemeComponent from '../../src/components/theme/ApplicationThemeComponent'
 
@@ -13,6 +13,17 @@ import ApplicationThemeComponent from '../../src/components/theme/ApplicationThe
  * @author Xavier-Alexandre Brochard
  */
 describe('[ADMIN UI MANAGEMENT] Testing theme container', () => {
+  // Since react will console.error propType warnings, that which we'd rather have
+  // as errors, we use sinon.js to stub it into throwing these warning as errors
+  // instead.
+  before(() => {
+    stub(console, 'error').callsFake((warning) => {
+      throw new Error(warning)
+    })
+  })
+  after(() => {
+    console.error.restore()
+  })
   it('should exists', () => {
     assert.isDefined(ApplicationThemeContainer)
     assert.isDefined(ApplicationThemeComponent)
@@ -54,10 +65,10 @@ describe('[ADMIN UI MANAGEMENT] Testing theme container', () => {
         },
       },
       isFetching: false,
-      fetchThemeList: sinon.spy(),
-      updateTheme: sinon.spy(),
-      deleteTheme: sinon.spy(),
-      createTheme: sinon.spy(),
+      fetchThemeList: spy(),
+      updateTheme: spy(),
+      deleteTheme: spy(),
+      createTheme: spy(),
     }
     const enzymeWrapper = shallow(<ApplicationThemeContainer {...props} />)
     expect(enzymeWrapper.find(ApplicationThemeComponent)).to.have.length(1)

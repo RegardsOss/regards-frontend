@@ -3,7 +3,7 @@
  */
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import sinon from 'sinon'
+import { stub } from 'sinon'
 import { IntlStub } from '@regardsoss/tests-helpers'
 import { Field } from '@regardsoss/form-utils'
 import { DatasourceFormAttributesComponent } from '../../src/components/DatasourceFormAttributesComponent'
@@ -16,7 +16,7 @@ describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing DatasourceFormAttributesCom
   // as errors, we use sinon.js to stub it into throwing these warning as errors
   // instead.
   before(() => {
-    sinon.stub(console, 'error', (warning) => {
+    stub(console, 'error').callsFake((warning) => {
       throw new Error(warning)
     })
   })

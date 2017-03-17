@@ -228,25 +228,18 @@ class ModuleContainer extends React.Component {
       return null
     }
     if (this.props.moduleConf.layout) {
-      try {
-        const layoutObj = JSON.parse(this.props.moduleConf.layout)
-
-        const pluginsProps = {
-          onChange: this.onCriteriaChange,
-        }
-        const criterionWithAttributes = this.getCriterionWithAttributeModels()
-        return (
-          <FormComponent
-            layout={layoutObj}
-            plugins={criterionWithAttributes}
-            pluginsProps={pluginsProps}
-            handleSearch={this.handleSearch}
-          />
-        )
-      } catch (error) {
-        console.error('Invalid layout for form FormComponent', error)
-        return null
+      const pluginsProps = {
+        onChange: this.onCriteriaChange,
       }
+      const criterionWithAttributes = this.getCriterionWithAttributeModels()
+      return (
+        <FormComponent
+          layout={this.props.moduleConf.layout}
+          plugins={criterionWithAttributes}
+          pluginsProps={pluginsProps}
+          handleSearch={this.handleSearch}
+        />
+      )
     }
     return <LoadingComponent />
   }

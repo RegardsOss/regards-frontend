@@ -35,6 +35,17 @@ config = merge(config, {
     new webpack.optimize.MinChunkSizePlugin({minChunkSize: 10000}),
     // Minimize all JavaScript output of chunks
     new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        screw_ie8: true, // React doesn't support IE8
+        warnings: false
+      },
+      mangle: {
+        screw_ie8: true
+      },
+      output: {
+        comments: false,
+        screw_ie8: true
+      },
       // Do not generate source map files (this is usefull during developpment)
       sourceMap: false,
     }),

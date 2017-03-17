@@ -3,7 +3,7 @@
  */
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import sinon from 'sinon'
+import { stub } from 'sinon'
 import { forEach } from 'lodash'
 import { IntlStub } from '@regardsoss/tests-helpers'
 import AccountOperationMessage, { operationIds } from '../../src/components/AccountOperationMessage'
@@ -15,7 +15,7 @@ describe('[AUTHENTICATION] Testing AccountOperationMessage', () => {
   // as errors, we use sinon.js to stub it into throwing these warning as errors
   // instead.
   before(() => {
-    sinon.stub(console, 'error', (warning) => {
+    stub(console, 'error').callsFake((warning) => {
       throw new Error(warning)
     })
   })

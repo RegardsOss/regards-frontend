@@ -3,19 +3,19 @@
 **/
 
 const APPLICATION_STARTED = 'authentication/collect-parameters'
+const INSTANCE = 'instance'
 
 /**
  * Actions used to collect required parameters for authentication at application startup
  */
 export default {
   APPLICATION_STARTED,
-  applicationStarted(project) {
+  INSTANCE,
+  applicationStarted(project = INSTANCE) {
     return {
       type: APPLICATION_STARTED,
       project,
     }
   },
-
-
 }
 

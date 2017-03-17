@@ -16,7 +16,7 @@ import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
 import { FormattedMessage } from 'react-intl'
 import { CardActionsComponent } from '@regardsoss/components'
-import { PluginConf, PluginDefinition, AttributeModel } from '@regardsoss/model'
+import { PluginConf, PluginDefinition, AttributeModel, Container as ContainerShape } from '@regardsoss/model'
 import { i18nContextType } from '@regardsoss/i18n'
 import FormCriteriaComponent from './FormCriteriaComponent'
 
@@ -34,7 +34,7 @@ class FormCriterionComponent extends React.Component {
     // Current form criterion list
     criterion: React.PropTypes.arrayOf(PluginConf),
     // Current layout form
-    layout: React.PropTypes.string,
+    layout: ContainerShape,
     // List of availables attributes to edit criterion configuration
     selectableAttributes: React.PropTypes.objectOf(AttributeModel),
     // List of available criterion plugins

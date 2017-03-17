@@ -6,7 +6,7 @@ import MenuItem from 'material-ui/MenuItem'
 import { FormattedMessage } from 'react-intl'
 import { RenderSelectField, Field, reduxForm } from '@regardsoss/form-utils'
 import { CardActionsComponent } from '@regardsoss/components'
-import { PluginDefinition, PluginConf, AttributeModel } from '@regardsoss/model'
+import { PluginDefinition, PluginConf, AttributeModel, Container as ContainerShape } from '@regardsoss/model'
 import { ContainerHelper } from '@regardsoss/layout'
 import { PluginProvider } from '@regardsoss/plugins'
 
@@ -26,7 +26,7 @@ class FormCriteriaComponent extends React.Component {
     // Cancel criteria edition
     cancel: React.PropTypes.func,
     // Form layout
-    layout: React.PropTypes.string,
+    layout: ContainerShape,
     // All selectable attributes for the current form
     selectableAttributes: React.PropTypes.objectOf(AttributeModel),
     // Set by React Redux connection
@@ -122,7 +122,7 @@ class FormCriteriaComponent extends React.Component {
     const items = []
     try {
       if (this.props.layout) {
-        const containers = ContainerHelper.getAvailableContainersInLayout(JSON.parse(this.props.layout))
+        const containers = ContainerHelper.getAvailableContainersInLayout(this.props.layout)
         if (containers && containers.length > 0) {
           forEach(containers, (container, idx) => {
             items.push(

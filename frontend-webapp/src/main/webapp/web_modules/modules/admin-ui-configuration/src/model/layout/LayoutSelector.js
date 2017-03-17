@@ -1,13 +1,13 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { BasicListSelectors } from '@regardsoss/store-utils'
+import { BasicPageableSelectors } from '@regardsoss/store-utils'
 
 /**
  * Redux store Selectors for Layout entities
  * @author Sébastien binda
  */
-class LayoutsSelector extends BasicListSelectors {
+class LayoutsSelector extends BasicPageableSelectors {
   constructor() {
     super(['admin', 'ui-configuration', 'layout'])
   }

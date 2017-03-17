@@ -37,8 +37,12 @@ module.exports = {
       // Transpile ES6 Javascript into ES5 with babel loader
       {
         test: /\.jsx?$/,
-        exclude: [/node_modules/, /json/],
-        loader: 'babel-loader',
+        // Exclude the DLL folder build from the transpilation
+        exclude: [/node_modules/, /build/],
+        // used to cache the results of the loader.
+        // Next builds will attempt to read from the cache
+        // the cache is different depending of the value of NODE_ENV
+        loader: 'babel-loader?cacheDirectory',
       },
       {
         test: /\.css$/,
@@ -75,5 +79,14 @@ module.exports = {
     new webpack.DefinePlugin({
       API_URL: JSON.stringify('api/v1'),
     }),
+    // Using http://webpack.github.io/analyse/#hints
+    // We can start to prefetch these files before they are imported
+    new webpack.PrefetchPlugin('./web_modules/modules/admin-ui-configuration/src/main.js'),
+    new webpack.PrefetchPlugin('./web_modules/vendors/storybook-addon-material-ui-custom/src/index.js'),
+    new webpack.PrefetchPlugin('./web_modules/vendors/main.js'),
+    new webpack.PrefetchPlugin('./web_modules/modules/admin-data-datasource-management/src/main.js'),
+    new webpack.PrefetchPlugin('./web_modules/modules/admin-data-management/src/main.js'),
+    new webpack.PrefetchPlugin('./web_modules/modules/admin/src/main.js'),
+    new webpack.PrefetchPlugin('./web_modules/utils/modules/src/components/LazyModuleComponent.jsx'),
   ],
 }

@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import userManagementRouter from './router'
 import userManagementReducer from './reducer'
 

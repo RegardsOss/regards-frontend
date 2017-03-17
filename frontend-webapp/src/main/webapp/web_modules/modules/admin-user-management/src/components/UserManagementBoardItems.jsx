@@ -3,6 +3,7 @@
  **/
 import AddIcon from 'material-ui/svg-icons/content/add-circle'
 import ViewLinesIcon from 'material-ui/svg-icons/action/view-headline'
+import { EditDependencies, AddDependencies } from '@regardsoss/admin-user-projectuser-management/src/dependencies'
 import UsersListWithCountIconContainer from '../containers/UsersListWithCountIconContainer'
 
 /**
@@ -19,10 +20,12 @@ export default (project, intl) => [
       path: `/admin/${project}/user/project-user/list`,
       icon: <UsersListWithCountIconContainer />,
       tooltipMsg: intl.formatMessage({ id: 'user.board.tooltip.list' }),
+      hateoasDependencies: EditDependencies,
     }, {
       path: `/admin/${project}/user/project-user/create`,
       icon: <AddIcon />,
       tooltipMsg: intl.formatMessage({ id: 'user.board.tooltip.add' }),
+      hateoasDependencies: AddDependencies,
     }],
   },
   {

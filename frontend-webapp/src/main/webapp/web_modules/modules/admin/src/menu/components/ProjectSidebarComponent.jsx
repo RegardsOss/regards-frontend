@@ -1,6 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import merge from 'lodash/merge'
 import Drawer from 'material-ui/Drawer'
 import VerifiedUser from 'material-ui/svg-icons/action/verified-user'
 import AddBox from 'material-ui/svg-icons/content/add-box'
@@ -10,11 +11,15 @@ import Brush from 'material-ui/svg-icons/image/brush'
 import { FormattedMessage } from 'react-intl'
 import SupervisorAccount from 'material-ui/svg-icons/action/supervisor-account'
 import { I18nProvider } from '@regardsoss/i18n'
-import { uiPluginsDependencies } from '@regardsoss/admin-ui-plugins-management'
-import { uiConfigurationDependencies } from '@regardsoss/admin-ui-configuration'
-import { HateoasDisplayDecorator, someMatchHateoasDisplayLogic } from '@regardsoss/display-control'
+import uiPluginsDependencies from '@regardsoss/admin-ui-plugins-management/src/dependencies'
+import uiConfigurationDependencies from '@regardsoss/admin-ui-configuration/src/dependencies'
+import usersDependencies from '@regardsoss/admin-user-management/src/dependencies'
+import dataManagementDependencies from '@regardsoss/admin-data-management/src/dependencies'
+import dataAccessDependencies from '@regardsoss/admin-accessright-management/src/dependencies'
+import microservicesDependencies from '@regardsoss/admin-microservice-management/src/dependencies'
+import { someMatchHateoasDisplayLogic } from '@regardsoss/display-control'
 import getModuleStyles from '../../styles/styles'
-import SidebarElement from './SidebarElement'
+import HateoasSidebarElement from './HateoasSidebarElement'
 import WaitingAccessNotificationContainer from '../containers/WaitingAccessNotificationContainer'
 
 
@@ -55,61 +60,59 @@ class ProjectSidebarComponent extends React.Component {
       <I18nProvider messageDir="modules/admin/src/menu/i18n">
 
         <Drawer
-          open containerStyle={style.sidebarContainer.styles} className={style.sidebarContainer.classes}
-          width={'100%'}
+          open containerStyle={merge({ width: '100%' }, style.sidebarContainer.styles)} className={style.sidebarContainer.classes}
         >
-          <SidebarElement
+          <HateoasSidebarElement
             key="1"
+            requiredEndpoints={usersDependencies}
+            hateoasDisplayLogic={someMatchHateoasDisplayLogic}
             to={`/admin/${projectName}/user/board`}
             currentPath={this.props.currentPath}
             primaryText={<FormattedMessage id="menu.users" />}
             leftIcon={<SupervisorAccount />}
             rightIcon={<WaitingAccessNotificationContainer />}
           />
-          <SidebarElement
+          <HateoasSidebarElement
             key="2"
+            requiredEndpoints={dataManagementDependencies}
             to={`/admin/${projectName}/data/board`}
             currentPath={this.props.currentPath}
             primaryText={<FormattedMessage id="menu.datamanagement" />}
             leftIcon={<AddBox />}
           />
-          <SidebarElement
+          <HateoasSidebarElement
             key="3"
+            requiredEndpoints={dataAccessDependencies}
             to={`/admin/${projectName}/access-right/edit`}
             currentPath={this.props.currentPath}
             primaryText={<FormattedMessage id="menu.dataaccessrights" />}
             leftIcon={<VerifiedUser />}
           />
-          <HateoasDisplayDecorator
+          <HateoasSidebarElement
+            key="4"
             requiredEndpoints={uiPluginsDependencies}
-          >
-            <SidebarElement
-              key="4"
-              to={`/admin/${projectName}/ui-plugins/plugins`}
-              currentPath={this.props.currentPath}
-              primaryText={<FormattedMessage id="menu.plugins" />}
-              leftIcon={<Widgets />}
-            />
-          </HateoasDisplayDecorator>
-          <SidebarElement
+            to={`/admin/${projectName}/ui-plugins/plugins`}
+            currentPath={this.props.currentPath}
+            primaryText={<FormattedMessage id="menu.plugins" />}
+            leftIcon={<Widgets />}
+          />
+          <HateoasSidebarElement
             key="5"
+            requiredEndpoints={microservicesDependencies}
             to={`/admin/${projectName}/microservice/board`}
             currentPath={this.props.currentPath}
             primaryText={<FormattedMessage id="menu.microservices" />}
             leftIcon={<CloudQueue />}
           />
-          <HateoasDisplayDecorator
+          <HateoasSidebarElement
+            key="6"
             requiredEndpoints={uiConfigurationDependencies}
             hateoasDisplayLogic={someMatchHateoasDisplayLogic}
-          >
-            <SidebarElement
-              key="6"
-              to={`/admin/${projectName}/ui-configuration/applications`}
-              currentPath={this.props.currentPath}
-              primaryText={<FormattedMessage id="menu.ui.configuration" />}
-              leftIcon={<Brush />}
-            />
-          </HateoasDisplayDecorator>
+            to={`/admin/${projectName}/ui-configuration/applications`}
+            currentPath={this.props.currentPath}
+            primaryText={<FormattedMessage id="menu.ui.configuration" />}
+            leftIcon={<Brush />}
+          />
         </Drawer>
       </I18nProvider>
     )
