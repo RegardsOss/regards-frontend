@@ -330,6 +330,7 @@ class SearchResultsComponent extends React.Component {
       name: 'search-facets',
       active: true,
       applicationId: appName,
+      resultsSelectors: CatalogEntitySelector,
       conf: {
         show: showingFacetsSearch && target === SearchResultsTargetsEnum.DATAOBJECT_RESULTS,
       },

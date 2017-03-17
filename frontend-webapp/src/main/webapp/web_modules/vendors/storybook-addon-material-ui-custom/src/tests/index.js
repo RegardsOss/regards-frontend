@@ -1,7 +1,7 @@
 import React from 'react'
 import { shallow, mount } from 'enzyme'
 import { expect } from 'chai'
-import sinon from 'sinon'
+import { stub } from 'sinon'
 const { describe, it } = global
 
 import PanelContainer from '../containers/PanelContainer'
@@ -17,29 +17,29 @@ describe('### storybook-addon-material-ui ###\n\n', () => {
 
     it('should have props', () => {
       expect(props).to.have.all.keys(
-                'themesAppliedListInit',
-                'themesRenderedList',
-                'onThemeOverride',
-                'story',
-                'initState',
-                'onChangeState',
-                'themeListRender',
-                'channel',
-            )
+        'themesAppliedListInit',
+        'themesRenderedList',
+        'onThemeOverride',
+        'story',
+        'initState',
+        'onChangeState',
+        'themeListRender',
+        'channel',
+      )
       expect(props.themesAppliedListInit).to.have.length(2)
       expect(props.themesRenderedList).to.have.length(2)
       expect(props.initState).to.have.all.keys(
-                'themeInd',
-                'isSideBarOpen',
-                'isFullTheme',
-                'collapseList',
-                'currentThemeOverride',
-            )
+        'themeInd',
+        'isSideBarOpen',
+        'isFullTheme',
+        'collapseList',
+        'currentThemeOverride',
+      )
     })
   })
   describe('PanelContainer', () => {
     const channel = {
-      callback: () => {},
+      callback: () => { },
       on: (id, callback) => {
         this.callback = callback
       },
@@ -47,7 +47,7 @@ describe('### storybook-addon-material-ui ###\n\n', () => {
         console.log(data)
       },
     }
-    const PanelContainerWrapper = shallow(<PanelContainer channel={channel} api={{ }} />)
+    const PanelContainerWrapper = shallow(<PanelContainer channel={channel} api={{}} />)
 
     it('should have init text', () => {
       const div = PanelContainerWrapper.find('div')

@@ -3,7 +3,7 @@
  */
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import sinon from 'sinon'
+import { stub } from 'sinon'
 import { IntlStub } from '@regardsoss/tests-helpers'
 import DateRangeFacetSelectorComponent from '../../src/components/DateRangeFacetSelectorComponent'
 import RangeFacetSelectorComponent from '../../src/components/RangeFacetSelectorComponent'
@@ -82,7 +82,9 @@ describe('[SEARCH FACETS] Testing DateRangeFacetSelectorComponent', () => {
   // as errors, we use sinon.js to stub it into throwing these warning as errors
   // instead.
   before(() => {
-    sinon.stub(console, 'error', (warning) => { throw new Error(warning) })
+    stub(console, 'error').callsFake((warning) => {
+      throw new Error(warning)
+    })
   })
   after(() => {
     console.error.restore()
