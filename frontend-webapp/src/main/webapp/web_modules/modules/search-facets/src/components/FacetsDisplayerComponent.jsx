@@ -4,10 +4,10 @@
 import { Toolbar, ToolbarTitle } from 'material-ui/Toolbar'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { FacetArray } from '../model/FacetShape'
-import { } from './DateRangeFacetSelectorComponent'
-import { } from './NumberRangeFacetSelectorComponent'
-import { } from './WordFacetSelectorComponent'
+import { FacetArray, FacetTypes } from '../model/FacetShape'
+import DateRangeFacetSelectorComponent from './DateRangeFacetSelectorComponent'
+import NumberRangeFacetSelectorComponent from './NumberRangeFacetSelectorComponent'
+import WordFacetSelectorComponent from './WordFacetSelectorComponent'
 
 /**
 * Root search facets module display component, used by corresponding container
@@ -27,16 +27,32 @@ class FacetsDisplayerComponent extends React.Component {
   }
 
   render() {
-    const { } = this.props
+    const { facets } = this.props
     const { muiTheme, intl: { formatMessage } } = this.context
     return (
-      <Toolbar >
-        <ToolbarTitle
-          text={formatMessage({ id: 'search.facets.title' })}
-          style={{ color: muiTheme.palette.textColor }}
-        />
+      <div>
+        <Toolbar >
+          <ToolbarTitle
+            text={formatMessage({ id: 'search.facets.title' })}
+            style={{ color: muiTheme.palette.textColor }}
+          />
 
-      </Toolbar>
+        </Toolbar>
+        {
+          facets.map((facet) => {
+            switch (facet.type) {
+              case FacetTypes.String:
+                return (<WordFacetSelectorComponent facet={facet} key={facet.attributeName} />)
+              case FacetTypes.Number:
+                return (<NumberRangeFacetSelectorComponent facet={facet} key={facet.attributeName} />)
+              case FacetTypes.Date:
+                return (<DateRangeFacetSelectorComponent facet={facet} key={facet.attributeName} />)
+              default:
+                throw new Error(`Unknown facet type ${facet.type}`)
+            }
+          })
+        }
+      </div>
     )
   }
 }

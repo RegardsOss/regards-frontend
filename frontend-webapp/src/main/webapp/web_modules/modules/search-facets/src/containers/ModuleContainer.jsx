@@ -26,13 +26,13 @@ class ModuleContainer extends React.Component {
    * @returns {React.Component}
    */
   render() {
-    const { moduleConf: { show } } = this.props
+    const { moduleConf: { show, resultsSelectors } } = this.props
     // TODO TOMORROW: background (add a card or share one????)
     // TODO tomorrow ===> connect with results (will not unmount this) or connect only content??? <== better in content, no select if not showable =D
     // TODO tomorrow ===> inject in module the right selectors
     return (
       <ShowableAtRender show={show}>
-        <FacetsDisplayerContainer />
+        <FacetsDisplayerContainer resultsSelectors={resultsSelectors} />
       </ShowableAtRender>
     )
   }

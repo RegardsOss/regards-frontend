@@ -8,6 +8,7 @@ import { IntlStub } from '@regardsoss/tests-helpers'
 import FacetsDisplayerComponent from '../../src/components/FacetsDisplayerComponent'
 
 import styles from '../../src/styles/styles'
+import facetsNetworkDump from '../network-dump/search-results-dump'
 
 describe('[SEARCH FACETS] Testing FacetsDisplayerComponent', () => {
   // Since react will console.error propType warnings, that which we'd rather have
@@ -34,6 +35,7 @@ describe('[SEARCH FACETS] Testing FacetsDisplayerComponent', () => {
   }
   it('should render properly', () => {
     const props = {
+      facets: facetsNetworkDump.facets,
     }
     const enzymeWrapper = shallow(<FacetsDisplayerComponent {...props} />, { context })
     // TODO test

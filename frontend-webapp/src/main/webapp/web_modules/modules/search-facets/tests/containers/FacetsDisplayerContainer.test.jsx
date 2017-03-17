@@ -9,18 +9,13 @@ import FacetsDisplayerComponent from '../../src/components/FacetsDisplayerCompon
 import { FacetsDisplayerContainer } from '../../src/containers/FacetsDisplayerContainer'
 
 import styles from '../../src/styles/styles'
+import facetsNetworkDump from '../network-dump/search-results-dump'
 
-describe('[SEARCH FACETS] Testing FacetsDisplayerComponent', () => {
+describe('[SEARCH FACETS] Testing FacetsDisplayerContainer', () => {
   // Since react will console.error propType warnings, that which we'd rather have
   // as errors, we use sinon.js to stub it into throwing these warning as errors
   // instead.
   before(() => {
-    console.info('OMFFFFFFGGG')
-    console.info('OMFFFFFFGGG')
-    console.info('OMFFFFFFGGG')
-    console.info('OMFFFFFFGGG')
-    console.info('OMFFFFFFGGG')
-    console.info(console.error)
     stub(console, 'error').callsFake((warning) => {
       throw new Error(warning)
     })
@@ -41,6 +36,7 @@ describe('[SEARCH FACETS] Testing FacetsDisplayerComponent', () => {
   }
   it('should render properly', () => {
     const props = {
+      facets: facetsNetworkDump.facets,
     }
     const enzymeWrapper = shallow(<FacetsDisplayerContainer {...props} />, { context })
     assert.equal(enzymeWrapper.find(FacetsDisplayerComponent).length, 1, 'The corresponding component should be rendered')

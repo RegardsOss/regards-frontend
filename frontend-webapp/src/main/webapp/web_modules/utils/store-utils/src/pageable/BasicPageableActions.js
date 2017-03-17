@@ -64,11 +64,6 @@ class BasicPageableActions extends BasicListActions {
     }
   }
 
-  /**
-    * Normalizes action payload as page or list payload
-    * @param json JS object parsed from JSON result
-    * @return normalized content
-    */
   normalizeEntitiesPagePayload(json) {
     return {
       // entities are in content field
