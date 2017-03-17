@@ -10,6 +10,7 @@ class LayoutsSelector extends BasicListSelectors {
   constructor() {
     super(['user', 'layout'])
   }
+
 }
 
 const instance = new LayoutsSelector()

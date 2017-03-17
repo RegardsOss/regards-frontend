@@ -1,13 +1,13 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import sinon from 'sinon'
+import { stub } from 'sinon'
 import { ProjectListContainer } from '../../src/containers/ProjectListContainer'
 import ProjectListComponent from '../../src/components/ProjectListComponent'
 
 // Test a components rendering
 describe('[ADMIN PROJECT MANAGEMENT] Testing project list container', () => {
   before(() => {
-    sinon.stub(console, 'error', (warning) => {
+    stub(console, 'error').callsFake((warning) => {
       throw new Error(warning)
     })
   })

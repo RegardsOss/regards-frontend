@@ -4,7 +4,7 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { TableRowColumn } from 'material-ui/Table'
-import sinon from 'sinon'
+import { stub, spy } from 'sinon'
 import SelectField from 'material-ui/SelectField'
 import ModelAttributeComponent from '../../src/components/ModelAttributeComponent'
 
@@ -15,7 +15,7 @@ describe('[ADMIN DATA MODEL ATTRIBUTE MANAGEMENT] Testing ModelAttributeComponen
   // as errors, we use sinon.js to stub it into throwing these warning as errors
   // instead.
   before(() => {
-    sinon.stub(console, 'error', (warning) => { throw new Error(warning) })
+    stub(console, 'error').callsFake((warning) => { throw new Error(warning) })
   })
   after(() => {
     console.error.restore()
@@ -27,7 +27,7 @@ describe('[ADMIN DATA MODEL ATTRIBUTE MANAGEMENT] Testing ModelAttributeComponen
 
 
   it('should render', () => {
-    const onSelectFieldChange = sinon.spy()
+    const onSelectFieldChange = spy()
 
     const props = {
       modelAttribute: {

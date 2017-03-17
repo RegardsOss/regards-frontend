@@ -99,8 +99,8 @@ function validate(values) {
   if (!values.driverClassName) {
     errors.driverClassName = ErrorTypes.REQUIRED
   }
-  if (!ValidationHelpers.isValidUrl(values.url)) {
-    errors.url = ErrorTypes.INVALID_URL
+  if (!values.url) {
+    errors.url = ErrorTypes.REQUIRED
   }
   if (!values.userName) {
     errors.userName = ErrorTypes.REQUIRED

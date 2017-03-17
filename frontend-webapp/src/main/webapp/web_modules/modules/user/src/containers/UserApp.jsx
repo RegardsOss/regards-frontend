@@ -11,7 +11,7 @@ import { ApplicationLayout, ContainerHelper } from '@regardsoss/layout'
 import { ModuleShape } from '@regardsoss/modules'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { ApplicationErrorContainer } from '@regardsoss/global-sytem-error'
-import { AuthenticateSelectors } from '@regardsoss/authentication-manager'
+import { AuthenticationParametersActions, AuthenticateSelectors } from '@regardsoss/authentication-manager'
 import LayoutSelector from '../model/layout/LayoutSelector'
 import LayoutActions from '../model/layout/LayoutActions'
 import ModulesSelector from '../model/modules/ModulesSelector'
@@ -35,8 +35,11 @@ export class UserApp extends React.Component {
     modulesIsFetching: React.PropTypes.bool,
     layout: Layout,
     modules: React.PropTypes.objectOf(ModuleShape),
+    currentRole: React.PropTypes.string.isRequired,
+    // eslint-disable-next-line 
     isAuthenticated: React.PropTypes.bool,
     // Set by mapDispatchToProps
+    initializeApplication: React.PropTypes.func.isRequired,
     fetchLayout: React.PropTypes.func,
     fetchModules: React.PropTypes.func,
     fetchEndpoints: React.PropTypes.func,
@@ -46,6 +49,11 @@ export class UserApp extends React.Component {
    * At first render, fetch application layout and modules
    */
   componentWillMount() {
+    // before any request: provide the project name
+    // init with project parameter if available, or fallback on INSTANCE default
+    const project = this.props.params.project
+    this.props.initializeApplication(project)
+
     this.props.fetchLayout()
     this.props.fetchModules()
     this.props.fetchEndpoints()
@@ -68,8 +76,8 @@ export class UserApp extends React.Component {
       })
     }
 
-    // If a new authentication is present...
-    if (!this.props.isAuthenticated && nextProps.isAuthenticated) {
+    // when user has a new role (and is is authenticated). ie: at first connection then at role update
+    if (this.props.currentRole !== nextProps.currentRole && nextProps.isAuthenticated) {
       // ... refresh availables endpoints
       this.props.fetchEndpoints()
     }
@@ -126,15 +134,20 @@ export class UserApp extends React.Component {
     )
   }
 }
-const mapStateToProps = (state, ownProps) => ({
-  layout: LayoutSelector.getById(state, 'user'),
-  modules: ModulesSelector.getList(state),
-  layoutIsFetching: LayoutSelector.isFetching(state),
-  modulesIsFetching: ModulesSelector.isFetching(state),
-  isAuthenticated: AuthenticateSelectors.isAuthenticated(state),
-})
+const mapStateToProps = (state, ownProps) => {
+  const authenticationResult = AuthenticateSelectors.getResult(state)
+  return {
+    layout: LayoutSelector.getById(state, 'user'),
+    modules: ModulesSelector.getList(state),
+    layoutIsFetching: LayoutSelector.isFetching(state),
+    modulesIsFetching: ModulesSelector.isFetching(state),
+    currentRole: authenticationResult ? authenticationResult.role : '',
+    isAuthenticated: AuthenticateSelectors.isAuthenticated(state),
+  }
+}
 
 const mapDispatchToProps = dispatch => ({
+  initializeApplication: project => dispatch(AuthenticationParametersActions.applicationStarted(project)),
   fetchLayout: () => dispatch(LayoutActions.fetchEntity('user')),
   fetchModules: () => dispatch(ModulesActions.fetchPagedEntityList(0, 100, { applicationId: 'user' })),
   fetchEndpoints: () => dispatch(EndpointActions.fetchPagedEntityList(0, 10000)), // TODO

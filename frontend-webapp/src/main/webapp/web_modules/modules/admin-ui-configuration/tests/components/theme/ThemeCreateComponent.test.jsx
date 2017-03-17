@@ -1,12 +1,23 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import sinon from 'sinon'
+import { stub, spy } from 'sinon'
 import Dialog from 'material-ui/Dialog'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import { IntlStub } from '@regardsoss/tests-helpers'
 import { ThemeCreateComponent } from '../../../src/components/theme/ThemeCreateComponent'
 
 describe('[ADMIN UI MANAGEMENT] Testing theme create component', () => {
+  // Since react will console.error propType warnings, that which we'd rather have
+  // as errors, we use sinon.js to stub it into throwing these warning as errors
+  // instead.
+  before(() => {
+    stub(console, 'error').callsFake((warning) => {
+      throw new Error(warning)
+    })
+  })
+  after(() => {
+    console.error.restore()
+  })
   it('should exists', () => {
     assert.isDefined(ThemeCreateComponent)
     assert.isDefined(Dialog)
@@ -15,12 +26,14 @@ describe('[ADMIN UI MANAGEMENT] Testing theme create component', () => {
   it('should render a Field', () => {
     const props = {
       open: true,
-      onRequestClose: sinon.spy(),
-      onSubmit: sinon.spy(),
-      submitting: sinon.spy(),
-      invalid: sinon.spy(),
-      handleSubmit: sinon.spy(),
-      reset: sinon.spy(),
+      onRequestClose: spy(),
+      onSubmit: spy(),
+      submitting: spy(),
+      invalid: spy(),
+      handleSubmit: spy(),
+      reset: spy(),
+      submitting: false,
+      invalid: false,
     }
     const options = {
       context: {

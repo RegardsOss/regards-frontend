@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { intlShape } from 'react-intl'
-import { AuthenticateSelectors } from '@regardsoss/authentication-manager'
+import { AuthenticationParametersActions, AuthenticationParametersSelectors, AuthenticateSelectors } from '@regardsoss/authentication-manager'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { EndpointActions } from '@regardsoss/endpoint'
 import { I18nProvider } from '@regardsoss/i18n'
@@ -24,8 +24,11 @@ class AdminApp extends React.Component {
       project: React.PropTypes.string,
     }),
     // from mapStateToProps
+    currentRole: React.PropTypes.string.isRequired,
     isAuthenticated: React.PropTypes.bool,
+    project: React.PropTypes.string,
     // from mapDispatchToProps
+    initializeApplication: React.PropTypes.func.isRequired,
     fetchEndpoints: React.PropTypes.func,
   }
 
@@ -41,9 +44,11 @@ class AdminApp extends React.Component {
   }
 
   componentWillMount() {
-  	if (this.props.params.project){
-    	this.props.fetchEndpoints()
-    }
+    // init with project parameter if available
+    const project = (this.props.params && this.props.params.project)
+    this.props.initializeApplication(project)
+    // fetch endpoints
+    this.props.fetchEndpoints()
   }
 
   /**
@@ -51,13 +56,13 @@ class AdminApp extends React.Component {
    * @param nextProps
    */
   componentWillReceiveProps(nextProps) {
-    // when authentication has been fetched:
-    if (!this.props.isAuthenticated && nextProps.isAuthenticated) {
+    // when user has a new role (and is is authenticated)
+    if (this.props.currentRole !== nextProps.currentRole && nextProps.isAuthenticated) {
       // Prevent the HMI to show the admin app before endpoints have been retrieved
       this.setState({
         isLoadingEndpoints: true,
       })
-      if (this.props.params.project){
+      // fetch endpoints
       Promise.resolve(this.props.fetchEndpoints())
         .then((actionResult) => {
           // We receive here the action
@@ -71,14 +76,11 @@ class AdminApp extends React.Component {
         })
         }
     }
-  }
+  
 
   render() {
-    const { isAuthenticated, content } = this.props
+    const { isAuthenticated, content, project } = this.props
     const { isLoadingEndpoints } = this.state
-    const project = this.props.params.project ? this.props.params.project : 'instance'
-    
-    const isLoading = isLoadingEndpoints && this.props.params.project
 
     return (
       <ThemeProvider>
@@ -96,11 +98,17 @@ class AdminApp extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  isAuthenticated: AuthenticateSelectors.isAuthenticated(state),
-})
+const mapStateToProps = (state) => {
+  const authenticationResult = AuthenticateSelectors.getResult(state)
+  return {
+    currentRole: authenticationResult ? authenticationResult.role : '',
+    isAuthenticated: AuthenticateSelectors.isAuthenticated(state),
+    project: AuthenticationParametersSelectors.getProject(state),
+  }
+}
 
 const mapDispatchToProps = dispatch => ({
+  initializeApplication: project => dispatch(AuthenticationParametersActions.applicationStarted(project)),
   fetchEndpoints: () => dispatch(EndpointActions.fetchPagedEntityList(0, 10000)), // TODO
 })
 

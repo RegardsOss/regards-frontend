@@ -3,6 +3,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import { stub } from 'sinon'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import FormTabsComponent from '../../../src/components/admin/FormTabsComponent'
 import Styles from '../../../src/styles/styles'
@@ -17,6 +18,17 @@ import FormPreviewComponent from '../../../src/components/admin/preview/FormPrev
  * @author Sébastien binda
  */
 describe('[FORM MODULE] Testing FormTabsComponent', () => {
+  // Since react will console.error propType warnings, that which we'd rather have
+  // as errors, we use sinon.js to stub it into throwing these warning as errors
+  // instead.
+  before(() => {
+    stub(console, 'error').callsFake((warning) => {
+      throw new Error(warning)
+    })
+  })
+  after(() => {
+    console.error.restore()
+  })
   const muiTheme = getMuiTheme({})
   const options = {
     context: {
@@ -38,13 +50,19 @@ describe('[FORM MODULE] Testing FormTabsComponent', () => {
           applicationId: 'test',
           container: 'content',
           conf: {},
-          layout: '',
+          layout: {
+            id: 'main',
+            type: 'letype',
+          },
         },
       },
       defaultConf: {
         datasets: {},
         criterion: [],
-        layout: '',
+        layout: {
+          id: 'main',
+          type: 'letype',
+        },
         resultType: null,
       },
       selectableAttributes: {},

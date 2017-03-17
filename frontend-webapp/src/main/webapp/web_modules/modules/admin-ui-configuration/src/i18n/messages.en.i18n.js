@@ -58,6 +58,8 @@ const messages = Object.assign({
   'application.theme.create.success': 'The theme was added',
   'application.theme.create.error': 'The theme could not be added',
 
+  'application.theme.default.active': 'Default active theme',
+
   'application.theme.save': 'Save',
   'application.theme.save.success': 'The theme was updated',
   'application.theme.save.error': 'The theme could not be updated',

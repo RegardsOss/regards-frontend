@@ -8,7 +8,7 @@
  */
 const Project = React.PropTypes.shape({
   content: React.PropTypes.shape({
-    id: React.PropTypes.string,
+    id: React.PropTypes.number,
     name: React.PropTypes.string,
     description: React.PropTypes.string,
     isPublic: React.PropTypes.bool,

@@ -12,7 +12,7 @@ class LayoutActions extends BasicListActions {
   constructor() {
     super({
       namespace: 'ui-configuration/layout',
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-access/layouts`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-access-project/layouts`,
       schemaTypes: {
         ENTITY: Schemas.LAYOUT,
       },

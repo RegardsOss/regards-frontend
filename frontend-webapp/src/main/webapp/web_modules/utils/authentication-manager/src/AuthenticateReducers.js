@@ -51,8 +51,17 @@ class AuthenticateReducers extends BasicSignalReducers {
       case AuthenticateActions.LOCK_SESSION:
         return {
           ...state,
-          authenticateDate: state.authenticateDate,
           sessionLocked: true,
+        }
+      // renew authentication data (action result, see AuthenticateActions)
+      case AuthenticateActions.AUTHENTICATION_CHANGED:
+        return {
+          // recover previous state
+          ...state,
+          // update token authentication date
+          authenticateDate: Date.now(),
+          // use new action result authentication state
+          result: { ...(state.result), ...action.result },
         }
       default:
         // not in this reducer
@@ -71,4 +80,4 @@ const instance = new AuthenticateReducers()
  */
 export default (state, action) => instance.reduce(state, action)
 
-export const pathname = 'authentication'
+export const PATH = 'authentication'

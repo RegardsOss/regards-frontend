@@ -43,7 +43,7 @@ export class ResourceAccessFormContainer extends React.Component {
     if (role) {
       return (
         <ResourceAccessFormComponent
-          microserviceList={['rs-admin', 'rs-access', 'rs-dam']}
+          microserviceList={['rs-admin', 'rs-access-project', 'rs-dam']}
           backUrl={this.getBackUrl()}
           currentRole={role}
         />)

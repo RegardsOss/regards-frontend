@@ -111,19 +111,19 @@ class DatabaseConnectionTesterIconButton extends React.Component {
     )
 
     const successButton =
-      (<OnHoverSwitchIconButton onTouchTap={this.handleTouchTap}>
+      (<OnHoverSwitchIconButton onTouchTap={[this.handleTouchTap, this.handleTouchTap]}>
         <Check color={this.context.muiTheme.palette.primary1Color} />
         <PlayArrow />
       </OnHoverSwitchIconButton>)
 
     const warningButton =
-      (<OnHoverSwitchIconButton onTouchTap={this.handleTouchTap}>
+      (<OnHoverSwitchIconButton onTouchTap={[this.handleTouchTap, this.handleTouchTap]}>
         <Warning color={this.context.muiTheme.palette.warningColor} />
         <PlayArrow />
       </OnHoverSwitchIconButton>)
 
     const errorButton =
-      (<OnHoverSwitchIconButton onTouchTap={this.handleTouchTap}>
+      (<OnHoverSwitchIconButton onTouchTap={[this.handleTouchTap, this.handleTouchTap]}>
         <Error color={this.context.muiTheme.palette.accent1Color} />
         <PlayArrow />
       </OnHoverSwitchIconButton>)

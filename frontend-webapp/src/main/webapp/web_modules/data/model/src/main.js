@@ -23,6 +23,7 @@ import AccessProject from './access/Project'
 import Module from './access/Module'
 import Layout from './access/Layout'
 import LayoutContent from './access/LayoutContent'
+import Container from './access/Container'
 import AttributeConfiguration from './access/AttributeConfiguration'
 import AttributesRegroupementConfiguration from './access/AttributesRegroupementConfiguration'
 import SearchResultsTargetsEnum from './access/SearchResultsTargetsEnum'
@@ -31,6 +32,7 @@ import AccessGroup from './dam/AccessGroup'
 import AccessRight from './dam/AccessRight'
 import CatalogEntity from './catalog/Entity'
 import { ObjectLinkedFile, ObjectLinkedFileTypes } from './catalog/ObjectLinkedFile'
+import LinkPluginDataset from './catalog/LinkPluginDataset'
 import PluginMetaData, { PluginMetaDataList } from './admin/plugin/PluginMetaData'
 import PluginConfiguration, { PluginConfigurationList } from './admin/plugin/PluginConfiguration'
 import PluginParameter from './admin/plugin/PluginParameter'
@@ -40,9 +42,10 @@ import Endpoint from './admin/Endpoint'
 import AIPStatus, { aipStates, aipDataTypes } from './archival-storage/AIPStatus'
 import StoragePlugin, { StoragePluginShape } from './archival-storage/StoragePlugin'
 import Theme from './access/Theme'
-import URL, { validURLRegexp } from './common/URL'
+import URL, { validURLRegexp, relativeURLRegexp } from './common/URL'
 import RangedNumber from './common/RangedNumber'
 import Percent from './common/Percent'
+import locationShape from './common/ReactRouter'
 
 export default {
   // ADMIN
@@ -72,6 +75,7 @@ export default {
   CatalogEntity,
   ObjectLinkedFile,
   ObjectLinkedFileTypes,
+  LinkPluginDataset,
 
   // ACCESS
   Plugin,
@@ -81,6 +85,7 @@ export default {
   AccessProject,
   Module,
   Layout,
+  Container,
   LayoutContent,
   AttributeConfiguration,
   AttributesRegroupementConfiguration,
@@ -108,7 +113,9 @@ export default {
 
   // Common
   URL,
+  validURLRegexp,
+  relativeURLRegexp,
   RangedNumber,
   Percent,
-  validURLRegexp,
+  locationShape,
 }
