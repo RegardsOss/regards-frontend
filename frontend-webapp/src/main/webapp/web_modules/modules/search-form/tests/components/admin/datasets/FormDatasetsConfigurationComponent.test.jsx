@@ -17,7 +17,7 @@ import FormDatasetsConfigurationComponent from '../../../../src/components/admin
  * Tests for FormDatasetsConfigurationComponent
  * @author Sébastien binda
  */
-describe('[FORM MODULE] Testing FormDatasetsConfigurationComponent', () => {
+describe('[SEARCH FORM] Testing FormDatasetsConfigurationComponent', () => {
   // Since react will console.error propType warnings, that which we'd rather have
   // as errors, we use sinon.js to stub it into throwing these warning as errors
   // instead.
@@ -40,7 +40,7 @@ describe('[FORM MODULE] Testing FormDatasetsConfigurationComponent', () => {
 
   it('Should render a FormDatasetsConfigurationComponent to configure datasets', () => {
     const props = {
-      changeField: () => {},
+      changeField: () => { },
       defaultType: DATASET_TYPE,
       defaultSelectedDatasets: [],
       defaultSelectedDatasetModels: [],
@@ -58,7 +58,7 @@ describe('[FORM MODULE] Testing FormDatasetsConfigurationComponent', () => {
 
   it('Should render a FormDatasetsConfigurationComponent to configure models', () => {
     const props = {
-      changeField: () => {},
+      changeField: () => { },
       defaultType: DATASET_MODEL_TYPE,
       defaultSelectedDatasets: [],
       defaultSelectedDatasetModels: [],
@@ -76,7 +76,7 @@ describe('[FORM MODULE] Testing FormDatasetsConfigurationComponent', () => {
 
   it('Should render a FormDatasetsConfigurationComponent for all datasets', () => {
     const props = {
-      changeField: () => {},
+      changeField: () => { },
       defaultType: ALL_CATALOG_TYPE,
       defaultSelectedDatasets: [],
       defaultSelectedDatasetModels: [],

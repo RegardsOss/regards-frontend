@@ -18,7 +18,7 @@ import { UnconnectedFormCriteriaComponent } from '../../../../src/components/adm
  * Tests for FormCriteriaComponent
  * @author Sébastien binda
  */
-describe('[FORM MODULE] Testing FormCriteriaComponent', () => {
+describe('[SEARCH FORM] Testing FormCriteriaComponent', () => {
   // Since react will console.error propType warnings, that which we'd rather have
   // as errors, we use sinon.js to stub it into throwing these warning as errors
   // instead.

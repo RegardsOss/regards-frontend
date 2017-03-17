@@ -126,7 +126,7 @@ const RenderMiddleWare = (req, res) => {
 const facets = JSON.parse(fs.readFileSync('mocks/json/resources/facets-metadata.json', 'utf8') || this.logMessage('Failed reading file mocks/json/resources/facetsMetadata.json', true) || [])
 const FacetsPageMiddleWare = (req, res) => {
   // post treatment on page data
-  PageMiddleWare(req, res, jsResponse => Object.assign({}, jsResponse, { facets }))
+  PageMiddleWare(req, res, jsResponse => Object.assign({}, jsResponse, req.url.includes('search') ? { facets } : {}))
 }
 
 /**
@@ -190,8 +190,8 @@ const runServer = () => {
     '/api/v1/rs-access-project/maintenances': '/api/v1/rs-access-project-signal/maintenances',
     '/api/v1/rs-access-project/maintenances/:project/activate': '/api/v1/rs-access-project-signal/activate',
     '/api/v1/rs-access-project/maintenances/:project/desactivate': '/api/v1/rs-access-project-signal/desactivate',
-    "/api/v1/rs-access-project/layouts/user": "/api/v1/rs-access-project/layouts/0",
-    "/api/v1/rs-access-instance/layouts/portal": "/api/v1/rs-access-instance/layouts/1",
+    '/api/v1/rs-access-project/layouts/user': '/api/v1/rs-access-project/layouts/0',
+    '/api/v1/rs-access-instance/layouts/portal': '/api/v1/rs-access-instance/layouts/1',
     '/api/v1/rs-admin/maintenances': '/api/v1/rs-admin-signal/maintenances',
     '/api/v1/rs-admin/maintenances/:project/activate': '/api/v1/rs-admin-signal/activate',
     '/api/v1/rs-admin/maintenances/:project/desactivate': '/api/v1/rs-admin-signal/desactivate',

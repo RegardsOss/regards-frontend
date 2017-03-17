@@ -6,6 +6,7 @@ import { assert } from 'chai'
 import { stub } from 'sinon'
 import { IntlStub } from '@regardsoss/tests-helpers'
 import { ShowableAtRender } from '@regardsoss/components'
+import { BasicFacetsPageableSelectors } from '@regardsoss/store-utils'
 import { FacetsDisplayerContainer } from '../../src/containers/FacetsDisplayerContainer'
 import ModuleContainer from '../../src/containers/ModuleContainer'
 
@@ -40,6 +41,7 @@ describe('[ SEARCH FACETS ] Testing ModuleComponent', () => {
       project: 'any',
       moduleConf: {
         show: true,
+        resultsSelectors: new BasicFacetsPageableSelectors(),
       },
     }
     // Test visible rendering

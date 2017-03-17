@@ -2,7 +2,9 @@
  * LICENSE_PLACEHOLDER
  **/
 import { ShowableAtRender } from '@regardsoss/components'
+import { BasicFacetsPageableSelectors } from '@regardsoss/store-utils'
 import FacetsDisplayerContainer from './FacetsDisplayerContainer'
+
 /**
  * Display the search facets content (mount / unmount children as the show property changes,
  * but alway stays mounted to keep a valid historical state)
@@ -16,6 +18,7 @@ class ModuleContainer extends React.Component {
     project: React.PropTypes.string,
     moduleConf: React.PropTypes.shape({
       show: React.PropTypes.bool.isRequired,
+      resultsSelectors: React.PropTypes.instanceOf(BasicFacetsPageableSelectors).isRequired,
     }),
   }
 

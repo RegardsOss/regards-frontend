@@ -23,7 +23,7 @@ import FormCriteriaComponent from '../../../../src/components/admin/criterion/Fo
  * Tests for FormCriterionComponent
  * @author Sébastien binda
  */
-describe('[FORM MODULE] Testing formCriterionComponent', () => {
+describe('[SEARCH FORM] Testing formCriterionComponent', () => {
   // Since react will console.error propType warnings, that which we'd rather have
   // as errors, we use sinon.js to stub it into throwing these warning as errors
   // instead.
@@ -46,7 +46,7 @@ describe('[FORM MODULE] Testing formCriterionComponent', () => {
 
   it('Should render an empty formCriterionComponent', () => {
     const props = {
-      changeField: () => {},
+      changeField: () => { },
       defaultCriterion: [],
       criterion: [],
       layout: {
