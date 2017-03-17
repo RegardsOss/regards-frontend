@@ -1,6 +1,10 @@
 {
   "parser": "babel-eslint",
-  "extends": ["eslint:recommended", "plugin:react/recommended", "airbnb"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "airbnb"
+  ],
   "env": {
     "browser": true,
     "mocha": true,
@@ -9,7 +13,10 @@
     "commonjs": true
   },
   "rules": {
-    "semi": ["error", "never"],
+    "semi": [
+      "error",
+      "never"
+    ],
     "react/jsx-uses-react": 2,
     "react/jsx-uses-vars": 2,
     "react/react-in-jsx-scope": 2,
@@ -24,10 +31,15 @@
     "global-require": 0,
     "max-len": 0,
     // ignore unused variable on functions arguments
-    "no-unused-vars": ["error", { "args": "none" }],
+    "no-unused-vars": [
+      "error",
+      {
+        "args": "none"
+      }
+    ],
     // Allow annonymous functions
-    "func-names":  0,
-    "no-confusing-arrow": "off",
+    "func-names": 0,
+    "no-confusing-arrow": "off"
   },
   "plugins": [
     "react"
@@ -35,7 +47,7 @@
   "globals": {
     "React": true,
     "GATEWAY_HOSTNAME": true,
-    "API_URL":true
+    "API_URL": true
   },
   "parserOptions": {
     "ecmaVersion": 6,

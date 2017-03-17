@@ -12,13 +12,6 @@ class CatalogEntitySelector extends BasicPageableSelectors {
     super(['modules.search-results', 'results'])
   }
 
-  /**
-   * @param {*} state redux state
-   * @returns {* | undefined} facets for the current result
-   */
-  getFacets(state) {
-    return this.uncombineStore(state).metadata
-  }
 }
 
 const instance = new CatalogEntitySelector()
