@@ -2,18 +2,9 @@
 const CommonConfig = require('./webpack.common.config')
 const webpack = require('webpack')
 const merge = require('webpack-merge')
-const HappyPack = require('happypack')
 const path = require('path')
 
 let config = CommonConfig
-
-// Replace the default loaders to use happypack
-/*
-config.module.rules[0] = {
-  test: /\.jsx?$/,
-  exclude: [/node_modules/, /json/, /\.tmp/],
-  loader: 'happypack/loader',
-}*/
 
 config = merge(config, {
   // Enable sourcemaps for debugging webpack's output.
@@ -76,12 +67,6 @@ config = merge(config, {
       // within that bundle
       manifest: require(`${__dirname}/build/core-manifest.json`),
       context: __dirname,
-    }),
-    // HappyPack makes webpack builds faster by allowing you to transform multiple files in parallel.
-    new HappyPack({
-      loaders: ['babel-loader'],
-      threads: 4,
-      tempDir: '.tmp/.happypack/',
     }),
     new webpack.DefinePlugin({
       'process.env': {
