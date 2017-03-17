@@ -10,29 +10,29 @@ export default {
   content: [
     {
       content: {
-        "id": 1,
-        "name": "menu",
-        "description": "Header menu module",
-        "applicationId": "user",
-        "container": "header",
-        "active": true,
-        "isDefault": false,
-        "conf":"{\"title\":\"Regards user interface\",\"displayAuthentication\":true,\"displayLocaleSelector\":true,\"displayThemeSelector\":true}"
+        id: 1,
+        name: 'menu',
+        description: 'Header menu module',
+        applicationId: 'user',
+        container: 'header',
+        active: true,
+        isDefault: false,
+        conf: '{"title":"Regards user interface","displayAuthentication":true,"displayLocaleSelector":true,"displayThemeSelector":true}',
       },
       links: [],
     },
     {
       content: {
-        "active": false,
-        "isDefault": false,
-        "name": "news",
-        "description": "Flux atom",
-        "container": "content",
-        "applicationId": "user",
-        "id": 6
+        active: false,
+        isDefault: false,
+        name: 'news',
+        description: 'Flux atom',
+        container: 'content',
+        applicationId: 'user',
+        id: 6,
       },
       links: [],
-    }
+    },
   ],
   metadata: {
     number: 5,

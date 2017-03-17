@@ -17,6 +17,7 @@ import BasicSignalSelectors from './signal/BasicSignalSelectors'
 import BasicSignalActions from './signal/BasicSignalActions'
 import BasicSignalReducers from './signal/BasicSignalReducers'
 
+import RequestVerbEnum from './RequestVerbEnum'
 import RequestErrorShape from './RequestErrorShape'
 
 
@@ -35,4 +36,5 @@ export default {
   BasicSignalActions,
   BasicSignalReducers,
   RequestErrorShape,
+  RequestVerbEnum,
 }

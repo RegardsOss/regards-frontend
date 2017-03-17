@@ -15,7 +15,7 @@ class LayoutActions extends BasicPageableActions {
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-access-project/layouts`,
       schemaTypes: {
         ENTITY: Schemas.LAYOUT,
-        ENTITY_ARRAY: Schemas.LAYOUT_ARRAY
+        ENTITY_ARRAY: Schemas.LAYOUT_ARRAY,
       },
     })
   }

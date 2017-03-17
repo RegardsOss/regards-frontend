@@ -47,8 +47,6 @@ class AdminApp extends React.Component {
     // init with project parameter if available
     const project = (this.props.params && this.props.params.project)
     this.props.initializeApplication(project)
-    // fetch endpoints
-    this.props.fetchEndpoints()
   }
 
   /**
@@ -57,7 +55,7 @@ class AdminApp extends React.Component {
    */
   componentWillReceiveProps(nextProps) {
     // when user has a new role (and is is authenticated)
-    if (this.props.currentRole !== nextProps.currentRole && nextProps.isAuthenticated) {
+    if (this.props.currentRole !== nextProps.currentRole && nextProps.isAuthenticated && !nextProps.isInstance) {
       // Prevent the HMI to show the admin app before endpoints have been retrieved
       this.setState({
         isLoadingEndpoints: true,
@@ -74,9 +72,9 @@ class AdminApp extends React.Component {
             throw new Error('Failed to retrieve endpoint list, which is required on the admin dashboard')
           }
         })
-        }
     }
-  
+  }
+
 
   render() {
     const { isAuthenticated, content, project } = this.props
@@ -86,7 +84,7 @@ class AdminApp extends React.Component {
       <ThemeProvider>
         <I18nProvider messageDir={'modules/admin/src/i18n'}>
           <AuthenticationContainer project={project} isAuthenticated={isAuthenticated}>
-            <LoadableContentDisplayDecorator isLoading={isLoading}>
+            <LoadableContentDisplayDecorator isLoading={isLoadingEndpoints}>
               <AdminLayout {...this.props}>
                 {content}
               </AdminLayout>
@@ -104,6 +102,7 @@ const mapStateToProps = (state) => {
     currentRole: authenticationResult ? authenticationResult.role : '',
     isAuthenticated: AuthenticateSelectors.isAuthenticated(state),
     project: AuthenticationParametersSelectors.getProject(state),
+    isInstance: AuthenticationParametersSelectors.isInstance(state),
   }
 }
 

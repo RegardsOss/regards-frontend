@@ -522,6 +522,13 @@
       "microservice": "rs-catalog",
       "resource": "/search",
       "verb": "GET"
+    },
+    {
+      "id": 28,
+      "description": "Delete a project user",
+      "microservice": "rs-admin",
+      "resource": "/users/{userId}",
+      "verb": "DELETE"
     }
   ]
 }

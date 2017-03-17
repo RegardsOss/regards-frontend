@@ -16,7 +16,7 @@ const layoutSchema = new Schema(LayoutConfiguration.normalizrKey, {
         // eslint-disable-next-line no-param-reassign
         output.content.layout = JSON.parse(value.layout)
       } catch (e) {
-        console.error(`Invalid layout configuration for layout ${value.id}`,e)
+        console.error(`Invalid layout configuration for layout ${value.id}`, e)
       }
     }
   },
@@ -25,5 +25,5 @@ const layoutSchema = new Schema(LayoutConfiguration.normalizrKey, {
 // Schemas for API responses.
 export default {
   LAYOUT: layoutSchema,
-  LAYOUT_ARRAY : arrayOf(layoutSchema)
+  LAYOUT_ARRAY: arrayOf(layoutSchema),
 }

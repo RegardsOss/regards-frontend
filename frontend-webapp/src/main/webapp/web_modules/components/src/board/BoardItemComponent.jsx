@@ -1,14 +1,17 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import map from 'lodash/map'
+import forEach from 'lodash/forEach'
 import IconButton from 'material-ui/IconButton'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { map } from 'lodash'
+import { HateoasDisplayDecorator, someMatchHateoasDisplayLogic } from '@regardsoss/display-control'
 import { Link } from 'react-router'
 import BoardItemShape from './BoardItemShape'
 import styles from './styles/styles'
 import BaseBoardItemComponent from './BaseBoardItemComponent'
+
 
 /**
  * Adapter to facilitate the use of the {@link BaseBoardItemComponent} by passing an parameter object.
@@ -44,14 +47,29 @@ class BoardItemComponent extends React.Component {
       </Link>
     ))
 
+    // Create list of all need endpoints for all board actions
+    const actionsHateoasRequiredEnpoints = []
+    forEach(item.actions, (action, index) => {
+      if (action.hateoasDependencies) {
+        actionsHateoasRequiredEnpoints.push(...action.hateoasDependencies)
+      }
+    })
+
+    console.log('endpoints needed', actionsHateoasRequiredEnpoints)
+
     return (
-      <BaseBoardItemComponent
-        title={item.title}
-        subtitle={item.subtitle}
-        description={item.description}
-        actions={actions}
-        advanced={item.advanced}
-      />
+      <HateoasDisplayDecorator
+        requiredEndpoints={actionsHateoasRequiredEnpoints}
+        hateoasDisplayLogic={someMatchHateoasDisplayLogic}
+      >
+        <BaseBoardItemComponent
+          title={item.title}
+          subtitle={item.subtitle}
+          description={item.description}
+          actions={actions}
+          advanced={item.advanced}
+        />
+      </HateoasDisplayDecorator>
     )
   }
 }

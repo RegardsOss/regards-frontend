@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 
 export const listProjectUserRoute = {
   path: 'list',
