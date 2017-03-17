@@ -8,7 +8,7 @@ import FloatingActionButton from 'material-ui/FloatingActionButton'
 import DatasetLibrary from 'material-ui/svg-icons/image/collections-bookmark'
 import DataLibrary from 'material-ui/svg-icons/av/library-books'
 import ShowFacetsSearch from 'material-ui/svg-icons/action/find-in-page'
-import { Card, CardTitle } from 'material-ui/Card'
+import { CardTitle } from 'material-ui/Card'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { ShowableAtRender } from '@regardsoss/components'
@@ -22,6 +22,7 @@ import { SearchResultsTargetsEnum, CatalogEntity } from '@regardsoss/model'
 class NavigationComponent extends React.Component {
 
   static propTypes = {
+    enableFacettes: React.PropTypes.bool.isRequired,
     selectedTarget: React.PropTypes.oneOf(values(SearchResultsTargetsEnum)),
     onChangeTarget: React.PropTypes.func.isRequired,
     onUnselectDataset: React.PropTypes.func.isRequired,
@@ -123,6 +124,7 @@ class NavigationComponent extends React.Component {
 
   renderButtons() {
     const { intl } = this.context
+    const { enableFacettes, selectedTarget, onToggleShowFacetsSearch, showingFacetsSearch } = this.props
     return (
       <div
         style={{
@@ -131,12 +133,12 @@ class NavigationComponent extends React.Component {
           right: '0',
         }}
       >
-        <ShowableAtRender show={this.props.selectedTarget === SearchResultsTargetsEnum.DATAOBJECT_RESULTS}>
+        <ShowableAtRender show={enableFacettes && selectedTarget === SearchResultsTargetsEnum.DATAOBJECT_RESULTS}>
           <FloatingActionButton
             title={intl.formatMessage({ id: 'navigation.filter.by.facets' })}
-            onTouchTap={this.props.onToggleShowFacetsSearch}
+            onTouchTap={onToggleShowFacetsSearch}
             style={{ marginBottom: 10, marginRight: 60 }}
-            secondary={this.props.showingFacetsSearch}
+            secondary={showingFacetsSearch}
           >
             <ShowFacetsSearch />
           </FloatingActionButton>
@@ -145,7 +147,7 @@ class NavigationComponent extends React.Component {
           title={intl.formatMessage({ id: 'navigation.datasets.label' })}
           onTouchTap={this.onClickDatasetTarget}
           style={{ marginBottom: 10, marginRight: 10 }}
-          secondary={this.props.selectedTarget === SearchResultsTargetsEnum.DATASET_RESULTS}
+          secondary={selectedTarget === SearchResultsTargetsEnum.DATASET_RESULTS}
         >
           <DatasetLibrary />
         </FloatingActionButton>
@@ -153,7 +155,7 @@ class NavigationComponent extends React.Component {
           title={intl.formatMessage({ id: 'navigation.dataobjects.label' })}
           onTouchTap={this.onClickDataobjectsTarget}
           style={{ marginBottom: 10, marginRight: 10 }}
-          secondary={this.props.selectedTarget === SearchResultsTargetsEnum.DATAOBJECT_RESULTS}
+          secondary={selectedTarget === SearchResultsTargetsEnum.DATAOBJECT_RESULTS}
         >
           <DataLibrary />
         </FloatingActionButton>
@@ -164,12 +166,11 @@ class NavigationComponent extends React.Component {
   render() {
     return (
       <div style={{ position: 'relative' }}>
-        <Card>
-          <CardTitle
-            title={this.getTitle()}
-          />
-        </Card>
-        {this.renderButtons()}
+        <CardTitle
+          title={this.getTitle()}
+        >
+          {this.renderButtons()}
+        </CardTitle>
       </div>
     )
   }

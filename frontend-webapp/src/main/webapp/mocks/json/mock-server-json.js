@@ -15,7 +15,7 @@ const serverPort = 3001
  * @param req
  * @param res
  */
-const PageMiddleWare = (req, res) => {
+const PageMiddleWare = (req, res, postTreatment) => {
   let results = ''
   if (Array.isArray(res.locals.data)) {
     const datas = []
@@ -85,6 +85,9 @@ const PageMiddleWare = (req, res) => {
       links: [],
     }
   }
+  if (postTreatment) {
+    results = postTreatment(results)
+  }
 
   res.jsonp(results)
 }
@@ -118,6 +121,12 @@ const RenderMiddleWare = (req, res) => {
   return typeof parsedUrl.query._start !== 'undefined' && typeof parsedUrl.query._limit !== 'undefined'
     ? PageMiddleWare(req, res)
     : ListMiddleWare(req, res)
+}
+
+const facets = JSON.parse(fs.readFileSync('mocks/json/resources/facets-metadata.json', 'utf8') || this.logMessage('Failed reading file mocks/json/resources/facetsMetadata.json', true) || [])
+const FacetsPageMiddleWare = (req, res) => {
+  // post treatment on page data
+  PageMiddleWare(req, res, jsResponse => Object.assign({}, jsResponse, { facets }))
 }
 
 /**
@@ -154,7 +163,7 @@ const runServer = () => {
 
   accessMicroServiceRouter.render = PageMiddleWare
   adminMicroServiceRouter.render = RenderMiddleWare
-  catalogMicroServiceRouter.render = RenderMiddleWare
+  catalogMicroServiceRouter.render = FacetsPageMiddleWare
   archivalStoragePluginsMonitoringRouter.render = RenderMiddleWare // ListMiddleWare
   damMicroServiceRouter.render = PageMiddleWare
   damMicroServiceRouterList.render = RenderMiddleWare

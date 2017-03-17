@@ -10,6 +10,7 @@ import forEach from 'lodash/forEach'
 import values from 'lodash/values'
 import remove from 'lodash/remove'
 import { browserHistory } from 'react-router'
+import { Card, CardMedia } from 'material-ui/Card'
 import { LazyModuleComponent } from '@regardsoss/modules'
 import { FixedTableContainer, ShowableAtRender } from '@regardsoss/components'
 import {
@@ -335,37 +336,40 @@ class SearchResultsComponent extends React.Component {
     }
 
     return (
-      <div>
+      <Card>
         <NavigationComponent
           selectedTarget={target}
           onChangeTarget={this.onChangeTarget}
           onUnselectDataset={this.onUnselectDataset}
           selectedDataset={selectedDataset}
+          enableFacettes={enableFacettes}
           showingFacetsSearch={showingFacetsSearch}
           onToggleShowFacetsSearch={this.toggleShowFacetsSearch}
         />
-        <ShowableAtRender show={enableFacettes}>
-          <LazyModuleComponent
-            project={project}
-            appName={appName}
-            module={searchFacetsModule}
+        <CardMedia>
+          <ShowableAtRender show={enableFacettes}>
+            <LazyModuleComponent
+              project={project}
+              appName={appName}
+              module={searchFacetsModule}
+            />
+          </ShowableAtRender>
+          <FixedTableContainer
+            key={target}
+            PageActions={CatalogEntityActions}
+            PageSelector={CatalogEntitySelector}
+            pageSize={20}
+            lineHeight={lineSize}
+            displayCheckbox={target === SearchResultsTargetsEnum.DATAOBJECT_RESULTS}
+            displayHeader={target === SearchResultsTargetsEnum.DATAOBJECT_RESULTS}
+            columns={columns}
+            onSelectionChange={this.resultSelection}
+            onSortByColumn={this.sortResultsByColumn}
+            requestParams={{ queryParams: this.getFullQuery() }}
+            cellsStyle={cellsStyle}
           />
-        </ShowableAtRender>
-        <FixedTableContainer
-          key={target}
-          PageActions={CatalogEntityActions}
-          PageSelector={CatalogEntitySelector}
-          pageSize={20}
-          lineHeight={lineSize}
-          displayCheckbox={target === SearchResultsTargetsEnum.DATAOBJECT_RESULTS}
-          displayHeader={target === SearchResultsTargetsEnum.DATAOBJECT_RESULTS}
-          columns={columns}
-          onSelectionChange={this.resultSelection}
-          onSortByColumn={this.sortResultsByColumn}
-          requestParams={{ queryParams: this.getFullQuery() }}
-          cellsStyle={cellsStyle}
-        />
-      </div>
+        </CardMedia>
+      </Card>
     )
   }
 }

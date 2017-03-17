@@ -7,5 +7,5 @@ import styles from './styles/styles'
 export default {
   moduleContainer,
   styles,
-  messagesDir: 'modules/projects-list/src/i18n',
+  messagesDir: 'modules/search-facets/src/i18n',
 }

@@ -6,7 +6,7 @@
  * Mock service entry point: uses its entry points here or delegates onto json mock server
  */
 const _ = require('lodash')
-const { JSON_CONTENT_TYPE } = require('./mock-front-utils')
+const { JSON_CONTENT_TYPE, loadJSONModelFile } = require('./mock-front-utils')
 const FacadeCore = require('./mock-front-core')
 const MockUsers = require('./mock-users')
 

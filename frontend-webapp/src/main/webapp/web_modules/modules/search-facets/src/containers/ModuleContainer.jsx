@@ -2,12 +2,12 @@
  * LICENSE_PLACEHOLDER
  **/
 import { ShowableAtRender } from '@regardsoss/components'
-
+import FacetsDisplayerContainer from './FacetsDisplayerContainer'
 /**
  * Display the search facets content (mount / unmount children as the show property changes,
  * but alway stays mounted to keep a valid historical state)
  */
-export class ModuleContainer extends React.Component {
+class ModuleContainer extends React.Component {
 
   static propTypes = {
     // eslint-disable-next-line react/no-unused-prop-types
@@ -29,7 +29,7 @@ export class ModuleContainer extends React.Component {
     // TODO tomorrow ===> inject in module the right selectors
     return (
       <ShowableAtRender show={show}>
-        <div>Hello</div>
+        <FacetsDisplayerContainer />
       </ShowableAtRender>
     )
   }
