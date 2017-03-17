@@ -33,18 +33,23 @@ class BoardItemComponent extends React.Component {
     const { item } = this.props
     const computedStyles = styles(this.context.muiTheme)
     const actions = map(item.actions, (action, index) => (
-      <Link
-        to={action.path}
-        style={computedStyles.links}
-        key={index}
+      <HateoasDisplayDecorator
+        requiredEndpoints={action.hateoasDependencies}
+        hateoasDisplayLogic={someMatchHateoasDisplayLogic}
       >
-        <IconButton
-          tooltip={action.tooltipMsg}
-          onTouchTap={action.touchTapAction}
+        <Link
+          to={action.path}
+          style={computedStyles.links}
+          key={index}
         >
-          {action.icon}
-        </IconButton>
-      </Link>
+          <IconButton
+            tooltip={action.tooltipMsg}
+            onTouchTap={action.touchTapAction}
+          >
+            {action.icon}
+          </IconButton>
+        </Link>
+      </HateoasDisplayDecorator>
     ))
 
     // Create list of all need endpoints for all board actions

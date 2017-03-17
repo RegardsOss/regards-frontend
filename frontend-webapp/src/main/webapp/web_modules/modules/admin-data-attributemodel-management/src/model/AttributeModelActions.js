@@ -6,6 +6,7 @@ class AttributeModelActions extends BasicListActions {
     super({
       namespace: 'admin-data-attributemodel-management',
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-dam/models/attributes`,
+      entityPathVariable: 'pAttributeId',
       schemaTypes: {
         ENTITY: Schemas.ATTRIBUTE_MODEL,
         ENTITY_ARRAY: Schemas.ATTRIBUTE_MODEL_ARRAY,

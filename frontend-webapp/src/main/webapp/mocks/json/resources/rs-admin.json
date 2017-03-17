@@ -529,6 +529,132 @@
       "microservice": "rs-admin",
       "resource": "/users/{userId}",
       "verb": "DELETE"
+    },
+    {
+      "id": 29,
+      "description": "Add a user group",
+      "microservice": "rs-dam",
+      "resource": "/accessgroups",
+      "verb": "POST"
+    },
+    {
+      "id": 30,
+      "description": "Add a user Role",
+      "microservice": "rs-admin",
+      "resource": "/roles",
+      "verb": "POST"
+    },
+    {
+      "id": 31,
+      "description": "Ajout d'un model",
+      "microservice": "rs-dam",
+      "resource": "/models",
+      "verb": "POST"
+    },
+    {
+      "id": 32,
+      "description": "models",
+      "microservice": "rs-dam",
+      "resource": "/models/{pModelId}",
+      "verb": "DELETE"
+    },
+    {
+      "id": 33,
+      "description": "models",
+      "microservice": "rs-dam",
+      "resource": "/models/{pModelId}",
+      "verb": "PUT"
+    },
+    {
+      "id": 34,
+      "description": "models",
+      "microservice": "rs-dam",
+      "resource": "/models",
+      "verb": "GET"
+    },
+    {
+      "id": 35,
+      "description": "models",
+      "microservice": "rs-dam",
+      "resource": "/models/{pModelId}",
+      "verb": "GET"
+    },
+    {
+      "id": 36,
+      "description": "models",
+      "microservice": "rs-dam",
+      "resource": "/models/attributes/{pAttributeId}",
+      "verb": "GET"
+    },
+    {
+      "id": 37,
+      "description": "models",
+      "microservice": "rs-dam",
+      "resource": "/models/attributes",
+      "verb": "POST"
+    },
+    {
+      "id": 38,
+      "description": "collections",
+      "microservice": "rs-dam",
+      "resource": "/collections",
+      "verb": "POST"
+    },
+    {
+      "id": 39,
+      "description": "collections",
+      "microservice": "rs-dam",
+      "resource": "/collections",
+      "verb": "GET"
+    },
+    {
+      "id": 40,
+      "description": "collections",
+      "microservice": "rs-dam",
+      "resource": "/models/fragments",
+      "verb": "GET"
+    },
+    {
+      "id": 41,
+      "description": "collections",
+      "microservice": "rs-dam",
+      "resource": "/models/fragments",
+      "verb": "POST"
+    },
+    {
+      "id": 42,
+      "description": "collections",
+      "microservice": "rs-dam",
+      "resource": "/datasets",
+      "verb": "POST"
+    },
+    {
+      "id": 43,
+      "description": "collections",
+      "microservice": "rs-dam",
+      "resource": "/datasources",
+      "verb": "POST"
+    },
+    {
+      "id": 44,
+      "description": "collections",
+      "microservice": "rs-dam",
+      "resource": "/datasources",
+      "verb": "GET"
+    },
+    {
+      "id": 45,
+      "description": "collections",
+      "microservice": "rs-dam",
+      "resource": "/connections",
+      "verb": "POST"
+    },
+    {
+      "id": 46,
+      "description": "collections",
+      "microservice": "rs-dam",
+      "resource": "/connections",
+      "verb": "GET"
     }
   ]
 }

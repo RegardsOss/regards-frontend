@@ -6,6 +6,7 @@ class AccessGroupActions extends BasicPageableActions {
     super({
       namespace: 'admin-user-accessgroup-management',
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-dam/accessgroups`,
+      entityPathVariable: 'name',
       schemaTypes: {
         ENTITY: Schemas.ACCESS_GROUP,
         ENTITY_ARRAY: Schemas.ACCESS_GROUP_ARRAY,

@@ -9,10 +9,13 @@ import IconButton from 'material-ui/IconButton'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import ContentCopy from 'material-ui/svg-icons/content/content-copy'
 import Delete from 'material-ui/svg-icons/action/delete'
+import { HateoasIconAction, HateoasKeys } from '@regardsoss/display-control'
+import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { AccessGroup } from '@regardsoss/model'
 import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
+import AccessGroupActions from '../model/AccessGroupActions'
 
 /**
  * React component to list accessgroups.
@@ -72,15 +75,27 @@ export class AccessGroupListComponent extends React.Component {
                   <TableRowColumn>{accessGroup.content.name}</TableRowColumn>
                   <TableRowColumn>{accessGroup.content.users.length}</TableRowColumn>
                   <TableRowColumn>
-                    <IconButton onTouchTap={() => handleEdit(accessGroup.content.name)}>
+                    <HateoasIconAction
+                      entityLinks={accessGroup.links}
+                      hateoasKey={HateoasKeys.UPDATE}
+                      onTouchTap={() => handleEdit(accessGroup.content.name)}
+                    >
                       <Edit hoverColor={style.hoverButtonEdit} />
-                    </IconButton>
-                    <IconButton onTouchTap={() => handleDuplicate(accessGroup.content.name)}>
+                    </HateoasIconAction>
+                    <HateoasIconAction
+                      entityLinks={accessGroup.links}
+                      hateoasKey={HateoasKeys.UPDATE}
+                      onTouchTap={() => handleDuplicate(accessGroup.content.name)}
+                    >
                       <ContentCopy hoverColor={style.hoverButtonDuplicate} />
-                    </IconButton>
-                    <IconButton onTouchTap={() => handleDelete(accessGroup.content.name)}>
+                    </HateoasIconAction>
+                    <HateoasIconAction
+                      entityLinks={accessGroup.links}
+                      hateoasKey={HateoasKeys.DELETE}
+                      onTouchTap={() => handleDelete(accessGroup.content.name)}
+                    >
                       <Delete hoverColor={style.hoverButtonDelete} />
-                    </IconButton>
+                    </HateoasIconAction>
                   </TableRowColumn>
                 </TableRow>
               ))}
@@ -95,6 +110,7 @@ export class AccessGroupListComponent extends React.Component {
                 id="group.list.action.add"
               />
             }
+            mainHateoasDependency={AccessGroupActions.getDependency(RequestVerbEnum.POST)}
             secondaryButtonLabel={<FormattedMessage id="group.list.action.cancel" />}
             secondaryButtonUrl={backUrl}
           />
