@@ -104,7 +104,7 @@ export class ProjectUserCreateContainer extends React.Component {
             .filter(currentGroup => every(groupList[currentGroup].content.users, userInfo =>
               userInfo.email !== email,
               ))
-            .map(currentGroup => {
+            .map((currentGroup) => {
               console.log(currentGroup)
               return this.props.assignGroup(currentGroup, email)
             })
@@ -116,7 +116,7 @@ export class ProjectUserCreateContainer extends React.Component {
             .value()
           const tasks = concat(addUserToGroupTasks, removeUserFromGroupTasks)
           Promise.all(tasks).then((actionResults) => {
-            if (every(actionResults, (actionResult) => actionResult.error)) {
+            if (every(actionResults, actionResult => actionResult.error)) {
               const url = this.getBackUrl()
               browserHistory.push(url)
             }

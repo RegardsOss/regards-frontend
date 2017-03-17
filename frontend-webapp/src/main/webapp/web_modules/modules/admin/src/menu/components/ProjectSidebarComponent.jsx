@@ -10,11 +10,12 @@ import Brush from 'material-ui/svg-icons/image/brush'
 import { FormattedMessage } from 'react-intl'
 import SupervisorAccount from 'material-ui/svg-icons/action/supervisor-account'
 import { I18nProvider } from '@regardsoss/i18n'
-import { uiPluginsDependencies } from '@regardsoss/admin-ui-plugins-management'
-import { uiConfigurationDependencies } from '@regardsoss/admin-ui-configuration'
-import { HateoasDisplayDecorator, someMatchHateoasDisplayLogic } from '@regardsoss/display-control'
+import uiPluginsDependencies from '@regardsoss/admin-ui-plugins-management/src/dependencies'
+import uiConfigurationDependencies from '@regardsoss/admin-ui-configuration/src/dependencies'
+import { someMatchHateoasDisplayLogic } from '@regardsoss/display-control'
 import getModuleStyles from '../../styles/styles'
 import SidebarElement from './SidebarElement'
+import HateoasSidebarElement from './HateoasSidebarElement'
 import WaitingAccessNotificationContainer from '../containers/WaitingAccessNotificationContainer'
 
 
@@ -80,17 +81,14 @@ class ProjectSidebarComponent extends React.Component {
             primaryText={<FormattedMessage id="menu.dataaccessrights" />}
             leftIcon={<VerifiedUser />}
           />
-          <HateoasDisplayDecorator
+          <HateoasSidebarElement
+            key="4"
             requiredEndpoints={uiPluginsDependencies}
-          >
-            <SidebarElement
-              key="4"
-              to={`/admin/${projectName}/ui-plugins/plugins`}
-              currentPath={this.props.currentPath}
-              primaryText={<FormattedMessage id="menu.plugins" />}
-              leftIcon={<Widgets />}
-            />
-          </HateoasDisplayDecorator>
+            to={`/admin/${projectName}/ui-plugins/plugins`}
+            currentPath={this.props.currentPath}
+            primaryText={<FormattedMessage id="menu.plugins" />}
+            leftIcon={<Widgets />}
+          />
           <SidebarElement
             key="5"
             to={`/admin/${projectName}/microservice/board`}

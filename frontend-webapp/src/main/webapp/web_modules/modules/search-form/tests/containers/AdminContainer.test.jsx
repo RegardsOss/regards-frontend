@@ -47,7 +47,7 @@ describe('[FORM MODULE] Testing Admin Container', () => {
         criterion: [],
         layout: {
           id: 'main',
-          type : 'type'
+          type: 'type',
         },
         resultType: '',
       },
@@ -100,7 +100,7 @@ describe('[FORM MODULE] Testing Admin Container', () => {
         criterion: [],
         layout: {
           id: 'main',
-          type : 'type'
+          type: 'type',
         },
         resultType: '',
       },
@@ -153,7 +153,7 @@ describe('[FORM MODULE] Testing Admin Container', () => {
         criterion: [],
         layout: {
           id: 'main',
-          type : 'type'
+          type: 'type',
         },
         resultType: '',
       },

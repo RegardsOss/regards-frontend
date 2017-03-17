@@ -91,6 +91,7 @@ export default {
   FragmentConfiguration,
 
   LAYOUT: Layout.LAYOUT,
+  LAYOUT_ARRAY: Layout.LAYOUT_ARRAY,
   LayoutConfiguration,
 
   ...Theme,

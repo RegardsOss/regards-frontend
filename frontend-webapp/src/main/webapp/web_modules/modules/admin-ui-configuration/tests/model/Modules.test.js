@@ -6,7 +6,9 @@ import ModulesSelector from '../../src/model/modules/ModulesSelector'
 import MockResponse from './mockModulesResponse'
 
 const backendServerResultList = MockResponse
-const options = {}
+const options = {
+  urlParams: { applicationId: 'user' },
+}
 
 const entityTester = new ReduxEntityTester(ModulesActions, ModulesReducer, ModulesSelector, React.PropTypes.objectOf(Module).isRequired, backendServerResultList, options)
 

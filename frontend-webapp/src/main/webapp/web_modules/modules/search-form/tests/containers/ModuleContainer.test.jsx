@@ -32,7 +32,7 @@ describe('[FORM MODULE] Testing User Container', () => {
     context: {
       muiTheme,
       moduleTheme: Styles(muiTheme),
-      intl: IntlStub
+      intl: IntlStub,
     },
   }
   it('Should fetch the model attributes before rendering the criterion plugins', () => {
@@ -71,7 +71,7 @@ describe('[FORM MODULE] Testing User Container', () => {
       moduleConf: {
         layout: {
           id: 'main',
-          type : 'type'
+          type: 'type',
         },
         criterion,
         datasets: {
