@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 export const SELECT_PROJECT_USER = 'SELECT_PROJECT_USER'
 export const UIActions = {
   selectProjectUser(id) {

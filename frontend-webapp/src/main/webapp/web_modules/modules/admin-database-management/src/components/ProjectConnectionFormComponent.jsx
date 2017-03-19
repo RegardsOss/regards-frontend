@@ -6,7 +6,7 @@ import { FormattedMessage } from 'react-intl'
 import TextField from 'material-ui/TextField'
 import MainActionButtonComponent from '@regardsoss/components/src/cards/MainActionButtonComponent'
 import SecondaryActionButtonComponent from '@regardsoss/components/src/cards/SecondaryActionButtonComponent'
-import { RenderTextField, Field, ValidationHelpers, ErrorTypes, reduxForm } from '@regardsoss/form-utils'
+import { RenderTextField, Field, ErrorTypes, reduxForm } from '@regardsoss/form-utils'
 import ProjectConnection from '@regardsoss/model/src/admin/ProjectConnection'
 import DatabaseConnectionTester from './DatabaseConnectionTester'
 

@@ -15,10 +15,14 @@ import PluginParameterPlugin from './PluginParameterPlugin'
 export class GenericPluginParameter extends React.Component {
 
   static propTypes = {
+    // eslint-disable-next-line react/no-unused-prop-types
     fieldKey: React.PropTypes.string,
+    // eslint-disable-next-line react/no-unused-prop-types
     pluginParameter: PluginParameter,
     pluginParameterType: PluginParameterType,
+    // eslint-disable-next-line react/no-unused-prop-types
     mode: React.PropTypes.oneOf(['view', 'edit', 'create', 'copy']),
+    // eslint-disable-next-line react/no-unused-prop-types
     change: React.PropTypes.func, // Callback provided by redux-form in order to manually change a field value
   }
 

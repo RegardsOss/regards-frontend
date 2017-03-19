@@ -28,12 +28,10 @@ describe('[ADMIN UI MANAGEMENT] Testing theme create component', () => {
       open: true,
       onRequestClose: spy(),
       onSubmit: spy(),
-      submitting: spy(),
-      invalid: spy(),
-      handleSubmit: spy(),
-      reset: spy(),
       submitting: false,
       invalid: false,
+      handleSubmit: spy(),
+      reset: spy(),
     }
     const options = {
       context: {

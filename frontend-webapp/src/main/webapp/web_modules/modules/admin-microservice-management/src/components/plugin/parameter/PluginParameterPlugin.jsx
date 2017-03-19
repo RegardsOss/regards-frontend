@@ -13,7 +13,7 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
 import Divider from 'material-ui/Divider'
 import Delete from 'material-ui/svg-icons/action/delete'
 import { connect } from '@regardsoss/redux'
-import { PluginParameter, PluginParameterType, PluginMetaDataList, PluginConfiguration } from '@regardsoss/model'
+import { PluginParameter, PluginMetaDataList, PluginConfiguration } from '@regardsoss/model'
 import { RenderTextField, Field, ValidationHelpers } from '@regardsoss/form-utils'
 import PluginMetaDataSelectors from '../../../model/plugin/PluginMetaDataSelectors'
 import PluginConfigurationSelectors from '../../../model/plugin/PluginConfigurationSelectors'
@@ -33,16 +33,12 @@ export class PluginParameterPlugin extends React.Component {
 
   static propTypes = {
     fieldKey: React.PropTypes.string,
-    microserviceName: React.PropTypes.string,
     pluginParameter: PluginParameter.isRequired,
-    pluginParameterType: PluginParameterType,
     mode: React.PropTypes.oneOf(['view', 'edit', 'create', 'copy']),
     change: React.PropTypes.func, // Callback provided by redux-form in order to manually change a field value
     // form mapStateToProps
     pluginMetaDataList: PluginMetaDataList,
-    isPluginMetaDataListFetching: React.PropTypes.bool,
     pluginConfigurationList: React.PropTypes.arrayOf(PluginConfiguration),
-    isPluginConfigurationListFetching: React.PropTypes.bool,
   }
 
   static defaultProps = {
@@ -156,9 +152,7 @@ export class PluginParameterPlugin extends React.Component {
 
 const mapStateToProps = (state, ownProps) => ({
   pluginMetaDataList: PluginMetaDataSelectors.getList(state),
-  isPluginMetaDataFetching: PluginMetaDataSelectors.isFetching(state),
   pluginConfigurationList: PluginConfigurationSelectors.getListActiveAndSorted(state),
-  isPluginConfigurationFetching: PluginConfigurationSelectors.isFetching(state),
 })
 
 export default connect(mapStateToProps)(PluginParameterPlugin)

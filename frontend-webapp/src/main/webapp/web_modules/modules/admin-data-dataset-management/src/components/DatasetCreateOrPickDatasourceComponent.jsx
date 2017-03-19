@@ -2,15 +2,10 @@
  * LICENSE_PLACEHOLDER
  **/
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
-import { List, ListItem } from 'material-ui/List'
 import { FormattedMessage } from 'react-intl'
 import { map } from 'lodash'
-import Add from 'material-ui/svg-icons/content/add-circle-outline'
-import Clear from 'material-ui/svg-icons/content/clear'
 import { Datasource } from '@regardsoss/model'
-import Subheader from 'material-ui/Subheader'
 import { CardActionsComponent } from '@regardsoss/components'
-import IconButton from 'material-ui/IconButton'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import SelectField from 'material-ui/SelectField'

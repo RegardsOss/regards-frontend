@@ -23,6 +23,7 @@ class DatasetLineComponent extends React.Component {
     if (isDefined) {
       return (
         <div >{entity.content.label} √ - <a
+          // eslint-disable-next-line no-script-url
           href="javascript:void(0)"
           onClick={(proxy, event) => {
             onDelete(entity)

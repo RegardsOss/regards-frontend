@@ -19,7 +19,6 @@ export class PluginParameterBoolean extends React.Component {
     fieldKey: React.PropTypes.string,
     pluginParameter: PluginParameter,
     mode: React.PropTypes.oneOf(['view', 'edit', 'create', 'copy']),
-    change: React.PropTypes.func, // Callback provided by redux-form in order to manually change a field value
   }
 
   static defaultProps = {

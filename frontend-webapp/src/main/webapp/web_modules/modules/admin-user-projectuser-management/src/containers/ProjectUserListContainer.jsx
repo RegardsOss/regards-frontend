@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { connect } from '@regardsoss/redux'
 import { keys } from 'lodash'
 import { I18nProvider } from '@regardsoss/i18n'

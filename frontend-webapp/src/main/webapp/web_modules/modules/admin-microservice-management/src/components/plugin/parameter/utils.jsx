@@ -3,7 +3,7 @@
  *
  * @author Xavier-Alexandre Brochard
  */
-export const buildMenuItemPrimaryText = (leftContent, rightContent) => (
+const buildMenuItemPrimaryText = (leftContent, rightContent) => (
   <div style={{ display: 'flex', justifyContent: 'space-between' }}>
     {leftContent}
     <span style={{ color: '#bdbdbd' }}>
@@ -11,3 +11,9 @@ export const buildMenuItemPrimaryText = (leftContent, rightContent) => (
     </span>
   </div>
 )
+
+export {
+  buildMenuItemPrimaryText,
+}
+
+export default buildMenuItemPrimaryText

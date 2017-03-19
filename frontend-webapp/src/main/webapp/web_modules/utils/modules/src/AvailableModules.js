@@ -9,12 +9,12 @@
 export default [
   'menu',
   'authentication',
-  'news',
+  // 'news',
   'projects-list',
   'search-form',
   'search-results',
-  'archival-storage-aip-status',
-  'archival-storage-plugins-monitoring',
+  // 'archival-storage-aip-status',
+  // 'archival-storage-plugins-monitoring',
   'home-page',
   'licenses',
 ]

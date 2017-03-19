@@ -80,7 +80,6 @@ describe('[SEARCH FORM] Testing User Container', () => {
           selectedDatasets: [],
           selectedModels: [],
         },
-        enableFacettes: false
       },
       fetchAttribute: fetchAttributeCallback,
       attributeModels: {},

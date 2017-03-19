@@ -27,6 +27,8 @@ class AdminApp extends React.Component {
     currentRole: React.PropTypes.string.isRequired,
     isAuthenticated: React.PropTypes.bool,
     project: React.PropTypes.string,
+    // eslint-disable-next-line react/no-unused-prop-types
+    isInstance: React.PropTypes.bool,
     // from mapDispatchToProps
     initializeApplication: React.PropTypes.func.isRequired,
     fetchEndpoints: React.PropTypes.func,

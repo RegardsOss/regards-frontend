@@ -176,12 +176,12 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = dispatch => ({
   fetchAttributeModelList: () => dispatch(AttributeModelActions.fetchEntityList()),
   fetchModelAttributeList: modelId => dispatch(ModelAttributeActions.fetchEntityList([modelId])),
-  createModelAttribute: (modelAttribute, modelId) => dispatch(ModelAttributeActions.createEntity(modelAttribute, { id: modelId })),
-  deleteModelAttribute: (id, modelId) => dispatch(ModelAttributeActions.deleteEntity(id, { id: modelId })),
+  createModelAttribute: (modelAttribute, modelId) => dispatch(ModelAttributeActions.createEntity(modelAttribute, { pModelId: modelId })),
+  deleteModelAttribute: (id, modelId) => dispatch(ModelAttributeActions.deleteEntity(id, { pModelId: modelId })),
   fetchModel: id => dispatch(ModelActions.fetchEntity(id)),
 
-  bindFragment: (fragment, modelId) => dispatch(ModelAttributeFragmentActions.createEntity(fragment, { id: modelId })),
-  unbindFragment: (fragmentId, modelId) => dispatch(ModelAttributeFragmentActions.deleteEntity(fragmentId, { id: modelId })),
+  bindFragment: (fragment, modelId) => dispatch(ModelAttributeFragmentActions.createEntity(fragment, { pModelId: modelId })),
+  unbindFragment: (fragmentId, modelId) => dispatch(ModelAttributeFragmentActions.deleteEntity(fragmentId, { pModelId: modelId })),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ModelAttributeFormContainer)

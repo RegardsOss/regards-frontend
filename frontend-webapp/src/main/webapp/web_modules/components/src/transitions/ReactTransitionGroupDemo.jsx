@@ -1,6 +1,7 @@
 /*
  * LICENSE_PLACEHOLDER
  */
+/*eslint-disable */
 import React from 'react'
 import TransitionGroup from 'react-addons-transition-group'
 import { standardCurveToLeft, standardCurveToRight } from './MaterialDesignMotions'

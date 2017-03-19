@@ -5,13 +5,15 @@ import { map } from 'lodash'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
 import { FormattedMessage } from 'react-intl'
-import IconButton from 'material-ui/IconButton'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
 import { Connection } from '@regardsoss/model'
 import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
+import { HateoasIconAction, HateoasKeys } from '@regardsoss/display-control'
+import { RequestVerbEnum } from '@regardsoss/store-utils'
+import ConnectionActions from '../model/ConnectionActions'
 import ConnectionTesterIconButton from './ConnectionTesterIconButton'
 
 /**
@@ -79,12 +81,20 @@ export class ConnectionListComponent extends React.Component {
                   <TableRowColumn>{this.printIsActive(connection.content.active)}</TableRowColumn>
                   <TableRowColumn><ConnectionTesterIconButton connection={connection} handleTestConnection={handleTestConnection} /></TableRowColumn>
                   <TableRowColumn>
-                    <IconButton onTouchTap={() => handleEdit(connection.content.id)}>
+                    <HateoasIconAction
+                      entityLinks={connection.links}
+                      hateoasKey={HateoasKeys.UPDATE}
+                      onTouchTap={() => handleEdit(connection.content.id)}
+                    >
                       <Edit hoverColor={style.hoverButtonEdit} />
-                    </IconButton>
-                    <IconButton onTouchTap={() => handleDelete(connection.content.id)}>
+                    </HateoasIconAction>
+                    <HateoasIconAction
+                      entityLinks={connection.links}
+                      hateoasKey={HateoasKeys.DELETE}
+                      onTouchTap={() => handleDelete(connection.content.id)}
+                    >
                       <Delete hoverColor={style.hoverButtonDelete} />
-                    </IconButton>
+                    </HateoasIconAction>
                   </TableRowColumn>
                 </TableRow>
               ))}
@@ -99,6 +109,7 @@ export class ConnectionListComponent extends React.Component {
                 id="connection.list.action.add"
               />
             }
+            mainHateoasDependency={ConnectionActions.getDependency(RequestVerbEnum.POST)}
             secondaryButtonLabel={<FormattedMessage id="connection.list.action.cancel" />}
             secondaryButtonUrl={backUrl}
           />

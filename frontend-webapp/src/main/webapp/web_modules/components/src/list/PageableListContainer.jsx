@@ -29,6 +29,7 @@ class PageableListContainer extends React.Component {
     entityIdentifier: React.PropTypes.string.isRequired,
     lineComponent: React.PropTypes.func.isRequired,
     nbEntityByPage: React.PropTypes.number.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
     entitiesActions: React.PropTypes.instanceOf(BasicPageableActions).isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     entitiesSelector: React.PropTypes.instanceOf(BasicPageableSelectors).isRequired,
@@ -45,6 +46,9 @@ class PageableListContainer extends React.Component {
     // eslint-disable-next-line react/forbid-prop-types
     style: React.PropTypes.object,
     // Set by redux store connection
+    // eslint-disable-next-line react/forbid-prop-types
+    // eslint-disable-next-line react/no-unused-prop-types
+    entities: React.PropTypes.objectOf(React.PropTypes.object),
     pageMetadata: React.PropTypes.shape({
       number: React.PropTypes.number,
       size: React.PropTypes.number,
@@ -88,27 +92,34 @@ class PageableListContainer extends React.Component {
     }
   }
 
+  onSearchUpdate = (event, value) => {
+    this.setState({
+      searchValue: value,
+      loadedEntities: [],
+      lastIndexReached: 0,
+    })
+    this.props.onReset()
+    this.debouncedHandleFetch(0, value)
+  }
+
+  onReset = () => {
+    this.setState({
+      searchValue: '',
+    })
+    this.handleFetch(0, '')
+    this.props.onReset()
+  }
+
   /**
-   * Handle the action of loading new entities after a scroll
+   * Allow to disable the infinite scroll action when the last index is reached
+   * @returns {*}
    */
-  handleInfiniteLoad = () => {
-    if (!this.state.lastIndexReached && !this.props.entitiesFetching) {
-      const index = this.state.loadedEntities ? this.state.loadedEntities.length : 0
-      return this.handleFetch(index, this.state.searchValue)
+  calculateOffset = () => {
+    if (this.state.lastIndexReached) {
+      return undefined
     }
+    return this.state.autoLoadOffset
   }
-
-  /**
-   * Fetch new list of result
-   * @param index
-   * @param searchValue
-   */
-  handleFetch = (index, searchValue) => {
-    const urlParams = this.props.searchIdentifier && searchValue.length > 0 ? { [this.props.searchIdentifier]: searchValue } : undefined
-    this.props.fetchEntities(index, this.props.nbEntityByPage, urlParams)
-  }
-
-  debouncedHandleFetch = debounce(this.handleFetch, 300)
 
   /**
    * Display the loading element
@@ -138,33 +149,26 @@ class PageableListContainer extends React.Component {
   }
 
   /**
-   * Allow to disable the infinite scroll action when the last index is reached
-   * @returns {*}
+   * Fetch new list of result
+   * @param index
+   * @param searchValue
    */
-  calculateOffset = () => {
-    if (this.state.lastIndexReached) {
-      return undefined
+  handleFetch = (index, searchValue) => {
+    const urlParams = this.props.searchIdentifier && searchValue.length > 0 ? { [this.props.searchIdentifier]: searchValue } : undefined
+    this.props.fetchEntities(index, this.props.nbEntityByPage, urlParams)
+  }
+
+  /**
+   * Handle the action of loading new entities after a scroll
+   */
+  handleInfiniteLoad = () => {
+    if (!this.state.lastIndexReached && !this.props.entitiesFetching) {
+      const index = this.state.loadedEntities ? this.state.loadedEntities.length : 0
+      this.handleFetch(index, this.state.searchValue)
     }
-    return this.state.autoLoadOffset
   }
 
-  onSearchUpdate = (event, value) => {
-    this.setState({
-      searchValue: value,
-      loadedEntities: [],
-      lastIndexReached: 0,
-    })
-    this.props.onReset()
-    this.debouncedHandleFetch(0, value)
-  }
-
-  onReset = () => {
-    this.setState({
-      searchValue: '',
-    })
-    this.handleFetch(0, '')
-    this.props.onReset()
-  }
+  debouncedHandleFetch = debounce(this.handleFetch, 300)
 
   render() {
     const { searchValue } = this.state

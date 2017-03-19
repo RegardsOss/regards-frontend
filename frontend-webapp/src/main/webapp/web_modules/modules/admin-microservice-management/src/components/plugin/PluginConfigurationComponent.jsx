@@ -1,7 +1,8 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { chain, map, find } from 'lodash'
+import map from 'lodash/map'
+import find from 'lodash/find'
 import { i18nContextType } from '@regardsoss/i18n'
 import { PluginConfiguration, PluginMetaData } from '@regardsoss/model'
 import { FormattedMessage } from 'react-intl'

@@ -118,6 +118,9 @@ class BasicActions {
           break
         case RequestVerbEnum.GET_LIST :
           requestHttpVerb = RequestVerbEnum.GET
+          break
+        default:
+        // Nothing to do
       }
     }
 
