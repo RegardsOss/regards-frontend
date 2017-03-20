@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { map } from 'lodash'
+import map from 'lodash/map'
 import IconMenu from 'material-ui/IconMenu'
 import MenuItem from 'material-ui/MenuItem'
 import IconButton from 'material-ui/IconButton'
@@ -26,7 +26,7 @@ export class TemporalComparatorComponent extends React.Component {
     /**
      * Optionally init with a specific value
      */
-    value: React.PropTypes.oneOf(EnumTemporalComparator),
+    value: React.PropTypes.oneOf(map(EnumTemporalComparator,value => value)),
   }
 
   constructor(props) {

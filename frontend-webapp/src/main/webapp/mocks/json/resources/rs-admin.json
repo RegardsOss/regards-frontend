@@ -704,6 +704,34 @@
       "microservice": "rs-admin",
       "resource": "/users",
       "verb": "POST"
+    },
+    {
+      "id": 54,
+      "description": "Project users",
+      "microservice": "rs-dam",
+      "resource": "/plugins",
+      "verb": "GET"
+    },
+    {
+      "id": 55,
+      "description": "Project users",
+      "microservice": "rs-dam",
+      "resource": "/maintenances/{tenant}/activate",
+      "verb": "PUT"
+    },
+    {
+      "id": 56,
+      "description": "Project users",
+      "microservice": "rs-dam",
+      "resource": "/plugins/{pluginId}/config",
+      "verb": "GET"
+    },
+    {
+      "id": 57,
+      "description": "Project users",
+      "microservice": "rs-dam",
+      "resource": "/plugins/{pluginId}/config",
+      "verb": "POST"
     }
   ]
 }

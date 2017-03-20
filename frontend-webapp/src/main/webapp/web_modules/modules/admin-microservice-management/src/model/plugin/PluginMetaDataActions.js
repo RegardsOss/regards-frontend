@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import replace from 'lodash/replace'
 import Schemas from '@regardsoss/api'
 import { BasicPageableActions } from '@regardsoss/store-utils'
@@ -14,9 +17,10 @@ class PluginMetaDataActions extends BasicPageableActions {
     })
   }
 
-  getDependency(verb, microserviceName) {
-    let dependency = super.getDependency(verb)
-    return replace(dependency,'{microserviceName',microserviceName)
+  getMsDependency = (verb, microserviceName) => {
+    let dependency = this.getDependency(verb)
+    dependency = replace(dependency,'{microserviceName}',microserviceName)
+    return dependency
   }
 }
 

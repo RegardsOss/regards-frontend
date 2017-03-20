@@ -6,7 +6,6 @@ import { forEach, map } from 'lodash'
 import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
 import { applyHateoasDisplayLogic, someMatchHateoasDisplayLogic } from '@regardsoss/display-control'
 import MicroserviceBoardComponent from '../components/MicroserviceBoardComponent'
-import requiredEndpoints from '../requiredEndpoints'
 import MaintenanceModeActions from '../model/MaintenanceModeActions'
 import MaintenanceModeSelectors from '../model/MaintenanceModeSelectors'
 import SetMaintenanceModeActions from '../model/SetMaintenanceModeActions'
@@ -43,7 +42,7 @@ export class MicroserviceBoardContainer extends React.Component {
         this.handleSetMaintenance(microservice.name, projectName, value ? 'activate' : 'desactivate')
     })
 
-    this.refreshMaintenanceStatusAlt()
+    // this.refreshMaintenanceStatusAlt()
   }
 
   componentWillUnmount() {
@@ -85,10 +84,10 @@ const mapDispatchToProps = dispatch => ({
     dispatch(MaintenanceModeActions(microservice).sendSignal('GET'))
   },
   setMaintenance(microservice, projectName, action) {
-    dispatch(SetMaintenanceModeActions(microservice).sendSignal('GET', null, { microservice, action, projectName }))
+    dispatch(SetMaintenanceModeActions(microservice).sendSignal('PUT', null, { microservice, action, projectName }))
   },
 })
 
 
 // Decorate with hateoas display logic
-export default applyHateoasDisplayLogic(requiredEndpoints.MicroserviceBoardContainer, someMatchHateoasDisplayLogic)(connect(mapStateToProps, mapDispatchToProps)(MicroserviceBoardContainer))
+export default connect(mapStateToProps, mapDispatchToProps)(MicroserviceBoardContainer)

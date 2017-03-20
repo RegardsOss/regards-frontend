@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { BasicPageableReducers } from '@regardsoss/store-utils'
 import { AdminPluginConfigurationSchemaConfiguration } from '@regardsoss/api'
 import PluginConfigurationActions from './PluginConfigurationActions'
