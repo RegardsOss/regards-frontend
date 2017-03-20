@@ -63,7 +63,7 @@ class ProjectSidebarComponent extends React.Component {
         >
           <HateoasSidebarElement
             key="1"
-            requiredEndpoints={usersDependencies}
+            requiredEndpoints={usersDependencies.admin}
             hateoasDisplayLogic={someMatchHateoasDisplayLogic}
             to={`/admin/${projectName}/user/board`}
             currentPath={this.props.currentPath}
@@ -73,7 +73,7 @@ class ProjectSidebarComponent extends React.Component {
           />
           <HateoasSidebarElement
             key="2"
-            requiredEndpoints={dataManagementDependencies}
+            requiredEndpoints={dataManagementDependencies.admin}
             hateoasDisplayLogic={someMatchHateoasDisplayLogic}
             to={`/admin/${projectName}/data/board`}
             currentPath={this.props.currentPath}
@@ -82,7 +82,7 @@ class ProjectSidebarComponent extends React.Component {
           />
           <HateoasSidebarElement
             key="3"
-            requiredEndpoints={dataAccessDependencies}
+            requiredEndpoints={dataAccessDependencies.admin}
             hateoasDisplayLogic={someMatchHateoasDisplayLogic}
             to={`/admin/${projectName}/access-right/edit`}
             currentPath={this.props.currentPath}
@@ -91,7 +91,7 @@ class ProjectSidebarComponent extends React.Component {
           />
           <HateoasSidebarElement
             key="4"
-            requiredEndpoints={uiPluginsDependencies}
+            requiredEndpoints={uiPluginsDependencies.admin}
             hateoasDisplayLogic={someMatchHateoasDisplayLogic}
             to={`/admin/${projectName}/ui-plugins/plugins`}
             currentPath={this.props.currentPath}
@@ -100,7 +100,7 @@ class ProjectSidebarComponent extends React.Component {
           />
           <HateoasSidebarElement
             key="5"
-            requiredEndpoints={microservicesDependencies}
+            requiredEndpoints={microservicesDependencies.admin}
             to={`/admin/${projectName}/microservice/board`}
             currentPath={this.props.currentPath}
             primaryText={<FormattedMessage id="menu.microservices" />}
@@ -108,7 +108,7 @@ class ProjectSidebarComponent extends React.Component {
           />
           <HateoasSidebarElement
             key="6"
-            requiredEndpoints={uiConfigurationDependencies}
+            requiredEndpoints={uiConfigurationDependencies.admin}
             hateoasDisplayLogic={someMatchHateoasDisplayLogic}
             to={`/admin/${projectName}/ui-configuration/applications`}
             currentPath={this.props.currentPath}

@@ -58,11 +58,22 @@ export {
 }
 
 /**
- * Module hateoas depencies
- * @author Sébastien binda
+ * Mandatory Dependencies to display module in user interface
+ * @type {Array}
  */
-export default [
+const user = []
+
+/**
+ * Mandatory Dependencies to display module in admin interface
+ * @type {Array}
+ */
+const admin = [
   LayoutActions.getDependency(RequestVerbEnum.GET_LIST),
   ModulesActions.getDependency(RequestVerbEnum.GET_LIST),
   ThemeActions.getDependency(RequestVerbEnum.GET_LIST),
 ]
+
+export default {
+  user,
+  admin,
+}

@@ -21,10 +21,25 @@ export {
   AddDependencies,
 }
 
-export default [
+/**
+ * Mandatory Dependencies to display module in user interface
+ * @type {Array}
+ */
+const user = []
+
+/**
+ * Mandatory Dependencies to display module in admin interface
+ * @type {Array}
+ */
+const admin = [
   DatasourceActions.getDependency(RequestVerbEnum.GET_LIST),
   DatasourceActions.getDependency(RequestVerbEnum.GET),
   DatasourceActions.getDependency(RequestVerbEnum.PUT),
   DatasourceActions.getDependency(RequestVerbEnum.POST),
   DatasourceActions.getDependency(RequestVerbEnum.DELETE),
 ]
+
+export default {
+  user,
+  admin,
+}
