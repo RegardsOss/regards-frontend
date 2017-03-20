@@ -2,7 +2,8 @@ import { map } from 'lodash'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
 import { FormattedMessage } from 'react-intl'
-import IconButton from 'material-ui/IconButton'
+import { HateoasIconAction, HateoasKeys } from '@regardsoss/display-control'
+import { RequestVerbEnum } from '@regardsoss/store-utils'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
 import Key from 'material-ui/svg-icons/communication/vpn-key'
@@ -10,6 +11,7 @@ import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { Role } from '@regardsoss/model'
+import RoleActions from '../model/RoleActions'
 
 /**
  * React components to list project.
@@ -101,17 +103,29 @@ export class RoleListComponent extends React.Component {
                   <TableRowColumn>{this.getParentRoleName(role.content.parentRole)}</TableRowColumn>
                   <TableRowColumn>{this.getBooleanAsString(role.content.isCorsRequestsAuthorized)}</TableRowColumn>
                   <TableRowColumn>
-                    <IconButton onTouchTap={() => handleEditResourceAccess(role.content.name)}>
+                    <HateoasIconAction
+                      entityLinks={role.links}
+                      hateoasKey={HateoasKeys.UPDATE}
+                      onTouchTap={() => handleEditResourceAccess(role.content.name)}
+                    >
                       <Key />
-                    </IconButton>
+                    </HateoasIconAction>
 
-                    <IconButton onTouchTap={() => handleEdit(role.content.name)}>
+                    <HateoasIconAction
+                      entityLinks={role.links}
+                      hateoasKey={HateoasKeys.UPDATE}
+                      onTouchTap={() => handleEdit(role.content.name)}
+                    >
                       <Edit hoverColor={style.hoverButtonEdit} />
-                    </IconButton>
+                    </HateoasIconAction>
 
-                    <IconButton onTouchTap={() => handleDelete(role.content.id)}>
+                    <HateoasIconAction
+                      entityLinks={role.links}
+                      hateoasKey={HateoasKeys.DELETE}
+                      onTouchTap={() => handleDelete(role.content.id)}
+                    >
                       <Delete hoverColor={style.hoverButtonDelete} />
-                    </IconButton>
+                    </HateoasIconAction>
                   </TableRowColumn>
                 </TableRow>
               ))}
@@ -126,6 +140,7 @@ export class RoleListComponent extends React.Component {
                 id="role.list.action.add"
               />
             }
+            mainHateoasDependency={RoleActions.getDependency(RequestVerbEnum.POST)}
             secondaryButtonLabel={
               <FormattedMessage
                 id="role.list.action.cancel"

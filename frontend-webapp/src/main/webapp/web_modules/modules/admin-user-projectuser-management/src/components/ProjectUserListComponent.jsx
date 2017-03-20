@@ -7,15 +7,17 @@ import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
 import { FormattedMessage, FormattedDate } from 'react-intl'
 import IconButton from 'material-ui/IconButton'
+import { LoadableContentDisplayDecorator, HateoasIconAction, HateoasKeys } from '@regardsoss/display-control'
+import { RequestVerbEnum } from '@regardsoss/store-utils'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
 import Done from 'material-ui/svg-icons/action/done'
 import RemoveCircle from 'material-ui/svg-icons/content/remove-circle'
 import { ProjectUser } from '@regardsoss/model'
 import { CardActionsComponent, NoContentMessageInfo } from '@regardsoss/components'
-import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
+import ProjectUserActions from '../model/ProjectUserActions'
 
 /**
  * User statuses constants, as returned by the server
@@ -174,13 +176,15 @@ export class ProjectUserListComponent extends React.Component {
                           />
                         </TableRowColumn>
                         <TableRowColumn>
-                          <IconButton
+                          <HateoasIconAction
                             title={intl.formatMessage({ id: 'projectUser.list.table.action.edit.tooltip' })}
                             onTouchTap={() => onEdit(projectUser.content.id)}
                             disabled={isFetchingActions}
+                            entityLinks={projectUser.links}
+                            hateoasKey={HateoasKeys.UPDATE}
                           >
                             <Edit hoverColor={style.commonActionHoverColor} />
-                          </IconButton>
+                          </HateoasIconAction>
                           <IconButton
                             title={intl.formatMessage({ id: 'projectUser.list.table.action.accept.tooltip' })}
                             onTouchTap={() => onValidate(projectUser.content.id)}
@@ -195,13 +199,15 @@ export class ProjectUserListComponent extends React.Component {
                           >
                             <RemoveCircle hoverColor={style.deleteActionHoverColor} />
                           </IconButton>
-                          <IconButton
+                          <HateoasIconAction
                             title={intl.formatMessage({ id: 'projectUser.list.table.action.delete.tooltip' })}
                             onTouchTap={() => onDelete(projectUser.content.id)}
                             disabled={isFetchingActions}
+                            entityLinks={projectUser.links}
+                            hateoasKey={HateoasKeys.DELETE}
                           >
                             <Delete hoverColor={style.deleteActionHoverColor} />
-                          </IconButton>
+                          </HateoasIconAction>
                         </TableRowColumn>
                       </TableRow>
                     ))}
@@ -215,6 +221,7 @@ export class ProjectUserListComponent extends React.Component {
           <CardActionsComponent
             mainButtonUrl={tabContent.mainButtonUrl}
             mainButtonTouchTap={tabContent.mainButtonAction}
+            mainHateoasDependency={ProjectUserActions.getDependency(RequestVerbEnum.POST)}
             isMainButtonDisabled={tabContent.mainButtonDisabled}
             mainButtonLabel={<FormattedMessage id={tabContent.mainButtonKey} />}
             secondaryButtonLabel={<FormattedMessage id="projectUser.list.action.cancel" />}

@@ -6,6 +6,7 @@ class DatasetActions extends BasicPageableActions {
     super({
       namespace: 'admin-data-dataset-management/dataset',
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-dam/datasets`,
+      entityPathVariable: 'dataset_id',
       schemaTypes: {
         ENTITY: Schemas.DATASET,
         ENTITY_ARRAY: Schemas.DATASET_ARRAY,

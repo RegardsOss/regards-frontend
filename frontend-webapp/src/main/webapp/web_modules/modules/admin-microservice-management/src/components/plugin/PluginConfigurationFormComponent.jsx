@@ -6,7 +6,7 @@ import { Toggle } from 'redux-form-material-ui'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent } from '@regardsoss/components'
 import { RenderTextField, Field, ValidationHelpers, reduxForm } from '@regardsoss/form-utils'
-import { PluginMetaData, PluginMetaDataList, PluginConfiguration, PluginConfigurationList } from '@regardsoss/model'
+import { PluginMetaData, PluginConfiguration } from '@regardsoss/model'
 import { themeContextType } from '@regardsoss/theme'
 import PluginParameterListComponent from './parameter/PluginParameterListComponent'
 import { buildEmptyParameterList } from '../../model/plugin/utils'
@@ -23,18 +23,8 @@ const styles = moduleStyles()
 export class PluginConfigurationFormComponent extends React.Component {
 
   static propTypes = {
-    // from router
-    params: React.PropTypes.shape({
-      project: React.PropTypes.string,
-      microserviceName: React.PropTypes.string,
-      pluginId: React.PropTypes.string,
-      pluginConfigurationId: React.PropTypes.string,
-      formMode: React.PropTypes.oneOf(['create', 'edit', 'copy']),
-    }),
     currentPluginConfiguration: PluginConfiguration,
     currentPluginMetaData: PluginMetaData,
-    pluginMetaDataList: PluginMetaDataList,
-    pluginConfigurationList: PluginConfigurationList,
     onSubmit: React.PropTypes.func.isRequired,
     backUrl: React.PropTypes.string.isRequired,
     formMode: React.PropTypes.oneOf(['create', 'edit', 'copy']),

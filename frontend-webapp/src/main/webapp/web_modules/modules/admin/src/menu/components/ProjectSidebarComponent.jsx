@@ -22,6 +22,7 @@ import getModuleStyles from '../../styles/styles'
 import HateoasSidebarElement from './HateoasSidebarElement'
 import WaitingAccessNotificationContainer from '../containers/WaitingAccessNotificationContainer'
 
+console.log('DEP', dataManagementDependencies)
 
 /**
  * React sidebar components. Display the admin application menu

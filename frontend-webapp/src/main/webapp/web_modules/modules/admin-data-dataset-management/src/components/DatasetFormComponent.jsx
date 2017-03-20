@@ -108,7 +108,10 @@ export class DatasetFormComponent extends React.Component {
         }}
       />)
     }
-    const datasource = currentDataset && currentDataset.content && currentDataset.content.datasource || currentDatasource && currentDatasource.content
+    let datasource = currentDataset && currentDataset.content && currentDataset.content.datasource
+    if (!datasource) {
+      datasource = currentDatasource && currentDatasource.content
+    }
     console.log('HELLOOOOOOOOOOOOOOOOOOOOO3', datasource, currentDataset)
     return (
       <form

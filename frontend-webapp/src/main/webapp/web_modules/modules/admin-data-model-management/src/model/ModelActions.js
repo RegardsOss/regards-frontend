@@ -6,6 +6,7 @@ class ModelActions extends BasicListActions {
     super({
       namespace: 'admin-data-model-management',
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-dam/models`,
+      entityPathVariable: 'pModelId',
       schemaTypes: {
         ENTITY: Schemas.MODEL,
         ENTITY_ARRAY: Schemas.MODEL_ARRAY,

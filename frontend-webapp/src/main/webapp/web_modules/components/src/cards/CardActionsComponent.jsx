@@ -11,6 +11,7 @@ class CardActionsComponent extends React.Component {
     secondaryButtonTouchTap: React.PropTypes.func,
     isSecondaryButtonDisabled: React.PropTypes.bool,
     isSecondaryButtonVisible: React.PropTypes.bool,
+    secondaryHateoasDependency: React.PropTypes.string,
 
     mainButtonLabel: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.element]).isRequired,
     mainButtonUrl: React.PropTypes.string,
@@ -18,6 +19,7 @@ class CardActionsComponent extends React.Component {
     mainButtonType: React.PropTypes.string,
     isMainButtonVisible: React.PropTypes.bool,
     isMainButtonDisabled: React.PropTypes.bool,
+    mainHateoasDependency: React.PropTypes.string,
   }
   static defaultProps = {
     isMainButtonVisible: true,
@@ -33,6 +35,7 @@ class CardActionsComponent extends React.Component {
           secondaryButtonTouchTap={this.props.secondaryButtonTouchTap}
           isSecondaryButtonDisabled={this.props.isSecondaryButtonDisabled}
           isSecondaryButtonVisible={this.props.isSecondaryButtonVisible}
+          secondaryHateoasDependency={this.props.secondaryHateoasDependency}
 
           mainButtonUrl={this.props.mainButtonUrl}
           mainButtonLabel={this.props.mainButtonLabel}
@@ -40,6 +43,7 @@ class CardActionsComponent extends React.Component {
           mainButtonType={this.props.mainButtonType}
           isMainButtonVisible={this.props.isMainButtonVisible}
           isMainButtonDisabled={this.props.isMainButtonDisabled}
+          mainHateoasDependency={this.props.mainHateoasDependency}
 
           theme={null}
         />

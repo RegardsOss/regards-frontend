@@ -5,13 +5,15 @@ import { map } from 'lodash'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
 import { FormattedMessage } from 'react-intl'
-import IconButton from 'material-ui/IconButton'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
 import { Datasource } from '@regardsoss/model'
 import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
+import { HateoasIconAction, HateoasKeys } from '@regardsoss/display-control'
+import { RequestVerbEnum } from '@regardsoss/store-utils'
+import DatasourceActions from '../model/DatasourceActions'
 
 /**
  * React component to list datasources.
@@ -67,12 +69,20 @@ export class DatasourceListComponent extends React.Component {
                 <TableRow key={i}>
                   <TableRowColumn>{datasource.content.label}</TableRowColumn>
                   <TableRowColumn>
-                    <IconButton onTouchTap={() => handleEdit(datasource.content.id)}>
+                    <HateoasIconAction
+                      entityLinks={datasource.links}
+                      hateoasKey={HateoasKeys.UPDATE}
+                      onTouchTap={() => handleEdit(datasource.content.id)}
+                    >
                       <Edit hoverColor={style.hoverButtonEdit} />
-                    </IconButton>
-                    <IconButton onTouchTap={() => handleDelete(datasource.content.id)}>
+                    </HateoasIconAction>
+                    <HateoasIconAction
+                      entityLinks={datasource.links}
+                      hateoasKey={HateoasKeys.DELETE}
+                      onTouchTap={() => handleDelete(datasource.content.id)}
+                    >
                       <Delete hoverColor={style.hoverButtonDelete} />
-                    </IconButton>
+                    </HateoasIconAction>
                   </TableRowColumn>
                 </TableRow>
               ))}
@@ -87,6 +97,7 @@ export class DatasourceListComponent extends React.Component {
                 id="datasource.list.action.add"
               />
             }
+            mainHateoasDependency={DatasourceActions.getDependency(RequestVerbEnum.POST)}
             secondaryButtonLabel={<FormattedMessage id="datasource.list.action.cancel" />}
             secondaryButtonUrl={backUrl}
           />

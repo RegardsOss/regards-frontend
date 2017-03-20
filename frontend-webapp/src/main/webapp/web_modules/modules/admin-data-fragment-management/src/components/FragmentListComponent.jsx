@@ -2,13 +2,15 @@ import { map } from 'lodash'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
 import { FormattedMessage } from 'react-intl'
-import IconButton from 'material-ui/IconButton'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
 import { Fragment } from '@regardsoss/model'
 import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
+import { HateoasIconAction, HateoasKeys } from '@regardsoss/display-control'
+import { RequestVerbEnum } from '@regardsoss/store-utils'
+import FragmentActions from '../model/FragmentActions'
 
 /**
  * React components to list project.
@@ -67,12 +69,20 @@ export class FragmentListComponent extends React.Component {
                   <TableRowColumn>{fragment.content.name}</TableRowColumn>
                   <TableRowColumn>{fragment.content.description}</TableRowColumn>
                   <TableRowColumn>
-                    <IconButton onTouchTap={() => handleEdit(fragment.content.id)}>
+                    <HateoasIconAction
+                      entityLinks={fragment.links}
+                      hateoasKey={HateoasKeys.UPDATE}
+                      onTouchTap={() => handleEdit(fragment.content.id)}
+                    >
                       <Edit hoverColor={style.hoverButtonEdit} />
-                    </IconButton>
-                    <IconButton onTouchTap={() => handleDelete(fragment.content.id)}>
+                    </HateoasIconAction>
+                    <HateoasIconAction
+                      entityLinks={fragment.links}
+                      hateoasKey={HateoasKeys.DELETE}
+                      onTouchTap={() => handleDelete(fragment.content.id)}
+                    >
                       <Delete hoverColor={style.hoverButtonDelete} />
-                    </IconButton>
+                    </HateoasIconAction>
                   </TableRowColumn>
                 </TableRow>
               ))}
@@ -87,6 +97,7 @@ export class FragmentListComponent extends React.Component {
                 id="fragment.list.action.add"
               />
             }
+            mainHateoasDependency={FragmentActions.getDependency(RequestVerbEnum.POST)}
             secondaryButtonLabel={<FormattedMessage id="fragment.list.action.cancel" />}
             secondaryButtonUrl={backUrl}
           />

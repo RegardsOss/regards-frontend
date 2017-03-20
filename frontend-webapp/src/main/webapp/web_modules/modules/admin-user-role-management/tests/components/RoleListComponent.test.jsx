@@ -36,6 +36,7 @@ describe('[ADMIN USER ROLE MANAGEMENT] Testing project list container', () => {
             icon: 'project icon',
             isPublic: true,
           },
+          links: [],
         },
         'project name 2': {
           content: {
@@ -45,6 +46,7 @@ describe('[ADMIN USER ROLE MANAGEMENT] Testing project list container', () => {
             icon: 'project icon',
             isPublic: true,
           },
+          links: [],
         },
       },
       handleDelete: () => {},

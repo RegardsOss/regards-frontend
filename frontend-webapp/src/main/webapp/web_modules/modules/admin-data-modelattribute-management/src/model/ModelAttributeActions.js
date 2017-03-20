@@ -8,7 +8,8 @@ class ModelAttributeActions extends BasicListActions {
   constructor() {
     super({
       namespace: 'admin-data-modelattribute-management',
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-dam/models/{id}/attributes`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-dam/models/{pModelId}/attributes`,
+      entityPathVariable: 'pAttributeId',
       schemaTypes: {
         ENTITY: Schemas.MODEL_ATTRIBUTE,
         ENTITY_ARRAY: Schemas.MODEL_ATTRIBUTE_ARRAY,

@@ -66,46 +66,54 @@ class NavigationComponent extends React.Component {
   getTitle = () => {
     const catalogStyle = {
       cursor: 'pointer',
-      color: this.state.catalogHover ? this.context.muiTheme.palette.accent1Color : '',
+      color: this.state.catalogHover ? this.context.muiTheme.palette.accent1Color : this.context.muiTheme.palette.textColor,
+      backgroundColor: 'transparent',
+      border: 'none',
+      padding: '0!important',
+      font: 'inherit',
     }
 
     const datasetStyle = {
       cursor: 'pointer',
-      color: this.state.datasetsHover ? this.context.muiTheme.palette.accent1Color : '',
+      color: this.state.datasetsHover ? this.context.muiTheme.palette.accent1Color : this.context.muiTheme.palette.textColor,
+      backgroundColor: 'transparent',
+      border: 'none',
+      padding: '0!important',
+      font: 'inherit',
     }
     const homeLabel = (
-      <span
+      <button
         style={catalogStyle}
         onClick={this.onClickDataobjectsView}
         onMouseOver={() => this.setState({ catalogHover: true })}
         onMouseOut={() => this.setState({ catalogHover: false })}
       >
         <FormattedMessage id="navigation.dataobjects.label" />
-      </span>
+      </button>
     )
     let dataSetsLabel = null
     let datasetLabel = null
     if (SearchResultsTargetsEnum.DATASET_RESULTS === this.props.selectedTarget) {
       dataSetsLabel = (
-        <span
+        <button
           style={datasetStyle}
           onClick={this.onClickDatasetsView}
           onMouseOver={() => this.setState({ datasetsHover: true })}
           onMouseOut={() => this.setState({ datasetsHover: false })}
         >
           <FormattedMessage id="navigation.datasets.label" />
-        </span>
+        </button>
       )
     } else if (this.props.selectedDataset && this.props.selectedDataset.content) {
       dataSetsLabel = (
-        <span
+        <button
           style={datasetStyle}
           onClick={this.onClickDatasetsView}
           onMouseOver={() => this.setState({ datasetsHover: true })}
           onMouseOut={() => this.setState({ datasetsHover: false })}
         >
           <FormattedMessage id="navigation.datasets.label" />
-        </span>
+        </button>
       )
       if (this.props.selectedDataset && this.props.selectedDataset.content) {
         datasetLabel = this.props.selectedDataset.content.label
@@ -113,7 +121,8 @@ class NavigationComponent extends React.Component {
     }
 
     datasetLabel = datasetLabel ? <span><LabelIcon style={{ verticalAlign: 'text-bottom' }} /> {datasetLabel}</span> : null
-    dataSetsLabel = dataSetsLabel ? <span><LabelIcon style={{ verticalAlign: 'text-bottom' }} /> {dataSetsLabel}</span> : null
+    dataSetsLabel = dataSetsLabel ?
+      <span><LabelIcon style={{ verticalAlign: 'text-bottom' }} /> {dataSetsLabel}</span> : null
 
     return (
       <span style={{ color: this.context.muiTheme.palette.textColor }}>

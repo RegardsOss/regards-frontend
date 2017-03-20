@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { BasicSignalReducers } from '@regardsoss/store-utils'
 import { AccessGroupConfiguration } from '@regardsoss/api'
 import AccessGroupActions from './AccessGroupActions'

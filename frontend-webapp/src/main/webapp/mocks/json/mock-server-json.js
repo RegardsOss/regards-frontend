@@ -10,6 +10,32 @@ const fs = require('fs-extra')
 // definitions
 const serverPort = 3001
 
+
+
+const getAllLinks = () => {
+  return [
+    {
+      rel:'self',
+      href: 'http://localhost:3333/unused'
+    },
+    {
+      rel:'delete',
+      href: 'http://localhost:3333/unused'
+    },
+    {
+      rel:'update',
+      href: 'http://localhost:3333/unused'
+    },
+    {
+      rel:'create',
+      href: 'http://localhost:3333/unused'
+    },
+    {
+      rel:'list',
+      href: 'http://localhost:3333/unused'
+    }
+  ]
+}
 /**
  * Add pagination format to response list and HAteoas format to each elements
  * @param req
@@ -22,7 +48,7 @@ const PageMiddleWare = (req, res, postTreatment) => {
     map(res.locals.data, (elt, i) => {
       datas.push({
         content: elt,
-        links: [],
+        links: getAllLinks(),
       })
     })
 
@@ -31,7 +57,7 @@ const PageMiddleWare = (req, res, postTreatment) => {
       size: res.locals.data.length,
       totalElements: res.locals.data.length,
     }
-    const links = []
+    const links = getAllLinks()
     // eslint-disable-next-line no-underscore-dangle
     const parsedUrl = req._parsedUrl
     if (parsedUrl.query) {
@@ -82,7 +108,7 @@ const PageMiddleWare = (req, res, postTreatment) => {
   } else {
     results = {
       content: res.locals.data,
-      links: [],
+      links: getAllLinks(),
     }
   }
   if (postTreatment) {
@@ -103,14 +129,14 @@ const ListMiddleWare = (req, res) => {
     map(res.locals.data, (elt, i) => {
       results.push({
         content: elt,
-        links: [],
+        links: getAllLinks(),
       })
     })
     res.jsonp(results)
   } else {
     res.jsonp({
       content: res.locals.data,
-      links: [],
+      links: getAllLinks(),
     })
   }
 }

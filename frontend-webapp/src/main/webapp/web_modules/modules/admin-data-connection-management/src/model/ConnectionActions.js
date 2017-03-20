@@ -6,6 +6,7 @@ class ConnectionActions extends BasicListActions {
     super({
       namespace: 'admin-data-connection-management/connection',
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-dam/connections`,
+      entityPathVariable: 'pConnectionId',
       schemaTypes: {
         ENTITY: Schemas.CONNECTION,
         ENTITY_ARRAY: Schemas.CONNECTION_ARRAY,

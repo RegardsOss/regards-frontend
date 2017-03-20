@@ -1,4 +1,4 @@
-
+import { HateoasDisplayDecorator } from '@regardsoss/display-control'
 import SecondaryActionButtonComponent from './SecondaryActionButtonComponent'
 import MainActionButtonComponent from './MainActionButtonComponent'
 
@@ -9,6 +9,7 @@ class CardActionsView extends React.Component {
     secondaryButtonTouchTap: React.PropTypes.func,
     isSecondaryButtonDisabled: React.PropTypes.bool,
     isSecondaryButtonVisible: React.PropTypes.bool,
+    secondaryHateoasDependency: React.PropTypes.string,
 
     mainButtonLabel: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.element]).isRequired,
     mainButtonUrl: React.PropTypes.string,
@@ -16,6 +17,7 @@ class CardActionsView extends React.Component {
     mainButtonType: React.PropTypes.string,
     isMainButtonVisible: React.PropTypes.bool,
     isMainButtonDisabled: React.PropTypes.bool,
+    mainHateoasDependency: React.PropTypes.string,
 
     /*theme: React.PropTypes.objectOf(React.PropTypes.string).isRequired,*/
   }
@@ -36,24 +38,34 @@ class CardActionsView extends React.Component {
       (this.props.secondaryButtonUrl || this.props.secondaryButtonTouchTap) &&
       this.props.isSecondaryButtonVisible
     )
-    const secondaryActionButtonComponent = isVisible ? (<SecondaryActionButtonComponent
-      label={this.props.secondaryButtonLabel}
-      url={this.props.secondaryButtonUrl}
-      onTouchTap={this.props.secondaryButtonTouchTap}
-      disabled={this.props.isSecondaryButtonDisabled}
-    />) : null
+    const secondaryActionButtonComponent = isVisible ? (
+      <HateoasDisplayDecorator
+        requiredEndpoints={this.props.secondaryHateoasDependency ? [this.props.secondaryHateoasDependency] : []}
+      >
+        <SecondaryActionButtonComponent
+          label={this.props.secondaryButtonLabel}
+          url={this.props.secondaryButtonUrl}
+          onTouchTap={this.props.secondaryButtonTouchTap}
+          disabled={this.props.isSecondaryButtonDisabled}
+        />
+      </HateoasDisplayDecorator>
+    ) : null
 
     return (
       <div style={styleCardActions}>
         {secondaryActionButtonComponent}
-        <MainActionButtonComponent
-          label={this.props.mainButtonLabel}
-          url={this.props.mainButtonUrl}
-          onTouchTap={this.props.mainButtonTouchTap}
-          type={this.props.mainButtonType}
-          isVisible={this.props.isMainButtonVisible}
-          disabled={this.props.isMainButtonDisabled}
-        />
+        <HateoasDisplayDecorator
+          requiredEndpoints={this.props.mainHateoasDependency ? [this.props.mainHateoasDependency] : []}
+        >
+          <MainActionButtonComponent
+            label={this.props.mainButtonLabel}
+            url={this.props.mainButtonUrl}
+            onTouchTap={this.props.mainButtonTouchTap}
+            type={this.props.mainButtonType}
+            isVisible={this.props.isMainButtonVisible}
+            disabled={this.props.isMainButtonDisabled}
+          />
+        </HateoasDisplayDecorator>
       </div>
     )
   }

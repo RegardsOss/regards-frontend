@@ -3,6 +3,13 @@
  **/
 import ViewLinesIcon from 'material-ui/svg-icons/action/view-headline'
 import AddIcon from 'material-ui/svg-icons/content/add-circle'
+import { EditDependencies as ModelEditDep, AddDependencies as ModelAddDep } from '@regardsoss/admin-data-model-management/src/dependencies'
+import { EditDependencies as ModelAttEditDep, AddDependencies as ModelAttAddDep } from '@regardsoss/admin-data-attributemodel-management/src/dependencies'
+import { EditDependencies as CollectionEditDep, AddDependencies as CollectionAddDep } from '@regardsoss/admin-data-collection-management/src/dependencies'
+import { EditDependencies as FragmentEditDep, AddDependencies as FragmentAddDep } from '@regardsoss/admin-data-fragment-management/src/dependencies'
+import { EditDependencies as DatasetEditDep, AddDependencies as DatasetAddDep } from '@regardsoss/admin-data-dataset-management/src/dependencies'
+import { EditDependencies as DatasourceEditDep, AddDependencies as DatasourceAddDep } from '@regardsoss/admin-data-datasource-management/src/dependencies'
+import { EditDependencies as ConnectionEditDep, AddDependencies as ConnectionAddDep } from '@regardsoss/admin-data-connection-management/src/dependencies'
 
 /**
  * BoardItems configuration for Datamanagement module
@@ -19,11 +26,13 @@ const items = (projectName, intl) => [
         path: `/admin/${projectName}/data/model/list`,
         icon: <ViewLinesIcon />,
         tooltipMsg: intl.formatMessage({ id: 'data.board.action.list.tooltip' }),
+        hateoasDependencies: ModelEditDep,
       },
       {
         path: `/admin/${projectName}/data/model/create`,
         icon: <AddIcon />,
         tooltipMsg: intl.formatMessage({ id: 'data.board.action.add.tooltip' }),
+        hateoasDependencies: ModelAddDep,
       },
     ],
   },
@@ -36,11 +45,13 @@ const items = (projectName, intl) => [
         path: `/admin/${projectName}/data/attribute/model/list`,
         icon: <ViewLinesIcon />,
         tooltipMsg: intl.formatMessage({ id: 'data.board.action.list.tooltip' }),
+        hateoasDependencies: ModelAttEditDep,
       },
       {
         path: `/admin/${projectName}/data/attribute/model/create`,
         icon: <AddIcon />,
         tooltipMsg: intl.formatMessage({ id: 'data.board.action.add.tooltip' }),
+        hateoasDependencies: ModelAttAddDep,
       },
     ],
   },
@@ -53,11 +64,13 @@ const items = (projectName, intl) => [
         path: `/admin/${projectName}/data/collection/list`,
         icon: <ViewLinesIcon />,
         tooltipMsg: intl.formatMessage({ id: 'data.board.action.list.tooltip' }),
+        hateoasDependencies: CollectionEditDep,
       },
       {
         path: `/admin/${projectName}/data/collection/create`,
         icon: <AddIcon />,
         tooltipMsg: intl.formatMessage({ id: 'data.board.action.add.tooltip' }),
+        hateoasDependencies: CollectionAddDep,
       },
     ],
   },
@@ -70,11 +83,13 @@ const items = (projectName, intl) => [
         path: `/admin/${projectName}/data/fragment/list`,
         icon: <ViewLinesIcon />,
         tooltipMsg: intl.formatMessage({ id: 'data.board.action.list.tooltip' }),
+        hateoasDependencies: FragmentEditDep,
       },
       {
         path: `/admin/${projectName}/data/fragment/create`,
         icon: <AddIcon />,
         tooltipMsg: intl.formatMessage({ id: 'data.board.action.add.tooltip' }),
+        hateoasDependencies: FragmentAddDep,
       },
     ],
   },
@@ -87,11 +102,13 @@ const items = (projectName, intl) => [
         path: `/admin/${projectName}/data/dataset/list`,
         icon: <ViewLinesIcon />,
         tooltipMsg: intl.formatMessage({ id: 'data.board.action.list.tooltip' }),
+        hateoasDependencies: DatasetEditDep,
       },
       {
         path: `/admin/${projectName}/data/dataset/create/datasource`,
         icon: <AddIcon />,
         tooltipMsg: intl.formatMessage({ id: 'data.board.action.add.tooltip' }),
+        hateoasDependencies: DatasetAddDep,
       },
     ],
   },
@@ -104,11 +121,13 @@ const items = (projectName, intl) => [
         path: `/admin/${projectName}/data/datasource/list`,
         icon: <ViewLinesIcon />,
         tooltipMsg: intl.formatMessage({ id: 'data.board.action.list.tooltip' }),
+        hateoasDependencies: DatasourceEditDep,
       },
       {
         path: `/admin/${projectName}/data/datasource/create/connection`,
         icon: <AddIcon />,
         tooltipMsg: intl.formatMessage({ id: 'data.board.action.add.tooltip' }),
+        hateoasDependencies: DatasourceAddDep,
       },
     ],
   },
@@ -121,11 +140,13 @@ const items = (projectName, intl) => [
         path: `/admin/${projectName}/data/connection/list`,
         icon: <ViewLinesIcon />,
         tooltipMsg: intl.formatMessage({ id: 'data.board.action.list.tooltip' }),
+        hateoasDependencies: ConnectionEditDep,
       },
       {
         path: `/admin/${projectName}/data/connection/create`,
         icon: <AddIcon />,
         tooltipMsg: intl.formatMessage({ id: 'data.board.action.add.tooltip' }),
+        hateoasDependencies: ConnectionAddDep,
       },
     ],
   },

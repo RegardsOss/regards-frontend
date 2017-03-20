@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
@@ -95,7 +98,7 @@ export class ProjectUserCreateContainer extends React.Component {
       email,
       role: { name: roleName },
     }
-    const { user, groupList } = this.props
+    const { groupList } = this.props
     Promise.resolve(this.props.updateProjectUser(this.props.params.user_id, updatedUser))
       .then((actionResult) => {
         if (!actionResult.error) {
@@ -116,7 +119,7 @@ export class ProjectUserCreateContainer extends React.Component {
             .value()
           const tasks = concat(addUserToGroupTasks, removeUserFromGroupTasks)
           Promise.all(tasks).then((actionResults) => {
-            if (every(actionResults, actionResult => actionResult.error)) {
+            if (every(actionResults, TeskactionResult => TeskactionResult.error)) {
               const url = this.getBackUrl()
               browserHistory.push(url)
             }
