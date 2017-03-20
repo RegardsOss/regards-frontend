@@ -55,7 +55,6 @@ export default class ReduxEntityTester {
   }
 
   runTests(done) {
-    assert.isDefined(this.entityActions, 'Action undefined')
     assert.isDefined(this.entityReducers, 'Reducer undefined')
     assert.isDefined(this.entitySelectors, 'Selector undefined')
     assert.isFunction(this.entityShape, 'Your shape is not correctly defined')
@@ -116,6 +115,10 @@ export default class ReduxEntityTester {
    * Mock the URL to return a specify json as string
    */
   beforeAll() {
+    // Handle entityActions undefined
+    if (!this.entityActions) {
+      throw new Error("The action you've provided is undefined")
+    }
     let entityEndpoint = this.entityActions.entityEndpoint
     if (this.options.urlParams) {
       entityEndpoint = this.entityActions.handleRequestPathParameters(this.entityActions.entityEndpoint, this.options.urlParams)
