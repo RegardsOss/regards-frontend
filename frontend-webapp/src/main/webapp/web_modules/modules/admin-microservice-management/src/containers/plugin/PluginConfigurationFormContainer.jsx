@@ -56,10 +56,11 @@ export class PluginConfigurationFormContainer extends React.Component {
   }
 
   componentDidMount() {
-    const { params: { microserviceName } } = this.props
+    const { params: { pluginId, pluginConfigurationId, microserviceName } } = this.props
 
     this.props.fetchPluginMetaDataList(microserviceName)
-    this.props.fetchPluginConfigurationList(microserviceName)
+    //this.props.fetchPluginConfigurationList(microserviceName)
+    this.props.fetchPluginConfiguration(pluginConfigurationId, pluginId, microserviceName)
   }
 
   getBackUrl = () => {
@@ -145,8 +146,9 @@ const mapDispatchToProps = dispatch => ({
   fetchPluginMetaDataList: microserviceName => dispatch(PluginMetaDataActions.fetchPagedEntityList(0, 100, {
     microserviceName,
   })),
-  fetchPluginConfigurationList: microserviceName => dispatch(PluginConfigurationActions.fetchPagedEntityList(0, 100, {
+  fetchPluginConfiguration: (pluginConfId, pluginId,microserviceName) => dispatch(PluginConfigurationActions.fetchEntity(pluginConfId,{
     microserviceName,
+    pluginId,
   })),
   createPluginConfiguration: (vals, microserviceName, pluginId) => dispatch(PluginConfigurationActions.createEntity(vals, {
     microserviceName,

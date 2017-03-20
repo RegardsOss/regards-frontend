@@ -68,7 +68,9 @@ class ProjectSidebarComponent extends React.Component {
             to={`/admin/${projectName}/user/board`}
             currentPath={this.props.currentPath}
             primaryText={<FormattedMessage id="menu.users" />}
-            leftIcon={<SupervisorAccount />}
+            leftIcon={<SupervisorAccount
+              color={this.context.muiTheme.svgIcon.color}
+            />}
             rightIcon={<WaitingAccessNotificationContainer />}
           />
           <HateoasSidebarElement
@@ -78,7 +80,9 @@ class ProjectSidebarComponent extends React.Component {
             to={`/admin/${projectName}/data/board`}
             currentPath={this.props.currentPath}
             primaryText={<FormattedMessage id="menu.datamanagement" />}
-            leftIcon={<AddBox />}
+            leftIcon={<AddBox
+              color={this.context.muiTheme.svgIcon.color}
+            />}
           />
           <HateoasSidebarElement
             key="3"
@@ -87,7 +91,9 @@ class ProjectSidebarComponent extends React.Component {
             to={`/admin/${projectName}/access-right/edit`}
             currentPath={this.props.currentPath}
             primaryText={<FormattedMessage id="menu.dataaccessrights" />}
-            leftIcon={<VerifiedUser />}
+            leftIcon={<VerifiedUser
+              color={this.context.muiTheme.svgIcon.color}
+            />}
           />
           <HateoasSidebarElement
             key="4"
@@ -96,7 +102,9 @@ class ProjectSidebarComponent extends React.Component {
             to={`/admin/${projectName}/ui-plugins/plugins`}
             currentPath={this.props.currentPath}
             primaryText={<FormattedMessage id="menu.plugins" />}
-            leftIcon={<Widgets />}
+            leftIcon={<Widgets
+              color={this.context.muiTheme.svgIcon.color}
+            />}
           />
           <HateoasSidebarElement
             key="5"
@@ -104,7 +112,9 @@ class ProjectSidebarComponent extends React.Component {
             to={`/admin/${projectName}/microservice/board`}
             currentPath={this.props.currentPath}
             primaryText={<FormattedMessage id="menu.microservices" />}
-            leftIcon={<CloudQueue />}
+            leftIcon={<CloudQueue
+              color={this.context.muiTheme.svgIcon.color}
+            />}
           />
           <HateoasSidebarElement
             key="6"
@@ -113,7 +123,9 @@ class ProjectSidebarComponent extends React.Component {
             to={`/admin/${projectName}/ui-configuration/applications`}
             currentPath={this.props.currentPath}
             primaryText={<FormattedMessage id="menu.ui.configuration" />}
-            leftIcon={<Brush />}
+            leftIcon={<Brush
+              color={this.context.muiTheme.svgIcon.color}
+            />}
           />
         </Drawer>
       </I18nProvider>

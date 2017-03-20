@@ -732,6 +732,13 @@
       "microservice": "rs-dam",
       "resource": "/plugins/{pluginId}/config",
       "verb": "POST"
+    },
+    {
+      "id": 58,
+      "description": "Project users",
+      "microservice": "rs-admin",
+      "resource": "/projects",
+      "verb": "GET"
     }
   ]
 }
