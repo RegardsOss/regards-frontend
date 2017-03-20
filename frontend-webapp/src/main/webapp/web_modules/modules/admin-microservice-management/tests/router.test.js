@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { assert, expect } from 'chai'
 import Routes from '../src/router'
 import MicroserviceBoardContainer from '../src/containers/MicroserviceBoardContainer'

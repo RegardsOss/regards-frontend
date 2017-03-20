@@ -1,10 +1,16 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { stub } from 'sinon'
 import { MicroserviceBoardContainer } from '../../src/containers/MicroserviceBoardContainer'
 import MicroserviceBoardComponent from '../../src/components/MicroserviceBoardComponent'
 
-// Test a components rendering
+/**
+ * Plugin tests
+ * @author Xavier-Alexandre Brochard
+ */
 describe('[ADMIN MICROSERVICE MANAGEMENT] Testing microservice board container', () => {
   // Since react will console.error propType warnings, that which we'd rather have
   // as errors, we use sinon.js to stub it into throwing these warning as errors

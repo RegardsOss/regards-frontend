@@ -22,8 +22,6 @@ import getModuleStyles from '../../styles/styles'
 import HateoasSidebarElement from './HateoasSidebarElement'
 import WaitingAccessNotificationContainer from '../containers/WaitingAccessNotificationContainer'
 
-console.log('DEP', dataManagementDependencies)
-
 /**
  * React sidebar components. Display the admin application menu
  */
@@ -76,6 +74,7 @@ class ProjectSidebarComponent extends React.Component {
           <HateoasSidebarElement
             key="2"
             requiredEndpoints={dataManagementDependencies}
+            hateoasDisplayLogic={someMatchHateoasDisplayLogic}
             to={`/admin/${projectName}/data/board`}
             currentPath={this.props.currentPath}
             primaryText={<FormattedMessage id="menu.datamanagement" />}
@@ -84,6 +83,7 @@ class ProjectSidebarComponent extends React.Component {
           <HateoasSidebarElement
             key="3"
             requiredEndpoints={dataAccessDependencies}
+            hateoasDisplayLogic={someMatchHateoasDisplayLogic}
             to={`/admin/${projectName}/access-right/edit`}
             currentPath={this.props.currentPath}
             primaryText={<FormattedMessage id="menu.dataaccessrights" />}
@@ -92,6 +92,7 @@ class ProjectSidebarComponent extends React.Component {
           <HateoasSidebarElement
             key="4"
             requiredEndpoints={uiPluginsDependencies}
+            hateoasDisplayLogic={someMatchHateoasDisplayLogic}
             to={`/admin/${projectName}/ui-plugins/plugins`}
             currentPath={this.props.currentPath}
             primaryText={<FormattedMessage id="menu.plugins" />}

@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 export default {
   entities: [
     'fr.cnes.regards.framework.plugins.ISamplePlugin',

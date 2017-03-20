@@ -1,12 +1,28 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
+import { stub } from 'sinon'
 import GenericPluginParameter from '../../../../src/components/plugin/parameter/GenericPluginParameter'
 import PluginParameterString from '../../../../src/components/plugin/parameter/PluginParameterString'
 import PluginParameterNumber from '../../../../src/components/plugin/parameter/PluginParameterNumber'
 import PluginParameterBoolean from '../../../../src/components/plugin/parameter/PluginParameterBoolean'
 import PluginParameterPlugin from '../../../../src/components/plugin/parameter/PluginParameterPlugin'
 
+/**
+ * Plugin tests
+ * @author Xavier-Alexandre Brochard
+ */
 describe('[ADMIN PROJECT MANAGEMENT] Testing generic plugin parameter component', () => {
+  before(() => {
+    stub(console, 'error').callsFake((warning) => {
+      throw new Error(warning)
+    })
+  })
+  after(() => {
+    console.error.restore()
+  })
   it('should exists', () => {
     assert.isDefined(GenericPluginParameter)
     assert.isDefined(PluginParameterString)

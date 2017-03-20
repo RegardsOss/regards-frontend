@@ -47,7 +47,6 @@ export class PluginParameterPlugin extends React.Component {
 
   constructor(props) {
     super(props)
-    console.log('xab', props)
     this.state = {
       mode: 'view',
       openMenu: false,

@@ -15,10 +15,9 @@ import DropDownMenu from 'material-ui/DropDownMenu'
 import Paper from 'material-ui/Paper'
 import Snackbar from 'material-ui/Snackbar'
 import { FormattedMessage } from 'react-intl'
-import Toggle from 'material-ui/Toggle'
 import { i18nContextType } from '@regardsoss/i18n'
 import { ShowableAtRender } from '@regardsoss/components'
-import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
+import { LoadableContentDisplayDecorator, HateoasIconAction, HateoasToggle, HateoasKeys } from '@regardsoss/display-control'
 import { ThemeList, Theme, defaultTheme } from '@regardsoss/model'
 import { themeContextType, defaultCustomConfiguration } from '@regardsoss/theme'
 import { muiTheme } from '@regardsoss/vendors'
@@ -153,14 +152,16 @@ class ApplicationThemeComponent extends React.Component {
     const toolbarTitle = this.context.intl.formatMessage({ id: 'application.theme.title' })
 
     const saveButton = (
-      <IconButton
+      <HateoasIconAction
+        entityLinks={editingTheme.links}
+        hateoasKey={HateoasKeys.UPDATE}
         onTouchTap={() => this.onSave(editingTheme)}
         tooltip={<FormattedMessage id="application.theme.save" />}
-      ><Save color={style.toolbar.icon.color} /></IconButton>
+      ><Save color={style.toolbar.icon.color} /></HateoasIconAction>
     )
-    const deleteButton = <DeleteButton onDelete={() => this.onDelete(editingTheme)} />
-    const createButton = <CreateButton onCreate={this.onCreate} />
-    const themeActivationToggle = (<Toggle
+    const deleteButton = <DeleteButton onDelete={() => this.onDelete(editingTheme)} entityLinks={editingTheme.links} />
+    const createButton = <CreateButton onCreate={this.onCreate} entityLinks={editingTheme.links} />
+    const themeActivationToggle = (<HateoasToggle
       label={<FormattedMessage id="application.theme.default.active" />}
       defaultToggled={editingTheme.content.active}
       onToggle={this.toggleThemeActivation}
@@ -169,6 +170,8 @@ class ApplicationThemeComponent extends React.Component {
         marginLeft: 20,
         maxWidth: 250,
       }}
+      entityLinks={editingTheme.links}
+      hateoasKey={HateoasKeys.UPDATE}
     />)
 
     const themeSelect = (

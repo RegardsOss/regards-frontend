@@ -33,6 +33,7 @@ describe('[ADMIN UI MANAGEMENT] Testing application theme component', () => {
             active: true,
             configuration: {},
           },
+          links: [],
         },
         2: {
           content: {
@@ -45,6 +46,7 @@ describe('[ADMIN UI MANAGEMENT] Testing application theme component', () => {
               },
             },
           },
+          links: [],
         },
       },
       currentTheme: {
@@ -54,6 +56,7 @@ describe('[ADMIN UI MANAGEMENT] Testing application theme component', () => {
           active: true,
           configuration: {},
         },
+        links: [],
         isFetching: false,
         onAdd: spy(),
         onClose: spy(),
