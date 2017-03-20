@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import {map} from 'lodash'
+import { map } from 'lodash'
 import ExtensionIcon from 'material-ui/svg-icons/action/extension'
 import Settings from 'material-ui/svg-icons/action/settings'
 import Checkbox from 'material-ui/Checkbox'
@@ -22,6 +22,16 @@ import PluginMetaDataActions from '../model/plugin/PluginMetaDataActions'
  * @author Xavier-Alexandre Brochard
  */
 const computedStyles = styles()
+
+
+const getMaintenanceIcon = isActive => (
+  <Checkbox
+    checkedIcon={<Cloud />}
+    uncheckedIcon={<CloudOff />}
+    checked={!isActive}
+    style={computedStyles.board.checkbox}
+  />
+)
 const items = (project, maintenance, intl) => map(microservices, microservice => (
   {
     title: microservice.name,
@@ -35,12 +45,7 @@ const items = (project, maintenance, intl) => map(microservices, microservice =>
         PluginMetaDataActions.getMsDependency(RequestVerbEnum.GET_LIST, microservice.name)
       ],
     }, {
-      icon: <Checkbox
-        checkedIcon={<Cloud />}
-        uncheckedIcon={<CloudOff />}
-        checked={!maintenance[microservice.name].isOn(project)}
-        style={computedStyles.board.checkbox}/>,
-
+      icon: getMaintenanceIcon(maintenance[microservice.name].isOn(project)),
       tooltipMsg: intl.formatMessage({
         id: maintenance[microservice.name].isOn(project) ?
           'microservice-management.maintenance.tooltip.on' :

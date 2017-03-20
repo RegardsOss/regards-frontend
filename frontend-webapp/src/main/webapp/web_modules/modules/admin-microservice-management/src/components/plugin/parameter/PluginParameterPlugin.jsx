@@ -87,7 +87,7 @@ export class PluginParameterPlugin extends React.Component {
       case 'copy':
         return (
           <div>
-            {name}:
+            {name}            :
             <RaisedButton
               label={selectedPluginConfiguration ? selectedPluginConfiguration.content.label : <FormattedMessage id="microservice-management.plugin.parameter.plugin.choose" />}
               onTouchTap={this.handleOpenMenu}

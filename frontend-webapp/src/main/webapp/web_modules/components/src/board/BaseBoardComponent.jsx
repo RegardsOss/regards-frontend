@@ -44,7 +44,6 @@ class BaseBoardComponent extends React.Component {
   }
 
   renderAdvancedToggle = (computedStyles) => {
-
     const labelToggleAdvanced = this.state.showAdvanced ?
       <FormattedMessage id="hideAdvanced" /> :
       <FormattedMessage id="showAdvanced" />
@@ -52,7 +51,7 @@ class BaseBoardComponent extends React.Component {
       <KeyboardArrowUp /> :
       <KeyboardArrowDown />
 
-    if (!this.props.advancedBoardItemComponents || this.props.advancedBoardItemComponents.length === 0){
+    if (!this.props.advancedBoardItemComponents || this.props.advancedBoardItemComponents.length === 0) {
       return null
     }
     return (

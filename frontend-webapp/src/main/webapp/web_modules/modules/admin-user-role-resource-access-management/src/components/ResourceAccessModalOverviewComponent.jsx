@@ -66,12 +66,12 @@ class ResourceAccessModalOverviewComponent extends React.Component {
             innerDivStyle={styles.listItem}
             secondaryText={
               <div>
-                {this.context.intl.formatMessage({ id: 'role.form.description' })} : {currentResource.content.description}
+                {this.context.intl.formatMessage({ id: 'role.form.description' })}                : {currentResource.content.description}
               </div>
             }
             primaryText={
               <div>
-                {this.context.intl.formatMessage({ id: 'role.form.autorizedBy' })} :
+                {this.context.intl.formatMessage({ id: 'role.form.autorizedBy' })}                :
                 <div style={styles.wrapperChipList}>
                   <Chip>Role #1</Chip>
                   <Chip>Role #2</Chip>

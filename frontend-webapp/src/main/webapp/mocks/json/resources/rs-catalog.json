@@ -1051,5 +1051,14 @@
       },
       "geometry":{}
     }
+  ],
+  "linkplugindataset": [
+    {
+      "id": 23,
+      "datasetId": 23,
+      "converters": [],
+      "services": [],
+      "filters": []
+    }
   ]
 }

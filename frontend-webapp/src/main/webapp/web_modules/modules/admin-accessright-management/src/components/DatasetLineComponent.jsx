@@ -28,7 +28,9 @@ class DatasetLineComponent extends React.Component {
           onClick={(proxy, event) => {
             onDelete(entity)
           }}
-        >Delete</a></div>
+        >
+          Delete
+        </a></div>
       )
     }
     return (

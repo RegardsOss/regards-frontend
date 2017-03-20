@@ -1,8 +1,9 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import ProjectsAction from './model/ProjectsAction'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
+import ProjectsAction from './model/ProjectsAction'
+
 /**
  * Module hateoas depencies
  * @author Sébastien binda

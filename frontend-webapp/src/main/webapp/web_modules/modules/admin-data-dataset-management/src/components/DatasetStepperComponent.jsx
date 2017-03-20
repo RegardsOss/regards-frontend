@@ -16,7 +16,7 @@ import {
 export class DatasetStepperComponent extends React.Component {
 
   static propTypes = {
-    stepIndex: React.PropTypes.number,
+    stepIndex: React.PropTypes.number.isRequired,
   }
 
   static contextTypes = {
@@ -29,13 +29,22 @@ export class DatasetStepperComponent extends React.Component {
     const { stepIndex } = this.props
     return (
       <div className="row">
-        <div className="col-sm-50 col-sm-offset-25">
+        <div className="col-lg-80 col-lg-offset-10 col-xs-100">
           <Stepper activeStep={stepIndex}>
             <Step>
               <StepLabel><FormattedMessage id="dataset.stepper.attributes" /></StepLabel>
             </Step>
             <Step>
+              <StepLabel><FormattedMessage id="dataset.stepper.subsetting" /></StepLabel>
+            </Step>
+            <Step>
               <StepLabel><FormattedMessage id="dataset.stepper.links" /></StepLabel>
+            </Step>
+            <Step>
+              <StepLabel><FormattedMessage id="dataset.stepper.plugins" /></StepLabel>
+            </Step>
+            <Step>
+              <StepLabel><FormattedMessage id="dataset.stepper.uiServices" /></StepLabel>
             </Step>
           </Stepper>
         </div>

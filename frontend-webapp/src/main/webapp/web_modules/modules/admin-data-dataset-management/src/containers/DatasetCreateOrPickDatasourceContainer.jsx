@@ -23,13 +23,24 @@ export class DatasetCreateOrPickDatasourceContainer extends React.Component {
     }),
     // from mapStateToProps
     datasourceList: React.PropTypes.objectOf(Datasource),
-    isFetchingDatasource: React.PropTypes.bool,
     // from mapDispatchToProps
     fetchDatasourceList: React.PropTypes.func,
   }
 
+  constructor(props) {
+    super(props)
+    this.state = {
+      isLoading: true,
+    }
+  }
+
   componentDidMount() {
-    this.props.fetchDatasourceList()
+    Promise.resolve(this.props.fetchDatasourceList())
+      .then(() => {
+        this.setState({
+          isLoading: false,
+        })
+      })
   }
 
   getBackUrl = () => {
@@ -38,7 +49,7 @@ export class DatasetCreateOrPickDatasourceContainer extends React.Component {
   }
   getCreateDatasourceUrl= () => {
     const { params: { project } } = this.props
-    return `/admin/${project}/data/datasource/create`
+    return `/admin/${project}/data/datasource/create/connection`
   }
 
   redirectToForm = (datasourceId) => {
@@ -48,11 +59,12 @@ export class DatasetCreateOrPickDatasourceContainer extends React.Component {
   }
 
   render() {
-    const { isFetchingDatasource, datasourceList } = this.props
+    const { datasourceList } = this.props
+    const { isLoading } = this.state
     return (
       <I18nProvider messageDir="modules/admin-data-dataset-management/src/i18n">
         <LoadableContentDisplayDecorator
-          isLoading={isFetchingDatasource}
+          isLoading={isLoading}
         >
           <DatasetCreateOrPickDatasourceComponent
             datasourceList={datasourceList}
@@ -67,7 +79,6 @@ export class DatasetCreateOrPickDatasourceContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  isFetchingDatasource: DatasourceSelectors.isFetching(state),
   datasourceList: DatasourceSelectors.getList(state),
 })
 
