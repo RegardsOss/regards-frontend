@@ -527,7 +527,7 @@
       "id": 28,
       "description": "Delete a project user",
       "microservice": "rs-admin",
-      "resource": "/users/{userId}",
+      "resource": "/users/{user_id}",
       "verb": "DELETE"
     },
     {
@@ -690,6 +690,20 @@
       "microservice": "rs-access-project",
       "resource": "/applications/{applicationId}/modules/{moduleId}",
       "verb": "DELETE"
+    },
+    {
+      "id": 52,
+      "description": "Project users",
+      "microservice": "rs-admin",
+      "resource": "/users",
+      "verb": "GET"
+    },
+    {
+      "id": 53,
+      "description": "Project users",
+      "microservice": "rs-admin",
+      "resource": "/users",
+      "verb": "POST"
     }
   ]
 }

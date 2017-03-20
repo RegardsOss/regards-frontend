@@ -43,14 +43,35 @@ class BaseBoardComponent extends React.Component {
     })
   }
 
-  render() {
-    const computedStyles = styles(this.context.muiTheme)
+  renderAdvancedToggle = (computedStyles) => {
+
     const labelToggleAdvanced = this.state.showAdvanced ?
       <FormattedMessage id="hideAdvanced" /> :
       <FormattedMessage id="showAdvanced" />
     const iconToggleAdvanced = this.state.showAdvanced ?
       <KeyboardArrowUp /> :
       <KeyboardArrowDown />
+
+    if (!this.props.advancedBoardItemComponents || this.props.advancedBoardItemComponents.length === 0){
+      return null
+    }
+    return (
+      <div
+        className={computedStyles.action.classes}
+        style={computedStyles.action.styles}
+      >
+        <RaisedButton
+          label={labelToggleAdvanced}
+          primary
+          icon={iconToggleAdvanced}
+          onTouchTap={this.handleToggleAdvanced}
+        />
+      </div>
+    )
+  }
+
+  render() {
+    const computedStyles = styles(this.context.muiTheme)
 
     return (
       <I18nProvider messageDir={'components/src/board/i18n'}>
@@ -72,17 +93,7 @@ class BaseBoardComponent extends React.Component {
             </div>
           </ShowableAtRender>
 
-          <div
-            className={computedStyles.action.classes}
-            style={computedStyles.action.styles}
-          >
-            <RaisedButton
-              label={labelToggleAdvanced}
-              primary
-              icon={iconToggleAdvanced}
-              onTouchTap={this.handleToggleAdvanced}
-            />
-          </div>
+          {this.renderAdvancedToggle(computedStyles)}
 
         </div>
       </I18nProvider>

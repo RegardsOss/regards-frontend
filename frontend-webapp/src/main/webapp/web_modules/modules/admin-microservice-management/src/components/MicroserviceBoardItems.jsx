@@ -25,13 +25,10 @@ const items = (project, maintenance, intl) => map(microservices, microservice =>
     description: intl.formatMessage({ id: `microservice-management.${microservice.name}.description` }),
     advanced: false,
     actions: [{
-      path: `/admin/${project}/microservice/${microservice.name}/configuration`,
-      icon: <Settings />,
-      tooltipMsg: intl.formatMessage({ id: 'microservice-management.configuration.tooltip' }),
-    }, {
       path: `/admin/${project}/microservice/${microservice.name}/plugin/list`,
       icon: <ExtensionIcon />,
       tooltipMsg: intl.formatMessage({ id: 'microservice-management.plugins.tooltip' }),
+      hateoasDependencies: [],
     }, {
 
       icon: <Checkbox
@@ -48,6 +45,7 @@ const items = (project, maintenance, intl) => map(microservices, microservice =>
       touchTapAction: () => {
         maintenance[microservice.name].set(project, !maintenance[microservice.name].isOn(project))
       },
+      hateoasDependencies: [],
     }],
   }
 ))

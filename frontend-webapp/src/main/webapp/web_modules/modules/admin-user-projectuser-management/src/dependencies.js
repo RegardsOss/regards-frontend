@@ -10,9 +10,7 @@ import ProjectUserActions from './model/ProjectUserActions'
  * @author Sébastien binda
  */
 const EditDependencies = [
-  ProjectUserActions.getDependency(RequestVerbEnum.PUT),
-  ProjectUserActions.getDependency(RequestVerbEnum.POST),
-  ProjectUserActions.getDependency(RequestVerbEnum.DELETE),
+  ProjectUserActions.getDependency(RequestVerbEnum.GET_LIST),
 ]
 const AddDependencies = [
   ProjectUserActions.getDependency(RequestVerbEnum.POST),
