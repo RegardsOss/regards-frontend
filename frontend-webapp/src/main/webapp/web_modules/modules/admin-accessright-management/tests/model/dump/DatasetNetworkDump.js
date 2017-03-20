@@ -3,6 +3,7 @@ export default {
     {
       content: {
         label: 'sdfqsdf',
+        type: 'DATASET',
         attributes: {
           Attribute_0_0: 'QSDf',
           'Fragment 2': {
