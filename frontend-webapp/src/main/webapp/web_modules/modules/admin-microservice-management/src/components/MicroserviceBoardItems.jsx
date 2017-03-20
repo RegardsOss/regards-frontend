@@ -33,12 +33,13 @@ const items = (project, maintenance, intl) => map(microservices, microservice =>
       icon: <ExtensionIcon />,
       tooltipMsg: intl.formatMessage({ id: 'microservice-management.plugins.tooltip' }),
     }, {
+
       icon: <Checkbox
         checkedIcon={<Cloud />}
         uncheckedIcon={<CloudOff />}
         checked={!maintenance[microservice.name].isOn(project)}
-        style={computedStyles.board.checkbox}
-      />,
+        style={computedStyles.board.checkbox} />,
+
       tooltipMsg: intl.formatMessage({
         id: maintenance[microservice.name].isOn(project) ?
           'microservice-management.maintenance.tooltip.on' :

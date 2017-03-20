@@ -30,7 +30,9 @@ describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing DatasourceStepperComponent'
     },
   }
   it('Render properly', () => {
-    const props = {}
+    const props = {
+      stepIndex: 1,
+    }
     const enzymeWrapper = shallow(<DatasourceStepperComponent {...props} />, { context })
     expect(enzymeWrapper.find(Stepper)).to.have.length(1)
   })
