@@ -3,6 +3,8 @@ const merge = require('webpack-merge')
 const nodeExternals = require('webpack-node-externals')
 const CommonConfig = require('./webpack.common.config')
 
+console.log("GITLAB", "BEFORE MERGE", JSON.stringify(CommonConfig))
+
 let config = CommonConfig
 
 config = merge(config, {
@@ -46,5 +48,8 @@ config = merge(config, {
     devtoolFallbackModuleFilenameTemplate: '[absolute-resource-path]?[hash]',
   },
 })
+
+
+console.log("GITLAB", "AFTER MERGE", JSON.stringify(config))
 
 module.exports = config
