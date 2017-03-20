@@ -59,7 +59,7 @@ export class AccountFormContainer extends React.Component {
             onSubmit={this.handleUpdate}
             backUrl={this.getBackUrl()}
             currentAccount={this.props.account}
-          />)
+          />
         </LoadableContentDisplayDecorator>
       </I18nProvider>
     )

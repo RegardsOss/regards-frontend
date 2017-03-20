@@ -5,6 +5,7 @@ import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { stub } from 'sinon'
 import { Card } from 'material-ui/Card'
+import { IntlStub } from '@regardsoss/tests-helpers'
 import { PluginConfigurationFormComponent } from '../../../src/components/plugin/PluginConfigurationFormComponent'
 
 /**
@@ -24,7 +25,12 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing plugin configuration form component
     assert.isDefined(PluginConfigurationFormComponent)
     assert.isDefined(Card)
   })
-
+  const context = {
+    intl: IntlStub,
+    muiTheme: {
+      palette: {},
+    },
+  }
   it('should render sub-components', () => {
     const props = {
       pluginConfiguration: {
@@ -58,7 +64,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing plugin configuration form component
       initialize: () => {},
       change: () => {},
     }
-    const enzymeWrapper = shallow(<PluginConfigurationFormComponent {...props} />)
+    const enzymeWrapper = shallow(<PluginConfigurationFormComponent {...props} />, { context })
     const subComponent = enzymeWrapper.find(Card)
     expect(subComponent).to.have.length(2)
   })

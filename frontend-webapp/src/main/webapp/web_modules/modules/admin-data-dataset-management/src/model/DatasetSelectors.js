@@ -1,10 +1,10 @@
 import { BasicPageableSelectors } from '@regardsoss/store-utils'
 
-class FragmentSelectors extends BasicPageableSelectors {
+class DatasetSelectors extends BasicPageableSelectors {
   constructor() {
     super(['admin', 'data-management', 'dataset', 'dataset'])
   }
 }
 
-const instance = new FragmentSelectors()
+const instance = new DatasetSelectors()
 export default instance

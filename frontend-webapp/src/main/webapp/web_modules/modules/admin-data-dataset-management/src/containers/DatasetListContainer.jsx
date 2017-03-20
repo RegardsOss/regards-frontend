@@ -22,14 +22,22 @@ export class DatasetListContainer extends React.Component {
     }),
     // from mapStateToProps
     datasetList: React.PropTypes.objectOf(Dataset),
-    isFetching: React.PropTypes.bool,
     // from mapDispatchToProps
     fetchDatasetList: React.PropTypes.func,
     deleteDataset: React.PropTypes.func,
   }
-
+  state = {
+    isLoading: true,
+  }
   componentWillMount() {
-    this.props.fetchDatasetList()
+    Promise.resolve(this.props.fetchDatasetList())
+      .then((actionResult) => {
+        if (!actionResult.error) {
+          this.setState({
+            isLoading: false,
+          })
+        }
+      })
   }
 
   getCreateUrl = () => {
@@ -53,11 +61,12 @@ export class DatasetListContainer extends React.Component {
   }
 
   render() {
-    const { datasetList, isFetching } = this.props
+    const { datasetList } = this.props
+    const { isLoading } = this.state
     return (
       <I18nProvider messageDir="modules/admin-data-dataset-management/src/i18n">
         <LoadableContentDisplayDecorator
-          isLoading={isFetching}
+          isLoading={isLoading}
         >
           <DatasetListComponent
             datasetList={datasetList}
@@ -74,7 +83,6 @@ export class DatasetListContainer extends React.Component {
 
 const mapStateToProps = (state, ownProps) => ({
   datasetList: DatasetSelectors.getList(state),
-  isFetching: DatasetSelectors.isFetching(state),
 })
 
 const mapDispatchToProps = dispatch => ({

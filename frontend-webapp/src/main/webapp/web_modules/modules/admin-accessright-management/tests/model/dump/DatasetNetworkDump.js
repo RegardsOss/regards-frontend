@@ -1,153 +1,33 @@
-/**
- * LICENSE_PLACEHOLDER
- **/
 export default {
   content: [
     {
       content: {
-        id: 1,
-        label: 'PremierDataSet',
-        type: 'DATASET',
+        label: 'sdfqsdf',
+        attributes: {
+          Attribute_0_0: 'QSDf',
+          'Fragment 2': {
+            Attribute_4: 'qsdf',
+          },
+        },
         model: {
           id: 2,
-          name: 'Premier Modele',
-          descirption: 'Description du premier modele de jeux de données',
-          type: 'DATASET',
         },
-      },
-      links: [],
-    },
-    {
-      content: {
-        id: 2,
-        label: 'DeuxiemeDataSet',
-        type: 'DATASET',
-        model: {
-          id: 2,
-          name: 'Premier Modele',
-          descirption: 'Description du premier modele de jeux de données',
-          type: 'DATASET',
-        },
-      },
-      links: [],
-    },
-    {
-      content: {
-        id: 3,
-        label: 'TroisiemeDataSet',
-        type: 'DATASET',
-        model: {
-          id: 2,
-          name: 'Premier Modele',
-          descirption: 'Description du premier modele de jeux de données',
-          type: 'DATASET',
-        },
-      },
-      links: [],
-    },
-    {
-      content: {
-        id: 4,
-        label: 'QuatriemDataSet',
-        type: 'DATASET',
-        model: {
-          id: 2,
-          name: 'Premier Modele',
-          descirption: 'Description du premier modele de jeux de données',
-          type: 'DATASET',
-        },
-      },
-      links: [],
-    },
-    {
-      content: {
-        id: 5,
-        label: 'CinquiemeDataSet',
-        type: 'DATASET',
-        model: {
-          id: 2,
-          name: 'Premier Modele',
-          descirption: 'Description du premier modele de jeux de données',
-          type: 'DATASET',
-        },
-      },
-      links: [],
-    },
-    {
-      content: {
-        id: 6,
-        label: 'SixiemeDataSet',
-        type: 'DATASET',
-        model: {
-          id: 2,
-          name: 'Premier Modele',
-          descirption: 'Description du premier modele de jeux de données',
-          type: 'DATASET',
-        },
-      },
-      links: [],
-    },
-    {
-      content: {
-        id: 7,
-        label: 'SeptiemeDataSet',
-        type: 'DATASET',
-        model: {
-          id: 2,
-          name: 'Premier Modele',
-          descirption: 'Description du premier modele de jeux de données',
-          type: 'DATASET',
-        },
-      },
-      links: [],
-    },
-    {
-      content: {
-        id: 8,
-        label: 'HuitiemeDataSet',
-        type: 'DATASET',
-        model: {
-          id: 2,
-          name: 'Premier Modele',
-          descirption: 'Description du premier modele de jeux de données',
-          type: 'DATASET',
-        },
-      },
-      links: [],
-    },
-    {
-      content: {
-        id: 9,
-        label: 'NeuviemeDataSet',
-        type: 'DATASET',
-        model: {
-          id: 2,
-          name: 'Premier Modele',
-          descirption: 'Description du premier modele de jeux de données',
-          type: 'DATASET',
-        },
-      },
-      links: [],
-    },
-    {
-      content: {
-        id: 10,
-        label: 'DixiemeDataSet',
-        type: 'DATASET',
-        model: {
-          id: 2,
-          name: 'Premier Modele',
-          descirption: 'Description du premier modele de jeux de données',
-          type: 'DATASET',
-        },
+        dataModel: 5,
+        plgConfDataSource: 4,
+        tags: [
+          'URN:AIP:COLLECTION:PROJECT:fdsfdsf15-8a93-4d06-a90a-f657c26d3930:V1',
+          'habla espanol',
+        ],
+        subsetting: 'fqsdsdf qsdf qsf sdf sf f',
+        id: 23,
       },
       links: [],
     },
   ],
   metadata: {
     number: 0,
-    size: 10,
-    totalElements: 21,
+    size: 100,
+    totalElements: 1,
   },
   links: [],
 }

@@ -74,8 +74,8 @@ class DatasetCellComponent extends React.Component {
                     color: this.context.muiTheme.palette.accent1Color,
                   }}
                 >{key}</span>
-                  :
-                  {property}
+                :
+                {property}
               </Chip>
               ))}
           </div>

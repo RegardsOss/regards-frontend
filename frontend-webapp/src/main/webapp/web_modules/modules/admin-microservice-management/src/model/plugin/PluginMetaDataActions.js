@@ -15,8 +15,8 @@ class PluginMetaDataActions extends BasicPageableActions {
   }
 
   getDependency(verb, microserviceName) {
-    let dependency = super.getDependency(verb)
-    return replace(dependency,'{microserviceName',microserviceName)
+    const dependency = super.getDependency(verb)
+    return replace(dependency, '{microserviceName', microserviceName)
   }
 }
 

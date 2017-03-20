@@ -18,22 +18,24 @@ import DatasetStepperComponent from './DatasetStepperComponent'
 /**
  * React component to list datasets.
  */
-export class DatasetFormComponent extends React.Component {
+export class DatasetFormAttributesComponent extends React.Component {
 
   static propTypes = {
     currentDataset: Dataset,
-    onSubmit: React.PropTypes.func.isRequired,
-    backUrl: React.PropTypes.string.isRequired,
     modelList: React.PropTypes.objectOf(Model),
     modelAttributeList: React.PropTypes.objectOf(ModelAttribute),
-    currentDatasource: Datasource,
     handleUpdateModel: React.PropTypes.func.isRequired,
+    currentDatasource: Datasource,
+    onSubmit: React.PropTypes.func.isRequired,
+    backUrl: React.PropTypes.string.isRequired,
+    isEditing: React.PropTypes.bool.isRequired,
     // from reduxForm
     submitting: React.PropTypes.bool,
     invalid: React.PropTypes.bool,
     handleSubmit: React.PropTypes.func.isRequired,
     initialize: React.PropTypes.func.isRequired,
   }
+
 
   static contextTypes = {
     ...themeContextType,
@@ -57,7 +59,7 @@ export class DatasetFormComponent extends React.Component {
    * Initialize form fields
    */
   handleInitialize = () => {
-    if (!this.state.isCreating) {
+    if (this.props.isEditing) {
       const { currentDataset } = this.props
       const attributes = {}
       forEach(currentDataset.content.attributes, (attributeValueOrFragment, key) => {
@@ -96,9 +98,9 @@ export class DatasetFormComponent extends React.Component {
   }
 
   render() {
-    const { currentDataset, modelList, modelAttributeList, currentDatasource, submitting, invalid, backUrl } = this.props
+    const { modelList, modelAttributeList, currentDatasource, submitting, invalid, backUrl } = this.props
     let title
-    if (this.state.isCreating) {
+    if (!this.props.isEditing) {
       title = <FormattedMessage id="dataset.create.title" />
     } else {
       title = (<FormattedMessage
@@ -108,11 +110,6 @@ export class DatasetFormComponent extends React.Component {
         }}
       />)
     }
-    let datasource = currentDataset && currentDataset.content && currentDataset.content.datasource
-    if (!datasource) {
-      datasource = currentDatasource && currentDatasource.content
-    }
-    console.log('HELLOOOOOOOOOOOOOOOOOOOOO3', datasource, currentDataset)
     return (
       <form
         onSubmit={this.props.handleSubmit(this.props.onSubmit)}
@@ -133,13 +130,13 @@ export class DatasetFormComponent extends React.Component {
             />
             <SelectField
               floatingLabelText={<FormattedMessage id="dataset.form.datasource" />}
-              value={datasource.id}
+              value={currentDatasource.content.id}
               fullWidth
               disabled
             >
               <MenuItem
-                value={datasource.id}
-                primaryText={datasource.label}
+                value={currentDatasource.content.id}
+                primaryText={currentDatasource.content.label}
               />
             </SelectField>
             <Field
@@ -148,7 +145,7 @@ export class DatasetFormComponent extends React.Component {
               onSelect={this.handleChange}
               component={RenderSelectField}
               label={<FormattedMessage id="dataset.form.model" />}
-              disabled={!this.state.isCreating}
+              disabled={this.props.isEditing}
             >
               {map(modelList, (model, id) => (
                 <MenuItem
@@ -236,12 +233,11 @@ function validate(values) {
   if (!values.model) {
     errors.model = ErrorTypes.REQUIRED
   }
-  console.log(errors)
   return errors
 }
 
 export default reduxForm({
-  form: 'dataset-form',
+  form: 'dataset-attributes-form',
   validate,
-})(DatasetFormComponent)
+})(DatasetFormAttributesComponent)
 

@@ -19,6 +19,16 @@ import styles from '../styles/styles'
  * @author Xavier-Alexandre Brochard
  */
 const computedStyles = styles()
+
+
+const getMaintenanceIcon = isActive => (
+  <Checkbox
+    checkedIcon={<Cloud />}
+    uncheckedIcon={<CloudOff />}
+    checked={!isActive}
+    style={computedStyles.board.checkbox}
+  />
+)
 const items = (project, maintenance, intl) => map(microservices, microservice => (
   {
     title: microservice.name,
@@ -30,13 +40,7 @@ const items = (project, maintenance, intl) => map(microservices, microservice =>
       tooltipMsg: intl.formatMessage({ id: 'microservice-management.plugins.tooltip' }),
       hateoasDependencies: [],
     }, {
-
-      icon: <Checkbox
-        checkedIcon={<Cloud />}
-        uncheckedIcon={<CloudOff />}
-        checked={!maintenance[microservice.name].isOn(project)}
-        style={computedStyles.board.checkbox} />,
-
+      icon: getMaintenanceIcon(maintenance[microservice.name].isOn(project)),
       tooltipMsg: intl.formatMessage({
         id: maintenance[microservice.name].isOn(project) ?
           'microservice-management.maintenance.tooltip.on' :

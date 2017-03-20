@@ -8,6 +8,17 @@ import modelAttribute from './model/ModelAttributeReducers'
 import datasetLinkSignal from './model/DatasetLinkReducers'
 import datasource from './model/DatasourceReducers'
 import collection from './model/CollectionReducers'
+import {
+  pluginConfigurationConverters,
+  pluginConfigurationServices,
+  pluginConfigurationFilters,
+} from './model/PluginConfigurationReducers'
+import {
+  pluginMetaDataConverters,
+  pluginMetaDataServices,
+  pluginMetaDataFilters,
+} from './model/PluginMetaDataReducers'
+import linkPluginDataset from './model/LinkPluginDatasetReducers'
 
 const datasetDataManagementReducer = combineReducers({
   collection,
@@ -16,6 +27,13 @@ const datasetDataManagementReducer = combineReducers({
   datasource,
   'model-attribute': modelAttribute,
   'dataset-link': datasetLinkSignal,
+  'plugin-configuration-services': pluginConfigurationServices,
+  'plugin-configuration-converters': pluginConfigurationConverters,
+  'plugin-configuration-filters': pluginConfigurationFilters,
+  'plugin-meta-data-services': pluginMetaDataServices,
+  'plugin-meta-data-converters': pluginMetaDataConverters,
+  'plugin-meta-data-filters': pluginMetaDataFilters,
+  'link-plugin-dataset': linkPluginDataset,
 })
 
 export default datasetDataManagementReducer

@@ -19,7 +19,7 @@ const styles = theme => ({
     classes: ['col-xs-50', 'col-sm-50', 'col-lg-33'].join(' '),
     styles: {
       margin: 10,
-      minHeight: 200
+      minHeight: 200,
     },
     contentStyles: {
       minHeight: '170px',

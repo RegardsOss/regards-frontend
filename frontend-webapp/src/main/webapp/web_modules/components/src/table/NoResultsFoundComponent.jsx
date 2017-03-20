@@ -22,7 +22,7 @@ class NoResultsFoundComponent extends React.Component {
         <CardText>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <Disatisfied style={{ marginRight: 20 }} />
-        No results found !
+            No results found !
           </div>
         </CardText>
       </Card>

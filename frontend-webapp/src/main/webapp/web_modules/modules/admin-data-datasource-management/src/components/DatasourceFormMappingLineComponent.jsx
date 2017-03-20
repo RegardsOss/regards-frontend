@@ -128,11 +128,11 @@ export class DatasourceFormMappingLineComponent extends React.Component {
     return (
       <TableRow>
         <TableRowColumn>
-          <FormattedMessage id="datasource.form.mapping.table.fragment" />: {modelAttribute.content.attribute.fragment.name}
+          <FormattedMessage id="datasource.form.mapping.table.fragment" />          : {modelAttribute.content.attribute.fragment.name}
           <br />
-          <FormattedMessage id="datasource.form.mapping.table.attrName" />: {modelAttribute.content.attribute.name}
+          <FormattedMessage id="datasource.form.mapping.table.attrName" />          : {modelAttribute.content.attribute.name}
           <br />
-          <FormattedMessage id="datasource.form.mapping.table.type" />: {modelAttribute.content.attribute.type}
+          <FormattedMessage id="datasource.form.mapping.table.type" />          : {modelAttribute.content.attribute.type}
           <br />
           {this.showIfOptional(modelAttribute.content.attribute.optional)}
         </TableRowColumn>
