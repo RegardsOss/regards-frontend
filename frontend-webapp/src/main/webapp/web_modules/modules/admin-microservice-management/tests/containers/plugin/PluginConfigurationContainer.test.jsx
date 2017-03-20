@@ -1,10 +1,25 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
+import { stub } from 'sinon'
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { PluginConfigurationContainer } from '../../../src/containers/plugin/PluginConfigurationContainer'
 import PluginConfigurationComponent from '../../../src/components/plugin/PluginConfigurationComponent'
 
-// Test a components rendering
+/**
+ * Plugin tests
+ * @author Xavier-Alexandre Brochard
+ */
 describe('[ADMIN MICROSERVICE MANAGEMENT] Testing plugin configuration container', () => {
+  before(() => {
+    stub(console, 'error').callsFake((warning) => {
+      throw new Error(warning)
+    })
+  })
+  after(() => {
+    console.error.restore()
+  })
   it('should exists', () => {
     assert.isDefined(PluginConfigurationContainer)
     assert.isDefined(PluginConfigurationComponent)
@@ -22,7 +37,7 @@ describe('[ADMIN MICROSERVICE MANAGEMENT] Testing plugin configuration container
       },
       // from mapStateToProps
       pluginConfiguration: {
-        pluginId: '6',
+        pluginId: 6,
         pluginType: 'Other',
         pluginClassName: 'Kerberos',
         author: 'Jules Verne',

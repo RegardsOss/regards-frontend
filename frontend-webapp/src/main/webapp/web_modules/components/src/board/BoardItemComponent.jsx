@@ -60,8 +60,6 @@ class BoardItemComponent extends React.Component {
       }
     })
 
-    console.log('endpoints needed', actionsHateoasRequiredEnpoints)
-
     return (
       <HateoasDisplayDecorator
         requiredEndpoints={actionsHateoasRequiredEnpoints}

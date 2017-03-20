@@ -4,7 +4,7 @@ const messages = {
   'menu.users': 'Users',
   'menu.accounts': 'Accounts',
   'menu.ui.configuration': 'UI Configuration',
-  'menu.microservices': 'Microservices',
+  'menu.microservices': 'Services',
   'menu.plugins': 'Plugins',
   'menu.datamanagement': 'Data Management',
   'menu.dataaccessrights': 'Data Access Rights',

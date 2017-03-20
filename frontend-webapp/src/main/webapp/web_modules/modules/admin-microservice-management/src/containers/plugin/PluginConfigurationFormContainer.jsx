@@ -62,10 +62,6 @@ export class PluginConfigurationFormContainer extends React.Component {
     this.props.fetchPluginConfigurationList(microserviceName)
   }
 
-  componentWillReceiveProps(nextProps, nextState) {
-    console.log('PluginConfigurationFormContainer::componentWillReceiveProps', nextProps, nextState)
-  }
-
   getBackUrl = () => {
     const { params: { project, microserviceName, pluginId } } = this.props
     return `/admin/${project}/microservice/${microserviceName}/plugin/${pluginId}/configuration/list`

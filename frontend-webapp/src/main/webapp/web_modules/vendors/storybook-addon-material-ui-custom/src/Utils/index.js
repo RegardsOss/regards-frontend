@@ -1,7 +1,6 @@
 
 
 export function copyToClipboard(text) {
-  console.log(text)
   const copyText = text
   return () => {
     console.info(copyText)

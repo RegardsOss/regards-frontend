@@ -1,10 +1,10 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import IconButton from 'material-ui/IconButton'
 import AddCircle from 'material-ui/svg-icons/content/add-circle'
 import { FormattedMessage } from 'react-intl'
 import { themeContextType } from '@regardsoss/theme'
+import { HateoasIconAction, HateoasKeys, HateoasLinks } from '@regardsoss/display-control'
 import ThemeCreateComponent from './ThemeCreateComponent'
 import moduleStyles from '../../styles/styles'
 
@@ -16,7 +16,8 @@ import moduleStyles from '../../styles/styles'
 class CreateButton extends React.Component {
 
   static propTypes = {
-    onCreate: React.PropTypes.func,
+    onCreate: React.PropTypes.func.isRequired,
+    entityLinks: React.PropTypes.arrayOf(HateoasLinks).isRequired,
   }
 
   static contextTypes = {
@@ -42,10 +43,12 @@ class CreateButton extends React.Component {
 
     return (
       <div>
-        <IconButton
+        <HateoasIconAction
+          entityLinks={this.props.entityLinks}
+          hateoasKey={HateoasKeys.CREATE}
           onTouchTap={this.onOpen}
           tooltip={<FormattedMessage id="application.theme.create.tooltip" />}
-        ><AddCircle color={style.toolbar.icon.color} /></IconButton>
+        ><AddCircle color={style.toolbar.icon.color} /></HateoasIconAction>
         <ThemeCreateComponent
           open={open}
           onRequestClose={this.onClose}

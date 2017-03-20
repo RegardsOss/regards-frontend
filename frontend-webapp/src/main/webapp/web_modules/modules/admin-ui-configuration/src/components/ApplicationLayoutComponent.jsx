@@ -7,7 +7,9 @@ import { CardActionsComponent } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { Layout } from '@regardsoss/model'
 import { reduxForm } from '@regardsoss/form-utils'
+import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { LayoutConfigurationComponent, DefaultLayout } from '@regardsoss/layout'
+import LayoutActions from '../model/layout/LayoutActions'
 
 /**
  * React component to display and configure a given layout
@@ -81,6 +83,7 @@ class ApplicationLayoutComponent extends React.Component {
             <CardActionsComponent
               mainButtonLabel={<FormattedMessage id="layout.submit" />}
               mainButtonType="submit"
+              mainHateoasDependency={LayoutActions.getDependency(RequestVerbEnum.PUT)}
               isMainButtonDisabled={pristine || submitting}
               secondaryButtonLabel={<FormattedMessage id="layout.cancel" />}
               secondaryButtonTouchTap={this.props.onCancel}

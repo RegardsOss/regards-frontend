@@ -655,6 +655,41 @@
       "microservice": "rs-dam",
       "resource": "/connections",
       "verb": "GET"
+    },
+    {
+      "id": 47,
+      "description": "themes",
+      "microservice": "rs-access-project",
+      "resource": "/themes",
+      "verb": "GET"
+    },
+    {
+      "id": 48,
+      "description": "layouts",
+      "microservice": "rs-access-project",
+      "resource": "/layouts/{applicationId}",
+      "verb": "GET"
+    },
+    {
+      "id": 49,
+      "description": "layouts",
+      "microservice": "rs-access-project",
+      "resource": "/applications/{applicationId}/modules",
+      "verb": "POST"
+    },
+    {
+      "id": 50,
+      "description": "layouts",
+      "microservice": "rs-access-project",
+      "resource": "/applications/{applicationId}/modules/{moduleId}",
+      "verb": "PUT"
+    },
+    {
+      "id": 51,
+      "description": "layouts",
+      "microservice": "rs-access-project",
+      "resource": "/applications/{applicationId}/modules/{moduleId}",
+      "verb": "DELETE"
     }
   ]
 }

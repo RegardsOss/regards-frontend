@@ -1,10 +1,25 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
+import { stub } from 'sinon'
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { PluginConfigurationListContainer } from '../../../src/containers/plugin/PluginConfigurationListContainer'
 import PluginConfigurationContainer from '../../../src/containers/plugin/PluginConfigurationContainer'
 
-// Test a components rendering
+/**
+ * Plugin tests
+ * @author Xavier-Alexandre Brochard
+ */
 describe('[ADMIN MICROSERVICE MANAGEMENT] Testing plugin configuration list container', () => {
+  before(() => {
+    stub(console, 'error').callsFake((warning) => {
+      throw new Error(warning)
+    })
+  })
+  after(() => {
+    console.error.restore()
+  })
   it('should exists', () => {
     assert.isDefined(PluginConfigurationListContainer)
     assert.isDefined(PluginConfigurationContainer)
@@ -17,13 +32,13 @@ describe('[ADMIN MICROSERVICE MANAGEMENT] Testing plugin configuration list cont
         project: 'projectName',
         microserviceName: 'some-microservice',
         pluginId: 'aPluginId',
-        pluginConfigurationId: 0,
+        pluginConfigurationId: '0',
       },
       // from mapStateToProps
       pluginConfigurationList: {
         0: {
           content: {
-            id: '0',
+            id: 0,
             label: 'Cool configuration',
             version: '2.0.0',
             priorityOrder: 4,
@@ -34,7 +49,7 @@ describe('[ADMIN MICROSERVICE MANAGEMENT] Testing plugin configuration list cont
         },
         1: {
           content: {
-            id: '1',
+            id: 1,
             label: 'Not cool configuration',
             version: '1.1.1',
             priorityOrder: 3,
@@ -45,7 +60,7 @@ describe('[ADMIN MICROSERVICE MANAGEMENT] Testing plugin configuration list cont
         },
         2: {
           content: {
-            id: '2',
+            id: 2,
             label: 'Random configuration',
             version: '0.0.1',
             priorityOrder: 1,
@@ -56,7 +71,7 @@ describe('[ADMIN MICROSERVICE MANAGEMENT] Testing plugin configuration list cont
         },
         3: {
           content: {
-            id: '3',
+            id: 3,
             label: 'Other random configuration',
             version: 'v12',
             priorityOrder: 1,

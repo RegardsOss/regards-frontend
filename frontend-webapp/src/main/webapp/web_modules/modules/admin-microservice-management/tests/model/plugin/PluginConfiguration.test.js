@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { ReduxEntityTester } from '@regardsoss/tests-helpers'
 import { PluginConfiguration } from '@regardsoss/model'
 import PluginConfigurationActions from '../../../src/model/plugin/PluginConfigurationActions'
