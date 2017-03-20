@@ -3,8 +3,6 @@ const merge = require('webpack-merge')
 const nodeExternals = require('webpack-node-externals')
 const CommonConfig = require('./webpack.common.config')
 
-console.log("GITLAB", "BEFORE MERGE", JSON.stringify(CommonConfig))
-
 let config = CommonConfig
 
 config = merge(config, {
@@ -32,7 +30,7 @@ config = merge(config, {
       // The path to the manifest file which maps between
       // modules included in a bundle and the internal IDs
       // within that bundle
-      manifest: require(`${__dirname}/build/core-manifest.json`),
+      manifest: require(`${__dirname}/dist/dev/core-manifest.json`),
       context: __dirname,
     }),
     new webpack.DefinePlugin({
@@ -48,8 +46,5 @@ config = merge(config, {
     devtoolFallbackModuleFilenameTemplate: '[absolute-resource-path]?[hash]',
   },
 })
-
-
-console.log("GITLAB", "AFTER MERGE", JSON.stringify(config))
 
 module.exports = config

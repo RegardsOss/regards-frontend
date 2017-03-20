@@ -20,7 +20,7 @@ module.exports = {
     // exemple require('main') look for main, main.js or main.jsx with our configuration
     extensions: ['.js', '.jsx'],
     modules: [
-      // Root directories from wich requires are made
+      // Root directories from which requires are made
       path.join(__dirname),
       'web_modules',
       'node_modules'
@@ -38,7 +38,7 @@ module.exports = {
       {
         test: /\.jsx?$/,
         // Exclude the DLL folder build from the transpilation
-        exclude: [/node_modules/, /build/],
+        exclude: [/node_modules/, /dist/],
         // used to cache the results of the loader.
         // Next builds will attempt to read from the cache
         // the cache is different depending of the value of NODE_ENV

@@ -11,7 +11,7 @@ config = merge(config, {
   devtool: 'source-map',
   output: {
     // Webpack compilation directory
-    path: `${__dirname}/build`,
+    path: `${__dirname}/dist/dev`,
     // Webpack main bundle file name
     filename: 'bundle.js',
     // Webpack chunks files namesc
@@ -35,7 +35,7 @@ config = merge(config, {
       source: false,
     },
     // Web directory serve by the webpack dev server
-    contentBase: path.resolve(__dirname, 'build'),
+    contentBase: path.resolve(__dirname, 'dist', 'dev'),
     // ??? Without this there is no hot replacement during developpment
     inline: true,
     //Shows a full-screen overlay in the browser when there are compiler errors or warning
@@ -65,7 +65,7 @@ config = merge(config, {
       // The path to the manifest file which maps between
       // modules included in a bundle and the internal IDs
       // within that bundle
-      manifest: require(`${__dirname}/build/core-manifest.json`),
+      manifest: require(`${__dirname}/dist/dev/core-manifest.json`),
       context: __dirname,
     }),
     new webpack.DefinePlugin({
