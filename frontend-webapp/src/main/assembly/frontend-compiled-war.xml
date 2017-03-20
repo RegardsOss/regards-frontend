@@ -10,7 +10,7 @@
 	<includeBaseDirectory>false</includeBaseDirectory>
 	<fileSets>
 		<fileSet>
-			<directory>src/main/webapp/build</directory>
+			<directory>src/main/webapp/dist/prod</directory>
 			<outputDirectory></outputDirectory>
 		</fileSet>
 		<fileSet>
