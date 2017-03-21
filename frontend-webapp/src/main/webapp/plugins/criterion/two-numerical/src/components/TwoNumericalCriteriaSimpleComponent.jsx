@@ -68,7 +68,7 @@ export class TwoNumericalCriteriaSimpleComponent extends React.Component {
     // Update query and send change to the plugin handler
     const query = reduce(newState, (result, attValue, key) => {
       let query = result
-      if (attribute,attValue) {
+      if (attValue.attribute && attValue.value && attValue.operator) {
         query = this.criteriaToOpenSearchFormat(attValue.attribute, attValue.value, attValue.operator)
         if (result !== '' && query !== '') {
           query = `${result} AND ${query}`

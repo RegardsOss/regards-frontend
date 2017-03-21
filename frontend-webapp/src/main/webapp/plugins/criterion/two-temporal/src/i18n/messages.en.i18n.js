@@ -15,7 +15,6 @@ const messages = {
   'criterion.time.picker.cancel': 'Cancel',
 
   'criterion.aggregator.between': 'between',
-  'criterion.aggregator.is': ' is ',
   'criterion.aggregator.and': 'and',
 }
 

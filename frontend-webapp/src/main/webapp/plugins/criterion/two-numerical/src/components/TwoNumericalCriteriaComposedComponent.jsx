@@ -2,6 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { values } from 'lodash'
+import { FormattedMessage } from 'react-intl'
 import NumericalCriteriaComponent from './NumericalCriteriaComponent'
 import {AttributeModel, getAttributeName} from '../common/AttributeModel'
 
@@ -79,22 +80,25 @@ export class TwoNumericalCriteriaComposedComponent extends React.Component {
             flexWrap: 'wrap',
           }}
         >
+          <span style={{ margin: '0px 10px' }}>{attribute.name} <FormattedMessage id="criterion.aggregator.between" /></span>
           <NumericalCriteriaComponent
             attribute={attribute}
             pluginInstanceId={pluginInstanceId}
             onChange={this.changeValue1}
             comparator="LE"
             hideAttributeName
+            hideComparator
             reversed
             fixedComparator
           />
-          <span style={{ margin: '0px 10px' }}>{attribute.name}</span>
+          <span style={{ marginRight: 10 }}><FormattedMessage id="criterion.aggregator.and" /></span>
           <NumericalCriteriaComponent
             attribute={attribute}
             pluginInstanceId={pluginInstanceId}
             onChange={this.changeValue2}
             comparator="LE"
             hideAttributeName
+            hideComparator
             fixedComparator
           />
         </div>

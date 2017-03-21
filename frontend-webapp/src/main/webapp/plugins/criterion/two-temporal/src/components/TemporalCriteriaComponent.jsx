@@ -86,7 +86,7 @@ export class TemporalCriteriaComponent extends React.Component {
     console.log("PROPS",props)
     this.state = {
       value: undefined,
-      comparator: props.comparator || EnumTemporalComparator.IS,
+      comparator: props.comparator || EnumTemporalComparator.EQ,
     }
   }
 
@@ -97,7 +97,7 @@ export class TemporalCriteriaComponent extends React.Component {
    * @param {String} newValue The new value of the text field.
    */
   handleChangeDate = (event, newValue) => {
-    const { attribute, pluginInstanceId, onChange } = this.props
+    const { attribute, onChange } = this.props
     const { value, comparator } = this.state
 
     // Pick the time part from the time picker
@@ -143,7 +143,7 @@ export class TemporalCriteriaComponent extends React.Component {
     this.setState({
       comparator,
     })
-    onChange(attribute, value.toISOString(),comparator)
+    onChange(attribute, value ? value.toISOString(): null,comparator)
   }
 
   render() {
