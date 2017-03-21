@@ -25,6 +25,14 @@ export class NumericalComparatorComponent extends React.Component {
      * Init with a specific comparator set.
      */
     value: React.PropTypes.oneOf(keys(EnumNumericalComparator)),
+    /**
+     * Does the comparator is modifiable
+     */
+    fixedComparator : React.PropTypes.bool,
+  }
+
+  static defaultProps = {
+    fixedComparator: false,
   }
 
   constructor(props) {
@@ -54,7 +62,18 @@ export class NumericalComparatorComponent extends React.Component {
     })
   }
 
+  renderFixedComparator = () => {
+    return (
+      <div>
+        {EnumNumericalComparator[this.state.value]}
+      </div>
+    )
+  }
+
   render() {
+    if (this.props.fixedComparator){
+      return this.renderFixedComparator()
+    }
     return (
       <div>
         <RaisedButton

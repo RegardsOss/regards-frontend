@@ -20,24 +20,28 @@ export class NumericalCriteriaComponent extends React.Component {
     /**
      * Plugin identifier
      */
-    pluginInstanceId: React.PropTypes.string,
+    pluginInstanceId: React.PropTypes.string.isRequired,
     /**
      * Callback to change the current criteria values in form
      * Parameters :
      * criteria : an object like : {attribute:<AttributeModel>, comparator:<ComparatorEnumType>, value:<value>}
      * id: current plugin identifier
      */
-    onChange: React.PropTypes.func,
+    onChange: React.PropTypes.func.isRequired,
     /**
      * List of attributes associated to the plugin.
      * Keys of this object are the "name" props of the attributes defined in the plugin-info.json
      * Value of each keys are the attribute id (retrieved from the server) associated
      */
-    attribute: AttributeModel,
+    attribute: AttributeModel.isRequired,
     /**
      * Init with a specific comparator set.
      */
     comparator: React.PropTypes.oneOf(keys(EnumNumericalComparator)),
+    /**
+     * Does the comparator is modifiable
+     */
+    fixedComparator : React.PropTypes.bool,
     /**
      * If true, the attribute name, comparator and and field will be rendered in reversed order
      * Default to false.
@@ -53,6 +57,7 @@ export class NumericalCriteriaComponent extends React.Component {
   static defaultProps = {
     reversed: false,
     hideAttributeName: false,
+    fixedComparator: false,
   }
 
   constructor(props) {
@@ -70,7 +75,7 @@ export class NumericalCriteriaComponent extends React.Component {
    * @param {String} newValue The new value of the text field.
    */
   handleChangeValue = (event, newValue) => {
-    const { attribute, pluginInstanceId, onChange } = this.props
+    const { attribute, onChange } = this.props
     const { comparator } = this.state
 
     this.setState({
@@ -78,11 +83,7 @@ export class NumericalCriteriaComponent extends React.Component {
     })
 
     // Call the plugin's output callback
-    onChange({
-      attribute,
-      comparator,
-      value: newValue,
-    }, pluginInstanceId)
+    this.props.onChange(attribute,newValue,comparator)
   }
 
   /**
@@ -91,19 +92,14 @@ export class NumericalCriteriaComponent extends React.Component {
    * @param {String} comparator The new value of the comparator.
    */
   handleChangeComparator = (comparator) => {
-    const { attribute, pluginInstanceId, onChange } = this.props
+    const { attribute, onChange } = this.props
     const { value } = this.state
 
     this.setState({
       comparator,
     })
 
-    // Call the plugin's output callback
-    onChange({
-      attribute,
-      comparator,
-      value,
-    }, pluginInstanceId)
+    this.props.onChange(attribute,value,comparator)
   }
 
   /**
@@ -121,7 +117,7 @@ export class NumericalCriteriaComponent extends React.Component {
   format = value => value
 
   render() {
-    const { attribute, reversed, hideAttributeName } = this.props
+    const { attribute, reversed, hideAttributeName,fixedComparator } = this.props
     const { comparator } = this.state
 
     // Store the content in an array because we need to maybe reverse to order
@@ -132,6 +128,7 @@ export class NumericalCriteriaComponent extends React.Component {
         key="comparator"
         value={comparator}
         onChange={this.handleChangeComparator}
+        fixedComparator={this.props.fixedComparator}
       />,
     )
     content.push(

@@ -1,10 +1,11 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { chain, keys, uniqueId } from 'lodash'
-import { FormattedMessage } from 'react-intl'
+import {chain, keys, uniqueId, reduce} from 'lodash'
+import {FormattedMessage} from 'react-intl'
 import NumericalCriteriaComponent from './NumericalCriteriaComponent'
-import {AttributeModel} from '../common/AttributeModel'
+import {AttributeModel, getAttributeName} from '../common/AttributeModel'
+import EnumNumericalComparator from '../model/EnumNumericalComparator'
 
 /**
  * Component allowing the user to configure the numerical value of two different attributes with a mathematical comparator (=, >, <=, ...).
@@ -37,11 +38,67 @@ export class TwoNumericalCriteriaSimpleComponent extends React.Component {
     attributes: React.PropTypes.objectOf(AttributeModel),
   }
 
+  constructor(props) {
+    super(props)
+    const state = {}
+    state[props.attributes.firstField.name] = {
+      attribute: props.attributes.firstField,
+      value: null,
+      operator: EnumNumericalComparator.LE,
+    }
+    state[props.attributes.secondField.name] = {
+      attribute: props.attributes.secondField,
+      value: null,
+      operator: EnumNumericalComparator.LE,
+    }
+    this.state = state
+  }
+
+  changeValue = (attribute, value, operator) => {
+    const newState = Object.assign({}, this.state)
+    const newAttState = Object.assign({}, this.state[attribute.name])
+
+    newAttState.value = value
+    newAttState.operator = operator
+    newState[attribute.name] = newAttState
+
+    this.setState(newState)
+
+    const query = reduce(newState, (result, attValue, key) => {
+      let query = this.criteriaToOpenSearchFormat(attValue.attribute,attValue.value, attValue.operator)
+      if (result !== ''){
+        query = `${result} AND ${query}`
+      }
+      return query
+    },'')
+    this.props.onChange(query, this.props.pluginInstanceId)
+  }
+
+  criteriaToOpenSearchFormat = (attribute, value, operator) => {
+    console.log("NAME",getAttributeName(attribute))
+    let lvalue= value || '*'
+    let openSearchQuery = ''
+    switch (operator) {
+      case 'EQ' :
+        openSearchQuery = `${getAttributeName(attribute)}:${value}`
+        break
+      case 'LE' :
+        openSearchQuery = `${getAttributeName(attribute)}:[* TO ${lvalue}]`
+        break
+      case 'GE' :
+        openSearchQuery = `${getAttributeName(attribute)}:[${lvalue} TO *]`
+        break
+      default:
+        openSearchQuery = ''
+    }
+    return openSearchQuery
+  }
+
   render() {
-    const { attributes, pluginInstanceId, onChange } = this.props
+    const {attributes, pluginInstanceId, onChange} = this.props
 
     return (
-      <div style={{ display: 'flex' }}>
+      <div style={{display: 'flex'}}>
         <div
           style={{
             display: 'flex',
@@ -56,7 +113,9 @@ export class TwoNumericalCriteriaSimpleComponent extends React.Component {
                 key={attributeName} // eslint-disable-line react/no-array-index-key
                 attribute={attribute}
                 pluginInstanceId={pluginInstanceId}
-                onChange={onChange}
+                onChange={this.changeValue}
+                comparator={'LE'}
+                fixedComparator={false}
               />)
             .zip(new Array(keys(attributes).length).fill(<span key={uniqueId('react_generated_uuid_')}><FormattedMessage
               id="criterion.aggregator.text"
