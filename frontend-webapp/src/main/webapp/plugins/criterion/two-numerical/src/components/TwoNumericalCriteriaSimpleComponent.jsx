@@ -75,7 +75,6 @@ export class TwoNumericalCriteriaSimpleComponent extends React.Component {
   }
 
   criteriaToOpenSearchFormat = (attribute, value, operator) => {
-    console.log("NAME",getAttributeName(attribute))
     let lvalue= value || '*'
     let openSearchQuery = ''
     switch (operator) {
