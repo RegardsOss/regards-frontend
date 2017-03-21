@@ -13,8 +13,6 @@ const microserviceManagementStyles = theme => ({
   plugins: {
     root: {
       position: 'relative',
-      height: 600,
-      overflowY: 'auto',
     },
     grid: {
       display: 'flex',
@@ -34,8 +32,6 @@ const microserviceManagementStyles = theme => ({
     root: {
       position: 'relative',
       padding: '0px 20px 20px 20px',
-      maxHeight: 600,
-      overflowY: 'auto',
     },
     card: {
       margin: '0px 0px',
