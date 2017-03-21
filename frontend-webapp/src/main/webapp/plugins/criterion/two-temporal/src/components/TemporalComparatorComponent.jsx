@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { map } from 'lodash'
+import { map, values } from 'lodash'
 import IconMenu from 'material-ui/IconMenu'
 import MenuItem from 'material-ui/MenuItem'
 import IconButton from 'material-ui/IconButton'
@@ -26,14 +26,14 @@ export class TemporalComparatorComponent extends React.Component {
     /**
      * Optionally init with a specific value
      */
-    value: React.PropTypes.oneOf(EnumTemporalComparator),
+    value: React.PropTypes.oneOf(values(EnumTemporalComparator)),
   }
 
   constructor(props) {
     super(props)
     this.state = {
       openMenu: false,
-      value: props.value || EnumTemporalComparator[0],
+      value: props.value || EnumTemporalComparator.EQ,
     }
   }
 
@@ -56,13 +56,11 @@ export class TemporalComparatorComponent extends React.Component {
     })
   }
 
-  format = value => <FormattedMessage id={`criterion.comparator.${value}`} />
-
   render() {
     return (
       <div>
         <RaisedButton
-          label={this.format(this.state.value)}
+          label={this.state.value}
           onTouchTap={this.handleOpenMenu}
         />
         <IconMenu
@@ -78,7 +76,7 @@ export class TemporalComparatorComponent extends React.Component {
                 display: 'flex',
                 textTransform: 'uppercase',
                 justifyContent: 'center',
-              }} key={value} primaryText={this.format(value)} value={value}
+              }} key={value} primaryText={value} value={value}
             />
           ))}
         </IconMenu>

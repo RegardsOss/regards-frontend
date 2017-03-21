@@ -44,10 +44,6 @@ export class TwoTemporalCriteriaComponent extends React.Component {
     this.state = {
       // Switch to composed mode if only one attribute passed
       isComposed: chain(props.attributes).map('name').uniq().value().length === 1,
-      criteria: mapValues(props.attributes, el => ({
-        value: undefined,
-        comparator: 'EQ',
-      })),
     }
   }
 

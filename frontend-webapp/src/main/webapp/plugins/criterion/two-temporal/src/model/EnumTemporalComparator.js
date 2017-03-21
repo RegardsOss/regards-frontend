@@ -1,9 +1,8 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-export default [
-  'before',
-  'after',
-  'is',
-  'isnot',
-]
+export default {
+  LE: '<=',
+  GE: '>=',
+  EQ: '=',
+}

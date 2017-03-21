@@ -14,11 +14,7 @@ const messages = {
   'criterion.time.picker.ok': 'Ok',
   'criterion.time.picker.cancel': 'Cancel',
 
-  'criterion.comparator.before': 'before',
-  'criterion.comparator.after': 'after',
-  'criterion.comparator.is': 'equal to',
-  'criterion.comparator.isnot': 'different from',
-
+  'criterion.aggregator.between': 'between',
   'criterion.aggregator.is': ' is ',
   'criterion.aggregator.and': 'and',
 }

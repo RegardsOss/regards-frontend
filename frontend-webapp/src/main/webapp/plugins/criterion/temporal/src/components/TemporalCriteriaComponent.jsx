@@ -60,7 +60,7 @@ export class TemporalCriteriaComponent extends React.Component {
     super(props)
     this.state = {
       value: undefined,
-      comparator: 'is',
+      comparator: EnumTemporalComparator.IS,
     }
   }
 

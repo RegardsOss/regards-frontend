@@ -56,13 +56,11 @@ export class TemporalComparatorComponent extends React.Component {
     })
   }
 
-  format = value => <FormattedMessage id={`criterion.comparator.${value}`} />
-
   render() {
     return (
       <div>
         <RaisedButton
-          label={this.format(this.state.value)}
+          label={this.state.value}
           onTouchTap={this.handleOpenMenu}
         />
         <IconMenu
@@ -78,7 +76,7 @@ export class TemporalComparatorComponent extends React.Component {
                 display: 'flex',
                 textTransform: 'uppercase',
                 justifyContent: 'center',
-              }} key={value} primaryText={this.format(value)} value={value}
+              }} key={value} primaryText={value} value={value}
             />
           ))}
         </IconMenu>

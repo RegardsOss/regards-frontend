@@ -62,18 +62,30 @@ export class TwoNumericalCriteriaSimpleComponent extends React.Component {
     newAttState.operator = operator
     newState[attribute.name] = newAttState
 
+    // Update state to save the new value
     this.setState(newState)
 
+    // Update query and send change to the plugin handler
     const query = reduce(newState, (result, attValue, key) => {
-      let query = this.criteriaToOpenSearchFormat(attValue.attribute,attValue.value, attValue.operator)
-      if (result !== ''){
-        query = `${result} AND ${query}`
+      let query = result
+      if (attribute,attValue) {
+        query = this.criteriaToOpenSearchFormat(attValue.attribute, attValue.value, attValue.operator)
+        if (result !== '' && query !== '') {
+          query = `${result} AND ${query}`
+        }
       }
       return query
     },'')
     this.props.onChange(query, this.props.pluginInstanceId)
   }
 
+  /**
+   * Format criterion to openSearch format for plugin handler
+   * @param attribute
+   * @param value
+   * @param operator
+   * @returns {string}
+   */
   criteriaToOpenSearchFormat = (attribute, value, operator) => {
     let lvalue= value || '*'
     let openSearchQuery = ''
