@@ -24,6 +24,7 @@
       "id": 0,
       "name": "language",
       "description": "Language for movies",
+      "label": "Language",
       "defaultValue": null,
       "type": "STRING",
       "unit": null,
@@ -41,6 +42,7 @@
     {
       "id": 1,
       "name": "format",
+      "label": "Format du support",
       "description": "Format for movies",
       "defaultValue": null,
       "type": "STRING",

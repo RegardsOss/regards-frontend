@@ -168,7 +168,7 @@ class SearchResultsComponent extends React.Component {
         const attribute = find(this.props.attributeModels, att => att.content.id === attributeConf.id)
         if (attribute) {
           columns.push({
-            label: attribute.content.name,
+            label: attribute.content.label,
             attributes: [this.getFullyQualifiedAttributeName(attribute)],
             sortable: true,
           })

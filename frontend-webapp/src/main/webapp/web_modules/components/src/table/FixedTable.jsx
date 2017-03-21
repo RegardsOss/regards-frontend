@@ -127,6 +127,7 @@ class FixedTable extends React.Component {
       // No custom component, render attribute as a string.
       let resultValue = ''
       for (i = 0; i < column.attributes.length; i += 1) {
+        console.log("PLOP")
         const attrValue = reduce(split(column.attributes[i], '.'), (result, value, key) => result[value], entity.content)
         if (entity.content[column.attributes[i]]) {
           resultValue += ` ${attrValue}`
