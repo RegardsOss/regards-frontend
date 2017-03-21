@@ -4,10 +4,10 @@
 import map from 'lodash/map'
 import forEach from 'lodash/forEach'
 import IconButton from 'material-ui/IconButton'
-import {themeContextType} from '@regardsoss/theme'
-import {i18nContextType} from '@regardsoss/i18n'
-import {HateoasDisplayDecorator, someMatchHateoasDisplayLogic} from '@regardsoss/display-control'
-import {Link} from 'react-router'
+import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
+import { HateoasDisplayDecorator, someMatchHateoasDisplayLogic } from '@regardsoss/display-control'
+import { Link } from 'react-router'
 import BoardItemShape from './BoardItemShape'
 import styles from './styles/styles'
 import BaseBoardItemComponent from './BaseBoardItemComponent'
@@ -30,7 +30,7 @@ class BoardItemComponent extends React.Component {
   }
 
   renderActionButton = (action) => {
-    if (action.customRender){
+    if (action.customRender) {
       return action.customRender
     }
     return (<IconButton
@@ -42,7 +42,7 @@ class BoardItemComponent extends React.Component {
   }
 
   render() {
-    const {item} = this.props
+    const { item } = this.props
     const computedStyles = styles(this.context.muiTheme)
     const actions = map(item.actions, (action, index) => (
       <HateoasDisplayDecorator

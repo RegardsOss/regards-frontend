@@ -29,7 +29,7 @@ class HateoasIconAction extends React.Component {
         />
       )
     }
-    return <span/>
+    return <span />
   }
 
   render() {

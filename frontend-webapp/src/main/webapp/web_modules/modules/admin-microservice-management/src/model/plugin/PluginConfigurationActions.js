@@ -20,8 +20,8 @@ class PluginConfigurationActions extends BasicPageableActions {
 
   getMsDependency = (verb, microserviceName) => {
     let dependency = this.getDependency(verb)
-    dependency = replace(dependency,'{microserviceName}',microserviceName)
-    console.log("DEP",dependency)
+    dependency = replace(dependency, '{microserviceName}', microserviceName)
+    console.log('DEP', dependency)
     return dependency
   }
 }

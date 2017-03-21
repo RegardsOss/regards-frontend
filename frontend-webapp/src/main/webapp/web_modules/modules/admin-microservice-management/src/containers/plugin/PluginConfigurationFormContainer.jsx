@@ -34,7 +34,7 @@ export class PluginConfigurationFormContainer extends React.Component {
     currentPluginConfiguration: PluginConfiguration,
     isPluginConfigurationFetching: React.PropTypes.bool,
     // from mapDispatchToProps
-    fetchPluginConfigurationList: React.PropTypes.func,
+    fetchPluginConfiguration: React.PropTypes.func,
     createPluginConfiguration: React.PropTypes.func,
     updatePluginConfiguration: React.PropTypes.func,
     fetchPluginMetaDataList: React.PropTypes.func,
@@ -59,7 +59,7 @@ export class PluginConfigurationFormContainer extends React.Component {
     const { params: { pluginId, pluginConfigurationId, microserviceName } } = this.props
 
     this.props.fetchPluginMetaDataList(microserviceName)
-    //this.props.fetchPluginConfigurationList(microserviceName)
+    // this.props.fetchPluginConfigurationList(microserviceName)
     this.props.fetchPluginConfiguration(pluginConfigurationId, pluginId, microserviceName)
   }
 
@@ -146,7 +146,7 @@ const mapDispatchToProps = dispatch => ({
   fetchPluginMetaDataList: microserviceName => dispatch(PluginMetaDataActions.fetchPagedEntityList(0, 100, {
     microserviceName,
   })),
-  fetchPluginConfiguration: (pluginConfId, pluginId,microserviceName) => dispatch(PluginConfigurationActions.fetchEntity(pluginConfId,{
+  fetchPluginConfiguration: (pluginConfId, pluginId, microserviceName) => dispatch(PluginConfigurationActions.fetchEntity(pluginConfId, {
     microserviceName,
     pluginId,
   })),

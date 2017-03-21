@@ -6,7 +6,6 @@ import AttributeModelActions from './models/attributes/AttributeModelActions'
 import DatasetActions from './models/datasets/DatasetActions'
 import DatasetModelActions from './models/datasets/DatasetModelActions'
 import CriterionActions from './models/criterion/CriterionActions'
-import DatasetSelectionType from './models/datasets/DatasetSelectionTypes'
 
 /**
  * Dependencies needed to display user page of the module

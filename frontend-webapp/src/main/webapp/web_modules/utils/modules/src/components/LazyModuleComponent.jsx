@@ -131,11 +131,18 @@ class LazyModuleComponent extends React.Component {
       // Display module with admin or normal container ?
       let moduleDependencies = []
       if (this.props.admin && module.adminContainer) {
-        moduleElt = React.createElement(module.adminContainer, merge({}, defaultModuleProps, { moduleConf: this.props.module.conf }, { adminForm: this.props.adminForm }))
+        moduleElt = React.createElement(module.adminContainer, merge({}, defaultModuleProps,
+          {
+            moduleConf: this.props.module.conf,
+            description: this.props.module.description,
+          }, { adminForm: this.props.adminForm }))
         moduleDependencies = (module && module.dependencies && module.dependencies.admin) || []
       } else if (!this.props.admin && module.moduleContainer) {
         moduleDependencies = (module && module.dependencies && module.dependencies.user) || []
-        const moduleProps = merge({}, defaultModuleProps, { moduleConf: this.props.module.conf })
+        const moduleProps = merge({}, defaultModuleProps, {
+          moduleConf: this.props.module.conf,
+          description: this.props.module.description,
+        })
         moduleElt = React.createElement(module.moduleContainer, moduleProps)
       }
 

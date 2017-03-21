@@ -10,7 +10,7 @@ import PluginConfigurationNetworkDump from './dump/PluginConfigurationNetworkDum
 
 const backendServerResultList = PluginConfigurationNetworkDump
 const options = {
-  urlParams: { microserviceName: 'rs-dam' },
+  urlParams: { microserviceName: 'rs-dam', pluginId: '0' },
 }
 
 const entityTester = new ReduxEntityTester(PluginConfigurationActions, PluginConfigurationReducers, PluginConfigurationSelectors, React.PropTypes.objectOf(PluginConfiguration).isRequired, backendServerResultList, options)

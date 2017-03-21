@@ -36,6 +36,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing plugin configuration component', ()
           active: false,
           pluginClassName: 'Kerberos',
         },
+        links: [],
       },
       onActiveToggle: () => {},
       onCopyClick: () => {},

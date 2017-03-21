@@ -51,7 +51,6 @@ export class PortalApp extends React.Component {
     this.props.fetchEndpoints()
     this.props.fetchLayout()
     this.props.fetchModules()
-
   }
 
   /**

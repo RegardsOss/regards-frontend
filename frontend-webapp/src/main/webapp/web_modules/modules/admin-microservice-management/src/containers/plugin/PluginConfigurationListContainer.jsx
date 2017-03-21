@@ -83,7 +83,7 @@ export class PluginConfigurationListContainer extends React.Component {
             iconElementLeft={<IconButton onTouchTap={this.handleBackClick}><ArrowBack /></IconButton>}
             iconElementRight={
               <HateoasIconAction
-                hateoasDependency={PluginConfigurationActions.getMsDependency(RequestVerbEnum.POST,microserviceName)}
+                hateoasDependency={PluginConfigurationActions.getMsDependency(RequestVerbEnum.POST, microserviceName)}
                 tooltip={<FormattedMessage id="microservice-management.plugin.configuration.list.add" />}
                 onTouchTap={this.handleAddClick}
               >

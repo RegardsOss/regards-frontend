@@ -15,14 +15,14 @@ class SetMaintenanceModeActions extends BasicSignalActions {
 
   getActivateDependency = () => {
     let dependency = this.getDependency(RequestVerbEnum.PUT)
-    dependency = replace(dependency,'{microservice}',this.microserviceName)
-    return replace(dependency,'{action}','activate')
+    dependency = replace(dependency, '{microservice}', this.microserviceName)
+    return replace(dependency, '{action}', 'activate')
   }
 
   getDesactivateDependency = () => {
     let dependency = this.getDependency(RequestVerbEnum.PUT)
-    dependency = replace(dependency,'{microservice}',this.microserviceName)
-    return replace(dependency,'{action}','desactivate')
+    dependency = replace(dependency, '{microservice}', this.microserviceName)
+    return replace(dependency, '{action}', 'desactivate')
   }
 
 }
