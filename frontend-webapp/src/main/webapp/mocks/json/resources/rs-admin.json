@@ -739,6 +739,20 @@
       "microservice": "rs-admin",
       "resource": "/projects",
       "verb": "GET"
+    },
+    {
+      "id": 59,
+      "description": "Run entity search",
+      "microservice": "rs-catalog",
+      "resource": "/dataobjects/datasets/search",
+      "verb": "GET"
+    },
+    {
+      "id": 60,
+      "description": "Run entity search",
+      "microservice": "rs-catalog",
+      "resource": "/dataobjects/search",
+      "verb": "GET"
     }
   ]
 }

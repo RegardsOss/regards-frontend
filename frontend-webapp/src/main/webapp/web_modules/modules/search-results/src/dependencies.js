@@ -2,7 +2,8 @@
  * LICENSE_PLACEHOLDER
  **/
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import CatalogEntityActions from './models/catalog/CatalogEntityActions'
+import CatalogDatasetEntityActions from './models/catalog/CatalogDatasetEntityActions'
+import CatalogDataobjectEntityActions from './models/catalog/CatalogDataobjectEntityActions'
 import AttributeModelActions from './models/attributes/AttributeModelActions'
 
 /**
@@ -10,7 +11,8 @@ import AttributeModelActions from './models/attributes/AttributeModelActions'
  * @author Sébastien binda
  */
 const user = [
-  CatalogEntityActions.getDependency(RequestVerbEnum.GET_LIST),
+  CatalogDatasetEntityActions.getDependency(RequestVerbEnum.GET_LIST),
+  CatalogDataobjectEntityActions.getDependency(RequestVerbEnum.GET_LIST),
 ]
 /**
  * Dependencies needed to display admin page of the module

@@ -3,7 +3,7 @@
  **/
 import { BasicFacetsPageableReducers } from '@regardsoss/store-utils'
 import { EntityConfiguration } from '@regardsoss/api'
-import CatalogEntityActions from './CatalogEntityActions'
+import CatalogDataobjectEntityActions from './CatalogDataobjectEntityActions'
 
 /**
  * Redux store reducer for Module entities
@@ -11,7 +11,7 @@ import CatalogEntityActions from './CatalogEntityActions'
  */
 class CatalogEntityReducer extends BasicFacetsPageableReducers {
   constructor() {
-    super(EntityConfiguration, CatalogEntityActions)
+    super(EntityConfiguration, CatalogDataobjectEntityActions)
   }
 
 }

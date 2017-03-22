@@ -262,8 +262,8 @@ class ModuleContainer extends React.Component {
         applicationId: this.props.appName,
         conf: {
           resultType: this.props.moduleConf.resultType,
-          attributesConf: this.props.moduleConf.attributes,
-          attributesRegroupementsConf: this.props.moduleConf.attributesRegroupements,
+          attributes: this.props.moduleConf.attributes,
+          attributesRegroupements: this.props.moduleConf.attributesRegroupements,
           selectableAttributes: this.props.attributeModels,
           enableFacettes: this.props.moduleConf.enableFacettes,
           searchQuery: this.state.searchQuery,

@@ -9,10 +9,10 @@ import find from 'lodash/find'
 import forEach from 'lodash/forEach'
 import values from 'lodash/values'
 import remove from 'lodash/remove'
-import { browserHistory } from 'react-router'
-import { Card, CardMedia } from 'material-ui/Card'
-import { LazyModuleComponent } from '@regardsoss/modules'
-import { FixedTableContainer, ShowableAtRender } from '@regardsoss/components'
+import {browserHistory} from 'react-router'
+import {Card, CardMedia} from 'material-ui/Card'
+import {LazyModuleComponent} from '@regardsoss/modules'
+import {FixedTableContainer, ShowableAtRender} from '@regardsoss/components'
 import {
   AttributeModel,
   AttributeConfiguration,
@@ -20,7 +20,8 @@ import {
   SearchResultsTargetsEnum,
 } from '@regardsoss/model'
 import CatalogEntitySelector from '../../models/catalog/CatalogEntitySelector'
-import CatalogEntityActions from '../../models/catalog/CatalogEntityActions'
+import CatalogDataobjectEntityActions from '../../models/catalog/CatalogDataobjectEntityActions'
+import CatalogDatasetEntityActions from '../../models/catalog/CatalogDatasetEntityActions'
 import NavigationComponent from './NavigationComponent'
 import ThumbmailCellComponent from './ThumbmailCellComponent'
 import DatasetCellComponent from './DatasetCellComponent'
@@ -43,6 +44,7 @@ class SearchResultsComponent extends React.Component {
     project: React.PropTypes.string,
     enableFacettes: React.PropTypes.bool.isRequired,
     searchQuery: React.PropTypes.string,
+    facettesQuery: React.PropTypes.string,
     attributesConf: React.PropTypes.arrayOf(AttributeConfiguration),
     attributesRegroupementsConf: React.PropTypes.arrayOf(AttributesRegroupementConfiguration),
     attributeModels: React.PropTypes.objectOf(AttributeModel),
@@ -75,7 +77,7 @@ class SearchResultsComponent extends React.Component {
     const queries = browserHistory.getCurrentLocation().query
     browserHistory.push({
       pathname: browserHistory.getCurrentLocation().pathname,
-      query: merge({}, queries, { t: target }),
+      query: merge({}, queries, {t: target}),
     })
     this.setState({
       target,
@@ -109,8 +111,11 @@ class SearchResultsComponent extends React.Component {
    * @returns {string}
    */
   getFullQuery = () => {
+
+    // Get query with search parameters
     let fullQuery = this.props.searchQuery ? this.props.searchQuery : ''
 
+    // If any dataset is associated to the current search, add there urn into tags property
     if (this.state.selectedDataset) {
       if (fullQuery !== '') {
         fullQuery = `${fullQuery} AND tags:${this.state.selectedDataset.content.ip_id}`
@@ -122,23 +127,30 @@ class SearchResultsComponent extends React.Component {
       fullQuery = this.formatSearchQuery(fullQuery)
     }
 
+    // If the search need to be sorted, add sort parameters
     if (this.state.sortedColumns.length > 0) {
-      const result = reduce(this.state.sortedColumns, (sortQuery, column) => {
-        if (column.type === null) {
-          return sortQuery
+      const fullSortQuery = reduce(this.state.sortedColumns, (sortQuery, column) => {
+        if (column.attribute) {
+          sortQuery = `${sortQuery}&sort=${column.attribute}`
+          if (column.type) {
+            sortQuery = `${sortQuery},${column.type}`
+          }
         }
-        if (sortQuery.length > 0) {
-          return `${sortQuery}&${column.attribute}:${column.type}`
-        }
-        return `${column.attribute}:${column.type}`
+        return sortQuery
       }, '')
-      if (result.length > 0) {
-        fullQuery = `${fullQuery}&sort=(${result})`
+
+
+      if (fullSortQuery.length > 0) {
+        fullQuery = `${fullQuery}${fullSortQuery}`
       }
     }
 
-    fullQuery = `${fullQuery}&target=${this.state.target}`
+    // If there is facets to generate add them
+    if (this.props.facettesQuery) {
+      fullQuery = `${fullQuery}&${this.props.facettesQuery}`
+    }
 
+    // return full query
     return fullQuery
   }
 
@@ -155,12 +167,12 @@ class SearchResultsComponent extends React.Component {
     columns.push({
       label: 'Image',
       attributes: ['files'],
-      customCell: { component: ThumbmailCellComponent, props: {} },
+      customCell: {component: ThumbmailCellComponent, props: {}},
       fixed: 40,
       hideLabel: true,
     })
-    columns.push({ label: 'Identifier', attributes: ['ip_id'] })
-    columns.push({ label: 'Label', attributes: ['label'], sortable: true })
+    columns.push({label: 'Identifier', attributes: ['ip_id']})
+    columns.push({label: 'Label', attributes: ['label'], sortable: true})
 
     // Read module configuration to get attributes to display
     forEach(this.props.attributesConf, (attributeConf) => {
@@ -208,7 +220,7 @@ class SearchResultsComponent extends React.Component {
       label: 'Label',
       attributes: ['label', 'ip_id', 'properties'],
       sortable: false,
-      customCell: { component: DatasetCellComponent, props: { onClick: this.selectDataset } },
+      customCell: {component: DatasetCellComponent, props: {onClick: this.selectDataset}},
       hideLabel: true,
     })
     return columns
@@ -271,7 +283,7 @@ class SearchResultsComponent extends React.Component {
       this.onChangeTarget(query.t)
     }
     if (!query.ds && this.state.selectedDataset) {
-      this.setState({ selectedDataset: null })
+      this.setState({selectedDataset: null})
     }
   }
 
@@ -287,7 +299,7 @@ class SearchResultsComponent extends React.Component {
     if (dataset && dataset.content && dataset.content.ip_id) {
       browserHistory.push({
         pathname: browserHistory.getCurrentLocation().pathname,
-        query: merge({}, queries, { ds: dataset.content.ip_id }),
+        query: merge({}, queries, {ds: dataset.content.ip_id}),
       })
     } else {
       browserHistory.push({
@@ -318,14 +330,14 @@ class SearchResultsComponent extends React.Component {
       case SearchResultsTargetsEnum.DATASET_RESULTS:
         columns = this.getDataSetsColumns()
         lineSize = 120
-        cellsStyle = { backgroundColor: 'transparent' }
+        cellsStyle = {backgroundColor: 'transparent'}
         break
       default:
         console.error(`Undefined target type for entity search results : ${this.state.target}`)
     }
 
-    const { target, selectedDataset, showingFacetsSearch } = this.state
-    const { appName, project, enableFacettes } = this.props
+    const {target, selectedDataset, showingFacetsSearch} = this.state
+    const {appName, project, enableFacettes} = this.props
     const searchFacetsModule = {
       name: 'search-facets',
       active: true,
@@ -335,6 +347,8 @@ class SearchResultsComponent extends React.Component {
         resultsSelectors: CatalogEntitySelector,
       },
     }
+
+    const entityAction = target === SearchResultsTargetsEnum.DATAOBJECT_RESULTS ? CatalogDataobjectEntityActions : CatalogDatasetEntityActions
 
     return (
       <Card>
@@ -357,7 +371,7 @@ class SearchResultsComponent extends React.Component {
           </ShowableAtRender>
           <FixedTableContainer
             key={target}
-            PageActions={CatalogEntityActions}
+            PageActions={entityAction}
             PageSelector={CatalogEntitySelector}
             pageSize={20}
             lineHeight={lineSize}
@@ -366,7 +380,7 @@ class SearchResultsComponent extends React.Component {
             columns={columns}
             onSelectionChange={this.resultSelection}
             onSortByColumn={this.sortResultsByColumn}
-            requestParams={{ queryParams: this.getFullQuery() }}
+            requestParams={{queryParams: this.getFullQuery()}}
             cellsStyle={cellsStyle}
           />
         </CardMedia>
