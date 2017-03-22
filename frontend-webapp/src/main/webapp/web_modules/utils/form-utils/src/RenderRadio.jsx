@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { RadioButtonGroup } from 'material-ui/RadioButton'
 import { themeContextType } from '@regardsoss/theme'
 

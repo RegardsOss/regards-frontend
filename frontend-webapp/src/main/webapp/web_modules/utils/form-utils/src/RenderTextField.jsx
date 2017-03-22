@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import TextField from 'material-ui/TextField'
 
 class renderTextField extends React.Component {

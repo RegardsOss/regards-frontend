@@ -53,9 +53,10 @@ describe('[ADMIN DATASET MANAGEMENT] Testing DatasetFormAttributesComponent', ()
       invalid: false,
       handleSubmit: () => {},
       initialize: () => {},
+      change: () => {},
     }
     const enzymeWrapper = shallow(<DatasetFormAttributesComponent {...props} />, { context })
     expect(enzymeWrapper.find(TableRow)).to.have.length(3)
-    expect(enzymeWrapper.find(Field)).to.have.length(4)
+    expect(enzymeWrapper.find(Field)).to.have.length(6)
   })
 })

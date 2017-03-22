@@ -91,6 +91,7 @@ export class AttributeModelFormComponent extends React.Component {
       const { currentAttrModel } = this.props
       let initialValues = {
         name: currentAttrModel.content.name,
+        label: currentAttrModel.content.label,
         type: currentAttrModel.content.type,
         fragment: currentAttrModel.content.fragment.id,
         description: currentAttrModel.content.description,
@@ -169,6 +170,13 @@ export class AttributeModelFormComponent extends React.Component {
                 label={<FormattedMessage id="attrmodel.form.name" />}
               />
             </ShowableAtRender>
+            <Field
+              name="label"
+              fullWidth
+              component={RenderTextField}
+              type="text"
+              label={<FormattedMessage id="attrmodel.form.label" />}
+            />
             <Field
               name="description"
               fullWidth

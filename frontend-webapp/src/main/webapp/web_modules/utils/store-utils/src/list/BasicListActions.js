@@ -2,6 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { normalize } from 'normalizr'
+import { forEach } from 'lodash'
 import BasicActions from '../BasicActions'
 
 const { CALL_API, getJSON } = require('redux-api-middleware')
@@ -164,6 +165,67 @@ class BasicListActions extends BasicActions {
   }
 
   /**
+   * Allows to send multiple objects on the same time
+   * Requires that the API send back a new entity
+   * @param objectValues Object containing key - values with key expected by the API and value an object, a string,...
+   * @param files Object containing key - values with key expected by the API and value a file
+   * @param pathParams
+   * @param queryParams
+   * @returns {{}}
+   */
+  createEntityUsingMultiPart(objectValues, files, pathParams, queryParams) {
+    let endpoint = this.handleRequestQueryParams(this.entityEndpoint, queryParams)
+    endpoint = this.handleRequestPathParameters(endpoint, pathParams)
+    const formData = BasicListActions.createFormData(objectValues, files)
+    return {
+      [CALL_API]: {
+        types: [
+          this.CREATE_ENTITY_REQUEST,
+          {
+            type: this.CREATE_ENTITY_SUCCESS,
+            payload: (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntityPayload(json)),
+          },
+          this.buildFailureAction(this.CREATE_ENTITY_FAILURE),
+        ],
+        endpoint,
+        method: 'POST',
+        body: formData,
+      },
+    }
+  }
+
+  /**
+   * Allows to send multiple objects on the same time
+   * Requires that the API send back the updated entity
+   * @param objectValues Object containing key - values with key expected by the API and value an object, a string,...
+   * @param files Object containing key - values with key expected by the API and value a file
+   * @param pathParams
+   * @param queryParams
+   * @returns {{}}
+   */
+  updateEntityUsingMultiPart(keyValue, objectValues, files, pathParams, queryParams) {
+    let endpoint = this.handleRequestPathParameters(this.entityEndpoint, pathParams)
+    endpoint = `${endpoint}/${keyValue}`
+    endpoint = this.handleRequestQueryParams(endpoint, queryParams)
+    const formData = BasicListActions.createFormData(objectValues, files)
+    return {
+      [CALL_API]: {
+        types: [
+          this.UPDATE_ENTITY_REQUEST,
+          {
+            type: this.UPDATE_ENTITY_SUCCESS,
+            payload: (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntityPayload(json)),
+          },
+          this.buildFailureAction(this.UPDATE_ENTITY_FAILURE),
+        ],
+        endpoint,
+        method: 'PUT',
+        body: formData,
+      },
+    }
+  }
+
+  /**
       * Extracts paylod from action result
       * @param res action result
       * @param normalizer function to normalize, (js ojbect) => (normalizedJsObject)
@@ -191,6 +253,33 @@ class BasicListActions extends BasicActions {
     return normalize(json, this.schemaTypes.ENTITY)
   }
 
+  static createFormData(objectValues, files) {
+    const formData = new FormData()
+    // Handle object values
+    forEach(objectValues, (value, key) => {
+      if (typeof value === 'object') {
+        // This is an object that we need to stringify
+        formData.append(key,
+          new Blob(
+            [JSON.stringify(value)],
+            {
+              type: 'application/json',
+            },
+          ),
+        )
+      } else {
+        formData.append(key, value)
+      }
+    })
+    // Handle files
+    forEach(files, (value, key) => {
+      if (typeof value === 'object') {
+        // This is an image
+        formData.append(key, value)
+      }
+    })
+    return formData
+  }
 }
 
 export default BasicListActions
