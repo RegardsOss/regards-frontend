@@ -7,7 +7,7 @@ import { stub } from 'sinon'
 import { IntlStub } from '@regardsoss/tests-helpers'
 import { ShowableAtRender } from '@regardsoss/components'
 import { BasicFacetsPageableSelectors } from '@regardsoss/store-utils'
-import ModuleContainer from '../../src/containers/ModuleContainer'
+import { ModuleContainer } from '../../src/containers/ModuleContainer'
 
 import styles from '../../src/styles/styles'
 
@@ -39,6 +39,10 @@ describe('[ SEARCH FACETS ] Testing ModuleContainer', () => {
       appName: 'any',
       project: 'any',
       moduleConf: {
+        onFiltersChanged: React.PropTypes.func.isRequired,
+        facetLabels: {},
+        filters: [],
+        attributeModels: {},
         show: true,
         resultsSelectors: new BasicFacetsPageableSelectors(),
       },

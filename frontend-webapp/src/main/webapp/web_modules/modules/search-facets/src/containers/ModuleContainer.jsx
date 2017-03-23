@@ -2,15 +2,20 @@
  * LICENSE_PLACEHOLDER
  **/
 import filter from 'lodash/filter'
+import find from 'lodash/find'
+import { connect } from '@regardsoss/redux'
 import { ShowableAtRender } from '@regardsoss/components'
 import { BasicFacetsPageableSelectors } from '@regardsoss/store-utils'
-import ModuleContentContainer from './ModuleContentContainer'
+import { AttributeModel } from '@regardsoss/model'
+import ModuleContentComponent from '../components/ModuleContentComponent'
+import { FacetArray } from '../model/FacetShape'
+import { filterListShape } from '../model/FilterShape'
 
 /**
  * Display the search facets content (mount / unmount children as the show property changes,
  * but alway stays mounted to keep a valid historical state)
  */
-class ModuleContainer extends React.Component {
+export class ModuleContainer extends React.Component {
 
   static propTypes = {
     // eslint-disable-next-line react/no-unused-prop-types
@@ -18,9 +23,15 @@ class ModuleContainer extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     project: React.PropTypes.string,
     moduleConf: React.PropTypes.shape({
+      onFiltersChanged: React.PropTypes.func.isRequired,
+      filters: filterListShape.isRequired,
       show: React.PropTypes.bool.isRequired,
       resultsSelectors: React.PropTypes.instanceOf(BasicFacetsPageableSelectors).isRequired,
-    }),
+      attributeModels: React.PropTypes.objectOf(AttributeModel).isRequired,
+    }).isRequired,
+    // from map state to props
+    facets: FacetArray.isRequired,
+    facetLabels: React.PropTypes.objectOf(React.PropTypes.string).isRequired,
   }
 
   componentWillMount = () => {
@@ -30,7 +41,7 @@ class ModuleContainer extends React.Component {
     })
   }
 
-  getFiltersWithout = filterKey => filter(this.state.filters, ({ filterKey: currentFilterKey }) => currentFilterKey !== filterKey)
+  getFiltersWithout = filterKey => filter(this.props.moduleConf.filters, ({ filterKey: currentFilterKey }) => currentFilterKey !== filterKey)
 
 
   /**
@@ -47,22 +58,21 @@ class ModuleContainer extends React.Component {
    * Updates filters list
    */
   updateFilters = (filters) => {
-    // TODO call open search API after collecting new filters
-    this.setState({ filters })
+    // dispatch to table
+    this.props.moduleConf.onFiltersChanged(filters)
   }
 
   /**
    * @returns {React.Component}
    */
   render() {
-    const { moduleConf: { show, resultsSelectors } } = this.props
-    const { filters } = this.state
-    // onApplyFacet={this.applyFacet}
+    const { facets, facetLabels, moduleConf: { show, filters } } = this.props
     return (
       <ShowableAtRender show={show}>
-        <ModuleContentContainer
+        <ModuleContentComponent
+          facets={facets}
           filters={filters}
-          resultsSelectors={resultsSelectors}
+          facetLabels={facetLabels}
           applyFilter={this.applyFilter}
           deleteFilter={this.deleteFilter}
         />
@@ -71,4 +81,31 @@ class ModuleContainer extends React.Component {
   }
 }
 
-export default ModuleContainer
+const findFacetLabel = (facetNamePath, attributeModels) => {
+  // []
+  // content >> fragment >> name ("default" par exemple)
+  // content >> name
+  const [searchedFragmentName, searchAttributeName] = facetNamePath.split('.').map(a => a.toLowerCase())
+  const foundAttribute = find(attributeModels, ({ content: { name, fragment } }) => searchAttributeName === name && searchedFragmentName === fragment.name)
+
+  return foundAttribute ? foundAttribute.content.label : facetNamePath
+}
+
+const mapStateToProps = (state, { moduleConf: { resultsSelectors, facets, facetLabels, attributeModels } }) => {
+  const nextFacets = resultsSelectors.getFacets(state) || []
+  if (nextFacets === facets) {
+    // no change store, avoid updating references
+    return { facets, facetLabels }
+  }
+
+  // build facet labels list
+  return {
+    facets: nextFacets,
+    facetLabels: nextFacets.reduce((labels, { attributeName }) => ({
+      [attributeName]: findFacetLabel(attributeName, attributeModels),
+      ...labels,
+    }), {}),
+  }
+}
+
+export default connect(mapStateToProps)(ModuleContainer)

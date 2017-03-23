@@ -11,6 +11,7 @@ import FacetSelectorComponent from './FacetSelectorComponent'
 class NumberRangeFacetSelectorComponent extends React.Component {
 
   static propTypes = {
+    label: React.PropTypes.string,
     // eslint-disable-next-line
     facet: NumberRangeFacet.isRequired, // seriously eslint sux on PropTypes...
     // applies a facet filter (key:string, label:string, searchQuery: string)
@@ -48,9 +49,10 @@ class NumberRangeFacetSelectorComponent extends React.Component {
   }
 
   render() {
-    const { facet, applyFilter } = this.props
+    const { label, facet, applyFilter } = this.props
     return (
       <FacetSelectorComponent
+        label={label}
         facetValueFormatter={this.formatFacetValue}
         facet={facet}
         applyFilter={applyFilter}

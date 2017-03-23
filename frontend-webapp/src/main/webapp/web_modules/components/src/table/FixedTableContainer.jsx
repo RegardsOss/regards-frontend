@@ -2,13 +2,16 @@
  * LICENSE_PLACEHOLDER
  **/
 import { concat, forEach, isEqual, keys, filter } from 'lodash'
-import Disatisfied from 'material-ui/svg-icons/social/sentiment-dissatisfied'
+
 import { connect } from '@regardsoss/redux'
 import { BasicPageableSelectors, BasicPageableActions } from '@regardsoss/store-utils'
 import './fixed-data-table-mui.css'
-import FixedTable from './FixedTable'
-import NoContentMessageInfo from '../cards/NoContentMessageInfo'
+import { tableConfiguration as tableConfigurationShape } from './FixedTable'
+import FixedTablePane, { tablePaneConfiguration as tablePaneConfigurationShape } from './FixedTablePane'
+
 import ColumnConfiguration from './model/ColumnConfiguration'
+
+const defaultLineHeight = 42
 
 /**
  * Fixed data table from facebook library integrated with material ui theme
@@ -35,19 +38,12 @@ class FixedTableContainer extends React.Component {
    * PageActions : BasicPageableActions of the entities to manage
    * PageSelector : BasicPageableSelectors of the entities to manage
    * pageSize : Optional, number of visible entity into the table. Default 20.
-   * lineHeight: Optional, default 40px
-   * @type {{PageActions: *, PageSelector: *, pageSize: *, requestParams: *, entities: *, pageMetadata: *, fetchEntities: *, entitiesFetching: *}}
    */
   static propTypes = {
-    // adds tabs buttons to results table
-    resultsTabsButtons: React.PropTypes.arrayOf(React.PropTypes.node),
-    // adds custom table options, nearside parmaeters
-    customTableOptions: React.PropTypes.arrayOf(React.PropTypes.node),
-    // shows a custom table header area instand of results count, just above columns
-    customTableHeaderArea: React.PropTypes.node,
-    // should show parameters button?
-    showParameters: React.PropTypes.bool.isRequired,
-    // Parameters to set
+    // table configuration
+    tableConfiguration: React.PropTypes.shape(tableConfigurationShape).isRequired,
+    // table pane configuration
+    tablePaneConfiguration: React.PropTypes.shape(tablePaneConfigurationShape).isRequired,
     // BasicPageableActions to retrieve entities from server
     // eslint-disable-next-line react/no-unused-prop-types
     PageActions: React.PropTypes.instanceOf(BasicPageableActions).isRequired,
@@ -56,32 +52,18 @@ class FixedTableContainer extends React.Component {
     PageSelector: React.PropTypes.instanceOf(BasicPageableSelectors).isRequired,
     // [Optional] Size of a given table page. Default is 20 visible items in the table.
     pageSize: React.PropTypes.number,
-    // [optional] Line height. Default is 42
-    lineHeight: React.PropTypes.number,
     // [Optional] Columns configurations. Default all attributes of entities are displayed as column.
     // An column configuration is an object with
     // - label : Displayed label of the column in the Header line
     // - attributes : Array of String. Each element is an entity attribute to display in the column. It is also
     //                possible to define deep attributes like user.login
     columns: React.PropTypes.arrayOf(ColumnConfiguration),
-    // [Optional] Display the checkbox action on each line. Default false
-    displayCheckbox: React.PropTypes.bool,
     // Action callback called when an line is selected. the list of entities selected are passed as a parameter
     onSelectionChange: React.PropTypes.func,
-    // Action callback to sort by column
-    onSortByColumn: React.PropTypes.func,
     // [Optional] server request parameters as query params or path params defined in the PageActions given.
     // eslint-disable-next-line react/forbid-prop-types
     requestParams: React.PropTypes.object,
-    // eslint-disable-next-line react/forbid-prop-types
-    cellsStyle: React.PropTypes.object,
-    // Display table header toolbar ?
-    displayTableHeader: React.PropTypes.bool,
-    // Display columns header?
-    displayColumnsHeader: React.PropTypes.bool,
-
     // Parameters set by redux store connection
-    // eslint-disable-next-line react/no-unused-prop-types
     entities: React.PropTypes.objectOf(React.PropTypes.object),
     pageMetadata: React.PropTypes.shape({
       number: React.PropTypes.number,
@@ -92,17 +74,16 @@ class FixedTableContainer extends React.Component {
     entitiesFetching: React.PropTypes.bool,
   }
 
+  static defaultProps = {
+    pageSize: 20,
+  }
+
   constructor(props) {
     super(props)
     const nbEntitiesByPage = this.props.pageSize * 3
-    // +1 for header row
-    const height = this.props.lineHeight * (this.props.pageSize + 1)
-    const width = window.innerWidth
     this.state = {
       nbEntitiesByPage,
       entities: null,
-      height,
-      width,
     }
   }
 
@@ -165,13 +146,13 @@ class FixedTableContainer extends React.Component {
    */
   onScrollEnd = (scrollStartOffset, scrollEndOffset) => {
     // the scroll offset is the first element to fetch if it is missing
-
-    const index = Math.floor(scrollEndOffset / this.props.lineHeight)
+    const { tableConfiguration: { lineHeight = defaultLineHeight }, pageSize, fetchEntities, requestParams } = this.props
+    const index = Math.floor(scrollEndOffset / lineHeight)
     // Search for first missing key in viewport
     let firstIndexToFetch = null
-    if (index > this.props.pageSize) {
+    if (index > pageSize) {
       let i = 0
-      for (i = index - this.props.pageSize; i < (index + (2 * this.props.pageSize)) && i < this.state.entities.length; i += 1) {
+      for (i = index - pageSize; i < (index + (2 * pageSize)) && i < this.state.entities.length; i += 1) {
         if (keys(this.state.entities[i]).length === 0) {
           firstIndexToFetch = i
           // Init pending information in the current state for fetching missing entities.
@@ -194,7 +175,7 @@ class FixedTableContainer extends React.Component {
 
     // Run search
     if (firstIndexToFetch !== null) {
-      this.props.fetchEntities(firstIndexToFetch, this.state.nbEntitiesByPage, this.props.requestParams)
+      fetchEntities(firstIndexToFetch, this.state.nbEntitiesByPage, requestParams)
     }
   }
 
@@ -203,18 +184,21 @@ class FixedTableContainer extends React.Component {
    * @returns {Array}
    */
   getAllColumns = () => {
-    if (this.props.columns && this.props.columns.length > 0) {
-      return this.props.columns
+    // predefined columns
+    const { columns } = this.props
+    if (columns && columns.length > 0) {
+      return columns
     }
-    const columns = []
 
+    // compute dynamic columns
+    const computedColumns = []
     if (this.state.entities && this.state.entities.length > 0) {
       const entity = this.state.entities[0]
       forEach(entity.content, (attr, key) => {
-        columns.push({ attributes: [key], label: key })
+        computedColumns.push({ attributes: [key], label: key })
       })
     }
-    return columns
+    return computedColumns
   }
 
   /**
@@ -234,50 +218,26 @@ class FixedTableContainer extends React.Component {
   }
 
   render() {
-    let noContent = false
-    if (this.props.pageMetadata && this.props.pageMetadata.totalElements === 0) {
-      noContent = true
-    }
-    const { showParameters, resultsTabsButtons, customTableOptions, customTableHeaderArea, entitiesFetching,
-      lineHeight, pageSize, displayCheckbox, displayTableHeader, displayColumnsHeader, onSortByColumn, cellsStyle } = this.props
+    const { entitiesFetching, pageSize, pageMetadata,
+      tablePaneConfiguration,
+      tableConfiguration: { lineHeight = defaultLineHeight, ...tableConfiguration },
+    } = this.props
     return (
-      <NoContentMessageInfo
-        noContent={noContent}
-        title={'No results found'}
-        message={'Your research returned no results. Please change your search criterion'}
-        Icon={Disatisfied}
-      >
-        <FixedTable
-          resultsTabsButtons={resultsTabsButtons}
-          customTableOptions={customTableOptions}
-          customTableHeaderArea={customTableHeaderArea}
-          showParameters={showParameters}
-          entities={this.state.entities}
-          entitiesFetching={entitiesFetching}
-          lineHeight={lineHeight}
-          pageSize={pageSize}
-          onScrollEnd={this.onScrollEnd}
-          columns={this.getAllColumns()}
-          displayCheckbox={displayCheckbox}
-          displayTableHeader={displayTableHeader}
-          displayColumnsHeader={displayColumnsHeader}
-          onRowSelection={this.selectRow}
-          onSortByColumn={onSortByColumn}
-          cellsStyle={cellsStyle}
-        />
-      </NoContentMessageInfo>
-    )
+      <FixedTablePane
+        tableData={{
+          pageSize,
+          onScrollEnd: this.onScrollEnd,
+          entities: this.state.entities,
+          onRowSelection: this.selectRow,
+          lineHeight,
+          ...tableConfiguration,
+        }}
+        columns={this.getAllColumns()}
+        entitiesFetching={entitiesFetching}
+        resultsCount={(pageMetadata && pageMetadata.totalElements) || 0}
+        {...tablePaneConfiguration}
+      />)
   }
-}
-
-/**
- * FixedTable default props
- * @type {{pageSize: number, lineHeight: number, displayCheckbox: boolean}}
- */
-FixedTableContainer.defaultProps = {
-  pageSize: 20,
-  lineHeight: 42,
-  displayCheckbox: false,
 }
 
 const mapStateToProps = (state, ownProps) => ({
