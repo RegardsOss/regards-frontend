@@ -1,7 +1,6 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import omit from 'lodash/omit'
 import { Cell } from 'fixed-data-table'
 import { themeContextType } from '@regardsoss/theme'
 import Styles from './FixedTableStyles'
@@ -10,27 +9,26 @@ import Styles from './FixedTableStyles'
  * Cell rendering for FixedTable
  * @author Sébastien Binda
  */
-const FixedTableCell = (props, context) => {
-  const attribute = props.getCellValue(props.rowIndex, props.col)
-  let cellStyle = {}
-  let cellContentStyle = {}
-  if (!props.cellsStyle) {
-    const styles = Styles(context.muiTheme)
-    cellStyle = styles.cellOdd
-    cellContentStyle = styles.cellOddContent
-    if (props.rowIndex % 2) {
-      cellStyle = styles.cellEven
-      cellContentStyle = styles.cellEvenContent
-    }
+const FixedTableCell = ({ getCellValue, overridenCellsStyle, isLastColumn, col, rowIndex, ...otherProperies }, context) => {
+  const attribute = getCellValue(rowIndex, col)
+  const styles = Styles(context.muiTheme)
+
+  let cellStyle
+  let cellContentStyle
+  if (overridenCellsStyle) {
+    cellStyle = overridenCellsStyle
+    cellContentStyle = styles.cellEvenContent
+  } else if (rowIndex % 2) {
+    // even cell
+    cellStyle = isLastColumn ? styles.lastCellEven : styles.cellEven
+    cellContentStyle = styles.cellEvenContent
   } else {
-    cellStyle = props.cellsStyle
-    cellContentStyle = props.cellsStyle
+    // odd cell
+    cellStyle = isLastColumn ? styles.lastCellOdd : styles.cellOdd
+    cellContentStyle = styles.cellOddContent
   }
   return (
-    <Cell
-      {...omit(props, ['col', 'getCellValue', 'cellsStyle'])}
-      style={cellStyle}
-    >
+    <Cell style={cellStyle} {...otherProperies} >
       <div style={cellContentStyle}>{attribute}</div>
     </Cell>
   )
@@ -38,12 +36,13 @@ const FixedTableCell = (props, context) => {
 
 FixedTableCell.propTypes = {
   rowIndex: React.PropTypes.number,
+  isLastColumn: React.PropTypes.bool.isRequired,
   col: React.PropTypes.shape({
     attributes: React.PropTypes.arrayOf(React.PropTypes.string),
     label: React.PropTypes.string,
   }).isRequired,
   getCellValue: React.PropTypes.func.isRequired,
-  cellsStyle: React.PropTypes.objectOf(React.PropTypes.string),
+  overridenCellsStyle: React.PropTypes.objectOf(React.PropTypes.string),
 }
 
 FixedTableCell.contextTypes = {

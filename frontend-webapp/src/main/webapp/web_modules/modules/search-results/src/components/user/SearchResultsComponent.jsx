@@ -11,7 +11,13 @@ import values from 'lodash/values'
 import remove from 'lodash/remove'
 import { browserHistory } from 'react-router'
 import { Card, CardMedia } from 'material-ui/Card'
+import FlatButton from 'material-ui/FlatButton'
+import DatasetLibrary from 'material-ui/svg-icons/image/collections-bookmark'
+import DataLibrary from 'material-ui/svg-icons/av/library-books'
+import ShowFacetsSearch from 'material-ui/svg-icons/action/find-in-page'
 import { LazyModuleComponent } from '@regardsoss/modules'
+import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
 import { FixedTableContainer, ShowableAtRender } from '@regardsoss/components'
 import {
   AttributeModel,
@@ -47,6 +53,11 @@ class SearchResultsComponent extends React.Component {
     attributesRegroupementsConf: React.PropTypes.arrayOf(AttributesRegroupementConfiguration),
     attributeModels: React.PropTypes.objectOf(AttributeModel),
     target: React.PropTypes.oneOf(values(SearchResultsTargetsEnum)).isRequired,
+  }
+
+  static contextTypes = {
+    ...i18nContextType,
+    ...themeContextType,
   }
 
   constructor(props) {
@@ -87,6 +98,15 @@ class SearchResultsComponent extends React.Component {
    */
   onUnselectDataset = () => {
     this.selectDataset(null)
+  }
+
+  onClickDatasetTarget = () => {
+    this.onUnselectDataset()
+    this.onChangeTarget(SearchResultsTargetsEnum.DATASET_RESULTS)
+  }
+
+  onClickDataobjectsTarget = () => {
+    this.onChangeTarget(SearchResultsTargetsEnum.DATAOBJECT_RESULTS)
   }
 
   /**
@@ -254,6 +274,9 @@ class SearchResultsComponent extends React.Component {
     })
   }
 
+
+  isInObjectMode = () => this.state.target === SearchResultsTargetsEnum.DATAOBJECT_RESULTS
+
   /**
    * Format the given search query for opensearch format
    * @param query
@@ -307,33 +330,105 @@ class SearchResultsComponent extends React.Component {
     })
   }
 
-  render() {
-    let columns = []
-    let lineSize = 50
-    let cellsStyle = null
-    switch (this.state.target) {
-      case SearchResultsTargetsEnum.DATAOBJECT_RESULTS:
-        columns = this.getDataObjectsColumns()
-        break
-      case SearchResultsTargetsEnum.DATASET_RESULTS:
-        columns = this.getDataSetsColumns()
-        lineSize = 120
-        cellsStyle = { backgroundColor: 'transparent' }
-        break
-      default:
-        console.error(`Undefined target type for entity search results : ${this.state.target}`)
-    }
 
-    const { target, selectedDataset, showingFacetsSearch } = this.state
-    const { appName, project, enableFacettes } = this.props
+  /**
+   * Returns result tabs actions for results table
+   */
+  renderTableTabs = () => {
+    const { intl: { formatMessage } } = this.context
+    return [
+      <FlatButton
+        key="dataobjects.tab"
+        label={formatMessage({ id: 'navigation.dataobjects.label' })}
+        onTouchTap={this.onClickDataobjectsTarget}
+        icon={<DataLibrary />}
+        secondary={this.isInObjectMode()}
+      />,
+      <FlatButton
+        key="datasets.tab"
+        label={formatMessage({ id: 'navigation.datasets.label' })}
+        onTouchTap={this.onClickDatasetTarget}
+        icon={<DatasetLibrary />}
+        secondary={!this.isInObjectMode()}
+      />,
+    ]
+  }
+
+  /**
+   * Returns options for results table
+   */
+  renderTableOptions = () => {
+    const { enableFacettes } = this.props
+    const { showingFacetsSearch } = this.state
+    const { intl: { formatMessage } } = this.context
+    return [
+      <ShowableAtRender
+        key="facet.filter.option"
+        show={enableFacettes && this.isInObjectMode()}
+      >
+        <FlatButton
+          label={formatMessage({ id: 'navigation.filter.by.facets' })}
+          onTouchTap={this.toggleShowFacetsSearch}
+          icon={<ShowFacetsSearch />}
+          secondary={showingFacetsSearch}
+        />
+      </ShowableAtRender>,
+    ]
+  }
+
+  /**
+   * Returns dedicated facets filtering area (when shown)
+   */
+  renderTableFacets = () => {
+    const { showingFacetsSearch } = this.state
+    if (!showingFacetsSearch) {
+      // switch to default table hedaer display when not showing filters
+      return null
+    }
+    const { appName, project } = this.props
     const searchFacetsModule = {
       name: 'search-facets',
       active: true,
       applicationId: appName,
       conf: {
-        show: showingFacetsSearch && target === SearchResultsTargetsEnum.DATAOBJECT_RESULTS,
+        show: showingFacetsSearch && this.isInObjectMode(),
         resultsSelectors: CatalogEntitySelector,
       },
+    }
+    return (<LazyModuleComponent
+      project={project}
+      appName={appName}
+      module={searchFacetsModule}
+    />)
+  }
+
+  render() {
+    const { moduleTheme: { datasetCellStyles } } = this.context
+    const { target, selectedDataset } = this.state
+
+    let columns = []
+    let lineSize
+    let cellsStyle
+    let tableHeaderArea
+    let displayCheckbox
+    let displayColumnHeader
+    let showParameters
+    if (this.isInObjectMode()) {
+      columns = this.getDataObjectsColumns()
+      lineSize = 50
+      cellsStyle = null
+      tableHeaderArea = this.renderTableFacets()
+      displayCheckbox = true
+      displayColumnHeader = true
+      showParameters = true
+    } else {
+      columns = this.getDataSetsColumns()
+      lineSize = 120
+      cellsStyle = datasetCellStyles
+      tableHeaderArea = null // default header display
+      displayCheckbox = false
+      displayColumnHeader = false
+      showParameters = false
     }
 
     return (
@@ -343,31 +438,26 @@ class SearchResultsComponent extends React.Component {
           onChangeTarget={this.onChangeTarget}
           onUnselectDataset={this.onUnselectDataset}
           selectedDataset={selectedDataset}
-          enableFacettes={enableFacettes}
-          showingFacetsSearch={showingFacetsSearch}
-          onToggleShowFacetsSearch={this.toggleShowFacetsSearch}
         />
         <CardMedia>
-          <ShowableAtRender show={enableFacettes}>
-            <LazyModuleComponent
-              project={project}
-              appName={appName}
-              module={searchFacetsModule}
-            />
-          </ShowableAtRender>
           <FixedTableContainer
             key={target}
+            resultsTabsButtons={this.renderTableTabs()}
+            customTableOptions={this.renderTableOptions()}
+            customTableHeaderArea={tableHeaderArea}
+            showParameters={showParameters}
             PageActions={CatalogEntityActions}
             PageSelector={CatalogEntitySelector}
             pageSize={20}
             lineHeight={lineSize}
-            displayCheckbox={target === SearchResultsTargetsEnum.DATAOBJECT_RESULTS}
-            displayHeader={target === SearchResultsTargetsEnum.DATAOBJECT_RESULTS}
+            displayCheckbox={displayCheckbox}
             columns={columns}
             onSelectionChange={this.resultSelection}
             onSortByColumn={this.sortResultsByColumn}
             requestParams={{ queryParams: this.getFullQuery() }}
             cellsStyle={cellsStyle}
+            displayTableHeader
+            displayColumnsHeader={displayColumnHeader}
           />
         </CardMedia>
       </Card>

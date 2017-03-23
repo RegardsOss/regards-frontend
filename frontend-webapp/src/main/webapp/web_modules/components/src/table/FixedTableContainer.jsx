@@ -2,7 +2,6 @@
  * LICENSE_PLACEHOLDER
  **/
 import { concat, forEach, isEqual, keys, filter } from 'lodash'
-import { Card } from 'material-ui/Card'
 import Disatisfied from 'material-ui/svg-icons/social/sentiment-dissatisfied'
 import { connect } from '@regardsoss/redux'
 import { BasicPageableSelectors, BasicPageableActions } from '@regardsoss/store-utils'
@@ -40,6 +39,14 @@ class FixedTableContainer extends React.Component {
    * @type {{PageActions: *, PageSelector: *, pageSize: *, requestParams: *, entities: *, pageMetadata: *, fetchEntities: *, entitiesFetching: *}}
    */
   static propTypes = {
+    // adds tabs buttons to results table
+    resultsTabsButtons: React.PropTypes.arrayOf(React.PropTypes.node),
+    // adds custom table options, nearside parmaeters
+    customTableOptions: React.PropTypes.arrayOf(React.PropTypes.node),
+    // shows a custom table header area instand of results count, just above columns
+    customTableHeaderArea: React.PropTypes.node,
+    // should show parameters button?
+    showParameters: React.PropTypes.bool.isRequired,
     // Parameters to set
     // BasicPageableActions to retrieve entities from server
     // eslint-disable-next-line react/no-unused-prop-types
@@ -68,8 +75,10 @@ class FixedTableContainer extends React.Component {
     requestParams: React.PropTypes.object,
     // eslint-disable-next-line react/forbid-prop-types
     cellsStyle: React.PropTypes.object,
-    // Display table header tooblabar ?
-    displayHeader: React.PropTypes.bool,
+    // Display table header toolbar ?
+    displayTableHeader: React.PropTypes.bool,
+    // Display columns header?
+    displayColumnsHeader: React.PropTypes.bool,
 
     // Parameters set by redux store connection
     // eslint-disable-next-line react/no-unused-prop-types
@@ -229,32 +238,34 @@ class FixedTableContainer extends React.Component {
     if (this.props.pageMetadata && this.props.pageMetadata.totalElements === 0) {
       noContent = true
     }
+    const { showParameters, resultsTabsButtons, customTableOptions, customTableHeaderArea, entitiesFetching,
+      lineHeight, pageSize, displayCheckbox, displayTableHeader, displayColumnsHeader, onSortByColumn, cellsStyle } = this.props
     return (
-      <Card
-        style={noContent ? {} : { backgroundColor: 'transparent' }}
+      <NoContentMessageInfo
+        noContent={noContent}
+        title={'No results found'}
+        message={'Your research returned no results. Please change your search criterion'}
+        Icon={Disatisfied}
       >
-        <NoContentMessageInfo
-          noContent={noContent}
-          title={'No results found'}
-          message={'Your research returned no results. Please change your search criterion'}
-          Icon={Disatisfied}
-        >
-          <FixedTable
-            entities={this.state.entities}
-            entitiesFetching={this.props.entitiesFetching}
-            lineHeight={this.props.lineHeight}
-            pageSize={this.props.pageSize}
-            onScrollEnd={this.onScrollEnd}
-            columns={this.getAllColumns()}
-            displayCheckbox={this.props.displayCheckbox}
-            displayHeader={this.props.displayHeader}
-            onRowSelection={this.selectRow}
-            onSortByColumn={this.props.onSortByColumn}
-            cellsStyle={this.props.cellsStyle}
-          />
-        </NoContentMessageInfo>
-      </Card>
-
+        <FixedTable
+          resultsTabsButtons={resultsTabsButtons}
+          customTableOptions={customTableOptions}
+          customTableHeaderArea={customTableHeaderArea}
+          showParameters={showParameters}
+          entities={this.state.entities}
+          entitiesFetching={entitiesFetching}
+          lineHeight={lineHeight}
+          pageSize={pageSize}
+          onScrollEnd={this.onScrollEnd}
+          columns={this.getAllColumns()}
+          displayCheckbox={displayCheckbox}
+          displayTableHeader={displayTableHeader}
+          displayColumnsHeader={displayColumnsHeader}
+          onRowSelection={this.selectRow}
+          onSortByColumn={onSortByColumn}
+          cellsStyle={cellsStyle}
+        />
+      </NoContentMessageInfo>
     )
   }
 }

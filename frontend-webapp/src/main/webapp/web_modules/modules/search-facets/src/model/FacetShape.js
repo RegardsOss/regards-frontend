@@ -34,8 +34,6 @@ export const NumberRangeFacetValue = React.PropTypes.shape({
 /** A value for string facets (no range, word cound) */
 export const StringFacetValue = React.PropTypes.shape({
   word: React.PropTypes.string.isRequired,
-  // for date and numeric, upper bound, just like lower bound
-  upperBound: React.PropTypes.string,
   ...commonFacetValuesAttributesPropTypes,
 })
 
@@ -57,8 +55,6 @@ export const NumberRangeFacet = React.PropTypes.shape({
   type: React.PropTypes.oneOf([FacetTypes.Number]).isRequired,
   values: React.PropTypes.arrayOf(NumberRangeFacetValue),
 })
-
-export const allRangeFacets = [DateRangeFacet, NumberRangeFacet]
 
 /** A string facet */
 export const StringFacet = React.PropTypes.shape({

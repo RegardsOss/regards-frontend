@@ -40,6 +40,9 @@ const formStyles = theme => ({
       flexDirection: 'column',
     },
   },
+  datasetCellStyles: {
+    backgroundColor: theme.tableRow.stripeColor,
+  },
 })
 
 export default formStyles

@@ -1,7 +1,9 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
+import { i18nContextType } from '@regardsoss/i18n'
 import { StringFacet } from '../model/FacetShape'
+import FacetSelectorComponent from './FacetSelectorComponent'
 
 /**
 * Word facet selector
@@ -10,17 +12,33 @@ class WordFacetSelectorComponent extends React.Component {
 
   static propTypes = {
     facet: StringFacet.isRequired,
+    // applies a facet filter (key:string, label:string, searchQuery: string)
+    applyFilter: React.PropTypes.func.isRequired,
   }
 
-  static defaultProps = {}
+  static contextTypes = {
+    ...i18nContextType,
+  }
+
+
+  formatFacetValue = ({ word, count }) => {
+    const { intl: { formatNumber, formatMessage } } = this.context
+    return formatMessage({ id: 'search.facets.filter.word.value' }, {
+      word,
+      count: formatNumber(count),
+    })
+  }
 
   render() {
-    const { facet: { attributeName, type } } = this.props
+    const { facet, applyFilter } = this.props
     return (
-      <div>
-        {attributeName} : {type}
-      </div>
+      <FacetSelectorComponent
+        facetValueFormatter={this.formatFacetValue}
+        facet={facet}
+        applyFilter={applyFilter}
+      />
     )
   }
 }
+
 export default WordFacetSelectorComponent

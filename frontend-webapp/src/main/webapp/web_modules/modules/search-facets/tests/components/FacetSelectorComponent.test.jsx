@@ -1,17 +1,20 @@
 /**
  * LICENSE_PLACEHOLDER
  */
+import size from 'lodash/size'
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { stub } from 'sinon'
 import { IntlStub } from '@regardsoss/tests-helpers'
-import FacetsDisplayerComponent from '../../src/components/FacetsDisplayerComponent'
-import { FacetsDisplayerContainer } from '../../src/containers/FacetsDisplayerContainer'
+import MenuItem from 'material-ui/MenuItem'
+import FacetSelectorComponent from '../../src/components/FacetSelectorComponent'
 
 import styles from '../../src/styles/styles'
 import facetsNetworkDump from '../network-dump/search-results-dump'
 
-describe('[SEARCH FACETS] Testing FacetsDisplayerContainer', () => {
+const aFacetModel = facetsNetworkDump.facets[2]
+
+describe('[SEARCH FACETS] Testing FacetSelectorComponent', () => {
   // Since react will console.error propType warnings, that which we'd rather have
   // as errors, we use sinon.js to stub it into throwing these warning as errors
   // instead.
@@ -24,7 +27,7 @@ describe('[SEARCH FACETS] Testing FacetsDisplayerContainer', () => {
     console.error.restore()
   })
   it('should exists', () => {
-    assert.isDefined(FacetsDisplayerContainer)
+    assert.isDefined(FacetSelectorComponent)
   })
   const context = {
     intl: IntlStub,
@@ -36,10 +39,13 @@ describe('[SEARCH FACETS] Testing FacetsDisplayerContainer', () => {
   }
   it('should render properly', () => {
     const props = {
-      facets: facetsNetworkDump.facets,
+      facet: aFacetModel,
+      facetValueFormatter: () => '',
+      applyFilter: () => { },
     }
-    const enzymeWrapper = shallow(<FacetsDisplayerContainer {...props} />, { context })
-    assert.equal(enzymeWrapper.find(FacetsDisplayerComponent).length, 1, 'The corresponding component should be rendered')
-    // TODO more tests!
+
+    const enzymeWrapper = shallow(<FacetSelectorComponent {...props} />, { context })
+    // verify there is one item per facet value
+    assert.equal(enzymeWrapper.find(MenuItem).length, size(aFacetModel.values), 'There should be on item for each facet value')
   })
 })
