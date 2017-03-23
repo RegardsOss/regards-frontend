@@ -36,7 +36,7 @@ const messages = Object.assign({
   // User messages
   'navigation.dataobjects.label': 'Catalogue',
   'navigation.datasets.label': 'Jeux de données',
-  'navigation.filter.by.facets': 'Filtres de résultats',
+  'navigation.filter.by.facets': 'Filtres',
 }, Locales.fr)
 
 export default messages

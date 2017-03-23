@@ -1,9 +1,10 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import filter from 'lodash/filter'
 import { ShowableAtRender } from '@regardsoss/components'
 import { BasicFacetsPageableSelectors } from '@regardsoss/store-utils'
-import FacetsDisplayerContainer from './FacetsDisplayerContainer'
+import ModuleContentContainer from './ModuleContentContainer'
 
 /**
  * Display the search facets content (mount / unmount children as the show property changes,
@@ -22,17 +23,49 @@ class ModuleContainer extends React.Component {
     }),
   }
 
+  componentWillMount = () => {
+    // initialize filters
+    this.setState({
+      filters: [],
+    })
+  }
+
+  getFiltersWithout = filterKey => filter(this.state.filters, ({ filterKey: currentFilterKey }) => currentFilterKey !== filterKey)
+
+
+  /**
+   * Apply a new facet filter to current search (adds or repliace it in current filters list)
+   */
+  applyFilter = (filterKey, filterLabel, openSearchQuery) => this.updateFilters([...this.getFiltersWithout(filterKey), { filterKey, filterLabel, openSearchQuery }])
+
+  /**
+   * Deletes a facet
+   */
+  deleteFilter = filterKey => this.updateFilters(this.getFiltersWithout(filterKey))
+
+  /**
+   * Updates filters list
+   */
+  updateFilters = (filters) => {
+    // TODO call open search API after collecting new filters
+    this.setState({ filters })
+  }
+
   /**
    * @returns {React.Component}
    */
   render() {
     const { moduleConf: { show, resultsSelectors } } = this.props
-    // TODO TOMORROW: background (add a card or share one????)
-    // TODO tomorrow ===> connect with results (will not unmount this) or connect only content??? <== better in content, no select if not showable =D
-    // TODO tomorrow ===> inject in module the right selectors
+    const { filters } = this.state
+    // onApplyFacet={this.applyFacet}
     return (
       <ShowableAtRender show={show}>
-        <FacetsDisplayerContainer resultsSelectors={resultsSelectors} />
+        <ModuleContentContainer
+          filters={filters}
+          resultsSelectors={resultsSelectors}
+          applyFilter={this.applyFilter}
+          deleteFilter={this.deleteFilter}
+        />
       </ShowableAtRender>
     )
   }
