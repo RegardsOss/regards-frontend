@@ -69,6 +69,7 @@ class SearchResultsComponent extends React.Component {
       target: props.target,
       selectedDataset: null,
       showingFacetsSearch: false,
+      filters: [],
     }
   }
 
@@ -90,9 +91,11 @@ class SearchResultsComponent extends React.Component {
       pathname: browserHistory.getCurrentLocation().pathname,
       query: merge({}, queries, { t: target }),
     })
-    this.setState({
-      target,
-    })
+    this.setState({ target })
+  }
+
+  onFiltersChanged = (filters = []) => {
+    this.setState({ filters })
   }
 
   /**
@@ -131,13 +134,20 @@ class SearchResultsComponent extends React.Component {
    * @returns {string}
    */
   getFullQuery = () => {
-    // Get query with search parameters
-    let fullQuery = this.props.searchQuery ? this.props.searchQuery : ''
+    const { searchQuery, facettesQuery } = this.props
+    // Get query with search parameters (apply search filter facets too)
+    const openSearchSeparator = ' AND '
+    let fullQuery = searchQuery || ''
+    if (this.isInObjectMode()) {
+      // add object filters
+      fullQuery = this.state.filters.reduce((queryAcc, { openSearchQuery }) =>
+        `${queryAcc}${queryAcc ? openSearchSeparator : ''}${openSearchQuery}`, fullQuery)
+    }
 
     // If any dataset is associated to the current search, add there urn into tags property
     if (this.state.selectedDataset) {
       if (fullQuery !== '') {
-        fullQuery = `${fullQuery} AND tags:${this.state.selectedDataset.content.ip_id}`
+        fullQuery = `${fullQuery}${fullQuery ? openSearchSeparator : ''}tags:${this.state.selectedDataset.content.ip_id}`
       } else {
         fullQuery = `tags:${this.state.selectedDataset.content.ip_id}`
       }
@@ -149,13 +159,14 @@ class SearchResultsComponent extends React.Component {
     // If the search need to be sorted, add sort parameters
     if (this.state.sortedColumns.length > 0) {
       const fullSortQuery = reduce(this.state.sortedColumns, (sortQuery, column) => {
+        let queryString = sortQuery
         if (column.attribute) {
-          sortQuery = `${sortQuery}&sort=${column.attribute}`
+          queryString = `${queryString}&sort=${column.attribute}`
           if (column.type) {
-            sortQuery = `${sortQuery},${column.type}`
+            queryString = `${queryString},${column.type}`
           }
         }
-        return sortQuery
+        return queryString
       }, '')
 
 
@@ -165,8 +176,8 @@ class SearchResultsComponent extends React.Component {
     }
 
     // If there is facets to generate add them
-    if (this.props.facettesQuery) {
-      fullQuery = `${fullQuery}&${this.props.facettesQuery}`
+    if (facettesQuery) {
+      fullQuery = `${fullQuery}&${facettesQuery}`
     }
 
     // return full query
@@ -280,9 +291,7 @@ class SearchResultsComponent extends React.Component {
           remove(sortedColumns, lcol => lcol.attribute === attributeToSort)
       }
     }
-    this.setState({
-      sortedColumns,
-    })
+    this.setState({ sortedColumns })
   }
 
 
@@ -390,17 +399,20 @@ class SearchResultsComponent extends React.Component {
    * Returns dedicated facets filtering area (when shown)
    */
   renderTableFacets = () => {
-    const { showingFacetsSearch } = this.state
+    const { showingFacetsSearch, filters } = this.state
     if (!showingFacetsSearch) {
       // switch to default table hedaer display when not showing filters
       return null
     }
-    const { appName, project } = this.props
+    const { appName, project, attributeModels } = this.props
     const searchFacetsModule = {
       name: 'search-facets',
       active: true,
       applicationId: appName,
+      attributeModels,
       conf: {
+        onFiltersChanged: this.onFiltersChanged,
+        filters,
         show: showingFacetsSearch && this.isInObjectMode(),
         resultsSelectors: CatalogEntitySelector,
       },
@@ -417,27 +429,27 @@ class SearchResultsComponent extends React.Component {
     const { target, selectedDataset } = this.state
 
     let columns = []
-    let lineSize
+    let lineHeight
     let cellsStyle
     let tableHeaderArea
     let displayCheckbox
-    let displayColumnHeader
+    let displayColumnsHeader
     let showParameters
     if (this.isInObjectMode()) {
       columns = this.getDataObjectsColumns()
-      lineSize = 50
+      lineHeight = 50
       cellsStyle = null
       tableHeaderArea = this.renderTableFacets()
       displayCheckbox = true
-      displayColumnHeader = true
+      displayColumnsHeader = true
       showParameters = true
     } else {
       columns = this.getDataSetsColumns()
-      lineSize = 120
+      lineHeight = 120
       cellsStyle = datasetCellStyles
       tableHeaderArea = null // default header display
       displayCheckbox = false
-      displayColumnHeader = false
+      displayColumnsHeader = false
       showParameters = false
     }
 
@@ -454,23 +466,27 @@ class SearchResultsComponent extends React.Component {
         <CardMedia>
           <FixedTableContainer
             key={target}
-
-            resultsTabsButtons={this.renderTableTabs()}
-            customTableOptions={this.renderTableOptions()}
-            customTableHeaderArea={tableHeaderArea}
-            showParameters={showParameters}
             PageActions={entityAction}
             PageSelector={CatalogEntitySelector}
             pageSize={20}
-            lineHeight={lineSize}
             displayCheckbox={displayCheckbox}
             columns={columns}
             onSelectionChange={this.resultSelection}
-            onSortByColumn={this.sortResultsByColumn}
             requestParams={{ queryParams: this.getFullQuery() }}
-            cellsStyle={cellsStyle}
-            displayTableHeader
-            displayColumnsHeader={displayColumnHeader}
+            tableConfiguration={{
+              displayColumnsHeader,
+              cellsStyle,
+              lineHeight,
+              displayCheckbox,
+              onSortByColumn: this.sortResultsByColumn,
+            }}
+            tablePaneConfiguration={{
+              resultsTabsButtons: this.renderTableTabs(),
+              customTableOptions: this.renderTableOptions(),
+              customTableHeaderArea: tableHeaderArea,
+              displayTableHeader: true,
+              showParameters,
+            }}
           />
         </CardMedia>
       </Card>

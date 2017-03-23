@@ -42,7 +42,7 @@ class TableColumnFilterComponent extends React.Component {
         <div className="row">
           {map(this.props.columns, (column, idx) => (
             <Checkbox key={column.label} label={column.label} checked={!this.props.hiddenColumns.includes(column.label)} onCheck={() => this.props.changeColumnVisibility(column.label)} />
-            ))}
+          ))}
         </div>
       </Dialog>
     )

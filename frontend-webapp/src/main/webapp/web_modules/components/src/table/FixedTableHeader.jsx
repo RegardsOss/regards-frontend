@@ -55,7 +55,7 @@ class FixedTableHedaer extends React.Component {
               customTableHeaderArea ||
               // default area, shows result count
               <div style={header.text.styles}>
-                <FormattedMessage id="table.results.count" values={{ count: resultsCount }} />
+                <FormattedMessage id="table.results.count" values={{ count: resultsCount || '0' }} />
               </div>
             }
           </div>

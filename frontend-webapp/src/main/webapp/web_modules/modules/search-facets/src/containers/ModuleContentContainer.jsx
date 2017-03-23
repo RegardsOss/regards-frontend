@@ -14,7 +14,7 @@ import ModuleContentComponent from '../components/ModuleContentComponent'
 export class ModuleContentContainer extends React.Component {
 
   static propTypes = {
-    filters: filterListShape.isRequired,
+
     // results facets selectors (used in mapStateToProps)
     // eslint-disable-next-line react/no-unused-prop-types
     resultsSelectors: React.PropTypes.instanceOf(BasicFacetsPageableSelectors).isRequired,
@@ -41,6 +41,7 @@ export class ModuleContentContainer extends React.Component {
 
 const mapStateToProps = (state, { resultsSelectors }) => ({
   facets: resultsSelectors.getFacets(state),
+
 })
 
 export default connect(mapStateToProps)(ModuleContentContainer)

@@ -65,9 +65,7 @@ class FormComponent extends React.Component {
    * @param pluginId
    * @returns {{}}
    */
-  getPluginDefaultState = (pluginId) => {
-    return this.pluginStates[pluginId] ? this.pluginStates[pluginId] : {}
-  }
+  getPluginDefaultState = pluginId => this.pluginStates[pluginId] ? this.pluginStates[pluginId] : {}
   /**
    * Function passed to plugins to save their state. So they can retrieve it later
    * @param pluginId
@@ -78,7 +76,6 @@ class FormComponent extends React.Component {
   }
 
   render() {
-
     return (
       <Card
         onExpandChange={this.handleExpand}
@@ -97,7 +94,7 @@ class FormComponent extends React.Component {
             pluginProps={{
               ...this.props.pluginsProps,
               getDefaultState: this.getPluginDefaultState,
-              savePluginState: this.savePluginState
+              savePluginState: this.savePluginState,
             }}
             mainContainer
           />

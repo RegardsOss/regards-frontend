@@ -5,6 +5,7 @@ import filter from 'lodash/filter'
 import { ShowableAtRender } from '@regardsoss/components'
 import { BasicFacetsPageableSelectors } from '@regardsoss/store-utils'
 import ModuleContentContainer from './ModuleContentContainer'
+import { filterListShape } from '../model/FilterShape'
 
 /**
  * Display the search facets content (mount / unmount children as the show property changes,
@@ -18,6 +19,8 @@ class ModuleContainer extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     project: React.PropTypes.string,
     moduleConf: React.PropTypes.shape({
+      onFiltersChanged: React.PropTypes.func.isRequired,
+      filters: filterListShape.isRequired,
       show: React.PropTypes.bool.isRequired,
       resultsSelectors: React.PropTypes.instanceOf(BasicFacetsPageableSelectors).isRequired,
     }),
@@ -30,7 +33,7 @@ class ModuleContainer extends React.Component {
     })
   }
 
-  getFiltersWithout = filterKey => filter(this.state.filters, ({ filterKey: currentFilterKey }) => currentFilterKey !== filterKey)
+  getFiltersWithout = filterKey => filter(this.props.moduleConf.filters, ({ filterKey: currentFilterKey }) => currentFilterKey !== filterKey)
 
 
   /**
@@ -47,17 +50,15 @@ class ModuleContainer extends React.Component {
    * Updates filters list
    */
   updateFilters = (filters) => {
-    // TODO call open search API after collecting new filters
-    this.setState({ filters })
+    // dispatch to table
+    this.props.moduleConf.onFiltersChanged(filters)
   }
 
   /**
    * @returns {React.Component}
    */
   render() {
-    const { moduleConf: { show, resultsSelectors } } = this.props
-    const { filters } = this.state
-    // onApplyFacet={this.applyFacet}
+    const { moduleConf: { show, resultsSelectors, filters } } = this.props
     return (
       <ShowableAtRender show={show}>
         <ModuleContentContainer
