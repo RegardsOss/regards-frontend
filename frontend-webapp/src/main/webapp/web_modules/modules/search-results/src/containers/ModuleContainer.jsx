@@ -3,9 +3,9 @@
  **/
 import reduce from 'lodash/reduce'
 import join from 'lodash/join'
-import {connect} from '@regardsoss/redux'
-import {AttributeModel, SearchResultsTargetsEnum} from '@regardsoss/model'
-import {LoadingComponent} from '@regardsoss/display-control'
+import { connect } from '@regardsoss/redux'
+import { AttributeModel, SearchResultsTargetsEnum } from '@regardsoss/model'
+import { LoadingComponent } from '@regardsoss/display-control'
 import AttributeModelActions from '../models/attributes/AttributeModelActions'
 import AttributeModelSelector from '../models/attributes/AttributeModelSelector'
 import ModuleConfiguration from '../models/ModuleConfiguration'
@@ -46,12 +46,11 @@ class ModuleContainer extends React.Component {
   }
 
   render() {
-    const {appName, project} = this.props
-    const {attributeModels, moduleConf: {enableFacettes, searchQuery, attributes, attributesRegroupements, resultType}} = this.props
-    const {attributesFetching} = this.state
+    const { appName, project } = this.props
+    const { attributeModels, moduleConf: { enableFacettes, searchQuery, attributes, attributesRegroupements, resultType } } = this.props
+    const { attributesFetching } = this.state
 
     if (!attributesFetching) {
-
       // Get applicable facettes to add to search request
       const facettes = reduce(attributes, (result, value, key) => {
         if (value.facetable) {
@@ -81,7 +80,6 @@ class ModuleContainer extends React.Component {
     return (
       <LoadingComponent />
     )
-
   }
 }
 const

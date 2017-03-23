@@ -10,7 +10,7 @@ import { BasicFacetsPageableActions } from '@regardsoss/store-utils'
  */
 class CatalogEntityActions extends BasicFacetsPageableActions {
   constructor(options) {
-    console.log("endpoint",options)
+    console.log('endpoint', options)
     super({
       namespace: 'search/results',
       entityEndpoint: options && options.entityEndpoint ? options.entityEndpoint : `${GATEWAY_HOSTNAME}/${API_URL}/rs-catalog/search?{queryParams}`,
@@ -23,7 +23,7 @@ class CatalogEntityActions extends BasicFacetsPageableActions {
 }
 
 export {
-  CatalogEntityActions
+  CatalogEntityActions,
 }
 const instance = new CatalogEntityActions()
 export default instance
