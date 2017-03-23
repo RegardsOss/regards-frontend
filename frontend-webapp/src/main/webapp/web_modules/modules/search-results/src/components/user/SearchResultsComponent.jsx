@@ -135,10 +135,11 @@ class SearchResultsComponent extends React.Component {
    */
   getFullQuery = () => {
     const { searchQuery, facettesQuery } = this.props
+    const { showingFacetsSearch } = this.state
     // Get query with search parameters (apply search filter facets too)
     const openSearchSeparator = ' AND '
     let fullQuery = searchQuery || ''
-    if (this.isInObjectMode()) {
+    if (this.isInObjectMode() && showingFacetsSearch) {
       // add object filters
       fullQuery = this.state.filters.reduce((queryAcc, { openSearchQuery }) =>
         `${queryAcc}${queryAcc ? openSearchSeparator : ''}${openSearchQuery}`, fullQuery)
@@ -345,7 +346,6 @@ class SearchResultsComponent extends React.Component {
 
   toggleShowFacetsSearch = () => {
     this.setState({
-      ...this.state,
       showingFacetsSearch: !this.state.showingFacetsSearch,
     })
   }
@@ -409,12 +409,12 @@ class SearchResultsComponent extends React.Component {
       name: 'search-facets',
       active: true,
       applicationId: appName,
-      attributeModels,
       conf: {
         onFiltersChanged: this.onFiltersChanged,
         filters,
         show: showingFacetsSearch && this.isInObjectMode(),
         resultsSelectors: CatalogEntitySelector,
+        attributeModels,
       },
     }
     return (<LazyModuleComponent

@@ -8,7 +8,6 @@ import MenuItem from 'material-ui/MenuItem'
 import DrowDownIcon from 'material-ui/svg-icons/navigation/arrow-drop-down'
 import { themeContextType } from '@regardsoss/theme'
 import { Facet } from '../model/FacetShape'
-import { formatFacetName } from '../utils/FacetPresentationTools'
 
 
 /**
@@ -17,6 +16,7 @@ import { formatFacetName } from '../utils/FacetPresentationTools'
 class FacetSelectorComponent extends React.Component {
 
   static propTypes = {
+    label: React.PropTypes.string,
     facet: Facet.isRequired,
     facetValueFormatter: React.PropTypes.func.isRequired,
     // applies a facet filter (key:string, label:string, searchQuery: string)
@@ -42,8 +42,8 @@ class FacetSelectorComponent extends React.Component {
     // hide menu
     this.setMenuVisibleOn()
     // apply filter
-    const { applyFilter, facet: { attributeName: filterKey } } = this.props
-    applyFilter(filterKey, filterKey, openSearchQuery)
+    const { applyFilter, facet: { attributeName: filterKey }, label } = this.props
+    applyFilter(filterKey, label || filterKey, openSearchQuery)
   }
 
   setMenuVisibleOn(menuVisibleOn = null) {
@@ -53,7 +53,7 @@ class FacetSelectorComponent extends React.Component {
   }
 
   render() {
-    const { facet: { attributeName, values }, facetValueFormatter } = this.props
+    const { label, facet: { attributeName, values }, facetValueFormatter } = this.props
     const { menuVisibleOn } = this.state
     const { moduleTheme: { filterSelectors: { selector } } } = this.context
 
@@ -61,7 +61,7 @@ class FacetSelectorComponent extends React.Component {
       <div style={selector.styles}>
         <FlatButton
           open
-          label={formatFacetName(attributeName)}
+          label={label || attributeName}
           value={null}
           onTouchTap={this.onOpenMenu}
           labelPosition="before"
@@ -77,9 +77,9 @@ class FacetSelectorComponent extends React.Component {
           <Menu onChange={this.onMenuItemSelected}>
             {
               values.map((facetValue) => {
-                const label = facetValueFormatter(facetValue)
+                const menuLabel = facetValueFormatter(facetValue)
                 return (
-                  <MenuItem key={label} value={facetValue} primaryText={label} />
+                  <MenuItem key={menuLabel} value={facetValue} primaryText={menuLabel} />
                 )
               })
             }

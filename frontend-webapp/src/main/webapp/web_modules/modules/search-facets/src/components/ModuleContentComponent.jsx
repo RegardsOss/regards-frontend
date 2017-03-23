@@ -19,6 +19,7 @@ import WordFacetSelectorComponent from './WordFacetSelectorComponent'
 class ModuleContentComponent extends React.Component {
 
   static propTypes = {
+    facetLabels: React.PropTypes.objectOf(React.PropTypes.string).isRequired,
     // current filters array
     filters: filterListShape.isRequired,
     // applies a facet filter (key:string, label:string, searchQuery: string)
@@ -37,7 +38,7 @@ class ModuleContentComponent extends React.Component {
   }
 
   render() {
-    const { facets, filters, applyFilter, deleteFilter } = this.props
+    const { facets, facetLabels, filters, applyFilter, deleteFilter } = this.props
     const { moduleTheme } = this.context
 
     return (
@@ -45,13 +46,14 @@ class ModuleContentComponent extends React.Component {
         <div style={moduleTheme.filterSelectors.styles}>
           {
             facets.map((facet) => {
+              const selectorProps = { key: facet.attributeName, label: facetLabels[facet.attributeName], facet, applyFilter }
               switch (facet.type) {
                 case FacetTypes.String:
-                  return (<WordFacetSelectorComponent facet={facet} key={facet.attributeName} applyFilter={applyFilter} />)
+                  return (<WordFacetSelectorComponent {...selectorProps} />)
                 case FacetTypes.Number:
-                  return (<NumberRangeFacetSelectorComponent facet={facet} key={facet.attributeName} applyFilter={applyFilter} />)
+                  return (<NumberRangeFacetSelectorComponent {...selectorProps} />)
                 case FacetTypes.Date:
-                  return (<DateRangeFacetSelectorComponent facet={facet} key={facet.attributeName} applyFilter={applyFilter} />)
+                  return (<DateRangeFacetSelectorComponent {...selectorProps} />)
                 default:
                   throw new Error(`Unknown facet type ${facet.type}`)
               }
