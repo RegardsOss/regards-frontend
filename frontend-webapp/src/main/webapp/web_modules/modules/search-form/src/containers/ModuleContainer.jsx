@@ -80,9 +80,11 @@ class ModuleContainer extends React.Component {
       this.setState({
         searchQuery: query.q,
         expanded: false,
+        resetCriterion: true,
       })
       this.criterionValues = {}
     } else if (!query.q && this.state.searchQuery !== this.getInitialQuery()) {
+      // NO query specified, display the search form open and run initial Query search
       this.setState({
         searchQuery: this.getInitialQuery(),
         expanded: true,

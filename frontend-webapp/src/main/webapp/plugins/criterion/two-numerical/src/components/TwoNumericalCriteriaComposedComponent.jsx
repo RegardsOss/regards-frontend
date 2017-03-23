@@ -5,6 +5,8 @@ import { values } from 'lodash'
 import { FormattedMessage } from 'react-intl'
 import NumericalCriteriaComponent from './NumericalCriteriaComponent'
 import {AttributeModel, getAttributeName} from '../common/AttributeModel'
+import EnumNumericalComparator from '../model/EnumNumericalComparator'
+import PluginComponent from '../common/PluginComponent'
 
 /**
  * Component allowing the user to configure the numerical value of a single attribute with two mathematical comparators (=, >, <=, ...).
@@ -15,20 +17,9 @@ import {AttributeModel, getAttributeName} from '../common/AttributeModel'
  *
  * @author Xavier-Alexandre Brochard
  */
-export class TwoNumericalCriteriaComposedComponent extends React.Component {
+export class TwoNumericalCriteriaComposedComponent extends PluginComponent {
 
   static propTypes = {
-    /**
-     * Plugin identifier
-     */
-    pluginInstanceId: React.PropTypes.string,
-    /**
-     * Callback to change the current criteria values in form
-     * Parameters :
-     * criteria : an object like : {attribute:<AttributeModel>, comparator:<ComparatorEnumType>, value:<value>}
-     * id: current plugin identifier
-     */
-    onChange: React.PropTypes.func,
     /**
      * List of attributes associated to the plugin.
      * Keys of this object are the "name" props of the attributes defined in the plugin-info.json
@@ -40,34 +31,36 @@ export class TwoNumericalCriteriaComposedComponent extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      value1: null,
-      value2: null,
+      value1: undefined,
+      value2: undefined,
     }
   }
 
   changeValue1 = (attribute, value, comparator) => {
     this.setState({
       value1: value,
-    })
-    this.props.onChange(this.criterionToOpenSearchFormat(value, this.state.value2), this.props.pluginInstanceId)
+    }, this._onPluginChangeValue)
   }
 
   changeValue2 = (attribute, value, comparator) => {
     this.setState({
       value2: value,
-    })
-    this.props.onChange(this.criterionToOpenSearchFormat(this.state.value1, value), this.props.pluginInstanceId)
+    },this._onPluginChangeValue)
   }
 
-  criterionToOpenSearchFormat = (value1, value2) => {
+  getPluginSearchQuery = (state) => {
     const attribute = values(this.props.attributes)[0]
-    const lvalue1 = value1 || '*'
-    const lvalue2 = value2 || '*'
-    return `${getAttributeName(attribute)}:[${lvalue1} TO ${lvalue2}]`
+    const lvalue1 = state.value1 || '*'
+    const lvalue2 = state.value2 || '*'
+    let searchQuery=''
+    if (state.value1 || state.value2) {
+      searchQuery= `${getAttributeName(attribute)}:[${lvalue1} TO ${lvalue2}]`
+    }
+    return searchQuery
   }
 
   render() {
-    const { attributes, pluginInstanceId } = this.props
+    const { attributes } = this.props
     const attribute = values(attributes)[0]
 
     return (
@@ -83,9 +76,9 @@ export class TwoNumericalCriteriaComposedComponent extends React.Component {
           <span style={{ margin: '0px 10px' }}>{attribute.name} <FormattedMessage id="criterion.aggregator.between" /></span>
           <NumericalCriteriaComponent
             attribute={attribute}
-            pluginInstanceId={pluginInstanceId}
             onChange={this.changeValue1}
-            comparator="LE"
+            value={this.state.value1}
+            comparator={EnumNumericalComparator.LE}
             hideAttributeName
             hideComparator
             reversed
@@ -94,9 +87,9 @@ export class TwoNumericalCriteriaComposedComponent extends React.Component {
           <span style={{ marginRight: 10 }}><FormattedMessage id="criterion.aggregator.and" /></span>
           <NumericalCriteriaComponent
             attribute={attribute}
-            pluginInstanceId={pluginInstanceId}
             onChange={this.changeValue2}
-            comparator="LE"
+            value={this.state.value2}
+            comparator={EnumNumericalComparator.LE}
             hideAttributeName
             hideComparator
             fixedComparator
