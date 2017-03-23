@@ -8,6 +8,7 @@ import { FormattedMessage } from 'react-intl'
 import TemporalComparatorComponent from './TemporalComparatorComponent'
 import {AttributeModel,getAttributeName} from '../common/AttributeModel'
 import EnumTemporalComparator from '../model/EnumTemporalComparator'
+import PluginComponent from '../common/PluginComponent'
 
 
 let DateTimeFormat
@@ -34,25 +35,9 @@ if (areIntlLocalesSupported(['fr'])) {
  *
  *  @author Xavier-Alexandre Brochard
  */
-export class TemporalCriteriaComponent extends React.Component {
+export class TemporalCriteriaComponent extends PluginComponent {
 
   static propTypes = {
-    /**
-     * Plugin identifier
-     */
-    pluginInstanceId: React.PropTypes.string,
-    /**
-     * Callback to change the current criteria values in form
-     * Parameters :
-     * criteria : an object like : {attribute:<AttributeModel>, comparator:<ComparatorEnumType>, value:<value>}
-     * id: current plugin identifier
-     */
-    onChange: React.PropTypes.func,
-    /**
-     * List of attributes associated to the plugin.
-     * Keys of this object are the "name" props of the attributes defined in the plugin-info.json
-     * Value of each keys are the attribute id (retrieved from the server) associated
-     */
     attributes: React.PropTypes.objectOf(AttributeModel),
   }
 
@@ -71,18 +56,14 @@ export class TemporalCriteriaComponent extends React.Component {
    * @param {String} newValue The new value of the text field.
    */
   handleChangeDate = (event, newValue) => {
-    const { pluginInstanceId, onChange } = this.props
     const { value } = this.state
-
     // Pick the time part from the time picker
     if (value) {
       newValue.setHours(value.getHours(), value.getMinutes(), value.getSeconds(), value.getMilliseconds())
     }
-
     this.setState({
       value: newValue,
-    })
-    onChange(this.criteriaToOpenSearchFormat(newValue.toISOString(),this.state.comparator),pluginInstanceId)
+    }, this._onPluginChangeValue)
   }
 
   /**
@@ -92,18 +73,14 @@ export class TemporalCriteriaComponent extends React.Component {
    * @param {String} newValue The new value of the text field.
    */
   handleChangeTime = (event, newValue) => {
-    const { pluginInstanceId, onChange } = this.props
     const { value } = this.state
-
     // Pick the date part from the the date picker
     if (value) {
       newValue.setFullYear(value.getFullYear(), value.getMonth(), value.getDate())
     }
-
     this.setState({
       value: newValue,
-    })
-    onChange(this.criteriaToOpenSearchFormat(newValue.toISOString(),this.state.comparator),pluginInstanceId)
+    }, this._onPluginChangeValue)
   }
 
   /**
@@ -112,34 +89,31 @@ export class TemporalCriteriaComponent extends React.Component {
    * @param {String} comparator
    */
   handleChangeComparator = (comparator) => {
-    const { pluginInstanceId, onChange } = this.props
-    const { value } = this.state
     this.setState({
       comparator,
-    })
-    if (value) {
-      onChange(this.criteriaToOpenSearchFormat(value.toISOString(), comparator), pluginInstanceId)
-    }
+    }, this._onPluginChangeValue)
   }
 
-  criteriaToOpenSearchFormat = (value, comparator) => {
+  getPluginSearchQuery = (state) => {
     let query = ''
     const attribute = getAttributeName(this.props.attributes.searchField)
-    switch (comparator) {
-      case EnumTemporalComparator.BEFORE:
-        query = `${attribute}:[* TO ${value}]`
-        break
-      case EnumTemporalComparator.AFTER :
-        query = `${attribute}:[${value} TO *]`
-        break
-      case EnumTemporalComparator.IS :
-        query = `${attribute}:${value}`
-        break
-      case EnumTemporalComparator.NOT :
-        query = `${attribute}:!${value}`
-        break
-      default :
-        console.error("Unavailable comparator")
+    if (state.value && state.comparator) {
+      switch (state.comparator) {
+        case EnumTemporalComparator.BEFORE:
+          query = `${attribute}:[* TO ${state.value.toISOString()}]`
+          break
+        case EnumTemporalComparator.AFTER :
+          query = `${attribute}:[${state.value.toISOString()} TO *]`
+          break
+        case EnumTemporalComparator.IS :
+          query = `${attribute}:${state.value.toISOString()}`
+          break
+        case EnumTemporalComparator.NOT :
+          query = `${attribute}:!${state.value.toISOString()}`
+          break
+        default :
+          console.error("Unavailable comparator")
+      }
     }
 
     return query
