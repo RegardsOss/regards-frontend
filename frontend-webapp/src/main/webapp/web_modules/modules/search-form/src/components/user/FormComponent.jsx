@@ -1,7 +1,6 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import map from 'lodash/map'
 import RaisedButton from 'material-ui/RaisedButton'
 import SearchIcon from 'material-ui/svg-icons/action/search'
 import { Card, CardText, CardHeader } from 'material-ui/Card'
@@ -46,18 +45,6 @@ class FormComponent extends React.Component {
     })
   }
 
-  handleExpand = () => {
-    this.setState({
-      expanded: !this.state.expanded,
-    })
-  }
-
-  keypress = (e) => {
-    if (e.charCode === 13) {
-      this.onHandleSearch()
-    }
-  }
-
   /**
    * Function passed to plugins to give them back theire previous state in order to initialize them
    * with their previous values.
@@ -66,6 +53,19 @@ class FormComponent extends React.Component {
    * @returns {{}}
    */
   getPluginDefaultState = pluginId => this.pluginStates[pluginId] ? this.pluginStates[pluginId] : {}
+
+  keypress = (e) => {
+    if (e.charCode === 13) {
+      this.onHandleSearch()
+    }
+  }
+
+  handleExpand = () => {
+    this.setState({
+      expanded: !this.state.expanded,
+    })
+  }
+
   /**
    * Function passed to plugins to save their state. So they can retrieve it later
    * @param pluginId

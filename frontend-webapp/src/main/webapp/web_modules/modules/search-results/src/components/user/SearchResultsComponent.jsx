@@ -31,6 +31,8 @@ import CatalogDatasetEntityActions from '../../models/catalog/CatalogDatasetEnti
 import NavigationComponent from './NavigationComponent'
 import ThumbmailCellComponent from './ThumbmailCellComponent'
 import DatasetCellComponent from './DatasetCellComponent'
+import CustomCellByAttributeTypeEnum from './cells/CustomCellByAttributeTypeEnum'
+import DefaultCell from './cells/DefaultCell'
 
 /**
  * Constant to define where to find dynamic attributes in the data objects returned by the search endpoint
@@ -210,10 +212,15 @@ class SearchResultsComponent extends React.Component {
       if (attributeConf.visibility === true) {
         const attribute = find(this.props.attributeModels, att => att.content.id === attributeConf.id)
         if (attribute) {
+          const customCell = CustomCellByAttributeTypeEnum[attribute.content.type] || DefaultCell
           columns.push({
             label: attribute.content.label,
             attributes: [this.getFullyQualifiedAttributeName(attribute)],
             sortable: true,
+            customCell: customCell ? {
+              component: customCell,
+              props: {},
+            } : undefined,
           })
         }
       }

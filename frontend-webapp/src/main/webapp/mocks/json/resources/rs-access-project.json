@@ -103,7 +103,7 @@
     },
     {
       "active": true,
-      "conf": "{\"resultType\":\"dataobjects\",\"enableFacettes\":true,\"attributes\":[{\"id\":0,\"visibility\":true,\"facetable\":false},{\"id\":1,\"visibility\":true,\"facetable\":false}]}",
+      "conf": "{\"resultType\":\"dataobjects\",\"enableFacettes\":false,\"attributes\":[{\"id\":0,\"visibility\":true,\"facetable\":false},{\"id\":1,\"visibility\":true,\"facetable\":false},{\"id\":2,\"visibility\":true,\"facetable\":false}]}",
       "name": "search-results",
       "description": "Catalogue de données",
       "container": "content",

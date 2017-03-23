@@ -70,7 +70,7 @@ export class UserApp extends React.Component {
         if (module.content.isDefault) {
           if (ContainerHelper.isDynamicContent(module.content.container, nextProps.layout.content.layout.containers)) {
             console.log('Default module selection : ', module)
-            browserHistory.push(`/user/${this.props.params.project}/modules/${module.content.id}`)
+            browserHistory.replace(`/user/${this.props.params.project}/modules/${module.content.id}`)
           }
         }
       })

@@ -16,7 +16,7 @@ class DatasetCellComponent extends React.Component {
 
   static propTypes = {
 
-    entity: CatalogEntity,
+    entity: CatalogEntity.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     lineHeight: React.PropTypes.number.isRequired,
     onClick: React.PropTypes.func,
@@ -75,7 +75,7 @@ class DatasetCellComponent extends React.Component {
                   }}
                 >{key}</span>
                 :
-                {property}
+                {'TODO'}
               </Chip>
               ))}
           </div>

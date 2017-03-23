@@ -1,8 +1,6 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import Schemas from '@regardsoss/api'
-import { BasicFacetsPageableActions } from '@regardsoss/store-utils'
 import { CatalogEntityActions } from './CatalogEntityActions'
 
 /**
