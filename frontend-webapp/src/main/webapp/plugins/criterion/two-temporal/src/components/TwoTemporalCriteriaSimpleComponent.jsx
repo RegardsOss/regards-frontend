@@ -6,6 +6,7 @@ import { FormattedMessage } from 'react-intl'
 import TemporalCriteriaComponent from './TemporalCriteriaComponent'
 import {AttributeModel,getAttributeName} from '../common/AttributeModel'
 import EnumTemporalComparator from '../model/EnumTemporalComparator'
+import PluginComponent from '../common/PluginComponent'
 
 /**
  * Component allowing the user to configure the temporal value of two different attributes with a date comparator (after, before, ...).
@@ -16,7 +17,7 @@ import EnumTemporalComparator from '../model/EnumTemporalComparator'
  *
  * @author Xavier-Alexandre Brochard
  */
-export class TwoTemporalCriteriaSimpleComponent extends React.Component {
+export class TwoTemporalCriteriaSimpleComponent extends PluginComponent {
 
   static propTypes = {
     /**
@@ -43,12 +44,12 @@ export class TwoTemporalCriteriaSimpleComponent extends React.Component {
     const state = {}
     state[props.attributes.firstField.name] = {
       attribute: props.attributes.firstField,
-      value: null,
+      value: undefined,
       operator: EnumTemporalComparator.LE,
     }
     state[props.attributes.secondField.name] = {
       attribute: props.attributes.secondField,
-      value: null,
+      value: undefined,
       operator: EnumTemporalComparator.LE,
     }
     this.state = state
@@ -63,10 +64,11 @@ export class TwoTemporalCriteriaSimpleComponent extends React.Component {
     newState[attribute.name] = newAttState
 
     // Update state to save the new value
-    this.setState(newState)
+    this.setState(newState, this._onPluginChangeValue)
+  }
 
-    // Update query and send change to the plugin handler
-    const query = reduce(newState, (result, attValue, key) => {
+  getPluginSearchQuery = (state) => {
+    const query = reduce(state, (result, attValue, key) => {
       let query = result
       if (attValue.attribute && attValue.value && attValue.operator) {
         query = this.criteriaToOpenSearchFormat(attValue.attribute, attValue.value, attValue.operator)
@@ -75,8 +77,8 @@ export class TwoTemporalCriteriaSimpleComponent extends React.Component {
         }
       }
       return query
-    },'')
-    this.props.onChange(query, this.props.pluginInstanceId)
+    }, '')
+    return query
   }
 
   /**
@@ -87,26 +89,27 @@ export class TwoTemporalCriteriaSimpleComponent extends React.Component {
    * @returns {string}
    */
   criteriaToOpenSearchFormat = (attribute, value, operator) => {
-    let lvalue= value || '*'
     let openSearchQuery = ''
-    switch (operator) {
-      case EnumTemporalComparator.EQ :
-        openSearchQuery = `${getAttributeName(attribute)}:${value}`
-        break
-      case EnumTemporalComparator.LE :
-        openSearchQuery = `${getAttributeName(attribute)}:[* TO ${lvalue}]`
-        break
-      case EnumTemporalComparator.GE :
-        openSearchQuery = `${getAttributeName(attribute)}:[${lvalue} TO *]`
-        break
-      default:
-        openSearchQuery = ''
+    if (operator && value) {
+      switch (operator) {
+        case EnumTemporalComparator.EQ :
+          openSearchQuery = `${getAttributeName(attribute)}:${value.toISOString()}`
+          break
+        case EnumTemporalComparator.LE :
+          openSearchQuery = `${getAttributeName(attribute)}:[* TO ${value.toISOString()}]`
+          break
+        case EnumTemporalComparator.GE :
+          openSearchQuery = `${getAttributeName(attribute)}:[${value.toISOString()} TO *]`
+          break
+        default:
+          openSearchQuery = ''
+      }
     }
     return openSearchQuery
   }
 
   render() {
-    const { attributes, pluginInstanceId } = this.props
+    const { attributes } = this.props
 
     return (
       <div style={{ display: 'flex' }}>
@@ -123,9 +126,9 @@ export class TwoTemporalCriteriaSimpleComponent extends React.Component {
               <TemporalCriteriaComponent // we are mapping on an object this is why we disable the lint next line
                 key={attributeName} // eslint-disable-line react/no-array-index-key
                 attribute={attribute}
-                pluginInstanceId={pluginInstanceId}
                 onChange={this.changeValue}
-                comparator={EnumTemporalComparator.LE}
+                comparator={this.state[attribute.name].operator}
+                value={this.state[attribute.name].value}
               />)
             .zip(new Array(keys(attributes).length).fill(<span key={uniqueId('react_generated_uuid_')}><FormattedMessage
               id="criterion.aggregator.and"

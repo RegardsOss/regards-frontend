@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import {keys} from 'lodash'
+import values from 'lodash/values'
 import {FormattedMessage} from 'react-intl'
 import TextField from 'material-ui/TextField'
 import NumericalComparatorComponent from './NumericalComparatorComponent'
@@ -18,10 +18,6 @@ export class NumericalCriteriaComponent extends React.Component {
 
   static propTypes = {
     /**
-     * Plugin identifier
-     */
-    pluginInstanceId: React.PropTypes.string.isRequired,
-    /**
      * Callback to change the current criteria values in form
      * Parameters :
      * criteria : an object like : {attribute:<AttributeModel>, comparator:<ComparatorEnumType>, value:<value>}
@@ -37,7 +33,11 @@ export class NumericalCriteriaComponent extends React.Component {
     /**
      * Init with a specific comparator set.
      */
-    comparator: React.PropTypes.oneOf(keys(EnumNumericalComparator)),
+    comparator: React.PropTypes.oneOf(values(EnumNumericalComparator)),
+    /**
+     * Default value to display
+     */
+    value: React.PropTypes.number,
     /**
      * Does the comparator is modifiable
      */
@@ -69,8 +69,8 @@ export class NumericalCriteriaComponent extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      value: undefined,
-      comparator: props.comparator || 'EQ',
+      value: props.value,
+      comparator: props.comparator || EnumNumericalComparator.EQ,
     }
   }
 
@@ -81,15 +81,11 @@ export class NumericalCriteriaComponent extends React.Component {
    * @param {String} newValue The new value of the text field.
    */
   handleChangeValue = (event, newValue) => {
-    const {attribute, onChange} = this.props
-    const {comparator} = this.state
-
     this.setState({
       value: this.parse(newValue),
+    }, () => {
+      this.props.onChange(this.props.attribute, this.state.value, this.state.comparator)
     })
-
-    // Call the plugin's output callback
-    this.props.onChange(attribute, newValue, comparator)
   }
 
   /**
@@ -98,14 +94,11 @@ export class NumericalCriteriaComponent extends React.Component {
    * @param {String} comparator The new value of the comparator.
    */
   handleChangeComparator = (comparator) => {
-    const {attribute, onChange} = this.props
-    const {value} = this.state
-
     this.setState({
       comparator,
+    }, () => {
+      this.props.onChange(this.props.attribute, this.state.value, this.state.comparator)
     })
-
-    this.props.onChange(attribute, value, comparator)
   }
 
   /**

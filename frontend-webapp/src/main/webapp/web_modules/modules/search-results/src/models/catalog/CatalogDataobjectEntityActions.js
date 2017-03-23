@@ -3,7 +3,7 @@
  **/
 import Schemas from '@regardsoss/api'
 import { BasicFacetsPageableActions } from '@regardsoss/store-utils'
-import {CatalogEntityActions} from './CatalogEntityActions'
+import { CatalogEntityActions } from './CatalogEntityActions'
 
 /**
  * Redux store Actions for Module entities.

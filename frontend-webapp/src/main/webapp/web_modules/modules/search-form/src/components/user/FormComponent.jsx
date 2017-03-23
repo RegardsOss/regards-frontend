@@ -1,6 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import map from 'lodash/map'
 import RaisedButton from 'material-ui/RaisedButton'
 import SearchIcon from 'material-ui/svg-icons/action/search'
 import { Card, CardText, CardHeader } from 'material-ui/Card'
@@ -35,6 +36,7 @@ class FormComponent extends React.Component {
     this.state = {
       expanded: props.expanded,
     }
+    this.pluginStates = {}
   }
 
   onHandleSearch = () => {
@@ -56,7 +58,27 @@ class FormComponent extends React.Component {
     }
   }
 
+  /**
+   * Function passed to plugins to give them back theire previous state in order to initialize them
+   * with their previous values.
+   *
+   * @param pluginId
+   * @returns {{}}
+   */
+  getPluginDefaultState = (pluginId) => {
+    return this.pluginStates[pluginId] ? this.pluginStates[pluginId] : {}
+  }
+  /**
+   * Function passed to plugins to save their state. So they can retrieve it later
+   * @param pluginId
+   * @param state
+   */
+  savePluginState = (pluginId, state) => {
+    this.pluginStates[pluginId] = state
+  }
+
   render() {
+
     return (
       <Card
         onExpandChange={this.handleExpand}
@@ -72,7 +94,11 @@ class FormComponent extends React.Component {
             appName="user"
             container={this.props.layout}
             plugins={this.props.plugins}
-            pluginProps={this.props.pluginsProps}
+            pluginProps={{
+              ...this.props.pluginsProps,
+              getDefaultState: this.getPluginDefaultState,
+              savePluginState: this.savePluginState
+            }}
             mainContainer
           />
           <div
