@@ -6,6 +6,7 @@ import { assert } from 'chai'
 import { stub } from 'sinon'
 import { IntlStub } from '@regardsoss/tests-helpers'
 import WordFacetSelectorComponent from '../../src/components/WordFacetSelectorComponent'
+import FacetSelectorComponent from '../../src/components/FacetSelectorComponent'
 
 import styles from '../../src/styles/styles'
 import facetsNetworkDump from '../network-dump/search-results-dump'
@@ -38,11 +39,10 @@ describe('[SEARCH FACETS] Testing WordFacetSelectorComponent', () => {
   it('should render properly', () => {
     const props = {
       facet: aFacetModel,
+      applyFilter: () => { },
     }
     const enzymeWrapper = shallow(<WordFacetSelectorComponent {...props} />, { context })
-    // TODO something like that
-    // assert.equal(enzymeWrapper.find(AComponent).length, ALENGTH)
-    // TODO or something like that
-    // assert.isFalse(enzymeWrapper.find(AComponent).props().isLoading, 'Loading should be false')
+    // We assert here that the rendering is correctly delegated to FacetSelectorComponent
+    assert.equal(enzymeWrapper.find(FacetSelectorComponent).length, 1, 'Rendering should be delegated to RangeFacetSelectorComponent')
   })
 })

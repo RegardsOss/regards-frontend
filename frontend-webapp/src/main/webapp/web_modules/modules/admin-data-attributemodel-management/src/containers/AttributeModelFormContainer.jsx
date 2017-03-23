@@ -183,7 +183,7 @@ export class AttributeModelFormContainer extends React.Component {
     const restriction = this.getRestriction(values)
     const previousAttrModel = this.props.attrModel.content
     const updatedAttrModel = Object.assign({}, previousAttrModel, {
-      name: values.name,
+      label: values.label,
       description: values.description,
       type: values.type,
       alterable: values.alterable,
@@ -210,6 +210,7 @@ export class AttributeModelFormContainer extends React.Component {
     const updatedAttrModel = {
       fragment,
       name: values.name,
+      label: values.label,
       description: values.description,
       type: values.type,
       alterable: values.alterable,

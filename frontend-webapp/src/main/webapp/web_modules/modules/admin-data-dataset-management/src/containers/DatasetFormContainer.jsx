@@ -45,6 +45,7 @@ export class DatasetFormContainer extends React.Component {
       isLoading: !isCreating,
       state: states.FORM_ATTRIBUTE,
       currentDataset: null,
+      descriptionFile: null,
     }
   }
 
@@ -85,10 +86,11 @@ export class DatasetFormContainer extends React.Component {
 
   /**
    * Called by saveSubsetting to save the updatedDataset
-   * @param newDataset
+   * @param formValues
+   * @param files
    */
-  handleUpdate = (updatedDataset) => {
-    Promise.resolve(this.props.updateDataset(updatedDataset.content.id, updatedDataset.content))
+  handleUpdate = (formValues, files) => {
+    Promise.resolve(this.props.updateDataset(this.props.params.datasetId, formValues, files))
       .then((actionResult) => {
         // We receive here the action
         if (!actionResult.error) {
@@ -99,10 +101,11 @@ export class DatasetFormContainer extends React.Component {
 
   /**
    * Called by saveSubsetting to save the newDataset
-   * @param newDataset
+   * @param formValues
+   * @param files
    */
-  handleCreate = (newDataset) => {
-    Promise.resolve(this.props.createDataset(newDataset.content))
+  handleCreate = (formValues, files) => {
+    Promise.resolve(this.props.createDataset(formValues, files))
       .then((actionResult) => {
         // We receive here the action
         if (!actionResult.error) {
@@ -120,17 +123,26 @@ export class DatasetFormContainer extends React.Component {
    * @param attributes
    * @param modelObjectId
    */
-  saveAttributes = (label, modelDatasetId, attributes, modelObjectId) => {
+  saveAttributes = (label, modelDatasetId, attributes, modelObjectId, descriptionFileContent, descriptionUrl) => {
     const { isCreating, currentDataset } = this.state
+    const descriptionFileType = descriptionFileContent && (descriptionFileContent.type || 'text/markdown')
+    // Save the file in the state if there is
+    if (descriptionFileContent) {
+      this.setState({
+        descriptionFile: descriptionFileContent,
+      })
+    }
     if (isCreating) {
       const newValues = {
         content: {
           label,
           attributes,
+          descriptionFileType,
           model: {
             id: modelDatasetId,
           },
           dataModel: modelObjectId,
+          descriptionUrl,
           plgConfDataSource: parseInt(this.props.params.datasourceId, 10),
           tags: [],
           type: 'DATASET',
@@ -143,6 +155,8 @@ export class DatasetFormContainer extends React.Component {
     } else {
       currentDataset.content.label = label
       currentDataset.content.attributes = attributes
+      currentDataset.content.descriptionFileType = descriptionFileType
+      currentDataset.content.descriptionUrl = descriptionUrl
       this.setState({
         currentDataset,
         state: states.FORM_SUBSETTING,
@@ -151,15 +165,22 @@ export class DatasetFormContainer extends React.Component {
   }
 
   saveSubsetting = (formValues) => {
-    const { currentDataset } = this.state
+    const { currentDataset, descriptionFile } = this.state
     currentDataset.content.subsetting = formValues.subsetting
     this.setState({
       currentDataset,
     })
+    const apiValues = {
+      dataset: currentDataset.content,
+    }
+    const files = {}
+    if (descriptionFile) {
+      files.file = descriptionFile
+    }
     if (this.state.isEditing) {
-      this.handleUpdate(currentDataset)
+      this.handleUpdate(apiValues, files)
     } else {
-      this.handleCreate(currentDataset)
+      this.handleCreate(apiValues, files)
     }
   }
 
@@ -214,8 +235,8 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchDataset: id => dispatch(DatasetActions.fetchEntity(id)),
-  createDataset: values => dispatch(DatasetActions.createEntity(values)),
-  updateDataset: (id, values) => dispatch(DatasetActions.updateEntity(id, values)),
+  createDataset: (values, files) => dispatch(DatasetActions.createEntityUsingMultiPart(values, files)),
+  updateDataset: (id, values, files) => dispatch(DatasetActions.updateEntityUsingMultiPart(id, values, files)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(DatasetFormContainer)

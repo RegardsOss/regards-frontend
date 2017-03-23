@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { map, pickBy, valuesIn } from 'lodash'
 
 

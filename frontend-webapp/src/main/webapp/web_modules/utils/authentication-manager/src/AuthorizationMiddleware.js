@@ -28,7 +28,10 @@ const putAuthorization = () => next => (action) => {
     callAPI.headers = (callStore) => {
       const headers = {
         Accept: 'application/json',
-        'Content-type': 'application/json',
+      }
+      // The body can be a FormData (object) or the result of a JSON.stringify() (string)
+      if (typeof callAPI.body === 'string') {
+        headers['Content-type'] = 'application/json'
       }
       const auth = getAuthorization(callStore, callAPI)
       if (auth.length) {

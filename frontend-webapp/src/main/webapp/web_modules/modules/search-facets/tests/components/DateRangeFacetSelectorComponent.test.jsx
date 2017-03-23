@@ -6,7 +6,7 @@ import { assert } from 'chai'
 import { stub } from 'sinon'
 import { IntlStub } from '@regardsoss/tests-helpers'
 import DateRangeFacetSelectorComponent from '../../src/components/DateRangeFacetSelectorComponent'
-import RangeFacetSelectorComponent from '../../src/components/RangeFacetSelectorComponent'
+import FacetSelectorComponent from '../../src/components/FacetSelectorComponent'
 
 import styles from '../../src/styles/styles'
 import facetsNetworkDump from '../network-dump/search-results-dump'
@@ -36,13 +36,13 @@ describe('[SEARCH FACETS] Testing DateRangeFacetSelectorComponent', () => {
     },
     moduleTheme: styles({}),
   }
-  // TODO test some rendering
   it('should render properly', () => {
     const props = {
       facet: aFacetModel,
+      applyFilter: () => { },
     }
     const enzymeWrapper = shallow(<DateRangeFacetSelectorComponent {...props} />, { context })
-    // We assert here that the rendering is delegated to RangeFacetSelectorComponent
-    assert.equal(enzymeWrapper.find(RangeFacetSelectorComponent).length, 1, 'Rendering should be delegated to RangeFacetSelectorComponent')
+    // We assert here that the rendering is correctly delegated to FacetSelectorComponent
+    assert.equal(enzymeWrapper.find(FacetSelectorComponent).length, 1, 'Rendering should be delegated to RangeFacetSelectorComponent')
   })
 })

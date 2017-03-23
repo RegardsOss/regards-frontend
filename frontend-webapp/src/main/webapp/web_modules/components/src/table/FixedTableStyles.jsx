@@ -7,65 +7,101 @@
  * @param theme
  * @author Sébastien Binda
  */
-export default theme => ({
-  table: {
-    position: 'relative',
+export default (theme) => {
+  const cellBorder = `1px solid ${theme.tableRow.borderColor}`
+
+  const commonHeaderStyles = {
+    backgroundColor: theme.table.backgroundColor,
+    color: theme.tableHeaderColumn.textColor,
+    fontFamily: theme.fontFamily,
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center',
-  },
-  cellOdd: {
-    backgroundColor: theme.table.backgroundColor,
-    borderBottom: `1px solid ${theme.tableRow.borderColor}`,
-    borderRight: `1px solid ${theme.tableRow.borderColor}`,
-  },
-  cellEven: {
+    borderBottom: cellBorder,
+  }
+
+  const commonCellEven = {
     backgroundColor: theme.tableRow.stripeColor,
-    borderBottom: `1px solid ${theme.tableRow.borderColor}`,
-    borderRight: `1px solid ${theme.tableRow.borderColor}`,
-  },
-  cellOddContent: {
+    borderBottom: cellBorder,
+  }
+
+  const commonCellOdd = {
     backgroundColor: theme.table.backgroundColor,
-    color: theme.tableRow.textColor,
-    fontFamily: theme.fontFamily,
-    display: 'flex',
-    justifyContent: 'center',
-  },
-  cellEvenContent: {
-    backgroundColor: 'transparent',
-    color: theme.tableRow.textColor,
-    fontFamily: theme.fontFamily,
-    display: 'flex',
-    justifyContent: 'center',
-  },
-  checkBoxCell: {
-    backgroundColor: theme.table.backgroundColor,
-    borderBottom: `1px solid ${theme.tableRow.borderColor}`,
-  },
-  cellHeader: {
-    backgroundColor: theme.table.backgroundColor,
-    color: theme.tableHeaderColumn.textColor,
-    fontFamily: theme.fontFamily,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderBottom: `1px solid ${theme.tableRow.borderColor}`,
-    borderRight: `1px solid ${theme.tableRow.borderColor}`,
-  },
-  fixedCellHeader: {
-    backgroundColor: theme.table.backgroundColor,
-    color: theme.tableHeaderColumn.textColor,
-    fontFamily: theme.fontFamily,
-    display: 'flex',
-    justifyContent: 'center',
-    borderBottom: `1px solid ${theme.tableRow.borderColor}`,
-  },
-  loadingFilter: {
-    backgroundColor: theme.palette.primary1Color,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    opacity: '0.5',
-    zIndex: '1000',
-  },
-})
+    borderBottom: cellBorder,
+  }
+
+  return ({
+    header: {
+      line: {
+        classNames: 'row',
+      },
+      tabsLine: {
+        classNames: 'col-xs-100',
+        styles: {
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+        },
+      },
+      text: {
+        styles: {
+          color: theme.palette.textColor,
+          margin: '1em 1em 1em 1em',
+        },
+      },
+    },
+    table: {
+      position: 'relative',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    cellOdd: {
+      ...commonCellOdd,
+      borderRight: cellBorder,
+    },
+    lastCellOdd: { ...commonCellOdd },
+    cellEven: {
+      ...commonCellEven,
+      borderRight: cellBorder,
+    },
+    lastCellEven: { ...commonCellEven },
+    cellOddContent: {
+      backgroundColor: theme.table.backgroundColor,
+      color: theme.tableRow.textColor,
+      fontFamily: theme.fontFamily,
+      display: 'flex',
+      justifyContent: 'center',
+    },
+    cellEvenContent: {
+      backgroundColor: 'transparent',
+      color: theme.tableRow.textColor,
+      fontFamily: theme.fontFamily,
+      display: 'flex',
+      justifyContent: 'center',
+    },
+    checkBoxCell: {
+      backgroundColor: theme.table.backgroundColor,
+      borderBottom: `1px solid ${theme.tableRow.borderColor}`,
+    },
+    cellHeader: {
+      ...commonHeaderStyles,
+      alignItems: 'center',
+      borderRight: cellBorder,
+    },
+    lastCellHeader: {
+      ...commonHeaderStyles,
+      alignItems: 'center',
+    },
+    fixedCellHeader: {
+      ...commonHeaderStyles,
+    },
+    loadingFilter: {
+      backgroundColor: theme.palette.primary1Color,
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      opacity: '0.5',
+      zIndex: '1000',
+    },
+  })
+}

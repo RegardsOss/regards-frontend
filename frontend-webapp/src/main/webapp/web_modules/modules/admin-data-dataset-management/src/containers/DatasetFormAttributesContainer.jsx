@@ -66,7 +66,7 @@ export class DatasetFormAttributesContainer extends React.Component {
   onSubmit = (values) => {
     const datasourceObjectModelId = this.props.currentDatasource.content.mapping.model
     const attributes = this.extractAttributesFromValues(values)
-    this.props.handleSave(values.label, values.model, attributes, datasourceObjectModelId)
+    this.props.handleSave(values.label, values.model, attributes, datasourceObjectModelId, values.descriptionFileContent, values.descriptionUrl)
   }
 
   /**

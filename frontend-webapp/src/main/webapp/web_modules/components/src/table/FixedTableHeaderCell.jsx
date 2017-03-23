@@ -20,6 +20,7 @@ class FixedTableHeaderCell extends React.Component {
     fixed: React.PropTypes.bool,
     sortable: React.PropTypes.bool,
     sortAction: React.PropTypes.func,
+    isLastColumn: React.PropTypes.bool.isRequired,
   }
 
   static contextTypes = {
@@ -36,7 +37,7 @@ class FixedTableHeaderCell extends React.Component {
 
   runSort = () => {
     switch (this.state.sortType) {
-      case 'ASC' :
+      case 'ASC':
         this.props.sortAction(null)
         this.setState({ sortType: null })
         break
@@ -63,7 +64,7 @@ class FixedTableHeaderCell extends React.Component {
       }
       let icon = <Sort />
       switch (this.state.sortType) {
-        case 'ASC' :
+        case 'ASC':
           icon = <SortAsc />
           break
         case 'DESC':
@@ -86,21 +87,21 @@ class FixedTableHeaderCell extends React.Component {
   }
 
   render() {
-    const styles = Styles(this.context.muiTheme)
-    const lineHeight = this.props.lineHeight - 1
-    let cellStyle = styles.cellHeader
-    if (this.props.fixed) {
-      cellStyle = styles.fixedCellHeader
+    const { cellHeader, fixedCellHeader, lastCellHeader } = Styles(this.context.muiTheme)
+    const { fixed, isLastColumn, lineHeight, label } = this.props
+    let cellStyle
+    if (fixed) {
+      cellStyle = fixedCellHeader
+    } else {
+      cellStyle = isLastColumn ? lastCellHeader : cellHeader
     }
-    cellStyle.lineHeight = `${lineHeight}px`
-    if (!this.props.label) {
-      cellStyle.minHeight = `${this.props.lineHeight}px`
-    }
+    const height = `${lineHeight - 1}px`
+    const minHeight = `${lineHeight - 1}px`
     return (
-      <div style={cellStyle}>
+      <div style={{ ...cellStyle, height, minHeight }}>
         {this.renderSortAction()}
-        <div>{this.props.label}</div>
-      </div>
+        <div > {label}</div >
+      </div >
     )
   }
 }

@@ -5,14 +5,11 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { stub } from 'sinon'
 import { IntlStub } from '@regardsoss/tests-helpers'
-import RangeFacetSelectorComponent from '../../src/components/RangeFacetSelectorComponent'
+import FilterDisplayComponent from '../../src/components/FilterDisplayComponent'
 
 import styles from '../../src/styles/styles'
-import facetsNetworkDump from '../network-dump/search-results-dump'
 
-const aFacetModel = facetsNetworkDump.facets[2]
-
-describe('[SEARCH FACETS] Testing RangeFacetSelectorComponent', () => {
+describe('[SEARCH FACETS] Testing FilterDisplayComponent', () => {
   // Since react will console.error propType warnings, that which we'd rather have
   // as errors, we use sinon.js to stub it into throwing these warning as errors
   // instead.
@@ -25,7 +22,7 @@ describe('[SEARCH FACETS] Testing RangeFacetSelectorComponent', () => {
     console.error.restore()
   })
   it('should exists', () => {
-    assert.isDefined(RangeFacetSelectorComponent)
+    assert.isDefined(FilterDisplayComponent)
   })
   const context = {
     intl: IntlStub,
@@ -35,15 +32,16 @@ describe('[SEARCH FACETS] Testing RangeFacetSelectorComponent', () => {
     },
     moduleTheme: styles({}),
   }
-  // TODO test some rendering
   it('should render properly', () => {
     const props = {
-      facet: aFacetModel,
+      filter: {
+        filterLabel: 'any',
+        filterKey: 'any',
+        openSearchQuery: ' any',
+      },
+      deleteFilter: () => { },
     }
-    const enzymeWrapper = shallow(<RangeFacetSelectorComponent {...props} />, { context })
-    // TODO test it
-    // assert.equal(enzymeWrapper.find(AComponent).length, ALENGTH)
-    // TODO or something like that
-    // assert.isFalse(enzymeWrapper.find(AComponent).props().isLoading, 'Loading should be false')
+    // simple render test (nothing static to test here)
+    shallow(<FilterDisplayComponent {...props} />, { context })
   })
 })
