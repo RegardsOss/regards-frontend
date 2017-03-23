@@ -32,7 +32,7 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing DatasetLineComponent', () => {
   it('Render properly', () => {
     const props = {
       onDelete: () => {},
-      entity: DatasetDump[1],
+      entity: DatasetDump[23],
       accessRights: [],
     }
     const enzymeWrapper = shallow(<DatasetLineComponent {...props} />, { context })

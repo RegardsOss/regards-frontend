@@ -13,6 +13,7 @@ class LayoutActions extends BasicPageableActions {
     super({
       namespace: 'ui-configuration/layout',
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-access-project/layouts`,
+      entityPathVariable: 'applicationId',
       schemaTypes: {
         ENTITY: Schemas.LAYOUT,
         ENTITY_ARRAY: Schemas.LAYOUT_ARRAY,

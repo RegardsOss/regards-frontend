@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { Field } from 'redux-form'
 import { intlShape } from 'react-intl'
 

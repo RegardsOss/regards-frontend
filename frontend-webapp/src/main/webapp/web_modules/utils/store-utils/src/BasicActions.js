@@ -122,6 +122,8 @@ class BasicActions {
         default:
         // Nothing to do
       }
+    } else if (requestHttpVerb === RequestVerbEnum.GET_LIST) {
+      requestHttpVerb = RequestVerbEnum.GET
     }
 
     return `${microservice}@/${endpoint}@${requestHttpVerb}`

@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { chain, filter, pickBy } from 'lodash'
 import { BasicPageableSelectors } from '@regardsoss/store-utils'
 

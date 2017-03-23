@@ -36,6 +36,7 @@ describe('[FORM MODULE] Testing Form User component', () => {
   it('Should render form configured layout with given plugins', () => {
     const handleSearchCallback = spy()
     const props = {
+      description: 'Test',
       layout: {
         id: 'main',
         type: 'type',

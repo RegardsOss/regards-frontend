@@ -31,7 +31,7 @@ config = merge(config, {
       // The path to the manifest file which maps between
       // modules included in a bundle and the internal IDs
       // within that bundle
-      manifest: require(`${__dirname}/build/core-manifest.json`),
+      manifest: require(`${__dirname}/dist/dev/core-manifest.json`),
       context: __dirname,
     }),
     new webpack.DefinePlugin({

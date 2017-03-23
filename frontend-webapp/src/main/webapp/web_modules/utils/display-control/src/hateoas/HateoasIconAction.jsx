@@ -15,21 +15,21 @@ import HateoasLinks from '../model/HateoasLinks'
 class HateoasIconAction extends React.Component {
 
   static propTypes = {
-    entityLinks: React.PropTypes.arrayOf(HateoasLinks).isRequired,
-    hateoasKey: React.PropTypes.string.isRequired,
+    entityLinks: React.PropTypes.arrayOf(HateoasLinks),
+    hateoasKey: React.PropTypes.string,
     hateoasDependency: React.PropTypes.string,
   }
 
   renderIcon = () => {
     const { entityLinks, hateoasKey } = this.props
-    if (find(entityLinks, entity => entity.rel === hateoasKey)) {
+    if ((!entityLinks && !hateoasKey) || find(entityLinks, entity => entity.rel === hateoasKey)) {
       return (
         <IconButton
           {...omit(this.props, ['entityLinks', 'hateoasKey'])}
         />
       )
     }
-    return null
+    return <span />
   }
 
   render() {

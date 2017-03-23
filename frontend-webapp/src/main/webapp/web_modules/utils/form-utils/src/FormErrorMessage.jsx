@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { ErrorDecoratorComponent, ShowableAtRender } from '@regardsoss/components'
 
 const FormErrorMessage = ({ children }) => {

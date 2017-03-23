@@ -1,10 +1,11 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { chain, keys, uniqueId } from 'lodash'
+import { chain, keys, uniqueId, reduce } from 'lodash'
 import { FormattedMessage } from 'react-intl'
 import TemporalCriteriaComponent from './TemporalCriteriaComponent'
-import {AttributeModel} from '../common/AttributeModel'
+import {AttributeModel,getAttributeName} from '../common/AttributeModel'
+import EnumTemporalComparator from '../model/EnumTemporalComparator'
 
 /**
  * Component allowing the user to configure the temporal value of two different attributes with a date comparator (after, before, ...).
@@ -37,8 +38,75 @@ export class TwoTemporalCriteriaSimpleComponent extends React.Component {
     attributes: React.PropTypes.objectOf(AttributeModel),
   }
 
+  constructor(props) {
+    super(props)
+    const state = {}
+    state[props.attributes.firstField.name] = {
+      attribute: props.attributes.firstField,
+      value: null,
+      operator: EnumTemporalComparator.LE,
+    }
+    state[props.attributes.secondField.name] = {
+      attribute: props.attributes.secondField,
+      value: null,
+      operator: EnumTemporalComparator.LE,
+    }
+    this.state = state
+  }
+
+  changeValue = (attribute, value, operator) => {
+    const newState = Object.assign({}, this.state)
+    const newAttState = Object.assign({}, this.state[attribute.name])
+
+    newAttState.value = value
+    newAttState.operator = operator
+    newState[attribute.name] = newAttState
+
+    // Update state to save the new value
+    this.setState(newState)
+
+    // Update query and send change to the plugin handler
+    const query = reduce(newState, (result, attValue, key) => {
+      let query = result
+      if (attValue.attribute && attValue.value && attValue.operator) {
+        query = this.criteriaToOpenSearchFormat(attValue.attribute, attValue.value, attValue.operator)
+        if (result !== '' && query !== '') {
+          query = `${result} AND ${query}`
+        }
+      }
+      return query
+    },'')
+    this.props.onChange(query, this.props.pluginInstanceId)
+  }
+
+  /**
+   * Format criterion to openSearch format for plugin handler
+   * @param attribute
+   * @param value
+   * @param operator
+   * @returns {string}
+   */
+  criteriaToOpenSearchFormat = (attribute, value, operator) => {
+    let lvalue= value || '*'
+    let openSearchQuery = ''
+    switch (operator) {
+      case EnumTemporalComparator.EQ :
+        openSearchQuery = `${getAttributeName(attribute)}:${value}`
+        break
+      case EnumTemporalComparator.LE :
+        openSearchQuery = `${getAttributeName(attribute)}:[* TO ${lvalue}]`
+        break
+      case EnumTemporalComparator.GE :
+        openSearchQuery = `${getAttributeName(attribute)}:[${lvalue} TO *]`
+        break
+      default:
+        openSearchQuery = ''
+    }
+    return openSearchQuery
+  }
+
   render() {
-    const { attributes, pluginInstanceId, onChange } = this.props
+    const { attributes, pluginInstanceId } = this.props
 
     return (
       <div style={{ display: 'flex' }}>
@@ -56,7 +124,8 @@ export class TwoTemporalCriteriaSimpleComponent extends React.Component {
                 key={attributeName} // eslint-disable-line react/no-array-index-key
                 attribute={attribute}
                 pluginInstanceId={pluginInstanceId}
-                onChange={onChange}
+                onChange={this.changeValue}
+                comparator={EnumTemporalComparator.LE}
               />)
             .zip(new Array(keys(attributes).length).fill(<span key={uniqueId('react_generated_uuid_')}><FormattedMessage
               id="criterion.aggregator.and"

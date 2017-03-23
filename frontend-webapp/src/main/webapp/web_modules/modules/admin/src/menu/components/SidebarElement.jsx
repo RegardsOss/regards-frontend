@@ -40,7 +40,7 @@ class SidebarElement extends React.Component {
         <MenuItem
           style={
             this.props.currentPath.toLowerCase().includes(urlToSearch) ?
-            { backgroundColor: this.context.muiTheme.palette.accent2Color } : null
+            { backgroundColor: this.context.muiTheme.palette.primary1Color } : null
           }
           primaryText={this.props.primaryText}
           leftIcon={this.props.leftIcon}

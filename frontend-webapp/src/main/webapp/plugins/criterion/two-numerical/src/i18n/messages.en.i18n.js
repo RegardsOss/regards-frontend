@@ -9,6 +9,9 @@
 const messages = {
   'criterion.search.field.label': 'Number ...',
   'criterion.aggregator.text': 'and',
+
+  'criterion.aggregator.between': 'between',
+  'criterion.aggregator.and': 'and',
 }
 
 export default messages

@@ -24,6 +24,7 @@ class ModuleContainer extends React.Component {
     // Props supplied by LazyModuleComponent
     appName: React.PropTypes.string,
     project: React.PropTypes.string,
+    description: React.PropTypes.string,
     // Module configuration
     moduleConf: ModuleConfiguration.isRequired,
     // Set by mapDispatchToProps
@@ -41,6 +42,7 @@ class ModuleContainer extends React.Component {
     this.criterionValues = {}
     this.state = {
       searchQuery: '',
+      expanded: true,
     }
   }
 
@@ -49,6 +51,7 @@ class ModuleContainer extends React.Component {
 
     // Read query parameters form current URL
     const query = browserHistory ? browserHistory.getCurrentLocation().query : null
+    const expanded = !query || !query.q
 
     let q = this.getInitialQuery()
 
@@ -58,6 +61,7 @@ class ModuleContainer extends React.Component {
 
     this.setState({
       searchQuery: q ? this.createFullSearchParameters(q) : '',
+      expanded,
     })
   }
 
@@ -75,11 +79,15 @@ class ModuleContainer extends React.Component {
     if (query && query.q && query.q !== this.state.searchQuery) {
       this.setState({
         searchQuery: query.q,
+        expanded: false,
       })
+      this.criterionValues = {}
     } else if (!query.q && this.state.searchQuery !== this.getInitialQuery()) {
       this.setState({
         searchQuery: this.getInitialQuery(),
+        expanded: true,
       })
+      this.criterionValues = {}
     }
   }
 
@@ -112,7 +120,6 @@ class ModuleContainer extends React.Component {
     }
     return ''
   }
-
 
   /**
    * Add the attributeModels properties to the criterion conf
@@ -219,14 +226,15 @@ class ModuleContainer extends React.Component {
     this.setState({
       searchQuery: query,
     })
+    this.criterionValues = {}
     browserHistory.push(`${browserHistory.getCurrentLocation().pathname}?q=${query}`)
   }
 
   renderForm() {
     // If a search query is set, hide form component
-    if (this.state.searchQuery && this.state.searchQuery !== this.getInitialQuery()) {
+    /* if (this.state.searchQuery && this.state.searchQuery !== this.getInitialQuery()) {
       return null
-    }
+    }*/
     if (this.props.moduleConf.layout) {
       const pluginsProps = {
         onChange: this.onCriteriaChange,
@@ -234,6 +242,8 @@ class ModuleContainer extends React.Component {
       const criterionWithAttributes = this.getCriterionWithAttributeModels()
       return (
         <FormComponent
+          expanded={this.state.expanded}
+          description={this.props.description}
           layout={this.props.moduleConf.layout}
           plugins={criterionWithAttributes}
           pluginsProps={pluginsProps}
@@ -252,8 +262,8 @@ class ModuleContainer extends React.Component {
         applicationId: this.props.appName,
         conf: {
           resultType: this.props.moduleConf.resultType,
-          attributesConf: this.props.moduleConf.attributes,
-          attributesRegroupementsConf: this.props.moduleConf.attributesRegroupements,
+          attributes: this.props.moduleConf.attributes,
+          attributesRegroupements: this.props.moduleConf.attributesRegroupements,
           selectableAttributes: this.props.attributeModels,
           enableFacettes: this.props.moduleConf.enableFacettes,
           searchQuery: this.state.searchQuery,

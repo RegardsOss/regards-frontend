@@ -119,7 +119,7 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
             }}
           >
             <div style={styles.description.style} className={styles.description.class}>
-              {this.context.intl.formatMessage({ id: 'role.form.description' })} : {resource.content.description}
+              {this.context.intl.formatMessage({ id: 'role.form.description' })}              : {resource.content.description}
             </div>
             <span>
               <a
@@ -139,7 +139,7 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
           </Chip>
         }
       >
-        {this.context.intl.formatMessage({ id: 'role.form.resource' })}  :
+        {this.context.intl.formatMessage({ id: 'role.form.resource' })}        :
         {resource.content.resource}
       </ListItem>
     ))

@@ -24,6 +24,7 @@
       "id": 0,
       "name": "language",
       "description": "Language for movies",
+      "label": "Language",
       "defaultValue": null,
       "type": "STRING",
       "unit": null,
@@ -41,6 +42,7 @@
     {
       "id": 1,
       "name": "format",
+      "label": "Format du support",
       "description": "Format for movies",
       "defaultValue": null,
       "type": "STRING",
@@ -573,6 +575,25 @@
         "descirption": "Description du premier modele de jeux de données",
         "type": "DATASET"
       }
+    },
+    {
+      "label": "sdfqsdf",
+      "attributes": {
+        "Attribute_0_0": "QSDf",
+        "Fragment 2": {
+          "Attribute_4": "qsdf"
+        }
+      },
+      "model": {
+        "id": 2,
+        "name": "Mon nom de modèle"
+      },
+      "dataModel": 5,
+      "plgConfDataSource": 4,
+      "tags": ["URN:AIP:COLLECTION:PROJECT:fdsfdsf15-8a93-4d06-a90a-f657c26d3930:V1", "habla espanol"],
+      "subsetting": "fqsdsdf qsdf qsf sdf sf f",
+      "descriptionUrl": "http://www.google.fr",
+      "id": 23
     }
   ],
   "datasources": [
@@ -599,6 +620,9 @@
         },
         {
           "email": "mon@adresse.em"
+        },
+        {
+          "email": "hasbeen381@hotmail.com"
         }
       ],
       "accessRights": [

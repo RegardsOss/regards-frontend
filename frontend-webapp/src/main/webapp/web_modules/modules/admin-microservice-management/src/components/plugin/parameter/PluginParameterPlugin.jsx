@@ -47,7 +47,6 @@ export class PluginParameterPlugin extends React.Component {
 
   constructor(props) {
     super(props)
-    console.log('xab', props)
     this.state = {
       mode: 'view',
       openMenu: false,
@@ -88,7 +87,7 @@ export class PluginParameterPlugin extends React.Component {
       case 'copy':
         return (
           <div>
-            {name}:
+            {name}            :
             <RaisedButton
               label={selectedPluginConfiguration ? selectedPluginConfiguration.content.label : <FormattedMessage id="microservice-management.plugin.parameter.plugin.choose" />}
               onTouchTap={this.handleOpenMenu}

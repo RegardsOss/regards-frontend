@@ -136,7 +136,6 @@ ${JSON.stringify(this.state.themesAppliedList[this.state.themeInd])}`
     const newAppliedList = themesAppliedList.slice(0, this.state.themeInd + 1)
             .concat(newTheme, themesAppliedList.slice(this.state.themeInd + 1))
     const themesNameList = this.genNameList(newAppliedList)
-    console.log(themesNameList)
     this.setState({ themesAppliedList: newAppliedList, themesNameList })
   }
 

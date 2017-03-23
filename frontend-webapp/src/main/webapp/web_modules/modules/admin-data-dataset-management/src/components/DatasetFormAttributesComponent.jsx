@@ -7,33 +7,43 @@ import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowCol
 import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
 import { Dataset, Model, ModelAttribute, Datasource } from '@regardsoss/model'
-import { RenderTextField, RenderSelectField, Field, ErrorTypes } from '@regardsoss/form-utils'
+import { RenderTextField, RenderSelectField, RenderFileField, Field, ErrorTypes } from '@regardsoss/form-utils'
 import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import MenuItem from 'material-ui/MenuItem'
 import SelectField from 'material-ui/SelectField'
+import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
 import DatasetStepperComponent from './DatasetStepperComponent'
 
+const DESCRIPTION_MODE = {
+  NOTHING: 'nothing',
+  FILE: 'file',
+  FILE_ALREADY_DEFINED: 'file_already_defined',
+  URL: 'url',
+}
 /**
  * React component to list datasets.
  */
-export class DatasetFormComponent extends React.Component {
+export class DatasetFormAttributesComponent extends React.Component {
 
   static propTypes = {
     currentDataset: Dataset,
-    onSubmit: React.PropTypes.func.isRequired,
-    backUrl: React.PropTypes.string.isRequired,
     modelList: React.PropTypes.objectOf(Model),
     modelAttributeList: React.PropTypes.objectOf(ModelAttribute),
-    currentDatasource: Datasource,
     handleUpdateModel: React.PropTypes.func.isRequired,
+    currentDatasource: Datasource,
+    onSubmit: React.PropTypes.func.isRequired,
+    backUrl: React.PropTypes.string.isRequired,
+    isEditing: React.PropTypes.bool.isRequired,
     // from reduxForm
     submitting: React.PropTypes.bool,
     invalid: React.PropTypes.bool,
     handleSubmit: React.PropTypes.func.isRequired,
     initialize: React.PropTypes.func.isRequired,
+    change: React.PropTypes.func.isRequired,
   }
+
 
   static contextTypes = {
     ...themeContextType,
@@ -43,8 +53,20 @@ export class DatasetFormComponent extends React.Component {
   constructor(props) {
     super(props)
     const isCreating = props.currentDataset === null || props.currentDataset === undefined
+    let showDescriptionMode = DESCRIPTION_MODE.NOTHING
+    let disableNoDescription = false
+    if (!isCreating) {
+      if (props.currentDataset.content.descriptionUrl) {
+        showDescriptionMode = DESCRIPTION_MODE.URL
+      } else if (props.currentDataset.content.descriptionFileType) {
+        showDescriptionMode = DESCRIPTION_MODE.FILE
+        disableNoDescription = true
+      }
+    }
     this.state = {
       isCreating,
+      showDescriptionMode,
+      disableNoDescription,
       isDisplayAttributeValue: !isCreating,
     }
   }
@@ -53,11 +75,53 @@ export class DatasetFormComponent extends React.Component {
     this.handleInitialize()
   }
 
+
+  onChange = (event, value) => {
+    switch (value) {
+      case DESCRIPTION_MODE.FILE:
+        this.props.change('descriptionUrl', '')
+        this.setState({
+          showDescriptionMode: DESCRIPTION_MODE.FILE,
+        })
+        break
+      case DESCRIPTION_MODE.URL:
+        this.props.change('descriptionFileContent', '')
+        this.setState({
+          showDescriptionMode: DESCRIPTION_MODE.URL,
+        })
+        break
+      case DESCRIPTION_MODE.NOTHING:
+        this.props.change('descriptionFileContent', '')
+        this.props.change('descriptionUrl', '')
+        this.setState({
+          showDescriptionMode: DESCRIPTION_MODE.NOTHING,
+        })
+        break
+      default:
+        throw new Error('Unexpected state')
+    }
+  }
+
+  getTitle = () => {
+    let title
+    if (!this.props.isEditing) {
+      title = <FormattedMessage id="dataset.create.title" />
+    } else {
+      title = (<FormattedMessage
+        id="dataset.edit.title"
+        values={{
+          name: this.props.currentDataset.content.label,
+        }}
+      />)
+    }
+    return title
+  }
+
   /**
    * Initialize form fields
    */
   handleInitialize = () => {
-    if (!this.state.isCreating) {
+    if (this.props.isEditing) {
       const { currentDataset } = this.props
       const attributes = {}
       forEach(currentDataset.content.attributes, (attributeValueOrFragment, key) => {
@@ -74,6 +138,7 @@ export class DatasetFormComponent extends React.Component {
       const initialValues = {
         label: currentDataset.content.label,
         model: currentDataset.content.model.id,
+        descriptionUrl: currentDataset.content.descriptionUrl,
         attributes,
       }
       this.props.initialize(initialValues)
@@ -96,23 +161,9 @@ export class DatasetFormComponent extends React.Component {
   }
 
   render() {
-    const { currentDataset, modelList, modelAttributeList, currentDatasource, submitting, invalid, backUrl } = this.props
-    let title
-    if (this.state.isCreating) {
-      title = <FormattedMessage id="dataset.create.title" />
-    } else {
-      title = (<FormattedMessage
-        id="dataset.edit.title"
-        values={{
-          name: this.props.currentDataset.content.label,
-        }}
-      />)
-    }
-    let datasource = currentDataset && currentDataset.content && currentDataset.content.datasource
-    if (!datasource) {
-      datasource = currentDatasource && currentDatasource.content
-    }
-    console.log('HELLOOOOOOOOOOOOOOOOOOOOO3', datasource, currentDataset)
+    const { modelList, modelAttributeList, currentDatasource, submitting, invalid, backUrl } = this.props
+    const title = this.getTitle()
+    const { showDescriptionMode, disableNoDescription } = this.state
     return (
       <form
         onSubmit={this.props.handleSubmit(this.props.onSubmit)}
@@ -133,22 +184,70 @@ export class DatasetFormComponent extends React.Component {
             />
             <SelectField
               floatingLabelText={<FormattedMessage id="dataset.form.datasource" />}
-              value={datasource.id}
+              value={currentDatasource.content.id}
               fullWidth
               disabled
             >
               <MenuItem
-                value={datasource.id}
-                primaryText={datasource.label}
+                value={currentDatasource.content.id}
+                primaryText={currentDatasource.content.label}
               />
             </SelectField>
+            <div className="row">
+              <div className="col-sm-30">
+                <br />
+                <RadioButtonGroup
+                  valueSelected={showDescriptionMode}
+                  onChange={this.onChange}
+                  name="descriptionMode"
+                >
+                  <RadioButton
+                    value={DESCRIPTION_MODE.NOTHING}
+                    label={<FormattedMessage id="dataset.form.radio.none" />}
+                    disabled={disableNoDescription}
+                  />
+                  <RadioButton
+                    value={DESCRIPTION_MODE.FILE}
+                    label={<FormattedMessage id="dataset.form.radio.descriptionFileContent" />}
+                  />
+                  <RadioButton
+                    value={DESCRIPTION_MODE.URL}
+                    label={<FormattedMessage id="dataset.form.radio.descriptionUrl" />}
+                  />
+                </RadioButtonGroup>
+              </div>
+              <div className="col-sm-70">
+                <ShowableAtRender show={showDescriptionMode === DESCRIPTION_MODE.URL}>
+                  <Field
+                    name="descriptionUrl"
+                    fullWidth
+                    component={RenderTextField}
+                    type="text"
+                    label={<FormattedMessage id="dataset.form.descriptionUrl" />}
+                  />
+                </ShowableAtRender>
+                <ShowableAtRender show={showDescriptionMode === DESCRIPTION_MODE.FILE}>
+                  <ShowableAtRender show={!disableNoDescription}>
+                    <FormattedMessage id="dataset.form.descriptionFileContent" />
+                  </ShowableAtRender>
+                  <ShowableAtRender show={disableNoDescription}>
+                    <FormattedMessage id="dataset.form.descriptionFileContentReuploadToOverride" />
+                  </ShowableAtRender>
+                  <Field
+                    name="descriptionFileContent"
+                    fullWidth
+                    component={RenderFileField}
+                  />
+                </ShowableAtRender>
+              </div>
+            </div>
             <Field
               name="model"
               fullWidth
               onSelect={this.handleChange}
               component={RenderSelectField}
               label={<FormattedMessage id="dataset.form.model" />}
-              disabled={!this.state.isCreating}
+              disabled={this.props.isEditing}
             >
               {map(modelList, (model, id) => (
                 <MenuItem
@@ -236,12 +335,11 @@ function validate(values) {
   if (!values.model) {
     errors.model = ErrorTypes.REQUIRED
   }
-  console.log(errors)
   return errors
 }
 
 export default reduxForm({
-  form: 'dataset-form',
+  form: 'dataset-attributes-form',
   validate,
-})(DatasetFormComponent)
+})(DatasetFormAttributesComponent)
 

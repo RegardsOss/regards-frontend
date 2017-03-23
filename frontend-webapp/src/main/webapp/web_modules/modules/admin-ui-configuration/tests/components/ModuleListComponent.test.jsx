@@ -5,9 +5,8 @@ import { shallow } from 'enzyme'
 import { assert, expect } from 'chai'
 import { TableBody, TableRow } from 'material-ui/Table'
 import { stub, spy } from 'sinon'
-import IconButton from 'material-ui/IconButton'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
-import Toggle from 'material-ui/Toggle'
+import { HateoasIconAction, HateoasToggle } from '@regardsoss/display-control'
 import { ShowableAtRender } from '@regardsoss/components'
 import ModuleListComponent from '../../src/components/ModuleListComponent'
 
@@ -54,6 +53,7 @@ describe('[ADMIN UI-CONFIGURATION] Testing Modules list component', () => {
         container: 'content',
         conf: {},
       },
+      links: [],
     },
     1: {
       content: {
@@ -65,6 +65,7 @@ describe('[ADMIN UI-CONFIGURATION] Testing Modules list component', () => {
         container: 'content',
         conf: {},
       },
+      links: [],
     },
     2: {
       content: {
@@ -76,6 +77,7 @@ describe('[ADMIN UI-CONFIGURATION] Testing Modules list component', () => {
         container: 'content',
         conf: {},
       },
+      links: [],
     },
   }
 
@@ -115,7 +117,7 @@ describe('[ADMIN UI-CONFIGURATION] Testing Modules list component', () => {
       , options)
 
 
-    const buttons = wrapper.find(TableBody).find(TableRow).find(IconButton)
+    const buttons = wrapper.find(TableBody).find(TableRow).find(HateoasIconAction)
     assert.lengthOf(buttons, 9, 'There should be 9 buttons available in the module form page')
 
     const editButton = buttons.first()
@@ -132,7 +134,7 @@ describe('[ADMIN UI-CONFIGURATION] Testing Modules list component', () => {
     deleteButton.simulate('touchTap')
     assert.equal(wrapper.find(ShowableAtRender).prop('show'), true, 'Confirm dialog should be displayed')
 
-    assert.equal(wrapper.find(Toggle).find({ toggled: true }).length, 2, 'There should be two active modules')
-    assert.equal(wrapper.find(Toggle).find({ toggled: false }).length, 1, 'There should be one inactive module')
+    assert.equal(wrapper.find(HateoasToggle).find({ toggled: true }).length, 2, 'There should be two active modules')
+    assert.equal(wrapper.find(HateoasToggle).find({ toggled: false }).length, 1, 'There should be one inactive module')
   })
 })

@@ -94,7 +94,7 @@
     {
       "active": true,
       "isDefault": true,
-      "conf" : "{\"resultType\":\"dataobjects\",\"layout\":{\"id\":\"main\",\"type\":\"FormMainContainer\",\"classes\":[],\"styles\":{},\"containers\":[{\"id\":\"Plop\",\"type\":\"RowContainer\",\"containers\":[{\"id\":\"Column1\",\"type\":\"50PercentColumnContainer\"},{\"id\":\"Column2\",\"type\":\"50PercentColumnContainer\"}]}]},\"datasets\":{\"type\":\"all\",\"selectedDatasets\":[\"urn://dataset_1\",\"urn://dataset_2\",\"urn://dataset_3\"]},\"criterion\":[{\"pluginId\":1,\"container\":\"Column1\",\"pluginConf\":{\"attributes\":{\"searchField\":0}}},{\"pluginId\":1,\"container\":\"Column2\",\"pluginConf\":{\"attributes\":{\"searchField\":1}}},{\"pluginId\":2,\"pluginConf\":{\"attributes\":{\"searchField\":0}},\"container\":\"Column1\"}],\"attributesRegroupements\":[{\"label\":\"Format / Language\",\"attributes\":[1,0],\"visibility\":true}],\"attributes\":[{\"id\":1,\"visibility\":true,\"facetable\":false},{\"id\":0,\"visibility\":true,\"facetable\":false}]}",
+      "conf": "{\"resultType\":\"dataobjects\",\"layout\":{\"id\":\"main\",\"type\":\"FormMainContainer\",\"classes\":[],\"styles\":{\"border\":\"1px dotted black\",\"padding\":\"5px\",\"margin\":\"5px\"},\"containers\":[{\"id\":\"Plop\",\"type\":\"RowContainer\",\"containers\":[{\"id\":\"Column1\",\"type\":\"50PercentColumnContainer\"},{\"id\":\"Column2\",\"type\":\"50PercentColumnContainer\"}]}]},\"datasets\":{\"type\":\"all\",\"selectedDatasets\":[\"urn://dataset_1\",\"urn://dataset_2\",\"urn://dataset_3\"]},\"criterion\":[{\"pluginId\":1,\"container\":\"Column1\",\"pluginConf\":{\"attributes\":{\"searchField\":0}}},{\"pluginId\":1,\"container\":\"Column2\",\"pluginConf\":{\"attributes\":{\"searchField\":1}}},{\"pluginId\":2,\"pluginConf\":{\"attributes\":{\"searchField\":0}},\"container\":\"Column1\"},{\"pluginId\":3,\"pluginConf\":{\"attributes\":{\"firstField\":0,\"secondField\":0}},\"container\":\"Column2\"},{\"pluginId\":3,\"container\":\"Column1\",\"pluginConf\":{\"attributes\":{\"firstField\":0,\"secondField\":1}}},{\"pluginId\":4,\"pluginConf\":{\"attributes\":{\"searchField\":0}},\"container\":\"Column1\"},{\"pluginId\":5,\"container\":\"Column1\",\"pluginConf\":{\"attributes\":{\"firstField\":0,\"secondField\":0}}},{\"pluginId\":5,\"pluginConf\":{\"attributes\":{\"firstField\":0,\"secondField\":1}},\"container\":\"Column2\"}],\"attributesRegroupements\":[{\"label\":\"Format / Language\",\"attributes\":[1,0],\"visibility\":true}],\"attributes\":[{\"id\":1,\"visibility\":true,\"facetable\":false},{\"id\":0,\"visibility\":true,\"facetable\":false}]}",
       "name": "search-form",
       "description": "Recherche complexe",
       "container": "content",
@@ -142,31 +142,13 @@
       "id": 1,
       "name": "Light",
       "active": false,
-      "configuration": "{}"
+      "configuration":  "{\"palette\":{\"backgroundImage\":\"\",\"primary1Color\":\"#00bcd4\",\"primary2Color\":\"#0097a7\",\"primary3Color\":\"#bdbdbd\",\"accent1Color\":\"#ff4081\",\"accent2Color\":\"#f5f5f5\",\"accent3Color\":\"#9e9e9e\",\"textColor\":\"rgba(0, 0, 0, 0.87)\",\"secondaryTextColor\":\"rgba(0, 0, 0, 0.54)\",\"alternateTextColor\":\"#ffffff\",\"canvasColor\":\"#ffffff\",\"borderColor\":\"#e0e0e0\",\"disabledColor\":\"rgba(0, 0, 0, 0.3)\",\"pickerHeaderColor\":\"#00bcd4\",\"clockCircleColor\":\"rgba(0, 0, 0, 0.07)\",\"shadowColor\":\"rgba(0, 0, 0, 1)\"},\"themeName\":\"Light\",\"tableRow\":{\"stripeColor\":\"#e0e0e0\"}}"
     },
     {
-      "id": 2,
-      "name": "Dark",
-      "active": false,
-      "configuration": "{\"palette\":{\"primary1Color\":\"#0097A7\",\"primary2Color\":\"#0097A7\",\"primary3Color\":\"#757575\",\"accent1Color\":\"#FF4081\",\"accent2Color\":\"#F50057\",\"accent3Color\":\"#FF80AB\",\"textColor\":\"#FFFFFF\",\"secondaryTextColor\":\"rgba(255, 255, 255, 0.7)\",\"alternateTextColor\":\"#303030\",\"canvasColor\":\"#303030\",\"borderColor\":\"rgba(255, 255, 255, 0.3)\",\"disabledColor\":\"rgba(255, 255, 255, 0.3)\",\"pickerHeaderColor\":\"rgba(255, 255, 255, 0.12)\",\"clockCircleColor\":\"rgba(255, 255, 255, 0.12)\"}}"
-    },
-    {
-      "configuration": "{\"palette\":{\"backgroundImage\":\"http://localhost:3333/img/background.jpg\",\"primary2Color\":\"#0097A7\",\"primary3Color\":\"#757575\",\"textColor\":\"#FFFFFF\",\"secondaryTextColor\":\"rgba(255, 255, 255, 0.7)\",\"alternateTextColor\":\"#303030\",\"canvasColor\":\"#303030\",\"borderColor\":\"rgba(255, 255, 255, 0.3)\",\"disabledColor\":\"rgba(255, 255, 255, 0.3)\",\"pickerHeaderColor\":\"rgba(255, 255, 255, 0.12)\",\"clockCircleColor\":\"rgba(255, 255, 255, 0.12)\",\"shadowColor\":\"rgba(0, 0, 0, 1)\",\"accent2Color\":\"#2196f3\",\"accent3Color\":\"#ff6d00\",\"primary1Color\":\"#2196f3\",\"accent1Color\":\"#ff6d00\"},\"themeName\":\"Dark2\",\"tableRow\":{\"stripeColor\":\"#212121\",\"hoverColor\":\"#424242\"},\"menuItem\":{\"rightIconDesktopFill\":\"#fb8c00\",\"selectedTextColor\":\"#ff6d00\",\"hoverColor\":\"#1e88e5\"},\"badge\":{\"primaryTextColor\":\"#FFFFFF\",\"secondaryTextColor\":\"#FFFFFF\",\"primaryColor\":\"#ff6d00\",\"secondaryColor\":\"#2196f3\"},\"appBar\":{\"textColor\":\"#FFFFFF\"},\"tabs\":{\"textColor\":\"#fafafa\",\"selectedTextColor\":\"#ff9100\"},\"raisedButton\":{\"primaryTextColor\":\"#fafafa\",\"secondaryTextColor\":\"#fafafa\"}}",
+      "configuration": "{\"palette\":{\"backgroundImage\":\"http://localhost:3333/img/background.jpg\",\"primary2Color\":\"#0097A7\",\"primary3Color\":\"#757575\",\"textColor\":\"#FFFFFF\",\"secondaryTextColor\":\"rgba(255, 255, 255, 0.7)\",\"alternateTextColor\":\"#303030\",\"canvasColor\":\"#303030\",\"borderColor\":\"rgba(255, 255, 255, 0.3)\",\"disabledColor\":\"rgba(255, 255, 255, 0.3)\",\"pickerHeaderColor\":\"rgba(255, 255, 255, 0.12)\",\"clockCircleColor\":\"rgba(255, 255, 255, 0.12)\",\"shadowColor\":\"rgba(0, 0, 0, 1)\",\"accent2Color\":\"#2196f3\",\"accent3Color\":\"#ff6d00\",\"primary1Color\":\"#2196f3\",\"accent1Color\":\"#ff6d00\"},\"themeName\":\"Dark\",\"tableRow\":{\"stripeColor\":\"#212121\",\"hoverColor\":\"#424242\"},\"menuItem\":{\"rightIconDesktopFill\":\"#fb8c00\",\"selectedTextColor\":\"#ff6d00\",\"hoverColor\":\"#1e88e5\"},\"badge\":{\"primaryTextColor\":\"#FFFFFF\",\"secondaryTextColor\":\"#FFFFFF\",\"primaryColor\":\"#ff6d00\",\"secondaryColor\":\"#2196f3\"},\"appBar\":{\"textColor\":\"#FFFFFF\"},\"tabs\":{\"textColor\":\"#fafafa\",\"selectedTextColor\":\"#ff9100\"},\"raisedButton\":{\"primaryTextColor\":\"#fafafa\",\"secondaryTextColor\":\"#fafafa\"},\"stepper\":{\"disabledTextColor\":\"#757575\",\"textColor\":\"#ffffff\"}}",
       "id": 3,
-      "name": "Dark2",
+      "name": "Dark",
       "active": true
-    },
-    {
-      "id": 4,
-      "name": "Custom 1",
-      "active": false,
-      "configuration": "{\"palette\":{\"primary1Color\":\"#d32f2f\",\"primary2Color\":\"#d32f2f\",\"primary3Color\":\"#37474f\",\"accent1Color\":\"#607d8b\",\"accent2Color\":\"#f5f5f5\",\"accent3Color\":\"#9e9e9e\",\"textColor\":\"rgba(255, 255, 255, 0.54)\",\"secondaryTextColor\":\"rgba(0, 0, 0, 0.54)\",\"alternateTextColor\":\"#37474f\",\"canvasColor\":\"#263238\",\"borderColor\":\"#37474f\",\"disabledColor\":\"#37474f\"}}"
-    },
-    {
-      "id": 5,
-      "name": "Custom 2",
-      "active": false,
-      "configuration": "{\"palette\":{\"primary1Color\":\"#212121\",\"primary2Color\":\"#212121\",\"primary3Color\":\"#bdbdbd\",\"accent1Color\":\"#bdbdbd\",\"accent2Color\":\"#212121\",\"accent3Color\":\"#9e9e9e\",\"textColor\":\"rgba(0, 0, 0, 0.87)\",\"secondaryTextColor\":\"rgba(0, 0, 0, 0.54)\",\"alternateTextColor\":\"rgba(255, 255, 255, 0.87)\",\"canvasColor\":\"#eeeeee\",\"borderColor\":\"#9e9e9e\",\"disabledColor\":\"rgba(0, 0, 0, 0.3)\",\"shadowColor\":\"#000000\"}}"
     }
   ]
 }

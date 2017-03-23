@@ -3,7 +3,7 @@
  **/
 import RaisedButton from 'material-ui/RaisedButton'
 import SearchIcon from 'material-ui/svg-icons/action/search'
-import { Card, CardText } from 'material-ui/Card'
+import { Card, CardText, CardHeader } from 'material-ui/Card'
 import { FormattedMessage } from 'react-intl'
 import { PluginConf, Container as ContainerShape } from '@regardsoss/model'
 import { Container } from '@regardsoss/layout'
@@ -16,6 +16,8 @@ import { themeContextType } from '@regardsoss/theme'
 class FormComponent extends React.Component {
 
   static propTypes = {
+    expanded: React.PropTypes.bool,
+    description: React.PropTypes.string.isRequired,
     layout: ContainerShape.isRequired,
     plugins: React.PropTypes.arrayOf(PluginConf),
     pluginsProps: React.PropTypes.shape({
@@ -28,8 +30,24 @@ class FormComponent extends React.Component {
     ...themeContextType,
   }
 
+  constructor(props) {
+    super(props)
+    this.state = {
+      expanded: props.expanded,
+    }
+  }
+
   onHandleSearch = () => {
     this.props.handleSearch()
+    this.setState({
+      expanded: false,
+    })
+  }
+
+  handleExpand = () => {
+    this.setState({
+      expanded: !this.state.expanded,
+    })
   }
 
   keypress = (e) => {
@@ -40,8 +58,16 @@ class FormComponent extends React.Component {
 
   render() {
     return (
-      <Card>
-        <CardText>
+      <Card
+        onExpandChange={this.handleExpand}
+        expanded={this.state.expanded}
+      >
+        <CardHeader
+          title={this.props.description}
+          actAsExpander
+          showExpandableButton
+        />
+        <CardText expandable>
           <Container
             appName="user"
             container={this.props.layout}

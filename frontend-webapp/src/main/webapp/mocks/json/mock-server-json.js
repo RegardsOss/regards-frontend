@@ -241,6 +241,8 @@ const runServer = () => {
     '/api/v1/rs-dam-array/models/attributes/types': '/api/v1/rs-dam-array/models-attributes-types',
     '/api/v1/rs-dam/plugintypes': '/api/v1/rs-dam-array/plugintypes',
     '/api/v1/rs-dam/connections': '/api/v1/rs-dam-list/connections',
+    '/api/v1/rs-catalog/dataobjects/search' : '/api/v1/rs-catalog/search',
+    '/api/v1/rs-catalog/dataobjects/datasets/search' : '/api/v1/rs-catalog/search',
     '/oauth/token': '/tokens/1',
   }))
 

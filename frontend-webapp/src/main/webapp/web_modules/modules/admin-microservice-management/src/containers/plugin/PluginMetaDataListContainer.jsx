@@ -17,7 +17,8 @@ import Close from 'material-ui/svg-icons/navigation/close'
 import { map, without, union, chain, difference } from 'lodash'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
-import { LoadableContentDisplayDecorator, HateoasDisplayDecorator } from '@regardsoss/display-control'
+import { LoadableContentDisplayDecorator, HateoasIconAction } from '@regardsoss/display-control'
+import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { themeContextType } from '@regardsoss/theme'
 import { PluginMetaDataList } from '@regardsoss/model'
 import PluginTypeActions from '../../model/plugin/PluginTypeActions'
@@ -25,7 +26,7 @@ import PluginTypeSelectors from '../../model/plugin/PluginTypeSelectors'
 import PluginMetaDataActions from '../../model/plugin/PluginMetaDataActions'
 import PluginMetaDataSelectors from '../../model/plugin/PluginMetaDataSelectors'
 import moduleStyles from '../../styles/styles'
-import requiredEndpoints from '../../requiredEndpoints'
+import PluginConfigurationActions from '../../model/plugin/PluginConfigurationActions'
 
 const styles = moduleStyles().plugins
 
@@ -136,12 +137,13 @@ export class PluginMetaDataListContainer extends React.Component {
           {plugin.content.description}
         </CardText>
         <CardActions>
-          <IconButton
+          <HateoasIconAction
+            hateoasDependency={PluginConfigurationActions.getMsDependency(RequestVerbEnum.GET_LIST, this.props.params.microserviceName)}
             tooltip={<FormattedMessage id="microservice-management.plugin.list.configurations" />}
             onTouchTap={() => this.handleProjectConfigurationListClick(plugin.content.pluginId)}
           >
             <IconList />
-          </IconButton>
+          </HateoasIconAction>
         </CardActions>
       </Card>
     </div>
@@ -191,40 +193,38 @@ export class PluginMetaDataListContainer extends React.Component {
     const { params: { microserviceName }, isPluginMetaDataListFetching } = this.props
 
     return (
-      <HateoasDisplayDecorator requiredEndpoints={requiredEndpoints.PluginMetaDataListContainer}>
-        <I18nProvider messageDir="modules/admin-microservice-management/src/i18n">
-          <Paper>
+      <I18nProvider messageDir="modules/admin-microservice-management/src/i18n">
+        <Paper>
+          <AppBar
+            title={`${microserviceName} > Plugins`}
+            iconElementLeft={<IconButton><Close onTouchTap={this.handleClose} /></IconButton>}
+            iconElementRight={
+              <IconButton
+                onTouchTap={this.handleFilterSwitch}
+                tooltip={<FormattedMessage id="microservice-management.plugin.list.filter.tooltip" />}
+              >
+                <Filter />
+              </IconButton>
+            }
+          />
+          <div style={styles.root}>
+            <LoadableContentDisplayDecorator isLoading={isPluginMetaDataListFetching}>
+              <div style={styles.grid}>
+                {this.getGrid()}
+              </div>
+            </LoadableContentDisplayDecorator>
+          </div>
+          <Drawer width={500} openSecondary open={this.state.filterOpen}>
             <AppBar
-              title={`${microserviceName} > Plugins`}
-              iconElementLeft={<IconButton><Close onTouchTap={this.handleClose} /></IconButton>}
-              iconElementRight={
-                <IconButton
-                  onTouchTap={this.handleFilterSwitch}
-                  tooltip={<FormattedMessage id="microservice-management.plugin.list.filter.tooltip" />}
-                >
-                  <Filter />
-                </IconButton>
-              }
+              iconElementLeft={<IconButton onTouchTap={this.handleFilterSwitch}><Close /></IconButton>}
+              title={<FormattedMessage id="microservice-management.plugin.list.filter.title" />}
             />
-            <div style={styles.root}>
-              <LoadableContentDisplayDecorator isLoading={isPluginMetaDataListFetching}>
-                <div style={styles.grid}>
-                  {this.getGrid()}
-                </div>
-              </LoadableContentDisplayDecorator>
-            </div>
-            <Drawer width={500} openSecondary open={this.state.filterOpen}>
-              <AppBar
-                iconElementLeft={<IconButton onTouchTap={this.handleFilterSwitch}><Close /></IconButton>}
-                title={<FormattedMessage id="microservice-management.plugin.list.filter.title" />}
-              />
-              <List>
-                {this.getFilterListItems()}
-              </List>
-            </Drawer>
-          </Paper>
-        </I18nProvider>
-      </HateoasDisplayDecorator >
+            <List>
+              {this.getFilterListItems()}
+            </List>
+          </Drawer>
+        </Paper>
+      </I18nProvider>
     )
   }
 }

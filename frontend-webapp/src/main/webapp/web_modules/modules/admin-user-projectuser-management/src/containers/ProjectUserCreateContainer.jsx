@@ -107,10 +107,7 @@ export class ProjectUserCreateContainer extends React.Component {
             .filter(currentGroup => every(groupList[currentGroup].content.users, userInfo =>
               userInfo.email !== email,
               ))
-            .map((currentGroup) => {
-              console.log(currentGroup)
-              return this.props.assignGroup(currentGroup, email)
-            })
+            .map(currentGroup => this.props.assignGroup(currentGroup, email))
             .value()
           const removeUserFromGroupTasks = chain(groupList)
             .filter(currentGroup => some(currentGroup.content.users, userInfo => userInfo.email === email)

@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { BasicPageableReducers } from '@regardsoss/store-utils'
 import { PluginMetaDataConfiguration } from '@regardsoss/api'
 import PluginMetaDataActions from './PluginMetaDataActions'

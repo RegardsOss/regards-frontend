@@ -29,6 +29,18 @@ class BoardItemComponent extends React.Component {
     ...i18nContextType,
   }
 
+  renderActionButton = (action) => {
+    if (action.customRender) {
+      return action.customRender
+    }
+    return (<IconButton
+      tooltip={action.tooltipMsg}
+      onTouchTap={action.touchTapAction}
+    >
+      {action.icon}
+    </IconButton>)
+  }
+
   render() {
     const { item } = this.props
     const computedStyles = styles(this.context.muiTheme)
@@ -42,29 +54,27 @@ class BoardItemComponent extends React.Component {
           style={computedStyles.links}
           key={index}
         >
-          <IconButton
-            tooltip={action.tooltipMsg}
-            onTouchTap={action.touchTapAction}
-          >
-            {action.icon}
-          </IconButton>
+          {this.renderActionButton(action)}
         </Link>
       </HateoasDisplayDecorator>
     ))
 
     // Create list of all need endpoints for all board actions
     const actionsHateoasRequiredEnpoints = []
+    let actionWhitoutDependencies = false
     forEach(item.actions, (action, index) => {
       if (action.hateoasDependencies) {
-        actionsHateoasRequiredEnpoints.push(...action.hateoasDependencies)
+        if (action.hateoasDependencies.length === 0) {
+          actionWhitoutDependencies = true
+        } else {
+          actionsHateoasRequiredEnpoints.push(...action.hateoasDependencies)
+        }
       }
     })
 
-    console.log('endpoints needed', actionsHateoasRequiredEnpoints)
-
     return (
       <HateoasDisplayDecorator
-        requiredEndpoints={actionsHateoasRequiredEnpoints}
+        requiredEndpoints={actionWhitoutDependencies ? [] : actionsHateoasRequiredEnpoints}
         hateoasDisplayLogic={someMatchHateoasDisplayLogic}
       >
         <BaseBoardItemComponent

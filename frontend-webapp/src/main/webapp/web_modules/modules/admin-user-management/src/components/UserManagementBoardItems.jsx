@@ -13,7 +13,6 @@ import UsersListWithCountIconContainer from '../containers/UsersListWithCountIco
  * @param project
  * @param intl
  */
-console.log('ADD', GroupAddDep)
 export default (project, intl) => [
   {
     title: intl.formatMessage({ id: 'user.board.project-user.title' }),

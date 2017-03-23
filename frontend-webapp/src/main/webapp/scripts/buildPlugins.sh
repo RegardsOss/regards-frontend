@@ -27,6 +27,6 @@ for f in ${plugins}; do
       echo "Copying plugin ${f} to build directory ...."
       echo "-------------------------------------------"
       echo ""
-      mkdir -p build/plugins/criterion/${f}/ && cp plugins/criterion/${f}/target/build/plugin.js build/plugins/criterion/${f}/
+      mkdir -p dist/dev/plugins/criterion/${f}/ && cp plugins/criterion/${f}/target/build/plugin.js dist/dev/plugins/criterion/${f}/
   fi
 done

@@ -68,6 +68,7 @@ describe('[SEARCH FORM] Testing User Container', () => {
     const props = {
       project: 'test',
       appName: 'test',
+      description: 'Test',
       moduleConf: {
         enableFacettes: false,
         layout: {

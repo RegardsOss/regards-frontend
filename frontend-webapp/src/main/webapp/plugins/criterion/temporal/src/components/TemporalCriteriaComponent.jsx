@@ -6,7 +6,9 @@ import DatePicker from 'material-ui/DatePicker'
 import TimePicker from 'material-ui/TimePicker'
 import { FormattedMessage } from 'react-intl'
 import TemporalComparatorComponent from './TemporalComparatorComponent'
-import {AttributeModel} from '../common/AttributeModel'
+import {AttributeModel,getAttributeName} from '../common/AttributeModel'
+import EnumTemporalComparator from '../model/EnumTemporalComparator'
+
 
 let DateTimeFormat
 
@@ -58,7 +60,7 @@ export class TemporalCriteriaComponent extends React.Component {
     super(props)
     this.state = {
       value: undefined,
-      comparator: 'is',
+      comparator: EnumTemporalComparator.IS,
     }
   }
 
@@ -69,8 +71,8 @@ export class TemporalCriteriaComponent extends React.Component {
    * @param {String} newValue The new value of the text field.
    */
   handleChangeDate = (event, newValue) => {
-    const { attributes, pluginInstanceId, onChange } = this.props
-    const { value, comparator } = this.state
+    const { pluginInstanceId, onChange } = this.props
+    const { value } = this.state
 
     // Pick the time part from the time picker
     if (value) {
@@ -80,11 +82,7 @@ export class TemporalCriteriaComponent extends React.Component {
     this.setState({
       value: newValue,
     })
-    onChange({
-      attribute: attributes.searchField,
-      comparator,
-      value: newValue,
-    }, pluginInstanceId)
+    onChange(this.criteriaToOpenSearchFormat(newValue.toISOString(),this.state.comparator),pluginInstanceId)
   }
 
   /**
@@ -94,8 +92,8 @@ export class TemporalCriteriaComponent extends React.Component {
    * @param {String} newValue The new value of the text field.
    */
   handleChangeTime = (event, newValue) => {
-    const { attributes, pluginInstanceId, onChange } = this.props
-    const { value, comparator } = this.state
+    const { pluginInstanceId, onChange } = this.props
+    const { value } = this.state
 
     // Pick the date part from the the date picker
     if (value) {
@@ -105,11 +103,7 @@ export class TemporalCriteriaComponent extends React.Component {
     this.setState({
       value: newValue,
     })
-    onChange({
-      attribute: attributes.searchField,
-      comparator,
-      value: newValue,
-    }, pluginInstanceId)
+    onChange(this.criteriaToOpenSearchFormat(newValue.toISOString(),this.state.comparator),pluginInstanceId)
   }
 
   /**
@@ -118,9 +112,38 @@ export class TemporalCriteriaComponent extends React.Component {
    * @param {String} comparator
    */
   handleChangeComparator = (comparator) => {
+    const { pluginInstanceId, onChange } = this.props
+    const { value } = this.state
     this.setState({
       comparator,
     })
+    if (value) {
+      onChange(this.criteriaToOpenSearchFormat(value.toISOString(), comparator), pluginInstanceId)
+    }
+  }
+
+  criteriaToOpenSearchFormat = (value, comparator) => {
+    let query = ''
+    const attribute = getAttributeName(this.props.attributes.searchField)
+    switch (comparator) {
+      case EnumTemporalComparator.BEFORE:
+        query = `${attribute}:[* TO ${value}]`
+        break
+      case EnumTemporalComparator.AFTER :
+        query = `${attribute}:[${value} TO *]`
+        break
+      case EnumTemporalComparator.IS :
+        query = `${attribute}:${value}`
+        break
+      case EnumTemporalComparator.NOT :
+        query = `${attribute}:!${value}`
+        break
+      default :
+        console.error("Unavailable comparator")
+    }
+
+    return query
+
   }
 
   render() {

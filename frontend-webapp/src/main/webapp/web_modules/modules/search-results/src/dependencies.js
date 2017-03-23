@@ -1,20 +1,25 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import CatalogEntityActions from './models/catalog/CatalogEntityActions'
+import { RequestVerbEnum } from '@regardsoss/store-utils'
+import CatalogDatasetEntityActions from './models/catalog/CatalogDatasetEntityActions'
+import CatalogDataobjectEntityActions from './models/catalog/CatalogDataobjectEntityActions'
+import AttributeModelActions from './models/attributes/AttributeModelActions'
 
 /**
  * Dependencies needed to display user page of the module
  * @author Sébastien binda
  */
 const user = [
-  CatalogEntityActions.getDependency('GET'),
+  CatalogDatasetEntityActions.getDependency(RequestVerbEnum.GET_LIST),
+  CatalogDataobjectEntityActions.getDependency(RequestVerbEnum.GET_LIST),
 ]
 /**
  * Dependencies needed to display admin page of the module
  * @type {[*]}
  */
 const admin = [
+  AttributeModelActions.getDependency(RequestVerbEnum.GET_LIST),
 ]
 
 export default {

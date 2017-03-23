@@ -3,9 +3,7 @@
  **/
 import { map } from 'lodash'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
-import Toggle from 'material-ui/Toggle'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
-import IconButton from 'material-ui/IconButton'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
 import Copy from 'material-ui/svg-icons/content/content-copy'
@@ -14,6 +12,9 @@ import { CardActionsComponent, ConfirmDialogComponent, ShowableAtRender } from '
 import { ModuleShape } from '@regardsoss/modules'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
+import { HateoasIconAction, HateoasToggle, HateoasKeys } from '@regardsoss/display-control'
+import { RequestVerbEnum } from '@regardsoss/store-utils'
+import ModulesActions from '../model/modules/ModulesActions'
 
 /**
  * React component to display a given list of modules
@@ -107,25 +108,39 @@ class ModuleListComponent extends React.Component {
                 <TableRow key={i}>
                   <TableRowColumn>{module.content.name}</TableRowColumn>
                   <TableRowColumn>
-                    <Toggle
+                    <HateoasToggle
+                      entityLinks={module.links}
+                      hateoasKey={HateoasKeys.UPDATE}
                       toggled={module.content.active}
                       onToggle={() => this.props.onActivation(module.content)}
                     />
                   </TableRowColumn>
                   <TableRowColumn>{module.content.description}</TableRowColumn>
                   <TableRowColumn>
-                    <IconButton onTouchTap={() => this.props.onEdit(module.content)}>
+                    <HateoasIconAction
+                      entityLinks={module.links}
+                      hateoasKey={HateoasKeys.UPDATE}
+                      onTouchTap={() => this.props.onEdit(module.content)}
+                    >
                       <Edit hoverColor={style.hoverButtonEdit} />
-                    </IconButton>
-                    <IconButton onTouchTap={() => this.props.onDuplicate(module.content)}>
+                    </HateoasIconAction>
+                    <HateoasIconAction
+                      entityLinks={module.links}
+                      hateoasKey={HateoasKeys.CREATE}
+                      onTouchTap={() => this.props.onDuplicate(module.content)}
+                    >
                       <Copy hoverColor={style.hoverButtonEdit} />
-                    </IconButton>
-                    <IconButton onTouchTap={() => this.openDeleteDialog(module.content)}>
+                    </HateoasIconAction>
+                    <HateoasIconAction
+                      entityLinks={module.links}
+                      hateoasKey={HateoasKeys.DELETE}
+                      onTouchTap={() => this.openDeleteDialog(module.content)}
+                    >
                       <Delete hoverColor={style.hoverButtonDelete} />
-                    </IconButton>
+                    </HateoasIconAction>
                   </TableRowColumn>
                 </TableRow>
-              ))}
+                ))}
             </TableBody>
           </Table>
         </CardText>
@@ -137,6 +152,7 @@ class ModuleListComponent extends React.Component {
                 id="modules.list.action.add"
               />
             }
+            mainHateoasDependency={ModulesActions.getDependency(RequestVerbEnum.POST)}
           />
         </CardActions>
       </Card>

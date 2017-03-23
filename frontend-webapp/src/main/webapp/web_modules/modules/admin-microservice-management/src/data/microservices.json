@@ -1,6 +1,9 @@
 [
   {
-    "name": "rs-access"
+    "name": "rs-access-project"
+  },
+  {
+    "name": "rs-access-instance"
   },
   {
     "name": "rs-admin"
@@ -13,5 +16,8 @@
   },
   {
     "name": "rs-gateway"
+  },
+  {
+    "name": "rs-catalog"
   }
 ]

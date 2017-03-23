@@ -26,7 +26,8 @@ import {
   SearchResultsTargetsEnum,
 } from '@regardsoss/model'
 import CatalogEntitySelector from '../../models/catalog/CatalogEntitySelector'
-import CatalogEntityActions from '../../models/catalog/CatalogEntityActions'
+import CatalogDataobjectEntityActions from '../../models/catalog/CatalogDataobjectEntityActions'
+import CatalogDatasetEntityActions from '../../models/catalog/CatalogDatasetEntityActions'
 import NavigationComponent from './NavigationComponent'
 import ThumbmailCellComponent from './ThumbmailCellComponent'
 import DatasetCellComponent from './DatasetCellComponent'
@@ -49,6 +50,7 @@ class SearchResultsComponent extends React.Component {
     project: React.PropTypes.string,
     enableFacettes: React.PropTypes.bool.isRequired,
     searchQuery: React.PropTypes.string,
+    facettesQuery: React.PropTypes.string,
     attributesConf: React.PropTypes.arrayOf(AttributeConfiguration),
     attributesRegroupementsConf: React.PropTypes.arrayOf(AttributesRegroupementConfiguration),
     attributeModels: React.PropTypes.objectOf(AttributeModel),
@@ -129,8 +131,10 @@ class SearchResultsComponent extends React.Component {
    * @returns {string}
    */
   getFullQuery = () => {
+    // Get query with search parameters
     let fullQuery = this.props.searchQuery ? this.props.searchQuery : ''
 
+    // If any dataset is associated to the current search, add there urn into tags property
     if (this.state.selectedDataset) {
       if (fullQuery !== '') {
         fullQuery = `${fullQuery} AND tags:${this.state.selectedDataset.content.ip_id}`
@@ -142,23 +146,30 @@ class SearchResultsComponent extends React.Component {
       fullQuery = this.formatSearchQuery(fullQuery)
     }
 
+    // If the search need to be sorted, add sort parameters
     if (this.state.sortedColumns.length > 0) {
-      const result = reduce(this.state.sortedColumns, (sortQuery, column) => {
-        if (column.type === null) {
-          return sortQuery
+      const fullSortQuery = reduce(this.state.sortedColumns, (sortQuery, column) => {
+        if (column.attribute) {
+          sortQuery = `${sortQuery}&sort=${column.attribute}`
+          if (column.type) {
+            sortQuery = `${sortQuery},${column.type}`
+          }
         }
-        if (sortQuery.length > 0) {
-          return `${sortQuery}&${column.attribute}:${column.type}`
-        }
-        return `${column.attribute}:${column.type}`
+        return sortQuery
       }, '')
-      if (result.length > 0) {
-        fullQuery = `${fullQuery}&sort=(${result})`
+
+
+      if (fullSortQuery.length > 0) {
+        fullQuery = `${fullQuery}${fullSortQuery}`
       }
     }
 
-    fullQuery = `${fullQuery}&target=${this.state.target}`
+    // If there is facets to generate add them
+    if (this.props.facettesQuery) {
+      fullQuery = `${fullQuery}&${this.props.facettesQuery}`
+    }
 
+    // return full query
     return fullQuery
   }
 
@@ -188,7 +199,7 @@ class SearchResultsComponent extends React.Component {
         const attribute = find(this.props.attributeModels, att => att.content.id === attributeConf.id)
         if (attribute) {
           columns.push({
-            label: attribute.content.name,
+            label: attribute.content.label,
             attributes: [this.getFullyQualifiedAttributeName(attribute)],
             sortable: true,
           })
@@ -330,7 +341,6 @@ class SearchResultsComponent extends React.Component {
     })
   }
 
-
   /**
    * Returns result tabs actions for results table
    */
@@ -431,6 +441,8 @@ class SearchResultsComponent extends React.Component {
       showParameters = false
     }
 
+    const entityAction = target === SearchResultsTargetsEnum.DATAOBJECT_RESULTS ? CatalogDataobjectEntityActions : CatalogDatasetEntityActions
+
     return (
       <Card>
         <NavigationComponent
@@ -442,11 +454,12 @@ class SearchResultsComponent extends React.Component {
         <CardMedia>
           <FixedTableContainer
             key={target}
+
             resultsTabsButtons={this.renderTableTabs()}
             customTableOptions={this.renderTableOptions()}
             customTableHeaderArea={tableHeaderArea}
             showParameters={showParameters}
-            PageActions={CatalogEntityActions}
+            PageActions={entityAction}
             PageSelector={CatalogEntitySelector}
             pageSize={20}
             lineHeight={lineSize}

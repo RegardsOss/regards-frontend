@@ -1,6 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import values from 'lodash/values'
 import areIntlLocalesSupported from 'intl-locales-supported'
 import DatePicker from 'material-ui/DatePicker'
 import TimePicker from 'material-ui/TimePicker'
@@ -56,7 +57,7 @@ export class TemporalCriteriaComponent extends React.Component {
     /**
      * Init with a specific comparator set.
      */
-    comparator: React.PropTypes.oneOf(EnumTemporalComparator),
+    comparator: React.PropTypes.oneOf(values(EnumTemporalComparator)),
     /**
      * If true, the attribute name, comparator and and field will be rendered in reversed order
      * Default to false.
@@ -67,18 +68,25 @@ export class TemporalCriteriaComponent extends React.Component {
      * Default to false.
      */
     hideAttributeName: React.PropTypes.bool,
+    /**
+     * If true, the comparator will not be rendered.
+     * Default to false.
+     */
+    hideComparator: React.PropTypes.bool,
   }
 
   static defaultProps = {
     reversed: false,
     hideAttributeName: false,
+    hideComparator: false
   }
 
   constructor(props) {
     super(props)
+    console.log("PROPS",props)
     this.state = {
       value: undefined,
-      comparator: props.comparator || 'is',
+      comparator: props.comparator || EnumTemporalComparator.EQ,
     }
   }
 
@@ -89,7 +97,7 @@ export class TemporalCriteriaComponent extends React.Component {
    * @param {String} newValue The new value of the text field.
    */
   handleChangeDate = (event, newValue) => {
-    const { attribute, pluginInstanceId, onChange } = this.props
+    const { attribute, onChange } = this.props
     const { value, comparator } = this.state
 
     // Pick the time part from the time picker
@@ -100,11 +108,7 @@ export class TemporalCriteriaComponent extends React.Component {
     this.setState({
       value: newValue,
     })
-    onChange({
-      attribute,
-      comparator,
-      value: newValue,
-    }, pluginInstanceId)
+    onChange(attribute, newValue.toISOString(),comparator)
   }
 
   /**
@@ -125,11 +129,7 @@ export class TemporalCriteriaComponent extends React.Component {
     this.setState({
       value: newValue,
     })
-    onChange({
-      attribute,
-      comparator,
-      value: newValue,
-    }, pluginInstanceId)
+    onChange(attribute, newValue.toISOString(),comparator)
   }
 
   /**
@@ -138,13 +138,16 @@ export class TemporalCriteriaComponent extends React.Component {
    * @param {String} comparator
    */
   handleChangeComparator = (comparator) => {
+    const { attribute, onChange } = this.props
+    const { value } = this.state
     this.setState({
       comparator,
     })
+    onChange(attribute, value ? value.toISOString(): null,comparator)
   }
 
   render() {
-    const { attribute, reversed, hideAttributeName } = this.props
+    const { attribute, reversed, hideAttributeName, hideComparator } = this.props
     const { value, comparator } = this.state
 
     // Store the content in an array because we need to maybe reverse to order
@@ -152,9 +155,11 @@ export class TemporalCriteriaComponent extends React.Component {
     if (!hideAttributeName) {
       content.push(<span key="attributeName" style={{ margin: '0px 10px' }}>{attribute.name}</span>)
     }
-    content.push(
-      <TemporalComparatorComponent key="comparator" value={comparator} onChange={this.handleChangeComparator} />,
-    )
+    if (!hideComparator) {
+      content.push(
+        <TemporalComparatorComponent key="comparator" value={comparator} onChange={this.handleChangeComparator}/>,
+      )
+    }
     content.push([
       <DatePicker
         value={value}
