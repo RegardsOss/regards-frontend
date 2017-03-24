@@ -21,10 +21,14 @@ class WordFacetSelectorComponent extends React.Component {
     ...i18nContextType,
   }
 
+  formatFacetValueForFilter = (label, { word }) => {
+    const { intl: { formatMessage } } = this.context
+    return formatMessage({ id: 'search.facets.filter.chip.word.value' }, { label, word })
+  }
 
-  formatFacetValue = ({ word, count }) => {
+  formatFacetValueForMenu = (label, { word, count }) => {
     const { intl: { formatNumber, formatMessage } } = this.context
-    return formatMessage({ id: 'search.facets.filter.word.value' }, {
+    return formatMessage({ id: 'search.facets.filter.menu.word.value' }, {
       word,
       count: formatNumber(count),
     })
@@ -34,9 +38,10 @@ class WordFacetSelectorComponent extends React.Component {
     const { label, facet, applyFilter } = this.props
     return (
       <FacetSelectorComponent
-        label={label}
-        facetValueFormatter={this.formatFacetValue}
         facet={facet}
+        label={label}
+        facetValueFormatterForMenu={this.formatFacetValueForMenu}
+        facetValueFormatterForFilter={this.formatFacetValueForFilter}
         applyFilter={applyFilter}
       />
     )

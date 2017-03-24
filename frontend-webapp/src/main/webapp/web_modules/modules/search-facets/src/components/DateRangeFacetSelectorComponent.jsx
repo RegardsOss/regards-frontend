@@ -29,38 +29,50 @@ class DateRangeFacetSelectorComponent extends React.Component {
     ...i18nContextType,
   }
 
-  formatFacetValue = ({ lowerBound, upperBound, count }) => {
-    const { intl: { formatDate, formatMessage, formatNumber } } = this.context
+  /**
+   * Formats facet value to display it in menu
+   */
+  formatFacetValueForMenu = (label, facet) => {
+    const { intl: { formatMessage } } = this.context
+    return this.formatFacetValue(facet,
+      (date, count) => formatMessage({ id: 'search.facets.filter.menu.date.after' }, { date, count }),
+      (date, count) => formatMessage({ id: 'search.facets.filter.menu.date.before' }, { date, count }),
+      (minDate, maxDate, count) => formatMessage({ id: 'search.facets.filter.menu.date.range' }, { minDate, maxDate, count }),
+    )
+  }
+
+  formatFacetValueForFilter = (label, facet) => {
+    const { intl: { formatMessage } } = this.context
+    return this.formatFacetValue(facet,
+      date => formatMessage({ id: 'search.facets.filter.chip.date.after' }, { label, date }),
+      date => formatMessage({ id: 'search.facets.filter.chip.date.before' }, { label, date }),
+      (minDate, maxDate) => formatMessage({ id: 'search.facets.filter.chip.date.range' }, { label, minDate, maxDate }),
+    )
+  }
+
+  formatFacetValue = ({ lowerBound, upperBound, count }, lowerBoundFormatter, upperBoundFormatter, rangeFormatter) => {
+    const { intl: { formatDate, formatNumber } } = this.context
     if (!upperBound) {
       if (lowerBound) {
-        return formatMessage({ id: 'search.facets.filter.date.after' }, {
-          date: formatDate(lowerBound, DATETIME_OPTIONS),
-          count: formatNumber(count),
-        })
+        return lowerBoundFormatter(formatDate(lowerBound, DATETIME_OPTIONS), formatNumber(count))
       }
       // infinite range...
       return ''
     }
     if (!lowerBound) {
-      return formatMessage({ id: 'search.facets.filter.date.before' }, {
-        date: formatDate(upperBound, DATETIME_OPTIONS),
-        count: formatNumber(count),
-      })
+      return upperBoundFormatter(formatDate(upperBound, DATETIME_OPTIONS), formatNumber(count))
     }
-    return formatMessage({ id: 'search.facets.filter.date.range' }, {
-      minDate: formatDate(lowerBound, DATETIME_OPTIONS),
-      maxDate: formatDate(upperBound, DATETIME_OPTIONS),
-      count: formatNumber(count),
-    })
+    return rangeFormatter(formatDate(lowerBound, DATETIME_OPTIONS), formatDate(upperBound, DATETIME_OPTIONS), count)
   }
 
   render() {
     const { label, facet, applyFilter } = this.props
     return (
       <FacetSelectorComponent
-        label={label}
-        facetValueFormatter={this.formatFacetValue}
         facet={facet}
+        label={label}
+        facetValueFormatterForMenu={this.formatFacetValueForMenu}
+        facetValueFormatterForFilter={this.formatFacetValueForFilter}
         applyFilter={applyFilter}
       />
     )

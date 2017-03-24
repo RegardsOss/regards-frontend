@@ -1,7 +1,6 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { omit } from 'lodash'
 import Checkbox from 'material-ui/Checkbox'
 import { Cell } from 'fixed-data-table'
 import { themeContextType } from '@regardsoss/theme'

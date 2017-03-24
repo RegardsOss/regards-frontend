@@ -22,30 +22,41 @@ class NumberRangeFacetSelectorComponent extends React.Component {
     ...i18nContextType,
   }
 
+  /**
+   * Formats facet value to display it in menu
+   */
+  formatFacetValueForMenu = (label, facet) => {
+    const { intl: { formatMessage } } = this.context
+    return this.formatFacetValue(facet,
+      (value, count) => formatMessage({ id: 'search.facets.filter.menu.number.greater' }, { value, count }),
+      (value, count) => formatMessage({ id: 'search.facets.filter.menu.number.lower' }, { value, count }),
+      (minValue, maxValue, count) => formatMessage({ id: 'search.facets.filter.menu.number.range' }, { minValue, maxValue, count }),
+    )
+  }
 
-  formatFacetValue = ({ lowerBound, upperBound, count }) => {
-    const { intl: { formatNumber, formatMessage } } = this.context
+  formatFacetValueForFilter = (label, facet) => {
+    const { intl: { formatMessage } } = this.context
+    return this.formatFacetValue(facet,
+      value => formatMessage({ id: 'search.facets.filter.chip.number.greater' }, { label, value }),
+      value => formatMessage({ id: 'search.facets.filter.chip.number.lower' }, { label, value }),
+      (minValue, maxValue) => formatMessage({ id: 'search.facets.filter.chip.number.range' }, { label, minValue, maxValue }),
+    )
+  }
+
+
+  formatFacetValue = ({ lowerBound, upperBound, count }, lowerBoundFormatter, upperBoundFormatter, rangeFormatter) => {
+    const { intl: { formatNumber } } = this.context
     if (!upperBound) {
       if (lowerBound) {
-        return formatMessage({ id: 'search.facets.filter.number.greater' }, {
-          value: formatNumber(lowerBound),
-          count: formatNumber(count),
-        })
+        return lowerBoundFormatter(formatNumber(lowerBound), formatNumber(count))
       }
       // infinite range...
       return ''
     }
     if (!lowerBound) {
-      return formatMessage({ id: 'search.facets.filter.number.lower' }, {
-        value: formatNumber(upperBound),
-        count: formatNumber(count),
-      })
+      return upperBoundFormatter(formatNumber(upperBound), formatNumber(count))
     }
-    return formatMessage({ id: 'search.facets.filter.number.range' }, {
-      minValue: formatNumber(lowerBound),
-      maxValue: formatNumber(upperBound),
-      count: formatNumber(count),
-    })
+    return rangeFormatter(formatNumber(lowerBound), formatNumber(upperBound), count)
   }
 
   render() {
@@ -53,8 +64,9 @@ class NumberRangeFacetSelectorComponent extends React.Component {
     return (
       <FacetSelectorComponent
         label={label}
-        facetValueFormatter={this.formatFacetValue}
         facet={facet}
+        facetValueFormatterForMenu={this.formatFacetValueForMenu}
+        facetValueFormatterForFilter={this.formatFacetValueForFilter}
         applyFilter={applyFilter}
       />
     )
