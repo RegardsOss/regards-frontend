@@ -3,7 +3,6 @@
  **/
 import { Cell } from 'fixed-data-table'
 import { themeContextType } from '@regardsoss/theme'
-import Styles from './FixedTableStyles'
 
 /**
  * Cell rendering for FixedTable
@@ -11,7 +10,7 @@ import Styles from './FixedTableStyles'
  */
 const FixedTableCell = ({ getCellValue, overridenCellsStyle, isLastColumn, col, rowIndex, ...otherProperies }, context) => {
   const attribute = getCellValue(rowIndex, col)
-  const styles = Styles(context.muiTheme)
+  const styles = context.moduleTheme
 
   let cellStyle
   let cellContentStyle

@@ -95,6 +95,17 @@ export default (theme) => {
     fixedCellHeader: {
       ...commonHeaderStyles,
     },
+    sortableColumn: {
+      iconStyle: {
+        width: 20,
+        height: 20,
+      },
+      buttonStyle: {
+        width: 25,
+        height: 25,
+        padding: 0,
+      },
+    },
     loadingFilter: {
       backgroundColor: theme.palette.primary1Color,
       display: 'flex',

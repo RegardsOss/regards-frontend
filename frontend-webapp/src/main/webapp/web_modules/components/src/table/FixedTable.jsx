@@ -9,9 +9,8 @@ import { themeContextType } from '@regardsoss/theme'
 import FixedTableCell from './FixedTableCell'
 import FixedTableCheckBoxCell from './FixedTableCheckBoxCell'
 import FixedTableHeaderCell from './FixedTableHeaderCell'
+import FixedTableCheckboxHeaderCell from './FixedTableCheckboxHeaderCell'
 import ColumnConfiguration from './model/ColumnConfiguration'
-import './fixed-data-table-mui.css'
-
 
 /**
  * Static table configuration: all table properties that are
@@ -176,7 +175,7 @@ class FixedTable extends React.Component {
         <Column
           key={'checkbox'}
           columnKey={'checkbox'}
-          header={<FixedTableHeaderCell lineHeight={this.props.lineHeight} isLastColumn={false} fixed />}
+          header={<FixedTableCheckboxHeaderCell lineHeight={this.props.lineHeight} />}
           cell={<FixedTableCheckBoxCell
             selectRow={this.props.onRowSelection}
             isSelected={idx => this.props.entities[idx].selected}

@@ -15,7 +15,6 @@ import NoContentMessageInfo from '../cards/NoContentMessageInfo'
 import FixedTable from './FixedTable'
 import FixedTableHeader from './FixedTableHeader'
 import TableColumnFilterComponent from './TableColumnFilterComponent'
-import Styles from './FixedTableStyles'
 import ColumnConfiguration from './model/ColumnConfiguration'
 
 export const tablePaneConfiguration = {
@@ -142,7 +141,7 @@ class FixedTablePaneComponent extends React.Component {
    */
   renderLoadingFilter = () => {
     if (this.props.entitiesFetching) {
-      const styles = Styles(this.context.muiTheme).loadingFilter
+      const styles = this.context.moduleTheme
       return (
 
         <div style={styles}>
@@ -173,7 +172,6 @@ class FixedTablePaneComponent extends React.Component {
         />,
       ])
     }
-
     return (
       <ShowableAtRender show={!!displayTableHeader}>
         <FixedTableHeader

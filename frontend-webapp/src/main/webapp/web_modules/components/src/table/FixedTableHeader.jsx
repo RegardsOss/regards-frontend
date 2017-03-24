@@ -6,8 +6,6 @@ import Divider from 'material-ui/Divider'
 import { themeContextType } from '@regardsoss/theme'
 import { I18nProvider } from '@regardsoss/i18n'
 
-import Styles from './FixedTableStyles'
-
 /**
 * Fixed table header Component
 */
@@ -28,7 +26,7 @@ class FixedTableHedaer extends React.Component {
   }
 
   render() {
-    const { header } = Styles(this.context.muiTheme)
+    const { header } = this.context.moduleTheme
     const { resultsTabsButtons, customTableOptions, customTableHeaderArea, resultsCount } = this.props
     return (
       <I18nProvider messageDir={'components/src/table/i18n'}>

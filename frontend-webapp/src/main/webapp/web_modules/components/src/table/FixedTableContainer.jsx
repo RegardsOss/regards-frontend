@@ -5,9 +5,11 @@ import { concat, forEach, isEqual, keys, filter } from 'lodash'
 
 import { connect } from '@regardsoss/redux'
 import { BasicPageableSelectors, BasicPageableActions } from '@regardsoss/store-utils'
-import './fixed-data-table-mui.css'
+import { ModuleThemeProvider } from '@regardsoss/modules'
 import { tableConfiguration as tableConfigurationShape } from './FixedTable'
 import FixedTablePane, { tablePaneConfiguration as tablePaneConfigurationShape } from './FixedTablePane'
+import styles from './styles/styles'
+import './styles/fixed-data-table-mui.css'
 
 import ColumnConfiguration from './model/ColumnConfiguration'
 
@@ -223,20 +225,23 @@ class FixedTableContainer extends React.Component {
       tableConfiguration: { lineHeight = defaultLineHeight, ...tableConfiguration },
     } = this.props
     return (
-      <FixedTablePane
-        tableData={{
-          pageSize,
-          onScrollEnd: this.onScrollEnd,
-          entities: this.state.entities,
-          onRowSelection: this.selectRow,
-          lineHeight,
-          ...tableConfiguration,
-        }}
-        columns={this.getAllColumns()}
-        entitiesFetching={entitiesFetching}
-        resultsCount={(pageMetadata && pageMetadata.totalElements) || 0}
-        {...tablePaneConfiguration}
-      />)
+      <ModuleThemeProvider module={{ styles }}>
+        <FixedTablePane
+          tableData={{
+            pageSize,
+            onScrollEnd: this.onScrollEnd,
+            entities: this.state.entities,
+            onRowSelection: this.selectRow,
+            lineHeight,
+            ...tableConfiguration,
+          }}
+          columns={this.getAllColumns()}
+          entitiesFetching={entitiesFetching}
+          resultsCount={(pageMetadata && pageMetadata.totalElements) || 0}
+          {...tablePaneConfiguration}
+        />
+      </ModuleThemeProvider>
+    )
   }
 }
 

@@ -5,14 +5,13 @@ import { omit } from 'lodash'
 import Checkbox from 'material-ui/Checkbox'
 import { Cell } from 'fixed-data-table'
 import { themeContextType } from '@regardsoss/theme'
-import Styles from './FixedTableStyles'
 
 /**
  * Cell rendering for FixedTable checkbox column
  * @author Sébastien Binda
  */
 const FixedTableCheckBoxCell = (props, context) => {
-  const styles = Styles(context.muiTheme)
+  const styles = context.moduleTheme
   let cellStyle = styles.cellOdd
   let cellContentStyle = styles.cellOddContent
   if (props.rowIndex % 2) {
@@ -21,7 +20,7 @@ const FixedTableCheckBoxCell = (props, context) => {
   }
   return (
     <Cell
-      {...omit(props, ['selectRow', 'isSelected'])}
+      {...omit(props, ['selectRow', 'isSelected']) }
       style={cellStyle}
     >
       <div style={cellContentStyle}>
