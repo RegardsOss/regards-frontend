@@ -8,11 +8,14 @@ import { ContainerShape } from '@regardsoss/layout'
  * @author Sébastien binda
  */
 const FormShape = React.PropTypes.shape({
-  id: React.PropTypes.string,
-  resultType: React.PropTypes.string,
-  datasets: React.PropTypes.arrayOf(React.PropTypes.string),
-  datasetModels: React.PropTypes.arrayOf(React.PropTypes.string),
-  layout: ContainerShape,
+  id: React.PropTypes.number.isRequired,
+  active: React.PropTypes.bool.isRequired,
+  applicationId: React.PropTypes.string.isRequired,
+  conf : React.PropTypes.object,
+  container: React.PropTypes.string,
+  description: React.PropTypes.string,
+  isDefault : React.PropTypes.bool,
+  name: React.PropTypes.string,
 })
 
 export default FormShape

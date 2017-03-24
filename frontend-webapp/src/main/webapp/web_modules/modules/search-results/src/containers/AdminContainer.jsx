@@ -33,30 +33,41 @@ class AdminContainer extends React.Component {
     fetchAllModelsAttributes: React.PropTypes.func,
   }
 
+  constructor(props){
+    super(props)
+    this.state = {
+      attributesFetching: !this.props.moduleConf.selectableAttributes
+    }
+  }
+
   componentWillMount() {
-    if (!this.props.moduleConf.selectableAttributes) {
-      this.props.fetchAllModelsAttributes()
+    if (this.state.attributesFetching) {
+      Promise.resolve(this.props.fetchAllModelsAttributes()).then( () => {
+        this.setState({
+          attributesFetching: false,
+        })
+      })
     }
   }
 
   render() {
     const { moduleConf: {
       resultType,
-      attributesConf,
-      attributesRegroupementsConf,
+      attributes,
+      attributesRegroupements,
       selectableAttributes,
       enableFacettes },
     } = this.props
 
-    if (this.props.adminForm.form) {
+    if (this.props.adminForm.form && !this.state.attributesFetching) {
       return (
         <SearchResultsConfigurationComponent
           selectableAttributes={selectableAttributes || this.props.attributeModels}
           attributesConf={this.props.adminForm.form.conf.attributes}
           attributesRegroupementsConf={this.props.adminForm.form.conf.attributesRegroupements}
           changeField={this.props.adminForm.changeField}
-          defaultAttributesConf={attributesConf}
-          defaultAttributesRegroupementsConf={attributesRegroupementsConf}
+          defaultAttributesConf={attributes}
+          defaultAttributesRegroupementsConf={attributesRegroupements}
           defaultEnableFacettes={enableFacettes}
           defaultResultType={resultType}
         />
