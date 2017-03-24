@@ -7,42 +7,40 @@ import { Cell } from 'fixed-data-table'
 import { themeContextType } from '@regardsoss/theme'
 
 /**
- * Cell rendering for FixedTable checkbox column
+ * Cell rendering for FixedTable checkbox cell
  * @author Sébastien Binda
  */
-const FixedTableCheckBoxCell = (props, context) => {
+const CheckBoxCell = ({ onToggleSelectRow, isSelected, rowIndex, ...otherProps }, context) => {
   const styles = context.moduleTheme
   let cellStyle = styles.cellOdd
   let cellContentStyle = styles.cellOddContent
-  if (props.rowIndex % 2) {
+  if (rowIndex % 2) {
     cellStyle = styles.cellEven
     cellContentStyle = styles.cellEvenContent
   }
   return (
     <Cell
-      {...omit(props, ['selectRow', 'isSelected']) }
+      {...otherProps}
       style={cellStyle}
     >
       <div style={cellContentStyle}>
         <Checkbox
-          onCheck={() => {
-            props.selectRow(props.rowIndex)
-          }}
-          defaultChecked={props.isSelected(props.rowIndex)}
+          onCheck={() => onToggleSelectRow(rowIndex)}
+          defaultChecked={isSelected(rowIndex)}
         />
       </div>
     </Cell>
   )
 }
 
-FixedTableCheckBoxCell.propTypes = {
+CheckBoxCell.propTypes = {
   rowIndex: React.PropTypes.number,
-  selectRow: React.PropTypes.func.isRequired,
+  onToggleSelectRow: React.PropTypes.func.isRequired,
   isSelected: React.PropTypes.func.isRequired,
 }
 
-FixedTableCheckBoxCell.contextTypes = {
+CheckBoxCell.contextTypes = {
   ...themeContextType,
 }
 
-export default FixedTableCheckBoxCell
+export default CheckBoxCell

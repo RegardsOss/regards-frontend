@@ -95,7 +95,7 @@ export default (theme) => {
     fixedCellHeader: {
       ...commonHeaderStyles,
     },
-    sortableColumn: {
+    sortButton: {
       iconStyle: {
         width: 20,
         height: 20,
@@ -105,6 +105,20 @@ export default (theme) => {
         height: 25,
         padding: 0,
       },
+    },
+    checkButton: {
+      checkedIcon: {
+        color: theme.palette.primary1Color,
+        width: 24,
+        height: 24,
+      },
+      uncheckedIcon: {
+        width: 24,
+        height: 24,
+      },
+    },
+    selectionColumn: {
+      width: 42,
     },
     loadingFilter: {
       backgroundColor: theme.palette.primary1Color,

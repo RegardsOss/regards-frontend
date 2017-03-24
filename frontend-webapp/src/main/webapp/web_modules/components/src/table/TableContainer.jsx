@@ -1,17 +1,20 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { concat, forEach, isEqual, keys, filter } from 'lodash'
+import { concat, forEach, isEqual, keys } from 'lodash'
 
 import { connect } from '@regardsoss/redux'
 import { BasicPageableSelectors, BasicPageableActions } from '@regardsoss/store-utils'
 import { ModuleThemeProvider } from '@regardsoss/modules'
-import { tableConfiguration as tableConfigurationShape } from './FixedTable'
-import FixedTablePane, { tablePaneConfiguration as tablePaneConfigurationShape } from './FixedTablePane'
+import { I18nProvider } from '@regardsoss/i18n'
+import TablePane from './TablePane'
+import TablePaneConfigurationModel from './model/TablePaneConfigurationModel'
+import TableConfigurationModel from './content/model/TableConfigurationModel'
+import ColumnConfigurationModel from './content/columns/model/ColumnConfiguration'
+
 import styles from './styles/styles'
 import './styles/fixed-data-table-mui.css'
 
-import ColumnConfiguration from './model/ColumnConfiguration'
 
 const defaultLineHeight = 42
 
@@ -34,7 +37,7 @@ const defaultLineHeight = 42
  *
  * @author Sébastien Binda
  */
-class FixedTableContainer extends React.Component {
+class TableContainer extends React.Component {
 
   /**
    * PageActions : BasicPageableActions of the entities to manage
@@ -43,9 +46,9 @@ class FixedTableContainer extends React.Component {
    */
   static propTypes = {
     // table configuration
-    tableConfiguration: React.PropTypes.shape(tableConfigurationShape).isRequired,
+    tableConfiguration: React.PropTypes.shape(TableConfigurationModel).isRequired,
     // table pane configuration
-    tablePaneConfiguration: React.PropTypes.shape(tablePaneConfigurationShape).isRequired,
+    tablePaneConfiguration: React.PropTypes.shape(TablePaneConfigurationModel).isRequired,
     // BasicPageableActions to retrieve entities from server
     // eslint-disable-next-line react/no-unused-prop-types
     PageActions: React.PropTypes.instanceOf(BasicPageableActions).isRequired,
@@ -59,8 +62,9 @@ class FixedTableContainer extends React.Component {
     // - label : Displayed label of the column in the Header line
     // - attributes : Array of String. Each element is an entity attribute to display in the column. It is also
     //                possible to define deep attributes like user.login
-    columns: React.PropTypes.arrayOf(ColumnConfiguration),
-    // Action callback called when an line is selected. the list of entities selected are passed as a parameter
+    columns: React.PropTypes.arrayOf(ColumnConfigurationModel),
+    // On selection change callback (@see SelectionController) :
+    // callback signature (selectionMode: String (TableSelectionModes), entities: Array) => void
     onSelectionChange: React.PropTypes.func,
     // [Optional] server request parameters as query params or path params defined in the PageActions given.
     // eslint-disable-next-line react/forbid-prop-types
@@ -203,44 +207,33 @@ class FixedTableContainer extends React.Component {
     return computedColumns
   }
 
-  /**
-   * Callback to select a row on checkbox click
-   * @param rowIndex
-   */
-  selectRow = (rowIndex) => {
-    const entities = concat([], this.state.entities)
-    const selectedRowIndex = Object.assign(entities[rowIndex])
-    selectedRowIndex.selected = selectedRowIndex.selected ? !selectedRowIndex.selected : true
-    entities[rowIndex] = selectedRowIndex
-    const selectedEntities = filter(entities, entity => entity.selected)
-    this.setState({
-      entities,
-    })
-    this.props.onSelectionChange(selectedEntities)
-  }
 
   render() {
     const { entitiesFetching, pageSize, pageMetadata,
-      tablePaneConfiguration,
+      tablePaneConfiguration, onSelectionChange,
       tableConfiguration: { lineHeight = defaultLineHeight, ...tableConfiguration },
     } = this.props
+    const { entities } = this.state
     return (
-      <ModuleThemeProvider module={{ styles }}>
-        <FixedTablePane
-          tableData={{
-            pageSize,
-            onScrollEnd: this.onScrollEnd,
-            entities: this.state.entities,
-            onRowSelection: this.selectRow,
-            lineHeight,
-            ...tableConfiguration,
-          }}
-          columns={this.getAllColumns()}
-          entitiesFetching={entitiesFetching}
-          resultsCount={(pageMetadata && pageMetadata.totalElements) || 0}
-          {...tablePaneConfiguration}
-        />
-      </ModuleThemeProvider>
+      <I18nProvider messageDir={'components/src/table/i18n'}>
+        <ModuleThemeProvider module={{ styles }}>
+          <TablePane
+            tableData={{
+              pageSize,
+              onScrollEnd: this.onScrollEnd,
+              entities,
+              onSelectionChange,
+              lineHeight,
+              ...tableConfiguration,
+            }}
+            columns={this.getAllColumns()}
+            entitiesFetching={entitiesFetching}
+            resultsCount={(pageMetadata && pageMetadata.totalElements) || 0}
+            onSelectionChange={onSelectionChange}
+            {...tablePaneConfiguration}
+          />
+        </ModuleThemeProvider>
+      </I18nProvider>
     )
   }
 }
@@ -255,4 +248,4 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   fetchEntities: (index, nbEntitiesByPage, requestParams) => dispatch(ownProps.PageActions.fetchPagedEntityList(index, nbEntitiesByPage, requestParams)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(FixedTableContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(TableContainer)

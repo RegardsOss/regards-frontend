@@ -1,14 +1,14 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { Cell } from 'fixed-data-table'
+import { Cell as FixedDataTableCell } from 'fixed-data-table'
 import { themeContextType } from '@regardsoss/theme'
 
 /**
  * Cell rendering for FixedTable
  * @author Sébastien Binda
  */
-const FixedTableCell = ({ getCellValue, overridenCellsStyle, isLastColumn, col, rowIndex, ...otherProperies }, context) => {
+const Cell = ({ getCellValue, overridenCellsStyle, isLastColumn, col, rowIndex, ...otherProperies }, context) => {
   const attribute = getCellValue(rowIndex, col)
   const styles = context.moduleTheme
 
@@ -27,13 +27,13 @@ const FixedTableCell = ({ getCellValue, overridenCellsStyle, isLastColumn, col, 
     cellContentStyle = styles.cellOddContent
   }
   return (
-    <Cell style={cellStyle} {...otherProperies} >
+    <FixedDataTableCell style={cellStyle} {...otherProperies} >
       <div style={cellContentStyle}>{attribute}</div>
-    </Cell>
+    </FixedDataTableCell>
   )
 }
 
-FixedTableCell.propTypes = {
+Cell.propTypes = {
   rowIndex: React.PropTypes.number,
   isLastColumn: React.PropTypes.bool.isRequired,
   col: React.PropTypes.shape({
@@ -44,8 +44,8 @@ FixedTableCell.propTypes = {
   overridenCellsStyle: React.PropTypes.objectOf(React.PropTypes.string),
 }
 
-FixedTableCell.contextTypes = {
+Cell.contextTypes = {
   ...themeContextType,
 }
 
-export default FixedTableCell
+export default Cell

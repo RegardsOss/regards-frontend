@@ -6,7 +6,7 @@
  * Column configuration entity
  * @author Sébastien Binda
  */
-const ColumnConfiguration = React.PropTypes.shape({
+const ColumnConfigurationModel = React.PropTypes.shape({
   // Label of the column
   label: React.PropTypes.string.isRequired,
   // Entity attributes to display as cell in the column
@@ -24,4 +24,4 @@ const ColumnConfiguration = React.PropTypes.shape({
   sortable: React.PropTypes.bool,
 })
 
-export default ColumnConfiguration
+export default ColumnConfigurationModel

@@ -11,7 +11,7 @@ import { themeContextType } from '@regardsoss/theme'
  * Column header cell rendering for FixedTable
  * @author Sébastien Binda
  */
-class FixedTableHeaderCell extends React.Component {
+class ColumnHeader extends React.Component {
 
   static propTypes = {
     label: React.PropTypes.string,
@@ -49,50 +49,45 @@ class FixedTableHeaderCell extends React.Component {
     }
   }
 
-  renderSortAction = () => {
-    const { sortableColumn: { iconStyle, buttonStyle } } = this.context.moduleTheme
-    if (this.props.sortable) {
-      let icon = <Sort />
-      switch (this.state.sortType) {
-        case 'ASC':
-          icon = <SortAsc />
-          break
-        case 'DESC':
-          icon = <SortDesc />
-          break
-        default:
-          icon = <Sort />
-      }
-      return (
-        <IconButton
-          iconStyle={iconStyle}
-          style={buttonStyle}
-          onTouchTap={this.runSort}
-        >
-          {icon}
-        </IconButton>
-      )
-    }
-    return null
-  }
-
   render() {
-    const { cellHeader, lastCellHeader } = this.context.moduleTheme
-    const { isLastColumn, lineHeight, label } = this.props
+    const { cellHeader, lastCellHeader, sortButton: { iconStyle, buttonStyle } } = this.context.moduleTheme
+    const { sortable, isLastColumn, lineHeight, label } = this.props
+    const { sortType } = this.state
+
     const cellStyle = isLastColumn ? lastCellHeader : cellHeader
     const height = `${lineHeight - 1}px`
-    const minHeight = `${lineHeight - 1}px`
+    const minHeight = height
     return (
       <div style={{ ...cellStyle, height, minHeight }}>
-        {this.renderSortAction()}
-        <div > {label}</div >
-      </div >
+        {
+          sortable ? (
+            <IconButton
+              iconStyle={iconStyle}
+              style={buttonStyle}
+              onTouchTap={this.runSort}
+            >
+              {(() => {
+                switch (sortType) {
+                  case 'ASC':
+                    return <SortAsc />
+                  case 'DESC':
+                    return <SortDesc />
+                  default:
+                    return <Sort />
+                }
+              })()
+              }
+            </IconButton>
+          ) : null
+        }
+        <div>{label}</div>
+      </div>
     )
   }
 }
 
-FixedTableHeaderCell.defaultProps = {
+ColumnHeader.defaultProps = {
   fixed: false,
 }
 
-export default FixedTableHeaderCell
+export default ColumnHeader
