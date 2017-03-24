@@ -5,5 +5,5 @@
   "description": "Display the regards projects list and allow direct access to associated interface",
   "main": "src/main.js",
   "author": "CS-SI",
-  "license": "GPLv3"
+  "license": "GPL-3.0"
 }

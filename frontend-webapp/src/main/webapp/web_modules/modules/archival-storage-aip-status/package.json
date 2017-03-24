@@ -5,5 +5,5 @@
   "description": "AIP objects storage status in micro service rs-archival-storage",
   "main": "src/main.js",
   "author": "CS-SI",
-  "license": "GPLv3"
+  "license": "GPL-3.0"
 }

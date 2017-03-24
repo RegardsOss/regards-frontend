@@ -5,5 +5,5 @@
   "description": "Module for regards catalog researchs forms",
   "main": "src/main.js",
   "author": "CS-SI",
-  "license": "GPLv3"
+  "license": "GPL-3.0"
 }

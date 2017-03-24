@@ -5,5 +5,5 @@
   "description": "Vendors whose sources need to be adapted to be used by Regards.",
   "main": "main.js",
   "author": "CS-SI",
-  "license": "GPLv3"
+  "license": "GPL-3.0"
 }
