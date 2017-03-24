@@ -57,6 +57,310 @@
       "alterable": true,
       "optional": true,
       "group": "leGroup"
+    },
+    {
+      "id": 2,
+      "name": "size",
+      "description": "Test for INTEGER attribute",
+      "label": "Size",
+      "defaultValue": null,
+      "type": "INTEGER",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup"
+    },
+    {
+      "id": 3,
+      "name": "weight",
+      "description": "Test for DOUBLE attribute",
+      "label": "Double",
+      "defaultValue": null,
+      "type": "DOUBLE",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup"
+    },
+    {
+      "id": 4,
+      "name": "date",
+      "description": "Test for DATE_ISO8601 attribute",
+      "label": "Date",
+      "defaultValue": null,
+      "type": "DATE_ISO8601",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup"
+    },
+    {
+      "id": 5,
+      "name": "strings",
+      "description": "Test for STRING_ARRAY attribute",
+      "label": "Strings",
+      "defaultValue": null,
+      "type": "STRING_ARRAY",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup"
+    },
+    {
+      "id": 6,
+      "name": "ints",
+      "description": "Test for INTEGER_ARRAY attribute",
+      "label": "Ints",
+      "defaultValue": null,
+      "type": "INTEGER_ARRAY",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup"
+    },
+    {
+      "id": 7,
+      "name": "doubles",
+      "description": "Test for DOUBLE_ARRAY attribute",
+      "label": "Doubles",
+      "defaultValue": null,
+      "type": "DOUBLE_ARRAY",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup"
+    },
+    {
+      "id": 8,
+      "name": "dates",
+      "description": "Test for DATE_ARRAY attribute",
+      "label": "Dates",
+      "defaultValue": null,
+      "type": "DATE_ARRAY",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup"
+    },
+    {
+      "id": 9,
+      "name": "intRange",
+      "description": "Test for INTEGER_INTERVAL attribute",
+      "label": "IntRange",
+      "defaultValue": null,
+      "type": "INTEGER_INTERVAL",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup"
+    },
+    {
+      "id": 10,
+      "name": "doubleRange",
+      "description": "Test for DOUBLE_INTERVAL attribute",
+      "label": "DoubleRange",
+      "defaultValue": null,
+      "type": "DOUBLE_INTERVAL",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup"
+    },
+    {
+      "id": 11,
+      "name": "bool",
+      "description": "Test for BOOLEAN attribute",
+      "label": "Bool",
+      "defaultValue": null,
+      "type": "BOOLEAN",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup"
+    },
+    {
+      "id": 12,
+      "name": "url",
+      "description": "Test for URL attribute",
+      "label": "Lien",
+      "defaultValue": null,
+      "type": "URL",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup"
+    },
+    {
+      "id": 13,
+      "name": "geo",
+      "description": "Test for GEOMETRY attribute",
+      "label": "Geo",
+      "defaultValue": null,
+      "type": "GEOMETRY",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup"
+    },
+    {
+      "id": 14,
+      "name": "long",
+      "description": "Test for LONG attribute",
+      "label": "Long",
+      "defaultValue": null,
+      "type": "LONG",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup"
+    },
+    {
+      "id": 15,
+      "name": "longRange",
+      "description": "Test for LONG_INTERVAL attribute",
+      "label": "LongRange",
+      "defaultValue": null,
+      "type": "LONG_INTERVAL",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup"
+    },
+    {
+      "id": 16,
+      "name": "longs",
+      "description": "Test for LONG_ARRAY attribute",
+      "label": "Longs",
+      "defaultValue": null,
+      "type": "LONG_ARRAY",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup"
+    },
+    {
+      "id": 17,
+      "name": "dateRange",
+      "description": "Test for DATE_INTERVAL attribute",
+      "label": "DateRange",
+      "defaultValue": null,
+      "type": "DATE_INTERVAL",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup"
     }
   ],
   "plugins": [

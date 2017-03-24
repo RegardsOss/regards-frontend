@@ -2,7 +2,6 @@
  * LICENSE_PLACEHOLDER
  **/
 import EntityGeoProperties from './EntityGeoProperties'
-import KeyValueObject from '../common/KeyValueObject'
 import { ObjectLinkedFile } from './ObjectLinkedFile'
 
 /**
@@ -17,7 +16,7 @@ const Entity = React.PropTypes.shape({
     type: React.PropTypes.oneOf(['DATASET', 'COLLECTION', 'DATAOBJECT', 'DOCUMENT']).isRequired,
     files: React.PropTypes.arrayOf(ObjectLinkedFile),
     geometry: EntityGeoProperties,
-    properties: KeyValueObject,
+    properties: React.PropTypes.object,
     tags: React.PropTypes.arrayOf(React.PropTypes.string),
   }).isRequired,
 })

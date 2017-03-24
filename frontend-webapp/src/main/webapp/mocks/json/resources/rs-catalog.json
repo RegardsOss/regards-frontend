@@ -10,11 +10,74 @@
         "uri": "https://cnes.fr/sites/default/files/drupal/201511/image/is_venus-nasa.jpg"
       }],
       "tags": ["col:movie","col:classic","col:action","ds:ParisLibrary"],
+      "geometry":{},
       "properties":{
         "format": "dvd",
-        "language": "English"
-      },
-      "geometry":{}
+        "language": "English",
+        "infos": {
+          "size": 7,
+          "weight": 3.0670392995515527,
+          "text": "sa",
+          "date": "2017-01-07T10:47:00",
+          "strings": [
+            "adipiscing",
+            "elit",
+            "sed",
+            "do",
+            "eiusmod",
+            "tempor",
+            "incididunt",
+            "ut",
+            "labore",
+            "et"
+          ],
+          "ints": [
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16
+          ],
+          "doubles": [
+            -300000000000,
+            1.54e-12,
+            1,
+            1.1234567891011122,
+            0
+          ],
+          "dates": [
+            "2017-01-07T12:00:00",
+            "2017-01-08T12:00:00",
+            "2017-01-09T12:00:00",
+            "2017-01-10T12:00:00",
+            "2017-01-11T12:00:00",
+            "2017-01-12T12:00:00",
+            "2017-01-13T12:00:00",
+            "2017-01-14T12:00:00",
+            "2017-01-15T12:00:00",
+            "2017-01-16T12:00:00"
+          ],
+          "dateRange": {
+            "lowerBound": "2017-01-07T12:00:00",
+            "upperBound": "2017-01-16T12:00:00"
+          },
+          "intRange": {
+            "lowerBound": 7,
+            "upperBound": 16
+          },
+          "doubleRange": {
+            "lowerBound": -300000000000,
+            "upperBound": 0
+          },
+          "bool": false,
+          "url": "http://www.google.fr"
+        }
+      }
     },
     {
       "id": 1,

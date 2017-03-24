@@ -132,8 +132,12 @@ class FixedTable extends React.Component {
         for (i = 0; i < column.attributes.length; i += 1) {
           attributes[column.attributes[i]] = reduce(
             split(column.attributes[i], '.'),
-            (result, value, key) => result[value],
-            entity.content)
+            (result, value, key) => {
+              if (result) {
+                return result[value]
+              }
+              return null
+            }, entity.content)
         }
         return React.createElement(rendererComponent.component, {
           attributes,
@@ -145,7 +149,12 @@ class FixedTable extends React.Component {
       // No custom component, render attribute as a string.
       let resultValue = ''
       for (i = 0; i < column.attributes.length; i += 1) {
-        const attrValue = reduce(split(column.attributes[i], '.'), (result, value, key) => result[value], entity.content)
+        const attrValue = reduce(split(column.attributes[i], '.'), (result, value, key) => {
+          if (result) {
+            return result[value]
+          }
+          return ''
+        }, entity.content)
         if (entity.content[column.attributes[i]]) {
           resultValue += ` ${attrValue}`
         } else {

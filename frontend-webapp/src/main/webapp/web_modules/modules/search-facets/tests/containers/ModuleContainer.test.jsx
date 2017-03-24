@@ -8,6 +8,7 @@ import { IntlStub } from '@regardsoss/tests-helpers'
 import { ShowableAtRender } from '@regardsoss/components'
 import { BasicFacetsPageableSelectors } from '@regardsoss/store-utils'
 import { ModuleContainer } from '../../src/containers/ModuleContainer'
+import facetsNetworkDump from '../network-dump/search-results-dump'
 
 import styles from '../../src/styles/styles'
 
@@ -38,9 +39,10 @@ describe('[ SEARCH FACETS ] Testing ModuleContainer', () => {
     const props = {
       appName: 'any',
       project: 'any',
+      facets: facetsNetworkDump.facets,
+      facetLabels: { any: 'any' },
       moduleConf: {
         onFiltersChanged: React.PropTypes.func.isRequired,
-        facetLabels: {},
         filters: [],
         attributeModels: {},
         show: true,
