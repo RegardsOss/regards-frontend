@@ -33,16 +33,16 @@ class AdminContainer extends React.Component {
     fetchAllModelsAttributes: React.PropTypes.func,
   }
 
-  constructor(props){
+  constructor(props) {
     super(props)
     this.state = {
-      attributesFetching: !this.props.moduleConf.selectableAttributes
+      attributesFetching: !this.props.moduleConf.selectableAttributes,
     }
   }
 
   componentWillMount() {
     if (this.state.attributesFetching) {
-      Promise.resolve(this.props.fetchAllModelsAttributes()).then( () => {
+      Promise.resolve(this.props.fetchAllModelsAttributes()).then(() => {
         this.setState({
           attributesFetching: false,
         })

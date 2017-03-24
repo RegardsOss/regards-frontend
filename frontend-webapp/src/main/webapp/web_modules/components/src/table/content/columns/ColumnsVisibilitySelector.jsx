@@ -12,7 +12,7 @@ import ColumnConfiguration from './model/ColumnConfiguration'
  *
  * @author Sébastien Binda
  */
-class TableColumnFilterComponent extends React.Component {
+class ColumnsVisibilitySelector extends React.Component {
 
   static propTypes = {
     columns: React.PropTypes.arrayOf(ColumnConfiguration),
@@ -49,4 +49,4 @@ class TableColumnFilterComponent extends React.Component {
   }
 }
 
-export default TableColumnFilterComponent
+export default ColumnsVisibilitySelector

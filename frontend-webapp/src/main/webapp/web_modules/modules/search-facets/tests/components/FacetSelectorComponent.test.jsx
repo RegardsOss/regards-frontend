@@ -40,12 +40,13 @@ describe('[SEARCH FACETS] Testing FacetSelectorComponent', () => {
   it('should render properly', () => {
     const props = {
       facet: aFacetModel,
-      facetValueFormatter: () => '',
+      facetValueFormatterForMenu: () => '',
+      facetValueFormatterForFilter: () => '',
       applyFilter: () => { },
     }
 
     const enzymeWrapper = shallow(<FacetSelectorComponent {...props} />, { context })
     // verify there is one item per facet value
-    assert.equal(enzymeWrapper.find(MenuItem).length, size(aFacetModel.values), 'There should be on item for each facet value')
+    assert.equal(enzymeWrapper.find(MenuItem).length, size(aFacetModel.values), 'There should be one item for each facet value')
   })
 })

@@ -6,18 +6,16 @@ import SortDesc from 'material-ui/svg-icons/navigation/arrow-drop-up'
 import SortAsc from 'material-ui/svg-icons/navigation/arrow-drop-down'
 import Sort from 'material-ui/svg-icons/action/swap-vert'
 import { themeContextType } from '@regardsoss/theme'
-import Styles from './FixedTableStyles'
 
 /**
  * Column header cell rendering for FixedTable
  * @author Sébastien Binda
  */
-class FixedTableHeaderCell extends React.Component {
+class ColumnHeader extends React.Component {
 
   static propTypes = {
     label: React.PropTypes.string,
     lineHeight: React.PropTypes.number.isRequired,
-    fixed: React.PropTypes.bool,
     sortable: React.PropTypes.bool,
     sortAction: React.PropTypes.func,
     isLastColumn: React.PropTypes.bool.isRequired,
@@ -51,63 +49,45 @@ class FixedTableHeaderCell extends React.Component {
     }
   }
 
-  renderSortAction = () => {
-    if (this.props.sortable) {
-      const iconStyle = {
-        width: 20,
-        height: 20,
-      }
-      const buttonStyle = {
-        width: 25,
-        height: 25,
-        padding: 0,
-      }
-      let icon = <Sort />
-      switch (this.state.sortType) {
-        case 'ASC':
-          icon = <SortAsc />
-          break
-        case 'DESC':
-          icon = <SortDesc />
-          break
-        default:
-          icon = <Sort />
-      }
-      return (
-        <IconButton
-          iconStyle={iconStyle}
-          style={buttonStyle}
-          onTouchTap={this.runSort}
-        >
-          {icon}
-        </IconButton>
-      )
-    }
-    return null
-  }
-
   render() {
-    const { cellHeader, fixedCellHeader, lastCellHeader } = Styles(this.context.muiTheme)
-    const { fixed, isLastColumn, lineHeight, label } = this.props
-    let cellStyle
-    if (fixed) {
-      cellStyle = fixedCellHeader
-    } else {
-      cellStyle = isLastColumn ? lastCellHeader : cellHeader
-    }
+    const { cellHeader, lastCellHeader, sortButton: { iconStyle, buttonStyle } } = this.context.moduleTheme
+    const { sortable, isLastColumn, lineHeight, label } = this.props
+    const { sortType } = this.state
+
+    const cellStyle = isLastColumn ? lastCellHeader : cellHeader
     const height = `${lineHeight - 1}px`
-    const minHeight = `${lineHeight - 1}px`
+    const minHeight = height
     return (
       <div style={{ ...cellStyle, height, minHeight }}>
-        {this.renderSortAction()}
-        <div > {label}</div >
-      </div >
+        {
+          sortable ? (
+            <IconButton
+              iconStyle={iconStyle}
+              style={buttonStyle}
+              onTouchTap={this.runSort}
+            >
+              {(() => {
+                switch (sortType) {
+                  case 'ASC':
+                    return <SortAsc />
+                  case 'DESC':
+                    return <SortDesc />
+                  default:
+                    return <Sort />
+                }
+              })()
+              }
+            </IconButton>
+          ) : null
+        }
+        <div>{label}</div>
+      </div>
     )
   }
 }
 
-FixedTableHeaderCell.defaultProps = {
+ColumnHeader.defaultProps = {
   fixed: false,
 }
 
-export default FixedTableHeaderCell
+export default ColumnHeader

@@ -18,7 +18,7 @@ import ShowFacetsSearch from 'material-ui/svg-icons/action/find-in-page'
 import { LazyModuleComponent } from '@regardsoss/modules'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { FixedTableContainer, ShowableAtRender } from '@regardsoss/components'
+import { TableContainer, TableSelectionModes, ShowableAtRender } from '@regardsoss/components'
 import {
   AttributeModel,
   AttributeConfiguration,
@@ -266,11 +266,20 @@ class SearchResultsComponent extends React.Component {
 
   /**
    * Callback when an entity checkbox is modified.
-   * @param selectedEntities
+   * @param selectionMode: selection mode, from Table (one of TableSelectionModes.select and TableSelectionModes.deselect)
+   * @param entities: selected entities when in select mode, deselected entities when in deselected mode
    */
-  resultSelection = (selectedEntities) => {
-    // TODO Manage entities selection
-    console.log('Selected entities', selectedEntities)
+  resultSelection = (selectionMode, entities) => {
+    // TODO Manage entities selection / deselection
+    switch (selectionMode) {
+      case TableSelectionModes.includeSelected:
+        console.log('Include entities => ', entities)
+        break
+      case TableSelectionModes.excludeSelected:
+      default:
+        console.log('Exlude entities => ', entities)
+        break
+    }
   }
 
   /**
@@ -471,7 +480,7 @@ class SearchResultsComponent extends React.Component {
           selectedDataset={selectedDataset}
         />
         <CardMedia>
-          <FixedTableContainer
+          <TableContainer
             key={target}
             PageActions={entityAction}
             PageSelector={CatalogEntitySelector}

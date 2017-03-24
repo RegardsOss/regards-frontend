@@ -39,7 +39,8 @@ import LoadingPaneComponent from './loading/LoadingPaneComponent'
 
 import PluginConfigurationPickerComponent from './plugin/PluginConfigurationPickerComponent'
 
-import FixedTableContainer from './table/FixedTableContainer'
+import TableSelectionModes from './table/selection/TableSelectionModes'
+import TableContainer from './table/TableContainer'
 
 export {
   ActionButtonComponent,
@@ -56,7 +57,8 @@ export {
   ConfirmDialogComponent,
   ErrorCardComponent,
   ErrorDecoratorComponent,
-  FixedTableContainer,
+  TableContainer,
+  TableSelectionModes,
   LoadingPaneComponent,
   LoadableContentDialogComponent,
   MainActionButtonComponent,

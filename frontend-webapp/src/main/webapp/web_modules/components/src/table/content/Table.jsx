@@ -4,25 +4,16 @@
 import map from 'lodash/map'
 import reduce from 'lodash/reduce'
 import split from 'lodash/split'
-import { Table, Column } from 'fixed-data-table'
+import { Table as FixedDataTable, Column } from 'fixed-data-table'
 import { themeContextType } from '@regardsoss/theme'
-import FixedTableCell from './FixedTableCell'
-import FixedTableCheckBoxCell from './FixedTableCheckBoxCell'
-import FixedTableHeaderCell from './FixedTableHeaderCell'
-import ColumnConfiguration from './model/ColumnConfiguration'
-import './fixed-data-table-mui.css'
+import SelectionController from '../selection/SelectionController'
+import FixedTableHeaderCell from './columns/ColumnHeader'
+import CheckboxColumnHeader from './columns/CheckboxColumnHeader'
+import Cell from './cells/Cell'
+import CheckBoxCell from './cells/CheckBoxCell'
+import ColumnConfiguration from './columns/model/ColumnConfiguration'
+import TableConfigurationModel from './model/TableConfigurationModel'
 
-
-/**
- * Static table configuration: all table properties that are
- */
-export const tableConfiguration = {
-  displayColumnsHeader: React.PropTypes.bool,
-  lineHeight: React.PropTypes.number.isRequired,
-  cellsStyle: React.PropTypes.objectOf(React.PropTypes.string),
-  displayCheckbox: React.PropTypes.bool,
-  onSortByColumn: React.PropTypes.func,
-}
 
 /**
  * Fixed data table from facebook library integrated with material ui theme
@@ -35,7 +26,7 @@ export const tableConfiguration = {
  *
  * @author Sébastien Binda
  */
-class FixedTable extends React.Component {
+class Table extends React.Component {
 
   /**
    * PageActions : BasicPageableActions of the entities to manage
@@ -47,12 +38,13 @@ class FixedTable extends React.Component {
     // dynamic properties
     entities: React.PropTypes.arrayOf(React.PropTypes.object),
     pageSize: React.PropTypes.number.isRequired,
-    onRowSelection: React.PropTypes.func,
     onScrollEnd: React.PropTypes.func.isRequired,
     columns: React.PropTypes.arrayOf(ColumnConfiguration).isRequired,
     width: React.PropTypes.number.isRequired,
+    // on selection change optional callback
+    onSelectionChange: React.PropTypes.func,
     // table configuration properties
-    ...tableConfiguration,
+    ...TableConfigurationModel,
   }
 
   static contextTypes = {
@@ -89,13 +81,17 @@ class FixedTable extends React.Component {
     super(props)
     this.state = {
       columnsFilterPanelOpened: false,
-      ...FixedTable.computeGraphicsMeasures(props),
+      ...Table.computeGraphicsMeasures(props),
     }
+    // install selection management
+    this.selectionController = new SelectionController(props.entities)
   }
 
   componentWillReceiveProps(nextProps) {
     // silently update measures
-    this.setState({ ...FixedTable.computeGraphicsMeasures(nextProps) })
+    this.selectionController.entities = nextProps.entities
+    this.selectionController.onSelectionChange = nextProps.onSelectionChange
+    this.setState({ ...Table.computeGraphicsMeasures(nextProps) })
   }
 
   /**
@@ -110,6 +106,24 @@ class FixedTable extends React.Component {
         [columnKey]: newColumnWidth,
       },
     }))
+  }
+
+  /**
+   * Toggles row selected state
+   */
+  onToggleSelectRow = (rowIndex) => {
+    this.selectionController.toggleRowSelectedState(rowIndex)
+    // requires update as selection controller model is not included in this state
+    this.forceUpdate()
+  }
+
+  /**
+   * Toggles select all state
+   */
+  onToggleSelectAll = () => {
+    this.selectionController.toggleSelectAll()
+    // requires update as selection controller model is not included in this state
+    this.forceUpdate()
   }
 
 
@@ -166,38 +180,18 @@ class FixedTable extends React.Component {
     return null
   }
 
-  /**
- * Render the first column with a checkbox inside to allow line selection
- * @returns {*}
- */
-  renderCheckBoxColumn = () => {
-    if (this.props.displayCheckbox) {
-      return (
-        <Column
-          key={'checkbox'}
-          columnKey={'checkbox'}
-          header={<FixedTableHeaderCell lineHeight={this.props.lineHeight} isLastColumn={false} fixed />}
-          cell={<FixedTableCheckBoxCell
-            selectRow={this.props.onRowSelection}
-            isSelected={idx => this.props.entities[idx].selected}
-          />}
-          fixed
-          width={40}
-        />
-      )
-    }
-    return null
-  }
+  isSelectedCell = rowIndex => this.selectionController.isSelectedRow(rowIndex)
 
   render() {
     if (!this.props.entities) {
       return null
     }
-    const { cellsStyle, columns, width, lineHeight, displayColumnsHeader, onScrollEnd, onSortByColumn } = this.props
+    const { cellsStyle, columns, width, lineHeight, displayCheckbox, displayColumnsHeader, onScrollEnd, onSortByColumn } = this.props
     const { columnWidths, height } = this.state
+    const { selectionColumn } = this.context.moduleTheme
     const totalNumberOfEntities = this.props.entities.length
     return (
-      <Table
+      <FixedDataTable
         rowHeight={lineHeight}
         headerHeight={displayColumnsHeader ? lineHeight : 0}
         rowsCount={totalNumberOfEntities}
@@ -207,7 +201,26 @@ class FixedTable extends React.Component {
         width={width}
         height={height}
       >
-        {this.renderCheckBoxColumn()}
+        { // render selection column
+          displayCheckbox ?
+            (
+              <Column
+                key={'selection.column'}
+                columnKey={'checkbox'}
+                header={<CheckboxColumnHeader
+                  areAllSelected={this.selectionController.areAllSelected()}
+                  onToggleSelectAll={this.onToggleSelectAll}
+                  lineHeight={lineHeight}
+                />}
+                cell={<CheckBoxCell
+                  onToggleSelectRow={this.onToggleSelectRow}
+                  isSelected={this.isSelectedCell}
+                />}
+                fixed
+                width={selectionColumn.width}
+              />
+            ) : null
+        }
         {map(columns, (column, index) => {
           const columnWidth = column.fixed || columnWidths[column.label]
           if (columnWidth) {
@@ -222,7 +235,7 @@ class FixedTable extends React.Component {
                   sortAction={type => onSortByColumn(column, type)}
                   isLastColumn={index === columns.length - 1}
                 />}
-              cell={<FixedTableCell
+              cell={<Cell
                 getCellValue={this.getCellValue}
                 overridenCellsStyle={cellsStyle}
                 col={column}
@@ -235,9 +248,9 @@ class FixedTable extends React.Component {
           }
           return null
         })}
-      </Table>
+      </FixedDataTable>
     )
   }
 }
 
-export default FixedTable
+export default Table

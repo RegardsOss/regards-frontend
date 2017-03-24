@@ -12,30 +12,17 @@ import { LoadingComponent } from '@regardsoss/display-control'
 import { themeContextType } from '@regardsoss/theme'
 import ShowableAtRender from '../cards/ShowableAtRender'
 import NoContentMessageInfo from '../cards/NoContentMessageInfo'
-import FixedTable from './FixedTable'
-import FixedTableHeader from './FixedTableHeader'
-import TableColumnFilterComponent from './TableColumnFilterComponent'
-import Styles from './FixedTableStyles'
-import ColumnConfiguration from './model/ColumnConfiguration'
-
-export const tablePaneConfiguration = {
-  // adds tabs buttons to results table
-  resultsTabsButtons: React.PropTypes.arrayOf(React.PropTypes.node),
-  // adds custom table options, nearside parmaeters
-  customTableOptions: React.PropTypes.arrayOf(React.PropTypes.node),
-  // shows a custom table header area instand of results count, just above columns
-  customTableHeaderArea: React.PropTypes.node,
-  // should show parameters button?
-  showParameters: React.PropTypes.bool.isRequired,
-  // Display table header toolbar ?
-  displayTableHeader: React.PropTypes.bool,
-}
+import Table from './content/Table'
+import TablePaneHeader from './header/TablePaneHeader'
+import ColumnsVisibilitySelector from './content/columns/ColumnsVisibilitySelector'
+import ColumnConfiguration from './content/columns/model/ColumnConfiguration'
+import TablePaneConfigurationModel from './model/TablePaneConfigurationModel'
 
 /**
-* Fixed table pane: adds table header and no data display, aligns table width on available width.
-* It also handles columns visibility options
+* Table pane: adds table header and no data display, aligns table width on available width.
+* It also handles columns visibility options and installs the seleciton manager
 */
-class FixedTablePaneComponent extends React.Component {
+class TablePane extends React.Component {
 
   static propTypes = {
     // dynamic properis
@@ -44,10 +31,10 @@ class FixedTablePaneComponent extends React.Component {
     // results count
     resultsCount: React.PropTypes.number.isRequired,
     // provided table data and configuration
-    tableData: React.PropTypes.shape(FixedTable.PropTypes).isRequired,
+    tableData: React.PropTypes.shape(Table.PropTypes).isRequired,
     columns: React.PropTypes.arrayOf(ColumnConfiguration).isRequired,
     // this configuration properties (see above)
-    ...tablePaneConfiguration,
+    ...TablePaneConfigurationModel,
   }
 
   static defaultProps = {
@@ -72,7 +59,6 @@ class FixedTablePaneComponent extends React.Component {
       columnsFilterPanelOpened: false,
     }
   }
-
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.columns !== this.props.columns) {
@@ -142,7 +128,7 @@ class FixedTablePaneComponent extends React.Component {
    */
   renderLoadingFilter = () => {
     if (this.props.entitiesFetching) {
-      const styles = Styles(this.context.muiTheme).loadingFilter
+      const styles = this.context.moduleTheme
       return (
 
         <div style={styles}>
@@ -173,10 +159,9 @@ class FixedTablePaneComponent extends React.Component {
         />,
       ])
     }
-
     return (
       <ShowableAtRender show={!!displayTableHeader}>
-        <FixedTableHeader
+        <TablePaneHeader
           resultsTabsButtons={resultsTabsButtons}
           customTableOptions={options}
           customTableHeaderArea={customTableHeaderArea}
@@ -194,7 +179,7 @@ class FixedTablePaneComponent extends React.Component {
   renderColumnsFilterPanel = () => {
     if (this.state.columnsFilterPanelOpened) {
       return (
-        <TableColumnFilterComponent
+        <ColumnsVisibilitySelector
           columns={this.props.columns}
           hiddenColumns={this.state.hiddenColumns}
           changeColumnVisibility={this.onToggleColumnVisibility}
@@ -220,11 +205,11 @@ class FixedTablePaneComponent extends React.Component {
             message={'Your research returned no results. Please change your search criterion'}
             Icon={Disatisfied}
           >
-            <FixedTable columns={visibleColumns} width={tableWidth} {...tableData} />
+            <Table columns={visibleColumns} width={tableWidth} {...tableData} />
           </NoContentMessageInfo>
         </div >
       </Measure >
     )
   }
 }
-export default FixedTablePaneComponent
+export default TablePane
