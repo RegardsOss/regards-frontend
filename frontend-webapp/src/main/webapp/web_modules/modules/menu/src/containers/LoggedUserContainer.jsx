@@ -3,7 +3,7 @@
  **/
 import React from 'react'
 import { connect } from '@regardsoss/redux'
-import { AuthenticateActions, AuthenticateSelectors } from '@regardsoss/authentication-manager'
+import { AuthenticationParametersSelectors, AuthenticateActions, AuthenticateSelectors } from '@regardsoss/authentication-manager'
 import { Role } from '@regardsoss/model'
 import BorrowableRolesActions from '../model/BorrowableRolesActions'
 import BorrowableRolesSelectors from '../model/BorrowableRolesSelectors'
@@ -24,6 +24,7 @@ class LoggedUserContainer extends React.Component {
     currentRole: React.PropTypes.string.isRequired,
     borrowableRoles: React.PropTypes.objectOf(Role).isRequired,
     isSendingBorrowRole: React.PropTypes.bool.isRequired,
+    isInstance: React.PropTypes.bool.isRequired,
     // also borrowRoleResult, but only used in next props
 
     // from mapDispathToProps
@@ -35,8 +36,10 @@ class LoggedUserContainer extends React.Component {
 
 
   componentDidMount = () => {
-    // fetch borrowable roles for logged user
-    this.props.fetchBorrowableRoles()
+    // fetch borrowable roles for logged user, but not for instance administrator
+    if (!this.props.isInstance) {
+      this.props.fetchBorrowableRoles()
+    }
   }
 
   componentWillReceiveProps = ({ isSendingBorrowRole: nextIsSendingBorrowRole, borrowRoleResult }) => {
@@ -76,6 +79,7 @@ const mapStateToProps = (state) => {
     authenticationName: isAuthenticated ? AuthenticateSelectors.getAuthentication(state).result.sub : '',
     isSendingBorrowRole: BorrowRoleSelectors.isFetching(state),
     borrowRoleResult: BorrowRoleSelectors.getResult(state),
+    isInstance: AuthenticationParametersSelectors.isInstance(state),
   }
 }
 
