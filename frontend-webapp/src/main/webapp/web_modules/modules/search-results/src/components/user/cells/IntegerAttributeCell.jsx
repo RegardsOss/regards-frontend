@@ -16,7 +16,11 @@ class IntegerAttributeCell extends React.Component {
 
   render() {
     const results = []
-    forEach(this.props.attributes, (attribute, key) => results.push(<span key={key}>{attribute}</span>))
+    forEach(this.props.attributes, (attribute, key) => {
+      if (Number.isInteger(attribute)) {
+        results.push(<span key={key}>{attribute}</span>)
+      }
+    })
     return (
       <span>
         {results}

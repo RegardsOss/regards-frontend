@@ -60,7 +60,7 @@ const findLabelFromAttributeFullyQualifiedName = (attributeFullyQualifiedName, a
 const findAttribute = (attributeName, attributeFragment, attributeModelsList) => find(attributeModelsList, ({ content: { name, fragment } }) => attributeName === name && attributeFragment === fragment.name)
 
 const StandardAttributes = [
-  'ipId', 'sipId', 'label', 'creationDate', 'lastUpdate',
+  'ipId', 'sipId', 'label', 'creationDate', 'lastUpdate', 'files',
 ]
 const STANDARD_ATTRIBUTE_TYPE = 'STRING'
 

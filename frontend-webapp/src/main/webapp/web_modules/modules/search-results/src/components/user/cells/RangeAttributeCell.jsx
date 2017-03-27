@@ -18,7 +18,7 @@ class RangeAttributeCell extends React.Component {
     try {
       return (<span>
         {map(this.props.attributes, (attribute, key) => {
-          if (attribute) {
+          if (attribute && attribute.lowerBound && attribute.upperBound) {
             return (<span key={key}>{String(attribute.lowerBound)} - {String(attribute.upperBound)}</span>)
           }
           return null

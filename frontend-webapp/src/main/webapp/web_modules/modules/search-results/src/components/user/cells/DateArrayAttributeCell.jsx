@@ -19,16 +19,22 @@ class DateArrayAttributeCell extends React.Component {
   render() {
     return (<span>
       {map(this.props.attributes, (attribute, key) => {
-        if (attribute) {
+        if (attribute && Array.isArray(attribute)) {
           return (<div key={key}>
-            {map(attribute, (date, key2) => (
-              <span key={key2}>
-                <FormattedDate value={date} />
-                {' '}
-                <FormattedTime value={date} />
-              </span>
-                    ),
-                )}
+            {map(attribute, (date, key2) => {
+              const dateWrapper = new Date(date)
+              if (!isNaN(dateWrapper.getDate())) {
+                return (
+                  <span key={key2}>
+                    <FormattedDate value={date} />
+                    {' '}
+                    <FormattedTime value={date} />
+                  </span>
+                )
+              }
+              return null
+            },
+              )}
           </div>
           )
         }

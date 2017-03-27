@@ -21,7 +21,7 @@ class DatasetCellComponent extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     lineHeight: React.PropTypes.number.isRequired,
     onClick: React.PropTypes.func,
-    attributes: React.PropTypes.arrayOf(AttributeModel),
+    attributes: React.PropTypes.objectOf(AttributeModel),
   }
 
   static contextTypes = {
@@ -80,8 +80,6 @@ class DatasetCellComponent extends React.Component {
     let valueCellRenderer = CustomCellByAttributeTypeEnum[attribute.content.type]
     if (!valueCellRenderer) {
       valueCellRenderer = DefaultCell
-    } else {
-      console.log('ATTR', attribute.content.type, valueCellRenderer)
     }
 
     const element = React.createElement(valueCellRenderer, {

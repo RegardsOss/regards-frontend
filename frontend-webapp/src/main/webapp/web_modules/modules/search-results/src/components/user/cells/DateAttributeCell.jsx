@@ -19,7 +19,7 @@ class DefaultCell extends React.Component {
     return (
       <span>
         {map(this.props.attributes, (attribute, key) => {
-          if (attribute) {
+          if (attribute && !isNaN((new Date(attribute)).getDate())) {
             return (
               <span key={key}>
                 <FormattedDate value={attribute} />

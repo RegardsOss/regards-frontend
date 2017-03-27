@@ -32,7 +32,6 @@ import CatalogEntitySelector from '../../models/catalog/CatalogEntitySelector'
 import CatalogDataobjectEntityActions from '../../models/catalog/CatalogDataobjectEntityActions'
 import CatalogDatasetEntityActions from '../../models/catalog/CatalogDatasetEntityActions'
 import NavigationComponent from './NavigationComponent'
-import ThumbmailCellComponent from './ThumbmailCellComponent'
 import DatasetCellComponent from './DatasetCellComponent'
 import CustomCellByAttributeTypeEnum from './cells/CustomCellByAttributeTypeEnum'
 import DefaultCell from './cells/DefaultCell'
@@ -184,26 +183,39 @@ class SearchResultsComponent extends React.Component {
         let attribute
         let fullyQualifiedAttributeName
         if (AttributeConfigurationController.isStandardAttribute(attributeConf)) {
-          attribute = {
-            content: {
-              label: attributeConf.attributeFullQualifiedName,
-              name: attributeConf.attributeFullQualifiedName,
-              type: AttributeModelController.STANDARD_ATTRIBUTE_TYPE,
-            },
+          if (attributeConf.attributeFullQualifiedName === 'files') {
+            attribute = {
+              content: {
+                label: 'Thumbmail',
+                name: attributeConf.attributeFullQualifiedName,
+                type: 'THUMBMAIL',
+              },
+            }
+          } else {
+            attribute = {
+              content: {
+                label: attributeConf.attributeFullQualifiedName,
+                name: attributeConf.attributeFullQualifiedName,
+                type: AttributeModelController.STANDARD_ATTRIBUTE_TYPE,
+              },
+            }
           }
           fullyQualifiedAttributeName = attributeConf.attributeFullQualifiedName
         } else {
           attribute = find(this.props.attributeModels, att => AttributeModelController.getAttributeFullyQualifiedName(att) ===
-              attributeConf.attributeFullQualifiedName)
+          attributeConf.attributeFullQualifiedName)
           fullyQualifiedAttributeName = attribute ?
             AttributeModelController.getAttributeFullyQualifiedNameWithoutDefaultFragment(attribute) : null
         }
         if (attribute) {
           const customCell = CustomCellByAttributeTypeEnum[attribute.content.type] || DefaultCell
+          const isThumbmail = attribute.content.type === 'THUMBMAIL'
           columns.push({
             label: attribute.content.label,
             attributes: [fullyQualifiedAttributeName],
-            sortable: true,
+            sortable: !isThumbmail,
+            hideLabel: isThumbmail,
+            fixed: isThumbmail ? 50 : undefined,
             customCell: customCell ? {
               component: customCell,
               props: {},
@@ -242,17 +254,15 @@ class SearchResultsComponent extends React.Component {
   getDataSetsColumns = () => {
     const columns = []
     columns.push({
-      label: 'Label',
-      attributes: ['label', 'ip_id', 'properties'],
-      sortable: false,
-      customCell: { component: DatasetCellComponent,
-        props:
-        {
+      label: 'Dataset cell',
+      attributes: [],
+      customCell: {
+        component: DatasetCellComponent,
+        props: {
           onClick: this.selectDataset,
           attributes: this.props.attributeModels,
         },
       },
-      hideLabel: true,
     })
     return columns
   }
@@ -326,7 +336,7 @@ class SearchResultsComponent extends React.Component {
     if (query && query.ds && this.state.selectedDataset !== query.ds) {
       // TODO fetch dataset from server and select it
     }
-    if (!query.ds && this.state.selectedDataset) {
+    if (query && !query.ds && this.state.selectedDataset) {
       this.setState({ selectedDataset: null })
     }
   }

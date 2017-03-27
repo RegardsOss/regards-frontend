@@ -15,7 +15,6 @@ class DynamicModuleFormComponent extends React.Component {
     project: React.PropTypes.string.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     appName: React.PropTypes.string.isRequired,
-    applicationId: React.PropTypes.string.isRequired,
     module: ModuleShape,
     adminForm: React.PropTypes.shape({
       changeField: React.PropTypes.func,
@@ -43,7 +42,7 @@ class DynamicModuleFormComponent extends React.Component {
             module={this.props.module}
             admin
             adminForm={this.props.adminForm}
-            appName={this.props.applicationId}
+            appName={this.props.appName}
           />
         </CardText>
       </Card>

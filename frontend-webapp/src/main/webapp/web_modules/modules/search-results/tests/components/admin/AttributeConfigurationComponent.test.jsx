@@ -74,14 +74,14 @@ describe('[RESULTS MODULE] Testing AttributeConfigurationComponent', () => {
     assert.lengthOf(visibility, 1, 'There should be only one checked checkbox')
 
     visibility.simulate('check')
-    assert(onChangeSpy.calledWith(0, {
+    assert(onChangeSpy.calledWith('test.test', {
       attributeFullQualifiedName: 'test.test',
       visibility: false,
       facetable: false,
     }))
 
     facetable.simulate('check')
-    assert(onChangeSpy.calledWith(0, {
+    assert(onChangeSpy.calledWith('test.test', {
       attributeFullQualifiedName: 'test.test',
       visibility: false,
       facetable: true,
