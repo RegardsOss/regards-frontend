@@ -11,6 +11,7 @@ import VisibilityOff from 'material-ui/svg-icons/action/visibility-off'
 import Search from 'material-ui/svg-icons/action/search'
 import Locked from 'material-ui/svg-icons/action/lock'
 import { FormattedMessage } from 'react-intl'
+import { ShowableAtRender } from '@regardsoss/components'
 
 /**
  * Component to display an attribute configuration.
@@ -20,6 +21,7 @@ class AttributeConfigurationComponent extends React.Component {
 
   static propTypes = {
     attribute: AttributeModel.isRequired,
+    filter: React.PropTypes.string,
     conf: AttributeConfiguration,
     onChange: React.PropTypes.func,
   }
@@ -36,7 +38,8 @@ class AttributeConfigurationComponent extends React.Component {
     const nextConf = nextProps.conf
     if (conf.order !== nextConf.order ||
       conf.visibility !== nextConf.visibility ||
-      conf.facetable !== nextConf.facetable) {
+      conf.facetable !== nextConf.facetable ||
+      conf.filter !== nextProps.filter) {
       return true
     }
     return false
@@ -63,49 +66,58 @@ class AttributeConfigurationComponent extends React.Component {
   formatOrder = value => value ? parseInt(value, this) : undefined
 
   render() {
+    const label = this.props.attribute.content.label
+    let display = true
+    if (this.props.filter && this.props.filter.length > 0) {
+      display = label.match(new RegExp(`^${this.props.filter}.*$`, 'i'))
+    }
     return (
-      <Card
-        style={{ width: 300, margin: 5 }}
+      <ShowableAtRender
+        show={display}
       >
-        <CardHeader
-          title={this.props.attribute.content.label}
-          subtitle={this.props.attribute.content.description}
-          style={{
-            paddingTop: 0,
-            paddingBottom: 0,
-          }}
-        />
-        <CardText
-          style={{
-            paddingTop: 0,
-          }}
+        <Card
+          style={{ width: 300, margin: 5 }}
         >
-          <TextField
-            id="search"
-            type="number"
-            floatingLabelText={<FormattedMessage id="form.attributes.order" />}
-            value={this.formatOrder(this.state.conf.order)}
-            onChange={this.changeAttributeOrder}
+          <CardHeader
+            title={this.props.attribute.content.label}
+            subtitle={this.props.attribute.content.description}
             style={{
-              maxWidth: 150,
+              paddingTop: 0,
+              paddingBottom: 0,
             }}
           />
-          <Checkbox
-            label={<FormattedMessage id="form.attributes.visibility.label" />}
-            checked={this.state.conf.visibility}
-            checkedIcon={<Visibility />}
-            uncheckedIcon={<VisibilityOff />}
-            onCheck={this.changeVisibility}
-          />
-          <Checkbox
-            label={<FormattedMessage id="form.attributes.facetable.label" />}
-            checked={this.state.conf.facetable}
-            checkedIcon={<Search />}
-            uncheckedIcon={<Locked />}
-            onCheck={this.changeFacetable}
-          />
-        </CardText>
-      </Card>
+          <CardText
+            style={{
+              paddingTop: 0,
+            }}
+          >
+            <TextField
+              id="search"
+              type="number"
+              floatingLabelText={<FormattedMessage id="form.attributes.order" />}
+              value={this.formatOrder(this.state.conf.order)}
+              onChange={this.changeAttributeOrder}
+              style={{
+                maxWidth: 150,
+              }}
+            />
+            <Checkbox
+              label={<FormattedMessage id="form.attributes.visibility.label" />}
+              checked={this.state.conf.visibility}
+              checkedIcon={<Visibility />}
+              uncheckedIcon={<VisibilityOff />}
+              onCheck={this.changeVisibility}
+            />
+            <Checkbox
+              label={<FormattedMessage id="form.attributes.facetable.label" />}
+              checked={this.state.conf.facetable}
+              checkedIcon={<Search />}
+              uncheckedIcon={<Locked />}
+              onCheck={this.changeFacetable}
+            />
+          </CardText>
+        </Card>
+      </ShowableAtRender>
     )
   }
 }

@@ -2,6 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { map, isEqual, concat, remove, values } from 'lodash'
+import Divider from 'material-ui/Divider'
 import {
   AttributeModel,
   AttributeConfiguration,
@@ -144,9 +145,19 @@ class ResultsAttributesConfigurationComponent extends React.Component {
           onChangeRegroupenentConfiguration={this.onChangeRegroupement}
           onDeleteRegroupement={this.onDeleteRegroupement}
         />
+        <Divider
+          style={{
+            marginTop: 20,
+          }}
+        />
         <StandardAttributesConfigurationComponent
           attributesConf={attributesConf}
           onChangeAttributeConfiguration={this.onChange}
+        />
+        <Divider
+          style={{
+            marginTop: 20,
+          }}
         />
         <DynamicAttributesConfigurationComponent
           selectableAttributes={this.props.selectableAttributes}

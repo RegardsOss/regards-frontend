@@ -30,6 +30,7 @@ const messages = Object.assign({
   'form.attributes.regroupement.section.title': 'Configurer les regroupements d\'attributs',
   'form.attributes.section.title': 'Configurer les attributs du modèle dynamique',
   'form.attributes.standard.section.title': 'Configurer les attributs communs',
+  'form.attributes.filter.label': 'Filtrer les attributs ...',
   'form.attributes.regroupement.remove': 'Supprimer',
   'form.attributes.regroupement.edit': 'Editer',
   'form.attributes.delete.confirm.title': 'Confirmer la suppression du regroupement {name}',

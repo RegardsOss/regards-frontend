@@ -32,6 +32,7 @@ const messages = Object.assign({
   'form.attributes.regroupement.section.title': 'Configure attributes regroupement to display after every search result',
   'form.attributes.section.title': 'Configure attributes from dynamic models retrieved from each search result',
   'form.attributes.standard.section.title': 'Configure common attributes retrieved from each search result',
+  'form.attributes.filter.label': 'Search for attribute label ... ',
   'form.attributes.regroupement.remove': 'Remove',
   'form.attributes.regroupement.edit': 'Edit',
   'form.attributes.delete.confirm.title': 'Confirm deletion of attributs regroupement {name}',
