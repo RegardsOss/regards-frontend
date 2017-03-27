@@ -13,6 +13,7 @@ import { ShowableAtRender, CardActionsComponent } from '@regardsoss/components'
 import { AvailableModules } from '@regardsoss/modules'
 import Styles from '../../src/styles/styles'
 import { UnconnectedModuleFormComponent } from '../../src/components/ModuleFormComponent'
+import DynamicModuleFormComponent from '../../src/components/DynamicModuleFormComponent'
 
 /**
  * Tests for ModuleFormComponent
@@ -83,7 +84,7 @@ describe('[ADMIN UI-CONFIGURATION] Testing Modules form component', () => {
     assert.isTrue(staticFields.find(Field).find({ name: 'name' }).find(MenuItem).length === AvailableModules.length)
 
     // Check for dynamic fields
-    let dynamicFields = wrapper.find({ id: 'dynamicFields' })
+    let dynamicFields = wrapper.find(DynamicModuleFormComponent)
     assert.isTrue(dynamicFields.length === 0, 'The dynamic fields should not be displayed since no module is selected')
 
     // Check for buttons
@@ -92,7 +93,7 @@ describe('[ADMIN UI-CONFIGURATION] Testing Modules form component', () => {
 
     // Simulate module selection
     staticFields.find(Field).find({ name: 'name' }).simulate('select', null, 0, AvailableModules[0], { onChange: () => {} })
-    dynamicFields = wrapper.find({ id: 'dynamicFields' })
+    dynamicFields = wrapper.find(DynamicModuleFormComponent)
     assert.isTrue(dynamicFields.length === 1, 'The dynamic fields should be displayed since a module is selected')
   })
 
@@ -139,7 +140,7 @@ describe('[ADMIN UI-CONFIGURATION] Testing Modules form component', () => {
     assert.isTrue(staticFields.find(Field).find({ name: 'name' }).find(MenuItem).length === AvailableModules.length)
 
     // Check for dynamic fields
-    const dynamicFields = wrapper.find({ id: 'dynamicFields' })
+    const dynamicFields = wrapper.find(DynamicModuleFormComponent)
     assert.isTrue(dynamicFields.length === 1, 'The dynamic fields should be displayed since a module is selected')
 
     // Check for buttons

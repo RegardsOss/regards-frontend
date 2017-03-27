@@ -16,11 +16,11 @@ class IntegerAttributeCell extends React.Component {
 
   render() {
     const results = []
-    forEach(this.props.attributes, (attribute, key) => results.push(<div key={key}>{attribute}</div>))
+    forEach(this.props.attributes, (attribute, key) => results.push(<span key={key}>{attribute}</span>))
     return (
-      <div>
+      <span>
         {results}
-      </div>
+      </span>
     )
   }
 

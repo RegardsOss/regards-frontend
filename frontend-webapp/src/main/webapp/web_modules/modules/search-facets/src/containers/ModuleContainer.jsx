@@ -2,11 +2,10 @@
  * LICENSE_PLACEHOLDER
  **/
 import filter from 'lodash/filter'
-import find from 'lodash/find'
 import { connect } from '@regardsoss/redux'
 import { ShowableAtRender } from '@regardsoss/components'
 import { BasicFacetsPageableSelectors } from '@regardsoss/store-utils'
-import { AttributeModel } from '@regardsoss/model'
+import { AttributeModel, AttributeModelController } from '@regardsoss/model'
 import ModuleContentComponent from '../components/ModuleContentComponent'
 import { FacetArray } from '../model/FacetShape'
 import { filterListShape } from '../model/FilterShape'
@@ -81,16 +80,6 @@ export class ModuleContainer extends React.Component {
   }
 }
 
-const findFacetLabel = (facetNamePath, attributeModels) => {
-  // []
-  // content >> fragment >> name ("default" par exemple)
-  // content >> name
-  const [searchedFragmentName, searchAttributeName] = facetNamePath.split('.').map(a => a.toLowerCase())
-  const foundAttribute = find(attributeModels, ({ content: { name, fragment } }) => searchAttributeName === name && searchedFragmentName === fragment.name)
-
-  return foundAttribute ? foundAttribute.content.label : facetNamePath
-}
-
 const mapStateToProps = (state, { moduleConf: { resultsSelectors, facets, facetLabels, attributeModels } }) => {
   const nextFacets = resultsSelectors.getFacets(state) || []
   if (nextFacets === facets) {
@@ -102,7 +91,7 @@ const mapStateToProps = (state, { moduleConf: { resultsSelectors, facets, facetL
   return {
     facets: nextFacets,
     facetLabels: nextFacets.reduce((labels, { attributeName }) => ({
-      [attributeName]: findFacetLabel(attributeName, attributeModels),
+      [attributeName]: AttributeModelController.findLabelFromAttributeFullyQualifiedName(attributeName, attributeModels),
       ...labels,
     }), {}),
   }

@@ -17,16 +17,16 @@ class DateArrayAttributeCell extends React.Component {
   }
 
   render() {
-    return (<div>
+    return (<span>
       {map(this.props.attributes, (attribute, key) => {
         if (attribute) {
           return (<div key={key}>
             {map(attribute, (date, key2) => (
-              <div key={key2}>
+              <span key={key2}>
                 <FormattedDate value={date} />
                 {' '}
                 <FormattedTime value={date} />
-              </div>
+              </span>
                     ),
                 )}
           </div>
@@ -34,7 +34,7 @@ class DateArrayAttributeCell extends React.Component {
         }
         return null
       })}
-    </div>
+    </span>
     )
   }
 

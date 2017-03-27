@@ -17,10 +17,10 @@ class DateRangeAttributeCell extends React.Component {
 
   render() {
     try {
-      return (<div>
+      return (<span>
         {map(this.props.attributes, (attribute, key) => {
           if (attribute && attribute.lowerBound && attribute.upperBound) {
-            return (<div key={key}>
+            return (<span key={key}>
               <FormattedDate value={attribute.lowerBound} />
               {' '}
               <FormattedTime value={attribute.lowerBound} />
@@ -28,12 +28,12 @@ class DateRangeAttributeCell extends React.Component {
               <FormattedDate value={attribute.upperBound} />
               {' '}
               <FormattedTime value={attribute.upperBound} />
-            </div>
+            </span>
             )
           }
           return null
         })}
-      </div>)
+      </span>)
     } catch (e) {
       console.log('Invalide cell content', e)
     }

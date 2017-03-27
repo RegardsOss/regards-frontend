@@ -16,17 +16,18 @@ class BooleanAttributeCell extends React.Component {
 
   render() {
     return (
-      <div>
+      <span>
         {map(this.props.attributes, (attribute, key) => {
           if (typeof attribute === 'boolean') {
-            return (<div key={key}>{String(attribute)}</div>)
+            return (<span key={key}>{String(attribute)}</span>)
           }
           return null
         })}
-      </div>
+      </span>
     )
   }
 
 }
+
 
 export default BooleanAttributeCell

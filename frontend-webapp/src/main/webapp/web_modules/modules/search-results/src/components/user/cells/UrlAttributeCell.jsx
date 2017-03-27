@@ -16,14 +16,14 @@ class UrlAttributeCell extends React.Component {
 
   render() {
     return (
-      <div>
+      <span>
         {map(this.props.attributes, (attribute, key) => {
           if (attribute) {
             return (<a key={key} target="_blank" rel="noopener noreferrer" href={String(attribute)}>{String(attribute)}</a>)
           }
           return null
         })}
-      </div>
+      </span>
     )
   }
 

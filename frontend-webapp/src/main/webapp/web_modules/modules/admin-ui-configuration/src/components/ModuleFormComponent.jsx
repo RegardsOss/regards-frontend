@@ -7,10 +7,10 @@ import { themeContextType } from '@regardsoss/theme'
 import MenuItem from 'material-ui/MenuItem'
 import { FormattedMessage } from 'react-intl'
 import { ShowableAtRender, CardActionsComponent } from '@regardsoss/components'
-import { i18nContextType } from '@regardsoss/i18n'
 import { reduxForm } from 'redux-form'
 import { RenderTextField, RenderSelectField, Field, RenderCheckbox, ErrorTypes } from '@regardsoss/form-utils'
-import { ModuleShape, AvailableModules, LazyModuleComponent } from '@regardsoss/modules'
+import { ModuleShape, AvailableModules } from '@regardsoss/modules'
+import DynamicModuleFormComponent from './DynamicModuleFormComponent'
 import Styles from '../styles/styles'
 
 /**
@@ -40,7 +40,6 @@ class ModuleFormComponent extends React.Component {
   }
 
   static contextTypes = {
-    ...i18nContextType,
     ...themeContextType,
   }
 
@@ -74,19 +73,13 @@ class ModuleFormComponent extends React.Component {
 
   renderDynamicModuleConfiguration = (style) => {
     if (this.state.moduleSelected) {
-      return (
-        <Card id="dynamicFields" style={style.cardEspaced}>
-          <CardText>
-            <LazyModuleComponent
-              project={this.props.project}
-              module={this.state.module}
-              admin
-              adminForm={this.props.adminForm}
-              appName={this.props.applicationId}
-            />
-          </CardText>
-        </Card>
-      )
+      return (<DynamicModuleFormComponent
+        project={this.props.project}
+        appName={this.props.applicationId}
+        adminForm={this.props.adminForm}
+        module={this.state.module}
+        styles={style.cardEspaced}
+      />)
     }
     return null
   }
