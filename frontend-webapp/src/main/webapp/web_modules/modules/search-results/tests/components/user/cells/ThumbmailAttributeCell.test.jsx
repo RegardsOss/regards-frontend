@@ -44,7 +44,7 @@ describe('[RESULTS MODULE] Testing Thumbmail Table cell renderer', () => {
           { type: ObjectLinkedFileTypes.RAWDATA, uri: 'http://error.fr' },
         ],
       },
-      lineHeight: 150
+      lineHeight: 150,
     }
     const wrapper = shallow(
       <ThumbmailCell {...props} />, options,
@@ -61,8 +61,8 @@ describe('[RESULTS MODULE] Testing Thumbmail Table cell renderer', () => {
           { type: ObjectLinkedFileTypes.RAWDATA, uri: 'http://test.fr' },
           { type: ObjectLinkedFileTypes.RAWDATA, uri: 'http://error.fr' },
         ],
-        lineHeight: 150
       },
+      lineHeight: 150,
     }
     const wrapper = shallow(
       <ThumbmailCell {...props} />, options,
