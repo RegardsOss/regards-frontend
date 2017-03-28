@@ -4,7 +4,7 @@
 import { createStore, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
 import { authorizationMiddleware } from '@regardsoss/authentication-manager'
-import createLogger from 'redux-logger'
+import { createLogger } from 'redux-logger'
 import root from 'window-or-global'
 import preloadedState from './preloadedState'
 import configureReducers from './configureReducers'
