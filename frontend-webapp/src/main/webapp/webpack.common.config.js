@@ -53,6 +53,14 @@ module.exports = {
         loader: 'file-loader?name=[name].[ext]&outputPath=./img/',
       },
       {
+        test: /\.gif$/,
+        loader: 'file-loader?name=[name].[ext]&outputPath=./img/',
+      },
+      {
+        test: /staticConfiguration\.js$/,
+        loader: 'file-loader?name=[name].[ext]&outputPath=./conf/',
+      },
+      {
         test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
         loader: 'url-loader?name=/img/[name].[ext]&limit=10000&minetype=application/font-woff',
       },
