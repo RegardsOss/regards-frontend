@@ -18,6 +18,8 @@ import ColumnsVisibilitySelector from './content/columns/ColumnsVisibilitySelect
 import ColumnConfiguration from './content/columns/model/ColumnConfiguration'
 import TablePaneConfigurationModel from './model/TablePaneConfigurationModel'
 
+const allWidthStyles = { width: '100%' }
+
 /**
 * Table pane: adds table header and no data display, aligns table width on available width.
 * It also handles columns visibility options and installs the seleciton manager
@@ -195,7 +197,7 @@ class TablePane extends React.Component {
     const { visibleColumns, tableWidth } = this.state
     return (
       <Measure onMeasure={this.onComponentResized}>
-        <div style={{ width: '100%' }}>
+        <div style={allWidthStyles}>
           {this.renderHeaderBar()}
           {this.renderLoadingFilter()}
           {this.renderColumnsFilterPanel()}
