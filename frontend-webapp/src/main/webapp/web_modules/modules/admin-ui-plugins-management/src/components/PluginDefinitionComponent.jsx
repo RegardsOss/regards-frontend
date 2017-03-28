@@ -3,6 +3,7 @@
  **/
 
 import { Card, CardHeader, CardText } from 'material-ui/Card'
+import RaisedButton from 'material-ui/RaisedButton'
 import {FormattedMessage} from 'react-intl'
 import { Plugin } from '@regardsoss/model'
 
@@ -25,7 +26,10 @@ class PluginDefinitionComponent extends React.Component {
     if (this.props.plugin.info.url) {
       return (
         <a href={this.props.plugin.info.url} target="_black" rel="noopener noreferrer">
-          <FormattedMessage id="plugin.description.url" />
+          <RaisedButton
+            primary
+            label={<FormattedMessage id="plugin.description.url" />}
+          />
         </a>
       )
       return null
@@ -44,7 +48,9 @@ class PluginDefinitionComponent extends React.Component {
         />
         <CardText>
           {info.description}
-          <div>
+          <div style={{
+            marginTop: 15
+          }}>
             {this.renderUrlAddress()}
           </div>
         </CardText>

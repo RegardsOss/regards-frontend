@@ -22,6 +22,9 @@ const PluginInfo = React.PropTypes.shape({
   version: React.PropTypes.number.isRequired,
   author: React.PropTypes.string.isRequired,
   company: React.PropTypes.string,
+  email: React.PropTypes.string,
+  license: React.PropTypes.string,
+  url: React.PropTypes.string,
   type: React.PropTypes.oneOf(PluginTypes),
   // Specific configuration properties for the given plugin
   conf: React.PropTypes.object,
