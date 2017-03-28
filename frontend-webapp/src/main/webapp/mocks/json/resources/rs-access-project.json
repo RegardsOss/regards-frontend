@@ -128,6 +128,15 @@
       "container": "content",
       "applicationId": "user",
       "id": 14
+    },
+    {
+      "active": true,
+      "conf": "{\"graphLevels\":[4,5],\"enableFacettes\":true,\"attributes\":[{\"id\":0,\"visibility\":true,\"facetable\":true},{\"id\":1,\"visibility\":true,\"facetable\":true},{\"id\":2,\"visibility\":true,\"facetable\":false}]}",
+      "name": "search-graph",
+      "container": "content",
+      "description": "Recherche par graphe 1",
+      "applicationId": "user",
+      "id": 15
     }
   ],
   "layouts": [

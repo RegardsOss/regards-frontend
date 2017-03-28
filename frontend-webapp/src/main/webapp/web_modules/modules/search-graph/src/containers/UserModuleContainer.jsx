@@ -8,6 +8,8 @@
 class UserModuleContainer extends React.Component {
 
   static propTypes = {
+    // Description, provided by default module mechanism
+    // description: React.PropTypes.string,
   }
 
   render() {

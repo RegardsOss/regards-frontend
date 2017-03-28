@@ -8,9 +8,8 @@ import reducer from './reducer'
 import dependencies from './dependencies'
 
 /**
- * Main file of module to expose public interface
- * @author Sébastien binda
- **/
+ * Expose module
+ */
 export default {
   adminContainer,
   moduleContainer,

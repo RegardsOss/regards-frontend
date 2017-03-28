@@ -1,42 +1,59 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { RenderTextField, RenderCheckbox, Field } from '@regardsoss/form-utils'
-import { FormattedMessage } from 'react-intl'
+import { connect } from '@regardsoss/redux'
+import { Model } from '@regardsoss/model'
+import CollectionModelSelectors from '../model/CollectionModelSelectors'
+import CollectionModelActions from '../model/CollectionModelActions'
+import ModuleForm from '../components/admin/ModuleForm'
+import ModuleConfiguration from '../model/ModuleConfiguration'
+
 
 /**
  * Module container for admin interface (module instance configuration)
  */
 class AdminModuleContainer extends React.Component {
 
-  render() {
-    return (
-      <div>
-        <Field
-          name="conf.title"
-          fullWidth
-          component={RenderTextField}
-          type="text"
-          label={<FormattedMessage id="menu.form.title" />}
-        />
-        <Field
-          name="conf.displayAuthentication"
-          component={RenderCheckbox}
-          label={<FormattedMessage id="menu.form.displayauthentication" />}
-        />
-        <Field
-          name="conf.displayLocaleSelector"
-          component={RenderCheckbox}
-          label={<FormattedMessage id="menu.form.displaylocale" />}
-        />
-        <Field
-          name="conf.displayThemeSelector"
-          component={RenderCheckbox}
-          label={<FormattedMessage id="menu.form.displaytheme" />}
-        />
-      </div>
-    )
+  static propTypes = {
+    // from module loader
+    project: React.PropTypes.string.isRequired,
+    appName: React.PropTypes.string.isRequired,
+    adminForm: React.PropTypes.shape({
+      changeField: React.PropTypes.func,
+      form: ModuleConfiguration,
+    }),
+    // form map state to properties
+    collectionModels: React.PropTypes.objectOf(Model).isRequired,
+    // from map dispatch to properies
+    fetchCollectionModels: React.PropTypes.func.isRequired,
   }
+
+  componentDidMount = () => {
+    const { fetchCollectionModels } = this.props
+    fetchCollectionModels()
+  }
+
+
+  render() {
+    const { collectionModels, project, appName, adminForm } = this.props
+    return (
+      <ModuleForm
+        collectionModels={collectionModels}
+        project={project}
+        appName={appName}
+        adminForm={adminForm}
+      />)
+  }
+
 }
 
-export default AdminModuleContainer
+const mapStateToProps = state => ({
+  // fetched collection models to provide the available graph levels
+  collectionModels: CollectionModelSelectors.getList(state) || {},
+})
+
+const mapDispatchToProps = dispatch => ({
+  fetchCollectionModels: () => dispatch(CollectionModelActions.fetchEntityList()),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(AdminModuleContainer)

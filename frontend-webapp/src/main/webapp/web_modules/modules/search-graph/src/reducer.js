@@ -2,8 +2,8 @@
  * LICENSE_PLACEHOLDER
  **/
 
-// import BorrowableRolesReducers, { PATH as BORROWABLE_ROLES_PATH } from './model/BorrowableRolesReducers'
+import CollectionModelReducers, { REDUCER_PATH as COLLECTION_MODEL_PATH } from './model/CollectionModelReducers'
 
 export default {
-  // [BORROWABLE_ROLES_PATH]: BorrowableRolesReducers,
+  [COLLECTION_MODEL_PATH]: CollectionModelReducers,
 }
