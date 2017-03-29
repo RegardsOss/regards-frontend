@@ -117,7 +117,7 @@ describe('[ADMIN DATA COLLECTION MANAGEMENT] Testing CollectionFormComponent', (
       initialize: () => {},
     }
     const enzymeWrapper = shallow(<CollectionFormComponent {...props} />, { context })
-    expect(enzymeWrapper.find(Field)).to.have.length(3)
+    expect(enzymeWrapper.find(Field)).to.have.length(5)
     expect(enzymeWrapper.find(MenuItem)).to.have.length(2)
     expect(enzymeWrapper.find(CollectionStepperComponent)).to.have.length(1)
   })

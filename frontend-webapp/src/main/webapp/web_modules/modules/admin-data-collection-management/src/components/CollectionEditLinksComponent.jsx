@@ -8,6 +8,8 @@ import { map } from 'lodash'
 import Add from 'material-ui/svg-icons/content/add-circle-outline'
 import Clear from 'material-ui/svg-icons/content/clear'
 import { Collection } from '@regardsoss/model'
+import TextField from 'material-ui/TextField'
+import Search from 'material-ui/svg-icons/action/search'
 import Subheader from 'material-ui/Subheader'
 import { CardActionsComponent } from '@regardsoss/components'
 import IconButton from 'material-ui/IconButton'
@@ -25,6 +27,7 @@ export class CollectionEditLinksComponent extends React.Component {
     remainingCollections: React.PropTypes.arrayOf(Collection),
     handleAdd: React.PropTypes.func.isRequired,
     handleDelete: React.PropTypes.func.isRequired,
+    handleSearch: React.PropTypes.func.isRequired,
     backUrl: React.PropTypes.string.isRequired,
     doneUrl: React.PropTypes.string.isRequired,
   }
@@ -36,7 +39,7 @@ export class CollectionEditLinksComponent extends React.Component {
 
 
   render() {
-    const { linkedCollections, remainingCollections, handleAdd, handleDelete, doneUrl, backUrl } = this.props
+    const { linkedCollections, remainingCollections, handleAdd, handleDelete, handleSearch, doneUrl, backUrl } = this.props
     return (
       <Card>
         <CardTitle
@@ -64,6 +67,24 @@ export class CollectionEditLinksComponent extends React.Component {
             <div className="col-sm-50">
               <List>
                 <Subheader><FormattedMessage id="collection.form.links.remainingcollection.subtitle" /></Subheader>
+                <ListItem
+                  primaryText={
+                    <TextField
+                      hintText={<FormattedMessage id="collection.form.links.remainingcollection.search" />}
+                      onChange={handleSearch}
+                      fullWidth
+                    />
+                  }
+                  rightIconButton={
+                    <div>
+                      <br />
+                      <IconButton>
+                        <Search />
+                      </IconButton>
+                    </div>
+                  }
+                  disabled
+                />
                 {map(remainingCollections, (collection, id) => (
                   <ListItem
                     key={id}
