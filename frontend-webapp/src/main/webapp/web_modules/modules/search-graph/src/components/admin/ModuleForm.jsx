@@ -8,7 +8,7 @@ import { Model } from '@regardsoss/model'
 import { themeContextType } from '@regardsoss/theme'
 import { FieldArray } from '@regardsoss/form-utils'
 import ModuleConfiguration from '../../model/ModuleConfiguration'
-import AdminSelectedLevelFormRender from './SelectedLevelFormRender'
+import SelectedLevelFormRender from './SelectedLevelFormRender'
 import SearchResultForm from './SearchResultForm'
 
 const fieldName = 'conf.graphLevels'
@@ -42,7 +42,7 @@ class ModuleForm extends React.Component {
         <Tab label={<FormattedMessage id="search.graph.configuration.tab" />}>
           <FieldArray
             name={fieldName}
-            component={AdminSelectedLevelFormRender}
+            component={SelectedLevelFormRender}
             validate={this.validateSelectedLevels}
             collectionModels={collectionModels}
           />

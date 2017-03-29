@@ -16,13 +16,6 @@ const getTextBoundPropType = parser => (props, propName, componentName, location
     return new Error(`${propName} (${location}) is not a String object in ${localComponentName}.`)
   }
   if (!parser(boundText)) {
-    console.info('=====================================')
-    console.info('=====================================')
-    console.info('=====================================')
-    console.info('=====================================')
-    console.info('=====================================')
-    console.info('=====================================')
-    console.info('I am that failer ', boundText)
     return new Error(`${propName} (${location}) cannot be parsed as bound in ${localComponentName}.`)
   }
   return null

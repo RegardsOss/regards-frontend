@@ -2,7 +2,6 @@
 * LICENSE_PLACEHOLDER
 **/
 import map from 'lodash/map'
-import find from 'lodash/find'
 import filter from 'lodash/filter'
 import { FormattedMessage } from 'react-intl'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
