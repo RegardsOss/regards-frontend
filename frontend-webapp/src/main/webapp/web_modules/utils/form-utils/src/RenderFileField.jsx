@@ -16,6 +16,8 @@ const RenderFileField = ({
   },
   meta: omitMeta,
   fullWidth,
+  // Specifies the types of files that the server accepts
+  accept,
   intl,
   ...props
 }) => (
@@ -28,6 +30,7 @@ const RenderFileField = ({
       onBlur={adaptFileEventToValue(onBlur)}
       type="file"
       fullWidth={fullWidth}
+      accept={accept}
       underlineShow={false}
       {...inputProps}
       {...props}
@@ -39,7 +42,7 @@ RenderFileField.contextTypes = {
 }
 RenderFileField.propTypes = {
   input: React.PropTypes.shape({
-    value: React.PropTypes.object,
+    value: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.object]),
     onChange: React.PropTypes.func,
     onBlur: React.PropTypes.func,
   }),
@@ -50,5 +53,6 @@ RenderFileField.propTypes = {
     formatMessage: React.PropTypes.func,
   }),
   fullWidth: React.PropTypes.bool,
+  accept: React.PropTypes.string,
 }
 export default RenderFileField

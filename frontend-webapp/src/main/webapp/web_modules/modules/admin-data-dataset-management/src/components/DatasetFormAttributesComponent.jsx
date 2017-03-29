@@ -236,6 +236,7 @@ export class DatasetFormAttributesComponent extends React.Component {
                   <Field
                     name="descriptionFileContent"
                     fullWidth
+                    accept=".md,.pdf"
                     component={RenderFileField}
                   />
                 </ShowableAtRender>

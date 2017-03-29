@@ -35,6 +35,7 @@ describe('[ADMIN DATA COLLECTION MANAGEMENT] Testing CollectionEditLinksComponen
       doneUrl: '#',
       handleDelete: () => {},
       handleAdd: () => {},
+      handleSearch: () => {},
       linkedCollections: [
         { content: {
           type: 'COLLECTION',
@@ -94,7 +95,7 @@ describe('[ADMIN DATA COLLECTION MANAGEMENT] Testing CollectionEditLinksComponen
       ],
     }
     const enzymeWrapper = shallow(<CollectionEditLinksComponent {...props} />, { context })
-    expect(enzymeWrapper.find(ListItem)).to.have.length(3)
+    expect(enzymeWrapper.find(ListItem)).to.have.length(4)
     expect(enzymeWrapper.find(CollectionStepperComponent)).to.have.length(1)
   })
 })

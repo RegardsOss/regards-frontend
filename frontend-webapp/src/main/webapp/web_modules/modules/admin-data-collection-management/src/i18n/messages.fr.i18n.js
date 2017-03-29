@@ -9,9 +9,10 @@ const messages = Object.assign({
   'collection.form.links.remainingcollection.subtitle': 'Collection disponibles',
   'collection.form.links.collection.subtitle': 'Collection liées',
   'collection.form.links.subtitle': 'Les collections disposent de lien entre elles afin de simplifier la recherche',
-  'collection.form.links.title': 'Mise à jour des liens entre collection',
+  'collection.form.links.title': 'Mise à jour des liens entre collections',
   'collection.form.links.action.done': 'Terminer',
   'collection.form.links.action.cancel': 'Retour',
+  'collection.form.links.remainingcollection.search': 'Filtrer les collections sur leur nom',
   'collection.list.table.label': 'Label',
   'collection.list.table.actions': 'Actions',
   'collection.list.table.model': 'Modele',
@@ -30,6 +31,14 @@ const messages = Object.assign({
   'invalid.max_128_carac': 'Le label d\'une collection ne peut dépasser 128 caractères',
   'collection.stepper.links': 'Edition des liens avec les autres collections',
   'collection.stepper.attributes': 'Saisie des attributs d\'une collection',
+
+  'collection.form.descriptionUrl': 'URL de la page décrivant le jeu de données',
+  'collection.form.descriptionFileContent': 'Uploader un fichier Markdown ou PDF',
+  'collection.form.descriptionFileContentReuploadToOverride': 'Uploader un fichier Markdown ou PDF contenant la description si vous voulez écraser celle déjà présente',
+  'collection.form.datasource': 'Source de données',
+  'collection.form.radio.descriptionUrl': 'Donner l\'URL contenant la description',
+  'collection.form.radio.descriptionFileContent': 'Uploader un fichier contenant la description',
+  'collection.form.radio.none': 'Pas de description',
 }, Locales.fr)
 
 export default messages
