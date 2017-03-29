@@ -6,7 +6,8 @@ import { AttributeConfiguration, AttributesRegroupementConfiguration } from '@re
  * form configuration
  */
 const ModuleConfiguration = React.PropTypes.shape({
-  graphLevels: React.PropTypes.arrayOf(React.PropTypes.number),
+  // name of collection model, ordered by level for graph navigation
+  graphLevels: React.PropTypes.arrayOf(React.PropTypes.string),
   // [Result form module] Default Target of results
   resultType: React.PropTypes.string,
   // [Result form module] Search form attributes configuration

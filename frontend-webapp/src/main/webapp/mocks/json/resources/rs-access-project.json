@@ -131,10 +131,10 @@
     },
     {
       "active": true,
-      "conf": "{\"graphLevels\":[4,5],\"enableFacettes\":true,\"attributes\":[{\"id\":0,\"visibility\":true,\"facetable\":true},{\"id\":1,\"visibility\":true,\"facetable\":true},{\"id\":2,\"visibility\":true,\"facetable\":false}]}",
+      "conf": "{\"graphLevels\":[\"Missions\",\"Mesures\",\"Instruments\"],\"enableFacettes\":true}",
       "name": "search-graph",
+      "description": "Recherche par graphe",
       "container": "content",
-      "description": "Recherche par graphe 1",
       "applicationId": "user",
       "id": 15
     }

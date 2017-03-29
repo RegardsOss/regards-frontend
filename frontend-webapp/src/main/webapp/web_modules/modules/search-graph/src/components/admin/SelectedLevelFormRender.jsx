@@ -3,6 +3,7 @@
 **/
 import map from 'lodash/map'
 import filter from 'lodash/filter'
+import find from 'lodash/find'
 import { FormattedMessage } from 'react-intl'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
 import Popover from 'material-ui/Popover'
@@ -55,8 +56,8 @@ class SelectedLevelFormRender extends React.Component {
    * @param level selected level value
    */
   onLevelSelected = (event, level) => {
-    // add the level id to selected field values
-    this.props.fields.push(level.id)
+    // add the level collection type name to selected field values
+    this.props.fields.push(level.name)
     this.onHideMenu()
   }
 
@@ -78,19 +79,31 @@ class SelectedLevelFormRender extends React.Component {
     this.setState({ menuVisible: false })
   }
 
+  /**
+   * Returns selectable levels, ie not selected, with data, from current state selection
+   * @return [{ content: {name, description}}]
+   */
   getSelectableLevels = () => {
     const { fields, collectionModels } = this.props
     const allSelectedArray = fields.getAll() || []
-    return filter(collectionModels, ({ content: { id } }) => !allSelectedArray.includes(id))
+    return filter(collectionModels, ({ content: { name } }) => !allSelectedArray.includes(name))
   }
 
+  /**
+   * Returns selected levels, with data, from current state selection
+   * @return [{ content: {name, description}}]
+   */
   getSelectedLevels = () => {
     const { fields, collectionModels } = this.props
-    // rebuild selected levels list
+    // rebuild selected levels list, avoid appending null to the selected levels list (may happen in module edition)
     const allSelectedArray = fields.getAll() || []
-    return allSelectedArray.map(id => collectionModels[id].content)
+    return allSelectedArray.reduce((acc, name) => {
+      // search selected element by name in collections
+      const foundElt = find(collectionModels, ({ content: { name: currName } }) => currName === name)
+      console.error('--> ', foundElt)
+      return foundElt ? [...acc, foundElt] : acc
+    }, [])
   }
-
 
   /**
    * Renders hint row when there is no selection
@@ -112,9 +125,11 @@ class SelectedLevelFormRender extends React.Component {
 
   /**
    * Renders a level table row
+   * @param level  : collection type for level { content: { name, description}}
+   * @return rendered
    */
-  renderLevelRow = ({ id, name, description }, index) => (
-    <TableRow key={id}>
+  renderSelectedLevelRow = ({ content: { name, description } }, index) => (
+    <TableRow key={name}>
       <TableRowColumn>
         {index}
       </TableRowColumn>
@@ -134,6 +149,7 @@ class SelectedLevelFormRender extends React.Component {
 
   /**
    * Renders the selected levels table
+   * @return rendered
    */
   renderSelectedLevels = () => {
     const { moduleTheme: { admin: { form: { graphLevelsRender } } } } = this.context
@@ -171,7 +187,7 @@ class SelectedLevelFormRender extends React.Component {
             {
               selectedLevels ?
                 // render selection
-                selectedLevels.map((level, index) => this.renderLevelRow(level, index)) :
+                selectedLevels.map((level, index) => this.renderSelectedLevelRow(level, index)) :
                 // render hint row when there is no selection
                 this.renderHintRow()
             }
