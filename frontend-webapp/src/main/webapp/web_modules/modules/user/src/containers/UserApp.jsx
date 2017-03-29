@@ -36,7 +36,7 @@ export class UserApp extends React.Component {
     layout: Layout,
     modules: React.PropTypes.objectOf(ModuleShape),
     currentRole: React.PropTypes.string.isRequired,
-    // eslint-disable-next-line 
+    // eslint-disable-next-line
     isAuthenticated: React.PropTypes.bool,
     // Set by mapDispatchToProps
     initializeApplication: React.PropTypes.func.isRequired,
@@ -83,14 +83,6 @@ export class UserApp extends React.Component {
     }
   }
 
-  /**
-   * Callback when a dynamic module is selected
-   * @param module
-   */
-  onDynamicModuleSelection = (module) => {
-    browserHistory.push(`/user/${this.props.params.project}/modules/${module.content.id}`)
-  }
-
   renderLayout(modulesList) {
     if (this.props.layout && this.props.layout.content) {
       return (
@@ -100,7 +92,6 @@ export class UserApp extends React.Component {
           modules={modulesList}
           project={this.props.params.project}
           dynamicContent={this.props.content}
-          onDynamicModuleSelection={this.onDynamicModuleSelection}
           style={{ minHeight: '100vh' }}
         />
       )

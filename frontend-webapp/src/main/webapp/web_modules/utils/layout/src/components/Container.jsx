@@ -8,7 +8,7 @@ import MenuItem from 'material-ui/MenuItem'
 import Paper from 'material-ui/Paper'
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
 import { Toolbar, ToolbarGroup, ToolbarTitle } from 'material-ui/Toolbar'
-import { LazyModuleComponent, ModuleListProvider, ModuleShape } from '@regardsoss/modules'
+import { LazyModuleComponent, ModuleShape } from '@regardsoss/modules'
 import { PluginConf } from '@regardsoss/model'
 import { PluginProvider } from '@regardsoss/plugins'
 import ContainerShape from '../model/ContainerShape'
@@ -31,7 +31,6 @@ class Container extends React.Component {
     // eslint-disable-next-line react/forbid-prop-types
     pluginProps: React.PropTypes.object,
     dynamicContent: React.PropTypes.element,
-    onDynamicModuleSelection: React.PropTypes.func,
     onContainerClick: React.PropTypes.func,
     configurationMode: React.PropTypes.bool,
     mainContainer: React.PropTypes.bool,
@@ -55,7 +54,6 @@ class Container extends React.Component {
             plugins={this.props.plugins}
             pluginProps={this.props.pluginProps}
             dynamicContent={this.props.dynamicContent}
-            onDynamicModuleSelection={this.props.onDynamicModuleSelection}
             onContainerClick={this.props.onContainerClick}
             configurationMode={this.props.configurationMode}
           />,
@@ -77,13 +75,6 @@ class Container extends React.Component {
     if (this.props.container.dynamicContent) {
       // Render dynamic content in this dynamic container
       renderModules.push(this.props.dynamicContent)
-      renderModules.push(<ModuleListProvider
-        key="dynamicContent"
-        modules={this.props.modules}
-        container={this.props.container.id}
-        onModuleSelection={this.props.onDynamicModuleSelection}
-      />,
-      )
       // Render modules and plugins of this static container
     } else if (this.props.modules) {
       const containerModules = this.props.modules.filter(module => module.content.container === this.props.container.id && module.content.applicationId === this.props.appName)

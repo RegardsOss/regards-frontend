@@ -4,7 +4,7 @@
 
 import { Card, CardHeader, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
-import {FormattedMessage} from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import { Plugin } from '@regardsoss/model'
 
 /**
@@ -32,14 +32,14 @@ class PluginDefinitionComponent extends React.Component {
           />
         </a>
       )
-      return null
     }
+    return null
   }
 
   render() {
     const { info } = this.props.plugin
-    const title = `${info.name} - version ${info.version} - ${info.license? info.license : ''}`
-    const subtitle = `${info.author? info.author : ''} - ${info.email? info.email : ''} - ${info.company? info.company : ''}`
+    const title = `${info.name} - version ${info.version} - ${info.license ? info.license : ''}`
+    const subtitle = `${info.author ? info.author : ''} - ${info.email ? info.email : ''} - ${info.company ? info.company : ''}`
     return (
       <Card>
         <CardHeader
@@ -48,9 +48,11 @@ class PluginDefinitionComponent extends React.Component {
         />
         <CardText>
           {info.description}
-          <div style={{
-            marginTop: 15
-          }}>
+          <div
+            style={{
+              marginTop: 15,
+            }}
+          >
             {this.renderUrlAddress()}
           </div>
         </CardText>

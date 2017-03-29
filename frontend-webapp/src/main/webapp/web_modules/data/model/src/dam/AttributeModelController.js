@@ -47,17 +47,16 @@ const getAttributeFullyQualifiedNameWithoutDefaultFragment = (attribute) => {
   return `${DATA_ATTRIBUTES_FIELD}.${attribute.content.fragment.name}.${attribute.content.name}`
 }
 
+const findAttribute = (attributeName, attributeFragment, attributeModelsList) => find(attributeModelsList, ({ content: { name, fragment } }) => attributeName === name && attributeFragment === fragment.name)
 
 const findLabelFromAttributeFullyQualifiedName = (attributeFullyQualifiedName, attributeModels) => {
   // []
   // content >> fragment >> name ("default" par exemple)
   // content >> name
   const [searchedFragmentName, searchAttributeName] = attributeFullyQualifiedName.split('.').map(a => a.toLowerCase())
-  const foundAttribute = this.findAttribute(searchAttributeName, searchedFragmentName, attributeModels)
+  const foundAttribute = findAttribute(searchAttributeName, searchedFragmentName, attributeModels)
   return foundAttribute ? foundAttribute.content.label : attributeFullyQualifiedName
 }
-
-const findAttribute = (attributeName, attributeFragment, attributeModelsList) => find(attributeModelsList, ({ content: { name, fragment } }) => attributeName === name && attributeFragment === fragment.name)
 
 const StandardAttributes = [
   'ipId', 'sipId', 'label', 'creationDate', 'lastUpdate', 'files',

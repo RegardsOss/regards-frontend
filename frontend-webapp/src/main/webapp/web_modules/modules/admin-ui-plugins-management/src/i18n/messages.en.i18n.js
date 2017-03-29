@@ -23,7 +23,7 @@ const messages = Object.assign({
   'plugins.list.table.name': 'Name',
   'plugins.list.table.actions': 'Actions',
   'plugins.list.action.add': 'Add a new plugin',
-  'plugin.description.url' : 'Access to plugin description',
+  'plugin.description.url': 'Access to plugin description',
 }, Locales.en)
 
 export default messages
