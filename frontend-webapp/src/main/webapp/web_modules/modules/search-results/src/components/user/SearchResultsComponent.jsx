@@ -261,6 +261,7 @@ class SearchResultsComponent extends React.Component {
         props: {
           onClick: this.selectDataset,
           attributes: this.props.attributeModels,
+          styles: this.context.moduleTheme.user.datasetCells,
         },
       },
     })

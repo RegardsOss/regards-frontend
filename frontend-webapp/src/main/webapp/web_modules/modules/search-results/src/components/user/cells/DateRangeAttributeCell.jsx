@@ -18,13 +18,11 @@ class DateRangeAttributeCell extends React.Component {
   renderDate = (date) => {
     if (date && !isNaN((new Date(date)).getDate())) {
       return (
-        <span>
+        <div>
           <FormattedDate value={date} />
-          {
-            ' '
-          }
+          {' '}
           <FormattedTime value={date} />
-        </span>
+        </div>
       )
     }
     return null
@@ -37,7 +35,6 @@ class DateRangeAttributeCell extends React.Component {
           if (attribute && attribute.lowerBound && attribute.upperBound) {
             return (<span key={key}>
               {this.renderDate(attribute.lowerBound)}
-              {'-'}
               {this.renderDate(attribute.upperBound)}
             </span>
             )

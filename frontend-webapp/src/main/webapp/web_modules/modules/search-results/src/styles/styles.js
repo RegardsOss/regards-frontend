@@ -25,6 +25,48 @@ const formStyles = theme => ({
     formHeader: {
       backgroundColor: theme.palette.primary2Color,
     },
+    datasetCells: {
+      line: {
+        marginTop: 10,
+        display: 'flex',
+        flexFlow: 'column wrap',
+        alignContent: 'stretch',
+        alignItems: 'flex-start',
+        maxHeight: 90,
+      },
+      lineHover: {
+        height: '100%',
+        width: '95%',
+        margin: 'auto',
+        cursor: 'auto',
+        backgroundColor: theme.palette.primary3Color,
+      },
+      lineOut: {
+        height: '100%',
+        width: '95%',
+        margin: 'auto',
+        cursor: 'auto',
+      },
+      thumbmail: {
+        display: 'inline-block',
+        marginTop: 5,
+      },
+      attribute: {
+        marginLeft: 10,
+        textOverflow: 'ellipsis',
+        overflow: 'hidden',
+        whiteSpace: 'nowrap',
+        display: 'flex',
+      },
+      attributeLabel: {
+        color: theme.palette.accent1Color,
+        maxWidth: 150,
+        minWidth: 50,
+      },
+      attributeValue: {
+        maxWidth: 200,
+      },
+    },
   },
   resultsButtonsType: {
     buttonsGroup: {
