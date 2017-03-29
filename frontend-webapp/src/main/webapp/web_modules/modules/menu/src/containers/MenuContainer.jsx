@@ -3,11 +3,11 @@
  **/
 import IconButton from 'material-ui/IconButton'
 import FilterList from 'material-ui/svg-icons/action/list'
-import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from 'material-ui/Toolbar'
-import { FormattedMessage } from 'react-intl'
-import { SelectLocaleContainer } from '@regardsoss/i18n'
-import { SelectThemeContainer, themeContextType } from '@regardsoss/theme'
-import { ModuleListContainer } from '@regardsoss/modules'
+import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar'
+import {FormattedMessage} from 'react-intl'
+import {SelectLocaleContainer} from '@regardsoss/i18n'
+import {SelectThemeContainer, themeContextType} from '@regardsoss/theme'
+import {ModuleListContainer} from '@regardsoss/modules'
 import AuthenticationMenuContainer from './AuthenticationMenuContainer'
 
 /**
@@ -51,34 +51,39 @@ class MenuContainer extends React.Component {
     }
   }
 
-  displayModulesMenu = () => (
-    <div>
-      <IconButton
-        onTouchTap={this.handleToggle}
-        tooltip={<FormattedMessage id="menu.modules.list.button" />}
-      >
-        <FilterList />
-      </IconButton>
-      <ModuleListContainer
-        project={this.props.project}
-        open={this.state.moduleListOpen}
-        onCloseMenu={this.handleClose}
-      />
-    </div>
-    )
+  displayModulesMenu = () => {
+    if (this.props.appName === 'user') {
+      return (
+        <div>
+          <IconButton
+            onTouchTap={this.handleToggle}
+            tooltip={<FormattedMessage id="menu.modules.list.button"/>}
+          >
+            <FilterList />
+          </IconButton>
+          <ModuleListContainer
+            project={this.props.project}
+            open={this.state.moduleListOpen}
+            onCloseMenu={this.handleClose}
+          />
+        </div>
+      )
+    }
+    return null
+  }
 
   /**
    * Toggle the sidebar containing modules
    */
-  handleToggle = () => this.setState({ moduleListOpen: !this.state.moduleListOpen })
+  handleToggle = () => this.setState({moduleListOpen: !this.state.moduleListOpen})
 
   /**
    * Close the sidebar containing modules
    */
-  handleClose = () => this.setState({ moduleListOpen: false })
+  handleClose = () => this.setState({moduleListOpen: false})
 
   render() {
-    const { moduleTheme } = this.context
+    const {moduleTheme} = this.context
     const title = this.props.moduleConf.title ? this.props.moduleConf.title : ''
     const style = {
       headContainer: {
@@ -89,7 +94,7 @@ class MenuContainer extends React.Component {
     let authentication = null
     if (this.props.moduleConf.displayAuthentication) {
       authentication = (
-        <AuthenticationMenuContainer appName={this.props.appName} project={this.props.project} />
+        <AuthenticationMenuContainer appName={this.props.appName} project={this.props.project}/>
       )
     }
 
@@ -107,18 +112,20 @@ class MenuContainer extends React.Component {
       )
     }
 
+    const menu = this.displayModulesMenu()
+
     return (
       <Toolbar style={style.headContainer.styles}>
         <ToolbarGroup firstChild>
-          <ToolbarTitle text={title} style={style.title} />
+          <ToolbarTitle text={title} style={style.title}/>
         </ToolbarGroup>
         <ToolbarGroup lastChild>
           {authentication}
-          <ToolbarSeparator />
-          {this.displayModulesMenu()}
-          <ToolbarSeparator style={this.displaySeparator(localeSelector)} />
+          <ToolbarSeparator style={{...this.displaySeparator(menu), marginLeft: 10}}/>
+          {menu}
+          <ToolbarSeparator style={this.displaySeparator(localeSelector)}/>
           {localeSelector}
-          <ToolbarSeparator style={this.displaySeparator(themeSelector)} />
+          <ToolbarSeparator style={this.displaySeparator(themeSelector)}/>
           {themeSelector}
         </ToolbarGroup>
       </Toolbar>
