@@ -11,6 +11,7 @@ import FormErrorMessage from './FormErrorMessage'
 import ErrorTypes from './ErrorTypes'
 import Locales from './i18n/Locales'
 import Field from './Field'
+import FieldArray from './FieldArray'
 import ValidationHelpers from './ValidationHelpers'
 import FormEntityNotFoundComponent from './FormEntityNotFoundComponent'
 import FormLoadingComponent from './FormLoadingComponent'
@@ -29,6 +30,7 @@ export default {
   ErrorTypes,
   Locales,
   Field,
+  FieldArray,
   ValidationHelpers,
   FormLoadingComponent,
   FormEntityNotFoundComponent,

@@ -64,9 +64,10 @@ npm link web_modules/modules/licenses
 npm link web_modules/modules/menu
 npm link web_modules/modules/news
 npm link web_modules/modules/projects-list
-npm link web_modules/modules/search-form
-npm link web_modules/modules/search-results
 npm link web_modules/modules/search-facets
+npm link web_modules/modules/search-form
+npm link web_modules/modules/search-graph
+npm link web_modules/modules/search-results
 
 # Applications
 npm link web_modules/modules/admin

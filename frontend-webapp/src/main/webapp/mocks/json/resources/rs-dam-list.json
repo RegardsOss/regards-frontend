@@ -8,33 +8,39 @@
     },
     {
       "id": 1,
-      "name": "Modele de collection",
-      "description": "Ceci est un modele de collection",
-      "type": "COLLECTION"
-    },
-    {
-      "id": 2,
       "name": "Troisieme Modele",
       "description": "Description du troisieme modele de jeux de données",
       "type": "DATASET"
     },
     {
+      "id": 2,
+      "name": "Troisieme Modele",
+      "description": "Description du troisieme modele de jeux de données",
+      "type": "OBJECT"
+    },
+    {
+      "id": 3,
+      "name": "Instruments",
+      "description": "Des instruments de musique",
+      "type": "COLLECTION"
+    },
+    {
       "id": 4,
-      "name": "Autre modele de collection",
-      "descirption": "Description du deuxieme modele de jeux de données",
+      "name": "Missions",
+      "description": "Des missions, impossibles",
       "type": "COLLECTION"
     },
     {
       "id": 5,
-      "name": "Troisieme Modele",
-      "descirption": "Description du troisieme modele de jeux de données",
-      "type": "OBJECT"
+      "name": "Mesures",
+      "description": "Des mesures et démesures",
+      "type": "COLLECTION"
     }
   ],
   "models-attributes": [
     {
       "id": 0,
-      "pos":0,
+      "pos": 0,
       "mode": "GIVEN",
       "model": {
         "id": 5,
@@ -44,9 +50,9 @@
       },
       "attribute": {
         "id": 0,
-        "name":"Attribute_0_0",
+        "name": "Attribute_0_0",
         "description": "Description de l'attribut 0 - 0",
-        "defaultValue" : null,
+        "defaultValue": null,
         "type": "STRING",
         "unit": null,
         "precision": null,
@@ -64,7 +70,7 @@
     },
     {
       "id": 1,
-      "pos":0,
+      "pos": 0,
       "mode": "GIVEN",
       "model": {
         "id": 5,
@@ -74,9 +80,9 @@
       },
       "attribute": {
         "id": 4,
-        "name":"Attribute_4",
+        "name": "Attribute_4",
         "description": "Description de l'attribut 0 - 0",
-        "defaultValue" : null,
+        "defaultValue": null,
         "type": "STRING",
         "unit": null,
         "precision": null,
@@ -96,9 +102,9 @@
   "attributes-models": [
     {
       "id": 0,
-      "name":"Attribute_0_0",
+      "name": "Attribute_0_0",
       "description": "Description de l'attribut 0 - 0",
-      "defaultValue" : null,
+      "defaultValue": null,
       "type": "STRING",
       "unit": null,
       "precision": null,
@@ -115,9 +121,9 @@
     },
     {
       "id": 3,
-      "name":"Attribute_0_0",
+      "name": "Attribute_0_0",
       "description": "Description de l'attribut 0 - 0",
-      "defaultValue" : null,
+      "defaultValue": null,
       "type": "STRING",
       "unit": null,
       "precision": null,
@@ -134,9 +140,9 @@
     },
     {
       "id": 2,
-      "name":"Attribute_0_0",
+      "name": "Attribute_0_0",
       "description": "Description de l'attribut 0 - 0",
-      "defaultValue" : null,
+      "defaultValue": null,
       "type": "STRING",
       "unit": null,
       "precision": null,
@@ -150,11 +156,12 @@
         "id": 3,
         "name": "Fragment 3"
       }
-    }, {
+    },
+    {
       "id": 1,
-      "name":"Attribute_1_0",
+      "name": "Attribute_1_0",
       "description": "Description de l'attribut 1 - 0",
-      "defaultValue" : null,
+      "defaultValue": null,
       "type": "STRING",
       "unit": null,
       "precision": null,
@@ -171,9 +178,9 @@
     },
     {
       "id": 4,
-      "name":"Attribute_4",
+      "name": "Attribute_4",
       "description": "Description de l'attribut 0 - 0",
-      "defaultValue" : null,
+      "defaultValue": null,
       "type": "STRING",
       "unit": null,
       "precision": null,
@@ -212,37 +219,44 @@
       "priorityOrder": 0,
       "active": true,
       "pluginClassName": "fr.cnes.regards.modules.datasources.plugins.DefaultPostgreConnectionPlugin",
-      "parameters": [{
-        "id": 1852,
-        "name": "user",
-        "value": "azertyuiop123456789",
-        "dynamic": false
-      }, {
-        "id": 1853,
-        "name": "password",
-        "value": "azertyuiop123456789",
-        "dynamic": false
-      }, {
-        "id": 1854,
-        "name": "url",
-        "value": "jdbc:postgresql://172.26.47.52:5432/rs_testdb_cmertz",
-        "dynamic": false
-      }, {
-        "id": 1855,
-        "name": "driver",
-        "value": "org.postgresql.Driver",
-        "dynamic": false
-      }, {
-        "id": 1856,
-        "name": "maxPoolSize",
-        "value": "10",
-        "dynamic": false
-      }, {
-        "id": 1857,
-        "name": "minPoolSize",
-        "value": "1",
-        "dynamic": false
-      }]
+      "parameters": [
+        {
+          "id": 1852,
+          "name": "user",
+          "value": "azertyuiop123456789",
+          "dynamic": false
+        },
+        {
+          "id": 1853,
+          "name": "password",
+          "value": "azertyuiop123456789",
+          "dynamic": false
+        },
+        {
+          "id": 1854,
+          "name": "url",
+          "value": "jdbc:postgresql://172.26.47.52:5432/rs_testdb_cmertz",
+          "dynamic": false
+        },
+        {
+          "id": 1855,
+          "name": "driver",
+          "value": "org.postgresql.Driver",
+          "dynamic": false
+        },
+        {
+          "id": 1856,
+          "name": "maxPoolSize",
+          "value": "10",
+          "dynamic": false
+        },
+        {
+          "id": 1857,
+          "name": "minPoolSize",
+          "value": "1",
+          "dynamic": false
+        }
+      ]
     }
   ]
 }

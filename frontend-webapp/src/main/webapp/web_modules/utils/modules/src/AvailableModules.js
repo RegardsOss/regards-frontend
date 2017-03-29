@@ -12,6 +12,7 @@ export default [
   // 'news',
   'projects-list',
   'search-form',
+  'search-graph',
   'search-results',
   // 'archival-storage-aip-status',
   // 'archival-storage-plugins-monitoring',
