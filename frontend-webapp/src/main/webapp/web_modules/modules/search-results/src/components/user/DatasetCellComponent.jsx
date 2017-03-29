@@ -23,6 +23,7 @@ class DatasetCellComponent extends React.Component {
 
   static propTypes = {
     entity: CatalogEntity.isRequired,
+    onSearchTag: React.PropTypes.func,
     // eslint-disable-next-line react/no-unused-prop-types
     lineHeight: React.PropTypes.number.isRequired,
     onClick: React.PropTypes.func,
@@ -39,13 +40,13 @@ class DatasetCellComponent extends React.Component {
     super(props)
     this.state = {
       style: this.props.styles.lineOut,
-      descriptionOpen: false
+      descriptionOpen: false,
     }
   }
 
   onCloseDescription = () => {
     this.setState({
-      descriptionOpen: false
+      descriptionOpen: false,
     })
   }
 
@@ -54,7 +55,7 @@ class DatasetCellComponent extends React.Component {
    */
   onDatasetInformation = () => {
     this.setState({
-      descriptionOpen: true
+      descriptionOpen: true,
     })
   }
 
@@ -165,30 +166,32 @@ class DatasetCellComponent extends React.Component {
     return null
   }
 
-  displayDatasetTitle = () => {
-    return (
-      <div style={{
+  displayDatasetTitle = () => (
+    <div
+      style={{
         display: 'flex',
-        alignItems: 'center'
-      }}>
-        <span
-          onMouseEnter={() => this.setHoverStyle('pointer')}
-          onMouseLeave={() => this.setHoverStyle('auto')}
-          onTouchTap={this.onDatasetSelection}
-          style={{
-          marginRight: 10
-        }}>{this.props.entity.content.label}</span>
-        <InfoIcon
-          onMouseEnter={() => this.setHoverStyle('pointer')}
-          onMouseLeave={() => this.setHoverStyle('auto')}
-          onTouchTap={this.onDatasetInformation}
-          style={{
+        alignItems: 'center',
+      }}
+    >
+      <span
+        onMouseEnter={() => this.setHoverStyle('pointer')}
+        onMouseLeave={() => this.setHoverStyle('auto')}
+        onTouchTap={this.onDatasetSelection}
+        style={{
+          marginRight: 10,
+        }}
+      >{this.props.entity.content.label}</span>
+      <InfoIcon
+        onMouseEnter={() => this.setHoverStyle('pointer')}
+        onMouseLeave={() => this.setHoverStyle('auto')}
+        onTouchTap={this.onDatasetInformation}
+        style={{
           right: 15,
           position: 'absolute',
-        }} />
-      </div>
+        }}
+      />
+    </div>
     )
-  }
 
   displayDescription = () => {
     if (this.state.descriptionOpen) {
@@ -196,6 +199,7 @@ class DatasetCellComponent extends React.Component {
         <DatasetDescriptionComponent
           entity={this.props.entity}
           onClose={this.onCloseDescription}
+          onSearchTag={this.props.onSearchTag}
         />
       )
     }
@@ -225,7 +229,7 @@ class DatasetCellComponent extends React.Component {
         />
         <CardText
           style={{
-            overflow: 'hidden'
+            overflow: 'hidden',
           }}
         >
           <Divider />

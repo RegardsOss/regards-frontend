@@ -10,16 +10,16 @@ import find from 'lodash/find'
 import forEach from 'lodash/forEach'
 import values from 'lodash/values'
 import remove from 'lodash/remove'
-import { browserHistory } from 'react-router'
-import { Card, CardMedia } from 'material-ui/Card'
+import {browserHistory} from 'react-router'
+import {Card, CardMedia} from 'material-ui/Card'
 import FlatButton from 'material-ui/FlatButton'
 import DatasetLibrary from 'material-ui/svg-icons/image/collections-bookmark'
 import DataLibrary from 'material-ui/svg-icons/av/library-books'
 import ShowFacetsSearch from 'material-ui/svg-icons/action/find-in-page'
-import { LazyModuleComponent } from '@regardsoss/modules'
-import { themeContextType } from '@regardsoss/theme'
-import { i18nContextType } from '@regardsoss/i18n'
-import { TableContainer, TableSelectionModes, ShowableAtRender } from '@regardsoss/components'
+import {LazyModuleComponent} from '@regardsoss/modules'
+import {themeContextType} from '@regardsoss/theme'
+import {i18nContextType} from '@regardsoss/i18n'
+import {TableContainer, TableSelectionModes, ShowableAtRender} from '@regardsoss/components'
 import {
   AttributeModel,
   AttributeModelController,
@@ -68,6 +68,7 @@ class SearchResultsComponent extends React.Component {
       selectedDataset: null,
       showingFacetsSearch: false,
       filters: [],
+      searchTag: undefined,
     }
   }
 
@@ -87,13 +88,13 @@ class SearchResultsComponent extends React.Component {
     const queries = browserHistory.getCurrentLocation().query
     browserHistory.push({
       pathname: browserHistory.getCurrentLocation().pathname,
-      query: merge({}, queries, { t: target }),
+      query: merge({}, queries, {t: target}),
     })
-    this.setState({ target })
+    this.setState({target})
   }
 
   onFiltersChanged = (filters = []) => {
-    this.setState({ filters })
+    this.setState({filters})
   }
 
   /**
@@ -112,18 +113,26 @@ class SearchResultsComponent extends React.Component {
   }
 
   /**
+   * Unselect all previous selections (datasets and tags)
+   */
+  onUnselectAll = () => {
+    this.selectDataset(null, SearchResultsTargetsEnum.DATAOBJECT_RESULTS)
+    this.searchTag(undefined)
+  }
+
+  /**
    * Create full query by adding sort options and target options
    * @returns {string}
    */
   getFullQuery = () => {
-    const { searchQuery, facettesQuery } = this.props
-    const { showingFacetsSearch } = this.state
+    const {searchQuery, facettesQuery} = this.props
+    const {showingFacetsSearch} = this.state
     // Get query with search parameters (apply search filter facets too)
     const openSearchSeparator = ' AND '
     let fullQuery = searchQuery || ''
     if (this.isInObjectMode() && showingFacetsSearch) {
       // add object filters
-      fullQuery = this.state.filters.reduce((queryAcc, { openSearchQuery }) =>
+      fullQuery = this.state.filters.reduce((queryAcc, {openSearchQuery}) =>
         `${queryAcc}${queryAcc ? openSearchSeparator : ''}${openSearchQuery}`, fullQuery)
     }
 
@@ -133,6 +142,17 @@ class SearchResultsComponent extends React.Component {
         fullQuery = `${fullQuery}${fullQuery ? openSearchSeparator : ''}tags:${this.state.selectedDataset.content.ip_id}`
       } else {
         fullQuery = `tags:${this.state.selectedDataset.content.ip_id}`
+      }
+    }
+
+    /**
+     * Is there a tag selected ?
+     */
+    if (this.state.searchTag) {
+      if (fullQuery !== '') {
+        fullQuery = `${fullQuery}${fullQuery ? openSearchSeparator : ''}tags:${this.state.searchTag}`
+      } else {
+        fullQuery = `tags:${this.state.searchTag}`
       }
     }
     if (fullQuery !== '') {
@@ -262,6 +282,7 @@ class SearchResultsComponent extends React.Component {
           onClick: this.selectDataset,
           attributes: this.props.attributeModels,
           styles: this.context.moduleTheme.user.datasetCells,
+          onSearchTag: this.searchTag,
         },
       },
     })
@@ -312,7 +333,7 @@ class SearchResultsComponent extends React.Component {
           remove(sortedColumns, lcol => lcol.attribute === attributeToSort)
       }
     }
-    this.setState({ sortedColumns })
+    this.setState({sortedColumns})
   }
 
 
@@ -337,9 +358,36 @@ class SearchResultsComponent extends React.Component {
     if (query && query.ds && this.state.selectedDataset !== query.ds) {
       // TODO fetch dataset from server and select it
     }
-    if (query && !query.ds && this.state.selectedDataset) {
-      this.setState({ selectedDataset: null })
+
+    if (query && query.tag) {
+      this.setState({searchTag: query.tag})
+    } else {
+      this.setState({searchTag: undefined})
     }
+    if (query && !query.ds && this.state.selectedDataset) {
+      this.setState({selectedDataset: null})
+    }
+  }
+
+  /**
+   * Run a new search with the give tag
+   * @param tag
+   */
+  searchTag = (tag) => {
+    let queries = browserHistory.getCurrentLocation().query
+    if (tag) {
+      queries = merge({}, queries, {tag})
+    } else {
+      queries = omit(queries, ['tag'])
+    }
+    this.setState({
+      searchTag: tag,
+    }, () => {
+      browserHistory.push({
+        pathname: browserHistory.getCurrentLocation().pathname,
+        query: queries,
+      })
+    })
   }
 
   /**
@@ -349,12 +397,12 @@ class SearchResultsComponent extends React.Component {
    */
   selectDataset = (dataset, target) => {
     let queries = browserHistory.getCurrentLocation().query
-    queries = merge({}, queries, { t: target || SearchResultsTargetsEnum.DATAOBJECT_RESULTS })
+    queries = merge({}, queries, {t: target || SearchResultsTargetsEnum.DATAOBJECT_RESULTS})
 
     if (dataset && dataset.content && dataset.content.ipId) {
       browserHistory.push({
         pathname: browserHistory.getCurrentLocation().pathname,
-        query: merge({}, queries, { ds: dataset.content.ipId }),
+        query: merge({}, queries, {ds: dataset.content.ipId}),
       })
     } else if (dataset === null) {
       browserHistory.push({
@@ -366,6 +414,7 @@ class SearchResultsComponent extends React.Component {
     }
     this.setState({
       selectedDataset: dataset,
+      searchTag: undefined,
     })
   }
 
@@ -379,18 +428,18 @@ class SearchResultsComponent extends React.Component {
    * Returns result tabs actions for results table
    */
   renderTableTabs = () => {
-    const { intl: { formatMessage } } = this.context
+    const {intl: {formatMessage}} = this.context
     return [
       <FlatButton
         key="dataobjects.tab"
-        label={formatMessage({ id: 'navigation.dataobjects.label' })}
+        label={formatMessage({id: 'navigation.dataobjects.label'})}
         onTouchTap={this.onClickDataobjectsTarget}
         icon={<DataLibrary />}
         secondary={this.isInObjectMode()}
       />,
       <FlatButton
         key="datasets.tab"
-        label={formatMessage({ id: 'navigation.datasets.label' })}
+        label={formatMessage({id: 'navigation.datasets.label'})}
         onTouchTap={this.onClickDatasetTarget}
         icon={<DatasetLibrary />}
         secondary={!this.isInObjectMode()}
@@ -402,16 +451,16 @@ class SearchResultsComponent extends React.Component {
    * Returns options for results table
    */
   renderTableOptions = () => {
-    const { enableFacettes } = this.props
-    const { showingFacetsSearch } = this.state
-    const { intl: { formatMessage } } = this.context
+    const {enableFacettes} = this.props
+    const {showingFacetsSearch} = this.state
+    const {intl: {formatMessage}} = this.context
     return [
       <ShowableAtRender
         key="facet.filter.option"
         show={enableFacettes && this.isInObjectMode()}
       >
         <FlatButton
-          label={formatMessage({ id: 'navigation.filter.by.facets' })}
+          label={formatMessage({id: 'navigation.filter.by.facets'})}
           onTouchTap={this.toggleShowFacetsSearch}
           icon={<ShowFacetsSearch />}
           secondary={showingFacetsSearch}
@@ -424,12 +473,12 @@ class SearchResultsComponent extends React.Component {
    * Returns dedicated facets filtering area (when shown)
    */
   renderTableFacets = () => {
-    const { showingFacetsSearch, filters } = this.state
+    const {showingFacetsSearch, filters} = this.state
     if (!showingFacetsSearch) {
       // switch to default table hedaer display when not showing filters
       return null
     }
-    const { appName, project, attributeModels } = this.props
+    const {appName, project, attributeModels} = this.props
     const searchFacetsModule = {
       name: 'search-facets',
       active: true,
@@ -450,8 +499,8 @@ class SearchResultsComponent extends React.Component {
   }
 
   render() {
-    const { moduleTheme: { datasetCellStyles } } = this.context
-    const { target, selectedDataset } = this.state
+    const {moduleTheme: {datasetCellStyles}} = this.context
+    const {target, selectedDataset} = this.state
 
     let columns = []
     let lineHeight
@@ -484,7 +533,9 @@ class SearchResultsComponent extends React.Component {
       <Card>
         <NavigationComponent
           selectedTarget={target}
+          selectedTag={this.state.searchTag}
           onUnselectDataset={this.onUnselectDataset}
+          onUnselectAll={this.onUnselectAll}
           selectedDataset={selectedDataset}
         />
         <CardMedia>
@@ -496,7 +547,7 @@ class SearchResultsComponent extends React.Component {
             displayCheckbox={displayCheckbox}
             columns={columns}
             onSelectionChange={this.resultSelection}
-            requestParams={{ queryParams: this.getFullQuery() }}
+            requestParams={{queryParams: this.getFullQuery()}}
             tableConfiguration={{
               displayColumnsHeader,
               cellsStyle,
