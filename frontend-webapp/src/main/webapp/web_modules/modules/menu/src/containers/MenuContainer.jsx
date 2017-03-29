@@ -1,9 +1,13 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import IconButton from 'material-ui/IconButton'
+import FilterList from 'material-ui/svg-icons/action/list'
+import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from 'material-ui/Toolbar'
+import { FormattedMessage } from 'react-intl'
 import { SelectLocaleContainer } from '@regardsoss/i18n'
 import { SelectThemeContainer, themeContextType } from '@regardsoss/theme'
-import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from 'material-ui/Toolbar'
+import { ModuleListContainer } from '@regardsoss/modules'
 import AuthenticationMenuContainer from './AuthenticationMenuContainer'
 
 /**
@@ -29,14 +33,54 @@ class MenuContainer extends React.Component {
     ...themeContextType,
   }
 
+  constructor(props) {
+    super(props)
+    this.state = {
+      moduleListOpen: false,
+    }
+  }
+
   displaySeparator = (elt) => {
     if (elt === null) {
       return {
         display: 'none',
       }
     }
-    return {}
+    return {
+      marginLeft: 0,
+    }
   }
+
+  displayModulesMenu = () => {
+    if (this.props.appName === 'user') {
+      return (
+        <div>
+          <IconButton
+            onTouchTap={this.handleToggle}
+            tooltip={<FormattedMessage id="menu.modules.list.button" />}
+          >
+            <FilterList />
+          </IconButton>
+          <ModuleListContainer
+            project={this.props.project}
+            open={this.state.moduleListOpen}
+            onCloseMenu={this.handleClose}
+          />
+        </div>
+      )
+    }
+    return null
+  }
+
+  /**
+   * Toggle the sidebar containing modules
+   */
+  handleToggle = () => this.setState({ moduleListOpen: !this.state.moduleListOpen })
+
+  /**
+   * Close the sidebar containing modules
+   */
+  handleClose = () => this.setState({ moduleListOpen: false })
 
   render() {
     const { moduleTheme } = this.context
@@ -68,6 +112,8 @@ class MenuContainer extends React.Component {
       )
     }
 
+    const menu = this.displayModulesMenu()
+
     return (
       <Toolbar style={style.headContainer.styles}>
         <ToolbarGroup firstChild>
@@ -75,6 +121,8 @@ class MenuContainer extends React.Component {
         </ToolbarGroup>
         <ToolbarGroup lastChild>
           {authentication}
+          <ToolbarSeparator style={{ ...this.displaySeparator(menu), marginLeft: 10 }} />
+          {menu}
           <ToolbarSeparator style={this.displaySeparator(localeSelector)} />
           {localeSelector}
           <ToolbarSeparator style={this.displaySeparator(themeSelector)} />

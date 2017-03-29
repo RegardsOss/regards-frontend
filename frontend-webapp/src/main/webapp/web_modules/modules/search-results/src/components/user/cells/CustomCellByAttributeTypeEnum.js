@@ -8,6 +8,7 @@ import DateRangeAttributeCell from './DateRangeAttributeCell'
 import DateArrayAttributeCell from './DateArrayAttributeCell'
 import UrlAttributeCell from './UrlAttributeCell'
 import BooleanAttributeCell from './BooleanAttributeCell'
+import ThumbmailCell from './ThumbmailCell'
 
 /**
  * Enum to associate attribute type to cell renderer component.
@@ -23,4 +24,5 @@ export default {
   DATE_ARRAY: DateArrayAttributeCell,
   URL: UrlAttributeCell,
   BOOLEAN: BooleanAttributeCell,
+  THUMBMAIL: ThumbmailCell,
 }

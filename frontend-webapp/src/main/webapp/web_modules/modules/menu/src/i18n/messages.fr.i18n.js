@@ -14,6 +14,7 @@ const messages = Object.assign({
   settingsLabel: 'Paramètres',
   changeRole: 'Changer de rôle',
   resetRole: 'Rôle par défaut',
+  'menu.modules.list.button': 'Menu',
   'menu.form.title': 'Titre du menu',
   'menu.form.displayauthentication': 'Afficher l\'option d\'authentification',
   'menu.form.displaylocale': 'Afficher le selecteur de langues',

@@ -7,6 +7,7 @@ import Project from './admin/Project'
 import Account from './admin/Account'
 import Resource, { ResourceList } from './admin/Resource'
 import AttributeModel from './dam/AttributeModel'
+import AttributeModelController from './dam/AttributeModelController'
 import JavaTypes from './dam/JavaTypes'
 import Fragment from './dam/Fragment'
 import Model from './dam/Model'
@@ -25,6 +26,7 @@ import Layout from './access/Layout'
 import LayoutContent from './access/LayoutContent'
 import Container from './access/Container'
 import AttributeConfiguration from './access/AttributeConfiguration'
+import AttributeConfigurationController from './access/AttributeConfigurationController'
 import AttributesRegroupementConfiguration from './access/AttributesRegroupementConfiguration'
 import SearchResultsTargetsEnum from './access/SearchResultsTargetsEnum'
 import Entity from './dam/Entity'
@@ -60,6 +62,7 @@ export default {
 
   // DAM
   AttributeModel,
+  AttributeModelController,
   Entity,
   JavaTypes,
   Fragment,
@@ -89,6 +92,7 @@ export default {
   Container,
   LayoutContent,
   AttributeConfiguration,
+  AttributeConfigurationController,
   AttributesRegroupementConfiguration,
   SearchResultsTargetsEnum,
 

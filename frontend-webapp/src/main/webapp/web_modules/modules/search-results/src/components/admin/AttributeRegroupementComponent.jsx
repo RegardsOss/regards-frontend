@@ -33,6 +33,17 @@ class AttributeConfigurationComponent extends React.Component {
     }
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    const { conf } = this.props
+    const nextConf = nextProps.conf
+    if (conf.label !== nextConf.label ||
+      conf.visibility !== nextConf.visibility ||
+      conf.facetable !== nextConf.facetable) {
+      return true
+    }
+    return false
+  }
+
   changeVisibility = () => {
     const newConf = merge({}, this.state.conf, { visibility: !this.state.conf.visibility })
     this.setState({ conf: newConf })

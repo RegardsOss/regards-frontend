@@ -59,6 +59,7 @@ class AdminContainer extends React.Component {
       enableFacettes },
     } = this.props
 
+
     if (this.props.adminForm.form && !this.state.attributesFetching) {
       return (
         <SearchResultsConfigurationComponent

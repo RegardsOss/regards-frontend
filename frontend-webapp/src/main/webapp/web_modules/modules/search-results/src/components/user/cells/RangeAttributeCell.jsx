@@ -16,14 +16,14 @@ class RangeAttributeCell extends React.Component {
 
   render() {
     try {
-      return (<div>
+      return (<span>
         {map(this.props.attributes, (attribute, key) => {
-          if (attribute) {
-            return (<div key={key}>{String(attribute.lowerBound)} - {String(attribute.upperBound)}</div>)
+          if (attribute && attribute.lowerBound && attribute.upperBound) {
+            return (<span key={key}>{String(attribute.lowerBound)} - {String(attribute.upperBound)}</span>)
           }
           return null
         })}
-      </div>)
+      </span>)
     } catch (e) {
       console.log('Invalide cell content', e)
     }

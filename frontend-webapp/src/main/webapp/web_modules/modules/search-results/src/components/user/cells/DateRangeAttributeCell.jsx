@@ -15,25 +15,36 @@ class DateRangeAttributeCell extends React.Component {
     attributes: React.PropTypes.object,
   }
 
+  renderDate = (date) => {
+    if (date && !isNaN((new Date(date)).getDate())) {
+      return (
+        <span>
+          <FormattedDate value={date} />
+          {
+            ' '
+          }
+          <FormattedTime value={date} />
+        </span>
+      )
+    }
+    return null
+  }
+
   render() {
     try {
-      return (<div>
+      return (<span>
         {map(this.props.attributes, (attribute, key) => {
           if (attribute && attribute.lowerBound && attribute.upperBound) {
-            return (<div key={key}>
-              <FormattedDate value={attribute.lowerBound} />
-              {' '}
-              <FormattedTime value={attribute.lowerBound} />
+            return (<span key={key}>
+              {this.renderDate(attribute.lowerBound)}
               {'-'}
-              <FormattedDate value={attribute.upperBound} />
-              {' '}
-              <FormattedTime value={attribute.upperBound} />
-            </div>
+              {this.renderDate(attribute.upperBound)}
+            </span>
             )
           }
           return null
         })}
-      </div>)
+      </span>)
     } catch (e) {
       console.log('Invalide cell content', e)
     }

@@ -26,7 +26,6 @@ class ApplicationLayout extends React.Component {
     // eslint-disable-next-line react/forbid-prop-types
     pluginProps: React.PropTypes.object,
     dynamicContent: React.PropTypes.element,
-    onDynamicModuleSelection: React.PropTypes.func,
   }
 
   static contextTypes = {
@@ -63,7 +62,6 @@ class ApplicationLayout extends React.Component {
           plugins={this.props.plugins}
           pluginProps={this.props.pluginProps}
           dynamicContent={this.props.dynamicContent}
-          onDynamicModuleSelection={this.props.onDynamicModuleSelection}
           mainContainer
         />
       </div>

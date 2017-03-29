@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  */
 import { i18nContextType, I18nProvider } from '@regardsoss/i18n'
-import ModuleListComponent from './ModuleListComponent'
+import ModuleListButtonComponent from './ModuleListButtonComponent'
 import ModuleShape from '../model/ModuleShape'
 
 /**
@@ -15,7 +15,6 @@ class ModuleListProvider extends React.Component {
   static propTypes = {
     container: React.PropTypes.string,
     modules: React.PropTypes.arrayOf(ModuleShape),
-    onModuleSelection: React.PropTypes.func,
   }
 
   static contextTypes = {
@@ -25,10 +24,9 @@ class ModuleListProvider extends React.Component {
   render() {
     return (
       <I18nProvider messageDir="utils/modules/src/i18n">
-        <ModuleListComponent
+        <ModuleListButtonComponent
           container={this.props.container}
           modules={this.props.modules}
-          onModuleSelection={this.props.onModuleSelection}
         />
       </I18nProvider>
     )

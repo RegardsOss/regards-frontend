@@ -40,11 +40,17 @@ describe('[RESULTS MODULE] Testing AttributeConfigurationComponent', () => {
   it('Should render a AttributeConfigurationComponent', () => {
     const onChangeSpy = spy()
     const attributeProp = {
-      id: 0,
-      name: 'Test attribute',
+      content: {
+        id: 0,
+        name: 'test',
+        label: 'Test attribute',
+        fragment: {
+          name: 'test',
+        },
+      },
     }
     const attributeConfProp = {
-      id: 0,
+      attributeFullQualifiedName: 'test.test',
       visibility: true,
       facetable: false,
     }
@@ -58,7 +64,7 @@ describe('[RESULTS MODULE] Testing AttributeConfigurationComponent', () => {
       <AttributeConfigurationComponent {...props} />, options,
     )
 
-    const attributeName = wrapper.find(CardHeader).find({ title: attributeProp.name })
+    const attributeName = wrapper.find(CardHeader).find({ title: attributeProp.content.label })
     assert.lengthOf(attributeName, 1, 'There title of the card attribute should be the attribute name')
 
     const facetable = wrapper.find(Checkbox).find({ checked: false })
@@ -68,15 +74,15 @@ describe('[RESULTS MODULE] Testing AttributeConfigurationComponent', () => {
     assert.lengthOf(visibility, 1, 'There should be only one checked checkbox')
 
     visibility.simulate('check')
-    assert(onChangeSpy.calledWith(0, {
-      id: 0,
+    assert(onChangeSpy.calledWith('test.test', {
+      attributeFullQualifiedName: 'test.test',
       visibility: false,
       facetable: false,
     }))
 
     facetable.simulate('check')
-    assert(onChangeSpy.calledWith(0, {
-      id: 0,
+    assert(onChangeSpy.calledWith('test.test', {
+      attributeFullQualifiedName: 'test.test',
       visibility: false,
       facetable: true,
     }))
@@ -86,11 +92,17 @@ describe('[RESULTS MODULE] Testing AttributeConfigurationComponent', () => {
   it('Should render a AttributeConfigurationComponent', () => {
     const onChangeSpy = spy()
     const attributeProp = {
-      id: 0,
-      name: 'Test attribute',
+      content: {
+        id: 0,
+        name: 'test',
+        label: 'Test attribute',
+        fragment: {
+          name: 'default',
+        },
+      },
     }
     const attributeConfProp = {
-      id: 0,
+      attributeFullQualifiedName: 'default.test',
       visibility: true,
       facetable: true,
     }
@@ -104,7 +116,7 @@ describe('[RESULTS MODULE] Testing AttributeConfigurationComponent', () => {
       <AttributeConfigurationComponent {...props} />, options,
     )
 
-    const attributeName = wrapper.find(CardHeader).find({ title: attributeProp.name })
+    const attributeName = wrapper.find(CardHeader).find({ title: attributeProp.content.label })
     assert.lengthOf(attributeName, 1, 'There title of the card attribute should be the attribute name')
 
     const checked = wrapper.find(Checkbox).find({ checked: true })
@@ -117,11 +129,17 @@ describe('[RESULTS MODULE] Testing AttributeConfigurationComponent', () => {
   it('Should render a AttributeConfigurationComponent', () => {
     const onChangeSpy = spy()
     const attributeProp = {
-      id: 0,
-      name: 'Test attribute',
+      content: {
+        id: 0,
+        name: 'test',
+        label: 'Test attribute',
+        fragment: {
+          name: 'default',
+        },
+      },
     }
     const attributeConfProp = {
-      id: 0,
+      attributeFullQualifiedName: 'default.test',
       visibility: false,
       facetable: false,
     }
@@ -135,7 +153,7 @@ describe('[RESULTS MODULE] Testing AttributeConfigurationComponent', () => {
       <AttributeConfigurationComponent {...props} />, options,
     )
 
-    const attributeName = wrapper.find(CardHeader).find({ title: attributeProp.name })
+    const attributeName = wrapper.find(CardHeader).find({ title: attributeProp.content.label })
     assert.lengthOf(attributeName, 1, 'There title of the card attribute should be the attribute name')
 
     const checked = wrapper.find(Checkbox).find({ checked: true })
@@ -149,11 +167,17 @@ describe('[RESULTS MODULE] Testing AttributeConfigurationComponent', () => {
   it('Should render a AttributeConfigurationComponent', () => {
     const onChangeSpy = spy()
     const attributeProp = {
-      id: 0,
-      name: 'Test attribute',
+      content: {
+        id: 0,
+        name: 'test',
+        label: 'Test attribute',
+        fragment: {
+          name: 'default',
+        },
+      },
     }
     const attributeConfProp = {
-      id: 1,
+      attributeFullQualifiedName: 'default.test',
       visibility: false,
       facetable: false,
     }
@@ -167,7 +191,7 @@ describe('[RESULTS MODULE] Testing AttributeConfigurationComponent', () => {
       <AttributeConfigurationComponent {...props} />, options,
     )
 
-    const attributeName = wrapper.find(CardHeader).find({ title: attributeProp.name })
+    const attributeName = wrapper.find(CardHeader).find({ title: attributeProp.content.label })
     assert.lengthOf(attributeName, 1, 'There title of the card attribute should be the attribute name')
 
     const checked = wrapper.find(Checkbox).find({ checked: true })

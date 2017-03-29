@@ -1,7 +1,9 @@
 import { map } from 'lodash'
 import MenuItem from 'material-ui/MenuItem'
 import DropDownMenu from 'material-ui/DropDownMenu'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
+import '../FR.png'
+import '../GB.png'
 
 /**
  * React component to display the language selector widget
@@ -20,15 +22,13 @@ class SelectLocaleComponent extends React.Component {
       <MenuItem
         value={locale}
         key={locale}
-        label={<FormattedMessage id="label" />}
-        primaryText={<FormattedMessage id={locale} />}
-      />
-  ))
+        label={<FormattedHTMLMessage id="label" />}
+        primaryText={<FormattedHTMLMessage id={locale} />}
+      />))
     return (
       <DropDownMenu
         value={currentLocale}
         onChange={handleLocaleChange}
-        // labelStyle={muiTheme.menu.localeDropdown} //TODO
       >
         {items}
       </DropDownMenu>

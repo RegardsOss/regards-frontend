@@ -21,14 +21,14 @@ class DefaultCell extends React.Component {
 
   render() {
     return (
-      <div>
+      <span>
         {map(this.props.attributes, (attribute, key) => {
           if (attribute) {
-            return (<div key={key}>{String(attribute)}</div>)
+            return (<span key={key}>{String(attribute)}</span>)
           }
           return null
         })}
-      </div>
+      </span>
     )
   }
 

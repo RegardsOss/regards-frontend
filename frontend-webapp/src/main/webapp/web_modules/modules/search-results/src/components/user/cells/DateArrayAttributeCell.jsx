@@ -17,24 +17,30 @@ class DateArrayAttributeCell extends React.Component {
   }
 
   render() {
-    return (<div>
+    return (<span>
       {map(this.props.attributes, (attribute, key) => {
-        if (attribute) {
+        if (attribute && Array.isArray(attribute)) {
           return (<div key={key}>
-            {map(attribute, (date, key2) => (
-              <div key={key2}>
-                <FormattedDate value={date} />
-                {' '}
-                <FormattedTime value={date} />
-              </div>
-                    ),
-                )}
+            {map(attribute, (date, key2) => {
+              const dateWrapper = new Date(date)
+              if (!isNaN(dateWrapper.getDate())) {
+                return (
+                  <span key={key2}>
+                    <FormattedDate value={date} />
+                    {' '}
+                    <FormattedTime value={date} />
+                  </span>
+                )
+              }
+              return null
+            },
+              )}
           </div>
           )
         }
         return null
       })}
-    </div>
+    </span>
     )
   }
 

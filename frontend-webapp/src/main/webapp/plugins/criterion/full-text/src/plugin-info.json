@@ -4,6 +4,9 @@
   "version" : 1.0,
   "author" : "Binda sebastien",
   "company" : "CS-SI",
+  "email" : "sebastien.binda@c-s.fr",
+  "url" : "http://www.cnes.fr",
+  "license": "GPL V2",
   "type" : "criteria",
   "conf" : {
     "attributes": []

@@ -236,7 +236,8 @@ class Table extends React.Component {
                   isLastColumn={index === columns.length - 1}
                 />}
               cell={<Cell
-                getCellValue={this.getCellValue}
+                entities={this.props.entities}
+                lineHeight={this.props.lineHeight}
                 overridenCellsStyle={cellsStyle}
                 col={column}
                 isLastColumn={index === columns.length - 1}

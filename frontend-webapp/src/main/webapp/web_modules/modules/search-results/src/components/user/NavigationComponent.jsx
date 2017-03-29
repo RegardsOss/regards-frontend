@@ -18,7 +18,6 @@ class NavigationComponent extends React.Component {
 
   static propTypes = {
     selectedTarget: React.PropTypes.oneOf(values(SearchResultsTargetsEnum)),
-    onChangeTarget: React.PropTypes.func.isRequired,
     onUnselectDataset: React.PropTypes.func.isRequired,
     selectedDataset: CatalogEntity,
   }
@@ -37,12 +36,11 @@ class NavigationComponent extends React.Component {
 
 
   onClickDatasetsView = () => {
-    this.onClickDatasetTarget()
+    this.props.onUnselectDataset(SearchResultsTargetsEnum.DATASET_RESULTS)
   }
 
   onClickDataobjectsView = () => {
-    this.props.onUnselectDataset()
-    this.props.onChangeTarget(SearchResultsTargetsEnum.DATAOBJECT_RESULTS)
+    this.props.onUnselectDataset(SearchResultsTargetsEnum.DATAOBJECT_RESULTS)
   }
 
 

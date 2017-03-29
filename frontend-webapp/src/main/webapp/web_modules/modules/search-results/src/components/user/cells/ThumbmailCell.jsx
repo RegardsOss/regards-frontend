@@ -3,15 +3,16 @@
  **/
 import find from 'lodash/find'
 import Dialog from 'material-ui/Dialog'
-import { ObjectLinkedFile, ObjectLinkedFileTypes, CatalogEntity } from '@regardsoss/model'
 import Avatar from 'material-ui/Avatar'
+import { ObjectLinkedFile, ObjectLinkedFileTypes, CatalogEntity } from '@regardsoss/model'
+
 
 /**
  * Render custom cells for entity thumbmails.
  *
  * @author Sébastien Binda
  */
-class ThumbmailCellComponent extends React.Component {
+class ThumbmailCell extends React.Component {
 
   static propTypes = {
     attributes: React.PropTypes.shape({
@@ -49,6 +50,7 @@ class ThumbmailCellComponent extends React.Component {
   }
 
   render() {
+    console.log('RENDER THUMBMAIL')
     if (this.props.attributes.files && this.props.attributes.files.length > 0) {
       const thumbmail = find(this.props.attributes.files, file => file.type === ObjectLinkedFileTypes.THUMBMAIL)
 
@@ -72,4 +74,4 @@ class ThumbmailCellComponent extends React.Component {
 
 }
 
-export default ThumbmailCellComponent
+export default ThumbmailCell

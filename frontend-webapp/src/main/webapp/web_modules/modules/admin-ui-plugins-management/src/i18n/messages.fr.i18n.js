@@ -23,6 +23,7 @@ const messages = Object.assign({
   'plugins.list.table.name': 'Nom',
   'plugins.list.table.actions': 'Actions',
   'plugins.list.action.add': 'Ajouter un nouveau plugin',
+  'plugin.description.url': 'Visualiser la description du plugin',
 }, Locales.fr)
 
 export default messages

@@ -8,6 +8,7 @@ import rootRouter from './rootRouter'
 
 // Import the index.html file
 require('../index.html')
+require('../conf/staticConfiguration.js')
 
 const store = configureStore(rootReducer)
 
