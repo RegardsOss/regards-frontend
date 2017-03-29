@@ -49,11 +49,7 @@ module.exports = {
         loader: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader' }),
       },
       {
-        test: /\.jpg$/,
-        loader: 'file-loader?name=[name].[ext]&outputPath=./img/',
-      },
-      {
-        test: /\.gif$/,
+        test: /\.(jpg|gif|png)$/,
         loader: 'file-loader?name=[name].[ext]&outputPath=./img/',
       },
       {
@@ -71,12 +67,7 @@ module.exports = {
       {
         test: /\.html/,
         loader: 'file-loader?name=[name].[ext]',
-      },
-      {
-        test: /\.png$/,
-        loader: 'url-loader',
-        query: { mimetype: 'image/png' },
-      },
+      }
     ],
   },
   plugins: [

@@ -3,9 +3,9 @@
  **/
 const messages = {
   title: 'Language',
-  label: 'Language: English',
-  fr: 'Français',
-  en: 'English',
+  label: "<img style='margin-bottom: 5px' src='/img/GB.png'/>",
+  fr: "<img style='margin-bottom: 5px' src='/img/FR.png'/> French",
+  en: "<img style='margin-bottom: 5px' src='/img/GB.png'/> English",
 }
 
 export default messages
