@@ -7,8 +7,7 @@ import { dataManagementReducer } from '@regardsoss/admin-data-management'
 import { projectManagementReducer } from '@regardsoss/admin-project-management'
 import { accountManagementReducer } from '@regardsoss/admin-account-management'
 import { databaseManagementReducer } from '@regardsoss/admin-database-management'
-import { uiConfigurationtReducer } from '@regardsoss/admin-ui-configuration'
-import { uiPluginsReducer } from '@regardsoss/admin-ui-plugins-management'
+import { uiManagementReducer } from '@regardsoss/admin-ui-management'
 import { microserviceManagementReducer } from '@regardsoss/admin-microservice-management'
 import { accessRightManagementReducer } from '@regardsoss/admin-accessright-management'
 
@@ -22,8 +21,7 @@ const adminReducer = combineReducers({
   'database-management': databaseManagementReducer,
   'microservice-management': microserviceManagementReducer,
   'project-management': projectManagementReducer,
-  'ui-configuration': uiConfigurationtReducer,
-  'ui-plugins-management': uiPluginsReducer,
+  'ui': uiManagementReducer,
   'user-management': userManagementReducer,
   'access-right': accessRightManagementReducer,
 })

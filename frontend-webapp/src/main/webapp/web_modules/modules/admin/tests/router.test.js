@@ -8,7 +8,7 @@ import { userManagementRouter } from '@regardsoss/admin-user-management'
 import { projectManagementRouter } from '@regardsoss/admin-project-management'
 import { accountManagementRouter } from '@regardsoss/admin-account-management'
 import { microserviceManagementRouter } from '@regardsoss/admin-microservice-management'
-import { uiConfigurationRouter } from '@regardsoss/admin-ui-configuration'
+import { uiConfigurationRouter } from '@regardsoss/admin-ui-management'
 import { accessRightManagementRouter } from '@regardsoss/admin-accessright-management'
 import Routes from '../src/router'
 

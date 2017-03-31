@@ -4,7 +4,7 @@
 import { connect } from '@regardsoss/redux'
 import { EndpointSelectors } from '@regardsoss/endpoint'
 import { DisplayDecorator } from '@regardsoss/display-control'
-import allMatchHateoasDisplayLogic from './allMatchHateoasDisplayLogic'
+import allMatchHateoasDisplayLogic from './../logics/allMatchHateoasDisplayLogic'
 
 /**
  * Decorates a React component with Hateoas display logic.

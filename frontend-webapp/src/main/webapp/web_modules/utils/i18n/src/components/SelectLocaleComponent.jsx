@@ -2,8 +2,6 @@ import { map } from 'lodash'
 import MenuItem from 'material-ui/MenuItem'
 import DropDownMenu from 'material-ui/DropDownMenu'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
-import '../FR.png'
-import '../GB.png'
 
 /**
  * React component to display the language selector widget

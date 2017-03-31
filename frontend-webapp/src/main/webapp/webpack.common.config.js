@@ -50,7 +50,7 @@ module.exports = {
       },
       {
         test: /\.(jpg|gif|png)$/,
-        loader: 'file-loader?name=[name].[ext]&outputPath=./img/',
+        loader: 'file-loader?name=[name].[ext]&outputPath=./img/&publicPath=/img/',
       },
       {
         test: /staticConfiguration\.js$/,
@@ -80,7 +80,7 @@ module.exports = {
     }),
     // Using http://webpack.github.io/analyse/#hints
     // We can start to prefetch these files before they are imported
-    new webpack.PrefetchPlugin('./web_modules/modules/admin-ui-configuration/src/main.js'),
+    new webpack.PrefetchPlugin('./web_modules/modules/admin-ui-management/src/main.js'),
     new webpack.PrefetchPlugin('./web_modules/vendors/storybook-addon-material-ui-custom/src/index.js'),
     new webpack.PrefetchPlugin('./web_modules/vendors/main.js'),
     new webpack.PrefetchPlugin('./web_modules/modules/admin-data-datasource-management/src/main.js'),

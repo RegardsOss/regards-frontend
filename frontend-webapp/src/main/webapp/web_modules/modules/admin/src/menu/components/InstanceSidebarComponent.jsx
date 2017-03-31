@@ -72,7 +72,7 @@ class InstanceSidebarComponent extends React.Component {
           <HateoasSidebarElement
             endpointKey="projects_users_url"
             key="3"
-            to={'/admin/ui-configuration/applications'}
+            to={'/admin/ui/board'}
             currentPath={this.props.currentPath}
             primaryText={<FormattedMessage id="menu.ui.configuration" />}
             leftIcon={<Brush />}

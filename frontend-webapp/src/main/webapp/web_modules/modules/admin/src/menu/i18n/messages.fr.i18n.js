@@ -3,7 +3,7 @@ const messages = {
   'menu.projects': 'Projets',
   'menu.users': 'Utilisateurs',
   'menu.accounts': 'Comptes',
-  'menu.ui.configuration': 'Configuration IU ',
+  'menu.ui.configuration': 'Interface Utilisateur',
   'menu.microservices': 'Services',
   'menu.plugins': 'Plugins',
   'menu.datamanagement': 'Gestion des données',

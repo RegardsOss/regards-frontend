@@ -9,18 +9,11 @@ import modelDependencies from '@regardsoss/admin-data-model-management/src/depen
  */
 
 /**
- * Mandatory Dependencies to display module in user interface
- * @type {Array}
- */
-const user = []
-
-/**
  * Mandatory Dependencies to display module in admin interface
  * @type {Array}
  */
 const admin = concat([], modelDependencies.admin)
 
 export default {
-  user,
   admin,
 }

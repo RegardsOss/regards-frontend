@@ -753,6 +753,14 @@
       "microservice": "rs-catalog",
       "resource": "/dataobjects/search",
       "verb": "GET"
+    },
+
+    {
+      "id": 61,
+      "description": "Project users",
+      "microservice": "rs-access-project",
+      "resource": "/plugin",
+      "verb": "POST"
     }
   ]
 }
