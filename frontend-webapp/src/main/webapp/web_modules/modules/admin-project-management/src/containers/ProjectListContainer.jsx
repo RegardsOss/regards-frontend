@@ -39,6 +39,11 @@ export class ProjectListContainer extends React.Component {
     browserHistory.push(url)
   }
 
+  handleConfigureConnections = (projectName) => {
+    const url = `/admin/project-connection/projects/${projectName}`
+    browserHistory.push(url)
+  }
+
   handleDelete = (projectName) => {
     this.props.deleteProject(projectName)
   }
@@ -63,6 +68,7 @@ export class ProjectListContainer extends React.Component {
           createUrl={this.getCreateUrl()}
           handleDelete={this.handleDelete}
           handleEdit={this.handleEdit}
+          handleConfigureConnections={this.handleConfigureConnections}
           handleOpen={this.handleOpen}
           handleUpdateLicense={this.handleUpdateLicense}
         />

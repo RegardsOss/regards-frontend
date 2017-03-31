@@ -5,8 +5,7 @@ import { connect } from '@regardsoss/redux'
 import { browserHistory } from 'react-router'
 import { I18nProvider } from '@regardsoss/i18n'
 import ProjectConnectionList from '@regardsoss/model/src/admin/ProjectConnection'
-import ProjectConnectionActions from '../model/ProjectConnectionActions'
-import ProjectConnectionSelectors from '../model/ProjectConnectionSelectors'
+import { projectConnectionActions, projectConnectionSelectors } from '../client/ProjectConnectionClient'
 import ProjectConnectionListComponent from '../components/ProjectConnectionListComponent'
 
 /**
@@ -37,11 +36,6 @@ export class ProjectConnectionListContainer extends React.Component {
     browserHistory.push(url)
   }
 
-  handleGuidedProjectConfiguration = () => {
-    const url = '/admin/project-connection/guided'
-    browserHistory.push(url)
-  }
-
   render() {
     const { projectConnections } = this.props
 
@@ -51,7 +45,6 @@ export class ProjectConnectionListContainer extends React.Component {
           projectConnections={projectConnections}
           onClose={this.handleClose}
           onEdit={this.handleEdit}
-          onGuidedConfiguration={this.handleGuidedProjectConfiguration}
         />
       </I18nProvider>
     )
@@ -60,11 +53,11 @@ export class ProjectConnectionListContainer extends React.Component {
 
 
 const mapStateToProps = (state, ownProps) => ({
-  projectConnections: ProjectConnectionSelectors.getList(state),
+  projectConnections: projectConnectionSelectors.getList(state),
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchProjectConnections: () => dispatch(ProjectConnectionActions.fetchPagedEntityList()),
+  fetchProjectConnections: () => dispatch(projectConnectionActions.fetchPagedEntityList()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectConnectionListContainer)

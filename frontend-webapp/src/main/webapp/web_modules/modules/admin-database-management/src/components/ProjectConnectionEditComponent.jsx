@@ -2,10 +2,7 @@
  * LICENSE_PLACEHOLDER
  */
 import { FormattedMessage } from 'react-intl'
-import { Card, CardText } from 'material-ui/Card'
-import IconButton from 'material-ui/IconButton'
-import ArrowBack from 'material-ui/svg-icons/navigation/arrow-back'
-import AppBar from 'material-ui/AppBar'
+import { Card, CardTitle, CardText } from 'material-ui/Card'
 import ProjectConnection from '@regardsoss/model/src/admin/ProjectConnection'
 import ProjectConnectionFormComponent from './ProjectConnectionFormComponent'
 
@@ -18,23 +15,22 @@ export class ProjectConnectionEditComponent extends React.Component {
 
   static propTypes = {
     projectConnection: ProjectConnection.isRequired,
-    onBack: React.PropTypes.func.isRequired,
     onSubmit: React.PropTypes.func.isRequired,
     onCancel: React.PropTypes.func.isRequired,
   }
 
   render() {
-    const { projectConnection, onBack, onCancel, onSubmit } = this.props
+    const { projectConnection, onCancel, onSubmit } = this.props
     return (
       <Card>
-        <AppBar
+        <CardTitle
           title={<FormattedMessage
             id="database.form.edit.title"
             values={{
               microservice: projectConnection.content.microservice,
+              project: projectConnection.content.project.name,
             }}
           />}
-          iconElementLeft={<IconButton onTouchTap={onBack}><ArrowBack /></IconButton>}
         />
         <CardText>
           <ProjectConnectionFormComponent

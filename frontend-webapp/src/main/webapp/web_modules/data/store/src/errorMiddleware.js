@@ -9,7 +9,7 @@ export default store => next => (action) => {
       const url = action.payload.response && action.payload.response.url ? action.payload.response.url : action.type
       let statusText
       if (action.payload.response && action.payload.response.message) {
-        statusText = action.payload.response.message
+        statusText = `Server request error : ${action.payload.response.message}`
       } else if (action.payload.status) {
         switch (action.payload.status) {
           case 404:

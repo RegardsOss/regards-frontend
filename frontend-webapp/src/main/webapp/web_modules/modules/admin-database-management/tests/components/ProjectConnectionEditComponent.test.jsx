@@ -15,7 +15,10 @@ describe('[ADMIN DATABASE MANAGEMENT] Testing ProjectConnectionEditComponent', (
       projectConnection: {
         content: {
           id: 0,
-          projectName: 'cdpp',
+          project: {
+            id: 0,
+            name: 'cdpp',
+          },
           microservice: 'rs-admin',
           userName: 'Alice',
           password: 'password',

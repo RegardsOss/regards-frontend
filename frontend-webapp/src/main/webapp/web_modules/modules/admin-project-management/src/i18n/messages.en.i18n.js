@@ -16,6 +16,7 @@ const messages = Object.assign({
   'project.list.table.isDeleted': 'Deleted',
   'project.list.table.actions': 'Actions',
   'project.list.action.add': 'Add',
+  'project.list.action.edit.connections.button': 'Configure database connections',
   'project.list.action.openbutton': 'Open',
   'project.list.action.editbutton': 'Edit',
   'project.list.action.licenseUpdateButton': 'License changed',

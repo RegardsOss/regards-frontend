@@ -17,8 +17,11 @@ describe(
           0: {
             content: {
               id: 0,
-              projectName: 'cdpp',
-              microservice: 'rs-admin',
+              project: {
+                id: 0,
+                name: 'cdpp',
+              },
+              microservice: 'ms-1',
               userName: 'Alice',
               password: 'password',
               driverClassName: 'PostgreSQL',
@@ -30,8 +33,11 @@ describe(
           1: {
             content: {
               id: 1,
-              projectName: 'cdpp',
-              microservice: 'rs-cloud',
+              project: {
+                id: 0,
+                name: 'cdpp',
+              },
+              microservice: 'ms-2',
               userName: 'Bob',
               password: 'azerty',
               driverClassName: 'PostgreSQL',
@@ -43,8 +49,11 @@ describe(
           2: {
             content: {
               id: 2,
-              projectName: 'cdpp',
-              microservice: 'rs-dam',
+              project: {
+                id: 0,
+                name: 'cdpp',
+              },
+              microservice: 'ms-3',
               userName: 'Charlie',
               password: 'qsdfgh',
               driverClassName: 'PostgreSQL',

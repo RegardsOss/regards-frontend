@@ -11,7 +11,7 @@
  * Server address
  * @type {string}
  */
-GATEWAY_HOSTNAME='http://${regards.config.cloud.gateway.uri}:${regards.config.cloud.gateway.port}'
+GATEWAY_HOSTNAME='http://localhost:8000'
 
 /**
  * Static configurations

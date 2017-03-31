@@ -4,6 +4,7 @@ import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowCol
 import { FormattedMessage } from 'react-intl'
 import IconButton from 'material-ui/IconButton'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
+import Settings from 'material-ui/svg-icons/action/settings-input-component'
 import Input from 'material-ui/svg-icons/action/input'
 import Delete from 'material-ui/svg-icons/action/delete'
 import ResetLicences from 'material-ui/svg-icons/action/assignment-late'
@@ -25,6 +26,7 @@ export class ProjectListComponent extends React.Component {
     handleDelete: React.PropTypes.func.isRequired,
     handleOpen: React.PropTypes.func.isRequired,
     handleEdit: React.PropTypes.func.isRequired,
+    handleConfigureConnections: React.PropTypes.func.isRequired,
     handleUpdateLicense: React.PropTypes.func.isRequired,
     createUrl: React.PropTypes.string.isRequired,
   }
@@ -92,7 +94,7 @@ export class ProjectListComponent extends React.Component {
 
   render() {
     const { intl } = this.context
-    const { projectList, handleEdit, handleOpen, createUrl } = this.props
+    const { projectList, handleEdit, handleOpen, handleConfigureConnections, createUrl } = this.props
     const style = {
       hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
       hoverButtonView: this.context.muiTheme.palette.pickerHeaderColor,
@@ -129,7 +131,7 @@ export class ProjectListComponent extends React.Component {
                 <TableHeaderColumn style={styles.tableRow} className="col-md-13">
                   <FormattedMessage id="project.list.table.name" />
                 </TableHeaderColumn>
-                <TableHeaderColumn style={styles.tableRow} className="col-md-33">
+                <TableHeaderColumn style={styles.tableRow} className="col-md-25">
                   <FormattedMessage id="project.list.table.description" />
                 </TableHeaderColumn>
                 <TableHeaderColumn style={styles.tableRow} className="col-md-12">
@@ -141,7 +143,7 @@ export class ProjectListComponent extends React.Component {
                 <TableHeaderColumn style={styles.tableRow} className="col-md-12">
                   <FormattedMessage id="project.list.table.isDeleted" />
                 </TableHeaderColumn>
-                <TableHeaderColumn style={styles.tableRow} className="col-md-18">
+                <TableHeaderColumn style={styles.tableRow} className="col-md-26">
                   <FormattedMessage id="project.list.table.actions" />
                 </TableHeaderColumn>
               </TableRow>
@@ -154,7 +156,7 @@ export class ProjectListComponent extends React.Component {
               {map(projectList, (project, i) => (
                 <TableRow key={i}>
                   <TableRowColumn style={styles.tableRow} className="col-md-13">{project.content.name}</TableRowColumn>
-                  <TableRowColumn style={styles.tableRow} className="col-md-33">
+                  <TableRowColumn style={styles.tableRow} className="col-md-25">
                     <abbr style={styles.abbr} title={project.content.description}>
                       {project.content.description}
                     </abbr>
@@ -168,7 +170,7 @@ export class ProjectListComponent extends React.Component {
                   <TableRowColumn style={styles.tableRow} className="col-md-12">
                     {this.getDeletedState(project.content.isDeleted)}
                   </TableRowColumn>
-                  <TableRowColumn style={styles.tableRow} className="col-md-18">
+                  <TableRowColumn style={styles.tableRow} className="col-md-26">
                     <IconButton
                       title={intl.formatMessage({ id: 'project.list.action.openbutton' })}
                       onTouchTap={() => handleOpen(project.content.name)}
@@ -181,6 +183,13 @@ export class ProjectListComponent extends React.Component {
                       onTouchTap={() => handleEdit(project.content.name)}
                     >
                       <Edit hoverColor={style.hoverButtonEdit} />
+                    </IconButton>
+
+                    <IconButton
+                      title={intl.formatMessage({ id: 'project.list.action.edit.connections.button' })}
+                      onTouchTap={() => handleConfigureConnections(project.content.name)}
+                    >
+                      <Settings hoverColor={style.hoverButtonEdit} />
                     </IconButton>
 
                     <IconButton

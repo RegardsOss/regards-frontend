@@ -6,8 +6,7 @@ import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
 import ProjectConnection from '@regardsoss/model/src/admin/ProjectConnection'
-import ProjectConnectionActions from '../model/ProjectConnectionActions'
-import ProjectConnectionSelectors from '../model/ProjectConnectionSelectors'
+import { projectConnectionActions, projectConnectionSelectors } from '../client/ProjectConnectionClient'
 import ProjectConnectionEditComponent from '../components/ProjectConnectionEditComponent'
 
 /**
@@ -85,13 +84,13 @@ export class ProjectConnectionEditContainer extends React.Component {
   }
 }
 const mapStateToProps = (state, ownProps) => ({
-  projectConnection: ownProps.params.project_connection_id ? ProjectConnectionSelectors.getById(state, ownProps.params.project_connection_id) : null,
-  isFetching: ProjectConnectionSelectors.isFetching(state),
+  projectConnection: ownProps.params.project_connection_id ? projectConnectionSelectors.getById(state, ownProps.params.project_connection_id) : null,
+  isFetching: projectConnectionSelectors.isFetching(state),
 })
 
 const mapDispatchToProps = dispatch => ({
-  updateProjectConnection: (id, values) => dispatch(ProjectConnectionActions.updateEntity(id, values)),
-  fetchProjectConnection: id => dispatch(ProjectConnectionActions.fetchEntity(id)),
+  updateProjectConnection: (id, values) => dispatch(projectConnectionActions.updateEntity(id, values)),
+  fetchProjectConnection: id => dispatch(projectConnectionActions.fetchEntity(id)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectConnectionEditContainer)

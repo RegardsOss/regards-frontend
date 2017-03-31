@@ -1,14 +1,13 @@
 /*
  * LICENSE_PLACEHOLDER
  */
-import * as React from 'react'
+import keys from 'lodash/keys'
 import { FormattedMessage } from 'react-intl'
-import TextField from 'material-ui/TextField'
+import { Project } from '@regardsoss/model'
 import MainActionButtonComponent from '@regardsoss/components/src/cards/MainActionButtonComponent'
 import SecondaryActionButtonComponent from '@regardsoss/components/src/cards/SecondaryActionButtonComponent'
 import { RenderTextField, Field, ErrorTypes, reduxForm } from '@regardsoss/form-utils'
 import ProjectConnection from '@regardsoss/model/src/admin/ProjectConnection'
-import DatabaseConnectionTester from './DatabaseConnectionTester'
 
 /**
  * Reusable {@link ProjectConnection} form for reading, editing, creating.
@@ -18,14 +17,22 @@ import DatabaseConnectionTester from './DatabaseConnectionTester'
 export class ProjectConnectionFormComponent extends React.Component {
 
   static propTypes = {
-    projectConnection: ProjectConnection.isRequired,
-    onSubmit: React.PropTypes.func.isRequired,
-    onCancel: React.PropTypes.func.isRequired,
+    project: Project,
+    microservice: React.PropTypes.string.isRequired,
+    projectConnection: ProjectConnection,
+    onUpdate: React.PropTypes.func.isRequired,
+    onCreate: React.PropTypes.func.isRequired,
+    onCancel: React.PropTypes.func,
+    // This props allow to define if the current form is displayed in a stepper
+    // or as a single form
+    isStep: React.PropTypes.bool,
+    onNext: React.PropTypes.func,
     // from reduxForm
     submitting: React.PropTypes.bool,
     handleSubmit: React.PropTypes.func.isRequired,
     initialize: React.PropTypes.func.isRequired,
     invalid: React.PropTypes.bool,
+    pristine: React.PropTypes.bool,
   }
 
   componentDidMount() {
@@ -34,27 +41,61 @@ export class ProjectConnectionFormComponent extends React.Component {
 
   handleInitialize = () => {
     const { projectConnection } = this.props
-    projectConnection.content.driverClassName = 'PostgreSQL'
-    this.props.initialize({
-      userName: projectConnection.content.userName,
-      password: projectConnection.content.password,
-      driverClassName: projectConnection.content.driverClassName,
-      url: projectConnection.content.url,
-    })
+    if (projectConnection) {
+      this.props.initialize({
+        userName: projectConnection.content.userName,
+        password: projectConnection.content.password,
+        driverClassName: projectConnection.content.driverClassName,
+        url: projectConnection.content.url,
+      })
+    } else {
+      this.props.initialize({
+        microservice: this.props.microservice,
+        project: this.props.project.content,
+        driverClassName: STATIC_CONFIGURATION.projectConnectionDriver,
+      })
+    }
+  }
+
+  updateProjectConnection = (values) => {
+    if (!this.props.pristine) {
+      this.props.onUpdate(this.props.projectConnection.content.id, values)
+    } else if (this.props.isStep && this.props.onNext) {
+      this.props.onNext()
+    }
+  }
+
+  createProjectConnection = (values) => {
+    this.props.onCreate(values)
+  }
+
+  renderCancelButton = () => {
+    if (this.props.onCancel) {
+      const cancelLabel = this.props.isStep ? <FormattedMessage id="database.form.action.previous" /> :
+      <FormattedMessage id="database.form.action.cancel" />
+      return (<SecondaryActionButtonComponent
+        label={cancelLabel}
+        onTouchTap={this.props.onCancel}
+      />)
+    }
+    return null
   }
 
   render() {
+    const label = this.props.isStep ? <FormattedMessage id="database.form.action.next" /> :
+    <FormattedMessage id="database.form.action.save" />
+    const submitAction = this.props.projectConnection ? this.updateProjectConnection : this.createProjectConnection
     return (
       <form
-        onSubmit={this.props.handleSubmit(this.props.onSubmit)}
+        onSubmit={this.props.handleSubmit(submitAction)}
       >
-        <TextField
-          hintText={this.props.projectConnection.content.driverClassName}
-          floatingLabelText={<FormattedMessage id="database.form.input.driverClassName" />}
-          floatingLabelFixed
-          value={this.props.projectConnection.content.driverClassName}
-          disabled
+        <Field
+          name="driverClassName"
           fullWidth
+          component={RenderTextField}
+          type="text"
+          label={<FormattedMessage id="database.form.input.driverClassName" />}
+          disabled
         />
         <Field
           name="url"
@@ -77,25 +118,31 @@ export class ProjectConnectionFormComponent extends React.Component {
           type="password"
           label={<FormattedMessage id="database.form.input.password" />}
         />
-        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <DatabaseConnectionTester projectConnection={this.props.projectConnection} />
+        <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 20 }}>
           <SecondaryActionButtonComponent
-            label={<FormattedMessage id="database.form.action.cancel" />}
-            onTouchTap={this.props.onCancel}
+            label={<FormattedMessage id="database.form.reset" />}
+            onTouchTap={this.handleInitialize}
           />
+          {this.renderCancelButton()}
           <MainActionButtonComponent
-            label={<FormattedMessage id="database.form.action.save" />}
-            disabled={this.props.invalid || this.props.submitting}
+            label={label}
+            disabled={this.props.invalid || (this.props.isStep && this.props.submitting)}
             type="submit"
           />
         </div>
       </form>
     )
+    // TODO : <DatabaseConnectionTester projectConnection={this.props.projectConnection}/>
   }
 }
 
 function validate(values) {
   const errors = {}
+  if (!keys(values).length) {
+    // XXX workaround for redux form bug initial validation:
+    // Do not return anything when fields are not yet initialized (first render invalid state is wrong otherwise)...
+    return errors
+  }
   if (!values.driverClassName) {
     errors.driverClassName = ErrorTypes.REQUIRED
   }

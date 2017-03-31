@@ -3,6 +3,7 @@
  **/
 import React from 'react'
 import map from 'lodash/map'
+import LabelIcon from 'material-ui/svg-icons/action/label'
 import Chip from 'material-ui/Chip'
 import Dialog from 'material-ui/Dialog'
 import Paper from 'material-ui/Paper'
@@ -54,7 +55,7 @@ class DatasetDescriptionComponent extends React.Component {
           marginTop: 20,
         }}
       >
-        <h1 style={{ margin: 5 }}>Tags</h1>
+        <h1 style={{ margin: 5 }}><LabelIcon />Tags</h1>
         <Divider />
         <div style={{ display: 'flex' }}>
           {map(this.props.entity.content.tags, tag =>

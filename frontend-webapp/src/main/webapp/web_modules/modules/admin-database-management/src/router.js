@@ -26,8 +26,8 @@ export const editProjectConnectionRoute = {
   },
 }
 
-export const guidedConfigurationRoute = {
-  path: 'guided',
+export const projectConnectionsConfiguration = {
+  path: 'projects/:project_name',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
       const GuidedProjectConfigurationContainer = require('./containers/GuidedProjectConfigurationContainer')
@@ -43,7 +43,7 @@ const databaseManagementRouter = {
   childRoutes: [
     listProjectConnectionRoute,
     editProjectConnectionRoute,
-    guidedConfigurationRoute,
+    projectConnectionsConfiguration,
   ],
 }
 

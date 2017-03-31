@@ -44,6 +44,8 @@ export class ProjectFormContainer extends React.Component {
   }
   getBackUrl = () => ('/admin/project/list')
 
+  getProjectConnectionsUrl = project => (`/admin/connections/projects/${project}`)
+
   getFormComponent = () => {
     if (this.state.isEditing) {
       const { project, isFetching } = this.props
@@ -93,11 +95,13 @@ export class ProjectFormContainer extends React.Component {
     .then((actionResult) => {
       // We receive here the action
       if (!actionResult.error) {
-        const url = this.getBackUrl()
+        const createdProject = actionResult.payload.entities[actionResult.payload.result]
+        const url = this.getProjectConnectionsUrl(createdProject.content.name)
         browserHistory.push(url)
       }
     })
   }
+
   render() {
     return (
       <I18nProvider messageDir="modules/admin-project-management/src/i18n">

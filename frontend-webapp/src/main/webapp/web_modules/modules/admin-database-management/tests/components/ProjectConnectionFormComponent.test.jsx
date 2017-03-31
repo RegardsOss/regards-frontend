@@ -44,6 +44,6 @@ describe('[ADMIN DATABASE MANAGEMENT] Testing ProjectConnectionFormComponent', (
 
   it('should render the subcomponents', () => {
     const enzymeWrapper = shallow(<ProjectConnectionFormComponent {...props} />)
-    expect(enzymeWrapper.find(Field)).to.have.length(3)
+    expect(enzymeWrapper.find(Field)).to.have.length(4)
   })
 })

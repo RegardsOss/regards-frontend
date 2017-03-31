@@ -44,6 +44,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing project list container', () => {
           },
         },
       },
+      handleConfigureConnections: () => { },
       handleDelete: () => { },
       handleOpen: () => { },
       handleEdit: () => { },

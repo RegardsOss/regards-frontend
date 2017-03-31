@@ -1,34 +1,36 @@
 /*
  * LICENSE_PLACEHOLDER
  */
-import React from 'react'
+import find from 'lodash/find'
+import map from 'lodash/map'
+import keys from 'lodash/keys'
 import { browserHistory } from 'react-router'
 import { FormattedMessage } from 'react-intl'
-import { map, keys } from 'lodash'
 import { Step, Stepper, StepButton, StepContent } from 'material-ui/Stepper'
-import { Card, CardText } from 'material-ui/Card'
-import AppBar from 'material-ui/AppBar'
+import { Card, CardTitle, CardText } from 'material-ui/Card'
 import Check from 'material-ui/svg-icons/navigation/check'
 import Error from 'material-ui/svg-icons/alert/error'
 import Warning from 'material-ui/svg-icons/alert/warning'
-import IconButton from 'material-ui/IconButton'
-import ArrowBack from 'material-ui/svg-icons/navigation/arrow-back'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
+import { Project } from '@regardsoss/model'
 import EnumConnectivity from '@regardsoss/model/src/admin/EnumConnectivity'
-import { ProjectConnectionList } from '@regardsoss/model/src/admin/ProjectConnection'
+import { ProjectConnection } from '@regardsoss/model'
 import ProjectConnectionFormComponent from './ProjectConnectionFormComponent'
 
 /**
  * Step-by-step React component helping the user to configure all microservices' database connections for its project.
  *
- * @autor Xavier-Alexandre Brochard
+ * @author Xavier-Alexandre Brochard
+ * @author Sébastien Binda
  */
 class GuidedProjectConfigurationComponent extends React.Component {
 
   static propTypes = {
-    projectConnections: ProjectConnectionList,
-    onStepSave: React.PropTypes.func.isRequired,
+    project: Project.isRequired,
+    projectConnections: React.PropTypes.objectOf(ProjectConnection).isRequired,
+    onSaveProjectConnection: React.PropTypes.func.isRequired,
+    onUpdateProjectConnection: React.PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -40,27 +42,22 @@ class GuidedProjectConfigurationComponent extends React.Component {
     stepIndex: 0,
   }
 
-  onSubmit = (values) => {
-    const { stepIndex } = this.state
-    this.props.onStepSave(this.props.projectConnections[stepIndex], values, this.handleNext)
+  onCreate = (projectConnection) => {
+    Promise.resolve(this.props.onSaveProjectConnection(projectConnection)).then(
+      (ActionResult) => {
+        if (!ActionResult.error) {
+          this.handleNext()
+        }
+      })
   }
 
-  getStepButton = (projectConnection, key) => {
-    const stepButtonProps = {
-      onTouchTap: () => this.setState({ stepIndex: parseInt(key, 10) }),
-    }
-    if (this.getConnectivityIcon(projectConnection.content.connectivity)) {
-      stepButtonProps.icon = this.getConnectivityIcon(projectConnection.content.connectivity)
-    }
-
-    return (
-      <StepButton {...stepButtonProps} >
-        <FormattedMessage
-          id="database.form.edit.title"
-          values={{ microservice: projectConnection.content.microservice }}
-        />
-      </StepButton>
-    )
+  onUpdate = (id, projectConnection) => {
+    Promise.resolve(this.props.onUpdateProjectConnection(id, projectConnection)).then(
+      (ActionResult) => {
+        if (!ActionResult.error) {
+          this.handleNext()
+        }
+      })
   }
 
   getConnectivityIcon = (connectivity) => {
@@ -76,6 +73,27 @@ class GuidedProjectConfigurationComponent extends React.Component {
     }
   }
 
+  getStepButton = (microservice, projectConnection, key) => {
+    const stepButtonProps = {
+      onTouchTap: () => this.setState({ stepIndex: parseInt(key, 10) }),
+    }
+    if (projectConnection && this.getConnectivityIcon(projectConnection.content.connectivity)) {
+      stepButtonProps.icon = this.getConnectivityIcon(projectConnection.content.connectivity)
+    }
+
+    return (
+      <StepButton {...stepButtonProps} >
+        <FormattedMessage
+          id="database.form.edit.title"
+          values={{
+            microservice,
+            project: this.props.project,
+          }}
+        />
+      </StepButton>
+    )
+  }
+
   handleBackClick = () => {
     browserHistory.goBack()
   }
@@ -84,7 +102,7 @@ class GuidedProjectConfigurationComponent extends React.Component {
     const { stepIndex } = this.state
     this.setState({
       stepIndex: stepIndex + 1,
-      finished: stepIndex >= keys(this.props.projectConnections).length - 1,
+      finished: stepIndex >= STATIC_CONFIGURATION.microservices.length - 1,
     })
     if (this.isFinished()) {
       this.handleBackClick()
@@ -108,27 +126,40 @@ class GuidedProjectConfigurationComponent extends React.Component {
 
     return (
       <Card>
-        <AppBar
-          title={'Configure a project'}
-          iconElementLeft={<IconButton onTouchTap={this.handleBackClick}><ArrowBack /></IconButton>}
+        <CardTitle
+          title={<FormattedMessage
+            id="database.project.configuration.title"
+            values={{
+              project: this.props.project,
+            }}
+          />}
         />
         <CardText>
           <Stepper
             activeStep={stepIndex}
             orientation="vertical"
           >
-            {map(projectConnections, (projectConnection, key) => (
-              <Step key={key}>
-                {this.getStepButton(projectConnection, key)}
-                <StepContent>
-                  <ProjectConnectionFormComponent
-                    projectConnection={projectConnection}
-                    onSubmit={this.handleNext}
-                    onCancel={this.handlePrev}
-                  />
-                </StepContent>
-              </Step>
-            ))}
+            {map(STATIC_CONFIGURATION.microservices, (microservice, key) => {
+              // Search if a connection is already defined for the current project
+              const projectConnection = find(projectConnections, lProjectConnection => lProjectConnection.content.microservice === microservice)
+              return (
+                <Step key={key}>
+                  {this.getStepButton(microservice, projectConnection, key)}
+                  <StepContent>
+                    <ProjectConnectionFormComponent
+                      project={this.props.project}
+                      microservice={microservice}
+                      projectConnection={projectConnection}
+                      onCreate={this.onCreate}
+                      onUpdate={this.onUpdate}
+                      onNext={this.handleNext}
+                      onCancel={key > 0 ? this.handlePrev : null}
+                      isStep
+                    />
+                  </StepContent>
+                </Step>
+              )
+            })}
           </Stepper>
         </CardText>
       </Card>

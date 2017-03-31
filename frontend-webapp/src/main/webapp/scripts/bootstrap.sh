@@ -12,6 +12,7 @@
 npm link web_modules/data/api
 npm link web_modules/data/store
 npm link web_modules/data/model
+npm link web_modules/data/client
 
 # Tools
 npm link web_modules/utils/authentication-manager

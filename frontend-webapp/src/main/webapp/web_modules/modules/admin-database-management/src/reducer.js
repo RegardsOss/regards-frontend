@@ -2,10 +2,12 @@
  * LICENSE_PLACEHOLDER
  */
 import { combineReducers } from 'redux'
-import getProjectConnectionReducers from './model/ProjectConnectionReducers'
+import { projectReducers } from './client/ProjectClient'
+import { projectConnectionReducers } from './client/ProjectConnectionClient'
 
 const databaseManagementReducer = combineReducers({
-  projectConnection: getProjectConnectionReducers,
+  projectConnections: projectConnectionReducers,
+  projects: projectReducers,
 })
 
 export default databaseManagementReducer

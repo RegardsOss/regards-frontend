@@ -6,6 +6,14 @@ import GuidedProjectConfiguration from '../../src/components/GuidedProjectConfig
 
 // Test a component rendering
 describe('[ADMIN DATABASE MANAGEMENT] Testing GuidedProjectConfiguration', () => {
+  before(() => {
+    global.STATIC_CONFIGURATION = {
+      microservices: ['ms1', 'ms2', 'ms3', 'ms4'],
+      projectConnectionDriver: 'org.postgresql.Driver',
+    }
+  })
+
+
   it('should exists', () => {
     assert.isDefined(GuidedProjectConfiguration)
   })
@@ -66,6 +74,6 @@ describe('[ADMIN DATABASE MANAGEMENT] Testing GuidedProjectConfiguration', () =>
       },
     }
     const enzymeWrapper = shallow(<GuidedProjectConfiguration {...props} />, options)
-    expect(enzymeWrapper.find(Step)).to.have.length(3)
+    expect(enzymeWrapper.find(Step)).to.have.length(4)
   })
 })

@@ -53,8 +53,8 @@ module.exports = {
         loader: 'file-loader?name=[name].[ext]&outputPath=./img/',
       },
       {
-        test: /staticConfiguration\.js$/,
-        loader: 'file-loader?name=[name].[ext]&outputPath=./conf/',
+        test: /staticConfiguration(\.dev)?\.js$/,
+        loader: 'file-loader?name=staticConfiguration.js&outputPath=./conf/',
       },
       {
         test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,

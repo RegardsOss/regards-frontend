@@ -9,7 +9,7 @@ describe('[ADMIN DATABASE MANAGEMENT] Testing router', () => {
     expect(Routes.childRoutes).to.have.length(3)
     expect(Routes.childRoutes[0].path).to.eq('list')
     expect(Routes.childRoutes[1].path).to.eq(':project_connection_id/edit')
-    expect(Routes.childRoutes[2].path).to.eq('guided')
+    expect(Routes.childRoutes[2].path).to.eq('projects/:project_name')
   })
   it('list should return ProjectConnectionListContainer', (done) => {
     Routes.childRoutes[0].getComponents(undefined, (smth, component) => {
