@@ -4,7 +4,6 @@
 import find from 'lodash/find'
 import omit from 'lodash/omit'
 import IconButton from 'material-ui/IconButton'
-import HateoasDisplayDecorator from './HateoasDisplayDecorator'
 import HateoasLinks from '../model/HateoasLinks'
 /**
  * Component to display an icon action for a given entity only if the action is available
@@ -17,10 +16,9 @@ class HateoasIconAction extends React.Component {
   static propTypes = {
     entityLinks: React.PropTypes.arrayOf(HateoasLinks),
     hateoasKey: React.PropTypes.string,
-    hateoasDependency: React.PropTypes.string,
   }
 
-  renderIcon = () => {
+  render() {
     const { entityLinks, hateoasKey } = this.props
     if ((!entityLinks && !hateoasKey) || find(entityLinks, entity => entity.rel === hateoasKey)) {
       return (
@@ -30,20 +28,6 @@ class HateoasIconAction extends React.Component {
       )
     }
     return <span />
-  }
-
-  render() {
-    const { hateoasDependency } = this.props
-    if (hateoasDependency) {
-      return (
-        <HateoasDisplayDecorator
-          requiredEndpoints={[hateoasDependency]}
-        >
-          {this.renderIcon()}
-        </HateoasDisplayDecorator>
-      )
-    }
-    return this.renderIcon()
   }
 
 }

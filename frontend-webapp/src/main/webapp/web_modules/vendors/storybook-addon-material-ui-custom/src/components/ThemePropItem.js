@@ -172,7 +172,7 @@ function PropHeader(props, context) {
       style={{
         display: 'flex',
         justifyContent: 'flex-start',
-        overflowX: 'hidden',
+        overflow: 'hidden',
         flexShrink: 2,
         flexGrow: 10,
         width: 90,
@@ -187,7 +187,7 @@ function PropHeader(props, context) {
           marginRight: 16,
           minWidth: 100,
           textAlign: 'left',
-          overflowX: 'hidden',
+          overflow: 'hidden',
         }}
       >
         <div>{isNotHeader ? val : 'Prop Name'}</div>

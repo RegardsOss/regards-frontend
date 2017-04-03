@@ -8,25 +8,24 @@ import { userManagementRouter } from '@regardsoss/admin-user-management'
 import { projectManagementRouter } from '@regardsoss/admin-project-management'
 import { accountManagementRouter } from '@regardsoss/admin-account-management'
 import { microserviceManagementRouter } from '@regardsoss/admin-microservice-management'
-import { uiConfigurationRouter } from '@regardsoss/admin-ui-configuration'
+import { uiManagementRouter } from '@regardsoss/admin-ui-management'
 import { accessRightManagementRouter } from '@regardsoss/admin-accessright-management'
 import Routes from '../src/router'
 
 describe('[ADMIN MANAGEMENT] Testing admin router', () => {
   it('should return the correct value', () => {
     assert.isNotNull(Routes)
-    expect(Routes.childRoutes).to.have.length(11)
+    expect(Routes.childRoutes).to.have.length(10)
     expect(Routes.childRoutes[0].path).to.eq('project')
     expect(Routes.childRoutes[1].path).to.eq('account')
     expect(Routes.childRoutes[2].path).to.eq('project-connection')
-    expect(Routes.childRoutes[3].path).to.eq('ui-configuration')
+    expect(Routes.childRoutes[3].path).to.eq('ui')
     expect(Routes.childRoutes[4].path).to.eq(':project/data')
     expect(Routes.childRoutes[5].path).to.eq(':project/user')
-    expect(Routes.childRoutes[6].path).to.eq(':project/ui-configuration')
-    expect(Routes.childRoutes[7].path).to.eq(':project/ui-plugins')
-    expect(Routes.childRoutes[8].path).to.eq(':project')
-    expect(Routes.childRoutes[9].path).to.eq(':project/microservice')
-    expect(Routes.childRoutes[10].path).to.eq(':project/access-right')
+    expect(Routes.childRoutes[6].path).to.eq(':project/ui')
+    expect(Routes.childRoutes[7].path).to.eq(':project')
+    expect(Routes.childRoutes[8].path).to.eq(':project/microservice')
+    expect(Routes.childRoutes[9].path).to.eq(':project/access-right')
   })
 
   it('create should return projectManagementRouter', (done) => {
@@ -48,9 +47,9 @@ describe('[ADMIN MANAGEMENT] Testing admin router', () => {
       done()
     })
   })
-  it('create should return uiConfigurationRouter', (done) => {
+  it('create should return uiManagementRouter', (done) => {
     Routes.childRoutes[3].getChildRoutes(undefined, (smth, component) => {
-      expect(component[0]).to.eq(uiConfigurationRouter)
+      expect(component[0]).to.eq(uiManagementRouter)
       done()
     })
   })
@@ -67,20 +66,20 @@ describe('[ADMIN MANAGEMENT] Testing admin router', () => {
     })
   })
   it('create should return microserviceManagementRoute', (done) => {
-    Routes.childRoutes[9].getChildRoutes(undefined, (smth, component) => {
+    Routes.childRoutes[8].getChildRoutes(undefined, (smth, component) => {
       expect(component[0]).to.eq(microserviceManagementRouter)
       done()
     })
   })
   it('create should return accessRightManagementRouter', (done) => {
-    Routes.childRoutes[10].getChildRoutes(undefined, (smth, component) => {
+    Routes.childRoutes[9].getChildRoutes(undefined, (smth, component) => {
       expect(component[0]).to.eq(accessRightManagementRouter)
       done()
     })
   })
   it('empty components on the root page', () => {
-    assert.isUndefined(Routes.childRoutes[8].getChildRoutes)
-    assert.isUndefined(Routes.childRoutes[8].getComponents)
-    assert.isUndefined(Routes.childRoutes[8].getComponent)
+    assert.isUndefined(Routes.childRoutes[7].getChildRoutes)
+    assert.isUndefined(Routes.childRoutes[7].getComponents)
+    assert.isUndefined(Routes.childRoutes[7].getComponent)
   })
 })
