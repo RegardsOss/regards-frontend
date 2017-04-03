@@ -13,9 +13,8 @@ import Error from 'material-ui/svg-icons/alert/error'
 import Warning from 'material-ui/svg-icons/alert/warning'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { Project } from '@regardsoss/model'
 import EnumConnectivity from '@regardsoss/model/src/admin/EnumConnectivity'
-import { ProjectConnection } from '@regardsoss/model'
+import { ProjectConnection, Project } from '@regardsoss/model'
 import ProjectConnectionFormComponent from './ProjectConnectionFormComponent'
 
 /**

@@ -5,13 +5,18 @@ import themeContextType from './contextType'
 import ThemeInjector from './ThemeInjector'
 import SelectThemeContainer from './containers/SelectThemeContainer'
 import injectTheme from './ThemeInjectionDecorator'
-import ThemeActions from './model/actions/ThemeActions'
-import ThemeInstanceActions from './model/actions/ThemeInstanceActions'
 import reducers from './model/reducers'
-import ThemeSelectors from './model/selectors/ThemeSelectors'
 import getCurrentTheme from './model/selectors/getCurrentTheme'
 import ThemeProvider from './containers/ThemeProvider'
 import defaultCustomConfiguration from './custom/defaultCustomConfiguration'
+import {
+  themeSelectors as ThemeSelectors,
+  themeActions as ThemeActions,
+} from './client/ThemeClient'
+import {
+  themeInstanceActions as ThemeInstanceActions,
+} from './client/ThemeInstanceClient'
+import defaultTheme from './model/defaultTheme'
 
 export {
   themeContextType,
@@ -25,4 +30,5 @@ export {
   ThemeActions,
   ThemeInstanceActions,
   defaultCustomConfiguration,
+  defaultTheme,
 }

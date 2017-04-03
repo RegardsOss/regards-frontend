@@ -6,9 +6,8 @@ import { connect } from '@regardsoss/redux'
 import { Project } from '@regardsoss/model'
 import { I18nProvider } from '@regardsoss/i18n'
 import { AuthenticateActions } from '@regardsoss/authentication-manager'
-import ProjectActions from '../model/ProjectActions'
 import NotifyLicenseUpdatedActions from '../model/NotifyLicenseUpdatedActions'
-import ProjectSelectors from '../model/ProjectSelectors'
+import { projectActions, projectSelectors } from '../client/ProjectClient'
 import ProjectListComponent from '../components/ProjectListComponent'
 
 /**
@@ -77,11 +76,11 @@ export class ProjectListContainer extends React.Component {
   }
 }
 const mapStateToProps = state => ({
-  projectList: ProjectSelectors.getList(state),
+  projectList: projectSelectors.getList(state),
 })
 const mapDispatchToProps = dispatch => ({
-  fetchProjectList: () => dispatch(ProjectActions.fetchPagedEntityList(0, 100)),
-  deleteProject: projectName => dispatch(ProjectActions.deleteEntity(projectName)),
+  fetchProjectList: () => dispatch(projectActions.fetchPagedEntityList(0, 100)),
+  deleteProject: projectName => dispatch(projectActions.deleteEntity(projectName)),
   updateLicense: projectName => dispatch(NotifyLicenseUpdatedActions.sendLicenseUpdatedNotification(projectName)),
   onLogout: () => dispatch(AuthenticateActions.logout()),
 })

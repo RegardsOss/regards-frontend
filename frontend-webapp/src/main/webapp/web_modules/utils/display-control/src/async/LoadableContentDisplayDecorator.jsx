@@ -20,6 +20,7 @@ class LoadableContentDisplayDecorator extends React.Component {
     isLoading: React.PropTypes.bool,
     isContentError: React.PropTypes.bool,
     isEmpty: React.PropTypes.bool,
+    emptyMessage: React.PropTypes.string,
   }
 
   static defaultProps = {
@@ -66,7 +67,7 @@ class LoadableContentDisplayDecorator extends React.Component {
           <ContentErrorComponent />
         </ShowableAtRender>
         <ShowableAtRender show={isEmpty && !isContentError && !isLoading}>
-          <div>No content!</div>
+          <div>{this.props.emptyMessage ? this.props.emptyMessage : 'No content!'}</div>
         </ShowableAtRender>
         <ShowableAtRender show={!isEmpty && !isContentError && !isLoading}>
           {this.renderChild()}

@@ -2,9 +2,8 @@ import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
-import ProjectActions from '../model/ProjectActions'
 import ProjectFormComponent from '../components/ProjectFormComponent'
-import ProjectSelectors from '../model/ProjectSelectors'
+import { projectActions, projectSelectors } from '../client/ProjectClient'
 
 export class ProjectFormContainer extends React.Component {
   static propTypes = {
@@ -111,14 +110,14 @@ export class ProjectFormContainer extends React.Component {
   }
 }
 const mapStateToProps = (state, ownProps) => ({
-  project: ownProps.params.project_name ? ProjectSelectors.getById(state, ownProps.params.project_name) : null,
-  isFetching: ProjectSelectors.isFetching(state),
+  project: ownProps.params.project_name ? projectSelectors.getById(state, ownProps.params.project_name) : null,
+  isFetching: projectSelectors.isFetching(state),
 })
 
 const mapDispatchToProps = dispatch => ({
-  createProject: values => dispatch(ProjectActions.createEntity(values)),
-  updateProject: (id, values) => dispatch(ProjectActions.updateEntity(id, values)),
-  fetchProject: projectName => dispatch(ProjectActions.fetchEntity(projectName)),
+  createProject: values => dispatch(projectActions.createEntity(values)),
+  updateProject: (id, values) => dispatch(projectActions.updateEntity(id, values)),
+  fetchProject: projectName => dispatch(projectActions.fetchEntity(projectName)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectFormContainer)
