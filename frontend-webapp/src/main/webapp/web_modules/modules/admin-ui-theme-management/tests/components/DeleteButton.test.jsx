@@ -25,7 +25,7 @@ describe('[ADMIN UI THEME MANAGEMENT] Testing delete button component', () => {
   it('should render a ThemeCreateComponent', () => {
     const props = {
       onDelete: spy(),
-      entityLinks: [],
+      entityHateoasLinks: [],
     }
     const options = {
       context: {

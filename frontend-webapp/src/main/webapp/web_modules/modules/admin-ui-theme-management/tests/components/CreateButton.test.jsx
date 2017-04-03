@@ -25,7 +25,6 @@ describe('[ADMIN UI THEME MANAGEMENT] Testing create button component', () => {
   it('should render a ThemeCreateComponent', () => {
     const props = {
       onCreate: spy(),
-      entityLinks: [],
     }
     const options = {
       context: {

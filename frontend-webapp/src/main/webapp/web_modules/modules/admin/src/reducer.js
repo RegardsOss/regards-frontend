@@ -21,7 +21,7 @@ const adminReducer = combineReducers({
   'database-management': databaseManagementReducer,
   'microservice-management': microserviceManagementReducer,
   'project-management': projectManagementReducer,
-  'ui': uiManagementReducer,
+  ui: uiManagementReducer,
   'user-management': userManagementReducer,
   'access-right': accessRightManagementReducer,
 })

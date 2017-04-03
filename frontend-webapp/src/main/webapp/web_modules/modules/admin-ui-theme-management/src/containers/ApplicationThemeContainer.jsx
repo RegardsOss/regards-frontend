@@ -53,7 +53,7 @@ export class ApplicationThemeContainer extends React.Component {
 
   onClose = () => {
     const { params: { project } } = this.props
-    const url = this.props.isInstance ? `/admin/ui/board` : `/admin/${project}/ui/board`
+    const url = this.props.isInstance ? '/admin/ui/board' : `/admin/${project}/ui/board`
     browserHistory.push(url)
   }
 

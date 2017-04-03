@@ -89,6 +89,7 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Modules list component', () => {
       onEdit: () => {},
       onDelete: () => {},
       onDuplicate: () => {},
+      backUrl: '#',
     }
 
     const wrapper = shallow(
@@ -110,6 +111,7 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Modules list component', () => {
       onDuplicate: onDuplicateCallBack,
       onEdit: onEditCallback,
       onDelete: onDeleteCallback,
+      backUrl: '#',
     }
 
     const wrapper = shallow(

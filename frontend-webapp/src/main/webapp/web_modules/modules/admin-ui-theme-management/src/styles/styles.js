@@ -8,7 +8,7 @@ import typography from 'material-ui/styles/typography'
  * @param theme
  * @author Sébastien binda
  */
-const formStyles = theme => {
+const formStyles = (theme) => {
   const styles = {
     theme: {
       mainWrapper: {
@@ -105,7 +105,7 @@ const formStyles = theme => {
       bottomBorderWrapper: {
         paddingBottom: '10px',
       },
-    }
+    },
   }
   return styles
 }

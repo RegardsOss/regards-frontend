@@ -51,7 +51,7 @@ class ModulesListContainer extends React.Component {
 
   getBackUrl = () => {
     if (this.props.isInstance) {
-      return `/admin/ui/board`
+      return '/admin/ui/board'
     }
     const { params: { project } } = this.props
     return `/admin/${project}/ui/board`

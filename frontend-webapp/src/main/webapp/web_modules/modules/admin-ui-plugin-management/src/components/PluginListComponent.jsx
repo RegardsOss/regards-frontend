@@ -56,7 +56,6 @@ class PluginListComponent extends React.Component {
   }
 
   render() {
-    console.log("ALLLOOOO", PluginsActions.getDependency(RequestVerbEnum.POST))
     const style = {
       hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
       hoverButtonDelete: this.context.muiTheme.palette.accent1Color,

@@ -19,7 +19,7 @@ export default intl => [
     description: intl.formatMessage({ id: 'project.layout.description' }),
     advanced: false,
     actions: [{
-      path: `/admin/ui/layout/portal`,
+      path: '/admin/ui/layout/portal',
       icon: <ViewQuilt />,
       tooltipMsg: intl.formatMessage({ id: 'project.layout.tooltip' }),
     }],
@@ -29,11 +29,11 @@ export default intl => [
     description: intl.formatMessage({ id: 'project.module.description' }),
     advanced: false,
     actions: [{
-      path: `/admin/ui/module/portal/list`,
+      path: '/admin/ui/module/portal/list',
       icon: <ViewLinesIcon />,
       tooltipMsg: intl.formatMessage({ id: 'action.list.tooltip' }),
     }, {
-      path: `/admin/ui/module/portal/create`,
+      path: '/admin/ui/module/portal/create',
       icon: <AddIcon />,
       tooltipMsg: intl.formatMessage({ id: 'action.add.tooltip' }),
     }],
@@ -43,7 +43,7 @@ export default intl => [
     description: intl.formatMessage({ id: 'project.theme.description' }),
     advanced: false,
     actions: [{
-      path: `/admin/ui/theme/edit`,
+      path: '/admin/ui/theme/edit',
       icon: <Palette />,
       tooltipMsg: intl.formatMessage({ id: 'project.theme.tooltip' }),
     }],

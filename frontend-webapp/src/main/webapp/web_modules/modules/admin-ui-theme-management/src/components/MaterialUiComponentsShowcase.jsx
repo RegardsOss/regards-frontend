@@ -266,13 +266,13 @@ class ThemesPage extends React.Component {
 
   handleExpand = () => {
     this.setState({
-      expanded: true
+      expanded: true,
     })
   }
 
   handleReduce = () => {
     this.setState({
-      expanded: false
+      expanded: false,
     })
   }
 
