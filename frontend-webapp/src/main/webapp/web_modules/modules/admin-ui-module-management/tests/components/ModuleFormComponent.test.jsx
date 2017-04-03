@@ -19,7 +19,7 @@ import DynamicModuleFormComponent from '../../src/components/DynamicModuleFormCo
  * Tests for ModuleFormComponent
  * @author Sébastien binda
  */
-describe('[ADMIN UI-CONFIGURATION] Testing Modules form component', () => {
+describe('[ADMIN UI MODULE MANAGEMENT] Testing Modules form component', () => {
   // Since react will console.error propType warnings, that which we'd rather have
   // as errors, we use sinon.js to stub it into throwing these warning as errors
   // instead.

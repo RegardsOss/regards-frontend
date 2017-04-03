@@ -13,7 +13,7 @@ import { UnconnectedModulesListContainer } from '../../src/containers/ModulesLis
  * Tests for ModulesListContainer
  * @author Sébastien binda
  */
-describe('[ADMIN UI-CONFIGURATION] Testing Modules list container', () => {
+describe('[ADMIN UI MODULE MANAGEMENT] Testing Modules list container', () => {
   // Since react will console.error propType warnings, that which we'd rather have
   // as errors, we use sinon.js to stub it into throwing these warning as errors
   // instead.

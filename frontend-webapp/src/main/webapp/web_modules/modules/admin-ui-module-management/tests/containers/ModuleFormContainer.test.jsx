@@ -11,7 +11,7 @@ import { UnconnectedModuleFormContainer } from '../../src/containers/ModuleFormC
  * Tests for ModuleFormContainer
  * @author Sébastien binda
  */
-describe('[ADMIN UI-CONFIGURATION] Testing Module form container', () => {
+describe('[ADMIN UI MODULE MANAGEMENT] Testing Module form container', () => {
   // Since react will console.error propType warnings, that which we'd rather have
   // as errors, we use sinon.js to stub it into throwing these warning as errors
   // instead.

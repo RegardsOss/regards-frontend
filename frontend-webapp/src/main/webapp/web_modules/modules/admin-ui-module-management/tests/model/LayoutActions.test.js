@@ -14,7 +14,7 @@ const entityTester = new ReduxEntityTester(LayoutActions, LayoutReducer, LayoutS
  * Tests for Layout entities
  * @author Sébastien binda
  */
-describe('[ADMIN UI CONFIGURATION] Testing model Layout', () => {
+describe('[ADMIN UI MODULE MANAGEMENT] Testing model Layout', () => {
   before(() => {
     entityTester.beforeAll()
   })

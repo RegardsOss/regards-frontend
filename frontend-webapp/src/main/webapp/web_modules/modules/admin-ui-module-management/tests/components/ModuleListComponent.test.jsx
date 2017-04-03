@@ -14,7 +14,7 @@ import ModuleListComponent from '../../src/components/ModuleListComponent'
  * Tests for ModuleListComponent
  * @author Sébastien binda
  */
-describe('[ADMIN UI-CONFIGURATION] Testing Modules list component', () => {
+describe('[ADMIN UI MODULE MANAGEMENT] Testing Modules list component', () => {
   // Since react will console.error propType warnings, that which we'd rather have
   // as errors, we use sinon.js to stub it into throwing these warning as errors
   // instead.

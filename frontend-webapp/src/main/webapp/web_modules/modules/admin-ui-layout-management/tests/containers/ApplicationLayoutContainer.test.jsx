@@ -12,7 +12,7 @@ import LayoutDumpNetwork from '../model/dump/LayoutDumpNetwork'
  * Tests for ApplicationLayoutContainer
  * @author Sébastien binda
  */
-describe('[ADMIN UI-CONFIGURATION] Testing Layout container', () => {
+describe('[ADMIN UI LAYOUT MANAGEMENT] Testing Layout container', () => {
   // Since react will console.error propType warnings, that which we'd rather have
   // as errors, we use sinon.js to stub it into throwing these warning as errors
   // instead.

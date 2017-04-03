@@ -10,7 +10,7 @@ import MessagesFR from '../../src/i18n/messages.fr.i18n'
  * Tests for module i18n messages
  * @author Sébastien binda
  */
-describe('[ADMIN UI CONFIGURATION] Testing i18n', () => {
+describe('[ADMIN UI MANAGEMENT] Testing i18n', () => {
   it('should exist', () => {
     assert.isDefined(MessagesEN)
     assert.isDefined(MessagesFR)

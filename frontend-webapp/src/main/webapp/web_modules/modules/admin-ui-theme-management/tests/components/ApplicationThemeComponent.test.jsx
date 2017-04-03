@@ -6,7 +6,7 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import { IntlStub } from '@regardsoss/tests-helpers'
 import ApplicationThemeComponent from '../../src/components/ApplicationThemeComponent'
 
-describe('[ADMIN UI MANAGEMENT] Testing application theme component', () => {
+describe('[ADMIN UI THEME MANAGEMENT] Testing application theme component', () => {
   // Since react will console.error propType warnings, that which we'd rather have
   // as errors, we use sinon.js to stub it into throwing these warning as errors
   // instead.
