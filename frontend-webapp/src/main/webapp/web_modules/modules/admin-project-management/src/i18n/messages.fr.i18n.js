@@ -38,6 +38,42 @@ const messages = Object.assign({
   'project.form.action.submit': 'Sauvegarder',
 
   'invalid.only_alphanumeric': 'Seuls les caractères alphanumériques sont autorisés',
+
+  // Database connections
+  'project.connection.list.title': 'Configuration des bases de données des microservices du projet {project}',
+  'project.connection.list.subtitle': 'Vous pouvez ici modifier les paramètres d\'accès aux bases de données pour chaque microservice du système',
+  'project.connection.list.microservice': 'Nom du microservice',
+  'project.connection.list.status': 'Etat de la configuration',
+  'project.connection.list.actions': 'Actions',
+  'project.connection.is.configured': 'Valide',
+  'project.connection.is.not.configured': 'Non valide',
+
+  'database.connectionTester.start': 'Tester',
+  'database.connectionTester.restart': 'Réessayer',
+  'database.connectionTester.connected': 'Connecté',
+  'database.connectionTester.warning': 'Connecté',
+  'database.connectionTester.notConnected': 'Non connecté',
+  'database.connectionTester.pending': 'Test de la connexion...',
+
+  'database.connectionTester.snackbar.connected': '{microservice} est correctement configuré pour {driverClassName}.',
+  'database.connectionTester.snackbar.warning': 'TODO',
+  'database.connectionTester.snackbar.notConnected': '{microservice} n a pas pu établir la connexion avec {driverClassName}.',
+
+  'database.list.test': 'Tester la connexion',
+  'database.list.access.guided.configuration': 'Configuration guidée',
+
+  'database.project.configuration.title': 'Configurer les bases de données pour le projet {project}',
+
+  'database.form.edit.title': 'Connecter {microservice} à une base de données du projet {project}',
+  'database.form.input.driverClassName': 'Driver',
+  'database.form.input.url': 'Url',
+  'database.form.input.userName': 'Utilisateur',
+  'database.form.input.password': 'Mot de passe',
+  'database.form.reset': 'Réinitialiser',
+  'database.form.action.save': 'Sauvegarder',
+  'database.form.action.next': 'Suivant',
+  'database.form.action.previous': 'Précédent',
+  'database.form.action.cancel': 'Annuler',
 }, Locales.fr)
 
 export default messages

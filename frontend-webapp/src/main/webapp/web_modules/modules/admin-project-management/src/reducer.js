@@ -1,9 +1,11 @@
 import { combineReducers } from 'redux'
-import getProjectReducer from './model/ProjectReducers'
+import { projectReducers } from './client/ProjectClient'
+import { projectConnectionReducers } from './client/ProjectConnectionClient'
 import getNotifyLicenseUpdatedReducer, { REDUCER_PATH as NotifyLicenseUpdatedReducerPath } from './model/NotifyLicenseUpdatedReducers'
 
 const projectManagementReducer = combineReducers({
-  project: getProjectReducer,
+  projects: projectReducers,
+  projectConnections: projectConnectionReducers,
   [NotifyLicenseUpdatedReducerPath]: getNotifyLicenseUpdatedReducer,
 })
 

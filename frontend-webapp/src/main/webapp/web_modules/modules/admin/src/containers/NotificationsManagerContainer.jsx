@@ -6,7 +6,7 @@ import { WaitingAccountEntitiesActions } from '@regardsoss/admin-account-managem
 import { connect } from '@regardsoss/redux'
 
 /** Refresh time in milliseconds */
-const refreshTimerMS = 15000
+const refreshTimerMS = 60000
 
 /**
  * Notifications fetchers for project admin interface
