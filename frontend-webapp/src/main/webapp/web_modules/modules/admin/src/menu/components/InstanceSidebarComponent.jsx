@@ -70,7 +70,7 @@ class InstanceSidebarComponent extends React.Component {
             key="3"
             to={'/admin/ui/board'}
             currentPath={this.props.currentPath}
-            primaryText={<FormattedMessage id="menu.ui.configuration" />}
+            primaryText={<FormattedMessage id="menu.instance.ui.configuration" />}
             leftIcon={<Brush />}
           />
           <Divider />

@@ -2,6 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import IconButton from 'material-ui/IconButton'
+import { AuthenticationParametersSelectors } from '@regardsoss/authentication-manager'
 import HateoasDisplayDecorator from './../resources/HateoasDisplayDecorator'
 import HateoasLinks from '../model/HateoasLinks'
 /**
@@ -14,10 +15,15 @@ class ResourceIconAction extends React.Component {
 
   static propTypes = {
     resourceDependencies: React.PropTypes.string.isRequired,
+    // Set by mapStateToProps
+    isInstance: React.PropTypes.bool,
   }
 
   render() {
-    const { resourceDependencies, ...others } = this.props
+    const { resourceDependencies, isInstance, ...others } = this.props
+    if (isInstance) {
+      return <IconButton {...others} />
+    }
     return (
       <HateoasDisplayDecorator
         requiredEndpoints={[resourceDependencies]}
@@ -28,4 +34,8 @@ class ResourceIconAction extends React.Component {
   }
 }
 
-export default ResourceIconAction
+const mapStateToProps = state => ({
+  isInstance: AuthenticationParametersSelectors.isInstance(state),
+})
+
+export default connect(mapStateToProps)(ResourceIconAction)

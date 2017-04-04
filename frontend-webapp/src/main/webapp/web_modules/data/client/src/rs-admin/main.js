@@ -6,7 +6,12 @@ import ProjectConnectionActions from './projectConnection/ProjectConnectionActio
 import ProjectConnectionReducers from './projectConnection/ProjectConnectionReducers'
 import ProjectConnectionSelectors from './projectConnection/ProjectConnectionSelectors'
 
+import ResourceActions from './resource/ResourceActions'
+import ResourceReducers from './resource/ResourceReducers'
+import ResourceSelectors from './resource/ResourceSelectors'
+
 export default {
+
   ProjectActions,
   ProjectSelectors,
   ProjectReducers,
@@ -14,4 +19,8 @@ export default {
   ProjectConnectionActions,
   ProjectConnectionReducers,
   ProjectConnectionSelectors,
+
+  ResourceActions,
+  ResourceReducers,
+  ResourceSelectors,
 }

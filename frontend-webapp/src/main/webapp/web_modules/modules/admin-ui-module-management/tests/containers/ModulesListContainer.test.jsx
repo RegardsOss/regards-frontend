@@ -37,7 +37,7 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Modules list container', () => {
       fetchModules: fetchModulesCallback,
       updateModule: () => {},
       deleteModule: () => {},
-      isFetching: false,
+      isFetching: true,
     }
     const wrapper = shallow(
       <UnconnectedModulesListContainer
@@ -80,6 +80,6 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Modules list container', () => {
     assert.isTrue(wrapper.find(ModuleListComponent).length === 1, 'There should not be a ModuleListComponent displayed')
     assert.isTrue(wrapper.find(FormLoadingComponent).length === 0, 'There should not be a FormLoadingComponent displayed')
     assert.isTrue(wrapper.find(I18nProvider).length === 1, 'There should not be a I18nProvider')
-    assert.isTrue(fetchModulesCallback.called, 'The container should fetch the modules list at mount')
+    assert.isFalse(fetchModulesCallback.called, 'The container should not fetch modules as they already exists')
   })
 })

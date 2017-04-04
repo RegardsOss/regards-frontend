@@ -1,7 +1,6 @@
 /*
  * LICENSE_PLACEHOLDER
  */
-import { browserHistory } from 'react-router'
 import { FormattedMessage } from 'react-intl'
 import { Card, CardTitle, CardText } from 'material-ui/Card'
 import { I18nProvider } from '@regardsoss/i18n'

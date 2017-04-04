@@ -8,7 +8,7 @@ import ProjectConnectionFormComponent from '../../../src/components/projectConne
 
 // Test a component rendering
 describe(
-  '[ADMIN PROJECT MANAGEMENT] Testing ProjectConnectionEditContainer', () => {
+  '[ADMIN PROJECT MANAGEMENT] Testing ProjectConnectionFormContainer', () => {
     it('should exists', () => {
       assert.isDefined(ProjectConnectionFormContainer)
     })
@@ -46,7 +46,6 @@ describe(
         projectConnectionsIsFetching: false,
       }
       const enzymeWrapper = shallow(<ProjectConnectionFormContainer {...props} />)
-      console.log('SEB', enzymeWrapper.debug())
       expect(enzymeWrapper.find(ProjectConnectionFormComponent)).to.have.length(1)
     })
 
