@@ -43,7 +43,6 @@ npm link web_modules/modules/admin-data-connection-management
 npm link web_modules/modules/admin-data-dataset-management
 npm link web_modules/modules/admin-data-datasource-management
 npm link web_modules/modules/admin-data-fragment-management
-npm link web_modules/modules/admin-database-management
 npm link web_modules/modules/admin-microservice-management
 npm link web_modules/modules/admin-project-management
 npm link web_modules/modules/admin-ui-management

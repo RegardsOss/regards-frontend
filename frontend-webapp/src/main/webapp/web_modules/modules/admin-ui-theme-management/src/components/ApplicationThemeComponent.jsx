@@ -18,8 +18,8 @@ import { FormattedMessage } from 'react-intl'
 import { i18nContextType } from '@regardsoss/i18n'
 import { ShowableAtRender } from '@regardsoss/components'
 import { LoadableContentDisplayDecorator, HateoasIconAction, HateoasToggle, HateoasKeys } from '@regardsoss/display-control'
-import { ThemeList, Theme, defaultTheme } from '@regardsoss/model'
-import { themeContextType, defaultCustomConfiguration } from '@regardsoss/theme'
+import { Theme } from '@regardsoss/model'
+import { themeContextType, defaultCustomConfiguration, defaultTheme } from '@regardsoss/theme'
 import { muiTheme } from '@regardsoss/vendors'
 import MaterialUiComponentsShowcase from './MaterialUiComponentsShowcase'
 import DeleteButton from './DeleteButton'
@@ -34,7 +34,7 @@ import moduleStyles from '../styles/styles'
 class ApplicationThemeComponent extends React.Component {
 
   static propTypes = {
-    themeList: ThemeList,
+    themeList: React.PropTypes.objectOf(Theme),
     currentTheme: Theme,
     isFetching: React.PropTypes.bool,
     onCreate: React.PropTypes.func,
@@ -222,7 +222,11 @@ class ApplicationThemeComponent extends React.Component {
           </Toolbar>
         </ShowableAtRender>
 
-        <LoadableContentDisplayDecorator isLoading={isFetching} isEmpty={isThemeListEmpty}>
+        <LoadableContentDisplayDecorator
+          isLoading={isFetching}
+          isEmpty={isThemeListEmpty}
+          emptyMessage={this.context.intl.formatMessage({ id: 'application.theme.default.create.message' })}
+        >
           <div style={style.contentWrapper}>
             {themeActivationToggle}
             {themeConfigurer}

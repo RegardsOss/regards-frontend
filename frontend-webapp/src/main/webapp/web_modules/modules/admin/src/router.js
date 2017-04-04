@@ -39,7 +39,7 @@ export const projectAdminRouter = {
  * @type {{path: string, getChildRoutes: ((nextState, cb))}}
  */
 export const projectRouter = {
-  path: 'project',
+  path: 'projects',
   getChildRoutes(nextState, cb) {
     const adminProjectManagement = require('@regardsoss/admin-project-management')
     require.ensure([], (require) => {
@@ -71,19 +71,6 @@ export const uiConfigurationRouter = {
     const adminUiConfiguration = require('@regardsoss/admin-ui-management')
     require.ensure([], (require) => {
       cb(null, [adminUiConfiguration.uiManagementRouter])
-    })
-  },
-}
-
-/**
- * @type {{path: string, getChildRoutes: ((nextState, cb))}}
- */
-export const databaseRouter = {
-  path: 'project-connection',
-  getChildRoutes(nextState, cb) {
-    const adminDatabaseManagement = require('@regardsoss/admin-database-management')
-    require.ensure([], (require) => {
-      cb(null, [adminDatabaseManagement.databaseManagementRouter])
     })
   },
 }
@@ -142,7 +129,6 @@ export default {
   childRoutes: [
     projectRouter,
     accountRouter,
-    databaseRouter,
     uiConfigurationRouter,
     projectAdminDataRouter,
     projectAdminUserProjectRouter,
