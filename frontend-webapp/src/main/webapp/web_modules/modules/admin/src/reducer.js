@@ -19,7 +19,7 @@ const adminReducer = combineReducers({
   'data-management': dataManagementReducer,
   'microservice-management': microserviceManagementReducer,
   'project-management': projectManagementReducer,
-  'ui': uiManagementReducer,
+  ui: uiManagementReducer,
   'user-management': userManagementReducer,
   'access-right': accessRightManagementReducer,
 })
