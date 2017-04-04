@@ -1,3 +1,6 @@
+/**
+* LICENSE_PLACEHOLDER
+**/
 import configureStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import nock from 'nock'
@@ -130,7 +133,7 @@ describe('[STORE UTILS] Testing BasicListActions', () => {
             name: 'project1',
           },
         },
-        )
+      )
       const store = mockStore({ projects: [] })
 
       const expectedAction = {
@@ -192,7 +195,7 @@ describe('[STORE UTILS] Testing BasicListActions', () => {
             href: 'fakeHref',
           }],
         }],
-        )
+      )
       const store = mockStore({
         projects: {
           3: {

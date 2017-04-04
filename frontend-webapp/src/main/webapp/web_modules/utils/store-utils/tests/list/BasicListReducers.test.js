@@ -1,3 +1,6 @@
+/**
+* LICENSE_PLACEHOLDER
+**/
 import { expect } from 'chai'
 import { PROJECT, PROJECT_ARRAY } from '@regardsoss/api'
 import BasicListReducers from '../../src/list/BasicListReducers'

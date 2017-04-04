@@ -1,3 +1,6 @@
+/**
+* LICENSE_PLACEHOLDER
+**/
 import { assert, expect } from 'chai'
 import BasicListSelectors from '../../src/list/BasicListSelectors'
 
