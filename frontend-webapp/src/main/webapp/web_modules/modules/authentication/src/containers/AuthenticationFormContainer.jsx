@@ -40,8 +40,8 @@ export class AuthenticationFormContainer extends React.Component {
 
   componentWillMount = () => {
     if (process.env.NODE_ENV === 'development') {
-      console.log('DEV', 'Auto connection')
-      this.onLoginRequest({ username: 'admin@cnes.fr', password: 'admin' })
+      // console.log('DEV', 'Auto connection')
+      // this.onLoginRequest({ username: 'admin@cnes.fr', password: 'admin' })
     }
   }
 
