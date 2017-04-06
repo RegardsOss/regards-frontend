@@ -15,9 +15,6 @@ import { BasicPageableSelectors } from '@regardsoss/store-utils'
  * @author Sébastien Binda
  */
 class ResourceSelectors extends BasicPageableSelectors {
-  constructor(storePath) {
-    super(storePath)
-  }
 
   getListOfKeys(state) {
     return this.uncombineStore(state).listOfKeys

@@ -75,8 +75,11 @@ export class ApplicationLayoutContainer extends React.Component {
           layout: layoutString,
         },
       ))
-        .then(() => {
-          browserHistory.push(this.getBackUrl())
+        .then((actionResult) => {
+          // We receive here the action
+          if (!actionResult.error) {
+            browserHistory.push(this.getBackUrl())
+          }
         })
     } catch (e) {
       console.error('internal error during layout json object stringify for ', values.layout)

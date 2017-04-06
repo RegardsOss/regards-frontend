@@ -67,33 +67,53 @@ class ModuleFormContainer extends React.Component {
   }
 
   handleCreate = (values) => {
-    const submitModel = Object.assign({}, values)
+    const defaultProps = {
+      applicationId: this.props.params.applicationId,
+      active: false,
+      isDefault: false,
+      conf: '{}',
+    }
+    const submitModel = Object.assign({}, defaultProps, values)
     Promise.resolve(this.props.createModule(this.props.params.applicationId, submitModel))
-      .then(this.handleBack)
+      .then((actionResult) => {
+        // We receive here the action
+        if (!actionResult.error) {
+          this.handleBack()
+        }
+      })
   }
 
   handleUpdate = (values) => {
-    const submitModel = Object.assign({}, this.props.module, values)
+    const defaultProps = {
+      applicationId: this.props.params.applicationId,
+      active: false,
+      isDefault: false,
+      conf: '{}',
+    }
+    const submitModel = Object.assign({}, defaultProps, this.props.module, values)
     Promise.resolve(this.props.updateModule(this.props.params.applicationId, submitModel))
-      .then(this.handleBack)
+      .then((actionResult) => {
+        // We receive here the action
+        if (!actionResult.error) {
+          this.handleBack()
+        }
+      })
   }
 
   handleBack = () => {
+    const { params: { project, applicationId } } = this.props
     if (this.props.isInstance) {
-      const { params: { project, applicationId } } = this.props
       browserHistory.push(`/admin/ui/module/${applicationId}/list`)
     } else {
-      const { params: { project, applicationId } } = this.props
       browserHistory.push(`/admin/${project}/ui/module/${applicationId}/list`)
     }
   }
 
   goToLayoutConfiguration = () => {
+    const { params: { project, applicationId } } = this.props
     if (this.props.isInstance) {
-      const { params: { project, applicationId } } = this.props
       browserHistory.push(`/admin/ui/layout/${applicationId}`)
     } else {
-      const { params: { project, applicationId } } = this.props
       browserHistory.push(`/admin/${project}/layout/${applicationId}`)
     }
   }

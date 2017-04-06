@@ -1,6 +1,7 @@
 /*
  * LICENSE_PLACEHOLDER
  */
+import { browserHistory } from 'react-router'
 import { FormattedMessage } from 'react-intl'
 import { Card, CardTitle, CardText } from 'material-ui/Card'
 import { I18nProvider } from '@regardsoss/i18n'
@@ -70,7 +71,7 @@ export class ProjectConnectionFormContainer extends React.Component {
   }
 
   handleBack = () => {
-    this.handleBack()
+    browserHistory.push(`/admin/projects/${this.props.params.project_name}/connections`)
   }
 
   render() {

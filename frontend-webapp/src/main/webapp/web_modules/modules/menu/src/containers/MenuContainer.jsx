@@ -23,9 +23,9 @@ class MenuContainer extends React.Component {
     // Module configuration.
     moduleConf: React.PropTypes.shape({
       title: React.PropTypes.string,
-      displayAuthentication: React.PropTypes.bool.isRequired,
-      displayLocaleSelector: React.PropTypes.bool.isRequired,
-      displayThemeSelector: React.PropTypes.bool.isRequired,
+      displayAuthentication: React.PropTypes.bool,
+      displayLocaleSelector: React.PropTypes.bool,
+      displayThemeSelector: React.PropTypes.bool,
     }),
   }
 

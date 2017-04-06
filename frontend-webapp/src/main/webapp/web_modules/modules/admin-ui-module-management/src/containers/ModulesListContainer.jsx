@@ -55,10 +55,10 @@ class ModulesListContainer extends React.Component {
   }
   handleCreateModule = () => {
     if (this.props.isInstance) {
-      const url = `/admin/${this.props.params.project}/ui/module/${this.props.params.applicationId}/create`
+      const url = `/admin/ui/module/${this.props.params.applicationId}/create`
       browserHistory.push(url)
     } else {
-      const url = `/admin/ui/module/${this.props.params.applicationId}/create`
+      const url = `/admin/${this.props.params.project}/ui/module/${this.props.params.applicationId}/create`
       browserHistory.push(url)
     }
   }
@@ -78,7 +78,9 @@ class ModulesListContainer extends React.Component {
   }
 
   handleModuleActivation = (module) => {
-    this.props.updateModule(this.props.params.applicationId, Object.assign({}, module, { active: !module.active }))
+    const moduleToUpdate = Object.assign({}, module)
+    moduleToUpdate.conf = JSON.stringify(moduleToUpdate.conf)
+    this.props.updateModule(this.props.params.applicationId, Object.assign({}, moduleToUpdate, { active: !module.active }))
   }
 
   render() {

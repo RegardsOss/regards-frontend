@@ -67,7 +67,7 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Module form container', () => {
       fetchLayout: fetchLayoutCallback,
       isFetching: false,
       module: {},
-      layout: {}
+      layout: {},
     }
     const wrapper = shallow(
       <UnconnectedModuleFormContainer
@@ -99,16 +99,16 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Module form container', () => {
       module: {},
       layout: {
         id: 0,
-        type:"MainContainer",
+        type: 'MainContainer',
         applicationId: 'test',
         layout: {
           id: 'test',
-          type:"RowContainer",
+          type: 'RowContainer',
           containers: [
-            {id: 'test1',type:"RowContainer"},
-            {id: 'test2',type:"RowContainer"}
-          ]
-        }
+            { id: 'test1', type: 'RowContainer' },
+            { id: 'test2', type: 'RowContainer' },
+          ],
+        },
       },
     }
     const wrapper = shallow(
