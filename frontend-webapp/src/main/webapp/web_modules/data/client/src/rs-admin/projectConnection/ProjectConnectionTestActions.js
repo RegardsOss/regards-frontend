@@ -1,8 +1,7 @@
 /*
  * LICENSE_PLACEHOLDER
  */
-import Schemas from '@regardsoss/api'
-import { BasicPageableActions } from '@regardsoss/store-utils'
+import { BasicSignalActions } from '@regardsoss/store-utils'
 
 /**
  * Redux actions to handle ProjectConnection entities from backend server.
@@ -18,7 +17,7 @@ import { BasicPageableActions } from '@regardsoss/store-utils'
  *
  * @author Sébastien Binda
  */
-class ProjectConnectionActions extends BasicPageableActions {
+class ProjectConnectionActions extends BasicSignalActions {
 
   /**
    * Constructor
@@ -27,13 +26,12 @@ class ProjectConnectionActions extends BasicPageableActions {
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-admin/projects/{projectName}/connections`,
-      entityPathVariable: 'connectionId',
-      schemaTypes: {
-        ENTITY: Schemas.PROJECT_CONNECTION,
-        ENTITY_ARRAY: Schemas.PROJECT_CONNECTION_ARRAY,
-      },
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-admin/projects/{projectName}/connections/{connectionId}/test`,
     })
+  }
+
+  test(projectName, connectionId) {
+    return this.sendSignal('GET',null,{projectName: projectName, connectionId: connectionId}, null)
   }
 }
 

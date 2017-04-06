@@ -46,7 +46,8 @@ const messages = Object.assign({
   'project.connection.list.status': 'Etat de la configuration',
   'project.connection.list.actions': 'Actions',
   'project.connection.is.configured': 'Valide',
-  'project.connection.is.not.configured': 'Non valide',
+  'project.connection.is.not.valid': 'Non valide',
+  'project.connection.is.not.configured': 'Non configurée',
 
   'database.connectionTester.start': 'Tester',
   'database.connectionTester.restart': 'Réessayer',
@@ -54,10 +55,6 @@ const messages = Object.assign({
   'database.connectionTester.warning': 'Connecté',
   'database.connectionTester.notConnected': 'Non connecté',
   'database.connectionTester.pending': 'Test de la connexion...',
-
-  'database.connectionTester.snackbar.connected': '{microservice} est correctement configuré pour {driverClassName}.',
-  'database.connectionTester.snackbar.warning': 'TODO',
-  'database.connectionTester.snackbar.notConnected': '{microservice} n a pas pu établir la connexion avec {driverClassName}.',
 
   'database.list.test': 'Tester la connexion',
   'database.list.access.guided.configuration': 'Configuration guidée',

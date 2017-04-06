@@ -6,6 +6,10 @@ import ProjectConnectionActions from './projectConnection/ProjectConnectionActio
 import ProjectConnectionReducers from './projectConnection/ProjectConnectionReducers'
 import ProjectConnectionSelectors from './projectConnection/ProjectConnectionSelectors'
 
+import ProjectConnectionTestActions from './projectConnection/ProjectConnectionTestActions'
+import ProjectConnectionTestReducers from './projectConnection/ProjectConnectionTestReducers'
+import ProjectConnectionTestSelectors from './projectConnection/ProjectConnectionTestSelectors'
+
 import ResourceActions from './resource/ResourceActions'
 import ResourceReducers from './resource/ResourceReducers'
 import ResourceSelectors from './resource/ResourceSelectors'
@@ -19,6 +23,10 @@ export default {
   ProjectConnectionActions,
   ProjectConnectionReducers,
   ProjectConnectionSelectors,
+
+  ProjectConnectionTestActions,
+  ProjectConnectionTestReducers,
+  ProjectConnectionTestSelectors,
 
   ResourceActions,
   ResourceReducers,

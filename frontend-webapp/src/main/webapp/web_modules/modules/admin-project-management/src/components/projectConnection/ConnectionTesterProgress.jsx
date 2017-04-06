@@ -10,9 +10,7 @@ import { FormattedMessage } from 'react-intl'
  *
  * @author Xavier-Alexandre Brochard
  */
-const ConnectionTesterProgress = ({
-  value,
-}) => (
+const ConnectionTesterProgress = () => (
   <div style={{ display: 'inline-block' }}>
     <div
       style={{
@@ -29,7 +27,7 @@ const ConnectionTesterProgress = ({
           width: 100,
         }}
       />
-      <LinearProgress mode="determinate" value={value} />
+      <LinearProgress mode="indeterminate" />
     </div>
   </div>)
 

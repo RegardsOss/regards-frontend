@@ -12,7 +12,7 @@ class OnHoverSwitchIconButton extends React.Component {
 
   static propTypes = {
     children: React.PropTypes.element,
-    onTouchTap: React.PropTypes.func,
+    onTouchTap: React.PropTypes.arrayOf(React.PropTypes.func),
   }
 
   constructor(props, context) {
@@ -35,10 +35,12 @@ class OnHoverSwitchIconButton extends React.Component {
   }
 
   render() {
-    const { children, ...otherProps } = this.props
+    const { children,  onTouchTap } = this.props
     return (
       <span onMouseEnter={this.handleOnMouseEnter} onMouseLeave={this.handleOnMouseLeave}>
-        <IconButton {...otherProps}>
+        <IconButton
+          onTouchTap={onTouchTap[this.state.usedPropIndex]}
+        >
           {children[this.state.usedPropIndex]}
         </IconButton>
       </span >
