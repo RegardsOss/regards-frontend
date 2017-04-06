@@ -1,13 +1,14 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { map, merge } from 'lodash'
+import map from 'lodash/map'
+import merge from 'lodash/merge'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { themeContextType } from '@regardsoss/theme'
 import MenuItem from 'material-ui/MenuItem'
 import { FormattedMessage } from 'react-intl'
-import { ShowableAtRender, CardActionsComponent } from '@regardsoss/components'
 import { reduxForm } from 'redux-form'
+import { ShowableAtRender, CardActionsComponent } from '@regardsoss/components'
 import { RenderTextField, RenderSelectField, Field, RenderCheckbox, ErrorTypes } from '@regardsoss/form-utils'
 import { ModuleShape, AvailableModules } from '@regardsoss/modules'
 import DynamicModuleFormComponent from './DynamicModuleFormComponent'
@@ -60,7 +61,16 @@ class ModuleFormComponent extends React.Component {
   }
 
   handleInitialize = () => {
-    this.props.initialize({ ...this.state.module })
+    if (this.props.module) {
+      console.log('Initialize')
+      const initializeModule = Object.assign({},
+        {
+          applicationId: this.props.applicationId,
+          active: false,
+          isDefault: false,
+        }, this.state.module)
+      this.props.initialize(initializeModule)
+    }
   }
 
   selectModuleType = (event, index, value, input) => {
@@ -112,6 +122,7 @@ class ModuleFormComponent extends React.Component {
         label={<FormattedMessage id="module.form.description" />}
       />
       <Field
+        style={{ marginBottom: 15 }}
         name="container"
         fullWidth
         component={RenderSelectField}
@@ -190,14 +201,22 @@ class ModuleFormComponent extends React.Component {
   }
 }
 
-function validate(values) {
+const validate = (values) => {
   const errors = {}
-  if (values.name === '') {
+
+  if (!values.name || values.name === '') {
     errors.name = ErrorTypes.REQUIRED
   }
-  if (values.description === '') {
+  if (!values.description || values.description === '') {
     errors.description = ErrorTypes.REQUIRED
   }
+  if (!values.container || values.container === '') {
+    errors.container = ErrorTypes.REQUIRED
+  }
+  if (!values.applicationId || values.applicationId === '') {
+    errors.applicationId = ErrorTypes.REQUIRED
+  }
+  console.log('validate', values, errors)
   return errors
 }
 

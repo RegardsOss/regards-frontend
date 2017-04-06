@@ -4,7 +4,7 @@
 import { RadioButtonGroup } from 'material-ui/RadioButton'
 import { themeContextType } from '@regardsoss/theme'
 
-const RenderRadio = ({ input, onSelect, defaultSelected, children, meta: { error }, intl }, { muiTheme }) => (
+const RenderRadio = ({ input, onSelect, defaultSelected, children, meta: { touched, error }, intl }, { muiTheme }) => (
   <div>
     <RadioButtonGroup
       {...input}
@@ -18,7 +18,7 @@ const RenderRadio = ({ input, onSelect, defaultSelected, children, meta: { error
     >
       {children}
     </RadioButtonGroup>
-    {error && (<span style={{ color: muiTheme.palette.errorColor }}>{intl.formatMessage({ id: error })}</span>)}
+    {touched && error && (<span style={{ color: muiTheme.palette.errorColor }}>{intl.formatMessage({ id: error })}</span>)}
   </div>
   )
 RenderRadio.contextTypes = {

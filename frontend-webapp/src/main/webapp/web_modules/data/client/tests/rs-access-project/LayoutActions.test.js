@@ -1,12 +1,14 @@
 import { ReduxEntityTester } from '@regardsoss/tests-helpers'
 import { Layout } from '@regardsoss/model'
-import LayoutActions from '../../src/model/layout/LayoutActions'
-import LayoutReducer from '../../src/model/layout/LayoutReducer'
-import LayoutSelector from '../../src/model/layout/LayoutSelector'
-import MockResponse from './mockLayoutsResponse'
+import { AccessProjectClient } from '../../src/main'
+import LayoutListDump from './LayoutList.dump'
 
-const backendServerResultList = MockResponse
+const backendServerResultList = LayoutListDump
 const options = {}
+
+const LayoutActions = AccessProjectClient.LayoutActions('test/action')
+const LayoutReducer = AccessProjectClient.LayoutReducers('test/action')
+const LayoutSelector = AccessProjectClient.LayoutSelectors(['test', 'modules'])
 
 const entityTester = new ReduxEntityTester(LayoutActions, LayoutReducer, LayoutSelector, React.PropTypes.objectOf(Layout).isRequired, backendServerResultList, options)
 

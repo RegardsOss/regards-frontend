@@ -1,15 +1,16 @@
 import { ReduxEntityTester } from '@regardsoss/tests-helpers'
 import { Module } from '@regardsoss/model'
-import ModulesActions from '../../src/model/modules/ModulesActions'
-import ModulesReducer from '../../src/model/modules/ModulesReducer'
-import ModulesSelector from '../../src/model/modules/ModulesSelector'
-import MockResponse from './mockModulesResponse'
+import { AccessProjectClient } from '../../src/main'
+import ModulesListDump from './ModulesList.dump'
 
-const backendServerResultList = MockResponse
+const backendServerResultList = ModulesListDump
 const options = {
   urlParams: { applicationId: 'user' },
 }
 
+const ModulesActions = AccessProjectClient.ModuleActions('test/action')
+const ModulesReducer = AccessProjectClient.ModuleReducers('test/action')
+const ModulesSelector = AccessProjectClient.ModuleSelectors(['test', 'modules'])
 const entityTester = new ReduxEntityTester(ModulesActions, ModulesReducer, ModulesSelector, React.PropTypes.objectOf(Module).isRequired, backendServerResultList, options)
 
 /**

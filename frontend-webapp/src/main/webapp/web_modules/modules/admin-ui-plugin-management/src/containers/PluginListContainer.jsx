@@ -39,28 +39,26 @@ class PluginListContainer extends React.Component {
     this.props.fetchPlugins()
   }
 
-  handleEditPlugin = (plugin) => {
-    const { params: { project } } = this.props
-    const url = `/admin/${project}/ui/plugin/${plugin.id}/edit`
-    browserHistory.push(url)
-  }
-  handleCreatePlugin = () => {
-    const { params: { project } } = this.props
-    const url = `/admin/${project}/ui/plugin/create`
-    browserHistory.push(url)
-  }
 
   getBackUrl = () => {
     const { params: { project } } = this.props
     return `/admin/${project}/ui/board`
   }
 
-  openDeleteDialogConfirm = (plugin) => {
-
+  handleCreatePlugin = () => {
+    const { params: { project } } = this.props
+    const url = `/admin/${project}/ui/plugin/create`
+    browserHistory.push(url)
   }
 
   handleDeletePlugin = (plugin) => {
     this.props.deletePlugin(plugin)
+  }
+
+  handleEditPlugin = (plugin) => {
+    const { params: { project } } = this.props
+    const url = `/admin/${project}/ui/plugin/${plugin.id}/edit`
+    browserHistory.push(url)
   }
 
   render() {

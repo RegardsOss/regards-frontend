@@ -25,6 +25,8 @@ const messages = Object.assign({
   'application.theme.save.success': 'Le thème a été mis à jour',
   'application.theme.save.error': 'Le thème n\'a pas pu être mis à jour',
 
+  'application.theme.default.create.message': 'Aucun theme existant. Veuillez utiliser le boutton du dessus pour ajouter un nouveau theme et commencer sa configuration.',
+
   'application.theme.remove.tooltip': 'Supprimer',
   'application.theme.remove.confirm': 'Supprimer le thème?',
   'application.theme.remove.confirm.cancel': 'Annuler',

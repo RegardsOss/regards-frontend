@@ -6,6 +6,7 @@ import find from 'lodash/find'
 import { Card, CardTitle, CardText } from 'material-ui/Card'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
 import WarningIcon from 'material-ui/svg-icons/alert/warning'
+import ErrorIcon from 'material-ui/svg-icons/alert/error'
 import CheckedIcon from 'material-ui/svg-icons/action/check-circle'
 import IconButton from 'material-ui/IconButton'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
@@ -29,6 +30,8 @@ export class ProjectConnectionListComponent extends React.Component {
     projectConnections: ProjectConnectionList.isRequired,
     onEdit: React.PropTypes.func.isRequired,
     onCreate: React.PropTypes.func.isRequired,
+    onTestConnection: React.PropTypes.func.isRequired,
+    refreshConnection: React.PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -64,7 +67,7 @@ export class ProjectConnectionListComponent extends React.Component {
         <Edit hoverColor={style.hoverButtonEdit} />
       </IconButton>
     )
-    if (connection) {
+    if (connection && connection.content.enabled) {
       editAction = (
         <IconButton onTouchTap={() => onEdit(connection.content.id)}>
           <Edit hoverColor={style.hoverButtonEdit} />
@@ -82,9 +85,31 @@ export class ProjectConnectionListComponent extends React.Component {
         </span>
       )
       tester = (<DatabaseConnectionTesterIconButton
-        project={project}
-        microserviceName={microserviceName}
         projectConnection={connection}
+        testConnection={this.props.onTestConnection}
+        refreshConnection={this.props.refreshConnection}
+      />)
+    } else if (connection && !connection.content.enabled) {
+      editAction = (
+        <IconButton onTouchTap={() => onEdit(connection.content.id)}>
+          <Edit hoverColor={style.hoverButtonEdit} />
+        </IconButton>
+      )
+      status = (
+        <span style={{ display: 'flex', alignItems: 'center' }}>
+          <ErrorIcon
+            style={{
+              marginRight: 5,
+              color: 'Green',
+            }}
+          />
+          <FormattedMessage id="project.connection.is.not.valid" />
+        </span>
+      )
+      tester = (<DatabaseConnectionTesterIconButton
+        projectConnection={connection}
+        testConnection={this.props.onTestConnection}
+        refreshConnection={this.props.refreshConnection}
       />)
     }
     return (

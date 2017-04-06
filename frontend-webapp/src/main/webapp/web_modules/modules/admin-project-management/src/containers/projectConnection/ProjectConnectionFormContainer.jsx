@@ -71,7 +71,7 @@ export class ProjectConnectionFormContainer extends React.Component {
   }
 
   handleBack = () => {
-    this.handleBack()
+    browserHistory.push(`/admin/projects/${this.props.params.project_name}/connections`)
   }
 
   render() {

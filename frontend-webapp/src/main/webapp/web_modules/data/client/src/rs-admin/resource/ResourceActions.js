@@ -18,23 +18,18 @@ import { BasicPageableActions } from '@regardsoss/store-utils'
  *
  * @author Sébastien Binda
  */
-class ProjectConnectionActions extends BasicPageableActions {
 
-  /**
-   * Constructor
-   * @param namespace
-   */
+class ResourceActions extends BasicPageableActions {
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-admin/projects/{projectName}/connections`,
-      entityPathVariable: 'connectionId',
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-admin/resources`,
       schemaTypes: {
-        ENTITY: Schemas.PROJECT_CONNECTION,
-        ENTITY_ARRAY: Schemas.PROJECT_CONNECTION_ARRAY,
+        ENTITY: Schemas.RESOURCE_ACCESS,
+        ENTITY_ARRAY: Schemas.RESOURCE_ACCESS_ARRAY,
       },
     })
   }
 }
 
-export default namespace => new ProjectConnectionActions(namespace)
+export default namespace => new ResourceActions(namespace)

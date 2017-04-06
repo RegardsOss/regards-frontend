@@ -9,11 +9,8 @@ import { connect } from '@regardsoss/redux'
 import { Module, Layout } from '@regardsoss/model'
 import { ContainerHelper } from '@regardsoss/layout'
 import FormShape from '../model/FormShape'
-import ModulesActions from '../model/modules/ModulesActions'
-import ModulesSelector from '../model/modules/ModulesSelector'
-import LayoutSelector from '../model/layout/LayoutSelector'
-import LayoutActions from '../model/layout/LayoutActions'
 import ModuleFormComponent from '../components/ModuleFormComponent'
+import NoContainerAvailables from '../components/NoContainerAvailables'
 
 /**
  * React component to display a edition form for Module entity
@@ -29,11 +26,11 @@ class ModuleFormContainer extends React.Component {
       module_id: React.PropTypes.string,
       duplicate_module_id: React.PropTypes.string,
     }),
-    // Set by mapDispatchToProps
     updateModule: React.PropTypes.func,
     createModule: React.PropTypes.func,
     fetchModule: React.PropTypes.func,
     fetchLayout: React.PropTypes.func,
+    isInstance: React.PropTypes.bool,
     // Set by mapStateToProps
     isFetching: React.PropTypes.bool,
     module: Module,
@@ -70,23 +67,58 @@ class ModuleFormContainer extends React.Component {
   }
 
   handleCreate = (values) => {
-    const submitModel = Object.assign({}, values)
+    const defaultProps = {
+      applicationId: this.props.params.applicationId,
+      active: false,
+      isDefault: false,
+      conf: '{}',
+    }
+    const submitModel = Object.assign({}, defaultProps, values)
     Promise.resolve(this.props.createModule(this.props.params.applicationId, submitModel))
-      .then(this.handleBack)
+      .then((actionResult) => {
+        // We receive here the action
+        if (!actionResult.error) {
+          this.handleBack()
+        }
+      })
   }
 
   handleUpdate = (values) => {
-    const submitModel = Object.assign({}, this.props.module, values)
+    const defaultProps = {
+      applicationId: this.props.params.applicationId,
+      active: false,
+      isDefault: false,
+      conf: '{}',
+    }
+    const submitModel = Object.assign({}, defaultProps, this.props.module, values)
     Promise.resolve(this.props.updateModule(this.props.params.applicationId, submitModel))
-      .then(this.handleBack)
+      .then((actionResult) => {
+        // We receive here the action
+        if (!actionResult.error) {
+          this.handleBack()
+        }
+      })
   }
 
   handleBack = () => {
     const { params: { project, applicationId } } = this.props
-    browserHistory.push(`/admin/${project}/ui/module/${applicationId}/list`)
+    if (this.props.isInstance) {
+      browserHistory.push(`/admin/ui/module/${applicationId}/list`)
+    } else {
+      browserHistory.push(`/admin/${project}/ui/module/${applicationId}/list`)
+    }
   }
 
-  render() {
+  goToLayoutConfiguration = () => {
+    const { params: { project, applicationId } } = this.props
+    if (this.props.isInstance) {
+      browserHistory.push(`/admin/ui/layout/${applicationId}`)
+    } else {
+      browserHistory.push(`/admin/${project}/layout/${applicationId}`)
+    }
+  }
+
+  renderComponent() {
     if (this.props.params.module_id && !this.props.module && this.props.isFetching) {
       return (<FormLoadingComponent />)
     }
@@ -112,8 +144,14 @@ class ModuleFormContainer extends React.Component {
     }
 
     let availablecontainers = []
-    if (this.props.layout && this.props.layout.layout) {
+    if (this.props.layout) {
       availablecontainers = ContainerHelper.getAvailableContainersInLayout(this.props.layout.layout)
+    }
+
+    if (availablecontainers.length === 0) {
+      return (<NoContainerAvailables
+        goToLayoutConfiguration={this.goToLayoutConfiguration}
+      />)
     }
 
     return (
@@ -134,21 +172,25 @@ class ModuleFormContainer extends React.Component {
       </I18nProvider>
     )
   }
+
+  render() {
+    return (
+      <I18nProvider messageDir="modules/admin-ui-module-management/src/i18n">
+        {this.renderComponent()}
+      </I18nProvider>
+    )
+  }
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  module: ownProps.params.module_id ? ModulesSelector.getContentById(state, ownProps.params.module_id) : null,
-  duplicatedModule: ownProps.params.duplicate_module_id ? ModulesSelector.getContentById(state, ownProps.params.duplicate_module_id) : null,
-  layout: ownProps.params.applicationId ? LayoutSelector.getContentById(state, ownProps.params.applicationId) : null,
-  isFetching: ModulesSelector.isFetching(state),
+  module: ownProps.params.module_id ? ownProps.moduleSelectors.getContentById(state, ownProps.params.module_id) : null,
+  duplicatedModule: ownProps.params.duplicate_module_id ? ownProps.moduleSelectors.getContentById(state, ownProps.params.duplicate_module_id) : null,
+  layout: ownProps.params.applicationId ? ownProps.layoutSelectors.getContentById(state, ownProps.params.applicationId) : null,
+  isFetching: ownProps.moduleSelectors.isFetching(state),
   form: getFormValues('edit-module-form')(state),
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchModule: (applicationId, moduleId) => dispatch(ModulesActions.fetchEntity(moduleId, { applicationId })),
-  fetchLayout: applicationId => dispatch(LayoutActions.fetchEntity(applicationId)),
-  updateModule: (applicationId, module) => dispatch(ModulesActions.updateEntity(module.id, module, { applicationId })),
-  createModule: (applicationId, module) => dispatch(ModulesActions.createEntity(module, { applicationId })),
   changeField: (field, value) => dispatch(change('edit-module-form', field, value)),
 })
 

@@ -2,8 +2,10 @@
 * LICENSE_PLACEHOLDER
 **/
 import { combineReducers } from 'redux'
-import getModulesReducer from './model/modules/ModulesReducer'
-import getLayoutReducer from './model/layout/LayoutReducer'
+import { moduleReducers } from './client/ModuleClient'
+import { moduleInstanceReducers } from './client/ModuleInstanceClient'
+import { layoutReducers } from './client/LayoutClient'
+import { layoutInstanceReducers } from './client/LayoutInstanceClient'
 
 /**
  * UI-Configuration module reducers
@@ -11,8 +13,10 @@ import getLayoutReducer from './model/layout/LayoutReducer'
  * @author Sébastien binda
  */
 const uiConfigurationtReducer = combineReducers({
-  layout: getLayoutReducer,
-  module: getModulesReducer,
+  modules: moduleReducers,
+  'modules-instance': moduleInstanceReducers,
+  layouts: layoutReducers,
+  'layouts-instance': layoutInstanceReducers,
 })
 
 export default uiConfigurationtReducer

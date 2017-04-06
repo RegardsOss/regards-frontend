@@ -27,6 +27,7 @@ class DatabaseConnectionTester extends React.Component {
 
   static propTypes = {
     projectConnection: ProjectConnection.isRequired,
+    testConnection: React.PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -60,31 +61,22 @@ class DatabaseConnectionTester extends React.Component {
   handleTouchTap = () => {
     this.setState({
       status: EnumConnectivity.PENDING,
+      completed: 0,
       snackBarOpen: false,
+    },() => {
+      Promise.resolve(this.props.testConnection(this.props.projectConnection))
+        .then((ActionResult) => {
+          if (ActionResult) {
+            const result = ActionResult.error ? EnumConnectivity.ERROR : EnumConnectivity.SUCCESS
+            this.setState({
+              status: result,
+              completed: 100,
+              snackBarOpen: true,
+              snackBarMessageId: this.getSnackBarMessageId(result),
+            })
+          }
+        })
     })
-    // Make API call instead
-    this.progress(0)
-    const possibleResultStates = [EnumConnectivity.SUCCESS, EnumConnectivity.ERROR]
-    const randomResult = possibleResultStates[Math.floor(Math.random() * possibleResultStates.length)]
-    setTimeout(() => {
-      this.setState({
-        status: randomResult,
-        completed: 0,
-        snackBarOpen: true,
-        snackBarMessageId: this.getSnackBarMessageId(randomResult),
-      })
-      clearTimeout(this.timer)
-    }, 1000)
-  }
-
-  progress(completed) {
-    if (completed > 100) {
-      this.setState({ completed: 100 })
-    } else {
-      this.setState({ completed })
-      const diff = Math.random() * 10
-      setTimeout(() => this.progress(completed + diff), 10)
-    }
   }
 
   handleSnackbarRequestClose = () => {

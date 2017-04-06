@@ -14,7 +14,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { HateoasIconAction, HateoasToggle, HateoasKeys } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import ModulesActions from '../model/modules/ModulesActions'
+import { moduleActions } from '../client/ModuleClient'
 
 /**
  * React component to display a given list of modules
@@ -153,7 +153,7 @@ class ModuleListComponent extends React.Component {
                 id="modules.list.action.add"
               />
             }
-            mainHateoasDependency={ModulesActions.getDependency(RequestVerbEnum.POST)}
+            mainHateoasDependency={moduleActions.getDependency(RequestVerbEnum.POST)}
             secondaryButtonLabel={<FormattedMessage id="layout.cancel" />}
             secondaryButtonUrl={this.props.backUrl}
           />

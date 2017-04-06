@@ -46,6 +46,9 @@ const messages = Object.assign({
   'module.form.submit.button': 'Create module',
   'module.form.update.button': 'Update module',
   'module.form.cancel.button': 'Cancel',
+  'module.no.container.available.title': 'Modules configuration is not available yet',
+  'module.no.container.available': 'No container available. Please create a layout before adding modules',
+  'module.no.container.available.configure.layout': 'Configure interface containers',
   'invalid.json': 'Invalid json file',
   'application.theme.title': 'Configure the theme',
 

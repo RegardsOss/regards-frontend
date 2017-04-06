@@ -28,6 +28,7 @@ class BasicListActions extends BasicActions {
       ENTITY_ARRAY: options.schemaTypes.ENTITY_ARRAY,
     }
     this.ENTITY_REQUEST = `${options.namespace}/REQUEST`
+    this.ENTITY_REQUEST_SILENT = `${options.namespace}/REQUEST_SILENT`
     this.ENTITY_SUCCESS = `${options.namespace}/SUCCESS`
     this.ENTITY_FAILURE = `${options.namespace}/FAILURE`
     this.DELETE_ENTITY_SUCCESS = `${options.namespace}/DELETE_SUCCESS`
@@ -91,6 +92,26 @@ class BasicListActions extends BasicActions {
       [CALL_API]: {
         types: [
           this.ENTITY_REQUEST,
+          {
+            type: this.ENTITY_SUCCESS,
+            payload: (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntityPayload(json)),
+          },
+          this.buildFailureAction(this.ENTITY_FAILURE),
+        ],
+        endpoint,
+        method: 'GET',
+      },
+    }
+  }
+
+  fetchSilentEntity(keyValue, pathParams, queryParams) {
+    let endpoint = this.handleRequestPathParameters(this.entityEndpoint, pathParams)
+    endpoint = `${endpoint}/${keyValue}`
+    endpoint = this.handleRequestQueryParams(endpoint, queryParams)
+    return {
+      [CALL_API]: {
+        types: [
+          this.ENTITY_REQUEST_SILENT,
           {
             type: this.ENTITY_SUCCESS,
             payload: (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntityPayload(json)),

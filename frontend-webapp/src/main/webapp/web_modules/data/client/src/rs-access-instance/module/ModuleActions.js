@@ -29,8 +29,8 @@ class ModuleActions extends BasicPageableActions {
       namespace,
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-access-instance/applications/{applicationId}/modules`,
       schemaTypes: {
-        ENTITY: Schemas.PROJECT,
-        ENTITY_ARRAY: Schemas.PROJECT_ARRAY,
+        ENTITY: Schemas.MODULE,
+        ENTITY_ARRAY: Schemas.MODULE_ARRAY,
       },
     })
   }

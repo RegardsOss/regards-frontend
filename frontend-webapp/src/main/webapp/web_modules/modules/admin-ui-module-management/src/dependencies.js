@@ -2,8 +2,8 @@
  * LICENSE_PLACEHOLDER
  **/
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import ModulesActions from './model/modules/ModulesActions'
-import LayoutActions from './model/layout/LayoutActions'
+import { moduleActions } from './client/ModuleClient'
+import { layoutActions } from './client/LayoutClient'
 
 /**
  * Module dependencies descriptions
@@ -11,13 +11,13 @@ import LayoutActions from './model/layout/LayoutActions'
  */
 
 const boardAddRequiredDependencies = [
-  ModulesActions.getDependency(RequestVerbEnum.POST),
-  ModulesActions.getDependency(RequestVerbEnum.GET),
-  LayoutActions.getDependency(RequestVerbEnum.GET),
+  moduleActions.getDependency(RequestVerbEnum.POST),
+  moduleActions.getDependency(RequestVerbEnum.GET),
+  layoutActions.getDependency(RequestVerbEnum.GET),
 ]
 
 const boardListRequiredDependencies = [
-  ModulesActions.getDependency(RequestVerbEnum.GET_LIST),
+  moduleActions.getDependency(RequestVerbEnum.GET_LIST),
 ]
 
 export default {

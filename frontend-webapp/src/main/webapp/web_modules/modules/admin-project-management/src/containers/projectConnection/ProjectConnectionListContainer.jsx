@@ -2,14 +2,15 @@
  * LICENSE_PLACEHOLDER
  */
 import keys from 'lodash/keys'
-import { connect } from '@regardsoss/redux'
-import { browserHistory } from 'react-router'
-import { I18nProvider } from '@regardsoss/i18n'
-import { Project, ProjectConnection } from '@regardsoss/model'
-import { LoadingComponent } from '@regardsoss/display-control'
-import { FormEntityNotFoundComponent } from '@regardsoss/form-utils'
-import { projectActions, projectSelectors } from '../../client/ProjectClient'
-import { projectConnectionActions, projectConnectionSelectors } from '../../client/ProjectConnectionClient'
+import {connect} from '@regardsoss/redux'
+import {browserHistory} from 'react-router'
+import {I18nProvider} from '@regardsoss/i18n'
+import {Project, ProjectConnection} from '@regardsoss/model'
+import {LoadableContentDisplayDecorator} from '@regardsoss/display-control'
+import {FormEntityNotFoundComponent} from '@regardsoss/form-utils'
+import {projectActions, projectSelectors} from '../../client/ProjectClient'
+import {projectConnectionActions, projectConnectionSelectors} from '../../client/ProjectConnectionClient'
+import {projectConnectionTestActions} from '../../client/ProjectConnectionTestClient'
 import ProjectConnectionListComponent from '../../components/projectConnection/ProjectConnectionListComponent'
 
 /**
@@ -32,6 +33,8 @@ export class ProjectConnectionListContainer extends React.Component {
     // from mapDispatchToProps
     fetchProject: React.PropTypes.func.isRequired,
     fetchProjectConnections: React.PropTypes.func,
+    fetchProjectConnection: React.PropTypes.func,
+    testProjectConnection: React.PropTypes.func,
   }
 
   componentWillMount() {
@@ -58,26 +61,39 @@ export class ProjectConnectionListContainer extends React.Component {
     browserHistory.push(url)
   }
 
+  handleTestConnection = (projectConnection) => {
+    if (!projectConnection || !projectConnection.content || ! projectConnection.content.project
+    || ! projectConnection.content.id || !projectConnection.content.project.name) {
+      throw new Exception("Invalid connection to test")
+    }
+    const project = projectConnection.content.project
+    return this.props.testProjectConnection(project.name, projectConnection.content.id)
+  }
+
+  handleRefreshConnection = (connectionId) => {
+    this.props.fetchProjectConnection(this.props.project.content.name, connectionId)
+  }
+
   render() {
-    const { projectConnections } = this.props
-
-    if (this.props.projectIsFetching || this.props.projectConnectionsIsFetching) {
-      return <LoadingComponent />
-    }
-
-    if (!this.props.project) {
-      return <FormEntityNotFoundComponent />
-    }
+    const {projectConnections} = this.props
 
     return (
       <I18nProvider messageDir="modules/admin-project-management/src/i18n">
+        <LoadableContentDisplayDecorator
+          isLoading={this.props.projectIsFetching || this.props.projectConnectionsIsFetching}
+          isContentError={!this.props.project}
+        >
         <ProjectConnectionListComponent
+          key={`project-connections-${this.props.project}`}
           project={this.props.project}
           projectConnections={projectConnections}
           onClose={this.handleClose}
           onEdit={this.handleEdit}
           onCreate={this.handleCreate}
+          onTestConnection={this.handleTestConnection}
+          refreshConnection={this.handleRefreshConnection}
         />
+        </LoadableContentDisplayDecorator>
       </I18nProvider>
     )
   }
@@ -93,9 +109,14 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchProject: projectName => dispatch(projectActions.fetchEntity(projectName)),
-  fetchProjectConnections: projectName => dispatch(projectConnectionActions.fetchPagedEntityList(0, 0, {
-    projectName,
-  })),
+  fetchProjectConnections: projectName =>
+    dispatch(projectConnectionActions.fetchPagedEntityList(0, 0, {
+      projectName,
+    })),
+  fetchProjectConnection: (projectName, connectionId) =>
+    dispatch(projectConnectionActions.fetchSilentEntity(connectionId,{projectName: projectName})),
+  testProjectConnection: (projectName, connectionId) =>
+    dispatch(projectConnectionTestActions.test(projectName, connectionId))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectConnectionListContainer)

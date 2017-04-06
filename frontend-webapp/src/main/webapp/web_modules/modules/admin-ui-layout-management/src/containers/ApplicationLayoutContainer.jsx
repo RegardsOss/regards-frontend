@@ -33,22 +33,15 @@ export class ApplicationLayoutContainer extends React.Component {
     fetchLayout: React.PropTypes.func,
     fetchInstanceLayout: React.PropTypes.func,
     updateLayout: React.PropTypes.func,
-
-  }
-
-  state = {
-    isLoading: true,
+    updateInstanceLayout: React.PropTypes.func,
   }
 
   componentWillMount() {
-    const task = this.props.isInstance ? this.props.fetchInstanceLayout(this.props.params.applicationId) :
+    if (this.props.isInstance) {
+      this.props.fetchInstanceLayout(this.props.params.applicationId)
+    } else {
       this.props.fetchLayout(this.props.params.applicationId)
-    Promise.resolve(task)
-      .then(() => {
-        this.setState({
-          isLoading: false,
-        })
-      })
+    }
   }
 
   /**
@@ -72,28 +65,48 @@ export class ApplicationLayoutContainer extends React.Component {
    * @param values
    */
   handleSubmit = (values) => {
-    Promise.resolve(this.props.updateLayout(this.props.layout.content.id,
-      {
-        id: this.props.layout.content.id,
-        layout: values.layout,
-      },
-    ))
-      .then(() => {
-        browserHistory.push(this.getBackUrl())
-      })
+    const action = this.props.isInstance ? this.props.updateInstanceLayout : this.props.updateLayout
+    try {
+      const layoutString = JSON.stringify(values.layout)
+      Promise.resolve(action(this.props.layout.content.id,
+        {
+          id: this.props.layout.content.id,
+          applicationId: this.props.layout.content.applicationId,
+          layout: layoutString,
+        },
+      ))
+        .then((actionResult) => {
+          // We receive here the action
+          if (!actionResult.error) {
+            browserHistory.push(this.getBackUrl())
+          }
+        })
+    } catch (e) {
+      console.error('internal error during layout json object stringify for ', values.layout)
+    }
+  }
+
+  displayLayout = () => {
+    if (this.props.layout) {
+      return (
+        <ApplicationLayoutComponent
+          layout={this.props.layout.content.layout}
+          onSubmit={this.handleSubmit}
+          onCancel={this.handleCancel}
+        />
+      )
+    }
+    return null
   }
 
   render() {
-    const { isLoading } = this.state
-
     return (
       <I18nProvider messageDir="modules/admin-ui-layout-management/src/i18n">
-        <LoadableContentDisplayDecorator isLoading={isLoading}>
-          {() => (<ApplicationLayoutComponent
-            layout={this.props.layout.content.layout}
-            onSubmit={this.handleSubmit}
-            onCancel={this.handleCancel}
-          />)}
+        <LoadableContentDisplayDecorator
+          isLoading={this.props.isFetching}
+          isContentError={!this.props.isFetching && !this.props.layout}
+        >
+          {this.displayLayout()}
         </LoadableContentDisplayDecorator>
       </I18nProvider>
     )
