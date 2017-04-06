@@ -4,6 +4,7 @@ import MainActionButtonComponent from './MainActionButtonComponent'
 
 class CardActionsView extends React.Component {
   static propTypes = {
+    secondaryButtonId: React.PropTypes.string,
     secondaryButtonLabel: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.element]),
     secondaryButtonUrl: React.PropTypes.string,
     secondaryButtonTouchTap: React.PropTypes.func,
@@ -11,6 +12,7 @@ class CardActionsView extends React.Component {
     isSecondaryButtonVisible: React.PropTypes.bool,
     secondaryHateoasDependency: React.PropTypes.string,
 
+    mainButtonId: React.PropTypes.string,
     mainButtonLabel: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.element]).isRequired,
     mainButtonUrl: React.PropTypes.string,
     mainButtonTouchTap: React.PropTypes.func,
@@ -43,6 +45,7 @@ class CardActionsView extends React.Component {
         requiredEndpoints={this.props.secondaryHateoasDependency ? [this.props.secondaryHateoasDependency] : []}
       >
         <SecondaryActionButtonComponent
+          id={this.props.secondaryButtonId}
           label={this.props.secondaryButtonLabel}
           url={this.props.secondaryButtonUrl}
           onTouchTap={this.props.secondaryButtonTouchTap}
@@ -58,6 +61,7 @@ class CardActionsView extends React.Component {
           requiredEndpoints={this.props.mainHateoasDependency ? [this.props.mainHateoasDependency] : []}
         >
           <MainActionButtonComponent
+            id={this.props.mainButtonId}
             label={this.props.mainButtonLabel}
             url={this.props.mainButtonUrl}
             onTouchTap={this.props.mainButtonTouchTap}

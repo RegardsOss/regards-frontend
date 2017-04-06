@@ -159,7 +159,7 @@ export class ProjectListComponent extends React.Component {
               showRowHover
             >
               {map(projectList, (project, i) => (
-                <TableRow key={i}>
+                <TableRow id={project.content.name} key={i}>
                   <TableRowColumn style={styles.tableRow} className="col-md-13">{project.content.name}</TableRowColumn>
                   <TableRowColumn style={styles.tableRow} className="col-md-25">
                     <abbr style={styles.abbr} title={project.content.description}>
@@ -218,6 +218,7 @@ export class ProjectListComponent extends React.Component {
         </CardText>
         <CardActions>
           <CardActionsComponent
+            mainButtonId="addButton"
             mainButtonUrl={createUrl}
             mainButtonLabel={
               <FormattedMessage

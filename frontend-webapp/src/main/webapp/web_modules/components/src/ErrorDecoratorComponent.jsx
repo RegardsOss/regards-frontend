@@ -14,7 +14,7 @@ class ErrorDecoratorComponent extends React.Component {
       color: this.context.muiTheme.textField.errorColor,
     }
     return (
-      <span style={errorStyle}>
+      <span className="errorMessage" style={errorStyle}>
         { this.props.children }
       </span>
     )

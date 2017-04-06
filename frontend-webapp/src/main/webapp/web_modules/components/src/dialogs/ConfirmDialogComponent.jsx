@@ -45,6 +45,7 @@ class ConfirmDialogComponent extends React.Component {
     const { title, message, onClose, dialogType } = this.props
     const actions = [
       <FlatButton
+        id="confirmDialogButton"
         label={<FormattedMessage id={dialogType.messageId} />}
         onTouchTap={this.handleDelete}
       />,
