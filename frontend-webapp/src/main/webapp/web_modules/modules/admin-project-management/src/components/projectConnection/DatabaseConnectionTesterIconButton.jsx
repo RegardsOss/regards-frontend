@@ -50,10 +50,10 @@ class DatabaseConnectionTesterIconButton extends React.Component {
     }, () => {
       Promise.resolve(this.props.testConnection(this.props.projectConnection))
       .then((ActionResult) => {
-        console.log("TEST",ActionResult)
+        console.log('TEST', ActionResult)
         if (ActionResult) {
           const result = ActionResult.error ? EnumConnectivity.ERROR : EnumConnectivity.SUCCESS
-          console.log("new State", result)
+          console.log('new State', result)
           this.setState({
             status: result,
             completed: 100,
@@ -66,7 +66,6 @@ class DatabaseConnectionTesterIconButton extends React.Component {
   }
 
   render() {
-
     const testButton = (
       <IconButton
         label={<FormattedMessage id="database.connectionTester.start" />}

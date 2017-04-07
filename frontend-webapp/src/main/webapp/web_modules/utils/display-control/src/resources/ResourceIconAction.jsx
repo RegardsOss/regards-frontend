@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import {connect} from '@regardsoss/redux'
+import { connect } from '@regardsoss/redux'
 import IconButton from 'material-ui/IconButton'
 import { AuthenticationParametersSelectors } from '@regardsoss/authentication-manager'
 import HateoasDisplayDecorator from './../resources/HateoasDisplayDecorator'

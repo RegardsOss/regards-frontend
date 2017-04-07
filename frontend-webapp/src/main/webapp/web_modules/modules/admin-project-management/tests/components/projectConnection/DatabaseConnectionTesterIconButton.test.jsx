@@ -2,11 +2,7 @@ import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import IconButton from 'material-ui/IconButton'
 import PlayArrow from 'material-ui/svg-icons/av/play-arrow'
-import Check from 'material-ui/svg-icons/navigation/check'
-import Error from 'material-ui/svg-icons/alert/error'
-import Warning from 'material-ui/svg-icons/alert/warning'
 import EnumConnectivity from '@regardsoss/model/src/admin/EnumConnectivity'
-import OnHoverSwitchIconButton from '@regardsoss/components/src/buttons/OnHoverSwitchIconButton'
 import DatabaseConnectionTesterIconButton from '../../../src/components/projectConnection/DatabaseConnectionTesterIconButton'
 import ConnectionTesterProgress from '../../../src/components/projectConnection/ConnectionTesterProgress'
 
@@ -18,7 +14,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing DatabaseConnectionTesterIconButton'
 
   it('should render the test button if connectivity is NOT_TESTED', () => {
     const props = {
-      testConnection: () => {return {error: false}},
+      testConnection: () => ({ error: false }),
       refreshConnection: () => {},
       projectConnection: {
         content: {
@@ -50,7 +46,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing DatabaseConnectionTesterIconButton'
 
   it('should render the test button at render', () => {
     const props = {
-      testConnection: () => {return {error: false}},
+      testConnection: () => ({ error: false }),
       refreshConnection: () => {},
       projectConnection: {
         content: {
@@ -82,8 +78,5 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing DatabaseConnectionTesterIconButton'
     enzymeWrapper.find(IconButton).simulate('touchTap')
 
     expect(enzymeWrapper.find(ConnectionTesterProgress)).to.have.length(1)
-
   })
-
-
 })
