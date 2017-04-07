@@ -63,7 +63,7 @@ class DatabaseConnectionTester extends React.Component {
       status: EnumConnectivity.PENDING,
       completed: 0,
       snackBarOpen: false,
-    },() => {
+    }, () => {
       Promise.resolve(this.props.testConnection(this.props.projectConnection))
         .then((ActionResult) => {
           if (ActionResult) {

@@ -18,6 +18,8 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing DatabaseConnectionTesterIconButton'
 
   it('should render the test button if connectivity is NOT_TESTED', () => {
     const props = {
+      testConnection: () => {return {error: false}},
+      refreshConnection: () => {},
       projectConnection: {
         content: {
           id: 0,
@@ -46,8 +48,10 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing DatabaseConnectionTesterIconButton'
     expect(enzymeWrapper.find(PlayArrow)).to.have.length(1)
   })
 
-  it('should render the success button if connectivity is SUCCESS', () => {
+  it('should render the test button at render', () => {
     const props = {
+      testConnection: () => {return {error: false}},
+      refreshConnection: () => {},
       projectConnection: {
         content: {
           id: 0,
@@ -72,96 +76,14 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing DatabaseConnectionTesterIconButton'
       },
     }
     const enzymeWrapper = shallow(<DatabaseConnectionTesterIconButton {...props} />, options)
-    expect(enzymeWrapper.find(OnHoverSwitchIconButton)).to.have.length(1)
-    expect(enzymeWrapper.find(Check)).to.have.length(1)
-  })
+    expect(enzymeWrapper.find(IconButton)).to.have.length(1)
+    expect(enzymeWrapper.find(PlayArrow)).to.have.length(1)
 
-  it('should render the warning button if connectivity is WARNING', () => {
-    const props = {
-      projectConnection: {
-        content: {
-          id: 0,
-          projectName: 'cdpp',
-          microservice: 'rs-admin',
-          userName: 'Alice',
-          password: 'password',
-          driverClassName: 'PostgreSQL',
-          url: 'http://google.com',
-          connectivity: EnumConnectivity.WARNING,
-        },
-        links: [],
-      },
-    }
-    const options = {
-      context: {
-        muiTheme: {
-          palette: {
-            warningColor: 'orange',
-          },
-        },
-      },
-    }
-    const enzymeWrapper = shallow(<DatabaseConnectionTesterIconButton {...props} />, options)
-    expect(enzymeWrapper.find(OnHoverSwitchIconButton)).to.have.length(1)
-    expect(enzymeWrapper.find(Warning)).to.have.length(1)
-  })
+    enzymeWrapper.find(IconButton).simulate('touchTap')
 
-  it('should render the error button if connectivity is ERROR', () => {
-    const props = {
-      projectConnection: {
-        content: {
-          id: 0,
-          projectName: 'cdpp',
-          microservice: 'rs-admin',
-          userName: 'Alice',
-          password: 'password',
-          driverClassName: 'PostgreSQL',
-          url: 'http://google.com',
-          connectivity: EnumConnectivity.ERROR,
-        },
-        links: [],
-      },
-    }
-    const options = {
-      context: {
-        muiTheme: {
-          palette: {
-            warningColor: 'orange',
-          },
-        },
-      },
-    }
-    const enzymeWrapper = shallow(<DatabaseConnectionTesterIconButton {...props} />, options)
-    expect(enzymeWrapper.find(OnHoverSwitchIconButton)).to.have.length(1)
-    expect(enzymeWrapper.find(Error)).to.have.length(1)
-  })
-
-  it('should render the liner progress if connectivity is PENDING', () => {
-    const props = {
-      projectConnection: {
-        content: {
-          id: 0,
-          projectName: 'cdpp',
-          microservice: 'rs-admin',
-          userName: 'Alice',
-          password: 'password',
-          driverClassName: 'PostgreSQL',
-          url: 'http://google.com',
-          connectivity: EnumConnectivity.PENDING,
-        },
-        links: [],
-      },
-    }
-    const options = {
-      context: {
-        muiTheme: {
-          palette: {
-            warningColor: 'orange',
-          },
-        },
-      },
-    }
-    const enzymeWrapper = shallow(<DatabaseConnectionTesterIconButton {...props} />, options)
     expect(enzymeWrapper.find(ConnectionTesterProgress)).to.have.length(1)
+
   })
+
+
 })

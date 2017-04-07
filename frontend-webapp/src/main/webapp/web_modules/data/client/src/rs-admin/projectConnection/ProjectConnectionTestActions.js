@@ -31,7 +31,7 @@ class ProjectConnectionActions extends BasicSignalActions {
   }
 
   test(projectName, connectionId) {
-    return this.sendSignal('GET',null,{projectName: projectName, connectionId: connectionId}, null)
+    return this.sendSignal('GET', null, { projectName, connectionId }, null)
   }
 }
 

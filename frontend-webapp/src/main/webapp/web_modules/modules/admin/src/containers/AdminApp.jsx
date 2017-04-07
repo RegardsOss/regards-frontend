@@ -110,7 +110,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => ({
   initializeApplication: project => dispatch(AuthenticationParametersActions.applicationStarted(project)),
-  fetchEndpoints: () => dispatch(EndpointActions.fetchPagedEntityList(0, 10000)), // TODO
+  fetchEndpoints: () => dispatch(EndpointActions.fetchPagedEntityList(0, 10000)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AdminApp)
