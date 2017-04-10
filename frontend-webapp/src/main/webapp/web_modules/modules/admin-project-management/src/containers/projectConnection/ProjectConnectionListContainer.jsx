@@ -2,15 +2,14 @@
  * LICENSE_PLACEHOLDER
  */
 import keys from 'lodash/keys'
-import {connect} from '@regardsoss/redux'
-import {browserHistory} from 'react-router'
-import {I18nProvider} from '@regardsoss/i18n'
-import {Project, ProjectConnection} from '@regardsoss/model'
-import {LoadableContentDisplayDecorator} from '@regardsoss/display-control'
-import {FormEntityNotFoundComponent} from '@regardsoss/form-utils'
-import {projectActions, projectSelectors} from '../../client/ProjectClient'
-import {projectConnectionActions, projectConnectionSelectors} from '../../client/ProjectConnectionClient'
-import {projectConnectionTestActions} from '../../client/ProjectConnectionTestClient'
+import { connect } from '@regardsoss/redux'
+import { browserHistory } from 'react-router'
+import { I18nProvider } from '@regardsoss/i18n'
+import { Project, ProjectConnection } from '@regardsoss/model'
+import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
+import { projectActions, projectSelectors } from '../../client/ProjectClient'
+import { projectConnectionActions, projectConnectionSelectors } from '../../client/ProjectConnectionClient'
+import { projectConnectionTestActions } from '../../client/ProjectConnectionTestClient'
 import ProjectConnectionListComponent from '../../components/projectConnection/ProjectConnectionListComponent'
 
 /**
@@ -62,9 +61,9 @@ export class ProjectConnectionListContainer extends React.Component {
   }
 
   handleTestConnection = (projectConnection) => {
-    if (!projectConnection || !projectConnection.content || ! projectConnection.content.project
-    || ! projectConnection.content.id || !projectConnection.content.project.name) {
-      throw new Exception("Invalid connection to test")
+    if (!projectConnection || !projectConnection.content || !projectConnection.content.project
+    || !projectConnection.content.id || !projectConnection.content.project.name) {
+      throw new Error('Invalid connection to test')
     }
     const project = projectConnection.content.project
     return this.props.testProjectConnection(project.name, projectConnection.content.id)
@@ -75,7 +74,7 @@ export class ProjectConnectionListContainer extends React.Component {
   }
 
   render() {
-    const {projectConnections} = this.props
+    const { projectConnections } = this.props
 
     return (
       <I18nProvider messageDir="modules/admin-project-management/src/i18n">
@@ -83,16 +82,16 @@ export class ProjectConnectionListContainer extends React.Component {
           isLoading={this.props.projectIsFetching || this.props.projectConnectionsIsFetching}
           isContentError={!this.props.project}
         >
-        <ProjectConnectionListComponent
-          key={`project-connections-${this.props.project}`}
-          project={this.props.project}
-          projectConnections={projectConnections}
-          onClose={this.handleClose}
-          onEdit={this.handleEdit}
-          onCreate={this.handleCreate}
-          onTestConnection={this.handleTestConnection}
-          refreshConnection={this.handleRefreshConnection}
-        />
+          <ProjectConnectionListComponent
+            key={`project-connections-${this.props.project}`}
+            project={this.props.project}
+            projectConnections={projectConnections}
+            onClose={this.handleClose}
+            onEdit={this.handleEdit}
+            onCreate={this.handleCreate}
+            onTestConnection={this.handleTestConnection}
+            refreshConnection={this.handleRefreshConnection}
+          />
         </LoadableContentDisplayDecorator>
       </I18nProvider>
     )
@@ -114,9 +113,9 @@ const mapDispatchToProps = dispatch => ({
       projectName,
     })),
   fetchProjectConnection: (projectName, connectionId) =>
-    dispatch(projectConnectionActions.fetchSilentEntity(connectionId,{projectName: projectName})),
+    dispatch(projectConnectionActions.fetchSilentEntity(connectionId, { projectName })),
   testProjectConnection: (projectName, connectionId) =>
-    dispatch(projectConnectionTestActions.test(projectName, connectionId))
+    dispatch(projectConnectionTestActions.test(projectName, connectionId)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectConnectionListContainer)

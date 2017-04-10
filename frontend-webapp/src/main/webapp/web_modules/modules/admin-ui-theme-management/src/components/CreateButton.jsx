@@ -4,7 +4,7 @@
 import AddCircle from 'material-ui/svg-icons/content/add-circle'
 import { FormattedMessage } from 'react-intl'
 import { themeContextType, ThemeActions } from '@regardsoss/theme'
-import { HateoasDisplayDecorator, HateoasKeys, HateoasLinks } from '@regardsoss/display-control'
+import { HateoasDisplayDecorator } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import IconButton from 'material-ui/IconButton'
 import ThemeCreateComponent from './ThemeCreateComponent'
