@@ -4,6 +4,7 @@
 import ProjectUser from './admin/ProjectUser'
 import Role from './admin/Role'
 import Project from './admin/Project'
+import ProjectConnection from './admin/ProjectConnection'
 import Account from './admin/Account'
 import Resource, { ResourceList } from './admin/Resource'
 import AttributeModel from './dam/AttributeModel'
@@ -55,6 +56,7 @@ export default {
   ProjectUser,
   Role,
   Project,
+  ProjectConnection,
   Account,
   Resource,
   ResourceList,

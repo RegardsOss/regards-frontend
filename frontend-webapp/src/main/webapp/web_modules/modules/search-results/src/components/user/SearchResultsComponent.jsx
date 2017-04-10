@@ -68,6 +68,7 @@ class SearchResultsComponent extends React.Component {
       selectedDataset: null,
       showingFacetsSearch: false,
       filters: [],
+      searchTag: undefined,
     }
   }
 
@@ -112,6 +113,14 @@ class SearchResultsComponent extends React.Component {
   }
 
   /**
+   * Unselect all previous selections (datasets and tags)
+   */
+  onUnselectAll = () => {
+    this.selectDataset(null, SearchResultsTargetsEnum.DATAOBJECT_RESULTS)
+    this.searchTag(undefined)
+  }
+
+  /**
    * Create full query by adding sort options and target options
    * @returns {string}
    */
@@ -133,6 +142,17 @@ class SearchResultsComponent extends React.Component {
         fullQuery = `${fullQuery}${fullQuery ? openSearchSeparator : ''}tags:${this.state.selectedDataset.content.ip_id}`
       } else {
         fullQuery = `tags:${this.state.selectedDataset.content.ip_id}`
+      }
+    }
+
+    /**
+     * Is there a tag selected ?
+     */
+    if (this.state.searchTag) {
+      if (fullQuery !== '') {
+        fullQuery = `${fullQuery}${fullQuery ? openSearchSeparator : ''}tags:${this.state.searchTag}`
+      } else {
+        fullQuery = `tags:${this.state.searchTag}`
       }
     }
     if (fullQuery !== '') {
@@ -261,6 +281,8 @@ class SearchResultsComponent extends React.Component {
         props: {
           onClick: this.selectDataset,
           attributes: this.props.attributeModels,
+          styles: this.context.moduleTheme.user.datasetCells,
+          onSearchTag: this.searchTag,
         },
       },
     })
@@ -336,9 +358,36 @@ class SearchResultsComponent extends React.Component {
     if (query && query.ds && this.state.selectedDataset !== query.ds) {
       // TODO fetch dataset from server and select it
     }
+
+    if (query && query.tag) {
+      this.setState({ searchTag: query.tag })
+    } else {
+      this.setState({ searchTag: undefined })
+    }
     if (query && !query.ds && this.state.selectedDataset) {
       this.setState({ selectedDataset: null })
     }
+  }
+
+  /**
+   * Run a new search with the give tag
+   * @param tag
+   */
+  searchTag = (tag) => {
+    let queries = browserHistory.getCurrentLocation().query
+    if (tag) {
+      queries = merge({}, queries, { tag })
+    } else {
+      queries = omit(queries, ['tag'])
+    }
+    this.setState({
+      searchTag: tag,
+    }, () => {
+      browserHistory.push({
+        pathname: browserHistory.getCurrentLocation().pathname,
+        query: queries,
+      })
+    })
   }
 
   /**
@@ -365,6 +414,7 @@ class SearchResultsComponent extends React.Component {
     }
     this.setState({
       selectedDataset: dataset,
+      searchTag: undefined,
     })
   }
 
@@ -483,7 +533,9 @@ class SearchResultsComponent extends React.Component {
       <Card>
         <NavigationComponent
           selectedTarget={target}
+          selectedTag={this.state.searchTag}
           onUnselectDataset={this.onUnselectDataset}
+          onUnselectAll={this.onUnselectAll}
           selectedDataset={selectedDataset}
         />
         <CardMedia>

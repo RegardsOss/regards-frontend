@@ -12,7 +12,6 @@ import './modules/admin/AdminLayout'
 
 import './modules/authentication/index.story'
 import './modules/admin-account-management/AccountComponents'
-import './modules/admin-database-management/DatabaseComponents'
 import './modules/admin-microservice-management/index.story'
 import './modules/admin-project-management/ProjectComponents'
 import './modules/admin-user-projectuser-management/ProjectUserComponents'

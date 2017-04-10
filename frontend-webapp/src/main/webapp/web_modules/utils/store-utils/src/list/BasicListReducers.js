@@ -87,7 +87,7 @@ class BasicListReducers {
         return {
           ...state,
           isFetching: false,
-          items: action.payload.entities[this.normalizrKey],
+          items: action.payload.entities[this.normalizrKey] || {},
           error: defaultState.error,
         }
       case this.basicListActionInstance.CREATE_ENTITY_SUCCESS:

@@ -3,7 +3,8 @@
  **/
 import Toggle from 'material-ui/Toggle'
 import find from 'lodash/find'
-import omit from 'lodash/omit'
+import { connect } from '@regardsoss/redux'
+import { AuthenticationParametersSelectors } from '@regardsoss/authentication-manager'
 import HateoasLinks from '../model/HateoasLinks'
 
 /**
@@ -15,23 +16,36 @@ class HateoasToggle extends React.Component {
   static propTypes = {
     entityLinks: React.PropTypes.arrayOf(HateoasLinks).isRequired,
     hateoasKey: React.PropTypes.string.isRequired,
+    // Set by mapStateToProps
+    isInstance: React.PropTypes.bool,
   }
 
   render() {
-    const { entityLinks, hateoasKey } = this.props
+    const { entityLinks, hateoasKey, isInstance, ...otherProps } = this.props
+    if (isInstance) {
+      return (
+        <Toggle
+          {...otherProps}
+        />
+      )
+    }
     if (find(entityLinks, entity => entity.rel === hateoasKey)) {
       return (
         <Toggle
-          {...omit(this.props, ['entityLinks', 'hateoasKey'])}
+          {...otherProps}
         />
       )
     }
     return (<Toggle
-      {...omit(this.props, ['entityLinks', 'hateoasKey'])}
+      {...otherProps}
       disabled
     />)
   }
 
 }
 
-export default HateoasToggle
+const mapStateToProps = state => ({
+  isInstance: AuthenticationParametersSelectors.isInstance(state),
+})
+
+export default connect(mapStateToProps)(HateoasToggle)

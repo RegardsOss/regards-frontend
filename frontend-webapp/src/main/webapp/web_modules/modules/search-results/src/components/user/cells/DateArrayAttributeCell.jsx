@@ -25,11 +25,11 @@ class DateArrayAttributeCell extends React.Component {
               const dateWrapper = new Date(date)
               if (!isNaN(dateWrapper.getDate())) {
                 return (
-                  <span key={key2}>
+                  <div key={key2}>
                     <FormattedDate value={date} />
                     {' '}
                     <FormattedTime value={date} />
-                  </span>
+                  </div>
                 )
               }
               return null

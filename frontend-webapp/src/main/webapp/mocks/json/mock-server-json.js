@@ -185,7 +185,7 @@ const runServer = () => {
 
   accessProjectMicroServiceRouter.render = PageMiddleWare
   accessInstanceMicroServiceRouter.render = PageMiddleWare
-  adminMicroServiceRouter.render = RenderMiddleWare
+  adminMicroServiceRouter.render = PageMiddleWare
   catalogMicroServiceRouter.render = FacetsPageMiddleWare
   archivalStoragePluginsMonitoringRouter.render = RenderMiddleWare // ListMiddleWare
   damMicroServiceRouter.render = PageMiddleWare
@@ -215,6 +215,9 @@ const runServer = () => {
     '/api/v1/rs-access-project/maintenances/:project/desactivate': '/api/v1/rs-access-project-signal/desactivate',
     '/api/v1/rs-access-project/layouts/user': '/api/v1/rs-access-project/layouts/0',
     '/api/v1/rs-access-instance/layouts/portal': '/api/v1/rs-access-instance/layouts/1',
+    '/api/v1/rs-admin/projects/CDPP': '/api/v1/rs-admin/projects/1',
+    '/api/v1/rs-admin/projects/:project/connections': '/api/v1/rs-admin/connections?projectName=:project',
+    '/api/v1/rs-admin/projects/:project/connections/:id' : '/api/v1/rs-admin/connections/:id',
     '/api/v1/rs-admin/maintenances': '/api/v1/rs-admin-signal/maintenances',
     '/api/v1/rs-admin/maintenances/:project/activate': '/api/v1/rs-admin-signal/activate',
     '/api/v1/rs-admin/maintenances/:project/desactivate': '/api/v1/rs-admin-signal/desactivate',

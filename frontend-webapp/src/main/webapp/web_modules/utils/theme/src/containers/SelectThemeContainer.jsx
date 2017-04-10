@@ -9,10 +9,11 @@ import MenuItem from 'material-ui/MenuItem'
 // cannot import our connect method here, cyclic dependencies
 import { connect } from 'react-redux'
 import { I18nProvider } from '@regardsoss/i18n'
-import { Theme, ThemeList, defaultTheme } from '@regardsoss/model'
+import { Theme, ThemeList } from '@regardsoss/model'
 import getCurrentTheme from '../model/selectors/getCurrentTheme'
 import setCurrentTheme from '../model/actions/setCurrentTheme'
-import ThemeSelectors from '../model/selectors/ThemeSelectors'
+import { themeSelectors } from '../client/ThemeClient'
+import defaultTheme from '../model/defaultTheme'
 
 /**
  * Selector allowing the user to change the app's theme.
@@ -55,7 +56,7 @@ export class SelectThemeContainer extends React.Component {
 
 const mapStateToProps = state => ({
   currentTheme: getCurrentTheme(state),
-  themeList: ThemeSelectors.getList(state),
+  themeList: themeSelectors.getList(state),
 })
 const mapDispatchToProps = dispatch => ({
   onChange: themeId => dispatch(setCurrentTheme(themeId)),

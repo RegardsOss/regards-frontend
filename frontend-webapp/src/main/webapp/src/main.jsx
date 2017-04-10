@@ -6,9 +6,15 @@ import { configureStore } from '@regardsoss/store'
 import rootReducer from './rootReducer'
 import rootRouter from './rootRouter'
 
+
 // Import the index.html file
 require('../index.html')
-require('../conf/staticConfiguration.js')
+
+if (process.env.NODE_ENV === 'production') {
+  require('../conf/staticConfiguration.js')
+} else {
+  require('../conf/staticConfiguration.dev.js')
+}
 
 const store = configureStore(rootReducer)
 
@@ -28,9 +34,3 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('app'),
 )
-/*
-if (process.env.NODE_ENV !== 'production') {
-  const { whyDidYouUpdate } = require('why-did-you-update')
-  whyDidYouUpdate(React, { exclude: /^Paper/ })
-}
-*/

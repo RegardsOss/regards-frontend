@@ -1,11 +1,14 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import fr from '../FR.png'
+import gb from '../GB.png'
+
 const messages = {
   title: 'Language',
-  label: "<img style='margin-bottom: 5px' src='/img/GB.png'/>",
-  fr: "<img style='margin-bottom: 5px' src='/img/FR.png'/> French",
-  en: "<img style='margin-bottom: 5px' src='/img/GB.png'/> English",
+  label: `<img style='margin-bottom: 5px' src='${gb}'/>`,
+  fr: `<img style='margin-bottom: 2px' src='${fr}'/> French`,
+  en: `<img style='margin-bottom: 2px' src='${gb}'/> English`,
 }
 
 export default messages

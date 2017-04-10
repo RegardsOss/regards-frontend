@@ -39,7 +39,7 @@ export const projectAdminRouter = {
  * @type {{path: string, getChildRoutes: ((nextState, cb))}}
  */
 export const projectRouter = {
-  path: 'project',
+  path: 'projects',
   getChildRoutes(nextState, cb) {
     const adminProjectManagement = require('@regardsoss/admin-project-management')
     require.ensure([], (require) => {
@@ -66,52 +66,25 @@ export const accountRouter = {
  * @type {{path: string, getChildRoutes: ((nextState, cb))}}
  */
 export const uiConfigurationRouter = {
-  path: 'ui-configuration',
+  path: 'ui',
   getChildRoutes(nextState, cb) {
-    const adminUiConfiguration = require('@regardsoss/admin-ui-configuration')
+    const adminUiConfiguration = require('@regardsoss/admin-ui-management')
     require.ensure([], (require) => {
-      cb(null, [adminUiConfiguration.uiConfigurationRouter])
+      cb(null, [adminUiConfiguration.uiManagementRouter])
     })
   },
 }
 
 /**
- * Main route to access UI-Confiuration module functionalities
- * @type {{path: string, getChildRoutes: ((nextState, cb))}}
- */
-export const projectAdminUiPluginsRouter = {
-  path: ':project/ui-plugins',
-  getChildRoutes(nextState, cb) {
-    const adminUiPlugins = require('@regardsoss/admin-ui-plugins-management')
-    require.ensure([], (require) => {
-      cb(null, [adminUiPlugins.uiPluginsRouter])
-    })
-  },
-}
-
-/**
- * @type {{path: string, getChildRoutes: ((nextState, cb))}}
- */
-export const databaseRouter = {
-  path: 'project-connection',
-  getChildRoutes(nextState, cb) {
-    const adminDatabaseManagement = require('@regardsoss/admin-database-management')
-    require.ensure([], (require) => {
-      cb(null, [adminDatabaseManagement.databaseManagementRouter])
-    })
-  },
-}
-
-/**
- * Main route to access UI-Confiuration module functionalities
+ * Main route to access UI  functionalities
  * @type {{path: string, getChildRoutes: ((nextState, cb))}}
  */
 export const projectAdminUiConfigurationRouter = {
-  path: ':project/ui-configuration',
+  path: ':project/ui',
   getChildRoutes(nextState, cb) {
-    const adminUiConfiguration = require('@regardsoss/admin-ui-configuration')
+    const adminUiConfiguration = require('@regardsoss/admin-ui-management')
     require.ensure([], (require) => {
-      cb(null, [adminUiConfiguration.uiConfigurationRouter])
+      cb(null, [adminUiConfiguration.uiManagementRouter])
     })
   },
 }
@@ -156,12 +129,10 @@ export default {
   childRoutes: [
     projectRouter,
     accountRouter,
-    databaseRouter,
     uiConfigurationRouter,
     projectAdminDataRouter,
     projectAdminUserProjectRouter,
     projectAdminUiConfigurationRouter,
-    projectAdminUiPluginsRouter,
     projectAdminRouter,
     adminMicroserviceManagementRouter,
     adminAccessRightManagementRouter,

@@ -19,7 +19,9 @@ class NavigationComponent extends React.Component {
   static propTypes = {
     selectedTarget: React.PropTypes.oneOf(values(SearchResultsTargetsEnum)),
     onUnselectDataset: React.PropTypes.func.isRequired,
+    onUnselectAll: React.PropTypes.func.isRequired,
     selectedDataset: CatalogEntity,
+    selectedTag: React.PropTypes.string,
   }
 
   static contextTypes = {
@@ -31,15 +33,19 @@ class NavigationComponent extends React.Component {
     this.state = {
       catalogHover: false,
       datasetsHover: false,
+      tagHover: false,
     }
   }
 
+  onClickCatalog = () => {
+    this.props.onUnselectAll()
+  }
 
-  onClickDatasetsView = () => {
+  onClickDatasets = () => {
     this.props.onUnselectDataset(SearchResultsTargetsEnum.DATASET_RESULTS)
   }
 
-  onClickDataobjectsView = () => {
+  onClickTag = () => {
     this.props.onUnselectDataset(SearchResultsTargetsEnum.DATAOBJECT_RESULTS)
   }
 
@@ -62,10 +68,19 @@ class NavigationComponent extends React.Component {
       padding: '0!important',
       font: 'inherit',
     }
+
+    const tagStyle = {
+      cursor: 'pointer',
+      color: this.state.tagHover ? this.context.muiTheme.palette.accent1Color : this.context.muiTheme.palette.textColor,
+      backgroundColor: 'transparent',
+      border: 'none',
+      padding: '0!important',
+      font: 'inherit',
+    }
     const homeLabel = (
       <button
         style={catalogStyle}
-        onClick={this.onClickDataobjectsView}
+        onClick={this.onClickCatalog}
         onMouseOver={() => this.setState({ catalogHover: true })}
         onMouseOut={() => this.setState({ catalogHover: false })}
       >
@@ -78,7 +93,7 @@ class NavigationComponent extends React.Component {
       dataSetsLabel = (
         <button
           style={datasetStyle}
-          onClick={this.onClickDatasetsView}
+          onClick={this.onClickDatasets}
           onMouseOver={() => this.setState({ datasetsHover: true })}
           onMouseOut={() => this.setState({ datasetsHover: false })}
         >
@@ -89,7 +104,7 @@ class NavigationComponent extends React.Component {
       dataSetsLabel = (
         <button
           style={datasetStyle}
-          onClick={this.onClickDatasetsView}
+          onClick={this.onClickDatasets}
           onMouseOver={() => this.setState({ datasetsHover: true })}
           onMouseOut={() => this.setState({ datasetsHover: false })}
         >
@@ -101,13 +116,23 @@ class NavigationComponent extends React.Component {
       }
     }
 
+    let tagLabel = this.props.selectedTag ? (<button
+      style={tagStyle}
+      onClick={this.onClickTag}
+      onMouseOver={() => this.setState({ tagHover: true })}
+      onMouseOut={() => this.setState({ tagHover: false })}
+    >
+      {this.props.selectedTag}
+    </button>) : null
+
+    tagLabel = tagLabel ? <span><LabelIcon style={{ verticalAlign: 'text-bottom' }} /> {tagLabel}</span> : null
     datasetLabel = datasetLabel ? <span><LabelIcon style={{ verticalAlign: 'text-bottom' }} /> {datasetLabel}</span> : null
     dataSetsLabel = dataSetsLabel ?
       <span><LabelIcon style={{ verticalAlign: 'text-bottom' }} /> {dataSetsLabel}</span> : null
 
     return (
       <span style={{ color: this.context.muiTheme.palette.textColor }}>
-        {homeLabel} {dataSetsLabel} {datasetLabel}
+        {homeLabel} {tagLabel} {dataSetsLabel} {datasetLabel}
       </span>
     )
   }

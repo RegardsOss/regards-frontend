@@ -12,6 +12,7 @@
 npm link web_modules/data/api
 npm link web_modules/data/store
 npm link web_modules/data/model
+npm link web_modules/data/client
 
 # Tools
 npm link web_modules/utils/authentication-manager
@@ -42,11 +43,14 @@ npm link web_modules/modules/admin-data-connection-management
 npm link web_modules/modules/admin-data-dataset-management
 npm link web_modules/modules/admin-data-datasource-management
 npm link web_modules/modules/admin-data-fragment-management
-npm link web_modules/modules/admin-database-management
 npm link web_modules/modules/admin-microservice-management
 npm link web_modules/modules/admin-project-management
-npm link web_modules/modules/admin-ui-configuration
-npm link web_modules/modules/admin-ui-plugins-management
+npm link web_modules/modules/admin-ui-management
+npm link web_modules/modules/admin-ui-plugin-management
+npm link web_modules/modules/admin-ui-layout-management
+npm link web_modules/modules/admin-ui-theme-management
+npm link web_modules/modules/admin-ui-module-management
+npm link web_modules/modules/admin-ui-service-management
 npm link web_modules/modules/admin-user-management
 npm link web_modules/modules/admin-user-accessgroup-management
 npm link web_modules/modules/admin-user-projectuser-management

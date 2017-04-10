@@ -6,13 +6,11 @@ import Drawer from 'material-ui/Drawer'
 import VerifiedUser from 'material-ui/svg-icons/action/verified-user'
 import AddBox from 'material-ui/svg-icons/content/add-box'
 import CloudQueue from 'material-ui/svg-icons/file/cloud-queue'
-import Widgets from 'material-ui/svg-icons/device/widgets'
 import Brush from 'material-ui/svg-icons/image/brush'
 import { FormattedMessage } from 'react-intl'
 import SupervisorAccount from 'material-ui/svg-icons/action/supervisor-account'
 import { I18nProvider } from '@regardsoss/i18n'
-import uiPluginsDependencies from '@regardsoss/admin-ui-plugins-management/src/dependencies'
-import uiConfigurationDependencies from '@regardsoss/admin-ui-configuration/src/dependencies'
+import { uiManagementDependencies } from '@regardsoss/admin-ui-management'
 import usersDependencies from '@regardsoss/admin-user-management/src/dependencies'
 import dataManagementDependencies from '@regardsoss/admin-data-management/src/dependencies'
 import dataAccessDependencies from '@regardsoss/admin-accessright-management/src/dependencies'
@@ -97,17 +95,6 @@ class ProjectSidebarComponent extends React.Component {
           />
           <HateoasSidebarElement
             key="4"
-            requiredEndpoints={uiPluginsDependencies.admin}
-            hateoasDisplayLogic={someMatchHateoasDisplayLogic}
-            to={`/admin/${projectName}/ui-plugins/plugins`}
-            currentPath={this.props.currentPath}
-            primaryText={<FormattedMessage id="menu.plugins" />}
-            leftIcon={<Widgets
-              color={this.context.muiTheme.svgIcon.color}
-            />}
-          />
-          <HateoasSidebarElement
-            key="5"
             requiredEndpoints={microservicesDependencies.admin}
             to={`/admin/${projectName}/microservice/board`}
             currentPath={this.props.currentPath}
@@ -117,10 +104,10 @@ class ProjectSidebarComponent extends React.Component {
             />}
           />
           <HateoasSidebarElement
-            key="6"
-            requiredEndpoints={uiConfigurationDependencies.admin}
+            key="5"
+            requiredEndpoints={uiManagementDependencies.dependenciesUsed}
             hateoasDisplayLogic={someMatchHateoasDisplayLogic}
-            to={`/admin/${projectName}/ui-configuration/applications`}
+            to={`/admin/${projectName}/ui/board`}
             currentPath={this.props.currentPath}
             primaryText={<FormattedMessage id="menu.ui.configuration" />}
             leftIcon={<Brush
