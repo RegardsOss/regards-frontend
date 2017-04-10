@@ -32,7 +32,7 @@ import SearchResultsTargetsEnum from './access/SearchResultsTargetsEnum'
 import Entity from './dam/Entity'
 import AccessGroup from './dam/AccessGroup'
 import AccessRight from './dam/AccessRight'
-import CatalogEntity from './catalog/Entity'
+import CatalogEntity, { CatalogEntityTypes } from './catalog/CatalogEntity'
 import { ObjectLinkedFile, ObjectLinkedFileTypes } from './catalog/ObjectLinkedFile'
 import LinkPluginDataset from './catalog/LinkPluginDataset'
 import PluginMetaData, { PluginMetaDataList } from './admin/plugin/PluginMetaData'
@@ -77,6 +77,7 @@ export default {
 
   // CATALOG
   CatalogEntity,
+  CatalogEntityTypes,
   ObjectLinkedFile,
   ObjectLinkedFileTypes,
   LinkPluginDataset,

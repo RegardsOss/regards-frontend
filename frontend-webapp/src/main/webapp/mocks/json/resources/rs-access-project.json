@@ -131,7 +131,7 @@
     },
     {
       "active": true,
-      "conf": "{\"graphLevels\":[\"Missions\",\"Mesures\",\"Instruments\"],\"enableFacettes\":true}",
+      "conf": "{\"graphLevels\":[\"Missions\",\"Experiments\",\"Instruments\",\"Results\", \"Resolutions\"],\"enableFacettes\":true}",
       "name": "search-graph",
       "description": "Recherche par graphe",
       "container": "content",

@@ -4,6 +4,7 @@
 import { Locales } from '@regardsoss/form-utils'
 
 const messages = {
+  // admin
   'search.graph.configuration.tab': 'Search',
   'search.graph.results.tab': 'Results',
   'search.graph.levels.selection.none.selected.error': 'At least one element must be selected for the graph search',
@@ -14,6 +15,12 @@ const messages = {
   'search.graph.selected.levels.column.name': 'Name',
   'search.graph.selected.levels.column.description': 'Description',
   'search.graph.selected.levels.column.actions': 'Actions',
+  // user
+  'search.graph.title': 'Graph browsing',
+  'search.graph.subtitle': 'Data browsing by collections and datasets objects display',
+  'search.graph.level.fetch.model.failed': 'Failed retrieving collections and datasets',
+  'search.graph.level.no.model': 'Empty collection',
+
   ...Locales.en,
 }
 

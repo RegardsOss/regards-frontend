@@ -4,6 +4,7 @@
 import { Locales } from '@regardsoss/form-utils'
 
 const messages = {
+  // admin
   'search.graph.configuration.tab': 'Recherche',
   'search.graph.results.tab': 'Resultats',
   'search.graph.levels.selection.none.selected.error': 'Il doit y avoir au moins un élément séléctionné pour la recherche par graphe',
@@ -14,6 +15,11 @@ const messages = {
   'search.graph.selected.levels.column.name': 'Nom',
   'search.graph.selected.levels.column.description': 'Description',
   'search.graph.selected.levels.column.actions': 'Actions',
+  // user
+  'search.graph.title': 'Navigation par graphe',
+  'search.graph.subtitle': 'Parcours des données par collections et affichage des objets contenu dans les jeux de données',
+  'search.graph.level.fetch.model.failed': 'La récupération des collections et jeux de données a échoué',
+  'search.graph.level.no.model': 'La collection est vide',
 
   ...Locales.fr,
 }

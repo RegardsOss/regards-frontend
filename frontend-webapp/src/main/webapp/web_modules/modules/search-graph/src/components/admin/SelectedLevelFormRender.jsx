@@ -100,7 +100,6 @@ class SelectedLevelFormRender extends React.Component {
     return allSelectedArray.reduce((acc, name) => {
       // search selected element by name in collections
       const foundElt = find(collectionModels, ({ content: { name: currName } }) => currName === name)
-      console.error('--> ', foundElt)
       return foundElt ? [...acc, foundElt] : acc
     }, [])
   }

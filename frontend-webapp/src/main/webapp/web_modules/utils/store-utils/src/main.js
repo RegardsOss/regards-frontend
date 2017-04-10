@@ -25,7 +25,7 @@ import BasicSignalReducers from './signal/BasicSignalReducers'
 import BasicPartitionSelectors from './partition/BasicPartitionSelectors'
 import BasicPartitionActions from './partition/BasicPartitionActions'
 import BasicPartitionReducers from './partition/BasicPartitionReducers'
-import EntityListPartitionDataHandler from './partition/EntityListPartitionDataHandler'
+import entityListPartitionDataHandler from './partition/EntityListPartitionDataHandler'
 
 import RequestVerbEnum from './RequestVerbEnum'
 import RequestErrorShape from './RequestErrorShape'
@@ -50,7 +50,7 @@ export default {
   BasicPartitionActions,
   BasicPartitionReducers,
   BasicPartitionSelectors,
-  EntityListPartitionDataHandler,
+  entityListPartitionDataHandler,
   RequestErrorShape,
   RequestVerbEnum,
 }

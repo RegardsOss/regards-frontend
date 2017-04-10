@@ -40,12 +40,14 @@ class ModuleForm extends React.Component {
     return (
       <Tabs>
         <Tab label={<FormattedMessage id="search.graph.configuration.tab" />}>
-          <FieldArray
-            name={fieldName}
-            component={SelectedLevelFormRender}
-            validate={this.validateSelectedLevels}
-            collectionModels={collectionModels}
-          />
+          <div>
+            <FieldArray
+              name={fieldName}
+              component={SelectedLevelFormRender}
+              validate={this.validateSelectedLevels}
+              collectionModels={collectionModels}
+            />
+          </div>
         </Tab>
         <Tab label={<FormattedMessage id="search.graph.results.tab" />}>
           <SearchResultForm
