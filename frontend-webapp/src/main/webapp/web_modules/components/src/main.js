@@ -41,10 +41,12 @@ import PluginConfigurationPickerComponent from './plugin/PluginConfigurationPick
 
 import TableSelectionModes from './table/selection/TableSelectionModes'
 import TableContainer from './table/TableContainer'
+import ActionsMenuCell from './table/content/cells/ActionsMenuCell'
 
 export {
   ActionButtonComponent,
   ActionIconWithNotifications,
+  ActionsMenuCell,
   ApplicationErrorComponent,
   BoardComponent,
   BaseBoardComponent,
