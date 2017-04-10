@@ -62,18 +62,20 @@ class AdminApp extends React.Component {
       this.setState({
         isLoadingEndpoints: true,
       })
-      // fetch endpoints
-      Promise.resolve(this.props.fetchEndpoints())
-        .then((actionResult) => {
-          // We receive here the action
-          if (!actionResult.error) {
-            this.setState({
-              isLoadingEndpoints: false,
-            })
-          } else {
-            throw new Error('Failed to retrieve endpoint list, which is required on the admin dashboard')
-          }
-        })
+      // fetch endpoints only if current route is admin project.
+      if (this.props.params.project) {
+        Promise.resolve(this.props.fetchEndpoints())
+          .then((actionResult) => {
+            // We receive here the action
+            if (!actionResult.error) {
+              this.setState({
+                isLoadingEndpoints: false,
+              })
+            } else {
+              throw new Error('Failed to retrieve endpoint list, which is required on the admin dashboard')
+            }
+          })
+      }
     }
   }
 
