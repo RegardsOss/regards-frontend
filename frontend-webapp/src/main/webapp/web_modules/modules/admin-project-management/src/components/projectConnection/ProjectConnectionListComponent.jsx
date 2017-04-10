@@ -40,7 +40,7 @@ export class ProjectConnectionListComponent extends React.Component {
   }
 
   displayMicroserviceConnection = (microserviceName) => {
-    const { projectConnections, onEdit, onCreate, project } = this.props
+    const { projectConnections, onEdit, onCreate } = this.props
 
     const style = {
       hoverButtonEdit: this.context.muiTheme.palette.primary1Color,

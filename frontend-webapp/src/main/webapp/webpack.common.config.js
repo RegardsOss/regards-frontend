@@ -50,7 +50,7 @@ module.exports = {
       },
       {
         test: /\.(jpg|gif|png)$/,
-        loader: 'file-loader?name=[name].[ext]&outputPath=./img/&publicPath=/img/',
+        loader: 'file-loader?name=[name].[ext]&outputPath=./img/',
       },
       {
         test: /staticConfiguration(\.dev)?\.js$/,

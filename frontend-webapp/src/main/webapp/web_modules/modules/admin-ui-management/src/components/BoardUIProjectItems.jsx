@@ -1,7 +1,6 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import ExtensionIcon from 'material-ui/svg-icons/action/extension'
 import ViewQuilt from 'material-ui/svg-icons/action/view-quilt'
 import Palette from 'material-ui/svg-icons/image/palette'
 import ViewLinesIcon from 'material-ui/svg-icons/action/view-headline'
@@ -10,7 +9,6 @@ import { themeUIDependencies } from '@regardsoss/admin-ui-theme-management'
 import { pluginUIDependencies } from '@regardsoss/admin-ui-plugin-management'
 import { moduleUIDependencies } from '@regardsoss/admin-ui-module-management'
 import { layoutUIDependencies } from '@regardsoss/admin-ui-layout-management'
-import { ThemeListDep, LayoutListDep, ModulesListDep, LayoutAddDep } from '../dependencies'
 
 /**
  * Configuration file for UI-Configuration boards items.

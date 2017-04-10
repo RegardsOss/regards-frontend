@@ -1,10 +1,11 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import { connect } from '@regardsoss/redux'
 import IconButton from 'material-ui/IconButton'
 import { AuthenticationParametersSelectors } from '@regardsoss/authentication-manager'
 import HateoasDisplayDecorator from './../resources/HateoasDisplayDecorator'
-import HateoasLinks from '../model/HateoasLinks'
+
 /**
  * Component to display an icon action for a given entity only if the action is available
  * from the entity server returned hateoas links

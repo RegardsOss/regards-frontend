@@ -7,8 +7,8 @@ import gb from '../GB.png'
 const messages = {
   title: 'Langue',
   label: `<img style='margin-bottom: 5px' src='${fr}'/>`,
-  fr: `<img style='margin-bottom: 5px' src='${fr}'/> Français`,
-  en: `<img style='margin-bottom: 5px' src='${gb}'/> Anglais`,
+  fr: `<img style='margin-bottom: 2px' src='${fr}'/> Français`,
+  en: `<img style='margin-bottom: 2px' src='${gb}'/> Anglais`,
 }
 
 export default messages
