@@ -7,14 +7,13 @@ import { stub } from 'sinon'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import { FieldArray } from 'redux-form'
 import { Field } from '@regardsoss/form-utils'
-import Styles from '../../../src/styles/styles'
-import { UnconnectedAttributeRegroupementFormComponent } from '../../../src/components/admin/AttributeRegroupementFormComponent'
+import { UnconnectedAttributeRegroupementFormComponent } from '../src/AttributeRegroupementFormComponent'
 
 /**
  * Tests for FormParametersConfigurationComponent
  * @author Sébastien binda
  */
-describe('[RESULTS MODULE] Testing AttributeRegroupementFormComponent', () => {
+describe('[ATTRIBUTES CONFIGURATION] Testing AttributeRegroupementFormComponent', () => {
   // Since react will console.error propType warnings, that which we'd rather have
   // as errors, we use sinon.js to stub it into throwing these warning as errors
   // instead.
@@ -30,7 +29,7 @@ describe('[RESULTS MODULE] Testing AttributeRegroupementFormComponent', () => {
   const options = {
     context: {
       muiTheme,
-      moduleTheme: Styles(muiTheme),
+      moduleTheme: {},
       intl: {
         formatMessage: id => (id.id),
       },
@@ -39,14 +38,14 @@ describe('[RESULTS MODULE] Testing AttributeRegroupementFormComponent', () => {
 
   it('Should render a AttributeRegroupementFormComponent', () => {
     const props = {
-      onClose: () => {},
-      onSubmit: () => {},
+      onClose: () => { },
+      onSubmit: () => { },
       selectableAttributes: {},
       submitting: false,
       pristine: false,
       invalid: false,
-      handleSubmit: () => {},
-      initialize: () => {},
+      handleSubmit: () => { },
+      initialize: () => { },
     }
 
     const wrapper = shallow(

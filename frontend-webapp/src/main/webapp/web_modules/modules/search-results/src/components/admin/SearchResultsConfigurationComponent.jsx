@@ -13,13 +13,16 @@ import {
   AttributesRegroupementConfiguration,
 } from '@regardsoss/model'
 import { Field, RenderRadio, RenderCheckbox } from '@regardsoss/form-utils'
-import ResultsAttributesConfigurationComponent from './ResultsAttributesConfigurationComponent'
+import { MainAttributesConfigurationComponent } from '@regardsoss/attributes-configuration'
 
 /**
  * Display form to configure main parameters of search form.
  * @author Sébastien binda
  */
 class SearchResultsConfigurationComponent extends React.Component {
+
+  static MODULE_ATTRIBUTES_CONF = 'conf.attributes'
+  static MODULE_REGROUPEMENTS_CONF = 'conf.attributesRegroupements'
 
   static propTypes = {
     defaultResultType: React.PropTypes.string,
@@ -34,7 +37,11 @@ class SearchResultsConfigurationComponent extends React.Component {
 
 
   renderAttributesConfiguration = () => (
-    <ResultsAttributesConfigurationComponent
+    <MainAttributesConfigurationComponent
+      allowFacettes
+      allowAttributesRegroupements
+      attributesFieldName={SearchResultsConfigurationComponent.MODULE_ATTRIBUTES_CONF}
+      regroupementsFieldName={SearchResultsConfigurationComponent.MODULE_REGROUPEMENTS_CONF}
       attributesConf={this.props.attributesConf}
       attributesRegroupementsConf={this.props.attributesRegroupementsConf}
       defaultAttributesConf={this.props.defaultAttributesConf}
@@ -42,7 +49,7 @@ class SearchResultsConfigurationComponent extends React.Component {
       selectableAttributes={this.props.selectableAttributes}
       changeField={this.props.changeField}
     />
-    )
+  )
 
   render() {
     return (

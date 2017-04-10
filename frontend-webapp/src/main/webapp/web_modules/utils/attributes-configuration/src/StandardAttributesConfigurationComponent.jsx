@@ -15,12 +15,14 @@ import AttributeConfigurationComponent from './AttributeConfigurationComponent'
 class StandardAttributesConfigurationComponent extends React.Component {
 
   static propTypes = {
+    allowFacettes: React.PropTypes.bool.isRequired,
     attributesConf: React.PropTypes.arrayOf(AttributeConfiguration).isRequired,
     onChangeAttributeConfiguration: React.PropTypes.func.isRequired,
   }
 
   render = () => {
     const standardAttributes = AttributeModelController.StandardAttributes
+    const { allowFacettes, attributesConf, onChangeAttributeConfiguration } = this.props
 
     return (
       <div>
@@ -33,7 +35,7 @@ class StandardAttributesConfigurationComponent extends React.Component {
         >
           {map(standardAttributes, (standardAttribute) => {
             // Search existing associated attribute configuration if there is one
-            let conf = find(this.props.attributesConf, configuration => configuration.attributeFullQualifiedName === standardAttribute)
+            let conf = find(attributesConf, configuration => configuration.attributeFullQualifiedName === standardAttribute)
             if (!conf) {
               conf = {
                 attributeFullQualifiedName: standardAttribute,
@@ -45,6 +47,7 @@ class StandardAttributesConfigurationComponent extends React.Component {
             return (
               <AttributeConfigurationComponent
                 key={standardAttribute}
+                allowFacettes={allowFacettes}
                 attribute={{
                   content: {
                     label: standardAttribute,
@@ -55,7 +58,7 @@ class StandardAttributesConfigurationComponent extends React.Component {
                   },
                 }}
                 conf={conf}
-                onChange={this.props.onChangeAttributeConfiguration}
+                onChange={onChangeAttributeConfiguration}
               />
             )
           })}

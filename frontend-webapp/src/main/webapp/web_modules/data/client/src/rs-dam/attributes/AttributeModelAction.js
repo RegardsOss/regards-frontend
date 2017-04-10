@@ -5,13 +5,12 @@ import Schemas from '@regardsoss/api'
 import { BasicPageableActions } from '@regardsoss/store-utils'
 
 /**
- * Redux store Actions for Module entities.
- * @author Sébastien binda
+ * Redux store Action for Module entities. Fetches attribute model
  */
-class AttributeModelActions extends BasicPageableActions {
-  constructor() {
+export default class AttributeModelAction extends BasicPageableActions {
+  constructor(namespace) {
     super({
-      namespace: 'results/attributes',
+      namespace,
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-dam/attributes`,
       schemaTypes: {
         ENTITY: Schemas.ATTRIBUTE_MODEL,
@@ -20,6 +19,3 @@ class AttributeModelActions extends BasicPageableActions {
     })
   }
 }
-
-const instance = new AttributeModelActions()
-export default instance

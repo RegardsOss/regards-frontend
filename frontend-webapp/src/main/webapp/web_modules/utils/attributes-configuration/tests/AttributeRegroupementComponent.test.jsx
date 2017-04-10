@@ -8,14 +8,13 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import { CardHeader } from 'material-ui/Card'
 import MenuItem from 'material-ui/MenuItem'
 import Checkbox from 'material-ui/Checkbox'
-import Styles from '../../../src/styles/styles'
-import AttributeRegroupementComponent from '../../../src/components/admin/AttributeRegroupementComponent'
+import AttributeRegroupementComponent from '../src/AttributeRegroupementComponent'
 
 /**
  * Tests for AttributeConfigurationComponent
  * @author Sébastien binda
  */
-describe('[RESULTS MODULE] Testing AttributeRegroupementComponent', () => {
+describe('[ATTRIBUTES CONFIGURATION] Testing AttributeRegroupementComponent', () => {
   // Since react will console.error propType warnings, that which we'd rather have
   // as errors, we use sinon.js to stub it into throwing these warning as errors
   // instead.
@@ -31,7 +30,7 @@ describe('[RESULTS MODULE] Testing AttributeRegroupementComponent', () => {
   const options = {
     context: {
       muiTheme,
-      moduleTheme: Styles(muiTheme),
+      moduleTheme: {},
       intl: {
         formatMessage: id => (id.id),
       },

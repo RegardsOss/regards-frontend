@@ -7,14 +7,14 @@ import { assert } from 'chai'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import { CardHeader } from 'material-ui/Card'
 import Checkbox from 'material-ui/Checkbox'
-import Styles from '../../../src/styles/styles'
-import AttributeConfigurationComponent from '../../../src/components/admin/AttributeConfigurationComponent'
+import { ShowableAtRender } from '@regardsoss/components'
+import AttributeConfigurationComponent from '../src/AttributeConfigurationComponent'
 
 /**
  * Tests for AttributeConfigurationComponent
  * @author Sébastien binda
  */
-describe('[RESULTS MODULE] Testing AttributeConfigurationComponent', () => {
+describe('[ATTRIBUTES CONFIGURATION] Testing AttributeConfigurationComponent', () => {
   // Since react will console.error propType warnings, that which we'd rather have
   // as errors, we use sinon.js to stub it into throwing these warning as errors
   // instead.
@@ -30,7 +30,7 @@ describe('[RESULTS MODULE] Testing AttributeConfigurationComponent', () => {
   const options = {
     context: {
       muiTheme,
-      moduleTheme: Styles(muiTheme),
+      moduleTheme: {},
       intl: {
         formatMessage: id => (id.id),
       },
@@ -58,6 +58,7 @@ describe('[RESULTS MODULE] Testing AttributeConfigurationComponent', () => {
       attribute: attributeProp,
       conf: attributeConfProp,
       onChange: onChangeSpy,
+      allowFacettes: true,
     }
 
     const wrapper = shallow(
@@ -110,6 +111,7 @@ describe('[RESULTS MODULE] Testing AttributeConfigurationComponent', () => {
       attribute: attributeProp,
       conf: attributeConfProp,
       onChange: onChangeSpy,
+      allowFacettes: true,
     }
 
     const wrapper = shallow(
@@ -147,6 +149,7 @@ describe('[RESULTS MODULE] Testing AttributeConfigurationComponent', () => {
       attribute: attributeProp,
       conf: attributeConfProp,
       onChange: onChangeSpy,
+      allowFacettes: true,
     }
 
     const wrapper = shallow(
@@ -185,6 +188,7 @@ describe('[RESULTS MODULE] Testing AttributeConfigurationComponent', () => {
       attribute: attributeProp,
       conf: attributeConfProp,
       onChange: onChangeSpy,
+      allowFacettes: true,
     }
 
     const wrapper = shallow(

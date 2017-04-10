@@ -1,7 +1,11 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { map, isEqual, concat, remove, values } from 'lodash'
+import map from 'lodash/map'
+import isEqual from 'lodash/isEqual'
+import concat from 'lodash/concat'
+import remove from 'lodash/remove'
+import values from 'lodash/values'
 import Divider from 'material-ui/Divider'
 import {
   AttributeModel,
@@ -9,15 +13,17 @@ import {
   AttributeConfigurationController,
   AttributesRegroupementConfiguration,
 } from '@regardsoss/model'
+import { ShowableAtRender } from '@regardsoss/components'
 import StandardAttributesConfigurationComponent from './StandardAttributesConfigurationComponent'
 import DynamicAttributesConfigurationComponent from './DynamicAttributesConfigurationComponent'
 import AttributeRegroupementConfigurationComponent from './AttributeRegroupementConfigurationComponent'
 
 /**
  * Component to display attributes configuration list.
+ * Please note that the component i18n should defined in using module
  * @author Sébastien binda
  */
-class ResultsAttributesConfigurationComponent extends React.Component {
+class MainAttributesConfigurationComponent extends React.Component {
 
   static propTypes = {
     // Available Attributes for configuration
@@ -28,6 +34,14 @@ class ResultsAttributesConfigurationComponent extends React.Component {
     // Current configuration
     attributesConf: React.PropTypes.arrayOf(AttributeConfiguration),
     attributesRegroupementsConf: React.PropTypes.arrayOf(AttributesRegroupementConfiguration),
+    // shold allow facettes configuration?
+    allowFacettes: React.PropTypes.bool.isRequired,
+    // should allow attributes regroupement configuration?
+    allowAttributesRegroupements: React.PropTypes.bool.isRequired,
+    // attributes field name in redux form
+    attributesFieldName: React.PropTypes.string.isRequired,
+    // attributes regroupement field name in redux form (not required, used only when regroupement are allowed)
+    regroupementsFieldName: React.PropTypes.string,
     // Redux-form function to change current form values
     changeField: React.PropTypes.func.isRequired,
   }
@@ -36,10 +50,11 @@ class ResultsAttributesConfigurationComponent extends React.Component {
    * At mount, check that the configuration is valid with the available attributes.
    */
   componentDidMount() {
-    if (this.props.attributesConf) {
-      const updatedConf = this.removeUnavailableAttributesConfiguration(this.props.attributesConf)
-      if (!isEqual(updatedConf, this.props.attributesConf)) {
-        this.props.changeField('conf.attributes', updatedConf)
+    const { attributesConf, changeField, attributesFieldName } = this.props
+    if (attributesConf) {
+      const updatedConf = this.removeUnavailableAttributesConfiguration(attributesConf)
+      if (!isEqual(updatedConf, attributesConf)) {
+        changeField(attributesFieldName, updatedConf)
       }
     }
   }
@@ -52,10 +67,10 @@ class ResultsAttributesConfigurationComponent extends React.Component {
     if (isEqual(!nextProps.selectableAttributes, this.props.selectableAttributes)) {
       // The available attributes changed. So the current configuration is no longer valid.
       if (this.props.attributesConf) {
-        this.props.changeField('conf.attributes', this.removeUnavailableAttributesConfiguration(this.props.defaultAttributesConf))
+        this.props.changeField(this.props.attributesFieldName, this.removeUnavailableAttributesConfiguration(this.props.defaultAttributesConf))
       }
       if (this.props.attributesRegroupementsConf) {
-        this.props.changeField('conf.attributesRegroupements', this.props.defaultAttributesRegroupementsConf)
+        this.props.changeField(this.props.regroupementsFieldName, this.props.defaultAttributesRegroupementsConf)
       }
     }
   }
@@ -69,8 +84,9 @@ class ResultsAttributesConfigurationComponent extends React.Component {
     let newConf = true
     // If conf for the given attribute already exists, then update it
     let newAttributesConf = []
-    if (this.props.attributesConf) {
-      newAttributesConf = map(this.props.attributesConf, (attributeConf) => {
+    const { attributesConf, changeField, attributesFieldName } = this.props
+    if (attributesConf) {
+      newAttributesConf = map(attributesConf, (attributeConf) => {
         if (attributeConf.attributeFullQualifiedName === attributeFullQualifiedName) {
           newConf = false
           return conf
@@ -83,7 +99,7 @@ class ResultsAttributesConfigurationComponent extends React.Component {
     if (newConf) {
       newAttributesConf.push(conf)
     }
-    this.props.changeField('conf.attributes', newAttributesConf)
+    changeField(attributesFieldName, newAttributesConf)
   }
 
   /**
@@ -109,7 +125,7 @@ class ResultsAttributesConfigurationComponent extends React.Component {
     if (newConf) {
       newAttributesConf.push(conf)
     }
-    this.props.changeField('conf.attributesRegroupements', newAttributesConf)
+    this.props.changeField(this.props.regroupementsFieldName, newAttributesConf)
   }
 
   /**
@@ -118,7 +134,7 @@ class ResultsAttributesConfigurationComponent extends React.Component {
   onDeleteRegroupement = (regroupementConf) => {
     const newAttributesConf = concat([], this.props.attributesRegroupementsConf)
     remove(newAttributesConf, conf => conf.label === regroupementConf.label)
-    this.props.changeField('conf.attributesRegroupements', newAttributesConf)
+    this.props.changeField(this.props.regroupementsFieldName, newAttributesConf)
   }
 
   /**
@@ -135,23 +151,25 @@ class ResultsAttributesConfigurationComponent extends React.Component {
   }
 
   render() {
-    const attributesRegroupementConf = this.props.attributesRegroupementsConf ? this.props.attributesRegroupementsConf : []
-    const attributesConf = this.props.attributesConf ? this.props.attributesConf : []
+    const { attributesConf = [], attributesRegroupementsConf = [], allowAttributesRegroupements, allowFacettes } = this.props
     return (
       <div>
-        <AttributeRegroupementConfigurationComponent
-          selectableAttributes={this.props.selectableAttributes}
-          attributesRegroupementsConf={attributesRegroupementConf}
-          onChangeRegroupenentConfiguration={this.onChangeRegroupement}
-          onDeleteRegroupement={this.onDeleteRegroupement}
-        />
-        <Divider
-          style={{
-            marginTop: 20,
-          }}
-        />
+        <ShowableAtRender show={allowAttributesRegroupements}>
+          <AttributeRegroupementConfigurationComponent
+            selectableAttributes={this.props.selectableAttributes}
+            attributesRegroupementsConf={attributesRegroupementsConf}
+            onChangeRegroupenentConfiguration={this.onChangeRegroupement}
+            onDeleteRegroupement={this.onDeleteRegroupement}
+          />
+          <Divider
+            style={{
+              marginTop: 20,
+            }}
+          />
+        </ShowableAtRender>
         <StandardAttributesConfigurationComponent
           attributesConf={attributesConf}
+          allowFacettes={allowFacettes}
           onChangeAttributeConfiguration={this.onChange}
         />
         <Divider
@@ -162,6 +180,7 @@ class ResultsAttributesConfigurationComponent extends React.Component {
         <DynamicAttributesConfigurationComponent
           selectableAttributes={this.props.selectableAttributes}
           attributesConf={attributesConf}
+          allowFacettes={allowFacettes}
           onChangeAttributeConfiguration={this.onChange}
         />
       </div>
@@ -169,4 +188,4 @@ class ResultsAttributesConfigurationComponent extends React.Component {
   }
 }
 
-export default ResultsAttributesConfigurationComponent
+export default MainAttributesConfigurationComponent

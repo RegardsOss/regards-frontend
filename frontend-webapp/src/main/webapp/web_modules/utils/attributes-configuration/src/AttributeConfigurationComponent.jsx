@@ -20,6 +20,7 @@ import { ShowableAtRender } from '@regardsoss/components'
 class AttributeConfigurationComponent extends React.Component {
 
   static propTypes = {
+    allowFacettes: React.PropTypes.bool.isRequired,
     attribute: AttributeModel.isRequired,
     filter: React.PropTypes.string,
     conf: AttributeConfiguration,
@@ -66,11 +67,8 @@ class AttributeConfigurationComponent extends React.Component {
   formatOrder = value => value ? parseInt(value, this) : undefined
 
   render() {
-    const label = this.props.attribute.content.label
-    let display = true
-    if (this.props.filter && this.props.filter.length > 0) {
-      display = label.match(new RegExp(`^${this.props.filter}.*$`, 'i'))
-    }
+    const { allowFacettes, filter = '', attribute: { content: { label, description } } } = this.props
+    const display = !filter.length || label.match(new RegExp(`^${this.props.filter}.*$`, 'i'))
     return (
       <ShowableAtRender
         show={display}
@@ -79,8 +77,8 @@ class AttributeConfigurationComponent extends React.Component {
           style={{ width: 300, margin: 5 }}
         >
           <CardHeader
-            title={this.props.attribute.content.label}
-            subtitle={this.props.attribute.content.description}
+            title={label}
+            subtitle={description}
             style={{
               paddingTop: 0,
               paddingBottom: 0,
@@ -108,13 +106,15 @@ class AttributeConfigurationComponent extends React.Component {
               uncheckedIcon={<VisibilityOff />}
               onCheck={this.changeVisibility}
             />
-            <Checkbox
-              label={<FormattedMessage id="form.attributes.facetable.label" />}
-              checked={this.state.conf.facetable}
-              checkedIcon={<Search />}
-              uncheckedIcon={<Locked />}
-              onCheck={this.changeFacetable}
-            />
+            <ShowableAtRender show={allowFacettes}>
+              <Checkbox
+                label={<FormattedMessage id="form.attributes.facetable.label" />}
+                checked={this.state.conf.facetable}
+                checkedIcon={<Search />}
+                uncheckedIcon={<Locked />}
+                onCheck={this.changeFacetable}
+              />
+            </ShowableAtRender>
           </CardText>
         </Card>
       </ShowableAtRender>

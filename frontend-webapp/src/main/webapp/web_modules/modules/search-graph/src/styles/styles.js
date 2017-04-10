@@ -27,6 +27,9 @@ const menuStyles = (theme) => {
       form: {
         graphLevelsRender: {
           classes: 'row',
+          styles: {
+            padding: '0 0 0 20px',
+          },
           selectedLevelsTable: {
             classes: 'col-xs-65 col-lg-60',
             styles: {

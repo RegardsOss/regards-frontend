@@ -8,6 +8,8 @@ import { AttributeConfiguration, AttributesRegroupementConfiguration } from '@re
 const ModuleConfiguration = React.PropTypes.shape({
   // name of collection model, ordered by level for graph navigation
   graphLevels: React.PropTypes.arrayOf(React.PropTypes.string),
+  // array of attributes to display on datasets in graph
+  graphDatasetAttributes: React.PropTypes.arrayOf(AttributeConfiguration),
   // [Result form module] Default Target of results
   resultType: React.PropTypes.string,
   // [Result form module] Search form attributes configuration

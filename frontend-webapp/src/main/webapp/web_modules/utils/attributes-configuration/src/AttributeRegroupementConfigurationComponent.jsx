@@ -164,7 +164,7 @@ class AttributeRegroupementConfigurationComponent extends React.Component {
           />))}
       </div>
     </div>
-    )
+  )
 
 }
 
