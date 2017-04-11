@@ -15,7 +15,6 @@ import ProjectUserActions from '../model/ProjectUserActions'
 import ProjectUserSelectors from '../model/ProjectUserSelectors'
 import AccessGroupActions from '../model/AccessGroupActions'
 import AccessGroupSelectors from '../model/AccessGroupSelectors'
-import AccessesActions from '../model/AccessesActions'
 import UserGroupActions from '../model/UserGroupActions'
 import ProjectUserCreateComponent from '../components/ProjectUserCreateComponent'
 
@@ -168,7 +167,7 @@ const mapStateToProps = (state, ownProps) => ({
   isFetching: ProjectUserSelectors.isFetching(state),
 })
 const mapDispatchToProps = dispatch => ({
-  createProjectUser: values => dispatch(AccessesActions.createEntity(values)),
+  createProjectUser: values => dispatch(ProjectUserActions.createEntity(values)),
   updateProjectUser: (id, values) => dispatch(ProjectUserActions.updateEntity(id, values)),
   fetchRoleList: () => dispatch(RoleActions.fetchEntityList()),
   fetchGroupList: () => dispatch(AccessGroupActions.fetchPagedEntityList()),

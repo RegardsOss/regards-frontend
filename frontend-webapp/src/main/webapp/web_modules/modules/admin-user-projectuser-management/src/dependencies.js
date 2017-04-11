@@ -3,7 +3,6 @@
  **/
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import ProjectUserActions from './model/ProjectUserActions'
-import AccessesActions from './model/AccessesActions'
 
 
 /**
@@ -14,7 +13,7 @@ const EditDependencies = [
   ProjectUserActions.getDependency(RequestVerbEnum.GET_LIST),
 ]
 const AddDependencies = [
-  AccessesActions.getDependency(RequestVerbEnum.POST),
+  ProjectUserActions.getDependency(RequestVerbEnum.POST),
 ]
 
 export {
@@ -36,7 +35,7 @@ const admin = [
   ProjectUserActions.getDependency(RequestVerbEnum.GET_LIST),
   ProjectUserActions.getDependency(RequestVerbEnum.GET),
   ProjectUserActions.getDependency(RequestVerbEnum.PUT),
-  AccessesActions.getDependency(RequestVerbEnum.POST),
+  ProjectUserActions.getDependency(RequestVerbEnum.POST),
   ProjectUserActions.getDependency(RequestVerbEnum.DELETE),
 ]
 
