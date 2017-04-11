@@ -73,7 +73,7 @@ export class ProjectFormComponent extends React.Component {
       />)
     return (
       <form
-        id="projectForm"
+        className="selenium-projectForm"
         onSubmit={this.props.handleSubmit(this.props.onSubmit)}
       >
         <Card>
@@ -114,13 +114,13 @@ export class ProjectFormComponent extends React.Component {
             />
             <Field
               name="isPublic"
-              id="isPublicCheckbox"
+              className="selenium-isPublicCheckbox"
               component={RenderCheckbox}
               label={<FormattedMessage id="project.form.isPublic" />}
             />
             <Field
               name="isAccessible"
-              id="isAccessibleCheckbox"
+              className="selenium-isAccessibleCheckbox"
               component={RenderCheckbox}
               label={<FormattedMessage id="project.form.isAccessible" />}
             />

@@ -78,7 +78,7 @@ export class AuthenticationFormComponent extends React.Component {
     return (
       <div style={moduleTheme.layout}>
         <form
-          id="authenticationForm"
+          className="selenium-authenticationForm"
           onSubmit={handleSubmit(onLogin)}
         >
           <Card>
@@ -115,20 +115,20 @@ export class AuthenticationFormComponent extends React.Component {
             </CardActions>
             <div style={moduleTheme.linksBar}>
               <PictureLinkComponent
-                id="projectAccessButton"
+                className="selenium-projectAccessButton"
                 disabled={!showAskProjectAccess}
                 IconComponent={ProjectAccessIcon}
                 text={<FormattedMessage id="authentication.goto.ask.access" />}
                 onAction={() => onGotoCreateAccount(currentMailValue)}
               />
               <PictureLinkComponent
-                id="resetPasswordButton"
+                className="selenium-resetPasswordButton"
                 IconComponent={ResetPasswordIcon}
                 text={<FormattedMessage id="authentication.goto.reset.password" />}
                 onAction={() => onGotoResetPassword(currentMailValue)}
               />
               <PictureLinkComponent
-                id="unlockAccountButton"
+                className="selenium-unlockAccountButton"
                 IconComponent={UnlockAccountIcon}
                 text={<FormattedMessage id="authentication.goto.unlock.account" />}
                 onAction={() => onGotoUnlockAccount(currentMailValue)}

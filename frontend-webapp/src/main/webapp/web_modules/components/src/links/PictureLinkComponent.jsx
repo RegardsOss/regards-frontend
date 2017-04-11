@@ -47,7 +47,7 @@ class PictureLinkComponent extends React.Component {
   }
 
   render() {
-    const { id, disabled, onAction, text, IconComponent, iconStyles, iconToTextGap } = this.props
+    const { className, disabled, onAction, text, IconComponent, iconStyles, iconToTextGap } = this.props
     const { isOver } = this.state
     const { palette } = this.context.muiTheme
 
@@ -71,7 +71,7 @@ class PictureLinkComponent extends React.Component {
     /* eslint-disable jsx-a11y/no-static-element-interactions*/
     return (
       <div
-        id={id}
+        className={className}
         style={{ display: 'inline-flex', alignItems: 'center', textDecoration: 'none', cursor: 'pointer' }}
         onClick={() => !disabled && onAction()}
         onMouseOut={() => this.switchOver(false)}

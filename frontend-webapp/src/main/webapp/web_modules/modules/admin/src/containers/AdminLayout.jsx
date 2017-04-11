@@ -83,7 +83,7 @@ export class AdminLayout extends React.Component {
     const { project } = this.props
     return (
       <NotificationsManagerContainer isOnInstanceDashboard={isOnInstanceDashboard} >
-        <div id="adminLayout" className={style.app.classes} style={style.app.styles}>
+        <div className={`selenium-adminLayout ${style.app.classes}`} style={style.app.styles}>
           <div className={style.menu.classes}>
             <LazyModuleComponent
               appName={'admin'}

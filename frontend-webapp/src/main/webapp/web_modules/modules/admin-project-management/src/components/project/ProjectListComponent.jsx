@@ -163,7 +163,7 @@ export class ProjectListComponent extends React.Component {
               showRowHover
             >
               {map(projectList, (project, i) => (
-                <TableRow id={project.content.name} key={i}>
+                <TableRow className={`selenium-${project.content.name}`} key={i}>
                   <TableRowColumn style={styles.tableRow} className="col-md-13">{project.content.name}</TableRowColumn>
                   <TableRowColumn style={styles.tableRow} className="col-md-25">
                     <abbr style={styles.abbr} title={project.content.description}>
@@ -185,6 +185,7 @@ export class ProjectListComponent extends React.Component {
                         title={intl.formatMessage({ id: 'project.list.action.openbutton' })}
                         onTouchTap={() => handleOpen(project.content.name)}
                         breakpoint={940}
+                        className="selenium-openbutton"
                       >
                         <Input hoverColor={style.hoverButtonView} />
                       </IconButton>
@@ -192,6 +193,7 @@ export class ProjectListComponent extends React.Component {
                         title={intl.formatMessage({ id: 'project.list.action.editbutton' })}
                         onTouchTap={() => handleEdit(project.content.name)}
                         breakpoint={995}
+                        className="selenium-editbutton"
                       >
                         <Edit hoverColor={style.hoverButtonEdit} />
                       </IconButton>
@@ -199,6 +201,7 @@ export class ProjectListComponent extends React.Component {
                         title={intl.formatMessage({ id: 'project.list.action.edit.connections.button' })}
                         onTouchTap={() => handleConfigureConnections(project.content.name)}
                         breakpoint={1065}
+                        className="selenium-editconnections"
                       >
                         <Settings hoverColor={style.hoverButtonEdit} />
                       </IconButton>
@@ -208,6 +211,7 @@ export class ProjectListComponent extends React.Component {
                         onTouchTap={() => this.onLicenseUpdate(project.content.name)}
                         disabled={!!project.content.license}
                         breakpoint={1270}
+                        className="selenium-licenseUpdateButton"
                       >
                         <ResetLicences hoverColor={style.hoverButtonLicenseUpdate} />
                       </IconButton>
@@ -215,6 +219,7 @@ export class ProjectListComponent extends React.Component {
                         title={intl.formatMessage({ id: 'project.list.action.deletebutton' })}
                         onTouchTap={() => this.onDelete(project.content.name)}
                         breakpoint={1270}
+                        className="selenium-deletebutton"
                       >
                         <Delete hoverColor={style.hoverButtonDelete} />
                       </IconButton>
@@ -227,7 +232,7 @@ export class ProjectListComponent extends React.Component {
         </CardText>
         <CardActions>
           <CardActionsComponent
-            mainButtonId="addButton"
+            mainButtonClassName="selenium-addButton"
             mainButtonUrl={createUrl}
             mainButtonLabel={
               <FormattedMessage
