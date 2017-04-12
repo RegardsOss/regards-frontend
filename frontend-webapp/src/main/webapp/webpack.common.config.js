@@ -79,6 +79,7 @@ module.exports = {
       API_URL: JSON.stringify('api/v1'),
     }),
     // Using http://webpack.github.io/analyse/#hints
+    // And npm run build:stats
     // We can start to prefetch these files before they are imported
     new webpack.PrefetchPlugin('./web_modules/modules/admin-ui-management/src/main.js'),
     new webpack.PrefetchPlugin('./web_modules/vendors/storybook-addon-material-ui-custom/src/index.js'),
@@ -87,5 +88,24 @@ module.exports = {
     new webpack.PrefetchPlugin('./web_modules/modules/admin-data-management/src/main.js'),
     new webpack.PrefetchPlugin('./web_modules/modules/admin/src/main.js'),
     new webpack.PrefetchPlugin('./web_modules/utils/modules/src/components/LazyModuleComponent.jsx'),
-  ],
+    new webpack.PrefetchPlugin('./web_modules/modules/admin-microservice-management/src/containers/plugin/PluginConfigurationListContainer.jsx'),
+    new webpack.PrefetchPlugin('./web_modules/modules/admin-user-role-resource-access-management/src/containers/ResourceAccessFormContainer.jsx'),
+    new webpack.PrefetchPlugin('./web_modules/modules/search-results/src/containers/AdminContainer.jsx'),
+    new webpack.PrefetchPlugin('./web_modules/utils/tests-helpers/src/main.js'),
+    new webpack.PrefetchPlugin('./web_modules/components/src/main.js'),
+    new webpack.PrefetchPlugin('./web_modules/modules/authentication/src/main.js'),
+    new webpack.PrefetchPlugin('./web_modules/modules/menu/src/main.js'),
+    new webpack.PrefetchPlugin('./web_modules/modules/admin-project-management/src/router.js'),
+    new webpack.PrefetchPlugin('./web_modules/modules/admin-data-connection-management/src/main.js'),
+    new webpack.PrefetchPlugin('./web_modules/modules/admin-ui-module-management/src/main.js'),
+    new webpack.PrefetchPlugin('./web_modules/modules/search-form/src/main.js'),
+    new webpack.PrefetchPlugin('./web_modules/modules/admin-user-management/src/main.js'),
+    new webpack.PrefetchPlugin('./web_modules/modules/admin-ui-theme-management/src/main.js'),
+    new webpack.PrefetchPlugin('./web_modules/modules/admin-ui-module-management/src/main.js'),
+    new webpack.PrefetchPlugin('./web_modules/modules/admin-data-modelattribute-management/src/main.js'),
+    new webpack.PrefetchPlugin('./web_modules/modules/search-facets/src/main.js'),
+    new webpack.PrefetchPlugin('./web_modules/modules/search-results/src/main.js'),
+    new webpack.PrefetchPlugin('./web_modules/modules/admin-data-attributemodel-management/src/main.js'),
+    new webpack.PrefetchPlugin('./web_modules/modules/admin-microservice-management/src/main.js'),
+],
 }
