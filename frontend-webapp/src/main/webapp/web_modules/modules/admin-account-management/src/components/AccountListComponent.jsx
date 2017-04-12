@@ -148,7 +148,7 @@ export class AccountListComponent extends React.Component {
                           </IconButton>
                           <IconButton
                             title={intl.formatMessage({ id: 'account.list.table.action.accept.tooltip' })}
-                            onTouchTap={() => onAccept(account.content.id)}
+                            onTouchTap={() => onAccept(account.content.email)}
                             disabled={isFetchingActions || !this.canAcceptAccount(account)}
                           >
                             <Done hoverColor={style.commonActionHoverColor} />

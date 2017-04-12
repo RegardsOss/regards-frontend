@@ -52,8 +52,8 @@ export class AccountListContainer extends React.Component {
     browserHistory.push(url)
   }
 
-  onAccept = (accountId) => {
-    this.performAll([this.props.sendAcceptUser(accountId)])
+  onAccept = (accountEmail) => {
+    this.performAll([this.props.sendAcceptUser(accountEmail)])
   }
 
   setInitialFetching = initialFecthing => this.updateState({ initialFecthing })
@@ -102,7 +102,7 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = dispatch => ({
   fetchAccountList: () => dispatch(AccountActions.fetchPagedEntityList()),
   fetchWaitingAccountList: () => dispatch(WaitingAccountEntitiesActions.fetchWaitingAccountsEntityList()),
-  sendAcceptUser: accountId => dispatch(WaitingAccountSignalActions.sendAccept(accountId)), // TODO
+  sendAcceptUser: accountEmail => dispatch(WaitingAccountSignalActions.sendAccept(accountEmail)),
   deleteAccount: accountId => dispatch(AccountActions.deleteEntity(accountId)),
 })
 
