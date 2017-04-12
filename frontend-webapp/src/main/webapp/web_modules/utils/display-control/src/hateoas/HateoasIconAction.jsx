@@ -25,6 +25,7 @@ class HateoasIconAction extends React.Component {
 
   render() {
     const { entityLinks, hateoasKey } = this.props
+    console.log("isInstance",this.props.isInstance)
     if (this.props.isInstance || (!entityLinks && !hateoasKey) || find(entityLinks, entity => entity.rel === hateoasKey)) {
       return (
         <IconButton
