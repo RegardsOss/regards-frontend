@@ -63,7 +63,7 @@ CommonDllConfig.plugins.push(
     'process.env': {
       NODE_ENV: JSON.stringify('development'),
     },
-  }),
+  })
 )
 CommonDllConfig.devtool = 'source-map'
 

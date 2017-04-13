@@ -3,6 +3,8 @@ import MenuItem from 'material-ui/MenuItem'
 import IconButton from 'material-ui/IconButton'
 import NavigationMoreVert from 'material-ui/svg-icons/navigation/more-vert'
 import MediaQuery from 'react-responsive'
+import omit from 'lodash/omit'
+import { HateoasMenuAction, HateoasIconAction } from '@regardsoss/display-control'
 
 const ActionsMenuCell = (props) => {
   const maxBreakpoint = props.children.reduce((biggest, action) => Math.max(action.props.breakpoint, biggest), 0)
@@ -12,7 +14,10 @@ const ActionsMenuCell = (props) => {
         const { breakpoint, ...rest } = action.props
         return (
           <MediaQuery key={action.props.title} query={`(min-width: ${breakpoint}px)`}>
-            {React.createElement(action.type, rest)}
+            {React.createElement(
+              action.type,
+              action.type === HateoasIconAction ? rest : { ...omit(rest, ['isInstance', 'theme', 'i18n', 'dispatch']) },
+            )}
           </MediaQuery>
         )
       }))}
@@ -28,17 +33,16 @@ const ActionsMenuCell = (props) => {
         >
           {React.Children.map(props.children, ((action) => {
             const { children, breakpoint, ...rest } = action.props
-            delete rest.iconStyle
-            delete rest.tooltipPosition
-            delete rest.touch
-            const icon = children
             return (
               <MediaQuery key={rest.title} query={`(max-width: ${breakpoint - 1}px)`}>
-                <MenuItem
-                  primaryText={rest.title}
-                  {...rest}
-                  leftIcon={icon}
-                />
+                {React.createElement(
+                  action.type === HateoasIconAction ? HateoasMenuAction : MenuItem,
+                  {
+                    primaryText: rest.title,
+                    leftIcon: children,
+                    ...omit(rest, ['iconStyle', 'tooltipPosition', 'touch']),
+                  },
+                )}
               </MediaQuery>
             )
           }))}
