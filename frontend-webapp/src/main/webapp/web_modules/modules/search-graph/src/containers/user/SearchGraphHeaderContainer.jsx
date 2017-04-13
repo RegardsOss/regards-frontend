@@ -10,7 +10,7 @@ import SearchGraphHeader from '../../components/user/SearchGraphHeader'
 /**
 * Container for search graph header components
 */
-class SearchGraphHeaderContainer extends React.Component {
+export class SearchGraphHeaderContainer extends React.Component {
 
   static mapStateToProps(state) {
     return {
