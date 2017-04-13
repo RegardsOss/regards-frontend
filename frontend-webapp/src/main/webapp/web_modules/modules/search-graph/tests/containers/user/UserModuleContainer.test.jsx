@@ -5,7 +5,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { UserModuleContainer } from '../../../src/containers/user/UserModuleContainer'
-import { SearchGraph } from '../../../src/components/user/SearchGraph'
+import SearchGraph from '../../../src/components/user/SearchGraph'
 import styles from '../../../src/styles/styles'
 
 const context = buildTestContext(styles)
@@ -31,7 +31,6 @@ describe('[Search Graph] Testing UserModuleContainer', () => {
       fetchAttributeModels: () => { },
     }
     const enzymeWrapper = shallow(<UserModuleContainer {...props} />, { context })
-    // TODO something like that
     assert.equal(enzymeWrapper.find(SearchGraph).length, 1, 'The corresponding component should be rendered')
   })
 })

@@ -3,7 +3,7 @@
 **/
 import map from 'lodash/map'
 import size from 'lodash/size'
-import ScrollArea from 'react-scrollbar'
+import { ScrollAreaAdapter } from '@regardsoss/adapters'
 import { CatalogEntity } from '@regardsoss/model'
 import { themeContextType } from '@regardsoss/theme'
 import { ShowableAtRender } from '@regardsoss/components'
@@ -50,7 +50,7 @@ class GraphLevelDispayer extends React.Component {
             <GraphLevelMessageDisplayer messageKey="search.graph.level.no.model" />
           </ShowableAtRender>
           <ShowableAtRender show={!hasError && !isLoading && hasContent}>
-            <ScrollArea
+            <ScrollAreaAdapter
               horizontal={false}
               vertical
               verticalContainerStyle={user.scrolling.verticalScrollContainer.styles}
@@ -74,7 +74,7 @@ class GraphLevelDispayer extends React.Component {
                     levelIndex={levelIndex}
                   />)
               }
-            </ScrollArea>
+            </ScrollAreaAdapter>
           </ShowableAtRender>
         </div>
       </ShowableAtRender >

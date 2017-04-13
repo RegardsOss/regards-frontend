@@ -15,8 +15,8 @@ npm link web_modules/data/model
 npm link web_modules/data/client
 
 # Tools
+npm link web_modules/utils/adapters
 npm link web_modules/utils/authentication-manager
-npm link web_modules/utils/charts
 npm link web_modules/utils/form-utils
 npm link web_modules/utils/i18n
 npm link web_modules/utils/plugins

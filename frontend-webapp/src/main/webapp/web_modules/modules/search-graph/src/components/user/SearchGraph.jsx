@@ -1,9 +1,9 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
-import ScrollArea from 'react-scrollbar'
 import Measure from 'react-measure'
 import { Card, CardMedia } from 'material-ui/Card'
+import { ScrollAreaAdapter } from '@regardsoss/adapters'
 import { themeContextType } from '@regardsoss/theme'
 import { ShowableAtRender } from '@regardsoss/components'
 import ModuleConfiguration from '../../model/ModuleConfiguration'
@@ -64,7 +64,7 @@ class SearchGraph extends React.Component {
         <ShowableAtRender show={!moduleCollapsed}>
           <CardMedia>
             <div style={user.graph.styles}>
-              <ScrollArea
+              <ScrollAreaAdapter
                 horizontal
                 vertical={false}
                 smoothScrolling
@@ -85,7 +85,7 @@ class SearchGraph extends React.Component {
                     ))}
                   </div>
                 </Measure>
-              </ScrollArea>
+              </ScrollAreaAdapter>
             </div>
           </CardMedia>
         </ShowableAtRender>
