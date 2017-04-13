@@ -12,7 +12,7 @@ plugins=`find . -maxdepth 1 -type d `
 cd ${home}
 for f in ${plugins}; do
   if [ $f != '.' ] && [ $f != '..' ]; then
-    if [ -d "plugins/criterion/${f}/target/build/" ]; then
+    if [ -d "plugins/criterion/${f}" ]; then
         echo ""
         echo "-------------------------------------------"
         echo "Compiling plugin ${f} ...."

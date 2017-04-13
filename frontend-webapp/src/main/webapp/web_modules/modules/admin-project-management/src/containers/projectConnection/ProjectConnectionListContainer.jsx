@@ -66,7 +66,7 @@ export class ProjectConnectionListContainer extends React.Component {
       throw new Error('Invalid connection to test')
     }
     const project = projectConnection.content.project
-    return this.props.testProjectConnection(project.name, projectConnection.content.id)
+    return this.props.testProjectConnection(projectConnection.content.microservice,project.name)
   }
 
   handleRefreshConnection = (connectionId) => {
@@ -114,8 +114,8 @@ const mapDispatchToProps = dispatch => ({
     })),
   fetchProjectConnection: (projectName, connectionId) =>
     dispatch(projectConnectionActions.fetchSilentEntity(connectionId, { projectName })),
-  testProjectConnection: (projectName, connectionId) =>
-    dispatch(projectConnectionTestActions.test(projectName, connectionId)),
+  testProjectConnection: (microservice, projectName) =>
+    dispatch(projectConnectionTestActions.test(microservice, projectName)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectConnectionListContainer)

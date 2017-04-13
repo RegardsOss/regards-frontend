@@ -16,7 +16,7 @@ export default class AccountOperationActions extends BasicSignalActions {
    */
   constructor(endpointName, mailAuthenticationActionValue) {
     super({
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/accounts/{accountEmail}/${endpointName}`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-admin/accounts/{accountEmail}/${endpointName}`,
       namespace: `accounts/${endpointName}`,
       bypassErrorMiddleware: true,
     })

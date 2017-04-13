@@ -10,7 +10,7 @@ import Done from 'material-ui/svg-icons/action/done'
 import { Account } from '@regardsoss/model'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { NoContentMessageInfo } from '@regardsoss/components'
+import { NoContentMessageInfo,ConfirmDialogComponent, ShowableAtRender} from '@regardsoss/components'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 
 const status = {
@@ -49,6 +49,13 @@ export class AccountListComponent extends React.Component {
     ...i18nContextType,
   }
 
+  constructor(props) {
+    super(props)
+    this.state = {
+      deleteDialogOpened: false,
+    }
+  }
+
   componentWillReceiveProps = (nextProps) => {
     if (this.props.initialFecthing && !nextProps.initialFecthing) {
       // first loading: show waiting tab if there are any waiting account
@@ -58,6 +65,20 @@ export class AccountListComponent extends React.Component {
 
   onTabChange = (value) => {
     this.selectTab(value)
+  }
+
+  openDeleteDialog = (entity) => {
+    this.setState({
+      deleteDialogOpened: true,
+      entityToDelete: entity,
+    })
+  }
+
+  closeDeleteDialog = () => {
+    this.setState({
+      deleteDialogOpened: false,
+      entityToDelete: null,
+    })
   }
 
   getWaitingAccountsTabContent = () => ({
@@ -78,6 +99,25 @@ export class AccountListComponent extends React.Component {
     this.setState({ selectedTab })
   }
 
+  renderDeleteConfirmDialog = () => {
+    const name = this.state.entityToDelete ? this.state.entityToDelete.content.email : ' '
+    const title = this.context.intl.formatMessage({ id: 'account.list.delete.message' }, { name })
+    return (
+      <ShowableAtRender
+        show={this.state.deleteDialogOpened}
+      >
+        <ConfirmDialogComponent
+          dialogType={ConfirmDialogComponent.dialogTypes.DELETE}
+          onConfirm={() => {
+            this.props.onDelete(this.state.entityToDelete.content.id)
+          }}
+          onClose={this.closeDeleteDialog}
+          title={title}
+        />
+      </ShowableAtRender>
+    )
+  }
+
   render() {
     const selectedTab = this.state ? this.state.selectedTab : TABS.all
     const tabContent = selectedTab === TABS.waiting ? this.getWaitingAccountsTabContent() : this.getAllAccountsTabContent()
@@ -85,7 +125,7 @@ export class AccountListComponent extends React.Component {
       commonActionHoverColor: this.context.muiTheme.palette.primary1Color,
       deleteActionHoverColor: this.context.muiTheme.palette.accent1Color,
     }
-    const { allAccounts, waitingAccounts, onEdit, onDelete, onAccept, initialFecthing, isFetchingActions } = this.props
+    const { allAccounts, waitingAccounts, onEdit, onAccept, initialFecthing, isFetchingActions } = this.props
     const { intl } = this.context
 
     return (
@@ -100,6 +140,7 @@ export class AccountListComponent extends React.Component {
           message={<FormattedMessage id={tabContent.noDataMessageKey} />}
         >
           <div>
+            {this.renderDeleteConfirmDialog()}
             <CardTitle subtitle={<FormattedMessage id={tabContent.tabSubtitleKey} />} />
             <CardText>
               <LoadableContentDisplayDecorator isLoading={initialFecthing}>
@@ -148,14 +189,14 @@ export class AccountListComponent extends React.Component {
                           </IconButton>
                           <IconButton
                             title={intl.formatMessage({ id: 'account.list.table.action.accept.tooltip' })}
-                            onTouchTap={() => onAccept(account.content.id)}
+                            onTouchTap={() => onAccept(account.content.email)}
                             disabled={isFetchingActions || !this.canAcceptAccount(account)}
                           >
                             <Done hoverColor={style.commonActionHoverColor} />
                           </IconButton>
                           <IconButton
                             title={intl.formatMessage({ id: 'account.list.table.action.delete.tooltip' })}
-                            onTouchTap={() => onDelete(account.content.id)}
+                            onTouchTap={() => this.openDeleteDialog(account)}
                             disabled={isFetchingActions}
                           >
                             <Delete hoverColor={style.deleteActionHoverColor} />

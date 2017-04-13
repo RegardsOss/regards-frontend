@@ -7,7 +7,7 @@ import { RequestVerbEnum } from '@regardsoss/store-utils'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
 import Key from 'material-ui/svg-icons/communication/vpn-key'
-import { CardActionsComponent } from '@regardsoss/components'
+import { CardActionsComponent,ConfirmDialogComponent, ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { Role } from '@regardsoss/model'
@@ -30,6 +30,27 @@ export class RoleListComponent extends React.Component {
   static contextTypes = {
     ...themeContextType,
     ...i18nContextType,
+  }
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      deleteDialogOpened: false,
+    }
+  }
+
+  openDeleteDialog = (entity) => {
+    this.setState({
+      deleteDialogOpened: true,
+      entityToDelete: entity,
+    })
+  }
+
+  closeDeleteDialog = () => {
+    this.setState({
+      deleteDialogOpened: false,
+      entityToDelete: null,
+    })
   }
 
   /**
@@ -63,8 +84,27 @@ export class RoleListComponent extends React.Component {
     return (<FormattedMessage id="role.list.value.false" />)
   }
 
+  renderDeleteConfirmDialog = () => {
+    const name = this.state.entityToDelete ? this.state.entityToDelete.content.email : ' '
+    const title = this.context.intl.formatMessage({ id: 'role.list.delete.message' }, { name })
+    return (
+      <ShowableAtRender
+        show={this.state.deleteDialogOpened}
+      >
+        <ConfirmDialogComponent
+          dialogType={ConfirmDialogComponent.dialogTypes.DELETE}
+          onConfirm={() => {
+            this.props.handleDelete(this.state.entityToDelete.content.name)
+          }}
+          onClose={this.closeDeleteDialog}
+          title={title}
+        />
+      </ShowableAtRender>
+    )
+  }
+
   render() {
-    const { roleList, handleEdit, handleDelete, createUrl, handleEditResourceAccess } = this.props
+    const { roleList, handleEdit, createUrl, handleEditResourceAccess } = this.props
     const style = {
       hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
       hoverButtonDelete: this.context.muiTheme.palette.accent1Color,
@@ -77,6 +117,7 @@ export class RoleListComponent extends React.Component {
           subtitle={<FormattedMessage id="role.list.subtitle" />}
         />
         <CardText>
+          {this.renderDeleteConfirmDialog()}
           <Table
             selectable={false}
           >
@@ -88,7 +129,6 @@ export class RoleListComponent extends React.Component {
               <TableRow>
                 <TableHeaderColumn><FormattedMessage id="role.list.table.name" /></TableHeaderColumn>
                 <TableHeaderColumn><FormattedMessage id="role.list.table.parentRole" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="role.list.table.isCorsRequestsAuthorized" /></TableHeaderColumn>
                 <TableHeaderColumn><FormattedMessage id="role.list.table.actions" /></TableHeaderColumn>
               </TableRow>
             </TableHeader>
@@ -101,7 +141,6 @@ export class RoleListComponent extends React.Component {
                 <TableRow key={i}>
                   <TableRowColumn>{role.content.name}</TableRowColumn>
                   <TableRowColumn>{this.getParentRoleName(role.content.parentRole)}</TableRowColumn>
-                  <TableRowColumn>{this.getBooleanAsString(role.content.isCorsRequestsAuthorized)}</TableRowColumn>
                   <TableRowColumn>
                     <HateoasIconAction
                       entityLinks={role.links}
@@ -122,7 +161,7 @@ export class RoleListComponent extends React.Component {
                     <HateoasIconAction
                       entityLinks={role.links}
                       hateoasKey={HateoasKeys.DELETE}
-                      onTouchTap={() => handleDelete(role.content.id)}
+                      onTouchTap={() => this.openDeleteDialog(role)}
                     >
                       <Delete hoverColor={style.hoverButtonDelete} />
                     </HateoasIconAction>
