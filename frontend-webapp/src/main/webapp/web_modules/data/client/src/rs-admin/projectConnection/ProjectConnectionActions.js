@@ -9,7 +9,7 @@ import { BasicPageableActions } from '@regardsoss/store-utils'
  *
  * To use this actions, you need to pass a parameter : <namespace>.
  *
- * namespace : String, exemple :  'module/ProjectConnection'.
+ * namespace : String, example :  'module/ProjectConnection'.
  * Must be the same as the namespace used with the associated Reducer.
  *
  * The namespace is used by redux to understand what to do with the action.

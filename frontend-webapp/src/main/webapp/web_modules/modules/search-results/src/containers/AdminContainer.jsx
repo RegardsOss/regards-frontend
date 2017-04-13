@@ -3,9 +3,8 @@
  **/
 import { connect } from '@regardsoss/redux'
 import { AttributeModel } from '@regardsoss/model'
-import AttributeModelActions from '../models/attributes/AttributeModelActions'
-import AttributeModelSelector from '../models/attributes/AttributeModelSelector'
 import SearchResultsConfigurationComponent from '../components/admin/SearchResultsConfigurationComponent'
+import { AttributeModelAction, AttributeModelSelector } from '../models/client/AttributeModelClient'
 import ModuleConfiguration from '../models/ModuleConfiguration'
 
 
@@ -14,6 +13,7 @@ import ModuleConfiguration from '../models/ModuleConfiguration'
  * @author Sébastien binda
  */
 class AdminContainer extends React.Component {
+
 
   static propTypes = {
     // Props supplied by LazyModuleComponent
@@ -83,7 +83,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchAllModelsAttributes: () => dispatch(AttributeModelActions.fetchPagedEntityList(0, 100)),
+  fetchAllModelsAttributes: () => dispatch(AttributeModelAction.fetchPagedEntityList(0, 100)),
 })
 
 const UnconnectedAdminContainer = AdminContainer

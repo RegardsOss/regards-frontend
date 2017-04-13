@@ -42,6 +42,8 @@ import PluginConfigurationPickerComponent from './plugin/PluginConfigurationPick
 import TableSelectionModes from './table/selection/TableSelectionModes'
 import TableContainer from './table/TableContainer'
 
+import SVGIconFromString from './icon/SVGIconFromString'
+
 export {
   ActionButtonComponent,
   ActionIconWithNotifications,
@@ -72,4 +74,5 @@ export {
   SecondaryActionButtonComponent,
   ShowableAtRender,
   PluginConfigurationPickerComponent,
+  SVGIconFromString,
 }

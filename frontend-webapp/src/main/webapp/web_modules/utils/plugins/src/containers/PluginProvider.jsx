@@ -20,7 +20,6 @@ import PluginLoader from './PluginLoader'
 class PluginProvider extends React.Component {
 
   /**
-   * pluginId: Indetifier of the plugin to provide
    * pluginConf : Props to add to te plugin rendering element,
    * displayPlugin : Display the plugin component. If false the plugin is only passed as a prop to the children of this provider
    *
@@ -28,7 +27,7 @@ class PluginProvider extends React.Component {
    */
   static propTypes = {
     /**
-     * Id of the plugin configuration instance
+     * pluginInstanceId: An unique identifier of the plugin to provide, in  case you're loading multiple plugins on the same page
      */
     pluginInstanceId: React.PropTypes.string.isRequired,
     /**

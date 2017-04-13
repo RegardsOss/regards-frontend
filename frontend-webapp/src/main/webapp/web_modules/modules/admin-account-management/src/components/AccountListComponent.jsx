@@ -10,7 +10,7 @@ import Done from 'material-ui/svg-icons/action/done'
 import { Account } from '@regardsoss/model'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { NoContentMessageInfo,ConfirmDialogComponent, ShowableAtRender} from '@regardsoss/components'
+import { NoContentMessageInfo, ConfirmDialogComponent, ShowableAtRender } from '@regardsoss/components'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 
 const status = {
@@ -67,20 +67,6 @@ export class AccountListComponent extends React.Component {
     this.selectTab(value)
   }
 
-  openDeleteDialog = (entity) => {
-    this.setState({
-      deleteDialogOpened: true,
-      entityToDelete: entity,
-    })
-  }
-
-  closeDeleteDialog = () => {
-    this.setState({
-      deleteDialogOpened: false,
-      entityToDelete: null,
-    })
-  }
-
   getWaitingAccountsTabContent = () => ({
     tabSubtitleKey: 'account.list.waiting.subtitle',
     noDataMessageKey: 'account.list.waiting.no.content.message',
@@ -92,6 +78,20 @@ export class AccountListComponent extends React.Component {
     noDataMessageKey: 'account.list.all.no.content.message',
     accounts: this.props.allAccounts,
   })
+
+  closeDeleteDialog = () => {
+    this.setState({
+      deleteDialogOpened: false,
+      entityToDelete: null,
+    })
+  }
+
+  openDeleteDialog = (entity) => {
+    this.setState({
+      deleteDialogOpened: true,
+      entityToDelete: entity,
+    })
+  }
 
   canAcceptAccount = account => [status.pending].includes(account.content.status)
 

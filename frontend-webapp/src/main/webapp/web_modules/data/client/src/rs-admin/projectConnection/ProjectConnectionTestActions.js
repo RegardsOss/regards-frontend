@@ -26,7 +26,7 @@ class ProjectConnectionActions extends BasicSignalActions {
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/{microservice}/regards/{tenant}/datasource/test`
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/{microservice}/regards/{tenant}/datasource/test`,
     })
   }
 

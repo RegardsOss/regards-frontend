@@ -6,7 +6,6 @@ import { connect } from 'react-redux'
 import Snackbar from 'material-ui/Snackbar'
 import { closeErrorDialog } from '../model/action'
 
-const ERROR_MESSAGE_MAX_SIZE = 50
 /**
  * React component to display a dialog box containing the global current error message
  * @author Sébastien binda
@@ -22,7 +21,7 @@ class ApplicationErrorContainer extends React.Component {
 
   render() {
     if (this.props.snackBarOpened) {
-      const message =  this.props.snackBarMessage
+      const message = this.props.snackBarMessage
       return (
         <Snackbar
           open={this.props.snackBarOpened}

@@ -14,6 +14,7 @@ import Module, { ModuleConfiguration } from './access/Module'
 import Layout, { LayoutConfiguration } from './access/Layout'
 import Theme from './access/Theme'
 import Plugin, { PluginConfiguration } from './access/Plugin'
+import UIPluginConf from './access/UIPluginConf'
 import Fragment, { FragmentConfiguration } from './dam/Fragment'
 import Dataset, { DatasetConfiguration } from './dam/Dataset'
 import AccessRight from './dam/AccessRight'
@@ -136,4 +137,5 @@ export default {
   ...Connection,
 
   ...LinkPluginDataset,
+  ...UIPluginConf,
 }

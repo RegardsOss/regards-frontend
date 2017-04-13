@@ -3,7 +3,7 @@ import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import MenuItem from 'material-ui/MenuItem'
 import { FormattedMessage } from 'react-intl'
 import { CardActionsComponent } from '@regardsoss/components'
-import { RenderTextField, Field, RenderCheckbox, RenderSelectField, EnumInputsComponent, EnumInputsHelper, ErrorTypes, ValidationHelpers, reduxForm } from '@regardsoss/form-utils'
+import { RenderTextField, Field, RenderSelectField, EnumInputsComponent, EnumInputsHelper, ErrorTypes, ValidationHelpers, reduxForm } from '@regardsoss/form-utils'
 import { Role } from '@regardsoss/model'
 
 /**

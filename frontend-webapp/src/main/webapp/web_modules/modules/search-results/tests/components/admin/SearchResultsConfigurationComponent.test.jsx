@@ -8,8 +8,8 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import { Field } from '@regardsoss/form-utils'
 import { RadioButton } from 'material-ui/RadioButton'
 import { SearchResultsTargetsEnum } from '@regardsoss/model'
-import Styles from '../../../src/styles/styles'
 import SearchResultsConfigurationComponent from '../../../src/components/admin/SearchResultsConfigurationComponent'
+import Styles from '../../../src/styles/styles'
 
 /**
  * Tests for FormParametersConfigurationComponent
@@ -45,7 +45,7 @@ describe('[RESULTS MODULE] Testing SearchResultsConfigurationComponent', () => {
       onSelectType: selectCallback,
       disabled: false,
       selectableAttributes: {},
-      changeField: () => {},
+      changeField: () => { },
     }
     const wrapper = shallow(
       <SearchResultsConfigurationComponent {...props} />, options,

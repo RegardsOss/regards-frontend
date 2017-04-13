@@ -1,6 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import ExtensionIcon from 'material-ui/svg-icons/action/extension'
 import ViewQuilt from 'material-ui/svg-icons/action/view-quilt'
 import Palette from 'material-ui/svg-icons/image/palette'
 import ViewLinesIcon from 'material-ui/svg-icons/action/view-headline'
@@ -9,6 +10,7 @@ import { themeUIDependencies } from '@regardsoss/admin-ui-theme-management'
 import { pluginUIDependencies } from '@regardsoss/admin-ui-plugin-management'
 import { moduleUIDependencies } from '@regardsoss/admin-ui-module-management'
 import { layoutUIDependencies } from '@regardsoss/admin-ui-layout-management'
+import { serviceUIDependencies } from '@regardsoss/admin-ui-service-management'
 
 /**
  * Configuration file for UI-Configuration boards items.
@@ -45,6 +47,17 @@ export default (project, intl) => [
     }],
   },
   {
+    title: intl.formatMessage({ id: 'project.theme.title' }),
+    description: intl.formatMessage({ id: 'project.theme.description' }),
+    advanced: false,
+    actions: [{
+      path: `/admin/${project}/ui/theme/edit`,
+      icon: <Palette />,
+      tooltipMsg: intl.formatMessage({ id: 'project.theme.tooltip' }),
+      hateoasDependencies: themeUIDependencies.boardRequiredDependencies,
+    }],
+  },
+  {
     title: intl.formatMessage({ id: 'project.plugin.title' }),
     description: intl.formatMessage({ id: 'project.plugin.description' }),
     advanced: false,
@@ -65,26 +78,10 @@ export default (project, intl) => [
     description: intl.formatMessage({ id: 'project.service.description' }),
     advanced: false,
     actions: [{
-      path: `/admin/${project}/ui/layout/user/modules/list`,
-      icon: <ViewLinesIcon />,
+      path: `/admin/${project}/ui/service/list`,
+      icon: <ExtensionIcon />,
       tooltipMsg: intl.formatMessage({ id: 'action.list.tooltip' }),
-      //hateoasDependencies: LayoutListDep,
-    }, {
-      path: `/admin/${project}/ui/layout/user/layout`,
-      icon: <AddIcon />,
-      tooltipMsg: intl.formatMessage({ id: 'action.add.tooltip' }),
-      //hateoasDependencies: LayoutAddDep,
-    }],
-  },
-  {
-    title: intl.formatMessage({ id: 'project.theme.title' }),
-    description: intl.formatMessage({ id: 'project.theme.description' }),
-    advanced: false,
-    actions: [{
-      path: `/admin/${project}/ui/theme/edit`,
-      icon: <Palette />,
-      tooltipMsg: intl.formatMessage({ id: 'project.theme.tooltip' }),
-      hateoasDependencies: themeUIDependencies.boardRequiredDependencies,
+      hateoasDependencies: serviceUIDependencies.boardListRequiredDependencies,
     }],
   },
 ]

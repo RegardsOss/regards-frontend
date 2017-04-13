@@ -4,7 +4,7 @@
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import CatalogDatasetEntityActions from './models/catalog/CatalogDatasetEntityActions'
 import CatalogDataobjectEntityActions from './models/catalog/CatalogDataobjectEntityActions'
-import AttributeModelActions from './models/attributes/AttributeModelActions'
+import { AttributeModelAction } from './models/client/AttributeModelClient'
 
 /**
  * Dependencies needed to display user page of the module
@@ -14,12 +14,13 @@ const user = [
   CatalogDatasetEntityActions.getDependency(RequestVerbEnum.GET_LIST),
   CatalogDataobjectEntityActions.getDependency(RequestVerbEnum.GET_LIST),
 ]
+
 /**
  * Dependencies needed to display admin page of the module
  * @type {[*]}
  */
 const admin = [
-  AttributeModelActions.getDependency(RequestVerbEnum.GET_LIST),
+  AttributeModelAction.getDependency(RequestVerbEnum.GET_LIST),
 ]
 
 export default {

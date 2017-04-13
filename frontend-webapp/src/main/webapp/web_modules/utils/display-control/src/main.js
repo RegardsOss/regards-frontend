@@ -4,6 +4,7 @@
 import DisplayDecorator from './DisplayDecorator'
 import applyDisplayLogic from './applyDisplayLogic'
 import HateoasDisplayDecorator from './resources/HateoasDisplayDecorator'
+import ResourceIconAction from './resources/ResourceIconAction'
 import HateoasIconAction from './hateoas/HateoasIconAction'
 import HateoasToggle from './hateoas/HateoasToggle'
 import HateoasKeys from './model/HateoasKeys'
@@ -18,6 +19,7 @@ export {
   DisplayDecorator,
   applyDisplayLogic,
   HateoasDisplayDecorator,
+  ResourceIconAction,
   HateoasIconAction,
   HateoasToggle,
   HateoasKeys,
