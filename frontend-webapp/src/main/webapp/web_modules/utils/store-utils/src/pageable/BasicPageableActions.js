@@ -34,10 +34,10 @@ class BasicPageableActions extends BasicListActions {
     endpoint = this.handleRequestPathParameters(endpoint, pathParams)
     if (size && size > 0) {
       endpoint = this.handleRequestQueryParams(endpoint, {
-        /** _start: index,
-        _limit: size,*/
-        offset: index,
-        size,
+        _start: index,
+        _limit: size,
+        // offset: index,
+        // size,
       })
     }
 
