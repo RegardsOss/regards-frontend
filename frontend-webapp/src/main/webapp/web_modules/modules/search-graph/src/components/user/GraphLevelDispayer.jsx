@@ -7,6 +7,7 @@ import ScrollArea from 'react-scrollbar'
 import { CatalogEntity } from '@regardsoss/model'
 import { themeContextType } from '@regardsoss/theme'
 import { ShowableAtRender } from '@regardsoss/components'
+import { DatasetAttributesArrayForGraph } from '../../model/DatasetAttributesForGraph'
 import DatasetItemContainer from '../../containers/user/DatasetItemContainer'
 import CollectionItemContainer from '../../containers/user/CollectionItemContainer'
 import GraphLevelLoadingDisplayer from './GraphLevelLoadingDisplayer'
@@ -18,6 +19,7 @@ import GraphLevelMessageDisplayer from './GraphLevelMessageDisplayer'
 class GraphLevelDispayer extends React.Component {
 
   static propTypes = {
+    graphDatasetAttributes: DatasetAttributesArrayForGraph.isRequired, // graph dataset attributes, required, but empty array is allowed
     isShowable: React.PropTypes.bool.isRequired, // is showable in current state?
     isLoading: React.PropTypes.bool.isRequired, // is loading
     hasError: React.PropTypes.bool.isRequired, // has fetch error
@@ -31,13 +33,13 @@ class GraphLevelDispayer extends React.Component {
   }
 
   render() {
-    const { isShowable, isLoading, hasError, collections, datasets, levelIndex } = this.props
+    const { graphDatasetAttributes, isShowable, isLoading, hasError, collections, datasets, levelIndex } = this.props
     const { user } = this.context.moduleTheme
     // note: is loading and has error are strictly exclusive (cannot be true at same time)
     const hasContent = size(collections) + size(datasets) > 0
     return (
       <ShowableAtRender show={isShowable}>
-        <div style={levelIndex ? user.level.styles : user.level.styles} >
+        <div style={user.level.styles} >
           <ShowableAtRender show={isLoading}>
             <GraphLevelLoadingDisplayer />
           </ShowableAtRender>
@@ -65,7 +67,12 @@ class GraphLevelDispayer extends React.Component {
               }
               {
                 map(datasets, dataset =>
-                  <DatasetItemContainer key={dataset.content.ipId} dataset={dataset} levelIndex={levelIndex} />)
+                  <DatasetItemContainer
+                    graphDatasetAttributes={graphDatasetAttributes}
+                    key={dataset.content.ipId}
+                    dataset={dataset}
+                    levelIndex={levelIndex}
+                  />)
               }
             </ScrollArea>
           </ShowableAtRender>

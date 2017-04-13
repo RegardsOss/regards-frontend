@@ -3,10 +3,12 @@
 **/
 import ScrollArea from 'react-scrollbar'
 import Measure from 'react-measure'
-import { FormattedMessage } from 'react-intl'
-import { Card, CardMedia, CardTitle } from 'material-ui/Card'
+import { Card, CardMedia } from 'material-ui/Card'
 import { themeContextType } from '@regardsoss/theme'
+import { ShowableAtRender } from '@regardsoss/components'
 import ModuleConfiguration from '../../model/ModuleConfiguration'
+import { DatasetAttributesArrayForGraph } from '../../model/DatasetAttributesForGraph'
+import SearchGraphHeaderContainer from '../../containers/user/SearchGraphHeaderContainer'
 import GraphLevelDisplayerContainer from '../../containers/user/GraphLevelDisplayerContainer'
 
 /**
@@ -15,6 +17,8 @@ import GraphLevelDisplayerContainer from '../../containers/user/GraphLevelDispla
 class SearchGraph extends React.Component {
 
   static propTypes = {
+    graphDatasetAttributes: DatasetAttributesArrayForGraph.isRequired, // graph dataset attributes, required, but empty array is allowed
+    moduleCollapsed: React.PropTypes.bool.isRequired, // is module collapsed
     moduleConf: ModuleConfiguration.isRequired,
   }
 
@@ -22,12 +26,10 @@ class SearchGraph extends React.Component {
     ...themeContextType,
   }
 
-
   componentWillMount = () => {
     // initialize state
     this.updateForLevelsWidth()
   }
-
 
   onLevelsResized = ({ width }) => {
     // A - update for level width
@@ -53,36 +55,40 @@ class SearchGraph extends React.Component {
   }
 
   render() {
-    const { moduleConf: { graphLevels } } = this.props
+    const { moduleConf: { graphLevels }, moduleCollapsed, graphDatasetAttributes } = this.props
     const { viewportStyles } = this.state
     const { moduleTheme: { user } } = this.context
     return (
-      <Card>
-        <CardTitle
-          title={<FormattedMessage id="search.graph.title" />}
-          subtitle={<FormattedMessage id="search.graph.subtitle" />}
-        />
-        <CardMedia>
-          <div style={user.graph.styles}>
-            <ScrollArea
-              horizontal
-              vertical={false}
-              smoothScrolling
-              horizontalContainerStyle={user.scrolling.horizontalScrollContainer.styles}
-              horizontalScrollbarStyle={user.scrolling.horizontalScrollbar.styles}
-              contentStyle={viewportStyles}
-              ref={(scrollArea) => { this.scrollArea = scrollArea }}
-            >
-              <Measure onMeasure={this.onLevelsResized}>
-                <div style={user.levels.styles}>
-                  {graphLevels.map((levelModelName, index) => (
-                    <GraphLevelDisplayerContainer key={levelModelName} levelModelName={levelModelName} levelIndex={index} />
-                  ))}
-                </div>
-              </Measure>
-            </ScrollArea>
-          </div>
-        </CardMedia>
+      <Card style={user.styles}>
+        <SearchGraphHeaderContainer graphDatasetAttributes={graphDatasetAttributes}  />
+        <ShowableAtRender show={!moduleCollapsed}>
+          <CardMedia>
+            <div style={user.graph.styles}>
+              <ScrollArea
+                horizontal
+                vertical={false}
+                smoothScrolling
+                horizontalContainerStyle={user.scrolling.horizontalScrollContainer.styles}
+                horizontalScrollbarStyle={user.scrolling.horizontalScrollbar.styles}
+                contentStyle={viewportStyles}
+                ref={(scrollArea) => { this.scrollArea = scrollArea }}
+              >
+                <Measure onMeasure={this.onLevelsResized}>
+                  <div style={user.levels.styles}>
+                    {graphLevels.map((levelModelName, index) => (
+                      <GraphLevelDisplayerContainer
+                        graphDatasetAttributes={graphDatasetAttributes}
+                        key={levelModelName}
+                        levelModelName={levelModelName}
+                        levelIndex={index}
+                      />
+                    ))}
+                  </div>
+                </Measure>
+              </ScrollArea>
+            </div>
+          </CardMedia>
+        </ShowableAtRender>
       </Card >
     )
   }

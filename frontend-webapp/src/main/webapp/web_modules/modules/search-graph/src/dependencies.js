@@ -10,7 +10,6 @@ import { AttributeModelAction } from './model/client/AttributeModelClient'
  * Module hateoas depencies
  */
 const user = [
-  // TODO
   ...resultsDependencies.user,
 ]
 

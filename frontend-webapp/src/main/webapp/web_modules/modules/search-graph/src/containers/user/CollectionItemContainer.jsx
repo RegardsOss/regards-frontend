@@ -3,8 +3,8 @@
 **/
 import { CatalogEntity } from '@regardsoss/model'
 import { connect } from '@regardsoss/redux'
-import GraphSelectionActions from '../../model/graph/GraphSelectionActions'
-import GraphSelectionSelectors from '../../model/graph/GraphSelectionSelectors'
+import GraphContextActions from '../../model/graph/GraphContextActions'
+import GraphContextSelectors from '../../model/graph/GraphContextSelectors'
 import CollectionItem from '../../components/user/CollectionItem'
 
 /**
@@ -13,7 +13,7 @@ import CollectionItem from '../../components/user/CollectionItem'
 class CollectionItemContainer extends React.Component {
 
   static mapStateToProps = (state, { levelIndex, collection }) => {
-    const levelSelection = GraphSelectionSelectors.getSelectionForLevel(state, levelIndex)
+    const levelSelection = GraphContextSelectors.getSelectionForLevel(state, levelIndex)
     const selected = levelSelection ? levelSelection.ipId === collection.content.ipId : false
     return {
       selected,
@@ -21,7 +21,7 @@ class CollectionItemContainer extends React.Component {
   }
 
   static mapDispatchToProps = (dispatch, { levelIndex, collection }) => ({
-    dispatchSelected: () => dispatch(GraphSelectionActions.selectEntity(levelIndex, collection)),
+    dispatchSelected: () => dispatch(GraphContextActions.selectEntity(levelIndex, collection)),
   })
 
 

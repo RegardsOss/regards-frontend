@@ -10,9 +10,9 @@ const menuStyles = (theme) => {
   // columns width specificions (used by inner divisions)
   const column = {
     leftMargin: 10,
-    rightMargin: 10,
-    bestWidth: 250,
-    maxWidth: 450,
+    rightMargin: 2,
+    bestWidth: 180,
+    maxWidth: 465,
   }
   const progressSize = 120
   const scrollContainerStyles = { background: 'rgba(0,0,0,0)' }
@@ -74,10 +74,47 @@ const menuStyles = (theme) => {
       },
     },
     user: {
+      // root card container
+      styles: {
+        margin: '0 0 10px 0',
+      },
       // graph container (contains scrollable area)
       graph: {
         styles: {
-          padding: '0 10px 0 10px',
+          borderStyle: 'solid',
+          borderWidth: '1px 0 0 0',
+          borderColor: theme.toolbar.separatorColor,
+        },
+      },
+      // graph header styles
+      header: {
+        styles: {
+          background: theme.palette.canvasColor,
+          height: '', // remove useless MUI height there!
+        },
+        firstToolbarGroup: {
+          styles: {
+            flexGrow: 1,
+          },
+        },
+        cardTitle: {
+          styles: {
+            padding: '10px',
+          },
+          titleStyles: {
+            lineHeight: '', // remove wrong height!
+            padding: '0 0 5px 0',
+          },
+        },
+        collapseButton: {
+          styles: {
+            width: 48,
+            height: 48,
+          },
+          iconStyles: {
+            width: 24,
+            height: 24,
+          },
         },
       },
       // scrolling definition
@@ -110,14 +147,14 @@ const menuStyles = (theme) => {
           flexWrap: 'nowrap',
           justifyContent: 'flexStart',
           alignItems: 'flexStart',
-          padding: '0 0 15px 0',
+          padding: '10px 0 15px 0',
           flexShrink: 0, // use to ensure the viewport width
         },
       },
       // level items container
       level: {
         styles: {
-          padding: `0 ${column.leftMargin}px 0px ${column.rightMargin}px`,
+          padding: `0 ${column.rightMargin}px 0px ${column.leftMargin}px`,
           minWidth: `${column.bestWidth}px`,
           maxWidth: `${column.maxWidth}px`,
           borderStyle: 'solid',
@@ -149,17 +186,62 @@ const menuStyles = (theme) => {
       },
       datasetItem: {
         styles: {
-          padding: '0px 25px 5px 0',
-
+          padding: '0px 10px 3px 0',
+          flexDirection: 'column',
+          justifyContent: 'flex-start',
+          alignItems: 'stretch',
+        },
+        attributes: {
+          container: {
+            commonStyles: {
+              display: 'table',
+              margin: '2px 25px 0 8px',
+              color: theme.palette.secondaryTextColor, // configures attributes label text color
+              borderWidth: '0 0 0 1px',
+              borderStyle: 'solid',
+            },
+            defaultStyles: {
+              borderColor: theme.toolbar.separatorColor,
+            },
+            selectedStyles: {
+              borderColor: theme.palette.accent2Color,
+            },
+            hoverStyles: {
+              borderColor: theme.palette.accent1Color,
+            },
+            lockedStyles: {
+              borderColor: theme.palette.disabledColor,
+              color: theme.palette.disabledColor,
+            },
+          },
+          line: {
+            styles: {
+              display: 'table-row',
+            },
+          },
+          detailsLabel: {
+            styles: {
+              fontSize: '0.75em',
+              padding: '0 0 0 14px',
+              display: 'table-cell',
+            },
+          },
+          detailsValue: {
+            commonStyles: {
+              fontSize: '0.75em',
+              padding: '0 0 0 15px',
+              display: 'table-cell',
+              color: theme.palette.textColor,
+            },
+            lockedStyles: {
+              color: theme.palette.disabledColor,
+            },
+          },
         },
       },
       collectionItem: {
         styles: {
-          padding: '0px 5px 5px 0',
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'flex-start',
+          padding: '0px 10px 3px 0',
         },
         arrow: {
           // defining here only the common styles, hover / selected styles are re-used from item links
@@ -202,7 +284,7 @@ const menuStyles = (theme) => {
             width: 16,
             flexShrink: 0,
             flexGrow: 0,
-            margin: '2px 10px 0 0',
+            margin: '2px 6px 0 0',
           },
         },
         icon: {
@@ -243,7 +325,7 @@ const menuStyles = (theme) => {
           // common styles for all states
           commonStyles: {
             margin: '2px 0 0 0',
-            fontSize: '1em',
+            fontSize: '0.95em',
             wordWrap: 'break-word',
             flexShrink: 1,
             flexGrow: 1,
@@ -265,13 +347,13 @@ const menuStyles = (theme) => {
           styles: {
             width: 20,
             height: 20,
-            padding: 1,
-            margin: '0 0 0 5px',
+            padding: 2,
           },
           iconStyles: {
-            width: 18,
-            height: 18,
+            width: 16,
+            height: 16,
             color: theme.palette.accent2Color,
+            opacity: 0.7,
           },
         },
       },

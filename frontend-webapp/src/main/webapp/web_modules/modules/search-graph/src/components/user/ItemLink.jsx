@@ -36,17 +36,17 @@ class ItemLink extends React.Component {
  * }
  * @return appliable style objects in state
  */
-  static selectStyles = (newState, stylesHolder, basicStyles) => {
+  static selectStyles = (newState, { defaultStyles = {}, lockedStyles = {}, hoverStyles = {}, selectedStyles = {} }, basicStyles = {}) => {
     switch (newState) {
       case ItemLink.States.DEFAULT:
-        return { ...basicStyles, ...stylesHolder.defaultStyles }
+        return { ...basicStyles, ...defaultStyles }
       case ItemLink.States.LOCKED:
-        return { ...basicStyles, ...stylesHolder.lockedStyles }
+        return { ...basicStyles, ...lockedStyles }
       case ItemLink.States.HOVER:
       case ItemLink.States.SELECTED_HOVER:
-        return { ...basicStyles, ...stylesHolder.hoverStyles }
+        return { ...basicStyles, ...hoverStyles }
       case ItemLink.States.SELECTED:
-        return { ...basicStyles, ...stylesHolder.selectedStyles }
+        return { ...basicStyles, ...selectedStyles }
       default:
         throw new Error('Unknown state')
     }
@@ -58,6 +58,7 @@ class ItemLink extends React.Component {
     onSelect: React.PropTypes.func.isRequired,
     text: React.PropTypes.string.isRequired,
     Icon: React.PropTypes.func.isRequired,
+    additiveLineComponent: React.PropTypes.node, // an optional additive line component
     // optional callback on state change: (newState:States) => void
     onStateChange: React.PropTypes.func,
   }
@@ -147,7 +148,7 @@ class ItemLink extends React.Component {
   }
 
   render() {
-    const { Icon, text } = this.props
+    const { Icon, text, additiveLineComponent } = this.props
     const { rootStyles, textStyles, iconStyles } = this.state
     const { moduleTheme: { user: { itemLink: { iconsOverlay, lockIcon, informationButton } } } } = this.context
     /* eslint-disable jsx-a11y/no-static-element-interactions*/
@@ -173,6 +174,10 @@ class ItemLink extends React.Component {
         >
           {text}
         </div>
+        {
+          // additive line component if any
+          additiveLineComponent || null
+        }
         <IconButton iconStyle={informationButton.iconStyles} style={informationButton.styles}>
           <InformationIcon />
         </IconButton>

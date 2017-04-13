@@ -13,7 +13,7 @@ import {
   AttributesRegroupementConfiguration,
 } from '@regardsoss/model'
 import { Field, RenderRadio, RenderCheckbox } from '@regardsoss/form-utils'
-import { MainAttributesConfigurationComponent } from '@regardsoss/attributes-configuration'
+import { MainAttributesConfigurationComponent } from '@regardsoss/attributes-common'
 
 /**
  * Display form to configure main parameters of search form.

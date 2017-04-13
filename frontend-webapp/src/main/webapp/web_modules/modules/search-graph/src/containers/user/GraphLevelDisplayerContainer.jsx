@@ -4,9 +4,10 @@
 import { connect } from '@regardsoss/redux'
 import { CatalogEntity, CatalogEntityTypes } from '@regardsoss/model'
 import GraphLevelDispayer from '../../components/user/GraphLevelDispayer'
+import { DatasetAttributesArrayForGraph } from '../../model/DatasetAttributesForGraph'
 import FetchGraphCollectionsActions from '../../model/graph/FetchGraphCollectionsActions'
 import FetchGraphDatasetsActions from '../../model/graph/FetchGraphDatasetsActions'
-import GraphSelectionSelectors from '../../model/graph/GraphSelectionSelectors'
+import GraphContextSelectors from '../../model/graph/GraphContextSelectors'
 import GraphLevelCollectionActions from '../../model/graph/GraphLevelCollectionActions'
 import GraphLevelDatasetActions from '../../model/graph/GraphLevelDatasetActions'
 import GraphLevelCollectionSelectors from '../../model/graph/GraphLevelCollectionSelectors'
@@ -22,7 +23,7 @@ class GraphLevelDisplayerContainer extends React.Component {
   static mapStateToProps = (state, { levelIndex }) => {
     const partitionKey = GraphLevelDisplayerContainer.getLevelPartitionKey(levelIndex)
     // has parent selection, and is it a collectionb?
-    const parentSelection = GraphSelectionSelectors.getSelectionForParentLevel(state, levelIndex)
+    const parentSelection = GraphContextSelectors.getSelectionForParentLevel(state, levelIndex)
     const parentIpId = parentSelection && parentSelection.type === CatalogEntityTypes.COLLECTION ? parentSelection.ipId : null
     return {
       parentIpId,
@@ -71,10 +72,10 @@ class GraphLevelDisplayerContainer extends React.Component {
   })
 
   static propTypes = {
+    graphDatasetAttributes: DatasetAttributesArrayForGraph.isRequired, // graph dataset attributes, required, but empty array is allowed
     levelIndex: React.PropTypes.number.isRequired, // level index in graph
     // eslint-disable-next-line react/no-unused-prop-types
     levelModelName: React.PropTypes.string.isRequired, // model name for this level, used only for dispatch
-
     // from map state to props
     isShowable: React.PropTypes.bool.isRequired, // is showable in current selection state
     isLoading: React.PropTypes.bool.isRequired, // is loading
@@ -129,6 +130,7 @@ class GraphLevelDisplayerContainer extends React.Component {
 
   render() {
     const {
+      graphDatasetAttributes,
       levelIndex,
       isShowable,
       isLoading,
@@ -138,6 +140,7 @@ class GraphLevelDisplayerContainer extends React.Component {
     } = this.props
     return (
       <GraphLevelDispayer
+        graphDatasetAttributes={graphDatasetAttributes}
         isShowable={isShowable}
         isLoading={isLoading}
         hasError={hasError}

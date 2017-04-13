@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { AttributeConfiguration, AttributesRegroupementConfiguration } from '@regardsoss/model' // TODO remove or use
+import { AttributeConfiguration, AttributesRegroupementConfiguration } from '@regardsoss/model'
 /**
  * form configuration
  */

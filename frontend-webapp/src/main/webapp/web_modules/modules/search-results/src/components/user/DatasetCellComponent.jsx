@@ -10,8 +10,7 @@ import { Card, CardHeader, CardText } from 'material-ui/Card'
 import InfoIcon from 'material-ui/svg-icons/action/info-outline'
 import { CatalogEntity, AttributeModel, AttributeModelController, ObjectLinkedFileTypes } from '@regardsoss/model'
 import { themeContextType } from '@regardsoss/theme'
-import CustomCellByAttributeTypeEnum from './cells/CustomCellByAttributeTypeEnum'
-import DefaultCell from './cells/DefaultCell'
+import { getTypeRender } from '@regardsoss/attributes-common'
 import DatasetDescriptionComponent from './DatasetDescriptionComponent'
 
 /**
@@ -97,11 +96,7 @@ class DatasetCellComponent extends React.Component {
     const attributes = {}
     attributes[`${attribute.content.fragment.name}.${attribute.content.name}`] = attributeValue
 
-    let valueCellRenderer = CustomCellByAttributeTypeEnum[attribute.content.type]
-    if (!valueCellRenderer) {
-      valueCellRenderer = DefaultCell
-    }
-
+    const valueCellRenderer = getTypeRender(attribute.content.type)
     const element = React.createElement(valueCellRenderer, {
       attributes,
     })
@@ -191,7 +186,7 @@ class DatasetCellComponent extends React.Component {
         }}
       />
     </div>
-    )
+  )
 
   displayDescription = () => {
     if (this.state.descriptionOpen) {

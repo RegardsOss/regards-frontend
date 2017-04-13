@@ -29,8 +29,10 @@ const messages = {
   // user
   'search.graph.title': 'Navigation par graphe',
   'search.graph.subtitle': 'Parcours des données par collections et affichage des objets contenu dans les jeux de données',
+  'search.graph.show.details': 'Details',
   'search.graph.level.fetch.model.failed': 'La récupération des collections et jeux de données a échoué',
   'search.graph.level.no.model': 'La collection est vide',
+  'search.graph.dataset.attribute.no.value': '-',
 
   ...Locales.fr,
 }

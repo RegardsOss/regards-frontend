@@ -15,7 +15,6 @@ npm link web_modules/data/model
 npm link web_modules/data/client
 
 # Tools
-npm link web_modules/utils/attributes-configuration
 npm link web_modules/utils/authentication-manager
 npm link web_modules/utils/charts
 npm link web_modules/utils/form-utils
@@ -31,6 +30,9 @@ npm link web_modules/utils/layout
 
 # Common components
 npm link web_modules/components
+
+# Common business components
+npm link web_modules/business-common/attributes-common
 
 # Administration modules
 npm link web_modules/modules/admin-accessright-management

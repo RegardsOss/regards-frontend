@@ -52,8 +52,8 @@ class CollectionItem extends React.Component {
           Icon={CollectionIcon}
           onSelect={onSelect}
           onStateChange={this.onItemLinkStateChange}
+          additiveLineComponent={<ArrowDown style={arrowStyles} />}
         />
-        <ArrowDown style={arrowStyles} />
       </div>
     )
   }

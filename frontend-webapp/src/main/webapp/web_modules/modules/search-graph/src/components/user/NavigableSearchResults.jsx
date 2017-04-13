@@ -12,6 +12,7 @@ class NavigableSearchResults extends React.Component {
   static propTypes = {
     appName: React.PropTypes.string,
     project: React.PropTypes.string,
+    searchQuery: React.PropTypes.string, // search query if a dataset is selected
     // Module configuration
     moduleConf: ModuleConfiguration.isRequired,
   }
@@ -19,16 +20,15 @@ class NavigableSearchResults extends React.Component {
   static defaultProps = {}
 
   render() {
-    const { project, appName, moduleConf: { ...resultsConfiguration } } = this.props
+    const { project, appName, searchQuery, moduleConf: { ...resultsConfiguration } } = this.props
     const module = {
       name: 'search-results',
       active: true,
       applicationId: this.props.appName,
       conf: {
-        // TODO: search query for selected dataset
-        // searchQuery: TODO (based on last selected dataset),
-        // TODO also some custom navigation?
+        // TODO we remove dataset tab!
         ...resultsConfiguration,
+        searchQuery,
       },
     }
 
