@@ -7,7 +7,7 @@ import ProjectConnectionTestActions from './ProjectConnectionTestActions'
 /**
  * Redux Reducer for ProjectConnection actions.
  *
- * To user those actions, you need to pass the <namespace> parameter
+ * To use those actions, you need to pass the <namespace> parameter
  *
  * namespace : String, must be the same namespace defined in the associated Reducer.
  *

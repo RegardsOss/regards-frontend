@@ -820,13 +820,28 @@
       "verb": "GET",
       "controllerSimpleName": "Controller 1"
     },
-
     {
       "id": 61,
       "description": "Project users",
       "microservice": "rs-access-project",
       "resource": "/plugin",
       "verb": "POST",
+      "controllerSimpleName": "Controller 1"
+    },
+    {
+      "id": 62,
+      "description": "Project users",
+      "microservice": "rs-access-project",
+      "resource": "/plugin/{plugin_id}/config",
+      "verb": "POST",
+      "controllerSimpleName": "Controller 1"
+    },
+    {
+      "id": 63,
+      "description": "Project users",
+      "microservice": "rs-access-project",
+      "resource": "/plugin/{plugin_id}/config",
+      "verb": "GET",
       "controllerSimpleName": "Controller 1"
     }
   ]

@@ -6,7 +6,7 @@ import { PluginInfo } from './PluginInfo'
  * IHM Plugin entity definition
  * @author Sébastien Binda
  */
-const Plugin = React.PropTypes.shape({
+const UIPlugin = React.PropTypes.shape({
   name: React.PropTypes.string.isRequired,
   plugin: React.PropTypes.func.isRequired,
   messages: React.PropTypes.shape({
@@ -16,4 +16,4 @@ const Plugin = React.PropTypes.shape({
   info: PluginInfo,
 })
 
-export default Plugin
+export default UIPlugin

@@ -1,17 +1,17 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { BasicSelector } from '@regardsoss/store-utils'
+import { BasicListSelectors } from '@regardsoss/store-utils'
 
 /**
  * Selector for plugins from redux store
  * @author Sébastien Binda
+ * @author Léo Mieulet
  */
-class PluginSelector extends BasicSelector {
-
-  getPlugins = store => store.common.plugins.loadedPlugins
-
-  getPluginBySourcesPath = (path, store) => store.common.plugins.loadedPlugins[path]
+class PluginSelector extends BasicListSelectors {
+  constructor() {
+    super(['common', 'plugins', 'loadedPlugins'])
+  }
 }
 
 const instance = new PluginSelector()

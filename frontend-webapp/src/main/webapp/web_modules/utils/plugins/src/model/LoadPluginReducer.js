@@ -3,14 +3,15 @@
  **/
 import { PLUGIN_LOADED } from './LoadPluginActions'
 
-const mergePluginInfo = (state, action) => {
+const mergePluginInfo = (state, { type, sourcePath, plugin, reducer, name, messages, info, ...otherProps }) => {
   const newState = Object.assign({}, state)
-  newState[action.sourcesPath] = {
-    plugin: action.plugin,
-    reducer: action.reducer,
-    name: action.name,
-    messages: action.messages,
-    info: action.info,
+  newState.items[sourcePath] = {
+    plugin,
+    reducer,
+    name,
+    messages,
+    info,
+    ...otherProps,
   }
   return newState
 }

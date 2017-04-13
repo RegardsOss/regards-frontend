@@ -47,8 +47,6 @@ class FormCriteriaComponent extends React.Component {
     super()
     this.state = {
       selectedCriteria: props.criteria ? props.criteria.pluginId : null,
-      selectedContainer: props.criteria ? props.criteria.container : null,
-      pluginConf: props.criteria ? props.criteria.pluginConf : null,
     }
   }
 
@@ -70,19 +68,6 @@ class FormCriteriaComponent extends React.Component {
     if (this.props.criteria) {
       this.props.initialize({ ...this.props.criteria })
     }
-  }
-
-  /**
-   * Callback when a container is selected
-   * @param event
-   * @param index
-   * @param value
-   */
-  selectContainer = (event, index, value, input) => {
-    input.onChange(value)
-    this.setState({
-      selectedContainer: value,
-    })
   }
 
   /**
@@ -186,7 +171,6 @@ class FormCriteriaComponent extends React.Component {
             fullWidth
             component={RenderSelectField}
             type="text"
-            onSelect={this.selectContainer}
             label={<FormattedMessage id="form.criterion.criteria.select.container.label" />}
           >
             {this.renderContainersList()}
@@ -212,12 +196,7 @@ export {
   UnconnectedFormCriteriaComponent,
 }
 
-const validate = (values) => {
-  const errors = {}
-  return errors
-}
 export default reduxForm({
   form: 'edit-module-criteria-form',
-  validate,
 })(FormCriteriaComponent)
 

@@ -16,17 +16,20 @@ if (typeof root.document !== 'undefined' && typeof root.document.getElementsByTa
  */
 export const PLUGIN_LOADED = 'LOAD_PLUGINS/PLUGIN_LOADED'
 
-export const pluginLoaded = plugin => ({
+export const savePluginLoaded = ({ sourcePath, info, plugin, reducer, messages, ...otherProps }, sourcePathFromDb) => ({
   type: PLUGIN_LOADED,
-  name: plugin.info.name,
-  plugin: plugin.plugin,
-  reducer: plugin.reducer,
-  messages: plugin.messages,
-  info: plugin.info,
+  name: info.name,
+  plugin,
+  reducer,
+  messages,
+  info,
+  sourcePath: sourcePathFromDb,
+  ...otherProps,
 })
 
+
 /**
- * Load a plugin with a given name and a given sourcepath
+ * Load a plugin with a given name and a given sourcePath
  * @param pluginName
  * @param sourcePath
  * @param dispatchAction
@@ -35,24 +38,21 @@ export const loadPlugin = (sourcePath, onErrorCallback, dispatchAction) => {
   let fullSourcePlugin = ''
   if (typeof root.document !== 'undefined') {
     if (sourcePath[0] === '/') {
-      fullSourcePlugin = `${window.location.origin}${sourcePath}`
+      fullSourcePlugin = `${root.location.origin}${sourcePath}`
     } else {
-      fullSourcePlugin = `${window.location.origin}/${sourcePath}`
+      fullSourcePlugin = `${root.location.origin}/${sourcePath}`
     }
-  }
 
-  // Listen for pluin initialization done
-  root.document.addEventListener('plugin', (event) => {
-    if (fullSourcePlugin === event.detail.sourcePath) {
-      const action = pluginLoaded(event.detail)
-      action.sourcesPath = sourcePath
-      dispatchAction(action)
-    }
-  })
+    // Listen for plugin initialization done
+    root.document.addEventListener('plugin', (event) => {
+      // Verify that the event raised by a plugin loaded is the expected one
+      if (fullSourcePlugin === event.detail.sourcePath) {
+        dispatchAction(savePluginLoaded(event.detail, sourcePath))
+      }
+    })
 
-  if (typeof root.document !== 'undefined') {
     scriptjs(fullSourcePlugin, sourcePath)
-    root.window.addEventListener('error', (e, url) => {
+    root.document.addEventListener('error', (e, url) => {
       if (e && e.srcElement && e.srcElement.src === fullSourcePlugin) {
         onErrorCallback(fullSourcePlugin)
       }

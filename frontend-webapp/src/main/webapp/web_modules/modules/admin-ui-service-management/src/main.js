@@ -1,15 +1,15 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import uiConfigurationRouter from './router'
-import uiConfigurationtReducer from './reducer'
-import uiConfigurationDependencies from './dependencies'
+import serviceUIRouter from './router'
+import serviceUIReducer from './reducer'
+import serviceUIDependencies from './dependencies'
 /**
  * Module main file to expose public interface
  * @author Sébastien binda
  */
 export default {
-  uiConfigurationRouter,
-  uiConfigurationtReducer,
-  uiConfigurationDependencies,
+  serviceUIRouter,
+  serviceUIReducer,
+  serviceUIDependencies,
 }

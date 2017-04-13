@@ -8,8 +8,8 @@ import { BasicPageableSelectors } from '@regardsoss/store-utils'
  *
  * To use this selector, you need to pass a parameter : <storePath>.
  *
- * storePath : Array<String>, exemple :  ['common','enitites'].
- * With this exemple, all projects will be stored in the subpart 'common.entities' of the global
+ * storePath : Array<String>, example :  ['common','enitites'].
+ * With this example, all projects will be stored in the subpart 'common.entities' of the global
  * application store.
  *
  * @author Sébastien Binda
