@@ -14,7 +14,7 @@ import Delete from 'material-ui/svg-icons/action/delete'
 import Done from 'material-ui/svg-icons/action/done'
 import RemoveCircle from 'material-ui/svg-icons/content/remove-circle'
 import { ProjectUser } from '@regardsoss/model'
-import { ActionsMenuCell, CardActionsComponent, NoContentMessageInfo } from '@regardsoss/components'
+import { ActionsMenuCell, CardActionsComponent, NoContentMessageInfo, ConfirmDialogComponent, ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import ProjectUserActions from '../model/ProjectUserActions'
@@ -65,6 +65,13 @@ export class ProjectUserListComponent extends React.Component {
     ...i18nContextType,
   }
 
+  constructor(props) {
+    super(props)
+    this.state = {
+      deleteDialogOpened: false,
+    }
+  }
+
   componentWillReceiveProps = (nextProps) => {
     if (this.props.initialFecthing && !nextProps.initialFecthing) {
       // first loading: show waiting tab if there are any waiting users
@@ -74,6 +81,21 @@ export class ProjectUserListComponent extends React.Component {
 
   onTabChange = (value) => {
     this.selectTab(value)
+  }
+
+
+  openDeleteDialog = (entity) => {
+    this.setState({
+      deleteDialogOpened: true,
+      entityToDelete: entity,
+    })
+  }
+
+  closeDeleteDialog = () => {
+    this.setState({
+      deleteDialogOpened: false,
+      entityToDelete: null,
+    })
   }
 
   getWaitingUsersTabContent = () => {
@@ -106,6 +128,25 @@ export class ProjectUserListComponent extends React.Component {
     this.setState({ selectedTab })
   }
 
+  renderDeleteConfirmDialog = () => {
+    const name = this.state.entityToDelete ? this.state.entityToDelete.content.email : ' '
+    const title = this.context.intl.formatMessage({ id: 'projectUser.list.delete.message' }, { name })
+    return (
+      <ShowableAtRender
+        show={this.state.deleteDialogOpened}
+      >
+        <ConfirmDialogComponent
+          dialogType={ConfirmDialogComponent.dialogTypes.DELETE}
+          onConfirm={() => {
+            this.props.onDelete(this.state.entityToDelete.content.id)
+          }}
+          onClose={this.closeDeleteDialog}
+          title={title}
+        />
+      </ShowableAtRender>
+    )
+  }
+
   render() {
     const selectedTab = this.state ? this.state.selectedTab : TABS.all
     const style = {
@@ -115,7 +156,7 @@ export class ProjectUserListComponent extends React.Component {
     const tabContent = selectedTab === TABS.waiting ? this.getWaitingUsersTabContent() : this.getAllUsersTabContent()
     const {
       users, waitingAccessUsers, initialFecthing, backUrl,
-      onValidate, onDeny, onEdit, onDelete, isFetchingActions,
+      onValidate, onDeny, onEdit, isFetchingActions,
     } = this.props
     const { intl } = this.context
 
@@ -131,6 +172,7 @@ export class ProjectUserListComponent extends React.Component {
           message={<FormattedMessage id={tabContent.noDataMessageKey} />}
         >
           <div>
+            {this.renderDeleteConfirmDialog()}
             <CardTitle subtitle={<FormattedMessage id={tabContent.tabSubtitleKey} />} />
             <CardText>
               <LoadableContentDisplayDecorator isLoading={initialFecthing}>
@@ -205,7 +247,7 @@ export class ProjectUserListComponent extends React.Component {
                             </IconButton>
                             <HateoasIconAction
                               title={intl.formatMessage({ id: 'projectUser.list.table.action.delete.tooltip' })}
-                              onTouchTap={() => onDelete(projectUser.content.id)}
+                              onTouchTap={() => this.openDeleteDialog(projectUser)}
                               disabled={isFetchingActions}
                               entityLinks={projectUser.links}
                               hateoasKey={HateoasKeys.DELETE}

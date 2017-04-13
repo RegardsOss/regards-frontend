@@ -26,12 +26,12 @@ class ProjectConnectionActions extends BasicSignalActions {
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-admin/projects/{projectName}/connections/{connectionId}/test`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/{microservice}/regards/{tenant}/datasource/test`
     })
   }
 
-  test(projectName, connectionId) {
-    return this.sendSignal('GET', null, { projectName, connectionId }, null)
+  test(microservice, tenant) {
+    return this.sendSignal('GET', null, { microservice, tenant }, null)
   }
 }
 

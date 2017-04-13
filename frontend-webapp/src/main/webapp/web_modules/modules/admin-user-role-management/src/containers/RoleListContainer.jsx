@@ -51,8 +51,8 @@ export class RoleListContainer extends React.Component {
     browserHistory.push(url)
   }
 
-  handleDelete =(roleId) => {
-    this.props.deleteRole(roleId)
+  handleDelete =(roleName) => {
+    this.props.deleteRole(roleName)
   }
 
   render() {
@@ -77,7 +77,7 @@ const mapStateToProps = state => ({
 })
 const mapDispatchToProps = dispatch => ({
   fetchRoleList: () => dispatch(RoleActions.fetchEntityList()),
-  deleteRole: id => dispatch(RoleActions.deleteEntity(id)),
+  deleteRole: roleName => dispatch(RoleActions.deleteEntity(roleName)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(RoleListContainer)

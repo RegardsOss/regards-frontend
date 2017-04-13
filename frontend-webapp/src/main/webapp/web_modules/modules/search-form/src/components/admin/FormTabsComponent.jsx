@@ -39,7 +39,7 @@ class FormTabsComponent extends React.Component {
   }
 
   renderCriterionTab = () => {
-    if (!this.props.criterionFetching && !this.props.selectableAttributesFectching) {
+    if (!this.props.criterionFetching && !this.props.selectableAttributesFectching && this.props.adminForm.form.conf) {
       return (
         <FromCriterionComponent
           defaultCriterion={this.props.defaultConf.criterion}

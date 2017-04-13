@@ -22,15 +22,15 @@ class ApplicationErrorContainer extends React.Component {
 
   render() {
     if (this.props.snackBarOpened) {
-      const message = this.props.snackBarMessage.length > ERROR_MESSAGE_MAX_SIZE ? `${this.props.snackBarMessage.substring(0, ERROR_MESSAGE_MAX_SIZE)}...` : this.props.snackBarMessage
+      const message =  this.props.snackBarMessage
       return (
         <Snackbar
           open={this.props.snackBarOpened}
           message={message}
-          autoHideDuration={40000}
           onRequestClose={this.props.closeDialog}
           onActionTouchTap={this.props.closeDialog}
           action="OK"
+          bodyStyle={{ height: 'auto', lineHeight: '28px', padding: 24, whiteSpace: 'pre-line' }}
         />
       )
     }
