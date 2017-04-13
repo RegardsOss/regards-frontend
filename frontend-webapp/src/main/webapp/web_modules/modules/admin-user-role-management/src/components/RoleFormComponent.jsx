@@ -42,7 +42,6 @@ export class RoleFormComponent extends React.Component {
       const { currentRole } = this.props
       let formValues = {
         name: currentRole.content.name,
-        isCorsRequestsAuthorized: currentRole.content.isCorsRequestsAuthorized,
       }
 
       // Not all roles have a parent role
@@ -98,11 +97,6 @@ export class RoleFormComponent extends React.Component {
                 />
               ))}
             </Field>
-            <Field
-              name="isCorsRequestsAuthorized"
-              component={RenderCheckbox}
-              label={<FormattedMessage id="role.form.isCorsRequestsAuthorized" />}
-            />
           </CardText>
           <CardText>
             <FormattedMessage id="role.form.authorizedAdresses" />

@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { map, pickBy, valuesIn } from 'lodash'
+import {map, pickBy, valuesIn} from 'lodash'
 
 
 /**
@@ -28,7 +28,8 @@ function apiResultIntoFormValues(currentFormValues, currentEnumValues, inputKey)
  */
 function formValuesIntoApiData(values, inputKey) {
   let enumValues = []
-  if (values.enumform[inputKey] && values.enumform[inputKey].inputs) {
+  if (values && values.enumForm && values.enumForm.length > 0 &&
+    values.enumform[inputKey] && values.enumform[inputKey].inputs) {
     enumValues = valuesIn(pickBy(values.enumform[inputKey].inputs, val => val && val.length > 0))
   }
   return enumValues

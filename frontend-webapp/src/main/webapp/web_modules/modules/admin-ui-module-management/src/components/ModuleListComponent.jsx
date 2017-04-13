@@ -8,7 +8,7 @@ import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
 import Copy from 'material-ui/svg-icons/content/content-copy'
 import { FormattedMessage } from 'react-intl'
-import { CardActionsComponent, ConfirmDialogComponent, ShowableAtRender } from '@regardsoss/components'
+import { ActionsMenuCell, CardActionsComponent, ConfirmDialogComponent, ShowableAtRender } from '@regardsoss/components'
 import { ModuleShape } from '@regardsoss/modules'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -65,6 +65,7 @@ class ModuleListComponent extends React.Component {
       hoverButtonView: this.context.muiTheme.palette.pickerHeaderColor,
     }
 
+    const { intl } = this.context
     const name = this.state.moduleToDelete ? this.state.moduleToDelete.name : ' '
     const title = this.context.intl.formatMessage({ id: 'modules.list.delete.message' }, { name })
 
@@ -118,27 +119,35 @@ class ModuleListComponent extends React.Component {
                   </TableRowColumn>
                   <TableRowColumn>{module.content.description}</TableRowColumn>
                   <TableRowColumn>
-                    <HateoasIconAction
-                      entityLinks={module.links}
-                      hateoasKey={HateoasKeys.UPDATE}
-                      onTouchTap={() => this.props.onEdit(module.content)}
-                    >
-                      <Edit hoverColor={style.hoverButtonEdit} />
-                    </HateoasIconAction>
-                    <HateoasIconAction
-                      entityLinks={module.links}
-                      hateoasKey={HateoasKeys.CREATE}
-                      onTouchTap={() => this.props.onDuplicate(module.content)}
-                    >
-                      <Copy hoverColor={style.hoverButtonEdit} />
-                    </HateoasIconAction>
-                    <HateoasIconAction
-                      entityLinks={module.links}
-                      hateoasKey={HateoasKeys.DELETE}
-                      onTouchTap={() => this.openDeleteDialog(module.content)}
-                    >
-                      <Delete hoverColor={style.hoverButtonDelete} />
-                    </HateoasIconAction>
+                    <ActionsMenuCell>
+                      <HateoasIconAction
+                        title={intl.formatMessage({ id: 'modules.list.table.action.edit.tooltip' })}
+                        entityLinks={module.links}
+                        hateoasKey={HateoasKeys.UPDATE}
+                        onTouchTap={() => this.props.onEdit(module.content)}
+                        breakpoint={460}
+                      >
+                        <Edit hoverColor={style.hoverButtonEdit} />
+                      </HateoasIconAction>
+                      <HateoasIconAction
+                        title={intl.formatMessage({ id: 'modules.list.table.action.duplicate.tooltip' })}
+                        entityLinks={module.links}
+                        hateoasKey={HateoasKeys.CREATE}
+                        onTouchTap={() => this.props.onDuplicate(module.content)}
+                        breakpoint={945}
+                      >
+                        <Copy hoverColor={style.hoverButtonEdit} />
+                      </HateoasIconAction>
+                      <HateoasIconAction
+                        title={intl.formatMessage({ id: 'modules.list.table.action.delete.tooltip' })}
+                        entityLinks={module.links}
+                        hateoasKey={HateoasKeys.DELETE}
+                        onTouchTap={() => this.openDeleteDialog(module.content)}
+                        breakpoint={945}
+                      >
+                        <Delete hoverColor={style.hoverButtonDelete} />
+                      </HateoasIconAction>
+                    </ActionsMenuCell>
                   </TableRowColumn>
                 </TableRow>
                 ))}

@@ -25,6 +25,7 @@ const messages = Object.assign({
   'projectUser.list.waiting.subtitle': 'List of new project users waiting for access validation',
   'projectUser.list.waiting.accept.all': 'Accept all',
   'projectUser.list.waiting.no.content.message': 'There is no user waiting for project access. You can view and modify users list in "all users" tab',
+  'projectUser.list.delete.message' : 'Confirm deletion of user {name} ?',
 
   'projectUser.edit.title': 'Edit the user {email}',
   'projectUser.edit.action.save': 'Save',

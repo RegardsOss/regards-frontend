@@ -6,10 +6,11 @@ import { ApplicationErrorAction } from '@regardsoss/global-sytem-error'
 export default store => next => (action) => {
   if (action.error && (!action.meta || !action.meta.bypassErrorMiddleware)) {
     if (action.payload) {
-      const url = action.payload.response && action.payload.response.url ? action.payload.response.url : action.type
       let statusText
       if (action.payload.response && action.payload.response.message) {
         statusText = `Server request error : ${action.payload.response.message}`
+      } else if (action.payload.response && action.payload.response.messages) {
+        statusText = `Server request error : ${action.payload.response.messages[0]}`
       } else if (action.payload.status) {
         switch (action.payload.status) {
           case 404:
@@ -19,7 +20,7 @@ export default store => next => (action) => {
             statusText = 'Server request error'
         }
       }
-      const message = `${statusText}. (${url})`
+      const message = `${statusText}`
 
       store.dispatch(
         ApplicationErrorAction.throwError(

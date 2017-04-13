@@ -3,7 +3,7 @@
  **/
 import find from 'lodash/find'
 import omit from 'lodash/omit'
-import IconButton from 'material-ui/IconButton'
+import MenuItem from 'material-ui/MenuItem'
 import { connect } from '@regardsoss/redux'
 import { AuthenticationParametersSelectors } from '@regardsoss/authentication-manager'
 import HateoasLinks from '../model/HateoasLinks'
@@ -25,10 +25,9 @@ class HateoasIconAction extends React.Component {
 
   render() {
     const { entityLinks, hateoasKey } = this.props
-    console.log("isInstance",this.props.isInstance)
     if (this.props.isInstance || (!entityLinks && !hateoasKey) || find(entityLinks, entity => entity.rel === hateoasKey)) {
       return (
-        <IconButton
+        <MenuItem
           {...omit(this.props, ['entityLinks', 'hateoasKey'])}
         />
       )
