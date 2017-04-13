@@ -74,6 +74,7 @@ class ModuleFormComponent extends React.Component {
   renderDynamicModuleConfiguration = (style) => {
     if (this.state.moduleSelected) {
       return (<DynamicModuleFormComponent
+        key={this.state.module.name}
         project={this.props.project}
         appName={this.props.applicationId}
         adminForm={this.props.adminForm}
@@ -101,7 +102,7 @@ class ModuleFormComponent extends React.Component {
               key={id}
               primaryText={module}
             />
-            ))}
+          ))}
         </Field>
       </ShowableAtRender>
       <Field
@@ -124,7 +125,7 @@ class ModuleFormComponent extends React.Component {
             key={id}
             primaryText={container}
           />
-          ))}
+        ))}
       </Field>
       <Field
         name="active"
@@ -137,7 +138,7 @@ class ModuleFormComponent extends React.Component {
         label={<FormattedMessage id="module.form.isDefault" />}
       />
     </div>
-    )
+  )
   render() {
     const { pristine, submitting } = this.props
     const style = Styles(this.context.muiTheme)

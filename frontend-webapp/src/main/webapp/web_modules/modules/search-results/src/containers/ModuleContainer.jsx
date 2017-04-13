@@ -6,8 +6,7 @@ import join from 'lodash/join'
 import { connect } from '@regardsoss/redux'
 import { AttributeModel, SearchResultsTargetsEnum } from '@regardsoss/model'
 import { LoadingComponent } from '@regardsoss/display-control'
-import AttributeModelActions from '../models/attributes/AttributeModelActions'
-import AttributeModelSelector from '../models/attributes/AttributeModelSelector'
+import { AttributeModelAction, AttributeModelSelector } from '../models/client/AttributeModelClient'
 import ModuleConfiguration from '../models/ModuleConfiguration'
 import SearchResultsComponent from '../components/user/SearchResultsComponent'
 /**
@@ -90,7 +89,7 @@ const
 
 const
   mapDispatchToProps = dispatch => ({
-    fetchAllModelsAttributes: () => dispatch(AttributeModelActions.fetchPagedEntityList(0, 100)),
+    fetchAllModelsAttributes: () => dispatch(AttributeModelAction.fetchPagedEntityList(0, 100)),
   })
 
 const

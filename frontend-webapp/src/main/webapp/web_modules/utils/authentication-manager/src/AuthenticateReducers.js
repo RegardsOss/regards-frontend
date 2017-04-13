@@ -26,22 +26,22 @@ class AuthenticateReducers extends BasicSignalReducers {
             ...error,
           },
         }
-      case this.basicSignalActionInstance.SIGNAL_FAILURE:
-        // keep login error
+      // keep login error
+      case this.basicSignalActionInstance.SIGNAL_FAILURE: {
         const errorType = action.payload && action.payload.response && action.payload.response.additionalInformation &&
-        action.payload.response.additionalInformation.error ? action.payload.response.additionalInformation.error : 'UNKNOWN_ERROR'
-
+          action.payload.response.additionalInformation.error ? action.payload.response.additionalInformation.error : 'UNKNOWN_ERROR'
         const errorMessage = action.payload && action.payload.response && action.payload.response.detailMessage ?
           action.payload.response.detailMessage : 'UNKNOWN_ERROR'
         return {
           ...newState,
           sessionLocked: state ? state.sessionLocked : false,
           error: {
-            loginError:errorType,
+            loginError: errorType,
             message: errorMessage,
             ...error,
           },
         }
+      }
       // update authentication date and unlock session
       case this.basicSignalActionInstance.SIGNAL_SUCCESS:
         return {

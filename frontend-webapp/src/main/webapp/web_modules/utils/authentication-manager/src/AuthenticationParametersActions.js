@@ -9,8 +9,11 @@ const INSTANCE = 'instance'
  * Actions used to collect required parameters for authentication at application startup
  */
 export default {
+  // single action ID
   APPLICATION_STARTED,
+  // application instance name
   INSTANCE,
+  // single action builder
   applicationStarted(project = INSTANCE) {
     return {
       type: APPLICATION_STARTED,

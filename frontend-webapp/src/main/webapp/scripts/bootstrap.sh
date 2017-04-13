@@ -31,6 +31,9 @@ npm link web_modules/utils/layout
 # Common components
 npm link web_modules/components
 
+# Common business components
+npm link web_modules/business-common/attributes-common
+
 # Administration modules
 npm link web_modules/modules/admin-accessright-management
 npm link web_modules/modules/admin-account-management
