@@ -60,7 +60,7 @@ class SearchGraph extends React.Component {
     const { moduleTheme: { user } } = this.context
     return (
       <Card style={user.styles}>
-        <SearchGraphHeaderContainer graphDatasetAttributes={graphDatasetAttributes}  />
+        <SearchGraphHeaderContainer graphDatasetAttributes={graphDatasetAttributes} />
         <ShowableAtRender show={!moduleCollapsed}>
           <CardMedia>
             <div style={user.graph.styles}>

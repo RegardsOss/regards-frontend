@@ -62,11 +62,11 @@ export class ProjectConnectionListContainer extends React.Component {
 
   handleTestConnection = (projectConnection) => {
     if (!projectConnection || !projectConnection.content || !projectConnection.content.project
-    || !projectConnection.content.id || !projectConnection.content.project.name) {
+      || !projectConnection.content.id || !projectConnection.content.project.name) {
       throw new Error('Invalid connection to test')
     }
     const project = projectConnection.content.project
-    return this.props.testProjectConnection(projectConnection.content.microservice,project.name)
+    return this.props.testProjectConnection(projectConnection.content.microservice, project.name)
   }
 
   handleRefreshConnection = (connectionId) => {
