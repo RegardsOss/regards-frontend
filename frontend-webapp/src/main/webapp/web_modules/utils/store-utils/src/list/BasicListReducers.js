@@ -1,7 +1,9 @@
 /**
  * @author Léo Mieulet
  */
-import { omitBy } from 'lodash'
+import omitBy from 'lodash/omitBy'
+import concat from 'lodash/concat'
+import remove from 'lodash/remove'
 
 const defaultState = {
   isFetching: false,
@@ -32,12 +34,15 @@ class BasicListReducers {
     const items = Object.assign({}, newState.items)
     items[entityId] = action.payload.entities[this.normalizrKey][entityId]
     newState.items = items
+    newState.results = concat([], newState.results, [entityId])
     return newState
   }
 
   deleteEntityFromState = function (state, action, stateUpdated) {
+    console.log("REMOVE",state,action,stateUpdated)
     const newState = { ...state, ...stateUpdated }
     newState.items = omitBy(newState.items, proj => proj.content[this.entityKey] === action.payload)
+    //newState.results = remove(concat([],newState.results), entityId => entityId === action.payload)
     return newState
   }
 
@@ -88,6 +93,7 @@ class BasicListReducers {
           ...state,
           isFetching: false,
           items: action.payload.entities[this.normalizrKey] || {},
+          results: action.payload.result,
           error: defaultState.error,
         }
       case this.basicListActionInstance.CREATE_ENTITY_SUCCESS:
@@ -97,6 +103,8 @@ class BasicListReducers {
         return this.rewriteEntity(state, action, { isFetching: false, error: defaultState.error })
       case this.basicListActionInstance.DELETE_ENTITY_SUCCESS:
         return this.deleteEntityFromState(state, action, { isFetching: false, error: defaultState.error })
+      case this.basicListActionInstance.FLUSH:
+        return defaultState
       default:
         return state
     }

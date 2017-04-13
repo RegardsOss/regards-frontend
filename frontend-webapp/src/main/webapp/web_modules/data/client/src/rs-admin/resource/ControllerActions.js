@@ -1,11 +1,7 @@
-/*
- * LICENSE_PLACEHOLDER
- */
-import Schemas from '@regardsoss/api'
-import { BasicPageableActions } from '@regardsoss/store-utils'
+import { BasicArrayActions } from '@regardsoss/store-utils'
 
 /**
- * Redux actions to handle ProjectConnection entities from backend server.
+ * Redux actions to handle ControllerActions entities from backend server.
  *
  * To use this actions, you need to pass a parameter : <namespace>.
  *
@@ -18,17 +14,13 @@ import { BasicPageableActions } from '@regardsoss/store-utils'
  *
  * @author Sébastien Binda
  */
-class ResourceActions extends BasicPageableActions {
+class ControllerActions extends BasicArrayActions {
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-admin/resources`,
-      schemaTypes: {
-        ENTITY: Schemas.RESOURCE_ACCESS,
-        ENTITY_ARRAY: Schemas.RESOURCE_ACCESS_ARRAY,
-      },
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-admin/resources/microservices/{microserviceName}/controllers`,
     })
   }
 }
 
-export default namespace => new ResourceActions(namespace)
+export default namespace => new ControllerActions(namespace)

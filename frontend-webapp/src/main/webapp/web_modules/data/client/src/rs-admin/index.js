@@ -14,6 +14,22 @@ import ResourceActions from './resource/ResourceActions'
 import ResourceReducers from './resource/ResourceReducers'
 import ResourceSelectors from './resource/ResourceSelectors'
 
+import ControllerActions from './resource/ControllerActions'
+import ControllerReducers from './resource/ControllerReducers'
+import ControllerSelectors from './resource/ControllerSelectors'
+
+import ResourceAccessActions from './resource/ResourceAccessActions'
+import ResourceAccessReducers from './resource/ResourceAccessReducers'
+import ResourceAccessSelectors from './resource/ResourceAccessSelectors'
+
+import RoleActions from './role/RoleActions'
+import RoleReducers from './role/RoleReducers'
+import RoleSelectors from './role/RoleSelectors'
+
+import RoleResourceActions from './role/RoleResourceActions'
+import RoleResourceReducers from './role/RoleResourceReducers'
+import RoleResourceSelectors from './role/RoleResourceSelectors'
+
 export default {
 
   ProjectActions,
@@ -31,4 +47,21 @@ export default {
   ResourceActions,
   ResourceReducers,
   ResourceSelectors,
+
+  ControllerActions,
+  ControllerReducers,
+  ControllerSelectors,
+
+  ResourceAccessActions,
+  ResourceAccessReducers,
+  ResourceAccessSelectors,
+
+  RoleActions,
+  RoleReducers,
+  RoleSelectors,
+
+  RoleResourceActions,
+  RoleResourceReducers,
+  RoleResourceSelectors,
+
 }

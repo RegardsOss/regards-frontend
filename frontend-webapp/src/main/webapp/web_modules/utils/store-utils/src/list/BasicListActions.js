@@ -247,7 +247,7 @@ class BasicListActions extends BasicActions {
   }
 
   /**
-      * Extracts paylod from action result
+      * Extracts payload from action result
       * @param res action result
       * @param normalizer function to normalize, (js ojbect) => (normalizedJsObject)
       * @return normalization promise
