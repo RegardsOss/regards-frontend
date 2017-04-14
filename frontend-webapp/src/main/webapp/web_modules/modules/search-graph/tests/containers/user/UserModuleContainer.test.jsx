@@ -31,6 +31,6 @@ describe('[Search Graph] Testing UserModuleContainer', () => {
       fetchAttributeModels: () => { },
     }
     const enzymeWrapper = shallow(<UserModuleContainer {...props} />, { context })
-    assert.equal(enzymeWrapper.find(SearchGraph).length, 1, 'The corresponding component should be rendered')
+    assert.lengthOf(enzymeWrapper.find(SearchGraph), 1, 'The corresponding component should be rendered')
   })
 })

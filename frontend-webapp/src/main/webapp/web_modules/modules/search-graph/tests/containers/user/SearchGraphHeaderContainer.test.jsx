@@ -28,6 +28,6 @@ describe('[Search Graph] Testing SearchGraphHeaderContainer', () => {
       dispatchSetModuleCollapsed: () => { },
     }
     const enzymeWrapper = shallow(<SearchGraphHeaderContainer {...props} />, { context })
-    assert.equal(enzymeWrapper.find(SearchGraphHeader).length, 1, 'The corresponding component should be rendered')
+    assert.lengthOf(enzymeWrapper.find(SearchGraphHeader), 1, 'The corresponding component should be rendered')
   })
 })

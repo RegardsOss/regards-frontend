@@ -10,7 +10,7 @@ import CollectionItem from '../../components/user/CollectionItem'
 /**
 * Displays a collection
 */
-class CollectionItemContainer extends React.Component {
+export class CollectionItemContainer extends React.Component {
 
   static mapStateToProps = (state, { levelIndex, collection }) => {
     const levelSelection = GraphContextSelectors.getSelectionForLevel(state, levelIndex)
