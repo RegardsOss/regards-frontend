@@ -125,7 +125,7 @@ class GuidedProjectConfigurationComponent extends React.Component {
     const { projectConnections } = this.props
 
     return (
-      <Card>
+      <Card className="selenium-guidedProjectConfiguration">
         <CardTitle
           title={<FormattedMessage
             id="database.project.configuration.title"
