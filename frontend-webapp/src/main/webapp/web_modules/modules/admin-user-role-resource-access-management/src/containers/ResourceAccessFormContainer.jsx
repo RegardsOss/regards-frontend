@@ -40,7 +40,7 @@ export class ResourceAccessFormContainer extends React.Component {
   }
 
   getForm = () => {
-    const { role, isRoleFetching, roleResources, isResourcesFetching, fetchRoleResources } = this.props
+    const { role, isRoleFetching, roleResources, isResourcesFetching } = this.props
     if ((isRoleFetching && !role) || (isResourcesFetching && !roleResources)) {
       return (<FormLoadingComponent />)
     }

@@ -51,13 +51,15 @@ class AdminContainer extends React.Component {
   }
 
   render() {
-    const { moduleConf: {
+    const {
+      moduleConf: {
       resultType,
       attributes,
       attributesRegroupements,
       selectableAttributes,
-      enableFacettes },
-    } = this.props
+      hideDatasets = false,
+      enableFacettes,
+    } } = this.props
 
 
     if (this.props.adminForm.form && !this.state.attributesFetching) {
@@ -71,6 +73,7 @@ class AdminContainer extends React.Component {
           defaultAttributesRegroupementsConf={attributesRegroupements}
           defaultEnableFacettes={enableFacettes}
           defaultResultType={resultType}
+          hideDatasets={hideDatasets}
         />
       )
     }

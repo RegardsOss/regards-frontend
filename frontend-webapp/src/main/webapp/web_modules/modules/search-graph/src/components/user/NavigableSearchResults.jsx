@@ -26,9 +26,9 @@ class NavigableSearchResults extends React.Component {
       active: true,
       applicationId: this.props.appName,
       conf: {
-        // TODO we remove dataset tab!
         ...resultsConfiguration,
         searchQuery,
+        hideDatasets: true,
       },
     }
 

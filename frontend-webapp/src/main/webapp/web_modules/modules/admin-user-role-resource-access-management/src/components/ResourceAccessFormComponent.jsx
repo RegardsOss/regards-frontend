@@ -3,7 +3,6 @@ import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { FormattedMessage } from 'react-intl'
 import { Tabs, Tab } from 'material-ui/Tabs'
 import { CardActionsComponent } from '@regardsoss/components'
-import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { Role, Resource } from '@regardsoss/model'
 import ResourceAccessFormByMicroserviceContainer from './../containers/ResourceAccessFormByMicroserviceContainer'
 
@@ -20,7 +19,7 @@ export class ResourceAccessFormComponent extends React.Component {
     roleResources: React.PropTypes.arrayOf(Resource).isRequired,
   }
 
-  state= {
+  state = {
     activeMicroservice: STATIC_CONFIGURATION.microservices[0],
   }
 
@@ -51,7 +50,7 @@ export class ResourceAccessFormComponent extends React.Component {
           title={<FormattedMessage
             id="role.list.title"
             values={{
-              role: this.props.currentRole.content.name,
+              role: currentRole.content.name,
             }}
           />}
           subtitle={<FormattedMessage id="role.list.subtitle" />}
