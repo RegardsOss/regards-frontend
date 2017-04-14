@@ -40,7 +40,7 @@ const localHandlerClosure = (timeBefore, entryDelegate, query = {}, pathParamete
   // run delegate to get code and text
   const { content = '', code = 200, contentType } = entryDelegate(request, query, pathParameters, bodyParameters, response)
   // publish code
-  const headers = Object.assign({}, buildBasicHeaders(request.headers.origin), contentType ? { 'Content-Type': contentType } : {})
+  const headers = Object.assign({}, buildBasicHeaders(request.headers.origin || request.headers.Origin), contentType ? { 'Content-Type': contentType } : {})
   response.writeHead(code, headers)
 
   // end answer with text (or stringified object)
