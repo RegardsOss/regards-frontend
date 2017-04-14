@@ -15,7 +15,7 @@ const proxyHandlerClosure = jsonMockURL => (request, response) =>
   logMessage('Pass through to JSON mock server') || proxy.web(request, response, { target: jsonMockURL })
 
 const buildBasicHeaders = uiPort => ({
-  'Access-Control-Allow-Origin': `http://10.11.1.1:${uiPort}`,
+  'Access-Control-Allow-Origin': `http://localhost:${uiPort}`,
   'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
   'Access-Control-Allow-Headers': 'X-Requested-With,content-type',
   'Access-Control-Allow-Credentials': true,

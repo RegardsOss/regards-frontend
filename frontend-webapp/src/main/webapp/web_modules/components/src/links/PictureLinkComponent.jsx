@@ -9,7 +9,7 @@ import { themeContextType } from '@regardsoss/theme'
 class PictureLinkComponent extends React.Component {
 
   static propTypes = {
-    id: React.PropTypes.string,
+    className: React.PropTypes.string,
     disabled: React.PropTypes.bool,
     text: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.element]).isRequired,
     IconComponent: React.PropTypes.func.isRequired,
