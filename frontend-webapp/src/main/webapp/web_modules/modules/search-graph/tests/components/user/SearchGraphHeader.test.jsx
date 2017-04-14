@@ -8,7 +8,6 @@ import ExpandedIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
 import CollapsedIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-up'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { ShowableAtRender } from '@regardsoss/components'
-
 import SearchGraphHeader from '../../../src/components/user/SearchGraphHeader'
 import styles from '../../../src/styles/styles'
 

@@ -3,7 +3,7 @@
 **/
 import { connect } from '@regardsoss/redux'
 import { CatalogEntity, CatalogEntityTypes } from '@regardsoss/model'
-import GraphLevelDispayer from '../../components/user/GraphLevelDispayer'
+import GraphLevelDisplayer from '../../components/user/GraphLevelDisplayer'
 import { DatasetAttributesArrayForGraph } from '../../model/DatasetAttributesForGraph'
 import FetchGraphCollectionsActions from '../../model/graph/FetchGraphCollectionsActions'
 import FetchGraphDatasetsActions from '../../model/graph/FetchGraphDatasetsActions'
@@ -16,7 +16,7 @@ import GraphLevelDatasetSelectors from '../../model/graph/GraphLevelDatasetSelec
 /**
 * Container for collection content displayer (connects with selection state and level content)
 */
-class GraphLevelDisplayerContainer extends React.Component {
+export class GraphLevelDisplayerContainer extends React.Component {
 
   static getLevelPartitionKey = levelIndex => `level-${levelIndex}`
 
@@ -139,7 +139,7 @@ class GraphLevelDisplayerContainer extends React.Component {
       datasets,
     } = this.props
     return (
-      <GraphLevelDispayer
+      <GraphLevelDisplayer
         graphDatasetAttributes={graphDatasetAttributes}
         isShowable={isShowable}
         isLoading={isLoading}

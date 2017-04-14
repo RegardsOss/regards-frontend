@@ -14,7 +14,7 @@ const accesGrantedRel = 'dataobjects'
 /**
 * An item entity container
 */
-class DatasetItemContainer extends React.Component {
+export class DatasetItemContainer extends React.Component {
 
   static mapStateToProps = (state, { levelIndex, dataset }) => {
     const levelSelection = GraphContextSelectors.getSelectionForLevel(state, levelIndex)

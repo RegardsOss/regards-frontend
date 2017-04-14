@@ -1,10 +1,12 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
+import forEach from 'lodash/forEach'
+import { assert } from 'chai'
 import { stub } from 'sinon'
 
 /**
- * Test suite helpers : initialize test suite and clears after run
+ * Test suite helpers : initialize test suite and clears after run. Provides tools for tests
  */
 export default {
   /**
@@ -24,5 +26,27 @@ export default {
   after() {
     console.error.restore()
   },
+
+  /**
+   * Asserts a actual propety bag contains all expected properties
+   * @param {*} actualProperties actual properties
+   * @param {*} expectedProperties expected properties
+   */
+  assertAllProperties(actualProperties, expectedProperties) {
+    forEach(expectedProperties, (value, key) => {
+      const actualValue = actualProperties[key]
+      assert.deepEqual(actualValue, value, `Invalid property "${key}" value`)
+    })
+  },
+
+  /**
+   * Asserts a wrapper contains all expected properties
+   * @param {*} enzymeWrapper enzyme wrapper
+   * @param {*} expectedProperties expected properties
+   */
+  assertWrapperProperties(enzymeWrapper, expectedProperties) {
+    this.assertAllProperties(enzymeWrapper.props(), expectedProperties)
+  },
+
 }
 

@@ -3,10 +3,10 @@
 **/
 import map from 'lodash/map'
 import size from 'lodash/size'
-import { ScrollAreaAdapter } from '@regardsoss/adapters'
 import { CatalogEntity } from '@regardsoss/model'
 import { themeContextType } from '@regardsoss/theme'
 import { ShowableAtRender } from '@regardsoss/components'
+import { ScrollAreaAdapter } from '@regardsoss/adapters'
 import { DatasetAttributesArrayForGraph } from '../../model/DatasetAttributesForGraph'
 import DatasetItemContainer from '../../containers/user/DatasetItemContainer'
 import CollectionItemContainer from '../../containers/user/CollectionItemContainer'
@@ -43,10 +43,10 @@ class GraphLevelDispayer extends React.Component {
           <ShowableAtRender show={isLoading}>
             <GraphLevelLoadingDisplayer />
           </ShowableAtRender>
-          <ShowableAtRender show={hasError}>
+          <ShowableAtRender show={!isLoading && hasError}>
             <GraphLevelMessageDisplayer messageKey="search.graph.level.fetch.model.failed" />
           </ShowableAtRender>
-          <ShowableAtRender show={!hasError && !isLoading && !hasContent}>
+          <ShowableAtRender show={!isLoading && !hasError && !hasContent}>
             <GraphLevelMessageDisplayer messageKey="search.graph.level.no.model" />
           </ShowableAtRender>
           <ShowableAtRender show={!hasError && !isLoading && hasContent}>
