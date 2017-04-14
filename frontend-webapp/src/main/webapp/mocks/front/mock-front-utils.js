@@ -12,6 +12,11 @@ const messageStyles = {
 
 const JSON_CONTENT_TYPE = 'application/json; charset=utf-8'
 
+const defaultConverter = content => ({
+  content,
+  links: [],
+})
+
 /**
    * Makes a JSON page result (with metadata and all the data required)
    * @param pageEntities : object or array holding page entities
@@ -19,7 +24,7 @@ const JSON_CONTENT_TYPE = 'application/json; charset=utf-8'
    * @param number first page index
    * @param size page size
    */
-const makePageResult = (pageEntities, converter, number = 0, size = 100) => {
+const makePageResult = (pageEntities, converter = defaultConverter, number = 0, size = 100) => {
   let currentIndex = 0
   const formattedResponse = _.reduce(pageEntities, ({ content, links, metadata }, object, key) => {
     const convertedObj = converter(object, key)

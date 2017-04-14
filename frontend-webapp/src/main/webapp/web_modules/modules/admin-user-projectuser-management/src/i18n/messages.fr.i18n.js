@@ -25,7 +25,7 @@ const messages = Object.assign({
   'projectUser.list.waiting.subtitle': 'Liste des nouveaux utilisateurs du projet en attente de validation',
   'projectUser.list.waiting.accept.all': 'Tout accepter',
   'projectUser.list.waiting.no.content.message': 'Il n\'y a pas d\'utilisateur en attente d\'un accès au projet. Vous pouvez consulter et éditer la liste des utilisateurs dans l\'onglet "tous les utilisateurs"',
-  'projectUser.list.delete.message' : 'Confirmer la suppression de l\'utilisateur {name} ?',
+  'projectUser.list.delete.message': 'Confirmer la suppression de l\'utilisateur {name} ?',
 
   'projectUser.edit.title': 'Éditer l\'utilisateur {email}',
   'projectUser.edit.action.save': 'Sauvegarder',

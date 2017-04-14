@@ -43,6 +43,8 @@ import TableSelectionModes from './table/selection/TableSelectionModes'
 import TableContainer from './table/TableContainer'
 import ActionsMenuCell from './table/content/cells/ActionsMenuCell'
 
+import SVGIconFromString from './icon/SVGIconFromString'
+
 export {
   ActionButtonComponent,
   ActionIconWithNotifications,
@@ -74,4 +76,5 @@ export {
   SecondaryActionButtonComponent,
   ShowableAtRender,
   PluginConfigurationPickerComponent,
+  SVGIconFromString,
 }

@@ -1,8 +1,8 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import { AttributeModelReducer, REDUCER_PATH as ATTRIBUTE_MODEL_REDUCER_PATH } from './models/client/AttributeModelClient'
 import CatalogEntityReducer from './models/catalog/CatalogEntityReducer'
-import getAttributesReducer from './models/attributes/AttributeModelReducer'
 
 /**
  * Reducers for searc-form module
@@ -10,7 +10,7 @@ import getAttributesReducer from './models/attributes/AttributeModelReducer'
  * @author Sébastien binda
  */
 const searchResultsReducers = {
-  attributes: getAttributesReducer,
+  [ATTRIBUTE_MODEL_REDUCER_PATH]: AttributeModelReducer,
   results: CatalogEntityReducer,
 }
 

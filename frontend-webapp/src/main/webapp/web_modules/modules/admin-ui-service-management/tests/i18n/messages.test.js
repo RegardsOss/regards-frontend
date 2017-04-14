@@ -8,7 +8,7 @@ import MessagesFR from '../../src/i18n/messages.fr.i18n'
 
 /**
  * Tests for module i18n messages
- * @author Sébastien binda
+ * @author Léo Mieulet
  */
 describe('[ADMIN UI SERVICE MANAGEMENT] Testing i18n', () => {
   it('should exist', () => {

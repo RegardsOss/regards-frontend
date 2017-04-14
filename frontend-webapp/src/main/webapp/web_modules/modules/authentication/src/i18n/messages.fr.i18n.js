@@ -18,7 +18,7 @@ const messages = Object.assign({
   'authentication.error.USER_WAITING_ACCESS': 'Votre demande d\'accès au projet est en cours de traitement. Vous recevrez un courriel en cas de changement',
   'authentication.error.USER_ACCESS_DENIED': 'Votre demande d\'accès au projet a été rejetée',
   'authentication.error.USER_ACCESS_INACTIVE': 'Vos droits d\'accès au projet sont désactivés, veuillez contacter l\'administrateur du projet',
-  'authentication.error.INSTANCE_ACCESS_DENIED': 'Vous n\'avez pas les droits suffisants pour accéder au panneau d\'administration d\instance du sytème REGARDS',
+  'authentication.error.INSTANCE_ACCESS_DENIED': 'Vous n\'avez pas les droits suffisants pour accéder au panneau d\'administration d\'instance du sytème REGARDS',
   'authentication.error.UNKNOWN_ERROR': 'Le serveur est actuellement indisponible. Merci de réessayer plus tard.',
   'authentication.goto.reset.password': 'Mot de passe oublié?',
   'authentication.goto.ask.access': 'Nouvel utilisateur?',

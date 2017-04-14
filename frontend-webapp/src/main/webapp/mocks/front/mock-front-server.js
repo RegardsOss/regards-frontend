@@ -6,9 +6,10 @@
  * Mock service entry point: uses its entry points here or delegates onto json mock server
  */
 const _ = require('lodash')
-const { JSON_CONTENT_TYPE, loadJSONModelFile } = require('./mock-front-utils')
+const { JSON_CONTENT_TYPE } = require('./mock-front-utils')
 const FacadeCore = require('./mock-front-core')
 const MockUsers = require('./mock-users')
+const MockCatalog = require('./mock-catalog')
 
 
 /**
@@ -58,10 +59,12 @@ const entryDelegates = {
 }
 
 // report mock authentication endpoints in entry points
-_.forEach(MockUsers, (methodEntries, method) =>
-  _.forEach(methodEntries, (entryPoint) => {
-    entryDelegates[method][entryPoint.url] = entryPoint.handler
-  }))
+const externalMockServices = [MockUsers, MockCatalog]
+_.forEach(externalMockServices, service =>
+  _.forEach(service, (methodEntries, method) =>
+    _.forEach(methodEntries, (entryPoint) => {
+      entryDelegates[method][entryPoint.url] = entryPoint.handler
+    })))
 
 
 // Definitions

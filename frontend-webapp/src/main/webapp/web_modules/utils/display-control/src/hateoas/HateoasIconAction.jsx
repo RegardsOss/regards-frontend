@@ -2,7 +2,6 @@
  * LICENSE_PLACEHOLDER
  **/
 import find from 'lodash/find'
-import omit from 'lodash/omit'
 import IconButton from 'material-ui/IconButton'
 import { connect } from '@regardsoss/redux'
 import { AuthenticationParametersSelectors } from '@regardsoss/authentication-manager'
@@ -24,12 +23,13 @@ class HateoasIconAction extends React.Component {
   }
 
   render() {
-    const { entityLinks, hateoasKey } = this.props
-    console.log("isInstance",this.props.isInstance)
-    if (this.props.isInstance || (!entityLinks && !hateoasKey) || find(entityLinks, entity => entity.rel === hateoasKey)) {
+    // Remove from otherProps all props that doesn't need to be reinjected in children
+    // eslint-disable-next-line no-unused-vars, react/prop-types
+    const { entityLinks, hateoasKey, isInstance, theme, i18n, ...otherProps } = this.props
+    if (isInstance || (!entityLinks && !hateoasKey) || find(entityLinks, entity => entity.rel === hateoasKey)) {
       return (
         <IconButton
-          {...omit(this.props, ['entityLinks', 'hateoasKey'])}
+          {...otherProps}
         />
       )
     }

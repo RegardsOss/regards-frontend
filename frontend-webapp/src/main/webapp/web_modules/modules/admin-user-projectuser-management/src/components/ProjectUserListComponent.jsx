@@ -83,19 +83,17 @@ export class ProjectUserListComponent extends React.Component {
     this.selectTab(value)
   }
 
-
-  openDeleteDialog = (entity) => {
-    this.setState({
-      deleteDialogOpened: true,
-      entityToDelete: entity,
-    })
-  }
-
-  closeDeleteDialog = () => {
-    this.setState({
-      deleteDialogOpened: false,
-      entityToDelete: null,
-    })
+  getAllUsersTabContent = () => {
+    const { users, createUrl, initialFecthing } = this.props
+    return {
+      tabSubtitleKey: 'projectUser.list.all.subtitle',
+      noDataMessageKey: 'projectUser.list.all.no.content.message',
+      currentUserList: users,
+      // create new user
+      mainButtonKey: 'projectUser.list.all.action.create',
+      mainButtonUrl: createUrl,
+      mainButtonDisabled: initialFecthing,
+    }
   }
 
   getWaitingUsersTabContent = () => {
@@ -111,17 +109,18 @@ export class ProjectUserListComponent extends React.Component {
     }
   }
 
-  getAllUsersTabContent = () => {
-    const { users, createUrl, initialFecthing } = this.props
-    return {
-      tabSubtitleKey: 'projectUser.list.all.subtitle',
-      noDataMessageKey: 'projectUser.list.all.no.content.message',
-      currentUserList: users,
-      // create new user
-      mainButtonKey: 'projectUser.list.all.action.create',
-      mainButtonUrl: createUrl,
-      mainButtonDisabled: initialFecthing,
-    }
+  closeDeleteDialog = () => {
+    this.setState({
+      deleteDialogOpened: false,
+      entityToDelete: null,
+    })
+  }
+
+  openDeleteDialog = (entity) => {
+    this.setState({
+      deleteDialogOpened: true,
+      entityToDelete: entity,
+    })
   }
 
   selectTab = (selectedTab) => {

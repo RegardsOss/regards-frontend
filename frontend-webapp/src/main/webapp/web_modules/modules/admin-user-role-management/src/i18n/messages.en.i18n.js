@@ -10,7 +10,7 @@ const messages = Object.assign({
   'role.list.action.cancel': 'Cancel',
   'role.list.value.false': 'False',
   'role.list.value.true': 'True',
-  'role.list.delete.message' : 'Confirm deletion of role {name}',
+  'role.list.delete.message': 'Confirm deletion of role {name}',
 
 
   'role.edit.title': 'Edit the role {name}',

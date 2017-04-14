@@ -18,7 +18,6 @@ import { BasicPageableActions } from '@regardsoss/store-utils'
  *
  * @author Sébastien Binda
  */
-
 class ResourceActions extends BasicPageableActions {
   constructor(namespace) {
     super({

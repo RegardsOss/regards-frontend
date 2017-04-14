@@ -56,9 +56,8 @@ class AdminApp extends React.Component {
    * @param nextProps
    */
   componentWillReceiveProps(nextProps) {
-
     // if project changed reinitialize application
-    if (nextProps.params && nextProps.params.project != this.props.project){
+    if (nextProps.params && nextProps.params.project !== this.props.project) {
       this.props.initializeApplication(nextProps.params.project)
     }
 

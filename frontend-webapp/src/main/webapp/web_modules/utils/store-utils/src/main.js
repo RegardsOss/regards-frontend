@@ -22,9 +22,13 @@ import BasicSignalSelectors from './signal/BasicSignalSelectors'
 import BasicSignalActions from './signal/BasicSignalActions'
 import BasicSignalReducers from './signal/BasicSignalReducers'
 
+import BasicPartitionSelectors from './partition/BasicPartitionSelectors'
+import BasicPartitionActions from './partition/BasicPartitionActions'
+import BasicPartitionReducers from './partition/BasicPartitionReducers'
+import entityListPartitionDataHandler from './partition/EntityListPartitionDataHandler'
+
 import RequestVerbEnum from './RequestVerbEnum'
 import RequestErrorShape from './RequestErrorShape'
-
 
 export default {
   BasicSelector,
@@ -43,6 +47,10 @@ export default {
   BasicSignalSelectors,
   BasicSignalActions,
   BasicSignalReducers,
+  BasicPartitionActions,
+  BasicPartitionReducers,
+  BasicPartitionSelectors,
+  entityListPartitionDataHandler,
   RequestErrorShape,
   RequestVerbEnum,
 }

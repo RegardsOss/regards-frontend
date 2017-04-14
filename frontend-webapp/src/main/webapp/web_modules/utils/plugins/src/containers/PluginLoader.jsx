@@ -12,16 +12,18 @@ import { loadPlugin } from '../model/LoadPluginActions'
 import PluginSelector from '../model/LoadPluginSelector'
 
 /**
- * This component allow to load a given plugin and display it.
+ * This component allows to load a given plugin and display it.
  * Display of the plugin is asynchronous and effective when the plugin is loaded.
  * @author Sébastien Binda
+ * @author Léo Mieulet
  *
  */
 class PluginLoader extends React.Component {
 
   /**
-   * pluginId: Indetifier of the plugin to provide
-   * pluginConf : Props to add to te plugin rendering element,
+   * pluginInstanceId: An unique identifier of the plugin to provide, in  case you're loading multiple plugins on the same page
+   * pluginConf : Props to add to the plugin rendered,
+   * pluginProps : Props to add to the plugin rendered (legacy),
    * displayPlugin : Display the plugin component. If false the plugin is only passed as a prop to the children of this provider
    *
    * @type {{pluginId: *, pluginConf: *, displayPlugin: *, children: *, loadedPlugin: *, loadPlugin: *, locale: *}}
@@ -123,7 +125,7 @@ class PluginLoader extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  loadedPlugin: PluginSelector.getPluginBySourcesPath(ownProps.pluginPath, state),
+  loadedPlugin: PluginSelector.getById(state, ownProps.pluginPath),
   locale: i18nSelectors.getLocale(state),
 })
 
