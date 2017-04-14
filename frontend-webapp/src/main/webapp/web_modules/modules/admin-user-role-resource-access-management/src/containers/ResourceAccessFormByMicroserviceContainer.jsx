@@ -2,11 +2,11 @@ import { connect } from '@regardsoss/redux'
 import { Role, Resource } from '@regardsoss/model'
 import { remove } from 'lodash'
 import { ShowableAtRender } from '@regardsoss/components'
-import {LoadableContentDisplayDecorator} from '@regardsoss/display-control'
-import {roleActions} from '../client/RoleClient'
-import {controllerActions, controllerSelectors} from '../client/ResourceControllerClient'
-import {resourceAccessActions, resourceAccessSelectors} from '../client/ResourceAccessClient'
-import {roleResourceActions} from '../client/RoleResourceClient'
+import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
+import { roleActions } from '../client/RoleClient'
+import { controllerActions, controllerSelectors } from '../client/ResourceControllerClient'
+import { resourceAccessActions, resourceAccessSelectors } from '../client/ResourceAccessClient'
+import { roleResourceActions } from '../client/RoleResourceClient'
 import ResourceAccessFormByMicroserviceComponent from '../components/ResourceAccessFormByMicroserviceComponent'
 import ResourceAccessModalOverviewComponent from '../components/ResourceAccessModalOverviewComponent'
 
@@ -28,7 +28,7 @@ export class ResourceAccessFormByMicroserviceContainer extends React.Component {
     // from mapDispatchToProps
     fetchControllerList: React.PropTypes.func,
     fetchResourceList: React.PropTypes.func,
-    flushResourceList : React.PropTypes.func,
+    flushResourceList: React.PropTypes.func,
     removeRoleResourceAccess: React.PropTypes.func,
     addRoleResourceAccess: React.PropTypes.func,
   }
@@ -45,8 +45,8 @@ export class ResourceAccessFormByMicroserviceContainer extends React.Component {
   componentWillMount() {
     Promise.resolve(this.props.fetchControllerList(this.props.microserviceName)).then(() =>
       this.setState({
-        controllersLoading: false
-      })
+        controllersLoading: false,
+      }),
     )
   }
 
@@ -56,7 +56,7 @@ export class ResourceAccessFormByMicroserviceContainer extends React.Component {
   }
 
   handleToggleResourceAccess = (resource, previousValue) => {
-    const { currentRole,removeRoleResourceAccess, addRoleResourceAccess, updateRoleResources } = this.props
+    const { currentRole, removeRoleResourceAccess, addRoleResourceAccess, updateRoleResources } = this.props
     const updateAction = previousValue ? removeRoleResourceAccess : addRoleResourceAccess
     updateAction(currentRole, resource)
   }
@@ -109,14 +109,14 @@ export class ResourceAccessFormByMicroserviceContainer extends React.Component {
 const mapStateToProps = state => ({
   controllerList: controllerSelectors.getArray(state),
   resourceList: resourceAccessSelectors.getOrderedList(state),
-  resourceListFetching: resourceAccessSelectors.isFetching(state)
+  resourceListFetching: resourceAccessSelectors.isFetching(state),
 })
 const mapDispatchToProps = dispatch => ({
   fetchControllerList: microserviceName => dispatch(controllerActions.fetchEntityList({ microserviceName })),
   fetchResourceList: (microserviceName, controllerName) => dispatch(resourceAccessActions.fetchEntityList({ microserviceName, controllerName })),
-  flushResourceList : () => dispatch(resourceAccessActions.flush()),
-  removeRoleResourceAccess: (role, resource) => dispatch(roleResourceActions.deleteEntity(resource.content.id, {role_name: role.content.name})),
-  addRoleResourceAccess: (role, resource) => dispatch(roleResourceActions.createEntity(resource.content, {role_name: role.content.name})),
+  flushResourceList: () => dispatch(resourceAccessActions.flush()),
+  removeRoleResourceAccess: (role, resource) => dispatch(roleResourceActions.deleteEntity(resource.content.id, { role_name: role.content.name })),
+  addRoleResourceAccess: (role, resource) => dispatch(roleResourceActions.createEntity(resource.content, { role_name: role.content.name })),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ResourceAccessFormByMicroserviceContainer)

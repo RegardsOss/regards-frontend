@@ -10,7 +10,7 @@ import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import Toggle from 'material-ui/Toggle'
 import { Role, Resource } from '@regardsoss/model'
-import {LoadingComponent} from '@regardsoss/display-control'
+import { LoadingComponent } from '@regardsoss/display-control'
 import moduleStyles from '../styles/styles'
 
 /**
@@ -148,7 +148,7 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
   }
 
   render() {
-    const { controllerList,resourceListFetching } = this.props
+    const { controllerList, resourceListFetching } = this.props
     const { isControllerOpen } = this.state
     return (
       <List>

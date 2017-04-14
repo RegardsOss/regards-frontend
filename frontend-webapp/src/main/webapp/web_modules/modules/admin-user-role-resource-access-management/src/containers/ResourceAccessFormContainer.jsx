@@ -2,8 +2,8 @@ import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { Role, Resource } from '@regardsoss/model'
 import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
-import {roleActions, roleSelectors} from '../client/RoleClient'
-import {roleResourceActions, roleResourceSelectors} from '../client/RoleResourceClient'
+import { roleActions, roleSelectors } from '../client/RoleClient'
+import { roleResourceActions, roleResourceSelectors } from '../client/RoleResourceClient'
 import ResourceAccessFormComponent from '../components/ResourceAccessFormComponent'
 
 /**
@@ -73,7 +73,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 const mapDispatchToProps = dispatch => ({
   fetchRole: roleName => dispatch(roleActions.fetchEntity(roleName)),
-  fetchRoleResources: roleName => dispatch(roleResourceActions.fetchEntityList({role_name: roleName}))
+  fetchRoleResources: roleName => dispatch(roleResourceActions.fetchEntityList({ role_name: roleName })),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ResourceAccessFormContainer)

@@ -69,10 +69,9 @@ _.forEach(externalMockServices, service =>
 
 // Definitions
 const serverPort = 3000
-const uiPort = 3333
 const jsonMockPort = 3001
 const jsonMockURL = `http://localhost:${jsonMockPort}`
 const urlStart = '/api/v1'
 
-FacadeCore.startServer(urlStart, serverPort, uiPort, jsonMockURL, entryDelegates)
+FacadeCore.startServer(urlStart, serverPort, jsonMockURL, entryDelegates)
 

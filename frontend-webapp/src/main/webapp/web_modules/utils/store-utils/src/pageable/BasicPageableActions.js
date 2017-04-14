@@ -34,18 +34,16 @@ class BasicPageableActions extends BasicListActions {
     endpoint = this.handleRequestPathParameters(endpoint, pathParams)
     if (size && size > 0) {
       endpoint = this.handleRequestQueryParams(endpoint, {
-        _start: index,
-        _limit: size,
-        // offset: index,
-        // size,
+        offset: index,
+        size,
       })
     }
 
-    // force paging return value in development mode - TODO remove
+    // force paging return value in development mode
     if (process.env.NODE_ENV === 'development' && !size) {
       endpoint = this.handleRequestQueryParams(endpoint, {
-        _start: 0,
-        _limit: 10000,
+        offset: 0,
+        size: 10000,
       })
     }
 
