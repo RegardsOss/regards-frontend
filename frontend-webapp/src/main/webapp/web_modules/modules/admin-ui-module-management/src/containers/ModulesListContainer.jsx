@@ -1,17 +1,17 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import keys from 'lodash/keys'
 import { browserHistory } from 'react-router'
-import { FormLoadingComponent } from '@regardsoss/form-utils'
 import { I18nProvider } from '@regardsoss/i18n'
 import { ModuleShape } from '@regardsoss/modules'
 import { connect } from '@regardsoss/redux'
+import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import ModuleListComponent from '../components/ModuleListComponent'
 
 /**
  * Module container to display list of configured modules for a given application id.
  * @author Sébastien binda
+ * @author Léo Mieulet
  */
 class ModulesListContainer extends React.Component {
 
@@ -26,14 +26,20 @@ class ModulesListContainer extends React.Component {
     updateModule: React.PropTypes.func,
     deleteModule: React.PropTypes.func,
     // Set by mapStateToProps
-    isFetching: React.PropTypes.bool,
     modules: React.PropTypes.objectOf(ModuleShape),
   }
 
-  componentWillMount() {
-    if (keys(this.props.modules).length === 0) {
-      this.props.fetchModules(this.props.params.applicationId)
-    }
+  state = {
+    isLoading: true,
+  }
+
+  componentDidMount() {
+    Promise.resolve(this.props.fetchModules(this.props.params.applicationId))
+      .then(() => {
+        this.setState({
+          isLoading: false,
+        })
+      })
   }
 
   getBackUrl = () => {
@@ -84,22 +90,24 @@ class ModulesListContainer extends React.Component {
   }
 
   render() {
-    if (this.props.isFetching) {
-      return (<FormLoadingComponent />)
-    }
-
     return (
       <I18nProvider messageDir="modules/admin-ui-module-management/src/i18n">
-        <ModuleListComponent
-          modules={this.props.modules}
-          onCreate={this.handleCreateModule}
-          onEdit={this.handleEditModule}
-          onDuplicate={this.handleDuplicateModule}
-          onDelete={this.handleDeleteModule}
-          onActivation={this.handleModuleActivation}
-          backUrl={this.getBackUrl()}
-          handleUpdate={this.props.updateModule}
-        />
+        <LoadableContentDisplayDecorator
+          isLoading={this.state.isLoading}
+        >
+          {() =>
+            <ModuleListComponent
+              modules={this.props.modules}
+              onCreate={this.handleCreateModule}
+              onEdit={this.handleEditModule}
+              onDuplicate={this.handleDuplicateModule}
+              onDelete={this.handleDeleteModule}
+              onActivation={this.handleModuleActivation}
+              backUrl={this.getBackUrl()}
+              handleUpdate={this.props.updateModule}
+            />
+          }
+        </LoadableContentDisplayDecorator>
       </I18nProvider>
     )
   }
@@ -112,7 +120,6 @@ export {
 
 const mapStateToProps = (state, ownProps) => ({
   modules: ownProps.moduleSelectors.getList(state),
-  isFetching: ownProps.moduleSelectors.isFetching(state),
 })
 
 export default connect(mapStateToProps, null)(ModulesListContainer)

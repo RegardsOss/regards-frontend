@@ -3,28 +3,29 @@
  **/
 import { connect } from '@regardsoss/redux'
 import { AuthenticationParametersSelectors } from '@regardsoss/authentication-manager'
+import ModuleFormContainer from './ModuleFormContainer'
 import { moduleInstanceActions, moduleInstanceSelectors } from '../client/ModuleInstanceClient'
 import { layoutInstanceActions, layoutInstanceSelectors } from '../client/LayoutInstanceClient'
 import { moduleActions, moduleSelectors } from '../client/ModuleClient'
 import { layoutActions, layoutSelectors } from '../client/LayoutClient'
 
 /**
- * Router for all modules container to use instance client or project client. (rs-access-project or rs-access-instance).
+ * Adapter for all modules container to use instance client or project client. (rs-access-project or rs-access-instance).
  * @author Sébastien Binda
+ * @author Léo Mieulet
  */
-class InstanceRouterProvider extends React.Component {
+export class ModuleFormAdapter extends React.Component {
 
   static propTypes = {
     params: React.PropTypes.shape({
       project: React.PropTypes.string,
       applicationId: React.PropTypes.string,
+      module_id: React.PropTypes.string,
+      duplicate_module_id: React.PropTypes.string,
     }),
-    element: React.PropTypes.func,
     // Set by mapStateToProps
     isInstance: React.PropTypes.bool,
     // Set by mapDispatchToProps
-    fetchModules: React.PropTypes.func,
-    fetchInstanceModules: React.PropTypes.func,
     fetchModule: React.PropTypes.func,
     fetchInstanceModule: React.PropTypes.func,
     updateModule: React.PropTypes.func,
@@ -35,8 +36,6 @@ class InstanceRouterProvider extends React.Component {
     deleteInstanceModule: React.PropTypes.func,
     fetchLayout: React.PropTypes.func,
     fetchInstanceLayout: React.PropTypes.func,
-    updateLayout: React.PropTypes.func,
-    updateInstanceLayout: React.PropTypes.func,
   }
 
   // passes the information down to its children
@@ -48,13 +47,11 @@ class InstanceRouterProvider extends React.Component {
         isInstance: this.props.isInstance,
         moduleSelectors: moduleInstanceSelectors,
         layoutSelectors: layoutInstanceSelectors,
-        fetchModules: this.props.fetchInstanceModules,
         fetchModule: this.props.fetchInstanceModule,
         updateModule: this.props.updateInstanceModule,
         createModule: this.props.createInstanceModule,
         deleteModule: this.props.deleteInstanceModule,
         fetchLayout: this.props.fetchInstanceLayout,
-        updateLayout: this.props.updateInstanceLayout,
       }
     } else {
       props = {
@@ -62,13 +59,11 @@ class InstanceRouterProvider extends React.Component {
         isInstance: this.props.isInstance,
         moduleSelectors,
         layoutSelectors,
-        fetchModules: this.props.fetchModules,
         fetchModule: this.props.fetchModule,
         updateModule: this.props.updateModule,
         createModule: this.props.createModule,
         deleteModule: this.props.deleteModule,
         fetchLayout: this.props.fetchLayout,
-        updateLayout: this.props.updateLayout,
       }
     }
     return props
@@ -76,10 +71,9 @@ class InstanceRouterProvider extends React.Component {
 
 
   render() {
-    if (this.props.isInstance !== undefined) {
-      return React.createElement(this.props.element, { ...this.getChildProps() })
-    }
-    return null
+    return (<ModuleFormContainer
+      {...this.getChildProps()}
+    />)
   }
 }
 
@@ -88,8 +82,6 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  fetchModules: (applicationId, moduleId) => dispatch(moduleActions.fetchPagedEntityList(0, 100, { applicationId })),
-  fetchInstanceModules: (applicationId, moduleId) => dispatch(moduleInstanceActions.fetchPagedEntityList(0, 100, { applicationId })),
   fetchModule: (applicationId, moduleId) => dispatch(moduleActions.fetchEntity(moduleId, { applicationId })),
   fetchInstanceModule: (applicationId, moduleId) => dispatch(moduleInstanceActions.fetchEntity(moduleId, { applicationId })),
   updateModule: (applicationId, module) => dispatch(moduleActions.updateEntity(module.id, module, { applicationId })),
@@ -102,4 +94,4 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   fetchInstanceLayout: applicationId => dispatch(layoutInstanceActions.fetchEntity(applicationId)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(InstanceRouterProvider)
+export default connect(mapStateToProps, mapDispatchToProps)(ModuleFormAdapter)
