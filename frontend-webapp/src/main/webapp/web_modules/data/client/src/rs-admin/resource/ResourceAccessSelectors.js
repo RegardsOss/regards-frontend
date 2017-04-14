@@ -11,4 +11,4 @@ import { BasicListSelectors } from '@regardsoss/store-utils'
  *
  * @author Sébastien Binda
  */
-export default (storePath) => new BasicListSelectors(storePath)
+export default storePath => new BasicListSelectors(storePath)
