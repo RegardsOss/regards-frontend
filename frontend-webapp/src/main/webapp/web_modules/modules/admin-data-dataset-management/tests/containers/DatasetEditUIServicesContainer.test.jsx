@@ -3,43 +3,50 @@
  */
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import { stub } from 'sinon'
-import { IntlStub } from '@regardsoss/tests-helpers'
+import { spy } from 'sinon'
+import { DumpProvider, buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { DatasetEditUIServicesContainer } from '../../src/containers/DatasetEditUIServicesContainer'
+import DatasetDump from '../model/dump/DatasetDump'
+
+const context = buildTestContext()
 
 describe('[ADMIN DATASET MANAGEMENT] Testing DatasetEditUIServicesContainer', () => {
-  // Since react will console.error propType warnings, that which we'd rather have
-  // as errors, we use sinon.js to stub it into throwing these warning as errors
-  // instead.
-  before(() => {
-    stub(console, 'error').callsFake((warning) => {
-      throw new Error(warning)
-    })
-  })
-  after(() => {
-    console.error.restore()
-  })
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('should exists', () => {
     assert.isDefined(DatasetEditUIServicesContainer)
     assert.isDefined(LoadableContentDisplayDecorator)
   })
-  const context = {
-    intl: IntlStub,
-    muiTheme: {
-      palette: {},
-    },
-  }
   it('Render properly', () => {
+    const fetchUIPluginConfigurationListSpy = spy()
+    const fetchUIPluginDefinitionListSpy = spy()
+    const fetchDatasetSpy = spy()
+    const updateDatasetSpy = spy()
+
     const props = {
       // from router
       params: {
         project: 'lambda',
-        datasetId: '49',
+        datasetId: '23',
       },
+      // from mapStateToProps
+      uiPluginConfigurationList: DumpProvider.get('AccessProjectClient', 'UIPluginConfiguration'),
+      uiPluginDefinitionList: DumpProvider.get('AccessProjectClient', 'UIPluginDefinition'),
+      currentDataset: DatasetDump[23],
+      // from mapDispatchToProps
+      fetchUIPluginConfigurationList: fetchUIPluginConfigurationListSpy,
+      fetchUIPluginDefinitionList: fetchUIPluginDefinitionListSpy,
+      fetchDataset: fetchDatasetSpy,
+      updateDataset: updateDatasetSpy,
     }
-    const enzymeWrapper = shallow(<DatasetEditUIServicesContainer {...props} />, { context })
+    const enzymeWrapper = shallow(<DatasetEditUIServicesContainer {...props} />, { context, lifecycleExperimental: true })
     expect(enzymeWrapper.find(LoadableContentDisplayDecorator)).to.have.length(1)
-    // assert.isTrue(enzymeWrapper.find(LoadableContentDisplayDecorator).props().isLoading, 'Loading should be true')
+    assert.isTrue(enzymeWrapper.find(LoadableContentDisplayDecorator).props().isLoading, 'Loading should be true')
+    assert.isTrue(fetchUIPluginConfigurationListSpy.calledOnce, 'Fetched on initial render')
+    assert.isTrue(fetchUIPluginDefinitionListSpy.calledOnce, 'Fetched on initial render')
+    assert.isTrue(fetchDatasetSpy.calledOnce, 'Fetched on initial render')
+    assert.isTrue(updateDatasetSpy.notCalled, 'Not called yet')
   })
 })

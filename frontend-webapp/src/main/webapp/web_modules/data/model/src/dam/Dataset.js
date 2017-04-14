@@ -10,6 +10,7 @@ const Dataset = React.PropTypes.shape({
     dataModel: React.PropTypes.number.isRequired,
     plgConfDataSource: React.PropTypes.number.isRequired,
     type: React.PropTypes.oneOf(['DATASET']).isRequired,
+    uiPluginConfIdList: React.PropTypes.arrayOf(React.PropTypes.number).isRequired,
   }).isRequired,
 })
 

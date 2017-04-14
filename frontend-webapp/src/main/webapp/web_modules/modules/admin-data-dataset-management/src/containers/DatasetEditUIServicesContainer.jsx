@@ -1,7 +1,13 @@
+import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
+import { PluginDefinition as UIPluginDefinition, PluginConf as UIPluginConfiguration, Dataset } from '@regardsoss/model'
 import DatasetEditUIServicesComponent from '../components/DatasetEditUIServicesComponent'
+import { uiPluginConfigurationSelectors, uiPluginConfigurationActions } from '../client/UIPluginConfigurationClient'
+import { uiPluginDefinitionSelectors, uiPluginDefinitionActions } from '../client/UIPluginDefinitionClient'
+import DatasetSelectors from './../model/DatasetSelectors'
+import DatasetActions from './../model/DatasetActions'
 
 export class DatasetEditUIServicesContainer extends React.Component {
 
@@ -11,10 +17,54 @@ export class DatasetEditUIServicesContainer extends React.Component {
       project: React.PropTypes.string.isRequired,
       datasetId: React.PropTypes.string.isRequired,
     }).isRequired,
+
+    // from mapStateToProps
+    uiPluginConfigurationList: React.PropTypes.objectOf(React.PropTypes.shape({
+      content: UIPluginConfiguration,
+    })),
+    uiPluginDefinitionList: React.PropTypes.objectOf(UIPluginDefinition),
+    currentDataset: Dataset,
+
+    // from mapDispatchToProps
+    fetchUIPluginConfigurationList: React.PropTypes.func,
+    fetchUIPluginDefinitionList: React.PropTypes.func,
+    fetchDataset: React.PropTypes.func,
+    updateDataset: React.PropTypes.func,
   }
 
+  static mapStateToProps = (state, ownProps) => ({
+    currentDataset: DatasetSelectors.getById(state, ownProps.params.datasetId),
+    uiPluginConfigurationList: uiPluginConfigurationSelectors.getList(state),
+    uiPluginDefinitionList: uiPluginDefinitionSelectors.getList(state),
+  })
+
+  static mapDispatchToProps = dispatch => ({
+    fetchUIPluginConfigurationList: uiPluginId => dispatch(uiPluginConfigurationActions.fetchPagedEntityList(0, 100,
+      //{ isActive: true, isDefault: false }
+    )),
+    fetchUIPluginDefinitionList: () => dispatch(uiPluginDefinitionActions.fetchPagedEntityList(0, 100, {},
+      //{type: 'service'}
+    )),
+    fetchDataset: id => dispatch(DatasetActions.fetchEntity(id)),
+    updateDataset: (id, dataset) => dispatch(DatasetActions.updateEntityUsingMultiPart(id, { dataset }, {})),
+  })
+
   state = {
-    isLoading: false,
+    isLoading: true,
+  }
+
+  componentDidMount() {
+    const tasks = [
+      this.props.fetchDataset(this.props.params.datasetId),
+      this.props.fetchUIPluginDefinitionList(),
+      this.props.fetchUIPluginConfigurationList(),
+    ]
+    Promise.all(tasks)
+      .then(() =>
+        this.setState({
+          isLoading: false,
+        }),
+      )
   }
 
   getBackUrl = () => {
@@ -22,35 +72,46 @@ export class DatasetEditUIServicesContainer extends React.Component {
     return `/admin/${project}/data/dataset/${datasetId}/plugins`
   }
 
-  getDoneUrl = () => {
+  redirectToListDataset = () => {
     const { params: { project } } = this.props
-    return `/admin/${project}/data/dataset/list`
+    browserHistory.push(`/admin/${project}/data/dataset/list`)
+  }
+
+  handleSubmit = (uiPluginConfIdList) => {
+    const { currentDataset } = this.props
+    const updatedDataset = Object.assign({}, currentDataset, {
+      uiPluginConfIdList,
+    })
+    Promise.resolve(this.props.updateDataset(this.props.params.datasetId, updatedDataset))
+      .then((actionResult) => {
+        if (!actionResult.error) {
+          this.redirectToListDataset()
+        }
+      })
   }
 
   render() {
+    const { uiPluginDefinitionList, uiPluginConfigurationList, currentDataset } = this.props
     const { isLoading } = this.state
     return (
       <I18nProvider messageDir="modules/admin-data-dataset-management/src/i18n">
         <LoadableContentDisplayDecorator
           isLoading={isLoading}
         >
-          <DatasetEditUIServicesComponent
-            backUrl={this.getBackUrl()}
-            doneUrl={this.getDoneUrl()}
-          />
+          {() =>
+            <DatasetEditUIServicesComponent
+              backUrl={this.getBackUrl()}
+              uiPluginConfigurationList={uiPluginConfigurationList}
+              uiPluginDefinitionList={uiPluginDefinitionList}
+              currentDataset={currentDataset}
+              handleSubmit={this.handleSubmit}
+            />
+          }
         </LoadableContentDisplayDecorator>
       </I18nProvider>
     )
   }
-
-
 }
 
 
-const mapStateToProps = (state, ownProps) => ({
-})
-
-const mapDispatchToProps = dispatch => ({
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(DatasetEditUIServicesContainer)
+export default connect(DatasetEditUIServicesContainer.mapStateToProps, DatasetEditUIServicesContainer.mapDispatchToProps)(DatasetEditUIServicesContainer)
