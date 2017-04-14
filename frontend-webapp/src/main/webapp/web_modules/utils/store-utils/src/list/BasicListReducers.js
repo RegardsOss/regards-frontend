@@ -3,7 +3,7 @@
  */
 import omitBy from 'lodash/omitBy'
 import concat from 'lodash/concat'
-import remove from 'lodash/remove'
+import without from 'lodash/without'
 
 const defaultState = {
   isFetching: false,
@@ -15,6 +15,7 @@ const defaultState = {
     status: 200,
   },
   items: {},
+  results: [],
   lastUpdate: '',
 }
 /**
@@ -34,15 +35,14 @@ class BasicListReducers {
     const items = Object.assign({}, newState.items)
     items[entityId] = action.payload.entities[this.normalizrKey][entityId]
     newState.items = items
-    newState.results = concat([], newState.results, [entityId])
+    newState.results = concat([], newState.results, entityId)
     return newState
   }
 
   deleteEntityFromState = function (state, action, stateUpdated) {
-    console.log("REMOVE",state,action,stateUpdated)
     const newState = { ...state, ...stateUpdated }
     newState.items = omitBy(newState.items, proj => proj.content[this.entityKey] === action.payload)
-    //newState.results = remove(concat([],newState.results), entityId => entityId === action.payload)
+    newState.results = without(newState.results, action.payload)
     return newState
   }
 
