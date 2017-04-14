@@ -23,7 +23,7 @@ const ModuleConfiguration = React.PropTypes.shape({
   // Does search form render for preview or for full use
   preview: React.PropTypes.bool,
   // should enable facettes?
-  enableFacettes: React.PropTypes.bool.isRequired,
+  enableFacettes: React.PropTypes.bool,
 })
 
 export default ModuleConfiguration

@@ -12,6 +12,7 @@ import {
   AttributeConfiguration,
   AttributesRegroupementConfiguration,
 } from '@regardsoss/model'
+import { ShowableAtRender } from '@regardsoss/components'
 import { Field, RenderRadio, RenderCheckbox } from '@regardsoss/form-utils'
 import { MainAttributesConfigurationComponent } from '@regardsoss/attributes-common'
 
@@ -32,6 +33,7 @@ class SearchResultsConfigurationComponent extends React.Component {
     attributesConf: React.PropTypes.arrayOf(AttributeConfiguration),
     attributesRegroupementsConf: React.PropTypes.arrayOf(AttributesRegroupementConfiguration),
     selectableAttributes: React.PropTypes.objectOf(AttributeModel),
+    hideDatasets: React.PropTypes.bool.isRequired,
     changeField: React.PropTypes.func.isRequired,
   }
 
@@ -55,20 +57,23 @@ class SearchResultsConfigurationComponent extends React.Component {
     return (
       <Card>
         <CardTitle subtitle={<FormattedMessage id="form.configuration.tab.title" />} />
-        <Field
-          name="conf.resultType"
-          component={RenderRadio}
-          defaultSelected={this.props.defaultResultType}
-        >
-          <RadioButton
-            value={SearchResultsTargetsEnum.DATASET_RESULTS}
-            label={<FormattedMessage id="form.configuration.result.type.datasets" />}
-          />
-          <RadioButton
-            value={SearchResultsTargetsEnum.DATAOBJECT_RESULTS}
-            label={<FormattedMessage id="form.configuration.result.type.dataobjects" />}
-          />
-        </Field>
+        { /* Show result type choice only if the datasets results are not hidden */}
+        <ShowableAtRender show={!this.props.hideDatasets} >
+          <Field
+            name="conf.resultType"
+            component={RenderRadio}
+            defaultSelected={this.props.defaultResultType}
+          >
+            <RadioButton
+              value={SearchResultsTargetsEnum.DATASET_RESULTS}
+              label={<FormattedMessage id="form.configuration.result.type.datasets" />}
+            />
+            <RadioButton
+              value={SearchResultsTargetsEnum.DATAOBJECT_RESULTS}
+              label={<FormattedMessage id="form.configuration.result.type.dataobjects" />}
+            />
+          </Field>
+        </ShowableAtRender>
         <Field
           name="conf.enableFacettes"
           component={RenderCheckbox}

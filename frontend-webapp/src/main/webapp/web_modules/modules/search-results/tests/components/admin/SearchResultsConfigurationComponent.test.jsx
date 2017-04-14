@@ -2,11 +2,11 @@
  * LICENSE_PLACEHOLDER
  **/
 import { shallow } from 'enzyme'
-import { stub, spy } from 'sinon'
+import { spy } from 'sinon'
 import { assert } from 'chai'
-import getMuiTheme from 'material-ui/styles/getMuiTheme'
-import { Field } from '@regardsoss/form-utils'
 import { RadioButton } from 'material-ui/RadioButton'
+import { Field } from '@regardsoss/form-utils'
+import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { SearchResultsTargetsEnum } from '@regardsoss/model'
 import SearchResultsConfigurationComponent from '../../../src/components/admin/SearchResultsConfigurationComponent'
 import Styles from '../../../src/styles/styles'
@@ -16,27 +16,9 @@ import Styles from '../../../src/styles/styles'
  * @author Sébastien binda
  */
 describe('[RESULTS MODULE] Testing SearchResultsConfigurationComponent', () => {
-  // Since react will console.error propType warnings, that which we'd rather have
-  // as errors, we use sinon.js to stub it into throwing these warning as errors
-  // instead.
-  before(() => {
-    stub(console, 'error').callsFake((warning) => {
-      throw new Error(warning)
-    })
-  })
-  after(() => {
-    console.error.restore()
-  })
-  const muiTheme = getMuiTheme({})
-  const options = {
-    context: {
-      muiTheme,
-      moduleTheme: Styles(muiTheme),
-      intl: {
-        formatMessage: id => (id.id),
-      },
-    },
-  }
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+  const options = { context: buildTestContext(Styles) }
 
   it('Should render a SearchResultsConfigurationComponent to configure search results', () => {
     const selectCallback = spy()
@@ -46,6 +28,7 @@ describe('[RESULTS MODULE] Testing SearchResultsConfigurationComponent', () => {
       disabled: false,
       selectableAttributes: {},
       changeField: () => { },
+      hideDatasets: false,
     }
     const wrapper = shallow(
       <SearchResultsConfigurationComponent {...props} />, options,

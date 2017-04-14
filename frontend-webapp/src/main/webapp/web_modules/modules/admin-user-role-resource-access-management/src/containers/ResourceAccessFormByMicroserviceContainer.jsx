@@ -1,9 +1,7 @@
 import { connect } from '@regardsoss/redux'
 import { Role, Resource } from '@regardsoss/model'
-import { remove } from 'lodash'
 import { ShowableAtRender } from '@regardsoss/components'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { roleActions } from '../client/RoleClient'
 import { controllerActions, controllerSelectors } from '../client/ResourceControllerClient'
 import { resourceAccessActions, resourceAccessSelectors } from '../client/ResourceAccessClient'
 import { roleResourceActions } from '../client/RoleResourceClient'
@@ -20,7 +18,6 @@ export class ResourceAccessFormByMicroserviceContainer extends React.Component {
     microserviceName: React.PropTypes.string.isRequired,
     currentRole: Role,
     roleResources: React.PropTypes.arrayOf(Resource),
-    updateRoleResources: React.PropTypes.func,
     // from mapStateToProps
     controllerList: React.PropTypes.arrayOf(React.PropTypes.string),
     resourceList: React.PropTypes.arrayOf(Resource),
@@ -56,7 +53,7 @@ export class ResourceAccessFormByMicroserviceContainer extends React.Component {
   }
 
   handleToggleResourceAccess = (resource, previousValue) => {
-    const { currentRole, removeRoleResourceAccess, addRoleResourceAccess, updateRoleResources } = this.props
+    const { currentRole, removeRoleResourceAccess, addRoleResourceAccess } = this.props
     const updateAction = previousValue ? removeRoleResourceAccess : addRoleResourceAccess
     updateAction(currentRole, resource)
   }

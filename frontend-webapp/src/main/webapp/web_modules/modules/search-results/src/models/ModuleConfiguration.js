@@ -19,6 +19,8 @@ const Form = React.PropTypes.shape({
   searchQuery: React.PropTypes.string,
   // should enable facettes?
   enableFacettes: React.PropTypes.bool,
+  // Should hide datasets? if not specified, no
+  hideDatasets: React.PropTypes.bool,
 })
 
 export default Form
