@@ -4,7 +4,7 @@
 import { FormattedMessage } from 'react-intl'
 import { Card, CardTitle, CardMedia } from 'material-ui/Card'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
-import ChartAdapter from '@regardsoss/charts'
+import { ChartAdapter } from '@regardsoss/adapters'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { StorageCapacityShape } from '../helper/StorageCapacity'
@@ -143,13 +143,13 @@ class StoragePluginCapacityComponent extends React.Component {
               <TableBody displayRowCheckbox={false} style={moduleTheme.table.body}>
                 <TableRow style={firstCellStyles}>
                   <TableRowColumn style={firstCellStyles}>
-                    { this.buildI18NCapacity(totalSize)}
+                    {this.buildI18NCapacity(totalSize)}
                   </TableRowColumn>
                   <TableRowColumn style={moduleTheme.table.row}>
-                    { this.buildI18NCapacity(usedSize)}
+                    {this.buildI18NCapacity(usedSize)}
                   </TableRowColumn>
                   <TableRowColumn style={moduleTheme.table.row}>
-                    { this.buildI18NCapacity(usedSize && totalSize ? totalSize.subtract(usedSize) : null)}
+                    {this.buildI18NCapacity(usedSize && totalSize ? totalSize.subtract(usedSize) : null)}
                   </TableRowColumn>
                 </TableRow>
               </TableBody>

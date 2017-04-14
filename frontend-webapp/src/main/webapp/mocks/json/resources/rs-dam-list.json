@@ -20,21 +20,27 @@
     },
     {
       "id": 3,
-      "name": "Instruments",
-      "description": "Des instruments de musique",
-      "type": "COLLECTION"
+      "name": "Missions",
+      "type": "COLLECTION",
+      "description": "Des missions, impossibles"
     },
     {
       "id": 4,
-      "name": "Missions",
-      "description": "Des missions, impossibles",
-      "type": "COLLECTION"
+      "name": "Experiments",
+      "type": "COLLECTION",
+      "description": "Expérimenter et puis c'est tout!"
     },
     {
       "id": 5,
-      "name": "Mesures",
-      "description": "Des mesures et démesures",
-      "type": "COLLECTION"
+      "name": "Instruments",
+      "type": "COLLECTION",
+      "description": "Des instruments de musique"
+    },
+    {
+      "id": 6,
+      "name": "Results",
+      "type": "COLLECTION",
+      "description": "Des mesures et démesures"
     }
   ],
   "models-attributes": [

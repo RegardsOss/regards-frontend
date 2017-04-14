@@ -1,12 +1,15 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { AttributeConfiguration, AttributesRegroupementConfiguration } from '@regardsoss/model' // TODO remove or use
+import { AttributeConfiguration, AttributesRegroupementConfiguration } from '@regardsoss/model'
 /**
  * form configuration
  */
 const ModuleConfiguration = React.PropTypes.shape({
-  graphLevels: React.PropTypes.arrayOf(React.PropTypes.number),
+  // name of collection model, ordered by level for graph navigation
+  graphLevels: React.PropTypes.arrayOf(React.PropTypes.string),
+  // array of attributes to display on datasets in graph
+  graphDatasetAttributes: React.PropTypes.arrayOf(AttributeConfiguration),
   // [Result form module] Default Target of results
   resultType: React.PropTypes.string,
   // [Result form module] Search form attributes configuration

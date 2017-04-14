@@ -20,6 +20,8 @@ class PictureLinkComponent extends React.Component {
     defaultTextColor: React.PropTypes.string,
     overTextColor: React.PropTypes.string,
     defaultImageColor: React.PropTypes.string,
+    disabledTextColor: React.PropTypes.string,
+    disabledImageColor: React.PropTypes.string,
     overImageColor: React.PropTypes.string,
   }
 
@@ -28,6 +30,7 @@ class PictureLinkComponent extends React.Component {
       width: '20x',
       height: '20px',
     },
+    disabled: false,
     iconToTextGap: '5px',
   }
 
@@ -37,49 +40,67 @@ class PictureLinkComponent extends React.Component {
   }
 
   componentWillMount = () => {
-    this.switchOver(false)
+    this.onExit()
   }
 
-  switchOver = (isOver) => {
+
+  onAction = () => {
+    const { disabled, onAction } = this.props
+    if (!disabled) {
+      onAction()
+    }
+  }
+
+  onEnter = () => {
     this.setState({
-      isOver,
+      isOver: true,
     })
   }
 
+  onExit = () => {
+    this.setState({
+      isOver: false,
+    })
+  }
+
+
   render() {
-    const { className, disabled, onAction, text, IconComponent, iconStyles, iconToTextGap } = this.props
+    const { className, disabled, text, IconComponent, iconStyles, iconToTextGap } = this.props
     const { isOver } = this.state
     const { palette } = this.context.muiTheme
 
     // compute text colors according with provided properties (use some default otherwise)
-    let { defaultTextColor, overTextColor, defaultImageColor, overImageColor } = this.props
-    defaultTextColor = defaultTextColor || palette.textColor
-    defaultImageColor = defaultImageColor || palette.primary2Color
-    overTextColor = overTextColor || palette.primary1Color
-    overImageColor = overImageColor || palette.primary1Color
+    const {
+      defaultTextColor = palette.textColor,
+      overTextColor = palette.primary2Color,
+      defaultImageColor = palette.primary1Color,
+      overImageColor = palette.primary1Color,
+      disabledTextColor = palette.disabledColor,
+      disabledImageColor = palette.disabledColor,
+    } = this.props
 
     // compute the colors to use in current state
     let textColor
-    let iconColor
+    let imageColor
     if (disabled) {
-      [textColor, iconColor] = [palette.disabledColor, palette.disabledColor]
+      [textColor, imageColor] = [disabledTextColor, disabledImageColor]
     } else if (isOver) {
-      [textColor, iconColor] = [overTextColor, overImageColor]
+      [textColor, imageColor] = [overTextColor, overImageColor]
     } else {
-      [textColor, iconColor] = [defaultTextColor, defaultImageColor]
+      [textColor, imageColor] = [defaultTextColor, defaultImageColor]
     }
     /* eslint-disable jsx-a11y/no-static-element-interactions*/
     return (
       <div
         className={className}
         style={{ display: 'inline-flex', alignItems: 'center', textDecoration: 'none', cursor: 'pointer' }}
-        onClick={() => !disabled && onAction()}
-        onMouseOut={() => this.switchOver(false)}
-        onMouseOver={() => this.switchOver(true)}
+        onClick={this.onAction}
+        onMouseOut={this.onMouseOut}
+        onMouseOver={this.onMouseOver}
       >
         <div style={{ flexGrow: '0', flexShrink: '0' }}>
           <IconComponent
-            style={{ color: iconColor, ...iconStyles }}
+            style={{ color: imageColor, ...iconStyles }}
           />
         </div>
         <div style={{ color: textColor, textAlign: 'center', flexGrow: '1', flexShrink: '1', marginLeft: iconToTextGap }}>

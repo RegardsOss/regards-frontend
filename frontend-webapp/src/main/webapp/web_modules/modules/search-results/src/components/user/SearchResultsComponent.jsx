@@ -28,13 +28,12 @@ import {
   AttributesRegroupementConfiguration,
   SearchResultsTargetsEnum,
 } from '@regardsoss/model'
+import { getTypeRender } from '@regardsoss/attributes-common'
 import CatalogEntitySelector from '../../models/catalog/CatalogEntitySelector'
 import CatalogDataobjectEntityActions from '../../models/catalog/CatalogDataobjectEntityActions'
 import CatalogDatasetEntityActions from '../../models/catalog/CatalogDatasetEntityActions'
 import NavigationComponent from './NavigationComponent'
 import DatasetCellComponent from './DatasetCellComponent'
-import CustomCellByAttributeTypeEnum from './cells/CustomCellByAttributeTypeEnum'
-import DefaultCell from './cells/DefaultCell'
 
 /**
  * React container to manage search requests and display results.
@@ -223,12 +222,12 @@ class SearchResultsComponent extends React.Component {
           fullyQualifiedAttributeName = attributeConf.attributeFullQualifiedName
         } else {
           attribute = find(this.props.attributeModels, att => AttributeModelController.getAttributeFullyQualifiedName(att) ===
-          attributeConf.attributeFullQualifiedName)
+            attributeConf.attributeFullQualifiedName)
           fullyQualifiedAttributeName = attribute ?
             AttributeModelController.getAttributeFullyQualifiedNameWithoutDefaultFragment(attribute) : null
         }
         if (attribute) {
-          const customCell = CustomCellByAttributeTypeEnum[attribute.content.type] || DefaultCell
+          const customCell = getTypeRender(attribute.content.type)
           const isThumbmail = attribute.content.type === 'THUMBMAIL'
           columns.push({
             label: attribute.content.label,

@@ -11,31 +11,28 @@ const fs = require('fs-extra')
 const serverPort = 3001
 
 
-
-const getAllLinks = () => {
-  return [
-    {
-      rel:'self',
-      href: 'http://localhost:3333/unused'
-    },
-    {
-      rel:'delete',
-      href: 'http://localhost:3333/unused'
-    },
-    {
-      rel:'update',
-      href: 'http://localhost:3333/unused'
-    },
-    {
-      rel:'create',
-      href: 'http://localhost:3333/unused'
-    },
-    {
-      rel:'list',
-      href: 'http://localhost:3333/unused'
-    }
-  ]
-}
+const getAllLinks = () => [
+  {
+    rel: 'self',
+    href: 'http://localhost:3333/unused',
+  },
+  {
+    rel: 'delete',
+    href: 'http://localhost:3333/unused',
+  },
+  {
+    rel: 'update',
+    href: 'http://localhost:3333/unused',
+  },
+  {
+    rel: 'create',
+    href: 'http://localhost:3333/unused',
+  },
+  {
+    rel: 'list',
+    href: 'http://localhost:3333/unused',
+  },
+]
 /**
  * Add pagination format to response list and HAteoas format to each elements
  * @param req
@@ -236,6 +233,7 @@ const runServer = () => {
     '/api/v1/rs-dam/plugins/:pluginId/config': '/api/v1/rs-dam/configurations?pluginId=:pluginId',
     '/api/v1/rs-dam/plugins/:pluginId/config/:pluginConfigurationId': '/api/v1/rs-dam/configurations/:pluginConfigurationId',
     '/api/v1/rs-dam/plugins/configs': '/api/v1/rs-dam/configurations',
+    '/api/v1/rs-dam/models': '/api/v1/rs-dam-list/models',
     '/api/v1/rs-dam-list/models/attributes': '/api/v1/rs-dam-list/attributes-models',
     '/api/v1/rs-dam-list/models/fragments': '/api/v1/rs-dam-list/models-fragments',
     '/api/v1/rs-dam-list/models/:modelid/attributes': '/api/v1/rs-dam-list/models-attributes?model.id=:modelid',
@@ -244,8 +242,8 @@ const runServer = () => {
     '/api/v1/rs-dam-array/models/attributes/types': '/api/v1/rs-dam-array/models-attributes-types',
     '/api/v1/rs-dam/plugintypes': '/api/v1/rs-dam-array/plugintypes',
     '/api/v1/rs-dam/connections': '/api/v1/rs-dam-list/connections',
-    '/api/v1/rs-catalog/dataobjects/search' : '/api/v1/rs-catalog/search',
-    '/api/v1/rs-catalog/dataobjects/datasets/search' : '/api/v1/rs-catalog/search',
+    '/api/v1/rs-catalog/dataobjects/search': '/api/v1/rs-catalog/search',
+    '/api/v1/rs-catalog/dataobjects/datasets/search': '/api/v1/rs-catalog/search',
     '/oauth/token': '/tokens/1',
   }))
 

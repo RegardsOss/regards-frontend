@@ -34,18 +34,22 @@ const getAttributeFullyQualifiedName = (attributeModel) => {
 }
 
 /**
+ * Returns path to attribute
+ *  @param attribute : attribute model
+ * @return [String] attribute access path in an entity
+ */
+const getAttributeAccessPath = ({ content: { fragment, name } }) => {
+  if (!fragment || !fragment.name || fragment.name === DEFAULT_FRAGMENT) {
+    return [DATA_ATTRIBUTES_FIELD, name]
+  }
+  return [DATA_ATTRIBUTES_FIELD, fragment.name, name]
+}
+/**
  * Return the fully qualified name of the given attribute and ignoring the main "default" fragment
- *
  * @param attribute
  * @returns {string}
  */
-const getAttributeFullyQualifiedNameWithoutDefaultFragment = (attribute) => {
-  if (!attribute.content.fragment || !attribute.content.fragment.name ||
-    attribute.content.fragment.name === DEFAULT_FRAGMENT) {
-    return `${DATA_ATTRIBUTES_FIELD}.${attribute.content.name}`
-  }
-  return `${DATA_ATTRIBUTES_FIELD}.${attribute.content.fragment.name}.${attribute.content.name}`
-}
+const getAttributeFullyQualifiedNameWithoutDefaultFragment = attribute => getAttributeAccessPath(attribute).join('.')
 
 const findAttribute = (attributeName, attributeFragment, attributeModelsList) => find(attributeModelsList, ({ content: { name, fragment } }) => attributeName === name && attributeFragment === fragment.name)
 
@@ -63,10 +67,40 @@ const StandardAttributes = [
 ]
 const STANDARD_ATTRIBUTE_TYPE = 'STRING'
 
+/**
+  * Finds an attribute value from the full qualified path
+  * @param entity entity source, structrures {content: ..., links: ... an so on}
+  * @param fullQualifiedPath String|Array full qualified path array or name (obtained from getAttributeAccessPath | getAttributeFullyQualifiedName)
+  * @return found value or null
+  */
+function getEntityAttributeValue(entity, fullQualifiedPath) {
+  // 1 - check and prepare attributes
+  if (!fullQualifiedPath) {
+    throw new Error('Cannot extract any entity value from unknown path')
+  }
+  if (!entity || !entity.content) {
+    throw new Error('Cannot extract any entity value from null entity')
+  }
+  // prepare path as array
+  const path = fullQualifiedPath instanceof String ? fullQualifiedPath.split('.') : fullQualifiedPath
+  if (path.length < 1) {
+    throw new Error('An attribute path cannot have less than one element!')
+  }
+  // 2 - recursive resolution (break when path length === 1)
+  const resolveAttribute = (currentSource, [pathElement, ...remainingPath]) => {
+    const subsource = currentSource[pathElement] || null
+    return remainingPath.length && subsource ?
+      resolveAttribute(subsource, remainingPath) : // next level
+      subsource // finished path or no such attribute
+  }
+  return resolveAttribute(entity.content, path)
+}
 
 export default {
+  getAttributeAccessPath,
   getAttributeFullyQualifiedName,
   getAttributeFullyQualifiedNameWithoutDefaultFragment,
+  getEntityAttributeValue,
   StandardAttributes,
   findLabelFromAttributeFullyQualifiedName,
   findAttribute,

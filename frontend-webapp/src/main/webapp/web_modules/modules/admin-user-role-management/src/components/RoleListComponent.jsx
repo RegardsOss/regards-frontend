@@ -7,7 +7,7 @@ import { RequestVerbEnum } from '@regardsoss/store-utils'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
 import Key from 'material-ui/svg-icons/communication/vpn-key'
-import { CardActionsComponent,ConfirmDialogComponent, ShowableAtRender } from '@regardsoss/components'
+import { CardActionsComponent, ConfirmDialogComponent, ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { Role } from '@regardsoss/model'
@@ -39,30 +39,11 @@ export class RoleListComponent extends React.Component {
     }
   }
 
-  openDeleteDialog = (entity) => {
-    this.setState({
-      deleteDialogOpened: true,
-      entityToDelete: entity,
-    })
-  }
-
-  closeDeleteDialog = () => {
-    this.setState({
-      deleteDialogOpened: false,
-      entityToDelete: null,
-    })
-  }
-
-  /**
-   *
-   * @param isDeleted
-   * @returns {*}
-   */
-  getState = (isDeleted) => {
-    if (isDeleted) {
-      return (<FormattedMessage id="projects.table.isDeleted" />)
+  getBooleanAsString = (value) => {
+    if (value) {
+      return (<FormattedMessage id="role.list.value.true" />)
     }
-    return (null)
+    return (<FormattedMessage id="role.list.value.false" />)
   }
 
   /**
@@ -77,11 +58,30 @@ export class RoleListComponent extends React.Component {
     return ''
   }
 
-  getBooleanAsString = (value) => {
-    if (value) {
-      return (<FormattedMessage id="role.list.value.true" />)
+  /**
+   *
+   * @param isDeleted
+   * @returns {*}
+   */
+  getState = (isDeleted) => {
+    if (isDeleted) {
+      return (<FormattedMessage id="projects.table.isDeleted" />)
     }
-    return (<FormattedMessage id="role.list.value.false" />)
+    return (null)
+  }
+
+  closeDeleteDialog = () => {
+    this.setState({
+      deleteDialogOpened: false,
+      entityToDelete: null,
+    })
+  }
+
+  openDeleteDialog = (entity) => {
+    this.setState({
+      deleteDialogOpened: true,
+      entityToDelete: entity,
+    })
   }
 
   renderDeleteConfirmDialog = () => {
