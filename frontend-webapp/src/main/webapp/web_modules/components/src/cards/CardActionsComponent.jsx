@@ -6,6 +6,7 @@ import CardActionsView from './CardActionsView'
 
 class CardActionsComponent extends React.Component {
   static propTypes = {
+    secondaryButtonClassName: React.PropTypes.string,
     secondaryButtonLabel: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.element]),
     secondaryButtonUrl: React.PropTypes.string,
     secondaryButtonTouchTap: React.PropTypes.func,
@@ -13,6 +14,7 @@ class CardActionsComponent extends React.Component {
     isSecondaryButtonVisible: React.PropTypes.bool,
     secondaryHateoasDependency: React.PropTypes.string,
 
+    mainButtonClassName: React.PropTypes.string,
     mainButtonLabel: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.element]).isRequired,
     mainButtonUrl: React.PropTypes.string,
     mainButtonTouchTap: React.PropTypes.func,
@@ -30,6 +32,7 @@ class CardActionsComponent extends React.Component {
     return (
       <ThemeInjector>
         <CardActionsView
+          secondaryButtonClassName={this.props.secondaryButtonClassName}
           secondaryButtonLabel={this.props.secondaryButtonLabel}
           secondaryButtonUrl={this.props.secondaryButtonUrl}
           secondaryButtonTouchTap={this.props.secondaryButtonTouchTap}
@@ -37,6 +40,7 @@ class CardActionsComponent extends React.Component {
           isSecondaryButtonVisible={this.props.isSecondaryButtonVisible}
           secondaryHateoasDependency={this.props.secondaryHateoasDependency}
 
+          mainButtonClassName={this.props.mainButtonClassName}
           mainButtonUrl={this.props.mainButtonUrl}
           mainButtonLabel={this.props.mainButtonLabel}
           mainButtonTouchTap={this.props.mainButtonTouchTap}

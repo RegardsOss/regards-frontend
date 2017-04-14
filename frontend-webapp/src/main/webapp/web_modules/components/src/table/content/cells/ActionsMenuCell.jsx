@@ -5,8 +5,10 @@ import NavigationMoreVert from 'material-ui/svg-icons/navigation/more-vert'
 import MediaQuery from 'react-responsive'
 import omit from 'lodash/omit'
 import { HateoasMenuAction, HateoasIconAction } from '@regardsoss/display-control'
+import { i18nContextType } from '@regardsoss/i18n'
 
-const ActionsMenuCell = (props) => {
+const ActionsMenuCell = (props, context) => {
+  const { intl } = context
   const maxBreakpoint = props.children.reduce((biggest, action) => Math.max(action.props.breakpoint, biggest), 0)
   return (
     <div style={{ display: 'flex' }}>
@@ -24,12 +26,13 @@ const ActionsMenuCell = (props) => {
       <MediaQuery query={`(max-width: ${maxBreakpoint}px)`}>
         <IconMenu
           iconButtonElement={
-            <IconButton>
+            <IconButton className="selenium-moreButton">
               <NavigationMoreVert />
             </IconButton>
           }
           anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
           targetOrigin={{ horizontal: 'right', vertical: 'top' }}
+          title={intl.formatMessage({ id: 'table.actions.more' })}
         >
           {React.Children.map(props.children, ((action) => {
             const { children, breakpoint, ...rest } = action.props
@@ -59,4 +62,9 @@ ActionsMenuCell.propTypes = {
     children: React.PropTypes.element.required,
   })),
 }
+
+ActionsMenuCell.contextTypes = {
+  ...i18nContextType,
+}
+
 export default ActionsMenuCell

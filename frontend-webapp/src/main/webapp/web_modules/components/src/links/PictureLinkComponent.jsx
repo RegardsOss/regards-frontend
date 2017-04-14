@@ -9,6 +9,7 @@ import { themeContextType } from '@regardsoss/theme'
 class PictureLinkComponent extends React.Component {
 
   static propTypes = {
+    className: React.PropTypes.string,
     disabled: React.PropTypes.bool,
     text: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.element]).isRequired,
     IconComponent: React.PropTypes.func.isRequired,
@@ -64,7 +65,7 @@ class PictureLinkComponent extends React.Component {
 
 
   render() {
-    const { disabled, text, IconComponent, iconStyles, iconToTextGap } = this.props
+    const { className, disabled, text, IconComponent, iconStyles, iconToTextGap } = this.props
     const { isOver } = this.state
     const { palette } = this.context.muiTheme
 
@@ -91,6 +92,7 @@ class PictureLinkComponent extends React.Component {
     /* eslint-disable jsx-a11y/no-static-element-interactions*/
     return (
       <div
+        className={className}
         style={{ display: 'inline-flex', alignItems: 'center', textDecoration: 'none', cursor: 'pointer' }}
         onClick={this.onAction}
         onMouseOut={this.onMouseOut}
