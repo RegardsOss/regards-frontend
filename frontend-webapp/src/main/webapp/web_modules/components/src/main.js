@@ -41,10 +41,14 @@ import PluginConfigurationPickerComponent from './plugin/PluginConfigurationPick
 
 import TableSelectionModes from './table/selection/TableSelectionModes'
 import TableContainer from './table/TableContainer'
+import ActionsMenuCell from './table/content/cells/ActionsMenuCell'
+
+import SVGIconFromString from './icon/SVGIconFromString'
 
 export {
   ActionButtonComponent,
   ActionIconWithNotifications,
+  ActionsMenuCell,
   ApplicationErrorComponent,
   BoardComponent,
   BaseBoardComponent,
@@ -72,4 +76,5 @@ export {
   SecondaryActionButtonComponent,
   ShowableAtRender,
   PluginConfigurationPickerComponent,
+  SVGIconFromString,
 }

@@ -20,6 +20,7 @@ import { ShowableAtRender } from '@regardsoss/components'
 import { LoadableContentDisplayDecorator, HateoasIconAction, HateoasToggle, HateoasKeys } from '@regardsoss/display-control'
 import { Theme } from '@regardsoss/model'
 import { themeContextType, defaultCustomConfiguration, defaultTheme } from '@regardsoss/theme'
+import Back from 'material-ui/svg-icons/navigation/arrow-back'
 import { muiTheme } from '@regardsoss/vendors'
 import MaterialUiComponentsShowcase from './MaterialUiComponentsShowcase'
 import DeleteButton from './DeleteButton'
@@ -198,7 +199,7 @@ class ApplicationThemeComponent extends React.Component {
         <ShowableAtRender show={!isThemeListEmpty}>
           <Toolbar style={style.toolbar.root}>
             <ToolbarGroup firstChild>
-              <IconButton onTouchTap={onClose}><Close color={style.toolbar.icon.color} /></IconButton>
+              <IconButton onTouchTap={onClose}><Back color={style.toolbar.icon.color} /></IconButton>
               <ToolbarTitle text={toolbarTitle} />
               {themeSelect}
             </ToolbarGroup>

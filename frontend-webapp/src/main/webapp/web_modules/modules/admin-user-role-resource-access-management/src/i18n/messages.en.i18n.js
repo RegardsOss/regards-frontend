@@ -7,7 +7,6 @@ const messages = Object.assign({
   'role.form.info': 'Plus d\'info sur la ressource',
   'role.form.description': 'Description',
   'role.form.autorizedBy': 'Accessible par',
-  'role.form.resource': 'Ressource',
   'role.form.moreinfo': 'Plus d\'information sur la ressource',
   'role.modal.title': 'Information sur une ressource',
   'role.modal.action.back': 'Retour',

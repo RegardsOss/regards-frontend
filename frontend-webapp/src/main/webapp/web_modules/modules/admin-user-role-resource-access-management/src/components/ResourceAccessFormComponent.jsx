@@ -3,7 +3,8 @@ import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { FormattedMessage } from 'react-intl'
 import { Tabs, Tab } from 'material-ui/Tabs'
 import { CardActionsComponent } from '@regardsoss/components'
-import { Role } from '@regardsoss/model'
+import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
+import { Role, Resource } from '@regardsoss/model'
 import ResourceAccessFormByMicroserviceContainer from './../containers/ResourceAccessFormByMicroserviceContainer'
 
 /**
@@ -16,6 +17,30 @@ export class ResourceAccessFormComponent extends React.Component {
     microserviceList: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
     backUrl: React.PropTypes.string.isRequired,
     currentRole: Role.isRequired,
+    roleResources: React.PropTypes.arrayOf(Resource).isRequired,
+  }
+
+  state= {
+    activeMicroservice: STATIC_CONFIGURATION.microservices[0],
+  }
+
+  activateTab = (microservice) => {
+    this.setState({
+      activeMicroservice: microservice,
+    })
+  }
+
+  renderTab = (microserviceName) => {
+    if (microserviceName === this.state.activeMicroservice) {
+      return (
+        <ResourceAccessFormByMicroserviceContainer
+          microserviceName={this.state.activeMicroservice}
+          currentRole={this.props.currentRole}
+          roleResources={this.props.roleResources}
+        />
+      )
+    }
+    return null
   }
 
   render() {
@@ -37,11 +62,9 @@ export class ResourceAccessFormComponent extends React.Component {
               <Tab
                 label={microserviceName}
                 key={id}
+                onActive={() => this.activateTab(microserviceName)}
               >
-                <ResourceAccessFormByMicroserviceContainer
-                  microserviceName={microserviceName}
-                  currentRole={currentRole}
-                />
+                {this.renderTab(microserviceName)}
               </Tab>
             ))}
           </Tabs>

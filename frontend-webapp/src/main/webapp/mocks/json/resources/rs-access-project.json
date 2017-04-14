@@ -42,6 +42,15 @@
       "id": 6
     }
   ],
+  "plugin-configuration": [
+    {
+      "id": 1,
+      "active": true,
+      "default": false,
+      "pluginId": "2",
+      "conf": "{\"label\":\"Configuration de service\",\"static\":{\"static1\":\"V1\",\"static2\":\"CV3\"},\"dynamic\":{\"dynamic1\":\"V2\"}}"
+    }
+  ],
   "modules": [
     {
       "id": 1,

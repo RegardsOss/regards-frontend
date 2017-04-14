@@ -47,7 +47,7 @@ export const serviceUiManagementRouter = {
   getChildRoutes(nextState, cb) {
     const serviceUiManagement = require('@regardsoss/admin-ui-service-management')
     require.ensure([], (require) => {
-      cb(null, [serviceUiManagement.uiConfigurationRouter])
+      cb(null, [serviceUiManagement.serviceUIRouter])
     })
   },
 }

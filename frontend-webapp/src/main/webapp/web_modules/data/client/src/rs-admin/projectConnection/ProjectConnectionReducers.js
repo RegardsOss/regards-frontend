@@ -5,10 +5,11 @@ import { BasicPageableReducers } from '@regardsoss/store-utils'
 import { ProjectConnectionConfiguration } from '@regardsoss/api'
 import ProjectConnectionActions from './ProjectConnectionActions'
 
+
 /**
  * Redux Reducer for ProjectConnection actions.
  *
- * To user those actions, you need to pass the <namespace> parameter
+ * To use those actions, you need to pass the <namespace> parameter
  *
  * namespace : String, must be the same namespace defined in the associated Reducer.
  *

@@ -11,6 +11,9 @@ const adminProjectManagementStyles = theme => (
     tableRow: {
       float: 'none', //fix for bootstrap grid
     },
+    mediaQuery: {
+      display: 'inline',
+    },
     abbr: {
       textDecoration: 'none',
     },

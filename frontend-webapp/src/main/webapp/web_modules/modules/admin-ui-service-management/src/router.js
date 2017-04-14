@@ -9,76 +9,71 @@
  *
  * @type {{path: string, getComponents: ((nextState, cb))}}
  */
-export const listModulesRoute = {
-  path: 'applications/:applicationId/modules/list',
+export const listServiceRoute = {
+  path: 'list',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const appModuleContainer = require('./containers/ModulesListContainer')
+      const serviceListContainer = require('./containers/ServiceListContainer')
       cb(null, {
-        content: appModuleContainer.default,
+        content: serviceListContainer.default,
       })
     })
   },
 }
 
-/**
- *
- * @type {{path: string, getComponents: ((nextState, cb))}}
- */
-export const editModuleRoute = {
-  path: 'applications/:applicationId/modules/:module_id/edit',
-  getComponents(nextState, cb) {
-    require.ensure([], (require) => {
-      const moduleContainer = require('./containers/ModuleFormContainer')
-      cb(null, {
-        content: moduleContainer.default,
-      })
-    })
-  },
-}
 
 /**
  *
  * @type {{path: string, getComponents: ((nextState, cb))}}
  */
-export const duplicateModuleRoute = {
-  path: 'applications/:applicationId/modules/:duplicate_module_id/duplicate',
+export const listConfigurationServiceRoute = {
+  path: ':uiPluginId/list',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const moduleContainer = require('./containers/ModuleFormContainer')
+      const ServiceConfigurationListContainer = require('./containers/ServiceConfigurationListContainer')
       cb(null, {
-        content: moduleContainer.default,
+        content: ServiceConfigurationListContainer.default,
       })
     })
   },
 }
 
-/**
- *
- * @type {{path: string, getComponents: ((nextState, cb))}}
- */
-export const createModuleRoute = {
-  path: 'applications/:applicationId/modules/create',
+
+export const editServiceConfigurationRoute = {
+  path: ':uiPluginId/:uiPluginConfId/:mode',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const moduleContainer = require('./containers/ModuleFormContainer')
+      const ServiceConfigurationFormContainer = require('./containers/ServiceConfigurationFormContainer')
       cb(null, {
-        content: moduleContainer.default,
+        content: ServiceConfigurationFormContainer.default,
       })
     })
   },
 }
+export const createServiceConfigurationRoute = {
+  path: ':uiPluginId/create',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const ServiceConfigurationFormContainer = require('./containers/ServiceConfigurationFormContainer')
+      cb(null, {
+        content: ServiceConfigurationFormContainer.default,
+      })
+    })
+  },
+}
+
+
 /**
  *
  * @type {{childRoutes: [*]}}
  */
-const uiConfigurationRouter = {
+const serviceUIRouter = {
   childRoutes: [
-    listModulesRoute,
-    editModuleRoute,
-    duplicateModuleRoute,
-    createModuleRoute,
+    listServiceRoute,
+    listConfigurationServiceRoute,
+    editServiceConfigurationRoute,
+    createServiceConfigurationRoute,
   ],
 }
 
-export default uiConfigurationRouter
+export default serviceUIRouter

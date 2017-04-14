@@ -11,6 +11,7 @@ import ShowableAtRender from './ShowableAtRender'
  */
 class ActionButtonComponent extends React.Component {
   static propTypes = {
+    className: React.PropTypes.string,
     label: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.element]).isRequired,
     button: React.PropTypes.func,
     primary: React.PropTypes.bool,
@@ -52,7 +53,7 @@ class ActionButtonComponent extends React.Component {
   )
 
   render() {
-    const { button, isVisible, disabled, url, style, label, primary, secondary, onTouchTap, type } = this.props
+    const { className, button, isVisible, disabled, url, style, label, primary, secondary, onTouchTap, type } = this.props
     return (
       <ShowableAtRender show={isVisible}>
         {(() => {
@@ -63,6 +64,7 @@ class ActionButtonComponent extends React.Component {
                 style={style}
               >
                 {this.getComponent(button, {
+                  className,
                   label,
                   primary,
                   secondary,
@@ -74,6 +76,7 @@ class ActionButtonComponent extends React.Component {
           }
           return (
             this.getComponent(button, {
+              className,
               label,
               primary,
               secondary,

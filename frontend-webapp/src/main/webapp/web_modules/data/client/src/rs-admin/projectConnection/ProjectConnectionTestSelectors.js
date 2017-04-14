@@ -14,4 +14,4 @@ import { BasicSignalSelectors } from '@regardsoss/store-utils'
  *
  * @author Sébastien Binda
  */
-export default (storePath, namespace) => new BasicSignalSelectors(storePath, namespace)
+export default storePath => new BasicSignalSelectors(storePath)

@@ -10,7 +10,7 @@ import Done from 'material-ui/svg-icons/action/done'
 import { Account } from '@regardsoss/model'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { NoContentMessageInfo, ConfirmDialogComponent, ShowableAtRender } from '@regardsoss/components'
+import { ActionsMenuCell, NoContentMessageInfo, ConfirmDialogComponent, ShowableAtRender } from '@regardsoss/components'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 
 const status = {
@@ -180,27 +180,32 @@ export class AccountListComponent extends React.Component {
                           <FormattedMessage id={`account.list.table.status.label.${account.content.status}`} />
                         </TableRowColumn>
                         <TableRowColumn>
-                          <IconButton
-                            title={intl.formatMessage({ id: 'account.list.table.action.edit.tooltip' })}
-                            onTouchTap={() => onEdit(account.content.id)}
-                            disabled={isFetchingActions}
-                          >
-                            <Edit hoverColor={style.commonActionHoverColor} />
-                          </IconButton>
-                          <IconButton
-                            title={intl.formatMessage({ id: 'account.list.table.action.accept.tooltip' })}
-                            onTouchTap={() => onAccept(account.content.email)}
-                            disabled={isFetchingActions || !this.canAcceptAccount(account)}
-                          >
-                            <Done hoverColor={style.commonActionHoverColor} />
-                          </IconButton>
-                          <IconButton
-                            title={intl.formatMessage({ id: 'account.list.table.action.delete.tooltip' })}
-                            onTouchTap={() => this.openDeleteDialog(account)}
-                            disabled={isFetchingActions}
-                          >
-                            <Delete hoverColor={style.deleteActionHoverColor} />
-                          </IconButton>
+                          <ActionsMenuCell>
+                            <IconButton
+                              title={intl.formatMessage({ id: 'account.list.table.action.edit.tooltip' })}
+                              onTouchTap={() => onEdit(account.content.id)}
+                              disabled={isFetchingActions}
+                              breakpoint={550}
+                            >
+                              <Edit hoverColor={style.commonActionHoverColor} />
+                            </IconButton>
+                            <IconButton
+                              title={intl.formatMessage({ id: 'account.list.table.action.accept.tooltip' })}
+                              onTouchTap={() => onAccept(account.content.email)}
+                              disabled={isFetchingActions || !this.canAcceptAccount(account)}
+                              breakpoint={1040}
+                            >
+                              <Done hoverColor={style.commonActionHoverColor} />
+                            </IconButton>
+                            <IconButton
+                              title={intl.formatMessage({ id: 'account.list.table.action.delete.tooltip' })}
+                              onTouchTap={() => this.openDeleteDialog(account)}
+                              disabled={isFetchingActions}
+                              breakpoint={1040}
+                            >
+                              <Delete hoverColor={style.deleteActionHoverColor} />
+                            </IconButton>
+                          </ActionsMenuCell>
                         </TableRowColumn>
                       </TableRow>
                     ))}

@@ -87,6 +87,7 @@ export class ProjectConnectionFormComponent extends React.Component {
     const submitAction = this.props.projectConnection ? this.updateProjectConnection : this.createProjectConnection
     return (
       <form
+        className="selenium-projectConnectionForm"
         onSubmit={this.props.handleSubmit(submitAction)}
       >
         <Field

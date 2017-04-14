@@ -3,15 +3,15 @@
  */
 import { map, noop } from 'lodash'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
+import IconButton from 'material-ui/IconButton'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
 import { FormattedMessage } from 'react-intl'
-import IconButton from 'material-ui/IconButton'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Settings from 'material-ui/svg-icons/action/settings-input-component'
 import Input from 'material-ui/svg-icons/action/input'
 import Delete from 'material-ui/svg-icons/action/delete'
 import ResetLicences from 'material-ui/svg-icons/action/assignment-late'
-import { CardActionsComponent, ShowableAtRender, ConfirmDialogComponent } from '@regardsoss/components'
+import { ActionsMenuCell, CardActionsComponent, ShowableAtRender, ConfirmDialogComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { Project } from '@regardsoss/model'
@@ -40,7 +40,6 @@ export class ProjectListComponent extends React.Component {
     ...themeContextType,
     ...i18nContextType,
   }
-
 
   componentWillMount() {
     // initialize dialog state (no dialog)
@@ -92,10 +91,15 @@ export class ProjectListComponent extends React.Component {
     })
   }
 
+  breakPoints = {
+    license: 1270,
+    database: 1065,
+    everything: 1000,
+  }
+
   cancelDialog = () => {
     this.setDialogState()
   }
-
 
   render() {
     const { intl } = this.context
@@ -159,7 +163,7 @@ export class ProjectListComponent extends React.Component {
               showRowHover
             >
               {map(projectList, (project, i) => (
-                <TableRow key={i}>
+                <TableRow className={`selenium-${project.content.name}`} key={i}>
                   <TableRowColumn style={styles.tableRow} className="col-md-13">{project.content.name}</TableRowColumn>
                   <TableRowColumn style={styles.tableRow} className="col-md-25">
                     <abbr style={styles.abbr} title={project.content.description}>
@@ -176,40 +180,50 @@ export class ProjectListComponent extends React.Component {
                     {this.getDeletedState(project.content.isDeleted)}
                   </TableRowColumn>
                   <TableRowColumn style={styles.tableRow} className="col-md-26">
-                    <IconButton
-                      title={intl.formatMessage({ id: 'project.list.action.openbutton' })}
-                      onTouchTap={() => handleOpen(project.content.name)}
-                    >
-                      <Input hoverColor={style.hoverButtonView} />
-                    </IconButton>
+                    <ActionsMenuCell>
+                      <IconButton
+                        title={intl.formatMessage({ id: 'project.list.action.openbutton' })}
+                        onTouchTap={() => handleOpen(project.content.name)}
+                        breakpoint={940}
+                        className="selenium-openbutton"
+                      >
+                        <Input hoverColor={style.hoverButtonView} />
+                      </IconButton>
+                      <IconButton
+                        title={intl.formatMessage({ id: 'project.list.action.editbutton' })}
+                        onTouchTap={() => handleEdit(project.content.name)}
+                        breakpoint={995}
+                        className="selenium-editbutton"
+                      >
+                        <Edit hoverColor={style.hoverButtonEdit} />
+                      </IconButton>
+                      <IconButton
+                        title={intl.formatMessage({ id: 'project.list.action.edit.connections.button' })}
+                        onTouchTap={() => handleConfigureConnections(project.content.name)}
+                        breakpoint={1065}
+                        className="selenium-editconnections"
+                      >
+                        <Settings hoverColor={style.hoverButtonEdit} />
+                      </IconButton>
 
-                    <IconButton
-                      title={intl.formatMessage({ id: 'project.list.action.editbutton' })}
-                      onTouchTap={() => handleEdit(project.content.name)}
-                    >
-                      <Edit hoverColor={style.hoverButtonEdit} />
-                    </IconButton>
-
-                    <IconButton
-                      title={intl.formatMessage({ id: 'project.list.action.edit.connections.button' })}
-                      onTouchTap={() => handleConfigureConnections(project.content.name)}
-                    >
-                      <Settings hoverColor={style.hoverButtonEdit} />
-                    </IconButton>
-
-                    <IconButton
-                      title={intl.formatMessage({ id: 'project.list.action.licenseUpdateButton' })}
-                      onTouchTap={() => this.onLicenseUpdate(project.content.name)}
-                      disabled={!!project.content.license}
-                    >
-                      <ResetLicences hoverColor={style.hoverButtonLicenseUpdate} />
-                    </IconButton>
-                    <IconButton
-                      title={intl.formatMessage({ id: 'project.list.action.deletebutton' })}
-                      onTouchTap={() => this.onDelete(project.content.name)}
-                    >
-                      <Delete hoverColor={style.hoverButtonDelete} />
-                    </IconButton>
+                      <IconButton
+                        title={intl.formatMessage({ id: 'project.list.action.licenseUpdateButton' })}
+                        onTouchTap={() => this.onLicenseUpdate(project.content.name)}
+                        disabled={!!project.content.license}
+                        breakpoint={1270}
+                        className="selenium-licenseUpdateButton"
+                      >
+                        <ResetLicences hoverColor={style.hoverButtonLicenseUpdate} />
+                      </IconButton>
+                      <IconButton
+                        title={intl.formatMessage({ id: 'project.list.action.deletebutton' })}
+                        onTouchTap={() => this.onDelete(project.content.name)}
+                        breakpoint={1270}
+                        className="selenium-deletebutton"
+                      >
+                        <Delete hoverColor={style.hoverButtonDelete} />
+                      </IconButton>
+                    </ActionsMenuCell>
                   </TableRowColumn>
                 </TableRow>
               ))}
@@ -218,6 +232,7 @@ export class ProjectListComponent extends React.Component {
         </CardText>
         <CardActions>
           <CardActionsComponent
+            mainButtonClassName="selenium-addButton"
             mainButtonUrl={createUrl}
             mainButtonLabel={
               <FormattedMessage

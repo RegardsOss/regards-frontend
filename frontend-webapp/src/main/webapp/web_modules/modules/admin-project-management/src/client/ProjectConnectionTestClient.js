@@ -14,7 +14,7 @@ const REDUX_ACTION_NAMESPACE = 'admin-project-management/projectConnectionTest'
 
 const projectConnectionTestReducers = AdminClient.ProjectConnectionTestReducers(REDUX_ACTION_NAMESPACE)
 const projectConnectionTestActions = AdminClient.ProjectConnectionTestActions(REDUX_ACTION_NAMESPACE)
-const projectConnectionTestSelectors = AdminClient.ProjectConnectionTestSelectors(ENTITIES_STORE_PATH, ENTITIES_STORE_PATH)
+const projectConnectionTestSelectors = AdminClient.ProjectConnectionTestSelectors(ENTITIES_STORE_PATH)
 
 export default {
   projectConnectionTestReducers,

@@ -14,7 +14,7 @@ import Delete from 'material-ui/svg-icons/action/delete'
 import Done from 'material-ui/svg-icons/action/done'
 import RemoveCircle from 'material-ui/svg-icons/content/remove-circle'
 import { ProjectUser } from '@regardsoss/model'
-import { CardActionsComponent, NoContentMessageInfo, ConfirmDialogComponent, ShowableAtRender } from '@regardsoss/components'
+import { ActionsMenuCell, CardActionsComponent, NoContentMessageInfo, ConfirmDialogComponent, ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import ProjectUserActions from '../model/ProjectUserActions'
@@ -217,38 +217,44 @@ export class ProjectUserListComponent extends React.Component {
                           />
                         </TableRowColumn>
                         <TableRowColumn>
-                          <HateoasIconAction
-                            title={intl.formatMessage({ id: 'projectUser.list.table.action.edit.tooltip' })}
-                            onTouchTap={() => onEdit(projectUser.content.id)}
-                            disabled={isFetchingActions}
-                            entityLinks={projectUser.links}
-                            hateoasKey={HateoasKeys.UPDATE}
-                          >
-                            <Edit hoverColor={style.commonActionHoverColor} />
-                          </HateoasIconAction>
-                          <IconButton
-                            title={intl.formatMessage({ id: 'projectUser.list.table.action.accept.tooltip' })}
-                            onTouchTap={() => onValidate(projectUser.content.id)}
-                            disabled={isFetchingActions || !canAcceptUser(projectUser)}
-                          >
-                            <Done hoverColor={style.commonActionHoverColor} />
-                          </IconButton>
-                          <IconButton
-                            title={intl.formatMessage({ id: 'projectUser.list.table.action.deny.tooltip' })}
-                            onTouchTap={() => onDeny(projectUser.content.id)}
-                            disabled={isFetchingActions || !canDenyUser(projectUser)}
-                          >
-                            <RemoveCircle hoverColor={style.deleteActionHoverColor} />
-                          </IconButton>
-                          <HateoasIconAction
-                            title={intl.formatMessage({ id: 'projectUser.list.table.action.delete.tooltip' })}
-                            onTouchTap={() => this.openDeleteDialog(projectUser)}
-                            disabled={isFetchingActions}
-                            entityLinks={projectUser.links}
-                            hateoasKey={HateoasKeys.DELETE}
-                          >
-                            <Delete hoverColor={style.deleteActionHoverColor} />
-                          </HateoasIconAction>
+                          <ActionsMenuCell>
+                            <HateoasIconAction
+                              title={intl.formatMessage({ id: 'projectUser.list.table.action.edit.tooltip' })}
+                              onTouchTap={() => onEdit(projectUser.content.id)}
+                              disabled={isFetchingActions}
+                              entityLinks={projectUser.links}
+                              hateoasKey={HateoasKeys.UPDATE}
+                              breakpoint={530}
+                            >
+                              <Edit hoverColor={style.commonActionHoverColor} />
+                            </HateoasIconAction>
+                            <IconButton
+                              title={intl.formatMessage({ id: 'projectUser.list.table.action.accept.tooltip' })}
+                              onTouchTap={() => onValidate(projectUser.content.id)}
+                              disabled={isFetchingActions || !canAcceptUser(projectUser)}
+                              breakpoint={1065}
+                            >
+                              <Done hoverColor={style.commonActionHoverColor} />
+                            </IconButton>
+                            <IconButton
+                              title={intl.formatMessage({ id: 'projectUser.list.table.action.deny.tooltip' })}
+                              onTouchTap={() => onDeny(projectUser.content.id)}
+                              disabled={isFetchingActions || !canDenyUser(projectUser)}
+                              breakpoint={1320}
+                            >
+                              <RemoveCircle hoverColor={style.deleteActionHoverColor} />
+                            </IconButton>
+                            <HateoasIconAction
+                              title={intl.formatMessage({ id: 'projectUser.list.table.action.delete.tooltip' })}
+                              onTouchTap={() => this.openDeleteDialog(projectUser)}
+                              disabled={isFetchingActions}
+                              entityLinks={projectUser.links}
+                              hateoasKey={HateoasKeys.DELETE}
+                              breakpoint={1320}
+                            >
+                              <Delete hoverColor={style.deleteActionHoverColor} />
+                            </HateoasIconAction>
+                          </ActionsMenuCell>
                         </TableRowColumn>
                       </TableRow>
                     ))}

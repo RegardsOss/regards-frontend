@@ -2,11 +2,11 @@ import { connect } from '@regardsoss/redux'
 import { Role, Resource } from '@regardsoss/model'
 import { remove } from 'lodash'
 import { ShowableAtRender } from '@regardsoss/components'
-import RoleActions from '../model/RoleActions'
-import ControllerSelectors from '../model/ControllerSelectors'
-import ControllerActions from '../model/ControllerActions'
-import ResourceAccessActions from '../model/ResourceAccessActions'
-import ResourceAccessSelectors from '../model/ResourceAccessSelectors'
+import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
+import { roleActions } from '../client/RoleClient'
+import { controllerActions, controllerSelectors } from '../client/ResourceControllerClient'
+import { resourceAccessActions, resourceAccessSelectors } from '../client/ResourceAccessClient'
+import { roleResourceActions } from '../client/RoleResourceClient'
 import ResourceAccessFormByMicroserviceComponent from '../components/ResourceAccessFormByMicroserviceComponent'
 import ResourceAccessModalOverviewComponent from '../components/ResourceAccessModalOverviewComponent'
 
@@ -19,13 +19,18 @@ export class ResourceAccessFormByMicroserviceContainer extends React.Component {
   static propTypes = {
     microserviceName: React.PropTypes.string.isRequired,
     currentRole: Role,
+    roleResources: React.PropTypes.arrayOf(Resource),
+    updateRoleResources: React.PropTypes.func,
     // from mapStateToProps
     controllerList: React.PropTypes.arrayOf(React.PropTypes.string),
-    resourceList: React.PropTypes.objectOf(Resource),
+    resourceList: React.PropTypes.arrayOf(Resource),
+    resourceListFetching: React.PropTypes.bool,
     // from mapDispatchToProps
     fetchControllerList: React.PropTypes.func,
     fetchResourceList: React.PropTypes.func,
-    updateRole: React.PropTypes.func,
+    flushResourceList: React.PropTypes.func,
+    removeRoleResourceAccess: React.PropTypes.func,
+    addRoleResourceAccess: React.PropTypes.func,
   }
 
   constructor(props) {
@@ -33,27 +38,27 @@ export class ResourceAccessFormByMicroserviceContainer extends React.Component {
     this.state = {
       modalResourceAccessId: undefined,
       isModalOpen: false,
+      controllersLoading: true,
     }
   }
 
   componentWillMount() {
-    this.props.fetchControllerList(this.props.microserviceName)
+    Promise.resolve(this.props.fetchControllerList(this.props.microserviceName)).then(() =>
+      this.setState({
+        controllersLoading: false,
+      }),
+    )
   }
 
   handleOpenController = (controllerName) => {
+    this.props.flushResourceList()
     this.props.fetchResourceList(this.props.microserviceName, controllerName)
   }
 
   handleToggleResourceAccess = (resource, previousValue) => {
-    const { currentRole } = this.props
-    if (previousValue) {
-      remove(currentRole.content.permissions, permission => permission.resource === resource.content.resource &&
-          permission.microservice === resource.content.microservice &&
-          permission.verb === resource.content.verb)
-    } else {
-      currentRole.content.permissions.push(resource.content)
-    }
-    Promise.resolve(this.props.updateRole(currentRole.content.id, currentRole.content))
+    const { currentRole, removeRoleResourceAccess, addRoleResourceAccess, updateRoleResources } = this.props
+    const updateAction = previousValue ? removeRoleResourceAccess : addRoleResourceAccess
+    updateAction(currentRole, resource)
   }
 
   handleOpenResourceAccessModal = (resource) => {
@@ -70,9 +75,8 @@ export class ResourceAccessFormByMicroserviceContainer extends React.Component {
   }
 
   render() {
-    const { currentRole, microserviceName, resourceList, controllerList } = this.props
+    const { currentRole, roleResources, microserviceName, resourceList, controllerList } = this.props
     const { modalResourceAccessId, isModalOpen } = this.state
-    // const { controllerList } = this.props
     return (
       <div>
         <ShowableAtRender show={isModalOpen}>
@@ -81,27 +85,38 @@ export class ResourceAccessFormByMicroserviceContainer extends React.Component {
             currentResource={modalResourceAccessId ? resourceList[modalResourceAccessId] : {}}
           />
         </ShowableAtRender>
-        <ResourceAccessFormByMicroserviceComponent
-          controllerList={controllerList}
-          resourceList={resourceList}
-          currentRole={currentRole}
-          microserviceName={microserviceName}
-          handleOpenController={this.handleOpenController}
-          handleToggleResourceAccess={this.handleToggleResourceAccess}
-          handleOpenResourceAccess={this.handleOpenResourceAccessModal}
-        />
+        <LoadableContentDisplayDecorator
+          isLoading={this.state.controllersLoading}
+        >
+          {() =>
+            <ResourceAccessFormByMicroserviceComponent
+              controllerList={controllerList}
+              resourceList={resourceList}
+              resourceListFetching={this.props.resourceListFetching}
+              currentRole={currentRole}
+              roleResources={roleResources}
+              microserviceName={microserviceName}
+              handleOpenController={this.handleOpenController}
+              handleToggleResourceAccess={this.handleToggleResourceAccess}
+              handleOpenResourceAccess={this.handleOpenResourceAccessModal}
+            />
+          }
+        </LoadableContentDisplayDecorator>
       </div>
     )
   }
 }
 const mapStateToProps = state => ({
-  controllerList: ControllerSelectors.getArray(state),
-  resourceList: ResourceAccessSelectors.getList(state),
+  controllerList: controllerSelectors.getArray(state),
+  resourceList: resourceAccessSelectors.getOrderedList(state),
+  resourceListFetching: resourceAccessSelectors.isFetching(state),
 })
 const mapDispatchToProps = dispatch => ({
-  fetchControllerList: microserviceName => dispatch(ControllerActions.fetchEntityList({ microserviceName })),
-  fetchResourceList: (microserviceName, controllerName) => dispatch(ResourceAccessActions.fetchEntityList({ microserviceName, controllerName })),
-  updateRole: (roleName, updatedRole) => dispatch(RoleActions.updateEntity(roleName, updatedRole)),
+  fetchControllerList: microserviceName => dispatch(controllerActions.fetchEntityList({ microserviceName })),
+  fetchResourceList: (microserviceName, controllerName) => dispatch(resourceAccessActions.fetchEntityList({ microserviceName, controllerName })),
+  flushResourceList: () => dispatch(resourceAccessActions.flush()),
+  removeRoleResourceAccess: (role, resource) => dispatch(roleResourceActions.deleteEntity(resource.content.id, { role_name: role.content.name })),
+  addRoleResourceAccess: (role, resource) => dispatch(roleResourceActions.createEntity(resource.content, { role_name: role.content.name })),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ResourceAccessFormByMicroserviceContainer)

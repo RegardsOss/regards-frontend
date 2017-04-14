@@ -10,6 +10,7 @@ import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import Toggle from 'material-ui/Toggle'
 import { Role, Resource } from '@regardsoss/model'
+import { LoadingComponent } from '@regardsoss/display-control'
 import moduleStyles from '../styles/styles'
 
 /**
@@ -20,10 +21,10 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
 
   static propTypes = {
     currentRole: Role,
+    roleResources: React.PropTypes.arrayOf(Resource),
     controllerList: React.PropTypes.arrayOf(React.PropTypes.string),
-    // TODO use or delete
-    // microserviceName: React.PropTypes.string.isRequired,
-    resourceList: React.PropTypes.objectOf(Resource).isRequired,
+    resourceList: React.PropTypes.arrayOf(Resource).isRequired,
+    resourceListFetching: React.PropTypes.bool,
     handleOpenController: React.PropTypes.func.isRequired,
     handleToggleResourceAccess: React.PropTypes.func.isRequired,
     handleOpenResourceAccess: React.PropTypes.func.isRequired,
@@ -80,8 +81,10 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
 
   isResourceAutorized = (resource) => {
     let isAutorized = false
-    forEach(this.props.currentRole.content.permissions, (permission) => {
-      if (permission.resource === resource.content.resource && permission.microservice === resource.content.microservice && permission.verb === resource.content.verb) {
+    forEach(this.props.roleResources, (permission) => {
+      if (permission.content.resource === resource.content.resource &&
+        permission.content.microservice === resource.content.microservice &&
+        permission.content.verb === resource.content.verb) {
         isAutorized = true
       }
     })
@@ -95,7 +98,7 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
     this.props.handleOpenResourceAccess(resource)
   }
 
-  renderResource() {
+  getResourceListItems() {
     const { resourceList } = this.props
     const styles = moduleStyles(this.context.muiTheme)
 
@@ -139,14 +142,13 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
           </Chip>
         }
       >
-        {this.context.intl.formatMessage({ id: 'role.form.resource' })}        :
         {resource.content.resource}
       </ListItem>
     ))
   }
 
   render() {
-    const { controllerList } = this.props
+    const { controllerList, resourceListFetching } = this.props
     const { isControllerOpen } = this.state
     return (
       <List>
@@ -161,7 +163,7 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
               primaryTogglesNestedList
               onNestedListToggle={() => this.handleToggleController(controller)}
               nestedItems={
-                hasChild ? this.renderResource(controller) : [<ListItem key={1} primaryText="Waiting..." />]
+                resourceListFetching ? [<ListItem key={1}><LoadingComponent /></ListItem>] : this.getResourceListItems()
               }
             />
           )

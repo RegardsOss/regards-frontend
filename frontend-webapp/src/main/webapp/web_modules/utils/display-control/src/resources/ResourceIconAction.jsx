@@ -7,27 +7,34 @@ import { AuthenticationParametersSelectors } from '@regardsoss/authentication-ma
 import HateoasDisplayDecorator from './../resources/HateoasDisplayDecorator'
 
 /**
- * Component to display an icon action for a given entity only if the action is available
- * from the entity server returned hateoas links
+ * Component to display an icon action only if the action is authorized
+ * from the server using the resources access list returned for the current user
+ * Bypass this mecanism is the user's role is instance admin
  *
  * @author Sébastien Binda
+ * @author Léo Mieulet
  */
 class ResourceIconAction extends React.Component {
 
   static propTypes = {
-    resourceDependencies: React.PropTypes.string.isRequired,
+    resourceDependency: React.PropTypes.string,
+    resourceDependencies: React.PropTypes.arrayOf(React.PropTypes.string.isRequired),
     // Set by mapStateToProps
     isInstance: React.PropTypes.bool,
   }
 
+  static defaultProps = {
+    resourceDependencies: [],
+  }
+
   render() {
-    const { resourceDependencies, isInstance, ...others } = this.props
+    const { resourceDependency, resourceDependencies, isInstance, ...others } = this.props
     if (isInstance) {
       return <IconButton {...others} />
     }
     return (
       <HateoasDisplayDecorator
-        requiredEndpoints={[resourceDependencies]}
+        requiredEndpoints={[resourceDependency, ...resourceDependencies]}
       >
         <IconButton {...others} />
       </HateoasDisplayDecorator>

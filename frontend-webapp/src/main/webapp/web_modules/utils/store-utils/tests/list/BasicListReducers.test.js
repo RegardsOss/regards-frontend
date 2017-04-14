@@ -35,6 +35,7 @@ describe('[STORE UTILS] Testing project reducer', () => {
       isFetching: false,
       isSyncing: false,
       items: {},
+      results: [],
       lastUpdate: '',
     })
   })
@@ -202,6 +203,9 @@ describe('[STORE UTILS] Testing project reducer', () => {
         },
       },
       lastUpdate: '',
+      results: [
+        1,
+      ],
     }
     expect(projectReducers.reduce(initState, action)).to.eql(expectedState)
   })
@@ -237,7 +241,13 @@ describe('[STORE UTILS] Testing project reducer', () => {
           links: [],
         },
       },
+      results: [
+        'regards',
+        'cnes',
+        'cdpp',
+      ],
       lastUpdate: '',
+
     }
     const expectedState = {
       isFetching: false,
@@ -264,6 +274,10 @@ describe('[STORE UTILS] Testing project reducer', () => {
           links: [],
         },
       },
+      results: [
+        'cnes',
+        'cdpp',
+      ],
       lastUpdate: '',
     }
     expect(projectReducers.reduce(initState, action)).to.eql(expectedState)
@@ -282,7 +296,9 @@ describe('[STORE UTILS] Testing project reducer', () => {
               },
             },
           },
-          result: 'newProject',
+          result: [
+            'newProject',
+          ],
         },
       }
       const initState = {
@@ -298,6 +314,10 @@ describe('[STORE UTILS] Testing project reducer', () => {
             name: 'ssalto',
           },
         },
+        results: [
+          'cdpp',
+          'ssalto',
+        ],
         lastUpdate: '',
       }
       const expectedState = {
@@ -324,6 +344,11 @@ describe('[STORE UTILS] Testing project reducer', () => {
           message: '',
           status: 200,
         },
+        results: [
+          'cdpp',
+          'ssalto',
+          'newProject',
+        ],
       }
       expect(projectReducers.reduce(initState, action)).to.eql(expectedState)
     }

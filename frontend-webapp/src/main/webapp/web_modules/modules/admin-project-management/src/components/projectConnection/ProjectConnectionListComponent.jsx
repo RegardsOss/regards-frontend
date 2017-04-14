@@ -113,7 +113,7 @@ export class ProjectConnectionListComponent extends React.Component {
       />)
     }
     return (
-      <TableRow key={microserviceName}>
+      <TableRow className={`selenium-connection-${microserviceName}`} key={microserviceName}>
         <TableRowColumn>{microserviceName}</TableRowColumn>
         <TableRowColumn>{status}</TableRowColumn>
         <TableRowColumn>
@@ -126,7 +126,7 @@ export class ProjectConnectionListComponent extends React.Component {
 
   render() {
     return (
-      <Card>
+      <Card className="selenium-projectConnectionList">
         <CardTitle
           title={<FormattedMessage
             id="project.connection.list.title" values={{ project: this.props.project.content.name }}
