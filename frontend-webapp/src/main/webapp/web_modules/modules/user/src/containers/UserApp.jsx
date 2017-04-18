@@ -11,7 +11,7 @@ import { ApplicationLayout, ContainerHelper } from '@regardsoss/layout'
 import { ModuleShape } from '@regardsoss/modules'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { ApplicationErrorContainer } from '@regardsoss/global-sytem-error'
-import { AuthenticationParametersActions, AuthenticateSelectors } from '@regardsoss/authentication-manager'
+import { AuthenticationParametersActions, AuthenticationClient } from '@regardsoss/authentication-manager'
 import LayoutSelector from '../model/layout/LayoutSelector'
 import LayoutActions from '../model/layout/LayoutActions'
 import ModulesSelector from '../model/modules/ModulesSelector'
@@ -126,14 +126,14 @@ export class UserApp extends React.Component {
   }
 }
 const mapStateToProps = (state, ownProps) => {
-  const authenticationResult = AuthenticateSelectors.getResult(state)
+  const authenticationResult = AuthenticationClient.authenticationSelectors.getResult(state)
   return {
     layout: LayoutSelector.getById(state, 'user'),
     modules: ModulesSelector.getList(state),
     layoutIsFetching: LayoutSelector.isFetching(state),
     modulesIsFetching: ModulesSelector.isFetching(state),
     currentRole: authenticationResult ? authenticationResult.role : '',
-    isAuthenticated: AuthenticateSelectors.isAuthenticated(state),
+    isAuthenticated: AuthenticationClient.authenticationSelectors.isAuthenticated(state),
   }
 }
 

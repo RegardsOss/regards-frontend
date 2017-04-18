@@ -4,7 +4,7 @@
 import { intlShape } from 'react-intl'
 import { connect } from '@regardsoss/redux'
 import { LazyModuleComponent } from '@regardsoss/modules'
-import { AuthenticateSelectors, routeHelpers } from '@regardsoss/authentication-manager'
+import { AuthenticationClient, routeHelpers } from '@regardsoss/authentication-manager'
 import LoginButton from '../components/LoginButton'
 import LoggedUserContainer from './LoggedUserContainer'
 
@@ -84,7 +84,7 @@ class AuthenticationMenuContainer extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  isAuthenticated: AuthenticateSelectors.isAuthenticated(state),
+  isAuthenticated: AuthenticationClient.authenticationSelectors.isAuthenticated(state),
 })
 
 export default connect(mapStateToProps)(AuthenticationMenuContainer)

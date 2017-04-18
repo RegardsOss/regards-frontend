@@ -5,8 +5,8 @@ import { BasicSignalReducers } from '@regardsoss/store-utils'
 import AuthenticateActions from './AuthenticateActions'
 
 class AuthenticateReducers extends BasicSignalReducers {
-  constructor() {
-    super(AuthenticateActions)
+  constructor(namespace) {
+    super(new AuthenticateActions(namespace))
   }
 
   reduce(state, action) {
@@ -76,14 +76,10 @@ class AuthenticateReducers extends BasicSignalReducers {
   }
 }
 
-const instance = new AuthenticateReducers()
 
-/**
- * Return an function where the reducer instance exists
- * @param state redux previous state
- * @param action redux action received
- * @return new state
- */
-export default (state, action) => instance.reduce(state, action)
+export default (namespace) => {
+  const instance = new AuthenticateReducers(namespace)
+  return (state, action) => instance.reduce(state, action)
+}
 
 export const PATH = 'authentication'

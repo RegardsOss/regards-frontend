@@ -2,12 +2,8 @@
  * LICENSE_PLACEHOLDER
  */
 import { BasicSignalSelectors } from '@regardsoss/store-utils'
-import { PATH } from './AuthenticateReducers'
 
 class AuthenticateSelectors extends BasicSignalSelectors {
-  constructor() {
-    super(['common', PATH])
-  }
 
   getAuthentication(state) {
     return this.uncombineStore(state)
@@ -29,4 +25,4 @@ class AuthenticateSelectors extends BasicSignalSelectors {
 
 }
 
-export default new AuthenticateSelectors()
+export default storePath => new AuthenticateSelectors(storePath)
