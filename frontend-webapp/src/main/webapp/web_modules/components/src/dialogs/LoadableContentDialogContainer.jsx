@@ -4,27 +4,30 @@
 import root from 'window-or-global'
 import Dialog from 'material-ui/Dialog'
 import CircularProgress from 'material-ui/CircularProgress'
-import { URL, Percent } from '@regardsoss/model'
+import { Percent } from '@regardsoss/model'
 import ShowableAtRender from '../cards/ShowableAtRender'
 
 
 /**
-* Shows a loadable content of any accepted browser type within an iFrame (required for PDF/ HTML, ...), contained in a dialog
-* You can use all accepted dialog properties
+* Shows loadable children in a dialog. Must be driven using loaded true / false
+
 */
-class LoadableContentDialogComponent extends React.Component {
+class LoadableContentDialogContainer extends React.Component {
 
   static propTypes = {
-    contentURL: URL.isRequired,
+    loaded: React.PropTypes.bool.isRequired,
     open: React.PropTypes.bool.isRequired,
     dialogHeightPercent: Percent.isRequired,
     dialogWidthPercent: Percent.isRequired,
     loadingMessage: React.PropTypes.node.isRequired,
+    children: React.PropTypes.oneOfType([
+      React.PropTypes.arrayOf(React.PropTypes.node),
+      React.PropTypes.node,
+    ]).isRequired,
   }
 
   componentWillMount = () => {
     this.setState({
-      loaded: false,
       ...this.getDialogDimensions(),
     })
   }
@@ -39,15 +42,9 @@ class LoadableContentDialogComponent extends React.Component {
 
   onResize = () => {
     // force updating when this component is visible
-    if (this.props.open && this.state.loaded) {
+    if (this.props.open) {
       this.forceUpdate()
     }
-  }
-
-  onFrameLoaded = () => {
-    this.setState({
-      loaded: true,
-    })
   }
 
   getDialogDimensions = () => {
@@ -58,9 +55,7 @@ class LoadableContentDialogComponent extends React.Component {
   }
 
   render() {
-    const { contentURL, open, loadingMessage, ...dialogProperties } = this.props
-    const { loaded } = this.state
-
+    const { loaded, open, loadingMessage, children, ...dialogProperties } = this.props
     const { dialogWidth, dialogHeight } = this.getDialogDimensions()
     return (
       <Dialog
@@ -78,16 +73,12 @@ class LoadableContentDialogComponent extends React.Component {
               <p style={{ marginTop: '2em' }}>{loadingMessage}</p>
             </div>
           </ShowableAtRender>
-          <iframe
-            height="100%"
-            width="100%"
-            style={{ position: 'absolute' }}
-            src={contentURL}
-            onLoad={this.onFrameLoaded}
-          />
+          <div style={loaded ? {} : { display: 'none' }}>
+            {children}
+          </div>
         </div>
       </Dialog >
     )
   }
 }
-export default LoadableContentDialogComponent
+export default LoadableContentDialogContainer

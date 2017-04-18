@@ -1,7 +1,7 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { stub } from 'sinon'
-import { LoadableContentDialogComponent } from '@regardsoss/components'
+import { SingleContentURLDialogContainer } from '@regardsoss/components'
 import { LicenseDisplayContainer } from '../../src/containers/LicenseDisplayContainer'
 
 // Test a component rendering
@@ -45,20 +45,20 @@ describe('[LICENSE MODULE] Testing license module container', () => {
     const enzymeWrapper = shallow(<LicenseDisplayContainer {...props} />, { context })
 
     // loading: not displaying dialog
-    let subComponent = enzymeWrapper.find(LoadableContentDialogComponent)
+    let subComponent = enzymeWrapper.find(SingleContentURLDialogContainer)
     expect(subComponent).to.have.length(0)
 
     // after loading : displaying dialog when license not accepted
     props.licenseLink = 'http://www.viedemerde.fr'
     props.accepted = false
     enzymeWrapper.setProps(props)
-    subComponent = enzymeWrapper.find(LoadableContentDialogComponent)
+    subComponent = enzymeWrapper.find(SingleContentURLDialogContainer)
     expect(subComponent).to.have.length(1)
 
     // after accepted, hiding dialog
     props.accepted = true
     enzymeWrapper.setProps(props)
-    subComponent = enzymeWrapper.find(LoadableContentDialogComponent)
+    subComponent = enzymeWrapper.find(SingleContentURLDialogContainer)
     expect(subComponent).to.have.length(0)
   })
 })

@@ -5,7 +5,7 @@ import { FormattedMessage, intlShape } from 'react-intl'
 import FlatButton from 'material-ui/FlatButton'
 import { connect } from '@regardsoss/redux'
 import { themeContextType } from '@regardsoss/theme'
-import { LoadableContentDialogComponent } from '@regardsoss/components'
+import { SingleContentURLDialogContainer } from '@regardsoss/components'
 import { URL } from '@regardsoss/model'
 import { AuthenticateActions } from '@regardsoss/authentication-manager'
 import ProjectLicenseActions from '../model/ProjectLicenseActions'
@@ -59,7 +59,7 @@ export class LicenseDisplayContainer extends React.Component {
 
     if (licenseLink && !accepted) {
       return (
-        <LoadableContentDialogComponent
+        <SingleContentURLDialogContainer
           contentURL={licenseLink}
           loadingMessage={<FormattedMessage id="license.loading.message" />}
           dialogHeightPercent={heightPercent}

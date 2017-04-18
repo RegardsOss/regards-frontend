@@ -64,6 +64,7 @@
     "@regardsoss/archival-storage-aip-status": "0.0.1",
     "@regardsoss/archival-storage-plugins-monitoring": "0.0.1",
     "@regardsoss/attributes-common": "0.0.1",
+    "@regardsoss/entities-common": "0.0.1",
     "@regardsoss/authentication": "0.0.1",
     "@regardsoss/authentication-manager": "0.0.1",
     "@regardsoss/adapters": "0.0.1",
