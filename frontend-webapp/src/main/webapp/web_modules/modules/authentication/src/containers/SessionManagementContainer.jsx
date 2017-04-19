@@ -65,7 +65,6 @@ export class SessionManagementContainer extends React.Component {
   }
 
   render() {
-    console.log("Session locked",this.props)
     const { hasUnlockingError, authentication, onRequestClose, showLoginWindow, children } = this.props
     const sessionLocked = !!authentication.sessionLocked
     return (
