@@ -47,8 +47,7 @@ export class SessionManagementContainer extends React.Component {
           this.onSessionTimeout()
         } else {
           // later time out
-          // this.sessionLockTimer = setTimeout(() => this.onSessionTimeout(), expiresInMS)
-          this.sessionLockTimer = setTimeout(() => this.onSessionTimeout(), 10000)
+          this.sessionLockTimer = setTimeout(() => this.onSessionTimeout(), expiresInMS)
         }
       }
     }
