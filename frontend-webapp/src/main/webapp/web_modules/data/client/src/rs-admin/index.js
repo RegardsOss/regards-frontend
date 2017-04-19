@@ -30,6 +30,10 @@ import RoleResourceActions from './role/RoleResourceActions'
 import RoleResourceReducers from './role/RoleResourceReducers'
 import RoleResourceSelectors from './role/RoleResourceSelectors'
 
+import ResourceRolesActions from './role/ResourceRolesActions'
+import ResourceRolesReducers from './role/ResourceRolesReducers'
+import ResourceRolesSelectors from './role/ResourceRolesSelectors'
+
 export default {
 
   ProjectActions,
@@ -63,5 +67,9 @@ export default {
   RoleResourceActions,
   RoleResourceReducers,
   RoleResourceSelectors,
+
+  ResourceRolesActions,
+  ResourceRolesReducers,
+  ResourceRolesSelectors,
 
 }

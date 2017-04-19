@@ -1,3 +1,4 @@
+import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { Role, Resource } from '@regardsoss/model'
@@ -34,6 +35,13 @@ export class ResourceAccessFormContainer extends React.Component {
     this.props.fetchRoleResources(this.props.params.role_name)
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.params.role_name !== nextProps.params.role_name) {
+      this.props.fetchRole(nextProps.params.role_name)
+      this.props.fetchRoleResources(nextProps.params.role_name)
+    }
+  }
+
   getBackUrl = () => {
     const { params: { project } } = this.props
     return `/admin/${project}/user/role/list`
@@ -49,11 +57,17 @@ export class ResourceAccessFormContainer extends React.Component {
         <ResourceAccessFormComponent
           microserviceList={STATIC_CONFIGURATION.microservices}
           backUrl={this.getBackUrl()}
+          editRoleResources={this.editRoleResources}
           currentRole={role}
           roleResources={roleResources}
         />)
     }
     return (<FormEntityNotFoundComponent />)
+  }
+
+  editRoleResources = (role) => {
+    const { params: { project } } = this.props
+    browserHistory.push(`/admin/${project}/user/role-resource-access/${role.content.name}/edit`)
   }
 
   render() {
