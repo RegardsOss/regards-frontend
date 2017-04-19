@@ -47,7 +47,8 @@ export class SessionManagementContainer extends React.Component {
           this.onSessionTimeout()
         } else {
           // later time out
-          this.sessionLockTimer = setTimeout(() => this.onSessionTimeout(), expiresInMS)
+          // this.sessionLockTimer = setTimeout(() => this.onSessionTimeout(), expiresInMS)
+          this.sessionLockTimer = setTimeout(() => this.onSessionTimeout(), 10000)
         }
       }
     }
@@ -65,6 +66,7 @@ export class SessionManagementContainer extends React.Component {
   }
 
   render() {
+    console.log("Session locked",this.props)
     const { hasUnlockingError, authentication, onRequestClose, showLoginWindow, children } = this.props
     const sessionLocked = !!authentication.sessionLocked
     return (
