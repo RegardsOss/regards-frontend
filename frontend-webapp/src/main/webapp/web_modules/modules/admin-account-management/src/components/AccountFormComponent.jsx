@@ -44,6 +44,7 @@ export class AccountFormComponent extends React.Component {
     const { pristine, submitting } = this.props
     return (
       <form
+        className="selenium-accountForm"
         onSubmit={this.props.handleSubmit(this.props.onSubmit)}
       >
         <Card>
