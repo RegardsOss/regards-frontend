@@ -15,6 +15,7 @@ export default {
         },
         dataModel: 5,
         plgConfDataSource: 4,
+        uiPluginConfIdList: [],
         tags: [
           'URN:AIP:COLLECTION:PROJECT:fdsfdsf15-8a93-4d06-a90a-f657c26d3930:V1',
           'habla espanol',

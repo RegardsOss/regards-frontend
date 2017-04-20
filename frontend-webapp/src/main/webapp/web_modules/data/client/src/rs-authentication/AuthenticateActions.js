@@ -3,19 +3,17 @@
  **/
 import { BasicSignalActions } from '@regardsoss/store-utils'
 
-const namespace = 'common/authentication-manager'
+/** Specific authentication end point marker */
+const SPECIFIC_ENDPOINT_MARKER = 'oauth/token'
 
-export class AuthenticateActions extends BasicSignalActions {
-
-  /** Specific authentication end point marker */
-  static SPECIFIC_ENDPOINT_MARKER = 'oauth/token'
+class AuthenticateActions extends BasicSignalActions {
 
   /**
    * Constructor
    */
-  constructor() {
+  constructor(namespace) {
     super({
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${AuthenticateActions.SPECIFIC_ENDPOINT_MARKER}?grant_type=password&username={username}&password={password}&scope={scope}`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-authentication/${SPECIFIC_ENDPOINT_MARKER}?grant_type=password&username={username}&password={password}&scope={scope}`,
       namespace,
       bypassErrorMiddleware: true,
     })
@@ -53,5 +51,7 @@ export class AuthenticateActions extends BasicSignalActions {
   }
 
 }
-
-export default new AuthenticateActions()
+export {
+  SPECIFIC_ENDPOINT_MARKER,
+}
+export default namespace => new AuthenticateActions(namespace)

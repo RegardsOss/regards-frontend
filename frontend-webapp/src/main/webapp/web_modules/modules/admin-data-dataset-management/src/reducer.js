@@ -19,6 +19,8 @@ import {
   pluginMetaDataFilters,
 } from './model/PluginMetaDataReducers'
 import linkPluginDataset from './model/LinkPluginDatasetReducers'
+import UIPluginConfigurationClient from './client/UIPluginConfigurationClient'
+import UIPluginDefinitionClient from './client/UIPluginDefinitionClient'
 
 const datasetDataManagementReducer = combineReducers({
   collection,
@@ -34,6 +36,8 @@ const datasetDataManagementReducer = combineReducers({
   'plugin-meta-data-converters': pluginMetaDataConverters,
   'plugin-meta-data-filters': pluginMetaDataFilters,
   'link-plugin-dataset': linkPluginDataset,
+  'plugin-configuration': UIPluginConfigurationClient.uiPluginConfigurationReducers,
+  'plugin-definition': UIPluginDefinitionClient.uiPluginDefinitionReducers,
 })
 
 export default datasetDataManagementReducer

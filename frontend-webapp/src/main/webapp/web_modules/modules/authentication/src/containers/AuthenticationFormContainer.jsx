@@ -3,7 +3,7 @@
  */
 import { connect } from '@regardsoss/redux'
 import { i18nContextType } from '@regardsoss/i18n'
-import { AuthenticateActions, AuthenticateSelectors, AuthenticationErrorShape } from '@regardsoss/authentication-manager'
+import { AuthenticationClient, AuthenticationErrorShape } from '@regardsoss/authentication-manager'
 import AuthenticationFormComponent from '../components/AuthenticationFormComponent'
 
 /**
@@ -40,8 +40,8 @@ export class AuthenticationFormContainer extends React.Component {
 
   componentWillMount = () => {
     if (process.env.NODE_ENV === 'development') {
-      // console.log('DEV', 'Auto connection')
-      // this.onLoginRequest({ username: 'admin@cnes.fr', password: 'admin' })
+      console.log('DEV', 'Auto connection')
+      this.onLoginRequest({ username: 'admin@cnes.fr', password: 'admin' })
     }
   }
 
@@ -75,11 +75,12 @@ export class AuthenticationFormContainer extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  loginError: AuthenticateSelectors.getError(state) && AuthenticateSelectors.getError(state).loginError,
+  loginError: AuthenticationClient.authenticationSelectors.getError(state) &&
+  AuthenticationClient.authenticationSelectors.getError(state).loginError,
 })
 
 const mapDispatchToProps = dispatch => ({
-  dispatchLoginRequest: (username, password, scope) => dispatch(AuthenticateActions.login(username, password, scope)),
+  dispatchLoginRequest: (username, password, scope) => dispatch(AuthenticationClient.authenticationActions.login(username, password, scope)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AuthenticationFormContainer)

@@ -2,38 +2,34 @@
  * LICENSE_PLACEHOLDER
  */
 import { shallow } from 'enzyme'
-import { assert } from 'chai'
-import { stub } from 'sinon'
-import { IntlStub } from '@regardsoss/tests-helpers'
+import { assert, expect } from 'chai'
+import { spy } from 'sinon'
+import { ListItem } from 'material-ui/List'
+import { DumpProvider, buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { DatasetEditUIServicesComponent } from '../../src/components/DatasetEditUIServicesComponent'
+import DatasetDump from '../model/dump/DatasetDump'
+
+const context = buildTestContext()
 
 describe('[ADMIN DATASET MANAGEMENT] Testing DatasetEditUIServicesComponent', () => {
-  // Since react will console.error propType warnings, that which we'd rather have
-  // as errors, we use sinon.js to stub it into throwing these warning as errors
-  // instead.
-  before(() => {
-    stub(console, 'error').callsFake((warning) => {
-      throw new Error(warning)
-    })
-  })
-  after(() => {
-    console.error.restore()
-  })
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('should exists', () => {
     assert.isDefined(DatasetEditUIServicesComponent)
+    assert.isDefined(ListItem)
   })
-  const context = {
-    intl: IntlStub,
-    muiTheme: {
-      palette: {},
-    },
-  }
   it('Render properly', () => {
+    const handleSubmitSpy = spy()
     const props = {
       backUrl: '#',
-      doneUrl: '#',
+      uiPluginConfigurationList: DumpProvider.get('AccessProjectClient', 'UIPluginConfiguration'),
+      uiPluginDefinitionList: DumpProvider.get('AccessProjectClient', 'UIPluginDefinition'),
+      currentDataset: DatasetDump[23],
+      handleSubmit: handleSubmitSpy,
     }
-    shallow(<DatasetEditUIServicesComponent {...props} />, { context })
-    // TODO
+    const enzymeWrapper = shallow(<DatasetEditUIServicesComponent {...props} />, { context })
+    expect(enzymeWrapper.find(ListItem)).to.have.length(6)
+    assert.isTrue(handleSubmitSpy.notCalled, 'Not called yet')
   })
 })

@@ -51,6 +51,7 @@ class SearchResultsComponent extends React.Component {
     attributesConf: React.PropTypes.arrayOf(AttributeConfiguration),
     attributesRegroupementsConf: React.PropTypes.arrayOf(AttributesRegroupementConfiguration),
     attributeModels: React.PropTypes.objectOf(AttributeModel),
+    hideDatasets: React.PropTypes.bool.isRequired,
     target: React.PropTypes.oneOf(values(SearchResultsTargetsEnum)).isRequired,
   }
 
@@ -428,6 +429,7 @@ class SearchResultsComponent extends React.Component {
    */
   renderTableTabs = () => {
     const { intl: { formatMessage } } = this.context
+    const { hideDatasets } = this.props
     return [
       <FlatButton
         key="dataobjects.tab"
@@ -442,6 +444,7 @@ class SearchResultsComponent extends React.Component {
         onTouchTap={this.onClickDatasetTarget}
         icon={<DatasetLibrary />}
         secondary={!this.isInObjectMode()}
+        disabled={hideDatasets}
       />,
     ]
   }

@@ -20,6 +20,7 @@ export default {
           'habla espanol',
         ],
         subsetting: 'fqsdsdf qsdf qsf sdf sf f',
+        uiPluginConfIdList: [],
         id: 23,
       },
       links: [],

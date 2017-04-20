@@ -15,6 +15,7 @@ import NoContainerAvailables from '../components/NoContainerAvailables'
 /**
  * React component to display a edition form for Module entity
  * @author Sébastien binda
+ * @author Léo Mieulet
  */
 class ModuleFormContainer extends React.Component {
 
@@ -155,21 +156,19 @@ class ModuleFormContainer extends React.Component {
     }
 
     return (
-      <I18nProvider messageDir="modules/admin-ui-module-management/src/i18n">
-        <ModuleFormComponent
-          project={this.props.params.project}
-          applicationId={this.props.params.applicationId}
-          onSubmit={this.handleSubmit}
-          onBack={this.handleBack}
-          module={module}
-          duplication={this.props.params.duplicate_module_id !== undefined}
-          containers={availablecontainers}
-          adminForm={{
-            form: this.props.form,
-            changeField: this.props.changeField,
-          }}
-        />
-      </I18nProvider>
+      <ModuleFormComponent
+        project={this.props.params.project}
+        applicationId={this.props.params.applicationId}
+        onSubmit={this.handleSubmit}
+        onBack={this.handleBack}
+        module={module}
+        duplication={this.props.params.duplicate_module_id !== undefined}
+        containers={availablecontainers}
+        adminForm={{
+          form: this.props.form,
+          changeField: this.props.changeField,
+        }}
+      />
     )
   }
 

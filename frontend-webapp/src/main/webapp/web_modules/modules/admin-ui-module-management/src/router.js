@@ -14,7 +14,7 @@ export const listModulesRoute = {
   path: ':applicationId/list',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const appModuleContainer = require('./containers/ModulesListRouter')
+      const appModuleContainer = require('./containers/ModulesListAdapter')
       cb(null, {
         content: appModuleContainer.default,
       })
@@ -30,7 +30,7 @@ export const editModuleRoute = {
   path: ':applicationId/:module_id/edit',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const moduleContainer = require('./containers/ModuleFormRouter')
+      const moduleContainer = require('./containers/ModuleFormAdapter')
       cb(null, {
         content: moduleContainer.default,
       })
@@ -46,7 +46,7 @@ export const duplicateModuleRoute = {
   path: ':applicationId/:duplicate_module_id/duplicate',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const moduleContainer = require('./containers/ModuleFormRouter')
+      const moduleContainer = require('./containers/ModuleFormAdapter')
       cb(null, {
         content: moduleContainer.default,
       })
@@ -62,7 +62,7 @@ export const createModuleRoute = {
   path: ':applicationId/create',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const moduleContainer = require('./containers/ModuleFormRouter')
+      const moduleContainer = require('./containers/ModuleFormAdapter')
       cb(null, {
         content: moduleContainer.default,
       })

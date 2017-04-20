@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  */
 
-import { AuthenticationRouteParameters, AuthenticationParametersHelper, AuthenticateSelectors, routeHelpers } from '@regardsoss/authentication-manager'
+import { AuthenticationRouteParameters, AuthenticationParametersHelper, AuthenticationClient, routeHelpers } from '@regardsoss/authentication-manager'
 import { connect } from '@regardsoss/redux'
 import AuthenticationWorkflowsComponent, { initialModes } from '../components/AuthenticationWorkflowsComponent'
 import SessionManagementContainer from '../containers/SessionManagementContainer'
@@ -103,8 +103,8 @@ export class AuthenticationModuleContainer extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  authenticated: AuthenticateSelectors.isAuthenticated(state),
-  authentication: AuthenticateSelectors.getAuthentication(state),
+  authenticated: AuthenticationClient.authenticationSelectors.isAuthenticated(state),
+  authentication: AuthenticationClient.authenticationSelectors.getAuthentication(state),
 })
 
 export default connect(mapStateToProps)(AuthenticationModuleContainer)

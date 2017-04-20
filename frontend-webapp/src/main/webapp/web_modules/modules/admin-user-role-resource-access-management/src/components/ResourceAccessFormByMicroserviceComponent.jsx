@@ -9,7 +9,7 @@ import { List, ListItem } from 'material-ui/List'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import Toggle from 'material-ui/Toggle'
-import { Role, Resource } from '@regardsoss/model'
+import { Resource } from '@regardsoss/model'
 import { LoadingComponent } from '@regardsoss/display-control'
 import moduleStyles from '../styles/styles'
 
@@ -20,7 +20,6 @@ import moduleStyles from '../styles/styles'
 export class ResourceAccessFormByMicroserviceComponent extends React.Component {
 
   static propTypes = {
-    currentRole: Role,
     roleResources: React.PropTypes.arrayOf(Resource),
     controllerList: React.PropTypes.arrayOf(React.PropTypes.string),
     resourceList: React.PropTypes.arrayOf(Resource).isRequired,
@@ -60,42 +59,6 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
       default:
         return {}
     }
-  }
-
-  handleToggleController = (controller) => {
-    const { isControllerOpen } = this.state
-    forEach(isControllerOpen, (isOpen, controllerName) => {
-      if (controllerName === controller) {
-        isControllerOpen[controllerName] = !isOpen
-        if (isControllerOpen[controllerName]) {
-          this.props.handleOpenController(controllerName)
-        }
-      } else {
-        isControllerOpen[controllerName] = false
-      }
-    })
-    this.setState({
-      isControllerOpen,
-    })
-  }
-
-  isResourceAutorized = (resource) => {
-    let isAutorized = false
-    forEach(this.props.roleResources, (permission) => {
-      if (permission.content.resource === resource.content.resource &&
-        permission.content.microservice === resource.content.microservice &&
-        permission.content.verb === resource.content.verb) {
-        isAutorized = true
-      }
-    })
-    return isAutorized
-  }
-
-  handleShowDialog = (event, resource) => {
-    event.preventDefault()
-    event.stopImmediatePropagation()
-    event.stopPropagation()
-    this.props.handleOpenResourceAccess(resource)
   }
 
   getResourceListItems() {
@@ -145,6 +108,42 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
         {resource.content.resource}
       </ListItem>
     ))
+  }
+
+  handleToggleController = (controller) => {
+    const { isControllerOpen } = this.state
+    forEach(isControllerOpen, (isOpen, controllerName) => {
+      if (controllerName === controller) {
+        isControllerOpen[controllerName] = !isOpen
+        if (isControllerOpen[controllerName]) {
+          this.props.handleOpenController(controllerName)
+        }
+      } else {
+        isControllerOpen[controllerName] = false
+      }
+    })
+    this.setState({
+      isControllerOpen,
+    })
+  }
+
+  isResourceAutorized = (resource) => {
+    let isAutorized = false
+    forEach(this.props.roleResources, (permission) => {
+      if (permission.content.resource === resource.content.resource &&
+        permission.content.microservice === resource.content.microservice &&
+        permission.content.verb === resource.content.verb) {
+        isAutorized = true
+      }
+    })
+    return isAutorized
+  }
+
+  handleShowDialog = (event, resource) => {
+    event.preventDefault()
+    event.stopImmediatePropagation()
+    event.stopPropagation()
+    this.props.handleOpenResourceAccess(resource)
   }
 
   render() {
