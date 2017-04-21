@@ -33,6 +33,7 @@ export class ProjectUserCreateContainer extends React.Component {
     // from mapDispatchToProps
     createProjectUser: React.PropTypes.func,
     updateProjectUser: React.PropTypes.func,
+    fetchUser: React.PropTypes.func,
     fetchRoleList: React.PropTypes.func,
     fetchGroupList: React.PropTypes.func,
     assignGroup: React.PropTypes.func,
@@ -164,7 +165,7 @@ const mapStateToProps = (state, ownProps) => ({
   isFetching: ProjectUserSelectors.isFetching(state),
 })
 const mapDispatchToProps = dispatch => ({
-  fetchUser: (userId) => dispatch(ProjectUserActions.fetchEntity(userId)),
+  fetchUser: userId => dispatch(ProjectUserActions.fetchEntity(userId)),
   createProjectUser: values => dispatch(ProjectUserActions.createEntity(values)),
   updateProjectUser: (id, values) => dispatch(ProjectUserActions.updateEntity(id, values)),
   fetchRoleList: () => dispatch(RoleActions.fetchEntityList()),

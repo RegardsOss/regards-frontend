@@ -37,7 +37,8 @@ const messages = Object.assign({
   'form.attributes.regroupement.form.title.update': 'Mise à jour du regroupement : {name}',
 
   // User messages
-  'navigation.dataobjects.label': 'Catalogue',
+  'navigation.home.label': 'Catalogue',
+  'navigation.dataobjects.label': 'Objets de données',
   'navigation.datasets.label': 'Jeux de données',
   'navigation.filter.by.facets': 'Filtres',
 }, Locales.fr)

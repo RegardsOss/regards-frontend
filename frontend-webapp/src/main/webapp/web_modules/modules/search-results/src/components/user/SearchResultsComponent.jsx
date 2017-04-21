@@ -53,6 +53,8 @@ class SearchResultsComponent extends React.Component {
     attributeModels: React.PropTypes.objectOf(AttributeModel),
     hideDatasets: React.PropTypes.bool.isRequired,
     target: React.PropTypes.oneOf(values(SearchResultsTargetsEnum)).isRequired,
+    // Fixed breadcrumb depending on search current context.
+    breadcrumbInitialContextLabel: React.PropTypes.string,
   }
 
   static contextTypes = {
@@ -105,7 +107,7 @@ class SearchResultsComponent extends React.Component {
   }
 
   onClickDatasetTarget = () => {
-    this.onUnselectDataset(SearchResultsTargetsEnum.DATASET_RESULTS)
+    this.onChangeTarget(SearchResultsTargetsEnum.DATASET_RESULTS)
   }
 
   onClickDataobjectsTarget = () => {
@@ -139,9 +141,9 @@ class SearchResultsComponent extends React.Component {
     // If any dataset is associated to the current search, add there urn into tags property
     if (this.state.selectedDataset) {
       if (fullQuery !== '') {
-        fullQuery = `${fullQuery}${fullQuery ? openSearchSeparator : ''}tags:${this.state.selectedDataset.content.ip_id}`
+        fullQuery = `${fullQuery}${fullQuery ? openSearchSeparator : ''}tags:${this.state.selectedDataset.content.ipId}`
       } else {
-        fullQuery = `tags:${this.state.selectedDataset.content.ip_id}`
+        fullQuery = `tags:${this.state.selectedDataset.content.ipId}`
       }
     }
 
@@ -199,48 +201,42 @@ class SearchResultsComponent extends React.Component {
     const sorted = sortBy(this.props.attributesConf, a => a.order ? a.order : 0)
     forEach(sorted, (attributeConf) => {
       if (attributeConf.visibility === true) {
-        // Check if attribute is a standard attribute
         let attribute
-        let fullyQualifiedAttributeName
+        let fullyQualifiedAttributePathInEntity
+
+        // Check if attribute is a standard attribute
         if (AttributeConfigurationController.isStandardAttribute(attributeConf)) {
-          if (attributeConf.attributeFullQualifiedName === 'files') {
-            attribute = {
-              content: {
-                label: 'Thumbmail',
-                name: attributeConf.attributeFullQualifiedName,
-                type: 'THUMBMAIL',
-              },
-            }
-          } else {
-            attribute = {
-              content: {
-                label: attributeConf.attributeFullQualifiedName,
-                name: attributeConf.attributeFullQualifiedName,
-                type: AttributeModelController.STANDARD_ATTRIBUTE_TYPE,
-              },
-            }
-          }
-          fullyQualifiedAttributeName = attributeConf.attributeFullQualifiedName
+          // If attribute is a standard attribute, generate special configuration because those attributes
+          // are not AttributeModels. Thoses attributes are not defined in the entity model.
+          attribute = AttributeConfigurationController.getStandardAttributeConf(attributeConf.attributeFullQualifiedName)
+          // Get the attribute path in the results entities.
+          fullyQualifiedAttributePathInEntity = AttributeModelController.getStandardAttributeEntityPathName(attributeConf.attributeFullQualifiedName)
         } else {
-          attribute = find(this.props.attributeModels, att => AttributeModelController.getAttributeFullyQualifiedName(att) ===
-            attributeConf.attributeFullQualifiedName)
-          fullyQualifiedAttributeName = attribute ?
+          // Else, search AttributeModel associated to the attributeConfiguration
+          attribute = find(this.props.attributeModels,
+            att => AttributeModelController.getAttributeFullyQualifiedName(att) === attributeConf.attributeFullQualifiedName)
+          // Calculate attribute path in entity with fragment management.
+          // The path is like properties.<fragment>.<name> or properties.<name> if framment is default
+          fullyQualifiedAttributePathInEntity = attribute ?
             AttributeModelController.getAttributeFullyQualifiedNameWithoutDefaultFragment(attribute) : null
         }
         if (attribute) {
           const customCell = getTypeRender(attribute.content.type)
-          const isThumbmail = attribute.content.type === 'THUMBMAIL'
-          columns.push({
+          const isSpecialAttr =
+            attribute.content.type === AttributeModelController.ATTRIBUTE_TYPES.THUMBMAIL ||
+            attribute.content.type === AttributeModelController.ATTRIBUTE_TYPES.DOWNLOAD_LINK
+          const columnConf = {
             label: attribute.content.label,
-            attributes: [fullyQualifiedAttributeName],
-            sortable: !isThumbmail,
-            hideLabel: isThumbmail,
-            fixed: isThumbmail ? 50 : undefined,
+            attributes: [fullyQualifiedAttributePathInEntity],
+            sortable: !isSpecialAttr,
+            hideLabel: isSpecialAttr,
+            fixed: isSpecialAttr ? 50 : undefined,
             customCell: customCell ? {
               component: customCell,
               props: {},
             } : undefined,
-          })
+          }
+          columns.push(columnConf)
         }
       }
     })
@@ -534,7 +530,7 @@ class SearchResultsComponent extends React.Component {
     return (
       <Card>
         <NavigationComponent
-          selectedTarget={target}
+          breadcrumbInitialContextLabel={this.props.breadcrumbInitialContextLabel}
           selectedTag={this.state.searchTag}
           onUnselectDataset={this.onUnselectDataset}
           onUnselectAll={this.onUnselectAll}

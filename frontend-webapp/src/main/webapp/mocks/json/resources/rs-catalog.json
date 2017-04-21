@@ -10,6 +10,10 @@
         {
           "type": "THUMBMAIL",
           "uri": "https://cnes.fr/sites/default/files/drupal/201511/image/is_venus-nasa.jpg"
+        },
+        {
+          "type": "RAWDATA",
+          "uri": "https://cnes.fr/sites/default/files/drupal/201511/image/is_venus-nasa.jpg"
         }
       ],
       "tags": [
@@ -141,6 +145,12 @@
       "ipId": "urn:test",
       "label": "Matrix Reloaded",
       "type": "DATAOBJECT",
+      "files": [
+        {
+          "type": "RAWDATA",
+          "uri": "https://cnes.fr/sites/default/files/drupal/201511/image/is_venus-nasa.jpg"
+        }
+      ],
       "tags": [
         "col:movie",
         "ds:NYCLibrary"

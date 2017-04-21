@@ -27,6 +27,7 @@ export class UserModuleContainer extends React.Component {
     const selection = selectionPath.length ? last(selectionPath) : null
     const selectedDataset = selection && selection.type === CatalogEntityTypes.DATASET ? selection : null
     return {
+      selectionPath,
       selectedDataset,
       attributeModels: AttributeModelSelector.getList(state),
       moduleCollapsed: GraphContextSelectors.isModuleCollapsed(state),
@@ -43,6 +44,7 @@ export class UserModuleContainer extends React.Component {
     project: React.PropTypes.string,
     moduleConf: ModuleConfiguration.isRequired, // Module configuration
     // from map state to props
+    selectionPath: React.PropTypes.arrayOf(CatalogEntity),
     selectedDataset: CatalogEntity,
     attributeModels: React.PropTypes.objectOf(AttributeModel),
     moduleCollapsed: React.PropTypes.bool.isRequired,
@@ -113,7 +115,7 @@ export class UserModuleContainer extends React.Component {
   buildOpenSearchQuery = nextSelectedDataset => nextSelectedDataset ? `tags:${nextSelectedDataset.ipId}` : null
 
   render() {
-    const { appName, project, moduleCollapsed, moduleConf } = this.props
+    const { appName, project, moduleCollapsed, moduleConf, selectionPath } = this.props
     const { graphDatasetAttributes, openSearchQuery } = this.state
 
     return (
@@ -129,6 +131,7 @@ export class UserModuleContainer extends React.Component {
             project={project}
             moduleConf={moduleConf}
             searchQuery={openSearchQuery}
+            selectionPath={selectionPath}
           />
         </ShowableAtRender>
       </div>)

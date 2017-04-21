@@ -70,7 +70,7 @@ class TableContainer extends React.Component {
     // eslint-disable-next-line react/forbid-prop-types
     requestParams: React.PropTypes.object,
     // Parameters set by redux store connection
-    entities: React.PropTypes.objectOf(React.PropTypes.object),
+    entities: React.PropTypes.arrayOf(React.PropTypes.object),
     pageMetadata: React.PropTypes.shape({
       number: React.PropTypes.number,
       size: React.PropTypes.number,
@@ -86,9 +86,8 @@ class TableContainer extends React.Component {
 
   constructor(props) {
     super(props)
-    const nbEntitiesByPage = this.props.pageSize * 3
+    this.nbEntitiesByPage = this.props.pageSize * 3
     this.state = {
-      nbEntitiesByPage,
       entities: null,
     }
   }
@@ -96,8 +95,8 @@ class TableContainer extends React.Component {
   /**
    * First, run a search from index 0 to initiliaz first search results
    */
-  componentWillMount() {
-    this.props.fetchEntities(0, this.state.nbEntitiesByPage, this.props.requestParams)
+  componentDidMount() {
+    this.props.fetchEntities(0, this.nbEntitiesByPage, this.props.requestParams)
   }
 
   /**
@@ -110,7 +109,7 @@ class TableContainer extends React.Component {
       this.setState({
         entities: [],
       })
-      this.props.fetchEntities(0, this.state.nbEntitiesByPage, nextProps.requestParams)
+      this.props.fetchEntities(0, this.nbEntitiesByPage, nextProps.requestParams)
       return
     }
 
@@ -166,7 +165,7 @@ class TableContainer extends React.Component {
           // An entity is fetch only if the entity is an empty object in the cache object state.entities
           const entities = concat([], this.state.entities)
           let j = 0
-          for (j = firstIndexToFetch; j < this.state.nbEntitiesByPage; j += 1) {
+          for (j = firstIndexToFetch; j < this.nbEntitiesByPage; j += 1) {
             if (keys(entities[j]).length === 0) {
               entities[j] = { pending: true }
             }
@@ -181,7 +180,7 @@ class TableContainer extends React.Component {
 
     // Run search
     if (firstIndexToFetch !== null) {
-      fetchEntities(firstIndexToFetch, this.state.nbEntitiesByPage, requestParams)
+      fetchEntities(firstIndexToFetch, this.nbEntitiesByPage, requestParams)
     }
   }
 
@@ -239,7 +238,7 @@ class TableContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  entities: ownProps.PageSelector.getList(state),
+  entities: ownProps.PageSelector.getOrderedList(state),
   pageMetadata: ownProps.PageSelector.getMetaData(state),
   entitiesFetching: ownProps.PageSelector.isFetching(state),
 })
