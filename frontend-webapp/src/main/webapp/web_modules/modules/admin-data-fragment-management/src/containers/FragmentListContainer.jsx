@@ -1,17 +1,17 @@
+/*
+ * LICENSE_PLACEHOLDER
+ */
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { Fragment } from '@regardsoss/model'
-import FragmentActions from '../model/FragmentActions'
-import FragmentSelectors from '../model/FragmentSelectors'
+import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import FragmentListComponent from '../components/FragmentListComponent'
+import { fragmentActions, fragmentSelectors } from '../client/FragmentClient'
 
 /**
- * React container to manage ManageProjectsComponent.
- *
- * @prop {Array<Project>} projects List of projects to display
- * @prop {Boolean} projectConfigurationIsShown ProjectConfigurationComponent display status
- *
+ * React container to manage the fragment list.
+ * @author Léo Mieulet
  */
 export class FragmentListContainer extends React.Component {
 
@@ -27,8 +27,17 @@ export class FragmentListContainer extends React.Component {
     deleteFragment: React.PropTypes.func,
   }
 
+  state = {
+    isLoading: true,
+  }
+
   componentWillMount() {
     this.props.fetchFragmentList()
+      .then(() => {
+        this.setState({
+          isLoading: false,
+        })
+      })
   }
 
   getCreateUrl = () => {
@@ -60,23 +69,25 @@ export class FragmentListContainer extends React.Component {
     const { fragmentList } = this.props
     return (
       <I18nProvider messageDir="modules/admin-data-fragment-management/src/i18n">
-        <FragmentListComponent
-          fragmentList={fragmentList}
-          createUrl={this.getCreateUrl()}
-          backUrl={this.getBackUrl()}
-          handleDelete={this.handleDelete}
-          handleEdit={this.handleEdit}
-        />
+        <LoadableContentDisplayDecorator isLoading={this.state.isLoading}>
+          <FragmentListComponent
+            fragmentList={fragmentList}
+            createUrl={this.getCreateUrl()}
+            backUrl={this.getBackUrl()}
+            handleDelete={this.handleDelete}
+            handleEdit={this.handleEdit}
+          />
+        </LoadableContentDisplayDecorator>
       </I18nProvider>
     )
   }
 }
 const mapStateToProps = state => ({
-  fragmentList: FragmentSelectors.getList(state),
+  fragmentList: fragmentSelectors.getList(state),
 })
 const mapDispatchToProps = dispatch => ({
-  fetchFragmentList: () => dispatch(FragmentActions.fetchEntityList()),
-  deleteFragment: id => dispatch(FragmentActions.deleteEntity(id)),
+  fetchFragmentList: () => dispatch(fragmentActions.fetchEntityList()),
+  deleteFragment: id => dispatch(fragmentActions.deleteEntity(id)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(FragmentListContainer)

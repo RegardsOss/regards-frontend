@@ -117,7 +117,7 @@ export class ServiceConfigurationFormComponent extends React.Component {
               label={<FormattedMessage id="service.form.label" />}
               validate={[ValidationHelpers.validRequiredString]}
             />
-            {map(plugin.conf.static, (input, id) => (
+            {map(plugin.info.conf.static, (input, id) => (
               <Field
                 key={id}
                 name={`static.${id}`}
@@ -133,7 +133,7 @@ export class ServiceConfigurationFormComponent extends React.Component {
                 validate={this.getStaticFieldValidation(input)}
               />
             ))}
-            {map(plugin.conf.dynamic, (input, id) => (
+            {map(plugin.info.conf.dynamic, (input, id) => (
               <Field
                 key={id}
                 name={`dynamic.${id}`}

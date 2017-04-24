@@ -73,9 +73,9 @@ class ServiceConfigurationListComponent extends React.Component {
             </div>
             <div className={styles.icon.classes}>
               <SVGIconFromString
-                viewBox={plugin.icon.viewBox}
+                viewBox={plugin.info.icon.viewBox}
                 style={styles.icon.style}
-                icon={plugin.icon.content}
+                icon={plugin.info.icon.content}
               />
             </div>
           </div>
