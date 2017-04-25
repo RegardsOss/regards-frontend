@@ -37,4 +37,14 @@ describe('[Search Graph] Test graph context selectors', () => {
     fakeStore = mockReduce(fakeStore, graphContextActions.setDatasetAttributesVisible(true))
     assert.isTrue(graphContextSelectors.areDatasetAttributesVisible(fakeStore), [], 'Should select true for module collapsed')
   })
+  it('Should select description state', () => {
+    let fakeStore = buildMockStore()
+    assert.isFalse(graphContextSelectors.isDescriptionVisible(fakeStore), [], 'Should select false when no description is visible')
+    assert.isNull(graphContextSelectors.getDescriptionEntity(fakeStore), [], 'Should select null for shown entity')
+
+    const anEntity = { coucou: 'Je suis une entité' }
+    fakeStore = mockReduce(fakeStore, graphContextActions.showDescription(anEntity))
+    assert.isTrue(graphContextSelectors.isDescriptionVisible(fakeStore), [], 'Should select true for visible description')
+    assert.equal(graphContextSelectors.getDescriptionEntity(fakeStore), anEntity, 'Should select the description entity')
+  })
 })

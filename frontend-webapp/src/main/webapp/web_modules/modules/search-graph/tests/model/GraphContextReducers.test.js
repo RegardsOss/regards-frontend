@@ -3,22 +3,23 @@
 **/
 import { assert } from 'chai'
 import graphContextActions from '../../src/model/graph/GraphContextActions'
-import reduce from '../../src/model/graph/GraphContextReducers'
+import reduce, { DEFAULT_STATE } from '../../src/model/graph/GraphContextReducers'
 
 
 describe('[Search Graph] Test graph context reducer', () => {
-  const defaultState = {
-    selectionPath: [],
-    datasetsAttributesVisible: false,
-    moduleCollapsed: false,
-  }
   it('should return the initial state', () => {
-    assert.deepEqual(reduce(undefined, {}), defaultState, 'Reducer should return an empty initial state')
+    assert.deepEqual(reduce(undefined, {}), DEFAULT_STATE, 'Reducer should return an empty initial state')
+  })
+
+  it('should ignore non realted actions', () => {
+    assert.deepEqual(reduce(DEFAULT_STATE, {
+      type: 'anythingElse',
+    }), DEFAULT_STATE, 'Reducer should ignore non related actions')
   })
 
   it('Should reduce successive selection levels consistently ', () => {
     // Test : valid selection level 1
-    let currentState = defaultState
+    let currentState = DEFAULT_STATE
     let reduced = reduce(currentState, graphContextActions.selectEntity(0, {
       content: { ipId: 'ip1', type: 'COLLECTION' },
     }))
@@ -85,7 +86,7 @@ describe('[Search Graph] Test graph context reducer', () => {
   })
 
   it('Should reduce module collapsed state changing', () => {
-    let currentState = defaultState
+    let currentState = DEFAULT_STATE
     let reduced = reduce(currentState, graphContextActions.setModuleCollapsed(true))
     assert.deepEqual(reduced, {
       ...currentState,
@@ -101,7 +102,7 @@ describe('[Search Graph] Test graph context reducer', () => {
   })
 
   it('Should reduce module collapsed state changing', () => {
-    let currentState = defaultState
+    let currentState = DEFAULT_STATE
     let reduced = reduce(currentState, graphContextActions.setDatasetAttributesVisible(true))
     assert.deepEqual(reduced, {
       ...currentState,
@@ -114,5 +115,28 @@ describe('[Search Graph] Test graph context reducer', () => {
       ...currentState,
       datasetsAttributesVisible: false,
     }, 'Set dataset attributes hidden should be correctly reduced')
+  })
+
+  it('Should reduce show / hide description actions', () => {
+    let currentState = DEFAULT_STATE
+    const entity = { aDay: 'aNight' }
+    let reduced = reduce(currentState, graphContextActions.showDescription(entity))
+    assert.deepEqual(reduced, {
+      ...currentState,
+      description: {
+        visible: true,
+        entity,
+      },
+    }, 'Showing description should be correctly reduced')
+
+    currentState = reduced
+    reduced = reduce(currentState, graphContextActions.hideDescription())
+    assert.deepEqual(reduced, {
+      ...currentState,
+      description: {
+        visible: false,
+        entity: null,
+      },
+    }, 'Hidding description should be correctly reduced')
   })
 })

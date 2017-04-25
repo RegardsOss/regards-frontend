@@ -15,7 +15,7 @@ const menuStyles = (theme) => {
     maxWidth: 465,
   }
   const progressSize = 120
-  const scrollContainerStyles = { background: 'rgba(0,0,0,0)' }
+  const scrollContainerStyles = { zIndex: 5, background: 'rgba(0,0,0,0)' }
   const scrollbarStyles = {
     background: theme.palette.textColor,
     borderRadius: '3px',
@@ -356,6 +356,10 @@ const menuStyles = (theme) => {
             opacity: 0.7,
           },
         },
+      },
+      descriptionDialog: {
+        widthPercent: 70,
+        heightPercent: 68,
       },
     },
   }

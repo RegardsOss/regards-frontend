@@ -6,6 +6,7 @@ import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { ShowableAtRender } from '@regardsoss/components'
 import SearchGraph from '../../../src/components/user/SearchGraph'
+import DescriptionContainer from '../../../src/containers/user/DescriptionContainer'
 import styles from '../../../src/styles/styles'
 
 const context = buildTestContext(styles)
@@ -41,5 +42,7 @@ describe('[Search Graph] Testing SearchGraph', () => {
     enzymeWrapper.setProps(nextProps)
     showables = enzymeWrapper.find(ShowableAtRender)
     assert.isFalse(showables.at(0).props().show, 'The module content should be hidden when collapsed')
+
+    assert.lengthOf(enzymeWrapper.find(DescriptionContainer), 1, 'Search graph must have a description container')
   })
 })

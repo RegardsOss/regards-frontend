@@ -18,7 +18,7 @@ describe('[Search Graph] Testing ItemLink', () => {
   it('should exists', () => {
     assert.isDefined(ItemLink)
   })
-  it('should render properly with icon additive line component', () => {
+  it('should render correctly with icon additive line component', () => {
     const props = {
       locked: true,
       selected: true,
@@ -27,9 +27,34 @@ describe('[Search Graph] Testing ItemLink', () => {
       Icon: Toggle,
       additiveLineComponent: <FlatButton label="hello again" />,
       onStateChange: () => { },
+      onMouseOver: () => { },
+      onMouseOut: () => { },
+      onLinkClicked: () => { },
+      onDescriptionClicked: () => { },
+      displayState: ItemLink.States.DEFAULT,
     }
     const enzymeWrapper = shallow(<ItemLink {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(FlatButton), 1, 'The additive line component (a flat button here) should be rendered')
     assert.lengthOf(enzymeWrapper.find(Toggle), 1, 'The icon (a toggle here) should be rendered')
+  })
+  it('Should render correctly in all states', () => {
+    const props = {
+      locked: true,
+      selected: true,
+      onSelect: () => { },
+      text: 'any',
+      Icon: Toggle,
+      additiveLineComponent: <FlatButton label="hello again" />,
+      onStateChange: () => { },
+      onMouseOver: () => { },
+      onMouseOut: () => { },
+      onLinkClicked: () => { },
+      onDescriptionClicked: () => { },
+    }
+    shallow(<ItemLink displayState={ItemLink.States.DEFAULT} {...props} />, { context })
+    shallow(<ItemLink displayState={ItemLink.States.HOVER} {...props} />, { context })
+    shallow(<ItemLink displayState={ItemLink.States.SELECTED} {...props} />, { context })
+    shallow(<ItemLink displayState={ItemLink.States.SELECTED_HOVER} {...props} />, { context })
+    shallow(<ItemLink displayState={ItemLink.States.LOCKED} {...props} />, { context })
   })
 })

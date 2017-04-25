@@ -3,9 +3,9 @@
  **/
 import { connect } from '@regardsoss/redux'
 import { AttributeModel, ModelAttribute } from '@regardsoss/model'
-import ModelAttributeSelectors from '../model/ModelAttributeSelectors'
+import ModelAttributesSelectors from '../model/ModelAttributesSelectors'
 import ModelAttributeComponent from '../components/ModelAttributeComponent'
-import ModelAttributeActions from '../model/ModelAttributeActions'
+import ModelAttributesActions from '../model/ModelAttributesActions'
 
 export class ModelAttributeContainer extends React.Component {
   static propTypes = {
@@ -39,11 +39,11 @@ export class ModelAttributeContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  modelAttribute: ModelAttributeSelectors.getByAttributeModelId(state, ownProps.attribute.content.id),
+  modelAttribute: ModelAttributesSelectors.getByAttributeModelId(state, ownProps.attribute.content.id),
 })
 
 const mapDispatchToProps = dispatch => ({
-  updateModelAttribute: (id, values, modelId) => dispatch(ModelAttributeActions.updateEntity(id, values, { pModelId: modelId })),
+  updateModelAttribute: (id, values, modelId) => dispatch(ModelAttributesActions.updateEntity(id, values, { pModelId: modelId })),
 })
 
 

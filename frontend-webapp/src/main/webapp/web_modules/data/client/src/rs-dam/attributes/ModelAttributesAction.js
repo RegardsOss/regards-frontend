@@ -4,10 +4,13 @@
 import Schemas from '@regardsoss/api'
 import { BasicListActions } from '@regardsoss/store-utils'
 
-class ModelAttributeActions extends BasicListActions {
-  constructor() {
+/**
+ * Redux store action for association model to attribute model
+ */
+export default class ModelAttributesAction extends BasicListActions {
+  constructor(namespace) {
     super({
-      namespace: 'admin-data-modelattribute-management/model-attribute',
+      namespace,
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-dam/models/{id}/attributes`,
       entityPathVariable: 'pAttributeId',
       schemaTypes: {
@@ -16,7 +19,9 @@ class ModelAttributeActions extends BasicListActions {
       },
     })
   }
-}
 
-const instance = new ModelAttributeActions()
-export default instance
+  fetchModelAttributes(id) {
+    return this.fetchEntityList({ id })
+  }
+
+}

@@ -73,7 +73,7 @@ class LoadableContentDialogContainer extends React.Component {
               <p style={{ marginTop: '2em' }}>{loadingMessage}</p>
             </div>
           </ShowableAtRender>
-          <div style={loaded ? {} : { display: 'none' }}>
+          <div style={loaded ? { height: '100%', maxHeight: '100%' } : { display: 'none' }}>
             {children}
           </div>
         </div>

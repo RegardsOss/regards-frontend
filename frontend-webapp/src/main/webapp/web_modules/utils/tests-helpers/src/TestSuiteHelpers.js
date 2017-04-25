@@ -31,11 +31,12 @@ export default {
    * Asserts a actual propety bag contains all expected properties
    * @param {*} actualProperties actual properties
    * @param {*} expectedProperties expected properties
+   * @param message assertion fail message (optional)
    */
-  assertAllProperties(actualProperties, expectedProperties) {
+  assertAllProperties(actualProperties, expectedProperties, message = 'Properties comparison failed') {
     forEach(expectedProperties, (value, key) => {
       const actualValue = actualProperties[key]
-      assert.deepEqual(actualValue, value, `Invalid property "${key}" value`)
+      assert.deepEqual(actualValue, value, `${message}: invalid value at "${key}"`)
     })
   },
 
@@ -43,9 +44,10 @@ export default {
    * Asserts a wrapper contains all expected properties
    * @param {*} enzymeWrapper enzyme wrapper
    * @param {*} expectedProperties expected properties
+   * @param message assertion fail message (optional)
    */
-  assertWrapperProperties(enzymeWrapper, expectedProperties) {
-    this.assertAllProperties(enzymeWrapper.props(), expectedProperties)
+  assertWrapperProperties(enzymeWrapper, expectedProperties, message = 'Wrapper properties match failed') {
+    this.assertAllProperties(enzymeWrapper.props(), expectedProperties, message)
   },
 
 }

@@ -10,8 +10,8 @@ import { unregisterField } from 'redux-form'
 import DatasetFormAttributesComponent from '../components/DatasetFormAttributesComponent'
 import ModelSelectors from '../model/ModelSelectors'
 import ModelActions from '../model/ModelActions'
-import ModelAttributeActions from '../model/ModelAttributeActions'
-import ModelAttributeSelectors from '../model/ModelAttributeSelectors'
+import ModelAttributesActions from '../model/ModelAttributesActions'
+import ModelAttributesSelectors from '../model/ModelAttributesSelectors'
 import DatasourceSelectors from './../model/DatasourceSelectors'
 import DatasourceActions from './../model/DatasourceActions'
 
@@ -131,14 +131,14 @@ export class DatasetFormAttributesContainer extends React.Component {
   }
 }
 const mapStateToProps = (state, ownProps) => ({
-  modelAttributeList: ModelAttributeSelectors.getList(state),
+  modelAttributeList: ModelAttributesSelectors.getList(state),
   modelList: ModelSelectors.getList(state),
   currentDatasource: DatasourceSelectors.getById(state, ownProps.currentDatasourceId),
 })
 
 const mapDispatchToProps = dispatch => ({
   fetchModelList: () => dispatch(ModelActions.fetchEntityList({}, { type: 'DATASET' })),
-  fetchModelAttributeList: id => dispatch(ModelAttributeActions.fetchEntityList({ id })),
+  fetchModelAttributeList: id => dispatch(ModelAttributesActions.fetchEntityList({ id })),
   unregisterField: (form, name) => dispatch(unregisterField(form, name)),
   fetchDatasource: id => dispatch(DatasourceActions.fetchEntity(id)),
 })

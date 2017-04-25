@@ -4,7 +4,7 @@
 import { combineReducers } from 'redux'
 import collection from './model/CollectionReducers'
 import model from './model/ModelReducers'
-import modelAttribute from './model/ModelAttributeReducers'
+import modelAttribute from './model/ModelAttributesReducers'
 import collectionLinkSignal from './model/CollectionLinkReducers'
 
 const collectionDataManagementReducer = combineReducers({

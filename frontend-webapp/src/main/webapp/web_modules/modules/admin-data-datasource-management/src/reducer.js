@@ -7,7 +7,7 @@ import model from './model/ModelReducers'
 import connection from './model/ConnectionReducers'
 import connectionTable from './model/ConnectionTableReducers'
 import connectionTableAttributes from './model/ConnectionTableAttributesReducers'
-import modelAttribute from './model/ModelAttributeReducers'
+import modelAttribute from './model/ModelAttributesReducers'
 
 const datasourceDataManagementReducer = combineReducers({
   datasource,

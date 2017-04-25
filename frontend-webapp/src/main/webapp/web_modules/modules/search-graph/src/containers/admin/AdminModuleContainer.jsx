@@ -6,7 +6,7 @@ import { Model, AttributeModel } from '@regardsoss/model'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import CollectionModelSelectors from '../../model/CollectionModelSelectors'
 import CollectionModelActions from '../../model/CollectionModelActions'
-import { AttributeModelAction, AttributeModelSelector } from '../../model/client/AttributeModelClient'
+import { attributeModelAction, attributeModelSelector } from '../../model/client/AttributeModelClient'
 import ModuleForm from '../../components/admin/ModuleForm'
 import ModuleConfiguration from '../../model/ModuleConfiguration'
 
@@ -67,13 +67,13 @@ export class AdminModuleContainer extends React.Component {
 const mapStateToProps = state => ({
   // fetched collection models to provide the available graph levels
   collectionModels: CollectionModelSelectors.getList(state) || {},
-  selectableAttributes: AttributeModelSelector.getList(state),
-  hasError: AttributeModelSelector.hasError(state) || AttributeModelSelector.hasError(state),
+  selectableAttributes: attributeModelSelector.getList(state),
+  hasError: attributeModelSelector.hasError(state) || attributeModelSelector.hasError(state),
 })
 
 const mapDispatchToProps = dispatch => ({
   fetchCollectionModels: () => dispatch(CollectionModelActions.fetchEntityList()),
-  fetchSelectableAttributes: () => dispatch(AttributeModelAction.fetchPagedEntityList()),
+  fetchSelectableAttributes: () => dispatch(attributeModelAction.fetchPagedEntityList()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AdminModuleContainer)

@@ -55,10 +55,30 @@ class GraphContextSelectors extends BasicSelector {
 
   /**
    * Returns module collapsed from state
-   * @param {*} state redux state
+   * @param state redux state
    * @return bool
    */
   isModuleCollapsed = state => this.uncombineStore(state).moduleCollapsed
+
+  /**
+   * Returns description dialog state (visible or not, entity when visible)
+   * @param state redux state
+   * @return description state like : {visible, entity}
+   */
+  getDescriptionState = state => this.uncombineStore(state).description
+
+  /**
+   * Returns visible entity for description (or null if no description)
+   * @param state redux state
+   * @return null or entity like {content, links}
+   */
+  getDescriptionEntity = state => this.getDescriptionState(state).entity
+
+  /**
+   * Returns entity description visible state
+   * @param state redux state
+   */
+  isDescriptionVisible = state => this.getDescriptionState(state).visible
 
 }
 

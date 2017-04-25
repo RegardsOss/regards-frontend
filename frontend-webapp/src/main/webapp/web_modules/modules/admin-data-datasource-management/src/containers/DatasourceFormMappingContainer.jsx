@@ -6,8 +6,8 @@ import { Datasource, ModelAttribute } from '@regardsoss/model'
 import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import DatasourceFormMappingComponent from '../components/DatasourceFormMappingComponent'
-import ModelAttributeActions from '../model/ModelAttributeActions'
-import ModelAttributeSelectors from '../model/ModelAttributeSelectors'
+import ModelAttributesActions from '../model/ModelAttributesActions'
+import ModelAttributesSelectors from '../model/ModelAttributesSelectors'
 import ConnectionTableActions from '../model/ConnectionTableActions'
 import ConnectionTableSelectors from '../model/ConnectionTableSelectors'
 import ConnectionTableAttributesActions from '../model/ConnectionTableAttributesActions'
@@ -104,7 +104,7 @@ export class DatasourceFormMappingContainer extends React.Component {
 const mapStateToProps = (state, ownProps) => ({
   tableList: ConnectionTableSelectors.getResult(state),
   tableAttributeList: ConnectionTableAttributesSelectors.getResult(state),
-  modelAttributeList: ModelAttributeSelectors.getList(state),
+  modelAttributeList: ModelAttributesSelectors.getList(state),
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -115,7 +115,7 @@ const mapDispatchToProps = dispatch => ({
     connectionId,
     tableName,
   })),
-  fetchModelAttributeList: id => dispatch(ModelAttributeActions.fetchEntityList({ id })),
+  fetchModelAttributeList: id => dispatch(ModelAttributesActions.fetchEntityList({ id })),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(DatasourceFormMappingContainer)

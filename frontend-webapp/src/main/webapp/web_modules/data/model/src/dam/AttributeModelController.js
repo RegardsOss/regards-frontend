@@ -39,7 +39,7 @@ const getAttributeFullyQualifiedName = (attributeModel) => {
  * @return [String] attribute access path in an entity
  */
 const getAttributeAccessPath = ({ content: { fragment, name } }) => {
-  if (!fragment || !fragment.name || fragment.name === DEFAULT_FRAGMENT) {
+  if (!fragment || !fragment.name || fragment.name.toLowerCase() === DEFAULT_FRAGMENT) {
     return [DATA_ATTRIBUTES_FIELD, name]
   }
   return [DATA_ATTRIBUTES_FIELD, fragment.name, name]

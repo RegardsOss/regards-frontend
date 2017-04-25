@@ -8,12 +8,12 @@ import { AttributeModelConfiguration } from '@regardsoss/api'
  * Redux store reducer for Module entities
  */
 class AttributeModelReducer extends BasicPageableReducers {
-  constructor(namespace, actionsInstance) {
+  constructor(actionsInstance) {
     super(AttributeModelConfiguration, actionsInstance)
   }
 }
 
-export default (namespace, actionsInstance) => {
-  const instance = new AttributeModelReducer(namespace, actionsInstance)
+export default (actionsInstance) => {
+  const instance = new AttributeModelReducer(actionsInstance)
   return (state, action) => instance.reduce(state, action)
 }

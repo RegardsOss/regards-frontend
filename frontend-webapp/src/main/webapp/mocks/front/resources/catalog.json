@@ -23,38 +23,81 @@
       "name": "Results",
       "type": "COLLECTION",
       "description": "High resolution data files"
+    },
+    {
+      "id": 4,
+      "name": "Experiments dataset",
+      "type": "DATASET",
+      "description": "Experiment dataset"
+    },
+    {
+      "id": 5,
+      "name": "Instruments dataset",
+      "type": "DATASET",
+      "description": "instrument dataset"
+    },
+    {
+      "id": 6,
+      "name": "Results dataset",
+      "type": "DATASET",
+      "description": "Results dataset"
     }
   ],
   "entities": [
     {
       "id": 0,
+      "model": {
+        "id": 0
+      },
       "ipId": "collection-mission-0",
-      "model": "Missions",
-      "type": "COLLECTION",
       "label": "Cassini",
-      "tags": []
+      "tags": [],
+      "descriptionFileType": "application/pdf",
+      "properties": {
+        "size": "3 Zo",
+        "type": "Monkey exploration mision",
+        "infos": {
+          "Investigator": "Jean Mi"
+        }
+      }
     },
     {
       "id": 1,
+      "model": {
+        "id": 0
+      },
       "ipId": "collection-mission-1",
-      "model": "Missions",
-      "type": "COLLECTION",
       "label": "Cluster",
-      "tags": []
+      "tags": [],
+      "descriptionFileType": "text/markdown",
+      "properties": {
+        "size": "2.1 Mo",
+        "type": "Local cluster exploration",
+        "infos": {
+          "Investigator": "X"
+        }
+      }
     },
     {
       "id": 2,
+      "model": {
+        "id": 0
+      },
       "ipId": "collection-mission-2",
-      "model": "Missions",
-      "type": "COLLECTION",
       "label": "Demeter",
-      "tags": []
+      "tags": [],
+      "descriptionURL": "http://172.26.47.52:4000/",
+      "properties": {
+        "size": "4.3 Go",
+        "type": "Meter and Demeter!"
+      }
     },
     {
       "id": 3,
+      "model": {
+        "id": 1
+      },
       "ipId": "collection-cassini-experiments-0",
-      "model": "Experiments",
-      "type": "COLLECTION",
       "label": "0-gravity monkeys",
       "tags": [
         "collection-mission-0"
@@ -62,9 +105,10 @@
     },
     {
       "id": 4,
+      "model": {
+        "id": 1
+      },
       "ipId": "collection-cassini-experiments-1",
-      "type": "COLLECTION",
-      "model": "Experiments",
       "label": "Sun blasting",
       "tags": [
         "collection-mission-0"
@@ -72,9 +116,10 @@
     },
     {
       "id": 5,
+      "model": {
+        "id": 1
+      },
       "ipId": "collection-cassini-experiments-2",
-      "type": "COLLECTION",
-      "model": "Experiments",
       "label": "Moon repositionning",
       "tags": [
         "collection-mission-0"
@@ -82,9 +127,10 @@
     },
     {
       "id": 6,
+      "model": {
+        "id": 1
+      },
       "ipId": "collection-cassini-experiments-3",
-      "type": "COLLECTION",
-      "model": "Experiments",
       "label": "Testing coffee on monkeys in space just to see what happens",
       "tags": [
         "collection-mission-0"
@@ -92,9 +138,10 @@
     },
     {
       "id": 7,
+      "model": {
+        "id": 1
+      },
       "ipId": "collection-cassini-experiments-4",
-      "type": "COLLECTION",
-      "model": "Experiments",
       "label": "Psychedelic Jupiter repainting in black and red just to see if it beats hypno crapo, which is very long to be 120 chars!",
       "tags": [
         "collection-mission-0"
@@ -108,8 +155,10 @@
     },
     {
       "id": 8,
+      "model": {
+        "id": 4
+      },
       "ipId": "dataset-cassini-experiments-0",
-      "type": "DATASET",
       "label": "Experiments schedule",
       "tags": [
         "collection-mission-0"
@@ -127,12 +176,15 @@
         "infos": {
           "date": "2017-01-08T12:25:00"
         }
-      }
+      },
+      "descriptionFileType": "application/pdf"
     },
     {
       "id": 9,
+      "model": {
+        "id": 4
+      },
       "ipId": "dataset-cassini-experiments-1",
-      "type": "DATASET",
       "label": "Cassini experiments ethic stamps",
       "tags": [
         "collection-mission-0"
@@ -150,12 +202,15 @@
         "infos": {
           "date": "2018-04-05T05:02:01"
         }
-      }
+      },
+      "descriptionFileType": "text/markdown"
     },
     {
       "id": 10,
+      "model": {
+        "id": 4
+      },
       "ipId": "dataset-cassini-experiments-2",
-      "type": "DATASET",
       "label": "Life after sun expectations",
       "tags": [
         "collection-mission-0"
@@ -173,12 +228,15 @@
         "infos": {
           "date": "2016-02-01T00:00:00"
         }
-      }
+      },
+      "descriptionURL": "http://172.26.47.52:4000/"
     },
     {
       "id": 11,
+      "model": {
+        "id": 4
+      },
       "ipId": "dataset-cassini-experiments-3",
-      "type": "DATASET",
       "label": "Ice scream sales records related",
       "tags": [
         "collection-mission-0"
@@ -198,8 +256,10 @@
     },
     {
       "id": 12,
+      "model": {
+        "id": 4
+      },
       "ipId": "dataset-cassini-experiments-4",
-      "type": "DATASET",
       "label": "About ice screams, monkeys and black holes",
       "tags": [
         "collection-mission-0"
@@ -215,8 +275,10 @@
     },
     {
       "id": 13,
+      "model": {
+        "id": 4
+      },
       "ipId": "dataset-cassini-experiments-5",
-      "type": "DATASET",
       "label": "No more ideas set",
       "tags": [
         "collection-mission-0"
@@ -231,9 +293,10 @@
     },
     {
       "id": 14,
+      "model": {
+        "id": 2
+      },
       "ipId": "collection-cassini-0-grav-instrument-0",
-      "model": "Instruments",
-      "type": "COLLECTION",
       "label": "Monkey flight camera - front",
       "tags": [
         "collection-cassini-experiments-0"
@@ -241,9 +304,10 @@
     },
     {
       "id": 15,
+      "model": {
+        "id": 2
+      },
       "ipId": "collection-cassini-0-grav-instrument-1",
-      "model": "Instruments",
-      "type": "COLLECTION",
       "label": "Monkey flight camera - rear",
       "tags": [
         "collection-cassini-experiments-0"
@@ -251,9 +315,10 @@
     },
     {
       "id": 16,
+      "model": {
+        "id": 2
+      },
       "ipId": "collection-cassini-0-grav-instrument-2",
-      "model": "Instruments",
-      "type": "COLLECTION",
       "label": "Monkey flight accelerometer",
       "tags": [
         "collection-cassini-experiments-0"
@@ -261,8 +326,10 @@
     },
     {
       "id": 17,
-      "ipId": "dataset-cassini-0-grav-instrument-0",
-      "type": "DATASET",
+      "model": {
+        "id": 5
+      },
+      "ipId": "dataset-cassini-0-grav-instrument-norms",
       "label": "Monkey proof equipment norms",
       "tags": [
         "collection-cassini-experiments-0"
@@ -283,49 +350,55 @@
       }
     },
     {
-      "id": 14,
+      "id": 18,
+      "model": {
+        "id": 3
+      },
       "ipId": "collection-cassini-0-grav-cam-left-result-0",
-      "model": "Results",
-      "type": "COLLECTION",
       "label": "30 seconds records",
       "tags": [
         "collection-cassini-0-grav-instrument-0"
       ]
     },
     {
-      "id": 18,
+      "id": 19,
+      "model": {
+        "id": 3
+      },
       "ipId": "collection-cassini-0-grav-cam-left-result-1",
-      "model": "Results",
-      "type": "COLLECTION",
       "label": "1 minute records",
       "tags": [
         "collection-cassini-0-grav-instrument-0"
       ]
     },
     {
-      "id": 19,
+      "id": 20,
+      "model": {
+        "id": 3
+      },
       "ipId": "collection-cassini-0-grav-cam-left-result-2",
-      "model": "Results",
-      "type": "COLLECTION",
       "label": "Director's cut",
       "tags": [
         "collection-cassini-0-grav-instrument-0"
       ]
     },
     {
-      "id": 20,
+      "id": 21,
+      "model": {
+        "id": 3
+      },
       "ipId": "collection-cassini-0-grav-cam-left-result-3",
-      "model": "Results",
-      "type": "COLLECTION",
       "label": "'To long to interest anyone' records",
       "tags": [
         "collection-cassini-0-grav-instrument-0"
       ]
     },
     {
-      "id": 21,
+      "id": 22,
+      "model": {
+        "id": 6
+      },
       "ipId": "datasets-cassini-0-grav-cam-left-result-0",
-      "type": "DATASET",
       "label": "Fabulous flights data",
       "tags": [
         "collection-cassini-0-grav-instrument-0"
@@ -343,21 +416,143 @@
       }
     },
     {
-      "id": 22,
+      "id": 23,
+      "model": {
+        "id": 6
+      },
       "ipId": "datasets-cassini-0-grav-cam-left-result-1",
-      "type": "COLLECTION",
       "label": "Mad monkeys hiting cam",
       "tags": [
         "collection-cassini-0-grav-instrument-0"
       ]
     },
     {
-      "id": 23,
+      "id": 24,
+      "model": {
+        "id": 6
+      },
       "ipId": "datasets-cassini-0-grav-cam-left-result-2",
-      "type": "DATASET",
       "label": "Writing bibles parts",
       "tags": [
         "collection-cassini-0-grav-instrument-0"
+      ]
+    }
+  ],
+  "localDescriptions": [
+    {
+      "entityId": 0,
+      "file": "desc-entity-0.pdf",
+      "contentType": "application/pdf"
+    },
+    {
+      "entityId": 1,
+      "file": "desc-entity-1.md",
+      "contentType": "text/markdown"
+    },
+    {
+      "entityId": 8,
+      "file": "desc-entity-8.pdf",
+      "contentType": "application/pdf"
+    },
+    {
+      "entityId": 9,
+      "file": "desc-entity-9.md",
+      "contentType": "text/markdown"
+    }
+  ],
+  "modelAttributesAssociations": [
+    {
+      "modelId": 0,
+      "associations": [
+        {
+          "id": 0,
+          "mode": "idc",
+          "attribute": {
+            "id": 0,
+            "name": "size",
+            "label": "Size",
+            "type": "string",
+            "fragment": {
+              "id": 0,
+              "name": "DEFAULT"
+            }
+          }
+        },
+        {
+          "id": 1,
+          "mode": "idc",
+          "attribute": {
+            "id": 1,
+            "name": "type",
+            "label": "Type",
+            "type": "string",
+            "fragment": {
+              "id": 0,
+              "name": "DEFAULT"
+            }
+          }
+        },
+        {
+          "id": 2,
+          "mode": "idc",
+          "attribute": {
+            "id": 2,
+            "name": "Investigator",
+            "label": "Investigator",
+            "type": "string",
+            "fragment": {
+              "id": 1,
+              "name": "infos"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "modelId": 4,
+      "associations": [
+        {
+          "id": 3,
+          "mode": "idc",
+          "attribute": {
+            "id": 0,
+            "name": "language",
+            "label": "Language",
+            "type": "string",
+            "fragment": {
+              "id": 0,
+              "name": "DEFAULT"
+            }
+          }
+        },
+        {
+          "id": 4,
+          "mode": "idc",
+          "attribute": {
+            "id": 1,
+            "name": "format",
+            "label": "Format",
+            "type": "string",
+            "fragment": {
+              "id": 0,
+              "name": "DEFAULT"
+            }
+          }
+        },
+        {
+          "id": 5,
+          "mode": "idc",
+          "attribute": {
+            "id": 2,
+            "name": "date",
+            "label": "Date",
+            "type": "DATE_ISO8601",
+            "fragment": {
+              "id": 2,
+              "name": "infos"
+            }
+          }
+        }
       ]
     }
   ]

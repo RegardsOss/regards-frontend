@@ -13,8 +13,8 @@ import CollectionActions from './../model/CollectionActions'
 import CollectionFormComponent from '../components/CollectionFormComponent'
 import ModelSelectors from '../model/ModelSelectors'
 import ModelActions from '../model/ModelActions'
-import ModelAttributeActions from '../model/ModelAttributeActions'
-import ModelAttributeSelectors from '../model/ModelAttributeSelectors'
+import ModelAttributesActions from '../model/ModelAttributesActions'
+import ModelAttributesSelectors from '../model/ModelAttributesSelectors'
 
 /**
  * Show the collection form
@@ -216,10 +216,10 @@ export class CollectionFormContainer extends React.Component {
 const mapStateToProps = (state, ownProps) => ({
   currentCollection: ownProps.params.collectionId ? CollectionSelectors.getById(state, ownProps.params.collectionId) : null,
   isFetchingCollection: CollectionSelectors.isFetching(state),
-  modelAttributeList: ModelAttributeSelectors.getList(state),
+  modelAttributeList: ModelAttributesSelectors.getList(state),
   modelList: ModelSelectors.getList(state),
   isFetchingModel: ModelSelectors.isFetching(state),
-  isFetchingModelAttribute: ModelAttributeSelectors.isFetching(state),
+  isFetchingModelAttribute: ModelAttributesSelectors.isFetching(state),
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -227,7 +227,7 @@ const mapDispatchToProps = dispatch => ({
   createCollection: (values, files) => dispatch(CollectionActions.createEntityUsingMultiPart(values, files)),
   updateCollection: (id, values, files) => dispatch(CollectionActions.updateEntityUsingMultiPart(id, values, files)),
   fetchModelList: () => dispatch(ModelActions.fetchEntityList({}, { type: 'COLLECTION' })),
-  fetchModelAttributeList: id => dispatch(ModelAttributeActions.fetchEntityList({ id })),
+  fetchModelAttributeList: id => dispatch(ModelAttributesActions.fetchEntityList({ id })),
   unregisterField: (form, name) => dispatch(unregisterField(form, name)),
 })
 

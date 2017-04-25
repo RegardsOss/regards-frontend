@@ -11,12 +11,13 @@ export const REDUCER_PATH = 'attributes'
 const ENTITIES_STORE_PATH = ['modules.search-graph', REDUCER_PATH]
 const REDUX_ACTION_NAMESPACE = 'search-graph/attributes'
 
-export const AttributeModelAction = new DataManagement.AttributeModelAction(REDUX_ACTION_NAMESPACE)
-export const AttributeModelReducer = DataManagement.AttributeModelReducer(REDUX_ACTION_NAMESPACE, AttributeModelAction)
-export const AttributeModelSelector = DataManagement.AttributeModelSelector(ENTITIES_STORE_PATH)
+export const attributeModelAction = new DataManagement.AttributeModelAction(REDUX_ACTION_NAMESPACE)
+export const reduce = DataManagement.AttributeModelReducer(REDUX_ACTION_NAMESPACE, attributeModelAction)
+export const attributeModelSelector = DataManagement.AttributeModelSelector(ENTITIES_STORE_PATH)
 
 export default {
-  AttributeModelAction,
-  AttributeModelReducer,
-  AttributeModelSelector,
+  REDUCER_PATH,
+  attributeModelAction,
+  reduce,
+  attributeModelSelector,
 }
