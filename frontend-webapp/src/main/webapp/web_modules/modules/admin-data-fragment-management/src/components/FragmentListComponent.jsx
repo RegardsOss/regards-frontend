@@ -27,9 +27,10 @@ export class FragmentListComponent extends React.Component {
     fragmentList: React.PropTypes.objectOf(Fragment),
     handleDelete: React.PropTypes.func.isRequired,
     handleEdit: React.PropTypes.func.isRequired,
-    handleExport: React.PropTypes.func.isRequired,
     createUrl: React.PropTypes.string.isRequired,
     backUrl: React.PropTypes.string.isRequired,
+    projectName: React.PropTypes.string.isRequired,
+    accessToken: React.PropTypes.string.isRequired,
   }
 
   static contextTypes = {
@@ -38,10 +39,11 @@ export class FragmentListComponent extends React.Component {
   }
 
   getExportUrlFromHateoas = (fragmentLinks) => {
+    const { projectName, accessToken } = this.props
     const exportLink = find(fragmentLinks, link => (
       link.rel === 'export'
     ))
-    return exportLink.href || ''
+    return `${exportLink.href}?scope=${projectName}&token=${accessToken}` || ''
   }
 
   render() {

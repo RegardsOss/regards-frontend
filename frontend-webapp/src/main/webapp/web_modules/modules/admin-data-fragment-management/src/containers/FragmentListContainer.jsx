@@ -8,6 +8,7 @@ import { Fragment } from '@regardsoss/model'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import FragmentListComponent from '../components/FragmentListComponent'
 import { fragmentActions, fragmentSelectors } from '../client/FragmentClient'
+import { authenticationSelectors } from '../client/AuthenticationClient'
 
 /**
  * React container to manage the fragment list.
@@ -22,6 +23,7 @@ export class FragmentListContainer extends React.Component {
     }),
     // from mapStateToProps
     fragmentList: React.PropTypes.objectOf(Fragment),
+    accessToken: React.PropTypes.string,
     // from mapDispatchToProps
     fetchFragmentList: React.PropTypes.func,
     deleteFragment: React.PropTypes.func,
@@ -66,7 +68,7 @@ export class FragmentListContainer extends React.Component {
   }
 
   render() {
-    const { fragmentList } = this.props
+    const { fragmentList, accessToken, params: { project } } = this.props
     return (
       <I18nProvider messageDir="modules/admin-data-fragment-management/src/i18n">
         <LoadableContentDisplayDecorator isLoading={this.state.isLoading}>
@@ -74,6 +76,8 @@ export class FragmentListContainer extends React.Component {
             fragmentList={fragmentList}
             createUrl={this.getCreateUrl()}
             backUrl={this.getBackUrl()}
+            accessToken={accessToken}
+            projectName={project}
             handleDelete={this.handleDelete}
             handleEdit={this.handleEdit}
           />
@@ -84,6 +88,7 @@ export class FragmentListContainer extends React.Component {
 }
 const mapStateToProps = state => ({
   fragmentList: fragmentSelectors.getList(state),
+  accessToken: authenticationSelectors.getAuthentication(state).result.access_token,
 })
 const mapDispatchToProps = dispatch => ({
   fetchFragmentList: () => dispatch(fragmentActions.fetchEntityList()),
