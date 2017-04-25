@@ -5,7 +5,7 @@ import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
-import { ProjectUser, AccessGroup } from '@regardsoss/model'
+import { ProjectUser, AccessGroup, Role } from '@regardsoss/model'
 import { every, some, chain, concat } from 'lodash'
 import root from 'window-or-global'
 import { AuthenticationRouteParameters } from '@regardsoss/authentication-manager'
@@ -21,14 +21,7 @@ import ProjectUserCreateComponent from '../components/ProjectUserCreateComponent
 export class ProjectUserCreateContainer extends React.Component {
   static propTypes = {
     // from mapStateToProps
-    roleList: React.PropTypes.objectOf(
-      React.PropTypes.shape({
-        content: React.PropTypes.shape({
-          id: React.PropTypes.number,
-          name: React.PropTypes.string,
-        }),
-      }),
-    ),
+    roleList: React.PropTypes.objectOf(Role),
     groupList: React.PropTypes.objectOf(AccessGroup),
     user: ProjectUser,
     isFetching: React.PropTypes.bool,
@@ -40,6 +33,7 @@ export class ProjectUserCreateContainer extends React.Component {
     // from mapDispatchToProps
     createProjectUser: React.PropTypes.func,
     updateProjectUser: React.PropTypes.func,
+    fetchUser: React.PropTypes.func,
     fetchRoleList: React.PropTypes.func,
     fetchGroupList: React.PropTypes.func,
     assignGroup: React.PropTypes.func,
@@ -56,6 +50,10 @@ export class ProjectUserCreateContainer extends React.Component {
   componentWillMount() {
     this.props.fetchRoleList()
     this.props.fetchGroupList()
+
+    if (this.state.isEditing && !this.props.user) {
+      this.props.fetchUser(this.props.params.user_id)
+    }
   }
 
   getBackUrl = () => {
@@ -167,6 +165,7 @@ const mapStateToProps = (state, ownProps) => ({
   isFetching: ProjectUserSelectors.isFetching(state),
 })
 const mapDispatchToProps = dispatch => ({
+  fetchUser: userId => dispatch(ProjectUserActions.fetchEntity(userId)),
   createProjectUser: values => dispatch(ProjectUserActions.createEntity(values)),
   updateProjectUser: (id, values) => dispatch(ProjectUserActions.updateEntity(id, values)),
   fetchRoleList: () => dispatch(RoleActions.fetchEntityList()),

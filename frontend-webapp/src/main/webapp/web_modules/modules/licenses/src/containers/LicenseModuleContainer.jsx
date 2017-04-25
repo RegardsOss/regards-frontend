@@ -2,7 +2,7 @@
 * LICENSE_PLACEHOLDER
 **/
 import { connect } from '@regardsoss/redux'
-import { AuthenticateSelectors } from '@regardsoss/authentication-manager'
+import { AuthenticationClient } from '@regardsoss/authentication-manager'
 import { ShowableAtRender } from '@regardsoss/components'
 import LicenseDisplayContainer from './LicenseDisplayContainer'
 
@@ -31,7 +31,7 @@ class LicenseModuleContainer extends React.Component {
   }
 }
 const mapStateToProps = state => ({
-  isAuthenticated: AuthenticateSelectors.isAuthenticated(state),
+  isAuthenticated: AuthenticationClient.authenticationSelectors.isAuthenticated(state),
 })
 
 export default connect(mapStateToProps)(LicenseModuleContainer)

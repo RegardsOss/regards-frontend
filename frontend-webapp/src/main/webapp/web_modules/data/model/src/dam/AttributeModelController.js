@@ -14,6 +14,10 @@ import find from 'lodash/find'
  */
 const DATA_ATTRIBUTES_FIELD = 'properties'
 const DEFAULT_FRAGMENT = 'default'
+const StandardAttributes = [
+  'ipId', 'sipId', 'label', 'creationDate', 'lastUpdate', 'thumbmail', 'download',
+]
+const SPECIAL_FILES_ATTRIBUTE_NAME = 'files'
 
 /**
  * Return the fully qualified name of the given attribute. The fully qualified name is :
@@ -62,11 +66,61 @@ const findLabelFromAttributeFullyQualifiedName = (attributeFullyQualifiedName, a
   return foundAttribute ? foundAttribute.content.label : attributeFullyQualifiedName
 }
 
-const StandardAttributes = [
-  'ipId', 'sipId', 'label', 'creationDate', 'lastUpdate', 'files',
-]
-const STANDARD_ATTRIBUTE_TYPE = 'STRING'
+/**
+ * Enum for all available attribute types.
+ * @type {{DEFAULT: string, BOOLEAN: string, DATE_ISO8601: string, DATE_INTERVAL: string, DATE_ARRAY: string, DOUBLE_INTERVAL: string, INTEGER: string, INTEGER_INTERVAL: string, LONG_INTERVAL: string, STRING: string, URL: string, THUMBMAIL: string, DOWNLOAD_LINK: string}}
+ */
+const ATTRIBUTE_TYPES = {
+  DEFAULT: 'DEFAULT',
+  BOOLEAN: 'BOOLEAN',
+  DATE_ISO8601: 'DATE_ISO8601',
+  DATE_INTERVAL: 'DATE_INTERVAL',
+  DATE_ARRAY: 'DATE_ARRAY',
+  DOUBLE_INTERVAL: 'DOUBLE_INTERVAL',
+  INTEGER: 'INTEGER',
+  INTEGER_INTERVAL: 'INTEGER_INTERVAL',
+  LONG_INTERVAL: 'LONG_INTERVAL',
+  STRING: 'STRING',
+  URL: 'URL',
+  THUMBMAIL: 'THUMBMAIL',
+  DOWNLOAD_LINK: 'DOWNLOAD_LINK',
+}
 
+/**
+ * Return the fixed type of a standard attribute
+ * @param standardAttribute
+ * @returns {*}
+ */
+function getStandardAttributeType(standardAttribute) {
+  switch (standardAttribute) {
+    case 'creationDate':
+    case 'lastUpdate':
+      return ATTRIBUTE_TYPES.DATE_ISO8601
+    case 'thumbmail' :
+      return ATTRIBUTE_TYPES.THUMBMAIL
+    case 'download' :
+      return ATTRIBUTE_TYPES.DOWNLOAD_LINK
+    case 'ipId':
+    case 'sipId':
+    case 'label':
+    default:
+      return ATTRIBUTE_TYPES.STRING
+
+  }
+}
+
+/**
+ * Return true if the standardAttribute name given is a standard attribute from files attribute.
+ *
+ * @param standardAttribute
+ * @returns {boolean}
+ */
+function getStandardAttributeEntityPathName(standardAttribute) {
+  if (standardAttribute === 'thumbmail' || standardAttribute === 'download') {
+    return SPECIAL_FILES_ATTRIBUTE_NAME
+  }
+  return standardAttribute
+}
 /**
   * Finds an attribute value from the full qualified path
   * @param entity entity source, structrures {content: ..., links: ... an so on}
@@ -101,9 +155,11 @@ export default {
   getAttributeFullyQualifiedName,
   getAttributeFullyQualifiedNameWithoutDefaultFragment,
   getEntityAttributeValue,
-  StandardAttributes,
+  getStandardAttributeType,
   findLabelFromAttributeFullyQualifiedName,
   findAttribute,
+  getStandardAttributeEntityPathName,
+  StandardAttributes,
+  ATTRIBUTE_TYPES,
   DEFAULT_FRAGMENT,
-  STANDARD_ATTRIBUTE_TYPE,
 }

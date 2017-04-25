@@ -3,25 +3,20 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { stub } from 'sinon'
+import { LinkComponent } from '@regardsoss/components'
+import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import UrlAttributesRender from '../../src/render/UrlAttributesRender'
+
+
+const context = buildTestContext(() => {})
 
 /**
  * Tests for AttributeConfigurationComponent
  * @author Sébastien binda
  */
 describe('[ATTRIBUTES COMMON] Testing UrlAttributesRender', () => {
-  // Since react will console.error propType warnings, that which we'd rather have
-  // as errors, we use sinon.js to stub it into throwing these warning as errors
-  // instead.
-  before(() => {
-    stub(console, 'error').callsFake((warning) => {
-      throw new Error(warning)
-    })
-  })
-  after(() => {
-    console.error.restore()
-  })
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
 
   it('Should render an url html link', () => {
     const props = {
@@ -29,12 +24,15 @@ describe('[ATTRIBUTES COMMON] Testing UrlAttributesRender', () => {
         'test.attribute': 'http://plop.test',
       },
     }
-    const wrapper = shallow(<UrlAttributesRender {...props} />)
+    const wrapper = shallow(<UrlAttributesRender {...props} />, context)
 
-    const value = wrapper.text()
-    assert.equal(value, 'http://plop.test', 'There should be an url value rendered')
+    const link = wrapper.find(LinkComponent)
+    assert.lengthOf(link, 1, 'There should be a LinkComponent rendered')
 
-    const link = wrapper.find('a')
-    assert.lengthOf(link, 1, 'There should be an html link rendered')
+    const linkWrapper = link.dive({ context })
+    const linkHref = linkWrapper.find('a')
+    const value = linkHref.text()
+    assert.equal(value, 'http://plop.test', 'Error rendering href link')
+    assert.lengthOf(linkHref, 1, 'There should be an html link rendered')
   })
 })

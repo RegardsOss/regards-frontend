@@ -69,9 +69,15 @@ class DatasetCellComponent extends React.Component {
    * Set the css styles when the cursor is hover the dataset cell
    * @param cursor
    */
-  setHoverStyle = (cursor) => {
+  setHoverStyle = () => {
     this.setState({
-      style: merge({}, this.props.styles.lineHover, { cursor }),
+      style: merge({}, this.props.styles.lineHover),
+    })
+  }
+
+  setHoverClickableStyle = () => {
+    this.setState({
+      style: merge({}, this.props.styles.lineHover, { cursor: 'pointer' }),
     })
   }
 
@@ -102,7 +108,10 @@ class DatasetCellComponent extends React.Component {
     })
 
     return (
-      <div style={this.props.styles.attribute}>
+      <div
+        key={`${attribute.content.fragment.name}.${attribute.content.name}`}
+        style={this.props.styles.attribute}
+      >
         <span
           style={this.props.styles.attributeLabel}
         >{attribute.content.label}</span>
@@ -169,16 +178,16 @@ class DatasetCellComponent extends React.Component {
       }}
     >
       <span
-        onMouseEnter={() => this.setHoverStyle('pointer')}
-        onMouseLeave={() => this.setHoverStyle('auto')}
+        onMouseEnter={this.setHoverClickableStyle}
+        onMouseLeave={this.setHoverStyle}
         onTouchTap={this.onDatasetSelection}
         style={{
           marginRight: 10,
         }}
       >{this.props.entity.content.label}</span>
       <InfoIcon
-        onMouseEnter={() => this.setHoverStyle('pointer')}
-        onMouseLeave={() => this.setHoverStyle('auto')}
+        onMouseEnter={this.setHoverClickableStyle}
+        onMouseLeave={this.setHoverStyle}
         onTouchTap={this.onDatasetInformation}
         style={{
           right: 15,

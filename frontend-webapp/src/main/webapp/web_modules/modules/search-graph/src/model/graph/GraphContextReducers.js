@@ -19,8 +19,8 @@ const getNewSelectionPath = (previousSelectionPath, { levelIndex, entity }) => {
   const newSelectionPath = previousSelectionPath.slice(0, levelIndex)
   // if selected entity is not null, ie not a selection reset on level, then consider it in selection path
   if (entity) {
-    const { ipId, type } = entity.content
-    newSelectionPath.push({ ipId, type })
+    const { ipId, type, label } = entity.content
+    newSelectionPath.push({ ipId, type, label })
   }
   return newSelectionPath
 }

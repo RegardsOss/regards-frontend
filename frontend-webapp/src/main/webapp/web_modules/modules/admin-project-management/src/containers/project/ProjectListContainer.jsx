@@ -5,7 +5,7 @@ import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { Project } from '@regardsoss/model'
 import { I18nProvider } from '@regardsoss/i18n'
-import { AuthenticateActions } from '@regardsoss/authentication-manager'
+import { AuthenticationClient } from '@regardsoss/authentication-manager'
 import NotifyLicenseUpdatedActions from '../../model/NotifyLicenseUpdatedActions'
 import { projectActions, projectSelectors } from '../../client/ProjectClient'
 import ProjectListComponent from '../../components/project/ProjectListComponent'
@@ -83,7 +83,7 @@ const mapDispatchToProps = dispatch => ({
   fetchProjectList: () => dispatch(projectActions.fetchPagedEntityList(0, 100)),
   deleteProject: projectName => dispatch(projectActions.deleteEntity(projectName)),
   updateLicense: projectName => dispatch(NotifyLicenseUpdatedActions.sendLicenseUpdatedNotification(projectName)),
-  onLogout: () => dispatch(AuthenticateActions.logout()),
+  onLogout: () => dispatch(AuthenticationClient.authenticationActions.logout()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectListContainer)

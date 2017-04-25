@@ -1,13 +1,18 @@
+/*
+ * LICENSE_PLACEHOLDER
+ */
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
-import { RenderTextField, Field, ValidationHelpers, ErrorTypes, reduxForm } from '@regardsoss/form-utils'
+import { RenderTextField, RenderFileField, Field, ValidationHelpers, ErrorTypes, reduxForm } from '@regardsoss/form-utils'
 import { themeContextType } from '@regardsoss/theme'
 import { Fragment } from '@regardsoss/model'
 
 
 /**
- * Display edit and create fragment form
+ * Form component to edit and create fragment
+ *
+ * @author Léo Mieulet
  */
 export class FragmentFormComponent extends React.Component {
 
@@ -15,6 +20,7 @@ export class FragmentFormComponent extends React.Component {
     currentFragment: Fragment,
     onSubmit: React.PropTypes.func.isRequired,
     backUrl: React.PropTypes.string.isRequired,
+    isCreating: React.PropTypes.bool.isRequired,
     // from reduxForm
     submitting: React.PropTypes.bool,
     pristine: React.PropTypes.bool,
@@ -27,13 +33,6 @@ export class FragmentFormComponent extends React.Component {
     ...themeContextType,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      isCreating: props.currentFragment === undefined,
-    }
-  }
-
   componentDidMount() {
     this.handleInitialize()
   }
@@ -42,7 +41,7 @@ export class FragmentFormComponent extends React.Component {
    * Initialize form fields
    */
   handleInitialize = () => {
-    if (!this.state.isCreating) {
+    if (!this.props.isCreating) {
       const { currentFragment } = this.props
       const initialValues = {
         description: currentFragment.content.description,
@@ -57,7 +56,7 @@ export class FragmentFormComponent extends React.Component {
    */
   render() {
     const { pristine, submitting, invalid } = this.props
-    const title = this.state.isCreating ? <FormattedMessage id="fragment.create.title" /> :
+    const title = this.props.isCreating ? <FormattedMessage id="fragment.create.title" /> :
       (<FormattedMessage
         id="fragment.edit.title"
         values={{
@@ -73,7 +72,7 @@ export class FragmentFormComponent extends React.Component {
             title={title}
           />
           <CardText>
-            <ShowableAtRender show={this.state.isCreating}>
+            <ShowableAtRender show={this.props.isCreating}>
               <Field
                 name="name"
                 fullWidth
@@ -89,6 +88,19 @@ export class FragmentFormComponent extends React.Component {
               type="text"
               label={<FormattedMessage id="fragment.form.description" />}
             />
+            <ShowableAtRender show={this.props.isCreating}>
+              <div>
+                <hr />
+                <br />
+                <FormattedMessage id="fragment.form.file" />
+                <Field
+                  name="file"
+                  fullWidth
+                  component={RenderFileField}
+                  accept=".xml"
+                />
+              </div>
+            </ShowableAtRender>
           </CardText>
           <CardActions>
             <CardActionsComponent

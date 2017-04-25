@@ -2,6 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import map from 'lodash/map'
+import { LinkComponent } from '@regardsoss/components'
 
 /**
  * Component to display url link attributes group value
@@ -19,7 +20,12 @@ class UrlAttributesRender extends React.Component {
       <span>
         {map(this.props.attributes, (attribute, key) => {
           if (attribute) {
-            return (<a key={key} target="_blank" rel="noopener noreferrer" href={String(attribute)}>{String(attribute)}</a>)
+            return (<LinkComponent
+              key={key}
+              target="_blank"
+              rel="noopener noreferrer"
+              link={String(attribute)}
+            />)
           }
           return null
         })}

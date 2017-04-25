@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { intlShape } from 'react-intl'
-import { AuthenticationParametersActions, AuthenticationParametersSelectors, AuthenticateSelectors } from '@regardsoss/authentication-manager'
+import { AuthenticationParametersActions, AuthenticationParametersSelectors, AuthenticationClient } from '@regardsoss/authentication-manager'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { EndpointActions } from '@regardsoss/endpoint'
 import { I18nProvider } from '@regardsoss/i18n'
@@ -106,10 +106,10 @@ class AdminApp extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  const authenticationResult = AuthenticateSelectors.getResult(state)
+  const authenticationResult = AuthenticationClient.authenticationSelectors.getResult(state)
   return {
     currentRole: authenticationResult ? authenticationResult.role : '',
-    isAuthenticated: AuthenticateSelectors.isAuthenticated(state),
+    isAuthenticated: AuthenticationClient.authenticationSelectors.isAuthenticated(state),
     project: AuthenticationParametersSelectors.getProject(state),
     isInstance: AuthenticationParametersSelectors.isInstance(state),
   }

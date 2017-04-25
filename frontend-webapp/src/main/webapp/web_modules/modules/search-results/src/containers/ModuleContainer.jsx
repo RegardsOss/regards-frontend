@@ -46,7 +46,15 @@ class ModuleContainer extends React.Component {
 
   render() {
     const { appName, project } = this.props
-    const { attributeModels, moduleConf: { enableFacettes, searchQuery, attributes, attributesRegroupements, resultType, hideDatasets = false } } = this.props
+    const { attributeModels, moduleConf: {
+      enableFacettes,
+      searchQuery,
+      attributes,
+      attributesRegroupements,
+      resultType,
+      hideDatasets = false,
+      breadcrumbInitialContextLabel,
+    } } = this.props
     const { attributesFetching } = this.state
 
     if (!attributesFetching) {
@@ -74,6 +82,7 @@ class ModuleContainer extends React.Component {
           attributeModels={attributeModels}
           target={resultType || SearchResultsTargetsEnum.DATAOBJECT_RESULTS}
           hideDatasets={hideDatasets}
+          breadcrumbInitialContextLabel={breadcrumbInitialContextLabel}
         />
       )
     }

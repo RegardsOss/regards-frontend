@@ -1,7 +1,8 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { map } from 'lodash'
+import map from 'lodash/map'
+import sortBy from 'lodash/sortBy'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
@@ -69,6 +70,8 @@ class ModuleListComponent extends React.Component {
     const name = this.state.moduleToDelete ? this.state.moduleToDelete.name : ' '
     const title = this.context.intl.formatMessage({ id: 'modules.list.delete.message' }, { name })
 
+    const sortedModules = sortBy(this.props.modules, module => module.content.description)
+
     return (
       <Card>
         <ShowableAtRender
@@ -95,9 +98,9 @@ class ModuleListComponent extends React.Component {
               displaySelectAll={false}
             >
               <TableRow>
+                <TableHeaderColumn><FormattedMessage id="modules.list.table.description" /></TableHeaderColumn>
                 <TableHeaderColumn><FormattedMessage id="modules.list.table.name" /></TableHeaderColumn>
                 <TableHeaderColumn><FormattedMessage id="modules.list.table.active" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="modules.list.table.description" /></TableHeaderColumn>
                 <TableHeaderColumn><FormattedMessage id="modules.list.table.actions" /></TableHeaderColumn>
               </TableRow>
             </TableHeader>
@@ -106,8 +109,9 @@ class ModuleListComponent extends React.Component {
               preScanRows={false}
               showRowHover
             >
-              {map(this.props.modules, (module, i) => (
+              {map(sortedModules, (module, i) => (
                 <TableRow key={i}>
+                  <TableRowColumn>{module.content.description}</TableRowColumn>
                   <TableRowColumn>{module.content.name}</TableRowColumn>
                   <TableRowColumn>
                     <HateoasToggle
@@ -117,7 +121,6 @@ class ModuleListComponent extends React.Component {
                       onToggle={() => this.props.onActivation(module.content)}
                     />
                   </TableRowColumn>
-                  <TableRowColumn>{module.content.description}</TableRowColumn>
                   <TableRowColumn>
                     <ActionsMenuCell>
                       <HateoasIconAction
