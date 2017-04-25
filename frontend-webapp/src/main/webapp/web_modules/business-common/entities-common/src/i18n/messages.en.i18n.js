@@ -8,7 +8,7 @@ const messages = {
   'entities.common.attributes.column.label': 'Label',
   'entities.common.attributes.column.value': 'Value',
   'entities.common.attribute.cell.no.value': '-',
-  'entities.common.description.no.value.description': 'No description',
+  'entities.common.description.no.value.title': 'No description',
   'entities.common.description.no.value.message': 'There is no description to display for {entityLabel}',
 }
 

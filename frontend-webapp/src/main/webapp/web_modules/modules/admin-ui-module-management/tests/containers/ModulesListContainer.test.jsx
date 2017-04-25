@@ -3,7 +3,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { stub, spy } from 'sinon'
+import { spy } from 'sinon'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { UnconnectedModulesListContainer } from '../../src/containers/ModulesListContainer'

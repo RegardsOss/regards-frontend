@@ -72,16 +72,21 @@ export class DetailViewContainer extends React.Component {
     downloadDescriptionClient: React.PropTypes.instanceOf(DownloadDescriptionClient).isRequired,
     // from mapStateToProps
     loading: React.PropTypes.bool.isRequired, // is currently loading
+    // eslint-disable-next-line react/no-unused-prop-types
     fetchedModelAttributes: React.PropTypes.objectOf(ModelAttribute),
+    // eslint-disable-next-line react/no-unused-prop-types
     fetchedDatasetDescriptionResult: React.PropTypes.shape({
       fileContent: React.PropTypes.string,
     }),
+    // eslint-disable-next-line react/no-unused-prop-types
     fetchedCollectionDescriptionResult: React.PropTypes.shape({
       fileContent: React.PropTypes.string,
     }),
 
     // from mapDispatchToProps
+    // eslint-disable-next-line react/no-unused-prop-types
     dispatchFetchDescription: React.PropTypes.func.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
     dispatchFetchModelAttributes: React.PropTypes.func.isRequired,
   }
 
@@ -138,7 +143,7 @@ export class DetailViewContainer extends React.Component {
     dispatchFetchDescription,
     dispatchFetchModelAttributes,
   }, previousProps = {}) => {
-    const { entity: currentEntity } = this.props
+    const { entity: currentEntity } = previousProps
 
     // 1 - detect entity change to load required data
     if (!isEqual(currentEntity, nextEntity) && !isEmpty(nextEntity)) {

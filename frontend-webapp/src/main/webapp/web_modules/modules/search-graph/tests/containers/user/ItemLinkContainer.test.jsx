@@ -21,7 +21,11 @@ describe('[Search Graph] Testing ItemLinkContainer', () => {
     const props = {
       Icon: () => <div />,
       entity: {
-        content: { label: 'Héssketumanteného' },
+        content: {
+          ipId: 'lalala',
+          type: 'DATASET',
+          label: 'Héssketumanteného',
+        },
       },
       additiveLineComponent: <a>Non</a>,
       onSelect: () => { },
@@ -45,7 +49,11 @@ describe('[Search Graph] Testing ItemLinkContainer', () => {
     const props = {
       Icon: () => <div />,
       entity: {
-        content: { label: 'tant mieux' },
+        content: {
+          ipId: 'lalala',
+          type: 'DATASET',
+          label: 'tant mieux',
+        },
       },
       additiveLineComponent: <a>Non</a>,
       onSelect: () => { },
@@ -83,7 +91,11 @@ describe('[Search Graph] Testing ItemLinkContainer', () => {
     const props = {
       Icon: () => <div />,
       entity: {
-        content: { label: 'tant mieux' },
+        content: {
+          ipId: 'lalala',
+          type: 'DATASET',
+          label: 'tant mieux',
+        },
       },
       additiveLineComponent: <a>Non</a>,
       onSelect: () => { },
@@ -121,7 +133,11 @@ describe('[Search Graph] Testing ItemLinkContainer', () => {
     const props = {
       Icon: () => <div />,
       entity: {
-        content: { label: 'tant mieux' },
+        content: {
+          ipId: 'lalala',
+          type: 'DATASET',
+          label: 'tant mieux',
+        },
       },
       additiveLineComponent: <a>Non</a>,
       onSelect: () => { },
@@ -155,7 +171,11 @@ describe('[Search Graph] Testing ItemLinkContainer', () => {
     const props = {
       Icon: () => <div />,
       entity: {
-        content: { label: 'tant mieux' },
+        content: {
+          ipId: 'lalala',
+          type: 'DATASET',
+          label: 'tant mieux',
+        },
       },
       additiveLineComponent: <a>Non</a>,
       onSelect: () => { },

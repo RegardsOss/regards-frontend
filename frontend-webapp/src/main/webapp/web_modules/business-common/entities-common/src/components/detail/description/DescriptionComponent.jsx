@@ -21,6 +21,7 @@ class DescriptionViewComponent extends React.Component {
     descriptionFileURL: React.PropTypes.string,
     // Description file when it should be accessed by content
     descriptionFile: React.PropTypes.shape({
+      id: React.PropTypes.number.isRequired,
       contentType: React.PropTypes.string.isRequired,
       content: React.PropTypes.string.isRequired,
     }),

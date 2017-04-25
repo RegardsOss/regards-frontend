@@ -11,6 +11,7 @@ const attributeModel = {
   content: {
     id: 0,
     name: 'Attribute_0_0',
+    label: 'kikou',
     description: "Description de l'attribut 0 - 0",
     defaultValue: null,
     type: 'STRING',
@@ -45,6 +46,7 @@ const modelAttribute = {
       id: 4,
       name: 'Attribute_4',
       description: "Description de l'attribut 0 - 0",
+      label: 'kikou',
       defaultValue: null,
       type: 'STRING',
       unit: null,
@@ -86,7 +88,7 @@ describe('[ADMIN DATA MODEL ATTRIBUTE MANAGEMENT] Testing ModelAttributeContaine
       // from mapStateToProps
       modelAttribute,
       // from mapDispatchToProps
-      updateModelAttribute: () => {},
+      updateModelAttribute: () => { },
     }
     const enzymeWrapper = shallow(<ModelAttributeContainer {...props} />)
     const subComponent = enzymeWrapper.find(ModelAttributeComponent)

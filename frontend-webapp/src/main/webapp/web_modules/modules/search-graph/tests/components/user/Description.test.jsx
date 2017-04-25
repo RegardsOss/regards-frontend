@@ -4,8 +4,10 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { DetailViewContainer } from '@regardsoss/entities-common'
+import downloadDescriptionClient from '../../../src/model/client/DownloadDescriptionClient'
+import { modelAttributesAction, modelAttributesSelector } from '../../../src/model/client/ModelAttributeClient'
 import Description from '../../../src/components/user/Description'
-import { DetailViewComponent } from '@regardsoss/entities-common'
 import styles from '../../../src/styles/styles'
 
 const context = buildTestContext(styles)
@@ -19,12 +21,15 @@ describe('[Search Graph] Testing Description', () => {
   })
   it('should render correctly, propagating properties to children', () => {
     const props = {
-      isDescriptionVisible: React.PropTypes.bool.isRequired,
-      entity: { content: { label: 'Youpi' } },
+      isDescriptionVisible: true,
+      entity: { content: { ipId: 'kikou', type: 'DATASET', label: 'Youpi' } },
       onCloseDescription: () => { },
+      downloadDescriptionClient,
+      fetchModelAttributesActions: modelAttributesAction,
+      fetchModelAttributesSelectors: modelAttributesSelector,
     }
     const enzymeWrapper = shallow(<Description {...props} />, { context })
-    const detailView = enzymeWrapper.find(DetailViewComponent)
+    const detailView = enzymeWrapper.find(DetailViewContainer)
     assert.lengthOf(detailView, 1, 'It should use a detail view component from common entities package')
     testSuiteHelpers.assertWrapperProperties(detailView, {
       open: props.isDescriptionVisible,

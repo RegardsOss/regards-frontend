@@ -20,7 +20,7 @@ const entityTester = new ReduxEntityTester(AttributeModelActions, AttributeModel
  * Tests for AttrubuteModel
  * @author Sébastien binda
  */
-describe('[FORM MODULE] Testing model AttributeModel', () => {
+describe('[SEARCH FORM] Testing model AttributeModel', () => {
   before(() => {
     entityTester.beforeAll()
   })
