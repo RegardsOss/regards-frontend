@@ -78,7 +78,7 @@ class TablePane extends React.Component {
   */
   onComponentResized = ({ width }) => {
     // avoid handling event if same width...
-    if (this.state.tableWidth !== width) {
+    if (width > this.state.tableWidth + 20 || width < this.state.tableWidth - 20) {
       this.setState({ tableWidth: width })
     }
   }

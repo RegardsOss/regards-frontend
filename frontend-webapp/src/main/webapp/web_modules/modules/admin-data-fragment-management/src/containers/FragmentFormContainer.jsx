@@ -4,12 +4,15 @@
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
-import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
 import { Fragment } from '@regardsoss/model'
+import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import FragmentFormComponent from '../components/FragmentFormComponent'
-import FragmentActions from '../model/FragmentActions'
-import FragmentSelectors from '../model/FragmentSelectors'
+import { fragmentActions, fragmentSelectors } from '../client/FragmentClient'
 
+/**
+ * React container to manage the fragment form.
+ * @author Léo Mieulet
+ */
 export class FragmentFormContainer extends React.Component {
   static propTypes = {
     // from router
@@ -19,54 +22,36 @@ export class FragmentFormContainer extends React.Component {
     }),
     // from mapStateToProps
     fragment: Fragment,
-    isFragmentFetching: React.PropTypes.bool,
     // from mapDispatchToProps
     createFragment: React.PropTypes.func,
+    createFragmentUsingFile: React.PropTypes.func,
     fetchFragment: React.PropTypes.func,
     updateFragment: React.PropTypes.func,
   }
 
   constructor(props) {
     super(props)
+    const isEditing = props.params.fragment_id !== undefined
     this.state = {
-      isEditing: props.params.fragment_id !== undefined,
+      isEditing,
+      isLoading: isEditing,
     }
   }
 
   componentDidMount() {
     if (this.state.isEditing) {
       this.props.fetchFragment(this.props.params.fragment_id)
+        .then(() => {
+          this.setState({
+            isLoading: false,
+          })
+        })
     }
   }
 
   getBackUrl = () => {
     const { params: { project } } = this.props
     return `/admin/${project}/data/fragment/list`
-  }
-
-  /**
-   * Return React form component
-   * @returns {XML}
-   */
-  getFormComponent = () => {
-    if (this.state.isEditing) {
-      const { isFragmentFetching, fragment } = this.props
-      if (isFragmentFetching) {
-        return (<FormLoadingComponent />)
-      }
-      if (fragment) {
-        return (<FragmentFormComponent
-          onSubmit={this.handleUpdate}
-          backUrl={this.getBackUrl()}
-          currentFragment={fragment}
-        />)
-      }
-      return (<FormEntityNotFoundComponent />)
-    }
-    return (<FragmentFormComponent
-      onSubmit={this.handleCreate}
-      backUrl={this.getBackUrl()}
-    />)
   }
 
   /**
@@ -93,11 +78,19 @@ export class FragmentFormContainer extends React.Component {
    * @param values form values
    */
   handleCreate = (values) => {
-    const newFragment = {
-      name: values.name,
-      description: values.description,
+    let task
+    if (values.file) {
+      task = this.props.createFragmentUsingFile({
+        file: values.file,
+      })
+    } else {
+      const newFragment = {
+        name: values.name,
+        description: values.description,
+      }
+      task = this.props.createFragment(newFragment)
     }
-    Promise.resolve(this.props.createFragment(newFragment))
+    Promise.resolve(task)
     .then((actionResult) => {
       // We receive here the action
       if (!actionResult.error) {
@@ -108,22 +101,32 @@ export class FragmentFormContainer extends React.Component {
   }
 
   render() {
+    const { isLoading, isEditing } = this.state
     return (
       <I18nProvider messageDir="modules/admin-data-fragment-management/src/i18n">
-        {this.getFormComponent()}
+        <LoadableContentDisplayDecorator isLoading={isLoading}>
+          {() => (
+            <FragmentFormComponent
+              onSubmit={isEditing ? this.handleUpdate : this.handleCreate}
+              backUrl={this.getBackUrl()}
+              isCreating={!isEditing}
+              currentFragment={this.props.fragment}
+            />
+          )}
+        </LoadableContentDisplayDecorator>
       </I18nProvider>
     )
   }
 }
 const mapStateToProps = (state, ownProps) => ({
-  fragment: ownProps.params.fragment_id ? FragmentSelectors.getById(state, ownProps.params.fragment_id) : null,
-  isFragmentFetching: FragmentSelectors.isFetching(state),
+  fragment: ownProps.params.fragment_id ? fragmentSelectors.getById(state, ownProps.params.fragment_id) : null,
 })
 
 const mapDispatchToProps = dispatch => ({
-  createFragment: values => dispatch(FragmentActions.createEntity(values)),
-  updateFragment: (id, values) => dispatch(FragmentActions.updateEntity(id, values)),
-  fetchFragment: id => dispatch(FragmentActions.fetchEntity(id)),
+  createFragment: values => dispatch(fragmentActions.createEntity(values)),
+  createFragmentUsingFile: file => dispatch(fragmentActions.createEntityUsingMultiPart({}, file)),
+  updateFragment: (id, values) => dispatch(fragmentActions.updateEntity(id, values)),
+  fetchFragment: id => dispatch(fragmentActions.fetchEntity(id)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(FragmentFormContainer)

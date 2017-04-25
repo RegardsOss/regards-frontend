@@ -45,6 +45,8 @@ import ActionsMenuCell from './table/content/cells/ActionsMenuCell'
 
 import SVGIconFromString from './icon/SVGIconFromString'
 
+import LinkComponent from './links/LinkComponent'
+
 export {
   ActionButtonComponent,
   ActionIconWithNotifications,
@@ -77,4 +79,5 @@ export {
   ShowableAtRender,
   PluginConfigurationPickerComponent,
   SVGIconFromString,
+  LinkComponent,
 }

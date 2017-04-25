@@ -17,7 +17,7 @@ const entityTester = new ReduxEntityTester(ModulesActions, ModulesReducer, Modul
  * Tests for Modules entities
  * @author Sébastien binda
  */
-describe('[ADMIN UI MODULE MANAGEMENT] Testing model Module', () => {
+describe('[ADMIN CLIENT] Testing client Module', () => {
   before(() => {
     entityTester.beforeAll()
   })

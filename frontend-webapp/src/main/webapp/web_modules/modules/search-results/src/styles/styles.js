@@ -13,6 +13,27 @@ const formStyles = theme => ({
     },
   },
   user: {
+    breadcrumb: {
+      path: {
+        color: theme.palette.textColor,
+        backgroundColor: 'transparent',
+        border: 'none',
+        padding: '0px',
+        font: 'inherit',
+      },
+      pathHover: {
+        cursor: 'pointer',
+        color: theme.palette.accent1Color,
+        backgroundColor: 'transparent',
+        border: 'none',
+        padding: '0px',
+        font: 'inherit',
+      },
+      separator: {
+        verticalAlign: 'text-bottom',
+        margin: ' 0px 5px',
+      },
+    },
     searchButtonContainer: {
       display: 'flex',
       alignItems: 'center',

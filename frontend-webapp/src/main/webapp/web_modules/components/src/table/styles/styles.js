@@ -57,12 +57,12 @@ export default (theme) => {
     },
     cellOdd: {
       ...commonCellOdd,
-      borderRight: cellBorder,
+      //borderRight: cellBorder,
     },
     lastCellOdd: { ...commonCellOdd },
     cellEven: {
       ...commonCellEven,
-      borderRight: cellBorder,
+      //borderRight: cellBorder,
     },
     lastCellEven: { ...commonCellEven },
     cellOddContent: {
@@ -86,7 +86,7 @@ export default (theme) => {
     cellHeader: {
       ...commonHeaderStyles,
       alignItems: 'center',
-      borderRight: cellBorder,
+      //borderRight: cellBorder,
     },
     lastCellHeader: {
       ...commonHeaderStyles,

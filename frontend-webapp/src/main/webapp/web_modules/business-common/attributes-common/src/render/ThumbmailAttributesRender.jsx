@@ -26,7 +26,6 @@ class ThumbmailAttributesRender extends React.Component {
     super(props)
     this.state = {
       displayFullSize: false,
-      plop: false,
     }
   }
 
@@ -40,7 +39,6 @@ class ThumbmailAttributesRender extends React.Component {
         >
           <div>
             <img src={uri} alt="" style={{ maxWidth: 500 }} />
-            {this.state.plop}
           </div>
         </Dialog>
       )

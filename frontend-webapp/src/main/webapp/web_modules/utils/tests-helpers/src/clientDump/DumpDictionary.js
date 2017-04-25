@@ -1,5 +1,6 @@
 import UIPluginConfigurationClientDump from '@regardsoss/client/tests/rs-access-project/UIPluginConfiguration.dump'
 import UIPluginDefinitionClientDump from '@regardsoss/client/tests/rs-access-project/UIPluginDefinition.dump'
+import FragmentClientDump from '@regardsoss/client/tests/rs-dam/Fragment.dump'
 
 import {
   // UIPluginConfiguration
@@ -10,6 +11,8 @@ import {
   PluginConfiguration,
   PLUGIN_ARRAY,
 
+  FragmentConfiguration,
+  FRAGMENT_ARRAY,
 } from '@regardsoss/api'
 
 /**
@@ -32,6 +35,14 @@ export default {
       dump: UIPluginDefinitionClientDump,
       ENTITY_ARRAY: PLUGIN_ARRAY,
       normalizrKey: PluginConfiguration.normalizrKey,
+    },
+  },
+  DataManagementClient: {
+    Fragment: {
+      isPageable: false,
+      dump: FragmentClientDump,
+      ENTITY_ARRAY: FRAGMENT_ARRAY,
+      normalizrKey: FragmentConfiguration.normalizrKey,
     },
   },
 }

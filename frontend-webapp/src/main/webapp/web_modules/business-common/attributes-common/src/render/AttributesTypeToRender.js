@@ -10,6 +10,7 @@ import DateArrayAttributesRender from './DateArrayAttributesRender'
 import UrlAttributesRender from './UrlAttributesRender'
 import BooleanAttributesRender from './BooleanAttributesRender'
 import ThumbmailAttributesRender from './ThumbmailAttributesRender'
+import RawDataAttributesRender from './RawDataAttributesRender'
 
 /**
  * Enum to associate attribute types to sRender renderer component.
@@ -30,6 +31,7 @@ const typeToRenderMap = {
   STRING: StringAttributesRender,
   THUMBMAIL: ThumbmailAttributesRender,
   URL: UrlAttributesRender,
+  DOWNLOAD_LINK: RawDataAttributesRender,
 }
 
 /**

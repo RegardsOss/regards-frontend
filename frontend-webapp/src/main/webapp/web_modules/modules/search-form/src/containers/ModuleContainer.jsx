@@ -269,6 +269,7 @@ class ModuleContainer extends React.Component {
           selectableAttributes: this.props.attributeModels,
           enableFacettes: this.props.moduleConf.enableFacettes,
           searchQuery: this.state.searchQuery,
+          breadcrumbInitialContextLabel: this.props.description,
         },
       }
 

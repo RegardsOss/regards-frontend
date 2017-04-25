@@ -34,7 +34,26 @@ const findAttributeConf = (attributesList, attributeConfigurationToFind) => {
   return find(attributesList, attribute => AttributeModelController.getAttributeFullyQualifiedName(attribute) === attributeConfigurationToFind.attributeFullQualifiedName)
 }
 
+/**
+ * Return an AttributeConfiguration for the given standardAttribute. Return null if attribute is not a standard attribute
+ * @param standardAttribute
+ * @returns {{content: {label: *, name: *, type: *}}}
+ */
+const getStandardAttributeConf = (standardAttribute) => {
+  if (AttributeModelController.StandardAttributes.find(attribute => attribute === standardAttribute)) {
+    return {
+      content: {
+        label: standardAttribute,
+        name: standardAttribute,
+        type: AttributeModelController.getStandardAttributeType(standardAttribute),
+      },
+    }
+  }
+  return null
+}
+
 export default {
   isStandardAttribute,
   findAttributeConf,
+  getStandardAttributeConf,
 }
