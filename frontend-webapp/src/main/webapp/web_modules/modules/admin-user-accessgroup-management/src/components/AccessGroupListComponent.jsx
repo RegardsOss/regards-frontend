@@ -70,7 +70,7 @@ export class AccessGroupListComponent extends React.Component {
               showRowHover
             >
               {map(accessGroupList, (accessGroup, i) => (
-                <TableRow key={i}>
+                <TableRow className={`selenium-group-${accessGroup.content.name}`} key={i}>
                   <TableRowColumn>{accessGroup.content.name}</TableRowColumn>
                   <TableRowColumn>{accessGroup.content.users.length}</TableRowColumn>
                   <TableRowColumn>
@@ -109,6 +109,7 @@ export class AccessGroupListComponent extends React.Component {
                 id="group.list.action.add"
               />
             }
+            mainButtonClassName="selenium-createButton"
             mainHateoasDependency={AccessGroupActions.getDependency(RequestVerbEnum.POST)}
             secondaryButtonLabel={<FormattedMessage id="group.list.action.cancel" />}
             secondaryButtonUrl={backUrl}

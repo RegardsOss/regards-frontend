@@ -139,7 +139,7 @@ export class ProjectUserCreateComponent extends React.Component {
         {group.content.name}
       </Chip>)}
     <ShowableAtRender show={this.state.tempGroup.length !== Object.keys(this.props.groupList).length}>
-      <Chip style={this.style.chip} onTouchTap={this.handlePopoverOpen} backgroundColor={this.style.chipBackground}>
+      <Chip className="selenium-addChip" style={this.style.chip} onTouchTap={this.handlePopoverOpen} backgroundColor={this.style.chipBackground}>
         <Avatar
           backgroundColor={this.style.avatarBackground}
           size={32}

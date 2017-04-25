@@ -21,11 +21,13 @@ export default (project, intl) => [
     actions: [{
       path: `/admin/${project}/user/project-user/list`,
       icon: <UsersListWithCountIconContainer />,
+      className: 'selenium-userList',
       tooltipMsg: intl.formatMessage({ id: 'user.board.tooltip.list' }),
       hateoasDependencies: UserEditDep,
     }, {
       path: `/admin/${project}/user/project-user/create`,
       icon: <AddIcon />,
+      className: 'selenium-userCreate',
       tooltipMsg: intl.formatMessage({ id: 'user.board.tooltip.add' }),
       hateoasDependencies: UserAddDep,
     }],
@@ -37,11 +39,13 @@ export default (project, intl) => [
     actions: [{
       path: `/admin/${project}/user/role/list`,
       icon: <ViewLinesIcon />,
+      className: 'selenium-roleList',
       tooltipMsg: intl.formatMessage({ id: 'user.board.tooltip.list' }),
       hateoasDependencies: RoleEditDep,
     }, {
       path: `/admin/${project}/user/role/create`,
       icon: <AddIcon />,
+      className: 'selenium-roleCreate',
       tooltipMsg: intl.formatMessage({ id: 'user.board.tooltip.add' }),
       hateoasDependencies: RoleAddDep,
     }],
@@ -53,11 +57,13 @@ export default (project, intl) => [
     actions: [{
       path: `/admin/${project}/user/accessgroup/list`,
       icon: <ViewLinesIcon />,
+      className: 'selenium-accessgroupList',
       tooltipMsg: intl.formatMessage({ id: 'user.board.tooltip.list' }),
       hateoasDependencies: GroupEditDep,
     }, {
       path: `/admin/${project}/user/accessgroup/create`,
       icon: <AddIcon />,
+      className: 'selenium-accessgroupCreate',
       tooltipMsg: intl.formatMessage({ id: 'user.board.tooltip.add' }),
       hateoasDependencies: GroupAddDep,
     }],
