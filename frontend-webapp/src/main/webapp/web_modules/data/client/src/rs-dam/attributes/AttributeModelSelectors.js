@@ -1,10 +1,10 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { BasicPageableSelectors } from '@regardsoss/store-utils'
+import { BasicListSelectors } from '@regardsoss/store-utils'
 
 /**
- * Store selector to access projects entities.
+ * Store selector to Attribute entities.
  *
  * To use this selector, you need to pass a parameter : <storePath>.
  *
@@ -12,5 +12,5 @@ import { BasicPageableSelectors } from '@regardsoss/store-utils'
  * With this exemple, all projects will be stored in the subpart 'common.attribute-model' of the global
  * application store.
  */
-export default storePath => new BasicPageableSelectors(storePath)
+export default storePath => new BasicListSelectors(storePath)
 

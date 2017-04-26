@@ -8,7 +8,7 @@ const messages = Object.assign({
   'invalid.require_plugin_configuration': 'Vous devez sélectionner quelle configuration de plugin vous souhaitez utiliser',
   'accessright.title': 'Gestions des droits d\'accès aux jeux de données par groupe d\'accès',
   'accessright.subtitle': 'Sélectionnez un groupe de d\'accès, sélectionnez ensuite les jeux auquel il a accès puis configurez cet accès',
-  'accessright.form.accesslevel': 'Niveau d\'accès aux meta-data des collections',
+  'accessright.form.accesslevel': 'Niveau d\'accès aux meta-données des jeux de données',
   'accessright.form.accesslevel.NO_ACCESS': 'Aucun accès',
   'accessright.form.accesslevel.RESTRICTED_ACCESS': 'Accès réduit',
   'accessright.form.accesslevel.FULL_ACCESS': 'Accès complet',

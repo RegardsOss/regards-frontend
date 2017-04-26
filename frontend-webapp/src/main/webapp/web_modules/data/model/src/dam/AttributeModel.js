@@ -1,4 +1,4 @@
-import Fragment from './Fragment'
+import { InternalFragment } from './Fragment'
 
 const AttributeModel = React.PropTypes.shape({
   content: React.PropTypes.shape({
@@ -11,7 +11,7 @@ const AttributeModel = React.PropTypes.shape({
     unit: React.PropTypes.string,
     precision: React.PropTypes.number,
     arraysize: React.PropTypes.number,
-    fragment: Fragment,
+    fragment: InternalFragment,
     queryable: React.PropTypes.bool,
     facetable: React.PropTypes.bool,
     alterable: React.PropTypes.bool,

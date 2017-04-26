@@ -8,7 +8,7 @@ import { fragmentActions } from './client/FragmentClient'
  * Mandatory Dependencies to display module in parent board
  * @type {Array}
  */
-const boardListRequiredDependencies = [
+const listDependencies = [
   fragmentActions.getDependency(RequestVerbEnum.GET_LIST),
   fragmentActions.getDependency(RequestVerbEnum.GET),
 ]
@@ -17,12 +17,12 @@ const boardListRequiredDependencies = [
  * Mandatory Dependencies to display module in parent board
  * @type {Array}
  */
-const boardAddRequiredDependencies = [
+const addDependencies = [
   fragmentActions.getDependency(RequestVerbEnum.POST),
 ]
 
 
 export default {
-  boardListRequiredDependencies,
-  boardAddRequiredDependencies,
+  listDependencies,
+  addDependencies,
 }

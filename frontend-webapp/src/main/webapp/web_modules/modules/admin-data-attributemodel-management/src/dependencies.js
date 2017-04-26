@@ -2,46 +2,26 @@
  * LICENSE_PLACEHOLDER
  **/
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import AttributeModelActions from './model/AttributeModelActions'
+import { attributeModelActions } from './client/AttributeModelClient'
 
 
 /**
- * Module hateoas depencies
- * @author Sébastien binda
- */
-const EditDependencies = [
-  AttributeModelActions.getDependency(RequestVerbEnum.PUT),
-  AttributeModelActions.getDependency(RequestVerbEnum.POST),
-  AttributeModelActions.getDependency(RequestVerbEnum.DELETE),
-]
-const AddDependencies = [
-  AttributeModelActions.getDependency(RequestVerbEnum.POST),
-]
-
-export {
-  EditDependencies,
-  AddDependencies,
-}
-
-/**
- * Mandatory Dependencies to display module in user interface
+ * Mandatory Dependencies to display module in parent board
  * @type {Array}
  */
-const user = []
-
-/**
- * Mandatory Dependencies to display module in admin interface
- * @type {Array}
- */
-const admin = [
-  AttributeModelActions.getDependency(RequestVerbEnum.GET_LIST),
-  AttributeModelActions.getDependency(RequestVerbEnum.GET),
-  AttributeModelActions.getDependency(RequestVerbEnum.PUT),
-  AttributeModelActions.getDependency(RequestVerbEnum.POST),
-  AttributeModelActions.getDependency(RequestVerbEnum.DELETE),
+const listDependencies = [
+  attributeModelActions.getDependency(RequestVerbEnum.GET_LIST),
+  attributeModelActions.getDependency(RequestVerbEnum.GET),
 ]
 
+/**
+ * Mandatory Dependencies to display module in parent board
+ * @type {Array}
+ */
+const addDependencies = [
+  attributeModelActions.getDependency(RequestVerbEnum.POST),
+]
 export default {
-  user,
-  admin,
+  listDependencies,
+  addDependencies,
 }

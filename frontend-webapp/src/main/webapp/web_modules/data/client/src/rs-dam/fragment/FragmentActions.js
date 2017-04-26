@@ -18,7 +18,7 @@ import { BasicListActions } from '@regardsoss/store-utils'
  *
  * @author Léo Mieulet
  */
-class FragmentActions extends BasicListActions {
+export default class FragmentActions extends BasicListActions {
   constructor(namespace) {
     super({
       namespace,
@@ -47,5 +47,3 @@ class FragmentActions extends BasicListActions {
     return resultingAction
   }
 }
-
-export default namespace => new FragmentActions(namespace)
