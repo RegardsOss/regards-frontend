@@ -2,6 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import map from 'lodash/map'
+import forEach from 'lodash/forEach'
 import RaisedButton from 'material-ui/RaisedButton'
 import Dialog from 'material-ui/Dialog'
 import Subheader from 'material-ui/Subheader'
@@ -9,7 +10,7 @@ import { FormattedMessage } from 'react-intl'
 import { SubmissionError } from 'redux-form'
 import { ConfirmDialogComponent } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
-import { AttributeConfiguration, AttributeModel } from '@regardsoss/model'
+import { AttributesRegroupementConfiguration, AttributeModel } from '@regardsoss/model'
 import AttributeRegroupementFormComponent from './AttributeRegroupementFormComponent'
 import AttributeRegroupementComponent from './AttributeRegroupementComponent'
 
@@ -22,7 +23,7 @@ class AttributeRegroupementConfigurationComponent extends React.Component {
   static propTypes = {
     // Available Attributes for configuration
     selectableAttributes: React.PropTypes.objectOf(AttributeModel).isRequired,
-    attributesRegroupementsConf: React.PropTypes.arrayOf(AttributeConfiguration).isRequired,
+    attributesRegroupementsConf: React.PropTypes.arrayOf(AttributesRegroupementConfiguration).isRequired,
     onChangeRegroupenentConfiguration: React.PropTypes.func.isRequired,
     onDeleteRegroupement: React.PropTypes.func.isRequired,
   }
@@ -93,6 +94,16 @@ class AttributeRegroupementConfigurationComponent extends React.Component {
     })
   }
 
+  validateLabel = (label) => {
+    let error
+    forEach(this.props.attributesRegroupementsConf, (regroupement) => {
+      if (regroupement.label === label) {
+        error = 'form.attributes.regroupement.form.error.label.aleady.exists'
+      }
+    })
+    return error
+  }
+
   /**
    * Render the new attribute regroupement form dialog
    * @returns {*}
@@ -108,9 +119,9 @@ class AttributeRegroupementConfigurationComponent extends React.Component {
           <AttributeRegroupementFormComponent
             attributesRegrp={this.state.editingRegroupement}
             selectableAttributes={this.props.selectableAttributes}
-            onChange={this.props.onChangeRegroupenentConfiguration}
             onClose={this.handleCloseDialog}
             onSubmit={this.addNewRegrp}
+            validateLabel={this.validateLabel}
           />
         </Dialog>
       )

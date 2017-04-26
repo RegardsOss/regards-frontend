@@ -41,6 +41,10 @@ const messages = Object.assign({
   'navigation.dataobjects.label': 'Objets de données',
   'navigation.datasets.label': 'Jeux de données',
   'navigation.filter.by.facets': 'Filtres',
+  'list.sort.prefix.label': 'Tri :',
+  'list.sort.none.label': 'Aucun',
+  'view.type.table.button.label': 'Afficher les résultats dans un tableau',
+  'view.type.list.button.label': 'Afficher les résultats en liste',
 }, Locales.fr)
 
 export default messages
