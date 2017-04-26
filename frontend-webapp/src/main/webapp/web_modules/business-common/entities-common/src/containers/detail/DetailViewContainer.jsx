@@ -5,7 +5,7 @@ import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
 import map from 'lodash/map'
 import { connect } from '@regardsoss/redux'
-import { CatalogEntity, CatalogEntityTypes, Percent, ModelAttribute, AttributeModelController } from '@regardsoss/model'
+import { CatalogEntity, CatalogEntityTypes, ModelAttribute, AttributeModelController } from '@regardsoss/model'
 import { DataManagementClient } from '@regardsoss/client'
 import { BasicListSelectors } from '@regardsoss/store-utils'
 import { I18nProvider } from '@regardsoss/i18n'
@@ -58,9 +58,7 @@ export class DetailViewContainer extends React.Component {
     // Component API
     open: React.PropTypes.bool.isRequired,
     entity: CatalogEntity, // entity, or undefined / null / empty object if not shown
-    dialogHeightPercent: Percent.isRequired,
-    dialogWidthPercent: Percent.isRequired,
-    onClose: React.PropTypes.func.isRequired, // on cloase callback
+    onClose: React.PropTypes.func.isRequired, // on close callback
     // Component fetch operators
     // model attributes to model association (only for mapDispatchToProps and map states to props)
     // eslint-disable-next-line react/no-unused-prop-types
@@ -136,7 +134,6 @@ export class DetailViewContainer extends React.Component {
    */
   updateState = ({
     entity: nextEntity,
-    open: nextOpened,
     fetchedCollectionDescriptionResult: nextCollectionDesc,
     fetchedDatasetDescriptionResult: nextDatasetDesc,
     fetchedModelAttributes: nextModelAttributes,
@@ -221,7 +218,7 @@ export class DetailViewContainer extends React.Component {
 
 
   render() {
-    const { entity, open, loading, dialogHeightPercent, dialogWidthPercent, onClose } = this.props
+    const { entity, open, loading, onClose } = this.props
     const { attributes, description: { url, localContent } } = this.state
     return (
       <I18nProvider messageDir="business-common/entities-common/src/i18n">
@@ -233,8 +230,6 @@ export class DetailViewContainer extends React.Component {
             descriptionFile={localContent}
             open={open}
             loaded={!loading}
-            dialogHeightPercent={dialogHeightPercent}
-            dialogWidthPercent={dialogWidthPercent}
             onClose={onClose}
           />
         </ModuleThemeProvider>

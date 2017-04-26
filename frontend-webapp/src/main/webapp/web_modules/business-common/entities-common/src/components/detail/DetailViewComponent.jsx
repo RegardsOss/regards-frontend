@@ -1,13 +1,11 @@
 /**
-* LICENSE_PLACEHOLDER
-**/
-import { Tabs, Tab } from 'material-ui/Tabs'
+ * LICENSE_PLACEHOLDER
+ **/
+import { Tab, Tabs } from 'material-ui/Tabs'
 import FlatButton from 'material-ui/FlatButton'
 import { FormattedMessage } from 'react-intl'
 import Measure from 'react-measure'
-import { Percent } from '@regardsoss/model'
 import { LoadableContentDialogContainer } from '@regardsoss/components'
-
 import { themeContextType } from '@regardsoss/theme'
 import AttributesViewComponent from './attributes/AttributesViewComponent'
 import DescriptionComponent from './description/DescriptionComponent'
@@ -37,8 +35,6 @@ class DetailViewComponent extends React.Component {
     // dialog API
     open: React.PropTypes.bool.isRequired,
     loaded: React.PropTypes.bool.isRequired, // external content loaded ? (separe from URL content loaded)
-    dialogHeightPercent: Percent.isRequired,
-    dialogWidthPercent: Percent.isRequired,
     onClose: React.PropTypes.func.isRequired, // on cloase callback
   }
 
@@ -46,7 +42,7 @@ class DetailViewComponent extends React.Component {
     ...themeContextType,
   }
 
-  componentWillMount() {
+  componentWillMount = () => {
     this.setState({
       contentHeight: 0,
     })
@@ -61,19 +57,16 @@ class DetailViewComponent extends React.Component {
   }
 
   render() {
-    const { open, loaded,
-      entityLabel, attributes, descriptionFileURL, descriptionFile,
-      dialogHeightPercent, dialogWidthPercent, onClose,
-      ...otherDialogProperties } = this.props
-    // due to multiple overflows imbricated, we need here to compute the remaining tab content space on Y
-    // dialogHeightPercent
+    const { open, loaded, entityLabel, attributes, descriptionFileURL,
+      descriptionFile, onClose, ...otherDialogProperties } = this.props
+    const { moduleTheme: { descriptionDialog } } = this.context
+    // due to multiple overflows Y embedded in each other, we need here to compute the remaining tab content space on Y
     return (
-
       <LoadableContentDialogContainer
         open={open}
         loaded={loaded}
-        dialogHeightPercent={dialogHeightPercent}
-        dialogWidthPercent={dialogWidthPercent}
+        dialogHeightPercent={descriptionDialog.heightPercent}
+        dialogWidthPercent={descriptionDialog.widthPercent}
         onRequestClose={onClose}
         loadingMessage={<FormattedMessage id="entities.common.loading.message" />}
         actions={[

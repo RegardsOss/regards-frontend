@@ -27,6 +27,7 @@ describe('[Search Graph] Testing CollectionItemContainer', () => {
           properties: {},
         },
       },
+      isLastLevel: false,
       selected: false,
       // from map dispatch to props
       dispatchSelected: () => { },

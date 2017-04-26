@@ -22,6 +22,7 @@ class GraphLevelDispayer extends React.Component {
     graphDatasetAttributes: DatasetAttributesArrayForGraph.isRequired, // graph dataset attributes, required, but empty array is allowed
     isShowable: React.PropTypes.bool.isRequired, // is showable in current state?
     isLoading: React.PropTypes.bool.isRequired, // is loading
+    isLastLevel: React.PropTypes.bool.isRequired, // is last level?
     hasError: React.PropTypes.bool.isRequired, // has fetch error
     collections: React.PropTypes.objectOf(CatalogEntity).isRequired,
     datasets: React.PropTypes.objectOf(CatalogEntity).isRequired,
@@ -33,7 +34,7 @@ class GraphLevelDispayer extends React.Component {
   }
 
   render() {
-    const { graphDatasetAttributes, isShowable, isLoading, hasError, collections, datasets, levelIndex } = this.props
+    const { graphDatasetAttributes, isShowable, isLoading, isLastLevel, hasError, collections, datasets, levelIndex } = this.props
     const { user } = this.context.moduleTheme
     // note: is loading and has error are strictly exclusive (cannot be true at same time)
     const hasContent = size(collections) + size(datasets) > 0
@@ -63,6 +64,7 @@ class GraphLevelDispayer extends React.Component {
                     key={collection.content.ipId}
                     collection={collection}
                     levelIndex={levelIndex}
+                    isLastLevel={isLastLevel}
                   />)
               }
               {
