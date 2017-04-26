@@ -15,6 +15,7 @@ const distributedAttrModels = {
         content: {
           id: 3,
           name: 'Attribute_0_0',
+          label: 'tic tac',
           description: "Description de l'attribut 0 - 0",
           defaultValue: null,
           type: 'STRING',
@@ -37,6 +38,7 @@ const distributedAttrModels = {
         content: {
           id: 2,
           name: 'Attribute_0_0',
+          label: 'clic',
           description: "Description de l'attribut 0 - 0",
           defaultValue: null,
           type: 'STRING',
@@ -60,6 +62,7 @@ const distributedAttrModels = {
       content: {
         id: 0,
         name: 'Attribute_0_0',
+        label: 'boum',
         description: "Description de l'attribut 0 - 0",
         defaultValue: null,
         type: 'STRING',
@@ -84,6 +87,7 @@ const distributedAttrModels = {
         description: "Description de l'attribut 1 - 0",
         defaultValue: null,
         type: 'STRING',
+        label: 'bam',
         unit: null,
         precision: null,
         arraysize: 0,
@@ -106,6 +110,7 @@ const distributedAttrModels = {
         content: {
           id: 4,
           name: 'Attribute_4',
+          label: 'zim',
           description: "Description de l'attribut 0 - 0",
           defaultValue: null,
           type: 'STRING',
@@ -147,10 +152,10 @@ describe('[ADMIN DATA MODEL ATTRIBUTE MANAGEMENT] Testing ModelAttributeFormComp
   it('should render', () => {
     const props = {
       distributedAttrModels,
-      onCreateFragment: () => {},
-      onDeleteFragment: () => {},
-      onCreateAttributeModel: () => {},
-      onDeleteAttributeModel: () => {},
+      onCreateFragment: () => { },
+      onDeleteFragment: () => { },
+      onCreateAttributeModel: () => { },
+      onDeleteAttributeModel: () => { },
       backUrl: '#',
       currentModel: {
         content: {

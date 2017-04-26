@@ -11,7 +11,7 @@ import { CatalogEntity, CatalogEntityTypes, AttributeModel, AttributeModelContro
 import { getTypeRender } from '@regardsoss/attributes-common'
 import { ShowableAtRender } from '@regardsoss/components'
 import ModuleConfiguration from '../../model/ModuleConfiguration'
-import { AttributeModelAction, AttributeModelSelector } from '../../model/client/AttributeModelClient'
+import { AttributeModelActions, AttributeModelSelectors } from '../../model/client/AttributeModelClient'
 import GraphContextSelectors from '../../model/graph/GraphContextSelectors'
 import NavigableSearchResults from '../../components/user/NavigableSearchResults'
 import SearchGraph from '../../components/user/SearchGraph'
@@ -29,13 +29,13 @@ export class UserModuleContainer extends React.Component {
     return {
       selectionPath,
       selectedDataset,
-      attributeModels: AttributeModelSelector.getList(state),
+      attributeModels: AttributeModelSelectors.getList(state),
       moduleCollapsed: GraphContextSelectors.isModuleCollapsed(state),
     }
   }
 
   static mapDispatchToProps = dispatch => ({
-    fetchAttributeModels: () => dispatch(AttributeModelAction.fetchPagedEntityList()),
+    fetchAttributeModels: () => dispatch(AttributeModelActions.fetchPagedEntityList()),
   })
 
   static propTypes = {
@@ -84,7 +84,7 @@ export class UserModuleContainer extends React.Component {
         if (AttributeConfigurationController.isStandardAttribute(attributeConfiguration)) {
           // 3.a - standard attribute mapping, always resolves
           resolvedAttribute = {
-            label: fullQualifiedName,
+            label: fullQualifiedName, // TODO use a constant for standard attributes labels
             attributePath: [fullQualifiedName], // root attribute
             render: getTypeRender(), // default render
           }

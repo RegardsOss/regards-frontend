@@ -90,9 +90,9 @@ const mapStateToProps = (state, { moduleConf: { resultsSelectors, facets, facetL
   // build facet labels list
   return {
     facets: nextFacets,
-    facetLabels: nextFacets.reduce((labels, { attributeName }) => ({
+    facetLabels: nextFacets.reduce((labelsAcc, { attributeName }) => ({
       [attributeName]: AttributeModelController.findLabelFromAttributeFullyQualifiedName(attributeName, attributeModels),
-      ...labels,
+      ...labelsAcc,
     }), {}),
   }
 }

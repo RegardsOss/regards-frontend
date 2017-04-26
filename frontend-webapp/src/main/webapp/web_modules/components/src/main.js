@@ -24,8 +24,11 @@ import NoContentMessageInfo from './cards/NoContentMessageInfo'
 import SecondaryActionButtonComponent from './cards/SecondaryActionButtonComponent'
 import ShowableAtRender from './cards/ShowableAtRender'
 
+import IFrameURLContentDisplayer from './content/IFrameURLContentDisplayer'
+
 import ConfirmDialogComponent from './dialogs/ConfirmDialogComponent'
-import LoadableContentDialogComponent from './dialogs/LoadableContentDialogComponent'
+import LoadableContentDialogContainer from './dialogs/LoadableContentDialogContainer'
+import SingleContentURLDialogContainer from './dialogs/SingleContentURLDialogContainer'
 
 import ErrorCardComponent from './error/ErrorCardComponent'
 
@@ -65,12 +68,14 @@ export {
   ConfirmDialogComponent,
   ErrorCardComponent,
   ErrorDecoratorComponent,
+  IFrameURLContentDisplayer,
   TableContainer,
   TableSelectionModes,
   TableColumnConfiguration,
   TableColumnConfigurationController,
   LoadingPaneComponent,
-  LoadableContentDialogComponent,
+  LoadableContentDialogContainer,
+  SingleContentURLDialogContainer,
   MainActionButtonComponent,
   NewsItemComponent,
   NoContentMessageInfo,

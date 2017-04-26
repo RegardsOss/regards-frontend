@@ -25,7 +25,7 @@ class HateoasIconAction extends React.Component {
   render() {
     // Remove from otherProps all props that doesn't need to be reinjected in children
     // eslint-disable-next-line no-unused-vars, react/prop-types
-    const { entityLinks, hateoasKey, isInstance, theme, i18n, ...otherProps } = this.props
+    const { entityLinks, hateoasKey, isInstance, theme, i18n, dispatch, ...otherProps } = this.props
     if (isInstance || (!entityLinks && !hateoasKey) || find(entityLinks, entity => entity.rel === hateoasKey)) {
       return (
         <IconButton

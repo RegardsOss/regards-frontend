@@ -5,7 +5,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import DatasetItem from '../../../src/components/user/DatasetItem'
-import ItemLink from '../../../src/components/user/ItemLink'
+import ItemLinkContainer from '../../../src/containers/user/ItemLinkContainer'
 import DatasetAttributes from '../../../src/components/user/DatasetAttributes'
 import styles from '../../../src/styles/styles'
 
@@ -36,11 +36,11 @@ describe('[Search Graph] Testing DatasetItem', () => {
     }
     const enzymeWrapper = shallow(<DatasetItem {...props} />, { context })
     // test properties propagation
-    let links = enzymeWrapper.find(ItemLink)
+    let links = enzymeWrapper.find(ItemLinkContainer)
     let attributesPanes = enzymeWrapper.find(DatasetAttributes)
     assert.lengthOf(links, 1, 'There should be one item link')
     testSuiteHelpers.assertWrapperProperties(links.at(0), {
-      text: props.dataset.content.label, // text should be dataset label
+      entity: props.dataset,
       selected: props.selected,
       onSelect: props.onSelect,
       locked: props.locked,
@@ -61,10 +61,10 @@ describe('[Search Graph] Testing DatasetItem', () => {
       onSelect: () => { },
     }
     enzymeWrapper.setProps(nextProps)
-    links = enzymeWrapper.find(ItemLink)
+    links = enzymeWrapper.find(ItemLinkContainer)
     attributesPanes = enzymeWrapper.find(DatasetAttributes)
     testSuiteHelpers.assertWrapperProperties(links.at(0), {
-      text: nextProps.dataset.content.label, // text should be dataset label
+      entity: nextProps.dataset,
       selected: nextProps.selected,
       onSelect: nextProps.onSelect,
       locked: nextProps.locked,

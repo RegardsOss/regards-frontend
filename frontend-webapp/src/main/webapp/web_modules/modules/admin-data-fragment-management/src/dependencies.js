@@ -2,44 +2,27 @@
  * LICENSE_PLACEHOLDER
  **/
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import FragmentActions from './model/FragmentActions'
-
-
-/**
- * Module hateoas depencies
- * @author Sébastien binda
- */
-const EditDependencies = [
-  FragmentActions.getDependency(RequestVerbEnum.GET_LIST),
-]
-const AddDependencies = [
-  FragmentActions.getDependency(RequestVerbEnum.POST),
-]
-
-export {
-  EditDependencies,
-  AddDependencies,
-}
+import { fragmentActions } from './client/FragmentClient'
 
 /**
- * Mandatory Dependencies to display module in user interface
+ * Mandatory Dependencies to display module in parent board
  * @type {Array}
  */
-const user = []
+const boardListRequiredDependencies = [
+  fragmentActions.getDependency(RequestVerbEnum.GET_LIST),
+  fragmentActions.getDependency(RequestVerbEnum.GET),
+]
 
 /**
- * Mandatory Dependencies to display module in admin interface
+ * Mandatory Dependencies to display module in parent board
  * @type {Array}
  */
-const admin = [
-  FragmentActions.getDependency(RequestVerbEnum.GET_LIST),
-  FragmentActions.getDependency(RequestVerbEnum.GET),
-  FragmentActions.getDependency(RequestVerbEnum.PUT),
-  FragmentActions.getDependency(RequestVerbEnum.POST),
-  FragmentActions.getDependency(RequestVerbEnum.DELETE),
+const boardAddRequiredDependencies = [
+  fragmentActions.getDependency(RequestVerbEnum.POST),
 ]
+
 
 export default {
-  user,
-  admin,
+  boardListRequiredDependencies,
+  boardAddRequiredDependencies,
 }

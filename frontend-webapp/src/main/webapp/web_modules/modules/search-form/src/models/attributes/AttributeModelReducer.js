@@ -23,6 +23,6 @@ const instance = new AttributeModelReducer()
  * @param action redux action received
  * @return new state
  */
-const getModelAttributeReducer = (state, action) => instance.reduce(state, action)
+const getModelAttributesReducer = (state, action) => instance.reduce(state, action)
 
-export default getModelAttributeReducer
+export default getModelAttributesReducer

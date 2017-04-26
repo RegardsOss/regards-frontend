@@ -4,7 +4,7 @@
 import { combineReducers } from 'redux'
 import dataset from './model/DatasetReducers'
 import model from './model/ModelReducers'
-import modelAttribute from './model/ModelAttributeReducers'
+import modelAttribute from './model/ModelAttributesReducer'
 import datasetLinkSignal from './model/DatasetLinkReducers'
 import datasource from './model/DatasourceReducers'
 import collection from './model/CollectionReducers'

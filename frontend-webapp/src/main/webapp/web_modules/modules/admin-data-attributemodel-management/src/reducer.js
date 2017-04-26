@@ -2,7 +2,7 @@ import { combineReducers } from 'redux'
 import attributeModelReducer from './model/AttributeModelReducers'
 import attributeModelRestrictionReducers from './model/AttributeModelRestrictionReducers'
 import attrModelTypeReducer from './model/AttributeModelTypeReducers'
-import fragmentReducer from './model/FragmentReducers'
+import fragmentReducer from './model/FragmentReducer'
 
 const attributeModelDataManagementReducer = combineReducers({
   'attribute-model': attributeModelReducer,

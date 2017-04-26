@@ -5,7 +5,7 @@ import root from 'window-or-global'
 import { FormattedMessage } from 'react-intl'
 import FlatButton from 'material-ui/FlatButton'
 import { themeContextType } from '@regardsoss/theme'
-import { LoadableContentDialogComponent } from '@regardsoss/components'
+import { SingleContentURLDialogContainer } from '@regardsoss/components'
 
 /**
  * Home page module container (shows home page for a project)
@@ -27,41 +27,40 @@ class HomePageContainer extends React.Component {
 
   componentWillMount = () => {
     this.setState({
-      open: true,
+      dialogOpen: !this.isHomePageHiddenCached(),
     })
   }
 
 
   onClose = () => {
-    this.setState({ open: false })
+    this.setState({ dialogOpen: false })
   }
 
-  onHide = () => {
+  onCacheHomePageHidden = () => {
     root.localStorage.setItem(`${this.props.project}HomePageHidden`, true)
     this.onClose()
   }
 
-  isOpened = () => {
-    const { open } = this.state
-    return open && !JSON.parse(root.localStorage.getItem(`${this.props.project}HomePageHidden`))
-  }
+  isHomePageHiddenCached = () => !!JSON.parse(root.localStorage.getItem(`${this.props.project}HomePageHidden`))
+
 
   render() {
     const { moduleConf: { htmlPath } } = this.props
+    const { dialogOpen } = this.state
     const { dialog: { bodyStyle, heightPercent, widthPercent } } = this.context.moduleTheme
     return (
-      <LoadableContentDialogComponent
+      <SingleContentURLDialogContainer
+        open={dialogOpen}
         contentURL={htmlPath}
         loadingMessage={<FormattedMessage id="homepage.loading.message" />}
         dialogHeightPercent={heightPercent}
         dialogWidthPercent={widthPercent}
-        open={this.isOpened()}
         onRequestClose={this.onClose}
         bodyStyle={bodyStyle}
         actions={[
           <FlatButton
             label={<FormattedMessage id="homepage.hide" />}
-            onTouchTap={this.onHide}
+            onTouchTap={this.onCacheHomePageHidden}
           />,
           <FlatButton
             label={<FormattedMessage id="homepage.ok" />}

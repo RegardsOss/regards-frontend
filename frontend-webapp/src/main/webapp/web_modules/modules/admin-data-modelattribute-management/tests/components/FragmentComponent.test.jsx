@@ -14,6 +14,7 @@ const props = {
     content: {
       id: 3,
       name: 'Attribute_0_0',
+      label: 'hahihoho',
       description: "Description de l'attribut 0 - 0",
       defaultValue: null,
       type: 'STRING',
@@ -35,6 +36,7 @@ const props = {
     content: {
       id: 4,
       name: 'Attribute_4',
+      label: 'bwa bwa',
       description: "Description de l'attribut 0 - 0",
       defaultValue: null,
       type: 'STRING',

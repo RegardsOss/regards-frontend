@@ -10,9 +10,9 @@ import AttributeModelActions from '../model/AttributeModelActions'
 import ModelActions from '../model/ModelActions'
 import ModelAttributeFormComponent from '../components/ModelAttributeFormComponent'
 import AttributeModelSelectors from '../model/AttributeModelSelectors'
-import ModelAttributeSelectors from '../model/ModelAttributeSelectors'
+import ModelAttributesSelectors from '../model/ModelAttributesSelectors'
 import ModelSelectors from '../model/ModelSelectors'
-import ModelAttributeActions from '../model/ModelAttributeActions'
+import ModelAttributesActions from '../model/ModelAttributesActions'
 import ModelAttributeFragmentActions from '../model/ModelAttributeFragmentActions'
 
 export class ModelAttributeFormContainer extends React.Component {
@@ -166,8 +166,8 @@ const mapStateToProps = (state, ownProps) => ({
   attributeModelList: AttributeModelSelectors.getList(state),
   isAttributeModelFetching: AttributeModelSelectors.isFetching(state),
 
-  modelAttributeList: ModelAttributeSelectors.getList(state),
-  isModelAttributeFetching: ModelAttributeSelectors.isFetching(state),
+  modelAttributeList: ModelAttributesSelectors.getList(state),
+  isModelAttributeFetching: ModelAttributesSelectors.isFetching(state),
 
   model: ModelSelectors.getById(state, ownProps.params.model_id),
   isModelFetching: ModelSelectors.isFetching(state),
@@ -175,9 +175,9 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchAttributeModelList: () => dispatch(AttributeModelActions.fetchEntityList()),
-  fetchModelAttributeList: modelId => dispatch(ModelAttributeActions.fetchEntityList([modelId])),
-  createModelAttribute: (modelAttribute, modelId) => dispatch(ModelAttributeActions.createEntity(modelAttribute, { pModelId: modelId })),
-  deleteModelAttribute: (id, modelId) => dispatch(ModelAttributeActions.deleteEntity(id, { pModelId: modelId })),
+  fetchModelAttributeList: modelId => dispatch(ModelAttributesActions.fetchEntityList([modelId])),
+  createModelAttribute: (modelAttribute, modelId) => dispatch(ModelAttributesActions.createEntity(modelAttribute, { pModelId: modelId })),
+  deleteModelAttribute: (id, modelId) => dispatch(ModelAttributesActions.deleteEntity(id, { pModelId: modelId })),
   fetchModel: id => dispatch(ModelActions.fetchEntity(id)),
 
   bindFragment: (fragment, modelId) => dispatch(ModelAttributeFragmentActions.createEntity(fragment, { pModelId: modelId })),

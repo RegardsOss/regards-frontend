@@ -21,7 +21,16 @@ class AttributeConfigurationComponent extends React.Component {
 
   static propTypes = {
     allowFacettes: React.PropTypes.bool.isRequired,
-    attribute: AttributeModel.isRequired,
+    attribute: React.PropTypes.oneOfType([React.PropTypes.shape({
+      // for standard attributes
+      content: React.PropTypes.shape({
+        label: React.PropTypes.string.isRequired,
+        name: React.PropTypes.string.isRequired,
+        fragment: React.PropTypes.shape({
+          name: React.PropTypes.string.isRequired,
+        }).isRequired,
+      }),
+    }), AttributeModel]).isRequired,
     filter: React.PropTypes.string,
     conf: AttributeConfiguration,
     onChange: React.PropTypes.func,

@@ -1,7 +1,7 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
-import { DataManagement } from '@regardsoss/client'
+import { DataManagementClient } from '@regardsoss/client'
 
 export const REDUCER_PATH = 'attributes'
 
@@ -11,12 +11,13 @@ export const REDUCER_PATH = 'attributes'
 const ENTITIES_STORE_PATH = ['modules.search-graph', REDUCER_PATH]
 const REDUX_ACTION_NAMESPACE = 'search-graph/attributes'
 
-export const AttributeModelAction = new DataManagement.AttributeModelAction(REDUX_ACTION_NAMESPACE)
-export const AttributeModelReducer = DataManagement.AttributeModelReducer(REDUX_ACTION_NAMESPACE, AttributeModelAction)
-export const AttributeModelSelector = DataManagement.AttributeModelSelector(ENTITIES_STORE_PATH)
+export const AttributeModelActions = new DataManagementClient.AttributeModelActions(REDUX_ACTION_NAMESPACE)
+export const AttributeModelReducer = DataManagementClient.AttributeModelReducer(REDUX_ACTION_NAMESPACE)
+export const AttributeModelSelectors = DataManagementClient.AttributeModelSelectors(ENTITIES_STORE_PATH)
 
 export default {
-  AttributeModelAction,
+  REDUCER_PATH,
+  AttributeModelActions,
   AttributeModelReducer,
-  AttributeModelSelector,
+  AttributeModelSelectors,
 }

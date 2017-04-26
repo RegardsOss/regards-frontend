@@ -41,6 +41,7 @@ describe('[ATTRIBUTES COMMON] Testing AttributeConfigurationComponent', () => {
     const attributeProp = {
       content: {
         id: 0,
+        type: 'string',
         name: 'test',
         label: 'Test attribute',
         fragment: {
@@ -94,6 +95,7 @@ describe('[ATTRIBUTES COMMON] Testing AttributeConfigurationComponent', () => {
     const attributeProp = {
       content: {
         id: 0,
+        type: 'string',
         name: 'test',
         label: 'Test attribute',
         fragment: {
@@ -133,6 +135,7 @@ describe('[ATTRIBUTES COMMON] Testing AttributeConfigurationComponent', () => {
       content: {
         id: 0,
         name: 'test',
+        type: 'string',
         label: 'Test attribute',
         fragment: {
           name: 'default',
@@ -172,6 +175,7 @@ describe('[ATTRIBUTES COMMON] Testing AttributeConfigurationComponent', () => {
       content: {
         id: 0,
         name: 'test',
+        type: 'string',
         label: 'Test attribute',
         fragment: {
           name: 'default',

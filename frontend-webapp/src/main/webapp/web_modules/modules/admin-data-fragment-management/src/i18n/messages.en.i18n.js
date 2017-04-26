@@ -14,7 +14,7 @@ const messages = Object.assign({
   'fragment.form.name': 'Fragment name',
   'fragment.form.fragment': 'Fragment',
   'fragment.form.description': 'Description',
-  'fragment.form.alterable': 'Modifiable',
+  'fragment.form.file': 'Send an XML file containing the fragment and its attributes',
   'fragment.form.action.cancel': 'Cancel',
   'fragment.form.action.submit': 'Save',
 }, Locales.en)

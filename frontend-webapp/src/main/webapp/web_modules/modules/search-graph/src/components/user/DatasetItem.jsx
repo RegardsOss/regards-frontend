@@ -6,6 +6,7 @@ import { themeContextType } from '@regardsoss/theme'
 import { CatalogEntity } from '@regardsoss/model'
 import { ResolvedDatasetAttributesArray } from '../../model/DatasetAttributesForGraph'
 import DatasetAttributes from './DatasetAttributes'
+import ItemLinkContainer from '../../containers/user/ItemLinkContainer'
 import ItemLink from './ItemLink'
 
 /**
@@ -32,7 +33,7 @@ class DatasetItem extends React.Component {
   }
 
   /**
-   * Handles item state change. Note: no need to optimize state update here, the item link component transfers as few events as possible
+   * Handles item state change. Note: no need to optimize state update here, the item link container transfers as few events as possible
    * @param newLinkState new link state
    */
   onItemLinkStateChange = (newLinkState) => {
@@ -43,17 +44,17 @@ class DatasetItem extends React.Component {
   }
 
   render() {
-    const { dataset: { content: { label } }, datasetAttributes, locked, selected, attributesVisible, onSelect } = this.props
+    const { dataset, datasetAttributes, locked, selected, attributesVisible, onSelect } = this.props
     const { detailState } = this.state
     const { moduleTheme: { user } } = this.context
     return (
       <div style={user.datasetItem.styles}>
-        <ItemLink
-          text={label}
-          selected={selected}
-          locked={locked}
+        <ItemLinkContainer
+          entity={dataset}
           Icon={DatasetIcon}
           onSelect={onSelect}
+          selected={selected}
+          locked={locked}
           onStateChange={this.onItemLinkStateChange}
         />
         <DatasetAttributes

@@ -29,6 +29,7 @@ describe('[ADMIN DATA MODEL ATTRIBUTE MANAGEMENT] Testing AttributeModelComponen
         content: {
           id: 1,
           name: 'Attribute_1_0',
+          label: 'Hohoho les petits nenfants',
           description: "Description de l'attribut 1 - 0",
           defaultValue: null,
           type: 'STRING',
