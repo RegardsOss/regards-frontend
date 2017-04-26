@@ -3,7 +3,7 @@
 **/
 import { themeContextType } from '@regardsoss/theme'
 import { CatalogEntity } from '@regardsoss/model'
-import { DataManagement } from '@regardsoss/client'
+import { DataManagementClient } from '@regardsoss/client'
 import { BasicListSelectors } from '@regardsoss/store-utils'
 import { DownloadDescriptionClient, DetailViewContainer } from '@regardsoss/entities-common'
 
@@ -18,7 +18,7 @@ class Description extends React.Component {
     entity: CatalogEntity,
     // sub containers actions / selectors
     onCloseDescription: React.PropTypes.func.isRequired,
-    fetchModelAttributesActions: React.PropTypes.instanceOf(DataManagement.ModelAttributesAction).isRequired,
+    fetchModelAttributesActions: React.PropTypes.instanceOf(DataManagementClient.ModelAttributesActions).isRequired,
     fetchModelAttributesSelectors: React.PropTypes.instanceOf(BasicListSelectors).isRequired,
     downloadDescriptionClient: React.PropTypes.instanceOf(DownloadDescriptionClient).isRequired,
   }

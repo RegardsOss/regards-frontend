@@ -7,7 +7,7 @@ import find from 'lodash/find'
 /**
  * Store selector to access association model to attribute model
  */
-class ModelAttributesSelector extends BasicListSelectors {
+class ModelAttributesSelectors extends BasicListSelectors {
 
   getByAttributeModelId(state, attributeModelId) {
     return find(this.uncombineStore(state).items, modelAttribute => modelAttribute.content.attribute.id === attributeModelId)
@@ -15,5 +15,5 @@ class ModelAttributesSelector extends BasicListSelectors {
 
 }
 
-export default storePathArray => new ModelAttributesSelector(storePathArray)
+export default storePathArray => new ModelAttributesSelectors(storePathArray)
 

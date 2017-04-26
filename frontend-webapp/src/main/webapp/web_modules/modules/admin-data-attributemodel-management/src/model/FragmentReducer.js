@@ -2,13 +2,13 @@ import { BasicListReducers } from '@regardsoss/store-utils'
 import { FragmentConfiguration } from '@regardsoss/api'
 import FragmentActions from './FragmentActions'
 
-class FragmentReducers extends BasicListReducers {
+class FragmentReducer extends BasicListReducers {
   constructor() {
     super(FragmentConfiguration, FragmentActions)
   }
 }
 
-const instance = new FragmentReducers()
+const instance = new FragmentReducer()
 
 /**
  * Return an function where the reducer instance exists

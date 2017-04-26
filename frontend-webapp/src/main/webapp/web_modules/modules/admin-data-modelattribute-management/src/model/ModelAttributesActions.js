@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { DataManagement } from '@regardsoss/client'
+import { DataManagementClient } from '@regardsoss/client'
 
-const instance = new DataManagement.ModelAttributesAction('admin-data-modelattribute-management')
+const instance = new DataManagementClient.ModelAttributesActions('admin-data-modelattribute-management')
 export default instance

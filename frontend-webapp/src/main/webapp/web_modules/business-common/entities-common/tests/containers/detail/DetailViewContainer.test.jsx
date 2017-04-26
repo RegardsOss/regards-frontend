@@ -4,7 +4,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { DataManagement } from '@regardsoss/client'
+import { DataManagementClient } from '@regardsoss/client'
 import { CatalogEntityTypes } from '@regardsoss/model'
 import { getTypeRender } from '@regardsoss/attributes-common'
 import DetailViewComponent from '../../../src/components/detail/DetailViewComponent'
@@ -16,8 +16,8 @@ import styles from '../../../src/styles/styles'
 const context = buildTestContext(styles)
 
 const mockDescClient = new DownloadDescriptionClient('common', [])
-const mockAttrActions = new DataManagement.ModelAttributesAction('common')
-const mockAttrSelectors = DataManagement.ModelAttributesSelector([])
+const mockAttrActions = new DataManagementClient.ModelAttributesActions('common')
+const mockAttrSelectors = DataManagementClient.ModelAttributesSelectors([])
 
 const defaultProps = {
   open: true,

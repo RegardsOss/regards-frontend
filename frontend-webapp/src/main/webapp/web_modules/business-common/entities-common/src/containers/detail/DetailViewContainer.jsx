@@ -6,7 +6,7 @@ import isEmpty from 'lodash/isEmpty'
 import map from 'lodash/map'
 import { connect } from '@regardsoss/redux'
 import { CatalogEntity, CatalogEntityTypes, Percent, ModelAttribute, AttributeModelController } from '@regardsoss/model'
-import { DataManagement } from '@regardsoss/client'
+import { DataManagementClient } from '@regardsoss/client'
 import { BasicListSelectors } from '@regardsoss/store-utils'
 import { I18nProvider } from '@regardsoss/i18n'
 import { ModuleThemeProvider } from '@regardsoss/modules'
@@ -64,7 +64,7 @@ export class DetailViewContainer extends React.Component {
     // Component fetch operators
     // model attributes to model association (only for mapDispatchToProps and map states to props)
     // eslint-disable-next-line react/no-unused-prop-types
-    fetchModelAttributesActions: React.PropTypes.instanceOf(DataManagement.ModelAttributesAction).isRequired,
+    fetchModelAttributesActions: React.PropTypes.instanceOf(DataManagementClient.ModelAttributesActions).isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     fetchModelAttributesSelectors: React.PropTypes.instanceOf(BasicListSelectors).isRequired,
     // download entity description file content client (used only for local markdown description files, that require a transformation before showing)

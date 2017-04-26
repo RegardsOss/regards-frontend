@@ -6,7 +6,7 @@ import { CatalogEntity } from '@regardsoss/model'
 import graphContextActions from '../../model/graph/GraphContextActions'
 import graphContextSelectors from '../../model/graph/GraphContextSelectors'
 import downloadDescriptionClient from '../../model/client/DownloadDescriptionClient'
-import { modelAttributesAction, modelAttributesSelector } from '../../model/client/ModelAttributeClient'
+import { ModelAttributesActions, ModelAttributesSelectors } from '../../model/client/ModelAttributeClient'
 import Description from '../../components/user/Description'
 
 /**
@@ -41,8 +41,8 @@ export class DescriptionContainer extends React.Component {
         entity={entity}
         onCloseDescription={this.onCloseDescription}
         downloadDescriptionClient={downloadDescriptionClient}
-        fetchModelAttributesActions={modelAttributesAction}
-        fetchModelAttributesSelectors={modelAttributesSelector}
+        fetchModelAttributesActions={ModelAttributesActions}
+        fetchModelAttributesSelectors={ModelAttributesSelectors}
       />
     )
   }

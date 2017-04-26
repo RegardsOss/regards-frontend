@@ -1,6 +1,6 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { DataManagement } from '@regardsoss/client'
+import { DataManagementClient } from '@regardsoss/client'
 
-export default DataManagement.ModelAttributesSelector(['admin', 'data-management', 'collection', 'model-attribute'])
+export default DataManagementClient.ModelAttributesSelectors(['admin', 'data-management', 'collection', 'model-attribute'])

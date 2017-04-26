@@ -20,12 +20,12 @@ import modelAttributeClient from './model/client/ModelAttributeClient'
 export default {
   // Admin
   [COLLECTION_MODEL_PATH]: CollectionModelReducers,
-  [attributeModelClient.REDUCER_PATH]: attributeModelClient.reduce,
+  [attributeModelClient.REDUCER_PATH]: attributeModelClient.AttributeModelReducer,
   // User
   [GRAPH_CONTEXT_PATH]: GraphContextReducers,
   [GRAPH_LEVEL_COLLECTION_PATH]: GraphLevelCollectionReducers,
   [GRAPH_LEVEL_DATASET_PATH]: GraphLevelDatasetReducers,
   [DATASET_REDUCER_PATH]: DownloadDescriptionClient.reduceDownloadDatasetDescription,
   [COLLECTION_REDUCER_PATH]: DownloadDescriptionClient.reduceDownloadCollectionDescription,
-  [modelAttributeClient.REDUCER_PATH]: modelAttributeClient.reduce,
+  [modelAttributeClient.REDUCER_PATH]: modelAttributeClient.ModelAttributesReducer,
 }

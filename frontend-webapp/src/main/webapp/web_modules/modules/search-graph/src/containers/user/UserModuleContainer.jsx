@@ -11,7 +11,7 @@ import { CatalogEntity, CatalogEntityTypes, AttributeModel, AttributeModelContro
 import { getTypeRender } from '@regardsoss/attributes-common'
 import { ShowableAtRender } from '@regardsoss/components'
 import ModuleConfiguration from '../../model/ModuleConfiguration'
-import { attributeModelAction, attributeModelSelector } from '../../model/client/AttributeModelClient'
+import { AttributeModelActions, AttributeModelSelectors } from '../../model/client/AttributeModelClient'
 import GraphContextSelectors from '../../model/graph/GraphContextSelectors'
 import NavigableSearchResults from '../../components/user/NavigableSearchResults'
 import SearchGraph from '../../components/user/SearchGraph'
@@ -29,13 +29,13 @@ export class UserModuleContainer extends React.Component {
     return {
       selectionPath,
       selectedDataset,
-      attributeModels: attributeModelSelector.getList(state),
+      attributeModels: AttributeModelSelectors.getList(state),
       moduleCollapsed: GraphContextSelectors.isModuleCollapsed(state),
     }
   }
 
   static mapDispatchToProps = dispatch => ({
-    fetchAttributeModels: () => dispatch(attributeModelAction.fetchPagedEntityList()),
+    fetchAttributeModels: () => dispatch(AttributeModelActions.fetchPagedEntityList()),
   })
 
   static propTypes = {

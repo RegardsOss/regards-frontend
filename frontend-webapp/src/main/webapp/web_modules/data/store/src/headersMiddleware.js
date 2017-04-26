@@ -1,4 +1,4 @@
-import { AuthenticateActions, AuthenticationParametersSelectors, AuthenticateSelectors } from '@regardsoss/authentication-manager'
+import { AuthenticationClient, AuthenticationParametersSelectors } from '@regardsoss/authentication-manager'
 
 // Redux middleware provides a third-party extension point
 // between dispatching an action, and the moment it reaches the reducer
@@ -11,12 +11,12 @@ const { CALL_API } = require('redux-api-middleware')
  * @return Authorization header value or null
  */
 const getAuthorization = (state, callAPI) => {
-  if (!AuthenticateSelectors.isAuthenticated(state) && callAPI.endpoint.includes(AuthenticateActions.SPECIFIC_ENDPOINT_MARKER)) {
+  if (!AuthenticationClient.authenticationSelectors.isAuthenticated(state) && callAPI.endpoint.includes(AuthenticationClient.SPECIFIC_ENDPOINT_MARKER)) {
     // for authentication only => provide client secret
     return `Basic ${btoa('client:secret')}`
-  } else if (AuthenticateSelectors.isAuthenticated(state)) {
+  } else if (AuthenticationClient.authenticationSelectors.isAuthenticated(state)) {
     // provide known token
-    const authentication = AuthenticateSelectors.getAuthentication(state)
+    const authentication = AuthenticationClient.authenticationSelectors.getAuthentication(state)
     return `Bearer ${authentication.result.access_token}`
   }
   // not authentified

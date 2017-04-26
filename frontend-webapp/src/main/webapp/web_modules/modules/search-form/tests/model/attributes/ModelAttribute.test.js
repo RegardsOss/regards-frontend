@@ -5,7 +5,7 @@ import { ReduxEntityTester } from '@regardsoss/tests-helpers'
 import { AttributeModel } from '@regardsoss/model'
 import AttributeModelActions from '../../../src/models/attributes/AttributeModelActions'
 import AttributeModelReducer from '../../../src/models/attributes/AttributeModelReducer'
-import AttributeModelSelector from '../../../src/models/attributes/AttributeModelSelector'
+import AttributeModelSelectors from '../../../src/models/attributes/AttributeModelSelectors'
 import MockResponse from './mockModelAttributeResponse'
 
 
@@ -14,7 +14,7 @@ const options = {
   urlParams: { queryParam: '' },
 }
 
-const entityTester = new ReduxEntityTester(AttributeModelActions, AttributeModelReducer, AttributeModelSelector, React.PropTypes.objectOf(AttributeModel).isRequired, backendServerResultList, options)
+const entityTester = new ReduxEntityTester(AttributeModelActions, AttributeModelReducer, AttributeModelSelectors, React.PropTypes.objectOf(AttributeModel).isRequired, backendServerResultList, options)
 
 /**
  * Tests for AttrubuteModel

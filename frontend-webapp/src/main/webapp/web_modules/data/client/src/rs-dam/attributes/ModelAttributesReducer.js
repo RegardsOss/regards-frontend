@@ -3,17 +3,18 @@
  **/
 import { BasicListReducers } from '@regardsoss/store-utils'
 import { ModelAttributeConfiguration } from '@regardsoss/api'
+import ModelAttributesActions from './ModelAttributesActions'
 
 /**
  * Redux store reducer for association model to attribute model
  */
 class ModelAttributesReducer extends BasicListReducers {
-  constructor(actionsInstance) {
-    super(ModelAttributeConfiguration, actionsInstance)
+  constructor(namespace) {
+    super(ModelAttributeConfiguration, new ModelAttributesActions(namespace))
   }
 }
 
-export default (actionsInstance) => {
-  const instance = new ModelAttributesReducer(actionsInstance)
+export default (namespace) => {
+  const instance = new ModelAttributesReducer(namespace)
   return (state, action) => instance.reduce(state, action)
 }

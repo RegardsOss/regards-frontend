@@ -7,7 +7,7 @@ import { BasicListActions } from '@regardsoss/store-utils'
 /**
  * Redux store action for association model to attribute model
  */
-export default class ModelAttributesAction extends BasicListActions {
+export default class ModelAttributesActions extends BasicListActions {
   constructor(namespace) {
     super({
       namespace,

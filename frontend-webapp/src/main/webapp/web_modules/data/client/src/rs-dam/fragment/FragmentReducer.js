@@ -13,7 +13,7 @@ import { FragmentConfiguration } from '@regardsoss/api'
  *
  * @author Léo Mieulet
  */
-class FragmentReducers extends BasicListReducers {
+class FragmentReducer extends BasicListReducers {
   constructor(actionsInstance) {
     super(FragmentConfiguration, actionsInstance)
   }
@@ -21,6 +21,6 @@ class FragmentReducers extends BasicListReducers {
 
 
 export default (namespace, actionsInstance) => {
-  const instance = new FragmentReducers(namespace, actionsInstance)
+  const instance = new FragmentReducer(namespace, actionsInstance)
   return (state, action) => instance.reduce(state, action)
 }

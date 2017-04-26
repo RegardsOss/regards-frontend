@@ -7,7 +7,7 @@ import { AttributeModel, PluginDefinition } from '@regardsoss/model'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import ModuleConfiguration from '../models/ModuleConfiguration'
 import AttributeModelActions from '../models/attributes/AttributeModelActions'
-import AttributeModelSelector from '../models/attributes/AttributeModelSelector'
+import AttributeModelSelectors from '../models/attributes/AttributeModelSelectors'
 import CriterionActions from '../models/criterion/CriterionActions'
 import CriterionSelector from '../models/criterion/CriterionSelector'
 import DatasetSelectionTypes from '../models/datasets/DatasetSelectionTypes'
@@ -139,7 +139,7 @@ class AdminContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  selectableAttributes: AttributeModelSelector.getList(state),
+  selectableAttributes: AttributeModelSelectors.getList(state),
   availableCriterion: CriterionSelector.getList(state),
 })
 

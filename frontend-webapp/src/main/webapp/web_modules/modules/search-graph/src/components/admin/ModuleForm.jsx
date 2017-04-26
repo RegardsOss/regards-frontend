@@ -43,7 +43,8 @@ class ModuleForm extends React.Component {
 
   render() {
     const { collectionModels, appName, project, adminForm, selectableAttributes } = this.props
-    // attributesConf <== conf.datasetAttributes
+    const formConf = adminForm.form.conf
+    const currentAttributesConfiguration = formConf && formConf.graphDatasetAttributes ? formConf.graphDatasetAttributes : []
     return (
       <Tabs>
         <Tab label={<FormattedMessage id="search.graph.configuration.tab" />}>
@@ -67,7 +68,7 @@ class ModuleForm extends React.Component {
             allowFacettes={false}
             allowAttributesRegroupements={false}
             attributesFieldName={ModuleForm.DATASET_ATTRIBUTES_FIELD_NAME}
-            attributesConf={adminForm.form.conf.graphDatasetAttributes}
+            attributesConf={currentAttributesConfiguration}
             selectableAttributes={selectableAttributes}
             changeField={adminForm.changeField}
           />

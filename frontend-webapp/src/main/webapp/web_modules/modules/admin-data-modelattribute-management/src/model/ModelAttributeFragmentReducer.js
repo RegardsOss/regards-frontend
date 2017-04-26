@@ -5,13 +5,13 @@ import { BasicListReducers } from '@regardsoss/store-utils'
 import { ModelAttributeConfiguration } from '@regardsoss/api'
 import ModelAttributeFragmentActions from './ModelAttributeFragmentActions'
 
-class ModelAttributeFragmentReducers extends BasicListReducers {
+class ModelAttributeFragmentReducer extends BasicListReducers {
   constructor() {
     super(ModelAttributeConfiguration, ModelAttributeFragmentActions)
   }
 }
 
-const instance = new ModelAttributeFragmentReducers()
+const instance = new ModelAttributeFragmentReducer()
 
 /**
  * Return an function where the reducer instance exists

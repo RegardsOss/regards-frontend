@@ -6,7 +6,7 @@ import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { DetailViewContainer } from '@regardsoss/entities-common'
 import downloadDescriptionClient from '../../../src/model/client/DownloadDescriptionClient'
-import { modelAttributesAction, modelAttributesSelector } from '../../../src/model/client/ModelAttributeClient'
+import { ModelAttributesActions, ModelAttributesSelectors } from '../../../src/model/client/ModelAttributeClient'
 import Description from '../../../src/components/user/Description'
 import styles from '../../../src/styles/styles'
 
@@ -25,8 +25,8 @@ describe('[Search Graph] Testing Description', () => {
       entity: { content: { ipId: 'kikou', type: 'DATASET', label: 'Youpi' } },
       onCloseDescription: () => { },
       downloadDescriptionClient,
-      fetchModelAttributesActions: modelAttributesAction,
-      fetchModelAttributesSelectors: modelAttributesSelector,
+      fetchModelAttributesActions: ModelAttributesActions,
+      fetchModelAttributesSelectors: ModelAttributesSelectors,
     }
     const enzymeWrapper = shallow(<Description {...props} />, { context })
     const detailView = enzymeWrapper.find(DetailViewContainer)

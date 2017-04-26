@@ -4,7 +4,7 @@
 import { connect } from '@regardsoss/redux'
 import { AttributeModel } from '@regardsoss/model'
 import SearchResultsConfigurationComponent from '../components/admin/SearchResultsConfigurationComponent'
-import { AttributeModelAction, AttributeModelSelector } from '../models/client/AttributeModelClient'
+import { AttributeModelActions, AttributeModelSelectors } from '../models/client/AttributeModelClient'
 import ModuleConfiguration from '../models/ModuleConfiguration'
 
 
@@ -63,11 +63,14 @@ class AdminContainer extends React.Component {
 
 
     if (this.props.adminForm.form && !this.state.attributesFetching) {
+      const formConf = this.props.adminForm.form.conf
+      const attributesConf = formConf && formConf.attributes ? formConf.attributes : []
+      const attributesRegroupementsConf = formConf && formConf.attributesRegroupementsConf ? formConf.attributesRegroupementsConf : []
       return (
         <SearchResultsConfigurationComponent
           selectableAttributes={selectableAttributes || this.props.attributeModels}
-          attributesConf={this.props.adminForm.form.conf.attributes}
-          attributesRegroupementsConf={this.props.adminForm.form.conf.attributesRegroupements}
+          attributesConf={attributesConf}
+          attributesRegroupementsConf={attributesRegroupementsConf}
           changeField={this.props.adminForm.changeField}
           defaultAttributesConf={attributes}
           defaultAttributesRegroupementsConf={attributesRegroupements}
@@ -82,11 +85,11 @@ class AdminContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  attributeModels: AttributeModelSelector.getList(state),
+  attributeModels: AttributeModelSelectors.getList(state),
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchAllModelsAttributes: () => dispatch(AttributeModelAction.fetchPagedEntityList(0, 100)),
+  fetchAllModelsAttributes: () => dispatch(AttributeModelActions.fetchPagedEntityList(0, 100)),
 })
 
 const UnconnectedAdminContainer = AdminContainer

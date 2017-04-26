@@ -53,7 +53,7 @@ describe('[Entities Common] Testing DescriptionComponent', () => {
       entityLabel: 'nuits',
       descriptionFileURL: null,
       descriptionFile: {
-        id: 1001,
+        entityId: 1001,
         contentType: 'text/markdown',
         content: '#Hello',
       },

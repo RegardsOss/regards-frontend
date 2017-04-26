@@ -4,7 +4,7 @@
 import { ReduxEntityTester } from '@regardsoss/tests-helpers'
 import { ModelAttribute } from '@regardsoss/model'
 import ModelAttributesActions from '../../src/model/ModelAttributesActions'
-import ModelAttributesReducers from '../../src/model/ModelAttributesReducers'
+import ModelAttributesReducer from '../../src/model/ModelAttributesReducer'
 import ModelAttributesSelectors from '../../src/model/ModelAttributesSelectors'
 import ModelAttributeNetworkDump from './dump/ModelAttributeNetworkDump'
 
@@ -15,7 +15,7 @@ const options = {
 }
 
 
-const entityTester = new ReduxEntityTester(ModelAttributesActions, ModelAttributesReducers, ModelAttributesSelectors, React.PropTypes.objectOf(ModelAttribute).isRequired, backendServerResultList, options)
+const entityTester = new ReduxEntityTester(ModelAttributesActions, ModelAttributesReducer, ModelAttributesSelectors, React.PropTypes.objectOf(ModelAttribute).isRequired, backendServerResultList, options)
 
 describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing model ModelAttributes', () => {
   before(() => {
