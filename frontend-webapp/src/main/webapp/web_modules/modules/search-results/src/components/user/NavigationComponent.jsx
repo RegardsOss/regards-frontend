@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl'
 import LabelIcon from 'material-ui/svg-icons/action/label'
 import { CardTitle } from 'material-ui/Card'
 import { themeContextType } from '@regardsoss/theme'
-import { SearchResultsTargetsEnum, CatalogEntity } from '@regardsoss/model'
+import { CatalogEntity } from '@regardsoss/model'
 
 /**
  * Component to display navigation bar
@@ -15,7 +15,6 @@ import { SearchResultsTargetsEnum, CatalogEntity } from '@regardsoss/model'
 class NavigationComponent extends React.Component {
 
   static propTypes = {
-    onUnselectDataset: React.PropTypes.func.isRequired,
     onUnselectAll: React.PropTypes.func.isRequired,
     selectedDataset: CatalogEntity,
     selectedTag: React.PropTypes.string,
@@ -39,16 +38,12 @@ class NavigationComponent extends React.Component {
     this.props.onUnselectAll()
   }
 
-  onClickTag = () => {
-    this.props.onUnselectDataset(SearchResultsTargetsEnum.DATAOBJECT_RESULTS)
-  }
-
   getInitialBreadcrumb = () => {
     const { breadcrumbInitialContextLabel } = this.props
     const { path, pathHover } = this.context.moduleTheme.user.breadcrumb
     const initialBreadcrumb = breadcrumbInitialContextLabel || <FormattedMessage id="navigation.home.label" />
 
-    if (this.props.selectedDataset) {
+    if (this.props.selectedDataset || this.props.selectedTag) {
       return (
         <button
           style={this.state.catalogHover ? pathHover : path}
@@ -87,9 +82,6 @@ class NavigationComponent extends React.Component {
 
     let tagLabel = this.props.selectedTag ? (<button
       style={tagStyle}
-      onClick={this.onClickTag}
-      onMouseOver={() => this.setState({ tagHover: true })}
-      onMouseOut={() => this.setState({ tagHover: false })}
     >
       {this.props.selectedTag}
     </button>) : null

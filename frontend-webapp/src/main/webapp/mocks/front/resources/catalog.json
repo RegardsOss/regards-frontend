@@ -41,6 +41,12 @@
       "name": "Results dataset",
       "type": "DATASET",
       "description": "Results dataset"
+    },
+    {
+      "id": 12,
+      "name": "Results dataset",
+      "type": "DATAOBJECT",
+      "description": "Results dataobject"
     }
   ],
   "entities": [
@@ -510,6 +516,53 @@
     },
     {
       "modelId": 4,
+      "associations": [
+        {
+          "id": 3,
+          "mode": "idc",
+          "attribute": {
+            "id": 0,
+            "name": "language",
+            "label": "Language",
+            "type": "string",
+            "fragment": {
+              "id": 0,
+              "name": "DEFAULT"
+            }
+          }
+        },
+        {
+          "id": 4,
+          "mode": "idc",
+          "attribute": {
+            "id": 1,
+            "name": "format",
+            "label": "Format",
+            "type": "string",
+            "fragment": {
+              "id": 0,
+              "name": "DEFAULT"
+            }
+          }
+        },
+        {
+          "id": 5,
+          "mode": "idc",
+          "attribute": {
+            "id": 2,
+            "name": "date",
+            "label": "Date",
+            "type": "DATE_ISO8601",
+            "fragment": {
+              "id": 2,
+              "name": "infos"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "modelId": 12,
       "associations": [
         {
           "id": 3,

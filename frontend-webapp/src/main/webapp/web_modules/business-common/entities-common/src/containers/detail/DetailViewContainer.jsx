@@ -61,6 +61,8 @@ export class DetailViewContainer extends React.Component {
     dialogHeightPercent: Percent.isRequired,
     dialogWidthPercent: Percent.isRequired,
     onClose: React.PropTypes.func.isRequired, // on cloase callback
+    // Callback to run a new search with given tag
+    onSearchTag: React.PropTypes.func,
     // Component fetch operators
     // model attributes to model association (only for mapDispatchToProps and map states to props)
     // eslint-disable-next-line react/no-unused-prop-types
@@ -229,6 +231,8 @@ export class DetailViewContainer extends React.Component {
           <DetailViewComponent
             entityLabel={entity ? entity.content.label : null}
             attributes={attributes}
+            tags={entity ? entity.content.tags : []}
+            onSearchTag={this.props.onSearchTag}
             descriptionFileURL={url}
             descriptionFile={localContent}
             open={open}

@@ -10,6 +10,8 @@ const messages = {
   'entities.common.attribute.cell.no.value': '-',
   'entities.common.description.no.value.title': 'No description',
   'entities.common.description.no.value.message': 'There is no description to display for {entityLabel}',
+  'entities.tags.title': 'Associated keywords',
+  'entities.no.tags.found': 'No keywords associated to the current entity',
 }
 
 export default messages

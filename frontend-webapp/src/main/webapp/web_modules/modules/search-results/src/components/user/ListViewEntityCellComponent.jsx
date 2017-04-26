@@ -16,9 +16,11 @@ import {
   ObjectLinkedFileTypes,
 } from '@regardsoss/model'
 import { themeContextType } from '@regardsoss/theme'
+import { DetailViewContainer } from '@regardsoss/entities-common'
 import { getTypeRender } from '@regardsoss/attributes-common'
 import { TableColumnConfiguration, TableColumnConfigurationController } from '@regardsoss/components'
-import DatasetDescriptionComponent from './DatasetDescriptionComponent'
+import downloadDescriptionClient from '../../models/client/DownloadDescriptionClient'
+import { ModelAttributesActions, ModelAttributesSelectors } from '../../models/client/ModelAttributeClient'
 
 
 /**
@@ -26,7 +28,7 @@ import DatasetDescriptionComponent from './DatasetDescriptionComponent'
  *
  * @author Sébastien binda
  */
-class DatasetCellComponent extends React.Component {
+class ListViewEntityCellComponent extends React.Component {
 
   static propTypes = {
     // Entity to display
@@ -250,10 +252,16 @@ class DatasetCellComponent extends React.Component {
   displayDescription = () => {
     if (this.state.descriptionOpen) {
       return (
-        <DatasetDescriptionComponent
+        <DetailViewContainer
+          dialogHeightPercent={50}
+          dialogWidthPercent={60}
+          open={this.state.descriptionOpen}
           entity={this.props.entity}
           onClose={this.onCloseDescription}
-          onSearchTag={this.props.onSearchTag}
+          downloadDescriptionClient={downloadDescriptionClient}
+          fetchModelAttributesActions={ModelAttributesActions}
+          fetchModelAttributesSelectors={ModelAttributesSelectors}
+          onSearchTag={this.handleSearchTag}
         />
       )
     }
@@ -284,6 +292,11 @@ class DatasetCellComponent extends React.Component {
       return map(tableColumns, (column, key) => this.displayEntityProperty(key, column))
     }
     return map(properties, (property, key) => this.displayFragment(key, property))
+  }
+
+  handleSearchTag = (tag) => {
+    this.onCloseDescription()
+    this.props.onSearchTag(tag)
   }
 
   /**
@@ -327,4 +340,4 @@ class DatasetCellComponent extends React.Component {
     )
   }
 }
-export default DatasetCellComponent
+export default ListViewEntityCellComponent
