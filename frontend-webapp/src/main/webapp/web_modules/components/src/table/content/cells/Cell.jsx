@@ -1,11 +1,10 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import reduce from 'lodash/reduce'
-import split from 'lodash/split'
 import omit from 'lodash/omit'
 import { Cell as FixedDataTableCell } from 'fixed-data-table'
 import { themeContextType } from '@regardsoss/theme'
+import ColumnConfigurationController from '../columns/model/ColumnConfigurationController'
 
 /**
  * Display a cell into the table
@@ -32,47 +31,7 @@ class Cell extends React.PureComponent {
   getCellValue = (rowIndex, column) => {
     const { entities, lineHeight } = this.props
     const entity = entities[rowIndex]
-    const rendererComponent = column.customCell
-    if (entity && entity.content) {
-      let i = 0
-      // If a custom renderer is provided use it
-      if (rendererComponent) {
-        const attributes = {}
-        for (i = 0; i < column.attributes.length; i += 1) {
-          attributes[column.attributes[i]] = reduce(
-            split(column.attributes[i], '.'),
-            (result, value, key) => {
-              if (result) {
-                return result[value]
-              }
-              return null
-            }, entity.content)
-        }
-        return React.createElement(rendererComponent.component, {
-          attributes,
-          entity,
-          lineHeight,
-          ...rendererComponent.props,
-        })
-      }
-      // No custom component, render attribute as a string.
-      let resultValue = ''
-      for (i = 0; i < column.attributes.length; i += 1) {
-        const attrValue = reduce(split(column.attributes[i], '.'), (result, value, key) => {
-          if (result) {
-            return result[value]
-          }
-          return ''
-        }, entity.content)
-        if (entity.content[column.attributes[i]]) {
-          resultValue += ` ${attrValue}`
-        } else {
-          resultValue += ` ${attrValue}`
-        }
-      }
-      return resultValue
-    }
-    return null
+    return ColumnConfigurationController.getConfiguredColumnValueForEntity(column, entity, lineHeight)
   }
 
   render() {

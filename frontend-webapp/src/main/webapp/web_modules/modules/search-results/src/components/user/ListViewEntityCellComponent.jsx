@@ -6,12 +6,20 @@ import map from 'lodash/map'
 import merge from 'lodash/merge'
 import find from 'lodash/find'
 import Divider from 'material-ui/Divider'
+import GetApp from 'material-ui/svg-icons/action/get-app'
 import { Card, CardHeader, CardText } from 'material-ui/Card'
 import InfoIcon from 'material-ui/svg-icons/action/info-outline'
-import { CatalogEntity, AttributeModel, AttributeModelController, ObjectLinkedFileTypes } from '@regardsoss/model'
+import {
+  CatalogEntity,
+  AttributeModel,
+  AttributeModelController,
+  ObjectLinkedFileTypes,
+} from '@regardsoss/model'
 import { themeContextType } from '@regardsoss/theme'
 import { getTypeRender } from '@regardsoss/attributes-common'
+import { TableColumnConfiguration, TableColumnConfigurationController } from '@regardsoss/components'
 import DatasetDescriptionComponent from './DatasetDescriptionComponent'
+
 
 /**
  * Component to display datasets in search results.
@@ -21,7 +29,11 @@ import DatasetDescriptionComponent from './DatasetDescriptionComponent'
 class DatasetCellComponent extends React.Component {
 
   static propTypes = {
+    // Entity to display
     entity: CatalogEntity.isRequired,
+    // Columns configuration to display
+    tableColumns: React.PropTypes.arrayOf(TableColumnConfiguration),
+    // Callback to run a new search with the given tag
     onSearchTag: React.PropTypes.func,
     // eslint-disable-next-line react/no-unused-prop-types
     lineHeight: React.PropTypes.number.isRequired,
@@ -50,9 +62,9 @@ class DatasetCellComponent extends React.Component {
   }
 
   /**
-   * Callback to display dataset description
+   * Callback to display entity description
    */
-  onDatasetInformation = () => {
+  onEntityInformation = () => {
     this.setState({
       descriptionOpen: true,
     })
@@ -61,7 +73,7 @@ class DatasetCellComponent extends React.Component {
   /**
    * Callback when a dataset is selected. Click on his label
    */
-  onDatasetSelection = () => {
+  onEntitySelection = () => {
     this.props.onClick(this.props.entity)
   }
 
@@ -154,6 +166,37 @@ class DatasetCellComponent extends React.Component {
     return elements
   }
 
+  displayEntityProperty = (key, column) => {
+    // Do not display special files attributes like thumbmail or rawdata
+    if (column.attributes && column.attributes.length > 0 && column.attributes[0] === 'files') {
+      return null
+    }
+    if (TableColumnConfigurationController.doesEntityValuesNotEmptyForColumnConfiguration(column, this.props.entity)) {
+      return (
+        <div
+          key={key}
+          style={this.props.styles.attribute}
+        >
+          <span
+            style={this.props.styles.attributeLabel}
+          >{column.label}</span>
+          <span
+            style={{
+              marginRight: 5,
+              marginLeft: 5,
+            }}
+          >:</span>
+          <span
+            style={this.props.styles.attributeValue}
+          >
+            {TableColumnConfigurationController.getConfiguredColumnValueForEntity(column, this.props.entity)}
+          </span>
+        </div>
+      )
+    }
+    return null
+  }
+
   /**
    * Display the thumbmail of the current dataset if any is defined in the "FILES" property of the entity.
    * @returns {XML}
@@ -170,7 +213,7 @@ class DatasetCellComponent extends React.Component {
     return null
   }
 
-  displayDatasetTitle = () => (
+  displayTitle = () => (
     <div
       style={{
         display: 'flex',
@@ -178,22 +221,29 @@ class DatasetCellComponent extends React.Component {
       }}
     >
       <span
-        onMouseEnter={this.setHoverClickableStyle}
-        onMouseLeave={this.setHoverStyle}
-        onTouchTap={this.onDatasetSelection}
+        onMouseEnter={this.props.onClick ? this.setHoverClickableStyle : undefined}
+        onMouseLeave={this.props.onClick ? this.setStandardStyle : undefined}
+        onTouchTap={this.props.onClick ? this.onEntitySelection : undefined}
         style={{
           marginRight: 10,
         }}
       >{this.props.entity.content.label}</span>
-      <InfoIcon
-        onMouseEnter={this.setHoverClickableStyle}
-        onMouseLeave={this.setHoverStyle}
-        onTouchTap={this.onDatasetInformation}
+      <div
         style={{
+          display: 'flex',
           right: 15,
           position: 'absolute',
         }}
-      />
+      >
+        {this.displayDownload()}
+        <InfoIcon
+          onTouchTap={this.onEntityInformation}
+          style={{
+            cursor: 'pointer',
+            marginLeft: 15,
+          }}
+        />
+      </div>
     </div>
   )
 
@@ -210,6 +260,32 @@ class DatasetCellComponent extends React.Component {
     return null
   }
 
+  displayDownload = () => {
+    const rawdata = find(this.props.entity.content.files, file => file.type === ObjectLinkedFileTypes.RAWDATA)
+    if (rawdata) {
+      return (
+        <div>
+          <a href={rawdata.uri} download title="download">
+            <GetApp
+              style={{ cursor: 'pointer' }}
+              hoverColor={this.context.muiTheme.palette.accent1Color}
+            />
+          </a>
+        </div>
+      )
+    }
+    return null
+  }
+
+  displayEntityAttributes = () => {
+    const { properties } = this.props.entity.content
+    const { tableColumns } = this.props
+    if (tableColumns) {
+      return map(tableColumns, (column, key) => this.displayEntityProperty(key, column))
+    }
+    return map(properties, (property, key) => this.displayFragment(key, property))
+  }
+
   /**
    * Display a dataset cell
    *
@@ -219,11 +295,9 @@ class DatasetCellComponent extends React.Component {
     return (
       <Card
         style={this.state.style}
-        onMouseEnter={this.setHoverStyle}
-        onMouseLeave={this.setStandardStyle}
       >
         <CardHeader
-          title={this.displayDatasetTitle()}
+          title={this.displayTitle()}
           titleStyle={{
             fontSize: '1.3em',
           }}
@@ -244,8 +318,7 @@ class DatasetCellComponent extends React.Component {
             }}
           >
             <div style={this.props.styles.line}>
-              {map(this.props.entity.content.properties, (property, key) => this.displayFragment(key, property),
-              )}
+              {this.displayEntityAttributes()}
             </div>
           </div>
           {this.displayDescription()}

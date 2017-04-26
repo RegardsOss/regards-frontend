@@ -20,6 +20,7 @@ class AttributeRegroupementFormComponent extends React.Component {
     onClose: React.PropTypes.func.isRequired,
     onSubmit: React.PropTypes.func.isRequired,
     attributesRegrp: AttributesRegroupementConfiguration,
+    validateLabel: React.PropTypes.func.isRequired,
     // Available Attributes for configuration
     selectableAttributes: React.PropTypes.objectOf(AttributeModel).isRequired,
     // from reduxForm
@@ -94,7 +95,6 @@ class AttributeRegroupementFormComponent extends React.Component {
       saveButton = <FormattedMessage id="form.attributes.regroupement.form.update" />
     }
 
-
     return (
       <form
         onSubmit={this.props.handleSubmit(this.props.onSubmit)}
@@ -116,6 +116,7 @@ class AttributeRegroupementFormComponent extends React.Component {
               type="text"
               disabled={this.props.attributesRegrp !== null}
               label={<FormattedMessage id="form.attributes.regroupement.form.label" />}
+              validate={this.props.validateLabel}
             />
             <FieldArray name={'attributes'} component={this.renderAttributes} />
           </CardText>

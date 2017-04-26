@@ -13,4 +13,6 @@ export default React.PropTypes.shape({
   attributes: React.PropTypes.arrayOf(React.PropTypes.number),
   // Is the regroupement visible ?
   visibility: React.PropTypes.bool,
+  // Display order of the attribute
+  order: React.PropTypes.number,
 })

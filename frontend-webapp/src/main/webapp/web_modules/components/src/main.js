@@ -49,6 +49,8 @@ import ActionsMenuCell from './table/content/cells/ActionsMenuCell'
 import SVGIconFromString from './icon/SVGIconFromString'
 
 import LinkComponent from './links/LinkComponent'
+import TableColumnConfiguration from './table/content/columns/model/ColumnConfiguration'
+import TableColumnConfigurationController from './table/content/columns/model/ColumnConfigurationController'
 
 export {
   ActionButtonComponent,
@@ -69,6 +71,8 @@ export {
   IFrameURLContentDisplayer,
   TableContainer,
   TableSelectionModes,
+  TableColumnConfiguration,
+  TableColumnConfigurationController,
   LoadingPaneComponent,
   LoadableContentDialogContainer,
   SingleContentURLDialogContainer,
