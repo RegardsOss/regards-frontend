@@ -7,7 +7,7 @@ const backendServerResultList = FragmentListDump
 const options = {
 }
 
-const FragmentActions = DataManagementClient.FragmentActions('test/action')
+const FragmentActions = new DataManagementClient.FragmentActions('test/action')
 const FragmentReducer = DataManagementClient.FragmentReducer('test/action')
 const FragmentSelectors = DataManagementClient.FragmentSelectors(['test', 'modules'])
 const entityTester = new ReduxEntityTester(FragmentActions, FragmentReducer, FragmentSelectors, React.PropTypes.objectOf(Fragment).isRequired, backendServerResultList, options)

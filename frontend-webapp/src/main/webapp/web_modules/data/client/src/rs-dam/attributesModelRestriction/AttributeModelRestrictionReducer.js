@@ -2,12 +2,10 @@ import { BasicArrayReducers } from '@regardsoss/store-utils'
 import AttributeModelRestrictionActions from './AttributeModelRestrictionActions'
 
 class AttributeModelRestrictionReducers extends BasicArrayReducers {
-  constructor() {
-    super(AttributeModelRestrictionActions)
+  constructor(namespace) {
+    super(new AttributeModelRestrictionActions(namespace))
   }
 }
-
-const instance = new AttributeModelRestrictionReducers()
 
 /**
  * Return an function where the reducer instance exists
@@ -15,6 +13,7 @@ const instance = new AttributeModelRestrictionReducers()
  * @param action redux action received
  * @return new state
  */
-export default function (state, action) {
-  return instance.reduce(state, action)
+export default (namespace) => {
+  const instance = new AttributeModelRestrictionReducers(namespace)
+  return (state, action) => instance.reduce(state, action)
 }

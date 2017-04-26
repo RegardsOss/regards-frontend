@@ -45,9 +45,21 @@ class DumpProvider {
    * @returns {*}
    */
   getFirstEntity(microserviceName, entityName) {
-    const entityListResult = this.get(microserviceName, entityName)
-    return entityListResult[keys(entityListResult)[0]]
+    return this.getNthEntity(microserviceName, entityName, 0)
   }
+
+
+  /**
+   * Return a valid entity
+   * @param microserviceName
+   * @param entityName
+   * @returns {*}
+   */
+  getNthEntity(microserviceName, entityName, n) {
+    const entityListResult = this.get(microserviceName, entityName)
+    return entityListResult[keys(entityListResult)[n]]
+  }
+
   /**
    * Return a valid entity
    * @param microserviceName

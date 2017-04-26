@@ -1,10 +1,20 @@
 import Schemas from '@regardsoss/api'
 import { BasicListActions } from '@regardsoss/store-utils'
 
-class ModelActions extends BasicListActions {
-  constructor() {
+/**
+ * Redux actions to handle Model entities from backend server.
+ *
+ * @author Léo Mieulet
+ */
+export default class ModelActions extends BasicListActions {
+
+  /**
+   * Construtor
+   * @param namespace
+   */
+  constructor(namespace) {
     super({
-      namespace: 'admin-data-model-management',
+      namespace,
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-dam/models`,
       entityPathVariable: 'pModelId',
       schemaTypes: {
@@ -14,6 +24,3 @@ class ModelActions extends BasicListActions {
     })
   }
 }
-
-const instance = new ModelActions()
-export default instance

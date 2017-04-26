@@ -1,6 +1,10 @@
 import UIPluginConfigurationClientDump from '@regardsoss/client/tests/rs-access-project/UIPluginConfiguration.dump'
 import UIPluginDefinitionClientDump from '@regardsoss/client/tests/rs-access-project/UIPluginDefinition.dump'
 import FragmentClientDump from '@regardsoss/client/tests/rs-dam/Fragment.dump'
+import AttributeModelDump from '@regardsoss/client/tests/rs-dam/AttributeModel.dump'
+import ModelDump from '@regardsoss/client/tests/rs-dam/ModelDump.dump'
+import ModelAttributeDump from '@regardsoss/client/tests/rs-dam/ModelAttribute.dump'
+
 
 import {
   // UIPluginConfiguration
@@ -13,6 +17,15 @@ import {
 
   FragmentConfiguration,
   FRAGMENT_ARRAY,
+
+  AttributeModelConfiguration,
+  ATTRIBUTE_MODEL_ARRAY,
+
+  MODEL_ARRAY,
+  ModelConfiguration,
+
+  MODEL_ATTRIBUTE_ARRAY,
+  ModelAttributeConfiguration,
 } from '@regardsoss/api'
 
 /**
@@ -43,6 +56,24 @@ export default {
       dump: FragmentClientDump,
       ENTITY_ARRAY: FRAGMENT_ARRAY,
       normalizrKey: FragmentConfiguration.normalizrKey,
+    },
+    AttributeModel: {
+      isPageable: false,
+      dump: AttributeModelDump,
+      ENTITY_ARRAY: ATTRIBUTE_MODEL_ARRAY,
+      normalizrKey: AttributeModelConfiguration.normalizrKey,
+    },
+    Model: {
+      isPageable: false,
+      dump: ModelDump,
+      ENTITY_ARRAY: MODEL_ARRAY,
+      normalizrKey: ModelConfiguration.normalizrKey,
+    },
+    ModelAttribute: {
+      isPageable: false,
+      dump: ModelAttributeDump,
+      ENTITY_ARRAY: MODEL_ATTRIBUTE_ARRAY,
+      normalizrKey: ModelAttributeConfiguration.normalizrKey,
     },
   },
 }

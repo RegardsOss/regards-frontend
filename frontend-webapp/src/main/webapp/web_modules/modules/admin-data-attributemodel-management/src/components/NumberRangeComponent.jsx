@@ -57,20 +57,10 @@ export function initializeNumberRangeForm(type, initialValues, currentAttrModel)
   const formValues = initialValues
   formValues.restriction[type] = {}
   formValues.restriction[type].active = true
-  if (currentAttrModel.content.restriction.minInclusive) {
-    formValues.restriction[type].min = currentAttrModel.content.restriction.minInclusive
-    formValues.restriction[type].isMinInclusive = true
-  } else if (currentAttrModel.content.restriction.minExclusive) {
-    formValues.restriction[type].min = currentAttrModel.content.restriction.minExclusive
-    formValues.restriction[type].isMinInclusive = false
-  }
-  if (currentAttrModel.content.restriction.maxInclusive) {
-    formValues.restriction[type].max = currentAttrModel.content.restriction.maxInclusive
-    formValues.restriction[type].isMaxInclusive = true
-  } else if (currentAttrModel.content.restriction.maxExclusive) {
-    formValues.restriction[type].max = currentAttrModel.content.restriction.maxExclusive
-    formValues.restriction[type].isMaxInclusive = false
-  }
+  formValues.restriction[type].min = currentAttrModel.content.restriction.min
+  formValues.restriction[type].max = currentAttrModel.content.restriction.max
+  formValues.restriction[type].isMinInclusive = !currentAttrModel.content.restriction.minExcluded
+  formValues.restriction[type].isMaxInclusive = !currentAttrModel.content.restriction.maxExcluded
   return initialValues
 }
 
