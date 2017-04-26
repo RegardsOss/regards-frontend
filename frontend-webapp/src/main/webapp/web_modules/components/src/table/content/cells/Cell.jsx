@@ -22,17 +22,25 @@ class Cell extends React.PureComponent {
     entities: React.PropTypes.arrayOf(React.PropTypes.object),
     overridenCellsStyle: React.PropTypes.objectOf(React.PropTypes.string),
     lineHeight: React.PropTypes.number,
+    onToggleSelectRow: React.PropTypes.func.isRequired,
+    isSelected: React.PropTypes.func.isRequired,
   }
 
   static contextTypes = {
     ...themeContextType,
   }
 
+  handleToggleSelectRow = () => {
+    this.props.onToggleSelectRow(this.props.rowIndex)
+  }
+
   getCellValue = (rowIndex, column) => {
     const { entities, lineHeight } = this.props
     const entity = entities[rowIndex]
-    return ColumnConfigurationController.getConfiguredColumnValueForEntity(column, entity, lineHeight)
+    return ColumnConfigurationController.getConfiguredColumnValueForEntity(column, entity, lineHeight, this.isRowSelected(), this.handleToggleSelectRow)
   }
+
+  isRowSelected = () => this.props.isSelected(this.props.rowIndex)
 
   render() {
     const attribute = this.getCellValue(this.props.rowIndex, this.props.col)
@@ -55,7 +63,7 @@ class Cell extends React.PureComponent {
     return (
       <FixedDataTableCell
         style={cellStyle}
-        {...omit(this.props, 'entities', 'col', 'lineHeight', 'overridenCellsStyle', 'isLastColumn')}
+        {...omit(this.props, 'entities', 'col', 'lineHeight', 'overridenCellsStyle', 'isLastColumn', 'isSelected', 'onToggleSelectRow')}
       >
         <div style={cellContentStyle}>{attribute}</div>
       </FixedDataTableCell>

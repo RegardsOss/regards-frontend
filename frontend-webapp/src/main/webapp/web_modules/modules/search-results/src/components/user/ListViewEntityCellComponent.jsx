@@ -7,6 +7,7 @@ import merge from 'lodash/merge'
 import find from 'lodash/find'
 import Divider from 'material-ui/Divider'
 import GetApp from 'material-ui/svg-icons/action/get-app'
+import Checkbox from 'material-ui/Checkbox'
 import { Card, CardHeader, CardText } from 'material-ui/Card'
 import InfoIcon from 'material-ui/svg-icons/action/info-outline'
 import {
@@ -31,18 +32,30 @@ import { ModelAttributesActions, ModelAttributesSelectors } from '../../models/c
 class ListViewEntityCellComponent extends React.Component {
 
   static propTypes = {
+
+    // Parameters set by table component
+
     // Entity to display
     entity: CatalogEntity.isRequired,
+    attributes: React.PropTypes.objectOf(AttributeModel),
+    // eslint-disable-next-line react/no-unused-prop-types
+    lineHeight: React.PropTypes.number.isRequired,
+    // Parameters to handle row selection
+    isTableSelected: React.PropTypes.bool,
+    selectTableEntityCallback: React.PropTypes.func,
+
+    // Parameters set by columnConfiguration
+
     // Columns configuration to display
     tableColumns: React.PropTypes.arrayOf(TableColumnConfiguration),
     // Callback to run a new search with the given tag
     onSearchTag: React.PropTypes.func,
-    // eslint-disable-next-line react/no-unused-prop-types
-    lineHeight: React.PropTypes.number.isRequired,
+    // Callback when click on entity label
     onClick: React.PropTypes.func,
-    attributes: React.PropTypes.objectOf(AttributeModel),
     // eslint-disable-next-line react/forbid-prop-types
     styles: React.PropTypes.object,
+    // Display checbox for entities selection ?
+    displayCheckBoxes: React.PropTypes.bool,
   }
 
   static contextTypes = {
@@ -222,6 +235,13 @@ class ListViewEntityCellComponent extends React.Component {
         alignItems: 'center',
       }}
     >
+      {this.props.displayCheckBoxes ? <Checkbox
+        onCheck={this.props.selectTableEntityCallback}
+        defaultChecked={this.props.isTableSelected}
+        style={{
+          width: 'auto',
+        }}
+      /> : null }
       <span
         onMouseEnter={this.props.onClick ? this.setHoverClickableStyle : undefined}
         onMouseLeave={this.props.onClick ? this.setStandardStyle : undefined}

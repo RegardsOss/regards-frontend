@@ -216,6 +216,7 @@ class SearchResultsComponent extends React.Component {
           styles: this.context.moduleTheme.user.listViewStyles,
           onSearchTag: this.searchTag,
           tableColumns: this.isInObjectMode() ? this.state.tableColumns : undefined,
+          displayCheckBoxes: this.isInObjectMode(),
         },
       },
     })
