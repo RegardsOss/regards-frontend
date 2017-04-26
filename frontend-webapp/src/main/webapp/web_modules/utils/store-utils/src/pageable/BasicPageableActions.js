@@ -73,6 +73,7 @@ class BasicPageableActions extends BasicListActions {
           this.buildFailureAction(this.ENTITY_LIST_FAILURE),
         ],
         endpoint,
+        headers: this.headers,
         method: 'GET',
       },
     }

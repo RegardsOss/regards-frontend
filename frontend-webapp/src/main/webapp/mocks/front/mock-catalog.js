@@ -1,10 +1,21 @@
 const _ = require('lodash')
-const { logMessage, makePageResult, loadJSONModelFile } = require('./mock-front-utils')
+const { logMessage, makePageResult, loadFile, loadJSONModelFile, JSON_CONTENT_TYPE } = require('./mock-front-utils')
 
 
 const sourceCatalogFile = './mocks/front/resources/catalog.json'
-// load users pool
+// load catalog and modify entities to hold there model in model attribute, without type, instead of the ID only, and there type
 const catalog = loadJSONModelFile(sourceCatalogFile)
+catalog.entities = catalog.entities.map(entity => {
+  // retrieve entity model
+  const entityModel = catalog.modelTypes.find(m => m.id === entity.model.id)
+  // delete type field in model
+  const modelForRest = Object.assign({}, entityModel)
+  delete modelForRest.type
+  // add type and model fields in entity
+  return Object.assign({}, entity, { model: modelForRest, type: entityModel.type })
+})
+
+
 
 /** Map the source file parameters to expected corresponding openSearchQuery parameter / value regexp and equality type */
 const searchQueryParameters = {
@@ -17,10 +28,13 @@ const searchQueryParameters = {
   model: {
     key: 'model.name',
     modelField: 'model',
-    // check equal to one of mentionned model name
-    equalityChecker: (fieldValue, values) => values.includes(fieldValue),
-  },
+    // check equal the entity model name matches one of searched model names
+    equalityChecker: (fieldValue, values) => {
+      return !!values.find(modelName => fieldValue.name === modelName)
+    }
+  }
 }
+
 
 const searchParameterSeparator = ' AND '
 const searchParameterValueSeparator = ':'
@@ -63,9 +77,7 @@ function serveFilteredEntitiesPage(openSearchQuery, searchedType) {
   const matchingEntities = _.reduce(catalog.entities, (entitiesAcc, entity) => {
     if (entity.type === searchedType) {
       const matchAllParameters = _.reduce(searchedValuesByParameter,
-        (acc, { modelField, equalityChecker, values }) => acc && equalityChecker(entity[modelField], values),
-
-        true)
+        (acc, { modelField, equalityChecker, values }) => acc && equalityChecker(entity[modelField], values), true)
       if (matchAllParameters) {
         return Object.assign({ [entity.id]: entity }, entitiesAcc)
       }
@@ -73,6 +85,7 @@ function serveFilteredEntitiesPage(openSearchQuery, searchedType) {
     // not matching type or open search query
     return entitiesAcc
   }, {})
+  // convert entities to expected result format and make page 
   return makePageResult(matchingEntities, (object) => {
     const links = object.links || []
     const content = Object.assign({}, object)
@@ -82,6 +95,47 @@ function serveFilteredEntitiesPage(openSearchQuery, searchedType) {
       links,
     }
   })
+}
+
+const serveModelAttributesAssociation = (request, params, { id }) => {
+  const idAsNumber = parseInt(id, 10)
+  const association = catalog.modelAttributesAssociations.find(assoc => assoc.modelId === idAsNumber)
+  const model = catalog.modelTypes.find(({ id: modelId }) => modelId === idAsNumber)
+  if (!association || !model) {
+    return { code: 404 }
+  }
+  // convert to expected content for UI: assoc {
+  // content: {  
+  //   id
+  //   mode,
+  //   attribute,
+  //   model
+  // }
+  const content = association.associations.map(assoc => ({
+    content: Object.assign({
+      model,
+    }, assoc)
+  }))
+  return { code: 200, content, contentType: JSON_CONTENT_TYPE }
+}
+
+const serveEntityDescriptionFile = (request, params, { id }) => {
+  const idAsNumber = parseInt(id, 10)
+  const foundDescription = catalog.localDescriptions.find(({ entityId }) => entityId === idAsNumber)
+  if (!foundDescription) {
+    return { code: 404 }
+  }
+  const filePath = `./mocks/front/resources/${foundDescription.file}`
+  const binary = !foundDescription.contentType.includes('text')
+  let content = binary ?
+    loadFile(filePath) : // binary file
+    loadFile(filePath, 'utf8') // text file
+  return {
+    code: 200,
+    contentType: foundDescription.contentType,
+    content,
+    binary,
+  }
 }
 
 module.exports = {
@@ -105,6 +159,18 @@ module.exports = {
         return serveFilteredEntitiesPage(q, 'DATASET')
       },
     },
+    modelAttributesAssoc: {
+      url: 'rs-dam/models/{id}/attributes',
+      handler: serveModelAttributesAssociation,
+    },
+    collectionDescriptionFiles: {
+      url: 'rs-dam/collection/{id}/file',
+      handler: serveEntityDescriptionFile,
+    },
+    datasetDescriptionFiles: {
+      url: 'rs-dam/dataset/{id}/file',
+      handler: serveEntityDescriptionFile,
+    }
   },
 }
 

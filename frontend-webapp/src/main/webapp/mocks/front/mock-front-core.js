@@ -38,13 +38,18 @@ const localHandlerClosure = (timeBefore, entryDelegate, query = {}, pathParamete
   logMessage('Serving locally')
 
   // run delegate to get code and text
-  const { content = '', code = 200, contentType } = entryDelegate(request, query, pathParameters, bodyParameters, response)
+  const { content = '', code = 200, contentType, binary = false } = entryDelegate(request, query, pathParameters, bodyParameters, response)
   // publish code
   const headers = Object.assign({}, buildBasicHeaders(request.headers.origin || request.headers.Origin), contentType ? { 'Content-Type': contentType } : {})
   response.writeHead(code, headers)
 
-  // end answer with text (or stringified object)
-  response.end(typeof content === 'object' ? JSON.stringify(content) : content)
+  if (!binary) {
+    // end answer with text (or stringified object)
+    response.end(typeof content === 'object' ? JSON.stringify(content) : content)
+  } else {
+    // send text as binary
+    response.end(content, 'binary')
+  }
   // log access info
   logMessage(`${request.method} ${request.url} ${code} ${new Date().getTime() - timeBefore}ms`)
 }

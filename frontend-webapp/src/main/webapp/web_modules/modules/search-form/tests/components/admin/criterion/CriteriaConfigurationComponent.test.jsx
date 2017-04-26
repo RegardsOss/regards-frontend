@@ -44,18 +44,24 @@ describe('[SEARCH FORM] Testing CriteriaConfigurationComponent', () => {
           content: {
             id: 0,
             name: 'attribute1',
+            label: 'x1',
+            type: 'string',
           },
         },
         1: {
           content: {
             id: 1,
             name: 'attribute2',
+            label: 'x2',
+            type: 'string',
           },
         },
         2: {
           content: {
             id: 2,
             name: 'attribute3',
+            label: 'x3',
+            type: 'string',
           },
         },
       },

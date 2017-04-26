@@ -50,4 +50,18 @@ describe('[Search Graph] Test graph context actions', () => {
       collapsed: false,
     }, buildMockStore({}))
   })
+  it('It should dispatch description visible action', () => {
+    const entity = {
+      anotherField: 'anotherValue',
+    }
+    dispatchAndCheck(graphContextActions.showDescription(entity), {
+      type: graphContextActions.SHOW_ENTITY_DESCRIPTION,
+      entity,
+    }, buildMockStore({}))
+  })
+  it('It should dispatch description hidden action', () => {
+    dispatchAndCheck(graphContextActions.hideDescription(), {
+      type: graphContextActions.HIDE_ENTITY_DESCRIPTION,
+    }, buildMockStore({}))
+  })
 })

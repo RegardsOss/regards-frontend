@@ -45,15 +45,26 @@ class BasicSignalActions extends BasicActions {
           this.SIGNAL_REQUEST,
           {
             type: this.SIGNAL_SUCCESS,
-            payload: (action, state, res) => getJSON(res),
+            payload: (action, state, res) => this.buildResults(res),
           },
           this.buildFailureAction(this.SIGNAL_FAILURE),
         ],
+        headers: this.headers,
         endpoint,
         method: verb,
         body,
       },
     }
+  }
+
+  /**
+   * Behavior: build result from fetch result
+   * @param {*} res fetch result
+   * @return result
+   */
+  // eslint-disable-next-line class-methods-use-this
+  buildResults(stream) {
+    return getJSON(stream).then(json => json)
   }
 
 }

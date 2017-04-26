@@ -1,19 +1,23 @@
-import AttributeModelAction from './attributes/AttributeModelAction'
+import AttributeModelActions from './attributes/AttributeModelActions'
 import AttributeModelReducer from './attributes/AttributeModelReducer'
-import AttributeModelSelector from './attributes/AttributeModelSelector'
+import AttributeModelSelectors from './attributes/AttributeModelSelectors'
+import ModelAttributesActions from './attributes/ModelAttributesActions'
+import ModelAttributesReducer from './attributes/ModelAttributesReducer'
+import ModelAttributesSelectors from './attributes/ModelAttributesSelectors'
 
 import FragmentActions from './fragment/FragmentActions'
-import FragmentReducers from './fragment/FragmentReducers'
+import FragmentReducer from './fragment/FragmentReducer'
 import FragmentSelectors from './fragment/FragmentSelectors'
 
 export default {
-
-  AttributeModelAction,
+  AttributeModelActions,
   AttributeModelReducer,
-  AttributeModelSelector,
-
+  AttributeModelSelectors,
+  ModelAttributesActions,
+  ModelAttributesReducer,
+  ModelAttributesSelectors,
   FragmentActions,
-  FragmentReducers,
+  FragmentReducer,
   FragmentSelectors,
 
 }
