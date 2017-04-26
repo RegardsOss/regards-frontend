@@ -84,6 +84,8 @@ class SearchGraph extends React.Component {
                         key={levelModelName}
                         levelModelName={levelModelName}
                         levelIndex={index}
+                        isFirstLevel={index === 0}
+                        isLastLevel={index === (graphLevels.length - 1)}
                       />
                     ))}
                   </div>

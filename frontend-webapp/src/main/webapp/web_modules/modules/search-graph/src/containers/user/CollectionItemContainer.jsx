@@ -27,6 +27,7 @@ export class CollectionItemContainer extends React.Component {
 
   static propTypes = {
     collection: CatalogEntity.isRequired,
+    isLastLevel: React.PropTypes.bool.isRequired,
     // from map state to props
     selected: React.PropTypes.bool.isRequired,
     // from map dispatch to props
@@ -39,12 +40,13 @@ export class CollectionItemContainer extends React.Component {
   }
 
   render() {
-    const { collection, selected } = this.props
+    const { isLastLevel, collection, selected } = this.props
     return (
       <CollectionItem
         collection={collection}
         selected={selected}
         onSelect={this.onSelected}
+        expensible={!isLastLevel}
       />
     )
   }

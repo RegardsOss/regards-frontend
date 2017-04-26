@@ -15,6 +15,7 @@ class CollectionItem extends React.Component {
 
   static propTypes = {
     collection: CatalogEntity.isRequired,
+    expensible: React.PropTypes.bool.isRequired,
     selected: React.PropTypes.bool.isRequired,
     onSelect: React.PropTypes.func.isRequired,
   }
@@ -41,7 +42,7 @@ class CollectionItem extends React.Component {
   }
 
   render() {
-    const { collection, selected, onSelect } = this.props
+    const { collection, expensible, selected, onSelect } = this.props
     const { arrowStyles } = this.state
     const { moduleTheme: { user: { collectionItem } } } = this.context
     return (
@@ -49,7 +50,7 @@ class CollectionItem extends React.Component {
         <ItemLinkContainer
           entity={collection}
           Icon={CollectionIcon}
-          additiveLineComponent={<ArrowDown style={arrowStyles} />}
+          additiveLineComponent={expensible ? <ArrowDown style={arrowStyles} /> : null}
           onSelect={onSelect}
           selected={selected}
           locked={false}

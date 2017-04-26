@@ -55,6 +55,7 @@ describe('[Search Graph] Testing GraphLevelDisplayer', () => {
       graphDatasetAttributes: [],
       isShowable: false,
       isLoading: false,
+      isLastLevel: false,
       hasError: false,
       collections: {},
       datasets: {},
@@ -79,6 +80,7 @@ describe('[Search Graph] Testing GraphLevelDisplayer', () => {
       graphDatasetAttributes: [],
       isShowable: true,
       isLoading: false,
+      isLastLevel: false,
       hasError: false,
       collections: {},
       datasets: {},
@@ -101,6 +103,7 @@ describe('[Search Graph] Testing GraphLevelDisplayer', () => {
       graphDatasetAttributes: [],
       isShowable: true,
       isLoading: false,
+      isLastLevel: false,
       hasError: false,
       collections: {},
       datasets: {},
@@ -123,6 +126,7 @@ describe('[Search Graph] Testing GraphLevelDisplayer', () => {
       graphDatasetAttributes: [],
       isShowable: true,
       isLoading: false,
+      isLastLevel: true,
       hasError: false,
       collections: {},
       datasets: {},
@@ -151,7 +155,7 @@ describe('[Search Graph] Testing GraphLevelDisplayer', () => {
     assert.isFalse(showables.emptyShowable.props().show, 'Empty message should be hidden')
     assert.isTrue(showables.contentShowable.props().show, 'Content should be visible when there is content')
   })
-  it('Should render exlusively on element at same time, between loading / error / empty and content', () => {
+  it('Should render exclusively one element at same time, between loading / error / empty and content', () => {
     // test here all states combination and check that they are exclusive
     const possibleValues = [
       { key: 'isLoading', values: [false, true] },
@@ -191,6 +195,7 @@ describe('[Search Graph] Testing GraphLevelDisplayer', () => {
           // basic props
           graphDatasetAttributes: [],
           isShowable: true,
+          isLastLevel: false,
           levelIndex: 999,
           // combination
           [key]: v,

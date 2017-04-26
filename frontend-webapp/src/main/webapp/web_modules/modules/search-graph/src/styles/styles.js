@@ -357,10 +357,6 @@ const menuStyles = (theme) => {
           },
         },
       },
-      descriptionDialog: {
-        widthPercent: 70,
-        heightPercent: 68,
-      },
     },
   }
 }

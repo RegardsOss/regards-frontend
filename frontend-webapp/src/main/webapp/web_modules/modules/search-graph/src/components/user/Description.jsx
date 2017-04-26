@@ -1,7 +1,6 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
-import { themeContextType } from '@regardsoss/theme'
 import { CatalogEntity } from '@regardsoss/model'
 import { DataManagementClient } from '@regardsoss/client'
 import { BasicListSelectors } from '@regardsoss/store-utils'
@@ -23,22 +22,15 @@ class Description extends React.Component {
     downloadDescriptionClient: React.PropTypes.instanceOf(DownloadDescriptionClient).isRequired,
   }
 
-  static contextTypes = {
-    ...themeContextType,
-  }
-
   render() {
     const {
       isDescriptionVisible, entity, onCloseDescription, downloadDescriptionClient,
       fetchModelAttributesActions, fetchModelAttributesSelectors,
     } = this.props
-    const { moduleTheme: { user: { descriptionDialog } } } = this.context
     return (
       <DetailViewContainer
         open={isDescriptionVisible}
         entity={entity}
-        dialogHeightPercent={descriptionDialog.heightPercent}
-        dialogWidthPercent={descriptionDialog.widthPercent}
         onClose={onCloseDescription}
         fetchModelAttributesActions={fetchModelAttributesActions}
         fetchModelAttributesSelectors={fetchModelAttributesSelectors}

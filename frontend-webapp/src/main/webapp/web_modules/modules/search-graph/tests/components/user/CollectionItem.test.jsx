@@ -27,6 +27,7 @@ describe('[Search Graph] Testing CollectionItem', () => {
           properties: {},
         },
       },
+      expensible: false,
       selected: false,
       onSelect: () => { },
     }
