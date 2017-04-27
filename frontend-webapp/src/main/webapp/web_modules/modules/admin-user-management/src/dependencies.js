@@ -10,19 +10,8 @@ import accessGroupsDependencies from '@regardsoss/admin-accessright-management/s
  * @author Sébastien binda
  */
 
-/**
- * Mandatory Dependencies to display module in user interface
- * @type {Array}
- */
-const user = []
-
-/**
- * Mandatory Dependencies to display module in admin interface
- * @type {Array}
- */
-const admin = concat([], projectUserDependencies.admin, roleDependencies.admin, accessGroupsDependencies.admin)
-
 export default {
-  user,
-  admin,
+  ...projectUserDependencies.admin,
+  ...roleDependencies.admin,
+  ...accessGroupsDependencies.admin,
 }

@@ -9,6 +9,7 @@ const messages = {
   'menu.plugins': 'Plugins',
   'menu.datamanagement': 'Gestion des données',
   'menu.dataaccessrights': 'Droits aux données',
+  'menu.instance': 'Administration instance',
   'menu.back': 'Retour',
 }
 
