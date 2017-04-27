@@ -520,7 +520,7 @@
       "id": 23,
       "description": "Retrieves attributes",
       "microservice": "rs-dam",
-      "resource": "/attributes",
+      "resource": "/models/attributes",
       "verb": "GET",
       "controllerSimpleName": "Controller 1"
     },

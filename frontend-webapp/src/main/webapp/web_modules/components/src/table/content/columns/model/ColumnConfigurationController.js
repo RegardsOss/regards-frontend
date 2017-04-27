@@ -35,12 +35,14 @@ const doesEntityValuesNotEmptyForColumnConfiguration = (column, entity) => {
 /**
  * Get the specific rendered value of the entity for the given table column configuration.
  *
- * @param column
- * @param entity
- * @param lineHeight
+ * @param column : Column to render
+ * @param entity : Entity to display
+ * @param lineHeight : Table lineHeight configuration
+ * @param isTableSelected : Does the entity selected into the table ?
+ * @param selectTableEntityCallback : Callback to add the current entity to the table list of selected entities
  * @returns {*}
  */
-const getConfiguredColumnValueForEntity = (column, entity, lineHeight) => {
+const getConfiguredColumnValueForEntity = (column, entity, lineHeight, isTableSelected, selectTableEntityCallback) => {
   const rendererComponent = column.customCell
   if (entity && entity.content) {
     let i = 0
@@ -61,6 +63,8 @@ const getConfiguredColumnValueForEntity = (column, entity, lineHeight) => {
         attributes,
         entity,
         lineHeight,
+        isTableSelected,
+        selectTableEntityCallback,
         ...rendererComponent.props,
       })
     }

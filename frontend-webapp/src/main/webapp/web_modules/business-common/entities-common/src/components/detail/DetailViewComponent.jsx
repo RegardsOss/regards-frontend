@@ -11,9 +11,9 @@ import AttributesViewComponent from './attributes/AttributesViewComponent'
 import DescriptionComponent from './description/DescriptionComponent'
 
 /**
-* Shows entity detail view. Note: you can add here properties that should be sent to inner dialog.
-* Note this component has state (for graphics variable)
-*/
+ * Shows entity detail view. Note: you can add here properties that should be sent to inner dialog.
+ * Note this component has state (for graphics variable)
+ */
 class DetailViewComponent extends React.Component {
 
   static propTypes = {
@@ -26,6 +26,9 @@ class DetailViewComponent extends React.Component {
       renderer: React.PropTypes.func.isRequired,
       renderValue: React.PropTypes.any,
     })).isRequired,
+    tags: React.PropTypes.arrayOf(React.PropTypes.string),
+    // Callback to run a new search with given tag
+    onSearchTag: React.PropTypes.func,
     descriptionFileURL: React.PropTypes.string,
     descriptionFile: React.PropTypes.shape({
       entityId: React.PropTypes.number.isRequired,
@@ -59,8 +62,8 @@ class DetailViewComponent extends React.Component {
   render() {
     const { open, loaded, entityLabel, attributes, descriptionFileURL,
       descriptionFile, onClose, ...otherDialogProperties } = this.props
-    const { moduleTheme: { descriptionDialog } } = this.context
     // due to multiple overflows Y embedded in each other, we need here to compute the remaining tab content space on Y
+    const { moduleTheme: { descriptionDialog } } = this.context
     return (
       <LoadableContentDialogContainer
         open={open}
@@ -77,12 +80,14 @@ class DetailViewComponent extends React.Component {
         {...otherDialogProperties}
       >
         <Measure onMeasure={this.onContentHeightChanges}>
-          <Tabs style={{ height: '100%' }} >
+          <Tabs style={{ height: '100%' }}>
             <Tab label={<FormattedMessage id="entities.common.attributes.tabs" />}>
               <AttributesViewComponent
                 entityLabel={entityLabel}
                 attributes={attributes}
                 contentHeight={this.state.contentHeight}
+                tags={this.props.tags}
+                onSearchTag={this.props.onSearchTag}
               />
             </Tab>
             <Tab label={<FormattedMessage id="entities.common.description.tabs" />}>

@@ -1,15 +1,23 @@
 /**
-* LICENSE_PLACEHOLDER
-**/
+ * LICENSE_PLACEHOLDER
+ **/
 import { FormattedMessage } from 'react-intl'
-import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
+import {
+  Table,
+  TableBody,
+  TableHeader,
+  TableHeaderColumn,
+  TableRow,
+  TableRowColumn,
+} from 'material-ui/Table'
 import NoDataIcon from 'material-ui/svg-icons/device/widgets'
 import { NoContentMessageInfo } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
+import TagsViewComponent from '../tags/TagsViewComponent'
 
 /**
-* Attributes view component
-*/
+ * Attributes view component
+ */
 class AttributesViewComponent extends React.Component {
 
   static propTypes = {
@@ -23,6 +31,9 @@ class AttributesViewComponent extends React.Component {
       renderer: React.PropTypes.func.isRequired,
       renderValue: React.PropTypes.any,
     })).isRequired,
+    tags: React.PropTypes.arrayOf(React.PropTypes.string),
+    // Callback to run a new search with given tag
+    onSearchTag: React.PropTypes.func,
   }
 
   static contextTypes = {
@@ -49,7 +60,7 @@ class AttributesViewComponent extends React.Component {
           height={`${contentHeight - muiTheme.tableHeaderColumn.height}px`}
 
         >
-          <TableHeader displaySelectAll={false} adjustForCheckbox={false} enableSelectAll={false} >
+          <TableHeader displaySelectAll={false} adjustForCheckbox={false} enableSelectAll={false}>
             <TableRow>
               <TableHeaderColumn><FormattedMessage id="entities.common.attributes.column.label" /></TableHeaderColumn>
               <TableHeaderColumn><FormattedMessage id="entities.common.attributes.column.value" /></TableHeaderColumn>
@@ -70,6 +81,19 @@ class AttributesViewComponent extends React.Component {
                 }</TableRowColumn>
               </TableRow>
             ))}
+            <TableRow>
+              <TableRowColumn
+                colSpan="2" style={{
+                  paddingLeft: 0,
+                  paddingRight: 0,
+                }}
+              >
+                <TagsViewComponent
+                  tags={this.props.tags}
+                  onSearchTag={this.props.onSearchTag}
+                />
+              </TableRowColumn>
+            </TableRow>
           </TableBody>
         </Table>
       </NoContentMessageInfo>)

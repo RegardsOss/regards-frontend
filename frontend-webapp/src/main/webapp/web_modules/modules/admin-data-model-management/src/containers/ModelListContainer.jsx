@@ -1,8 +1,8 @@
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
-import ModelActions from '../model/ModelActions'
-import ModelSelectors from '../model/ModelSelectors'
+import { Model } from '@regardsoss/model'
+import { modelActions, modelSelectors } from '../client/ModelClient'
 import ModelListComponent from '../components/ModelListComponent'
 
 /**
@@ -20,16 +20,7 @@ export class ProjectListContainer extends React.Component {
       project: React.PropTypes.string,
     }),
     // from mapStateToProps
-    modelList: React.PropTypes.objectOf(
-      React.PropTypes.shape({
-        content: React.PropTypes.shape({
-          id: React.PropTypes.number,
-          name: React.PropTypes.string,
-          description: React.PropTypes.string,
-          type: React.PropTypes.string,
-        }),
-      }),
-    ),
+    modelList: React.PropTypes.objectOf(Model),
     // from mapDispatchToProps
     fetchModelList: React.PropTypes.func,
     deleteModel: React.PropTypes.func,
@@ -82,11 +73,11 @@ export class ProjectListContainer extends React.Component {
   }
 }
 const mapStateToProps = state => ({
-  modelList: ModelSelectors.getList(state),
+  modelList: modelSelectors.getList(state),
 })
 const mapDispatchToProps = dispatch => ({
-  fetchModelList: () => dispatch(ModelActions.fetchEntityList()),
-  deleteModel: id => dispatch(ModelActions.deleteEntity(id)),
+  fetchModelList: () => dispatch(modelActions.fetchEntityList()),
+  deleteModel: id => dispatch(modelActions.deleteEntity(id)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectListContainer)

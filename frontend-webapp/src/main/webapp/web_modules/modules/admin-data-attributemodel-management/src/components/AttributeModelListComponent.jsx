@@ -10,7 +10,7 @@ import { AttributeModel } from '@regardsoss/model'
 import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import AttributeModelActions from '../model/AttributeModelActions'
+import { attributeModelActions } from '../client/AttributeModelClient'
 
 /**
  * React components to list project.
@@ -30,6 +30,12 @@ export class AttributeModelListComponent extends React.Component {
     ...i18nContextType,
   }
 
+  getFragmentName = (attrModel) => {
+    if (attrModel.content.fragment) {
+      return attrModel.content.fragment.name
+    }
+    return ''
+  }
 
   render() {
     const { attrModelList, handleEdit, handleDelete, createUrl, backUrl } = this.props
@@ -68,7 +74,7 @@ export class AttributeModelListComponent extends React.Component {
             >
               {map(attrModelList, (attrmodel, i) => (
                 <TableRow key={i}>
-                  <TableRowColumn>{attrmodel.content.fragment.name}</TableRowColumn>
+                  <TableRowColumn>{this.getFragmentName(attrmodel)}</TableRowColumn>
                   <TableRowColumn>{attrmodel.content.name}</TableRowColumn>
                   <TableRowColumn>{attrmodel.content.description}</TableRowColumn>
                   <TableRowColumn>{attrmodel.content.type}</TableRowColumn>
@@ -103,7 +109,7 @@ export class AttributeModelListComponent extends React.Component {
                 id="attrmodel.list.action.add"
               />
             }
-            mainHateoasDependency={AttributeModelActions.getDependency(RequestVerbEnum.POST)}
+            mainHateoasDependency={attributeModelActions.getDependency(RequestVerbEnum.POST)}
             secondaryButtonLabel={<FormattedMessage id="attrmodel.list.action.cancel" />}
             secondaryButtonUrl={backUrl}
           />

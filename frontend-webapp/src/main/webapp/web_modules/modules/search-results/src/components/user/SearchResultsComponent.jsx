@@ -108,13 +108,6 @@ class SearchResultsComponent extends React.Component {
     this.setState({ filters })
   }
 
-  /**
-   * Unselect current selected dataset.
-   */
-  onUnselectDataset = (target) => {
-    this.selectDataset(null, target)
-  }
-
   onClickDatasetTarget = () => {
     this.onChangeTarget(SearchResultsTargetsEnum.DATASET_RESULTS)
   }
@@ -223,6 +216,7 @@ class SearchResultsComponent extends React.Component {
           styles: this.context.moduleTheme.user.listViewStyles,
           onSearchTag: this.searchTag,
           tableColumns: this.isInObjectMode() ? this.state.tableColumns : undefined,
+          displayCheckBoxes: this.isInObjectMode(),
         },
       },
     })
@@ -606,7 +600,6 @@ class SearchResultsComponent extends React.Component {
         <NavigationComponent
           breadcrumbInitialContextLabel={this.props.breadcrumbInitialContextLabel}
           selectedTag={this.state.searchTag}
-          onUnselectDataset={this.onUnselectDataset}
           onUnselectAll={this.onUnselectAll}
           selectedDataset={selectedDataset}
         />

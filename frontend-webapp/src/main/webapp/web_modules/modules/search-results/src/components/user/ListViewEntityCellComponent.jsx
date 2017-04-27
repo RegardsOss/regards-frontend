@@ -7,6 +7,7 @@ import merge from 'lodash/merge'
 import find from 'lodash/find'
 import Divider from 'material-ui/Divider'
 import GetApp from 'material-ui/svg-icons/action/get-app'
+import Checkbox from 'material-ui/Checkbox'
 import { Card, CardHeader, CardText } from 'material-ui/Card'
 import InfoIcon from 'material-ui/svg-icons/action/info-outline'
 import {
@@ -16,9 +17,11 @@ import {
   ObjectLinkedFileTypes,
 } from '@regardsoss/model'
 import { themeContextType } from '@regardsoss/theme'
+import { DetailViewContainer } from '@regardsoss/entities-common'
 import { getTypeRender } from '@regardsoss/attributes-common'
 import { TableColumnConfiguration, TableColumnConfigurationController } from '@regardsoss/components'
-import DatasetDescriptionComponent from './DatasetDescriptionComponent'
+import downloadDescriptionClient from '../../models/client/DownloadDescriptionClient'
+import { ModelAttributesActions, ModelAttributesSelectors } from '../../models/client/ModelAttributeClient'
 
 
 /**
@@ -26,21 +29,33 @@ import DatasetDescriptionComponent from './DatasetDescriptionComponent'
  *
  * @author Sébastien binda
  */
-class DatasetCellComponent extends React.Component {
+class ListViewEntityCellComponent extends React.Component {
 
   static propTypes = {
+
+    // Parameters set by table component
+
     // Entity to display
     entity: CatalogEntity.isRequired,
+    attributes: React.PropTypes.objectOf(AttributeModel),
+    // eslint-disable-next-line react/no-unused-prop-types
+    lineHeight: React.PropTypes.number.isRequired,
+    // Parameters to handle row selection
+    isTableSelected: React.PropTypes.bool,
+    selectTableEntityCallback: React.PropTypes.func,
+
+    // Parameters set by columnConfiguration
+
     // Columns configuration to display
     tableColumns: React.PropTypes.arrayOf(TableColumnConfiguration),
     // Callback to run a new search with the given tag
     onSearchTag: React.PropTypes.func,
-    // eslint-disable-next-line react/no-unused-prop-types
-    lineHeight: React.PropTypes.number.isRequired,
+    // Callback when click on entity label
     onClick: React.PropTypes.func,
-    attributes: React.PropTypes.objectOf(AttributeModel),
     // eslint-disable-next-line react/forbid-prop-types
     styles: React.PropTypes.object,
+    // Display checbox for entities selection ?
+    displayCheckBoxes: React.PropTypes.bool,
   }
 
   static contextTypes = {
@@ -220,6 +235,13 @@ class DatasetCellComponent extends React.Component {
         alignItems: 'center',
       }}
     >
+      {this.props.displayCheckBoxes ? <Checkbox
+        onCheck={this.props.selectTableEntityCallback}
+        defaultChecked={this.props.isTableSelected}
+        style={{
+          width: 'auto',
+        }}
+      /> : null }
       <span
         onMouseEnter={this.props.onClick ? this.setHoverClickableStyle : undefined}
         onMouseLeave={this.props.onClick ? this.setStandardStyle : undefined}
@@ -250,10 +272,16 @@ class DatasetCellComponent extends React.Component {
   displayDescription = () => {
     if (this.state.descriptionOpen) {
       return (
-        <DatasetDescriptionComponent
+        <DetailViewContainer
+          dialogHeightPercent={50}
+          dialogWidthPercent={60}
+          open={this.state.descriptionOpen}
           entity={this.props.entity}
           onClose={this.onCloseDescription}
-          onSearchTag={this.props.onSearchTag}
+          downloadDescriptionClient={downloadDescriptionClient}
+          fetchModelAttributesActions={ModelAttributesActions}
+          fetchModelAttributesSelectors={ModelAttributesSelectors}
+          onSearchTag={this.handleSearchTag}
         />
       )
     }
@@ -284,6 +312,11 @@ class DatasetCellComponent extends React.Component {
       return map(tableColumns, (column, key) => this.displayEntityProperty(key, column))
     }
     return map(properties, (property, key) => this.displayFragment(key, property))
+  }
+
+  handleSearchTag = (tag) => {
+    this.onCloseDescription()
+    this.props.onSearchTag(tag)
   }
 
   /**
@@ -327,4 +360,4 @@ class DatasetCellComponent extends React.Component {
     )
   }
 }
-export default DatasetCellComponent
+export default ListViewEntityCellComponent

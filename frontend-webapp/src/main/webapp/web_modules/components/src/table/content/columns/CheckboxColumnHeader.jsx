@@ -26,10 +26,6 @@ class CheckboxColumnHeader extends React.Component {
     ...i18nContextType,
   }
 
-  onToggleSelection = () => {
-
-  }
-
   render() {
     const { intl: { formatMessage }, moduleTheme: { fixedCellHeader, checkButton: { checkedIcon, uncheckedIcon } } } = this.context
     const { areAllSelected, onToggleSelectAll } = this.props
