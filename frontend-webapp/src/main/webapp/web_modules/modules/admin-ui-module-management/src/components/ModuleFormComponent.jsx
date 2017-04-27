@@ -62,7 +62,6 @@ class ModuleFormComponent extends React.Component {
 
   handleInitialize = () => {
     if (this.props.module) {
-      console.log('Initialize')
       const initializeModule = Object.assign({},
         {
           applicationId: this.props.applicationId,
@@ -216,7 +215,6 @@ const validate = (values) => {
   if (!values.applicationId || values.applicationId === '') {
     errors.applicationId = ErrorTypes.REQUIRED
   }
-  console.log('validate', values, errors)
   return errors
 }
 

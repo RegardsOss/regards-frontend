@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  */
 import Schemas from '@regardsoss/api'
-import { BasicListActions } from '@regardsoss/store-utils'
+import { BasicPageableActions } from '@regardsoss/store-utils'
 
 /**
  * Redux actions to handle Attribute Model entities from backend server.
@@ -18,7 +18,7 @@ import { BasicListActions } from '@regardsoss/store-utils'
  *
  * @author Léo Mieulet
  */
-export default class AttributeModelActions extends BasicListActions {
+export default class AttributeModelActions extends BasicPageableActions {
 
   /**
    * Construtor

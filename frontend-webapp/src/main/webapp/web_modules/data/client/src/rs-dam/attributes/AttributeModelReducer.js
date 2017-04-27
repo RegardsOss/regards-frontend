@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { BasicListReducers } from '@regardsoss/store-utils'
+import { BasicPageableReducers } from '@regardsoss/store-utils'
 import { AttributeModelConfiguration } from '@regardsoss/api'
 import AttributeModelActions from './AttributeModelActions'
 /**
@@ -16,7 +16,7 @@ import AttributeModelActions from './AttributeModelActions'
  *
  * @author Léo Mieulet
  */
-class AttributeModelReducer extends BasicListReducers {
+class AttributeModelReducer extends BasicPageableReducers {
   constructor(namespace) {
     super(AttributeModelConfiguration, new AttributeModelActions(namespace))
   }
