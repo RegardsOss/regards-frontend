@@ -1,10 +1,10 @@
-import AttributeModelActions from './attributes/AttributeModelActions'
-import AttributeModelReducer from './attributes/AttributeModelReducer'
-import AttributeModelSelectors from './attributes/AttributeModelSelectors'
+import AttributeModelActions from './attributesModel/AttributeModelActions'
+import AttributeModelReducer from './attributesModel/AttributeModelReducer'
+import AttributeModelSelectors from './attributesModel/AttributeModelSelectors'
 
-import ModelAttributesActions from './attributes/ModelAttributesActions'
-import ModelAttributesReducer from './attributes/ModelAttributesReducer'
-import ModelAttributesSelectors from './attributes/ModelAttributesSelectors'
+import ModelAttributesActions from './modelAttributes/ModelAttributesActions'
+import ModelAttributesReducer from './modelAttributes/ModelAttributesReducer'
+import ModelAttributesSelectors from './modelAttributes/ModelAttributesSelectors'
 
 import FragmentActions from './fragment/FragmentActions'
 import FragmentReducer from './fragment/FragmentReducer'

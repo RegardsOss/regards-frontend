@@ -4,15 +4,12 @@ import { I18nProvider } from '@regardsoss/i18n'
 import { Model } from '@regardsoss/model'
 import { modelActions, modelSelectors } from '../client/ModelClient'
 import ModelListComponent from '../components/ModelListComponent'
+import { authenticationSelectors } from '../client/AuthenticationClient'
 
 /**
- * React container to manage ManageProjectsComponent.
- *
- * @prop {Array<Project>} projects List of projects to display
- * @prop {Boolean} projectConfigurationIsShown ProjectConfigurationComponent display status
- *
+ * React container to list all model entities
  */
-export class ProjectListContainer extends React.Component {
+export class ModelListContainer extends React.Component {
 
   static propTypes = {
     // from router
@@ -21,6 +18,7 @@ export class ProjectListContainer extends React.Component {
     }),
     // from mapStateToProps
     modelList: React.PropTypes.objectOf(Model),
+    accessToken: React.PropTypes.string,
     // from mapDispatchToProps
     fetchModelList: React.PropTypes.func,
     deleteModel: React.PropTypes.func,
@@ -42,7 +40,13 @@ export class ProjectListContainer extends React.Component {
 
   handleEdit = (modelId) => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/data/model/${modelId}`
+    const url = `/admin/${project}/data/model/${modelId}/edit`
+    browserHistory.push(url)
+  }
+
+  handleDuplicate = (modelId) => {
+    const { params: { project } } = this.props
+    const url = `/admin/${project}/data/model/${modelId}/duplicate`
     browserHistory.push(url)
   }
 
@@ -57,15 +61,17 @@ export class ProjectListContainer extends React.Component {
   }
 
   render() {
-    const { modelList } = this.props
+    const { modelList, accessToken } = this.props
     return (
       <I18nProvider messageDir="modules/admin-data-model-management/src/i18n">
         <ModelListComponent
           modelList={modelList}
+          accessToken={accessToken}
           createUrl={this.getCreateUrl()}
           backUrl={this.getBackUrl()}
           handleDelete={this.handleDelete}
           handleEdit={this.handleEdit}
+          handleDuplicate={this.handleDuplicate}
           handleBindAttributes={this.handleBindAttributes}
         />
       </I18nProvider>
@@ -74,11 +80,12 @@ export class ProjectListContainer extends React.Component {
 }
 const mapStateToProps = state => ({
   modelList: modelSelectors.getList(state),
+  accessToken: authenticationSelectors.getAccessToken(state),
 })
 const mapDispatchToProps = dispatch => ({
   fetchModelList: () => dispatch(modelActions.fetchEntityList()),
   deleteModel: id => dispatch(modelActions.deleteEntity(id)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProjectListContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(ModelListContainer)
 

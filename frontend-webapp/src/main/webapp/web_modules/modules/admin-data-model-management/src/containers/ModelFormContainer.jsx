@@ -1,8 +1,8 @@
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
-import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
 import { Model } from '@regardsoss/model'
+import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { modelActions, modelSelectors } from '../client/ModelClient'
 import ModelFormComponent from '../components/ModelFormComponent'
 
@@ -12,53 +12,45 @@ export class ProjectFormContainer extends React.Component {
     params: React.PropTypes.shape({
       project: React.PropTypes.string,
       model_id: React.PropTypes.string,
+      mode: React.PropTypes.string,
     }),
     // from mapStateToProps
     model: Model,
-    isFetching: React.PropTypes.bool,
     // from mapDispatchToProps
     createModel: React.PropTypes.func,
     fetchModel: React.PropTypes.func,
     updateModel: React.PropTypes.func,
+    duplicateModel: React.PropTypes.func,
+    createModelUsingFile: React.PropTypes.func,
   }
 
   constructor(props) {
     super(props)
+    const isCreating = props.params.model_id === undefined
     this.state = {
-      isEditing: props.params.model_id !== undefined,
+      isCreating,
+      isLoading: !isCreating,
+      isEditing: props.params.mode === 'edit',
+      isDuplicating: props.params.mode === 'duplicate',
     }
   }
 
   componentDidMount() {
-    if (this.state.isEditing) {
+    if (!this.state.isCreating) {
       this.props.fetchModel(this.props.params.model_id)
+        .then(() => {
+          this.setState({
+            isLoading: false,
+          })
+        })
     }
   }
+
   getBackUrl = () => {
     const { params: { project } } = this.props
     return `/admin/${project}/data/model/list`
   }
 
-  getFormComponent = () => {
-    if (this.state.isEditing) {
-      const { model, isFetching } = this.props
-      if (isFetching) {
-        return (<FormLoadingComponent />)
-      }
-      if (model) {
-        return (<ModelFormComponent
-          onSubmit={this.handleUpdate}
-          backUrl={this.getBackUrl()}
-          currentModel={model}
-        />)
-      }
-      return (<FormEntityNotFoundComponent />)
-    }
-    return (<ModelFormComponent
-      onSubmit={this.handleCreate}
-      backUrl={this.getBackUrl()}
-    />)
-  }
   handleUpdate = (values) => {
     const updatedProject = Object.assign({}, this.props.model.content, {
       description: values.description,
@@ -74,32 +66,81 @@ export class ProjectFormContainer extends React.Component {
   }
 
   handleCreate = (values) => {
-    Promise.resolve(this.props.createModel({
-      name: values.name,
-      description: values.description,
-      type: values.type,
-    }))
-    .then(() => {
-      const url = this.getBackUrl()
-      browserHistory.push(url)
+    let task
+    if (values.file) {
+      task = this.props.createModelUsingFile({
+        file: values.file,
+      })
+    } else {
+      task = this.props.createModel({
+        name: values.name,
+        description: values.description,
+        type: values.type,
+      })
+    }
+    Promise.resolve(task)
+    .then((actionResult) => {
+      // We receive here the action
+      if (!actionResult.error) {
+        const url = this.getBackUrl()
+        browserHistory.push(url)
+      }
     })
   }
+
+  handleDuplicate = (values) => {
+    const { model } = this.props
+    Promise.resolve(this.props.duplicateModel(model.content.id, {
+      type: model.content.type,
+      name: values.name,
+      description: values.description,
+    }))
+    .then((actionResult) => {
+      // We receive here the action
+      if (!actionResult.error) {
+        const url = this.getBackUrl()
+        browserHistory.push(url)
+      }
+    })
+  }
+
+  handleSubmit = (values) => {
+    const { isCreating, isEditing } = this.state
+    if (isCreating) {
+      return this.handleCreate(values)
+    }
+    if (isEditing) {
+      return this.handleUpdate(values)
+    }
+    return this.handleDuplicate(values)
+  }
+
   render() {
+    const { isCreating, isEditing, isLoading } = this.state
     return (
       <I18nProvider messageDir="modules/admin-data-model-management/src/i18n">
-        {this.getFormComponent()}
+        <LoadableContentDisplayDecorator isLoading={isLoading}>
+          <ModelFormComponent
+            onSubmit={this.handleSubmit}
+            backUrl={this.getBackUrl()}
+            isEditing={isEditing}
+            isCreating={isCreating}
+            currentModel={this.props.model}
+          />
+        </LoadableContentDisplayDecorator>
       </I18nProvider>
     )
   }
 }
 const mapStateToProps = (state, ownProps) => ({
   model: ownProps.params.model_id ? modelSelectors.getById(state, ownProps.params.model_id) : null,
-  isFetching: modelSelectors.isFetching(state),
 })
 
 const mapDispatchToProps = dispatch => ({
   createModel: values => dispatch(modelActions.createEntity(values)),
   updateModel: (id, values) => dispatch(modelActions.updateEntity(id, values)),
+  duplicateModel: (modelId, values) => dispatch(modelActions.duplicateModel(modelId, values)),
+  createModelUsingFile: file => dispatch(modelActions.createEntityUsingMultiPart({}, file)),
   fetchModel: id => dispatch(modelActions.fetchEntity(id)),
 })
 

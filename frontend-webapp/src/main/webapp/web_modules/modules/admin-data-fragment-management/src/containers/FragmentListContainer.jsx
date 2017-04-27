@@ -88,7 +88,7 @@ export class FragmentListContainer extends React.Component {
 }
 const mapStateToProps = state => ({
   fragmentList: fragmentSelectors.getList(state),
-  accessToken: authenticationSelectors.getAuthentication(state).result.access_token,
+  accessToken: authenticationSelectors.getAccessToken(state),
 })
 const mapDispatchToProps = dispatch => ({
   fetchFragmentList: () => dispatch(fragmentActions.fetchEntityList()),
