@@ -8,10 +8,11 @@ import Settings from 'material-ui/svg-icons/action/settings-input-composite'
 import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
+import { Model } from '@regardsoss/model'
 import { HateoasIconAction, HateoasKeys } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import AttributeModelActions from '@regardsoss/admin-data-modelattribute-management/src/model/AttributeModelActions'
-import ModelActions from '../model/ModelActions'
+import { modelActions } from '../client/ModelClient'
+import { modelAttributesActions } from '../client/ModelAttributesClient'
 
 /**
  * React components to list project.
@@ -19,16 +20,7 @@ import ModelActions from '../model/ModelActions'
 export class ProjectListComponent extends React.Component {
 
   static propTypes = {
-    modelList: React.PropTypes.objectOf(
-      React.PropTypes.shape({
-        content: React.PropTypes.shape({
-          id: React.PropTypes.number,
-          name: React.PropTypes.string,
-          description: React.PropTypes.string,
-          type: React.PropTypes.string,
-        }),
-      }),
-    ),
+    modelList: React.PropTypes.objectOf(Model),
     handleDelete: React.PropTypes.func.isRequired,
     handleEdit: React.PropTypes.func.isRequired,
     handleBindAttributes: React.PropTypes.func.isRequired,
@@ -97,7 +89,7 @@ export class ProjectListComponent extends React.Component {
                   <TableRowColumn>{this.getType(model.content.type)}</TableRowColumn>
                   <TableRowColumn>
                     <HateoasIconAction
-                      hateoasDependency={AttributeModelActions.getDependency(RequestVerbEnum.PUT)}
+                      hateoasDependency={modelAttributesActions.getDependency(RequestVerbEnum.PUT)}
                       onTouchTap={() => handleBindAttributes(model.content.id)}
                     >
                       <Settings hoverColor={style.hoverButtonBindAttribute} />
@@ -132,7 +124,7 @@ export class ProjectListComponent extends React.Component {
                 id="model.list.action.add"
               />
             }
-            mainHateoasDependency={ModelActions.getDependency(RequestVerbEnum.POST)}
+            mainHateoasDependency={modelActions.getDependency(RequestVerbEnum.POST)}
             secondaryButtonLabel={<FormattedMessage id="model.list.action.cancel" />}
             secondaryButtonUrl={backUrl}
           />

@@ -1,9 +1,10 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { merge } from 'lodash'
+import merge from 'lodash/merge'
 import { Card, CardHeader, CardText } from 'material-ui/Card'
 import Checkbox from 'material-ui/Checkbox'
+import TextField from 'material-ui/TextField'
 import Visibility from 'material-ui/svg-icons/action/visibility'
 import VisibilityOff from 'material-ui/svg-icons/action/visibility-off'
 import IconMenu from 'material-ui/IconMenu'
@@ -36,7 +37,8 @@ class AttributeConfigurationComponent extends React.Component {
   shouldComponentUpdate(nextProps, nextState) {
     const { conf } = this.props
     const nextConf = nextProps.conf
-    if (conf.label !== nextConf.label ||
+    if (conf.order !== nextConf.order ||
+      conf.label !== nextConf.label ||
       conf.visibility !== nextConf.visibility ||
       conf.facetable !== nextConf.facetable) {
       return true
@@ -50,6 +52,14 @@ class AttributeConfigurationComponent extends React.Component {
     this.props.onChange(this.props.conf.label, newConf)
   }
 
+  changeAttributeOrder = (event, value) => {
+    const newConf = merge({}, this.state.conf, { order: parseInt(value, this) })
+    this.setState({ conf: newConf })
+    this.props.onChange(this.props.conf.label, newConf)
+  }
+
+  formatOrder = value => value ? parseInt(value, this) : undefined
+
   render() {
     return (
       <Card
@@ -57,7 +67,11 @@ class AttributeConfigurationComponent extends React.Component {
       >
         <CardHeader
           title={this.props.conf.label}
-          style={{ display: 'inline-block', width: '80%' }}
+          style={{
+            display: 'inline-block',
+            width: '80%',
+            paddingTop: 0,
+            paddingBottom: 0 }}
         />
         <IconMenu
           iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
@@ -76,7 +90,21 @@ class AttributeConfigurationComponent extends React.Component {
             onTouchTap={() => this.props.onDelete(this.props.conf)}
           />
         </IconMenu>
-        <CardText>
+        <CardText
+          style={{
+            paddingTop: 0,
+          }}
+        >
+          <TextField
+            id="search"
+            type="number"
+            floatingLabelText={<FormattedMessage id="form.attributes.order" />}
+            value={this.formatOrder(this.state.conf.order)}
+            onChange={this.changeAttributeOrder}
+            style={{
+              maxWidth: 150,
+            }}
+          />
           <Checkbox
             label={<FormattedMessage id="form.attributes.visibility.label" />}
             checked={this.state.conf.visibility}

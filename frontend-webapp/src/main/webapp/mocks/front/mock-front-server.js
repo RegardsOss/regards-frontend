@@ -11,7 +11,6 @@ const FacadeCore = require('./mock-front-core')
 const MockUsers = require('./mock-users')
 const MockCatalog = require('./mock-catalog')
 
-
 /**
  * Mock server entry point: provide here the delegate for a given URL and method
  * Note1 : delegate signature is:

@@ -2,8 +2,6 @@
  * LICENSE_PLACEHOLDER
  **/
 import map from 'lodash/map'
-import reduce from 'lodash/reduce'
-import split from 'lodash/split'
 import { Table as FixedDataTable, Column } from 'fixed-data-table'
 import { themeContextType } from '@regardsoss/theme'
 import SelectionController from '../selection/SelectionController'
@@ -126,61 +124,7 @@ class Table extends React.Component {
     this.forceUpdate()
   }
 
-
-  /**
-   * Return a cell content value with the rox index and the column name.
-   * @param rowIndex
-   * @param column
-   * @param rendererComponent type {customCell, props}
-   * @returns {string}
-   */
-  getCellValue = (rowIndex, column) => {
-    const { entities, lineHeight } = this.props
-    const entity = entities[rowIndex]
-    const rendererComponent = column.customCell
-    if (entity && entity.content) {
-      let i = 0
-      // If a custom renderer is provided use it
-      if (rendererComponent) {
-        const attributes = {}
-        for (i = 0; i < column.attributes.length; i += 1) {
-          attributes[column.attributes[i]] = reduce(
-            split(column.attributes[i], '.'),
-            (result, value, key) => {
-              if (result) {
-                return result[value]
-              }
-              return null
-            }, entity.content)
-        }
-        return React.createElement(rendererComponent.component, {
-          attributes,
-          entity,
-          lineHeight,
-          ...rendererComponent.props,
-        })
-      }
-      // No custom component, render attribute as a string.
-      let resultValue = ''
-      for (i = 0; i < column.attributes.length; i += 1) {
-        const attrValue = reduce(split(column.attributes[i], '.'), (result, value, key) => {
-          if (result) {
-            return result[value]
-          }
-          return ''
-        }, entity.content)
-        if (entity.content[column.attributes[i]]) {
-          resultValue += ` ${attrValue}`
-        } else {
-          resultValue += ` ${attrValue}`
-        }
-      }
-      return resultValue
-    }
-    return null
-  }
-
-  isSelectedCell = rowIndex => this.selectionController.isSelectedRow(rowIndex)
+  isSelectedRow = rowIndex => this.selectionController.isSelectedRow(rowIndex)
 
   render() {
     if (!this.props.entities) {
@@ -214,7 +158,7 @@ class Table extends React.Component {
                 />}
                 cell={<CheckBoxCell
                   onToggleSelectRow={this.onToggleSelectRow}
-                  isSelected={this.isSelectedCell}
+                  isSelected={this.isSelectedRow}
                 />}
                 fixed
                 width={selectionColumn.width}
@@ -241,6 +185,8 @@ class Table extends React.Component {
                 overridenCellsStyle={cellsStyle}
                 col={column}
                 isLastColumn={index === columns.length - 1}
+                onToggleSelectRow={this.onToggleSelectRow}
+                isSelected={this.isSelectedRow}
               />}
               width={columnWidth}
               flexGrow={1}

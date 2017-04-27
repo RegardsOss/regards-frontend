@@ -41,6 +41,7 @@ describe('[ATTRIBUTES COMMON] Testing AttributeRegroupementFormComponent', () =>
       onClose: () => { },
       onSubmit: () => { },
       selectableAttributes: {},
+      validateLabel: () => {},
       submitting: false,
       pristine: false,
       invalid: false,

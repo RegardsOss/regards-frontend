@@ -8,7 +8,7 @@ import { themeContextType } from '@regardsoss/theme'
 /**
 * Fixed table header Component
 */
-class FixedTableHedaer extends React.Component {
+class TablePaneHeader extends React.Component {
 
   static propTypes = {
     // adds tabs buttons to results table
@@ -62,4 +62,4 @@ class FixedTableHedaer extends React.Component {
     )
   }
 }
-export default FixedTableHedaer
+export default TablePaneHeader

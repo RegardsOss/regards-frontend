@@ -1,6 +1,7 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
+import values from 'lodash/values'
 import LockIcon from 'material-ui/svg-icons/action/lock'
 import InformationIcon from 'material-ui/svg-icons/action/info-outline'
 import IconButton from 'material-ui/IconButton'
@@ -53,102 +54,50 @@ class ItemLink extends React.Component {
   }
 
   static propTypes = {
-    locked: React.PropTypes.bool.isRequired,
-    selected: React.PropTypes.bool.isRequired,
-    onSelect: React.PropTypes.func.isRequired,
     text: React.PropTypes.string.isRequired,
     Icon: React.PropTypes.func.isRequired,
     additiveLineComponent: React.PropTypes.node, // an optional additive line component
-    // optional callback on state change: (newState:States) => void
-    onStateChange: React.PropTypes.func,
+    // parent container control
+    onMouseOver: React.PropTypes.func.isRequired,
+    onMouseOut: React.PropTypes.func.isRequired,
+    onLinkClicked: React.PropTypes.func.isRequired,
+    onDescriptionClicked: React.PropTypes.func.isRequired,
+    // show state of this component
+    displayState: React.PropTypes.oneOf(values(ItemLink.States)).isRequired,
   }
 
   static contextTypes = {
     ...themeContextType,
   }
 
-  componentWillMount = () => {
-    // initialize state
-    const { locked, selected } = this.props
-    this.updateState(this.getNewState(locked, selected, false))
+  componentWillMount() {
+    this.updateDisplayStateStyles(null, this.props.displayState)
   }
 
-  componentWillReceiveProps = (nextProps) => {
-    // update state, in case of locked or selected properties changed
-    const { locked, selected } = nextProps
-    const hover = [ItemLink.States.HOVER, ItemLink.States.HOVER].includes(this.state.currentState)
-    this.updateState(this.getNewState(locked, selected, hover))
+  componentWillReceiveProps = ({ displayState: nextState }) => {
+    const { displayState: previousState } = this.props
+    this.updateDisplayStateStyles(previousState, nextState)
   }
 
-
-  /**
-   * Mouse over handler
-   */
-  onMouseOver = () => {
-    const { locked, selected } = this.props
-    this.updateState(this.getNewState(locked, selected, true))
-  }
-
-  /**
-   * Mouse out handler
-   */
-  onMouseOut = () => {
-    const { locked, selected } = this.props
-    this.updateState(this.getNewState(locked, selected, false))
-  }
-
-  /**
-   * Click handler
-   */
-  onLinkClick = () => {
-    const { locked, onSelect } = this.props
-    if (!locked) {
-      onSelect()
-    }
-  }
-
-  onInformationClick = () => {
-    // TODO
-  }
-
-  getNewState = (locked, selected, hover) => {
-    if (locked) {
-      return ItemLink.States.LOCKED
-    }
-    if (hover) {
-      return selected ? ItemLink.States.SELECTED_HOVER : ItemLink.States.HOVER
-    }
-    if (selected) {
-      return ItemLink.States.SELECTED
-    }
-    return ItemLink.States.DEFAULT
-  }
-
-  updateState = (newState) => {
-    const currentState = this.state ? this.state.currentState : null
-    if (newState !== currentState) {
+  updateDisplayStateStyles = (previousState, newState) => {
+    if (previousState !== newState) {
       // update state
-      const { onStateChange } = this.props
       const { moduleTheme: { user: { itemLink: { root, icon, text } } } } = this.context
       // 1 - update styles and store it all in state
       const rootStyles = ItemLink.selectStyles(newState, root, root.commonStyles)
       const textStyles = ItemLink.selectStyles(newState, text, text.commonStyles)
       const iconStyles = ItemLink.selectStyles(newState, icon, icon.commonStyles)
       this.setState({
-        currentState: newState,
         rootStyles,
         textStyles,
         iconStyles,
       })
-      // 2 - notify lister if any
-      if (onStateChange) {
-        onStateChange(newState)
-      }
     }
   }
 
   render() {
-    const { Icon, text, additiveLineComponent } = this.props
+    const { Icon, text, displayState, additiveLineComponent,
+      onMouseOver, onMouseOut, onLinkClicked, onDescriptionClicked } = this.props
     const { rootStyles, textStyles, iconStyles } = this.state
     const { moduleTheme: { user: { itemLink: { iconsOverlay, lockIcon, informationButton } } } } = this.context
     /* eslint-disable jsx-a11y/no-static-element-interactions*/
@@ -156,29 +105,38 @@ class ItemLink extends React.Component {
       <div
         style={rootStyles}
       >
+        {/* Type icons overlay */}
         <div
           style={iconsOverlay.styles}
-          onMouseOut={this.onMouseOut}
-          onMouseOver={this.onMouseOver}
+          onMouseOut={onMouseOut}
+          onMouseOver={onMouseOver}
         >
-          <ShowableAtRender show={this.state.currentState === ItemLink.States.LOCKED} >
+          {/* Conditional: lock icon (shown only when locked) */}
+          <ShowableAtRender show={displayState === ItemLink.States.LOCKED} >
             <LockIcon style={lockIcon.styles} />
           </ShowableAtRender>
+          {/* File type icon */}
           <Icon style={iconStyles} />
         </div>
+        {/* Link div */}
         <div
           style={textStyles}
-          onMouseOut={this.onMouseOut}
-          onMouseOver={this.onMouseOver}
-          onClick={this.onLinkClick}
+          onMouseOut={onMouseOut}
+          onMouseOver={onMouseOver}
+          onClick={onLinkClicked}
         >
           {text}
         </div>
         {
-          // additive line component if any
+          /* Additive line component if any */
           additiveLineComponent || null
         }
-        <IconButton iconStyle={informationButton.iconStyles} style={informationButton.styles}>
+        {/* Show description button */}
+        <IconButton
+          iconStyle={informationButton.iconStyles}
+          style={informationButton.styles}
+          onTouchTap={onDescriptionClicked}
+        >
           <InformationIcon />
         </IconButton>
       </div>

@@ -26,6 +26,7 @@ class BasicActions {
     this.ENTITY_LIST_SUCCESS = `${options.namespace}/LIST_SUCCESS`
     this.ENTITY_LIST_FAILURE = `${options.namespace}/LIST_FAILURE`
     this.FLUSH = `${options.namespace}/FLUSH`
+    this.headers = options.headers || {}
     this.bypassErrorMiddleware = !!options.bypassErrorMiddleware
   }
 
@@ -111,12 +112,12 @@ class BasicActions {
     let requestHttpVerb = verb
     if (this.entityPathVariable) {
       switch (verb) {
-        case RequestVerbEnum.GET :
-        case RequestVerbEnum.DELETE :
-        case RequestVerbEnum.PUT :
+        case RequestVerbEnum.GET:
+        case RequestVerbEnum.DELETE:
+        case RequestVerbEnum.PUT:
           endpoint = `${endpoint}/{${this.entityPathVariable}}`
           break
-        case RequestVerbEnum.GET_LIST :
+        case RequestVerbEnum.GET_LIST:
           requestHttpVerb = RequestVerbEnum.GET
           break
         default:

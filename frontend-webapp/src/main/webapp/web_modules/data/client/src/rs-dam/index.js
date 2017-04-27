@@ -1,19 +1,49 @@
-import AttributeModelAction from './attributes/AttributeModelAction'
+import AttributeModelActions from './attributes/AttributeModelActions'
 import AttributeModelReducer from './attributes/AttributeModelReducer'
-import AttributeModelSelector from './attributes/AttributeModelSelector'
+import AttributeModelSelectors from './attributes/AttributeModelSelectors'
+
+import ModelAttributesActions from './attributes/ModelAttributesActions'
+import ModelAttributesReducer from './attributes/ModelAttributesReducer'
+import ModelAttributesSelectors from './attributes/ModelAttributesSelectors'
 
 import FragmentActions from './fragment/FragmentActions'
-import FragmentReducers from './fragment/FragmentReducers'
+import FragmentReducer from './fragment/FragmentReducer'
 import FragmentSelectors from './fragment/FragmentSelectors'
 
-export default {
+import AttributeModelRestrictionSelectors from './attributesModelRestriction/AttributeModelRestrictionSelectors'
+import AttributeModelRestrictionActions from './attributesModelRestriction/AttributeModelRestrictionActions'
+import AttributeModelRestrictionReducer from './attributesModelRestriction/AttributeModelRestrictionReducer'
 
-  AttributeModelAction,
+import AttributeModelTypeSelectors from './attributesModelType/AttributeModelTypeSelectors'
+import AttributeModelTypeActions from './attributesModelType/AttributeModelTypeActions'
+import AttributeModelTypeReducer from './attributesModelType/AttributeModelTypeReducer'
+
+import ModelSelectors from './model/ModelSelectors'
+import ModelActions from './model/ModelActions'
+import ModelReducer from './model/ModelReducer'
+
+export default {
+  AttributeModelActions,
   AttributeModelReducer,
-  AttributeModelSelector,
+  AttributeModelSelectors,
+
+  ModelAttributesActions,
+  ModelAttributesReducer,
+  ModelAttributesSelectors,
 
   FragmentActions,
-  FragmentReducers,
+  FragmentReducer,
   FragmentSelectors,
 
+  AttributeModelRestrictionSelectors,
+  AttributeModelRestrictionActions,
+  AttributeModelRestrictionReducer,
+
+  AttributeModelTypeSelectors,
+  AttributeModelTypeActions,
+  AttributeModelTypeReducer,
+
+  ModelSelectors,
+  ModelActions,
+  ModelReducer,
 }

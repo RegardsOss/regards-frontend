@@ -64,6 +64,7 @@ class BasicListActions extends BasicActions {
           this.buildFailureAction(this.ENTITY_LIST_FAILURE),
         ],
         endpoint,
+        headers: this.headers,
         method: 'GET',
       },
     }

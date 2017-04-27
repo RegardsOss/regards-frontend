@@ -5,9 +5,9 @@ import { FormattedMessage, intlShape } from 'react-intl'
 import FlatButton from 'material-ui/FlatButton'
 import { connect } from '@regardsoss/redux'
 import { themeContextType } from '@regardsoss/theme'
-import { LoadableContentDialogComponent } from '@regardsoss/components'
+import { SingleContentURLDialogContainer } from '@regardsoss/components'
 import { URL } from '@regardsoss/model'
-import { AuthenticateActions } from '@regardsoss/authentication-manager'
+import { AuthenticationClient } from '@regardsoss/authentication-manager'
 import ProjectLicenseActions from '../model/ProjectLicenseActions'
 import ProjectLicenseSelectors from '../model/ProjectLicenseSelectors'
 
@@ -59,7 +59,7 @@ export class LicenseDisplayContainer extends React.Component {
 
     if (licenseLink && !accepted) {
       return (
-        <LoadableContentDialogComponent
+        <SingleContentURLDialogContainer
           contentURL={licenseLink}
           loadingMessage={<FormattedMessage id="license.loading.message" />}
           dialogHeightPercent={heightPercent}
@@ -92,7 +92,7 @@ const mapDispatchToProps = dispatch => ({
   fetchLicenseInformation: (project) => { dispatch(ProjectLicenseActions.fetchLicenseInformation(project)) },
   sendAcceptLicense: (project) => { dispatch(ProjectLicenseActions.sendAcceptLicense(project)) },
   flushLicenseInformation: () => { dispatch(ProjectLicenseActions.flush()) },
-  logout: () => { dispatch(AuthenticateActions.flush()) },
+  logout: () => { dispatch(AuthenticationClient.authenticationActions.flush()) },
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(LicenseDisplayContainer)

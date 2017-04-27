@@ -4,14 +4,14 @@
 import { combineReducers } from 'redux'
 import attributeModelReducer from './model/AttributeModelReducers'
 import modelReducer from './model/ModelReducers'
-import modelAttributeReducer from './model/ModelAttributeReducers'
-import modelAttributeFragmentReducer from './model/ModelAttributeFragmentReducers'
+import modelAttributesReducer from './model/ModelAttributesReducer'
+import modelAttributeFragmentReducer from './model/ModelAttributeFragmentReducer'
 
 
 const modelAttributeDataManagementReducer = combineReducers({
   'attribute-model': attributeModelReducer,
   model: modelReducer,
-  'model-attribute': modelAttributeReducer,
+  'model-attribute': modelAttributesReducer,
   'model-attribute-fragment': modelAttributeFragmentReducer,
 })
 

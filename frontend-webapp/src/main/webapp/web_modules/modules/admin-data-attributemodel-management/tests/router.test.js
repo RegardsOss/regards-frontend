@@ -11,7 +11,7 @@ describe('[ADMIN DATA ATTRIBUTE MODEL MANAGEMENT] Testing router', () => {
     assert.isDefined(Routes)
     expect(Routes.childRoutes).to.have.length(3)
     expect(Routes.childRoutes[0].path).to.eq('list')
-    expect(Routes.childRoutes[1].path).to.eq('create(/fragment/:fragment_id)')
+    expect(Routes.childRoutes[1].path).to.eq('create(/fragment/:fragment_name)')
     expect(Routes.childRoutes[2].path).to.eq(':attrModel_id/edit')
   })
   it('list should return AttributeModelListContainer', (done) => {

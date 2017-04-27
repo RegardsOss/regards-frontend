@@ -5,7 +5,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import CollectionItem from '../../../src/components/user/CollectionItem'
-import ItemLink from '../../../src/components/user/ItemLink'
+import ItemLinkContainer from '../../../src/containers/user/ItemLinkContainer'
 import styles from '../../../src/styles/styles'
 
 const context = buildTestContext(styles)
@@ -27,16 +27,17 @@ describe('[Search Graph] Testing CollectionItem', () => {
           properties: {},
         },
       },
+      expensible: false,
       selected: false,
       onSelect: () => { },
     }
     const enzymeWrapper = shallow(<CollectionItem {...props} />, { context })
     // test properties propagation
-    const links = enzymeWrapper.find(ItemLink)
+    const links = enzymeWrapper.find(ItemLinkContainer)
     assert.lengthOf(links, 1, 'There should be one item link')
 
     testSuiteHelpers.assertWrapperProperties(links.at(0), {
-      text: props.collection.content.label, // text should be collection label
+      entity: props.collection,
       selected: props.selected,
       onSelect: props.onSelect,
     })

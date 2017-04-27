@@ -2,9 +2,9 @@ import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
-import ModelActions from '../model/ModelActions'
+import { Model } from '@regardsoss/model'
+import { modelActions, modelSelectors } from '../client/ModelClient'
 import ModelFormComponent from '../components/ModelFormComponent'
-import ModelSelectors from '../model/ModelSelectors'
 
 export class ProjectFormContainer extends React.Component {
   static propTypes = {
@@ -14,14 +14,7 @@ export class ProjectFormContainer extends React.Component {
       model_id: React.PropTypes.string,
     }),
     // from mapStateToProps
-    model: React.PropTypes.shape({
-      content: React.PropTypes.shape({
-        id: React.PropTypes.number,
-        name: React.PropTypes.string,
-        description: React.PropTypes.string,
-        type: React.PropTypes.string,
-      }),
-    }),
+    model: Model,
     isFetching: React.PropTypes.bool,
     // from mapDispatchToProps
     createModel: React.PropTypes.func,
@@ -100,14 +93,14 @@ export class ProjectFormContainer extends React.Component {
   }
 }
 const mapStateToProps = (state, ownProps) => ({
-  model: ownProps.params.model_id ? ModelSelectors.getById(state, ownProps.params.model_id) : null,
-  isFetching: ModelSelectors.isFetching(state),
+  model: ownProps.params.model_id ? modelSelectors.getById(state, ownProps.params.model_id) : null,
+  isFetching: modelSelectors.isFetching(state),
 })
 
 const mapDispatchToProps = dispatch => ({
-  createModel: values => dispatch(ModelActions.createEntity(values)),
-  updateModel: (id, values) => dispatch(ModelActions.updateEntity(id, values)),
-  fetchModel: id => dispatch(ModelActions.fetchEntity(id)),
+  createModel: values => dispatch(modelActions.createEntity(values)),
+  updateModel: (id, values) => dispatch(modelActions.updateEntity(id, values)),
+  fetchModel: id => dispatch(modelActions.fetchEntity(id)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectFormContainer)

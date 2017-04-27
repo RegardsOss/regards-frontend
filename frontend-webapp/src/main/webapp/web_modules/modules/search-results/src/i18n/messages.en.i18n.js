@@ -43,6 +43,10 @@ const messages = Object.assign({
   'navigation.dataobjects.label': 'Dataobjects',
   'navigation.datasets.label': 'Datasets',
   'navigation.filter.by.facets': 'Filters',
+  'list.sort.prefix.label': 'Sort :',
+  'list.sort.none.label': 'None',
+  'view.type.table.button.label': 'Display results with table format',
+  'view.type.list.button.label': 'Display results with list format',
 }, Locales.en)
 
 export default messages

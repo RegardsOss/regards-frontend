@@ -2,10 +2,10 @@
  * LICENSE_PLACEHOLDER
  **/
 import { expect } from 'chai'
-import ModelAttributeSelectors from '../../src/model/ModelAttributeSelectors'
+import ModelAttributesSelectors from '../../src/model/ModelAttributesSelectors'
 
 
-describe('[ADMIN DATA MODEL ATTRIBUTE MANAGEMENT] Testing ModelAttributeSelectors', () => {
+describe('[ADMIN DATA MODEL ATTRIBUTE MANAGEMENT] Testing ModelAttributesSelectors', () => {
   it('returns correct part of the state', () => {
     const someStore = {
       admin: {
@@ -20,6 +20,6 @@ describe('[ADMIN DATA MODEL ATTRIBUTE MANAGEMENT] Testing ModelAttributeSelector
         },
       },
     }
-    expect(ModelAttributeSelectors.getList(someStore)).to.eql({ hello: 'world' })
+    expect(ModelAttributesSelectors.getList(someStore)).to.eql({ hello: 'world' })
   })
 })

@@ -42,10 +42,10 @@ const makePageResult = (pageEntities, converter = defaultConverter, number = 0, 
     // filtered
     return { content, links, metadata }
   }, {
-    content: [],
-    links: [],
-    metadata: { number, size, totalElements: _.size(pageEntities) },
-  })
+      content: [],
+      links: [],
+      metadata: { number, size, totalElements: _.size(pageEntities) },
+    })
   return {
     content: formattedResponse,
     code: 200,
@@ -54,13 +54,15 @@ const makePageResult = (pageEntities, converter = defaultConverter, number = 0, 
 }
 
 const logMessage = (message, isError = false, subheader = '') => console.log(headerStyles, 'Facade mock server - ', subheaderStyles, subheader, isError ? messageStyles.errorStyle : messageStyles.defaultStyle, message)
+const loadFile = (file, charset) => fs.readFileSync(file, charset) || this.logMessage(`Failed reading file ${file}`, true) || {}
 
 module.exports = {
   JSON_CONTENT_TYPE,
   logMessage,
   makePageResult,
   copyFile: (sourceFile, targetFile) => fsExtra.copy(sourceFile, targetFile),
-  loadJSONModelFile: file => JSON.parse(fs.readFileSync(file, 'utf8') || this.logMessage(`Failed reading file ${file}`, true) || {}),
-  writeJSONModelFile: (jsModel, file) => fs.writeFileSync(jsModel, JSON.stringify(file), 'utf8'),
+  loadFile,
+  loadJSONModelFile: file => JSON.parse(loadFile(file), 'utf8'),
+  writeJSONModelFile: (file, jsModel) => fs.writeFileSync(file, JSON.stringify(jsModel), 'utf8'),
 
 }

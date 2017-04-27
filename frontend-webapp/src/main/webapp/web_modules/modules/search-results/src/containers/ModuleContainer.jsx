@@ -6,7 +6,7 @@ import join from 'lodash/join'
 import { connect } from '@regardsoss/redux'
 import { AttributeModel, SearchResultsTargetsEnum } from '@regardsoss/model'
 import { LoadingComponent } from '@regardsoss/display-control'
-import { AttributeModelAction, AttributeModelSelector } from '../models/client/AttributeModelClient'
+import { AttributeModelActions, AttributeModelSelectors } from '../models/client/AttributeModelClient'
 import ModuleConfiguration from '../models/ModuleConfiguration'
 import SearchResultsComponent from '../components/user/SearchResultsComponent'
 /**
@@ -93,13 +93,13 @@ class ModuleContainer extends React.Component {
 }
 const
   mapStateToProps = state => ({
-    getAttributeModel: id => AttributeModelSelector.getById(state, id),
-    attributeModels: AttributeModelSelector.getList(state),
+    getAttributeModel: id => AttributeModelSelectors.getById(state, id),
+    attributeModels: AttributeModelSelectors.getList(state),
   })
 
 const
   mapDispatchToProps = dispatch => ({
-    fetchAllModelsAttributes: () => dispatch(AttributeModelAction.fetchPagedEntityList(0, 100)),
+    fetchAllModelsAttributes: () => dispatch(AttributeModelActions.fetchPagedEntityList(0, 100)),
   })
 
 const

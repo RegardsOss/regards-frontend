@@ -10,6 +10,7 @@ import ModuleConfiguration from '../../model/ModuleConfiguration'
 import { DatasetAttributesArrayForGraph } from '../../model/DatasetAttributesForGraph'
 import SearchGraphHeaderContainer from '../../containers/user/SearchGraphHeaderContainer'
 import GraphLevelDisplayerContainer from '../../containers/user/GraphLevelDisplayerContainer'
+import DescriptionContainer from '../../containers/user/DescriptionContainer'
 
 /**
 * Search graph (collections explorer)
@@ -60,7 +61,9 @@ class SearchGraph extends React.Component {
     const { moduleTheme: { user } } = this.context
     return (
       <Card style={user.styles}>
+        { /* Graph Heeader */}
         <SearchGraphHeaderContainer graphDatasetAttributes={graphDatasetAttributes} />
+        { /* Graph horizontal scroll area, holding columns */}
         <ShowableAtRender show={!moduleCollapsed}>
           <CardMedia>
             <div style={user.graph.styles}>
@@ -81,6 +84,8 @@ class SearchGraph extends React.Component {
                         key={levelModelName}
                         levelModelName={levelModelName}
                         levelIndex={index}
+                        isFirstLevel={index === 0}
+                        isLastLevel={index === (graphLevels.length - 1)}
                       />
                     ))}
                   </div>
@@ -89,6 +94,8 @@ class SearchGraph extends React.Component {
             </div>
           </CardMedia>
         </ShowableAtRender>
+        { /* Items description dialog (one instance for the whole graph) */}
+        <DescriptionContainer />
       </Card >
     )
   }

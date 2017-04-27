@@ -6,6 +6,9 @@
       "ipId": "urn:test",
       "label": "Le parain",
       "type": "DATAOBJECT",
+      "model": {
+        "id": 12
+      },
       "files": [
         {
           "type": "THUMBMAIL",

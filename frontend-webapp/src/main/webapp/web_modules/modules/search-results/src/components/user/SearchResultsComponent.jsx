@@ -13,6 +13,8 @@ import remove from 'lodash/remove'
 import { browserHistory } from 'react-router'
 import { Card, CardMedia } from 'material-ui/Card'
 import FlatButton from 'material-ui/FlatButton'
+import ListView from 'material-ui/svg-icons/action/list'
+import TableView from 'material-ui/svg-icons/action/view-module'
 import DatasetLibrary from 'material-ui/svg-icons/image/collections-bookmark'
 import DataLibrary from 'material-ui/svg-icons/av/library-books'
 import ShowFacetsSearch from 'material-ui/svg-icons/action/find-in-page'
@@ -33,7 +35,8 @@ import CatalogEntitySelector from '../../models/catalog/CatalogEntitySelector'
 import CatalogDataobjectEntityActions from '../../models/catalog/CatalogDataobjectEntityActions'
 import CatalogDatasetEntityActions from '../../models/catalog/CatalogDatasetEntityActions'
 import NavigationComponent from './NavigationComponent'
-import DatasetCellComponent from './DatasetCellComponent'
+import ListViewEntityCellComponent from './ListViewEntityCellComponent'
+import TableSortFilter from './TableSortFilter'
 
 /**
  * React container to manage search requests and display results.
@@ -65,17 +68,23 @@ class SearchResultsComponent extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      tableColumns: [],
       sortedColumns: [],
       target: props.target,
       selectedDataset: null,
       showingFacetsSearch: false,
       filters: [],
       searchTag: undefined,
+      viewType: 'list',
     }
   }
 
   componentWillMount() {
     this.updateFromUrlQuery()
+  }
+
+  componentDidMount() {
+    this.initializeTableColumns()
   }
 
   componentWillReceiveProps(nextProps) {
@@ -97,13 +106,6 @@ class SearchResultsComponent extends React.Component {
 
   onFiltersChanged = (filters = []) => {
     this.setState({ filters })
-  }
-
-  /**
-   * Unselect current selected dataset.
-   */
-  onUnselectDataset = (target) => {
-    this.selectDataset(null, target)
   }
 
   onClickDatasetTarget = () => {
@@ -190,16 +192,45 @@ class SearchResultsComponent extends React.Component {
   }
 
   /**
-   * Create columns configuration for the dataobject entities table result component using the given props
+   * Create columns configuration for the view list type using the given props
    * attributesConf and attributesRegroupementsConf.
    *
    * @returns {Array}
    */
-  getDataObjectsColumns = () => {
+  getTableViewColumns = () => this.state.tableColumns
+
+  /**
+   * Create columns configuration for table view
+   * @returns {Array}
+   */
+  getListViewColumns = () => {
+    const columns = []
+    columns.push({
+      label: 'ListviewCell',
+      attributes: [],
+      customCell: {
+        component: ListViewEntityCellComponent,
+        props: {
+          onClick: this.isInObjectMode() ? null : this.selectDataset,
+          attributes: this.props.attributeModels,
+          styles: this.context.moduleTheme.user.listViewStyles,
+          onSearchTag: this.searchTag,
+          tableColumns: this.isInObjectMode() ? this.state.tableColumns : undefined,
+          displayCheckBoxes: this.isInObjectMode(),
+        },
+      },
+    })
+    return columns
+  }
+
+  /**
+   * Calculate columns configuration for the given search results module
+   */
+  initializeTableColumns = () => {
     const columns = []
     // Read module configuration to get attributes to display
-    const sorted = sortBy(this.props.attributesConf, a => a.order ? a.order : 0)
-    forEach(sorted, (attributeConf) => {
+
+    forEach(this.props.attributesConf, (attributeConf) => {
       if (attributeConf.visibility === true) {
         let attribute
         let fullyQualifiedAttributePathInEntity
@@ -235,6 +266,7 @@ class SearchResultsComponent extends React.Component {
               component: customCell,
               props: {},
             } : undefined,
+            order: attributeConf.order,
           }
           columns.push(columnConf)
         }
@@ -256,33 +288,13 @@ class SearchResultsComponent extends React.Component {
             label: attributeConf.label,
             attributes,
             sortable: false,
+            order: attributeConf.order,
           })
         }
       }
     })
-    return columns
-  }
-
-  /**
-   * Create columns configuration for dataset entities table result component
-   * @returns {Array}
-   */
-  getDataSetsColumns = () => {
-    const columns = []
-    columns.push({
-      label: 'Dataset cell',
-      attributes: [],
-      customCell: {
-        component: DatasetCellComponent,
-        props: {
-          onClick: this.selectDataset,
-          attributes: this.props.attributeModels,
-          styles: this.context.moduleTheme.user.datasetCells,
-          onSearchTag: this.searchTag,
-        },
-      },
-    })
-    return columns
+    const sortedColumns = sortBy(columns, a => a.order ? a.order : 1000)
+    this.setState({ tableColumns: sortedColumns })
   }
 
   /**
@@ -307,26 +319,29 @@ class SearchResultsComponent extends React.Component {
    * Function to add sort parameters to the current search request with the given attributes from columns.
    * @param column
    * @param type
+   * @param clear : [true|false] clear previous sort filters.
    */
-  sortResultsByColumn = (column, type) => {
-    const attributeToSort = column.attributes[0]
-    const sortedColumns = concat([], this.state.sortedColumns)
-    const col = find(sortedColumns, lcol => lcol.attribute === attributeToSort)
-    if (!col) {
-      sortedColumns.push({
-        attribute: attributeToSort,
-        type,
-      })
-    } else {
-      switch (type) {
-        case 'ASC':
-          col.type = 'ASC'
-          break
-        case 'DESC':
-          col.type = 'DESC'
-          break
-        default:
-          remove(sortedColumns, lcol => lcol.attribute === attributeToSort)
+  sortResultsByColumn = (column, type, clear) => {
+    const sortedColumns = clear ? [] : concat([], this.state.sortedColumns)
+    if (column) {
+      const attributeToSort = column.attributes[0]
+      const col = find(sortedColumns, lcol => lcol.attribute === attributeToSort)
+      if (!col) {
+        sortedColumns.push({
+          attribute: attributeToSort,
+          type,
+        })
+      } else {
+        switch (type) {
+          case 'ASC':
+            col.type = 'ASC'
+            break
+          case 'DESC':
+            col.type = 'DESC'
+            break
+          default:
+            remove(sortedColumns, lcol => lcol.attribute === attributeToSort)
+        }
       }
     }
     this.setState({ sortedColumns })
@@ -420,6 +435,22 @@ class SearchResultsComponent extends React.Component {
     })
   }
 
+  showListView = () => {
+    this.setState({
+      viewType: 'list',
+    })
+  }
+
+  showTableView = () => {
+    this.setState({
+      viewType: 'table',
+    })
+  }
+
+  isInTableView = () => this.state.viewType === 'table'
+  isInListView = () => this.state.viewType === 'list'
+
+
   /**
    * Returns result tabs actions for results table
    */
@@ -450,9 +481,46 @@ class SearchResultsComponent extends React.Component {
    */
   renderTableOptions = () => {
     const { enableFacettes } = this.props
-    const { showingFacetsSearch } = this.state
+    const { showingFacetsSearch, tableColumns } = this.state
     const { intl: { formatMessage } } = this.context
     return [
+      this.isInListView() && this.isInObjectMode() ? <TableSortFilter
+        key="sort.filter.option"
+        onSortByColumn={this.sortResultsByColumn}
+        tableColumns={tableColumns}
+        prefixLabel={formatMessage({ id: 'list.sort.prefix.label' })}
+        noneLabel={formatMessage({ id: 'list.sort.none.label' })}
+      /> : null,
+      this.isInObjectMode() ? <FlatButton
+        key="view.type.list"
+        onTouchTap={this.showListView}
+        icon={<ListView
+          style={{
+            width: 33,
+            height: 33,
+          }}
+        />}
+        secondary={this.isInListView()}
+        style={{
+          minWidth: 45,
+        }}
+        title={formatMessage({ id: 'view.type.list.button.label' })}
+      /> : null,
+      this.isInObjectMode() ? <FlatButton
+        key="view.type.table"
+        onTouchTap={this.showTableView}
+        icon={<TableView
+          style={{
+            width: 30,
+            height: 30,
+          }}
+        />}
+        secondary={this.isInTableView()}
+        style={{
+          minWidth: 45,
+        }}
+        title={formatMessage({ id: 'view.type.table.button.label' })}
+      /> : null,
       <ShowableAtRender
         key="facet.filter.option"
         show={enableFacettes && this.isInObjectMode()}
@@ -497,8 +565,8 @@ class SearchResultsComponent extends React.Component {
   }
 
   render() {
-    const { moduleTheme: { datasetCellStyles } } = this.context
-    const { target, selectedDataset } = this.state
+    const { moduleTheme: { user: { listViewStyles } } } = this.context
+    const { target, selectedDataset, viewType } = this.state
 
     let columns = []
     let lineHeight
@@ -507,19 +575,19 @@ class SearchResultsComponent extends React.Component {
     let displayCheckbox
     let displayColumnsHeader
     let showParameters
-    if (this.isInObjectMode()) {
-      columns = this.getDataObjectsColumns()
+    if (this.isInTableView()) {
+      columns = this.getTableViewColumns()
       lineHeight = 50
       cellsStyle = null
-      tableHeaderArea = this.renderTableFacets()
+      tableHeaderArea = this.isInObjectMode() ? this.renderTableFacets() : undefined
       displayCheckbox = true
       displayColumnsHeader = true
       showParameters = true
     } else {
-      columns = this.getDataSetsColumns()
+      columns = this.getListViewColumns()
       lineHeight = 160
-      cellsStyle = datasetCellStyles
-      tableHeaderArea = null // default header display
+      cellsStyle = listViewStyles.cell
+      tableHeaderArea = this.isInObjectMode() ? this.renderTableFacets() : undefined
       displayCheckbox = false
       displayColumnsHeader = false
       showParameters = false
@@ -532,13 +600,12 @@ class SearchResultsComponent extends React.Component {
         <NavigationComponent
           breadcrumbInitialContextLabel={this.props.breadcrumbInitialContextLabel}
           selectedTag={this.state.searchTag}
-          onUnselectDataset={this.onUnselectDataset}
           onUnselectAll={this.onUnselectAll}
           selectedDataset={selectedDataset}
         />
         <CardMedia>
           <TableContainer
-            key={target}
+            key={`${target}-${viewType}`}
             PageActions={entityAction}
             PageSelector={CatalogEntitySelector}
             pageSize={20}
@@ -558,6 +625,7 @@ class SearchResultsComponent extends React.Component {
               customTableOptions: this.renderTableOptions(),
               customTableHeaderArea: tableHeaderArea,
               displayTableHeader: true,
+              displaySortFilter: true,
               showParameters,
             }}
           />

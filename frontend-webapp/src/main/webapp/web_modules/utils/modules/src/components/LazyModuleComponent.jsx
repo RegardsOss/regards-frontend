@@ -5,7 +5,6 @@ import { merge } from 'lodash'
 import { I18nProvider } from '@regardsoss/i18n'
 import { getReducerRegistry, configureReducers } from '@regardsoss/store'
 import { HateoasDisplayDecorator } from '@regardsoss/display-control'
-import DecoratorShape from '../model/DecoratorShape'
 import ModuleShape from '../model/ModuleShape'
 import ModuleThemeProvider from './ModuleThemeProvider'
 
@@ -28,7 +27,6 @@ class LazyModuleComponent extends React.Component {
     appName: React.PropTypes.string.isRequired,
     project: React.PropTypes.string.isRequired,
     module: ModuleShape.isRequired,
-    decorator: DecoratorShape,
     admin: React.PropTypes.bool,
     // Form information for admin container. Admin container is a part of the upper redux-form Form.
     // This parameter contains the redux-form form and the changeField function.
@@ -146,22 +144,6 @@ class LazyModuleComponent extends React.Component {
         moduleElt = React.createElement(module.moduleContainer, moduleProps)
       }
 
-      // Add a decorator arround the module rendering ?
-      if (this.props.decorator) {
-        return (
-          <I18nProvider messageDir={moduleMessageDir}>
-            <ModuleThemeProvider module={module}>
-              <HateoasDisplayDecorator
-                requiredEndpoints={moduleDependencies}
-              >
-                <this.props.decorator.element {...this.props.decorator.conf} >
-                  {moduleElt}
-                </this.props.decorator.element>
-              </HateoasDisplayDecorator>
-            </ModuleThemeProvider>
-          </I18nProvider>
-        )
-      }
       return (
         <I18nProvider messageDir={moduleMessageDir}>
           <ModuleThemeProvider module={module}>

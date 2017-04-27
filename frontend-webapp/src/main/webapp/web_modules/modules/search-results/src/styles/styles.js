@@ -46,7 +46,10 @@ const formStyles = theme => ({
     formHeader: {
       backgroundColor: theme.palette.primary2Color,
     },
-    datasetCells: {
+    listViewStyles: {
+      cell: {
+        backgroundColor: theme.tableRow.stripeColor,
+      },
       line: {
         marginTop: 10,
         display: 'flex',
@@ -57,14 +60,14 @@ const formStyles = theme => ({
       },
       lineHover: {
         height: '100%',
-        width: '95%',
+        width: '98%',
         margin: 'auto',
         cursor: 'auto',
         backgroundColor: theme.palette.primary3Color,
       },
       lineOut: {
         height: '100%',
-        width: '95%',
+        width: '98%',
         margin: 'auto',
         cursor: 'auto',
       },
@@ -102,9 +105,6 @@ const formStyles = theme => ({
       display: 'flex',
       flexDirection: 'column',
     },
-  },
-  datasetCellStyles: {
-    backgroundColor: theme.tableRow.stripeColor,
   },
 })
 

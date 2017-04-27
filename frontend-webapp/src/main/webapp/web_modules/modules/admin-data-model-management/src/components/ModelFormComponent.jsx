@@ -2,6 +2,7 @@ import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
 import { RenderTextField, Field, RenderSelectField, reduxForm } from '@regardsoss/form-utils'
+import { Model } from '@regardsoss/model'
 import MenuItem from 'material-ui/MenuItem'
 /**
  * Display edit and create project form
@@ -9,14 +10,7 @@ import MenuItem from 'material-ui/MenuItem'
 export class ProjectFormComponent extends React.Component {
 
   static propTypes = {
-    currentModel: React.PropTypes.shape({
-      content: React.PropTypes.shape({
-        id: React.PropTypes.number,
-        name: React.PropTypes.string,
-        description: React.PropTypes.string,
-        type: React.PropTypes.string,
-      }),
-    }),
+    currentModel: Model,
     onSubmit: React.PropTypes.func.isRequired,
     backUrl: React.PropTypes.string.isRequired,
     // from reduxForm
@@ -122,7 +116,7 @@ function validate(values) {
 }
 
 export default reduxForm({
-  form: 'project-form',
+  form: 'model-form',
   validate,
 })(ProjectFormComponent)
 

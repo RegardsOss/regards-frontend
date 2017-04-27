@@ -1,11 +1,10 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import reduce from 'lodash/reduce'
-import split from 'lodash/split'
 import omit from 'lodash/omit'
 import { Cell as FixedDataTableCell } from 'fixed-data-table'
 import { themeContextType } from '@regardsoss/theme'
+import ColumnConfigurationController from '../columns/model/ColumnConfigurationController'
 
 /**
  * Display a cell into the table
@@ -23,6 +22,8 @@ class Cell extends React.PureComponent {
     entities: React.PropTypes.arrayOf(React.PropTypes.object),
     overridenCellsStyle: React.PropTypes.objectOf(React.PropTypes.string),
     lineHeight: React.PropTypes.number,
+    onToggleSelectRow: React.PropTypes.func.isRequired,
+    isSelected: React.PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -32,48 +33,14 @@ class Cell extends React.PureComponent {
   getCellValue = (rowIndex, column) => {
     const { entities, lineHeight } = this.props
     const entity = entities[rowIndex]
-    const rendererComponent = column.customCell
-    if (entity && entity.content) {
-      let i = 0
-      // If a custom renderer is provided use it
-      if (rendererComponent) {
-        const attributes = {}
-        for (i = 0; i < column.attributes.length; i += 1) {
-          attributes[column.attributes[i]] = reduce(
-            split(column.attributes[i], '.'),
-            (result, value, key) => {
-              if (result) {
-                return result[value]
-              }
-              return null
-            }, entity.content)
-        }
-        return React.createElement(rendererComponent.component, {
-          attributes,
-          entity,
-          lineHeight,
-          ...rendererComponent.props,
-        })
-      }
-      // No custom component, render attribute as a string.
-      let resultValue = ''
-      for (i = 0; i < column.attributes.length; i += 1) {
-        const attrValue = reduce(split(column.attributes[i], '.'), (result, value, key) => {
-          if (result) {
-            return result[value]
-          }
-          return ''
-        }, entity.content)
-        if (entity.content[column.attributes[i]]) {
-          resultValue += ` ${attrValue}`
-        } else {
-          resultValue += ` ${attrValue}`
-        }
-      }
-      return resultValue
-    }
-    return null
+    return ColumnConfigurationController.getConfiguredColumnValueForEntity(column, entity, lineHeight, this.isRowSelected(), this.handleToggleSelectRow)
   }
+
+  handleToggleSelectRow = () => {
+    this.props.onToggleSelectRow(this.props.rowIndex)
+  }
+
+  isRowSelected = () => this.props.isSelected(this.props.rowIndex)
 
   render() {
     const attribute = this.getCellValue(this.props.rowIndex, this.props.col)
@@ -96,7 +63,7 @@ class Cell extends React.PureComponent {
     return (
       <FixedDataTableCell
         style={cellStyle}
-        {...omit(this.props, 'entities', 'col', 'lineHeight', 'overridenCellsStyle', 'isLastColumn')}
+        {...omit(this.props, 'entities', 'col', 'lineHeight', 'overridenCellsStyle', 'isLastColumn', 'isSelected', 'onToggleSelectRow')}
       >
         <div style={cellContentStyle}>{attribute}</div>
       </FixedDataTableCell>
