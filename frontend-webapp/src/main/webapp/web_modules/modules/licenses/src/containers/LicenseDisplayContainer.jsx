@@ -7,7 +7,7 @@ import { connect } from '@regardsoss/redux'
 import { themeContextType } from '@regardsoss/theme'
 import { SingleContentURLDialogContainer } from '@regardsoss/components'
 import { URL } from '@regardsoss/model'
-import { AuthenticateActions } from '@regardsoss/authentication-manager'
+import { AuthenticationClient } from '@regardsoss/authentication-manager'
 import ProjectLicenseActions from '../model/ProjectLicenseActions'
 import ProjectLicenseSelectors from '../model/ProjectLicenseSelectors'
 
@@ -92,7 +92,7 @@ const mapDispatchToProps = dispatch => ({
   fetchLicenseInformation: (project) => { dispatch(ProjectLicenseActions.fetchLicenseInformation(project)) },
   sendAcceptLicense: (project) => { dispatch(ProjectLicenseActions.sendAcceptLicense(project)) },
   flushLicenseInformation: () => { dispatch(ProjectLicenseActions.flush()) },
-  logout: () => { dispatch(AuthenticateActions.flush()) },
+  logout: () => { dispatch(AuthenticationClient.authenticationActions.flush()) },
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(LicenseDisplayContainer)
