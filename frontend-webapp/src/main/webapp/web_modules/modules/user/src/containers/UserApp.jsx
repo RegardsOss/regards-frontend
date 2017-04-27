@@ -11,7 +11,7 @@ import { ApplicationLayout, ContainerHelper } from '@regardsoss/layout'
 import { ModuleShape } from '@regardsoss/modules'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { ApplicationErrorContainer } from '@regardsoss/global-sytem-error'
-import { AuthenticationParametersActions, AuthenticateSelectors } from '@regardsoss/authentication-manager'
+import { AuthenticationParametersActions, AuthenticationClient } from '@regardsoss/authentication-manager'
 import LayoutSelector from '../model/layout/LayoutSelector'
 import LayoutActions from '../model/layout/LayoutActions'
 import ModulesSelector from '../model/modules/ModulesSelector'
@@ -36,7 +36,7 @@ export class UserApp extends React.Component {
     layout: Layout,
     modules: React.PropTypes.objectOf(ModuleShape),
     currentRole: React.PropTypes.string.isRequired,
-    // eslint-disable-next-line 
+    // eslint-disable-next-line
     isAuthenticated: React.PropTypes.bool,
     // Set by mapDispatchToProps
     initializeApplication: React.PropTypes.func.isRequired,
@@ -70,7 +70,7 @@ export class UserApp extends React.Component {
         if (module.content.isDefault) {
           if (ContainerHelper.isDynamicContent(module.content.container, nextProps.layout.content.layout.containers)) {
             console.log('Default module selection : ', module)
-            browserHistory.push(`/user/${this.props.params.project}/modules/${module.content.id}`)
+            browserHistory.replace(`/user/${this.props.params.project}/modules/${module.content.id}`)
           }
         }
       })
@@ -83,14 +83,6 @@ export class UserApp extends React.Component {
     }
   }
 
-  /**
-   * Callback when a dynamic module is selected
-   * @param module
-   */
-  onDynamicModuleSelection = (module) => {
-    browserHistory.push(`/user/${this.props.params.project}/modules/${module.content.id}`)
-  }
-
   renderLayout(modulesList) {
     if (this.props.layout && this.props.layout.content) {
       return (
@@ -100,7 +92,6 @@ export class UserApp extends React.Component {
           modules={modulesList}
           project={this.props.params.project}
           dynamicContent={this.props.content}
-          onDynamicModuleSelection={this.onDynamicModuleSelection}
           style={{ minHeight: '100vh' }}
         />
       )
@@ -135,14 +126,14 @@ export class UserApp extends React.Component {
   }
 }
 const mapStateToProps = (state, ownProps) => {
-  const authenticationResult = AuthenticateSelectors.getResult(state)
+  const authenticationResult = AuthenticationClient.authenticationSelectors.getResult(state)
   return {
     layout: LayoutSelector.getById(state, 'user'),
     modules: ModulesSelector.getList(state),
     layoutIsFetching: LayoutSelector.isFetching(state),
     modulesIsFetching: ModulesSelector.isFetching(state),
     currentRole: authenticationResult ? authenticationResult.role : '',
-    isAuthenticated: AuthenticateSelectors.isAuthenticated(state),
+    isAuthenticated: AuthenticationClient.authenticationSelectors.isAuthenticated(state),
   }
 }
 

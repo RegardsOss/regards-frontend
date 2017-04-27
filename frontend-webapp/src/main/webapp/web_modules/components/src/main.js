@@ -24,8 +24,11 @@ import NoContentMessageInfo from './cards/NoContentMessageInfo'
 import SecondaryActionButtonComponent from './cards/SecondaryActionButtonComponent'
 import ShowableAtRender from './cards/ShowableAtRender'
 
+import IFrameURLContentDisplayer from './content/IFrameURLContentDisplayer'
+
 import ConfirmDialogComponent from './dialogs/ConfirmDialogComponent'
-import LoadableContentDialogComponent from './dialogs/LoadableContentDialogComponent'
+import LoadableContentDialogContainer from './dialogs/LoadableContentDialogContainer'
+import SingleContentURLDialogContainer from './dialogs/SingleContentURLDialogContainer'
 
 import ErrorCardComponent from './error/ErrorCardComponent'
 
@@ -39,11 +42,20 @@ import LoadingPaneComponent from './loading/LoadingPaneComponent'
 
 import PluginConfigurationPickerComponent from './plugin/PluginConfigurationPickerComponent'
 
-import FixedTableContainer from './table/FixedTableContainer'
+import TableSelectionModes from './table/selection/TableSelectionModes'
+import TableContainer from './table/TableContainer'
+import ActionsMenuCell from './table/content/cells/ActionsMenuCell'
+
+import SVGIconFromString from './icon/SVGIconFromString'
+
+import LinkComponent from './links/LinkComponent'
+import TableColumnConfiguration from './table/content/columns/model/ColumnConfiguration'
+import TableColumnConfigurationController from './table/content/columns/model/ColumnConfigurationController'
 
 export {
   ActionButtonComponent,
   ActionIconWithNotifications,
+  ActionsMenuCell,
   ApplicationErrorComponent,
   BoardComponent,
   BaseBoardComponent,
@@ -56,9 +68,14 @@ export {
   ConfirmDialogComponent,
   ErrorCardComponent,
   ErrorDecoratorComponent,
-  FixedTableContainer,
+  IFrameURLContentDisplayer,
+  TableContainer,
+  TableSelectionModes,
+  TableColumnConfiguration,
+  TableColumnConfigurationController,
   LoadingPaneComponent,
-  LoadableContentDialogComponent,
+  LoadableContentDialogContainer,
+  SingleContentURLDialogContainer,
   MainActionButtonComponent,
   NewsItemComponent,
   NoContentMessageInfo,
@@ -70,4 +87,6 @@ export {
   SecondaryActionButtonComponent,
   ShowableAtRender,
   PluginConfigurationPickerComponent,
+  SVGIconFromString,
+  LinkComponent,
 }

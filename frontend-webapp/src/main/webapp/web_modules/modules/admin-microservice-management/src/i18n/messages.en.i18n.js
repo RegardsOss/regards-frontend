@@ -1,11 +1,13 @@
 import { Locales } from '@regardsoss/form-utils'
 
 const messages = Object.assign({
-  'microservice-management.rs-access.description': 'Configure the microservice managing the UI',
+  'microservice-management.rs-access-project.description': 'Configure service for UI configuration',
+  'microservice-management.rs-access-instance.description': 'Configure service for UI configuration (portal interface)',
   'microservice-management.rs-admin.description': 'Configure the microservice managing the system\'s administration',
-  'microservice-management.rs-cloud.description': 'Configure du microservice providing configuration',
-  'microservice-management.rs-dam.description': 'Configure the microservice managing the data catalog',
+  'microservice-management.rs-cloud.description': 'Configure du microservice providing cloud configuration',
+  'microservice-management.rs-dam.description': 'Configure the microservice managing datas',
   'microservice-management.rs-gateway.description': 'Configure the gateway',
+  'microservice-management.rs-catalog.description': 'Configure the service that handle data catalogage',
 
   'microservice-management.configuration.tooltip': 'Configure',
   'microservice-management.plugins.tooltip': 'Plugins',

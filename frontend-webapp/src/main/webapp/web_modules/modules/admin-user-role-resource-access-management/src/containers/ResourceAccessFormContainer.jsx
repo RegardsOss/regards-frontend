@@ -1,9 +1,10 @@
+import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
-import { Role } from '@regardsoss/model'
+import { Role, Resource } from '@regardsoss/model'
 import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
-import RoleActions from '../model/RoleActions'
-import RoleSelectors from '../model/RoleSelectors'
+import { roleActions, roleSelectors } from '../client/RoleClient'
+import { roleResourceActions, roleResourceSelectors } from '../client/RoleResourceClient'
 import ResourceAccessFormComponent from '../components/ResourceAccessFormComponent'
 
 /**
@@ -21,13 +22,24 @@ export class ResourceAccessFormContainer extends React.Component {
     // from mapStateToProps
     role: Role,
     isRoleFetching: React.PropTypes.bool,
+    roleResources: React.PropTypes.arrayOf(Resource),
+    isResourcesFetching: React.PropTypes.bool,
     // from fetchRole
     fetchRole: React.PropTypes.func,
+    fetchRoleResources: React.PropTypes.func,
   }
 
 
   componentWillMount() {
     this.props.fetchRole(this.props.params.role_name)
+    this.props.fetchRoleResources(this.props.params.role_name)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.params.role_name !== nextProps.params.role_name) {
+      this.props.fetchRole(nextProps.params.role_name)
+      this.props.fetchRoleResources(nextProps.params.role_name)
+    }
   }
 
   getBackUrl = () => {
@@ -36,19 +48,26 @@ export class ResourceAccessFormContainer extends React.Component {
   }
 
   getForm = () => {
-    const { role, isRoleFetching } = this.props
-    if (isRoleFetching && !role) {
+    const { role, isRoleFetching, roleResources, isResourcesFetching } = this.props
+    if ((isRoleFetching && !role) || (isResourcesFetching && !roleResources)) {
       return (<FormLoadingComponent />)
     }
     if (role) {
       return (
         <ResourceAccessFormComponent
-          microserviceList={['rs-admin', 'rs-access', 'rs-dam']}
+          microserviceList={STATIC_CONFIGURATION.microservices}
           backUrl={this.getBackUrl()}
+          editRoleResources={this.editRoleResources}
           currentRole={role}
+          roleResources={roleResources}
         />)
     }
     return (<FormEntityNotFoundComponent />)
+  }
+
+  editRoleResources = (role) => {
+    const { params: { project } } = this.props
+    browserHistory.push(`/admin/${project}/user/role-resource-access/${role.content.name}/edit`)
   }
 
   render() {
@@ -61,11 +80,14 @@ export class ResourceAccessFormContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  role: RoleSelectors.getById(state, ownProps.params.role_name),
-  isRoleFetching: RoleSelectors.isFetching(state),
+  role: roleSelectors.getById(state, ownProps.params.role_name),
+  roleResources: roleResourceSelectors.getOrderedList(state),
+  isRoleFetching: roleSelectors.isFetching(state),
+  isResourcesFetching: roleResourceSelectors.isFetching(state),
 })
 const mapDispatchToProps = dispatch => ({
-  fetchRole: roleName => dispatch(RoleActions.fetchEntity(roleName)),
+  fetchRole: roleName => dispatch(roleActions.fetchEntity(roleName)),
+  fetchRoleResources: roleName => dispatch(roleResourceActions.fetchEntityList({ role_name: roleName })),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ResourceAccessFormContainer)

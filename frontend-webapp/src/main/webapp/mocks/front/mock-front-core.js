@@ -11,11 +11,14 @@ const { logMessage } = require('./mock-front-utils')
 
 const proxy = httpProxy.createProxyServer({})
 
-const proxyHandlerClosure = jsonMockURL => (request, response) =>
-  logMessage('Pass through to JSON mock server') || proxy.web(request, response, { target: jsonMockURL })
+const proxyHandlerClosure = jsonMockURL => (request, response) => {
+  request.url = request.url.replace('offset=', '_start=')
+  request.url = request.url.replace('size=', '_limit=')
+  return logMessage('Pass through to JSON mock server') || proxy.web(request, response, { target: jsonMockURL })
+}
 
-const buildBasicHeaders = uiPort => ({
-  'Access-Control-Allow-Origin': `http://localhost:${uiPort}`,
+const buildBasicHeaders = (origin) => ({
+  'Access-Control-Allow-Origin': origin,
   'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
   'Access-Control-Allow-Headers': 'X-Requested-With,content-type',
   'Access-Control-Allow-Credentials': true,
@@ -23,7 +26,6 @@ const buildBasicHeaders = uiPort => ({
 
 /**
  * Provides request handler (closure) for a given delegate
- * @param uiPort UI port for instance
  * @param timeBefore time before
  * @param entryDelegate URL entry delegate
  * @param query parsed query, as convenience to write delegates
@@ -32,17 +34,22 @@ const buildBasicHeaders = uiPort => ({
  * @param request -
  * @param response -
  */
-const localHandlerClosure = (uiPort, timeBefore, entryDelegate, query = {}, pathParameters = {}, bodyParameters = {}) => (request, response) => {
+const localHandlerClosure = (timeBefore, entryDelegate, query = {}, pathParameters = {}, bodyParameters = {}) => (request, response) => {
   logMessage('Serving locally')
 
   // run delegate to get code and text
-  const { content = '', code = 200, contentType } = entryDelegate(request, query, pathParameters, bodyParameters, response)
+  const { content = '', code = 200, contentType, binary = false } = entryDelegate(request, query, pathParameters, bodyParameters, response)
   // publish code
-  const headers = Object.assign({}, buildBasicHeaders(uiPort), contentType ? { 'Content-Type': contentType } : {})
+  const headers = Object.assign({}, buildBasicHeaders(request.headers.origin || request.headers.Origin), contentType ? { 'Content-Type': contentType } : {})
   response.writeHead(code, headers)
 
-  // end answer with text (or stringified object)
-  response.end(typeof content === 'object' ? JSON.stringify(content) : content)
+  if (!binary) {
+    // end answer with text (or stringified object)
+    response.end(typeof content === 'object' ? JSON.stringify(content) : content)
+  } else {
+    // send text as binary
+    response.end(content, 'binary')
+  }
   // log access info
   logMessage(`${request.method} ${request.url} ${code} ${new Date().getTime() - timeBefore}ms`)
 }
@@ -91,7 +98,7 @@ const findMatchingDelegate = (delegates, relativePath) => {
 /**
  * Server request handling method closure provider
  */
-const requestHandlerClosure = (urlStart, jsonMockURL, uiPort, entryDelegates) =>
+const requestHandlerClosure = (urlStart, jsonMockURL, entryDelegates) =>
   // Actual request handler: finds matching delegate or uses proxy
   (request, response) => {
     // computing service time
@@ -110,7 +117,7 @@ const requestHandlerClosure = (urlStart, jsonMockURL, uiPort, entryDelegates) =>
           // matching URL with possible parameters in URL (and parse URL parameters
           const delegationData = findMatchingDelegate(methodDelegates, relativePathWihtoutGateway)
           if (delegationData) {
-            const localHandler = localHandlerClosure(uiPort, timeBefore, delegationData.delegate, parsedUrl.query, delegationData.pathParameters)
+            const localHandler = localHandlerClosure(timeBefore, delegationData.delegate, parsedUrl.query, delegationData.pathParameters)
             if (['POST', 'PUT'].includes(request.method)) {
               // POST / PUT: parse body and run directly callback (asynchronous parsing) - inhibit default handler
               // catching empty body exceptions
@@ -125,7 +132,7 @@ const requestHandlerClosure = (urlStart, jsonMockURL, uiPort, entryDelegates) =>
                 if (error) {
                   logMessage(`Failed parsing request body: ${error}`, error, true)
                 }
-                callback(localHandlerClosure(uiPort, timeBefore, delegationData.delegate, parsedUrl.query, delegationData.pathParameters, bodyParameters))
+                callback(localHandlerClosure(timeBefore, delegationData.delegate, parsedUrl.query, delegationData.pathParameters, bodyParameters))
               })
 
               // remove default handler to prevent using callback on it
@@ -150,12 +157,11 @@ module.exports = {
    * Starts server
    * @param urlStart Start URL for backend access
    * @param serverPort this mock server port
-   * @param uiPort UI server port
    * @param jsonMockURL json server mock URL
    * @param entryDelegates entry delegates
    */
-  startServer(urlStart, serverPort, uiPort, jsonMockURL, entryDelegates) {
-    const server = http.createServer(requestHandlerClosure(urlStart, jsonMockURL, uiPort, entryDelegates))
+  startServer(urlStart, serverPort, jsonMockURL, entryDelegates) {
+    const server = http.createServer(requestHandlerClosure(urlStart, jsonMockURL, entryDelegates))
     server.listen(serverPort, (err) => {
       if (err) {
         logMessage(`start failed ${err}`)

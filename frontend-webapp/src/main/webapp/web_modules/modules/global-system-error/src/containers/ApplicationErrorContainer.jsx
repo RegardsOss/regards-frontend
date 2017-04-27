@@ -21,14 +21,15 @@ class ApplicationErrorContainer extends React.Component {
 
   render() {
     if (this.props.snackBarOpened) {
+      const message = this.props.snackBarMessage
       return (
         <Snackbar
           open={this.props.snackBarOpened}
-          message={this.props.snackBarMessage}
-          autoHideDuration={40000}
+          message={message}
           onRequestClose={this.props.closeDialog}
           onActionTouchTap={this.props.closeDialog}
           action="OK"
+          bodyStyle={{ height: 'auto', lineHeight: '28px', padding: 24, whiteSpace: 'pre-line' }}
         />
       )
     }

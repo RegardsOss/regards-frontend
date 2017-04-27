@@ -3,7 +3,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import sinon from 'sinon'
+import { stub, spy } from 'sinon'
 import { UnconnectedAdminContainer } from '../../src/containers/AdminContainer'
 import FormTabsComponent from '../../src/components/admin/FormTabsComponent'
 import { DATASET_TYPE, DATASET_MODEL_TYPE } from '../../src/models/datasets/DatasetSelectionTypes'
@@ -12,12 +12,23 @@ import { DATASET_TYPE, DATASET_MODEL_TYPE } from '../../src/models/datasets/Data
  * Tests for AdminContainer
  * @author Sébastien binda
  */
-describe('[FORM MODULE] Testing Admin Container', () => {
+describe('[SEARCH FORM] Testing Admin Container', () => {
+  // Since react will console.error propType warnings, that which we'd rather have
+  // as errors, we use sinon.js to stub it into throwing these warning as errors
+  // instead.
+  before(() => {
+    stub(console, 'error').callsFake((warning) => {
+      throw new Error(warning)
+    })
+  })
+  after(() => {
+    console.error.restore()
+  })
   it('Create new configuration : Should fetch missings props', () => {
-    const fetchDatasetsAttributesCallback = sinon.spy()
-    const fetchAllModelsAttributesCallback = sinon.spy()
-    const fetchModelsAttributesCallback = sinon.spy()
-    const fetchCriterionCallback = sinon.spy()
+    const fetchDatasetsAttributesCallback = spy()
+    const fetchAllModelsAttributesCallback = spy()
+    const fetchModelsAttributesCallback = spy()
+    const fetchCriterionCallback = spy()
 
     const props = {
       appName: 'test',
@@ -25,7 +36,9 @@ describe('[FORM MODULE] Testing Admin Container', () => {
       adminForm: {
         changeField: () => {
         },
-        form: {},
+        form: {
+          enableFacettes: false,
+        },
       },
       moduleConf: {
         datasets: {
@@ -34,8 +47,12 @@ describe('[FORM MODULE] Testing Admin Container', () => {
           selectedModels: [],
         },
         criterion: [],
-        layout: '',
+        layout: {
+          id: 'main',
+          type: 'type',
+        },
         resultType: '',
+        enableFacettes: false,
       },
       selectableAttributes: {},
       selectableAttributesFectching: false,
@@ -61,10 +78,10 @@ describe('[FORM MODULE] Testing Admin Container', () => {
   })
 
   it('Create new configuration : Should fetch missing props', () => {
-    const fetchDatasetsAttributesCallback = sinon.spy()
-    const fetchAllModelsAttributesCallback = sinon.spy()
-    const fetchModelsAttributesCallback = sinon.spy()
-    const fetchCriterionCallback = sinon.spy()
+    const fetchDatasetsAttributesCallback = spy()
+    const fetchAllModelsAttributesCallback = spy()
+    const fetchModelsAttributesCallback = spy()
+    const fetchCriterionCallback = spy()
     const props = {
       appName: 'test',
       project: 'project',
@@ -72,6 +89,7 @@ describe('[FORM MODULE] Testing Admin Container', () => {
         changeField: () => {
         },
         form: {
+          enableFacettes: false,
           conf: {
             datasets: {
               type: DATASET_TYPE,
@@ -84,8 +102,12 @@ describe('[FORM MODULE] Testing Admin Container', () => {
       moduleConf: {
         datasets: {},
         criterion: [],
-        layout: '',
+        layout: {
+          id: 'main',
+          type: 'type',
+        },
         resultType: '',
+        enableFacettes: true,
       },
       selectableAttributes: {},
       selectableAttributesFectching: false,
@@ -111,10 +133,10 @@ describe('[FORM MODULE] Testing Admin Container', () => {
   })
 
   it('Create new configuration : Should fetch missing props', () => {
-    const fetchDatasetsAttributesCallback = sinon.spy()
-    const fetchAllModelsAttributesCallback = sinon.spy()
-    const fetchModelsAttributesCallback = sinon.spy()
-    const fetchCriterionCallback = sinon.spy()
+    const fetchDatasetsAttributesCallback = spy()
+    const fetchAllModelsAttributesCallback = spy()
+    const fetchModelsAttributesCallback = spy()
+    const fetchCriterionCallback = spy()
     const props = {
       appName: 'test',
       project: 'project',
@@ -122,6 +144,7 @@ describe('[FORM MODULE] Testing Admin Container', () => {
         changeField: () => {
         },
         form: {
+          enableFacettes: false,
           conf: {
             datasets: {
               type: DATASET_MODEL_TYPE,
@@ -134,8 +157,12 @@ describe('[FORM MODULE] Testing Admin Container', () => {
       moduleConf: {
         datasets: {},
         criterion: [],
-        layout: '',
+        layout: {
+          id: 'main',
+          type: 'type',
+        },
         resultType: '',
+        enableFacettes: true,
       },
       selectableAttributes: {},
       selectableAttributesFectching: false,

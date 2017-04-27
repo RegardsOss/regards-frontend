@@ -4,7 +4,9 @@
 import { forEach } from 'lodash'
 import { connect } from '@regardsoss/redux'
 import { Layout } from '@regardsoss/model'
+import { AuthenticationParametersActions, AuthenticationParametersSelectors } from '@regardsoss/authentication-manager'
 import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
+import { EndpointActions } from '@regardsoss/endpoint'
 import { ApplicationLayout } from '@regardsoss/layout'
 import { ModuleShape } from '@regardsoss/modules'
 import { ThemeProvider } from '@regardsoss/theme'
@@ -22,17 +24,31 @@ export class PortalApp extends React.Component {
    * @type {{theme: string, content: React.Component}}
    */
   static propTypes = {
+    // from router
+    params: React.PropTypes.shape({
+      // Project from the URL
+      project: React.PropTypes.string,
+    }),
     // Set by mapStateToProps
     layoutIsFetching: React.PropTypes.bool,
     modulesIsFetching: React.PropTypes.bool,
     layout: Layout,
     modules: React.PropTypes.objectOf(ModuleShape),
+    // Project from the store
+    project: React.PropTypes.string,
     // Set by mapDispatchToProps
     fetchLayout: React.PropTypes.func,
     fetchModules: React.PropTypes.func,
+    fetchEndpoints: React.PropTypes.func,
+    initializeApplication: React.PropTypes.func.isRequired,
   }
 
   componentWillMount() {
+    // init with project parameter if available
+    const project = (this.props.params && this.props.params.project)
+    this.props.initializeApplication(project)
+
+    this.props.fetchEndpoints()
     this.props.fetchLayout()
     this.props.fetchModules()
   }
@@ -54,9 +70,16 @@ export class PortalApp extends React.Component {
       modulesList.push(module)
     })
 
+    const { project } = this.props
+
     return (
       <ThemeProvider>
-        <ApplicationLayout appName="portal" layout={this.props.layout.content.layout} modules={modulesList} />
+        <ApplicationLayout
+          appName="portal"
+          layout={this.props.layout.content.layout}
+          modules={modulesList}
+          project={project}
+        />
       </ThemeProvider>
     )
   }
@@ -66,11 +89,14 @@ const mapStateToProps = (state, ownProps) => ({
   modules: ModulesSelector.getList(state),
   layoutIsFetching: LayoutSelector.isFetching(state),
   modulesIsFetching: ModulesSelector.isFetching(state),
+  project: AuthenticationParametersSelectors.getProject(state),
 })
 
 const mapDispatchToProps = dispatch => ({
+  initializeApplication: project => dispatch(AuthenticationParametersActions.applicationStarted(project)),
   fetchLayout: () => dispatch(LayoutActions.fetchEntity('portal')),
   fetchModules: () => dispatch(ModulesActions.fetchPagedEntityList(0, 100, { applicationId: 'portal' })),
+  fetchEndpoints: () => dispatch(EndpointActions.fetchPagedEntityList(0, 10000)), // TODO
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PortalApp)

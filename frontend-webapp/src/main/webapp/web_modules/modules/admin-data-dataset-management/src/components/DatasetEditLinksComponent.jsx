@@ -6,14 +6,17 @@ import { List, ListItem } from 'material-ui/List'
 import { FormattedMessage } from 'react-intl'
 import { map } from 'lodash'
 import Add from 'material-ui/svg-icons/content/add-circle-outline'
+import Search from 'material-ui/svg-icons/action/search'
 import Clear from 'material-ui/svg-icons/content/clear'
 import { Collection } from '@regardsoss/model'
-import Subheader from 'material-ui/Subheader'
-import { CardActionsComponent } from '@regardsoss/components'
+import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
 import IconButton from 'material-ui/IconButton'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
+import TextField from 'material-ui/TextField'
+import Divider from 'material-ui/Divider'
 import DatasetStepperComponent from './DatasetStepperComponent'
+
 
 /**
  * React component to list datasets.
@@ -23,8 +26,10 @@ export class DatasetEditLinksComponent extends React.Component {
   static propTypes = {
     linkedCollections: React.PropTypes.arrayOf(Collection),
     remainingCollections: React.PropTypes.arrayOf(Collection),
+    datasetStringTags: React.PropTypes.arrayOf(React.PropTypes.string),
     handleAdd: React.PropTypes.func.isRequired,
     handleDelete: React.PropTypes.func.isRequired,
+    handleSearch: React.PropTypes.func.isRequired,
     backUrl: React.PropTypes.string.isRequired,
     doneUrl: React.PropTypes.string.isRequired,
   }
@@ -34,41 +39,121 @@ export class DatasetEditLinksComponent extends React.Component {
     ...i18nContextType,
   }
 
+  state = {
+    tagField: '',
+  }
+
+  handleCreateTag = () => {
+    this.setState({
+      tagField: '',
+    })
+    this.props.handleAdd(this.state.tagField, true)
+  }
+
+  handleCreateTagChange = (event, tagField) => {
+    this.setState({
+      tagField,
+    })
+  }
 
   render() {
-    const { linkedCollections, remainingCollections, handleAdd, handleDelete, doneUrl, backUrl } = this.props
+    const { linkedCollections, remainingCollections, handleAdd, handleDelete, doneUrl, backUrl, datasetStringTags, handleSearch } = this.props
     return (
       <Card>
         <CardTitle
           title={<FormattedMessage id="dataset.form.links.title" />}
           subtitle={<FormattedMessage id="dataset.form.links.subtitle" />}
         />
-        <DatasetStepperComponent stepIndex={1} />
+        <DatasetStepperComponent stepIndex={2} />
         <CardText>
           <div className="row">
-            <div className="col-sm-50">
+            <div className="col-sm-48">
               <List>
-                <Subheader><FormattedMessage id="dataset.form.links.collection.subtitle" /></Subheader>
+                <div><FormattedMessage id="dataset.form.links.collection.title" /></div>
+                <br />
+                <Divider />
                 {map(linkedCollections, (collection, id) => (
                   <ListItem
-                    key={id}
-                    primaryText={collection.content.label} rightIconButton={
-                      <IconButton onTouchTap={() => handleDelete(collection.content.ipId)}>
+                    key={`collection-${id}`}
+                    primaryText={collection.content.label}
+                    rightIconButton={
+                      <IconButton onTouchTap={() => handleDelete(collection.content.ipId, false)}>
                         <Clear />
                       </IconButton>
-                  } disabled
+                    }
+                    disabled
+                  />
+                ))}
+                <ShowableAtRender show={linkedCollections.length === 0}>
+                  <ListItem
+                    primaryText={<FormattedMessage id="dataset.form.links.collection.none" />}
+                    disabled
+                  />
+                </ShowableAtRender>
+                <div><FormattedMessage id="dataset.form.links.tag.subtitle" /></div>
+                <br />
+                <Divider />
+                <ListItem
+                  primaryText={
+                    <TextField
+                      hintText={<FormattedMessage id="dataset.form.links.tag.add" />}
+                      onChange={this.handleCreateTagChange}
+                      value={this.state.tagField}
+                      fullWidth
+                    />
+                  }
+                  rightIconButton={
+                    <div>
+                      <br />
+                      <IconButton onTouchTap={this.handleCreateTag}>
+                        <Add />
+                      </IconButton>
+                    </div>
+                  }
+                  disabled
+                />
+                {map(datasetStringTags, (tag, id) => (
+                  <ListItem
+                    key={`tag-${id}`}
+                    primaryText={tag}
+                    rightIconButton={
+                      <IconButton onTouchTap={() => handleDelete(tag, true)}>
+                        <Clear />
+                      </IconButton>
+                    }
+                    disabled
                   />
                 ))}
               </List>
             </div>
-            <div className="col-sm-50">
+            <div className="col-sm-48 col-sm-offset-4 ">
               <List>
-                <Subheader><FormattedMessage id="dataset.form.links.remainingcollection.subtitle" /></Subheader>
+                <div><FormattedMessage id="dataset.form.links.remainingcollection.subtitle" /></div>
+                <br />
+                <Divider />
+                <ListItem
+                  primaryText={
+                    <TextField
+                      hintText={<FormattedMessage id="dataset.form.links.remainingcollection.search" />}
+                      onChange={handleSearch}
+                      fullWidth
+                    />
+                  }
+                  rightIconButton={
+                    <div>
+                      <br />
+                      <IconButton>
+                        <Search />
+                      </IconButton>
+                    </div>
+                  }
+                  disabled
+                />
                 {map(remainingCollections, (collection, id) => (
                   <ListItem
                     key={id}
                     primaryText={collection.content.label} rightIconButton={
-                      <IconButton onTouchTap={() => handleAdd(collection.content.ipId)}>
+                      <IconButton onTouchTap={() => handleAdd(collection.content.ipId, false)}>
                         <Add />
                       </IconButton>
                   } disabled
@@ -83,7 +168,7 @@ export class DatasetEditLinksComponent extends React.Component {
             mainButtonUrl={doneUrl}
             mainButtonLabel={
               <FormattedMessage
-                id="dataset.form.links.action.done"
+                id="dataset.form.links.action.save"
               />
             }
             secondaryButtonLabel={<FormattedMessage id="dataset.form.links.action.cancel" />}

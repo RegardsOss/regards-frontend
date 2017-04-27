@@ -24,11 +24,13 @@ class BoardComponent extends React.Component {
   render() {
     const boardItemComponents = chain(this.props.items)
       .filter(item => !item.advanced)
+      // eslint-disable-next-line react/no-array-index-key
       .map((item, index) => <BoardItemComponent item={item} key={index} />)
       .value()
 
     const advancedBoardItemComponents = chain(this.props.items)
       .filter(item => item.advanced)
+      // eslint-disable-next-line react/no-array-index-key
       .map((item, index) => <BoardItemComponent item={item} key={index} />)
       .value()
 

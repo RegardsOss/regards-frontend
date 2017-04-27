@@ -11,7 +11,7 @@ class ProjectsAction extends BasicPageableActions {
   constructor() {
     super({
       namespace: 'projects-list/projects',
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-admin/projects`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-admin/projects/public`,
       schemaTypes: {
         ENTITY: Schemas.PROJECT,
         ENTITY_ARRAY: Schemas.PROJECT_ARRAY,

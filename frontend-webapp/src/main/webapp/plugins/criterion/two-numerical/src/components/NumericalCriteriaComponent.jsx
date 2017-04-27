@@ -1,8 +1,8 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { keys } from 'lodash'
-import { FormattedMessage } from 'react-intl'
+import values from 'lodash/values'
+import {FormattedMessage} from 'react-intl'
 import TextField from 'material-ui/TextField'
 import NumericalComparatorComponent from './NumericalComparatorComponent'
 import EnumNumericalComparator from '../model/EnumNumericalComparator'
@@ -18,26 +18,30 @@ export class NumericalCriteriaComponent extends React.Component {
 
   static propTypes = {
     /**
-     * Plugin identifier
-     */
-    pluginInstanceId: React.PropTypes.string,
-    /**
      * Callback to change the current criteria values in form
      * Parameters :
      * criteria : an object like : {attribute:<AttributeModel>, comparator:<ComparatorEnumType>, value:<value>}
      * id: current plugin identifier
      */
-    onChange: React.PropTypes.func,
+    onChange: React.PropTypes.func.isRequired,
     /**
      * List of attributes associated to the plugin.
      * Keys of this object are the "name" props of the attributes defined in the plugin-info.json
      * Value of each keys are the attribute id (retrieved from the server) associated
      */
-    attribute: AttributeModel,
+    attribute: AttributeModel.isRequired,
     /**
      * Init with a specific comparator set.
      */
-    comparator: React.PropTypes.oneOf(keys(EnumNumericalComparator)),
+    comparator: React.PropTypes.oneOf(values(EnumNumericalComparator)),
+    /**
+     * Default value to display
+     */
+    value: React.PropTypes.number,
+    /**
+     * Does the comparator is modifiable
+     */
+    fixedComparator: React.PropTypes.bool,
     /**
      * If true, the attribute name, comparator and and field will be rendered in reversed order
      * Default to false.
@@ -48,18 +52,25 @@ export class NumericalCriteriaComponent extends React.Component {
      * Default to false.
      */
     hideAttributeName: React.PropTypes.bool,
+    /**
+     * If true, the commparator will not be rendered.
+     * Default to false.
+     */
+    hideComparator: React.PropTypes.bool,
   }
 
   static defaultProps = {
     reversed: false,
     hideAttributeName: false,
+    fixedComparator: false,
+    hideComparator: false,
   }
 
   constructor(props) {
     super(props)
     this.state = {
-      value: undefined,
-      comparator: props.comparator || 'EQ',
+      value: props.value,
+      comparator: props.comparator || EnumNumericalComparator.EQ,
     }
   }
 
@@ -70,19 +81,11 @@ export class NumericalCriteriaComponent extends React.Component {
    * @param {String} newValue The new value of the text field.
    */
   handleChangeValue = (event, newValue) => {
-    const { attribute, pluginInstanceId, onChange } = this.props
-    const { comparator } = this.state
-
     this.setState({
       value: this.parse(newValue),
+    }, () => {
+      this.props.onChange(this.props.attribute, this.state.value, this.state.comparator)
     })
-
-    // Call the plugin's output callback
-    onChange({
-      attribute,
-      comparator,
-      value: newValue,
-    }, pluginInstanceId)
   }
 
   /**
@@ -91,19 +94,11 @@ export class NumericalCriteriaComponent extends React.Component {
    * @param {String} comparator The new value of the comparator.
    */
   handleChangeComparator = (comparator) => {
-    const { attribute, pluginInstanceId, onChange } = this.props
-    const { value } = this.state
-
     this.setState({
       comparator,
+    }, () => {
+      this.props.onChange(this.props.attribute, this.state.value, this.state.comparator)
     })
-
-    // Call the plugin's output callback
-    onChange({
-      attribute,
-      comparator,
-      value,
-    }, pluginInstanceId)
   }
 
   /**
@@ -121,25 +116,28 @@ export class NumericalCriteriaComponent extends React.Component {
   format = value => value
 
   render() {
-    const { attribute, reversed, hideAttributeName } = this.props
-    const { comparator } = this.state
+    const {attribute, reversed, hideAttributeName, hideComparator, fixedComparator} = this.props
+    const {comparator} = this.state
 
     // Store the content in an array because we need to maybe reverse to order
     const content = []
-    if (!hideAttributeName) content.push(<span key="attributeName" style={{ margin: '0px 10px' }}>{attribute.name}</span>)
-    content.push(
-      <NumericalComparatorComponent
-        key="comparator"
-        value={comparator}
-        onChange={this.handleChangeComparator}
-      />,
-    )
+    if (!hideAttributeName) content.push(<span key="attributeName" style={{margin: '0px 10px'}}>{attribute.name}</span>)
+    if (!hideComparator) {
+      content.push(
+        <NumericalComparatorComponent
+          key="comparator"
+          value={comparator}
+          onChange={this.handleChangeComparator}
+          fixedComparator={fixedComparator}
+        />,
+      )
+    }
     content.push(
       <TextField
         id="search"
         key="field"
         type="number"
-        floatingLabelText={<FormattedMessage id="criterion.search.field.label" />}
+        floatingLabelText={<FormattedMessage id="criterion.search.field.label"/>}
         value={this.format(this.state.value)}
         onChange={this.handleChangeValue}
         style={{

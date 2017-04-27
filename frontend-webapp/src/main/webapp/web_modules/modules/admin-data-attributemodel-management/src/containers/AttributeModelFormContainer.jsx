@@ -7,15 +7,12 @@ import { I18nProvider } from '@regardsoss/i18n'
 import { map, find } from 'lodash'
 import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
 import { AttributeModel, Fragment } from '@regardsoss/model'
-import AttributeModelActions from '../model/AttributeModelActions'
+import { attributeModelActions, attributeModelSelectors } from '../client/AttributeModelClient'
+import { attributeModelTypeActions, attributeModelTypeSelectors } from '../client/AttributeModelTypeClient'
+import { attributeModelRestrictionActions, attributeModelRestrictionSelectors } from '../client/AttributeModelRestrictionClient'
+import { fragmentActions, fragmentSelectors } from '../client/FragmentClient'
 import AttributeModelFormComponent from '../components/AttributeModelFormComponent'
-import AttributeModelSelectors from '../model/AttributeModelSelectors'
-import AttributeModelTypeSelectors from '../model/AttributeModelTypeSelectors'
-import AttributeModelTypeActions from '../model/AttributeModelTypeActions'
-import AttributeModelRestrictionActions from '../model/AttributeModelRestrictionActions'
-import AttributeModelRestrictionSelectors from '../model/AttributeModelRestrictionSelectors'
-import FragmentActions from '../model/FragmentActions'
-import FragmentSelectors from '../model/FragmentSelectors'
+import DEFAULT_FRAGMENT_NAME from '../DefaultFragmentName'
 
 export class AttributeModelFormContainer extends React.Component {
   static propTypes = {
@@ -23,7 +20,7 @@ export class AttributeModelFormContainer extends React.Component {
     params: React.PropTypes.shape({
       project: React.PropTypes.string,
       attrModel_id: React.PropTypes.string,
-      fragment_id: React.PropTypes.string,
+      fragment_name: React.PropTypes.string,
     }),
     // from mapStateToProps
     attrModel: AttributeModel,
@@ -92,7 +89,7 @@ export class AttributeModelFormContainer extends React.Component {
           attrModelRestrictionList={attrModelRestrictionList}
           fragmentList={fragmentList}
           handleUpdateAttributeModelRestriction={this.handleUpdateAttributeModelRestriction}
-          defaultFragmentId={this.props.params.fragment_id}
+          defaultFragmentName={this.props.params.fragment_name}
         />)
       }
       return (<FormEntityNotFoundComponent />)
@@ -105,7 +102,7 @@ export class AttributeModelFormContainer extends React.Component {
       fragmentList={fragmentList}
       handleUpdateAttributeModelRestriction={this.handleUpdateAttributeModelRestriction}
       flushAttributeModelRestriction={this.props.flushAttributeModelRestriction}
-      defaultFragmentId={this.props.params.fragment_id}
+      defaultFragmentName={this.props.params.fragment_name}
     />)
   }
 
@@ -118,37 +115,18 @@ export class AttributeModelFormContainer extends React.Component {
     let restriction = {}
     if (values.restriction) {
       // Handle integer range
-      if (values.restriction.INTEGER_RANGE && values.restriction.INTEGER_RANGE.active) {
-        restriction = {
-          type: 'INTEGER_RANGE',
+      const restrictions = ['INTEGER_RANGE', 'DOUBLE_RANGE', 'LONG_RANGE']
+      restrictions.forEach((value) => {
+        if (values.restriction[value] && values.restriction[value].active) {
+          restriction = {
+            type: value,
+            min: parseInt(values.restriction[value].min, 10),
+            max: parseInt(values.restriction[value].max, 10),
+            minExcluded: !values.restriction[value].isMinInclusive,
+            maxExcluded: !values.restriction[value].isMaxInclusive,
+          }
         }
-        if (values.restriction.INTEGER_RANGE.isMinInclusive) {
-          restriction.minInclusive = values.restriction.INTEGER_RANGE.min
-        } else {
-          restriction.minExclusive = values.restriction.INTEGER_RANGE.min
-        }
-        if (values.restriction.INTEGER_RANGE.isMaxInclusive) {
-          restriction.maxInclusive = values.restriction.INTEGER_RANGE.max
-        } else {
-          restriction.maxExclusive = values.restriction.INTEGER_RANGE.max
-        }
-      }
-      // Handle float range
-      if (values.restriction.FLOAT_RANGE && values.restriction.FLOAT_RANGE.active) {
-        restriction = {
-          type: 'FLOAT_RANGE',
-        }
-        if (values.restriction.FLOAT_RANGE.isMinInclusive) {
-          restriction.minInclusive = values.restriction.FLOAT_RANGE.min
-        } else {
-          restriction.minExclusive = values.restriction.FLOAT_RANGE.min
-        }
-        if (values.restriction.FLOAT_RANGE.isMaxInclusive) {
-          restriction.maxInclusive = values.restriction.FLOAT_RANGE.max
-        } else {
-          restriction.maxExclusive = values.restriction.FLOAT_RANGE.max
-        }
-      }
+      })
       // Handle enumeration
       if (values.restriction.ENUMERATION && values.restriction.ENUMERATION.active) {
         const acceptableValues = map(values.restriction.ENUMERATION.inputs, val => val.length > 0 ? val : undefined)
@@ -169,10 +147,11 @@ export class AttributeModelFormContainer extends React.Component {
   }
 
   getFragment = (values) => {
-    if (values.fragment !== 1) {
-      return find(this.props.fragmentList, fragment => (fragment.id === values.fragment))
+    if (values.fragment !== DEFAULT_FRAGMENT_NAME) {
+      const attrFragment = find(this.props.fragmentList, fragment => (fragment.content.name === values.fragment))
+      return attrFragment.content || null
     }
-    return {}
+    return null
   }
 
   handleUpdateAttributeModelRestriction = (type) => {
@@ -183,7 +162,7 @@ export class AttributeModelFormContainer extends React.Component {
     const restriction = this.getRestriction(values)
     const previousAttrModel = this.props.attrModel.content
     const updatedAttrModel = Object.assign({}, previousAttrModel, {
-      name: values.name,
+      label: values.label,
       description: values.description,
       type: values.type,
       alterable: values.alterable,
@@ -207,9 +186,10 @@ export class AttributeModelFormContainer extends React.Component {
   handleCreate = (values) => {
     const restriction = this.getRestriction(values)
     const fragment = this.getFragment(values)
-    const updatedAttrModel = {
+    const newAttrModel = {
       fragment,
       name: values.name,
+      label: values.label,
       description: values.description,
       type: values.type,
       alterable: values.alterable,
@@ -217,13 +197,9 @@ export class AttributeModelFormContainer extends React.Component {
     }
     // Check if restriction is defined
     if (restriction.type) {
-      updatedAttrModel.restriction = restriction
+      newAttrModel.restriction = restriction
     }
-    // Check if restriction is defined
-    if (fragment) {
-      updatedAttrModel.restriction = restriction
-    }
-    Promise.resolve(this.props.createAttrModel(updatedAttrModel))
+    Promise.resolve(this.props.createAttrModel(newAttrModel))
     .then((actionResult) => {
       // We receive here the action
       if (!actionResult.error) {
@@ -232,6 +208,7 @@ export class AttributeModelFormContainer extends React.Component {
       }
     })
   }
+
   render() {
     return (
       <I18nProvider messageDir="modules/admin-data-attributemodel-management/src/i18n">
@@ -240,31 +217,32 @@ export class AttributeModelFormContainer extends React.Component {
     )
   }
 }
+
 const mapStateToProps = (state, ownProps) => ({
-  attrModel: ownProps.params.attrModel_id ? AttributeModelSelectors.getById(state, ownProps.params.attrModel_id) : null,
-  isAttributeModelFetching: AttributeModelSelectors.isFetching(state),
+  attrModel: ownProps.params.attrModel_id ? attributeModelSelectors.getById(state, ownProps.params.attrModel_id) : null,
+  isAttributeModelFetching: attributeModelSelectors.isFetching(state),
 
-  attrModelTypeList: AttributeModelTypeSelectors.getArray(state),
-  isAttributeModelTypeFetching: AttributeModelTypeSelectors.isFetching(state),
+  attrModelTypeList: attributeModelTypeSelectors.getArray(state),
+  isAttributeModelTypeFetching: attributeModelTypeSelectors.isFetching(state),
 
-  attrModelRestrictionList: AttributeModelRestrictionSelectors.getArray(state),
-  isAttributeModelRestrictionFetching: AttributeModelRestrictionSelectors.isFetching(state),
+  attrModelRestrictionList: attributeModelRestrictionSelectors.getArray(state),
+  isAttributeModelRestrictionFetching: attributeModelRestrictionSelectors.isFetching(state),
 
-  fragmentList: FragmentSelectors.getList(state),
-  isFragmentFetching: FragmentSelectors.isFetching(state),
+  fragmentList: fragmentSelectors.getList(state),
+  isFragmentFetching: fragmentSelectors.isFetching(state),
 })
 
 const mapDispatchToProps = dispatch => ({
-  createAttrModel: values => dispatch(AttributeModelActions.createEntity(values)),
-  updateAttrModel: (id, values) => dispatch(AttributeModelActions.updateEntity(id, values)),
-  fetchAttrModel: id => dispatch(AttributeModelActions.fetchEntity(id)),
+  createAttrModel: values => dispatch(attributeModelActions.createEntity(values)),
+  updateAttrModel: (id, values) => dispatch(attributeModelActions.updateEntity(id, values)),
+  fetchAttrModel: id => dispatch(attributeModelActions.fetchEntity(id)),
 
-  fetchAttributeModelTypeList: () => dispatch(AttributeModelTypeActions.fetchEntityList()),
+  fetchAttributeModelTypeList: () => dispatch(attributeModelTypeActions.fetchEntityList()),
 
-  fetchAttributeModelRestrictionList: type => dispatch(AttributeModelRestrictionActions.getList(type)),
-  flushAttributeModelRestriction: () => dispatch(AttributeModelRestrictionActions.flush()),
+  fetchAttributeModelRestrictionList: type => dispatch(attributeModelRestrictionActions.getList(type)),
+  flushAttributeModelRestriction: () => dispatch(attributeModelRestrictionActions.flush()),
 
-  fetchFragmentList: type => dispatch(FragmentActions.fetchEntityList(type)),
+  fetchFragmentList: type => dispatch(fragmentActions.fetchEntityList(type)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AttributeModelFormContainer)

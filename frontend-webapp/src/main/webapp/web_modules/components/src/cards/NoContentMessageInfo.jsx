@@ -15,7 +15,7 @@ class NoContentMessageInfo extends React.Component {
   static propTypes = {
     noContent: React.PropTypes.bool.isRequired,
     title: React.PropTypes.node.isRequired,
-    message: React.PropTypes.node, // optional, default title otherwise
+    message: React.PropTypes.node,
     Icon: React.PropTypes.func.isRequired,
     children: React.PropTypes.node.isRequired,
   }

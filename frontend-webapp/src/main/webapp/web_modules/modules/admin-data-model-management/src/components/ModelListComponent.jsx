@@ -2,13 +2,17 @@ import { map } from 'lodash'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
 import { FormattedMessage } from 'react-intl'
-import IconButton from 'material-ui/IconButton'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
 import Settings from 'material-ui/svg-icons/action/settings-input-composite'
 import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
+import { Model } from '@regardsoss/model'
+import { HateoasIconAction, HateoasKeys } from '@regardsoss/display-control'
+import { RequestVerbEnum } from '@regardsoss/store-utils'
+import { modelActions } from '../client/ModelClient'
+import { modelAttributesActions } from '../client/ModelAttributesClient'
 
 /**
  * React components to list project.
@@ -16,16 +20,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 export class ProjectListComponent extends React.Component {
 
   static propTypes = {
-    modelList: React.PropTypes.objectOf(
-      React.PropTypes.shape({
-        content: React.PropTypes.shape({
-          id: React.PropTypes.number,
-          name: React.PropTypes.string,
-          description: React.PropTypes.string,
-          type: React.PropTypes.string,
-        }),
-      }),
-    ),
+    modelList: React.PropTypes.objectOf(Model),
     handleDelete: React.PropTypes.func.isRequired,
     handleEdit: React.PropTypes.func.isRequired,
     handleBindAttributes: React.PropTypes.func.isRequired,
@@ -93,17 +88,28 @@ export class ProjectListComponent extends React.Component {
                   <TableRowColumn>{model.content.description}</TableRowColumn>
                   <TableRowColumn>{this.getType(model.content.type)}</TableRowColumn>
                   <TableRowColumn>
-                    <IconButton onTouchTap={() => handleBindAttributes(model.content.id)}>
+                    <HateoasIconAction
+                      hateoasDependency={modelAttributesActions.getDependency(RequestVerbEnum.PUT)}
+                      onTouchTap={() => handleBindAttributes(model.content.id)}
+                    >
                       <Settings hoverColor={style.hoverButtonBindAttribute} />
-                    </IconButton>
+                    </HateoasIconAction>
 
-                    <IconButton onTouchTap={() => handleEdit(model.content.id)}>
+                    <HateoasIconAction
+                      entityLinks={model.links}
+                      hateoasKey={HateoasKeys.UPDATE}
+                      onTouchTap={() => handleEdit(model.content.id)}
+                    >
                       <Edit hoverColor={style.hoverButtonEdit} />
-                    </IconButton>
+                    </HateoasIconAction>
 
-                    <IconButton onTouchTap={() => handleDelete(model.content.id)}>
+                    <HateoasIconAction
+                      entityLinks={model.links}
+                      hateoasKey={HateoasKeys.DELETE}
+                      onTouchTap={() => handleDelete(model.content.id)}
+                    >
                       <Delete hoverColor={style.hoverButtonDelete} />
-                    </IconButton>
+                    </HateoasIconAction>
                   </TableRowColumn>
                 </TableRow>
               ))}
@@ -118,6 +124,7 @@ export class ProjectListComponent extends React.Component {
                 id="model.list.action.add"
               />
             }
+            mainHateoasDependency={modelActions.getDependency(RequestVerbEnum.POST)}
             secondaryButtonLabel={<FormattedMessage id="model.list.action.cancel" />}
             secondaryButtonUrl={backUrl}
           />

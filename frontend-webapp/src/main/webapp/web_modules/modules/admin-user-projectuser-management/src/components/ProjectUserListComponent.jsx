@@ -7,15 +7,17 @@ import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
 import { FormattedMessage, FormattedDate } from 'react-intl'
 import IconButton from 'material-ui/IconButton'
+import { LoadableContentDisplayDecorator, HateoasIconAction, HateoasKeys } from '@regardsoss/display-control'
+import { RequestVerbEnum } from '@regardsoss/store-utils'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
 import Done from 'material-ui/svg-icons/action/done'
 import RemoveCircle from 'material-ui/svg-icons/content/remove-circle'
 import { ProjectUser } from '@regardsoss/model'
-import { CardActionsComponent, NoContentMessageInfo } from '@regardsoss/components'
-import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
+import { ActionsMenuCell, CardActionsComponent, NoContentMessageInfo, ConfirmDialogComponent, ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
+import ProjectUserActions from '../model/ProjectUserActions'
 
 /**
  * User statuses constants, as returned by the server
@@ -63,6 +65,13 @@ export class ProjectUserListComponent extends React.Component {
     ...i18nContextType,
   }
 
+  constructor(props) {
+    super(props)
+    this.state = {
+      deleteDialogOpened: false,
+    }
+  }
+
   componentWillReceiveProps = (nextProps) => {
     if (this.props.initialFecthing && !nextProps.initialFecthing) {
       // first loading: show waiting tab if there are any waiting users
@@ -72,19 +81,6 @@ export class ProjectUserListComponent extends React.Component {
 
   onTabChange = (value) => {
     this.selectTab(value)
-  }
-
-  getWaitingUsersTabContent = () => {
-    const { waitingAccessUsers, isFetchingActions, onValidateAll, initialFecthing } = this.props
-    return {
-      tabSubtitleKey: 'projectUser.list.waiting.subtitle',
-      noDataMessageKey: 'projectUser.list.waiting.no.content.message',
-      currentUserList: waitingAccessUsers,
-      // validate all users
-      mainButtonKey: 'projectUser.list.waiting.accept.all',
-      mainButtonAction: () => onValidateAll(),
-      mainButtonDisabled: isFetchingActions || initialFecthing,
-    }
   }
 
   getAllUsersTabContent = () => {
@@ -100,8 +96,54 @@ export class ProjectUserListComponent extends React.Component {
     }
   }
 
+  getWaitingUsersTabContent = () => {
+    const { waitingAccessUsers, isFetchingActions, onValidateAll, initialFecthing } = this.props
+    return {
+      tabSubtitleKey: 'projectUser.list.waiting.subtitle',
+      noDataMessageKey: 'projectUser.list.waiting.no.content.message',
+      currentUserList: waitingAccessUsers,
+      // validate all users
+      mainButtonKey: 'projectUser.list.waiting.accept.all',
+      mainButtonAction: () => onValidateAll(),
+      mainButtonDisabled: isFetchingActions || initialFecthing,
+    }
+  }
+
+  closeDeleteDialog = () => {
+    this.setState({
+      deleteDialogOpened: false,
+      entityToDelete: null,
+    })
+  }
+
+  openDeleteDialog = (entity) => {
+    this.setState({
+      deleteDialogOpened: true,
+      entityToDelete: entity,
+    })
+  }
+
   selectTab = (selectedTab) => {
     this.setState({ selectedTab })
+  }
+
+  renderDeleteConfirmDialog = () => {
+    const name = this.state.entityToDelete ? this.state.entityToDelete.content.email : ' '
+    const title = this.context.intl.formatMessage({ id: 'projectUser.list.delete.message' }, { name })
+    return (
+      <ShowableAtRender
+        show={this.state.deleteDialogOpened}
+      >
+        <ConfirmDialogComponent
+          dialogType={ConfirmDialogComponent.dialogTypes.DELETE}
+          onConfirm={() => {
+            this.props.onDelete(this.state.entityToDelete.content.id)
+          }}
+          onClose={this.closeDeleteDialog}
+          title={title}
+        />
+      </ShowableAtRender>
+    )
   }
 
   render() {
@@ -113,7 +155,7 @@ export class ProjectUserListComponent extends React.Component {
     const tabContent = selectedTab === TABS.waiting ? this.getWaitingUsersTabContent() : this.getAllUsersTabContent()
     const {
       users, waitingAccessUsers, initialFecthing, backUrl,
-      onValidate, onDeny, onEdit, onDelete, isFetchingActions,
+      onValidate, onDeny, onEdit, isFetchingActions,
     } = this.props
     const { intl } = this.context
 
@@ -129,6 +171,7 @@ export class ProjectUserListComponent extends React.Component {
           message={<FormattedMessage id={tabContent.noDataMessageKey} />}
         >
           <div>
+            {this.renderDeleteConfirmDialog()}
             <CardTitle subtitle={<FormattedMessage id={tabContent.tabSubtitleKey} />} />
             <CardText>
               <LoadableContentDisplayDecorator isLoading={initialFecthing}>
@@ -174,34 +217,44 @@ export class ProjectUserListComponent extends React.Component {
                           />
                         </TableRowColumn>
                         <TableRowColumn>
-                          <IconButton
-                            title={intl.formatMessage({ id: 'projectUser.list.table.action.edit.tooltip' })}
-                            onTouchTap={() => onEdit(projectUser.content.id)}
-                            disabled={isFetchingActions}
-                          >
-                            <Edit hoverColor={style.commonActionHoverColor} />
-                          </IconButton>
-                          <IconButton
-                            title={intl.formatMessage({ id: 'projectUser.list.table.action.accept.tooltip' })}
-                            onTouchTap={() => onValidate(projectUser.content.id)}
-                            disabled={isFetchingActions || !canAcceptUser(projectUser)}
-                          >
-                            <Done hoverColor={style.commonActionHoverColor} />
-                          </IconButton>
-                          <IconButton
-                            title={intl.formatMessage({ id: 'projectUser.list.table.action.deny.tooltip' })}
-                            onTouchTap={() => onDeny(projectUser.content.id)}
-                            disabled={isFetchingActions || !canDenyUser(projectUser)}
-                          >
-                            <RemoveCircle hoverColor={style.deleteActionHoverColor} />
-                          </IconButton>
-                          <IconButton
-                            title={intl.formatMessage({ id: 'projectUser.list.table.action.delete.tooltip' })}
-                            onTouchTap={() => onDelete(projectUser.content.id)}
-                            disabled={isFetchingActions}
-                          >
-                            <Delete hoverColor={style.deleteActionHoverColor} />
-                          </IconButton>
+                          <ActionsMenuCell>
+                            <HateoasIconAction
+                              title={intl.formatMessage({ id: 'projectUser.list.table.action.edit.tooltip' })}
+                              onTouchTap={() => onEdit(projectUser.content.id)}
+                              disabled={isFetchingActions}
+                              entityLinks={projectUser.links}
+                              hateoasKey={HateoasKeys.UPDATE}
+                              breakpoint={530}
+                            >
+                              <Edit hoverColor={style.commonActionHoverColor} />
+                            </HateoasIconAction>
+                            <IconButton
+                              title={intl.formatMessage({ id: 'projectUser.list.table.action.accept.tooltip' })}
+                              onTouchTap={() => onValidate(projectUser.content.id)}
+                              disabled={isFetchingActions || !canAcceptUser(projectUser)}
+                              breakpoint={1065}
+                            >
+                              <Done hoverColor={style.commonActionHoverColor} />
+                            </IconButton>
+                            <IconButton
+                              title={intl.formatMessage({ id: 'projectUser.list.table.action.deny.tooltip' })}
+                              onTouchTap={() => onDeny(projectUser.content.id)}
+                              disabled={isFetchingActions || !canDenyUser(projectUser)}
+                              breakpoint={1320}
+                            >
+                              <RemoveCircle hoverColor={style.deleteActionHoverColor} />
+                            </IconButton>
+                            <HateoasIconAction
+                              title={intl.formatMessage({ id: 'projectUser.list.table.action.delete.tooltip' })}
+                              onTouchTap={() => this.openDeleteDialog(projectUser)}
+                              disabled={isFetchingActions}
+                              entityLinks={projectUser.links}
+                              hateoasKey={HateoasKeys.DELETE}
+                              breakpoint={1320}
+                            >
+                              <Delete hoverColor={style.deleteActionHoverColor} />
+                            </HateoasIconAction>
+                          </ActionsMenuCell>
                         </TableRowColumn>
                       </TableRow>
                     ))}
@@ -215,6 +268,7 @@ export class ProjectUserListComponent extends React.Component {
           <CardActionsComponent
             mainButtonUrl={tabContent.mainButtonUrl}
             mainButtonTouchTap={tabContent.mainButtonAction}
+            mainHateoasDependency={ProjectUserActions.getDependency(RequestVerbEnum.POST)}
             isMainButtonDisabled={tabContent.mainButtonDisabled}
             mainButtonLabel={<FormattedMessage id={tabContent.mainButtonKey} />}
             secondaryButtonLabel={<FormattedMessage id="projectUser.list.action.cancel" />}

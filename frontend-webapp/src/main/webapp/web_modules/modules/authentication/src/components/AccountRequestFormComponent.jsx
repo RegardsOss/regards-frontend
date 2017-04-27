@@ -65,6 +65,7 @@ export class AccountRequestFormComponent extends React.Component {
     return (
       <div style={moduleTheme.layout}>
         <form
+          className={requestFormId === requestFormIds.unlockAccountRequest ? 'selenium-unlockAccountForm' : 'selenium-resetPasswordForm'}
           onSubmit={handleSubmit(onRequestAction)}
         >
           <Card>
@@ -90,6 +91,7 @@ export class AccountRequestFormComponent extends React.Component {
                 type="submit"
               />
               <RaisedButton
+                className="selenium-backButton"
                 disabled={submitting}
                 label={<FormattedMessage id="account.request.form.back" />}
                 primary

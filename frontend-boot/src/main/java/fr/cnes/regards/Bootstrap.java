@@ -10,7 +10,6 @@ public class Bootstrap {
 
     @Bean
     public UrlRewriteFilter getUrlRewriteFilter() {
-        System.out.println("Calling Bean URL Rewrite Filter");
         UrlRewriteFilter urlRewriteFilter = new UrlRewriteFilter();
         return urlRewriteFilter;
     }

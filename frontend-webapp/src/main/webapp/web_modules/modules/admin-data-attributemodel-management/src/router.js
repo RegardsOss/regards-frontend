@@ -1,4 +1,4 @@
-export const listModelRoute = {
+export const listAttributeModelRoute = {
   path: 'list',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
@@ -10,8 +10,8 @@ export const listModelRoute = {
   },
 }
 
-export const createModelRoute = {
-  path: 'create(/fragment/:fragment_id)',
+export const createAttributeModelRoute = {
+  path: 'create(/fragment/:fragment_name)',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
       const AttributeModelFormContainer = require('./containers/AttributeModelFormContainer')
@@ -22,7 +22,7 @@ export const createModelRoute = {
   },
 }
 
-export const editModelRoute = {
+export const editAttributeModelRoute = {
   path: ':attrModel_id/edit',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
@@ -37,9 +37,9 @@ export const editModelRoute = {
 
 const modelDataManagementRouter = {
   childRoutes: [
-    listModelRoute,
-    createModelRoute,
-    editModelRoute,
+    listAttributeModelRoute,
+    createAttributeModelRoute,
+    editAttributeModelRoute,
   ],
 }
 

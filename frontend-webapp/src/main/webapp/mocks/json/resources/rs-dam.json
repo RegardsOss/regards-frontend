@@ -3,19 +3,19 @@
     {
       "id": 0,
       "name": "Premier Modele",
-      "descirption": "Description du premier modele de jeux de données",
+      "description": "Description du premier modele de jeux de données",
       "type": "DATASET"
     },
     {
       "id": 1,
       "name": "Deuxieme Modele",
-      "descirption": "Description du deuxieme modele de jeux de données",
+      "description": "Description du deuxieme modele de jeux de données",
       "type": "DATASET"
     },
     {
       "id": 2,
       "name": "Troisieme Modele",
-      "descirption": "Description du troisieme modele de jeux de données",
+      "description": "Description du troisieme modele de jeux de données",
       "type": "DATASET"
     }
   ],
@@ -24,6 +24,7 @@
       "id": 0,
       "name": "language",
       "description": "Language for movies",
+      "label": "Language",
       "defaultValue": null,
       "type": "STRING",
       "unit": null,
@@ -41,6 +42,7 @@
     {
       "id": 1,
       "name": "format",
+      "label": "Format du support",
       "description": "Format for movies",
       "defaultValue": null,
       "type": "STRING",
@@ -49,6 +51,310 @@
       "arraysize": 0,
       "fragment": {
         "name": "default"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup"
+    },
+    {
+      "id": 2,
+      "name": "size",
+      "description": "Test for INTEGER attribute",
+      "label": "Size",
+      "defaultValue": null,
+      "type": "INTEGER",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup"
+    },
+    {
+      "id": 3,
+      "name": "weight",
+      "description": "Test for DOUBLE attribute",
+      "label": "Double",
+      "defaultValue": null,
+      "type": "DOUBLE",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup"
+    },
+    {
+      "id": 4,
+      "name": "date",
+      "description": "Test for DATE_ISO8601 attribute",
+      "label": "Date",
+      "defaultValue": null,
+      "type": "DATE_ISO8601",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup"
+    },
+    {
+      "id": 5,
+      "name": "strings",
+      "description": "Test for STRING_ARRAY attribute",
+      "label": "Strings",
+      "defaultValue": null,
+      "type": "STRING_ARRAY",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup"
+    },
+    {
+      "id": 6,
+      "name": "ints",
+      "description": "Test for INTEGER_ARRAY attribute",
+      "label": "Ints",
+      "defaultValue": null,
+      "type": "INTEGER_ARRAY",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup"
+    },
+    {
+      "id": 7,
+      "name": "doubles",
+      "description": "Test for DOUBLE_ARRAY attribute",
+      "label": "Doubles",
+      "defaultValue": null,
+      "type": "DOUBLE_ARRAY",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup"
+    },
+    {
+      "id": 8,
+      "name": "dates",
+      "description": "Test for DATE_ARRAY attribute",
+      "label": "Dates",
+      "defaultValue": null,
+      "type": "DATE_ARRAY",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup"
+    },
+    {
+      "id": 9,
+      "name": "intRange",
+      "description": "Test for INTEGER_INTERVAL attribute",
+      "label": "IntRange",
+      "defaultValue": null,
+      "type": "INTEGER_INTERVAL",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup"
+    },
+    {
+      "id": 10,
+      "name": "doubleRange",
+      "description": "Test for DOUBLE_INTERVAL attribute",
+      "label": "DoubleRange",
+      "defaultValue": null,
+      "type": "DOUBLE_INTERVAL",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup"
+    },
+    {
+      "id": 11,
+      "name": "bool",
+      "description": "Test for BOOLEAN attribute",
+      "label": "Bool",
+      "defaultValue": null,
+      "type": "BOOLEAN",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup"
+    },
+    {
+      "id": 12,
+      "name": "url",
+      "description": "Test for URL attribute",
+      "label": "Lien",
+      "defaultValue": null,
+      "type": "URL",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup"
+    },
+    {
+      "id": 13,
+      "name": "geo",
+      "description": "Test for GEOMETRY attribute",
+      "label": "Geo",
+      "defaultValue": null,
+      "type": "GEOMETRY",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup"
+    },
+    {
+      "id": 14,
+      "name": "long",
+      "description": "Test for LONG attribute",
+      "label": "Long",
+      "defaultValue": null,
+      "type": "LONG",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup"
+    },
+    {
+      "id": 15,
+      "name": "longRange",
+      "description": "Test for LONG_INTERVAL attribute",
+      "label": "LongRange",
+      "defaultValue": null,
+      "type": "LONG_INTERVAL",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup"
+    },
+    {
+      "id": 16,
+      "name": "longs",
+      "description": "Test for LONG_ARRAY attribute",
+      "label": "Longs",
+      "defaultValue": null,
+      "type": "LONG_ARRAY",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup"
+    },
+    {
+      "id": 17,
+      "name": "dateRange",
+      "description": "Test for DATE_INTERVAL attribute",
+      "label": "DateRange",
+      "defaultValue": null,
+      "type": "DATE_INTERVAL",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
       },
       "queryable": true,
       "facetable": true,
@@ -323,256 +629,27 @@
   ],
   "datasets": [
     {
-      "id": 1,
-      "ip_id": "urn://dataset_1",
-      "label": "PremierDataSet",
-      "type": "DATASET",
+      "label": "sdfqsdf",
+      "attributes": {
+        "Attribute_0_0": "QSDf",
+        "Fragment 2": {
+          "Attribute_4": "qsdf"
+        }
+      },
       "model": {
         "id": 2,
-        "name": "Premier Modele",
-        "descirption": "Description du premier modele de jeux de données",
-        "type": "DATASET"
-      }
-    },
-    {
-      "id": 2,
-      "ip_id": "urn://dataset_2",
-      "label": "DeuxiemeDataSet",
-      "type": "DATASET",
-      "model": {
-        "id": 2,
-        "name": "Premier Modele",
-        "descirption": "Description du premier modele de jeux de données",
-        "type": "DATASET"
-      }
-    },
-    {
-      "id": 3,
-      "ip_id": "urn://dataset_3",
-      "label": "TroisiemeDataSet",
-      "type": "DATASET",
-      "model": {
-        "id": 2,
-        "name": "Premier Modele",
-        "descirption": "Description du premier modele de jeux de données",
-        "type": "DATASET"
-      }
-    },
-    {
-      "id": 4,
-      "ip_id": "urn://dataset_4",
-      "label": "QuatriemDataSet",
-      "type": "DATASET",
-      "model": {
-        "id": 2,
-        "name": "Premier Modele",
-        "descirption": "Description du premier modele de jeux de données",
-        "type": "DATASET"
-      }
-    },
-    {
-      "id": 5,
-      "ip_id": "urn://dataset_5",
-      "label": "CinquiemeDataSet",
-      "type": "DATASET",
-      "model": {
-        "id": 2,
-        "name": "Premier Modele",
-        "descirption": "Description du premier modele de jeux de données",
-        "type": "DATASET"
-      }
-    },
-    {
-      "id": 6,
-      "ip_id": "urn://dataset_6",
-      "label": "SixiemeDataSet",
-      "type": "DATASET",
-      "model": {
-        "id": 2,
-        "name": "Premier Modele",
-        "descirption": "Description du premier modele de jeux de données",
-        "type": "DATASET"
-      }
-    },
-    {
-      "id": 7,
-      "ip_id": "urn://dataset_7",
-      "label": "SeptiemeDataSet",
-      "type": "DATASET",
-      "model": {
-        "id": 2,
-        "name": "Premier Modele",
-        "descirption": "Description du premier modele de jeux de données",
-        "type": "DATASET"
-      }
-    },
-    {
-      "id": 8,
-      "ip_id": "urn://dataset_8",
-      "label": "HuitiemeDataSet",
-      "type": "DATASET",
-      "model": {
-        "id": 2,
-        "name": "Premier Modele",
-        "descirption": "Description du premier modele de jeux de données",
-        "type": "DATASET"
-      }
-    },
-    {
-      "id": 9,
-      "ip_id": "urn://dataset_9",
-      "label": "NeuviemeDataSet",
-      "type": "DATASET",
-      "model": {
-        "id": 2,
-        "name": "Premier Modele",
-        "descirption": "Description du premier modele de jeux de données",
-        "type": "DATASET"
-      }
-    },
-    {
-      "id": 10,
-      "ip_id": "urn://dataset_10",
-      "label": "DixiemeDataSet",
-      "type": "DATASET",
-      "model": {
-        "id": 2,
-        "name": "Premier Modele",
-        "descirption": "Description du premier modele de jeux de données",
-        "type": "DATASET"
-      }
-    },
-    {
-      "id": 11,
-      "ip_id": "urn://dataset_11",
-      "label": "Dataset number 11",
-      "type": "DATASET",
-      "model": {
-        "id": 2,
-        "name": "Premier Modele",
-        "descirption": "Description du premier modele de jeux de données",
-        "type": "DATASET"
-      }
-    },
-    {
-      "id": 12,
-      "ip_id": "urn://dataset_12",
-      "label": "Dataset number 12",
-      "type": "DATASET",
-      "model": {
-        "id": 2,
-        "name": "Premier Modele",
-        "descirption": "Description du premier modele de jeux de données",
-        "type": "DATASET"
-      }
-    },
-    {
-      "id": 13,
-      "ip_id": "urn://dataset_13",
-      "label": "Dataset number 13",
-      "type": "DATASET",
-      "model": {
-        "id": 2,
-        "name": "Premier Modele",
-        "descirption": "Description du premier modele de jeux de données",
-        "type": "DATASET"
-      }
-    },
-    {
-      "id": 14,
-      "ip_id": "urn://dataset_14",
-      "label": "Dataset number 14",
-      "type": "DATASET",
-      "model": {
-        "id": 2,
-        "name": "Premier Modele",
-        "descirption": "Description du premier modele de jeux de données",
-        "type": "DATASET"
-      }
-    },
-    {
-      "id": 15,
-      "ip_id": "urn://dataset_15",
-      "label": "Dataset number 15",
-      "type": "DATASET",
-      "model": {
-        "id": 0,
-        "name": "Premier Modele",
-        "descirption": "Description du premier modele de jeux de données",
-        "type": "DATASET"
-      }
-    },
-    {
-      "id": 16,
-      "ip_id": "urn://dataset_16",
-      "label": "Dataset number 16",
-      "type": "DATASET",
-      "model": {
-        "id": 0,
-        "name": "Premier Modele",
-        "descirption": "Description du premier modele de jeux de données",
-        "type": "DATASET"
-      }
-    },
-    {
-      "id": 17,
-      "ip_id": "urn://dataset_17",
-      "label": "Dataset number 17",
-      "type": "DATASET",
-      "model": {
-        "id": 0,
-        "name": "Premier Modele",
-        "descirption": "Description du premier modele de jeux de données",
-        "type": "DATASET"
-      }
-    },
-    {
-      "id": 18,
-      "ip_id": "urn://dataset_18",
-      "label": "Dataset number 18",
-      "type": "DATASET",
-      "model": {
-        "id": 0,
-        "name": "Premier Modele",
-        "descirption": "Description du premier modele de jeux de données",
-        "type": "DATASET"
-      }
-    },
-    {
-      "id": 19,
-      "ip_id": "urn://dataset_19",
-      "label": "Dataset number 19",
-      "type": "DATASET",
-      "model": {
-        "id": 0,
-        "name": "Premier Modele",
-        "descirption": "Description du premier modele de jeux de données",
-        "type": "DATASET"
-      }
-    },
-    {
-      "id": 20,
-      "ip_id": "urn://dataset_20",
-      "label": "Dataset number 20",
-      "type": "DATASET",
-      "model": {
-        "id": 0,
-        "name": "Premier Modele",
-        "descirption": "Description du premier modele de jeux de données",
-        "type": "DATASET"
-      }
-    },
-    {
-      "id": 21,
-      "ip_id": "urn://dataset_21",
-      "label": "Dataset number 21",
-      "type": "DATASET",
-      "model": {
-        "id": 0,
-        "name": "Premier Modele",
-        "descirption": "Description du premier modele de jeux de données",
-        "type": "DATASET"
-      }
+        "name": "Mon nom de modèle"
+      },
+      "dataModel": 5,
+      "plgConfDataSource": 4,
+      "tags": [
+        "URN:AIP:COLLECTION:PROJECT:fdsfdsf15-8a93-4d06-a90a-f657c26d3930:V1",
+        "habla espanol"
+      ],
+      "subsetting": "fqsdsdf qsdf qsf sdf sf f",
+      "descriptionUrl": "http://www.google.fr",
+      "uiPluginConfIdList": [],
+      "id": 23
     }
   ],
   "datasources": [
@@ -599,6 +676,9 @@
         },
         {
           "email": "mon@adresse.em"
+        },
+        {
+          "email": "hasbeen381@hotmail.com"
         }
       ],
       "accessRights": [
@@ -619,7 +699,7 @@
             "model": {
               "id": 2,
               "name": "Premier Modele",
-              "descirption": "Description du premier modele de jeux de données",
+              "description": "Description du premier modele de jeux de données",
               "type": "DATASET"
             }
           },
@@ -642,7 +722,7 @@
             "model": {
               "id": 2,
               "name": "Premier Modele",
-              "descirption": "Description du premier modele de jeux de données",
+              "description": "Description du premier modele de jeux de données",
               "type": "DATASET"
             }
           },
@@ -665,7 +745,7 @@
             "model": {
               "id": 2,
               "name": "Premier Modele",
-              "descirption": "Description du premier modele de jeux de données",
+              "description": "Description du premier modele de jeux de données",
               "type": "DATASET"
             }
           },
@@ -689,7 +769,7 @@
             "model": {
               "id": 2,
               "name": "Premier Modeleee",
-              "descirption": "Description du premier modele de jeux de données",
+              "description": "Description du premier modele de jeux de données",
               "type": "DATASET"
             }
           },

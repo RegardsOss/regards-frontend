@@ -1,12 +1,28 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
+import { stub } from 'sinon'
 import { ListItem } from 'material-ui/List'
 import RaisedButton from 'material-ui/RaisedButton'
 import IconMenu from 'material-ui/IconMenu'
 import { Field } from '@regardsoss/form-utils'
 import { PluginParameterPlugin } from '../../../../src/components/plugin/parameter/PluginParameterPlugin'
 
+/**
+ * Plugin tests
+ * @author Xavier-Alexandre Brochard
+ */
 describe('[ADMIN PROJECT MANAGEMENT] Testing plugin parameter plugin component', () => {
+  before(() => {
+    stub(console, 'error').callsFake((warning) => {
+      throw new Error(warning)
+    })
+  })
+  after(() => {
+    console.error.restore()
+  })
   it('should exists', () => {
     assert.isDefined(PluginParameterPlugin)
     assert.isDefined(ListItem)

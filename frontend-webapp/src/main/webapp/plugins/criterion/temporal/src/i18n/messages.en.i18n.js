@@ -13,11 +13,6 @@ const messages = {
   'criterion.time.field.label': 'Time',
   'criterion.time.picker.ok': 'Ok',
   'criterion.time.picker.cancel': 'Cancel',
-
-  'criterion.comparator.before': 'before',
-  'criterion.comparator.after': 'after',
-  'criterion.comparator.is': 'equal to',
-  'criterion.comparator.isnot': 'different from',
 }
 
 export default messages

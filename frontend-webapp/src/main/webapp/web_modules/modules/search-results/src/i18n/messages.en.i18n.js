@@ -28,16 +28,25 @@ const messages = Object.assign({
   'form.attributes.regroupement.form.add.regroupement.button': 'Add new regroupement',
   'form.attributes.visibility.label': 'Visibility',
   'form.attributes.facetable.label': 'Enable filter',
+  'form.attributes.order': 'Display order',
   'form.attributes.regroupement.section.title': 'Configure attributes regroupement to display after every search result',
-  'form.attributes.section.title': 'Configure attributes retrieved from each search result',
+  'form.attributes.section.title': 'Configure attributes from dynamic models retrieved from each search result',
+  'form.attributes.standard.section.title': 'Configure common attributes retrieved from each search result',
+  'form.attributes.filter.label': 'Search for attribute label ... ',
   'form.attributes.regroupement.remove': 'Remove',
   'form.attributes.regroupement.edit': 'Edit',
   'form.attributes.delete.confirm.title': 'Confirm deletion of attributs regroupement {name}',
   'form.attributes.regroupement.form.title.update': 'Update regroupement : {name}',
 
   // User messages
-  'navigation.dataobjects.label': 'Catalog',
+  'navigation.home.label': 'Catalog',
+  'navigation.dataobjects.label': 'Dataobjects',
   'navigation.datasets.label': 'Datasets',
+  'navigation.filter.by.facets': 'Filters',
+  'list.sort.prefix.label': 'Sort :',
+  'list.sort.none.label': 'None',
+  'view.type.table.button.label': 'Display results with table format',
+  'view.type.list.button.label': 'Display results with list format',
 }, Locales.en)
 
 export default messages

@@ -105,7 +105,7 @@ class ConnectionTesterIconButton extends React.Component {
 
     const successButton =
       (<OnHoverSwitchIconButton
-        onTouchTap={this.handleTouchTap}
+        onTouchTap={[this.handleTouchTap, this.handleTouchTap]}
       >
         <Check color={this.context.muiTheme.palette.primary1Color} />
         <PlayArrow />
@@ -113,7 +113,7 @@ class ConnectionTesterIconButton extends React.Component {
 
     const errorButton =
       (<OnHoverSwitchIconButton
-        onTouchTap={this.handleTouchTap}
+        onTouchTap={[this.handleTouchTap, this.handleTouchTap]}
       >
         <Error color={this.context.muiTheme.palette.accent1Color} />
         <PlayArrow />

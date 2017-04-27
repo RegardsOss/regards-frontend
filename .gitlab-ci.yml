@@ -1,10 +1,5 @@
 image: node:latest
 
-# This folder is cached between builds
-cache:
-  paths:
-  - frontend-webapp/src/main/webapp/node_modules/
-
 stages:
   - test
 

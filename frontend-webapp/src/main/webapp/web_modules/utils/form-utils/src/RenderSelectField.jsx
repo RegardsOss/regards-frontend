@@ -1,9 +1,12 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import SelectField from 'material-ui/SelectField'
 
 const renderSelectField = ({ input, label, meta: { touched, error }, fullWidth, children, disabled, onSelect, intl, ...rest }) => (
   <SelectField
     floatingLabelText={label}
-    errorText={error && intl.formatMessage({ id: error })}
+    errorText={touched && error && intl.formatMessage({ id: error })}
     {...input}
     fullWidth={fullWidth}
     onChange={(event, index, value) => {

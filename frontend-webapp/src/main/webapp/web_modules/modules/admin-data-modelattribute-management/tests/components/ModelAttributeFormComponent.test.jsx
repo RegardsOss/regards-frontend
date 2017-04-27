@@ -3,7 +3,7 @@
  **/
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import sinon from 'sinon'
+import { testSuiteHelpers, DumpProvider } from '@regardsoss/tests-helpers'
 import { ModelAttributeFormComponent } from '../../src/components/ModelAttributeFormComponent'
 import DraggableCard from '../../src/components/DraggableCard'
 import ContainerCard from '../../src/components/ContainerCard'
@@ -11,134 +11,25 @@ import ContainerCard from '../../src/components/ContainerCard'
 const distributedAttrModels = {
   ATTR_REMAINING: {
     fragments: {
-      2: [{
-        content: {
-          id: 3,
-          name: 'Attribute_0_0',
-          description: "Description de l'attribut 0 - 0",
-          defaultValue: null,
-          type: 'STRING',
-          unit: null,
-          precision: null,
-          arraysize: 0,
-          queryable: true,
-          facetable: true,
-          alterable: true,
-          optional: true,
-          group: 'leGroup',
-          fragment: {
-            id: 2,
-            name: 'Fragment 2',
-          },
-        },
-        links: [],
-      }],
-      3: [{
-        content: {
-          id: 2,
-          name: 'Attribute_0_0',
-          description: "Description de l'attribut 0 - 0",
-          defaultValue: null,
-          type: 'STRING',
-          unit: null,
-          precision: null,
-          arraysize: 0,
-          queryable: true,
-          facetable: true,
-          alterable: true,
-          optional: true,
-          group: 'leGroup',
-          fragment: {
-            id: 3,
-            name: 'Fragment 3',
-          },
-        },
-        links: [],
-      }],
+      2: [
+        DumpProvider.getFirstEntity('DataManagementClient', 'AttributeModel'),
+      ],
     },
-    attrs: [{
-      content: {
-        id: 0,
-        name: 'Attribute_0_0',
-        description: "Description de l'attribut 0 - 0",
-        defaultValue: null,
-        type: 'STRING',
-        unit: null,
-        precision: null,
-        arraysize: 0,
-        queryable: true,
-        facetable: true,
-        alterable: true,
-        optional: true,
-        group: 'leGroup',
-        fragment: {
-          id: 1,
-          name: 'Default',
-        },
-      },
-      links: [],
-    }, {
-      content: {
-        id: 1,
-        name: 'Attribute_1_0',
-        description: "Description de l'attribut 1 - 0",
-        defaultValue: null,
-        type: 'STRING',
-        unit: null,
-        precision: null,
-        arraysize: 0,
-        queryable: true,
-        facetable: true,
-        alterable: true,
-        optional: true,
-        group: 'leGroup',
-        fragment: {
-          id: 1,
-          name: 'Default',
-        },
-      },
-      links: [],
-    }],
+    attrs: [],
   },
   ATTR_ASSOCIATED: {
     fragments: {
-      2: [{
-        content: {
-          id: 4,
-          name: 'Attribute_4',
-          description: "Description de l'attribut 0 - 0",
-          defaultValue: null,
-          type: 'STRING',
-          unit: null,
-          precision: null,
-          arraysize: 0,
-          queryable: true,
-          facetable: true,
-          alterable: true,
-          optional: true,
-          group: 'leGroup',
-          fragment: {
-            id: 2,
-            name: 'Fragment 2',
-          },
-        },
-        links: [],
-      }],
+      2: [
+        DumpProvider.getFirstEntity('DataManagementClient', 'AttributeModel'),
+      ],
     },
     attrs: [],
   },
 }
 // Test a component rendering
 describe('[ADMIN DATA MODEL ATTRIBUTE MANAGEMENT] Testing ModelAttributeFormComponent', () => {
-  // Since react will console.error propType warnings, that which we'd rather have
-  // as errors, we use sinon.js to stub it into throwing these warning as errors
-  // instead.
-  before(() => {
-    sinon.stub(console, 'error', (warning) => { throw new Error(warning) })
-  })
-  after(() => {
-    console.error.restore()
-  })
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
 
   it('should exists', () => {
     assert.isDefined(ModelAttributeFormComponent)
@@ -147,20 +38,12 @@ describe('[ADMIN DATA MODEL ATTRIBUTE MANAGEMENT] Testing ModelAttributeFormComp
   it('should render', () => {
     const props = {
       distributedAttrModels,
-      onCreateFragment: () => {},
-      onDeleteFragment: () => {},
-      onCreateAttributeModel: () => {},
-      onDeleteAttributeModel: () => {},
+      onCreateFragment: () => { },
+      onDeleteFragment: () => { },
+      onCreateAttributeModel: () => { },
+      onDeleteAttributeModel: () => { },
       backUrl: '#',
-      currentModel: {
-        content: {
-          id: 1,
-          name: 'Deuxieme Modele',
-          description: 'Description du deuxieme modele de jeux de données',
-          type: 'DATASET',
-        },
-        links: [],
-      },
+      currentModel: DumpProvider.getFirstEntity('DataManagementClient', 'Model'),
     }
     const context = {
       muiTheme: {
@@ -172,7 +55,7 @@ describe('[ADMIN DATA MODEL ATTRIBUTE MANAGEMENT] Testing ModelAttributeFormComp
     const enzymeWrapper = shallow(<ModelAttributeFormComponent {...props} />, { context })
     const subComponent = enzymeWrapper.find(DraggableCard)
     const subComponentContainerCard = enzymeWrapper.find(ContainerCard)
-    expect(subComponent).to.have.length(5)
+    expect(subComponent).to.have.length(2)
     expect(subComponentContainerCard).to.have.length(2)
   })
 })

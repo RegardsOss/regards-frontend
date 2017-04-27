@@ -12,14 +12,18 @@ import {
   AttributeConfiguration,
   AttributesRegroupementConfiguration,
 } from '@regardsoss/model'
+import { ShowableAtRender } from '@regardsoss/components'
 import { Field, RenderRadio, RenderCheckbox } from '@regardsoss/form-utils'
-import ResultsAttributesConfigurationComponent from './ResultsAttributesConfigurationComponent'
+import { MainAttributesConfigurationComponent } from '@regardsoss/attributes-common'
 
 /**
  * Display form to configure main parameters of search form.
  * @author Sébastien binda
  */
 class SearchResultsConfigurationComponent extends React.Component {
+
+  static MODULE_ATTRIBUTES_CONF = 'conf.attributes'
+  static MODULE_REGROUPEMENTS_CONF = 'conf.attributesRegroupements'
 
   static propTypes = {
     defaultResultType: React.PropTypes.string,
@@ -29,12 +33,17 @@ class SearchResultsConfigurationComponent extends React.Component {
     attributesConf: React.PropTypes.arrayOf(AttributeConfiguration),
     attributesRegroupementsConf: React.PropTypes.arrayOf(AttributesRegroupementConfiguration),
     selectableAttributes: React.PropTypes.objectOf(AttributeModel),
+    hideDatasets: React.PropTypes.bool.isRequired,
     changeField: React.PropTypes.func.isRequired,
   }
 
 
   renderAttributesConfiguration = () => (
-    <ResultsAttributesConfigurationComponent
+    <MainAttributesConfigurationComponent
+      allowFacettes
+      allowAttributesRegroupements
+      attributesFieldName={SearchResultsConfigurationComponent.MODULE_ATTRIBUTES_CONF}
+      regroupementsFieldName={SearchResultsConfigurationComponent.MODULE_REGROUPEMENTS_CONF}
       attributesConf={this.props.attributesConf}
       attributesRegroupementsConf={this.props.attributesRegroupementsConf}
       defaultAttributesConf={this.props.defaultAttributesConf}
@@ -42,26 +51,29 @@ class SearchResultsConfigurationComponent extends React.Component {
       selectableAttributes={this.props.selectableAttributes}
       changeField={this.props.changeField}
     />
-    )
+  )
 
   render() {
     return (
       <Card>
         <CardTitle subtitle={<FormattedMessage id="form.configuration.tab.title" />} />
-        <Field
-          name="conf.resultType"
-          component={RenderRadio}
-          defaultSelected={this.props.defaultResultType}
-        >
-          <RadioButton
-            value={SearchResultsTargetsEnum.DATASET_RESULTS}
-            label={<FormattedMessage id="form.configuration.result.type.datasets" />}
-          />
-          <RadioButton
-            value={SearchResultsTargetsEnum.DATAOBJECT_RESULTS}
-            label={<FormattedMessage id="form.configuration.result.type.dataobjects" />}
-          />
-        </Field>
+        { /* Show result type choice only if the datasets results are not hidden */}
+        <ShowableAtRender show={!this.props.hideDatasets} >
+          <Field
+            name="conf.resultType"
+            component={RenderRadio}
+            defaultSelected={this.props.defaultResultType}
+          >
+            <RadioButton
+              value={SearchResultsTargetsEnum.DATASET_RESULTS}
+              label={<FormattedMessage id="form.configuration.result.type.datasets" />}
+            />
+            <RadioButton
+              value={SearchResultsTargetsEnum.DATAOBJECT_RESULTS}
+              label={<FormattedMessage id="form.configuration.result.type.dataobjects" />}
+            />
+          </Field>
+        </ShowableAtRender>
         <Field
           name="conf.enableFacettes"
           component={RenderCheckbox}

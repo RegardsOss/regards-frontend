@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux'
-import { getModelReducer } from './model/ModelReducers'
+import { modelReducer } from './client/ModelClient'
 
 const modelDataManagementReducer = combineReducers({
-  model: getModelReducer,
+  model: modelReducer,
 })
 
 export default modelDataManagementReducer

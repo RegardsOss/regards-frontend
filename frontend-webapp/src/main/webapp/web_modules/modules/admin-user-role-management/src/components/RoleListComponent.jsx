@@ -2,14 +2,16 @@ import { map } from 'lodash'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
 import { FormattedMessage } from 'react-intl'
-import IconButton from 'material-ui/IconButton'
+import { HateoasIconAction, HateoasKeys } from '@regardsoss/display-control'
+import { RequestVerbEnum } from '@regardsoss/store-utils'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
 import Key from 'material-ui/svg-icons/communication/vpn-key'
-import { CardActionsComponent } from '@regardsoss/components'
+import { CardActionsComponent, ConfirmDialogComponent, ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { Role } from '@regardsoss/model'
+import RoleActions from '../model/RoleActions'
 
 /**
  * React components to list project.
@@ -30,16 +32,18 @@ export class RoleListComponent extends React.Component {
     ...i18nContextType,
   }
 
-  /**
-   *
-   * @param isDeleted
-   * @returns {*}
-   */
-  getState = (isDeleted) => {
-    if (isDeleted) {
-      return (<FormattedMessage id="projects.table.isDeleted" />)
+  constructor(props) {
+    super(props)
+    this.state = {
+      deleteDialogOpened: false,
     }
-    return (null)
+  }
+
+  getBooleanAsString = (value) => {
+    if (value) {
+      return (<FormattedMessage id="role.list.value.true" />)
+    }
+    return (<FormattedMessage id="role.list.value.false" />)
   }
 
   /**
@@ -54,15 +58,53 @@ export class RoleListComponent extends React.Component {
     return ''
   }
 
-  getBooleanAsString = (value) => {
-    if (value) {
-      return (<FormattedMessage id="role.list.value.true" />)
+  /**
+   *
+   * @param isDeleted
+   * @returns {*}
+   */
+  getState = (isDeleted) => {
+    if (isDeleted) {
+      return (<FormattedMessage id="projects.table.isDeleted" />)
     }
-    return (<FormattedMessage id="role.list.value.false" />)
+    return (null)
+  }
+
+  closeDeleteDialog = () => {
+    this.setState({
+      deleteDialogOpened: false,
+      entityToDelete: null,
+    })
+  }
+
+  openDeleteDialog = (entity) => {
+    this.setState({
+      deleteDialogOpened: true,
+      entityToDelete: entity,
+    })
+  }
+
+  renderDeleteConfirmDialog = () => {
+    const name = this.state.entityToDelete ? this.state.entityToDelete.content.email : ' '
+    const title = this.context.intl.formatMessage({ id: 'role.list.delete.message' }, { name })
+    return (
+      <ShowableAtRender
+        show={this.state.deleteDialogOpened}
+      >
+        <ConfirmDialogComponent
+          dialogType={ConfirmDialogComponent.dialogTypes.DELETE}
+          onConfirm={() => {
+            this.props.handleDelete(this.state.entityToDelete.content.name)
+          }}
+          onClose={this.closeDeleteDialog}
+          title={title}
+        />
+      </ShowableAtRender>
+    )
   }
 
   render() {
-    const { roleList, handleEdit, handleDelete, createUrl, handleEditResourceAccess } = this.props
+    const { roleList, handleEdit, createUrl, handleEditResourceAccess } = this.props
     const style = {
       hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
       hoverButtonDelete: this.context.muiTheme.palette.accent1Color,
@@ -75,6 +117,7 @@ export class RoleListComponent extends React.Component {
           subtitle={<FormattedMessage id="role.list.subtitle" />}
         />
         <CardText>
+          {this.renderDeleteConfirmDialog()}
           <Table
             selectable={false}
           >
@@ -86,7 +129,6 @@ export class RoleListComponent extends React.Component {
               <TableRow>
                 <TableHeaderColumn><FormattedMessage id="role.list.table.name" /></TableHeaderColumn>
                 <TableHeaderColumn><FormattedMessage id="role.list.table.parentRole" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="role.list.table.isCorsRequestsAuthorized" /></TableHeaderColumn>
                 <TableHeaderColumn><FormattedMessage id="role.list.table.actions" /></TableHeaderColumn>
               </TableRow>
             </TableHeader>
@@ -99,19 +141,30 @@ export class RoleListComponent extends React.Component {
                 <TableRow key={i}>
                   <TableRowColumn>{role.content.name}</TableRowColumn>
                   <TableRowColumn>{this.getParentRoleName(role.content.parentRole)}</TableRowColumn>
-                  <TableRowColumn>{this.getBooleanAsString(role.content.isCorsRequestsAuthorized)}</TableRowColumn>
                   <TableRowColumn>
-                    <IconButton onTouchTap={() => handleEditResourceAccess(role.content.name)}>
+                    <HateoasIconAction
+                      entityLinks={role.links}
+                      hateoasKey={HateoasKeys.UPDATE}
+                      onTouchTap={() => handleEditResourceAccess(role.content.name)}
+                    >
                       <Key />
-                    </IconButton>
+                    </HateoasIconAction>
 
-                    <IconButton onTouchTap={() => handleEdit(role.content.name)}>
+                    <HateoasIconAction
+                      entityLinks={role.links}
+                      hateoasKey={HateoasKeys.UPDATE}
+                      onTouchTap={() => handleEdit(role.content.name)}
+                    >
                       <Edit hoverColor={style.hoverButtonEdit} />
-                    </IconButton>
+                    </HateoasIconAction>
 
-                    <IconButton onTouchTap={() => handleDelete(role.content.id)}>
+                    <HateoasIconAction
+                      entityLinks={role.links}
+                      hateoasKey={HateoasKeys.DELETE}
+                      onTouchTap={() => this.openDeleteDialog(role)}
+                    >
                       <Delete hoverColor={style.hoverButtonDelete} />
-                    </IconButton>
+                    </HateoasIconAction>
                   </TableRowColumn>
                 </TableRow>
               ))}
@@ -126,6 +179,7 @@ export class RoleListComponent extends React.Component {
                 id="role.list.action.add"
               />
             }
+            mainHateoasDependency={RoleActions.getDependency(RequestVerbEnum.POST)}
             secondaryButtonLabel={
               <FormattedMessage
                 id="role.list.action.cancel"

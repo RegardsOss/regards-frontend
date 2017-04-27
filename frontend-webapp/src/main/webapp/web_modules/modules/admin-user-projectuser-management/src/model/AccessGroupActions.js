@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import Schemas from '@regardsoss/api'
 import { BasicPageableActions } from '@regardsoss/store-utils'
 

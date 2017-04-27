@@ -1,6 +1,7 @@
 /*
  * LICENSE_PLACEHOLDER
  */
+/*eslint-disable */
 import { findDOMNode } from 'react-dom'
 import { TweenMax } from 'gsap'
 import { standardCurve } from './MaterialDesignEasings'

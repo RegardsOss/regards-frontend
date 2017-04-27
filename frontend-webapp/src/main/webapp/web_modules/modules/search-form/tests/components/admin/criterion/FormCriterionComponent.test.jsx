@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { shallow } from 'enzyme'
-import sinon from 'sinon'
+import { stub, spy } from 'sinon'
 import { assert } from 'chai'
 import {
   Table,
@@ -13,6 +13,7 @@ import Dialog from 'material-ui/Dialog'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import { IntlStub } from '@regardsoss/tests-helpers'
 import { CardActionsComponent, CardActionsView, MainActionButtonComponent } from '@regardsoss/components'
 import Styles from '../../../../src/styles/styles'
 import FormCriterionComponent from '../../../../src/components/admin/criterion/FormCriterionComponent'
@@ -22,26 +23,36 @@ import FormCriteriaComponent from '../../../../src/components/admin/criterion/Fo
  * Tests for FormCriterionComponent
  * @author Sébastien binda
  */
-describe('[FORM MODULE] Testing formCriterionComponent', () => {
+describe('[SEARCH FORM] Testing formCriterionComponent', () => {
+  // Since react will console.error propType warnings, that which we'd rather have
+  // as errors, we use sinon.js to stub it into throwing these warning as errors
+  // instead.
+  before(() => {
+    stub(console, 'error').callsFake((warning) => {
+      throw new Error(warning)
+    })
+  })
+  after(() => {
+    console.error.restore()
+  })
   const muiTheme = getMuiTheme({})
   const options = {
     context: {
       muiTheme,
       moduleTheme: Styles(muiTheme),
-      intl: {
-        formatMessage: id => (id.id),
-        formatDate: id => (id.id),
-        formatTime: id => (id.id),
-      },
+      intl: IntlStub,
     },
   }
 
   it('Should render an empty formCriterionComponent', () => {
     const props = {
-      changeField: () => {},
+      changeField: () => { },
       defaultCriterion: [],
       criterion: [],
-      layout: '',
+      layout: {
+        id: 'main',
+        type: 'type',
+      },
       selectableAttributes: {},
       availableCriterion: {},
     }
@@ -76,7 +87,7 @@ describe('[FORM MODULE] Testing formCriterionComponent', () => {
   })
 
   it('Should render a formCriterionComponent with defined criterion list', () => {
-    const changeFieldCallback = sinon.spy()
+    const changeFieldCallback = spy()
     const props = {
       changeField: changeFieldCallback,
       defaultCriterion: [],
@@ -93,7 +104,10 @@ describe('[FORM MODULE] Testing formCriterionComponent', () => {
         container: 'content',
         pluginConf: {},
       }],
-      layout: '',
+      layout: {
+        id: 'main',
+        type: 'test',
+      },
       selectableAttributes: {},
       availableCriterion: {},
     }

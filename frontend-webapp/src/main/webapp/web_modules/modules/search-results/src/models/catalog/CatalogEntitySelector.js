@@ -1,16 +1,17 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { BasicPageableSelectors } from '@regardsoss/store-utils'
+import { BasicFacetsPageableSelectors } from '@regardsoss/store-utils'
 
 /**
  * Redux store selectors for Module Entities
  * @author Sébastien binda
  */
-class CatalogEntitySelector extends BasicPageableSelectors {
+class CatalogEntitySelector extends BasicFacetsPageableSelectors {
   constructor() {
     super(['modules.search-results', 'results'])
   }
+
 }
 
 const instance = new CatalogEntitySelector()

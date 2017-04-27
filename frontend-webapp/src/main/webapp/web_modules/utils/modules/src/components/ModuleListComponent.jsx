@@ -3,11 +3,10 @@
  **/
 import { map, concat, sortBy } from 'lodash'
 import Drawer from 'material-ui/Drawer'
-import FloatingActionButton from 'material-ui/FloatingActionButton'
-import FilterList from 'material-ui/svg-icons/action/list'
 import { List, ListItem } from 'material-ui/List'
 import Divider from 'material-ui/Divider'
 import Subheader from 'material-ui/Subheader'
+import { browserHistory } from 'react-router'
 import { FormattedMessage } from 'react-intl'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -22,9 +21,11 @@ import ModuleShape from '../model/ModuleShape'
 class ModuleListComponent extends React.Component {
 
   static propTypes = {
+    project: React.PropTypes.string.isRequired,
+    open: React.PropTypes.bool.isRequired,
     container: React.PropTypes.string,
     modules: React.PropTypes.arrayOf(ModuleShape),
-    onModuleSelection: React.PropTypes.func,
+    onCloseMenu: React.PropTypes.func,
   }
 
   static contextTypes = {
@@ -35,7 +36,6 @@ class ModuleListComponent extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      open: false,
       sections: {},
       modulesElements: [],
     }
@@ -55,8 +55,8 @@ class ModuleListComponent extends React.Component {
    * @param module
    */
   onModuleSelection = (module) => {
-    this.handleClose()
-    this.props.onModuleSelection(module)
+    this.props.onCloseMenu()
+    browserHistory.push(`/user/${this.props.project}/modules/${module.content.id}`)
   }
 
   getSectionLabel = (section) => {
@@ -64,16 +64,6 @@ class ModuleListComponent extends React.Component {
     const label = this.context.intl.formatMessage({ id })
     return label !== id ? label : section
   }
-
-  /**
-   * Toggle the sidebar containing modules
-   */
-  handleToggle = () => this.setState({ open: !this.state.open })
-
-  /**
-   * Close the sidebar containing modules
-   */
-  handleClose = () => this.setState({ open: false })
 
   renderModule = (module, key) => {
     require.ensure([], (require) => {
@@ -118,49 +108,39 @@ class ModuleListComponent extends React.Component {
   render() {
     const styles = Styles(this.context.muiTheme)
     return (
-      <div
-        style={styles.moduleListButtonsGroup}
+      <Drawer
+        open={this.props.open}
+        docked={false}
+        width={200}
+        openSecondary
+        onRequestChange={this.props.onCloseMenu}
       >
-        <FloatingActionButton
-          onTouchTap={this.handleToggle}
-          secondary
-        >
-          <FilterList />
-        </FloatingActionButton>
-        <Drawer
-          open={this.state.open}
-          docked={false}
-          width={200}
-          openSecondary
-          onRequestChange={this.handleClose}
-        >
-          <List>
-            <Subheader style={styles.moduleListSection}>
-              <FormattedMessage id="modules.list.menu.label" />
-            </Subheader>
-            <Divider />
-            {map(this.state.sections, (modules, section) => {
-              if (modules.length > 1) {
-                return (
-                  <div key={section}>
-                    <ListItem
-                      primaryText={this.getSectionLabel(section)}
-                      initiallyOpen={false}
-                      primaryTogglesNestedList
-                      nestedItems={modules}
-                    />
-                  </div>
-                )
-              }
+        <List>
+          <Subheader style={styles.moduleListSection}>
+            <FormattedMessage id="modules.list.menu.label" />
+          </Subheader>
+          <Divider />
+          {map(this.state.sections, (modules, section) => {
+            if (modules.length > 1) {
               return (
                 <div key={section}>
-                  {modules}
+                  <ListItem
+                    primaryText={this.getSectionLabel(section)}
+                    initiallyOpen={false}
+                    primaryTogglesNestedList
+                    nestedItems={modules}
+                  />
                 </div>
               )
-            })}
-          </List>
-        </Drawer>
-      </div>
+            }
+            return (
+              <div key={section}>
+                {modules}
+              </div>
+            )
+          })}
+        </List>
+      </Drawer>
     )
   }
 

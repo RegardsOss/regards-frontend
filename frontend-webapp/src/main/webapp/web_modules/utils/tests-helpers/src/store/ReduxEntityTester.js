@@ -2,7 +2,7 @@ import nock from 'nock'
 import { assert } from 'chai'
 import thunk from 'redux-thunk'
 import { combineReducers, createStore, applyMiddleware, compose } from 'redux'
-import sinon from 'sinon'
+import { stub } from 'sinon'
 
 const { apiMiddleware } = require('redux-api-middleware')
 
@@ -55,7 +55,6 @@ export default class ReduxEntityTester {
   }
 
   runTests(done) {
-    assert.isDefined(this.entityActions, 'Action undefined')
     assert.isDefined(this.entityReducers, 'Reducer undefined')
     assert.isDefined(this.entitySelectors, 'Selector undefined')
     assert.isFunction(this.entityShape, 'Your shape is not correctly defined')
@@ -90,17 +89,25 @@ export default class ReduxEntityTester {
 
 
   runActionTest(done) {
-    const store = this.getStore()
-    if (this.entityActions.fetchPagedEntityList) {
-      assert.isDefined(this.backendServerResultList.metadata, 'Your Action is Pageable but the result you provided comes from a list entrypoint')
-      store.dispatch(this.entityActions.fetchPagedEntityList(null, null, this.options.urlParams))
-        .then((action) => { this.onPostActionTest(action, store, done) })
-    } else if (this.entityActions.fetchEntityList) {
-      assert.isUndefined(this.backendServerResultList.metadata, 'Your Action is a List but the result you provided comes from a pageable entrypoint')
-      store.dispatch(this.entityActions.fetchEntityList(this.options.urlParams))
-        .then((action) => { this.onPostActionTest(action, store, done) })
-    } else {
-      done("Action can't be tested. Is it a Basic[Array|List|Pageable]Actions that you provided ?")
+    try {
+      const store = this.getStore()
+      if (this.entityActions.fetchPagedEntityList) {
+        assert.isDefined(this.backendServerResultList.metadata, 'Your Action is Pageable but the result you provided comes from a list entrypoint')
+        store.dispatch(this.entityActions.fetchPagedEntityList(null, null, this.options.urlParams))
+          .then((action) => {
+            this.onPostActionTest(action, store, done)
+          })
+      } else if (this.entityActions.fetchEntityList) {
+        assert.isUndefined(this.backendServerResultList.metadata, 'Your Action is a List but the result you provided comes from a pageable entrypoint')
+        store.dispatch(this.entityActions.fetchEntityList(this.options.urlParams))
+          .then((action) => {
+            this.onPostActionTest(action, store, done)
+          })
+      } else {
+        done("Action can't be tested. Is it a Basic[Array|List|Pageable]Actions that you provided ?")
+      }
+    } catch (e) {
+      done(e)
     }
   }
 
@@ -108,6 +115,10 @@ export default class ReduxEntityTester {
    * Mock the URL to return a specify json as string
    */
   beforeAll() {
+    // Handle entityActions undefined
+    if (!this.entityActions) {
+      throw new Error("The action you've provided is undefined")
+    }
     let entityEndpoint = this.entityActions.entityEndpoint
     if (this.options.urlParams) {
       entityEndpoint = this.entityActions.handleRequestPathParameters(this.entityActions.entityEndpoint, this.options.urlParams)
@@ -119,7 +130,7 @@ export default class ReduxEntityTester {
     const previousConsoleError = console.error
     // Since react will console.error propType manual that we use in pure JS to check if normalized
     // entities matches Shapes, we use sinon.js to stub it into throwing only others errors
-    this.stubConsole = sinon.stub(console, 'error', (warning) => {
+    this.stubConsole = stub(console, 'error').callsFake((warning) => {
       if (!warning.includes('Warning: You are manually calling a React.PropTypes validation function for the')) {
         previousConsoleError(warning)
       }

@@ -2,23 +2,20 @@
  * LICENSE_PLACEHOLDER
  **/
 import { browserHistory } from 'react-router'
-import { map, find, forEach, keys } from 'lodash'
+import { cloneDeep } from 'lodash'
 import { connect } from '@regardsoss/redux'
-import { Dataset, Model, ModelAttribute, Datasource } from '@regardsoss/model'
 import { I18nProvider } from '@regardsoss/i18n'
+import { Dataset } from '@regardsoss/model'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { unregisterField } from 'redux-form'
 import DatasetSelectors from './../model/DatasetSelectors'
 import DatasetActions from './../model/DatasetActions'
-import DatasetFormComponent from '../components/DatasetFormComponent'
-import ModelSelectors from '../model/ModelSelectors'
-import ModelActions from '../model/ModelActions'
-import ModelAttributeActions from '../model/ModelAttributeActions'
-import ModelAttributeSelectors from '../model/ModelAttributeSelectors'
-import DatasourceSelectors from './../model/DatasourceSelectors'
-import DatasourceActions from './../model/DatasourceActions'
+import DatasetFormAttributesContainer from './DatasetFormAttributesContainer'
+import DatasetFormSubsettingContainer from './DatasetFormSubsettingContainer'
 
-
+const states = {
+  FORM_ATTRIBUTE: 'FORM_ATTRIBUTE',
+  FORM_SUBSETTING: 'FORM_SUBSETTING',
+}
 /**
  * Show the dataset form
  */
@@ -31,197 +28,215 @@ export class DatasetFormContainer extends React.Component {
       datasetId: React.PropTypes.string,
       datasourceId: React.PropTypes.string,
     }),
-    // from redux-form
-    unregisterField: React.PropTypes.func,
     // from mapStateToProps
     currentDataset: Dataset,
-    modelAttributeList: React.PropTypes.objectOf(ModelAttribute),
-    isFetchingDataset: React.PropTypes.bool,
-    modelList: React.PropTypes.objectOf(Model),
-    currentDatasource: Datasource,
-    isFetchingModelAttribute: React.PropTypes.bool,
-    isFetchingModel: React.PropTypes.bool,
-    isFetchingDatasource: React.PropTypes.bool,
     // from mapDispatchToProps
     createDataset: React.PropTypes.func,
     updateDataset: React.PropTypes.func,
     fetchDataset: React.PropTypes.func,
-    fetchModelList: React.PropTypes.func,
-    fetchModelAttributeList: React.PropTypes.func,
-    fetchDatasource: React.PropTypes.func,
   }
 
   constructor(props) {
     super(props)
+    const isCreating = props.params.datasetId === undefined
     this.state = {
-      isCreating: props.params.datasourceId !== undefined,
+      isCreating,
       isEditing: props.params.datasetId !== undefined,
+      isLoading: !isCreating,
+      state: states.FORM_ATTRIBUTE,
+      currentDataset: null,
+      descriptionFile: null,
     }
   }
+
 
   componentDidMount() {
-    this.props.fetchModelList()
-    if (this.state.isCreating === false) {
+    if (this.state.isEditing) {
       Promise.resolve(this.props.fetchDataset(this.props.params.datasetId))
-        .then((actionResult) => {
-          // We receive here the action
-          if (!actionResult.error) {
-            // We extract the dataset id from the action
-            const dataset = this.extractDatasetFromActionResult(actionResult)
-            this.props.fetchModelAttributeList(dataset.model.id)
-          }
+        .then(() => {
+          this.setState({
+            isLoading: false,
+          })
         })
-    } else {
-      this.props.fetchDatasource(this.props.params.datasourceId)
     }
   }
 
-  getBackUrl = () => {
+  componentWillReceiveProps(nextProps) {
+    if ((this.state.currentDataset == null || this.props.currentDataset == null) && nextProps.currentDataset != null) {
+      this.setState({
+        currentDataset: cloneDeep(nextProps.currentDataset),
+      })
+    }
+  }
+
+  getFormAttributeBackUrl = () => {
     const { params: { project } } = this.props
-    if (this.state.isCreating === false) {
+    const { isEditing } = this.state
+    if (isEditing) {
       return `/admin/${project}/data/dataset/list`
     }
-    return `/admin/${project}/data/dataset/create/datasource`
+    return `/admin/${project}/data/dataset/create/connection`
   }
 
-  redirectToLinksPage = (datasetId) => {
+  redirectToLink = (datasetId) => {
     const { params: { project } } = this.props
     const url = `/admin/${project}/data/dataset/${datasetId}/links`
     browserHistory.push(url)
   }
 
-  handleUpdate = (values) => {
-    const model = this.props.modelList[values.model].content
-    const attributes = this.extractAttributesFromValues(values)
-    const updatedDataset = Object.assign({}, {
-      id: this.props.currentDataset.content.id,
-      tags: this.props.currentDataset.content.tags,
-      type: this.props.currentDataset.content.type,
-      datasource: this.props.currentDataset.content.datasource,
-    }, {
-      label: values.label,
-      model,
-      attributes,
-    })
-    Promise.resolve(this.props.updateDataset(this.props.currentDataset.content.id, updatedDataset))
+  /**
+   * Called by saveSubsetting to save the updatedDataset
+   * @param formValues
+   * @param files
+   */
+  handleUpdate = (formValues, files) => {
+    Promise.resolve(this.props.updateDataset(this.props.params.datasetId, formValues, files))
       .then((actionResult) => {
         // We receive here the action
         if (!actionResult.error) {
-          this.redirectToLinksPage(this.props.params.datasetId)
+          this.redirectToLink(this.props.params.datasetId)
         }
       })
   }
 
   /**
-   * Retrieve model attributes values from form values
-   * and returns the value of dataset "attributes" sendeable to the API
-   * @param values
-   * @returns {{}}
+   * Called by saveSubsetting to save the newDataset
+   * @param formValues
+   * @param files
    */
-  extractAttributesFromValues = (values) => {
-    const result = {}
-    map(values.attributes, (attrValue, attrName) => {
-      const modelAttr = find(this.props.modelAttributeList, modelAttribute => modelAttribute.content.attribute.name === attrName)
-      const fragment = modelAttr.content.attribute.fragment
-      if (fragment.id !== 1) {
-        if (!result[fragment.name]) {
-          result[fragment.name] = {}
+  handleCreate = (formValues, files) => {
+    Promise.resolve(this.props.createDataset(formValues, files))
+      .then((actionResult) => {
+        // We receive here the action
+        if (!actionResult.error) {
+          const datasetId = actionResult.payload.result
+          this.redirectToLink(datasetId)
         }
-        result[fragment.name][attrName] = attrValue
-      } else {
-        result[attrName] = attrValue
-      }
-    })
-    return result
+      })
   }
 
-  extractDatasetFromActionResult = actionResult => actionResult.payload.entities.datasets[keys(actionResult.payload.entities.datasets)[0]].content
-
   /**
-   * Handle form submission on creation
-   * Create a new dataset
-   * @param values
+   * Runned by DatasetFormAttributesContainer when the user saves his form
+   * This does not save the entity on the server but in the state of the container
+   * @param label
+   * @param modelDatasetId
+   * @param attributes
+   * @param modelObjectId
    */
-  handleCreate = (values) => {
-    const model = this.props.modelList[values.model].content
-    const datasource = this.props.currentDatasource.content
-    const attributes = this.extractAttributesFromValues(values)
-    const newDataset = {
-      label: values.label,
-      model,
-      attributes,
-      datasource,
-      type: 'DATASET',
-      tags: [],
+  saveAttributes = (label, modelDatasetId, attributes, modelObjectId, descriptionFileContent, descriptionUrl) => {
+    const { isCreating, currentDataset } = this.state
+    const descriptionFileType = descriptionFileContent && (descriptionFileContent.type || 'text/markdown')
+    // Save the file in the state if there is
+    if (descriptionFileContent) {
+      this.setState({
+        descriptionFile: descriptionFileContent,
+      })
     }
-    Promise.resolve(this.props.createDataset(newDataset))
-      .then((actionResult) => {
-        // We receive here the action
-        if (!actionResult.error) {
-          // We extract the dataset id from the action
-          const dataset = this.extractDatasetFromActionResult(actionResult)
-          this.redirectToLinksPage(dataset.id)
-        }
+    if (isCreating) {
+      const newValues = {
+        content: {
+          label,
+          attributes,
+          descriptionFileType,
+          model: {
+            id: modelDatasetId,
+          },
+          dataModel: modelObjectId,
+          descriptionUrl,
+          plgConfDataSource: parseInt(this.props.params.datasourceId, 10),
+          tags: [],
+          type: 'DATASET',
+        },
+      }
+      this.setState({
+        state: states.FORM_SUBSETTING,
+        currentDataset: newValues,
       })
+    } else {
+      currentDataset.content.label = label
+      currentDataset.content.attributes = attributes
+      currentDataset.content.descriptionFileType = descriptionFileType
+      currentDataset.content.descriptionUrl = descriptionUrl
+      this.setState({
+        currentDataset,
+        state: states.FORM_SUBSETTING,
+      })
+    }
   }
 
-  /**
-   * Used when the user change the value of the model selected
-   * In charge to fetch new list of model attributes
-   * @param modelId
-   */
-  handleUpdateModel = (modelId) => {
-    // Remove any value defined in the current form if modelAttributeList existed
-    forEach(this.props.modelAttributeList, (modelAttribute) => {
-      this.props.unregisterField('dataset-form', `attributes.${modelAttribute.content.attribute.name}`)
+  saveSubsetting = (formValues) => {
+    const { currentDataset, descriptionFile } = this.state
+    currentDataset.content.subsetting = formValues.subsetting
+    this.setState({
+      currentDataset,
     })
-    this.props.fetchModelAttributeList(modelId)
+    const apiValues = {
+      dataset: currentDataset.content,
+    }
+    const files = {}
+    if (descriptionFile) {
+      files.file = descriptionFile
+    }
+    if (this.state.isEditing) {
+      this.handleUpdate(apiValues, files)
+    } else {
+      this.handleCreate(apiValues, files)
+    }
+  }
+
+  handleFormSubsettingBack = () => {
+    this.setState({
+      state: states.FORM_ATTRIBUTE,
+    })
+  }
+
+  renderSubContainer = () => {
+    const { params: { datasourceId } } = this.props
+    const { isEditing, isCreating, state, currentDataset } = this.state
+    switch (state) {
+      case states.FORM_ATTRIBUTE:
+        return (<DatasetFormAttributesContainer
+          currentDataset={currentDataset}
+          currentDatasourceId={isCreating ? datasourceId : currentDataset.content.plgConfDataSource}
+          handleSave={this.saveAttributes}
+          backUrl={this.getFormAttributeBackUrl()}
+          isEditing={isEditing}
+        />)
+      case states.FORM_SUBSETTING:
+        return (<DatasetFormSubsettingContainer
+          currentDataset={currentDataset}
+          isEditing={isEditing}
+          isCreating={isCreating}
+          handleSave={this.saveSubsetting}
+          handleBack={this.handleFormSubsettingBack}
+        />)
+      default:
+        return null
+    }
   }
 
   render() {
-    const { isFetchingDataset, currentDataset, modelList, modelAttributeList, currentDatasource, isFetchingModel, isFetchingModelAttribute, isFetchingDatasource } = this.props
-    const { isEditing, isCreating } = this.state
-    const isLoading = (isEditing && ((isFetchingDataset || currentDataset === undefined) || (isFetchingModelAttribute && Object.keys(modelAttributeList).length === 0))) || isFetchingModel || (isCreating && (isFetchingDatasource || currentDatasource === undefined))
-    console.log(isLoading, isFetchingDataset, currentDataset === undefined)
+    const { isLoading } = this.state
     return (
       <I18nProvider messageDir="modules/admin-data-dataset-management/src/i18n">
         <LoadableContentDisplayDecorator
           isLoading={isLoading}
         >
-          {() => (<DatasetFormComponent
-            modelList={modelList}
-            modelAttributeList={modelAttributeList}
-            currentDataset={currentDataset}
-            currentDatasource={currentDatasource}
-            onSubmit={isEditing ? this.handleUpdate : this.handleCreate}
-            handleUpdateModel={this.handleUpdateModel}
-            backUrl={this.getBackUrl()}
-          />)
-          }
+          {this.renderSubContainer}
         </LoadableContentDisplayDecorator>
       </I18nProvider>
     )
   }
 }
+
 const mapStateToProps = (state, ownProps) => ({
   currentDataset: ownProps.params.datasetId ? DatasetSelectors.getById(state, ownProps.params.datasetId) : null,
-  isFetchingDataset: DatasetSelectors.isFetching(state),
-  modelAttributeList: ModelAttributeSelectors.getList(state),
-  modelList: ModelSelectors.getList(state),
-  currentDatasource: ownProps.params.datasourceId ? DatasourceSelectors.getById(state, ownProps.params.datasourceId) : null,
-  isFetchingModel: ModelSelectors.isFetching(state),
-  isFetchingModelAttribute: ModelAttributeSelectors.isFetching(state),
-  isFetchingDatasource: DatasourceSelectors.isFetching(state),
 })
 
 const mapDispatchToProps = dispatch => ({
   fetchDataset: id => dispatch(DatasetActions.fetchEntity(id)),
-  createDataset: values => dispatch(DatasetActions.createEntity(values)),
-  updateDataset: (id, values) => dispatch(DatasetActions.updateEntity(id, values)),
-  fetchModelList: () => dispatch(ModelActions.fetchEntityList({ type: 'DATASET' })),
-  fetchModelAttributeList: id => dispatch(ModelAttributeActions.fetchEntityList({ id })),
-  unregisterField: (form, name) => dispatch(unregisterField(form, name)),
-  fetchDatasource: id => dispatch(DatasourceActions.fetchEntity(id)),
+  createDataset: (values, files) => dispatch(DatasetActions.createEntityUsingMultiPart(values, files)),
+  updateDataset: (id, values, files) => dispatch(DatasetActions.updateEntityUsingMultiPart(id, values, files)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(DatasetFormContainer)

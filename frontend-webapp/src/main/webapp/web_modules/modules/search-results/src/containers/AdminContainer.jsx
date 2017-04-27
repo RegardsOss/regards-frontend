@@ -3,9 +3,8 @@
  **/
 import { connect } from '@regardsoss/redux'
 import { AttributeModel } from '@regardsoss/model'
-import AttributeModelActions from '../models/attributes/AttributeModelActions'
-import AttributeModelSelector from '../models/attributes/AttributeModelSelector'
 import SearchResultsConfigurationComponent from '../components/admin/SearchResultsConfigurationComponent'
+import { AttributeModelActions, AttributeModelSelectors } from '../models/client/AttributeModelClient'
 import ModuleConfiguration from '../models/ModuleConfiguration'
 
 
@@ -14,6 +13,7 @@ import ModuleConfiguration from '../models/ModuleConfiguration'
  * @author Sébastien binda
  */
 class AdminContainer extends React.Component {
+
 
   static propTypes = {
     // Props supplied by LazyModuleComponent
@@ -33,32 +33,50 @@ class AdminContainer extends React.Component {
     fetchAllModelsAttributes: React.PropTypes.func,
   }
 
+  constructor(props) {
+    super(props)
+    this.state = {
+      attributesFetching: !this.props.moduleConf.selectableAttributes,
+    }
+  }
+
   componentWillMount() {
-    if (!this.props.moduleConf.selectableAttributes) {
-      this.props.fetchAllModelsAttributes()
+    if (this.state.attributesFetching) {
+      Promise.resolve(this.props.fetchAllModelsAttributes()).then(() => {
+        this.setState({
+          attributesFetching: false,
+        })
+      })
     }
   }
 
   render() {
-    const { moduleConf: {
+    const {
+      moduleConf: {
       resultType,
-      attributesConf,
-      attributesRegroupementsConf,
+      attributes,
+      attributesRegroupements,
       selectableAttributes,
-      enableFacettes },
-    } = this.props
+      hideDatasets = false,
+      enableFacettes,
+    } } = this.props
 
-    if (this.props.adminForm.form) {
+
+    if (this.props.adminForm.form && !this.state.attributesFetching) {
+      const formConf = this.props.adminForm.form.conf
+      const attributesConf = formConf && formConf.attributes ? formConf.attributes : []
+      const attributesRegroupementsConf = formConf && formConf.attributesRegroupementsConf ? formConf.attributesRegroupementsConf : []
       return (
         <SearchResultsConfigurationComponent
           selectableAttributes={selectableAttributes || this.props.attributeModels}
-          attributesConf={this.props.adminForm.form.conf.attributes}
-          attributesRegroupementsConf={this.props.adminForm.form.conf.attributesRegroupements}
+          attributesConf={attributesConf}
+          attributesRegroupementsConf={attributesRegroupementsConf}
           changeField={this.props.adminForm.changeField}
-          defaultAttributesConf={attributesConf}
-          defaultAttributesRegroupementsConf={attributesRegroupementsConf}
+          defaultAttributesConf={attributes}
+          defaultAttributesRegroupementsConf={attributesRegroupements}
           defaultEnableFacettes={enableFacettes}
           defaultResultType={resultType}
+          hideDatasets={hideDatasets}
         />
       )
     }
@@ -67,7 +85,7 @@ class AdminContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  attributeModels: AttributeModelSelector.getList(state),
+  attributeModels: AttributeModelSelectors.getList(state),
 })
 
 const mapDispatchToProps = dispatch => ({

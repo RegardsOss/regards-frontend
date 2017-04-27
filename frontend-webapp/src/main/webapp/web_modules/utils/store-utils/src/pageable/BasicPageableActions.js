@@ -27,27 +27,41 @@ class BasicPageableActions extends BasicListActions {
    * @param size pagination param : number of elements for the asked page
    * @param pathParams [optional] path parameters to replace in endpoint uri
    * @param queryParams [optional] query path parameters to add to the end of the endpoint uri
-   * @returns {{}}
+   * @returns string request endpoint
    */
-  fetchPagedEntityList(index, size, pathParams, queryParams) {
-    // Compute the endpoint URI
+  getRequestEndpoint(index, size, pathParams, queryParams) {
     let endpoint = this.handleRequestQueryParams(this.entityEndpoint, queryParams)
     endpoint = this.handleRequestPathParameters(endpoint, pathParams)
     if (size && size > 0) {
       endpoint = this.handleRequestQueryParams(endpoint, {
-        _start: index,
-        _limit: size,
+        offset: index,
+        size,
       })
     }
 
     // force paging return value in development mode
     if (process.env.NODE_ENV === 'development' && !size) {
       endpoint = this.handleRequestQueryParams(endpoint, {
-        _start: 0,
-        _limit: 10000,
+        offset: 0,
+        size: 10000,
       })
     }
 
+    return endpoint
+  }
+
+  /**
+   * Fetch a page of entities
+   *
+   * @param index pagination param : index of the first result of the request
+   * @param size pagination param : number of elements for the asked page
+   * @param pathParams [optional] path parameters to replace in endpoint uri
+   * @param queryParams [optional] query path parameters to add to the end of the endpoint uri
+   * @returns {{}}
+   */
+  fetchPagedEntityList(index, size, pathParams, queryParams) {
+    // Compute the endpoint URI
+    const endpoint = this.getRequestEndpoint(index, size, pathParams, queryParams)
     return {
       [CALL_API]: {
         types: [
@@ -59,16 +73,12 @@ class BasicPageableActions extends BasicListActions {
           this.buildFailureAction(this.ENTITY_LIST_FAILURE),
         ],
         endpoint,
+        headers: this.headers,
         method: 'GET',
       },
     }
   }
 
-  /**
-    * Normalizes action payload as page or list payload
-    * @param json JS object parsed from JSON result
-    * @return normalized content
-    */
   normalizeEntitiesPagePayload(json) {
     return {
       // entities are in content field

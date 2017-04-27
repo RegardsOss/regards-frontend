@@ -3,7 +3,7 @@
 **/
 import { isEmpty } from 'lodash'
 import { connect } from '@regardsoss/redux'
-import { AuthenticateShape, AuthenticateSelectors, AuthenticateActions } from '@regardsoss/authentication-manager'
+import { AuthenticateShape, AuthenticationClient } from '@regardsoss/authentication-manager'
 import AuthenticationDialogComponent from '../components/AuthenticationDialogComponent'
 import SessionLockedFormComponent from '../components/SessionLockedFormComponent'
 
@@ -86,13 +86,13 @@ export class SessionManagementContainer extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  hasUnlockingError: AuthenticateSelectors.hasError(state),
-  authentication: AuthenticateSelectors.getAuthentication(state),
+  hasUnlockingError: AuthenticationClient.authenticationSelectors.hasError(state),
+  authentication: AuthenticationClient.authenticationSelectors.getAuthentication(state),
 })
 
 const mapDispatchToProps = dispatch => ({
-  dispatchSessionLocked: () => dispatch(AuthenticateActions.lockSession()),
-  fetchAuthenticate: (login, password, scope) => dispatch(AuthenticateActions.login(login, password, scope)),
+  dispatchSessionLocked: () => dispatch(AuthenticationClient.authenticationActions.lockSession()),
+  fetchAuthenticate: (login, password, scope) => dispatch(AuthenticationClient.authenticationActions.login(login, password, scope)),
 })
 
 

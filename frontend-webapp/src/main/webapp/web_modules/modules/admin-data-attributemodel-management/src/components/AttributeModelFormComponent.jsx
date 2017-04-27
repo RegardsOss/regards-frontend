@@ -10,6 +10,7 @@ import NumberRangeComponent, { initializeNumberRangeForm } from './NumberRangeCo
 import EnumerationComponent, { initializeEnumerationForm } from './EnumerationComponent'
 import PatternComponent, { initializePatternForm } from './PatternComponent'
 import moduleStyles from '../styles/styles'
+import DEFAULT_FRAGMENT_NAME from '../DefaultFragmentName'
 
 /**
  * Display edit and create attribute model form
@@ -24,7 +25,7 @@ export class AttributeModelFormComponent extends React.Component {
     onSubmit: React.PropTypes.func.isRequired,
     backUrl: React.PropTypes.string.isRequired,
     handleUpdateAttributeModelRestriction: React.PropTypes.func,
-    defaultFragmentId: React.PropTypes.string,
+    defaultFragmentName: React.PropTypes.string,
     // on create
     flushAttributeModelRestriction: React.PropTypes.func,
     // from reduxForm
@@ -62,9 +63,13 @@ export class AttributeModelFormComponent extends React.Component {
         return (
           <NumberRangeComponent type="INTEGER_RANGE" />
         )
-      case 'FLOAT_RANGE':
+      case 'DOUBLE_RANGE':
         return (
-          <NumberRangeComponent type="FLOAT_RANGE" />
+          <NumberRangeComponent type="DOUBLE_RANGE" />
+        )
+      case 'LONG_RANGE':
+        return (
+          <NumberRangeComponent type="DOUBLE_RANGE" />
         )
       case 'ENUMERATION':
         return (
@@ -91,8 +96,9 @@ export class AttributeModelFormComponent extends React.Component {
       const { currentAttrModel } = this.props
       let initialValues = {
         name: currentAttrModel.content.name,
+        label: currentAttrModel.content.label,
         type: currentAttrModel.content.type,
-        fragment: currentAttrModel.content.fragment.id,
+        fragment: currentAttrModel.content.fragment.name || DEFAULT_FRAGMENT_NAME,
         description: currentAttrModel.content.description,
         alterable: currentAttrModel.content.alterable,
         optional: currentAttrModel.content.optional,
@@ -104,8 +110,11 @@ export class AttributeModelFormComponent extends React.Component {
           case 'INTEGER_RANGE':
             initialValues = initializeNumberRangeForm('INTEGER_RANGE', initialValues, currentAttrModel)
             break
-          case 'FLOAT_RANGE':
-            initialValues = initializeNumberRangeForm('FLOAT_RANGE', initialValues, currentAttrModel)
+          case 'DOUBLE_RANGE':
+            initialValues = initializeNumberRangeForm('DOUBLE_RANGE', initialValues, currentAttrModel)
+            break
+          case 'LONG_RANGE':
+            initialValues = initializeNumberRangeForm('LONG_RANGE', initialValues, currentAttrModel)
             break
           case 'ENUMERATION':
             initialValues = initializeEnumerationForm(initialValues, currentAttrModel)
@@ -122,7 +131,8 @@ export class AttributeModelFormComponent extends React.Component {
       this.props.flushAttributeModelRestriction()
       this.props.initialize({
         alterable: true,
-        fragment: parseInt(this.props.defaultFragmentId, 10) || 1,
+        optional: false,
+        fragment: this.props.defaultFragmentName || DEFAULT_FRAGMENT_NAME,
       })
     }
   }
@@ -170,6 +180,13 @@ export class AttributeModelFormComponent extends React.Component {
               />
             </ShowableAtRender>
             <Field
+              name="label"
+              fullWidth
+              component={RenderTextField}
+              type="text"
+              label={<FormattedMessage id="attrmodel.form.label" />}
+            />
+            <Field
               name="description"
               fullWidth
               component={RenderTextField}
@@ -199,11 +216,16 @@ export class AttributeModelFormComponent extends React.Component {
               label={<FormattedMessage id="attrmodel.form.fragment" />}
               disabled={!this.state.isCreating}
             >
+              <MenuItem
+                value={DEFAULT_FRAGMENT_NAME}
+                key={DEFAULT_FRAGMENT_NAME}
+                primaryText={<FormattedMessage id={`attrmodel.form.fragment.${DEFAULT_FRAGMENT_NAME}`} />}
+              />
               {map(fragmentList, (fragment, id) => (
                 <MenuItem
-                  value={fragment.content.id}
+                  value={fragment.content.name}
                   key={id}
-                  primaryText={fragment.content.name}
+                  primaryText={`${fragment.content.name}: ${fragment.content.description}`}
                 />
               ))}
             </Field>
@@ -263,7 +285,7 @@ function validate(values) {
   }
   // flag the user if he active two filters on the same time
   if (values.restriction) {
-    const restrictions = ['INTEGER_RANGE', 'FLOAT_RANGE', 'ENUMERATION', 'PATTERN']
+    const restrictions = ['INTEGER_RANGE', 'DOUBLE_RANGE', 'LONG_RANGE', 'ENUMERATION', 'PATTERN']
     const activeRestrictions = []
     restrictions.forEach((value) => {
       if (values.restriction[value] && values.restriction[value].active) {

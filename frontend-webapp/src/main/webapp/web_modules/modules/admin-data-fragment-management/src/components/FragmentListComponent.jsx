@@ -1,17 +1,25 @@
-import { map } from 'lodash'
+/*
+ * LICENSE_PLACEHOLDER
+ */
+import { map, find } from 'lodash'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
 import { FormattedMessage } from 'react-intl'
-import IconButton from 'material-ui/IconButton'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
+import Download from 'material-ui/svg-icons/file/file-download'
 import { Fragment } from '@regardsoss/model'
 import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
+import { HateoasIconAction, HateoasKeys } from '@regardsoss/display-control'
+import { RequestVerbEnum } from '@regardsoss/store-utils'
+import { fragmentActions } from '../client/FragmentClient'
 
 /**
- * React components to list project.
+ * Component to list fragment.
+ *
+ * @author Léo Mieulet
  */
 export class FragmentListComponent extends React.Component {
 
@@ -21,6 +29,8 @@ export class FragmentListComponent extends React.Component {
     handleEdit: React.PropTypes.func.isRequired,
     createUrl: React.PropTypes.string.isRequired,
     backUrl: React.PropTypes.string.isRequired,
+    projectName: React.PropTypes.string.isRequired,
+    accessToken: React.PropTypes.string.isRequired,
   }
 
   static contextTypes = {
@@ -28,6 +38,13 @@ export class FragmentListComponent extends React.Component {
     ...i18nContextType,
   }
 
+  getExportUrlFromHateoas = (fragmentLinks) => {
+    const { projectName, accessToken } = this.props
+    const exportLink = find(fragmentLinks, link => (
+      link.rel === 'export'
+    ))
+    return `${exportLink.href}?scope=${projectName}&token=${accessToken}` || ''
+  }
 
   render() {
     const { fragmentList, handleEdit, handleDelete, createUrl, backUrl } = this.props
@@ -67,12 +84,30 @@ export class FragmentListComponent extends React.Component {
                   <TableRowColumn>{fragment.content.name}</TableRowColumn>
                   <TableRowColumn>{fragment.content.description}</TableRowColumn>
                   <TableRowColumn>
-                    <IconButton onTouchTap={() => handleEdit(fragment.content.id)}>
+                    <HateoasIconAction
+                      entityLinks={fragment.links}
+                      hateoasKey={HateoasKeys.UPDATE}
+                      onTouchTap={() => handleEdit(fragment.content.id)}
+                    >
                       <Edit hoverColor={style.hoverButtonEdit} />
-                    </IconButton>
-                    <IconButton onTouchTap={() => handleDelete(fragment.content.id)}>
+                    </HateoasIconAction>
+                    <HateoasIconAction
+                      entityLinks={fragment.links}
+                      hateoasKey={HateoasKeys.DELETE}
+                      onTouchTap={() => handleDelete(fragment.content.id)}
+                    >
                       <Delete hoverColor={style.hoverButtonDelete} />
-                    </IconButton>
+                    </HateoasIconAction>
+                    <HateoasIconAction
+                      entityLinks={fragment.links}
+                      hateoasKey="export"
+                      href={this.getExportUrlFromHateoas(fragment.links)}
+                      style={{
+                        top: '-7px',
+                      }}
+                    >
+                      <Download hoverColor={style.hoverButtonEdit} />
+                    </HateoasIconAction>
                   </TableRowColumn>
                 </TableRow>
               ))}
@@ -87,6 +122,7 @@ export class FragmentListComponent extends React.Component {
                 id="fragment.list.action.add"
               />
             }
+            mainHateoasDependency={fragmentActions.getDependency(RequestVerbEnum.POST)}
             secondaryButtonLabel={<FormattedMessage id="fragment.list.action.cancel" />}
             secondaryButtonUrl={backUrl}
           />

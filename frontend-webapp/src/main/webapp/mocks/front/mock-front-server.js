@@ -9,7 +9,7 @@ const _ = require('lodash')
 const { JSON_CONTENT_TYPE } = require('./mock-front-utils')
 const FacadeCore = require('./mock-front-core')
 const MockUsers = require('./mock-users')
-
+const MockCatalog = require('./mock-catalog')
 
 /**
  * Mock server entry point: provide here the delegate for a given URL and method
@@ -58,18 +58,19 @@ const entryDelegates = {
 }
 
 // report mock authentication endpoints in entry points
-_.forEach(MockUsers, (methodEntries, method) =>
-  _.forEach(methodEntries, (entryPoint) => {
-    entryDelegates[method][entryPoint.url] = entryPoint.handler
-  }))
+const externalMockServices = [MockUsers, MockCatalog]
+_.forEach(externalMockServices, service =>
+  _.forEach(service, (methodEntries, method) =>
+    _.forEach(methodEntries, (entryPoint) => {
+      entryDelegates[method][entryPoint.url] = entryPoint.handler
+    })))
 
 
 // Definitions
 const serverPort = 3000
-const uiPort = 3333
 const jsonMockPort = 3001
 const jsonMockURL = `http://localhost:${jsonMockPort}`
 const urlStart = '/api/v1'
 
-FacadeCore.startServer(urlStart, serverPort, uiPort, jsonMockURL, entryDelegates)
+FacadeCore.startServer(urlStart, serverPort, jsonMockURL, entryDelegates)
 

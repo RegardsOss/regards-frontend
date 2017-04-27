@@ -9,6 +9,7 @@ export class ProjectUserActions extends BasicPageableActions {
     super({
       namespace,
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-admin/users`,
+      entityPathVariable: 'user_id',
       schemaTypes: {
         ENTITY: Schemas.PROJECT_USER,
         ENTITY_ARRAY: Schemas.PROJECT_USER_ARRAY,

@@ -59,8 +59,6 @@ storiesOf('InstanceAdmin - Account', module)
         initialFecthing={boolean('Initial fetching', false)}
         isFetchingActions={boolean('Actions fetching', false)}
         createUrl="dfjgisjdf"
-        onDelete={action('delete account')}
-        onEdit={action('edit account')}
       />
     )
   })

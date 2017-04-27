@@ -1,4 +1,5 @@
 import { Locales } from '@regardsoss/form-utils'
+import DEFAULT_FRAGMENT_NAME from '../DefaultFragmentName'
 
 const messages = Object.assign({
   'attrmodel.list.title': 'Liste des attributs de modèles de données',
@@ -14,12 +15,11 @@ const messages = Object.assign({
   'attrmodel.edit.title': 'Editer l\'attribut de modèle {name}',
   'attrmodel.create.title': 'Ajouter un attribut de modèle',
   'attrmodel.form.name': 'Nom du l\'attribut',
+  'attrmodel.form.label': 'Label de l\'attribut',
   'attrmodel.form.fragment': 'Fragment',
   'attrmodel.form.description': 'Description',
   'attrmodel.form.alterable': 'Modifiable',
   'attrmodel.form.optional': 'Optionnel',
-  'attrmodel.form.queryable': 'Requêtable, utilisable en temps que critère lors des recherches utilisateurs',
-  'attrmodel.form.facetable': 'Facettable',
   'attrmodel.form.type': 'Type',
   'attrmodel.form.action.cancel': 'Annuler',
   'attrmodel.form.action.submit': 'Sauvegarder',
@@ -42,5 +42,6 @@ const messages = Object.assign({
   'invalid.max_32_carac': 'Maximum 32 caractères',
   'invalid.only_1_restriction_on_the_same_time': 'Vous ne pouvez activer qu\'une seule restriction à la fois',
 }, Locales.fr)
+messages[`attrmodel.form.fragment.${DEFAULT_FRAGMENT_NAME}`] = 'Pas de fragment'
 
 export default messages

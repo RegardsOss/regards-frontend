@@ -5,6 +5,30 @@ const _ = require('lodash')
 
 const { JSON_CONTENT_TYPE, logMessage, makePageResult, copyFile, loadJSONModelFile, writeJSONModelFile } = require('./mock-front-utils')
 
+
+const getAllLinks = () => [
+  {
+    rel: 'self',
+    href: 'http://localhost:3333/unused',
+  },
+  {
+    rel: 'delete',
+    href: 'http://localhost:3333/unused',
+  },
+  {
+    rel: 'update',
+    href: 'http://localhost:3333/unused',
+  },
+  {
+    rel: 'create',
+    href: 'http://localhost:3333/unused',
+  },
+  {
+    rel: 'list',
+    href: 'http://localhost:3333/unused',
+  },
+]
+
 /**
  * Account pool used to test all possible authentication states: bind model to temp file
  */
@@ -151,7 +175,7 @@ const getAccountList = (filterStatus) => {
   const correspondingAccounts = _.pickBy(loadUsersPool(), u => !filterStatus || u.status === filterStatus)
   return makePageResult(correspondingAccounts, ({ id, lastName, firstName, status }, email) => ({
     content: { id, lastName, email, firstName, status },
-    links: [],
+    links: getAllLinks(),
   }))
 }
 
@@ -178,7 +202,7 @@ const getUsersList = (request, { status }, pathParameters) => {
           status: userStatus,
           permissions: [],
         },
-        links: [],
+        links: getAllLinks(),
       }
     })
   }

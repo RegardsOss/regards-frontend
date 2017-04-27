@@ -2,39 +2,33 @@
  * LICENSE_PLACEHOLDER
  **/
 import { shallow } from 'enzyme'
-import sinon from 'sinon'
+import { spy } from 'sinon'
 import { assert } from 'chai'
-import getMuiTheme from 'material-ui/styles/getMuiTheme'
-import { Field } from '@regardsoss/form-utils'
 import { RadioButton } from 'material-ui/RadioButton'
+import { Field } from '@regardsoss/form-utils'
+import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { SearchResultsTargetsEnum } from '@regardsoss/model'
-import Styles from '../../../src/styles/styles'
 import SearchResultsConfigurationComponent from '../../../src/components/admin/SearchResultsConfigurationComponent'
+import Styles from '../../../src/styles/styles'
 
 /**
  * Tests for FormParametersConfigurationComponent
  * @author Sébastien binda
  */
 describe('[RESULTS MODULE] Testing SearchResultsConfigurationComponent', () => {
-  const muiTheme = getMuiTheme({})
-  const options = {
-    context: {
-      muiTheme,
-      moduleTheme: Styles(muiTheme),
-      intl: {
-        formatMessage: id => (id.id),
-      },
-    },
-  }
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+  const options = { context: buildTestContext(Styles) }
 
   it('Should render a SearchResultsConfigurationComponent to configure search results', () => {
-    const selectCallback = sinon.spy()
+    const selectCallback = spy()
     const props = {
       defaultSelected: SearchResultsTargetsEnum.DATASET_RESULTS,
       onSelectType: selectCallback,
       disabled: false,
       selectableAttributes: {},
-      changeField: () => {},
+      changeField: () => { },
+      hideDatasets: false,
     }
     const wrapper = shallow(
       <SearchResultsConfigurationComponent {...props} />, options,

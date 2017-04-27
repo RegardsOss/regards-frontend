@@ -2,10 +2,10 @@
  * LICENSE_PLACEHOLDER
  **/
 import { combineReducers } from 'redux'
-import ListReducers from './ThemeReducers'
+import { themeReducers } from '../../client/ThemeClient'
 import currentThemeReducer from './currentThemeReducer'
 
 export default combineReducers({
-  list: ListReducers,
+  list: themeReducers,
   current: currentThemeReducer,
 })

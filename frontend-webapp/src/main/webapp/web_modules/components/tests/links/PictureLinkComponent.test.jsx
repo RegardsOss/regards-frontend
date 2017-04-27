@@ -3,7 +3,7 @@
  */
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import sinon from 'sinon'
+import { stub } from 'sinon'
 import Refresh from 'material-ui/svg-icons/navigation/refresh'
 import PictureLinkComponent from '../../src/links/PictureLinkComponent'
 
@@ -12,7 +12,7 @@ describe('[COMPONENTS] Testing PictureLinkComponent', () => {
   // as errors, we use sinon.js to stub it into throwing these warning as errors
   // instead.
   before(() => {
-    sinon.stub(console, 'error', (warning) => {
+    stub(console, 'error').callsFake((warning) => {
       throw new Error(warning)
     })
   })

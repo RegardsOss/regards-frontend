@@ -2,6 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { map, replace, split, join, takeRight } from 'lodash'
+import RequestVerbEnum from './RequestVerbEnum'
 
 /**
  *  Abstract Action class providing common methods for different Actions implementations
@@ -20,10 +21,12 @@ class BasicActions {
    */
   constructor(options) {
     this.entityEndpoint = options.entityEndpoint
+    this.entityPathVariable = options.entityPathVariable
     this.ENTITY_LIST_REQUEST = `${options.namespace}/LIST_REQUEST`
     this.ENTITY_LIST_SUCCESS = `${options.namespace}/LIST_SUCCESS`
     this.ENTITY_LIST_FAILURE = `${options.namespace}/LIST_FAILURE`
     this.FLUSH = `${options.namespace}/FLUSH`
+    this.headers = options.headers || {}
     this.bypassErrorMiddleware = !!options.bypassErrorMiddleware
   }
 
@@ -103,8 +106,28 @@ class BasicActions {
     dependency = dependency[0] === '/' ? `${dependency}` : `/${dependency}`
     // Retrieve microservice as the first element of the path
     const parts = split(dependency, '/')
-    // Contatn microservice@endpoint@verb
-    return `${parts[1]}@/${join(takeRight(parts, parts.length - 2), '/')}@${verb}`
+    const microservice = parts[1]
+    // Add entity path variable if needed
+    let endpoint = join(takeRight(parts, parts.length - 2), '/')
+    let requestHttpVerb = verb
+    if (this.entityPathVariable) {
+      switch (verb) {
+        case RequestVerbEnum.GET:
+        case RequestVerbEnum.DELETE:
+        case RequestVerbEnum.PUT:
+          endpoint = `${endpoint}/{${this.entityPathVariable}}`
+          break
+        case RequestVerbEnum.GET_LIST:
+          requestHttpVerb = RequestVerbEnum.GET
+          break
+        default:
+        // Nothing to do
+      }
+    } else if (requestHttpVerb === RequestVerbEnum.GET_LIST) {
+      requestHttpVerb = RequestVerbEnum.GET
+    }
+
+    return `${microservice}@/${endpoint}@${requestHttpVerb}`
   }
 }
 

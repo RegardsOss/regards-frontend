@@ -1,8 +1,10 @@
 {
-  "project_connections": [
+  "connections": [
     {
       "id": 0,
-      "projectName": "cdpp",
+      "project": {
+        "name": "CDPP"
+      },
       "microservice": "rs-admin",
       "userName": "Alice",
       "password": "password",
@@ -12,8 +14,10 @@
     },
     {
       "id": 1,
-      "projectName": "cdpp",
-      "microservice": "rs-cloud",
+      "project": {
+        "name": "CDPP"
+      },
+      "microservice": "rs-gateway",
       "userName": "Bob",
       "password": "azerty",
       "driverClassName": "PostgreSQL",
@@ -22,7 +26,9 @@
     },
     {
       "id": 2,
-      "projectName": "cdpp",
+      "project": {
+        "name": "CDPP"
+      },
       "microservice": "rs-dam",
       "userName": "Charlie",
       "password": "qsdfgh",
@@ -33,7 +39,7 @@
   ],
   "roles": [
     {
-      "id": 1,
+      "id": "PUBLIC",
       "name": "PUBLIC",
       "permissions": [],
       "authorizedAddresses": [],
@@ -339,189 +345,504 @@
       "description": "Retrieves the settings managing the access requests",
       "microservice": "rs-admin",
       "resource": "/accesses/settings",
-      "verb": "GET"
+      "verb": "GET",
+      "controllerSimpleName": "Controller 1"
     },
     {
       "id": 2,
       "description": "Updates the setting managing the access requests",
       "microservice": "rs-admin",
       "resource": "/accesses/settings",
-      "verb": "PUT"
+      "verb": "PUT",
+      "controllerSimpleName": "Controller 1"
     },
     {
       "id": 3,
       "description": "create an new account",
       "microservice": "rs-admin",
       "resource": "/accounts",
-      "verb": "POST"
+      "verb": "POST",
+      "controllerSimpleName": "Controller 1"
     },
     {
       "id": 4,
       "description": "retrieve the account account_id",
       "microservice": "rs-admin",
       "resource": "/accounts/{account_id}",
-      "verb": "GET"
+      "verb": "GET",
+      "controllerSimpleName": "Controller 1"
     },
     {
       "id": 5,
       "description": "retrieve the account with his unique email",
       "microservice": "rs-admin",
       "resource": "/accounts/account/{account_email}",
-      "verb": "GET"
+      "verb": "GET",
+      "controllerSimpleName": "Controller 1"
     },
     {
       "id": 6,
       "description": "update the account account_id according to the body specified",
       "microservice": "rs-admin",
       "resource": "/accounts/{account_id}",
-      "verb": "PUT"
+      "verb": "PUT",
+      "controllerSimpleName": "Controller 1"
     },
     {
       "id": 7,
       "description": "remove the account account_id",
       "microservice": "rs-admin",
       "resource": "/accounts/{account_id}",
-      "verb": "DELETE"
+      "verb": "DELETE",
+      "controllerSimpleName": "Controller 1"
     },
     {
       "id": 8,
       "description": "send a code of type type to the email specified",
       "microservice": "rs-admin",
       "resource": "/accounts/{account_id}/accountUnlock",
-      "verb": "GET"
+      "verb": "GET",
+      "controllerSimpleName": "Controller 1"
     },
     {
       "id": 9,
       "description": "unlock the account account_id according to the code unlock_code",
       "microservice": "rs-admin",
       "resource": "/accounts/{account_id}/unlock/{unlock_code}",
-      "verb": "GET"
+      "verb": "GET",
+      "controllerSimpleName": "Controller 1"
     },
     {
       "id": 10,
       "description": "change the passsword of account account_id according to the code reset_code",
       "microservice": "rs-admin",
       "resource": "/accounts/{account_id}/password/{reset_code}",
-      "verb": "PUT"
+      "verb": "PUT",
+      "controllerSimpleName": "Controller 1"
     },
     {
       "id": 11,
       "description": "send a code of type type to the email specified",
       "microservice": "rs-admin",
       "resource": "/accounts/code",
-      "verb": "GET"
+      "verb": "GET",
+      "controllerSimpleName": "Controller 1"
     },
     {
       "id": 12,
       "description": "Validate the account password",
       "microservice": "rs-admin",
       "resource": "/accounts/{account_email}/validate",
-      "verb": "GET"
+      "verb": "GET",
+      "controllerSimpleName": "Controller 1"
     },
     {
       "id": 13,
       "description": "retrieve the list of account in the instance",
       "microservice": "rs-admin",
       "resource": "/accounts",
-      "verb": "GET"
+      "verb": "GET",
+      "controllerSimpleName": "Controller 1"
     },
     {
       "id": 14,
       "description": "Retrieve all resource accesses of the REGARDS system",
       "microservice": "rs-admin",
       "resource": "/resources/microservices/{microservice}",
-      "verb": "GET"
+      "verb": "GET",
+      "controllerSimpleName": "Controller 1"
     },
     {
       "id": 15,
       "description": "Retrieve all resource accesses of the REGARDS system",
       "microservice": "rs-admin",
       "resource": "/resources",
-      "verb": "GET"
+      "verb": "GET",
+      "controllerSimpleName": "Controller 1"
     },
     {
       "id": 16,
       "description": "Retrieve all resource accesses of the REGARDS system",
       "microservice": "rs-admin",
       "resource": "/resources/{resource_id}",
-      "verb": "GET"
+      "verb": "GET",
+      "controllerSimpleName": "Controller 1"
     },
     {
       "id": 17,
       "description": "Update access to a given resource",
       "microservice": "rs-admin",
       "resource": "/resources/{resource_id}",
-      "verb": "PUT"
+      "verb": "PUT",
+      "controllerSimpleName": "Controller 1"
     },
     {
       "id": 18,
       "description": "retrieve the list of specific access rights and the role of the project user",
       "microservice": "rs-admin",
       "resource": "/resources/users/{user_email}",
-      "verb": "GET"
+      "verb": "GET",
+      "controllerSimpleName": "Controller 1"
     },
     {
       "id": 19,
       "description": "update the list of specific user access rights",
       "microservice": "rs-admin",
       "resource": "/resources/users/{user_email}",
-      "verb": "PUT"
+      "verb": "PUT",
+      "controllerSimpleName": "Controller 1"
     },
     {
       "id": 20,
       "description": "remove all the specific access rights",
       "microservice": "rs-admin",
       "resource": "/resources/users/{user_email}",
-      "verb": "DELETE"
+      "verb": "DELETE",
+      "controllerSimpleName": "Controller 1"
     },
     {
       "id": 21,
       "description": "Retrieves the IHM Plugins",
-      "microservice": "rs-access",
+      "microservice": "rs-access-project",
       "resource": "/plugin",
-      "verb": "GET"
+      "verb": "GET",
+      "controllerSimpleName": "Controller 1"
     },
     {
       "id": 22,
       "description": "Retrieves the IHM modules",
-      "microservice": "rs-access",
+      "microservice": "rs-access-project",
       "resource": "/applications/{applicationId}/modules",
-      "verb": "GET"
+      "verb": "GET",
+      "controllerSimpleName": "Controller 1"
     },
     {
       "id": 23,
       "description": "Retrieves attributes",
       "microservice": "rs-dam",
-      "resource": "/attributes",
-      "verb": "GET"
+      "resource": "/models/attributes",
+      "verb": "GET",
+      "controllerSimpleName": "Controller 1"
     },
     {
       "id": 24,
       "description": "Retrieves attributes",
       "microservice": "rs-dam",
       "resource": "/models",
-      "verb": "GET"
+      "verb": "GET",
+      "controllerSimpleName": "Controller 1"
     },
     {
       "id": 25,
       "description": "Retrieves plugins",
-      "microservice": "rs-access",
+      "microservice": "rs-access-project",
       "resource": "/plugin",
-      "verb": "GET"
+      "verb": "GET",
+      "controllerSimpleName": "Controller 1"
     },
     {
       "id": 26,
       "description": "Retrieves plugins",
       "microservice": "rs-dam",
       "resource": "/datasets",
-      "verb": "GET"
+      "verb": "GET",
+      "controllerSimpleName": "Controller 1"
     },
     {
       "id": 27,
       "description": "Run entity search",
       "microservice": "rs-catalog",
       "resource": "/search",
-      "verb": "GET"
+      "verb": "GET",
+      "controllerSimpleName": "Controller 1"
+    },
+    {
+      "id": 28,
+      "description": "Delete a project user",
+      "microservice": "rs-admin",
+      "resource": "/users/{user_id}",
+      "verb": "DELETE",
+      "controllerSimpleName": "Controller 1"
+    },
+    {
+      "id": 29,
+      "description": "Add a user group",
+      "microservice": "rs-dam",
+      "resource": "/accessgroups",
+      "verb": "POST",
+      "controllerSimpleName": "Controller 1"
+    },
+    {
+      "id": 30,
+      "description": "Add a user Role",
+      "microservice": "rs-admin",
+      "resource": "/roles",
+      "verb": "POST",
+      "controllerSimpleName": "Controller 1"
+    },
+    {
+      "id": 31,
+      "description": "Ajout d'un model",
+      "microservice": "rs-dam",
+      "resource": "/models",
+      "verb": "POST",
+      "controllerSimpleName": "Controller 1"
+    },
+    {
+      "id": 32,
+      "description": "models",
+      "microservice": "rs-dam",
+      "resource": "/models/{pModelId}",
+      "verb": "DELETE",
+      "controllerSimpleName": "Controller 1"
+    },
+    {
+      "id": 33,
+      "description": "models",
+      "microservice": "rs-dam",
+      "resource": "/models/{pModelId}",
+      "verb": "PUT",
+      "controllerSimpleName": "Controller 1"
+    },
+    {
+      "id": 34,
+      "description": "models",
+      "microservice": "rs-dam",
+      "resource": "/models",
+      "verb": "GET",
+      "controllerSimpleName": "Controller 1"
+    },
+    {
+      "id": 35,
+      "description": "models",
+      "microservice": "rs-dam",
+      "resource": "/models/{pModelId}",
+      "verb": "GET",
+      "controllerSimpleName": "Controller 1"
+    },
+    {
+      "id": 36,
+      "description": "models",
+      "microservice": "rs-dam",
+      "resource": "/models/attributes/{pAttributeId}",
+      "verb": "GET",
+      "controllerSimpleName": "Controller 1"
+    },
+    {
+      "id": 37,
+      "description": "models",
+      "microservice": "rs-dam",
+      "resource": "/models/attributes",
+      "verb": "POST",
+      "controllerSimpleName": "Controller 1"
+    },
+    {
+      "id": 38,
+      "description": "collections",
+      "microservice": "rs-dam",
+      "resource": "/collections",
+      "verb": "POST",
+      "controllerSimpleName": "Controller 1"
+    },
+    {
+      "id": 39,
+      "description": "collections",
+      "microservice": "rs-dam",
+      "resource": "/collections",
+      "verb": "GET",
+      "controllerSimpleName": "Controller 1"
+    },
+    {
+      "id": 40,
+      "description": "collections",
+      "microservice": "rs-dam",
+      "resource": "/models/fragments",
+      "verb": "GET",
+      "controllerSimpleName": "Controller 1"
+    },
+    {
+      "id": 41,
+      "description": "collections",
+      "microservice": "rs-dam",
+      "resource": "/models/fragments",
+      "verb": "POST",
+      "controllerSimpleName": "Controller 1"
+    },
+    {
+      "id": 42,
+      "description": "collections",
+      "microservice": "rs-dam",
+      "resource": "/datasets",
+      "verb": "POST",
+      "controllerSimpleName": "Controller 1"
+    },
+    {
+      "id": 43,
+      "description": "collections",
+      "microservice": "rs-dam",
+      "resource": "/datasources",
+      "verb": "POST",
+      "controllerSimpleName": "Controller 1"
+    },
+    {
+      "id": 44,
+      "description": "collections",
+      "microservice": "rs-dam",
+      "resource": "/datasources",
+      "verb": "GET",
+      "controllerSimpleName": "Controller 1"
+    },
+    {
+      "id": 45,
+      "description": "collections",
+      "microservice": "rs-dam",
+      "resource": "/connections",
+      "verb": "POST",
+      "controllerSimpleName": "Controller 1"
+    },
+    {
+      "id": 46,
+      "description": "collections",
+      "microservice": "rs-dam",
+      "resource": "/connections",
+      "verb": "GET",
+      "controllerSimpleName": "Controller 1"
+    },
+    {
+      "id": 47,
+      "description": "themes",
+      "microservice": "rs-access-project",
+      "resource": "/themes",
+      "verb": "GET",
+      "controllerSimpleName": "Controller 1"
+    },
+    {
+      "id": 48,
+      "description": "layouts",
+      "microservice": "rs-access-project",
+      "resource": "/layouts/{applicationId}",
+      "verb": "GET",
+      "controllerSimpleName": "Controller 1"
+    },
+    {
+      "id": 49,
+      "description": "layouts",
+      "microservice": "rs-access-project",
+      "resource": "/applications/{applicationId}/modules",
+      "verb": "POST",
+      "controllerSimpleName": "Controller 1"
+    },
+    {
+      "id": 50,
+      "description": "layouts",
+      "microservice": "rs-access-project",
+      "resource": "/applications/{applicationId}/modules/{moduleId}",
+      "verb": "PUT",
+      "controllerSimpleName": "Controller 1"
+    },
+    {
+      "id": 51,
+      "description": "layouts",
+      "microservice": "rs-access-project",
+      "resource": "/applications/{applicationId}/modules/{moduleId}",
+      "verb": "DELETE",
+      "controllerSimpleName": "Controller 1"
+    },
+    {
+      "id": 52,
+      "description": "Project users",
+      "microservice": "rs-admin",
+      "resource": "/users",
+      "verb": "GET",
+      "controllerSimpleName": "Controller 1"
+    },
+    {
+      "id": 53,
+      "description": "Project users",
+      "microservice": "rs-admin",
+      "resource": "/users",
+      "verb": "POST",
+      "controllerSimpleName": "Controller 1"
+    },
+    {
+      "id": 54,
+      "description": "Project users",
+      "microservice": "rs-dam",
+      "resource": "/plugins",
+      "verb": "GET",
+      "controllerSimpleName": "Controller 1"
+    },
+    {
+      "id": 55,
+      "description": "Project users",
+      "microservice": "rs-dam",
+      "resource": "/maintenances/{tenant}/activate",
+      "verb": "PUT",
+      "controllerSimpleName": "Controller 1"
+    },
+    {
+      "id": 56,
+      "description": "Project users",
+      "microservice": "rs-dam",
+      "resource": "/plugins/{pluginId}/config",
+      "verb": "GET",
+      "controllerSimpleName": "Controller 1"
+    },
+    {
+      "id": 57,
+      "description": "Project users",
+      "microservice": "rs-dam",
+      "resource": "/plugins/{pluginId}/config",
+      "verb": "POST",
+      "controllerSimpleName": "Controller 1"
+    },
+    {
+      "id": 58,
+      "description": "Project users",
+      "microservice": "rs-admin",
+      "resource": "/projects",
+      "verb": "GET",
+      "controllerSimpleName": "Controller 1"
+    },
+    {
+      "id": 59,
+      "description": "Run entity search",
+      "microservice": "rs-catalog",
+      "resource": "/dataobjects/datasets/search",
+      "verb": "GET",
+      "controllerSimpleName": "Controller 1"
+    },
+    {
+      "id": 60,
+      "description": "Run entity search",
+      "microservice": "rs-catalog",
+      "resource": "/dataobjects/search",
+      "verb": "GET",
+      "controllerSimpleName": "Controller 1"
+    },
+    {
+      "id": 61,
+      "description": "Project users",
+      "microservice": "rs-access-project",
+      "resource": "/plugin",
+      "verb": "POST",
+      "controllerSimpleName": "Controller 1"
+    },
+    {
+      "id": 62,
+      "description": "Project users",
+      "microservice": "rs-access-project",
+      "resource": "/plugin/{plugin_id}/config",
+      "verb": "POST",
+      "controllerSimpleName": "Controller 1"
+    },
+    {
+      "id": 63,
+      "description": "Project users",
+      "microservice": "rs-access-project",
+      "resource": "/plugin/{plugin_id}/config",
+      "verb": "GET",
+      "controllerSimpleName": "Controller 1"
     }
   ]
 }

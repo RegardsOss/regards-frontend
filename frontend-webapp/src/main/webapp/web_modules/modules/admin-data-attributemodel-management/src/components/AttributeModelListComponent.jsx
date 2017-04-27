@@ -2,13 +2,15 @@ import { map } from 'lodash'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
 import { FormattedMessage } from 'react-intl'
-import IconButton from 'material-ui/IconButton'
+import { HateoasIconAction, HateoasKeys } from '@regardsoss/display-control'
+import { RequestVerbEnum } from '@regardsoss/store-utils'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
 import { AttributeModel } from '@regardsoss/model'
 import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
+import { attributeModelActions } from '../client/AttributeModelClient'
 
 /**
  * React components to list project.
@@ -28,6 +30,12 @@ export class AttributeModelListComponent extends React.Component {
     ...i18nContextType,
   }
 
+  getFragmentName = (attrModel) => {
+    if (attrModel.content.fragment) {
+      return attrModel.content.fragment.name
+    }
+    return ''
+  }
 
   render() {
     const { attrModelList, handleEdit, handleDelete, createUrl, backUrl } = this.props
@@ -66,19 +74,27 @@ export class AttributeModelListComponent extends React.Component {
             >
               {map(attrModelList, (attrmodel, i) => (
                 <TableRow key={i}>
-                  <TableRowColumn>{attrmodel.content.fragment.name}</TableRowColumn>
+                  <TableRowColumn>{this.getFragmentName(attrmodel)}</TableRowColumn>
                   <TableRowColumn>{attrmodel.content.name}</TableRowColumn>
                   <TableRowColumn>{attrmodel.content.description}</TableRowColumn>
                   <TableRowColumn>{attrmodel.content.type}</TableRowColumn>
                   <TableRowColumn>
 
-                    <IconButton onTouchTap={() => handleEdit(attrmodel.content.id)}>
+                    <HateoasIconAction
+                      entityLinks={attrmodel.links}
+                      onTouchTap={() => handleEdit(attrmodel.content.id)}
+                      hateoasKey={HateoasKeys.UPDATE}
+                    >
                       <Edit hoverColor={style.hoverButtonEdit} />
-                    </IconButton>
+                    </HateoasIconAction>
 
-                    <IconButton onTouchTap={() => handleDelete(attrmodel.content.id)}>
+                    <HateoasIconAction
+                      entityLinks={attrmodel.links}
+                      onTouchTap={() => handleDelete(attrmodel.content.id)}
+                      hateoasKey={HateoasKeys.DELETE}
+                    >
                       <Delete hoverColor={style.hoverButtonDelete} />
-                    </IconButton>
+                    </HateoasIconAction>
                   </TableRowColumn>
                 </TableRow>
               ))}
@@ -93,6 +109,7 @@ export class AttributeModelListComponent extends React.Component {
                 id="attrmodel.list.action.add"
               />
             }
+            mainHateoasDependency={attributeModelActions.getDependency(RequestVerbEnum.POST)}
             secondaryButtonLabel={<FormattedMessage id="attrmodel.list.action.cancel" />}
             secondaryButtonUrl={backUrl}
           />

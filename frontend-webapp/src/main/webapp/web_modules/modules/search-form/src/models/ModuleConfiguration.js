@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { PluginConf, AttributeConfiguration, AttributesRegroupementConfiguration } from '@regardsoss/model'
+import { PluginConf, AttributeConfiguration, AttributesRegroupementConfiguration, Container } from '@regardsoss/model'
 import DatasetsConfShape from './datasets/DatasetsConfShape'
 /**
  * Form entity description
@@ -11,7 +11,7 @@ const ModuleConfiguration = React.PropTypes.shape({
   // Search form datasets configuration
   datasets: DatasetsConfShape,
   // Search form Layout configuration
-  layout: React.PropTypes.string,
+  layout: Container,
   // Search form criterion configuration
   criterion: React.PropTypes.arrayOf(PluginConf),
   // Search form resultType configuration
@@ -22,6 +22,8 @@ const ModuleConfiguration = React.PropTypes.shape({
   attributesRegroupements: React.PropTypes.arrayOf(AttributesRegroupementConfiguration),
   // Does search form render for preview or for full use
   preview: React.PropTypes.bool,
+  // should enable facettes?
+  enableFacettes: React.PropTypes.bool,
 })
 
 export default ModuleConfiguration

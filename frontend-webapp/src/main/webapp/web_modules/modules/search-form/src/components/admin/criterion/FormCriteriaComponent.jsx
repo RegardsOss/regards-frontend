@@ -6,7 +6,7 @@ import MenuItem from 'material-ui/MenuItem'
 import { FormattedMessage } from 'react-intl'
 import { RenderSelectField, Field, reduxForm } from '@regardsoss/form-utils'
 import { CardActionsComponent } from '@regardsoss/components'
-import { PluginDefinition, PluginConf, AttributeModel } from '@regardsoss/model'
+import { PluginDefinition, PluginConf, AttributeModel, Container as ContainerShape } from '@regardsoss/model'
 import { ContainerHelper } from '@regardsoss/layout'
 import { PluginProvider } from '@regardsoss/plugins'
 
@@ -26,7 +26,7 @@ class FormCriteriaComponent extends React.Component {
     // Cancel criteria edition
     cancel: React.PropTypes.func,
     // Form layout
-    layout: React.PropTypes.string,
+    layout: ContainerShape,
     // All selectable attributes for the current form
     selectableAttributes: React.PropTypes.objectOf(AttributeModel),
     // Set by React Redux connection
@@ -47,8 +47,6 @@ class FormCriteriaComponent extends React.Component {
     super()
     this.state = {
       selectedCriteria: props.criteria ? props.criteria.pluginId : null,
-      selectedContainer: props.criteria ? props.criteria.container : null,
-      pluginConf: props.criteria ? props.criteria.pluginConf : null,
     }
   }
 
@@ -70,19 +68,6 @@ class FormCriteriaComponent extends React.Component {
     if (this.props.criteria) {
       this.props.initialize({ ...this.props.criteria })
     }
-  }
-
-  /**
-   * Callback when a container is selected
-   * @param event
-   * @param index
-   * @param value
-   */
-  selectContainer = (event, index, value, input) => {
-    input.onChange(value)
-    this.setState({
-      selectedContainer: value,
-    })
   }
 
   /**
@@ -122,7 +107,7 @@ class FormCriteriaComponent extends React.Component {
     const items = []
     try {
       if (this.props.layout) {
-        const containers = ContainerHelper.getAvailableContainersInLayout(JSON.parse(this.props.layout))
+        const containers = ContainerHelper.getAvailableContainersInLayout(this.props.layout)
         if (containers && containers.length > 0) {
           forEach(containers, (container, idx) => {
             items.push(
@@ -186,7 +171,6 @@ class FormCriteriaComponent extends React.Component {
             fullWidth
             component={RenderSelectField}
             type="text"
-            onSelect={this.selectContainer}
             label={<FormattedMessage id="form.criterion.criteria.select.container.label" />}
           >
             {this.renderContainersList()}
@@ -212,12 +196,7 @@ export {
   UnconnectedFormCriteriaComponent,
 }
 
-const validate = (values) => {
-  const errors = {}
-  return errors
-}
 export default reduxForm({
   form: 'edit-module-criteria-form',
-  validate,
 })(FormCriteriaComponent)
 

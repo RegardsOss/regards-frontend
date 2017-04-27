@@ -1,7 +1,8 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { size } from 'lodash'
+import size from 'lodash/size'
+import map from 'lodash/map'
 
 
 /**
@@ -14,6 +15,9 @@ import BasicSelector from '../BasicSelector'
 class BasicListSelectors extends BasicSelector {
   getList(state) {
     return this.uncombineStore(state).items
+  }
+  getOrderedList(state) {
+    return map(this.uncombineStore(state).results, entityId => this.getById(state, entityId))
   }
   getById(state, id) {
     return this.uncombineStore(state).items[id]

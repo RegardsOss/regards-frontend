@@ -20,7 +20,7 @@ module.exports = {
     // exemple require('main') look for main, main.js or main.jsx with our configuration
     extensions: ['.js', '.jsx'],
     modules: [
-      // Root directories from wich requires are made
+      // Root directories from which requires are made
       path.join(__dirname),
       'web_modules',
       'node_modules'
@@ -37,16 +37,24 @@ module.exports = {
       // Transpile ES6 Javascript into ES5 with babel loader
       {
         test: /\.jsx?$/,
-        exclude: [/node_modules/, /json/],
-        loader: 'babel-loader',
+        // Exclude the DLL folder build from the transpilation
+        exclude: [/node_modules/, /dist/],
+        // used to cache the results of the loader.
+        // Next builds will attempt to read from the cache
+        // the cache is different depending of the value of NODE_ENV
+        loader: 'babel-loader?cacheDirectory',
       },
       {
         test: /\.css$/,
         loader: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader' }),
       },
       {
-        test: /\.jpg$/,
+        test: /\.(jpg|gif|png)$/,
         loader: 'file-loader?name=[name].[ext]&outputPath=./img/',
+      },
+      {
+        test: /staticConfiguration(\.dev)?\.js$/,
+        loader: 'file-loader?name=staticConfiguration.js&outputPath=./conf/',
       },
       {
         test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
@@ -59,12 +67,7 @@ module.exports = {
       {
         test: /\.html/,
         loader: 'file-loader?name=[name].[ext]',
-      },
-      {
-        test: /\.png$/,
-        loader: 'url-loader',
-        query: { mimetype: 'image/png' },
-      },
+      }
     ],
   },
   plugins: [
@@ -75,5 +78,34 @@ module.exports = {
     new webpack.DefinePlugin({
       API_URL: JSON.stringify('api/v1'),
     }),
-  ],
+    // Using http://webpack.github.io/analyse/#hints
+    // And npm run build:stats
+    // We can start to prefetch these files before they are imported
+    new webpack.PrefetchPlugin('./web_modules/modules/admin-ui-management/src/main.js'),
+    new webpack.PrefetchPlugin('./web_modules/vendors/storybook-addon-material-ui-custom/src/index.js'),
+    new webpack.PrefetchPlugin('./web_modules/vendors/main.js'),
+    new webpack.PrefetchPlugin('./web_modules/modules/admin-data-datasource-management/src/main.js'),
+    new webpack.PrefetchPlugin('./web_modules/modules/admin-data-management/src/main.js'),
+    new webpack.PrefetchPlugin('./web_modules/modules/admin/src/main.js'),
+    new webpack.PrefetchPlugin('./web_modules/utils/modules/src/components/LazyModuleComponent.jsx'),
+    new webpack.PrefetchPlugin('./web_modules/modules/admin-microservice-management/src/containers/plugin/PluginConfigurationListContainer.jsx'),
+    new webpack.PrefetchPlugin('./web_modules/modules/admin-user-role-resource-access-management/src/containers/ResourceAccessFormContainer.jsx'),
+    new webpack.PrefetchPlugin('./web_modules/modules/search-results/src/containers/AdminContainer.jsx'),
+    new webpack.PrefetchPlugin('./web_modules/utils/tests-helpers/src/main.js'),
+    new webpack.PrefetchPlugin('./web_modules/components/src/main.js'),
+    new webpack.PrefetchPlugin('./web_modules/modules/authentication/src/main.js'),
+    new webpack.PrefetchPlugin('./web_modules/modules/menu/src/main.js'),
+    new webpack.PrefetchPlugin('./web_modules/modules/admin-project-management/src/router.js'),
+    new webpack.PrefetchPlugin('./web_modules/modules/admin-data-connection-management/src/main.js'),
+    new webpack.PrefetchPlugin('./web_modules/modules/admin-ui-module-management/src/main.js'),
+    new webpack.PrefetchPlugin('./web_modules/modules/search-form/src/main.js'),
+    new webpack.PrefetchPlugin('./web_modules/modules/admin-user-management/src/main.js'),
+    new webpack.PrefetchPlugin('./web_modules/modules/admin-ui-theme-management/src/main.js'),
+    new webpack.PrefetchPlugin('./web_modules/modules/admin-ui-module-management/src/main.js'),
+    new webpack.PrefetchPlugin('./web_modules/modules/admin-data-modelattribute-management/src/main.js'),
+    new webpack.PrefetchPlugin('./web_modules/modules/search-facets/src/main.js'),
+    new webpack.PrefetchPlugin('./web_modules/modules/search-results/src/main.js'),
+    new webpack.PrefetchPlugin('./web_modules/modules/admin-data-attributemodel-management/src/main.js'),
+    new webpack.PrefetchPlugin('./web_modules/modules/admin-microservice-management/src/main.js'),
+],
 }

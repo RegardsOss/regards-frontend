@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { map, keys } from 'lodash'
+import { map, values } from 'lodash'
 import IconMenu from 'material-ui/IconMenu'
 import MenuItem from 'material-ui/MenuItem'
 import IconButton from 'material-ui/IconButton'
@@ -24,14 +24,22 @@ export class NumericalComparatorComponent extends React.Component {
     /**
      * Init with a specific comparator set.
      */
-    value: React.PropTypes.oneOf(keys(EnumNumericalComparator)),
+    value: React.PropTypes.oneOf(values(EnumNumericalComparator)),
+    /**
+     * Does the comparator is modifiable
+     */
+    fixedComparator : React.PropTypes.bool,
+  }
+
+  static defaultProps = {
+    fixedComparator: false,
   }
 
   constructor(props) {
     super(props)
     this.state = {
       openMenu: false,
-      value: props.value || 'EQ',
+      value: props.value || EnumNumericalComparator.EQ,
     }
   }
 
@@ -54,11 +62,22 @@ export class NumericalComparatorComponent extends React.Component {
     })
   }
 
+  renderFixedComparator = () => {
+    return (
+      <div>
+        {this.state.value}
+      </div>
+    )
+  }
+
   render() {
+    if (this.props.fixedComparator){
+      return this.renderFixedComparator()
+    }
     return (
       <div>
         <RaisedButton
-          label={EnumNumericalComparator[this.state.value]}
+          label={this.state.value}
           onTouchTap={this.handleOpenMenu}
           style={{
             height: 48,
@@ -78,7 +97,7 @@ export class NumericalComparatorComponent extends React.Component {
               style={{
                 display: 'flex',
                 justifyContent: 'center',
-              }} key={key} primaryText={value} value={key}
+              }} key={key} primaryText={value} value={value}
             />
           ))}
         </IconMenu>

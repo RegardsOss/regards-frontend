@@ -2,14 +2,13 @@ import { Locales } from '@regardsoss/form-utils'
 
 const messages = Object.assign({
   'role.list.title': 'Liste des ressources autorisées pour {role}',
-  'role.list.subtitle': 'Permet de liste pour chaque microservice et pour chaque ressource si le role courrant y a accès.',
+  'role.list.subtitle': 'Ci-dessous vous pouvez consulter la liste des fonctionnalités du système. Pour chaqu\'une d\'elle, vous pouvez définir si le rôle courant est authorisé à l\'utiliser',
   'role.list.action.back': 'Retour',
-  'role.form.info': 'Plus d\'info sur la ressource',
+  'role.form.info': 'Plus d\'informations sur la ressource',
   'role.form.description': 'Description',
-  'role.form.autorizedBy': 'Accessible par',
-  'role.form.resource': 'Ressource',
-  'role.form.moreinfo': 'Plus d\'information sur la ressource',
-  'role.modal.title': 'Information sur une ressource',
+  'role.form.autorizedBy': 'Est également accessible par',
+  'role.form.moreinfo': 'Plus d\'informations sur la ressource',
+  'role.modal.title': 'Informations sur la ressource {name}',
   'role.modal.action.back': 'Retour',
 }, Locales.fr)
 

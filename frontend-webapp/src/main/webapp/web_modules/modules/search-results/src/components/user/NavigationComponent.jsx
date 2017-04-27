@@ -1,15 +1,11 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import values from 'lodash/values'
 import { FormattedMessage } from 'react-intl'
 import LabelIcon from 'material-ui/svg-icons/action/label'
-import FloatingActionButton from 'material-ui/FloatingActionButton'
-import DatasetLibrary from 'material-ui/svg-icons/image/collections-bookmark'
-import DataLibrary from 'material-ui/svg-icons/av/library-books'
-import { SearchResultsTargetsEnum, CatalogEntity } from '@regardsoss/model'
+import { CardTitle } from 'material-ui/Card'
 import { themeContextType } from '@regardsoss/theme'
-import { Card, CardTitle } from 'material-ui/Card'
+import { CatalogEntity } from '@regardsoss/model'
 
 /**
  * Component to display navigation bar
@@ -19,10 +15,10 @@ import { Card, CardTitle } from 'material-ui/Card'
 class NavigationComponent extends React.Component {
 
   static propTypes = {
-    selectedTarget: React.PropTypes.oneOf(values(SearchResultsTargetsEnum)),
-    onChangeTarget: React.PropTypes.func.isRequired,
-    onUnselectDataset: React.PropTypes.func.isRequired,
+    onUnselectAll: React.PropTypes.func.isRequired,
     selectedDataset: CatalogEntity,
+    selectedTag: React.PropTypes.string,
+    breadcrumbInitialContextLabel: React.PropTypes.string,
   }
 
   static contextTypes = {
@@ -34,130 +30,74 @@ class NavigationComponent extends React.Component {
     this.state = {
       catalogHover: false,
       datasetsHover: false,
+      tagHover: false,
     }
   }
 
-  onClickDatasetTarget = () => {
-    this.props.onUnselectDataset()
-    this.props.onChangeTarget(SearchResultsTargetsEnum.DATASET_RESULTS)
+  onClickCatalog = () => {
+    this.props.onUnselectAll()
   }
 
-  onClickDataobjectsTarget = () => {
-    this.props.onChangeTarget(SearchResultsTargetsEnum.DATAOBJECT_RESULTS)
-  }
+  getInitialBreadcrumb = () => {
+    const { breadcrumbInitialContextLabel } = this.props
+    const { path, pathHover } = this.context.moduleTheme.user.breadcrumb
+    const initialBreadcrumb = breadcrumbInitialContextLabel || <FormattedMessage id="navigation.home.label" />
 
-  onClickDatasetsView = () => {
-    this.onClickDatasetTarget()
-  }
-
-  onClickDataobjectsView = () => {
-    this.props.onUnselectDataset()
-    this.props.onChangeTarget(SearchResultsTargetsEnum.DATAOBJECT_RESULTS)
+    if (this.props.selectedDataset || this.props.selectedTag) {
+      return (
+        <button
+          style={this.state.catalogHover ? pathHover : path}
+          onClick={this.onClickCatalog}
+          onMouseOver={() => this.setState({ catalogHover: true })}
+          onMouseOut={() => this.setState({ catalogHover: false })}
+        >
+          {initialBreadcrumb}
+        </button>
+      )
+    }
+    return (
+      <button
+        style={path}
+        onMouseOver={() => this.setState({ catalogHover: true })}
+        onMouseOut={() => this.setState({ catalogHover: false })}
+      >
+        {initialBreadcrumb}
+      </button>
+    )
   }
 
 
   getTitle = () => {
-    const catalogStyle = {
-      cursor: 'pointer',
-      color: this.state.catalogHover ? this.context.muiTheme.palette.accent1Color : '',
-    }
+    const { path, pathHover, separator } = this.context.moduleTheme.user.breadcrumb
+    const tagStyle = this.state.tagHover ? pathHover : path
 
-    const datasetStyle = {
-      cursor: 'pointer',
-      color: this.state.datasetsHover ? this.context.muiTheme.palette.accent1Color : '',
-    }
-    const homeLabel = (
-      <span
-        style={catalogStyle}
-        onClick={this.onClickDataobjectsView}
-        onMouseOver={() => this.setState({ catalogHover: true })}
-        onMouseOut={() => this.setState({ catalogHover: false })}
-      >
-        <FormattedMessage id="navigation.dataobjects.label" />
-      </span>
-    )
-    let dataSetsLabel = null
+    const initialBreadcrumb = this.getInitialBreadcrumb()
     let datasetLabel = null
-    if (SearchResultsTargetsEnum.DATASET_RESULTS === this.props.selectedTarget) {
-      dataSetsLabel = (
-        <span
-          style={datasetStyle}
-          onClick={this.onClickDatasetsView}
-          onMouseOver={() => this.setState({ datasetsHover: true })}
-          onMouseOut={() => this.setState({ datasetsHover: false })}
-        >
-          <FormattedMessage id="navigation.datasets.label" />
-        </span>
-      )
-    } else if (this.props.selectedDataset && this.props.selectedDataset.content) {
-      dataSetsLabel = (
-        <span
-          style={datasetStyle}
-          onClick={this.onClickDatasetsView}
-          onMouseOver={() => this.setState({ datasetsHover: true })}
-          onMouseOut={() => this.setState({ datasetsHover: false })}
-        >
-          <FormattedMessage id="navigation.datasets.label" />
-        </span>
-      )
+
+    if (this.props.selectedDataset && this.props.selectedDataset.content) {
       if (this.props.selectedDataset && this.props.selectedDataset.content) {
         datasetLabel = this.props.selectedDataset.content.label
       }
     }
 
-    datasetLabel = datasetLabel ? <span><LabelIcon style={{ verticalAlign: 'text-bottom' }} /> {datasetLabel}</span> : null
-    dataSetsLabel = dataSetsLabel ? <span><LabelIcon style={{ verticalAlign: 'text-bottom' }} /> {dataSetsLabel}</span> : null
+    let tagLabel = this.props.selectedTag ? (<button
+      style={tagStyle}
+    >
+      {this.props.selectedTag}
+    </button>) : null
+
+    tagLabel = tagLabel ? <span><LabelIcon style={separator} />{tagLabel}</span> : null
+    datasetLabel = datasetLabel ? <span><LabelIcon style={separator} />{datasetLabel}</span> : null
 
     return (
-      <span style={{ color: this.context.muiTheme.palette.textColor }}>
-        {homeLabel} {dataSetsLabel} {datasetLabel}
+      <span>
+        {initialBreadcrumb}{tagLabel}{datasetLabel}
       </span>
     )
   }
 
-  renderButtons() {
-    return (
-      <div
-        style={{
-          position: 'absolute',
-          top: '10px',
-          right: '10px',
-        }}
-      >
-        <abr title="Datasets">
-          <FloatingActionButton
-            onTouchTap={this.onClickDatasetTarget}
-            style={{ marginBottom: 10, marginRight: 10 }}
-            secondary={this.props.selectedTarget === SearchResultsTargetsEnum.DATASET_RESULTS}
-          >
-
-            <DatasetLibrary />
-          </FloatingActionButton>
-        </abr>
-        <abr title="Data objects">
-          <FloatingActionButton
-            onTouchTap={this.onClickDataobjectsTarget}
-            style={{ marginBottom: 10 }}
-            secondary={this.props.selectedTarget === SearchResultsTargetsEnum.DATAOBJECT_RESULTS}
-          >
-            <DataLibrary />
-          </FloatingActionButton>
-        </abr>
-      </div>
-    )
-  }
-
   render() {
-    return (
-      <div style={{ position: 'relative' }}>
-        <Card>
-          <CardTitle
-            title={this.getTitle()}
-          />
-        </Card>
-        {this.renderButtons()}
-      </div>
-    )
+    return <CardTitle title={this.getTitle()} />
   }
 
 }

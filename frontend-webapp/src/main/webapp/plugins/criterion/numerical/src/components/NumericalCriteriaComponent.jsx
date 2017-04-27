@@ -2,31 +2,22 @@
  * LICENSE_PLACEHOLDER
  **/
 import React from 'react'
+import merge from 'lodash/merge'
 import {FormattedMessage} from 'react-intl'
 import TextField from 'material-ui/TextField'
 import NumericalComparatorComponent from './NumericalComparatorComponent'
 import EnumNumericalComparator from '../model/EnumNumericalComparator'
 import {AttributeModel, getAttributeName} from '../common/AttributeModel'
+import PluginComponent from '../common/PluginComponent'
 
 /**
  * TODO
  *
  * @author Xavier-Alexandre Brochard
  */
-export class NumericalCriteriaComponent extends React.Component {
+export class NumericalCriteriaComponent extends PluginComponent {
 
   static propTypes = {
-    /**
-     * Plugin identifier
-     */
-    pluginInstanceId: React.PropTypes.string,
-    /**
-     * Callback to change the current criteria values in form
-     * Parameters :
-     * criteria : an object like : {attribute:<AttributeModel>, comparator:<ComparatorEnumType>, value:<value>}
-     * id: current plugin identifier
-     */
-    onChange: React.PropTypes.func,
     /**
      * List of attributes associated to the plugin.
      * Keys of this object are the "name" props of the attributes defined in the plugin-info.json
@@ -50,40 +41,34 @@ export class NumericalCriteriaComponent extends React.Component {
    * @param {String} newValue The new value of the text field.
    */
   handleChangeValue = (event, newValue) => {
-    const {pluginInstanceId, onChange} = this.props
     const value = this.parse(newValue)
-    this.setState({
-      value: value,
-    })
-    onChange(this.criteriaToOpenSearchFormat(value,this.state.comparator),pluginInstanceId)
+    this.setState({value},this._onPluginChangeValue)
   }
 
   handleChangeComparator = (comparator) => {
-    this.setState({
-      comparator,
-    })
-    const query = this.criteriaToOpenSearchFormat(this.state.value,comparator)
-    this.props.onChange(query,this.props.pluginInstanceId)
+    this.setState({comparator},this._onPluginChangeValue)
   }
 
-  criteriaToOpenSearchFormat = (value, comparator) => {
+  getPluginSearchQuery = (state) => {
     let query = ''
-    const attribute = getAttributeName(this.props.attributes.searchField)
-    switch (comparator) {
-      case "EQ":
-        query = `${attribute}:${value}`
-        break
-      case "GE" :
-        query = `${attribute}:[${value} TO *]`
-        break
-      case "LE" :
-        query = `${attribute}:[* TO ${value}]`
-        break
-      case "NE" :
-        query = `${attribute}:!${value}`
-        break
-      default :
-        console.error("Unavailable comparator")
+    if (state.value && state.comparator) {
+      const attribute = getAttributeName(this.props.attributes.searchField)
+      switch (state.comparator) {
+        case "EQ":
+          query = `${attribute}:${state.value}`
+          break
+        case "GE" :
+          query = `${attribute}:[${state.value} TO *]`
+          break
+        case "LE" :
+          query = `${attribute}:[* TO ${state.value}]`
+          break
+        case "NE" :
+          query = `${attribute}:!${state.value}`
+          break
+        default :
+          console.error("Unavailable comparator")
+      }
     }
 
     return query

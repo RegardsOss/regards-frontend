@@ -26,16 +26,25 @@ const messages = Object.assign({
   'form.attributes.regroupement.form.add.regroupement.button': 'Ajouter un regroupement',
   'form.attributes.visibility.label': 'Visibilité de l\'attribut',
   'form.attributes.facetable.label': 'Activer le filtrage sur cet attribut',
+  'form.attributes.order': 'Ordre d\'affichage',
   'form.attributes.regroupement.section.title': 'Configurer les regroupements d\'attributs',
-  'form.attributes.section.title': 'Configurer les attributs',
+  'form.attributes.section.title': 'Configurer les attributs du modèle dynamique',
+  'form.attributes.standard.section.title': 'Configurer les attributs communs',
+  'form.attributes.filter.label': 'Filtrer les attributs ...',
   'form.attributes.regroupement.remove': 'Supprimer',
   'form.attributes.regroupement.edit': 'Editer',
   'form.attributes.delete.confirm.title': 'Confirmer la suppression du regroupement {name}',
   'form.attributes.regroupement.form.title.update': 'Mise à jour du regroupement : {name}',
 
   // User messages
-  'navigation.dataobjects.label': 'Catalogue',
+  'navigation.home.label': 'Catalogue',
+  'navigation.dataobjects.label': 'Objets de données',
   'navigation.datasets.label': 'Jeux de données',
+  'navigation.filter.by.facets': 'Filtres',
+  'list.sort.prefix.label': 'Tri :',
+  'list.sort.none.label': 'Aucun',
+  'view.type.table.button.label': 'Afficher les résultats dans un tableau',
+  'view.type.list.button.label': 'Afficher les résultats en liste',
 }, Locales.fr)
 
 export default messages

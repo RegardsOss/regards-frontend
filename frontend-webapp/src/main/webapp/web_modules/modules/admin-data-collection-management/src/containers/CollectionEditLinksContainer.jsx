@@ -4,7 +4,7 @@
 import { connect } from '@regardsoss/redux'
 import { Collection } from '@regardsoss/model'
 import { I18nProvider } from '@regardsoss/i18n'
-import { partition, some, filter } from 'lodash'
+import { partition, some, filter, startsWith } from 'lodash'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import CollectionSelectors from './../model/CollectionSelectors'
 import CollectionActions from './../model/CollectionActions'
@@ -32,6 +32,10 @@ export class CollectionEditLinksContainer extends React.Component {
     fetchCollectionList: React.PropTypes.func,
   }
 
+  state = {
+    collectionName: '',
+  }
+
   componentDidMount() {
     this.props.fetchCollectionList()
   }
@@ -54,12 +58,15 @@ export class CollectionEditLinksContainer extends React.Component {
    * @returns {[*,*]}
    */
   getRemainingCollection = (currentCollection, collectionList) => {
+    const { collectionName } = this.state
     const collectionLinkedToCurrentCollection = partition(collectionList, collection => some(currentCollection.content.tags, tag => tag === collection.content.ipId,
       ))
     return [
       collectionLinkedToCurrentCollection[0],
       // Remove the currentCollection from collectionList
-      filter(collectionLinkedToCurrentCollection[1], collection => collection.content.id !== currentCollection.content.id),
+      filter(collectionLinkedToCurrentCollection[1], collection =>
+        collection.content.id !== currentCollection.content.id && startsWith(collection.content.label.toLowerCase(), collectionName),
+      ),
     ]
   }
 
@@ -83,6 +90,13 @@ export class CollectionEditLinksContainer extends React.Component {
         this.props.fetchCollection(this.props.params.collectionId)
       })
   }
+
+  handleSearch = (event, collectionName) => {
+    this.setState({
+      collectionName: collectionName.toLowerCase(),
+    })
+  }
+
   render() {
     const { isFetching, currentCollection, collectionList } = this.props
     const collectionLinkedToCurrentCollection = this.getRemainingCollection(currentCollection, collectionList)
@@ -98,6 +112,7 @@ export class CollectionEditLinksContainer extends React.Component {
               remainingCollections={collectionLinkedToCurrentCollection[1]}
               handleAdd={this.handleAdd}
               handleDelete={this.handleDelete}
+              handleSearch={this.handleSearch}
               backUrl={this.getBackUrl()}
               doneUrl={this.getDoneUrl()}
             />)

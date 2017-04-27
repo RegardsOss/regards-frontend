@@ -8,33 +8,45 @@
     },
     {
       "id": 1,
-      "name": "Modele de collection",
-      "description": "Ceci est un modele de collection",
-      "type": "COLLECTION"
-    },
-    {
-      "id": 2,
       "name": "Troisieme Modele",
       "description": "Description du troisieme modele de jeux de données",
       "type": "DATASET"
     },
     {
+      "id": 2,
+      "name": "Troisieme Modele",
+      "description": "Description du troisieme modele de jeux de données",
+      "type": "OBJECT"
+    },
+    {
+      "id": 3,
+      "name": "Missions",
+      "type": "COLLECTION",
+      "description": "Des missions, impossibles"
+    },
+    {
       "id": 4,
-      "name": "Autre modele de collection",
-      "descirption": "Description du deuxieme modele de jeux de données",
-      "type": "COLLECTION"
+      "name": "Experiments",
+      "type": "COLLECTION",
+      "description": "Expérimenter et puis c'est tout!"
     },
     {
       "id": 5,
-      "name": "Troisieme Modele",
-      "descirption": "Description du troisieme modele de jeux de données",
-      "type": "OBJECT"
+      "name": "Instruments",
+      "type": "COLLECTION",
+      "description": "Des instruments de musique"
+    },
+    {
+      "id": 6,
+      "name": "Results",
+      "type": "COLLECTION",
+      "description": "Des mesures et démesures"
     }
   ],
   "models-attributes": [
     {
       "id": 0,
-      "pos":0,
+      "pos": 0,
       "mode": "GIVEN",
       "model": {
         "id": 5,
@@ -44,9 +56,9 @@
       },
       "attribute": {
         "id": 0,
-        "name":"Attribute_0_0",
+        "name": "Attribute_0_0",
         "description": "Description de l'attribut 0 - 0",
-        "defaultValue" : null,
+        "defaultValue": null,
         "type": "STRING",
         "unit": null,
         "precision": null,
@@ -64,7 +76,7 @@
     },
     {
       "id": 1,
-      "pos":0,
+      "pos": 0,
       "mode": "GIVEN",
       "model": {
         "id": 5,
@@ -74,9 +86,9 @@
       },
       "attribute": {
         "id": 4,
-        "name":"Attribute_4",
+        "name": "Attribute_4",
         "description": "Description de l'attribut 0 - 0",
-        "defaultValue" : null,
+        "defaultValue": null,
         "type": "STRING",
         "unit": null,
         "precision": null,
@@ -96,9 +108,9 @@
   "attributes-models": [
     {
       "id": 0,
-      "name":"Attribute_0_0",
+      "name": "Attribute_0_0",
       "description": "Description de l'attribut 0 - 0",
-      "defaultValue" : null,
+      "defaultValue": null,
       "type": "STRING",
       "unit": null,
       "precision": null,
@@ -115,9 +127,9 @@
     },
     {
       "id": 3,
-      "name":"Attribute_0_0",
+      "name": "Attribute_0_0",
       "description": "Description de l'attribut 0 - 0",
-      "defaultValue" : null,
+      "defaultValue": null,
       "type": "STRING",
       "unit": null,
       "precision": null,
@@ -134,9 +146,9 @@
     },
     {
       "id": 2,
-      "name":"Attribute_0_0",
+      "name": "Attribute_0_0",
       "description": "Description de l'attribut 0 - 0",
-      "defaultValue" : null,
+      "defaultValue": null,
       "type": "STRING",
       "unit": null,
       "precision": null,
@@ -150,11 +162,12 @@
         "id": 3,
         "name": "Fragment 3"
       }
-    }, {
+    },
+    {
       "id": 1,
-      "name":"Attribute_1_0",
+      "name": "Attribute_1_0",
       "description": "Description de l'attribut 1 - 0",
-      "defaultValue" : null,
+      "defaultValue": null,
       "type": "STRING",
       "unit": null,
       "precision": null,
@@ -171,9 +184,9 @@
     },
     {
       "id": 4,
-      "name":"Attribute_4",
+      "name": "Attribute_4",
       "description": "Description de l'attribut 0 - 0",
-      "defaultValue" : null,
+      "defaultValue": null,
       "type": "STRING",
       "unit": null,
       "precision": null,
@@ -187,6 +200,348 @@
         "id": 2,
         "name": "Fragment 2"
       }
+    },
+    {
+      "id": 20,
+      "name": "language",
+      "description": "Language for movies",
+      "label": "Language",
+      "defaultValue": null,
+      "type": "STRING",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "default"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup"
+    },
+    {
+      "id": 21,
+      "name": "format",
+      "label": "Format du support",
+      "description": "Format for movies",
+      "defaultValue": null,
+      "type": "STRING",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "default"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup"
+    },
+    {
+      "id": 22,
+      "name": "size",
+      "description": "Test for INTEGER attribute",
+      "label": "Size",
+      "defaultValue": null,
+      "type": "INTEGER",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup"
+    },
+    {
+      "id": 23,
+      "name": "weight",
+      "description": "Test for DOUBLE attribute",
+      "label": "Double",
+      "defaultValue": null,
+      "type": "DOUBLE",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup"
+    },
+    {
+      "id": 24,
+      "name": "date",
+      "description": "Test for DATE_ISO8601 attribute",
+      "label": "Date",
+      "defaultValue": null,
+      "type": "DATE_ISO8601",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup"
+    },
+    {
+      "id": 25,
+      "name": "strings",
+      "description": "Test for STRING_ARRAY attribute",
+      "label": "Strings",
+      "defaultValue": null,
+      "type": "STRING_ARRAY",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup"
+    },
+    {
+      "id": 26,
+      "name": "ints",
+      "description": "Test for INTEGER_ARRAY attribute",
+      "label": "Ints",
+      "defaultValue": null,
+      "type": "INTEGER_ARRAY",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup"
+    },
+    {
+      "id": 27,
+      "name": "doubles",
+      "description": "Test for DOUBLE_ARRAY attribute",
+      "label": "Doubles",
+      "defaultValue": null,
+      "type": "DOUBLE_ARRAY",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup"
+    },
+    {
+      "id": 28,
+      "name": "dates",
+      "description": "Test for DATE_ARRAY attribute",
+      "label": "Dates",
+      "defaultValue": null,
+      "type": "DATE_ARRAY",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup"
+    },
+    {
+      "id": 29,
+      "name": "intRange",
+      "description": "Test for INTEGER_INTERVAL attribute",
+      "label": "IntRange",
+      "defaultValue": null,
+      "type": "INTEGER_INTERVAL",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup"
+    },
+    {
+      "id": 30,
+      "name": "doubleRange",
+      "description": "Test for DOUBLE_INTERVAL attribute",
+      "label": "DoubleRange",
+      "defaultValue": null,
+      "type": "DOUBLE_INTERVAL",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup"
+    },
+    {
+      "id": 31,
+      "name": "bool",
+      "description": "Test for BOOLEAN attribute",
+      "label": "Bool",
+      "defaultValue": null,
+      "type": "BOOLEAN",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup"
+    },
+    {
+      "id": 32,
+      "name": "url",
+      "description": "Test for URL attribute",
+      "label": "Lien",
+      "defaultValue": null,
+      "type": "URL",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup"
+    },
+    {
+      "id": 33,
+      "name": "geo",
+      "description": "Test for GEOMETRY attribute",
+      "label": "Geo",
+      "defaultValue": null,
+      "type": "GEOMETRY",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup"
+    },
+    {
+      "id": 34,
+      "name": "long",
+      "description": "Test for LONG attribute",
+      "label": "Long",
+      "defaultValue": null,
+      "type": "LONG",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup"
+    },
+    {
+      "id": 35,
+      "name": "longRange",
+      "description": "Test for LONG_INTERVAL attribute",
+      "label": "LongRange",
+      "defaultValue": null,
+      "type": "LONG_INTERVAL",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup"
+    },
+    {
+      "id": 36,
+      "name": "longs",
+      "description": "Test for LONG_ARRAY attribute",
+      "label": "Longs",
+      "defaultValue": null,
+      "type": "LONG_ARRAY",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup"
+    },
+    {
+      "id": 37,
+      "name": "dateRange",
+      "description": "Test for DATE_INTERVAL attribute",
+      "label": "DateRange",
+      "defaultValue": null,
+      "type": "DATE_INTERVAL",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup"
     }
   ],
   "models-fragments": [
@@ -212,37 +567,44 @@
       "priorityOrder": 0,
       "active": true,
       "pluginClassName": "fr.cnes.regards.modules.datasources.plugins.DefaultPostgreConnectionPlugin",
-      "parameters": [{
-        "id": 1852,
-        "name": "user",
-        "value": "azertyuiop123456789",
-        "dynamic": false
-      }, {
-        "id": 1853,
-        "name": "password",
-        "value": "azertyuiop123456789",
-        "dynamic": false
-      }, {
-        "id": 1854,
-        "name": "url",
-        "value": "jdbc:postgresql://172.26.47.52:5432/rs_testdb_cmertz",
-        "dynamic": false
-      }, {
-        "id": 1855,
-        "name": "driver",
-        "value": "org.postgresql.Driver",
-        "dynamic": false
-      }, {
-        "id": 1856,
-        "name": "maxPoolSize",
-        "value": "10",
-        "dynamic": false
-      }, {
-        "id": 1857,
-        "name": "minPoolSize",
-        "value": "1",
-        "dynamic": false
-      }]
+      "parameters": [
+        {
+          "id": 1852,
+          "name": "user",
+          "value": "azertyuiop123456789",
+          "dynamic": false
+        },
+        {
+          "id": 1853,
+          "name": "password",
+          "value": "azertyuiop123456789",
+          "dynamic": false
+        },
+        {
+          "id": 1854,
+          "name": "url",
+          "value": "jdbc:postgresql://172.26.47.52:5432/rs_testdb_cmertz",
+          "dynamic": false
+        },
+        {
+          "id": 1855,
+          "name": "driver",
+          "value": "org.postgresql.Driver",
+          "dynamic": false
+        },
+        {
+          "id": 1856,
+          "name": "maxPoolSize",
+          "value": "10",
+          "dynamic": false
+        },
+        {
+          "id": 1857,
+          "name": "minPoolSize",
+          "value": "1",
+          "dynamic": false
+        }
+      ]
     }
   ]
 }

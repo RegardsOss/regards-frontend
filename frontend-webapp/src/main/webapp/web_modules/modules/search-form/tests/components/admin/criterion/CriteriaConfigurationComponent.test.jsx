@@ -5,6 +5,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import MenuItem from 'material-ui/MenuItem'
+import { IntlStub, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { Field } from '@regardsoss/form-utils'
 import TestPluginInfo from './TestPlugin-info.json'
 import Styles from '../../../../src/styles/styles'
@@ -14,15 +15,16 @@ import CriteriaConfigurationComponent from '../../../../src/components/admin/cri
  * Tests for CriteriaConfigurationComponent
  * @author Sébastien binda
  */
-describe('[FORM MODULE] Testing CriteriaConfigurationComponent', () => {
+describe('[SEARCH FORM] Testing CriteriaConfigurationComponent', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   const muiTheme = getMuiTheme({})
   const options = {
     context: {
       muiTheme,
       moduleTheme: Styles(muiTheme),
-      intl: {
-        formatMessage: id => (id.id),
-      },
+      intl: IntlStub,
     },
   }
 
@@ -33,24 +35,30 @@ describe('[FORM MODULE] Testing CriteriaConfigurationComponent', () => {
           content: {
             id: 0,
             name: 'attribute1',
+            label: 'x1',
+            type: 'string',
           },
         },
         1: {
           content: {
             id: 1,
             name: 'attribute2',
+            label: 'x2',
+            type: 'string',
           },
         },
         2: {
           content: {
             id: 2,
             name: 'attribute3',
+            label: 'x3',
+            type: 'string',
           },
         },
       },
       plugin: {
         name: 'test plugin',
-        plugin: () => {},
+        plugin: () => { },
         messages: {},
         info: TestPluginInfo,
       },

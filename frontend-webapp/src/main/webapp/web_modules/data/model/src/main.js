@@ -4,9 +4,11 @@
 import ProjectUser from './admin/ProjectUser'
 import Role from './admin/Role'
 import Project from './admin/Project'
+import ProjectConnection from './admin/ProjectConnection'
 import Account from './admin/Account'
 import Resource, { ResourceList } from './admin/Resource'
 import AttributeModel from './dam/AttributeModel'
+import AttributeModelController from './dam/AttributeModelController'
 import JavaTypes from './dam/JavaTypes'
 import Fragment from './dam/Fragment'
 import Model from './dam/Model'
@@ -23,14 +25,17 @@ import AccessProject from './access/Project'
 import Module from './access/Module'
 import Layout from './access/Layout'
 import LayoutContent from './access/LayoutContent'
+import Container from './access/Container'
 import AttributeConfiguration from './access/AttributeConfiguration'
+import AttributeConfigurationController from './access/AttributeConfigurationController'
 import AttributesRegroupementConfiguration from './access/AttributesRegroupementConfiguration'
 import SearchResultsTargetsEnum from './access/SearchResultsTargetsEnum'
 import Entity from './dam/Entity'
 import AccessGroup from './dam/AccessGroup'
 import AccessRight from './dam/AccessRight'
-import CatalogEntity from './catalog/Entity'
+import CatalogEntity, { CatalogEntityTypes } from './catalog/CatalogEntity'
 import { ObjectLinkedFile, ObjectLinkedFileTypes } from './catalog/ObjectLinkedFile'
+import LinkPluginDataset from './catalog/LinkPluginDataset'
 import PluginMetaData, { PluginMetaDataList } from './admin/plugin/PluginMetaData'
 import PluginConfiguration, { PluginConfigurationList } from './admin/plugin/PluginConfiguration'
 import PluginParameter from './admin/plugin/PluginParameter'
@@ -40,15 +45,18 @@ import Endpoint from './admin/Endpoint'
 import AIPStatus, { aipStates, aipDataTypes } from './archival-storage/AIPStatus'
 import StoragePlugin, { StoragePluginShape } from './archival-storage/StoragePlugin'
 import Theme from './access/Theme'
+import getChainableTypeChecker from './common/ChainableTypeChecker'
 import URL, { validURLRegexp, relativeURLRegexp } from './common/URL'
 import RangedNumber from './common/RangedNumber'
 import Percent from './common/Percent'
+import locationShape from './common/ReactRouter'
 
 export default {
   // ADMIN
   ProjectUser,
   Role,
   Project,
+  ProjectConnection,
   Account,
   Resource,
   ResourceList,
@@ -56,6 +64,7 @@ export default {
 
   // DAM
   AttributeModel,
+  AttributeModelController,
   Entity,
   JavaTypes,
   Fragment,
@@ -70,8 +79,10 @@ export default {
 
   // CATALOG
   CatalogEntity,
+  CatalogEntityTypes,
   ObjectLinkedFile,
   ObjectLinkedFileTypes,
+  LinkPluginDataset,
 
   // ACCESS
   Plugin,
@@ -81,8 +92,10 @@ export default {
   AccessProject,
   Module,
   Layout,
+  Container,
   LayoutContent,
   AttributeConfiguration,
+  AttributeConfigurationController,
   AttributesRegroupementConfiguration,
   SearchResultsTargetsEnum,
 
@@ -107,9 +120,11 @@ export default {
   ...Theme,
 
   // Common
+  getChainableTypeChecker,
   URL,
   validURLRegexp,
   relativeURLRegexp,
   RangedNumber,
   Percent,
+  locationShape,
 }

@@ -12,6 +12,11 @@ const messageStyles = {
 
 const JSON_CONTENT_TYPE = 'application/json; charset=utf-8'
 
+const defaultConverter = content => ({
+  content,
+  links: [],
+})
+
 /**
    * Makes a JSON page result (with metadata and all the data required)
    * @param pageEntities : object or array holding page entities
@@ -19,7 +24,7 @@ const JSON_CONTENT_TYPE = 'application/json; charset=utf-8'
    * @param number first page index
    * @param size page size
    */
-const makePageResult = (pageEntities, converter, number = 0, size = 100) => {
+const makePageResult = (pageEntities, converter = defaultConverter, number = 0, size = 100) => {
   let currentIndex = 0
   const formattedResponse = _.reduce(pageEntities, ({ content, links, metadata }, object, key) => {
     const convertedObj = converter(object, key)
@@ -37,10 +42,10 @@ const makePageResult = (pageEntities, converter, number = 0, size = 100) => {
     // filtered
     return { content, links, metadata }
   }, {
-    content: [],
-    links: [],
-    metadata: { number, size, totalElements: _.size(pageEntities) },
-  })
+      content: [],
+      links: [],
+      metadata: { number, size, totalElements: _.size(pageEntities) },
+    })
   return {
     content: formattedResponse,
     code: 200,
@@ -49,13 +54,15 @@ const makePageResult = (pageEntities, converter, number = 0, size = 100) => {
 }
 
 const logMessage = (message, isError = false, subheader = '') => console.log(headerStyles, 'Facade mock server - ', subheaderStyles, subheader, isError ? messageStyles.errorStyle : messageStyles.defaultStyle, message)
+const loadFile = (file, charset) => fs.readFileSync(file, charset) || this.logMessage(`Failed reading file ${file}`, true) || {}
 
 module.exports = {
   JSON_CONTENT_TYPE,
   logMessage,
   makePageResult,
   copyFile: (sourceFile, targetFile) => fsExtra.copy(sourceFile, targetFile),
-  loadJSONModelFile: file => JSON.parse(fs.readFileSync(file, 'utf8') || this.logMessage(`Failed reading file ${file}`, true) || {}),
+  loadFile,
+  loadJSONModelFile: file => JSON.parse(loadFile(file), 'utf8'),
   writeJSONModelFile: (jsModel, file) => fs.writeFileSync(jsModel, JSON.stringify(file), 'utf8'),
 
 }

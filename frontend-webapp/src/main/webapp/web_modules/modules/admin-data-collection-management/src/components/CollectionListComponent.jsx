@@ -5,7 +5,6 @@ import { map } from 'lodash'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
 import { FormattedMessage } from 'react-intl'
-import IconButton from 'material-ui/IconButton'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import ContentCopy from 'material-ui/svg-icons/content/content-copy'
 import Delete from 'material-ui/svg-icons/action/delete'
@@ -13,6 +12,9 @@ import { Collection } from '@regardsoss/model'
 import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
+import { HateoasIconAction, HateoasKeys } from '@regardsoss/display-control'
+import { RequestVerbEnum } from '@regardsoss/store-utils'
+import CollectionActions from '../model/CollectionActions'
 
 /**
  * React component to list collections.
@@ -72,15 +74,30 @@ export class CollectionListComponent extends React.Component {
                   <TableRowColumn>{collection.content.label}</TableRowColumn>
                   <TableRowColumn>{collection.content.model.name}</TableRowColumn>
                   <TableRowColumn>
-                    <IconButton onTouchTap={() => handleEdit(collection.content.id)}>
-                      <Edit hoverColor={style.hoverButtonEdit} />
-                    </IconButton>
-                    <IconButton onTouchTap={() => handleDuplicate(collection.content.id)}>
+                    <HateoasIconAction
+                      entityLinks={collection.links}
+                      hateoasKey={HateoasKeys.UPDATE}
+                      onTouchTap={() => handleEdit(collection.content.id)}
+                    >
+                      <Edit
+                        hoverColor={style.hoverButtonEdit
+                      }
+                      />
+                    </HateoasIconAction>
+                    <HateoasIconAction
+                      entityLinks={collection.links}
+                      hateoasKey={HateoasKeys.CREATE}
+                      onTouchTap={() => handleDuplicate(collection.content.id)}
+                    >
                       <ContentCopy hoverColor={style.hoverButtonDuplicate} />
-                    </IconButton>
-                    <IconButton onTouchTap={() => handleDelete(collection.content.id)}>
+                    </HateoasIconAction>
+                    <HateoasIconAction
+                      entityLinks={collection.links}
+                      hateoasKey={HateoasKeys.DELETE}
+                      onTouchTap={() => handleDelete(collection.content.id)}
+                    >
                       <Delete hoverColor={style.hoverButtonDelete} />
-                    </IconButton>
+                    </HateoasIconAction>
                   </TableRowColumn>
                 </TableRow>
               ))}
@@ -95,6 +112,7 @@ export class CollectionListComponent extends React.Component {
                 id="collection.list.action.add"
               />
             }
+            mainHateoasDependency={CollectionActions.getDependency(RequestVerbEnum.POST)}
             secondaryButtonLabel={<FormattedMessage id="collection.list.action.cancel" />}
             secondaryButtonUrl={backUrl}
           />

@@ -3,7 +3,7 @@ import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import MenuItem from 'material-ui/MenuItem'
 import { FormattedMessage } from 'react-intl'
 import { CardActionsComponent } from '@regardsoss/components'
-import { RenderTextField, Field, RenderCheckbox, RenderSelectField, EnumInputsComponent, EnumInputsHelper, ErrorTypes, ValidationHelpers, reduxForm } from '@regardsoss/form-utils'
+import { RenderTextField, Field, RenderSelectField, EnumInputsComponent, EnumInputsHelper, ErrorTypes, ValidationHelpers, reduxForm } from '@regardsoss/form-utils'
 import { Role } from '@regardsoss/model'
 
 /**
@@ -42,7 +42,6 @@ export class RoleFormComponent extends React.Component {
       const { currentRole } = this.props
       let formValues = {
         name: currentRole.content.name,
-        isCorsRequestsAuthorized: currentRole.content.isCorsRequestsAuthorized,
       }
 
       // Not all roles have a parent role
@@ -98,11 +97,6 @@ export class RoleFormComponent extends React.Component {
                 />
               ))}
             </Field>
-            <Field
-              name="isCorsRequestsAuthorized"
-              component={RenderCheckbox}
-              label={<FormattedMessage id="role.form.isCorsRequestsAuthorized" />}
-            />
           </CardText>
           <CardText>
             <FormattedMessage id="role.form.authorizedAdresses" />

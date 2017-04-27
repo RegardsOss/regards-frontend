@@ -1,10 +1,12 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import Drawer from 'material-ui/Drawer'
 import MenuItem from 'material-ui/MenuItem'
 import PowerSettingsNew from 'material-ui/svg-icons/action/power-settings-new'
 import Divider from 'material-ui/Divider'
 import Settings from 'material-ui/svg-icons/action/settings'
 import { FormattedMessage } from 'react-intl'
-import Weekend from 'material-ui/svg-icons/content/weekend'
 import Brush from 'material-ui/svg-icons/image/brush'
 import SupervisorAccount from 'material-ui/svg-icons/action/supervisor-account'
 import { I18nProvider } from '@regardsoss/i18n'
@@ -14,6 +16,8 @@ import WaitingAccountsNotificationContainer from '../containers/WaitingAccountsN
 
 /**
  * React sidebar components. Display the admin application menu
+ *
+ * @author Sébastien Binda
  */
 class InstanceSidebarComponent extends React.Component {
 
@@ -47,7 +51,7 @@ class InstanceSidebarComponent extends React.Component {
           <HateoasSidebarElement
             endpointKey="projects_url"
             key="0"
-            to={'/admin/project/list'}
+            to={'/admin/projects/list'}
             currentPath={this.props.currentPath}
             primaryText={<FormattedMessage id="menu.projects" />}
             leftIcon={<Settings />}
@@ -63,18 +67,10 @@ class InstanceSidebarComponent extends React.Component {
           />
           <HateoasSidebarElement
             endpointKey="projects_users_url"
-            key="2"
-            to={'/admin/project-connection/list'}
-            currentPath={this.props.currentPath}
-            primaryText={<FormattedMessage id="menu.databases" />}
-            leftIcon={<Weekend />}
-          />
-          <HateoasSidebarElement
-            endpointKey="projects_users_url"
             key="3"
-            to={'/admin/ui-configuration/applications'}
+            to={'/admin/ui/board'}
             currentPath={this.props.currentPath}
-            primaryText={<FormattedMessage id="menu.ui.configuration" />}
+            primaryText={<FormattedMessage id="menu.instance.ui.configuration" />}
             leftIcon={<Brush />}
           />
           <Divider />

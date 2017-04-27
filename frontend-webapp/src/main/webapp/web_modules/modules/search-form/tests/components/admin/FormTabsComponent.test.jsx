@@ -3,6 +3,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import { stub } from 'sinon'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import FormTabsComponent from '../../../src/components/admin/FormTabsComponent'
 import Styles from '../../../src/styles/styles'
@@ -16,7 +17,18 @@ import FormPreviewComponent from '../../../src/components/admin/preview/FormPrev
  * Tests for FormTabsComponent
  * @author Sébastien binda
  */
-describe('[FORM MODULE] Testing FormTabsComponent', () => {
+describe('[SEARCH FORM] Testing FormTabsComponent', () => {
+  // Since react will console.error propType warnings, that which we'd rather have
+  // as errors, we use sinon.js to stub it into throwing these warning as errors
+  // instead.
+  before(() => {
+    stub(console, 'error').callsFake((warning) => {
+      throw new Error(warning)
+    })
+  })
+  after(() => {
+    console.error.restore()
+  })
   const muiTheme = getMuiTheme({})
   const options = {
     context: {
@@ -29,7 +41,7 @@ describe('[FORM MODULE] Testing FormTabsComponent', () => {
       project: 'test',
       appName: 'test',
       adminForm: {
-        changeField: () => {},
+        changeField: () => { },
         form: {
           id: 1,
           name: 'testModule',
@@ -37,14 +49,22 @@ describe('[FORM MODULE] Testing FormTabsComponent', () => {
           active: true,
           applicationId: 'test',
           container: 'content',
+          enableFacettes: true,
           conf: {},
-          layout: '',
+          layout: {
+            id: 'main',
+            type: 'letype',
+          },
         },
       },
       defaultConf: {
         datasets: {},
         criterion: [],
-        layout: '',
+        layout: {
+          id: 'main',
+          type: 'letype',
+        },
+        enableFacettes: false,
         resultType: null,
       },
       selectableAttributes: {},

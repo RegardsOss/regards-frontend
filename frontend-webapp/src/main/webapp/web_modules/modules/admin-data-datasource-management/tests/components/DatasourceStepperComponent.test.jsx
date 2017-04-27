@@ -3,7 +3,7 @@
  */
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import sinon from 'sinon'
+import { stub } from 'sinon'
 import { IntlStub } from '@regardsoss/tests-helpers'
 import { Stepper } from 'material-ui/Stepper'
 import DatasourceStepperComponent from '../../src/components/DatasourceStepperComponent'
@@ -13,7 +13,7 @@ describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing DatasourceStepperComponent'
   // as errors, we use sinon.js to stub it into throwing these warning as errors
   // instead.
   before(() => {
-    sinon.stub(console, 'error', (warning) => {
+    stub(console, 'error').callsFake((warning) => {
       throw new Error(warning)
     })
   })
@@ -30,7 +30,9 @@ describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing DatasourceStepperComponent'
     },
   }
   it('Render properly', () => {
-    const props = {}
+    const props = {
+      stepIndex: 1,
+    }
     const enzymeWrapper = shallow(<DatasourceStepperComponent {...props} />, { context })
     expect(enzymeWrapper.find(Stepper)).to.have.length(1)
   })

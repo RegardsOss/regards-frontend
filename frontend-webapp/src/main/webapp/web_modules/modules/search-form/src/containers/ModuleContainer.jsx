@@ -9,7 +9,7 @@ import { AttributeModel } from '@regardsoss/model'
 import { LoadingComponent } from '@regardsoss/display-control'
 import { themeContextType } from '@regardsoss/theme'
 import ModuleConfiguration from '../models/ModuleConfiguration'
-import AttributeModelSelector from '../models/attributes/AttributeModelSelector'
+import AttributeModelSelectors from '../models/attributes/AttributeModelSelectors'
 import AttributeModelActions from '../models/attributes/AttributeModelActions'
 import FormComponent from '../components/user/FormComponent'
 
@@ -24,6 +24,7 @@ class ModuleContainer extends React.Component {
     // Props supplied by LazyModuleComponent
     appName: React.PropTypes.string,
     project: React.PropTypes.string,
+    description: React.PropTypes.string,
     // Module configuration
     moduleConf: ModuleConfiguration.isRequired,
     // Set by mapDispatchToProps
@@ -41,6 +42,7 @@ class ModuleContainer extends React.Component {
     this.criterionValues = {}
     this.state = {
       searchQuery: '',
+      expanded: true,
     }
   }
 
@@ -49,6 +51,7 @@ class ModuleContainer extends React.Component {
 
     // Read query parameters form current URL
     const query = browserHistory ? browserHistory.getCurrentLocation().query : null
+    const expanded = !query || !query.q
 
     let q = this.getInitialQuery()
 
@@ -58,6 +61,7 @@ class ModuleContainer extends React.Component {
 
     this.setState({
       searchQuery: q ? this.createFullSearchParameters(q) : '',
+      expanded,
     })
   }
 
@@ -74,12 +78,18 @@ class ModuleContainer extends React.Component {
     const query = browserHistory ? browserHistory.getCurrentLocation().query : null
     if (query && query.q && query.q !== this.state.searchQuery) {
       this.setState({
-        searchQuery: query.q
+        searchQuery: query.q,
+        expanded: false,
+        resetCriterion: true,
       })
+      this.criterionValues = {}
     } else if (!query.q && this.state.searchQuery !== this.getInitialQuery()) {
+      // NO query specified, display the search form open and run initial Query search
       this.setState({
-        searchQuery: this.getInitialQuery()
+        searchQuery: this.getInitialQuery(),
+        expanded: true,
       })
+      this.criterionValues = {}
     }
   }
 
@@ -112,7 +122,6 @@ class ModuleContainer extends React.Component {
     }
     return ''
   }
-
 
   /**
    * Add the attributeModels properties to the criterion conf
@@ -219,35 +228,30 @@ class ModuleContainer extends React.Component {
     this.setState({
       searchQuery: query,
     })
+    this.criterionValues = {}
     browserHistory.push(`${browserHistory.getCurrentLocation().pathname}?q=${query}`)
   }
 
   renderForm() {
-
     // If a search query is set, hide form component
-    if (this.state.searchQuery && this.state.searchQuery !== this.getInitialQuery()){
+    /* if (this.state.searchQuery && this.state.searchQuery !== this.getInitialQuery()) {
       return null
-    }
+    }*/
     if (this.props.moduleConf.layout) {
-      try {
-        const layoutObj = JSON.parse(this.props.moduleConf.layout)
-
-        const pluginsProps = {
-          onChange: this.onCriteriaChange,
-        }
-        const criterionWithAttributes = this.getCriterionWithAttributeModels()
-        return (
-          <FormComponent
-            layout={layoutObj}
-            plugins={criterionWithAttributes}
-            pluginsProps={pluginsProps}
-            handleSearch={this.handleSearch}
-          />
-        )
-      } catch (error) {
-        console.error('Invalid layout for form FormComponent', error)
-        return null
+      const pluginsProps = {
+        onChange: this.onCriteriaChange,
       }
+      const criterionWithAttributes = this.getCriterionWithAttributeModels()
+      return (
+        <FormComponent
+          expanded={this.state.expanded}
+          description={this.props.description}
+          layout={this.props.moduleConf.layout}
+          plugins={criterionWithAttributes}
+          pluginsProps={pluginsProps}
+          handleSearch={this.handleSearch}
+        />
+      )
     }
     return <LoadingComponent />
   }
@@ -260,11 +264,12 @@ class ModuleContainer extends React.Component {
         applicationId: this.props.appName,
         conf: {
           resultType: this.props.moduleConf.resultType,
-          attributesConf: this.props.moduleConf.attributes,
-          attributesRegroupementsConf: this.props.moduleConf.attributesRegroupements,
+          attributes: this.props.moduleConf.attributes,
+          attributesRegroupements: this.props.moduleConf.attributesRegroupements,
           selectableAttributes: this.props.attributeModels,
           enableFacettes: this.props.moduleConf.enableFacettes,
           searchQuery: this.state.searchQuery,
+          breadcrumbInitialContextLabel: this.props.description,
         },
       }
 
@@ -291,7 +296,7 @@ class ModuleContainer extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  attributeModels: AttributeModelSelector.getList(state),
+  attributeModels: AttributeModelSelectors.getList(state),
 })
 
 const mapDispatchToProps = dispatch => ({

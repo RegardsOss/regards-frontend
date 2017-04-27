@@ -3,7 +3,7 @@
  */
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import sinon from 'sinon'
+import { stub } from 'sinon'
 import { IntlStub } from '@regardsoss/tests-helpers'
 import { ListItem } from 'material-ui/List'
 import ConnectionViewerComponent from '../../src/components/ConnectionViewerComponent'
@@ -15,7 +15,7 @@ describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing ConnectionViewerComponent',
   // as errors, we use sinon.js to stub it into throwing these warning as errors
   // instead.
   before(() => {
-    sinon.stub(console, 'error', (warning) => {
+    stub(console, 'error').callsFake((warning) => {
       throw new Error(warning)
     })
   })

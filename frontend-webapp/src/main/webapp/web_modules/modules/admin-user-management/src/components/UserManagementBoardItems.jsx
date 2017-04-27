@@ -3,6 +3,9 @@
  **/
 import AddIcon from 'material-ui/svg-icons/content/add-circle'
 import ViewLinesIcon from 'material-ui/svg-icons/action/view-headline'
+import { EditDependencies as UserEditDep, AddDependencies as UserAddDep } from '@regardsoss/admin-user-projectuser-management/src/dependencies'
+import { EditDependencies as RoleEditDep, AddDependencies as RoleAddDep } from '@regardsoss/admin-user-role-management/src/dependencies'
+import { EditDependencies as GroupEditDep, AddDependencies as GroupAddDep } from '@regardsoss/admin-user-accessgroup-management/src/dependencies'
 import UsersListWithCountIconContainer from '../containers/UsersListWithCountIconContainer'
 
 /**
@@ -19,10 +22,12 @@ export default (project, intl) => [
       path: `/admin/${project}/user/project-user/list`,
       icon: <UsersListWithCountIconContainer />,
       tooltipMsg: intl.formatMessage({ id: 'user.board.tooltip.list' }),
+      hateoasDependencies: UserEditDep,
     }, {
       path: `/admin/${project}/user/project-user/create`,
       icon: <AddIcon />,
       tooltipMsg: intl.formatMessage({ id: 'user.board.tooltip.add' }),
+      hateoasDependencies: UserAddDep,
     }],
   },
   {
@@ -33,10 +38,12 @@ export default (project, intl) => [
       path: `/admin/${project}/user/role/list`,
       icon: <ViewLinesIcon />,
       tooltipMsg: intl.formatMessage({ id: 'user.board.tooltip.list' }),
+      hateoasDependencies: RoleEditDep,
     }, {
       path: `/admin/${project}/user/role/create`,
       icon: <AddIcon />,
       tooltipMsg: intl.formatMessage({ id: 'user.board.tooltip.add' }),
+      hateoasDependencies: RoleAddDep,
     }],
   },
   {
@@ -47,10 +54,12 @@ export default (project, intl) => [
       path: `/admin/${project}/user/accessgroup/list`,
       icon: <ViewLinesIcon />,
       tooltipMsg: intl.formatMessage({ id: 'user.board.tooltip.list' }),
+      hateoasDependencies: GroupEditDep,
     }, {
       path: `/admin/${project}/user/accessgroup/create`,
       icon: <AddIcon />,
       tooltipMsg: intl.formatMessage({ id: 'user.board.tooltip.add' }),
+      hateoasDependencies: GroupAddDep,
     }],
   },
 ]

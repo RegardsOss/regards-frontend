@@ -1,11 +1,10 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { map, difference, values } from 'lodash'
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
-import { PluginMetaData, PluginMetaDataList, PluginConfiguration, PluginConfigurationList } from '@regardsoss/model'
+import { PluginMetaData, PluginConfiguration } from '@regardsoss/model'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import PluginConfigurationFormComponent from '../../components/plugin/PluginConfigurationFormComponent'
 import PluginConfigurationActions from '../../model/plugin/PluginConfigurationActions'
@@ -31,13 +30,11 @@ export class PluginConfigurationFormContainer extends React.Component {
     }),
     // from mapStateToProps
     currentPluginMetaData: PluginMetaData,
-    pluginMetaDataList: PluginMetaDataList,
     isPluginMetaDataFetching: React.PropTypes.bool,
     currentPluginConfiguration: PluginConfiguration,
-    pluginConfigurationList: PluginConfigurationList,
     isPluginConfigurationFetching: React.PropTypes.bool,
     // from mapDispatchToProps
-    fetchPluginConfigurationList: React.PropTypes.func,
+    fetchPluginConfiguration: React.PropTypes.func,
     createPluginConfiguration: React.PropTypes.func,
     updatePluginConfiguration: React.PropTypes.func,
     fetchPluginMetaDataList: React.PropTypes.func,
@@ -59,10 +56,11 @@ export class PluginConfigurationFormContainer extends React.Component {
   }
 
   componentDidMount() {
-    const { params: { microserviceName } } = this.props
+    const { params: { pluginId, pluginConfigurationId, microserviceName } } = this.props
 
     this.props.fetchPluginMetaDataList(microserviceName)
-    this.props.fetchPluginConfigurationList(microserviceName)
+    // this.props.fetchPluginConfigurationList(microserviceName)
+    this.props.fetchPluginConfiguration(pluginConfigurationId, pluginId, microserviceName)
   }
 
   getBackUrl = () => {
@@ -75,7 +73,7 @@ export class PluginConfigurationFormContainer extends React.Component {
    * @returns {XML}
    */
   getFormComponent = () => {
-    const { params: { formMode }, currentPluginMetaData, pluginMetaDataList, currentPluginConfiguration, pluginConfigurationList, isPluginConfigurationFetching, isPluginMetaDataFetching, pluginConfiguration, pluginMetaData } = this.props
+    const { params: { formMode }, currentPluginMetaData, currentPluginConfiguration, isPluginConfigurationFetching, isPluginMetaDataFetching } = this.props
     const isEmpty = this.state.isEditing && typeof currentPluginConfiguration === 'undefined'
     return (
       <LoadableContentDisplayDecorator
@@ -86,9 +84,7 @@ export class PluginConfigurationFormContainer extends React.Component {
           onSubmit={this.state.isEditing ? this.handleUpdate : this.handleCreate}
           backUrl={this.getBackUrl()}
           currentPluginMetaData={currentPluginMetaData}
-          pluginMetaDataList={pluginMetaDataList}
           currentPluginConfiguration={currentPluginConfiguration}
-          pluginConfigurationList={pluginConfigurationList}
           formMode={formMode}
         />
       </LoadableContentDisplayDecorator>
@@ -130,10 +126,6 @@ export class PluginConfigurationFormContainer extends React.Component {
       })
   }
 
-  componentWillReceiveProps(nextProps, nextState) {
-    console.log('PluginConfigurationFormContainer::componentWillReceiveProps', nextProps, nextState)
-  }
-
   render() {
     console.log('PluginConfigurationFormContainer::render')
     return (
@@ -145,10 +137,8 @@ export class PluginConfigurationFormContainer extends React.Component {
 }
 const mapStateToProps = (state, ownProps) => ({
   currentPluginMetaData: ownProps.params.pluginId ? PluginMetaDataSelectors.getById(state, ownProps.params.pluginId) : null,
-  pluginMetaDataList: PluginMetaDataSelectors.getList(state),
   isPluginMetaDataFetching: PluginMetaDataSelectors.isFetching(state),
   currentPluginConfiguration: ownProps.params.pluginConfigurationId ? PluginConfigurationSelectors.getById(state, ownProps.params.pluginConfigurationId) : null,
-  pluginConfigurationList: PluginConfigurationSelectors.getListByPluginId(state, ownProps.params.pluginId),
   isPluginConfigurationFetching: PluginConfigurationSelectors.isFetching(state),
 })
 
@@ -156,8 +146,9 @@ const mapDispatchToProps = dispatch => ({
   fetchPluginMetaDataList: microserviceName => dispatch(PluginMetaDataActions.fetchPagedEntityList(0, 100, {
     microserviceName,
   })),
-  fetchPluginConfigurationList: microserviceName => dispatch(PluginConfigurationActions.fetchPagedEntityList(0, 100, {
+  fetchPluginConfiguration: (pluginConfId, pluginId, microserviceName) => dispatch(PluginConfigurationActions.fetchEntity(pluginConfId, {
     microserviceName,
+    pluginId,
   })),
   createPluginConfiguration: (vals, microserviceName, pluginId) => dispatch(PluginConfigurationActions.createEntity(vals, {
     microserviceName,

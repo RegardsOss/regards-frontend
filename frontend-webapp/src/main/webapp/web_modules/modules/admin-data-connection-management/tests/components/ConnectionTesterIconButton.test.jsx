@@ -3,7 +3,7 @@
  */
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import sinon from 'sinon'
+import { stub } from 'sinon'
 import { IntlStub } from '@regardsoss/tests-helpers'
 import ConnectionTesterIconButton from '../../src/components/ConnectionTesterIconButton'
 import ConnectionTesterProgress from '../../src/components/ConnectionTesterProgress'
@@ -14,7 +14,7 @@ describe('[ADMIN DATA CONNECTION MANAGEMENT] Testing ConnectionTesterIconButton'
   // as errors, we use sinon.js to stub it into throwing these warning as errors
   // instead.
   before(() => {
-    sinon.stub(console, 'error', (warning) => {
+    stub(console, 'error').callsFake((warning) => {
       throw new Error(warning)
     })
   })
@@ -37,7 +37,7 @@ describe('[ADMIN DATA CONNECTION MANAGEMENT] Testing ConnectionTesterIconButton'
   it('Render properly', () => {
     const props = {
       connection: ConnectionDump[1353],
-      handleTestConnection: () => {},
+      handleTestConnection: () => { },
     }
     const enzymeWrapper = shallow(<ConnectionTesterIconButton {...props} />, { context })
     expect(enzymeWrapper.find(ConnectionTesterProgress)).to.have.length(0)

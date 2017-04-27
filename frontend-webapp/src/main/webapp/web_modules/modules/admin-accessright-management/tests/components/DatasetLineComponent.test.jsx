@@ -3,7 +3,7 @@
  */
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import sinon from 'sinon'
+import { stub } from 'sinon'
 import { IntlStub } from '@regardsoss/tests-helpers'
 import DatasetLineComponent from '../../src/components/DatasetLineComponent'
 import DatasetDump from '../model/dump/DatasetDump'
@@ -13,7 +13,7 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing DatasetLineComponent', () => {
   // as errors, we use sinon.js to stub it into throwing these warning as errors
   // instead.
   before(() => {
-    sinon.stub(console, 'error', (warning) => {
+    stub(console, 'error').callsFake((warning) => {
       throw new Error(warning)
     })
   })
@@ -32,7 +32,7 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing DatasetLineComponent', () => {
   it('Render properly', () => {
     const props = {
       onDelete: () => {},
-      entity: DatasetDump[1],
+      entity: DatasetDump[23],
       accessRights: [],
     }
     const enzymeWrapper = shallow(<DatasetLineComponent {...props} />, { context })

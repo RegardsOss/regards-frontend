@@ -12,3 +12,5 @@ export {
   connect,
 }
 
+export default connect
+

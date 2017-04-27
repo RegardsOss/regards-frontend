@@ -4,6 +4,7 @@
 import LazyModuleComponent from './components/LazyModuleComponent'
 import ModuleThemeProvider from './components/ModuleThemeProvider'
 import ModuleListProvider from './components/ModuleListProvider'
+import ModuleListContainer from './containers/ModuleListContainer'
 import ModuleShape from './model/ModuleShape'
 import AvailableModules from './AvailableModules'
 
@@ -17,4 +18,5 @@ export {
   ModuleListProvider,
   ModuleThemeProvider,
   ModuleShape,
+  ModuleListContainer,
 }

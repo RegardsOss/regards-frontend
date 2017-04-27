@@ -13,9 +13,8 @@ import CollectionActions from './../model/CollectionActions'
 import CollectionFormComponent from '../components/CollectionFormComponent'
 import ModelSelectors from '../model/ModelSelectors'
 import ModelActions from '../model/ModelActions'
-import ModelAttributeActions from '../model/ModelAttributeActions'
-import ModelAttributeSelectors from '../model/ModelAttributeSelectors'
-
+import ModelAttributesActions from '../model/ModelAttributesActions'
+import ModelAttributesSelectors from '../model/ModelAttributesSelectors'
 
 /**
  * Show the collection form
@@ -84,16 +83,26 @@ export class CollectionFormContainer extends React.Component {
   handleUpdate = (values) => {
     const model = this.props.modelList[values.model].content
     const attributes = this.extractAttributesFromValues(values)
+    const descriptionFileType = values.descriptionFileContent && (values.descriptionFileContent.type || 'text/markdown')
     const updatedCollection = Object.assign({}, {
       id: this.props.currentCollection.content.id,
       tags: this.props.currentCollection.content.tags,
       type: this.props.currentCollection.content.type,
     }, {
       label: values.label,
+      descriptionUrl: values.descriptionUrl,
       model,
       attributes,
     })
-    Promise.resolve(this.props.updateCollection(this.props.currentCollection.content.id, updatedCollection))
+    const files = {}
+    if (values.descriptionFileContent) {
+      files.file = values.descriptionFileContent
+      updatedCollection.descriptionFileType = descriptionFileType
+    }
+    const apiValues = {
+      collection: updatedCollection,
+    }
+    Promise.resolve(this.props.updateCollection(this.props.currentCollection.content.id, apiValues, files))
       .then((actionResult) => {
         // We receive here the action
         if (!actionResult.error) {
@@ -139,19 +148,29 @@ export class CollectionFormContainer extends React.Component {
     if (this.state.isDuplicating) {
       defaultValues.tags = this.props.currentCollection.content.tags
     }
-    const newCollection = Object.assign({}, defaultValues, {
-      label: values.label,
-      model,
-      attributes,
-      type: 'COLLECTION',
-    })
-    Promise.resolve(this.props.createCollection(newCollection))
+    const descriptionFileType = values.descriptionFileContent && (values.descriptionFileContent.type || 'text/markdown')
+    const files = {}
+    // Send the file if there is
+    if (values.descriptionFileContent) {
+      files.file = values.descriptionFileContent
+    }
+    const apiValues = {
+      collection: Object.assign({}, defaultValues, {
+        label: values.label,
+        descriptionUrl: values.descriptionUrl,
+        model,
+        attributes,
+        type: 'COLLECTION',
+        descriptionFileType,
+      }),
+    }
+    Promise.resolve(this.props.createCollection(apiValues, files))
       .then((actionResult) => {
         // We receive here the action
         if (!actionResult.error) {
           // We extract the collection id from the action
-          const collection = this.extractCollectionFromActionResult(actionResult)
-          this.redirectToLinksPage(collection.id)
+          const collectionId = actionResult.payload.result
+          this.redirectToLinksPage(collectionId)
         }
       })
   }
@@ -197,18 +216,18 @@ export class CollectionFormContainer extends React.Component {
 const mapStateToProps = (state, ownProps) => ({
   currentCollection: ownProps.params.collectionId ? CollectionSelectors.getById(state, ownProps.params.collectionId) : null,
   isFetchingCollection: CollectionSelectors.isFetching(state),
-  modelAttributeList: ModelAttributeSelectors.getList(state),
+  modelAttributeList: ModelAttributesSelectors.getList(state),
   modelList: ModelSelectors.getList(state),
   isFetchingModel: ModelSelectors.isFetching(state),
-  isFetchingModelAttribute: ModelAttributeSelectors.isFetching(state),
+  isFetchingModelAttribute: ModelAttributesSelectors.isFetching(state),
 })
 
 const mapDispatchToProps = dispatch => ({
   fetchCollection: id => dispatch(CollectionActions.fetchEntity(id)),
-  createCollection: values => dispatch(CollectionActions.createEntity(values)),
-  updateCollection: (id, values) => dispatch(CollectionActions.updateEntity(id, values)),
+  createCollection: (values, files) => dispatch(CollectionActions.createEntityUsingMultiPart(values, files)),
+  updateCollection: (id, values, files) => dispatch(CollectionActions.updateEntityUsingMultiPart(id, values, files)),
   fetchModelList: () => dispatch(ModelActions.fetchEntityList({}, { type: 'COLLECTION' })),
-  fetchModelAttributeList: id => dispatch(ModelAttributeActions.fetchEntityList({ id })),
+  fetchModelAttributeList: id => dispatch(ModelAttributesActions.fetchEntityList({ id })),
   unregisterField: (form, name) => dispatch(unregisterField(form, name)),
 })
 

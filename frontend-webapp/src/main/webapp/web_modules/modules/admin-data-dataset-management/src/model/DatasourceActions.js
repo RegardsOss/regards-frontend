@@ -6,6 +6,7 @@ class DatasourceActions extends BasicPageableActions {
     super({
       namespace: 'admin-data-dataset-management/datasource',
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-dam/datasources`,
+      entityPathVariable: 'pPluginConfId',
       schemaTypes: {
         ENTITY: Schemas.DATASOURCE,
         ENTITY_ARRAY: Schemas.DATASOURCE_ARRAY,

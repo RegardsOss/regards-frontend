@@ -1,10 +1,11 @@
+import map from 'lodash/map'
 import { FormattedMessage } from 'react-intl'
 import Chip from 'material-ui/Chip'
 import { List, ListItem } from 'material-ui/List'
 import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { Resource } from '@regardsoss/model'
+import { Resource, Role } from '@regardsoss/model'
 import Dialog from 'material-ui/Dialog'
 import moduleStyles from '../styles/styles'
 
@@ -16,7 +17,9 @@ class ResourceAccessModalOverviewComponent extends React.Component {
 
   static propTypes = {
     currentResource: Resource.isRequired,
+    roles: React.PropTypes.arrayOf(Role).isrequired,
     onClose: React.PropTypes.func.isRequired,
+    editRoleResources: React.PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -39,10 +42,15 @@ class ResourceAccessModalOverviewComponent extends React.Component {
         return {}
     }
   }
+
+  handleEditRoleResources = (role) => {
+    this.props.editRoleResources(role)
+    this.props.onClose()
+  }
   render() {
     const { currentResource } = this.props
     const styles = moduleStyles(this.context.muiTheme)
-    const title = this.context.intl.formatMessage({ id: 'role.modal.title' })
+    const title = this.context.intl.formatMessage({ id: 'role.modal.title' }, { name: currentResource.content.resource })
 
     return (
       <Dialog
@@ -60,35 +68,26 @@ class ResourceAccessModalOverviewComponent extends React.Component {
         open
         onRequestClose={this.props.onClose}
       >
-        <List>
+        <List>es
           <ListItem
             disabled
             innerDivStyle={styles.listItem}
             secondaryText={
               <div>
-                {this.context.intl.formatMessage({ id: 'role.form.description' })} : {currentResource.content.description}
+                {this.context.intl.formatMessage({ id: 'role.form.description' })}                : {currentResource.content.description}
               </div>
             }
             primaryText={
               <div>
-                {this.context.intl.formatMessage({ id: 'role.form.autorizedBy' })} :
+                {this.context.intl.formatMessage({ id: 'role.form.autorizedBy' })}                :
                 <div style={styles.wrapperChipList}>
-                  <Chip>Role #1</Chip>
-                  <Chip>Role #2</Chip>
-                  <Chip>Role #3</Chip>
-                  <Chip>Role #4</Chip>
-                  <Chip>Role #5</Chip>
-                  <Chip>Role #6</Chip>
-                  <Chip>Role #7</Chip>
-                  <Chip>Role #8</Chip>
-                  <Chip>Role #9</Chip>
-                  <Chip>Role #10</Chip>
-                  <Chip>Role #11</Chip>
-                  <Chip>Role #12</Chip>
-                  <Chip>Role #13</Chip>
-                  <Chip>Role #14</Chip>
-                  <Chip>Role #15</Chip>
-                  <Chip>Role #16</Chip>
+                  {map(this.props.roles, role => (
+                    <Chip
+                      onTouchTap={() => this.handleEditRoleResources(role)}
+                      key={role.content.id}
+                    >{role.content.name}</Chip>
+                    ))
+                  }
                 </div>
               </div>
             }
@@ -97,10 +96,7 @@ class ResourceAccessModalOverviewComponent extends React.Component {
                 {currentResource.content.verb}
               </Chip>
             }
-          >
-            <span>{this.context.intl.formatMessage({ id: 'role.form.resource' })}  :</span>
-            <span>{currentResource.content.resource}</span>
-          </ListItem>
+          />
         </List>
       </Dialog>
     )

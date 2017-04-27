@@ -1,7 +1,8 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { chain, map, find } from 'lodash'
+import map from 'lodash/map'
+import find from 'lodash/find'
 import { i18nContextType } from '@regardsoss/i18n'
 import { PluginConfiguration, PluginMetaData } from '@regardsoss/model'
 import { FormattedMessage } from 'react-intl'
@@ -11,10 +12,9 @@ import ArrowUpward from 'material-ui/svg-icons/navigation/arrow-upward'
 import ArrowDownward from 'material-ui/svg-icons/navigation/arrow-downward'
 import ContentCopy from 'material-ui/svg-icons/content/content-copy'
 import ModeEdit from 'material-ui/svg-icons/editor/mode-edit'
-import IconButton from 'material-ui/IconButton'
-import Toggle from 'material-ui/Toggle'
 import { List } from 'material-ui/List'
 import Subheader from 'material-ui/Subheader'
+import { HateoasIconAction, HateoasKeys, HateoasToggle } from '@regardsoss/display-control'
 import moduleStyles from '../../styles/styles'
 import GenericPluginParameter from '../../components/plugin/parameter/GenericPluginParameter'
 
@@ -90,37 +90,49 @@ class PluginConfigurationComponent extends React.Component {
               <span style={styles.version}><FormattedMessage
                 id="microservice-management.plugin.configuration.priorityOrder"
               /> {pluginConfiguration.content.priorityOrder}</span>
-              <IconButton
+              <HateoasIconAction
+                entityLinks={pluginConfiguration.links}
+                hateoasKey={HateoasKeys.UPDATE}
                 tooltip={<FormattedMessage id="microservice-management.plugin.configuration.increment.priorityOrder" />}
                 onTouchTap={onUpwardClick}
               >
                 <ArrowUpward />
-              </IconButton>
-              <IconButton
+              </HateoasIconAction>
+              <HateoasIconAction
+                entityLinks={pluginConfiguration.links}
+                hateoasKey={HateoasKeys.UPDATE}
                 tooltip={<FormattedMessage id="microservice-management.plugin.configuration.decrement.priorityOrder" />}
                 onTouchTap={onDownwardClick}
               >
                 <ArrowDownward />
-              </IconButton>
-              <IconButton
+              </HateoasIconAction>
+              <HateoasIconAction
+                entityLinks={pluginConfiguration.links}
+                hateoasKey={HateoasKeys.UPDATE}
                 tooltip={<FormattedMessage id="microservice-management.plugin.configuration.edit" />}
                 onTouchTap={onEditClick}
               >
                 <ModeEdit />
-              </IconButton>
-              <IconButton
+              </HateoasIconAction>
+              <HateoasIconAction
+                entityLinks={pluginConfiguration.links}
+                hateoasKey={HateoasKeys.CREATE}
                 tooltip={<FormattedMessage id="microservice-management.plugin.configuration.copy" />}
                 onTouchTap={onCopyClick}
               >
                 <ContentCopy />
-              </IconButton>
-              <IconButton
+              </HateoasIconAction>
+              <HateoasIconAction
+                entityLinks={pluginConfiguration.links}
+                hateoasKey={HateoasKeys.DELETE}
                 tooltip={<FormattedMessage id="microservice-management.plugin.configuration.delete" />}
                 onTouchTap={onDeleteClick}
               >
                 <Delete />
-              </IconButton>
-              <Toggle
+              </HateoasIconAction>
+              <HateoasToggle
+                entityLinks={pluginConfiguration.links}
+                hateoasKey={HateoasKeys.UPDATE}
                 onToggle={onActiveToggle}
                 defaultToggled={pluginConfiguration.content.active}
                 style={styles.toggle}

@@ -1,0 +1,9 @@
+{
+  "name": "@regardsoss/search-facets",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Module for regards catalog researchs facets on results",
+  "main": "src/main.js",
+  "author": "CS-SI",
+  "license": "GPL-3.0"
+}

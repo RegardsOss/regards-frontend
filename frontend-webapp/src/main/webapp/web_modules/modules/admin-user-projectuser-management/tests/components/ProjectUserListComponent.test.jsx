@@ -1,7 +1,10 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { size, filter, pickBy } from 'lodash'
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import sinon from 'sinon'
+import { stub } from 'sinon'
 import { Table, TableRow } from 'material-ui/Table'
 import IconButton from 'material-ui/IconButton'
 import { IntlStub } from '@regardsoss/tests-helpers'
@@ -84,11 +87,11 @@ const options = {
 }
 
 const countDisabled = (Type, wrapper) => {
-  const allOfTypes = wrapper.find(IconButton)
+  const allOfTypes = wrapper.find(Type)
   let disabledCount = 0
   for (let i = 0; i < allOfTypes.length; i += 1) {
-    const iconButton = allOfTypes.at(i)
-    if (iconButton.props().disabled) {
+    const action = allOfTypes.at(i)
+    if (action.props().disabled) {
       disabledCount += 1
     }
   }
@@ -101,7 +104,7 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing project user list component', (
   // as errors, we use sinon.js to stub it into throwing these warning as errors
   // instead.
   before(() => {
-    sinon.stub(console, 'error', (warning) => {
+    stub(console, 'error').callsFake((warning) => {
       throw new Error(warning)
     })
   })
@@ -202,7 +205,7 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing project user list component', (
     enzymeWrapper.setProps(afterLoadingProps)
 
     // assertion all row actions (3 for each line) are disabled
-    const actionsByRow = 4
+    const actionsByRow = 2
     assert.equal(enzymeWrapper.state('selectedTab'), TABS.waiting, 'The component should display waiting users tab, as he was loaded with initial waiting users')
     assert.equal(countDisabled(IconButton, enzymeWrapper), size(waitingAccessUsers) * actionsByRow, 'The line actions should be disabled')
 

@@ -3,7 +3,7 @@
  **/
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import sinon from 'sinon'
+import { stub, spy } from 'sinon'
 import { IntlProvider } from 'react-intl'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import PluginTest from './PluginTest'
@@ -15,12 +15,23 @@ import { UnconnectedPluginProvider } from '../../src/containers/PluginProvider'
  * @author Sébastien Binda
  */
 describe('[PLUGINS] Testing Plugins load', () => {
+  // Since react will console.error propType warnings, that which we'd rather have
+  // as errors, we use sinon.js to stub it into throwing these warning as errors
+  // instead.
+  before(() => {
+    stub(console, 'error').callsFake((warning) => {
+      throw new Error(warning)
+    })
+  })
+  after(() => {
+    console.error.restore()
+  })
   it('Should fetch the pluginDefinition with the given pluginId in props', () => {
     const pluginDefinitionId = 12
-    const fetchPluginSpy = sinon.spy()
+    const fetchPluginSpy = spy()
     const wrapper = shallow(
       <UnconnectedPluginProvider
-        pluginInstanceId={0}
+        pluginInstanceId={'0'}
         pluginId={pluginDefinitionId}
         pluginConf={{}}
         pluginProps={{}}
@@ -38,10 +49,10 @@ describe('[PLUGINS] Testing Plugins load', () => {
 
   it('Should render a PluginLoader', () => {
     const pluginDefinitionId = 12
-    const fetchPluginSpy = sinon.spy()
+    const fetchPluginSpy = spy()
     const wrapper = shallow(
       <UnconnectedPluginProvider
-        pluginInstanceId={0}
+        pluginInstanceId={'0'}
         pluginId={pluginDefinitionId}
         pluginConf={{}}
         pluginProps={{}}
@@ -65,7 +76,7 @@ describe('[PLUGINS] Testing Plugins load', () => {
   it('Should render correctly that a plugin is loading', () => {
     const wrapper = shallow(
       <UnconnectedPluginLoader
-        pluginInstanceId={0}
+        pluginInstanceId={'0'}
         pluginPath="test"
         pluginConf={{
           parameter: 'value',
@@ -83,7 +94,7 @@ describe('[PLUGINS] Testing Plugins load', () => {
   it('Should render correctly a plugin', () => {
     const wrapper = shallow(
       <UnconnectedPluginLoader
-        pluginInstanceId={0}
+        pluginInstanceId={'0'}
         pluginPath="test"
         pluginConf={{
           parameter: 'value',
@@ -118,7 +129,7 @@ describe('[PLUGINS] Testing Plugins load', () => {
   it('Should render correctly a element with a plugin as a prop', () => {
     const wrapper = shallow(
       <UnconnectedPluginLoader
-        pluginInstanceId={0}
+        pluginInstanceId={'0'}
         pluginPath="test"
         pluginConf={{
           parameter: 'value',

@@ -1,0 +1,9 @@
+{
+  "name": "@regardsoss/attributes-common",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Holds common functionalities related to attributes",
+  "main": "src/main.js",
+  "author": "CS-SI",
+  "license": "GPL-3.0"
+}

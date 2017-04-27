@@ -2,7 +2,6 @@
  * LICENSE_PLACEHOLDER
  **/
 import { ReduxEntityTester } from '@regardsoss/tests-helpers'
-import { PluginMetaData } from '@regardsoss/model'
 import PluginMetaDataActions from '../../../src/model/plugin/PluginMetaDataActions'
 import PluginMetaDataReducers from '../../../src/model/plugin/PluginMetaDataReducers'
 import PluginMetaDataSelectors from '../../../src/model/plugin/PluginMetaDataSelectors'

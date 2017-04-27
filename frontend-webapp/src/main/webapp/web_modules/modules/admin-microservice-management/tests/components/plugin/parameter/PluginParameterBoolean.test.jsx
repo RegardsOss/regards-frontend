@@ -1,10 +1,26 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
+import { stub } from 'sinon'
 import { ListItem } from 'material-ui/List'
 import { Field } from '@regardsoss/form-utils'
 import PluginParameterBoolean from '../../../../src/components/plugin/parameter/PluginParameterBoolean'
 
+/**
+ * Plugin tests
+ * @author Xavier-Alexandre Brochard
+ */
 describe('[ADMIN PROJECT MANAGEMENT] Testing plugin parameter boolean component', () => {
+  before(() => {
+    stub(console, 'error').callsFake((warning) => {
+      throw new Error(warning)
+    })
+  })
+  after(() => {
+    console.error.restore()
+  })
   it('should exists', () => {
     assert.isDefined(PluginParameterBoolean)
     assert.isDefined(Field)

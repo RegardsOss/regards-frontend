@@ -5,5 +5,5 @@
   "description": "Adapts chart JS library for headless test environement",
   "main": "src/main.js",
   "author": "CS-SI",
-  "license": "GPLv3"
+  "license": "GPL-3.0"
 }

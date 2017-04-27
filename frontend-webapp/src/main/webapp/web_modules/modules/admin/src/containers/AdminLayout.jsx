@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { locationShape } from 'react-router/lib/PropTypes'
+import { locationShape } from '@regardsoss/model'
 import { connect } from '@regardsoss/redux'
 import { AuthenticateActions } from '@regardsoss/authentication-manager'
 import { themeContextType } from '@regardsoss/theme'
@@ -29,6 +29,7 @@ export class AdminLayout extends React.Component {
       project: React.PropTypes.string,
     }),
     location: locationShape.isRequired,
+    project: React.PropTypes.string,
     // from mapDispatchToProps
     onLogout: React.PropTypes.func,
   }
@@ -79,10 +80,10 @@ export class AdminLayout extends React.Component {
     }
 
     // install notification manager and application error containers when starting app
-    const project = this.props.params.project ? this.props.params.project : 'instance'
+    const { project } = this.props
     return (
       <NotificationsManagerContainer isOnInstanceDashboard={isOnInstanceDashboard} >
-        <div className={style.app.classes} style={style.app.styles}>
+        <div className={`selenium-adminLayout ${style.app.classes}`} style={style.app.styles}>
           <div className={style.menu.classes}>
             <LazyModuleComponent
               appName={'admin'}

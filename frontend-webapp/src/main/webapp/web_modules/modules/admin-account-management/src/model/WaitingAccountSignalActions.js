@@ -6,14 +6,14 @@ import { BasicSignalActions } from '@regardsoss/store-utils'
 export class WaitingAccountSignalActions extends BasicSignalActions {
   constructor() {
     super({
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-admin/accounts/acceptAccount/{userId}`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-admin/accesses/acceptAccount/{account_email}`,
       namespace: 'admin-account-management/waiting-account-signals',
     })
   }
 
-  sendAccept(userId) {
+  sendAccept(accountEmail) {
     return this.sendSignal('PUT', null, {
-      userId,
+      account_email: accountEmail,
     })
   }
 

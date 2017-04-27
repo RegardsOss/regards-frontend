@@ -1,8 +1,8 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import root from 'window-or-global'
-import sinon from 'sinon'
-import { LoadableContentDialogComponent } from '@regardsoss/components'
+import { stub } from 'sinon'
+import { SingleContentURLDialogContainer } from '@regardsoss/components'
 import HomePageContainer from '../../src/containers/HomePageContainer'
 
 // Test a component rendering
@@ -11,7 +11,7 @@ describe('[HOME PAGE MODULE] Testing home page module container', () => {
   // as errors, we use sinon.js to stub it into throwing these warning as errors
   // instead.
   before(() => {
-    sinon.stub(console, 'error', (warning) => {
+    stub(console, 'error').callsFake((warning) => {
       throw new Error(warning)
     })
     root.localStorage = {
@@ -44,7 +44,7 @@ describe('[HOME PAGE MODULE] Testing home page module container', () => {
       },
     }
     const enzymeWrapper = shallow(<HomePageContainer {...props} />, { context })
-    const subComponent = enzymeWrapper.find(LoadableContentDialogComponent)
+    const subComponent = enzymeWrapper.find(SingleContentURLDialogContainer)
     expect(subComponent).to.have.length(1)
   })
 })

@@ -1,10 +1,25 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
+import { stub } from 'sinon'
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { PluginConfigurationFormContainer } from '../../../src/containers/plugin/PluginConfigurationFormContainer'
 import PluginConfigurationFormComponent from '../../../src/components/plugin/PluginConfigurationFormComponent'
 
-// Test a components rendering
+/**
+ * Plugin tests
+ * @author Xavier-Alexandre Brochard
+ */
 describe('[ADMIN MICROSERVICE MANAGEMENT] Testing plugin configuration form container', () => {
+  before(() => {
+    stub(console, 'error').callsFake((warning) => {
+      throw new Error(warning)
+    })
+  })
+  after(() => {
+    console.error.restore()
+  })
   it('should exists', () => {
     assert.isDefined(PluginConfigurationFormContainer)
     assert.isDefined(PluginConfigurationFormComponent)
@@ -17,12 +32,12 @@ describe('[ADMIN MICROSERVICE MANAGEMENT] Testing plugin configuration form cont
         project: 'projectName',
         microserviceName: 'some-microservice',
         pluginId: 'aPluginId',
-        pluginConfigurationId: 0,
+        pluginConfigurationId: '0',
         formMode: 'create',
       },
       // from mapStateToProps
       pluginConfiguration: {
-        pluginId: '6',
+        pluginId: 6,
         pluginType: 'Other',
         pluginClassName: 'Kerberos',
         author: 'Jules Verne',

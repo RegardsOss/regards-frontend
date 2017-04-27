@@ -13,6 +13,27 @@ const formStyles = theme => ({
     },
   },
   user: {
+    breadcrumb: {
+      path: {
+        color: theme.palette.textColor,
+        backgroundColor: 'transparent',
+        border: 'none',
+        padding: '0px',
+        font: 'inherit',
+      },
+      pathHover: {
+        cursor: 'pointer',
+        color: theme.palette.accent1Color,
+        backgroundColor: 'transparent',
+        border: 'none',
+        padding: '0px',
+        font: 'inherit',
+      },
+      separator: {
+        verticalAlign: 'text-bottom',
+        margin: ' 0px 5px',
+      },
+    },
     searchButtonContainer: {
       display: 'flex',
       alignItems: 'center',
@@ -24,6 +45,51 @@ const formStyles = theme => ({
     },
     formHeader: {
       backgroundColor: theme.palette.primary2Color,
+    },
+    listViewStyles: {
+      cell: {
+        backgroundColor: theme.tableRow.stripeColor,
+      },
+      line: {
+        marginTop: 10,
+        display: 'flex',
+        flexFlow: 'column wrap',
+        alignContent: 'stretch',
+        alignItems: 'flex-start',
+        maxHeight: 90,
+      },
+      lineHover: {
+        height: '100%',
+        width: '98%',
+        margin: 'auto',
+        cursor: 'auto',
+        backgroundColor: theme.palette.primary3Color,
+      },
+      lineOut: {
+        height: '100%',
+        width: '98%',
+        margin: 'auto',
+        cursor: 'auto',
+      },
+      thumbmail: {
+        display: 'inline-block',
+        marginTop: 5,
+      },
+      attribute: {
+        marginLeft: 10,
+        textOverflow: 'ellipsis',
+        overflow: 'hidden',
+        whiteSpace: 'nowrap',
+        display: 'flex',
+      },
+      attributeLabel: {
+        color: theme.palette.accent1Color,
+        maxWidth: 150,
+        minWidth: 50,
+      },
+      attributeValue: {
+        maxWidth: 200,
+      },
     },
   },
   resultsButtonsType: {

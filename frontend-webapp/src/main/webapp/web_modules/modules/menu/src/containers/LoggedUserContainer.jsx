@@ -3,7 +3,7 @@
  **/
 import React from 'react'
 import { connect } from '@regardsoss/redux'
-import { AuthenticateActions, AuthenticateSelectors } from '@regardsoss/authentication-manager'
+import { AuthenticationParametersSelectors, AuthenticationClient } from '@regardsoss/authentication-manager'
 import { Role } from '@regardsoss/model'
 import BorrowableRolesActions from '../model/BorrowableRolesActions'
 import BorrowableRolesSelectors from '../model/BorrowableRolesSelectors'
@@ -24,6 +24,7 @@ class LoggedUserContainer extends React.Component {
     currentRole: React.PropTypes.string.isRequired,
     borrowableRoles: React.PropTypes.objectOf(Role).isRequired,
     isSendingBorrowRole: React.PropTypes.bool.isRequired,
+    isInstance: React.PropTypes.bool.isRequired,
     // also borrowRoleResult, but only used in next props
 
     // from mapDispathToProps
@@ -35,8 +36,10 @@ class LoggedUserContainer extends React.Component {
 
 
   componentDidMount = () => {
-    // fetch borrowable roles for logged user
-    this.props.fetchBorrowableRoles()
+    // fetch borrowable roles for logged user, but not for instance administrator
+    if (!this.props.isInstance) {
+      this.props.fetchBorrowableRoles()
+    }
   }
 
   componentWillReceiveProps = ({ isSendingBorrowRole: nextIsSendingBorrowRole, borrowRoleResult }) => {
@@ -69,21 +72,22 @@ class LoggedUserContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  const isAuthenticated = AuthenticateSelectors.isAuthenticated(state)
+  const isAuthenticated = AuthenticationClient.authenticationSelectors.isAuthenticated(state)
   return {
-    currentRole: isAuthenticated ? AuthenticateSelectors.getAuthentication(state).result.role : '',
+    currentRole: isAuthenticated ? AuthenticationClient.authenticationSelectors.getAuthentication(state).result.role : '',
     borrowableRoles: BorrowableRolesSelectors.getList(state) || {},
-    authenticationName: isAuthenticated ? AuthenticateSelectors.getAuthentication(state).result.sub : '',
+    authenticationName: isAuthenticated ? AuthenticationClient.authenticationSelectors.getAuthentication(state).result.sub : '',
     isSendingBorrowRole: BorrowRoleSelectors.isFetching(state),
     borrowRoleResult: BorrowRoleSelectors.getResult(state),
+    isInstance: AuthenticationParametersSelectors.isInstance(state),
   }
 }
 
 const mapDispathToProps = dispatch => ({
-  onLogout: () => dispatch(AuthenticateActions.logout()),
+  onLogout: () => dispatch(AuthenticationClient.authenticationActions.logout()),
   fetchBorrowableRoles: () => dispatch(BorrowableRolesActions.fetchEntityList()),
   sendBorrowRole: roleName => dispatch(BorrowRoleActions.borrowRole(roleName)),
-  dispatchRoleBorrowed: authResult => dispatch(AuthenticateActions.notifyAuthenticationChanged(authResult)),
+  dispatchRoleBorrowed: authResult => dispatch(AuthenticationClient.authenticationActions.notifyAuthenticationChanged(authResult)),
 })
 
 export default connect(mapStateToProps, mapDispathToProps)(LoggedUserContainer)

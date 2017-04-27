@@ -1,10 +1,9 @@
 /**
  * LICENSE_PLACEHOLDER
  */
-import { map, chain, isEmpty, filter, find } from 'lodash'
+import { map, isEmpty, filter, find } from 'lodash'
 import { FormattedMessage } from 'react-intl'
 import RaisedButton from 'material-ui/RaisedButton'
-import { ListItem } from 'material-ui/List'
 import IconMenu from 'material-ui/IconMenu'
 import MenuItem from 'material-ui/MenuItem'
 import IconButton from 'material-ui/IconButton'
@@ -12,7 +11,7 @@ import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right'
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
 import Divider from 'material-ui/Divider'
 import Delete from 'material-ui/svg-icons/action/delete'
-import { PluginParameter, PluginParameterType, PluginMetaDataList, PluginConfiguration } from '@regardsoss/model'
+import { PluginMetaDataList, PluginConfiguration } from '@regardsoss/model'
 import ShowableAtRender from '../cards/ShowableAtRender'
 
 class PluginConfigurationPickerComponent extends React.Component {
@@ -32,15 +31,17 @@ class PluginConfigurationPickerComponent extends React.Component {
     }
   }
 
-
-  buildMenuItemPrimaryText = (leftContent, rightContent) => (
-    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-      {leftContent}
-      <span style={{ color: '#bdbdbd' }}>
-        {rightContent}
-      </span>
-    </div>
-  )
+  getStyle = () => ({
+    pluginButton: {
+      marginLeft: 10,
+    },
+    iconMenu: {
+      visibility: 'hidden',
+    },
+    field: {
+      display: 'none',
+    },
+  })
 
   handleChange = (value) => {
     this.setState({
@@ -64,17 +65,15 @@ class PluginConfigurationPickerComponent extends React.Component {
     })
   }
 
-  getStyle = () => ({
-    pluginButton: {
-      marginLeft: 10,
-    },
-    iconMenu: {
-      visibility: 'hidden',
-    },
-    field: {
-      display: 'none',
-    },
-  })
+  buildMenuItemPrimaryText = (leftContent, rightContent) => (
+    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+      {leftContent}
+      <span style={{ color: '#bdbdbd' }}>
+        {rightContent}
+      </span>
+    </div>
+  )
+
   render() {
     const { pluginMetaDataList, pluginConfigurationList } = this.props
     const { openMenu, currentPluginConfiguration } = this.state

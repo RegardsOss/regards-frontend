@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { FormattedMessage } from 'react-intl'
 import TextField from 'material-ui/TextField'
 import { map, fill } from 'lodash'

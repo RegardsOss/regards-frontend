@@ -5,14 +5,15 @@ import { map } from 'lodash'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
 import { FormattedMessage } from 'react-intl'
-import IconButton from 'material-ui/IconButton'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
-import ContentCopy from 'material-ui/svg-icons/content/content-copy'
 import Delete from 'material-ui/svg-icons/action/delete'
 import { Dataset } from '@regardsoss/model'
 import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
+import { HateoasIconAction, HateoasKeys } from '@regardsoss/display-control'
+import { RequestVerbEnum } from '@regardsoss/store-utils'
+import DatasetActions from '../model/DatasetActions'
 
 /**
  * React component to list datasets.
@@ -70,12 +71,22 @@ export class DatasetListComponent extends React.Component {
                   <TableRowColumn>{dataset.content.label}</TableRowColumn>
                   <TableRowColumn>{dataset.content.model.name}</TableRowColumn>
                   <TableRowColumn>
-                    <IconButton onTouchTap={() => handleEdit(dataset.content.id)}>
+                    <HateoasIconAction
+                      entityLinks={dataset.links}
+                      hateoasKey={HateoasKeys.UPDATE}
+                      onTouchTap={() => handleEdit(dataset.content.id)}
+                      title={this.context.intl.formatMessage({ id: 'dataset.list.tooltip.edit' })}
+                    >
                       <Edit hoverColor={style.hoverButtonEdit} />
-                    </IconButton>
-                    <IconButton onTouchTap={() => handleDelete(dataset.content.id)}>
+                    </HateoasIconAction>
+                    <HateoasIconAction
+                      entityLinks={dataset.links}
+                      hateoasKey={HateoasKeys.DELETE}
+                      onTouchTap={() => handleDelete(dataset.content.id)}
+                      title={this.context.intl.formatMessage({ id: 'dataset.list.tooltip.delete' })}
+                    >
                       <Delete hoverColor={style.hoverButtonDelete} />
-                    </IconButton>
+                    </HateoasIconAction>
                   </TableRowColumn>
                 </TableRow>
               ))}
@@ -90,6 +101,7 @@ export class DatasetListComponent extends React.Component {
                 id="dataset.list.action.add"
               />
             }
+            mainHateoasDependency={DatasetActions.getDependency(RequestVerbEnum.POST)}
             secondaryButtonLabel={<FormattedMessage id="dataset.list.action.cancel" />}
             secondaryButtonUrl={backUrl}
           />
