@@ -30,14 +30,14 @@ class Cell extends React.PureComponent {
     ...themeContextType,
   }
 
-  handleToggleSelectRow = () => {
-    this.props.onToggleSelectRow(this.props.rowIndex)
-  }
-
   getCellValue = (rowIndex, column) => {
     const { entities, lineHeight } = this.props
     const entity = entities[rowIndex]
     return ColumnConfigurationController.getConfiguredColumnValueForEntity(column, entity, lineHeight, this.isRowSelected(), this.handleToggleSelectRow)
+  }
+
+  handleToggleSelectRow = () => {
+    this.props.onToggleSelectRow(this.props.rowIndex)
   }
 
   isRowSelected = () => this.props.isSelected(this.props.rowIndex)
