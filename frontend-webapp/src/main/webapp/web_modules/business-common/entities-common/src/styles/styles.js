@@ -6,6 +6,10 @@
  * Builds module style on theme
  */
 export default theme => ({
+  descriptionDialog: {
+    widthPercent: 70,
+    heightPercent: 68,
+  },
   tabHeaderHeight: 48,
   markdownContainer: {
     styles: {

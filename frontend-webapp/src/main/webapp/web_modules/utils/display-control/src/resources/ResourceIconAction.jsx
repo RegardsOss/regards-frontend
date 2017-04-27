@@ -28,7 +28,12 @@ class ResourceIconAction extends React.Component {
   }
 
   render() {
-    const { resourceDependency, resourceDependencies, isInstance, ...others } = this.props
+    // Remove from otherProps all props that doesn't need to be reinjected in children
+    // eslint-disable-next-line no-unused-vars, react/prop-types
+    const { resourceDependency, resourceDependencies, isInstance, theme, i18n, dispatch, ...others } = this.props
+    if (!resourceDependency && resourceDependencies.length === 0) {
+      console.error('ResourceIconAction requires either a resourceDependency or a resourceDependencies array')
+    }
     if (isInstance) {
       return <IconButton {...others} />
     }

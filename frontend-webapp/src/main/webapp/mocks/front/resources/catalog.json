@@ -442,6 +442,17 @@
       "tags": [
         "collection-cassini-0-grav-instrument-0"
       ]
+    },
+    {
+      "id": 25,
+      "model": {
+        "id": 4
+      },
+      "ipId": "the-little-one-lost-at-last-level",
+      "label": "The little one lost at last level",
+      "tags": [
+        "collection-cassini-0-grav-cam-left-result-0"
+      ]
     }
   ],
   "localDescriptions": [

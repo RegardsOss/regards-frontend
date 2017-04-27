@@ -11,7 +11,7 @@ export default class ModelAttributesActions extends BasicListActions {
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-dam/models/{id}/attributes`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-dam/models/{pModelId}/attributes`,
       entityPathVariable: 'pAttributeId',
       schemaTypes: {
         ENTITY: Schemas.MODEL_ATTRIBUTE,
@@ -19,9 +19,7 @@ export default class ModelAttributesActions extends BasicListActions {
       },
     })
   }
-
   fetchModelAttributes(id) {
     return this.fetchEntityList({ id })
   }
-
 }

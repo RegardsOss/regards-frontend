@@ -16,8 +16,8 @@ const getAuthorization = (state, callAPI) => {
     return `Basic ${btoa('client:secret')}`
   } else if (AuthenticationClient.authenticationSelectors.isAuthenticated(state)) {
     // provide known token
-    const authentication = AuthenticationClient.authenticationSelectors.getAuthentication(state)
-    return `Bearer ${authentication.result.access_token}`
+    const accessToken = AuthenticationClient.authenticationSelectors.getAccessToken(state)
+    return `Bearer ${accessToken}`
   }
   // not authentified
   return null

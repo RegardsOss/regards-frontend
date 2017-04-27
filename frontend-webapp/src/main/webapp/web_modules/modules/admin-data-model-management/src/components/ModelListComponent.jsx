@@ -1,15 +1,17 @@
-import { map } from 'lodash'
+import { map, find } from 'lodash'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
 import { FormattedMessage } from 'react-intl'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
+import ContentCopy from 'material-ui/svg-icons/content/content-copy'
 import Settings from 'material-ui/svg-icons/action/settings-input-composite'
+import Download from 'material-ui/svg-icons/file/file-download'
 import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { Model } from '@regardsoss/model'
-import { HateoasIconAction, HateoasKeys } from '@regardsoss/display-control'
+import { HateoasIconAction, ResourceIconAction, HateoasKeys } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { modelActions } from '../client/ModelClient'
 import { modelAttributesActions } from '../client/ModelAttributesClient'
@@ -24,8 +26,10 @@ export class ProjectListComponent extends React.Component {
     handleDelete: React.PropTypes.func.isRequired,
     handleEdit: React.PropTypes.func.isRequired,
     handleBindAttributes: React.PropTypes.func.isRequired,
+    handleDuplicate: React.PropTypes.func.isRequired,
     createUrl: React.PropTypes.string.isRequired,
     backUrl: React.PropTypes.string.isRequired,
+    accessToken: React.PropTypes.string.isRequired,
   }
 
   static contextTypes = {
@@ -48,12 +52,21 @@ export class ProjectListComponent extends React.Component {
     }
   }
 
+  getExportUrlFromHateoas = (modelLinks) => {
+    const { accessToken } = this.props
+    const exportLink = find(modelLinks, link => (
+      link.rel === 'export'
+    ))
+    return `${exportLink.href}?token=${accessToken}` || ''
+  }
+
   render() {
-    const { modelList, handleEdit, handleDelete, createUrl, handleBindAttributes, backUrl } = this.props
+    const { modelList, handleEdit, handleDelete, handleDuplicate, createUrl, handleBindAttributes, backUrl } = this.props
     const style = {
       hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
       hoverButtonDelete: this.context.muiTheme.palette.accent1Color,
       hoverButtonBindAttribute: this.context.muiTheme.palette.primary3Color,
+      hoverButtonDuplicate: this.context.muiTheme.palette.primary3Color,
     }
     return (
       <Card>
@@ -89,11 +102,22 @@ export class ProjectListComponent extends React.Component {
                   <TableRowColumn>{this.getType(model.content.type)}</TableRowColumn>
                   <TableRowColumn>
                     <HateoasIconAction
-                      hateoasDependency={modelAttributesActions.getDependency(RequestVerbEnum.PUT)}
+                      entityLinks={model.links}
+                      hateoasKey="export"
+                      href={this.getExportUrlFromHateoas(model.links)}
+                      style={{
+                        top: '-7px',
+                      }}
+                    >
+                      <Download hoverColor={style.hoverButtonEdit} />
+                    </HateoasIconAction>
+
+                    <ResourceIconAction
+                      resourceDependency={modelAttributesActions.getDependency(RequestVerbEnum.POST)}
                       onTouchTap={() => handleBindAttributes(model.content.id)}
                     >
                       <Settings hoverColor={style.hoverButtonBindAttribute} />
-                    </HateoasIconAction>
+                    </ResourceIconAction>
 
                     <HateoasIconAction
                       entityLinks={model.links}
@@ -102,6 +126,13 @@ export class ProjectListComponent extends React.Component {
                     >
                       <Edit hoverColor={style.hoverButtonEdit} />
                     </HateoasIconAction>
+
+                    <ResourceIconAction
+                      resourceDependency={modelActions.getDependency(RequestVerbEnum.POST)}
+                      onTouchTap={() => handleDuplicate(model.content.id)}
+                    >
+                      <ContentCopy hoverColor={style.hoverButtonDuplicate} />
+                    </ResourceIconAction>
 
                     <HateoasIconAction
                       entityLinks={model.links}

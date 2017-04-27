@@ -17,7 +17,7 @@ import { layoutUIDependencies } from '@regardsoss/admin-ui-layout-management'
  * If you don't have any access, it's useless to let you see this module
  * @type {Array}
  */
-const dependenciesUsed = [
+export default [
   ...themeUIDependencies.boardRequiredDependencies,
 
   ...pluginUIDependencies.boardAddRequiredDependencies,
@@ -28,7 +28,3 @@ const dependenciesUsed = [
 
   ...layoutUIDependencies.boardSeeRequiredDependencies,
 ]
-
-export default {
-  dependenciesUsed,
-}

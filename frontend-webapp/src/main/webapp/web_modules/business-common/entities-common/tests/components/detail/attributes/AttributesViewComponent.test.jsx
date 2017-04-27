@@ -52,9 +52,9 @@ describe('[Entities Common] Testing AttributesViewComponent', () => {
     assert.lengthOf(noDataWrapper, 1, 'There should be a no data displayer')
     assert.isFalse(noDataWrapper.props().noContent, 'It should not display a no data')
 
-    // find: one row for each attribute, + one for the header
+    // find: one row for each attribute, + one for the header and one for tags
     const rowsWrapper = enzymeWrapper.find(TableRow)
-    assert.lengthOf(rowsWrapper, props.attributes.length + 1, 'There should be one row for each attribute and one more for the header')
+    assert.lengthOf(rowsWrapper, props.attributes.length + 2, 'There should be one row for each attribute and one more for the header')
 
     assert.lengthOf(enzymeWrapper.find(props.attributes[0].renderer), 1, 'The first renderer should be used as value is not null')
     assert.lengthOf(enzymeWrapper.find(props.attributes[1].renderer), 0, 'The second renderer should not be used as value is null')

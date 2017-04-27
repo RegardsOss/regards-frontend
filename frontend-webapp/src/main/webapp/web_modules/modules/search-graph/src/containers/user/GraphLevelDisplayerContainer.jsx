@@ -20,7 +20,7 @@ export class GraphLevelDisplayerContainer extends React.Component {
 
   static getLevelPartitionKey = levelIndex => `level-${levelIndex}`
 
-  static mapStateToProps = (state, { levelIndex }) => {
+  static mapStateToProps = (state, { levelIndex, isFirstLevel }) => {
     const partitionKey = GraphLevelDisplayerContainer.getLevelPartitionKey(levelIndex)
     // has parent selection, and is it a collectionb?
     const parentSelection = GraphContextSelectors.getSelectionForParentLevel(state, levelIndex)
@@ -28,7 +28,7 @@ export class GraphLevelDisplayerContainer extends React.Component {
     return {
       parentIpId,
       // retrieve level data from partitioned store
-      isShowable: levelIndex === 0 || !!parentIpId, // shown only when in a valid path
+      isShowable: isFirstLevel || !!parentIpId, // shown only when in a valid path
       isLoading: GraphLevelCollectionSelectors.isLoading(state, partitionKey) || GraphLevelDatasetSelectors.isLoading(state, partitionKey),
       hasError: GraphLevelCollectionSelectors.hasError(state, partitionKey) || GraphLevelDatasetSelectors.hasError(state, partitionKey),
       collections: GraphLevelCollectionSelectors.getCollections(state, partitionKey),
@@ -74,6 +74,8 @@ export class GraphLevelDisplayerContainer extends React.Component {
   static propTypes = {
     graphDatasetAttributes: DatasetAttributesArrayForGraph.isRequired, // graph dataset attributes, required, but empty array is allowed
     levelIndex: React.PropTypes.number.isRequired, // level index in graph
+    isFirstLevel: React.PropTypes.bool.isRequired,
+    isLastLevel: React.PropTypes.bool.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     levelModelName: React.PropTypes.string.isRequired, // model name for this level, used only for dispatch
     // from map state to props
@@ -117,8 +119,8 @@ export class GraphLevelDisplayerContainer extends React.Component {
   updateLevelElements = (isShowable, parentIpId) => {
     // update only when in a showable state
     if (isShowable) {
-      const { levelIndex, dispatchFetchLevelCollections, dispatchFetchLevelDatasets } = this.props
-      const showDatasets = levelIndex !== 0 // no dataset on root level
+      const { isFirstLevel, dispatchFetchLevelCollections, dispatchFetchLevelDatasets } = this.props
+      const showDatasets = !isFirstLevel // no dataset on root level
       // 1 - Fetch collections
       dispatchFetchLevelCollections(parentIpId)
       // 2 - Fetch datasets
@@ -131,6 +133,7 @@ export class GraphLevelDisplayerContainer extends React.Component {
   render() {
     const {
       graphDatasetAttributes,
+      isLastLevel,
       levelIndex,
       isShowable,
       isLoading,
@@ -147,6 +150,7 @@ export class GraphLevelDisplayerContainer extends React.Component {
         collections={collections}
         datasets={datasets}
         levelIndex={levelIndex}
+        isLastLevel={isLastLevel}
       />)
   }
 

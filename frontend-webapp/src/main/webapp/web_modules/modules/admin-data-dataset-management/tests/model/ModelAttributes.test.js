@@ -11,7 +11,7 @@ import ModelAttributeNetworkDump from './dump/ModelAttributeNetworkDump'
 const backendServerResultList = ModelAttributeNetworkDump
 
 const options = {
-  urlParams: { id: '1' },
+  urlParams: { pModelId: '1' },
 }
 
 const entityTester = new ReduxEntityTester(ModelAttributesActions, ModelAttributesReducer, ModelAttributesSelectors, React.PropTypes.objectOf(ModelAttribute).isRequired, backendServerResultList, options)

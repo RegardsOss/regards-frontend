@@ -63,6 +63,6 @@ module.exports = {
   copyFile: (sourceFile, targetFile) => fsExtra.copy(sourceFile, targetFile),
   loadFile,
   loadJSONModelFile: file => JSON.parse(loadFile(file), 'utf8'),
-  writeJSONModelFile: (jsModel, file) => fs.writeFileSync(jsModel, JSON.stringify(file), 'utf8'),
+  writeJSONModelFile: (file, jsModel) => fs.writeFileSync(file, JSON.stringify(jsModel), 'utf8'),
 
 }

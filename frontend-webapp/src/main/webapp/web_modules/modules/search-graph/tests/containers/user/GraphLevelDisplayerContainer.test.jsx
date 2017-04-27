@@ -21,6 +21,8 @@ describe('[Search Graph] Testing GraphLevelDisplayerContainer', () => {
     const props = {
       graphDatasetAttributes: [],
       levelIndex: 0,
+      isFirstLevel: true,
+      isLastLevel: false,
       levelModelName: 'any',
       isShowable: true,
       isLoading: false,

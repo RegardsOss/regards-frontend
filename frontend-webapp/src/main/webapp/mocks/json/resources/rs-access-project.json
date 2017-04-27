@@ -147,6 +147,16 @@
       "description": "Recherche par graphe",
       "container": "content",
       "id": 15
+    },
+    {
+      "applicationId": "user",
+      "active": true,
+      "isDefault": false,
+      "conf": "{\"graphLevels\":[\"Missions\",\"Experiments\"],\"graphDatasetAttributes\":[{\"attributeFullQualifiedName\":\"ipId\",\"visibility\":true,\"facetable\":false,\"order\":1},{\"attributeFullQualifiedName\":\"label\",\"visibility\":true,\"facetable\":false,\"order\":2}],\"attributes\":[{\"attributeFullQualifiedName\":\"ipId\",\"visibility\":true,\"facetable\":false,\"order\":1},{\"attributeFullQualifiedName\":\"sipId\",\"visibility\":true,\"facetable\":false,\"order\":2}]}",
+      "name": "search-graph",
+      "description": "Another graph for tests",
+      "container": "content",
+      "id": 16
     }
   ],
   "layouts": [

@@ -9,7 +9,7 @@ describe('[ADMIN DATA MODEL MANAGEMENT] Testing model router', () => {
     expect(Routes.childRoutes).to.have.length(3)
     expect(Routes.childRoutes[0].path).to.eq('list')
     expect(Routes.childRoutes[1].path).to.eq('create')
-    expect(Routes.childRoutes[2].path).to.eq(':model_id/edit')
+    expect(Routes.childRoutes[2].path).to.eq(':model_id/:mode')
   })
   it('list should return RoleListContainer', (done) => {
     Routes.childRoutes[0].getComponents(undefined, (smth, component) => {
