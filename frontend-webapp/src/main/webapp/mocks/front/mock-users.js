@@ -38,7 +38,7 @@ copyFile(sourceUsersFile, runtimeUsersFile)
 // load users pool
 const loadUsersPool = () => loadJSONModelFile(runtimeUsersFile)
 // write users pool
-const writeUsersPool = users => writeJSONModelFile(users, runtimeUsersFile)
+const writeUsersPool = users => writeJSONModelFile(runtimeUsersFile, users)
 
 const validationTokensPool = {}
 // static : last user logged (WARN: only one user can consitently be logged on this mock server)
