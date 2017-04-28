@@ -6,8 +6,7 @@ import { connect } from '@regardsoss/redux'
 import { AttributeModel, PluginDefinition } from '@regardsoss/model'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import ModuleConfiguration from '../models/ModuleConfiguration'
-import AttributeModelActions from '../models/attributes/AttributeModelActions'
-import AttributeModelSelectors from '../models/attributes/AttributeModelSelectors'
+import AttributeModelClient from '../clients/AttributeModelClient'
 import CriterionActions from '../models/criterion/CriterionActions'
 import CriterionSelector from '../models/criterion/CriterionSelector'
 import DatasetSelectionTypes from '../models/datasets/DatasetSelectionTypes'
@@ -139,7 +138,7 @@ class AdminContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  selectableAttributes: AttributeModelSelectors.getList(state),
+  selectableAttributes: AttributeModelClient.AttributeModelSelectors.getList(state),
   availableCriterion: CriterionSelector.getList(state),
 })
 
@@ -154,13 +153,13 @@ const listToQueryParam = (list, key) => {
 const mapDispatchToProps = dispatch => ({
   // Function to retrieve all available criterion plugins
   fetchCriterion: () => dispatch(CriterionActions.fetchPagedEntityList(0, 100)),
-  fetchAllModelsAttributes: () => dispatch(AttributeModelActions.fetchPagedEntityList(0, 100)),
+  fetchAllModelsAttributes: () => dispatch(AttributeModelClient.AttributeModelActions.fetchPagedEntityList(0, 100)),
   // Function to retrieve attributes associated to the selected models
   fetchModelsAttributes: modelsId => dispatch(
-    AttributeModelActions.fetchPagedEntityList(dispatch, 0, 100, { queryParam: listToQueryParam(modelsId, 'model') })),
+    AttributeModelClient.AttributeModelActions.fetchPagedEntityList(dispatch, 0, 100, { queryParam: listToQueryParam(modelsId, 'model') })),
   // Function to retrieve attributes associated to the selected datasets
   fetchDatasetsAttributes: datasetsId => dispatch(
-    AttributeModelActions.fetchPagedEntityList(dispatch, 0, 100, { queryPAram: listToQueryParam(datasetsId, 'dataset') })),
+    AttributeModelClient.AttributeModelActions.fetchPagedEntityList(dispatch, 0, 100, { queryPAram: listToQueryParam(datasetsId, 'dataset') })),
   // funcution to update a value of the current redux-form
 })
 

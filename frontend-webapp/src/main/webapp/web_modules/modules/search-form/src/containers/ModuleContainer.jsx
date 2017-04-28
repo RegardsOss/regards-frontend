@@ -9,9 +9,8 @@ import { AttributeModel } from '@regardsoss/model'
 import { LoadingComponent } from '@regardsoss/display-control'
 import { themeContextType } from '@regardsoss/theme'
 import ModuleConfiguration from '../models/ModuleConfiguration'
-import AttributeModelSelectors from '../models/attributes/AttributeModelSelectors'
-import AttributeModelActions from '../models/attributes/AttributeModelActions'
 import FormComponent from '../components/user/FormComponent'
+import AttributeModelClient from '../clients/AttributeModelClient'
 
 
 /**
@@ -296,11 +295,11 @@ class ModuleContainer extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  attributeModels: AttributeModelSelectors.getList(state),
+  attributeModels: AttributeModelClient.AttributeModelSelectors.getList(state),
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchAttribute: attributeId => dispatch(AttributeModelActions.fetchEntity(attributeId, {}, { queryable: 'true' })),
+  fetchAttribute: attributeId => dispatch(AttributeModelClient.AttributeModelActions.fetchEntity(attributeId, {}, { queryable: 'true' })),
 })
 
 const UnconnectedModuleContainer = ModuleContainer

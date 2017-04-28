@@ -843,6 +843,14 @@
       "resource": "/plugin/{plugin_id}/config",
       "verb": "GET",
       "controllerSimpleName": "Controller 1"
+    },
+    {
+      "id": 64,
+      "description": "layouts",
+      "microservice": "rs-access-project",
+      "resource": "/layouts/{applicationId}",
+      "verb": "PUT",
+      "controllerSimpleName": "Controller 1"
     }
   ]
 }
