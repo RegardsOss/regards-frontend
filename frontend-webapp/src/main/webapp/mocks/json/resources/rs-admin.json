@@ -851,6 +851,14 @@
       "resource": "/layouts/{applicationId}",
       "verb": "PUT",
       "controllerSimpleName": "Controller 1"
+    },
+    {
+      "id": 65,
+      "description": "themes",
+      "microservice": "rs-access-project",
+      "resource": "/themes",
+      "verb": "POST",
+      "controllerSimpleName": "Controller 1"
     }
   ]
 }

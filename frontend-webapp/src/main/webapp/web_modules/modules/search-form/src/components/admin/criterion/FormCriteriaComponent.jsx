@@ -109,9 +109,9 @@ class FormCriteriaComponent extends React.Component {
       if (this.props.layout) {
         const containers = ContainerHelper.getAvailableContainersInLayout(this.props.layout)
         if (containers && containers.length > 0) {
-          forEach(containers, (container, idx) => {
+          forEach(containers, (container) => {
             items.push(
-              <MenuItem key={idx} value={container} primaryText={container} />,
+              <MenuItem key={container.id} value={container.id} primaryText={container.id} />,
             )
           })
         }
