@@ -5,6 +5,7 @@ import keys from 'lodash/keys'
 import FlatButton from 'material-ui/FlatButton'
 import CheckBoxOutLineIcon from 'material-ui/svg-icons/toggle/check-box-outline-blank'
 import CheckBoxIcon from 'material-ui/svg-icons/toggle/check-box'
+import {i18nContextType} from '@regardsoss/i18n'
 import { connect } from '@regardsoss/redux'
 import { TableActions, TableSelectors, TableSelectionModes } from '@regardsoss/components'
 
@@ -23,6 +24,10 @@ class TableSelectAllFilter extends React.Component {
     toggledElements: React.PropTypes.object,
     // Set by mapDispatchToProps
     toggleTableSelectionMode: React.PropTypes.func,
+  }
+
+  static contextTypes = {
+    ...i18nContextType
   }
 
   constructor(props) {
@@ -57,17 +62,22 @@ class TableSelectAllFilter extends React.Component {
 
   render() {
     const icon = this.state.selectedMode === 0 ? <CheckBoxOutLineIcon /> : <CheckBoxIcon />
+    const title = this.state.selectedMode === 0 ?
+      this.context.intl.formatMessage({id: 'table.select.all'}) :
+      this.context.intl.formatMessage({id: 'table.deselect.all'})
     return (
       <div
         style={{
           display: 'inline-block',
-          marginBottom: 10,
         }}
       >
         <FlatButton
           onTouchTap={this.handleChange}
           icon={icon}
-          secondary={this.state.selectedMode === 1}
+          style={{
+            minWidth: 50
+          }}
+          title={title}
         />
       </div>
     )

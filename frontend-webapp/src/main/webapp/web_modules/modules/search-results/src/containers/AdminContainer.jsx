@@ -65,7 +65,7 @@ class AdminContainer extends React.Component {
     if (this.props.adminForm.form && !this.state.attributesFetching) {
       const formConf = this.props.adminForm.form.conf
       const attributesConf = formConf && formConf.attributes ? formConf.attributes : []
-      const attributesRegroupementsConf = formConf && formConf.attributesRegroupementsConf ? formConf.attributesRegroupementsConf : []
+      const attributesRegroupementsConf = formConf && formConf.attributesRegroupements ? formConf.attributesRegroupements : []
       return (
         <SearchResultsConfigurationComponent
           selectableAttributes={selectableAttributes || this.props.attributeModels}
