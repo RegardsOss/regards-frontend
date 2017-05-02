@@ -183,6 +183,19 @@ class SearchResultsComponent extends React.Component {
       if (fullSortQuery.length > 0) {
         fullQuery = `${fullQuery}${fullSortQuery}`
       }
+    } else {
+      // Add default sort if any in configuration
+      const intialSortAttributes = AttributeConfigurationController.getInitialSortAttributes(this.props.attributesConf)
+      if (intialSortAttributes.length > 0) {
+        const initialSortQuery = reduce(intialSortAttributes, (sortQuery, attribute) => {
+          const attributePath = AttributeModelController.getEntityAttributeAccessPathFromAttFullyQualifiedName(attribute)
+          if (!attributePath) {
+            return sortQuery
+          }
+          return `${sortQuery}&sort=${attributePath}`
+        }, '')
+        fullQuery = `${fullQuery}${initialSortQuery}`
+      }
     }
 
     // If there is facets to generate add them

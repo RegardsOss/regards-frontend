@@ -15,5 +15,6 @@ export default React.PropTypes.shape({
   visibility: React.PropTypes.bool,
   // Is the attribute configured to be used as a facet ?
   facetable: React.PropTypes.bool,
-
+  // Default sort results on this attribute ?
+  initialSort: React.PropTypes.bool,
 })

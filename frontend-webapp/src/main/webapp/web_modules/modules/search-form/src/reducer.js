@@ -12,7 +12,7 @@ import AttributeModelClient from './clients/AttributeModelClient'
  * @author Sébastien binda
  */
 const formReducers = {
-  [AttributeModelClient.REDUCER_PATH] : AttributeModelClient.AttributeModelReducer,
+  [AttributeModelClient.REDUCER_PATH]: AttributeModelClient.AttributeModelReducer,
   datasets: getDatasetsReducer,
   models: getDatasetModelsReducer,
   criterion: getCriterionReducer,

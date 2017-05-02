@@ -18,9 +18,8 @@ import { userDependencies } from '@regardsoss/admin-user-management'
 import { dataManagementDependencies } from '@regardsoss/admin-data-management'
 import { accessRightDependencies } from '@regardsoss/admin-accessright-management'
 import { microserviceDependencies } from '@regardsoss/admin-microservice-management'
-import { someMatchHateoasDisplayLogic, allMatchHateoasDisplayLogic } from '@regardsoss/display-control'
+import { someMatchHateoasDisplayLogic, allMatchHateoasDisplayLogic, HateoasDisplayDecorator } from '@regardsoss/display-control'
 import MenuItem from 'material-ui/MenuItem'
-import { HateoasDisplayDecorator } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import getModuleStyles from '../../styles/styles'
 import HateoasSidebarElement from './HateoasSidebarElement'
@@ -49,7 +48,7 @@ class ProjectSidebarComponent extends React.Component {
 
   handleRedirectToInstanceAdminDashboard = () => {
     this.props.onLogout()
-    browserHistory.push(`/admin/`)
+    browserHistory.push('/admin/')
   }
 
   render() {

@@ -29,6 +29,7 @@ const messages = Object.assign({
   'form.attributes.visibility.label': 'Visibility',
   'form.attributes.facetable.label': 'Enable filter',
   'form.attributes.order': 'Display order',
+  'form.attributes.initialSort.label': 'Sort results on this attribute',
   'form.attributes.regroupement.section.title': 'Configure attributes regroupement to display after every search result',
   'form.attributes.section.title': 'Configure attributes from dynamic models retrieved from each search result',
   'form.attributes.standard.section.title': 'Configure common attributes retrieved from each search result',

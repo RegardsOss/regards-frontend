@@ -1,7 +1,6 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import concat from 'lodash/concat'
 import { fragmentDependencies } from '@regardsoss/admin-data-fragment-management'
 import { modelDependencies } from '@regardsoss/admin-data-model-management'
 import { attributeModelDependencies } from '@regardsoss/admin-data-attributemodel-management'
