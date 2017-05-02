@@ -595,7 +595,7 @@ class SearchResultsComponent extends React.Component {
     let displayCheckbox
     let displayColumnsHeader
     let showParameters
-    if (this.isInTableView()) {
+    if (this.isInTableView() && this.isInObjectMode()) {
       columns = this.getTableViewColumns()
       lineHeight = 50
       cellsStyle = null

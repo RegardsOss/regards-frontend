@@ -8,7 +8,6 @@
  */
 export default [
   'menu',
-  'authentication',
   // 'news',
   'projects-list',
   'search-form',
