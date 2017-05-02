@@ -2,46 +2,21 @@
  * LICENSE_PLACEHOLDER
  **/
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import ConnectionActions from './model/ConnectionActions'
+import { connectionActions } from './client/ConnectionClient'
 
 
 /**
  * Module hateoas depencies
  * @author Sébastien binda
  */
-const EditDependencies = [
-  ConnectionActions.getDependency(RequestVerbEnum.PUT),
-  ConnectionActions.getDependency(RequestVerbEnum.POST),
-  ConnectionActions.getDependency(RequestVerbEnum.DELETE),
+const listDependencies = [
+  connectionActions.getDependency(RequestVerbEnum.GET_LIST),
 ]
-const AddDependencies = [
-  ConnectionActions.getDependency(RequestVerbEnum.POST),
-]
-
-export {
-  EditDependencies,
-  AddDependencies,
-}
-
-/**
- * Mandatory Dependencies to display module in user interface
- * @type {Array}
- */
-const user = []
-
-/**
- * Mandatory Dependencies to display module in admin interface
- * @type {Array}
- */
-const admin = [
-  ConnectionActions.getDependency(RequestVerbEnum.GET_LIST),
-  ConnectionActions.getDependency(RequestVerbEnum.GET),
-  ConnectionActions.getDependency(RequestVerbEnum.PUT),
-  ConnectionActions.getDependency(RequestVerbEnum.POST),
-  ConnectionActions.getDependency(RequestVerbEnum.DELETE),
+const addDependencies = [
+  connectionActions.getDependency(RequestVerbEnum.POST),
 ]
 
 export default {
-  user,
-  admin,
+  listDependencies,
+  addDependencies,
 }

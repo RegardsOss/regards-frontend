@@ -4,7 +4,7 @@
 import { DataManagementClient } from '@regardsoss/client'
 
 /**
- * UI Plugin Configuration entities client.
+ * Model attributes entities client.
  *
  * @author Léo Mieulet
  */

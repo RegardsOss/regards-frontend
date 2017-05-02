@@ -1,16 +1,23 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import projectUserDependencies from '@regardsoss/admin-user-projectuser-management/src/dependencies'
-import roleDependencies from '@regardsoss/admin-user-role-management/src/dependencies'
-import accessGroupsDependencies from '@regardsoss/admin-accessright-management/src/dependencies'
+import { projectUserDependencies } from '@regardsoss/admin-user-projectuser-management'
+import { roleDependencies } from '@regardsoss/admin-user-role-management'
+import { roleResourceAccessDependencies } from '@regardsoss/admin-user-role-resource-access-management'
+import { accessGroupDependencies } from '@regardsoss/admin-user-accessgroup-management'
+
 /**
  * Module hateoas depencies
  * @author Sébastien binda
  */
 
-export default {
-  ...projectUserDependencies.admin,
-  ...roleDependencies.admin,
-  ...accessGroupsDependencies.admin,
-}
+export default [
+  ...projectUserDependencies.listDependencies,
+  ...projectUserDependencies.addDependencies,
+  ...roleDependencies.addDependencies,
+  ...roleDependencies.listDependencies,
+  ...roleResourceAccessDependencies.addDependencies,
+  ...roleResourceAccessDependencies.listDependencies,
+  ...accessGroupDependencies.addDependencies,
+  ...accessGroupDependencies.listDependencies,
+]

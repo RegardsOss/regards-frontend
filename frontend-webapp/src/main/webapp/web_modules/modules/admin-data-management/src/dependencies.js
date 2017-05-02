@@ -4,6 +4,8 @@
 import { fragmentDependencies } from '@regardsoss/admin-data-fragment-management'
 import { modelDependencies } from '@regardsoss/admin-data-model-management'
 import { attributeModelDependencies } from '@regardsoss/admin-data-attributemodel-management'
+import { collectionDependencies } from '@regardsoss/admin-data-collection-management'
+import { connectionDependencies } from '@regardsoss/admin-data-connection-management'
 
 /**
  * Mandatory Dependencies to display module in project menu
@@ -16,4 +18,8 @@ export default [
   ...fragmentDependencies.addDependencies,
   ...attributeModelDependencies.listDependencies,
   ...attributeModelDependencies.addDependencies,
+  ...collectionDependencies.listDependencies,
+  ...collectionDependencies.addDependencies,
+  ...connectionDependencies.listDependencies,
+  ...connectionDependencies.addDependencies,
 ]

@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { BasicPageableReducers } from '@regardsoss/store-utils'
+import { BasicListReducers } from '@regardsoss/store-utils'
 import { AttributeModelConfiguration } from '@regardsoss/api'
 import AttributeModelActions from './AttributeModelActions'
 /**
@@ -9,14 +9,9 @@ import AttributeModelActions from './AttributeModelActions'
  */
 /**
  * Redux Reducer for  Attribute Model entities
- *
- * To use those actions, you need to pass the <namespace> parameter
- *
- * namespace : String, must be the same namespace defined in the associated Reducer.
- *
  * @author Léo Mieulet
  */
-class AttributeModelReducer extends BasicPageableReducers {
+class AttributeModelReducer extends BasicListReducers {
   constructor(namespace) {
     super(AttributeModelConfiguration, new AttributeModelActions(namespace))
   }

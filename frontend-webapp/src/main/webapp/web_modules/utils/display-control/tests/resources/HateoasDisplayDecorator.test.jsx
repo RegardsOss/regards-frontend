@@ -3,7 +3,7 @@
  */
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import { HateoasDisplayDecorator } from '../../src/hateoas/HateoasDisplayDecorator'
+import { HateoasDisplayDecorator } from '../../src/resources/HateoasDisplayDecorator'
 import DisplayDecorator from '../../src/DisplayDecorator'
 
 

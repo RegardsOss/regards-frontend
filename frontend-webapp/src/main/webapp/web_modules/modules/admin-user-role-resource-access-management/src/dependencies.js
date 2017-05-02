@@ -1,24 +1,21 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import { RequestVerbEnum } from '@regardsoss/store-utils'
+import { roleActions } from './client/RoleClient'
 
 /**
  * Module hateoas depencies
  * @author Sébastien binda
  */
-/**
- * Mandatory Dependencies to display module in user interface
- * @type {Array}
- */
-const user = []
+const addDependencies = [
+  roleActions.getDependency(RequestVerbEnum.POST),
+]
 
-/**
- * Mandatory Dependencies to display module in admin interface
- * @type {Array}
- */
-const admin = []
-
+const listDependencies = [
+  roleActions.getDependency(RequestVerbEnum.GET_LIST),
+]
 export default {
-  user,
-  admin,
+  addDependencies,
+  listDependencies,
 }

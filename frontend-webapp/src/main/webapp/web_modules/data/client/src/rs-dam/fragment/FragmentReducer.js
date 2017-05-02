@@ -21,7 +21,7 @@ class FragmentReducers extends BasicListReducers {
 }
 
 
-export default (namespace, actionsInstance) => {
+export default (namespace) => {
   const instance = new FragmentReducers(namespace)
   return (state, action) => instance.reduce(state, action)
 }

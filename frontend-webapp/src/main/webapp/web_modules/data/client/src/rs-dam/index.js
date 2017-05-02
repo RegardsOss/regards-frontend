@@ -22,6 +22,20 @@ import ModelSelectors from './model/ModelSelectors'
 import ModelActions from './model/ModelActions'
 import ModelReducer from './model/ModelReducer'
 
+import CollectionSelectors from './collection/CollectionSelectors'
+import CollectionActions from './collection/CollectionActions'
+import CollectionReducer from './collection/CollectionReducer'
+
+
+import ConnectionSelectors from './connection/ConnectionSelectors'
+import ConnectionActions from './connection/ConnectionActions'
+import ConnectionReducer from './connection/ConnectionReducer'
+
+
+import CollectionLinkActions from './collectionLink/CollectionLinkActions'
+import CollectionLinkReducer from './collectionLink/CollectionLinkReducer'
+
+
 export default {
   AttributeModelActions,
   AttributeModelReducer,
@@ -46,4 +60,15 @@ export default {
   ModelSelectors,
   ModelActions,
   ModelReducer,
+
+  CollectionSelectors,
+  CollectionActions,
+  CollectionReducer,
+
+  ConnectionSelectors,
+  ConnectionActions,
+  ConnectionReducer,
+
+  CollectionLinkActions,
+  CollectionLinkReducer,
 }

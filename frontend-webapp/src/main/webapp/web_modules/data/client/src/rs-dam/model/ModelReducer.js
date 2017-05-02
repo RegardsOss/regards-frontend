@@ -9,12 +9,6 @@ class ModelReducer extends BasicListReducers {
   }
 }
 
-/**
- * Return an function where the reducer instance exists
- * @param state redux previous state
- * @param action redux action received
- * @return new state
- */
 export default (namespace) => {
   const instance = new ModelReducer(namespace)
   return (state, action) => instance.reduce(state, action)

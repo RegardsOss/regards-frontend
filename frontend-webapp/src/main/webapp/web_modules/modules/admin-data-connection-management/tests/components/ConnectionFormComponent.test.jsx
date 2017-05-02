@@ -3,50 +3,33 @@
  */
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import { stub } from 'sinon'
-import { IntlStub } from '@regardsoss/tests-helpers'
+import { buildTestContext, testSuiteHelpers, DumpProvider } from '@regardsoss/tests-helpers'
 import { Field } from '@regardsoss/form-utils'
 import { ConnectionFormComponent } from '../../src/components/ConnectionFormComponent'
-import PluginMetaDataDump from '../model/dump/PluginMetaDataDump'
+
+const context = buildTestContext()
 
 describe('[ADMIN DATA CONNECTION MANAGEMENT] Testing ConnectionFormComponent', () => {
-  // Since react will console.error propType warnings, that which we'd rather have
-  // as errors, we use sinon.js to stub it into throwing these warning as errors
-  // instead.
-  before(() => {
-    stub(console, 'error').callsFake((warning) => {
-      throw new Error(warning)
-    })
-  })
-  after(() => {
-    console.error.restore()
-  })
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('should exists', () => {
     assert.isDefined(ConnectionFormComponent)
     assert.isDefined(Field)
   })
-  const context = {
-    intl: IntlStub,
-    muiTheme: {
-      layout: {
-        cardEspaced: {},
-      },
-    },
-  }
+
   it('Render properly', () => {
     const props = {
       currentConnection: null,
-      pluginMetaDataList: PluginMetaDataDump,
+      pluginMetaDataList: DumpProvider.get('CommonClient', 'PluginMetaData'),
       onSubmit: () => {},
       backUrl: '#',
       isCreating: true,
       isEditing: false,
-
       submitting: false,
       invalid: false,
       handleSubmit: () => {},
       initialize: () => {},
-
     }
     const enzymeWrapper = shallow(<ConnectionFormComponent {...props} />, { context })
     expect(enzymeWrapper.find(Field)).to.have.length(11)

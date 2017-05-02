@@ -6,8 +6,7 @@ import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { Collection } from '@regardsoss/model'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import CollectionActions from '../model/CollectionActions'
-import CollectionSelectors from '../model/CollectionSelectors'
+import { collectionActions, collectionSelectors } from '../client/CollectionClient'
 import CollectionListComponent from '../components/CollectionListComponent'
 
 /**
@@ -80,13 +79,13 @@ export class CollectionListContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  collectionList: CollectionSelectors.getList(state),
-  isFetching: CollectionSelectors.isFetching(state),
+  collectionList: collectionSelectors.getList(state),
+  isFetching: collectionSelectors.isFetching(state),
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchCollectionList: () => dispatch(CollectionActions.fetchPagedEntityList(0, 100)),
-  deleteCollection: id => dispatch(CollectionActions.deleteEntity(id)),
+  fetchCollectionList: () => dispatch(collectionActions.fetchEntityList()),
+  deleteCollection: id => dispatch(collectionActions.deleteEntity(id)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CollectionListContainer)

@@ -6,11 +6,9 @@ import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { Connection, PluginMetaData } from '@regardsoss/model'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import ConnectionActions from '../model/ConnectionActions'
-import ConnectionSelectors from '../model/ConnectionSelectors'
+import { connectionActions, connectionSelectors } from '../client/ConnectionClient'
 import ConnectionFormComponent from '../components/ConnectionFormComponent'
-import PluginMetaDataActions from '../model/PluginMetaDataActions'
-import PluginMetaDataSelectors from '../model/PluginMetaDataSelectors'
+import { pluginMetaDataActions, pluginMetaDataSelectors } from '../client/PluginMetaDataClient'
 
 /**
  * List connection
@@ -62,48 +60,18 @@ export class ConnectionFormContainer extends React.Component {
     return `/admin/${project}/data/connection/list`
   }
 
-  getParameters = values => [{
-    name: 'user',
-    value: values.user,
-    dynamic: false,
-  }, {
-    name: 'password',
-    value: values.password,
-    dynamic: false,
-  }, {
-    name: 'dbHost',
-    value: values.dbHost,
-    dynamic: false,
-  }, {
-    name: 'dbPort',
-    value: values.dbPort,
-    dynamic: false,
-  }, {
-    name: 'dbName',
-    value: values.dbName,
-    dynamic: false,
-  }, {
-    name: 'driver',
-    value: values.driver,
-    dynamic: false,
-  }, {
-    name: 'maxPoolSize',
-    value: values.maxPoolSize,
-    dynamic: false,
-  }, {
-    name: 'minPoolSize',
-    value: values.minPoolSize,
-    dynamic: false,
-  }]
 
   handleCreate = (values) => {
     const newConnection = {
       label: values.label,
-      version: values.version,
-      priorityOrder: values.priorityOrder,
-      active: values.isActive,
       pluginClassName: values.pluginClassName,
-      parameters: this.getParameters(values),
+      user: values.user,
+      password: values.password,
+      dbHost: values.dbHost,
+      dbPort: values.dbPort,
+      dbName: values.dbName,
+      maxPoolSize: values.maxPoolSize,
+      minPoolSize: values.minPoolSize,
     }
     Promise.resolve(this.props.createConnection(newConnection))
       .then((actionResult) => {
@@ -117,11 +85,14 @@ export class ConnectionFormContainer extends React.Component {
   handleUpdate = (values) => {
     const updatedConnection = Object.assign({}, this.props.currentConnection.content, {
       label: values.label,
-      version: values.version,
-      priorityOrder: values.priorityOrder,
-      active: values.isActive,
       pluginClassName: values.pluginClassName,
-      parameters: this.getParameters(values),
+      user: values.user,
+      password: values.password,
+      dbHost: values.dbHost,
+      dbPort: values.dbPort,
+      dbName: values.dbName,
+      maxPoolSize: values.maxPoolSize,
+      minPoolSize: values.minPoolSize,
     })
     Promise.resolve(this.props.updateConnection(this.props.params.connectionId, updatedConnection))
       .then((actionResult) => {
@@ -156,19 +127,19 @@ export class ConnectionFormContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  currentConnection: ownProps.params.connectionId ? ConnectionSelectors.getById(state, ownProps.params.connectionId) : null,
-  pluginMetaDataList: PluginMetaDataSelectors.getList(state),
+  currentConnection: ownProps.params.connectionId ? connectionSelectors.getById(state, ownProps.params.connectionId) : null,
+  pluginMetaDataList: pluginMetaDataSelectors.getList(state),
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchConnection: id => dispatch(ConnectionActions.fetchEntity(id)),
-  createConnection: values => dispatch(ConnectionActions.createEntity(values)),
-  updateConnection: (id, values) => dispatch(ConnectionActions.updateEntity(id, values)),
-  fetchPluginMetaDataList: () => dispatch(PluginMetaDataActions.fetchPagedEntityList(0, 100, {
+  fetchConnection: id => dispatch(connectionActions.fetchEntity(id)),
+  createConnection: values => dispatch(connectionActions.createEntity(values)),
+  updateConnection: (id, values) => dispatch(connectionActions.updateEntity(id, values)),
+  fetchPluginMetaDataList: () => dispatch(pluginMetaDataActions.fetchEntityList({
     microserviceName: 'rs-dam',
-  }, /* {
-   pluginType: 'fr.cnes.regards.modules.datasources.plugins.interfaces.IDBConnectionPlugin'
-   }*/)),
+  }, {
+    pluginType: 'fr.cnes.regards.modules.datasources.plugins.interfaces.IDBConnectionPlugin',
+  })),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ConnectionFormContainer)

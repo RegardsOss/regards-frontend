@@ -1,10 +1,10 @@
 import Schemas from '@regardsoss/api'
 import { BasicListActions } from '@regardsoss/store-utils'
 
-class ConnectionActions extends BasicListActions {
-  constructor() {
+export default class ConnectionActions extends BasicListActions {
+  constructor(namespace) {
     super({
-      namespace: 'admin-data-connection-management/connection',
+      namespace,
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-dam/connections`,
       entityPathVariable: 'pConnectionId',
       schemaTypes: {
@@ -14,6 +14,3 @@ class ConnectionActions extends BasicListActions {
     })
   }
 }
-
-const instance = new ConnectionActions()
-export default instance
