@@ -6,7 +6,9 @@ import ModelDump from '@regardsoss/client/tests/rs-dam/Model.dump'
 import ModelAttributeDump from '@regardsoss/client/tests/rs-dam/ModelAttribute.dump'
 import ConnectionDump from '@regardsoss/client/tests/rs-dam/Connection.dump'
 import PluginMetaDataDump from '@regardsoss/client/tests/rs-common/PluginMetaData.dump'
-
+import ConnectionTableDump from '@regardsoss/client/tests/rs-dam/ConnectionTable.dump'
+import ConnectionTableAttributeDump from '@regardsoss/client/tests/rs-dam/ConnectionTableAttribute.dump'
+import DatasourceDump from '@regardsoss/client/tests/rs-dam/Datasource.dump'
 
 import {
   // UIPluginConfiguration
@@ -34,6 +36,9 @@ import {
 
   PLUGIN_META_DATA_ARRAY,
   PluginMetaDataConfiguration,
+
+  DATASOURCE_ARRAY,
+  DatasourceConfiguration,
 } from '@regardsoss/api'
 
 /**
@@ -96,6 +101,20 @@ export default {
       dump: ConnectionDump,
       ENTITY_ARRAY: CONNECTION_ARRAY,
       normalizrKey: ConnectionConfiguration.normalizrKey,
+    },
+    ConnectionTable: {
+      isSignal: true,
+      dump: ConnectionTableDump,
+    },
+    ConnectionTableAttribute: {
+      isSignal: true,
+      dump: ConnectionTableAttributeDump,
+    },
+    Datasource: {
+      isPageable: true,
+      dump: DatasourceDump,
+      ENTITY_ARRAY: DATASOURCE_ARRAY,
+      normalizrKey: DatasourceConfiguration.normalizrKey,
     },
   },
 }

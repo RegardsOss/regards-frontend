@@ -4,10 +4,10 @@
 import Schemas from '@regardsoss/api'
 import { BasicPageableActions } from '@regardsoss/store-utils'
 
-class DatasourceActions extends BasicPageableActions {
-  constructor() {
+export default class DatasourceActions extends BasicPageableActions {
+  constructor(namespace) {
     super({
-      namespace: 'admin-data-datasource-management/datasource',
+      namespace,
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-dam/datasources`,
       entityPathVariable: 'pPluginConfId',
       schemaTypes: {
@@ -17,6 +17,3 @@ class DatasourceActions extends BasicPageableActions {
     })
   }
 }
-
-const instance = new DatasourceActions()
-export default instance

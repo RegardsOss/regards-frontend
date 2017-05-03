@@ -3,40 +3,26 @@
  */
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import { stub } from 'sinon'
-import { IntlStub } from '@regardsoss/tests-helpers'
+import { testSuiteHelpers, DumpProvider, buildTestContext } from '@regardsoss/tests-helpers'
 import { ListItem } from 'material-ui/List'
 import ConnectionViewerComponent from '../../src/components/ConnectionViewerComponent'
-import ConnectionTableAttributeDump from '../model/dump/ConnectionTableAttributeDump'
-import ConnectionTableDump from '../model/dump/ConnectionTableDump'
+
+const context = buildTestContext()
 
 describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing ConnectionViewerComponent', () => {
-  // Since react will console.error propType warnings, that which we'd rather have
-  // as errors, we use sinon.js to stub it into throwing these warning as errors
-  // instead.
-  before(() => {
-    stub(console, 'error').callsFake((warning) => {
-      throw new Error(warning)
-    })
-  })
-  after(() => {
-    console.error.restore()
-  })
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
+
   it('should exists', () => {
     assert.isDefined(ConnectionViewerComponent)
     assert.isDefined(ListItem)
   })
-  const context = {
-    intl: IntlStub,
-    muiTheme: {
-      palette: {},
-    },
-  }
 
   it('Render properly', () => {
     const props = {
-      tableList: ConnectionTableDump,
-      tableAttributeList: ConnectionTableAttributeDump,
+      tableList: DumpProvider.get('DataManagementClient', 'ConnectionTable'),
+      tableAttributeList: DumpProvider.get('DataManagementClient', 'ConnectionTableAttribute'),
       // Both are only provided in FromTable
       displayTableAsSelected: false,
       onTableSelected: () => {},
