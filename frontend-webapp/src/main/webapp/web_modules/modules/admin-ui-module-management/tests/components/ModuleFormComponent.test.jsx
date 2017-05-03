@@ -24,22 +24,22 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Modules form component', () => {
   after(testSuiteHelpers.after)
 
 
-  const testContainers =  [
+  const testContainers = [
     {
-      id:'main',
-      type : 'test',
-      dynamicContent:false,
+      id: 'main',
+      type: 'test',
+      dynamicContent: false,
     },
     {
-      id:'second',
-      type : 'test',
-      dynamicContent:false,
+      id: 'second',
+      type: 'test',
+      dynamicContent: false,
     },
     {
-      id:'third',
-      type : 'test',
-      dynamicContent:false,
-    }
+      id: 'third',
+      type: 'test',
+      dynamicContent: false,
+    },
   ]
 
   const muiTheme = getMuiTheme({

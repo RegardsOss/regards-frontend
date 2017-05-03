@@ -9,6 +9,14 @@ class AuthenticateSelectors extends BasicSignalSelectors {
     return this.uncombineStore(state)
   }
 
+  getAuthenticationResult(state) {
+    const authentication = this.getAuthentication(state)
+    if (authentication) {
+      return authentication.result
+    }
+    return authentication
+  }
+
   /**
    * Is a user authenticated (based on last fetch result)
    * @param state state
