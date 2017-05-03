@@ -99,7 +99,7 @@ const
 
 const
   mapDispatchToProps = dispatch => ({
-    fetchAllModelsAttributes: () => dispatch(AttributeModelActions.fetchPagedEntityList(0, 100)),
+    fetchAllModelsAttributes: () => dispatch(AttributeModelActions.fetchEntityList()),
   })
 
 const

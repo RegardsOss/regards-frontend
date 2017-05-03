@@ -153,13 +153,13 @@ const listToQueryParam = (list, key) => {
 const mapDispatchToProps = dispatch => ({
   // Function to retrieve all available criterion plugins
   fetchCriterion: () => dispatch(CriterionActions.fetchPagedEntityList(0, 100)),
-  fetchAllModelsAttributes: () => dispatch(AttributeModelClient.AttributeModelActions.fetchPagedEntityList(0, 100)),
+  fetchAllModelsAttributes: () => dispatch(AttributeModelClient.AttributeModelActions.fetchEntityList()),
   // Function to retrieve attributes associated to the selected models
   fetchModelsAttributes: modelsId => dispatch(
-    AttributeModelClient.AttributeModelActions.fetchPagedEntityList(dispatch, 0, 100, { queryParam: listToQueryParam(modelsId, 'model') })),
+    AttributeModelClient.AttributeModelActions.fetchEntityList({}, { queryParam: listToQueryParam(modelsId, 'model') })),
   // Function to retrieve attributes associated to the selected datasets
   fetchDatasetsAttributes: datasetsId => dispatch(
-    AttributeModelClient.AttributeModelActions.fetchPagedEntityList(dispatch, 0, 100, { queryPAram: listToQueryParam(datasetsId, 'dataset') })),
+    AttributeModelClient.AttributeModelActions.fetchEntityList({}, { queryPAram: listToQueryParam(datasetsId, 'dataset') })),
   // funcution to update a value of the current redux-form
 })
 

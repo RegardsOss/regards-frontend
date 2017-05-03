@@ -49,7 +49,7 @@ class ModuleFormComponent extends React.Component {
   constructor(props) {
     super(props)
     let dynamicContainerSelected = false
-    if (this.props.module !== null) {
+    if (this.props.module) {
       dynamicContainerSelected = find(this.props.containers,
         container => container.id === this.props.module.container && container.dynamicContent)
     }
