@@ -5,7 +5,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { NoContentMessageInfo, IFrameURLContentDisplayer } from '@regardsoss/components'
-import { ScrollAreaAdapter } from '@regardsoss/adapters'
+import { ScrollArea } from '@regardsoss/adapters'
 import DescriptionComponent from '../../../../src/components/detail/description/DescriptionComponent'
 import styles from '../../../../src/styles/styles'
 
@@ -64,7 +64,7 @@ describe('[Entities Common] Testing DescriptionComponent', () => {
     assert.lengthOf(noDataWrapper, 1, 'There should be a no data displayer')
     assert.isFalse(noDataWrapper.props().noContent, 'It should not display a no data mode')
 
-    const localMarkdownWrapper = enzymeWrapper.find(ScrollAreaAdapter)
+    const localMarkdownWrapper = enzymeWrapper.find(ScrollArea)
     assert.lengthOf(localMarkdownWrapper, 1, 'There should be markdown displayer (scrollable container here)')
   })
 })

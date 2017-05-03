@@ -17,13 +17,15 @@ export default {
    * @param firstName first name
    * @param lastName last name
    * @param password password
+   * @param metadata array of user metadata
    */
-  sendCreateAccount: (email, firstName, lastName, password) =>
+  sendCreateAccount: (email, firstName, lastName, password, metadata) =>
     CreateAccountActions.sendCreateRequest({
       email,
       firstName,
       lastName,
       password,
+      metadata,
       requestLink: getRequestLinkURL(AuthenticationRouteParameters.mailAuthenticationAction.values.validateAccount),
     }),
 }

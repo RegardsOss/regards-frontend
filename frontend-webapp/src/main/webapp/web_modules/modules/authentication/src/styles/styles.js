@@ -20,6 +20,7 @@ const styles = theme => (
     },
     dialog: {
       preferredWidth: '680px',
+      maxFormHeight: '55vh',
     },
   })
 

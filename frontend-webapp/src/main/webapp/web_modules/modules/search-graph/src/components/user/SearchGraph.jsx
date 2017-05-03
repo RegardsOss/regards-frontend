@@ -3,7 +3,7 @@
 **/
 import Measure from 'react-measure'
 import { Card, CardMedia } from 'material-ui/Card'
-import { ScrollAreaAdapter } from '@regardsoss/adapters'
+import { ScrollArea } from '@regardsoss/adapters'
 import { themeContextType } from '@regardsoss/theme'
 import { ShowableAtRender } from '@regardsoss/components'
 import ModuleConfiguration from '../../model/ModuleConfiguration'
@@ -67,12 +67,10 @@ class SearchGraph extends React.Component {
         <ShowableAtRender show={!moduleCollapsed}>
           <CardMedia>
             <div style={user.graph.styles}>
-              <ScrollAreaAdapter
+              <ScrollArea
                 horizontal
                 vertical={false}
                 smoothScrolling
-                horizontalContainerStyle={user.scrolling.horizontalScrollContainer.styles}
-                horizontalScrollbarStyle={user.scrolling.horizontalScrollbar.styles}
                 contentStyle={viewportStyles}
                 ref={(scrollArea) => { this.scrollArea = scrollArea }}
               >
@@ -90,7 +88,7 @@ class SearchGraph extends React.Component {
                     ))}
                   </div>
                 </Measure>
-              </ScrollAreaAdapter>
+              </ScrollArea>
             </div>
           </CardMedia>
         </ShowableAtRender>

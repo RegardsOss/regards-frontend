@@ -2,6 +2,11 @@ import AttributeModelActions from './attributesModel/AttributeModelActions'
 import AttributeModelReducer from './attributesModel/AttributeModelReducer'
 import AttributeModelSelectors from './attributesModel/AttributeModelSelectors'
 
+import DownloadDescriptionDefinitions from './description/DownloadDescriptionDefinitions'
+import DownloadEntityDescriptionActions from './description/DownloadEntityDescriptionActions'
+import DownloadEntityDescriptionReducer from './description/DownloadEntityDescriptionReducer'
+import DownloadEntityDescriptionSelectors from './description/DownloadEntityDescriptionSelectors'
+
 import ModelAttributesActions from './modelAttributes/ModelAttributesActions'
 import ModelAttributesReducer from './modelAttributes/ModelAttributesReducer'
 import ModelAttributesSelectors from './modelAttributes/ModelAttributesSelectors'
@@ -41,14 +46,6 @@ export default {
   AttributeModelReducer,
   AttributeModelSelectors,
 
-  ModelAttributesActions,
-  ModelAttributesReducer,
-  ModelAttributesSelectors,
-
-  FragmentActions,
-  FragmentReducer,
-  FragmentSelectors,
-
   AttributeModelRestrictionSelectors,
   AttributeModelRestrictionActions,
   AttributeModelRestrictionReducer,
@@ -56,10 +53,6 @@ export default {
   AttributeModelTypeSelectors,
   AttributeModelTypeActions,
   AttributeModelTypeReducer,
-
-  ModelSelectors,
-  ModelActions,
-  ModelReducer,
 
   CollectionSelectors,
   CollectionActions,
@@ -71,4 +64,22 @@ export default {
 
   CollectionLinkActions,
   CollectionLinkReducer,
+
+  DownloadDescriptionDefinitions,
+  DownloadEntityDescriptionActions,
+  DownloadEntityDescriptionReducer,
+  DownloadEntityDescriptionSelectors,
+
+  FragmentActions,
+  FragmentReducer,
+  FragmentSelectors,
+
+  ModelSelectors,
+  ModelActions,
+  ModelReducer,
+
+  ModelAttributesActions,
+  ModelAttributesReducer,
+  ModelAttributesSelectors,
+
 }

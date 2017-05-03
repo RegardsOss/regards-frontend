@@ -2,8 +2,9 @@
  * LICENSE_PLACEHOLDER
  **/
 import { Locales } from '@regardsoss/form-utils'
+import { Locales as MetadataLocales } from '@regardsoss/user-metadata-common'
 
-const messages = Object.assign({
+const messages = {
   'authentication.username': 'E-mail address',
   'authentication.password': 'Password',
   'authentication.button': 'Log in',
@@ -121,6 +122,8 @@ const messages = Object.assign({
   'session.locked.button': 'Unlock',
   'session.locked.error': 'Invalid identifiers',
 
-}, Locales.en)
+  ...Locales.en,
+  ...MetadataLocales.en,
+}
 
 export default messages

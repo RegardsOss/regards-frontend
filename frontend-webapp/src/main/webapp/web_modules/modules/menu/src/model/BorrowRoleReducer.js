@@ -4,13 +4,13 @@
 import { BasicSignalReducers } from '@regardsoss/store-utils'
 import BorrowRoleActions from './BorrowRoleActions'
 
-class BorrowRoleReducers extends BasicSignalReducers {
+class BorrowRoleReducer extends BasicSignalReducers {
   constructor() {
     super(BorrowRoleActions)
   }
 }
 
-const instance = new BorrowRoleReducers()
+const instance = new BorrowRoleReducer()
 
 /**
  * Return an function where the reducer instance exists

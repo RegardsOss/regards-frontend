@@ -9,6 +9,7 @@ import BorrowableRolesActions from '../model/BorrowableRolesActions'
 import BorrowableRolesSelectors from '../model/BorrowableRolesSelectors'
 import BorrowRoleActions from '../model/BorrowRoleActions'
 import BorrowRoleSelectors from '../model/BorrowRoleSelectors'
+import ProfileDialogActions from '../model/ProfileDialogActions'
 import LoggedUserComponent from '../components/LoggedUserComponent'
 
 
@@ -27,11 +28,12 @@ class LoggedUserContainer extends React.Component {
     isInstance: React.PropTypes.bool.isRequired,
     // also borrowRoleResult, but only used in next props
 
-    // from mapDispathToProps
+    // from mapDispatchToProps
     onLogout: React.PropTypes.func.isRequired,
     fetchBorrowableRoles: React.PropTypes.func.isRequired,
     sendBorrowRole: React.PropTypes.func.isRequired,
     dispatchRoleBorrowed: React.PropTypes.func.isRequired,
+    showProfileEdition: React.PropTypes.func.isRequired,
   }
 
 
@@ -59,10 +61,12 @@ class LoggedUserContainer extends React.Component {
 
 
   render() {
-    const { authenticationName, currentRole, borrowableRoles, onLogout } = this.props
+    const { authenticationName, currentRole, borrowableRoles, onLogout,
+      showProfileEdition } = this.props
     return (
       <LoggedUserComponent
         name={authenticationName}
+        onShowProfileEdition={showProfileEdition}
         onLogout={onLogout}
         currentRole={currentRole}
         borrowableRoles={borrowableRoles}
@@ -88,6 +92,7 @@ const mapDispathToProps = dispatch => ({
   fetchBorrowableRoles: () => dispatch(BorrowableRolesActions.fetchEntityList()),
   sendBorrowRole: roleName => dispatch(BorrowRoleActions.borrowRole(roleName)),
   dispatchRoleBorrowed: authResult => dispatch(AuthenticationClient.authenticationActions.notifyAuthenticationChanged(authResult)),
+  showProfileEdition: () => dispatch(ProfileDialogActions.showEdition()),
 })
 
 export default connect(mapStateToProps, mapDispathToProps)(LoggedUserContainer)
