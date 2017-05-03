@@ -36,19 +36,19 @@ const metadataV1 = [{
   mandatory: false,
   onlyAtRegistration: false,
 }, {
-  key: 'Country',
+  key: 'country',
   labelKey: 'user.metadata.country',
   editor: editors.countriesEditor,
   mandatory: true,
   onlyAtRegistration: false,
 }, {
-  key: 'Organization',
+  key: 'organization',
   labelKey: 'user.metadata.organization',
   editor: editors.textEditor,
   mandatory: true,
   onlyAtRegistration: false,
 }, {
-  key: 'Reason',
+  key: 'reason',
   labelKey: 'user.metadata.reason',
   editor: editors.multilineTextEditor,
   mandatory: true,
