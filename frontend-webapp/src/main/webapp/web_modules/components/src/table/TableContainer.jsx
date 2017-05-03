@@ -5,12 +5,16 @@ import { concat, forEach, isEqual, keys } from 'lodash'
 
 import { connect } from '@regardsoss/redux'
 import { BasicPageableSelectors, BasicPageableActions } from '@regardsoss/store-utils'
+import { getReducerRegistry, configureReducers } from '@regardsoss/store'
 import { ModuleThemeProvider } from '@regardsoss/modules'
 import { I18nProvider } from '@regardsoss/i18n'
 import TablePane from './TablePane'
 import TablePaneConfigurationModel from './model/TablePaneConfigurationModel'
 import TableConfigurationModel from './content/model/TableConfigurationModel'
 import ColumnConfigurationModel from './content/columns/model/ColumnConfiguration'
+import TableReducers from './model/TableReducers'
+import TableActions from './model/TableActions'
+import TableSelectors from './model/TableSelectors'
 
 import styles from './styles/styles'
 import './styles/fixed-data-table-mui.css'
@@ -45,6 +49,7 @@ class TableContainer extends React.Component {
    * pageSize : Optional, number of visible entity into the table. Default 20.
    */
   static propTypes = {
+    name: React.PropTypes.string.isRequired,
     // table configuration
     tableConfiguration: React.PropTypes.shape(TableConfigurationModel).isRequired,
     // table pane configuration
@@ -78,6 +83,9 @@ class TableContainer extends React.Component {
     }),
     fetchEntities: React.PropTypes.func,
     entitiesFetching: React.PropTypes.bool,
+    selectionMode: React.PropTypes.string,
+    onToggleSelectionMode: React.PropTypes.func,
+    setToggledElements: React.PropTypes.func,
   }
 
   static defaultProps = {
@@ -89,6 +97,19 @@ class TableContainer extends React.Component {
     this.nbEntitiesByPage = this.props.pageSize * 3
     this.state = {
       entities: null,
+    }
+
+
+  }
+
+  componentWillMount() {
+    if (this.props.name) {
+      // Add reducers to the current store
+      const tableReducers = {}
+      tableReducers[TableReducers.TABLE_REDUX_STORE_NAME] = configureReducers(TableReducers.getReducers(this.props.name))
+      getReducerRegistry().register(tableReducers)
+    } else {
+      console.warn("No unique name defined form TableContainer. Redux actions/reducers not initialized.")
     }
   }
 
@@ -208,8 +229,8 @@ class TableContainer extends React.Component {
 
 
   render() {
-    const { entitiesFetching, pageSize, pageMetadata,
-      tablePaneConfiguration, onSelectionChange,
+    const { entitiesFetching, pageSize, pageMetadata, setToggledElements,
+      tablePaneConfiguration, onSelectionChange, selectionMode, onToggleSelectionMode,
       tableConfiguration: { lineHeight = defaultLineHeight, ...tableConfiguration },
     } = this.props
     const { entities } = this.state
@@ -229,6 +250,9 @@ class TableContainer extends React.Component {
             entitiesFetching={entitiesFetching}
             resultsCount={(pageMetadata && pageMetadata.totalElements) || 0}
             onSelectionChange={onSelectionChange}
+            selectionMode={selectionMode}
+            onToggleSelectionMode={onToggleSelectionMode}
+            setToggledElements={setToggledElements}
             {...tablePaneConfiguration}
           />
         </ModuleThemeProvider>
@@ -241,10 +265,13 @@ const mapStateToProps = (state, ownProps) => ({
   entities: ownProps.PageSelector.getOrderedList(state),
   pageMetadata: ownProps.PageSelector.getMetaData(state),
   entitiesFetching: ownProps.PageSelector.isFetching(state),
+  selectionMode: TableSelectors.getTableSelectionMode(state, ownProps.name),
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   fetchEntities: (index, nbEntitiesByPage, requestParams) => dispatch(ownProps.PageActions.fetchPagedEntityList(index, nbEntitiesByPage, requestParams)),
+  onToggleSelectionMode: () => dispatch(TableActions.toggleTableSelectionMode()),
+  setToggledElements: toggledElements => dispatch(TableActions.setToggledElements(toggledElements)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(TableContainer)

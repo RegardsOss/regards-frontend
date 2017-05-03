@@ -1,8 +1,8 @@
 import ChartAdapter from './components/ChartAdapter'
-import ScrollAreaAdapter from './components/ScrollAreaAdapter'
+import ScrollArea from './components/ScrollAreaAdapter'
 
 export default {
   ChartAdapter,
-  ScrollAreaAdapter,
+  ScrollArea,
 }
 

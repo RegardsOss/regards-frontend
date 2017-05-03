@@ -12,6 +12,7 @@ export default {
   /**
    * Sends create account request (project is hold by the token)
    * @param email account mail
+   * @param metadata array of user metadata
    */
-  sendCreateUser: email => CreateUserActions.sendCreateRequest({ email }),
+  sendCreateUser: (email, metadata) => CreateUserActions.sendCreateRequest({ email, metadata }),
 }

@@ -15,13 +15,6 @@ const menuStyles = (theme) => {
     maxWidth: 465,
   }
   const progressSize = 120
-  const scrollContainerStyles = { zIndex: 5, background: 'rgba(0,0,0,0)' }
-  const scrollbarStyles = {
-    background: theme.palette.textColor,
-    borderRadius: '3px',
-    width: '6px',
-  }
-
   return {
     admin: {
       form: {
@@ -121,18 +114,6 @@ const menuStyles = (theme) => {
       scrolling: {
         width: '100%',
         height: 250,
-        verticalScrollContainer: {
-          styles: scrollContainerStyles,
-        },
-        horizontalScrollContainer: {
-          styles: scrollContainerStyles,
-        },
-        verticalScrollbar: {
-          styles: scrollbarStyles,
-        },
-        horizontalScrollbar: {
-          styles: scrollbarStyles,
-        },
       },
       graphScrollableContent: {
         styles: {

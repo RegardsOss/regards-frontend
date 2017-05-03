@@ -82,6 +82,7 @@ export default class ReduxEntityTester {
     try {
       assert.isDefined(action.payload.entities, `An error happened between JSON received and normalization at the end of the action: ${JSON.stringify(action)}`)
     } catch (e) {
+      console.error('Action received', action)
       return done(e)
     }
     return this.runSelectorTest(store, done)

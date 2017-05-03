@@ -5,7 +5,7 @@ import { map, join, split } from 'lodash'
 import { FormattedMessage } from 'react-intl'
 import MenuItem from 'material-ui/MenuItem'
 import { CardActionsComponent } from '@regardsoss/components'
-import { RenderTextField, RenderSelectField, Field, RenderCheckbox, reduxForm } from '@regardsoss/form-utils'
+import { RenderTextField, RenderSelectField, Field, RenderCheckbox, reduxForm, ValidationHelpers } from '@regardsoss/form-utils'
 import { I18nProvider } from '@regardsoss/i18n'
 import ContainerShape from '../model/ContainerShape'
 import containerTypes from '../default/containerTypes'
@@ -112,12 +112,13 @@ class ContainerConfigurationComponent extends React.Component {
 
 function validate(values) {
   const errors = {}
-  /* if (values.name === '') {
-   errors.name = ErrorTypes.REQUIRED
-   }
-   if (values.description === '') {
-   errors.description = ErrorTypes.REQUIRED
-   }*/
+
+  errors.id = ValidationHelpers.validRequiredString(values.id)
+  if (!errors.id) {
+    errors.id = ValidationHelpers.validAlphaNumericUnderscore(values.id)
+  }
+  errors.type = ValidationHelpers.validRequiredString(values.type)
+
   return errors
 }
 

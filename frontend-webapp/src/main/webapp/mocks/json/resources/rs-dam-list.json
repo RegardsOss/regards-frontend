@@ -56,6 +56,7 @@
       },
       "attribute": {
         "id": 0,
+        "label" : "Attribute_0_0",
         "name": "Attribute_0_0",
         "description": "Description de l'attribut 0 - 0",
         "defaultValue": null,
@@ -86,6 +87,7 @@
       },
       "attribute": {
         "id": 4,
+        "label" : "Attribute_4",
         "name": "Attribute_4",
         "description": "Description de l'attribut 0 - 0",
         "defaultValue": null,
@@ -109,6 +111,7 @@
     {
       "id": 0,
       "name": "Attribute_0_0",
+      "label" : "Attribute_0_0",
       "description": "Description de l'attribut 0 - 0",
       "defaultValue": null,
       "type": "STRING",
@@ -122,12 +125,14 @@
       "group": "leGroup",
       "fragment": {
         "id": 1,
-        "name": "Default"
+        "name": "Default",
+        "description" : "Default fragment"
       }
     },
     {
       "id": 3,
       "name": "Attribute_0_0",
+      "label" : "Attribute_0_0",
       "description": "Description de l'attribut 0 - 0",
       "defaultValue": null,
       "type": "STRING",
@@ -141,12 +146,14 @@
       "group": "leGroup",
       "fragment": {
         "id": 2,
-        "name": "Fragment 2"
+        "name": "Fragment 2",
+        "description" : "Fragment"
       }
     },
     {
       "id": 2,
       "name": "Attribute_0_0",
+      "label" : "Attribute_0_0",
       "description": "Description de l'attribut 0 - 0",
       "defaultValue": null,
       "type": "STRING",
@@ -160,12 +167,14 @@
       "group": "leGroup",
       "fragment": {
         "id": 3,
-        "name": "Fragment 3"
+        "name": "Fragment 3",
+        "description" : "Fragment"
       }
     },
     {
       "id": 1,
       "name": "Attribute_1_0",
+      "label" : "Attribute_1_0",
       "description": "Description de l'attribut 1 - 0",
       "defaultValue": null,
       "type": "STRING",
@@ -179,12 +188,14 @@
       "group": "leGroup",
       "fragment": {
         "id": 1,
-        "name": "Default"
+        "name": "Default",
+        "description" : "Fragment"
       }
     },
     {
       "id": 4,
       "name": "Attribute_4",
+      "label" : "Attribute_4",
       "description": "Description de l'attribut 0 - 0",
       "defaultValue": null,
       "type": "STRING",
@@ -198,7 +209,8 @@
       "group": "leGroup",
       "fragment": {
         "id": 2,
-        "name": "Fragment 2"
+        "name": "Fragment 2",
+        "description" : "Fragment"
       }
     },
     {
@@ -212,7 +224,9 @@
       "precision": null,
       "arraysize": 0,
       "fragment": {
-        "name": "default"
+        "id": 1,
+        "name": "default",
+        "description" : "Fragment"
       },
       "queryable": true,
       "facetable": true,
@@ -231,7 +245,9 @@
       "precision": null,
       "arraysize": 0,
       "fragment": {
-        "name": "default"
+        "id": 1,
+        "name": "default",
+        "description" : "Fragment"
       },
       "queryable": true,
       "facetable": true,
@@ -250,7 +266,9 @@
       "precision": null,
       "arraysize": 0,
       "fragment": {
-        "name": "infos"
+        "id": 4,
+        "name": "infos",
+        "description" : "Fragment"
       },
       "queryable": true,
       "facetable": true,
@@ -269,7 +287,9 @@
       "precision": null,
       "arraysize": 0,
       "fragment": {
-        "name": "infos"
+        "id": 4,
+        "name": "infos",
+        "description" : "Fragment"
       },
       "queryable": true,
       "facetable": true,
@@ -288,7 +308,9 @@
       "precision": null,
       "arraysize": 0,
       "fragment": {
-        "name": "infos"
+        "id": 4,
+        "name": "infos",
+        "description" : "Fragment"
       },
       "queryable": true,
       "facetable": true,
@@ -307,7 +329,9 @@
       "precision": null,
       "arraysize": 0,
       "fragment": {
-        "name": "infos"
+        "id": 4,
+        "name": "infos",
+        "description" : "Fragment"
       },
       "queryable": true,
       "facetable": true,
@@ -326,7 +350,9 @@
       "precision": null,
       "arraysize": 0,
       "fragment": {
-        "name": "infos"
+        "id": 4,
+        "name": "infos",
+        "description" : "Fragment"
       },
       "queryable": true,
       "facetable": true,
@@ -345,7 +371,9 @@
       "precision": null,
       "arraysize": 0,
       "fragment": {
-        "name": "infos"
+        "id": 4,
+        "name": "infos",
+        "description" : "Fragment"
       },
       "queryable": true,
       "facetable": true,
@@ -364,7 +392,9 @@
       "precision": null,
       "arraysize": 0,
       "fragment": {
-        "name": "infos"
+        "id": 4,
+        "name": "infos",
+        "description" : "Fragment"
       },
       "queryable": true,
       "facetable": true,
@@ -383,7 +413,9 @@
       "precision": null,
       "arraysize": 0,
       "fragment": {
-        "name": "infos"
+        "id": 4,
+        "name": "infos",
+        "description" : "Fragment"
       },
       "queryable": true,
       "facetable": true,
@@ -402,7 +434,9 @@
       "precision": null,
       "arraysize": 0,
       "fragment": {
-        "name": "infos"
+        "id": 4,
+        "name": "infos",
+        "description" : "Fragment"
       },
       "queryable": true,
       "facetable": true,
@@ -421,7 +455,9 @@
       "precision": null,
       "arraysize": 0,
       "fragment": {
-        "name": "infos"
+        "id": 4,
+        "name": "infos",
+        "description" : "Fragment"
       },
       "queryable": true,
       "facetable": true,
@@ -440,7 +476,9 @@
       "precision": null,
       "arraysize": 0,
       "fragment": {
-        "name": "infos"
+        "id": 4,
+        "name": "infos",
+        "description" : "Fragment"
       },
       "queryable": true,
       "facetable": true,
@@ -459,7 +497,9 @@
       "precision": null,
       "arraysize": 0,
       "fragment": {
-        "name": "infos"
+        "id": 4,
+        "name": "infos",
+        "description" : "Fragment"
       },
       "queryable": true,
       "facetable": true,
@@ -478,7 +518,9 @@
       "precision": null,
       "arraysize": 0,
       "fragment": {
-        "name": "infos"
+        "id": 4,
+        "name": "infos",
+        "description" : "Fragment"
       },
       "queryable": true,
       "facetable": true,
@@ -497,7 +539,9 @@
       "precision": null,
       "arraysize": 0,
       "fragment": {
-        "name": "infos"
+        "id": 4,
+        "name": "infos",
+        "description" : "Fragment"
       },
       "queryable": true,
       "facetable": true,
@@ -516,7 +560,9 @@
       "precision": null,
       "arraysize": 0,
       "fragment": {
-        "name": "infos"
+        "id": 4,
+        "name": "infos",
+        "description" : "Fragment"
       },
       "queryable": true,
       "facetable": true,
@@ -535,7 +581,9 @@
       "precision": null,
       "arraysize": 0,
       "fragment": {
-        "name": "infos"
+        "id": 4,
+        "name": "infos",
+        "description" : "Fragment"
       },
       "queryable": true,
       "facetable": true,
@@ -547,15 +595,18 @@
   "models-fragments": [
     {
       "id": 1,
-      "name": "Default"
+      "name": "Default",
+      "description" : "Fragment"
     },
     {
       "id": 2,
-      "name": "fragment 2"
+      "name": "fragment 2",
+      "description" : "Fragment"
     },
     {
       "id": 3,
-      "name": "fragment 3"
+      "name": "fragment 3",
+      "description" : "Fragment"
     }
   ],
   "connections": [

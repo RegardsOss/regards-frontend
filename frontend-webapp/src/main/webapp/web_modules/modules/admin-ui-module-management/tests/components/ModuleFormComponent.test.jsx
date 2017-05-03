@@ -23,6 +23,25 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Modules form component', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
+
+  const testContainers =  [
+    {
+      id:'main',
+      type : 'test',
+      dynamicContent:false,
+    },
+    {
+      id:'second',
+      type : 'test',
+      dynamicContent:false,
+    },
+    {
+      id:'third',
+      type : 'test',
+      dynamicContent:false,
+    }
+  ]
+
   const muiTheme = getMuiTheme({
     linkWithoutDecoration: {},
   })
@@ -46,7 +65,7 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Modules form component', () => {
   it('Should render correctly form to create a new module', () => {
     const props = {
       project: 'test',
-      containers: ['main', 'second', 'third'],
+      containers: testContainers,
       onSubmit: () => {},
       onBack: () => {},
       applicationId: 'test',
@@ -102,7 +121,7 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Modules form component', () => {
     const props = {
       project: 'test',
       module: moduleToEdit,
-      containers: ['main', 'second', 'third'],
+      containers: testContainers,
       onSubmit: () => {},
       onBack: () => {},
       applicationId: 'test',

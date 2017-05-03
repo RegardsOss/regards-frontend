@@ -2,6 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import find from 'lodash/find'
+import forEach from 'lodash/forEach'
 import AttributeModelController from '../dam/AttributeModelController'
 /**
  * Controller to handle AttributeConfiguration entities.
@@ -52,8 +53,26 @@ const getStandardAttributeConf = (standardAttribute) => {
   return null
 }
 
+/**
+ * Return an array of String containing fullyQualifiedName of all attributes configured to be used as
+ * initial sort parameter for search requests.
+ *
+ * @param attributeConfigurations
+ * @returns {Array}
+ */
+const getInitialSortAttributes = (attributeConfigurations) => {
+  const results = []
+  forEach(attributeConfigurations, (conf) => {
+    if (conf.initialSort) {
+      results.push(conf.attributeFullQualifiedName)
+    }
+  })
+  return results
+}
+
 export default {
   isStandardAttribute,
   findAttributeConf,
+  getInitialSortAttributes,
   getStandardAttributeConf,
 }

@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl'
 import NoDataIcon from 'material-ui/svg-icons/device/wallpaper'
 import ReactMarkdown from 'react-markdown'
 import { themeContextType } from '@regardsoss/theme'
-import { ScrollAreaAdapter } from '@regardsoss/adapters'
+import { ScrollArea } from '@regardsoss/adapters'
 import { NoContentMessageInfo, IFrameURLContentDisplayer } from '@regardsoss/components'
 
 /**
@@ -33,7 +33,7 @@ class DescriptionViewComponent extends React.Component {
 
   render() {
     const { entityLabel, descriptionFileURL, descriptionFile, contentHeight } = this.props
-    const { moduleTheme: { markdownContainer } } = this.context
+    const { moduleTheme: { markdownContainer, scrollArea } } = this.context
     return (
       <NoContentMessageInfo
         noContent={!descriptionFile && !descriptionFileURL}
@@ -54,17 +54,15 @@ class DescriptionViewComponent extends React.Component {
               }
               if (descriptionFile) {
                 return (
-                  <ScrollAreaAdapter
+                  <ScrollArea
                     horizontal={false}
                     vertical
-                    verticalContainerStyle={markdownContainer.scrollArea.containerStyles}
-                    verticalScrollbarStyle={markdownContainer.scrollArea.scrollbarStyles}
-                    style={{ height: '100%' }}
+                    style={scrollArea.styles}
                   >
                     <div style={markdownContainer.styles}>
                       <ReactMarkdown source={descriptionFile.content} />
                     </div>
-                  </ScrollAreaAdapter>)
+                  </ScrollArea>)
               }
               return <div />
             })()

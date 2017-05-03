@@ -13,7 +13,7 @@ import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { HateoasIconAction, HateoasKeys } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import ConnectionActions from '../model/ConnectionActions'
+import { connectionActions } from '../client/ConnectionClient'
 import ConnectionTesterIconButton from './ConnectionTesterIconButton'
 
 /**
@@ -109,7 +109,7 @@ export class ConnectionListComponent extends React.Component {
                 id="connection.list.action.add"
               />
             }
-            mainHateoasDependency={ConnectionActions.getDependency(RequestVerbEnum.POST)}
+            mainHateoasDependency={connectionActions.getDependency(RequestVerbEnum.POST)}
             secondaryButtonLabel={<FormattedMessage id="connection.list.action.cancel" />}
             secondaryButtonUrl={backUrl}
           />

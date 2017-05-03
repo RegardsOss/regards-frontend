@@ -1,6 +1,8 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
+import { themeContextType } from '@regardsoss/theme'
+import buildStyles from '../styles/styles'
 
 const HeadlessAdapter = ({ children }) => (<div>{children}</div>)
 HeadlessAdapter.propTypes = {
@@ -11,10 +13,13 @@ HeadlessAdapter.propTypes = {
 }
 
 /**
-* Scroll area adapter for headless environement
+* Scroll area adapter for headless environement. Also provides default component styles (can be overriden through properties)
 */
 class ScrollAreaAdapter extends React.Component {
 
+  static contextTypes = {
+    ...themeContextType,
+  }
 
   constructor(props) {
     super(props)
@@ -36,10 +41,17 @@ class ScrollAreaAdapter extends React.Component {
   scrollXTo = leftPosition => this.canDelegate() && this.delegateInstance.scrollXTo(leftPosition)
 
   render() {
+    const { muiTheme } = this.context
+    const moduleTheme = buildStyles(muiTheme)
+
     const RenderComponent = this.renderComponent
     return (
       <RenderComponent
         ref={(c) => { this.delegateInstance = c }}
+        horizontalContainerStyle={moduleTheme.scrollArea.horizontalScrollContainer.styles}
+        horizontalScrollbarStyle={moduleTheme.scrollArea.horizontalScrollbar.styles}
+        verticalContainerStyle={moduleTheme.scrollArea.verticalScrollContainer.styles}
+        verticalScrollbarStyle={moduleTheme.scrollArea.verticalScrollbar.styles}
         {...this.props}
       />
     )

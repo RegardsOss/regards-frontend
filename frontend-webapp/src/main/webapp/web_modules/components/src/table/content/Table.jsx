@@ -39,6 +39,10 @@ class Table extends React.Component {
     onScrollEnd: React.PropTypes.func.isRequired,
     columns: React.PropTypes.arrayOf(ColumnConfiguration).isRequired,
     width: React.PropTypes.number.isRequired,
+    selectionMode: React.PropTypes.string,
+    // Callback to change selectionState
+    onToggleSelectionMode: React.PropTypes.func,
+    setToggledElements: React.PropTypes.func,
     // on selection change optional callback
     onSelectionChange: React.PropTypes.func,
     // table configuration properties
@@ -82,14 +86,21 @@ class Table extends React.Component {
       ...Table.computeGraphicsMeasures(props),
     }
     // install selection management
-    this.selectionController = new SelectionController(props.entities)
+    this.selectionController = new SelectionController(props.entities, this.props.selectionMode)
+    this.selectionController.setToggledElements = this.props.setToggledElements
   }
 
   componentWillReceiveProps(nextProps) {
     // silently update measures
     this.selectionController.entities = nextProps.entities
+    this.selectionController.selectionMode = nextProps.selectionMode
     this.selectionController.onSelectionChange = nextProps.onSelectionChange
     this.setState({ ...Table.computeGraphicsMeasures(nextProps) })
+
+    // Check table selection state
+    if (nextProps.selectionMode !== this.selectionController.currentMode) {
+      this.onToggleSelectAll()
+    }
   }
 
   /**
@@ -111,6 +122,7 @@ class Table extends React.Component {
    */
   onToggleSelectRow = (rowIndex) => {
     this.selectionController.toggleRowSelectedState(rowIndex)
+    this.props.setToggledElements(this.selectionController.toggledEntities)
     // requires update as selection controller model is not included in this state
     this.forceUpdate()
   }
@@ -119,7 +131,13 @@ class Table extends React.Component {
    * Toggles select all state
    */
   onToggleSelectAll = () => {
+    const previousMode = this.selectionController.currentMode
     this.selectionController.toggleSelectAll()
+    if (previousMode === this.selectionController.currentMode) {
+      // Toggle mode is not effective, change the mode in store
+      this.props.onToggleSelectionMode()
+    }
+    this.props.setToggledElements(this.selectionController.toggledEntities)
     // requires update as selection controller model is not included in this state
     this.forceUpdate()
   }
@@ -153,7 +171,7 @@ class Table extends React.Component {
                 columnKey={'checkbox'}
                 header={<CheckboxColumnHeader
                   areAllSelected={this.selectionController.areAllSelected()}
-                  onToggleSelectAll={this.onToggleSelectAll}
+                  onToggleSelectAll={this.props.onToggleSelectionMode}
                   lineHeight={lineHeight}
                 />}
                 cell={<CheckBoxCell

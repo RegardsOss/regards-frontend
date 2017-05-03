@@ -1,0 +1,9 @@
+{
+  "name": "@regardsoss/user-metadata-common",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Tools, constants and components to work with user metadata",
+  "main": "src/main.js",
+  "author": "CS-SI",
+  "license": "GPL-3.0"
+}

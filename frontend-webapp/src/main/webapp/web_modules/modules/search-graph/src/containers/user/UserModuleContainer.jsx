@@ -35,7 +35,7 @@ export class UserModuleContainer extends React.Component {
   }
 
   static mapDispatchToProps = dispatch => ({
-    fetchAttributeModels: () => dispatch(AttributeModelActions.fetchPagedEntityList()),
+    fetchAttributeModels: () => dispatch(AttributeModelActions.fetchEntityList()),
   })
 
   static propTypes = {

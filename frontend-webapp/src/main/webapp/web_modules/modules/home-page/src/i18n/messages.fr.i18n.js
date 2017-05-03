@@ -8,7 +8,8 @@ import { Locales } from '@regardsoss/form-utils'
  * @type {*}
  */
 const messages = Object.assign({
-  'homepage.ok': 'OK',
+  'homepage.ok': 'Fermer',
+  'homepage.display': 'Afficher au démarrage',
   'homepage.hide': 'Ne plus afficher',
   'homepage.admin.url': 'URL du fichier HTML',
   'homepage.admin.test': 'Tester fichier',

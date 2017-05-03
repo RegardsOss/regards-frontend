@@ -34,6 +34,10 @@ class TablePane extends React.Component {
     resultsCount: React.PropTypes.number.isRequired,
     // provided table data and configuration
     tableData: React.PropTypes.shape(Table.PropTypes).isRequired,
+    // 0 : unselect all / 1 : select all
+    selectionMode: React.PropTypes.string,
+    onToggleSelectionMode: React.PropTypes.func,
+    setToggledElements: React.PropTypes.func,
     columns: React.PropTypes.arrayOf(ColumnConfiguration).isRequired,
     // this configuration properties (see above)
     ...TablePaneConfigurationModel,
@@ -193,7 +197,7 @@ class TablePane extends React.Component {
   }
 
   render() {
-    const { entitiesFetching, resultsCount, tableData } = this.props
+    const { entitiesFetching, resultsCount, tableData, selectionMode, onToggleSelectionMode, setToggledElements } = this.props
     const { visibleColumns, tableWidth } = this.state
     return (
       <Measure onMeasure={this.onComponentResized}>
@@ -207,7 +211,13 @@ class TablePane extends React.Component {
             message={'Your research returned no results. Please change your search criterion'}
             Icon={Disatisfied}
           >
-            <Table columns={visibleColumns} width={tableWidth} {...tableData} />
+            <Table
+              columns={visibleColumns}
+              width={tableWidth} {...tableData}
+              selectionMode={selectionMode}
+              onToggleSelectionMode={onToggleSelectionMode}
+              setToggledElements={setToggledElements}
+            />
           </NoContentMessageInfo>
         </div >
       </Measure >

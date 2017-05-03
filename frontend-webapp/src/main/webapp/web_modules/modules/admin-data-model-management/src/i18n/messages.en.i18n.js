@@ -17,11 +17,14 @@ const messages = Object.assign({
 
   'model.edit.title': 'Edit the model {name}',
   'model.create.title': 'Create a new model',
+  'model.duplicate.title': 'Duplicate the model {name}',
   'model.form.name': 'Project name',
   'model.form.description': 'Description',
   'model.form.type': 'Type',
+  'model.form.file': 'Or send an XML file containing the model, fragments and its attributes:',
   'model.form.action.cancel': 'Cancel',
   'model.form.action.submit': 'Save',
+  'invalid.too_short': 'Must be at least 3 caractères',
 }, Locales.en)
 
 export default messages

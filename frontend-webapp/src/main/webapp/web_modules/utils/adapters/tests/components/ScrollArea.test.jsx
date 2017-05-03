@@ -3,8 +3,9 @@
  */
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import ScrollArea from '../../src/components/ScrollAreaAdapter'
+import styles from '../../src/styles/styles'
 
 describe('[ SCROLL AREA] Testing ScrollArea', () => {
   before(testSuiteHelpers.before)
@@ -14,6 +15,7 @@ describe('[ SCROLL AREA] Testing ScrollArea', () => {
     assert.isDefined(ScrollArea)
   })
   it('should render properly in headless environements', () => {
-    shallow(<ScrollArea />)
+    const context = buildTestContext(styles)
+    shallow(<ScrollArea />, { context })
   })
 })

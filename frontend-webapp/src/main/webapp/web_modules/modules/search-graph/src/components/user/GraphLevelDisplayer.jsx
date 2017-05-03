@@ -6,7 +6,7 @@ import size from 'lodash/size'
 import { CatalogEntity } from '@regardsoss/model'
 import { themeContextType } from '@regardsoss/theme'
 import { ShowableAtRender } from '@regardsoss/components'
-import { ScrollAreaAdapter } from '@regardsoss/adapters'
+import { ScrollArea } from '@regardsoss/adapters'
 import { DatasetAttributesArrayForGraph } from '../../model/DatasetAttributesForGraph'
 import DatasetItemContainer from '../../containers/user/DatasetItemContainer'
 import CollectionItemContainer from '../../containers/user/CollectionItemContainer'
@@ -51,11 +51,9 @@ class GraphLevelDispayer extends React.Component {
             <GraphLevelMessageDisplayer messageKey="search.graph.level.no.model" />
           </ShowableAtRender>
           <ShowableAtRender show={!hasError && !isLoading && hasContent}>
-            <ScrollAreaAdapter
+            <ScrollArea
               horizontal={false}
               vertical
-              verticalContainerStyle={user.scrolling.verticalScrollContainer.styles}
-              verticalScrollbarStyle={user.scrolling.verticalScrollbar.styles}
               style={{ height: user.scrolling.height }}
             >
               {
@@ -76,7 +74,7 @@ class GraphLevelDispayer extends React.Component {
                     levelIndex={levelIndex}
                   />)
               }
-            </ScrollAreaAdapter>
+            </ScrollArea>
           </ShowableAtRender>
         </div>
       </ShowableAtRender >

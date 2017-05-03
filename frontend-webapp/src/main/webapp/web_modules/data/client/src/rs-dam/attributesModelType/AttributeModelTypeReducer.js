@@ -7,12 +7,6 @@ class AttributeModelTypeReducer extends BasicArrayReducers {
   }
 }
 
-/**
- * Return an function where the reducer instance exists
- * @param state redux previous state
- * @param action redux action received
- * @return new state
- */
 export default (namespace) => {
   const instance = new AttributeModelTypeReducer(namespace)
   return (state, action) => instance.reduce(state, action)

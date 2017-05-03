@@ -50,10 +50,39 @@ const getAttributeAccessPath = ({ content: { fragment, name } }) => {
 }
 /**
  * Return the fully qualified name of the given attribute and ignoring the main "default" fragment
+ *
  * @param attribute
  * @returns {string}
  */
 const getAttributeFullyQualifiedNameWithoutDefaultFragment = attribute => getAttributeAccessPath(attribute).join('.')
+
+/**
+ * Return entity path for given attributeFullyQualified name.
+ * Entity path is the path into Entity object to access an attribute value.
+ * This path is :
+ * properties.<fragment>.<name> for dynamic model attributes
+ * properties.name for attributes of the default model
+ * name for standard attributes
+ *
+ * @param attributeFullyQualifiedName
+ * @returns {*}
+ */
+const getEntityAttributeAccessPathFromAttFullyQualifiedName = (attributeFullyQualifiedName) => {
+  const nameParts = attributeFullyQualifiedName.split('.')
+  let result = null
+  if (nameParts.length === 1) {
+    // No fragment : standard attribute.
+    result = nameParts[0]
+  } else if (nameParts.length === 2) {
+    if (nameParts[0] === DEFAULT_FRAGMENT) {
+      // Default fragment : No fragment in path
+      result = `${DATA_ATTRIBUTES_FIELD}.${nameParts[1]}`
+    } else {
+      result = `${DATA_ATTRIBUTES_FIELD}.${attributeFullyQualifiedName}`
+    }
+  }
+  return result
+}
 
 const findAttribute = (attributeName, attributeFragment, attributeModelsList) => find(attributeModelsList, ({ content: { name, fragment } }) => attributeName === name && attributeFragment === fragment.name)
 
@@ -155,6 +184,7 @@ export default {
   getAttributeFullyQualifiedName,
   getAttributeFullyQualifiedNameWithoutDefaultFragment,
   getEntityAttributeValue,
+  getEntityAttributeAccessPathFromAttFullyQualifiedName,
   getStandardAttributeType,
   findLabelFromAttributeFullyQualifiedName,
   findAttribute,

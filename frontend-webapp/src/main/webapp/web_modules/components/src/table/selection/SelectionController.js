@@ -16,6 +16,7 @@ export default class SelectionController {
     this.entities = entities // external update allowed
     this.onSelectionChange = onSelectionChange // external update allowed
     this.toggledEntities = {} // stored row index of toggled  entities (selected in include mode, deselected in exclude mode)
+    this.setToggledElements = () => {}
   }
 
   isSelectedRow(rowIndex) {
@@ -41,13 +42,16 @@ export default class SelectionController {
   }
 
   toggleSelectAll() {
+    let nextMode
     if (this.areAllSelected()) {
       // unselect all (enter the additive selection mode)
-      this.currentMode = TableSelectionModes.includeSelected
+      nextMode = TableSelectionModes.includeSelected
     } else {
       // not all selected: select all (enter substrative mode)
-      this.currentMode = TableSelectionModes.excludeSelected
+      nextMode = TableSelectionModes.excludeSelected
     }
+
+    this.currentMode = nextMode
     // whatever the case, clear toggled entities (we will be adapting the mode)
     this.toggledEntities = {}
     this.notifySelectionListener()

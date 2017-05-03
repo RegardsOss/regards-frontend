@@ -23,7 +23,7 @@ export const createModelRoute = {
 }
 
 export const editModelRoute = {
-  path: ':model_id/edit',
+  path: ':model_id/:mode',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
       const ModelFormContainer = require('./containers/ModelFormContainer')

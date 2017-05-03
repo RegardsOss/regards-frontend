@@ -2,14 +2,14 @@
  * LICENSE_PLACEHOLDER
  **/
 import { combineReducers } from 'redux'
-import connectionReducers from './model/ConnectionReducers'
+import { connectionReducer } from './client/ConnectionClient'
 import testConnectionReducers from './model/TestConnectionReducers'
-import pluginMetaDataReducers from './model/PluginMetaDataReducers'
+import { pluginMetaDataReducer } from './client/PluginMetaDataClient'
 
 const connectionDataManagementReducer = combineReducers({
-  connection: connectionReducers,
+  connection: connectionReducer,
   'test-connection': testConnectionReducers,
-  'plugin-meta-data': pluginMetaDataReducers,
+  'plugin-meta-data': pluginMetaDataReducer,
 })
 
 export default connectionDataManagementReducer

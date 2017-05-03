@@ -11,6 +11,7 @@ const messages = {
   'modules.list.menu.label': 'Menu',
   'section.search-form': 'Search forms',
   'section.search-results': 'Data catalogs',
+  'section.search-graph': 'Data tree navigation',
 }
 
 export default messages
