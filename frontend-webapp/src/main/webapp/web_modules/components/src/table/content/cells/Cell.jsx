@@ -37,7 +37,10 @@ class Cell extends React.PureComponent {
   }
 
   handleToggleSelectRow = () => {
-    this.props.onToggleSelectRow(this.props.rowIndex)
+    Promise.resolve(this.props.onToggleSelectRow(this.props.rowIndex)).then(() => {
+      // requires update as selection controller model is not included in this state
+      this.forceUpdate()
+    })
   }
 
   isRowSelected = () => this.props.isSelected(this.props.rowIndex)

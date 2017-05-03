@@ -16,12 +16,7 @@ import { every, includes, isEmpty } from 'lodash'
  * @author Xavier-Alexandre Brochard
  */
 const allMatchHateoasDisplayLogic = (requiredEndpoints, availableEndpoints) => (
-  every(requiredEndpoints, (item) => {
-    if (includes(availableEndpoints, item)) {
-      return true
-    }
-    return false
-  }) || isEmpty(requiredEndpoints)
+  every(requiredEndpoints, item => (includes(availableEndpoints, item))) || isEmpty(requiredEndpoints)
 )
 
 export default allMatchHateoasDisplayLogic

@@ -3,7 +3,7 @@
  **/
 import { locationShape } from '@regardsoss/model'
 import { connect } from '@regardsoss/redux'
-import { AuthenticateActions } from '@regardsoss/authentication-manager'
+import { AuthenticationClient } from '@regardsoss/authentication-manager'
 import { themeContextType } from '@regardsoss/theme'
 import { LazyModuleComponent } from '@regardsoss/modules'
 import { ApplicationErrorContainer } from '@regardsoss/global-sytem-error'
@@ -43,7 +43,10 @@ export class AdminLayout extends React.Component {
         currentPath={location.pathname}
       />)
     }
-    return (<InstanceSidebarComponent currentPath={location.pathname} onLogout={onLogout} />)
+    return (<InstanceSidebarComponent
+      currentPath={location.pathname}
+      onLogout={onLogout}
+    />)
   }
 
   render() {
@@ -105,7 +108,7 @@ export class AdminLayout extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  onLogout: () => dispatch(AuthenticateActions.logout()),
+  onLogout: () => dispatch(AuthenticationClient.authenticationActions.logout()),
 })
 
 export default connect(null, mapDispatchToProps)(AdminLayout)

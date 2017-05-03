@@ -7,19 +7,24 @@ import VerifiedUser from 'material-ui/svg-icons/action/verified-user'
 import AddBox from 'material-ui/svg-icons/content/add-box'
 import CloudQueue from 'material-ui/svg-icons/file/cloud-queue'
 import Brush from 'material-ui/svg-icons/image/brush'
+import Divider from 'material-ui/Divider'
+import Back from 'material-ui/svg-icons/navigation/arrow-back'
 import { FormattedMessage } from 'react-intl'
+import { browserHistory } from 'react-router'
 import SupervisorAccount from 'material-ui/svg-icons/action/supervisor-account'
 import { I18nProvider } from '@regardsoss/i18n'
 import { uiManagementDependencies } from '@regardsoss/admin-ui-management'
-import usersDependencies from '@regardsoss/admin-user-management/src/dependencies'
-import dataManagementDependencies from '@regardsoss/admin-data-management/src/dependencies'
-import dataAccessDependencies from '@regardsoss/admin-accessright-management/src/dependencies'
-import microservicesDependencies from '@regardsoss/admin-microservice-management/src/dependencies'
-import { someMatchHateoasDisplayLogic } from '@regardsoss/display-control'
+import { userDependencies } from '@regardsoss/admin-user-management'
+import { dataManagementDependencies } from '@regardsoss/admin-data-management'
+import { accessRightDependencies } from '@regardsoss/admin-accessright-management'
+import { microserviceDependencies } from '@regardsoss/admin-microservice-management'
+import { someMatchHateoasDisplayLogic, allMatchHateoasDisplayLogic, HateoasDisplayDecorator } from '@regardsoss/display-control'
+import MenuItem from 'material-ui/MenuItem'
+import { RequestVerbEnum } from '@regardsoss/store-utils'
 import getModuleStyles from '../../styles/styles'
 import HateoasSidebarElement from './HateoasSidebarElement'
 import WaitingAccessNotificationContainer from '../containers/WaitingAccessNotificationContainer'
-
+import { projectActions } from '../client/ProjectClient'
 /**
  * React sidebar components. Display the admin application menu
  */
@@ -36,8 +41,14 @@ class ProjectSidebarComponent extends React.Component {
    * @type {{onLogout: function}}
    */
   static propTypes = {
-    projectName: React.PropTypes.string,
+    projectName: React.PropTypes.string.isRequired,
     currentPath: React.PropTypes.string,
+    onLogout: React.PropTypes.func.isRequired,
+  }
+
+  handleRedirectToInstanceAdminDashboard = () => {
+    this.props.onLogout()
+    browserHistory.push('/admin/')
   }
 
   render() {
@@ -61,7 +72,7 @@ class ProjectSidebarComponent extends React.Component {
         >
           <HateoasSidebarElement
             key="1"
-            requiredEndpoints={usersDependencies.admin}
+            requiredEndpoints={userDependencies}
             hateoasDisplayLogic={someMatchHateoasDisplayLogic}
             to={`/admin/${projectName}/user/board`}
             currentPath={this.props.currentPath}
@@ -73,7 +84,7 @@ class ProjectSidebarComponent extends React.Component {
           />
           <HateoasSidebarElement
             key="2"
-            requiredEndpoints={dataManagementDependencies.admin}
+            requiredEndpoints={dataManagementDependencies}
             hateoasDisplayLogic={someMatchHateoasDisplayLogic}
             to={`/admin/${projectName}/data/board`}
             currentPath={this.props.currentPath}
@@ -84,7 +95,7 @@ class ProjectSidebarComponent extends React.Component {
           />
           <HateoasSidebarElement
             key="3"
-            requiredEndpoints={dataAccessDependencies.admin}
+            requiredEndpoints={accessRightDependencies}
             hateoasDisplayLogic={someMatchHateoasDisplayLogic}
             to={`/admin/${projectName}/access-right/edit`}
             currentPath={this.props.currentPath}
@@ -95,7 +106,7 @@ class ProjectSidebarComponent extends React.Component {
           />
           <HateoasSidebarElement
             key="4"
-            requiredEndpoints={microservicesDependencies.admin}
+            requiredEndpoints={microserviceDependencies}
             to={`/admin/${projectName}/microservice/board`}
             currentPath={this.props.currentPath}
             primaryText={<FormattedMessage id="menu.microservices" />}
@@ -105,7 +116,7 @@ class ProjectSidebarComponent extends React.Component {
           />
           <HateoasSidebarElement
             key="5"
-            requiredEndpoints={uiManagementDependencies.dependenciesUsed}
+            requiredEndpoints={uiManagementDependencies}
             hateoasDisplayLogic={someMatchHateoasDisplayLogic}
             to={`/admin/${projectName}/ui/board`}
             currentPath={this.props.currentPath}
@@ -114,6 +125,19 @@ class ProjectSidebarComponent extends React.Component {
               color={this.context.muiTheme.svgIcon.color}
             />}
           />
+          <Divider />
+          <HateoasDisplayDecorator
+            requiredEndpoints={[projectActions.getDependency(RequestVerbEnum.GET)]}
+            hateoasDisplayLogic={allMatchHateoasDisplayLogic}
+          >
+            <MenuItem
+              primaryText={<FormattedMessage id="menu.instance" />}
+              leftIcon={<Back
+                color={this.context.muiTheme.svgIcon.color}
+              />}
+              onTouchTap={this.handleRedirectToInstanceAdminDashboard}
+            />
+          </HateoasDisplayDecorator>
         </Drawer>
       </I18nProvider>
     )

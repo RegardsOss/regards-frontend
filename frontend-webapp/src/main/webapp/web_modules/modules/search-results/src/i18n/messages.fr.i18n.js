@@ -27,6 +27,7 @@ const messages = Object.assign({
   'form.attributes.visibility.label': 'Visibilité de l\'attribut',
   'form.attributes.facetable.label': 'Activer le filtrage sur cet attribut',
   'form.attributes.order': 'Ordre d\'affichage',
+  'form.attributes.initialSort.label': 'Trier les résultats sur cet attribut',
   'form.attributes.regroupement.section.title': 'Configurer les regroupements d\'attributs',
   'form.attributes.section.title': 'Configurer les attributs du modèle dynamique',
   'form.attributes.standard.section.title': 'Configurer les attributs communs',

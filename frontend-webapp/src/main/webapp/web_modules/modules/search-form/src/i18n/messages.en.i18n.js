@@ -34,6 +34,7 @@ const messages = Object.assign({
   'form.attributes.regroupement.form.add.regroupement.button': 'Add new regroupement',
   'form.attributes.visibility.label': 'Visibility',
   'form.attributes.facetable.label': 'Enable filter',
+  'form.attributes.initialSort.label': 'Sort results on this attribute',
   'form.attributes.regroupement.section.title': 'Configure attributes regroupement to display after every search result',
   'form.attributes.section.title': 'Configure attributes retrieved from each search result',
   'form.attributes.regroupement.remove': 'Remove',

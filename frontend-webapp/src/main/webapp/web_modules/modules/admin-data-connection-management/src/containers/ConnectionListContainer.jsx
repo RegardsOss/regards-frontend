@@ -6,8 +6,7 @@ import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { Connection } from '@regardsoss/model'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import ConnectionActions from '../model/ConnectionActions'
-import ConnectionSelectors from '../model/ConnectionSelectors'
+import { connectionActions, connectionSelectors } from '../client/ConnectionClient'
 import ConnectionListComponent from '../components/ConnectionListComponent'
 import TestConnectionActions from '../model/TestConnectionActions'
 /**
@@ -90,12 +89,12 @@ export class ConnectionListContainer extends React.Component {
 
 
 const mapStateToProps = (state, ownProps) => ({
-  connectionList: ConnectionSelectors.getList(state),
+  connectionList: connectionSelectors.getList(state),
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchConnectionList: () => dispatch(ConnectionActions.fetchEntityList()),
-  deleteConnection: id => dispatch(ConnectionActions.deleteEntity(id)),
+  fetchConnectionList: () => dispatch(connectionActions.fetchEntityList()),
+  deleteConnection: id => dispatch(connectionActions.deleteEntity(id)),
   testConnection: id => dispatch(TestConnectionActions.sendSignal('POST', null, { connectionId: id })),
 })
 

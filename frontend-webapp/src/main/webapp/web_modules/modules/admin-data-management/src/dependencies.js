@@ -1,19 +1,25 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import concat from 'lodash/concat'
-import modelDependencies from '@regardsoss/admin-data-model-management/src/dependencies'
-/**
- * Module hateoas depencies
- * @author Sébastien binda
- */
+import { fragmentDependencies } from '@regardsoss/admin-data-fragment-management'
+import { modelDependencies } from '@regardsoss/admin-data-model-management'
+import { attributeModelDependencies } from '@regardsoss/admin-data-attributemodel-management'
+import { collectionDependencies } from '@regardsoss/admin-data-collection-management'
+import { connectionDependencies } from '@regardsoss/admin-data-connection-management'
 
 /**
- * Mandatory Dependencies to display module in admin interface
+ * Mandatory Dependencies to display module in project menu
  * @type {Array}
  */
-const admin = concat([], modelDependencies.admin)
-
-export default {
-  admin,
-}
+export default [
+  ...modelDependencies.listDependencies,
+  ...modelDependencies.addDependencies,
+  ...fragmentDependencies.listDependencies,
+  ...fragmentDependencies.addDependencies,
+  ...attributeModelDependencies.listDependencies,
+  ...attributeModelDependencies.addDependencies,
+  ...collectionDependencies.listDependencies,
+  ...collectionDependencies.addDependencies,
+  ...connectionDependencies.listDependencies,
+  ...connectionDependencies.addDependencies,
+]

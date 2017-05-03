@@ -8,13 +8,10 @@ import { Collection, Model, ModelAttribute } from '@regardsoss/model'
 import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { unregisterField } from 'redux-form'
-import CollectionSelectors from './../model/CollectionSelectors'
-import CollectionActions from './../model/CollectionActions'
+import { collectionActions, collectionSelectors } from '../client/CollectionClient'
 import CollectionFormComponent from '../components/CollectionFormComponent'
-import ModelSelectors from '../model/ModelSelectors'
-import ModelActions from '../model/ModelActions'
-import ModelAttributesActions from '../model/ModelAttributesActions'
-import ModelAttributesSelectors from '../model/ModelAttributesSelectors'
+import { modelSelectors, modelActions } from '../client/ModelClient'
+import { modelAttributesSelectors, modelAttributesActions } from '../client/ModelAttributesClient'
 
 /**
  * Show the collection form
@@ -214,20 +211,20 @@ export class CollectionFormContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  currentCollection: ownProps.params.collectionId ? CollectionSelectors.getById(state, ownProps.params.collectionId) : null,
-  isFetchingCollection: CollectionSelectors.isFetching(state),
-  modelAttributeList: ModelAttributesSelectors.getList(state),
-  modelList: ModelSelectors.getList(state),
-  isFetchingModel: ModelSelectors.isFetching(state),
-  isFetchingModelAttribute: ModelAttributesSelectors.isFetching(state),
+  currentCollection: ownProps.params.collectionId ? collectionSelectors.getById(state, ownProps.params.collectionId) : null,
+  isFetchingCollection: collectionSelectors.isFetching(state),
+  modelAttributeList: modelAttributesSelectors.getList(state),
+  modelList: modelSelectors.getList(state),
+  isFetchingModel: modelSelectors.isFetching(state),
+  isFetchingModelAttribute: modelAttributesSelectors.isFetching(state),
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchCollection: id => dispatch(CollectionActions.fetchEntity(id)),
-  createCollection: (values, files) => dispatch(CollectionActions.createEntityUsingMultiPart(values, files)),
-  updateCollection: (id, values, files) => dispatch(CollectionActions.updateEntityUsingMultiPart(id, values, files)),
-  fetchModelList: () => dispatch(ModelActions.fetchEntityList({}, { type: 'COLLECTION' })),
-  fetchModelAttributeList: id => dispatch(ModelAttributesActions.fetchEntityList({ id })),
+  fetchCollection: id => dispatch(collectionActions.fetchEntity(id)),
+  createCollection: (values, files) => dispatch(collectionActions.createEntityUsingMultiPart(values, files)),
+  updateCollection: (id, values, files) => dispatch(collectionActions.updateEntityUsingMultiPart(id, values, files)),
+  fetchModelList: () => dispatch(modelActions.fetchEntityList({}, { type: 'COLLECTION' })),
+  fetchModelAttributeList: id => dispatch(modelAttributesActions.fetchEntityList({ pAttributeId: id })),
   unregisterField: (form, name) => dispatch(unregisterField(form, name)),
 })
 

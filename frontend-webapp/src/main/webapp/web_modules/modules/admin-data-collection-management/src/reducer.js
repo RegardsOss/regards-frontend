@@ -2,16 +2,16 @@
  * LICENSE_PLACEHOLDER
  **/
 import { combineReducers } from 'redux'
-import collection from './model/CollectionReducers'
-import model from './model/ModelReducers'
-import modelAttribute from './model/ModelAttributesReducer'
-import collectionLinkSignal from './model/CollectionLinkReducers'
+import { collectionReducer } from './client/CollectionClient'
+import { modelReducer } from './client/ModelClient'
+import { modelAttributesReducer } from './client/ModelAttributesClient'
+import { collectionLinkReducer } from './client/CollectionLinkClient'
 
 const collectionDataManagementReducer = combineReducers({
-  collection,
-  model,
-  'model-attribute': modelAttribute,
-  'collection-link': collectionLinkSignal,
+  collection: collectionReducer,
+  model: modelReducer,
+  'model-attribute': modelAttributesReducer,
+  'collection-link': collectionLinkReducer,
 })
 
 export default collectionDataManagementReducer

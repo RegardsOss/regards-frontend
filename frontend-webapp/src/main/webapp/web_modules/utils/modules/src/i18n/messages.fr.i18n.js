@@ -11,6 +11,7 @@ const messages = {
   'modules.list.menu.label': 'Menu',
   'section.search-form': 'Formulaires de recherche',
   'section.search-results': 'Catalogues de données',
+  'section.search-graph': 'Arbres de recherche',
 }
 
 export default messages

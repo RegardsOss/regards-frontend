@@ -1,13 +1,15 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import find from 'lodash/find'
 import map from 'lodash/map'
 import merge from 'lodash/merge'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
-import { themeContextType } from '@regardsoss/theme'
 import MenuItem from 'material-ui/MenuItem'
 import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
+import { themeContextType } from '@regardsoss/theme'
+import { Container } from '@regardsoss/model'
 import { ShowableAtRender, CardActionsComponent } from '@regardsoss/components'
 import { RenderTextField, RenderSelectField, Field, RenderCheckbox, ErrorTypes } from '@regardsoss/form-utils'
 import { ModuleShape, AvailableModules } from '@regardsoss/modules'
@@ -23,7 +25,7 @@ class ModuleFormComponent extends React.Component {
   static propTypes = {
     project: React.PropTypes.string.isRequired,
     module: ModuleShape,
-    containers: React.PropTypes.arrayOf(React.PropTypes.string),
+    containers: React.PropTypes.arrayOf(Container),
     onSubmit: React.PropTypes.func.isRequired,
     onBack: React.PropTypes.func.isRequired,
     applicationId: React.PropTypes.string.isRequired,
@@ -46,9 +48,15 @@ class ModuleFormComponent extends React.Component {
 
   constructor(props) {
     super(props)
+    let dynamicContainerSelected = false
+    if (this.props.module) {
+      dynamicContainerSelected = find(this.props.containers,
+        container => container.id === this.props.module.container && container.dynamicContent)
+    }
     this.state = {
       creation: this.props.duplication || this.props.module === null || this.props.module === undefined,
       moduleSelected: this.props.module !== null && this.props.module !== undefined,
+      dynamicContainerSelected,
       module: this.props.module ? this.props.module : {
         active: false,
         conf: {},
@@ -70,6 +78,14 @@ class ModuleFormComponent extends React.Component {
         }, this.state.module)
       this.props.initialize(initializeModule)
     }
+  }
+
+  selectContainer = (event, index, containerId, input) => {
+    const container = find(this.props.containers, cont => cont.id === containerId)
+    input.onChange(containerId)
+    this.setState({
+      dynamicContainerSelected: container.dynamicContent,
+    })
   }
 
   selectModuleType = (event, index, value, input) => {
@@ -126,13 +142,14 @@ class ModuleFormComponent extends React.Component {
         fullWidth
         component={RenderSelectField}
         type="text"
+        onSelect={this.selectContainer}
         label={<FormattedMessage id="module.form.container" />}
       >
-        {map(this.props.containers, (container, id) => (
+        {map(this.props.containers, container => (
           <MenuItem
-            value={container}
-            key={id}
-            primaryText={container}
+            value={container.id}
+            key={container.id}
+            primaryText={container.dynamicContent ? `${container.id} (dynamic)` : container.id}
           />
           ))}
       </Field>
@@ -141,11 +158,12 @@ class ModuleFormComponent extends React.Component {
         component={RenderCheckbox}
         label={<FormattedMessage id="module.form.active" />}
       />
-      <Field
-        name="isDefault"
-        component={RenderCheckbox}
-        label={<FormattedMessage id="module.form.isDefault" />}
-      />
+      {this.state.dynamicContainerSelected ?
+        <Field
+          name="isDefault"
+          component={RenderCheckbox}
+          label={<FormattedMessage id="module.form.isDefault" />}
+        /> : null }
     </div>
     )
   render() {

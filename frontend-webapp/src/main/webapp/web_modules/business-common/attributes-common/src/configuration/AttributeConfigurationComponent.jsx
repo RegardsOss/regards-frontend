@@ -49,6 +49,7 @@ class AttributeConfigurationComponent extends React.Component {
     if (conf.order !== nextConf.order ||
       conf.visibility !== nextConf.visibility ||
       conf.facetable !== nextConf.facetable ||
+      conf.initialSort !== nextConf.initialSort ||
       conf.filter !== nextProps.filter) {
       return true
     }
@@ -63,6 +64,12 @@ class AttributeConfigurationComponent extends React.Component {
 
   changeFacetable = () => {
     const newConf = merge({}, this.state.conf, { facetable: !this.state.conf.facetable })
+    this.setState({ conf: newConf })
+    this.props.onChange(AttributeModelController.getAttributeFullyQualifiedName(this.props.attribute), newConf)
+  }
+
+  changeInitialSort = () => {
+    const newConf = merge({}, this.state.conf, { initialSort: !this.state.conf.initialSort })
     this.setState({ conf: newConf })
     this.props.onChange(AttributeModelController.getAttributeFullyQualifiedName(this.props.attribute), newConf)
   }
@@ -122,6 +129,11 @@ class AttributeConfigurationComponent extends React.Component {
                 checkedIcon={<Search />}
                 uncheckedIcon={<Locked />}
                 onCheck={this.changeFacetable}
+              />
+              <Checkbox
+                label={<FormattedMessage id="form.attributes.initialSort.label" />}
+                checked={this.state.conf.initialSort}
+                onCheck={this.changeInitialSort}
               />
             </ShowableAtRender>
           </CardText>

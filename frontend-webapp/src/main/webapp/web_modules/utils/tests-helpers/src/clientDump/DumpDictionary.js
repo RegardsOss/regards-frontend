@@ -2,8 +2,10 @@ import UIPluginConfigurationClientDump from '@regardsoss/client/tests/rs-access-
 import UIPluginDefinitionClientDump from '@regardsoss/client/tests/rs-access-project/UIPluginDefinition.dump'
 import FragmentClientDump from '@regardsoss/client/tests/rs-dam/Fragment.dump'
 import AttributeModelDump from '@regardsoss/client/tests/rs-dam/AttributeModel.dump'
-import ModelDump from '@regardsoss/client/tests/rs-dam/ModelDump.dump'
+import ModelDump from '@regardsoss/client/tests/rs-dam/Model.dump'
 import ModelAttributeDump from '@regardsoss/client/tests/rs-dam/ModelAttribute.dump'
+import ConnectionDump from '@regardsoss/client/tests/rs-dam/Connection.dump'
+import PluginMetaDataDump from '@regardsoss/client/tests/rs-common/PluginMetaData.dump'
 
 
 import {
@@ -26,6 +28,12 @@ import {
 
   MODEL_ATTRIBUTE_ARRAY,
   ModelAttributeConfiguration,
+
+  CONNECTION_ARRAY,
+  ConnectionConfiguration,
+
+  PLUGIN_META_DATA_ARRAY,
+  PluginMetaDataConfiguration,
 } from '@regardsoss/api'
 
 /**
@@ -48,6 +56,14 @@ export default {
       dump: UIPluginDefinitionClientDump,
       ENTITY_ARRAY: PLUGIN_ARRAY,
       normalizrKey: PluginConfiguration.normalizrKey,
+    },
+  },
+  CommonClient: {
+    PluginMetaData: {
+      isPageable: false,
+      dump: PluginMetaDataDump,
+      ENTITY_ARRAY: PLUGIN_META_DATA_ARRAY,
+      normalizrKey: PluginMetaDataConfiguration.normalizrKey,
     },
   },
   DataManagementClient: {
@@ -74,6 +90,12 @@ export default {
       dump: ModelAttributeDump,
       ENTITY_ARRAY: MODEL_ATTRIBUTE_ARRAY,
       normalizrKey: ModelAttributeConfiguration.normalizrKey,
+    },
+    Connection: {
+      isPageable: false,
+      dump: ConnectionDump,
+      ENTITY_ARRAY: CONNECTION_ARRAY,
+      normalizrKey: ConnectionConfiguration.normalizrKey,
     },
   },
 }

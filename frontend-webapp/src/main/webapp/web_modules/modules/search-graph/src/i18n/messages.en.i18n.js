@@ -24,6 +24,7 @@ const messages = {
   'form.attributes.standard.section.title': 'Common attributes',
   'form.attributes.section.title': 'Dynamic attributes',
   'form.attributes.order': 'display order',
+  'form.attributes.initialSort.label': 'Sort results on this attribute',
   'form.attributes.visibility.label': 'Display',
   'form.attributes.filter.label': 'Filter',
   // user

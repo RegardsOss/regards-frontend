@@ -1,13 +1,14 @@
 /**
  * LICENSE_PLACEHOLDER
  */
-
+import { Locales } from '@regardsoss/form-utils'
 /**
  * Module french messages
  * @type {{[modules.list.menu.label]: string, [section.search-form]: string}}
  * @author Sébastien Binda
  */
-const messages = {
+
+const messages = Object.assign({
   'container.form.id': 'Nom',
   'container.form.type': 'Type',
   'container.form.classes': 'CSS Classes',
@@ -16,6 +17,6 @@ const messages = {
   'container.form.update.button': 'Mise à jour',
   'container.form.submit.button': 'Créer',
   'container.form.cancel.button': 'Annuler',
-}
+}, Locales.fr)
 
 export default messages

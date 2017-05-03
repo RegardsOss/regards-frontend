@@ -23,6 +23,10 @@ class AuthenticateSelectors extends BasicSignalSelectors {
     return false
   }
 
+  getAccessToken(state) {
+    return this.getAuthentication(state).result.access_token
+  }
+
 }
 
 export default storePath => new AuthenticateSelectors(storePath)

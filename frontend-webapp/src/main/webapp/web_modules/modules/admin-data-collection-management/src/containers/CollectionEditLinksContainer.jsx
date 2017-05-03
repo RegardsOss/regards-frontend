@@ -6,10 +6,9 @@ import { Collection } from '@regardsoss/model'
 import { I18nProvider } from '@regardsoss/i18n'
 import { partition, some, filter, startsWith } from 'lodash'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import CollectionSelectors from './../model/CollectionSelectors'
-import CollectionActions from './../model/CollectionActions'
+import { collectionActions, collectionSelectors } from '../client/CollectionClient'
 import CollectionEditLinksComponent from '../components/CollectionEditLinksComponent'
-import CollectionLinkActions from '../model/CollectionLinkActions'
+import { collectionLinkActions } from '../client/CollectionLinkClient'
 /**
  * Show the collection form
  */
@@ -124,15 +123,15 @@ export class CollectionEditLinksContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  currentCollection: CollectionSelectors.getById(state, ownProps.params.collectionId),
-  collectionList: CollectionSelectors.getList(state),
-  isFetching: CollectionSelectors.isFetching(state),
+  currentCollection: collectionSelectors.getById(state, ownProps.params.collectionId),
+  collectionList: collectionSelectors.getList(state),
+  isFetching: collectionSelectors.isFetching(state),
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchCollectionList: () => dispatch(CollectionActions.fetchPagedEntityList(0, 100)),
-  fetchCollection: id => dispatch(CollectionActions.fetchEntity(id)),
-  addTagToCollection: (collectionId, tags) => dispatch(CollectionLinkActions.sendSignal('PUT', tags, { collection_id: collectionId, operation: 'associate' })),
-  removeTagFromCollection: (collectionId, tags) => dispatch(CollectionLinkActions.sendSignal('PUT', tags, { collection_id: collectionId, operation: 'dissociate' })),
+  fetchCollectionList: () => dispatch(collectionActions.fetchEntityList()),
+  fetchCollection: id => dispatch(collectionActions.fetchEntity(id)),
+  addTagToCollection: (collectionId, tags) => dispatch(collectionLinkActions.sendSignal('PUT', tags, { collection_id: collectionId, operation: 'associate' })),
+  removeTagFromCollection: (collectionId, tags) => dispatch(collectionLinkActions.sendSignal('PUT', tags, { collection_id: collectionId, operation: 'dissociate' })),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(CollectionEditLinksContainer)

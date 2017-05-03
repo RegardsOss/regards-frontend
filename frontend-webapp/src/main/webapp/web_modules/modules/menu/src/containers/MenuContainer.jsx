@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import IconButton from 'material-ui/IconButton'
-import FilterList from 'material-ui/svg-icons/action/list'
+import MenuIcon from 'material-ui/svg-icons/navigation/menu'
 import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from 'material-ui/Toolbar'
 import { FormattedMessage } from 'react-intl'
 import { SelectLocaleContainer } from '@regardsoss/i18n'
@@ -59,7 +59,7 @@ class MenuContainer extends React.Component {
             onTouchTap={this.handleToggle}
             tooltip={<FormattedMessage id="menu.modules.list.button" />}
           >
-            <FilterList />
+            <MenuIcon />
           </IconButton>
           <ModuleListContainer
             project={this.props.project}
@@ -121,12 +121,12 @@ class MenuContainer extends React.Component {
         </ToolbarGroup>
         <ToolbarGroup lastChild>
           {authentication}
-          <ToolbarSeparator style={{ ...this.displaySeparator(menu), marginLeft: 10 }} />
-          {menu}
           <ToolbarSeparator style={this.displaySeparator(localeSelector)} />
           {localeSelector}
           <ToolbarSeparator style={this.displaySeparator(themeSelector)} />
           {themeSelector}
+          <ToolbarSeparator style={{ ...this.displaySeparator(menu), marginLeft: 10 }} />
+          {menu}
         </ToolbarGroup>
       </Toolbar>
     )

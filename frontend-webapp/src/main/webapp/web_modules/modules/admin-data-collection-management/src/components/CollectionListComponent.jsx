@@ -12,9 +12,9 @@ import { Collection } from '@regardsoss/model'
 import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { HateoasIconAction, HateoasKeys } from '@regardsoss/display-control'
+import { HateoasIconAction, ResourceIconAction, HateoasKeys } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import CollectionActions from '../model/CollectionActions'
+import { collectionActions } from '../client/CollectionClient'
 
 /**
  * React component to list collections.
@@ -84,13 +84,12 @@ export class CollectionListComponent extends React.Component {
                       }
                       />
                     </HateoasIconAction>
-                    <HateoasIconAction
-                      entityLinks={collection.links}
-                      hateoasKey={HateoasKeys.CREATE}
+                    <ResourceIconAction
+                      resourceDependency={collectionActions.getDependency(RequestVerbEnum.POST)}
                       onTouchTap={() => handleDuplicate(collection.content.id)}
                     >
                       <ContentCopy hoverColor={style.hoverButtonDuplicate} />
-                    </HateoasIconAction>
+                    </ResourceIconAction>
                     <HateoasIconAction
                       entityLinks={collection.links}
                       hateoasKey={HateoasKeys.DELETE}
@@ -112,7 +111,7 @@ export class CollectionListComponent extends React.Component {
                 id="collection.list.action.add"
               />
             }
-            mainHateoasDependency={CollectionActions.getDependency(RequestVerbEnum.POST)}
+            mainHateoasDependency={collectionActions.getDependency(RequestVerbEnum.POST)}
             secondaryButtonLabel={<FormattedMessage id="collection.list.action.cancel" />}
             secondaryButtonUrl={backUrl}
           />

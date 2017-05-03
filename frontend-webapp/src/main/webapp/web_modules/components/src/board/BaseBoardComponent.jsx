@@ -44,16 +44,15 @@ class BaseBoardComponent extends React.Component {
   }
 
   renderAdvancedToggle = (computedStyles) => {
+    if (!this.props.advancedBoardItemComponents || this.props.advancedBoardItemComponents.length === 0) {
+      return null
+    }
     const labelToggleAdvanced = this.state.showAdvanced ?
       <FormattedMessage id="hideAdvanced" /> :
       <FormattedMessage id="showAdvanced" />
     const iconToggleAdvanced = this.state.showAdvanced ?
       <KeyboardArrowUp /> :
       <KeyboardArrowDown />
-
-    if (!this.props.advancedBoardItemComponents || this.props.advancedBoardItemComponents.length === 0) {
-      return null
-    }
     return (
       <div
         className={computedStyles.action.classes}

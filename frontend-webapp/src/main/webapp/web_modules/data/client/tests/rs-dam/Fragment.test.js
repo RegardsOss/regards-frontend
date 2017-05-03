@@ -1,22 +1,24 @@
 import { ReduxEntityTester } from '@regardsoss/tests-helpers'
 import { Fragment } from '@regardsoss/model'
-import { DataManagementClient } from '../../src/main'
+import FragmentActions from '../../src/rs-dam/fragment/FragmentActions'
+import FragmentReducer from '../../src/rs-dam/fragment/FragmentReducer'
+import FragmentSelectors from '../../src/rs-dam/fragment/FragmentSelectors'
 import FragmentListDump from './Fragment.dump'
 
 const backendServerResultList = FragmentListDump
 const options = {
 }
 
-const FragmentActions = new DataManagementClient.FragmentActions('test/action')
-const FragmentReducer = DataManagementClient.FragmentReducer('test/action')
-const FragmentSelectors = DataManagementClient.FragmentSelectors(['test', 'modules'])
-const entityTester = new ReduxEntityTester(FragmentActions, FragmentReducer, FragmentSelectors, React.PropTypes.objectOf(Fragment).isRequired, backendServerResultList, options)
+const fragmentActions = new FragmentActions('test/action')
+const fragmentReducer = FragmentReducer('test/action')
+const fragmentSelectors = FragmentSelectors(['test', 'modules'])
+const entityTester = new ReduxEntityTester(fragmentActions, fragmentReducer, fragmentSelectors, React.PropTypes.objectOf(Fragment).isRequired, backendServerResultList, options)
 
 /**
  * Tests for Modules entities
  * @author Léo Mieulet
  */
-describe('[ADMIN UI CLIENT MANAGEMENT] Testing client Fragment', () => {
+describe('[ADMIN CLIENT] Testing client Fragment', () => {
   before(() => {
     entityTester.beforeAll()
   })

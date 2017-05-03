@@ -25,6 +25,7 @@ export class HateoasDisplayDecorator extends React.Component {
 
   static defaultProps = {
     hateoasDisplayLogic: allMatchHateoasDisplayLogic,
+    requiredEndpoints: [],
   }
 
   render() {

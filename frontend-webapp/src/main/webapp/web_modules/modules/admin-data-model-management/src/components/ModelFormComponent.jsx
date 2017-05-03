@@ -1,7 +1,7 @@
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
-import { RenderTextField, Field, RenderSelectField, reduxForm } from '@regardsoss/form-utils'
+import { RenderTextField, RenderFileField, Field, RenderSelectField, reduxForm } from '@regardsoss/form-utils'
 import { Model } from '@regardsoss/model'
 import MenuItem from 'material-ui/MenuItem'
 /**
@@ -13,6 +13,8 @@ export class ProjectFormComponent extends React.Component {
     currentModel: Model,
     onSubmit: React.PropTypes.func.isRequired,
     backUrl: React.PropTypes.string.isRequired,
+    isCreating: React.PropTypes.bool.isRequired,
+    isEditing: React.PropTypes.bool.isRequired,
     // from reduxForm
     submitting: React.PropTypes.bool,
     pristine: React.PropTypes.bool,
@@ -20,36 +22,43 @@ export class ProjectFormComponent extends React.Component {
     initialize: React.PropTypes.func.isRequired,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      isCreating: props.currentModel === undefined,
-    }
-  }
-
   componentDidMount() {
     this.handleInitialize()
   }
 
-  handleInitialize = () => {
-    if (!this.state.isCreating) {
-      const { currentModel } = this.props
-      this.props.initialize({
-        description: currentModel.content.description,
-      })
+  getTitle = () => {
+    if (this.props.isCreating) {
+      return (<FormattedMessage id="model.create.title" />)
     }
-  }
-
-
-  render() {
-    const { pristine, submitting } = this.props
-    const title = this.state.isCreating ? <FormattedMessage id="model.create.title" /> :
-      (<FormattedMessage
+    if (this.props.isEditing) {
+      return (<FormattedMessage
         id="model.edit.title"
         values={{
           name: this.props.currentModel.content.name,
         }}
       />)
+    }
+    return (<FormattedMessage
+      id="model.duplicate.title"
+      values={{
+        name: this.props.currentModel.content.name,
+      }}
+    />)
+  }
+
+  handleInitialize = () => {
+    if (!this.props.isCreating) {
+      const { currentModel } = this.props
+      this.props.initialize({
+        description: currentModel.content.description,
+        name: currentModel.content.name,
+      })
+    }
+  }
+
+  render() {
+    const { pristine, submitting, isCreating, isEditing } = this.props
+    const title = this.getTitle()
     return (
       <form
         onSubmit={this.props.handleSubmit(this.props.onSubmit)}
@@ -59,7 +68,7 @@ export class ProjectFormComponent extends React.Component {
             title={title}
           />
           <CardText>
-            <ShowableAtRender show={this.state.isCreating}>
+            <ShowableAtRender show={!isEditing}>
               <Field
                 name="name"
                 fullWidth
@@ -75,18 +84,29 @@ export class ProjectFormComponent extends React.Component {
               type="text"
               label={<FormattedMessage id="model.form.description" />}
             />
-            <ShowableAtRender show={this.state.isCreating}>
-              <Field
-                name="type"
-                fullWidth
-                component={RenderSelectField}
-                label={<FormattedMessage id="model.form.type" />}
-              >
-                <MenuItem value="COLLECTION" primaryText={<FormattedMessage id="model.type.collection" />} />
-                <MenuItem value="DOCUMENT" primaryText={<FormattedMessage id="model.type.document" />} />
-                <MenuItem value="DATA" primaryText={<FormattedMessage id="model.type.data" />} />
-                <MenuItem value="DATASET" primaryText={<FormattedMessage id="model.type.dataset" />} />
-              </Field>
+            <ShowableAtRender show={isCreating}>
+              <div>
+                <Field
+                  name="type"
+                  fullWidth
+                  component={RenderSelectField}
+                  label={<FormattedMessage id="model.form.type" />}
+                >
+                  <MenuItem value="COLLECTION" primaryText={<FormattedMessage id="model.type.collection" />} />
+                  <MenuItem value="DOCUMENT" primaryText={<FormattedMessage id="model.type.document" />} />
+                  <MenuItem value="DATA" primaryText={<FormattedMessage id="model.type.data" />} />
+                  <MenuItem value="DATASET" primaryText={<FormattedMessage id="model.type.dataset" />} />
+                </Field>
+                <hr />
+                <br />
+                <FormattedMessage id="model.form.file" />
+                <Field
+                  name="file"
+                  fullWidth
+                  component={RenderFileField}
+                  accept=".xml"
+                />
+              </div>
             </ShowableAtRender>
           </CardText>
           <CardActions>
@@ -110,6 +130,9 @@ function validate(values) {
   if (values.name) {
     if (!/^[a-zA-Z0-9]+$/i.test(values.name)) {
       errors.name = 'invalid.only_alphanumeric'
+    }
+    if (values.name.length < 3) {
+      errors.name = 'invalid.too_short'
     }
   }
   return errors

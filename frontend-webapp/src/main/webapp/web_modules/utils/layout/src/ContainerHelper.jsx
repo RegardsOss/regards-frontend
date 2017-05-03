@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { merge, union, forEach, find, concat, cloneDeep } from 'lodash'
+import { merge, union, unionBy, forEach, find, concat, cloneDeep } from 'lodash'
 import containerTypes from './default/containerTypes'
 
 /**
@@ -48,11 +48,11 @@ class ContainerHelper {
    */
   static getAvailableContainersInLayout(container) {
     let containers = []
-    if (container && container.id) {
-      containers.push(container.id)
+    if (container && container) {
+      containers.push(container)
       if (container.containers && container.containers.length > 0) {
         forEach(container.containers, (c) => {
-          containers = union(ContainerHelper.getAvailableContainersInLayout(c), containers)
+          containers = unionBy(ContainerHelper.getAvailableContainersInLayout(c), containers, 'id')
         })
       }
     }
