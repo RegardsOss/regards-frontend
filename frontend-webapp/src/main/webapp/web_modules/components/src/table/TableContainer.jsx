@@ -7,6 +7,7 @@ import { connect } from '@regardsoss/redux'
 import { BasicPageableSelectors, BasicPageableActions } from '@regardsoss/store-utils'
 import { getReducerRegistry, configureReducers } from '@regardsoss/store'
 import { ModuleThemeProvider } from '@regardsoss/modules'
+import { AuthenticationClient, AuthenticateShape } from '@regardsoss/authentication-manager'
 import { I18nProvider } from '@regardsoss/i18n'
 import TablePane from './TablePane'
 import TablePaneConfigurationModel from './model/TablePaneConfigurationModel'
@@ -86,6 +87,7 @@ class TableContainer extends React.Component {
     selectionMode: React.PropTypes.string,
     onToggleSelectionMode: React.PropTypes.func,
     setToggledElements: React.PropTypes.func,
+    authentication: AuthenticateShape,
   }
 
   static defaultProps = {
@@ -98,8 +100,6 @@ class TableContainer extends React.Component {
     this.state = {
       entities: null,
     }
-
-
   }
 
   componentWillMount() {
@@ -109,7 +109,7 @@ class TableContainer extends React.Component {
       tableReducers[TableReducers.TABLE_REDUX_STORE_NAME] = configureReducers(TableReducers.getReducers(this.props.name))
       getReducerRegistry().register(tableReducers)
     } else {
-      console.warn("No unique name defined form TableContainer. Redux actions/reducers not initialized.")
+      console.warn('No unique name defined form TableContainer. Redux actions/reducers not initialized.')
     }
   }
 
@@ -126,7 +126,9 @@ class TableContainer extends React.Component {
    */
   componentWillReceiveProps(nextProps) {
     // If request changed, run new search and reset the entities stored in the state
-    if (isEqual(nextProps.requestParams, this.props.requestParams) === false) {
+    // Or if authentication changed, rerun search
+    if (isEqual(nextProps.requestParams, this.props.requestParams) === false ||
+    isEqual(nextProps.authentication, this.props.authentication) === false) {
       this.setState({
         entities: [],
       })
@@ -266,6 +268,7 @@ const mapStateToProps = (state, ownProps) => ({
   pageMetadata: ownProps.PageSelector.getMetaData(state),
   entitiesFetching: ownProps.PageSelector.isFetching(state),
   selectionMode: TableSelectors.getTableSelectionMode(state, ownProps.name),
+  authentication: AuthenticationClient.authenticationSelectors.getAuthenticationResult(state),
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
