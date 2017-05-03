@@ -35,8 +35,6 @@ const buildBasicHeaders = (origin) => ({
  * @param response -
  */
 const localHandlerClosure = (timeBefore, entryDelegate, query = {}, pathParameters = {}, bodyParameters = {}) => (request, response) => {
-  logMessage('Serving locally')
-
   // run delegate to get code and text
   const { content = '', code = 200, contentType, binary = false } = entryDelegate(request, query, pathParameters, bodyParameters, response)
   // publish code
@@ -80,19 +78,26 @@ const findMatchingDelegate = (delegates, relativePath) => {
     const found = relativePath.match(matchURLExp)
     return found ?
       acc.concat([{
+        urlkey,
         delegate: delegates[urlkey],
         // Convert found result and parameters into object like { paramName: paramValue }
         pathParameters: pathParametersDictionnary.reduce((acc2, pathParam, index) => Object.assign({ [pathParam]: found[index + 1] }, acc2), {}),
       }]) :
       acc
   }, [])
-  if (matchingDelegationData) {
-    if (matchingDelegationData.length > 1) {
-      logMessage(`There are two conflicting path matching the path ${relativePath}, seleting the first`, true)
+  // return the most specific delegate (the one with more '/' )
+  const found = matchingDelegationData.reduce((previous, current) => {
+    if (previous !== null) {
+      const prevPathSegments = (previous.urlkey.match(/\//g) || []).length
+      const currPathSegments = (current.urlkey.match(/\//g) || []).length
+      return prevPathSegments > currPathSegments ? previous : current
     }
-    return matchingDelegationData[0]
+    return current
+  }, null)
+  if (found) {
+    logMessage(`Serving with delegate ${found.urlkey}`, false)
   }
-  return null
+  return found
 }
 
 /**

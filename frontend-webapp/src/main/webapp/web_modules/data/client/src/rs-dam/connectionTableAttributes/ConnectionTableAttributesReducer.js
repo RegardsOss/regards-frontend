@@ -10,14 +10,8 @@ class ConnectionTableAttributesReducers extends BasicSignalReducers {
   }
 }
 
-const instance = new ConnectionTableAttributesReducers()
-
-/**
- * Return an function where the reducer instance exists
- * @param state redux previous state
- * @param action redux action received
- * @return new state
- */
-export default function (state, action) {
-  return instance.reduce(state, action)
+export default (namespace) => {
+  const instance = new ConnectionTableAttributesReducers(namespace)
+  return (state, action) => instance.reduce(state, action)
 }
+

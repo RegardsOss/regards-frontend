@@ -6,8 +6,7 @@ import { connect } from '@regardsoss/redux'
 import { Connection } from '@regardsoss/model'
 import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import ConnectionSelectors from './../model/ConnectionSelectors'
-import ConnectionActions from './../model/ConnectionActions'
+import { connectionSelectors, connectionActions } from './../client/ConnectionClient'
 import DatasourceCreateOrPickConnectionComponent from '../components/DatasourceCreateOrPickConnectionComponent'
 
 
@@ -80,11 +79,11 @@ export class DatasourceCreateOrPickConnectionContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  connectionList: ConnectionSelectors.getList(state),
+  connectionList: connectionSelectors.getList(state),
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchConnectionList: () => dispatch(ConnectionActions.fetchEntityList()),
+  fetchConnectionList: () => dispatch(connectionActions.fetchEntityList()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(DatasourceCreateOrPickConnectionContainer)

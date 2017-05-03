@@ -6,8 +6,7 @@ import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { Datasource } from '@regardsoss/model'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import DatasourceActions from '../model/DatasourceActions'
-import DatasourceSelectors from '../model/DatasourceSelectors'
+import { datasourceActions, datasourceSelectors } from '../client/DatasourceClient'
 import DatasourceListComponent from '../components/DatasourceListComponent'
 
 /**
@@ -73,13 +72,13 @@ export class DatasourceListContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  datasourceList: DatasourceSelectors.getList(state),
-  isFetching: DatasourceSelectors.isFetching(state),
+  datasourceList: datasourceSelectors.getList(state),
+  isFetching: datasourceSelectors.isFetching(state),
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchDatasourceList: () => dispatch(DatasourceActions.fetchPagedEntityList(0, 100)),
-  deleteDatasource: id => dispatch(DatasourceActions.deleteEntity(id)),
+  fetchDatasourceList: () => dispatch(datasourceActions.fetchPagedEntityList(0, 100)),
+  deleteDatasource: id => dispatch(datasourceActions.deleteEntity(id)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(DatasourceListContainer)
