@@ -288,6 +288,33 @@ module.exports = {
         }
       }),
     },
+    // user metadata 
+    getMyUser: {
+      url: 'rs-admin/users/myuser',
+      handler: (request) => doWithAuthData(request, authData => {
+        const users = loadUsersPool()
+        if (!authData.scope) {
+          return { code: 403 }
+        }
+        const user = users[authData.sub]
+        const scopedUser = user[authData.scope]
+        if (!scopedUser) {
+          return { code: 404 }
+        }
+
+        return {
+          content: {
+            content: {
+              id: user.id,
+              email: authData.sub,
+              metaData: scopedUser.metaData,
+            },
+            links: [],
+          },
+          contentType: JSON_CONTENT_TYPE,
+        }
+      })
+    }
   },
   POST: {
     // login
@@ -419,6 +446,38 @@ module.exports = {
       url: '/rs-admin/accesses/deny/{userId}',
       handler: (request, query, pathParameters) => changeUserStatus(request, pathParameters, 'ACCESS_DENIED'),
     },
+    updateMyUser: {
+      url: 'rs-admin/users/myuser',
+      handler: (request, query, pathParameters, body) => doWithAuthData(request, authData => {
+        const users = loadUsersPool()
+        if (!authData.scope) {
+          return { code: 403 }
+        }
+        const user = users[authData.sub]
+        const scopedUser = user[authData.scope]
+        if (!scopedUser) {
+          return { code: 404 }
+        }
+        if (scopedUser.id !== body.id || authData.sub !== body.email) {
+          logMessage('Failed updating project user: Invalid data send', true)
+          return { code: 500 }
+        }
+        // update user and return updated instance
+        scopedUser.metaData = body.metaData
+        writeUsersPool(users)
+        return {
+          content: {
+            content: {
+              id: user.id,
+              email: authData.sub,
+              metaData: scopedUser.metaData,
+            },
+            links: [],
+          },
+          contentType: JSON_CONTENT_TYPE,
+        }
+      })
+    }
   },
   DELETE: {
     deleteAccount: {

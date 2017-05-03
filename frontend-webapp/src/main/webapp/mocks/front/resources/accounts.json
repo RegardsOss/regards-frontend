@@ -14,7 +14,29 @@
       "role": {
         "id": 2,
         "name": "INSTANCE_ADMIN"
-      }
+      },
+      "metaData": [
+        {
+          "id": 1,
+          "key": "address",
+          "value": "9 rue des bistouries, 10694531 Ville Lointaine"
+        },
+        {
+          "id": 2,
+          "key": "country",
+          "value": "Far Far Away"
+        },
+        {
+          "id": 3,
+          "key": "organization",
+          "value": "Mythes & Co"
+        },
+        {
+          "id": 4,
+          "key": "reason",
+          "value": "Pour vendre du rêve"
+        }
+      ]
     },
     "ssalto": {
       "status": "ACCESS_GRANTED",
@@ -79,7 +101,29 @@
       "role": {
         "id": 2,
         "name": "REGISTERED_USER"
-      }
+      },
+      "metaData": [
+        {
+          "id": 1,
+          "key": "address",
+          "value": "9 rue des bistouries, 10694531 Ville Lointaine"
+        },
+        {
+          "id": 2,
+          "key": "country",
+          "value": "Far Far Away"
+        },
+        {
+          "id": 3,
+          "key": "organization",
+          "value": "Mythes & Co"
+        },
+        {
+          "id": 4,
+          "key": "reason",
+          "value": "Pour vendre du rêve"
+        }
+      ]
     },
     "ssalto": {
       "id": 3,
@@ -121,7 +165,29 @@
       "role": {
         "id": 2,
         "name": "REGISTERED_USER"
-      }
+      },
+      "metaData": [
+        {
+          "id": 1,
+          "key": "address",
+          "value": "9 rue des bistouries, 10694531 Ville Lointaine"
+        },
+        {
+          "id": 2,
+          "key": "country",
+          "value": "Far Far Away"
+        },
+        {
+          "id": 3,
+          "key": "organization",
+          "value": "Mythes & Co"
+        },
+        {
+          "id": 4,
+          "key": "reason",
+          "value": "Pour vendre du rêve"
+        }
+      ]
     }
   },
   "testUWaitingAccess3@cnes.fr": {
@@ -138,7 +204,29 @@
       "role": {
         "id": 2,
         "name": "REGISTERED_USER"
-      }
+      },
+      "metaData": [
+        {
+          "id": 1,
+          "key": "address",
+          "value": "9 rue des bistouries, 10694531 Ville Lointaine"
+        },
+        {
+          "id": 2,
+          "key": "country",
+          "value": "Far Far Away"
+        },
+        {
+          "id": 3,
+          "key": "organization",
+          "value": "Mythes & Co"
+        },
+        {
+          "id": 4,
+          "key": "reason",
+          "value": "Pour vendre du rêve"
+        }
+      ]
     }
   },
   "testUAccessDenied@cnes.fr": {
@@ -155,7 +243,29 @@
       "role": {
         "id": 2,
         "name": "REGISTERED_USER"
-      }
+      },
+      "metaData": [
+        {
+          "id": 1,
+          "key": "address",
+          "value": "9 rue des bistouries, 10694531 Ville Lointaine"
+        },
+        {
+          "id": 2,
+          "key": "country",
+          "value": "Far Far Away"
+        },
+        {
+          "id": 3,
+          "key": "organization",
+          "value": "Mythes & Co"
+        },
+        {
+          "id": 4,
+          "key": "reason",
+          "value": "Pour vendre du rêve"
+        }
+      ]
     }
   },
   "testUAccessInactive@cnes.fr": {
@@ -172,7 +282,29 @@
       "role": {
         "id": 2,
         "name": "REGISTERED_USER"
-      }
+      },
+      "metaData": [
+        {
+          "id": 1,
+          "key": "address",
+          "value": "9 rue des bistouries, 10694531 Ville Lointaine"
+        },
+        {
+          "id": 2,
+          "key": "country",
+          "value": "Far Far Away"
+        },
+        {
+          "id": 3,
+          "key": "organization",
+          "value": "Mythes & Co"
+        },
+        {
+          "id": 4,
+          "key": "reason",
+          "value": "Pour vendre du rêve"
+        }
+      ]
     }
   },
   "hasbeen381@hotmail.com": {
@@ -189,7 +321,29 @@
       "role": {
         "id": 2,
         "name": "REGISTERED_USER"
-      }
+      },
+      "metaData": [
+        {
+          "id": 1,
+          "key": "address",
+          "value": "9 rue des bistouries, 10694531 Ville Lointaine"
+        },
+        {
+          "id": 2,
+          "key": "country",
+          "value": "Far Far Away"
+        },
+        {
+          "id": 3,
+          "key": "organization",
+          "value": "Mythes & Co"
+        },
+        {
+          "id": 4,
+          "key": "reason",
+          "value": "Pour vendre du rêve"
+        }
+      ]
     }
   }
 }
