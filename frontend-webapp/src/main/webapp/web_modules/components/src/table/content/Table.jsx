@@ -39,8 +39,7 @@ class Table extends React.Component {
     onScrollEnd: React.PropTypes.func.isRequired,
     columns: React.PropTypes.arrayOf(ColumnConfiguration).isRequired,
     width: React.PropTypes.number.isRequired,
-    // 0 : unselect all / 1 : select all
-    selectionMode: React.PropTypes.number,
+    selectionMode: React.PropTypes.string,
     // Callback to change selectionState
     onToggleSelectionMode: React.PropTypes.func,
     setToggledElements: React.PropTypes.func,

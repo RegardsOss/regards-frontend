@@ -99,11 +99,17 @@ class TableContainer extends React.Component {
       entities: null,
     }
 
-    if (props.name) {
+
+  }
+
+  componentWillMount() {
+    if (this.props.name) {
       // Add reducers to the current store
       const tableReducers = {}
-      tableReducers[TableReducers.TABLE_REDUX_STORE_NAME] = configureReducers(TableReducers.getReducers(props.name))
+      tableReducers[TableReducers.TABLE_REDUX_STORE_NAME] = configureReducers(TableReducers.getReducers(this.props.name))
       getReducerRegistry().register(tableReducers)
+    } else {
+      console.warn("No unique name defined form TableContainer. Redux actions/reducers not initialized.")
     }
   }
 
