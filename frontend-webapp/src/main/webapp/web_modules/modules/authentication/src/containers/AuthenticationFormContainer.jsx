@@ -45,7 +45,6 @@ export class AuthenticationFormContainer extends React.Component {
     }
   }
 
-
   onLoginRequest = ({ username, password }) => {
     const { project, dispatchLoginRequest } = this.props
     dispatchLoginRequest(username, password, project)

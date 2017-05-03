@@ -34,6 +34,25 @@ const menuStyles = theme => (
         color: theme.palette.textColor,
       },
     },
+    profile: {
+      dialog: {
+        styles: {
+          padding: '0',
+          overflowY: 'none',
+        },
+      },
+      scrollArea: {
+        styles: {
+          height: '55vh',
+        },
+      },
+      actions: {
+        styles: {
+          display: 'flex',
+          justifyContent: 'center',
+        },
+      },
+    },
   })
 
 export default menuStyles

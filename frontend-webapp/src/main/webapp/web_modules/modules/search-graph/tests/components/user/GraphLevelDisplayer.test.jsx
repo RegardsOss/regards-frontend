@@ -5,7 +5,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { ShowableAtRender } from '@regardsoss/components'
-import { ScrollAreaAdapter } from '@regardsoss/adapters'
+import { ScrollArea } from '@regardsoss/adapters'
 import GraphLevelDisplayer from '../../../src/components/user/GraphLevelDisplayer'
 import styles from '../../../src/styles/styles'
 import GraphLevelLoadingDisplayer from '../../../src/components/user/GraphLevelLoadingDisplayer'
@@ -32,7 +32,7 @@ const isErrorShowable = node => isMessageShowable(node, 'search.graph.level.fetc
 const isEmptyShowable = node => isMessageShowable(node, 'search.graph.level.no.model')
 
 const isContentShowable = node => node.type() === ShowableAtRender &&
-  node.children().length === 1 && node.children().at(0).type() === ScrollAreaAdapter
+  node.children().length === 1 && node.children().at(0).type() === ScrollArea
 
 const getAllShowable = enzymeWrapper => ({
   rootShowable: enzymeWrapper.findWhere(isRootShowable).at(0),

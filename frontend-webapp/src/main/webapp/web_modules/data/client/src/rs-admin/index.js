@@ -34,6 +34,10 @@ import ResourceRolesActions from './role/ResourceRolesActions'
 import ResourceRolesReducers from './role/ResourceRolesReducers'
 import ResourceRolesSelectors from './role/ResourceRolesSelectors'
 
+import MyUserActions from './user/MyUserActions'
+import MyUserReducer from './user/MyUserReducer'
+import MyUserSelectors from './user/MyUserSelectors'
+
 export default {
 
   ProjectActions,
@@ -55,6 +59,10 @@ export default {
   ControllerActions,
   ControllerReducers,
   ControllerSelectors,
+
+  MyUserActions,
+  MyUserReducer,
+  MyUserSelectors,
 
   ResourceAccessActions,
   ResourceAccessReducers,

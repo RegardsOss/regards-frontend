@@ -3,6 +3,7 @@
  */
 import { connect } from '@regardsoss/redux'
 import { i18nContextType } from '@regardsoss/i18n'
+import { metadataV1 } from '@regardsoss/user-metadata-common'
 import AskProjectAccessFormComponent, { mailFieldId, useExistingAccountFieldId } from '../components/AskProjectAccessFormComponent'
 import CreateAccountActions from '../model/creation/CreateAccountActions'
 import CreateAccountSelectors from '../model/creation/CreateAccountSelectors'
@@ -64,19 +65,33 @@ export class AskProjectAccessFormContainer extends React.Component {
     this.submittedMail = formValues[mailFieldId]
     const { fetchNewAccount, fetchNewUser } = this.props
 
+    // extract user metadata (always, used for both)
+    const metadata = this.resolveMetadata(formValues)
+
     // prepare request according with type
     if (formValues[useExistingAccountFieldId]) {
       // keep request type
       this.setState({ lastRequestType: requestTypes.createUser })
       // create a new project user
-      fetchNewUser(this.submittedMail)
+      fetchNewUser(this.submittedMail, metadata)
     } else {
       // keep request type
       this.setState({ lastRequestType: requestTypes.createAccount })
       // create a new account, plus corresponding user
-      fetchNewAccount(this.submittedMail, firstName, lastName, newPassword)
+      fetchNewAccount(this.submittedMail, firstName, lastName, newPassword, metadata)
     }
   }
+
+  /**
+   * Resolves metadata as expected by the backend from the form values
+   * @param formValues edition form values
+   * @return resolved metadata for backend
+   */
+  resolveMetadata = formValues => metadataV1.map(({ key }) => ({
+    key,
+    value: formValues[key] || '',
+  }))
+
 
   render() {
     const { project, initialMail, onBack, newAccountFetchStatus, newUserFetchStatus } = this.props
@@ -104,6 +119,7 @@ export class AskProjectAccessFormContainer extends React.Component {
         project={project}
         initialMail={initialMail}
         errorMessage={errorMessage}
+        projectMetadata={metadataV1}
         onRequestAction={this.onRequestAction}
         onBack={onBack}
       />
@@ -118,8 +134,9 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchNewAccount: (mail, firstName, lastName, password) => dispatch(CreateAccountActions.sendCreateAccount(mail, firstName, lastName, password)),
-  fetchNewUser: mail => dispatch(CreateUserActions.sendCreateUser(mail)),
+  fetchNewUser: (mail, metadata) => dispatch(CreateUserActions.sendCreateUser(mail, metadata)),
+  fetchNewAccount: (mail, firstName, lastName, password, metadata) =>
+    dispatch(CreateAccountActions.sendCreateAccount(mail, firstName, lastName, password, metadata)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AskProjectAccessFormContainer)

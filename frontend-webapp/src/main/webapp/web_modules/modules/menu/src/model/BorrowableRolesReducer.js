@@ -5,13 +5,13 @@ import { BasicListReducers } from '@regardsoss/store-utils'
 import { RoleConfiguration } from '@regardsoss/api'
 import BorrowableRolesActions from './BorrowableRolesActions'
 
-class BorrowableRolesReducers extends BasicListReducers {
+class BorrowableRolesReducer extends BasicListReducers {
   constructor() {
     super(RoleConfiguration, BorrowableRolesActions)
   }
 }
 
-const instance = new BorrowableRolesReducers()
+const instance = new BorrowableRolesReducer()
 
 /**
  * Return an function where the reducer instance exists

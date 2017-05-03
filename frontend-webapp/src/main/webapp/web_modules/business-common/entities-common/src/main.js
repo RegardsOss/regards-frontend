@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import DownloadDescriptionClient from './model/DownloadDescriptionClient'
+import DownloadDescriptionClient from './client/DownloadDescriptionClient'
 import DetailViewContainer from './containers/detail/DetailViewContainer'
 
 export default {

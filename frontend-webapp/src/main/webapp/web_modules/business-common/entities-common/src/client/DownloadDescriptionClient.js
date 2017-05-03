@@ -2,9 +2,7 @@
 * LICENSE_PLACEHOLDER
 **/
 import { CatalogEntityTypes } from '@regardsoss/model'
-import DownloadEntityDescriptionActions from './DownloadEntityDescriptionActions'
-import DownloadEntityDescriptionSelectors from './DownloadEntityDescriptionSelectors'
-import getReduceMethod from './DownloadEntityDescriptionReducers'
+import { DataManagementClient } from '@regardsoss/client'
 
 
 /**
@@ -26,14 +24,14 @@ export default class DownloadDescriptionClient {
    * @param {Array[String]} parentStorePathArray path to module store root as array
    */
   constructor(actionsNamespacePrefix = 'common', parentStorePathArray) {
-    this.downloadDatasetDescriptionActions = new DownloadEntityDescriptionActions(CatalogEntityTypes.DATASET, actionsNamespacePrefix)
-    this.reduceDownloadDatasetDescription = getReduceMethod(this.downloadDatasetDescriptionActions)
-    this.downloadDatasetDescriptionSelectors = new DownloadEntityDescriptionSelectors(
+    this.downloadDatasetDescriptionActions = new DataManagementClient.DownloadEntityDescriptionActions(CatalogEntityTypes.DATASET, actionsNamespacePrefix)
+    this.reduceDownloadDatasetDescription = DataManagementClient.DownloadEntityDescriptionReducer(this.downloadDatasetDescriptionActions)
+    this.downloadDatasetDescriptionSelectors = new DataManagementClient.DownloadEntityDescriptionSelectors(
       [...parentStorePathArray, DownloadDescriptionClient.LAST_DATASET_REDUCER_PATH_ELT])
 
-    this.downloadCollectionDescriptionActions = new DownloadEntityDescriptionActions(CatalogEntityTypes.COLLECTION, actionsNamespacePrefix)
-    this.reduceDownloadCollectionDescription = getReduceMethod(this.downloadCollectionDescriptionActions)
-    this.downloadCollectionDescriptionSelectors = new DownloadEntityDescriptionSelectors(
+    this.downloadCollectionDescriptionActions = new DataManagementClient.DownloadEntityDescriptionActions(CatalogEntityTypes.COLLECTION, actionsNamespacePrefix)
+    this.reduceDownloadCollectionDescription = DataManagementClient.DownloadEntityDescriptionReducer(this.downloadCollectionDescriptionActions)
+    this.downloadCollectionDescriptionSelectors = new DataManagementClient.DownloadEntityDescriptionSelectors(
       [...parentStorePathArray, DownloadDescriptionClient.LAST_COLLECTION_REDUCER_PATH_ELT])
   }
 

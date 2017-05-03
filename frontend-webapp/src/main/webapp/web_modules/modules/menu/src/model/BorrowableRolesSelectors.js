@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  */
 import { BasicListSelectors } from '@regardsoss/store-utils'
-import { PATH } from './BorrowableRolesReducers'
+import { PATH } from './BorrowableRolesReducer'
 
 
 class BorrowableListSelectors extends BasicListSelectors {
