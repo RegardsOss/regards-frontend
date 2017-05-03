@@ -29,6 +29,7 @@ class AuthenticationDialog extends React.Component {
           width: moduleTheme.dialog.preferredWidth,
           maxWidth: 'none',
         }}
+        autoDetectWindowHeight
         repositionOnUpdate
         {...dialogProperties}
       >

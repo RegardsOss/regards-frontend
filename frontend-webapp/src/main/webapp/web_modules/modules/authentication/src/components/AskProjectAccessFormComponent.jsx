@@ -5,10 +5,12 @@
 import { FormattedMessage } from 'react-intl'
 import { formValueSelector } from 'redux-form'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
-import { connect } from '@regardsoss/redux'
 import RaisedButton from 'material-ui/RaisedButton'
+import { connect } from '@regardsoss/redux'
 import { themeContextType } from '@regardsoss/theme'
 import { reduxForm, RenderTextField, RenderCheckbox, Field, FormErrorMessage, ErrorTypes, ValidationHelpers } from '@regardsoss/form-utils'
+import { ScrollArea } from '@regardsoss/adapters'
+import { MetadataList, MetadataField } from '@regardsoss/user-metadata-common'
 
 export const mailFieldId = 'mail'
 export const useExistingAccountFieldId = 'hasAlreadyAccount'
@@ -31,6 +33,8 @@ export class AskProjectAccessFormComponent extends React.Component {
     onBack: React.PropTypes.func.isRequired,
     // project name
     project: React.PropTypes.string.isRequired,
+    // project metadata
+    projectMetadata: MetadataList.isRequired,
     // from reduxFormSelector
     currentMailValue: React.PropTypes.string,
     // from redux form
@@ -52,7 +56,7 @@ export class AskProjectAccessFormComponent extends React.Component {
 
   render() {
     const {
-      project,
+      project, projectMetadata,
       currentMailValue, useExistingAccount, errorMessage,
       onBack, onRequestAction,
       pristine, submitting, invalid, handleSubmit,
@@ -68,54 +72,69 @@ export class AskProjectAccessFormComponent extends React.Component {
             />
             <CardText>
               <FormErrorMessage>{errorMessage}</FormErrorMessage>
-              <Field
-                name={useExistingAccountFieldId}
-                component={RenderCheckbox}
-                label={<FormattedMessage id="ask.project.access.using.existing.account" />}
-              />
-              <Field
-                name={mailFieldId}
-                fullWidth
-                component={RenderTextField}
-                type="text"
-                floatingLabelText={<FormattedMessage id="ask.project.access.mail" />}
-              />
-              {useExistingAccount ? null : (
-                <div>
-                  <Field
-                    key="firstName"
-                    name="firstName"
-                    fullWidth
-                    component={RenderTextField}
-                    type="text"
-                    floatingLabelText={<FormattedMessage id="ask.project.access.first.name" />}
-                  />
-                  <Field
-                    key="lastName"
-                    name="lastName"
-                    fullWidth
-                    component={RenderTextField}
-                    type="text"
-                    floatingLabelText={<FormattedMessage id="ask.project.access.last.name" />}
-                  />
-                  <Field
-                    key="newPassword"
-                    name="newPassword"
-                    fullWidth
-                    component={RenderTextField}
-                    type="password"
-                    floatingLabelText={<FormattedMessage id="ask.project.access.new.password" />}
-                  />
-                  <Field
-                    key="confirmPassword"
-                    name="confirmPassword"
-                    fullWidth
-                    component={RenderTextField}
-                    type="password"
-                    floatingLabelText={<FormattedMessage id="ask.project.access.confirm.password" />}
-                  />
-                </div>
-              )}
+              <ScrollArea
+                vertical
+                horizontal={false}
+                style={{
+                  height: moduleTheme.dialog.maxFormHeight,
+                }}
+              >
+                <Field
+                  name={useExistingAccountFieldId}
+                  component={RenderCheckbox}
+                  label={<FormattedMessage id="ask.project.access.using.existing.account" />}
+                />
+                <Field
+                  name={mailFieldId}
+                  fullWidth
+                  component={RenderTextField}
+                  type="text"
+                  floatingLabelText={<FormattedMessage id="ask.project.access.mail" />}
+                />
+                {useExistingAccount ? null : (
+                  <div>
+                    <Field
+                      key="firstName"
+                      name="firstName"
+                      fullWidth
+                      component={RenderTextField}
+                      type="text"
+                      floatingLabelText={<FormattedMessage id="ask.project.access.first.name" />}
+                    />
+                    <Field
+                      key="lastName"
+                      name="lastName"
+                      fullWidth
+                      component={RenderTextField}
+                      type="text"
+                      floatingLabelText={<FormattedMessage id="ask.project.access.last.name" />}
+                    />
+                    <Field
+                      key="newPassword"
+                      name="newPassword"
+                      fullWidth
+                      component={RenderTextField}
+                      type="password"
+                      floatingLabelText={<FormattedMessage id="ask.project.access.new.password" />}
+                    />
+                    <Field
+                      key="confirmPassword"
+                      name="confirmPassword"
+                      fullWidth
+                      component={RenderTextField}
+                      type="password"
+                      floatingLabelText={<FormattedMessage id="ask.project.access.confirm.password" />}
+                    />
+                  </div>
+                )}
+                {
+                  // whatever the case: show project metadata
+                  projectMetadata.map(metadata =>
+                    <MetadataField key={metadata.key} metadata={metadata} fullWidth />)
+                }
+                <br />
+                <br />
+              </ScrollArea>
             </CardText>
             <CardActions style={moduleTheme.action}>
               <RaisedButton

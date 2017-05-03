@@ -11,13 +11,14 @@ import { BasicListSelectors } from '@regardsoss/store-utils'
 import { I18nProvider } from '@regardsoss/i18n'
 import { ModuleThemeProvider } from '@regardsoss/modules'
 import { getTypeRender } from '@regardsoss/attributes-common'
-import DownloadDescriptionClient from '../../model/DownloadDescriptionClient'
-import DownloadDescriptionDefinitions from '../../model/DownloadDescriptionDefinitions'
+import DownloadDescriptionClient from '../../client/DownloadDescriptionClient'
+import { authenticationSelectors } from '../../client/AuthenticationClient'
 import DetailViewComponent from '../../components/detail/DetailViewComponent'
 import styles from '../../styles/styles'
 
+
 /** Locally handled content types */
-const DOWNLOAD_CONTENT_TYPES = [DownloadDescriptionDefinitions.MARKDOWN_MIMETYPE]
+const DOWNLOAD_CONTENT_TYPES = [DataManagementClient.DownloadDescriptionDefinitions.MARKDOWN_MIMETYPE]
 
 /**
 * Detail view container: fetches entity description with provided actions (to fetch file and attributes)
@@ -34,6 +35,8 @@ export class DetailViewContainer extends React.Component {
       // dispatching fetched data, the component will select the right one and store it in state
       fetchedCollectionDescriptionResult: downloadCollectionDescriptionSelectors.getResult(state),
       fetchedDatasetDescriptionResult: downloadDatasetDescriptionSelectors.getResult(state),
+      accessToken: (authenticationSelectors.getAuthentication(state).result &&
+        authenticationSelectors.getAuthentication(state).result.access_token) || null, // map the token for direct download
     }
   }
 
@@ -72,6 +75,8 @@ export class DetailViewContainer extends React.Component {
     downloadDescriptionClient: React.PropTypes.instanceOf(DownloadDescriptionClient).isRequired,
     // from mapStateToProps
     loading: React.PropTypes.bool.isRequired, // is currently loading
+    // eslint-disable-next-line react/no-unused-prop-types
+    accessToken: React.PropTypes.string,
     // eslint-disable-next-line react/no-unused-prop-types
     fetchedModelAttributes: React.PropTypes.objectOf(ModelAttribute),
     // eslint-disable-next-line react/no-unused-prop-types
@@ -136,6 +141,7 @@ export class DetailViewContainer extends React.Component {
    */
   updateState = ({
     entity: nextEntity,
+    accessToken,
     fetchedCollectionDescriptionResult: nextCollectionDesc,
     fetchedDatasetDescriptionResult: nextDatasetDesc,
     fetchedModelAttributes: nextModelAttributes,
@@ -155,7 +161,7 @@ export class DetailViewContainer extends React.Component {
       // select next state description
       nextState = {
         attributes: this.resolveEntityAttributes(nextEntity, nextModelAttributes),
-        description: this.resolveDescription(nextEntity, nextCollectionDesc, nextDatasetDesc),
+        description: this.resolveDescription(nextEntity, nextCollectionDesc, nextDatasetDesc, accessToken),
       }
     }
     // 3 - Update the state, when there is some difference
@@ -173,7 +179,7 @@ export class DetailViewContainer extends React.Component {
    * @param nextDatasetDesc next dataset description file (if any)
    * @return description state for this state, with URL or content depending on case
    */
-  resolveDescription = ({ content: { id, type, descriptionURL, descriptionFileType } }, nextCollectionDesc, nextDatasetDesc) => {
+  resolveDescription = ({ content: { id, type, descriptionURL, descriptionFileType } }, nextCollectionDesc, nextDatasetDesc, accessToken) => {
     const nextDescription = { ...DetailViewContainer.DEFAULT_STATE.description }
     // Only collection and dataset can have description
     if ([CatalogEntityTypes.COLLECTION, CatalogEntityTypes.DATASET].includes(type)) {
@@ -193,7 +199,7 @@ export class DetailViewContainer extends React.Component {
           }
         } else {
           // Case 2b: local file addressed as external URL
-          nextDescription.url = DownloadDescriptionDefinitions.getDownloadURL(type, id)
+          nextDescription.url = DataManagementClient.DownloadDescriptionDefinitions.getDirectDownloadURL(type, id, accessToken)
         }
       }
     }

@@ -2,6 +2,11 @@ import AttributeModelActions from './attributes/AttributeModelActions'
 import AttributeModelReducer from './attributes/AttributeModelReducer'
 import AttributeModelSelectors from './attributes/AttributeModelSelectors'
 
+import DownloadDescriptionDefinitions from './description/DownloadDescriptionDefinitions'
+import DownloadEntityDescriptionActions from './description/DownloadEntityDescriptionActions'
+import DownloadEntityDescriptionReducer from './description/DownloadEntityDescriptionReducer'
+import DownloadEntityDescriptionSelectors from './description/DownloadEntityDescriptionSelectors'
+
 import ModelAttributesActions from './attributes/ModelAttributesActions'
 import ModelAttributesReducer from './attributes/ModelAttributesReducer'
 import ModelAttributesSelectors from './attributes/ModelAttributesSelectors'
@@ -46,4 +51,9 @@ export default {
   ModelSelectors,
   ModelActions,
   ModelReducer,
+
+  DownloadDescriptionDefinitions,
+  DownloadEntityDescriptionActions,
+  DownloadEntityDescriptionReducer,
+  DownloadEntityDescriptionSelectors,
 }

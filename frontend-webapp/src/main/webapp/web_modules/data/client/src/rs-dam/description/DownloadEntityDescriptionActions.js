@@ -14,7 +14,7 @@ export default class DownloadEntityDescriptionActions extends BasicSignalActions
   constructor(objectType, namespacePrefix) {
     super({
       namespace: `${namespacePrefix}/${objectType}`,
-      entityEndpoint: DownloadDescriptionDefinitions.getDownloadURL(objectType),
+      entityEndpoint: DownloadDescriptionDefinitions.getActionDownloadURL(objectType),
       headers: {
         Accept: DownloadDescriptionDefinitions.MARKDOWN_MIMETYPE, // application/octet-stream
       },

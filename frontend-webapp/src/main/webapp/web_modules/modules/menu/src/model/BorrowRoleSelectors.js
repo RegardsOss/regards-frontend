@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  */
 import { BasicSignalSelectors } from '@regardsoss/store-utils'
-import { PATH } from './BorrowRoleReducers'
+import { PATH } from './BorrowRoleReducer'
 
 class BorrowRoleSelectors extends BasicSignalSelectors {
   constructor() {
