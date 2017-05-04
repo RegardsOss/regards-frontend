@@ -7,7 +7,6 @@ import Checkbox from 'material-ui/Checkbox'
 import Cloud from 'material-ui/svg-icons/file/cloud'
 import CloudOff from 'material-ui/svg-icons/file/cloud-off'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import microservices from '../data/microservices.json'
 import styles from '../styles/styles'
 import SetMaintenanceModeActions from '../model/SetMaintenanceModeActions'
 import PluginMetaDataActions from '../model/plugin/PluginMetaDataActions'
@@ -31,31 +30,31 @@ const getMaintenanceIcon = isActive => (
     style={computedStyles.board.checkbox}
   />
 )
-const items = (project, maintenance, intl) => map(microservices, microservice => (
+const items = (project, maintenances, intl) => map(maintenances, (maintenance, microservice) => (
   {
-    title: microservice.name,
-    description: intl.formatMessage({ id: `microservice-management.${microservice.name}.description` }),
+    title: microservice,
+    description: intl.formatMessage({ id: `microservice-management.${microservice}.description` }),
     advanced: false,
     actions: [{
-      path: `/admin/${project}/microservice/${microservice.name}/plugin/list`,
+      path: `/admin/${project}/microservice/${microservice}/plugin/list`,
       icon: <ExtensionIcon />,
       tooltipMsg: intl.formatMessage({ id: 'microservice-management.plugins.tooltip' }),
       hateoasDependencies: [
-        PluginMetaDataActions.getMsDependency(RequestVerbEnum.GET_LIST, microservice.name),
+        PluginMetaDataActions.getMsDependency(RequestVerbEnum.GET_LIST, microservice),
       ],
     }, {
-      icon: getMaintenanceIcon(maintenance[microservice.name].isOn(project)),
+      icon: getMaintenanceIcon(maintenance.isOn(project)),
       tooltipMsg: intl.formatMessage({
-        id: maintenance[microservice.name].isOn(project) ?
+        id: maintenance.isOn(project) ?
           'microservice-management.maintenance.tooltip.on' :
           'microservice-management.maintenance.tooltip.off',
       }),
       touchTapAction: () => {
-        maintenance[microservice.name].set(project, !maintenance[microservice.name].isOn(project))
+        maintenance.set(project, !maintenance.isOn(project))
       },
       hateoasDependencies: [
-        SetMaintenanceModeActions(microservice.name).getActivateDependency(),
-        SetMaintenanceModeActions(microservice.name).getDesactivateDependency(),
+        SetMaintenanceModeActions(microservice).getActivateDependency(),
+        SetMaintenanceModeActions(microservice).getDesactivateDependency(),
       ],
     }],
   }

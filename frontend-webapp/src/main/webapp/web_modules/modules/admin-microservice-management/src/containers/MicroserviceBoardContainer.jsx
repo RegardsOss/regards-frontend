@@ -1,14 +1,13 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { connect } from '@regardsoss/redux'
-import { forEach, map } from 'lodash'
-import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
+import {connect} from '@regardsoss/redux'
+import {forEach, map} from 'lodash'
+import {I18nProvider, i18nContextType} from '@regardsoss/i18n'
 import MicroserviceBoardComponent from '../components/MicroserviceBoardComponent'
 import MaintenanceModeActions from '../model/MaintenanceModeActions'
 import MaintenanceModeSelectors from '../model/MaintenanceModeSelectors'
-import SetMaintenanceModeActions from '../model/SetMaintenanceModeActions'
-import microservices from '../data/microservices.json'
+import SetMaintenanceModeActions , {MAINTENANCES_ACTIONS} from '../model/SetMaintenanceModeActions'
 
 /**
  * Module container connecting {@link MicroserviceBoardComponent} to redux in order to display the list of microservices.
@@ -30,27 +29,35 @@ export class MicroserviceBoardContainer extends React.Component {
     ...i18nContextType,
   }
 
-  componentWillMount() {
-    this.maintenance = {}
+  constructor(props) {
+    super(props)
 
-    forEach(microservices, (microservice) => {
-      this.maintenance[microservice.name] = {}
-      this.maintenance[microservice.name].isOn = projectName => this.props.maintenanceList(microservice.name)[projectName]
-      this.maintenance[microservice.name].fetch = () => this.props.fetchMaintenance(microservice.name)
-      this.maintenance[microservice.name].set = (projectName, value) =>
-        this.handleSetMaintenance(microservice.name, projectName, value ? 'activate' : 'desactivate')
+    this.state = {
+      microservicesMaintenance: {}
+    }
+  }
+
+  componentDidMount() {
+    forEach(STATIC_CONFIGURATION.microservices, microservice => this.props.fetchMaintenance(microservice))
+  }
+
+  componentWillReceiveProps() {
+    const microservicesMaintenance = {}
+    forEach(STATIC_CONFIGURATION.microservices, microservice => {
+      microservicesMaintenance[microservice] = {}
+      microservicesMaintenance[microservice].isOn = projectName => {
+        const maintenanceTenants = this.props.maintenanceList(microservice).content
+        if (maintenanceTenants) {
+          return maintenanceTenants[projectName]
+        }
+        return false
+      }
+      microservicesMaintenance[microservice].set = (projectName, value) =>
+        this.handleSetMaintenance(microservice, projectName, value ? MAINTENANCES_ACTIONS.ACTIVATE : MAINTENANCES_ACTIONS.DISABLE)
     })
-
-    // this.refreshMaintenanceStatusAlt()
-  }
-
-  componentWillUnmount() {
-    clearTimeout(this.timeout)
-  }
-
-  refreshMaintenanceStatusAlt = () => {
-    const tasks = map(microservices, microservice => this.props.fetchMaintenance(microservice.name))
-    Promise.all(tasks).then(this.timeout = setTimeout(this.refreshMaintenanceStatusAlt, 10000))
+    this.setState({
+      microservicesMaintenance
+    })
   }
 
   handleSetMaintenance = (microserviceName, projectName, action) => {
@@ -65,7 +72,7 @@ export class MicroserviceBoardContainer extends React.Component {
       <I18nProvider messageDir="modules/admin-microservice-management/src/i18n">
         <MicroserviceBoardComponent
           project={this.props.params.project}
-          maintenance={this.maintenance}
+          maintenance={this.state.microservicesMaintenance}
         />
       </I18nProvider>
     )
@@ -83,7 +90,11 @@ const mapDispatchToProps = dispatch => ({
     dispatch(MaintenanceModeActions(microservice).sendSignal('GET'))
   },
   setMaintenance(microservice, projectName, action) {
-    dispatch(SetMaintenanceModeActions(microservice).sendSignal('PUT', null, { microservice, action, projectName }))
+    dispatch(SetMaintenanceModeActions(microservice).sendSignal('PUT', null, {
+      microservice,
+      action,
+      tenant: projectName
+    }))
   },
 })
 

@@ -17,7 +17,7 @@ export default React.PropTypes.shape({
     scope: React.PropTypes.string,
     sub: React.PropTypes.string,
     role: React.PropTypes.string,
-    access_token: React.PropTypes.number,
+    access_token: React.PropTypes.string,
     token_type: React.PropTypes.string,
     expires_in: React.PropTypes.number,
     jti: React.PropTypes.string,
