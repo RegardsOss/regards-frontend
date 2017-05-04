@@ -77,7 +77,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchDatasourceList: () => dispatch(datasourceActions.fetchPagedEntityList(0, 100)),
+  fetchDatasourceList: () => dispatch(datasourceActions.fetchEntityList()),
   deleteDatasource: id => dispatch(datasourceActions.deleteEntity(id)),
 })
 

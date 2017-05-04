@@ -29,7 +29,6 @@ export class FragmentListComponent extends React.Component {
     handleEdit: React.PropTypes.func.isRequired,
     createUrl: React.PropTypes.string.isRequired,
     backUrl: React.PropTypes.string.isRequired,
-    projectName: React.PropTypes.string.isRequired,
     accessToken: React.PropTypes.string.isRequired,
   }
 
@@ -39,11 +38,11 @@ export class FragmentListComponent extends React.Component {
   }
 
   getExportUrlFromHateoas = (fragmentLinks) => {
-    const { projectName, accessToken } = this.props
+    const { accessToken } = this.props
     const exportLink = find(fragmentLinks, link => (
       link.rel === 'export'
     ))
-    return `${exportLink.href}?scope=${projectName}&token=${accessToken}` || ''
+    return `${exportLink.href}?token=${accessToken}` || ''
   }
 
   render() {

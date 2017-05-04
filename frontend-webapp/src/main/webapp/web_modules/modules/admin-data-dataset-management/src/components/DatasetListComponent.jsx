@@ -13,7 +13,7 @@ import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { HateoasIconAction, HateoasKeys } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import DatasetActions from '../model/DatasetActions'
+import { datasetActions } from '../client/DatasetClient'
 
 /**
  * React component to list datasets.
@@ -101,7 +101,7 @@ export class DatasetListComponent extends React.Component {
                 id="dataset.list.action.add"
               />
             }
-            mainHateoasDependency={DatasetActions.getDependency(RequestVerbEnum.POST)}
+            mainHateoasDependency={datasetActions.getDependency(RequestVerbEnum.POST)}
             secondaryButtonLabel={<FormattedMessage id="dataset.list.action.cancel" />}
             secondaryButtonUrl={backUrl}
           />

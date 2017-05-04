@@ -6,8 +6,7 @@ import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { Dataset } from '@regardsoss/model'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import DatasetActions from '../model/DatasetActions'
-import DatasetSelectors from '../model/DatasetSelectors'
+import { datasetActions, datasetSelectors } from '../client/DatasetClient'
 import DatasetListComponent from '../components/DatasetListComponent'
 
 /**
@@ -82,12 +81,12 @@ export class DatasetListContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  datasetList: DatasetSelectors.getList(state),
+  datasetList: datasetSelectors.getList(state),
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchDatasetList: () => dispatch(DatasetActions.fetchPagedEntityList(0, 100)),
-  deleteDataset: id => dispatch(DatasetActions.deleteEntity(id)),
+  fetchDatasetList: () => dispatch(datasetActions.fetchPagedEntityList(0, 100)),
+  deleteDataset: id => dispatch(datasetActions.deleteEntity(id)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(DatasetListContainer)
