@@ -25,7 +25,7 @@ describe('[ADMIN DATASET MANAGEMENT] Testing DatasetEditUIServicesComponent', ()
       backUrl: '#',
       uiPluginConfigurationList: DumpProvider.get('AccessProjectClient', 'UIPluginConfiguration'),
       uiPluginDefinitionList: DumpProvider.get('AccessProjectClient', 'UIPluginDefinition'),
-      currentDataset: DatasetDump[23],
+      currentDataset: DumpProvider.getFirstEntity('DataManagementClient', 'Dataset'),
       handleSubmit: handleSubmitSpy,
     }
     const enzymeWrapper = shallow(<DatasetEditUIServicesComponent {...props} />, { context })

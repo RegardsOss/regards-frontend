@@ -3,38 +3,23 @@
  */
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import { stub } from 'sinon'
-import { IntlStub } from '@regardsoss/tests-helpers'
+import { testSuiteHelpers, DumpProvider, buildTestContext } from '@regardsoss/tests-helpers'
 import MenuItem from 'material-ui/MenuItem'
-import DatasourceDump from '../model/dump/DatasourceDump'
 import { DatasetCreateOrPickDatasourceComponent } from '../../src/components/DatasetCreateOrPickDatasourceComponent'
 
+const context = buildTestContext()
+
 describe('[ADMIN DATASET MANAGEMENT] Testing DatasetCreateOrPickDatasourceComponent', () => {
-  // Since react will console.error propType warnings, that which we'd rather have
-  // as errors, we use sinon.js to stub it into throwing these warning as errors
-  // instead.
-  before(() => {
-    stub(console, 'error').callsFake((warning) => {
-      throw new Error(warning)
-    })
-  })
-  after(() => {
-    console.error.restore()
-  })
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('should exists', () => {
     assert.isDefined(DatasetCreateOrPickDatasourceComponent)
     assert.isDefined(MenuItem)
   })
-
-  const context = {
-    intl: IntlStub,
-    muiTheme: {
-      palette: {},
-    },
-  }
   it('Render properly', () => {
     const props = {
-      datasourceList: DatasourceDump,
+      datasourceList: DumpProvider.get('DataManagementClient', 'Datasource'),
       createDatasourceUrl: '#',
       backUrl: '#',
       handleDone: () => {},

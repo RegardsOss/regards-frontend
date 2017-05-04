@@ -2,7 +2,7 @@ import { Schema, arrayOf } from 'normalizr'
 
 const DatasourceConfiguration = {
   entityKey: 'id',
-  normalizrKey: 'collection',
+  normalizrKey: 'datasource',
 }
 
 const datasource = new Schema(DatasourceConfiguration.normalizrKey, {

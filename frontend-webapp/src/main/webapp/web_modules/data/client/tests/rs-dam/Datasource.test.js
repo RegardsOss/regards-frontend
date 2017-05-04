@@ -17,7 +17,7 @@ const options = {
 
 const entityTester = new ReduxEntityTester(datasourceActions, datasourceReducer, datasourceSelectors, React.PropTypes.objectOf(Datasource).isRequired, backendServerResultList, options)
 
-describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing model Datasource', () => {
+describe('[ADMIN CLIENT] Testing model Datasource', () => {
   before(() => {
     entityTester.beforeAll()
   })

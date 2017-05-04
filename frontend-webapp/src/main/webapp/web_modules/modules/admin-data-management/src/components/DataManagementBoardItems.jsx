@@ -8,7 +8,7 @@ import { attributeModelDependencies } from '@regardsoss/admin-data-attributemode
 import { collectionDependencies } from '@regardsoss/admin-data-collection-management'
 import { fragmentDependencies } from '@regardsoss/admin-data-fragment-management'
 import { connectionDependencies } from '@regardsoss/admin-data-connection-management'
-import { EditDependencies as DatasetEditDep, AddDependencies as DatasetAddDep } from '@regardsoss/admin-data-dataset-management/src/dependencies'
+import { datasetDependencies } from '@regardsoss/admin-data-dataset-management'
 import { datasourceDependencies } from '@regardsoss/admin-data-datasource-management'
 
 
@@ -103,13 +103,13 @@ const items = (projectName, intl) => [
         path: `/admin/${projectName}/data/dataset/list`,
         icon: <ViewLinesIcon />,
         tooltipMsg: intl.formatMessage({ id: 'data.board.action.list.tooltip' }),
-        hateoasDependencies: DatasetEditDep,
+        hateoasDependencies: datasetDependencies.listDependencies,
       },
       {
         path: `/admin/${projectName}/data/dataset/create/datasource`,
         icon: <AddIcon />,
         tooltipMsg: intl.formatMessage({ id: 'data.board.action.add.tooltip' }),
-        hateoasDependencies: DatasetAddDep,
+        hateoasDependencies: datasetDependencies.addDependencies,
       },
     ],
   },

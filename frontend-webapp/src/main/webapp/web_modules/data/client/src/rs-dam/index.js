@@ -41,6 +41,12 @@ import DatasourceSelectors from './datasource/DatasourceSelectors'
 import DatasourceActions from './datasource/DatasourceActions'
 import DatasourceReducer from './datasource/DatasourceReducer'
 
+import DatasetActions from './dataset/DatasetActions'
+import DatasetReducer from './dataset/DatasetReducer'
+import DatasetSelectors from './dataset/DatasetSelectors'
+
+import DatasetLinkActions from './datasetLink/DatasetLinkActions'
+import DatasetLinkReducer from './datasetLink/DatasetLinkReducer'
 
 import ConnectionTableSelectors from './connectionTable/ConnectionTableSelectors'
 import ConnectionTableActions from './connectionTable/ConnectionTableActions'
@@ -50,6 +56,7 @@ import ConnectionTableReducer from './connectionTable/ConnectionTableReducer'
 import ConnectionTableAttributesSelectors from './connectionTableAttributes/ConnectionTableAttributesSelectors'
 import ConnectionTableAttributesActions from './connectionTableAttributes/ConnectionTableAttributesActions'
 import ConnectionTableAttributesReducer from './connectionTableAttributes/ConnectionTableAttributesReducer'
+
 
 import CollectionLinkActions from './collectionLink/CollectionLinkActions'
 import CollectionLinkReducer from './collectionLink/CollectionLinkReducer'
@@ -79,6 +86,13 @@ export default {
   DatasourceSelectors,
   DatasourceActions,
   DatasourceReducer,
+
+  DatasetActions,
+  DatasetReducer,
+  DatasetSelectors,
+
+  DatasetLinkActions,
+  DatasetLinkReducer,
 
   ConnectionTableReducer,
   ConnectionTableActions,

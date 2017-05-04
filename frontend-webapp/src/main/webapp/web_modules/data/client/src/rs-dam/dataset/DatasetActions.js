@@ -1,10 +1,10 @@
 import Schemas from '@regardsoss/api'
 import { BasicPageableActions } from '@regardsoss/store-utils'
 
-class DatasetActions extends BasicPageableActions {
-  constructor() {
+export default class DatasetActions extends BasicPageableActions {
+  constructor(namespace) {
     super({
-      namespace: 'admin-data-dataset-management/dataset',
+      namespace,
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-dam/datasets`,
       entityPathVariable: 'dataset_id',
       schemaTypes: {
@@ -14,6 +14,3 @@ class DatasetActions extends BasicPageableActions {
     })
   }
 }
-
-const instance = new DatasetActions()
-export default instance
