@@ -7,8 +7,8 @@ import { stub } from 'sinon'
 import { IntlStub } from '@regardsoss/tests-helpers'
 import { BoardComponent } from '@regardsoss/components'
 import MicroserviceBoardComponent from '../../src/components/MicroserviceBoardComponent'
-import microservices from '../../src/data/microservices.json'
 
+const microservices = STATIC_CONFIGURATION.microservices
 /**
  * Microservices configuration tests
  * @author Xavier-Alexandre Brochard

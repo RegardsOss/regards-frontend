@@ -1,6 +1,10 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import map from 'lodash/map'
+import without from 'lodash/without'
+import union from 'lodash/union'
+import chain from 'lodash/chain'
 import { browserHistory } from 'react-router'
 import { FormattedMessage } from 'react-intl'
 import AppBar from 'material-ui/AppBar'
@@ -14,10 +18,9 @@ import Subheader from 'material-ui/Subheader'
 import IconList from 'material-ui/svg-icons/action/list'
 import Filter from 'material-ui/svg-icons/content/filter-list'
 import Close from 'material-ui/svg-icons/navigation/close'
-import { map, without, union, chain, difference } from 'lodash'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
-import { LoadableContentDisplayDecorator, HateoasIconAction } from '@regardsoss/display-control'
+import { LoadableContentDisplayDecorator, ResourceIconAction } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { themeContextType } from '@regardsoss/theme'
 import { PluginMetaDataList } from '@regardsoss/model'
@@ -45,7 +48,9 @@ export class PluginMetaDataListContainer extends React.Component {
       microserviceName: React.PropTypes.string,
     }),
     // from mapStateToProps
-    pluginTypes: React.PropTypes.arrayOf(React.PropTypes.string),
+    pluginTypes: React.PropTypes.arrayOf(React.PropTypes.shape({
+      content: React.PropTypes.string,
+    })),
     pluginMetaDataList: PluginMetaDataList,
     // pluginMetaDataListOrganizedByType: React.PropTypes.arrayOf(React.PropTypes.object),
     isPluginMetaDataListFetching: React.PropTypes.bool,
@@ -70,10 +75,10 @@ export class PluginMetaDataListContainer extends React.Component {
   componentDidMount() {
     const { params: { microserviceName } } = this.props
     this.props.fetchPluginTypeList(microserviceName) // Fetch the plugin types
+    this.props.fetchPluginMetaDataList(microserviceName)
   }
 
   componentWillReceiveProps(newProps) {
-    const { params: { microserviceName } } = this.props
     const oldPluginTypes = this.props.pluginTypes
     const newPluginTypes = newProps.pluginTypes
 
@@ -83,9 +88,6 @@ export class PluginMetaDataListContainer extends React.Component {
         displayedTypes: newProps.pluginTypes.sort(),
       })
     }
-
-    // Fetch the plugin meta data associated to each new plugin type
-    difference(newPluginTypes, oldPluginTypes).forEach(pluginType => this.props.fetchPluginMetaDataList(microserviceName, pluginType))
   }
 
   /**
@@ -94,8 +96,8 @@ export class PluginMetaDataListContainer extends React.Component {
   getFilterListItems = () => (
     map(this.props.pluginTypes, type => (
       <ListItem
-        key={type}
-        primaryText={type}
+        key={type.content}
+        primaryText={type.content}
         leftCheckbox={
           <Checkbox
             checked={this.state.displayedTypes.includes(type)}
@@ -112,13 +114,14 @@ export class PluginMetaDataListContainer extends React.Component {
   getGrid = () => (
     map(this.state.displayedTypes, pluginType => (
       [
-        <Subheader>{pluginType}</Subheader>,
+        <Subheader>{pluginType.content}</Subheader>,
         chain(this.props.pluginMetaDataList)
-          .filter(pluginMetaData => ['interfaceName', pluginType])
-          .map(pluginMetaData => this.getTile(pluginMetaData))
-          .value(),
+            .filter(pluginMetaData => pluginMetaData.content.interfaceNames.includes(pluginType.content))
+            .map(pluginMetaData => this.getTile(pluginMetaData))
+            .value(),
       ]
-    ))
+      ),
+    )
   )
 
   /**
@@ -137,13 +140,13 @@ export class PluginMetaDataListContainer extends React.Component {
           {plugin.content.description}
         </CardText>
         <CardActions>
-          <HateoasIconAction
-            hateoasDependency={PluginConfigurationActions.getMsDependency(RequestVerbEnum.GET_LIST, this.props.params.microserviceName)}
+          <ResourceIconAction
+            resourceDependency={PluginConfigurationActions.getMsDependency(RequestVerbEnum.GET_LIST, this.props.params.microserviceName)}
             tooltip={<FormattedMessage id="microservice-management.plugin.list.configurations" />}
             onTouchTap={() => this.handleProjectConfigurationListClick(plugin.content.pluginId)}
           >
             <IconList />
-          </HateoasIconAction>
+          </ResourceIconAction>
         </CardActions>
       </Card>
     </div>
@@ -238,10 +241,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchPluginTypeList: microserviceName => dispatch(PluginTypeActions.fetchEntityList({ microserviceName })),
-  fetchPluginMetaDataList: (microserviceName, pluginType) => dispatch(PluginMetaDataActions.fetchPagedEntityList(0, 100, {
-    microserviceName,
-    pluginType,
-  })),
+  fetchPluginMetaDataList: microserviceName => dispatch(PluginMetaDataActions.fetchEntityList({ microserviceName })),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PluginMetaDataListContainer)

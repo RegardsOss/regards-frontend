@@ -1,13 +1,13 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import {connect} from '@regardsoss/redux'
-import {forEach, map} from 'lodash'
-import {I18nProvider, i18nContextType} from '@regardsoss/i18n'
+import forEach from 'lodash/forEach'
+import { connect } from '@regardsoss/redux'
+import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
 import MicroserviceBoardComponent from '../components/MicroserviceBoardComponent'
 import MaintenanceModeActions from '../model/MaintenanceModeActions'
 import MaintenanceModeSelectors from '../model/MaintenanceModeSelectors'
-import SetMaintenanceModeActions , {MAINTENANCES_ACTIONS} from '../model/SetMaintenanceModeActions'
+import SetMaintenanceModeActions, { MAINTENANCES_ACTIONS } from '../model/SetMaintenanceModeActions'
 
 /**
  * Module container connecting {@link MicroserviceBoardComponent} to redux in order to display the list of microservices.
@@ -33,7 +33,7 @@ export class MicroserviceBoardContainer extends React.Component {
     super(props)
 
     this.state = {
-      microservicesMaintenance: {}
+      microservicesMaintenance: {},
     }
   }
 
@@ -43,9 +43,9 @@ export class MicroserviceBoardContainer extends React.Component {
 
   componentWillReceiveProps() {
     const microservicesMaintenance = {}
-    forEach(STATIC_CONFIGURATION.microservices, microservice => {
+    forEach(STATIC_CONFIGURATION.microservices, (microservice) => {
       microservicesMaintenance[microservice] = {}
-      microservicesMaintenance[microservice].isOn = projectName => {
+      microservicesMaintenance[microservice].isOn = (projectName) => {
         const maintenanceTenants = this.props.maintenanceList(microservice).content
         if (maintenanceTenants) {
           return maintenanceTenants[projectName]
@@ -56,7 +56,7 @@ export class MicroserviceBoardContainer extends React.Component {
         this.handleSetMaintenance(microservice, projectName, value ? MAINTENANCES_ACTIONS.ACTIVATE : MAINTENANCES_ACTIONS.DISABLE)
     })
     this.setState({
-      microservicesMaintenance
+      microservicesMaintenance,
     })
   }
 
@@ -93,7 +93,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(SetMaintenanceModeActions(microservice).sendSignal('PUT', null, {
       microservice,
       action,
-      tenant: projectName
+      tenant: projectName,
     }))
   },
 })

@@ -23,9 +23,7 @@ class ModuleContainer extends React.Component {
     moduleConf: ModuleConfiguration.isRequired,
 
     // Set by mapDispatchToProps
-    getAttributeModel: React.PropTypes.func,
     fetchAllModelsAttributes: React.PropTypes.func,
-    // eslint-disable-next-line react/no-unused-prop-types
     attributeModels: React.PropTypes.objectOf(AttributeModel),
   }
 
@@ -33,7 +31,7 @@ class ModuleContainer extends React.Component {
     super(props)
 
     // Calculate needed facettes from given props.
-    const { moduleConf: { attributes }} = props
+    const { moduleConf: { attributes } } = props
     // Calculate facettes
     const facettes = reduce(attributes, (result, value, key) => {
       if (value.facetable) {

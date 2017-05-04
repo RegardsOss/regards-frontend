@@ -5,8 +5,8 @@ import replace from 'lodash/replace'
 import { BasicSignalActions, RequestVerbEnum } from '@regardsoss/store-utils'
 
 const MAINTENANCES_ACTIONS = {
-  ACTIVATE : 'enable',
-  DISABLE : 'disable'
+  ACTIVATE: 'enable',
+  DISABLE: 'disable',
 }
 
 class SetMaintenanceModeActions extends BasicSignalActions {
@@ -33,6 +33,6 @@ class SetMaintenanceModeActions extends BasicSignalActions {
 }
 
 export {
-  MAINTENANCES_ACTIONS
+  MAINTENANCES_ACTIONS,
 }
 export default microserviceName => new SetMaintenanceModeActions(microserviceName)

@@ -109,7 +109,7 @@ export class PluginConfigurationContainer extends React.Component {
   }
 
   render() {
-    const { pluginConfiguration, pluginMetaData } = this.props
+    const { pluginConfiguration, pluginMetaData, params: { microserviceName } } = this.props
     const deleteDialogActions = [
       <FlatButton
         label="Cancel"
@@ -126,6 +126,7 @@ export class PluginConfigurationContainer extends React.Component {
     return (
       <div>
         <PluginConfigurationComponent
+          microserviceName={microserviceName}
           pluginConfiguration={pluginConfiguration}
           pluginMetaData={pluginMetaData}
           onActiveToggle={this.handleActiveToggle}
