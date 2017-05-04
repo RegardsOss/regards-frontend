@@ -22,6 +22,14 @@ import ResourceAccessActions from './resource/ResourceAccessActions'
 import ResourceAccessReducers from './resource/ResourceAccessReducers'
 import ResourceAccessSelectors from './resource/ResourceAccessSelectors'
 
+import BorrowRoleActions from './role/borrow/BorrowRoleActions'
+import getBorrowRoleReducer from './role/borrow/BorrowRoleReducer'
+import getBorrowRoleSelectors from './role/borrow/BorrowRoleSelectors'
+
+import BorrowableRolesActions from './role/borrowable/BorrowableRolesActions'
+import getBorrowableRolesReducer from './role/borrowable/BorrowableRolesReducer'
+import getBorrowableRolesSelectors from './role/borrowable/BorrowableRolesSelectors'
+
 import RoleActions from './role/RoleActions'
 import RoleReducers from './role/RoleReducers'
 import RoleSelectors from './role/RoleSelectors'
@@ -35,10 +43,18 @@ import ResourceRolesReducers from './role/ResourceRolesReducers'
 import ResourceRolesSelectors from './role/ResourceRolesSelectors'
 
 import MyUserActions from './user/MyUserActions'
-import MyUserReducer from './user/MyUserReducer'
-import MyUserSelectors from './user/MyUserSelectors'
+import getMyUserReducer from './user/MyUserReducer'
+import getMyUserSelectors from './user/MyUserSelectors'
 
 export default {
+
+  BorrowRoleActions,
+  getBorrowRoleReducer,
+  getBorrowRoleSelectors,
+
+  BorrowableRolesActions,
+  getBorrowableRolesReducer,
+  getBorrowableRolesSelectors,
 
   ProjectActions,
   ProjectSelectors,
@@ -61,8 +77,8 @@ export default {
   ControllerSelectors,
 
   MyUserActions,
-  MyUserReducer,
-  MyUserSelectors,
+  getMyUserReducer,
+  getMyUserSelectors,
 
   ResourceAccessActions,
   ResourceAccessReducers,

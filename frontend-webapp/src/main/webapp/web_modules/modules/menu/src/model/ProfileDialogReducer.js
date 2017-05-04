@@ -35,5 +35,3 @@ const instance = new ProfileDialogReducer()
 export default function reduce(state, action) {
   return instance.reduce(state, action)
 }
-
-export const PATH = 'profile-dialog'

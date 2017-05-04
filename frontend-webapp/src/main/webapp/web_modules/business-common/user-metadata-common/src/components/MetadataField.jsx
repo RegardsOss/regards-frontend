@@ -1,7 +1,6 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
-import values from 'lodash/values'
 import { FormattedMessage } from 'react-intl'
 import MenuItem from 'material-ui/MenuItem'
 import { Field, RenderTextField, RenderSelectField, ErrorTypes } from '@regardsoss/form-utils'

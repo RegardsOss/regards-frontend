@@ -28,6 +28,7 @@ export const Metadata = React.PropTypes.shape({
   labelKey: React.PropTypes.string.isRequired,
   mandatory: React.PropTypes.bool.isRequired,
   onlyAtRegistration: React.PropTypes.bool.isRequired,
+  currentValue: React.PropTypes.string, // current value if any
   editor: Editor,
 })
 

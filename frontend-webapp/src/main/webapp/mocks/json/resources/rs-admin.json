@@ -859,6 +859,14 @@
       "resource": "/themes",
       "verb": "POST",
       "controllerSimpleName": "Controller 1"
+    },
+    {
+      "id": 66,
+      "description": "My user",
+      "microservice": "rs-admin",
+      "resource": "/users/myuser",
+      "verb": "GET",
+      "controllerSimpleName": "Controller 1"
     }
   ]
 }

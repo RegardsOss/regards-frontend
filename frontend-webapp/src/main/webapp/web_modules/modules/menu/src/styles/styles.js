@@ -49,7 +49,7 @@ const menuStyles = theme => (
       actions: {
         styles: {
           display: 'flex',
-          justifyContent: 'center',
+          justifyContent: 'flex-end',
         },
       },
     },

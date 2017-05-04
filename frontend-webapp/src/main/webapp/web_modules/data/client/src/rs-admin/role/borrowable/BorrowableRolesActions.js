@@ -4,10 +4,13 @@
 import { ROLE, ROLE_ARRAY } from '@regardsoss/api'
 import { BasicListActions } from '@regardsoss/store-utils'
 
-class BorrowableRolesActions extends BasicListActions {
-  constructor() {
+/**
+ * Actions to fetch borrowable roles list for an authenticated user
+ */
+export default class BorrowableRolesActions extends BasicListActions {
+  constructor(namespace) {
     super({
-      namespace: 'menu/borrowable-roles',
+      namespace,
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-admin/roles/borrowable`,
       schemaTypes: {
         ENTITY: ROLE,
@@ -16,5 +19,3 @@ class BorrowableRolesActions extends BasicListActions {
     })
   }
 }
-
-export default new BorrowableRolesActions()
