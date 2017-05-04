@@ -2,7 +2,9 @@
  * LICENSE_PLACEHOLDER
  **/
 import { browserHistory } from 'react-router'
+import { FormattedMessage } from 'react-intl'
 import { connect } from '@regardsoss/redux'
+import { i18nContextType } from '@regardsoss/i18n'
 import { PluginConfiguration, PluginMetaData } from '@regardsoss/model'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
@@ -31,8 +33,24 @@ export class PluginConfigurationContainer extends React.Component {
     deletePluginConfiguration: React.PropTypes.func,
   }
 
+  static contextTypes = {
+    ...i18nContextType,
+  }
+
   state = {
     deleteDialogOpen: false,
+  }
+
+  closeDeleteDialog = () => {
+    this.setState({
+      deleteDialogOpen: false,
+    })
+  }
+
+  openDeleteDialog = (entity) => {
+    this.setState({
+      deleteDialogOpen: true,
+    })
   }
 
   handleActiveToggle = () => {
@@ -110,14 +128,16 @@ export class PluginConfigurationContainer extends React.Component {
 
   render() {
     const { pluginConfiguration, pluginMetaData, params: { microserviceName } } = this.props
+    const deleteTitle = this.context.intl.formatMessage(
+      { id: 'microservice-management.plugin.configuration.delete.confirmation.title' }, { name: pluginConfiguration ? pluginConfiguration.content.label : '' })
     const deleteDialogActions = [
       <FlatButton
-        label="Cancel"
+        label={<FormattedMessage id="microservice-management.plugin.configuration.delete.cancel" />}
         primary
-        onTouchTap={() => this.setState({ deleteDialogOpen: false })}
+        onTouchTap={this.closeDeleteDialog}
       />,
       <FlatButton
-        label="Submit"
+        label={<FormattedMessage id="microservice-management.plugin.configuration.delete" />}
         primary
         keyboardFocused
         onTouchTap={this.handleDeleteClick}
@@ -131,19 +151,19 @@ export class PluginConfigurationContainer extends React.Component {
           pluginMetaData={pluginMetaData}
           onActiveToggle={this.handleActiveToggle}
           onCopyClick={this.handleCopy}
-          onDeleteClick={this.handleDeleteClick}
+          onDeleteClick={this.openDeleteDialog}
           onDownwardClick={this.handleDownwardClick}
           onEditClick={this.handleEdit}
           onUpwardClick={this.handleUpwardClick}
         />
         <Dialog
-          title="Dialog With Actions"
+          title={deleteTitle}
           actions={deleteDialogActions}
           modal={false}
           open={this.state.deleteDialogOpen}
-          onRequestClose={() => this.setState({ deleteDialogOpen: false })}
+          onRequestClose={this.closeDeleteDialog}
         >
-          The actions in this window were passed in as an array of React objects.
+          <FormattedMessage id="microservice-management.plugin.configuration.delete.confirmation.text" />
         </Dialog>
       </div>
     )

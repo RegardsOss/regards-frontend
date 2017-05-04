@@ -116,6 +116,6 @@ export default [
       ],
     },
     links: [],
-  }
+  },
 ]
 
