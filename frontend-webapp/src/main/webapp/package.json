@@ -117,9 +117,8 @@
     "react-measure": "~1.4.7",
     "react-redux": "~5.0.4",
     "react-resizable": "~1.6.0",
-    "react-responsive": "^1.2.7",
-    "react-router": "^3.0.5",
     "react-responsive": "^1.2.10",
+    "react-router": "^3.0.5",
     "react-scrollbar": "^0.5.1",
     "react-tap-event-plugin": "~2.0.1",
     "redux": "^3.6.0",
@@ -128,6 +127,7 @@
     "redux-form-material-ui": "^4.2.0",
     "redux-logger": "^3.0.1",
     "redux-thunk": "~2.2.0",
+    "reselect": "^3.0.0",
     "scriptjs": "~2.5.8",
     "stompjs": "~2.3.3",
     "window-or-global": "^1.0.1"
