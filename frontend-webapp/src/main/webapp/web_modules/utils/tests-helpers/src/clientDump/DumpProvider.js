@@ -35,6 +35,9 @@ class DumpProvider {
     if (!conf) {
       throw new Error(`The entityName you've provided ${entityName} does not exists`)
     }
+    if (conf.isSignal) {
+      return conf.dump
+    }
     return normalize(DumpProvider.getContent(conf.dump, conf.isPageable), conf.ENTITY_ARRAY).entities[conf.normalizrKey]
   }
 

@@ -8,12 +8,9 @@ import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { unregisterField } from 'redux-form'
 import DatasetFormAttributesComponent from '../components/DatasetFormAttributesComponent'
-import ModelSelectors from '../model/ModelSelectors'
-import ModelActions from '../model/ModelActions'
-import ModelAttributesActions from '../model/ModelAttributesActions'
-import ModelAttributesSelectors from '../model/ModelAttributesSelectors'
-import DatasourceSelectors from './../model/DatasourceSelectors'
-import DatasourceActions from './../model/DatasourceActions'
+import { modelSelectors, modelActions } from '../client/ModelClient'
+import { modelAttributesActions, modelAttributesSelectors } from '../client/ModelAttributesClient'
+import { datasourceSelectors, datasourceActions } from './../client/DatasourceClient'
 
 
 /**
@@ -131,16 +128,16 @@ export class DatasetFormAttributesContainer extends React.Component {
   }
 }
 const mapStateToProps = (state, ownProps) => ({
-  modelAttributeList: ModelAttributesSelectors.getList(state),
-  modelList: ModelSelectors.getList(state),
-  currentDatasource: DatasourceSelectors.getById(state, ownProps.currentDatasourceId),
+  modelAttributeList: modelAttributesSelectors.getList(state),
+  modelList: modelSelectors.getList(state),
+  currentDatasource: datasourceSelectors.getById(state, ownProps.currentDatasourceId),
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchModelList: () => dispatch(ModelActions.fetchEntityList({}, { type: 'DATASET' })),
-  fetchModelAttributeList: id => dispatch(ModelAttributesActions.fetchEntityList({ id })),
+  fetchModelList: () => dispatch(modelSelectors.fetchEntityList({}, { type: 'DATASET' })),
+  fetchModelAttributeList: id => dispatch(modelAttributesActions.fetchEntityList({ pModelId: id })),
   unregisterField: (form, name) => dispatch(unregisterField(form, name)),
-  fetchDatasource: id => dispatch(DatasourceActions.fetchEntity(id)),
+  fetchDatasource: id => dispatch(datasourceActions.fetchEntity(id)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(DatasetFormAttributesContainer)

@@ -6,12 +6,9 @@ import { Datasource, ModelAttribute } from '@regardsoss/model'
 import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import DatasourceFormMappingComponent from '../components/DatasourceFormMappingComponent'
-import ModelAttributesActions from '../model/ModelAttributesActions'
-import ModelAttributesSelectors from '../model/ModelAttributesSelectors'
-import ConnectionTableActions from '../model/ConnectionTableActions'
-import ConnectionTableSelectors from '../model/ConnectionTableSelectors'
-import ConnectionTableAttributesActions from '../model/ConnectionTableAttributesActions'
-import ConnectionTableAttributesSelectors from '../model/ConnectionTableAttributesSelectors'
+import { modelAttributesActions, modelAttributesSelectors } from '../client/ModelAttributesClient'
+import { connectionTableActions, connectionTableSelectors } from '../client/ConnectionTableClient'
+import { connectionTableAttributesActions, connectionTableAttributesSelectors } from '../client/ConnectionTableAttributesClient'
 
 
 /**
@@ -102,20 +99,20 @@ export class DatasourceFormMappingContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  tableList: ConnectionTableSelectors.getResult(state),
-  tableAttributeList: ConnectionTableAttributesSelectors.getResult(state),
-  modelAttributeList: ModelAttributesSelectors.getList(state),
+  tableList: connectionTableSelectors.getResult(state),
+  tableAttributeList: connectionTableAttributesSelectors.getResult(state),
+  modelAttributeList: modelAttributesSelectors.getList(state),
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchTable: connectionId => dispatch(ConnectionTableActions.sendSignal('GET', null, {
+  fetchTable: connectionId => dispatch(connectionTableActions.sendSignal('GET', null, {
     connectionId,
   })),
-  fetchTableAttributes: (connectionId, tableName) => dispatch(ConnectionTableAttributesActions.sendSignal('GET', null, {
+  fetchTableAttributes: (connectionId, tableName) => dispatch(connectionTableAttributesActions.sendSignal('GET', null, {
     connectionId,
     tableName,
   })),
-  fetchModelAttributeList: id => dispatch(ModelAttributesActions.fetchEntityList({ id })),
+  fetchModelAttributeList: id => dispatch(modelAttributesActions.fetchEntityList({ pModelId: id })),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(DatasourceFormMappingContainer)

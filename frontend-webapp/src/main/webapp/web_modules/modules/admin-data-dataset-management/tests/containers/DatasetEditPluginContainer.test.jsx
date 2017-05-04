@@ -3,36 +3,20 @@
  */
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import { stub } from 'sinon'
-import { IntlStub } from '@regardsoss/tests-helpers'
+import { testSuiteHelpers, DumpProvider, buildTestContext } from '@regardsoss/tests-helpers'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { DatasetEditPluginContainer } from '../../src/containers/DatasetEditPluginContainer'
-import PluginConfigurationDump from '../model/dump/PluginConfigurationDump'
-import PluginMetaDataDump from '../model/dump/PluginMetaDataDump'
 
+const context = buildTestContext()
 
 describe('[ADMIN DATASET MANAGEMENT] Testing DatasetEditPluginContainer', () => {
-  // Since react will console.error propType warnings, that which we'd rather have
-  // as errors, we use sinon.js to stub it into throwing these warning as errors
-  // instead.
-  before(() => {
-    stub(console, 'error').callsFake((warning) => {
-      throw new Error(warning)
-    })
-  })
-  after(() => {
-    console.error.restore()
-  })
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('should exists', () => {
     assert.isDefined(DatasetEditPluginContainer)
     assert.isDefined(LoadableContentDisplayDecorator)
   })
-  const context = {
-    intl: IntlStub,
-    muiTheme: {
-      palette: {},
-    },
-  }
 
 
   it('Render properly', () => {
@@ -43,13 +27,13 @@ describe('[ADMIN DATASET MANAGEMENT] Testing DatasetEditPluginContainer', () => 
         datasetId: '69',
       },
       // from mapStateToProps
-      pluginConfigurationFiltersList: PluginConfigurationDump,
-      pluginConfigurationConvertersList: PluginConfigurationDump,
-      pluginConfigurationServicesList: PluginConfigurationDump,
+      pluginConfigurationFiltersList: DumpProvider.get('CommonClient', 'PluginConfiguration'),
+      pluginConfigurationConvertersList: DumpProvider.get('CommonClient', 'PluginConfiguration'),
+      pluginConfigurationServicesList: DumpProvider.get('CommonClient', 'PluginConfiguration'),
 
-      pluginMetaDataFiltersList: PluginMetaDataDump,
-      pluginMetaDataConvertersList: PluginMetaDataDump,
-      pluginMetaDataServicesList: PluginMetaDataDump,
+      pluginMetaDataFiltersList: DumpProvider.get('CommonClient', 'PluginMetaData'),
+      pluginMetaDataConvertersList: DumpProvider.get('CommonClient', 'PluginMetaData'),
+      pluginMetaDataServicesList: DumpProvider.get('CommonClient', 'PluginMetaData'),
 
       // from mapDispatchToProps
       fetchConvertersConfiguration: () => {},

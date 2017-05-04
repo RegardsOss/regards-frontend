@@ -6,8 +6,7 @@ import { connect } from '@regardsoss/redux'
 import { Datasource } from '@regardsoss/model'
 import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import DatasourceSelectors from './../model/DatasourceSelectors'
-import DatasourceActions from './../model/DatasourceActions'
+import { datasourceSelectors, datasourceActions } from './../client/DatasourceClient'
 import DatasetCreateOrPickDatasourceComponent from '../components/DatasetCreateOrPickDatasourceComponent'
 
 
@@ -79,11 +78,11 @@ export class DatasetCreateOrPickDatasourceContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  datasourceList: DatasourceSelectors.getList(state),
+  datasourceList: datasourceSelectors.getList(state),
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchDatasourceList: () => dispatch(DatasourceActions.fetchPagedEntityList(0, 1000)),
+  fetchDatasourceList: () => dispatch(datasourceActions.fetchPagedEntityList(0, 1000)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(DatasetCreateOrPickDatasourceContainer)

@@ -2,12 +2,12 @@
  * LICENSE_PLACEHOLDER
  **/
 import { combineReducers } from 'redux'
-import dataset from './model/DatasetReducers'
-import model from './model/ModelReducers'
-import modelAttribute from './model/ModelAttributesReducer'
-import datasetLinkSignal from './model/DatasetLinkReducers'
-import datasource from './model/DatasourceReducers'
-import collection from './model/CollectionReducers'
+import { datasetReducer } from './client/DatasetClient'
+import { modelReducer } from './client/ModelClient'
+import { modelAttributesReducer } from './client/ModelAttributesClient'
+import { datasetLinkReducer } from './client/DatasetLinkClient'
+import { datasourceReducer } from './client/DatasourceClient'
+import { collectionReducer } from './client/CollectionClient'
 import {
   pluginConfigurationConverters,
   pluginConfigurationServices,
@@ -19,16 +19,16 @@ import {
   pluginMetaDataFilters,
 } from './model/PluginMetaDataReducers'
 import linkPluginDataset from './model/LinkPluginDatasetReducers'
-import UIPluginConfigurationClient from './client/UIPluginConfigurationClient'
-import UIPluginDefinitionClient from './client/UIPluginDefinitionClient'
+import { uiPluginConfigurationReducer } from './client/UIPluginConfigurationClient'
+import { uiPluginDefinitionReducer } from './client/UIPluginDefinitionClient'
 
 const datasetDataManagementReducer = combineReducers({
-  collection,
-  dataset,
-  model,
-  datasource,
-  'model-attribute': modelAttribute,
-  'dataset-link': datasetLinkSignal,
+  collection: collectionReducer,
+  dataset: datasetReducer,
+  model: modelReducer,
+  datasource: datasourceReducer,
+  'model-attribute': modelAttributesReducer,
+  'dataset-link': datasetLinkReducer,
   'plugin-configuration-services': pluginConfigurationServices,
   'plugin-configuration-converters': pluginConfigurationConverters,
   'plugin-configuration-filters': pluginConfigurationFilters,
@@ -36,8 +36,8 @@ const datasetDataManagementReducer = combineReducers({
   'plugin-meta-data-converters': pluginMetaDataConverters,
   'plugin-meta-data-filters': pluginMetaDataFilters,
   'link-plugin-dataset': linkPluginDataset,
-  'plugin-configuration': UIPluginConfigurationClient.uiPluginConfigurationReducers,
-  'plugin-definition': UIPluginDefinitionClient.uiPluginDefinitionReducers,
+  'ui-plugin-configuration': uiPluginConfigurationReducer,
+  'ui-plugin-definition': uiPluginDefinitionReducer,
 })
 
 export default datasetDataManagementReducer

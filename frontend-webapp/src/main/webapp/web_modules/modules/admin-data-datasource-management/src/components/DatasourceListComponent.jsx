@@ -13,7 +13,7 @@ import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { HateoasIconAction, HateoasKeys } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import DatasourceActions from '../model/DatasourceActions'
+import { datasourceActions } from '../client/DatasourceClient'
 
 /**
  * React component to list datasources.
@@ -97,7 +97,7 @@ export class DatasourceListComponent extends React.Component {
                 id="datasource.list.action.add"
               />
             }
-            mainHateoasDependency={DatasourceActions.getDependency(RequestVerbEnum.POST)}
+            mainHateoasDependency={datasourceActions.getDependency(RequestVerbEnum.POST)}
             secondaryButtonLabel={<FormattedMessage id="datasource.list.action.cancel" />}
             secondaryButtonUrl={backUrl}
           />

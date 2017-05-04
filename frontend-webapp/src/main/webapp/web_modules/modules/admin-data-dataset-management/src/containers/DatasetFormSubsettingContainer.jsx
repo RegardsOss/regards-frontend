@@ -5,8 +5,7 @@ import { connect } from '@regardsoss/redux'
 import { Dataset, ModelAttribute } from '@regardsoss/model'
 import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import ModelAttributesActions from '../model/ModelAttributesActions'
-import ModelAttributesSelectors from '../model/ModelAttributesSelectors'
+import { modelAttributesActions, modelAttributesSelectors } from '../client/ModelAttributesClient'
 import DatasetFormSubsettingComponent from '../components/DatasetFormSubsettingComponent'
 
 /**
@@ -70,11 +69,11 @@ export class DatasetFormSubsettingContainer extends React.Component {
   }
 }
 const mapStateToProps = (state, ownProps) => ({
-  modelAttributeList: ModelAttributesSelectors.getList(state),
+  modelAttributeList: modelAttributesSelectors.getList(state),
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchModelAttributeList: id => dispatch(ModelAttributesActions.fetchEntityList({ id })),
+  fetchModelAttributeList: id => dispatch(modelAttributesActions.fetchEntityList({ pModelId: id })),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(DatasetFormSubsettingContainer)

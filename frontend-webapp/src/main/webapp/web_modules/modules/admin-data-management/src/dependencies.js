@@ -6,6 +6,8 @@ import { modelDependencies } from '@regardsoss/admin-data-model-management'
 import { attributeModelDependencies } from '@regardsoss/admin-data-attributemodel-management'
 import { collectionDependencies } from '@regardsoss/admin-data-collection-management'
 import { connectionDependencies } from '@regardsoss/admin-data-connection-management'
+import { datasourceDependencies } from '@regardsoss/admin-data-datasource-management'
+import { datasetDependencies } from '@regardsoss/admin-data-dataset-management'
 
 /**
  * Mandatory Dependencies to display module in project menu
@@ -22,4 +24,8 @@ export default [
   ...collectionDependencies.addDependencies,
   ...connectionDependencies.listDependencies,
   ...connectionDependencies.addDependencies,
+  ...datasourceDependencies.listDependencies,
+  ...datasourceDependencies.addDependencies,
+  ...datasetDependencies.listDependencies,
+  ...datasetDependencies.addDependencies,
 ]

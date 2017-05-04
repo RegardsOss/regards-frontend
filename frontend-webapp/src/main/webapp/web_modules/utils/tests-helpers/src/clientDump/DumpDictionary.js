@@ -6,7 +6,13 @@ import ModelDump from '@regardsoss/client/tests/rs-dam/Model.dump'
 import ModelAttributeDump from '@regardsoss/client/tests/rs-dam/ModelAttribute.dump'
 import ConnectionDump from '@regardsoss/client/tests/rs-dam/Connection.dump'
 import PluginMetaDataDump from '@regardsoss/client/tests/rs-common/PluginMetaData.dump'
-
+import ConnectionTableDump from '@regardsoss/client/tests/rs-dam/ConnectionTable.dump'
+import ConnectionTableAttributeDump from '@regardsoss/client/tests/rs-dam/ConnectionTableAttribute.dump'
+import DatasourceDump from '@regardsoss/client/tests/rs-dam/Datasource.dump'
+import LinkPluginDatasetDump from '@regardsoss/client/tests/rs-catalog/LinkPluginDataset.dump'
+import DatasetDump from '@regardsoss/client/tests/rs-dam/Dataset.dump'
+import PluginConfigurationDump from '@regardsoss/client/tests/rs-common/PluginConfiguration.dump'
+import CollectionDump from '@regardsoss/client/tests/rs-dam/Collection.dump'
 
 import {
   // UIPluginConfiguration
@@ -34,6 +40,21 @@ import {
 
   PLUGIN_META_DATA_ARRAY,
   PluginMetaDataConfiguration,
+
+  DATASOURCE_ARRAY,
+  DatasourceConfiguration,
+
+  DATASET_ARRAY,
+  DatasetConfiguration,
+
+  LINK_PLUGIN_DATASET_ARRAY,
+  LinkPluginDatasetConfiguration,
+
+  PLUGIN_CONFIGURATION_ARRAY,
+  AdminPluginConfigurationSchemaConfiguration,
+
+  COLLECTION_ARRAY,
+  CollectionConfiguration,
 } from '@regardsoss/api'
 
 /**
@@ -64,6 +85,12 @@ export default {
       dump: PluginMetaDataDump,
       ENTITY_ARRAY: PLUGIN_META_DATA_ARRAY,
       normalizrKey: PluginMetaDataConfiguration.normalizrKey,
+    },
+    PluginConfiguration: {
+      isPageable: true,
+      dump: PluginConfigurationDump,
+      ENTITY_ARRAY: PLUGIN_CONFIGURATION_ARRAY,
+      normalizrKey: AdminPluginConfigurationSchemaConfiguration.normalizrKey,
     },
   },
   DataManagementClient: {
@@ -96,6 +123,38 @@ export default {
       dump: ConnectionDump,
       ENTITY_ARRAY: CONNECTION_ARRAY,
       normalizrKey: ConnectionConfiguration.normalizrKey,
+    },
+    ConnectionTable: {
+      isSignal: true,
+      dump: ConnectionTableDump,
+    },
+    ConnectionTableAttribute: {
+      isSignal: true,
+      dump: ConnectionTableAttributeDump,
+    },
+    Datasource: {
+      isPageable: false,
+      dump: DatasourceDump,
+      ENTITY_ARRAY: DATASOURCE_ARRAY,
+      normalizrKey: DatasourceConfiguration.normalizrKey,
+    },
+    LinkPluginDataset: {
+      isPageable: true,
+      dump: LinkPluginDatasetDump,
+      ENTITY_ARRAY: LINK_PLUGIN_DATASET_ARRAY,
+      normalizrKey: LinkPluginDatasetConfiguration.normalizrKey,
+    },
+    Dataset: {
+      isPageable: true,
+      dump: DatasetDump,
+      ENTITY_ARRAY: DATASET_ARRAY,
+      normalizrKey: DatasetConfiguration.normalizrKey,
+    },
+    Collection: {
+      isPageable: false,
+      dump: CollectionDump,
+      ENTITY_ARRAY: COLLECTION_ARRAY,
+      normalizrKey: CollectionConfiguration.normalizrKey,
     },
   },
 }
