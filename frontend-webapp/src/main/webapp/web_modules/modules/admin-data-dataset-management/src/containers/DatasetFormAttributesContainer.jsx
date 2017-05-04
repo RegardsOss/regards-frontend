@@ -134,7 +134,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchModelList: () => dispatch(modelSelectors.fetchEntityList({}, { type: 'DATASET' })),
+  fetchModelList: () => dispatch(modelActions.fetchEntityList({}, { type: 'DATASET' })),
   fetchModelAttributeList: id => dispatch(modelAttributesActions.fetchEntityList({ pModelId: id })),
   unregisterField: (form, name) => dispatch(unregisterField(form, name)),
   fetchDatasource: id => dispatch(datasourceActions.fetchEntity(id)),

@@ -170,11 +170,11 @@ export class DatasetEditLinksContainer extends React.Component {
 
 const mapStateToProps = (state, ownProps) => ({
   currentDataset: datasetSelectors.getById(state, ownProps.params.datasetId),
-  collectionList: CollectionSelectors.getList(state),
+  collectionList: collectionSelectors.getList(state),
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchCollectionList: () => dispatch(CollectionActions.fetchPagedEntityList(0, 100)),
+  fetchCollectionList: () => dispatch(collectionActions.fetchPagedEntityList(0, 100)),
   fetchDataset: id => dispatch(datasetActions.fetchEntity(id)),
   updateDataset: (id, dataset) => dispatch(datasetActions.updateEntity(id, dataset)),
   addTagToDataset: (datasetId, tags) => dispatch(datasetLinkActions.sendSignal('PUT', tags, { dataset_id: datasetId, operation: 'associate' })),

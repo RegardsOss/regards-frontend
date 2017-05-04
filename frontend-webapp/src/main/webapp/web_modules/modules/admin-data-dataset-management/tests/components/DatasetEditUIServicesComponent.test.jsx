@@ -7,7 +7,6 @@ import { spy } from 'sinon'
 import { ListItem } from 'material-ui/List'
 import { DumpProvider, buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { DatasetEditUIServicesComponent } from '../../src/components/DatasetEditUIServicesComponent'
-import DatasetDump from '../model/dump/DatasetDump'
 
 const context = buildTestContext()
 
