@@ -3,7 +3,7 @@
  **/
 import size from 'lodash/size'
 import map from 'lodash/map'
-import {createSelector} from 'reselect'
+import { createSelector } from 'reselect'
 /**
  * @author Léo Mieulet
  */
@@ -13,16 +13,12 @@ import BasicSelector from '../BasicSelector'
  */
 class BasicListSelectors extends BasicSelector {
 
-  getList = (state) => {
-    return this.uncombineStore(state).items
-  }
+  getList = state => this.uncombineStore(state).items
 
-  getResults = (state) => {
-    return this.uncombineStore(state).results
-  }
+  getResults = state => this.uncombineStore(state).results
 
   getOrderedList = createSelector([this.getResults, this.getList],
-    (orderedResults, list) => map(orderedResults, entityId => list[entityId])
+    (orderedResults, list) => map(orderedResults, entityId => list[entityId]),
   )
 
   getById(state, id) {

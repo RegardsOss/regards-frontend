@@ -5,7 +5,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { Field } from '@regardsoss/form-utils'
-import { metadataV1 } from '../../src/definitions/metadatav1'
+import { getMetadataArray } from '../../src/definitions/metadatav1'
 import MetadataField from '../../src/components/MetadataField'
 
 const context = buildTestContext()
@@ -19,7 +19,7 @@ describe('[User Metadata Common] Testing MetadataField', () => {
   })
 
   // test that each known metadata model is correctly rendered
-  metadataV1.forEach(metadata => it(`should render a field properly for ${metadata.key}`, () => {
+  getMetadataArray().forEach(metadata => it(`should render a field properly for ${metadata.key}`, () => {
     const props = {
       metadata,
     }

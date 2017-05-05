@@ -33,7 +33,7 @@ class ModuleContainer extends React.Component {
     super(props)
 
     // Calculate needed facettes from given props.
-    const { moduleConf: { attributes }} = props
+    const { moduleConf: { attributes } } = props
     // Calculate facettes
     const facettes = reduce(attributes, (result, value, key) => {
       if (value.facetable) {

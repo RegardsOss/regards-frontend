@@ -27,7 +27,7 @@ class ProfileDialogReducer {
 
 const instance = new ProfileDialogReducer()
 /**
- * Return an function where the reducer instance exists
+ * Return a function where the reducer instance exists
  * @param state redux previous state
  * @param action redux action received
  * @return new state

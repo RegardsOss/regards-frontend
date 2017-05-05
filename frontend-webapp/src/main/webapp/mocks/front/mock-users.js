@@ -191,7 +191,7 @@ const getUsersList = (request, { status }, pathParameters) => {
   const withAuthDataCallback = ({ scope }) => {
     const correspondingUsers = getScopeUsers(loadUsersPool(), scope, status)
     return makePageResult(correspondingUsers, (user, userMail) => {
-      const { id, role, status: userStatus } = user[scope]
+      const { id, role, status: userStatus, metaData } = user[scope]
       return {
         content: {
           id,
@@ -201,6 +201,7 @@ const getUsersList = (request, { status }, pathParameters) => {
           role,
           status: userStatus,
           permissions: [],
+          metaData,
         },
         links: getAllLinks(),
       }

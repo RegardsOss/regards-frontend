@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux'
 import { resourceAccessReducers } from './client/ResourceAccessClient'
 import { controllerReducers } from './client/ResourceControllerClient'
-import { roleReducers } from './client/RoleClient'
+import { roleReducer } from './client/RoleClient'
 import { roleResourceReducers } from './client/RoleResourceClient'
 import { resourceRolesReducers } from './client/ResourceRolesClient'
 
 const roleManagementReducer = combineReducers({
-  role: roleReducers,
+  role: roleReducer,
   'resource-access': resourceAccessReducers,
   controller: controllerReducers,
   'role-resources': roleResourceReducers,

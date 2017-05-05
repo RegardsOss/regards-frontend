@@ -14,7 +14,23 @@ import DatasetDump from '@regardsoss/client/tests/rs-dam/Dataset.dump'
 import PluginConfigurationDump from '@regardsoss/client/tests/rs-common/PluginConfiguration.dump'
 import CollectionDump from '@regardsoss/client/tests/rs-dam/Collection.dump'
 
+import RoleDump from '@regardsoss/client/tests/rs-admin/Role.dump'
+import ProjectUserDump from '@regardsoss/client/tests/rs-admin/ProjectUser.dump'
+import WaitingAccessUsersEntitiesDump from '@regardsoss/client/tests/rs-admin/WaitingAccessUsersEntities.dump'
+import AccessGroupDump from '@regardsoss/client/tests/rs-dam/AccessGroup.dump'
+import UserGroupDump from '@regardsoss/client/tests/rs-dam/UserGroup.dump'
+
 import {
+
+  ROLE_ARRAY,
+  RoleConfiguration,
+
+  PROJECT_USER_ARRAY,
+  ProjectUserConfiguration,
+
+  ACCESS_GROUP_ARRAY,
+  AccessGroupConfiguration,
+
   // UIPluginConfiguration
   UI_PLUGIN_CONFIGURATION_ARRAY,
   UIPluginConfConfiguration,
@@ -79,6 +95,26 @@ export default {
       normalizrKey: PluginConfiguration.normalizrKey,
     },
   },
+  AdminClient: {
+    Role: {
+      isPageable: false,
+      dump: RoleDump,
+      ENTITY_ARRAY: ROLE_ARRAY,
+      normalizrKey: RoleConfiguration.normalizrKey,
+    },
+    ProjectUser: {
+      isPageable: true,
+      dump: ProjectUserDump,
+      ENTITY_ARRAY: PROJECT_USER_ARRAY,
+      normalizrKey: ProjectUserConfiguration.normalizrKey,
+    },
+    WaitingAccessUsersEntities: {
+      isPageable: true,
+      dump: WaitingAccessUsersEntitiesDump,
+      ENTITY_ARRAY: PROJECT_USER_ARRAY,
+      normalizrKey: ProjectUserConfiguration.normalizrKey,
+    },
+  },
   CommonClient: {
     PluginMetaData: {
       isPageable: false,
@@ -94,6 +130,18 @@ export default {
     },
   },
   DataManagementClient: {
+    AccessGroup: {
+      isPageable: true,
+      dump: AccessGroupDump,
+      ENTITY_ARRAY: ACCESS_GROUP_ARRAY,
+      normalizrKey: AccessGroupConfiguration.normalizrKey,
+    },
+    UserGroup: {
+      isPageable: false,
+      dump: UserGroupDump,
+      ENTITY_ARRAY: ACCESS_GROUP_ARRAY,
+      normalizrKey: AccessGroupConfiguration.normalizrKey,
+    },
     Fragment: {
       isPageable: false,
       dump: FragmentClientDump,

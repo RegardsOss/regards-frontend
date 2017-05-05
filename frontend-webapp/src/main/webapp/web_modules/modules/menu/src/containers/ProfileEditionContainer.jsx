@@ -3,7 +3,7 @@
 **/
 import { connect } from '@regardsoss/redux'
 import { ProjectUser } from '@regardsoss/model'
-import { metadataV1 } from '@regardsoss/user-metadata-common'
+import { getMetadataArray, packMetaDataField } from '@regardsoss/user-metadata-common'
 import profileDialogActions from '../model/ProfileDialogActions'
 import profileDialogSelectors from '../model/ProfileDialogSelectors'
 import { myUserActions, myUserSelectors } from '../client/MyUserClient'
@@ -13,17 +13,6 @@ import ProfileEditionDialogComponent from '../components/ProfileEditionDialogCom
 * Profile edition container
 */
 export class ProfileEditionContainer extends React.Component {
-
-  /**
-   * Finds in user model (optional) the metadata for key as parameter
-   * @param metadataKey searched metadata key
-   * @param myUser fetched myUser data (optional)
-   * @return found metadata server model or undefined
-   */
-  static findUserMetaData = (metadataKey, myUser) => {
-    const metaData = (myUser && myUser.content && myUser.content.metaData) || []
-    return metaData.find(({ key }) => key === metadataKey)
-  }
 
   static mapStateToProps = state => ({
     visible: profileDialogSelectors.isProfileEditionVisible(state),
@@ -65,20 +54,10 @@ export class ProfileEditionContainer extends React.Component {
   onEdit = (formValues) => {
     const { updateMyUser, hideDialog, myUser } = this.props
 
-    // rebuild the metadata from UI model
-    const metaData = metadataV1.map(({ key }) => {
-      const metadataEntity = ProfileEditionContainer.findUserMetaData(key, myUser)
-      return {
-        id: metadataEntity && metadataEntity.id, // undefined when metadata does not yet exist on server side
-        key,
-        value: formValues[key],
-      }
-    })
-
     // now rebuild a user as expected by server (remove the content)
     const updatedUser = {
       ...(myUser.content),
-      metaData, // put metadata with new value
+      metaData: packMetaDataField(myUser, formValues), // put metadata with new value
     }
     updateMyUser(updatedUser)
     // finally request dialog hide
@@ -90,17 +69,7 @@ export class ProfileEditionContainer extends React.Component {
    * but when user is known, retrieves the current metadata values
    * @param user : myUser values
    */
-  updateMetadata = (user) => {
-    const userMetadata = metadataV1.map((metadata) => {
-      const correspondingServerMetadata = ProfileEditionContainer.findUserMetaData(metadata.key, user)
-      return {
-        // find in server data the metadata matching current UI model. If undefined, let the field undefined
-        currentValue: correspondingServerMetadata && correspondingServerMetadata.value, // undefined when no meta or no value
-        ...metadata,
-      }
-    })
-    this.setState({ userMetadata })
-  }
+  updateMetadata = user => this.setState({ userMetadata: getMetadataArray(user) })
 
   render() {
     const { visible, hideDialog } = this.props

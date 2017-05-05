@@ -39,7 +39,7 @@
   ],
   "roles": [
     {
-      "id": "PUBLIC",
+      "id": 1,
       "name": "PUBLIC",
       "permissions": [],
       "authorizedAddresses": [],
