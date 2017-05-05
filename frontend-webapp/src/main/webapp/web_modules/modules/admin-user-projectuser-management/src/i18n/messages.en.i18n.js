@@ -1,6 +1,7 @@
 import { Locales } from '@regardsoss/form-utils'
+import { Locales as MetadataLocales } from '@regardsoss/user-metadata-common'
 
-const messages = Object.assign({
+const messages = {
   'projectUser.list.table.no.content.title': 'Nothing to show',
   'projectUser.list.table.lastupdate': 'Last update',
   'projectUser.list.table.role': 'Role',
@@ -40,6 +41,9 @@ const messages = Object.assign({
   'projectUser.create.input.groups': 'Groups',
   'projectUser.create.action.create': 'Create',
   'projectUser.create.action.cancel': 'Cancel',
-}, Locales.en)
+
+  ...Locales.en,
+  ...MetadataLocales.en,
+}
 
 export default messages

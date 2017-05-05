@@ -50,7 +50,7 @@ class LoggedUserComponent extends React.Component {
           targetOrigin={{ horizontal: 'right', vertical: 'bottom' }}
           iconStyle={this.context.moduleTheme.loggedUser.icon}
         >
-          {/* Wrap the menu item in profile menu container to add the edition dialog functionality */}
+          {/* Access user profile */}
           <MenuItem
             primaryText={<FormattedMessage id="accountLabel" />}
             leftIcon={<AccountMenuIcon />}

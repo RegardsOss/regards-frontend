@@ -1,3 +1,5 @@
+import { MetaDataArray } from './MetaData'
+
 const ProjectUser = React.PropTypes.shape({
   content: React.PropTypes.shape({
     id: React.PropTypes.number,
@@ -9,6 +11,7 @@ const ProjectUser = React.PropTypes.shape({
     lastConnection: React.PropTypes.date,
     status: React.PropTypes.string,
     lastUpdate: React.PropTypes.date,
+    metaData: MetaDataArray,
   }),
 })
 

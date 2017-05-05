@@ -1,3 +1,7 @@
+import AccessGroupActions from './accessGroup/AccessGroupActions'
+import getAccessGroupReducer from './accessGroup/AccessGroupReducer'
+import getAccessGroupSelectors from './accessGroup/AccessGroupSelectors'
+
 import AttributeModelActions from './attributesModel/AttributeModelActions'
 import AttributeModelReducer from './attributesModel/AttributeModelReducer'
 import AttributeModelSelectors from './attributesModel/AttributeModelSelectors'
@@ -61,8 +65,15 @@ import ConnectionTableAttributesReducer from './connectionTableAttributes/Connec
 import CollectionLinkActions from './collectionLink/CollectionLinkActions'
 import CollectionLinkReducer from './collectionLink/CollectionLinkReducer'
 
+import UserGroupActions from './userGroup/UserGroupActions'
+import getUserGroupReducer from './userGroup/UserGroupReducer'
+import getUserGroupSelectors from './userGroup/UserGroupSelectors'
 
 export default {
+  AccessGroupActions,
+  getAccessGroupReducer,
+  getAccessGroupSelectors,
+
   AttributeModelActions,
   AttributeModelReducer,
   AttributeModelSelectors,
@@ -121,5 +132,9 @@ export default {
   ModelAttributesActions,
   ModelAttributesReducer,
   ModelAttributesSelectors,
+
+  UserGroupActions,
+  getUserGroupReducer,
+  getUserGroupSelectors,
 
 }

@@ -185,7 +185,7 @@ const runServer = () => {
 
   accessProjectMicroServiceRouter.render = PageMiddleWare
   accessInstanceMicroServiceRouter.render = PageMiddleWare
-  adminMicroServiceRouter.render = PageMiddleWare
+  adminMicroServiceRouter.render = RenderMiddleWare
   catalogMicroServiceRouter.render = FacetsPageMiddleWare
   archivalStoragePluginsMonitoringRouter.render = RenderMiddleWare // ListMiddleWare
   damMicroServiceRouter.render = PageMiddleWare
@@ -219,7 +219,7 @@ const runServer = () => {
     '/api/v1/rs-access-instance/layouts/portal': '/api/v1/rs-access-instance/layouts/1',
     '/api/v1/rs-admin/projects/CDPP': '/api/v1/rs-admin/projects/1',
     '/api/v1/rs-admin/projects/:project/connections': '/api/v1/rs-admin/connections?projectName=:project',
-    '/api/v1/rs-admin/projects/:project/connections/:id' : '/api/v1/rs-admin/connections/:id',
+    '/api/v1/rs-admin/projects/:project/connections/:id': '/api/v1/rs-admin/connections/:id',
     '/api/v1/rs-admin/maintenances': '/api/v1/rs-admin-signal/maintenances',
     '/api/v1/rs-admin/resources/controller/:microservice': '/api/v1/rs-dam-array/controller',
     '/api/v1/rs-admin/maintenances/:project/activate': '/api/v1/rs-admin-signal/activate',

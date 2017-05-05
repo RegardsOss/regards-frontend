@@ -22,9 +22,17 @@ import ResourceAccessActions from './resource/ResourceAccessActions'
 import ResourceAccessReducers from './resource/ResourceAccessReducers'
 import ResourceAccessSelectors from './resource/ResourceAccessSelectors'
 
+import BorrowRoleActions from './role/borrow/BorrowRoleActions'
+import getBorrowRoleReducer from './role/borrow/BorrowRoleReducer'
+import getBorrowRoleSelectors from './role/borrow/BorrowRoleSelectors'
+
+import BorrowableRolesActions from './role/borrowable/BorrowableRolesActions'
+import getBorrowableRolesReducer from './role/borrowable/BorrowableRolesReducer'
+import getBorrowableRolesSelectors from './role/borrowable/BorrowableRolesSelectors'
+
 import RoleActions from './role/RoleActions'
-import RoleReducers from './role/RoleReducers'
-import RoleSelectors from './role/RoleSelectors'
+import getRoleReducer from './role/RoleReducer'
+import getRoleSelectors from './role/RoleSelectors'
 
 import RoleResourceActions from './role/RoleResourceActions'
 import RoleResourceReducers from './role/RoleResourceReducers'
@@ -35,10 +43,30 @@ import ResourceRolesReducers from './role/ResourceRolesReducers'
 import ResourceRolesSelectors from './role/ResourceRolesSelectors'
 
 import MyUserActions from './user/MyUserActions'
-import MyUserReducer from './user/MyUserReducer'
-import MyUserSelectors from './user/MyUserSelectors'
+import getMyUserReducer from './user/MyUserReducer'
+import getMyUserSelectors from './user/MyUserSelectors'
+
+import ProjectUserActions from './user/ProjectUserActions'
+import getProjectUserReducer from './user/ProjectUserReducer'
+import getProjectUserSelectors from './user/ProjectUserSelectors'
+
+import WaitingAccessUsersEntitiesActions from './user/WaitingAccessUsersEntitiesActions'
+import getWaitingAccessUsersEntitiesReducer from './user/WaitingAccessUsersEntitiesReducer'
+import getWaitingAccessUsersEntitiesSelectors from './user/WaitingAccessUsersEntitiesSelectors'
+
+import WaitingAccessUsersSignalActions from './user/WaitingAccessUsersSignalActions'
+import getWaitingAccessUsersSignalReducer from './user/WaitingAccessUsersSignalReducer'
+import getWaitingAccessUsersSignalSelectors from './user/WaitingAccessUsersSignalSelectors'
 
 export default {
+
+  BorrowRoleActions,
+  getBorrowRoleReducer,
+  getBorrowRoleSelectors,
+
+  BorrowableRolesActions,
+  getBorrowableRolesReducer,
+  getBorrowableRolesSelectors,
 
   ProjectActions,
   ProjectSelectors,
@@ -61,16 +89,28 @@ export default {
   ControllerSelectors,
 
   MyUserActions,
-  MyUserReducer,
-  MyUserSelectors,
+  getMyUserReducer,
+  getMyUserSelectors,
+
+  ProjectUserActions,
+  getProjectUserReducer,
+  getProjectUserSelectors,
+
+  WaitingAccessUsersEntitiesActions,
+  getWaitingAccessUsersEntitiesReducer,
+  getWaitingAccessUsersEntitiesSelectors,
+
+  WaitingAccessUsersSignalActions,
+  getWaitingAccessUsersSignalReducer,
+  getWaitingAccessUsersSignalSelectors,
 
   ResourceAccessActions,
   ResourceAccessReducers,
   ResourceAccessSelectors,
 
   RoleActions,
-  RoleReducers,
-  RoleSelectors,
+  getRoleReducer,
+  getRoleSelectors,
 
   RoleResourceActions,
   RoleResourceReducers,

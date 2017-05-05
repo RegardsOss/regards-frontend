@@ -3,7 +3,7 @@
  */
 import { connect } from '@regardsoss/redux'
 import { i18nContextType } from '@regardsoss/i18n'
-import { metadataV1 } from '@regardsoss/user-metadata-common'
+import { getMetadataArray } from '@regardsoss/user-metadata-common'
 import AskProjectAccessFormComponent, { mailFieldId, useExistingAccountFieldId } from '../components/AskProjectAccessFormComponent'
 import CreateAccountActions from '../model/creation/CreateAccountActions'
 import CreateAccountSelectors from '../model/creation/CreateAccountSelectors'
@@ -87,7 +87,7 @@ export class AskProjectAccessFormContainer extends React.Component {
    * @param formValues edition form values
    * @return resolved metadata for backend
    */
-  resolveMetadata = formValues => metadataV1.map(({ key }) => ({
+  resolveMetadata = formValues => getMetadataArray().map(({ key }) => ({
     key,
     value: formValues[key] || '',
   }))
@@ -119,7 +119,7 @@ export class AskProjectAccessFormContainer extends React.Component {
         project={project}
         initialMail={initialMail}
         errorMessage={errorMessage}
-        projectMetadata={metadataV1}
+        projectMetadata={getMetadataArray()}
         onRequestAction={this.onRequestAction}
         onBack={onBack}
       />

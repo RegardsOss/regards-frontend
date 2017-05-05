@@ -6,17 +6,17 @@ import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import { ScrollArea } from '@regardsoss/adapters'
 import { MetadataList, MetadataField } from '@regardsoss/user-metadata-common'
-import { reduxForm, RenderTextField, Field } from '@regardsoss/form-utils'
+import { reduxForm } from '@regardsoss/form-utils'
 import { themeContextType } from '@regardsoss/theme'
 
 /**
 * Profile edition form component
 */
-class ProfileEditionFormComponent extends React.Component {
+export class ProfileEditionFormComponent extends React.Component {
 
   static propTypes = {
     // project metadata
-    projectMetadata: MetadataList.isRequired,
+    userMetadata: MetadataList.isRequired,
     // cancel function
     onCancel: React.PropTypes.func.isRequired,
     // submit function
@@ -34,16 +34,19 @@ class ProfileEditionFormComponent extends React.Component {
   }
 
   componentWillMount = () => {
-    // TODO, also initialize the metadata
-    // const initialValues = {}
-    // initialValues[mailFieldId] = this.props.initialMail
-    // initialValues[useExistingAccountFieldId] = false
-    // this.props.initialize(initialValues)
+    // this component is unmounted each time the dialog is no longer visible, what allows us to re-initialize
+    // form fields values
+    const { userMetadata } = this.props
+    const initialFormValues = userMetadata.reduce((acc, { key, currentValue }) => ({
+      ...acc,
+      [key]: currentValue,
+    }), {})
+    this.props.initialize(initialFormValues)
   }
 
   render() {
     const {
-      projectMetadata, onEdit, onCancel,
+      userMetadata, onEdit, onCancel,
       pristine, submitting, invalid, handleSubmit,
     } = this.props
     const { moduleTheme } = this.context
@@ -63,7 +66,7 @@ class ProfileEditionFormComponent extends React.Component {
               >
                 {
                   // show only metadata that are meaningful after registration
-                  projectMetadata.map(metadata =>
+                  userMetadata.map(metadata =>
                     metadata.onlyAtRegistration ?
                       null :
                       <MetadataField
@@ -78,16 +81,15 @@ class ProfileEditionFormComponent extends React.Component {
             </CardText>
             <CardActions style={moduleTheme.profile.actions.styles}>
               <RaisedButton
+                disabled={submitting}
+                label={<FormattedMessage id="edit.profile.form.cancel" />}
+                onClick={onCancel}
+              />
+              <RaisedButton
                 disabled={submitting || invalid || pristine}
                 label={<FormattedMessage id="edit.profile.form.confirm" />}
                 primary
                 type="submit"
-              />
-              <RaisedButton
-                disabled={submitting}
-                label={<FormattedMessage id="edit.profile.form.cancel" />}
-                primary
-                onClick={onCancel}
               />
             </CardActions>
           </Card>

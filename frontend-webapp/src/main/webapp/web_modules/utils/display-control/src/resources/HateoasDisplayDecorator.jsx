@@ -4,7 +4,7 @@
 import { connect } from '@regardsoss/redux'
 import { EndpointSelectors } from '@regardsoss/endpoint'
 import { AuthenticationParametersSelectors } from '@regardsoss/authentication-manager'
-import allMatchHateoasDisplayLogic from './../logics/allMatchHateoasDisplayLogic'
+import allMatchHateoasDisplayLogic from '../logics/allMatchHateoasDisplayLogic'
 import DisplayDecorator from './../DisplayDecorator'
 
 /**

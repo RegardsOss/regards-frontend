@@ -6,11 +6,9 @@ import { keys } from 'lodash'
 import { I18nProvider } from '@regardsoss/i18n'
 import { browserHistory } from 'react-router'
 import { ProjectUser } from '@regardsoss/model'
-import ProjectUserActions from '../model/ProjectUserActions'
-import ProjectUserSelectors from '../model/ProjectUserSelectors'
-import WaitingAccessUsersEntitiesActions from '../model/WaitingAccessUsersEntitiesActions'
-import WaitingAccessUsersSignalsActions from '../model/WaitingAccessUsersSignalActions'
-import WaitingAccessUsersEntitiesSelectors from '../model/WaitingAccessUsersEntitiesSelectors'
+import { projectUserActions, projectUserSelectors } from '../client/ProjectUserClient'
+import { waitingAccessUsersEntitiesActions, waitingAccessUsersEntitiesSelectors } from '../client/WaitingAccessUsersEntitiesClient'
+import { waitingAccessUsersSignalsActions } from '../client/WaitingAccessUsersSignalClient'
 import ProjectUserListComponent from '../components/ProjectUserListComponent'
 /**
  * Show the user list for the current project
@@ -122,17 +120,17 @@ export class ProjectUserListContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  users: ProjectUserSelectors.getList(state) || {},
-  waitingAccessUsers: WaitingAccessUsersEntitiesSelectors.getList(state) || {},
-  isFetchingContent: ProjectUserSelectors.isFetching(state) || WaitingAccessUsersEntitiesSelectors.isFetching(state),
+  users: projectUserSelectors.getList(state) || {},
+  waitingAccessUsers: waitingAccessUsersEntitiesSelectors.getList(state) || {},
+  isFetchingContent: projectUserSelectors.isFetching(state) || waitingAccessUsersEntitiesSelectors.isFetching(state),
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchUsers: () => dispatch(ProjectUserActions.fetchPagedEntityList()),
-  fetchWaitingAccessUsers: () => dispatch(WaitingAccessUsersEntitiesActions.fetchWaitingUsersEntityList()),
-  validateProjectUser: userId => dispatch(WaitingAccessUsersSignalsActions.sendAccept(userId)),
-  denyProjectUser: userId => dispatch(WaitingAccessUsersSignalsActions.sendDeny(userId)),
-  deleteAccount: userId => dispatch(ProjectUserActions.deleteEntity(userId)),
+  fetchUsers: () => dispatch(projectUserActions.fetchPagedEntityList()),
+  fetchWaitingAccessUsers: () => dispatch(waitingAccessUsersEntitiesActions.fetchWaitingUsersEntityList()),
+  validateProjectUser: userId => dispatch(waitingAccessUsersSignalsActions.sendAccept(userId)),
+  denyProjectUser: userId => dispatch(waitingAccessUsersSignalsActions.sendDeny(userId)),
+  deleteAccount: userId => dispatch(projectUserActions.deleteEntity(userId)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectUserListContainer)
