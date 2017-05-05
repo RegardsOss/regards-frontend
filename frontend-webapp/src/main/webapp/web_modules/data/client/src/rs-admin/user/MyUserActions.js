@@ -27,7 +27,7 @@ class MyUserActions extends BasicSignalActions {
   }
 
   updateMyUser(projectUser) {
-    return this.sendSignal('PUT')
+    return this.sendSignal('PUT', projectUser)
   }
 
 }

@@ -17,7 +17,7 @@ import { ProjectUser } from '@regardsoss/model'
 import { ActionsMenuCell, CardActionsComponent, NoContentMessageInfo, ConfirmDialogComponent, ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import ProjectUserActions from '../model/ProjectUserActions'
+import { projectUserActions } from '../client/ProjectUserClient'
 
 /**
  * User statuses constants, as returned by the server
@@ -268,7 +268,7 @@ export class ProjectUserListComponent extends React.Component {
           <CardActionsComponent
             mainButtonUrl={tabContent.mainButtonUrl}
             mainButtonTouchTap={tabContent.mainButtonAction}
-            mainHateoasDependency={ProjectUserActions.getDependency(RequestVerbEnum.POST)}
+            mainHateoasDependency={projectUserActions.getDependency(RequestVerbEnum.POST)}
             isMainButtonDisabled={tabContent.mainButtonDisabled}
             mainButtonLabel={<FormattedMessage id={tabContent.mainButtonKey} />}
             secondaryButtonLabel={<FormattedMessage id="projectUser.list.action.cancel" />}

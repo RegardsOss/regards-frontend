@@ -3,45 +3,30 @@
  */
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import { stub } from 'sinon'
-import { IntlStub } from '@regardsoss/tests-helpers'
+import { testSuiteHelpers, DumpProvider, buildTestContext } from '@regardsoss/tests-helpers'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { DatasourceFormAttributesContainer } from '../../src/containers/DatasourceFormAttributesContainer'
-import ConnectionDump from '../model/dump/ConnectionDump'
-import ModelDump from '../model/dump/ModelDump'
+
+const context = buildTestContext()
 
 describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing DatasourceFormAttributesContainer', () => {
-  // Since react will console.error propType warnings, that which we'd rather have
-  // as errors, we use sinon.js to stub it into throwing these warning as errors
-  // instead.
-  before(() => {
-    stub(console, 'error').callsFake((warning) => {
-      throw new Error(warning)
-    })
-  })
-  after(() => {
-    console.error.restore()
-  })
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('should exists', () => {
     assert.isDefined(DatasourceFormAttributesContainer)
     assert.isDefined(LoadableContentDisplayDecorator)
   })
-  const context = {
-    intl: IntlStub,
-    muiTheme: {
-      palette: {},
-    },
-  }
-  // TODO test some rendering
+
   it('Render properly', () => {
     const props = {
       currentDatasource: null,
       handleSave: () => {},
       backUrl: '#',
-      currentConnectionId: '1352',
+      currentConnectionId: DumpProvider.getFirstEntityKey('DataManagementClient', 'Connection'),
       // from mapStateToProps
-      modelList: ModelDump,
-      currentConnection: ConnectionDump['1352'],
+      modelList: DumpProvider.get('DataManagementClient', 'Model'),
+      currentConnection: DumpProvider.getFirstEntity('DataManagementClient', 'Connection'),
       // from mapDispatchToProps
       fetchModelList: () => {},
       fetchConnection: () => {},

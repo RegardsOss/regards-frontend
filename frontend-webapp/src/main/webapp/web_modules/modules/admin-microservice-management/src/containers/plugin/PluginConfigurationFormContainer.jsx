@@ -59,8 +59,9 @@ export class PluginConfigurationFormContainer extends React.Component {
     const { params: { pluginId, pluginConfigurationId, microserviceName } } = this.props
 
     this.props.fetchPluginMetaDataList(microserviceName)
-    // this.props.fetchPluginConfigurationList(microserviceName)
-    this.props.fetchPluginConfiguration(pluginConfigurationId, pluginId, microserviceName)
+    if (pluginConfigurationId && pluginId) {
+      this.props.fetchPluginConfiguration(pluginConfigurationId, pluginId, microserviceName)
+    }
   }
 
   getBackUrl = () => {
@@ -127,7 +128,6 @@ export class PluginConfigurationFormContainer extends React.Component {
   }
 
   render() {
-    console.log('PluginConfigurationFormContainer::render')
     return (
       <I18nProvider messageDir="modules/admin-microservice-management/src/i18n">
         {this.getFormComponent()}
@@ -143,7 +143,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchPluginMetaDataList: microserviceName => dispatch(PluginMetaDataActions.fetchPagedEntityList(0, 100, {
+  fetchPluginMetaDataList: microserviceName => dispatch(PluginMetaDataActions.fetchEntityList({
     microserviceName,
   })),
   fetchPluginConfiguration: (pluginConfId, pluginId, microserviceName) => dispatch(PluginConfigurationActions.fetchEntity(pluginConfId, {

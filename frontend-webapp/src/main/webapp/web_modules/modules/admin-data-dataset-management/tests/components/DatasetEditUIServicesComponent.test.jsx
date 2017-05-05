@@ -7,7 +7,6 @@ import { spy } from 'sinon'
 import { ListItem } from 'material-ui/List'
 import { DumpProvider, buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { DatasetEditUIServicesComponent } from '../../src/components/DatasetEditUIServicesComponent'
-import DatasetDump from '../model/dump/DatasetDump'
 
 const context = buildTestContext()
 
@@ -25,7 +24,7 @@ describe('[ADMIN DATASET MANAGEMENT] Testing DatasetEditUIServicesComponent', ()
       backUrl: '#',
       uiPluginConfigurationList: DumpProvider.get('AccessProjectClient', 'UIPluginConfiguration'),
       uiPluginDefinitionList: DumpProvider.get('AccessProjectClient', 'UIPluginDefinition'),
-      currentDataset: DatasetDump[23],
+      currentDataset: DumpProvider.getFirstEntity('DataManagementClient', 'Dataset'),
       handleSubmit: handleSubmitSpy,
     }
     const enzymeWrapper = shallow(<DatasetEditUIServicesComponent {...props} />, { context })

@@ -2,21 +2,20 @@
  * LICENSE_PLACEHOLDER
  **/
 import { combineReducers } from 'redux'
-import datasource from './model/DatasourceReducers'
-import model from './model/ModelReducers'
-import connection from './model/ConnectionReducers'
-import connectionTable from './model/ConnectionTableReducers'
-import connectionTableAttributes from './model/ConnectionTableAttributesReducers'
-import modelAttribute from './model/ModelAttributesReducer'
-
+import { modelReducer } from './client/ModelClient'
+import { connectionReducer } from './client/ConnectionClient'
+import { datasourceReducer } from './client/DatasourceClient'
+import { connectionTableReducer } from './client/ConnectionTableClient'
+import { connectionTableAttributesReducer } from './client/ConnectionTableAttributesClient'
+import { modelAttributesReducer } from './client/ModelAttributesClient'
 
 const datasourceDataManagementReducer = combineReducers({
-  datasource,
-  model,
-  connection,
-  'model-attribute': modelAttribute,
-  'connection-table': connectionTable,
-  'connection-table-attributes': connectionTableAttributes,
+  datasource: datasourceReducer,
+  connection: connectionReducer,
+  model: modelReducer,
+  'model-attributes': modelAttributesReducer,
+  'connection-table': connectionTableReducer,
+  'connection-table-attributes': connectionTableAttributesReducer,
 })
 
 export default datasourceDataManagementReducer

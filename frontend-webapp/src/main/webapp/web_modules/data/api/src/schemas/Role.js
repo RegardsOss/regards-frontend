@@ -6,9 +6,7 @@ export const RoleConfiguration = {
 }
 
 const roleSchema = new Schema(RoleConfiguration.normalizrKey, {
-  idAttribute: role =>
-     role.content[RoleConfiguration.entityKey]
-  ,
+  idAttribute: role => role.content[RoleConfiguration.entityKey],
 })
 
 

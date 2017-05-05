@@ -5,7 +5,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { stub } from 'sinon'
 import { Field } from '@regardsoss/form-utils'
-import { metadataV1 } from '@regardsoss/user-metadata-common'
+import { getMetadataArray } from '@regardsoss/user-metadata-common'
 import { AskProjectAccessFormComponent } from '../../src/components/AskProjectAccessFormComponent'
 
 import styles from '../../src/styles/styles'
@@ -37,7 +37,7 @@ describe('[AUTHENTICATION] Testing AskProjectAccessFormComponent', () => {
     onRequestAction: () => { },
     onBack: () => { },
     project: 'any',
-    projectMetadata: metadataV1,
+    projectMetadata: getMetadataArray(),
     handleSubmit: () => { },
     initialize: () => { },
   }

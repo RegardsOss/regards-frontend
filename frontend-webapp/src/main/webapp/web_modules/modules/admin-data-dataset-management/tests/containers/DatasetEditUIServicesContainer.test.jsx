@@ -7,7 +7,6 @@ import { spy } from 'sinon'
 import { DumpProvider, buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { DatasetEditUIServicesContainer } from '../../src/containers/DatasetEditUIServicesContainer'
-import DatasetDump from '../model/dump/DatasetDump'
 
 const context = buildTestContext()
 
@@ -34,7 +33,7 @@ describe('[ADMIN DATASET MANAGEMENT] Testing DatasetEditUIServicesContainer', ()
       // from mapStateToProps
       uiPluginConfigurationList: DumpProvider.get('AccessProjectClient', 'UIPluginConfiguration'),
       uiPluginDefinitionList: DumpProvider.get('AccessProjectClient', 'UIPluginDefinition'),
-      currentDataset: DatasetDump[23],
+      currentDataset: DumpProvider.getFirstEntity('DataManagementClient', 'Dataset'),
       // from mapDispatchToProps
       fetchUIPluginConfigurationList: fetchUIPluginConfigurationListSpy,
       fetchUIPluginDefinitionList: fetchUIPluginDefinitionListSpy,

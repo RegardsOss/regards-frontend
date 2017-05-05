@@ -80,7 +80,7 @@ const authenticate = (login, password, scope) => {
               scope,
               sub: login,
               role: loginUser[scope.toLowerCase()].role.name,
-              access_token: usersLogged.length,
+              access_token: usersLogged.length.toString(),
               token_type: 'bearer',
               expires_in: 3600,
               jti: '4de300d8-7880-483c-aba8-fc4560b961b1',
@@ -191,7 +191,7 @@ const getUsersList = (request, { status }, pathParameters) => {
   const withAuthDataCallback = ({ scope }) => {
     const correspondingUsers = getScopeUsers(loadUsersPool(), scope, status)
     return makePageResult(correspondingUsers, (user, userMail) => {
-      const { id, role, status: userStatus } = user[scope]
+      const { id, role, status: userStatus, metaData } = user[scope]
       return {
         content: {
           id,
@@ -201,6 +201,7 @@ const getUsersList = (request, { status }, pathParameters) => {
           role,
           status: userStatus,
           permissions: [],
+          metaData,
         },
         links: getAllLinks(),
       }
@@ -288,6 +289,33 @@ module.exports = {
         }
       }),
     },
+    // user metadata 
+    getMyUser: {
+      url: 'rs-admin/users/myuser',
+      handler: (request) => doWithAuthData(request, authData => {
+        const users = loadUsersPool()
+        if (!authData.scope) {
+          return { code: 403 }
+        }
+        const user = users[authData.sub]
+        const scopedUser = user[authData.scope]
+        if (!scopedUser) {
+          return { code: 404 }
+        }
+
+        return {
+          content: {
+            content: {
+              id: user.id,
+              email: authData.sub,
+              metaData: scopedUser.metaData,
+            },
+            links: [],
+          },
+          contentType: JSON_CONTENT_TYPE,
+        }
+      })
+    }
   },
   POST: {
     // login
@@ -419,6 +447,38 @@ module.exports = {
       url: '/rs-admin/accesses/deny/{userId}',
       handler: (request, query, pathParameters) => changeUserStatus(request, pathParameters, 'ACCESS_DENIED'),
     },
+    updateMyUser: {
+      url: 'rs-admin/users/myuser',
+      handler: (request, query, pathParameters, body) => doWithAuthData(request, authData => {
+        const users = loadUsersPool()
+        if (!authData.scope) {
+          return { code: 403 }
+        }
+        const user = users[authData.sub]
+        const scopedUser = user[authData.scope]
+        if (!scopedUser) {
+          return { code: 404 }
+        }
+        if (scopedUser.id !== body.id || authData.sub !== body.email) {
+          logMessage('Failed updating project user: Invalid data send', true)
+          return { code: 500 }
+        }
+        // update user and return updated instance
+        scopedUser.metaData = body.metaData
+        writeUsersPool(users)
+        return {
+          content: {
+            content: {
+              id: user.id,
+              email: authData.sub,
+              metaData: scopedUser.metaData,
+            },
+            links: [],
+          },
+          contentType: JSON_CONTENT_TYPE,
+        }
+      })
+    }
   },
   DELETE: {
     deleteAccount: {

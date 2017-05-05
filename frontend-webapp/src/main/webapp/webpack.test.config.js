@@ -38,6 +38,12 @@ config = merge(config, {
         NODE_ENV: JSON.stringify('test'),
       },
       GATEWAY_HOSTNAME: JSON.stringify('http://localhost:8000'),
+      STATIC_CONFIGURATION: {
+        // Available microservices from backend server.
+        microservices: JSON.stringify(['rs-admin', 'rs-catalog', 'rs-dam', 'rs-gateway', 'rs-access-project']),
+        // Default driver used to create a project connection (see module admin-database-management)
+        projectConnectionDriver: JSON.stringify('org.postgresql.Driver')
+      }
     }),
   ],
   // enable sourcemaps support

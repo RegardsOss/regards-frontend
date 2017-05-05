@@ -81,7 +81,7 @@ describe(
         },
       }
       const enzymeWrapper = shallow(<ProjectConnectionListComponent {...props} />, options)
-      expect(enzymeWrapper.find(TableRow)).to.have.length(5)
+      expect(enzymeWrapper.find(TableRow)).to.have.length(6)
     })
   },
 )

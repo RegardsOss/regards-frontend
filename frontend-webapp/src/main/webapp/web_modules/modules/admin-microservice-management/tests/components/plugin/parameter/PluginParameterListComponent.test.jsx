@@ -3,7 +3,7 @@
  **/
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import { stub } from 'sinon'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { Card } from 'material-ui/Card'
 import PluginParameterListComponent from '../../../../src/components/plugin/parameter/PluginParameterListComponent'
 
@@ -12,14 +12,9 @@ import PluginParameterListComponent from '../../../../src/components/plugin/para
  * @author Xavier-Alexandre Brochard
  */
 describe('[ADMIN PROJECT MANAGEMENT] Testing plugin parameter list component', () => {
-  before(() => {
-    stub(console, 'error').callsFake((warning) => {
-      throw new Error(warning)
-    })
-  })
-  after(() => {
-    console.error.restore()
-  })
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('should exists', () => {
     assert.isDefined(PluginParameterListComponent)
     assert.isDefined(Card)

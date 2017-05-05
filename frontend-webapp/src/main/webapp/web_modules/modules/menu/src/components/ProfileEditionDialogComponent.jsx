@@ -13,7 +13,7 @@ import ProfileEditionFormComponent from './ProfileEditionFormComponent'
 class ProfileEditionDialogComponent extends React.Component {
 
   static propTypes = {
-    projectMetadata: MetadataList.isRequired,
+    userMetadata: MetadataList.isRequired,
     onHideDialog: React.PropTypes.func.isRequired,
     onEdit: React.PropTypes.func.isRequired,
   }
@@ -23,19 +23,17 @@ class ProfileEditionDialogComponent extends React.Component {
   }
 
   render() {
-    const { projectMetadata, onHideDialog, onEdit } = this.props
+    const { userMetadata, onHideDialog, onEdit } = this.props
     const { moduleTheme: { profile: { dialog } } } = this.context
 
     return (
-      <div>
-        <Dialog open onRequestClose={onHideDialog} bodyStyle={dialog.styles}>
-          <ProfileEditionFormComponent
-            projectMetadata={projectMetadata}
-            onEdit={onEdit}
-            onCancel={onHideDialog}
-          />
-        </Dialog>
-      </div>
+      <Dialog open onRequestClose={onHideDialog} bodyStyle={dialog.styles}>
+        <ProfileEditionFormComponent
+          userMetadata={userMetadata}
+          onEdit={onEdit}
+          onCancel={onHideDialog}
+        />
+      </Dialog>
     )
   }
 }

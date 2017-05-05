@@ -6,9 +6,31 @@ import ModelDump from '@regardsoss/client/tests/rs-dam/Model.dump'
 import ModelAttributeDump from '@regardsoss/client/tests/rs-dam/ModelAttribute.dump'
 import ConnectionDump from '@regardsoss/client/tests/rs-dam/Connection.dump'
 import PluginMetaDataDump from '@regardsoss/client/tests/rs-common/PluginMetaData.dump'
+import ConnectionTableDump from '@regardsoss/client/tests/rs-dam/ConnectionTable.dump'
+import ConnectionTableAttributeDump from '@regardsoss/client/tests/rs-dam/ConnectionTableAttribute.dump'
+import DatasourceDump from '@regardsoss/client/tests/rs-dam/Datasource.dump'
+import LinkPluginDatasetDump from '@regardsoss/client/tests/rs-catalog/LinkPluginDataset.dump'
+import DatasetDump from '@regardsoss/client/tests/rs-dam/Dataset.dump'
+import PluginConfigurationDump from '@regardsoss/client/tests/rs-common/PluginConfiguration.dump'
+import CollectionDump from '@regardsoss/client/tests/rs-dam/Collection.dump'
 
+import RoleDump from '@regardsoss/client/tests/rs-admin/Role.dump'
+import ProjectUserDump from '@regardsoss/client/tests/rs-admin/ProjectUser.dump'
+import WaitingAccessUsersEntitiesDump from '@regardsoss/client/tests/rs-admin/WaitingAccessUsersEntities.dump'
+import AccessGroupDump from '@regardsoss/client/tests/rs-dam/AccessGroup.dump'
+import UserGroupDump from '@regardsoss/client/tests/rs-dam/UserGroup.dump'
 
 import {
+
+  ROLE_ARRAY,
+  RoleConfiguration,
+
+  PROJECT_USER_ARRAY,
+  ProjectUserConfiguration,
+
+  ACCESS_GROUP_ARRAY,
+  AccessGroupConfiguration,
+
   // UIPluginConfiguration
   UI_PLUGIN_CONFIGURATION_ARRAY,
   UIPluginConfConfiguration,
@@ -34,6 +56,21 @@ import {
 
   PLUGIN_META_DATA_ARRAY,
   PluginMetaDataConfiguration,
+
+  DATASOURCE_ARRAY,
+  DatasourceConfiguration,
+
+  DATASET_ARRAY,
+  DatasetConfiguration,
+
+  LINK_PLUGIN_DATASET_ARRAY,
+  LinkPluginDatasetConfiguration,
+
+  PLUGIN_CONFIGURATION_ARRAY,
+  AdminPluginConfigurationSchemaConfiguration,
+
+  COLLECTION_ARRAY,
+  CollectionConfiguration,
 } from '@regardsoss/api'
 
 /**
@@ -58,6 +95,26 @@ export default {
       normalizrKey: PluginConfiguration.normalizrKey,
     },
   },
+  AdminClient: {
+    Role: {
+      isPageable: false,
+      dump: RoleDump,
+      ENTITY_ARRAY: ROLE_ARRAY,
+      normalizrKey: RoleConfiguration.normalizrKey,
+    },
+    ProjectUser: {
+      isPageable: true,
+      dump: ProjectUserDump,
+      ENTITY_ARRAY: PROJECT_USER_ARRAY,
+      normalizrKey: ProjectUserConfiguration.normalizrKey,
+    },
+    WaitingAccessUsersEntities: {
+      isPageable: true,
+      dump: WaitingAccessUsersEntitiesDump,
+      ENTITY_ARRAY: PROJECT_USER_ARRAY,
+      normalizrKey: ProjectUserConfiguration.normalizrKey,
+    },
+  },
   CommonClient: {
     PluginMetaData: {
       isPageable: false,
@@ -65,8 +122,26 @@ export default {
       ENTITY_ARRAY: PLUGIN_META_DATA_ARRAY,
       normalizrKey: PluginMetaDataConfiguration.normalizrKey,
     },
+    PluginConfiguration: {
+      isPageable: true,
+      dump: PluginConfigurationDump,
+      ENTITY_ARRAY: PLUGIN_CONFIGURATION_ARRAY,
+      normalizrKey: AdminPluginConfigurationSchemaConfiguration.normalizrKey,
+    },
   },
   DataManagementClient: {
+    AccessGroup: {
+      isPageable: true,
+      dump: AccessGroupDump,
+      ENTITY_ARRAY: ACCESS_GROUP_ARRAY,
+      normalizrKey: AccessGroupConfiguration.normalizrKey,
+    },
+    UserGroup: {
+      isPageable: false,
+      dump: UserGroupDump,
+      ENTITY_ARRAY: ACCESS_GROUP_ARRAY,
+      normalizrKey: AccessGroupConfiguration.normalizrKey,
+    },
     Fragment: {
       isPageable: false,
       dump: FragmentClientDump,
@@ -96,6 +171,38 @@ export default {
       dump: ConnectionDump,
       ENTITY_ARRAY: CONNECTION_ARRAY,
       normalizrKey: ConnectionConfiguration.normalizrKey,
+    },
+    ConnectionTable: {
+      isSignal: true,
+      dump: ConnectionTableDump,
+    },
+    ConnectionTableAttribute: {
+      isSignal: true,
+      dump: ConnectionTableAttributeDump,
+    },
+    Datasource: {
+      isPageable: false,
+      dump: DatasourceDump,
+      ENTITY_ARRAY: DATASOURCE_ARRAY,
+      normalizrKey: DatasourceConfiguration.normalizrKey,
+    },
+    LinkPluginDataset: {
+      isPageable: true,
+      dump: LinkPluginDatasetDump,
+      ENTITY_ARRAY: LINK_PLUGIN_DATASET_ARRAY,
+      normalizrKey: LinkPluginDatasetConfiguration.normalizrKey,
+    },
+    Dataset: {
+      isPageable: true,
+      dump: DatasetDump,
+      ENTITY_ARRAY: DATASET_ARRAY,
+      normalizrKey: DatasetConfiguration.normalizrKey,
+    },
+    Collection: {
+      isPageable: false,
+      dump: CollectionDump,
+      ENTITY_ARRAY: COLLECTION_ARRAY,
+      normalizrKey: CollectionConfiguration.normalizrKey,
     },
   },
 }

@@ -7,8 +7,7 @@ import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { Dataset } from '@regardsoss/model'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import DatasetSelectors from './../model/DatasetSelectors'
-import DatasetActions from './../model/DatasetActions'
+import { datasetSelectors, datasetActions } from './../client/DatasetClient'
 import DatasetFormAttributesContainer from './DatasetFormAttributesContainer'
 import DatasetFormSubsettingContainer from './DatasetFormSubsettingContainer'
 
@@ -230,13 +229,13 @@ export class DatasetFormContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  currentDataset: ownProps.params.datasetId ? DatasetSelectors.getById(state, ownProps.params.datasetId) : null,
+  currentDataset: ownProps.params.datasetId ? datasetSelectors.getById(state, ownProps.params.datasetId) : null,
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchDataset: id => dispatch(DatasetActions.fetchEntity(id)),
-  createDataset: (values, files) => dispatch(DatasetActions.createEntityUsingMultiPart(values, files)),
-  updateDataset: (id, values, files) => dispatch(DatasetActions.updateEntityUsingMultiPart(id, values, files)),
+  fetchDataset: id => dispatch(datasetActions.fetchEntity(id)),
+  createDataset: (values, files) => dispatch(datasetActions.createEntityUsingMultiPart(values, files)),
+  updateDataset: (id, values, files) => dispatch(datasetActions.updateEntityUsingMultiPart(id, values, files)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(DatasetFormContainer)

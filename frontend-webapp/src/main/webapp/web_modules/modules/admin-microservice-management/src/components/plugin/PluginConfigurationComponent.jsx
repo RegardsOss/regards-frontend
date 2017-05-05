@@ -14,9 +14,10 @@ import ContentCopy from 'material-ui/svg-icons/content/content-copy'
 import ModeEdit from 'material-ui/svg-icons/editor/mode-edit'
 import { List } from 'material-ui/List'
 import Subheader from 'material-ui/Subheader'
-import { HateoasIconAction, HateoasKeys, HateoasToggle } from '@regardsoss/display-control'
+import { HateoasIconAction, HateoasKeys, HateoasToggle, ResourceIconAction } from '@regardsoss/display-control'
 import moduleStyles from '../../styles/styles'
 import GenericPluginParameter from '../../components/plugin/parameter/GenericPluginParameter'
+import PluginConfigurationActions from '../../model/plugin/PluginConfigurationActions'
 
 /**
  * React component displaying a configurable microservice.
@@ -32,6 +33,7 @@ class PluginConfigurationComponent extends React.Component {
   }
 
   static propTypes = {
+    microserviceName: React.PropTypes.string.isRequired,
     pluginConfiguration: PluginConfiguration,
     pluginMetaData: PluginMetaData,
     onActiveToggle: React.PropTypes.func.isRequired,
@@ -114,14 +116,13 @@ class PluginConfigurationComponent extends React.Component {
               >
                 <ModeEdit />
               </HateoasIconAction>
-              <HateoasIconAction
-                entityLinks={pluginConfiguration.links}
-                hateoasKey={HateoasKeys.CREATE}
+              <ResourceIconAction
+                resourceDependency={PluginConfigurationActions.getMsDependency('POST', this.props.microserviceName)}
                 tooltip={<FormattedMessage id="microservice-management.plugin.configuration.copy" />}
                 onTouchTap={onCopyClick}
               >
                 <ContentCopy />
-              </HateoasIconAction>
+              </ResourceIconAction>
               <HateoasIconAction
                 entityLinks={pluginConfiguration.links}
                 hateoasKey={HateoasKeys.DELETE}

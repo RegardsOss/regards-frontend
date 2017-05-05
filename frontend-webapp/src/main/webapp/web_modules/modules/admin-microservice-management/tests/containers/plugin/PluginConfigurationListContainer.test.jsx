@@ -1,9 +1,9 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { stub } from 'sinon'
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { PluginConfigurationListContainer } from '../../../src/containers/plugin/PluginConfigurationListContainer'
 import PluginConfigurationContainer from '../../../src/containers/plugin/PluginConfigurationContainer'
 
@@ -12,14 +12,9 @@ import PluginConfigurationContainer from '../../../src/containers/plugin/PluginC
  * @author Xavier-Alexandre Brochard
  */
 describe('[ADMIN MICROSERVICE MANAGEMENT] Testing plugin configuration list container', () => {
-  before(() => {
-    stub(console, 'error').callsFake((warning) => {
-      throw new Error(warning)
-    })
-  })
-  after(() => {
-    console.error.restore()
-  })
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('should exists', () => {
     assert.isDefined(PluginConfigurationListContainer)
     assert.isDefined(PluginConfigurationContainer)

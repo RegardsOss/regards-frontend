@@ -6,12 +6,10 @@ import { Collection, Dataset } from '@regardsoss/model'
 import { I18nProvider } from '@regardsoss/i18n'
 import { partition, some, map, find, filter, startsWith, remove } from 'lodash'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import DatasetSelectors from './../model/DatasetSelectors'
-import DatasetActions from './../model/DatasetActions'
+import { datasetSelectors, datasetActions } from './../client/DatasetClient'
 import DatasetEditLinksComponent from '../components/DatasetEditLinksComponent'
-import DatasetLinkActions from '../model/DatasetLinkActions'
-import CollectionSelectors from '../model/CollectionSelectors'
-import CollectionActions from '../model/CollectionActions'
+import { datasetLinkActions } from '../client/DatasetLinkClient'
+import { collectionSelectors, collectionActions } from '../client/CollectionClient'
 
 /**
  * Show the dataset form
@@ -171,16 +169,16 @@ export class DatasetEditLinksContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  currentDataset: DatasetSelectors.getById(state, ownProps.params.datasetId),
-  collectionList: CollectionSelectors.getList(state),
+  currentDataset: datasetSelectors.getById(state, ownProps.params.datasetId),
+  collectionList: collectionSelectors.getList(state),
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchCollectionList: () => dispatch(CollectionActions.fetchPagedEntityList(0, 100)),
-  fetchDataset: id => dispatch(DatasetActions.fetchEntity(id)),
-  updateDataset: (id, dataset) => dispatch(DatasetActions.updateEntity(id, dataset)),
-  addTagToDataset: (datasetId, tags) => dispatch(DatasetLinkActions.sendSignal('PUT', tags, { dataset_id: datasetId, operation: 'associate' })),
-  removeTagFromDataset: (datasetId, tags) => dispatch(DatasetLinkActions.sendSignal('PUT', tags, { dataset_id: datasetId, operation: 'dissociate' })),
+  fetchCollectionList: () => dispatch(collectionActions.fetchPagedEntityList(0, 100)),
+  fetchDataset: id => dispatch(datasetActions.fetchEntity(id)),
+  updateDataset: (id, dataset) => dispatch(datasetActions.updateEntity(id, dataset)),
+  addTagToDataset: (datasetId, tags) => dispatch(datasetLinkActions.sendSignal('PUT', tags, { dataset_id: datasetId, operation: 'associate' })),
+  removeTagFromDataset: (datasetId, tags) => dispatch(datasetLinkActions.sendSignal('PUT', tags, { dataset_id: datasetId, operation: 'dissociate' })),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(DatasetEditLinksContainer)

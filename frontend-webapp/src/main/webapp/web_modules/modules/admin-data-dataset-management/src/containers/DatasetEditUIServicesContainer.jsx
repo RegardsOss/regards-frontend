@@ -6,8 +6,7 @@ import { PluginDefinition as UIPluginDefinition, PluginConf as UIPluginConfigura
 import DatasetEditUIServicesComponent from '../components/DatasetEditUIServicesComponent'
 import { uiPluginConfigurationSelectors, uiPluginConfigurationActions } from '../client/UIPluginConfigurationClient'
 import { uiPluginDefinitionSelectors, uiPluginDefinitionActions } from '../client/UIPluginDefinitionClient'
-import DatasetSelectors from './../model/DatasetSelectors'
-import DatasetActions from './../model/DatasetActions'
+import { datasetSelectors, datasetActions } from './../client/DatasetClient'
 
 export class DatasetEditUIServicesContainer extends React.Component {
 
@@ -33,7 +32,7 @@ export class DatasetEditUIServicesContainer extends React.Component {
   }
 
   static mapStateToProps = (state, ownProps) => ({
-    currentDataset: DatasetSelectors.getById(state, ownProps.params.datasetId),
+    currentDataset: datasetSelectors.getById(state, ownProps.params.datasetId),
     uiPluginConfigurationList: uiPluginConfigurationSelectors.getList(state),
     uiPluginDefinitionList: uiPluginDefinitionSelectors.getList(state),
   })
@@ -45,8 +44,8 @@ export class DatasetEditUIServicesContainer extends React.Component {
     fetchUIPluginDefinitionList: () => dispatch(uiPluginDefinitionActions.fetchPagedEntityList(0, 100, {},
       //{type: 'service'}
     )),
-    fetchDataset: id => dispatch(DatasetActions.fetchEntity(id)),
-    updateDataset: (id, dataset) => dispatch(DatasetActions.updateEntityUsingMultiPart(id, { dataset }, {})),
+    fetchDataset: id => dispatch(datasetActions.fetchEntity(id)),
+    updateDataset: (id, dataset) => dispatch(datasetActions.updateEntityUsingMultiPart(id, { dataset }, {})),
   })
 
   state = {

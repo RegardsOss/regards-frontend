@@ -1,25 +1,23 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { stub } from 'sinon'
 import { shallow } from 'enzyme'
+import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { expect, assert } from 'chai'
 import { PluginConfigurationContainer } from '../../../src/containers/plugin/PluginConfigurationContainer'
 import PluginConfigurationComponent from '../../../src/components/plugin/PluginConfigurationComponent'
+import styles from '../../../src/styles/styles'
+
+const context = buildTestContext(styles)
 
 /**
  * Plugin tests
  * @author Xavier-Alexandre Brochard
  */
 describe('[ADMIN MICROSERVICE MANAGEMENT] Testing plugin configuration container', () => {
-  before(() => {
-    stub(console, 'error').callsFake((warning) => {
-      throw new Error(warning)
-    })
-  })
-  after(() => {
-    console.error.restore()
-  })
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('should exists', () => {
     assert.isDefined(PluginConfigurationContainer)
     assert.isDefined(PluginConfigurationComponent)
@@ -37,12 +35,14 @@ describe('[ADMIN MICROSERVICE MANAGEMENT] Testing plugin configuration container
       },
       // from mapStateToProps
       pluginConfiguration: {
-        pluginId: 6,
-        pluginType: 'Other',
-        pluginClassName: 'Kerberos',
-        author: 'Jules Verne',
-        version: '0.0.5',
-        description: 'Allows the users to log in with their usual email and password.',
+        content: {
+          pluginId: '6',
+          pluginType: 'Other',
+          pluginClassName: 'Kerberos',
+          author: 'Jules Verne',
+          version: '0.0.5',
+          description: 'Allows the users to log in with their usual email and password.',
+        },
       },
       pluginMetaData: {
         pluginId: '8',
@@ -59,7 +59,7 @@ describe('[ADMIN MICROSERVICE MANAGEMENT] Testing plugin configuration container
       deletePluginConfiguration: () => {
       },
     }
-    const enzymeWrapper = shallow(<PluginConfigurationContainer {...props} />)
+    const enzymeWrapper = shallow(<PluginConfigurationContainer {...props} />, { context })
     expect(enzymeWrapper.find(PluginConfigurationComponent)).to.have.length(1)
   })
 })

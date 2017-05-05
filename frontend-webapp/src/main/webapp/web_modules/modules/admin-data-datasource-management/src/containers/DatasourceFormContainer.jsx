@@ -7,8 +7,7 @@ import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { Datasource } from '@regardsoss/model'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import DatasourceSelectors from './../model/DatasourceSelectors'
-import DatasourceActions from './../model/DatasourceActions'
+import { datasourceSelectors, datasourceActions } from './../client/DatasourceClient'
 import DatasourceFormAttributesContainer from './DatasourceFormAttributesContainer'
 import DatasourceFormMappingContainer from './DatasourceFormMappingContainer'
 
@@ -229,13 +228,13 @@ export class DatasourceFormContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  currentDatasource: ownProps.params.datasourceId ? DatasourceSelectors.getById(state, ownProps.params.datasourceId) : null,
+  currentDatasource: ownProps.params.datasourceId ? datasourceSelectors.getById(state, ownProps.params.datasourceId) : null,
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchDatasource: id => dispatch(DatasourceActions.fetchEntity(id)),
-  createDatasource: values => dispatch(DatasourceActions.createEntity(values)),
-  updateDatasource: (id, values) => dispatch(DatasourceActions.updateEntity(id, values)),
+  fetchDatasource: id => dispatch(datasourceActions.fetchEntity(id)),
+  createDatasource: values => dispatch(datasourceActions.createEntity(values)),
+  updateDatasource: (id, values) => dispatch(datasourceActions.updateEntity(id, values)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(DatasourceFormContainer)

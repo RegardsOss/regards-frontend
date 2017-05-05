@@ -3,9 +3,9 @@
  **/
 import replace from 'lodash/replace'
 import Schemas from '@regardsoss/api'
-import { BasicPageableActions } from '@regardsoss/store-utils'
+import { BasicListActions } from '@regardsoss/store-utils'
 
-class PluginMetaDataActions extends BasicPageableActions {
+class PluginMetaDataActions extends BasicListActions {
   constructor() {
     super({
       namespace: 'admin-microservice-management/pluginMetaData',
@@ -17,11 +17,7 @@ class PluginMetaDataActions extends BasicPageableActions {
     })
   }
 
-  getMsDependency = (verb, microserviceName) => {
-    let dependency = this.getDependency(verb)
-    dependency = replace(dependency, '{microserviceName}', microserviceName)
-    return dependency
-  }
+  getMsDependency = (verb, microserviceName) => replace(this.getDependency(verb), '{microserviceName}', microserviceName)
 }
 
 const instance = new PluginMetaDataActions()

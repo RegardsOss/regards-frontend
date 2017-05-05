@@ -6,10 +6,8 @@ import { Datasource, Model, Connection } from '@regardsoss/model'
 import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import DatasourceFormAttributesComponent from '../components/DatasourceFormAttributesComponent'
-import ModelSelectors from '../model/ModelSelectors'
-import ModelActions from '../model/ModelActions'
-import ConnectionActions from './../model/ConnectionActions'
-import ConnectionSelectors from './../model/ConnectionSelectors'
+import { modelSelectors, modelActions } from '../client/ModelClient'
+import { connectionActions, connectionSelectors } from './../client/ConnectionClient'
 
 
 /**
@@ -74,13 +72,13 @@ export class DatasourceFormAttributesContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  modelList: ModelSelectors.getList(state),
-  currentConnection: ConnectionSelectors.getById(state, parseInt(ownProps.currentConnectionId, 10)),
+  modelList: modelSelectors.getList(state),
+  currentConnection: connectionSelectors.getById(state, parseInt(ownProps.currentConnectionId, 10)),
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchModelList: () => dispatch(ModelActions.fetchEntityList({}, { type: 'OBJECT' })),
-  fetchConnection: id => dispatch(ConnectionActions.fetchEntity(id)),
+  fetchModelList: () => dispatch(modelActions.fetchEntityList({}, { type: 'DATA' })),
+  fetchConnection: id => dispatch(connectionActions.fetchEntity(id)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(DatasourceFormAttributesContainer)

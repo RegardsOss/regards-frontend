@@ -3,7 +3,7 @@
  **/
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import { stub } from 'sinon'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { Card } from 'material-ui/Card'
 import PluginConfigurationComponent from '../../../src/components/plugin/PluginConfigurationComponent'
 
@@ -12,14 +12,9 @@ import PluginConfigurationComponent from '../../../src/components/plugin/PluginC
  * @author Xavier-Alexandre Brochard
  */
 describe('[ADMIN PROJECT MANAGEMENT] Testing plugin configuration component', () => {
-  before(() => {
-    stub(console, 'error').callsFake((warning) => {
-      throw new Error(warning)
-    })
-  })
-  after(() => {
-    console.error.restore()
-  })
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('should exists', () => {
     assert.isDefined(PluginConfigurationComponent)
     assert.isDefined(Card)
@@ -27,6 +22,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing plugin configuration component', ()
 
   it('should render sub-components', () => {
     const props = {
+      microserviceName: 'rs-test',
       pluginConfiguration: {
         content: {
           id: 2,
@@ -38,12 +34,12 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing plugin configuration component', ()
         },
         links: [],
       },
-      onActiveToggle: () => {},
-      onCopyClick: () => {},
-      onDeleteClick: () => {},
-      onEditClick: () => {},
-      onDownwardClick: () => {},
-      onUpwardClick: () => {},
+      onActiveToggle: () => { },
+      onCopyClick: () => { },
+      onDeleteClick: () => { },
+      onEditClick: () => { },
+      onDownwardClick: () => { },
+      onUpwardClick: () => { },
     }
     const enzymeWrapper = shallow(<PluginConfigurationComponent {...props} />)
     const subComponent = enzymeWrapper.find(Card)

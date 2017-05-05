@@ -23,16 +23,25 @@ class ModuleContainer extends React.Component {
     moduleConf: ModuleConfiguration.isRequired,
 
     // Set by mapDispatchToProps
-    getAttributeModel: React.PropTypes.func,
     fetchAllModelsAttributes: React.PropTypes.func,
-    // eslint-disable-next-line react/no-unused-prop-types
     attributeModels: React.PropTypes.objectOf(AttributeModel),
   }
 
   constructor(props) {
     super(props)
+
+    // Calculate needed facettes from given props.
+    const { moduleConf: { attributes } } = props
+    // Calculate facettes
+    const facettes = reduce(attributes, (result, value, key) => {
+      if (value.facetable) {
+        result.push(value.attributeFullQualifiedName)
+      }
+      return result
+    }, [])
     this.state = {
       attributesFetching: true,
+      facettesQuery: facettes && facettes.length > 0 ? `facets=${join(facettes, ',')}` : null,
     }
   }
 
@@ -58,25 +67,13 @@ class ModuleContainer extends React.Component {
     const { attributesFetching } = this.state
 
     if (!attributesFetching) {
-      // Get applicable facettes to add to search request
-      const facettes = reduce(attributes, (result, value, key) => {
-        if (value.facetable) {
-          const attribute = this.props.getAttributeModel(value.id)
-          if (attribute && attribute.content && attribute.content.fragment) {
-            result.push(`${attribute.content.fragment.name}.${attribute.content.name}`)
-          }
-        }
-        return result
-      }, [])
-      const facettesQuery = facettes && facettes.length > 0 ? `facets=${join(facettes, ',')}` : null
-
       return (
         <SearchResultsComponent
           appName={appName}
           project={project}
           enableFacettes={enableFacettes}
           searchQuery={searchQuery}
-          facettesQuery={facettesQuery}
+          facettesQuery={this.state.facettesQuery}
           attributesConf={attributes}
           attributesRegroupementsConf={attributesRegroupements}
           attributeModels={attributeModels}
@@ -93,7 +90,6 @@ class ModuleContainer extends React.Component {
 }
 const
   mapStateToProps = state => ({
-    getAttributeModel: id => AttributeModelSelectors.getById(state, id),
     attributeModels: AttributeModelSelectors.getList(state),
   })
 

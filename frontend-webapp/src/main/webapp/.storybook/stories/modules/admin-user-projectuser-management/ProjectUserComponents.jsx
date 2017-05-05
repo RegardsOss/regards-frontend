@@ -1,7 +1,7 @@
 import { storiesOf, action } from '@kadira/storybook'
 import { withKnobs, boolean, object } from '@kadira/storybook-addon-knobs'
 import ProjectUserListComponent from '@regardsoss/admin-user-projectuser-management/src/components/ProjectUserListComponent'
-import ProjectUserCreateComponent from '@regardsoss/admin-user-projectuser-management/src/components/ProjectUserCreateComponent'
+import ProjectUserFormComponent from '@regardsoss/admin-user-projectuser-management/src/components/ProjectUserFormComponent'
 import { muiTheme } from 'storybook-addon-material-ui'
 import { withStore, withLocale } from '../../decorators/index'
 
@@ -110,11 +110,11 @@ storiesOf('Project admin - Project user', module)
       backUrl={'back/url'}
       createUrl={'create/url'}
     />
-    ))
+  ))
   .add('Create', () => {
     const rolesList = object('Roles list', defaultRolesList)
     return (
-      <ProjectUserCreateComponent
+      <ProjectUserFormComponent
         change={() => { }}
         currentUser={undefined}
         groupList={object('Group list', defaultGroupList)}
@@ -130,7 +130,7 @@ storiesOf('Project admin - Project user', module)
   .add('Edit', () => {
     const rolesList = object('Roles list', defaultRolesList)
     return (
-      <ProjectUserCreateComponent
+      <ProjectUserFormComponent
         change={() => { }}
         currentUser={object('Edited user (none for new)', defaultProjectUsersList[1])}
         groupList={object('Group list', defaultGroupList)}

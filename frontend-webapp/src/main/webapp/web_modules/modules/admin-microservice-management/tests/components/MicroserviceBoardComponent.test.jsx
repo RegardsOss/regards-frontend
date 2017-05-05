@@ -3,25 +3,22 @@
  **/
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import { stub } from 'sinon'
-import { IntlStub } from '@regardsoss/tests-helpers'
+import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { BoardComponent } from '@regardsoss/components'
 import MicroserviceBoardComponent from '../../src/components/MicroserviceBoardComponent'
-import microservices from '../../src/data/microservices.json'
+import styles from '../../src/styles/styles'
 
+const context = buildTestContext(styles)
+
+const microservices = STATIC_CONFIGURATION.microservices
 /**
  * Microservices configuration tests
  * @author Xavier-Alexandre Brochard
  */
 describe('[ADMIN PROJECT MANAGEMENT] Testing microservice board component', () => {
-  before(() => {
-    stub(console, 'error').callsFake((warning) => {
-      throw new Error(warning)
-    })
-  })
-  after(() => {
-    console.error.restore()
-  })
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('should exists', () => {
     assert.isDefined(MicroserviceBoardComponent)
     assert.isDefined(BoardComponent)
@@ -31,21 +28,16 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing microservice board component', () =
     const maintenance = {}
     microservices.forEach((microservice) => {
       maintenance[microservice.name] = {}
-      maintenance[microservice.name].isOn = () => {}
-      maintenance[microservice.name].fetch = () => {}
-      maintenance[microservice.name].set = () => {}
+      maintenance[microservice.name].isOn = () => { }
+      maintenance[microservice.name].fetch = () => { }
+      maintenance[microservice.name].set = () => { }
     })
 
     const props = {
       project: 'someProject',
       maintenance,
     }
-    const options = {
-      context: {
-        intl: IntlStub,
-      },
-    }
-    const enzymeWrapper = shallow(<MicroserviceBoardComponent {...props} />, options)
+    const enzymeWrapper = shallow(<MicroserviceBoardComponent {...props} />, { context })
     const subComponent = enzymeWrapper.find(BoardComponent)
     expect(subComponent).to.have.length(1)
   })

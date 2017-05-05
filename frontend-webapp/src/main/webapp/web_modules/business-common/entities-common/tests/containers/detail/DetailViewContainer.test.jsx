@@ -9,8 +9,7 @@ import { CatalogEntityTypes } from '@regardsoss/model'
 import { getTypeRender } from '@regardsoss/attributes-common'
 import DetailViewComponent from '../../../src/components/detail/DetailViewComponent'
 import { DetailViewContainer } from '../../../src/containers/detail/DetailViewContainer'
-import DownloadDescriptionClient from '../../../src/model/DownloadDescriptionClient'
-import DownloadDescriptionDefinitions from '../../../src/model/DownloadDescriptionDefinitions'
+import DownloadDescriptionClient from '../../../src/client/DownloadDescriptionClient'
 import styles from '../../../src/styles/styles'
 
 const context = buildTestContext(styles)
@@ -204,7 +203,7 @@ describe('[Entities Common] Testing DetailViewContainer', () => {
 
     let componentWrapper = containerWrapper.find(DetailViewComponent)
     assert.equal(componentWrapper.length, 1, 'The corresponding component should be rendered for collection entity')
-    assert.equal(componentWrapper.props().descriptionFileURL, DownloadDescriptionDefinitions.getDownloadURL(CatalogEntityTypes.COLLECTION, 0), 'The file should use the internal description download URL')
+    assert.equal(componentWrapper.props().descriptionFileURL, DataManagementClient.DownloadDescriptionDefinitions.getDirectDownloadURL(CatalogEntityTypes.COLLECTION, 0), 'The file should use the internal description download URL')
     assert.isNull(componentWrapper.props().descriptionFile, 'The file should not use an internal content description!')
 
     const props2 = {
@@ -226,7 +225,7 @@ describe('[Entities Common] Testing DetailViewContainer', () => {
     assert.equal(fetchCount.description, 0, 'Description should not be fetched for datatypes not locally handled')
     componentWrapper = containerWrapper.find(DetailViewComponent)
     assert.equal(componentWrapper.length, 1, 'The corresponding component should be rendered for dataset entity')
-    assert.equal(componentWrapper.props().descriptionFileURL, DownloadDescriptionDefinitions.getDownloadURL(CatalogEntityTypes.DATASET, 1), 'The file should use the internal description download URL')
+    assert.equal(componentWrapper.props().descriptionFileURL, DataManagementClient.DownloadDescriptionDefinitions.getDirectDownloadURL(CatalogEntityTypes.DATASET, 1), 'The file should use the internal description download URL')
     assert.isNull(componentWrapper.props().descriptionFile, 'The file should not use an internal content description!')
   })
 
@@ -331,12 +330,12 @@ describe('[Entities Common] Testing DetailViewContainer', () => {
       },
       fetchedDatasetDescriptionResult: {
         entityId: 101,
-        contentType: DownloadDescriptionDefinitions.MARKDOWN_MIMETYPE,
+        contentType: DataManagementClient.DownloadDescriptionDefinitions.MARKDOWN_MIMETYPE,
         content: '#Hello collection!',
       },
       fetchedCollectionDescriptionResult: {
         entityId: 0,
-        contentType: DownloadDescriptionDefinitions.MARKDOWN_MIMETYPE,
+        contentType: DataManagementClient.DownloadDescriptionDefinitions.MARKDOWN_MIMETYPE,
         content: '#Hello collection!',
       },
     }

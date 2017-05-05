@@ -1,9 +1,9 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { stub } from 'sinon'
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { PluginConfigurationFormContainer } from '../../../src/containers/plugin/PluginConfigurationFormContainer'
 import PluginConfigurationFormComponent from '../../../src/components/plugin/PluginConfigurationFormComponent'
 
@@ -12,14 +12,9 @@ import PluginConfigurationFormComponent from '../../../src/components/plugin/Plu
  * @author Xavier-Alexandre Brochard
  */
 describe('[ADMIN MICROSERVICE MANAGEMENT] Testing plugin configuration form container', () => {
-  before(() => {
-    stub(console, 'error').callsFake((warning) => {
-      throw new Error(warning)
-    })
-  })
-  after(() => {
-    console.error.restore()
-  })
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('should exists', () => {
     assert.isDefined(PluginConfigurationFormContainer)
     assert.isDefined(PluginConfigurationFormComponent)
