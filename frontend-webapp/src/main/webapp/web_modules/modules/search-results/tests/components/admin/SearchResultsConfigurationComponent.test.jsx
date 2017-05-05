@@ -28,7 +28,7 @@ describe('[RESULTS MODULE] Testing SearchResultsConfigurationComponent', () => {
       disabled: false,
       selectableAttributes: {},
       changeField: () => { },
-      hideDatasets: false,
+      hideDatasetsConfiguration: false,
     }
     const wrapper = shallow(
       <SearchResultsConfigurationComponent {...props} />, options,

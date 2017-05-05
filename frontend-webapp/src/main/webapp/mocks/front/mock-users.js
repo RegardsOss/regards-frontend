@@ -80,7 +80,7 @@ const authenticate = (login, password, scope) => {
               scope,
               sub: login,
               role: loginUser[scope.toLowerCase()].role.name,
-              access_token: usersLogged.length,
+              access_token: usersLogged.length.toString(),
               token_type: 'bearer',
               expires_in: 3600,
               jti: '4de300d8-7880-483c-aba8-fc4560b961b1',
@@ -191,7 +191,7 @@ const getUsersList = (request, { status }, pathParameters) => {
   const withAuthDataCallback = ({ scope }) => {
     const correspondingUsers = getScopeUsers(loadUsersPool(), scope, status)
     return makePageResult(correspondingUsers, (user, userMail) => {
-      const { id, role, status: userStatus } = user[scope]
+      const { id, role, status: userStatus, metaData } = user[scope]
       return {
         content: {
           id,
@@ -201,6 +201,7 @@ const getUsersList = (request, { status }, pathParameters) => {
           role,
           status: userStatus,
           permissions: [],
+          metaData,
         },
         links: getAllLinks(),
       }

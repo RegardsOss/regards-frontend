@@ -61,11 +61,12 @@ class ModuleContainer extends React.Component {
       attributes,
       attributesRegroupements,
       resultType,
-      hideDatasets = false,
+      singleDatasetIpId,
       breadcrumbInitialContextLabel,
     } } = this.props
     const { attributesFetching } = this.state
 
+    // TODO inject control for single dataset ipId (for who relaunches the research)
     if (!attributesFetching) {
       return (
         <SearchResultsComponent
@@ -78,7 +79,7 @@ class ModuleContainer extends React.Component {
           attributesRegroupementsConf={attributesRegroupements}
           attributeModels={attributeModels}
           target={resultType || SearchResultsTargetsEnum.DATAOBJECT_RESULTS}
-          hideDatasets={hideDatasets}
+          singleDatasetIpId={singleDatasetIpId}
           breadcrumbInitialContextLabel={breadcrumbInitialContextLabel}
         />
       )
@@ -98,11 +99,9 @@ const
     fetchAllModelsAttributes: () => dispatch(AttributeModelActions.fetchEntityList()),
   })
 
-const
-  UnconnectedModuleContainer = ModuleContainer
+const UnconnectedModuleContainer = ModuleContainer
 export {
-  UnconnectedModuleContainer
-  ,
+  UnconnectedModuleContainer,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ModuleContainer)

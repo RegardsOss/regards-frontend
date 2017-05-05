@@ -1,13 +1,11 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
-import FlatButton from 'material-ui/FlatButton'
-import Popover from 'material-ui/Popover'
-import Menu from 'material-ui/Menu'
+
 import MenuItem from 'material-ui/MenuItem'
-import DrowDownIcon from 'material-ui/svg-icons/navigation/arrow-drop-down'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
+import { DropDownButton } from '@regardsoss/components'
 import { Facet } from '../model/FacetShape'
 
 
@@ -32,65 +30,37 @@ class FacetSelectorComponent extends React.Component {
     ...i18nContextType,
   }
 
-  componentWillMount() {
-    this.setMenuVisibleOn()
-  }
-
-  onOpenMenu = (event) => {
-    event.preventDefault()
-    this.setMenuVisibleOn(event.currentTarget)
-  }
-
-  onCloseMenu = () => this.setMenuVisibleOn()
-
-  onMenuItemSelected = (event, facetValue) => {
-    // hide menu
-    this.setMenuVisibleOn()
-
+  onFacetSelected = (facetValue) => {
     // apply filter (compute the label value for it)
     const { applyFilter, facetValueFormatterForFilter, facet: { attributeName: filterKey }, label } = this.props
     applyFilter(filterKey, facetValueFormatterForFilter(label || filterKey, facetValue), facetValue.openSearchQuery)
   }
 
-  setMenuVisibleOn(menuVisibleOn = null) {
-    if (!this.state || this.state.menuVisibleOn !== menuVisibleOn) {
-      this.setState({ menuVisibleOn })
-    }
+  getLabel = () => {
+    // label does not change with value
+    const { label, facet: { attributeName } } = this.props
+    return label || attributeName
   }
 
   render() {
-    const { label, facet: { attributeName, values }, facetValueFormatterForMenu } = this.props
-    const { menuVisibleOn } = this.state
+    const { label, facet: { values }, facetValueFormatterForMenu } = this.props
     const { moduleTheme: { filterSelectors: { selector } } } = this.context
 
     return (
       <div style={selector.styles}>
-        <FlatButton
-          open
-          label={label || attributeName}
-          value={null}
-          onTouchTap={this.onOpenMenu}
-          labelPosition="before"
-          icon={<DrowDownIcon />}
-        />
-        <Popover
-          open={!!menuVisibleOn}
-          anchorEl={this.state.menuVisibleOn}
-          anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
-          targetOrigin={{ horizontal: 'left', vertical: 'top' }}
-          onRequestClose={this.onCloseMenu}
+        <DropDownButton
+          getLabel={this.getLabel}
+          onChange={this.onFacetSelected}
         >
-          <Menu onChange={this.onMenuItemSelected}>
-            {
-              values.map((facetValue) => {
-                const menuLabel = facetValueFormatterForMenu(label, facetValue)
-                return (
-                  <MenuItem key={menuLabel} value={facetValue} primaryText={menuLabel} />
-                )
-              })
-            }
-          </Menu>
-        </Popover>
+          {
+            values.map((facetValue) => {
+              const menuLabel = facetValueFormatterForMenu(label, facetValue)
+              return (
+                <MenuItem key={menuLabel} value={facetValue} primaryText={menuLabel} />
+              )
+            })
+          }
+        </DropDownButton>
       </div>
     )
   }

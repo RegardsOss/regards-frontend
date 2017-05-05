@@ -15,6 +15,7 @@ import BaseBoardItemComponent from './board/BaseBoardItemComponent'
 import OnHoverSwitchFlatButton from './buttons/OnHoverSwitchFlatButton'
 import OnHoverSwitchIconButton from './buttons/OnHoverSwitchIconButton'
 import OnHoverSwitchRaisedButton from './buttons/OnHoverSwitchRaisedButton'
+import DropDownButton from './buttons/DropDownButton'
 
 import ActionButtonComponent from './cards/ActionButtonComponent'
 import CardActionsComponent from './cards/CardActionsComponent'
@@ -68,6 +69,7 @@ export {
   CenteredDiv,
   ChipList,
   ConfirmDialogComponent,
+  DropDownButton,
   ErrorCardComponent,
   ErrorDecoratorComponent,
   IFrameURLContentDisplayer,

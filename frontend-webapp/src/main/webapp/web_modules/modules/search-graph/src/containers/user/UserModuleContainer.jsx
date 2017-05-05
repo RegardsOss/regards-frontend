@@ -108,7 +108,9 @@ export class UserModuleContainer extends React.Component {
     }
     // update search query
     if (!isEqual(selectedDataset, nextSelectedDataset)) {
-      this.setState({ openSearchQuery: this.buildOpenSearchQuery(nextSelectedDataset) })
+      const singleDatasetIpId = nextSelectedDataset ? nextSelectedDataset.ipId : null
+      const openSearchQuery = this.buildOpenSearchQuery(nextSelectedDataset)
+      this.setState({ singleDatasetIpId, openSearchQuery })
     }
   }
 
@@ -116,7 +118,7 @@ export class UserModuleContainer extends React.Component {
 
   render() {
     const { appName, project, moduleCollapsed, moduleConf, selectionPath } = this.props
-    const { graphDatasetAttributes, openSearchQuery } = this.state
+    const { graphDatasetAttributes, openSearchQuery, singleDatasetIpId } = this.state
 
     return (
       <div>
@@ -130,6 +132,7 @@ export class UserModuleContainer extends React.Component {
             appName={appName}
             project={project}
             moduleConf={moduleConf}
+            singleDatasetIpId={singleDatasetIpId}
             searchQuery={openSearchQuery}
             selectionPath={selectionPath}
           />

@@ -57,7 +57,7 @@ class AdminContainer extends React.Component {
       attributes,
       attributesRegroupements,
       selectableAttributes,
-      hideDatasets = false,
+      hideDatasetsConfiguration = false,
       enableFacettes,
     } } = this.props
 
@@ -76,7 +76,7 @@ class AdminContainer extends React.Component {
           defaultAttributesRegroupementsConf={attributesRegroupements}
           defaultEnableFacettes={enableFacettes}
           defaultResultType={resultType}
-          hideDatasets={hideDatasets}
+          hideDatasetsConfiguration={hideDatasetsConfiguration}
         />
       )
     }

@@ -131,8 +131,8 @@ export class AccountListComponent extends React.Component {
     return (
       <Card>
         <Tabs onChange={this.onTabChange} value={selectedTab}>
-          <Tab label={<FormattedMessage id="account.list.waiting.tab" values={{ count: size(waitingAccounts) || '0' }} />} value={TABS.waiting} />
-          <Tab label={<FormattedMessage id="account.list.all.tab" values={{ count: size(allAccounts) || '0' }} />} value={TABS.all} />
+          <Tab className="selenium-waitingTab" label={<FormattedMessage id="account.list.waiting.tab" values={{ count: size(waitingAccounts) || '0' }} />} value={TABS.waiting} />
+          <Tab className="selenium-allTab" label={<FormattedMessage id="account.list.all.tab" values={{ count: size(allAccounts) || '0' }} />} value={TABS.all} />
         </Tabs>
         <NoContentMessageInfo
           noContent={isEmpty(tabContent.accounts) && !initialFecthing}
@@ -166,7 +166,7 @@ export class AccountListComponent extends React.Component {
                     showRowHover
                   >
                     {map(tabContent.accounts, (account, id) => (
-                      <TableRow key={id}>
+                      <TableRow className={`selenium-${account.content.email}`} key={id}>
                         <TableRowColumn>
                           {account.content.email}
                         </TableRowColumn>
@@ -182,6 +182,7 @@ export class AccountListComponent extends React.Component {
                         <TableRowColumn>
                           <ActionsMenuCell>
                             <IconButton
+                              className="selenium-editButton"
                               title={intl.formatMessage({ id: 'account.list.table.action.edit.tooltip' })}
                               onTouchTap={() => onEdit(account.content.id)}
                               disabled={isFetchingActions}
@@ -190,6 +191,7 @@ export class AccountListComponent extends React.Component {
                               <Edit hoverColor={style.commonActionHoverColor} />
                             </IconButton>
                             <IconButton
+                              className="selenium-acceptButton"
                               title={intl.formatMessage({ id: 'account.list.table.action.accept.tooltip' })}
                               onTouchTap={() => onAccept(account.content.email)}
                               disabled={isFetchingActions || !this.canAcceptAccount(account)}
@@ -198,6 +200,7 @@ export class AccountListComponent extends React.Component {
                               <Done hoverColor={style.commonActionHoverColor} />
                             </IconButton>
                             <IconButton
+                              className="selenium-deleteButton"
                               title={intl.formatMessage({ id: 'account.list.table.action.delete.tooltip' })}
                               onTouchTap={() => this.openDeleteDialog(account)}
                               disabled={isFetchingActions}

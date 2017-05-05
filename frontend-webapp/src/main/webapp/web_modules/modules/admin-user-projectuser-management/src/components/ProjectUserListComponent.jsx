@@ -17,7 +17,7 @@ import { ProjectUser } from '@regardsoss/model'
 import { ActionsMenuCell, CardActionsComponent, NoContentMessageInfo, ConfirmDialogComponent, ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import ProjectUserActions from '../model/ProjectUserActions'
+import { projectUserActions } from '../client/ProjectUserClient'
 
 /**
  * User statuses constants, as returned by the server
@@ -91,6 +91,7 @@ export class ProjectUserListComponent extends React.Component {
       currentUserList: users,
       // create new user
       mainButtonKey: 'projectUser.list.all.action.create',
+      mainButtonClassName: 'selenium-userCreate',
       mainButtonUrl: createUrl,
       mainButtonDisabled: initialFecthing,
     }
@@ -162,8 +163,8 @@ export class ProjectUserListComponent extends React.Component {
     return (
       <Card >
         <Tabs onChange={this.onTabChange} value={selectedTab}>
-          <Tab label={<FormattedMessage id="projectUser.list.waiting.tab" values={{ count: size(waitingAccessUsers) || '0' }} />} value={TABS.waiting} />
-          <Tab label={<FormattedMessage id="projectUser.list.all.tab" values={{ count: size(users) || '0' }} />} value={TABS.all} />
+          <Tab className="selenium-waitingTab" label={<FormattedMessage id="projectUser.list.waiting.tab" values={{ count: size(waitingAccessUsers) || '0' }} />} value={TABS.waiting} />
+          <Tab className="selenium-allTab" label={<FormattedMessage id="projectUser.list.all.tab" values={{ count: size(users) || '0' }} />} value={TABS.all} />
         </Tabs>
         <NoContentMessageInfo
           noContent={isEmpty(tabContent.currentUserList) && !initialFecthing}
@@ -195,7 +196,7 @@ export class ProjectUserListComponent extends React.Component {
                     showRowHover
                   >
                     {map(tabContent.currentUserList, (projectUser, id) => (
-                      <TableRow key={id}>
+                      <TableRow className={`selenium-${projectUser.content.email}`} key={id}>
                         <TableRowColumn>
                           {projectUser.content.email}
                         </TableRowColumn>
@@ -219,6 +220,7 @@ export class ProjectUserListComponent extends React.Component {
                         <TableRowColumn>
                           <ActionsMenuCell>
                             <HateoasIconAction
+                              className="selenium-editButton"
                               title={intl.formatMessage({ id: 'projectUser.list.table.action.edit.tooltip' })}
                               onTouchTap={() => onEdit(projectUser.content.id)}
                               disabled={isFetchingActions}
@@ -229,6 +231,7 @@ export class ProjectUserListComponent extends React.Component {
                               <Edit hoverColor={style.commonActionHoverColor} />
                             </HateoasIconAction>
                             <IconButton
+                              className="selenium-acceptButton"
                               title={intl.formatMessage({ id: 'projectUser.list.table.action.accept.tooltip' })}
                               onTouchTap={() => onValidate(projectUser.content.id)}
                               disabled={isFetchingActions || !canAcceptUser(projectUser)}
@@ -237,6 +240,7 @@ export class ProjectUserListComponent extends React.Component {
                               <Done hoverColor={style.commonActionHoverColor} />
                             </IconButton>
                             <IconButton
+                              className="selenium-denyButton"
                               title={intl.formatMessage({ id: 'projectUser.list.table.action.deny.tooltip' })}
                               onTouchTap={() => onDeny(projectUser.content.id)}
                               disabled={isFetchingActions || !canDenyUser(projectUser)}
@@ -245,6 +249,7 @@ export class ProjectUserListComponent extends React.Component {
                               <RemoveCircle hoverColor={style.deleteActionHoverColor} />
                             </IconButton>
                             <HateoasIconAction
+                              className="selenium-deleteButton"
                               title={intl.formatMessage({ id: 'projectUser.list.table.action.delete.tooltip' })}
                               onTouchTap={() => this.openDeleteDialog(projectUser)}
                               disabled={isFetchingActions}
@@ -268,7 +273,8 @@ export class ProjectUserListComponent extends React.Component {
           <CardActionsComponent
             mainButtonUrl={tabContent.mainButtonUrl}
             mainButtonTouchTap={tabContent.mainButtonAction}
-            mainHateoasDependency={ProjectUserActions.getDependency(RequestVerbEnum.POST)}
+            mainButtonClassName={tabContent.mainButtonClassName}
+            mainHateoasDependency={projectUserActions.getDependency(RequestVerbEnum.POST)}
             isMainButtonDisabled={tabContent.mainButtonDisabled}
             mainButtonLabel={<FormattedMessage id={tabContent.mainButtonKey} />}
             secondaryButtonLabel={<FormattedMessage id="projectUser.list.action.cancel" />}

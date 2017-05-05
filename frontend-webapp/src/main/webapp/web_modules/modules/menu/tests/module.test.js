@@ -8,7 +8,7 @@ import Module from '../src/main'
  * Tests for menu module interfaces
  * @author Sébastien binda
  */
-describe('[MENU MODULE] Testing module interface', () => {
+describe('[Menu] Testing module interface', () => {
   it('Should supply valid module interface', () => {
     assert.isDefined(Module.adminContainer, 'Menu module should define a main container for administration page')
     assert.isDefined(Module.moduleContainer, 'Menu module should define a main container')

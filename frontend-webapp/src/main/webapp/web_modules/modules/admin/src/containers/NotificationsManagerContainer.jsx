@@ -1,9 +1,9 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
-import { WaitingAccessUsersEntitiesActions } from '@regardsoss/admin-user-projectuser-management'
 import { WaitingAccountEntitiesActions } from '@regardsoss/admin-account-management'
 import { connect } from '@regardsoss/redux'
+import { waitingAccessUsersEntitiesActions } from '../client/WaitingAccessUsersEntitiesClient'
 
 /** Refresh time in milliseconds */
 const refreshTimerMS = 60000
@@ -13,7 +13,7 @@ const refreshTimerMS = 60000
  */
 const projectNotificationsFetchers = [
   // fetch project users waiting project administrator validation
-  () => WaitingAccessUsersEntitiesActions.fetchWaitingUsersEntityList(),
+  () => waitingAccessUsersEntitiesActions.fetchWaitingUsersEntityList(),
 ]
 
 /**

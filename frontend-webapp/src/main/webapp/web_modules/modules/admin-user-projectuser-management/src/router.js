@@ -19,9 +19,9 @@ export const createProjectUserRoute = {
   path: 'create',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const ProjectUserCreateContainer = require('./containers/ProjectUserCreateContainer')
+      const ProjectUserFormContainer = require('./containers/ProjectUserFormContainer')
       cb(null, {
-        content: ProjectUserCreateContainer.default,
+        content: ProjectUserFormContainer.default,
       })
     })
   },
@@ -31,9 +31,9 @@ export const editProjectUserRoute = {
   path: ':user_id/edit',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const ProjectUserCreateContainer = require('./containers/ProjectUserCreateContainer')
+      const ProjectUserFormContainer = require('./containers/ProjectUserFormContainer')
       cb(null, {
-        content: ProjectUserCreateContainer.default,
+        content: ProjectUserFormContainer.default,
       })
     })
   },

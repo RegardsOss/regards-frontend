@@ -4,10 +4,9 @@
 import { size, filter, pickBy } from 'lodash'
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { stub } from 'sinon'
+import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { Table, TableRow } from 'material-ui/Table'
 import IconButton from 'material-ui/IconButton'
-import { IntlStub } from '@regardsoss/tests-helpers'
 import { NoContentMessageInfo } from '@regardsoss/components'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { ProjectUserListComponent, TABS, canAcceptUser, canDenyUser } from '../../src/components/ProjectUserListComponent'
@@ -75,17 +74,6 @@ const initialProps = {
   isFetchingActions: false,
 }
 
-const options = {
-  context: {
-    intl: IntlStub,
-    muiTheme: {
-      palette: {
-        primary1Color: '789456',
-      },
-    },
-  },
-}
-
 const countDisabled = (Type, wrapper) => {
   const allOfTypes = wrapper.find(Type)
   let disabledCount = 0
@@ -98,25 +86,19 @@ const countDisabled = (Type, wrapper) => {
   return disabledCount
 }
 
+const context = buildTestContext()
+
 // Test a component rendering
 describe('[ADMIN PROJECTUSER MANAGEMENT] Testing project user list component', () => {
-  // Since react will console.error propType warnings, that which we'd rather have
-  // as errors, we use sinon.js to stub it into throwing these warning as errors
-  // instead.
-  before(() => {
-    stub(console, 'error').callsFake((warning) => {
-      throw new Error(warning)
-    })
-  })
-  after(() => {
-    console.error.restore()
-  })
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('should exists', () => {
     assert.isDefined(ProjectUserListComponent)
   })
   it('should render self after loading, opening the waitin tab if there is any waiting request', () => {
     // 1 - loading
-    const enzymeWrapper = shallow(<ProjectUserListComponent {...initialProps} />, options)
+    const enzymeWrapper = shallow(<ProjectUserListComponent {...initialProps} />, { context })
     let noContentDisplayers = enzymeWrapper.find(NoContentMessageInfo)
     assert.equal(noContentDisplayers.length, 1, 'There should be a no content displayer')
     assert.isFalse(noContentDisplayers.at(0).props().noContent, 'The no content displayer should not be visible at initial loading')
@@ -151,7 +133,7 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing project user list component', (
   })
   it('should render self after loading, opening all users tab there is no waiting user', () => {
     // 1 - loading (render already tested in previous test)
-    const enzymeWrapper = shallow(<ProjectUserListComponent {...initialProps} />, options)
+    const enzymeWrapper = shallow(<ProjectUserListComponent {...initialProps} />, { context })
     // 2 - After loading, render without waiting users
     const afterLoadingProps = {
       ...initialProps,
@@ -171,7 +153,7 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing project user list component', (
   })
   it('should show no content for each tab if there is no users for that tab', () => {
     // 1 - loading, already tests in previous test
-    const enzymeWrapper = shallow(<ProjectUserListComponent {...initialProps} />, options)
+    const enzymeWrapper = shallow(<ProjectUserListComponent {...initialProps} />, { context })
 
     // 2.1 - After loading, render without any user
     const afterLoadingProps = {
@@ -193,7 +175,7 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing project user list component', (
   })
   it('should disable signal actions when already processing', () => {
     // 1 - loading, already tests in previous test
-    const enzymeWrapper = shallow(<ProjectUserListComponent {...initialProps} />, options)
+    const enzymeWrapper = shallow(<ProjectUserListComponent {...initialProps} />, { context })
     // 2 - After loading (there are waiting users, so falling into waiting state, as tested before)
     const afterLoadingProps = {
       ...initialProps,

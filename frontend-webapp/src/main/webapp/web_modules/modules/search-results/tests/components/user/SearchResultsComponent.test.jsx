@@ -29,7 +29,7 @@ describe('[RESULTS MODULE] Testing SearchResultsComponent', () => {
       attributesConf: [],
       attributesRegroupementsConf: [],
       attributeModels: {},
-      hideDatasets: false,
+      hideDatasetsConfiguration: false,
       target: SearchResultsTargetsEnum.DATAOBJECT_RESULTS,
     }
 

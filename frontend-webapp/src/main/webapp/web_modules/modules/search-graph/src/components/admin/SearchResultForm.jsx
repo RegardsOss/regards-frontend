@@ -28,7 +28,7 @@ class SearchResultFormComponent extends React.Component {
       applicationId: this.props.appName,
       conf: {
         resultType: SearchResultsTargetsEnum.DATAOBJECT_RESULTS,
-        hideDatasets: true,
+        hideDatasetsConfiguration: true,
       },
     }
 

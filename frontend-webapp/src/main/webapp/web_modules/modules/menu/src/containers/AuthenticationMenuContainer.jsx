@@ -13,7 +13,7 @@ import LoggedUserContainer from './LoggedUserContainer'
  * This container display the login button and the modal with login informations.
  * @author Sébastien binda
  */
-class AuthenticationMenuContainer extends React.Component {
+export class AuthenticationMenuContainer extends React.Component {
 
   static propTypes = {
     project: React.PropTypes.string.isRequired,

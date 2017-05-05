@@ -57,8 +57,8 @@ class SearchResultsComponent extends React.Component {
     attributesConf: React.PropTypes.arrayOf(AttributeConfiguration),
     attributesRegroupementsConf: React.PropTypes.arrayOf(AttributesRegroupementConfiguration),
     attributeModels: React.PropTypes.objectOf(AttributeModel),
-    hideDatasets: React.PropTypes.bool.isRequired,
     target: React.PropTypes.oneOf(values(SearchResultsTargetsEnum)).isRequired,
+    singleDatasetIpId: React.PropTypes.string, // Current dataset ipId when all results shown are links with only one dataset
     // Fixed breadcrumb depending on search current context.
     breadcrumbInitialContextLabel: React.PropTypes.string,
   }
@@ -472,7 +472,7 @@ class SearchResultsComponent extends React.Component {
    */
   renderTableTabs = () => {
     const { intl: { formatMessage } } = this.context
-    const { hideDatasets } = this.props
+    const { singleDatasetIpId } = this.props // disable datasets tab when only one dataset is shown
     return [
       <FlatButton
         key="dataobjects.tab"
@@ -487,7 +487,7 @@ class SearchResultsComponent extends React.Component {
         onTouchTap={this.onClickDatasetTarget}
         icon={<DatasetLibrary />}
         secondary={!this.isInObjectMode()}
-        disabled={hideDatasets}
+        disabled={!!singleDatasetIpId}
       />,
     ]
   }

@@ -15,6 +15,7 @@ class NavigableSearchResults extends React.Component {
     appName: React.PropTypes.string,
     project: React.PropTypes.string,
     searchQuery: React.PropTypes.string, // search query if a dataset is selected
+    singleDatasetIpId: React.PropTypes.string,
     selectionPath: React.PropTypes.arrayOf(CatalogEntity),
     // Module configuration
     moduleConf: ModuleConfiguration.isRequired,
@@ -23,7 +24,7 @@ class NavigableSearchResults extends React.Component {
   static defaultProps = {}
 
   render() {
-    const { project, appName, searchQuery, selectionPath, moduleConf: { ...resultsConfiguration } } = this.props
+    const { project, appName, searchQuery, selectionPath, singleDatasetIpId, moduleConf: { ...resultsConfiguration } } = this.props
 
     const breadcrumbLabel = reduce(selectionPath, (result, path) => {
       if (result !== '') {
@@ -38,7 +39,7 @@ class NavigableSearchResults extends React.Component {
       conf: {
         ...resultsConfiguration,
         searchQuery,
-        hideDatasets: true,
+        singleDatasetIpId,
         breadcrumbInitialContextLabel: breadcrumbLabel,
       },
     }

@@ -2,17 +2,8 @@
  * LICENSE_PLACEHOLDER
  **/
 import forEach from 'lodash/forEach'
-import DropDownMenu from 'material-ui/DropDownMenu'
 import MenuItem from 'material-ui/MenuItem'
-import { TableColumnConfiguration } from '@regardsoss/components'
-
-/**
- * Special option to display None value.
- * @type {{label: string}}
- */
-const noSortOption = {
-  label: 'NoSortOption',
-}
+import { DropDownButton, TableColumnConfiguration } from '@regardsoss/components'
 
 /**
  * Component to display a select field with all the sortable attributes.
@@ -36,29 +27,31 @@ class TableSortFilter extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      value: noSortOption,
+      value: null,
     }
-    noSortOption.label = props.noneLabel
   }
+
 
   /**
    * Handle the change of selected column for sorting
-   * @param event
-   * @param index
    * @param value : Column to sort for
    */
-  handleChange = (event, index, value) => {
-    this.setState({ value }, () => {
-      this.handleSort(this.state.value)
-    })
+  onChange = (value) => {
+    this.setState({ value })
+    this.handleSort(value)
   }
+
+
+  getLabel = value => !value ?
+    `${this.props.prefixLabel} ${this.props.noneLabel}` :
+    `${this.props.prefixLabel} ${value.label}`
 
   /**
    * Run sort action
    * @param column
    */
   handleSort = (column) => {
-    if (column.label === noSortOption.label) {
+    if (!column) {
       this.props.onSortByColumn(null, null, true)
     } else {
       this.props.onSortByColumn(column, 'ASC', true)
@@ -66,39 +59,34 @@ class TableSortFilter extends React.Component {
   }
 
   render() {
-    const { tableColumns } = this.props
+    const { tableColumns, noneLabel } = this.props
 
-    const sortableColumns = []
-    sortableColumns.push(<MenuItem key={0} value={noSortOption} primaryText={noSortOption.label} />)
-    forEach(tableColumns, (column, key) => {
-      if (column.sortable) {
-        sortableColumns.push(<MenuItem key={key} value={column} primaryText={column.label} />)
-      }
-    })
-
-    if (sortableColumns.length === 1) {
+    if (!tableColumns.filter(column => column.sortable).length) {
+      // no sortable column
       return null
     }
+
     return (
       <div
         style={{
           display: 'inline-block',
-          marginBottom: 10,
         }}
       >
-        <DropDownMenu
-          value={this.state.value}
-          onChange={this.handleChange}
-          selectionRenderer={(value) => {
-            if (value.label === noSortOption.label) {
-              return `${this.props.prefixLabel} ${this.props.noneLabel}`
-            }
-            return `${this.props.prefixLabel} ${value.label}`
-          }}
+        <DropDownButton
+          onChange={this.onChange}
+          getLabel={this.getLabel}
+          value={null}
         >
-          {sortableColumns.map(col => col)}
-        </DropDownMenu>
-
+          <MenuItem key={'no.sort'} value={null} primaryText={noneLabel} />
+          {
+            tableColumns.map((column, key) => {
+              if (column.sortable) {
+                return <MenuItem key={column.label} value={column} primaryText={column.label} />
+              }
+              return null
+            })
+          }
+        </DropDownButton>
       </div>
     )
   }
