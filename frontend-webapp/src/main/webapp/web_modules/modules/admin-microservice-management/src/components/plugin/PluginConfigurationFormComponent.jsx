@@ -2,10 +2,9 @@
  * LICENSE_PLACEHOLDER
  **/
 import { FormattedMessage } from 'react-intl'
-import { Toggle } from 'redux-form-material-ui'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent } from '@regardsoss/components'
-import { RenderTextField, Field, ValidationHelpers, reduxForm } from '@regardsoss/form-utils'
+import { RenderTextField, RenderToggle, Field, ValidationHelpers, reduxForm } from '@regardsoss/form-utils'
 import { PluginMetaData, PluginConfiguration } from '@regardsoss/model'
 import { themeContextType } from '@regardsoss/theme'
 import PluginParameterListComponent from './parameter/PluginParameterListComponent'
@@ -170,7 +169,7 @@ export class PluginConfigurationFormComponent extends React.Component {
               />
               <Field
                 name="active"
-                component={Toggle}
+                component={RenderToggle}
                 type="boolean"
                 style={styles.pluginConfiguration.form.toggle}
                 label={<FormattedMessage id="microservice-management.plugin.configuration.form.active" />}

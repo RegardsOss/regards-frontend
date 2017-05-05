@@ -4,12 +4,11 @@ import pluginMetaData from './model/plugin/PluginMetaDataReducers'
 import pluginConfiguration from './model/plugin/PluginConfigurationReducers'
 import MaintenanceModeReducers from './model/MaintenanceModeReducers'
 import SetMaintenanceReducers from './model/SetMaintenanceModeReducers'
-import microservices from './data/microservices.json'
 
 const reducers = {}
-microservices.forEach((microservice) => {
-  reducers[`maintenance-${microservice.name}`] = MaintenanceModeReducers(microservice.name)
-  reducers[`set-maintenance-${microservice.name}`] = SetMaintenanceReducers(microservice.name)
+STATIC_CONFIGURATION.microservices.forEach((microservice) => {
+  reducers[`maintenance-${microservice}`] = MaintenanceModeReducers(microservice)
+  reducers[`set-maintenance-${microservice}`] = SetMaintenanceReducers(microservice)
 })
 
 const microserviceManagementReducer = combineReducers({

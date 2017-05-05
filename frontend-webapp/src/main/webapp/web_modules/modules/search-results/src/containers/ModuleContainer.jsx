@@ -23,9 +23,7 @@ class ModuleContainer extends React.Component {
     moduleConf: ModuleConfiguration.isRequired,
 
     // Set by mapDispatchToProps
-    getAttributeModel: React.PropTypes.func,
     fetchAllModelsAttributes: React.PropTypes.func,
-    // eslint-disable-next-line react/no-unused-prop-types
     attributeModels: React.PropTypes.objectOf(AttributeModel),
   }
 

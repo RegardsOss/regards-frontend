@@ -3,7 +3,7 @@
  */
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import { testSuiteHelpers, DumpProvider, buildTestContext } from '@regardsoss/tests-helpers'
+import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import { Stepper } from 'material-ui/Stepper'
 import DatasetStepperComponent from '../../src/components/DatasetStepperComponent'
 

@@ -5,7 +5,7 @@ import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { PluginMetaData, PluginConfigurationList } from '@regardsoss/model'
-import { LoadableContentDisplayDecorator, HateoasIconAction } from '@regardsoss/display-control'
+import { LoadableContentDisplayDecorator, ResourceIconAction } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { FormattedMessage } from 'react-intl'
 import AppBar from 'material-ui/AppBar'
@@ -82,13 +82,13 @@ export class PluginConfigurationListContainer extends React.Component {
             title={`${microserviceName} > Plugins > ${pluginMetaData && pluginMetaData.content.pluginClassName}`}
             iconElementLeft={<IconButton onTouchTap={this.handleBackClick}><ArrowBack /></IconButton>}
             iconElementRight={
-              <HateoasIconAction
-                hateoasDependency={PluginConfigurationActions.getMsDependency(RequestVerbEnum.POST, microserviceName)}
+              <ResourceIconAction
+                resourceDependency={PluginConfigurationActions.getMsDependency(RequestVerbEnum.POST, microserviceName)}
                 tooltip={<FormattedMessage id="microservice-management.plugin.configuration.list.add" />}
                 onTouchTap={this.handleAddClick}
               >
                 <AddCircle />
-              </HateoasIconAction>
+              </ResourceIconAction>
             }
           />
           <div style={styles.root}>
@@ -131,7 +131,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchPluginMetaData: (pluginId, microserviceName) => dispatch(PluginMetaDataActions.fetchEntity(pluginId, { microserviceName })),
-  fetchPluginConfigurationList: (microserviceName, pluginId) => dispatch(PluginConfigurationActions.fetchPagedEntityList(0, 100, {
+  fetchPluginConfigurationList: (microserviceName, pluginId) => dispatch(PluginConfigurationActions.fetchEntityList({
     microserviceName,
     pluginId,
   })),

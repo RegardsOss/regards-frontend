@@ -27,6 +27,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing plugin configuration component', ()
 
   it('should render sub-components', () => {
     const props = {
+      microserviceName: 'rs-test',
       pluginConfiguration: {
         content: {
           id: 2,
