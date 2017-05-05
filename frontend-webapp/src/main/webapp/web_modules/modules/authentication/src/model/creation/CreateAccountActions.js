@@ -1,9 +1,8 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { AuthenticationRouteParameters } from '@regardsoss/authentication-manager'
+import { AuthenticationRouteParameters, AuthenticationRouteHelper } from '@regardsoss/authentication-manager'
 import AccountCreationActions from './AccountCreationActions'
-import { AuthenticationRouteHelper } from '@regardsoss/authentication-manager'
 
 /**
  * Actions to create a REGARDS account (linked with the global instance)

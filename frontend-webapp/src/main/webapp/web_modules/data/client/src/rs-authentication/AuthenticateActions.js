@@ -26,7 +26,7 @@ class AuthenticateActions extends BasicSignalActions {
    */
   lockSession() {
     return {
-      type: this.LOCK_SESSION, reateAcc,
+      type: this.LOCK_SESSION,
     }
   }
 

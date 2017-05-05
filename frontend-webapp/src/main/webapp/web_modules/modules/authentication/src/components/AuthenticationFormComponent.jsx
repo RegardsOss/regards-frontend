@@ -12,7 +12,7 @@ import ProjectAccessIcon from 'material-ui/svg-icons/action/assignment-ind'
 import { connect } from '@regardsoss/redux'
 import { themeContextType } from '@regardsoss/theme'
 import { PictureLinkComponent } from '@regardsoss/components'
-import { RenderTextField, Field, FormErrorMessage, ErrorTypes, ValidationHelpers, reduxForm } from '@regardsoss/form-utils'
+import { RenderTextField, Field, FormErrorMessage, ErrorTypes, reduxForm } from '@regardsoss/form-utils'
 
 const mailFieldId = 'username'
 

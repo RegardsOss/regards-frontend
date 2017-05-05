@@ -1,7 +1,6 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import Schemas from '@regardsoss/api'
 import { BasicSignalActions } from '@regardsoss/store-utils'
 
 export default class MicroserviceInfosActions extends BasicSignalActions {

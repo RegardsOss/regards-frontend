@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { BasicSignalSelectors } from '@regardsoss/store-utils'
-import { pathname } from './ValidateAccountReducers'
 import { AuthenticationRouteHelper } from '@regardsoss/authentication-manager'
+import { pathname } from './ValidateAccountReducers'
 
 export default new BasicSignalSelectors(AuthenticationRouteHelper.getSelectorPath(pathname))

@@ -1,7 +1,6 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import forEach from 'lodash/forEach'
 import MenuItem from 'material-ui/MenuItem'
 import { DropDownButton, TableColumnConfiguration } from '@regardsoss/components'
 

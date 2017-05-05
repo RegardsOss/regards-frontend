@@ -23,6 +23,7 @@ export class MicroserviceBoardContainer extends React.Component {
       project: React.PropTypes.string,
     }),
     fetchMaintenance: React.PropTypes.func,
+    checkMicroserviceStatus: React.PropTypes.func,
     setMaintenance: React.PropTypes.func,
     maintenanceList: React.PropTypes.func,
   }
@@ -41,10 +42,10 @@ export class MicroserviceBoardContainer extends React.Component {
   }
 
   componentDidMount() {
-    // For each microservice, check if it is up
+        // For each microservice, check if it is up
     forEach(STATIC_CONFIGURATION.microservices, (microservice) => {
       Promise.resolve(this.props.checkMicroserviceStatus(microservice)).then((ActionResult) => {
-        // If microservice is Up, then check for maintenance mode.
+                // If microservice is Up, then check for maintenance mode.
         if (!ActionResult.error) {
           this.setState({
             microservicesUp: concat([], this.state.microservicesUp, [microservice]),
@@ -56,9 +57,9 @@ export class MicroserviceBoardContainer extends React.Component {
 
   componentWillReceiveProps() {
     const microservicesMaintenance = {}
-    // Only display active microservices.
+        // Only display active microservices.
     forEach(this.state.microservicesUp, (microservice) => {
-      // Build maintenance informations for the given microservice
+            // Build maintenance informations for the given microservice
       microservicesMaintenance[microservice] = {}
       microservicesMaintenance[microservice].isOn = (projectName) => {
         const maintenanceTenants = this.props.maintenanceList(microservice).content
@@ -68,7 +69,7 @@ export class MicroserviceBoardContainer extends React.Component {
         return false
       }
       microservicesMaintenance[microservice].set = (projectName, value) =>
-        this.handleSetMaintenance(microservice, projectName, value ? MAINTENANCES_ACTIONS.ACTIVATE : MAINTENANCES_ACTIONS.DISABLE)
+                this.handleSetMaintenance(microservice, projectName, value ? MAINTENANCES_ACTIONS.ACTIVATE : MAINTENANCES_ACTIONS.DISABLE)
     })
     this.setState({
       microservicesMaintenance,
@@ -77,9 +78,9 @@ export class MicroserviceBoardContainer extends React.Component {
 
   handleSetMaintenance = (microserviceName, projectName, action) => {
     Promise.resolve(this.props.setMaintenance(microserviceName, projectName, action))
-      .then((actionResult) => {
-        this.props.fetchMaintenance(microserviceName)
-      })
+            .then((actionResult) => {
+              this.props.fetchMaintenance(microserviceName)
+            })
   }
 
   render() {

@@ -8,7 +8,6 @@ import { CommonClient } from '@regardsoss/client'
  *
  * @author Sébastien Binda
  */
-const ENTITIES_STORE_PATH = ['admin', 'microservice-management', 'microservice-info']
 const REDUX_ACTION_NAMESPACE = 'microservice-info'
 
 const microserviceInfoReducer = CommonClient.MicroserviceInfosReducer(REDUX_ACTION_NAMESPACE)
