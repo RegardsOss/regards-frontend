@@ -17,8 +17,10 @@ const Form = React.PropTypes.shape({
   selectableAttributes: React.PropTypes.objectOf(AttributeModel),
   // should enable facettes?
   enableFacettes: React.PropTypes.bool,
-  // Should hide datasets? if not specified, no
-  hideDatasets: React.PropTypes.bool,
+  // For modules using the single dataset capacity (hide the datasets configuration in admin)
+  hideDatasetsConfiguration: React.PropTypes.bool,
+  // Initial single dataset ipId
+  singleDatasetIpId: React.PropTypes.string,
   // Initial search query
   searchQuery: React.PropTypes.string,
   // Fixed breadcrumb depending on search current context.

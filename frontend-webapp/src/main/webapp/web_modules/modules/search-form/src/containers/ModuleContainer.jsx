@@ -8,6 +8,7 @@ import { connect } from '@regardsoss/redux'
 import { AttributeModel } from '@regardsoss/model'
 import { LoadingComponent } from '@regardsoss/display-control'
 import { themeContextType } from '@regardsoss/theme'
+import DatasetSelectionType from '../definitions/DatasetSelectionType'
 import ModuleConfiguration from '../models/ModuleConfiguration'
 import FormComponent from '../components/user/FormComponent'
 import AttributeModelClient from '../clients/AttributeModelClient'
@@ -257,6 +258,11 @@ class ModuleContainer extends React.Component {
 
   renderResults() {
     if (!this.props.moduleConf.preview) {
+      // is single dataset?
+      const { type, selectedDatasets } = this.props.moduleConf.datasets || {}
+      const singleDatasetIpId = type === DatasetSelectionType.selectedDatasets && selectedDatasets && selectedDatasets.length === 1 &&
+        selectedDatasets[0]
+
       const module = {
         name: 'search-results',
         active: true,
@@ -269,6 +275,7 @@ class ModuleContainer extends React.Component {
           enableFacettes: this.props.moduleConf.enableFacettes,
           searchQuery: this.state.searchQuery,
           breadcrumbInitialContextLabel: this.props.description,
+          singleDatasetIpId,
         },
       }
 

@@ -4,6 +4,7 @@
 import { RadioButton } from 'material-ui/RadioButton'
 import { FormattedMessage } from 'react-intl'
 import { Field, RenderRadio } from '@regardsoss/form-utils'
+import DatasetSelectionType from '../../../definitions/DatasetSelectionType'
 
 /**
  * React component to display a radio group box to select the search form dataset assocation type
@@ -27,17 +28,17 @@ class FormDatasetsTypeSelection extends React.Component {
         defaultSelected={this.props.defaultSelected}
       >
         <RadioButton
-          value="all"
+          value={DatasetSelectionType.all}
           label={<FormattedMessage id="form.datasets.all.label" />}
           disabled={this.props.disabled}
         />
         <RadioButton
-          value="selectedDatasets"
+          value={DatasetSelectionType.selectedDatasets}
           label={<FormattedMessage id="form.datasets.selected.label" />}
           disabled={this.props.disabled}
         />
         <RadioButton
-          value="seletedDatasetModels"
+          value={DatasetSelectionType.seletedDatasetModels}
           label={<FormattedMessage id="form.datasets.model.selected.label" />}
           disabled={this.props.disabled}
         />

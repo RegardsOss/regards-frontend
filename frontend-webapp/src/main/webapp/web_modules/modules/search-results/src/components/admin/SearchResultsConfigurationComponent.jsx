@@ -33,7 +33,7 @@ class SearchResultsConfigurationComponent extends React.Component {
     attributesConf: React.PropTypes.arrayOf(AttributeConfiguration),
     attributesRegroupementsConf: React.PropTypes.arrayOf(AttributesRegroupementConfiguration),
     selectableAttributes: React.PropTypes.objectOf(AttributeModel),
-    hideDatasets: React.PropTypes.bool.isRequired,
+    hideDatasetsConfiguration: React.PropTypes.bool.isRequired,
     changeField: React.PropTypes.func.isRequired,
   }
 
@@ -58,7 +58,7 @@ class SearchResultsConfigurationComponent extends React.Component {
       <Card>
         <CardTitle subtitle={<FormattedMessage id="form.configuration.tab.title" />} />
         { /* Show result type choice only if the datasets results are not hidden */}
-        <ShowableAtRender show={!this.props.hideDatasets} >
+        <ShowableAtRender show={!this.props.hideDatasetsConfiguration} >
           <Field
             name="conf.resultType"
             component={RenderRadio}
