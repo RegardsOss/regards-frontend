@@ -145,6 +145,7 @@ export class ProjectUserFormComponent extends React.Component {
         onRequestDelete={() => this.handleRemoveGroup(group)}
         style={this.style.chip}
         key={group.content.name}
+        className="selenium-chip"
       >
         {group.content.name}
       </Chip>)}
