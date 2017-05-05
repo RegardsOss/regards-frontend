@@ -3,6 +3,6 @@
  **/
 import { BasicSignalSelectors } from '@regardsoss/store-utils'
 import { pathname } from './UnlockAccountReducers'
-import { getSelectorPath } from '../Common'
+import { AuthenticationRouteHelper } from '@regardsoss/authentication-manager'
 
-export default new BasicSignalSelectors(getSelectorPath(pathname))
+export default new BasicSignalSelectors(AuthenticationRouteHelper.getSelectorPath(pathname))

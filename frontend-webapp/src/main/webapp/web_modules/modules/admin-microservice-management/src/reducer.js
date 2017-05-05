@@ -4,6 +4,7 @@ import pluginMetaData from './model/plugin/PluginMetaDataReducers'
 import pluginConfiguration from './model/plugin/PluginConfigurationReducers'
 import MaintenanceModeReducers from './model/MaintenanceModeReducers'
 import SetMaintenanceReducers from './model/SetMaintenanceModeReducers'
+import MicroserviceInfoClient from './client/MicroserviceInfoClient'
 
 const reducers = {}
 STATIC_CONFIGURATION.microservices.forEach((microservice) => {
@@ -16,6 +17,7 @@ const microserviceManagementReducer = combineReducers({
   pluginMetaData,
   pluginConfiguration,
   ...reducers,
+  'microservice-info': MicroserviceInfoClient.microserviceInfoActions,
 })
 
 export default microserviceManagementReducer

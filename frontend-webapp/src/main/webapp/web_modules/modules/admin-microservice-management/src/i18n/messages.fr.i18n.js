@@ -8,6 +8,7 @@ const messages = Object.assign({
   'microservice-management.rs-dam.description': 'Configuration du service de gestion des données',
   'microservice-management.rs-gateway.description': 'Configuration de la passerelle',
   'microservice-management.rs-catalog.description': 'Configuration du service de catalogage des donées',
+  'microservice-management.rs-authentication.description': 'Configuration du service d\'authentification au système',
 
   'microservice-management.configuration.tooltip': 'Configurer',
   'microservice-management.plugins.tooltip': 'Plugins',

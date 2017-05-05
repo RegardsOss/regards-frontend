@@ -13,6 +13,7 @@ const BoardItemShape = React.PropTypes.shape({
   description: React.PropTypes.string,
   actions: React.PropTypes.arrayOf(BoardActionShape),
   advanced: React.PropTypes.bool.isRequired,
+  disabled: React.PropTypes.bool,
 })
 
 export default BoardItemShape

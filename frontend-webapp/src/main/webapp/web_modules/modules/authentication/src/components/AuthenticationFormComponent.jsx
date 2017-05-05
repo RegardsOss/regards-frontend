@@ -151,9 +151,8 @@ function validate(fieldValues) {
   const mailValue = fieldValues[mailFieldId]
   if (!mailValue) {
     errors[mailFieldId] = ErrorTypes.REQUIRED
-  } else if (!ValidationHelpers.isValidEmail(mailValue)) {
-    errors[mailFieldId] = ErrorTypes.EMAIL
   }
+
   if (!fieldValues.password) {
     errors.password = ErrorTypes.REQUIRED
   }

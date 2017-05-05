@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { BasicSignalActions } from '@regardsoss/store-utils'
-import { getRequestLinkURL, getOriginURL } from '../Common'
+import { AuthenticationRouteHelper } from '@regardsoss/authentication-manager'
 
 /**
  * Actions for existing account requests
@@ -29,8 +29,8 @@ export default class AccountOperationActions extends BasicSignalActions {
    */
   sendAskRequest(accountEmail) {
     return this.sendSignal('POST', {
-      requestLink: getRequestLinkURL(this.mailAuthenticationActionValue),
-      originUrl: getOriginURL(),
+      requestLink: AuthenticationRouteHelper.getRequestLinkURL(this.mailAuthenticationActionValue),
+      originUrl: AuthenticationRouteHelper.getOriginURL(),
     }, { accountEmail })
   }
 

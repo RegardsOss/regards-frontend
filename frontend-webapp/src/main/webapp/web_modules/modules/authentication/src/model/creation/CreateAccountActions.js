@@ -3,7 +3,7 @@
  **/
 import { AuthenticationRouteParameters } from '@regardsoss/authentication-manager'
 import AccountCreationActions from './AccountCreationActions'
-import { getRequestLinkURL } from '../Common'
+import { AuthenticationRouteHelper } from '@regardsoss/authentication-manager'
 
 /**
  * Actions to create a REGARDS account (linked with the global instance)
@@ -26,6 +26,6 @@ export default {
       lastName,
       password,
       metadata,
-      requestLink: getRequestLinkURL(AuthenticationRouteParameters.mailAuthenticationAction.values.validateAccount),
+      requestLink: AuthenticationRouteHelper.getRequestLinkURL(AuthenticationRouteParameters.mailAuthenticationAction.values.validateAccount),
     }),
 }

@@ -4,6 +4,7 @@ import AuthenticationParametersReducers, { PATH as AUTHENTICATION_PARAMETERS_RED
 import AuthenticationParametersSelectors from './AuthenticationParametersSelectors'
 import AuthenticateShape, { AuthenticationErrorShape } from './AuthenticateShape'
 import AuthenticationRouteParameters, { AuthenticationParametersHelper, routeHelpers } from './AuthenticationRouteParameters'
+import AuthenticationRouteHelper from './AuthenticationRouteHelper'
 
 export {
   AuthenticationClient,
@@ -16,4 +17,5 @@ export {
   AuthenticationRouteParameters,
   AuthenticationParametersHelper,
   routeHelpers,
+  AuthenticationRouteHelper,
 }

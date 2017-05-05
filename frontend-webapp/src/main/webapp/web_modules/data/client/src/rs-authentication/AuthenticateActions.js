@@ -13,7 +13,7 @@ class AuthenticateActions extends BasicSignalActions {
    */
   constructor(namespace) {
     super({
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-authentication/${SPECIFIC_ENDPOINT_MARKER}?grant_type=password&username={username}&password={password}&scope={scope}`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-authentication/${SPECIFIC_ENDPOINT_MARKER}?grant_type=password&username={username}&password={password}&scope={scope}&origineUrl={origineUrl}&requestLink={requestLink}`,
       namespace,
       bypassErrorMiddleware: true,
     })
@@ -26,12 +26,18 @@ class AuthenticateActions extends BasicSignalActions {
    */
   lockSession() {
     return {
-      type: this.LOCK_SESSION,
+      type: this.LOCK_SESSION, reateAcc,
     }
   }
 
-  login(username, password, scope) {
-    return this.sendSignal('POST', {}, { username, password, scope })
+  login(username, password, scope, origineUrl, requestLink) {
+    return this.sendSignal('POST', {}, {
+      username,
+      password,
+      scope,
+      origineUrl,
+      requestLink,
+    })
   }
 
   logout() {

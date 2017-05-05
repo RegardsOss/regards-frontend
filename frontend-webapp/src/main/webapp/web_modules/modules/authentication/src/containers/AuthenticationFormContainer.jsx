@@ -3,7 +3,7 @@
  */
 import { connect } from '@regardsoss/redux'
 import { i18nContextType } from '@regardsoss/i18n'
-import { AuthenticationClient, AuthenticationErrorShape } from '@regardsoss/authentication-manager'
+import { AuthenticationClient, AuthenticationErrorShape, AuthenticationRouteParameters, AuthenticationRouteHelper } from '@regardsoss/authentication-manager'
 import AuthenticationFormComponent from '../components/AuthenticationFormComponent'
 
 /**
@@ -79,7 +79,12 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  dispatchLoginRequest: (username, password, scope) => dispatch(AuthenticationClient.authenticationActions.login(username, password, scope)),
+  dispatchLoginRequest: (username, password, scope) => dispatch(AuthenticationClient.authenticationActions.login(
+    username,
+    password,
+    scope,
+    AuthenticationRouteHelper.getOriginURL(),
+    AuthenticationRouteHelper.getRequestLinkURL(AuthenticationRouteParameters.mailAuthenticationAction.values.validateAccount))),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AuthenticationFormContainer)

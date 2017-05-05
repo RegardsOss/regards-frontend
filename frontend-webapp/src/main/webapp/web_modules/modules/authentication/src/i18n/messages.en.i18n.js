@@ -5,7 +5,7 @@ import { Locales } from '@regardsoss/form-utils'
 import { Locales as MetadataLocales } from '@regardsoss/user-metadata-common'
 
 const messages = {
-  'authentication.username': 'E-mail address',
+  'authentication.username': 'Login or E-mail address',
   'authentication.password': 'Password',
   'authentication.button': 'Log in',
   'authentication.cancel': 'Cancel',
