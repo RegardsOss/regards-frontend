@@ -1,26 +1,22 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { stub } from 'sinon'
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
+import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import AppBar from 'material-ui/AppBar'
-import { IntlStub } from '@regardsoss/tests-helpers'
 import { PluginMetaDataListContainer } from '../../../src/containers/plugin/PluginMetaDataListContainer'
+
+const context = buildTestContext()
 
 /**
  * Plugin tests
  * @author Xavier-Alexandre Brochard
  */
 describe('[ADMIN MICROSERVICE MANAGEMENT] Testing plugin metata data list container', () => {
-  before(() => {
-    stub(console, 'error').callsFake((warning) => {
-      throw new Error(warning)
-    })
-  })
-  after(() => {
-    console.error.restore()
-  })
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('should exists', () => {
     assert.isDefined(PluginMetaDataListContainer)
   })
@@ -61,13 +57,8 @@ describe('[ADMIN MICROSERVICE MANAGEMENT] Testing plugin metata data list contai
       fetchPluginMetaDataList: () => {
       },
     }
-    const options = {
-      context: {
-        intl: IntlStub,
-        muiTheme: {},
-      },
-    }
-    const enzymeWrapper = shallow(<PluginMetaDataListContainer {...props} />, options)
+
+    const enzymeWrapper = shallow(<PluginMetaDataListContainer {...props} />, { context })
     expect(enzymeWrapper.find(AppBar)).to.have.length(2)
   })
 })

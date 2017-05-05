@@ -5,9 +5,6 @@ import { chain, filter, pickBy } from 'lodash'
 import { BasicPageableSelectors } from '@regardsoss/store-utils'
 
 class PluginConfigurationSelectors extends BasicPageableSelectors {
-  constructor(storePath) {
-    super(storePath)
-  }
 
   getListByPluginClassName(state, pluginClassName) {
     return filter(this.getList(state), item => item.content.pluginClassName === pluginClassName)
