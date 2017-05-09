@@ -94,7 +94,7 @@ function packMetaDataField(user, formValues = {}) {
     return {
       id: metadataEntity && metadataEntity.id, // undefined when metadata does not yet exist on server side
       key,
-      value: formValues[key] || metadataEntity.value,
+      value: formValues[key] || (metadataEntity && metadataEntity.value),
     }
   })
 }
