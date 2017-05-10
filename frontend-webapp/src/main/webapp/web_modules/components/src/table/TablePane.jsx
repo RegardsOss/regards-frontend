@@ -5,7 +5,8 @@ import concat from 'lodash/concat'
 import remove from 'lodash/remove'
 import { FormattedMessage } from 'react-intl'
 import Measure from 'react-measure'
-import FlatButton from 'material-ui/FlatButton'
+import MenuItem from 'material-ui/MenuItem'
+import Divider from 'material-ui/Divider'
 import ColumnsAction from 'material-ui/svg-icons/action/settings'
 import Disatisfied from 'material-ui/svg-icons/social/sentiment-dissatisfied'
 import { LoadingComponent } from '@regardsoss/display-control'
@@ -14,6 +15,7 @@ import ShowableAtRender from '../cards/ShowableAtRender'
 import NoContentMessageInfo from '../cards/NoContentMessageInfo'
 import Table from './content/Table'
 import TablePaneHeader from './header/TablePaneHeader'
+import HeaderAdvancedOption from './header/HeaderAdvancedOption'
 import ColumnsVisibilitySelector from './content/columns/ColumnsVisibilitySelector'
 import ColumnConfiguration from './content/columns/model/ColumnConfiguration'
 import TablePaneConfigurationModel from './model/TablePaneConfigurationModel'
@@ -149,27 +151,42 @@ class TablePane extends React.Component {
    * Render the toolbar over the table
    */
   renderHeaderBar = () => {
-    const { showParameters, resultsTabsButtons, customTableOptions, customTableHeaderArea, displayTableHeader, resultsCount } = this.props
-    const { columnsFilterPanelOpened } = this.state
+    const { showParameters, resultsTabsButtons,
+      customTableOptions, contextOptions, advancedOptions,
+      customTableHeaderArea, displayTableHeader, resultsCount } = this.props
 
-    let options = customTableOptions
+    // 1 - add columns option in advanced menu items, if required
+    let computedAdvancedMenuItems = advancedOptions || []
     if (showParameters) {
-      // add parameters options at end
-      options = options.concat([
-        <FlatButton
+      if (computedAdvancedMenuItems.length) {
+        // A - add divider
+        computedAdvancedMenuItems = [...computedAdvancedMenuItems, <Divider />]
+      }
+      // B - (always) add menu item
+      computedAdvancedMenuItems = [...computedAdvancedMenuItems, (
+        <MenuItem
           key="inner.parameters.table.option"
           onTouchTap={this.onOpenColumnsFilterPanel}
-          label={<FormattedMessage id="table.filter.columns" />}
+          primaryText={<FormattedMessage id="table.filter.columns.label" />}
           icon={<ColumnsAction />}
-          secondary={columnsFilterPanelOpened}
-        />,
-      ])
+        />),
+      ]
     }
+
+    // b - add the HeaderAdvancedOption button to show menu (it is distabled if there is no menu)
+    const computedContextOptions = (contextOptions || []).concat([
+      <HeaderAdvancedOption key="more.option.button">
+        {computedAdvancedMenuItems}
+      </HeaderAdvancedOption>,
+    ])
+
+    // c - Render table pane
     return (
       <ShowableAtRender show={!!displayTableHeader}>
         <TablePaneHeader
           resultsTabsButtons={resultsTabsButtons}
-          customTableOptions={options}
+          contextOptions={computedContextOptions}
+          customTableOptions={customTableOptions}
           customTableHeaderArea={customTableHeaderArea}
           resultsCount={resultsCount}
         />

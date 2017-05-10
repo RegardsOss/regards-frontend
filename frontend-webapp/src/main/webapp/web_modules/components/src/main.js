@@ -47,6 +47,7 @@ import TableSelectionModes from './table/selection/TableSelectionModes'
 import TableContainer from './table/TableContainer'
 import TableActions from './table/model/TableActions'
 import TableSelectors from './table/model/TableSelectors'
+import TableStyles from './table/styles/styles'
 import ActionsMenuCell from './table/content/cells/ActionsMenuCell'
 
 import SVGIconFromString from './icon/SVGIconFromString'
@@ -79,6 +80,7 @@ export {
   TableSelectionModes,
   TableColumnConfiguration,
   TableColumnConfigurationController,
+  TableStyles,
   LoadingPaneComponent,
   LoadableContentDialogContainer,
   SingleContentURLDialogContainer,

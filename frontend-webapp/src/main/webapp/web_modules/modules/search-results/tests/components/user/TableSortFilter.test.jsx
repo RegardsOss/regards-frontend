@@ -3,25 +3,24 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import DropDownMenu from 'material-ui/DropDownMenu'
+import { DropDownButton, TableStyles } from '@regardsoss/components'
 import MenuItem from 'material-ui/MenuItem'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import Styles from '../../../src/styles/styles'
 import TableSortFilter from '../../../src/components/user/TableSortFilter'
 
 /**
  * Tests for SearchResultsComponent
  * @author Sébastien binda
  */
-describe('[RESULTS MODULE] Testing SearchResultsComponent', () => {
+describe('[RESULTS MODULE] Testing TableSortFilter', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
-  const options = { context: buildTestContext(Styles) }
+  const options = { context: buildTestContext(TableStyles) } // use table context styles
 
-  it('Should not render a TableSortFilter', () => {
+  it('Should not render menu', () => {
     const props = {
       tableColumns: [],
-      onSortByColumn: () => {},
+      onSortByColumn: () => { },
       prefixLabel: 'prefix',
       noneLabel: 'none',
     }
@@ -30,8 +29,8 @@ describe('[RESULTS MODULE] Testing SearchResultsComponent', () => {
       <TableSortFilter {...props} />, options,
     )
 
-    const menu = wrapper.find(DropDownMenu)
-    assert.lengthOf(menu, 0, 'No sortable columns provided. The component should no be displayed.')
+    const menuBtn = wrapper.find(DropDownButton)
+    assert.lengthOf(menuBtn, 0, 'No sortable columns provided. The component should no be displayed.')
   })
 
   it('Should not render a TableSortFilter', () => {
@@ -48,7 +47,7 @@ describe('[RESULTS MODULE] Testing SearchResultsComponent', () => {
           sortable: false,
         },
       ],
-      onSortByColumn: () => {},
+      onSortByColumn: () => { },
       prefixLabel: 'prefix',
       noneLabel: 'none',
     }
@@ -57,8 +56,8 @@ describe('[RESULTS MODULE] Testing SearchResultsComponent', () => {
       <TableSortFilter {...props} />, options,
     )
 
-    const menu = wrapper.find(DropDownMenu)
-    assert.lengthOf(menu, 0, 'No sortable columns provided. The component should no be displayed.')
+    const menuBtn = wrapper.find(DropDownButton)
+    assert.lengthOf(menuBtn, 0, 'No sortable columns provided. The component should no be displayed.')
   })
 
 
@@ -81,7 +80,7 @@ describe('[RESULTS MODULE] Testing SearchResultsComponent', () => {
           sortable: false,
         },
       ],
-      onSortByColumn: () => {},
+      onSortByColumn: () => { },
       prefixLabel: 'prefix',
       noneLabel: 'none',
     }
@@ -90,8 +89,8 @@ describe('[RESULTS MODULE] Testing SearchResultsComponent', () => {
       <TableSortFilter {...props} />, options,
     )
 
-    const menu = wrapper.find(DropDownMenu)
-    assert.lengthOf(menu, 1, 'Sortable columns provided. The component should be displayed.')
+    const menuBtn = wrapper.find(DropDownButton)
+    assert.lengthOf(menuBtn, 1, 'Sortable columns provided. The component should be displayed.')
 
     const menuItems = wrapper.find(MenuItem)
     assert.lengthOf(menuItems, 2, 'Only two sortable items should be available in the menu. The default none one and the configured one')

@@ -61,25 +61,19 @@ class TableSelectAllFilter extends React.Component {
   }
 
   render() {
-    const icon = this.state.selectedMode === 0 ? <CheckBoxOutLineIcon /> : <CheckBoxIcon />
-    const title = this.state.selectedMode === 0 ?
-      this.context.intl.formatMessage({ id: 'table.select.all' }) :
-      this.context.intl.formatMessage({ id: 'table.deselect.all' })
+    const [icon, labelKey, titleKey] = this.state.selectedMode === 0 ?
+      // select all
+      [<CheckBoxOutLineIcon />, 'table.select.all.label', 'table.select.all.tooltip'] :
+      // deselect all
+      [<CheckBoxIcon />, 'table.deselect.all.label', 'table.deselect.all.tooltip']
+
     return (
-      <div
-        style={{
-          display: 'inline-block',
-        }}
-      >
-        <FlatButton
-          onTouchTap={this.handleChange}
-          icon={icon}
-          style={{
-            minWidth: 50,
-          }}
-          title={title}
-        />
-      </div>
+      <FlatButton
+        onTouchTap={this.handleChange}
+        icon={icon}
+        title={this.context.intl.formatMessage({ id: titleKey })}
+        label={this.context.intl.formatMessage({ id: labelKey })}
+      />
     )
   }
 

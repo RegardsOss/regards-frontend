@@ -42,6 +42,44 @@ export default (theme) => {
           justifyContent: 'space-between',
         },
       },
+      tabs: {
+        styles: {
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+          flexWrap: 'noWrap',
+        },
+      },
+      contextOptions: {
+        styles: {
+          margin: '0 40px 0 40px',
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'flex-end',
+          alignItems: 'center',
+          flexWrap: 'noWrap',
+          flexGrow: 1,
+          flexShrink: 1,
+        },
+      },
+      customOptions: {
+        styles: {
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'flex-end',
+          alignItems: 'center',
+          flexWrap: 'noWrap',
+        },
+      },
+      // options group, above the results table (styles for using modules)
+      optionsGroup: {
+        lastElement: {
+          styles: {
+            marginRight: '40px',
+          },
+        },
+      },
       text: {
         styles: {
           color: theme.palette.textColor,

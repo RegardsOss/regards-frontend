@@ -7,21 +7,24 @@ import Menu from 'material-ui/Menu'
 import DrowDownIcon from 'material-ui/svg-icons/navigation/arrow-drop-down'
 
 /**
-* Drop down button (used where drop down menu is not adequate)
+* Drop down button (used where drop down menu is not adequate). You can add some other properties to this component,
+* it will ass them through to the button instance
 */
 class DropDownButton extends React.Component {
 
   static propTypes = {
     ButtonConstructor: React.PropTypes.func.isRequired,
     getLabel: React.PropTypes.func.isRequired, // Generates label: (current value (optional)) => string
-    children: React.PropTypes.node.isRequired, // Expected children: menu items
+    children: React.PropTypes.arrayOf(React.PropTypes.node), // Expected children: menu items
     onChange: React.PropTypes.func, // on change listener
+    disabled: React.PropTypes.bool,
     // eslint-disable-next-line react/forbid-prop-types
     value: React.PropTypes.any,
   }
 
   static defaultProps = {
     ButtonConstructor: FlatButton,
+    disabled: false,
   }
 
   componentWillMount = () => {
@@ -65,7 +68,7 @@ class DropDownButton extends React.Component {
   setCurrentValue = value => this.setState({ value })
 
   render() {
-    const { ButtonConstructor, getLabel, children } = this.props
+    const { ButtonConstructor, getLabel, children, disabled, ...otherButtonProperties } = this.props
     const { value, menuVisibleOn } = this.state
     return (
       <div>
@@ -74,6 +77,8 @@ class DropDownButton extends React.Component {
           onTouchTap={this.onOpenMenu}
           labelPosition="before"
           icon={<DrowDownIcon />}
+          disabled={disabled}
+          {...otherButtonProperties}
         />
         <Popover
           open={!!menuVisibleOn}
@@ -83,7 +88,7 @@ class DropDownButton extends React.Component {
           onRequestClose={this.onCloseMenu}
         >
           <Menu onChange={this.onMenuItemSelected}>
-            {children}
+            {children || null}
           </Menu>
         </Popover>
       </div>

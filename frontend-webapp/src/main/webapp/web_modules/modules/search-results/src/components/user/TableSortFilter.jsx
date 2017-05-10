@@ -2,6 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import MenuItem from 'material-ui/MenuItem'
+import { themeContextType } from '@regardsoss/theme'
 import { DropDownButton, TableColumnConfiguration } from '@regardsoss/components'
 
 /**
@@ -21,6 +22,10 @@ class TableSortFilter extends React.Component {
     prefixLabel: React.PropTypes.string.isRequired,
     // Label for the "None" attribute selected.
     noneLabel: React.PropTypes.string.isRequired,
+  }
+
+  static contextTypes = {
+    ...themeContextType,
   }
 
   constructor(props) {
@@ -59,6 +64,8 @@ class TableSortFilter extends React.Component {
 
   render() {
     const { tableColumns, noneLabel } = this.props
+    // note that here, we are in table context, so we can use table styles
+    const { moduleTheme: { header: { optionsGroup: { lastElement } } } } = this.context
 
     if (!tableColumns.filter(column => column.sortable).length) {
       // no sortable column
@@ -66,27 +73,22 @@ class TableSortFilter extends React.Component {
     }
 
     return (
-      <div
-        style={{
-          display: 'inline-block',
-        }}
+      <DropDownButton
+        onChange={this.onChange}
+        getLabel={this.getLabel}
+        style={lastElement.styles}
+        value={null}
       >
-        <DropDownButton
-          onChange={this.onChange}
-          getLabel={this.getLabel}
-          value={null}
-        >
-          <MenuItem key={'no.sort'} value={null} primaryText={noneLabel} />
-          {
-            tableColumns.map((column, key) => {
-              if (column.sortable) {
-                return <MenuItem key={column.label} value={column} primaryText={column.label} />
-              }
-              return null
-            })
-          }
-        </DropDownButton>
-      </div>
+        <MenuItem key={'no.sort'} value={null} primaryText={noneLabel} />
+        {
+          tableColumns.map((column, key) => {
+            if (column.sortable) {
+              return <MenuItem key={column.label} value={column} primaryText={column.label} />
+            }
+            return null
+          })
+        }
+      </DropDownButton>
     )
   }
 

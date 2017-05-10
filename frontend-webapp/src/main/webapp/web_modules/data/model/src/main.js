@@ -45,6 +45,7 @@ import Endpoint from './admin/Endpoint'
 import AIPStatus, { aipStates, aipDataTypes } from './archival-storage/AIPStatus'
 import StoragePlugin, { StoragePluginShape } from './archival-storage/StoragePlugin'
 import Theme from './access/Theme'
+import { BusinessPluginConfiguration, BusinessPluginParamater } from './microservice-common/BusinessPluginConfiguration'
 import getChainableTypeChecker from './common/ChainableTypeChecker'
 import URL, { validURLRegexp, relativeURLRegexp } from './common/URL'
 import RangedNumber from './common/RangedNumber'
@@ -118,6 +119,10 @@ export default {
 
   // Theme
   ...Theme,
+
+  // Microservice common
+  BusinessPluginConfiguration,
+  BusinessPluginParamater,
 
   // Common
   getChainableTypeChecker,
