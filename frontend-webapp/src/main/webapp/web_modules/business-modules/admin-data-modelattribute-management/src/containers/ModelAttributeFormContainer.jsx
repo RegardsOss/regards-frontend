@@ -3,7 +3,7 @@
  **/
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
-import { map, partition, some } from 'lodash'
+import { map, partition, some, find } from 'lodash'
 import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
 import { AttributeModel, Model, ModelAttribute } from '@regardsoss/model'
 import AttributeModelActions from '../model/AttributeModelActions'
@@ -97,7 +97,8 @@ export class ModelAttributeFormContainer extends React.Component {
   }
 
   handleDeleteAttributeModel = (attributeModel) => {
-    this.props.deleteModelAttribute(attributeModel.content.id, this.props.model.content.id)
+    const modelAttributeToDelete = find(this.props.modelAttributeList, modelAttribute => (modelAttribute.content.attribute.id === attributeModel.content.id))
+    this.props.deleteModelAttribute(modelAttributeToDelete.content.id, this.props.model.content.id)
   }
 
   /**
@@ -178,7 +179,7 @@ const mapDispatchToProps = dispatch => ({
   deleteModelAttribute: (id, modelId) => dispatch(modelAttributesActions.deleteEntity(id, { pModelId: modelId })),
   fetchModel: id => dispatch(modelActions.fetchEntity(id)),
 
-  bindFragment: (fragment, modelId) => dispatch(ModelAttributeFragmentActions.createEntity(fragment, { pModelId: modelId })),
+  bindFragment: (fragment, modelId) => dispatch(ModelAttributeFragmentActions.createEntities(fragment, { pModelId: modelId })),
   unbindFragment: (fragmentId, modelId) => dispatch(ModelAttributeFragmentActions.deleteEntity(fragmentId, { pModelId: modelId })),
 })
 

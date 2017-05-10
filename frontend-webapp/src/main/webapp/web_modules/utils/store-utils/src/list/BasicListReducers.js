@@ -56,6 +56,7 @@ class BasicListReducers {
           error: defaultState.error,
         }
       case this.basicListActionInstance.CREATE_ENTITY_REQUEST:
+      case this.basicListActionInstance.CREATE_ENTITIES_REQUEST:
       case this.basicListActionInstance.DELETE_ENTITY_REQUEST:
       case this.basicListActionInstance.UPDATE_ENTITY_REQUEST:
         return {
@@ -76,6 +77,7 @@ class BasicListReducers {
           },
         }
       case this.basicListActionInstance.CREATE_ENTITY_FAILURE:
+      case this.basicListActionInstance.CREATE_ENTITIES_FAILURE:
       case this.basicListActionInstance.DELETE_ENTITY_FAILURE:
       case this.basicListActionInstance.UPDATE_ENTITY_FAILURE:
         return {
@@ -93,6 +95,17 @@ class BasicListReducers {
           ...state,
           isFetching: false,
           items: action.payload.entities[this.normalizrKey] || {},
+          results: action.payload.result,
+          error: defaultState.error,
+        }
+      case this.basicListActionInstance.CREATE_ENTITIES_SUCCESS:
+        return {
+          ...state,
+          isSyncing: false,
+          items: {
+            ...state.items,
+            ...action.payload.entities[this.normalizrKey],
+          },
           results: action.payload.result,
           error: defaultState.error,
         }

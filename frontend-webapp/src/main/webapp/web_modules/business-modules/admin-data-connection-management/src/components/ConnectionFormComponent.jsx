@@ -6,7 +6,7 @@ import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
 import { Connection, PluginMetaData } from '@regardsoss/model'
-import { RenderTextField, RenderCheckbox, RenderSelectField, Field, ErrorTypes, ValidationHelpers } from '@regardsoss/form-utils'
+import { RenderTextField, RenderSelectField, Field, ErrorTypes, ValidationHelpers } from '@regardsoss/form-utils'
 import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -98,10 +98,8 @@ export class ConnectionFormComponent extends React.Component {
       })
     } else {
       initialValues = {
-        minPoolSize: 1,
+        minPoolSize: 3,
         maxPoolSize: 10,
-        isActive: true,
-        priorityOrder: 0,
         driver: 'org.postgresql.Driver',
       }
     }
@@ -200,22 +198,6 @@ export class ConnectionFormComponent extends React.Component {
               label={<FormattedMessage id="connection.form.maxPoolSize" />}
               validate={[ValidationHelpers.validRequiredNumber]}
             />
-            <Field
-              name="priorityOrder"
-              fullWidth
-              component={RenderTextField}
-              type="number"
-              label={<FormattedMessage id="connection.form.priorityOrder" />}
-              validate={[ValidationHelpers.validRequiredNumber]}
-            />
-            <br />
-            <br />
-            <Field
-              name="isActive"
-              fullWidth
-              component={RenderCheckbox}
-              label={<FormattedMessage id="connection.form.isActive" />}
-            />
           </CardText>
           <CardActions>
             <CardActionsComponent
@@ -243,6 +225,9 @@ function validate(values) {
     // XXX workaround for redux form bug initial validation:
     // Do not return anything when fields are not yet initialized (first render invalid state is wrong otherwise)...
     return errors
+  }
+  if (values.minPoolSize < 3) {
+    errors.minPoolSize = 'invalid.minPoolSizeLow'
   }
   if (!values.pluginClassName) {
     errors.pluginClassName = ErrorTypes.REQUIRED
