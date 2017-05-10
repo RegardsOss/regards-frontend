@@ -82,8 +82,8 @@ export class ConnectionFormContainer extends React.Component {
       })
   }
 
-  handleUpdate = (values) => {
-    const updatedConnection = Object.assign({}, this.props.currentConnection.content, {
+  handleUspdate = (values) => {
+    const updatedConnection = Object.assign({}, {
       label: values.label,
       pluginClassName: values.pluginClassName,
       user: values.user,
@@ -93,6 +93,7 @@ export class ConnectionFormContainer extends React.Component {
       dbName: values.dbName,
       maxPoolSize: values.maxPoolSize,
       minPoolSize: values.minPoolSize,
+      pluginConfigurationId: this.props.params.connectionId,
     })
     Promise.resolve(this.props.updateConnection(this.props.params.connectionId, updatedConnection))
       .then((actionResult) => {
