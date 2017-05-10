@@ -4,8 +4,8 @@
 import React from 'react'
 import { withKnobs, object } from '@kadira/storybook-addon-knobs'
 import { storiesOf } from '@kadira/storybook'
-import StorageMonitoringComponent from '@regardsoss/archival-storage-plugins-monitoring/src/components/StorageMonitoringComponent'
-import styles from '@regardsoss/archival-storage-plugins-monitoring/src/styles/styles'
+import StorageMonitoringComponent from '@regardsoss-modules/archival-storage-plugins-monitoring/src/components/StorageMonitoringComponent'
+import styles from '@regardsoss-modules/archival-storage-plugins-monitoring/src/styles/styles'
 import { muiTheme } from 'storybook-addon-material-ui'
 import { withStore, withLocale, withModuleTheme } from '../../decorators/index'
 

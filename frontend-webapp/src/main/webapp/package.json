@@ -77,7 +77,7 @@
     "@regardsoss-modules/home-page": "0.0.1",
     "@regardsoss/i18n": "0.0.1",
     "@regardsoss/layout": "0.0.1",
-    "@regardsoss/licenses": "0.0.1",
+    "@regardsoss-modules/licenses": "0.0.1",
     "@regardsoss-modules/menu": "0.0.1",
     "@regardsoss/model": "0.0.1",
     "@regardsoss/modules": "0.0.1",
