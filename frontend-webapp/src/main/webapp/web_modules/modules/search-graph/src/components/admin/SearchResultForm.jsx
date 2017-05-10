@@ -23,7 +23,7 @@ class SearchResultFormComponent extends React.Component {
   render() {
     const { project, appName, adminForm } = this.props
     const module = {
-      name: 'search-results',
+      type: 'search-results',
       active: true,
       applicationId: this.props.appName,
       conf: {

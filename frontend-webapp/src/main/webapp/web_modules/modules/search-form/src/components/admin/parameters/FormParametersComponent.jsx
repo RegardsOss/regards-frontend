@@ -33,7 +33,7 @@ class FormParametersComponent extends React.Component {
     }
 
     const module = {
-      name: 'search-results',
+      type: 'search-results',
       active: true,
       applicationId: this.props.appName,
       conf: moduleConf,

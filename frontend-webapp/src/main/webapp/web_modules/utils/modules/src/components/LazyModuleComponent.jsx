@@ -53,7 +53,7 @@ class LazyModuleComponent extends React.Component {
   }
 
   componentWillUpdate(nextProps, nextState) {
-    if (nextProps.module.name !== this.props.module.name) {
+    if (nextProps.module.type !== this.props.module.type) {
       this.loadModule(nextProps.module)
     }
   }
@@ -70,22 +70,22 @@ class LazyModuleComponent extends React.Component {
     require.ensure([], (require) => {
       try {
         // eslint-disable-next-line import/no-dynamic-require
-        const loadedModule = require(`@regardsoss-modules/${module.name}/src/main.js`)
+        const loadedModule = require(`@regardsoss-modules/${module.type}/src/main.js`)
         if (this.props.admin && !loadedModule.adminContainer) {
-          console.error(`Module ${module.name} does not contain an administration component`)
+          console.error(`Module ${module.type} does not contain an administration component`)
           self.setState({
             isLoaded: false,
             module: null,
           })
         } else if (!this.props.admin && !loadedModule.moduleContainer) {
-          console.error(`Module ${module.name} does not contain a main component`)
+          console.error(`Module ${module.type} does not contain a main component`)
           self.setState({
             isLoaded: false,
             module: null,
           })
         } else {
           if (loadedModule.reducer) {
-            const loadedModuleReducerName = `modules.${module.name}`
+            const loadedModuleReducerName = `modules.${module.type}`
             const loadedModuleReducer = {}
             loadedModuleReducer[loadedModuleReducerName] = configureReducers(loadedModule.reducer)
             getReducerRegistry().register(loadedModuleReducer)
@@ -118,7 +118,7 @@ class LazyModuleComponent extends React.Component {
 
       // By default the i18n directory for a module is fixed to : src/i18n.
       // Nevertheless, it possible for a module to override this property by setting messagesDir in his main.js exported props
-      const moduleMessageDir = module.messagesDir ? module.messagesDir : `modules/${this.props.module.name}/src/i18n`
+      const moduleMessageDir = module.messagesDir ? module.messagesDir : `modules/${this.props.module.type}/src/i18n`
 
       let moduleElt = null
       const defaultModuleProps = {

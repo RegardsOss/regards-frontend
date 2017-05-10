@@ -264,7 +264,7 @@ class ModuleContainer extends React.Component {
         selectedDatasets[0]
 
       const module = {
-        name: 'search-results',
+        type: 'search-results',
         active: true,
         applicationId: this.props.appName,
         conf: {

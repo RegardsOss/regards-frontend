@@ -26,7 +26,7 @@ class AuthenticationContainer extends React.Component {
     const { isAuthenticated, children } = this.props
     const moduleStyles = getModuleStyles(this.context.muiTheme)
     const module = {
-      name: 'authentication',
+      type: 'authentication',
       active: true,
       conf: {
         showLoginWindow: !isAuthenticated,

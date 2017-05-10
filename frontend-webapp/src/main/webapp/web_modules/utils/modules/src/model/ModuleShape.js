@@ -8,7 +8,8 @@
  */
 export default React.PropTypes.shape({
   id: React.PropTypes.number,
-  name: React.PropTypes.string,
+    // Type available from AvailableModules.js
+  type: React.PropTypes.string,
   description: React.PropTypes.string,
   active: React.PropTypes.bool,
   applicationId: React.PropTypes.string,

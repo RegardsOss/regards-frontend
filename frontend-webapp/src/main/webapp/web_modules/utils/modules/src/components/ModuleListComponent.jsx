@@ -42,7 +42,7 @@ class ModuleListComponent extends React.Component {
   }
 
   componentWillMount() {
-    const sortedModules = sortBy(this.props.modules, module => module.name)
+    const sortedModules = sortBy(this.props.modules, module => module.type)
     map(sortedModules, (module, idx) => {
       if (module.content.container === this.props.container && module.content.active) {
         this.renderModule(module, idx)
@@ -69,7 +69,7 @@ class ModuleListComponent extends React.Component {
     require.ensure([], (require) => {
       try {
         // eslint-disable-next-line import/no-dynamic-require
-        const loadedModule = require(`@regardsoss-modules/${module.content.name}/src/main.js`)
+        const loadedModule = require(`@regardsoss-modules/${module.content.type}/src/main.js`)
         const moduleDependencies = (loadedModule && loadedModule.dependencies && loadedModule.dependencies.user) || []
 
         const that = this
@@ -88,10 +88,10 @@ class ModuleListComponent extends React.Component {
           )
 
           const sections = Object.assign({}, that.state.sections)
-          if (sections[module.content.name]) {
-            sections[module.content.name] = concat([], sections[module.content.name], [element])
+          if (sections[module.content.type]) {
+            sections[module.content.type] = concat([], sections[module.content.type], [element])
           } else {
-            sections[module.content.name] = [element]
+            sections[module.content.type] = [element]
           }
 
           that.setState({

@@ -578,7 +578,7 @@ class SearchResultsComponent extends React.Component {
     }
     const { appName, project, attributeModels } = this.props
     const searchFacetsModule = {
-      name: 'search-facets',
+      type: 'search-facets',
       active: true,
       applicationId: appName,
       conf: {

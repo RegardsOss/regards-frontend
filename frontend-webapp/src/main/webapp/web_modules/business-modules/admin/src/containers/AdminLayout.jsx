@@ -72,7 +72,7 @@ export class AdminLayout extends React.Component {
     }
 
     const menuModule = {
-      name: 'menu',
+      type: 'menu',
       active: true,
       conf: {
         title: 'REGARDS admin dashboard',

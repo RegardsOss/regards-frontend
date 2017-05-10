@@ -30,7 +30,7 @@ describe('[MODULES] Testing LazyModuleComponent', () => {
     const context = {
     }
     const module = {
-      name: 'authentication',
+      type: 'authentication',
       active: true,
     }
     const wrapper = shallow(
@@ -58,7 +58,7 @@ describe('[MODULES] Testing LazyModuleComponent', () => {
 
     }
     const module = {
-      name: 'authentication',
+      type: 'authentication',
       active: false,
     }
     const wrapper = shallow(

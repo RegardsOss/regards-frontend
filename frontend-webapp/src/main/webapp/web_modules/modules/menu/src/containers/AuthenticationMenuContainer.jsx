@@ -64,7 +64,7 @@ export class AuthenticationMenuContainer extends React.Component {
         }
         <LazyModuleComponent
           module={{
-            name: 'authentication',
+            type: 'authentication',
             active: true,
             conf: {
               showLoginWindow: authenticationVisible,

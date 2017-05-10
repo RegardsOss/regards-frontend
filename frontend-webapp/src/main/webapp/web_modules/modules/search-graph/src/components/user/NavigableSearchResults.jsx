@@ -33,7 +33,7 @@ class NavigableSearchResults extends React.Component {
       return path.label
     }, '')
     const module = {
-      name: 'search-results',
+      type: 'search-results',
       active: true,
       applicationId: this.props.appName,
       conf: {
