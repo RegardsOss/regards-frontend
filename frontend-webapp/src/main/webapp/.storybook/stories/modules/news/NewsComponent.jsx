@@ -4,7 +4,7 @@
 import { storiesOf } from '@kadira/storybook'
 import { withKnobs } from '@kadira/storybook-addon-knobs'
 import { LazyModuleComponent } from '@regardsoss/modules'
-import styles from '@regardsoss/news/src/styles/styles'
+import styles from '@regardsoss-modules/news/src/styles/styles'
 import { muiTheme } from 'storybook-addon-material-ui'
 import { withStore, withModuleTheme } from '../../decorators/index'
 

@@ -1,5 +1,5 @@
 {
-  "name": "@regardsoss/projects-list",
+  "name": "@regardsoss-modules/projects-list",
   "version": "0.0.1",
   "private": true,
   "description": "Display the regards projects list and allow direct access to associated interface",

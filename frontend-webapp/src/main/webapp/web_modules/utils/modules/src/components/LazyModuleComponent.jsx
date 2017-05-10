@@ -70,7 +70,7 @@ class LazyModuleComponent extends React.Component {
     require.ensure([], (require) => {
       try {
         // eslint-disable-next-line import/no-dynamic-require
-        const loadedModule = require(`@regardsoss/${module.name}/src/main.js`)
+        const loadedModule = require(`@regardsoss-modules/${module.name}/src/main.js`)
         if (this.props.admin && !loadedModule.adminContainer) {
           console.error(`Module ${module.name} does not contain an administration component`)
           self.setState({

@@ -4,7 +4,7 @@
 import { shallow } from 'enzyme'
 import { expect } from 'chai'
 import { stub } from 'sinon'
-import { moduleContainer } from '@regardsoss/authentication'
+import { moduleContainer } from '@regardsoss-modules/authentication'
 import { I18nProvider } from '@regardsoss/i18n'
 import ModuleThemeProvider from '../../src/components/ModuleThemeProvider'
 import LazyModuleComponent from '../../src/components/LazyModuleComponent'

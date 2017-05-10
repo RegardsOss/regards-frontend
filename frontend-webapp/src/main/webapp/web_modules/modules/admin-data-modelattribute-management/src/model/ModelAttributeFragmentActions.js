@@ -11,7 +11,8 @@ class ModelAttributeFragmentActions extends BasicListActions {
   constructor() {
     super({
       namespace: 'admin-data-modelattribute-management/model-attribute-fragment',
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-dam/models/{id}/attributes/fragments`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-dam/models/{pModelId}/attributes/fragments`,
+      entityPathVariable: 'pFragmentId',
       schemaTypes: {
         ENTITY: Schemas.MODEL_ATTRIBUTE,
         ENTITY_ARRAY: Schemas.MODEL_ATTRIBUTE_ARRAY,
@@ -19,6 +20,7 @@ class ModelAttributeFragmentActions extends BasicListActions {
     })
   }
 }
+
 
 const instance = new ModelAttributeFragmentActions()
 export default instance

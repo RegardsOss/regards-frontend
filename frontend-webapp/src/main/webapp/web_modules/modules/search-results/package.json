@@ -1,5 +1,5 @@
 {
-  "name": "@regardsoss/search-results",
+  "name": "@regardsoss-modules/search-results",
   "version": "0.0.1",
   "private": true,
   "description": "Module for regards catalog researchs results",

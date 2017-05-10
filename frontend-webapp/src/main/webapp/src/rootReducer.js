@@ -11,7 +11,7 @@ import { PluginReducer } from '@regardsoss/plugins'
 import { i18nReducers } from '@regardsoss/i18n'
 import { AuthenticationClient, AuthenticationParametersReducers, AUTHENTICATION_PARAMETERS_REDUCERS_PATH } from '@regardsoss/authentication-manager'
 import { EndpointReducers } from '@regardsoss/endpoint'
-import { ApplicationErrorReducer } from '@regardsoss/global-sytem-error'
+import { ApplicationErrorReducer } from '@regardsoss/global-system-error'
 
 /**
  * Combine all reducers from common modules

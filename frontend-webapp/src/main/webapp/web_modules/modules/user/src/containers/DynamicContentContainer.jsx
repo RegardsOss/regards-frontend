@@ -3,7 +3,7 @@
  **/
 import { connect } from '@regardsoss/redux'
 import { ModuleShape, LazyModuleComponent } from '@regardsoss/modules'
-import { ApplicationErrorAction } from '@regardsoss/global-sytem-error'
+import { ApplicationErrorAction } from '@regardsoss/global-system-error'
 import ModulesSelector from '../model/modules/ModulesSelector'
 
 /**

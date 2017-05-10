@@ -9,8 +9,7 @@ const messages = Object.assign({
   'modelattr.edit.remainingAttr': 'Available attributes',
   'modelattr.edit.modelname': 'Model {name}',
   'modelattr.edit.computation.GIVEN': 'Automatic',
-  'modelattr.edit.computation.FROM_DESCENDANTS': 'Using children',
-  'modelattr.edit.computation.CUSTOM': 'Custom',
+  'modelattr.edit.computation.COMPUTED': 'Using plugin computation',
   'modelattr.edit.computation.label': 'Computation',
 }, Locales.en)
 

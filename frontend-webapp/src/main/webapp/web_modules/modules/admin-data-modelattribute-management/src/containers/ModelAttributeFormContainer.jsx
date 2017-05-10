@@ -7,12 +7,10 @@ import { map, partition, some } from 'lodash'
 import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
 import { AttributeModel, Model, ModelAttribute } from '@regardsoss/model'
 import AttributeModelActions from '../model/AttributeModelActions'
-import ModelActions from '../model/ModelActions'
 import ModelAttributeFormComponent from '../components/ModelAttributeFormComponent'
 import AttributeModelSelectors from '../model/AttributeModelSelectors'
-import ModelAttributesSelectors from '../model/ModelAttributesSelectors'
-import ModelSelectors from '../model/ModelSelectors'
-import ModelAttributesActions from '../model/ModelAttributesActions'
+import { modelAttributesSelectors, modelAttributesActions } from '../client/ModelAttributesClient'
+import { modelSelectors, modelActions } from '../client/ModelClient'
 import ModelAttributeFragmentActions from '../model/ModelAttributeFragmentActions'
 
 export class ModelAttributeFormContainer extends React.Component {
@@ -76,7 +74,7 @@ export class ModelAttributeFormContainer extends React.Component {
     .then((actionResult) => {
       // We receive here the action
       if (!actionResult.error) {
-        this.props.fetchModelAttributeList()
+        this.props.fetchModelAttributeList(this.props.params.model_id)
       }
     })
   }
@@ -86,15 +84,15 @@ export class ModelAttributeFormContainer extends React.Component {
     .then((actionResult) => {
       // We receive here the action
       if (!actionResult.error) {
-        this.props.fetchModelAttributeList()
+        this.props.fetchModelAttributeList(this.props.params.model_id)
       }
     })
   }
 
   handleCreateAttributeModel = (attributeModel) => {
     this.props.createModelAttribute({
-      attribute: attributeModel,
-      model: this.props.model,
+      attribute: attributeModel.content,
+      model: this.props.model.content,
     }, this.props.model.content.id)
   }
 
@@ -166,19 +164,19 @@ const mapStateToProps = (state, ownProps) => ({
   attributeModelList: AttributeModelSelectors.getList(state),
   isAttributeModelFetching: AttributeModelSelectors.isFetching(state),
 
-  modelAttributeList: ModelAttributesSelectors.getList(state),
-  isModelAttributeFetching: ModelAttributesSelectors.isFetching(state),
+  modelAttributeList: modelAttributesSelectors.getList(state),
+  isModelAttributeFetching: modelAttributesSelectors.isFetching(state),
 
-  model: ModelSelectors.getById(state, ownProps.params.model_id),
-  isModelFetching: ModelSelectors.isFetching(state),
+  model: modelSelectors.getById(state, ownProps.params.model_id),
+  isModelFetching: modelSelectors.isFetching(state),
 })
 
 const mapDispatchToProps = dispatch => ({
   fetchAttributeModelList: () => dispatch(AttributeModelActions.fetchEntityList()),
-  fetchModelAttributeList: modelId => dispatch(ModelAttributesActions.fetchEntityList([modelId])),
-  createModelAttribute: (modelAttribute, modelId) => dispatch(ModelAttributesActions.createEntity(modelAttribute, { pModelId: modelId })),
-  deleteModelAttribute: (id, modelId) => dispatch(ModelAttributesActions.deleteEntity(id, { pModelId: modelId })),
-  fetchModel: id => dispatch(ModelActions.fetchEntity(id)),
+  fetchModelAttributeList: modelId => dispatch(modelAttributesActions.fetchEntityList({ pModelId: modelId })),
+  createModelAttribute: (modelAttribute, modelId) => dispatch(modelAttributesActions.createEntity(modelAttribute, { pModelId: modelId })),
+  deleteModelAttribute: (id, modelId) => dispatch(modelAttributesActions.deleteEntity(id, { pModelId: modelId })),
+  fetchModel: id => dispatch(modelActions.fetchEntity(id)),
 
   bindFragment: (fragment, modelId) => dispatch(ModelAttributeFragmentActions.createEntity(fragment, { pModelId: modelId })),
   unbindFragment: (fragmentId, modelId) => dispatch(ModelAttributeFragmentActions.deleteEntity(fragmentId, { pModelId: modelId })),
