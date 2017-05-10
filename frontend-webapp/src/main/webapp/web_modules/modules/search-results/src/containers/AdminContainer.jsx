@@ -4,7 +4,7 @@
 import { connect } from '@regardsoss/redux'
 import { AttributeModel } from '@regardsoss/model'
 import SearchResultsConfigurationComponent from '../components/admin/SearchResultsConfigurationComponent'
-import { AttributeModelActions, AttributeModelSelectors } from '../models/client/AttributeModelClient'
+import { AttributeModelActions, AttributeModelSelectors } from '../client/AttributeModelClient'
 import ModuleConfiguration from '../models/ModuleConfiguration'
 
 

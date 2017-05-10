@@ -15,6 +15,7 @@ class TablePaneHeader extends React.Component {
     resultsTabsButtons: React.PropTypes.arrayOf(React.PropTypes.node),
     // adds custom table options, nearside parmaeters
     customTableOptions: React.PropTypes.arrayOf(React.PropTypes.node),
+    contextOptions: React.PropTypes.arrayOf(React.PropTypes.node),
     // shows a custom table header area instand of results count, just above columns
     customTableHeaderArea: React.PropTypes.node,
     resultsCount: React.PropTypes.number.isRequired,
@@ -26,19 +27,29 @@ class TablePaneHeader extends React.Component {
 
   render() {
     const { header } = this.context.moduleTheme
-    const { resultsTabsButtons, customTableOptions, customTableHeaderArea, resultsCount } = this.props
+    const {
+      resultsTabsButtons, customTableOptions, contextOptions,
+      customTableHeaderArea, resultsCount } = this.props
     return (
       <div>
         <div className={header.line.classNames}>
           <div style={header.tabsLine.styles} className={header.tabsLine.classNames}>
-            <div>
+            <div style={header.tabs.styles}>
               {
-                resultsTabsButtons ? resultsTabsButtons.map(button => button) : null
+                // table tabs on left side
+                resultsTabsButtons || null
               }
             </div>
-            <div>
+            <div style={header.contextOptions.styles}>
               {
-                customTableOptions ? customTableOptions.map(option => option) : null
+                // context actions on center
+                contextOptions || null
+              }
+            </div>
+            <div style={header.customOptions.styles}>
+              {
+                // custom actions on right side
+                customTableOptions || null
               }
             </div>
           </div>

@@ -4,9 +4,11 @@
 import AccessInstanceClient from './rs-access-instance/main'
 import AccessProjectClient from './rs-access-project/main'
 import AdminClient from './rs-admin'
-import DataManagementClient from './rs-dam'
 import AuthenticationClient from './rs-authentication'
+import CatalogClient from './rs-catalog'
 import CommonClient from './rs-common'
+import DataManagementClient from './rs-dam'
+
 
 /**
  * Module Client exports all the common REST API Client to request informations from REGARDS backend server.
@@ -21,11 +23,12 @@ import CommonClient from './rs-common'
  *
  */
 export default {
-  CommonClient,
   AccessInstanceClient,
   AccessProjectClient,
-  AdminClient,
-  DataManagementClient,
   AuthenticationClient,
+  AdminClient,
+  CatalogClient,
+  CommonClient,
+  DataManagementClient,
 }
 

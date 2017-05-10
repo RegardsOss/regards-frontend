@@ -20,8 +20,8 @@ import { themeContextType } from '@regardsoss/theme'
 import { DetailViewContainer } from '@regardsoss/entities-common'
 import { getTypeRender } from '@regardsoss/attributes-common'
 import { TableColumnConfiguration, TableColumnConfigurationController } from '@regardsoss/components'
-import downloadDescriptionClient from '../../models/client/DownloadDescriptionClient'
-import { ModelAttributesActions, ModelAttributesSelectors } from '../../models/client/ModelAttributeClient'
+import downloadDescriptionClient from '../../client/DownloadDescriptionClient'
+import { ModelAttributesActions, ModelAttributesSelectors } from '../../client/ModelAttributeClient'
 
 
 /**
@@ -241,7 +241,7 @@ class ListViewEntityCellComponent extends React.Component {
         style={{
           width: 'auto',
         }}
-      /> : null }
+      /> : null}
       <span
         onMouseEnter={this.props.onClick ? this.setHoverClickableStyle : undefined}
         onMouseLeave={this.props.onClick ? this.setStandardStyle : undefined}

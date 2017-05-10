@@ -4,7 +4,7 @@
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import CatalogDatasetEntityActions from './models/catalog/CatalogDatasetEntityActions'
 import CatalogDataobjectEntityActions from './models/catalog/CatalogDataobjectEntityActions'
-import { AttributeModelActions } from './models/client/AttributeModelClient'
+import { AttributeModelActions } from './client/AttributeModelClient'
 
 /**
  * Dependencies needed to display user page of the module

@@ -36,8 +36,8 @@ class CheckboxColumnHeader extends React.Component {
     const minHeight = height
 
     const [tooltipKey, iconStyle, Icon] = areAllSelected ?
-      ['table.deselect.all', checkedIcon, Checked] :
-      ['table.select.all', uncheckedIcon, Unchecked]
+      ['table.deselect.all.label', checkedIcon, Checked] :
+      ['table.select.all.label', uncheckedIcon, Unchecked]
 
     return (
       <div style={{ ...cellStyle, height, minHeight }} >

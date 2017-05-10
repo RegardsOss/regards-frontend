@@ -6,7 +6,7 @@ import join from 'lodash/join'
 import { connect } from '@regardsoss/redux'
 import { AttributeModel, SearchResultsTargetsEnum } from '@regardsoss/model'
 import { LoadingComponent } from '@regardsoss/display-control'
-import { AttributeModelActions, AttributeModelSelectors } from '../models/client/AttributeModelClient'
+import { AttributeModelActions, AttributeModelSelectors } from '../client/AttributeModelClient'
 import ModuleConfiguration from '../models/ModuleConfiguration'
 import SearchResultsComponent from '../components/user/SearchResultsComponent'
 /**

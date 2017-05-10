@@ -6,6 +6,10 @@ import LayoutActions from './layout/LayoutActions'
 import LayoutReducers from './layout/LayoutReducers'
 import LayoutSelectors from './layout/LayoutSelectors'
 
+import UIServiceActions from './services/UIServiceActions'
+import getUIServiceReducer from './services/UIServiceReducer'
+import getUIServiceSelectors from './services/UIServiceSelectors'
+
 import ThemeActions from './theme/ThemeActions'
 import ThemeReducers from './theme/ThemeReducers'
 import ThemeSelectors from './theme/ThemeSelectors'
@@ -28,6 +32,10 @@ export default {
   LayoutActions,
   LayoutReducers,
   LayoutSelectors,
+
+  UIServiceActions,
+  getUIServiceReducer,
+  getUIServiceSelectors,
 
   ThemeActions,
   ThemeReducers,

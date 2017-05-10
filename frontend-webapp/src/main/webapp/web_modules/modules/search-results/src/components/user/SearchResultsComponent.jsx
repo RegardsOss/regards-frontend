@@ -493,12 +493,15 @@ class SearchResultsComponent extends React.Component {
   }
 
   /**
-   * Returns options for results table
+   * Renders table context options (middle area of the header)
+   * @return rendered options list
    */
-  renderTableOptions = () => {
+  renderTableContextOptions = () => {
     const { enableFacettes } = this.props
     const { showingFacetsSearch, tableColumns } = this.state
     const { intl: { formatMessage } } = this.context
+
+    // TODO add the selection services here
     return [
       this.isInListView() && this.isInObjectMode() ? <TableSelectAllFilter
         key="select.filter.option"
@@ -511,6 +514,26 @@ class SearchResultsComponent extends React.Component {
         prefixLabel={formatMessage({ id: 'list.sort.prefix.label' })}
         noneLabel={formatMessage({ id: 'list.sort.none.label' })}
       /> : null,
+      <ShowableAtRender
+        key="facet.filter.option"
+        show={enableFacettes && this.isInObjectMode()}
+      >
+        <FlatButton
+          label={formatMessage({ id: 'navigation.filter.by.facets' })}
+          onTouchTap={this.toggleShowFacetsSearch}
+          icon={<ShowFacetsSearch />}
+          secondary={showingFacetsSearch}
+        />
+      </ShowableAtRender>,
+    ]
+  }
+
+  /**
+   * Returns options for results table
+   */
+  renderTableRightSideOptions = () => {
+    const { intl: { formatMessage } } = this.context
+    return [
       this.isInObjectMode() ? <FlatButton
         key="view.type.list"
         onTouchTap={this.showListView}
@@ -541,17 +564,6 @@ class SearchResultsComponent extends React.Component {
         }}
         title={formatMessage({ id: 'view.type.table.button.label' })}
       /> : null,
-      <ShowableAtRender
-        key="facet.filter.option"
-        show={enableFacettes && this.isInObjectMode()}
-      >
-        <FlatButton
-          label={formatMessage({ id: 'navigation.filter.by.facets' })}
-          onTouchTap={this.toggleShowFacetsSearch}
-          icon={<ShowFacetsSearch />}
-          secondary={showingFacetsSearch}
-        />
-      </ShowableAtRender>,
     ]
   }
 
@@ -596,18 +608,18 @@ class SearchResultsComponent extends React.Component {
     let displayColumnsHeader
     let showParameters
     if (this.isInTableView() && this.isInObjectMode()) {
+      tableHeaderArea = this.renderTableFacets()
       columns = this.getTableViewColumns()
       lineHeight = 50
       cellsStyle = null
-      tableHeaderArea = this.isInObjectMode() ? this.renderTableFacets() : undefined
       displayCheckbox = true
       displayColumnsHeader = true
       showParameters = true
     } else {
+      tableHeaderArea = this.isInObjectMode() ? this.renderTableFacets() : undefined
       columns = this.getListViewColumns()
       lineHeight = 160
       cellsStyle = listViewStyles.cell
-      tableHeaderArea = this.isInObjectMode() ? this.renderTableFacets() : undefined
       displayCheckbox = false
       displayColumnsHeader = false
       showParameters = false
@@ -643,7 +655,8 @@ class SearchResultsComponent extends React.Component {
             }}
             tablePaneConfiguration={{
               resultsTabsButtons: this.renderTableTabs(),
-              customTableOptions: this.renderTableOptions(),
+              customTableOptions: this.renderTableRightSideOptions(),
+              contextOptions: this.renderTableContextOptions(),
               customTableHeaderArea: tableHeaderArea,
               displayTableHeader: true,
               displaySortFilter: true,
