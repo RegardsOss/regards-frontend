@@ -71,7 +71,7 @@ class ModuleFormContainer extends React.Component {
     const defaultProps = {
       applicationId: this.props.params.applicationId,
       active: false,
-      isDefault: false,
+      defaultDynamicModule: false,
       conf: '{}',
     }
     const submitModel = Object.assign({}, defaultProps, values)
@@ -88,7 +88,7 @@ class ModuleFormContainer extends React.Component {
     const defaultProps = {
       applicationId: this.props.params.applicationId,
       active: false,
-      isDefault: false,
+      defaultDynamicModule: false,
       conf: '{}',
     }
     const submitModel = Object.assign({}, defaultProps, this.props.module, values)

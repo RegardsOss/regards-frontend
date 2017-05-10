@@ -74,7 +74,7 @@ class ModuleFormComponent extends React.Component {
         {
           applicationId: this.props.applicationId,
           active: false,
-          isDefault: false,
+          defaultDynamicModule: false,
         }, this.state.module)
       this.props.initialize(initializeModule)
     }
@@ -160,7 +160,7 @@ class ModuleFormComponent extends React.Component {
       />
       {this.state.dynamicContainerSelected ?
         <Field
-          name="isDefault"
+          name="defaultDynamicModule"
           component={RenderCheckbox}
           label={<FormattedMessage id="module.form.isDefault" />}
         /> : null }

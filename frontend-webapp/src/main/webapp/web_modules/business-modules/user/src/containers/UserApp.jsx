@@ -67,7 +67,7 @@ export class UserApp extends React.Component {
     // If there is no dynamic content display the default module
     if (!nextProps.content && nextProps.modules && nextProps.layout) {
       forEach(nextProps.modules, (module, idx) => {
-        if (module.content.isDefault) {
+        if (module.content.defaultDynamicModule) {
           if (ContainerHelper.isDynamicContent(module.content.container, nextProps.layout.content.layout.containers)) {
             console.log('Default module selection : ', module)
             browserHistory.replace(`/user/${this.props.params.project}/modules/${module.content.id}`)

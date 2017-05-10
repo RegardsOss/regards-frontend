@@ -16,7 +16,7 @@ export default {
         applicationId: 'user',
         container: 'header',
         active: true,
-        isDefault: false,
+        defaultDynamicModule: false,
         conf: '{"title":"Regards user interface","displayAuthentication":true,"displayLocaleSelector":true,"displayThemeSelector":true}',
       },
       links: [],
@@ -24,7 +24,7 @@ export default {
     {
       content: {
         active: false,
-        isDefault: false,
+        defaultDynamicModule: false,
         name: 'news',
         description: 'Flux atom',
         container: 'content',

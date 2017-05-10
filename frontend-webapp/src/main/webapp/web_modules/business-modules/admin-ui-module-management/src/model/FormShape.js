@@ -13,7 +13,7 @@ const FormShape = React.PropTypes.shape({
   conf: React.PropTypes.object,
   container: React.PropTypes.string,
   description: React.PropTypes.string,
-  isDefault: React.PropTypes.bool,
+  defaultDynamicModule: React.PropTypes.bool,
   name: React.PropTypes.string,
 })
 
