@@ -35,38 +35,34 @@ npm link web_modules/components
 npm link web_modules/business-common/attributes-common
 npm link web_modules/business-common/entities-common
 npm link web_modules/business-common/user-metadata-common
+npm link web_modules/business-common/endpoint
+npm link web_modules/business-common/global-system-error
 
 # Administration modules
-npm link web_modules/modules/admin-accessright-management
-npm link web_modules/modules/admin-account-management
-npm link web_modules/modules/admin-data-management
-npm link web_modules/modules/admin-data-model-management
-npm link web_modules/modules/admin-data-attributemodel-management
-npm link web_modules/modules/admin-data-modelattribute-management
-npm link web_modules/modules/admin-data-collection-management
-npm link web_modules/modules/admin-data-connection-management
-npm link web_modules/modules/admin-data-dataset-management
-npm link web_modules/modules/admin-data-datasource-management
-npm link web_modules/modules/admin-data-fragment-management
-npm link web_modules/modules/admin-microservice-management
-npm link web_modules/modules/admin-project-management
-npm link web_modules/modules/admin-ui-management
-npm link web_modules/modules/admin-ui-plugin-management
-npm link web_modules/modules/admin-ui-layout-management
-npm link web_modules/modules/admin-ui-theme-management
-npm link web_modules/modules/admin-ui-module-management
-npm link web_modules/modules/admin-ui-service-management
-npm link web_modules/modules/admin-user-management
-npm link web_modules/modules/admin-user-accessgroup-management
-npm link web_modules/modules/admin-user-projectuser-management
-npm link web_modules/modules/admin-user-role-resource-access-management
-npm link web_modules/modules/admin-user-role-management
-npm link web_modules/modules/archival-storage-aip-status
-npm link web_modules/modules/archival-storage-plugins-monitoring
-
-
-npm link web_modules/modules/endpoint
-npm link web_modules/modules/global-system-error
+npm link web_modules/business-modules/admin-accessright-management
+npm link web_modules/business-modules/admin-account-management
+npm link web_modules/business-modules/admin-data-management
+npm link web_modules/business-modules/admin-data-model-management
+npm link web_modules/business-modules/admin-data-attributemodel-management
+npm link web_modules/business-modules/admin-data-modelattribute-management
+npm link web_modules/business-modules/admin-data-collection-management
+npm link web_modules/business-modules/admin-data-connection-management
+npm link web_modules/business-modules/admin-data-dataset-management
+npm link web_modules/business-modules/admin-data-datasource-management
+npm link web_modules/business-modules/admin-data-fragment-management
+npm link web_modules/business-modules/admin-microservice-management
+npm link web_modules/business-modules/admin-project-management
+npm link web_modules/business-modules/admin-ui-management
+npm link web_modules/business-modules/admin-ui-plugin-management
+npm link web_modules/business-modules/admin-ui-layout-management
+npm link web_modules/business-modules/admin-ui-theme-management
+npm link web_modules/business-modules/admin-ui-module-management
+npm link web_modules/business-modules/admin-ui-service-management
+npm link web_modules/business-modules/admin-user-management
+npm link web_modules/business-modules/admin-user-accessgroup-management
+npm link web_modules/business-modules/admin-user-projectuser-management
+npm link web_modules/business-modules/admin-user-role-resource-access-management
+npm link web_modules/business-modules/admin-user-role-management
 
 # Global modules
 npm link web_modules/modules/authentication
@@ -79,11 +75,13 @@ npm link web_modules/modules/search-facets
 npm link web_modules/modules/search-form
 npm link web_modules/modules/search-graph
 npm link web_modules/modules/search-results
+npm link web_modules/modules/archival-storage-aip-status
+npm link web_modules/modules/archival-storage-plugins-monitoring
 
 # Applications
-npm link web_modules/modules/admin
-npm link web_modules/modules/portal
-npm link web_modules/modules/user
+npm link web_modules/business-modules/admin
+npm link web_modules/business-modules/portal
+npm link web_modules/business-modules/user
 
 # Vendors
 npm link web_modules/vendors
