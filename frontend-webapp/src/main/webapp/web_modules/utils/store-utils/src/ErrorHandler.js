@@ -1,4 +1,4 @@
-import { ApplicationErrorAction } from '@regardsoss/global-sytem-error'
+import { ApplicationErrorAction } from '@regardsoss/global-system-error'
 
 
 class ErrorHandler {

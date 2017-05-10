@@ -1,5 +1,5 @@
 {
-  "name": "@regardsoss/search-facets",
+  "name": "@regardsoss-modules/search-facets",
   "version": "0.0.1",
   "private": true,
   "description": "Module for regards catalog researchs facets on results",

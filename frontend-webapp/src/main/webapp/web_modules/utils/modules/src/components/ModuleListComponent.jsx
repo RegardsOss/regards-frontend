@@ -69,7 +69,7 @@ class ModuleListComponent extends React.Component {
     require.ensure([], (require) => {
       try {
         // eslint-disable-next-line import/no-dynamic-require
-        const loadedModule = require(`@regardsoss/${module.content.name}/src/main.js`)
+        const loadedModule = require(`@regardsoss-modules/${module.content.name}/src/main.js`)
         const moduleDependencies = (loadedModule && loadedModule.dependencies && loadedModule.dependencies.user) || []
 
         const that = this

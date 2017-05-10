@@ -107,5 +107,5 @@ module.exports = {
     new webpack.PrefetchPlugin('./web_modules/modules/search-results/src/main.js'),
     new webpack.PrefetchPlugin('./web_modules/modules/admin-data-attributemodel-management/src/main.js'),
     new webpack.PrefetchPlugin('./web_modules/modules/admin-microservice-management/src/main.js'),
-],
+  ],
 }

@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { dependencies as resultsDependencies } from '@regardsoss/search-results'
+import { dependencies as resultsDependencies } from '@regardsoss-modules/search-results'
 import CollectionModelActions from './model/CollectionModelActions'
 import { AttributeModelActions } from './model/client/AttributeModelClient'
 

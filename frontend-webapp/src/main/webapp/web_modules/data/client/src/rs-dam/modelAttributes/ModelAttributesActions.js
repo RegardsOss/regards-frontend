@@ -20,6 +20,6 @@ export default class ModelAttributesActions extends BasicListActions {
     })
   }
   fetchModelAttributes(id) {
-    return this.fetchEntityList({ id })
+    return this.fetchEntityList({ pModelId: id })
   }
 }

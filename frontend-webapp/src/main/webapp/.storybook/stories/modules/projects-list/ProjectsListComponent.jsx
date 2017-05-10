@@ -1,8 +1,8 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import ProjectListComponent from '@regardsoss/projects-list/src/components/ProjectListComponent'
-import ProjectListStyles from '@regardsoss/projects-list/src/styles/styles'
+import ProjectListComponent from '@regardsoss-modules/projects-list/src/components/ProjectListComponent'
+import ProjectListStyles from '@regardsoss-modules/projects-list/src/styles/styles'
 import { storiesOf } from '@kadira/storybook'
 import { withKnobs, object } from '@kadira/storybook-addon-knobs'
 import { muiTheme } from 'storybook-addon-material-ui'

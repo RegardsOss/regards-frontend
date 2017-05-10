@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { ApplicationErrorAction } from '@regardsoss/global-sytem-error'
+import { ApplicationErrorAction } from '@regardsoss/global-system-error'
 
 export default store => next => (action) => {
   if (action.error && (!action.meta || !action.meta.bypassErrorMiddleware)) {

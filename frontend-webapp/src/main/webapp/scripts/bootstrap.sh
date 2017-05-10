@@ -64,10 +64,12 @@ npm link web_modules/modules/admin-user-role-management
 npm link web_modules/modules/archival-storage-aip-status
 npm link web_modules/modules/archival-storage-plugins-monitoring
 
-# Global modules
-npm link web_modules/modules/authentication
+
 npm link web_modules/modules/endpoint
 npm link web_modules/modules/global-system-error
+
+# Global modules
+npm link web_modules/modules/authentication
 npm link web_modules/modules/home-page
 npm link web_modules/modules/licenses
 npm link web_modules/modules/menu

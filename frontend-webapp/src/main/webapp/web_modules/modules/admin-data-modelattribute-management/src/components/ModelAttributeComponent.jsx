@@ -40,8 +40,7 @@ class ModelAttributeComponent extends React.Component {
                 onChange={this.handleComputationChange}
               >
                 <MenuItem value="GIVEN" primaryText={<FormattedMessage id="modelattr.edit.computation.GIVEN" />} />
-                <MenuItem value="FROM_DESCENDANTS" primaryText={<FormattedMessage id="modelattr.edit.computation.FROM_DESCENDANTS" />} />
-                <MenuItem value="CUSTOM" primaryText={<FormattedMessage id="modelattr.edit.computation.CUSTOM" />} />
+                <MenuItem value="COMPUTED" primaryText={<FormattedMessage id="modelattr.edit.computation.COMPUTED" />} />
               </SelectField>
             </TableRowColumn>
           </TableRow>

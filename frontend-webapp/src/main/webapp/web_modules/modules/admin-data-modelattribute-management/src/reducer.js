@@ -4,7 +4,7 @@
 import { combineReducers } from 'redux'
 import attributeModelReducer from './model/AttributeModelReducers'
 import modelReducer from './model/ModelReducers'
-import modelAttributesReducer from './model/ModelAttributesReducer'
+import { modelAttributesReducer } from './client/ModelAttributesClient'
 import modelAttributeFragmentReducer from './model/ModelAttributeFragmentReducer'
 
 
