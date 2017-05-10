@@ -75,7 +75,7 @@ export class ServiceListContainer extends React.Component {
     const { uiPluginDefinitionList } = this.props
     const { isLoading } = this.state
     return (
-      <I18nProvider messageDir="modules/admin-ui-service-management/src/i18n">
+      <I18nProvider messageDir="business-modules/admin-ui-service-management/src/i18n">
         <LoadableContentDisplayDecorator
           isLoading={isLoading}
         >

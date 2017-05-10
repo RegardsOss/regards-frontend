@@ -107,7 +107,7 @@ export class DatasetFormAttributesContainer extends React.Component {
     const { backUrl, currentDataset, modelList, modelAttributeList, currentDatasource, isEditing } = this.props
     const { isLoading } = this.state
     return (
-      <I18nProvider messageDir="modules/admin-data-dataset-management/src/i18n">
+      <I18nProvider messageDir="business-modules/admin-data-dataset-management/src/i18n">
         <LoadableContentDisplayDecorator
           isLoading={isLoading}
         >

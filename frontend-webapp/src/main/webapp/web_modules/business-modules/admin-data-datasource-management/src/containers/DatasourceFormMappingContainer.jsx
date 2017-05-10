@@ -76,7 +76,7 @@ export class DatasourceFormMappingContainer extends React.Component {
     const { currentDatasource, tableList, tableAttributeList, modelAttributeList, handleBack, handleSave, isEditing, isCreating } = this.props
     const { isLoading } = this.state
     return (
-      <I18nProvider messageDir="modules/admin-data-datasource-management/src/i18n">
+      <I18nProvider messageDir="business-modules/admin-data-datasource-management/src/i18n">
         <LoadableContentDisplayDecorator
           isLoading={isLoading}
         >

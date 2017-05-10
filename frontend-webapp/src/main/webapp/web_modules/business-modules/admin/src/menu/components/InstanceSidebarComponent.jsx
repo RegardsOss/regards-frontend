@@ -42,7 +42,7 @@ class InstanceSidebarComponent extends React.Component {
     const moduleStyles = getModuleStyles(muiTheme)
 
     return (
-      <I18nProvider messageDir="modules/admin/src/menu/i18n">
+      <I18nProvider messageDir="business-modules/admin/src/menu/i18n">
         <Drawer
           open
           containerStyle={moduleStyles.adminApp.layout.sidebarContainer.styles}

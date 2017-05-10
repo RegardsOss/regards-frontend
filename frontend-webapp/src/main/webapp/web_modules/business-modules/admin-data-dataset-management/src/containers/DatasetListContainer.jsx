@@ -63,7 +63,7 @@ export class DatasetListContainer extends React.Component {
     const { datasetList } = this.props
     const { isLoading } = this.state
     return (
-      <I18nProvider messageDir="modules/admin-data-dataset-management/src/i18n">
+      <I18nProvider messageDir="business-modules/admin-data-dataset-management/src/i18n">
         <LoadableContentDisplayDecorator
           isLoading={isLoading}
         >

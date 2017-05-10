@@ -58,7 +58,7 @@ export class RoleListContainer extends React.Component {
   render() {
     const { roleList } = this.props
     return (
-      <I18nProvider messageDir="modules/admin-user-role-management/src/i18n">
+      <I18nProvider messageDir="business-modules/admin-user-role-management/src/i18n">
         <RoleListComponent
           roleList={roleList}
           createUrl={this.getCreateUrl()}

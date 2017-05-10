@@ -107,7 +107,7 @@ export class ConnectionFormContainer extends React.Component {
     const { currentConnection, pluginMetaDataList } = this.props
     const { isEditing, isCreating, isLoading } = this.state
     return (
-      <I18nProvider messageDir="modules/admin-data-connection-management/src/i18n">
+      <I18nProvider messageDir="business-modules/admin-data-connection-management/src/i18n">
         <LoadableContentDisplayDecorator
           isLoading={isLoading}
         >

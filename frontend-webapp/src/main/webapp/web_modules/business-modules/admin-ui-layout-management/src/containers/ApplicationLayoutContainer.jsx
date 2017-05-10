@@ -101,7 +101,7 @@ export class ApplicationLayoutContainer extends React.Component {
 
   render() {
     return (
-      <I18nProvider messageDir="modules/admin-ui-layout-management/src/i18n">
+      <I18nProvider messageDir="business-modules/admin-ui-layout-management/src/i18n">
         <LoadableContentDisplayDecorator
           isLoading={this.props.isFetching}
           isContentError={!this.props.isFetching && !this.props.layout}

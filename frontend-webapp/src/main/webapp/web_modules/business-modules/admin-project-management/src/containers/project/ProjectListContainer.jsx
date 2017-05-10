@@ -62,7 +62,7 @@ export class ProjectListContainer extends React.Component {
   render() {
     const { projectList } = this.props
     return (
-      <I18nProvider messageDir="modules/admin-project-management/src/i18n">
+      <I18nProvider messageDir="business-modules/admin-project-management/src/i18n">
         <ProjectListComponent
           projectList={projectList}
           createUrl={this.getCreateUrl()}

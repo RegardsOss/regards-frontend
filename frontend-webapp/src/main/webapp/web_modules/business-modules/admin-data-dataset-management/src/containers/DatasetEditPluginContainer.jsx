@@ -119,7 +119,7 @@ export class DatasetEditPluginContainer extends React.Component {
       linkPluginDataset,
     } = this.props
     return (
-      <I18nProvider messageDir="modules/admin-data-dataset-management/src/i18n">
+      <I18nProvider messageDir="business-modules/admin-data-dataset-management/src/i18n">
         <LoadableContentDisplayDecorator
           isLoading={isLoading}
         >

@@ -85,7 +85,7 @@ export class MicroserviceBoardContainer extends React.Component {
 
   render() {
     return (
-      <I18nProvider messageDir="modules/admin-microservice-management/src/i18n">
+      <I18nProvider messageDir="business-modules/admin-microservice-management/src/i18n">
         <MicroserviceBoardComponent
           project={this.props.params.project}
           maintenance={this.state.microservicesMaintenance}

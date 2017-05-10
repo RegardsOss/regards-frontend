@@ -63,7 +63,7 @@ export class ModelListContainer extends React.Component {
   render() {
     const { modelList, accessToken } = this.props
     return (
-      <I18nProvider messageDir="modules/admin-data-model-management/src/i18n">
+      <I18nProvider messageDir="business-modules/admin-data-model-management/src/i18n">
         <ModelListComponent
           modelList={modelList}
           accessToken={accessToken}

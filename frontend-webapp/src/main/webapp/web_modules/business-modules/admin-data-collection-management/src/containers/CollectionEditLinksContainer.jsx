@@ -101,7 +101,7 @@ export class CollectionEditLinksContainer extends React.Component {
     const collectionLinkedToCurrentCollection = this.getRemainingCollection(currentCollection, collectionList)
     const isLoading = isFetching && typeof currentCollection === 'undefined'
     return (
-      <I18nProvider messageDir="modules/admin-data-collection-management/src/i18n">
+      <I18nProvider messageDir="business-modules/admin-data-collection-management/src/i18n">
         <LoadableContentDisplayDecorator
           isLoading={isLoading}
         >

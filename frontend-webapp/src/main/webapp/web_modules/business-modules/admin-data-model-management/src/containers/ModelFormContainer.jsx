@@ -118,7 +118,7 @@ export class ProjectFormContainer extends React.Component {
   render() {
     const { isCreating, isEditing, isLoading } = this.state
     return (
-      <I18nProvider messageDir="modules/admin-data-model-management/src/i18n">
+      <I18nProvider messageDir="business-modules/admin-data-model-management/src/i18n">
         <LoadableContentDisplayDecorator isLoading={isLoading}>
           <ModelFormComponent
             onSubmit={this.handleSubmit}

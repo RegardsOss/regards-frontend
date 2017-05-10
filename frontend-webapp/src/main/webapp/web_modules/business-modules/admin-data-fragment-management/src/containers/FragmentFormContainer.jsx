@@ -103,7 +103,7 @@ export class FragmentFormContainer extends React.Component {
   render() {
     const { isLoading, isEditing } = this.state
     return (
-      <I18nProvider messageDir="modules/admin-data-fragment-management/src/i18n">
+      <I18nProvider messageDir="business-modules/admin-data-fragment-management/src/i18n">
         <LoadableContentDisplayDecorator isLoading={isLoading}>
           {() => (
             <FragmentFormComponent

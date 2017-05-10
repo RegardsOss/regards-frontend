@@ -22,7 +22,7 @@ class ModuleContainer extends React.Component {
   render() {
     const { project } = this.props.params
     return (
-      <I18nProvider messageDir="modules/admin-data-management/src/i18n">
+      <I18nProvider messageDir="business-modules/admin-data-management/src/i18n">
         <DataManagementBoardComponent project={project} />
       </I18nProvider>
     )

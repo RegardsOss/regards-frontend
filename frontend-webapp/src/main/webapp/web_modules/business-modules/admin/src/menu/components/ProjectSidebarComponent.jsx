@@ -65,7 +65,7 @@ class ProjectSidebarComponent extends React.Component {
     }
 
     return (
-      <I18nProvider messageDir="modules/admin/src/menu/i18n">
+      <I18nProvider messageDir="business-modules/admin/src/menu/i18n">
 
         <Drawer
           open containerStyle={merge({ width: '100%' }, style.sidebarContainer.styles)} className={style.sidebarContainer.classes}

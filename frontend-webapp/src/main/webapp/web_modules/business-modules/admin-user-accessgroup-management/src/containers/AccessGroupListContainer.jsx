@@ -61,7 +61,7 @@ export class AccessGroupListContainer extends React.Component {
   render() {
     const { accessGroupList, isFetching } = this.props
     return (
-      <I18nProvider messageDir="modules/admin-user-accessgroup-management/src/i18n">
+      <I18nProvider messageDir="business-modules/admin-user-accessgroup-management/src/i18n">
         <LoadableContentDisplayDecorator
           isLoading={isFetching}
         >

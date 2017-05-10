@@ -93,7 +93,7 @@ export class DatasetEditUIServicesContainer extends React.Component {
     const { uiPluginDefinitionList, uiPluginConfigurationList, currentDataset } = this.props
     const { isLoading } = this.state
     return (
-      <I18nProvider messageDir="modules/admin-data-dataset-management/src/i18n">
+      <I18nProvider messageDir="business-modules/admin-data-dataset-management/src/i18n">
         <LoadableContentDisplayDecorator
           isLoading={isLoading}
         >

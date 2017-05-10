@@ -198,7 +198,7 @@ export class PluginMetaDataListContainer extends React.Component {
     const { params: { microserviceName }, isPluginMetaDataListFetching } = this.props
 
     return (
-      <I18nProvider messageDir="modules/admin-microservice-management/src/i18n">
+      <I18nProvider messageDir="business-modules/admin-microservice-management/src/i18n">
         <Paper>
           <AppBar
             title={`${microserviceName} > Plugins`}

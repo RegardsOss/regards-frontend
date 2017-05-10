@@ -67,7 +67,7 @@ class PluginListContainer extends React.Component {
     }
 
     return (
-      <I18nProvider messageDir="modules/admin-ui-plugin-management/src/i18n">
+      <I18nProvider messageDir="business-modules/admin-ui-plugin-management/src/i18n">
         <PluginListComponent
           plugins={this.props.plugins}
           onCreate={this.handleCreatePlugin}

@@ -16,7 +16,7 @@ export class BoardContainer extends React.Component {
   render() {
     const { params: { project } } = this.props
     return (
-      <I18nProvider messageDir="modules/admin-user-management/src/i18n">
+      <I18nProvider messageDir="business-modules/admin-user-management/src/i18n">
         <UserManagementBoardComponent projectName={project} />
       </I18nProvider>
     )

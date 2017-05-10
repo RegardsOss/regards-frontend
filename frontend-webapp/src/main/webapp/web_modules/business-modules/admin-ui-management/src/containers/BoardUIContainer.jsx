@@ -22,7 +22,7 @@ export class BoardUIContainer extends React.Component {
 
   render() {
     return (
-      <I18nProvider messageDir="modules/admin-ui-management/src/i18n">
+      <I18nProvider messageDir="business-modules/admin-ui-management/src/i18n">
         <BoardUIComponent project={this.props.params.project} />
       </I18nProvider>
     )

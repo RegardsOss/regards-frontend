@@ -91,7 +91,7 @@ class AdminApp extends React.Component {
 
     return (
       <ThemeProvider>
-        <I18nProvider messageDir={'modules/admin/src/i18n'}>
+        <I18nProvider messageDir={'business-modules/admin/src/i18n'}>
           <AuthenticationContainer project={project} isAuthenticated={isAuthenticated}>
             <LoadableContentDisplayDecorator isLoading={isLoadingEndpoints}>
               <AdminLayout {...this.props}>

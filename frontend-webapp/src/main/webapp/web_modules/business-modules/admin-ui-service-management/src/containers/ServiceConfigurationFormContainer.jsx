@@ -128,7 +128,7 @@ export class ServiceConfigurationFormContainer extends React.Component {
     const { uiPluginConfiguration, params: { uiPluginId } } = this.props
     const { isCreating, isEditing, isDuplicating, isLoading } = this.state
     return (
-      <I18nProvider messageDir="modules/admin-ui-service-management/src/i18n">
+      <I18nProvider messageDir="business-modules/admin-ui-service-management/src/i18n">
         <LoadableContentDisplayDecorator
           isLoading={isLoading}
         >

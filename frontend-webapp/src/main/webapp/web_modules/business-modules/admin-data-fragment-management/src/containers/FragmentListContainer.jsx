@@ -70,7 +70,7 @@ export class FragmentListContainer extends React.Component {
   render() {
     const { fragmentList, accessToken } = this.props
     return (
-      <I18nProvider messageDir="modules/admin-data-fragment-management/src/i18n">
+      <I18nProvider messageDir="business-modules/admin-data-fragment-management/src/i18n">
         <LoadableContentDisplayDecorator isLoading={this.state.isLoading}>
           <FragmentListComponent
             fragmentList={fragmentList}

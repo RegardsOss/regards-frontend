@@ -76,9 +76,8 @@ export class AccountListContainer extends React.Component {
   render() {
     const { allAccounts, waitingAccounts } = this.props
     const { isFetchingActions, initialFecthing } = this.state
-
     return (
-      <I18nProvider messageDir="modules/admin-account-management/src/i18n">
+      <I18nProvider messageDir="business-modules/admin-account-management/src/i18n">
         <AccountListComponent
           allAccounts={allAccounts}
           waitingAccounts={waitingAccounts}

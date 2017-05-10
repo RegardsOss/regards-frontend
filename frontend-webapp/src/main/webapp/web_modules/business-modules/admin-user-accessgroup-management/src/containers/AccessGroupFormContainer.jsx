@@ -118,7 +118,7 @@ export class AccessGroupFormContainer extends React.Component {
     const { currentAccessGroup } = this.props
     const { isEditing, isCreating, isDuplicating, isError, isLoading } = this.state
     return (
-      <I18nProvider messageDir="modules/admin-user-accessgroup-management/src/i18n">
+      <I18nProvider messageDir="business-modules/admin-user-accessgroup-management/src/i18n">
         <LoadableContentDisplayDecorator
           isLoading={isLoading}
           isContentError={isError}

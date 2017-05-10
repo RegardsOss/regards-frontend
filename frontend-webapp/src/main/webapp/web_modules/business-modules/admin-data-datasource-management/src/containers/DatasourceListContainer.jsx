@@ -54,7 +54,7 @@ export class DatasourceListContainer extends React.Component {
   render() {
     const { datasourceList, isFetching } = this.props
     return (
-      <I18nProvider messageDir="modules/admin-data-datasource-management/src/i18n">
+      <I18nProvider messageDir="business-modules/admin-data-datasource-management/src/i18n">
         <LoadableContentDisplayDecorator
           isLoading={isFetching}
         >

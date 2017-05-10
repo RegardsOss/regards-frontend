@@ -100,7 +100,7 @@ export class ProjectUserListContainer extends React.Component {
     const { users, waitingAccessUsers } = this.props
     const { isFetchingActions, initialFecthing } = this.state
     return (
-      <I18nProvider messageDir="modules/admin-user-projectuser-management/src/i18n">
+      <I18nProvider messageDir="business-modules/admin-user-projectuser-management/src/i18n">
         <ProjectUserListComponent
           users={users}
           waitingAccessUsers={waitingAccessUsers}

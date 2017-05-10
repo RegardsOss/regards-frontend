@@ -58,7 +58,7 @@ export class GuidedProjectConfigurationContainer extends React.Component {
     }
 
     return (
-      <I18nProvider messageDir="modules/admin-project-management/src/i18n">
+      <I18nProvider messageDir="business-modules/admin-project-management/src/i18n">
         <GuidedProjectConfigurationComponent
           project={this.props.project}
           projectConnections={projectConnections}

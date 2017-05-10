@@ -211,7 +211,7 @@ export class AttributeModelFormContainer extends React.Component {
 
   render() {
     return (
-      <I18nProvider messageDir="modules/admin-data-attributemodel-management/src/i18n">
+      <I18nProvider messageDir="business-modules/admin-data-attributemodel-management/src/i18n">
         {this.getFormComponent()}
       </I18nProvider>
     )

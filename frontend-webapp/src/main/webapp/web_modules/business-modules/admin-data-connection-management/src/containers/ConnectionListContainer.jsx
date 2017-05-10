@@ -69,7 +69,7 @@ export class ConnectionListContainer extends React.Component {
     const { isLoading } = this.state
     const { connectionList } = this.props
     return (
-      <I18nProvider messageDir="modules/admin-data-connection-management/src/i18n">
+      <I18nProvider messageDir="business-modules/admin-data-connection-management/src/i18n">
         <LoadableContentDisplayDecorator
           isLoading={isLoading}
         >

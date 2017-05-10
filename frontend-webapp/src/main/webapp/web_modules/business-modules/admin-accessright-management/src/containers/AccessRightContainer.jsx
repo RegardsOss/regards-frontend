@@ -105,7 +105,7 @@ export class AccessRightContainer extends React.Component {
     const { accessGroupList, pluginConfigurationList, pluginMetaDataList } = this.props
     const { loading } = this.state
     return (
-      <I18nProvider messageDir="modules/admin-accessright-management/src/i18n">
+      <I18nProvider messageDir="business-modules/admin-accessright-management/src/i18n">
         <LoadableContentDisplayDecorator
           isLoading={loading}
         >

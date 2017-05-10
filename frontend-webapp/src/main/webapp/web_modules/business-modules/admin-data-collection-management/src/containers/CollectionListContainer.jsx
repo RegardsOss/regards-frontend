@@ -60,7 +60,7 @@ export class CollectionListContainer extends React.Component {
   render() {
     const { collectionList, isFetching } = this.props
     return (
-      <I18nProvider messageDir="modules/admin-data-collection-management/src/i18n">
+      <I18nProvider messageDir="business-modules/admin-data-collection-management/src/i18n">
         <LoadableContentDisplayDecorator
           isLoading={isFetching}
         >

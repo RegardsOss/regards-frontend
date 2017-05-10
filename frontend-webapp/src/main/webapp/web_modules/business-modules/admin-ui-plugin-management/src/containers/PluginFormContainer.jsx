@@ -73,7 +73,7 @@ export class PluginFormContainer extends React.Component {
     }
 
     return (
-      <I18nProvider messageDir="modules/admin-ui-plugin-management/src/i18n">
+      <I18nProvider messageDir="business-modules/admin-ui-plugin-management/src/i18n">
         <PluginFormComponent
           onSubmit={this.handleSubmit}
           onBack={this.handleBack}

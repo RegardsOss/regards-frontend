@@ -66,7 +66,7 @@ export class ApplicationThemeContainer extends React.Component {
     const fetchTheme = this.props.isInstance ? this.props.fetchThemeInstance : this.props.fetchTheme
 
     return (
-      <I18nProvider messageDir="modules/admin-ui-theme-management/src/i18n">
+      <I18nProvider messageDir="business-modules/admin-ui-theme-management/src/i18n">
         <ApplicationThemeComponent
           themeList={themeList}
           currentTheme={currentTheme}

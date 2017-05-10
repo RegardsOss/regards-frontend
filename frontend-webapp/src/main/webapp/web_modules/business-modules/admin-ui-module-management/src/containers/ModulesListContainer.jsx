@@ -91,7 +91,7 @@ class ModulesListContainer extends React.Component {
 
   render() {
     return (
-      <I18nProvider messageDir="modules/admin-ui-module-management/src/i18n">
+      <I18nProvider messageDir="business-modules/admin-ui-module-management/src/i18n">
         <LoadableContentDisplayDecorator
           isLoading={this.state.isLoading}
         >

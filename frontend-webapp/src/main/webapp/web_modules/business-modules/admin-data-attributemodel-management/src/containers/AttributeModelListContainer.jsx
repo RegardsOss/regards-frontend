@@ -64,7 +64,7 @@ export class AttributeModelListContainer extends React.Component {
   render() {
     const { attrModelList } = this.props
     return (
-      <I18nProvider messageDir="modules/admin-data-attributemodel-management/src/i18n">
+      <I18nProvider messageDir="business-modules/admin-data-attributemodel-management/src/i18n">
         <LoadableContentDisplayDecorator isLoading={this.state.isLoading}>
           <AttributeModelListComponent
             attrModelList={attrModelList}

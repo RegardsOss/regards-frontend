@@ -72,7 +72,7 @@ export class ResourceAccessFormContainer extends React.Component {
 
   render() {
     return (
-      <I18nProvider messageDir="modules/admin-user-role-resource-access-management/src/i18n">
+      <I18nProvider messageDir="business-modules/admin-user-role-resource-access-management/src/i18n">
         {this.getForm()}
       </I18nProvider>
     )

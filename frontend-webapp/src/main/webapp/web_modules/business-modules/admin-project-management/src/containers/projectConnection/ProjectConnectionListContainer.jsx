@@ -77,7 +77,7 @@ export class ProjectConnectionListContainer extends React.Component {
     const { projectConnections } = this.props
 
     return (
-      <I18nProvider messageDir="modules/admin-project-management/src/i18n">
+      <I18nProvider messageDir="business-modules/admin-project-management/src/i18n">
         <LoadableContentDisplayDecorator
           isLoading={this.props.projectIsFetching || this.props.projectConnectionsIsFetching}
           isContentError={!this.props.project}

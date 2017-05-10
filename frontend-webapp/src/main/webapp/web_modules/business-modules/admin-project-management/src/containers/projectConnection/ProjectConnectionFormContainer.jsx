@@ -87,7 +87,7 @@ export class ProjectConnectionFormContainer extends React.Component {
     }
 
     return (
-      <I18nProvider messageDir="modules/admin-project-management/src/i18n">
+      <I18nProvider messageDir="business-modules/admin-project-management/src/i18n">
         <Card>
           <CardTitle
             title={<FormattedMessage

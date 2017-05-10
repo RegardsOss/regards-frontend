@@ -173,7 +173,7 @@ export class ProjectUserFormContainer extends React.Component {
   // TODO ajouter le composant de waiting des données pour que le fetch des groupes ait le temps de se faire
   render() {
     return (
-      <I18nProvider messageDir="modules/admin-user-projectuser-management/src/i18n">
+      <I18nProvider messageDir="business-modules/admin-user-projectuser-management/src/i18n">
         {this.getFormComponent()}
       </I18nProvider>
     )
