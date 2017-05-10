@@ -61,7 +61,6 @@ export class ProjectUserFormContainer extends React.Component {
     // make sure metadata are living with current user
     // back from user fetching?
     if (this.props.user !== nextProps.user) {
-      console.error('Have I got a user ???? ', nextProps.user)
       this.updateMetadata(nextProps.user)
     }
   }
@@ -149,7 +148,7 @@ export class ProjectUserFormContainer extends React.Component {
       firstName: values.firstName,
       lastName: values.lastName,
       password: values.password,
-      metaData: packMetaDataField(values),
+      metaData: packMetaDataField({}, values),
       // Destination of logged users
       originUrl: '/',
       // the backend will use that URL in the email
