@@ -5,8 +5,8 @@ import { BasicSignalReducers } from '@regardsoss/store-utils'
 import ConnectionTableAttributesActions from './ConnectionTableAttributesActions'
 
 class ConnectionTableAttributesReducers extends BasicSignalReducers {
-  constructor() {
-    super(ConnectionTableAttributesActions)
+  constructor(namespace) {
+    super(new ConnectionTableAttributesActions(namespace))
   }
 }
 

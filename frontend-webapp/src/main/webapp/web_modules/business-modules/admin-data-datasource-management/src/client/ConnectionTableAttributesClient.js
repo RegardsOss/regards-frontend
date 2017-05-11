@@ -4,7 +4,7 @@
 import { DataManagementClient } from '@regardsoss/client'
 
 /**
- * Model entities client.
+ * Attributes from a Connection Table entities client.
  *
  * @author Léo Mieulet
  */
