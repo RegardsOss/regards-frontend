@@ -13,4 +13,6 @@ export default {
   CREATE: 'create',
   DELETE: 'delete',
   LIST: 'list',
+  DENY: 'deny',
+  ACCEPT: 'accept',
 }

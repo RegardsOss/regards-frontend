@@ -8,7 +8,7 @@ import { browserHistory } from 'react-router'
 import { ProjectUser } from '@regardsoss/model'
 import { projectUserActions, projectUserSelectors } from '../client/ProjectUserClient'
 import { waitingAccessUsersEntitiesActions, waitingAccessUsersEntitiesSelectors } from '../client/WaitingAccessUsersEntitiesClient'
-import { waitingAccessUsersSignalsActions } from '../client/WaitingAccessUsersSignalClient'
+import { waitingAccessUsersSignalActions } from '../client/WaitingAccessUsersSignalClient'
 import ProjectUserListComponent from '../components/ProjectUserListComponent'
 /**
  * Show the user list for the current project
@@ -128,8 +128,8 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = dispatch => ({
   fetchUsers: () => dispatch(projectUserActions.fetchPagedEntityList()),
   fetchWaitingAccessUsers: () => dispatch(waitingAccessUsersEntitiesActions.fetchWaitingUsersEntityList()),
-  validateProjectUser: userId => dispatch(waitingAccessUsersSignalsActions.sendAccept(userId)),
-  denyProjectUser: userId => dispatch(waitingAccessUsersSignalsActions.sendDeny(userId)),
+  validateProjectUser: userId => dispatch(waitingAccessUsersSignalActions.sendAccept(userId)),
+  denyProjectUser: userId => dispatch(waitingAccessUsersSignalActions.sendDeny(userId)),
   deleteAccount: userId => dispatch(projectUserActions.deleteEntity(userId)),
 })
 

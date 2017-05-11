@@ -6,7 +6,6 @@ import { Tabs, Tab } from 'material-ui/Tabs'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
 import { FormattedMessage, FormattedDate } from 'react-intl'
-import IconButton from 'material-ui/IconButton'
 import { LoadableContentDisplayDecorator, HateoasIconAction, HateoasKeys } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
@@ -197,10 +196,10 @@ export class ProjectUserListComponent extends React.Component {
                   >
                     {map(tabContent.currentUserList, (projectUser, id) => (
                       <TableRow className={`selenium-${projectUser.content.email}`} key={id}>
-                        <TableRowColumn>
+                        <TableRowColumn title={projectUser.content.email}>
                           {projectUser.content.email}
                         </TableRowColumn>
-                        <TableRowColumn>
+                        <TableRowColumn title={projectUser.content.role.name}>
                           {projectUser.content.role.name}
                         </TableRowColumn>
                         <TableRowColumn>
@@ -230,24 +229,28 @@ export class ProjectUserListComponent extends React.Component {
                             >
                               <Edit hoverColor={style.commonActionHoverColor} />
                             </HateoasIconAction>
-                            <IconButton
+                            <HateoasIconAction
                               className="selenium-acceptButton"
                               title={intl.formatMessage({ id: 'projectUser.list.table.action.accept.tooltip' })}
                               onTouchTap={() => onValidate(projectUser.content.id)}
                               disabled={isFetchingActions || !canAcceptUser(projectUser)}
+                              entityLinks={projectUser.links}
+                              hateoasKey={HateoasKeys.ACCEPT}
                               breakpoint={1065}
                             >
                               <Done hoverColor={style.commonActionHoverColor} />
-                            </IconButton>
-                            <IconButton
+                            </HateoasIconAction>
+                            <HateoasIconAction
                               className="selenium-denyButton"
                               title={intl.formatMessage({ id: 'projectUser.list.table.action.deny.tooltip' })}
                               onTouchTap={() => onDeny(projectUser.content.id)}
                               disabled={isFetchingActions || !canDenyUser(projectUser)}
+                              entityLinks={projectUser.links}
+                              hateoasKey={HateoasKeys.DENY}
                               breakpoint={1320}
                             >
                               <RemoveCircle hoverColor={style.deleteActionHoverColor} />
-                            </IconButton>
+                            </HateoasIconAction>
                             <HateoasIconAction
                               className="selenium-deleteButton"
                               title={intl.formatMessage({ id: 'projectUser.list.table.action.delete.tooltip' })}

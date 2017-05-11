@@ -3,7 +3,6 @@ import { Tabs, Tab } from 'material-ui/Tabs'
 import { Card, CardTitle, CardText } from 'material-ui/Card'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
 import { FormattedMessage } from 'react-intl'
-import IconButton from 'material-ui/IconButton'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
 import Done from 'material-ui/svg-icons/action/done'
@@ -11,7 +10,7 @@ import { Account } from '@regardsoss/model'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { ActionsMenuCell, NoContentMessageInfo, ConfirmDialogComponent, ShowableAtRender } from '@regardsoss/components'
-import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
+import { LoadableContentDisplayDecorator, HateoasIconAction, HateoasKeys } from '@regardsoss/display-control'
 
 const status = {
   pending: 'PENDING',
@@ -181,33 +180,42 @@ export class AccountListComponent extends React.Component {
                         </TableRowColumn>
                         <TableRowColumn>
                           <ActionsMenuCell>
-                            <IconButton
+                            <HateoasIconAction
                               className="selenium-editButton"
                               title={intl.formatMessage({ id: 'account.list.table.action.edit.tooltip' })}
                               onTouchTap={() => onEdit(account.content.id)}
                               disabled={isFetchingActions}
+                              entityLinks={account.links}
+                              hateoasKey={HateoasKeys.UPDATE}
+                              alwaysDisplayforInstanceUser={false}
                               breakpoint={550}
                             >
                               <Edit hoverColor={style.commonActionHoverColor} />
-                            </IconButton>
-                            <IconButton
+                            </HateoasIconAction>
+                            <HateoasIconAction
                               className="selenium-acceptButton"
                               title={intl.formatMessage({ id: 'account.list.table.action.accept.tooltip' })}
                               onTouchTap={() => onAccept(account.content.email)}
                               disabled={isFetchingActions || !this.canAcceptAccount(account)}
+                              entityLinks={account.links}
+                              hateoasKey={HateoasKeys.ACCEPT}
+                              alwaysDisplayforInstanceUser={false}
                               breakpoint={1040}
                             >
                               <Done hoverColor={style.commonActionHoverColor} />
-                            </IconButton>
-                            <IconButton
+                            </HateoasIconAction>
+                            <HateoasIconAction
                               className="selenium-deleteButton"
                               title={intl.formatMessage({ id: 'account.list.table.action.delete.tooltip' })}
                               onTouchTap={() => this.openDeleteDialog(account)}
                               disabled={isFetchingActions}
+                              entityLinks={account.links}
+                              hateoasKey={HateoasKeys.DELETE}
+                              alwaysDisplayforInstanceUser={false}
                               breakpoint={1040}
                             >
                               <Delete hoverColor={style.deleteActionHoverColor} />
-                            </IconButton>
+                            </HateoasIconAction>
                           </ActionsMenuCell>
                         </TableRowColumn>
                       </TableRow>
