@@ -83,7 +83,7 @@ const mapDispatchToProps = dispatch => ({
     username,
     password,
     scope,
-    AuthenticationRouteHelper.getOriginURL(),
+    AuthenticationRouteHelper.getOriginUrlWithoutQueryParams(),
     AuthenticationRouteHelper.getRequestLinkURL(AuthenticationRouteParameters.mailAuthenticationAction.values.validateAccount))),
 })
 

@@ -18,6 +18,8 @@ const getSelectorPath = pathName => [moduleReducerPath, pathName]
  */
 const getOriginURL = () => `${root.location.pathname}${root.location.search}`
 
+const getOriginUrlWithoutQueryParams = () => `${root.location.protocol}//${root.location.host}${root.location.pathname}`
+
 /**
  * Returns the base request link to return by email to user so that he can terminate his operation
  * @param mailAuthenticationActionValue
@@ -29,4 +31,5 @@ export default {
   getSelectorPath,
   getOriginURL,
   getRequestLinkURL,
+  getOriginUrlWithoutQueryParams,
 }
