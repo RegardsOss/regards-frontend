@@ -16,7 +16,7 @@ import {
 export class CollectionStepperComponent extends React.Component {
 
   static propTypes = {
-    stepIndex: React.PropTypes.number,
+    stepIndex: PropTypes.number,
   }
 
   static contextTypes = {

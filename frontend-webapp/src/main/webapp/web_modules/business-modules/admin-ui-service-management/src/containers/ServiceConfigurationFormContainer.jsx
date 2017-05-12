@@ -29,20 +29,20 @@ export class ServiceConfigurationFormContainer extends React.Component {
 
   static propTypes = {
     // from router
-    params: React.PropTypes.shape({
-      project: React.PropTypes.string,
-      uiPluginId: React.PropTypes.string,
-      uiPluginConfId: React.PropTypes.string,
-      mode: React.PropTypes.string,
+    params: PropTypes.shape({
+      project: PropTypes.string,
+      uiPluginId: PropTypes.string,
+      uiPluginConfId: PropTypes.string,
+      mode: PropTypes.string,
     }),
     // from mapStateToProps
-    uiPluginConfiguration: React.PropTypes.shape({
+    uiPluginConfiguration: PropTypes.shape({
       content: UIPluginConfiguration,
     }),
     // from mapDispatchToProps
-    fetchUIPluginConfiguration: React.PropTypes.func,
-    updateUIPluginConfiguration: React.PropTypes.func,
-    createUIPluginConfiguration: React.PropTypes.func,
+    fetchUIPluginConfiguration: PropTypes.func,
+    updateUIPluginConfiguration: PropTypes.func,
+    createUIPluginConfiguration: PropTypes.func,
   }
 
   constructor(props) {

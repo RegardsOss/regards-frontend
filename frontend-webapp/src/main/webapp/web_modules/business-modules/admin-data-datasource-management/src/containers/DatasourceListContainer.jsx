@@ -16,15 +16,15 @@ export class DatasourceListContainer extends React.Component {
 
   static propTypes = {
     // from router
-    params: React.PropTypes.shape({
-      project: React.PropTypes.string,
+    params: PropTypes.shape({
+      project: PropTypes.string,
     }),
     // from mapStateToProps
-    datasourceList: React.PropTypes.objectOf(Datasource),
-    isFetching: React.PropTypes.bool,
+    datasourceList: PropTypes.objectOf(Datasource),
+    isFetching: PropTypes.bool,
     // from mapDispatchToProps
-    fetchDatasourceList: React.PropTypes.func,
-    deleteDatasource: React.PropTypes.func,
+    fetchDatasourceList: PropTypes.func,
+    deleteDatasource: PropTypes.func,
   }
 
   componentWillMount() {

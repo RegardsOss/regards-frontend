@@ -21,11 +21,11 @@ import ProjectListComponent from '../../components/project/ProjectListComponent'
 export class ProjectListContainer extends React.Component {
 
   static propTypes = {
-    projectList: React.PropTypes.objectOf(Project),
-    fetchProjectList: React.PropTypes.func,
-    deleteProject: React.PropTypes.func,
-    updateLicense: React.PropTypes.func,
-    onLogout: React.PropTypes.func,
+    projectList: PropTypes.objectOf(Project),
+    fetchProjectList: PropTypes.func,
+    deleteProject: PropTypes.func,
+    updateLicense: PropTypes.func,
+    onLogout: PropTypes.func,
   }
 
   componentWillMount() {

@@ -21,19 +21,19 @@ import ProjectConnectionListComponent from '../../components/projectConnection/P
 export class ProjectConnectionListContainer extends React.Component {
 
   static propTypes = {
-    params: React.PropTypes.shape({
-      project_name: React.PropTypes.string.isRequired,
+    params: PropTypes.shape({
+      project_name: PropTypes.string.isRequired,
     }).isRequired,
     // from mapStateToProps
     project: Project,
-    projectIsFetching: React.PropTypes.bool,
-    projectConnections: React.PropTypes.objectOf(ProjectConnection),
-    projectConnectionsIsFetching: React.PropTypes.bool,
+    projectIsFetching: PropTypes.bool,
+    projectConnections: PropTypes.objectOf(ProjectConnection),
+    projectConnectionsIsFetching: PropTypes.bool,
     // from mapDispatchToProps
-    fetchProject: React.PropTypes.func.isRequired,
-    fetchProjectConnections: React.PropTypes.func,
-    fetchProjectConnection: React.PropTypes.func,
-    testProjectConnection: React.PropTypes.func,
+    fetchProject: PropTypes.func.isRequired,
+    fetchProjectConnections: PropTypes.func,
+    fetchProjectConnection: PropTypes.func,
+    testProjectConnection: PropTypes.func,
   }
 
   componentWillMount() {

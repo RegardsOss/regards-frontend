@@ -35,33 +35,33 @@ export class DatasetEditPluginContainer extends React.Component {
 
   static propTypes = {
     // from router
-    params: React.PropTypes.shape({
-      project: React.PropTypes.string,
-      datasetId: React.PropTypes.string,
+    params: PropTypes.shape({
+      project: PropTypes.string,
+      datasetId: PropTypes.string,
     }),
 
     // from mapStateToProps
-    pluginConfigurationFiltersList: React.PropTypes.objectOf(PluginConfiguration),
-    pluginConfigurationConvertersList: React.PropTypes.objectOf(PluginConfiguration),
-    pluginConfigurationServicesList: React.PropTypes.objectOf(PluginConfiguration),
+    pluginConfigurationFiltersList: PropTypes.objectOf(PluginConfiguration),
+    pluginConfigurationConvertersList: PropTypes.objectOf(PluginConfiguration),
+    pluginConfigurationServicesList: PropTypes.objectOf(PluginConfiguration),
 
-    pluginMetaDataFiltersList: React.PropTypes.objectOf(PluginMetaData),
-    pluginMetaDataConvertersList: React.PropTypes.objectOf(PluginMetaData),
-    pluginMetaDataServicesList: React.PropTypes.objectOf(PluginMetaData),
+    pluginMetaDataFiltersList: PropTypes.objectOf(PluginMetaData),
+    pluginMetaDataConvertersList: PropTypes.objectOf(PluginMetaData),
+    pluginMetaDataServicesList: PropTypes.objectOf(PluginMetaData),
 
     linkPluginDataset: LinkPluginDataset,
 
     // from mapDispatchToProps
-    fetchConvertersConfiguration: React.PropTypes.func,
-    fetchServicesConfiguration: React.PropTypes.func,
-    fetchFiltersConfiguration: React.PropTypes.func,
+    fetchConvertersConfiguration: PropTypes.func,
+    fetchServicesConfiguration: PropTypes.func,
+    fetchFiltersConfiguration: PropTypes.func,
 
-    fetchConvertersPluginMetaData: React.PropTypes.func,
-    fetchServicesPluginMetaData: React.PropTypes.func,
-    fetchFiltersPluginMetaData: React.PropTypes.func,
+    fetchConvertersPluginMetaData: PropTypes.func,
+    fetchServicesPluginMetaData: PropTypes.func,
+    fetchFiltersPluginMetaData: PropTypes.func,
 
-    fetchLinkPluginDataset: React.PropTypes.func,
-    updateLinkPluginDataset: React.PropTypes.func,
+    fetchLinkPluginDataset: PropTypes.func,
+    updateLinkPluginDataset: PropTypes.func,
   }
 
   state = {

@@ -13,10 +13,10 @@ import { closeErrorDialog } from '../model/action'
 class ApplicationErrorContainer extends React.Component {
 
   static propTypes = {
-    snackBarOpened: React.PropTypes.bool,
-    snackBarMessage: React.PropTypes.string,
+    snackBarOpened: PropTypes.bool,
+    snackBarMessage: PropTypes.string,
     // Set by mapDispatchToProps
-    closeDialog: React.PropTypes.func,
+    closeDialog: PropTypes.func,
   }
 
   render() {

@@ -28,18 +28,18 @@ export class CollectionFormComponent extends React.Component {
 
   static propTypes = {
     currentCollection: Collection,
-    onSubmit: React.PropTypes.func.isRequired,
-    backUrl: React.PropTypes.string.isRequired,
-    modelList: React.PropTypes.objectOf(Model),
-    modelAttributeList: React.PropTypes.objectOf(ModelAttribute),
-    isDuplicating: React.PropTypes.bool,
-    handleUpdateModel: React.PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
+    backUrl: PropTypes.string.isRequired,
+    modelList: PropTypes.objectOf(Model),
+    modelAttributeList: PropTypes.objectOf(ModelAttribute),
+    isDuplicating: PropTypes.bool,
+    handleUpdateModel: PropTypes.func.isRequired,
     // from reduxForm
-    submitting: React.PropTypes.bool,
-    invalid: React.PropTypes.bool,
-    handleSubmit: React.PropTypes.func,
-    initialize: React.PropTypes.func,
-    change: React.PropTypes.func,
+    submitting: PropTypes.bool,
+    invalid: PropTypes.bool,
+    handleSubmit: PropTypes.func,
+    initialize: PropTypes.func,
+    change: PropTypes.func,
   }
 
   static contextTypes = {

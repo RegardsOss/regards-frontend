@@ -15,14 +15,14 @@ import ShowableAtRender from '../cards/ShowableAtRender'
 class LoadableContentDialogContainer extends React.Component {
 
   static propTypes = {
-    loaded: React.PropTypes.bool.isRequired,
-    open: React.PropTypes.bool.isRequired,
+    loaded: PropTypes.bool.isRequired,
+    open: PropTypes.bool.isRequired,
     dialogHeightPercent: Percent.isRequired,
     dialogWidthPercent: Percent.isRequired,
-    loadingMessage: React.PropTypes.node.isRequired,
-    children: React.PropTypes.oneOfType([
-      React.PropTypes.arrayOf(React.PropTypes.node),
-      React.PropTypes.node,
+    loadingMessage: PropTypes.node.isRequired,
+    children: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.node),
+      PropTypes.node,
     ]).isRequired,
   }
 

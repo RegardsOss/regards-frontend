@@ -19,19 +19,19 @@ export class LoggedUserContainer extends React.Component {
 
   static propTypes = {
     // from mapStateToProps
-    authenticationName: React.PropTypes.string.isRequired,
-    currentRole: React.PropTypes.string.isRequired,
-    borrowableRoles: React.PropTypes.objectOf(Role).isRequired,
-    isSendingBorrowRole: React.PropTypes.bool.isRequired,
-    isInstance: React.PropTypes.bool.isRequired,
+    authenticationName: PropTypes.string.isRequired,
+    currentRole: PropTypes.string.isRequired,
+    borrowableRoles: PropTypes.objectOf(Role).isRequired,
+    isSendingBorrowRole: PropTypes.bool.isRequired,
+    isInstance: PropTypes.bool.isRequired,
     // also borrowRoleResult, but only used in next props
 
     // from mapDispatchToProps
-    onLogout: React.PropTypes.func.isRequired,
-    fetchBorrowableRoles: React.PropTypes.func.isRequired,
-    sendBorrowRole: React.PropTypes.func.isRequired,
-    dispatchRoleBorrowed: React.PropTypes.func.isRequired,
-    showProfileEdition: React.PropTypes.func.isRequired,
+    onLogout: PropTypes.func.isRequired,
+    fetchBorrowableRoles: PropTypes.func.isRequired,
+    sendBorrowRole: PropTypes.func.isRequired,
+    dispatchRoleBorrowed: PropTypes.func.isRequired,
+    showProfileEdition: PropTypes.func.isRequired,
   }
 
 

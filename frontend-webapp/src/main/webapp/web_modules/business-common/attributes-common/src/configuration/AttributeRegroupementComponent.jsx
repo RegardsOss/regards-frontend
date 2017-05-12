@@ -22,9 +22,9 @@ class AttributeConfigurationComponent extends React.Component {
 
   static propTypes = {
     conf: AttributesRegroupementConfiguration.isRequired,
-    onChange: React.PropTypes.func.isRequired,
-    onDelete: React.PropTypes.func.isRequired,
-    onEdit: React.PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired,
+    onDelete: PropTypes.func.isRequired,
+    onEdit: PropTypes.func.isRequired,
   }
 
   constructor(props) {

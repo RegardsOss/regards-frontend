@@ -15,14 +15,14 @@ import { Facet } from '../model/FacetShape'
 class FacetSelectorComponent extends React.Component {
 
   static propTypes = {
-    label: React.PropTypes.string,
+    label: PropTypes.string,
     facet: Facet.isRequired,
     // formats the facet value for menu
-    facetValueFormatterForMenu: React.PropTypes.func.isRequired,
+    facetValueFormatterForMenu: PropTypes.func.isRequired,
     // formats the facet value for filter display
-    facetValueFormatterForFilter: React.PropTypes.func.isRequired,
+    facetValueFormatterForFilter: PropTypes.func.isRequired,
     // applies a facet filter (key:string, label:string, searchQuery: string)
-    applyFilter: React.PropTypes.func.isRequired,
+    applyFilter: PropTypes.func.isRequired,
   }
 
   static contextTypes = {

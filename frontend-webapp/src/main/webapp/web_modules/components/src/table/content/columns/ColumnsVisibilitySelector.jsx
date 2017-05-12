@@ -15,10 +15,10 @@ import ColumnConfiguration from './model/ColumnConfiguration'
 class ColumnsVisibilitySelector extends React.Component {
 
   static propTypes = {
-    columns: React.PropTypes.arrayOf(ColumnConfiguration),
-    hiddenColumns: React.PropTypes.arrayOf(React.PropTypes.string),
-    changeColumnVisibility: React.PropTypes.func,
-    closePanel: React.PropTypes.func,
+    columns: PropTypes.arrayOf(ColumnConfiguration),
+    hiddenColumns: PropTypes.arrayOf(PropTypes.string),
+    changeColumnVisibility: PropTypes.func,
+    closePanel: PropTypes.func,
   }
 
   render() {

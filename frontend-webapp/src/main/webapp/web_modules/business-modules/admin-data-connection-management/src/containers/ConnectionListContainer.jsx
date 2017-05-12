@@ -8,7 +8,7 @@ import { Connection } from '@regardsoss/model'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { connectionActions, connectionSelectors } from '../client/ConnectionClient'
 import ConnectionListComponent from '../components/ConnectionListComponent'
-import TestConnectionActions from '../model/TestConnectionActions'
+import { connectionTestActions } from '../client/ConnectionTestClient'
 /**
  * List connection
  */
@@ -16,15 +16,15 @@ export class ConnectionListContainer extends React.Component {
 
   static propTypes = {
     // from router
-    params: React.PropTypes.shape({
-      project: React.PropTypes.string,
+    params: PropTypes.shape({
+      project: PropTypes.string,
     }),
     // from mapStateToProps
-    connectionList: React.PropTypes.objectOf(Connection),
+    connectionList: PropTypes.objectOf(Connection),
     // from mapDispatchToProps
-    fetchConnectionList: React.PropTypes.func,
-    testConnection: React.PropTypes.func,
-    deleteConnection: React.PropTypes.func,
+    fetchConnectionList: PropTypes.func,
+    testConnection: PropTypes.func,
+    deleteConnection: PropTypes.func,
   }
 
   constructor(props) {
@@ -95,7 +95,7 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = dispatch => ({
   fetchConnectionList: () => dispatch(connectionActions.fetchEntityList()),
   deleteConnection: id => dispatch(connectionActions.deleteEntity(id)),
-  testConnection: id => dispatch(TestConnectionActions.sendSignal('POST', null, { connectionId: id })),
+  testConnection: id => dispatch(connectionTestActions.sendSignal('POST', null, { connectionId: id })),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ConnectionListContainer)

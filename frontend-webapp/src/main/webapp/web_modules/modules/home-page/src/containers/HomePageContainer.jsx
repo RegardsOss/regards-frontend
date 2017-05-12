@@ -16,9 +16,9 @@ import { SingleContentURLDialogContainer } from '@regardsoss/components'
 class HomePageContainer extends React.Component {
 
   static propTypes = {
-    project: React.PropTypes.string.isRequired,
-    moduleConf: React.PropTypes.shape({
-      htmlPath: React.PropTypes.string.isRequired,
+    project: PropTypes.string.isRequired,
+    moduleConf: PropTypes.shape({
+      htmlPath: PropTypes.string.isRequired,
     }).isRequired,
   }
 

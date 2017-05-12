@@ -18,15 +18,15 @@ import ProjectLicenseSelectors from '../model/ProjectLicenseSelectors'
 export class LicenseDisplayContainer extends React.Component {
 
   static propTypes = {
-    project: React.PropTypes.string.isRequired,
+    project: PropTypes.string.isRequired,
     // from mapStateToProps
     licenseLink: URL,
-    accepted: React.PropTypes.bool,
+    accepted: PropTypes.bool,
     // from mapDispatchToProps
-    fetchLicenseInformation: React.PropTypes.func.isRequired,
-    flushLicenseInformation: React.PropTypes.func.isRequired,
-    sendAcceptLicense: React.PropTypes.func.isRequired,
-    logout: React.PropTypes.func.isRequired,
+    fetchLicenseInformation: PropTypes.func.isRequired,
+    flushLicenseInformation: PropTypes.func.isRequired,
+    sendAcceptLicense: PropTypes.func.isRequired,
+    logout: PropTypes.func.isRequired,
   }
 
 

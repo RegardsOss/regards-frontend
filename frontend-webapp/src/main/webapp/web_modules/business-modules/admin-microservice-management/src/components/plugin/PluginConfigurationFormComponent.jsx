@@ -24,15 +24,15 @@ export class PluginConfigurationFormComponent extends React.Component {
   static propTypes = {
     currentPluginConfiguration: PluginConfiguration,
     currentPluginMetaData: PluginMetaData,
-    onSubmit: React.PropTypes.func.isRequired,
-    backUrl: React.PropTypes.string.isRequired,
-    formMode: React.PropTypes.oneOf(['create', 'edit', 'copy']),
+    onSubmit: PropTypes.func.isRequired,
+    backUrl: PropTypes.string.isRequired,
+    formMode: PropTypes.oneOf(['create', 'edit', 'copy']),
     // from reduxForm
-    submitting: React.PropTypes.bool,
-    invalid: React.PropTypes.bool,
-    handleSubmit: React.PropTypes.func.isRequired,
-    initialize: React.PropTypes.func.isRequired,
-    change: React.PropTypes.func.isRequired,
+    submitting: PropTypes.bool,
+    invalid: PropTypes.bool,
+    handleSubmit: PropTypes.func.isRequired,
+    initialize: PropTypes.func.isRequired,
+    change: PropTypes.func.isRequired,
   }
 
   static defaultProps = {

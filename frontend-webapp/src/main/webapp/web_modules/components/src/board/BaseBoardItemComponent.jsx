@@ -17,12 +17,12 @@ import styles from './styles/styles'
 class BaseBoardItemComponent extends React.Component {
 
   static propTypes = {
-    title: React.PropTypes.string.isRequired,
-    subtitle: React.PropTypes.string,
-    description: React.PropTypes.string.isRequired,
-    actions: React.PropTypes.arrayOf(React.PropTypes.element),
+    title: PropTypes.string.isRequired,
+    subtitle: PropTypes.string,
+    description: PropTypes.string.isRequired,
+    actions: PropTypes.arrayOf(PropTypes.element),
     // TODO use or delete
-    // advanced: React.PropTypes.bool,
+    // advanced: PropTypes.bool,
   }
 
   static defaultProp = {

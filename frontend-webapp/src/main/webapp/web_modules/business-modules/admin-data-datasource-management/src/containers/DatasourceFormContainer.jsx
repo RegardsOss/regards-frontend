@@ -22,17 +22,17 @@ export class DatasourceFormContainer extends React.Component {
 
   static propTypes = {
     // from router
-    params: React.PropTypes.shape({
-      project: React.PropTypes.string,
-      datasourceId: React.PropTypes.string,
-      connectionId: React.PropTypes.string,
+    params: PropTypes.shape({
+      project: PropTypes.string,
+      datasourceId: PropTypes.string,
+      connectionId: PropTypes.string,
     }),
     // from mapStateToProps
     currentDatasource: Datasource,
     // from mapDispatchToProps
-    createDatasource: React.PropTypes.func,
-    updateDatasource: React.PropTypes.func,
-    fetchDatasource: React.PropTypes.func,
+    createDatasource: PropTypes.func,
+    updateDatasource: PropTypes.func,
+    fetchDatasource: PropTypes.func,
   }
 
   constructor(props) {
@@ -152,7 +152,6 @@ export class DatasourceFormContainer extends React.Component {
         name: attributeName,
         type: modelAttr.content.attribute.type,
         nameSpace: modelAttr.content.attribute.fragment.name,
-        isPrimaryKey: attribute.pk === true,
       }
       if (attribute.sql && attribute.sql.length > 0) {
         newAttributeMapping.nameDS = attribute.sql
@@ -177,6 +176,7 @@ export class DatasourceFormContainer extends React.Component {
       currentDatasource,
     })
     if (this.state.isEditing) {
+      currentDatasource.content.pluginConfigurationId = this.props.params.datasourceId
       this.handleUpdate(currentDatasource)
     } else {
       this.handleCreate(currentDatasource)

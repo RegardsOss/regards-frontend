@@ -56,10 +56,10 @@ const ActionsMenuCell = (props, context) => {
 }
 
 ActionsMenuCell.propTypes = {
-  children: React.PropTypes.arrayOf(React.PropTypes.shape({
-    title: React.PropTypes.string.required,
-    breakpoint: React.PropTypes.number.required,
-    children: React.PropTypes.element.required,
+  children: PropTypes.arrayOf(PropTypes.shape({
+    title: PropTypes.string.required,
+    breakpoint: PropTypes.number.required,
+    children: PropTypes.element.required,
   })),
 }
 

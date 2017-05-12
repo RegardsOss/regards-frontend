@@ -25,7 +25,7 @@ class I18nInjector extends React.Component {
 }
 
 I18nInjector.propTypes = {
-  children: React.PropTypes.element.isRequired,
+  children: PropTypes.element.isRequired,
 }
 
 export default I18nInjector

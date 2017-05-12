@@ -18,13 +18,13 @@ import DatasetStepperComponent from './DatasetStepperComponent'
 export class DatasetEditUIServicesComponent extends React.Component {
 
   static propTypes = {
-    backUrl: React.PropTypes.string.isRequired,
-    uiPluginConfigurationList: React.PropTypes.objectOf(React.PropTypes.shape({
+    backUrl: PropTypes.string.isRequired,
+    uiPluginConfigurationList: PropTypes.objectOf(PropTypes.shape({
       content: UIPluginConfiguration,
     })),
-    uiPluginDefinitionList: React.PropTypes.objectOf(UIPluginDefinition),
+    uiPluginDefinitionList: PropTypes.objectOf(UIPluginDefinition),
     currentDataset: Dataset,
-    handleSubmit: React.PropTypes.func.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
   }
 
   static contextTypes = {

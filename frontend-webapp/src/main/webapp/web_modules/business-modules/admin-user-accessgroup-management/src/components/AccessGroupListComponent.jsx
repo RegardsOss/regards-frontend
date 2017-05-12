@@ -22,12 +22,12 @@ import AccessGroupActions from '../model/AccessGroupActions'
 export class AccessGroupListComponent extends React.Component {
 
   static propTypes = {
-    accessGroupList: React.PropTypes.objectOf(AccessGroup),
-    handleDelete: React.PropTypes.func.isRequired,
-    handleEdit: React.PropTypes.func.isRequired,
-    handleDuplicate: React.PropTypes.func.isRequired,
-    createUrl: React.PropTypes.string.isRequired,
-    backUrl: React.PropTypes.string.isRequired,
+    accessGroupList: PropTypes.objectOf(AccessGroup),
+    handleDelete: PropTypes.func.isRequired,
+    handleEdit: PropTypes.func.isRequired,
+    handleDuplicate: PropTypes.func.isRequired,
+    createUrl: PropTypes.string.isRequired,
+    backUrl: PropTypes.string.isRequired,
   }
 
   static contextTypes = {

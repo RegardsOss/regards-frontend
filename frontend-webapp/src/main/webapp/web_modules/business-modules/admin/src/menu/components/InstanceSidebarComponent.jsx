@@ -25,15 +25,15 @@ class InstanceSidebarComponent extends React.Component {
    * @type {{muiTheme: *}}
    */
   static contextTypes = {
-    muiTheme: React.PropTypes.object.isRequired,
+    muiTheme: PropTypes.object.isRequired,
   }
 
   /**
    * @type {{onLogout: function}}
    */
   static propTypes = {
-    onLogout: React.PropTypes.func.isRequired,
-    currentPath: React.PropTypes.string,
+    onLogout: PropTypes.func.isRequired,
+    currentPath: PropTypes.string,
   }
 
   render() {

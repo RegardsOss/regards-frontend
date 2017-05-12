@@ -20,8 +20,8 @@ class LayoutConfigurationComponent extends React.Component {
 
   static propTypes = {
     layout: Layout,
-    project: React.PropTypes.string,
-    onChange: React.PropTypes.func,
+    project: PropTypes.string,
+    onChange: PropTypes.func,
   }
 
   constructor(props) {

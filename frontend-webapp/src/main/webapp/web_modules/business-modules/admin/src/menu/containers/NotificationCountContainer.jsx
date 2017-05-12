@@ -13,13 +13,13 @@ const refreshTimerMS = 10000
 class NotificationCountContainer extends React.Component {
 
   static propTypes = {
-    notificationsCount: React.PropTypes.number.isRequired,
+    notificationsCount: PropTypes.number.isRequired,
     // used in map state to props
     // eslint-disable-next-line react/no-unused-prop-types
-    entitiesCounter: React.PropTypes.func.isRequired,
+    entitiesCounter: PropTypes.func.isRequired,
     // required, see workaround comment in render method
     // eslint-disable-next-line react/forbid-prop-types
-    style: React.PropTypes.object,
+    style: PropTypes.object,
   }
 
   startTimer = () => {

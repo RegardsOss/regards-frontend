@@ -22,21 +22,21 @@ const renderSelectField = ({ input, label, meta: { touched, error }, fullWidth, 
   </SelectField>
 )
 renderSelectField.propTypes = {
-  input: React.PropTypes.shape({
-    value: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]),
-    name: React.PropTypes.string,
+  input: PropTypes.shape({
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    name: PropTypes.string,
   }),
-  label: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.element]),
-  meta: React.PropTypes.shape({
-    touched: React.PropTypes.bool,
-    error: React.PropTypes.string,
+  label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+  meta: PropTypes.shape({
+    touched: PropTypes.bool,
+    error: PropTypes.string,
   }),
-  children: React.PropTypes.arrayOf(React.PropTypes.element),
-  fullWidth: React.PropTypes.bool,
-  disabled: React.PropTypes.bool,
-  onSelect: React.PropTypes.func,
-  intl: React.PropTypes.shape({
-    formatMessage: React.PropTypes.func,
+  children: PropTypes.arrayOf(PropTypes.element),
+  fullWidth: PropTypes.bool,
+  disabled: PropTypes.bool,
+  onSelect: PropTypes.func,
+  intl: PropTypes.shape({
+    formatMessage: PropTypes.func,
   }),
 }
 export default renderSelectField

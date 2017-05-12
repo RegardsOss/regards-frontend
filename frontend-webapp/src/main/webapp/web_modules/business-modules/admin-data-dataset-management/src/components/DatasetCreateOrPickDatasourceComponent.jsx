@@ -18,10 +18,10 @@ import RaisedButton from 'material-ui/RaisedButton'
 export class DatasetCreateOrPickDatasourceComponent extends React.Component {
 
   static propTypes = {
-    datasourceList: React.PropTypes.objectOf(Datasource),
-    createDatasourceUrl: React.PropTypes.string.isRequired,
-    backUrl: React.PropTypes.string.isRequired,
-    handleDone: React.PropTypes.func.isRequired,
+    datasourceList: PropTypes.objectOf(Datasource),
+    createDatasourceUrl: PropTypes.string.isRequired,
+    backUrl: PropTypes.string.isRequired,
+    handleDone: PropTypes.func.isRequired,
   }
 
   static contextTypes = {

@@ -18,17 +18,17 @@ export class AccessGroupFormContainer extends React.Component {
 
   static propTypes = {
     // from router
-    params: React.PropTypes.shape({
-      project: React.PropTypes.string,
-      accessGroupName: React.PropTypes.string,
-      mode: React.PropTypes.string,
+    params: PropTypes.shape({
+      project: PropTypes.string,
+      accessGroupName: PropTypes.string,
+      mode: PropTypes.string,
     }),
     // from mapStateToProps
     currentAccessGroup: AccessGroup,
     // from mapDispatchToProps
-    fetchAccessGroup: React.PropTypes.func,
-    updateAccessGroup: React.PropTypes.func,
-    createAccessGroup: React.PropTypes.func,
+    fetchAccessGroup: PropTypes.func,
+    updateAccessGroup: PropTypes.func,
+    createAccessGroup: PropTypes.func,
   }
 
   constructor(props) {

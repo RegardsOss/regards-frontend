@@ -6,15 +6,15 @@ import ThemePropItem from './ThemePropItem'
 import { CSS_CLASS } from '../'
 
 const propTypes = {
-  settingsObj: React.PropTypes.object.isRequired,
-  settingsName: React.PropTypes.string.isRequired,
-  open: React.PropTypes.func.isRequired,
-  onThemeTableOverride: React.PropTypes.func.isRequired,
-  hideBlockHeader: React.PropTypes.bool,
+  settingsObj: PropTypes.object.isRequired,
+  settingsName: PropTypes.string.isRequired,
+  open: PropTypes.func.isRequired,
+  onThemeTableOverride: PropTypes.func.isRequired,
+  hideBlockHeader: PropTypes.bool,
 }
 
 const contextTypes = {
-  muiTheme: React.PropTypes.object.isRequired,
+  muiTheme: PropTypes.object.isRequired,
 }
 
 export default class ThemePropBlock extends React.Component {
@@ -157,6 +157,6 @@ function BlockHeader(props, context) {
 
 BlockHeader.contextTypes = contextTypes
 BlockHeader.propTypes = {
-  openThis: React.PropTypes.func.isRequired,
-  settingsName: React.PropTypes.string.isRequired,
+  openThis: PropTypes.func.isRequired,
+  settingsName: PropTypes.string.isRequired,
 }

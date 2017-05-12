@@ -18,15 +18,15 @@ export class ProfileEditionFormComponent extends React.Component {
     // project metadata
     userMetadata: MetadataList.isRequired,
     // cancel function
-    onCancel: React.PropTypes.func.isRequired,
+    onCancel: PropTypes.func.isRequired,
     // submit function
-    onEdit: React.PropTypes.func.isRequired,
+    onEdit: PropTypes.func.isRequired,
     // from redux form
-    pristine: React.PropTypes.bool,
-    submitting: React.PropTypes.bool,
-    invalid: React.PropTypes.bool,
-    handleSubmit: React.PropTypes.func.isRequired,
-    initialize: React.PropTypes.func.isRequired,
+    pristine: PropTypes.bool,
+    submitting: PropTypes.bool,
+    invalid: PropTypes.bool,
+    handleSubmit: PropTypes.func.isRequired,
+    initialize: PropTypes.func.isRequired,
   }
 
   static contextTypes = {

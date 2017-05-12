@@ -23,7 +23,7 @@ class ThemeInjector extends React.Component {
 }
 
 ThemeInjector.propTypes = {
-  children: React.PropTypes.element.isRequired,
+  children: PropTypes.element.isRequired,
 }
 
 export default ThemeInjector

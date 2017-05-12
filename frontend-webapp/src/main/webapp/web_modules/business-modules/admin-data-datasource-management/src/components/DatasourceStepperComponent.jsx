@@ -15,7 +15,7 @@ import {
 export class DatasourceStepperComponent extends React.Component {
 
   static propTypes = {
-    stepIndex: React.PropTypes.number.isRequired,
+    stepIndex: PropTypes.number.isRequired,
   }
 
   static contextTypes = {

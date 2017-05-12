@@ -22,19 +22,19 @@ RenderCheckbox.contextTypes = {
   ...themeContextType,
 }
 RenderCheckbox.propTypes = {
-  label: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.element]),
-  input: React.PropTypes.shape({
-    value: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.bool]),
-    name: React.PropTypes.string,
-    onChange: React.PropTypes.func,
+  label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+  input: PropTypes.shape({
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    name: PropTypes.string,
+    onChange: PropTypes.func,
   }),
-  className: React.PropTypes.string,
-  meta: React.PropTypes.shape({
-    error: React.PropTypes.string,
-    touched: React.PropTypes.bool,
+  className: PropTypes.string,
+  meta: PropTypes.shape({
+    error: PropTypes.string,
+    touched: PropTypes.bool,
   }),
-  intl: React.PropTypes.shape({
-    formatMessage: React.PropTypes.func,
+  intl: PropTypes.shape({
+    formatMessage: PropTypes.func,
   }),
 }
 export default RenderCheckbox

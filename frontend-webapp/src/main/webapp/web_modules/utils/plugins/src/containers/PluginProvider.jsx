@@ -29,20 +29,20 @@ class PluginProvider extends React.Component {
     /**
      * pluginInstanceId: An unique identifier of the plugin to provide, in  case you're loading multiple plugins on the same page
      */
-    pluginInstanceId: React.PropTypes.string.isRequired,
+    pluginInstanceId: PropTypes.string.isRequired,
     /**
      * Id of a plugin definition (plugin type to instanciate)
      */
-    pluginId: React.PropTypes.number.isRequired,
+    pluginId: PropTypes.number.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
-    pluginConf: React.PropTypes.object,
+    pluginConf: PropTypes.object,
     // eslint-disable-next-line react/forbid-prop-types
-    pluginProps: React.PropTypes.object,
-    displayPlugin: React.PropTypes.bool,
-    children: React.PropTypes.element,
+    pluginProps: PropTypes.object,
+    displayPlugin: PropTypes.bool,
+    children: PropTypes.element,
     // Set by mapstatetoprops
     pluginToLoad: PluginDefinition,
-    fetchPlugin: React.PropTypes.func,
+    fetchPlugin: PropTypes.func,
   }
 
   componentWillMount() {

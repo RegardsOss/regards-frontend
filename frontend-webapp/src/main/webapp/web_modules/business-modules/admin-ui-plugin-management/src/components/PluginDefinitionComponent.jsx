@@ -14,7 +14,7 @@ import { Plugin } from '@regardsoss/model'
 class PluginDefinitionComponent extends React.Component {
 
   static propTypes = {
-    handlePluginValid: React.PropTypes.func.isRequired,
+    handlePluginValid: PropTypes.func.isRequired,
     plugin: Plugin,
   }
 

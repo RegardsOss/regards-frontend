@@ -16,8 +16,8 @@ import StorageUnitScale, { StorageUnitScaleShape } from '../helper/StorageUnit'
 class StoragePluginCapacityComponent extends React.Component {
 
   static propTypes = {
-    label: React.PropTypes.string.isRequired,
-    description: React.PropTypes.string.isRequired, // null or capacity
+    label: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired, // null or capacity
     scale: StorageUnitScaleShape,
     totalSize: StorageCapacityShape, // null or capacity
     usedSize: StorageCapacityShape,

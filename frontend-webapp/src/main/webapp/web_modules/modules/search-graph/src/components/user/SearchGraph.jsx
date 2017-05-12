@@ -19,7 +19,7 @@ class SearchGraph extends React.Component {
 
   static propTypes = {
     graphDatasetAttributes: DatasetAttributesArrayForGraph.isRequired, // graph dataset attributes, required, but empty array is allowed
-    moduleCollapsed: React.PropTypes.bool.isRequired, // is module collapsed
+    moduleCollapsed: PropTypes.bool.isRequired, // is module collapsed
     moduleConf: ModuleConfiguration.isRequired,
   }
 

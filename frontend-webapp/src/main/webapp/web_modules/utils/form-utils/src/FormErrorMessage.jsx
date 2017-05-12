@@ -16,6 +16,6 @@ const FormErrorMessage = ({ children }) => {
 FormErrorMessage.propTypes = {
   // only string expected here, but resolves false values too
   // eslint-disable-next-line
-  children: React.PropTypes.any,
+  children: PropTypes.any,
 }
 export default FormErrorMessage

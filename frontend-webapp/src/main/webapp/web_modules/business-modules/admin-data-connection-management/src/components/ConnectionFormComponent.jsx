@@ -19,16 +19,16 @@ export class ConnectionFormComponent extends React.Component {
 
   static propTypes = {
     currentConnection: Connection,
-    pluginMetaDataList: React.PropTypes.objectOf(PluginMetaData),
-    onSubmit: React.PropTypes.func.isRequired,
-    backUrl: React.PropTypes.string.isRequired,
-    isCreating: React.PropTypes.bool.isRequired,
-    isEditing: React.PropTypes.bool.isRequired,
+    pluginMetaDataList: PropTypes.objectOf(PluginMetaData),
+    onSubmit: PropTypes.func.isRequired,
+    backUrl: PropTypes.string.isRequired,
+    isCreating: PropTypes.bool.isRequired,
+    isEditing: PropTypes.bool.isRequired,
     // from reduxForm
-    submitting: React.PropTypes.bool,
-    invalid: React.PropTypes.bool,
-    handleSubmit: React.PropTypes.func.isRequired,
-    initialize: React.PropTypes.func.isRequired,
+    submitting: PropTypes.bool,
+    invalid: PropTypes.bool,
+    handleSubmit: PropTypes.func.isRequired,
+    initialize: PropTypes.func.isRequired,
   }
 
   static contextTypes = {

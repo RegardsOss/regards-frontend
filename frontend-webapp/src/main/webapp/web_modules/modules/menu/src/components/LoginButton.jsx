@@ -12,7 +12,7 @@ import { FormattedMessage } from 'react-intl'
 class LoginButton extends React.Component {
 
   static propTypes = {
-    onLoginAction: React.PropTypes.func.isRequired,
+    onLoginAction: PropTypes.func.isRequired,
   }
 
   static contextTypes= {

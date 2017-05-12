@@ -17,19 +17,19 @@ import { AttributeModel, AttributesRegroupementConfiguration } from '@regardsoss
 class AttributeRegroupementFormComponent extends React.Component {
 
   static propTypes = {
-    onClose: React.PropTypes.func.isRequired,
-    onSubmit: React.PropTypes.func.isRequired,
+    onClose: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
     attributesRegrp: AttributesRegroupementConfiguration,
-    validateLabel: React.PropTypes.func.isRequired,
+    validateLabel: PropTypes.func.isRequired,
     // Available Attributes for configuration
-    selectableAttributes: React.PropTypes.objectOf(AttributeModel).isRequired,
+    selectableAttributes: PropTypes.objectOf(AttributeModel).isRequired,
     // from reduxForm
-    submitting: React.PropTypes.bool,
-    pristine: React.PropTypes.bool,
-    invalid: React.PropTypes.bool,
-    handleSubmit: React.PropTypes.func.isRequired,
-    initialize: React.PropTypes.func.isRequired,
-    error: React.PropTypes.string,
+    submitting: PropTypes.bool,
+    pristine: PropTypes.bool,
+    invalid: PropTypes.bool,
+    handleSubmit: PropTypes.func.isRequired,
+    initialize: PropTypes.func.isRequired,
+    error: PropTypes.string,
   }
 
   componentDidMount() {

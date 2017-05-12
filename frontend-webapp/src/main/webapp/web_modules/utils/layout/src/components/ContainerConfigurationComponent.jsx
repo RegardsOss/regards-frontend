@@ -17,13 +17,13 @@ class ContainerConfigurationComponent extends React.Component {
 
   static propTypes = {
     container: ContainerShape,
-    onCancel: React.PropTypes.func.isRequired,
-    onSubmit: React.PropTypes.func,
+    onCancel: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func,
     // from reduxForm
-    submitting: React.PropTypes.bool,
-    pristine: React.PropTypes.bool,
-    handleSubmit: React.PropTypes.func.isRequired,
-    initialize: React.PropTypes.func.isRequired,
+    submitting: PropTypes.bool,
+    pristine: PropTypes.bool,
+    handleSubmit: PropTypes.func.isRequired,
+    initialize: PropTypes.func.isRequired,
   }
 
   componentDidMount() {

@@ -27,11 +27,11 @@ export class ThemeProvider extends React.Component {
 
   static propTypes = {
     currentTheme: Theme,
-    isInstance: React.PropTypes.bool,
-    fetchThemeList: React.PropTypes.func,
-    fetchThemeInstanceList: React.PropTypes.func,
-    dispatchSetCurrentTheme: React.PropTypes.func,
-    children: React.PropTypes.node,
+    isInstance: PropTypes.bool,
+    fetchThemeList: PropTypes.func,
+    fetchThemeInstanceList: PropTypes.func,
+    dispatchSetCurrentTheme: PropTypes.func,
+    children: PropTypes.node,
   }
 
   static defaultProps = {

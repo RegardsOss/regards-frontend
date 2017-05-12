@@ -19,23 +19,23 @@ import ProjectUserFormComponent from '../components/ProjectUserFormComponent'
 export class ProjectUserFormContainer extends React.Component {
   static propTypes = {
     // from mapStateToProps
-    roleList: React.PropTypes.objectOf(Role),
-    groupList: React.PropTypes.objectOf(AccessGroup),
+    roleList: PropTypes.objectOf(Role),
+    groupList: PropTypes.objectOf(AccessGroup),
     user: ProjectUser,
-    isFetching: React.PropTypes.bool,
+    isFetching: PropTypes.bool,
     // from router
-    params: React.PropTypes.shape({
-      project: React.PropTypes.string,
-      user_id: React.PropTypes.string,
+    params: PropTypes.shape({
+      project: PropTypes.string,
+      user_id: PropTypes.string,
     }),
     // from mapDispatchToProps
-    createProjectUser: React.PropTypes.func,
-    updateProjectUser: React.PropTypes.func,
-    fetchUser: React.PropTypes.func,
-    fetchRoleList: React.PropTypes.func,
-    fetchGroupList: React.PropTypes.func,
-    assignGroup: React.PropTypes.func,
-    unassignGroup: React.PropTypes.func,
+    createProjectUser: PropTypes.func,
+    updateProjectUser: PropTypes.func,
+    fetchUser: PropTypes.func,
+    fetchRoleList: PropTypes.func,
+    fetchGroupList: PropTypes.func,
+    assignGroup: PropTypes.func,
+    unassignGroup: PropTypes.func,
   }
 
   constructor(props) {

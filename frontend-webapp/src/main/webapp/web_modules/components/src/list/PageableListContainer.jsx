@@ -25,37 +25,37 @@ import ShowableAtRender from '../cards/ShowableAtRender'
 class PageableListContainer extends React.Component {
 
   static propTypes = {
-    title: React.PropTypes.string,
-    entityIdentifier: React.PropTypes.string.isRequired,
-    lineComponent: React.PropTypes.func.isRequired,
-    nbEntityByPage: React.PropTypes.number.isRequired,
+    title: PropTypes.string,
+    entityIdentifier: PropTypes.string.isRequired,
+    lineComponent: PropTypes.func.isRequired,
+    nbEntityByPage: PropTypes.number.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
-    entitiesActions: React.PropTypes.instanceOf(BasicPageableActions).isRequired,
+    entitiesActions: PropTypes.instanceOf(BasicPageableActions).isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
-    entitiesSelector: React.PropTypes.instanceOf(BasicPageableSelectors).isRequired,
-    selectedEntities: React.PropTypes.arrayOf(React.PropTypes.object),
-    searchIdentifier: React.PropTypes.string,
-    searchText: React.PropTypes.node,
-    displayCheckbox: React.PropTypes.bool,
-    disableActions: React.PropTypes.bool,
-    onEntityCheck: React.PropTypes.func,
-    onUnselectAll: React.PropTypes.func,
-    onReset: React.PropTypes.func,
+    entitiesSelector: PropTypes.instanceOf(BasicPageableSelectors).isRequired,
+    selectedEntities: PropTypes.arrayOf(PropTypes.object),
+    searchIdentifier: PropTypes.string,
+    searchText: PropTypes.node,
+    displayCheckbox: PropTypes.bool,
+    disableActions: PropTypes.bool,
+    onEntityCheck: PropTypes.func,
+    onUnselectAll: PropTypes.func,
+    onReset: PropTypes.func,
     // eslint-disable-next-line react/forbid-prop-types
-    additionalPropToLineComponent: React.PropTypes.object,
+    additionalPropToLineComponent: PropTypes.object,
     // eslint-disable-next-line react/forbid-prop-types
-    style: React.PropTypes.object,
+    style: PropTypes.object,
     // Set by redux store connection
     // eslint-disable-next-line react/forbid-prop-types
     // eslint-disable-next-line react/no-unused-prop-types
-    entities: React.PropTypes.objectOf(React.PropTypes.object),
-    pageMetadata: React.PropTypes.shape({
-      number: React.PropTypes.number,
-      size: React.PropTypes.number,
-      totalElements: React.PropTypes.number,
+    entities: PropTypes.objectOf(PropTypes.object),
+    pageMetadata: PropTypes.shape({
+      number: PropTypes.number,
+      size: PropTypes.number,
+      totalElements: PropTypes.number,
     }),
-    fetchEntities: React.PropTypes.func,
-    entitiesFetching: React.PropTypes.bool,
+    fetchEntities: PropTypes.func,
+    entitiesFetching: PropTypes.bool,
   }
 
   static defaultProps = {

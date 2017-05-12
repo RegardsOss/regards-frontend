@@ -23,15 +23,15 @@ export class AdminLayout extends React.Component {
   }
 
   static propTypes = {
-    content: React.PropTypes.element,
+    content: PropTypes.element,
     // from router
-    params: React.PropTypes.shape({
-      project: React.PropTypes.string,
+    params: PropTypes.shape({
+      project: PropTypes.string,
     }),
     location: locationShape.isRequired,
-    project: React.PropTypes.string,
+    project: PropTypes.string,
     // from mapDispatchToProps
-    onLogout: React.PropTypes.func,
+    onLogout: PropTypes.func,
   }
 
   getSidebar = (isInstanceDashboard) => {

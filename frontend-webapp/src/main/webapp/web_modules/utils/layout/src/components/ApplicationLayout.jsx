@@ -16,16 +16,16 @@ import ContainerShape from '../model/ContainerShape'
 class ApplicationLayout extends React.Component {
 
   static propTypes = {
-    project: React.PropTypes.string,
-    appName: React.PropTypes.string.isRequired,
+    project: PropTypes.string,
+    appName: PropTypes.string.isRequired,
     layout: ContainerShape,
-    modules: React.PropTypes.arrayOf(ModuleShape),
-    plugins: React.PropTypes.arrayOf(PluginConf),
+    modules: PropTypes.arrayOf(ModuleShape),
+    plugins: PropTypes.arrayOf(PluginConf),
     // eslint-disable-next-line react/forbid-prop-types
-    style: React.PropTypes.object,
+    style: PropTypes.object,
     // eslint-disable-next-line react/forbid-prop-types
-    pluginProps: React.PropTypes.object,
-    dynamicContent: React.PropTypes.element,
+    pluginProps: PropTypes.object,
+    dynamicContent: PropTypes.element,
   }
 
   static contextTypes = {

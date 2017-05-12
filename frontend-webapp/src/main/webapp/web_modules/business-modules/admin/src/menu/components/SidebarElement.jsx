@@ -12,11 +12,11 @@ import getModuleStyles from '../../styles/styles'
 
 class SidebarElement extends React.Component {
   static propTypes = {
-    to: React.PropTypes.string.isRequired,
-    currentPath: React.PropTypes.string,
-    primaryText: React.PropTypes.element.isRequired,
-    leftIcon: React.PropTypes.element.isRequired,
-    rightIcon: React.PropTypes.element,
+    to: PropTypes.string.isRequired,
+    currentPath: PropTypes.string,
+    primaryText: PropTypes.element.isRequired,
+    leftIcon: PropTypes.element.isRequired,
+    rightIcon: PropTypes.element,
   }
 
   static contextTypes = {

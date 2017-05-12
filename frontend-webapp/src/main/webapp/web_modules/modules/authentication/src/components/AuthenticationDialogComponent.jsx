@@ -11,7 +11,7 @@ import { themeContextType } from '@regardsoss/theme'
 class AuthenticationDialog extends React.Component {
 
   static propTypes = {
-    children: React.PropTypes.element.isRequired,
+    children: PropTypes.element.isRequired,
   }
 
 

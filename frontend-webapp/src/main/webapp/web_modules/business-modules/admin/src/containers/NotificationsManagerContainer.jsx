@@ -31,10 +31,10 @@ class NotificationsManager extends React.Component {
 
   static propTypes = {
     // eslint-disable-next-line react/no-unused-prop-types
-    isOnInstanceDashboard: React.PropTypes.bool.isRequired,
-    children: React.PropTypes.arrayOf(React.PropTypes.node),
+    isOnInstanceDashboard: PropTypes.bool.isRequired,
+    children: PropTypes.arrayOf(PropTypes.node),
     // from map mapDispatchToProps
-    fetchMethods: React.PropTypes.arrayOf(React.PropTypes.func.isRequired).isRequired,
+    fetchMethods: PropTypes.arrayOf(PropTypes.func.isRequired).isRequired,
   }
 
   componentWillMount = () => {

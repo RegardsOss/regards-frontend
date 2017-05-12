@@ -24,30 +24,30 @@ export class AuthenticationFormComponent extends React.Component {
   static propTypes = {
 
     // initial mail value
-    initialMail: React.PropTypes.string,
+    initialMail: PropTypes.string,
     // form title
-    title: React.PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
     // show create account link?
-    showAskProjectAccess: React.PropTypes.bool.isRequired,
+    showAskProjectAccess: PropTypes.bool.isRequired,
     // show cancel button?
-    showCancel: React.PropTypes.bool.isRequired,
+    showCancel: PropTypes.bool.isRequired,
     // on cancel button callback, or none if behavior not available
-    onCancelAction: React.PropTypes.func,
+    onCancelAction: PropTypes.func,
     // other authentication forms links
-    onGotoCreateAccount: React.PropTypes.func.isRequired,
-    onGotoResetPassword: React.PropTypes.func.isRequired,
-    onGotoUnlockAccount: React.PropTypes.func.isRequired,
+    onGotoCreateAccount: PropTypes.func.isRequired,
+    onGotoResetPassword: PropTypes.func.isRequired,
+    onGotoUnlockAccount: PropTypes.func.isRequired,
     // on login submit
-    onLogin: React.PropTypes.func.isRequired,
+    onLogin: PropTypes.func.isRequired,
     // Form general error
-    errorMessage: React.PropTypes.string,
+    errorMessage: PropTypes.string,
     // from reduxFormSelector
-    currentMailValue: React.PropTypes.string,
+    currentMailValue: PropTypes.string,
     // from reduxForm
-    submitting: React.PropTypes.bool,
-    invalid: React.PropTypes.bool,
-    handleSubmit: React.PropTypes.func.isRequired,
-    initialize: React.PropTypes.func.isRequired,
+    submitting: PropTypes.bool,
+    invalid: PropTypes.bool,
+    handleSubmit: PropTypes.func.isRequired,
+    initialize: PropTypes.func.isRequired,
   }
 
   static contextTypes = { ...themeContextType }

@@ -17,15 +17,15 @@ export class DatasourceFormAttributesContainer extends React.Component {
 
   static propTypes = {
     currentDatasource: Datasource,
-    handleSave: React.PropTypes.func.isRequired,
-    backUrl: React.PropTypes.string.isRequired,
-    currentConnectionId: React.PropTypes.string.isRequired,
+    handleSave: PropTypes.func.isRequired,
+    backUrl: PropTypes.string.isRequired,
+    currentConnectionId: PropTypes.string.isRequired,
     // from mapStateToProps
-    modelList: React.PropTypes.objectOf(Model),
+    modelList: PropTypes.objectOf(Model),
     currentConnection: Connection,
     // from mapDispatchToProps
-    fetchModelList: React.PropTypes.func,
-    fetchConnection: React.PropTypes.func,
+    fetchModelList: PropTypes.func,
+    fetchConnection: PropTypes.func,
   }
 
   constructor(props) {

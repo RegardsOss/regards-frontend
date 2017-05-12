@@ -40,16 +40,16 @@ export class UserModuleContainer extends React.Component {
 
   static propTypes = {
     // supplied by LazyModuleComponent
-    appName: React.PropTypes.string,
-    project: React.PropTypes.string,
+    appName: PropTypes.string,
+    project: PropTypes.string,
     moduleConf: ModuleConfiguration.isRequired, // Module configuration
     // from map state to props
-    selectionPath: React.PropTypes.arrayOf(CatalogEntity),
+    selectionPath: PropTypes.arrayOf(CatalogEntity),
     selectedDataset: CatalogEntity,
-    attributeModels: React.PropTypes.objectOf(AttributeModel),
-    moduleCollapsed: React.PropTypes.bool.isRequired,
+    attributeModels: PropTypes.objectOf(AttributeModel),
+    moduleCollapsed: PropTypes.bool.isRequired,
     // from map dispatch to props
-    fetchAttributeModels: React.PropTypes.func.isRequired,
+    fetchAttributeModels: PropTypes.func.isRequired,
   }
 
   componentWillMount = () => {

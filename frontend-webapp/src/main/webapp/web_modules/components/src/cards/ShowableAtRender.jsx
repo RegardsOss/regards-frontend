@@ -3,10 +3,10 @@
 class ShowableAtRender extends React.Component {
 
   static propTypes = {
-    show: React.PropTypes.bool,
-    children: React.PropTypes.oneOfType([
-      React.PropTypes.arrayOf(React.PropTypes.node),
-      React.PropTypes.node,
+    show: PropTypes.bool,
+    children: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.node),
+      PropTypes.node,
     ]),
   }
 

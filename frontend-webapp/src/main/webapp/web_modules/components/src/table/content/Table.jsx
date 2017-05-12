@@ -34,17 +34,17 @@ class Table extends React.Component {
    */
   static propTypes = {
     // dynamic properties
-    entities: React.PropTypes.arrayOf(React.PropTypes.object),
-    pageSize: React.PropTypes.number.isRequired,
-    onScrollEnd: React.PropTypes.func.isRequired,
-    columns: React.PropTypes.arrayOf(ColumnConfiguration).isRequired,
-    width: React.PropTypes.number.isRequired,
-    selectionMode: React.PropTypes.string,
+    entities: PropTypes.arrayOf(PropTypes.object),
+    pageSize: PropTypes.number.isRequired,
+    onScrollEnd: PropTypes.func.isRequired,
+    columns: PropTypes.arrayOf(ColumnConfiguration).isRequired,
+    width: PropTypes.number.isRequired,
+    selectionMode: PropTypes.string,
     // Callback to change selectionState
-    onToggleSelectionMode: React.PropTypes.func,
-    setToggledElements: React.PropTypes.func,
+    onToggleSelectionMode: PropTypes.func,
+    setToggledElements: PropTypes.func,
     // on selection change optional callback
-    onSelectionChange: React.PropTypes.func,
+    onSelectionChange: PropTypes.func,
     // table configuration properties
     ...TableConfigurationModel,
   }

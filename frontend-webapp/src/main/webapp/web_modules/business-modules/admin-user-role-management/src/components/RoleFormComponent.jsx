@@ -13,16 +13,16 @@ export class RoleFormComponent extends React.Component {
 
   static propTypes = {
     currentRole: Role,
-    roleList: React.PropTypes.objectOf(Role),
-    onSubmit: React.PropTypes.func.isRequired,
-    backUrl: React.PropTypes.string.isRequired,
-    change: React.PropTypes.func.isRequired,
+    roleList: PropTypes.objectOf(Role),
+    onSubmit: PropTypes.func.isRequired,
+    backUrl: PropTypes.string.isRequired,
+    change: PropTypes.func.isRequired,
     // from reduxForm
-    submitting: React.PropTypes.bool,
-    pristine: React.PropTypes.bool,
-    invalid: React.PropTypes.bool,
-    handleSubmit: React.PropTypes.func.isRequired,
-    initialize: React.PropTypes.func.isRequired,
+    submitting: PropTypes.bool,
+    pristine: PropTypes.bool,
+    invalid: PropTypes.bool,
+    handleSubmit: PropTypes.func.isRequired,
+    initialize: PropTypes.func.isRequired,
   }
 
   constructor(props) {

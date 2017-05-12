@@ -44,7 +44,7 @@ function NewsItemComponent(props) {
   )
 }
 NewsItemComponent.propTypes = {
-  news: React.PropTypes.objectOf(React.PropTypes.string),
+  news: PropTypes.objectOf(PropTypes.string),
 }
 export default NewsItemComponent
 

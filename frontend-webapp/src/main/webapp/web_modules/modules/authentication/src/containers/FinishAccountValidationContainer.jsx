@@ -14,19 +14,19 @@ export class FinishAccountValidationContainer extends React.Component {
 
   static propTypes = {
     // token to finish reset password
-    token: React.PropTypes.string.isRequired,
+    token: PropTypes.string.isRequired,
     // done callback
-    onDone: React.PropTypes.func.isRequired,
+    onDone: PropTypes.func.isRequired,
     // token expired callback
-    onTokenExpired: React.PropTypes.func.isRequired,
+    onTokenExpired: PropTypes.func.isRequired,
 
     // from map state to props
-    isFetching: React.PropTypes.bool,
+    isFetching: PropTypes.bool,
     // used only in next props
     // eslint-disable-next-line
-    hasError: React.PropTypes.bool,
+    hasError: PropTypes.bool,
     // from dispatch state to props
-    fetchRequestAction: React.PropTypes.func,
+    fetchRequestAction: PropTypes.func,
   }
 
   componentDidMount = () => {

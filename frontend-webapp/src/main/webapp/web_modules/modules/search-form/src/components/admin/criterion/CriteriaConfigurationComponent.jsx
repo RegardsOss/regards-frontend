@@ -16,7 +16,7 @@ import { themeContextType } from '@regardsoss/theme'
 class CriteriaConfigurationComponent extends React.Component {
 
   static propTypes = {
-    selectableAttributes: React.PropTypes.objectOf(AttributeModel),
+    selectableAttributes: PropTypes.objectOf(AttributeModel),
     // Set by plugin provider
     plugin: Plugin,
   }

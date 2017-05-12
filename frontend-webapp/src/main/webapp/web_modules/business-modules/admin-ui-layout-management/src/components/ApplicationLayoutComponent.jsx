@@ -19,14 +19,14 @@ class ApplicationLayoutComponent extends React.Component {
 
   static propTypes = {
     layout: Layout,
-    onSubmit: React.PropTypes.func,
-    onCancel: React.PropTypes.func,
+    onSubmit: PropTypes.func,
+    onCancel: PropTypes.func,
     // from reduxForm
-    change: React.PropTypes.func,
-    submitting: React.PropTypes.bool,
-    pristine: React.PropTypes.bool,
-    handleSubmit: React.PropTypes.func.isRequired,
-    initialize: React.PropTypes.func.isRequired,
+    change: PropTypes.func,
+    submitting: PropTypes.bool,
+    pristine: PropTypes.bool,
+    handleSubmit: PropTypes.func.isRequired,
+    initialize: PropTypes.func.isRequired,
   }
 
   static contextTypes = {

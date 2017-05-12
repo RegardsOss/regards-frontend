@@ -18,15 +18,15 @@ export class FragmentListContainer extends React.Component {
 
   static propTypes = {
     // from router
-    params: React.PropTypes.shape({
-      project: React.PropTypes.string,
+    params: PropTypes.shape({
+      project: PropTypes.string,
     }),
     // from mapStateToProps
-    fragmentList: React.PropTypes.objectOf(Fragment),
-    accessToken: React.PropTypes.string,
+    fragmentList: PropTypes.objectOf(Fragment),
+    accessToken: PropTypes.string,
     // from mapDispatchToProps
-    fetchFragmentList: React.PropTypes.func,
-    deleteFragment: React.PropTypes.func,
+    fetchFragmentList: PropTypes.func,
+    deleteFragment: PropTypes.func,
   }
 
   state = {

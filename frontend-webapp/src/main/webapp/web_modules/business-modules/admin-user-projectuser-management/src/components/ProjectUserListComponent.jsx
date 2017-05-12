@@ -46,17 +46,17 @@ export const canDenyUser = user => [status.accessGranted, status.waitingAccess, 
 export class ProjectUserListComponent extends React.Component {
 
   static propTypes = {
-    users: React.PropTypes.objectOf(ProjectUser),
-    waitingAccessUsers: React.PropTypes.objectOf(ProjectUser),
-    onEdit: React.PropTypes.func.isRequired,
-    onDelete: React.PropTypes.func.isRequired,
-    onValidate: React.PropTypes.func.isRequired,
-    onDeny: React.PropTypes.func.isRequired,
-    onValidateAll: React.PropTypes.func.isRequired,
-    createUrl: React.PropTypes.string.isRequired,
-    backUrl: React.PropTypes.string.isRequired,
-    initialFecthing: React.PropTypes.bool.isRequired,
-    isFetchingActions: React.PropTypes.bool.isRequired,
+    users: PropTypes.objectOf(ProjectUser),
+    waitingAccessUsers: PropTypes.objectOf(ProjectUser),
+    onEdit: PropTypes.func.isRequired,
+    onDelete: PropTypes.func.isRequired,
+    onValidate: PropTypes.func.isRequired,
+    onDeny: PropTypes.func.isRequired,
+    onValidateAll: PropTypes.func.isRequired,
+    createUrl: PropTypes.string.isRequired,
+    backUrl: PropTypes.string.isRequired,
+    initialFecthing: PropTypes.bool.isRequired,
+    isFetchingActions: PropTypes.bool.isRequired,
   }
 
   static contextTypes = {

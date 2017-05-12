@@ -10,7 +10,7 @@ import UserManagementItems from './UserManagementBoardItems'
  */
 class UserManagementBoardComponent extends React.Component {
   static propTypes = {
-    projectName: React.PropTypes.string.isRequired,
+    projectName: PropTypes.string.isRequired,
   }
 
   static contextTypes = {

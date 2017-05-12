@@ -24,18 +24,18 @@ class LazyModuleComponent extends React.Component {
    * @type {{appName: *, moduleId: *}}
    */
   static propTypes = {
-    appName: React.PropTypes.string.isRequired,
-    project: React.PropTypes.string.isRequired,
+    appName: PropTypes.string.isRequired,
+    project: PropTypes.string.isRequired,
     module: ModuleShape.isRequired,
-    admin: React.PropTypes.bool,
+    admin: PropTypes.bool,
     // Form information for admin container. Admin container is a part of the upper redux-form Form.
     // This parameter contains the redux-form form and the changeField function.
-    adminForm: React.PropTypes.shape({
-      changeField: React.PropTypes.func,
+    adminForm: PropTypes.shape({
+      changeField: PropTypes.func,
       // eslint-disable-next-line react/forbid-prop-types
-      form: React.PropTypes.object,
+      form: PropTypes.object,
     }),
-    onLoadAction: React.PropTypes.func,
+    onLoadAction: PropTypes.func,
   }
 
   constructor(props) {

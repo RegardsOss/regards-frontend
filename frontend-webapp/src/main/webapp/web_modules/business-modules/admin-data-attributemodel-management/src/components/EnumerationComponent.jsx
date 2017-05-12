@@ -17,7 +17,7 @@ export class EnumerationComponent extends React.Component {
   static propTypes = {
     currentAttrModel: AttributeModel,
     // redux form
-    change: React.PropTypes.func.isRequired,
+    change: PropTypes.func.isRequired,
   }
 
   constructor(props) {

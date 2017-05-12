@@ -25,22 +25,22 @@ export class AccountRequestFormComponent extends React.Component {
 
   static propTypes = {
     // Submit error
-    errorMessage: React.PropTypes.string,
+    errorMessage: PropTypes.string,
     // calls reset password action
-    onRequestAction: React.PropTypes.func.isRequired,
+    onRequestAction: PropTypes.func.isRequired,
     // action form text id: prefixes all keys
-    requestFormId: React.PropTypes.oneOf(values(requestFormIds)).isRequired,
+    requestFormId: PropTypes.oneOf(values(requestFormIds)).isRequired,
     // back
-    onBack: React.PropTypes.func.isRequired,
+    onBack: PropTypes.func.isRequired,
     // Form initial value
-    initialMail: React.PropTypes.string,
+    initialMail: PropTypes.string,
     // from reduxFormSelector
-    currentMailValue: React.PropTypes.string,
+    currentMailValue: PropTypes.string,
     // from reduxForm
-    submitting: React.PropTypes.bool,
-    invalid: React.PropTypes.bool,
-    handleSubmit: React.PropTypes.func.isRequired,
-    initialize: React.PropTypes.func.isRequired,
+    submitting: PropTypes.bool,
+    invalid: PropTypes.bool,
+    handleSubmit: PropTypes.func.isRequired,
+    initialize: PropTypes.func.isRequired,
   }
 
   static contextTypes = { ...themeContextType }

@@ -9,8 +9,8 @@ import UserManagementBoardComponent from '../components/UserManagementBoardCompo
  */
 export class BoardContainer extends React.Component {
   static propTypes = {
-    params: React.PropTypes.shape({
-      project: React.PropTypes.string,
+    params: PropTypes.shape({
+      project: PropTypes.string,
     }),
   }
   render() {

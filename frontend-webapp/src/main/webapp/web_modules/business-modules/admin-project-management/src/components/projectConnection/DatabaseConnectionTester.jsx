@@ -27,7 +27,7 @@ class DatabaseConnectionTester extends React.Component {
 
   static propTypes = {
     projectConnection: ProjectConnection.isRequired,
-    testConnection: React.PropTypes.func.isRequired,
+    testConnection: PropTypes.func.isRequired,
   }
 
   static contextTypes = {

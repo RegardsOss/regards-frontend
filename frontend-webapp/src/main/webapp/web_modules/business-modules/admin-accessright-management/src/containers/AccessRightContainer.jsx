@@ -18,17 +18,17 @@ import PluginMetaDataSelectors from '../model/PluginMetaDataSelectors'
 export class AccessRightContainer extends React.Component {
   static propTypes = {
     // from mapStateToProps
-    accessGroupList: React.PropTypes.objectOf(AccessGroup),
-    pluginConfigurationList: React.PropTypes.objectOf(PluginConfiguration),
-    pluginMetaDataList: React.PropTypes.objectOf(PluginMetaData),
+    accessGroupList: PropTypes.objectOf(AccessGroup),
+    pluginConfigurationList: PropTypes.objectOf(PluginConfiguration),
+    pluginMetaDataList: PropTypes.objectOf(PluginMetaData),
     // from mapDispatchToProps
-    fetchAccessGroup: React.PropTypes.func,
-    fetchPluginConfigurationList: React.PropTypes.func,
-    fetchPluginMetaDataList: React.PropTypes.func,
-    fetchAccessGroupList: React.PropTypes.func,
-    updateAccessRight: React.PropTypes.func,
-    createAccessRight: React.PropTypes.func,
-    deleteAccessRight: React.PropTypes.func,
+    fetchAccessGroup: PropTypes.func,
+    fetchPluginConfigurationList: PropTypes.func,
+    fetchPluginMetaDataList: PropTypes.func,
+    fetchAccessGroupList: PropTypes.func,
+    updateAccessRight: PropTypes.func,
+    createAccessRight: PropTypes.func,
+    deleteAccessRight: PropTypes.func,
   }
 
   constructor(props) {

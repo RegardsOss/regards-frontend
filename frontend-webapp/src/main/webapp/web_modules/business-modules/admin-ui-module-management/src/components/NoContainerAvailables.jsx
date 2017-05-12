@@ -12,7 +12,7 @@ import { Card, CardTitle, CardText } from 'material-ui/Card'
 class NoContainerAvailables extends React.PureComponent {
 
   static propTypes = {
-    goToLayoutConfiguration: React.PropTypes.func.isRequired,
+    goToLayoutConfiguration: PropTypes.func.isRequired,
   }
 
   render() {

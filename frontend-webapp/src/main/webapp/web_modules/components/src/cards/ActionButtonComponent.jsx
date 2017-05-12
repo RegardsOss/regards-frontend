@@ -11,17 +11,17 @@ import ShowableAtRender from './ShowableAtRender'
  */
 class ActionButtonComponent extends React.Component {
   static propTypes = {
-    className: React.PropTypes.string,
-    label: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.element]).isRequired,
-    button: React.PropTypes.func,
-    primary: React.PropTypes.bool,
-    secondary: React.PropTypes.bool,
-    url: React.PropTypes.string,
-    onTouchTap: React.PropTypes.func,
-    isVisible: React.PropTypes.bool,
-    style: React.PropTypes.objectOf(React.PropTypes.string),
-    type: React.PropTypes.string,
-    disabled: React.PropTypes.bool,
+    className: PropTypes.string,
+    label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
+    button: PropTypes.func,
+    primary: PropTypes.bool,
+    secondary: PropTypes.bool,
+    url: PropTypes.string,
+    onTouchTap: PropTypes.func,
+    isVisible: PropTypes.bool,
+    style: PropTypes.objectOf(PropTypes.string),
+    type: PropTypes.string,
+    disabled: PropTypes.bool,
   }
 
   static defaultProps = {

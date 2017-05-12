@@ -21,19 +21,19 @@ import TagsViewComponent from '../tags/TagsViewComponent'
 class AttributesViewComponent extends React.Component {
 
   static propTypes = {
-    contentHeight: React.PropTypes.number.isRequired,
+    contentHeight: PropTypes.number.isRequired,
     // entity information API
-    entityLabel: React.PropTypes.string,
+    entityLabel: PropTypes.string,
     // entity attributes, empty array allowed
-    attributes: React.PropTypes.arrayOf(React.PropTypes.shape({
-      id: React.PropTypes.number.isRequired,
-      label: React.PropTypes.string.isRequired,
-      renderer: React.PropTypes.func.isRequired,
-      renderValue: React.PropTypes.any,
+    attributes: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      label: PropTypes.string.isRequired,
+      renderer: PropTypes.func.isRequired,
+      renderValue: PropTypes.any,
     })).isRequired,
-    tags: React.PropTypes.arrayOf(React.PropTypes.string),
+    tags: PropTypes.arrayOf(PropTypes.string),
     // Callback to run a new search with given tag
-    onSearchTag: React.PropTypes.func,
+    onSearchTag: PropTypes.func,
   }
 
   static contextTypes = {

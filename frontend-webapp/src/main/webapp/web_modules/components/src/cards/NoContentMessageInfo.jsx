@@ -13,11 +13,11 @@ import ShowableAtRender from './ShowableAtRender'
 class NoContentMessageInfo extends React.Component {
 
   static propTypes = {
-    noContent: React.PropTypes.bool.isRequired,
-    title: React.PropTypes.node.isRequired,
-    message: React.PropTypes.node,
-    Icon: React.PropTypes.func.isRequired,
-    children: React.PropTypes.node.isRequired,
+    noContent: PropTypes.bool.isRequired,
+    title: PropTypes.node.isRequired,
+    message: PropTypes.node,
+    Icon: PropTypes.func.isRequired,
+    children: PropTypes.node.isRequired,
   }
 
   static defaultProps = {

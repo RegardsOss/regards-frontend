@@ -29,11 +29,11 @@ export class SearchGraphHeaderContainer extends React.Component {
   static propTypes = {
     graphDatasetAttributes: DatasetAttributesArrayForGraph.isRequired, // graph dataset attributes, required, but empty array is allowed
     // from mapStateToProps
-    datasetAttributesVisible: React.PropTypes.bool.isRequired,
-    moduleCollapsed: React.PropTypes.bool.isRequired,
+    datasetAttributesVisible: PropTypes.bool.isRequired,
+    moduleCollapsed: PropTypes.bool.isRequired,
     // from mapDispatchToProps
-    dispatchSetDatasetAttributesVisible: React.PropTypes.func.isRequired, // bool -> void
-    dispatchSetModuleCollapsed: React.PropTypes.func.isRequired, // bool -> void
+    dispatchSetDatasetAttributesVisible: PropTypes.func.isRequired, // bool -> void
+    dispatchSetModuleCollapsed: PropTypes.func.isRequired, // bool -> void
   }
 
   dispatchToggleModuleCollapsed = () => {

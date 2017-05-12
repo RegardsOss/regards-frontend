@@ -17,9 +17,9 @@ const { validRequiredString } = ValidationHelpers
 export class PluginParameterString extends React.Component {
 
   static propTypes = {
-    fieldKey: React.PropTypes.string,
+    fieldKey: PropTypes.string,
     pluginParameter: PluginParameter,
-    mode: React.PropTypes.oneOf(['view', 'edit', 'create', 'copy']),
+    mode: PropTypes.oneOf(['view', 'edit', 'create', 'copy']),
   }
 
   static defaultProps = {

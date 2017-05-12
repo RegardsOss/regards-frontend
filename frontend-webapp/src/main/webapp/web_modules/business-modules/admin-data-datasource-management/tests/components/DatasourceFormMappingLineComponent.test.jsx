@@ -31,6 +31,6 @@ describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing DatasourceFormMappingLineCo
 
     const enzymeWrapper = shallow(<DatasourceFormMappingLineComponent {...props} />, { context })
     expect(enzymeWrapper.find(TableRow)).to.have.length(1)
-    expect(enzymeWrapper.find(Field)).to.have.length(3)
+    expect(enzymeWrapper.find(Field)).to.have.length(2)
   })
 })

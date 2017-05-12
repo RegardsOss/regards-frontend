@@ -21,25 +21,25 @@ class ModuleFormContainer extends React.Component {
 
   static propTypes = {
     // From react router
-    params: React.PropTypes.shape({
-      project: React.PropTypes.string,
-      applicationId: React.PropTypes.string,
-      module_id: React.PropTypes.string,
-      duplicate_module_id: React.PropTypes.string,
+    params: PropTypes.shape({
+      project: PropTypes.string,
+      applicationId: PropTypes.string,
+      module_id: PropTypes.string,
+      duplicate_module_id: PropTypes.string,
     }),
-    updateModule: React.PropTypes.func,
-    createModule: React.PropTypes.func,
-    fetchModule: React.PropTypes.func,
-    fetchLayout: React.PropTypes.func,
-    isInstance: React.PropTypes.bool,
+    updateModule: PropTypes.func,
+    createModule: PropTypes.func,
+    fetchModule: PropTypes.func,
+    fetchLayout: PropTypes.func,
+    isInstance: PropTypes.bool,
     // Set by mapStateToProps
-    isFetching: React.PropTypes.bool,
+    isFetching: PropTypes.bool,
     module: Module,
     duplicatedModule: Module,
     layout: Layout,
     // eslint-disable-next-line react/no-unused-prop-types
     form: FormShape,
-    changeField: React.PropTypes.func,
+    changeField: PropTypes.func,
   }
 
   componentWillMount() {

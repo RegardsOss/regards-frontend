@@ -29,18 +29,18 @@ class PluginLoader extends React.Component {
    * @type {{pluginId: *, pluginConf: *, displayPlugin: *, children: *, loadedPlugin: *, loadPlugin: *, locale: *}}
    */
   static propTypes = {
-    pluginInstanceId: React.PropTypes.string.isRequired,
-    pluginPath: React.PropTypes.string.isRequired,
+    pluginInstanceId: PropTypes.string.isRequired,
+    pluginPath: PropTypes.string.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
-    pluginConf: React.PropTypes.object,
+    pluginConf: PropTypes.object,
     // eslint-disable-next-line react/forbid-prop-types
-    pluginProps: React.PropTypes.object,
-    displayPlugin: React.PropTypes.bool,
-    children: React.PropTypes.element,
+    pluginProps: PropTypes.object,
+    displayPlugin: PropTypes.bool,
+    children: PropTypes.element,
     // Set by mapstatetoprops
     loadedPlugin: Plugin,
-    loadPlugin: React.PropTypes.func,
-    locale: React.PropTypes.string,
+    loadPlugin: PropTypes.func,
+    locale: PropTypes.string,
   }
 
   constructor(props) {

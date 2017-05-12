@@ -32,6 +32,6 @@ describe('[ADMIN DATA CONNECTION MANAGEMENT] Testing ConnectionFormComponent', (
       initialize: () => {},
     }
     const enzymeWrapper = shallow(<ConnectionFormComponent {...props} />, { context })
-    expect(enzymeWrapper.find(Field)).to.have.length(11)
+    expect(enzymeWrapper.find(Field)).to.have.length(9)
   })
 })

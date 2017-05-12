@@ -20,9 +20,9 @@ export default function applyHateoasDisplayLogic(passedRequiredEndpoints, hateoa
     class ApplyHateoasDisplayLogic extends React.Component {
 
       static propTypes = {
-        hateoasDisplayLogic: React.PropTypes.func.isRequired,
-        requiredEndpoints: React.PropTypes.arrayOf(React.PropTypes.string),
-        availableEndpoints: React.PropTypes.arrayOf(React.PropTypes.string),
+        hateoasDisplayLogic: PropTypes.func.isRequired,
+        requiredEndpoints: PropTypes.arrayOf(PropTypes.string),
+        availableEndpoints: PropTypes.arrayOf(PropTypes.string),
       }
 
       render() {

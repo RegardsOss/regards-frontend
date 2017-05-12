@@ -19,10 +19,10 @@ import DatasourceStepperComponent from './DatasourceStepperComponent'
 export class DatasourceCreateOrPickConnectionComponent extends React.Component {
 
   static propTypes = {
-    connectionList: React.PropTypes.objectOf(Connection),
-    createConnectionUrl: React.PropTypes.string.isRequired,
-    backUrl: React.PropTypes.string.isRequired,
-    handleDone: React.PropTypes.func.isRequired,
+    connectionList: PropTypes.objectOf(Connection),
+    createConnectionUrl: PropTypes.string.isRequired,
+    backUrl: PropTypes.string.isRequired,
+    handleDone: PropTypes.func.isRequired,
   }
 
   static contextTypes = {

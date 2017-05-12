@@ -24,14 +24,14 @@ import DatasetStepperComponent from './DatasetStepperComponent'
 export class DatasetEditLinksComponent extends React.Component {
 
   static propTypes = {
-    linkedCollections: React.PropTypes.arrayOf(Collection),
-    remainingCollections: React.PropTypes.arrayOf(Collection),
-    datasetStringTags: React.PropTypes.arrayOf(React.PropTypes.string),
-    handleAdd: React.PropTypes.func.isRequired,
-    handleDelete: React.PropTypes.func.isRequired,
-    handleSearch: React.PropTypes.func.isRequired,
-    backUrl: React.PropTypes.string.isRequired,
-    doneUrl: React.PropTypes.string.isRequired,
+    linkedCollections: PropTypes.arrayOf(Collection),
+    remainingCollections: PropTypes.arrayOf(Collection),
+    datasetStringTags: PropTypes.arrayOf(PropTypes.string),
+    handleAdd: PropTypes.func.isRequired,
+    handleDelete: PropTypes.func.isRequired,
+    handleSearch: PropTypes.func.isRequired,
+    backUrl: PropTypes.string.isRequired,
+    doneUrl: PropTypes.string.isRequired,
   }
 
   static contextTypes = {

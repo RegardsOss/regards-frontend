@@ -34,13 +34,13 @@ export const TABS = {
 export class AccountListComponent extends React.Component {
 
   static propTypes = {
-    allAccounts: React.PropTypes.objectOf(Account),
-    waitingAccounts: React.PropTypes.objectOf(Account),
-    onAccept: React.PropTypes.func.isRequired,
-    onEdit: React.PropTypes.func.isRequired,
-    onDelete: React.PropTypes.func.isRequired,
-    initialFecthing: React.PropTypes.bool.isRequired,
-    isFetchingActions: React.PropTypes.bool.isRequired,
+    allAccounts: PropTypes.objectOf(Account),
+    waitingAccounts: PropTypes.objectOf(Account),
+    onAccept: PropTypes.func.isRequired,
+    onEdit: PropTypes.func.isRequired,
+    onDelete: PropTypes.func.isRequired,
+    initialFecthing: PropTypes.bool.isRequired,
+    isFetchingActions: PropTypes.bool.isRequired,
   }
 
   static contextTypes = {

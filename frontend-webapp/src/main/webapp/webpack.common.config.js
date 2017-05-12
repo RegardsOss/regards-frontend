@@ -72,7 +72,10 @@ module.exports = {
   },
   plugins: [
     // Allow to define React as a global variable for JSX.
-    new webpack.ProvidePlugin({ React: 'react' }),
+    new webpack.ProvidePlugin({
+      React: 'react',
+      PropTypes: 'prop-types',
+    }),
     // Create a single css file for the whole application instead of setting css inline in the javascript
     new ExtractTextPlugin({ filename: 'css/styles.css', disable: false, allChunks: true }),
     new webpack.DefinePlugin({

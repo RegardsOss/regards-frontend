@@ -13,17 +13,17 @@ import RoleSelectors from '../model/RoleSelectors'
 export class RoleFormContainer extends React.Component {
   static propTypes = {
     // from router
-    params: React.PropTypes.shape({
-      project: React.PropTypes.string,
-      role_name: React.PropTypes.string,
+    params: PropTypes.shape({
+      project: PropTypes.string,
+      role_name: PropTypes.string,
     }),
     // from mapStateToProps
-    roleList: React.PropTypes.objectOf(Role),
-    isFetching: React.PropTypes.bool,
+    roleList: PropTypes.objectOf(Role),
+    isFetching: PropTypes.bool,
     // from mapDispatchToProps
-    createRole: React.PropTypes.func,
-    fetchRoleList: React.PropTypes.func,
-    updateRole: React.PropTypes.func,
+    createRole: PropTypes.func,
+    fetchRoleList: PropTypes.func,
+    updateRole: PropTypes.func,
   }
 
   constructor(props) {

@@ -21,11 +21,11 @@ import { datasetActions } from '../client/DatasetClient'
 export class DatasetListComponent extends React.Component {
 
   static propTypes = {
-    datasetList: React.PropTypes.objectOf(Dataset),
-    handleDelete: React.PropTypes.func.isRequired,
-    handleEdit: React.PropTypes.func.isRequired,
-    createUrl: React.PropTypes.string.isRequired,
-    backUrl: React.PropTypes.string.isRequired,
+    datasetList: PropTypes.objectOf(Dataset),
+    handleDelete: PropTypes.func.isRequired,
+    handleEdit: PropTypes.func.isRequired,
+    createUrl: PropTypes.string.isRequired,
+    backUrl: PropTypes.string.isRequired,
   }
 
   static contextTypes = {

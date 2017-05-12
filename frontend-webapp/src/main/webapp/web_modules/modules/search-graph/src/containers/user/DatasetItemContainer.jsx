@@ -33,14 +33,14 @@ export class DatasetItemContainer extends React.Component {
   })
 
   static propTypes = {
-    attributesVisible: React.PropTypes.bool.isRequired, // are dataset attributes currently visible?
+    attributesVisible: PropTypes.bool.isRequired, // are dataset attributes currently visible?
     graphDatasetAttributes: DatasetAttributesArrayForGraph.isRequired, // graph dataset attributes, required, but empty array is allowed
     dataset: CatalogEntity.isRequired,
     // from map state to props
-    locked: React.PropTypes.bool.isRequired,
-    selected: React.PropTypes.bool.isRequired,
+    locked: PropTypes.bool.isRequired,
+    selected: PropTypes.bool.isRequired,
     // from map dispatch to props
-    dispatchSelected: React.PropTypes.func.isRequired,
+    dispatchSelected: PropTypes.func.isRequired,
   }
 
 

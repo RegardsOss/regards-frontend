@@ -15,9 +15,9 @@ class CollectionItem extends React.Component {
 
   static propTypes = {
     collection: CatalogEntity.isRequired,
-    expensible: React.PropTypes.bool.isRequired,
-    selected: React.PropTypes.bool.isRequired,
-    onSelect: React.PropTypes.func.isRequired,
+    expensible: PropTypes.bool.isRequired,
+    selected: PropTypes.bool.isRequired,
+    onSelect: PropTypes.func.isRequired,
   }
 
   static contextTypes = {

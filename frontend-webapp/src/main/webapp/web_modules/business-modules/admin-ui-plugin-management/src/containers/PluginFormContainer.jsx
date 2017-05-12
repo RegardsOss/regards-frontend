@@ -18,17 +18,17 @@ export class PluginFormContainer extends React.Component {
 
   static propTypes = {
     // From react router
-    params: React.PropTypes.shape({
-      project: React.PropTypes.string,
-      plugin_id: React.PropTypes.string,
+    params: PropTypes.shape({
+      project: PropTypes.string,
+      plugin_id: PropTypes.string,
     }),
     // Set by mapDispatchToProps
-    updatePlugin: React.PropTypes.func,
-    createPlugin: React.PropTypes.func,
-    fetchPlugin: React.PropTypes.func,
+    updatePlugin: PropTypes.func,
+    createPlugin: PropTypes.func,
+    fetchPlugin: PropTypes.func,
     // Set by mapStateToProps
-    isFetching: React.PropTypes.bool,
-    plugin: React.PropTypes.shape({
+    isFetching: PropTypes.bool,
+    plugin: PropTypes.shape({
       content: PluginDefinition,
     }),
   }

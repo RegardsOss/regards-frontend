@@ -15,14 +15,14 @@ export class SessionLockedFormComponent extends React.Component {
 
   static propTypes = {
     // on submit unlock
-    onUnlock: React.PropTypes.func.isRequired,
+    onUnlock: PropTypes.func.isRequired,
     // Form general error
-    hasUnlockingError: React.PropTypes.bool,
+    hasUnlockingError: PropTypes.bool,
     // from reduxForm
-    submitting: React.PropTypes.bool,
-    pristine: React.PropTypes.bool,
-    invalid: React.PropTypes.bool,
-    handleSubmit: React.PropTypes.func.isRequired,
+    submitting: PropTypes.bool,
+    pristine: PropTypes.bool,
+    invalid: PropTypes.bool,
+    handleSubmit: PropTypes.func.isRequired,
   }
 
   static contextTypes = { ...themeContextType, ...i18nContextType }

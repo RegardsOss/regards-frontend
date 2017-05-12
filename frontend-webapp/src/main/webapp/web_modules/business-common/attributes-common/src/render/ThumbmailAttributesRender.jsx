@@ -14,12 +14,12 @@ import { ObjectLinkedFile, ObjectLinkedFileTypes, CatalogEntity } from '@regards
 class ThumbmailAttributesRender extends React.Component {
 
   static propTypes = {
-    attributes: React.PropTypes.shape({
-      files: React.PropTypes.arrayOf(ObjectLinkedFile),
+    attributes: PropTypes.shape({
+      files: PropTypes.arrayOf(ObjectLinkedFile),
     }),
     // eslint-disable-next-line react/no-unused-prop-types
     entity: CatalogEntity,
-    lineHeight: React.PropTypes.number.isRequired,
+    lineHeight: PropTypes.number.isRequired,
   }
 
   constructor(props) {

@@ -46,6 +46,7 @@
   ],
   "globals": {
     "React": true,
+    "PropTypes": true,
     "GATEWAY_HOSTNAME": true,
     "STATIC_CONFIGURATION": true,
     "API_URL": true

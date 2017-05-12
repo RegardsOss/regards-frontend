@@ -22,11 +22,11 @@ import PluginsActions from '../model/PluginsActions'
 class PluginListComponent extends React.Component {
 
   static propTypes = {
-    plugins: React.PropTypes.objectOf(PluginDefinition),
-    onCreate: React.PropTypes.func.isRequired,
-    onEdit: React.PropTypes.func.isRequired,
-    onDelete: React.PropTypes.func.isRequired,
-    backUrl: React.PropTypes.string.isRequired,
+    plugins: PropTypes.objectOf(PluginDefinition),
+    onCreate: PropTypes.func.isRequired,
+    onEdit: PropTypes.func.isRequired,
+    onDelete: PropTypes.func.isRequired,
+    backUrl: PropTypes.string.isRequired,
   }
 
   static contextTypes = {

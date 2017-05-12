@@ -17,10 +17,10 @@ import HateoasDisplayDecorator from './../resources/HateoasDisplayDecorator'
 class ResourceIconAction extends React.Component {
 
   static propTypes = {
-    resourceDependency: React.PropTypes.string,
-    resourceDependencies: React.PropTypes.arrayOf(React.PropTypes.string.isRequired),
+    resourceDependency: PropTypes.string,
+    resourceDependencies: PropTypes.arrayOf(PropTypes.string.isRequired),
     // Set by mapStateToProps
-    isInstance: React.PropTypes.bool,
+    isInstance: PropTypes.bool,
   }
 
   static defaultProps = {

@@ -40,20 +40,20 @@ export class PluginMetaDataListContainer extends React.Component {
 
   static propTypes = {
     // from router
-    params: React.PropTypes.shape({
-      project: React.PropTypes.string,
-      microserviceName: React.PropTypes.string,
+    params: PropTypes.shape({
+      project: PropTypes.string,
+      microserviceName: PropTypes.string,
     }),
     // from mapStateToProps
-    pluginTypes: React.PropTypes.arrayOf(React.PropTypes.shape({
-      content: React.PropTypes.string,
+    pluginTypes: PropTypes.arrayOf(PropTypes.shape({
+      content: PropTypes.string,
     })),
     pluginMetaDataList: PluginMetaDataList,
-    // pluginMetaDataListOrganizedByType: React.PropTypes.arrayOf(React.PropTypes.object),
-    isPluginMetaDataListFetching: React.PropTypes.bool,
+    // pluginMetaDataListOrganizedByType: PropTypes.arrayOf(PropTypes.object),
+    isPluginMetaDataListFetching: PropTypes.bool,
     // from mapDispatchToProps
-    fetchPluginTypeList: React.PropTypes.func,
-    fetchPluginMetaDataList: React.PropTypes.func,
+    fetchPluginTypeList: PropTypes.func,
+    fetchPluginMetaDataList: PropTypes.func,
   }
 
   static contextTypes = {

@@ -24,13 +24,13 @@ import { moduleActions } from '../client/ModuleClient'
 class ModuleListComponent extends React.Component {
 
   static propTypes = {
-    modules: React.PropTypes.objectOf(ModuleShape).isRequired,
-    backUrl: React.PropTypes.string.isRequired,
-    onCreate: React.PropTypes.func.isRequired,
-    onEdit: React.PropTypes.func.isRequired,
-    onDelete: React.PropTypes.func.isRequired,
-    onDuplicate: React.PropTypes.func.isRequired,
-    onActivation: React.PropTypes.func.isRequired,
+    modules: PropTypes.objectOf(ModuleShape).isRequired,
+    backUrl: PropTypes.string.isRequired,
+    onCreate: PropTypes.func.isRequired,
+    onEdit: PropTypes.func.isRequired,
+    onDelete: PropTypes.func.isRequired,
+    onDuplicate: PropTypes.func.isRequired,
+    onActivation: PropTypes.func.isRequired,
   }
 
   static contextTypes = {

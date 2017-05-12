@@ -10,8 +10,8 @@ import DataManagementBoardComponent from './DataManagementBoardComponent'
 class ModuleContainer extends React.Component {
 
   static propTypes = {
-    params: React.PropTypes.shape({
-      project: React.PropTypes.string,
+    params: PropTypes.shape({
+      project: PropTypes.string,
     }),
   }
 

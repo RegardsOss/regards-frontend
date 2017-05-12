@@ -15,7 +15,7 @@ export const HeadlessPlaceholder = props => (
 export default class ChartAdapter extends React.Component {
 
   static propTypes = {
-    ChartComponent: React.PropTypes.string.isRequired,
+    ChartComponent: PropTypes.string.isRequired,
   }
 
   componentWillMount() {

@@ -22,18 +22,18 @@ import PluginDefinitionComponent from './PluginDefinitionComponent'
 class pluginFormComponent extends React.Component {
 
   static propTypes = {
-    plugin: React.PropTypes.shape({
+    plugin: PropTypes.shape({
       content: PluginDefinition,
     }),
-    onSubmit: React.PropTypes.func.isRequired,
-    onBack: React.PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
+    onBack: PropTypes.func.isRequired,
     // from reduxForm
-    submitting: React.PropTypes.bool,
-    pristine: React.PropTypes.bool,
-    handleSubmit: React.PropTypes.func.isRequired,
-    initialize: React.PropTypes.func.isRequired,
-    change: React.PropTypes.func.isRequired,
-    pathField: React.PropTypes.string,
+    submitting: PropTypes.bool,
+    pristine: PropTypes.bool,
+    handleSubmit: PropTypes.func.isRequired,
+    initialize: PropTypes.func.isRequired,
+    change: PropTypes.func.isRequired,
+    pathField: PropTypes.string,
   }
 
   static contextTypes = {

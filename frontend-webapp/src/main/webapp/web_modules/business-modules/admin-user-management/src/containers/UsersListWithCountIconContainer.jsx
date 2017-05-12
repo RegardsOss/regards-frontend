@@ -12,7 +12,7 @@ import { waitingAccessUsersEntitiesSelectors } from '../client/WaitingAccessUser
 export class UsersListWithCountIconContainer extends React.Component {
 
   static propTypes = {
-    notificationsCount: React.PropTypes.number.isRequired,
+    notificationsCount: PropTypes.number.isRequired,
   }
 
   render() {

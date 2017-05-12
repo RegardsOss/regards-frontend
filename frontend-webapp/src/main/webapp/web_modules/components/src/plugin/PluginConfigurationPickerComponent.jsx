@@ -18,10 +18,10 @@ class PluginConfigurationPickerComponent extends React.Component {
 
   static propTypes = {
     // Callback provided by redux-form in order to manually change a field value
-    onChange: React.PropTypes.func,
+    onChange: PropTypes.func,
     currentPluginConfiguration: PluginConfiguration,
     pluginMetaDataList: PluginMetaDataList,
-    pluginConfigurationList: React.PropTypes.objectOf(PluginConfiguration),
+    pluginConfigurationList: PropTypes.objectOf(PluginConfiguration),
   }
 
   constructor(props) {
@@ -104,12 +104,12 @@ class PluginConfigurationPickerComponent extends React.Component {
                 disabled={isPluginConfigurationListEmpty}
                 menuItems={
                   map(pluginConfigurationListForThisPluginMetaData, pluginConfiguration =>
-                    <MenuItem
+                    (<MenuItem
                       key={pluginConfiguration.content.id}
                       primaryText={this.buildMenuItemPrimaryText(pluginConfiguration.content.label, pluginConfiguration.content.version)}
                       onTouchTap={() => this.handleChange(pluginConfiguration.content.id)}
                       checked={currentPluginConfiguration && pluginConfiguration.content.id === currentPluginConfiguration.content.id}
-                    />,
+                    />),
                   )
                 }
               />

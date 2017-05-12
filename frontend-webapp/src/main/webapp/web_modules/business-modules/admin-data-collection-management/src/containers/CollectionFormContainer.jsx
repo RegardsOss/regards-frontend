@@ -20,26 +20,26 @@ export class CollectionFormContainer extends React.Component {
 
   static propTypes = {
     // from router
-    params: React.PropTypes.shape({
-      project: React.PropTypes.string,
-      collectionId: React.PropTypes.string,
-      mode: React.PropTypes.string,
+    params: PropTypes.shape({
+      project: PropTypes.string,
+      collectionId: PropTypes.string,
+      mode: PropTypes.string,
     }),
     // from redux-form
-    unregisterField: React.PropTypes.func,
+    unregisterField: PropTypes.func,
     // from mapStateToProps
     currentCollection: Collection,
-    modelAttributeList: React.PropTypes.objectOf(ModelAttribute),
-    isFetchingCollection: React.PropTypes.bool,
-    modelList: React.PropTypes.objectOf(Model),
-    isFetchingModelAttribute: React.PropTypes.bool,
-    isFetchingModel: React.PropTypes.bool,
+    modelAttributeList: PropTypes.objectOf(ModelAttribute),
+    isFetchingCollection: PropTypes.bool,
+    modelList: PropTypes.objectOf(Model),
+    isFetchingModelAttribute: PropTypes.bool,
+    isFetchingModel: PropTypes.bool,
     // from mapDispatchToProps
-    createCollection: React.PropTypes.func,
-    updateCollection: React.PropTypes.func,
-    fetchCollection: React.PropTypes.func,
-    fetchModelList: React.PropTypes.func,
-    fetchModelAttributeList: React.PropTypes.func,
+    createCollection: PropTypes.func,
+    updateCollection: PropTypes.func,
+    fetchCollection: PropTypes.func,
+    fetchModelList: PropTypes.func,
+    fetchModelAttributeList: PropTypes.func,
   }
 
   constructor(props) {

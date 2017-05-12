@@ -10,7 +10,7 @@ import DropDownButton from '../../buttons/DropDownButton'
 class HeaderAdvancedOptionComponent extends React.Component {
 
   static propTypes = {
-    children: React.PropTypes.arrayOf(React.PropTypes.node),
+    children: PropTypes.arrayOf(PropTypes.node),
   }
 
   static contextTypes = {

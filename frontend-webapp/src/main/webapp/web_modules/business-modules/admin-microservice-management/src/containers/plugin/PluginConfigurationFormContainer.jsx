@@ -21,23 +21,23 @@ export class PluginConfigurationFormContainer extends React.Component {
 
   static propTypes = {
     // from router
-    params: React.PropTypes.shape({
-      project: React.PropTypes.string,
-      microserviceName: React.PropTypes.string,
-      pluginId: React.PropTypes.string,
-      pluginConfigurationId: React.PropTypes.string,
-      formMode: React.PropTypes.oneOf(['create', 'edit', 'copy']),
+    params: PropTypes.shape({
+      project: PropTypes.string,
+      microserviceName: PropTypes.string,
+      pluginId: PropTypes.string,
+      pluginConfigurationId: PropTypes.string,
+      formMode: PropTypes.oneOf(['create', 'edit', 'copy']),
     }),
     // from mapStateToProps
     currentPluginMetaData: PluginMetaData,
-    isPluginMetaDataFetching: React.PropTypes.bool,
+    isPluginMetaDataFetching: PropTypes.bool,
     currentPluginConfiguration: PluginConfiguration,
-    isPluginConfigurationFetching: React.PropTypes.bool,
+    isPluginConfigurationFetching: PropTypes.bool,
     // from mapDispatchToProps
-    fetchPluginConfiguration: React.PropTypes.func,
-    createPluginConfiguration: React.PropTypes.func,
-    updatePluginConfiguration: React.PropTypes.func,
-    fetchPluginMetaDataList: React.PropTypes.func,
+    fetchPluginConfiguration: PropTypes.func,
+    createPluginConfiguration: PropTypes.func,
+    updatePluginConfiguration: PropTypes.func,
+    fetchPluginMetaDataList: PropTypes.func,
   }
 
   static defaultProps = {

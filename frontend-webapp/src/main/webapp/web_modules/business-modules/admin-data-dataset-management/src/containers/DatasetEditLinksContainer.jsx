@@ -18,19 +18,19 @@ export class DatasetEditLinksContainer extends React.Component {
 
   static propTypes = {
     // from router
-    params: React.PropTypes.shape({
-      project: React.PropTypes.string,
-      datasetId: React.PropTypes.string,
+    params: PropTypes.shape({
+      project: PropTypes.string,
+      datasetId: PropTypes.string,
     }),
     // from mapStateToProps
     currentDataset: Dataset,
-    collectionList: React.PropTypes.objectOf(Collection),
+    collectionList: PropTypes.objectOf(Collection),
     // from mapDispatchToProps
-    removeTagFromDataset: React.PropTypes.func,
-    addTagToDataset: React.PropTypes.func,
-    fetchDataset: React.PropTypes.func,
-    fetchCollectionList: React.PropTypes.func,
-    updateDataset: React.PropTypes.func,
+    removeTagFromDataset: PropTypes.func,
+    addTagToDataset: PropTypes.func,
+    fetchDataset: PropTypes.func,
+    fetchCollectionList: PropTypes.func,
+    updateDataset: PropTypes.func,
   }
 
   state = {

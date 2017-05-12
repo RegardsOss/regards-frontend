@@ -20,12 +20,12 @@ function MainActionButtonComponent(props) {
   />)
 }
 MainActionButtonComponent.propTypes = {
-  label: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.element]).isRequired,
-  url: React.PropTypes.string,
-  type: React.PropTypes.string,
-  style: React.PropTypes.objectOf(React.PropTypes.string),
-  onTouchTap: React.PropTypes.func,
-  isVisible: React.PropTypes.bool,
-  disabled: React.PropTypes.bool,
+  label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
+  url: PropTypes.string,
+  type: PropTypes.string,
+  style: PropTypes.objectOf(PropTypes.string),
+  onTouchTap: PropTypes.func,
+  isVisible: PropTypes.bool,
+  disabled: PropTypes.bool,
 }
 export default MainActionButtonComponent

@@ -17,10 +17,10 @@ import RenderTextField from '../RenderTextField'
 export class EnumInputsComponent extends React.Component {
 
   static propTypes = {
-    nbIntialFields: React.PropTypes.number,
-    inputName: React.PropTypes.string.isRequired,
+    nbIntialFields: PropTypes.number,
+    inputName: PropTypes.string.isRequired,
     // redux form
-    change: React.PropTypes.func.isRequired,
+    change: PropTypes.func.isRequired,
   }
 
   constructor(props) {

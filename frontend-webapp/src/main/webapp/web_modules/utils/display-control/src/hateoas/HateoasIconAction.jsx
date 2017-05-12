@@ -16,11 +16,11 @@ import HateoasLinks from '../model/HateoasLinks'
 class HateoasIconAction extends React.Component {
 
   static propTypes = {
-    entityLinks: React.PropTypes.arrayOf(HateoasLinks),
-    hateoasKey: React.PropTypes.string,
-    alwaysDisplayforInstanceUser: React.PropTypes.bool,
+    entityLinks: PropTypes.arrayOf(HateoasLinks),
+    hateoasKey: PropTypes.string,
+    alwaysDisplayforInstanceUser: PropTypes.bool,
     // Set by mapStateToProps
-    isInstance: React.PropTypes.bool,
+    isInstance: PropTypes.bool,
   }
 
   render() {

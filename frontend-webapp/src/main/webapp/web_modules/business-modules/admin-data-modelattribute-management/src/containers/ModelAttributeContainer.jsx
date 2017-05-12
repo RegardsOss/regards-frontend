@@ -13,7 +13,7 @@ export class ModelAttributeContainer extends React.Component {
     // from mapStateToProps
     modelAttribute: ModelAttribute,
     // from mapDispatchToProps
-    updateModelAttribute: React.PropTypes.func,
+    updateModelAttribute: PropTypes.func,
   }
 
   handleComputationUpdate = (newComputation) => {

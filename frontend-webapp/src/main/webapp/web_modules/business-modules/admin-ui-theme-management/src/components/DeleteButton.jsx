@@ -17,8 +17,8 @@ import moduleStyles from '../styles/styles'
 class DeleteButton extends React.Component {
 
   static propTypes = {
-    onDelete: React.PropTypes.func.isRequired,
-    entityHateoasLinks: React.PropTypes.arrayOf(HateoasLinks).isRequired,
+    onDelete: PropTypes.func.isRequired,
+    entityHateoasLinks: PropTypes.arrayOf(HateoasLinks).isRequired,
   }
 
   static contextTypes = {

@@ -11,10 +11,10 @@ import { themeContextType } from '@regardsoss/theme'
 class LinkComponent extends React.Component {
 
   static propTypes = {
-    link: React.PropTypes.string.isRequired,
-    label: React.PropTypes.string,
-    target: React.PropTypes.string,
-    rel: React.PropTypes.string,
+    link: PropTypes.string.isRequired,
+    label: PropTypes.string,
+    target: PropTypes.string,
+    rel: PropTypes.string,
   }
 
   static contextTypes = {
