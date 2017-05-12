@@ -37,6 +37,7 @@ export class DatasourceFormMappingContainer extends React.Component {
     // from mapDispatchToProps
     fetchTable: React.PropTypes.func,
     fetchTableAttributes: React.PropTypes.func,
+    flushTableAttributes: React.PropTypes.func,
     fetchModelAttributeList: React.PropTypes.func,
   }
 
@@ -68,6 +69,7 @@ export class DatasourceFormMappingContainer extends React.Component {
     const { currentDatasource } = this.props
     // Do not fetch table attributes if table is empty
     if (tableName.length > 0) {
+      this.props.flushTableAttributes()
       this.props.fetchTableAttributes(currentDatasource.content.pluginConfigurationConnectionId, tableName)
     }
   }
@@ -112,6 +114,7 @@ const mapDispatchToProps = dispatch => ({
     connectionId,
     tableName,
   })),
+  flushTableAttributes: (connectionId, tableName) => dispatch(connectionTableAttributesActions.flush()),
   fetchModelAttributeList: id => dispatch(modelAttributesActions.fetchEntityList({ pModelId: id })),
 })
 

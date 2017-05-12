@@ -8,7 +8,7 @@ import { Connection } from '@regardsoss/model'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { connectionActions, connectionSelectors } from '../client/ConnectionClient'
 import ConnectionListComponent from '../components/ConnectionListComponent'
-import TestConnectionActions from '../model/TestConnectionActions'
+import { connectionTestActions } from '../client/ConnectionTestClient'
 /**
  * List connection
  */
@@ -95,7 +95,7 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = dispatch => ({
   fetchConnectionList: () => dispatch(connectionActions.fetchEntityList()),
   deleteConnection: id => dispatch(connectionActions.deleteEntity(id)),
-  testConnection: id => dispatch(TestConnectionActions.sendSignal('POST', null, { connectionId: id })),
+  testConnection: id => dispatch(connectionTestActions.sendSignal('POST', null, { connectionId: id })),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ConnectionListContainer)

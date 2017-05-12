@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { map } from 'lodash'
+import { chain } from 'lodash'
 import { FormattedMessage } from 'react-intl'
 import { List, ListItem } from 'material-ui/List'
 import KeyIcon from 'material-ui/svg-icons/communication/vpn-key'
@@ -89,17 +89,20 @@ export class ConnectionViewerComponent extends React.Component {
       paddingTop: 18,
       paddingBottom: 0,
     }
-    return map(tableAttributeList, (tableAttribute, id) => (
-      <ListItem
-        key={id}
-        secondaryText={tableAttribute.javaSqlType}
-        rightIcon={this.showFK(tableAttribute)}
-        disabled
-        style={styleTableAttribute}
-      >
-        {tableAttribute.name}
-      </ListItem>
-    ))
+    return chain(tableAttributeList)
+      .sortBy('name')
+      .map((tableAttribute, id) => (
+        <ListItem
+          key={tableAttribute.name}
+          secondaryText={tableAttribute.javaSqlType}
+          rightIcon={this.showFK(tableAttribute)}
+          disabled
+          style={styleTableAttribute}
+        >
+          {tableAttribute.name}
+        </ListItem>
+      ))
+      .value()
   }
 
   render() {
@@ -118,23 +121,26 @@ export class ConnectionViewerComponent extends React.Component {
           subtitle={<FormattedMessage id={subtitle} />}
         />
         <List>
-          {map(tableList, (table, id) => {
-            const hasChild = tableOpen === table.name
-            return (
-              <ListItem
-                key={id}
-                primaryText={table.name}
-                initiallyOpen={false}
-                open={hasChild}
-                primaryTogglesNestedList
-                onNestedListToggle={() => this.handleToggleTable(table.name)}
-                rightIcon={this.showSelectedIcon(hasChild)}
-                nestedItems={
+          {chain(tableList)
+            .sortBy('name')
+            .map((table, id) => {
+              const hasChild = tableOpen === table.name
+              return (
+                <ListItem
+                  key={table.name}
+                  primaryText={table.name}
+                  initiallyOpen={false}
+                  open={hasChild}
+                  primaryTogglesNestedList
+                  onNestedListToggle={() => this.handleToggleTable(table.name)}
+                  rightIcon={this.showSelectedIcon(hasChild)}
+                  nestedItems={
                   hasChild ? this.renderResource() : [<ListItem key={1} primaryText="Waiting..." />]
                 }
-              />
-            )
-          })}
+                />
+              )
+            })
+            .value()}
         </List>
       </div>
     )

@@ -6,12 +6,11 @@ import { I18nProvider } from '@regardsoss/i18n'
 import { map, partition, some, find } from 'lodash'
 import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
 import { AttributeModel, Model, ModelAttribute } from '@regardsoss/model'
-import AttributeModelActions from '../model/AttributeModelActions'
+import { attributeModelActions, attributeModelSelectors} from '../client/AttributeModelClient'
 import ModelAttributeFormComponent from '../components/ModelAttributeFormComponent'
-import AttributeModelSelectors from '../model/AttributeModelSelectors'
 import { modelAttributesSelectors, modelAttributesActions } from '../client/ModelAttributesClient'
 import { modelSelectors, modelActions } from '../client/ModelClient'
-import ModelAttributeFragmentActions from '../model/ModelAttributeFragmentActions'
+import { modelAttributesFragmentActions } from '../client/ModelAttributesFragmentClient'
 
 export class ModelAttributeFormContainer extends React.Component {
 
@@ -162,8 +161,8 @@ export class ModelAttributeFormContainer extends React.Component {
   }
 }
 const mapStateToProps = (state, ownProps) => ({
-  attributeModelList: AttributeModelSelectors.getList(state),
-  isAttributeModelFetching: AttributeModelSelectors.isFetching(state),
+  attributeModelList: attributeModelSelectors.getList(state),
+  isAttributeModelFetching: attributeModelSelectors.isFetching(state),
 
   modelAttributeList: modelAttributesSelectors.getList(state),
   isModelAttributeFetching: modelAttributesSelectors.isFetching(state),
@@ -173,14 +172,14 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchAttributeModelList: () => dispatch(AttributeModelActions.fetchEntityList()),
+  fetchAttributeModelList: () => dispatch(attributeModelActions.fetchEntityList()),
   fetchModelAttributeList: modelId => dispatch(modelAttributesActions.fetchEntityList({ pModelId: modelId })),
   createModelAttribute: (modelAttribute, modelId) => dispatch(modelAttributesActions.createEntity(modelAttribute, { pModelId: modelId })),
   deleteModelAttribute: (id, modelId) => dispatch(modelAttributesActions.deleteEntity(id, { pModelId: modelId })),
   fetchModel: id => dispatch(modelActions.fetchEntity(id)),
 
-  bindFragment: (fragment, modelId) => dispatch(ModelAttributeFragmentActions.createEntities(fragment, { pModelId: modelId })),
-  unbindFragment: (fragmentId, modelId) => dispatch(ModelAttributeFragmentActions.deleteEntity(fragmentId, { pModelId: modelId })),
+  bindFragment: (fragment, modelId) => dispatch(modelAttributesFragmentActions.createEntities(fragment, { pModelId: modelId })),
+  unbindFragment: (fragmentId, modelId) => dispatch(modelAttributesFragmentActions.deleteEntity(fragmentId, { pModelId: modelId })),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ModelAttributeFormContainer)

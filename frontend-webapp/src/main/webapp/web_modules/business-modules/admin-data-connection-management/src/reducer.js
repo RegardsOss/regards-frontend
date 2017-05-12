@@ -3,12 +3,12 @@
  **/
 import { combineReducers } from 'redux'
 import { connectionReducer } from './client/ConnectionClient'
-import testConnectionReducers from './model/TestConnectionReducers'
+import { connectionTestReducer } from './client/ConnectionTestClient'
 import { pluginMetaDataReducer } from './client/PluginMetaDataClient'
 
 const connectionDataManagementReducer = combineReducers({
   connection: connectionReducer,
-  'test-connection': testConnectionReducers,
+  'connection-test': connectionTestReducer,
   'plugin-meta-data': pluginMetaDataReducer,
 })
 

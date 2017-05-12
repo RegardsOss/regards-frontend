@@ -31,6 +31,9 @@ import ModelSelectors from './model/ModelSelectors'
 import ModelActions from './model/ModelActions'
 import ModelReducer from './model/ModelReducer'
 
+import ModelAttributesFragmentActions from './modelAttributesFragment/ModelAttributesFragmentActions'
+import ModelAttributesFragmentReducer from './modelAttributesFragment/ModelAttributesFragmentReducer'
+
 import CollectionSelectors from './collection/CollectionSelectors'
 import CollectionActions from './collection/CollectionActions'
 import CollectionReducer from './collection/CollectionReducer'
@@ -55,6 +58,10 @@ import DatasetLinkReducer from './datasetLink/DatasetLinkReducer'
 import ConnectionTableSelectors from './connectionTable/ConnectionTableSelectors'
 import ConnectionTableActions from './connectionTable/ConnectionTableActions'
 import ConnectionTableReducer from './connectionTable/ConnectionTableReducer'
+
+
+import ConnectionTestActions from './connectionTest/ConnectionTestActions'
+import ConnectionTestReducer from './connectionTest/ConnectionTestReducer'
 
 
 import ConnectionTableAttributesSelectors from './connectionTableAttributes/ConnectionTableAttributesSelectors'
@@ -105,6 +112,9 @@ export default {
   DatasetLinkActions,
   DatasetLinkReducer,
 
+  ConnectionTestActions,
+  ConnectionTestReducer,
+
   ConnectionTableReducer,
   ConnectionTableActions,
   ConnectionTableSelectors,
@@ -132,6 +142,9 @@ export default {
   ModelAttributesActions,
   ModelAttributesReducer,
   ModelAttributesSelectors,
+
+  ModelAttributesFragmentActions,
+  ModelAttributesFragmentReducer,
 
   UserGroupActions,
   getUserGroupReducer,

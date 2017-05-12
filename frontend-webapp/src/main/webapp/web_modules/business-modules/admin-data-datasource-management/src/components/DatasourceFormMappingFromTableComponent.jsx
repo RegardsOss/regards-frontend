@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { some, find, chain } from 'lodash'
+import { some, find, chain, map } from 'lodash'
 import { CardTitle, CardText } from 'material-ui/Card'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow } from 'material-ui/Table'
 import { FormattedMessage } from 'react-intl'
@@ -10,6 +10,7 @@ import { RenderTextField, Field } from '@regardsoss/form-utils'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import DatasourceFormMappingLineComponent from './DatasourceFormMappingLineComponent'
+import StaticAttributeList from './StaticAttributeList'
 import states from './FormMappingStates'
 
 export class DatasourceFormMappingFromTableComponent extends React.Component {
@@ -71,6 +72,40 @@ export class DatasourceFormMappingFromTableComponent extends React.Component {
             disabled
           />
         </CardText>
+        <Table
+          selectable={false}
+        >
+          <TableHeader
+            enableSelectAll={false}
+            adjustForCheckbox={false}
+            displaySelectAll={false}
+          >
+            <TableRow>
+              <TableHeaderColumn><FormattedMessage id="datasource.form.mapping.table.attributeStatic" /></TableHeaderColumn>
+              <TableHeaderColumn><FormattedMessage id="datasource.form.mapping.table.dbValue" /></TableHeaderColumn>
+            </TableRow>
+          </TableHeader>
+          <TableBody
+            displayRowCheckbox={false}
+            preScanRows={false}
+            showRowHover
+          >
+            {map(StaticAttributeList, (staticAttribute) => {
+              const isEditingSQL = this.getIsEditingSQL(staticAttribute)
+              return (
+                <DatasourceFormMappingLineComponent
+                  key={staticAttribute.content.attribute.name}
+                  tableAttributeList={tableAttributeList}
+                  modelAttribute={staticAttribute}
+                  isStaticAttribute
+                  isEditingSQL={isEditingSQL}
+                  table={table}
+                  change={change}
+                />
+              )
+            })}
+          </TableBody>
+        </Table>
         <Table
           selectable={false}
         >

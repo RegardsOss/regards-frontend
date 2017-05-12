@@ -36,11 +36,12 @@ const messages = Object.assign({
 
 
   'datasource.form.mapping.title': 'Set up the link between connection and object model',
-  'datasource.form.mapping.subtitle': 'This step aims to link for each model attribute from your model an attribute comming from the connection. If your data comes from one table, select the tab "Link with one table", otherwise you can select the option "Advanced link" to let you write your own SQL query.',
+  'datasource.form.mapping.subtitle': 'This step aims to link for each model attribute from your model an attribute comming from the connection. If your data comes from one table, select the tab "Link with one table", otherwise you can select the option "Advanced link" to let you write your own SQL query. The attribute sipId must be linked to the primary key of your database',
 
   'datasource.form.mapping.table.fragment': 'Fragment',
   'datasource.form.mapping.table.attrName': 'Attribute name',
   'datasource.form.mapping.table.attribute': 'Model attribute',
+  'datasource.form.mapping.table.attributeStatic': 'Common attribute',
   'datasource.form.mapping.table.type': 'Type of attribute',
   'datasource.form.mapping.table.dbValue': 'Value of attribute',
   'datasource.form.mapping.connectionViewer.title': 'Connection browser',

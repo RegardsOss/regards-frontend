@@ -7,10 +7,10 @@ import { BasicListActions } from '@regardsoss/store-utils'
 /**
  * We only use POST and DELETE on this BasicList
  */
-class ModelAttributeFragmentActions extends BasicListActions {
-  constructor() {
+export default class ModelAttributesFragmentActions extends BasicListActions {
+  constructor(namespace) {
     super({
-      namespace: 'admin-data-modelattribute-management/model-attribute-fragment',
+      namespace,
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-dam/models/{pModelId}/attributes/fragments`,
       entityPathVariable: 'pFragmentId',
       schemaTypes: {
@@ -20,7 +20,3 @@ class ModelAttributeFragmentActions extends BasicListActions {
     })
   }
 }
-
-
-const instance = new ModelAttributeFragmentActions()
-export default instance

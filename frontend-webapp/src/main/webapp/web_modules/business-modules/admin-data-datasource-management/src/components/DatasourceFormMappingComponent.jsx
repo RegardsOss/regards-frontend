@@ -13,6 +13,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { Tabs, Tab } from 'material-ui/Tabs'
 import DatasourceStepperComponent from './DatasourceStepperComponent'
 import ConnectionViewerComponent from './ConnectionViewerComponent'
+import StaticAttributeList from './StaticAttributeList'
 import DatasourceFormMappingFromTableComponent from './DatasourceFormMappingFromTableComponent'
 import DatasourceFormMappingCustomComponent from './DatasourceFormMappingCustomComponent'
 import states from './FormMappingStates'
@@ -79,7 +80,6 @@ export class DatasourceFormMappingComponent extends React.Component {
           // Check if the value provided by attributeMapping.nameDs exists in table attributes
           const existingTable = find(tableAttributeList, tableAttribute => tableAttribute.name === attributeMapping.nameDS)
           attributes[attributeMapping.name] = {
-            pk: attributeMapping.isPrimaryKey,
             tableAttribute: existingTable ? attributeMapping.nameDS : '',
             sql: existingTable ? '' : attributeMapping.nameDS,
           }
@@ -96,7 +96,6 @@ export class DatasourceFormMappingComponent extends React.Component {
         const attributes = {}
         forEach(currentDatasource.content.mapping.attributesMapping, (attributeMapping) => {
           attributes[attributeMapping.name] = {
-            pk: attributeMapping.isPrimaryKey,
             sql: attributeMapping.nameDS,
           }
         })
@@ -110,6 +109,7 @@ export class DatasourceFormMappingComponent extends React.Component {
       }
     }
   }
+
 
   handleTabChange = (value) => {
     const { tabValue } = this.state
@@ -151,7 +151,11 @@ WHERE ...`,
     const { onSubmit, modelAttributeList, tableAttributeList } = this.props
     const { tabValue } = this.state
     const formValuesSubset = values[tabValue]
-    onSubmit(formValuesSubset, modelAttributeList, tableAttributeList)
+    const modelAttributeDynAndStaticList = {
+      ...modelAttributeList,
+      ...StaticAttributeList,
+    }
+    onSubmit(formValuesSubset, modelAttributeDynAndStaticList, tableAttributeList)
   }
 
   render() {
@@ -253,43 +257,13 @@ WHERE ...`,
 }
 
 
-function validatePrimaryKeys(errors, values, state) {
-  if (values[state].attributes) {
-    // eslint-disable-next-line no-param-reassign
-    errors[state].attributes = {}
-    let hasAlreadyPk = false
-    forEach(values[state].attributes, (attribute, key) => {
-      if (attribute.pk) {
-        if (hasAlreadyPk) {
-          // eslint-disable-next-line no-param-reassign
-          errors[state].attributes[key] = {}
-          // eslint-disable-next-line no-param-reassign
-          errors[state].attributes[key].pk = 'invalid.only_one_pk_allowed'
-        } else {
-          hasAlreadyPk = true
-        }
-      }
-    })
-    // A pk is required
-    if (!hasAlreadyPk) {
-      forEach(values[state].attributes, (attribute, key) => {
-        // eslint-disable-next-line no-param-reassign
-        errors[state].attributes[key] = {}
-        // eslint-disable-next-line no-param-reassign
-        errors[state].attributes[key].pk = 'invalid.one_pk_required'
-      })
-    }
-  }
-  return errors
-}
-
 /**
  * Form validation
  * @param values
  * @returns {{}} i18n keys
  */
 function validate(values) {
-  let errors = {}
+  const errors = {}
   if (!keys(values).length) {
     // XXX workaround for redux form bug initial validation:
     // Do not return anything when fields are not yet initialized (first render invalid state is wrong otherwise)...
@@ -300,15 +274,11 @@ function validate(values) {
     if (!values[states.CUSTOM_FROM].fromClause) {
       errors[states.CUSTOM_FROM].fromClause = ErrorTypes.REQUIRED
     }
-    // eslint-disable-next-line no-param-reassign
-    errors = validatePrimaryKeys(errors, values, states.CUSTOM_FROM)
   } else if (values[states.FROM_TABLE]) {
     errors[states.FROM_TABLE] = {}
     if (!values[states.FROM_TABLE].table) {
       errors[states.FROM_TABLE].table = ErrorTypes.REQUIRED
     }
-    // eslint-disable-next-line no-param-reassign
-    errors = validatePrimaryKeys(errors, values, states.FROM_TABLE)
   }
   return errors
 }

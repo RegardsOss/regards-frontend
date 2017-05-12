@@ -103,16 +103,12 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   checkMicroserviceStatus: microserviceName => dispatch(MicroserviceInfoClient.microserviceInfoActions.check(microserviceName)),
-  fetchMaintenance(microservice) {
-    dispatch(MaintenanceModeActions(microservice).sendSignal('GET'))
-  },
-  setMaintenance(microservice, projectName, action) {
-    dispatch(SetMaintenanceModeActions(microservice).sendSignal('PUT', null, {
-      microservice,
-      action,
-      tenant: projectName,
-    }))
-  },
+  fetchMaintenance: (microservice) => dispatch(MaintenanceModeActions(microservice).sendSignal('GET')),
+  setMaintenance: (microservice, projectName, action) => dispatch(SetMaintenanceModeActions(microservice).sendSignal('PUT', null, {
+    microservice,
+    action,
+    tenant: projectName,
+  })),
 })
 
 

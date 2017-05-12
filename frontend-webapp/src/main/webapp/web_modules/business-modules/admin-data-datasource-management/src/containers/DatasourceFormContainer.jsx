@@ -152,7 +152,6 @@ export class DatasourceFormContainer extends React.Component {
         name: attributeName,
         type: modelAttr.content.attribute.type,
         nameSpace: modelAttr.content.attribute.fragment.name,
-        isPrimaryKey: attribute.pk === true,
       }
       if (attribute.sql && attribute.sql.length > 0) {
         newAttributeMapping.nameDS = attribute.sql
@@ -177,6 +176,7 @@ export class DatasourceFormContainer extends React.Component {
       currentDatasource,
     })
     if (this.state.isEditing) {
+      currentDatasource.content.pluginConfigurationId = this.props.params.datasourceId
       this.handleUpdate(currentDatasource)
     } else {
       this.handleCreate(currentDatasource)
