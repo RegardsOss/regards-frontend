@@ -65,8 +65,8 @@ export default class ReduxEntityTester {
     let shapeResult
     try {
       const entityList = this.entitySelectors.getList(store.getState())
-      shapeResult = this.entityShape({ entityList }, 'entityList', 'ReduxEntityTester')
-      assert.isNull(shapeResult, 'There is a shape error')
+      shapeResult = PropTypes.checkPropTypes(this.entityShape, entityList, 'entityList', 'ReduxEntityTester')
+      assert.isUndefined(shapeResult, 'There is a shape error')
       assert.isDefined(entityList, 'There is no result returned by the selector')
       this.afterAll()
       done()
