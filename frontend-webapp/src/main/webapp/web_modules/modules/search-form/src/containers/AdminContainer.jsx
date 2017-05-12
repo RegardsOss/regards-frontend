@@ -20,10 +20,10 @@ class AdminContainer extends React.Component {
 
   static propTypes = {
     // Props supplied by LazyModuleComponent
-    appName: React.PropTypes.string,
-    project: React.PropTypes.string,
-    adminForm: React.PropTypes.shape({
-      changeField: React.PropTypes.func,
+    appName: PropTypes.string,
+    project: PropTypes.string,
+    adminForm: PropTypes.shape({
+      changeField: PropTypes.func,
       // Current module configuration. Values from the redux-form
       form: ModuleConfiguration,
     }),
@@ -32,13 +32,13 @@ class AdminContainer extends React.Component {
     moduleConf: ModuleConfiguration.isRequired,
 
     // Set by mapStateToProps and mapDispatchToProps
-    selectableAttributes: React.PropTypes.objectOf(AttributeModel),
-    selectableAttributesFectching: React.PropTypes.bool,
-    availableCriterion: React.PropTypes.objectOf(PluginDefinition),
-    fetchCriterion: React.PropTypes.func,
-    fetchModelsAttributes: React.PropTypes.func,
-    fetchAllModelsAttributes: React.PropTypes.func,
-    fetchDatasetsAttributes: React.PropTypes.func,
+    selectableAttributes: PropTypes.objectOf(AttributeModel),
+    selectableAttributesFectching: PropTypes.bool,
+    availableCriterion: PropTypes.objectOf(PluginDefinition),
+    fetchCriterion: PropTypes.func,
+    fetchModelsAttributes: PropTypes.func,
+    fetchAllModelsAttributes: PropTypes.func,
+    fetchDatasetsAttributes: PropTypes.func,
   }
 
   static defaultProps = {

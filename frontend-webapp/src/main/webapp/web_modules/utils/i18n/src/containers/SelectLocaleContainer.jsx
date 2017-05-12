@@ -38,8 +38,8 @@ export class SelectLocaleContainer extends React.Component {
 }
 
 SelectLocaleContainer.propTypes = {
-  currentLocale: React.PropTypes.string,
-  setLocale: React.PropTypes.func,
+  currentLocale: PropTypes.string,
+  setLocale: PropTypes.func,
 }
 
 // Add projects from store to the containers props

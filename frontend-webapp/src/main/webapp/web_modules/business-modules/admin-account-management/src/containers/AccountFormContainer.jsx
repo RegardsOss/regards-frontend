@@ -13,15 +13,15 @@ import AccountSelectors from '../model/AccountSelectors'
 export class AccountFormContainer extends React.Component {
   static propTypes = {
     // from router
-    params: React.PropTypes.shape({
-      account_id: React.PropTypes.string,
+    params: PropTypes.shape({
+      account_id: PropTypes.string,
     }),
     // from mapStateToProps
-    account: React.PropTypes.objectOf(Account),
-    isFetching: React.PropTypes.bool,
+    account: PropTypes.objectOf(Account),
+    isFetching: PropTypes.bool,
     // from mapDispatchToProps
-    fetchAccount: React.PropTypes.func,
-    updateAccount: React.PropTypes.func,
+    fetchAccount: PropTypes.func,
+    updateAccount: PropTypes.func,
   }
 
   componentDidMount() {

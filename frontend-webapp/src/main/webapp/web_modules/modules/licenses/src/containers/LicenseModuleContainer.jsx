@@ -13,9 +13,9 @@ class LicenseModuleContainer extends React.Component {
 
   static propTypes = {
     // from module system
-    project: React.PropTypes.string.isRequired,
+    project: PropTypes.string.isRequired,
     // from mapStateToProps
-    isAuthenticated: React.PropTypes.bool.isRequired,
+    isAuthenticated: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {}

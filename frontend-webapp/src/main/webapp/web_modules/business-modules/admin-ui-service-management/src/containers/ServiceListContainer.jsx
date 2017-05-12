@@ -25,13 +25,13 @@ export class ServiceListContainer extends React.Component {
 
   static propTypes = {
     // from router
-    params: React.PropTypes.shape({
-      project: React.PropTypes.string,
+    params: PropTypes.shape({
+      project: PropTypes.string,
     }),
     // from mapStateToProps
-    uiPluginDefinitionList: React.PropTypes.objectOf(UIPluginDefinition),
+    uiPluginDefinitionList: PropTypes.objectOf(UIPluginDefinition),
     // from mapDispatchToProps
-    fetchUIPluginDefinitionList: React.PropTypes.func,
+    fetchUIPluginDefinitionList: PropTypes.func,
   }
 
   static mapStateToProps = (state, ownProps) => ({

@@ -14,9 +14,9 @@ import DatasetSelectionType from '../../../definitions/DatasetSelectionType'
 class FormDatasetsTypeSelection extends React.Component {
 
   static propTypes = {
-    defaultSelected: React.PropTypes.string,
-    onSelectType: React.PropTypes.func,
-    disabled: React.PropTypes.bool,
+    defaultSelected: PropTypes.string,
+    onSelectType: PropTypes.func,
+    disabled: PropTypes.bool,
   }
 
   render() {

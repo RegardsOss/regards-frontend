@@ -13,13 +13,13 @@ class Description extends React.Component {
 
   static propTypes = {
     // description state
-    isDescriptionVisible: React.PropTypes.bool.isRequired,
+    isDescriptionVisible: PropTypes.bool.isRequired,
     entity: CatalogEntity,
     // sub containers actions / selectors
-    onCloseDescription: React.PropTypes.func.isRequired,
-    fetchModelAttributesActions: React.PropTypes.instanceOf(DataManagementClient.ModelAttributesActions).isRequired,
-    fetchModelAttributesSelectors: React.PropTypes.instanceOf(BasicListSelectors).isRequired,
-    downloadDescriptionClient: React.PropTypes.instanceOf(DownloadDescriptionClient).isRequired,
+    onCloseDescription: PropTypes.func.isRequired,
+    fetchModelAttributesActions: PropTypes.instanceOf(DataManagementClient.ModelAttributesActions).isRequired,
+    fetchModelAttributesSelectors: PropTypes.instanceOf(BasicListSelectors).isRequired,
+    downloadDescriptionClient: PropTypes.instanceOf(DownloadDescriptionClient).isRequired,
   }
 
   render() {

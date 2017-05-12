@@ -21,21 +21,21 @@ export class ProjectConnectionFormContainer extends React.Component {
 
   static propTypes = {
     // from router
-    params: React.PropTypes.shape({
-      project_name: React.PropTypes.string,
-      microservice_name: React.PropTypes.string,
-      project_connection_id: React.PropTypes.string,
+    params: PropTypes.shape({
+      project_name: PropTypes.string,
+      microservice_name: PropTypes.string,
+      project_connection_id: PropTypes.string,
     }),
     // from mapStateToProps
     project: Project,
-    projectIsFetching: React.PropTypes.bool,
+    projectIsFetching: PropTypes.bool,
     projectConnection: ProjectConnection,
-    projectConnectionsIsFetching: React.PropTypes.bool,
+    projectConnectionsIsFetching: PropTypes.bool,
     // from mapDispatchToProps
-    fetchProject: React.PropTypes.func,
-    fetchProjectConnection: React.PropTypes.func,
-    updateProjectConnection: React.PropTypes.func,
-    createProjectConnection: React.PropTypes.func,
+    fetchProject: PropTypes.func,
+    fetchProjectConnection: PropTypes.func,
+    updateProjectConnection: PropTypes.func,
+    createProjectConnection: PropTypes.func,
   }
 
   componentWillMount() {

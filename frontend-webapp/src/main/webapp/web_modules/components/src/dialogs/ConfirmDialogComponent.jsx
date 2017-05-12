@@ -22,11 +22,11 @@ class ConfirmDialogComponent extends React.Component {
   }
 
   static propTypes = {
-    dialogType: React.PropTypes.oneOf(values(ConfirmDialogComponent.dialogTypes)),
-    title: React.PropTypes.string.isRequired,
-    message: React.PropTypes.string, // optional
-    onConfirm: React.PropTypes.func.isRequired,
-    onClose: React.PropTypes.func.isRequired,
+    dialogType: PropTypes.oneOf(values(ConfirmDialogComponent.dialogTypes)),
+    title: PropTypes.string.isRequired,
+    message: PropTypes.string, // optional
+    onConfirm: PropTypes.func.isRequired,
+    onClose: PropTypes.func.isRequired,
   }
 
   static defaultProps = {

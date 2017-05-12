@@ -50,43 +50,43 @@ class TableContainer extends React.Component {
    * pageSize : Optional, number of visible entity into the table. Default 20.
    */
   static propTypes = {
-    name: React.PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
     // table configuration
-    tableConfiguration: React.PropTypes.shape(TableConfigurationModel).isRequired,
+    tableConfiguration: PropTypes.shape(TableConfigurationModel).isRequired,
     // table pane configuration
-    tablePaneConfiguration: React.PropTypes.shape(TablePaneConfigurationModel).isRequired,
+    tablePaneConfiguration: PropTypes.shape(TablePaneConfigurationModel).isRequired,
     // BasicPageableActions to retrieve entities from server
     // eslint-disable-next-line react/no-unused-prop-types
-    PageActions: React.PropTypes.instanceOf(BasicPageableActions).isRequired,
+    PageActions: PropTypes.instanceOf(BasicPageableActions).isRequired,
     // BasicPageableSelectors to retrieve entities from store
     // eslint-disable-next-line react/no-unused-prop-types
-    PageSelector: React.PropTypes.instanceOf(BasicPageableSelectors).isRequired,
+    PageSelector: PropTypes.instanceOf(BasicPageableSelectors).isRequired,
     // [Optional] Size of a given table page. Default is 20 visible items in the table.
-    pageSize: React.PropTypes.number,
+    pageSize: PropTypes.number,
     // [Optional] Columns configurations. Default all attributes of entities are displayed as column.
     // An column configuration is an object with
     // - label : Displayed label of the column in the Header line
     // - attributes : Array of String. Each element is an entity attribute to display in the column. It is also
     //                possible to define deep attributes like user.login
-    columns: React.PropTypes.arrayOf(ColumnConfigurationModel),
+    columns: PropTypes.arrayOf(ColumnConfigurationModel),
     // On selection change callback (@see SelectionController) :
     // callback signature (selectionMode: String (TableSelectionModes), entities: Array) => void
-    onSelectionChange: React.PropTypes.func,
+    onSelectionChange: PropTypes.func,
     // [Optional] server request parameters as query params or path params defined in the PageActions given.
     // eslint-disable-next-line react/forbid-prop-types
-    requestParams: React.PropTypes.object,
+    requestParams: PropTypes.object,
     // Parameters set by redux store connection
-    entities: React.PropTypes.arrayOf(React.PropTypes.object),
-    pageMetadata: React.PropTypes.shape({
-      number: React.PropTypes.number,
-      size: React.PropTypes.number,
-      totalElements: React.PropTypes.number,
+    entities: PropTypes.arrayOf(PropTypes.object),
+    pageMetadata: PropTypes.shape({
+      number: PropTypes.number,
+      size: PropTypes.number,
+      totalElements: PropTypes.number,
     }),
-    fetchEntities: React.PropTypes.func,
-    entitiesFetching: React.PropTypes.bool,
-    selectionMode: React.PropTypes.string,
-    onToggleSelectionMode: React.PropTypes.func,
-    setToggledElements: React.PropTypes.func,
+    fetchEntities: PropTypes.func,
+    entitiesFetching: PropTypes.bool,
+    selectionMode: PropTypes.string,
+    onToggleSelectionMode: PropTypes.func,
+    setToggledElements: PropTypes.func,
     authentication: AuthenticateShape,
   }
 

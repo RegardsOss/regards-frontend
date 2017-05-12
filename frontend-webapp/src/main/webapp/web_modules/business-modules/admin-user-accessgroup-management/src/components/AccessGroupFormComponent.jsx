@@ -17,16 +17,16 @@ export class AccessGroupFormComponent extends React.Component {
 
   static propTypes = {
     currentAccessGroup: AccessGroup,
-    onSubmit: React.PropTypes.func.isRequired,
-    backUrl: React.PropTypes.string.isRequired,
-    isDuplicating: React.PropTypes.bool,
-    isCreating: React.PropTypes.bool,
-    isEditing: React.PropTypes.bool,
+    onSubmit: PropTypes.func.isRequired,
+    backUrl: PropTypes.string.isRequired,
+    isDuplicating: PropTypes.bool,
+    isCreating: PropTypes.bool,
+    isEditing: PropTypes.bool,
     // from reduxForm
-    submitting: React.PropTypes.bool,
-    invalid: React.PropTypes.bool,
-    handleSubmit: React.PropTypes.func.isRequired,
-    initialize: React.PropTypes.func.isRequired,
+    submitting: PropTypes.bool,
+    invalid: PropTypes.bool,
+    handleSubmit: PropTypes.func.isRequired,
+    initialize: PropTypes.func.isRequired,
   }
 
   static contextTypes = {

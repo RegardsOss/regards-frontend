@@ -27,13 +27,13 @@ const styles = moduleStyle()
 export class ProjectListComponent extends React.Component {
 
   static propTypes = {
-    projectList: React.PropTypes.objectOf(Project),
-    handleDelete: React.PropTypes.func.isRequired,
-    handleOpen: React.PropTypes.func.isRequired,
-    handleEdit: React.PropTypes.func.isRequired,
-    handleConfigureConnections: React.PropTypes.func.isRequired,
-    handleUpdateLicense: React.PropTypes.func.isRequired,
-    createUrl: React.PropTypes.string.isRequired,
+    projectList: PropTypes.objectOf(Project),
+    handleDelete: PropTypes.func.isRequired,
+    handleOpen: PropTypes.func.isRequired,
+    handleEdit: PropTypes.func.isRequired,
+    handleConfigureConnections: PropTypes.func.isRequired,
+    handleUpdateLicense: PropTypes.func.isRequired,
+    createUrl: PropTypes.string.isRequired,
   }
 
   static contextTypes = {

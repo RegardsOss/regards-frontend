@@ -10,10 +10,10 @@ import ModuleConfiguration from '../../model/ModuleConfiguration'
 class SearchResultFormComponent extends React.Component {
 
   static propTypes = {
-    project: React.PropTypes.string.isRequired,
-    appName: React.PropTypes.string.isRequired,
-    adminForm: React.PropTypes.shape({
-      changeField: React.PropTypes.func,
+    project: PropTypes.string.isRequired,
+    appName: PropTypes.string.isRequired,
+    adminForm: PropTypes.shape({
+      changeField: PropTypes.func,
       form: ModuleConfiguration,
     }),
   }

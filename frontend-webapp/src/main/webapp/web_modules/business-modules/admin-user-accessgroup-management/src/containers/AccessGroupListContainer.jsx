@@ -17,15 +17,15 @@ export class AccessGroupListContainer extends React.Component {
 
   static propTypes = {
     // from router
-    params: React.PropTypes.shape({
-      project: React.PropTypes.string,
+    params: PropTypes.shape({
+      project: PropTypes.string,
     }),
     // from mapStateToProps
-    accessGroupList: React.PropTypes.objectOf(AccessGroup),
-    isFetching: React.PropTypes.bool,
+    accessGroupList: PropTypes.objectOf(AccessGroup),
+    isFetching: PropTypes.bool,
     // from mapDispatchToProps
-    fetchAccessGroupList: React.PropTypes.func,
-    deleteAccessGroup: React.PropTypes.func,
+    fetchAccessGroupList: PropTypes.func,
+    deleteAccessGroup: PropTypes.func,
   }
 
   componentWillMount() {

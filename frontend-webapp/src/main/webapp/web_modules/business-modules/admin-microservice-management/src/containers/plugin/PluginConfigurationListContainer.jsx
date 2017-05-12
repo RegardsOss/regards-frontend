@@ -32,21 +32,21 @@ const styles = moduleStyles().pluginConfiguration
 export class PluginConfigurationListContainer extends React.Component {
   static propTypes = {
     // from router
-    params: React.PropTypes.shape({
-      project: React.PropTypes.string,
-      microserviceName: React.PropTypes.string,
-      pluginId: React.PropTypes.string,
-      pluginConfigurationId: React.PropTypes.string,
+    params: PropTypes.shape({
+      project: PropTypes.string,
+      microserviceName: PropTypes.string,
+      pluginId: PropTypes.string,
+      pluginConfigurationId: PropTypes.string,
     }),
     // from mapStateToProps
     pluginMetaData: PluginMetaData,
     pluginConfigurationList: PluginConfigurationList,
-    isPluginConfigurationFetching: React.PropTypes.bool,
+    isPluginConfigurationFetching: PropTypes.bool,
     // from mapDispatchToProps
-    fetchPluginMetaData: React.PropTypes.func,
-    fetchPluginConfigurationList: React.PropTypes.func,
+    fetchPluginMetaData: PropTypes.func,
+    fetchPluginConfigurationList: PropTypes.func,
     // eslint-disable-next-line react/no-unused-prop-types
-    deletePluginConfiguration: React.PropTypes.func,
+    deletePluginConfiguration: PropTypes.func,
   }
 
   componentDidMount() {
@@ -97,23 +97,23 @@ export class PluginConfigurationListContainer extends React.Component {
               {chain(pluginConfigurationList)
                 .filter(pluginConfiguration => pluginConfiguration.content.active)
                 .sortBy(pluginConfiguration => -1 * pluginConfiguration.content.priorityOrder)
-                .map(pluginConfiguration => <PluginConfigurationContainer
+                .map(pluginConfiguration => (<PluginConfigurationContainer
                   key={pluginConfiguration.content.id}
                   params={this.props.params}
                   pluginConfiguration={pluginConfiguration}
                   pluginMetaData={pluginMetaData}
-                />)
+                />))
                 .value()}
               <Subheader>Inactive</Subheader>
               {chain(pluginConfigurationList)
                 .filter(pluginConfiguration => !pluginConfiguration.content.active)
                 .sortBy(pluginConfiguration => -1 * pluginConfiguration.content.priorityOrder)
-                .map(pluginConfiguration => <PluginConfigurationContainer
+                .map(pluginConfiguration => (<PluginConfigurationContainer
                   key={pluginConfiguration.content.id}
                   params={this.props.params}
                   pluginConfiguration={pluginConfiguration}
                   pluginMetaData={pluginMetaData}
-                />)
+                />))
                 .value()}
             </LoadableContentDisplayDecorator>
           </div>

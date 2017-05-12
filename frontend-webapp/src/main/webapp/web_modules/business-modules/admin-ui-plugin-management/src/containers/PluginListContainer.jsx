@@ -18,17 +18,17 @@ class PluginListContainer extends React.Component {
 
   static propTypes = {
     // From react router
-    params: React.PropTypes.shape({
-      project: React.PropTypes.string,
-      applicationId: React.PropTypes.string,
+    params: PropTypes.shape({
+      project: PropTypes.string,
+      applicationId: PropTypes.string,
     }),
     // Set by mapDispatchToProps
-    fetchPlugins: React.PropTypes.func,
-    updatePlugin: React.PropTypes.func,
-    deletePlugin: React.PropTypes.func,
+    fetchPlugins: PropTypes.func,
+    updatePlugin: PropTypes.func,
+    deletePlugin: PropTypes.func,
     // Set by mapStateToProps
-    isFetching: React.PropTypes.bool,
-    plugins: React.PropTypes.objectOf(PluginDefinition),
+    isFetching: PropTypes.bool,
+    plugins: PropTypes.objectOf(PluginDefinition),
   }
 
   static contextTypes = {

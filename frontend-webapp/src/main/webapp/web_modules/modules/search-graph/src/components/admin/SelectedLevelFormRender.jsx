@@ -24,18 +24,18 @@ class SelectedLevelFormRender extends React.Component {
 
   static propTypes = {
     // values pool as fetched and normalized
-    collectionModels: React.PropTypes.objectOf(Model).isRequired,
-    meta: React.PropTypes.shape({
-      touched: React.PropTypes.bool,
-      error: React.PropTypes.string,
+    collectionModels: PropTypes.objectOf(Model).isRequired,
+    meta: PropTypes.shape({
+      touched: PropTypes.bool,
+      error: PropTypes.string,
     }),
-    intl: React.PropTypes.shape({
-      formatMessage: React.PropTypes.func,
+    intl: PropTypes.shape({
+      formatMessage: PropTypes.func,
     }),
     // from redux form
     // the selected value as fields object (holds selected levels IDs)
     // eslint-disable-next-line react/forbid-prop-types
-    fields: React.PropTypes.object.isRequired,
+    fields: PropTypes.object.isRequired,
   }
 
   static contextTypes = {

@@ -14,16 +14,16 @@ import { NoContentMessageInfo, IFrameURLContentDisplayer } from '@regardsoss/com
 class DescriptionViewComponent extends React.Component {
 
   static propTypes = {
-    contentHeight: React.PropTypes.number.isRequired,
+    contentHeight: PropTypes.number.isRequired,
     // entity information API
-    entityLabel: React.PropTypes.string,
+    entityLabel: PropTypes.string,
     // description file URL, when it should be accessed through URL
-    descriptionFileURL: React.PropTypes.string,
+    descriptionFileURL: PropTypes.string,
     // Description file when it should be accessed by content
-    descriptionFile: React.PropTypes.shape({
-      entityId: React.PropTypes.number.isRequired,
-      contentType: React.PropTypes.string.isRequired,
-      content: React.PropTypes.string.isRequired,
+    descriptionFile: PropTypes.shape({
+      entityId: PropTypes.number.isRequired,
+      contentType: PropTypes.string.isRequired,
+      content: PropTypes.string.isRequired,
     }),
   }
 

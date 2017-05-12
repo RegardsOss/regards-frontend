@@ -28,10 +28,10 @@ export class ProjectConnectionListComponent extends React.Component {
   static propTypes = {
     project: Project.isRequired,
     projectConnections: ProjectConnectionList.isRequired,
-    onEdit: React.PropTypes.func.isRequired,
-    onCreate: React.PropTypes.func.isRequired,
-    onTestConnection: React.PropTypes.func.isRequired,
-    refreshConnection: React.PropTypes.func.isRequired,
+    onEdit: PropTypes.func.isRequired,
+    onCreate: PropTypes.func.isRequired,
+    onTestConnection: PropTypes.func.isRequired,
+    refreshConnection: PropTypes.func.isRequired,
   }
 
   static contextTypes = {

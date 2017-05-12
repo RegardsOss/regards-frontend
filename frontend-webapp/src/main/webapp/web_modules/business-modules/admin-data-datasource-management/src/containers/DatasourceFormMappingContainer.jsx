@@ -18,27 +18,27 @@ export class DatasourceFormMappingContainer extends React.Component {
 
   static propTypes = {
     currentDatasource: Datasource,
-    isEditing: React.PropTypes.bool,
-    isCreating: React.PropTypes.bool,
-    handleSave: React.PropTypes.func,
-    handleBack: React.PropTypes.func,
+    isEditing: PropTypes.bool,
+    isCreating: PropTypes.bool,
+    handleSave: PropTypes.func,
+    handleBack: PropTypes.func,
     // from mapStateToProps
-    tableList: React.PropTypes.shape({
-      name: React.PropTypes.string,
-      schema: React.PropTypes.string,
-      pKey: React.PropTypes.string,
+    tableList: PropTypes.shape({
+      name: PropTypes.string,
+      schema: PropTypes.string,
+      pKey: PropTypes.string,
     }),
-    tableAttributeList: React.PropTypes.shape({
-      name: React.PropTypes.string,
-      javaSqlType: React.PropTypes.string,
-      isPrimaryKey: React.PropTypes.bool,
+    tableAttributeList: PropTypes.shape({
+      name: PropTypes.string,
+      javaSqlType: PropTypes.string,
+      isPrimaryKey: PropTypes.bool,
     }),
-    modelAttributeList: React.PropTypes.objectOf(ModelAttribute),
+    modelAttributeList: PropTypes.objectOf(ModelAttribute),
     // from mapDispatchToProps
-    fetchTable: React.PropTypes.func,
-    fetchTableAttributes: React.PropTypes.func,
-    flushTableAttributes: React.PropTypes.func,
-    fetchModelAttributeList: React.PropTypes.func,
+    fetchTable: PropTypes.func,
+    fetchTableAttributes: PropTypes.func,
+    flushTableAttributes: PropTypes.func,
+    fetchModelAttributeList: PropTypes.func,
   }
 
   constructor(props) {
@@ -64,6 +64,7 @@ export class DatasourceFormMappingContainer extends React.Component {
         })
       })
   }
+
 
   handleTableSelected = (tableName) => {
     const { currentDatasource } = this.props

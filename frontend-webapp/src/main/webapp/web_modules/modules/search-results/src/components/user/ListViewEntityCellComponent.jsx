@@ -37,25 +37,25 @@ class ListViewEntityCellComponent extends React.Component {
 
     // Entity to display
     entity: CatalogEntity.isRequired,
-    attributes: React.PropTypes.objectOf(AttributeModel),
+    attributes: PropTypes.objectOf(AttributeModel),
     // eslint-disable-next-line react/no-unused-prop-types
-    lineHeight: React.PropTypes.number.isRequired,
+    lineHeight: PropTypes.number.isRequired,
     // Parameters to handle row selection
-    isTableSelected: React.PropTypes.bool,
-    selectTableEntityCallback: React.PropTypes.func,
+    isTableSelected: PropTypes.bool,
+    selectTableEntityCallback: PropTypes.func,
 
     // Parameters set by columnConfiguration
 
     // Columns configuration to display
-    tableColumns: React.PropTypes.arrayOf(TableColumnConfiguration),
+    tableColumns: PropTypes.arrayOf(TableColumnConfiguration),
     // Callback to run a new search with the given tag
-    onSearchTag: React.PropTypes.func,
+    onSearchTag: PropTypes.func,
     // Callback when click on entity label
-    onClick: React.PropTypes.func,
+    onClick: PropTypes.func,
     // eslint-disable-next-line react/forbid-prop-types
-    styles: React.PropTypes.object,
+    styles: PropTypes.object,
     // Display checbox for entities selection ?
-    displayCheckBoxes: React.PropTypes.bool,
+    displayCheckBoxes: PropTypes.bool,
   }
 
   static contextTypes = {

@@ -20,17 +20,17 @@ export class PluginConfigurationContainer extends React.Component {
 
   static propTypes = {
     // from parent or router
-    params: React.PropTypes.shape({
-      project: React.PropTypes.string.isRequired,
-      microserviceName: React.PropTypes.string.isRequired,
-      pluginId: React.PropTypes.string.isRequired,
+    params: PropTypes.shape({
+      project: PropTypes.string.isRequired,
+      microserviceName: PropTypes.string.isRequired,
+      pluginId: PropTypes.string.isRequired,
     }),
     pluginConfiguration: PluginConfiguration,
     pluginMetaData: PluginMetaData,
     // from mapStateToProps
     // from mapDispatchToProps
-    updatePluginConfiguration: React.PropTypes.func,
-    deletePluginConfiguration: React.PropTypes.func,
+    updatePluginConfiguration: PropTypes.func,
+    deletePluginConfiguration: PropTypes.func,
   }
 
   static contextTypes = {

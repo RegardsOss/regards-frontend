@@ -31,7 +31,7 @@ class ConnectionTesterIconButton extends React.Component {
 
   static propTypes = {
     connection: Connection.isRequired,
-    handleTestConnection: React.PropTypes.func.isRequired,
+    handleTestConnection: PropTypes.func.isRequired,
   }
 
   static contextTypes = {

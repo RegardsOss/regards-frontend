@@ -25,7 +25,7 @@ export class SelectThemeContainer extends React.Component {
   static propTypes = {
     currentTheme: Theme,
     themeList: ThemeList,
-    onChange: React.PropTypes.func,
+    onChange: PropTypes.func,
   }
 
   static defaultProps = {

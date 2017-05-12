@@ -22,27 +22,27 @@ export class DatasourceFormMappingComponent extends React.Component {
 
   static propTypes = {
     currentDatasource: Datasource,
-    isEditing: React.PropTypes.bool,
-    handleBack: React.PropTypes.func.isRequired,
-    onSubmit: React.PropTypes.func.isRequired,
-    onTableSelected: React.PropTypes.func.isRequired,
-    tableList: React.PropTypes.objectOf(React.PropTypes.shape({
-      name: React.PropTypes.string,
-      schema: React.PropTypes.string,
-      pKey: React.PropTypes.string,
+    isEditing: PropTypes.bool,
+    handleBack: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
+    onTableSelected: PropTypes.func.isRequired,
+    tableList: PropTypes.objectOf(PropTypes.shape({
+      name: PropTypes.string,
+      schema: PropTypes.string,
+      pKey: PropTypes.string,
     })),
-    tableAttributeList: React.PropTypes.objectOf(React.PropTypes.shape({
-      name: React.PropTypes.string,
-      javaSqlType: React.PropTypes.string,
-      isPrimaryKey: React.PropTypes.bool,
+    tableAttributeList: PropTypes.objectOf(PropTypes.shape({
+      name: PropTypes.string,
+      javaSqlType: PropTypes.string,
+      isPrimaryKey: PropTypes.bool,
     })),
-    modelAttributeList: React.PropTypes.objectOf(ModelAttribute),
+    modelAttributeList: PropTypes.objectOf(ModelAttribute),
     // from reduxForm
-    submitting: React.PropTypes.bool,
-    invalid: React.PropTypes.bool,
-    handleSubmit: React.PropTypes.func.isRequired,
-    initialize: React.PropTypes.func.isRequired,
-    change: React.PropTypes.func.isRequired,
+    submitting: PropTypes.bool,
+    invalid: PropTypes.bool,
+    handleSubmit: PropTypes.func.isRequired,
+    initialize: PropTypes.func.isRequired,
+    change: PropTypes.func.isRequired,
   }
 
   static contextTypes = {

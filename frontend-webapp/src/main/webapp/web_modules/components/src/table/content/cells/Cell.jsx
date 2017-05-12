@@ -13,17 +13,17 @@ import ColumnConfigurationController from '../columns/model/ColumnConfigurationC
 class Cell extends React.PureComponent {
 
   static propTypes = {
-    rowIndex: React.PropTypes.number,
-    isLastColumn: React.PropTypes.bool.isRequired,
-    col: React.PropTypes.shape({
-      attributes: React.PropTypes.arrayOf(React.PropTypes.string),
-      label: React.PropTypes.string,
+    rowIndex: PropTypes.number,
+    isLastColumn: PropTypes.bool.isRequired,
+    col: PropTypes.shape({
+      attributes: PropTypes.arrayOf(PropTypes.string),
+      label: PropTypes.string,
     }).isRequired,
-    entities: React.PropTypes.arrayOf(React.PropTypes.object),
-    overridenCellsStyle: React.PropTypes.objectOf(React.PropTypes.string),
-    lineHeight: React.PropTypes.number,
-    onToggleSelectRow: React.PropTypes.func.isRequired,
-    isSelected: React.PropTypes.func.isRequired,
+    entities: PropTypes.arrayOf(PropTypes.object),
+    overridenCellsStyle: PropTypes.objectOf(PropTypes.string),
+    lineHeight: PropTypes.number,
+    onToggleSelectRow: PropTypes.func.isRequired,
+    isSelected: PropTypes.func.isRequired,
   }
 
   static contextTypes = {

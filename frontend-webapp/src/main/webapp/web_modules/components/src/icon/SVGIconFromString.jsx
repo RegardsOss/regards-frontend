@@ -9,10 +9,10 @@ import SvgIcon from 'material-ui/SvgIcon'
 class SVGIconFromString extends React.Component {
 
   static propTypes = {
-    icon: React.PropTypes.string.isRequired,
+    icon: PropTypes.string.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
-    iconStyle: React.PropTypes.object,
-    iconViewBox: React.PropTypes.string,
+    iconStyle: PropTypes.object,
+    iconViewBox: PropTypes.string,
   }
 
   static defaultProps = {

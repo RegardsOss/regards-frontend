@@ -12,8 +12,8 @@ class DatasetLineComponent extends React.Component {
 
   static propTypes = {
     entity: Entity.isRequired,
-    accessRights: React.PropTypes.arrayOf(AccessRight),
-    onDelete: React.PropTypes.func,
+    accessRights: PropTypes.arrayOf(AccessRight),
+    onDelete: PropTypes.func,
   }
 
 

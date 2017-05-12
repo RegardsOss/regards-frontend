@@ -18,19 +18,19 @@ class AdminContainer extends React.Component {
   static propTypes = {
     // Props supplied by LazyModuleComponent
     // eslint-disable-next-line react/no-unused-prop-types
-    appName: React.PropTypes.string,
+    appName: PropTypes.string,
     // eslint-disable-next-line react/no-unused-prop-types
-    project: React.PropTypes.string,
-    adminForm: React.PropTypes.shape({
-      changeField: React.PropTypes.func,
+    project: PropTypes.string,
+    adminForm: PropTypes.shape({
+      changeField: PropTypes.func,
       form: ModuleConfiguration,
     }).isRequired,
     // Default props given to the form
     moduleConf: ModuleConfiguration.isRequired,
 
     // Set by mapStateToProps and mapDispatchToProps
-    attributeModels: React.PropTypes.objectOf(AttributeModel),
-    fetchAllModelsAttributes: React.PropTypes.func,
+    attributeModels: PropTypes.objectOf(AttributeModel),
+    fetchAllModelsAttributes: PropTypes.func,
   }
 
   constructor(props) {

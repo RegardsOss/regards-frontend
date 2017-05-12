@@ -25,10 +25,10 @@ export class DescriptionContainer extends React.Component {
 
   static propTypes = {
     // from mapStateToProps
-    isDescriptionVisible: React.PropTypes.bool.isRequired,
+    isDescriptionVisible: PropTypes.bool.isRequired,
     entity: CatalogEntity,
     // from mapDispatchToProps
-    hideDescription: React.PropTypes.func.isRequired,
+    hideDescription: PropTypes.func.isRequired,
   }
 
   onCloseDescription = () => this.props.hideDescription()

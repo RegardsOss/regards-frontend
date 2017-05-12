@@ -16,14 +16,14 @@ class TableSelectAllFilter extends React.Component {
 
   static propTypes = {
     // eslint-disable-next-line react/no-unused-prop-types
-    tableName: React.PropTypes.string.isRequired,
+    tableName: PropTypes.string.isRequired,
     // Set by mapStateToProps
     // eslint-disable-next-line  react/no-unused-prop-types
-    tableSelectionMode: React.PropTypes.string,
+    tableSelectionMode: PropTypes.string,
     // eslint-disable-next-line
-    toggledElements: React.PropTypes.object,
+    toggledElements: PropTypes.object,
     // Set by mapDispatchToProps
-    toggleTableSelectionMode: React.PropTypes.func,
+    toggleTableSelectionMode: PropTypes.func,
   }
 
   static contextTypes = {

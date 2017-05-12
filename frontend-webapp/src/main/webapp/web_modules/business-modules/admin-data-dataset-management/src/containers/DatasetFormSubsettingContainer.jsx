@@ -15,13 +15,13 @@ export class DatasetFormSubsettingContainer extends React.Component {
 
   static propTypes = {
     currentDataset: Dataset,
-    handleBack: React.PropTypes.func.isRequired,
-    handleSave: React.PropTypes.func.isRequired,
-    isEditing: React.PropTypes.bool.isRequired,
+    handleBack: PropTypes.func.isRequired,
+    handleSave: PropTypes.func.isRequired,
+    isEditing: PropTypes.bool.isRequired,
     // from mapStateToProps
-    modelAttributeList: React.PropTypes.objectOf(ModelAttribute),
+    modelAttributeList: PropTypes.objectOf(ModelAttribute),
     // from mapDispatchToProps
-    fetchModelAttributeList: React.PropTypes.func,
+    fetchModelAttributeList: PropTypes.func,
   }
 
 

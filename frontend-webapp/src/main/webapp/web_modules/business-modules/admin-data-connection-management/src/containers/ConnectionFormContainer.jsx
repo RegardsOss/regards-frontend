@@ -17,18 +17,18 @@ export class ConnectionFormContainer extends React.Component {
 
   static propTypes = {
     // from router
-    params: React.PropTypes.shape({
-      project: React.PropTypes.string,
-      connectionId: React.PropTypes.string,
+    params: PropTypes.shape({
+      project: PropTypes.string,
+      connectionId: PropTypes.string,
     }),
     // from mapStateToProps
     currentConnection: Connection,
-    pluginMetaDataList: React.PropTypes.objectOf(PluginMetaData),
+    pluginMetaDataList: PropTypes.objectOf(PluginMetaData),
     // from mapDispatchToProps
-    fetchConnection: React.PropTypes.func,
-    createConnection: React.PropTypes.func,
-    updateConnection: React.PropTypes.func,
-    fetchPluginMetaDataList: React.PropTypes.func,
+    fetchConnection: PropTypes.func,
+    createConnection: PropTypes.func,
+    updateConnection: PropTypes.func,
+    fetchPluginMetaDataList: PropTypes.func,
   }
 
   constructor(props) {

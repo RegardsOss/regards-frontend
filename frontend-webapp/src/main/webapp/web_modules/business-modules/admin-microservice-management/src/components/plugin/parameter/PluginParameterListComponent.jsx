@@ -20,9 +20,9 @@ class PluginParameterListComponent extends React.Component {
 
   static propTypes = {
     pluginConfiguration: PluginConfiguration,
-    formMode: React.PropTypes.oneOf(['create', 'edit', 'copy']),
+    formMode: PropTypes.oneOf(['create', 'edit', 'copy']),
     pluginMetaData: PluginMetaData,
-    change: React.PropTypes.func, // Callback provided by redux-form in order to manually change a field value
+    change: PropTypes.func, // Callback provided by redux-form in order to manually change a field value
   }
 
   render() {
@@ -37,14 +37,14 @@ class PluginParameterListComponent extends React.Component {
         <CardTitle title={<FormattedMessage id="microservice-management.plugin.parameter.list.title" />} />
         <CardText>
           {map(pluginParameterList, (pluginParameter, index) =>
-            <GenericPluginParameter
+            (<GenericPluginParameter
               key={index}
               fieldKey={`parameters[${index}].value`}
               pluginParameter={pluginParameter}
               pluginParameterType={mapPluginParameterToPluginParameterType(pluginParameter, pluginMetaData)}
               mode={formMode}
               change={change}
-            />)}
+            />))}
         </CardText>
       </Card>
     )

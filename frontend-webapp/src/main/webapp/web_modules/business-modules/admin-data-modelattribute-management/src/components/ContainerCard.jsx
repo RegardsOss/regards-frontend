@@ -9,17 +9,17 @@ import moduleStyles from '../styles/styles'
 export class ContainerCard extends React.Component {
 
   static propTypes = {
-    title: React.PropTypes.element.isRequired,
+    title: PropTypes.element.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
-    acceptAttrType: React.PropTypes.string.isRequired,
+    acceptAttrType: PropTypes.string.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
-    children: React.PropTypes.any,
+    children: PropTypes.any,
     // eslint-disable-next-line react/no-unused-prop-types
-    onChange: React.PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired,
     // from DropTarget
-    connectDropTarget: React.PropTypes.func.isRequired,
-    isOver: React.PropTypes.bool.isRequired,
-    canDrop: React.PropTypes.bool.isRequired,
+    connectDropTarget: PropTypes.func.isRequired,
+    isOver: PropTypes.bool.isRequired,
+    canDrop: PropTypes.bool.isRequired,
   }
 
   static contextTypes = {

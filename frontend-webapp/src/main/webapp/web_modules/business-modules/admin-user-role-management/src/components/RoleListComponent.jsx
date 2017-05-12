@@ -19,12 +19,12 @@ import RoleActions from '../model/RoleActions'
 export class RoleListComponent extends React.Component {
 
   static propTypes = {
-    roleList: React.PropTypes.objectOf(Role),
-    handleDelete: React.PropTypes.func.isRequired,
-    handleEdit: React.PropTypes.func.isRequired,
-    handleEditResourceAccess: React.PropTypes.func.isRequired,
-    createUrl: React.PropTypes.string.isRequired,
-    backUrl: React.PropTypes.string.isRequired,
+    roleList: PropTypes.objectOf(Role),
+    handleDelete: PropTypes.func.isRequired,
+    handleEdit: PropTypes.func.isRequired,
+    handleEditResourceAccess: PropTypes.func.isRequired,
+    createUrl: PropTypes.string.isRequired,
+    backUrl: PropTypes.string.isRequired,
   }
 
   static contextTypes = {

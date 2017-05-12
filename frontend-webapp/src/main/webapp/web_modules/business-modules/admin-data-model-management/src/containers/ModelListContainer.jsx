@@ -13,15 +13,15 @@ export class ModelListContainer extends React.Component {
 
   static propTypes = {
     // from router
-    params: React.PropTypes.shape({
-      project: React.PropTypes.string,
+    params: PropTypes.shape({
+      project: PropTypes.string,
     }),
     // from mapStateToProps
-    modelList: React.PropTypes.objectOf(Model),
-    accessToken: React.PropTypes.string,
+    modelList: PropTypes.objectOf(Model),
+    accessToken: PropTypes.string,
     // from mapDispatchToProps
-    fetchModelList: React.PropTypes.func,
-    deleteModel: React.PropTypes.func,
+    fetchModelList: PropTypes.func,
+    deleteModel: PropTypes.func,
   }
 
   componentWillMount() {

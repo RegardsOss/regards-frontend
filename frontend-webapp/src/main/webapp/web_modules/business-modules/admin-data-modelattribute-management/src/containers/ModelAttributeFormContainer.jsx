@@ -6,7 +6,7 @@ import { I18nProvider } from '@regardsoss/i18n'
 import { map, partition, some, find } from 'lodash'
 import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
 import { AttributeModel, Model, ModelAttribute } from '@regardsoss/model'
-import { attributeModelActions, attributeModelSelectors} from '../client/AttributeModelClient'
+import { attributeModelActions, attributeModelSelectors } from '../client/AttributeModelClient'
 import ModelAttributeFormComponent from '../components/ModelAttributeFormComponent'
 import { modelAttributesSelectors, modelAttributesActions } from '../client/ModelAttributesClient'
 import { modelSelectors, modelActions } from '../client/ModelClient'
@@ -16,25 +16,25 @@ export class ModelAttributeFormContainer extends React.Component {
 
   static propTypes = {
     // from router
-    params: React.PropTypes.shape({
-      project: React.PropTypes.string,
-      model_id: React.PropTypes.string,
+    params: PropTypes.shape({
+      project: PropTypes.string,
+      model_id: PropTypes.string,
     }),
     // from mapDispatchToProps
-    createModelAttribute: React.PropTypes.func,
-    fetchAttributeModelList: React.PropTypes.func,
-    fetchModelAttributeList: React.PropTypes.func,
-    deleteModelAttribute: React.PropTypes.func,
-    fetchModel: React.PropTypes.func,
-    bindFragment: React.PropTypes.func,
-    unbindFragment: React.PropTypes.func,
+    createModelAttribute: PropTypes.func,
+    fetchAttributeModelList: PropTypes.func,
+    fetchModelAttributeList: PropTypes.func,
+    deleteModelAttribute: PropTypes.func,
+    fetchModel: PropTypes.func,
+    bindFragment: PropTypes.func,
+    unbindFragment: PropTypes.func,
     // from mapStateToProps
     model: Model,
-    attributeModelList: React.PropTypes.objectOf(AttributeModel),
-    isAttributeModelFetching: React.PropTypes.bool,
-    modelAttributeList: React.PropTypes.objectOf(ModelAttribute),
-    isModelAttributeFetching: React.PropTypes.bool,
-    isModelFetching: React.PropTypes.bool,
+    attributeModelList: PropTypes.objectOf(AttributeModel),
+    isAttributeModelFetching: PropTypes.bool,
+    modelAttributeList: PropTypes.objectOf(ModelAttribute),
+    isModelAttributeFetching: PropTypes.bool,
+    isModelFetching: PropTypes.bool,
   }
 
   componentDidMount() {

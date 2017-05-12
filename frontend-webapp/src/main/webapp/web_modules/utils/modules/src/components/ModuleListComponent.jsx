@@ -21,11 +21,11 @@ import ModuleShape from '../model/ModuleShape'
 class ModuleListComponent extends React.Component {
 
   static propTypes = {
-    project: React.PropTypes.string.isRequired,
-    open: React.PropTypes.bool.isRequired,
-    container: React.PropTypes.string,
-    modules: React.PropTypes.arrayOf(ModuleShape),
-    onCloseMenu: React.PropTypes.func,
+    project: PropTypes.string.isRequired,
+    open: PropTypes.bool.isRequired,
+    container: PropTypes.string,
+    modules: PropTypes.arrayOf(ModuleShape),
+    onCloseMenu: PropTypes.func,
   }
 
   static contextTypes = {

@@ -26,9 +26,9 @@ const styles = moduleStyles().plugins
 class ServiceListComponent extends React.Component {
 
   static propTypes = {
-    uiPluginDefinitionList: React.PropTypes.objectOf(UIPluginDefinition).isRequired,
-    handleOpen: React.PropTypes.func.isRequired,
-    handleBack: React.PropTypes.func.isRequired,
+    uiPluginDefinitionList: PropTypes.objectOf(UIPluginDefinition).isRequired,
+    handleOpen: PropTypes.func.isRequired,
+    handleBack: PropTypes.func.isRequired,
   }
 
   static contextTypes = {

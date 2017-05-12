@@ -20,13 +20,13 @@ class GraphLevelDispayer extends React.Component {
 
   static propTypes = {
     graphDatasetAttributes: DatasetAttributesArrayForGraph.isRequired, // graph dataset attributes, required, but empty array is allowed
-    isShowable: React.PropTypes.bool.isRequired, // is showable in current state?
-    isLoading: React.PropTypes.bool.isRequired, // is loading
-    isLastLevel: React.PropTypes.bool.isRequired, // is last level?
-    hasError: React.PropTypes.bool.isRequired, // has fetch error
-    collections: React.PropTypes.objectOf(CatalogEntity).isRequired,
-    datasets: React.PropTypes.objectOf(CatalogEntity).isRequired,
-    levelIndex: React.PropTypes.number.isRequired,
+    isShowable: PropTypes.bool.isRequired, // is showable in current state?
+    isLoading: PropTypes.bool.isRequired, // is loading
+    isLastLevel: PropTypes.bool.isRequired, // is last level?
+    hasError: PropTypes.bool.isRequired, // has fetch error
+    collections: PropTypes.objectOf(CatalogEntity).isRequired,
+    datasets: PropTypes.objectOf(CatalogEntity).isRequired,
+    levelIndex: PropTypes.number.isRequired,
   }
 
   static contextTypes = {
@@ -58,21 +58,21 @@ class GraphLevelDispayer extends React.Component {
             >
               {
                 map(collections, collection =>
-                  <CollectionItemContainer
+                  (<CollectionItemContainer
                     key={collection.content.ipId}
                     collection={collection}
                     levelIndex={levelIndex}
                     isLastLevel={isLastLevel}
-                  />)
+                  />))
               }
               {
                 map(datasets, dataset =>
-                  <DatasetItemContainer
+                  (<DatasetItemContainer
                     graphDatasetAttributes={graphDatasetAttributes}
                     key={dataset.content.ipId}
                     dataset={dataset}
                     levelIndex={levelIndex}
-                  />)
+                  />))
               }
             </ScrollArea>
           </ShowableAtRender>

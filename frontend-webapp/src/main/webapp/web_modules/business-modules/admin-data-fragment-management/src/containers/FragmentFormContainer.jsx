@@ -16,17 +16,17 @@ import { fragmentActions, fragmentSelectors } from '../client/FragmentClient'
 export class FragmentFormContainer extends React.Component {
   static propTypes = {
     // from router
-    params: React.PropTypes.shape({
-      project: React.PropTypes.string,
-      fragment_id: React.PropTypes.string,
+    params: PropTypes.shape({
+      project: PropTypes.string,
+      fragment_id: PropTypes.string,
     }),
     // from mapStateToProps
     fragment: Fragment,
     // from mapDispatchToProps
-    createFragment: React.PropTypes.func,
-    createFragmentUsingFile: React.PropTypes.func,
-    fetchFragment: React.PropTypes.func,
-    updateFragment: React.PropTypes.func,
+    createFragment: PropTypes.func,
+    createFragmentUsingFile: PropTypes.func,
+    fetchFragment: PropTypes.func,
+    updateFragment: PropTypes.func,
   }
 
   constructor(props) {

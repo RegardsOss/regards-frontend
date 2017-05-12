@@ -17,28 +17,28 @@ import DEFAULT_FRAGMENT_NAME from '../DefaultFragmentName'
 export class AttributeModelFormContainer extends React.Component {
   static propTypes = {
     // from router
-    params: React.PropTypes.shape({
-      project: React.PropTypes.string,
-      attrModel_id: React.PropTypes.string,
-      fragment_name: React.PropTypes.string,
+    params: PropTypes.shape({
+      project: PropTypes.string,
+      attrModel_id: PropTypes.string,
+      fragment_name: PropTypes.string,
     }),
     // from mapStateToProps
     attrModel: AttributeModel,
-    isAttributeModelFetching: React.PropTypes.bool,
-    attrModelTypeList: React.PropTypes.arrayOf(React.PropTypes.string),
-    isAttributeModelRestrictionFetching: React.PropTypes.bool,
-    attrModelRestrictionList: React.PropTypes.arrayOf(React.PropTypes.string),
-    isAttributeModelTypeFetching: React.PropTypes.bool,
-    fragmentList: React.PropTypes.objectOf(Fragment),
-    isFragmentFetching: React.PropTypes.bool,
+    isAttributeModelFetching: PropTypes.bool,
+    attrModelTypeList: PropTypes.arrayOf(PropTypes.string),
+    isAttributeModelRestrictionFetching: PropTypes.bool,
+    attrModelRestrictionList: PropTypes.arrayOf(PropTypes.string),
+    isAttributeModelTypeFetching: PropTypes.bool,
+    fragmentList: PropTypes.objectOf(Fragment),
+    isFragmentFetching: PropTypes.bool,
     // from mapDispatchToProps
-    createAttrModel: React.PropTypes.func,
-    fetchAttrModel: React.PropTypes.func,
-    updateAttrModel: React.PropTypes.func,
-    fetchAttributeModelTypeList: React.PropTypes.func,
-    flushAttributeModelRestriction: React.PropTypes.func,
-    fetchFragmentList: React.PropTypes.func,
-    fetchAttributeModelRestrictionList: React.PropTypes.func,
+    createAttrModel: PropTypes.func,
+    fetchAttrModel: PropTypes.func,
+    updateAttrModel: PropTypes.func,
+    fetchAttributeModelTypeList: PropTypes.func,
+    flushAttributeModelRestriction: PropTypes.func,
+    fetchFragmentList: PropTypes.func,
+    fetchAttributeModelRestrictionList: PropTypes.func,
   }
 
   constructor(props) {

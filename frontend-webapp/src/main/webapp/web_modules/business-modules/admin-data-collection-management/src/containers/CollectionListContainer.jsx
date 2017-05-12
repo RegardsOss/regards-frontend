@@ -16,15 +16,15 @@ export class CollectionListContainer extends React.Component {
 
   static propTypes = {
     // from router
-    params: React.PropTypes.shape({
-      project: React.PropTypes.string,
+    params: PropTypes.shape({
+      project: PropTypes.string,
     }),
     // from mapStateToProps
-    collectionList: React.PropTypes.objectOf(Collection),
-    isFetching: React.PropTypes.bool,
+    collectionList: PropTypes.objectOf(Collection),
+    isFetching: PropTypes.bool,
     // from mapDispatchToProps
-    fetchCollectionList: React.PropTypes.func,
-    deleteCollection: React.PropTypes.func,
+    fetchCollectionList: PropTypes.func,
+    deleteCollection: PropTypes.func,
   }
 
   componentWillMount() {

@@ -19,11 +19,11 @@ class FormTabsComponent extends React.Component {
 
   static propTypes = {
     // Props supplied by LazyModuleComponent
-    appName: React.PropTypes.string,
+    appName: PropTypes.string,
     // eslint-disable-next-line react/no-unused-prop-types
-    project: React.PropTypes.string,
-    adminForm: React.PropTypes.shape({
-      changeField: React.PropTypes.func,
+    project: PropTypes.string,
+    adminForm: PropTypes.shape({
+      changeField: PropTypes.func,
       form: ModuleConfiguration,
     }),
 
@@ -31,11 +31,11 @@ class FormTabsComponent extends React.Component {
     defaultConf: ModuleConfiguration.isRequired,
 
     // From mapStateToProps and mapDispatchToProps
-    selectableAttributes: React.PropTypes.objectOf(AttributeModel),
-    selectableAttributesFectching: React.PropTypes.bool,
-    disableChangeDatasets: React.PropTypes.bool,
-    availableCriterion: React.PropTypes.objectOf(PluginDefinition),
-    criterionFetching: React.PropTypes.bool,
+    selectableAttributes: PropTypes.objectOf(AttributeModel),
+    selectableAttributesFectching: PropTypes.bool,
+    disableChangeDatasets: PropTypes.bool,
+    availableCriterion: PropTypes.objectOf(PluginDefinition),
+    criterionFetching: PropTypes.bool,
   }
 
   renderCriterionTab = () => {

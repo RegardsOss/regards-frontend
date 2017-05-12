@@ -11,9 +11,9 @@ import '../GB.png'
  */
 class SelectLocaleComponent extends React.Component {
   static propTypes = {
-    locales: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
-    currentLocale: React.PropTypes.string,
-    handleLocaleChange: React.PropTypes.func,
+    locales: PropTypes.arrayOf(PropTypes.string).isRequired,
+    currentLocale: PropTypes.string,
+    handleLocaleChange: PropTypes.func,
   }
 
   render() {

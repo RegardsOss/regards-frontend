@@ -14,19 +14,19 @@ import { CardTitle } from 'material-ui/Card'
 export class ConnectionViewerComponent extends React.Component {
 
   static propTypes = {
-    tableList: React.PropTypes.shape({
-      name: React.PropTypes.string,
+    tableList: PropTypes.shape({
+      name: PropTypes.string,
     }),
-    tableAttributeList: React.PropTypes.shape({
-      name: React.PropTypes.string,
-      javaSqlType: React.PropTypes.string,
-      isPrimaryKey: React.PropTypes.bool,
+    tableAttributeList: PropTypes.shape({
+      name: PropTypes.string,
+      javaSqlType: PropTypes.string,
+      isPrimaryKey: PropTypes.bool,
     }),
     // Both are only provided in FromTable
-    onTableSelected: React.PropTypes.func.isRequired,
-    displayTableAsSelected: React.PropTypes.bool,
+    onTableSelected: PropTypes.func.isRequired,
+    displayTableAsSelected: PropTypes.bool,
     // The parent component can force to mark a table as selected from the beginning
-    initialTableOpen: React.PropTypes.string,
+    initialTableOpen: PropTypes.string,
   }
 
   constructor(props) {

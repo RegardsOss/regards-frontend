@@ -18,14 +18,14 @@ class MenuContainer extends React.Component {
 
   static propTypes = {
     // Set by module loader (LazyModuleComponent)
-    project: React.PropTypes.string,
-    appName: React.PropTypes.string.isRequired,
+    project: PropTypes.string,
+    appName: PropTypes.string.isRequired,
     // Module configuration.
-    moduleConf: React.PropTypes.shape({
-      title: React.PropTypes.string,
-      displayAuthentication: React.PropTypes.bool,
-      displayLocaleSelector: React.PropTypes.bool,
-      displayThemeSelector: React.PropTypes.bool,
+    moduleConf: PropTypes.shape({
+      title: PropTypes.string,
+      displayAuthentication: PropTypes.bool,
+      displayLocaleSelector: PropTypes.bool,
+      displayThemeSelector: PropTypes.bool,
     }),
   }
 

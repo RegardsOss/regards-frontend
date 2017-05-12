@@ -19,14 +19,14 @@ const { validRequiredString } = ValidationHelpers
 export class ThemeCreateComponent extends React.Component {
 
   static propTypes = {
-    open: React.PropTypes.bool,
-    onRequestClose: React.PropTypes.func.isRequired,
-    onSubmit: React.PropTypes.func.isRequired,
+    open: PropTypes.bool,
+    onRequestClose: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
     // from reduxForm
-    submitting: React.PropTypes.bool,
-    invalid: React.PropTypes.bool,
-    handleSubmit: React.PropTypes.func.isRequired,
-    reset: React.PropTypes.func.isRequired,
+    submitting: PropTypes.bool,
+    invalid: PropTypes.bool,
+    handleSubmit: PropTypes.func.isRequired,
+    reset: PropTypes.func.isRequired,
   }
 
   static contextTypes = {

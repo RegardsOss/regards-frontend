@@ -27,11 +27,11 @@ export class AccessRightComponent extends React.Component {
   }
 
   static propTypes = {
-    accessGroupList: React.PropTypes.objectOf(AccessGroup),
-    pluginConfigurationList: React.PropTypes.objectOf(PluginConfiguration),
-    pluginMetaDataList: React.PropTypes.objectOf(PluginMetaData),
-    onSubmit: React.PropTypes.func.isRequired,
-    onDelete: React.PropTypes.func.isRequired,
+    accessGroupList: PropTypes.objectOf(AccessGroup),
+    pluginConfigurationList: PropTypes.objectOf(PluginConfiguration),
+    pluginMetaDataList: PropTypes.objectOf(PluginMetaData),
+    onSubmit: PropTypes.func.isRequired,
+    onDelete: PropTypes.func.isRequired,
   }
 
   constructor(props) {

@@ -49,18 +49,18 @@ const RESULTS_TABLE_NAME = 'search-results-table'
 class SearchResultsComponent extends React.Component {
 
   static propTypes = {
-    appName: React.PropTypes.string,
-    project: React.PropTypes.string,
-    enableFacettes: React.PropTypes.bool.isRequired,
-    searchQuery: React.PropTypes.string,
-    facettesQuery: React.PropTypes.string,
-    attributesConf: React.PropTypes.arrayOf(AttributeConfiguration),
-    attributesRegroupementsConf: React.PropTypes.arrayOf(AttributesRegroupementConfiguration),
-    attributeModels: React.PropTypes.objectOf(AttributeModel),
-    target: React.PropTypes.oneOf(values(SearchResultsTargetsEnum)).isRequired,
-    singleDatasetIpId: React.PropTypes.string, // Current dataset ipId when all results shown are links with only one dataset
+    appName: PropTypes.string,
+    project: PropTypes.string,
+    enableFacettes: PropTypes.bool.isRequired,
+    searchQuery: PropTypes.string,
+    facettesQuery: PropTypes.string,
+    attributesConf: PropTypes.arrayOf(AttributeConfiguration),
+    attributesRegroupementsConf: PropTypes.arrayOf(AttributesRegroupementConfiguration),
+    attributeModels: PropTypes.objectOf(AttributeModel),
+    target: PropTypes.oneOf(values(SearchResultsTargetsEnum)).isRequired,
+    singleDatasetIpId: PropTypes.string, // Current dataset ipId when all results shown are links with only one dataset
     // Fixed breadcrumb depending on search current context.
-    breadcrumbInitialContextLabel: React.PropTypes.string,
+    breadcrumbInitialContextLabel: PropTypes.string,
   }
 
   static contextTypes = {

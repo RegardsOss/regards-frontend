@@ -7,7 +7,7 @@ import Icon from 'material-ui/svg-icons/content/report'
 class PluginErrorComponent extends React.Component {
 
   static propTypes = {
-    message: React.PropTypes.string.isRequired,
+    message: PropTypes.string.isRequired,
   }
 
   render() {

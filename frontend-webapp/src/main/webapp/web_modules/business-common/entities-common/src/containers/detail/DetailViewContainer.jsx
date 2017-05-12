@@ -59,40 +59,40 @@ export class DetailViewContainer extends React.Component {
 
   static propTypes = {
     // Component API
-    open: React.PropTypes.bool.isRequired,
+    open: PropTypes.bool.isRequired,
     entity: CatalogEntity, // entity, or undefined / null / empty object if not shown
-    onClose: React.PropTypes.func.isRequired, // on close callback
+    onClose: PropTypes.func.isRequired, // on close callback
     // Callback to run a new search with given tag
-    onSearchTag: React.PropTypes.func,
+    onSearchTag: PropTypes.func,
     // Component fetch operators
     // model attributes to model association (only for mapDispatchToProps and map states to props)
     // eslint-disable-next-line react/no-unused-prop-types
-    fetchModelAttributesActions: React.PropTypes.instanceOf(DataManagementClient.ModelAttributesActions).isRequired,
+    fetchModelAttributesActions: PropTypes.instanceOf(DataManagementClient.ModelAttributesActions).isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
-    fetchModelAttributesSelectors: React.PropTypes.instanceOf(BasicListSelectors).isRequired,
+    fetchModelAttributesSelectors: PropTypes.instanceOf(BasicListSelectors).isRequired,
     // download entity description file content client (used only for local markdown description files, that require a transformation before showing)
     // eslint-disable-next-line react/no-unused-prop-types
-    downloadDescriptionClient: React.PropTypes.instanceOf(DownloadDescriptionClient).isRequired,
+    downloadDescriptionClient: PropTypes.instanceOf(DownloadDescriptionClient).isRequired,
     // from mapStateToProps
-    loading: React.PropTypes.bool.isRequired, // is currently loading
+    loading: PropTypes.bool.isRequired, // is currently loading
     // eslint-disable-next-line react/no-unused-prop-types
-    accessToken: React.PropTypes.string,
+    accessToken: PropTypes.string,
     // eslint-disable-next-line react/no-unused-prop-types
-    fetchedModelAttributes: React.PropTypes.objectOf(ModelAttribute),
+    fetchedModelAttributes: PropTypes.objectOf(ModelAttribute),
     // eslint-disable-next-line react/no-unused-prop-types
-    fetchedDatasetDescriptionResult: React.PropTypes.shape({
-      fileContent: React.PropTypes.string,
+    fetchedDatasetDescriptionResult: PropTypes.shape({
+      fileContent: PropTypes.string,
     }),
     // eslint-disable-next-line react/no-unused-prop-types
-    fetchedCollectionDescriptionResult: React.PropTypes.shape({
-      fileContent: React.PropTypes.string,
+    fetchedCollectionDescriptionResult: PropTypes.shape({
+      fileContent: PropTypes.string,
     }),
 
     // from mapDispatchToProps
     // eslint-disable-next-line react/no-unused-prop-types
-    dispatchFetchDescription: React.PropTypes.func.isRequired,
+    dispatchFetchDescription: PropTypes.func.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
-    dispatchFetchModelAttributes: React.PropTypes.func.isRequired,
+    dispatchFetchModelAttributes: PropTypes.func.isRequired,
   }
 
   /**

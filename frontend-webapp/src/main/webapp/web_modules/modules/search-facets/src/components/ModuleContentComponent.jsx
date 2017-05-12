@@ -19,13 +19,13 @@ import WordFacetSelectorComponent from './WordFacetSelectorComponent'
 class ModuleContentComponent extends React.Component {
 
   static propTypes = {
-    facetLabels: React.PropTypes.objectOf(React.PropTypes.string).isRequired,
+    facetLabels: PropTypes.objectOf(PropTypes.string).isRequired,
     // current filters array
     filters: filterListShape.isRequired,
     // applies a facet filter (key:string, label:string, searchQuery: string)
-    applyFilter: React.PropTypes.func.isRequired,
+    applyFilter: PropTypes.func.isRequired,
     // deletes a current filter (key:string)
-    deleteFilter: React.PropTypes.func.isRequired,
+    deleteFilter: PropTypes.func.isRequired,
     // facets array
     facets: FacetArray,
   }

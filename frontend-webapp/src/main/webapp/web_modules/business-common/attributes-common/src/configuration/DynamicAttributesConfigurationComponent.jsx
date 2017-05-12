@@ -18,10 +18,10 @@ import AttributeConfigurationComponent from './AttributeConfigurationComponent'
 class DynamicAttributesConfigurationComponent extends React.Component {
 
   static propTypes = {
-    allowFacettes: React.PropTypes.bool.isRequired,
-    attributesConf: React.PropTypes.arrayOf(AttributeConfiguration).isRequired,
-    selectableAttributes: React.PropTypes.objectOf(AttributeModel).isRequired,
-    onChangeAttributeConfiguration: React.PropTypes.func.isRequired,
+    allowFacettes: PropTypes.bool.isRequired,
+    attributesConf: PropTypes.arrayOf(AttributeConfiguration).isRequired,
+    selectableAttributes: PropTypes.objectOf(AttributeModel).isRequired,
+    onChangeAttributeConfiguration: PropTypes.func.isRequired,
   }
 
   constructor(props) {

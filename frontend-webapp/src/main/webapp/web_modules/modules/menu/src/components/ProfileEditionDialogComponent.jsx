@@ -14,8 +14,8 @@ class ProfileEditionDialogComponent extends React.Component {
 
   static propTypes = {
     userMetadata: MetadataList.isRequired,
-    onHideDialog: React.PropTypes.func.isRequired,
-    onEdit: React.PropTypes.func.isRequired,
+    onHideDialog: PropTypes.func.isRequired,
+    onEdit: PropTypes.func.isRequired,
   }
 
   static contextTypes = {

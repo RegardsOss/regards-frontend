@@ -27,13 +27,13 @@ addLocaleData(frLocaleData)
 export class I18nProvider extends React.Component {
 
   static propTypes = {
-    children: React.PropTypes.element,
-    messageDir: React.PropTypes.string.isRequired,
+    children: PropTypes.element,
+    messageDir: PropTypes.string.isRequired,
     // from mapStateToProps
-    messages: React.PropTypes.objectOf(React.PropTypes.string),
-    locale: React.PropTypes.string,
+    messages: PropTypes.objectOf(PropTypes.string),
+    locale: PropTypes.string,
     // from mapDispatchToProps
-    updateMessages: React.PropTypes.func,
+    updateMessages: PropTypes.func,
   }
 
   componentWillMount() {

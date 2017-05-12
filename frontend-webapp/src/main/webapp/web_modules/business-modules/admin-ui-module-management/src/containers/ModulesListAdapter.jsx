@@ -15,19 +15,19 @@ import { moduleActions, moduleSelectors } from '../client/ModuleClient'
 export class ModulesListAdapter extends React.Component {
 
   static propTypes = {
-    params: React.PropTypes.shape({
-      project: React.PropTypes.string,
-      applicationId: React.PropTypes.string,
+    params: PropTypes.shape({
+      project: PropTypes.string,
+      applicationId: PropTypes.string,
     }),
     // Set by mapStateToProps
-    isInstance: React.PropTypes.bool,
+    isInstance: PropTypes.bool,
     // Set by mapDispatchToProps
-    fetchModules: React.PropTypes.func,
-    fetchInstanceModules: React.PropTypes.func,
-    updateModule: React.PropTypes.func,
-    updateInstanceModule: React.PropTypes.func,
-    deleteModule: React.PropTypes.func,
-    deleteInstanceModule: React.PropTypes.func,
+    fetchModules: PropTypes.func,
+    fetchInstanceModules: PropTypes.func,
+    updateModule: PropTypes.func,
+    updateInstanceModule: PropTypes.func,
+    deleteModule: PropTypes.func,
+    deleteInstanceModule: PropTypes.func,
   }
 
 

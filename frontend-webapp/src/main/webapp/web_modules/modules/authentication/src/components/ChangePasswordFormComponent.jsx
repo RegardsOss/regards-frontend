@@ -14,12 +14,12 @@ export class ChangePasswordFormComponent extends React.Component {
 
   static propTypes = {
     // calls update password action or shows token expired message
-    onChangePassword: React.PropTypes.func.isRequired,
+    onChangePassword: PropTypes.func.isRequired,
     // from reduxForm
-    pristine: React.PropTypes.bool,
-    submitting: React.PropTypes.bool,
-    invalid: React.PropTypes.bool,
-    handleSubmit: React.PropTypes.func.isRequired,
+    pristine: PropTypes.bool,
+    submitting: PropTypes.bool,
+    invalid: PropTypes.bool,
+    handleSubmit: PropTypes.func.isRequired,
   }
 
   static contextTypes = { ...themeContextType }

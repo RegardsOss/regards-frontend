@@ -60,21 +60,21 @@ export default class AuthenticationStatesContainer extends React.Component {
 
   static propTypes = {
     // current project (empty if admin)
-    project: React.PropTypes.string.isRequired,
+    project: PropTypes.string.isRequired,
     // extern access mode (from email): initial mail value
-    initialEmail: React.PropTypes.string,
+    initialEmail: PropTypes.string,
     // extern access mode (from mail): token for action to finish
-    actionToken: React.PropTypes.string,
+    actionToken: PropTypes.string,
     // login screen title
-    loginTitle: React.PropTypes.string.isRequired,
+    loginTitle: PropTypes.string.isRequired,
     // show create account link?
-    showAskProjectAccess: React.PropTypes.bool.isRequired,
+    showAskProjectAccess: PropTypes.bool.isRequired,
     // show cancel button?
-    showCancel: React.PropTypes.bool.isRequired,
+    showCancel: PropTypes.bool.isRequired,
     // on cancel button callback, or none if behavior not available
-    onCancelAction: React.PropTypes.func,
+    onCancelAction: PropTypes.func,
     // extern access mode (from email): mail back entry point in authentication
-    initialMode: React.PropTypes.oneOf(values(initialModes)).isRequired,
+    initialMode: PropTypes.oneOf(values(initialModes)).isRequired,
   }
 
   componentWillMount = () => {

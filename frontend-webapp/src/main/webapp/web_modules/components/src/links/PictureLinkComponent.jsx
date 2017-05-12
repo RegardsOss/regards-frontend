@@ -9,20 +9,20 @@ import { themeContextType } from '@regardsoss/theme'
 class PictureLinkComponent extends React.Component {
 
   static propTypes = {
-    className: React.PropTypes.string,
-    disabled: React.PropTypes.bool,
-    text: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.element]).isRequired,
-    IconComponent: React.PropTypes.func.isRequired,
-    onAction: React.PropTypes.func.isRequired,
+    className: PropTypes.string,
+    disabled: PropTypes.bool,
+    text: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
+    IconComponent: PropTypes.func.isRequired,
+    onAction: PropTypes.func.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
-    iconStyles: React.PropTypes.object,
-    iconToTextGap: React.PropTypes.string,
-    defaultTextColor: React.PropTypes.string,
-    overTextColor: React.PropTypes.string,
-    defaultImageColor: React.PropTypes.string,
-    disabledTextColor: React.PropTypes.string,
-    disabledImageColor: React.PropTypes.string,
-    overImageColor: React.PropTypes.string,
+    iconStyles: PropTypes.object,
+    iconToTextGap: PropTypes.string,
+    defaultTextColor: PropTypes.string,
+    overTextColor: PropTypes.string,
+    defaultImageColor: PropTypes.string,
+    disabledTextColor: PropTypes.string,
+    disabledImageColor: PropTypes.string,
+    overImageColor: PropTypes.string,
   }
 
   static defaultProps = {

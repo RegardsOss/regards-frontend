@@ -22,8 +22,8 @@ class StorageMonitoringComponent extends Component {
   static propTypes = {
     initScale: StorageUnitScaleShape,
     storagePlugins: PropTypes.arrayOf(StoragePluginShape).isRequired,
-    isFetching: React.PropTypes.bool.isRequired,
-    hasError: React.PropTypes.bool.isRequired,
+    isFetching: PropTypes.bool.isRequired,
+    hasError: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {

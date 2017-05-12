@@ -21,17 +21,17 @@ import DatasetStepperComponent from './DatasetStepperComponent'
 export class DatasetFormSubsettingComponent extends React.Component {
 
   static propTypes = {
-    modelAttributeList: React.PropTypes.objectOf(ModelAttribute),
+    modelAttributeList: PropTypes.objectOf(ModelAttribute),
     currentDataset: Dataset,
-    onSubmit: React.PropTypes.func.isRequired,
-    handleTestSubsetting: React.PropTypes.func.isRequired,
-    handleBack: React.PropTypes.func.isRequired,
-    isEditing: React.PropTypes.bool.isRequired,
+    onSubmit: PropTypes.func.isRequired,
+    handleTestSubsetting: PropTypes.func.isRequired,
+    handleBack: PropTypes.func.isRequired,
+    isEditing: PropTypes.bool.isRequired,
     // from reduxForm
-    submitting: React.PropTypes.bool,
-    invalid: React.PropTypes.bool,
-    handleSubmit: React.PropTypes.func.isRequired,
-    initialize: React.PropTypes.func.isRequired,
+    submitting: PropTypes.bool,
+    invalid: PropTypes.bool,
+    handleSubmit: PropTypes.func.isRequired,
+    initialize: PropTypes.func.isRequired,
   }
 
 

@@ -12,9 +12,9 @@ import { ShowableAtRender } from '@regardsoss/components'
  */
 class DisplayDecorator extends React.Component {
   static propTypes = {
-    children: React.PropTypes.element.isRequired,
+    children: PropTypes.element.isRequired,
     // The logic in charge of supervising if the component shall be displayed
-    displayLogic: React.PropTypes.func.isRequired,
+    displayLogic: PropTypes.func.isRequired,
   }
   render() {
     const { displayLogic, children } = this.props

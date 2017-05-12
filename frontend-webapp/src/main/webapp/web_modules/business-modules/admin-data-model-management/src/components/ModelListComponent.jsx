@@ -22,14 +22,14 @@ import { modelAttributesActions } from '../client/ModelAttributesClient'
 export class ProjectListComponent extends React.Component {
 
   static propTypes = {
-    modelList: React.PropTypes.objectOf(Model),
-    handleDelete: React.PropTypes.func.isRequired,
-    handleEdit: React.PropTypes.func.isRequired,
-    handleBindAttributes: React.PropTypes.func.isRequired,
-    handleDuplicate: React.PropTypes.func.isRequired,
-    createUrl: React.PropTypes.string.isRequired,
-    backUrl: React.PropTypes.string.isRequired,
-    accessToken: React.PropTypes.string.isRequired,
+    modelList: PropTypes.objectOf(Model),
+    handleDelete: PropTypes.func.isRequired,
+    handleEdit: PropTypes.func.isRequired,
+    handleBindAttributes: PropTypes.func.isRequired,
+    handleDuplicate: PropTypes.func.isRequired,
+    createUrl: PropTypes.string.isRequired,
+    backUrl: PropTypes.string.isRequired,
+    accessToken: PropTypes.string.isRequired,
   }
 
   static contextTypes = {

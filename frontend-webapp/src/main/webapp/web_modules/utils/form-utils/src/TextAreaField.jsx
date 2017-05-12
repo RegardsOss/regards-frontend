@@ -9,16 +9,16 @@ import TextField from 'material-ui/TextField'
 class TextareaInput extends React.Component {
 
   static propTypes = {
-    input: React.PropTypes.shape({
-      value: React.PropTypes.string,
-      name: React.PropTypes.string,
+    input: PropTypes.shape({
+      value: PropTypes.string,
+      name: PropTypes.string,
     }),
-    meta: React.PropTypes.shape({
-      touched: React.PropTypes.bool,
-      error: React.PropTypes.string,
+    meta: PropTypes.shape({
+      touched: PropTypes.bool,
+      error: PropTypes.string,
     }),
-    intl: React.PropTypes.shape({
-      formatMessage: React.PropTypes.func,
+    intl: PropTypes.shape({
+      formatMessage: PropTypes.func,
     }),
   }
 

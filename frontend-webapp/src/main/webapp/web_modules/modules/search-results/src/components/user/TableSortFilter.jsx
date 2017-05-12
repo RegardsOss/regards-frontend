@@ -15,13 +15,13 @@ class TableSortFilter extends React.Component {
 
   static propTypes = {
     // List of displayable columns. A column is a configuration for an attribute or attributeRegroupement.
-    tableColumns: React.PropTypes.arrayOf(TableColumnConfiguration),
+    tableColumns: PropTypes.arrayOf(TableColumnConfiguration),
     // Callback to run sort function
-    onSortByColumn: React.PropTypes.func.isRequired,
+    onSortByColumn: PropTypes.func.isRequired,
     // Label for the column sort field
-    prefixLabel: React.PropTypes.string.isRequired,
+    prefixLabel: PropTypes.string.isRequired,
     // Label for the "None" attribute selected.
-    noneLabel: React.PropTypes.string.isRequired,
+    noneLabel: PropTypes.string.isRequired,
   }
 
   static contextTypes = {

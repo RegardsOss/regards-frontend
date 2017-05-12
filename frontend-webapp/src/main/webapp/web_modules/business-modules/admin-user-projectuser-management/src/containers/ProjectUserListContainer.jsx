@@ -17,19 +17,19 @@ export class ProjectUserListContainer extends React.Component {
 
   static propTypes = {
     // from router
-    params: React.PropTypes.shape({
-      project: React.PropTypes.string,
+    params: PropTypes.shape({
+      project: PropTypes.string,
     }),
     // from mapStateToProps
-    users: React.PropTypes.objectOf(ProjectUser),
-    waitingAccessUsers: React.PropTypes.objectOf(ProjectUser),
-    isFetchingContent: React.PropTypes.bool.isRequired,
+    users: PropTypes.objectOf(ProjectUser),
+    waitingAccessUsers: PropTypes.objectOf(ProjectUser),
+    isFetchingContent: PropTypes.bool.isRequired,
     // from mapDispatchToProps
-    fetchUsers: React.PropTypes.func.isRequired,
-    fetchWaitingAccessUsers: React.PropTypes.func.isRequired,
-    denyProjectUser: React.PropTypes.func.isRequired,
-    validateProjectUser: React.PropTypes.func.isRequired,
-    deleteAccount: React.PropTypes.func.isRequired,
+    fetchUsers: PropTypes.func.isRequired,
+    fetchWaitingAccessUsers: PropTypes.func.isRequired,
+    denyProjectUser: PropTypes.func.isRequired,
+    validateProjectUser: PropTypes.func.isRequired,
+    deleteAccount: PropTypes.func.isRequired,
   }
 
   componentWillMount = () => {

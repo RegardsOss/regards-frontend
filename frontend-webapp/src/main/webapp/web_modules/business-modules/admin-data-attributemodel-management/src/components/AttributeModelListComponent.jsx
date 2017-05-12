@@ -18,11 +18,11 @@ import { attributeModelActions } from '../client/AttributeModelClient'
 export class AttributeModelListComponent extends React.Component {
 
   static propTypes = {
-    attrModelList: React.PropTypes.objectOf(AttributeModel),
-    handleDelete: React.PropTypes.func.isRequired,
-    handleEdit: React.PropTypes.func.isRequired,
-    createUrl: React.PropTypes.string.isRequired,
-    backUrl: React.PropTypes.string.isRequired,
+    attrModelList: PropTypes.objectOf(AttributeModel),
+    handleDelete: PropTypes.func.isRequired,
+    handleEdit: PropTypes.func.isRequired,
+    createUrl: PropTypes.string.isRequired,
+    backUrl: PropTypes.string.isRequired,
   }
 
   static contextTypes = {

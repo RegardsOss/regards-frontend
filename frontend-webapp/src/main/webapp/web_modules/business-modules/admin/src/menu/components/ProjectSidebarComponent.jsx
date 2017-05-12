@@ -34,16 +34,16 @@ class ProjectSidebarComponent extends React.Component {
    * @type {{muiTheme: *}}
    */
   static contextTypes = {
-    muiTheme: React.PropTypes.object.isRequired,
+    muiTheme: PropTypes.object.isRequired,
   }
 
   /**
    * @type {{onLogout: function}}
    */
   static propTypes = {
-    projectName: React.PropTypes.string.isRequired,
-    currentPath: React.PropTypes.string,
-    onLogout: React.PropTypes.func.isRequired,
+    projectName: PropTypes.string.isRequired,
+    currentPath: PropTypes.string,
+    onLogout: PropTypes.func.isRequired,
   }
 
   handleRedirectToInstanceAdminDashboard = () => {

@@ -17,20 +17,20 @@ export class AccountRequestFormContainer extends React.Component {
 
   static propTypes = {
     // Form initial value
-    initialMail: React.PropTypes.string,
+    initialMail: PropTypes.string,
     // back callback
-    onBack: React.PropTypes.func.isRequired,
+    onBack: PropTypes.func.isRequired,
     // done callback
-    onDone: React.PropTypes.func.isRequired,
+    onDone: PropTypes.func.isRequired,
     // request form ID (used internally)
-    requestFormId: React.PropTypes.oneOf(values(requestFormIds)).isRequired,
+    requestFormId: PropTypes.oneOf(values(requestFormIds)).isRequired,
 
     // from map state to props
-    isFetching: React.PropTypes.bool,
-    hasError: React.PropTypes.bool,
-    errorStatus: React.PropTypes.number,
+    isFetching: PropTypes.bool,
+    hasError: PropTypes.bool,
+    errorStatus: PropTypes.number,
     // from dispatch to props
-    fetchRequestAction: React.PropTypes.func,
+    fetchRequestAction: PropTypes.func,
   }
 
   static contextTypes = {

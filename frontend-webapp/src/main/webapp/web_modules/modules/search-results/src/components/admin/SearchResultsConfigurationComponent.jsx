@@ -26,15 +26,15 @@ class SearchResultsConfigurationComponent extends React.Component {
   static MODULE_REGROUPEMENTS_CONF = 'conf.attributesRegroupements'
 
   static propTypes = {
-    defaultResultType: React.PropTypes.string,
-    defaultEnableFacettes: React.PropTypes.bool,
-    defaultAttributesConf: React.PropTypes.arrayOf(AttributeConfiguration),
-    defaultAttributesRegroupementsConf: React.PropTypes.arrayOf(AttributesRegroupementConfiguration),
-    attributesConf: React.PropTypes.arrayOf(AttributeConfiguration),
-    attributesRegroupementsConf: React.PropTypes.arrayOf(AttributesRegroupementConfiguration),
-    selectableAttributes: React.PropTypes.objectOf(AttributeModel),
-    hideDatasetsConfiguration: React.PropTypes.bool.isRequired,
-    changeField: React.PropTypes.func.isRequired,
+    defaultResultType: PropTypes.string,
+    defaultEnableFacettes: PropTypes.bool,
+    defaultAttributesConf: PropTypes.arrayOf(AttributeConfiguration),
+    defaultAttributesRegroupementsConf: PropTypes.arrayOf(AttributesRegroupementConfiguration),
+    attributesConf: PropTypes.arrayOf(AttributeConfiguration),
+    attributesRegroupementsConf: PropTypes.arrayOf(AttributesRegroupementConfiguration),
+    selectableAttributes: PropTypes.objectOf(AttributeModel),
+    hideDatasetsConfiguration: PropTypes.bool.isRequired,
+    changeField: PropTypes.func.isRequired,
   }
 
 

@@ -16,12 +16,12 @@ import RoleListComponent from '../components/RoleListComponent'
 export class RoleListContainer extends React.Component {
 
   static propTypes = {
-    roleList: React.PropTypes.objectOf(Role),
-    fetchRoleList: React.PropTypes.func,
-    deleteRole: React.PropTypes.func,
+    roleList: PropTypes.objectOf(Role),
+    fetchRoleList: PropTypes.func,
+    deleteRole: PropTypes.func,
     // from router
-    params: React.PropTypes.shape({
-      project: React.PropTypes.string.isRequired,
+    params: PropTypes.shape({
+      project: PropTypes.string.isRequired,
     }).isRequired,
   }
 

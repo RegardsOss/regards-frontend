@@ -28,12 +28,12 @@ export class ProfileEditionContainer extends React.Component {
 
   static propTypes = {
     // from mapStateToProps
-    visible: React.PropTypes.bool.isRequired,
+    visible: PropTypes.bool.isRequired,
     myUser: ProjectUser,
     // from mapDispatchToProps
-    hideDialog: React.PropTypes.func.isRequired, // hide edition dialog (cancel)
-    fetchMyUser: React.PropTypes.func.isRequired, // fetch user data
-    updateMyUser: React.PropTypes.func.isRequired, // update user data (which also updates user data by return value)
+    hideDialog: PropTypes.func.isRequired, // hide edition dialog (cancel)
+    fetchMyUser: PropTypes.func.isRequired, // fetch user data
+    updateMyUser: PropTypes.func.isRequired, // update user data (which also updates user data by return value)
   }
 
 

@@ -17,19 +17,19 @@ export class DatasourceFormMappingFromTableComponent extends React.Component {
 
   static propTypes = {
     currentDatasource: Datasource,
-    isEditing: React.PropTypes.bool,
-    table: React.PropTypes.shape({
-      name: React.PropTypes.string,
-      schema: React.PropTypes.string,
-      pKey: React.PropTypes.string,
+    isEditing: PropTypes.bool,
+    table: PropTypes.shape({
+      name: PropTypes.string,
+      schema: PropTypes.string,
+      pKey: PropTypes.string,
     }),
-    tableAttributeList: React.PropTypes.objectOf(React.PropTypes.shape({
-      name: React.PropTypes.string,
-      javaSqlType: React.PropTypes.string,
-      isPrimaryKey: React.PropTypes.bool,
+    tableAttributeList: PropTypes.objectOf(PropTypes.shape({
+      name: PropTypes.string,
+      javaSqlType: PropTypes.string,
+      isPrimaryKey: PropTypes.bool,
     })),
-    modelAttributeList: React.PropTypes.objectOf(ModelAttribute),
-    change: React.PropTypes.func,
+    modelAttributeList: PropTypes.objectOf(ModelAttribute),
+    change: PropTypes.func,
   }
 
   static contextTypes = {

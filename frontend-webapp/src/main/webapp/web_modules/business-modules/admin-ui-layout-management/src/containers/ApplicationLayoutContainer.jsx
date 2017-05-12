@@ -21,19 +21,19 @@ export class ApplicationLayoutContainer extends React.Component {
 
   static propTypes = {
     // From react router
-    params: React.PropTypes.shape({
-      project: React.PropTypes.string,
-      applicationId: React.PropTypes.string,
+    params: PropTypes.shape({
+      project: PropTypes.string,
+      applicationId: PropTypes.string,
     }),
     // Set by mapStateToProps
-    isFetching: React.PropTypes.bool,
+    isFetching: PropTypes.bool,
     layout: Layout,
-    isInstance: React.PropTypes.bool,
+    isInstance: PropTypes.bool,
     // Set by mapDispatchToProps
-    fetchLayout: React.PropTypes.func,
-    fetchInstanceLayout: React.PropTypes.func,
-    updateLayout: React.PropTypes.func,
-    updateInstanceLayout: React.PropTypes.func,
+    fetchLayout: PropTypes.func,
+    fetchInstanceLayout: PropTypes.func,
+    updateLayout: PropTypes.func,
+    updateInstanceLayout: PropTypes.func,
   }
 
   componentWillMount() {

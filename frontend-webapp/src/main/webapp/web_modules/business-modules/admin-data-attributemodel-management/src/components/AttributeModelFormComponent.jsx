@@ -18,23 +18,23 @@ import DEFAULT_FRAGMENT_NAME from '../DefaultFragmentName'
 export class AttributeModelFormComponent extends React.Component {
 
   static propTypes = {
-    attrModelTypeList: React.PropTypes.arrayOf(React.PropTypes.string),
-    attrModelRestrictionList: React.PropTypes.arrayOf(React.PropTypes.string),
-    fragmentList: React.PropTypes.objectOf(Fragment),
+    attrModelTypeList: PropTypes.arrayOf(PropTypes.string),
+    attrModelRestrictionList: PropTypes.arrayOf(PropTypes.string),
+    fragmentList: PropTypes.objectOf(Fragment),
     currentAttrModel: AttributeModel,
-    onSubmit: React.PropTypes.func.isRequired,
-    backUrl: React.PropTypes.string.isRequired,
-    handleUpdateAttributeModelRestriction: React.PropTypes.func,
-    defaultFragmentName: React.PropTypes.string,
+    onSubmit: PropTypes.func.isRequired,
+    backUrl: PropTypes.string.isRequired,
+    handleUpdateAttributeModelRestriction: PropTypes.func,
+    defaultFragmentName: PropTypes.string,
     // on create
-    flushAttributeModelRestriction: React.PropTypes.func,
+    flushAttributeModelRestriction: PropTypes.func,
     // from reduxForm
-    submitting: React.PropTypes.bool,
-    pristine: React.PropTypes.bool,
-    invalid: React.PropTypes.bool,
-    handleSubmit: React.PropTypes.func.isRequired,
-    initialize: React.PropTypes.func.isRequired,
-    change: React.PropTypes.func.isRequired,
+    submitting: PropTypes.bool,
+    pristine: PropTypes.bool,
+    invalid: PropTypes.bool,
+    handleSubmit: PropTypes.func.isRequired,
+    initialize: PropTypes.func.isRequired,
+    change: PropTypes.func.isRequired,
   }
 
   static contextTypes = {

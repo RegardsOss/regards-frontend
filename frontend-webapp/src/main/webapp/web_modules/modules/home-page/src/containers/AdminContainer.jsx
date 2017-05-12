@@ -12,7 +12,7 @@ import { formValueSelector } from 'redux-form'
 class AdminContainer extends React.Component {
 
   static propTypes = {
-    getHtmlPath: React.PropTypes.string,
+    getHtmlPath: PropTypes.string,
   }
 
   static contextTypes = {

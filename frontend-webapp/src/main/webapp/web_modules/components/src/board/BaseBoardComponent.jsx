@@ -20,8 +20,8 @@ import styles from './styles/styles'
 class BaseBoardComponent extends React.Component {
 
   static propTypes = {
-    boardItemComponents: React.PropTypes.arrayOf(React.PropTypes.element),
-    advancedBoardItemComponents: React.PropTypes.arrayOf(React.PropTypes.element),
+    boardItemComponents: PropTypes.arrayOf(PropTypes.element),
+    advancedBoardItemComponents: PropTypes.arrayOf(PropTypes.element),
   }
 
   static contextTypes = {

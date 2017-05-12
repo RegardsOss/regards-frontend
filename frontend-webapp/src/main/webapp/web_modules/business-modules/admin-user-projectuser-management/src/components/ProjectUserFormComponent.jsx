@@ -22,17 +22,17 @@ export class ProjectUserFormComponent extends React.Component {
   static propTypes = {
     currentUser: ProjectUser,
     userMetadata: MetadataList.isRequired,
-    roleList: React.PropTypes.objectOf(Role),
-    groupList: React.PropTypes.objectOf(AccessGroup),
-    onSubmit: React.PropTypes.func.isRequired,
-    backUrl: React.PropTypes.string.isRequired,
+    roleList: PropTypes.objectOf(Role),
+    groupList: PropTypes.objectOf(AccessGroup),
+    onSubmit: PropTypes.func.isRequired,
+    backUrl: PropTypes.string.isRequired,
     // from reduxForm
-    invalid: React.PropTypes.bool,
-    submitting: React.PropTypes.bool,
-    pristine: React.PropTypes.bool,
-    handleSubmit: React.PropTypes.func.isRequired,
-    initialize: React.PropTypes.func.isRequired,
-    change: React.PropTypes.func,
+    invalid: PropTypes.bool,
+    submitting: PropTypes.bool,
+    pristine: PropTypes.bool,
+    handleSubmit: PropTypes.func.isRequired,
+    initialize: PropTypes.func.isRequired,
+    change: PropTypes.func,
   }
 
   static contextTypes = {
@@ -141,14 +141,14 @@ export class ProjectUserFormComponent extends React.Component {
 
   renderChipInput = () => (<div style={this.style.renderChipInput}>
     {map(this.state.tempGroup, group =>
-      <Chip
+      (<Chip
         onRequestDelete={() => this.handleRemoveGroup(group)}
         style={this.style.chip}
         key={group.content.name}
         className="selenium-chip"
       >
         {group.content.name}
-      </Chip>)}
+      </Chip>))}
     <ShowableAtRender show={this.state.tempGroup.length !== Object.keys(this.props.groupList).length}>
       <Chip className="selenium-addChip" style={this.style.chip} onTouchTap={this.handlePopoverOpen} backgroundColor={this.style.chipBackground}>
         <Avatar
@@ -254,11 +254,11 @@ export class ProjectUserFormComponent extends React.Component {
             {
               // show user metadata for project
               userMetadata.map(metadata =>
-                <MetadataField
+                (<MetadataField
                   key={metadata.key}
                   metadata={metadata}
                   fullWidth
-                />)
+                />))
             }
             <div style={this.style.groupsLabel}>
               <FormattedMessage id="projectUser.create.input.groups" />

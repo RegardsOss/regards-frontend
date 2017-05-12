@@ -16,15 +16,15 @@ export class ItemLinkContainer extends React.Component {
   })
 
   static propTypes = {
-    Icon: React.PropTypes.func.isRequired,
+    Icon: PropTypes.func.isRequired,
     entity: CatalogEntity.isRequired,
-    additiveLineComponent: React.PropTypes.node, // an optional additive line component
-    onSelect: React.PropTypes.func.isRequired,
-    locked: React.PropTypes.bool.isRequired,
-    selected: React.PropTypes.bool.isRequired,
-    onStateChange: React.PropTypes.func, // optional callback on state change: (newState:ItemLink.States) => void
+    additiveLineComponent: PropTypes.node, // an optional additive line component
+    onSelect: PropTypes.func.isRequired,
+    locked: PropTypes.bool.isRequired,
+    selected: PropTypes.bool.isRequired,
+    onStateChange: PropTypes.func, // optional callback on state change: (newState:ItemLink.States) => void
     // from mapDispatchToProps
-    dispatchShowDescription: React.PropTypes.func.isRequired,
+    dispatchShowDescription: PropTypes.func.isRequired,
   }
 
   componentWillMount = () => {

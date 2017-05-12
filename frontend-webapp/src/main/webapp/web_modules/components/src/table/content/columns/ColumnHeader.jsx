@@ -14,11 +14,11 @@ import { themeContextType } from '@regardsoss/theme'
 class ColumnHeader extends React.Component {
 
   static propTypes = {
-    label: React.PropTypes.string,
-    lineHeight: React.PropTypes.number.isRequired,
-    sortable: React.PropTypes.bool,
-    sortAction: React.PropTypes.func,
-    isLastColumn: React.PropTypes.bool.isRequired,
+    label: PropTypes.string,
+    lineHeight: PropTypes.number.isRequired,
+    sortable: PropTypes.bool,
+    sortAction: PropTypes.func,
+    isLastColumn: PropTypes.bool.isRequired,
   }
 
   static contextTypes = {

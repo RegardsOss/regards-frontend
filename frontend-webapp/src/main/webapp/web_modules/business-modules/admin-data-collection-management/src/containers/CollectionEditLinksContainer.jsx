@@ -16,19 +16,19 @@ export class CollectionEditLinksContainer extends React.Component {
 
   static propTypes = {
     // from router
-    params: React.PropTypes.shape({
-      project: React.PropTypes.string,
-      collectionId: React.PropTypes.string,
+    params: PropTypes.shape({
+      project: PropTypes.string,
+      collectionId: PropTypes.string,
     }),
     // from mapStateToProps
     currentCollection: Collection,
-    collectionList: React.PropTypes.objectOf(Collection),
-    isFetching: React.PropTypes.bool,
+    collectionList: PropTypes.objectOf(Collection),
+    isFetching: PropTypes.bool,
     // from mapDispatchToProps
-    removeTagFromCollection: React.PropTypes.func,
-    addTagToCollection: React.PropTypes.func,
-    fetchCollection: React.PropTypes.func,
-    fetchCollectionList: React.PropTypes.func,
+    removeTagFromCollection: PropTypes.func,
+    addTagToCollection: PropTypes.func,
+    fetchCollection: PropTypes.func,
+    fetchCollectionList: PropTypes.func,
   }
 
   state = {

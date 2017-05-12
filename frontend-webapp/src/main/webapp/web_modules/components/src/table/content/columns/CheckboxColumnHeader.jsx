@@ -16,9 +16,9 @@ import Unchecked from 'material-ui/svg-icons/toggle/check-box-outline-blank'
 class CheckboxColumnHeader extends React.Component {
 
   static propTypes = {
-    lineHeight: React.PropTypes.number.isRequired,
-    areAllSelected: React.PropTypes.bool.isRequired,
-    onToggleSelectAll: React.PropTypes.func.isRequired,
+    lineHeight: PropTypes.number.isRequired,
+    areAllSelected: PropTypes.bool.isRequired,
+    onToggleSelectAll: PropTypes.func.isRequired,
   }
 
   static contextTypes = {

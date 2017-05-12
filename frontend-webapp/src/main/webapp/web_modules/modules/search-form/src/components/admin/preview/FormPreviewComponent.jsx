@@ -10,7 +10,7 @@ import { LazyModuleComponent, ModuleShape } from '@regardsoss/modules'
 class FormPreviewComponent extends React.Component {
 
   static propTypes = {
-    project: React.PropTypes.string.isRequired,
+    project: PropTypes.string.isRequired,
     module: ModuleShape,
   }
 

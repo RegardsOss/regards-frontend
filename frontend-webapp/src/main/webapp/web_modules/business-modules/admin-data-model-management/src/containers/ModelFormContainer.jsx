@@ -9,19 +9,19 @@ import ModelFormComponent from '../components/ModelFormComponent'
 export class ProjectFormContainer extends React.Component {
   static propTypes = {
     // from router
-    params: React.PropTypes.shape({
-      project: React.PropTypes.string,
-      model_id: React.PropTypes.string,
-      mode: React.PropTypes.string,
+    params: PropTypes.shape({
+      project: PropTypes.string,
+      model_id: PropTypes.string,
+      mode: PropTypes.string,
     }),
     // from mapStateToProps
     model: Model,
     // from mapDispatchToProps
-    createModel: React.PropTypes.func,
-    fetchModel: React.PropTypes.func,
-    updateModel: React.PropTypes.func,
-    duplicateModel: React.PropTypes.func,
-    createModelUsingFile: React.PropTypes.func,
+    createModel: PropTypes.func,
+    fetchModel: PropTypes.func,
+    updateModel: PropTypes.func,
+    duplicateModel: PropTypes.func,
+    createModelUsingFile: PropTypes.func,
   }
 
   constructor(props) {

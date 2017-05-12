@@ -13,11 +13,11 @@ import ResourceAccessFormByMicroserviceContainer from './../containers/ResourceA
 export class ResourceAccessFormComponent extends React.Component {
 
   static propTypes = {
-    microserviceList: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
-    backUrl: React.PropTypes.string.isRequired,
-    editRoleResources: React.PropTypes.func.isRequired,
+    microserviceList: PropTypes.arrayOf(PropTypes.string).isRequired,
+    backUrl: PropTypes.string.isRequired,
+    editRoleResources: PropTypes.func.isRequired,
     currentRole: Role.isRequired,
-    roleResources: React.PropTypes.arrayOf(Resource).isRequired,
+    roleResources: PropTypes.arrayOf(Resource).isRequired,
   }
 
   state = {

@@ -6,7 +6,7 @@ import { RenderTextField, RenderCheckbox, Field } from '@regardsoss/form-utils'
  */
 export class NumberRangeComponent extends React.Component {
   static propTypes = {
-    type: React.PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
   }
 
   render() {

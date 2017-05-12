@@ -18,27 +18,27 @@ class DetailViewComponent extends React.Component {
 
   static propTypes = {
     // entity information API
-    entityLabel: React.PropTypes.string,
+    entityLabel: PropTypes.string,
     // entity attributes, empty array allowed
-    attributes: React.PropTypes.arrayOf(React.PropTypes.shape({
-      id: React.PropTypes.number.isRequired,
-      label: React.PropTypes.string.isRequired,
-      renderer: React.PropTypes.func.isRequired,
-      renderValue: React.PropTypes.any,
+    attributes: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      label: PropTypes.string.isRequired,
+      renderer: PropTypes.func.isRequired,
+      renderValue: PropTypes.any,
     })).isRequired,
-    tags: React.PropTypes.arrayOf(React.PropTypes.string),
+    tags: PropTypes.arrayOf(PropTypes.string),
     // Callback to run a new search with given tag
-    onSearchTag: React.PropTypes.func,
-    descriptionFileURL: React.PropTypes.string,
-    descriptionFile: React.PropTypes.shape({
-      entityId: React.PropTypes.number.isRequired,
-      contentType: React.PropTypes.string.isRequired,
-      content: React.PropTypes.string.isRequired,
+    onSearchTag: PropTypes.func,
+    descriptionFileURL: PropTypes.string,
+    descriptionFile: PropTypes.shape({
+      entityId: PropTypes.number.isRequired,
+      contentType: PropTypes.string.isRequired,
+      content: PropTypes.string.isRequired,
     }),
     // dialog API
-    open: React.PropTypes.bool.isRequired,
-    loaded: React.PropTypes.bool.isRequired, // external content loaded ? (separe from URL content loaded)
-    onClose: React.PropTypes.func.isRequired, // on cloase callback
+    open: PropTypes.bool.isRequired,
+    loaded: PropTypes.bool.isRequired, // external content loaded ? (separe from URL content loaded)
+    onClose: PropTypes.func.isRequired, // on cloase callback
   }
 
   static contextTypes = {

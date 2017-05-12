@@ -22,8 +22,8 @@ class DatasetDescriptionComponent extends React.Component {
 
   static propTypes = {
     entity: CatalogEntity.isRequired,
-    onClose: React.PropTypes.func,
-    onSearchTag: React.PropTypes.func,
+    onClose: PropTypes.func,
+    onSearchTag: PropTypes.func,
   }
 
   displayTabs = () => (
@@ -59,13 +59,13 @@ class DatasetDescriptionComponent extends React.Component {
         <Divider />
         <div style={{ display: 'flex' }}>
           {map(this.props.entity.content.tags, tag =>
-            <Chip
+            (<Chip
               key={tag}
               onTouchTap={() => this.props.onSearchTag(tag)}
               style={{ margin: 5 }}
             >
               {tag}
-            </Chip>)}
+            </Chip>))}
         </div>
       </Paper>
     )

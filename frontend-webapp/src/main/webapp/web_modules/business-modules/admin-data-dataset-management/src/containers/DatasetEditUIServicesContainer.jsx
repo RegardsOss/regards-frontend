@@ -12,23 +12,23 @@ export class DatasetEditUIServicesContainer extends React.Component {
 
   static propTypes = {
     // from router
-    params: React.PropTypes.shape({
-      project: React.PropTypes.string.isRequired,
-      datasetId: React.PropTypes.string.isRequired,
+    params: PropTypes.shape({
+      project: PropTypes.string.isRequired,
+      datasetId: PropTypes.string.isRequired,
     }).isRequired,
 
     // from mapStateToProps
-    uiPluginConfigurationList: React.PropTypes.objectOf(React.PropTypes.shape({
+    uiPluginConfigurationList: PropTypes.objectOf(PropTypes.shape({
       content: UIPluginConfiguration,
     })),
-    uiPluginDefinitionList: React.PropTypes.objectOf(UIPluginDefinition),
+    uiPluginDefinitionList: PropTypes.objectOf(UIPluginDefinition),
     currentDataset: Dataset,
 
     // from mapDispatchToProps
-    fetchUIPluginConfigurationList: React.PropTypes.func,
-    fetchUIPluginDefinitionList: React.PropTypes.func,
-    fetchDataset: React.PropTypes.func,
-    updateDataset: React.PropTypes.func,
+    fetchUIPluginConfigurationList: PropTypes.func,
+    fetchUIPluginDefinitionList: PropTypes.func,
+    fetchDataset: PropTypes.func,
+    updateDataset: PropTypes.func,
   }
 
   static mapStateToProps = (state, ownProps) => ({
@@ -98,13 +98,13 @@ export class DatasetEditUIServicesContainer extends React.Component {
           isLoading={isLoading}
         >
           {() =>
-            <DatasetEditUIServicesComponent
+            (<DatasetEditUIServicesComponent
               backUrl={this.getBackUrl()}
               uiPluginConfigurationList={uiPluginConfigurationList}
               uiPluginDefinitionList={uiPluginDefinitionList}
               currentDataset={currentDataset}
               handleSubmit={this.handleSubmit}
-            />
+            />)
           }
         </LoadableContentDisplayDecorator>
       </I18nProvider>

@@ -22,12 +22,12 @@ import { collectionActions } from '../client/CollectionClient'
 export class CollectionListComponent extends React.Component {
 
   static propTypes = {
-    collectionList: React.PropTypes.objectOf(Collection),
-    handleDelete: React.PropTypes.func.isRequired,
-    handleEdit: React.PropTypes.func.isRequired,
-    handleDuplicate: React.PropTypes.func.isRequired,
-    createUrl: React.PropTypes.string.isRequired,
-    backUrl: React.PropTypes.string.isRequired,
+    collectionList: PropTypes.objectOf(Collection),
+    handleDelete: PropTypes.func.isRequired,
+    handleEdit: PropTypes.func.isRequired,
+    handleDuplicate: PropTypes.func.isRequired,
+    createUrl: PropTypes.string.isRequired,
+    backUrl: PropTypes.string.isRequired,
   }
 
   static contextTypes = {

@@ -11,8 +11,8 @@ import SidebarElement from './SidebarElement'
  */
 export class HateoasSidebarElement extends React.Component {
   static propTypes = {
-    requiredEndpoints: React.PropTypes.arrayOf(React.PropTypes.string),
-    hateoasDisplayLogic: React.PropTypes.func,
+    requiredEndpoints: PropTypes.arrayOf(PropTypes.string),
+    hateoasDisplayLogic: PropTypes.func,
   }
   render() {
     return (

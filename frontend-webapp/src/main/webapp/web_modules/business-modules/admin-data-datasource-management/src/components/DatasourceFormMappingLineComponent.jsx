@@ -16,16 +16,16 @@ import states from './FormMappingStates'
 export class DatasourceFormMappingLineComponent extends React.Component {
 
   static propTypes = {
-    tableAttributeList: React.PropTypes.objectOf(React.PropTypes.shape({
-      name: React.PropTypes.string,
-      javaSqlType: React.PropTypes.string,
-      isPrimaryKey: React.PropTypes.bool,
+    tableAttributeList: PropTypes.objectOf(PropTypes.shape({
+      name: PropTypes.string,
+      javaSqlType: PropTypes.string,
+      isPrimaryKey: PropTypes.bool,
     })),
     modelAttribute: ModelAttribute,
-    isStaticAttribute: React.PropTypes.bool,
-    onlyAdvancedConfiguration: React.PropTypes.bool,
-    isEditingSQL: React.PropTypes.bool,
-    change: React.PropTypes.func,
+    isStaticAttribute: PropTypes.bool,
+    onlyAdvancedConfiguration: PropTypes.bool,
+    isEditingSQL: PropTypes.bool,
+    change: PropTypes.func,
   }
 
   static contextTypes = {

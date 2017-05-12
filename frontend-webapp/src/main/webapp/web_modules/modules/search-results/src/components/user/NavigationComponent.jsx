@@ -15,10 +15,10 @@ import { CatalogEntity } from '@regardsoss/model'
 class NavigationComponent extends React.Component {
 
   static propTypes = {
-    onUnselectAll: React.PropTypes.func.isRequired,
+    onUnselectAll: PropTypes.func.isRequired,
     selectedDataset: CatalogEntity,
-    selectedTag: React.PropTypes.string,
-    breadcrumbInitialContextLabel: React.PropTypes.string,
+    selectedTag: PropTypes.string,
+    breadcrumbInitialContextLabel: PropTypes.string,
   }
 
   static contextTypes = {

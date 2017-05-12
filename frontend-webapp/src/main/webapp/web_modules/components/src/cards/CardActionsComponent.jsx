@@ -6,22 +6,22 @@ import CardActionsView from './CardActionsView'
 
 class CardActionsComponent extends React.Component {
   static propTypes = {
-    secondaryButtonClassName: React.PropTypes.string,
-    secondaryButtonLabel: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.element]),
-    secondaryButtonUrl: React.PropTypes.string,
-    secondaryButtonTouchTap: React.PropTypes.func,
-    isSecondaryButtonDisabled: React.PropTypes.bool,
-    isSecondaryButtonVisible: React.PropTypes.bool,
-    secondaryHateoasDependency: React.PropTypes.string,
+    secondaryButtonClassName: PropTypes.string,
+    secondaryButtonLabel: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+    secondaryButtonUrl: PropTypes.string,
+    secondaryButtonTouchTap: PropTypes.func,
+    isSecondaryButtonDisabled: PropTypes.bool,
+    isSecondaryButtonVisible: PropTypes.bool,
+    secondaryHateoasDependency: PropTypes.string,
 
-    mainButtonClassName: React.PropTypes.string,
-    mainButtonLabel: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.element]).isRequired,
-    mainButtonUrl: React.PropTypes.string,
-    mainButtonTouchTap: React.PropTypes.func,
-    mainButtonType: React.PropTypes.string,
-    isMainButtonVisible: React.PropTypes.bool,
-    isMainButtonDisabled: React.PropTypes.bool,
-    mainHateoasDependency: React.PropTypes.string,
+    mainButtonClassName: PropTypes.string,
+    mainButtonLabel: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
+    mainButtonUrl: PropTypes.string,
+    mainButtonTouchTap: PropTypes.func,
+    mainButtonType: PropTypes.string,
+    isMainButtonVisible: PropTypes.bool,
+    isMainButtonDisabled: PropTypes.bool,
+    mainHateoasDependency: PropTypes.string,
   }
   static defaultProps = {
     isMainButtonVisible: true,

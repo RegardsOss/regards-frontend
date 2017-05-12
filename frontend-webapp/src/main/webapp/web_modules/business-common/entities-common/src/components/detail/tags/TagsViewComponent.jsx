@@ -14,9 +14,9 @@ class TagsViewComponent extends React.Component {
 
   static propTypes = {
     // Tags to display
-    tags: React.PropTypes.arrayOf(React.PropTypes.string),
+    tags: PropTypes.arrayOf(PropTypes.string),
     // Callaback after tag selection
-    onSearchTag: React.PropTypes.func,
+    onSearchTag: PropTypes.func,
   }
 
   render() {
@@ -44,13 +44,13 @@ class TagsViewComponent extends React.Component {
         </h1>
         <div style={{ display: 'flex' }}>
           {this.props.tags && this.props.tags.length > 0 ? map(this.props.tags, tag =>
-            <Chip
+            (<Chip
               key={tag}
               onTouchTap={() => this.props.onSearchTag(tag)}
               style={{ margin: 5 }}
             >
               {tag}
-            </Chip>) : <FormattedMessage id="entities.no.tags.found" />}
+            </Chip>)) : <FormattedMessage id="entities.no.tags.found" />}
         </div>
       </Card>
     )

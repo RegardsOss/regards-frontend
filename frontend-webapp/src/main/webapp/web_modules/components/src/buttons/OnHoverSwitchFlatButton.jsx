@@ -40,7 +40,7 @@ class OnHoverSwitchFlatButton extends React.Component {
   }
 }
 
-OnHoverSwitchFlatButton.propTypes = mapValues(FlatButton.propTypes, propType => React.PropTypes.arrayOf(propType))
-OnHoverSwitchFlatButton.propTypes.label = React.PropTypes.arrayOf(React.PropTypes.string)
+OnHoverSwitchFlatButton.propTypes = mapValues(FlatButton.propTypes, propType => PropTypes.arrayOf(propType))
+OnHoverSwitchFlatButton.propTypes.label = PropTypes.arrayOf(PropTypes.string)
 
 export default OnHoverSwitchFlatButton

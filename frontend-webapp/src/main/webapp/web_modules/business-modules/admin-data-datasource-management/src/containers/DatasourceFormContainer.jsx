@@ -22,17 +22,17 @@ export class DatasourceFormContainer extends React.Component {
 
   static propTypes = {
     // from router
-    params: React.PropTypes.shape({
-      project: React.PropTypes.string,
-      datasourceId: React.PropTypes.string,
-      connectionId: React.PropTypes.string,
+    params: PropTypes.shape({
+      project: PropTypes.string,
+      datasourceId: PropTypes.string,
+      connectionId: PropTypes.string,
     }),
     // from mapStateToProps
     currentDatasource: Datasource,
     // from mapDispatchToProps
-    createDatasource: React.PropTypes.func,
-    updateDatasource: React.PropTypes.func,
-    fetchDatasource: React.PropTypes.func,
+    createDatasource: PropTypes.func,
+    updateDatasource: PropTypes.func,
+    fetchDatasource: PropTypes.func,
   }
 
   constructor(props) {

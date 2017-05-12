@@ -12,13 +12,13 @@ class TablePaneHeader extends React.Component {
 
   static propTypes = {
     // adds tabs buttons to results table
-    resultsTabsButtons: React.PropTypes.arrayOf(React.PropTypes.node),
+    resultsTabsButtons: PropTypes.arrayOf(PropTypes.node),
     // adds custom table options, nearside parmaeters
-    customTableOptions: React.PropTypes.arrayOf(React.PropTypes.node),
-    contextOptions: React.PropTypes.arrayOf(React.PropTypes.node),
+    customTableOptions: PropTypes.arrayOf(PropTypes.node),
+    contextOptions: PropTypes.arrayOf(PropTypes.node),
     // shows a custom table header area instand of results count, just above columns
-    customTableHeaderArea: React.PropTypes.node,
-    resultsCount: React.PropTypes.number.isRequired,
+    customTableHeaderArea: PropTypes.node,
+    resultsCount: PropTypes.number.isRequired,
   }
 
   static contextTypes = {
