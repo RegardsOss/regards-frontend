@@ -126,10 +126,10 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchControllerList: microserviceName => dispatch(controllerActions.fetchEntityList({ microserviceName })),
-  fetchResourceList: (microserviceName, controllerName) => dispatch(resourceAccessActions.fetchEntityList({
-    microserviceName,
-    controllerName,
+  fetchControllerList: microservicename => dispatch(controllerActions.fetchEntityList({ microservicename })),
+  fetchResourceList: (microservicename, controllername) => dispatch(resourceAccessActions.fetchEntityList({
+    microservicename,
+    controllername,
   })),
   flushResourceList: () => dispatch(resourceAccessActions.flush()),
   removeRoleResourceAccess: (role, resource) => dispatch(roleResourceActions.deleteEntity(resource.content.id, { role_name: role.content.name })),

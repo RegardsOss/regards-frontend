@@ -11,7 +11,7 @@ export default class BorrowableRolesActions extends BasicListActions {
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-admin/roles/borrowable`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-admin/roles/borrowables`,
       schemaTypes: {
         ENTITY: ROLE,
         ENTITY_ARRAY: ROLE_ARRAY,

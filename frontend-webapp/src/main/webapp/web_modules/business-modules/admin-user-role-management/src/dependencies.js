@@ -2,14 +2,14 @@
  * LICENSE_PLACEHOLDER
  **/
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import RoleActions from './model/RoleActions'
+import { roleActions } from './clients/RoleClient'
 
 const addDependencies = [
-  RoleActions.getDependency(RequestVerbEnum.POST),
+  roleActions.getDependency(RequestVerbEnum.POST),
 ]
 
 const listDependencies = [
-  RoleActions.getDependency(RequestVerbEnum.GET_LIST),
+  roleActions.getDependency(RequestVerbEnum.GET_LIST),
 ]
 
 export default {

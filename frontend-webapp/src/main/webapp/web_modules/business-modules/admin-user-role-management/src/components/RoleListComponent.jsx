@@ -11,7 +11,7 @@ import { CardActionsComponent, ConfirmDialogComponent, ShowableAtRender } from '
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { Role } from '@regardsoss/model'
-import RoleActions from '../model/RoleActions'
+import { roleActions } from '../clients/RoleClient'
 
 /**
  * React components to list project.
@@ -179,7 +179,7 @@ export class RoleListComponent extends React.Component {
                 id="role.list.action.add"
               />
             }
-            mainHateoasDependency={RoleActions.getDependency(RequestVerbEnum.POST)}
+            mainHateoasDependency={roleActions.getDependency(RequestVerbEnum.POST)}
             secondaryButtonLabel={
               <FormattedMessage
                 id="role.list.action.cancel"

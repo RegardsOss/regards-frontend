@@ -6,9 +6,8 @@ import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { FormLoadingComponent, FormEntityNotFoundComponent, EnumInputsHelper } from '@regardsoss/form-utils'
 import { Role } from '@regardsoss/model'
-import RoleActions from '../model/RoleActions'
+import { roleActions, roleSelectors } from '../clients/RoleClient'
 import RoleFormComponent from '../components/RoleFormComponent'
-import RoleSelectors from '../model/RoleSelectors'
 
 export class RoleFormContainer extends React.Component {
   static propTypes = {
@@ -78,7 +77,7 @@ export class RoleFormContainer extends React.Component {
     if (this.props.params.role_name !== 'PUBLIC') {
       updatedRole.parentRole = this.props.roleList[values.parentRole].content
     }
-    Promise.resolve(this.props.updateRole(role.content.id, updatedRole))
+    Promise.resolve(this.props.updateRole(role.content.name, updatedRole))
     .then((actionResult) => {
       // We receive here the action
       if (!actionResult.error) {
@@ -115,14 +114,14 @@ export class RoleFormContainer extends React.Component {
   }
 }
 const mapStateToProps = (state, ownProps) => ({
-  roleList: RoleSelectors.getList(state),
-  isFetching: RoleSelectors.isFetching(state),
+  roleList: roleSelectors.getList(state),
+  isFetching: roleSelectors.isFetching(state),
 })
 
 const mapDispatchToProps = dispatch => ({
-  createRole: values => dispatch(RoleActions.createEntity(values)),
-  updateRole: (id, values) => dispatch(RoleActions.updateEntity(id, values)),
-  fetchRoleList: id => dispatch(RoleActions.fetchEntityList()),
+  createRole: values => dispatch(roleActions.createEntity(values)),
+  updateRole: (roleName, values) => dispatch(roleActions.updateEntity(roleName, values)),
+  fetchRoleList: () => dispatch(roleActions.fetchEntityList()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(RoleFormContainer)
