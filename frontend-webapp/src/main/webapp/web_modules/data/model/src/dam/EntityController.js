@@ -12,13 +12,13 @@
  * List of possible types for entities
  * @type {{COLLECTION: string, DATASET: string, DOCUMENT: string, DATAOBJECT: string}}
  */
-ENTITY_TYPES = {
-  COLLECTION : 'COLLECTION',
+const ENTITY_TYPES = {
+  COLLECTION: 'COLLECTION',
   DATASET: 'DATASET',
   DOCUMENT: 'DOCUMENT',
-  DATAOBJECT: 'DATAOBJECT'
+  DATAOBJECT: 'DATAOBJECT',
 }
 
 export default {
-  ENTITY_TYPES
+  ENTITY_TYPES,
 }
