@@ -2,13 +2,12 @@
  * LICENSE_PLACEHOLDER
  **/
 import { connect } from '@regardsoss/redux'
-import { Datasource, Model, Connection } from '@regardsoss/model'
+import { Datasource, Model, Connection, PluginMetaData } from '@regardsoss/model'
 import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import DatasourceFormAttributesComponent from '../components/DatasourceFormAttributesComponent'
 import { modelSelectors, modelActions } from '../client/ModelClient'
 import { connectionActions, connectionSelectors } from './../client/ConnectionClient'
-
 
 /**
  * Show the datasource form
@@ -22,9 +21,11 @@ export class DatasourceFormAttributesContainer extends React.Component {
     currentConnectionId: PropTypes.string.isRequired,
     // from mapStateToProps
     modelList: PropTypes.objectOf(Model),
+    pluginMetaDataList: PropTypes.objectOf(PluginMetaData),
     currentConnection: Connection,
     // from mapDispatchToProps
     fetchModelList: PropTypes.func,
+    fetchPluginMetaDataList: PropTypes.func,
     fetchConnection: PropTypes.func,
   }
 
@@ -49,7 +50,7 @@ export class DatasourceFormAttributesContainer extends React.Component {
   }
 
   render() {
-    const { currentDatasource, currentConnection, modelList, handleSave, backUrl } = this.props
+    const { currentDatasource, currentConnection, pluginMetaDataList, modelList, handleSave, backUrl } = this.props
     const { isLoading } = this.state
 
     return (
@@ -61,6 +62,7 @@ export class DatasourceFormAttributesContainer extends React.Component {
             modelList={modelList}
             currentDatasource={currentDatasource}
             currentConnection={currentConnection}
+            pluginMetaDataList={pluginMetaDataList}
             onSubmit={handleSave}
             backUrl={backUrl}
           />)

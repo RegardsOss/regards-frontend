@@ -3,10 +3,10 @@
  **/
 import EnumParamType from './EnumParamType'
 
-const PluginParameterType = React.PropTypes.shape({
-  name: React.PropTypes.string,
-  type: React.PropTypes.string,
-  paramType: React.PropTypes.oneOf(EnumParamType),
+const PluginParameterType = PropTypes.shape({
+  name: PropTypes.string,
+  type: PropTypes.string,
+  paramType: PropTypes.oneOf(EnumParamType),
 })
 
 export default PluginParameterType

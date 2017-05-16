@@ -10,7 +10,7 @@ const LayoutActions = AccessProjectClient.LayoutActions('test/action')
 const LayoutReducer = AccessProjectClient.LayoutReducers('test/action')
 const LayoutSelector = AccessProjectClient.LayoutSelectors(['test', 'modules'])
 
-const entityTester = new ReduxEntityTester(LayoutActions, LayoutReducer, LayoutSelector, React.PropTypes.objectOf(Layout).isRequired, backendServerResultList, options)
+const entityTester = new ReduxEntityTester(LayoutActions, LayoutReducer, LayoutSelector, PropTypes.objectOf(Layout).isRequired, backendServerResultList, options)
 
 /**
  * Tests for Layout entities

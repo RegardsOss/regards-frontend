@@ -18,7 +18,7 @@ const pluginMetaDataActions = new PluginMetaDataActions('test/action')
 const pluginMetaDataReducer = PluginMetaDataReducer('test/action')
 const pluginMetaDataSelectors = PluginMetaDataSelectors(['test', 'modules'])
 
-const entityTester = new ReduxEntityTester(pluginMetaDataActions, pluginMetaDataReducer, pluginMetaDataSelectors, React.PropTypes.objectOf(PluginMetaData).isRequired, backendServerResultList, options)
+const entityTester = new ReduxEntityTester(pluginMetaDataActions, pluginMetaDataReducer, pluginMetaDataSelectors, PropTypes.objectOf(PluginMetaData).isRequired, backendServerResultList, options)
 
 describe('[ADMIN CLIENT] Testing model PluginMetaData', () => {
   before(() => {

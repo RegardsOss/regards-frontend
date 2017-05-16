@@ -7,23 +7,23 @@ import DatasetsConfShape from './datasets/DatasetsConfShape'
  * Form entity description
  * @author Sébastien binda
  */
-const ModuleConfiguration = React.PropTypes.shape({
+const ModuleConfiguration = PropTypes.shape({
   // Search form datasets configuration
   datasets: DatasetsConfShape,
   // Search form Layout configuration
   layout: Container,
   // Search form criterion configuration
-  criterion: React.PropTypes.arrayOf(PluginConf),
+  criterion: PropTypes.arrayOf(PluginConf),
   // Search form resultType configuration
-  resultType: React.PropTypes.string,
+  resultType: PropTypes.string,
   // Search form attributes configuration
-  attributes: React.PropTypes.arrayOf(AttributeConfiguration),
+  attributes: PropTypes.arrayOf(AttributeConfiguration),
   // Search form attributes regroupements configuration
-  attributesRegroupements: React.PropTypes.arrayOf(AttributesRegroupementConfiguration),
+  attributesRegroupements: PropTypes.arrayOf(AttributesRegroupementConfiguration),
   // Does search form render for preview or for full use
-  preview: React.PropTypes.bool,
+  preview: PropTypes.bool,
   // should enable facettes?
-  enableFacettes: React.PropTypes.bool,
+  enableFacettes: PropTypes.bool,
 })
 
 export default ModuleConfiguration

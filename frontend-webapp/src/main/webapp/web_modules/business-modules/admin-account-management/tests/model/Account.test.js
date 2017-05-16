@@ -12,7 +12,7 @@ const backendServerResultList = AccountNetworkDump
 const options = {
 }
 
-const entityTester = new ReduxEntityTester(AccountActions, getAccountReducer, AccountSelectors, React.PropTypes.objectOf(ProjectUser).isRequired, backendServerResultList, options)
+const entityTester = new ReduxEntityTester(AccountActions, getAccountReducer, AccountSelectors, PropTypes.objectOf(ProjectUser).isRequired, backendServerResultList, options)
 
 describe('[ADMIN ACCOUNT MANAGEMENT] Testing model Account', () => {
   before(() => {

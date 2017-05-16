@@ -13,7 +13,7 @@ const options = {
   urlParams: { applicationId: 'user' },
 }
 
-const entityTester = new ReduxEntityTester(CriterionActions, CriterionReducer, CriterionSelector, React.PropTypes.objectOf(PluginDefinition).isRequired, backendServerResultList, options)
+const entityTester = new ReduxEntityTester(CriterionActions, CriterionReducer, CriterionSelector, PropTypes.objectOf(PluginDefinition).isRequired, backendServerResultList, options)
 
 /**
  * Tests for Criterion entities

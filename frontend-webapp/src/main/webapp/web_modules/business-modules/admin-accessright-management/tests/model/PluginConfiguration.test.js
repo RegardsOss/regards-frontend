@@ -10,7 +10,7 @@ const options = {
   urlParams: { microserviceName: 'rs-dam' },
 }
 
-const entityTester = new ReduxEntityTester(PluginConfigurationActions, PluginConfigurationReducers, PluginConfigurationSelectors, React.PropTypes.objectOf(PluginConfiguration).isRequired, backendServerResultList, options)
+const entityTester = new ReduxEntityTester(PluginConfigurationActions, PluginConfigurationReducers, PluginConfigurationSelectors, PropTypes.objectOf(PluginConfiguration).isRequired, backendServerResultList, options)
 
 describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing model PluginConfiguration', () => {
   before(() => {

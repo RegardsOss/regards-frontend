@@ -4,32 +4,32 @@ import metadatav1 from '../definitions/metadatav1'
  * Metadata shape definitions
  */
 
-export const Editor = React.PropTypes.oneOfType([
+export const Editor = PropTypes.oneOfType([
   // text editor
-  React.PropTypes.shape({
-    type: React.PropTypes.oneOf([metadatav1.editorTypes.text]).isRequired,
+  PropTypes.shape({
+    type: PropTypes.oneOf([metadatav1.editorTypes.text]).isRequired,
   }),
   // multiline text editor
-  React.PropTypes.shape({
-    type: React.PropTypes.oneOf([metadatav1.editorTypes.multilineText]).isRequired,
+  PropTypes.shape({
+    type: PropTypes.oneOf([metadatav1.editorTypes.multilineText]).isRequired,
   }),
   // choice editor
-  React.PropTypes.shape({
-    type: React.PropTypes.oneOf([metadatav1.editorTypes.choice]).isRequired,
-    choices: React.PropTypes.arrayOf(React.PropTypes.shape({
-      key: React.PropTypes.string.isRequired,
-      labelKey: React.PropTypes.string.isRequired,
+  PropTypes.shape({
+    type: PropTypes.oneOf([metadatav1.editorTypes.choice]).isRequired,
+    choices: PropTypes.arrayOf(PropTypes.shape({
+      key: PropTypes.string.isRequired,
+      labelKey: PropTypes.string.isRequired,
     })).isRequired,
   }),
 ])
 
-export const Metadata = React.PropTypes.shape({
-  key: React.PropTypes.string.isRequired,
-  labelKey: React.PropTypes.string.isRequired,
-  mandatory: React.PropTypes.bool.isRequired,
-  onlyAtRegistration: React.PropTypes.bool.isRequired,
-  currentValue: React.PropTypes.string, // current value if any
+export const Metadata = PropTypes.shape({
+  key: PropTypes.string.isRequired,
+  labelKey: PropTypes.string.isRequired,
+  mandatory: PropTypes.bool.isRequired,
+  onlyAtRegistration: PropTypes.bool.isRequired,
+  currentValue: PropTypes.string, // current value if any
   editor: Editor,
 })
 
-export const MetadataList = React.PropTypes.arrayOf(Metadata)
+export const MetadataList = PropTypes.arrayOf(Metadata)

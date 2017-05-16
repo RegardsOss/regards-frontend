@@ -6,7 +6,7 @@
  * Entity definition for all catalog entities like datasets, dataobjects, collections or documents.
  * @author Sébastien Binda
  */
-export default React.PropTypes.shape({
-  type: React.PropTypes.string,
-  coordinates: React.PropTypes.arrayOf(React.PropTypes.number),
+export default PropTypes.shape({
+  type: PropTypes.string,
+  coordinates: PropTypes.arrayOf(PropTypes.number),
 })

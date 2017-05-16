@@ -23,9 +23,9 @@ class ModuleThemeProvider extends React.Component {
    * @type {{children: *, module: *}}
    */
   static propTypes = {
-    children: React.PropTypes.element,
-    module: React.PropTypes.shape({
-      styles: React.PropTypes.func,
+    children: PropTypes.element,
+    module: PropTypes.shape({
+      styles: PropTypes.func,
     }).isRequired,
   }
 
@@ -34,7 +34,7 @@ class ModuleThemeProvider extends React.Component {
    * @type {{moduleTheme: *}}
    */
   static childContextTypes = {
-    moduleTheme: React.PropTypes.object.isRequired,
+    moduleTheme: PropTypes.object.isRequired,
   };
 
   /**

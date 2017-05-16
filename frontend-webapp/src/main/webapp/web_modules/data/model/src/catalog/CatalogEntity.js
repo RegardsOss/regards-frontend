@@ -16,17 +16,17 @@ export const CatalogEntityTypes = {
  * Entity definition for all catalog entities like datasets, dataobjects, collections or documents.
  * @author Sébastien Binda
  */
-const CatalogEntity = React.PropTypes.shape({
-  content: React.PropTypes.shape({
-    id: React.PropTypes.number,
-    ipId: React.PropTypes.string.isRequired,
-    sipId: React.PropTypes.number,
-    label: React.PropTypes.string.isRequired,
-    type: React.PropTypes.oneOf(values(CatalogEntityTypes)).isRequired,
-    files: React.PropTypes.arrayOf(ObjectLinkedFile),
+const CatalogEntity = PropTypes.shape({
+  content: PropTypes.shape({
+    id: PropTypes.number,
+    ipId: PropTypes.string.isRequired,
+    sipId: PropTypes.number,
+    label: PropTypes.string.isRequired,
+    type: PropTypes.oneOf(values(CatalogEntityTypes)).isRequired,
+    files: PropTypes.arrayOf(ObjectLinkedFile),
     geometry: EntityGeoProperties,
-    properties: React.PropTypes.object,
-    tags: React.PropTypes.arrayOf(React.PropTypes.string),
+    properties: PropTypes.object,
+    tags: PropTypes.arrayOf(PropTypes.string),
   }),
 })
 

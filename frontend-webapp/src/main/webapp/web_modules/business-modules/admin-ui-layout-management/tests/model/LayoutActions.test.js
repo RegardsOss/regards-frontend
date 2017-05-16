@@ -8,7 +8,7 @@ import LayoutDumpNetwork from './dump/LayoutDumpNetwork'
 const backendServerResultList = LayoutDumpNetwork
 const options = {}
 
-const entityTester = new ReduxEntityTester(LayoutActions, LayoutReducer, LayoutSelector, React.PropTypes.objectOf(Layout).isRequired, backendServerResultList, options)
+const entityTester = new ReduxEntityTester(LayoutActions, LayoutReducer, LayoutSelector, PropTypes.objectOf(Layout).isRequired, backendServerResultList, options)
 
 /**
  * Tests for Layout entities

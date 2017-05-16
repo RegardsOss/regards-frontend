@@ -7,6 +7,7 @@ import PluginConfigurationNetworkDump from './PluginConfiguration.dump'
 
 const backendServerResultList = PluginConfigurationNetworkDump
 const options = {
+  urlParams: { microserviceName: 'rs-dam' },
 }
 
 
@@ -14,7 +15,7 @@ const pluginConfigurationActions = new PluginConfigurationActions('test/action')
 const pluginConfigurationReducer = PluginConfigurationReducer('test/action')
 const pluginConfigurationSelectors = PluginConfigurationSelectors(['test', 'modules'])
 
-const entityTester = new ReduxEntityTester(pluginConfigurationActions, pluginConfigurationReducer, pluginConfigurationSelectors, React.PropTypes.objectOf(PluginConfiguration).isRequired, backendServerResultList, options)
+const entityTester = new ReduxEntityTester(pluginConfigurationActions, pluginConfigurationReducer, pluginConfigurationSelectors, PropTypes.objectOf(PluginConfiguration).isRequired, backendServerResultList, options)
 
 describe('[ADMIN CLIENT] Testing model PluginConfiguration', () => {
   before(() => {

@@ -17,7 +17,7 @@ const accessGroupActions = new AccessGroupActions('test/action')
 const accessGroupReducer = getAccessGroupReducer('test/action')
 const accessGroupSelectors = getAccessGroupSelectors(['test', 'modules'])
 
-const entityTester = new ReduxEntityTester(accessGroupActions, accessGroupReducer, accessGroupSelectors, React.PropTypes.objectOf(AccessGroup).isRequired, AccessGroupDump, options)
+const entityTester = new ReduxEntityTester(accessGroupActions, accessGroupReducer, accessGroupSelectors, PropTypes.objectOf(AccessGroup).isRequired, AccessGroupDump, options)
 
 describe('[ADMIN CLIENT] Testing client accessGroup', () => {
   before(() => {

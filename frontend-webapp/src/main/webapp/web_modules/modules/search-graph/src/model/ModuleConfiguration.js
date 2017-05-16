@@ -5,19 +5,19 @@ import { AttributeConfiguration, AttributesRegroupementConfiguration } from '@re
 /**
  * form configuration
  */
-const ModuleConfiguration = React.PropTypes.shape({
+const ModuleConfiguration = PropTypes.shape({
   // name of collection model, ordered by level for graph navigation
-  graphLevels: React.PropTypes.arrayOf(React.PropTypes.string),
+  graphLevels: PropTypes.arrayOf(PropTypes.string),
   // array of attributes to display on datasets in graph
-  graphDatasetAttributes: React.PropTypes.arrayOf(AttributeConfiguration),
+  graphDatasetAttributes: PropTypes.arrayOf(AttributeConfiguration),
   // [Result form module] Default Target of results
-  resultType: React.PropTypes.string,
+  resultType: PropTypes.string,
   // [Result form module] Search form attributes configuration
-  attributes: React.PropTypes.arrayOf(AttributeConfiguration),
+  attributes: PropTypes.arrayOf(AttributeConfiguration),
   // [Result form module] Search form attributes regroupements configuration
-  attributesRegroupements: React.PropTypes.arrayOf(AttributesRegroupementConfiguration),
+  attributesRegroupements: PropTypes.arrayOf(AttributesRegroupementConfiguration),
   // [Result form module] should enable facettes?
-  enableFacettes: React.PropTypes.bool,
+  enableFacettes: PropTypes.bool,
 })
 
 export default ModuleConfiguration

@@ -1,11 +1,11 @@
-const Resource = React.PropTypes.shape({
-  content: React.PropTypes.shape({
-    id: React.PropTypes.number,
-    microservice: React.PropTypes.string,
-    resource: React.PropTypes.string,
-    verb: React.PropTypes.string,
+const Resource = PropTypes.shape({
+  content: PropTypes.shape({
+    id: PropTypes.number,
+    microservice: PropTypes.string,
+    resource: PropTypes.string,
+    verb: PropTypes.string,
   }),
 })
 
 export default Resource
-export const ResourceList = React.PropTypes.objectOf(Resource)
+export const ResourceList = PropTypes.objectOf(Resource)

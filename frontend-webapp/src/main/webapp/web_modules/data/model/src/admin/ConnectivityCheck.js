@@ -1,11 +1,11 @@
-const ConnectivityCheck = React.PropTypes.shape({
-  content: React.PropTypes.shape({
-    projectConnectionId: React.PropTypes.number,
-    connectivity: React.PropTypes.symbol,
-    message: React.PropTypes.string,
-    lastCheck: React.PropTypes.string,
+const ConnectivityCheck = PropTypes.shape({
+  content: PropTypes.shape({
+    projectConnectionId: PropTypes.number,
+    connectivity: PropTypes.symbol,
+    message: PropTypes.string,
+    lastCheck: PropTypes.string,
   }),
 })
 
 export default ConnectivityCheck
-export const ConnectivityCheckList = React.PropTypes.objectOf(ConnectivityCheck)
+export const ConnectivityCheckList = PropTypes.objectOf(ConnectivityCheck)

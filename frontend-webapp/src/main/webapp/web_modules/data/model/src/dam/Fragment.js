@@ -1,10 +1,10 @@
-export const InternalFragment = React.PropTypes.shape({
-  id: React.PropTypes.number.isRequired,
-  name: React.PropTypes.string.isRequired,
-  description: React.PropTypes.string.isRequired,
+export const InternalFragment = PropTypes.shape({
+  id: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
 })
 
-const Fragment = React.PropTypes.shape({
+const Fragment = PropTypes.shape({
   content: InternalFragment.isRequired,
 })
 

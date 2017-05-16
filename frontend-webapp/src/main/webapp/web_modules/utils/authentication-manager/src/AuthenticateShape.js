@@ -1,26 +1,26 @@
 /**
  * LICENSE_PLACEHOLDER
  */
-export default React.PropTypes.shape({
-  error: React.PropTypes.shape({
-    loginError: React.PropTypes.string,
-    hasError: React.PropTypes.bool,
-    type: React.PropTypes.string,
-    message: React.PropTypes.string,
-    status: React.PropTypes.number,
+export default PropTypes.shape({
+  error: PropTypes.shape({
+    loginError: PropTypes.string,
+    hasError: PropTypes.bool,
+    type: PropTypes.string,
+    message: PropTypes.string,
+    status: PropTypes.number,
   }),
-  isFetching: React.PropTypes.bool,
-  authenticateDate: React.PropTypes.number,
-  sessionLocked: React.PropTypes.bool,
-  result: React.PropTypes.shape({
-    project: React.PropTypes.string,
-    scope: React.PropTypes.string,
-    sub: React.PropTypes.string,
-    role: React.PropTypes.string,
-    access_token: React.PropTypes.string,
-    token_type: React.PropTypes.string,
-    expires_in: React.PropTypes.number,
-    jti: React.PropTypes.string,
+  isFetching: PropTypes.bool,
+  authenticateDate: PropTypes.number,
+  sessionLocked: PropTypes.bool,
+  result: PropTypes.shape({
+    project: PropTypes.string,
+    scope: PropTypes.string,
+    sub: PropTypes.string,
+    role: PropTypes.string,
+    access_token: PropTypes.string,
+    token_type: PropTypes.string,
+    expires_in: PropTypes.number,
+    jti: PropTypes.string,
   }),
 })
 
@@ -37,4 +37,4 @@ export const errorTypes = [
   'UNKNOWN_ERROR',
 ]
 
-export const AuthenticationErrorShape = React.PropTypes.oneOf(errorTypes)
+export const AuthenticationErrorShape = PropTypes.oneOf(errorTypes)

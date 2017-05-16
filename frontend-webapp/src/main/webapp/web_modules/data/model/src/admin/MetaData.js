@@ -1,8 +1,8 @@
 
-export const MetaData = React.PropTypes.shape({
-  id: React.PropTypes.number.isRequired,
-  key: React.PropTypes.string.isRequired,
-  value: React.PropTypes.string.isRequired,
+export const MetaData = PropTypes.shape({
+  id: PropTypes.number.isRequired,
+  key: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
 })
 
-export const MetaDataArray = React.PropTypes.arrayOf(MetaData)
+export const MetaDataArray = PropTypes.arrayOf(MetaData)

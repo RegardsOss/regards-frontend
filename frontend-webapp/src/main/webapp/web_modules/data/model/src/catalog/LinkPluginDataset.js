@@ -1,7 +1,7 @@
-const LinkPluginDataset = React.PropTypes.shape({
-  content: React.PropTypes.shape({
-    datasetId: React.PropTypes.number.isRequired,
-    services: React.PropTypes.arrayOf(React.PropTypes.number).isRequired,
+const LinkPluginDataset = PropTypes.shape({
+  content: PropTypes.shape({
+    datasetId: PropTypes.number.isRequired,
+    services: PropTypes.arrayOf(PropTypes.number).isRequired,
   }).isRequired,
 })
 

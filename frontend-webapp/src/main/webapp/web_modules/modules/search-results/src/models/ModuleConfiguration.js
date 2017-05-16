@@ -6,25 +6,25 @@ import { AttributeModel, AttributeConfiguration, AttributesRegroupementConfigura
  * Form entity description
  * @author Sébastien binda
  */
-const Form = React.PropTypes.shape({
+const Form = PropTypes.shape({
   // Default Target of results
-  resultType: React.PropTypes.string,
+  resultType: PropTypes.string,
   // Search form attributes configuration
-  attributes: React.PropTypes.arrayOf(AttributeConfiguration),
+  attributes: PropTypes.arrayOf(AttributeConfiguration),
   // Search form attributes regroupements configuration
-  attributesRegroupements: React.PropTypes.arrayOf(AttributesRegroupementConfiguration),
+  attributesRegroupements: PropTypes.arrayOf(AttributesRegroupementConfiguration),
   // Special configuration given if the module is not load as a independent module
-  selectableAttributes: React.PropTypes.objectOf(AttributeModel),
+  selectableAttributes: PropTypes.objectOf(AttributeModel),
   // should enable facettes?
-  enableFacettes: React.PropTypes.bool,
+  enableFacettes: PropTypes.bool,
   // For modules using the single dataset capacity (hide the datasets configuration in admin)
-  hideDatasetsConfiguration: React.PropTypes.bool,
+  hideDatasetsConfiguration: PropTypes.bool,
   // Initial single dataset ipId
-  singleDatasetIpId: React.PropTypes.string,
+  singleDatasetIpId: PropTypes.string,
   // Initial search query
-  searchQuery: React.PropTypes.string,
+  searchQuery: PropTypes.string,
   // Fixed breadcrumb depending on search current context.
-  breadcrumbInitialContextLabel: React.PropTypes.string,
+  breadcrumbInitialContextLabel: PropTypes.string,
 })
 
 export default Form

@@ -12,7 +12,7 @@ const options = {
 const fragmentActions = new FragmentActions('test/action')
 const fragmentReducer = FragmentReducer('test/action')
 const fragmentSelectors = FragmentSelectors(['test', 'modules'])
-const entityTester = new ReduxEntityTester(fragmentActions, fragmentReducer, fragmentSelectors, React.PropTypes.objectOf(Fragment).isRequired, backendServerResultList, options)
+const entityTester = new ReduxEntityTester(fragmentActions, fragmentReducer, fragmentSelectors, PropTypes.objectOf(Fragment).isRequired, backendServerResultList, options)
 
 /**
  * Tests for Modules entities

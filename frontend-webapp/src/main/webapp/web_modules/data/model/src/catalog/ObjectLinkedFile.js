@@ -11,9 +11,9 @@ const ObjectLinkedFileTypes = {
   THUMBMAIL: 'THUMBMAIL',
 }
 
-const ObjectLinkedFile = React.PropTypes.shape({
-  type: React.PropTypes.oneOf([ObjectLinkedFileTypes.RAWDATA, ObjectLinkedFileTypes.THUMBMAIL]).isRequired,
-  uri: React.PropTypes.string.isRequired,
+const ObjectLinkedFile = PropTypes.shape({
+  type: PropTypes.oneOf([ObjectLinkedFileTypes.RAWDATA, ObjectLinkedFileTypes.THUMBMAIL]).isRequired,
+  uri: PropTypes.string.isRequired,
 })
 
 export default {

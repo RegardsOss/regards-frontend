@@ -21,7 +21,7 @@ const backendServerResultList = [{
 // URL options and parameters
 const options = {}
 
-const entityTester = new ReduxEntityTester(StoragePluginActions, StoragePluginReducers, StoragePluginSelectors, React.PropTypes.objectOf(StoragePlugin).isRequired, backendServerResultList, options)
+const entityTester = new ReduxEntityTester(StoragePluginActions, StoragePluginReducers, StoragePluginSelectors, PropTypes.objectOf(StoragePlugin).isRequired, backendServerResultList, options)
 
 describe('[STORAGE PLUGINS MONITORING] Testing model StoragePlugin', () => {
   before(() => {

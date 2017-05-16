@@ -90,7 +90,8 @@ class AttributeRegroupementFormComponent extends React.Component {
     let saveButton = <FormattedMessage id="form.attributes.regroupement.form.save" />
     if (this.props.attributesRegrp) {
       title = (<FormattedMessage
-        id="form.attributes.regroupement.form.title.update" values={{ name: this.props.attributesRegrp.label }}
+        id="form.attributes.regroupement.form.title.update"
+        values={{ name: this.props.attributesRegrp.label }}
       />)
       saveButton = <FormattedMessage id="form.attributes.regroupement.form.update" />
     }

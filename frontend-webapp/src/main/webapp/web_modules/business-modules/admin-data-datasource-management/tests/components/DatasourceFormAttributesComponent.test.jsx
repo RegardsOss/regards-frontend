@@ -32,6 +32,6 @@ describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing DatasourceFormAttributesCom
     }
 
     const enzymeWrapper = shallow(<DatasourceFormAttributesComponent {...props} />, { context })
-    expect(enzymeWrapper.find(Field)).to.have.length(2)
+    expect(enzymeWrapper.find(Field)).to.have.length(3)
   })
 })

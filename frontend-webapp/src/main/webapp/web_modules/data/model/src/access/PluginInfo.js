@@ -16,18 +16,18 @@ const PluginTypes = [
 /**
  * Plugin information supplied by the plugin himself
  */
-const PluginInfo = React.PropTypes.shape({
-  name: React.PropTypes.string.isRequired,
-  description: React.PropTypes.string.isRequired,
-  version: React.PropTypes.number.isRequired,
-  author: React.PropTypes.string.isRequired,
-  company: React.PropTypes.string,
-  email: React.PropTypes.string,
-  license: React.PropTypes.string,
-  url: React.PropTypes.string,
-  type: React.PropTypes.oneOf(PluginTypes),
+const PluginInfo = PropTypes.shape({
+  name: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  version: PropTypes.number.isRequired,
+  author: PropTypes.string.isRequired,
+  company: PropTypes.string,
+  email: PropTypes.string,
+  license: PropTypes.string,
+  url: PropTypes.string,
+  type: PropTypes.oneOf(PluginTypes),
   // Specific configuration properties for the given plugin
-  conf: React.PropTypes.object,
+  conf: PropTypes.object,
 })
 
 export default {
