@@ -7,17 +7,17 @@
  */
 export default {
   // adds tabs buttons to results table
-  resultsTabsButtons: React.PropTypes.arrayOf(React.PropTypes.node),
+  resultsTabsButtons: PropTypes.arrayOf(PropTypes.node),
   // shows a custom table header area instand of results count, just above columns
-  customTableHeaderArea: React.PropTypes.node,
+  customTableHeaderArea: PropTypes.node,
   // should show parameters button?
-  showParameters: React.PropTypes.bool.isRequired,
+  showParameters: PropTypes.bool.isRequired,
   // Display table header toolbar ?
-  displayTableHeader: React.PropTypes.bool,
+  displayTableHeader: PropTypes.bool,
   // adds custom table options on tabs bar right side
-  customTableOptions: React.PropTypes.arrayOf(React.PropTypes.node),
+  customTableOptions: PropTypes.arrayOf(PropTypes.node),
   // adds table context actions on tabs bar center
-  contextOptions: React.PropTypes.arrayOf(React.PropTypes.node),
+  contextOptions: PropTypes.arrayOf(PropTypes.node),
   // Table advanced options, displayed as children in 'Plus' Menu
-  advancedOptions: React.PropTypes.arrayOf(React.PropTypes.node),
+  advancedOptions: PropTypes.arrayOf(PropTypes.node),
 }

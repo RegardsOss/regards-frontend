@@ -6,13 +6,13 @@
  * Type definition for AttributeRegroupementConfiguration objects
  * @author Sébastien binda
  */
-export default React.PropTypes.shape({
+export default PropTypes.shape({
   // Regroupement label
-  label: React.PropTypes.string,
+  label: PropTypes.string,
   // Attributes associated to this regroupement
-  attributes: React.PropTypes.arrayOf(React.PropTypes.number),
+  attributes: PropTypes.arrayOf(PropTypes.number),
   // Is the regroupement visible ?
-  visibility: React.PropTypes.bool,
+  visibility: PropTypes.bool,
   // Display order of the attribute
-  order: React.PropTypes.number,
+  order: PropTypes.number,
 })

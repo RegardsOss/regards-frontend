@@ -5,7 +5,7 @@ import { map, keys } from 'lodash'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
-import { Datasource, Model, Connection } from '@regardsoss/model'
+import { Datasource, Model, Connection, PluginMetaData } from '@regardsoss/model'
 import { RenderTextField, RenderSelectField, Field, ErrorTypes } from '@regardsoss/form-utils'
 import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
@@ -25,6 +25,7 @@ export class DatasourceFormAttributesComponent extends React.Component {
     onSubmit: PropTypes.func.isRequired,
     backUrl: PropTypes.string.isRequired,
     modelList: PropTypes.objectOf(Model),
+    pluginMetaDataList: PropTypes.objectOf(PluginMetaData),
     // from reduxForm
     submitting: PropTypes.bool,
     invalid: PropTypes.bool,
@@ -71,13 +72,14 @@ export class DatasourceFormAttributesComponent extends React.Component {
       const initialValues = {
         label: currentDatasource.content.label,
         model: currentDatasource.content.mapping.model,
+        pluginClassName: currentDatasource.content.pluginClassName,
       }
       this.props.initialize(initialValues)
     }
   }
 
   render() {
-    const { currentConnection, modelList, submitting, invalid, backUrl } = this.props
+    const { currentConnection, modelList, pluginMetaDataList, submitting, invalid, backUrl } = this.props
     const title = this.getTitle()
     return (
       <form
@@ -122,6 +124,20 @@ export class DatasourceFormAttributesComponent extends React.Component {
                 />
               ))}
             </Field>
+            <Field
+              name="pluginClassName"
+              fullWidth
+              component={RenderSelectField}
+              label={<FormattedMessage id="datasource.form.pluginConfiguration" />}
+            >
+              {map(pluginMetaDataList, (pluginMetaData, id) => (
+                <MenuItem
+                  value={pluginMetaData.content.pluginClassName}
+                  key={id}
+                  primaryText={`${pluginMetaData.content.pluginId}: ${pluginMetaData.content.version}`}
+                />
+              ))}
+            </Field>
           </CardText>
           <CardActions>
             <CardActionsComponent
@@ -159,6 +175,9 @@ function validate(values) {
   }
   if (!values.model) {
     errors.model = ErrorTypes.REQUIRED
+  }
+  if (!values.pluginClassName) {
+    errors.pluginClassName = ErrorTypes.REQUIRED
   }
   return errors
 }

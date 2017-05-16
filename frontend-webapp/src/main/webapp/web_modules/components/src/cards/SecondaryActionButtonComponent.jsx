@@ -1,4 +1,3 @@
-import * as React from 'react'
 import FlatButton from 'material-ui/FlatButton'
 import ActionButtonComponent from './ActionButtonComponent'
 

@@ -24,6 +24,7 @@ const messages = Object.assign({
   'datasource.form.model': 'Modèles de source de données',
   'datasource.form.connection': 'Connexion choisie',
   'datasource.form.label': 'Libellé',
+  'datasource.form.pluginConfiguration': 'Type de plugin',
   'datasource.form.table.input': 'Valeur de l\'attribut',
   'datasource.form.subtitle': 'Gestion des attributs d\'une source de données',
 
@@ -49,8 +50,6 @@ const messages = Object.assign({
   'datasource.form.mapping.connectionViewerCustom.subtitle': 'Selectionner une table pour afficher ses attributs',
   'datasource.form.mapping.table.optional.true': 'Optionnel',
   'datasource.form.mapping.table.optional.false': 'Obligatoire',
-  'datasource.form.mapping.from_table': 'Liaison avec une seule table',
-  'datasource.form.mapping.custom_from': 'Liaison avancée',
   'datasource.form.mapping.action.save': 'Sauvegarder',
   'datasource.form.mapping.action.cancel': 'Précédent',
 

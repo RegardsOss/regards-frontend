@@ -6,13 +6,13 @@
  * Container entity
  * @author Sébastien Binda
  */
-const Container = React.PropTypes.shape({
-  id: React.PropTypes.string.isRequired,
-  type: React.PropTypes.string.isRequired,
-  classes: React.PropTypes.arrayOf(React.PropTypes.string),
-  styles: React.PropTypes.object,
-  containers: React.PropTypes.arrayOf(React.PropTypes.object),
-  dynamicContent: React.PropTypes.bool,
+const Container = PropTypes.shape({
+  id: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  classes: PropTypes.arrayOf(PropTypes.string),
+  styles: PropTypes.object,
+  containers: PropTypes.arrayOf(PropTypes.object),
+  dynamicContent: PropTypes.bool,
 })
 
 export default Container

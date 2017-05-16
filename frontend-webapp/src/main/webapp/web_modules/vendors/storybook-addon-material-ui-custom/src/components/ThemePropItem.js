@@ -6,14 +6,14 @@ import { CSS_CLASS } from '../'
 import MaterialColorPicker from 'react-material-color-picker'
 
 const propTypes = {
-  val: React.PropTypes.string.isRequired,
-  ind: React.PropTypes.number.isRequired,
-  settingsObj: React.PropTypes.object.isRequired,
-  valueHandler: React.PropTypes.func.isRequired,
-  isCollapsed: React.PropTypes.bool.isRequired,
-  onCollapsed: React.PropTypes.func.isRequired,
-  isOpen: React.PropTypes.bool.isRequired,
-  isHeader: React.PropTypes.bool.isRequired,
+  val: PropTypes.string.isRequired,
+  ind: PropTypes.number.isRequired,
+  settingsObj: PropTypes.object.isRequired,
+  valueHandler: PropTypes.func.isRequired,
+  isCollapsed: PropTypes.bool.isRequired,
+  onCollapsed: PropTypes.func.isRequired,
+  isOpen: PropTypes.bool.isRequired,
+  isHeader: PropTypes.bool.isRequired,
 }
 
 const defaultProps = {
@@ -27,7 +27,7 @@ const defaultProps = {
 }
 
 const contextTypes = {
-  muiTheme: React.PropTypes.object.isRequired,
+  muiTheme: PropTypes.object.isRequired,
 }
 
 export default class ThemePropItem extends React.Component {
@@ -153,13 +153,13 @@ function PropItem(props, context) {
 }
 
 PropItem.propTypes = {
-  settingsObj: React.PropTypes.object.isRequired,
-  val: React.PropTypes.string.isRequired,
-  ind: React.PropTypes.number.isRequired,
-  onToolTogle: React.PropTypes.func.isRequired,
-  valueHandler: React.PropTypes.func.isRequired,
-  isOpen: React.PropTypes.bool.isRequired,
-  isNotHeader: React.PropTypes.bool.isRequired,
+  settingsObj: PropTypes.object.isRequired,
+  val: PropTypes.string.isRequired,
+  ind: PropTypes.number.isRequired,
+  onToolTogle: PropTypes.func.isRequired,
+  valueHandler: PropTypes.func.isRequired,
+  isOpen: PropTypes.bool.isRequired,
+  isNotHeader: PropTypes.bool.isRequired,
 }
 PropItem.contextTypes = contextTypes
 
@@ -196,9 +196,9 @@ function PropHeader(props, context) {
   )
 }
 PropHeader.propTypes = {
-  val: React.PropTypes.string.isRequired,
-  ind: React.PropTypes.number.isRequired,
-  isNotHeader: React.PropTypes.bool.isRequired,
+  val: PropTypes.string.isRequired,
+  ind: PropTypes.number.isRequired,
+  isNotHeader: PropTypes.bool.isRequired,
 }
 PropHeader.contextTypes = contextTypes
 
@@ -238,9 +238,9 @@ function PropInput(props, context) {
   )
 }
 PropInput.propTypes = {
-  settingsObj: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]),
-  valueHandler: React.PropTypes.func,
-  isNotHeader: React.PropTypes.bool.isRequired,
+  settingsObj: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  valueHandler: PropTypes.func,
+  isNotHeader: PropTypes.bool.isRequired,
 }
 PropInput.contextTypes = contextTypes
 
@@ -263,9 +263,9 @@ function PropTool(props, context) {
   return <div {...toolProps} />
 }
 PropTool.propTypes = {
-  isNotHeader: React.PropTypes.bool.isRequired,
-  color: React.PropTypes.string.isRequired,
-  onTool: React.PropTypes.func.isRequired,
+  isNotHeader: PropTypes.bool.isRequired,
+  color: PropTypes.string.isRequired,
+  onTool: PropTypes.func.isRequired,
 }
 PropTool.contextTypes = contextTypes
 
@@ -298,10 +298,10 @@ function PropToolPicker(props, context) {
   )
 }
 PropToolPicker.propTypes = {
-  settingsObj: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]),
-  isCollapsed: React.PropTypes.bool.isRequired,
-  valueHandler: React.PropTypes.func.isRequired,
-  onToolTogle: React.PropTypes.func.isRequired,
+  settingsObj: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  isCollapsed: PropTypes.bool.isRequired,
+  valueHandler: PropTypes.func.isRequired,
+  onToolTogle: PropTypes.func.isRequired,
 }
 PropToolPicker.contextTypes = contextTypes
 
@@ -382,9 +382,9 @@ function PropToolPickerFull(props, context) {
   )
 }
 PropToolPickerFull.propTypes = {
-  settingsObj: React.PropTypes.object.isRequired,
-  isCollapsed: React.PropTypes.bool.isRequired,
-  valueHandler: React.PropTypes.func.isRequired,
-  onToolTogle: React.PropTypes.func.isRequired,
+  settingsObj: PropTypes.object.isRequired,
+  isCollapsed: PropTypes.bool.isRequired,
+  valueHandler: PropTypes.func.isRequired,
+  onToolTogle: PropTypes.func.isRequired,
 }
 PropToolPickerFull.contextTypes = contextTypes

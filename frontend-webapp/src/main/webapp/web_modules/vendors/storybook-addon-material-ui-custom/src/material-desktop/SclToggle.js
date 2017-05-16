@@ -6,7 +6,7 @@ const defaultProps = {
 }
 
 const propTypes = {
-  scale: React.PropTypes.number,
+  scale: PropTypes.number,
 }
 
 export default function SclToggle(props) {

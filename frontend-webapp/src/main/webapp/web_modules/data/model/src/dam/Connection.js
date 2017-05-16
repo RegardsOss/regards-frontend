@@ -1,7 +1,7 @@
-const Connection = React.PropTypes.shape({
-  content: React.PropTypes.shape({
-    id: React.PropTypes.number,
-    label: React.PropTypes.string,
+const Connection = PropTypes.shape({
+  content: PropTypes.shape({
+    id: PropTypes.number,
+    label: PropTypes.string,
   }).isRequired,
 })
 

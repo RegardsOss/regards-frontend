@@ -8,15 +8,15 @@ import SplitPane from 'react-split-pane'
 // const stringify = require('json-stringify-safe');
 
 const propTypes = {
-  themesAppliedListInit: React.PropTypes.arrayOf(React.PropTypes.object),
-  themeName: React.PropTypes.string,
-  themeNameArr: React.PropTypes.arrayOf(React.PropTypes.string),
-  story: React.PropTypes.object.isRequired,
-  onChangeState: React.PropTypes.func.isRequired,
-  onThemeOverride: React.PropTypes.func.isRequired,
-  themeListRender: React.PropTypes.func.isRequired,
-  initState: React.PropTypes.object,
-  channel: React.PropTypes.object,
+  themesAppliedListInit: PropTypes.arrayOf(PropTypes.object),
+  themeName: PropTypes.string,
+  themeNameArr: PropTypes.arrayOf(PropTypes.string),
+  story: PropTypes.object.isRequired,
+  onChangeState: PropTypes.func.isRequired,
+  onThemeOverride: PropTypes.func.isRequired,
+  themeListRender: PropTypes.func.isRequired,
+  initState: PropTypes.object,
+  channel: PropTypes.object,
 }
 
 export default class MuiTheme extends React.Component {

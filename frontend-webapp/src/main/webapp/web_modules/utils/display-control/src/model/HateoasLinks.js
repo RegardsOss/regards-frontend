@@ -8,7 +8,7 @@
  * @author Sébastien Binda
  */
 
-export default React.PropTypes.shape({
-  rel: React.PropTypes.string,
-  href: React.PropTypes.string,
+export default PropTypes.shape({
+  rel: PropTypes.string,
+  href: PropTypes.string,
 })

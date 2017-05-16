@@ -7,15 +7,15 @@
  * @author Sébastien Binda
  * @author Léo Mieulet
  */
-const PluginConf = React.PropTypes.shape({
-  id: React.PropTypes.number,
-  active: React.PropTypes.bool,
-  pluginId: React.PropTypes.number.isRequired,
-  conf: React.PropTypes.object,
+const PluginConf = PropTypes.shape({
+  id: PropTypes.number,
+  active: PropTypes.bool,
+  pluginId: PropTypes.number.isRequired,
+  conf: PropTypes.object,
   // TODO A supprimer
-  label: React.PropTypes.string,
-  container: React.PropTypes.string,
-  pluginConf: React.PropTypes.object,
+  label: PropTypes.string,
+  container: PropTypes.string,
+  pluginConf: PropTypes.object,
 })
 
 export default PluginConf

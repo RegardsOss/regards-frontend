@@ -114,4 +114,4 @@ class StorageCapacity {
 
 export default StorageCapacity
 
-export const StorageCapacityShape = React.PropTypes.instanceOf(StorageCapacity)
+export const StorageCapacityShape = PropTypes.instanceOf(StorageCapacity)

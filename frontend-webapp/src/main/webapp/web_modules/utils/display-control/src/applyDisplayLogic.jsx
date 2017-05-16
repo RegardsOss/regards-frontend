@@ -1,7 +1,6 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import * as React from 'react'
 import { ShowableAtRender } from '@regardsoss/components'
 
 /**

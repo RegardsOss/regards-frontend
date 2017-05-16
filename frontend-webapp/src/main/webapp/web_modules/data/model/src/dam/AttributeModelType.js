@@ -1,1 +1,1 @@
-export default React.PropTypes.string
+export default PropTypes.string

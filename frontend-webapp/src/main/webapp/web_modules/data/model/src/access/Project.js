@@ -6,14 +6,14 @@
  * Project Entity definition
  * @author Sébastien Binda
  */
-const Project = React.PropTypes.shape({
-  content: React.PropTypes.shape({
-    id: React.PropTypes.number,
-    name: React.PropTypes.string,
-    description: React.PropTypes.string,
-    isPublic: React.PropTypes.bool,
-    icon: React.PropTypes.string,
-    isAccessible: React.PropTypes.bool,
+const Project = PropTypes.shape({
+  content: PropTypes.shape({
+    id: PropTypes.number,
+    name: PropTypes.string,
+    description: PropTypes.string,
+    isPublic: PropTypes.bool,
+    icon: PropTypes.string,
+    isAccessible: PropTypes.bool,
   }),
 })
 

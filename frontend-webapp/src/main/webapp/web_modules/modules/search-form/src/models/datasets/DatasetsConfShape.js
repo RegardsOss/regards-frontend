@@ -8,10 +8,10 @@ import DatasetSelectionType from '../../definitions/DatasetSelectionType'
  * Form entity description
  * @author Sébastien binda
  */
-const DatasetsConfShape = React.PropTypes.shape({
-  type: React.PropTypes.oneOf(values(DatasetSelectionType)),
-  selectedDatasets: React.PropTypes.arrayOf(React.PropTypes.string),
-  selectedModels: React.PropTypes.arrayOf(React.PropTypes.number),
+const DatasetsConfShape = PropTypes.shape({
+  type: PropTypes.oneOf(values(DatasetSelectionType)),
+  selectedDatasets: PropTypes.arrayOf(PropTypes.string),
+  selectedModels: PropTypes.arrayOf(PropTypes.number),
 })
 
 export default DatasetsConfShape

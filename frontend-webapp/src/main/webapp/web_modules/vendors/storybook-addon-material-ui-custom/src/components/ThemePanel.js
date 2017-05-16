@@ -9,16 +9,16 @@ import IconClean from 'material-ui/svg-icons/action/delete-forever'
 import SclToggle from '../material-desktop/SclToggle'
 
 const propTypes = {
-  themesNameList: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
-  defautThemeInd: React.PropTypes.number.isRequired,
-  onThemeSelect: React.PropTypes.func.isRequired,
-  onToggleSideBar: React.PropTypes.func.isRequired,
-  isSideBarOpen: React.PropTypes.bool.isRequired,
-  themeJSON: React.PropTypes.string,
-  onChangeTheme: React.PropTypes.func.isRequired,
-  onCloneTheme: React.PropTypes.func.isRequired,
-  onDnLoadTheme: React.PropTypes.func.isRequired,
-  onCleanTheme: React.PropTypes.func.isRequired,
+  themesNameList: PropTypes.arrayOf(PropTypes.string).isRequired,
+  defautThemeInd: PropTypes.number.isRequired,
+  onThemeSelect: PropTypes.func.isRequired,
+  onToggleSideBar: PropTypes.func.isRequired,
+  isSideBarOpen: PropTypes.bool.isRequired,
+  themeJSON: PropTypes.string,
+  onChangeTheme: PropTypes.func.isRequired,
+  onCloneTheme: PropTypes.func.isRequired,
+  onDnLoadTheme: PropTypes.func.isRequired,
+  onCleanTheme: PropTypes.func.isRequired,
 }
 
 const defaultProps = {
@@ -33,7 +33,7 @@ const defaultProps = {
 }
 
 const contextTypes = {
-  muiTheme: React.PropTypes.object.isRequired,
+  muiTheme: PropTypes.object.isRequired,
 }
 
 export default class ThemePanel extends React.Component {

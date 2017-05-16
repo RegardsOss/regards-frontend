@@ -2,7 +2,8 @@
  * LICENSE_PLACEHOLDER
  **/
 import { connect } from '@regardsoss/redux'
-import { Datasource, ModelAttribute } from '@regardsoss/model'
+import { some } from 'lodash'
+import { Datasource, ModelAttribute, PluginMetaData } from '@regardsoss/model'
 import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import DatasourceFormMappingComponent from '../components/DatasourceFormMappingComponent'
@@ -34,6 +35,7 @@ export class DatasourceFormMappingContainer extends React.Component {
       isPrimaryKey: PropTypes.bool,
     }),
     modelAttributeList: PropTypes.objectOf(ModelAttribute),
+    currentPluginMetaData: PluginMetaData,
     // from mapDispatchToProps
     fetchTable: PropTypes.func,
     fetchTableAttributes: PropTypes.func,
@@ -75,6 +77,11 @@ export class DatasourceFormMappingContainer extends React.Component {
     }
   }
 
+  isSingleTable = () => {
+    const { currentPluginMetaData } = this.props
+    return currentPluginMetaData.content.interfaceNames.includes('fr.cnes.regards.modules.datasources.plugins.interfaces.IDataSourceFromSingleTablePlugin')
+  }
+
   render() {
     const { currentDatasource, tableList, tableAttributeList, modelAttributeList, handleBack, handleSave, isEditing, isCreating } = this.props
     const { isLoading } = this.state
@@ -91,6 +98,7 @@ export class DatasourceFormMappingContainer extends React.Component {
             onTableSelected={this.handleTableSelected}
             onSubmit={handleSave}
             handleBack={handleBack}
+            isSingleTable={this.isSingleTable()}
             isEditing={isEditing}
             isCreating={isCreating}
           />)

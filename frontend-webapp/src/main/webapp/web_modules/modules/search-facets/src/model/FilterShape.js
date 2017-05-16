@@ -1,10 +1,10 @@
-export const filterShape = React.PropTypes.shape({
+export const filterShape = PropTypes.shape({
   // unique in filters list: filter key
-  filterKey: React.PropTypes.string.isRequired,
+  filterKey: PropTypes.string.isRequired,
   // label for filter display
-  filterLabel: React.PropTypes.string.isRequired,
+  filterLabel: PropTypes.string.isRequired,
   // Open search query corresponding to that filer
-  openSearchQuery: React.PropTypes.string.isRequired,
+  openSearchQuery: PropTypes.string.isRequired,
 })
 
-export const filterListShape = React.PropTypes.arrayOf(filterShape)
+export const filterListShape = PropTypes.arrayOf(filterShape)

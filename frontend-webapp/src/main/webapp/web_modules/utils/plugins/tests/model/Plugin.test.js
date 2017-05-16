@@ -13,7 +13,7 @@ const backendServerResultList = MockResponse
 const options = {
 }
 
-const entityTester = new ReduxEntityTester(PluginActions, PluginReducer, PluginSelector, React.PropTypes.objectOf(PluginDefinition).isRequired, backendServerResultList, options)
+const entityTester = new ReduxEntityTester(PluginActions, PluginReducer, PluginSelector, PropTypes.objectOf(PluginDefinition).isRequired, backendServerResultList, options)
 
 /**
  * Tests for PluginDefinition model

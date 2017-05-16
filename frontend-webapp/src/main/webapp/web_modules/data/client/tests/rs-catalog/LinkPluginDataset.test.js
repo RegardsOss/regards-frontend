@@ -14,7 +14,7 @@ const linkPluginDatasetActions = new LinkPluginDatasetActions('test/action')
 const linkPluginDatasetReducer = LinkPluginDatasetReducer('test/action')
 const linkPluginDatasetSelectors = LinkPluginDatasetSelectors(['test', 'modules'])
 
-const entityTester = new ReduxEntityTester(linkPluginDatasetActions, linkPluginDatasetReducer, linkPluginDatasetSelectors, React.PropTypes.objectOf(LinkPluginDataset).isRequired, backendServerResultList, options)
+const entityTester = new ReduxEntityTester(linkPluginDatasetActions, linkPluginDatasetReducer, linkPluginDatasetSelectors, PropTypes.objectOf(LinkPluginDataset).isRequired, backendServerResultList, options)
 
 describe('[ADMIN CLIENT] Testing model LinkPluginDataset', () => {
   before(() => {

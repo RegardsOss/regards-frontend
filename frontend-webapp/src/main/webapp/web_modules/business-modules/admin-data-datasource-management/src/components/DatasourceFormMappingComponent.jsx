@@ -23,6 +23,7 @@ export class DatasourceFormMappingComponent extends React.Component {
   static propTypes = {
     currentDatasource: Datasource,
     isEditing: PropTypes.bool,
+    isSingleTable: PropTypes.bool,
     handleBack: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     onTableSelected: PropTypes.func.isRequired,
@@ -52,28 +53,17 @@ export class DatasourceFormMappingComponent extends React.Component {
 
   constructor(props) {
     super(props)
-    let tabValue = states.NONE
-    if (props.isEditing) {
-      if (props.currentDatasource.content.tableName) {
-        tabValue = states.FROM_TABLE
-      } else {
-        tabValue = states.CUSTOM_FROM
-      }
-    } else {
-      tabValue = states.NONE
-    }
-    const currentTableSelected = props.isEditing && tabValue === states.FROM_TABLE ? props.currentDatasource.content.tableName : ''
+    const currentTableSelected = props.isEditing && props.isSingleTable ? props.currentDatasource.content.tableName : ''
     this.state = {
-      tabValue,
       currentTableSelected,
     }
   }
 
   componentDidMount() {
-    const { tabValue, currentTableSelected } = this.state
+    const { currentTableSelected } = this.state
     // Initialize forms inputs
     if (this.props.isEditing) {
-      if (tabValue === states.FROM_TABLE) {
+      if (this.props.isSingleTable) {
         const { currentDatasource, tableAttributeList } = this.props
         const attributes = {}
         forEach(currentDatasource.content.mapping.attributesMapping, (attributeMapping) => {
@@ -85,7 +75,7 @@ export class DatasourceFormMappingComponent extends React.Component {
           }
         })
         const obj = {
-          [tabValue]: {
+          [states.FROM_TABLE]: {
             table: currentTableSelected,
             attributes,
           },
@@ -100,7 +90,7 @@ export class DatasourceFormMappingComponent extends React.Component {
           }
         })
         const obj = {
-          [tabValue]: {
+          [states.CUSTOM_FROM]: {
             fromClause: currentDatasource.content.fromClause,
             attributes,
           },
@@ -111,29 +101,11 @@ export class DatasourceFormMappingComponent extends React.Component {
   }
 
 
-  handleTabChange = (value) => {
-    const { tabValue } = this.state
-    if (tabValue !== value) {
-      // Reset the form
-      const obj = tabValue === states.FROM_TABLE ? {
-        [states.CUSTOM_FROM]: {
-          fromClause: `FROM ...
-WHERE ...`,
-        },
-      } : {}
-      this.props.initialize(obj)
-      // Update the view
-      this.setState({
-        tabValue: value,
-      })
-    }
-  };
-
   handleTableSelected = (tableName) => {
     this.props.onTableSelected(tableName)
-    const { tabValue } = this.state
-    // Save the table name if we are in states.FROM_TABLE
-    if (tabValue === states.FROM_TABLE) {
+    const { isSingleTable } = this.props
+    // Save the table name if we are in single table configuration
+    if (isSingleTable) {
       this.setState({
         currentTableSelected: tableName,
       })
@@ -142,15 +114,19 @@ WHERE ...`,
         attributes: {},
       }
       this.props.initialize({
-        [tabValue]: formValues,
+        [states.FROM_TABLE]: formValues,
       })
     }
   }
 
   handleSave = (values) => {
     const { onSubmit, modelAttributeList, tableAttributeList } = this.props
-    const { tabValue } = this.state
-    const formValuesSubset = values[tabValue]
+    let formValuesSubset
+    if (this.props.isSingleTable) {
+      formValuesSubset = values[states.FROM_TABLE]
+    } else {
+      formValuesSubset = values[states.CUSTOM_FROM]
+    }
     const modelAttributeDynAndStaticList = {
       ...modelAttributeList,
       ...StaticAttributeList,
@@ -159,8 +135,8 @@ WHERE ...`,
   }
 
   render() {
-    const { handleBack, tableList, tableAttributeList, modelAttributeList, change, currentDatasource, isEditing, submitting, invalid } = this.props
-    const { tabValue, currentTableSelected } = this.state
+    const { isSingleTable, handleBack, tableList, tableAttributeList, modelAttributeList, change, currentDatasource, isEditing, submitting, invalid } = this.props
+    const { currentTableSelected } = this.state
     const cardEspaced = {
       marginTop: '20px',
     }
@@ -173,12 +149,10 @@ WHERE ...`,
           />
           <DatasourceStepperComponent stepIndex={2} />
         </Card>
-        <Tabs
-          value={tabValue}
-          onChange={this.handleTabChange}
-          style={cardEspaced}
-        >
-          <Tab label={<FormattedMessage id="datasource.form.mapping.from_table" />} value={states.FROM_TABLE} >
+        <div style={cardEspaced} className="row">
+          <ShowableAtRender
+            show={isSingleTable}
+          >
             <div>
               <div className="col-sm-30">
                 <Card>
@@ -210,8 +184,10 @@ WHERE ...`,
                 </ShowableAtRender>
               </div>
             </div>
-          </Tab>
-          <Tab label={<FormattedMessage id="datasource.form.mapping.custom_from" />} value={states.CUSTOM_FROM}>
+          </ShowableAtRender>
+          <ShowableAtRender
+            show={!isSingleTable}
+          >
             <div className="row">
               <div className="col-sm-30">
                 <Card>
@@ -238,8 +214,8 @@ WHERE ...`,
                 </Card>
               </div>
             </div>
-          </Tab>
-        </Tabs>
+          </ShowableAtRender>
+        </div>
         <Card style={cardEspaced}>
           <CardActions>
             <CardActionsComponent

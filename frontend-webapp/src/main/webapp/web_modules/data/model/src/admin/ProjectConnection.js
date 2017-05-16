@@ -9,16 +9,16 @@ import Project from './Project'
  *
  * @author Sébastien Binda
  */
-const ProjectConnection = React.PropTypes.shape({
-  content: React.PropTypes.shape({
-    id: React.PropTypes.number,
+const ProjectConnection = PropTypes.shape({
+  content: PropTypes.shape({
+    id: PropTypes.number,
     project: Project,
-    microservice: React.PropTypes.string,
-    userName: React.PropTypes.string,
-    password: React.PropTypes.string,
-    driverClassName: React.PropTypes.string,
-    url: React.PropTypes.string,
-    connectivity: React.PropTypes.symbol,
+    microservice: PropTypes.string,
+    userName: PropTypes.string,
+    password: PropTypes.string,
+    driverClassName: PropTypes.string,
+    url: PropTypes.string,
+    connectivity: PropTypes.symbol,
   }),
 })
 

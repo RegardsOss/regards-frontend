@@ -13,7 +13,7 @@ const backendServerResultList = WaitingAccountEntitiesNetworkDump
 const options = {
 }
 
-const entityTester = new ReduxEntityTester(WaitingAccountEntitiesActions, getWaitingAccountEntitiesReducer, WaitingAccountEntitiesSelectors, React.PropTypes.objectOf(ProjectUser).isRequired, backendServerResultList, options)
+const entityTester = new ReduxEntityTester(WaitingAccountEntitiesActions, getWaitingAccountEntitiesReducer, WaitingAccountEntitiesSelectors, PropTypes.objectOf(ProjectUser).isRequired, backendServerResultList, options)
 
 describe('[ADMIN ACCOUNT MANAGEMENT] Testing model WaitingAccountEntities', () => {
   before(() => {

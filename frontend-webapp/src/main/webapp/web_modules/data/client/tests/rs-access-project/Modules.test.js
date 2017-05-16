@@ -11,7 +11,7 @@ const options = {
 const ModulesActions = AccessProjectClient.ModuleActions('test/action')
 const ModulesReducer = AccessProjectClient.ModuleReducers('test/action')
 const ModulesSelector = AccessProjectClient.ModuleSelectors(['test', 'modules'])
-const entityTester = new ReduxEntityTester(ModulesActions, ModulesReducer, ModulesSelector, React.PropTypes.objectOf(Module).isRequired, backendServerResultList, options)
+const entityTester = new ReduxEntityTester(ModulesActions, ModulesReducer, ModulesSelector, PropTypes.objectOf(Module).isRequired, backendServerResultList, options)
 
 /**
  * Tests for Modules entities

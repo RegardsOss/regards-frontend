@@ -5,10 +5,10 @@
 /**
  * HTTP Request error entity description
  */
-const RequestErrorShape = React.PropTypes.shape({
-  hasError: React.PropTypes.bool,
-  type: React.PropTypes.string,
-  message: React.PropTypes.string,
+const RequestErrorShape = PropTypes.shape({
+  hasError: PropTypes.bool,
+  type: PropTypes.string,
+  message: PropTypes.string,
 })
 
 export default RequestErrorShape

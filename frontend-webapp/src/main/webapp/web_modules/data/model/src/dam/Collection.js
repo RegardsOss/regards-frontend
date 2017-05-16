@@ -1,7 +1,7 @@
-const Collection = React.PropTypes.shape({
-  content: React.PropTypes.shape({
-    id: React.PropTypes.number,
-    name: React.PropTypes.string,
+const Collection = PropTypes.shape({
+  content: PropTypes.shape({
+    id: PropTypes.number,
+    name: PropTypes.string,
   }).isRequired,
 })
 

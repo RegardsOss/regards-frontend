@@ -24,6 +24,7 @@ const messages = Object.assign({
   'datasource.form.model': 'Datasource models',
   'datasource.form.connection': 'Selected connection',
   'datasource.form.label': 'Name',
+  'datasource.form.pluginConfiguration': 'Plugin type',
   'datasource.form.table.input': 'Attribute value',
   'datasource.form.subtitle': 'Manage datasource attributes',
 
@@ -49,8 +50,6 @@ const messages = Object.assign({
   'datasource.form.mapping.connectionViewerCustom.subtitle': 'Select a table to display its attributes',
   'datasource.form.mapping.table.optional.true': 'Optionnal',
   'datasource.form.mapping.table.optional.false': 'Mandatory',
-  'datasource.form.mapping.from_table': 'Link with one table',
-  'datasource.form.mapping.custom_from': 'Advanced link',
   'datasource.form.mapping.action.save': 'Save',
   'datasource.form.mapping.action.cancel': 'Back',
 

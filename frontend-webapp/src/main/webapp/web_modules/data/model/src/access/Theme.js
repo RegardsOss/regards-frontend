@@ -1,19 +1,19 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-const ThemeShape = React.PropTypes.shape({
-  id: React.PropTypes.number.isRequired,
-  name: React.PropTypes.string.isRequired,
-  active: React.PropTypes.bool,
-  configuration: React.PropTypes.object,
+const ThemeShape = PropTypes.shape({
+  id: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  active: PropTypes.bool,
+  configuration: PropTypes.object,
 }).isRequired
 
-const Theme = React.PropTypes.shape({
+const Theme = PropTypes.shape({
   content: ThemeShape,
-  links: React.PropTypes.array,
+  links: PropTypes.array,
 }).isRequired
 
-const ThemeList = React.PropTypes.shape(Theme)
+const ThemeList = PropTypes.shape(Theme)
 
 const defaultTheme = {
   content: {

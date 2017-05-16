@@ -13,7 +13,7 @@ const datasetActions = new DatasetActions('test/action')
 const datasetReducer = DatasetReducer('test/action')
 const datasetSelectors = DatasetSelectors(['test', 'modules'])
 
-const entityTester = new ReduxEntityTester(datasetActions, datasetReducer, datasetSelectors, React.PropTypes.objectOf(Dataset).isRequired, backendServerResultList, options)
+const entityTester = new ReduxEntityTester(datasetActions, datasetReducer, datasetSelectors, PropTypes.objectOf(Dataset).isRequired, backendServerResultList, options)
 
 describe('[ADMIN CLIENT] Testing model Collection', () => {
   before(() => {
