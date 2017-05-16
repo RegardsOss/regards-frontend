@@ -4,7 +4,7 @@
 import { browserHistory } from 'react-router'
 import { map, find, forEach, keys } from 'lodash'
 import { connect } from '@regardsoss/redux'
-import { Collection, Model, ModelAttribute } from '@regardsoss/model'
+import { Collection, Model, ModelAttribute, EntityController } from '@regardsoss/model'
 import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { unregisterField } from 'redux-form'
@@ -84,7 +84,7 @@ export class CollectionFormContainer extends React.Component {
     const updatedCollection = Object.assign({}, {
       id: this.props.currentCollection.content.id,
       tags: this.props.currentCollection.content.tags,
-      type: this.props.currentCollection.content.type,
+      entityType: this.props.currentCollection.content.type,
     }, {
       label: values.label,
       descriptionUrl: values.descriptionUrl,
@@ -140,7 +140,7 @@ export class CollectionFormContainer extends React.Component {
    */
   handleCreate = (values) => {
     const model = this.props.modelList[values.model].content
-    const attributes = this.extractAttributesFromValues(values)
+    const properties = this.extractAttributesFromValues(values)
     const defaultValues = {}
     if (this.state.isDuplicating) {
       defaultValues.tags = this.props.currentCollection.content.tags
@@ -156,8 +156,8 @@ export class CollectionFormContainer extends React.Component {
         label: values.label,
         descriptionUrl: values.descriptionUrl,
         model,
-        attributes,
-        type: 'COLLECTION',
+        properties,
+        entityType: EntityController.ENTITY_TYPES.COLLECTION,
         descriptionFileType,
       }),
     }
@@ -223,8 +223,8 @@ const mapDispatchToProps = dispatch => ({
   fetchCollection: id => dispatch(collectionActions.fetchEntity(id)),
   createCollection: (values, files) => dispatch(collectionActions.createEntityUsingMultiPart(values, files)),
   updateCollection: (id, values, files) => dispatch(collectionActions.updateEntityUsingMultiPart(id, values, files)),
-  fetchModelList: () => dispatch(modelActions.fetchEntityList({}, { type: 'COLLECTION' })),
-  fetchModelAttributeList: id => dispatch(modelAttributesActions.fetchEntityList({ pAttributeId: id })),
+  fetchModelList: () => dispatch(modelActions.fetchEntityList({}, { type: EntityController.ENTITY_TYPES.COLLECTION, })),
+  fetchModelAttributeList: id => dispatch(modelAttributesActions.fetchEntityList({ pModelId: id })),
   unregisterField: (form, name) => dispatch(unregisterField(form, name)),
 })
 
