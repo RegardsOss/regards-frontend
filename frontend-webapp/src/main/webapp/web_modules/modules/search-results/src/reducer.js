@@ -3,6 +3,7 @@
  **/
 import { AttributeModelReducer, REDUCER_PATH as ATTRIBUTE_MODEL_REDUCER_PATH } from './client/AttributeModelClient'
 import CatalogEntityReducer from './models/catalog/CatalogEntityReducer'
+import navigationContextReducer from './models/navigation/NavigationContextReducer'
 // User: fetch entity description (for both dataset and collection)
 import DownloadDescriptionClient, { DATASET_REDUCER_PATH, COLLECTION_REDUCER_PATH } from './client/DownloadDescriptionClient'
 // User: fetch attributes for model id
@@ -20,6 +21,8 @@ import UIServiceClient from './client/UIServiceClient'
 const searchResultsReducers = {
   [ATTRIBUTE_MODEL_REDUCER_PATH]: AttributeModelReducer,
   results: CatalogEntityReducer,
+  // context
+  navigationContext: navigationContextReducer,
   // description
   [DATASET_REDUCER_PATH]: DownloadDescriptionClient.reduceDownloadDatasetDescription,
   [COLLECTION_REDUCER_PATH]: DownloadDescriptionClient.reduceDownloadCollectionDescription,
