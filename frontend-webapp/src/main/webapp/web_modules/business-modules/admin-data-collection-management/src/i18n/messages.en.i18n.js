@@ -5,6 +5,7 @@ const messages = Object.assign({
   'collection.list.action.cancel': 'Cancel',
   'collection.list.title': 'Collection list',
   'collection.list.subtitle': 'Les collections sont des regroupements de données par thématique',
+  'collection.list.delete.message': 'Are you sure you want to delete the {name} collection ?',
   'collection.form.links.component.subtitle': 'Current collection links',
   'collection.form.links.remainingcollection.subtitle': 'Remaining collections',
   'collection.form.links.collection.subtitle': 'Collection links',
