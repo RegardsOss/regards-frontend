@@ -17,6 +17,9 @@ export default store => next => (action) => {
       if (action.payload.response && action.payload.response.status === 404) {
         serverMessage = `${action.payload.response.path} -> ${serverMessage}`
       }
+      if (serverMessage.includes('io.jsonwebtoken.ExpiredJwtException')) {
+        serverMessage = 'Session expired'
+      }
       const message = `${statusText} : \n ${serverMessage}`
 
       store.dispatch(
