@@ -1,6 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import { browserHistory } from 'react-router'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { FormattedMessage } from 'react-intl'
 import { map } from 'lodash'
@@ -42,6 +43,10 @@ export class DatasourceCreateOrPickConnectionComponent extends React.Component {
     })
   }
 
+  goToConnection = () => {
+    browserHistory.push(this.props.createConnectionUrl)
+  }
+
   render() {
     const style = {
       display: 'flex',
@@ -53,7 +58,7 @@ export class DatasourceCreateOrPickConnectionComponent extends React.Component {
     const styleButton = {
       margin: '30px 0',
     }
-    const { connectionList, createConnectionUrl, handleDone, backUrl } = this.props
+    const { connectionList, handleDone, backUrl } = this.props
     return (
       <div>
         <Card>
@@ -99,7 +104,7 @@ export class DatasourceCreateOrPickConnectionComponent extends React.Component {
               label={<FormattedMessage id="datasource.form.create.action.connection" />}
               secondary
               style={styleButton}
-              href={createConnectionUrl}
+              onTouchTap={this.goToConnection}
             />
           </div>
         </Card>

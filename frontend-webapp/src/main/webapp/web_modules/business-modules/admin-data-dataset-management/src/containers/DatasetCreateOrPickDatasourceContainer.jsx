@@ -82,7 +82,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchDatasourceList: () => dispatch(datasourceActions.fetchPagedEntityList(0, 1000)),
+  fetchDatasourceList: () => dispatch(datasourceActions.fetchEntityList()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(DatasetCreateOrPickDatasourceContainer)
