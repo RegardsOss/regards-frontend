@@ -8,9 +8,12 @@ const messages = Object.assign({
   'modelattr.form.action.back': 'Back',
   'modelattr.edit.remainingAttr': 'Available attributes',
   'modelattr.edit.modelname': 'Model {name}',
-  'modelattr.edit.computation.GIVEN': 'Automatic',
-  'modelattr.edit.computation.COMPUTED': 'Using plugin computation',
+  'component.plugin-parameter.action.choose-plugin': 'Use a plugin',
+  'component.plugin-parameter.action.reset': 'Do not use a plugin',
   'modelattr.edit.computation.label': 'Computation',
+  'modelattr.edit.table.computationMethod': 'Computation method',
+  'modelattr.edit.table.type': 'Type',
+  'modelattr.edit.table.name': 'Name',
 }, Locales.en)
 
 export default messages

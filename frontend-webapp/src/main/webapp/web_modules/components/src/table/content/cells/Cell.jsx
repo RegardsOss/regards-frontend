@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import omit from 'lodash/omit'
-import { Cell as FixedDataTableCell } from 'fixed-data-table'
+import { Cell as FixedDataTableCell } from 'fixed-data-table-2'
 import { themeContextType } from '@regardsoss/theme'
 import ColumnConfigurationController from '../columns/model/ColumnConfigurationController'
 

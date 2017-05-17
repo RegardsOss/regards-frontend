@@ -7,7 +7,7 @@ export default store => next => (action) => {
   if (action.error && (!action.meta || !action.meta.bypassErrorMiddleware)) {
     if (action.payload) {
       const statusText = 'Server request error'
-      let serverMessage
+      let serverMessage = ''
       if (action.payload.response && action.payload.response.message) {
         serverMessage = action.payload.response.message
       } else if (action.payload.response && action.payload.response.messages) {

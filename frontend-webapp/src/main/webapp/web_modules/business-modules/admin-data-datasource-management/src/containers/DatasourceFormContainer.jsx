@@ -167,7 +167,7 @@ export class DatasourceFormContainer extends React.Component {
       const newAttributeMapping = {
         name: attributeName,
         type: modelAttr.content.attribute.type,
-        nameSpace: modelAttr.content.attribute.fragment.name,
+        namespace: modelAttr.content.attribute.fragment.name,
       }
       if (attribute.sql && attribute.sql.length > 0) {
         newAttributeMapping.nameDS = attribute.sql

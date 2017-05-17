@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import map from 'lodash/map'
-import { Table as FixedDataTable, Column } from 'fixed-data-table'
+import { Table as FixedDataTable, Column } from 'fixed-data-table-2'
 import { themeContextType } from '@regardsoss/theme'
 import SelectionController from '../selection/SelectionController'
 import FixedTableHeaderCell from './columns/ColumnHeader'

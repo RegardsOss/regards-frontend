@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import Checkbox from 'material-ui/Checkbox'
-import { Cell } from 'fixed-data-table'
+import { Cell } from 'fixed-data-table-2'
 import { themeContextType } from '@regardsoss/theme'
 
 /**
