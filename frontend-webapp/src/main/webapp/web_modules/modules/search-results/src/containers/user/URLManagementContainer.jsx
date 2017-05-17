@@ -40,6 +40,7 @@ class URLManagementContainer extends React.Component {
     initialViewObjectType: React.PropTypes.oneOf([SearchResultsTargetsEnum.DATAOBJECT_RESULTS, SearchResultsTargetsEnum.DATASET_RESULTS]).isRequired,
     // current URL query information, used to detect browsing
     currentPath: React.PropTypes.string.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
     currentQuery: React.PropTypes.object.isRequired,
     // from mapStateToProps
     // eslint-disable-next-line react/no-unused-prop-types
@@ -71,6 +72,10 @@ class URLManagementContainer extends React.Component {
     }
   }
 
+  /**
+   * Update module redux state when URL changes
+   * @param nextProps next component properties
+   */
   updateStateFromURL = (nextProps) => {
     // first load: parse tag and dataset from URL, then initialize the module store
     const { initialViewObjectType, initialContextLabel, initialize, currentQuery: query } = nextProps
@@ -80,10 +85,20 @@ class URLManagementContainer extends React.Component {
     const searchTag = query[ModuleURLParameters.SEARCH_TAG_PARAMETER]
     const datasetIpId = query[ModuleURLParameters.DATASET_IPID_PARAMETER]
 
-    // TODO fetch the dataset if required, resolve it correctly (and not that hack x.x)
-    initialize(viewObjectType, initialContextLabel, searchTag, datasetIpId && { content: { ipId: datasetIpId, label: datasetIpId } })
+    // do not update if already equivalent
+    const getLevelValue = level => level && level.levelValue // return level value or undefined, to compare with URL parameters
+    if (nextProps.viewObjectType !== viewObjectType ||
+      getLevelValue(NavigationLevel.getDatasetLevel(nextProps.levels)) !== datasetIpId ||
+      getLevelValue(NavigationLevel.getSearchTagLevel(nextProps.levels)) !== searchTag) {
+      // TODO fetch the dataset if required, resolve it correctly (and not that hack x.x)
+      initialize(viewObjectType, initialContextLabel, searchTag, datasetIpId && { content: { ipId: datasetIpId, label: datasetIpId } })
+    }
   }
 
+  /**
+   * Update URL from module redux state when state change
+   * @param nextProps next component properties
+   */
   updateURLFromState = (nextProps) => {
     const { viewObjectType, levels, currentQuery, currentPath } = nextProps
 
