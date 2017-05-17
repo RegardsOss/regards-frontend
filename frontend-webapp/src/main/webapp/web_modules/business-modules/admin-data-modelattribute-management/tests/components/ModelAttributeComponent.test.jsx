@@ -5,7 +5,7 @@ import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { TableRowColumn } from 'material-ui/Table'
 import { stub, spy } from 'sinon'
-import SelectField from 'material-ui/SelectField'
+import { PluginConfigurationPickerComponent } from '@regardsoss/components'
 import ModelAttributeComponent from '../../src/components/ModelAttributeComponent'
 
 
@@ -23,6 +23,7 @@ describe('[ADMIN DATA MODEL ATTRIBUTE MANAGEMENT] Testing ModelAttributeComponen
 
   it('should exists', () => {
     assert.isDefined(ModelAttributeComponent)
+    assert.isDefined(PluginConfigurationPickerComponent)
   })
 
 
@@ -68,7 +69,7 @@ describe('[ADMIN DATA MODEL ATTRIBUTE MANAGEMENT] Testing ModelAttributeComponen
     const enzymeWrapper = shallow(<ModelAttributeComponent {...props} />)
     const subComponent = enzymeWrapper.find(TableRowColumn)
     expect(subComponent).to.have.length(3)
-    const subComponentSelectField = enzymeWrapper.find(SelectField)
+    const subComponentSelectField = enzymeWrapper.find(PluginConfigurationPickerComponent)
     expect(subComponentSelectField).to.have.length(1)
     subComponentSelectField.simulate('change', 'FROM_DESCENDANTS')
     expect(onSelectFieldChange.calledOnce).to.equal(true)

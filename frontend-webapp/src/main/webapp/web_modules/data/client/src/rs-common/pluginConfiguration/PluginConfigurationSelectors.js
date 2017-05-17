@@ -2,9 +2,9 @@
  * LICENSE_PLACEHOLDER
  **/
 import { chain, filter, pickBy } from 'lodash'
-import { BasicPageableSelectors } from '@regardsoss/store-utils'
+import { BasicListSelectors } from '@regardsoss/store-utils'
 
-class PluginConfigurationSelectors extends BasicPageableSelectors {
+class PluginConfigurationSelectors extends BasicListSelectors {
 
   getListByPluginClassName(state, pluginClassName) {
     return filter(this.getList(state), item => item.content.pluginClassName === pluginClassName)

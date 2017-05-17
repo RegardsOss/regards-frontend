@@ -2,9 +2,9 @@
  * LICENSE_PLACEHOLDER
  **/
 import Schemas from '@regardsoss/api'
-import { BasicPageableActions } from '@regardsoss/store-utils'
+import { BasicListActions } from '@regardsoss/store-utils'
 
-export default class PluginConfigurationActions extends BasicPageableActions {
+export default class PluginConfigurationActions extends BasicListActions {
   constructor(namespace) {
     super({
       namespace,

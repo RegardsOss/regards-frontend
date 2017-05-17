@@ -1,30 +1,55 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { ModelAttribute } from '@regardsoss/model'
-import { Table, TableBody, TableRow, TableRowColumn } from 'material-ui/Table'
-import SelectField from 'material-ui/SelectField'
-import MenuItem from 'material-ui/MenuItem'
+import { ModelAttribute, PluginConfiguration, PluginMetaData } from '@regardsoss/model'
+import { Table, TableBody, TableRow, TableRowColumn, TableHeader, TableHeaderColumn } from 'material-ui/Table'
 import { FormattedMessage } from 'react-intl'
+import { PluginConfigurationPickerComponent } from '@regardsoss/components'
 
 class ModelAttributeComponent extends React.Component {
 
   static propTypes = {
+    pluginConfigurationList: PropTypes.objectOf(PluginConfiguration),
+    pluginMetaDataList: PropTypes.objectOf(PluginMetaData),
     modelAttribute: ModelAttribute,
     handleComputationUpdate: PropTypes.func,
+    shouldDisplayHeader: PropTypes.bool,
   }
 
-  handleComputationChange = (event, index, value) => {
+  static defaultProps = {
+    shouldDisplayHeader: true,
+  }
+  /**
+   * When the user select a plugin configuration, send the updated value to the server
+   * @param value the pluginConfiguration id
+   */
+  onPluginConfigurationChange= (value) => {
     this.props.handleComputationUpdate(value)
-  };
+  }
 
 
+  displayTableHeader = () => {
+    if (this.props.shouldDisplayHeader) {
+      return (
+        <TableHeader
+          enableSelectAll={false}
+          adjustForCheckbox={false}
+          displaySelectAll={false}
+        >
+          <TableRow>
+            <TableHeaderColumn><FormattedMessage id="modelattr.edit.table.name" /></TableHeaderColumn>
+            <TableHeaderColumn><FormattedMessage id="modelattr.edit.table.type" /></TableHeaderColumn>
+            <TableHeaderColumn><FormattedMessage id="modelattr.edit.table.computationMethod" /></TableHeaderColumn>
+          </TableRow>
+        </TableHeader>)
+    }
+    return null
+  }
   render() {
-    const { modelAttribute } = this.props
+    const { modelAttribute, pluginMetaDataList, pluginConfigurationList } = this.props
     return (
-      <Table
-        selectable
-      >
+      <Table>
+        {this.displayTableHeader()}
         <TableBody
           displayRowCheckbox={false}
           preScanRows={false}
@@ -34,14 +59,12 @@ class ModelAttributeComponent extends React.Component {
             <TableRowColumn>{modelAttribute.content.attribute.name}</TableRowColumn>
             <TableRowColumn>{modelAttribute.content.attribute.type}</TableRowColumn>
             <TableRowColumn>
-              <SelectField
-                floatingLabelText={<FormattedMessage id="modelattr.edit.computation.label" />}
-                value={modelAttribute.content.mode}
-                onChange={this.handleComputationChange}
-              >
-                <MenuItem value="GIVEN" primaryText={<FormattedMessage id="modelattr.edit.computation.GIVEN" />} />
-                <MenuItem value="COMPUTED" primaryText={<FormattedMessage id="modelattr.edit.computation.COMPUTED" />} />
-              </SelectField>
+              <PluginConfigurationPickerComponent
+                onChange={this.onPluginConfigurationChange}
+                pluginMetaDataList={pluginMetaDataList}
+                pluginConfigurationList={pluginConfigurationList}
+                currentPluginConfiguration={modelAttribute && modelAttribute.computationConf}
+              />
             </TableRowColumn>
           </TableRow>
         </TableBody>

@@ -4,8 +4,8 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { testSuiteHelpers, DumpProvider } from '@regardsoss/tests-helpers'
+import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { ModelAttributeFormContainer } from '../../src/containers/ModelAttributeFormContainer'
-import ModelAttributeFormComponent from '../../src/components/ModelAttributeFormComponent'
 
 const distributedAttrModels = {
   ATTR_REMAINING: {
@@ -24,7 +24,7 @@ describe('[ADMIN DATA MODEL ATTRIBUTE MANAGEMENT]Testing form container', () => 
 
   it('should exists', () => {
     assert.isDefined(ModelAttributeFormContainer)
-    assert.isDefined(ModelAttributeFormComponent)
+    assert.isDefined(LoadableContentDisplayDecorator)
   })
 
   it('should render self and subcomponents', () => {
@@ -46,14 +46,18 @@ describe('[ADMIN DATA MODEL ATTRIBUTE MANAGEMENT]Testing form container', () => 
       fetchAttributeModelList: () => { },
       fetchModelAttributeList: () => { },
       deleteModelAttribute: () => { },
+      fetchPluginConfiguration: () => { },
+      fetchPluginMetaData: () => { },
       fetchModel: () => { },
       bindFragment: () => { },
       unbindFragment: () => { },
     }
 
     const enzymeWrapper = shallow(<ModelAttributeFormContainer {...props} />)
-    const subComponent = enzymeWrapper.find(ModelAttributeFormComponent)
+    const subComponent = enzymeWrapper.find(LoadableContentDisplayDecorator)
     expect(subComponent).to.have.length(1)
-    assert.deepEqual(subComponent.prop('distributedAttrModels'), distributedAttrModels)
+    assert.isFunction(subComponent.prop('children'))
+    assert.deepEqual(subComponent.prop('children'), enzymeWrapper.instance().getFormComponent)
+    assert.deepEqual(enzymeWrapper.instance().getFormComponent().props.distributedAttrModels, distributedAttrModels)
   })
 })

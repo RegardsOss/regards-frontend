@@ -8,9 +8,12 @@ const messages = Object.assign({
   'modelattr.form.action.back': 'Retour',
   'modelattr.edit.remainingAttr': 'Attributs disponibles',
   'modelattr.edit.modelname': 'Modèle {name}',
-  'modelattr.edit.computation.GIVEN': 'Automatique',
-  'modelattr.edit.computation.COMPUTED': 'Calculé par plugin',
+  'component.plugin-parameter.action.choose-plugin': 'Utiliser un plugin',
+  'component.plugin-parameter.action.reset': 'Supprimer le plugin',
   'modelattr.edit.computation.label': 'Calcul',
+  'modelattr.edit.table.computationMethod': 'Méthode de calcul',
+  'modelattr.edit.table.type': 'Type',
+  'modelattr.edit.table.name': 'Nom',
 }, Locales.fr)
 
 export default messages
