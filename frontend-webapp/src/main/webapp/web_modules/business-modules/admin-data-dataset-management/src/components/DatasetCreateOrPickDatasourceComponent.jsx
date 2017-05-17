@@ -1,6 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import { browserHistory } from 'react-router'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { FormattedMessage } from 'react-intl'
 import { map } from 'lodash'
@@ -18,10 +19,10 @@ import RaisedButton from 'material-ui/RaisedButton'
 export class DatasetCreateOrPickDatasourceComponent extends React.Component {
 
   static propTypes = {
-    datasourceList: React.PropTypes.objectOf(Datasource),
-    createDatasourceUrl: React.PropTypes.string.isRequired,
-    backUrl: React.PropTypes.string.isRequired,
-    handleDone: React.PropTypes.func.isRequired,
+    datasourceList: PropTypes.objectOf(Datasource),
+    createDatasourceUrl: PropTypes.string.isRequired,
+    backUrl: PropTypes.string.isRequired,
+    handleDone: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -41,6 +42,10 @@ export class DatasetCreateOrPickDatasourceComponent extends React.Component {
     })
   }
 
+  goToDatasource = () => {
+    browserHistory.push(this.props.createDatasourceUrl)
+  }
+
   render() {
     const style = {
       display: 'flex',
@@ -53,7 +58,7 @@ export class DatasetCreateOrPickDatasourceComponent extends React.Component {
     const styleButton = {
       margin: '30px 0',
     }
-    const { datasourceList, createDatasourceUrl, handleDone, backUrl } = this.props
+    const { datasourceList, handleDone, backUrl } = this.props
     return (
       <div>
         <Card>
@@ -97,7 +102,7 @@ export class DatasetCreateOrPickDatasourceComponent extends React.Component {
               label={<FormattedMessage id="dataset.form.create.action.datasource" />}
               secondary
               style={styleButton}
-              href={createDatasourceUrl}
+              onTouchTap={this.goToDatasource}
             />
           </div>
         </Card>

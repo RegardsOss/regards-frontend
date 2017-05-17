@@ -19,21 +19,21 @@ export class ProjectConnectionFormComponent extends React.Component {
 
   static propTypes = {
     project: Project,
-    microservice: React.PropTypes.string.isRequired,
+    microservice: PropTypes.string.isRequired,
     projectConnection: ProjectConnection,
-    onUpdate: React.PropTypes.func,
-    onCreate: React.PropTypes.func,
-    onCancel: React.PropTypes.func,
+    onUpdate: PropTypes.func,
+    onCreate: PropTypes.func,
+    onCancel: PropTypes.func,
     // This props allow to define if the current form is displayed in a stepper
     // or as a single form
-    isStep: React.PropTypes.bool,
-    onNext: React.PropTypes.func,
+    isStep: PropTypes.bool,
+    onNext: PropTypes.func,
     // from reduxForm
-    submitting: React.PropTypes.bool,
-    handleSubmit: React.PropTypes.func.isRequired,
-    initialize: React.PropTypes.func.isRequired,
-    invalid: React.PropTypes.bool,
-    pristine: React.PropTypes.bool,
+    submitting: PropTypes.bool,
+    handleSubmit: PropTypes.func.isRequired,
+    initialize: PropTypes.func.isRequired,
+    invalid: PropTypes.bool,
+    pristine: PropTypes.bool,
   }
 
   componentDidMount() {

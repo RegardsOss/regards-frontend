@@ -15,25 +15,25 @@ import { projectActions, projectSelectors } from '../../client/ProjectClient'
 export class ProjectFormContainer extends React.Component {
   static propTypes = {
     // from router
-    params: React.PropTypes.shape({
-      project_name: React.PropTypes.string,
+    params: PropTypes.shape({
+      project_name: PropTypes.string,
     }),
     // from mapStateToProps
-    project: React.PropTypes.shape({
-      content: React.PropTypes.shape({
-        id: React.PropTypes.number,
-        name: React.PropTypes.string,
-        description: React.PropTypes.string,
-        license: React.PropTypes.string,
-        icon: React.PropTypes.string,
-        isPublic: React.PropTypes.bool,
+    project: PropTypes.shape({
+      content: PropTypes.shape({
+        id: PropTypes.number,
+        name: PropTypes.string,
+        description: PropTypes.string,
+        license: PropTypes.string,
+        icon: PropTypes.string,
+        isPublic: PropTypes.bool,
       }),
     }),
-    isFetching: React.PropTypes.bool,
+    isFetching: PropTypes.bool,
     // from mapDispatchToProps
-    createProject: React.PropTypes.func,
-    fetchProject: React.PropTypes.func,
-    updateProject: React.PropTypes.func,
+    createProject: PropTypes.func,
+    fetchProject: PropTypes.func,
+    updateProject: PropTypes.func,
   }
 
   constructor(props) {

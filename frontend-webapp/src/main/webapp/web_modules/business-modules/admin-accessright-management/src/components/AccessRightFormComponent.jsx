@@ -26,17 +26,17 @@ export class AccessRightFormComponent extends React.Component {
   }
 
   static propTypes = {
-    onSubmit: React.PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
     currentAccessRight: AccessRight,
-    pluginConfigurationList: React.PropTypes.objectOf(PluginConfiguration),
-    pluginMetaDataList: React.PropTypes.objectOf(PluginMetaData),
-    nbSelectedDataset: React.PropTypes.number.isRequired,
+    pluginConfigurationList: PropTypes.objectOf(PluginConfiguration),
+    pluginMetaDataList: PropTypes.objectOf(PluginMetaData),
+    nbSelectedDataset: PropTypes.number.isRequired,
     // from reduxForm
-    submitting: React.PropTypes.bool,
-    invalid: React.PropTypes.bool,
-    handleSubmit: React.PropTypes.func.isRequired,
-    initialize: React.PropTypes.func.isRequired,
-    change: React.PropTypes.func,
+    submitting: PropTypes.bool,
+    invalid: PropTypes.bool,
+    handleSubmit: PropTypes.func.isRequired,
+    initialize: PropTypes.func.isRequired,
+    change: PropTypes.func,
   }
 
   constructor(props) {

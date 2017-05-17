@@ -26,20 +26,20 @@ export class ServiceConfigurationListContainer extends React.Component {
 
   static propTypes = {
     // from router
-    params: React.PropTypes.shape({
-      project: React.PropTypes.string,
-      uiPluginId: React.PropTypes.string,
+    params: PropTypes.shape({
+      project: PropTypes.string,
+      uiPluginId: PropTypes.string,
     }),
     // from mapStateToProps
-    uiPluginConfigurationList: React.PropTypes.objectOf(React.PropTypes.shape({
+    uiPluginConfigurationList: PropTypes.objectOf(PropTypes.shape({
       content: UIPluginConfiguration,
     })),
     uiPluginDefinition: UIPluginDefinition,
     // from mapDispatchToProps
-    fetchUIPluginConfigurationList: React.PropTypes.func,
-    fetchUIPluginDefinition: React.PropTypes.func,
-    updateUIPluginConfiguration: React.PropTypes.func,
-    deleteUIPluginConfiguration: React.PropTypes.func,
+    fetchUIPluginConfigurationList: PropTypes.func,
+    fetchUIPluginDefinition: PropTypes.func,
+    updateUIPluginConfiguration: PropTypes.func,
+    deleteUIPluginConfiguration: PropTypes.func,
   }
 
   static mapStateToProps = (state, ownProps) => ({

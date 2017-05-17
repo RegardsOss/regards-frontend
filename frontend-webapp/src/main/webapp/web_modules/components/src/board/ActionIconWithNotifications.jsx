@@ -12,8 +12,8 @@ import styles from './styles/styles'
 class ActionIconWithNotifications extends React.Component {
 
   static propTypes = {
-    notificationsCount: React.PropTypes.number.isRequired,
-    icon: React.PropTypes.element.isRequired,
+    notificationsCount: PropTypes.number.isRequired,
+    icon: PropTypes.element.isRequired,
   }
 
   static defaultProps = {

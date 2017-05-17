@@ -11,7 +11,7 @@ import { themeContextType } from '@regardsoss/theme'
 class NewsListContainer extends React.Component {
 
   static propTypes = {
-    newsList: React.PropTypes.arrayOf(React.PropTypes.objectOf(React.PropTypes.string)),
+    newsList: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)),
   }
 
   static contextTypes= {

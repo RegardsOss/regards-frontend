@@ -25,19 +25,19 @@ RenderRadio.contextTypes = {
   ...themeContextType,
 }
 RenderRadio.propTypes = {
-  input: React.PropTypes.shape({
-    value: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.bool]),
-    name: React.PropTypes.string,
-    onChange: React.PropTypes.func,
+  input: PropTypes.shape({
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    name: PropTypes.string,
+    onChange: PropTypes.func,
   }),
-  meta: React.PropTypes.shape({
-    error: React.PropTypes.string,
+  meta: PropTypes.shape({
+    error: PropTypes.string,
   }),
-  intl: React.PropTypes.shape({
-    formatMessage: React.PropTypes.func,
+  intl: PropTypes.shape({
+    formatMessage: PropTypes.func,
   }),
-  defaultSelected: React.PropTypes.string,
-  onSelect: React.PropTypes.func,
-  children: React.PropTypes.arrayOf(React.PropTypes.element),
+  defaultSelected: PropTypes.string,
+  onSelect: PropTypes.func,
+  children: PropTypes.arrayOf(PropTypes.element),
 }
 export default RenderRadio

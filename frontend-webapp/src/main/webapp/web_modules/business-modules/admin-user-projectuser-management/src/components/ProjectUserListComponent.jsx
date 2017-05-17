@@ -6,7 +6,6 @@ import { Tabs, Tab } from 'material-ui/Tabs'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
 import { FormattedMessage, FormattedDate } from 'react-intl'
-import IconButton from 'material-ui/IconButton'
 import { LoadableContentDisplayDecorator, HateoasIconAction, HateoasKeys } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
@@ -47,17 +46,17 @@ export const canDenyUser = user => [status.accessGranted, status.waitingAccess, 
 export class ProjectUserListComponent extends React.Component {
 
   static propTypes = {
-    users: React.PropTypes.objectOf(ProjectUser),
-    waitingAccessUsers: React.PropTypes.objectOf(ProjectUser),
-    onEdit: React.PropTypes.func.isRequired,
-    onDelete: React.PropTypes.func.isRequired,
-    onValidate: React.PropTypes.func.isRequired,
-    onDeny: React.PropTypes.func.isRequired,
-    onValidateAll: React.PropTypes.func.isRequired,
-    createUrl: React.PropTypes.string.isRequired,
-    backUrl: React.PropTypes.string.isRequired,
-    initialFecthing: React.PropTypes.bool.isRequired,
-    isFetchingActions: React.PropTypes.bool.isRequired,
+    users: PropTypes.objectOf(ProjectUser),
+    waitingAccessUsers: PropTypes.objectOf(ProjectUser),
+    onEdit: PropTypes.func.isRequired,
+    onDelete: PropTypes.func.isRequired,
+    onValidate: PropTypes.func.isRequired,
+    onDeny: PropTypes.func.isRequired,
+    onValidateAll: PropTypes.func.isRequired,
+    createUrl: PropTypes.string.isRequired,
+    backUrl: PropTypes.string.isRequired,
+    initialFecthing: PropTypes.bool.isRequired,
+    isFetchingActions: PropTypes.bool.isRequired,
   }
 
   static contextTypes = {
@@ -197,10 +196,10 @@ export class ProjectUserListComponent extends React.Component {
                   >
                     {map(tabContent.currentUserList, (projectUser, id) => (
                       <TableRow className={`selenium-${projectUser.content.email}`} key={id}>
-                        <TableRowColumn>
+                        <TableRowColumn title={projectUser.content.email}>
                           {projectUser.content.email}
                         </TableRowColumn>
-                        <TableRowColumn>
+                        <TableRowColumn title={projectUser.content.role.name}>
                           {projectUser.content.role.name}
                         </TableRowColumn>
                         <TableRowColumn>
@@ -230,24 +229,28 @@ export class ProjectUserListComponent extends React.Component {
                             >
                               <Edit hoverColor={style.commonActionHoverColor} />
                             </HateoasIconAction>
-                            <IconButton
+                            <HateoasIconAction
                               className="selenium-acceptButton"
                               title={intl.formatMessage({ id: 'projectUser.list.table.action.accept.tooltip' })}
                               onTouchTap={() => onValidate(projectUser.content.id)}
                               disabled={isFetchingActions || !canAcceptUser(projectUser)}
+                              entityLinks={projectUser.links}
+                              hateoasKey={HateoasKeys.ACCEPT}
                               breakpoint={1065}
                             >
                               <Done hoverColor={style.commonActionHoverColor} />
-                            </IconButton>
-                            <IconButton
+                            </HateoasIconAction>
+                            <HateoasIconAction
                               className="selenium-denyButton"
                               title={intl.formatMessage({ id: 'projectUser.list.table.action.deny.tooltip' })}
                               onTouchTap={() => onDeny(projectUser.content.id)}
                               disabled={isFetchingActions || !canDenyUser(projectUser)}
+                              entityLinks={projectUser.links}
+                              hateoasKey={HateoasKeys.DENY}
                               breakpoint={1320}
                             >
                               <RemoveCircle hoverColor={style.deleteActionHoverColor} />
-                            </IconButton>
+                            </HateoasIconAction>
                             <HateoasIconAction
                               className="selenium-deleteButton"
                               title={intl.formatMessage({ id: 'projectUser.list.table.action.delete.tooltip' })}

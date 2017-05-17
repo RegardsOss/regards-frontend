@@ -22,17 +22,17 @@ export class DatasetFormContainer extends React.Component {
 
   static propTypes = {
     // from router
-    params: React.PropTypes.shape({
-      project: React.PropTypes.string,
-      datasetId: React.PropTypes.string,
-      datasourceId: React.PropTypes.string,
+    params: PropTypes.shape({
+      project: PropTypes.string,
+      datasetId: PropTypes.string,
+      datasourceId: PropTypes.string,
     }),
     // from mapStateToProps
     currentDataset: Dataset,
     // from mapDispatchToProps
-    createDataset: React.PropTypes.func,
-    updateDataset: React.PropTypes.func,
-    fetchDataset: React.PropTypes.func,
+    createDataset: PropTypes.func,
+    updateDataset: PropTypes.func,
+    fetchDataset: PropTypes.func,
   }
 
   constructor(props) {

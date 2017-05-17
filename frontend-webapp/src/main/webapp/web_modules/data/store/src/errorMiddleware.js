@@ -6,21 +6,21 @@ import { ApplicationErrorAction } from '@regardsoss/global-system-error'
 export default store => next => (action) => {
   if (action.error && (!action.meta || !action.meta.bypassErrorMiddleware)) {
     if (action.payload) {
-      let statusText
+      const statusText = 'Server request error'
+      let serverMessage
       if (action.payload.response && action.payload.response.message) {
-        statusText = `Server request error : ${action.payload.response.message}`
+        serverMessage = action.payload.response.message
       } else if (action.payload.response && action.payload.response.messages) {
-        statusText = `Server request error : ${action.payload.response.messages[0]}`
-      } else if (action.payload.status) {
-        switch (action.payload.status) {
-          case 404:
-            statusText = 'Error 404: Server did not recognized that URL'
-            break
-          default:
-            statusText = 'Server request error'
-        }
+        serverMessage = action.payload.response.messages[0]
       }
-      const message = `${statusText}`
+
+      if (action.payload.response && action.payload.response.status === 404) {
+        serverMessage = `${action.payload.response.path} -> ${serverMessage}`
+      }
+      if (serverMessage.includes('io.jsonwebtoken.ExpiredJwtException')) {
+        serverMessage = 'Session expired'
+      }
+      const message = `${statusText} : \n ${serverMessage}`
 
       store.dispatch(
         ApplicationErrorAction.throwError(
@@ -30,7 +30,7 @@ export default store => next => (action) => {
         ),
       )
     } else {
-      const message = `An internal error occurred: ${action.type}`
+      const message = `An internal error occurred: \n ${action.type}`
       store.dispatch(
         ApplicationErrorAction.throwError(
           message,

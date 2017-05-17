@@ -26,12 +26,12 @@ import ProfileEditionContainer from '../containers/ProfileEditionContainer'
 class LoggedUserComponent extends React.Component {
 
   static propTypes = {
-    name: React.PropTypes.string.isRequired,
-    currentRole: React.PropTypes.string.isRequired,
-    borrowableRoles: React.PropTypes.objectOf(Role).isRequired,
-    onBorrowRole: React.PropTypes.func.isRequired,
-    onLogout: React.PropTypes.func.isRequired,
-    onShowProfileEdition: React.PropTypes.func.isRequired,
+    name: PropTypes.string.isRequired,
+    currentRole: PropTypes.string.isRequired,
+    borrowableRoles: PropTypes.objectOf(Role).isRequired,
+    onBorrowRole: PropTypes.func.isRequired,
+    onLogout: PropTypes.func.isRequired,
+    onShowProfileEdition: PropTypes.func.isRequired,
   }
 
   static contextTypes = {

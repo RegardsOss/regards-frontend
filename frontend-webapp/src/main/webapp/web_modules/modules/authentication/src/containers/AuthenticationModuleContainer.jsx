@@ -17,21 +17,21 @@ export class AuthenticationModuleContainer extends React.Component {
 
   static propTypes = {
     // current project (undefined or empty if admin)
-    project: React.PropTypes.string.isRequired,
-    moduleConf: React.PropTypes.shape({
+    project: PropTypes.string.isRequired,
+    moduleConf: PropTypes.shape({
       // externally controlled login window state
-      showLoginWindow: React.PropTypes.bool.isRequired,
+      showLoginWindow: PropTypes.bool.isRequired,
       // login screen title
-      loginTitle: React.PropTypes.string.isRequired,
+      loginTitle: PropTypes.string.isRequired,
       // show create account link?
-      showAskProjectAccess: React.PropTypes.bool.isRequired,
+      showAskProjectAccess: PropTypes.bool.isRequired,
       // show cancel button?
-      showCancel: React.PropTypes.bool.isRequired,
+      showCancel: PropTypes.bool.isRequired,
       // on cancel button callback, or none if behavior not available
-      onCancelAction: React.PropTypes.func,
+      onCancelAction: PropTypes.func,
     }),
     // from mapStateToProps
-    authenticated: React.PropTypes.bool,
+    authenticated: PropTypes.bool,
   }
 
   componentWillMount = () => {

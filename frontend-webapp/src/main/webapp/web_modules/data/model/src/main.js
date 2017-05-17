@@ -31,6 +31,7 @@ import AttributeConfigurationController from './access/AttributeConfigurationCon
 import AttributesRegroupementConfiguration from './access/AttributesRegroupementConfiguration'
 import SearchResultsTargetsEnum from './access/SearchResultsTargetsEnum'
 import Entity from './dam/Entity'
+import EntityController from './dam/EntityController'
 import AccessGroup from './dam/AccessGroup'
 import AccessRight from './dam/AccessRight'
 import CatalogEntity, { CatalogEntityTypes } from './catalog/CatalogEntity'
@@ -67,6 +68,7 @@ export default {
   AttributeModel,
   AttributeModelController,
   Entity,
+  EntityController,
   JavaTypes,
   Fragment,
   Model,

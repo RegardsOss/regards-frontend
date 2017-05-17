@@ -21,11 +21,11 @@ import { datasourceActions } from '../client/DatasourceClient'
 export class DatasourceListComponent extends React.Component {
 
   static propTypes = {
-    datasourceList: React.PropTypes.objectOf(Datasource),
-    handleDelete: React.PropTypes.func.isRequired,
-    handleEdit: React.PropTypes.func.isRequired,
-    createUrl: React.PropTypes.string.isRequired,
-    backUrl: React.PropTypes.string.isRequired,
+    datasourceList: PropTypes.objectOf(Datasource),
+    handleDelete: PropTypes.func.isRequired,
+    handleEdit: PropTypes.func.isRequired,
+    createUrl: PropTypes.string.isRequired,
+    backUrl: PropTypes.string.isRequired,
   }
 
   static contextTypes = {

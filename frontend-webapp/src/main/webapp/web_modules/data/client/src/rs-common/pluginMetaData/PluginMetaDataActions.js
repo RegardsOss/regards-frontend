@@ -9,7 +9,7 @@ import { BasicListActions } from '@regardsoss/store-utils'
  *
  * @author Léo Mieulet
  */
-export default class CollectionActions extends BasicListActions {
+export default class PluginMetaDataActions extends BasicListActions {
 
   /**
    * Construtor

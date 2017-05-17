@@ -4,7 +4,7 @@
 import { browserHistory } from 'react-router'
 import { map, find, forEach, keys } from 'lodash'
 import { connect } from '@regardsoss/redux'
-import { Collection, Model, ModelAttribute } from '@regardsoss/model'
+import { Collection, Model, ModelAttribute, EntityController } from '@regardsoss/model'
 import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { unregisterField } from 'redux-form'
@@ -20,26 +20,26 @@ export class CollectionFormContainer extends React.Component {
 
   static propTypes = {
     // from router
-    params: React.PropTypes.shape({
-      project: React.PropTypes.string,
-      collectionId: React.PropTypes.string,
-      mode: React.PropTypes.string,
+    params: PropTypes.shape({
+      project: PropTypes.string,
+      collectionId: PropTypes.string,
+      mode: PropTypes.string,
     }),
     // from redux-form
-    unregisterField: React.PropTypes.func,
+    unregisterField: PropTypes.func,
     // from mapStateToProps
     currentCollection: Collection,
-    modelAttributeList: React.PropTypes.objectOf(ModelAttribute),
-    isFetchingCollection: React.PropTypes.bool,
-    modelList: React.PropTypes.objectOf(Model),
-    isFetchingModelAttribute: React.PropTypes.bool,
-    isFetchingModel: React.PropTypes.bool,
+    modelAttributeList: PropTypes.objectOf(ModelAttribute),
+    isFetchingCollection: PropTypes.bool,
+    modelList: PropTypes.objectOf(Model),
+    isFetchingModelAttribute: PropTypes.bool,
+    isFetchingModel: PropTypes.bool,
     // from mapDispatchToProps
-    createCollection: React.PropTypes.func,
-    updateCollection: React.PropTypes.func,
-    fetchCollection: React.PropTypes.func,
-    fetchModelList: React.PropTypes.func,
-    fetchModelAttributeList: React.PropTypes.func,
+    createCollection: PropTypes.func,
+    updateCollection: PropTypes.func,
+    fetchCollection: PropTypes.func,
+    fetchModelList: PropTypes.func,
+    fetchModelAttributeList: PropTypes.func,
   }
 
   constructor(props) {
@@ -84,7 +84,7 @@ export class CollectionFormContainer extends React.Component {
     const updatedCollection = Object.assign({}, {
       id: this.props.currentCollection.content.id,
       tags: this.props.currentCollection.content.tags,
-      type: this.props.currentCollection.content.type,
+      entityType: this.props.currentCollection.content.type,
     }, {
       label: values.label,
       descriptionUrl: values.descriptionUrl,
@@ -140,7 +140,7 @@ export class CollectionFormContainer extends React.Component {
    */
   handleCreate = (values) => {
     const model = this.props.modelList[values.model].content
-    const attributes = this.extractAttributesFromValues(values)
+    const properties = this.extractAttributesFromValues(values)
     const defaultValues = {}
     if (this.state.isDuplicating) {
       defaultValues.tags = this.props.currentCollection.content.tags
@@ -156,8 +156,8 @@ export class CollectionFormContainer extends React.Component {
         label: values.label,
         descriptionUrl: values.descriptionUrl,
         model,
-        attributes,
-        type: 'COLLECTION',
+        properties,
+        entityType: EntityController.ENTITY_TYPES.COLLECTION,
         descriptionFileType,
       }),
     }
@@ -223,8 +223,8 @@ const mapDispatchToProps = dispatch => ({
   fetchCollection: id => dispatch(collectionActions.fetchEntity(id)),
   createCollection: (values, files) => dispatch(collectionActions.createEntityUsingMultiPart(values, files)),
   updateCollection: (id, values, files) => dispatch(collectionActions.updateEntityUsingMultiPart(id, values, files)),
-  fetchModelList: () => dispatch(modelActions.fetchEntityList({}, { type: 'COLLECTION' })),
-  fetchModelAttributeList: id => dispatch(modelAttributesActions.fetchEntityList({ pAttributeId: id })),
+  fetchModelList: () => dispatch(modelActions.fetchEntityList({}, { type: EntityController.ENTITY_TYPES.COLLECTION })),
+  fetchModelAttributeList: id => dispatch(modelAttributesActions.fetchEntityList({ pModelId: id })),
   unregisterField: (form, name) => dispatch(unregisterField(form, name)),
 })
 

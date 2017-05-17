@@ -17,13 +17,13 @@ export class DatasourceCreateOrPickConnectionContainer extends React.Component {
 
   static propTypes = {
     // from router
-    params: React.PropTypes.shape({
-      project: React.PropTypes.string,
+    params: PropTypes.shape({
+      project: PropTypes.string,
     }),
     // from mapStateToProps
-    connectionList: React.PropTypes.objectOf(Connection),
+    connectionList: PropTypes.objectOf(Connection),
     // from mapDispatchToProps
-    fetchConnectionList: React.PropTypes.func,
+    fetchConnectionList: PropTypes.func,
   }
 
   constructor(props) {

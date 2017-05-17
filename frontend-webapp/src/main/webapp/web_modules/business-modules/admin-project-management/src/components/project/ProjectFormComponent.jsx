@@ -14,24 +14,24 @@ import { RenderTextField, Field, RenderCheckbox, ValidationHelpers, ErrorTypes, 
 export class ProjectFormComponent extends React.Component {
 
   static propTypes = {
-    currentProject: React.PropTypes.shape({
-      content: React.PropTypes.shape({
-        id: React.PropTypes.number,
-        name: React.PropTypes.string,
-        description: React.PropTypes.string,
-        icon: React.PropTypes.string,
-        license: React.PropTypes.string,
-        isPublic: React.PropTypes.bool,
-        isAccessible: React.PropTypes.bool,
+    currentProject: PropTypes.shape({
+      content: PropTypes.shape({
+        id: PropTypes.number,
+        name: PropTypes.string,
+        description: PropTypes.string,
+        icon: PropTypes.string,
+        license: PropTypes.string,
+        isPublic: PropTypes.bool,
+        isAccessible: PropTypes.bool,
       }),
     }),
-    onSubmit: React.PropTypes.func.isRequired,
-    backUrl: React.PropTypes.string.isRequired,
+    onSubmit: PropTypes.func.isRequired,
+    backUrl: PropTypes.string.isRequired,
     // from reduxForm
-    submitting: React.PropTypes.bool,
-    pristine: React.PropTypes.bool,
-    handleSubmit: React.PropTypes.func.isRequired,
-    initialize: React.PropTypes.func.isRequired,
+    submitting: PropTypes.bool,
+    pristine: PropTypes.bool,
+    handleSubmit: PropTypes.func.isRequired,
+    initialize: PropTypes.func.isRequired,
   }
 
   constructor(props) {

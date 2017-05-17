@@ -20,13 +20,13 @@ import moduleStyles from '../styles/styles'
 export class ResourceAccessFormByMicroserviceComponent extends React.Component {
 
   static propTypes = {
-    roleResources: React.PropTypes.arrayOf(Resource),
-    controllerList: React.PropTypes.arrayOf(React.PropTypes.string),
-    resourceList: React.PropTypes.arrayOf(Resource).isRequired,
-    resourceListFetching: React.PropTypes.bool,
-    handleOpenController: React.PropTypes.func.isRequired,
-    handleToggleResourceAccess: React.PropTypes.func.isRequired,
-    handleOpenResourceAccess: React.PropTypes.func.isRequired,
+    roleResources: PropTypes.arrayOf(Resource),
+    controllerList: PropTypes.arrayOf(PropTypes.string),
+    resourceList: PropTypes.arrayOf(Resource).isRequired,
+    resourceListFetching: PropTypes.bool,
+    handleOpenController: PropTypes.func.isRequired,
+    handleToggleResourceAccess: PropTypes.func.isRequired,
+    handleOpenResourceAccess: PropTypes.func.isRequired,
   }
 
   static contextTypes = {

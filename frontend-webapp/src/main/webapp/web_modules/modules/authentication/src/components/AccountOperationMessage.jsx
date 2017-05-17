@@ -31,8 +31,8 @@ export const operationIds = {
 class AccountOperationMessage extends React.Component {
 
   static propTypes = {
-    operationId: React.PropTypes.oneOf(values(operationIds)).isRequired,
-    operationAction: React.PropTypes.func.isRequired,
+    operationId: PropTypes.oneOf(values(operationIds)).isRequired,
+    operationAction: PropTypes.func.isRequired,
   }
 
   static contextTypes = {

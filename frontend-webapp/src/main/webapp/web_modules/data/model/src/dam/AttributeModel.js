@@ -1,22 +1,22 @@
 import { InternalFragment } from './Fragment'
 
-const AttributeModel = React.PropTypes.shape({
-  content: React.PropTypes.shape({
-    id: React.PropTypes.number.isRequired,
-    name: React.PropTypes.string,
-    label: React.PropTypes.string.isRequired,
-    description: React.PropTypes.string,
-    defaultValue: React.PropTypes.string,
-    type: React.PropTypes.string.isRequired,
-    unit: React.PropTypes.string,
-    precision: React.PropTypes.number,
-    arraysize: React.PropTypes.number,
+const AttributeModel = PropTypes.shape({
+  content: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string,
+    label: PropTypes.string.isRequired,
+    description: PropTypes.string,
+    defaultValue: PropTypes.string,
+    type: PropTypes.string.isRequired,
+    unit: PropTypes.string,
+    precision: PropTypes.number,
+    arraysize: PropTypes.number,
     fragment: InternalFragment,
-    queryable: React.PropTypes.bool,
-    facetable: React.PropTypes.bool,
-    alterable: React.PropTypes.bool,
-    optional: React.PropTypes.bool,
-    group: React.PropTypes.string,
+    queryable: PropTypes.bool,
+    facetable: PropTypes.bool,
+    alterable: PropTypes.bool,
+    optional: PropTypes.bool,
+    group: PropTypes.string,
   }),
 })
 

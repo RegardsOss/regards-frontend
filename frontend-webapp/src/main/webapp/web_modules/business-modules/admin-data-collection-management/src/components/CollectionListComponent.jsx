@@ -9,7 +9,7 @@ import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import ContentCopy from 'material-ui/svg-icons/content/content-copy'
 import Delete from 'material-ui/svg-icons/action/delete'
 import { Collection } from '@regardsoss/model'
-import { CardActionsComponent } from '@regardsoss/components'
+import { CardActionsComponent, ConfirmDialogComponent, ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { HateoasIconAction, ResourceIconAction, HateoasKeys } from '@regardsoss/display-control'
@@ -22,12 +22,12 @@ import { collectionActions } from '../client/CollectionClient'
 export class CollectionListComponent extends React.Component {
 
   static propTypes = {
-    collectionList: React.PropTypes.objectOf(Collection),
-    handleDelete: React.PropTypes.func.isRequired,
-    handleEdit: React.PropTypes.func.isRequired,
-    handleDuplicate: React.PropTypes.func.isRequired,
-    createUrl: React.PropTypes.string.isRequired,
-    backUrl: React.PropTypes.string.isRequired,
+    collectionList: PropTypes.objectOf(Collection),
+    handleDelete: PropTypes.func.isRequired,
+    handleEdit: PropTypes.func.isRequired,
+    handleDuplicate: PropTypes.func.isRequired,
+    createUrl: PropTypes.string.isRequired,
+    backUrl: PropTypes.string.isRequired,
   }
 
   static contextTypes = {
@@ -35,9 +35,49 @@ export class CollectionListComponent extends React.Component {
     ...i18nContextType,
   }
 
+  constructor(props) {
+    super(props)
+    this.state = {
+      deleteDialogOpened: false,
+    }
+  }
+
+  closeDeleteDialog = () => {
+    this.setState({
+      deleteDialogOpened: false,
+      entityToDelete: null,
+    })
+  }
+
+  openDeleteDialog = (entity) => {
+    this.setState({
+      deleteDialogOpened: true,
+      entityToDelete: entity,
+    })
+  }
+
+  renderDeleteConfirmDialog = () => {
+    const name = this.state.entityToDelete ? this.state.entityToDelete.content.label : ' '
+    const title = this.context.intl.formatMessage({ id: 'collection.list.delete.message' }, { name })
+    return (
+      <ShowableAtRender
+        show={this.state.deleteDialogOpened}
+      >
+        <ConfirmDialogComponent
+          dialogType={ConfirmDialogComponent.dialogTypes.DELETE}
+          onConfirm={() => {
+            this.props.handleDelete(this.state.entityToDelete.content.id)
+          }}
+          onClose={this.closeDeleteDialog}
+          title={title}
+        />
+      </ShowableAtRender>
+    )
+  }
+
 
   render() {
-    const { collectionList, handleEdit, handleDelete, handleDuplicate, createUrl, backUrl } = this.props
+    const { collectionList, handleEdit, handleDuplicate, createUrl, backUrl } = this.props
     const style = {
       hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
       hoverButtonDelete: this.context.muiTheme.palette.accent1Color,
@@ -50,6 +90,7 @@ export class CollectionListComponent extends React.Component {
           subtitle={<FormattedMessage id="collection.list.subtitle" />}
         />
         <CardText>
+          {this.renderDeleteConfirmDialog()}
           <Table
             selectable={false}
           >
@@ -93,7 +134,7 @@ export class CollectionListComponent extends React.Component {
                     <HateoasIconAction
                       entityLinks={collection.links}
                       hateoasKey={HateoasKeys.DELETE}
-                      onTouchTap={() => handleDelete(collection.content.id)}
+                      onTouchTap={() => this.openDeleteDialog(collection)}
                     >
                       <Delete hoverColor={style.hoverButtonDelete} />
                     </HateoasIconAction>

@@ -10,16 +10,16 @@ export class DraggableCard extends React.Component {
 
   static propTypes = {
     // eslint-disable-next-line react/forbid-prop-types
-    value: React.PropTypes.any,
-    children: React.PropTypes.element.isRequired,
-    shadow: React.PropTypes.number,
+    value: PropTypes.any,
+    children: PropTypes.element.isRequired,
+    shadow: PropTypes.number,
     // eslint-disable-next-line react/no-unused-prop-types
-    draggableToContainerType: React.PropTypes.string.isRequired,
+    draggableToContainerType: PropTypes.string.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
-    isFragment: React.PropTypes.bool,
+    isFragment: PropTypes.bool,
     // From DragSource
-    isDragging: React.PropTypes.bool,
-    connectDragSource: React.PropTypes.func,
+    isDragging: PropTypes.bool,
+    connectDragSource: PropTypes.func,
   }
 
   static contextTypes = {

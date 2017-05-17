@@ -22,9 +22,9 @@ class ListHeaderComponent extends React.Component {
   }
 
   static propTypes = {
-    title: React.PropTypes.string,
-    onUnselecteddAll: React.PropTypes.func,
-    onReset: React.PropTypes.func,
+    title: PropTypes.string,
+    onUnselecteddAll: PropTypes.func,
+    onReset: PropTypes.func,
   }
 
   render() {

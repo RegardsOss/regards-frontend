@@ -21,7 +21,7 @@ const ModuleURLParameters = {
 /**
 * URL management container: reflects the current module state into URL, intialize module from URL (no graphics view)
 */
-class URLManagementContainer extends React.Component {
+export class URLManagementContainer extends React.Component {
 
   static mapStateToProps = state => ({
     levels: navigationContextSelectors.getLevels(state),
@@ -35,20 +35,20 @@ class URLManagementContainer extends React.Component {
 
   static propTypes = {
     // initial context label, configures root navigation element
-    initialContextLabel: React.PropTypes.string,
+    initialContextLabel: PropTypes.string,
     // context initial view mode
-    initialViewObjectType: React.PropTypes.oneOf([SearchResultsTargetsEnum.DATAOBJECT_RESULTS, SearchResultsTargetsEnum.DATASET_RESULTS]).isRequired,
+    initialViewObjectType: PropTypes.oneOf([SearchResultsTargetsEnum.DATAOBJECT_RESULTS, SearchResultsTargetsEnum.DATASET_RESULTS]).isRequired,
     // current URL query information, used to detect browsing
-    currentPath: React.PropTypes.string.isRequired,
+    currentPath: PropTypes.string.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
-    currentQuery: React.PropTypes.object.isRequired,
+    currentQuery: PropTypes.object.isRequired,
     // from mapStateToProps
     // eslint-disable-next-line react/no-unused-prop-types
-    viewObjectType: React.PropTypes.oneOf([SearchResultsTargetsEnum.DATAOBJECT_RESULTS, SearchResultsTargetsEnum.DATASET_RESULTS]).isRequired,
+    viewObjectType: PropTypes.oneOf([SearchResultsTargetsEnum.DATAOBJECT_RESULTS, SearchResultsTargetsEnum.DATASET_RESULTS]).isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
-    levels: React.PropTypes.arrayOf(React.PropTypes.instanceOf(NavigationLevel)).isRequired,
+    levels: PropTypes.arrayOf(PropTypes.instanceOf(NavigationLevel)).isRequired,
     // from mapDispatchToProps
-    initialize: React.PropTypes.func.isRequired,
+    initialize: PropTypes.func.isRequired,
   }
 
   /**

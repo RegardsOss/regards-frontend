@@ -1,9 +1,9 @@
-const PluginDynamicValue = React.PropTypes.shape({
-  content: React.PropTypes.shape({
-    id: React.PropTypes.number.isRequired,
-    value: React.PropTypes.string.isRequired,
+const PluginDynamicValue = PropTypes.shape({
+  content: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    value: PropTypes.string.isRequired,
   }),
 })
 
 export default PluginDynamicValue
-export const PluginDynamicValueList = React.PropTypes.objectOf(PluginDynamicValue)
+export const PluginDynamicValueList = PropTypes.objectOf(PluginDynamicValue)

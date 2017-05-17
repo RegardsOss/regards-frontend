@@ -11,16 +11,16 @@ import ModuleConfiguration from '../../../models/ModuleConfiguration'
 class FormParametersComponent extends React.Component {
 
   static propTypes = {
-    project: React.PropTypes.string.isRequired,
-    appName: React.PropTypes.string.isRequired,
-    adminForm: React.PropTypes.shape({
-      changeField: React.PropTypes.func,
+    project: PropTypes.string.isRequired,
+    appName: PropTypes.string.isRequired,
+    adminForm: PropTypes.shape({
+      changeField: PropTypes.func,
       form: ModuleConfiguration,
     }),
-    attributes: React.PropTypes.arrayOf(AttributeConfiguration),
-    attributesRegroupements: React.PropTypes.arrayOf(AttributesRegroupementConfiguration),
-    selectableAttributes: React.PropTypes.objectOf(AttributeModel),
-    resultType: React.PropTypes.string,
+    attributes: PropTypes.arrayOf(AttributeConfiguration),
+    attributesRegroupements: PropTypes.arrayOf(AttributesRegroupementConfiguration),
+    selectableAttributes: PropTypes.objectOf(AttributeModel),
+    resultType: PropTypes.string,
   }
 
   render() {
@@ -33,7 +33,7 @@ class FormParametersComponent extends React.Component {
     }
 
     const module = {
-      name: 'search-results',
+      type: 'search-results',
       active: true,
       applicationId: this.props.appName,
       conf: moduleConf,

@@ -17,25 +17,25 @@ import { layoutActions, layoutSelectors } from '../client/LayoutClient'
 export class ModuleFormAdapter extends React.Component {
 
   static propTypes = {
-    params: React.PropTypes.shape({
-      project: React.PropTypes.string,
-      applicationId: React.PropTypes.string,
-      module_id: React.PropTypes.string,
-      duplicate_module_id: React.PropTypes.string,
+    params: PropTypes.shape({
+      project: PropTypes.string,
+      applicationId: PropTypes.string,
+      module_id: PropTypes.string,
+      duplicate_module_id: PropTypes.string,
     }),
     // Set by mapStateToProps
-    isInstance: React.PropTypes.bool,
+    isInstance: PropTypes.bool,
     // Set by mapDispatchToProps
-    fetchModule: React.PropTypes.func,
-    fetchInstanceModule: React.PropTypes.func,
-    updateModule: React.PropTypes.func,
-    updateInstanceModule: React.PropTypes.func,
-    createModule: React.PropTypes.func,
-    createInstanceModule: React.PropTypes.func,
-    deleteModule: React.PropTypes.func,
-    deleteInstanceModule: React.PropTypes.func,
-    fetchLayout: React.PropTypes.func,
-    fetchInstanceLayout: React.PropTypes.func,
+    fetchModule: PropTypes.func,
+    fetchInstanceModule: PropTypes.func,
+    updateModule: PropTypes.func,
+    updateInstanceModule: PropTypes.func,
+    createModule: PropTypes.func,
+    createInstanceModule: PropTypes.func,
+    deleteModule: PropTypes.func,
+    deleteInstanceModule: PropTypes.func,
+    fetchLayout: PropTypes.func,
+    fetchInstanceLayout: PropTypes.func,
   }
 
   // passes the information down to its children

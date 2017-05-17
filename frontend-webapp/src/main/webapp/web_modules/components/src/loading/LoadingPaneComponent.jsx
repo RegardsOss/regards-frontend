@@ -10,12 +10,12 @@ import CircularProgress from 'material-ui/CircularProgress'
 class LoadingPaneComponent extends React.Component {
 
   static propTypes = {
-    title: React.PropTypes.element.isRequired,
-    subtitle: React.PropTypes.element,
+    title: PropTypes.element.isRequired,
+    subtitle: PropTypes.element,
     // styles: no specific
     // eslint-disable-next-line
-    containerStyle: React.PropTypes.object,
-    loadingComponentSize: React.PropTypes.number,
+    containerStyle: PropTypes.object,
+    loadingComponentSize: PropTypes.number,
   }
 
   static defaultProps = {

@@ -20,20 +20,20 @@ export class DatasetFormAttributesContainer extends React.Component {
 
   static propTypes = {
     currentDataset: Dataset,
-    currentDatasourceId: React.PropTypes.string.isRequired,
-    backUrl: React.PropTypes.string.isRequired,
-    handleSave: React.PropTypes.func.isRequired,
-    isEditing: React.PropTypes.bool.isRequired,
+    currentDatasourceId: PropTypes.string.isRequired,
+    backUrl: PropTypes.string.isRequired,
+    handleSave: PropTypes.func.isRequired,
+    isEditing: PropTypes.bool.isRequired,
     // from redux-form
-    unregisterField: React.PropTypes.func,
+    unregisterField: PropTypes.func,
     // from mapStateToProps
-    modelAttributeList: React.PropTypes.objectOf(ModelAttribute),
-    modelList: React.PropTypes.objectOf(Model),
+    modelAttributeList: PropTypes.objectOf(ModelAttribute),
+    modelList: PropTypes.objectOf(Model),
     currentDatasource: Datasource,
     // from mapDispatchToProps
-    fetchModelList: React.PropTypes.func,
-    fetchModelAttributeList: React.PropTypes.func,
-    fetchDatasource: React.PropTypes.func,
+    fetchModelList: PropTypes.func,
+    fetchModelAttributeList: PropTypes.func,
+    fetchDatasource: PropTypes.func,
   }
 
 

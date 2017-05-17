@@ -14,7 +14,7 @@ const options = {
   urlParams: { type: 'COLLECTION' },
 }
 
-const entityTester = new ReduxEntityTester(modelActions, modelReducer, modelSelectors, React.PropTypes.objectOf(Model).isRequired, backendServerResultList, options)
+const entityTester = new ReduxEntityTester(modelActions, modelReducer, modelSelectors, PropTypes.objectOf(Model).isRequired, backendServerResultList, options)
 
 describe('[ADMIN CLIENT] Testing client Testing model Modele', () => {
   before(() => {

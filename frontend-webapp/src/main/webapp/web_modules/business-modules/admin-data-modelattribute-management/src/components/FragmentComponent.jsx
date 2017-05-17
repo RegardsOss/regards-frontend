@@ -9,8 +9,8 @@ import ItemTypes from './ItemTypes'
 
 class FragmentComponent extends React.Component {
   static propTypes = {
-    attributes: React.PropTypes.arrayOf(AttributeModel).isRequired,
-    type: React.PropTypes.string.isRequired,
+    attributes: PropTypes.arrayOf(AttributeModel).isRequired,
+    type: PropTypes.string.isRequired,
   }
 
   getComponent = (attribute, id) => {

@@ -33,15 +33,15 @@ class PluginConfigurationComponent extends React.Component {
   }
 
   static propTypes = {
-    microserviceName: React.PropTypes.string.isRequired,
+    microserviceName: PropTypes.string.isRequired,
     pluginConfiguration: PluginConfiguration,
     pluginMetaData: PluginMetaData,
-    onActiveToggle: React.PropTypes.func.isRequired,
-    onCopyClick: React.PropTypes.func.isRequired,
-    onDeleteClick: React.PropTypes.func.isRequired,
-    onEditClick: React.PropTypes.func.isRequired,
-    onDownwardClick: React.PropTypes.func.isRequired,
-    onUpwardClick: React.PropTypes.func.isRequired,
+    onActiveToggle: PropTypes.func.isRequired,
+    onCopyClick: PropTypes.func.isRequired,
+    onDeleteClick: PropTypes.func.isRequired,
+    onEditClick: PropTypes.func.isRequired,
+    onDownwardClick: PropTypes.func.isRequired,
+    onUpwardClick: PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -69,12 +69,12 @@ class PluginConfigurationComponent extends React.Component {
     const { pluginParameterTypeList } = this.state
 
     const parameters = map(pluginConfiguration.content.parameters, (pluginParameter, index) =>
-      <GenericPluginParameter
+      (<GenericPluginParameter
         key={index}
         pluginParameter={pluginParameter}
         pluginParameterType={find(pluginParameterTypeList, pluginParameterType => pluginParameterType.name === pluginParameter.name)}
         mode={'view'}
-      />,
+      />),
     )
 
     return (

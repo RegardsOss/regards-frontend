@@ -1,14 +1,14 @@
-const Role = React.PropTypes.shape({
-  content: React.PropTypes.shape({
-    id: React.PropTypes.number,
-    name: React.PropTypes.string,
-    parentRole: React.PropTypes.shape({
-      name: React.PropTypes.string,
-      id: React.PropTypes.number,
+const Role = PropTypes.shape({
+  content: PropTypes.shape({
+    id: PropTypes.number,
+    name: PropTypes.string,
+    parentRole: PropTypes.shape({
+      name: PropTypes.string,
+      id: PropTypes.number,
     }),
-    isDefault: React.PropTypes.bool,
-    isNative: React.PropTypes.bool,
-    authorizedAddresses: React.PropTypes.arrayOf(React.PropTypes.string),
+    isDefault: PropTypes.bool,
+    isNative: PropTypes.bool,
+    authorizedAddresses: PropTypes.arrayOf(PropTypes.string),
   }),
 })
 

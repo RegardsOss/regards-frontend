@@ -22,22 +22,22 @@ export class AskProjectAccessFormContainer extends React.Component {
 
   static propTypes = {
     // Form initial value
-    initialMail: React.PropTypes.string,
+    initialMail: PropTypes.string,
     // current project (empty if admin)
-    project: React.PropTypes.string.isRequired,
+    project: PropTypes.string.isRequired,
     // back callback
-    onBack: React.PropTypes.func.isRequired,
+    onBack: PropTypes.func.isRequired,
     // New account done callback
-    onNewAccountDone: React.PropTypes.func.isRequired,
+    onNewAccountDone: PropTypes.func.isRequired,
     // new user done callback
-    onNewUserDone: React.PropTypes.func.isRequired,
+    onNewUserDone: PropTypes.func.isRequired,
     // from map state to props
-    isFetching: React.PropTypes.bool,
-    newAccountFetchStatus: React.PropTypes.number,
-    newUserFetchStatus: React.PropTypes.number,
+    isFetching: PropTypes.bool,
+    newAccountFetchStatus: PropTypes.number,
+    newUserFetchStatus: PropTypes.number,
     // from dispatch to props
-    fetchNewAccount: React.PropTypes.func, // create a new REGARD account
-    fetchNewUser: React.PropTypes.func, // create a new project user ('I have already a REGARD account'...)
+    fetchNewAccount: PropTypes.func, // create a new REGARD account
+    fetchNewUser: PropTypes.func, // create a new project user ('I have already a REGARD account'...)
   }
 
   static contextTypes = {

@@ -18,20 +18,20 @@ import AuthenticationContainer from './AuthenticationContainer'
 class AdminApp extends React.Component {
 
   static propTypes = {
-    content: React.PropTypes.element,
+    content: PropTypes.element,
     // from router
-    params: React.PropTypes.shape({
-      project: React.PropTypes.string,
+    params: PropTypes.shape({
+      project: PropTypes.string,
     }),
     // from mapStateToProps
-    currentRole: React.PropTypes.string.isRequired,
-    isAuthenticated: React.PropTypes.bool,
-    project: React.PropTypes.string,
+    currentRole: PropTypes.string.isRequired,
+    isAuthenticated: PropTypes.bool,
+    project: PropTypes.string,
     // eslint-disable-next-line react/no-unused-prop-types
-    isInstance: React.PropTypes.bool,
+    isInstance: PropTypes.bool,
     // from mapDispatchToProps
-    initializeApplication: React.PropTypes.func.isRequired,
-    fetchEndpoints: React.PropTypes.func,
+    initializeApplication: PropTypes.func.isRequired,
+    fetchEndpoints: PropTypes.func,
   }
 
   static contextTypes = {

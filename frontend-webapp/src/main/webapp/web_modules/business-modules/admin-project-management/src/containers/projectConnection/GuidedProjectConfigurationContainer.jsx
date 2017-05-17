@@ -22,19 +22,19 @@ export class GuidedProjectConfigurationContainer extends React.Component {
   static propTypes = {
     // from router
     // eslint-disable-next-line react/no-unused-prop-types
-    params: React.PropTypes.shape({
-      project_name: React.PropTypes.string,
+    params: PropTypes.shape({
+      project_name: PropTypes.string,
     }),
     // from mapStateToProps
-    projectConnections: React.PropTypes.objectOf(ProjectConnection),
-    projectConnectionsIsFetching: React.PropTypes.bool,
+    projectConnections: PropTypes.objectOf(ProjectConnection),
+    projectConnectionsIsFetching: PropTypes.bool,
     project: Project,
-    projectIsFetching: React.PropTypes.bool,
+    projectIsFetching: PropTypes.bool,
     // from mapDispatchToProps
-    fetchProject: React.PropTypes.func.isRequired,
-    fetchProjectConnections: React.PropTypes.func.isRequired,
-    updateProjectConnection: React.PropTypes.func.isRequired,
-    saveProjectConnection: React.PropTypes.func.isRequired,
+    fetchProject: PropTypes.func.isRequired,
+    fetchProjectConnections: PropTypes.func.isRequired,
+    updateProjectConnection: PropTypes.func.isRequired,
+    saveProjectConnection: PropTypes.func.isRequired,
   }
 
   componentWillMount() {

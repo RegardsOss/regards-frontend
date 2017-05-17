@@ -17,18 +17,18 @@ import ModuleComponent from '../components/user/ModuleComponent'
  * Main container to display module form.
  * @author Sébastien binda
  */
-class ModuleContainer extends React.Component {
+export class ModuleContainer extends React.Component {
 
   static propTypes = {
     // Props supplied by LazyModuleComponent
-    appName: React.PropTypes.string,
-    project: React.PropTypes.string,
+    appName: PropTypes.string,
+    project: PropTypes.string,
     // Default props given to the form
     moduleConf: ModuleConfiguration.isRequired,
 
     // Set by mapDispatchToProps
-    fetchAllModelsAttributes: React.PropTypes.func,
-    attributeModels: React.PropTypes.objectOf(AttributeModel),
+    fetchAllModelsAttributes: PropTypes.func,
+    attributeModels: PropTypes.objectOf(AttributeModel),
   }
 
   constructor(props) {

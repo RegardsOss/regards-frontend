@@ -26,23 +26,23 @@ export class UserApp extends React.Component {
    */
   static propTypes = {
     // From React router
-    content: React.PropTypes.element,
-    params: React.PropTypes.shape({
-      project: React.PropTypes.string,
+    content: PropTypes.element,
+    params: PropTypes.shape({
+      project: PropTypes.string,
     }),
     // Set by mapStateToProps
-    layoutIsFetching: React.PropTypes.bool,
-    modulesIsFetching: React.PropTypes.bool,
+    layoutIsFetching: PropTypes.bool,
+    modulesIsFetching: PropTypes.bool,
     layout: Layout,
-    modules: React.PropTypes.objectOf(ModuleShape),
-    currentRole: React.PropTypes.string.isRequired,
+    modules: PropTypes.objectOf(ModuleShape),
+    currentRole: PropTypes.string.isRequired,
     // eslint-disable-next-line
-    isAuthenticated: React.PropTypes.bool,
+    isAuthenticated: PropTypes.bool,
     // Set by mapDispatchToProps
-    initializeApplication: React.PropTypes.func.isRequired,
-    fetchLayout: React.PropTypes.func,
-    fetchModules: React.PropTypes.func,
-    fetchEndpoints: React.PropTypes.func,
+    initializeApplication: PropTypes.func.isRequired,
+    fetchLayout: PropTypes.func,
+    fetchModules: PropTypes.func,
+    fetchEndpoints: PropTypes.func,
   }
 
   /**
@@ -67,7 +67,7 @@ export class UserApp extends React.Component {
     // If there is no dynamic content display the default module
     if (!nextProps.content && nextProps.modules && nextProps.layout) {
       forEach(nextProps.modules, (module, idx) => {
-        if (module.content.isDefault) {
+        if (module.content.defaultDynamicModule) {
           if (ContainerHelper.isDynamicContent(module.content.container, nextProps.layout.content.layout.containers)) {
             console.log('Default module selection : ', module)
             browserHistory.replace(`/user/${this.props.params.project}/modules/${module.content.id}`)

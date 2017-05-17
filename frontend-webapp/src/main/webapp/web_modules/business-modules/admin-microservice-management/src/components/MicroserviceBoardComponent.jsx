@@ -13,8 +13,8 @@ import microserviceBoardItems from './MicroserviceBoardItems'
 class MicroserviceBoardComponent extends React.Component {
 
   static propTypes = {
-    project: React.PropTypes.string.isRequired,
-    maintenance: React.PropTypes.objectOf(React.PropTypes.objectOf(React.PropTypes.func)).isRequired,
+    project: PropTypes.string.isRequired,
+    maintenance: PropTypes.objectOf(PropTypes.objectOf(PropTypes.func)).isRequired,
   }
 
   static contextTypes = {

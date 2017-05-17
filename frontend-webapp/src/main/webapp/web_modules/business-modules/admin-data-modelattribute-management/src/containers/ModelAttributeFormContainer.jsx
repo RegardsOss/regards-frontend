@@ -3,39 +3,38 @@
  **/
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
-import { map, partition, some } from 'lodash'
+import { map, partition, some, find } from 'lodash'
 import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
 import { AttributeModel, Model, ModelAttribute } from '@regardsoss/model'
-import AttributeModelActions from '../model/AttributeModelActions'
+import { attributeModelActions, attributeModelSelectors } from '../client/AttributeModelClient'
 import ModelAttributeFormComponent from '../components/ModelAttributeFormComponent'
-import AttributeModelSelectors from '../model/AttributeModelSelectors'
 import { modelAttributesSelectors, modelAttributesActions } from '../client/ModelAttributesClient'
 import { modelSelectors, modelActions } from '../client/ModelClient'
-import ModelAttributeFragmentActions from '../model/ModelAttributeFragmentActions'
+import { modelAttributesFragmentActions } from '../client/ModelAttributesFragmentClient'
 
 export class ModelAttributeFormContainer extends React.Component {
 
   static propTypes = {
     // from router
-    params: React.PropTypes.shape({
-      project: React.PropTypes.string,
-      model_id: React.PropTypes.string,
+    params: PropTypes.shape({
+      project: PropTypes.string,
+      model_id: PropTypes.string,
     }),
     // from mapDispatchToProps
-    createModelAttribute: React.PropTypes.func,
-    fetchAttributeModelList: React.PropTypes.func,
-    fetchModelAttributeList: React.PropTypes.func,
-    deleteModelAttribute: React.PropTypes.func,
-    fetchModel: React.PropTypes.func,
-    bindFragment: React.PropTypes.func,
-    unbindFragment: React.PropTypes.func,
+    createModelAttribute: PropTypes.func,
+    fetchAttributeModelList: PropTypes.func,
+    fetchModelAttributeList: PropTypes.func,
+    deleteModelAttribute: PropTypes.func,
+    fetchModel: PropTypes.func,
+    bindFragment: PropTypes.func,
+    unbindFragment: PropTypes.func,
     // from mapStateToProps
     model: Model,
-    attributeModelList: React.PropTypes.objectOf(AttributeModel),
-    isAttributeModelFetching: React.PropTypes.bool,
-    modelAttributeList: React.PropTypes.objectOf(ModelAttribute),
-    isModelAttributeFetching: React.PropTypes.bool,
-    isModelFetching: React.PropTypes.bool,
+    attributeModelList: PropTypes.objectOf(AttributeModel),
+    isAttributeModelFetching: PropTypes.bool,
+    modelAttributeList: PropTypes.objectOf(ModelAttribute),
+    isModelAttributeFetching: PropTypes.bool,
+    isModelFetching: PropTypes.bool,
   }
 
   componentDidMount() {
@@ -97,7 +96,8 @@ export class ModelAttributeFormContainer extends React.Component {
   }
 
   handleDeleteAttributeModel = (attributeModel) => {
-    this.props.deleteModelAttribute(attributeModel.content.id, this.props.model.content.id)
+    const modelAttributeToDelete = find(this.props.modelAttributeList, modelAttribute => (modelAttribute.content.attribute.id === attributeModel.content.id))
+    this.props.deleteModelAttribute(modelAttributeToDelete.content.id, this.props.model.content.id)
   }
 
   /**
@@ -161,8 +161,8 @@ export class ModelAttributeFormContainer extends React.Component {
   }
 }
 const mapStateToProps = (state, ownProps) => ({
-  attributeModelList: AttributeModelSelectors.getList(state),
-  isAttributeModelFetching: AttributeModelSelectors.isFetching(state),
+  attributeModelList: attributeModelSelectors.getList(state),
+  isAttributeModelFetching: attributeModelSelectors.isFetching(state),
 
   modelAttributeList: modelAttributesSelectors.getList(state),
   isModelAttributeFetching: modelAttributesSelectors.isFetching(state),
@@ -172,14 +172,14 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchAttributeModelList: () => dispatch(AttributeModelActions.fetchEntityList()),
+  fetchAttributeModelList: () => dispatch(attributeModelActions.fetchEntityList()),
   fetchModelAttributeList: modelId => dispatch(modelAttributesActions.fetchEntityList({ pModelId: modelId })),
   createModelAttribute: (modelAttribute, modelId) => dispatch(modelAttributesActions.createEntity(modelAttribute, { pModelId: modelId })),
   deleteModelAttribute: (id, modelId) => dispatch(modelAttributesActions.deleteEntity(id, { pModelId: modelId })),
   fetchModel: id => dispatch(modelActions.fetchEntity(id)),
 
-  bindFragment: (fragment, modelId) => dispatch(ModelAttributeFragmentActions.createEntity(fragment, { pModelId: modelId })),
-  unbindFragment: (fragmentId, modelId) => dispatch(ModelAttributeFragmentActions.deleteEntity(fragmentId, { pModelId: modelId })),
+  bindFragment: (fragment, modelId) => dispatch(modelAttributesFragmentActions.createEntities(fragment, { pModelId: modelId })),
+  unbindFragment: (fragmentId, modelId) => dispatch(modelAttributesFragmentActions.deleteEntity(fragmentId, { pModelId: modelId })),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ModelAttributeFormContainer)

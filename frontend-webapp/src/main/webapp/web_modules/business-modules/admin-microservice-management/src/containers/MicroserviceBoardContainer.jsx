@@ -19,13 +19,13 @@ import MicroserviceInfoClient from '../client/MicroserviceInfoClient'
 export class MicroserviceBoardContainer extends React.Component {
 
   static propTypes = {
-    params: React.PropTypes.shape({
-      project: React.PropTypes.string,
+    params: PropTypes.shape({
+      project: PropTypes.string,
     }),
-    fetchMaintenance: React.PropTypes.func,
-    checkMicroserviceStatus: React.PropTypes.func,
-    setMaintenance: React.PropTypes.func,
-    maintenanceList: React.PropTypes.func,
+    fetchMaintenance: PropTypes.func,
+    checkMicroserviceStatus: PropTypes.func,
+    setMaintenance: PropTypes.func,
+    maintenanceList: PropTypes.func,
   }
 
   static contextTypes = {
@@ -103,16 +103,12 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   checkMicroserviceStatus: microserviceName => dispatch(MicroserviceInfoClient.microserviceInfoActions.check(microserviceName)),
-  fetchMaintenance(microservice) {
-    dispatch(MaintenanceModeActions(microservice).sendSignal('GET'))
-  },
-  setMaintenance(microservice, projectName, action) {
-    dispatch(SetMaintenanceModeActions(microservice).sendSignal('PUT', null, {
-      microservice,
-      action,
-      tenant: projectName,
-    }))
-  },
+  fetchMaintenance: microservice => dispatch(MaintenanceModeActions(microservice).sendSignal('GET')),
+  setMaintenance: (microservice, projectName, action) => dispatch(SetMaintenanceModeActions(microservice).sendSignal('PUT', null, {
+    microservice,
+    action,
+    tenant: projectName,
+  })),
 })
 
 

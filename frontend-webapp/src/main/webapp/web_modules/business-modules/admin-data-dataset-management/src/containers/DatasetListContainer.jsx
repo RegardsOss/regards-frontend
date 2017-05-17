@@ -16,14 +16,14 @@ export class DatasetListContainer extends React.Component {
 
   static propTypes = {
     // from router
-    params: React.PropTypes.shape({
-      project: React.PropTypes.string,
+    params: PropTypes.shape({
+      project: PropTypes.string,
     }),
     // from mapStateToProps
-    datasetList: React.PropTypes.objectOf(Dataset),
+    datasetList: PropTypes.objectOf(Dataset),
     // from mapDispatchToProps
-    fetchDatasetList: React.PropTypes.func,
-    deleteDataset: React.PropTypes.func,
+    fetchDatasetList: PropTypes.func,
+    deleteDataset: PropTypes.func,
   }
   state = {
     isLoading: true,

@@ -27,11 +27,11 @@ export class CollectionItemContainer extends React.Component {
 
   static propTypes = {
     collection: CatalogEntity.isRequired,
-    isLastLevel: React.PropTypes.bool.isRequired,
+    isLastLevel: PropTypes.bool.isRequired,
     // from map state to props
-    selected: React.PropTypes.bool.isRequired,
+    selected: PropTypes.bool.isRequired,
     // from map dispatch to props
-    dispatchSelected: React.PropTypes.func.isRequired,
+    dispatchSelected: PropTypes.func.isRequired,
   }
 
   onSelected = () => {

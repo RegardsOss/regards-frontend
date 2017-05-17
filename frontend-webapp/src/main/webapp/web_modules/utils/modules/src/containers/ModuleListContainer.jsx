@@ -17,10 +17,10 @@ import ModuleShape from '../model/ModuleShape'
 class ModuleListContainer extends React.Component {
 
   static propTypes = {
-    project: React.PropTypes.string.isRequired,
-    open: React.PropTypes.bool.isRequired,
-    onCloseMenu: React.PropTypes.func,
-    modules: React.PropTypes.objectOf(ModuleShape),
+    project: PropTypes.string.isRequired,
+    open: PropTypes.bool.isRequired,
+    onCloseMenu: PropTypes.func,
+    modules: PropTypes.objectOf(ModuleShape),
     container: Container,
   }
 

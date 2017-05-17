@@ -19,12 +19,11 @@ export function getDatasetIpIdParameter(datasetIpId) {
 /**
  * Returns open search query
  * @param rootSearchQuery root search query (optional)
- * @param contextDatasetIpId  context dataset IP ID (optional)
  * @param facetFilters [{openSearchQuery}] facet filters, to be applied on result (optional)
- * @param searchTag search tag (optional)
+ * @param otherParameters other query parameters (optional)
  * @returns open search query
  */
-export function getOpenSearchQuery(rootSearchQuery, facettesFilters = [], otherParameters) {
+export function getOpenSearchQuery(rootSearchQuery, facettesFilters = [], otherParameters = []) {
   // compute all query parameters
   const openSearchParameters = [
     ...facettesFilters.map(({ openSearchQuery }) => new StaticQueryParameter(openSearchQuery)),
@@ -37,14 +36,13 @@ export function getOpenSearchQuery(rootSearchQuery, facettesFilters = [], otherP
 /**
  * Returns URL query
  * @param sortingArray [{attributePath, type}] sorting array, where attribute is an attribute path and type is sorting type (optional)
- * @param facettesQuery facettes query, facettes to be provided on results (option)
+ * @param facettesQuery facettes query, facettes to be provided on results (optional)
  * @return URL query
  */
-export function getURLQuery(openSearchQuery, sortingArray = [], facettesQuery) {
+export function getURLQuery(openSearchQuery, sortingArray = [], facettesQuery = '') {
   // specific query format: put parameter value in parenthesis (when available)
   const openSearchQueryText = openSearchQuery.toQueryString()
   const queryParamValue = openSearchQueryText && `(${openSearchQueryText})`
-
   const urlParameters = [
     // 1 - query parameter (q)
     new URLSearchQueryParameter(URLSearchQuery.QUERY_PARAMETER_NAME, queryParamValue),

@@ -8,7 +8,7 @@
 class CenteredDiv extends React.Component {
 
   static propTypes = {
-    children: React.PropTypes.element,
+    children: PropTypes.element,
   }
 
   render() {

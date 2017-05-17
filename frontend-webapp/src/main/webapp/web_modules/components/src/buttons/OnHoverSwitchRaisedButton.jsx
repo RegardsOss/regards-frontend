@@ -40,7 +40,7 @@ class OnHoverSwitchRaisedButton extends React.Component {
   }
 }
 
-OnHoverSwitchRaisedButton.propTypes = mapValues(RaisedButton.propTypes, propType => React.PropTypes.arrayOf(propType))
-OnHoverSwitchRaisedButton.propTypes.label = React.PropTypes.arrayOf(React.PropTypes.string)
+OnHoverSwitchRaisedButton.propTypes = mapValues(RaisedButton.propTypes, propType => PropTypes.arrayOf(propType))
+OnHoverSwitchRaisedButton.propTypes.label = PropTypes.arrayOf(PropTypes.string)
 
 export default OnHoverSwitchRaisedButton

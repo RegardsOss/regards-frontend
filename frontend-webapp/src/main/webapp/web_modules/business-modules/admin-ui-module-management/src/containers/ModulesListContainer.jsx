@@ -17,16 +17,16 @@ class ModulesListContainer extends React.Component {
 
   static propTypes = {
     // From react router
-    params: React.PropTypes.shape({
-      project: React.PropTypes.string,
-      applicationId: React.PropTypes.string,
+    params: PropTypes.shape({
+      project: PropTypes.string,
+      applicationId: PropTypes.string,
     }),
-    isInstance: React.PropTypes.bool,
-    fetchModules: React.PropTypes.func,
-    updateModule: React.PropTypes.func,
-    deleteModule: React.PropTypes.func,
+    isInstance: PropTypes.bool,
+    fetchModules: PropTypes.func,
+    updateModule: PropTypes.func,
+    deleteModule: PropTypes.func,
     // Set by mapStateToProps
-    modules: React.PropTypes.objectOf(ModuleShape),
+    modules: PropTypes.objectOf(ModuleShape),
   }
 
   state = {
@@ -96,7 +96,7 @@ class ModulesListContainer extends React.Component {
           isLoading={this.state.isLoading}
         >
           {() =>
-            <ModuleListComponent
+            (<ModuleListComponent
               modules={this.props.modules}
               onCreate={this.handleCreateModule}
               onEdit={this.handleEditModule}
@@ -105,7 +105,7 @@ class ModulesListContainer extends React.Component {
               onActivation={this.handleModuleActivation}
               backUrl={this.getBackUrl()}
               handleUpdate={this.props.updateModule}
-            />
+            />)
           }
         </LoadableContentDisplayDecorator>
       </I18nProvider>

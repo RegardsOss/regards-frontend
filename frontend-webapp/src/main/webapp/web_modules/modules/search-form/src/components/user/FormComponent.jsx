@@ -16,14 +16,14 @@ import { themeContextType } from '@regardsoss/theme'
 class FormComponent extends React.Component {
 
   static propTypes = {
-    expanded: React.PropTypes.bool,
-    description: React.PropTypes.string.isRequired,
+    expanded: PropTypes.bool,
+    description: PropTypes.string.isRequired,
     layout: ContainerShape.isRequired,
-    plugins: React.PropTypes.arrayOf(PluginConf),
-    pluginsProps: React.PropTypes.shape({
-      onChange: React.PropTypes.func.isRequired,
+    plugins: PropTypes.arrayOf(PluginConf),
+    pluginsProps: PropTypes.shape({
+      onChange: PropTypes.func.isRequired,
     }),
-    handleSearch: React.PropTypes.func.isRequired,
+    handleSearch: PropTypes.func.isRequired,
   }
 
   static contextTypes = {

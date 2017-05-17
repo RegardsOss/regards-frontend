@@ -13,6 +13,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { Tabs, Tab } from 'material-ui/Tabs'
 import DatasourceStepperComponent from './DatasourceStepperComponent'
 import ConnectionViewerComponent from './ConnectionViewerComponent'
+import StaticAttributeList from './StaticAttributeList'
 import DatasourceFormMappingFromTableComponent from './DatasourceFormMappingFromTableComponent'
 import DatasourceFormMappingCustomComponent from './DatasourceFormMappingCustomComponent'
 import states from './FormMappingStates'
@@ -21,27 +22,28 @@ export class DatasourceFormMappingComponent extends React.Component {
 
   static propTypes = {
     currentDatasource: Datasource,
-    isEditing: React.PropTypes.bool,
-    handleBack: React.PropTypes.func.isRequired,
-    onSubmit: React.PropTypes.func.isRequired,
-    onTableSelected: React.PropTypes.func.isRequired,
-    tableList: React.PropTypes.objectOf(React.PropTypes.shape({
-      name: React.PropTypes.string,
-      schema: React.PropTypes.string,
-      pKey: React.PropTypes.string,
+    isEditing: PropTypes.bool,
+    isSingleTable: PropTypes.bool,
+    handleBack: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
+    onTableSelected: PropTypes.func.isRequired,
+    tableList: PropTypes.objectOf(PropTypes.shape({
+      name: PropTypes.string,
+      schema: PropTypes.string,
+      pKey: PropTypes.string,
     })),
-    tableAttributeList: React.PropTypes.objectOf(React.PropTypes.shape({
-      name: React.PropTypes.string,
-      javaSqlType: React.PropTypes.string,
-      isPrimaryKey: React.PropTypes.bool,
+    tableAttributeList: PropTypes.objectOf(PropTypes.shape({
+      name: PropTypes.string,
+      javaSqlType: PropTypes.string,
+      isPrimaryKey: PropTypes.bool,
     })),
-    modelAttributeList: React.PropTypes.objectOf(ModelAttribute),
+    modelAttributeList: PropTypes.objectOf(ModelAttribute),
     // from reduxForm
-    submitting: React.PropTypes.bool,
-    invalid: React.PropTypes.bool,
-    handleSubmit: React.PropTypes.func.isRequired,
-    initialize: React.PropTypes.func.isRequired,
-    change: React.PropTypes.func.isRequired,
+    submitting: PropTypes.bool,
+    invalid: PropTypes.bool,
+    handleSubmit: PropTypes.func.isRequired,
+    initialize: PropTypes.func.isRequired,
+    change: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -51,41 +53,29 @@ export class DatasourceFormMappingComponent extends React.Component {
 
   constructor(props) {
     super(props)
-    let tabValue = states.NONE
-    if (props.isEditing) {
-      if (props.currentDatasource.content.tableName) {
-        tabValue = states.FROM_TABLE
-      } else {
-        tabValue = states.CUSTOM_FROM
-      }
-    } else {
-      tabValue = states.NONE
-    }
-    const currentTableSelected = props.isEditing && tabValue === states.FROM_TABLE ? props.currentDatasource.content.tableName : ''
+    const currentTableSelected = props.isEditing && props.isSingleTable ? props.currentDatasource.content.tableName : ''
     this.state = {
-      tabValue,
       currentTableSelected,
     }
   }
 
   componentDidMount() {
-    const { tabValue, currentTableSelected } = this.state
+    const { currentTableSelected } = this.state
     // Initialize forms inputs
     if (this.props.isEditing) {
-      if (tabValue === states.FROM_TABLE) {
+      if (this.props.isSingleTable) {
         const { currentDatasource, tableAttributeList } = this.props
         const attributes = {}
         forEach(currentDatasource.content.mapping.attributesMapping, (attributeMapping) => {
           // Check if the value provided by attributeMapping.nameDs exists in table attributes
           const existingTable = find(tableAttributeList, tableAttribute => tableAttribute.name === attributeMapping.nameDS)
           attributes[attributeMapping.name] = {
-            pk: attributeMapping.isPrimaryKey,
             tableAttribute: existingTable ? attributeMapping.nameDS : '',
             sql: existingTable ? '' : attributeMapping.nameDS,
           }
         })
         const obj = {
-          [tabValue]: {
+          [states.FROM_TABLE]: {
             table: currentTableSelected,
             attributes,
           },
@@ -96,12 +86,11 @@ export class DatasourceFormMappingComponent extends React.Component {
         const attributes = {}
         forEach(currentDatasource.content.mapping.attributesMapping, (attributeMapping) => {
           attributes[attributeMapping.name] = {
-            pk: attributeMapping.isPrimaryKey,
             sql: attributeMapping.nameDS,
           }
         })
         const obj = {
-          [tabValue]: {
+          [states.CUSTOM_FROM]: {
             fromClause: currentDatasource.content.fromClause,
             attributes,
           },
@@ -111,29 +100,12 @@ export class DatasourceFormMappingComponent extends React.Component {
     }
   }
 
-  handleTabChange = (value) => {
-    const { tabValue } = this.state
-    if (tabValue !== value) {
-      // Reset the form
-      const obj = tabValue === states.FROM_TABLE ? {
-        [states.CUSTOM_FROM]: {
-          fromClause: `FROM ...
-WHERE ...`,
-        },
-      } : {}
-      this.props.initialize(obj)
-      // Update the view
-      this.setState({
-        tabValue: value,
-      })
-    }
-  };
 
   handleTableSelected = (tableName) => {
     this.props.onTableSelected(tableName)
-    const { tabValue } = this.state
-    // Save the table name if we are in states.FROM_TABLE
-    if (tabValue === states.FROM_TABLE) {
+    const { isSingleTable } = this.props
+    // Save the table name if we are in single table configuration
+    if (isSingleTable) {
       this.setState({
         currentTableSelected: tableName,
       })
@@ -142,21 +114,29 @@ WHERE ...`,
         attributes: {},
       }
       this.props.initialize({
-        [tabValue]: formValues,
+        [states.FROM_TABLE]: formValues,
       })
     }
   }
 
   handleSave = (values) => {
     const { onSubmit, modelAttributeList, tableAttributeList } = this.props
-    const { tabValue } = this.state
-    const formValuesSubset = values[tabValue]
-    onSubmit(formValuesSubset, modelAttributeList, tableAttributeList)
+    let formValuesSubset
+    if (this.props.isSingleTable) {
+      formValuesSubset = values[states.FROM_TABLE]
+    } else {
+      formValuesSubset = values[states.CUSTOM_FROM]
+    }
+    const modelAttributeDynAndStaticList = {
+      ...modelAttributeList,
+      ...StaticAttributeList,
+    }
+    onSubmit(formValuesSubset, modelAttributeDynAndStaticList, tableAttributeList)
   }
 
   render() {
-    const { handleBack, tableList, tableAttributeList, modelAttributeList, change, currentDatasource, isEditing, submitting, invalid } = this.props
-    const { tabValue, currentTableSelected } = this.state
+    const { isSingleTable, handleBack, tableList, tableAttributeList, modelAttributeList, change, currentDatasource, isEditing, submitting, invalid } = this.props
+    const { currentTableSelected } = this.state
     const cardEspaced = {
       marginTop: '20px',
     }
@@ -169,12 +149,10 @@ WHERE ...`,
           />
           <DatasourceStepperComponent stepIndex={2} />
         </Card>
-        <Tabs
-          value={tabValue}
-          onChange={this.handleTabChange}
-          style={cardEspaced}
-        >
-          <Tab label={<FormattedMessage id="datasource.form.mapping.from_table" />} value={states.FROM_TABLE} >
+        <div style={cardEspaced} className="row">
+          <ShowableAtRender
+            show={isSingleTable}
+          >
             <div>
               <div className="col-sm-30">
                 <Card>
@@ -206,8 +184,10 @@ WHERE ...`,
                 </ShowableAtRender>
               </div>
             </div>
-          </Tab>
-          <Tab label={<FormattedMessage id="datasource.form.mapping.custom_from" />} value={states.CUSTOM_FROM}>
+          </ShowableAtRender>
+          <ShowableAtRender
+            show={!isSingleTable}
+          >
             <div className="row">
               <div className="col-sm-30">
                 <Card>
@@ -234,8 +214,8 @@ WHERE ...`,
                 </Card>
               </div>
             </div>
-          </Tab>
-        </Tabs>
+          </ShowableAtRender>
+        </div>
         <Card style={cardEspaced}>
           <CardActions>
             <CardActionsComponent
@@ -253,43 +233,13 @@ WHERE ...`,
 }
 
 
-function validatePrimaryKeys(errors, values, state) {
-  if (values[state].attributes) {
-    // eslint-disable-next-line no-param-reassign
-    errors[state].attributes = {}
-    let hasAlreadyPk = false
-    forEach(values[state].attributes, (attribute, key) => {
-      if (attribute.pk) {
-        if (hasAlreadyPk) {
-          // eslint-disable-next-line no-param-reassign
-          errors[state].attributes[key] = {}
-          // eslint-disable-next-line no-param-reassign
-          errors[state].attributes[key].pk = 'invalid.only_one_pk_allowed'
-        } else {
-          hasAlreadyPk = true
-        }
-      }
-    })
-    // A pk is required
-    if (!hasAlreadyPk) {
-      forEach(values[state].attributes, (attribute, key) => {
-        // eslint-disable-next-line no-param-reassign
-        errors[state].attributes[key] = {}
-        // eslint-disable-next-line no-param-reassign
-        errors[state].attributes[key].pk = 'invalid.one_pk_required'
-      })
-    }
-  }
-  return errors
-}
-
 /**
  * Form validation
  * @param values
  * @returns {{}} i18n keys
  */
 function validate(values) {
-  let errors = {}
+  const errors = {}
   if (!keys(values).length) {
     // XXX workaround for redux form bug initial validation:
     // Do not return anything when fields are not yet initialized (first render invalid state is wrong otherwise)...
@@ -300,15 +250,11 @@ function validate(values) {
     if (!values[states.CUSTOM_FROM].fromClause) {
       errors[states.CUSTOM_FROM].fromClause = ErrorTypes.REQUIRED
     }
-    // eslint-disable-next-line no-param-reassign
-    errors = validatePrimaryKeys(errors, values, states.CUSTOM_FROM)
   } else if (values[states.FROM_TABLE]) {
     errors[states.FROM_TABLE] = {}
     if (!values[states.FROM_TABLE].table) {
       errors[states.FROM_TABLE].table = ErrorTypes.REQUIRED
     }
-    // eslint-disable-next-line no-param-reassign
-    errors = validatePrimaryKeys(errors, values, states.FROM_TABLE)
   }
   return errors
 }

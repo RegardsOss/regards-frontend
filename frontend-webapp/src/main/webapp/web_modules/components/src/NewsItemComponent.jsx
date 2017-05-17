@@ -1,4 +1,3 @@
-import * as React from 'react'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import moment from 'moment'
 import CardActionsComponent from './cards/CardActionsComponent'
@@ -44,7 +43,7 @@ function NewsItemComponent(props) {
   )
 }
 NewsItemComponent.propTypes = {
-  news: React.PropTypes.objectOf(React.PropTypes.string),
+  news: PropTypes.objectOf(PropTypes.string),
 }
 export default NewsItemComponent
 

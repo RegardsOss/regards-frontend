@@ -16,16 +16,16 @@ import LoggedUserContainer from './LoggedUserContainer'
 export class AuthenticationMenuContainer extends React.Component {
 
   static propTypes = {
-    project: React.PropTypes.string.isRequired,
-    appName: React.PropTypes.string.isRequired,
+    project: PropTypes.string.isRequired,
+    appName: PropTypes.string.isRequired,
     // from mapStateToProps
-    isAuthenticated: React.PropTypes.bool,
+    isAuthenticated: PropTypes.bool,
   }
 
   static contextTypes = {
     intl: intlShape,
     // router injection
-    router: React.PropTypes.any,
+    router: PropTypes.any,
   }
 
   // when user access interface from mail (like reset password), he should see dialog initially
@@ -64,7 +64,7 @@ export class AuthenticationMenuContainer extends React.Component {
         }
         <LazyModuleComponent
           module={{
-            name: 'authentication',
+            type: 'authentication',
             active: true,
             conf: {
               showLoginWindow: authenticationVisible,

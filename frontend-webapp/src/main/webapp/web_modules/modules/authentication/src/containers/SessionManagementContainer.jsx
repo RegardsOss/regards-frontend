@@ -14,15 +14,15 @@ import SessionLockedFormComponent from '../components/SessionLockedFormComponent
 export class SessionManagementContainer extends React.Component {
 
   static propTypes = {
-    showLoginWindow: React.PropTypes.bool.isRequired,
-    onRequestClose: React.PropTypes.func,
-    children: React.PropTypes.element,
+    showLoginWindow: PropTypes.bool.isRequired,
+    onRequestClose: PropTypes.func,
+    children: PropTypes.element,
     authentication: AuthenticateShape,
     // from mapStateToProps
-    hasUnlockingError: React.PropTypes.bool,
+    hasUnlockingError: PropTypes.bool,
     // from mapDispatchToProps
-    fetchAuthenticate: React.PropTypes.func.isRequired,
-    dispatchSessionLocked: React.PropTypes.func.isRequired,
+    fetchAuthenticate: PropTypes.func.isRequired,
+    dispatchSessionLocked: PropTypes.func.isRequired,
   }
 
   componentWillReceiveProps = (nextProps) => {

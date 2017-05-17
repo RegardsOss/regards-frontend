@@ -17,7 +17,7 @@ const projectUserActions = new ProjectUserActions('test/action')
 const projectUserReducer = getProjectUserReducer('test/action')
 const projectUserSelectors = getProjectUserSelectors(['test', 'modules'])
 
-const entityTester = new ReduxEntityTester(projectUserActions, projectUserReducer, projectUserSelectors, React.PropTypes.objectOf(ProjectUser).isRequired, ProjectUserDump, options)
+const entityTester = new ReduxEntityTester(projectUserActions, projectUserReducer, projectUserSelectors, PropTypes.objectOf(ProjectUser).isRequired, ProjectUserDump, options)
 
 describe('[ADMIN CLIENT] Testing client projectUser', () => {
   before(() => {

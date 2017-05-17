@@ -17,7 +17,7 @@ import moduleStyles from '../styles/styles'
 class CreateButton extends React.Component {
 
   static propTypes = {
-    onCreate: React.PropTypes.func.isRequired,
+    onCreate: PropTypes.func.isRequired,
   }
 
   static contextTypes = {

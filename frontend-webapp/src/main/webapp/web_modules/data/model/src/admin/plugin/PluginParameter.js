@@ -1,10 +1,10 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-const PluginParameter = React.PropTypes.shape({
-  name: React.PropTypes.string,
-  value: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.bool]),
-  dynamic: React.PropTypes.bool,
+const PluginParameter = PropTypes.shape({
+  name: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  dynamic: PropTypes.bool,
 })
 
 export default PluginParameter

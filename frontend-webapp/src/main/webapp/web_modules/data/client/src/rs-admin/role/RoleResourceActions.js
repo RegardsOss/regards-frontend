@@ -22,7 +22,8 @@ class RoleResourceActions extends BasicListActions {
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-admin/resources/roles/{role_name}`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-admin/roles/{role_name}/resources`,
+      entityPathVariable: 'resources_access_id',
       schemaTypes: {
         ENTITY: Schemas.RESOURCE_ACCESS,
         ENTITY_ARRAY: Schemas.RESOURCE_ACCESS_ARRAY,

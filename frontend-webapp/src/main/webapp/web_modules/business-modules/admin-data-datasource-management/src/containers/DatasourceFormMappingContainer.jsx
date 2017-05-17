@@ -2,7 +2,8 @@
  * LICENSE_PLACEHOLDER
  **/
 import { connect } from '@regardsoss/redux'
-import { Datasource, ModelAttribute } from '@regardsoss/model'
+import { some } from 'lodash'
+import { Datasource, ModelAttribute, PluginMetaData } from '@regardsoss/model'
 import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import DatasourceFormMappingComponent from '../components/DatasourceFormMappingComponent'
@@ -18,26 +19,28 @@ export class DatasourceFormMappingContainer extends React.Component {
 
   static propTypes = {
     currentDatasource: Datasource,
-    isEditing: React.PropTypes.bool,
-    isCreating: React.PropTypes.bool,
-    handleSave: React.PropTypes.func,
-    handleBack: React.PropTypes.func,
+    isEditing: PropTypes.bool,
+    isCreating: PropTypes.bool,
+    handleSave: PropTypes.func,
+    handleBack: PropTypes.func,
     // from mapStateToProps
-    tableList: React.PropTypes.shape({
-      name: React.PropTypes.string,
-      schema: React.PropTypes.string,
-      pKey: React.PropTypes.string,
+    tableList: PropTypes.shape({
+      name: PropTypes.string,
+      schema: PropTypes.string,
+      pKey: PropTypes.string,
     }),
-    tableAttributeList: React.PropTypes.shape({
-      name: React.PropTypes.string,
-      javaSqlType: React.PropTypes.string,
-      isPrimaryKey: React.PropTypes.bool,
+    tableAttributeList: PropTypes.shape({
+      name: PropTypes.string,
+      javaSqlType: PropTypes.string,
+      isPrimaryKey: PropTypes.bool,
     }),
-    modelAttributeList: React.PropTypes.objectOf(ModelAttribute),
+    modelAttributeList: PropTypes.objectOf(ModelAttribute),
+    currentPluginMetaData: PluginMetaData,
     // from mapDispatchToProps
-    fetchTable: React.PropTypes.func,
-    fetchTableAttributes: React.PropTypes.func,
-    fetchModelAttributeList: React.PropTypes.func,
+    fetchTable: PropTypes.func,
+    fetchTableAttributes: PropTypes.func,
+    flushTableAttributes: PropTypes.func,
+    fetchModelAttributeList: PropTypes.func,
   }
 
   constructor(props) {
@@ -64,12 +67,19 @@ export class DatasourceFormMappingContainer extends React.Component {
       })
   }
 
+
   handleTableSelected = (tableName) => {
     const { currentDatasource } = this.props
     // Do not fetch table attributes if table is empty
     if (tableName.length > 0) {
+      this.props.flushTableAttributes()
       this.props.fetchTableAttributes(currentDatasource.content.pluginConfigurationConnectionId, tableName)
     }
+  }
+
+  isSingleTable = () => {
+    const { currentPluginMetaData } = this.props
+    return currentPluginMetaData.content.interfaceNames.includes('fr.cnes.regards.modules.datasources.plugins.interfaces.IDataSourceFromSingleTablePlugin')
   }
 
   render() {
@@ -88,6 +98,7 @@ export class DatasourceFormMappingContainer extends React.Component {
             onTableSelected={this.handleTableSelected}
             onSubmit={handleSave}
             handleBack={handleBack}
+            isSingleTable={this.isSingleTable()}
             isEditing={isEditing}
             isCreating={isCreating}
           />)
@@ -112,6 +123,7 @@ const mapDispatchToProps = dispatch => ({
     connectionId,
     tableName,
   })),
+  flushTableAttributes: (connectionId, tableName) => dispatch(connectionTableAttributesActions.flush()),
   fetchModelAttributeList: id => dispatch(modelAttributesActions.fetchEntityList({ pModelId: id })),
 })
 

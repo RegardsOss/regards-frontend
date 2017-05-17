@@ -2,7 +2,7 @@
 * LICENSE_PLACEHOLDER
 **/
 import { Card, CardMedia, CardTitle } from 'material-ui/Card'
-import { AttributeModel, AttributeConfiguration, AttributesRegroupementConfiguration, SearchResultsTargetsEnum } from '@regardsoss/model'
+import { AttributeModel, AttributeConfiguration, AttributesRegroupementConfiguration } from '@regardsoss/model'
 import SearchResultsContainer from '../../containers/user/results/SearchResultsContainer'
 import NavigationContainer from '../../containers/user/navigation/NavigationContainer'
 
@@ -13,26 +13,26 @@ class ModuleComponent extends React.Component {
 
   static propTypes = {
     // sub modules rendering
-    appName: React.PropTypes.string,
-    project: React.PropTypes.string,
+    appName: PropTypes.string,
+    project: PropTypes.string,
 
     // initial configuration
     // eslint-disable-next-line react/no-unused-prop-types
-    searchQuery: React.PropTypes.string,
+    searchQuery: PropTypes.string,
 
     // facettes configuration
-    enableFacettes: React.PropTypes.bool.isRequired,
+    enableFacettes: PropTypes.bool.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
-    facettesQuery: React.PropTypes.string,
+    facettesQuery: PropTypes.string,
 
     // Dataset configuration
     // eslint-disable-next-line react/no-unused-prop-types
-    initialDatasetIpId: React.PropTypes.string,
+    initialDatasetIpId: PropTypes.string,
 
     // Attributes configurations for results columns
-    attributesConf: React.PropTypes.arrayOf(AttributeConfiguration),
-    attributesRegroupementsConf: React.PropTypes.arrayOf(AttributesRegroupementConfiguration),
-    attributeModels: React.PropTypes.objectOf(AttributeModel),
+    attributesConf: PropTypes.arrayOf(AttributeConfiguration),
+    attributesRegroupementsConf: PropTypes.arrayOf(AttributesRegroupementConfiguration),
+    attributeModels: PropTypes.objectOf(AttributeModel),
 
   }
 

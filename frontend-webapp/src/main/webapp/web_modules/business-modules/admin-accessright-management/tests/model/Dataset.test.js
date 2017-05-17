@@ -13,7 +13,7 @@ const options = {
 }
 
 
-const entityTester = new ReduxEntityTester(DatasetActions, DatasetReducers, DatasetSelectors, React.PropTypes.objectOf(Dataset).isRequired, backendServerResultList, options)
+const entityTester = new ReduxEntityTester(DatasetActions, DatasetReducers, DatasetSelectors, PropTypes.objectOf(Dataset).isRequired, backendServerResultList, options)
 
 describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing model Dataset', () => {
   before(() => {

@@ -48,7 +48,7 @@ class NavigationContextActions {
 
   /**
    * Change or remove search tag
-   * @param {*} searchTag  new search tag or null
+   * @param {string} searchTag  new search tag or null
    */
   changeSearchTag(searchTag) {
     return {

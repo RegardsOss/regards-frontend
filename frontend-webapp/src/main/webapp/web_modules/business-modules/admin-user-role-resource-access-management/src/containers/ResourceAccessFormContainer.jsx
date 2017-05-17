@@ -15,18 +15,18 @@ export class ResourceAccessFormContainer extends React.Component {
 
   static propTypes = {
     // from router
-    params: React.PropTypes.shape({
-      project: React.PropTypes.string.isRequired,
-      role_name: React.PropTypes.string.isRequired,
+    params: PropTypes.shape({
+      project: PropTypes.string.isRequired,
+      role_name: PropTypes.string.isRequired,
     }).isRequired,
     // from mapStateToProps
     role: Role,
-    isRoleFetching: React.PropTypes.bool,
-    roleResources: React.PropTypes.arrayOf(Resource),
-    isResourcesFetching: React.PropTypes.bool,
+    isRoleFetching: PropTypes.bool,
+    roleResources: PropTypes.arrayOf(Resource),
+    isResourcesFetching: PropTypes.bool,
     // from fetchRole
-    fetchRole: React.PropTypes.func,
-    fetchRoleResources: React.PropTypes.func,
+    fetchRole: PropTypes.func,
+    fetchRoleResources: PropTypes.func,
   }
 
 

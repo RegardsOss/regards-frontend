@@ -42,7 +42,7 @@ describe('[ SEARCH FACETS ] Testing ModuleContainer', () => {
       facets: facetsNetworkDump.facets,
       facetLabels: { any: 'any' },
       moduleConf: {
-        onFiltersChanged: React.PropTypes.func.isRequired,
+        onFiltersChanged: PropTypes.func.isRequired,
         filters: [],
         attributeModels: {},
         show: true,

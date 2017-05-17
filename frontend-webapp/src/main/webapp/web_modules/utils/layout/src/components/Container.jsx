@@ -23,17 +23,17 @@ import { DELETE_ACTION, ADD_ACTION, EDIT_ACTION } from './LayoutConfigurationCom
 class Container extends React.Component {
 
   static propTypes = {
-    project: React.PropTypes.string,
-    appName: React.PropTypes.string.isRequired,
+    project: PropTypes.string,
+    appName: PropTypes.string.isRequired,
     container: ContainerShape,
-    modules: React.PropTypes.arrayOf(ModuleShape),
-    plugins: React.PropTypes.arrayOf(PluginConf),
+    modules: PropTypes.arrayOf(ModuleShape),
+    plugins: PropTypes.arrayOf(PluginConf),
     // eslint-disable-next-line react/forbid-prop-types
-    pluginProps: React.PropTypes.object,
-    dynamicContent: React.PropTypes.element,
-    onContainerClick: React.PropTypes.func,
-    configurationMode: React.PropTypes.bool,
-    mainContainer: React.PropTypes.bool,
+    pluginProps: PropTypes.object,
+    dynamicContent: PropTypes.element,
+    onContainerClick: PropTypes.func,
+    configurationMode: PropTypes.bool,
+    mainContainer: PropTypes.bool,
   }
 
   /**

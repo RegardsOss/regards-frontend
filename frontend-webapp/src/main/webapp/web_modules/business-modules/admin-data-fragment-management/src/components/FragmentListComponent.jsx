@@ -24,12 +24,12 @@ import { fragmentActions } from '../client/FragmentClient'
 export class FragmentListComponent extends React.Component {
 
   static propTypes = {
-    fragmentList: React.PropTypes.objectOf(Fragment),
-    handleDelete: React.PropTypes.func.isRequired,
-    handleEdit: React.PropTypes.func.isRequired,
-    createUrl: React.PropTypes.string.isRequired,
-    backUrl: React.PropTypes.string.isRequired,
-    accessToken: React.PropTypes.string.isRequired,
+    fragmentList: PropTypes.objectOf(Fragment),
+    handleDelete: PropTypes.func.isRequired,
+    handleEdit: PropTypes.func.isRequired,
+    createUrl: PropTypes.string.isRequired,
+    backUrl: PropTypes.string.isRequired,
+    accessToken: PropTypes.string.isRequired,
   }
 
   static contextTypes = {

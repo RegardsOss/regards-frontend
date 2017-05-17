@@ -37,6 +37,9 @@ class BasicListActions extends BasicActions {
     this.CREATE_ENTITY_SUCCESS = `${options.namespace}/CREATE_SUCCESS`
     this.CREATE_ENTITY_REQUEST = `${options.namespace}/CREATE_REQUEST`
     this.CREATE_ENTITY_FAILURE = `${options.namespace}/CREATE_FAILURE`
+    this.CREATE_ENTITIES_SUCCESS = `${options.namespace}/CREATE_ENTITIES_SUCCESS`
+    this.CREATE_ENTITIES_REQUEST = `${options.namespace}/CREATE_ENTITIES_REQUEST`
+    this.CREATE_ENTITIES_FAILURE = `${options.namespace}/CREATE_ENTITIES_FAILURE`
     this.UPDATE_ENTITY_SUCCESS = `${options.namespace}/UPDATE_SUCCESS`
     this.UPDATE_ENTITY_REQUEST = `${options.namespace}/UPDATE_REQUEST`
     this.UPDATE_ENTITY_FAILURE = `${options.namespace}/UPDATE_FAILURE`
@@ -105,6 +108,13 @@ class BasicListActions extends BasicActions {
     }
   }
 
+  /**
+   * Same as fetchEntity but do not set isFetching to true while fetching
+   * @param keyValue
+   * @param pathParams
+   * @param queryParams
+   * @returns {{}}
+   */
   fetchSilentEntity(keyValue, pathParams, queryParams) {
     let endpoint = this.handleRequestPathParameters(this.entityEndpoint, pathParams)
     endpoint = `${endpoint}/${keyValue}`
@@ -141,6 +151,33 @@ class BasicListActions extends BasicActions {
         endpoint,
         method: 'POST',
         body: JSON.stringify(values),
+      },
+    }
+  }
+
+  /**
+   * Send an object and receive a list of created items
+   * @param values
+   * @param pathParams
+   * @param queryParams
+   * @returns {{}}
+   */
+  createEntities(object, pathParams, queryParams) {
+    let endpoint = this.handleRequestQueryParams(this.entityEndpoint, queryParams)
+    endpoint = this.handleRequestPathParameters(endpoint, pathParams)
+    return {
+      [CALL_API]: {
+        types: [
+          this.CREATE_ENTITIES_REQUEST,
+          {
+            type: this.CREATE_ENTITIES_SUCCESS,
+            payload: (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntitiesListPayload(json)),
+          },
+          this.buildFailureAction(this.CREATE_ENTITIES_FAILURE),
+        ],
+        endpoint,
+        method: 'POST',
+        body: JSON.stringify(object),
       },
     }
   }

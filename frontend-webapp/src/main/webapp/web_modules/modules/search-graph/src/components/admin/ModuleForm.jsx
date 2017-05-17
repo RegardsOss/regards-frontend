@@ -23,16 +23,16 @@ class ModuleForm extends React.Component {
   static DATASET_ATTRIBUTES_FIELD_NAME = 'conf.graphDatasetAttributes'
 
   static propTypes = {
-    project: React.PropTypes.string.isRequired,
-    appName: React.PropTypes.string.isRequired,
-    adminForm: React.PropTypes.shape({
-      changeField: React.PropTypes.func,
+    project: PropTypes.string.isRequired,
+    appName: PropTypes.string.isRequired,
+    adminForm: PropTypes.shape({
+      changeField: PropTypes.func,
       form: ModuleConfiguration,
     }),
     // values pool as fetched and normalized
-    collectionModels: React.PropTypes.objectOf(Model).isRequired,
+    collectionModels: PropTypes.objectOf(Model).isRequired,
     // attributes that user can display on datasets
-    selectableAttributes: React.PropTypes.objectOf(AttributeModel),
+    selectableAttributes: PropTypes.objectOf(AttributeModel),
   }
 
   static contextTypes = {

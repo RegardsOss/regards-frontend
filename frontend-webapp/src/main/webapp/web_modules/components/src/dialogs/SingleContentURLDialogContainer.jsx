@@ -12,10 +12,10 @@ class SingleContentURLDaialogContainer extends React.Component {
 
   static propTypes = {
     contentURL: URL.isRequired,
-    open: React.PropTypes.bool.isRequired,
+    open: PropTypes.bool.isRequired,
     dialogHeightPercent: Percent.isRequired,
     dialogWidthPercent: Percent.isRequired,
-    loadingMessage: React.PropTypes.node.isRequired,
+    loadingMessage: PropTypes.node.isRequired,
   }
 
 

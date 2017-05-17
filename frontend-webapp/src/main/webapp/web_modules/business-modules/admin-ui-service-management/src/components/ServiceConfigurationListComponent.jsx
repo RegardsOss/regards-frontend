@@ -27,17 +27,17 @@ const styles = moduleStyles().plugin
 class ServiceConfigurationListComponent extends React.Component {
 
   static propTypes = {
-    uiPluginConfigurationList: React.PropTypes.objectOf(React.PropTypes.shape({
+    uiPluginConfigurationList: PropTypes.objectOf(PropTypes.shape({
       content: UIPluginConfiguration,
     })),
     plugin: UIPlugin,
-    handleDelete: React.PropTypes.func.isRequired,
-    handleDuplicate: React.PropTypes.func.isRequired,
-    handleEdit: React.PropTypes.func.isRequired,
-    handleToggleActivation: React.PropTypes.func.isRequired,
-    handleToggleDefault: React.PropTypes.func.isRequired,
-    createUrl: React.PropTypes.string.isRequired,
-    backUrl: React.PropTypes.string.isRequired,
+    handleDelete: PropTypes.func.isRequired,
+    handleDuplicate: PropTypes.func.isRequired,
+    handleEdit: PropTypes.func.isRequired,
+    handleToggleActivation: PropTypes.func.isRequired,
+    handleToggleDefault: PropTypes.func.isRequired,
+    createUrl: PropTypes.string.isRequired,
+    backUrl: PropTypes.string.isRequired,
   }
 
   static contextTypes = {

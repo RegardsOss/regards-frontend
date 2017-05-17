@@ -23,23 +23,23 @@ import Styles from '../styles/styles'
 class ModuleFormComponent extends React.Component {
 
   static propTypes = {
-    project: React.PropTypes.string.isRequired,
+    project: PropTypes.string.isRequired,
     module: ModuleShape,
-    containers: React.PropTypes.arrayOf(Container),
-    onSubmit: React.PropTypes.func.isRequired,
-    onBack: React.PropTypes.func.isRequired,
-    applicationId: React.PropTypes.string.isRequired,
-    duplication: React.PropTypes.bool,
-    adminForm: React.PropTypes.shape({
-      changeField: React.PropTypes.func,
+    containers: PropTypes.arrayOf(Container),
+    onSubmit: PropTypes.func.isRequired,
+    onBack: PropTypes.func.isRequired,
+    applicationId: PropTypes.string.isRequired,
+    duplication: PropTypes.bool,
+    adminForm: PropTypes.shape({
+      changeField: PropTypes.func,
       // Current module configuration. Values from the redux-form
-      form: React.PropTypes.object,
+      form: PropTypes.object,
     }),
     // from reduxForm
-    submitting: React.PropTypes.bool,
-    pristine: React.PropTypes.bool,
-    handleSubmit: React.PropTypes.func.isRequired,
-    initialize: React.PropTypes.func.isRequired,
+    submitting: PropTypes.bool,
+    pristine: PropTypes.bool,
+    handleSubmit: PropTypes.func.isRequired,
+    initialize: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -74,7 +74,7 @@ class ModuleFormComponent extends React.Component {
         {
           applicationId: this.props.applicationId,
           active: false,
-          isDefault: false,
+          defaultDynamicModule: false,
         }, this.state.module)
       this.props.initialize(initializeModule)
     }
@@ -160,7 +160,7 @@ class ModuleFormComponent extends React.Component {
       />
       {this.state.dynamicContainerSelected ?
         <Field
-          name="isDefault"
+          name="defaultDynamicModule"
           component={RenderCheckbox}
           label={<FormattedMessage id="module.form.isDefault" />}
         /> : null }

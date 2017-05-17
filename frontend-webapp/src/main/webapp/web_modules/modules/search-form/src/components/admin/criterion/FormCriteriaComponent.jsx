@@ -22,21 +22,21 @@ class FormCriteriaComponent extends React.Component {
     // Criteria to edit or null to create a new one.
     criteria: PluginConf,
     // Callback to submit the current criteria
-    saveCriteria: React.PropTypes.func,
+    saveCriteria: PropTypes.func,
     // Cancel criteria edition
-    cancel: React.PropTypes.func,
+    cancel: PropTypes.func,
     // Form layout
     layout: ContainerShape,
     // All selectable attributes for the current form
-    selectableAttributes: React.PropTypes.objectOf(AttributeModel),
+    selectableAttributes: PropTypes.objectOf(AttributeModel),
     // Set by React Redux connection
-    availableCriterion: React.PropTypes.objectOf(PluginDefinition),
-    criterionFetching: React.PropTypes.bool,
+    availableCriterion: PropTypes.objectOf(PluginDefinition),
+    criterionFetching: PropTypes.bool,
     // from reduxForm
-    submitting: React.PropTypes.bool,
-    pristine: React.PropTypes.bool,
-    handleSubmit: React.PropTypes.func.isRequired,
-    initialize: React.PropTypes.func.isRequired,
+    submitting: PropTypes.bool,
+    pristine: PropTypes.bool,
+    handleSubmit: PropTypes.func.isRequired,
+    initialize: PropTypes.func.isRequired,
   }
 
   /**

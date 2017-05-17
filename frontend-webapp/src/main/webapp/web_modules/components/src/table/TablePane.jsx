@@ -31,16 +31,16 @@ class TablePane extends React.Component {
   static propTypes = {
     // dynamic properis
     // is fetching entities?
-    entitiesFetching: React.PropTypes.bool.isRequired,
+    entitiesFetching: PropTypes.bool.isRequired,
     // results count
-    resultsCount: React.PropTypes.number.isRequired,
+    resultsCount: PropTypes.number.isRequired,
     // provided table data and configuration
-    tableData: React.PropTypes.shape(Table.PropTypes).isRequired,
+    tableData: PropTypes.shape(Table.PropTypes).isRequired,
     // 0 : unselect all / 1 : select all
-    selectionMode: React.PropTypes.string,
-    onToggleSelectionMode: React.PropTypes.func,
-    setToggledElements: React.PropTypes.func,
-    columns: React.PropTypes.arrayOf(ColumnConfiguration).isRequired,
+    selectionMode: PropTypes.string,
+    onToggleSelectionMode: PropTypes.func,
+    setToggledElements: PropTypes.func,
+    columns: PropTypes.arrayOf(ColumnConfiguration).isRequired,
     // this configuration properties (see above)
     ...TablePaneConfigurationModel,
   }
@@ -230,10 +230,11 @@ class TablePane extends React.Component {
           >
             <Table
               columns={visibleColumns}
-              width={tableWidth} {...tableData}
+              width={tableWidth}
               selectionMode={selectionMode}
               onToggleSelectionMode={onToggleSelectionMode}
               setToggledElements={setToggledElements}
+              {...tableData}
             />
           </NoContentMessageInfo>
         </div >

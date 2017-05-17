@@ -15,7 +15,7 @@ const collectionActions = new CollectionActions('test/action')
 const collectionReducer = CollectionReducer('test/action')
 const collectionSelectors = CollectionSelectors(['test', 'modules'])
 
-const entityTester = new ReduxEntityTester(collectionActions, collectionReducer, collectionSelectors, React.PropTypes.objectOf(Collection).isRequired, backendServerResultList, options)
+const entityTester = new ReduxEntityTester(collectionActions, collectionReducer, collectionSelectors, PropTypes.objectOf(Collection).isRequired, backendServerResultList, options)
 
 describe('[ADMIN CLIENT] Testing client Collection', () => {
   before(() => {

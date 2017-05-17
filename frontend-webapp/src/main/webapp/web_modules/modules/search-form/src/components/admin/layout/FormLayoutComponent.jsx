@@ -15,7 +15,7 @@ class FormLayoutComponent extends React.Component {
 
   static propTypes = {
     defaultLayout: ContainerShape,
-    changeField: React.PropTypes.func,
+    changeField: PropTypes.func,
   }
 
   componentWillMount() {

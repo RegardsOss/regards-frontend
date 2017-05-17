@@ -16,18 +16,18 @@ export class AccountListContainer extends React.Component {
 
   static propTypes = {
     // from mapStateToProps
-    allAccounts: React.PropTypes.shape({
-      content: React.PropTypes.objectOf({ Account }),
+    allAccounts: PropTypes.shape({
+      content: PropTypes.objectOf({ Account }),
     }),
-    waitingAccounts: React.PropTypes.shape({
-      content: React.PropTypes.objectOf({ Account }),
+    waitingAccounts: PropTypes.shape({
+      content: PropTypes.objectOf({ Account }),
     }),
-    isFetchingContent: React.PropTypes.bool.isRequired,
+    isFetchingContent: PropTypes.bool.isRequired,
     // from mapDispatchToProps
-    fetchAccountList: React.PropTypes.func.isRequired,
-    fetchWaitingAccountList: React.PropTypes.func.isRequired,
-    sendAcceptUser: React.PropTypes.func.isRequired,
-    deleteAccount: React.PropTypes.func.isRequired,
+    fetchAccountList: PropTypes.func.isRequired,
+    fetchWaitingAccountList: PropTypes.func.isRequired,
+    sendAcceptUser: PropTypes.func.isRequired,
+    deleteAccount: PropTypes.func.isRequired,
   }
 
   componentWillMount = () => {

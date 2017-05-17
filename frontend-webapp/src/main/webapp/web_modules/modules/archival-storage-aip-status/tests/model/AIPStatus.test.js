@@ -30,7 +30,7 @@ const backendServerResultList = {
 // URL options and parameters
 const options = {}
 
-const entityTester = new ReduxEntityTester(AIPStatusActions, AIPStatusReducers, AIPStatusSelectors, React.PropTypes.objectOf(AIPStatus).isRequired, backendServerResultList, options)
+const entityTester = new ReduxEntityTester(AIPStatusActions, AIPStatusReducers, AIPStatusSelectors, PropTypes.objectOf(AIPStatus).isRequired, backendServerResultList, options)
 
 describe('[ARCHIVAL STORAGE AIP STATUS] Testing model AIPStatus', () => {
   before(() => {

@@ -11,7 +11,7 @@ class GraphLevelFetchErrorDisplayer extends React.Component {
 
   static propTypes = {
     // internationalized message key
-    messageKey: React.PropTypes.string.isRequired,
+    messageKey: PropTypes.string.isRequired,
   }
 
   static contextTypes = {

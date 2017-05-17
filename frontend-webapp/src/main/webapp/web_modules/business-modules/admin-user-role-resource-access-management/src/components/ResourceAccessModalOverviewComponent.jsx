@@ -17,9 +17,9 @@ class ResourceAccessModalOverviewComponent extends React.Component {
 
   static propTypes = {
     currentResource: Resource.isRequired,
-    roles: React.PropTypes.arrayOf(Role).isrequired,
-    onClose: React.PropTypes.func.isRequired,
-    editRoleResources: React.PropTypes.func.isRequired,
+    roles: PropTypes.arrayOf(Role).isrequired,
+    onClose: PropTypes.func.isRequired,
+    editRoleResources: PropTypes.func.isRequired,
   }
 
   static contextTypes = {

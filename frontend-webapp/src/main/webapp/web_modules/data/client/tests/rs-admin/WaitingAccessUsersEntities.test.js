@@ -17,7 +17,7 @@ const waitingAccessUsersEntitiesActions = new WaitingAccessUsersEntitiesActions(
 const waitingAccessUsersEntitiesReducer = getWaitingAccessUsersEntitiesReducer('test/action')
 const waitingAccessUsersEntitiesSelectors = getWaitingAccessUsersEntitiesSelectors(['test', 'modules'])
 
-const entityTester = new ReduxEntityTester(waitingAccessUsersEntitiesActions, waitingAccessUsersEntitiesReducer, waitingAccessUsersEntitiesSelectors, React.PropTypes.objectOf(ProjectUser).isRequired, WaitingAccessUsersEntitiesDump, options)
+const entityTester = new ReduxEntityTester(waitingAccessUsersEntitiesActions, waitingAccessUsersEntitiesReducer, waitingAccessUsersEntitiesSelectors, PropTypes.objectOf(ProjectUser).isRequired, WaitingAccessUsersEntitiesDump, options)
 
 describe('[ADMIN CLIENT] Testing client waitingAccessUsersEntities', () => {
   before(() => {

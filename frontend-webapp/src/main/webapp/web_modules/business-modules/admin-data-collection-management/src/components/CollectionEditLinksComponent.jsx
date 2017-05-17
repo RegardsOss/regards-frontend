@@ -23,13 +23,13 @@ import CollectionStepperComponent from './CollectionStepperComponent'
 export class CollectionEditLinksComponent extends React.Component {
 
   static propTypes = {
-    linkedCollections: React.PropTypes.arrayOf(Collection),
-    remainingCollections: React.PropTypes.arrayOf(Collection),
-    handleAdd: React.PropTypes.func.isRequired,
-    handleDelete: React.PropTypes.func.isRequired,
-    handleSearch: React.PropTypes.func.isRequired,
-    backUrl: React.PropTypes.string.isRequired,
-    doneUrl: React.PropTypes.string.isRequired,
+    linkedCollections: PropTypes.arrayOf(Collection),
+    remainingCollections: PropTypes.arrayOf(Collection),
+    handleAdd: PropTypes.func.isRequired,
+    handleDelete: PropTypes.func.isRequired,
+    handleSearch: PropTypes.func.isRequired,
+    backUrl: PropTypes.string.isRequired,
+    doneUrl: PropTypes.string.isRequired,
   }
 
   static contextTypes = {

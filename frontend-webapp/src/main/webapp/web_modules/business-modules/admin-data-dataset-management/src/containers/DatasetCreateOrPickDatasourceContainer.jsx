@@ -17,13 +17,13 @@ export class DatasetCreateOrPickDatasourceContainer extends React.Component {
 
   static propTypes = {
     // from router
-    params: React.PropTypes.shape({
-      project: React.PropTypes.string,
+    params: PropTypes.shape({
+      project: PropTypes.string,
     }),
     // from mapStateToProps
-    datasourceList: React.PropTypes.objectOf(Datasource),
+    datasourceList: PropTypes.objectOf(Datasource),
     // from mapDispatchToProps
-    fetchDatasourceList: React.PropTypes.func,
+    fetchDatasourceList: PropTypes.func,
   }
 
   constructor(props) {
@@ -82,7 +82,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchDatasourceList: () => dispatch(datasourceActions.fetchPagedEntityList(0, 1000)),
+  fetchDatasourceList: () => dispatch(datasourceActions.fetchEntityList()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(DatasetCreateOrPickDatasourceContainer)

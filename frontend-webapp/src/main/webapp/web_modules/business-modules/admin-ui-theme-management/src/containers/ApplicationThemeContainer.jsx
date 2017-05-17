@@ -18,25 +18,25 @@ export class ApplicationThemeContainer extends React.Component {
 
   static propTypes = {
     // from router
-    params: React.PropTypes.shape({
-      project: React.PropTypes.string,
+    params: PropTypes.shape({
+      project: PropTypes.string,
     }),
     // Set by mapStateToProps
-    themeList: React.PropTypes.objectOf(Theme),
+    themeList: PropTypes.objectOf(Theme),
     currentTheme: Theme,
-    isFetching: React.PropTypes.bool,
-    isInstance: React.PropTypes.bool,
+    isFetching: PropTypes.bool,
+    isInstance: PropTypes.bool,
     // Set by mapDispatchToProps
-    fetchTheme: React.PropTypes.func,
-    fetchThemeInstance: React.PropTypes.func,
-    fetchThemeList: React.PropTypes.func,
-    fetchThemeInstanceList: React.PropTypes.func,
-    updateTheme: React.PropTypes.func,
-    updateInstanceTheme: React.PropTypes.func,
-    deleteTheme: React.PropTypes.func,
-    deleteInstanceTheme: React.PropTypes.func,
-    createTheme: React.PropTypes.func,
-    createInstanceTheme: React.PropTypes.func,
+    fetchTheme: PropTypes.func,
+    fetchThemeInstance: PropTypes.func,
+    fetchThemeList: PropTypes.func,
+    fetchThemeInstanceList: PropTypes.func,
+    updateTheme: PropTypes.func,
+    updateInstanceTheme: PropTypes.func,
+    deleteTheme: PropTypes.func,
+    deleteInstanceTheme: PropTypes.func,
+    createTheme: PropTypes.func,
+    createInstanceTheme: PropTypes.func,
   }
 
   static defaultProps = {

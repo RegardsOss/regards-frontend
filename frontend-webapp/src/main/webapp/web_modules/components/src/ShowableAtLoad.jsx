@@ -5,8 +5,8 @@ import { LoadingComponent } from '@regardsoss/display-control'
 class ShowableAtLoad extends React.Component {
 
   static propTypes = {
-    children: React.PropTypes.element,
-    isLoading: React.PropTypes.bool.isRequired,
+    children: PropTypes.element,
+    isLoading: PropTypes.bool.isRequired,
   }
 
   render() {

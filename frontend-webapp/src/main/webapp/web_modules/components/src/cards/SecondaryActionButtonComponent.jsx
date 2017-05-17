@@ -1,4 +1,3 @@
-import * as React from 'react'
 import FlatButton from 'material-ui/FlatButton'
 import ActionButtonComponent from './ActionButtonComponent'
 
@@ -12,13 +11,13 @@ function SecondaryActionButtonComponent(props) {
   />)
 }
 SecondaryActionButtonComponent.propTypes = {
-  label: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.element]).isRequired,
-  url: React.PropTypes.string,
+  label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
+  url: PropTypes.string,
 
-  style: React.PropTypes.objectOf(React.PropTypes.string),
-  onTouchTap: React.PropTypes.func,
-  isVisible: React.PropTypes.bool,
-  disabled: React.PropTypes.bool,
+  style: PropTypes.objectOf(PropTypes.string),
+  onTouchTap: PropTypes.func,
+  isVisible: PropTypes.bool,
+  disabled: PropTypes.bool,
 }
 
 export default SecondaryActionButtonComponent

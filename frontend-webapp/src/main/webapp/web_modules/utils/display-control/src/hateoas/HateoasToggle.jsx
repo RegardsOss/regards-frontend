@@ -14,10 +14,10 @@ import HateoasLinks from '../model/HateoasLinks'
 class HateoasToggle extends React.Component {
 
   static propTypes = {
-    entityLinks: React.PropTypes.arrayOf(HateoasLinks).isRequired,
-    hateoasKey: React.PropTypes.string.isRequired,
+    entityLinks: PropTypes.arrayOf(HateoasLinks).isRequired,
+    hateoasKey: PropTypes.string.isRequired,
     // Set by mapStateToProps
-    isInstance: React.PropTypes.bool,
+    isInstance: PropTypes.bool,
   }
 
   render() {

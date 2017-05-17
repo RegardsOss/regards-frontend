@@ -27,7 +27,7 @@ describe('[Search Graph] Testing SearchResultForm', () => {
     // assert the component delegates to search results module configuration pane
     const lazyModule = enzymeWrapper.find(LazyModuleComponent)
     assert.equal(lazyModule.length, 1, 'There should be a lazy module for search results configuration')
-    assert.equal(lazyModule.at(0).props().module.name, 'search-results', 'There lazy module configuration should point search results')
+    assert.equal(lazyModule.at(0).props().module.type, 'search-results', 'There lazy module configuration should point search results')
     assert.isTrue(lazyModule.at(0).props().admin, 'The module should be rendered for configuration')
   })
 })

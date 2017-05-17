@@ -18,14 +18,14 @@ class DynamicContentContainer extends React.Component {
    */
   static propTypes = {
     // From React router
-    params: React.PropTypes.shape({
-      project: React.PropTypes.string,
-      moduleId: React.PropTypes.string,
+    params: PropTypes.shape({
+      project: PropTypes.string,
+      moduleId: PropTypes.string,
     }),
     // Module to display
     module: ModuleShape,
     // Function to throw an error
-    throwError: React.PropTypes.func,
+    throwError: PropTypes.func,
   }
 
   componentDidMount() {

@@ -13,25 +13,25 @@ export class AuthenticationFormContainer extends React.Component {
 
   static propTypes = {
     // initial mail value
-    initialMail: React.PropTypes.string,
+    initialMail: PropTypes.string,
     // current project (empty if admin)
-    project: React.PropTypes.string.isRequired,
+    project: PropTypes.string.isRequired,
     // form title
-    title: React.PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
     // show create account link?
-    showAskProjectAccess: React.PropTypes.bool.isRequired,
+    showAskProjectAccess: PropTypes.bool.isRequired,
     // show cancel button?
-    showCancel: React.PropTypes.bool.isRequired,
+    showCancel: PropTypes.bool.isRequired,
     // on cancel button callback, or none if behavior not available
-    onCancelAction: React.PropTypes.func,
+    onCancelAction: PropTypes.func,
     // other authentication forms links
-    onGotoCreateAccount: React.PropTypes.func.isRequired,
-    onGotoResetPassword: React.PropTypes.func.isRequired,
-    onGotoUnlockAccount: React.PropTypes.func.isRequired,
+    onGotoCreateAccount: PropTypes.func.isRequired,
+    onGotoResetPassword: PropTypes.func.isRequired,
+    onGotoUnlockAccount: PropTypes.func.isRequired,
     // from map state to props
     loginError: AuthenticationErrorShape,
     // from map dispatch to props
-    dispatchLoginRequest: React.PropTypes.func,
+    dispatchLoginRequest: PropTypes.func,
   }
 
   /** I18N injection & themes */
@@ -41,7 +41,7 @@ export class AuthenticationFormContainer extends React.Component {
   componentWillMount = () => {
     if (process.env.NODE_ENV === 'development') {
       console.log('DEV', 'Auto connection')
-      this.onLoginRequest({ username: 'admin@cnes.fr', password: 'admin' })
+      this.onLoginRequest({ username: 'regards-admin@c-s.fr', password: 'root_admin' })
     }
   }
 
@@ -83,7 +83,7 @@ const mapDispatchToProps = dispatch => ({
     username,
     password,
     scope,
-    AuthenticationRouteHelper.getOriginURL(),
+    AuthenticationRouteHelper.getOriginUrlWithoutQueryParams(),
     AuthenticationRouteHelper.getRequestLinkURL(AuthenticationRouteParameters.mailAuthenticationAction.values.validateAccount))),
 })
 

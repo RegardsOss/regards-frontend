@@ -47,7 +47,7 @@ const getLevelsWithout = (levels, levelTypes) => levels.filter(({ levelType }) =
  */
 const changeSearchTag = ({ searchTag }, state) => {
   // compute next levels parents (remove searchTag and dataset)
-  const levels = getLevelsWithout(state.levels, [NavigationLevel.LevelTypes.SEARCH_TAG, NavigationLevel.DATASET])
+  const levels = getLevelsWithout(state.levels, [NavigationLevel.LevelTypes.SEARCH_TAG, NavigationLevel.LevelTypes.DATASET])
   // store the new search tag if it is available (when not, just reset to none)
   if (searchTag) {
     levels.push(NavigationLevel.buildSearchTagLevel(searchTag))
@@ -63,7 +63,7 @@ const changeSearchTag = ({ searchTag }, state) => {
  */
 const changeDataset = ({ dataset }, state) => {
   // compute next levels parents (remove dataset)
-  const levels = getLevelsWithout(state.levels, [NavigationLevel.DATASET])
+  const levels = getLevelsWithout(state.levels, [NavigationLevel.LevelTypes.DATASET])
   // store the new search tag if it is available (when not, just reset to none)
   if (dataset) {
     levels.push(NavigationLevel.buildDatasetLevel(dataset.content.ipId, dataset.content.label))

@@ -18,19 +18,19 @@ export class AdminModuleContainer extends React.Component {
 
   static propTypes = {
     // from module loader
-    project: React.PropTypes.string.isRequired,
-    appName: React.PropTypes.string.isRequired,
-    adminForm: React.PropTypes.shape({
-      changeField: React.PropTypes.func,
+    project: PropTypes.string.isRequired,
+    appName: PropTypes.string.isRequired,
+    adminForm: PropTypes.shape({
+      changeField: PropTypes.func,
       form: ModuleConfiguration,
     }),
     // form map state to properties
-    collectionModels: React.PropTypes.objectOf(Model).isRequired,
-    selectableAttributes: React.PropTypes.objectOf(AttributeModel),
-    hasError: React.PropTypes.bool,
+    collectionModels: PropTypes.objectOf(Model).isRequired,
+    selectableAttributes: PropTypes.objectOf(AttributeModel),
+    hasError: PropTypes.bool,
     // from map dispatch to properies
-    fetchCollectionModels: React.PropTypes.func.isRequired,
-    fetchSelectableAttributes: React.PropTypes.func.isRequired,
+    fetchCollectionModels: PropTypes.func.isRequired,
+    fetchSelectableAttributes: PropTypes.func.isRequired,
   }
 
   componentWillMount = () => this.setState({ loading: true })

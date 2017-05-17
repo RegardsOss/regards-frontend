@@ -17,18 +17,18 @@ export class ConnectionFormContainer extends React.Component {
 
   static propTypes = {
     // from router
-    params: React.PropTypes.shape({
-      project: React.PropTypes.string,
-      connectionId: React.PropTypes.string,
+    params: PropTypes.shape({
+      project: PropTypes.string,
+      connectionId: PropTypes.string,
     }),
     // from mapStateToProps
     currentConnection: Connection,
-    pluginMetaDataList: React.PropTypes.objectOf(PluginMetaData),
+    pluginMetaDataList: PropTypes.objectOf(PluginMetaData),
     // from mapDispatchToProps
-    fetchConnection: React.PropTypes.func,
-    createConnection: React.PropTypes.func,
-    updateConnection: React.PropTypes.func,
-    fetchPluginMetaDataList: React.PropTypes.func,
+    fetchConnection: PropTypes.func,
+    createConnection: PropTypes.func,
+    updateConnection: PropTypes.func,
+    fetchPluginMetaDataList: PropTypes.func,
   }
 
   constructor(props) {
@@ -82,8 +82,8 @@ export class ConnectionFormContainer extends React.Component {
       })
   }
 
-  handleUpdate = (values) => {
-    const updatedConnection = Object.assign({}, this.props.currentConnection.content, {
+  handleUspdate = (values) => {
+    const updatedConnection = Object.assign({}, {
       label: values.label,
       pluginClassName: values.pluginClassName,
       user: values.user,
@@ -93,6 +93,7 @@ export class ConnectionFormContainer extends React.Component {
       dbName: values.dbName,
       maxPoolSize: values.maxPoolSize,
       minPoolSize: values.minPoolSize,
+      pluginConfigurationId: this.props.params.connectionId,
     })
     Promise.resolve(this.props.updateConnection(this.props.params.connectionId, updatedConnection))
       .then((actionResult) => {

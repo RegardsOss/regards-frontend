@@ -18,19 +18,19 @@ export class ModuleContainer extends React.Component {
 
   static propTypes = {
     // eslint-disable-next-line react/no-unused-prop-types
-    appName: React.PropTypes.string,
+    appName: PropTypes.string,
     // eslint-disable-next-line react/no-unused-prop-types
-    project: React.PropTypes.string,
-    moduleConf: React.PropTypes.shape({
-      onFiltersChanged: React.PropTypes.func.isRequired,
+    project: PropTypes.string,
+    moduleConf: PropTypes.shape({
+      onFiltersChanged: PropTypes.func.isRequired,
       filters: filterListShape.isRequired,
-      show: React.PropTypes.bool.isRequired,
-      resultsSelectors: React.PropTypes.instanceOf(BasicFacetsPageableSelectors).isRequired,
-      attributeModels: React.PropTypes.objectOf(AttributeModel).isRequired,
+      show: PropTypes.bool.isRequired,
+      resultsSelectors: PropTypes.instanceOf(BasicFacetsPageableSelectors).isRequired,
+      attributeModels: PropTypes.objectOf(AttributeModel).isRequired,
     }).isRequired,
     // from map state to props
     facets: FacetArray.isRequired,
-    facetLabels: React.PropTypes.objectOf(React.PropTypes.string).isRequired,
+    facetLabels: PropTypes.objectOf(PropTypes.string).isRequired,
   }
 
   componentWillMount = () => {

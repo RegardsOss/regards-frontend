@@ -15,8 +15,8 @@ import ModuleShape from '../model/ModuleShape'
 class ModuleListButtonComponent extends React.Component {
 
   static propTypes = {
-    container: React.PropTypes.string,
-    modules: React.PropTypes.arrayOf(ModuleShape),
+    container: PropTypes.string,
+    modules: PropTypes.arrayOf(ModuleShape),
   }
 
   static contextTypes = {

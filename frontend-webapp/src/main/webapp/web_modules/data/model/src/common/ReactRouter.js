@@ -2,12 +2,12 @@
  * LICENSE_PLACEHOLDER
  **/
 
-const locationShape = React.PropTypes.shape({
-  pathname: React.PropTypes.string.isRequired,
-  search: React.PropTypes.string.isRequired,
-  state: React.PropTypes.object,
-  action: React.PropTypes.string.isRequired,
-  key: React.PropTypes.string,
+const locationShape = PropTypes.shape({
+  pathname: PropTypes.string.isRequired,
+  search: PropTypes.string.isRequired,
+  state: PropTypes.object,
+  action: PropTypes.string.isRequired,
+  key: PropTypes.string,
 })
 
 export default locationShape

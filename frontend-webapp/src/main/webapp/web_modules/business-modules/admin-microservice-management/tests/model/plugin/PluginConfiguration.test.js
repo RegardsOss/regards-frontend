@@ -13,7 +13,7 @@ const options = {
   urlParams: { microserviceName: 'rs-dam', pluginId: '0' },
 }
 
-const entityTester = new ReduxEntityTester(PluginConfigurationActions, PluginConfigurationReducers, PluginConfigurationSelectors, React.PropTypes.objectOf(PluginConfiguration).isRequired, backendServerResultList, options)
+const entityTester = new ReduxEntityTester(PluginConfigurationActions, PluginConfigurationReducers, PluginConfigurationSelectors, PropTypes.objectOf(PluginConfiguration).isRequired, backendServerResultList, options)
 
 describe('[ADMIN MICROSERVICE MANAGEMENT] Testing model PluginConfiguration', () => {
   before(() => {

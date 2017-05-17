@@ -23,7 +23,7 @@ import SearchResultsComponent from '../../../components/user/results/SearchResul
 /**
 * Search results container, drives corresponding component
 */
-class SearchResultsContainer extends React.Component {
+export class SearchResultsContainer extends React.Component {
 
   static mapStateToProps = state => ({
     viewObjectType: navigationContextSelectors.getViewObjectType(state),
@@ -44,25 +44,26 @@ class SearchResultsContainer extends React.Component {
 
   static propTypes = {
     // sub modules rendering
-    appName: React.PropTypes.string,
-    project: React.PropTypes.string,
+    appName: PropTypes.string,
+    project: PropTypes.string,
     // eslint-disable-next-line react/no-unused-prop-types
-    searchQuery: React.PropTypes.string, // initial search query, as provided by module configuration
-    enableFacettes: React.PropTypes.bool.isRequired, // are facettes enabled
+    searchQuery: PropTypes.string, // initial search query, as provided by module configuration
+    enableFacettes: PropTypes.bool.isRequired, // are facettes enabled
     // eslint-disable-next-line react/no-unused-prop-types
-    facettesQuery: React.PropTypes.string, // facettes query to be added to search query in order to get the facettes
+    facettesQuery: PropTypes.string, // facettes query to be added to search query in order to get the facettes
     // Attributes configurations for results columns
-    attributesConf: React.PropTypes.arrayOf(AttributeConfiguration),
-    attributesRegroupementsConf: React.PropTypes.arrayOf(AttributesRegroupementConfiguration),
-    attributeModels: React.PropTypes.objectOf(AttributeModel),
+    attributesConf: PropTypes.arrayOf(AttributeConfiguration),
+    attributesRegroupementsConf: PropTypes.arrayOf(AttributesRegroupementConfiguration),
+    attributeModels: PropTypes.objectOf(AttributeModel),
 
     // From map state to props
-    viewObjectType: React.PropTypes.oneOf([SearchResultsTargetsEnum.DATAOBJECT_RESULTS, SearchResultsTargetsEnum.DATASET_RESULTS]).isRequired,
-    levels: React.PropTypes.arrayOf(React.PropTypes.instanceOf(NavigationLevel)).isRequired,
+    viewObjectType: PropTypes.oneOf([SearchResultsTargetsEnum.DATAOBJECT_RESULTS, SearchResultsTargetsEnum.DATASET_RESULTS]).isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
+    levels: PropTypes.arrayOf(PropTypes.instanceOf(NavigationLevel)).isRequired, // only used to build query
 
-    dispatchChangeViewObjectType: React.PropTypes.func.isRequired,
-    dispatchDatasetSelected: React.PropTypes.func.isRequired,
-    dispatchTagSelected: React.PropTypes.func.isRequired,
+    dispatchChangeViewObjectType: PropTypes.func.isRequired,
+    dispatchDatasetSelected: PropTypes.func.isRequired,
+    dispatchTagSelected: PropTypes.func.isRequired,
   }
 
   /**
@@ -143,7 +144,7 @@ class SearchResultsContainer extends React.Component {
     const facettes = showingFacettes && viewObjectType === SearchResultsTargetsEnum.DATAOBJECT_RESULTS ? filters : []
     const openSearchQuery = QueriesHelper.getOpenSearchQuery(searchQuery, facettes, NavigationLevel.getQueryParameters(levels))
     // check if user specified or sorting or provide one
-    const sorting = (sortingOn && sortingOn.length) || intialSortAttributesPath
+    const sorting = sortingOn.length ? sortingOn : intialSortAttributesPath
     return QueriesHelper.getURLQuery(openSearchQuery, sorting, facettesQuery).toQueryString()
   }
 

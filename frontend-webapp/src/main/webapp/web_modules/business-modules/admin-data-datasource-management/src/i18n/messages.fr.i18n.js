@@ -24,6 +24,7 @@ const messages = Object.assign({
   'datasource.form.model': 'Modèles de source de données',
   'datasource.form.connection': 'Connexion choisie',
   'datasource.form.label': 'Libellé',
+  'datasource.form.pluginConfiguration': 'Type de plugin',
   'datasource.form.table.input': 'Valeur de l\'attribut',
   'datasource.form.subtitle': 'Gestion des attributs d\'une source de données',
 
@@ -36,11 +37,12 @@ const messages = Object.assign({
 
 
   'datasource.form.mapping.title': 'Mise en place de la liaison entre la connexion et le modèle d\'object',
-  'datasource.form.mapping.subtitle': 'Cette étape vise à lier pour chaque attribut de votre modèle un attribut provenant de la connexion. Si vos données sont issues d\'une seule table, choisissez l\'onglet "Liaison avec une seule table", sinon vous pouvez choisir l\'option "Liaison avancée" afin d\'écrire votre requête SQL.',
+  'datasource.form.mapping.subtitle': 'Cette étape vise à lier pour chaque attribut de votre modèle un attribut provenant de la connexion. Si vos données sont issues d\'une seule table, choisissez l\'onglet "Liaison avec une seule table", sinon vous pouvez choisir l\'option "Liaison avancée" afin d\'écrire votre requête SQL. L\'attribut sipId doit être lié à une- clé primaire de votre base de données',
 
   'datasource.form.mapping.table.fragment': 'Fragment',
   'datasource.form.mapping.table.attrName': 'Nom de l\'attribut',
   'datasource.form.mapping.table.attribute': 'Attribut du modèle',
+  'datasource.form.mapping.table.attributeStatic': 'Attribut commun',
   'datasource.form.mapping.table.type': 'Type de l\'attribut',
   'datasource.form.mapping.table.dbValue': 'Valeur de l\'attribut',
   'datasource.form.mapping.connectionViewer.title': 'Explorateur de connexion',
@@ -48,8 +50,6 @@ const messages = Object.assign({
   'datasource.form.mapping.connectionViewerCustom.subtitle': 'Selectionner une table pour afficher ses attributs',
   'datasource.form.mapping.table.optional.true': 'Optionnel',
   'datasource.form.mapping.table.optional.false': 'Obligatoire',
-  'datasource.form.mapping.from_table': 'Liaison avec une seule table',
-  'datasource.form.mapping.custom_from': 'Liaison avancée',
   'datasource.form.mapping.action.save': 'Sauvegarder',
   'datasource.form.mapping.action.cancel': 'Précédent',
 

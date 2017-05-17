@@ -73,22 +73,22 @@ export class GraphLevelDisplayerContainer extends React.Component {
 
   static propTypes = {
     graphDatasetAttributes: DatasetAttributesArrayForGraph.isRequired, // graph dataset attributes, required, but empty array is allowed
-    levelIndex: React.PropTypes.number.isRequired, // level index in graph
-    isFirstLevel: React.PropTypes.bool.isRequired,
-    isLastLevel: React.PropTypes.bool.isRequired,
+    levelIndex: PropTypes.number.isRequired, // level index in graph
+    isFirstLevel: PropTypes.bool.isRequired,
+    isLastLevel: PropTypes.bool.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
-    levelModelName: React.PropTypes.string.isRequired, // model name for this level, used only for dispatch
+    levelModelName: PropTypes.string.isRequired, // model name for this level, used only for dispatch
     // from map state to props
-    isShowable: React.PropTypes.bool.isRequired, // is showable in current selection state
-    isLoading: React.PropTypes.bool.isRequired, // is loading
-    hasError: React.PropTypes.bool.isRequired, // has fetch error
-    collections: React.PropTypes.objectOf(CatalogEntity).isRequired,  // level displayed collections
-    datasets: React.PropTypes.objectOf(CatalogEntity).isRequired,  // the level displayed dataset
-    parentIpId: React.PropTypes.string, // currently selected parent collection IP ID or null
+    isShowable: PropTypes.bool.isRequired, // is showable in current selection state
+    isLoading: PropTypes.bool.isRequired, // is loading
+    hasError: PropTypes.bool.isRequired, // has fetch error
+    collections: PropTypes.objectOf(CatalogEntity).isRequired,  // level displayed collections
+    datasets: PropTypes.objectOf(CatalogEntity).isRequired,  // the level displayed dataset
+    parentIpId: PropTypes.string, // currently selected parent collection IP ID or null
 
     // from mapDispatchToProps
-    dispatchFetchLevelCollections: React.PropTypes.func.isRequired,
-    dispatchFetchLevelDatasets: React.PropTypes.func.isRequired,
+    dispatchFetchLevelCollections: PropTypes.func.isRequired,
+    dispatchFetchLevelDatasets: PropTypes.func.isRequired,
   }
 
   /**

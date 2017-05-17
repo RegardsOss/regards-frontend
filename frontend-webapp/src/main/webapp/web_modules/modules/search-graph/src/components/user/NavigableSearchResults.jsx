@@ -12,11 +12,11 @@ import ModuleConfiguration from '../../model/ModuleConfiguration'
 class NavigableSearchResults extends React.Component {
 
   static propTypes = {
-    appName: React.PropTypes.string,
-    project: React.PropTypes.string,
-    searchQuery: React.PropTypes.string, // search query if a dataset is selected
-    singleDatasetIpId: React.PropTypes.string,
-    selectionPath: React.PropTypes.arrayOf(CatalogEntity),
+    appName: PropTypes.string,
+    project: PropTypes.string,
+    searchQuery: PropTypes.string, // search query if a dataset is selected
+    singleDatasetIpId: PropTypes.string,
+    selectionPath: PropTypes.arrayOf(CatalogEntity),
     // Module configuration
     moduleConf: ModuleConfiguration.isRequired,
   }
@@ -33,7 +33,7 @@ class NavigableSearchResults extends React.Component {
       return path.label
     }, '')
     const module = {
-      name: 'search-results',
+      type: 'search-results',
       active: true,
       applicationId: this.props.appName,
       conf: {

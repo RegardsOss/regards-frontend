@@ -22,15 +22,15 @@ class ModuleContainer extends React.Component {
 
   static propTypes = {
     // Props supplied by LazyModuleComponent
-    appName: React.PropTypes.string,
-    project: React.PropTypes.string,
-    description: React.PropTypes.string,
+    appName: PropTypes.string,
+    project: PropTypes.string,
+    description: PropTypes.string,
     // Module configuration
     moduleConf: ModuleConfiguration.isRequired,
     // Set by mapDispatchToProps
-    fetchAttribute: React.PropTypes.func,
+    fetchAttribute: PropTypes.func,
     // eslint-disable-next-line react/no-unused-prop-types
-    attributeModels: React.PropTypes.objectOf(AttributeModel),
+    attributeModels: PropTypes.objectOf(AttributeModel),
   }
 
   static contextTypes = {
@@ -264,7 +264,7 @@ class ModuleContainer extends React.Component {
         selectedDatasets[0]
 
       const module = {
-        name: 'search-results',
+        type: 'search-results',
         active: true,
         applicationId: this.props.appName,
         conf: {

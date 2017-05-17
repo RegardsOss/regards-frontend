@@ -16,7 +16,7 @@ const roleActions = new RoleActions('test/action')
 const roleReducer = getRoleReducer('test/action')
 const roleSelectors = getRoleSelectors(['test', 'modules'])
 
-const entityTester = new ReduxEntityTester(roleActions, roleReducer, roleSelectors, React.PropTypes.objectOf(Role).isRequired, RoleDump, options)
+const entityTester = new ReduxEntityTester(roleActions, roleReducer, roleSelectors, PropTypes.objectOf(Role).isRequired, RoleDump, options)
 
 describe('[ADMIN CLIENT] Testing client role', () => {
   before(() => {

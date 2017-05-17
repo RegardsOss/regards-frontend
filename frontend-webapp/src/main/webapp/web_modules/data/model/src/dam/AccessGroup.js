@@ -2,21 +2,21 @@
  * LICENSE_PLACEHOLDER
  **/
 
-const AccessGroup = React.PropTypes.shape({
-  content: React.PropTypes.shape({
-    id: React.PropTypes.number,
-    name: React.PropTypes.string,
-    users: React.PropTypes.arrayOf(
-      React.PropTypes.shape({
-        email: React.PropTypes.string,
+const AccessGroup = PropTypes.shape({
+  content: PropTypes.shape({
+    id: PropTypes.number,
+    name: PropTypes.string,
+    users: PropTypes.arrayOf(
+      PropTypes.shape({
+        email: PropTypes.string,
       }),
     ),
-    accessRights: React.PropTypes.arrayOf(
-      React.PropTypes.shape({
-        id: React.PropTypes.number,
+    accessRights: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number,
       }),
     ),
-    isPrivate: React.PropTypes.bool,
+    isPrivate: PropTypes.bool,
   }).isRequired,
 })
 export default AccessGroup

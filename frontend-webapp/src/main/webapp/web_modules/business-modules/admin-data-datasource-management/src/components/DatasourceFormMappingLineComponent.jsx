@@ -5,7 +5,7 @@ import { map } from 'lodash'
 import { TableRow, TableRowColumn } from 'material-ui/Table'
 import { FormattedMessage } from 'react-intl'
 import { ModelAttribute } from '@regardsoss/model'
-import { RenderTextField, RenderSelectField, RenderCheckbox, Field } from '@regardsoss/form-utils'
+import { RenderTextField, RenderSelectField, Field } from '@regardsoss/form-utils'
 import { ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -16,15 +16,16 @@ import states from './FormMappingStates'
 export class DatasourceFormMappingLineComponent extends React.Component {
 
   static propTypes = {
-    tableAttributeList: React.PropTypes.objectOf(React.PropTypes.shape({
-      name: React.PropTypes.string,
-      javaSqlType: React.PropTypes.string,
-      isPrimaryKey: React.PropTypes.bool,
+    tableAttributeList: PropTypes.objectOf(PropTypes.shape({
+      name: PropTypes.string,
+      javaSqlType: PropTypes.string,
+      isPrimaryKey: PropTypes.bool,
     })),
     modelAttribute: ModelAttribute,
-    onlyAdvancedConfiguration: React.PropTypes.bool,
-    isEditingSQL: React.PropTypes.bool,
-    change: React.PropTypes.func,
+    isStaticAttribute: PropTypes.bool,
+    onlyAdvancedConfiguration: PropTypes.bool,
+    isEditingSQL: PropTypes.bool,
+    change: PropTypes.func,
   }
 
   static contextTypes = {
@@ -58,16 +59,11 @@ export class DatasourceFormMappingLineComponent extends React.Component {
     })
   }
 
-  renderInputs = (isOptional) => {
+  renderInputs = () => {
     const { modelAttribute, tableAttributeList, onlyAdvancedConfiguration } = this.props
     const { showAdvanced, prefix } = this.state
     if (onlyAdvancedConfiguration) {
       return (<div>
-        <Field
-          name={`${prefix}.attributes.${modelAttribute.content.attribute.name}.pk`}
-          component={RenderCheckbox}
-          label={<FormattedMessage id="datasource.form.mapping.table.isPK" />}
-        />
         <Field
           name={`${prefix}.attributes.${modelAttribute.content.attribute.name}.sql`}
           fullWidth
@@ -79,11 +75,6 @@ export class DatasourceFormMappingLineComponent extends React.Component {
       </div>)
     }
     return (<div>
-      <Field
-        name={`${prefix}.attributes.${modelAttribute.content.attribute.name}.pk`}
-        component={RenderCheckbox}
-        label={<FormattedMessage id="datasource.form.mapping.table.isPK" />}
-      />
       <Checkbox
         label={<FormattedMessage id="datasource.form.mapping.table.showAdvancedConfiguration" />}
         checked={showAdvanced}
@@ -123,21 +114,48 @@ export class DatasourceFormMappingLineComponent extends React.Component {
     </div>)
   }
 
+  renderFragmentName = () => {
+    const { isStaticAttribute, modelAttribute } = this.props
+    if (!isStaticAttribute) {
+      return (
+        <div>
+          <FormattedMessage id="datasource.form.mapping.table.fragment" />          : {modelAttribute.content.attribute.fragment.name}
+          <br />
+        </div>
+      )
+    }
+    return null
+  }
+
+
+  renderType = () => {
+    const { isStaticAttribute, modelAttribute } = this.props
+    if (!isStaticAttribute) {
+      return (
+        <div>
+          <FormattedMessage id="datasource.form.mapping.table.type" />          : {modelAttribute.content.attribute.type}
+          <br />
+        </div>
+      )
+    }
+    return null
+  }
+
+
   render() {
     const { modelAttribute } = this.props
+
     return (
       <TableRow>
         <TableRowColumn>
-          <FormattedMessage id="datasource.form.mapping.table.fragment" />          : {modelAttribute.content.attribute.fragment.name}
-          <br />
+          {this.renderFragmentName()}
           <FormattedMessage id="datasource.form.mapping.table.attrName" />          : {modelAttribute.content.attribute.name}
           <br />
-          <FormattedMessage id="datasource.form.mapping.table.type" />          : {modelAttribute.content.attribute.type}
-          <br />
+          {this.renderType()}
           {this.showIfOptional(modelAttribute.content.attribute.optional)}
         </TableRowColumn>
         <TableRowColumn>
-          {this.renderInputs(modelAttribute.content.attribute.optional)}
+          {this.renderInputs()}
         </TableRowColumn>
       </TableRow>
     )

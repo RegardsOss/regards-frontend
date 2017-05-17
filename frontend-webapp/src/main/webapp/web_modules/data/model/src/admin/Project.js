@@ -1,14 +1,14 @@
 import URL from '../common/URL'
 
-const Project = React.PropTypes.shape({
-  content: React.PropTypes.shape({
-    id: React.PropTypes.number,
-    description: React.PropTypes.string,
+const Project = PropTypes.shape({
+  content: PropTypes.shape({
+    id: PropTypes.number,
+    description: PropTypes.string,
     icon: URL,
     license: URL,
-    isDeleted: React.PropTypes.bool,
-    isPublic: React.PropTypes.bool,
-    name: React.PropTypes.string,
+    isDeleted: PropTypes.bool,
+    isPublic: PropTypes.bool,
+    name: PropTypes.string,
   }),
 })
 

@@ -114,4 +114,4 @@ StorageUnitScale.all = [StorageUnitScale.bitsScale, StorageUnitScale.bytesScale,
 
 export default StorageUnitScale
 
-export const StorageUnitScaleShape = React.PropTypes.instanceOf(StorageUnitScale).isRequired
+export const StorageUnitScaleShape = PropTypes.instanceOf(StorageUnitScale).isRequired

@@ -9,21 +9,21 @@ import { reduxForm, RenderTextField, Field } from '@regardsoss/form-utils'
 export class AccountFormComponent extends React.Component {
 
   static propTypes = {
-    currentAccount: React.PropTypes.shape({
-      content: React.PropTypes.shape({
-        id: React.PropTypes.number,
-        email: React.PropTypes.string,
-        firstName: React.PropTypes.string,
-        lastName: React.PropTypes.string,
+    currentAccount: PropTypes.shape({
+      content: PropTypes.shape({
+        id: PropTypes.number,
+        email: PropTypes.string,
+        firstName: PropTypes.string,
+        lastName: PropTypes.string,
       }),
     }).isRequired,
-    onSubmit: React.PropTypes.func.isRequired,
-    backUrl: React.PropTypes.string.isRequired,
+    onSubmit: PropTypes.func.isRequired,
+    backUrl: PropTypes.string.isRequired,
     // from reduxForm
-    submitting: React.PropTypes.bool,
-    pristine: React.PropTypes.bool,
-    handleSubmit: React.PropTypes.func.isRequired,
-    initialize: React.PropTypes.func.isRequired,
+    submitting: PropTypes.bool,
+    pristine: PropTypes.bool,
+    handleSubmit: PropTypes.func.isRequired,
+    initialize: PropTypes.func.isRequired,
   }
 
   componentDidMount() {

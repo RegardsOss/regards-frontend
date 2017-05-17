@@ -22,10 +22,10 @@ class AttributeRegroupementConfigurationComponent extends React.Component {
 
   static propTypes = {
     // Available Attributes for configuration
-    selectableAttributes: React.PropTypes.objectOf(AttributeModel).isRequired,
-    attributesRegroupementsConf: React.PropTypes.arrayOf(AttributesRegroupementConfiguration).isRequired,
-    onChangeRegroupenentConfiguration: React.PropTypes.func.isRequired,
-    onDeleteRegroupement: React.PropTypes.func.isRequired,
+    selectableAttributes: PropTypes.objectOf(AttributeModel).isRequired,
+    attributesRegroupementsConf: PropTypes.arrayOf(AttributesRegroupementConfiguration).isRequired,
+    onChangeRegroupenentConfiguration: PropTypes.func.isRequired,
+    onDeleteRegroupement: PropTypes.func.isRequired,
   }
 
   static contextTypes = {

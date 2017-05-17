@@ -32,13 +32,13 @@ const styles = moduleStyles()
 export class PluginParameterPlugin extends React.Component {
 
   static propTypes = {
-    fieldKey: React.PropTypes.string,
+    fieldKey: PropTypes.string,
     pluginParameter: PluginParameter.isRequired,
-    mode: React.PropTypes.oneOf(['view', 'edit', 'create', 'copy']),
-    change: React.PropTypes.func, // Callback provided by redux-form in order to manually change a field value
+    mode: PropTypes.oneOf(['view', 'edit', 'create', 'copy']),
+    change: PropTypes.func, // Callback provided by redux-form in order to manually change a field value
     // form mapStateToProps
     pluginMetaDataList: PluginMetaDataList,
-    pluginConfigurationList: React.PropTypes.arrayOf(PluginConfiguration),
+    pluginConfigurationList: PropTypes.arrayOf(PluginConfiguration),
   }
 
   static defaultProps = {
@@ -113,12 +113,12 @@ export class PluginParameterPlugin extends React.Component {
                     menuItems={
                       chain(pluginConfigurationListForThisPluginMetaData)
                         .map(pluginConfiguration =>
-                          <MenuItem
+                          (<MenuItem
                             key={pluginConfiguration.content.id}
                             primaryText={buildMenuItemPrimaryText(pluginConfiguration.content.label, pluginConfiguration.content.version)}
                             onTouchTap={() => this.handleChange(pluginConfiguration.content.id)}
                             checked={pluginConfiguration.content.id === this.state.value}
-                          />,
+                          />),
                         )
                         .value()
                     }

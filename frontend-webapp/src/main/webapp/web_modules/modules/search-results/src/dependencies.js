@@ -11,8 +11,8 @@ import { AttributeModelActions } from './client/AttributeModelClient'
  * @author Sébastien binda
  */
 const user = [
-  CatalogDatasetEntityActions.getDependency(RequestVerbEnum.GET_LIST),
-  CatalogDataobjectEntityActions.getDependency(RequestVerbEnum.GET_LIST),
+  // CatalogDatasetEntityActions.getDependency(RequestVerbEnum.GET_LIST),
+  // CatalogDataobjectEntityActions.getDependency(RequestVerbEnum.GET_LIST),
 ]
 
 /**

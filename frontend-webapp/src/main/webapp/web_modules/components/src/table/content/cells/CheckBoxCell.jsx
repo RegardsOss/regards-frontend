@@ -33,9 +33,9 @@ const CheckBoxCell = ({ onToggleSelectRow, isSelected, rowIndex, ...otherProps }
 }
 
 CheckBoxCell.propTypes = {
-  rowIndex: React.PropTypes.number,
-  onToggleSelectRow: React.PropTypes.func.isRequired,
-  isSelected: React.PropTypes.func.isRequired,
+  rowIndex: PropTypes.number,
+  onToggleSelectRow: PropTypes.func.isRequired,
+  isSelected: PropTypes.func.isRequired,
 }
 
 CheckBoxCell.contextTypes = {

@@ -6,9 +6,9 @@ import buildStyles from '../styles/styles'
 
 const HeadlessAdapter = ({ children }) => (<div>{children}</div>)
 HeadlessAdapter.propTypes = {
-  children: React.PropTypes.oneOfType([
-    React.PropTypes.arrayOf(React.PropTypes.node),
-    React.PropTypes.node,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
   ]),
 }
 

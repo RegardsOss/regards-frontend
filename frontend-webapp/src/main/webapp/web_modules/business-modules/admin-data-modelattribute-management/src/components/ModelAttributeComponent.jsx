@@ -11,7 +11,7 @@ class ModelAttributeComponent extends React.Component {
 
   static propTypes = {
     modelAttribute: ModelAttribute,
-    handleComputationUpdate: React.PropTypes.func,
+    handleComputationUpdate: PropTypes.func,
   }
 
   handleComputationChange = (event, index, value) => {

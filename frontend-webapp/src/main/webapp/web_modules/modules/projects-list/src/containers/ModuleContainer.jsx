@@ -16,12 +16,12 @@ export class ModuleContainer extends React.Component {
   static propTypes = {
     // Set by module loader
     // eslint-disable-next-line react/no-unused-prop-types
-    appName: React.PropTypes.string.isRequired,
+    appName: PropTypes.string.isRequired,
     // Set by mapStateToProps
-    projects: React.PropTypes.objectOf(AccessProject),
-    isFetching: React.PropTypes.bool,
+    projects: PropTypes.objectOf(AccessProject),
+    isFetching: PropTypes.bool,
     // Set by mapDispatchToProps
-    fetchProjects: React.PropTypes.func,
+    fetchProjects: PropTypes.func,
   }
 
   componentWillMount() {

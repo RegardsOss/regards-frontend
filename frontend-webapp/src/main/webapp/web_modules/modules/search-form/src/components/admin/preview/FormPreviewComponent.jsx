@@ -10,12 +10,12 @@ import { LazyModuleComponent, ModuleShape } from '@regardsoss/modules'
 class FormPreviewComponent extends React.Component {
 
   static propTypes = {
-    project: React.PropTypes.string.isRequired,
+    project: PropTypes.string.isRequired,
     module: ModuleShape,
   }
 
   render() {
-    if (this.props.module && this.props.module.name && this.props.module.conf && this.props.module.conf.layout) {
+    if (this.props.module && this.props.module.type && this.props.module.conf && this.props.module.conf.layout) {
       // Add the preview option to the module conf to not display results, just form
       const conf = Object.assign({}, this.props.module.conf)
       conf.preview = true

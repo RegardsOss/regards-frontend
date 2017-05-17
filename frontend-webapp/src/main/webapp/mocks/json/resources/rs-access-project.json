@@ -54,18 +54,18 @@
   "modules": [
     {
       "id": 1,
-      "name": "menu",
+      "type": "menu",
       "description": "Header menu module",
       "applicationId": "user",
       "container": "header",
       "active": true,
-      "isDefault": false,
+      "defaultDynamicModule": false,
       "conf": "{\"title\":\"Regards user interface\",\"displayAuthentication\":true,\"displayLocaleSelector\":true,\"displayThemeSelector\":true}"
     },
     {
       "active": false,
-      "isDefault": false,
-      "name": "news",
+      "defaultDynamicModule": false,
+      "type": "news",
       "description": "Flux atom",
       "container": "content",
       "applicationId": "user",
@@ -73,9 +73,9 @@
     },
     {
       "active": true,
-      "isDefault": false,
+      "defaultDynamicModule": false,
       "conf": "{\"resultType\":\"dataobjects\",\"layout\":{\"id\":\"main\",\"type\":\"FormMainContainer\",\"classes\":[],\"styles\":{},\"containers\":[{\"id\":\"Plop\",\"type\":\"RowContainer\",\"containers\":[{\"id\":\"Column1\",\"type\":\"50PercentColumnContainer\"},{\"id\":\"Column2\",\"type\":\"50PercentColumnContainer\"}]}]},\"datasets\":{\"type\":\"selectedDatasets\",\"selectedDatasets\":[\"urn://dataset_1\",\"urn://dataset_2\",\"urn://dataset_3\"]},\"criterion\":[{\"pluginId\":1,\"container\":\"Column1\",\"pluginConf\":{\"attributes\":{\"searchField\":0}}},{\"pluginId\":1,\"container\":\"Column2\",\"pluginConf\":{\"attributes\":{\"searchField\":1}}}],\"attributesRegroupements\":[{\"label\":\"Format / Language\",\"attributes\":[1,0],\"visibility\":true}],\"attributes\":[{\"id\":1,\"visibility\":true,\"facetable\":false},{\"id\":0,\"visibility\":true,\"facetable\":false}]}",
-      "name": "search-form",
+      "type": "search-form",
       "description": "Recherche simple",
       "container": "content",
       "applicationId": "user",
@@ -83,9 +83,9 @@
     },
     {
       "active": true,
-      "isDefault": false,
+      "defaultDynamicModule": false,
       "conf": "{}",
-      "name": "archival-storage-plugins-monitoring",
+      "type": "archival-storage-plugins-monitoring",
       "description": "Storage plugins overview",
       "container": "content",
       "applicationId": "user",
@@ -93,7 +93,7 @@
     },
     {
       "active": true,
-      "name": "home-page",
+      "type": "home-page",
       "description": "Page d'acceuil",
       "container": "user",
       "conf": "{\"htmlPath\": \"http://cdpp.eu/\"}",
@@ -102,9 +102,9 @@
     },
     {
       "active": true,
-      "isDefault": true,
+      "defaultDynamicModule": true,
       "conf": "{\"resultType\":\"dataobjects\",\"layout\":{\"id\":\"main\",\"type\":\"FormMainContainer\",\"classes\":[],\"styles\":{\"border\":\"1px dotted black\",\"padding\":\"5px\",\"margin\":\"5px\"},\"containers\":[{\"id\":\"Plop\",\"type\":\"RowContainer\",\"containers\":[{\"id\":\"Column1\",\"type\":\"50PercentColumnContainer\"},{\"id\":\"Column2\",\"type\":\"50PercentColumnContainer\"}]}]},\"datasets\":{\"type\":\"all\",\"selectedDatasets\":[\"urn://dataset_1\",\"urn://dataset_2\",\"urn://dataset_3\"]},\"criterion\":[{\"pluginId\":1,\"container\":\"Column1\",\"pluginConf\":{\"attributes\":{\"searchField\":0}}},{\"pluginId\":1,\"container\":\"Column2\",\"pluginConf\":{\"attributes\":{\"searchField\":1}}},{\"pluginId\":2,\"pluginConf\":{\"attributes\":{\"searchField\":0}},\"container\":\"Column1\"},{\"pluginId\":3,\"pluginConf\":{\"attributes\":{\"firstField\":0,\"secondField\":0}},\"container\":\"Column2\"},{\"pluginId\":3,\"container\":\"Column1\",\"pluginConf\":{\"attributes\":{\"firstField\":0,\"secondField\":1}}},{\"pluginId\":4,\"pluginConf\":{\"attributes\":{\"searchField\":0}},\"container\":\"Column1\"},{\"pluginId\":5,\"container\":\"Column1\",\"pluginConf\":{\"attributes\":{\"firstField\":0,\"secondField\":0}}},{\"pluginId\":5,\"pluginConf\":{\"attributes\":{\"firstField\":0,\"secondField\":1}},\"container\":\"Column2\"}],\"attributesRegroupements\":[],\"attributes\":[{\"attributeFullQualifiedName\":\"sipId\",\"visibility\":true,\"facetable\":false,\"order\":1},{\"attributeFullQualifiedName\":\"label\",\"visibility\":true,\"facetable\":false,\"order\":2},{\"attributeFullQualifiedName\":\"default.language\",\"visibility\":true,\"facetable\":false,\"order\":3},{\"attributeFullQualifiedName\":\"default.format\",\"visibility\":true,\"facetable\":false,\"order\":4}]}",
-      "name": "search-form",
+      "type": "search-form",
       "description": "Recherche complexe (multijeux)",
       "container": "content",
       "applicationId": "user",
@@ -113,17 +113,17 @@
     {
       "active": true,
       "conf": "{\"resultType\":\"dataobjects\",\"attributes\":[{\"attributeFullQualifiedName\":\"ipId\",\"visibility\":false,\"facetable\":false,\"order\":null},{\"attributeFullQualifiedName\":\"label\",\"visibility\":true,\"facetable\":true,\"order\":2},{\"attributeFullQualifiedName\":\"default.language\",\"visibility\":true,\"facetable\":true,\"order\":3},{\"attributeFullQualifiedName\":\"infos.size\",\"visibility\":true,\"facetable\":false,\"order\":5},{\"attributeFullQualifiedName\":\"infos.dateRange\",\"visibility\":true,\"facetable\":false,\"order\":56},{\"attributeFullQualifiedName\":\"sipId\",\"visibility\":true,\"facetable\":true,\"order\":1},{\"attributeFullQualifiedName\":\"default.format\",\"visibility\":true,\"facetable\":true,\"order\":4},{\"attributeFullQualifiedName\":\"infos.date\",\"visibility\":true,\"facetable\":false,\"order\":6},{\"attributeFullQualifiedName\":\"infos.url\",\"visibility\":true,\"facetable\":false,\"order\":7}],\"enableFacettes\":true}",
-      "name": "search-results",
+      "type": "search-results",
       "description": "Catalogue de données",
       "container": "content",
-      "isDefault": true,
+      "defaultDynamicModule": true,
       "applicationId": "user",
       "id": 12
     },
     {
       "active": true,
       "conf": "{}",
-      "name": "licenses",
+      "type": "licenses",
       "description": "License displayer",
       "container": "user",
       "applicationId": "user",
@@ -132,7 +132,7 @@
     {
       "active": true,
       "conf": "{\"layout\":{\"id\":\"application\",\"type\":\"MainContainer\",\"classes\":[],\"styles\":{},\"containers\":[]},\"datasets\":{\"type\":\"all\"},\"attributes\":[{\"attributeFullQualifiedName\":\"sipId\",\"visibility\":true,\"facetable\":false,\"order\":1},{\"attributeFullQualifiedName\":\"label\",\"visibility\":true,\"facetable\":false,\"order\":2},{\"attributeFullQualifiedName\":\"default.language\",\"visibility\":true,\"facetable\":true,\"order\":3},{\"attributeFullQualifiedName\":\"default.format\",\"visibility\":true,\"facetable\":true,\"order\":4}],\"criterion\":[{\"pluginId\":6,\"container\":\"application\"}]}",
-      "name": "search-form",
+      "type": "search-form",
       "description": "Recherche globale (tous les jeux)",
       "container": "content",
       "applicationId": "user",
@@ -141,9 +141,9 @@
     {
       "applicationId": "user",
       "active": true,
-      "isDefault": false,
+      "defaultDynamicModule": false,
       "conf": "{\"graphLevels\":[\"Missions\",\"Experiments\",\"Instruments\",\"Results\",\"Resolutions\"],\"enableFacettes\":true,\"attributes\":[{\"attributeFullQualifiedName\":\"ipId\",\"visibility\":true,\"facetable\":false,\"order\":1},{\"attributeFullQualifiedName\":\"sipId\",\"visibility\":true,\"facetable\":false,\"order\":2},{\"attributeFullQualifiedName\":\"label\",\"visibility\":true,\"facetable\":false,\"order\":3},{\"attributeFullQualifiedName\":\"creationDate\",\"visibility\":true,\"facetable\":false,\"order\":4},{\"attributeFullQualifiedName\":\"default.language\",\"visibility\":true,\"facetable\":false,\"order\":5},{\"attributeFullQualifiedName\":\"default.format\",\"visibility\":true,\"facetable\":false,\"order\":6}],\"graphDatasetAttributes\":[{\"attributeFullQualifiedName\":\"sipId\",\"visibility\":false,\"facetable\":false,\"order\":null},{\"attributeFullQualifiedName\":\"creationDate\",\"visibility\":true,\"facetable\":false,\"order\":1},{\"attributeFullQualifiedName\":\"default.language\",\"visibility\":true,\"facetable\":false,\"order\":2},{\"attributeFullQualifiedName\":\"default.format\",\"visibility\":true,\"facetable\":false,\"order\":3},{\"attributeFullQualifiedName\":\"infos.date\",\"visibility\":true,\"facetable\":false,\"order\":4}]}",
-      "name": "search-graph",
+      "type": "search-graph",
       "description": "Recherche par graphe",
       "container": "content",
       "id": 15
@@ -151,9 +151,9 @@
     {
       "applicationId": "user",
       "active": true,
-      "isDefault": false,
+      "defaultDynamicModule": false,
       "conf": "{\"graphLevels\":[\"Missions\",\"Experiments\"],\"graphDatasetAttributes\":[{\"attributeFullQualifiedName\":\"ipId\",\"visibility\":true,\"facetable\":false,\"order\":1},{\"attributeFullQualifiedName\":\"label\",\"visibility\":true,\"facetable\":false,\"order\":2}],\"attributes\":[{\"attributeFullQualifiedName\":\"ipId\",\"visibility\":true,\"facetable\":false,\"order\":1},{\"attributeFullQualifiedName\":\"sipId\",\"visibility\":true,\"facetable\":false,\"order\":2}]}",
-      "name": "search-graph",
+      "type": "search-graph",
       "description": "Another graph for tests",
       "container": "content",
       "id": 16

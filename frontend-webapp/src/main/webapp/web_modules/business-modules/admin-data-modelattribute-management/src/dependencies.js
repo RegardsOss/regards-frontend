@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import AttributeModelActions from './model/AttributeModelActions'
+import { attributeModelActions } from './client/AttributeModelClient'
 
 
 /**
@@ -10,12 +10,12 @@ import AttributeModelActions from './model/AttributeModelActions'
  * @author Sébastien binda
  */
 const EditDependencies = [
-  AttributeModelActions.getDependency(RequestVerbEnum.PUT),
-  AttributeModelActions.getDependency(RequestVerbEnum.POST),
-  AttributeModelActions.getDependency(RequestVerbEnum.DELETE),
+  attributeModelActions.getDependency(RequestVerbEnum.PUT),
+  attributeModelActions.getDependency(RequestVerbEnum.POST),
+  attributeModelActions.getDependency(RequestVerbEnum.DELETE),
 ]
 const AddDependencies = [
-  AttributeModelActions.getDependency(RequestVerbEnum.POST),
+  attributeModelActions.getDependency(RequestVerbEnum.POST),
 ]
 
 export {
@@ -34,11 +34,11 @@ const user = []
  * @type {Array}
  */
 const admin = [
-  AttributeModelActions.getDependency(RequestVerbEnum.GET_LIST),
-  AttributeModelActions.getDependency(RequestVerbEnum.GET),
-  AttributeModelActions.getDependency(RequestVerbEnum.PUT),
-  AttributeModelActions.getDependency(RequestVerbEnum.POST),
-  AttributeModelActions.getDependency(RequestVerbEnum.DELETE),
+  attributeModelActions.getDependency(RequestVerbEnum.GET_LIST),
+  attributeModelActions.getDependency(RequestVerbEnum.GET),
+  attributeModelActions.getDependency(RequestVerbEnum.PUT),
+  attributeModelActions.getDependency(RequestVerbEnum.POST),
+  attributeModelActions.getDependency(RequestVerbEnum.DELETE),
 ]
 
 export default {

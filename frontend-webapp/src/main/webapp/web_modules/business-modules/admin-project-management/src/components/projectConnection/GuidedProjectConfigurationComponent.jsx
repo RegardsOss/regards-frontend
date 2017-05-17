@@ -26,9 +26,9 @@ class GuidedProjectConfigurationComponent extends React.Component {
 
   static propTypes = {
     project: Project.isRequired,
-    projectConnections: React.PropTypes.objectOf(ProjectConnection).isRequired,
-    onSaveProjectConnection: React.PropTypes.func.isRequired,
-    onUpdateProjectConnection: React.PropTypes.func.isRequired,
+    projectConnections: PropTypes.objectOf(ProjectConnection).isRequired,
+    onSaveProjectConnection: PropTypes.func.isRequired,
+    onUpdateProjectConnection: PropTypes.func.isRequired,
   }
 
   static contextTypes = {

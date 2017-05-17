@@ -17,14 +17,14 @@ export class AttributeModelListContainer extends React.Component {
 
   static propTypes = {
     // from router
-    params: React.PropTypes.shape({
-      project: React.PropTypes.string,
+    params: PropTypes.shape({
+      project: PropTypes.string,
     }),
     // from mapStateToProps
-    attrModelList: React.PropTypes.objectOf(AttributeModel),
+    attrModelList: PropTypes.objectOf(AttributeModel),
     // from mapDispatchToProps
-    fetchAttrModelList: React.PropTypes.func,
-    deleteAttrModel: React.PropTypes.func,
+    fetchAttrModelList: PropTypes.func,
+    deleteAttrModel: PropTypes.func,
   }
 
   state = {

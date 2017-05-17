@@ -16,11 +16,11 @@ import ContentErrorComponent from './ContentErrorComponent'
 class LoadableContentDisplayDecorator extends React.Component {
 
   static propTypes = {
-    children: React.PropTypes.oneOfType([React.PropTypes.node, React.PropTypes.func]),
-    isLoading: React.PropTypes.bool,
-    isContentError: React.PropTypes.bool,
-    isEmpty: React.PropTypes.bool,
-    emptyMessage: React.PropTypes.string,
+    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+    isLoading: PropTypes.bool,
+    isContentError: PropTypes.bool,
+    isEmpty: PropTypes.bool,
+    emptyMessage: PropTypes.string,
   }
 
   static defaultProps = {

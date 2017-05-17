@@ -6,7 +6,7 @@ import LayoutContent from './LayoutContent'
  * Layout shape entity
  * @author Sébastien Binda
  */
-const Layout = React.PropTypes.shape({
+const Layout = PropTypes.shape({
   content: LayoutContent,
 })
 

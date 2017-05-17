@@ -11,7 +11,7 @@ import dataManagementItems from './DataManagementBoardItems'
 class DataManagementBoard extends React.Component {
 
   static propTypes = {
-    project: React.PropTypes.string.isRequired,
+    project: PropTypes.string.isRequired,
   }
 
   static contextTypes = {

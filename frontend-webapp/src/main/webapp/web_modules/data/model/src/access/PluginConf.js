@@ -2,16 +2,16 @@
  * LICENSE_PLACEHOLDER
  **/
 
-const PARAMETER_TYPES = React.PropTypes.oneOf(['string', 'numerical', 'temporal'])
+const PARAMETER_TYPES = PropTypes.oneOf(['string', 'numerical', 'temporal'])
 
 /**
  * Specific configuration for a UI criterion plugin instance, as the plugin administrator should provide it
  */
-const UICriterionInstanceConf = React.PropTypes.shape({
-  attributes: React.PropTypes.arrayOf(
-    React.PropTypes.shape({
-      name: React.PropTypes.string.isRequired,
-      description: React.PropTypes.string,
+const UICriterionInstanceConf = PropTypes.shape({
+  attributes: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      description: PropTypes.string,
       type: PARAMETER_TYPES.isRequired,
     }),
   ),
@@ -20,22 +20,22 @@ const UICriterionInstanceConf = React.PropTypes.shape({
 /**
  * Specific configuration for a UI service plugin instance, as the plugin administrator should provide it
  */
-const UIServiceInstanceConf = React.PropTypes.shape({
+const UIServiceInstanceConf = PropTypes.shape({
   // this constant is essential to know what type of object the service will consume (without it the service will remain unused)
-  target: React.PropTypes.oneOf(['DATAOBJECT', 'DATASET', 'DATAOBJECTS_QUERY']),
+  target: PropTypes.oneOf(['DATAOBJECT', 'DATASET', 'DATAOBJECTS_QUERY']),
   // static plugin parameters (ie configuration at administrion level)
-  static: React.PropTypes.arrayOf(
-    React.PropTypes.shape({
+  static: PropTypes.arrayOf(
+    PropTypes.shape({
       type: PARAMETER_TYPES.isRequired,
-      required: React.PropTypes.bool,
+      required: PropTypes.bool,
     }),
   ),
   // dynamic plugin parameters (ie configuration when using, at runtime)
-  dynamic: React.PropTypes.arrayOf(
-    React.PropTypes.shape({
+  dynamic: PropTypes.arrayOf(
+    PropTypes.shape({
       type: PARAMETER_TYPES.isRequired,
-      label: React.PropTypes.string.isRequired,
-      required: React.PropTypes.bool,
+      label: PropTypes.string.isRequired,
+      required: PropTypes.bool,
     }),
   ),
 })
@@ -45,18 +45,18 @@ const UIServiceInstanceConf = React.PropTypes.shape({
  * @author Sébastien Binda
  * @author Léo Mieulet
  */
-const PluginConf = React.PropTypes.shape({
-  id: React.PropTypes.number,
-  active: React.PropTypes.bool,
-  pluginId: React.PropTypes.number.isRequired,
-  conf: React.PropTypes.oneOfType([
+const PluginConf = PropTypes.shape({
+  id: PropTypes.number,
+  active: PropTypes.bool,
+  pluginId: PropTypes.number.isRequired,
+  conf: PropTypes.oneOfType([
     UICriterionInstanceConf,
     UIServiceInstanceConf,
   ]),
-  label: React.PropTypes.string,
+  label: PropTypes.string,
   // TODO A supprimer
-  container: React.PropTypes.string,
-  pluginConf: React.PropTypes.object,
+  container: PropTypes.string,
+  pluginConf: PropTypes.object,
 })
 
 export default PluginConf

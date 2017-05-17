@@ -15,9 +15,9 @@ import AttributeConfigurationComponent from './AttributeConfigurationComponent'
 class StandardAttributesConfigurationComponent extends React.Component {
 
   static propTypes = {
-    allowFacettes: React.PropTypes.bool.isRequired,
-    attributesConf: React.PropTypes.arrayOf(AttributeConfiguration).isRequired,
-    onChangeAttributeConfiguration: React.PropTypes.func.isRequired,
+    allowFacettes: PropTypes.bool.isRequired,
+    attributesConf: PropTypes.arrayOf(AttributeConfiguration).isRequired,
+    onChangeAttributeConfiguration: PropTypes.func.isRequired,
   }
 
   render = () => {

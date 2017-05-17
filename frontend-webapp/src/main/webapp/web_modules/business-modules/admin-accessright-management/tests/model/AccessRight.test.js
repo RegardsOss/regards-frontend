@@ -13,7 +13,7 @@ const options = {
 }
 
 
-const entityTester = new ReduxEntityTester(AccessRightActions, AccessRightReducers, AccessRightSelectors, React.PropTypes.objectOf(AccessRight).isRequired, backendServerResultList, options)
+const entityTester = new ReduxEntityTester(AccessRightActions, AccessRightReducers, AccessRightSelectors, PropTypes.objectOf(AccessRight).isRequired, backendServerResultList, options)
 
 describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing model AccessRight', () => {
   before(() => {

@@ -16,23 +16,23 @@ import ResourceAccessModalOverviewComponent from '../components/ResourceAccessMo
 export class ResourceAccessFormByMicroserviceContainer extends React.Component {
 
   static propTypes = {
-    microserviceName: React.PropTypes.string.isRequired,
+    microserviceName: PropTypes.string.isRequired,
     currentRole: Role,
-    resourceRoles: React.PropTypes.arrayOf(Role),
-    roleResources: React.PropTypes.arrayOf(Resource),
-    editRoleResources: React.PropTypes.func.isRequired,
+    resourceRoles: PropTypes.arrayOf(Role),
+    roleResources: PropTypes.arrayOf(Resource),
+    editRoleResources: PropTypes.func.isRequired,
     // from mapStateToProps
-    controllerList: React.PropTypes.arrayOf(React.PropTypes.string),
-    resourceList: React.PropTypes.arrayOf(Resource),
-    resourceListFetching: React.PropTypes.bool,
-    getResource: React.PropTypes.func,
+    controllerList: PropTypes.arrayOf(PropTypes.string),
+    resourceList: PropTypes.arrayOf(Resource),
+    resourceListFetching: PropTypes.bool,
+    getResource: PropTypes.func,
     // from mapDispatchToProps
-    fetchControllerList: React.PropTypes.func,
-    fetchResourceList: React.PropTypes.func,
-    flushResourceList: React.PropTypes.func,
-    removeRoleResourceAccess: React.PropTypes.func,
-    addRoleResourceAccess: React.PropTypes.func,
-    fetchResourceRoles: React.PropTypes.func,
+    fetchControllerList: PropTypes.func,
+    fetchResourceList: PropTypes.func,
+    flushResourceList: PropTypes.func,
+    removeRoleResourceAccess: PropTypes.func,
+    addRoleResourceAccess: PropTypes.func,
+    fetchResourceRoles: PropTypes.func,
   }
 
   constructor(props) {
@@ -100,7 +100,7 @@ export class ResourceAccessFormByMicroserviceContainer extends React.Component {
           isLoading={this.state.controllersLoading}
         >
           {() =>
-            <ResourceAccessFormByMicroserviceComponent
+            (<ResourceAccessFormByMicroserviceComponent
               controllerList={controllerList}
               resourceList={resourceList}
               resourceListFetching={this.props.resourceListFetching}
@@ -110,7 +110,7 @@ export class ResourceAccessFormByMicroserviceContainer extends React.Component {
               handleOpenController={this.handleOpenController}
               handleToggleResourceAccess={this.handleToggleResourceAccess}
               handleOpenResourceAccess={this.handleOpenResourceAccessModal}
-            />
+            />)
           }
         </LoadableContentDisplayDecorator>
       </div>
@@ -126,10 +126,10 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchControllerList: microserviceName => dispatch(controllerActions.fetchEntityList({ microserviceName })),
-  fetchResourceList: (microserviceName, controllerName) => dispatch(resourceAccessActions.fetchEntityList({
-    microserviceName,
-    controllerName,
+  fetchControllerList: microservicename => dispatch(controllerActions.fetchEntityList({ microservicename })),
+  fetchResourceList: (microservicename, controllername) => dispatch(resourceAccessActions.fetchEntityList({
+    microservicename,
+    controllername,
   })),
   flushResourceList: () => dispatch(resourceAccessActions.flush()),
   removeRoleResourceAccess: (role, resource) => dispatch(roleResourceActions.deleteEntity(resource.content.id, { role_name: role.content.name })),

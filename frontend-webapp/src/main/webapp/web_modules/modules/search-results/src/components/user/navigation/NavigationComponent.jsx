@@ -12,7 +12,7 @@ import NavigationLinkContainer from '../../../containers/user/navigation/Navigat
 class NavigationComponent extends React.Component {
 
   static propTypes = {
-    navigationLevels: React.PropTypes.arrayOf(React.PropTypes.instanceOf(NavigationLevel)).isRequired,
+    navigationLevels: PropTypes.arrayOf(PropTypes.instanceOf(NavigationLevel)).isRequired,
   }
 
   render() {

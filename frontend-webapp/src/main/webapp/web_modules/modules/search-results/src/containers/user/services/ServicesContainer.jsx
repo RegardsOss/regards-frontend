@@ -22,7 +22,7 @@ import UIService from '../../../service/UIService'
 * - rs-access plugins must be fetched at once
 * - So far, services are only fetched when there is a
 */
-class ServicesContainer extends React.Component {
+export class ServicesContainer extends React.Component {
 
   static mapStateToProps = state => ({
     isLoading: // is loading any data?
@@ -45,25 +45,25 @@ class ServicesContainer extends React.Component {
 
   static propTypes = {
     // eslint-disable-next-line react/no-unused-prop-types
-    selectedDatasetIpId: React.PropTypes.string, // selected dataset ip id (none when not a single dataset)
+    selectedDatasetIpId: PropTypes.string, // selected dataset ip id (none when not a single dataset)
 
     // from mapStateToProps
     // eslint-disable-next-line react/no-unused-prop-types
-    isLoading: React.PropTypes.bool.isRequired, // is loading any data?
+    isLoading: PropTypes.bool.isRequired, // is loading any data?
     // eslint-disable-next-line react/no-unused-prop-types
-    oneDatasetBusinessServices: React.PropTypes.objectOf(BusinessPluginConfiguration),
+    oneDatasetBusinessServices: PropTypes.objectOf(BusinessPluginConfiguration),
     // eslint-disable-next-line react/no-unused-prop-types
-    oneDataobjetBusinessServices: React.PropTypes.objectOf(BusinessPluginConfiguration),
+    oneDataobjetBusinessServices: PropTypes.objectOf(BusinessPluginConfiguration),
     // eslint-disable-next-line react/no-unused-prop-types
-    manyDataobjectsBusinessServices: React.PropTypes.objectOf(BusinessPluginConfiguration),
+    manyDataobjectsBusinessServices: PropTypes.objectOf(BusinessPluginConfiguration),
     // eslint-disable-next-line react/no-unused-prop-types
-    uiServices: React.PropTypes.objectOf(UIPluginConfiguratIon),
+    uiServices: PropTypes.objectOf(UIPluginConfiguratIon),
 
     // from mapDispatchToProps
-    fetchOneDatasetBusinessServices: React.PropTypes.func.isRequired,
-    fetchOneDataobjetBusinessServices: React.PropTypes.func.isRequired,
-    fetchManyDataobjectsBusinessServices: React.PropTypes.func.isRequired,
-    fetchUIServices: React.PropTypes.func.isRequired,
+    fetchOneDatasetBusinessServices: PropTypes.func.isRequired,
+    fetchOneDataobjetBusinessServices: PropTypes.func.isRequired,
+    fetchManyDataobjectsBusinessServices: PropTypes.func.isRequired,
+    fetchUIServices: PropTypes.func.isRequired,
   }
 
   static DEFAULT_STATE = {

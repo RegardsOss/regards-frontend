@@ -11,7 +11,7 @@ import { CardActionsComponent, ConfirmDialogComponent, ShowableAtRender } from '
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { Role } from '@regardsoss/model'
-import RoleActions from '../model/RoleActions'
+import { roleActions } from '../clients/RoleClient'
 
 /**
  * React components to list project.
@@ -19,12 +19,12 @@ import RoleActions from '../model/RoleActions'
 export class RoleListComponent extends React.Component {
 
   static propTypes = {
-    roleList: React.PropTypes.objectOf(Role),
-    handleDelete: React.PropTypes.func.isRequired,
-    handleEdit: React.PropTypes.func.isRequired,
-    handleEditResourceAccess: React.PropTypes.func.isRequired,
-    createUrl: React.PropTypes.string.isRequired,
-    backUrl: React.PropTypes.string.isRequired,
+    roleList: PropTypes.objectOf(Role),
+    handleDelete: PropTypes.func.isRequired,
+    handleEdit: PropTypes.func.isRequired,
+    handleEditResourceAccess: PropTypes.func.isRequired,
+    createUrl: PropTypes.string.isRequired,
+    backUrl: PropTypes.string.isRequired,
   }
 
   static contextTypes = {
@@ -179,7 +179,7 @@ export class RoleListComponent extends React.Component {
                 id="role.list.action.add"
               />
             }
-            mainHateoasDependency={RoleActions.getDependency(RequestVerbEnum.POST)}
+            mainHateoasDependency={roleActions.getDependency(RequestVerbEnum.POST)}
             secondaryButtonLabel={
               <FormattedMessage
                 id="role.list.action.cancel"

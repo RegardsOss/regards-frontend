@@ -11,8 +11,8 @@ import { mapValues } from 'lodash'
 class OnHoverSwitchIconButton extends React.Component {
 
   static propTypes = {
-    children: React.PropTypes.element,
-    onTouchTap: React.PropTypes.arrayOf(React.PropTypes.func),
+    children: PropTypes.element,
+    onTouchTap: PropTypes.arrayOf(PropTypes.func),
   }
 
   constructor(props, context) {
@@ -48,7 +48,7 @@ class OnHoverSwitchIconButton extends React.Component {
   }
 }
 
-OnHoverSwitchIconButton.propTypes = mapValues(IconButton.propTypes, propType => React.PropTypes.arrayOf(propType))
-OnHoverSwitchIconButton.propTypes.label = React.PropTypes.arrayOf(React.PropTypes.string)
+OnHoverSwitchIconButton.propTypes = mapValues(IconButton.propTypes, propType => PropTypes.arrayOf(propType))
+OnHoverSwitchIconButton.propTypes.label = PropTypes.arrayOf(PropTypes.string)
 
 export default OnHoverSwitchIconButton

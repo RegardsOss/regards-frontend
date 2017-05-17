@@ -5,8 +5,7 @@ import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { Role } from '@regardsoss/model'
-import RoleActions from '../model/RoleActions'
-import RoleSelectors from '../model/RoleSelectors'
+import { roleActions, roleSelectors } from '../clients/RoleClient'
 import RoleListComponent from '../components/RoleListComponent'
 
 /**
@@ -16,12 +15,12 @@ import RoleListComponent from '../components/RoleListComponent'
 export class RoleListContainer extends React.Component {
 
   static propTypes = {
-    roleList: React.PropTypes.objectOf(Role),
-    fetchRoleList: React.PropTypes.func,
-    deleteRole: React.PropTypes.func,
+    roleList: PropTypes.objectOf(Role),
+    fetchRoleList: PropTypes.func,
+    deleteRole: PropTypes.func,
     // from router
-    params: React.PropTypes.shape({
-      project: React.PropTypes.string.isRequired,
+    params: PropTypes.shape({
+      project: PropTypes.string.isRequired,
     }).isRequired,
   }
 
@@ -73,11 +72,11 @@ export class RoleListContainer extends React.Component {
   }
 }
 const mapStateToProps = state => ({
-  roleList: RoleSelectors.getList(state),
+  roleList: roleSelectors.getList(state),
 })
 const mapDispatchToProps = dispatch => ({
-  fetchRoleList: () => dispatch(RoleActions.fetchEntityList()),
-  deleteRole: roleName => dispatch(RoleActions.deleteEntity(roleName)),
+  fetchRoleList: () => dispatch(roleActions.fetchEntityList()),
+  deleteRole: roleName => dispatch(roleActions.deleteEntity(roleName)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(RoleListContainer)

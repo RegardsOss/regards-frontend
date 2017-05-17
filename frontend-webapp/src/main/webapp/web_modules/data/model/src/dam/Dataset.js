@@ -1,16 +1,16 @@
-const Dataset = React.PropTypes.shape({
-  content: React.PropTypes.shape({
-    id: React.PropTypes.number.isRequired,
-    label: React.PropTypes.string.isRequired,
-    subsetting: React.PropTypes.string.isRequired,
-    tags: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
-    model: React.PropTypes.shape({
-      id: React.PropTypes.number,
+const Dataset = PropTypes.shape({
+  content: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    label: PropTypes.string.isRequired,
+    subsetting: PropTypes.string.isRequired,
+    tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+    model: PropTypes.shape({
+      id: PropTypes.number,
     }).isRequired,
-    dataModel: React.PropTypes.number.isRequired,
-    plgConfDataSource: React.PropTypes.number.isRequired,
-    type: React.PropTypes.oneOf(['DATASET']).isRequired,
-    uiPluginConfIdList: React.PropTypes.arrayOf(React.PropTypes.number).isRequired,
+    dataModel: PropTypes.number.isRequired,
+    plgConfDataSource: PropTypes.number.isRequired,
+    type: PropTypes.oneOf(['DATASET']).isRequired,
+    uiPluginConfIdList: PropTypes.arrayOf(PropTypes.number).isRequired,
   }).isRequired,
 })
 

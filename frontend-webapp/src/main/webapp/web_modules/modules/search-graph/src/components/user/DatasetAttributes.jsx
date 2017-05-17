@@ -14,8 +14,8 @@ import ItemLink from './ItemLink'
 class DatasetAttributes extends React.Component {
 
   static propTypes = {
-    visible: React.PropTypes.bool.isRequired,
-    state: React.PropTypes.oneOf(values(ItemLink.States)).isRequired,
+    visible: PropTypes.bool.isRequired,
+    state: PropTypes.oneOf(values(ItemLink.States)).isRequired,
     datasetAttributes: ResolvedDatasetAttributesArray.isRequired, // resolved attributes, empty array allowed
   }
 
@@ -39,7 +39,7 @@ class DatasetAttributes extends React.Component {
           {
             // render values row
             datasetAttributes.map(({ renderValue, label: attributeLabel, render: TypeRender, renderKey }) =>
-              <div key={renderKey} style={lineStyles}>
+              (<div key={renderKey} style={lineStyles}>
                 <div style={detailLabelStyles}>{attributeLabel}</div>
                 <div style={detailValueStlyles}>
                   {
@@ -48,7 +48,7 @@ class DatasetAttributes extends React.Component {
                       (<FormattedMessage id="search.graph.dataset.attribute.no.value" />)
                   }
                 </div>
-              </div>)
+              </div>))
           }
         </div >
       </ShowableAtRender>

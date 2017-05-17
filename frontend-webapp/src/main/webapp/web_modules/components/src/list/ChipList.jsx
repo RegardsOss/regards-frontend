@@ -20,11 +20,11 @@ import { ShowableAtRender } from '@regardsoss/components'
 class ChipList extends React.Component {
 
   static propTypes = {
-    availableEntities: React.PropTypes.arrayOf(React.PropTypes.object),
-    selectedEntities: React.PropTypes.arrayOf(React.PropTypes.object),
-    onRemoveEntity: React.PropTypes.func.isRequired,
-    onAddEntity: React.PropTypes.func.isRequired,
-    getEntityLabel: React.PropTypes.func.isRequired,
+    availableEntities: PropTypes.arrayOf(PropTypes.object),
+    selectedEntities: PropTypes.arrayOf(PropTypes.object),
+    onRemoveEntity: PropTypes.func.isRequired,
+    onAddEntity: PropTypes.func.isRequired,
+    getEntityLabel: PropTypes.func.isRequired,
   }
 
   static contextTypes = {

@@ -8,8 +8,8 @@ const defaultProps = {
 }
 
 const propTypes = {
-  scale: React.PropTypes.number,
-  text: React.PropTypes.string,
+  scale: PropTypes.number,
+  text: PropTypes.string,
 }
 
 export default function SclAvatar(props) {

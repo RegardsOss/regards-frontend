@@ -11,15 +11,15 @@ export class ProjectFormComponent extends React.Component {
 
   static propTypes = {
     currentModel: Model,
-    onSubmit: React.PropTypes.func.isRequired,
-    backUrl: React.PropTypes.string.isRequired,
-    isCreating: React.PropTypes.bool.isRequired,
-    isEditing: React.PropTypes.bool.isRequired,
+    onSubmit: PropTypes.func.isRequired,
+    backUrl: PropTypes.string.isRequired,
+    isCreating: PropTypes.bool.isRequired,
+    isEditing: PropTypes.bool.isRequired,
     // from reduxForm
-    submitting: React.PropTypes.bool,
-    pristine: React.PropTypes.bool,
-    handleSubmit: React.PropTypes.func.isRequired,
-    initialize: React.PropTypes.func.isRequired,
+    submitting: PropTypes.bool,
+    pristine: PropTypes.bool,
+    handleSubmit: PropTypes.func.isRequired,
+    initialize: PropTypes.func.isRequired,
   }
 
   componentDidMount() {

@@ -11,8 +11,8 @@ import BoardUIComponent from '../components/BoardUIComponent'
 export class BoardUIContainer extends React.Component {
 
   static propTypes = {
-    params: React.PropTypes.shape({
-      project: React.PropTypes.string,
+    params: PropTypes.shape({
+      project: PropTypes.string,
     }),
   }
 

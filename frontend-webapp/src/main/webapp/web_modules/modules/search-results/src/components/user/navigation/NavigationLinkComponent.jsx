@@ -12,9 +12,9 @@ import NavigationLevel from '../../../models/navigation/NavigationLevel'
 class NavigationLinkComponent extends React.Component {
 
   static propTypes = {
-    firstLevel: React.PropTypes.bool.isRequired,
-    level: React.PropTypes.instanceOf(NavigationLevel).isRequired,
-    onClickLevel: React.PropTypes.func.isRequired,
+    firstLevel: PropTypes.bool.isRequired,
+    level: PropTypes.instanceOf(NavigationLevel).isRequired,
+    onClickLevel: PropTypes.func.isRequired,
   }
 
   static contextTypes = {

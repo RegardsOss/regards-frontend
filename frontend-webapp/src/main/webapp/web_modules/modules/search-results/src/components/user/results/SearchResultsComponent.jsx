@@ -30,9 +30,8 @@ import { getTypeRender } from '@regardsoss/attributes-common'
 import { CatalogEntityActions } from '../../../models/catalog/CatalogEntityActions'
 import CatalogEntitySelector from '../../../models/catalog/CatalogEntitySelector'
 import ListViewEntityCellComponent from './ListViewEntityCellComponent'
-import TableSortFilter from './TableSortFilter'
-import TableSelectAllFilter from './TableSelectAllFilter'
-
+import TableSortFilterComponent from './TableSortFilterComponent'
+import TableSelectAllComponent from './TableSelectAllComponent'
 
 const RESULTS_TABLE_NAME = 'search-results-table'
 /**
@@ -50,42 +49,42 @@ class SearchResultsComponent extends React.Component {
 
   static propTypes = {
     // static configuration
-    appName: React.PropTypes.string,
-    project: React.PropTypes.string,
-    allowingFacettes: React.PropTypes.bool.isRequired,
+    appName: PropTypes.string,
+    project: PropTypes.string,
+    allowingFacettes: PropTypes.bool.isRequired,
 
 
     // dynamic display control
-    showingDataobjects: React.PropTypes.bool.isRequired,     // is Currently showing data objects (false: showing datasets)
-    viewMode: React.PropTypes.oneOf(values(SearchResultsComponent.ViewModes)), // current mode
-    showingFacettes: React.PropTypes.bool.isRequired,
-    filters: React.PropTypes.arrayOf(React.PropTypes.shape({
-      filterKey: React.PropTypes.string.isRequired,
-      filterLabel: React.PropTypes.string.isRequired,
-      openSearchQuery: React.PropTypes.string.isRequired,
+    showingDataobjects: PropTypes.bool.isRequired,     // is Currently showing data objects (false: showing datasets)
+    viewMode: PropTypes.oneOf(values(SearchResultsComponent.ViewModes)), // current mode
+    showingFacettes: PropTypes.bool.isRequired,
+    filters: PropTypes.arrayOf(PropTypes.shape({
+      filterKey: PropTypes.string.isRequired,
+      filterLabel: PropTypes.string.isRequired,
+      openSearchQuery: PropTypes.string.isRequired,
     })),
-    searchQuery: React.PropTypes.string.isRequired,
+    searchQuery: PropTypes.string.isRequired,
 
     // Attributes configurations for results columns
     // eslint-disable-next-line react/no-unused-prop-types
-    attributesConf: React.PropTypes.arrayOf(AttributeConfiguration),
+    attributesConf: PropTypes.arrayOf(AttributeConfiguration),
     // eslint-disable-next-line react/no-unused-prop-types
-    attributesRegroupementsConf: React.PropTypes.arrayOf(AttributesRegroupementConfiguration),
-    attributeModels: React.PropTypes.objectOf(AttributeModel),
+    attributesRegroupementsConf: PropTypes.arrayOf(AttributesRegroupementConfiguration),
+    attributeModels: PropTypes.objectOf(AttributeModel),
 
     // control
-    resultPageActions: React.PropTypes.instanceOf(CatalogEntityActions).isRequired,
-    onFiltersChanged: React.PropTypes.func.isRequired,
+    resultPageActions: PropTypes.instanceOf(CatalogEntityActions).isRequired,
+    onFiltersChanged: PropTypes.func.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
-    onSelectDataset: React.PropTypes.func.isRequired,
+    onSelectDataset: PropTypes.func.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
-    onSelectSearchTag: React.PropTypes.func.isRequired,
-    onShowDatasets: React.PropTypes.func.isRequired,
-    onShowDataobjects: React.PropTypes.func.isRequired,
-    onShowListView: React.PropTypes.func.isRequired,
-    onShowTableView: React.PropTypes.func.isRequired,
-    onSortChanged: React.PropTypes.func.isRequired,
-    onToggleShowFacettes: React.PropTypes.func.isRequired,
+    onSelectSearchTag: PropTypes.func.isRequired,
+    onShowDatasets: PropTypes.func.isRequired,
+    onShowDataobjects: PropTypes.func.isRequired,
+    onShowListView: PropTypes.func.isRequired,
+    onShowTableView: PropTypes.func.isRequired,
+    onSortChanged: PropTypes.func.isRequired,
+    onToggleShowFacettes: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -101,7 +100,7 @@ class SearchResultsComponent extends React.Component {
    * Sorting adaptation for parent container (to avoid runtime lambdas)
    */
   onSortByColumn = (column, type, clear) => {
-    this.props.onSortChanged(column.attributes[0], type, clear)
+    this.props.onSortChanged(column ? column.attributes[0] : null, type, clear)
   }
 
 
@@ -266,13 +265,12 @@ class SearchResultsComponent extends React.Component {
     const { intl: { formatMessage } } = this.context
 
     // TODO add the selection services here
-    // TODO ==> extract elements as sub options (because we are in a BIG BIG class!!)
     return [
-      this.isInListView() && showingDataobjects ? <TableSelectAllFilter
+      this.isInListView() && showingDataobjects ? <TableSelectAllComponent
         key="select.filter.option"
         tableName={RESULTS_TABLE_NAME}
       /> : null,
-      this.isInListView() && showingDataobjects ? <TableSortFilter
+      this.isInListView() && showingDataobjects ? <TableSortFilterComponent
         key="sort.filter.option"
         onSortByColumn={this.onSortByColumn}
         tableColumns={tableColumns}
@@ -344,7 +342,7 @@ class SearchResultsComponent extends React.Component {
     if (showingDataobjects && allowingFacettes && showingFacettes) {
       // when facettes are allowed and visible, use facets module as table header
       const searchFacetsModule = {
-        name: 'search-facets',
+        type: 'search-facets',
         active: true,
         applicationId: appName,
         conf: {
@@ -409,7 +407,8 @@ class SearchResultsComponent extends React.Component {
           cellsStyle,
           lineHeight,
           displayCheckbox,
-          onSortByColumn: this.sortResultsByColumn,
+          displaySelectAll: true,
+          onSortByColumn: this.onSortByColumn,
         }}
         tablePaneConfiguration={{
           resultsTabsButtons: this.renderTableTabs(),

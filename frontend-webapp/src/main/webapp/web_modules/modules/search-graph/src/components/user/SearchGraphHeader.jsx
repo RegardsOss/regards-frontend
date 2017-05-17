@@ -17,11 +17,11 @@ import { ShowableAtRender } from '@regardsoss/components'
 class SearchGraphHeader extends React.Component {
 
   static propTypes = {
-    moduleCollapsed: React.PropTypes.bool.isRequired, // is module collapsed?
-    datasetAttributesVisible: React.PropTypes.bool.isRequired, // are dataset attributes currently visible
-    areDatasetAttributesAvailable: React.PropTypes.bool.isRequired, // are dataset attributes available
-    onSetDatasetAttributesVisible: React.PropTypes.func.isRequired, // (bool) => void
-    dispatchToggleModuleCollapsed: React.PropTypes.func.isRequired, // void => void
+    moduleCollapsed: PropTypes.bool.isRequired, // is module collapsed?
+    datasetAttributesVisible: PropTypes.bool.isRequired, // are dataset attributes currently visible
+    areDatasetAttributesAvailable: PropTypes.bool.isRequired, // are dataset attributes available
+    onSetDatasetAttributesVisible: PropTypes.func.isRequired, // (bool) => void
+    dispatchToggleModuleCollapsed: PropTypes.func.isRequired, // void => void
   }
 
   static contextTypes = {

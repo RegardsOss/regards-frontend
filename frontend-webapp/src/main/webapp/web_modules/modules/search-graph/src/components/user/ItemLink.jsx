@@ -54,16 +54,16 @@ class ItemLink extends React.Component {
   }
 
   static propTypes = {
-    text: React.PropTypes.string.isRequired,
-    Icon: React.PropTypes.func.isRequired,
-    additiveLineComponent: React.PropTypes.node, // an optional additive line component
+    text: PropTypes.string.isRequired,
+    Icon: PropTypes.func.isRequired,
+    additiveLineComponent: PropTypes.node, // an optional additive line component
     // parent container control
-    onMouseOver: React.PropTypes.func.isRequired,
-    onMouseOut: React.PropTypes.func.isRequired,
-    onLinkClicked: React.PropTypes.func.isRequired,
-    onDescriptionClicked: React.PropTypes.func.isRequired,
+    onMouseOver: PropTypes.func.isRequired,
+    onMouseOut: PropTypes.func.isRequired,
+    onLinkClicked: PropTypes.func.isRequired,
+    onDescriptionClicked: PropTypes.func.isRequired,
     // show state of this component
-    displayState: React.PropTypes.oneOf(values(ItemLink.States)).isRequired,
+    displayState: PropTypes.oneOf(values(ItemLink.States)).isRequired,
   }
 
   static contextTypes = {

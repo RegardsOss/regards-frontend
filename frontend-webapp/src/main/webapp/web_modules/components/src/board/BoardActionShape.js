@@ -6,11 +6,11 @@
  * Board action Entity definition.
  * @author Sébastien Binda
  */
-const BoardActionShape = React.PropTypes.shape({
-  path: React.PropTypes.string,
-  icon: React.PropTypes.element,
-  tooltipMsg: React.PropTypes.string,
-  hateoasDependencies: React.PropTypes.arrayOf(React.PropTypes.string),
+const BoardActionShape = PropTypes.shape({
+  path: PropTypes.string,
+  icon: PropTypes.element,
+  tooltipMsg: PropTypes.string,
+  hateoasDependencies: PropTypes.arrayOf(PropTypes.string),
 })
 
 export default BoardActionShape

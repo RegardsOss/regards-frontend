@@ -43,8 +43,8 @@ function UserDialog(props) {
 }
 
 UserDialog.propTypes = {
-  onClose: React.PropTypes.func.isRequired,
-  onSave: React.PropTypes.func.isRequired,
-  open: React.PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  onSave: PropTypes.func.isRequired,
+  open: PropTypes.bool.isRequired,
 }
 export default UserDialog

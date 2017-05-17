@@ -23,20 +23,20 @@ import moduleStyles from '../styles/styles'
 export class ModelAttributeFormComponent extends React.Component {
 
   static propTypes = {
-    onCreateFragment: React.PropTypes.func.isRequired,
-    onDeleteFragment: React.PropTypes.func.isRequired,
-    onCreateAttributeModel: React.PropTypes.func.isRequired,
-    onDeleteAttributeModel: React.PropTypes.func.isRequired,
-    backUrl: React.PropTypes.string.isRequired,
+    onCreateFragment: PropTypes.func.isRequired,
+    onDeleteFragment: PropTypes.func.isRequired,
+    onCreateAttributeModel: PropTypes.func.isRequired,
+    onDeleteAttributeModel: PropTypes.func.isRequired,
+    backUrl: PropTypes.string.isRequired,
     currentModel: Model.isRequired,
-    distributedAttrModels: React.PropTypes.shape({
-      ATTR_REMAINING: React.PropTypes.shape({
-        fragments: React.PropTypes.objectOf(React.PropTypes.arrayOf(AttributeModel)),
-        attrs: React.PropTypes.arrayOf(AttributeModel),
+    distributedAttrModels: PropTypes.shape({
+      ATTR_REMAINING: PropTypes.shape({
+        fragments: PropTypes.objectOf(PropTypes.arrayOf(AttributeModel)),
+        attrs: PropTypes.arrayOf(AttributeModel),
       }),
-      ATTR_ASSOCIATED: React.PropTypes.shape({
-        fragments: React.PropTypes.objectOf(React.PropTypes.arrayOf(AttributeModel)),
-        attrs: React.PropTypes.arrayOf(AttributeModel),
+      ATTR_ASSOCIATED: PropTypes.shape({
+        fragments: PropTypes.objectOf(PropTypes.arrayOf(AttributeModel)),
+        attrs: PropTypes.arrayOf(AttributeModel),
       }),
     }).isRequired,
   }

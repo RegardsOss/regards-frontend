@@ -7,13 +7,13 @@ import BoardActionShape from './BoardActionShape'
  * BoardItem Entity definition
  * @author Sébastien Binda
  */
-const BoardItemShape = React.PropTypes.shape({
-  title: React.PropTypes.string,
-  subtitle: React.PropTypes.string,
-  description: React.PropTypes.string,
-  actions: React.PropTypes.arrayOf(BoardActionShape),
-  advanced: React.PropTypes.bool.isRequired,
-  disabled: React.PropTypes.bool,
+const BoardItemShape = PropTypes.shape({
+  title: PropTypes.string,
+  subtitle: PropTypes.string,
+  description: PropTypes.string,
+  actions: PropTypes.arrayOf(BoardActionShape),
+  advanced: PropTypes.bool.isRequired,
+  disabled: PropTypes.bool,
 })
 
 export default BoardItemShape

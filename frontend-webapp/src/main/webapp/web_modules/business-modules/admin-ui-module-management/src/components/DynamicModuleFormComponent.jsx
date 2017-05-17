@@ -12,18 +12,18 @@ import { LazyModuleComponent, ModuleShape } from '@regardsoss/modules'
 class DynamicModuleFormComponent extends React.Component {
 
   static propTypes = {
-    project: React.PropTypes.string.isRequired,
+    project: PropTypes.string.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
-    appName: React.PropTypes.string.isRequired,
+    appName: PropTypes.string.isRequired,
     module: ModuleShape,
-    adminForm: React.PropTypes.shape({
-      changeField: React.PropTypes.func,
+    adminForm: PropTypes.shape({
+      changeField: PropTypes.func,
       // Current module configuration. Values from the redux-form
       // eslint-disable-next-line react/forbid-prop-types
-      form: React.PropTypes.object,
+      form: PropTypes.object,
     }),
     // eslint-disable-next-line react/forbid-prop-types
-    styles: React.PropTypes.object,
+    styles: PropTypes.object,
   }
 
   shouldComponentUpdate(nextProps) {

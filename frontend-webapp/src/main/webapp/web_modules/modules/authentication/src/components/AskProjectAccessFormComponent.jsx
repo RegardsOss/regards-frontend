@@ -22,27 +22,27 @@ export class AskProjectAccessFormComponent extends React.Component {
 
   static propTypes = {
     // Form initial value
-    initialMail: React.PropTypes.string,
+    initialMail: PropTypes.string,
     // should use existing account
-    useExistingAccount: React.PropTypes.bool,
+    useExistingAccount: PropTypes.bool,
     // Last submit error message
-    errorMessage: React.PropTypes.string,
+    errorMessage: PropTypes.string,
     // on ask access send (form sumitting)
-    onRequestAction: React.PropTypes.func.isRequired,
+    onRequestAction: PropTypes.func.isRequired,
     // back
-    onBack: React.PropTypes.func.isRequired,
+    onBack: PropTypes.func.isRequired,
     // project name
-    project: React.PropTypes.string.isRequired,
+    project: PropTypes.string.isRequired,
     // project metadata
     projectMetadata: MetadataList.isRequired,
     // from reduxFormSelector
-    currentMailValue: React.PropTypes.string,
+    currentMailValue: PropTypes.string,
     // from redux form
-    pristine: React.PropTypes.bool,
-    submitting: React.PropTypes.bool,
-    invalid: React.PropTypes.bool,
-    handleSubmit: React.PropTypes.func.isRequired,
-    initialize: React.PropTypes.func.isRequired,
+    pristine: PropTypes.bool,
+    submitting: PropTypes.bool,
+    invalid: PropTypes.bool,
+    handleSubmit: PropTypes.func.isRequired,
+    initialize: PropTypes.func.isRequired,
   }
 
   static contextTypes = { ...themeContextType }

@@ -9,7 +9,7 @@ import NavigationLinkComponent from '../../../components/user/navigation/Navigat
 /**
 * Container for a navigation link
 */
-class NavigationLinkContainer extends React.Component {
+export class NavigationLinkContainer extends React.Component {
 
   static mapDispatchToProps(dispatch) {
     return ({
@@ -18,10 +18,10 @@ class NavigationLinkContainer extends React.Component {
   }
 
   static propTypes = {
-    level: React.PropTypes.instanceOf(NavigationLevel).isRequired,
-    levelIndex: React.PropTypes.number.isRequired,
+    level: PropTypes.instanceOf(NavigationLevel).isRequired,
+    levelIndex: PropTypes.number.isRequired,
     // from mapDispatchToProps
-    gotoLevel: React.PropTypes.func.isRequired,
+    gotoLevel: PropTypes.func.isRequired,
   }
 
   onClickLevel = () => {

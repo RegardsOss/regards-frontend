@@ -16,17 +16,18 @@ import HateoasLinks from '../model/HateoasLinks'
 class HateoasIconAction extends React.Component {
 
   static propTypes = {
-    entityLinks: React.PropTypes.arrayOf(HateoasLinks),
-    hateoasKey: React.PropTypes.string,
+    entityLinks: PropTypes.arrayOf(HateoasLinks),
+    hateoasKey: PropTypes.string,
+    alwaysDisplayforInstanceUser: PropTypes.bool,
     // Set by mapStateToProps
-    isInstance: React.PropTypes.bool,
+    isInstance: PropTypes.bool,
   }
 
   render() {
     // Remove from otherProps all props that doesn't need to be reinjected in children
     // eslint-disable-next-line no-unused-vars, react/prop-types
-    const { entityLinks, hateoasKey, isInstance, theme, i18n, dispatch, ...otherProps } = this.props
-    if (isInstance || (!entityLinks && !hateoasKey) || find(entityLinks, entity => entity.rel === hateoasKey)) {
+    const { entityLinks, hateoasKey, alwaysDisplayforInstanceUser, isInstance, theme, i18n, dispatch, ...otherProps } = this.props
+    if ((isInstance && alwaysDisplayforInstanceUser) || (!entityLinks && !hateoasKey) || find(entityLinks, entity => entity.rel === hateoasKey)) {
       return (
         <IconButton
           {...otherProps}
@@ -36,6 +37,10 @@ class HateoasIconAction extends React.Component {
     return <span />
   }
 
+}
+
+HateoasIconAction.defaultProps = {
+  alwaysDisplayforInstanceUser: true,
 }
 
 const mapStateToProps = state => ({

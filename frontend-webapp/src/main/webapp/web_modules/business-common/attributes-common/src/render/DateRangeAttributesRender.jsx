@@ -12,7 +12,7 @@ import { FormattedDate, FormattedTime } from 'react-intl'
 class DateRangeAttributesRender extends React.Component {
   static propTypes = {
     // eslint-disable-next-line react/forbid-prop-types
-    attributes: React.PropTypes.object,
+    attributes: PropTypes.object,
   }
 
   renderDate = (date) => {

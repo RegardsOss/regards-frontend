@@ -35,14 +35,14 @@ import moduleStyles from '../styles/styles'
 class ApplicationThemeComponent extends React.Component {
 
   static propTypes = {
-    themeList: React.PropTypes.objectOf(Theme),
+    themeList: PropTypes.objectOf(Theme),
     currentTheme: Theme,
-    isFetching: React.PropTypes.bool,
-    onCreate: React.PropTypes.func,
-    onClose: React.PropTypes.func,
-    onSave: React.PropTypes.func,
-    onDelete: React.PropTypes.func,
-    fetchTheme: React.PropTypes.func,
+    isFetching: PropTypes.bool,
+    onCreate: PropTypes.func,
+    onClose: PropTypes.func,
+    onSave: PropTypes.func,
+    onDelete: PropTypes.func,
+    fetchTheme: PropTypes.func,
   }
 
   static defaultProps = {

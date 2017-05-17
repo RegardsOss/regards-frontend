@@ -10,7 +10,7 @@ const backendServerResultList = AccessGroupNetwork
 const options = {
 }
 
-const entityTester = new ReduxEntityTester(AccessGroupActions, AccessGroupReducers, AccessGroupSelectors, React.PropTypes.objectOf(AccessGroup).isRequired, backendServerResultList, options)
+const entityTester = new ReduxEntityTester(AccessGroupActions, AccessGroupReducers, AccessGroupSelectors, PropTypes.objectOf(AccessGroup).isRequired, backendServerResultList, options)
 
 describe('[ADMIN USER ACCESSGROUP MANAGEMENT] Testing model AccessGroup', () => {
   before(() => {

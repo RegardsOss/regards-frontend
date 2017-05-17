@@ -29,19 +29,19 @@ export class DatasetFormAttributesComponent extends React.Component {
 
   static propTypes = {
     currentDataset: Dataset,
-    modelList: React.PropTypes.objectOf(Model),
-    modelAttributeList: React.PropTypes.objectOf(ModelAttribute),
-    handleUpdateModel: React.PropTypes.func.isRequired,
+    modelList: PropTypes.objectOf(Model),
+    modelAttributeList: PropTypes.objectOf(ModelAttribute),
+    handleUpdateModel: PropTypes.func.isRequired,
     currentDatasource: Datasource,
-    onSubmit: React.PropTypes.func.isRequired,
-    backUrl: React.PropTypes.string.isRequired,
-    isEditing: React.PropTypes.bool.isRequired,
+    onSubmit: PropTypes.func.isRequired,
+    backUrl: PropTypes.string.isRequired,
+    isEditing: PropTypes.bool.isRequired,
     // from reduxForm
-    submitting: React.PropTypes.bool,
-    invalid: React.PropTypes.bool,
-    handleSubmit: React.PropTypes.func.isRequired,
-    initialize: React.PropTypes.func.isRequired,
-    change: React.PropTypes.func.isRequired,
+    submitting: PropTypes.bool,
+    invalid: PropTypes.bool,
+    handleSubmit: PropTypes.func.isRequired,
+    initialize: PropTypes.func.isRequired,
+    change: PropTypes.func.isRequired,
   }
 
 

@@ -15,7 +15,7 @@ const connectionActions = new ConnectionActions('test/action')
 const connectionReducer = ConnectionReducer('test/action')
 const connectionSelectors = ConnectionSelectors(['test', 'modules'])
 
-const entityTester = new ReduxEntityTester(connectionActions, connectionReducer, connectionSelectors, React.PropTypes.objectOf(Connection).isRequired, backendServerResultList, options)
+const entityTester = new ReduxEntityTester(connectionActions, connectionReducer, connectionSelectors, PropTypes.objectOf(Connection).isRequired, backendServerResultList, options)
 
 describe('[ADMIN CLIENT] Testing model Connection', () => {
   before(() => {

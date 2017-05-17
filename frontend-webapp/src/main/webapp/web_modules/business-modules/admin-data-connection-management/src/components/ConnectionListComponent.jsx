@@ -22,12 +22,12 @@ import ConnectionTesterIconButton from './ConnectionTesterIconButton'
 export class ConnectionListComponent extends React.Component {
 
   static propTypes = {
-    connectionList: React.PropTypes.objectOf(Connection),
-    handleDelete: React.PropTypes.func.isRequired,
-    handleEdit: React.PropTypes.func.isRequired,
-    handleTestConnection: React.PropTypes.func.isRequired,
-    createUrl: React.PropTypes.string.isRequired,
-    backUrl: React.PropTypes.string.isRequired,
+    connectionList: PropTypes.objectOf(Connection),
+    handleDelete: PropTypes.func.isRequired,
+    handleEdit: PropTypes.func.isRequired,
+    handleTestConnection: PropTypes.func.isRequired,
+    createUrl: PropTypes.string.isRequired,
+    backUrl: PropTypes.string.isRequired,
   }
 
   static contextTypes = {

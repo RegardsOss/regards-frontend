@@ -14,7 +14,7 @@ class ProjectListComponent extends React.Component {
    * @type {{projects: *, theme: *}}
    */
   static propTypes = {
-    projects: React.PropTypes.arrayOf(AccessProject),
+    projects: PropTypes.arrayOf(AccessProject),
   }
 
   /**

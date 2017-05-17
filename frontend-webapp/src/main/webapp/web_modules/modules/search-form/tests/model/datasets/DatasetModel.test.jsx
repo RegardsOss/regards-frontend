@@ -12,7 +12,7 @@ const backendServerResultList = MockResponse
 const options = {
 }
 
-const entityTester = new ReduxEntityTester(DatasetModelActions, DatasetModelReducer, DatasetModelSelector, React.PropTypes.objectOf(Model).isRequired, backendServerResultList, options)
+const entityTester = new ReduxEntityTester(DatasetModelActions, DatasetModelReducer, DatasetModelSelector, PropTypes.objectOf(Model).isRequired, backendServerResultList, options)
 
 /**
  * Tests for DatasetModels

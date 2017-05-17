@@ -1,8 +1,8 @@
 import React from 'react'
 
 const propTypes = {
-  scale: React.PropTypes.number.isRequired,
-  path: React.PropTypes.string,
+  scale: PropTypes.number.isRequired,
+  path: PropTypes.string,
 }
 
 const defaultProps = {
@@ -11,7 +11,7 @@ const defaultProps = {
 }
 
 const contextTypes = {
-  muiTheme: React.PropTypes.object.isRequired,
+  muiTheme: PropTypes.object.isRequired,
 }
 
 

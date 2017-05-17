@@ -13,7 +13,7 @@ class FilterDisplayComponent extends React.Component {
   static propTypes = {
     filter: filterShape.isRequired,
     // deletes a current filter (key:string)
-    deleteFilter: React.PropTypes.func.isRequired,
+    deleteFilter: PropTypes.func.isRequired,
   }
 
   static contextTypes = {

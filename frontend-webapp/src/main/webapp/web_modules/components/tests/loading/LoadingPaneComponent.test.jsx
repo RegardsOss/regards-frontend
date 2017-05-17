@@ -25,7 +25,7 @@ describe('[COMPONENTS] Testing LoadingPaneComponent', () => {
   it('should render properly', () => {
     // use a simple component for validation
     const SimpleText = ({ text }) => <span>{text}</span>
-    SimpleText.propTypes = { text: React.PropTypes.string.isRequired }
+    SimpleText.propTypes = { text: PropTypes.string.isRequired }
 
     const titleText = 'Hello title'
     const subtitleText = 'Hello subtitle'

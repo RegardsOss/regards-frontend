@@ -27,23 +27,23 @@ class MainAttributesConfigurationComponent extends React.Component {
 
   static propTypes = {
     // Available Attributes for configuration
-    selectableAttributes: React.PropTypes.objectOf(AttributeModel).isRequired,
+    selectableAttributes: PropTypes.objectOf(AttributeModel).isRequired,
     // Initial configuration of the current module
-    defaultAttributesConf: React.PropTypes.arrayOf(AttributeConfiguration),
-    defaultAttributesRegroupementsConf: React.PropTypes.arrayOf(AttributesRegroupementConfiguration),
+    defaultAttributesConf: PropTypes.arrayOf(AttributeConfiguration),
+    defaultAttributesRegroupementsConf: PropTypes.arrayOf(AttributesRegroupementConfiguration),
     // Current configuration
-    attributesConf: React.PropTypes.arrayOf(AttributeConfiguration),
-    attributesRegroupementsConf: React.PropTypes.arrayOf(AttributesRegroupementConfiguration),
+    attributesConf: PropTypes.arrayOf(AttributeConfiguration),
+    attributesRegroupementsConf: PropTypes.arrayOf(AttributesRegroupementConfiguration),
     // shold allow facettes configuration?
-    allowFacettes: React.PropTypes.bool.isRequired,
+    allowFacettes: PropTypes.bool.isRequired,
     // should allow attributes regroupement configuration?
-    allowAttributesRegroupements: React.PropTypes.bool.isRequired,
+    allowAttributesRegroupements: PropTypes.bool.isRequired,
     // attributes field name in redux form
-    attributesFieldName: React.PropTypes.string.isRequired,
+    attributesFieldName: PropTypes.string.isRequired,
     // attributes regroupement field name in redux form (not required, used only when regroupement are allowed)
-    regroupementsFieldName: React.PropTypes.string,
+    regroupementsFieldName: PropTypes.string,
     // Redux-form function to change current form values
-    changeField: React.PropTypes.func.isRequired,
+    changeField: PropTypes.func.isRequired,
   }
 
   /**

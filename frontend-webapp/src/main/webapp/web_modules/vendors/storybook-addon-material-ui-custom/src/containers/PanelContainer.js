@@ -30,8 +30,8 @@ const progressInfo = () => {
 
 
 const propTypes = {
-  channel: React.PropTypes.object,
-  api: React.PropTypes.object,
+  channel: PropTypes.object,
+  api: PropTypes.object,
 }
 
 

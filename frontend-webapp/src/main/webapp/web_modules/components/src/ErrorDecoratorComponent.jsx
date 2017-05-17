@@ -22,7 +22,7 @@ class ErrorDecoratorComponent extends React.Component {
 }
 
 ErrorDecoratorComponent.propTypes = {
-  children: React.PropTypes.oneOfType([React.PropTypes.element, React.PropTypes.string]),
+  children: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
 }
 
 export default ErrorDecoratorComponent

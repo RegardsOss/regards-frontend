@@ -5,11 +5,11 @@
 /**
  * Project Entity definition
  */
-export default React.PropTypes.shape({
-  id: React.PropTypes.string,
-  name: React.PropTypes.string,
-  description: React.PropTypes.string,
-  isPublic: React.PropTypes.bool,
-  icon: React.PropTypes.string,
-  isAccessible: React.PropTypes.bool,
+export default PropTypes.shape({
+  id: PropTypes.string,
+  name: PropTypes.string,
+  description: PropTypes.string,
+  isPublic: PropTypes.bool,
+  icon: PropTypes.string,
+  isAccessible: PropTypes.bool,
 })

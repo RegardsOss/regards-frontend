@@ -41,7 +41,7 @@ describe('[SEARCH FORM] Testing FormPreviewComponent', () => {
       project: 'test',
       module: {
         id: 12,
-        name: 'formModule',
+        type: 'formModule',
         description: 'Form module test',
         active: false,
         applicationId: 'test',

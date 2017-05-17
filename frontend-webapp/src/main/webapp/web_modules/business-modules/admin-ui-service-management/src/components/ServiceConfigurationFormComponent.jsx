@@ -19,19 +19,19 @@ import { i18nContextType } from '@regardsoss/i18n'
 export class ServiceConfigurationFormComponent extends React.Component {
 
   static propTypes = {
-    uiPluginConfiguration: React.PropTypes.shape({
+    uiPluginConfiguration: PropTypes.shape({
       content: UIPluginConfiguration,
     }),
     plugin: UIPlugin,
-    isCreating: React.PropTypes.bool.isRequired,
-    isDuplicating: React.PropTypes.bool.isRequired,
-    onSubmit: React.PropTypes.func.isRequired,
-    backUrl: React.PropTypes.string.isRequired,
+    isCreating: PropTypes.bool.isRequired,
+    isDuplicating: PropTypes.bool.isRequired,
+    onSubmit: PropTypes.func.isRequired,
+    backUrl: PropTypes.string.isRequired,
     // from reduxForm
-    submitting: React.PropTypes.bool,
-    invalid: React.PropTypes.bool,
-    handleSubmit: React.PropTypes.func.isRequired,
-    initialize: React.PropTypes.func.isRequired,
+    submitting: PropTypes.bool,
+    invalid: PropTypes.bool,
+    handleSubmit: PropTypes.func.isRequired,
+    initialize: PropTypes.func.isRequired,
   }
 
   static contextTypes = {

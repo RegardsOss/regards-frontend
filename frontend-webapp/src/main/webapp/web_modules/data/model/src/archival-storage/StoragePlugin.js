@@ -1,12 +1,12 @@
-export const StoragePluginShape = React.PropTypes.shape({
-  id: React.PropTypes.number.isRequired,
-  label: React.PropTypes.string.isRequired,
-  description: React.PropTypes.string.isRequired,
-  totalSize: React.PropTypes.string,
-  usedSize: React.PropTypes.string,
+export const StoragePluginShape = PropTypes.shape({
+  id: PropTypes.number.isRequired,
+  label: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  totalSize: PropTypes.string,
+  usedSize: PropTypes.string,
 }).isRequired
 
-const StoragePlugin = React.PropTypes.shape({
+const StoragePlugin = PropTypes.shape({
   content: StoragePluginShape,
 }).isRequired
 

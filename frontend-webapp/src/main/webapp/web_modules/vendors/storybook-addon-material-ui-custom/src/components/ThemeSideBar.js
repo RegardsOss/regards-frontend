@@ -7,15 +7,15 @@ import MenuItem from 'material-ui/MenuItem'
 const BAR_WIDTH = 400
 
 const propTypes = {
-  open: React.PropTypes.bool.isRequired,
-  themeName: React.PropTypes.string.isRequired,
-  theme: React.PropTypes.object.isRequired,
-  muiTheme: React.PropTypes.object.isRequired,
-  fullTheme: React.PropTypes.func.isRequired,
-  collapseList: React.PropTypes.func.isRequired,
-  shouldComponentUpdate: React.PropTypes.bool.isRequired,
-  shouldShowData: React.PropTypes.bool.isRequired,
-  specificProp: React.PropTypes.string,
+  open: PropTypes.bool.isRequired,
+  themeName: PropTypes.string.isRequired,
+  theme: PropTypes.object.isRequired,
+  muiTheme: PropTypes.object.isRequired,
+  fullTheme: PropTypes.func.isRequired,
+  collapseList: PropTypes.func.isRequired,
+  shouldComponentUpdate: PropTypes.bool.isRequired,
+  shouldShowData: PropTypes.bool.isRequired,
+  specificProp: PropTypes.string,
 }
 
 export default class ThemeSideBar extends React.Component {
@@ -185,7 +185,7 @@ export default class ThemeSideBar extends React.Component {
 ThemeSideBar.propTypes = propTypes
 
 ThemeSideBar.contextTypes = {
-  muiTheme: React.PropTypes.object.isRequired,
+  muiTheme: PropTypes.object.isRequired,
 }
 
 function forTable(tableTame, objListFunc) {

@@ -24,6 +24,7 @@ const messages = Object.assign({
   'datasource.form.model': 'Datasource models',
   'datasource.form.connection': 'Selected connection',
   'datasource.form.label': 'Name',
+  'datasource.form.pluginConfiguration': 'Plugin type',
   'datasource.form.table.input': 'Attribute value',
   'datasource.form.subtitle': 'Manage datasource attributes',
 
@@ -36,11 +37,12 @@ const messages = Object.assign({
 
 
   'datasource.form.mapping.title': 'Set up the link between connection and object model',
-  'datasource.form.mapping.subtitle': 'This step aims to link for each model attribute from your model an attribute comming from the connection. If your data comes from one table, select the tab "Link with one table", otherwise you can select the option "Advanced link" to let you write your own SQL query.',
+  'datasource.form.mapping.subtitle': 'This step aims to link for each model attribute from your model an attribute comming from the connection. If your data comes from one table, select the tab "Link with one table", otherwise you can select the option "Advanced link" to let you write your own SQL query. The attribute sipId must be linked to the primary key of your database',
 
   'datasource.form.mapping.table.fragment': 'Fragment',
   'datasource.form.mapping.table.attrName': 'Attribute name',
   'datasource.form.mapping.table.attribute': 'Model attribute',
+  'datasource.form.mapping.table.attributeStatic': 'Common attribute',
   'datasource.form.mapping.table.type': 'Type of attribute',
   'datasource.form.mapping.table.dbValue': 'Value of attribute',
   'datasource.form.mapping.connectionViewer.title': 'Connection browser',
@@ -48,8 +50,6 @@ const messages = Object.assign({
   'datasource.form.mapping.connectionViewerCustom.subtitle': 'Select a table to display its attributes',
   'datasource.form.mapping.table.optional.true': 'Optionnal',
   'datasource.form.mapping.table.optional.false': 'Mandatory',
-  'datasource.form.mapping.from_table': 'Link with one table',
-  'datasource.form.mapping.custom_from': 'Advanced link',
   'datasource.form.mapping.action.save': 'Save',
   'datasource.form.mapping.action.cancel': 'Back',
 

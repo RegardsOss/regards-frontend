@@ -15,7 +15,7 @@ const modelAttributesActions = new ModelAttributesActions('test/action')
 const modelAttributesReducer = ModelAttributesReducer('test/action')
 const modelAttributesSelectors = ModelAttributesSelectors(['test', 'modules'])
 
-const entityTester = new ReduxEntityTester(modelAttributesActions, modelAttributesReducer, modelAttributesSelectors, React.PropTypes.objectOf(ModelAttribute).isRequired, backendServerResultList, options)
+const entityTester = new ReduxEntityTester(modelAttributesActions, modelAttributesReducer, modelAttributesSelectors, PropTypes.objectOf(ModelAttribute).isRequired, backendServerResultList, options)
 
 describe('[ADMIN CLIENT] Testing client ModelAttributes', () => {
   before(() => {

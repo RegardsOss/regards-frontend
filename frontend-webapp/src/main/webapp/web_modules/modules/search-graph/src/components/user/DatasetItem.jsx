@@ -15,12 +15,12 @@ import ItemLink from './ItemLink'
 class DatasetItem extends React.Component {
 
   static propTypes = {
-    locked: React.PropTypes.bool.isRequired,
+    locked: PropTypes.bool.isRequired,
     dataset: CatalogEntity.isRequired,
     datasetAttributes: ResolvedDatasetAttributesArray.isRequired, // resolved attributes, empty array allowed
-    attributesVisible: React.PropTypes.bool.isRequired,
-    selected: React.PropTypes.bool.isRequired,
-    onSelect: React.PropTypes.func.isRequired,
+    attributesVisible: PropTypes.bool.isRequired,
+    selected: PropTypes.bool.isRequired,
+    onSelect: PropTypes.func.isRequired,
   }
 
   static contextTypes = {

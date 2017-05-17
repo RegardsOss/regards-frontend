@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux'
-import { getRoleReducer } from './model/RoleReducers'
+import { roleReducer } from './clients/RoleClient'
 
 const roleManagementReducer = combineReducers({
-  role: getRoleReducer,
+  role: roleReducer,
 })
 
 export default roleManagementReducer

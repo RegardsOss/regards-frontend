@@ -9,7 +9,7 @@ import NavigationComponent from '../../../components/user/navigation/NavigationC
 /**
 * Navigation container
 */
-class NavigationContainer extends React.Component {
+export class NavigationContainer extends React.Component {
 
   static mapStateToProps = state => ({
     levels: navigationContextSelectors.getLevels(state),
@@ -17,7 +17,7 @@ class NavigationContainer extends React.Component {
 
   static propTypes = {
     // from mapStateToProps
-    levels: React.PropTypes.arrayOf(React.PropTypes.instanceOf(NavigationLevel)).isRequired,
+    levels: PropTypes.arrayOf(PropTypes.instanceOf(NavigationLevel)).isRequired,
   }
 
 

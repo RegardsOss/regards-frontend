@@ -5,11 +5,12 @@ import { browserHistory } from 'react-router'
 import { find, forEach, cloneDeep } from 'lodash'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
-import { Datasource } from '@regardsoss/model'
+import { Datasource, PluginMetaData } from '@regardsoss/model'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { datasourceSelectors, datasourceActions } from './../client/DatasourceClient'
 import DatasourceFormAttributesContainer from './DatasourceFormAttributesContainer'
 import DatasourceFormMappingContainer from './DatasourceFormMappingContainer'
+import { pluginMetaDataActions, pluginMetaDataSelectors } from './../client/PluginMetaDataClient'
 
 const states = {
   FORM_ATTRIBUTE: 'FORM_ATTRIBUTE',
@@ -22,17 +23,19 @@ export class DatasourceFormContainer extends React.Component {
 
   static propTypes = {
     // from router
-    params: React.PropTypes.shape({
-      project: React.PropTypes.string,
-      datasourceId: React.PropTypes.string,
-      connectionId: React.PropTypes.string,
+    params: PropTypes.shape({
+      project: PropTypes.string,
+      datasourceId: PropTypes.string,
+      connectionId: PropTypes.string,
     }),
     // from mapStateToProps
     currentDatasource: Datasource,
+    pluginMetaDataList: PropTypes.objectOf(PluginMetaData),
     // from mapDispatchToProps
-    createDatasource: React.PropTypes.func,
-    updateDatasource: React.PropTypes.func,
-    fetchDatasource: React.PropTypes.func,
+    createDatasource: PropTypes.func,
+    updateDatasource: PropTypes.func,
+    fetchDatasource: PropTypes.func,
+    fetchPluginMetaDataList: PropTypes.func,
   }
 
   constructor(props) {
@@ -41,7 +44,7 @@ export class DatasourceFormContainer extends React.Component {
     this.state = {
       isCreating,
       isEditing: props.params.datasourceId !== undefined,
-      isLoading: !isCreating,
+      isLoading: true,
       state: states.FORM_ATTRIBUTE,
       currentDatasource: null,
     }
@@ -49,21 +52,33 @@ export class DatasourceFormContainer extends React.Component {
 
 
   componentDidMount() {
+    const tasks = [
+      this.props.fetchPluginMetaDataList(),
+    ]
     if (this.state.isEditing) {
-      Promise.resolve(this.props.fetchDatasource(this.props.params.datasourceId))
-        .then(() => {
-          this.setState({
-            isLoading: false,
-          })
-        })
+      tasks.push(this.props.fetchDatasource(this.props.params.datasourceId))
     }
+    Promise.all(tasks)
+      .then(() => {
+        this.setState({
+          isLoading: false,
+        })
+      })
   }
+
   componentWillReceiveProps(nextProps) {
     if ((this.state.currentDatasource == null || this.props.currentDatasource == null) && nextProps.currentDatasource != null) {
       this.setState({
         currentDatasource: cloneDeep(nextProps.currentDatasource),
       })
     }
+  }
+  getCurrentPluginMetaData = () => {
+    const { currentDatasource } = this.state
+    const { pluginMetaDataList } = this.props
+    return find(pluginMetaDataList, pluginMetaData => (
+      pluginMetaData.content.pluginClassName === currentDatasource.content.pluginClassName
+    ))
   }
 
   getFormAttributeBackUrl = () => {
@@ -121,6 +136,7 @@ export class DatasourceFormContainer extends React.Component {
         content: {
           label: values.label,
           pluginConfigurationConnectionId: this.props.params.connectionId,
+          pluginClassName: values.pluginClassName,
           mapping: {
             model: values.model,
           },
@@ -152,7 +168,6 @@ export class DatasourceFormContainer extends React.Component {
         name: attributeName,
         type: modelAttr.content.attribute.type,
         nameSpace: modelAttr.content.attribute.fragment.name,
-        isPrimaryKey: attribute.pk === true,
       }
       if (attribute.sql && attribute.sql.length > 0) {
         newAttributeMapping.nameDS = attribute.sql
@@ -177,6 +192,7 @@ export class DatasourceFormContainer extends React.Component {
       currentDatasource,
     })
     if (this.state.isEditing) {
+      currentDatasource.content.pluginConfigurationId = this.props.params.datasourceId
       this.handleUpdate(currentDatasource)
     } else {
       this.handleCreate(currentDatasource)
@@ -191,11 +207,12 @@ export class DatasourceFormContainer extends React.Component {
   }
 
   renderSubContainer = () => {
-    const { params: { connectionId } } = this.props
+    const { params: { connectionId }, pluginMetaDataList } = this.props
     const { isEditing, isCreating, state, currentDatasource } = this.state
     switch (state) {
       case states.FORM_ATTRIBUTE:
         return (<DatasourceFormAttributesContainer
+          pluginMetaDataList={pluginMetaDataList}
           currentDatasource={currentDatasource}
           currentConnectionId={isCreating ? connectionId : currentDatasource.content.pluginConfigurationConnectionId}
           handleSave={this.saveAttributes}
@@ -203,6 +220,7 @@ export class DatasourceFormContainer extends React.Component {
         />)
       case states.FORM_MAPPING_CONNECTION:
         return (<DatasourceFormMappingContainer
+          currentPluginMetaData={this.getCurrentPluginMetaData()}
           currentDatasource={currentDatasource}
           isEditing={isEditing}
           isCreating={isCreating}
@@ -229,12 +247,18 @@ export class DatasourceFormContainer extends React.Component {
 
 const mapStateToProps = (state, ownProps) => ({
   currentDatasource: ownProps.params.datasourceId ? datasourceSelectors.getById(state, ownProps.params.datasourceId) : null,
+  pluginMetaDataList: pluginMetaDataSelectors.getList(state),
 })
 
 const mapDispatchToProps = dispatch => ({
   fetchDatasource: id => dispatch(datasourceActions.fetchEntity(id)),
   createDatasource: values => dispatch(datasourceActions.createEntity(values)),
   updateDatasource: (id, values) => dispatch(datasourceActions.updateEntity(id, values)),
+  fetchPluginMetaDataList: () => dispatch(pluginMetaDataActions.fetchEntityList({
+    microserviceName: 'rs-dam',
+  }, {
+    pluginType: 'fr.cnes.regards.modules.datasources.plugins.interfaces.IDataSourcePlugin',
+  })),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(DatasourceFormContainer)

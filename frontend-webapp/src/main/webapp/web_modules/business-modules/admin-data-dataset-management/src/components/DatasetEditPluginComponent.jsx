@@ -21,14 +21,14 @@ export class DatasetEditPluginComponent extends React.Component {
 
   static propTypes = {
     linkPluginDataset: LinkPluginDataset.isRequired,
-    pluginConfigurationFiltersList: React.PropTypes.objectOf(PluginConfiguration),
-    pluginConfigurationConvertersList: React.PropTypes.objectOf(PluginConfiguration),
-    pluginConfigurationServicesList: React.PropTypes.objectOf(PluginConfiguration),
-    pluginMetaDataFiltersList: React.PropTypes.objectOf(PluginMetaData),
-    pluginMetaDataConvertersList: React.PropTypes.objectOf(PluginMetaData),
-    pluginMetaDataServicesList: React.PropTypes.objectOf(PluginMetaData),
-    onSubmit: React.PropTypes.func.isRequired,
-    backUrl: React.PropTypes.string.isRequired,
+    pluginConfigurationFiltersList: PropTypes.objectOf(PluginConfiguration),
+    pluginConfigurationConvertersList: PropTypes.objectOf(PluginConfiguration),
+    pluginConfigurationServicesList: PropTypes.objectOf(PluginConfiguration),
+    pluginMetaDataFiltersList: PropTypes.objectOf(PluginMetaData),
+    pluginMetaDataConvertersList: PropTypes.objectOf(PluginMetaData),
+    pluginMetaDataServicesList: PropTypes.objectOf(PluginMetaData),
+    onSubmit: PropTypes.func.isRequired,
+    backUrl: PropTypes.string.isRequired,
   }
 
   static contextTypes = {

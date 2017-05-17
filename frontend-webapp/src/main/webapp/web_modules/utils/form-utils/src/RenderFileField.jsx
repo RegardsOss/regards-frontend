@@ -41,18 +41,18 @@ RenderFileField.contextTypes = {
   ...themeContextType,
 }
 RenderFileField.propTypes = {
-  input: React.PropTypes.shape({
-    value: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.object]),
-    onChange: React.PropTypes.func,
-    onBlur: React.PropTypes.func,
+  input: PropTypes.shape({
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+    onChange: PropTypes.func,
+    onBlur: PropTypes.func,
   }),
-  meta: React.PropTypes.shape({
-    error: React.PropTypes.string,
+  meta: PropTypes.shape({
+    error: PropTypes.string,
   }),
-  intl: React.PropTypes.shape({
-    formatMessage: React.PropTypes.func,
+  intl: PropTypes.shape({
+    formatMessage: PropTypes.func,
   }),
-  fullWidth: React.PropTypes.bool,
-  accept: React.PropTypes.string,
+  fullWidth: PropTypes.bool,
+  accept: PropTypes.string,
 }
 export default RenderFileField

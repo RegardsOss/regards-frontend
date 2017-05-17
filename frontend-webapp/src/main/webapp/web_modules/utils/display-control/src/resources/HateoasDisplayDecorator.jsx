@@ -15,12 +15,12 @@ import DisplayDecorator from './../DisplayDecorator'
  */
 export class HateoasDisplayDecorator extends React.Component {
   static propTypes = {
-    children: React.PropTypes.element.isRequired,
-    hateoasDisplayLogic: React.PropTypes.func,
-    requiredEndpoints: React.PropTypes.arrayOf(React.PropTypes.string),
+    children: PropTypes.element.isRequired,
+    hateoasDisplayLogic: PropTypes.func,
+    requiredEndpoints: PropTypes.arrayOf(PropTypes.string),
     // from mapStateToProps
-    availableEndpoints: React.PropTypes.arrayOf(React.PropTypes.string),
-    isInstance: React.PropTypes.bool,
+    availableEndpoints: PropTypes.arrayOf(PropTypes.string),
+    isInstance: PropTypes.bool,
   }
 
   static defaultProps = {

@@ -11,7 +11,7 @@ class IFrameURLContentDisplayerComponent extends React.Component {
 
   static propTypes = {
     contentURL: URL.isRequired,
-    onContentLoaded: React.PropTypes.func, // callback, called when IFrame content was loaded
+    onContentLoaded: PropTypes.func, // callback, called when IFrame content was loaded
   }
 
   render() {

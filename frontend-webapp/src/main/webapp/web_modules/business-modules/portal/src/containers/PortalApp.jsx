@@ -25,22 +25,22 @@ export class PortalApp extends React.Component {
    */
   static propTypes = {
     // from router
-    params: React.PropTypes.shape({
+    params: PropTypes.shape({
       // Project from the URL
-      project: React.PropTypes.string,
+      project: PropTypes.string,
     }),
     // Set by mapStateToProps
-    layoutIsFetching: React.PropTypes.bool,
-    modulesIsFetching: React.PropTypes.bool,
+    layoutIsFetching: PropTypes.bool,
+    modulesIsFetching: PropTypes.bool,
     layout: Layout,
-    modules: React.PropTypes.objectOf(ModuleShape),
+    modules: PropTypes.objectOf(ModuleShape),
     // Project from the store
-    project: React.PropTypes.string,
+    project: PropTypes.string,
     // Set by mapDispatchToProps
-    fetchLayout: React.PropTypes.func,
-    fetchModules: React.PropTypes.func,
-    fetchEndpoints: React.PropTypes.func,
-    initializeApplication: React.PropTypes.func.isRequired,
+    fetchLayout: PropTypes.func,
+    fetchModules: PropTypes.func,
+    fetchEndpoints: PropTypes.func,
+    initializeApplication: PropTypes.func.isRequired,
   }
 
   componentWillMount() {

@@ -14,14 +14,14 @@ class LineComponent extends React.Component {
 
   static propTypes = {
     // eslint-disable-next-line react/forbid-prop-types
-    entity: React.PropTypes.object.isRequired,
-    lineComponent: React.PropTypes.func.isRequired,
-    displayCheckbox: React.PropTypes.bool,
-    disabled: React.PropTypes.bool,
-    onEntityCheck: React.PropTypes.func,
-    isSelected: React.PropTypes.bool,
+    entity: PropTypes.object.isRequired,
+    lineComponent: PropTypes.func.isRequired,
+    displayCheckbox: PropTypes.bool,
+    disabled: PropTypes.bool,
+    onEntityCheck: PropTypes.func,
+    isSelected: PropTypes.bool,
     // eslint-disable-next-line react/forbid-prop-types
-    additionalPropToLineComponent: React.PropTypes.object,
+    additionalPropToLineComponent: PropTypes.object,
   }
 
   static defaultProps = {

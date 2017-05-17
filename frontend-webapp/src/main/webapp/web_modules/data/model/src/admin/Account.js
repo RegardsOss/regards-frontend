@@ -1,10 +1,10 @@
-const Project = React.PropTypes.shape({
-  content: React.PropTypes.shape({
-    id: React.PropTypes.number,
-    lastName: React.PropTypes.string,
-    email: React.PropTypes.string,
-    firstName: React.PropTypes.string,
-    status: React.PropTypes.string,
+const Project = PropTypes.shape({
+  content: PropTypes.shape({
+    id: PropTypes.number,
+    lastName: PropTypes.string,
+    email: PropTypes.string,
+    firstName: PropTypes.string,
+    status: PropTypes.string,
   }),
 })
 

@@ -20,20 +20,20 @@ import { ShowableAtRender } from '@regardsoss/components'
 class AttributeConfigurationComponent extends React.Component {
 
   static propTypes = {
-    allowFacettes: React.PropTypes.bool.isRequired,
-    attribute: React.PropTypes.oneOfType([React.PropTypes.shape({
+    allowFacettes: PropTypes.bool.isRequired,
+    attribute: PropTypes.oneOfType([PropTypes.shape({
       // for standard attributes
-      content: React.PropTypes.shape({
-        label: React.PropTypes.string.isRequired,
-        name: React.PropTypes.string.isRequired,
-        fragment: React.PropTypes.shape({
-          name: React.PropTypes.string.isRequired,
+      content: PropTypes.shape({
+        label: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        fragment: PropTypes.shape({
+          name: PropTypes.string.isRequired,
         }).isRequired,
       }),
     }), AttributeModel]).isRequired,
-    filter: React.PropTypes.string,
+    filter: PropTypes.string,
     conf: AttributeConfiguration,
-    onChange: React.PropTypes.func,
+    onChange: PropTypes.func,
   }
 
   constructor(props) {
