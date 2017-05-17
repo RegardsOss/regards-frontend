@@ -172,9 +172,6 @@ export class DatasourceFormContainer extends React.Component {
       if (attribute.sql && attribute.sql.length > 0) {
         newAttributeMapping.nameDS = attribute.sql
       } else if (attribute.tableAttribute && attribute.tableAttribute.length > 0) {
-        // Retrieve the corresponding table attribute
-        const tableAttr = find(tableAttributeList, tableAttribute => tableAttribute.name === attribute.tableAttribute)
-        newAttributeMapping.typeDS = tableAttr.javaSqlType
         newAttributeMapping.nameDS = attribute.tableAttribute
       }
       attributesMapping.push(newAttributeMapping)
@@ -182,10 +179,10 @@ export class DatasourceFormContainer extends React.Component {
     const { currentDatasource } = this.state
     if (formValuesSubset.table) {
       currentDatasource.content.tableName = formValuesSubset.table
-      currentDatasource.content.fromClause = ''
+      currentDatasource.content.fromClause = null
     } else if (formValuesSubset.fromClause) {
       currentDatasource.content.fromClause = formValuesSubset.fromClause
-      currentDatasource.content.tableName = ''
+      currentDatasource.content.tableName = null
     }
     currentDatasource.content.mapping.attributesMapping = attributesMapping
     this.setState({
