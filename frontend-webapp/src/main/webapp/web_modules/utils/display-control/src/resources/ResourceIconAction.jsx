@@ -34,12 +34,19 @@ class ResourceIconAction extends React.Component {
     if (!resourceDependency && resourceDependencies.length === 0) {
       console.error('ResourceIconAction requires either a resourceDependency or a resourceDependencies array')
     }
+    let dependencies = []
+    if (resourceDependencies && resourceDependencies.length > 0) {
+      dependencies = resourceDependencies
+    }
+    if (resourceDependency) {
+      dependencies.add(resourceDependency)
+    }
     if (isInstance) {
       return <IconButton {...others} />
     }
     return (
       <HateoasDisplayDecorator
-        requiredEndpoints={[resourceDependency, ...resourceDependencies]}
+        requiredEndpoints={dependencies}
       >
         <IconButton {...others} />
       </HateoasDisplayDecorator>

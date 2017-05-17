@@ -867,6 +867,14 @@
       "resource": "/users/myuser",
       "verb": "GET",
       "controllerSimpleName": "Controller 1"
+    },
+    {
+      "id": 67,
+      "description": "Access rights",
+      "microservice": "rs-admin",
+      "resource": "/accessrights",
+      "verb": "GET",
+      "controllerSimpleName": "AccessRightsController"
     }
   ]
 }

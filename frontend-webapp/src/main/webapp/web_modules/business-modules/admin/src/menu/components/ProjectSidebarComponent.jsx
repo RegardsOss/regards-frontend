@@ -68,7 +68,9 @@ class ProjectSidebarComponent extends React.Component {
       <I18nProvider messageDir="business-modules/admin/src/menu/i18n">
 
         <Drawer
-          open containerStyle={merge({ width: '100%' }, style.sidebarContainer.styles)} className={style.sidebarContainer.classes}
+          open
+          containerStyle={merge({ width: '100%' }, style.sidebarContainer.styles)}
+          className={style.sidebarContainer.classes}
         >
           <HateoasSidebarElement
             key="1"
@@ -97,7 +99,7 @@ class ProjectSidebarComponent extends React.Component {
             key="3"
             requiredEndpoints={accessRightDependencies}
             hateoasDisplayLogic={someMatchHateoasDisplayLogic}
-            to={`/admin/${projectName}/access-right/edit`}
+            to={`/admin/${projectName}/access-right/board`}
             currentPath={this.props.currentPath}
             primaryText={<FormattedMessage id="menu.dataaccessrights" />}
             leftIcon={<VerifiedUser

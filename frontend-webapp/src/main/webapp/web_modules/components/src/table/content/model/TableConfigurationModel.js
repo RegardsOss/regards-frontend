@@ -10,5 +10,6 @@ export default {
   lineHeight: PropTypes.number.isRequired,
   cellsStyle: PropTypes.objectOf(PropTypes.string),
   displayCheckbox: PropTypes.bool,
+  displaySelectAll: PropTypes.bool,
   onSortByColumn: PropTypes.func,
 }

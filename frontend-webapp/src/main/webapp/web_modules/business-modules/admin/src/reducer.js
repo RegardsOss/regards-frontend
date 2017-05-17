@@ -26,7 +26,7 @@ const adminReducer = combineReducers({
   'project-management': projectManagementReducer,
   ui: uiManagementReducer,
   'user-management': userManagementReducer,
-  'access-right': accessRightManagementReducer,
+  'access-right-management': accessRightManagementReducer,
 })
 
 export default adminReducer

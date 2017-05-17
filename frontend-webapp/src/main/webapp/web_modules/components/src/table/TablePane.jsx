@@ -216,6 +216,7 @@ class TablePane extends React.Component {
   render() {
     const { entitiesFetching, resultsCount, tableData, selectionMode, onToggleSelectionMode, setToggledElements } = this.props
     const { visibleColumns, tableWidth } = this.state
+    console.error('I did measure, ', tableWidth)
     return (
       <Measure onMeasure={this.onComponentResized}>
         <div style={allWidthStyles}>
@@ -230,10 +231,11 @@ class TablePane extends React.Component {
           >
             <Table
               columns={visibleColumns}
-              width={tableWidth} {...tableData}
+              width={tableWidth}
               selectionMode={selectionMode}
               onToggleSelectionMode={onToggleSelectionMode}
               setToggledElements={setToggledElements}
+              {...tableData}
             />
           </NoContentMessageInfo>
         </div >

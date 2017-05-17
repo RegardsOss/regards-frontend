@@ -55,39 +55,17 @@ class Table extends React.Component {
 
   static defaultProps = {
     displayCheckbox: false,
+    displaySelectAll: false,
   }
 
-  /**
-   * Computes graphics measures
-   */
-  static computeGraphicsMeasures = ({ pageSize, lineHeight, width, columns = [] }) => {
-    // 1 - compute height
-    const nbEntitiesByPage = pageSize * 3
-    const height = lineHeight * (pageSize + 1) // +1 for header row
-
-    // 2 - compute resulting column width
-    // constant column width
-    const columnWidth = Math.round(width / columns.length)
-    // consume remaining space or delete last pixels
-    const lastColumnWidth = width - (columnWidth * (columns.length - 1))
-    // Init labelled columns width
-    const columnWidths = columns.reduce((acc, { label }, index) => ({
-      [label]: index === columns.length - 1 ? lastColumnWidth : columnWidth,
-      ...acc,
-    }), {})
-
-    return { nbEntitiesByPage, height, width, columnWidths }
-  }
-
-  constructor(props) {
-    super(props)
-    this.state = {
-      columnsFilterPanelOpened: false,
-      ...Table.computeGraphicsMeasures(props),
-    }
+  componentWillMount = () => {
     // install selection management
-    this.selectionController = new SelectionController(props.entities, this.props.selectionMode)
+    this.selectionController = new SelectionController(this.props.entities, this.props.selectionMode)
     this.selectionController.setToggledElements = this.props.setToggledElements
+    this.setState({
+      columnsFilterPanelOpened: false,
+      ...this.computeGraphicsMeasures(this.props),
+    })
   }
 
   componentWillReceiveProps(nextProps) {
@@ -95,7 +73,7 @@ class Table extends React.Component {
     this.selectionController.entities = nextProps.entities
     this.selectionController.selectionMode = nextProps.selectionMode
     this.selectionController.onSelectionChange = nextProps.onSelectionChange
-    this.setState({ ...Table.computeGraphicsMeasures(nextProps) })
+    this.setState({ ...this.computeGraphicsMeasures(nextProps) })
 
     // Check table selection state
     if (nextProps.selectionMode !== this.selectionController.currentMode) {
@@ -144,11 +122,35 @@ class Table extends React.Component {
 
   isSelectedRow = rowIndex => this.selectionController.isSelectedRow(rowIndex)
 
+  /**
+   * Computes graphics measures
+   */
+  computeGraphicsMeasures = ({ displayCheckbox, pageSize, lineHeight, width, columns = [] }) => {
+    const { selectionColumn } = this.context.moduleTheme
+  // 1 - compute height
+    const nbEntitiesByPage = pageSize * 3
+    const height = lineHeight * (pageSize + 1) // +1 for header row
+
+  // 2 - compute resulting column width
+  // constant column width
+    const availableWidth = width - (displayCheckbox ? selectionColumn.width : 0)
+    const columnWidth = Math.round(availableWidth / columns.length)
+  // consume remaining space or delete last pixels
+    const lastColumnWidth = availableWidth - (columnWidth * (columns.length - 1))
+  // Init labelled columns width
+    const columnWidths = columns.reduce((acc, { label }, index) => console.error('A column ', label) || ({
+      [label]: index === columns.length - 1 ? lastColumnWidth : columnWidth,
+      ...acc,
+    }), {})
+
+    return { nbEntitiesByPage, height, width, columnWidths }
+  }
+
   render() {
     if (!this.props.entities) {
       return null
     }
-    const { cellsStyle, columns, width, lineHeight, displayCheckbox, displayColumnsHeader, onScrollEnd, onSortByColumn } = this.props
+    const { cellsStyle, columns, width, lineHeight, displayCheckbox, displaySelectAll, displayColumnsHeader, onScrollEnd, onSortByColumn } = this.props
     const { columnWidths, height } = this.state
     const { selectionColumn } = this.context.moduleTheme
     const totalNumberOfEntities = this.props.entities.length
@@ -170,6 +172,7 @@ class Table extends React.Component {
                 key={'selection.column'}
                 columnKey={'checkbox'}
                 header={<CheckboxColumnHeader
+                  displaySelectAll={displaySelectAll}
                   areAllSelected={this.selectionController.areAllSelected()}
                   onToggleSelectAll={this.props.onToggleSelectionMode}
                   lineHeight={lineHeight}

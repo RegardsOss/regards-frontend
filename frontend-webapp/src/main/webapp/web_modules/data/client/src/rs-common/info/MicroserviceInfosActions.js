@@ -13,7 +13,6 @@ export default class MicroserviceInfosActions extends BasicSignalActions {
   }
 
   check(microserviceName) {
-    console.log('Check for microservice', microserviceName)
     return this.sendSignal('GET', {}, { microserviceName })
   }
 }

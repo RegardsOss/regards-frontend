@@ -101,7 +101,6 @@ export class ProjectFormContainer extends React.Component {
     .then((actionResult) => {
       // We receive here the action
       if (!actionResult.error) {
-        console.log('RESULT', actionResult)
         const createdProject = actionResult.payload.entities.projects[actionResult.payload.result]
         const url = this.getProjectConnectionsUrl(createdProject.content.name)
         browserHistory.push(url)
