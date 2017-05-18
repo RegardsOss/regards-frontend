@@ -206,7 +206,7 @@ export class AccessRightFormComponent extends React.Component {
         )
       })}
     </Field>
-    )
+  )
 
   renderQualityFilter = () => {
     const { isDisplayAdvancedForm } = this.state
@@ -308,4 +308,3 @@ export default reduxForm({
   form: 'access-right-form',
   validate,
 })(AccessRightFormComponent)
-

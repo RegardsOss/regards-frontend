@@ -44,10 +44,12 @@ class AdminContainer extends React.Component {
           primary
           onTouchTap={this.handleTest}
         />
-        {this.state.test ? <iframe
-          style={moduleTheme.adminFrame}
-          src={this.state.filePath}
-        /> : ''}
+        {this.state.test ?
+          <iframe
+            title="content-test"
+            style={moduleTheme.adminFrame}
+            src={this.state.filePath}
+          /> : null}
       </div>
     )
   }

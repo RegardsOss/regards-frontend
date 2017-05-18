@@ -15,7 +15,7 @@ import Styles from '../../../src/styles/styles'
  * Tests for FormParametersConfigurationComponent
  * @author Sébastien binda
  */
-describe('[RESULTS MODULE] Testing SearchResultsConfigurationComponent', () => {
+describe('[Search Results] Testing SearchResultsConfigurationComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
   const options = { context: buildTestContext(Styles) }

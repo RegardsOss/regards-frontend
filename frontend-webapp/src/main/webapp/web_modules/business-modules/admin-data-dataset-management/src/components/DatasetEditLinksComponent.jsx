@@ -152,11 +152,13 @@ export class DatasetEditLinksComponent extends React.Component {
                 {map(remainingCollections, (collection, id) => (
                   <ListItem
                     key={id}
-                    primaryText={collection.content.label} rightIconButton={
+                    primaryText={collection.content.label}
+                    rightIconButton={
                       <IconButton onTouchTap={() => handleAdd(collection.content.ipId, false)}>
                         <Add />
                       </IconButton>
-                  } disabled
+                    }
+                    disabled
                   />
                 ))}
               </List>

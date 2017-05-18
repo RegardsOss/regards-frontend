@@ -209,7 +209,8 @@ class ThemesPage extends React.Component {
               label="View Drawer"
             />
             <Drawer
-              open={this.state.drawerOpen} docked={false}
+              open={this.state.drawerOpen}
+              docked={false}
               onRequestChange={this.handleRequestChangeDrawer}
             >
               <MenuItem>Menu Item</MenuItem>

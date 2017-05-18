@@ -55,11 +55,13 @@ export class CollectionEditLinksComponent extends React.Component {
                 {map(linkedCollections, (collection, id) => (
                   <ListItem
                     key={id}
-                    primaryText={collection.content.label} rightIconButton={
+                    primaryText={collection.content.label}
+                    rightIconButton={
                       <IconButton onTouchTap={() => handleDelete(collection.content.ipId)}>
                         <Clear />
                       </IconButton>
-                  } disabled
+                    }
+                    disabled
                   />
                 ))}
               </List>
@@ -88,11 +90,13 @@ export class CollectionEditLinksComponent extends React.Component {
                 {map(remainingCollections, (collection, id) => (
                   <ListItem
                     key={id}
-                    primaryText={collection.content.label} rightIconButton={
+                    primaryText={collection.content.label}
+                    rightIconButton={
                       <IconButton onTouchTap={() => handleAdd(collection.content.ipId)}>
                         <Add />
                       </IconButton>
-                  } disabled
+                    }
+                    disabled
                   />
                 ))}
               </List>

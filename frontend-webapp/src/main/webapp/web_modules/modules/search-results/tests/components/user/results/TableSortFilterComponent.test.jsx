@@ -6,13 +6,13 @@ import { assert } from 'chai'
 import { DropDownButton, TableStyles } from '@regardsoss/components'
 import MenuItem from 'material-ui/MenuItem'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import TableSortFilter from '../../../src/components/user/TableSortFilter'
+import TableSortFilterComponent from '../../../../src/components/user/results/TableSortFilterComponent'
 
 /**
  * Tests for SearchResultsComponent
  * @author Sébastien binda
  */
-describe('[RESULTS MODULE] Testing TableSortFilter', () => {
+describe('[Search Results] Testing TableSortFilterComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
   const options = { context: buildTestContext(TableStyles) } // use table context styles
@@ -26,14 +26,14 @@ describe('[RESULTS MODULE] Testing TableSortFilter', () => {
     }
 
     const wrapper = shallow(
-      <TableSortFilter {...props} />, options,
+      <TableSortFilterComponent {...props} />, options,
     )
 
     const menuBtn = wrapper.find(DropDownButton)
     assert.lengthOf(menuBtn, 0, 'No sortable columns provided. The component should no be displayed.')
   })
 
-  it('Should not render a TableSortFilter', () => {
+  it('Should not render a TableSortFilterComponent', () => {
     const props = {
       tableColumns: [
         {
@@ -53,7 +53,7 @@ describe('[RESULTS MODULE] Testing TableSortFilter', () => {
     }
 
     const wrapper = shallow(
-      <TableSortFilter {...props} />, options,
+      <TableSortFilterComponent {...props} />, options,
     )
 
     const menuBtn = wrapper.find(DropDownButton)
@@ -61,7 +61,7 @@ describe('[RESULTS MODULE] Testing TableSortFilter', () => {
   })
 
 
-  it('Should render a TableSortFilter', () => {
+  it('Should render a TableSortFilterComponent', () => {
     const props = {
       tableColumns: [
         {
@@ -86,7 +86,7 @@ describe('[RESULTS MODULE] Testing TableSortFilter', () => {
     }
 
     const wrapper = shallow(
-      <TableSortFilter {...props} />, options,
+      <TableSortFilterComponent {...props} />, options,
     )
 
     const menuBtn = wrapper.find(DropDownButton)

@@ -1,7 +1,7 @@
 {
-  "admin@cnes.fr": {
+  "regards_admin@cnes.fr": {
     "id": 1,
-    "password": "admin",
+    "password": "root_admin",
     "firstName": "Jean-Paul",
     "lastName": "Theboss",
     "status": "ACTIVE",

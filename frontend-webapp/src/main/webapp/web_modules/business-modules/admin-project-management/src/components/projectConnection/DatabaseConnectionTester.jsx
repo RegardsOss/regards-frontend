@@ -134,7 +134,8 @@ class DatabaseConnectionTester extends React.Component {
       (<Snackbar
         open={this.state.snackBarOpen}
         message={<FormattedMessage
-          id={this.state.snackBarMessageId} values={{
+          id={this.state.snackBarMessageId}
+          values={{
             microservice: projectConnection.content.microservice,
             driverClassName: projectConnection.content.driverClassName,
           }}

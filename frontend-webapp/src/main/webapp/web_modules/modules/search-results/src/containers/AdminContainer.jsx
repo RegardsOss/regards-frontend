@@ -12,7 +12,7 @@ import ModuleConfiguration from '../models/ModuleConfiguration'
  * Main container to display administration view of the module form.
  * @author Sébastien binda
  */
-class AdminContainer extends React.Component {
+export class AdminContainer extends React.Component {
 
 
   static propTypes = {
