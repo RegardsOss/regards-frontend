@@ -10,9 +10,10 @@ import { connect } from '@regardsoss/redux'
 import { TableActions, TableSelectors, TableSelectionModes } from '@regardsoss/components'
 
 /**
- * React component to display a table filter for select all / unselect all entities
+ * Table select all component
  */
-class TableSelectAllFilter extends React.Component {
+export class TableSelectAllComponent extends React.Component {
+  // TODO this should not be a container! selection should use a FULL shared redux state with table (ennoying to refactor it there)
 
   static propTypes = {
     // eslint-disable-next-line react/no-unused-prop-types
@@ -88,4 +89,4 @@ const mapDispatchToProps = dispatch => ({
   toggleTableSelectionMode: () => dispatch(TableActions.toggleTableSelectionMode()),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(TableSelectAllFilter)
+export default connect(mapStateToProps, mapDispatchToProps)(TableSelectAllComponent)

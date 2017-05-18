@@ -1,6 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import { browserHistory } from 'react-router'
 import reduce from 'lodash/reduce'
 import join from 'lodash/join'
 import { connect } from '@regardsoss/redux'
@@ -8,12 +9,15 @@ import { AttributeModel, SearchResultsTargetsEnum } from '@regardsoss/model'
 import { LoadingComponent } from '@regardsoss/display-control'
 import { AttributeModelActions, AttributeModelSelectors } from '../client/AttributeModelClient'
 import ModuleConfiguration from '../models/ModuleConfiguration'
-import SearchResultsComponent from '../components/user/SearchResultsComponent'
+import URLManagementContainer from './user/URLManagementContainer'
+import ModuleComponent from '../components/user/ModuleComponent'
+
+
 /**
  * Main container to display module form.
  * @author Sébastien binda
  */
-class ModuleContainer extends React.Component {
+export class ModuleContainer extends React.Component {
 
   static propTypes = {
     // Props supplied by LazyModuleComponent
@@ -33,12 +37,8 @@ class ModuleContainer extends React.Component {
     // Calculate needed facettes from given props.
     const { moduleConf: { attributes } } = props
     // Calculate facettes
-    const facettes = reduce(attributes, (result, value, key) => {
-      if (value.facetable) {
-        result.push(value.attributeFullQualifiedName)
-      }
-      return result
-    }, [])
+    const facettes = reduce(attributes, (result, value, key) =>
+      value.facetable ? [...result, value.attributeFullQualifiedName] : result)
     this.state = {
       attributesFetching: true,
       facettesQuery: facettes && facettes.length > 0 ? `facets=${join(facettes, ',')}` : null,
@@ -55,33 +55,43 @@ class ModuleContainer extends React.Component {
 
   render() {
     const { appName, project } = this.props
-    const { attributeModels, moduleConf: {
-      enableFacettes,
-      searchQuery,
-      attributes,
-      attributesRegroupements,
-      resultType,
-      singleDatasetIpId,
-      breadcrumbInitialContextLabel,
+    const {
+      attributeModels,
+      moduleConf: {
+        enableFacettes,
+        searchQuery,
+        attributes,
+        attributesRegroupements,
+        resultType,
+        singleDatasetIpId,
+        breadcrumbInitialContextLabel,
     } } = this.props
-    const { attributesFetching } = this.state
+    const { attributesFetching, facettesQuery } = this.state
 
-    // TODO inject control for single dataset ipId (for who relaunches the research)
     if (!attributesFetching) {
       return (
-        <SearchResultsComponent
-          appName={appName}
-          project={project}
-          enableFacettes={enableFacettes}
-          searchQuery={searchQuery}
-          facettesQuery={this.state.facettesQuery}
-          attributesConf={attributes}
-          attributesRegroupementsConf={attributesRegroupements}
-          attributeModels={attributeModels}
-          target={resultType || SearchResultsTargetsEnum.DATAOBJECT_RESULTS}
-          singleDatasetIpId={singleDatasetIpId}
-          breadcrumbInitialContextLabel={breadcrumbInitialContextLabel}
-        />
+        <div>
+          { /* URL management container (no view) */}
+          <URLManagementContainer
+            currentPath={browserHistory.getCurrentLocation().pathname}
+            currentQuery={browserHistory.getCurrentLocation().query}
+            initialContextLabel={breadcrumbInitialContextLabel}
+            initialViewObjectType={resultType || SearchResultsTargetsEnum.DATAOBJECT_RESULTS}
+          />
+
+          { /* View : module */}
+          <ModuleComponent
+            appName={appName}
+            project={project}
+            enableFacettes={enableFacettes}
+            searchQuery={searchQuery}
+            facettesQuery={facettesQuery}
+            initialDatasetIpId={singleDatasetIpId}
+            attributesConf={attributes}
+            attributesRegroupementsConf={attributesRegroupements}
+            attributeModels={attributeModels}
+          />
+        </div>
       )
     }
     return (
@@ -89,15 +99,13 @@ class ModuleContainer extends React.Component {
     )
   }
 }
-const
-  mapStateToProps = state => ({
-    attributeModels: AttributeModelSelectors.getList(state),
-  })
+const mapStateToProps = state => ({
+  attributeModels: AttributeModelSelectors.getList(state),
+})
 
-const
-  mapDispatchToProps = dispatch => ({
-    fetchAllModelsAttributes: () => dispatch(AttributeModelActions.fetchEntityList()),
-  })
+const mapDispatchToProps = dispatch => ({
+  fetchAllModelsAttributes: () => dispatch(AttributeModelActions.fetchEntityList()),
+})
 
 const UnconnectedModuleContainer = ModuleContainer
 export {

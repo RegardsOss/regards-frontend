@@ -11,7 +11,7 @@ import { DropDownButton, TableColumnConfiguration } from '@regardsoss/components
  *
  * @author Sébastien Binda
  */
-class TableSortFilter extends React.Component {
+class TableSortFilterComponent extends React.Component {
 
   static propTypes = {
     // List of displayable columns. A column is a configuration for an attribute or attributeRegroupement.
@@ -94,4 +94,4 @@ class TableSortFilter extends React.Component {
 
 }
 
-export default TableSortFilter
+export default TableSortFilterComponent

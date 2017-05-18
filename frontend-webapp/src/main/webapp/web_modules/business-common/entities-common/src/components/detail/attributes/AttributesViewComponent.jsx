@@ -83,7 +83,8 @@ class AttributesViewComponent extends React.Component {
             ))}
             <TableRow>
               <TableRowColumn
-                colSpan="2" style={{
+                colSpan="2"
+                style={{
                   paddingLeft: 0,
                   paddingRight: 0,
                 }}

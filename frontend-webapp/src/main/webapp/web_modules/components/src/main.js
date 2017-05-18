@@ -45,6 +45,7 @@ import PluginConfigurationPickerComponent from './plugin/PluginConfigurationPick
 
 import TableSelectionModes from './table/selection/TableSelectionModes'
 import TableContainer from './table/TableContainer'
+import TablePaneHeader from './table/header/TablePaneHeader'
 import TableActions from './table/model/TableActions'
 import TableSelectors from './table/model/TableSelectors'
 import TableStyles from './table/styles/styles'
@@ -75,6 +76,7 @@ export {
   ErrorDecoratorComponent,
   IFrameURLContentDisplayer,
   TableContainer,
+  TablePaneHeader,
   TableActions,
   TableSelectors,
   TableSelectionModes,

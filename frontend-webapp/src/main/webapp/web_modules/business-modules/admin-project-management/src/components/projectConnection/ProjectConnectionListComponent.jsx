@@ -129,7 +129,8 @@ export class ProjectConnectionListComponent extends React.Component {
       <Card className="selenium-projectConnectionList">
         <CardTitle
           title={<FormattedMessage
-            id="project.connection.list.title" values={{ project: this.props.project.content.name }}
+            id="project.connection.list.title"
+            values={{ project: this.props.project.content.name }}
           />}
           subtitle={<FormattedMessage id="project.connection.list.subtitle" />}
         />

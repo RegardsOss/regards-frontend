@@ -1,4 +1,4 @@
-import ReactTransitionGroup from 'react-addons-transition-group'
+import ReactTransitionGroup from 'react-transition-group'
 import { MakesFade } from '@regardsoss/components/src/transitions/MaterialDesignMotions'
 import { LoadingComponent } from '@regardsoss/display-control'
 

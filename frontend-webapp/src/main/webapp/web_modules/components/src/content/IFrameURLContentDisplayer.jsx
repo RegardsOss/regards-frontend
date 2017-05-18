@@ -18,6 +18,7 @@ class IFrameURLContentDisplayerComponent extends React.Component {
     const { contentURL, onContentLoaded } = this.props
     return (
       <iframe
+        title="content-displayer"
         height="100%"
         width="100%"
         style={{ position: 'absolute' }}

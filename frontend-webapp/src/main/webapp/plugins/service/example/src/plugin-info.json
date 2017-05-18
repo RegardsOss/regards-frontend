@@ -13,6 +13,7 @@
     "viewBox": "0 0 94.5 94.5"
   },
   "conf": {
+    "target": "DATASET",
     "static": {
       "static1": {
         "type": "string",
