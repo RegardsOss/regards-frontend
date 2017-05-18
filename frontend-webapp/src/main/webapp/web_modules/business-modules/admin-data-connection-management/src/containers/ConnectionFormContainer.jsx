@@ -105,7 +105,7 @@ export class ConnectionFormContainer extends React.Component {
   }
 
   renderSubForm = () => (<ConnectionFormComponent
-    onSubmit={this.props.isEditing ? this.handleUpdate : this.handleCreate}
+    onSubmit={this.state.isEditing ? this.handleUpdate : this.handleCreate}
     currentConnection={this.props.currentConnection}
     pluginMetaDataList={this.props.pluginMetaDataList}
     backUrl={this.getBackUrl()}

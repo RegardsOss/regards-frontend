@@ -34,7 +34,8 @@ const messages = Object.assign({
   'connection.connectionTester.snackbar.success': 'La connexion à {label} est fonctionnelle',
   'connection.connectionTester.snackbar.error': 'La connexion à {label} a échouée',
   'connection.connectionTester.pending': 'Tentative de connexion...',
-  'invalid.minPoolSizeLow': 'Nombre de connexion insuffisante',
+  'invalid.minPoolSizeLow': 'Nombre de connexions insuffisante',
+  'invalid.maxPoolSizeGreaterThanMinPoolSize': 'Le nombre max de connexions doit être supérieur au min',
 }, Locales.en)
 
 export default messages

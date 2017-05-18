@@ -226,8 +226,11 @@ function validate(values) {
     // Do not return anything when fields are not yet initialized (first render invalid state is wrong otherwise)...
     return errors
   }
-  if (values.minPoolSize < 3) {
+  if (parseInt(values.minPoolSize, 10) < 3) {
     errors.minPoolSize = 'invalid.minPoolSizeLow'
+  }
+  if (parseInt(values.maxPoolSize, 10) < parseInt(values.minPoolSize, 10)) {
+    errors.maxPoolSize = 'invalid.maxPoolSizeGreaterThanMinPoolSize'
   }
   if (!values.pluginClassName) {
     errors.pluginClassName = ErrorTypes.REQUIRED
