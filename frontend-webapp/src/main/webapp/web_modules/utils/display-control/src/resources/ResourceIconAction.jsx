@@ -39,7 +39,7 @@ class ResourceIconAction extends React.Component {
       dependencies = resourceDependencies
     }
     if (resourceDependency) {
-      dependencies.add(resourceDependency)
+      dependencies.push(resourceDependency)
     }
     if (isInstance) {
       return <IconButton {...others} />
