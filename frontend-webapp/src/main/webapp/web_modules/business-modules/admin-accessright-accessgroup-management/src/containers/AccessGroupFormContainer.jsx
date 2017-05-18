@@ -1,12 +1,13 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { browserHistory } from 'react-router'
-import { connect } from '@regardsoss/redux'
-import { AccessGroup } from '@regardsoss/model'
-import { I18nProvider } from '@regardsoss/i18n'
-import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { accessGroupActions, accessGroupSelectors } from '../clients/AccessGroupClient'
+import {browserHistory} from 'react-router'
+import {FormattedMessage} from 'react-intl'
+import {connect} from '@regardsoss/redux'
+import {AccessGroup} from '@regardsoss/model'
+import {I18nProvider} from '@regardsoss/i18n'
+import {LoadableContentDisplayDecorator} from '@regardsoss/display-control'
+import {accessGroupActions, accessGroupSelectors} from '../clients/AccessGroupClient'
 import AccessGroupFormComponent from '../components/AccessGroupFormComponent'
 
 
@@ -43,7 +44,9 @@ export class AccessGroupFormContainer extends React.Component {
   }
 
   componentDidMount() {
+    // If creation mode no accessGroup to fetch
     if (this.state.isCreating === false) {
+      // Else, fetch the required accessGroup
       Promise.resolve(this.props.fetchAccessGroup(this.props.params.accessGroupName))
         .then((actionResult) => {
           // We receive here the action
@@ -63,7 +66,7 @@ export class AccessGroupFormContainer extends React.Component {
 
 
   getBackUrl = () => {
-    const { params: { project } } = this.props
+    const {params: {project}} = this.props
     return `/admin/${project}/access-right/access-group/list`
   }
 
@@ -112,24 +115,30 @@ export class AccessGroupFormContainer extends React.Component {
       })
   }
 
+  renderAccessGroup = () => (
+    <AccessGroupFormComponent
+      isDuplicating={this.state.isDuplicating}
+      isCreating={this.state.isCreating}
+      isEditing={this.state.isEditing}
+      currentAccessGroup={this.props.currentAccessGroup}
+      onSubmit={this.state.isEditing ? this.handleUpdate : this.handleCreate}
+      backUrl={this.getBackUrl()}
+    />
+  )
+
 
   render() {
-    const { currentAccessGroup } = this.props
-    const { isEditing, isCreating, isDuplicating, isError, isLoading } = this.state
+    const {currentAccessGroup} = this.props
+    const {isError, isLoading} = this.state
     return (
       <I18nProvider messageDir="business-modules/admin-accessright-accessgroup-management/src/i18n">
         <LoadableContentDisplayDecorator
           isLoading={isLoading}
           isContentError={isError}
+          isEmpty={!isLoading && !currentAccessGroup}
+          emptyMessage={<FormattedMessage id="group.form.invalid.group"/>}
         >
-          {() => (<AccessGroupFormComponent
-            isDuplicating={isDuplicating}
-            isCreating={isCreating}
-            isEditing={isEditing}
-            currentAccessGroup={currentAccessGroup}
-            onSubmit={isEditing ? this.handleUpdate : this.handleCreate}
-            backUrl={this.getBackUrl()}
-          />)}
+          {this.renderAccessGroup}
         </LoadableContentDisplayDecorator>
       </I18nProvider>
     )

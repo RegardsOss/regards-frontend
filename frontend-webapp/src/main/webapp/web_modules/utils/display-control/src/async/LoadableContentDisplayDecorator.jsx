@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { ShowableAtRender } from '@regardsoss/components'
+import { ShowableAtRender, ErrorCardComponent } from '@regardsoss/components'
 import LoadingComponent from './LoadingComponent'
 import ContentErrorComponent from './ContentErrorComponent'
 
@@ -64,7 +64,9 @@ class LoadableContentDisplayDecorator extends React.Component {
           </div>
         </ShowableAtRender>
         <ShowableAtRender show={isContentError && !isLoading}>
-          <ContentErrorComponent />
+          <ErrorCardComponent
+            message={<ContentErrorComponent />}
+          />
         </ShowableAtRender>
         <ShowableAtRender show={isEmpty && !isContentError && !isLoading}>
           <div>{this.props.emptyMessage ? this.props.emptyMessage : 'No content!'}</div>

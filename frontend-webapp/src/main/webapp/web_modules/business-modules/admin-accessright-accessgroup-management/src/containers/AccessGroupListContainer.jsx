@@ -1,7 +1,9 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import keys from 'lodash/keys'
 import { browserHistory } from 'react-router'
+import { FormattedMessage } from 'react-intl'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { AccessGroup } from '@regardsoss/model'
@@ -20,8 +22,8 @@ export class AccessGroupListContainer extends React.Component {
       project: PropTypes.string,
     }),
     // from mapStateToProps
-    accessGroupList: PropTypes.objectOf(AccessGroup),
-    isFetching: PropTypes.bool,
+    accessGroupList: PropTypes.objectOf(AccessGroup).isRequired,
+    isFetching: PropTypes.bool.isRequired,
     // from mapDispatchToProps
     fetchAccessGroupList: PropTypes.func,
     deleteAccessGroup: PropTypes.func,
@@ -69,6 +71,8 @@ export class AccessGroupListContainer extends React.Component {
       <I18nProvider messageDir="business-modules/admin-accessright-accessgroup-management/src/i18n">
         <LoadableContentDisplayDecorator
           isLoading={isFetching}
+          isEmpty={!isFetching && accessGroupList && keys(accessGroupList).length === 0}
+          emptyMessage={<FormattedMessage id="group.list.empty" />}
         >
           <AccessGroupListComponent
             accessGroupList={accessGroupList}
