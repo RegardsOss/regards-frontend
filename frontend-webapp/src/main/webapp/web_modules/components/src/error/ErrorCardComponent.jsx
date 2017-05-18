@@ -7,7 +7,7 @@ import Icon from 'material-ui/svg-icons/content/report'
 class ErrorCardComponent extends React.Component {
 
   static propTypes = {
-    message: PropTypes.oneOf([PropTypes.string,PropTypes.func]).isRequired,
+    message: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
   }
 
   render() {

@@ -33,7 +33,7 @@ import SearchResultsTargetsEnum from './access/SearchResultsTargetsEnum'
 import Entity from './dam/Entity'
 import EntityController from './dam/EntityController'
 import AccessGroup from './dam/AccessGroup'
-import AccessRight from './dam/AccessRight'
+import { AccessRight, AccessRightContent } from './dam/AccessRight'
 import CatalogEntity, { CatalogEntityTypes } from './catalog/CatalogEntity'
 import { ObjectLinkedFile, ObjectLinkedFileTypes } from './catalog/ObjectLinkedFile'
 import LinkPluginDataset from './catalog/LinkPluginDataset'
@@ -79,6 +79,7 @@ export default {
   Datasource,
   AccessGroup,
   AccessRight,
+  AccessRightContent,
 
   // CATALOG
   CatalogEntity,

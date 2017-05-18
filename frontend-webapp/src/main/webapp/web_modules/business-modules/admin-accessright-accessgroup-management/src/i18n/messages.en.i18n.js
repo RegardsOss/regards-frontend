@@ -1,7 +1,7 @@
 import { Locales } from '@regardsoss/form-utils'
 
 const messages = Object.assign({
-  'group.list.empty' : 'No access group defined. Use the create button here under to add a new one.',
+  'group.list.empty': 'No access group defined. Use the create button here under to add a new one.',
   'group.list.title': 'Manage group acces',
   'group.list.subtitle': 'A group access allows to autorize a group of user to access to dataset, partially or totaly',
   'group.list.table.name': 'Name',
@@ -14,7 +14,7 @@ const messages = Object.assign({
   'group.create.title': 'Create a new group access',
   'group.edit.title': 'Edit the group access {name}',
   'group.duplicate.title': 'Duplicate the group access {name}',
-  'group.form.invalid.group' : 'The required group is not defined',
+  'group.form.invalid.group': 'The required group is not defined',
   'group.form.name': 'Name',
   'group.form.action.cancel': 'Cancel',
   'group.form.action.save': 'Save',

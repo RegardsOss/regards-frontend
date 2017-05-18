@@ -4,13 +4,18 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { spy, stub } from 'sinon'
-import { testSuiteHelpers, DumpProvider,buildTestContext } from '@regardsoss/tests-helpers'
+import { testSuiteHelpers, DumpProvider, buildTestContext } from '@regardsoss/tests-helpers'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { AccessGroupFormContainer } from '../../src/containers/AccessGroupFormContainer'
 import AccessGroupFormComponent from '../../src/components/AccessGroupFormComponent'
 
 const context = buildTestContext()
 
+/**
+ * Tests for AccessGroupFormContainer
+ *
+ * @author Sébastien Binda
+ */
 describe('[ADMIN USER ACCESSGROUP MANAGEMENT] Testing AccessGroupFormContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
@@ -40,7 +45,7 @@ describe('[ADMIN USER ACCESSGROUP MANAGEMENT] Testing AccessGroupFormContainer',
     const enzymeWrapper = shallow(<AccessGroupFormContainer {...props} />, { context, lifecycleExperimental: true })
     expect(enzymeWrapper.find(LoadableContentDisplayDecorator)).to.have.length(1)
     assert.isFalse(enzymeWrapper.find(LoadableContentDisplayDecorator).props().isLoading, 'Loading should be false')
-    assert.isFalse(fetchAccessGroupSpy.calledOnce, "No access group should be fetch for a creation mode")
+    assert.isFalse(fetchAccessGroupSpy.calledOnce, 'No access group should be fetch for a creation mode')
   })
 
   it('Render properly a loading for edition', () => {
@@ -49,7 +54,7 @@ describe('[ADMIN USER ACCESSGROUP MANAGEMENT] Testing AccessGroupFormContainer',
       // from router
       params: {
         project: 'lambda',
-        accessGroupName:'test',
+        accessGroupName: 'test',
       },
       // from mapStateToProps
       currentAccessGroup: undefined,
@@ -63,7 +68,7 @@ describe('[ADMIN USER ACCESSGROUP MANAGEMENT] Testing AccessGroupFormContainer',
     const enzymeWrapper = shallow(<AccessGroupFormContainer {...props} />, { context, lifecycleExperimental: true })
     expect(enzymeWrapper.find(LoadableContentDisplayDecorator)).to.have.length(1)
     assert.isTrue(enzymeWrapper.find(LoadableContentDisplayDecorator).props().isLoading, 'A loading component should be displayed during access group retrieve')
-    assert.isTrue(fetchAccessGroupSpy.calledOnce,"The fetchAccessGroup method should be called for an edition mode")
+    assert.isTrue(fetchAccessGroupSpy.calledOnce, 'The fetchAccessGroup method should be called for an edition mode')
   })
 
   it('Render properly for edition', () => {
@@ -73,7 +78,7 @@ describe('[ADMIN USER ACCESSGROUP MANAGEMENT] Testing AccessGroupFormContainer',
       params: {
         project: 'lambda',
         mode: 'edit',
-        accessGroupName:'test',
+        accessGroupName: 'test',
       },
       // from mapStateToProps
       currentAccessGroup: DumpProvider.getFirstEntity('DataManagementClient', 'AccessGroup'),
@@ -89,11 +94,11 @@ describe('[ADMIN USER ACCESSGROUP MANAGEMENT] Testing AccessGroupFormContainer',
     let loader = enzymeWrapper.find(LoadableContentDisplayDecorator)
     expect(enzymeWrapper.find(LoadableContentDisplayDecorator)).to.have.length(1)
     assert.isTrue(enzymeWrapper.find(LoadableContentDisplayDecorator).props().isLoading, 'A loading component should not be displayed during access group retrieve')
-    assert.isTrue(fetchAccessGroupSpy.calledOnce,"The fetchAccessGroup method should not be called if group is already present")
+    assert.isTrue(fetchAccessGroupSpy.calledOnce, 'The fetchAccessGroup method should not be called if group is already present')
 
     // Simulate loading finished
     enzymeWrapper.setState({
-      isLoading: false
+      isLoading: false,
     })
 
     // Check that the loader changed
@@ -103,9 +108,9 @@ describe('[ADMIN USER ACCESSGROUP MANAGEMENT] Testing AccessGroupFormContainer',
     // Dive into the loader to check the children AccessGroupFormComponent rendered
     loader = loader.dive()
     const component = loader.find(AccessGroupFormComponent)
-    assert.isTrue(component.length === 1, "There should be a AccessGroupFormComponent rendered")
-    assert.isFalse(component.prop('isDuplicating'), "The component should not be rendered in duplication mode")
-    assert.isFalse(component.prop('isCreating'), "The component should not be rendered in creation mode")
-    assert.isTrue(component.prop('isEditing'), "The component should be rendered in editing mode")
+    assert.isTrue(component.length === 1, 'There should be a AccessGroupFormComponent rendered')
+    assert.isFalse(component.prop('isDuplicating'), 'The component should not be rendered in duplication mode')
+    assert.isFalse(component.prop('isCreating'), 'The component should not be rendered in creation mode')
+    assert.isTrue(component.prop('isEditing'), 'The component should be rendered in editing mode')
   })
 })

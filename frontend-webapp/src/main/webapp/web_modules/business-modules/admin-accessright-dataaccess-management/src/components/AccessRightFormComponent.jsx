@@ -6,7 +6,7 @@ import { CardActions, CardText } from 'material-ui/Card'
 import { ShowableAtRender, CardActionsComponent, PluginConfigurationPickerComponent } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
 import { RenderTextField, Field, RenderSelectField, reduxForm } from '@regardsoss/form-utils'
-import { AccessRight, PluginConfiguration, PluginMetaData } from '@regardsoss/model'
+import { AccessRightContent, PluginConfiguration, PluginMetaData } from '@regardsoss/model'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import MenuItem from 'material-ui/MenuItem'
@@ -30,7 +30,7 @@ export class AccessRightFormComponent extends React.Component {
   static propTypes = {
     onSubmit: PropTypes.func.isRequired,
     onCancel: PropTypes.func.isRequired,
-    currentAccessRight: AccessRight,
+    currentAccessRight: AccessRightContent,
     pluginConfigurationList: PropTypes.objectOf(PluginConfiguration),
     pluginMetaDataList: PropTypes.objectOf(PluginMetaData),
     // from reduxForm
@@ -158,15 +158,11 @@ export class AccessRightFormComponent extends React.Component {
   }
 
   renderDataAccessLevel = () => {
-    let fieldStyles = {}
     if (this.state.selectMetaDataAccessLevel !== AccessRightsEnum.METADATA_ACCESS_ENUM.DATASET_AND_OBJECT_ACCESS) {
-      fieldStyles = {
-        display: 'none',
-      }
+      return null
     }
     return (
       <Field
-        style={fieldStyles}
         name="dataAccess"
         fullWidth
         component={RenderSelectField}

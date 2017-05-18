@@ -657,5 +657,217 @@
         }
       ]
     }
+  ],
+  "plugins": [
+    {
+      "id": "aComplexErrorPlugin",
+      "pluginId": "aComplexErrorPlugin",
+      "pluginClassName": "fr.cnes.regards.framework.plugins.ComplexErrorPlugin",
+      "interfaceName": "fr.cnes.regards.framework.plugins.ISamplePlugin",
+      "author": "CSSI",
+      "version": "0.0.1",
+      "description": "Complex plugin test",
+      "parameters": [
+        {
+          "name": "coeff",
+          "type": "java.lang.Integer",
+          "paramType": "PRIMITIVE"
+        }
+      ]
+    },
+    {
+      "id": "aSamplePlugin",
+      "pluginId": "aSamplePlugin",
+      "pluginClassName": "fr.cnes.regards.framework.plugins.SamplePlugin",
+      "interfaceName": "fr.cnes.regards.framework.plugins.ISamplePlugin",
+      "author": "CSSI",
+      "version": "12345-6789-11",
+      "description": "Sample plugin test",
+      "parameters": [
+        {
+          "name": "suffix",
+          "type": "java.lang.String",
+          "paramType": "PRIMITIVE"
+        },
+        {
+          "name": "coeff",
+          "type": "java.lang.Integer",
+          "paramType": "PRIMITIVE"
+        },
+        {
+          "name": "isActive",
+          "type": "java.lang.Boolean",
+          "paramType": "PRIMITIVE"
+        }
+      ]
+    },
+    {
+      "id": "aSampleErrorPlugin",
+      "pluginId": "aSampleErrorPlugin",
+      "pluginClassName": "fr.cnes.regards.framework.plugins.SampleErrorPlugin",
+      "interfaceName": "fr.cnes.regards.framework.plugins.ISamplePlugin",
+      "author": "CSSI",
+      "version": "0.0.1",
+      "description": "Sample plugin test",
+      "parameters": [
+        {
+          "name": "suffix",
+          "type": "java.lang.String",
+          "paramType": "PRIMITIVE"
+        },
+        {
+          "name": "coeff",
+          "type": "java.lang.Integer",
+          "paramType": "PRIMITIVE"
+        },
+        {
+          "name": "isActive",
+          "type": "java.lang.Boolean",
+          "paramType": "PRIMITIVE"
+        }
+      ]
+    },
+    {
+      "id": "aComplexPlugin",
+      "pluginId": "aComplexPlugin",
+      "pluginClassName": "fr.cnes.regards.framework.plugins.ComplexPlugin",
+      "interfaceName": "fr.cnes.regards.framework.plugins.ISamplePlugin",
+      "author": "CSSI",
+      "version": "0.0.1",
+      "description": "Complex plugin test",
+      "parameters": [
+        {
+          "name": "plgInterface",
+          "type": "fr.cnes.regards.framework.plugins.IComplexInterfacePlugin",
+          "paramType": "PLUGIN"
+        },
+        {
+          "name": "coeff",
+          "type": "java.lang.Integer",
+          "paramType": "PRIMITIVE"
+        },
+        {
+          "name": "isActive",
+          "type": "java.lang.Boolean",
+          "paramType": "PRIMITIVE"
+        }
+      ]
+    }
+  ],
+  "configurations": [
+    {
+      "id": 40,
+      "pluginId": "aComplexErrorPlugin",
+      "label": "a plugin configuration for the test",
+      "version": "12345-6789-11",
+      "priorityOrder": 0,
+      "active": true,
+      "pluginClassName": "java.lang.Integer",
+      "parameters": [
+        {
+          "name": "param31",
+          "value": "value31",
+          "dynamic": true
+        },
+        {
+          "name": "param32",
+          "value": "value32",
+          "dynamic": false
+        },
+        {
+          "name": "param33",
+          "value": "value33",
+          "dynamic": false
+        },
+        {
+          "name": "param34",
+          "value": "value34",
+          "dynamic": false
+        },
+        {
+          "name": "param35",
+          "value": "value35",
+          "dynamic": false
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "pluginId": "aComplexPlugin",
+      "label": "This is a configuration",
+      "version": "1.2.0",
+      "priorityOrder": 0,
+      "active": true,
+      "pluginClassName": "java.lang.Integer",
+      "parameters": [
+        {
+          "name": "coeff",
+          "value": "42",
+          "dynamic": true
+        },
+        {
+          "name": "isActive",
+          "value": "true",
+          "dynamic": false
+        },
+        {
+          "name": "plgInterface",
+          "value": "40",
+          "dynamic": false
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "pluginId": "aComplexPlugin",
+      "label": "A configuration",
+      "version": "1.0.0",
+      "priorityOrder": 0,
+      "active": true,
+      "pluginClassName": "java.lang.Integer",
+      "parameters": [
+        {
+          "name": "coeff",
+          "value": "43",
+          "dynamic": true
+        },
+        {
+          "name": "isActive",
+          "value": "false",
+          "dynamic": false
+        },
+        {
+          "name": "plgInterface",
+          "value": "40",
+          "dynamic": false
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "pluginId": "aComplexPlugin",
+      "label": "An other configuration",
+      "version": "1.0.0",
+      "priorityOrder": 0,
+      "active": false,
+      "pluginClassName": "java.lang.Integer",
+      "parameters": [
+        {
+          "name": "coeff",
+          "value": "44",
+          "dynamic": true
+        },
+        {
+          "name": "isActive",
+          "value": "true",
+          "dynamic": false
+        },
+        {
+          "name": "plgInterface",
+          "value": "12",
+          "dynamic": false
+        }
+      ]
+    }
   ]
 }

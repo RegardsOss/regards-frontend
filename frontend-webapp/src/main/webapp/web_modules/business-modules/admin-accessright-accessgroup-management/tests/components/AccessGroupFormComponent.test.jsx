@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  */
 import { shallow } from 'enzyme'
-import { expect, assert } from 'chai'
+import { assert } from 'chai'
 import { testSuiteHelpers, DumpProvider, buildTestContext } from '@regardsoss/tests-helpers'
 import { Field } from '@regardsoss/form-utils'
 import { AccessGroupFormComponent } from '../../src/components/AccessGroupFormComponent'
@@ -74,7 +74,7 @@ describe('[ADMIN USER ACCESSGROUP MANAGEMENT] Testing AccessGroupFormComponent',
       handleSubmit: () => {},
       initialize: () => {},
     }
-    const enzymeWrapper = shallow(<AccessGroupFormComponent {...props} />, { context, lifecycleExperimental : true })
+    const enzymeWrapper = shallow(<AccessGroupFormComponent {...props} />, { context, lifecycleExperimental: true })
     const formFields = enzymeWrapper.find(Field)
     const expectedNumberOfFields = 2
     assert.equal(formFields.length, expectedNumberOfFields, `The AccessGroupFormComponent should have ${expectedNumberOfFields}`)

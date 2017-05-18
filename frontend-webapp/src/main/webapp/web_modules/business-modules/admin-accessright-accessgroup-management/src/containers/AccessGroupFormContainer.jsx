@@ -1,13 +1,13 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import {browserHistory} from 'react-router'
-import {FormattedMessage} from 'react-intl'
-import {connect} from '@regardsoss/redux'
-import {AccessGroup} from '@regardsoss/model'
-import {I18nProvider} from '@regardsoss/i18n'
-import {LoadableContentDisplayDecorator} from '@regardsoss/display-control'
-import {accessGroupActions, accessGroupSelectors} from '../clients/AccessGroupClient'
+import { browserHistory } from 'react-router'
+import { FormattedMessage } from 'react-intl'
+import { connect } from '@regardsoss/redux'
+import { AccessGroup } from '@regardsoss/model'
+import { I18nProvider } from '@regardsoss/i18n'
+import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
+import { accessGroupActions, accessGroupSelectors } from '../clients/AccessGroupClient'
 import AccessGroupFormComponent from '../components/AccessGroupFormComponent'
 
 
@@ -66,7 +66,7 @@ export class AccessGroupFormContainer extends React.Component {
 
 
   getBackUrl = () => {
-    const {params: {project}} = this.props
+    const { params: { project } } = this.props
     return `/admin/${project}/access-right/access-group/list`
   }
 
@@ -128,15 +128,15 @@ export class AccessGroupFormContainer extends React.Component {
 
 
   render() {
-    const {currentAccessGroup} = this.props
-    const {isError, isLoading} = this.state
+    const { currentAccessGroup } = this.props
+    const { isError, isLoading } = this.state
     return (
       <I18nProvider messageDir="business-modules/admin-accessright-accessgroup-management/src/i18n">
         <LoadableContentDisplayDecorator
           isLoading={isLoading}
           isContentError={isError}
           isEmpty={!isLoading && !currentAccessGroup}
-          emptyMessage={<FormattedMessage id="group.form.invalid.group"/>}
+          emptyMessage={<FormattedMessage id="group.form.invalid.group" />}
         >
           {this.renderAccessGroup}
         </LoadableContentDisplayDecorator>
