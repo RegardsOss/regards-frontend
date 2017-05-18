@@ -871,7 +871,7 @@
     {
       "id": 67,
       "description": "Access rights",
-      "microservice": "rs-admin",
+      "microservice": "rs-dam",
       "resource": "/accessrights",
       "verb": "GET",
       "controllerSimpleName": "AccessRightsController"

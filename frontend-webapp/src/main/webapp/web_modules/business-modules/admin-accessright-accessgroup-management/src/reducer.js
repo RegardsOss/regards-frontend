@@ -2,10 +2,10 @@
  * LICENSE_PLACEHOLDER
  **/
 import { combineReducers } from 'redux'
-import accessGroup from './model/AccessGroupReducers'
+import { accessGroupReducer } from './clients/AccessGroupClient'
 
 const accessGroupManagementReducer = combineReducers({
-  'access-group': accessGroup,
+  'access-group': accessGroupReducer,
 })
 
 export default accessGroupManagementReducer

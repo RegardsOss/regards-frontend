@@ -4,10 +4,9 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { stub } from 'sinon'
-import { IntlStub } from '@regardsoss/tests-helpers'
+import { IntlStub, DumpProvider } from '@regardsoss/tests-helpers'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { AccessGroupListContainer } from '../../src/containers/AccessGroupListContainer'
-import AccessGroupList from '../model/dump/AccessGroupList'
 
 describe('[ADMIN USER ACCESSGROUP MANAGEMENT] Testing AccessGroupListContainer', () => {
   // Since react will console.error propType warnings, that which we'd rather have
@@ -37,7 +36,7 @@ describe('[ADMIN USER ACCESSGROUP MANAGEMENT] Testing AccessGroupListContainer',
         project: 'someprocjet',
       },
       // from mapStateToProps
-      accessGroupList: AccessGroupList,
+      accessGroupList: DumpProvider.get('DataManagementClient', 'AccessGroup'),
       isFetching: false,
       // from mapDispatchToProps
       fetchAccessGroupList: () => {},

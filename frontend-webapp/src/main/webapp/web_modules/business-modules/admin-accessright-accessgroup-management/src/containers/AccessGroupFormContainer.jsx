@@ -6,8 +6,7 @@ import { connect } from '@regardsoss/redux'
 import { AccessGroup } from '@regardsoss/model'
 import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import AccessGroupSelectors from './../model/AccessGroupSelectors'
-import AccessGroupActions from './../model/AccessGroupActions'
+import { accessGroupActions, accessGroupSelectors } from '../clients/AccessGroupClient'
 import AccessGroupFormComponent from '../components/AccessGroupFormComponent'
 
 
@@ -138,12 +137,12 @@ export class AccessGroupFormContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  currentAccessGroup: ownProps.params.accessGroupName ? AccessGroupSelectors.getById(state, ownProps.params.accessGroupName) : undefined,
+  currentAccessGroup: ownProps.params.accessGroupName ? accessGroupSelectors.getById(state, ownProps.params.accessGroupName) : undefined,
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchAccessGroup: name => dispatch(AccessGroupActions.fetchEntity(name)),
-  createAccessGroup: values => dispatch(AccessGroupActions.createEntity(values)),
-  updateAccessGroup: (name, values) => dispatch(AccessGroupActions.updateEntity(name, values)),
+  fetchAccessGroup: name => dispatch(accessGroupActions.fetchEntity(name)),
+  createAccessGroup: values => dispatch(accessGroupActions.createEntity(values)),
+  updateAccessGroup: (name, values) => dispatch(accessGroupActions.updateEntity(name, values)),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(AccessGroupFormContainer)

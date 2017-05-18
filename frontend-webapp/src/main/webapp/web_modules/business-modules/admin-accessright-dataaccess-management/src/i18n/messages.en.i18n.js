@@ -9,7 +9,7 @@ const messages = Object.assign({
   'accessright.table.dataset.label': 'Dataset',
   'accessright.table.actions': 'Actions',
   'accessright.title': 'Manage dataset access rights for access group {name}',
-  'accessright.subtitle': 'Select a group acces, then select dataset it can access and configure that access',
+  'accessright.subtitle': 'Here under, you can configure access rights for all datasets for the access group {name}.',
   'accessright.form.meta.accessLevel': 'Access level to dataset meta-data',
   'accessright.form.meta.accessLevel.NO_ACCESS': 'No access',
   'accessright.form.meta.accessLevel.RESTRICTED_ACCESS': 'Dataset access',

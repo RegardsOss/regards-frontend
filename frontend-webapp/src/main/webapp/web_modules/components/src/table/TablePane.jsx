@@ -216,7 +216,6 @@ class TablePane extends React.Component {
   render() {
     const { entitiesFetching, resultsCount, tableData, selectionMode, onToggleSelectionMode, setToggledElements } = this.props
     const { visibleColumns, tableWidth } = this.state
-    console.error('I did measure, ', tableWidth)
     return (
       <Measure onMeasure={this.onComponentResized}>
         <div style={allWidthStyles}>

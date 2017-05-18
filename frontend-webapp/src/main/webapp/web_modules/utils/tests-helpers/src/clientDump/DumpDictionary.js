@@ -19,6 +19,7 @@ import ProjectUserDump from '@regardsoss/client/tests/rs-admin/ProjectUser.dump'
 import WaitingAccessUsersEntitiesDump from '@regardsoss/client/tests/rs-admin/WaitingAccessUsersEntities.dump'
 import AccessGroupDump from '@regardsoss/client/tests/rs-dam/AccessGroup.dump'
 import UserGroupDump from '@regardsoss/client/tests/rs-dam/UserGroup.dump'
+import AccessRightDump from '@regardsoss/client/tests/rs-dam/AccessRight.dump'
 
 import {
 
@@ -30,6 +31,9 @@ import {
 
   ACCESS_GROUP_ARRAY,
   AccessGroupConfiguration,
+
+  ACCESS_RIGHT_ARRAY,
+  AccessRightConfiguration,
 
   // UIPluginConfiguration
   UI_PLUGIN_CONFIGURATION_ARRAY,
@@ -135,6 +139,12 @@ export default {
       dump: AccessGroupDump,
       ENTITY_ARRAY: ACCESS_GROUP_ARRAY,
       normalizrKey: AccessGroupConfiguration.normalizrKey,
+    },
+    AccessRight: {
+      isPageable: true,
+      dump: AccessRightDump,
+      ENTITY_ARRAY: ACCESS_RIGHT_ARRAY,
+      normalizrKey: AccessRightConfiguration.normalizrKey,
     },
     UserGroup: {
       isPageable: false,

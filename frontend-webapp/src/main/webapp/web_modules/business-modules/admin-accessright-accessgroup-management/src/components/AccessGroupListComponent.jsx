@@ -16,7 +16,7 @@ import { CardActionsComponent, ConfirmDialogComponent, ShowableAtRender } from '
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { accessRightDependencies } from '@regardsoss/admin-accessright-dataaccess-management'
-import AccessGroupActions from '../model/AccessGroupActions'
+import { accessGroupActions } from '../clients/AccessGroupClient'
 
 /**
  * React component to list accessgroups.
@@ -161,7 +161,7 @@ export class AccessGroupListComponent extends React.Component {
               />
             }
             mainButtonClassName="selenium-createButton"
-            mainHateoasDependency={AccessGroupActions.getDependency(RequestVerbEnum.POST)}
+            mainHateoasDependency={accessGroupActions.getDependency(RequestVerbEnum.POST)}
             secondaryButtonLabel={<FormattedMessage id="group.list.action.cancel" />}
             secondaryButtonUrl={backUrl}
           />

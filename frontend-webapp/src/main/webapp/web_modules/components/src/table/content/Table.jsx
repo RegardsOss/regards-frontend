@@ -138,7 +138,7 @@ class Table extends React.Component {
   // consume remaining space or delete last pixels
     const lastColumnWidth = availableWidth - (columnWidth * (columns.length - 1))
   // Init labelled columns width
-    const columnWidths = columns.reduce((acc, { label }, index) => console.error('A column ', label) || ({
+    const columnWidths = columns.reduce((acc, { label }, index) => ({
       [label]: index === columns.length - 1 ? lastColumnWidth : columnWidth,
       ...acc,
     }), {})

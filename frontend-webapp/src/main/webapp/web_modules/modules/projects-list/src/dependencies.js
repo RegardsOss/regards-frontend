@@ -13,7 +13,8 @@ import ProjectsAction from './model/ProjectsAction'
  * @type {Array}
  */
 const user = [
-  ProjectsAction.getDependency(RequestVerbEnum.GET_LIST),
+  // TODO V2 : How to retrieve endpoints for public users ?
+  //ProjectsAction.getDependency(RequestVerbEnum.GET_LIST),
 ]
 
 /**
