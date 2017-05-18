@@ -55,13 +55,13 @@ export class AccessRightFormComponent extends React.Component {
    * When the user select a plugin configuration, save that value into the form
    * @param value the pluginConfiguration id
    */
-  onPluginConfigurationChange= (value) => {
+  onPluginConfigurationChange = (value) => {
     this.props.change('pluginConfiguration', value)
   }
 
   handleInitialize = () => {
     const { currentAccessRight } = this.props
-    let defaultValues = { }
+    let defaultValues = {}
     if (currentAccessRight) {
       defaultValues = {
         quality: {
@@ -155,9 +155,8 @@ export class AccessRightFormComponent extends React.Component {
           <CardTitle
             title={<FormattedMessage id="accessright.form.title" />}
             subtitle={<FormattedMessage
-              id="accessright.form.subtitle" values={{
-                nbSelectedDataset,
-              }}
+              id="accessright.form.subtitle"
+              values={{ nbSelectedDataset }}
             />}
           />
           <CardText>

@@ -47,25 +47,25 @@ describe('[Search Results] Testing SearchResultsComponent', () => {
   // define the test cases
   const testCases = [{
     caseLabel: 'Should render dataobjects in list mode',
-    caseProperties: [{
+    caseProperties: {
       showingDataobjects: true,
       resultPageActions: CatalogDataobjectEntityActions,
       viewMode: SearchResultsComponent.ViewModes.LIST,
-    }],
+    },
   }, {
     caseLabel: 'Should render dataobjects in table mode',
-    caseProperties: [{
+    caseProperties: {
       showingDataobjects: true,
       resultPageActions: CatalogDataobjectEntityActions,
       viewMode: SearchResultsComponent.ViewModes.TABLE,
-    }],
+    },
   }, {
     caseLabel: 'Should render datasets in list mode',
-    caseProperties: [{
+    caseProperties: {
       showingDataobjects: false,
       resultPageActions: CatalogDatasetEntityActions,
       viewMode: SearchResultsComponent.ViewModes.LIST,
-    }],
+    },
     // no dataset table
   }]
 

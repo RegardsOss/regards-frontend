@@ -49,7 +49,8 @@ describe('[STORAGE PLUGINS MONITORING] Testing StoragePluginCapacityComponent', 
 
   it('Should render properly', () => {
     const enzymeWrapper = shallow(<StoragePluginCapacityComponent
-      label="A label" description="A description"
+      label="A label"
+      description="A description"
       totalSize={StorageCapacity.fromValue('10To')}
       usedSize={StorageCapacity.fromValue('2To')}
     />, { context })

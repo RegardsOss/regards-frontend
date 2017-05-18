@@ -25,7 +25,6 @@ export class DatasourceFormAttributesContainer extends React.Component {
     currentConnection: Connection,
     // from mapDispatchToProps
     fetchModelList: PropTypes.func,
-    fetchPluginMetaDataList: PropTypes.func,
     fetchConnection: PropTypes.func,
   }
 
