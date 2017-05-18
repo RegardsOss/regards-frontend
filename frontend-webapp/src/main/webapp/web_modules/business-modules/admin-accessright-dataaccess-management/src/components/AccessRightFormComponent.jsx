@@ -91,8 +91,8 @@ export class AccessRightFormComponent extends React.Component {
           max: '10',
           min: '0',
         },
-        access: AccessRightsEnum.METADATA_ACCESS_ENUM.DATASET_AND_OBJECT_ACCESS,
-        dataAccess: AccessRightsEnum.DATA_ACCESS_ENUM.AUTHORIZED,
+        access: AccessRightsEnum.METADATA_ACCESS_ENUM.NO_ACCESS,
+        dataAccess: AccessRightsEnum.DATA_ACCESS_ENUM.REFUSED,
       }
     }
     this.props.initialize(defaultValues)
