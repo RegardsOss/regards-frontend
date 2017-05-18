@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import AccessGroupActions from './model/AccessGroupActions'
+import { accessGroupActions } from './clients/AccessGroupClient'
 
 
 /**
@@ -10,10 +10,10 @@ import AccessGroupActions from './model/AccessGroupActions'
  * @author Sébastien binda
  */
 const listDependencies = [
-  AccessGroupActions.getDependency(RequestVerbEnum.GET_LIST),
+  accessGroupActions.getDependency(RequestVerbEnum.GET_LIST),
 ]
 const addDependencies = [
-  AccessGroupActions.getDependency(RequestVerbEnum.POST),
+  accessGroupActions.getDependency(RequestVerbEnum.POST),
 ]
 
 export default {

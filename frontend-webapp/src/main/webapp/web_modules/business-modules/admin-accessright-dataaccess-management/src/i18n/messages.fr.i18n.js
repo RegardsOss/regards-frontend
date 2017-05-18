@@ -9,7 +9,7 @@ const messages = Object.assign({
   'accessright.table.dataset.label': 'Jeux de données',
   'accessright.table.actions': 'Actions',
   'accessright.title': 'Gestions des droits d\'accès aux jeux de données pour le groupe {name}',
-  'accessright.subtitle': 'Sélectionnez un groupe de d\'accès, sélectionnez ensuite les jeux auquel il a accès puis configurez cet accès',
+  'accessright.subtitle': 'Ci-dessous, vous pouvez configurer les droits d\'accès aux jeux de données pour le groupe {name}.',
   'accessright.form.meta.accessLevel': 'Niveau d\'accès aux informations',
   'accessright.form.meta.accessLevel.NO_ACCESS': 'Aucun accès',
   'accessright.form.meta.accessLevel.RESTRICTED_ACCESS': 'Accès aux jeux',

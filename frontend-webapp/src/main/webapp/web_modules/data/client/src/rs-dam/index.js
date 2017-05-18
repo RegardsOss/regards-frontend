@@ -1,3 +1,10 @@
+/**
+ * LICENSE_PLACEHOLDER
+ */
+import AccessRightActions from './accessRight/AccessRightActions'
+import getAccessRightReducer from './accessRight/AccessRightReducer'
+import getAccessRightSelectors from './accessRight/AccessRightSelectors'
+
 import AccessGroupActions from './accessGroup/AccessGroupActions'
 import getAccessGroupReducer from './accessGroup/AccessGroupReducer'
 import getAccessGroupSelectors from './accessGroup/AccessGroupSelectors'
@@ -76,7 +83,16 @@ import UserGroupActions from './userGroup/UserGroupActions'
 import getUserGroupReducer from './userGroup/UserGroupReducer'
 import getUserGroupSelectors from './userGroup/UserGroupSelectors'
 
+/**
+ * Index for all datamanagement microservice clients.
+ *
+ * @author Sébastien Binda
+ */
 export default {
+  AccessRightActions,
+  getAccessRightReducer,
+  getAccessRightSelectors,
+
   AccessGroupActions,
   getAccessGroupReducer,
   getAccessGroupSelectors,

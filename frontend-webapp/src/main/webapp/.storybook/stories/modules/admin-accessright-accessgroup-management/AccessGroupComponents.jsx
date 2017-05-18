@@ -2,11 +2,10 @@ import { storiesOf, action } from '@kadira/storybook'
 import { withKnobs, object } from '@kadira/storybook-addon-knobs'
 import AccessGroupFormComponent from '@regardsoss/admin-accessright-accessgroup-management/src/components/AccessGroupFormComponent'
 import AccessGroupListComponent from '@regardsoss/admin-accessright-accessgroup-management/src/components/AccessGroupListComponent'
-import AccessGroupList from '@regardsoss/admin-accessright-accessgroup-management/tests/model/dump/AccessGroupList'
 import { muiTheme } from 'storybook-addon-material-ui'
 import { withStore, withLocale } from '../../decorators/index'
 
-const defaultAccessGroupList = AccessGroupList
+const defaultAccessGroupList = []
 
 storiesOf('Project admin - Access group', module)
   .addDecorator(withLocale('modules/admin-user-accessgroup-management/src/i18n'))

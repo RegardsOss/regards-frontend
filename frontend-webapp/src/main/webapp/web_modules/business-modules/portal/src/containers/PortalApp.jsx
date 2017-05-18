@@ -48,7 +48,8 @@ export class PortalApp extends React.Component {
     const project = (this.props.params && this.props.params.project)
     this.props.initializeApplication(project)
 
-    this.props.fetchEndpoints()
+    // TODO V2 : How to retrieve endpoints for instance as a public user ?
+    // this.props.fetchEndpoints()
     this.props.fetchLayout()
     this.props.fetchModules()
   }
@@ -96,7 +97,7 @@ const mapDispatchToProps = dispatch => ({
   initializeApplication: project => dispatch(AuthenticationParametersActions.applicationStarted(project)),
   fetchLayout: () => dispatch(LayoutActions.fetchEntity('portal')),
   fetchModules: () => dispatch(ModulesActions.fetchPagedEntityList(0, 100, { applicationId: 'portal' })),
-  fetchEndpoints: () => dispatch(EndpointActions.fetchPagedEntityList(0, 10000)), // TODO
+  fetchEndpoints: () => dispatch(EndpointActions.fetchPagedEntityList(0, 10000)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PortalApp)

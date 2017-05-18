@@ -6,14 +6,11 @@ import { map, find } from 'lodash'
 import { I18nProvider } from '@regardsoss/i18n'
 import { AccessGroup, PluginConfiguration, PluginMetaData } from '@regardsoss/model'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import AccessRightActions from '../model/AccessRightActions'
 import AccessRightListComponent from '../components/AccessRightListComponent'
-import AccessGroupSelectors from '../model/AccessGroupSelectors'
-import AccessGroupActions from '../model/AccessGroupActions'
-import PluginConfigurationActions from '../model/PluginConfigurationActions'
-import PluginConfigurationSelectors from '../model/PluginConfigurationSelectors'
-import PluginMetaDataActions from '../model/PluginMetaDataActions'
-import PluginMetaDataSelectors from '../model/PluginMetaDataSelectors'
+import { accessRightActions } from '../clients/AccessRightClient'
+import { accessGroupActions, accessGroupSelectors } from '../clients/AccessGroupClient'
+import { pluginConfigurationActions, pluginConfigurationSelectors } from '../clients/PluginConfigurationClient'
+import { pluginMetadataActions, pluginMetadataSelectors } from '../clients/PluginMetadataClient'
 
 export class AccessGroupAccessRightsContainer extends React.Component {
   static propTypes = {
@@ -125,27 +122,27 @@ export class AccessGroupAccessRightsContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  accessGroup: AccessGroupSelectors.getById(state, ownProps.params.accessgroup),
-  pluginConfigurationList: PluginConfigurationSelectors.getList(state),
-  pluginMetaDataList: PluginMetaDataSelectors.getList(state),
+  accessGroup: accessGroupSelectors.getById(state, ownProps.params.accessgroup),
+  pluginConfigurationList: pluginConfigurationSelectors.getList(state),
+  pluginMetaDataList: pluginMetadataSelectors.getList(state),
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchPluginConfigurationList: () => dispatch(PluginConfigurationActions.fetchPagedEntityList(0, 100, {
+  fetchPluginConfigurationList: () => dispatch(pluginConfigurationActions.fetchEntityList({
     microserviceName: 'rs-dam',
   }, /*{
     pluginId: 'ICheckDataAccess'
     // TODO fix when backend update to pluginType too
   }*/)),
-  fetchAccessGroup: accessGroupName => dispatch(AccessGroupActions.fetchEntity(accessGroupName)),
-  fetchPluginMetaDataList: microserviceName => dispatch(PluginMetaDataActions.fetchPagedEntityList(0, 100, {
+  fetchAccessGroup: accessGroupName => dispatch(accessGroupActions.fetchEntity(accessGroupName)),
+  fetchPluginMetaDataList: microserviceName => dispatch(pluginMetadataActions.fetchEntityList({
     microserviceName: 'rs-dam',
   }, /* {
     pluginType: 'ICheckDataAccess'
   }*/)),
-  updateAccessRight: (id, entity) => dispatch(AccessRightActions.updateEntity(id, entity)),
-  createAccessRight: entity => dispatch(AccessRightActions.createEntity(entity)),
-  deleteAccessRight: id => dispatch(AccessRightActions.deleteEntity(id)),
+  updateAccessRight: (id, entity) => dispatch(accessRightActions.updateEntity(id, entity)),
+  createAccessRight: entity => dispatch(accessRightActions.createEntity(entity)),
+  deleteAccessRight: id => dispatch(accessRightActions.deleteEntity(id)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AccessGroupAccessRightsContainer)

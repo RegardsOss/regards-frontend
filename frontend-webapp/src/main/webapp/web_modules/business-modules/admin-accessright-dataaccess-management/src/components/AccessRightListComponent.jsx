@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { Card, CardTitle, CardText } from 'material-ui/Card'
 import Dialog from 'material-ui/Dialog'
 import { FormattedMessage } from 'react-intl'
@@ -10,20 +13,29 @@ import {
 } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import DatasetActions from '../model/DatasetActions'
-import DatasetSelectors from '../model/DatasetSelectors'
+import { datasetActions, datasetSelectors } from '../clients/DatasetClient'
 import AccessRightsMetadataAccessTableCustomCell from './AccessRightsMetadataAccessTableCustomCell'
 import AccessRightsDataAccessTableCustomCell from './AccessRightsDataAccessTableCustomCell'
 import AccessRightsActionsTableCustomCell from './AccessRightsActionsTableCustomCell'
 import AccessRightFormComponent from './AccessRightFormComponent'
 
+/**
+ * Component to configure AccessRights for each dataset for a given AccessGroup.
+ *
+ * @author Sébastien Binda
+ */
 class AccessRightListComponent extends React.Component {
 
   static propTypes = {
+    // Access group to configure.
     accessGroup: AccessGroup.isRequired,
+    // Availables plugin configuration for custom access rights delegated to plugins
     pluginConfigurationList: PropTypes.objectOf(PluginConfiguration).isRequired,
+    // Availables plugin definitions for custom access rights delegated to plugins
     pluginMetaDataList: PropTypes.objectOf(PluginMetaData).isRequired,
+    // Callback to delete an AccessRight
     deleteAccessRight: PropTypes.func.isRequired,
+    // Callback to submit AccessRight(s) configuration (updates and creation)
     submitAccessRights: PropTypes.func.isRequired,
   }
 
@@ -35,20 +47,35 @@ class AccessRightListComponent extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      // Define if the confirm delete dialog is opened
       deleteDialogOpened: false,
+      // Define it the AccessRight configuration dialog is opened
       editAccessDialogOpened: false,
+      // Set the AccessRight to edit into the AccessRight configuration dialog.
+      // If this accessRight is not set, then the AccessRight configuration dialog configure
+      // access for multiples accessRights at a time and the selectedDatasets is used to define which ones.
       accessRightToEdit: null,
+      // Set to define a new AccessRight for the given dataset into the AccessRight configuration dialog.
       datasetAccessRightToEdit: null,
+      // List of current selected datasets.
       selectedDatasets: [],
     }
   }
 
+  /**
+   * Callback used by the TableContainer component to set the selected datasets.
+   *
+   * @param selected (List of Dataset entities)
+   */
   setSelectedDataset = (selected) => {
     this.setState({
       selectedDatasets: selected,
     })
   }
 
+  /**
+   * Callback to close the confirm delete dialog.
+   */
   closeDeleteDialog = () => {
     this.setState({
       deleteDialogOpened: false,
@@ -56,6 +83,9 @@ class AccessRightListComponent extends React.Component {
     })
   }
 
+  /**
+   * Callback to close the AccessRight configuration dialog.
+   */
   closeEditDialog = () => {
     this.setState({
       editAccessDialogOpened: false,
@@ -64,6 +94,10 @@ class AccessRightListComponent extends React.Component {
     })
   }
 
+  /**
+   * Callback to open the delete confirmation dialog.
+   * @param entity Dataset to delete.
+   */
   openDeleteDialog = (entity) => {
     this.setState({
       deleteDialogOpened: true,
@@ -71,6 +105,14 @@ class AccessRightListComponent extends React.Component {
     })
   }
 
+  /**
+   * Callback to open the AccessRight configuration dialog.
+   * If an AccessRight is given, then the edition is set for an existing AccessRight
+   * If a dataset is given, then the edition is set to create a new AccessRight for the given dataset.
+   *
+   * @param accessRight Entity to edit
+   * @param dataset Entity to edit.
+   */
   openEditDialog = (accessRight, dataset) => {
     this.setState({
       editAccessDialogOpened: true,
@@ -80,13 +122,17 @@ class AccessRightListComponent extends React.Component {
   }
 
   /**
-   * Submit access rights modification for all selected datasets
-   * @param values
+   * Submit access rights modification for all selected datasets with the given accessRightValues
+   *
+   * @param accessRightValues
    */
-  handleSubmitAccessRights = (values) => {
-    this.props.submitAccessRights(this.state.selectedDatasets, values)
+  handleSubmitAccessRights = (accessRightValues) => {
+    this.props.submitAccessRights(this.state.selectedDatasets, accessRightValues)
   }
 
+  /**
+   * Render the dialog containing the AccessRight Configuration form.
+   */
   renderAccessRightFormDialog = () => (
     <ShowableAtRender
       show={this.state.editAccessDialogOpened}
@@ -111,6 +157,10 @@ class AccessRightListComponent extends React.Component {
     </ShowableAtRender>
     )
 
+  /**
+   * Render the confirmation delete dialog
+   * @returns {XML}
+   */
   renderDeleteConfirmDialog = () => {
     const name = this.state.entityToDelete ? this.state.entityToDelete.dataSet.label : ' '
     const title = this.context.intl.formatMessage({ id: 'accessright.list.delete.message' }, { name })
@@ -139,6 +189,7 @@ class AccessRightListComponent extends React.Component {
       },
     }
 
+    // TableConfiguration
     const tablePaneConfiguration = {
       // adds tabs buttons to results table
       resultsTabsButtons: [],
@@ -156,6 +207,7 @@ class AccessRightListComponent extends React.Component {
       advancedOptions: [],
     }
 
+    // Table columns to display
     const columns = [
       {
         // Label of the column
@@ -208,7 +260,7 @@ class AccessRightListComponent extends React.Component {
       <Card>
         <CardTitle
           title={<FormattedMessage id="accessright.title" values={{ name: this.props.accessGroup.content.name }} />}
-          subtitle={<FormattedMessage id="accessright.subtitle" />}
+          subtitle={<FormattedMessage id="accessright.subtitle" values={{ name: this.props.accessGroup.content.name }} />}
         />
         <CardText>
           {this.renderAccessRightFormDialog()}
@@ -220,8 +272,8 @@ class AccessRightListComponent extends React.Component {
           />
           <TableContainer
             name="access-rights-datasets-table"
-            PageActions={DatasetActions}
-            PageSelector={DatasetSelectors}
+            PageActions={datasetActions}
+            PageSelector={datasetSelectors}
             tableConfiguration={tableConfiguration}
             tablePaneConfiguration={tablePaneConfiguration}
             pageSize={10}

@@ -4,10 +4,9 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { stub } from 'sinon'
-import { IntlStub } from '@regardsoss/tests-helpers'
+import { IntlStub, DumpProvider } from '@regardsoss/tests-helpers'
 import { TableRow } from 'material-ui/Table'
 import AccessGroupListComponent from '../../src/components/AccessGroupListComponent'
-import AccessGroupList from '../model/dump/AccessGroupList'
 
 describe('[ADMIN USER ACCESSGROUP MANAGEMENT] Testing AccessGroupListComponent', () => {
   // Since react will console.error propType warnings, that which we'd rather have
@@ -33,7 +32,7 @@ describe('[ADMIN USER ACCESSGROUP MANAGEMENT] Testing AccessGroupListComponent',
   it('Render properly', () => {
     const props = {
 
-      accessGroupList: AccessGroupList,
+      accessGroupList: DumpProvider.get('DataManagementClient', 'AccessGroup'),
       handleEditAccessRights: () => {},
       handleDelete: () => {},
       handleEdit: () => {},
@@ -43,6 +42,6 @@ describe('[ADMIN USER ACCESSGROUP MANAGEMENT] Testing AccessGroupListComponent',
 
     }
     const enzymeWrapper = shallow(<AccessGroupListComponent {...props} />, { context })
-    expect(enzymeWrapper.find(TableRow)).to.have.length(4)
+    expect(enzymeWrapper.find(TableRow)).to.have.length(3)
   })
 })

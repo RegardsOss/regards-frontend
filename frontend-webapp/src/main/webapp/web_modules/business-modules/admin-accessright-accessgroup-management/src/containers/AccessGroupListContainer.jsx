@@ -6,8 +6,7 @@ import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { AccessGroup } from '@regardsoss/model'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import AccessGroupActions from '../model/AccessGroupActions'
-import AccessGroupSelectors from '../model/AccessGroupSelectors'
+import { accessGroupActions, accessGroupSelectors } from '../clients/AccessGroupClient'
 import AccessGroupListComponent from '../components/AccessGroupListComponent'
 
 /**
@@ -87,13 +86,13 @@ export class AccessGroupListContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  accessGroupList: AccessGroupSelectors.getList(state),
-  isFetching: AccessGroupSelectors.isFetching(state),
+  accessGroupList: accessGroupSelectors.getList(state),
+  isFetching: accessGroupSelectors.isFetching(state),
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchAccessGroupList: () => dispatch(AccessGroupActions.fetchPagedEntityList(0, 100)),
-  deleteAccessGroup: id => dispatch(AccessGroupActions.deleteEntity(id)),
+  fetchAccessGroupList: () => dispatch(accessGroupActions.fetchPagedEntityList(0, 100)),
+  deleteAccessGroup: id => dispatch(accessGroupActions.deleteEntity(id)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AccessGroupListContainer)
