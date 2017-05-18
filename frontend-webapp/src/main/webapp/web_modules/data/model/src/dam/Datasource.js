@@ -1,9 +1,21 @@
-const Collection = PropTypes.shape({
+const Datasource = PropTypes.shape({
   content: PropTypes.shape({
-    id: PropTypes.number,
-    name: PropTypes.string,
-    modelId: PropTypes.string,
+    pluginConfigurationId: PropTypes.number,
+    pluginConfigurationConnectionId: PropTypes.number,
+    label: PropTypes.string,
+    tableName: PropTypes.string,
+    mapping: PropTypes.shape({
+      attributeMapping: PropTypes.arrayOf(
+        React.PropTypes.shape({
+          namespace: PropTypes.string,
+          name: PropTypes.string,
+          type: PropTypes.string,
+          nameDS: PropTypes.string,
+        }),
+      ),
+      model: PropTypes.string,
+    }),
   }).isRequired,
 })
 
-export default Collection
+export default Datasource

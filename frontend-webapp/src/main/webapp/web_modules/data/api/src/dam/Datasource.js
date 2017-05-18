@@ -1,7 +1,7 @@
 import { Schema, arrayOf } from 'normalizr'
 
 const DatasourceConfiguration = {
-  entityKey: 'id',
+  entityKey: 'pluginConfigurationId',
   normalizrKey: 'datasource',
 }
 

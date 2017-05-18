@@ -9,27 +9,8 @@ import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import DatasetEditPluginComponent from '../components/DatasetEditPluginComponent'
 import LinkPluginDatasetActions from './../model/LinkPluginDatasetActions'
 import LinkPluginDatasetSelectors from './../model/LinkPluginDatasetSelectors'
-
-import {
-  PluginConfigurationConvertersActions,
-  PluginConfigurationServicesActions,
-  PluginConfigurationFiltersActions,
-} from './../model/PluginConfigurationActions'
-import {
-  PluginMetaDataConvertersActions,
-  PluginMetaDataServicesActions,
-  PluginMetaDataFiltersActions,
-} from './../model/PluginMetaDataActions'
-import {
-  PluginConfigurationFiltersSelectors,
-  PluginConfigurationConvertersSelectors,
-  PluginConfigurationServicesSelectors,
-} from './../model/PluginConfigurationSelectors'
-import {
-  PluginMetaDataFiltersSelectors,
-  PluginMetaDataConvertersSelectors,
-  PluginMetaDataServicesSelectors,
-} from './../model/PluginMetaDataSelectors'
+import { pluginConfigurationActions, pluginConfigurationSelectors } from './../client/PluginConfigurationClient'
+import { pluginMetaDataActions, pluginMetaDataSelectors } from './../client/PluginMetaDataClient'
 
 export class DatasetEditPluginContainer extends React.Component {
 
@@ -41,25 +22,13 @@ export class DatasetEditPluginContainer extends React.Component {
     }),
 
     // from mapStateToProps
-    pluginConfigurationFiltersList: PropTypes.objectOf(PluginConfiguration),
-    pluginConfigurationConvertersList: PropTypes.objectOf(PluginConfiguration),
-    pluginConfigurationServicesList: PropTypes.objectOf(PluginConfiguration),
-
-    pluginMetaDataFiltersList: PropTypes.objectOf(PluginMetaData),
-    pluginMetaDataConvertersList: PropTypes.objectOf(PluginMetaData),
-    pluginMetaDataServicesList: PropTypes.objectOf(PluginMetaData),
-
+    pluginConfigurationList: PropTypes.objectOf(PluginConfiguration),
+    pluginMetaDataList: PropTypes.objectOf(PluginMetaData),
     linkPluginDataset: LinkPluginDataset,
 
     // from mapDispatchToProps
-    fetchConvertersConfiguration: PropTypes.func,
-    fetchServicesConfiguration: PropTypes.func,
-    fetchFiltersConfiguration: PropTypes.func,
-
-    fetchConvertersPluginMetaData: PropTypes.func,
-    fetchServicesPluginMetaData: PropTypes.func,
-    fetchFiltersPluginMetaData: PropTypes.func,
-
+    fetchConfiguration: PropTypes.func,
+    fetchPluginMetaData: PropTypes.func,
     fetchLinkPluginDataset: PropTypes.func,
     updateLinkPluginDataset: PropTypes.func,
   }
@@ -70,12 +39,8 @@ export class DatasetEditPluginContainer extends React.Component {
 
   componentDidMount() {
     const tasks = [
-      this.props.fetchConvertersConfiguration(),
-      this.props.fetchServicesConfiguration(),
-      this.props.fetchFiltersConfiguration(),
-      this.props.fetchConvertersPluginMetaData(),
-      this.props.fetchServicesPluginMetaData(),
-      this.props.fetchFiltersPluginMetaData(),
+      this.props.fetchPluginConfiguration(),
+      this.props.fetchPluginMetaData(),
       this.props.fetchLinkPluginDataset(this.props.params.datasetId),
     ]
     Promise.all(tasks)
@@ -110,12 +75,8 @@ export class DatasetEditPluginContainer extends React.Component {
   render() {
     const { isLoading } = this.state
     const {
-      pluginConfigurationFiltersList,
-      pluginConfigurationConvertersList,
-      pluginConfigurationServicesList,
-      pluginMetaDataFiltersList,
-      pluginMetaDataConvertersList,
-      pluginMetaDataServicesList,
+      pluginConfigurationList,
+      pluginMetaDataList,
       linkPluginDataset,
     } = this.props
     return (
@@ -124,12 +85,8 @@ export class DatasetEditPluginContainer extends React.Component {
           isLoading={isLoading}
         >
           {() => (<DatasetEditPluginComponent
-            pluginConfigurationFiltersList={pluginConfigurationFiltersList}
-            pluginConfigurationConvertersList={pluginConfigurationConvertersList}
-            pluginConfigurationServicesList={pluginConfigurationServicesList}
-            pluginMetaDataFiltersList={pluginMetaDataFiltersList}
-            pluginMetaDataConvertersList={pluginMetaDataConvertersList}
-            pluginMetaDataServicesList={pluginMetaDataServicesList}
+            pluginConfigurationList={pluginConfigurationList}
+            pluginMetaDataList={pluginMetaDataList}
             linkPluginDataset={linkPluginDataset}
             onSubmit={this.onSubmit}
             backUrl={this.getBackUrl()}
@@ -145,33 +102,19 @@ export class DatasetEditPluginContainer extends React.Component {
 
 
 const mapStateToProps = (state, ownProps) => ({
-  pluginConfigurationFiltersList: PluginConfigurationFiltersSelectors.getList(state),
-  pluginConfigurationConvertersList: PluginConfigurationConvertersSelectors.getList(state),
-  pluginConfigurationServicesList: PluginConfigurationServicesSelectors.getList(state),
-  pluginMetaDataFiltersList: PluginMetaDataFiltersSelectors.getList(state),
-  pluginMetaDataConvertersList: PluginMetaDataConvertersSelectors.getList(state),
-  pluginMetaDataServicesList: PluginMetaDataServicesSelectors.getList(state),
+  pluginConfigurationList: pluginConfigurationSelectors.getList(state),
+  pluginMetaDataList: pluginMetaDataSelectors.getList(state),
   linkPluginDataset: LinkPluginDatasetSelectors.getById(state, ownProps.params.datasetId),
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchConvertersConfiguration: () => dispatch(PluginConfigurationConvertersActions.fetchPagedEntityList(0, 1000, {}, /*{
+  fetchPluginConfiguration: () => dispatch(pluginConfigurationActions.fetchPagedEntityList(0, 1000, {
+    microserviceName: 'rs-dam',
+  }, /*{
    pluginId: 'fr.cnes.regards.modules.search.service.IConverter'
    }*/)),
-  fetchServicesConfiguration: id => dispatch(PluginConfigurationServicesActions.fetchPagedEntityList(0, 1000, {}, /*{
-   pluginId: 'fr.cnes.regards.modules.search.service.IService'
-   }*/)),
-  fetchFiltersConfiguration: id => dispatch(PluginConfigurationFiltersActions.fetchPagedEntityList(0, 1000, {}, /*{
-   pluginId: 'fr.cnes.regards.modules.search.service.IFilter'
-   }*/)),
-  fetchConvertersPluginMetaData: () => dispatch(PluginMetaDataConvertersActions.fetchPagedEntityList(0, 1000, {}, /*{
+  fetchPluginMetaData: () => dispatch(pluginMetaDataActions.fetchPagedEntityList(0, 1000, {}, /*{
    pluginType: 'fr.cnes.regards.modules.search.service.IConverter'
-   }*/)),
-  fetchServicesPluginMetaData: id => dispatch(PluginMetaDataServicesActions.fetchPagedEntityList(0, 1000, {}, /*{
-   pluginType: 'fr.cnes.regards.modules.search.service.IService'
-   }*/)),
-  fetchFiltersPluginMetaData: id => dispatch(PluginMetaDataFiltersActions.fetchPagedEntityList(0, 1000, {}, /*{
-   pluginType: 'fr.cnes.regards.modules.search.service.IFilter'
    }*/)),
   fetchLinkPluginDataset: datasetId => dispatch(LinkPluginDatasetActions.fetchEntity(datasetId)),
   updateLinkPluginDataset: (datasetId, linkPluginDataset) => dispatch(LinkPluginDatasetActions.updateEntity(datasetId, linkPluginDataset)),
