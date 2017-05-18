@@ -5,7 +5,7 @@ import { Card, CardActions, CardTitle } from 'material-ui/Card'
 import { CardActionsComponent } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
 import { themeContextType } from '@regardsoss/theme'
-import { AttributeModel, Model } from '@regardsoss/model'
+import { AttributeModel, Model, PluginConfiguration, PluginMetaData } from '@regardsoss/model'
 import { map, keys } from 'lodash'
 import HTML5Backend from 'react-dnd-html5-backend'
 import { DragDropContext } from 'react-dnd'
@@ -39,6 +39,8 @@ export class ModelAttributeFormComponent extends React.Component {
         attrs: PropTypes.arrayOf(AttributeModel),
       }),
     }).isRequired,
+    pluginConfigurationList: PropTypes.objectOf(PluginConfiguration),
+    pluginMetaDataList: PropTypes.objectOf(PluginMetaData),
   }
 
   static contextTypes = {
@@ -69,7 +71,7 @@ export class ModelAttributeFormComponent extends React.Component {
    * @returns {XML}
    */
   render() {
-    const { backUrl, distributedAttrModels } = this.props
+    const { backUrl, distributedAttrModels, pluginConfigurationList, pluginMetaDataList } = this.props
     const style = moduleStyles(this.context.muiTheme)
 
     return (
@@ -100,7 +102,12 @@ export class ModelAttributeFormComponent extends React.Component {
                   isFragment
                   draggableToContainerType={ItemTypes.ATTR_REMAINING}
                 >
-                  <FragmentComponent attributes={fragment} type={ItemTypes.ATTR_ASSOCIATED} />
+                  <FragmentComponent
+                    attributes={fragment}
+                    type={ItemTypes.ATTR_ASSOCIATED}
+                    pluginConfigurationList={pluginConfigurationList}
+                    pluginMetaDataList={pluginMetaDataList}
+                  />
                 </DraggableCard>
               ))}
               {map(distributedAttrModels.ATTR_ASSOCIATED.attrs, (attribute, id) => (
@@ -111,7 +118,11 @@ export class ModelAttributeFormComponent extends React.Component {
                   isFragment={false}
                   draggableToContainerType={ItemTypes.ATTR_REMAINING}
                 >
-                  <ModelAttributeContainer attribute={attribute} />
+                  <ModelAttributeContainer
+                    attribute={attribute}
+                    pluginConfigurationList={pluginConfigurationList}
+                    pluginMetaDataList={pluginMetaDataList}
+                  />
                 </DraggableCard>
               ))}
             </ContainerCard>

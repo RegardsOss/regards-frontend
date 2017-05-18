@@ -40,6 +40,8 @@ npm link web_modules/business-common/global-system-error
 
 # Administration modules
 npm link web_modules/business-modules/admin-accessright-management
+npm link web_modules/business-modules/admin-accessright-accessgroup-management
+npm link web_modules/business-modules/admin-accessright-dataaccess-management
 npm link web_modules/business-modules/admin-account-management
 npm link web_modules/business-modules/admin-data-management
 npm link web_modules/business-modules/admin-data-model-management
@@ -59,7 +61,6 @@ npm link web_modules/business-modules/admin-ui-theme-management
 npm link web_modules/business-modules/admin-ui-module-management
 npm link web_modules/business-modules/admin-ui-service-management
 npm link web_modules/business-modules/admin-user-management
-npm link web_modules/business-modules/admin-user-accessgroup-management
 npm link web_modules/business-modules/admin-user-projectuser-management
 npm link web_modules/business-modules/admin-user-role-resource-access-management
 npm link web_modules/business-modules/admin-user-role-management

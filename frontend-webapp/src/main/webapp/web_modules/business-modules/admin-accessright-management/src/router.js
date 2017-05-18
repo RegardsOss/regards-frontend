@@ -1,14 +1,35 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-export const listAccessGroupRoute = {
-  path: 'edit',
+
+export const homeAccessRightAdminRoute = {
+  path: 'board',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const AccessRightContainer = require('./containers/AccessRightContainer')
+      const BoardContainer = require('./containers/BoardContainer')
       cb(null, {
-        content: AccessRightContainer.default,
+        content: BoardContainer.default,
       })
+    })
+  },
+}
+
+export const accessGroupAdminRouter = {
+  path: 'access-group',
+  getChildRoutes(nextState, cb) {
+    const adminAccessGroupManagement = require('@regardsoss/admin-accessright-accessgroup-management')
+    require.ensure([], (require) => {
+      cb(null, [adminAccessGroupManagement.accessGroupManagementRouter])
+    })
+  },
+}
+
+export const accessRightsAdminRouter = {
+  path: 'access-rights',
+  getChildRoutes(nextState, cb) {
+    const adminDataAccessManagement = require('@regardsoss/admin-accessright-dataaccess-management')
+    require.ensure([], (require) => {
+      cb(null, [adminDataAccessManagement.accessRightManagementRouter])
     })
   },
 }
@@ -16,7 +37,9 @@ export const listAccessGroupRoute = {
 
 const accessRightManagementRouter = {
   childRoutes: [
-    listAccessGroupRoute,
+    homeAccessRightAdminRoute,
+    accessGroupAdminRouter,
+    accessRightsAdminRouter,
   ],
 }
 

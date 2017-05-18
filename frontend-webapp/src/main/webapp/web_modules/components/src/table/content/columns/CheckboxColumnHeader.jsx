@@ -17,6 +17,7 @@ class CheckboxColumnHeader extends React.Component {
 
   static propTypes = {
     lineHeight: PropTypes.number.isRequired,
+    displaySelectAll: PropTypes.bool.isRequired,
     areAllSelected: PropTypes.bool.isRequired,
     onToggleSelectAll: PropTypes.func.isRequired,
   }
@@ -28,7 +29,7 @@ class CheckboxColumnHeader extends React.Component {
 
   render() {
     const { intl: { formatMessage }, moduleTheme: { fixedCellHeader, checkButton: { checkedIcon, uncheckedIcon } } } = this.context
-    const { areAllSelected, onToggleSelectAll } = this.props
+    const { displaySelectAll, areAllSelected, onToggleSelectAll } = this.props
 
     const cellStyle = fixedCellHeader
     const { lineHeight } = this.props
@@ -41,13 +42,14 @@ class CheckboxColumnHeader extends React.Component {
 
     return (
       <div style={{ ...cellStyle, height, minHeight }} >
-        <IconButton
-          title={formatMessage({ id: tooltipKey })}
-          iconStyle={iconStyle}
-          onTouchTap={onToggleSelectAll}
-        >
-          <Icon />
-        </IconButton>
+        {displaySelectAll ?
+          <IconButton
+            title={formatMessage({ id: tooltipKey })}
+            iconStyle={iconStyle}
+            onTouchTap={onToggleSelectAll}
+          >
+            <Icon />
+          </IconButton> : null }
       </div >
     )
   }

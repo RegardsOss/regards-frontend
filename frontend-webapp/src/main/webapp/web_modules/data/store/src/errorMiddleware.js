@@ -7,7 +7,7 @@ export default store => next => (action) => {
   if (action.error && (!action.meta || !action.meta.bypassErrorMiddleware)) {
     if (action.payload) {
       const statusText = 'Server request error'
-      let serverMessage
+      let serverMessage = ''
       if (action.payload.response && action.payload.response.message) {
         serverMessage = action.payload.response.message
       } else if (action.payload.response && action.payload.response.messages) {
@@ -17,7 +17,7 @@ export default store => next => (action) => {
       if (action.payload.response && action.payload.response.status === 404) {
         serverMessage = `${action.payload.response.path} -> ${serverMessage}`
       }
-      if (serverMessage.includes('io.jsonwebtoken.ExpiredJwtException')) {
+      if (serverMessage && serverMessage.includes('io.jsonwebtoken.ExpiredJwtException')) {
         serverMessage = 'Session expired'
       }
       const message = `${statusText} : \n ${serverMessage}`

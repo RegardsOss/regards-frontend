@@ -99,7 +99,7 @@ class ProjectSidebarComponent extends React.Component {
             key="3"
             requiredEndpoints={accessRightDependencies}
             hateoasDisplayLogic={someMatchHateoasDisplayLogic}
-            to={`/admin/${projectName}/access-right/edit`}
+            to={`/admin/${projectName}/access-right/board`}
             currentPath={this.props.currentPath}
             primaryText={<FormattedMessage id="menu.dataaccessrights" />}
             leftIcon={<VerifiedUser

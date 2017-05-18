@@ -4,13 +4,15 @@
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { map, partition, some, find } from 'lodash'
-import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
-import { AttributeModel, Model, ModelAttribute } from '@regardsoss/model'
+import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
+import { AttributeModel, Model, ModelAttribute, PluginMetaData, PluginConfiguration } from '@regardsoss/model'
 import { attributeModelActions, attributeModelSelectors } from '../client/AttributeModelClient'
 import ModelAttributeFormComponent from '../components/ModelAttributeFormComponent'
 import { modelAttributesSelectors, modelAttributesActions } from '../client/ModelAttributesClient'
 import { modelSelectors, modelActions } from '../client/ModelClient'
 import { modelAttributesFragmentActions } from '../client/ModelAttributesFragmentClient'
+import { pluginConfigurationActions, pluginConfigurationSelectors } from '../client/PluginConfigurationClient'
+import { pluginMetaDataActions, pluginMetaDataSelectors } from '../client/PluginMetaDataClient'
 
 export class ModelAttributeFormContainer extends React.Component {
 
@@ -20,27 +22,40 @@ export class ModelAttributeFormContainer extends React.Component {
       project: PropTypes.string,
       model_id: PropTypes.string,
     }),
+    // from mapStateToProps
+    model: Model,
+    attributeModelList: PropTypes.objectOf(AttributeModel),
+    modelAttributeList: PropTypes.objectOf(ModelAttribute),
+    pluginConfigurationList: PropTypes.objectOf(PluginConfiguration),
+    pluginMetaDataList: PropTypes.objectOf(PluginMetaData),
     // from mapDispatchToProps
     createModelAttribute: PropTypes.func,
     fetchAttributeModelList: PropTypes.func,
     fetchModelAttributeList: PropTypes.func,
     deleteModelAttribute: PropTypes.func,
+    fetchPluginConfiguration: PropTypes.func,
+    fetchPluginMetaData: PropTypes.func,
     fetchModel: PropTypes.func,
     bindFragment: PropTypes.func,
     unbindFragment: PropTypes.func,
-    // from mapStateToProps
-    model: Model,
-    attributeModelList: PropTypes.objectOf(AttributeModel),
-    isAttributeModelFetching: PropTypes.bool,
-    modelAttributeList: PropTypes.objectOf(ModelAttribute),
-    isModelAttributeFetching: PropTypes.bool,
-    isModelFetching: PropTypes.bool,
+  }
+
+  state = {
+    isLoading: true,
   }
 
   componentDidMount() {
-    this.props.fetchAttributeModelList()
-    this.props.fetchModelAttributeList(this.props.params.model_id)
-    this.props.fetchModel(this.props.params.model_id)
+    Promise.all([
+      this.props.fetchAttributeModelList(),
+      this.props.fetchModelAttributeList(this.props.params.model_id),
+      this.props.fetchModel(this.props.params.model_id),
+      this.props.fetchPluginConfiguration(),
+      this.props.fetchPluginMetaData(),
+    ]).then(() => {
+      this.setState({
+        isLoading: false,
+      })
+    })
   }
 
   getBackUrl = () => {
@@ -49,23 +64,18 @@ export class ModelAttributeFormContainer extends React.Component {
   }
 
   getFormComponent = () => {
-    const { attributeModelList, model, modelAttributeList } = this.props
-    const { isAttributeModelFetching, isModelFetching, isModelAttributeFetching } = this.props
-    if ((isAttributeModelFetching || isModelFetching || isModelAttributeFetching) && (!model && !attributeModelList)) {
-      return (<FormLoadingComponent />)
-    }
-    if (model) {
-      return (<ModelAttributeFormComponent
-        onCreateFragment={this.handleCreateFragment}
-        onDeleteFragment={this.handleDeleteFragment}
-        onCreateAttributeModel={this.handleCreateAttributeModel}
-        onDeleteAttributeModel={this.handleDeleteAttributeModel}
-        backUrl={this.getBackUrl()}
-        currentModel={model}
-        distributedAttrModels={this.distributeAttrModel(attributeModelList, model, modelAttributeList)}
-      />)
-    }
-    return (<FormEntityNotFoundComponent />)
+    const { attributeModelList, model, modelAttributeList, pluginConfigurationList, pluginMetaDataList } = this.props
+    return (<ModelAttributeFormComponent
+      onCreateFragment={this.handleCreateFragment}
+      onDeleteFragment={this.handleDeleteFragment}
+      onCreateAttributeModel={this.handleCreateAttributeModel}
+      onDeleteAttributeModel={this.handleDeleteAttributeModel}
+      backUrl={this.getBackUrl()}
+      currentModel={model}
+      distributedAttrModels={this.distributeAttrModel(attributeModelList, model, modelAttributeList)}
+      pluginConfigurationList={pluginConfigurationList}
+      pluginMetaDataList={pluginMetaDataList}
+    />)
   }
 
   handleCreateFragment = (fragment) => {
@@ -153,22 +163,24 @@ export class ModelAttributeFormContainer extends React.Component {
 
 
   render() {
+    const { isLoading } = this.state
     return (
       <I18nProvider messageDir="business-modules/admin-data-modelattribute-management/src/i18n">
-        {this.getFormComponent()}
+        <LoadableContentDisplayDecorator
+          isLoading={isLoading}
+        >
+          {this.getFormComponent}
+        </LoadableContentDisplayDecorator>
       </I18nProvider>
     )
   }
 }
 const mapStateToProps = (state, ownProps) => ({
   attributeModelList: attributeModelSelectors.getList(state),
-  isAttributeModelFetching: attributeModelSelectors.isFetching(state),
-
   modelAttributeList: modelAttributesSelectors.getList(state),
-  isModelAttributeFetching: modelAttributesSelectors.isFetching(state),
-
   model: modelSelectors.getById(state, ownProps.params.model_id),
-  isModelFetching: modelSelectors.isFetching(state),
+  pluginConfigurationList: pluginConfigurationSelectors.getList(state),
+  pluginMetaDataList: pluginMetaDataSelectors.getList(state),
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -180,6 +192,16 @@ const mapDispatchToProps = dispatch => ({
 
   bindFragment: (fragment, modelId) => dispatch(modelAttributesFragmentActions.createEntities(fragment, { pModelId: modelId })),
   unbindFragment: (fragmentId, modelId) => dispatch(modelAttributesFragmentActions.deleteEntity(fragmentId, { pModelId: modelId })),
+  fetchPluginConfiguration: () => dispatch(pluginConfigurationActions.fetchEntityList({
+    microserviceName: 'rs-dam',
+  }, {
+    pluginType: 'fr.cnes.regards.modules.models.domain.IComputedAttribute',
+  })),
+  fetchPluginMetaData: () => dispatch(pluginMetaDataActions.fetchEntityList({
+    microserviceName: 'rs-dam',
+  }, {
+    pluginType: 'fr.cnes.regards.modules.models.domain.IComputedAttribute',
+  })),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ModelAttributeFormContainer)

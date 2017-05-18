@@ -1,13 +1,17 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import { find } from 'lodash'
 import { connect } from '@regardsoss/redux'
-import { AttributeModel, ModelAttribute } from '@regardsoss/model'
+import { AttributeModel, ModelAttribute, PluginConfiguration, PluginMetaData } from '@regardsoss/model'
 import { modelAttributesSelectors, modelAttributesActions } from '../client/ModelAttributesClient'
 import ModelAttributeComponent from '../components/ModelAttributeComponent'
 
 export class ModelAttributeContainer extends React.Component {
   static propTypes = {
+    pluginConfigurationList: PropTypes.objectOf(PluginConfiguration),
+    pluginMetaDataList: PropTypes.objectOf(PluginMetaData),
+    shouldDisplayHeader: PropTypes.bool,
     // eslint-disable-next-line react/no-unused-prop-types
     attribute: AttributeModel,
     // from mapStateToProps
@@ -16,20 +20,35 @@ export class ModelAttributeContainer extends React.Component {
     updateModelAttribute: PropTypes.func,
   }
 
-  handleComputationUpdate = (newComputation) => {
-    const updatedModelAttribute = Object.assign({}, this.props.modelAttribute.content, {
-      mode: newComputation,
-    })
+  handleComputationUpdate = (computationConfId) => {
+    let updatedModelAttribute
+    if (computationConfId) {
+      const computationPluginConf = find(this.props.pluginConfigurationList, pluginConfiguration => (
+        pluginConfiguration.content.id === computationConfId
+      ))
+      updatedModelAttribute = Object.assign({}, this.props.modelAttribute.content, {
+        computationConf: computationPluginConf.content,
+        mode: 'COMPUTED',
+      })
+    } else {
+      updatedModelAttribute = Object.assign({}, this.props.modelAttribute.content, {
+        mode: 'GIVEN',
+        computationConf: null,
+      })
+    }
     this.props.updateModelAttribute(this.props.modelAttribute.content.id, updatedModelAttribute, updatedModelAttribute.model.id)
   }
 
   render() {
-    const { modelAttribute } = this.props
+    const { modelAttribute, pluginConfigurationList, pluginMetaDataList, shouldDisplayHeader } = this.props
     if (modelAttribute) {
       return (
         <ModelAttributeComponent
+          pluginConfigurationList={pluginConfigurationList}
+          pluginMetaDataList={pluginMetaDataList}
           modelAttribute={modelAttribute}
           handleComputationUpdate={this.handleComputationUpdate}
+          shouldDisplayHeader={shouldDisplayHeader}
         />
       )
     }

@@ -63,7 +63,7 @@ CommonDllConfig.entry.core = [
   'redux-thunk',
   'scriptjs',
   'window-or-global',
-  'fixed-data-table',
+  'fixed-data-table-2',
 ]
 CommonDllConfig.devtool = 'source-map'
 

@@ -1,5 +1,6 @@
 import Model from './Model'
 import AttributeModel from './AttributeModel'
+import PluginConfiguration from './../admin/plugin/PluginConfiguration'
 
 const ModelAttribute = PropTypes.shape({
   content: PropTypes.shape({
@@ -7,6 +8,7 @@ const ModelAttribute = PropTypes.shape({
     mode: PropTypes.string,
     model: Model,
     attribute: AttributeModel,
+    computationConf: PluginConfiguration,
   }),
 })
 

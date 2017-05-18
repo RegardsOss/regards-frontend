@@ -150,35 +150,32 @@ class AttributeRegroupementConfigurationComponent extends React.Component {
     return null
   }
 
-  render = () => {
-    console.log('RENDER', this.props.attributesRegroupementsConf)
-    return (
-      <div>
-        {this.renderNewAttributeRegrpDialog()}
-        {this.renderConfirmDeleteDialog()}
-        <Subheader><FormattedMessage id="form.attributes.regroupement.section.title" /></Subheader>
-        <RaisedButton
-          label={<FormattedMessage id="form.attributes.regroupement.form.add.regroupement.button" />}
-          secondary
-          onTouchTap={this.handleOpenDialog}
-        />
-        <div
-          style={{
-            display: 'flex',
-          }}
-        >
-          {map(this.props.attributesRegroupementsConf, regroupement => (
-            <AttributeRegroupementComponent
-              key={regroupement.label}
-              conf={regroupement}
-              onChange={this.props.onChangeRegroupenentConfiguration}
-              onEdit={this.onEditRegroupement}
-              onDelete={this.openDeleteDialog}
-            />))}
-        </div>
+  render = () => (
+    <div>
+      {this.renderNewAttributeRegrpDialog()}
+      {this.renderConfirmDeleteDialog()}
+      <Subheader><FormattedMessage id="form.attributes.regroupement.section.title" /></Subheader>
+      <RaisedButton
+        label={<FormattedMessage id="form.attributes.regroupement.form.add.regroupement.button" />}
+        secondary
+        onTouchTap={this.handleOpenDialog}
+      />
+      <div
+        style={{
+          display: 'flex',
+        }}
+      >
+        {map(this.props.attributesRegroupementsConf, regroupement => (
+          <AttributeRegroupementComponent
+            key={regroupement.label}
+            conf={regroupement}
+            onChange={this.props.onChangeRegroupenentConfiguration}
+            onEdit={this.onEditRegroupement}
+            onDelete={this.openDeleteDialog}
+          />))}
       </div>
+    </div>
     )
-  }
 }
 
 export default AttributeRegroupementConfigurationComponent

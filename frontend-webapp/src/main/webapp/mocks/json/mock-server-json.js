@@ -33,6 +33,7 @@ const getAllLinks = () => [
     href: 'http://localhost:3333/unused',
   },
 ]
+
 /**
  * Add pagination format to response list and HAteoas format to each elements
  * @param req
@@ -40,6 +41,7 @@ const getAllLinks = () => [
  */
 const PageMiddleWare = (req, res, postTreatment) => {
   let results = ''
+
   if (Array.isArray(res.locals.data)) {
     const datas = []
     map(res.locals.data, (elt, i) => {

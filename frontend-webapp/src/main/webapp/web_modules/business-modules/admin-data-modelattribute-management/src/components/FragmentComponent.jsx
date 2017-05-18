@@ -2,22 +2,30 @@
  * LICENSE_PLACEHOLDER
  **/
 import { keys, map } from 'lodash'
-import { AttributeModel } from '@regardsoss/model'
+import { AttributeModel, PluginConfiguration, PluginMetaData } from '@regardsoss/model'
 import AttributeModelComponent from './AttributeModelComponent'
 import ModelAttributeContainer from '../containers/ModelAttributeContainer'
 import ItemTypes from './ItemTypes'
 
 class FragmentComponent extends React.Component {
   static propTypes = {
+    pluginConfigurationList: PropTypes.objectOf(PluginConfiguration),
+    pluginMetaDataList: PropTypes.objectOf(PluginMetaData),
     attributes: PropTypes.arrayOf(AttributeModel).isRequired,
     type: PropTypes.string.isRequired,
   }
 
   getComponent = (attribute, id) => {
     if (this.props.type === ItemTypes.ATTR_ASSOCIATED) {
-      return (<ModelAttributeContainer attribute={attribute} key={id} />)
+      return (<ModelAttributeContainer
+        pluginConfigurationList={this.props.pluginConfigurationList}
+        pluginMetaDataList={this.props.pluginMetaDataList}
+        attribute={attribute}
+        key={attribute.content.id}
+        shouldDisplayHeader={id === 0}
+      />)
     }
-    return (<AttributeModelComponent attribute={attribute} key={id} />)
+    return (<AttributeModelComponent attribute={attribute} key={attribute.content.id} />)
   }
 
   render() {

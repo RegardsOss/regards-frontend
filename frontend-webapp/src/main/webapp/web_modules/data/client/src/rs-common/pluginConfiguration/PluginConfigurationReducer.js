@@ -1,11 +1,11 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { BasicPageableReducers } from '@regardsoss/store-utils'
+import { BasicListReducers } from '@regardsoss/store-utils'
 import { AdminPluginConfigurationSchemaConfiguration } from '@regardsoss/api'
 import PluginConfigurationActions from './PluginConfigurationActions'
 
-class PluginConfigurationReducers extends BasicPageableReducers {
+class PluginConfigurationReducers extends BasicListReducers {
   constructor(namespace) {
     super(AdminPluginConfigurationSchemaConfiguration, new PluginConfigurationActions(namespace))
   }
