@@ -1,8 +1,6 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { RequestVerbEnum } from '@regardsoss/store-utils'
-import ProjectsAction from './model/ProjectsAction'
 
 /**
  * Module hateoas depencies
@@ -14,7 +12,7 @@ import ProjectsAction from './model/ProjectsAction'
  */
 const user = [
   // TODO V2 : How to retrieve endpoints for public users ?
-  //ProjectsAction.getDependency(RequestVerbEnum.GET_LIST),
+  // ProjectsAction.getDependency(RequestVerbEnum.GET_LIST),
 ]
 
 /**

@@ -6,7 +6,6 @@ import { connect } from '@regardsoss/redux'
 import { Layout } from '@regardsoss/model'
 import { AuthenticationParametersActions, AuthenticationParametersSelectors } from '@regardsoss/authentication-manager'
 import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
-import { EndpointActions } from '@regardsoss/endpoint'
 import { ApplicationLayout } from '@regardsoss/layout'
 import { ModuleShape } from '@regardsoss/modules'
 import { ThemeProvider } from '@regardsoss/theme'
@@ -39,7 +38,7 @@ export class PortalApp extends React.Component {
     // Set by mapDispatchToProps
     fetchLayout: PropTypes.func,
     fetchModules: PropTypes.func,
-    fetchEndpoints: PropTypes.func,
+    // fetchEndpoints: PropTypes.func,
     initializeApplication: PropTypes.func.isRequired,
   }
 
@@ -97,7 +96,7 @@ const mapDispatchToProps = dispatch => ({
   initializeApplication: project => dispatch(AuthenticationParametersActions.applicationStarted(project)),
   fetchLayout: () => dispatch(LayoutActions.fetchEntity('portal')),
   fetchModules: () => dispatch(ModulesActions.fetchPagedEntityList(0, 100, { applicationId: 'portal' })),
-  fetchEndpoints: () => dispatch(EndpointActions.fetchPagedEntityList(0, 10000)),
+  // fetchEndpoints: () => dispatch(EndpointActions.fetchPagedEntityList(0, 10000)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PortalApp)

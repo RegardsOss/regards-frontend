@@ -275,7 +275,7 @@ export class AccessRightFormComponent extends React.Component {
               />
             </ShowableAtRender>
             {this.renderQualityFilter()}
-            /**{this.renderShowAdvancedButton()}*/
+            {/** this.renderShowAdvancedButton()*/}
           </CardText>
           <CardActions>
             <CardActionsComponent
