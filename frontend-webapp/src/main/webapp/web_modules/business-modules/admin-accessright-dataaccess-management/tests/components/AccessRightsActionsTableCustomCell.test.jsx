@@ -28,8 +28,7 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT]  Testing AccessRightListComponent', () 
     const accessRight = DumpProvider.getFirstEntity('DataManagementClient', 'AccessRight')
 
     // Create an accessRight
-    accessRight.content.dataSet.id = dataset.content.id
-    accessGroup.content.accessRights.push(accessRight.content)
+    accessRight.content.dataset.id = dataset.content.id
 
     const props = {
       attributes: {
@@ -39,6 +38,7 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT]  Testing AccessRightListComponent', () 
       onDelete: () => {},
       onEdit: () => {},
       accessGroup,
+      accessRights: {accessRight},
       intl: context.intl,
       entity: dataset,
       lineHeight: 47,
@@ -55,6 +55,7 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT]  Testing AccessRightListComponent', () 
 
   it('Render properly without delete option', () => {
     const accessGroup = DumpProvider.getFirstEntity('DataManagementClient', 'AccessGroup')
+    const accessRight = DumpProvider.getFirstEntity('DataManagementClient', 'AccessRight')
     const dataset = DumpProvider.getFirstEntity('DataManagementClient', 'Dataset')
 
     const props = {
@@ -65,6 +66,7 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT]  Testing AccessRightListComponent', () 
       onDelete: () => {},
       onEdit: () => {},
       accessGroup,
+      accessRights: {accessRight},
       intl: context.intl,
       entity: dataset,
       lineHeight: 47,

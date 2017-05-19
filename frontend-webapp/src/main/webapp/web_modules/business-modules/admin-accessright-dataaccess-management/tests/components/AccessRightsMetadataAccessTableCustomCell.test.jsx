@@ -27,8 +27,7 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT]  Testing AccessRightsMetadataAccessTabl
     const accessRight = DumpProvider.getFirstEntity('DataManagementClient', 'AccessRight')
 
     // Create an accessRight
-    accessRight.content.dataSet.id = dataset.content.id
-    accessGroup.content.accessRights.push(accessRight.content)
+    accessRight.content.dataset.id = dataset.content.id
 
     const props = {
       attributes: {
@@ -38,6 +37,7 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT]  Testing AccessRightsMetadataAccessTabl
       onDelete: () => {},
       onEdit: () => {},
       accessGroup,
+      accessRights: { accessRight },
       intl: context.intl,
       entity: dataset,
       lineHeight: 47,

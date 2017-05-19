@@ -1,7 +1,7 @@
 import find from 'lodash/find'
 import Delete from 'material-ui/svg-icons/action/delete'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
-import { Dataset, AccessGroup } from '@regardsoss/model'
+import { Dataset, AccessRight, AccessGroup } from '@regardsoss/model'
 import IconButton from 'material-ui/IconButton'
 
 class AccessRightsActionsTableCustomCell extends React.Component {
@@ -13,7 +13,7 @@ class AccessRightsActionsTableCustomCell extends React.Component {
     }),
     onDelete: PropTypes.func.isRequired,
     onEdit: PropTypes.func.isRequired,
-    accessGroup: AccessGroup,
+    accessRights: PropTypes.objectOf(AccessRight),
     // eslint-disable-next-line react/forbid-prop-types
     intl: PropTypes.object,
     // eslint-disable-next-line react/no-unused-prop-types
@@ -64,11 +64,11 @@ class AccessRightsActionsTableCustomCell extends React.Component {
   )
 
   render() {
-    const accessRight = find(this.props.accessGroup.content.accessRights, ar => ar.dataSet.id === this.props.entity.content.id)
+    const accessRight = find(this.props.accessRights, ar => ar.content.dataset.id === this.props.entity.content.id)
     return (
       <div>
-        {this.renderEditButton(accessRight)}
-        {this.renderDeleteButton(accessRight)}
+        {this.renderEditButton(accessRight.content)}
+        {this.renderDeleteButton(accessRight.content)}
       </div>
     )
   }

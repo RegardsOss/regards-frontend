@@ -37,6 +37,7 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing AccessGroupAccessRightsContaine
   })
 
   it('Render properly a loading component', () => {
+    const fetchAccessRightsSpy = stub().returns({})
     const fetchAccessGroupSpy = stub().returns({})
     const fetchPluginConfsSpy = stub().returns({})
     const fetchPluginMetaSpy = stub().returns({})
@@ -48,10 +49,12 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing AccessGroupAccessRightsContaine
       },
       // from mapStateToProps
       accessGroup: DumpProvider.getFirstEntity('DataManagementClient', 'AccessGroup'),
+      accessRights: DumpProvider.get('DataManagementClient', 'AccessRight'),
       pluginConfigurationList: {},
       pluginMetaDataList: {},
 
       // from mapDispatchToProps
+      fetchAccessRights: fetchAccessRightsSpy,
       fetchAccessGroup: fetchAccessGroupSpy,
       fetchPluginConfigurationList: fetchPluginConfsSpy,
       fetchPluginMetaDataList: fetchPluginMetaSpy,
@@ -76,6 +79,7 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing AccessGroupAccessRightsContaine
   })
 
   it('Render properly', () => {
+    const fetchAccessRightsSpy = stub().returns({})
     const fetchAccessGroupSpy = stub().returns({})
     const fetchPluginConfsSpy = stub().returns({})
     const fetchPluginMetaSpy = stub().returns({})
@@ -87,10 +91,12 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing AccessGroupAccessRightsContaine
       },
       // from mapStateToProps
       accessGroup: DumpProvider.getFirstEntity('DataManagementClient', 'AccessGroup'),
+      accessRights: DumpProvider.get('DataManagementClient', 'AccessRight'),
       pluginConfigurationList: {},
       pluginMetaDataList: {},
 
       // from mapDispatchToProps
+      fetchAccessRights: fetchAccessRightsSpy,
       fetchAccessGroup: fetchAccessGroupSpy,
       fetchPluginConfigurationList: fetchPluginConfsSpy,
       fetchPluginMetaDataList: fetchPluginMetaSpy,
@@ -111,17 +117,19 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing AccessGroupAccessRightsContaine
     enzymeWrapper.setState({
       loading: false,
     })
-    const loader = enzymeWrapper.find(LoadableContentDisplayDecorator)
+    let loader = enzymeWrapper.find(LoadableContentDisplayDecorator)
     assert.isFalse(loader.props().isLoading, 'Loading should be false')
     assert.isFalse(loader.props().isContentError, 'Content error should be false')
 
-    const component = enzymeWrapper.find(AccessRightListComponent)
+    loader = loader.dive()
+    const component = loader.find(AccessRightListComponent)
     assert.isTrue(component.length === 1, 'There should be a AccessRightListComponent rendered')
     assert.equal(component.props().accessGroup, props.accessGroup, 'The accessGroup passed to AccessRightListComponent should the same as AccessGroupAccessRightsContainer')
   })
 
 
   it('Check submit a new accessRight', () => {
+    const fetchAccessRightsSpy = stub().returns({})
     const createSpy = stub().returns({})
     const updateSpy = stub().returns({})
 
@@ -134,10 +142,12 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing AccessGroupAccessRightsContaine
       },
       // from mapStateToProps
       accessGroup: testAccessGroup,
+      accessRights: DumpProvider.get('DataManagementClient', 'AccessRight'),
       pluginConfigurationList: {},
       pluginMetaDataList: {},
 
       // from mapDispatchToProps
+      fetchAccessRights: fetchAccessRightsSpy,
       fetchAccessGroup: () => {
       },
       fetchPluginConfigurationList: () => {
@@ -156,9 +166,10 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing AccessGroupAccessRightsContaine
     })
 
     const dataset = {
-      id: 10000,
-      label: 'test',
-    }
+      content: {
+        id: 10000,
+        label: 'test',
+      } }
 
     // Test create a new accessRightForm by using a dataset no defined in the datasets of the dump accessGroups
     assert.isFalse(createSpy.calledOnce, 'No creation should be fired at this state')
@@ -169,6 +180,7 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing AccessGroupAccessRightsContaine
   })
 
   it('Check submit a update of an existing accessRight', () => {
+    const fetchAccessRightsSpy = stub().returns({})
     const createSpy = stub().returns({})
     const updateSpy = stub().returns({})
 
@@ -181,10 +193,12 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing AccessGroupAccessRightsContaine
       },
       // from mapStateToProps
       accessGroup: testAccessGroup,
+      accessRights: DumpProvider.get('DataManagementClient', 'AccessRight'),
       pluginConfigurationList: {},
       pluginMetaDataList: {},
 
       // from mapDispatchToProps
+      fetchAccessRights: fetchAccessRightsSpy,
       fetchAccessGroup: () => {
       },
       fetchPluginConfigurationList: () => {
@@ -203,8 +217,10 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing AccessGroupAccessRightsContaine
     })
 
     const dataset = {
-      id: 1,
-      label: 'test',
+      content: {
+        id: 1,
+        label: 'test',
+      },
     }
 
     // Test create a new accessRightForm by using a dataset no defined in the datasets of the dump accessGroups
@@ -217,6 +233,7 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing AccessGroupAccessRightsContaine
 
 
   it('Check submit a bundle of accessRights with updates and creations', () => {
+    const fetchAccessRightsSpy = stub().returns({})
     const createSpy = stub().returns({})
     const updateSpy = stub().returns({})
 
@@ -229,6 +246,7 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing AccessGroupAccessRightsContaine
       },
       // from mapStateToProps
       accessGroup: testAccessGroup,
+      accessRights: DumpProvider.get('DataManagementClient', 'AccessRight'),
       pluginConfigurationList: {},
       pluginMetaDataList: {},
 
@@ -239,6 +257,7 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing AccessGroupAccessRightsContaine
       },
       fetchPluginMetaDataList: () => {
       },
+      fetchAccessRights: fetchAccessRightsSpy,
       updateAccessRight: updateSpy,
       createAccessRight: createSpy,
       deleteAccessRight: () => {
@@ -251,30 +270,40 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing AccessGroupAccessRightsContaine
     })
 
     const datasets = [{
-      id: 1,
-      label: 'test',
+      content: {
+        id: 1,
+        label: 'test',
+      },
     }, {
-      id: 4,
-      label: 'test',
+      content: {
+        id: 4,
+        label: 'test',
+      },
     },
     {
-      id: 10000,
-      label: 'newTest',
+      content: {
+        id: 10000,
+        label: 'newTest',
+      },
     },
     {
-      id: 10001,
-      label: 'newTest',
+      content: {
+        id: 10001,
+        label: 'newTest',
+      },
     },
     {
-      id: 10002,
-      label: 'newTest',
+      content: {
+        id: 10002,
+        label: 'newTest',
+      },
     }]
 
     // Test create a new accessRightForm by using a dataset no defined in the datasets of the dump accessGroups
     assert.isFalse(createSpy.calledOnce, 'No creation should be fired at this state')
     assert.isFalse(updateSpy.calledOnce, 'No update should be fired at this state')
     enzymeWrapper.instance().onSubmit(datasets, formValues)
-    assert.equal(createSpy.callCount, 3, 'There should two creation of a new accessRights')
-    assert.equal(updateSpy.callCount, 2, 'There should three creation of a new accessRights')
+    assert.equal(createSpy.callCount, 3, 'There should 3 creation of a new accessRights')
+    assert.equal(updateSpy.callCount, 2, 'There should 2 updates of existing accessRights')
   })
 })

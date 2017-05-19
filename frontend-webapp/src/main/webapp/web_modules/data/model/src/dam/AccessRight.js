@@ -1,6 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import { DatasetContent } from './Dataset'
 
 const AccessRightContent = PropTypes.shape({
   id: PropTypes.number,
@@ -9,9 +10,7 @@ const AccessRightContent = PropTypes.shape({
     pluginConfiguration: PropTypes.number,
     dataAccessLevel: PropTypes.string,
   }),
-  dataset: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number,
-  })),
+  dataset: DatasetContent,
   qualityFilter: PropTypes.shape({
     maxScore: PropTypes.number,
     minScore: PropTypes.number,

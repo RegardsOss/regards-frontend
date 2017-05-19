@@ -28,8 +28,7 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT]  Testing AccessRightsDataAccessTableCus
     const accessRight = DumpProvider.getFirstEntity('DataManagementClient', 'AccessRight')
 
     // Create an accessRight
-    accessRight.content.dataSet.id = dataset.content.id
-    accessGroup.content.accessRights.push(accessRight.content)
+    accessRight.content.dataset.id = dataset.content.id
 
     const props = {
       attributes: {
@@ -39,6 +38,7 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT]  Testing AccessRightsDataAccessTableCus
       onDelete: () => {},
       onEdit: () => {},
       accessGroup,
+      accessRights: { accessRight },
       intl: context.intl,
       entity: dataset,
       lineHeight: 47,
@@ -54,9 +54,8 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT]  Testing AccessRightsDataAccessTableCus
     const accessRight = DumpProvider.getFirstEntity('DataManagementClient', 'AccessRight')
 
     // Create an accessRight
-    accessRight.content.dataSet.id = dataset.content.id
+    accessRight.content.dataset.id = dataset.content.id
     accessRight.content.accessLevel = AccessRightsEnum.METADATA_ACCESS_ENUM.NO_ACCESS
-    accessGroup.content.accessRights.push(accessRight.content)
 
     const props = {
       attributes: {
@@ -66,6 +65,7 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT]  Testing AccessRightsDataAccessTableCus
       onDelete: () => {},
       onEdit: () => {},
       accessGroup,
+      accessRights: { accessRight },
       intl: context.intl,
       entity: dataset,
       lineHeight: 47,
@@ -81,9 +81,8 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT]  Testing AccessRightsDataAccessTableCus
     const accessRight = DumpProvider.getFirstEntity('DataManagementClient', 'AccessRight')
 
     // Create an accessRight
-    accessRight.content.dataSet.id = dataset.content.id
+    accessRight.content.dataset.id = dataset.content.id
     accessRight.content.accessLevel = AccessRightsEnum.METADATA_ACCESS_ENUM.DATASET_ACCESS
-    accessGroup.content.accessRights.push(accessRight.content)
 
     const props = {
       attributes: {
@@ -93,6 +92,7 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT]  Testing AccessRightsDataAccessTableCus
       onDelete: () => {},
       onEdit: () => {},
       accessGroup,
+      accessRights: { accessRight },
       intl: context.intl,
       entity: dataset,
       lineHeight: 47,
