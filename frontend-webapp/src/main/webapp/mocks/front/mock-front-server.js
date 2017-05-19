@@ -11,6 +11,26 @@ const FacadeCore = require('./mock-front-core')
 const MockUsers = require('./mock-users')
 const MockCatalog = require('./mock-catalog')
 
+const maintennceResultContent = {
+  content : {
+    project1: {
+      active: false,
+        lastUpdate: '2017-05-20T00:00:00.000Z'
+    },
+    cdpp: false,
+  }
+}
+
+const maintennceActiveResultContent = {
+  content : {
+    project1: {
+      active: true,
+      lastUpdate: '2017-05-20T00:00:00.000Z'
+    },
+    cdpp: false,
+  }
+}
+
 /**
  * Mock server entry point: provide here the delegate for a given URL and method
  * Note1 : delegate signature is:
@@ -41,12 +61,7 @@ const entryDelegates = {
     }),
     '/rs-gateway/maintenance': () => ({
       contentType: JSON_CONTENT_TYPE,
-      content: {
-        content : {
-          project1: false,
-          cdpp: false,
-        }
-      }
+      content: maintennceResultContent,
     }),
     '/rs-dam/info': () => ({
       contentType: JSON_CONTENT_TYPE,
@@ -54,12 +69,7 @@ const entryDelegates = {
     }),
     '/rs-dam/maintenance': () => ({
       contentType: JSON_CONTENT_TYPE,
-      content: {
-        content : {
-          project1: false,
-          cdpp: false,
-        }
-      }
+      content: maintennceResultContent,
     }),
     '/rs-catalog/info': () => ({
       contentType: JSON_CONTENT_TYPE,
@@ -67,12 +77,7 @@ const entryDelegates = {
     }),
     '/rs-catalog/maintenance': () => ({
       contentType: JSON_CONTENT_TYPE,
-      content: {
-        content : {
-          project1: false,
-          cdpp: false,
-        }
-      }
+      content: maintennceResultContent,
     }),
     '/rs-admin/info': () => ({
       contentType: JSON_CONTENT_TYPE,
@@ -80,12 +85,7 @@ const entryDelegates = {
     }),
     '/rs-admin/maintenance': () => ({
       contentType: JSON_CONTENT_TYPE,
-      content: {
-        content : {
-          project1: false,
-          cdpp: false,
-        }
-      }
+      content: maintennceResultContent,
     }),
     '/rs-access-project/info': () => ({
       contentType: JSON_CONTENT_TYPE,
@@ -93,12 +93,7 @@ const entryDelegates = {
     }),
     '/rs-access-project/maintenance': () => ({
       contentType: JSON_CONTENT_TYPE,
-      content: {
-        content : {
-          project1: false,
-          cdpp: false,
-        }
-      }
+      content: maintennceResultContent,
     }),
     '/rs-access-instance/info': () => ({
       contentType: JSON_CONTENT_TYPE,
@@ -106,12 +101,7 @@ const entryDelegates = {
     }),
     '/rs-access-instance/maintenance': () => ({
       contentType: JSON_CONTENT_TYPE,
-      content: {
-        content : {
-          project1: false,
-          cdpp: false,
-        }
-      }
+      content: maintennceResultContent,
     }),
     '/rs-authentication/info': () => ({
       contentType: JSON_CONTENT_TYPE,
@@ -119,12 +109,7 @@ const entryDelegates = {
     }),
     '/rs-authentication/maintenance': () => ({
       contentType: JSON_CONTENT_TYPE,
-      content: {
-        content : {
-          project1: false,
-          cdpp: false,
-        }
-      }
+      content: maintennceActiveResultContent,
     }),
   },
   POST: {
