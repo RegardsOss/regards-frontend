@@ -6,7 +6,7 @@
  * Mock service entry point: uses its entry points here or delegates onto json mock server
  */
 const _ = require('lodash')
-const { JSON_CONTENT_TYPE } = require('./mock-front-utils')
+const {JSON_CONTENT_TYPE} = require('./mock-front-utils')
 const FacadeCore = require('./mock-front-core')
 const MockUsers = require('./mock-users')
 const MockCatalog = require('./mock-catalog')
@@ -22,7 +22,11 @@ const entryDelegates = {
   GET: {
     // EXAMPLE : GET http://localhost:3000/api/v1/test-url ==> 200 and [...]test-url?nok=whatiwant ==> 500
     '/test-url': (request, query) =>
-      (query.nok ? { content: 'Everything is NOT OK ', code: 500 } : { content: 'Everything is OK ', code: 200, contentType: 'text/plain' }),
+      (query.nok ? {content: 'Everything is NOT OK ', code: 500} : {
+        content: 'Everything is OK ',
+        code: 200,
+        contentType: 'text/plain'
+      }),
     // project license
     '/rs-admin/license/{projectName}': () => ({
       contentType: JSON_CONTENT_TYPE,
@@ -31,17 +35,108 @@ const entryDelegates = {
         accepted: false,
       },
     }),
+    '/rs-gateway/info': () => ({
+      contentType: JSON_CONTENT_TYPE,
+      content: {},
+    }),
+    '/rs-gateway/maintenance': () => ({
+      contentType: JSON_CONTENT_TYPE,
+      content: {
+        content : {
+          project1: false,
+          cdpp: false,
+        }
+      }
+    }),
+    '/rs-dam/info': () => ({
+      contentType: JSON_CONTENT_TYPE,
+      content: {},
+    }),
+    '/rs-dam/maintenance': () => ({
+      contentType: JSON_CONTENT_TYPE,
+      content: {
+        content : {
+          project1: false,
+          cdpp: false,
+        }
+      }
+    }),
+    '/rs-catalog/info': () => ({
+      contentType: JSON_CONTENT_TYPE,
+      content: {},
+    }),
+    '/rs-catalog/maintenance': () => ({
+      contentType: JSON_CONTENT_TYPE,
+      content: {
+        content : {
+          project1: false,
+          cdpp: false,
+        }
+      }
+    }),
+    '/rs-admin/info': () => ({
+      contentType: JSON_CONTENT_TYPE,
+      content: {},
+    }),
+    '/rs-admin/maintenance': () => ({
+      contentType: JSON_CONTENT_TYPE,
+      content: {
+        content : {
+          project1: false,
+          cdpp: false,
+        }
+      }
+    }),
+    '/rs-access-project/info': () => ({
+      contentType: JSON_CONTENT_TYPE,
+      content: {},
+    }),
+    '/rs-access-project/maintenance': () => ({
+      contentType: JSON_CONTENT_TYPE,
+      content: {
+        content : {
+          project1: false,
+          cdpp: false,
+        }
+      }
+    }),
+    '/rs-access-instance/info': () => ({
+      contentType: JSON_CONTENT_TYPE,
+      content: {},
+    }),
+    '/rs-access-instance/maintenance': () => ({
+      contentType: JSON_CONTENT_TYPE,
+      content: {
+        content : {
+          project1: false,
+          cdpp: false,
+        }
+      }
+    }),
+    '/rs-authentication/info': () => ({
+      contentType: JSON_CONTENT_TYPE,
+      content: {},
+    }),
+    '/rs-authentication/maintenance': () => ({
+      contentType: JSON_CONTENT_TYPE,
+      content: {
+        content : {
+          project1: false,
+          cdpp: false,
+        }
+      }
+    }),
   },
   POST: {
     // EXAMPLE : using a dynamic parameter and body content, with implicit answer 200
     // exemple URL: POST http://localhost:3000/api/v1/test-url/myTest1/hop/444 (think about adding some encoded form data)
     '/test-url/{myParam1}/hop/{myParam2}': (request, query, pathParameters, bodyParameters) =>
       ({
-        content:
-        `Et hop!
+        content: `Et hop!
           \tPath parameter: ${_.keys(pathParameters).reduce((acc, key) => `${acc}\n\t\t-${key}:${pathParameters[key]}`, '')}
           \tBody parameters: ${_.keys(bodyParameters).reduce((acc, key) => `${acc}\n\t\t-${key}:${bodyParameters[key]}`, '')}
-` }),
+`
+      }),
   },
   PUT: {
     '/rs-admin/license/{projectName}': () => ({
@@ -53,8 +148,7 @@ const entryDelegates = {
       },
     }),
   },
-  DELETE: {
-  },
+  DELETE: {},
 }
 
 // report mock authentication endpoints in entry points
