@@ -34,6 +34,7 @@ const messages = Object.assign({
   'accessright.form.quality.level.ACCEPTED': 'Jeux acceptés',
   'accessright.form.quality.level.ACCEPTED_WITH_WARNINGS': 'Jeux acceptés avec avertissement(s)',
   'accessright.form.quality.level.REJECTED': 'Jeux refusées',
+  'accessright.form.error.message': 'Une erreur s\'est produite pendant la sauvegarde des droits d\'accès',
   'accessright.edit.tooltip': 'Configurer les droits d\'accès',
   'accessright.delete.tooltip': 'Supprimer les droits d\'accès',
   'accessright.list.delete.message': 'Etes vous sû de vouloir supprimer les droits d\'accès au jeu de données {name} ?',

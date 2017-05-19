@@ -2,7 +2,6 @@
  * LICENSE_PLACEHOLDER
  **/
 import { browserHistory } from 'react-router'
-import { FormattedMessage } from 'react-intl'
 import { connect } from '@regardsoss/redux'
 import { AccessGroup } from '@regardsoss/model'
 import { I18nProvider } from '@regardsoss/i18n'
@@ -128,8 +127,7 @@ export class AccessGroupFormContainer extends React.Component {
 
 
   render() {
-    const { currentAccessGroup } = this.props
-    const { isError, isLoading, isCreating } = this.state
+    const { isError, isLoading } = this.state
     return (
       <I18nProvider messageDir="business-modules/admin-accessright-accessgroup-management/src/i18n">
         <LoadableContentDisplayDecorator

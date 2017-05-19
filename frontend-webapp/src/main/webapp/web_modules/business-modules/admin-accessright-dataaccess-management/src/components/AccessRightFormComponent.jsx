@@ -5,7 +5,7 @@ import map from 'lodash/map'
 import { CardActions, CardText } from 'material-ui/Card'
 import { ShowableAtRender, CardActionsComponent, PluginConfigurationPickerComponent } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
-import { RenderTextField, Field, RenderSelectField, reduxForm } from '@regardsoss/form-utils'
+import { RenderTextField, Field, RenderSelectField, reduxForm, FormErrorMessage } from '@regardsoss/form-utils'
 import { AccessRightContent, PluginConfiguration, PluginMetaData } from '@regardsoss/model'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -30,6 +30,7 @@ export class AccessRightFormComponent extends React.Component {
   static propTypes = {
     onSubmit: PropTypes.func.isRequired,
     onCancel: PropTypes.func.isRequired,
+    errorMessage: PropTypes.string,
     currentAccessRight: AccessRightContent,
     pluginConfigurationList: PropTypes.objectOf(PluginConfiguration),
     pluginMetaDataList: PropTypes.objectOf(PluginMetaData),
@@ -97,7 +98,7 @@ export class AccessRightFormComponent extends React.Component {
     }
 
     this.setState({
-      selectMetaDataAccessLevel: defaultValues.access
+      selectMetaDataAccessLevel: defaultValues.access,
     })
 
     this.props.initialize(defaultValues)
@@ -263,6 +264,9 @@ export class AccessRightFormComponent extends React.Component {
       <form onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
         <div>
           <CardText>
+            <FormErrorMessage>
+              {this.props.errorMessage}
+            </FormErrorMessage>
             {this.renderMetaDataAccessLevel()}
             {this.renderDataAccessLevel()}
             <ShowableAtRender show={isDisplayPluginConf}>

@@ -1,9 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import keys from 'lodash/keys'
 import { browserHistory } from 'react-router'
-import { FormattedMessage } from 'react-intl'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { AccessGroup } from '@regardsoss/model'

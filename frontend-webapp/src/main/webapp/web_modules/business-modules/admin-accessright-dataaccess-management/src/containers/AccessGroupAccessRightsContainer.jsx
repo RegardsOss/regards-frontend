@@ -2,7 +2,9 @@
  * LICENSE_PLACEHOLDER
  **/
 import { connect } from '@regardsoss/redux'
-import { map, find } from 'lodash'
+import filter from 'lodash/filter'
+import map from 'lodash/map'
+import find from 'lodash/find'
 import { I18nProvider } from '@regardsoss/i18n'
 import { AccessGroup, PluginConfiguration, PluginMetaData } from '@regardsoss/model'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
@@ -35,6 +37,8 @@ export class AccessGroupAccessRightsContainer extends React.Component {
     super(props)
     this.state = {
       loading: true,
+      // Used to propagate to children a submit error
+      submitStatus: undefined,
     }
   }
 
@@ -46,6 +50,7 @@ export class AccessGroupAccessRightsContainer extends React.Component {
       .then(() => {
         this.setState({
           loading: false,
+          submitStatus: undefined,
         })
       })
   }
@@ -69,7 +74,7 @@ export class AccessGroupAccessRightsContainer extends React.Component {
       dataAccessRight,
       accessGroup: accessGroup.content,
       accessLevel: formValues.access,
-      dataSet: dataset,
+      dataset: dataset.content,
     }))
     const requests = []
     newAccessRightList.forEach((newAccessRight) => {
@@ -83,7 +88,11 @@ export class AccessGroupAccessRightsContainer extends React.Component {
     })
     // Run all promises together and wait the end to refresh the current access group
     return Promise.all(requests)
-      .then(() => {
+      .then((actionsResults) => {
+        const errors = filter(actionsResults, ar => ar.error)
+        this.setState({
+          submitStatus: errors && errors.length > 0,
+        })
         this.props.fetchAccessGroup(accessGroup.content.name)
       })
   }
@@ -108,13 +117,16 @@ export class AccessGroupAccessRightsContainer extends React.Component {
           isLoading={loading}
           isContentError={!loading && !accessGroup}
         >
-          <AccessRightListComponent
-            accessGroup={accessGroup}
-            pluginConfigurationList={pluginConfigurationList}
-            pluginMetaDataList={pluginMetaDataList}
-            deleteAccessRight={this.onDelete}
-            submitAccessRights={this.onSubmit}
-          />
+          {() => (
+            <AccessRightListComponent
+              accessGroup={accessGroup}
+              pluginConfigurationList={pluginConfigurationList}
+              pluginMetaDataList={pluginMetaDataList}
+              deleteAccessRight={this.onDelete}
+              submitAccessRights={this.onSubmit}
+              submitStatus={this.state.submitStatus}
+            />
+          )}
         </LoadableContentDisplayDecorator>
       </I18nProvider>
     )
@@ -131,15 +143,15 @@ const mapDispatchToProps = dispatch => ({
   fetchPluginConfigurationList: () => dispatch(pluginConfigurationActions.fetchEntityList({
     microserviceName: 'rs-dam',
   }, /*{
-    pluginId: 'ICheckDataAccess'
-    // TODO fix when backend update to pluginType too
-  }*/)),
+   pluginId: 'ICheckDataAccess'
+   // TODO fix when backend update to pluginType too
+   }*/)),
   fetchAccessGroup: accessGroupName => dispatch(accessGroupActions.fetchEntity(accessGroupName)),
   fetchPluginMetaDataList: microserviceName => dispatch(pluginMetadataActions.fetchEntityList({
     microserviceName: 'rs-dam',
   }, /* {
-    pluginType: 'ICheckDataAccess'
-  }*/)),
+   pluginType: 'ICheckDataAccess'
+   }*/)),
   updateAccessRight: (id, entity) => dispatch(accessRightActions.updateEntity(id, entity)),
   createAccessRight: entity => dispatch(accessRightActions.createEntity(entity)),
   deleteAccessRight: id => dispatch(accessRightActions.deleteEntity(id)),

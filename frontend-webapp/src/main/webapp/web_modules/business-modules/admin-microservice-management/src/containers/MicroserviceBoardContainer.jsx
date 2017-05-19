@@ -63,7 +63,7 @@ export class MicroserviceBoardContainer extends React.Component {
       microservicesMaintenance[microservice] = {}
       microservicesMaintenance[microservice].isOn = (projectName) => {
         const maintenanceTenants = this.props.maintenanceList(microservice).content
-        if (maintenanceTenants) {
+        if (maintenanceTenants && maintenanceTenants[projectName]) {
           return maintenanceTenants[projectName].active
         }
         return false

@@ -72,14 +72,14 @@ export class DatasourceListComponent extends React.Component {
                     <HateoasIconAction
                       entityLinks={datasource.links}
                       hateoasKey={HateoasKeys.UPDATE}
-                      onTouchTap={() => handleEdit(datasource.content.id)}
+                      onTouchTap={() => handleEdit(datasource.content.pluginConfigurationId)}
                     >
                       <Edit hoverColor={style.hoverButtonEdit} />
                     </HateoasIconAction>
                     <HateoasIconAction
                       entityLinks={datasource.links}
                       hateoasKey={HateoasKeys.DELETE}
-                      onTouchTap={() => handleDelete(datasource.content.id)}
+                      onTouchTap={() => handleDelete(datasource.content.pluginConfigurationId)}
                     >
                       <Delete hoverColor={style.hoverButtonDelete} />
                     </HateoasIconAction>

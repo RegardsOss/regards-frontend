@@ -37,6 +37,8 @@ class AccessRightListComponent extends React.Component {
     deleteAccessRight: PropTypes.func.isRequired,
     // Callback to submit AccessRight(s) configuration (updates and creation)
     submitAccessRights: PropTypes.func.isRequired,
+    // Error status of the last submit callback
+    submitStatus: PropTypes.bool,
   }
 
   static contextTypes = {
@@ -59,6 +61,14 @@ class AccessRightListComponent extends React.Component {
       datasetAccessRightToEdit: null,
       // List of current selected datasets.
       selectedDatasets: [],
+    }
+  }
+
+  componentWillReceiveProps = (nextProps) => {
+    if (nextProps.submitStatus !== undefined && (nextProps.submitStatus !== this.props.submitStatus)) {
+      if (!nextProps.submitStatus) {
+        this.closeEditDialog()
+      }
     }
   }
 
@@ -127,7 +137,13 @@ class AccessRightListComponent extends React.Component {
    * @param accessRightValues
    */
   handleSubmitAccessRights = (accessRightValues) => {
-    this.props.submitAccessRights(this.state.selectedDatasets, accessRightValues)
+    if (this.state.datasetAccessRightToEdit) {
+      // Only one accessRight to submit for the given dataset
+      this.props.submitAccessRights([this.state.datasetAccessRightToEdit], accessRightValues)
+    } else {
+      // Many accessRight to submit. One for each selected datasets.
+      this.props.submitAccessRights(this.state.selectedDatasets, accessRightValues)
+    }
   }
 
   /**
@@ -147,6 +163,7 @@ class AccessRightListComponent extends React.Component {
         <AccessRightFormComponent
           onCancel={this.closeEditDialog}
           onSubmit={this.handleSubmitAccessRights}
+          errorMessage={this.props.submitStatus ? this.context.intl.formatMessage({ id: 'accessright.form.error.message' }) : null}
             // If a unique accessright is in edition only submit the one. Else, submit for all selected datasets
           selectedDatasets={this.state.datasetAccessRightToEdit ? [this.state.datasetAccessRightToEdit] : this.state.selectedDatasets}
           currentAccessRight={this.state.accessRightToEdit}
