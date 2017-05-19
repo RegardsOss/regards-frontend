@@ -15,7 +15,7 @@ const maintennceResultContent = {
   content : {
     project1: {
       active: false,
-        lastUpdate: '2017-05-20T00:00:00.000Z'
+      lastUpdate: '2017-05-20T00:00:00.000Z'
     },
     cdpp: false,
   }
@@ -27,7 +27,10 @@ const maintennceActiveResultContent = {
       active: true,
       lastUpdate: '2017-05-20T00:00:00.000Z'
     },
-    cdpp: false,
+    cdpp: {
+      active: true,
+      lastUpdate: '2017-05-20T00:00:00.000Z'
+    }
   }
 }
 
