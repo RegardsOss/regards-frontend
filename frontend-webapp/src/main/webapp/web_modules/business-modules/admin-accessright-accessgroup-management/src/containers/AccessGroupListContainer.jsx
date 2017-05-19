@@ -71,8 +71,6 @@ export class AccessGroupListContainer extends React.Component {
       <I18nProvider messageDir="business-modules/admin-accessright-accessgroup-management/src/i18n">
         <LoadableContentDisplayDecorator
           isLoading={isFetching}
-          isEmpty={!isFetching && accessGroupList && keys(accessGroupList).length === 0}
-          emptyMessage={<FormattedMessage id="group.list.empty" />}
         >
           <AccessGroupListComponent
             accessGroupList={accessGroupList}

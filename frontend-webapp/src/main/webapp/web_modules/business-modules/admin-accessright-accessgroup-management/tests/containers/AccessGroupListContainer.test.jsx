@@ -39,27 +39,6 @@ describe('[ADMIN USER ACCESSGROUP MANAGEMENT] Testing AccessGroupListContainer',
     assert.isTrue(fetchListSpy.calledOnce)
   })
 
-  it('Render properly empty results', () => {
-    const fetchListSpy = spy()
-    const props = {
-      params: {
-        project: 'someprocjet',
-      },
-      // from mapStateToProps
-      accessGroupList: {},
-      isFetching: false,
-      // from mapDispatchToProps
-      fetchAccessGroupList: fetchListSpy,
-      deleteAccessGroup: () => {},
-
-    }
-    const enzymeWrapper = shallow(<AccessGroupListContainer {...props} />, { context })
-    expect(enzymeWrapper.find(LoadableContentDisplayDecorator)).to.have.length(1)
-    assert.isFalse(enzymeWrapper.find(LoadableContentDisplayDecorator).props().isLoading, 'Loading should be false')
-    assert.isTrue(enzymeWrapper.find(LoadableContentDisplayDecorator).props().isEmpty, 'Empty message should be displayed')
-    assert.isTrue(fetchListSpy.calledOnce)
-  })
-
   it('Render properly', () => {
     const fetchListSpy = spy()
     const props = {

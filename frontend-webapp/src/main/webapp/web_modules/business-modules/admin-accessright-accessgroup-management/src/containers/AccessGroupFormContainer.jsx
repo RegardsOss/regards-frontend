@@ -129,14 +129,12 @@ export class AccessGroupFormContainer extends React.Component {
 
   render() {
     const { currentAccessGroup } = this.props
-    const { isError, isLoading } = this.state
+    const { isError, isLoading, isCreating } = this.state
     return (
       <I18nProvider messageDir="business-modules/admin-accessright-accessgroup-management/src/i18n">
         <LoadableContentDisplayDecorator
           isLoading={isLoading}
           isContentError={isError}
-          isEmpty={!isLoading && !currentAccessGroup}
-          emptyMessage={<FormattedMessage id="group.form.invalid.group" />}
         >
           {this.renderAccessGroup}
         </LoadableContentDisplayDecorator>

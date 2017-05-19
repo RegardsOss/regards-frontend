@@ -1,7 +1,6 @@
 import { Locales } from '@regardsoss/form-utils'
 
 const messages = Object.assign({
-  'group.list.empty': 'Aucun groupe d\'accès n\'est défini. Utilisez le boutton de création ci-dessous pour en créer un nouveau,',
   'group.list.title': 'Gestion des groupes d\'accès',
   'group.list.subtitle': 'Un groupe d\'accès permet d\'autoriser un groupe d\'utilisateur à accéder à des jeux de données, partiellement ou dans leur totalité',
   'group.list.table.name': 'Nom',

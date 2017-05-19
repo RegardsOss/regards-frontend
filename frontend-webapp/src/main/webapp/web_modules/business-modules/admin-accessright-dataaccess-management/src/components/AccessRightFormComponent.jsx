@@ -95,6 +95,11 @@ export class AccessRightFormComponent extends React.Component {
         dataAccess: AccessRightsEnum.DATA_ACCESS_ENUM.REFUSED,
       }
     }
+
+    this.setState({
+      selectMetaDataAccessLevel: defaultValues.access
+    })
+
     this.props.initialize(defaultValues)
   }
 
