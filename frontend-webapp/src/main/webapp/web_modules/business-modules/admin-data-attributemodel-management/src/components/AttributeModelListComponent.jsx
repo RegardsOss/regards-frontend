@@ -10,6 +10,7 @@ import { AttributeModel } from '@regardsoss/model'
 import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
+import { fragmentSelectors } from '../client/FragmentClient'
 import { attributeModelActions } from '../client/AttributeModelClient'
 
 /**
@@ -31,7 +32,7 @@ export class AttributeModelListComponent extends React.Component {
   }
 
   getFragmentName = (attrModel) => {
-    if (attrModel.content.fragment) {
+    if (attrModel.content.fragment.name !== fragmentSelectors.noneFragmentName) {
       return attrModel.content.fragment.name
     }
     return ''

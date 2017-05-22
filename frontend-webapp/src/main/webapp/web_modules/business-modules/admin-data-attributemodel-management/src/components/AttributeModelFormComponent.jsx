@@ -6,6 +6,7 @@ import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { AttributeModel, Fragment } from '@regardsoss/model'
 import MenuItem from 'material-ui/MenuItem'
+import { fragmentSelectors } from '../client/FragmentClient'
 import NumberRangeComponent, { initializeNumberRangeForm } from './NumberRangeComponent'
 import EnumerationComponent, { initializeEnumerationForm } from './EnumerationComponent'
 import PatternComponent, { initializePatternForm } from './PatternComponent'
@@ -50,6 +51,13 @@ export class AttributeModelFormComponent extends React.Component {
 
   componentDidMount() {
     this.handleInitialize()
+  }
+
+  getFragmentInitialValue = (currentAttrModel) => {
+    if (currentAttrModel.content.fragment.name === fragmentSelectors.noneFragmentName) {
+      return DEFAULT_FRAGMENT_NAME
+    }
+    return currentAttrModel.content.fragment.name
   }
 
   /**
@@ -98,7 +106,7 @@ export class AttributeModelFormComponent extends React.Component {
         name: currentAttrModel.content.name,
         label: currentAttrModel.content.label,
         type: currentAttrModel.content.type,
-        fragment: currentAttrModel.content.fragment.name || DEFAULT_FRAGMENT_NAME,
+        fragment: this.getFragmentInitialValue(currentAttrModel),
         description: currentAttrModel.content.description,
         alterable: currentAttrModel.content.alterable,
         optional: currentAttrModel.content.optional,
