@@ -8,7 +8,7 @@ import { FormattedMessage } from 'react-intl'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
 import { Dataset } from '@regardsoss/model'
-import { CardActionsComponent } from '@regardsoss/components'
+import { ActionsMenuCell, CardActionsComponent, ConfirmDialogComponent, ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { HateoasIconAction, HateoasKeys } from '@regardsoss/display-control'
@@ -33,13 +33,51 @@ export class DatasetListComponent extends React.Component {
     ...i18nContextType,
   }
 
+  state = {
+    deleteDialogOpened: false,
+    entityToDelete: null,
+  }
+
+  closeDeleteDialog = () => {
+    this.setState({
+      deleteDialogOpened: false,
+      entityToDelete: null,
+    })
+  }
+
+  openDeleteDialog = (entity) => {
+    this.setState({
+      deleteDialogOpened: true,
+      entityToDelete: entity,
+    })
+  }
+
+  renderDeleteConfirmDialog = () => {
+    const name = this.state.entityToDelete ? this.state.entityToDelete.content.name : ' '
+    const title = this.context.intl.formatMessage({ id: 'dataset.list.delete.title' }, { name })
+    return (
+      <ShowableAtRender
+        show={this.state.deleteDialogOpened}
+      >
+        <ConfirmDialogComponent
+          dialogType={ConfirmDialogComponent.dialogTypes.DELETE}
+          onConfirm={() => {
+            this.props.handleDelete(this.state.entityToDelete.content.id)
+          }}
+          onClose={this.closeDeleteDialog}
+          title={title}
+        />
+      </ShowableAtRender>
+    )
+  }
 
   render() {
-    const { datasetList, handleEdit, handleDelete, createUrl, backUrl } = this.props
+    const { datasetList, handleEdit, createUrl, backUrl } = this.props
     const style = {
       hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
       hoverButtonDelete: this.context.muiTheme.palette.accent1Color,
     }
+    const { intl } = this.context
     return (
       <Card>
         <CardTitle
@@ -47,6 +85,7 @@ export class DatasetListComponent extends React.Component {
           subtitle={<FormattedMessage id="dataset.list.subtitle" />}
         />
         <CardText>
+          {this.renderDeleteConfirmDialog()}
           <Table
             selectable={false}
           >
@@ -71,22 +110,26 @@ export class DatasetListComponent extends React.Component {
                   <TableRowColumn>{dataset.content.label}</TableRowColumn>
                   <TableRowColumn>{dataset.content.model.name}</TableRowColumn>
                   <TableRowColumn>
-                    <HateoasIconAction
-                      entityLinks={dataset.links}
-                      hateoasKey={HateoasKeys.UPDATE}
-                      onTouchTap={() => handleEdit(dataset.content.id)}
-                      title={this.context.intl.formatMessage({ id: 'dataset.list.tooltip.edit' })}
-                    >
-                      <Edit hoverColor={style.hoverButtonEdit} />
-                    </HateoasIconAction>
-                    <HateoasIconAction
-                      entityLinks={dataset.links}
-                      hateoasKey={HateoasKeys.DELETE}
-                      onTouchTap={() => handleDelete(dataset.content.id)}
-                      title={this.context.intl.formatMessage({ id: 'dataset.list.tooltip.delete' })}
-                    >
-                      <Delete hoverColor={style.hoverButtonDelete} />
-                    </HateoasIconAction>
+                    <ActionsMenuCell>
+                      <HateoasIconAction
+                        entityLinks={dataset.links}
+                        hateoasKey={HateoasKeys.UPDATE}
+                        onTouchTap={() => handleEdit(dataset.content.id)}
+                        breakpoint={940}
+                        title={this.context.intl.formatMessage({ id: 'dataset.list.tooltip.edit' })}
+                      >
+                        <Edit hoverColor={style.hoverButtonEdit} />
+                      </HateoasIconAction>
+                      <HateoasIconAction
+                        entityLinks={dataset.links}
+                        hateoasKey={HateoasKeys.DELETE}
+                        onTouchTap={() => this.openDeleteDialog(dataset)}
+                        breakpoint={995}
+                        title={this.context.intl.formatMessage({ id: 'dataset.list.tooltip.delete' })}
+                      >
+                        <Delete hoverColor={style.hoverButtonDelete} />
+                      </HateoasIconAction>
+                    </ActionsMenuCell>
                   </TableRowColumn>
                 </TableRow>
               ))}

@@ -8,8 +8,9 @@ const messages = Object.assign({
   'dataset.list.table.label': 'Label',
   'dataset.list.table.actions': 'Actions',
   'dataset.list.table.model': 'Modele',
-  'dataset.list.tooltip.edit': 'Éditer ce jeu de données',
-  'dataset.list.tooltip.delete': 'Supprimer ce jeu de données',
+  'dataset.list.tooltip.edit': 'Éditer',
+  'dataset.list.tooltip.delete': 'Supprimer',
+  'dataset.list.delete.title': 'Supprimer le jeu de données {name} ?',
 
   'dataset.form.links.subtitle': 'Les jeux de données sont liés à des collections et à des mots clés afin de simplifier la recherche',
   'dataset.form.links.title': 'Edition des liens du jeu de données',
@@ -77,6 +78,8 @@ const messages = Object.assign({
   'dataset.stepper.plugins': 'Plugins',
   'dataset.stepper.uiServices': 'Services IU',
 
+
+  'table.actions.more': 'Plus d\'actions',
 
 }, Locales.fr)
 

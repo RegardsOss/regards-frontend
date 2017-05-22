@@ -38,11 +38,9 @@ export class AccessGroupListComponent extends React.Component {
     ...i18nContextType,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      deleteDialogOpened: false,
-    }
+  state = {
+    deleteDialogOpened: false,
+    entityToDelete: null,
   }
 
   closeDeleteDialog = () => {

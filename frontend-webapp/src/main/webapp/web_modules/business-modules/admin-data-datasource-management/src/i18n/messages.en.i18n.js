@@ -11,6 +11,11 @@ const messages = Object.assign({
   'datasource.list.table.label': 'Name',
   'datasource.list.table.actions': 'Actions',
   'datasource.list.table.model': 'Model',
+  'datasource.list.action.edit': 'Edit',
+  'datasource.list.action.delete': 'Delete',
+  'datasource.list.delete.title': 'Delete datasource {name} ?',
+
+  'table.actions.more': 'Plus d\'actions',
 
   'datasource.form.create.title': 'Create a new datasource',
   'datasource.form.create.subtitle': 'Please select which connection you want to use for this datasource',
