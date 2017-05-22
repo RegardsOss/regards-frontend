@@ -11,7 +11,7 @@ import DatasetFormAttributesComponent from '../components/DatasetFormAttributesC
 import { modelSelectors, modelActions } from '../client/ModelClient'
 import { modelAttributesActions, modelAttributesSelectors } from '../client/ModelAttributesClient'
 import { datasourceSelectors, datasourceActions } from './../client/DatasourceClient'
-
+import { fragmentSelectors } from '../client/FragmentClient'
 
 /**
  * Show the dataset form
@@ -77,7 +77,7 @@ export class DatasetFormAttributesContainer extends React.Component {
     map(values.attributes, (attrValue, attrName) => {
       const modelAttr = find(this.props.modelAttributeList, modelAttribute => modelAttribute.content.attribute.name === attrName)
       const fragment = modelAttr.content.attribute.fragment
-      if (fragment.id !== 1) {
+      if (fragment.name !== fragmentSelectors.noneFragmentName) {
         if (!result[fragment.name]) {
           result[fragment.name] = {}
         }
