@@ -1,7 +1,7 @@
 import find from 'lodash/find'
 import Delete from 'material-ui/svg-icons/action/delete'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
-import { Dataset, AccessRight, AccessGroup } from '@regardsoss/model'
+import {Dataset, AccessRight, AccessGroup} from '@regardsoss/model'
 import IconButton from 'material-ui/IconButton'
 
 class AccessRightsActionsTableCustomCell extends React.Component {
@@ -23,12 +23,12 @@ class AccessRightsActionsTableCustomCell extends React.Component {
   }
 
   renderDeleteButton = (accessRight) => {
-    if (!accessRight) {
+    if (!accessRight || !accessRight.content) {
       return null
     }
     return (
       <IconButton
-        title={this.props.intl.formatMessage({ id: 'accessright.delete.tooltip' })}
+        title={this.props.intl.formatMessage({id: 'accessright.delete.tooltip'})}
         iconStyle={{
           height: 23,
           width: 23,
@@ -45,30 +45,33 @@ class AccessRightsActionsTableCustomCell extends React.Component {
     )
   }
 
-  renderEditButton = accessRight => (
-    <IconButton
-      title={this.props.intl.formatMessage({ id: 'accessright.edit.tooltip' })}
-      iconStyle={{
-        height: 23,
-        width: 23,
-      }}
-      style={{
-        padding: 0,
-        height: 30,
-        width: 30,
-      }}
-      onTouchTap={() => this.props.onEdit(accessRight, this.props.entity)}
-    >
-      <Edit />
-    </IconButton>
-  )
+  renderEditButton = accessRight => {
+    const accessRightToEdit = accessRight && accessRight.content ? accessRight.content : null
+    return (
+      <IconButton
+        title={this.props.intl.formatMessage({id: 'accessright.edit.tooltip'})}
+        iconStyle={{
+          height: 23,
+          width: 23,
+        }}
+        style={{
+          padding: 0,
+          height: 30,
+          width: 30,
+        }}
+        onTouchTap={() => this.props.onEdit(accessRightToEdit, this.props.entity)}
+      >
+        <Edit />
+      </IconButton>
+    )
+  }
 
   render() {
     const accessRight = find(this.props.accessRights, ar => ar.content.dataset.id === this.props.entity.content.id)
     return (
       <div>
-        {this.renderEditButton(accessRight.content)}
-        {this.renderDeleteButton(accessRight.content)}
+        {this.renderEditButton(accessRight)}
+        {this.renderDeleteButton(accessRight)}
       </div>
     )
   }

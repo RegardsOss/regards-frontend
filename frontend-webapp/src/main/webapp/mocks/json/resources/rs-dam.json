@@ -440,6 +440,98 @@
       "id": 1
     },
     {
+      "id": 2,
+      "label": "Deuxieme dataset de test",
+      "attributes": {
+        "Attribute_0_0": "QSDf",
+        "Fragment 2": {
+          "Attribute_4": "qsdf"
+        }
+      },
+      "model": {
+        "id": 2,
+        "name": "Mon nom de modèle"
+      },
+      "dataModel": 5,
+      "plgConfDataSource": 4,
+      "tags": [
+        "URN:AIP:COLLECTION:PROJECT:fdsfdsf15-8a93-4d06-a90a-f657c26d3930:V1",
+        "habla espanol"
+      ],
+      "subsetting": "fqsdsdf qsdf qsf sdf sf f",
+      "descriptionUrl": "http://www.google.fr",
+      "uiPluginConfIdList": []
+    },
+    {
+      "id": 3,
+      "label": "Troisieme dataset de test",
+      "attributes": {
+        "Attribute_0_0": "QSDf",
+        "Fragment 2": {
+          "Attribute_4": "qsdf"
+        }
+      },
+      "model": {
+        "id": 2,
+        "name": "Mon nom de modèle"
+      },
+      "dataModel": 5,
+      "plgConfDataSource": 4,
+      "tags": [
+        "URN:AIP:COLLECTION:PROJECT:fdsfdsf15-8a93-4d06-a90a-f657c26d3930:V1",
+        "habla espanol"
+      ],
+      "subsetting": "fqsdsdf qsdf qsf sdf sf f",
+      "descriptionUrl": "http://www.google.fr",
+      "uiPluginConfIdList": []
+    },
+    {
+      "id": 4,
+      "label": "Quatrieme dataset de test",
+      "attributes": {
+        "Attribute_0_0": "QSDf",
+        "Fragment 2": {
+          "Attribute_4": "qsdf"
+        }
+      },
+      "model": {
+        "id": 2,
+        "name": "Mon nom de modèle"
+      },
+      "dataModel": 5,
+      "plgConfDataSource": 4,
+      "tags": [
+        "URN:AIP:COLLECTION:PROJECT:fdsfdsf15-8a93-4d06-a90a-f657c26d3930:V1",
+        "habla espanol"
+      ],
+      "subsetting": "fqsdsdf qsdf qsf sdf sf f",
+      "descriptionUrl": "http://www.google.fr",
+      "uiPluginConfIdList": []
+    },
+    {
+      "id": 5,
+      "label": "Cinquieme dataset de test",
+      "attributes": {
+        "Attribute_0_0": "QSDf",
+        "Fragment 2": {
+          "Attribute_4": "qsdf"
+        }
+      },
+      "model": {
+        "id": 2,
+        "name": "Mon nom de modèle"
+      },
+      "dataModel": 5,
+      "plgConfDataSource": 4,
+      "tags": [
+        "URN:AIP:COLLECTION:PROJECT:fdsfdsf15-8a93-4d06-a90a-f657c26d3930:V1",
+        "habla espanol"
+      ],
+      "subsetting": "fqsdsdf qsdf qsf sdf sf f",
+      "descriptionUrl": "http://www.google.fr",
+      "uiPluginConfIdList": []
+    },
+    {
       "label": "sdfqsdf",
       "attributes": {
         "Attribute_0_0": "QSDf",
@@ -492,109 +584,162 @@
           "email": "hasbeen381@hotmail.com"
         }
       ],
-      "accessRights": [
-        {
-          "qualityFilter": {
-            "maxScore": "10",
-            "minScore": "0",
-            "qualityLevel": "ACCEPTED"
-          },
-          "dataAccessRight": {
-            "dataAccessLevel": "INHERITED_ACCESS"
-          },
-          "accessLevel": "FULL_ACCESS",
-          "dataSet": {
-            "id": 1,
-            "label": "PremierDataSet",
-            "type": "DATASET",
-            "model": {
-              "id": 2,
-              "name": "Premier Modele",
-              "description": "Description du premier modele de jeux de données",
-              "type": "DATASET"
-            }
-          },
-          "id": 1
-        },
-        {
-          "qualityFilter": {
-            "maxScore": "10",
-            "minScore": "0",
-            "qualityLevel": "ACCEPTED"
-          },
-          "dataAccessRight": {
-            "dataAccessLevel": "INHERITED_ACCESS"
-          },
-          "accessLevel": "FULL_ACCESS",
-          "dataSet": {
-            "id": 4,
-            "label": "QuatriemDataSet",
-            "type": "DATASET",
-            "model": {
-              "id": 2,
-              "name": "Premier Modele",
-              "description": "Description du premier modele de jeux de données",
-              "type": "DATASET"
-            }
-          },
-          "id": 2
-        },
-        {
-          "qualityFilter": {
-            "maxScore": "10",
-            "minScore": "0",
-            "qualityLevel": "ACCEPTED"
-          },
-          "dataAccessRight": {
-            "dataAccessLevel": "INHERITED_ACCESS"
-          },
-          "accessLevel": "FULL_ACCESS",
-          "dataSet": {
-            "id": 3,
-            "label": "TroisiemeDataSet",
-            "type": "DATASET",
-            "model": {
-              "id": 2,
-              "name": "Premier Modele",
-              "description": "Description du premier modele de jeux de données",
-              "type": "DATASET"
-            }
-          },
-          "id": "H1b-m9Umte"
-        },
-        {
-          "qualityFilter": {
-            "maxScore": "6",
-            "minScore": "4",
-            "qualityLevel": "REJECTED"
-          },
-          "dataAccessRight": {
-            "dataAccessLevel": "CUSTOM_ACCESS",
-            "pluginConfiguration": 40
-          },
-          "accessLevel": "NO_ACCESS",
-          "dataSet": {
-            "id": 5,
-            "label": "CinquiemeDataSet",
-            "type": "DATASET",
-            "model": {
-              "id": 2,
-              "name": "Premier Modeleee",
-              "description": "Description du premier modele de jeux de données",
-              "type": "DATASET"
-            }
-          },
-          "id": "SyYk-SNFg"
-        }
-      ],
       "isPrivate": true
     },
     {
-      "id": 2,
+      "id": "AG2",
       "name": "AG2",
       "users": [],
-      "accessRights": [],
       "isPrivate": true
+    }
+  ],
+  "accessRights": [
+    {
+      "qualityFilter": {
+        "maxScore": "10",
+        "minScore": "0",
+        "qualityLevel": "ACCEPTED"
+      },
+      "dataAccessRight": {
+        "dataAccessLevel": "INHERITED_ACCESS"
+      },
+      "accessLevel": "FULL_ACCESS",
+      "accessgroup" : "AG1",
+      "accessGroup" : {
+        "id" : 1,
+        "isPrivate" : true,
+        "name" : "AG1"
+      },
+      "dataset": {
+        "id": 1,
+        "label": "PremierDataSet",
+        "type": "DATASET",
+        "model": {
+          "id": 2,
+          "name": "Premier Modele",
+          "description": "Description du premier modele de jeux de données",
+          "type": "DATASET"
+        }
+      },
+      "id": 1
+    },
+    {
+      "qualityFilter": {
+        "maxScore": "10",
+        "minScore": "0",
+        "qualityLevel": "ACCEPTED"
+      },
+      "dataAccessRight": {
+        "dataAccessLevel": "INHERITED_ACCESS"
+      },
+      "accessLevel": "FULL_ACCESS",
+      "accessgroup" : "AG1",
+      "accessGroup" : {
+        "id" : 1,
+        "isPrivate" : true,
+        "name" : "AG1"
+      },
+      "dataset": {
+        "id": 4,
+        "label": "QuatriemDataSet",
+        "type": "DATASET",
+        "model": {
+          "id": 2,
+          "name": "Premier Modele",
+          "description": "Description du premier modele de jeux de données",
+          "type": "DATASET"
+        }
+      },
+      "id": 2
+    },
+    {
+      "qualityFilter": {
+        "maxScore": "10",
+        "minScore": "0",
+        "qualityLevel": "ACCEPTED"
+      },
+      "dataAccessRight": {
+        "dataAccessLevel": "INHERITED_ACCESS"
+      },
+      "accessLevel": "FULL_ACCESS",
+      "accessgroup" : "AG1",
+      "accessGroup" : {
+        "id" : 1,
+        "isPrivate" : true,
+        "name" : "AG1"
+      },
+      "dataset": {
+        "id": 3,
+        "label": "TroisiemeDataSet",
+        "type": "DATASET",
+        "model": {
+          "id": 2,
+          "name": "Premier Modele",
+          "description": "Description du premier modele de jeu de données",
+          "type": "DATASET"
+        }
+      },
+      "id": 3
+    },
+    {
+      "qualityFilter": {
+        "maxScore": "6",
+        "minScore": "4",
+        "qualityLevel": "REJECTED"
+      },
+      "dataAccessRight": {
+        "dataAccessLevel": "CUSTOM_ACCESS",
+        "pluginConfiguration": 40
+      },
+      "accessLevel": "NO_ACCESS",
+      "accessgroup" : "AG1",
+      "accessGroup" : {
+        "id" : 1,
+        "isPrivate" : true,
+        "name" : "AG1"
+      },
+      "dataset": {
+        "id": 5,
+        "label": "CinquiemeDataSet",
+        "type": "DATASET",
+        "model": {
+          "id": 2,
+          "name": "Premier Modeleee",
+          "description": "Description du premier modele de jeux de données",
+          "type": "DATASET"
+        }
+      },
+      "id": 4
+    },
+    {
+      "qualityFilter": {
+        "maxScore": "6",
+        "minScore": "4",
+        "qualityLevel": "REJECTED"
+      },
+      "dataAccessRight": {
+        "dataAccessLevel": "CUSTOM_ACCESS",
+        "pluginConfiguration": 40
+      },
+      "accessLevel": "NO_ACCESS",
+      "accessgroup" : "AG2",
+      "accessGroup" : {
+        "id" : 2,
+        "isPrivate" : true,
+        "name" : "AG2"
+      },
+      "dataset": {
+        "id": 5,
+        "label": "CinquiemeDataSet",
+        "type": "DATASET",
+        "model": {
+          "id": 2,
+          "name": "Premier Modeleee",
+          "description": "Description du premier modele de jeux de données",
+          "type": "DATASET"
+        }
+      },
+      "id": 5
     }
   ]
 }
