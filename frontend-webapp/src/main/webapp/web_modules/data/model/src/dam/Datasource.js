@@ -7,7 +7,7 @@ const Datasource = PropTypes.shape({
     tableName: PropTypes.string,
     mapping: PropTypes.shape({
       attributeMapping: PropTypes.arrayOf(
-        React.PropTypes.shape({
+        PropTypes.shape({
           namespace: PropTypes.string,
           name: PropTypes.string,
           type: PropTypes.string,
