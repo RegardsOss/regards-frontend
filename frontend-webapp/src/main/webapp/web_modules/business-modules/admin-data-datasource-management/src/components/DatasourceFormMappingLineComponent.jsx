@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { map } from 'lodash'
+import { chain } from 'lodash'
 import { TableRow, TableRowColumn } from 'material-ui/Table'
 import { FormattedMessage } from 'react-intl'
 import { ModelAttribute } from '@regardsoss/model'
@@ -12,6 +12,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import MenuItem from 'material-ui/MenuItem'
 import Checkbox from 'material-ui/Checkbox'
 import states from './FormMappingStates'
+import { fragmentSelectors } from '../client/FragmentClient'
 
 export class DatasourceFormMappingLineComponent extends React.Component {
 
@@ -102,13 +103,15 @@ export class DatasourceFormMappingLineComponent extends React.Component {
           type="text"
           label={<FormattedMessage id="datasource.form.mapping.table.select" />}
         >
-          {map(tableAttributeList, (tableAttribute, id) => (
-            <MenuItem
-              value={tableAttribute.name}
-              key={tableAttribute.name}
-              primaryText={`${tableAttribute.name}: ${tableAttribute.javaSqlType}`}
-            />
-          ))}
+          {chain(tableAttributeList)
+            .sortBy(['name'])
+            .map((tableAttribute, id) => (
+              <MenuItem
+                value={tableAttribute.name}
+                key={tableAttribute.name}
+                primaryText={`${tableAttribute.name}: ${tableAttribute.javaSqlType}`}
+              />
+            )).value()}
         </Field>
       </ShowableAtRender>
     </div>)
@@ -116,10 +119,10 @@ export class DatasourceFormMappingLineComponent extends React.Component {
 
   renderFragmentName = () => {
     const { isStaticAttribute, modelAttribute } = this.props
-    if (!isStaticAttribute) {
+    if (!isStaticAttribute && modelAttribute.content.attribute.fragment.name !== fragmentSelectors.noneFragmentName) {
       return (
         <div>
-          <FormattedMessage id="datasource.form.mapping.table.fragment" />          : {modelAttribute.content.attribute.fragment.name}
+          <FormattedMessage id="datasource.form.mapping.table.fragment" />: {modelAttribute.content.attribute.fragment.name}
           <br />
         </div>
       )
@@ -133,7 +136,7 @@ export class DatasourceFormMappingLineComponent extends React.Component {
     if (!isStaticAttribute) {
       return (
         <div>
-          <FormattedMessage id="datasource.form.mapping.table.type" />          : {modelAttribute.content.attribute.type}
+          <FormattedMessage id="datasource.form.mapping.table.type" />: {modelAttribute.content.attribute.type}
           <br />
         </div>
       )
@@ -149,7 +152,7 @@ export class DatasourceFormMappingLineComponent extends React.Component {
       <TableRow>
         <TableRowColumn>
           {this.renderFragmentName()}
-          <FormattedMessage id="datasource.form.mapping.table.attrName" />          : {modelAttribute.content.attribute.name}
+          <FormattedMessage id="datasource.form.mapping.table.attrName" />: {modelAttribute.content.attribute.name}
           <br />
           {this.renderType()}
           {this.showIfOptional(modelAttribute.content.attribute.optional)}
