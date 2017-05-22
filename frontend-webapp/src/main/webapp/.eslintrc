@@ -43,12 +43,17 @@
     // Allow annonymous functions
     "func-names":  0,
     "no-confusing-arrow": "off",
-    // Configure lodash plugin to use the destructured import
-    "lodash/import-scope": [2, "member"],
+    // Do not warn on how we import lodash
+    "lodash/import-scope": 0,
     // Disable useless rule (_.noop instead of empty annonnymous function)
     "lodash/prefer-noop": 0,
     // This rule is not satisfying
     "lodash/prefer-lodash-method": 0,
+    // We do not use lodash constants factory
+    "lodash/prefer-constant": 0,
+    // Not so lisible
+    "lodash/prop-shorthand": 0,
+
 
     // Enable mocha rules
     // See https://github.com/lo1tuma/eslint-plugin-mocha/tree/master/docs/rules
@@ -67,7 +72,10 @@
     "mocha/no-skipped-tests": "error",
     "mocha/no-identical-title": "error",
     // We wrote sync tests
-    "mocha/no-synchronous-tests": 0
+    "mocha/no-synchronous-tests": 0,
+
+    // We call done from Mocha inside async tests
+    "promise/no-callback-in-promise": 0
   },
   "plugins": [
     "react",
