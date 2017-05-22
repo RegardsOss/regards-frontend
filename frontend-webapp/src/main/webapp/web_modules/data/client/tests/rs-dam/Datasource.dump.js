@@ -1,7 +1,8 @@
 export default [{
   content: {
     label: 'Ma datasource simple',
-    pluginConfigurationConnectionId: '1352',
+    pluginConfigurationId: 1357,
+    pluginConfigurationConnectionId: 1359,
     mapping: {
       model: 5,
       attributesMapping: [
@@ -30,7 +31,8 @@ export default [{
 }, {
   content: {
     label: 'Ma datasource complexe',
-    pluginConfigurationConnectionId: '1352',
+    pluginConfigurationId: 1355,
+    pluginConfigurationConnectionId: 1352,
     mapping: {
       model: 5,
       attributesMapping: [

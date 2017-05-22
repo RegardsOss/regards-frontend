@@ -94,4 +94,23 @@ export default {
       },
     },
   },
+  geometry: {
+    content: {
+      mode: '',
+      model: {
+        type: '',
+        description: '',
+        name: '',
+      },
+      attribute: {
+        name: 'geometry',
+        label: 'geometry',
+        type: '',
+        optional: true,
+        fragment: {
+          name: '',
+        },
+      },
+    },
+  },
 }
