@@ -59,12 +59,15 @@
     "mocha/no-return-and-callback": "error",
     "mocha/no-sibling-hooks": "error",
     "mocha/no-global-tests": "error",
-    "mocha/no-hooks-for-single-case": "error",
-    "mocha/no-mocha-arrows": "error",
+    // All React tests contains before and after whether having 1 or more tests
+    "mocha/no-hooks-for-single-case": 0,
+    "mocha/no-mocha-arrows": 0,
+    // We do not use mocha context so we can use lambdas
     "mocha/no-nested-tests": "error",
     "mocha/no-skipped-tests": "error",
     "mocha/no-identical-title": "error",
-    "mocha/no-synchronous-tests": "error"
+    // We wrote sync tests
+    "mocha/no-synchronous-tests": 0
   },
   "plugins": [
     "react",
