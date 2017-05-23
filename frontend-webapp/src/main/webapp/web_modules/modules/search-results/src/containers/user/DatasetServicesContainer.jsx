@@ -94,7 +94,7 @@ export class DatasetServicesContainer extends React.Component {
       // B - Update services when loding finished (consequence of A.1 case)
       const { datasetServices, selectedDataobjectsServices } = this.convertToServicesPartitions(newProperties.oneDatasetBusinessServices,
         newProperties.manyDataobjectsBusinessServices, newProperties.uiServices)
-      newProperties.publishDatasetServices(datasetServices, selectedDataobjectsServices)
+      this.publishServices(datasetServices, selectedDataobjectsServices)
     }
   }
 
@@ -106,6 +106,11 @@ export class DatasetServicesContainer extends React.Component {
     fetchOneDatasetBusinessServices(datasetId)
     fetchManyDataobjectsBusinessServices(datasetId)
     fetchUIServices(datasetId)
+  }
+
+  publishServices = (datasetServices, selectedDataobjectsServices) => {
+    const { publishDatasetServices } = this.props
+    publishDatasetServices(datasetServices, selectedDataobjectsServices)
   }
 
   /**

@@ -47,11 +47,7 @@ export class ModuleContainer extends React.Component {
   }
 
   componentWillMount() {
-    Promise.resolve(this.props.fetchAllModelsAttributes()).then(() => {
-      this.setState({
-        attributesFetching: false,
-      })
-    })
+    return Promise.resolve(this.props.fetchAllModelsAttributes()).then(() => this.setState({ attributesFetching: false }))
   }
 
   render() {

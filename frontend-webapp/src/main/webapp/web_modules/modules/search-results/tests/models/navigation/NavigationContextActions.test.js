@@ -60,7 +60,7 @@ describe('[Search Results] Test navigation context actions', () => {
     dispatchAndCheck(navigationContextActions.changeViewObjectType('any-type'), expectedAction, buildMockStore({}))
   })
 
-  it('It should dispatch view objects type changing', () => {
+  it('It should dispatch level changing', () => {
     const expectedAction = {
       type: navigationContextActions.GOTO_LEVEL,
       levelIndex: 1,

@@ -49,16 +49,15 @@ export class GraphLevelDisplayerContainer extends React.Component {
     // 1 - notify level loading data
     dispatch(partitionDataActions.onDataLoadingStart(partitionKey))
     // 2 - dispatch fetch and resolve promise
-    dispatch(dataFetcher(parentIpId))
+    return dispatch(dataFetcher(parentIpId))
       .then((result) => {
         if (result.error) {
           // 3a - Notify error
           // note: errors are not handled in catch, due to ApiError management from redux middleware
-          dispatch(partitionDataActions.onDataLoadingFailed(partitionKey, result.payload.message))
-        } else {
-          // 3b - Notify success with result
-          dispatch(partitionDataActions.onDataLoadingDone(partitionKey, result))
+          return dispatch(partitionDataActions.onDataLoadingFailed(partitionKey, result.payload.message))
         }
+        // 3b - Notify success with result
+        return dispatch(partitionDataActions.onDataLoadingDone(partitionKey, result))
       })
   }
 

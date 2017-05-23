@@ -93,7 +93,8 @@ class SearchResultsComponent extends React.Component {
 
     onDatasetServiceSelected: PropTypes.func.isRequired, // (service) => void
     onSelectionServiceSelected: PropTypes.func.isRequired, // (service) => void
-    onDataobjectServiceSelected: PropTypes.func.isRequired, // (service, dataobject) => void
+    // eslint-disable-next-line react/no-unused-prop-types
+    onDataobjectServiceSelected: PropTypes.func.isRequired, // (service, dataobject) => void TODO next versions: use
   }
 
   static contextTypes = {
