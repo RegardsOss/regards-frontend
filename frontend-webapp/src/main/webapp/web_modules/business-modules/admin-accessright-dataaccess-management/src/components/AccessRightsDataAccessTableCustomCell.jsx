@@ -1,5 +1,5 @@
 import find from 'lodash/find'
-import { Dataset, AccessRight, AccessGroup } from '@regardsoss/model'
+import { Dataset, AccessRight } from '@regardsoss/model'
 import AccessRightsEnum from './AccessRightsEnum'
 
 class AccessRightsDataAccessTableCustomCell extends React.Component {

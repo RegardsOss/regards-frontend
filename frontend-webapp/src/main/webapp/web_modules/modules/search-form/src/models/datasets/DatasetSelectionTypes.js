@@ -8,7 +8,7 @@
  */
 const DATASET_TYPE = 'selectedDatasets'
 const DATASET_MODEL_TYPE = 'seletedDatasetModels'
-const ALL_CATALOG_TYPE = 'allCatalog'
+const ALL_CATALOG_TYPE = 'all'
 
 export default {
   DATASET_TYPE,

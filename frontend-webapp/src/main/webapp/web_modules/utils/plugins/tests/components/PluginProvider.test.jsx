@@ -62,7 +62,7 @@ describe('[PLUGINS] Testing Plugins load', () => {
             id: pluginDefinitionId,
             name: 'plugin-test',
             type: 'test',
-            sourcesPath: '/test/plugin.js',
+            sourcePath: '/test/plugin.js',
           },
         }}
         fetchPlugin={fetchPluginSpy}

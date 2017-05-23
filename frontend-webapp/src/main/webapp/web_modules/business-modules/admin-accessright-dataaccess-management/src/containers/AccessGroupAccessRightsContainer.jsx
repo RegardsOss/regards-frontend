@@ -83,8 +83,8 @@ export class AccessGroupAccessRightsContainer extends React.Component {
       // First update access right that are already configured
       const accessRightAlreadyExisting = find(accessRights, accessRight => newAccessRight.dataset.id === accessRight.content.dataset.id)
       if (accessRightAlreadyExisting) {
-        newAccessRight.id = accessRightAlreadyExisting.content.id
-        requests.push(this.props.updateAccessRight(accessRightAlreadyExisting.content.id, newAccessRight))
+        const accessRightToUpdate = Object.assign({}, newAccessRight, { id: accessRightAlreadyExisting.content.id })
+        requests.push(this.props.updateAccessRight(accessRightAlreadyExisting.content.id, accessRightToUpdate))
       } else {
         requests.push(this.props.createAccessRight(newAccessRight))
       }

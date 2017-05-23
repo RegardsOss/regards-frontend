@@ -1,6 +1,6 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
-import getPluginsReducer from './model/PluginsReducer'
+import { uiPluginDefinitionReducers } from './clients/UIPluginDefinitionClient'
 
-export default getPluginsReducer
+export default uiPluginDefinitionReducers

@@ -132,7 +132,8 @@ class FormCriteriaComponent extends React.Component {
       && !this.props.criterionFetching) {
       return (
         <PluginProvider
-          pluginInstanceId={0}
+          key={this.state.selectedCriteria}
+          pluginInstanceId={'add-criteria'}
           pluginId={this.state.selectedCriteria}
           displayPlugin={false}
         >

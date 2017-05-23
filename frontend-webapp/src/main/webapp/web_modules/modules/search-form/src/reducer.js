@@ -1,10 +1,10 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import getDatasetsReducer from './models/datasets/DatasetReducer'
-import getDatasetModelsReducer from './models/datasets/DatasetModelReducer'
-import getCriterionReducer from './models/criterion/CriterionReducer'
-import AttributeModelClient from './clients/AttributeModelClient'
+import { datasetReducer } from './clients/DatasetClient'
+import { modelReducer } from './clients/ModelClient'
+import { uiPluginDefinitionReducers } from './clients/UIPluginDefinitionClient'
+import { datasetDataAttributesReducer } from './clients/DatasetDataAttributesClient'
 
 /**
  * Reducers for searc-form module
@@ -12,10 +12,10 @@ import AttributeModelClient from './clients/AttributeModelClient'
  * @author Sébastien binda
  */
 const formReducers = {
-  [AttributeModelClient.REDUCER_PATH]: AttributeModelClient.AttributeModelReducer,
-  datasets: getDatasetsReducer,
-  models: getDatasetModelsReducer,
-  criterion: getCriterionReducer,
+  attributes: datasetDataAttributesReducer,
+  datasets: datasetReducer,
+  models: modelReducer,
+  criterion: uiPluginDefinitionReducers,
 }
 
 export default formReducers

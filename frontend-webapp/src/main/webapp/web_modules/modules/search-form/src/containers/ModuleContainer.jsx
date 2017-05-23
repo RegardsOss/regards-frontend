@@ -8,7 +8,7 @@ import { connect } from '@regardsoss/redux'
 import { AttributeModel } from '@regardsoss/model'
 import { LoadingComponent } from '@regardsoss/display-control'
 import { themeContextType } from '@regardsoss/theme'
-import DatasetSelectionType from '../definitions/DatasetSelectionType'
+import DatasetSelectionType from '../models/datasets/DatasetSelectionTypes'
 import ModuleConfiguration from '../models/ModuleConfiguration'
 import FormComponent from '../components/user/FormComponent'
 import AttributeModelClient from '../clients/AttributeModelClient'
@@ -260,7 +260,7 @@ class ModuleContainer extends React.Component {
     if (!this.props.moduleConf.preview) {
       // is single dataset?
       const { type, selectedDatasets } = this.props.moduleConf.datasets || {}
-      const singleDatasetIpId = type === DatasetSelectionType.selectedDatasets && selectedDatasets && selectedDatasets.length === 1 &&
+      const singleDatasetIpId = type === DatasetSelectionType.DATASET_TYPE && selectedDatasets && selectedDatasets.length === 1 &&
         selectedDatasets[0]
 
       const module = {

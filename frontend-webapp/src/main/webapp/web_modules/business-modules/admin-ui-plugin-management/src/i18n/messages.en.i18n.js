@@ -17,6 +17,8 @@ const messages = Object.assign({
   'plugin.form.submit.button': 'Add plugin',
   'plugin.form.update.button': 'Update plugin',
   'plugin.form.cancel.button': 'Cancel',
+  'plugin.form.submit.error.invalid.plugin': ' The given Plugin is not a valid plugin',
+  'plugin.form.submit.error': 'Error saving new plugin to server',
   'plugins.list.delete.message': 'Deletion of plugin {name}',
   'plugins.list.title': 'List of available plugins',
   'plugins.list.subtitle': 'Plugins here under can be use to manage new Criteria for Search modules or new Services',

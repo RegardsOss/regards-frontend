@@ -27,7 +27,8 @@ class UIPluginDefinitionActions extends BasicPageableActions {
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-access-project/plugin`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-access-project/plugins/definition`,
+      entityPathVariable: 'pluginId',
       schemaTypes: {
         ENTITY: Schemas.PLUGIN,
         ENTITY_ARRAY: Schemas.PLUGIN_ARRAY,

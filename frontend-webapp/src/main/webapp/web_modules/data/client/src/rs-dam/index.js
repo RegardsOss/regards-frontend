@@ -59,6 +59,11 @@ import DatasetActions from './dataset/DatasetActions'
 import DatasetReducer from './dataset/DatasetReducer'
 import DatasetSelectors from './dataset/DatasetSelectors'
 
+import DatasetDataAttributesActions from './dataset/DatasetDataAttributesActions'
+import DatasetDataAttributesReducer from './dataset/DatasetDataAttributesReducer'
+import DatasetDataAttributesSelectors from './dataset/DatasetDataAttributesSelectors'
+
+
 import DatasetLinkActions from './datasetLink/DatasetLinkActions'
 import DatasetLinkReducer from './datasetLink/DatasetLinkReducer'
 
@@ -124,6 +129,10 @@ export default {
   DatasetActions,
   DatasetReducer,
   DatasetSelectors,
+
+  DatasetDataAttributesActions,
+  DatasetDataAttributesReducer,
+  DatasetDataAttributesSelectors,
 
   DatasetLinkActions,
   DatasetLinkReducer,

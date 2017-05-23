@@ -10,7 +10,7 @@ import { connect } from '@regardsoss/redux'
 import { CardActionsComponent } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { PluginDefinition } from '@regardsoss/model'
-import { RenderTextField, Field, ErrorTypes, reduxForm } from '@regardsoss/form-utils'
+import { RenderTextField, Field, ErrorTypes, reduxForm, FormErrorMessage } from '@regardsoss/form-utils'
 import { formValueSelector } from 'redux-form'
 import { PluginLoader } from '@regardsoss/plugins'
 import PluginDefinitionComponent from './PluginDefinitionComponent'
@@ -27,6 +27,7 @@ class pluginFormComponent extends React.Component {
     }),
     onSubmit: PropTypes.func.isRequired,
     onBack: PropTypes.func.isRequired,
+    submitError: PropTypes.string,
     // from reduxForm
     submitting: PropTypes.bool,
     pristine: PropTypes.bool,
@@ -53,8 +54,8 @@ class pluginFormComponent extends React.Component {
 
   componentDidMount() {
     this.handleInitialize()
-    if (this.props.plugin && this.props.plugin.content && this.props.plugin.content.sourcesPath) {
-      this.searchPlugin(this.props.plugin.content.sourcesPath)
+    if (this.props.plugin && this.props.plugin.content && this.props.plugin.content.sourcePath) {
+      this.searchPlugin(this.props.plugin.content.sourcePath)
     }
   }
 
@@ -96,16 +97,29 @@ class pluginFormComponent extends React.Component {
         <Card>
           <CardText>
             <PluginLoader
-              key={this.state.path}
+              pluginInstanceId={this.state.path}
               pluginPath={this.state.path}
               displayPlugin={false}
             >
               <PluginDefinitionComponent
+                key={this.state.path}
                 handlePluginValid={this.handlePluginValid}
               />
             </PluginLoader>
           </CardText>
         </Card>
+      )
+    }
+    return null
+  }
+
+  renderErrorMessage = () => {
+    if (this.props.submitError) {
+      const errorMessage = this.context.intl.formatMessage({ id: this.props.submitError })
+      return (
+        <FormErrorMessage>
+          {errorMessage}
+        </FormErrorMessage>
       )
     }
     return null
@@ -129,6 +143,9 @@ class pluginFormComponent extends React.Component {
               />}
               subtitle={<FormattedMessage id={'plugin.form.subtitle'} />}
             />
+            <CardText>
+              {this.renderErrorMessage()}
+            </CardText>
             <CardText id="staticFields">
               <div
                 style={{
@@ -137,13 +154,17 @@ class pluginFormComponent extends React.Component {
                 }}
               >
                 <Field
-                  name="sourcesPath"
+                  name="sourcePath"
                   component={RenderTextField}
                   fullWidth
                   type="text"
                   label={<FormattedMessage id="plugin.form.sourcesPath" />}
                 />
-                <IconButton tooltip="Search plugin" onTouchTap={this.searchPlugin}>
+                <IconButton
+                  tooltip="Search plugin"
+                  onTouchTap={this.searchPlugin}
+                  disabled={!this.props.pathField || this.props.pathField === ''}
+                >
                   <SearchIcon />
                 </IconButton>
               </div>
@@ -179,8 +200,10 @@ const validate = (values) => {
   if (values.type === '') {
     errors.type = ErrorTypes.REQUIRED
   }
-  if (values.sourcesPath === '') {
-    errors.sourcesPath = ErrorTypes.REQUIRED
+  if (values.sourcePath === '') {
+    errors.sourcePath = ErrorTypes.REQUIRED
+  } else if (values.sourcePath && !values.sourcePath.endsWith('.js')) {
+    errors.sourcePath = ErrorTypes.INVALID_URL
   }
   return errors
 }
@@ -191,7 +214,7 @@ export {
 }
 const selector = formValueSelector('edit-plugin-form')
 const mapStateToProps = state => ({
-  pathField: selector(state, 'sourcesPath'),
+  pathField: selector(state, 'sourcePath'),
 })
 const ConnectedComponent = connect(mapStateToProps)(pluginFormComponent)
 

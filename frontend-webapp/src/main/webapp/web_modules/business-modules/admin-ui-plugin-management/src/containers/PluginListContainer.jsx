@@ -7,8 +7,7 @@ import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
 import { PluginDefinition } from '@regardsoss/model'
 import { connect } from '@regardsoss/redux'
 import PluginListComponent from '../components/PluginListComponent'
-import PluginsSelector from '../model/PluginsSelector'
-import PluginsActions from '../model/PluginsActions'
+import { uiPluginDefinitionActions, uiPluginDefinitionSelectors } from '../clients/UIPluginDefinitionClient'
 
 /**
  * Module container to display list of configured modules for a given application id.
@@ -87,13 +86,13 @@ export {
 }
 
 const mapStateToProps = state => ({
-  plugins: PluginsSelector.getList(state),
-  isFetching: PluginsSelector.isFetching(state),
+  plugins: uiPluginDefinitionSelectors.getList(state),
+  isFetching: uiPluginDefinitionSelectors.isFetching(state),
 })
 const mapDispatchToProps = dispatch => ({
-  fetchPlugins: () => dispatch(PluginsActions.fetchPagedEntityList(0, 100)),
-  updatePlugin: plugin => dispatch(PluginsActions.updateEntity(plugin.id, plugin)),
-  deletePlugin: plugin => dispatch(PluginsActions.deleteEntity(plugin.id)),
+  fetchPlugins: () => dispatch(uiPluginDefinitionActions.fetchPagedEntityList(0, 100)),
+  updatePlugin: plugin => dispatch(uiPluginDefinitionActions.updateEntity(plugin.id, plugin)),
+  deletePlugin: plugin => dispatch(uiPluginDefinitionActions.deleteEntity(plugin.id)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PluginListContainer)

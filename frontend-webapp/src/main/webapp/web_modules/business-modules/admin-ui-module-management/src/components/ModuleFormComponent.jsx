@@ -92,7 +92,7 @@ class ModuleFormComponent extends React.Component {
     input.onChange(value)
     this.setState({
       moduleSelected: true,
-      module: merge({}, this.state.module, { name: value }),
+      module: merge({}, this.state.module, { type: value }),
     })
   }
 
@@ -113,7 +113,7 @@ class ModuleFormComponent extends React.Component {
     <div>
       <ShowableAtRender show={this.state.creation}>
         <Field
-          name="name"
+          name="type"
           fullWidth
           component={RenderSelectField}
           type="text"

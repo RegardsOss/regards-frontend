@@ -1,14 +1,14 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { join, map, isEqual } from 'lodash'
+import join from 'lodash/join'
+import isEqual from 'lodash/isEqual'
 import { connect } from '@regardsoss/redux'
 import { AttributeModel, PluginDefinition } from '@regardsoss/model'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import ModuleConfiguration from '../models/ModuleConfiguration'
-import AttributeModelClient from '../clients/AttributeModelClient'
-import CriterionActions from '../models/criterion/CriterionActions'
-import CriterionSelector from '../models/criterion/CriterionSelector'
+import { datasetDataAttributesActions, datasetDataAttributesSelectors } from '../clients/DatasetDataAttributesClient'
+import { uiPluginDefinitionActions, uiPluginDefinitionSelectors } from '../clients/UIPluginDefinitionClient'
 import DatasetSelectionTypes from '../models/datasets/DatasetSelectionTypes'
 import FormTabsComponent from '../components/admin/FormTabsComponent'
 
@@ -57,8 +57,8 @@ class AdminContainer extends React.Component {
   componentWillMount() {
     if (this.props.adminForm.form && this.props.adminForm.form.conf && this.props.adminForm.form.conf.datasets) {
       this.updateSelectableAttributes(this.props.adminForm.form.conf.datasets.type,
-        this.props.adminForm.form.conf.datasets.datasets,
-        this.props.adminForm.form.conf.datasets.models)
+        this.props.adminForm.form.conf.datasets.selectedModels,
+        this.props.adminForm.form.conf.datasets.selectedDatasets)
     } else {
       this.updateSelectableAttributes()
     }
@@ -74,17 +74,16 @@ class AdminContainer extends React.Component {
     // Check if the selectable attributes have to be updated
     if (this.props.adminForm.form && this.props.adminForm.form.conf && !isEqual(this.props.adminForm.form.conf.datasets, nextProps.adminForm.form.conf.datasets)) {
       this.updateSelectableAttributes(nextProps.adminForm.form.conf.datasets.type,
-        nextProps.adminForm.form.conf.datasets.datasets,
-        nextProps.adminForm.form.conf.datasets.models)
+        nextProps.adminForm.form.conf.datasets.selectedModels,
+        nextProps.adminForm.form.conf.datasets.selectedDatasets)
     }
   }
 
   updateSelectableAttributes = (type, models, datasets) => {
-    // TODO : Manage retreive of availables attributs with backend.
     let task
-    if (type === DatasetSelectionTypes.DATASET_MODEL_TYPE) {
+    if (type === DatasetSelectionTypes.DATASET_MODEL_TYPE && models && models.length > 0) {
       task = this.props.fetchModelsAttributes(models)
-    } else if (type === DatasetSelectionTypes.DATASET_TYPE) {
+    } else if (type === DatasetSelectionTypes.DATASET_TYPE && datasets && datasets.length > 0) {
       task = this.props.fetchDatasetsAttributes(datasets)
     } else {
       task = this.props.fetchAllModelsAttributes()
@@ -138,28 +137,28 @@ class AdminContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  selectableAttributes: AttributeModelClient.AttributeModelSelectors.getList(state),
-  availableCriterion: CriterionSelector.getList(state),
+  selectableAttributes: datasetDataAttributesSelectors.getList(state),
+  availableCriterion: uiPluginDefinitionSelectors.getList(state),
 })
 
-const listToQueryParam = (list, key) => {
+const listToQueryParam = (list) => {
   let param = ''
   if (list && list.length > 0) {
-    param = `&${join(map(list, element => `${key}=${element}`), ',')}`
+    param = `${join(list, ',')}`
   }
   return param
 }
 
 const mapDispatchToProps = dispatch => ({
   // Function to retrieve all available criterion plugins
-  fetchCriterion: () => dispatch(CriterionActions.fetchPagedEntityList(0, 100)),
-  fetchAllModelsAttributes: () => dispatch(AttributeModelClient.AttributeModelActions.fetchEntityList()),
+  fetchCriterion: () => dispatch(uiPluginDefinitionActions.fetchPagedEntityList(0, 100, {}, { type: 'CRITERIA' })),
+  fetchAllModelsAttributes: () => dispatch(datasetDataAttributesActions.fetchPagedEntityList(0, 10000)),
   // Function to retrieve attributes associated to the selected models
   fetchModelsAttributes: modelsId => dispatch(
-    AttributeModelClient.AttributeModelActions.fetchEntityList({}, { queryParam: listToQueryParam(modelsId, 'model') })),
+    datasetDataAttributesActions.fetchPagedEntityList(0, 10000, {}, { modelId: listToQueryParam(modelsId) })),
   // Function to retrieve attributes associated to the selected datasets
   fetchDatasetsAttributes: datasetsId => dispatch(
-    AttributeModelClient.AttributeModelActions.fetchEntityList({}, { queryPAram: listToQueryParam(datasetsId, 'dataset') })),
+    datasetDataAttributesActions.fetchPagedEntityList(0, 10000, {}, { datasetIds: listToQueryParam(datasetsId) })),
   // funcution to update a value of the current redux-form
 })
 

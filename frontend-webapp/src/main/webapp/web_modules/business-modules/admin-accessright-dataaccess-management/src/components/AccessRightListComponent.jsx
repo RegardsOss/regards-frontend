@@ -247,7 +247,6 @@ class AccessRightListComponent extends React.Component {
           component: AccessRightsMetadataAccessTableCustomCell,
           props: {
             intl: this.context.intl,
-            accessGroup: this.props.accessGroup,
             accessRights: this.props.accessRights,
           },
         },
@@ -259,7 +258,6 @@ class AccessRightListComponent extends React.Component {
           component: AccessRightsDataAccessTableCustomCell,
           props: {
             intl: this.context.intl,
-            accessGroup: this.props.accessGroup,
             accessRights: this.props.accessRights,
           },
         },
@@ -270,7 +268,6 @@ class AccessRightListComponent extends React.Component {
         customCell: {
           component: AccessRightsActionsTableCustomCell,
           props: {
-            accessGroup: this.props.accessGroup,
             accessRights: this.props.accessRights,
             onDelete: this.openDeleteDialog,
             onEdit: this.openEditDialog,

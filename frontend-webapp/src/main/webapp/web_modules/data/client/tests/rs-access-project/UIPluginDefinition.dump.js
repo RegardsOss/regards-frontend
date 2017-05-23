@@ -13,7 +13,7 @@ export default {
         id: 1,
         name: 'string-criteria',
         type: 'criteria',
-        sourcesPath: '/plugins/criterion/string/plugin.js',
+        sourcePath: '/plugins/criterion/string/plugin.js',
       },
       links: [
         {
@@ -43,7 +43,7 @@ export default {
         id: 2,
         name: 'numerical-criteria',
         type: 'criteria',
-        sourcesPath: '/plugins/criterion/numerical/plugin.js',
+        sourcePath: '/plugins/criterion/numerical/plugin.js',
       },
       links: [
         {
@@ -73,7 +73,7 @@ export default {
         id: 3,
         name: 'two-numerical-criteria',
         type: 'criteria',
-        sourcesPath: '/plugins/criterion/two-numerical/plugin.js',
+        sourcePath: '/plugins/criterion/two-numerical/plugin.js',
       },
       links: [
         {
@@ -103,7 +103,7 @@ export default {
         id: 4,
         name: 'temporal-criteria',
         type: 'criteria',
-        sourcesPath: '/plugins/criterion/temporal/plugin.js',
+        sourcePath: '/plugins/criterion/temporal/plugin.js',
       },
       links: [
         {
@@ -133,7 +133,7 @@ export default {
         id: 5,
         name: 'two-temporal-criteria',
         type: 'criteria',
-        sourcesPath: '/plugins/criterion/two-temporal/plugin.js',
+        sourcePath: '/plugins/criterion/two-temporal/plugin.js',
       },
       links: [
         {
@@ -160,7 +160,7 @@ export default {
     },
     {
       content: {
-        sourcesPath: '/plugins/criterion/full-text/plugin.js',
+        sourcePath: '/plugins/criterion/full-text/plugin.js',
         name: 'full-text-criteria',
         type: 'criteria',
         id: 6,

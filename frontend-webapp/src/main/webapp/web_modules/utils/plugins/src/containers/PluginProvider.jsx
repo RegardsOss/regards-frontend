@@ -4,8 +4,7 @@
 import { connect } from '@regardsoss/redux'
 import { PluginDefinition } from '@regardsoss/model'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import PluginActions from '../model/PluginActions'
-import PluginSelector from '../model/PluginSelector'
+import { uiPluginDefinitionActions, uiPluginDefinitionSelectors } from '../clients/UIPluginDefinitionClient'
 import PluginLoader from './PluginLoader'
 
 /**
@@ -53,11 +52,12 @@ class PluginProvider extends React.Component {
 
   renderPlugin() {
     if (this.props.pluginToLoad) {
+      console.log('Displaying plugin', this.props)
       return (
         <PluginLoader
           pluginInstanceId={this.props.pluginInstanceId}
           pluginName={this.props.pluginToLoad.content.name}
-          pluginPath={this.props.pluginToLoad.content.sourcesPath}
+          pluginPath={this.props.pluginToLoad.content.sourcePath}
           displayPlugin={this.props.displayPlugin}
           pluginConf={this.props.pluginConf}
           pluginProps={this.props.pluginProps}
@@ -82,11 +82,11 @@ class PluginProvider extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  pluginToLoad: PluginSelector.getById(state, ownProps.pluginId),
+  pluginToLoad: uiPluginDefinitionSelectors.getById(state, ownProps.pluginId),
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  fetchPlugin: pluginId => dispatch(PluginActions.fetchEntity(pluginId)),
+  fetchPlugin: pluginId => dispatch(uiPluginDefinitionActions.fetchEntity(pluginId)),
 })
 
 // Export for tests

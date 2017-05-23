@@ -92,7 +92,7 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Modules form component', () => {
     assert.isDefined(staticFields.find(Field).find({ name: 'container' }), 'Container field should be displayed')
     assert.isTrue(staticFields.find(Field).find({ name: 'container' }).find(MenuItem).length === props.containers.length)
     assert.isDefined(staticFields.find(Field).find({ name: 'active' }), 'Active field should be displayed')
-    assert.isTrue(staticFields.find(Field).find({ name: 'name' }).find(MenuItem).length === AvailableModules.length)
+    assert.isTrue(staticFields.find(Field).find({ name: 'type' }).find(MenuItem).length === AvailableModules.length)
 
     // Check for dynamic fields
     let dynamicFields = wrapper.find(DynamicModuleFormComponent)
@@ -103,7 +103,7 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Modules form component', () => {
     assert.isTrue(buttons.length === 1, 'Buttons should be displayed')
 
     // Simulate module selection
-    staticFields.find(Field).find({ name: 'name' }).simulate('select', null, 0, AvailableModules[0], { onChange: () => {} })
+    staticFields.find(Field).find({ name: 'type' }).simulate('select', null, 0, AvailableModules[0], { onChange: () => {} })
     dynamicFields = wrapper.find(DynamicModuleFormComponent)
     assert.isTrue(dynamicFields.length === 1, 'The dynamic fields should be displayed since a module is selected')
   })
@@ -148,7 +148,7 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Modules form component', () => {
     assert.isDefined(staticFields.find(Field).find({ name: 'container' }), 'Container field should be displayed')
     assert.isTrue(staticFields.find(Field).find({ name: 'container' }).find(MenuItem).length === props.containers.length)
     assert.isDefined(staticFields.find(Field).find({ name: 'active' }), 'Active field should be displayed')
-    assert.isTrue(staticFields.find(Field).find({ name: 'name' }).find(MenuItem).length === AvailableModules.length)
+    assert.isTrue(staticFields.find(Field).find({ name: 'type' }).find(MenuItem).length === AvailableModules.length)
 
     // Check for dynamic fields
     const dynamicFields = wrapper.find(DynamicModuleFormComponent)

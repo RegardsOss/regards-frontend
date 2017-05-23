@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import values from 'lodash/values'
-import DatasetSelectionType from '../../definitions/DatasetSelectionType'
+import DatasetSelectionType from '../../models/datasets/DatasetSelectionTypes'
 
 /**
  * Form entity description

@@ -76,6 +76,7 @@ export default {
   Collection,
   Connection,
   Dataset,
+  DatasetContent,
   Datasource,
   AccessGroup,
   AccessRight,

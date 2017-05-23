@@ -11,7 +11,7 @@ const PluginDefinition = PropTypes.shape({
     id: PropTypes.number,
     name: PropTypes.string,
     type: PropTypes.string,
-    sourcesPath: PropTypes.string,
+    sourcePath: PropTypes.string,
   }).isRequired,
 })
 

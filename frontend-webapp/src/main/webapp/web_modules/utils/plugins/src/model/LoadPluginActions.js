@@ -43,17 +43,20 @@ export const loadPlugin = (sourcePath, onErrorCallback, dispatchAction) => {
       fullSourcePlugin = `${root.location.origin}/${sourcePath}`
     }
 
+    // Add dateNow tag at the end of the plugin sourcePath to allow reload of the plugin file.
+    const sourcePathPluginWithDateTag = `${fullSourcePlugin}?${Date.now()}`
+
     // Listen for plugin initialization done
     root.document.addEventListener('plugin', (event) => {
       // Verify that the event raised by a plugin loaded is the expected one
-      if (fullSourcePlugin === event.detail.sourcePath) {
+      if (sourcePathPluginWithDateTag === event.detail.sourcePath) {
         dispatchAction(savePluginLoaded(event.detail, sourcePath))
       }
     })
 
-    scriptjs(fullSourcePlugin, sourcePath)
+    scriptjs(sourcePathPluginWithDateTag, sourcePath)
     root.document.addEventListener('error', (e, url) => {
-      if (e && e.srcElement && e.srcElement.src === fullSourcePlugin) {
+      if (e && e.srcElement && e.srcElement.src === sourcePathPluginWithDateTag) {
         onErrorCallback(fullSourcePlugin)
       }
     }, true)

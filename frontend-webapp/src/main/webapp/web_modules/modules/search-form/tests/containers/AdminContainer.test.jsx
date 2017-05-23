@@ -93,7 +93,7 @@ describe('[SEARCH FORM] Testing Admin Container', () => {
           conf: {
             datasets: {
               type: DATASET_TYPE,
-              selectedDatasets: [],
+              selectedDatasets: ['URN://DATASET-TEST'],
               selectedModels: [],
             },
           },
@@ -137,6 +137,10 @@ describe('[SEARCH FORM] Testing Admin Container', () => {
     const fetchAllModelsAttributesCallback = spy()
     const fetchModelsAttributesCallback = spy()
     const fetchCriterionCallback = spy()
+
+    // Simulate a selected dataset model in the form
+    const selectedDatasetModel = 12
+
     const props = {
       appName: 'test',
       project: 'project',
@@ -149,7 +153,7 @@ describe('[SEARCH FORM] Testing Admin Container', () => {
             datasets: {
               type: DATASET_MODEL_TYPE,
               selectedDatasets: [],
-              selectedModels: [],
+              selectedModels: [selectedDatasetModel],
             },
           },
         },
@@ -181,8 +185,9 @@ describe('[SEARCH FORM] Testing Admin Container', () => {
     )
 
     assert.isTrue(wrapper.find(FormTabsComponent).length === 1, 'There should be one FormTabsComponent')
-    assert.isTrue(fetchDatasetsAttributesCallback.notCalled, 'The list of datasets attributes should be fetched')
-    assert.isTrue(fetchModelsAttributesCallback.calledOnce, 'The list of datasets attributes should be fetched')
+    assert.isTrue(fetchDatasetsAttributesCallback.notCalled, 'The list of datasets attributes should not be fetched for selected datasets')
+    assert.isTrue(fetchModelsAttributesCallback.calledOnce, 'The list of datasets attributes should be fetched for given model')
+    assert.isTrue(fetchModelsAttributesCallback.calledWith([selectedDatasetModel]), 'The list of datasets attributes should be fetched with the given model as parameter')
     assert.isTrue(fetchAllModelsAttributesCallback.notCalled, 'The list of datasets attributes should be fetched')
     assert.isTrue(fetchCriterionCallback.calledOnce, 'The list of available criterion should be fetched')
   })

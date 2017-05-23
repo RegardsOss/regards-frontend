@@ -5,7 +5,7 @@
  * Combine all reducers for this aa to a single root reducer.
  */
 import { combineReducers } from 'redux'
-import PluginReducer from './model/PluginReducer'
+import { uiPluginDefinitionReducers } from './clients/UIPluginDefinitionClient'
 import LoadPluginReducer from './model/LoadPluginReducer'
 
 /**
@@ -14,5 +14,5 @@ import LoadPluginReducer from './model/LoadPluginReducer'
  */
 export default combineReducers({
   loadedPlugins: LoadPluginReducer,
-  plugins: PluginReducer,
+  plugins: uiPluginDefinitionReducers,
 })

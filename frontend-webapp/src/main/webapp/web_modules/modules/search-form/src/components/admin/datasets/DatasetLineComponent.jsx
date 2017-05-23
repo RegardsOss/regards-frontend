@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { Entity } from '@regardsoss/model'
+import { Dataset } from '@regardsoss/model'
 /**
  * Display a dataset element into the infinite scroll list.
  * @author Sébastien binda
@@ -9,7 +9,7 @@ import { Entity } from '@regardsoss/model'
 class DatasetLineComponent extends React.Component {
 
   static propTypes = {
-    entity: Entity.isRequired,
+    entity: Dataset.isRequired,
   }
 
   render() {

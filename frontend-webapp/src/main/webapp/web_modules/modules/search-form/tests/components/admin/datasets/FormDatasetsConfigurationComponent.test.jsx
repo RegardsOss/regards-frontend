@@ -6,7 +6,7 @@ import { assert } from 'chai'
 import { stub } from 'sinon'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import { IntlStub } from '@regardsoss/tests-helpers'
-import { PageableListContainer } from '@regardsoss/components'
+import { PageableListContainer, ListContainer } from '@regardsoss/components'
 import Styles from '../../../../src/styles/styles'
 import { DATASET_MODEL_TYPE, DATASET_TYPE, ALL_CATALOG_TYPE } from '../../../../src/models/datasets/DatasetSelectionTypes'
 import DatasetModelLineComponent from '../../../../src/components/admin/datasets/DatasetModelLineComponent'
@@ -69,8 +69,8 @@ describe('[SEARCH FORM] Testing FormDatasetsConfigurationComponent', () => {
       <FormDatasetsConfigurationComponent {...props} />, options,
     )
 
-    const listComp = wrapper.find(PageableListContainer)
-    assert(listComp.length === 1, 'The list of selectable datasets should be rendered')
+    const listComp = wrapper.find(ListContainer)
+    assert(listComp.length === 1, 'The list of selectable dataset models should be rendered')
     assert.equal(listComp.prop('lineComponent'), DatasetModelLineComponent)
   })
 

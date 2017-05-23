@@ -36,6 +36,7 @@ import ErrorCardComponent from './error/ErrorCardComponent'
 import PictureLinkComponent from './links/PictureLinkComponent'
 
 import PageableListContainer from './list/PageableListContainer'
+import ListContainer from './list/ListContainer'
 
 import ChipList from './list/ChipList'
 
@@ -83,6 +84,7 @@ export {
   TableColumnConfiguration,
   TableColumnConfigurationController,
   TableStyles,
+  ListContainer,
   LoadingPaneComponent,
   LoadableContentDialogContainer,
   SingleContentURLDialogContainer,

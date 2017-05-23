@@ -20,6 +20,9 @@ class FormPreviewComponent extends React.Component {
       const conf = Object.assign({}, this.props.module.conf)
       conf.preview = true
       const previewModule = Object.assign({}, this.props.module, { active: true, conf })
+      if (!previewModule.description) {
+        previewModule.description = 'preview'
+      }
       return (
         <div style={{ marginTop: 10 }}>
           <LazyModuleComponent

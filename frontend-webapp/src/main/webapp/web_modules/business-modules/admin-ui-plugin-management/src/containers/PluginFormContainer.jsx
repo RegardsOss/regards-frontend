@@ -6,8 +6,7 @@ import { I18nProvider } from '@regardsoss/i18n'
 import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
 import { connect } from '@regardsoss/redux'
 import { PluginDefinition } from '@regardsoss/model'
-import PluginsActions from '../model/PluginsActions'
-import PluginsSelector from '../model/PluginsSelector'
+import { uiPluginDefinitionActions, uiPluginDefinitionSelectors } from '../clients/UIPluginDefinitionClient'
 import PluginFormComponent from '../components/PluginFormComponent'
 
 /**
@@ -33,6 +32,10 @@ export class PluginFormContainer extends React.Component {
     }),
   }
 
+  state = {
+    submitError: null,
+  }
+
   componentWillMount() {
     if (this.props.params.plugin_id && !this.props.plugin) {
       this.props.fetchPlugin(this.props.params.plugin_id)
@@ -49,13 +52,35 @@ export class PluginFormContainer extends React.Component {
   handleCreate = (values) => {
     const submitModel = Object.assign({}, values)
     Promise.resolve(this.props.createPlugin(submitModel))
-      .then(this.handleBack)
+      .then((actionResult) => {
+        if (actionResult.error) {
+          this.setState({
+            submitError: actionResult.meta && actionResult.meta.status === 422 ? 'plugin.form.submit.error.invalid.plugin' : 'plugin.form.submit.error',
+          })
+        } else {
+          this.setState({
+            submitError: null,
+          })
+          this.handleBack()
+        }
+      })
   }
 
   handleUpdate = (values) => {
     const submitModel = Object.assign({}, this.props.plugin, values)
     Promise.resolve(this.props.updatePlugin(submitModel))
-      .then(this.handleBack)
+      .then((actionResult) => {
+        if (actionResult.error) {
+          this.setState({
+            submitError: true,
+          })
+        } else {
+          this.setState({
+            submitError: false,
+          })
+          this.handleBack()
+        }
+      })
   }
 
   handleBack = () => {
@@ -78,6 +103,7 @@ export class PluginFormContainer extends React.Component {
           onSubmit={this.handleSubmit}
           onBack={this.handleBack}
           plugin={this.props.plugin}
+          submitError={this.state.submitError}
         />
       </I18nProvider>
     )
@@ -85,14 +111,14 @@ export class PluginFormContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  plugin: ownProps.params.plugin_id ? PluginsSelector.getById(state, ownProps.params.plugin_id) : null,
-  isFetching: PluginsSelector.isFetching(state),
+  plugin: ownProps.params.plugin_id ? uiPluginDefinitionSelectors.getById(state, ownProps.params.plugin_id) : null,
+  isFetching: uiPluginDefinitionSelectors.isFetching(state),
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchPlugin: pluginId => dispatch(PluginsActions.fetchEntity(pluginId)),
-  updatePlugin: plugin => dispatch(PluginsActions.updateEntity(plugin.id, plugin)),
-  createPlugin: plugin => dispatch(PluginsActions.createEntity(plugin)),
+  fetchPlugin: pluginId => dispatch(uiPluginDefinitionActions.fetchEntity(pluginId)),
+  updatePlugin: plugin => dispatch(uiPluginDefinitionActions.updateEntity(plugin.id, plugin)),
+  createPlugin: plugin => dispatch(uiPluginDefinitionActions.createEntity(plugin)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PluginFormContainer)

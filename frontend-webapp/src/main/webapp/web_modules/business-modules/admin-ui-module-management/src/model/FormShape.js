@@ -7,9 +7,9 @@
  * @author Sébastien binda
  */
 const FormShape = PropTypes.shape({
-  id: PropTypes.number.isRequired,
-  active: PropTypes.bool.isRequired,
-  applicationId: PropTypes.string.isRequired,
+  id: PropTypes.number,
+  active: PropTypes.bool,
+  applicationId: PropTypes.string,
   conf: PropTypes.object,
   container: PropTypes.string,
   description: PropTypes.string,

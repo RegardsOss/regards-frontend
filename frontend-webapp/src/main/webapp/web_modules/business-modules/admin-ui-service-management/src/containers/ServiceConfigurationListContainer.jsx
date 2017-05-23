@@ -125,7 +125,7 @@ export class ServiceConfigurationListContainer extends React.Component {
         >
           {() => (
             <PluginLoader
-              pluginPath={uiPluginDefinition.content.sourcesPath}
+              pluginPath={uiPluginDefinition.content.sourcePath}
               pluginInstanceId="something"
               displayPlugin={false}
             >

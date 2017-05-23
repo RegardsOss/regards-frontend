@@ -9,7 +9,7 @@ import { i18nSelectors } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { ErrorCardComponent } from '@regardsoss/components'
 import { loadPlugin } from '../model/LoadPluginActions'
-import PluginSelector from '../model/LoadPluginSelector'
+import LoadPluginSelector from '../model/LoadPluginSelector'
 
 /**
  * This component allows to load a given plugin and display it.
@@ -43,12 +43,10 @@ class PluginLoader extends React.Component {
     locale: PropTypes.string,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      registered: false,
-      loadError: false,
-    }
+  state = {
+    registered: false,
+    loadError: false,
+    errorDep: undefined,
   }
 
   componentWillMount() {
@@ -58,6 +56,13 @@ class PluginLoader extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    if (this.props.pluginPath !== nextProps.pluginPath) {
+      this.setState({
+        loadError: false,
+        errorDep: undefined,
+      })
+      nextProps.loadPlugin(nextProps.pluginPath, this.errorCallback)
+    }
     if (!this.state.registered && nextProps.loadedPlugin && nextProps.loadedPlugin.reducer) {
       const loadedPluginReducerName = `plugins.${nextProps.loadedPlugin.name}`
       const loadedPluginReducer = {}
@@ -105,6 +110,7 @@ class PluginLoader extends React.Component {
   }
 
   render() {
+    console.log('Plugin loader', this.props)
     const isLoading = this.props.loadedPlugin === undefined || this.props.loadedPlugin === null
     if (this.state.loadError) {
       return (
@@ -125,7 +131,7 @@ class PluginLoader extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  loadedPlugin: PluginSelector.getById(state, ownProps.pluginPath),
+  loadedPlugin: LoadPluginSelector.getById(state, ownProps.pluginPath),
   locale: i18nSelectors.getLocale(state),
 })
 

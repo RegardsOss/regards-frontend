@@ -13,7 +13,7 @@ import { PluginDefinition } from '@regardsoss/model'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import PluginsActions from '../model/PluginsActions'
+import { uiPluginDefinitionActions } from '../clients/UIPluginDefinitionClient'
 
 /**
  * React component to display a given list of plugins
@@ -124,7 +124,7 @@ class PluginListComponent extends React.Component {
                 id="plugins.list.action.add"
               />
             }
-            mainHateoasDependency={PluginsActions.getDependency(RequestVerbEnum.POST)}
+            mainHateoasDependency={uiPluginDefinitionActions.getDependency(RequestVerbEnum.POST)}
             secondaryButtonLabel={<FormattedMessage id="plugins.list.action.cancel" />}
             secondaryButtonUrl={this.props.backUrl}
           />

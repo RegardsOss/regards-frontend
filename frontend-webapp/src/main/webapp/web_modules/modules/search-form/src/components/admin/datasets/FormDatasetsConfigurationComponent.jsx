@@ -4,15 +4,13 @@
 import { xor, map } from 'lodash'
 import { Card, CardTitle } from 'material-ui/Card'
 import { FormattedMessage } from 'react-intl'
-import { PageableListContainer } from '@regardsoss/components'
+import { PageableListContainer, ListContainer } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import DatasetLineComponent from './DatasetLineComponent'
 import DatasetModelLineComponent from './DatasetModelLineComponent'
-import DatasetActions from '../../../models/datasets/DatasetActions'
-import DatasetSelector from '../../../models/datasets/DatasetSelector'
-import DatasetModelActions from '../../../models/datasets/DatasetModelActions'
-import DatasetModelSelector from '../../../models/datasets/DatasetModelSelector'
+import { datasetActions, datasetSelectors } from '../../../clients/DatasetClient'
+import { modelActions, modelSelectors } from '../../../clients/ModelClient'
 import { DATASET_MODEL_TYPE, DATASET_TYPE } from '../../../models/datasets/DatasetSelectionTypes'
 import FormDatasetsTypeSelection from './FormDatasetsTypeSelection'
 
@@ -47,7 +45,7 @@ class FormDatasetsConfigurationComponent extends React.Component {
   }
 
   onDatasetSelection = (dataset) => {
-    const newSelectedDatasets = xor(this.state.selectedDataset, [dataset.ip_id])
+    const newSelectedDatasets = xor(this.state.selectedDataset, [dataset.ipId])
     this.setState({
       selectedDataset: newSelectedDatasets,
     })
@@ -63,7 +61,7 @@ class FormDatasetsConfigurationComponent extends React.Component {
   }
 
   getSelectedDatasetsObjects = () => map(this.state.selectedDataset, dataset => ({
-    ip_id: dataset,
+    ipId: dataset,
   }))
 
   getSelectedDatasetModelsObjects = () => map(this.state.selectedDatasetModels, model => ({
@@ -101,16 +99,19 @@ class FormDatasetsConfigurationComponent extends React.Component {
   }
 
   renderType() {
+    const datasetModelTypeQueryParams = {
+      type: 'DATASET',
+    }
     switch (this.state.type) {
       case DATASET_TYPE :
         return (
           <PageableListContainer
             key={this.state.type}
             title={this.context.intl.formatMessage({ id: 'form.datasets.select.dataset.list.title' })}
-            entityIdentifier="ip_id"
+            entityIdentifier="ipId"
             nbEntityByPage={10}
-            entitiesActions={DatasetActions}
-            entitiesSelector={DatasetSelector}
+            entitiesActions={datasetActions}
+            entitiesSelector={datasetSelectors}
             lineComponent={DatasetLineComponent}
             displayCheckbox
             onEntityCheck={this.onDatasetSelection}
@@ -123,13 +124,14 @@ class FormDatasetsConfigurationComponent extends React.Component {
         )
       case DATASET_MODEL_TYPE :
         return (
-          <PageableListContainer
+          <ListContainer
             key={this.state.type}
             title={this.context.intl.formatMessage({ id: 'form.datasets.select.dataset.models.list.title' })}
             entityIdentifier="id"
             nbEntityByPage={10}
-            entitiesActions={DatasetModelActions}
-            entitiesSelector={DatasetModelSelector}
+            entitiesActions={modelActions}
+            entitiesSelector={modelSelectors}
+            queryParams={datasetModelTypeQueryParams}
             lineComponent={DatasetModelLineComponent}
             displayCheckbox
             onEntityCheck={this.onDatasetModelSelection}
