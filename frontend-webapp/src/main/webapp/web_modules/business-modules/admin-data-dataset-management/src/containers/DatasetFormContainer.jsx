@@ -198,7 +198,7 @@ export class DatasetFormContainer extends React.Component {
       case states.FORM_ATTRIBUTE:
         return (<DatasetFormAttributesContainer
           currentDataset={currentDataset}
-          currentDatasourceId={isCreating ? datasourceId : currentDataset.content.plgConfDataSource}
+          currentDatasourceId={isCreating ? datasourceId : currentDataset.content.plgConfDataSource.id}
           handleSave={this.saveAttributes}
           backUrl={this.getFormAttributeBackUrl()}
           isEditing={isEditing}
