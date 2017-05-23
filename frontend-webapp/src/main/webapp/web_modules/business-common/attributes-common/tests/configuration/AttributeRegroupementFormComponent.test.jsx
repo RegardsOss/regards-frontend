@@ -3,38 +3,25 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { stub } from 'sinon'
-import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import { FieldArray } from 'redux-form'
 import { Field } from '@regardsoss/form-utils'
 import { UnconnectedAttributeRegroupementFormComponent } from '../../src/configuration/AttributeRegroupementFormComponent'
+
+
+const context = buildTestContext()
 
 /**
  * Tests for FormParametersConfigurationComponent
  * @author Sébastien binda
  */
 describe('[ATTRIBUTES COMMON] Testing AttributeRegroupementFormComponent', () => {
-  // Since react will console.error propType warnings, that which we'd rather have
-  // as errors, we use sinon.js to stub it into throwing these warning as errors
-  // instead.
-  before(() => {
-    stub(console, 'error').callsFake((warning) => {
-      throw new Error(warning)
-    })
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
+  it('should exists', () => {
+    assert.isDefined(UnconnectedAttributeRegroupementFormComponent)
   })
-  after(() => {
-    console.error.restore()
-  })
-  const muiTheme = getMuiTheme({})
-  const options = {
-    context: {
-      muiTheme,
-      moduleTheme: {},
-      intl: {
-        formatMessage: id => (id.id),
-      },
-    },
-  }
 
   it('Should render a AttributeRegroupementFormComponent', () => {
     const props = {
@@ -50,7 +37,7 @@ describe('[ATTRIBUTES COMMON] Testing AttributeRegroupementFormComponent', () =>
     }
 
     const wrapper = shallow(
-      <UnconnectedAttributeRegroupementFormComponent {...props} />, options,
+      <UnconnectedAttributeRegroupementFormComponent {...props} />, { context },
     )
 
     const labelField = wrapper.find(Field).find({ name: 'label' })

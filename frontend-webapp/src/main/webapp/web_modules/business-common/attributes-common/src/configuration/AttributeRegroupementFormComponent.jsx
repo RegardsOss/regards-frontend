@@ -5,6 +5,8 @@ import values from 'lodash/values'
 import map from 'lodash/map'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
+import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
 import { FieldArray } from 'redux-form'
 import Divider from 'material-ui/Divider'
 import { reduxForm, RenderTextField, Field } from '@regardsoss/form-utils'
@@ -32,6 +34,12 @@ class AttributeRegroupementFormComponent extends React.Component {
     initialize: PropTypes.func.isRequired,
     error: PropTypes.string,
   }
+
+  static contextTypes = {
+    ...themeContextType,
+    ...i18nContextType,
+  }
+
 
   componentDidMount() {
     if (this.props.attributesRegrp) {
@@ -117,7 +125,7 @@ class AttributeRegroupementFormComponent extends React.Component {
               component={RenderTextField}
               type="text"
               disabled={this.props.attributesRegrp !== null}
-              label={<FormattedMessage id="form.attributes.regroupement.form.label" />}
+              label={this.context.intl.formatMessage({ id: 'form.attributes.regroupement.form.label' })}
               validate={this.props.validateLabel}
             />
             <FieldArray name={'attributes'} component={this.renderAttributes} />
@@ -127,7 +135,7 @@ class AttributeRegroupementFormComponent extends React.Component {
               mainButtonLabel={saveButton}
               mainButtonType="submit"
               isMainButtonDisabled={pristine || submitting || invalid}
-              secondaryButtonLabel={<FormattedMessage id="form.attributes.regroupement.form.cancel" />}
+              secondaryButtonLabel={this.context.intl.formatMessage({ id: 'form.attributes.regroupement.form.cancel' })}
               secondaryButtonTouchTap={this.props.onClose}
             />
           </CardActions>

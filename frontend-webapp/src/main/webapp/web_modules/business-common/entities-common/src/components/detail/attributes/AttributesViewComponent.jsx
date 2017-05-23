@@ -10,6 +10,7 @@ import {
   TableRow,
   TableRowColumn,
 } from 'material-ui/Table'
+import { i18nContextType } from '@regardsoss/i18n'
 import NoDataIcon from 'material-ui/svg-icons/device/widgets'
 import { NoContentMessageInfo } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
@@ -37,6 +38,7 @@ class AttributesViewComponent extends React.Component {
   }
 
   static contextTypes = {
+    ...i18nContextType,
     ...themeContextType,
   }
 
@@ -46,7 +48,7 @@ class AttributesViewComponent extends React.Component {
     return (
       <NoContentMessageInfo
         noContent={!attributes.length}
-        title={<FormattedMessage id="entities.common.attributes.no.value.title" />}
+        title={this.context.intl.formatMessage({ id: 'entities.common.attributes.no.value.title' })}
         message={<FormattedMessage
           id="entities.common.attributes.no.value.message"
           values={{ entityLabel }}

@@ -2,40 +2,28 @@
  * LICENSE_PLACEHOLDER
  **/
 import { shallow } from 'enzyme'
-import { stub, spy } from 'sinon'
+import { spy } from 'sinon'
 import { assert } from 'chai'
-import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import { CardHeader } from 'material-ui/Card'
 import MenuItem from 'material-ui/MenuItem'
 import Checkbox from 'material-ui/Checkbox'
 import AttributeRegroupementComponent from '../../src/configuration/AttributeRegroupementComponent'
 
+const options = {
+  context: buildTestContext(),
+}
 /**
  * Tests for AttributeConfigurationComponent
  * @author Sébastien binda
  */
 describe('[ATTRIBUTES COMMON] Testing AttributeRegroupementComponent', () => {
-  // Since react will console.error propType warnings, that which we'd rather have
-  // as errors, we use sinon.js to stub it into throwing these warning as errors
-  // instead.
-  before(() => {
-    stub(console, 'error').callsFake((warning) => {
-      throw new Error(warning)
-    })
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
+  it('should exists', () => {
+    assert.isDefined(AttributeRegroupementComponent)
   })
-  after(() => {
-    console.error.restore()
-  })
-  const muiTheme = getMuiTheme({})
-  const options = {
-    context: {
-      muiTheme,
-      moduleTheme: {},
-      intl: {
-        formatMessage: id => (id.id),
-      },
-    },
-  }
 
   it('Should render a AttributeRegroupementComponent', () => {
     const onChangeSpy = spy()
