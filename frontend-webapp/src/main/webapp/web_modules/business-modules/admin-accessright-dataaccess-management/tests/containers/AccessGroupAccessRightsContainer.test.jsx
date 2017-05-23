@@ -7,7 +7,7 @@ import { stub } from 'sinon'
 import { testSuiteHelpers, DumpProvider, buildTestContext } from '@regardsoss/tests-helpers'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { AccessGroupAccessRightsContainer } from '../../src/containers/AccessGroupAccessRightsContainer'
-import AccessRightListContainer from '../../src/components/AccessRightListContainer'
+import AccessRightListContainer from '../../src/containers/AccessRightListContainer'
 import AccessRightEnum from '../../src/components/AccessRightsEnum'
 
 const context = buildTestContext()
@@ -169,7 +169,8 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing AccessGroupAccessRightsContaine
       content: {
         id: 10000,
         label: 'test',
-      } }
+      },
+    }
 
     // Test create a new accessRightForm by using a dataset no defined in the datasets of the dump accessGroups
     assert.isFalse(createSpy.calledOnce, 'No creation should be fired at this state')

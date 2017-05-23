@@ -179,10 +179,11 @@ export class SearchResultsContainer extends React.Component {
     { showingFacettes, filters, sortingOn, intialSortAttributesPath }) => {
     // check if facettes should be applied
     const facettes = showingFacettes && viewObjectType === SearchResultsTargetsEnum.DATAOBJECT_RESULTS ? filters : []
+    const facettesQueryPart = showingFacettes ? facettesQuery : ''
     const openSearchQuery = QueriesHelper.getOpenSearchQuery(searchQuery, facettes, NavigationLevel.getQueryParameters(levels))
     // check if user specified or sorting or provide one
     const sorting = sortingOn.length ? sortingOn : intialSortAttributesPath
-    return QueriesHelper.getURLQuery(openSearchQuery, sorting, facettesQuery).toQueryString()
+    return QueriesHelper.getURLQuery(openSearchQuery, sorting, facettesQueryPart).toQueryString()
   }
 
   /**

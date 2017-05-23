@@ -244,7 +244,6 @@ class SearchResultsComponent extends React.Component {
   renderTableTabs = () => {
     const { intl: { formatMessage } } = this.context
     const { showingDataobjects, onShowDatasets, onShowDataobjects, displayDatasets } = this.props
-    // TODO when dataset disabling refactor is done, handle simple tabs removal!
     // show tabs only when datasets are displayed
     return displayDatasets ? [
       <FlatButton
@@ -253,9 +252,6 @@ class SearchResultsComponent extends React.Component {
         onTouchTap={onShowDatasets}
         icon={<DatasetLibrary />}
         secondary={!showingDataobjects}
-        disabled={
-          // TODO
-          !!false}
       />,
       <FlatButton
         key="dataobjects.tab"

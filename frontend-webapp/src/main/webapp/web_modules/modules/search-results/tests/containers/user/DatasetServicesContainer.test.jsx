@@ -13,8 +13,6 @@ describe('[Search Results] Testing ServicesContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
-  // TODO test resolution here (not necessary result, but process)
-
   it('should exists', () => {
     assert.isDefined(DatasetServicesContainer)
   })
