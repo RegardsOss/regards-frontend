@@ -156,7 +156,7 @@ class AttributeRegroupementConfigurationComponent extends React.Component {
       {this.renderConfirmDeleteDialog()}
       <Subheader><FormattedMessage id="form.attributes.regroupement.section.title" /></Subheader>
       <RaisedButton
-        label={<FormattedMessage id="form.attributes.regroupement.form.add.regroupement.button" />}
+        label={this.context.intl.formatMessage({ id: 'form.attributes.regroupement.form.add.regroupement.button' })}
         secondary
         onTouchTap={this.handleOpenDialog}
       />

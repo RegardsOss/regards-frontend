@@ -3,10 +3,10 @@
  **/
 import { Tab, Tabs } from 'material-ui/Tabs'
 import FlatButton from 'material-ui/FlatButton'
-import { FormattedMessage } from 'react-intl'
 import Measure from 'react-measure'
 import { LoadableContentDialogContainer } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
 import AttributesViewComponent from './attributes/AttributesViewComponent'
 import DescriptionComponent from './description/DescriptionComponent'
 
@@ -43,6 +43,7 @@ class DetailViewComponent extends React.Component {
 
   static contextTypes = {
     ...themeContextType,
+    ...i18nContextType,
   }
 
   componentWillMount = () => {
@@ -71,17 +72,17 @@ class DetailViewComponent extends React.Component {
         dialogHeightPercent={descriptionDialog.heightPercent}
         dialogWidthPercent={descriptionDialog.widthPercent}
         onRequestClose={onClose}
-        loadingMessage={<FormattedMessage id="entities.common.loading.message" />}
+        loadingMessage={this.context.intl.formatMessage({ id: 'entities.common.loading.message' })}
         actions={[
           <FlatButton
-            label={<FormattedMessage id="entities.common.close.button" />}
+            label={this.context.intl.formatMessage({ id: 'entities.common.close.button' })}
             onTouchTap={onClose}
           />]}
         {...otherDialogProperties}
       >
         <Measure onMeasure={this.onContentHeightChanges}>
           <Tabs style={{ height: '100%' }}>
-            <Tab label={<FormattedMessage id="entities.common.attributes.tabs" />}>
+            <Tab label={this.context.intl.formatMessage({ id: 'entities.common.attributes.tabs' })}>
               <AttributesViewComponent
                 entityLabel={entityLabel}
                 attributes={attributes}
@@ -90,7 +91,7 @@ class DetailViewComponent extends React.Component {
                 onSearchTag={this.props.onSearchTag}
               />
             </Tab>
-            <Tab label={<FormattedMessage id="entities.common.description.tabs" />}>
+            <Tab label={this.context.intl.formatMessage({ id: 'entities.common.description.tabs' })}>
               <DescriptionComponent
                 entityLabel={entityLabel}
                 descriptionFileURL={descriptionFileURL}

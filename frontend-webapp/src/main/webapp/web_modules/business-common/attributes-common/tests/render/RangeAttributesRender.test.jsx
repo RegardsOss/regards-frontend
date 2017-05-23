@@ -3,7 +3,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { stub } from 'sinon'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import RangeAttributesRender from '../../src/render/RangeAttributesRender'
 
 
@@ -12,17 +12,8 @@ import RangeAttributesRender from '../../src/render/RangeAttributesRender'
  * @author Sébastien binda
  */
 describe('[ATTRIBUTES COMMON] Testing RangeAttributesRender', () => {
-  // Since react will console.error propType warnings, that which we'd rather have
-  // as errors, we use sinon.js to stub it into throwing these warning as errors
-  // instead.
-  before(() => {
-    stub(console, 'error').callsFake((warning) => {
-      throw new Error(warning)
-    })
-  })
-  after(() => {
-    console.error.restore()
-  })
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
 
   it('Should render a range value', () => {
     const props = {

@@ -4,6 +4,7 @@
 import { FormattedMessage } from 'react-intl'
 import NoDataIcon from 'material-ui/svg-icons/device/wallpaper'
 import ReactMarkdown from 'react-markdown'
+import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { ScrollArea } from '@regardsoss/adapters'
 import { NoContentMessageInfo, IFrameURLContentDisplayer } from '@regardsoss/components'
@@ -29,6 +30,7 @@ class DescriptionViewComponent extends React.Component {
 
   static contextTypes = {
     ...themeContextType,
+    ...i18nContextType,
   }
 
   render() {
@@ -37,7 +39,7 @@ class DescriptionViewComponent extends React.Component {
     return (
       <NoContentMessageInfo
         noContent={!descriptionFile && !descriptionFileURL}
-        title={<FormattedMessage id="entities.common.description.no.value.title" />}
+        title={this.context.intl.formatMessage({ id: 'entities.common.description.no.value.title' })}
         message={<FormattedMessage
           id="entities.common.description.no.value.message"
           values={{ entityLabel }}

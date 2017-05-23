@@ -2,39 +2,29 @@
  * LICENSE_PLACEHOLDER
  **/
 import { shallow } from 'enzyme'
-import { stub, spy } from 'sinon'
+import { spy } from 'sinon'
 import { assert } from 'chai'
-import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import { CardHeader } from 'material-ui/Card'
 import Checkbox from 'material-ui/Checkbox'
+import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import AttributeConfigurationComponent from '../../src/configuration/AttributeConfigurationComponent'
+
+const options = {
+  context: buildTestContext(),
+}
 
 /**
  * Tests for AttributeConfigurationComponent
  * @author Sébastien binda
  */
 describe('[ATTRIBUTES COMMON] Testing AttributeConfigurationComponent', () => {
-  // Since react will console.error propType warnings, that which we'd rather have
-  // as errors, we use sinon.js to stub it into throwing these warning as errors
-  // instead.
-  before(() => {
-    stub(console, 'error').callsFake((warning) => {
-      throw new Error(warning)
-    })
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
+
+  it('should exists', () => {
+    assert.isDefined(AttributeConfigurationComponent)
   })
-  after(() => {
-    console.error.restore()
-  })
-  const muiTheme = getMuiTheme({})
-  const options = {
-    context: {
-      muiTheme,
-      moduleTheme: {},
-      intl: {
-        formatMessage: id => (id.id),
-      },
-    },
-  }
 
   it('Should render a AttributeConfigurationComponent', () => {
     const onChangeSpy = spy()
