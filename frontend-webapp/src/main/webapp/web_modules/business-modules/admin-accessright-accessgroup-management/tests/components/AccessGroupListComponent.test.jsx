@@ -1,38 +1,29 @@
 /**
  * LICENSE_PLACEHOLDER
  */
+import keys from 'lodash/keys'
 import { shallow } from 'enzyme'
-import { expect, assert } from 'chai'
-import { stub } from 'sinon'
-import { IntlStub, DumpProvider } from '@regardsoss/tests-helpers'
-import { TableRow } from 'material-ui/Table'
+import { assert } from 'chai'
+import { testSuiteHelpers, DumpProvider, buildTestContext } from '@regardsoss/tests-helpers'
+import { TableBody, TableRow, TableRowColumn } from 'material-ui/Table'
+import { HateoasIconAction, ResourceIconAction } from '@regardsoss/display-control'
 import AccessGroupListComponent from '../../src/components/AccessGroupListComponent'
 
+const context = buildTestContext()
+
 describe('[ADMIN USER ACCESSGROUP MANAGEMENT] Testing AccessGroupListComponent', () => {
-  // Since react will console.error propType warnings, that which we'd rather have
-  // as errors, we use sinon.js to stub it into throwing these warning as errors
-  // instead.
-  before(() => {
-    stub(console, 'error').callsFake((warning) => {
-      throw new Error(warning)
-    })
-  })
-  after(() => {
-    console.error.restore()
-  })
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('should exists', () => {
     assert.isDefined(AccessGroupListComponent)
   })
-  const context = {
-    intl: IntlStub,
-    muiTheme: {
-      palette: {},
-    },
-  }
+
   it('Render properly', () => {
+    const accessGroupList = DumpProvider.get('DataManagementClient', 'AccessGroup')
     const props = {
 
-      accessGroupList: DumpProvider.get('DataManagementClient', 'AccessGroup'),
+      accessGroupList,
       handleEditAccessRights: () => {},
       handleDelete: () => {},
       handleEdit: () => {},
@@ -41,7 +32,26 @@ describe('[ADMIN USER ACCESSGROUP MANAGEMENT] Testing AccessGroupListComponent',
       backUrl: '#',
 
     }
+
+    // Check number of elements rendered in the list
     const enzymeWrapper = shallow(<AccessGroupListComponent {...props} />, { context })
-    expect(enzymeWrapper.find(TableRow)).to.have.length(3)
+    const tableBodyRows = enzymeWrapper.find(TableBody).find(TableRow)
+    assert.equal(tableBodyRows.length, 2, 'There should be 2 Table rows for AccessGroupListComponent. One row for each AccessGroup.')
+
+    // Check number of actions available
+    const tableBodyRowsHateoasIcons = tableBodyRows.find(HateoasIconAction)
+    const tableBodyRowsResourceIcons = tableBodyRows.find(ResourceIconAction)
+    const nbHateoasIcons = 3
+    const nbResourceIcons = 1
+    assert.equal(tableBodyRowsHateoasIcons.length, nbHateoasIcons * keys(accessGroupList).length, `There should be ${nbHateoasIcons} hateoas icons for each tableRow.`)
+    assert.equal(tableBodyRowsResourceIcons.length, nbResourceIcons * keys(accessGroupList).length, `There should be ${nbResourceIcons} hateoas icons for each tableRow.`)
+
+    // Check displayed values
+    const firstRow = tableBodyRows.at(0)
+    const columns = firstRow.find(TableRowColumn)
+    const expectedNbColumns = 3
+    assert.equal(columns.length, expectedNbColumns, `Error displaying first row, there should be ${expectedNbColumns} columns.`)
+    assert.equal(columns.at(0).children().text(), accessGroupList[keys(accessGroupList)[0]].content.name, 'Error displaying first row access group name value')
+    assert.equal(columns.at(1).children().text(), accessGroupList[keys(accessGroupList)[0]].content.users.length, 'Error displaying first row access group number of users')
   })
 })

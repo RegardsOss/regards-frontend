@@ -363,218 +363,6 @@
       "group": "leGroup"
     }
   ],
-  "plugins": [
-    {
-      "id": "aComplexErrorPlugin",
-      "pluginId": "aComplexErrorPlugin",
-      "pluginClassName": "fr.cnes.regards.framework.plugins.ComplexErrorPlugin",
-      "interfaceName": "fr.cnes.regards.framework.plugins.ISamplePlugin",
-      "author": "CSSI",
-      "version": "0.0.1",
-      "description": "Complex plugin test",
-      "parameters": [
-        {
-          "name": "coeff",
-          "type": "java.lang.Integer",
-          "paramType": "PRIMITIVE"
-        }
-      ]
-    },
-    {
-      "id": "aSamplePlugin",
-      "pluginId": "aSamplePlugin",
-      "pluginClassName": "fr.cnes.regards.framework.plugins.SamplePlugin",
-      "interfaceName": "fr.cnes.regards.framework.plugins.ISamplePlugin",
-      "author": "CSSI",
-      "version": "12345-6789-11",
-      "description": "Sample plugin test",
-      "parameters": [
-        {
-          "name": "suffix",
-          "type": "java.lang.String",
-          "paramType": "PRIMITIVE"
-        },
-        {
-          "name": "coeff",
-          "type": "java.lang.Integer",
-          "paramType": "PRIMITIVE"
-        },
-        {
-          "name": "isActive",
-          "type": "java.lang.Boolean",
-          "paramType": "PRIMITIVE"
-        }
-      ]
-    },
-    {
-      "id": "aSampleErrorPlugin",
-      "pluginId": "aSampleErrorPlugin",
-      "pluginClassName": "fr.cnes.regards.framework.plugins.SampleErrorPlugin",
-      "interfaceName": "fr.cnes.regards.framework.plugins.ISamplePlugin",
-      "author": "CSSI",
-      "version": "0.0.1",
-      "description": "Sample plugin test",
-      "parameters": [
-        {
-          "name": "suffix",
-          "type": "java.lang.String",
-          "paramType": "PRIMITIVE"
-        },
-        {
-          "name": "coeff",
-          "type": "java.lang.Integer",
-          "paramType": "PRIMITIVE"
-        },
-        {
-          "name": "isActive",
-          "type": "java.lang.Boolean",
-          "paramType": "PRIMITIVE"
-        }
-      ]
-    },
-    {
-      "id": "aComplexPlugin",
-      "pluginId": "aComplexPlugin",
-      "pluginClassName": "fr.cnes.regards.framework.plugins.ComplexPlugin",
-      "interfaceName": "fr.cnes.regards.framework.plugins.ISamplePlugin",
-      "author": "CSSI",
-      "version": "0.0.1",
-      "description": "Complex plugin test",
-      "parameters": [
-        {
-          "name": "plgInterface",
-          "type": "fr.cnes.regards.framework.plugins.IComplexInterfacePlugin",
-          "paramType": "PLUGIN"
-        },
-        {
-          "name": "coeff",
-          "type": "java.lang.Integer",
-          "paramType": "PRIMITIVE"
-        },
-        {
-          "name": "isActive",
-          "type": "java.lang.Boolean",
-          "paramType": "PRIMITIVE"
-        }
-      ]
-    }
-  ],
-  "configurations": [
-    {
-      "id": 40,
-      "pluginId": "aComplexErrorPlugin",
-      "label": "a plugin configuration for the test",
-      "version": "12345-6789-11",
-      "priorityOrder": 0,
-      "active": true,
-      "pluginClassName": "java.lang.Integer",
-      "parameters": [
-        {
-          "name": "param31",
-          "value": "value31",
-          "dynamic": true
-        },
-        {
-          "name": "param32",
-          "value": "value32",
-          "dynamic": false
-        },
-        {
-          "name": "param33",
-          "value": "value33",
-          "dynamic": false
-        },
-        {
-          "name": "param34",
-          "value": "value34",
-          "dynamic": false
-        },
-        {
-          "name": "param35",
-          "value": "value35",
-          "dynamic": false
-        }
-      ]
-    },
-    {
-      "id": 12,
-      "pluginId": "aComplexPlugin",
-      "label": "This is a configuration",
-      "version": "1.2.0",
-      "priorityOrder": 0,
-      "active": true,
-      "pluginClassName": "java.lang.Integer",
-      "parameters": [
-        {
-          "name": "coeff",
-          "value": "42",
-          "dynamic": true
-        },
-        {
-          "name": "isActive",
-          "value": "true",
-          "dynamic": false
-        },
-        {
-          "name": "plgInterface",
-          "value": "40",
-          "dynamic": false
-        }
-      ]
-    },
-    {
-      "id": 11,
-      "pluginId": "aComplexPlugin",
-      "label": "A configuration",
-      "version": "1.0.0",
-      "priorityOrder": 0,
-      "active": true,
-      "pluginClassName": "java.lang.Integer",
-      "parameters": [
-        {
-          "name": "coeff",
-          "value": "43",
-          "dynamic": true
-        },
-        {
-          "name": "isActive",
-          "value": "false",
-          "dynamic": false
-        },
-        {
-          "name": "plgInterface",
-          "value": "40",
-          "dynamic": false
-        }
-      ]
-    },
-    {
-      "id": 10,
-      "pluginId": "aComplexPlugin",
-      "label": "An other configuration",
-      "version": "1.0.0",
-      "priorityOrder": 0,
-      "active": false,
-      "pluginClassName": "java.lang.Integer",
-      "parameters": [
-        {
-          "name": "coeff",
-          "value": "44",
-          "dynamic": true
-        },
-        {
-          "name": "isActive",
-          "value": "true",
-          "dynamic": false
-        },
-        {
-          "name": "plgInterface",
-          "value": "12",
-          "dynamic": false
-        }
-      ]
-    }
-  ],
   "collections": [
     {
       "type": "COLLECTION",
@@ -652,6 +440,98 @@
       "id": 1
     },
     {
+      "id": 2,
+      "label": "Deuxieme dataset de test",
+      "attributes": {
+        "Attribute_0_0": "QSDf",
+        "Fragment 2": {
+          "Attribute_4": "qsdf"
+        }
+      },
+      "model": {
+        "id": 2,
+        "name": "Mon nom de modèle"
+      },
+      "dataModel": 5,
+      "plgConfDataSource": 4,
+      "tags": [
+        "URN:AIP:COLLECTION:PROJECT:fdsfdsf15-8a93-4d06-a90a-f657c26d3930:V1",
+        "habla espanol"
+      ],
+      "subsetting": "fqsdsdf qsdf qsf sdf sf f",
+      "descriptionUrl": "http://www.google.fr",
+      "uiPluginConfIdList": []
+    },
+    {
+      "id": 3,
+      "label": "Troisieme dataset de test",
+      "attributes": {
+        "Attribute_0_0": "QSDf",
+        "Fragment 2": {
+          "Attribute_4": "qsdf"
+        }
+      },
+      "model": {
+        "id": 2,
+        "name": "Mon nom de modèle"
+      },
+      "dataModel": 5,
+      "plgConfDataSource": 4,
+      "tags": [
+        "URN:AIP:COLLECTION:PROJECT:fdsfdsf15-8a93-4d06-a90a-f657c26d3930:V1",
+        "habla espanol"
+      ],
+      "subsetting": "fqsdsdf qsdf qsf sdf sf f",
+      "descriptionUrl": "http://www.google.fr",
+      "uiPluginConfIdList": []
+    },
+    {
+      "id": 4,
+      "label": "Quatrieme dataset de test",
+      "attributes": {
+        "Attribute_0_0": "QSDf",
+        "Fragment 2": {
+          "Attribute_4": "qsdf"
+        }
+      },
+      "model": {
+        "id": 2,
+        "name": "Mon nom de modèle"
+      },
+      "dataModel": 5,
+      "plgConfDataSource": 4,
+      "tags": [
+        "URN:AIP:COLLECTION:PROJECT:fdsfdsf15-8a93-4d06-a90a-f657c26d3930:V1",
+        "habla espanol"
+      ],
+      "subsetting": "fqsdsdf qsdf qsf sdf sf f",
+      "descriptionUrl": "http://www.google.fr",
+      "uiPluginConfIdList": []
+    },
+    {
+      "id": 5,
+      "label": "Cinquieme dataset de test",
+      "attributes": {
+        "Attribute_0_0": "QSDf",
+        "Fragment 2": {
+          "Attribute_4": "qsdf"
+        }
+      },
+      "model": {
+        "id": 2,
+        "name": "Mon nom de modèle"
+      },
+      "dataModel": 5,
+      "plgConfDataSource": 4,
+      "tags": [
+        "URN:AIP:COLLECTION:PROJECT:fdsfdsf15-8a93-4d06-a90a-f657c26d3930:V1",
+        "habla espanol"
+      ],
+      "subsetting": "fqsdsdf qsdf qsf sdf sf f",
+      "descriptionUrl": "http://www.google.fr",
+      "uiPluginConfIdList": []
+    },
+    {
       "label": "sdfqsdf",
       "attributes": {
         "Attribute_0_0": "QSDf",
@@ -704,109 +584,162 @@
           "email": "hasbeen381@hotmail.com"
         }
       ],
-      "accessRights": [
-        {
-          "qualityFilter": {
-            "maxScore": "10",
-            "minScore": "0",
-            "qualityLevel": "ACCEPTED"
-          },
-          "dataAccessRight": {
-            "dataAccessLevel": "INHERITED_ACCESS"
-          },
-          "accessLevel": "FULL_ACCESS",
-          "dataSet": {
-            "id": 1,
-            "label": "PremierDataSet",
-            "type": "DATASET",
-            "model": {
-              "id": 2,
-              "name": "Premier Modele",
-              "description": "Description du premier modele de jeux de données",
-              "type": "DATASET"
-            }
-          },
-          "id": 1
-        },
-        {
-          "qualityFilter": {
-            "maxScore": "10",
-            "minScore": "0",
-            "qualityLevel": "ACCEPTED"
-          },
-          "dataAccessRight": {
-            "dataAccessLevel": "INHERITED_ACCESS"
-          },
-          "accessLevel": "FULL_ACCESS",
-          "dataSet": {
-            "id": 4,
-            "label": "QuatriemDataSet",
-            "type": "DATASET",
-            "model": {
-              "id": 2,
-              "name": "Premier Modele",
-              "description": "Description du premier modele de jeux de données",
-              "type": "DATASET"
-            }
-          },
-          "id": 2
-        },
-        {
-          "qualityFilter": {
-            "maxScore": "10",
-            "minScore": "0",
-            "qualityLevel": "ACCEPTED"
-          },
-          "dataAccessRight": {
-            "dataAccessLevel": "INHERITED_ACCESS"
-          },
-          "accessLevel": "FULL_ACCESS",
-          "dataSet": {
-            "id": 3,
-            "label": "TroisiemeDataSet",
-            "type": "DATASET",
-            "model": {
-              "id": 2,
-              "name": "Premier Modele",
-              "description": "Description du premier modele de jeux de données",
-              "type": "DATASET"
-            }
-          },
-          "id": "H1b-m9Umte"
-        },
-        {
-          "qualityFilter": {
-            "maxScore": "6",
-            "minScore": "4",
-            "qualityLevel": "REJECTED"
-          },
-          "dataAccessRight": {
-            "dataAccessLevel": "CUSTOM_ACCESS",
-            "pluginConfiguration": 40
-          },
-          "accessLevel": "NO_ACCESS",
-          "dataSet": {
-            "id": 5,
-            "label": "CinquiemeDataSet",
-            "type": "DATASET",
-            "model": {
-              "id": 2,
-              "name": "Premier Modeleee",
-              "description": "Description du premier modele de jeux de données",
-              "type": "DATASET"
-            }
-          },
-          "id": "SyYk-SNFg"
-        }
-      ],
       "isPrivate": true
     },
     {
-      "id": 2,
+      "id": "AG2",
       "name": "AG2",
       "users": [],
-      "accessRights": [],
       "isPrivate": true
+    }
+  ],
+  "accessRights": [
+    {
+      "qualityFilter": {
+        "maxScore": "10",
+        "minScore": "0",
+        "qualityLevel": "ACCEPTED"
+      },
+      "dataAccessRight": {
+        "dataAccessLevel": "INHERITED_ACCESS"
+      },
+      "accessLevel": "FULL_ACCESS",
+      "accessgroup" : "AG1",
+      "accessGroup" : {
+        "id" : 1,
+        "isPrivate" : true,
+        "name" : "AG1"
+      },
+      "dataset": {
+        "id": 1,
+        "label": "PremierDataSet",
+        "type": "DATASET",
+        "model": {
+          "id": 2,
+          "name": "Premier Modele",
+          "description": "Description du premier modele de jeux de données",
+          "type": "DATASET"
+        }
+      },
+      "id": 1
+    },
+    {
+      "qualityFilter": {
+        "maxScore": "10",
+        "minScore": "0",
+        "qualityLevel": "ACCEPTED"
+      },
+      "dataAccessRight": {
+        "dataAccessLevel": "INHERITED_ACCESS"
+      },
+      "accessLevel": "FULL_ACCESS",
+      "accessgroup" : "AG1",
+      "accessGroup" : {
+        "id" : 1,
+        "isPrivate" : true,
+        "name" : "AG1"
+      },
+      "dataset": {
+        "id": 4,
+        "label": "QuatriemDataSet",
+        "type": "DATASET",
+        "model": {
+          "id": 2,
+          "name": "Premier Modele",
+          "description": "Description du premier modele de jeux de données",
+          "type": "DATASET"
+        }
+      },
+      "id": 2
+    },
+    {
+      "qualityFilter": {
+        "maxScore": "10",
+        "minScore": "0",
+        "qualityLevel": "ACCEPTED"
+      },
+      "dataAccessRight": {
+        "dataAccessLevel": "INHERITED_ACCESS"
+      },
+      "accessLevel": "FULL_ACCESS",
+      "accessgroup" : "AG1",
+      "accessGroup" : {
+        "id" : 1,
+        "isPrivate" : true,
+        "name" : "AG1"
+      },
+      "dataset": {
+        "id": 3,
+        "label": "TroisiemeDataSet",
+        "type": "DATASET",
+        "model": {
+          "id": 2,
+          "name": "Premier Modele",
+          "description": "Description du premier modele de jeu de données",
+          "type": "DATASET"
+        }
+      },
+      "id": 3
+    },
+    {
+      "qualityFilter": {
+        "maxScore": "6",
+        "minScore": "4",
+        "qualityLevel": "REJECTED"
+      },
+      "dataAccessRight": {
+        "dataAccessLevel": "CUSTOM_ACCESS",
+        "pluginConfiguration": 40
+      },
+      "accessLevel": "NO_ACCESS",
+      "accessgroup" : "AG1",
+      "accessGroup" : {
+        "id" : 1,
+        "isPrivate" : true,
+        "name" : "AG1"
+      },
+      "dataset": {
+        "id": 5,
+        "label": "CinquiemeDataSet",
+        "type": "DATASET",
+        "model": {
+          "id": 2,
+          "name": "Premier Modeleee",
+          "description": "Description du premier modele de jeux de données",
+          "type": "DATASET"
+        }
+      },
+      "id": 4
+    },
+    {
+      "qualityFilter": {
+        "maxScore": "6",
+        "minScore": "4",
+        "qualityLevel": "REJECTED"
+      },
+      "dataAccessRight": {
+        "dataAccessLevel": "CUSTOM_ACCESS",
+        "pluginConfiguration": 40
+      },
+      "accessLevel": "NO_ACCESS",
+      "accessgroup" : "AG2",
+      "accessGroup" : {
+        "id" : 2,
+        "isPrivate" : true,
+        "name" : "AG2"
+      },
+      "dataset": {
+        "id": 5,
+        "label": "CinquiemeDataSet",
+        "type": "DATASET",
+        "model": {
+          "id": 2,
+          "name": "Premier Modeleee",
+          "description": "Description du premier modele de jeux de données",
+          "type": "DATASET"
+        }
+      },
+      "id": 5
     }
   ]
 }

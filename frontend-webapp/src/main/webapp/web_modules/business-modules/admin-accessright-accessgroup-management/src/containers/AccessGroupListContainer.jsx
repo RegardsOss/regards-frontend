@@ -20,8 +20,8 @@ export class AccessGroupListContainer extends React.Component {
       project: PropTypes.string,
     }),
     // from mapStateToProps
-    accessGroupList: PropTypes.objectOf(AccessGroup),
-    isFetching: PropTypes.bool,
+    accessGroupList: PropTypes.objectOf(AccessGroup).isRequired,
+    isFetching: PropTypes.bool.isRequired,
     // from mapDispatchToProps
     fetchAccessGroupList: PropTypes.func,
     deleteAccessGroup: PropTypes.func,

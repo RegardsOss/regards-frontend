@@ -4,7 +4,7 @@
 import { Card, CardTitle, CardText } from 'material-ui/Card'
 import Dialog from 'material-ui/Dialog'
 import { FormattedMessage } from 'react-intl'
-import { AccessGroup, PluginConfiguration, PluginMetaData } from '@regardsoss/model'
+import { AccessGroup, AccessRight, PluginConfiguration, PluginMetaData } from '@regardsoss/model'
 import {
   TableContainer,
   MainActionButtonComponent,
@@ -29,6 +29,8 @@ class AccessRightListComponent extends React.Component {
   static propTypes = {
     // Access group to configure.
     accessGroup: AccessGroup.isRequired,
+    // Access rights for the given access group
+    accessRights: PropTypes.objectOf(AccessRight),
     // Availables plugin configuration for custom access rights delegated to plugins
     pluginConfigurationList: PropTypes.objectOf(PluginConfiguration).isRequired,
     // Availables plugin definitions for custom access rights delegated to plugins
@@ -59,6 +61,7 @@ class AccessRightListComponent extends React.Component {
       datasetAccessRightToEdit: null,
       // List of current selected datasets.
       selectedDatasets: [],
+      submitError: false,
     }
   }
 
@@ -91,6 +94,7 @@ class AccessRightListComponent extends React.Component {
       editAccessDialogOpened: false,
       accessRightToEdit: null,
       datasetAccessRightToEdit: null,
+      submitError: false,
     })
   }
 
@@ -121,13 +125,29 @@ class AccessRightListComponent extends React.Component {
     })
   }
 
+  handleSubmitResult = (result) => {
+    if (!result.error) {
+      this.closeEditDialog()
+    } else {
+      this.setState({
+        submitError: true,
+      })
+    }
+  }
+
   /**
    * Submit access rights modification for all selected datasets with the given accessRightValues
    *
    * @param accessRightValues
    */
   handleSubmitAccessRights = (accessRightValues) => {
-    this.props.submitAccessRights(this.state.selectedDatasets, accessRightValues)
+    if (this.state.datasetAccessRightToEdit) {
+      // Only one accessRight to submit for the given dataset
+      this.props.submitAccessRights([this.state.datasetAccessRightToEdit], accessRightValues).then(this.handleSubmitResult)
+    } else {
+      // Many accessRight to submit. One for each selected datasets.
+      this.props.submitAccessRights(this.state.selectedDatasets, accessRightValues).then(this.handleSubmitResult)
+    }
   }
 
   /**
@@ -147,6 +167,7 @@ class AccessRightListComponent extends React.Component {
         <AccessRightFormComponent
           onCancel={this.closeEditDialog}
           onSubmit={this.handleSubmitAccessRights}
+          errorMessage={this.state.submitError ? this.context.intl.formatMessage({ id: 'accessright.form.error.message' }) : null}
             // If a unique accessright is in edition only submit the one. Else, submit for all selected datasets
           selectedDatasets={this.state.datasetAccessRightToEdit ? [this.state.datasetAccessRightToEdit] : this.state.selectedDatasets}
           currentAccessRight={this.state.accessRightToEdit}
@@ -162,7 +183,7 @@ class AccessRightListComponent extends React.Component {
    * @returns {XML}
    */
   renderDeleteConfirmDialog = () => {
-    const name = this.state.entityToDelete ? this.state.entityToDelete.dataSet.label : ' '
+    const name = this.state.entityToDelete ? this.state.entityToDelete.dataset.label : ' '
     const title = this.context.intl.formatMessage({ id: 'accessright.list.delete.message' }, { name })
     return (
       <ShowableAtRender
@@ -227,6 +248,7 @@ class AccessRightListComponent extends React.Component {
           props: {
             intl: this.context.intl,
             accessGroup: this.props.accessGroup,
+            accessRights: this.props.accessRights,
           },
         },
       },
@@ -238,6 +260,7 @@ class AccessRightListComponent extends React.Component {
           props: {
             intl: this.context.intl,
             accessGroup: this.props.accessGroup,
+            accessRights: this.props.accessRights,
           },
         },
       },
@@ -248,6 +271,7 @@ class AccessRightListComponent extends React.Component {
           component: AccessRightsActionsTableCustomCell,
           props: {
             accessGroup: this.props.accessGroup,
+            accessRights: this.props.accessRights,
             onDelete: this.openDeleteDialog,
             onEdit: this.openEditDialog,
             intl: this.context.intl,

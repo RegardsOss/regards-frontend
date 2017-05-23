@@ -8,6 +8,12 @@ const messages = Object.assign({
   'fragment.list.table.actions': 'Actions',
   'fragment.list.action.add': 'Ajouter',
   'fragment.list.action.cancel': 'Annuler',
+  'fragment.list.action.edit': 'Editer',
+  'fragment.list.action.delete': 'Supprimer',
+  'fragment.list.action.export': 'Exporter',
+  'fragment.list.delete.title': 'Supprimer le regrouppement d\'attribut {name} ?',
+
+  'table.actions.more': 'Plus d\'actions',
 
   'fragment.edit.title': 'Editer le fragment {name}',
   'fragment.create.title': 'Créer un fragment',

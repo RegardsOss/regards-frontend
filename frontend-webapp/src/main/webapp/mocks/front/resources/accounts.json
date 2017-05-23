@@ -45,6 +45,13 @@
         "name": "INSTANCE_ADMIN"
       }
     },
+    "project1": {
+      "status": "ACCESS_GRANTED",
+      "role": {
+        "id": 2,
+        "name": "INSTANCE_ADMIN"
+      }
+    },
     "instance": {
       "status": "ACCESS_GRANTED",
       "role": {

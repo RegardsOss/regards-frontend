@@ -127,7 +127,7 @@ export default {
       normalizrKey: PluginMetaDataConfiguration.normalizrKey,
     },
     PluginConfiguration: {
-      isPageable: true,
+      isPageable: false,
       dump: PluginConfigurationDump,
       ENTITY_ARRAY: PLUGIN_CONFIGURATION_ARRAY,
       normalizrKey: AdminPluginConfigurationSchemaConfiguration.normalizrKey,

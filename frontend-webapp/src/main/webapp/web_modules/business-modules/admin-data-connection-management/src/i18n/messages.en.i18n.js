@@ -29,12 +29,19 @@ const messages = Object.assign({
   'connection.list.table.test': 'Tester la connexion',
   'connection.list.table.actions': 'Actions',
   'connection.list.action.add': 'Créer une nouvelle connexion',
-  'connection.list.action.cancel': 'Précédent',
+  'connection.list.action.cancel': 'Previous',
+  'connection.list.action.edit': 'Edit',
+  'connection.list.action.delete': 'Delete',
+  'connection.list.delete.title': 'Delete the connection {name} ?',
+
+  'table.actions.more': 'Plus d\'actions',
+
 
   'connection.connectionTester.snackbar.success': 'La connexion à {label} est fonctionnelle',
   'connection.connectionTester.snackbar.error': 'La connexion à {label} a échouée',
   'connection.connectionTester.pending': 'Tentative de connexion...',
-  'invalid.minPoolSizeLow': 'Nombre de connexion insuffisante',
+  'invalid.minPoolSizeLow': 'Nombre de connexions insuffisante',
+  'invalid.maxPoolSizeGreaterThanMinPoolSize': 'Le nombre max de connexions doit être supérieur au min',
 }, Locales.en)
 
 export default messages

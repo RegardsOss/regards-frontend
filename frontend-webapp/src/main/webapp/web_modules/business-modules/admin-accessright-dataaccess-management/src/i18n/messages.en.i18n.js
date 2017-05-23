@@ -34,6 +34,7 @@ const messages = Object.assign({
   'accessright.form.quality.level.ACCEPTED': 'Accepted',
   'accessright.form.quality.level.ACCEPTED_WITH_WARNINGS': 'Acceptés with warning(s)',
   'accessright.form.quality.level.REJECTED': 'Refused',
+  'accessright.form.error.message': 'Error saving your configuration.',
   'accessright.edit.tooltip': 'Edit access rights for this dataset',
   'accessright.delete.tooltip': 'Remove access rights for this dataset',
   'accessright.list.delete.message': 'Are you sur you wnat to delete the {name} access rights ?',

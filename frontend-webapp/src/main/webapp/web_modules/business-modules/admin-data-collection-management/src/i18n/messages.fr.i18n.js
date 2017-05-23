@@ -5,7 +5,7 @@ const messages = Object.assign({
   'collection.list.action.cancel': 'Annuler',
   'collection.list.title': 'Liste des collections',
   'collection.list.subtitle': 'Les collections sont des regroupements de données par thématique',
-  'collection.list.delete.message': 'Etes vous sûr de vouloir supprimer la collection {name} ?',
+  'collection.list.delete.message': 'Supprimer la collection {name} ?',
   'collection.form.links.component.subtitle': 'Lien de la collection courante',
   'collection.form.links.remainingcollection.subtitle': 'Collection disponibles',
   'collection.form.links.collection.subtitle': 'Collection liées',
@@ -40,6 +40,11 @@ const messages = Object.assign({
   'collection.form.radio.descriptionUrl': 'Donner l\'URL contenant la description',
   'collection.form.radio.descriptionFileContent': 'Uploader un fichier contenant la description',
   'collection.form.radio.none': 'Pas de description',
+
+  'collection.list.action.edit': 'Editer',
+  'collection.list.action.duplicate': 'Dupliquer',
+  'collection.list.action.delete': 'Supprimer',
+  'table.actions.more': 'Plus d\'actions',
 }, Locales.fr)
 
 export default messages

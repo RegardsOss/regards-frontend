@@ -15,7 +15,7 @@ export default {
         },
         accessLevel: 'FULL_ACCESS',
         id: 42,
-        dataSet: {
+        dataset: {
           id: 1,
           label: 'PremierDataSet',
           type: 'DATASET',
@@ -25,6 +25,36 @@ export default {
             descirption: 'Description du premier modele de jeux de données',
             type: 'DATASET',
           },
+          dataModel: 3,
+          tags: [],
+        },
+      },
+      links: [],
+    },
+    {
+      content: {
+        qualityFilter: {
+          maxScore: 10,
+          minScore: 0,
+          qualityLevel: 'ACCEPTED',
+        },
+        dataAccessRight: {
+          dataAccessLevel: 'INHERITED_ACCESS',
+        },
+        accessLevel: 'FULL_ACCESS',
+        id: 43,
+        dataset: {
+          id: 4,
+          label: 'PremierDataSet',
+          type: 'DATASET',
+          model: {
+            id: 2,
+            name: 'Premier Modele',
+            descirption: 'Description du premier modele de jeux de données',
+            type: 'DATASET',
+          },
+          dataModel: 3,
+          tags: [],
         },
       },
       links: [],
@@ -33,7 +63,7 @@ export default {
   metadata: {
     number: 0,
     size: 10,
-    totalElements: 1,
+    totalElements: 2,
   },
   links: [],
 }

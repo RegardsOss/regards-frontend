@@ -1,17 +1,22 @@
-const Dataset = PropTypes.shape({
-  content: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    label: PropTypes.string.isRequired,
-    subsetting: PropTypes.string.isRequired,
-    tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-    model: PropTypes.shape({
-      id: PropTypes.number,
-    }).isRequired,
-    dataModel: PropTypes.number.isRequired,
-    plgConfDataSource: PropTypes.number.isRequired,
-    type: PropTypes.oneOf(['DATASET']).isRequired,
-    uiPluginConfIdList: PropTypes.arrayOf(PropTypes.number).isRequired,
+import BusinessPluginConfiguration from '../microservice-common/BusinessPluginConfiguration'
+
+const DatasetContent = PropTypes.shape({
+  id: PropTypes.number.isRequired,
+  label: PropTypes.string.isRequired,
+  subsetting: PropTypes.string,
+  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+  model: PropTypes.shape({
+    id: PropTypes.number,
   }).isRequired,
+  dataModel: PropTypes.number.isRequired,
+  plgConfDataSource: BusinessPluginConfiguration,
 })
 
-export default Dataset
+const Dataset = PropTypes.shape({
+  content: DatasetContent.isRequired,
+})
+
+export default {
+  Dataset,
+  DatasetContent,
+}

@@ -18,7 +18,7 @@ export class DatasourceFormAttributesContainer extends React.Component {
     currentDatasource: Datasource,
     handleSave: PropTypes.func.isRequired,
     backUrl: PropTypes.string.isRequired,
-    currentConnectionId: PropTypes.string.isRequired,
+    currentConnectionId: PropTypes.number.isRequired,
     // from mapStateToProps
     modelList: PropTypes.objectOf(Model),
     pluginMetaDataList: PropTypes.objectOf(PluginMetaData),

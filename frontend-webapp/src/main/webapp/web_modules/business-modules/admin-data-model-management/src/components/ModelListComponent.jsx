@@ -7,7 +7,7 @@ import Delete from 'material-ui/svg-icons/action/delete'
 import ContentCopy from 'material-ui/svg-icons/content/content-copy'
 import Settings from 'material-ui/svg-icons/action/settings-input-composite'
 import Download from 'material-ui/svg-icons/file/file-download'
-import { CardActionsComponent } from '@regardsoss/components'
+import { ActionsMenuCell, CardActionsComponent, ConfirmDialogComponent, ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { Model } from '@regardsoss/model'
@@ -35,6 +35,44 @@ export class ProjectListComponent extends React.Component {
   static contextTypes = {
     ...themeContextType,
     ...i18nContextType,
+  }
+
+  state = {
+    deleteDialogOpened: false,
+    entityToDelete: null,
+  }
+
+  closeDeleteDialog = () => {
+    this.setState({
+      deleteDialogOpened: false,
+      entityToDelete: null,
+    })
+  }
+
+  openDeleteDialog = (entity) => {
+    this.setState({
+      deleteDialogOpened: true,
+      entityToDelete: entity,
+    })
+  }
+
+  renderDeleteConfirmDialog = () => {
+    const name = this.state.entityToDelete ? this.state.entityToDelete.content.name : ' '
+    const title = this.context.intl.formatMessage({ id: 'model.list.delete.title' }, { name })
+    return (
+      <ShowableAtRender
+        show={this.state.deleteDialogOpened}
+      >
+        <ConfirmDialogComponent
+          dialogType={ConfirmDialogComponent.dialogTypes.DELETE}
+          onConfirm={() => {
+            this.props.handleDelete(this.state.entityToDelete.content.id)
+          }}
+          onClose={this.closeDeleteDialog}
+          title={title}
+        />
+      </ShowableAtRender>
+    )
   }
 
   getType = (type) => {
@@ -68,6 +106,7 @@ export class ProjectListComponent extends React.Component {
       hoverButtonBindAttribute: this.context.muiTheme.palette.primary3Color,
       hoverButtonDuplicate: this.context.muiTheme.palette.primary3Color,
     }
+    const { intl } = this.context
     return (
       <Card>
         <CardTitle
@@ -75,6 +114,7 @@ export class ProjectListComponent extends React.Component {
           subtitle={<FormattedMessage id="model.list.subtitle" />}
         />
         <CardText>
+          {this.renderDeleteConfirmDialog()}
           <Table
             selectable={false}
           >
@@ -101,46 +141,55 @@ export class ProjectListComponent extends React.Component {
                   <TableRowColumn>{model.content.description}</TableRowColumn>
                   <TableRowColumn>{this.getType(model.content.type)}</TableRowColumn>
                   <TableRowColumn>
-                    <HateoasIconAction
-                      entityLinks={model.links}
-                      hateoasKey="export"
-                      href={this.getExportUrlFromHateoas(model.links)}
-                      style={{
-                        top: '-7px',
-                      }}
-                    >
-                      <Download hoverColor={style.hoverButtonEdit} />
-                    </HateoasIconAction>
+                    <ActionsMenuCell>
+                      <HateoasIconAction
+                        entityLinks={model.links}
+                        hateoasKey="export"
+                        href={this.getExportUrlFromHateoas(model.links)}
+                        breakpoint={940}
+                        title={intl.formatMessage({ id: 'model.list.action.export' })}
+                      >
+                        <Download hoverColor={style.hoverButtonEdit} />
+                      </HateoasIconAction>
 
-                    <ResourceIconAction
-                      resourceDependency={modelAttributesActions.getDependency(RequestVerbEnum.POST)}
-                      onTouchTap={() => handleBindAttributes(model.content.id)}
-                    >
-                      <Settings hoverColor={style.hoverButtonBindAttribute} />
-                    </ResourceIconAction>
+                      <ResourceIconAction
+                        resourceDependency={modelAttributesActions.getDependency(RequestVerbEnum.POST)}
+                        onTouchTap={() => handleBindAttributes(model.content.id)}
+                        breakpoint={995}
+                        title={intl.formatMessage({ id: 'model.list.action.bind' })}
+                      >
+                        <Settings hoverColor={style.hoverButtonBindAttribute} />
+                      </ResourceIconAction>
 
-                    <HateoasIconAction
-                      entityLinks={model.links}
-                      hateoasKey={HateoasKeys.UPDATE}
-                      onTouchTap={() => handleEdit(model.content.id)}
-                    >
-                      <Edit hoverColor={style.hoverButtonEdit} />
-                    </HateoasIconAction>
+                      <HateoasIconAction
+                        entityLinks={model.links}
+                        hateoasKey={HateoasKeys.UPDATE}
+                        onTouchTap={() => handleEdit(model.content.id)}
+                        breakpoint={1065}
+                        title={intl.formatMessage({ id: 'model.list.action.edit' })}
+                      >
+                        <Edit hoverColor={style.hoverButtonEdit} />
+                      </HateoasIconAction>
 
-                    <ResourceIconAction
-                      resourceDependency={modelActions.getDependency(RequestVerbEnum.POST)}
-                      onTouchTap={() => handleDuplicate(model.content.id)}
-                    >
-                      <ContentCopy hoverColor={style.hoverButtonDuplicate} />
-                    </ResourceIconAction>
+                      <ResourceIconAction
+                        resourceDependency={modelActions.getDependency(RequestVerbEnum.POST)}
+                        onTouchTap={() => handleDuplicate(model.content.id)}
+                        breakpoint={1270}
+                        title={intl.formatMessage({ id: 'model.list.action.duplicate' })}
+                      >
+                        <ContentCopy hoverColor={style.hoverButtonDuplicate} />
+                      </ResourceIconAction>
 
-                    <HateoasIconAction
-                      entityLinks={model.links}
-                      hateoasKey={HateoasKeys.DELETE}
-                      onTouchTap={() => handleDelete(model.content.id)}
-                    >
-                      <Delete hoverColor={style.hoverButtonDelete} />
-                    </HateoasIconAction>
+                      <HateoasIconAction
+                        entityLinks={model.links}
+                        hateoasKey={HateoasKeys.DELETE}
+                        onTouchTap={() => this.openDeleteDialog(model)}
+                        breakpoint={1270}
+                        title={intl.formatMessage({ id: 'model.list.action.delete' })}
+                      >
+                        <Delete hoverColor={style.hoverButtonDelete} />
+                      </HateoasIconAction>
+                    </ActionsMenuCell>
                   </TableRowColumn>
                 </TableRow>
               ))}

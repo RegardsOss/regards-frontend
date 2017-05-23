@@ -3,51 +3,114 @@
  */
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import { stub } from 'sinon'
-import { IntlStub } from '@regardsoss/tests-helpers'
+import { spy, stub } from 'sinon'
+import { testSuiteHelpers, DumpProvider, buildTestContext } from '@regardsoss/tests-helpers'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { AccessGroupFormContainer } from '../../src/containers/AccessGroupFormContainer'
+import AccessGroupFormComponent from '../../src/components/AccessGroupFormComponent'
 
+const context = buildTestContext()
 
+/**
+ * Tests for AccessGroupFormContainer
+ *
+ * @author Sébastien Binda
+ */
 describe('[ADMIN USER ACCESSGROUP MANAGEMENT] Testing AccessGroupFormContainer', () => {
-  // Since react will console.error propType warnings, that which we'd rather have
-  // as errors, we use sinon.js to stub it into throwing these warning as errors
-  // instead.
-  before(() => {
-    stub(console, 'error').callsFake((warning) => {
-      throw new Error(warning)
-    })
-  })
-  after(() => {
-    console.error.restore()
-  })
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('should exists', () => {
     assert.isDefined(AccessGroupFormContainer)
     assert.isDefined(LoadableContentDisplayDecorator)
   })
-  const context = {
-    intl: IntlStub,
-    muiTheme: {
-      palette: {},
-    },
-  }
-  it('Render properly', () => {
+
+  it('Render properly for creation', () => {
+    const fetchAccessGroupSpy = spy()
     const props = {
       // from router
       params: {
         project: 'lambda',
+        accessGroupName: undefined,
       },
       // from mapStateToProps
       currentAccessGroup: null,
       // from redux-form
       unregisterField: () => {},
       // from mapDispatchToProps
-      fetchAccessGroup: () => {},
+      fetchAccessGroup: fetchAccessGroupSpy,
       updateAccessGroup: () => {},
       createAccessGroup: () => {},
     }
-    const enzymeWrapper = shallow(<AccessGroupFormContainer {...props} />, { context })
+    const enzymeWrapper = shallow(<AccessGroupFormContainer {...props} />, { context, lifecycleExperimental: true })
     expect(enzymeWrapper.find(LoadableContentDisplayDecorator)).to.have.length(1)
     assert.isFalse(enzymeWrapper.find(LoadableContentDisplayDecorator).props().isLoading, 'Loading should be false')
+    assert.isFalse(fetchAccessGroupSpy.calledOnce, 'No access group should be fetch for a creation mode')
+  })
+
+  it('Render properly a loading for edition', () => {
+    const fetchAccessGroupSpy = stub().returns({})
+    const props = {
+      // from router
+      params: {
+        project: 'lambda',
+        accessGroupName: 'test',
+      },
+      // from mapStateToProps
+      currentAccessGroup: undefined,
+      // from redux-form
+      unregisterField: () => {},
+      // from mapDispatchToProps
+      fetchAccessGroup: fetchAccessGroupSpy,
+      updateAccessGroup: () => {},
+      createAccessGroup: () => {},
+    }
+    const enzymeWrapper = shallow(<AccessGroupFormContainer {...props} />, { context, lifecycleExperimental: true })
+    expect(enzymeWrapper.find(LoadableContentDisplayDecorator)).to.have.length(1)
+    assert.isTrue(enzymeWrapper.find(LoadableContentDisplayDecorator).props().isLoading, 'A loading component should be displayed during access group retrieve')
+    assert.isTrue(fetchAccessGroupSpy.calledOnce, 'The fetchAccessGroup method should be called for an edition mode')
+  })
+
+  it('Render properly for edition', () => {
+    const fetchAccessGroupSpy = stub().returns({})
+    const props = {
+      // from router
+      params: {
+        project: 'lambda',
+        mode: 'edit',
+        accessGroupName: 'test',
+      },
+      // from mapStateToProps
+      currentAccessGroup: DumpProvider.getFirstEntity('DataManagementClient', 'AccessGroup'),
+      // from redux-form
+      unregisterField: () => {},
+      // from mapDispatchToProps
+      fetchAccessGroup: fetchAccessGroupSpy,
+      updateAccessGroup: () => {},
+      createAccessGroup: () => {},
+    }
+    const enzymeWrapper = shallow(<AccessGroupFormContainer {...props} />, { context, lifecycleExperimental: true })
+
+    let loader = enzymeWrapper.find(LoadableContentDisplayDecorator)
+    expect(enzymeWrapper.find(LoadableContentDisplayDecorator)).to.have.length(1)
+    assert.isTrue(enzymeWrapper.find(LoadableContentDisplayDecorator).props().isLoading, 'A loading component should not be displayed during access group retrieve')
+    assert.isTrue(fetchAccessGroupSpy.calledOnce, 'The fetchAccessGroup method should not be called if group is already present')
+
+    // Simulate loading finished
+    enzymeWrapper.setState({
+      isLoading: false,
+    })
+
+    // Check that the loader changed
+    loader = enzymeWrapper.find(LoadableContentDisplayDecorator)
+    assert.isFalse(loader.props().isLoading, 'A loading component should not be displayed during access group retrieve')
+
+    // Dive into the loader to check the children AccessGroupFormComponent rendered
+    loader = loader.dive()
+    const component = loader.find(AccessGroupFormComponent)
+    assert.isTrue(component.length === 1, 'There should be a AccessGroupFormComponent rendered')
+    assert.isFalse(component.prop('isDuplicating'), 'The component should not be rendered in duplication mode')
+    assert.isFalse(component.prop('isCreating'), 'The component should not be rendered in creation mode')
+    assert.isTrue(component.prop('isEditing'), 'The component should be rendered in editing mode')
   })
 })

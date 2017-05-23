@@ -30,10 +30,17 @@ const messages = Object.assign({
   'connection.list.table.actions': 'Actions',
   'connection.list.action.add': 'Créer une nouvelle connexion',
   'connection.list.action.cancel': 'Précédent',
+  'connection.list.action.edit': 'Editer',
+  'connection.list.action.delete': 'Supprimer',
+  'connection.list.delete.title': 'Supprimer la connexion {name} ?',
+
+  'table.actions.more': 'Plus d\'actions',
+
   'connection.connectionTester.snackbar.success': 'La connexion à {label} est fonctionnelle',
   'connection.connectionTester.snackbar.error': 'La connexion à {label} a échoué',
   'connection.connectionTester.pending': 'Tentative de connexion...',
-  'invalid.minPoolSizeLow': 'Nombre de connexion insuffisante',
+  'invalid.minPoolSizeLow': 'Nombre de connexions insuffisant',
+  'invalid.maxPoolSizeGreaterThanMinPoolSize': 'Le nombre max de connexions doit être supérieur au min',
 }, Locales.fr)
 
 export default messages

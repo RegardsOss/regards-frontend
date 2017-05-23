@@ -1,15 +1,15 @@
 import find from 'lodash/find'
-import { Dataset, AccessGroup } from '@regardsoss/model'
+import { Dataset, AccessRight, AccessGroup } from '@regardsoss/model'
 import AccessRightsEnum from './AccessRightsEnum'
 
-class AccessRightsTableCustomCell extends React.Component {
+class AccessRightsDataAccessTableCustomCell extends React.Component {
   static propTypes = {
     // eslint-disable-next-line react/no-unused-prop-types
     attributes: PropTypes.shape({
       label: PropTypes.string,
       id: PropTypes.number,
     }),
-    accessGroup: AccessGroup.isRequired,
+    accessRights: PropTypes.objectOf(AccessRight),
     // eslint-disable-next-line react/forbid-prop-types
     intl: PropTypes.object,
     // eslint-disable-next-line react/no-unused-prop-types
@@ -18,13 +18,15 @@ class AccessRightsTableCustomCell extends React.Component {
     lineHeight: PropTypes.number.isRequired,
   }
 
+  static NOT_APPLICABLE = 'NOT_APPLICABLE'
+
   render() {
-    const accessRight = find(this.props.accessGroup.content.accessRights, ar => ar.dataSet.id === this.props.entity.content.id)
-    const metaAccessLevel = accessRight && accessRight.accessLevel ? accessRight.accessLevel : AccessRightsEnum.METADATA_ACCESS_ENUM.NO_ACCESS
-    let accessLevel = 'NOT_APPLICABLE'
+    const accessRight = find(this.props.accessRights, ar => ar.content.dataset.id === this.props.entity.content.id)
+    const metaAccessLevel = accessRight && accessRight.content && accessRight.content.accessLevel ? accessRight.content.accessLevel : AccessRightsEnum.METADATA_ACCESS_ENUM.NO_ACCESS
+    let accessLevel = AccessRightsDataAccessTableCustomCell.NOT_APPLICABLE
     if (metaAccessLevel === AccessRightsEnum.METADATA_ACCESS_ENUM.DATASET_AND_OBJECT_ACCESS) {
-      accessLevel = accessRight && accessRight.dataAccessRight && accessRight.dataAccessRight.dataAccessLevel ?
-        accessRight.dataAccessRight.dataAccessLevel : AccessRightsEnum.DATA_ACCESS_ENUM.NO_ACCESS
+      accessLevel = accessRight && accessRight.content && accessRight.content.dataAccessRight && accessRight.content.dataAccessRight.dataAccessLevel ?
+        accessRight.content.dataAccessRight.dataAccessLevel : AccessRightsEnum.DATA_ACCESS_ENUM.NO_ACCESS
     }
     return (
       <span>{this.props.intl.formatMessage({ id: `accessright.form.data.accessLevel.${accessLevel}` })}</span>
@@ -32,4 +34,4 @@ class AccessRightsTableCustomCell extends React.Component {
   }
 }
 
-export default AccessRightsTableCustomCell
+export default AccessRightsDataAccessTableCustomCell

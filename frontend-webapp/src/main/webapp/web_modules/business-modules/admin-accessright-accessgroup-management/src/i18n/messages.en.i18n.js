@@ -13,6 +13,7 @@ const messages = Object.assign({
   'group.create.title': 'Create a new group access',
   'group.edit.title': 'Edit the group access {name}',
   'group.duplicate.title': 'Duplicate the group access {name}',
+  'group.form.invalid.group': 'The required group is not defined',
   'group.form.name': 'Name',
   'group.form.action.cancel': 'Cancel',
   'group.form.action.save': 'Save',

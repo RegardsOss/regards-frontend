@@ -184,12 +184,12 @@ export class DatasetFormAttributesComponent extends React.Component {
             />
             <SelectField
               floatingLabelText={<FormattedMessage id="dataset.form.datasource" />}
-              value={currentDatasource.content.id}
+              value={currentDatasource.content.pluginConfigurationId}
               fullWidth
               disabled
             >
               <MenuItem
-                value={currentDatasource.content.id}
+                value={currentDatasource.content.pluginConfigurationId}
                 primaryText={currentDatasource.content.label}
               />
             </SelectField>

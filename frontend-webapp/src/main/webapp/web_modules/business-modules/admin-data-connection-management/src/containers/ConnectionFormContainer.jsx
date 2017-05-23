@@ -82,7 +82,7 @@ export class ConnectionFormContainer extends React.Component {
       })
   }
 
-  handleUspdate = (values) => {
+  handleUpdate = (values) => {
     const updatedConnection = Object.assign({}, {
       label: values.label,
       pluginClassName: values.pluginClassName,
@@ -104,23 +104,23 @@ export class ConnectionFormContainer extends React.Component {
       })
   }
 
+  renderSubForm = () => (<ConnectionFormComponent
+    onSubmit={this.state.isEditing ? this.handleUpdate : this.handleCreate}
+    currentConnection={this.props.currentConnection}
+    pluginMetaDataList={this.props.pluginMetaDataList}
+    backUrl={this.getBackUrl()}
+    isEditing={this.state.isEditing}
+    isCreating={this.state.isCreating}
+  />)
+
   render() {
-    const { currentConnection, pluginMetaDataList } = this.props
-    const { isEditing, isCreating, isLoading } = this.state
+    const { isLoading } = this.state
     return (
       <I18nProvider messageDir="business-modules/admin-data-connection-management/src/i18n">
         <LoadableContentDisplayDecorator
           isLoading={isLoading}
         >
-          {() => (<ConnectionFormComponent
-            onSubmit={isEditing ? this.handleUpdate : this.handleCreate}
-            currentConnection={currentConnection}
-            pluginMetaDataList={pluginMetaDataList}
-            backUrl={this.getBackUrl()}
-            isEditing={isEditing}
-            isCreating={isCreating}
-          />)
-          }
+          {this.renderSubForm}
         </LoadableContentDisplayDecorator>
       </I18nProvider>
     )

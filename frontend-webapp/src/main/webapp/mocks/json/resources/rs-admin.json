@@ -875,6 +875,70 @@
       "resource": "/accessrights",
       "verb": "GET",
       "controllerSimpleName": "AccessRightsController"
+    },
+    {
+      "id": 68,
+      "description": "Project users",
+      "microservice": "rs-catalog",
+      "resource": "/plugins",
+      "verb": "GET",
+      "controllerSimpleName": "Controller 1"
+    },
+    {
+      "id": 69,
+      "description": "Project users",
+      "microservice": "rs-catalog",
+      "resource": "/maintenance/{tenant}/enable",
+      "verb": "PUT",
+      "controllerSimpleName": "Controller 1"
+    },
+    {
+      "id": 70,
+      "description": "Project users",
+      "microservice": "rs-catalog",
+      "resource": "/maintenance/{tenant}/disable",
+      "verb": "PUT",
+      "controllerSimpleName": "Controller 1"
+    },
+    {
+      "id": 71,
+      "description": "Project users",
+      "microservice": "rs-authentication",
+      "resource": "/plugins",
+      "verb": "GET",
+      "controllerSimpleName": "Controller 1"
+    },
+    {
+      "id": 72,
+      "description": "Project users",
+      "microservice": "rs-authentication",
+      "resource": "/maintenance/{tenant}/enable",
+      "verb": "PUT",
+      "controllerSimpleName": "Controller 1"
+    },
+    {
+      "id": 73,
+      "description": "Project users",
+      "microservice": "rs-authentication",
+      "resource": "/maintenance/{tenant}/disable",
+      "verb": "PUT",
+      "controllerSimpleName": "Controller 1"
+    },
+    {
+      "id": 74,
+      "description": "Project users",
+      "microservice": "rs-access-project",
+      "resource": "/plugins",
+      "verb": "GET",
+      "controllerSimpleName": "Controller 1"
+    },
+    {
+      "id": 75,
+      "description": "Project users",
+      "microservice": "rs-admin",
+      "resource": "/plugins",
+      "verb": "GET",
+      "controllerSimpleName": "Controller 1"
     }
   ]
 }

@@ -4,10 +4,10 @@
 import { Card, CardText } from 'material-ui/Card'
 import Icon from 'material-ui/svg-icons/content/report'
 
-class PluginErrorComponent extends React.Component {
+class ErrorCardComponent extends React.Component {
 
   static propTypes = {
-    message: PropTypes.string.isRequired,
+    message: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
   }
 
   render() {
@@ -48,4 +48,4 @@ class PluginErrorComponent extends React.Component {
 
 }
 
-export default PluginErrorComponent
+export default ErrorCardComponent

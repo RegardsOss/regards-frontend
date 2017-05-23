@@ -122,7 +122,7 @@ export class DatasetFormContainer extends React.Component {
    * @param attributes
    * @param modelObjectId
    */
-  saveAttributes = (label, modelDatasetId, attributes, modelObjectId, descriptionFileContent, descriptionUrl) => {
+  saveAttributes = (label, modelDatasetId, properties, modelObjectId, descriptionFileContent, descriptionUrl) => {
     const { isCreating, currentDataset } = this.state
     const descriptionFileType = descriptionFileContent && (descriptionFileContent.type || 'text/markdown')
     // Save the file in the state if there is
@@ -135,16 +135,18 @@ export class DatasetFormContainer extends React.Component {
       const newValues = {
         content: {
           label,
-          attributes,
+          properties,
           descriptionFileType,
           model: {
             id: modelDatasetId,
           },
           dataModel: modelObjectId,
           descriptionUrl,
-          plgConfDataSource: parseInt(this.props.params.datasourceId, 10),
+          plgConfDataSource: {
+            id: parseInt(this.props.params.datasourceId, 10),
+          },
           tags: [],
-          type: 'DATASET',
+          entityType: 'DATASET',
         },
       }
       this.setState({
@@ -153,7 +155,7 @@ export class DatasetFormContainer extends React.Component {
       })
     } else {
       currentDataset.content.label = label
-      currentDataset.content.attributes = attributes
+      currentDataset.content.properties = properties
       currentDataset.content.descriptionFileType = descriptionFileType
       currentDataset.content.descriptionUrl = descriptionUrl
       this.setState({

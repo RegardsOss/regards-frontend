@@ -11,6 +11,9 @@ const messages = Object.assign({
   'attrmodel.list.table.actions': 'Actions',
   'attrmodel.list.action.add': 'Add',
   'attrmodel.list.action.cancel': 'Cancel',
+  'attrmodel.list.action.edit': 'Edit',
+  'attrmodel.list.action.delete': 'Delete',
+  'attrmodel.list.delete.title': 'Delete the attribute {name} ?',
 
   'attrmodel.edit.title': 'Edit the attribute model {name}',
   'attrmodel.create.title': 'Create a new model',
@@ -41,6 +44,8 @@ const messages = Object.assign({
   'invalid.min_3_carac': 'At least 3 characters',
   'invalid.max_32_carac': 'Max 32 characters',
   'invalid.only_1_restriction_on_the_same_time': 'You can\'t activate more than one restriction',
+
+  'table.actions.more': 'More actions',
 }, Locales.en)
 messages[`attrmodel.form.fragment.${DEFAULT_FRAGMENT_NAME}`] = 'No fragment'
 

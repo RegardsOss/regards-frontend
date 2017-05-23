@@ -7,7 +7,7 @@ export default [{
     type: 'DOUBLE',
     fragment: {
       id: 1,
-      name: 'SomeFragment',
+      name: 'default',
       description: 'This is a fragment containing a lot of attributes',
     },
     alterable: true,
@@ -60,7 +60,7 @@ export default [{
     type: 'INTEGER',
     fragment: {
       id: 1,
-      name: 'SomeFragment',
+      name: 'default',
       description: 'This is a fragment containing a lot of attributes',
     },
     alterable: true,

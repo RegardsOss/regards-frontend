@@ -49,7 +49,9 @@ export class DatasourceFormMappingFromTableComponent extends React.Component {
     const { currentDatasource, tableAttributeList, isEditing } = this.props
     if (isEditing) {
       const currentAttributeMapping = find(currentDatasource.content.mapping.attributesMapping, attributeMapping => attributeMapping.name === modelAttribute.content.attribute.name)
-      return !some(tableAttributeList, tableAttribute => currentAttributeMapping.nameDS === tableAttribute.name)
+      if (currentAttributeMapping) {
+        return !some(tableAttributeList, tableAttribute => currentAttributeMapping.nameDS === tableAttribute.name)
+      }
     }
     return false
   }

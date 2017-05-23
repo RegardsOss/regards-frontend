@@ -8,7 +8,7 @@ import { FormattedMessage } from 'react-intl'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
 import { Connection } from '@regardsoss/model'
-import { CardActionsComponent } from '@regardsoss/components'
+import { CardActionsComponent, ConfirmDialogComponent, ShowableAtRender, ActionsMenuCell } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { HateoasIconAction, HateoasKeys } from '@regardsoss/display-control'
@@ -35,6 +35,44 @@ export class ConnectionListComponent extends React.Component {
     ...i18nContextType,
   }
 
+  state = {
+    deleteDialogOpened: false,
+    entityToDelete: null,
+  }
+
+  closeDeleteDialog = () => {
+    this.setState({
+      deleteDialogOpened: false,
+      entityToDelete: null,
+    })
+  }
+
+  openDeleteDialog = (entity) => {
+    this.setState({
+      deleteDialogOpened: true,
+      entityToDelete: entity,
+    })
+  }
+
+  renderDeleteConfirmDialog = () => {
+    const name = this.state.entityToDelete ? this.state.entityToDelete.content.label : ' '
+    const title = this.context.intl.formatMessage({ id: 'connection.list.delete.title' }, { name })
+    return (
+      <ShowableAtRender
+        show={this.state.deleteDialogOpened}
+      >
+        <ConfirmDialogComponent
+          dialogType={ConfirmDialogComponent.dialogTypes.DELETE}
+          onConfirm={() => {
+            this.props.handleDelete(this.state.entityToDelete.content.id)
+          }}
+          onClose={this.closeDeleteDialog}
+          title={title}
+        />
+      </ShowableAtRender>
+    )
+  }
+
   printIsActive = (active) => {
     if (active) {
       return (<FormattedMessage id="connection.list.isActive.true" />)
@@ -48,6 +86,7 @@ export class ConnectionListComponent extends React.Component {
       hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
       hoverButtonDelete: this.context.muiTheme.palette.accent1Color,
     }
+    const { intl } = this.context
     return (
       <Card>
         <CardTitle
@@ -55,6 +94,7 @@ export class ConnectionListComponent extends React.Component {
           subtitle={<FormattedMessage id="connection.list.subtitle" />}
         />
         <CardText>
+          {this.renderDeleteConfirmDialog()}
           <Table
             selectable={false}
           >
@@ -81,20 +121,26 @@ export class ConnectionListComponent extends React.Component {
                   <TableRowColumn>{this.printIsActive(connection.content.active)}</TableRowColumn>
                   <TableRowColumn><ConnectionTesterIconButton connection={connection} handleTestConnection={handleTestConnection} /></TableRowColumn>
                   <TableRowColumn>
-                    <HateoasIconAction
-                      entityLinks={connection.links}
-                      hateoasKey={HateoasKeys.UPDATE}
-                      onTouchTap={() => handleEdit(connection.content.id)}
-                    >
-                      <Edit hoverColor={style.hoverButtonEdit} />
-                    </HateoasIconAction>
-                    <HateoasIconAction
-                      entityLinks={connection.links}
-                      hateoasKey={HateoasKeys.DELETE}
-                      onTouchTap={() => handleDelete(connection.content.id)}
-                    >
-                      <Delete hoverColor={style.hoverButtonDelete} />
-                    </HateoasIconAction>
+                    <ActionsMenuCell>
+                      <HateoasIconAction
+                        entityLinks={connection.links}
+                        hateoasKey={HateoasKeys.UPDATE}
+                        onTouchTap={() => handleEdit(connection.content.id)}
+                        breakpoint={940}
+                        title={intl.formatMessage({ id: 'connection.list.action.edit' })}
+                      >
+                        <Edit hoverColor={style.hoverButtonEdit} />
+                      </HateoasIconAction>
+                      <HateoasIconAction
+                        entityLinks={connection.links}
+                        hateoasKey={HateoasKeys.DELETE}
+                        onTouchTap={() => this.openDeleteDialog(connection)}
+                        breakpoint={995}
+                        title={intl.formatMessage({ id: 'connection.list.action.delete' })}
+                      >
+                        <Delete hoverColor={style.hoverButtonDelete} />
+                      </HateoasIconAction>
+                    </ActionsMenuCell>
                   </TableRowColumn>
                 </TableRow>
               ))}

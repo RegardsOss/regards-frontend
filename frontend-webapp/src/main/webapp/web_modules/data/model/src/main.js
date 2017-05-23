@@ -14,7 +14,7 @@ import Fragment from './dam/Fragment'
 import Model from './dam/Model'
 import Collection from './dam/Collection'
 import Connection from './dam/Connection'
-import Dataset from './dam/Dataset'
+import { Dataset, DatasetContent } from './dam/Dataset'
 import Datasource from './dam/Datasource'
 import ModelAttribute from './dam/ModelAttribute'
 import Plugin from './access/Plugin'
@@ -33,7 +33,7 @@ import SearchResultsTargetsEnum from './access/SearchResultsTargetsEnum'
 import Entity from './dam/Entity'
 import EntityController from './dam/EntityController'
 import AccessGroup from './dam/AccessGroup'
-import AccessRight from './dam/AccessRight'
+import { AccessRight, AccessRightContent } from './dam/AccessRight'
 import CatalogEntity, { CatalogEntityTypes } from './catalog/CatalogEntity'
 import { ObjectLinkedFile, ObjectLinkedFileTypes } from './catalog/ObjectLinkedFile'
 import LinkPluginDataset from './catalog/LinkPluginDataset'
@@ -79,6 +79,7 @@ export default {
   Datasource,
   AccessGroup,
   AccessRight,
+  AccessRightContent,
 
   // CATALOG
   CatalogEntity,

@@ -6,6 +6,7 @@ export default class ConnectionTestActions extends BasicSignalActions {
     super({
       namespace,
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-dam/connections/{connectionId}`,
+      bypassErrorMiddleware: true,
     })
   }
 }

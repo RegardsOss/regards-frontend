@@ -75,7 +75,7 @@ export class DatasetCreateOrPickDatasourceComponent extends React.Component {
             >
               {map(datasourceList, (datasource, id) => (
                 <MenuItem
-                  value={datasource.content.id}
+                  value={datasource.content.pluginConfigurationId}
                   key={id}
                   primaryText={datasource.content.label}
                 />

@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { BasicListSelectors } from '@regardsoss/store-utils'
-
+import { filter } from 'lodash'
 /**
  * Store selector to access fragment entities.
  *
@@ -14,5 +14,19 @@ import { BasicListSelectors } from '@regardsoss/store-utils'
  *
  * @author Léo Mieulet
  */
-export default storePath => new BasicListSelectors(storePath)
+
+class FragmentSelectors extends BasicListSelectors {
+  /**
+   * Store the name of the default fragment, which has a very different behavior than others fragments
+   * @type {string}
+   */
+  noneFragmentName = 'default'
+
+  getListWithoutNoneFragment(state) {
+    return filter(this.getList(state), fragment => (
+      fragment.content.name !== this.noneFragmentName
+    ))
+  }
+}
+export default storePath => new FragmentSelectors(storePath)
 

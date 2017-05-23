@@ -5,8 +5,8 @@ import map from 'lodash/map'
 import { CardActions, CardText } from 'material-ui/Card'
 import { ShowableAtRender, CardActionsComponent, PluginConfigurationPickerComponent } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
-import { RenderTextField, Field, RenderSelectField, reduxForm } from '@regardsoss/form-utils'
-import { AccessRight, PluginConfiguration, PluginMetaData } from '@regardsoss/model'
+import { RenderTextField, Field, RenderSelectField, reduxForm, FormErrorMessage } from '@regardsoss/form-utils'
+import { AccessRightContent, PluginConfiguration, PluginMetaData } from '@regardsoss/model'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import MenuItem from 'material-ui/MenuItem'
@@ -30,7 +30,8 @@ export class AccessRightFormComponent extends React.Component {
   static propTypes = {
     onSubmit: PropTypes.func.isRequired,
     onCancel: PropTypes.func.isRequired,
-    currentAccessRight: AccessRight,
+    errorMessage: PropTypes.string,
+    currentAccessRight: AccessRightContent,
     pluginConfigurationList: PropTypes.objectOf(PluginConfiguration),
     pluginMetaDataList: PropTypes.objectOf(PluginMetaData),
     // from reduxForm
@@ -91,10 +92,15 @@ export class AccessRightFormComponent extends React.Component {
           max: '10',
           min: '0',
         },
-        access: AccessRightsEnum.METADATA_ACCESS_ENUM.DATASET_AND_OBJECT_ACCESS,
-        dataAccess: AccessRightsEnum.DATA_ACCESS_ENUM.AUTHORIZED,
+        access: AccessRightsEnum.METADATA_ACCESS_ENUM.NO_ACCESS,
+        dataAccess: AccessRightsEnum.DATA_ACCESS_ENUM.REFUSED,
       }
     }
+
+    this.setState({
+      selectMetaDataAccessLevel: defaultValues.access,
+    })
+
     this.props.initialize(defaultValues)
   }
 
@@ -158,15 +164,11 @@ export class AccessRightFormComponent extends React.Component {
   }
 
   renderDataAccessLevel = () => {
-    let fieldStyles = {}
     if (this.state.selectMetaDataAccessLevel !== AccessRightsEnum.METADATA_ACCESS_ENUM.DATASET_AND_OBJECT_ACCESS) {
-      fieldStyles = {
-        display: 'none',
-      }
+      return null
     }
     return (
       <Field
-        style={fieldStyles}
         name="dataAccess"
         fullWidth
         component={RenderSelectField}
@@ -262,6 +264,9 @@ export class AccessRightFormComponent extends React.Component {
       <form onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
         <div>
           <CardText>
+            <FormErrorMessage>
+              {this.props.errorMessage}
+            </FormErrorMessage>
             {this.renderMetaDataAccessLevel()}
             {this.renderDataAccessLevel()}
             <ShowableAtRender show={isDisplayPluginConf}>
@@ -275,7 +280,7 @@ export class AccessRightFormComponent extends React.Component {
               />
             </ShowableAtRender>
             {this.renderQualityFilter()}
-            /**{this.renderShowAdvancedButton()}*/
+            {/** this.renderShowAdvancedButton()*/}
           </CardText>
           <CardActions>
             <CardActionsComponent

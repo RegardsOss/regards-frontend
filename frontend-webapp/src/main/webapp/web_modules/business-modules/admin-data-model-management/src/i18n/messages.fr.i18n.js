@@ -9,6 +9,13 @@ const messages = Object.assign({
   'model.list.table.actions': 'Actions',
   'model.list.action.add': 'Ajouter',
   'model.list.action.cancel': 'Annuler',
+  'model.list.action.export': 'Exporter',
+  'model.list.action.bind': 'Lier ce modèle avec des attributs',
+  'model.list.action.edit': 'Editer',
+  'model.list.action.duplicate': 'Dupliquer',
+  'model.list.action.delete': 'Supprimer',
+  'model.list.delete.title': 'Supprimer le modèle {name} ?',
+
 
   'model.type.dataset': 'Jeu de données',
   'model.type.data': 'Données',
@@ -25,6 +32,8 @@ const messages = Object.assign({
   'model.form.action.cancel': 'Annuler',
   'model.form.action.submit': 'Sauvegarder',
   'invalid.too_short': 'Minimun 3 caractères',
+
+  'table.actions.more': 'Plus d\'actions',
 }, Locales.fr)
 
 export default messages

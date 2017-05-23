@@ -43,7 +43,9 @@ export class AccessGroupFormContainer extends React.Component {
   }
 
   componentDidMount() {
+    // If creation mode no accessGroup to fetch
     if (this.state.isCreating === false) {
+      // Else, fetch the required accessGroup
       Promise.resolve(this.props.fetchAccessGroup(this.props.params.accessGroupName))
         .then((actionResult) => {
           // We receive here the action
@@ -112,24 +114,27 @@ export class AccessGroupFormContainer extends React.Component {
       })
   }
 
+  renderAccessGroup = () => (
+    <AccessGroupFormComponent
+      isDuplicating={this.state.isDuplicating}
+      isCreating={this.state.isCreating}
+      isEditing={this.state.isEditing}
+      currentAccessGroup={this.props.currentAccessGroup}
+      onSubmit={this.state.isEditing ? this.handleUpdate : this.handleCreate}
+      backUrl={this.getBackUrl()}
+    />
+  )
+
 
   render() {
-    const { currentAccessGroup } = this.props
-    const { isEditing, isCreating, isDuplicating, isError, isLoading } = this.state
+    const { isError, isLoading } = this.state
     return (
       <I18nProvider messageDir="business-modules/admin-accessright-accessgroup-management/src/i18n">
         <LoadableContentDisplayDecorator
           isLoading={isLoading}
           isContentError={isError}
         >
-          {() => (<AccessGroupFormComponent
-            isDuplicating={isDuplicating}
-            isCreating={isCreating}
-            isEditing={isEditing}
-            currentAccessGroup={currentAccessGroup}
-            onSubmit={isEditing ? this.handleUpdate : this.handleCreate}
-            backUrl={this.getBackUrl()}
-          />)}
+          {this.renderAccessGroup}
         </LoadableContentDisplayDecorator>
       </I18nProvider>
     )
