@@ -2,7 +2,6 @@
  * LICENSE_PLACEHOLDER
  **/
 import join from 'lodash/join'
-import map from 'lodash/map'
 import isEqual from 'lodash/isEqual'
 import get from 'lodash/get'
 import { connect } from '@regardsoss/redux'

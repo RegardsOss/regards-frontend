@@ -1,7 +1,6 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import map from 'lodash/map'
 import forEach from 'lodash/forEach'
 import replace from 'lodash/replace'
 import split from 'lodash/split'
