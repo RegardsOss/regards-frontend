@@ -3,7 +3,6 @@
  **/
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import { stub } from 'sinon'
 import { Table, TableRow } from 'material-ui/Table'
 import { CardActionsComponent } from '@regardsoss/components'
 import { testSuiteHelpers, DumpProvider, buildTestContext } from '@regardsoss/tests-helpers'
