@@ -32,6 +32,12 @@ export class SelectThemeContainer extends React.Component {
     currentTheme: defaultTheme,
   }
 
+  static iconButtonElement = (<IconButton><Palette /></IconButton>)
+
+  static anchorOriginStyle = { horizontal: 'left', vertical: 'bottom' }
+
+  static targetOriginStyle = { horizontal: 'middle', vertical: 'bottom' }
+
   render() {
     const { currentTheme, themeList, onChange } = this.props
     const items = map(themeList, item => (
@@ -41,9 +47,9 @@ export class SelectThemeContainer extends React.Component {
     return (
       <I18nProvider messageDir="utils/theme/src/i18n">
         <IconMenu
-          iconButtonElement={<IconButton><Palette /></IconButton>}
-          anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
-          targetOrigin={{ horizontal: 'middle', vertical: 'bottom' }}
+          iconButtonElement={SelectThemeContainer.iconButtonElement}
+          anchorOrigin={SelectThemeContainer.anchorOriginStyle}
+          targetOrigin={SelectThemeContainer.targetOriginStyle}
           value={currentTheme.content.id}
           onChange={(event, value) => onChange(value)}
         >

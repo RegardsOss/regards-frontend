@@ -23,30 +23,30 @@ const projectListActions = new BasicListActions({
   },
 })
 function handleDispatch(action, expectedAction, store, done) {
-  store.dispatch(action)
+  return store.dispatch(action)
     .then(() => {
       try {
         expect(store.getActions()).to.deep.contain(expectedAction)
-        done()
+        return done()
       } catch (e) {
         console.error('store.getActions() is')
         console.error(JSON.stringify(store.getActions()))
         console.error('expectedAction is')
         console.error(JSON.stringify(expectedAction))
-        done(e)
+        return done(e)
       }
     })
 }
 function handleDispatchError(action, store, done) {
-  store.dispatch(action)
+  return store.dispatch(action)
     .then(() => {
       try {
         expect(store.getActions()[1].error).to.eql(true)
-        done()
+        return done()
       } catch (e) {
         console.error('store.getActions() is')
         console.error(JSON.stringify(store.getActions()))
-        done(e)
+        return done(e)
       }
     })
 }

@@ -38,11 +38,10 @@ describe('[Search Graph] Test graph context actions', () => {
     }, buildMockStore({}))
   })
 
-  it('It should dispatch dataset attributes visible change event', () =>
-    dispatchAndCheck(graphContextActions.setDatasetAttributesVisible(true), {
-      type: graphContextActions.SET_DATASET_ATTRIBUTES_VISIBLE,
-      visible: true,
-    }, buildMockStore({})))
+  it('It should dispatch dataset attributes visible change event', () => dispatchAndCheck(graphContextActions.setDatasetAttributesVisible(true), {
+    type: graphContextActions.SET_DATASET_ATTRIBUTES_VISIBLE,
+    visible: true,
+  }, buildMockStore({})))
 
   it('It should dispatch module collapsed change event', () => {
     dispatchAndCheck(graphContextActions.setModuleCollapsed(false), {

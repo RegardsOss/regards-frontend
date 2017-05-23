@@ -94,21 +94,16 @@ export default class ReduxEntityTester {
       const store = this.getStore()
       if (this.entityActions.fetchPagedEntityList) {
         assert.isDefined(this.backendServerResultList.metadata, 'Your Action is Pageable but the result you provided comes from a list entrypoint')
-        store.dispatch(this.entityActions.fetchPagedEntityList(null, null, this.options.urlParams))
-          .then((action) => {
-            this.onPostActionTest(action, store, done)
-          })
+        return store.dispatch(this.entityActions.fetchPagedEntityList(null, null, this.options.urlParams))
+          .then(action => this.onPostActionTest(action, store, done))
       } else if (this.entityActions.fetchEntityList) {
         assert.isUndefined(this.backendServerResultList.metadata, 'Your Action is a List but the result you provided comes from a pageable entrypoint')
-        store.dispatch(this.entityActions.fetchEntityList(this.options.urlParams))
-          .then((action) => {
-            this.onPostActionTest(action, store, done)
-          })
-      } else {
-        done("Action can't be tested. Is it a Basic[Array|List|Pageable]Actions that you provided ?")
+        return store.dispatch(this.entityActions.fetchEntityList(this.options.urlParams))
+          .then(action => this.onPostActionTest(action, store, done))
       }
+      return done("Action can't be tested. Is it a Basic[Array|List|Pageable]Actions that you provided ?")
     } catch (e) {
-      done(e)
+      return done(e)
     }
   }
 
