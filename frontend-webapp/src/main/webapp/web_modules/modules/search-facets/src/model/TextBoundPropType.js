@@ -13,7 +13,7 @@ const getTextBoundPropType = parser => (props, propName, componentName, location
   const localComponentName = componentName || '[Anonymous component]'
   const boundText = props[propName]
   // pre : never empty here (see ChainableTypeChecker)
-  if (isString(boundText)) {
+  if (!isString(boundText)) {
     return new Error(`${propName} (${location}) is not a String object in ${localComponentName}.`)
   }
   if (!parser(boundText)) {

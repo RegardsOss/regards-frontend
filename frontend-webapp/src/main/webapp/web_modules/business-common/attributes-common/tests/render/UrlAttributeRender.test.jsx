@@ -30,7 +30,7 @@ describe('[ATTRIBUTES COMMON] Testing UrlAttributesRender', () => {
     const link = wrapper.find(LinkComponent)
     assert.lengthOf(link, 1, 'There should be a LinkComponent rendered')
 
-    const linkWrapper = link.dive({ context })
+    const linkWrapper = link.dive(options)
     const linkHref = linkWrapper.find('a')
     const value = linkHref.text()
     assert.equal(value, 'http://plop.test', 'Error rendering href link')
