@@ -33,10 +33,6 @@ class AdminApp extends React.Component {
     fetchEndpoints: PropTypes.func,
   }
 
-  static contextTypes = {
-    ...i18nContextType,
-  }
-
   constructor(props) {
     super(props)
     this.state = {

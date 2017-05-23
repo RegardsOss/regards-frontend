@@ -14,6 +14,8 @@ import DatasetDump from '@regardsoss/client/tests/rs-dam/Dataset.dump'
 import PluginConfigurationDump from '@regardsoss/client/tests/rs-common/PluginConfiguration.dump'
 import CollectionDump from '@regardsoss/client/tests/rs-dam/Collection.dump'
 
+import ProjectDump from '@regardsoss/client/tests/rs-admin/Project.dump'
+import AccountDump from '@regardsoss/client/tests/rs-admin/Account.dump'
 import RoleDump from '@regardsoss/client/tests/rs-admin/Role.dump'
 import ProjectUserDump from '@regardsoss/client/tests/rs-admin/ProjectUser.dump'
 import WaitingAccessUsersEntitiesDump from '@regardsoss/client/tests/rs-admin/WaitingAccessUsersEntities.dump'
@@ -25,6 +27,12 @@ import {
 
   ROLE_ARRAY,
   RoleConfiguration,
+
+  ACCOUNT_ARRAY,
+  AccountConfiguration,
+
+  PROJECT_ARRAY,
+  ProjectConfiguration,
 
   PROJECT_USER_ARRAY,
   ProjectUserConfiguration,
@@ -118,6 +126,18 @@ export default {
       ENTITY_ARRAY: PROJECT_USER_ARRAY,
       normalizrKey: ProjectUserConfiguration.normalizrKey,
     },
+    Account: {
+      isPageable: true,
+      dump: AccountDump,
+      ENTITY_ARRAY: ACCOUNT_ARRAY,
+      normalizrKey: AccountConfiguration.normalizrKey,
+    },
+    Project: {
+      isPageable: true,
+      dump: ProjectDump,
+      ENTITY_ARRAY: PROJECT_ARRAY,
+      normalizrKey: ProjectConfiguration.normalizrKey,
+    }
   },
   CommonClient: {
     PluginMetaData: {

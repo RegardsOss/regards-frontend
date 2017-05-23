@@ -7,9 +7,10 @@ import PowerSettingsNew from 'material-ui/svg-icons/action/power-settings-new'
 import Divider from 'material-ui/Divider'
 import Settings from 'material-ui/svg-icons/action/settings'
 import { themeContextType } from '@regardsoss/theme'
-import { i18nContextType, I18nProvider } from '@regardsoss/i18n'
+import { i18nContextType } from '@regardsoss/i18n'
 import Brush from 'material-ui/svg-icons/image/brush'
 import SupervisorAccount from 'material-ui/svg-icons/action/supervisor-account'
+import { FormattedMessage } from 'react-intl'
 import getModuleStyles from '../../styles/styles'
 import HateoasSidebarElement from './HateoasSidebarElement'
 import WaitingAccountsNotificationContainer from '../containers/WaitingAccountsNotificationContainer'
@@ -43,7 +44,6 @@ class InstanceSidebarComponent extends React.Component {
     const moduleStyles = getModuleStyles(muiTheme)
 
     return (
-      <I18nProvider messageDir="business-modules/admin/src/menu/i18n">
         <Drawer
           open
           containerStyle={moduleStyles.adminApp.layout.sidebarContainer.styles}
@@ -81,7 +81,6 @@ class InstanceSidebarComponent extends React.Component {
             onTouchTap={onLogout}
           />
         </Drawer>
-      </I18nProvider>
     )
   }
 }

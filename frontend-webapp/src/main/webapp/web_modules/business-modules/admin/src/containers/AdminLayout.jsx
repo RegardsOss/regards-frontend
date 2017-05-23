@@ -6,6 +6,7 @@ import { connect } from '@regardsoss/redux'
 import { AuthenticationClient } from '@regardsoss/authentication-manager'
 import { themeContextType } from '@regardsoss/theme'
 import { LazyModuleComponent } from '@regardsoss/modules'
+import { I18nProvider } from '@regardsoss/i18n'
 import { ApplicationErrorContainer } from '@regardsoss/global-system-error'
 import InstanceSidebarComponent from '../menu/components/InstanceSidebarComponent'
 import ProjectSidebarComponent from '../menu/components/ProjectSidebarComponent'
@@ -20,6 +21,7 @@ export class AdminLayout extends React.Component {
 
   static contextTypes = {
     ...themeContextType,
+    ...i18nContextType,
   }
 
   static propTypes = {
@@ -95,7 +97,9 @@ export class AdminLayout extends React.Component {
             />
           </div>
           <div className={style.bodyContainer.classes} style={style.bodyContainer.styles}>
-            {this.getSidebar(isOnInstanceDashboard)}
+            <I18nProvider messageDir="business-modules/admin/src/menu/i18n">
+              {this.getSidebar(isOnInstanceDashboard)}
+            </I18nProvider>
             <div className={style.contentContainer.classes} style={style.contentContainer.styles}>
               {content}
             </div>
