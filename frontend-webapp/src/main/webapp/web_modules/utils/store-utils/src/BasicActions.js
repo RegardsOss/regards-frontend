@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { map, replace, split, join, takeRight } from 'lodash'
+import { map, forEach, replace, split, join, takeRight } from 'lodash'
 import RequestVerbEnum from './RequestVerbEnum'
 
 /**
@@ -52,7 +52,7 @@ class BasicActions {
   handleRequestPathParameters = (entityEndpoint, params) => {
     let endpoint = entityEndpoint
     if (params) {
-      map(params, (param, key) => {
+      forEach(params, (param, key) => {
         endpoint = replace(endpoint, `{${key}}`, param)
       })
     }
@@ -64,7 +64,7 @@ class BasicActions {
   handleRequestQueryParams = (entityEndpoint, queryParams) => {
     let endpoint = entityEndpoint
     if (queryParams) {
-      map(queryParams, (param, key) => {
+      forEach(queryParams, (param, key) => {
         if (endpoint.includes('?')) {
           endpoint = `${endpoint}&${key}=${param}`
         } else {

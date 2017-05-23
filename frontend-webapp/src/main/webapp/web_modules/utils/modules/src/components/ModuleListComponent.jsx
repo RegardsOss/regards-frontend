@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { map, concat, sortBy } from 'lodash'
+import { forEach, map, concat, sortBy, get } from 'lodash'
 import Drawer from 'material-ui/Drawer'
 import { List, ListItem } from 'material-ui/List'
 import Divider from 'material-ui/Divider'
@@ -43,7 +43,7 @@ class ModuleListComponent extends React.Component {
 
   componentWillMount() {
     const sortedModules = sortBy(this.props.modules, module => module.type)
-    map(sortedModules, (module, idx) => {
+    forEach(sortedModules, (module, idx) => {
       if (module.content.container === this.props.container && module.content.active) {
         this.renderModule(module, idx)
       }
@@ -70,7 +70,7 @@ class ModuleListComponent extends React.Component {
       try {
         // eslint-disable-next-line import/no-dynamic-require
         const loadedModule = require(`@regardsoss-modules/${module.content.type}/src/main.js`)
-        const moduleDependencies = (loadedModule && loadedModule.dependencies && loadedModule.dependencies.user) || []
+        const moduleDependencies = get(loadedModule, 'dependencies.user', [])
 
         const that = this
         if (loadedModule.moduleContainer) {

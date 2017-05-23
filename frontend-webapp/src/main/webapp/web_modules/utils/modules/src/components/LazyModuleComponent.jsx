@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  */
-import { merge } from 'lodash'
+import { merge, get } from 'lodash'
 import { I18nProvider } from '@regardsoss/i18n'
 import { getReducerRegistry, configureReducers } from '@regardsoss/store'
 import { HateoasDisplayDecorator } from '@regardsoss/display-control'
@@ -134,9 +134,9 @@ class LazyModuleComponent extends React.Component {
             moduleConf: this.props.module.conf,
             description: this.props.module.description,
           }, { adminForm: this.props.adminForm }))
-        moduleDependencies = (module && module.dependencies && module.dependencies.admin) || []
+        moduleDependencies = get(module, 'dependencies.admin', [])
       } else if (!this.props.admin && module.moduleContainer) {
-        moduleDependencies = (module && module.dependencies && module.dependencies.user) || []
+        moduleDependencies = get(module, 'dependencies.user', [])
         const moduleProps = merge({}, defaultModuleProps, {
           moduleConf: this.props.module.conf,
           description: this.props.module.description,

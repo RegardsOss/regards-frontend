@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { normalize } from 'normalizr'
-import { forEach } from 'lodash'
+import { forEach, isObject } from 'lodash'
 import BasicActions from '../BasicActions'
 
 const { CALL_API, getJSON } = require('redux-api-middleware')
@@ -316,7 +316,7 @@ class BasicListActions extends BasicActions {
     const formData = new FormData()
     // Handle object values
     forEach(objectValues, (value, key) => {
-      if (typeof value === 'object') {
+      if (isObject(value)) {
         // This is an object that we need to stringify
         formData.append(key,
           new Blob(
@@ -332,7 +332,7 @@ class BasicListActions extends BasicActions {
     })
     // Handle files
     forEach(files, (value, key) => {
-      if (typeof value === 'object') {
+      if (isObject(value)) {
         // This is an image
         formData.append(key, value)
       }

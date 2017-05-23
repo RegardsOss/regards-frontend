@@ -6,6 +6,7 @@ import { connect } from '@regardsoss/redux'
 import { Plugin } from '@regardsoss/model'
 import { getReducerRegistry, configureReducers } from '@regardsoss/store'
 import { i18nSelectors } from '@regardsoss/i18n'
+import { isNil } from 'lodash'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { ErrorCardComponent } from '@regardsoss/components'
 import { loadPlugin } from '../model/LoadPluginActions'
@@ -105,7 +106,7 @@ class PluginLoader extends React.Component {
   }
 
   render() {
-    const isLoading = this.props.loadedPlugin === undefined || this.props.loadedPlugin === null
+    const isLoading = isNil(this.props.loadedPlugin)
     if (this.state.loadError) {
       return (
         <ErrorCardComponent

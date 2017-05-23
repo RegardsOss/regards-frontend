@@ -14,7 +14,7 @@ import Container from '../../src/components/Container'
  * Tests for ApplicationLayout
  * @author Sébastien Binda
  */
-describe('[LAYOUT] Testing Application layout factory', () => {
+describe('[LAYOUT] Testing Application layout ', () => {
   // Since react will console.error propType warnings, that which we'd rather have
   // as errors, we use sinon.js to stub it into throwing these warning as errors
   // instead.
@@ -26,28 +26,7 @@ describe('[LAYOUT] Testing Application layout factory', () => {
   after(() => {
     console.error.restore()
   })
-  it('Should render correctly an application layout with ApplicationLayout', () => {
-    const context = {
-      muiTheme: {
-        palette: {
-          canvasColor: 'white',
-        },
-      },
-    }
-    const wrapper = shallow(
-      <ApplicationLayout
-        appName={'testApp'}
-        project={'test'}
-        layout={testLayout}
-      />,
-      { context })
-
-    expect(wrapper.find(Container)).to.have.length(1)
-  })
-})
-
-describe('[LAYOUT] Testing Application Container', () => {
-  it('Should render correctly an application layout with ApplicationLayout', () => {
+  it('Should render correctly an application layout Container with ApplicationLayout', () => {
     const context = {
       muiTheme: {
         palette: {
@@ -80,5 +59,23 @@ describe('[LAYOUT] Testing Application Container', () => {
     expect(wrapper2.find('.body')).to.have.length(1)
     expect(wrapper2.find(LazyModuleComponent)).to.have.length(2)
     expect(wrapper2.find(Container)).to.have.length(2)
+  })
+  it('Should render correctly an application layout factory with ApplicationLayout', () => {
+    const context = {
+      muiTheme: {
+        palette: {
+          canvasColor: 'white',
+        },
+      },
+    }
+    const wrapper = shallow(
+      <ApplicationLayout
+        appName={'testApp'}
+        project={'test'}
+        layout={testLayout}
+      />,
+      { context })
+
+    expect(wrapper.find(Container)).to.have.length(1)
   })
 })

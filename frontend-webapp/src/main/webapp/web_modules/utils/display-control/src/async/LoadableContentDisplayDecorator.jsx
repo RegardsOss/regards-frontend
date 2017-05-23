@@ -1,6 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import { isFunction } from 'lodash'
 import { ShowableAtRender, ErrorCardComponent } from '@regardsoss/components'
 import LoadingComponent from './LoadingComponent'
 import ContentErrorComponent from './ContentErrorComponent'
@@ -27,7 +28,10 @@ class LoadableContentDisplayDecorator extends React.Component {
     isLoading: false,
     isContentError: false,
     isEmpty: false,
+    emptyMessage: 'No content!',
   }
+
+  static contentErrorComponent = (<ContentErrorComponent />)
 
   /**
    * Don't try to render the child if it's loading
@@ -38,7 +42,7 @@ class LoadableContentDisplayDecorator extends React.Component {
     if (this.props.isLoading) {
       return (<div />)
     }
-    if (typeof this.props.children === 'function') {
+    if (isFunction(this.props.children)) {
       return this.props.children()
     }
     return this.props.children
@@ -65,11 +69,11 @@ class LoadableContentDisplayDecorator extends React.Component {
         </ShowableAtRender>
         <ShowableAtRender show={isContentError && !isLoading}>
           <ErrorCardComponent
-            message={<ContentErrorComponent />}
+            message={LoadableContentDisplayDecorator.contentErrorComponent}
           />
         </ShowableAtRender>
         <ShowableAtRender show={isEmpty && !isContentError && !isLoading}>
-          <div>{this.props.emptyMessage ? this.props.emptyMessage : 'No content!'}</div>
+          <div>{this.props.emptyMessage}</div>
         </ShowableAtRender>
         <ShowableAtRender show={!isEmpty && !isContentError && !isLoading}>
           {this.renderChild()}
