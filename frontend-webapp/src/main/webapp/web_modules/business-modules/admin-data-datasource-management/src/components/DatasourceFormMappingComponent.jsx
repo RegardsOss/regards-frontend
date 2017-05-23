@@ -5,7 +5,6 @@ import find from 'lodash/find'
 import forEach from 'lodash/forEach'
 import keys from 'lodash/keys'
 import { Card, CardTitle, CardActions } from 'material-ui/Card'
-import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
 import { Datasource, ModelAttribute } from '@regardsoss/model'
 import { ErrorTypes } from '@regardsoss/form-utils'
@@ -145,8 +144,8 @@ export class DatasourceFormMappingComponent extends React.Component {
       <form>
         <Card>
           <CardTitle
-            title={<FormattedMessage id="datasource.form.mapping.title" />}
-            subtitle={<FormattedMessage id="datasource.form.mapping.subtitle" />}
+            title={this.context.intl.formatMessage({ id: 'datasource.form.mapping.title' })}
+            subtitle={this.context.intl.formatMessage({ id: 'datasource.form.mapping.subtitle' })}
           />
           <DatasourceStepperComponent stepIndex={2} />
         </Card>
@@ -220,10 +219,10 @@ export class DatasourceFormMappingComponent extends React.Component {
         <Card style={cardEspaced}>
           <CardActions>
             <CardActionsComponent
-              mainButtonLabel={<FormattedMessage id="datasource.form.mapping.action.save" />}
+              mainButtonLabel={this.context.intl.formatMessage({ id: 'datasource.form.mapping.action.save' })}
               mainButtonTouchTap={this.props.handleSubmit(this.handleSave)}
               isMainButtonDisabled={submitting || invalid}
-              secondaryButtonLabel={<FormattedMessage id="datasource.form.mapping.action.cancel" />}
+              secondaryButtonLabel={this.context.intl.formatMessage({ id: 'datasource.form.mapping.action.cancel' })}
               secondaryButtonTouchTap={handleBack}
             />
           </CardActions>

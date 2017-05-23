@@ -14,7 +14,7 @@ class SidebarElement extends React.Component {
   static propTypes = {
     to: PropTypes.string.isRequired,
     currentPath: PropTypes.string,
-    primaryText: PropTypes.element.isRequired,
+    primaryText: PropTypes.string.isRequired,
     leftIcon: PropTypes.element.isRequired,
     rightIcon: PropTypes.element,
   }

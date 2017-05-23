@@ -43,8 +43,8 @@ export class CollectionEditLinksComponent extends React.Component {
     return (
       <Card>
         <CardTitle
-          title={<FormattedMessage id="collection.form.links.title" />}
-          subtitle={<FormattedMessage id="collection.form.links.subtitle" />}
+          title={this.context.intl.formatMessage({ id: 'collection.form.links.title' })}
+          subtitle={this.context.intl.formatMessage({ id: 'collection.form.links.subtitle' })}
         />
         <CollectionStepperComponent stepIndex={1} />
         <CardText>
@@ -72,7 +72,7 @@ export class CollectionEditLinksComponent extends React.Component {
                 <ListItem
                   primaryText={
                     <TextField
-                      hintText={<FormattedMessage id="collection.form.links.remainingcollection.search" />}
+                      hintText={this.context.intl.formatMessage({ id: 'collection.form.links.remainingcollection.search' })}
                       onChange={handleSearch}
                       fullWidth
                     />
@@ -111,7 +111,7 @@ export class CollectionEditLinksComponent extends React.Component {
                 id="collection.form.links.action.done"
               />
             }
-            secondaryButtonLabel={<FormattedMessage id="collection.form.links.action.cancel" />}
+            secondaryButtonLabel={this.context.intl.formatMessage({ id: 'collection.form.links.action.cancel' })}
             secondaryButtonUrl={backUrl}
           />
         </CardActions>

@@ -3,7 +3,7 @@
  **/
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import { testSuiteHelpers, DumpProvider } from '@regardsoss/tests-helpers'
+import { testSuiteHelpers, DumpProvider, buildTestContext } from '@regardsoss/tests-helpers'
 import { ModelAttributeFormComponent } from '../../src/components/ModelAttributeFormComponent'
 import DraggableCard from '../../src/components/DraggableCard'
 import ContainerCard from '../../src/components/ContainerCard'
@@ -26,6 +26,12 @@ const distributedAttrModels = {
     attrs: [],
   },
 }
+
+const options = {
+  context: buildTestContext(),
+}
+
+
 // Test a component rendering
 describe('[ADMIN DATA MODEL ATTRIBUTE MANAGEMENT] Testing ModelAttributeFormComponent', () => {
   before(testSuiteHelpers.before)
@@ -45,14 +51,7 @@ describe('[ADMIN DATA MODEL ATTRIBUTE MANAGEMENT] Testing ModelAttributeFormComp
       backUrl: '#',
       currentModel: DumpProvider.getFirstEntity('DataManagementClient', 'Model'),
     }
-    const context = {
-      muiTheme: {
-        layout: {
-          cardEspaced: {},
-        },
-      },
-    }
-    const enzymeWrapper = shallow(<ModelAttributeFormComponent {...props} />, { context })
+    const enzymeWrapper = shallow(<ModelAttributeFormComponent {...props} />, options)
     const subComponent = enzymeWrapper.find(DraggableCard)
     const subComponentContainerCard = enzymeWrapper.find(ContainerCard)
     expect(subComponent).to.have.length(2)

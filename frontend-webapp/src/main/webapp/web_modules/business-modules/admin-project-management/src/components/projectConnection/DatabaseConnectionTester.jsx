@@ -1,7 +1,7 @@
 /*
  * LICENSE_PLACEHOLDER
  */
-import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import FlatButton from 'material-ui/FlatButton'
 import PlayArrow from 'material-ui/svg-icons/av/play-arrow'
 import Check from 'material-ui/svg-icons/navigation/check'
@@ -9,7 +9,6 @@ import Error from 'material-ui/svg-icons/alert/error'
 import Warning from 'material-ui/svg-icons/alert/warning'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { FormattedMessage } from 'react-intl'
 import Snackbar from 'material-ui/Snackbar'
 import OnHoverSwitchFlatButton from '@regardsoss/components/src/buttons/OnHoverSwitchFlatButton'
 import ProjectConnection from '@regardsoss/model/src/admin/ProjectConnection'
@@ -96,7 +95,7 @@ class DatabaseConnectionTester extends React.Component {
     const styles = moduleStyles(this.context.muiTheme)
 
     const testButton = (<FlatButton
-      label={<FormattedMessage id="database.connectionTester.start" />}
+      label={this.context.intl.formatMessage({ id: 'database.connectionTester.start' })}
       icon={<PlayArrow />}
       onTouchTap={this.handleTouchTap}
     />)
@@ -112,8 +111,8 @@ class DatabaseConnectionTester extends React.Component {
 
     const warningButton =
       (<OnHoverSwitchFlatButton
-        label={[<FormattedMessage id="database.connectionTester.warning" />,
-          <FormattedMessage id="database.connectionTester.restart" />]}
+        label={[this.context.intl.formatMessage({ id: 'database.connectionTester.warning' }),
+          this.context.intl.formatMessage({ id: 'database.connectionTester.restart' })]}
         icon={[<Warning color={styles.palette.warningColor} />, <PlayArrow />]}
         labelStyle={[{ color: styles.palette.warningColor }, null]}
         onTouchTap={[this.handleTouchTap, this.handleTouchTap]}
@@ -121,8 +120,8 @@ class DatabaseConnectionTester extends React.Component {
 
     const errorButton =
       (<OnHoverSwitchFlatButton
-        label={[<FormattedMessage id="database.connectionTester.notConnected" />,
-          <FormattedMessage id="database.connectionTester.restart" />]}
+        label={[this.context.intl.formatMessage({ id: 'database.connectionTester.notConnected' }),
+          this.context.intl.formatMessage({ id: 'database.connectionTester.restart' })]}
         icon={[<Error />, <PlayArrow />]}
         secondary={[true, false]}
         onTouchTap={[this.handleTouchTap, this.handleTouchTap]}

@@ -1,13 +1,21 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
+import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import FlatButton from 'material-ui/FlatButton'
 import EnumConnectivity from '@regardsoss/model/src/admin/EnumConnectivity'
 import OnHoverSwitchFlatButton from '@regardsoss/components/src/buttons/OnHoverSwitchFlatButton'
 import DatabaseConnectionTester from '../../../src/components/projectConnection/DatabaseConnectionTester'
 import ConnectionTesterProgress from '../../../src/components/projectConnection/ConnectionTesterProgress'
 
+const options = {
+  context: buildTestContext(),
+}
+
 // Test a component rendering
 describe('[ADMIN PROJECT MANAGEMENT] Testing DatabaseConnectionTester', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('should exists', () => {
     assert.isDefined(DatabaseConnectionTester)
   })
@@ -27,15 +35,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing DatabaseConnectionTester', () => {
         },
         links: [],
       },
-    }
-    const options = {
-      context: {
-        muiTheme: {
-          palette: {
-            warningColor: 'orange',
-          },
-        },
-      },
+      testConnection: () => {},
     }
     const enzymeWrapper = shallow(<DatabaseConnectionTester {...props} />, options)
     expect(enzymeWrapper.find(FlatButton)).to.have.length(1)
@@ -55,15 +55,6 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing DatabaseConnectionTester', () => {
           connectivity: EnumConnectivity.SUCCESS,
         },
         links: [],
-      },
-    }
-    const options = {
-      context: {
-        muiTheme: {
-          palette: {
-            warningColor: 'orange',
-          },
-        },
       },
     }
     const enzymeWrapper = shallow(<DatabaseConnectionTester {...props} />, options)
@@ -86,15 +77,6 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing DatabaseConnectionTester', () => {
         links: [],
       },
     }
-    const options = {
-      context: {
-        muiTheme: {
-          palette: {
-            warningColor: 'orange',
-          },
-        },
-      },
-    }
     const enzymeWrapper = shallow(<DatabaseConnectionTester {...props} />, options)
     expect(enzymeWrapper.find(OnHoverSwitchFlatButton)).to.have.length(1)
   })
@@ -115,15 +97,6 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing DatabaseConnectionTester', () => {
         links: [],
       },
     }
-    const options = {
-      context: {
-        muiTheme: {
-          palette: {
-            warningColor: 'orange',
-          },
-        },
-      },
-    }
     const enzymeWrapper = shallow(<DatabaseConnectionTester {...props} />, options)
     expect(enzymeWrapper.find(OnHoverSwitchFlatButton)).to.have.length(1)
   })
@@ -142,15 +115,6 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing DatabaseConnectionTester', () => {
           connectivity: EnumConnectivity.PENDING,
         },
         links: [],
-      },
-    }
-    const options = {
-      context: {
-        muiTheme: {
-          palette: {
-            warningColor: 'orange',
-          },
-        },
       },
     }
     const enzymeWrapper = shallow(<DatabaseConnectionTester {...props} />, options)

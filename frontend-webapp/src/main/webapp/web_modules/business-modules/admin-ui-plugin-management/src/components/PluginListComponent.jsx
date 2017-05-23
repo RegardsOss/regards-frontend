@@ -78,8 +78,8 @@ class PluginListComponent extends React.Component {
           />
         </ShowableAtRender>
         <CardTitle
-          title={<FormattedMessage id="plugins.list.title" />}
-          subtitle={<FormattedMessage id="plugins.list.subtitle" />}
+          title={this.context.intl.formatMessage({ id: 'plugins.list.title' })}
+          subtitle={this.context.intl.formatMessage({ id: 'plugins.list.subtitle' })}
         />
         <CardText>
           <Table
@@ -125,7 +125,7 @@ class PluginListComponent extends React.Component {
               />
             }
             mainHateoasDependency={uiPluginDefinitionActions.getDependency(RequestVerbEnum.POST)}
-            secondaryButtonLabel={<FormattedMessage id="plugins.list.action.cancel" />}
+            secondaryButtonLabel={this.context.intl.formatMessage({ id: 'plugins.list.action.cancel' })}
             secondaryButtonUrl={this.props.backUrl}
           />
         </CardActions>

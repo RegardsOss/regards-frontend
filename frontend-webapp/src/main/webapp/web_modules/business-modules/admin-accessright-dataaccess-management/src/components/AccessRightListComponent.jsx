@@ -281,8 +281,8 @@ class AccessRightListComponent extends React.Component {
           {this.renderAccessRightFormDialog()}
           {this.renderDeleteConfirmDialog()}
           <MainActionButtonComponent
-            label={<FormattedMessage id="accessright.edit.multiples.button.label" />}
             disabled={values(this.props.selectedDatasets).length === 0}
+            label={this.context.intl.formatMessage({ id: 'accessright.edit.multiples.button.label' })}
             onTouchTap={() => this.openEditDialog()}
           />
           <TableContainer

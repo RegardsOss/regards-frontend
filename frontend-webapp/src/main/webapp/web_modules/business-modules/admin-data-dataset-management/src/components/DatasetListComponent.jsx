@@ -2,9 +2,9 @@
  * LICENSE_PLACEHOLDER
  **/
 import map from 'lodash/map'
+import { FormattedMessage } from 'react-intl'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
-import { FormattedMessage } from 'react-intl'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
 import { Dataset } from '@regardsoss/model'
@@ -77,12 +77,11 @@ export class DatasetListComponent extends React.Component {
       hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
       hoverButtonDelete: this.context.muiTheme.palette.accent1Color,
     }
-    const { intl } = this.context
     return (
       <Card>
         <CardTitle
-          title={<FormattedMessage id="dataset.list.title" />}
-          subtitle={<FormattedMessage id="dataset.list.subtitle" />}
+          title={this.context.intl.formatMessage({ id: 'dataset.list.title' })}
+          subtitle={this.context.intl.formatMessage({ id: 'dataset.list.subtitle' })}
         />
         <CardText>
           {this.renderDeleteConfirmDialog()}
@@ -145,7 +144,7 @@ export class DatasetListComponent extends React.Component {
               />
             }
             mainHateoasDependency={datasetActions.getDependency(RequestVerbEnum.POST)}
-            secondaryButtonLabel={<FormattedMessage id="dataset.list.action.cancel" />}
+            secondaryButtonLabel={this.context.intl.formatMessage({ id: 'dataset.list.action.cancel' })}
             secondaryButtonUrl={backUrl}
           />
         </CardActions>

@@ -82,8 +82,8 @@ export class DatasourceListComponent extends React.Component {
     return (
       <Card>
         <CardTitle
-          title={<FormattedMessage id="datasource.list.title" />}
-          subtitle={<FormattedMessage id="datasource.list.subtitle" />}
+          title={this.context.intl.formatMessage({ id: 'datasource.list.title' })}
+          subtitle={this.context.intl.formatMessage({ id: 'datasource.list.subtitle' })}
         />
         <CardText>
           {this.renderDeleteConfirmDialog()}
@@ -142,7 +142,7 @@ export class DatasourceListComponent extends React.Component {
               />
             }
             mainHateoasDependency={datasourceActions.getDependency(RequestVerbEnum.POST)}
-            secondaryButtonLabel={<FormattedMessage id="datasource.list.action.cancel" />}
+            secondaryButtonLabel={this.context.intl.formatMessage({ id: 'datasource.list.action.cancel' })}
             secondaryButtonUrl={backUrl}
           />
         </CardActions>

@@ -75,7 +75,7 @@ export class EnumerationComponent extends React.Component {
         <Field
           name="restriction.ENUMERATION.active"
           component={RenderCheckbox}
-          label={<FormattedMessage id="attrmodel.form.restriction.ENUMERATION.active" />}
+          label={this.context.intl.formatMessage({ id: 'attrmodel.form.restriction.ENUMERATION.active' })}
         />
         {map(acceptableValues, (restriction, id) => {
           if (!restriction.deleted) {
@@ -89,7 +89,7 @@ export class EnumerationComponent extends React.Component {
                   name={`restriction.ENUMERATION.inputs.input${id}`}
                   component={RenderTextField}
                   type="text"
-                  label={<FormattedMessage id="attrmodel.form.restriction.ENUMERATION.value" />}
+                  label={this.context.intl.formatMessage({ id: 'attrmodel.form.restriction.ENUMERATION.value' })}
                 />
                 <IconButton onTouchTap={() => this.handleDelete(id)}>
                   <Delete />
@@ -107,7 +107,7 @@ export class EnumerationComponent extends React.Component {
             type="text"
             value={newValue}
             onChange={this.onTextFieldChange}
-            label={<FormattedMessage id="attrmodel.form.restriction.ENUMERATION.addinput" />}
+            label={this.context.intl.formatMessage({ id: 'attrmodel.form.restriction.ENUMERATION.addinput' })}
           />
 
           <FlatButton

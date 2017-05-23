@@ -5,19 +5,17 @@ import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { stub } from 'sinon'
 import { Field } from '@regardsoss/form-utils'
+import { testSuiteHelpers, DumpProvider, buildTestContext } from '@regardsoss/tests-helpers'
 import { RoleFormComponent } from '../../src/components/RoleFormComponent'
+
+const options = {
+  context: buildTestContext(),
+}
 
 // Test a component rendering
 describe('[ADMIN USER ROLE MANAGEMENT] Testing form container', () => {
-  // Since react will console.error propType warnings, that which we'd rather have
-  // as errors, we use sinon.js to stub it into throwing these warning as errors
-  // instead.
-  before(() => {
-    stub(console, 'error').callsFake((warning) => { throw new Error(warning) })
-  })
-  after(() => {
-    console.error.restore()
-  })
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
 
   it('should exists', () => {
     assert.isDefined(RoleFormComponent)
@@ -25,16 +23,7 @@ describe('[ADMIN USER ROLE MANAGEMENT] Testing form container', () => {
 
   it('should render edit form', () => {
     const props = {
-      currentRole: {
-        content: {
-          id: 1,
-          name: 'project name',
-          description: 'project desc',
-          icon: 'project icon',
-          isPublic: true,
-          authorizedAddresses: ['1.2.3.4', '15.87.65.42'],
-        },
-      },
+      currentRole: DumpProvider.getFirstEntity('AdminClient', 'Role'),
       backUrl: '/some/url',
       onSubmit: () => {},
       change: () => {},
@@ -44,7 +33,7 @@ describe('[ADMIN USER ROLE MANAGEMENT] Testing form container', () => {
       handleSubmit: () => {},
       initialize: () => {},
     }
-    const enzymeWrapper = shallow(<RoleFormComponent {...props} />)
+    const enzymeWrapper = shallow(<RoleFormComponent {...props} />, options)
     const subComponent = enzymeWrapper.find(Field)
     expect(subComponent).to.have.length(2)
   })
@@ -60,7 +49,7 @@ describe('[ADMIN USER ROLE MANAGEMENT] Testing form container', () => {
       handleSubmit: () => {},
       initialize: () => {},
     }
-    const enzymeWrapper = shallow(<RoleFormComponent {...props} />)
+    const enzymeWrapper = shallow(<RoleFormComponent {...props} />, options)
     const subComponent = enzymeWrapper.find(Field)
     expect(subComponent).to.have.length(2)
   })

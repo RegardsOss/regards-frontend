@@ -74,7 +74,7 @@ export class ProjectFormComponent extends React.Component {
                 fullWidth
                 component={RenderTextField}
                 type="text"
-                label={<FormattedMessage id="model.form.name" />}
+                label={this.context.intl.formatMessage({ id: 'model.form.name' })}
               />
             </ShowableAtRender>
             <Field
@@ -82,7 +82,7 @@ export class ProjectFormComponent extends React.Component {
               fullWidth
               component={RenderTextField}
               type="text"
-              label={<FormattedMessage id="model.form.description" />}
+              label={this.context.intl.formatMessage({ id: 'model.form.description' })}
             />
             <ShowableAtRender show={isCreating}>
               <div>
@@ -90,12 +90,12 @@ export class ProjectFormComponent extends React.Component {
                   name="type"
                   fullWidth
                   component={RenderSelectField}
-                  label={<FormattedMessage id="model.form.type" />}
+                  label={this.context.intl.formatMessage({ id: 'model.form.type' })}
                 >
-                  <MenuItem value="COLLECTION" primaryText={<FormattedMessage id="model.type.collection" />} />
-                  <MenuItem value="DOCUMENT" primaryText={<FormattedMessage id="model.type.document" />} />
-                  <MenuItem value="DATA" primaryText={<FormattedMessage id="model.type.data" />} />
-                  <MenuItem value="DATASET" primaryText={<FormattedMessage id="model.type.dataset" />} />
+                  <MenuItem value="COLLECTION" primaryText={this.context.intl.formatMessage({ id: 'model.type.collection' })} />
+                  <MenuItem value="DOCUMENT" primaryText={this.context.intl.formatMessage({ id: 'model.type.document' })} />
+                  <MenuItem value="DATA" primaryText={this.context.intl.formatMessage({ id: 'model.type.data' })} />
+                  <MenuItem value="DATASET" primaryText={this.context.intl.formatMessage({ id: 'model.type.dataset' })} />
                 </Field>
                 <hr />
                 <br />
@@ -111,10 +111,10 @@ export class ProjectFormComponent extends React.Component {
           </CardText>
           <CardActions>
             <CardActionsComponent
-              mainButtonLabel={<FormattedMessage id="model.form.action.submit" />}
+              mainButtonLabel={this.context.intl.formatMessage({ id: 'model.form.action.submit' })}
               mainButtonType="submit"
               isMainButtonDisabled={pristine || submitting}
-              secondaryButtonLabel={<FormattedMessage id="model.form.action.cancel" />}
+              secondaryButtonLabel={this.context.intl.formatMessage({ id: 'model.form.action.cancel' })}
               secondaryButtonUrl={this.props.backUrl}
             />
           </CardActions>

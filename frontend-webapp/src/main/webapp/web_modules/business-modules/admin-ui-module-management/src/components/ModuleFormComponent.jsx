@@ -8,6 +8,7 @@ import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import MenuItem from 'material-ui/MenuItem'
 import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
+import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { Container } from '@regardsoss/model'
 import { ShowableAtRender, CardActionsComponent } from '@regardsoss/components'
@@ -44,6 +45,7 @@ class ModuleFormComponent extends React.Component {
 
   static contextTypes = {
     ...themeContextType,
+    ...i18nContextType,
   }
 
   constructor(props) {
@@ -118,7 +120,7 @@ class ModuleFormComponent extends React.Component {
           component={RenderSelectField}
           type="text"
           onSelect={this.selectModuleType}
-          label={<FormattedMessage id="module.form.name" />}
+          label={this.context.intl.formatMessage({ id: 'module.form.name' })}
         >
           {map(AvailableModules, (module, id) => (
             <MenuItem
@@ -134,7 +136,7 @@ class ModuleFormComponent extends React.Component {
         fullWidth
         component={RenderTextField}
         type="text"
-        label={<FormattedMessage id="module.form.description" />}
+        label={this.context.intl.formatMessage({ id: 'module.form.description' })}
       />
       <Field
         style={{ marginBottom: 15 }}
@@ -143,7 +145,7 @@ class ModuleFormComponent extends React.Component {
         component={RenderSelectField}
         type="text"
         onSelect={this.selectContainer}
-        label={<FormattedMessage id="module.form.container" />}
+        label={this.context.intl.formatMessage({ id: 'module.form.container' })}
       >
         {map(this.props.containers, container => (
           <MenuItem
@@ -156,14 +158,14 @@ class ModuleFormComponent extends React.Component {
       <Field
         name="active"
         component={RenderCheckbox}
-        label={<FormattedMessage id="module.form.active" />}
+        label={this.context.intl.formatMessage({ id: 'module.form.active' })}
       />
       {this.state.dynamicContainerSelected ?
         <Field
           name="defaultDynamicModule"
           component={RenderCheckbox}
-          label={<FormattedMessage id="module.form.isDefault" />}
-        /> : null}
+          label={this.context.intl.formatMessage({ id: 'module.form.isDefault' })}
+        /> : null }
     </div>
   )
   render() {
@@ -207,7 +209,7 @@ class ModuleFormComponent extends React.Component {
                 />}
                 mainButtonType="submit"
                 isMainButtonDisabled={pristine || submitting}
-                secondaryButtonLabel={<FormattedMessage id="module.form.cancel.button" />}
+                secondaryButtonLabel={this.context.intl.formatMessage({ id: 'module.form.cancel.button' })}
                 secondaryButtonTouchTap={this.props.onBack}
               />
             </CardActions>

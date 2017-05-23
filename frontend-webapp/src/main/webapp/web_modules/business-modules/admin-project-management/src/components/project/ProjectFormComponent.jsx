@@ -5,6 +5,9 @@ import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { ShowableAtRender, CardActionsComponent } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
 import { RenderTextField, Field, RenderCheckbox, ValidationHelpers, ErrorTypes, reduxForm } from '@regardsoss/form-utils'
+import { Project } from '@regardsoss/model'
+import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
 
 /**
  * Display edit and create project form
@@ -14,17 +17,7 @@ import { RenderTextField, Field, RenderCheckbox, ValidationHelpers, ErrorTypes, 
 export class ProjectFormComponent extends React.Component {
 
   static propTypes = {
-    currentProject: PropTypes.shape({
-      content: PropTypes.shape({
-        id: PropTypes.number,
-        name: PropTypes.string,
-        description: PropTypes.string,
-        icon: PropTypes.string,
-        license: PropTypes.string,
-        isPublic: PropTypes.bool,
-        isAccessible: PropTypes.bool,
-      }),
-    }),
+    currentProject: Project,
     onSubmit: PropTypes.func.isRequired,
     backUrl: PropTypes.string.isRequired,
     // from reduxForm
@@ -32,6 +25,10 @@ export class ProjectFormComponent extends React.Component {
     pristine: PropTypes.bool,
     handleSubmit: PropTypes.func.isRequired,
     initialize: PropTypes.func.isRequired,
+  }
+  static contextTypes = {
+    ...themeContextType,
+    ...i18nContextType,
   }
 
   constructor(props) {
@@ -87,7 +84,7 @@ export class ProjectFormComponent extends React.Component {
                 fullWidth
                 component={RenderTextField}
                 type="text"
-                label={<FormattedMessage id="project.form.name" />}
+                label={this.context.intl.formatMessage({ id: 'project.form.name' })}
               />
             </ShowableAtRender>
             <Field
@@ -96,41 +93,41 @@ export class ProjectFormComponent extends React.Component {
               multiLine
               component={RenderTextField}
               type="text"
-              label={<FormattedMessage id="project.form.description" />}
+              label={this.context.intl.formatMessage({ id: 'project.form.description' })}
             />
             <Field
               name="icon"
               fullWidth
               component={RenderTextField}
               type="text"
-              label={<FormattedMessage id="project.form.icon" />}
+              label={this.context.intl.formatMessage({ id: 'project.form.icon' })}
             />
             <Field
               name="license"
               fullWidth
               component={RenderTextField}
               type="text"
-              label={<FormattedMessage id="project.form.license" />}
+              label={this.context.intl.formatMessage({ id: 'project.form.license' })}
             />
             <Field
               name="isPublic"
               className="selenium-isPublicCheckbox"
               component={RenderCheckbox}
-              label={<FormattedMessage id="project.form.isPublic" />}
+              label={this.context.intl.formatMessage({ id: 'project.form.isPublic' })}
             />
             <Field
               name="isAccessible"
               className="selenium-isAccessibleCheckbox"
               component={RenderCheckbox}
-              label={<FormattedMessage id="project.form.isAccessible" />}
+              label={this.context.intl.formatMessage({ id: 'project.form.isAccessible' })}
             />
           </CardText>
           <CardActions>
             <CardActionsComponent
-              mainButtonLabel={<FormattedMessage id="project.form.action.submit" />}
+              mainButtonLabel={this.context.intl.formatMessage({ id: 'project.form.action.submit' })}
               mainButtonType="submit"
               isMainButtonDisabled={pristine || submitting}
-              secondaryButtonLabel={<FormattedMessage id="project.form.action.cancel" />}
+              secondaryButtonLabel={this.context.intl.formatMessage({ id: 'project.form.action.cancel' })}
               secondaryButtonUrl={this.props.backUrl}
             />
           </CardActions>

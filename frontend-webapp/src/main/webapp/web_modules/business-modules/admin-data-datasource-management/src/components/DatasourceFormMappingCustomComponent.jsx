@@ -41,8 +41,8 @@ export class DatasourceFormMappingCustomComponent extends React.Component {
     return (
       <div>
         <CardTitle
-          title={<FormattedMessage id="datasource.form.mapping.custom.title" />}
-          subtitle={<FormattedMessage id="datasource.form.mapping.custom.subtitle" />}
+          title={this.context.intl.formatMessage({ id: 'datasource.form.mapping.custom.title' })}
+          subtitle={this.context.intl.formatMessage({ id: 'datasource.form.mapping.custom.subtitle' })}
         />
         <CardText>
           <Field

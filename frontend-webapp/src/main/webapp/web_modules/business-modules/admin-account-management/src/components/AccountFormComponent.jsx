@@ -2,6 +2,9 @@ import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
 import { reduxForm, RenderTextField, Field } from '@regardsoss/form-utils'
+import { i18nContextType } from '@regardsoss/i18n'
+import { Account } from '@regardsoss/model'
+import { themeContextType } from '@regardsoss/theme'
 
 /**
  * Display edit and create project form
@@ -9,14 +12,7 @@ import { reduxForm, RenderTextField, Field } from '@regardsoss/form-utils'
 export class AccountFormComponent extends React.Component {
 
   static propTypes = {
-    currentAccount: PropTypes.shape({
-      content: PropTypes.shape({
-        id: PropTypes.number,
-        email: PropTypes.string,
-        firstName: PropTypes.string,
-        lastName: PropTypes.string,
-      }),
-    }).isRequired,
+    currentAccount: Account.isRequired,
     onSubmit: PropTypes.func.isRequired,
     backUrl: PropTypes.string.isRequired,
     // from reduxForm
@@ -24,6 +20,11 @@ export class AccountFormComponent extends React.Component {
     pristine: PropTypes.bool,
     handleSubmit: PropTypes.func.isRequired,
     initialize: PropTypes.func.isRequired,
+  }
+
+  static contextTypes = {
+    ...themeContextType,
+    ...i18nContextType,
   }
 
   componentDidMount() {
@@ -64,29 +65,29 @@ export class AccountFormComponent extends React.Component {
               fullWidth
               component={RenderTextField}
               type="text"
-              label={<FormattedMessage id="account.form.input.email" />}
+              label={this.context.intl.formatMessage({ id: 'account.form.input.email' })}
             />
             <Field
               name="firstName"
               fullWidth
               component={RenderTextField}
               type="text"
-              label={<FormattedMessage id="account.form.input.firstName" />}
+              label={this.context.intl.formatMessage({ id: 'account.form.input.firstName' })}
             />
             <Field
               name="lastName"
               fullWidth
               component={RenderTextField}
               type="text"
-              label={<FormattedMessage id="account.form.input.lastName" />}
+              label={this.context.intl.formatMessage({ id: 'account.form.input.lastName' })}
             />
           </CardText>
           <CardActions>
             <CardActionsComponent
-              mainButtonLabel={<FormattedMessage id="account.form.action.save" />}
+              mainButtonLabel={this.context.intl.formatMessage({ id: 'account.form.action.save' })}
               mainButtonType="submit"
               isMainButtonDisabled={pristine || submitting}
-              secondaryButtonLabel={<FormattedMessage id="account.form.action.cancel" />}
+              secondaryButtonLabel={this.context.intl.formatMessage({ id: 'account.form.action.cancel' })}
               secondaryButtonUrl={this.props.backUrl}
             />
           </CardActions>

@@ -2,9 +2,9 @@
  * LICENSE_PLACEHOLDER
  **/
 import map from 'lodash/map'
+import { FormattedMessage } from 'react-intl'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
-import { FormattedMessage } from 'react-intl'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
 import { Connection } from '@regardsoss/model'
@@ -90,8 +90,8 @@ export class ConnectionListComponent extends React.Component {
     return (
       <Card>
         <CardTitle
-          title={<FormattedMessage id="connection.list.title" />}
-          subtitle={<FormattedMessage id="connection.list.subtitle" />}
+          title={this.context.intl.formatMessage({ id: 'connection.list.title' })}
+          subtitle={this.context.intl.formatMessage({ id: 'connection.list.subtitle' })}
         />
         <CardText>
           {this.renderDeleteConfirmDialog()}
@@ -156,7 +156,7 @@ export class ConnectionListComponent extends React.Component {
               />
             }
             mainHateoasDependency={connectionActions.getDependency(RequestVerbEnum.POST)}
-            secondaryButtonLabel={<FormattedMessage id="connection.list.action.cancel" />}
+            secondaryButtonLabel={this.context.intl.formatMessage({ id: 'connection.list.action.cancel' })}
             secondaryButtonUrl={backUrl}
           />
         </CardActions>

@@ -57,7 +57,7 @@ class ServiceConfigurationListComponent extends React.Component {
       <Card>
         <CardTitle
           title={<FormattedMessage id="service.listconf.title" values={{ value: plugin.info.name }} />}
-          subtitle={<FormattedMessage id="service.listconf.subtitle" />}
+          subtitle={this.context.intl.formatMessage({ id: 'service.listconf.subtitle' })}
         />
         <CardText>
           <div className={styles.line.classes}>
@@ -158,7 +158,7 @@ class ServiceConfigurationListComponent extends React.Component {
               />
             }
             mainHateoasDependency={uiPluginConfigurationActions.getDependency(RequestVerbEnum.POST)}
-            secondaryButtonLabel={<FormattedMessage id="service.listconf.action.back" />}
+            secondaryButtonLabel={this.context.intl.formatMessage({ id: 'service.listconf.action.back' })}
             secondaryButtonUrl={backUrl}
           />
         </CardActions>

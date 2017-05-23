@@ -3,10 +3,14 @@
  **/
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import { testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { testSuiteHelpers, DumpProvider, buildTestContext } from '@regardsoss/tests-helpers'
 import { Card } from 'material-ui/Card'
 import PluginConfigurationComponent from '../../../src/components/plugin/PluginConfigurationComponent'
 
+
+const options = {
+  context: buildTestContext(),
+}
 /**
  * Plugin tests
  * @author Xavier-Alexandre Brochard
@@ -23,17 +27,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing plugin configuration component', ()
   it('should render sub-components', () => {
     const props = {
       microserviceName: 'rs-test',
-      pluginConfiguration: {
-        content: {
-          id: 2,
-          label: 'Random configuration',
-          version: '0.0.1',
-          priorityOrder: 1,
-          active: false,
-          pluginClassName: 'Kerberos',
-        },
-        links: [],
-      },
+      pluginConfiguration: DumpProvider.getFirstEntity('CommonClient', 'PluginConfiguration'),
       onActiveToggle: () => { },
       onCopyClick: () => { },
       onDeleteClick: () => { },
@@ -41,7 +35,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing plugin configuration component', ()
       onDownwardClick: () => { },
       onUpwardClick: () => { },
     }
-    const enzymeWrapper = shallow(<PluginConfigurationComponent {...props} />)
+    const enzymeWrapper = shallow(<PluginConfigurationComponent {...props} />, options)
     const subComponent = enzymeWrapper.find(Card)
     expect(subComponent).to.have.length(1)
   })

@@ -1,13 +1,12 @@
 /*
  * LICENSE_PLACEHOLDER
  */
-import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import IconButton from 'material-ui/IconButton'
 import PlayArrow from 'material-ui/svg-icons/av/play-arrow'
 import Check from 'material-ui/svg-icons/navigation/check'
 import Error from 'material-ui/svg-icons/alert/error'
 import Warning from 'material-ui/svg-icons/alert/warning'
-import { FormattedMessage } from 'react-intl'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import OnHoverSwitchIconButton from '@regardsoss/components/src/buttons/OnHoverSwitchIconButton'

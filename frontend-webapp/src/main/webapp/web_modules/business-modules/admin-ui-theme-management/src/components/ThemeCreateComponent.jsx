@@ -1,7 +1,6 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { FormattedMessage } from 'react-intl'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
 import { RenderTextField, Field, ValidationHelpers, reduxForm } from '@regardsoss/form-utils'
@@ -57,14 +56,14 @@ export class ThemeCreateComponent extends React.Component {
     const actions = (
       <div style={styles.form.actionsWrapper}>
         <FlatButton
-          label={<FormattedMessage id="application.theme.create.form.cancel" />}
+          label={this.context.intl.formatMessage({ id: 'application.theme.create.form.cancel' })}
           primary
           onTouchTap={onRequestClose}
         />
         <FlatButton
           type="submit"
           disabled={submitting || invalid}
-          label={<FormattedMessage id="application.theme.create.form.submit" />}
+          label={this.context.intl.formatMessage({ id: 'application.theme.create.form.submit' })}
           primary
           keyboardFocused
         />
@@ -84,7 +83,7 @@ export class ThemeCreateComponent extends React.Component {
             component={RenderTextField}
             type="text"
             validate={validRequiredString}
-            label={<FormattedMessage id="application.theme.create.form.name" />}
+            label={this.context.intl.formatMessage({ id: 'application.theme.create.form.name' })}
           />
           {actions}
         </form>

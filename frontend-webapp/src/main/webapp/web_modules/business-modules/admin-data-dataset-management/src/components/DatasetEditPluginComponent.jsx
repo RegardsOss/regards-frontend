@@ -7,7 +7,7 @@ import cloneDeep from 'lodash/cloneDeep'
 import remove from 'lodash/remove'
 import includes from 'lodash/includes'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
-import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import { PluginConfiguration, PluginMetaData, LinkPluginDataset } from '@regardsoss/model'
 import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
@@ -118,8 +118,8 @@ export class DatasetEditPluginComponent extends React.Component {
     return (
       <Card>
         <CardTitle
-          title={<FormattedMessage id="dataset.form.plugin.title" />}
-          subtitle={<FormattedHTMLMessage id="dataset.form.plugin.subtitle" />}
+          title={this.context.intl.formatMessage({ id: 'dataset.form.plugin.title' })}
+          subtitle={this.context.intl.formatHTMLMessage({ id: 'dataset.form.plugin.subtitle' })}
         />
         <DatasetStepperComponent stepIndex={3} />
         <CardText>
@@ -161,7 +161,7 @@ export class DatasetEditPluginComponent extends React.Component {
               />
             }
             mainButtonTouchTap={() => { this.props.onSubmit(this.state.currentLinkPluginDataset) }}
-            secondaryButtonLabel={<FormattedMessage id="dataset.form.plugin.action.cancel" />}
+            secondaryButtonLabel={this.context.intl.formatMessage({ id: 'dataset.form.plugin.action.cancel' })}
             secondaryButtonUrl={backUrl}
           />
         </CardActions>

@@ -132,7 +132,7 @@ export class ProjectConnectionListComponent extends React.Component {
             id="project.connection.list.title"
             values={{ project: this.props.project.content.name }}
           />}
-          subtitle={<FormattedMessage id="project.connection.list.subtitle" />}
+          subtitle={this.context.intl.formatMessage({ id: 'project.connection.list.subtitle' })}
         />
         <CardText>
           <Table selectable>

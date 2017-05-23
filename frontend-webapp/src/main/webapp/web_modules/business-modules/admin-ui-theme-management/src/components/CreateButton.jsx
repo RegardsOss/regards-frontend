@@ -2,8 +2,8 @@
  * LICENSE_PLACEHOLDER
  **/
 import AddCircle from 'material-ui/svg-icons/content/add-circle'
-import { FormattedMessage } from 'react-intl'
 import { themeContextType, ThemeActions } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
 import { HateoasDisplayDecorator } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import IconButton from 'material-ui/IconButton'
@@ -22,6 +22,7 @@ class CreateButton extends React.Component {
 
   static contextTypes = {
     ...themeContextType,
+    ...i18nContextType,
   }
 
   state = {
@@ -48,7 +49,7 @@ class CreateButton extends React.Component {
         >
           <IconButton
             onTouchTap={this.onOpen}
-            tooltip={<FormattedMessage id="application.theme.create.tooltip" />}
+            tooltip={this.context.intl.formatMessage({ id: 'application.theme.create.tooltip' })}
           >
             <AddCircle color={style.toolbar.icon.color} />
           </IconButton>

@@ -7,6 +7,7 @@ import { FormattedMessage } from 'react-intl'
 import map from 'lodash/map'
 import keys from 'lodash/keys'
 import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
 import { AttributeModel, Model, PluginConfiguration, PluginMetaData } from '@regardsoss/model'
 import HTML5Backend from 'react-dnd-html5-backend'
 import { DragDropContext } from 'react-dnd'
@@ -46,6 +47,7 @@ export class ModelAttributeFormComponent extends React.Component {
 
   static contextTypes = {
     ...themeContextType,
+    ...i18nContextType,
   }
 
   onDrop = (entityDroppedTo, isFragment, entity) => {
@@ -131,7 +133,7 @@ export class ModelAttributeFormComponent extends React.Component {
           <div className="col-sm-50">
             <ContainerCard
               acceptAttrType={ItemTypes.ATTR_REMAINING}
-              title={<FormattedMessage id="modelattr.edit.remainingAttr" />}
+              title={this.context.intl.formatMessage({ id: 'modelattr.edit.remainingAttr' })}
               onChange={this.onDrop}
             >
               {map(distributedAttrModels.ATTR_REMAINING.fragments, (fragment, id) => (
@@ -162,7 +164,7 @@ export class ModelAttributeFormComponent extends React.Component {
         <Card style={style.cardEspaced}>
           <CardActions>
             <CardActionsComponent
-              mainButtonLabel={<FormattedMessage id="modelattr.form.action.back" />}
+              mainButtonLabel={this.context.intl.formatMessage({ id: 'modelattr.form.action.back' })}
               mainButtonUrl={backUrl}
             />
           </CardActions>

@@ -1,7 +1,6 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { FormattedMessage } from 'react-intl'
 import AppBar from 'material-ui/AppBar'
 import { Card, CardActions, CardTitle } from 'material-ui/Card'
 import IconList from 'material-ui/svg-icons/action/list'
@@ -52,7 +51,7 @@ class ServiceListComponent extends React.Component {
           <CardActions>
             <ResourceIconAction
               resourceDependency={uiPluginConfigurationActions.getDependency(RequestVerbEnum.GET_LIST)}
-              tooltip={<FormattedMessage id="service.list.open.tooltip" />}
+              tooltip={this.context.intl.formatMessage({ id: 'service.list.open.tooltip' })}
               onTouchTap={() => handleOpen(uiPluginDefinition.content.id)}
             >
               <IconList />
@@ -69,7 +68,7 @@ class ServiceListComponent extends React.Component {
     return (
       <div>
         <AppBar
-          title={<FormattedMessage id="service.list.title" />}
+          title={this.context.intl.formatMessage({ id: 'service.list.title' })}
           iconElementLeft={<IconButton onTouchTap={handleBack}><Back /></IconButton>}
         />
         <div style={styles.root}>

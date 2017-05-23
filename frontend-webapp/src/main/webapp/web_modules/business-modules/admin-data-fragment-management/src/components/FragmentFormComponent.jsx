@@ -78,7 +78,7 @@ export class FragmentFormComponent extends React.Component {
                 fullWidth
                 component={RenderTextField}
                 type="text"
-                label={<FormattedMessage id="fragment.form.name" />}
+                label={this.context.intl.formatMessage({ id: 'fragment.form.name' })}
               />
             </ShowableAtRender>
             <Field
@@ -86,7 +86,7 @@ export class FragmentFormComponent extends React.Component {
               fullWidth
               component={RenderTextField}
               type="text"
-              label={<FormattedMessage id="fragment.form.description" />}
+              label={this.context.intl.formatMessage({ id: 'fragment.form.description' })}
             />
             <ShowableAtRender show={this.props.isCreating}>
               <div>
@@ -104,10 +104,10 @@ export class FragmentFormComponent extends React.Component {
           </CardText>
           <CardActions>
             <CardActionsComponent
-              mainButtonLabel={<FormattedMessage id="fragment.form.action.submit" />}
+              mainButtonLabel={this.context.intl.formatMessage({ id: 'fragment.form.action.submit' })}
               mainButtonType="submit"
               isMainButtonDisabled={pristine || submitting || invalid}
-              secondaryButtonLabel={<FormattedMessage id="fragment.form.action.cancel" />}
+              secondaryButtonLabel={this.context.intl.formatMessage({ id: 'fragment.form.action.cancel' })}
               secondaryButtonUrl={this.props.backUrl}
             />
           </CardActions>

@@ -3,6 +3,8 @@ import forEach from 'lodash/forEach'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import MenuItem from 'material-ui/MenuItem'
 import { FormattedMessage } from 'react-intl'
+import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
 import { CardActionsComponent } from '@regardsoss/components'
 import { RenderTextField, Field, RenderSelectField, EnumInputsComponent, EnumInputsHelper, ErrorTypes, ValidationHelpers, reduxForm } from '@regardsoss/form-utils'
 import { Role } from '@regardsoss/model'
@@ -24,6 +26,10 @@ export class RoleFormComponent extends React.Component {
     invalid: PropTypes.bool,
     handleSubmit: PropTypes.func.isRequired,
     initialize: PropTypes.func.isRequired,
+  }
+  static contextTypes = {
+    ...themeContextType,
+    ...i18nContextType,
   }
 
   constructor(props) {
@@ -82,13 +88,13 @@ export class RoleFormComponent extends React.Component {
               fullWidth
               component={RenderTextField}
               type="text"
-              label={<FormattedMessage id="role.form.name" />}
+              label={this.context.intl.formatMessage({ id: 'role.form.name' })}
             />
             <Field
               name="parentRole"
               fullWidth
               component={RenderSelectField}
-              label={<FormattedMessage id="role.form.parentRole" />}
+              label={this.context.intl.formatMessage({ id: 'role.form.parentRole' })}
             >
               {map(roleList, (role, id) => (
                 <MenuItem
@@ -109,10 +115,10 @@ export class RoleFormComponent extends React.Component {
           </CardText>
           <CardActions>
             <CardActionsComponent
-              mainButtonLabel={<FormattedMessage id="role.form.action.submit" />}
+              mainButtonLabel={this.context.intl.formatMessage({ id: 'role.form.action.submit' })}
               mainButtonType="submit"
               isMainButtonDisabled={pristine || submitting || invalid}
-              secondaryButtonLabel={<FormattedMessage id="role.form.action.cancel" />}
+              secondaryButtonLabel={this.context.intl.formatMessage({ id: 'role.form.action.cancel' })}
               secondaryButtonUrl={this.props.backUrl}
             />
           </CardActions>

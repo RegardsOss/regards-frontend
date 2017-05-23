@@ -4,6 +4,8 @@
 import { chain } from 'lodash'
 import { FormattedMessage } from 'react-intl'
 import { List, ListItem } from 'material-ui/List'
+import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
 import KeyIcon from 'material-ui/svg-icons/communication/vpn-key'
 import CheckIcon from 'material-ui/svg-icons/navigation/check'
 import { CardTitle } from 'material-ui/Card'
@@ -27,6 +29,11 @@ export class ConnectionViewerComponent extends React.Component {
     displayTableAsSelected: PropTypes.bool,
     // The parent component can force to mark a table as selected from the beginning
     initialTableOpen: PropTypes.string,
+  }
+
+  static contextTypes = {
+    ...themeContextType,
+    ...i18nContextType,
   }
 
   constructor(props) {
@@ -117,7 +124,7 @@ export class ConnectionViewerComponent extends React.Component {
     return (
       <div style={style}>
         <CardTitle
-          title={<FormattedMessage id="datasource.form.mapping.connectionViewer.title" />}
+          title={this.context.intl.formatMessage({ id: 'datasource.form.mapping.connectionViewer.title' })}
           subtitle={<FormattedMessage id={subtitle} />}
         />
         <List>

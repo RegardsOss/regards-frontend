@@ -1,11 +1,12 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import { FormattedMessage } from 'react-intl'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
 import Delete from 'material-ui/svg-icons/action/delete'
-import { FormattedMessage } from 'react-intl'
 import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
 import { HateoasIconAction, HateoasKeys, HateoasLinks } from '@regardsoss/display-control'
 import moduleStyles from '../styles/styles'
 
@@ -23,6 +24,7 @@ class DeleteButton extends React.Component {
 
   static contextTypes = {
     ...themeContextType,
+    ...i18nContextType,
   }
 
   state = {
@@ -47,12 +49,12 @@ class DeleteButton extends React.Component {
 
     const actions = [
       <FlatButton
-        label={<FormattedMessage id="application.theme.remove.confirm.cancel" />}
+        label={this.context.intl.formatMessage({ id: 'application.theme.remove.confirm.cancel' })}
         secondary
         onTouchTap={this.handleClose}
       />,
       <FlatButton
-        label={<FormattedMessage id="application.theme.remove.confirm.remove" />}
+        label={this.context.intl.formatMessage({ id: 'application.theme.remove.confirm.remove' })}
         primary
         onTouchTap={this.handleDiscard}
       />,
@@ -64,7 +66,7 @@ class DeleteButton extends React.Component {
           entityLinks={this.props.entityHateoasLinks}
           hateoasKey={HateoasKeys.DELETE}
           onTouchTap={this.handleOpen}
-          tooltip={<FormattedMessage id="application.theme.remove.tooltip" />}
+          tooltip={this.context.intl.formatMessage({ id: 'application.theme.remove.tooltip' })}
         ><Delete color={style.toolbar.icon.color} /></HateoasIconAction>
         <Dialog
           actions={actions}

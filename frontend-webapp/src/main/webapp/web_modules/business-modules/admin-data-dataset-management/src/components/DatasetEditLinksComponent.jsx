@@ -61,8 +61,8 @@ export class DatasetEditLinksComponent extends React.Component {
     return (
       <Card>
         <CardTitle
-          title={<FormattedMessage id="dataset.form.links.title" />}
-          subtitle={<FormattedMessage id="dataset.form.links.subtitle" />}
+          title={this.context.intl.formatMessage({ id: 'dataset.form.links.title' })}
+          subtitle={this.context.intl.formatMessage({ id: 'dataset.form.links.subtitle' })}
         />
         <DatasetStepperComponent stepIndex={2} />
         <CardText>
@@ -86,7 +86,7 @@ export class DatasetEditLinksComponent extends React.Component {
                 ))}
                 <ShowableAtRender show={linkedCollections.length === 0}>
                   <ListItem
-                    primaryText={<FormattedMessage id="dataset.form.links.collection.none" />}
+                    primaryText={this.context.intl.formatMessage({ id: 'dataset.form.links.collection.none' })}
                     disabled
                   />
                 </ShowableAtRender>
@@ -96,7 +96,7 @@ export class DatasetEditLinksComponent extends React.Component {
                 <ListItem
                   primaryText={
                     <TextField
-                      hintText={<FormattedMessage id="dataset.form.links.tag.add" />}
+                      hintText={this.context.intl.formatMessage({ id: 'dataset.form.links.tag.add' })}
                       onChange={this.handleCreateTagChange}
                       value={this.state.tagField}
                       fullWidth
@@ -134,7 +134,7 @@ export class DatasetEditLinksComponent extends React.Component {
                 <ListItem
                   primaryText={
                     <TextField
-                      hintText={<FormattedMessage id="dataset.form.links.remainingcollection.search" />}
+                      hintText={this.context.intl.formatMessage({ id: 'dataset.form.links.remainingcollection.search' })}
                       onChange={handleSearch}
                       fullWidth
                     />
@@ -173,7 +173,7 @@ export class DatasetEditLinksComponent extends React.Component {
                 id="dataset.form.links.action.save"
               />
             }
-            secondaryButtonLabel={<FormattedMessage id="dataset.form.links.action.cancel" />}
+            secondaryButtonLabel={this.context.intl.formatMessage({ id: 'dataset.form.links.action.cancel' })}
             secondaryButtonUrl={backUrl}
           />
         </CardActions>

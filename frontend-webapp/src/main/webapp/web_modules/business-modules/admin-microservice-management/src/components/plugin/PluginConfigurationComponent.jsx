@@ -95,7 +95,7 @@ class PluginConfigurationComponent extends React.Component {
               <HateoasIconAction
                 entityLinks={pluginConfiguration.links}
                 hateoasKey={HateoasKeys.UPDATE}
-                tooltip={<FormattedMessage id="microservice-management.plugin.configuration.increment.priorityOrder" />}
+                tooltip={this.context.intl.formatMessage({ id: 'microservice-management.plugin.configuration.increment.priorityOrder' })}
                 onTouchTap={onUpwardClick}
               >
                 <ArrowUpward />
@@ -103,7 +103,7 @@ class PluginConfigurationComponent extends React.Component {
               <HateoasIconAction
                 entityLinks={pluginConfiguration.links}
                 hateoasKey={HateoasKeys.UPDATE}
-                tooltip={<FormattedMessage id="microservice-management.plugin.configuration.decrement.priorityOrder" />}
+                tooltip={this.context.intl.formatMessage({ id: 'microservice-management.plugin.configuration.decrement.priorityOrder' })}
                 onTouchTap={onDownwardClick}
               >
                 <ArrowDownward />
@@ -111,14 +111,14 @@ class PluginConfigurationComponent extends React.Component {
               <HateoasIconAction
                 entityLinks={pluginConfiguration.links}
                 hateoasKey={HateoasKeys.UPDATE}
-                tooltip={<FormattedMessage id="microservice-management.plugin.configuration.edit" />}
+                tooltip={this.context.intl.formatMessage({ id: 'microservice-management.plugin.configuration.edit' })}
                 onTouchTap={onEditClick}
               >
                 <ModeEdit />
               </HateoasIconAction>
               <ResourceIconAction
                 resourceDependency={PluginConfigurationActions.getMsDependency('POST', this.props.microserviceName)}
-                tooltip={<FormattedMessage id="microservice-management.plugin.configuration.copy" />}
+                tooltip={this.context.intl.formatMessage({ id: 'microservice-management.plugin.configuration.copy' })}
                 onTouchTap={onCopyClick}
               >
                 <ContentCopy />
@@ -126,7 +126,7 @@ class PluginConfigurationComponent extends React.Component {
               <HateoasIconAction
                 entityLinks={pluginConfiguration.links}
                 hateoasKey={HateoasKeys.DELETE}
-                tooltip={<FormattedMessage id="microservice-management.plugin.configuration.delete" />}
+                tooltip={this.context.intl.formatMessage({ id: 'microservice-management.plugin.configuration.delete' })}
                 onTouchTap={onDeleteClick}
               >
                 <Delete />

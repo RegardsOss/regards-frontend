@@ -137,7 +137,7 @@ export class AccountListComponent extends React.Component {
         </Tabs>
         <NoContentMessageInfo
           noContent={isEmpty(tabContent.accounts) && !initialFecthing}
-          title={<FormattedMessage id="account.list.table.no.content.title" />}
+          title={this.context.intl.formatMessage({ id: 'account.list.table.no.content.title' })}
           message={<FormattedMessage id={tabContent.noDataMessageKey} />}
         >
           <div>

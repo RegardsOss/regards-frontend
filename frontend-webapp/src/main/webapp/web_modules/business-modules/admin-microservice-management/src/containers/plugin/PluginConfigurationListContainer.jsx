@@ -3,11 +3,11 @@
  **/
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
-import { I18nProvider } from '@regardsoss/i18n'
 import { PluginMetaData, PluginConfigurationList } from '@regardsoss/model'
 import { LoadableContentDisplayDecorator, ResourceIconAction } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { FormattedMessage } from 'react-intl'
+import { themeContextType } from '@regardsoss/theme'
+import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
 import AppBar from 'material-ui/AppBar'
 import IconButton from 'material-ui/IconButton'
 import Paper from 'material-ui/Paper'
@@ -49,6 +49,12 @@ export class PluginConfigurationListContainer extends React.Component {
     deletePluginConfiguration: PropTypes.func,
   }
 
+  static contextTypes = {
+    ...themeContextType,
+    ...i18nContextType,
+  }
+
+
   componentDidMount() {
     const { params: { microserviceName, pluginId } } = this.props
     this.props.fetchPluginMetaData(pluginId, microserviceName)
@@ -84,7 +90,7 @@ export class PluginConfigurationListContainer extends React.Component {
             iconElementRight={
               <ResourceIconAction
                 resourceDependency={PluginConfigurationActions.getMsDependency(RequestVerbEnum.POST, microserviceName)}
-                tooltip={<FormattedMessage id="microservice-management.plugin.configuration.list.add" />}
+                tooltip={this.context.intl.formatMessage({ id: 'microservice-management.plugin.configuration.list.add' })}
                 onTouchTap={this.handleAddClick}
               >
                 <AddCircle />
