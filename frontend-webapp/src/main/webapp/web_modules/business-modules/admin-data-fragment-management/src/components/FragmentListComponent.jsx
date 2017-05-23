@@ -9,7 +9,7 @@ import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
 import Download from 'material-ui/svg-icons/file/file-download'
 import { Fragment } from '@regardsoss/model'
-import { CardActionsComponent } from '@regardsoss/components'
+import { ActionsMenuCell, CardActionsComponent, ConfirmDialogComponent, ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { HateoasIconAction, HateoasKeys } from '@regardsoss/display-control'
@@ -37,6 +37,44 @@ export class FragmentListComponent extends React.Component {
     ...i18nContextType,
   }
 
+  state = {
+    deleteDialogOpened: false,
+    entityToDelete: null,
+  }
+
+  closeDeleteDialog = () => {
+    this.setState({
+      deleteDialogOpened: false,
+      entityToDelete: null,
+    })
+  }
+
+  openDeleteDialog = (entity) => {
+    this.setState({
+      deleteDialogOpened: true,
+      entityToDelete: entity,
+    })
+  }
+
+  renderDeleteConfirmDialog = () => {
+    const name = this.state.entityToDelete ? this.state.entityToDelete.content.name : ' '
+    const title = this.context.intl.formatMessage({ id: 'model.list.delete.title' }, { name })
+    return (
+      <ShowableAtRender
+        show={this.state.deleteDialogOpened}
+      >
+        <ConfirmDialogComponent
+          dialogType={ConfirmDialogComponent.dialogTypes.DELETE}
+          onConfirm={() => {
+            this.props.handleDelete(this.state.entityToDelete.content.id)
+          }}
+          onClose={this.closeDeleteDialog}
+          title={title}
+        />
+      </ShowableAtRender>
+    )
+  }
+
   getExportUrlFromHateoas = (fragmentLinks) => {
     const { accessToken } = this.props
     const exportLink = find(fragmentLinks, link => (
@@ -52,6 +90,7 @@ export class FragmentListComponent extends React.Component {
       hoverButtonDelete: this.context.muiTheme.palette.accent1Color,
       hoverButtonView: this.context.muiTheme.palette.pickerHeaderColor,
     }
+    const { intl } = this.context
     return (
       <Card>
         <CardTitle
@@ -59,6 +98,7 @@ export class FragmentListComponent extends React.Component {
           subtitle={<FormattedMessage id="fragment.list.subtitle" />}
         />
         <CardText>
+          {this.renderDeleteConfirmDialog()}
           <Table
             selectable={false}
           >
@@ -83,30 +123,35 @@ export class FragmentListComponent extends React.Component {
                   <TableRowColumn>{fragment.content.name}</TableRowColumn>
                   <TableRowColumn>{fragment.content.description}</TableRowColumn>
                   <TableRowColumn>
-                    <HateoasIconAction
-                      entityLinks={fragment.links}
-                      hateoasKey={HateoasKeys.UPDATE}
-                      onTouchTap={() => handleEdit(fragment.content.id)}
-                    >
-                      <Edit hoverColor={style.hoverButtonEdit} />
-                    </HateoasIconAction>
-                    <HateoasIconAction
-                      entityLinks={fragment.links}
-                      hateoasKey={HateoasKeys.DELETE}
-                      onTouchTap={() => handleDelete(fragment.content.id)}
-                    >
-                      <Delete hoverColor={style.hoverButtonDelete} />
-                    </HateoasIconAction>
-                    <HateoasIconAction
-                      entityLinks={fragment.links}
-                      hateoasKey="export"
-                      href={this.getExportUrlFromHateoas(fragment.links)}
-                      style={{
-                        top: '-7px',
-                      }}
-                    >
-                      <Download hoverColor={style.hoverButtonEdit} />
-                    </HateoasIconAction>
+                    <ActionsMenuCell>
+                      <HateoasIconAction
+                        entityLinks={fragment.links}
+                        hateoasKey={HateoasKeys.UPDATE}
+                        onTouchTap={() => handleEdit(fragment.content.id)}
+                        breakpoint={940}
+                        title={intl.formatMessage({ id: 'fragment.list.action.edit' })}
+                      >
+                        <Edit hoverColor={style.hoverButtonEdit} />
+                      </HateoasIconAction>
+                      <HateoasIconAction
+                        entityLinks={fragment.links}
+                        hateoasKey={HateoasKeys.DELETE}
+                        onTouchTap={() => this.openDeleteDialog(fragment)}
+                        breakpoint={995}
+                        title={intl.formatMessage({ id: 'fragment.list.action.delete' })}
+                      >
+                        <Delete hoverColor={style.hoverButtonDelete} />
+                      </HateoasIconAction>
+                      <HateoasIconAction
+                        entityLinks={fragment.links}
+                        hateoasKey="export"
+                        href={this.getExportUrlFromHateoas(fragment.links)}
+                        breakpoint={1065}
+                        title={intl.formatMessage({ id: 'fragment.list.action.export' })}
+                      >
+                        <Download hoverColor={style.hoverButtonEdit} />
+                      </HateoasIconAction>
+                    </ActionsMenuCell>
                   </TableRowColumn>
                 </TableRow>
               ))}

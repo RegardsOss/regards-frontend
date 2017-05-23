@@ -5,7 +5,7 @@ const messages = Object.assign({
   'collection.list.action.cancel': 'Cancel',
   'collection.list.title': 'Collection list',
   'collection.list.subtitle': 'Les collections sont des regroupements de données par thématique',
-  'collection.list.delete.message': 'Are you sure you want to delete the {name} collection ?',
+  'collection.list.delete.message': 'Delete the collection {name} ?',
   'collection.form.links.component.subtitle': 'Current collection links',
   'collection.form.links.remainingcollection.subtitle': 'Remaining collections',
   'collection.form.links.collection.subtitle': 'Collection links',
@@ -40,6 +40,11 @@ const messages = Object.assign({
   'collection.form.radio.descriptionUrl': 'Give the URL containing the description',
   'collection.form.radio.descriptionFileContent': 'Upload a file containing the description',
   'collection.form.radio.none': 'No description',
+
+  'collection.list.action.edit': 'Edit',
+  'collection.list.action.duplicate': 'Duplicate',
+  'collection.list.action.delete': 'Delete',
+  'table.actions.more': 'More actions',
 }, Locales.en)
 
 export default messages

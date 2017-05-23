@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { isEqual, find, merge } from 'lodash'
+import { isEqual, find, merge, has } from 'lodash'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { connect } from 'react-redux'
@@ -61,16 +61,16 @@ export class ThemeProvider extends React.Component {
       fetchAction = this.props.fetchThemeInstanceList
     }
 
-    fetchAction().then((actionResult) => {
+    return fetchAction().then((actionResult) => {
       // Init the current theme from the new list
       let activeTheme = defaultTheme
-      if (actionResult && actionResult.payload && actionResult.payload.entities && actionResult.payload.entities.theme) {
+      if (has(actionResult, 'payload.entities.theme')) {
         activeTheme = find(actionResult.payload.entities.theme, theme => theme.content.active) || defaultTheme
       }
       this.setState({
         mergedTheme: ThemeProvider.getCustomMuiTheme(activeTheme.content.configuration),
       })
-      dispatchSetCurrentTheme(activeTheme.content.id)
+      return dispatchSetCurrentTheme(activeTheme.content.id)
     })
   }
 

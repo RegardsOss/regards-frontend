@@ -1,3 +1,4 @@
+/* eslint-disable react-perf/jsx-no-new-object-as-prop */
 /**
  * LICENSE_PLACEHOLDER
  **/
@@ -165,3 +166,5 @@ describe('[PLUGINS] Testing Plugins load', () => {
     expect(wrapper.find(IntlProvider)).to.have.length(0)
   })
 })
+
+/* eslint-enable react-perf/jsx-no-new-object-as-prop */

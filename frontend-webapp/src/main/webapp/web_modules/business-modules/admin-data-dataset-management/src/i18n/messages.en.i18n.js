@@ -8,8 +8,9 @@ const messages = Object.assign({
   'dataset.list.table.label': 'Label',
   'dataset.list.table.actions': 'Actions',
   'dataset.list.table.model': 'Model',
-  'dataset.list.tooltip.edit': 'Edit this dataset',
-  'dataset.list.tooltip.delete': 'Delete this dataset',
+  'dataset.list.tooltip.edit': 'Edit',
+  'dataset.list.tooltip.delete': 'Delete',
+  'dataset.list.delete.title': 'Delete the dataset {name} ?',
 
   'dataset.form.links.subtitle': 'Dataset are linked to collections and tags in order to simplify the research',
   'dataset.form.links.title': 'Edit dataset links',
@@ -76,6 +77,8 @@ const messages = Object.assign({
   'dataset.stepper.subsetting': 'Subsetting (datasource)',
   'dataset.stepper.plugins': 'Plugins',
   'dataset.stepper.uiServices': 'UI services',
+
+  'table.actions.more': 'More actions',
 }, Locales.en)
 
 export default messages

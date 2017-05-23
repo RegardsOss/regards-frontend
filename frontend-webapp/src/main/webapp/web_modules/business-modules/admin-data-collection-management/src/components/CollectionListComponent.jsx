@@ -9,7 +9,7 @@ import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import ContentCopy from 'material-ui/svg-icons/content/content-copy'
 import Delete from 'material-ui/svg-icons/action/delete'
 import { Collection } from '@regardsoss/model'
-import { CardActionsComponent, ConfirmDialogComponent, ShowableAtRender } from '@regardsoss/components'
+import { CardActionsComponent, ConfirmDialogComponent, ShowableAtRender, ActionsMenuCell } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { HateoasIconAction, ResourceIconAction, HateoasKeys } from '@regardsoss/display-control'
@@ -35,11 +35,9 @@ export class CollectionListComponent extends React.Component {
     ...i18nContextType,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      deleteDialogOpened: false,
-    }
+  state = {
+    deleteDialogOpened: false,
+    entityToDelete: null,
   }
 
   closeDeleteDialog = () => {
@@ -83,6 +81,7 @@ export class CollectionListComponent extends React.Component {
       hoverButtonDelete: this.context.muiTheme.palette.accent1Color,
       hoverButtonDuplicate: this.context.muiTheme.palette.primary3Color,
     }
+    const { intl } = this.context
     return (
       <Card>
         <CardTitle
@@ -115,29 +114,37 @@ export class CollectionListComponent extends React.Component {
                   <TableRowColumn>{collection.content.label}</TableRowColumn>
                   <TableRowColumn>{collection.content.model.name}</TableRowColumn>
                   <TableRowColumn>
-                    <HateoasIconAction
-                      entityLinks={collection.links}
-                      hateoasKey={HateoasKeys.UPDATE}
-                      onTouchTap={() => handleEdit(collection.content.id)}
-                    >
-                      <Edit
-                        hoverColor={style.hoverButtonEdit
-                      }
-                      />
-                    </HateoasIconAction>
-                    <ResourceIconAction
-                      resourceDependency={collectionActions.getDependency(RequestVerbEnum.POST)}
-                      onTouchTap={() => handleDuplicate(collection.content.id)}
-                    >
-                      <ContentCopy hoverColor={style.hoverButtonDuplicate} />
-                    </ResourceIconAction>
-                    <HateoasIconAction
-                      entityLinks={collection.links}
-                      hateoasKey={HateoasKeys.DELETE}
-                      onTouchTap={() => this.openDeleteDialog(collection)}
-                    >
-                      <Delete hoverColor={style.hoverButtonDelete} />
-                    </HateoasIconAction>
+                    <ActionsMenuCell>
+                      <HateoasIconAction
+                        entityLinks={collection.links}
+                        hateoasKey={HateoasKeys.UPDATE}
+                        onTouchTap={() => handleEdit(collection.content.id)}
+                        breakpoint={940}
+                        title={intl.formatMessage({ id: 'collection.list.action.edit' })}
+                      >
+                        <Edit
+                          hoverColor={style.hoverButtonEdit
+                        }
+                        />
+                      </HateoasIconAction>
+                      <ResourceIconAction
+                        resourceDependency={collectionActions.getDependency(RequestVerbEnum.POST)}
+                        onTouchTap={() => handleDuplicate(collection.content.id)}
+                        breakpoint={995}
+                        title={intl.formatMessage({ id: 'collection.list.action.duplicate' })}
+                      >
+                        <ContentCopy hoverColor={style.hoverButtonDuplicate} />
+                      </ResourceIconAction>
+                      <HateoasIconAction
+                        entityLinks={collection.links}
+                        hateoasKey={HateoasKeys.DELETE}
+                        onTouchTap={() => this.openDeleteDialog(collection)}
+                        breakpoint={1065}
+                        title={intl.formatMessage({ id: 'collection.list.action.delete' })}
+                      >
+                        <Delete hoverColor={style.hoverButtonDelete} />
+                      </HateoasIconAction>
+                    </ActionsMenuCell>
                   </TableRowColumn>
                 </TableRow>
               ))}

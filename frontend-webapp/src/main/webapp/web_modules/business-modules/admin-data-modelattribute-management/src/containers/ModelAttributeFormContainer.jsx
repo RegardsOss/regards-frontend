@@ -13,6 +13,7 @@ import { modelSelectors, modelActions } from '../client/ModelClient'
 import { modelAttributesFragmentActions } from '../client/ModelAttributesFragmentClient'
 import { pluginConfigurationActions, pluginConfigurationSelectors } from '../client/PluginConfigurationClient'
 import { pluginMetaDataActions, pluginMetaDataSelectors } from '../client/PluginMetaDataClient'
+import { fragmentSelectors } from '../client/FragmentClient'
 
 export class ModelAttributeFormContainer extends React.Component {
 
@@ -110,6 +111,10 @@ export class ModelAttributeFormContainer extends React.Component {
     this.props.deleteModelAttribute(modelAttributeToDelete.content.id, this.props.model.content.id)
   }
 
+  isNotInFragment = attribute => (
+    attribute.content.fragment.name !== fragmentSelectors.noneFragmentName
+  )
+
   /**
    * Regroup together attributes that are on the same fragment, and store in another key remaining attributes
    * @param attributeList
@@ -120,7 +125,7 @@ export class ModelAttributeFormContainer extends React.Component {
       fragments: {},
       attrs: [],
     }
-    const partitionAttributeHavingFragment = partition(attributeList, attribute => attribute.content.fragment.id !== 1)
+    const partitionAttributeHavingFragment = partition(attributeList, attribute => this.isNotInFragment(attribute))
     // Store attributeModel that are on the default fragment
     result.attrs = partitionAttributeHavingFragment[1]
 

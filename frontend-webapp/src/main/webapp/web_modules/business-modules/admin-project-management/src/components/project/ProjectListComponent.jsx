@@ -41,11 +41,9 @@ export class ProjectListComponent extends React.Component {
     ...i18nContextType,
   }
 
-  componentWillMount() {
-    // initialize dialog state (no dialog)
-    this.setDialogState(null)
+  state = {
+    currentDialog: null,
   }
-
 
   onLicenseUpdate = (projectName) => {
     const { handleUpdateLicense } = this.props

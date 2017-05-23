@@ -2,10 +2,10 @@
  * LICENSE_PLACEHOLDER
  **/
 import root from 'window-or-global'
-
+import { has, isUndefined } from 'lodash'
 // Load scriptjs library. This lib is used to asynchronously load new external javascript files.
 let scriptjs
-if (typeof root.document !== 'undefined' && typeof root.document.getElementsByTagName !== 'undefined') {
+if (!isUndefined(root.document) && !isUndefined(root.document.getElementsByTagName)) {
   scriptjs = require('scriptjs')
 }
 
@@ -36,7 +36,7 @@ export const savePluginLoaded = ({ sourcePath, info, plugin, reducer, messages, 
  */
 export const loadPlugin = (sourcePath, onErrorCallback, dispatchAction) => {
   let fullSourcePlugin = ''
-  if (typeof root.document !== 'undefined') {
+  if (!isUndefined(root.document)) {
     if (sourcePath[0] === '/') {
       fullSourcePlugin = `${root.location.origin}${sourcePath}`
     } else {
@@ -56,7 +56,7 @@ export const loadPlugin = (sourcePath, onErrorCallback, dispatchAction) => {
 
     scriptjs(sourcePathPluginWithDateTag, sourcePath)
     root.document.addEventListener('error', (e, url) => {
-      if (e && e.srcElement && e.srcElement.src === sourcePathPluginWithDateTag) {
+      if (has(e, 'srcElement.src') && e.srcElement.src === sourcePathPluginWithDateTag) {
         onErrorCallback(fullSourcePlugin)
       }
     }, true)

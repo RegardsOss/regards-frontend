@@ -228,7 +228,7 @@ const mapStateToProps = (state, ownProps) => ({
   attrModelRestrictionList: attributeModelRestrictionSelectors.getArray(state),
   isAttributeModelRestrictionFetching: attributeModelRestrictionSelectors.isFetching(state),
 
-  fragmentList: fragmentSelectors.getList(state),
+  fragmentList: fragmentSelectors.getListWithoutNoneFragment(state),
   isFragmentFetching: fragmentSelectors.isFetching(state),
 })
 

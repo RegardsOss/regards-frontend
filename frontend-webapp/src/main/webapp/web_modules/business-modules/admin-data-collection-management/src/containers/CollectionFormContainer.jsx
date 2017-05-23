@@ -12,6 +12,7 @@ import { collectionActions, collectionSelectors } from '../client/CollectionClie
 import CollectionFormComponent from '../components/CollectionFormComponent'
 import { modelSelectors, modelActions } from '../client/ModelClient'
 import { modelAttributesSelectors, modelAttributesActions } from '../client/ModelAttributesClient'
+import { fragmentSelectors } from '../client/FragmentClient'
 
 /**
  * Show the collection form
@@ -119,7 +120,7 @@ export class CollectionFormContainer extends React.Component {
     map(values.attributes, (attrValue, attrName) => {
       const modelAttr = find(this.props.modelAttributeList, modelAttribute => modelAttribute.content.attribute.name === attrName)
       const fragment = modelAttr.content.attribute.fragment
-      if (fragment.id !== 1) {
+      if (fragment.name !== fragmentSelectors.noneFragmentName) {
         if (!result[fragment.name]) {
           result[fragment.name] = {}
         }

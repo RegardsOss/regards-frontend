@@ -11,6 +11,11 @@ const messages = Object.assign({
   'datasource.list.table.label': 'Label',
   'datasource.list.table.actions': 'Actions',
   'datasource.list.table.model': 'Modele',
+  'datasource.list.action.edit': 'Editer',
+  'datasource.list.action.delete': 'Supprimer',
+  'datasource.list.delete.title': 'Supprimer la source de données {name} ?',
+
+  'table.actions.more': 'Plus d\'actions',
 
   'datasource.form.create.title': 'Création d\'une source de données',
   'datasource.form.create.subtitle': 'Veuillez sélectionner à partir de quelle connexion vous souhaitez créer la source de données',

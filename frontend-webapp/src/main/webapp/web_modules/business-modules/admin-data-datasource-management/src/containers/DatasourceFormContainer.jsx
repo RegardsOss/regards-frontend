@@ -101,7 +101,7 @@ export class DatasourceFormContainer extends React.Component {
    * @param newDatasource
    */
   handleUpdate = (updatedDatasource) => {
-    Promise.resolve(this.props.updateDatasource(updatedDatasource.content.id, updatedDatasource.content))
+    Promise.resolve(this.props.updateDatasource(updatedDatasource.content.pluginConfigurationId, updatedDatasource.content))
       .then((actionResult) => {
         // We receive here the action
         if (!actionResult.error) {
@@ -211,7 +211,7 @@ export class DatasourceFormContainer extends React.Component {
         return (<DatasourceFormAttributesContainer
           pluginMetaDataList={pluginMetaDataList}
           currentDatasource={currentDatasource}
-          currentConnectionId={isCreating ? connectionId : currentDatasource.content.pluginConfigurationConnectionId}
+          currentConnectionId={isCreating ? parseInt(connectionId, 10) : currentDatasource.content.pluginConfigurationConnectionId}
           handleSave={this.saveAttributes}
           backUrl={this.getFormAttributeBackUrl()}
         />)
