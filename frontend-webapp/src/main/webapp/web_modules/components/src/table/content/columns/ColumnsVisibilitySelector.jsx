@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { map } from 'lodash'
+import map from 'lodash/map'
 import FlatButton from 'material-ui/FlatButton'
 import Dialog from 'material-ui/Dialog'
 import Checkbox from 'material-ui/Checkbox'

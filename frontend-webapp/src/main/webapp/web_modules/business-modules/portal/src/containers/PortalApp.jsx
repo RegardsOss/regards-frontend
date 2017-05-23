@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { forEach } from 'lodash'
+import forEach from 'lodash/forEach'
 import { connect } from '@regardsoss/redux'
 import { Layout } from '@regardsoss/model'
 import { AuthenticationParametersActions, AuthenticationParametersSelectors } from '@regardsoss/authentication-manager'

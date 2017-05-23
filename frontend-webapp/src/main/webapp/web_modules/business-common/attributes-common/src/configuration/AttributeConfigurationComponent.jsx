@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { merge } from 'lodash'
+import merge from 'lodash/merge'
 import { AttributeModel, AttributeModelController, AttributeConfiguration } from '@regardsoss/model'
 import { Card, CardHeader, CardText } from 'material-ui/Card'
 import TextField from 'material-ui/TextField'

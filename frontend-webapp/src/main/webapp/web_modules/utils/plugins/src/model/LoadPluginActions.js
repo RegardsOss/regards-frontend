@@ -2,7 +2,8 @@
  * LICENSE_PLACEHOLDER
  **/
 import root from 'window-or-global'
-import { has, isUndefined } from 'lodash'
+import has from 'lodash/has'
+import isUndefined from 'lodash/isUndefined'
 // Load scriptjs library. This lib is used to asynchronously load new external javascript files.
 let scriptjs
 if (!isUndefined(root.document) && !isUndefined(root.document.getElementsByTagName)) {

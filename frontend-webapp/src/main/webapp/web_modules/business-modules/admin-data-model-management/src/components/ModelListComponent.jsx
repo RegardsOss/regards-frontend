@@ -1,4 +1,5 @@
-import { map, find } from 'lodash'
+import map from 'lodash/map'
+import find from 'lodash/find'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
 import { FormattedMessage } from 'react-intl'

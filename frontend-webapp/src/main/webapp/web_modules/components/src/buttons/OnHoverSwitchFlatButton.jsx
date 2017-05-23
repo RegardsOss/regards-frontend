@@ -1,6 +1,6 @@
 import React from 'react'
 import FlatButton from 'material-ui/FlatButton'
-import { mapValues } from 'lodash'
+import mapValues from 'lodash/mapValues'
 
 /**
  * Decorates the material-ui's FlatButton in order to handle an entirely specific behaviour on button hover.

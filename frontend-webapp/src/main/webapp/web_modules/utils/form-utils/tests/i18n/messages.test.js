@@ -1,4 +1,4 @@
-import { keys } from 'lodash'
+import keys from 'lodash/keys'
 import { assert } from 'chai'
 import Locales from '../../src/i18n/Locales'
 

@@ -1,4 +1,4 @@
-import { map } from 'lodash'
+import map from 'lodash/map'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { FormattedMessage } from 'react-intl'
 import { RenderTextField, RenderCheckbox, RenderSelectField, Field, ValidationHelpers, ErrorTypes, reduxForm } from '@regardsoss/form-utils'

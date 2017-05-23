@@ -1,4 +1,5 @@
-import { map, forEach } from 'lodash'
+import map from 'lodash/map'
+import forEach from 'lodash/forEach'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import MenuItem from 'material-ui/MenuItem'
 import { FormattedMessage } from 'react-intl'

@@ -3,7 +3,10 @@
  **/
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
-import { map, partition, some, find } from 'lodash'
+import map from 'lodash/map'
+import partition from 'lodash/partition'
+import some from 'lodash/some'
+import find from 'lodash/find'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { AttributeModel, Model, ModelAttribute, PluginMetaData, PluginConfiguration } from '@regardsoss/model'
 import { attributeModelActions, attributeModelSelectors } from '../client/AttributeModelClient'

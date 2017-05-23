@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { forEach } from 'lodash'
+import forEach from 'lodash/forEach'
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { Layout } from '@regardsoss/model'

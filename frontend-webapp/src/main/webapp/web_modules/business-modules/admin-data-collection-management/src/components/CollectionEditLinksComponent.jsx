@@ -4,7 +4,7 @@
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { List, ListItem } from 'material-ui/List'
 import { FormattedMessage } from 'react-intl'
-import { map } from 'lodash'
+import map from 'lodash/map'
 import Add from 'material-ui/svg-icons/content/add-circle-outline'
 import Clear from 'material-ui/svg-icons/content/clear'
 import { Collection } from '@regardsoss/model'

@@ -2,7 +2,8 @@
  * LICENSE_PLACEHOLDER
  **/
 import { normalize } from 'normalizr'
-import { forEach, isObject } from 'lodash'
+import forEach from 'lodash/forEach'
+import isObject from 'lodash/isObject'
 import BasicActions from '../BasicActions'
 
 const { CALL_API, getJSON } = require('redux-api-middleware')

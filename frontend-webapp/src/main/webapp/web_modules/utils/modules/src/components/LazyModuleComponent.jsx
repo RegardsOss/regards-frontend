@@ -1,7 +1,8 @@
 /**
  * LICENSE_PLACEHOLDER
  */
-import { merge, get } from 'lodash'
+import merge from 'lodash/merge'
+import get from 'lodash/get'
 import { I18nProvider } from '@regardsoss/i18n'
 import { getReducerRegistry, configureReducers } from '@regardsoss/store'
 import { HateoasDisplayDecorator } from '@regardsoss/display-control'

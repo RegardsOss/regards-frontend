@@ -4,7 +4,7 @@
 /**
  * @author Léo Mieulet
  */
-import { isEmpty } from 'lodash'
+import isEmpty from 'lodash/isEmpty'
 import BasicActions from '../BasicActions'
 
 const { CALL_API, getJSON } = require('redux-api-middleware')

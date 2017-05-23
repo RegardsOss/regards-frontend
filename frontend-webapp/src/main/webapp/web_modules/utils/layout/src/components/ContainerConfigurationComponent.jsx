@@ -1,7 +1,9 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { map, join, split } from 'lodash'
+import map from 'lodash/map'
+import join from 'lodash/join'
+import split from 'lodash/split'
 import { FormattedMessage } from 'react-intl'
 import MenuItem from 'material-ui/MenuItem'
 import { CardActionsComponent } from '@regardsoss/components'

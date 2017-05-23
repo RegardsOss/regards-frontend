@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { map } from 'lodash'
+import map from 'lodash/map'
 import IconButton from 'material-ui/IconButton'
 import Palette from 'material-ui/svg-icons/image/palette'
 import IconMenu from 'material-ui/IconMenu'

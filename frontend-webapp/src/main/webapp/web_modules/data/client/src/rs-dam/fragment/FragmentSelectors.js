@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { BasicListSelectors } from '@regardsoss/store-utils'
-import { filter } from 'lodash'
+import filter from 'lodash/filter'
 /**
  * Store selector to access fragment entities.
  *

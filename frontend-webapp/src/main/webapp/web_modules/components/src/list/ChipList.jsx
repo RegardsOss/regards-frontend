@@ -1,7 +1,9 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { map, find, isEqual } from 'lodash'
+import map from 'lodash/map'
+import find from 'lodash/find'
+import isEqual from 'lodash/isEqual'
 import MenuItem from 'material-ui/MenuItem'
 import Chip from 'material-ui/Chip'
 import AddSvg from 'material-ui/svg-icons/content/add'

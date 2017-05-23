@@ -1,7 +1,10 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { concat, forEach, isEqual, keys } from 'lodash'
+import concat from 'lodash/concat'
+import forEach from 'lodash/forEach'
+import isEqual from 'lodash/isEqual'
+import keys from 'lodash/keys'
 
 import { connect } from '@regardsoss/redux'
 import { BasicPageableSelectors, BasicPageableActions } from '@regardsoss/store-utils'

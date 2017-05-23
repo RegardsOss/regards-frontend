@@ -1,7 +1,7 @@
 /*
  * LICENSE_PLACEHOLDER
  */
-import { map } from 'lodash'
+import map from 'lodash/map'
 
 /**
  * Implement the motion durations as defined by the Google's Material Design specification.

@@ -1,7 +1,9 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { map, merge, findIndex } from 'lodash'
+import map from 'lodash/map'
+import merge from 'lodash/merge'
+import findIndex from 'lodash/findIndex'
 import { connect } from '@regardsoss/redux'
 import { BasicListSelectors, BasicListActions } from '@regardsoss/store-utils'
 import TextField from 'material-ui/TextField'

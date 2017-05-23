@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 
-import { values } from 'lodash'
+import values from 'lodash/values'
 import root from 'window-or-global'
 import AuthenticationFormContainer from '../containers/AuthenticationFormContainer'
 import AccountOperationMessage, { operationIds } from './AccountOperationMessage'

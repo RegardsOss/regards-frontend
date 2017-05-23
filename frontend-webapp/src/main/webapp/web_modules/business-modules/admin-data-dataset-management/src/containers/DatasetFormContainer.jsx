@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { browserHistory } from 'react-router'
-import { cloneDeep } from 'lodash'
+import cloneDeep from 'lodash/cloneDeep'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { Dataset } from '@regardsoss/model'

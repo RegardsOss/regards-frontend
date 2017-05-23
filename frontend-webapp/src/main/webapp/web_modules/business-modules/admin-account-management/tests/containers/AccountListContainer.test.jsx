@@ -1,4 +1,4 @@
-import { pickBy } from 'lodash'
+import pickBy from 'lodash/pickBy'
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { stub } from 'sinon'

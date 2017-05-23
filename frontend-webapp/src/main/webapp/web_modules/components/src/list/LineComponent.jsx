@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { merge } from 'lodash'
+import merge from 'lodash/merge'
 import Checkbox from 'material-ui/Checkbox'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'

@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { map } from 'lodash'
+import map from 'lodash/map'
 import { BasicPageableReducers } from '@regardsoss/store-utils'
 import { ResourceAccessConfiguration } from '@regardsoss/api'
 import EndpointActions from './EndpointActions'

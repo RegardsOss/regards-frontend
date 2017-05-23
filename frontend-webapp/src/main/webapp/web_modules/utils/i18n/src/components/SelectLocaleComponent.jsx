@@ -1,4 +1,4 @@
-import { map } from 'lodash'
+import map from 'lodash/map'
 import MenuItem from 'material-ui/MenuItem'
 import DropDownMenu from 'material-ui/DropDownMenu'
 import { FormattedHTMLMessage } from 'react-intl'

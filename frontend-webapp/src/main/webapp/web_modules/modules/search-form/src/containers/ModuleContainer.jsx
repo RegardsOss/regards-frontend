@@ -1,7 +1,13 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { chain, forEach, cloneDeep, reduce, isEqual, values, unionBy } from 'lodash'
+import { chain } from 'lodash'
+import forEach from 'lodash/forEach'
+import cloneDeep from 'lodash/cloneDeep'
+import reduce from 'lodash/reduce'
+import isEqual from 'lodash/isEqual'
+import values from 'lodash/values'
+import unionBy from 'lodash/unionBy'
 import { browserHistory } from 'react-router'
 import { LazyModuleComponent } from '@regardsoss/modules'
 import { connect } from '@regardsoss/redux'

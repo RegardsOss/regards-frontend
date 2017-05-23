@@ -1,7 +1,8 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { keys, map } from 'lodash'
+import map from 'lodash/map'
+import keys from 'lodash/keys'
 import { AttributeModel, PluginConfiguration, PluginMetaData } from '@regardsoss/model'
 import AttributeModelComponent from './AttributeModelComponent'
 import ModelAttributeContainer from '../containers/ModelAttributeContainer'

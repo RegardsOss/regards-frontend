@@ -1,4 +1,6 @@
-import { size, filter, pickBy } from 'lodash'
+import size from 'lodash/size'
+import filter from 'lodash/filter'
+import pickBy from 'lodash/pickBy'
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { stub } from 'sinon'

@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { isFunction } from 'lodash'
+import isFunction from 'lodash/isFunction'
 import { ShowableAtRender, ErrorCardComponent } from '@regardsoss/components'
 import LoadingComponent from './LoadingComponent'
 import ContentErrorComponent from './ContentErrorComponent'

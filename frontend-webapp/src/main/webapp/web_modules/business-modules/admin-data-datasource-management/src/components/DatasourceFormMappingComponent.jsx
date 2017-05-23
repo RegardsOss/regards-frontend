@@ -1,7 +1,9 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { find, forEach, keys } from 'lodash'
+import find from 'lodash/find'
+import forEach from 'lodash/forEach'
+import keys from 'lodash/keys'
 import { Card, CardTitle, CardActions } from 'material-ui/Card'
 import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'

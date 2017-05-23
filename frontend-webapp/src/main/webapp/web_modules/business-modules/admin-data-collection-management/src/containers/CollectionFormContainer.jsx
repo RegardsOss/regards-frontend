@@ -2,7 +2,10 @@
  * LICENSE_PLACEHOLDER
  **/
 import { browserHistory } from 'react-router'
-import { map, find, forEach, keys } from 'lodash'
+import map from 'lodash/map'
+import find from 'lodash/find'
+import forEach from 'lodash//forEach'
+import keys from 'lodash/keys'
 import { connect } from '@regardsoss/redux'
 import { Collection, Model, ModelAttribute, EntityController } from '@regardsoss/model'
 import { I18nProvider } from '@regardsoss/i18n'

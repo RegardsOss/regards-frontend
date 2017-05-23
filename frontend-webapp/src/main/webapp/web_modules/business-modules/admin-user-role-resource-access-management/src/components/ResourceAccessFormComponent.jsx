@@ -1,4 +1,4 @@
-import { map } from 'lodash'
+import map from 'lodash/map'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { FormattedMessage } from 'react-intl'
 import { Tabs, Tab } from 'material-ui/Tabs'

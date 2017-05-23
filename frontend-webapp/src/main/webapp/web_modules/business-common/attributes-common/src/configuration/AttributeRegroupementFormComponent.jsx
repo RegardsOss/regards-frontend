@@ -1,7 +1,8 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { values, map } from 'lodash'
+import values from 'lodash/values'
+import map from 'lodash/map'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { FieldArray } from 'redux-form'

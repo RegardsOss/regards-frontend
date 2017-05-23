@@ -1,7 +1,10 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { map, find, forEach, has } from 'lodash'
+import map from 'lodash/map'
+import find from 'lodash/find'
+import forEach from 'lodash/forEach'
+import has from 'lodash/has'
 import { connect } from '@regardsoss/redux'
 import { Dataset, Model, ModelAttribute, Datasource } from '@regardsoss/model'
 import { I18nProvider } from '@regardsoss/i18n'

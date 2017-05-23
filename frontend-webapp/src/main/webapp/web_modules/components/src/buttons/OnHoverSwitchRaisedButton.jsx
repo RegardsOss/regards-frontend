@@ -1,6 +1,6 @@
 import React from 'react'
 import RaisedButton from 'material-ui/RaisedButton'
-import { mapValues } from 'lodash'
+import mapValues from 'lodash/mapValues'
 
 /**
  * Decorates the material-ui's RaisedButton in order to handle an entirely specific behaviour on button hover.

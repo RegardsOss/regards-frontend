@@ -1,7 +1,9 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { chain, find, map } from 'lodash'
+import chain from 'lodash/chain'
+import find from 'lodash/find'
+import map from 'lodash/map'
 
 /**
  * Find the pluginParameterType of the {@code pluginParameter}

@@ -2,7 +2,12 @@
  * LICENSE_PLACEHOLDER
  **/
 import Infinite from 'react-infinite'
-import { map, merge, concat, forEach, findIndex, debounce } from 'lodash'
+import map from 'lodash/map'
+import merge from 'lodash/merge'
+import concat from 'lodash/concat'
+import forEach from 'lodash/forEach'
+import findIndex from 'lodash/findIndex'
+import debounce from 'lodash/debounce'
 import RefreshIndicator from 'material-ui/RefreshIndicator'
 import { connect } from '@regardsoss/redux'
 import { BasicPageableSelectors, BasicPageableActions } from '@regardsoss/store-utils'

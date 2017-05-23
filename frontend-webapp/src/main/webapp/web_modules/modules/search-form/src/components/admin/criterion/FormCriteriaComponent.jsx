@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { forEach } from 'lodash'
+import forEach from 'lodash/forEach'
 import MenuItem from 'material-ui/MenuItem'
 import { FormattedMessage } from 'react-intl'
 import { RenderSelectField, Field, reduxForm } from '@regardsoss/form-utils'
