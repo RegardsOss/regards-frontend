@@ -75,7 +75,9 @@
     "mocha/no-synchronous-tests": 0,
 
     // We call done from Mocha inside async tests
-    "promise/no-callback-in-promise": 0
+    "promise/no-callback-in-promise": 0,
+    // We prefer the explicit declaration
+    "lodash/matches-prop-shorthand": 0
   },
   "plugins": [
     "react",
