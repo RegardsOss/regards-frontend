@@ -91,6 +91,18 @@ const formStyles = theme => ({
         maxWidth: 200,
       },
     },
+    options: {
+      selection: {
+        service: {
+          iconSize: 24,
+        },
+      },
+      more: {
+        service: {
+          iconSize: 24,
+        },
+      },
+    },
   },
   resultsButtonsType: {
     buttonsGroup: {

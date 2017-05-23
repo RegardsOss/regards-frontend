@@ -31,6 +31,7 @@ class LoggedUserComponent extends React.Component {
     borrowableRoles: PropTypes.objectOf(Role).isRequired,
     onBorrowRole: PropTypes.func.isRequired,
     onLogout: PropTypes.func.isRequired,
+    showProfileEdition: PropTypes.bool.isRequired,
     onShowProfileEdition: PropTypes.func.isRequired,
   }
 
@@ -39,7 +40,9 @@ class LoggedUserComponent extends React.Component {
   }
 
   render() {
-    const { name, currentRole, borrowableRoles, onBorrowRole, onLogout, onShowProfileEdition } = this.props
+    const { name, currentRole, borrowableRoles, onBorrowRole, onLogout, showProfileEdition, onShowProfileEdition } = this.props
+    const showBorrowableRoles = !isEmpty(borrowableRoles)
+    const hasMoreOption = showProfileEdition || showBorrowableRoles
     return (
       <div style={this.context.moduleTheme.loggedUser.text}>
         <span>{name}</span>
@@ -51,13 +54,16 @@ class LoggedUserComponent extends React.Component {
           iconStyle={this.context.moduleTheme.loggedUser.icon}
         >
           {/* Access user profile */}
-          <MenuItem
-            primaryText={<FormattedMessage id="accountLabel" />}
-            leftIcon={<AccountMenuIcon />}
-            onTouchTap={onShowProfileEdition}
-          />
+          <ShowableAtRender show={showProfileEdition}>
+            <MenuItem
+              primaryText={<FormattedMessage id="accountLabel" />}
+              leftIcon={<AccountMenuIcon />}
+              onTouchTap={onShowProfileEdition}
+            />
+          </ShowableAtRender>
+
           {/* Show borrowables roles submenu, only when there are borrowable roles */}
-          <ShowableAtRender show={!isEmpty(borrowableRoles)}>
+          <ShowableAtRender show={showBorrowableRoles}>
             <MenuItem
               primaryText={<FormattedMessage id="changeRole" />}
               leftIcon={<ChangeRole />}
@@ -77,7 +83,11 @@ class LoggedUserComponent extends React.Component {
               }
             />
           </ShowableAtRender>
-          <Divider />
+          { /** Divider, only when there are more options than disconnect*/}
+          <ShowableAtRender show={hasMoreOption}>
+            <Divider />
+          </ShowableAtRender>
+          { /** Logout option*/}
           <MenuItem
             primaryText={<FormattedMessage id="logoutLabel" />}
             leftIcon={<ActionExitToApp />}

@@ -44,11 +44,13 @@ import LoadingPaneComponent from './loading/LoadingPaneComponent'
 
 import PluginConfigurationPickerComponent from './plugin/PluginConfigurationPickerComponent'
 
-import TableSelectionModes from './table/selection/TableSelectionModes'
 import TableContainer from './table/TableContainer'
 import TablePaneHeader from './table/header/TablePaneHeader'
+import TableOptionsSeparator from './table/header/TableOptionsSeparator'
+import TableSelectionModes from './table/model/TableSelectionModes'
 import TableActions from './table/model/TableActions'
-import TableSelectors from './table/model/TableSelectors'
+import getTableReducer from './table/model/TableReducer'
+import getTableSelectors from './table/model/TableSelectors'
 import TableStyles from './table/styles/styles'
 import ActionsMenuCell from './table/content/cells/ActionsMenuCell'
 
@@ -78,11 +80,13 @@ export {
   IFrameURLContentDisplayer,
   TableContainer,
   TablePaneHeader,
-  TableActions,
-  TableSelectors,
   TableSelectionModes,
+  TableActions,
+  getTableReducer,
+  getTableSelectors,
   TableColumnConfiguration,
   TableColumnConfigurationController,
+  TableOptionsSeparator,
   TableStyles,
   ListContainer,
   LoadingPaneComponent,

@@ -1,25 +1,27 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { concat, forEach, isEqual, keys } from 'lodash'
-
+import concat from 'lodash/concat'
+import forEach from 'lodash/forEach'
+import isEqual from 'lodash/isEqual'
+import keys from 'lodash/keys'
+import values from 'lodash/values'
 import { connect } from '@regardsoss/redux'
 import { BasicPageableSelectors, BasicPageableActions } from '@regardsoss/store-utils'
-import { getReducerRegistry, configureReducers } from '@regardsoss/store'
 import { ModuleThemeProvider } from '@regardsoss/modules'
 import { AuthenticationClient, AuthenticateShape } from '@regardsoss/authentication-manager'
 import { I18nProvider } from '@regardsoss/i18n'
 import TablePane from './TablePane'
+import TableSelectionModes from './model/TableSelectionModes'
 import TablePaneConfigurationModel from './model/TablePaneConfigurationModel'
 import TableConfigurationModel from './content/model/TableConfigurationModel'
 import ColumnConfigurationModel from './content/columns/model/ColumnConfiguration'
-import TableReducers from './model/TableReducers'
-import TableActions from './model/TableActions'
-import TableSelectors from './model/TableSelectors'
+
+import TableActions from './model/TableActions' // class for prop type
+import { TableSelectors } from './model/TableSelectors' // class for prop type
 
 import styles from './styles/styles'
 import './styles/fixed-data-table-mui.css'
-
 
 const defaultLineHeight = 42
 
@@ -50,17 +52,10 @@ class TableContainer extends React.Component {
    * pageSize : Optional, number of visible entity into the table. Default 20.
    */
   static propTypes = {
-    name: PropTypes.string.isRequired,
     // table configuration
     tableConfiguration: PropTypes.shape(TableConfigurationModel).isRequired,
     // table pane configuration
     tablePaneConfiguration: PropTypes.shape(TablePaneConfigurationModel).isRequired,
-    // BasicPageableActions to retrieve entities from server
-    // eslint-disable-next-line react/no-unused-prop-types
-    PageActions: PropTypes.instanceOf(BasicPageableActions).isRequired,
-    // BasicPageableSelectors to retrieve entities from store
-    // eslint-disable-next-line react/no-unused-prop-types
-    PageSelector: PropTypes.instanceOf(BasicPageableSelectors).isRequired,
     // [Optional] Size of a given table page. Default is 20 visible items in the table.
     pageSize: PropTypes.number,
     // [Optional] Columns configurations. Default all attributes of entities are displayed as column.
@@ -68,102 +63,107 @@ class TableContainer extends React.Component {
     // - label : Displayed label of the column in the Header line
     // - attributes : Array of String. Each element is an entity attribute to display in the column. It is also
     //                possible to define deep attributes like user.login
+    // eslint-disable-next-line react/no-unused-prop-types
     columns: PropTypes.arrayOf(ColumnConfigurationModel),
-    // On selection change callback (@see SelectionController) :
-    // callback signature (selectionMode: String (TableSelectionModes), entities: Array) => void
-    onSelectionChange: PropTypes.func,
     // [Optional] server request parameters as query params or path params defined in the PageActions given.
     // eslint-disable-next-line react/forbid-prop-types
     requestParams: PropTypes.object,
-    // Parameters set by redux store connection
+
+    // actions and selectors to share table state
+    // eslint-disable-next-line react/no-unused-prop-types
+    pageActions: PropTypes.instanceOf(BasicPageableActions).isRequired, // BasicPageableActions to retrieve entities from server
+    // eslint-disable-next-line react/no-unused-prop-types
+    pageSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired, // BasicPageableSelectors to retrieve entities from store
+    // eslint-disable-next-line react/no-unused-prop-types
+    tableActions: PropTypes.instanceOf(TableActions).isRequired, // Table actions instance
+    // eslint-disable-next-line react/no-unused-prop-types
+    tableSelectors: PropTypes.instanceOf(TableSelectors).isRequired, // Table selectors instance
+
+    // from map state to props
+    // page data
+    // eslint-disable-next-line react/no-unused-prop-types
     entities: PropTypes.arrayOf(PropTypes.object),
+    entitiesFetching: PropTypes.bool,
     pageMetadata: PropTypes.shape({
       number: PropTypes.number,
       size: PropTypes.number,
       totalElements: PropTypes.number,
     }),
-    fetchEntities: PropTypes.func,
-    entitiesFetching: PropTypes.bool,
-    selectionMode: PropTypes.string,
-    onToggleSelectionMode: PropTypes.func,
-    setToggledElements: PropTypes.func,
+    // authentication data
+    // eslint-disable-next-line react/no-unused-prop-types
     authentication: AuthenticateShape,
+    // selection data
+    toggledElements: PropTypes.objectOf(PropTypes.object).isRequired, // inner object is entity type
+    selectionMode: PropTypes.oneOf(values(TableSelectionModes)).isRequired,
+
+    // from map dispatch to props
+    // page
+    fetchEntities: PropTypes.func.isRequired,
+    // selection
+    toggleRowSelection: PropTypes.func.isRequired,
+    dispatchSelectAll: PropTypes.func.isRequired,
+    dispatchUnselectAll: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
     pageSize: 20,
   }
 
+  static DEFAULT_STATE = {
+    entities: [],
+    allColumns: [],
+    allSelected: false,
+  }
+
   constructor(props) {
     super(props)
     this.nbEntitiesByPage = this.props.pageSize * 3
-    this.state = {
-      entities: null,
-    }
+    this.state = TableContainer.DEFAULT_STATE
   }
 
-  componentWillMount() {
-    if (this.props.name) {
-      // Add reducers to the current store
-      const tableReducers = {}
-      tableReducers[TableReducers.TABLE_REDUX_STORE_NAME] = configureReducers(TableReducers.getReducers(this.props.name))
-      getReducerRegistry().register(tableReducers)
-    } else {
-      console.warn('No unique name defined form TableContainer. Redux actions/reducers not initialized.')
-    }
-  }
+  componentDidMount = () => this.onPropertiesUpdate({}, this.props)
+
+  componentWillReceiveProps = nextProps => this.onPropertiesUpdate(this.props, nextProps)
 
   /**
-   * First, run a search from index 0 to initiliaz first search results
+   * Updates state and runs fetches required on properties change
    */
-  componentDidMount() {
-    this.props.fetchEntities(0, this.nbEntitiesByPage, this.props.requestParams)
-  }
+  onPropertiesUpdate = (previousProps, nextProps) => {
+    const previousState = this.state
+    const nextState = this.state ? { ...this.state } : { ...TableContainer.DEFAULT_STATE } // initialize to previous state or use default one
 
-  /**
-   * Update retrieved entities into the state.entities
-   * @param nextProps
-   */
-  componentWillReceiveProps(nextProps) {
-    // If request changed, run new search and reset the entities stored in the state
-    // Or if authentication changed, rerun search
-    if (isEqual(nextProps.requestParams, this.props.requestParams) === false ||
-    isEqual(nextProps.authentication, this.props.authentication) === false) {
-      this.setState({
-        entities: [],
-      })
-      this.props.fetchEntities(0, this.nbEntitiesByPage, nextProps.requestParams)
-      return
+    // initialization or authentication update: fetch the first page
+    if (!isEqual(nextProps.requestParams, previousProps.requestParams) ||  // TODO nop! we should let parent handle URL params related
+      !isEqual(nextProps.authentication, previousProps.authentication)) {
+      // remove any previously fetched data
+      nextState.entities = []
+      nextProps.fetchEntities(0, this.nbEntitiesByPage, nextProps.requestParams)
     }
 
-    let entities = null
     // New entities retrieved
-    if (this.props.entitiesFetching && !nextProps.entitiesFetching) {
-      // If there is no entities in the state, so we have to initialize the entities with empty objects.
-      // One empty object per possible result of the current request. The number of possible result of
-      // a request is the totalElements in the page metadata provded with the server response.
-      let newResults = false
-      if ((!this.state.entities || this.state.entities.length === 0) && nextProps.pageMetadata && nextProps.entities) {
-        entities = Array(nextProps.pageMetadata.totalElements).fill({})
-        newResults = true
-      } else if (nextProps.pageMetadata && nextProps.entities && (nextProps.entities !== this.props.entities)) {
-        // Entities are already initialize in the state, juste duplicate the list to update it if necessary
-        // with the new entities fetched from server
-        entities = concat([], this.state.entities)
-      }
-
-      // If new entities has been retrieved, then add them to th right index in the state.entities list.
-      if (entities !== null && nextProps.entities &&
-        (newResults || !this.state.entities || !this.props.entities || !isEqual(keys(this.props.entities), keys(nextProps.entities)))) {
-        let i = 0
-        // Add each nex entity retrieved at the right index in the state.entities list
-        for (i = 0; i < keys(nextProps.entities).length; i += 1) {
-          entities[nextProps.pageMetadata.number + i] = nextProps.entities[keys(nextProps.entities)[i]]
+    if (!isEqual(previousProps.entities, !nextProps.entities) && !isEqual(previousProps.pageMetadata, nextProps.pageMetadata)) {
+      // 1 - update row entities
+      if (nextProps.pageMetadata) {
+        if (!nextState.entities.length) { // pre-init all entities
+          nextState.entities = Array(nextProps.pageMetadata.totalElements).fill({})
+        } else { // get new reference
+          nextState.entities = [...nextState.entities]
         }
+        // convert new entities
+        const firstPageIndex = nextProps.pageMetadata.number
+        keys(nextProps.entities).forEach((key, index) => {
+          nextState.entities[firstPageIndex + index] = nextProps.entities[key]
+        })
       }
-      this.setState({
-        entities,
-      })
+      // 2 - build columns for state
+      nextState.allColumns = this.computeAllColumns(nextProps, nextState.entities)
+    }
+
+    // always update the all selected state
+    nextState.allSelected = this.computeAllSelected(nextProps)
+
+    if (!isEqual(previousState, nextState)) {
+      this.setState(nextState)
     }
   }
 
@@ -208,19 +208,46 @@ class TableContainer extends React.Component {
   }
 
   /**
-   * Return columns form first result entity attributes
-   * @returns {Array}
+   * On user row selection (switches selection state for row index)
+   * @param rowIndex row index
    */
-  getAllColumns = () => {
+  onToggleRowSelection = (rowIndex) => {
+    // retrieve entity by its index in state
+    const { entities } = this.state
+    const { toggleRowSelection } = this.props
+    if (entities.length > rowIndex) { // silent errors here, as the component can be currently refetching
+      toggleRowSelection(rowIndex, entities[rowIndex])
+    }
+  }
+
+  /**
+   * On user toggled select all / unselect all
+   */
+  onToggleSelectAll = () => {
+    const { dispatchSelectAll, dispatchUnselectAll } = this.props
+    if (this.state.allSelected) {
+      dispatchUnselectAll()
+    } else {
+      dispatchSelectAll()
+    }
+  }
+
+  /**
+ * Return columns to use (cached in state)
+ * @param properties properties to consider
+ * @param entities state entities to consider
+ * @returns {Array}
+ */
+  computeAllColumns = (properties, entities) => {
     // predefined columns
-    const { columns } = this.props
+    const { columns } = properties
     if (columns && columns.length > 0) {
       return columns
     }
 
     // compute dynamic columns
     const computedColumns = []
-    if (this.state.entities && this.state.entities.length > 0) {
+    if (entities && entities.length) {
       const entity = this.state.entities[0]
       forEach(entity.content, (attr, key) => {
         computedColumns.push({ attributes: [key], label: key })
@@ -229,13 +256,26 @@ class TableContainer extends React.Component {
     return computedColumns
   }
 
+  /**
+   * Are all rows selected?  (cached in state)
+   * @param properties
+   * @return true if all rows are selected
+   */
+  computeAllSelected = (properties) => {
+    const { selectionMode, toggledElements, pageMetadata } = properties
+    const totalElements = (pageMetadata && pageMetadata.totalElements) || 0
+    const selectionSize = keys(toggledElements).length
+    // selectionSize > 0 blocks initial fetching case
+    return (selectionMode === TableSelectionModes.includeSelected && selectionSize === totalElements && selectionSize > 0) ||
+      (selectionMode === TableSelectionModes.excludeSelected && selectionSize === 0)
+  }
+
 
   render() {
-    const { entitiesFetching, pageSize, pageMetadata, setToggledElements,
-      tablePaneConfiguration, onSelectionChange, selectionMode, onToggleSelectionMode,
-      tableConfiguration: { lineHeight = defaultLineHeight, ...tableConfiguration },
+    const { entitiesFetching, pageSize, pageMetadata, tablePaneConfiguration,
+      toggledElements, selectionMode, tableConfiguration: { lineHeight = defaultLineHeight, ...tableConfiguration },
     } = this.props
-    const { entities } = this.state
+    const { entities, allSelected, allColumns } = this.state // cached render data
     return (
       <I18nProvider messageDir={'components/src/table/i18n'}>
         <ModuleThemeProvider module={{ styles }}>
@@ -244,17 +284,19 @@ class TableContainer extends React.Component {
               pageSize,
               onScrollEnd: this.onScrollEnd,
               entities,
-              onSelectionChange,
               lineHeight,
               ...tableConfiguration,
             }}
-            columns={this.getAllColumns()}
+            columns={allColumns}
             entitiesFetching={entitiesFetching}
             resultsCount={(pageMetadata && pageMetadata.totalElements) || 0}
-            onSelectionChange={onSelectionChange}
+
+            allSelected={allSelected}
+            toggledElements={toggledElements}
             selectionMode={selectionMode}
-            onToggleSelectionMode={onToggleSelectionMode}
-            setToggledElements={setToggledElements}
+            onToggleRowSelection={this.onToggleRowSelection}
+            onToggleSelectAll={this.onToggleSelectAll}
+
             {...tablePaneConfiguration}
           />
         </ModuleThemeProvider>
@@ -263,18 +305,23 @@ class TableContainer extends React.Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  entities: ownProps.PageSelector.getOrderedList(state),
-  pageMetadata: ownProps.PageSelector.getMetaData(state),
-  entitiesFetching: ownProps.PageSelector.isFetching(state),
-  selectionMode: TableSelectors.getTableSelectionMode(state, ownProps.name),
+const mapStateToProps = (state, { pageSelectors, tableSelectors }) => ({
+  // results entities
+  entities: pageSelectors.getOrderedList(state),
+  pageMetadata: pageSelectors.getMetaData(state),
+  entitiesFetching: pageSelectors.isFetching(state),
+  // authentication
   authentication: AuthenticationClient.authenticationSelectors.getAuthenticationResult(state),
+  // selection
+  toggledElements: tableSelectors.getToggledElements(state),
+  selectionMode: tableSelectors.getSelectionMode(state),
 })
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
-  fetchEntities: (index, nbEntitiesByPage, requestParams) => dispatch(ownProps.PageActions.fetchPagedEntityList(index, nbEntitiesByPage, requestParams)),
-  onToggleSelectionMode: () => dispatch(TableActions.toggleTableSelectionMode()),
-  setToggledElements: toggledElements => dispatch(TableActions.setToggledElements(toggledElements)),
+const mapDispatchToProps = (dispatch, { pageActions, tableActions }) => ({
+  fetchEntities: (index, nbEntitiesByPage, requestParams) => dispatch(pageActions.fetchPagedEntityList(index, nbEntitiesByPage, requestParams)),
+  toggleRowSelection: (rowIndex, entity) => dispatch(tableActions.toggleElement(rowIndex, entity)),
+  dispatchSelectAll: () => dispatch(tableActions.selectAll()),
+  dispatchUnselectAll: () => dispatch(tableActions.unselectAll()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(TableContainer)

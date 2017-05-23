@@ -10,6 +10,7 @@ import { LoadingComponent } from '@regardsoss/display-control'
 import { AttributeModelActions, AttributeModelSelectors } from '../client/AttributeModelClient'
 import ModuleConfiguration from '../models/ModuleConfiguration'
 import URLManagementContainer from './user/URLManagementContainer'
+import DatasetServicesContainer from './user/DatasetServicesContainer'
 import ModuleComponent from '../components/user/ModuleComponent'
 
 
@@ -46,11 +47,7 @@ export class ModuleContainer extends React.Component {
   }
 
   componentWillMount() {
-    Promise.resolve(this.props.fetchAllModelsAttributes()).then(() => {
-      this.setState({
-        attributesFetching: false,
-      })
-    })
+    return Promise.resolve(this.props.fetchAllModelsAttributes()).then(() => this.setState({ attributesFetching: false }))
   }
 
   render() {
@@ -78,7 +75,8 @@ export class ModuleContainer extends React.Component {
             initialContextLabel={breadcrumbInitialContextLabel}
             initialViewObjectType={resultType || SearchResultsTargetsEnum.DATAOBJECT_RESULTS}
           />
-
+          { /* Current dataset services management (no view) */}
+          <DatasetServicesContainer initialDatasetIpId={singleDatasetIpId} />
           { /* View : module */}
           <ModuleComponent
             appName={appName}

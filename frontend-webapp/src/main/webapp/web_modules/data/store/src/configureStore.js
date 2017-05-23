@@ -7,6 +7,7 @@ import thunk from 'redux-thunk'
 import { createLogger } from 'redux-logger'
 import root from 'window-or-global'
 import headersMiddleware from './headersMiddleware'
+import formatURLMiddleware from './formatURLMiddleware'
 import preloadedState from './preloadedState'
 import configureReducers from './configureReducers'
 import getReducerRegistry from './ReducerRegistry'
@@ -23,6 +24,7 @@ function configureStore(rootReducer) {
   // Define the used middlewares (order matters)
   let middlewares = [
     thunk, // lets us dispatch() functions
+    formatURLMiddleware, // inject URL formatting middleware
     headersMiddleware, // inject headers in all request actions, for authorization, content type and custom headers handling
     apiMiddleware, // middleware for calling an REST API
     errorMiddleware,

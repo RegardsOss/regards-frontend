@@ -47,20 +47,10 @@ export default (theme) => {
           display: 'flex',
           flexDirection: 'row',
           justifyContent: 'flex-start',
-          alignItems: 'center',
+          alignItems: 'flex-end',
           flexWrap: 'noWrap',
-        },
-      },
-      contextOptions: {
-        styles: {
-          margin: '0 40px 0 40px',
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'flex-end',
-          alignItems: 'center',
-          flexWrap: 'noWrap',
-          flexGrow: 1,
-          flexShrink: 1,
+          flexShrink: 0,
+          flexGrow: 0,
         },
       },
       customOptions: {
@@ -69,15 +59,17 @@ export default (theme) => {
           flexDirection: 'row',
           justifyContent: 'flex-end',
           alignItems: 'center',
-          flexWrap: 'noWrap',
+          flexWrap: 'wrap',
+          flexShrink: 1,
+          flexGrow: 1,
         },
       },
-      // options group, above the results table (styles for using modules)
-      optionsGroup: {
-        lastElement: {
-          styles: {
-            marginRight: '40px',
-          },
+      contextOptionsSeparator: {
+        styles: {
+          width: '1px',
+          height: '24px',
+          margin: '0 10px 0 10px',
+          backgroundColor: theme.toolbar.separatorColor,
         },
       },
       text: {

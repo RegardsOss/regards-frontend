@@ -135,7 +135,7 @@ export class DetailViewContainer extends React.Component {
     }
   }
 
-  /** Updats the state
+  /** Updates the state
    * @param nextProps -
    * @param previousProps (optional)
    */

@@ -4,8 +4,8 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { ServicesContainer } from '../../../../src/containers/user/services/ServicesContainer'
-import styles from '../../../../src/styles/styles'
+import { DatasetServicesContainer } from '../../../src/containers/user/DatasetServicesContainer'
+import styles from '../../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
@@ -13,8 +13,10 @@ describe('[Search Results] Testing ServicesContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
+  // TODO test resolution here (not necessary result, but process)
+
   it('should exists', () => {
-    assert.isDefined(ServicesContainer)
+    assert.isDefined(DatasetServicesContainer)
   })
   it('should render properly loading', () => {
     const props = {
@@ -25,11 +27,11 @@ describe('[Search Results] Testing ServicesContainer', () => {
       manyDataobjectsBusinessServices: null,
       uiServices: null,
       fetchOneDatasetBusinessServices: () => { },
-      fetchOneDataobjetBusinessServices: () => { },
       fetchManyDataobjectsBusinessServices: () => { },
       fetchUIServices: () => { },
+      publishDatasetServices: () => { },
     }
-    shallow(<ServicesContainer {...props} />, { context })
+    shallow(<DatasetServicesContainer {...props} />, { context })
   })
 
   it('should render properly loaded', () => {
@@ -44,7 +46,8 @@ describe('[Search Results] Testing ServicesContainer', () => {
       fetchOneDataobjetBusinessServices: () => { },
       fetchManyDataobjectsBusinessServices: () => { },
       fetchUIServices: () => { },
+      publishDatasetServices: () => { },
     }
-    shallow(<ServicesContainer {...props} />, { context })
+    shallow(<DatasetServicesContainer {...props} />, { context })
   })
 })

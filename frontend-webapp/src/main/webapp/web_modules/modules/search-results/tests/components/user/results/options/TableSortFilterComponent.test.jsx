@@ -6,7 +6,7 @@ import { assert } from 'chai'
 import { DropDownButton, TableStyles } from '@regardsoss/components'
 import MenuItem from 'material-ui/MenuItem'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import TableSortFilterComponent from '../../../../src/components/user/results/TableSortFilterComponent'
+import TableSortFilterComponent from '../../../../../src/components/user/results/options/TableSortFilterComponent'
 
 /**
  * Tests for SearchResultsComponent

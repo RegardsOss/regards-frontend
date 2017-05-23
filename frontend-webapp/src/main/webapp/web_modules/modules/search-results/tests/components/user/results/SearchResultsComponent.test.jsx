@@ -42,6 +42,13 @@ describe('[Search Results] Testing SearchResultsComponent', () => {
     onShowTableView: () => { },
     onSortChanged: () => { },
     onToggleShowFacettes: () => { },
+
+    // services
+    datasetServices: [],
+    selectedDataobjectsServices: [],
+    onDatasetServiceSelected: () => { },
+    onSelectionServiceSelected: () => { },
+    onDataobjectServiceSelected: () => { },
   }
 
   // define the test cases

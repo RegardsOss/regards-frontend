@@ -1,7 +1,8 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { forEach } from 'lodash'
+import isNil from 'lodash/isNil'
+import map from 'lodash/map'
 import MenuItem from 'material-ui/MenuItem'
 import { FormattedMessage } from 'react-intl'
 import { RenderSelectField, Field, reduxForm } from '@regardsoss/form-utils'
@@ -88,15 +89,12 @@ class FormCriteriaComponent extends React.Component {
    * @returns {Array}
    */
   renderCriterionTypesList = () => {
-    const items = []
     if (!this.props.criterionFetching && this.props.availableCriterion) {
-      forEach(this.props.availableCriterion, (criterion, idx) => {
-        items.push(
-          <MenuItem key={idx} value={criterion.content.id} primaryText={criterion.content.name} />,
-        )
-      })
+      return map(this.props.availableCriterion, (criterion, idx) =>
+        <MenuItem key={idx} value={criterion.content.id} primaryText={criterion.content.name} />,
+      )
     }
-    return items
+    return []
   }
 
   /**
@@ -104,22 +102,19 @@ class FormCriteriaComponent extends React.Component {
    * @returns {Array}
    */
   renderContainersList = () => {
-    const items = []
     try {
       if (this.props.layout) {
         const containers = ContainerHelper.getAvailableContainersInLayout(this.props.layout)
         if (containers && containers.length > 0) {
-          forEach(containers, (container) => {
-            items.push(
-              <MenuItem key={container.id} value={container.id} primaryText={container.id} />,
-            )
-          })
+          return map(containers, container => (
+            <MenuItem key={container.id} value={container.id} primaryText={container.id} />
+          ))
         }
       }
     } catch (e) {
       console.error(e)
     }
-    return items
+    return []
   }
 
   /**
@@ -127,9 +122,7 @@ class FormCriteriaComponent extends React.Component {
    * @returns {*}
    */
   renderCriteriaConfiguration = () => {
-    if (this.state.selectedCriteria !== null
-      && this.state.selectedCriteria !== undefined
-      && !this.props.criterionFetching) {
+    if (isNil(this.state.selectedCriteria) && !this.props.criterionFetching) {
       return (
         <PluginProvider
           key={this.state.selectedCriteria}

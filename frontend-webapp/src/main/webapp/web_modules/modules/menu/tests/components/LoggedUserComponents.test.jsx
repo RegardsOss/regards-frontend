@@ -23,6 +23,7 @@ describe('[Menu] Testing LoggedUserComponent', () => {
       borrowableRoles: {},
       onBorrowRole: () => { },
       onLogout: () => { },
+      showProfileEdition: true,
       onShowProfileEdition: () => { },
     }
     shallow(<LoggedUserComponent {...props} />, { context })

@@ -3,6 +3,7 @@
 **/
 import concat from 'lodash/concat'
 import remove from 'lodash/remove'
+import values from 'lodash/values'
 import { FormattedMessage } from 'react-intl'
 import Measure from 'react-measure'
 import MenuItem from 'material-ui/MenuItem'
@@ -19,6 +20,7 @@ import HeaderAdvancedOption from './header/HeaderAdvancedOption'
 import ColumnsVisibilitySelector from './content/columns/ColumnsVisibilitySelector'
 import ColumnConfiguration from './content/columns/model/ColumnConfiguration'
 import TablePaneConfigurationModel from './model/TablePaneConfigurationModel'
+import TableSelectionModes from './model/TableSelectionModes'
 
 const allWidthStyles = { width: '100%' }
 
@@ -36,11 +38,16 @@ class TablePane extends React.Component {
     resultsCount: PropTypes.number.isRequired,
     // provided table data and configuration
     tableData: PropTypes.shape(Table.PropTypes).isRequired,
-    // 0 : unselect all / 1 : select all
-    selectionMode: PropTypes.string,
-    onToggleSelectionMode: PropTypes.func,
-    setToggledElements: PropTypes.func,
+    // columns
     columns: PropTypes.arrayOf(ColumnConfiguration).isRequired,
+
+    // selection related
+    allSelected: PropTypes.bool.isRequired,
+    toggledElements: PropTypes.objectOf(PropTypes.object).isRequired, // inner object is entity type
+    selectionMode: PropTypes.oneOf(values(TableSelectionModes)).isRequired,
+    onToggleRowSelection: PropTypes.func.isRequired,
+    onToggleSelectAll: PropTypes.func.isRequired,
+
     // this configuration properties (see above)
     ...TablePaneConfigurationModel,
   }
@@ -160,13 +167,15 @@ class TablePane extends React.Component {
     if (showParameters) {
       if (computedAdvancedMenuItems.length) {
         // A - add divider
-        computedAdvancedMenuItems = [...computedAdvancedMenuItems, <Divider />]
+        computedAdvancedMenuItems = [...computedAdvancedMenuItems, <Divider key="separator.to.automatic.options" />]
       }
-      // B - (always) add menu item
+      // B - (always) add menu item for columns
       computedAdvancedMenuItems = [...computedAdvancedMenuItems, (
         <MenuItem
           key="inner.parameters.table.option"
           onTouchTap={this.onOpenColumnsFilterPanel}
+          value={// Workaround: makes the menu close on item clicked, useless otherwise (crappy material UI)
+            'more.option'}
           primaryText={<FormattedMessage id="table.filter.columns.label" />}
           icon={<ColumnsAction />}
         />),
@@ -214,7 +223,8 @@ class TablePane extends React.Component {
   }
 
   render() {
-    const { entitiesFetching, resultsCount, tableData, selectionMode, onToggleSelectionMode, setToggledElements } = this.props
+    const { entitiesFetching, resultsCount, tableData, toggledElements, selectionMode,
+      allSelected, onToggleRowSelection, onToggleSelectAll } = this.props
     const { visibleColumns, tableWidth } = this.state
     return (
       <Measure onMeasure={this.onComponentResized}>
@@ -231,9 +241,13 @@ class TablePane extends React.Component {
             <Table
               columns={visibleColumns}
               width={tableWidth}
+
+              allSelected={allSelected}
+              toggledElements={toggledElements}
               selectionMode={selectionMode}
-              onToggleSelectionMode={onToggleSelectionMode}
-              setToggledElements={setToggledElements}
+              onToggleRowSelection={onToggleRowSelection}
+              onToggleSelectAll={onToggleSelectAll}
+
               {...tableData}
             />
           </NoContentMessageInfo>
