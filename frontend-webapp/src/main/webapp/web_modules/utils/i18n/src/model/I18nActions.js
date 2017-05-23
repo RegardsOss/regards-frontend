@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { forOwn } from 'lodash'
+import forOwn from 'lodash/forOwn'
 import I18nSelectors from './I18nSelectors'
 
 export const SET_LOCALE = 'SET_LOCALE'

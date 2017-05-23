@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  */
 import { connect } from '@regardsoss/redux'
-import { values } from 'lodash'
+import values from 'lodash/values'
 import { i18nContextType } from '@regardsoss/i18n'
 import ResetPasswordActions from '../model/operation/ResetPasswordActions'
 import ResetPasswordSelectors from '../model/operation/ResetPasswordSelectors'

@@ -6,7 +6,7 @@ import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { values } from 'lodash'
+import values from 'lodash/values'
 
 
 /**

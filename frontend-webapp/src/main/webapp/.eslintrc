@@ -44,7 +44,7 @@
     "func-names":  0,
     "no-confusing-arrow": "off",
     // Do not warn on how we import lodash
-    "lodash/import-scope": 0,
+    "lodash/import-scope": [2, "method"],
     // Disable useless rule (_.noop instead of empty annonnymous function)
     "lodash/prefer-noop": 0,
     // This rule is not satisfying

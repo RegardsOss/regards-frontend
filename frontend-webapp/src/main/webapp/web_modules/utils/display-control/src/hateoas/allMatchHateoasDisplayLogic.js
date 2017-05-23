@@ -1,7 +1,9 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { every, includes, isEmpty } from 'lodash'
+import every from 'lodash/every'
+import includes from 'lodash/includes'
+import isEmpty from 'lodash/isEmpty'
 
 /**
  * A Display Controller is a pure function which implements the logic for

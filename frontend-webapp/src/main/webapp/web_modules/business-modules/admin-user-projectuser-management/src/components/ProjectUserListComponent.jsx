@@ -1,7 +1,9 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { isEmpty, map, size } from 'lodash'
+import isEmpty from 'lodash/isEmpty'
+import map from 'lodash/map'
+import size from 'lodash/size'
 import { Tabs, Tab } from 'material-ui/Tabs'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'

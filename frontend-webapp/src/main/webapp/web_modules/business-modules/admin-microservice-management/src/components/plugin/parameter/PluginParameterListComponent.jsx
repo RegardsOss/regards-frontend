@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { map } from 'lodash'
+import map from 'lodash/map'
 import { FormattedMessage } from 'react-intl'
 import { Card, CardTitle, CardText } from 'material-ui/Card'
 import { PluginMetaData, PluginConfiguration } from '@regardsoss/model'

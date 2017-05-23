@@ -1,7 +1,7 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
-import { isEmpty } from 'lodash'
+import isEmpty from 'lodash/isEmpty'
 import { connect } from '@regardsoss/redux'
 import { AuthenticateShape, AuthenticationClient } from '@regardsoss/authentication-manager'
 import AuthenticationDialogComponent from '../components/AuthenticationDialogComponent'

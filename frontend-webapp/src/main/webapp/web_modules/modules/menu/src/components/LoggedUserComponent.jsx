@@ -2,7 +2,8 @@
  * LICENSE_PLACEHOLDER
  **/
 import React from 'react'
-import { map, isEmpty } from 'lodash'
+import map from 'lodash/map'
+import isEmpty from 'lodash/isEmpty'
 import IconMenu from 'material-ui/IconMenu'
 import MenuItem from 'material-ui/MenuItem'
 import Divider from 'material-ui/Divider'

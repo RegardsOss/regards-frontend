@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { merge } from 'lodash'
+import merge from 'lodash/merge'
 import { themeContextType } from '@regardsoss/theme'
 import { PluginConf } from '@regardsoss/model'
 import { ModuleShape } from '@regardsoss/modules'

@@ -2,7 +2,8 @@
  * LICENSE_PLACEHOLDER
  **/
 import { normalize } from 'normalizr'
-import { keys, cloneDeep } from 'lodash'
+import keys from 'lodash/keys'
+import cloneDeep from 'lodash/cloneDeep'
 import DumpDictionary from './DumpDictionary'
 
 /**

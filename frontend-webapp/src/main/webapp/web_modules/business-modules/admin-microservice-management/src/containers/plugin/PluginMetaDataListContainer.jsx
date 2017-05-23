@@ -1,7 +1,10 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { map, without, union, chain } from 'lodash'
+import map from 'lodash/map'
+import without from 'lodash/without'
+import union from 'lodash/union'
+import { chain } from 'lodash'
 import { browserHistory } from 'react-router'
 import { FormattedMessage } from 'react-intl'
 import AppBar from 'material-ui/AppBar'

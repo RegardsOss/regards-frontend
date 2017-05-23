@@ -1,6 +1,6 @@
 import { muiTheme } from 'storybook-addon-material-ui'
 import { storiesOf, action } from '@kadira/storybook'
-import { values } from 'lodash'
+import values from 'lodash/values'
 import AccountRequestFormComponent, { requestFormIds } from '@regardsoss-modules/authentication/src/components/AccountRequestFormComponent'
 import AccountOperationMessage, { operationIds } from '@regardsoss-modules/authentication/src/components/AccountOperationMessage'
 import CompleteResetPasswordFormComponent from '@regardsoss-modules/authentication/src/components/ChangePasswordFormComponent'

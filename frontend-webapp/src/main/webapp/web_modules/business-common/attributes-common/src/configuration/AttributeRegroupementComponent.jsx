@@ -11,7 +11,8 @@ import IconMenu from 'material-ui/IconMenu'
 import MenuItem from 'material-ui/MenuItem'
 import IconButton from 'material-ui/IconButton'
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
-import { FormattedMessage } from 'react-intl'
+import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
 import { AttributesRegroupementConfiguration } from '@regardsoss/model'
 
 /**
@@ -25,6 +26,10 @@ class AttributeConfigurationComponent extends React.Component {
     onChange: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
     onEdit: PropTypes.func.isRequired,
+  }
+  static contextTypes = {
+    ...themeContextType,
+    ...i18nContextType,
   }
 
   constructor(props) {
@@ -82,11 +87,11 @@ class AttributeConfigurationComponent extends React.Component {
           }}
         >
           <MenuItem
-            primaryText={<FormattedMessage id="form.attributes.regroupement.edit" />}
+            primaryText={this.context.intl.formatMessage({ id: 'form.attributes.regroupement.edit' })}
             onTouchTap={() => this.props.onEdit(this.props.conf)}
           />
           <MenuItem
-            primaryText={<FormattedMessage id="form.attributes.regroupement.remove" />}
+            primaryText={this.context.intl.formatMessage({ id: 'form.attributes.regroupement.remove' })}
             onTouchTap={() => this.props.onDelete(this.props.conf)}
           />
         </IconMenu>
@@ -98,7 +103,7 @@ class AttributeConfigurationComponent extends React.Component {
           <TextField
             id="search"
             type="number"
-            floatingLabelText={<FormattedMessage id="form.attributes.order" />}
+            floatingLabelText={this.context.intl.formatMessage({ id: 'form.attributes.order' })}
             value={this.formatOrder(this.state.conf.order)}
             onChange={this.changeAttributeOrder}
             style={{
@@ -106,7 +111,7 @@ class AttributeConfigurationComponent extends React.Component {
             }}
           />
           <Checkbox
-            label={<FormattedMessage id="form.attributes.visibility.label" />}
+            label={this.context.intl.formatMessage({ id: 'form.attributes.visibility.label' })}
             checked={this.state.conf.visibility}
             checkedIcon={<Visibility />}
             uncheckedIcon={<VisibilityOff />}

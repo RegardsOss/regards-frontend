@@ -1,16 +1,17 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { merge } from 'lodash'
+import merge from 'lodash/merge'
 import { AttributeModel, AttributeModelController, AttributeConfiguration } from '@regardsoss/model'
 import { Card, CardHeader, CardText } from 'material-ui/Card'
+import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
 import TextField from 'material-ui/TextField'
 import Checkbox from 'material-ui/Checkbox'
 import Visibility from 'material-ui/svg-icons/action/visibility'
 import VisibilityOff from 'material-ui/svg-icons/action/visibility-off'
 import Search from 'material-ui/svg-icons/action/search'
 import Locked from 'material-ui/svg-icons/action/lock'
-import { FormattedMessage } from 'react-intl'
 import { ShowableAtRender } from '@regardsoss/components'
 
 /**
@@ -34,6 +35,11 @@ class AttributeConfigurationComponent extends React.Component {
     filter: PropTypes.string,
     conf: AttributeConfiguration,
     onChange: PropTypes.func,
+  }
+
+  static contextTypes = {
+    ...themeContextType,
+    ...i18nContextType,
   }
 
   constructor(props) {
@@ -108,7 +114,7 @@ class AttributeConfigurationComponent extends React.Component {
             <TextField
               id="search"
               type="number"
-              floatingLabelText={<FormattedMessage id="form.attributes.order" />}
+              floatingLabelText={this.context.intl.formatMessage({ id: 'form.attributes.order' })}
               value={this.formatOrder(this.state.conf.order)}
               onChange={this.changeAttributeOrder}
               style={{
@@ -116,7 +122,7 @@ class AttributeConfigurationComponent extends React.Component {
               }}
             />
             <Checkbox
-              label={<FormattedMessage id="form.attributes.visibility.label" />}
+              label={this.context.intl.formatMessage({ id: 'form.attributes.visibility.label' })}
               checked={this.state.conf.visibility}
               checkedIcon={<Visibility />}
               uncheckedIcon={<VisibilityOff />}
@@ -124,14 +130,14 @@ class AttributeConfigurationComponent extends React.Component {
             />
             <ShowableAtRender show={allowFacettes}>
               <Checkbox
-                label={<FormattedMessage id="form.attributes.facetable.label" />}
+                label={this.context.intl.formatMessage({ id: 'form.attributes.facetable.label' })}
                 checked={this.state.conf.facetable}
                 checkedIcon={<Search />}
                 uncheckedIcon={<Locked />}
                 onCheck={this.changeFacetable}
               />
               <Checkbox
-                label={<FormattedMessage id="form.attributes.initialSort.label" />}
+                label={this.context.intl.formatMessage({ id: 'form.attributes.initialSort.label' })}
                 checked={this.state.conf.initialSort}
                 onCheck={this.changeInitialSort}
               />

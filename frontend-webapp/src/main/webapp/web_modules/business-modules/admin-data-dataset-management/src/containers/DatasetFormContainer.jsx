@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { browserHistory } from 'react-router'
-import { cloneDeep } from 'lodash'
+import cloneDeep from 'lodash/cloneDeep'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { Dataset } from '@regardsoss/model'
@@ -198,7 +198,7 @@ export class DatasetFormContainer extends React.Component {
       case states.FORM_ATTRIBUTE:
         return (<DatasetFormAttributesContainer
           currentDataset={currentDataset}
-          currentDatasourceId={isCreating ? datasourceId : currentDataset.content.plgConfDataSource}
+          currentDatasourceId={isCreating ? datasourceId : currentDataset.content.plgConfDataSource.id}
           handleSave={this.saveAttributes}
           backUrl={this.getFormAttributeBackUrl()}
           isEditing={isEditing}

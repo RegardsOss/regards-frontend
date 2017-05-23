@@ -3,7 +3,7 @@
  */
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { values } from 'lodash'
+import values from 'lodash/values'
 import { stub } from 'sinon'
 import { IntlStub } from '@regardsoss/tests-helpers'
 import AuthenticationFormContainer from '../../src/containers/AuthenticationFormContainer'

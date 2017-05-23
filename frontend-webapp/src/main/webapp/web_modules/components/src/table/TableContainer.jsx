@@ -157,6 +157,8 @@ class TableContainer extends React.Component {
       }
       // 2 - build columns for state
       nextState.allColumns = this.computeAllColumns(nextProps, nextState.entities)
+    } else if (!isEqual(previousProps.columns, nextProps.columns)) {
+      nextState.allColumns = this.computeAllColumns(nextProps, nextState.entities)
     }
 
     // always update the all selected state
@@ -276,6 +278,7 @@ class TableContainer extends React.Component {
       toggledElements, selectionMode, tableConfiguration: { lineHeight = defaultLineHeight, ...tableConfiguration },
     } = this.props
     const { entities, allSelected, allColumns } = this.state // cached render data
+
     return (
       <I18nProvider messageDir={'components/src/table/i18n'}>
         <ModuleThemeProvider module={{ styles }}>

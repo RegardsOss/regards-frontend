@@ -1,7 +1,11 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { map, forEach, replace, split, join, takeRight } from 'lodash'
+import forEach from 'lodash/forEach'
+import replace from 'lodash/replace'
+import split from 'lodash/split'
+import join from 'lodash/join'
+import takeRight from 'lodash/takeRight'
 import RequestVerbEnum from './RequestVerbEnum'
 
 /**

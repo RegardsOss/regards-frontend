@@ -1,6 +1,6 @@
 import React from 'react'
 import IconButton from 'material-ui/IconButton'
-import { mapValues } from 'lodash'
+import mapValues from 'lodash/mapValues'
 
 /**
  * Decorates the material-ui's IconButton in order to handle an entirely specific behaviour on button hover.

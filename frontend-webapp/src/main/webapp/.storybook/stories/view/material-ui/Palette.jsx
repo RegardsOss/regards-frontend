@@ -1,5 +1,5 @@
 import Paper from 'material-ui/Paper'
-import { map } from 'lodash'
+import map from 'lodash/map'
 import { themeContextType } from '@regardsoss/theme'
 
 const style = {

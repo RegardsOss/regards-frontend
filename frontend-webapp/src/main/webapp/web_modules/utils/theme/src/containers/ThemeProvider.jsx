@@ -1,7 +1,10 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { isEqual, find, merge, has } from 'lodash'
+import isEqual from 'lodash/isEqual'
+import find from 'lodash/find'
+import merge from 'lodash/merge'
+import has from 'lodash/has'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { connect } from 'react-redux'

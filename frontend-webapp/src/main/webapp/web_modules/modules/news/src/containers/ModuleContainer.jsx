@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { map } from 'lodash'
+import map from 'lodash/map'
 import { NewsItemComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 

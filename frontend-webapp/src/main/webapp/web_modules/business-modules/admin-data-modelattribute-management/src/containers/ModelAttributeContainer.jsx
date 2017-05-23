@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { find } from 'lodash'
+import find from 'lodash/find'
 import { connect } from '@regardsoss/redux'
 import { AttributeModel, ModelAttribute, PluginConfiguration, PluginMetaData } from '@regardsoss/model'
 import { modelAttributesSelectors, modelAttributesActions } from '../client/ModelAttributesClient'

@@ -4,7 +4,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { stub } from 'sinon'
-import { forEach } from 'lodash'
+import forEach from 'lodash/forEach'
 import { IntlStub } from '@regardsoss/tests-helpers'
 import AccountOperationMessage, { operationIds } from '../../src/components/AccountOperationMessage'
 

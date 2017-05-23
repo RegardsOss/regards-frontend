@@ -4,7 +4,10 @@
 import { Card, CardTitle, CardText } from 'material-ui/Card'
 import Dialog from 'material-ui/Dialog'
 import { FormattedMessage } from 'react-intl'
+import values from 'lodash/values'
+import isEqual from 'lodash/isEqual'
 import { AccessGroup, AccessRight, PluginConfiguration, PluginMetaData } from '@regardsoss/model'
+import { tableActions, tableSelectors } from '../clients/TableClient'
 import {
   TableContainer,
   MainActionButtonComponent,
@@ -39,6 +42,8 @@ class AccessRightListComponent extends React.Component {
     deleteAccessRight: PropTypes.func.isRequired,
     // Callback to submit AccessRight(s) configuration (updates and creation)
     submitAccessRights: PropTypes.func.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
+    selectedDatasets: PropTypes.objectOf(PropTypes.object).isRequired,
   }
 
   static contextTypes = {
@@ -59,21 +64,8 @@ class AccessRightListComponent extends React.Component {
       accessRightToEdit: null,
       // Set to define a new AccessRight for the given dataset into the AccessRight configuration dialog.
       datasetAccessRightToEdit: null,
-      // List of current selected datasets.
-      selectedDatasets: [],
       submitError: false,
     }
-  }
-
-  /**
-   * Callback used by the TableContainer component to set the selected datasets.
-   *
-   * @param selected (List of Dataset entities)
-   */
-  setSelectedDataset = (selected) => {
-    this.setState({
-      selectedDatasets: selected,
-    })
   }
 
   /**
@@ -146,7 +138,7 @@ class AccessRightListComponent extends React.Component {
       this.props.submitAccessRights([this.state.datasetAccessRightToEdit], accessRightValues).then(this.handleSubmitResult)
     } else {
       // Many accessRight to submit. One for each selected datasets.
-      this.props.submitAccessRights(this.state.selectedDatasets, accessRightValues).then(this.handleSubmitResult)
+      this.props.submitAccessRights(values(this.props.selectedDatasets), accessRightValues).then(this.handleSubmitResult)
     }
   }
 
@@ -169,7 +161,7 @@ class AccessRightListComponent extends React.Component {
           onSubmit={this.handleSubmitAccessRights}
           errorMessage={this.state.submitError ? this.context.intl.formatMessage({ id: 'accessright.form.error.message' }) : null}
             // If a unique accessright is in edition only submit the one. Else, submit for all selected datasets
-          selectedDatasets={this.state.datasetAccessRightToEdit ? [this.state.datasetAccessRightToEdit] : this.state.selectedDatasets}
+          selectedDatasets={this.state.datasetAccessRightToEdit ? [this.state.datasetAccessRightToEdit] : values(this.props.selectedDatasets)}
           currentAccessRight={this.state.accessRightToEdit}
           pluginConfigurationList={this.props.pluginConfigurationList}
           pluginMetaDataList={this.props.pluginMetaDataList}
@@ -277,6 +269,8 @@ class AccessRightListComponent extends React.Component {
       },
     ]
 
+    console.log('PROPS', this.props.accessRights)
+
     return (
       <Card>
         <CardTitle
@@ -288,20 +282,19 @@ class AccessRightListComponent extends React.Component {
           {this.renderDeleteConfirmDialog()}
           <MainActionButtonComponent
             label={<FormattedMessage id="accessright.edit.multiples.button.label" />}
-            disabled={this.state.selectedDatasets.length === 0}
+            disabled={values(this.props.selectedDatasets).length === 0}
             onTouchTap={() => this.openEditDialog()}
           />
           <TableContainer
             name="access-rights-datasets-table"
-            PageActions={datasetActions}
-            PageSelector={datasetSelectors}
+            pageActions={datasetActions}
+            pageSelectors={datasetSelectors}
+            tableActions={tableActions}
+            tableSelectors={tableSelectors}
             tableConfiguration={tableConfiguration}
             tablePaneConfiguration={tablePaneConfiguration}
             pageSize={10}
             columns={columns}
-            onSelectionChange={(mode, selecteEntities) => {
-              this.setSelectedDataset(selecteEntities)
-            }}
           />
         </CardText>
       </Card>

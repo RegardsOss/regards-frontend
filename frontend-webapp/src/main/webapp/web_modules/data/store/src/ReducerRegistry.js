@@ -1,7 +1,10 @@
 /**
  * LICENSEPLACEHOLDER
  **/
-import { forEach, keys, isEmpty, find } from 'lodash'
+import forEach from 'lodash/forEach'
+import keys from 'lodash/keys'
+import isEmpty from 'lodash/isEmpty'
+import find from 'lodash/find'
 // Based on https://github.com/rackt/redux/issues/37#issue-85098222
 /**
  * Registry to handle add of new dynamic reducers during application runtime

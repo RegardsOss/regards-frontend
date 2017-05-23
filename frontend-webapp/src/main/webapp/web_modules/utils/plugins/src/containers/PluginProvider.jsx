@@ -52,7 +52,6 @@ class PluginProvider extends React.Component {
 
   renderPlugin() {
     if (this.props.pluginToLoad) {
-      console.log('Displaying plugin', this.props)
       return (
         <PluginLoader
           pluginInstanceId={this.props.pluginInstanceId}

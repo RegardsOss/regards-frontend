@@ -1,7 +1,9 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { chain, filter, pickBy } from 'lodash'
+import { chain } from 'lodash'
+import filter from 'lodash/filter'
+import pickBy from 'lodash/pickBy'
 import { BasicListSelectors } from '@regardsoss/store-utils'
 
 class PluginConfigurationSelectors extends BasicListSelectors {

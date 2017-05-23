@@ -2,7 +2,6 @@
  * LICENSE_PLACEHOLDER
  **/
 import join from 'lodash/join'
-import map from 'lodash/map'
 import isEqual from 'lodash/isEqual'
 import get from 'lodash/get'
 import { connect } from '@regardsoss/redux'
@@ -57,7 +56,7 @@ class AdminContainer extends React.Component {
   }
 
   componentWillMount() {
-    if (get(this.props, 'adminForm.form.conf.dataset', null)) {
+    if (get(this.props, 'adminForm.form.conf.datasets', null)) {
       this.updateSelectableAttributes(this.props.adminForm.form.conf.datasets.type,
         this.props.adminForm.form.conf.datasets.selectedModels,
         this.props.adminForm.form.conf.datasets.selectedDatasets)

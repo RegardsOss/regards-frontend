@@ -7,8 +7,9 @@ import { LinkComponent } from '@regardsoss/components'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import UrlAttributesRender from '../../src/render/UrlAttributesRender'
 
-
-const context = buildTestContext(() => {})
+const options = {
+  context: buildTestContext(),
+}
 
 /**
  * Tests for AttributeConfigurationComponent
@@ -24,7 +25,7 @@ describe('[ATTRIBUTES COMMON] Testing UrlAttributesRender', () => {
         'test.attribute': 'http://plop.test',
       },
     }
-    const wrapper = shallow(<UrlAttributesRender {...props} />, context)
+    const wrapper = shallow(<UrlAttributesRender {...props} />, options)
 
     const link = wrapper.find(LinkComponent)
     assert.lengthOf(link, 1, 'There should be a LinkComponent rendered')

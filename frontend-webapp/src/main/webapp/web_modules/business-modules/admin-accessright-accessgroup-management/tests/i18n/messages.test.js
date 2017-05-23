@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { assert } from 'chai'
-import { keys } from 'lodash'
+import keys from 'lodash/keys'
 import MessagesFr from '../../src/i18n/messages.fr.i18n'
 import MessagesEn from '../../src/i18n/messages.en.i18n'
 

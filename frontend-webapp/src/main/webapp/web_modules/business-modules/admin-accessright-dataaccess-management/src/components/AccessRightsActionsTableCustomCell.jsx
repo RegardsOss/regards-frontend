@@ -1,7 +1,7 @@
 import find from 'lodash/find'
 import Delete from 'material-ui/svg-icons/action/delete'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
-import { Dataset, AccessRight, AccessGroup } from '@regardsoss/model'
+import { Dataset, AccessRight } from '@regardsoss/model'
 import IconButton from 'material-ui/IconButton'
 
 class AccessRightsActionsTableCustomCell extends React.Component {

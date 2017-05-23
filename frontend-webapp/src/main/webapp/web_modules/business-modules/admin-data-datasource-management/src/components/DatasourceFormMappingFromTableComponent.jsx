@@ -1,7 +1,10 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { some, find, chain, map } from 'lodash'
+import some from 'lodash/some'
+import find from 'lodash/find'
+import { chain } from 'lodash'
+import map from 'lodash/map'
 import { CardTitle, CardText } from 'material-ui/Card'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow } from 'material-ui/Table'
 import { FormattedMessage } from 'react-intl'

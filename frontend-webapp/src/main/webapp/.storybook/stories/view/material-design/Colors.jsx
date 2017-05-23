@@ -1,5 +1,5 @@
 import Paper from 'material-ui/Paper'
-import { map } from 'lodash'
+import map from 'lodash/map'
 import {
   red50, red100, red200, red300, red400, red500, red600, red700, red800, red900, redA100, redA200, redA400, redA700,
   pink50, pink100, pink200, pink300, pink400, pink500, pink600, pink700, pink800, pink900, pinkA100, pinkA200, pinkA400,

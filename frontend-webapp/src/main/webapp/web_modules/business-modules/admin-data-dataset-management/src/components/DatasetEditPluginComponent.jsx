@@ -1,7 +1,11 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { map, filter, cloneDeep, remove, includes } from 'lodash'
+import map from 'lodash/map'
+import filter from 'lodash/filter'
+import cloneDeep from 'lodash/cloneDeep'
+import remove from 'lodash/remove'
+import includes from 'lodash/includes'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import { PluginConfiguration, PluginMetaData, LinkPluginDataset } from '@regardsoss/model'

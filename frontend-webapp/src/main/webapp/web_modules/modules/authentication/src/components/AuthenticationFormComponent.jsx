@@ -3,7 +3,7 @@
  **/
 import { FormattedMessage } from 'react-intl'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
-import { isEmpty } from 'lodash'
+import isEmpty from 'lodash/isEmpty'
 import { formValueSelector } from 'redux-form'
 import RaisedButton from 'material-ui/RaisedButton'
 import UnlockAccountIcon from 'material-ui/svg-icons/action/lock'

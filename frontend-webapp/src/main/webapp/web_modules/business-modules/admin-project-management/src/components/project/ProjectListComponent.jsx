@@ -1,7 +1,8 @@
 /*
  * LICENSE_PLACEHOLDER
  */
-import { map, noop } from 'lodash'
+import map from 'lodash/map'
+import noop from 'lodash/noop'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import IconButton from 'material-ui/IconButton'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'

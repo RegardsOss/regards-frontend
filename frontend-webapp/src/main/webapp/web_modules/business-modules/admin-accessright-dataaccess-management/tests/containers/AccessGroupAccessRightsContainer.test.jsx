@@ -7,7 +7,7 @@ import { stub } from 'sinon'
 import { testSuiteHelpers, DumpProvider, buildTestContext } from '@regardsoss/tests-helpers'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { AccessGroupAccessRightsContainer } from '../../src/containers/AccessGroupAccessRightsContainer'
-import AccessRightListComponent from '../../src/components/AccessRightListComponent'
+import AccessRightListContainer from '../../src/components/AccessRightListContainer'
 import AccessRightEnum from '../../src/components/AccessRightsEnum'
 
 const context = buildTestContext()
@@ -122,9 +122,9 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing AccessGroupAccessRightsContaine
     assert.isFalse(loader.props().isContentError, 'Content error should be false')
 
     loader = loader.dive()
-    const component = loader.find(AccessRightListComponent)
-    assert.isTrue(component.length === 1, 'There should be a AccessRightListComponent rendered')
-    assert.equal(component.props().accessGroup, props.accessGroup, 'The accessGroup passed to AccessRightListComponent should the same as AccessGroupAccessRightsContainer')
+    const component = loader.find(AccessRightListContainer)
+    assert.isTrue(component.length === 1, 'There should be a AccessRightListContainer rendered')
+    assert.equal(component.props().accessGroup, props.accessGroup, 'The accessGroup passed to AccessRightListContainer should the same as AccessGroupAccessRightsContainer')
   })
 
 

@@ -2,7 +2,9 @@
  * LICENSE_PLACEHOLDER
  **/
 import { browserHistory } from 'react-router'
-import { find, forEach, cloneDeep } from 'lodash'
+import find from 'lodash/find'
+import forEach from 'lodash/forEach'
+import cloneDeep from 'lodash/cloneDeep'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { Datasource, PluginMetaData } from '@regardsoss/model'

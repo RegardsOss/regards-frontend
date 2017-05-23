@@ -1,6 +1,6 @@
 import { List, ListItem } from 'material-ui/List'
 import Subheader from 'material-ui/Subheader'
-import { map } from 'lodash'
+import map from 'lodash/map'
 import IconMenu from 'material-ui/IconMenu'
 import IconButton from 'material-ui/IconButton'
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'

@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { find } from 'lodash'
+import find from 'lodash/find'
 import { validURLRegexp, relativeURLRegexp } from '@regardsoss/model'
 import ErrorTypes from './ErrorTypes'
 

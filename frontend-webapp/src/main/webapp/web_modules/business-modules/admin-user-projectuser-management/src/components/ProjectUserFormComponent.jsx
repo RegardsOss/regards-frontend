@@ -1,4 +1,7 @@
-import { isEqual, find, map, forEach } from 'lodash'
+import isEqual from 'lodash/isEqual'
+import find from 'lodash/find'
+import map from 'lodash/map'
+import forEach from 'lodash/forEach'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'

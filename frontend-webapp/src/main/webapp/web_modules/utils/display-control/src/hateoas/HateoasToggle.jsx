@@ -21,7 +21,7 @@ class HateoasToggle extends React.Component {
   }
 
   render() {
-    const { entityLinks, hateoasKey, isInstance, ...otherProps } = this.props
+    const { entityLinks, hateoasKey, isInstance, theme, i18n, dispatch, ...otherProps } = this.props
     if (isInstance) {
       return (
         <Toggle

@@ -122,7 +122,7 @@ class FormCriteriaComponent extends React.Component {
    * @returns {*}
    */
   renderCriteriaConfiguration = () => {
-    if (isNil(this.state.selectedCriteria) && !this.props.criterionFetching) {
+    if (!isNil(this.state.selectedCriteria) && !this.props.criterionFetching) {
       return (
         <PluginProvider
           key={this.state.selectedCriteria}

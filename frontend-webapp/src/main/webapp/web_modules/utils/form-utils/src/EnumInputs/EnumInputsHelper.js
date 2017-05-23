@@ -1,7 +1,9 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { map, pickBy, valuesIn } from 'lodash'
+import map from 'lodash/map'
+import pickBy from 'lodash/pickBy'
+import valuesIn from 'lodash/valuesIn'
 
 
 /**

@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { map } from 'lodash'
+import map from 'lodash/map'
 import { connect } from '@regardsoss/redux'
 import { StoragePlugin } from '@regardsoss/model'
 import StorageMonitoringComponent from '../components/StorageMonitoringComponent'

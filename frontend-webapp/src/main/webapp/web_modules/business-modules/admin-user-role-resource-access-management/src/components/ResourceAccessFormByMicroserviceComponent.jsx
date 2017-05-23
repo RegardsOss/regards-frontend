@@ -2,7 +2,8 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { map, forEach } from 'lodash'
+import map from 'lodash/map'
+import forEach from 'lodash/forEach'
 import { FormattedMessage } from 'react-intl'
 import Chip from 'material-ui/Chip'
 import { List, ListItem } from 'material-ui/List'

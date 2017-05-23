@@ -1,7 +1,8 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { xor, map } from 'lodash'
+import xor from 'lodash/xor'
+import map from 'lodash/map'
 import { Card, CardTitle } from 'material-ui/Card'
 import { FormattedMessage } from 'react-intl'
 import { PageableListContainer, ListContainer } from '@regardsoss/components'

@@ -1,7 +1,11 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { map, chain, isEmpty, filter, find } from 'lodash'
+import map from 'lodash/map'
+import { chain } from 'lodash'
+import isEmpty from 'lodash/isEmpty'
+import filter from 'lodash/filter'
+import find from 'lodash/find'
 import { FormattedMessage } from 'react-intl'
 import RaisedButton from 'material-ui/RaisedButton'
 import { ListItem } from 'material-ui/List'

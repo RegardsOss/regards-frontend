@@ -4,7 +4,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { stub } from 'sinon'
-import { forEach } from 'lodash'
+import forEach from 'lodash/forEach'
 import { Card } from 'material-ui/Card'
 import { IntlStub } from '@regardsoss/tests-helpers'
 import { AccountRequestFormComponent, requestFormIds } from '../../src/components/AccountRequestFormComponent'

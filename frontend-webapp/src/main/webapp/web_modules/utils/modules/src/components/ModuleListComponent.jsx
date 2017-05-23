@@ -1,7 +1,11 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { forEach, map, concat, sortBy, get } from 'lodash'
+import forEach from 'lodash/forEach'
+import map from 'lodash/map'
+import concat from 'lodash/concat'
+import sortBy from 'lodash/sortBy'
+import get from 'lodash/get'
 import Drawer from 'material-ui/Drawer'
 import { List, ListItem } from 'material-ui/List'
 import Divider from 'material-ui/Divider'

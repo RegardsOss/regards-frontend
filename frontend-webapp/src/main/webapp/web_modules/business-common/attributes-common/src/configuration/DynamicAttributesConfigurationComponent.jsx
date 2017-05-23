@@ -53,7 +53,7 @@ class DynamicAttributesConfigurationComponent extends React.Component {
           }}
         >
           <TextField
-            hintText={<FormattedMessage id="form.attributes.filter.label" />}
+            hintText={this.context.intl.formatMessage({ id: 'form.attributes.filter.label' })}
             value={filter}
             style={{
               margin: '0px 15px',

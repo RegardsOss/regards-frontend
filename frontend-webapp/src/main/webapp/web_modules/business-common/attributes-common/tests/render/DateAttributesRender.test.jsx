@@ -3,7 +3,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { stub } from 'sinon'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { FormattedDate, FormattedTime } from 'react-intl'
 import DateAttributesRender from '../../src/render/DateAttributesRender'
 /**
@@ -11,17 +11,8 @@ import DateAttributesRender from '../../src/render/DateAttributesRender'
  * @author Sébastien binda
  */
 describe('[ATTRIBUTES COMMON] Testing DateAttributesRender', () => {
-  // Since react will console.error propType warnings, that which we'd rather have
-  // as errors, we use sinon.js to stub it into throwing these warning as errors
-  // instead.
-  before(() => {
-    stub(console, 'error').callsFake((warning) => {
-      throw new Error(warning)
-    })
-  })
-  after(() => {
-    console.error.restore()
-  })
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
   it('Should render a date value', () => {
     const props = {
       attributes: {

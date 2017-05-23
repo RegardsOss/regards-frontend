@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { forEach } from 'lodash'
+import forEach from 'lodash/forEach'
 import { connect } from '@regardsoss/redux'
 import { AccessProject } from '@regardsoss/model'
 import { FormLoadingComponent } from '@regardsoss/form-utils'

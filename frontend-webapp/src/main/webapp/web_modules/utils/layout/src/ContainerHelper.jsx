@@ -1,7 +1,13 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { merge, union, unionBy, forEach, find, concat, cloneDeep } from 'lodash'
+import merge from 'lodash/merge'
+import union from 'lodash/union'
+import unionBy from 'lodash/unionBy'
+import forEach from 'lodash/forEach'
+import find from 'lodash/find'
+import concat from 'lodash/concat'
+import cloneDeep from 'lodash/cloneDeep'
 import containerTypes from './default/containerTypes'
 
 /**

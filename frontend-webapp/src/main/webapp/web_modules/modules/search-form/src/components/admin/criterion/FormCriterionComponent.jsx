@@ -9,7 +9,9 @@ import {
   TableRow,
   TableRowColumn,
 } from 'material-ui/Table'
-import { forEach, concat, filter } from 'lodash'
+import forEach from 'lodash/forEach'
+import concat from 'lodash/concat'
+import filter from 'lodash/filter'
 import Dialog from 'material-ui/Dialog'
 import IconButton from 'material-ui/IconButton'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
