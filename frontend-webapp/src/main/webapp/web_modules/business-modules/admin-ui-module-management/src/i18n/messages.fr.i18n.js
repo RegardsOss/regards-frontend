@@ -78,6 +78,8 @@ const messages = Object.assign({
   'application.theme.remove.success': 'Le thème a été supprimé',
   'application.theme.remove.error': 'Le thème n\'a pas pu être supprimé',
 
+  'table.actions.more' : 'Plus d\'actions',
+
 }, Locales.fr)
 
 export default messages

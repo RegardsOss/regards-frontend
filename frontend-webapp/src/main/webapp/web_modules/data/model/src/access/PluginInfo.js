@@ -1,20 +1,10 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-
-/**
- * List of valid plugin types
- * @type {[*]}
- * @author Sébastien Binda
- */
-const PluginTypes = [
-  'criteria',
-  'service',
-  'module',
-]
-
+import UIPluginTypes from './UIPluginTypes'
 /**
  * Plugin information supplied by the plugin himself
+ * @author Sébastien Binda
  */
 const PluginInfo = PropTypes.shape({
   name: PropTypes.string.isRequired,
@@ -25,7 +15,7 @@ const PluginInfo = PropTypes.shape({
   email: PropTypes.string,
   license: PropTypes.string,
   url: PropTypes.string,
-  type: PropTypes.oneOf(PluginTypes),
+  type: PropTypes.oneOf(UIPluginTypes),
   // Specific configuration properties for the given plugin
   conf: PropTypes.object,
 })
