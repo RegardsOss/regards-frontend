@@ -48,15 +48,19 @@ const UIServiceInstanceConf = PropTypes.shape({
 const PluginConf = PropTypes.shape({
   id: PropTypes.number,
   active: PropTypes.bool,
-  pluginId: PropTypes.number.isRequired,
+  pluginId: PropTypes.number.isRequired, // plugin defintion ID
+  label: PropTypes.string,
   conf: PropTypes.oneOfType([
     UICriterionInstanceConf,
     UIServiceInstanceConf,
   ]),
-  label: PropTypes.string,
   // TODO A supprimer
   container: PropTypes.string,
   pluginConf: PropTypes.object,
 })
 
 export default PluginConf
+
+export const FetchedUIPluginConf = PropTypes.shape({
+  content: PluginConf,
+})

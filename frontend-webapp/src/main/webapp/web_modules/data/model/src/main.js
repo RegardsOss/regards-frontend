@@ -20,7 +20,7 @@ import ModelAttribute from './dam/ModelAttribute'
 import Plugin from './access/Plugin'
 import { PluginInfo } from './access/PluginInfo'
 import PluginDefinition from './access/PluginDefinition'
-import PluginConf from './access/PluginConf'
+import PluginConf, { FetchedUIPluginConf } from './access/PluginConf'
 import AccessProject from './access/Project'
 import Module from './access/Module'
 import Layout from './access/Layout'
@@ -92,6 +92,7 @@ export default {
   PluginDefinition,
   PluginInfo,
   PluginConf,
+  FetchedUIPluginConf,
   AccessProject,
   Module,
   Layout,

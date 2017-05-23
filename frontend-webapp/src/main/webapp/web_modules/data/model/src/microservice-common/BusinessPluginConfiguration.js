@@ -20,14 +20,16 @@ export const BusinessPluginParamater = PropTypes.shape({
  * Description of business plugin configuration, common to all services
  */
 export const BusinessPluginConfiguration = PropTypes.shape({
-  id: PropTypes.number.isRequired,
-  pluginId: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  version: PropTypes.string.isRequired,
-  priorityOrder: PropTypes.number.isRequired,
-  active: PropTypes.bool.isRequired,
-  pluginClassName: PropTypes.string.isRequired,
-  interfaceNames: PropTypes.arrayOf(PropTypes.string),
-  parameters: PropTypes.arrayOf(BusinessPluginParamater),
+  content: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    pluginId: PropTypes.string.isRequired,
+    label: PropTypes.string.isRequired,
+    version: PropTypes.string.isRequired,
+    priorityOrder: PropTypes.number.isRequired,
+    active: PropTypes.bool.isRequired,
+    pluginClassName: PropTypes.string.isRequired,
+    interfaceNames: PropTypes.arrayOf(PropTypes.string),
+    parameters: PropTypes.arrayOf(BusinessPluginParamater),
+  }).isRequired,
 })
 

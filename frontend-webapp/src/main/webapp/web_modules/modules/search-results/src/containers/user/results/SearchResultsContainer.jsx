@@ -2,7 +2,9 @@
 * LICENSE_PLACEHOLDER
 **/
 import isEqual from 'lodash/isEqual'
+import values from 'lodash/values'
 import remove from 'lodash/remove'
+import keys from 'lodash/keys'
 import { connect } from '@regardsoss/redux'
 import {
   AttributeModel,
@@ -12,13 +14,20 @@ import {
   AttributeConfigurationController,
   SearchResultsTargetsEnum,
 } from '@regardsoss/model'
+import { TableSelectionModes } from '@regardsoss/components'
+import TableClient from '../../../client/TableClient'
 import NavigationLevel from '../../../models/navigation/NavigationLevel'
 import navigationContextActions from '../../../models/navigation/NavigationContextActions'
 import navigationContextSelectors from '../../../models/navigation/NavigationContextSelectors'
-import CatalogDataobjectEntityActions from '../../../models/catalog/CatalogDataobjectEntityActions'
-import CatalogDatasetEntityActions from '../../../models/catalog/CatalogDatasetEntityActions'
+import catalogDataobjectEntityActions from '../../../models/catalog/CatalogDataobjectEntityActions'
+import catalogDatasetEntityActions from '../../../models/catalog/CatalogDatasetEntityActions'
+import catalogEntitySelector from '../../../models/catalog/CatalogEntitySelector'
+import datasetServicesSelectors from '../../../models/services/DatasetServicesSelectors'
 import QueriesHelper from '../../../definitions/query/QueriesHelper'
+import Service from '../../../definitions/service/Service'
 import SearchResultsComponent from '../../../components/user/results/SearchResultsComponent'
+
+const EMPTY_SERVICE_LIST = []
 
 /**
 * Search results container, drives corresponding component
@@ -26,8 +35,15 @@ import SearchResultsComponent from '../../../components/user/results/SearchResul
 export class SearchResultsContainer extends React.Component {
 
   static mapStateToProps = state => ({
+    datasetServices: datasetServicesSelectors.getDatasetServices(state),
+    selectedDataobjectsServices: datasetServicesSelectors.getSelectedDataobjectsServices(state),
     viewObjectType: navigationContextSelectors.getViewObjectType(state),
     levels: navigationContextSelectors.getLevels(state),
+
+    // selection related
+    selectionMode: TableClient.tableSelectors.getSelectionMode(state),
+    toggledElements: TableClient.tableSelectors.getToggledElements(state),
+    pageMetadata: catalogEntitySelector.getMetaData(state),
   })
 
   static mapDispatchToProps = dispatch => ({
@@ -56,10 +72,23 @@ export class SearchResultsContainer extends React.Component {
     attributesRegroupementsConf: PropTypes.arrayOf(AttributesRegroupementConfiguration),
     attributeModels: PropTypes.objectOf(AttributeModel),
 
+    datasetServices: PropTypes.arrayOf(PropTypes.instanceOf(Service)).isRequired,
+    selectedDataobjectsServices: PropTypes.arrayOf(PropTypes.instanceOf(Service)).isRequired,
+
     // From map state to props
     viewObjectType: PropTypes.oneOf([SearchResultsTargetsEnum.DATAOBJECT_RESULTS, SearchResultsTargetsEnum.DATASET_RESULTS]).isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     levels: PropTypes.arrayOf(PropTypes.instanceOf(NavigationLevel)).isRequired, // only used to build query
+    // eslint-disable-next-line react/no-unused-prop-types
+    pageMetadata: PropTypes.shape({
+      number: PropTypes.number,
+      size: PropTypes.number,
+      totalElements: PropTypes.number,
+    }),
+    // eslint-disable-next-line react/no-unused-prop-types
+    toggledElements: PropTypes.objectOf(PropTypes.object).isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
+    selectionMode: PropTypes.oneOf(values(TableSelectionModes)),
 
     dispatchChangeViewObjectType: PropTypes.func.isRequired,
     dispatchDatasetSelected: PropTypes.func.isRequired,
@@ -70,6 +99,7 @@ export class SearchResultsContainer extends React.Component {
    * Default component state (describes all possible state elements)
    */
   static DEFAULT_STATE = {
+    emptySelection: true, // is current selection empty?
     viewMode: SearchResultsComponent.ViewModes.LIST,
     // is currently showing facettes
     showingFacettes: false,
@@ -113,6 +143,7 @@ export class SearchResultsContainer extends React.Component {
    */
   onSortChanged = (attributePath, type, clear) => {
     const newSortingOn = clear ? [] : [...this.state.sortingOn]
+    // XXX we want to reset selection or adapt it there
     if (attributePath) {
       if (type) {
         // add the attribute to sorting list
@@ -132,6 +163,12 @@ export class SearchResultsContainer extends React.Component {
       sortingOn: newSortingOn,
     })
   }
+
+  onDatasetServiceSelected = service => console.error('Implement dataset service ', service)
+
+  onSelectionServiceSelected = service => console.error('Implement selection (dataobjects) service ', service)
+
+  onDataobjectServiceSelected = (service, dataobjectEntity) => console.error('Implement single (dataobject) service ', service)
 
   /**
     * Builds opensearch query from properties and state as parameter
@@ -182,28 +219,53 @@ export class SearchResultsContainer extends React.Component {
           attribute => AttributeModelController.getEntityAttributeAccessPathFromAttFullyQualifiedName(attribute))
     }
 
+    // on view object type, if entering datasets mode, make sure we are in list view
+    if (oldProperties.viewObjectType !== newProperties.viewObjectType &&
+      newProperties.viewObjectType === SearchResultsTargetsEnum.DATASET_RESULTS) {
+      newState.viewMode = SearchResultsComponent.ViewModes.LIST
+    }
+
+    // on selection change, if new selection is empty, hide selection services
+    if (oldProperties.selectionMode !== newProperties.selectionMode ||
+      oldProperties.toggledElements !== newProperties.toggledElements ||
+      oldProperties.pageMetadata !== newProperties.pageMetadata) {
+      newState.emptySelection = this.isEmptySelection(newProperties)
+    }
     this.updateStateAndQuery(newState, newProperties, true)
+  }
+
+  /**
+   * @return true if selection is empty in current state, false otherwise
+   */
+  isEmptySelection = (properties) => {
+    const { selectionMode, toggledElements, pageMetadata } = properties
+    const totalElements = (pageMetadata && pageMetadata.totalElements) || 0
+    const selectionSize = keys(toggledElements).length
+
+    return (selectionMode === TableSelectionModes.includeSelected && selectionSize === 0) ||
+      (selectionMode === TableSelectionModes.excludeSelected && selectionSize === totalElements)
   }
 
 
   render() {
     const { appName, project, enableFacettes, attributesConf,
       attributesRegroupementsConf, attributeModels, viewObjectType,
+      datasetServices, selectedDataobjectsServices,
       dispatchDatasetSelected, dispatchTagSelected } = this.props
-    const { viewMode, showingFacettes, filters, searchTag, searchQuery } = this.state
-
-    // TODO recover sorting
-    // TODO recover table area when not filtering
-    // TODO : do not provide openSearch query to this component when specifying a datasetid (it is done here now =))
-    // TODO others???
-    // TODO see all TODO too!!
+    const { viewMode, showingFacettes, filters, searchTag, searchQuery, emptySelection } = this.state
 
     // compute view mode
     const showingDataobjects = viewObjectType === SearchResultsTargetsEnum.DATAOBJECT_RESULTS
     // compute child results fetch actions
-    const fetchActions = showingDataobjects ? CatalogDataobjectEntityActions : CatalogDatasetEntityActions
+    const fetchActions = showingDataobjects ? catalogDataobjectEntityActions : catalogDatasetEntityActions
 
-    // TODO clean a bit attributes!!!
+    // control the available selection options
+    let usableDatasetServices = []
+    let usableSelectedDataobjectServices = []
+    if (showingDataobjects) {
+      usableDatasetServices = datasetServices
+      usableSelectedDataobjectServices = emptySelection ? EMPTY_SERVICE_LIST : selectedDataobjectsServices
+    }
 
     return (
       <SearchResultsComponent
@@ -224,6 +286,9 @@ export class SearchResultsContainer extends React.Component {
 
         resultPageActions={fetchActions}
 
+        datasetServices={usableDatasetServices}
+        selectedDataobjectsServices={usableSelectedDataobjectServices}
+
         onShowDatasets={this.onShowDatasets}
         onShowDataobjects={this.onShowDataobjects}
         onShowListView={this.onShowListView}
@@ -234,6 +299,10 @@ export class SearchResultsContainer extends React.Component {
         onFiltersChanged={this.onFiltersChanged}
         onResetNavigationContext={this.onResetNavigationContext}
         onSortChanged={this.onSortChanged}
+
+        onDatasetServiceSelected={this.onDatasetServiceSelected}
+        onSelectionServiceSelected={this.onSelectionServiceSelected}
+        onDataobjectServiceSelected={this.onDataobjectServiceSelected}
 
       />
     )

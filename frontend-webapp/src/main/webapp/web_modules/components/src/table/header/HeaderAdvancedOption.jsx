@@ -2,6 +2,7 @@
 * LICENSE_PLACEHOLDER
 **/
 import { i18nContextType } from '@regardsoss/i18n'
+import ShowableAtRender from '../../cards/ShowableAtRender'
 import DropDownButton from '../../buttons/DropDownButton'
 
 /**
@@ -22,9 +23,11 @@ class HeaderAdvancedOptionComponent extends React.Component {
   render() {
     const { children } = this.props
     return (
-      <DropDownButton getLabel={this.getLabel} disabled={!children || !children.length}>
-        {children || null}
-      </DropDownButton>
+      <ShowableAtRender show={!!children && !!children.length}>
+        <DropDownButton getLabel={this.getLabel}>
+          {children || null}
+        </DropDownButton>
+      </ShowableAtRender>
     )
   }
 }

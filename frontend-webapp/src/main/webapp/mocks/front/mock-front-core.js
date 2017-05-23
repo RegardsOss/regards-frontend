@@ -70,7 +70,7 @@ const findMatchingDelegate = (delegates, relativePath) => {
     const pathParametersDictionnary = []
     const matchURLText = urlkey.replace(findParamExp, (match, paramName) => {
       pathParametersDictionnary.push(paramName)
-      return '/([a-zA-Z0-9\\-_.@]+)'
+      return '/([a-zA-Z0-9\\-_.:@]+)' // regexp to match parameter value
     })
 
     // match corresponding regexp againts current route

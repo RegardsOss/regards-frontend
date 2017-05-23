@@ -2,8 +2,10 @@
  * LICENSE_PLACEHOLDER
  **/
 import omit from 'lodash/omit'
+import values from 'lodash/values'
 import { Cell as FixedDataTableCell } from 'fixed-data-table-2'
 import { themeContextType } from '@regardsoss/theme'
+import TableSelectionModes from '../../model/TableSelectionModes'
 import ColumnConfigurationController from '../columns/model/ColumnConfigurationController'
 
 /**
@@ -20,10 +22,11 @@ class Cell extends React.PureComponent {
       label: PropTypes.string,
     }).isRequired,
     entities: PropTypes.arrayOf(PropTypes.object),
+    toggledElements: PropTypes.objectOf(PropTypes.object).isRequired, // inner object is entity type
+    selectionMode: PropTypes.oneOf(values(TableSelectionModes)).isRequired,
     overridenCellsStyle: PropTypes.objectOf(PropTypes.string),
     lineHeight: PropTypes.number,
-    onToggleSelectRow: PropTypes.func.isRequired,
-    isSelected: PropTypes.func.isRequired,
+    onToggleRowSelection: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -32,18 +35,23 @@ class Cell extends React.PureComponent {
 
   getCellValue = (rowIndex, column) => {
     const { entities, lineHeight } = this.props
+    const isSelectedRow = this.isSelectedRow(rowIndex)
     const entity = entities[rowIndex]
-    return ColumnConfigurationController.getConfiguredColumnValueForEntity(column, entity, lineHeight, this.isRowSelected(), this.handleToggleSelectRow)
+    return ColumnConfigurationController.getConfiguredColumnValueForEntity(column, entity, lineHeight, isSelectedRow, this.handleToggleSelectRow)
   }
 
-  handleToggleSelectRow = () => {
-    Promise.resolve(this.props.onToggleSelectRow(this.props.rowIndex)).then(() => {
-      // requires update as selection controller model is not included in this state
-      this.forceUpdate()
-    })
+  /**
+   * Is row as parameter selected?
+   * @param rowIndex row index
+   * @return true if row is selected
+   */
+  isSelectedRow = (rowIndex) => {
+    const { selectionMode, toggledElements } = this.props
+    return (selectionMode === TableSelectionModes.includeSelected && !!toggledElements[rowIndex]) ||
+      (selectionMode === TableSelectionModes.excludeSelected && !toggledElements[rowIndex])
   }
 
-  isRowSelected = () => this.props.isSelected(this.props.rowIndex)
+  handleToggleSelectRow = () => this.props.onToggleRowSelection(this.props.rowIndex)
 
   render() {
     const attribute = this.getCellValue(this.props.rowIndex, this.props.col)
@@ -63,11 +71,10 @@ class Cell extends React.PureComponent {
       cellStyle = this.props.isLastColumn ? styles.lastCellOdd : styles.cellOdd
       cellContentStyle = styles.cellOddContent
     }
+    const childrenProperies = omit(this.props, 'entities', 'col', 'lineHeight', 'overridenCellsStyle', 'isLastColumn',
+      'toggledElements', 'selectionMode', 'onToggleRowSelection')
     return (
-      <FixedDataTableCell
-        style={cellStyle}
-        {...omit(this.props, 'entities', 'col', 'lineHeight', 'overridenCellsStyle', 'isLastColumn', 'isSelected', 'onToggleSelectRow')}
-      >
+      <FixedDataTableCell style={cellStyle} {...childrenProperies} >
         <div style={cellContentStyle}>{attribute}</div>
       </FixedDataTableCell>
     )
