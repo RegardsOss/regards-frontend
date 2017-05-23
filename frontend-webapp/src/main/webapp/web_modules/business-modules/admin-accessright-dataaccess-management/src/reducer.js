@@ -7,6 +7,7 @@ import { accessRightReducer } from './clients/AccessRightClient'
 import { accessGroupReducer } from './clients/AccessGroupClient'
 import { pluginConfigurationReducer } from './clients/PluginConfigurationClient'
 import { pluginMetadataReducer } from './clients/PluginMetadataClient'
+import { tableReducer } from './clients/TableClient'
 
 const accessRightManagementReducer = combineReducers({
   dataset: datasetReducer,
@@ -14,6 +15,7 @@ const accessRightManagementReducer = combineReducers({
   'access-group': accessGroupReducer,
   'plugin-configuration': pluginConfigurationReducer,
   'plugin-meta-data': pluginMetadataReducer,
+  'access-right-table': tableReducer,
 })
 
 export default accessRightManagementReducer

@@ -57,8 +57,8 @@ export const loadPlugin = (sourcePath, onErrorCallback, dispatchAction) => {
 
     scriptjs(sourcePathPluginWithDateTag, sourcePath)
     root.document.addEventListener('error', (e, url) => {
-      if (get(e, 'srcElement.src',null) === sourcePathPluginWithDateTag) {
-        console.error("Error loading plugin",e.srcElement.src)
+      if (get(e, 'srcElement.src', null) === sourcePathPluginWithDateTag) {
+        console.error('Error loading plugin', e.srcElement.src)
         onErrorCallback(fullSourcePlugin)
       }
     }, true)

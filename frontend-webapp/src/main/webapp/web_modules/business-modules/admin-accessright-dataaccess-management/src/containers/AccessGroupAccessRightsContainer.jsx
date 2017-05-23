@@ -8,7 +8,7 @@ import find from 'lodash/find'
 import { I18nProvider } from '@regardsoss/i18n'
 import { AccessGroup, AccessRight, PluginConfiguration, PluginMetaData } from '@regardsoss/model'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import AccessRightListComponent from '../components/AccessRightListComponent'
+import AccessRightListContainer from './AccessRightListContainer'
 import { accessRightActions, accessRightSelectors } from '../clients/AccessRightClient'
 import { accessGroupActions, accessGroupSelectors } from '../clients/AccessGroupClient'
 import { pluginConfigurationActions, pluginConfigurationSelectors } from '../clients/PluginConfigurationClient'
@@ -57,7 +57,6 @@ export class AccessGroupAccessRightsContainer extends React.Component {
   }
 
   onSubmit = (datasetList, formValues) => {
-    console.log('SUBMITTING', datasetList, formValues)
     const { accessGroup, accessRights } = this.props
     // Create new access rights
     const dataAccessRight = {
@@ -94,6 +93,7 @@ export class AccessGroupAccessRightsContainer extends React.Component {
       .then((actionsResults) => {
         const errors = filter(actionsResults, ar => ar.error)
         this.props.fetchAccessGroup(accessGroup.content.name)
+        // this.props.fetchAccessRights(accessGroup.content.name)
         return {
           error: errors && errors.length > 0,
         }
@@ -121,7 +121,7 @@ export class AccessGroupAccessRightsContainer extends React.Component {
           isContentError={!loading && !accessGroup}
         >
           {() => (
-            <AccessRightListComponent
+            <AccessRightListContainer
               accessGroup={accessGroup}
               accessRights={accessRights}
               pluginConfigurationList={pluginConfigurationList}
