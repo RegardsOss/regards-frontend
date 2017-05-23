@@ -60,10 +60,11 @@ export class LoggedUserContainer extends React.Component {
 
   render() {
     const { authenticationName, currentRole, borrowableRoles, onLogout,
-      showProfileEdition } = this.props
+      showProfileEdition, isInstance } = this.props
     return (
       <LoggedUserComponent
         name={authenticationName}
+        showProfileEdition={!isInstance}
         onShowProfileEdition={showProfileEdition}
         onLogout={onLogout}
         currentRole={currentRole}

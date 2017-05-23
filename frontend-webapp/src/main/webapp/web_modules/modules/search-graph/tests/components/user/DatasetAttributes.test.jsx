@@ -40,7 +40,7 @@ describe('[Search Graph] Testing DatasetAttributes', () => {
     assert.lengthOf(showables, 1, 'There should be one showable controller')
     assert.isFalse(showables.at(0).props().show, 'The component should not be visible')
   })
-  it('should render properly when visible without attributes', () => {
+  it('should render properly when visible with attributes', () => {
     const props = {
       visible: true,
       state: ItemLink.States.DEFAULT,

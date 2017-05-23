@@ -2,7 +2,9 @@
  * LICENSE_PLACEHOLDER
  **/
 import join from 'lodash/join'
+import map from 'lodash/map'
 import isEqual from 'lodash/isEqual'
+import get from 'lodash/get'
 import { connect } from '@regardsoss/redux'
 import { AttributeModel, PluginDefinition } from '@regardsoss/model'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
@@ -55,7 +57,7 @@ class AdminContainer extends React.Component {
   }
 
   componentWillMount() {
-    if (this.props.adminForm.form && this.props.adminForm.form.conf && this.props.adminForm.form.conf.datasets) {
+    if (get(this.props, 'adminForm.form.conf.dataset', null)) {
       this.updateSelectableAttributes(this.props.adminForm.form.conf.datasets.type,
         this.props.adminForm.form.conf.datasets.selectedModels,
         this.props.adminForm.form.conf.datasets.selectedDatasets)
@@ -63,11 +65,9 @@ class AdminContainer extends React.Component {
       this.updateSelectableAttributes()
     }
     // Load available criterion plugins
-    Promise.resolve(this.props.fetchCriterion()).then(() => {
-      this.setState({
-        criterionLoading: false,
-      })
-    })
+    return Promise.resolve(this.props.fetchCriterion()).then(() => this.setState({
+      criterionLoading: false,
+    }))
   }
 
   componentWillReceiveProps(nextProps) {
@@ -89,9 +89,7 @@ class AdminContainer extends React.Component {
       task = this.props.fetchAllModelsAttributes()
     }
 
-    Promise.resolve(task).then(() => {
-      this.setState({ attributesLoading: false })
-    })
+    return Promise.resolve(task).then(() => this.setState({ attributesLoading: false }))
   }
 
   initEmptyProps() {

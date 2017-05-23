@@ -2,15 +2,16 @@
  * LICENSE_PLACEHOLDER
  **/
 import map from 'lodash/map'
+import values from 'lodash/values'
 import { Table as FixedDataTable, Column } from 'fixed-data-table-2'
 import { themeContextType } from '@regardsoss/theme'
-import SelectionController from '../selection/SelectionController'
 import FixedTableHeaderCell from './columns/ColumnHeader'
 import CheckboxColumnHeader from './columns/CheckboxColumnHeader'
 import Cell from './cells/Cell'
 import CheckBoxCell from './cells/CheckBoxCell'
 import ColumnConfiguration from './columns/model/ColumnConfiguration'
 import TableConfigurationModel from './model/TableConfigurationModel'
+import TableSelectionModes from '../model/TableSelectionModes'
 
 
 /**
@@ -39,12 +40,14 @@ class Table extends React.Component {
     onScrollEnd: PropTypes.func.isRequired,
     columns: PropTypes.arrayOf(ColumnConfiguration).isRequired,
     width: PropTypes.number.isRequired,
-    selectionMode: PropTypes.string,
-    // Callback to change selectionState
-    onToggleSelectionMode: PropTypes.func,
-    setToggledElements: PropTypes.func,
-    // on selection change optional callback
-    onSelectionChange: PropTypes.func,
+
+    // selection related
+    allSelected: PropTypes.bool.isRequired, // are all elements selected?
+    toggledElements: PropTypes.objectOf(PropTypes.object).isRequired, // inner object is entity type
+    selectionMode: PropTypes.oneOf(values(TableSelectionModes)).isRequired,
+    onToggleRowSelection: PropTypes.func.isRequired, // (int) => (void) dispatches row selection
+    onToggleSelectAll: PropTypes.func.isRequired, // (void) => (void) dispatches toggle selection mode
+
     // table configuration properties
     ...TableConfigurationModel,
   }
@@ -59,9 +62,6 @@ class Table extends React.Component {
   }
 
   componentWillMount = () => {
-    // install selection management
-    this.selectionController = new SelectionController(this.props.entities, this.props.selectionMode)
-    this.selectionController.setToggledElements = this.props.setToggledElements
     this.setState({
       columnsFilterPanelOpened: false,
       ...this.computeGraphicsMeasures(this.props),
@@ -69,16 +69,7 @@ class Table extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    // silently update measures
-    this.selectionController.entities = nextProps.entities
-    this.selectionController.selectionMode = nextProps.selectionMode
-    this.selectionController.onSelectionChange = nextProps.onSelectionChange
     this.setState({ ...this.computeGraphicsMeasures(nextProps) })
-
-    // Check table selection state
-    if (nextProps.selectionMode !== this.selectionController.currentMode) {
-      this.onToggleSelectAll()
-    }
   }
 
   /**
@@ -96,48 +87,21 @@ class Table extends React.Component {
   }
 
   /**
-   * Toggles row selected state
-   */
-  onToggleSelectRow = (rowIndex) => {
-    this.selectionController.toggleRowSelectedState(rowIndex)
-    this.props.setToggledElements(this.selectionController.toggledEntities)
-    // requires update as selection controller model is not included in this state
-    this.forceUpdate()
-  }
-
-  /**
-   * Toggles select all state
-   */
-  onToggleSelectAll = () => {
-    const previousMode = this.selectionController.currentMode
-    this.selectionController.toggleSelectAll()
-    if (previousMode === this.selectionController.currentMode) {
-      // Toggle mode is not effective, change the mode in store
-      this.props.onToggleSelectionMode()
-    }
-    this.props.setToggledElements(this.selectionController.toggledEntities)
-    // requires update as selection controller model is not included in this state
-    this.forceUpdate()
-  }
-
-  isSelectedRow = rowIndex => this.selectionController.isSelectedRow(rowIndex)
-
-  /**
    * Computes graphics measures
    */
   computeGraphicsMeasures = ({ displayCheckbox, pageSize, lineHeight, width, columns = [] }) => {
     const { selectionColumn } = this.context.moduleTheme
-  // 1 - compute height
+    // 1 - compute height
     const nbEntitiesByPage = pageSize * 3
     const height = lineHeight * (pageSize + 1) // +1 for header row
 
-  // 2 - compute resulting column width
-  // constant column width
+    // 2 - compute resulting column width
+    // constant column width
     const availableWidth = width - (displayCheckbox ? selectionColumn.width : 0)
     const columnWidth = Math.round(availableWidth / columns.length)
-  // consume remaining space or delete last pixels
+    // consume remaining space or delete last pixels
     const lastColumnWidth = availableWidth - (columnWidth * (columns.length - 1))
-  // Init labelled columns width
+    // Init labelled columns width
     const columnWidths = columns.reduce((acc, { label }, index) => ({
       [label]: index === columns.length - 1 ? lastColumnWidth : columnWidth,
       ...acc,
@@ -150,7 +114,9 @@ class Table extends React.Component {
     if (!this.props.entities) {
       return null
     }
-    const { cellsStyle, columns, width, lineHeight, displayCheckbox, displaySelectAll, displayColumnsHeader, onScrollEnd, onSortByColumn } = this.props
+    const { cellsStyle, columns, width, lineHeight, displayCheckbox, displaySelectAll, displayColumnsHeader,
+      allSelected, onToggleSelectAll, onToggleRowSelection, onScrollEnd, onSortByColumn,
+      toggledElements, selectionMode } = this.props
     const { columnWidths, height } = this.state
     const { selectionColumn } = this.context.moduleTheme
     const totalNumberOfEntities = this.props.entities.length
@@ -173,13 +139,14 @@ class Table extends React.Component {
                 columnKey={'checkbox'}
                 header={<CheckboxColumnHeader
                   displaySelectAll={displaySelectAll}
-                  areAllSelected={this.selectionController.areAllSelected()}
-                  onToggleSelectAll={this.props.onToggleSelectionMode}
+                  areAllSelected={allSelected}
+                  onToggleSelectAll={onToggleSelectAll}
                   lineHeight={lineHeight}
                 />}
                 cell={<CheckBoxCell
-                  onToggleSelectRow={this.onToggleSelectRow}
-                  isSelected={this.isSelectedRow}
+                  onToggleRowSelection={onToggleRowSelection}
+                  toggledElements={toggledElements}
+                  selectionMode={selectionMode}
                 />}
                 fixed
                 width={selectionColumn.width}
@@ -202,12 +169,13 @@ class Table extends React.Component {
                 />}
               cell={<Cell
                 entities={this.props.entities}
+                toggledElements={toggledElements}
+                selectionMode={selectionMode}
                 lineHeight={this.props.lineHeight}
                 overridenCellsStyle={cellsStyle}
                 col={column}
                 isLastColumn={index === columns.length - 1}
-                onToggleSelectRow={this.onToggleSelectRow}
-                isSelected={this.isSelectedRow}
+                onToggleRowSelection={onToggleRowSelection}
               />}
               width={columnWidth}
               flexGrow={1}

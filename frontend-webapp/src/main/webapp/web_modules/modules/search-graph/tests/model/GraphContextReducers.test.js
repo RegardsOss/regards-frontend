@@ -101,7 +101,7 @@ describe('[Search Graph] Test graph context reducer', () => {
     }, 'Set module uncollapsed should be correctly reduced')
   })
 
-  it('Should reduce module collapsed state changing', () => {
+  it('Should reduce dataset attributes visible state changing', () => {
     let currentState = DEFAULT_STATE
     let reduced = reduce(currentState, graphContextActions.setDatasetAttributesVisible(true))
     assert.deepEqual(reduced, {

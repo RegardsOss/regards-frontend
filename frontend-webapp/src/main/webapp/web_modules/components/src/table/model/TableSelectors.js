@@ -1,25 +1,24 @@
-import { TABLE_REDUX_STORE_NAME } from './TableReducers'
+import { BasicSelector } from '@regardsoss/store-utils'
 
-/**
- * Table selectors for entities selection
- *
- * @author Sébastien Binda
- */
-const getTableSelectionMode = (state, tableName) => {
-  if (state && state[TABLE_REDUX_STORE_NAME] && state[TABLE_REDUX_STORE_NAME][tableName]) {
-    return state[TABLE_REDUX_STORE_NAME][tableName].selectMode
+export class TableSelectors extends BasicSelector {
+
+  /**
+   * @param store redux store
+   * @return current selection mode (as a TableSelectionModes)
+   */
+  getSelectionMode(store) {
+    return this.uncombineStore(store).selectionMode
   }
-  return undefined
-}
 
-const getToggledElements = (state, tableName) => {
-  if (state && state[TABLE_REDUX_STORE_NAME] && state[TABLE_REDUX_STORE_NAME][tableName]) {
-    return state[TABLE_REDUX_STORE_NAME][tableName].toggledElements
+  /**
+   * @param store redux store
+   * @return currently toggled elements
+   */
+  getToggledElements(store) {
+    return this.uncombineStore(store).toggledElements
   }
-  return undefined
+
 }
 
-export default {
-  getTableSelectionMode,
-  getToggledElements,
-}
+export default storePath => new TableSelectors(storePath)
+

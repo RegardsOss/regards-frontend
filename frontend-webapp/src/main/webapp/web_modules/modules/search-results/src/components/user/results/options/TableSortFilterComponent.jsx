@@ -65,8 +65,6 @@ class TableSortFilterComponent extends React.Component {
   render() {
     const { tableColumns, noneLabel } = this.props
     // note that here, we are in table context, so we can use table styles
-    const { moduleTheme: { header: { optionsGroup: { lastElement } } } } = this.context
-
     if (!tableColumns.filter(column => column.sortable).length) {
       // no sortable column
       return null
@@ -76,7 +74,6 @@ class TableSortFilterComponent extends React.Component {
       <DropDownButton
         onChange={this.onChange}
         getLabel={this.getLabel}
-        style={lastElement.styles}
         value={null}
       >
         <MenuItem key={'no.sort'} value={null} primaryText={noneLabel} />

@@ -4,9 +4,8 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { TableSelectionModes } from '@regardsoss/components'
-import { TableSelectAllComponent } from '../../../../src/components/user/results/TableSelectAllComponent'
-import styles from '../../../../src/styles/styles'
+import TableSelectAllComponent from '../../../../../src/components/user/results/options/TableSelectAllComponent'
+import styles from '../../../../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
@@ -18,12 +17,14 @@ describe('[Search Results] Testing TableSelectAllComponent', () => {
     assert.isDefined(TableSelectAllComponent)
   })
   it('should render properly', () => {
-    const props = {
-      tableName: 'xxx',
-      tableSelectionMode: TableSelectionModes.includeSelected,
-      toggledElements: {},
-      toggleTableSelectionMode: () => { },
-    }
-    shallow(<TableSelectAllComponent {...props} />, { context })
+    shallow(<TableSelectAllComponent
+      allSelected={false}
+      onToggleSelectAll={() => { }}
+    />, { context })
+
+    shallow(<TableSelectAllComponent
+      allSelected
+      onToggleSelectAll={() => { }}
+    />, { context })
   })
 })

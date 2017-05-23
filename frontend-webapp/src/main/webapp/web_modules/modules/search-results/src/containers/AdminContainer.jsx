@@ -42,12 +42,9 @@ export class AdminContainer extends React.Component {
 
   componentWillMount() {
     if (this.state.attributesFetching) {
-      Promise.resolve(this.props.fetchAllModelsAttributes()).then(() => {
-        this.setState({
-          attributesFetching: false,
-        })
-      })
+      return Promise.resolve(this.props.fetchAllModelsAttributes()).then(() => this.setState({ attributesFetching: false }))
     }
+    return null
   }
 
   render() {

@@ -7,7 +7,7 @@ import DynamicServiceParameter from './DynamicServiceParameter'
 /**
  * A business service. Builds and holds a service delegate, like UI Service
  */
-export default class BusinessService {
+export default class BusinessService extends Service {
 
   /**
    *  Filters and converts parameters to dynamic parameters
@@ -24,18 +24,24 @@ export default class BusinessService {
    * @param parameter parameter (decomposed)
    */
   static convertToDynamicParameter({ id, name, dynamic, dynamicsValues = [] }) {
-    return new DynamicServiceParameter(name, true, id, dynamicsValues.map(({ value }) => value)) // values are in a subobject
+    const resolvedType = dynamicsValues.length ? DynamicServiceParameter.ParameterType.CHOICE : DynamicServiceParameter.ParameterType.STRING
+    return new DynamicServiceParameter(name, resolvedType, true, id, dynamicsValues.map(({ value }) => value)) // values are in a subobject
   }
 
   /**
    * constructor
-   * @param businessServiceConfiguration Business service configuration as fetched by the server
+   * @param businessServiceConfiguration Business service configuration as fetched by the server, like { content: { id, label, parameters } }
    */
-  constructor(businessServiceConfiguration) {
-    // convert the service model into service data
-    const { label, parameters } = businessServiceConfiguration.content
+  constructor({ content: { id, label, parameters } }) {
+    super(label, null, BusinessService.filterDynamicParameters(parameters))
+    this.id = id
+  }
 
-    this.service = new Service(label, null, BusinessService.filterDynamicParameters(parameters))
+  /**
+   * Export a unique service key
+   */
+  get serviceKey() {
+    return `business-service-${this.id}`
   }
 
 }

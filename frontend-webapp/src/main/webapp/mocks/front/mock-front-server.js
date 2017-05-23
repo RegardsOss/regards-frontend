@@ -10,6 +10,7 @@ const {JSON_CONTENT_TYPE} = require('./mock-front-utils')
 const FacadeCore = require('./mock-front-core')
 const MockUsers = require('./mock-users')
 const MockCatalog = require('./mock-catalog')
+const MockServices = require('./mock-services')
 
 const maintennceResultContent = {
   content : {
@@ -140,7 +141,7 @@ const entryDelegates = {
 }
 
 // report mock authentication endpoints in entry points
-const externalMockServices = [MockUsers, MockCatalog]
+const externalMockServices = [MockUsers, MockCatalog, MockServices]
 _.forEach(externalMockServices, service =>
   _.forEach(service, (methodEntries, method) =>
     _.forEach(methodEntries, (entryPoint) => {

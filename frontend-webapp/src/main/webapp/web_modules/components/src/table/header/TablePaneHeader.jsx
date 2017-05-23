@@ -4,6 +4,7 @@
 import { FormattedMessage } from 'react-intl'
 import Divider from 'material-ui/Divider'
 import { themeContextType } from '@regardsoss/theme'
+import TableOptionsSeparator from './TableOptionsSeparator'
 
 /**
 * Fixed table header Component
@@ -40,15 +41,18 @@ class TablePaneHeader extends React.Component {
                 resultsTabsButtons || null
               }
             </div>
-            <div style={header.contextOptions.styles}>
+            <div style={header.customOptions.styles}>
               {
                 // context actions on center
                 contextOptions || null
               }
-            </div>
-            <div style={header.customOptions.styles}>
               {
-                // custom actions on right side
+                // separator if requierd
+                contextOptions && customTableOptions ?
+                  <TableOptionsSeparator /> : null
+              }
+              {
+                // custom options (after more button)
                 customTableOptions || null
               }
             </div>

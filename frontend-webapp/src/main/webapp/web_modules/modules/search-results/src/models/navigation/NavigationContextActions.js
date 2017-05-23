@@ -8,11 +8,11 @@
 class NavigationContextActions {
 
   constructor() {
-    this.INITIALIZE = 'search-results/INITIALIZE'
-    this.CHANGE_VIEW_OBJECT_TYPE = 'search-results/CHANGE_VIEW_OBJECT_TYPE'
-    this.CHANGE_SEARCH_TAG = 'search-results/CHANGE_SEARCH_TAG'
-    this.CHANGE_DATASET = 'search-results/CHANGE_DATASET'
-    this.GOTO_LEVEL = 'search-results/GOTO_LEVEL'
+    this.INITIALIZE = 'search-results/navigation-context/INITIALIZE'
+    this.CHANGE_VIEW_OBJECT_TYPE = 'search-results/navigation-context/CHANGE_VIEW_OBJECT_TYPE'
+    this.CHANGE_SEARCH_TAG = 'search-results/navigation-context/CHANGE_SEARCH_TAG'
+    this.CHANGE_DATASET = 'search-results/navigation-context/CHANGE_DATASET'
+    this.GOTO_LEVEL = 'search-results/navigation-context/GOTO_LEVEL'
   }
 
   /**
