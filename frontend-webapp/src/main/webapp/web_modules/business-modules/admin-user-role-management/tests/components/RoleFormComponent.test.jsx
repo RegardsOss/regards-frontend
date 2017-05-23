@@ -3,7 +3,6 @@
  **/
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import { stub } from 'sinon'
 import { Field } from '@regardsoss/form-utils'
 import { testSuiteHelpers, DumpProvider, buildTestContext } from '@regardsoss/tests-helpers'
 import { RoleFormComponent } from '../../src/components/RoleFormComponent'

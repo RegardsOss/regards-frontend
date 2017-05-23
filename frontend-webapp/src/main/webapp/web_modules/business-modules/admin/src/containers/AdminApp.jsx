@@ -4,7 +4,7 @@
 import { AuthenticationParametersActions, AuthenticationParametersSelectors, AuthenticationClient } from '@regardsoss/authentication-manager'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { EndpointActions } from '@regardsoss/endpoint'
-import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
+import { I18nProvider } from '@regardsoss/i18n'
 import { connect } from '@regardsoss/redux'
 import { ThemeProvider } from '@regardsoss/theme'
 import AdminLayout from './AdminLayout'

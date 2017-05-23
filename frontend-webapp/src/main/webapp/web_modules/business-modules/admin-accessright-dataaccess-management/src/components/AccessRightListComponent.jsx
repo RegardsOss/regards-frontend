@@ -268,8 +268,6 @@ class AccessRightListComponent extends React.Component {
       },
     ]
 
-    console.log('PROPS', this.props.accessRights)
-
     return (
       <Card>
         <CardTitle

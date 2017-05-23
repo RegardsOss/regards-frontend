@@ -1,6 +1,5 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import { stub } from 'sinon'
 import { testSuiteHelpers, DumpProvider } from '@regardsoss/tests-helpers'
 import { AccountFormContainer } from '../../src/containers/AccountFormContainer'
 import AccountFormComponent from '../../src/components/AccountFormComponent'
@@ -24,7 +23,6 @@ describe('[ADMIN ACCOUNT MANAGEMENT] Testing account form container', () => {
       account: DumpProvider.getFirstEntity('AdminClient', 'Account'),
       isFetching: false,
       // from mapDispatchToProps
-      createAccount: () => { },
       fetchAccount: () => { },
       updateAccount: () => { },
     }

@@ -102,8 +102,8 @@ class DatabaseConnectionTester extends React.Component {
 
     const successButton =
       (<OnHoverSwitchFlatButton
-        label={[<FormattedMessage id="database.connectionTester.connected" />,
-          <FormattedMessage id="database.connectionTester.restart" />]}
+        label={[this.context.intl.formatMessage({ id: 'database.connectionTester.connected' }),
+          this.context.intl.formatMessage({ id: 'database.connectionTester.restart' })]}
         icon={[<Check />, <PlayArrow />]}
         primary={[true, false]}
         onTouchTap={[this.handleTouchTap, this.handleTouchTap]}

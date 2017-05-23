@@ -27,7 +27,7 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT]  Testing AccessRightListComponent', () 
     const props = {
       accessGroup: DumpProvider.getFirstEntity('DataManagementClient', 'AccessGroup'),
       accessRights: DumpProvider.get('DataManagementClient', 'AccessRight'),
-      selectedDatasets: [],
+      selectedDatasets: {},
       pluginConfigurationList: {},
       pluginMetaDataList: {},
       deleteAccessRight: () => {},

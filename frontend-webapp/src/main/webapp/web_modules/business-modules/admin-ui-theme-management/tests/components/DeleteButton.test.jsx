@@ -1,6 +1,6 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import { stub, spy } from 'sinon'
+import { spy } from 'sinon'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import { HateoasIconAction } from '@regardsoss/display-control'
 import DeleteButton from '../../src/components/DeleteButton'
