@@ -8,7 +8,7 @@ import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/f
 import { ProjectUser, AccessGroup, Role } from '@regardsoss/model'
 import every from 'lodash/every'
 import some from 'lodash/some'
-import chain from 'lodash/chain'
+import { chain } from 'lodash'
 import concat from 'lodash/concat'
 import root from 'window-or-global'
 import { getMetadataArray, packMetaDataField } from '@regardsoss/user-metadata-common'

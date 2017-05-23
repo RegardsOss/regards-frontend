@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import chain from 'lodash/chain'
+import { chain } from 'lodash'
 import find from 'lodash/find'
 import map from 'lodash/map'
 

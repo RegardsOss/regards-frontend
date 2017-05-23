@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import chain from 'lodash/chain'
+import { chain } from 'lodash'
 import BoardItemShape from './BoardItemShape'
 import BoardItemComponent from './BoardItemComponent'
 import BaseBoardComponent from './BaseBoardComponent'
