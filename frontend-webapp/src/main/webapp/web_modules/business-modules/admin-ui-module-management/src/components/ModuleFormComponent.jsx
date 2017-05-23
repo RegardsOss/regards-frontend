@@ -126,7 +126,7 @@ class ModuleFormComponent extends React.Component {
               key={id}
               primaryText={module}
             />
-            ))}
+          ))}
         </Field>
       </ShowableAtRender>
       <Field
@@ -151,7 +151,7 @@ class ModuleFormComponent extends React.Component {
             key={container.id}
             primaryText={container.dynamicContent ? `${container.id} (dynamic)` : container.id}
           />
-          ))}
+        ))}
       </Field>
       <Field
         name="active"
@@ -163,9 +163,9 @@ class ModuleFormComponent extends React.Component {
           name="defaultDynamicModule"
           component={RenderCheckbox}
           label={<FormattedMessage id="module.form.isDefault" />}
-        /> : null }
+        /> : null}
     </div>
-    )
+  )
   render() {
     const { pristine, submitting } = this.props
     const style = Styles(this.context.muiTheme)

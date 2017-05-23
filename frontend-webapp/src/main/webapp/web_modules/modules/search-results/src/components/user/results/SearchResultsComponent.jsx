@@ -53,6 +53,7 @@ class SearchResultsComponent extends React.Component {
     appName: PropTypes.string,
     project: PropTypes.string,
     allowingFacettes: PropTypes.bool.isRequired,
+    displayDatasets: PropTypes.bool.isRequired,
 
     // dynamic display control
     showingDataobjects: PropTypes.bool.isRequired,     // is Currently showing data objects (false: showing datasets)
@@ -242,10 +243,10 @@ class SearchResultsComponent extends React.Component {
    */
   renderTableTabs = () => {
     const { intl: { formatMessage } } = this.context
-    const { showingDataobjects, onShowDatasets, onShowDataobjects } = this.props
+    const { showingDataobjects, onShowDatasets, onShowDataobjects, displayDatasets } = this.props
     // TODO when dataset disabling refactor is done, handle simple tabs removal!
-
-    return [
+    // show tabs only when datasets are displayed
+    return displayDatasets ? [
       <FlatButton
         key="datasets.tab"
         label={formatMessage({ id: 'navigation.datasets.label' })}
@@ -263,7 +264,7 @@ class SearchResultsComponent extends React.Component {
         icon={<DataLibrary />}
         secondary={showingDataobjects}
       />,
-    ]
+    ] : []
   }
 
   /**

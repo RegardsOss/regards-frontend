@@ -13,8 +13,7 @@ const messages = Object.assign({
 
   // Configuration tab
   'form.configuration.tab.title': 'Configure main parameters for current search form module',
-  'form.configuration.result.type.datasets': 'Display results grouped by datasets',
-  'form.configuration.result.type.dataobjects': 'Display dataobjects results',
+  'form.configuration.result.type.datasets': 'Display "dataset" view in results',
   'form.configuration.result.enable.facettes.label': 'Enable facetes : Results filtering with criterion depending on initial search results',
   'form.attributes.parameters.title': 'Configure attributes displayed and used for filtering from each search results of the current form',
   'form.attributes.regroupement.form.title': 'Add new attributes regrouepement',

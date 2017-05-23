@@ -42,6 +42,8 @@ export class URLManagementContainer extends React.Component {
     currentPath: PropTypes.string.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
     currentQuery: PropTypes.object.isRequired,
+    // Is displaying dataset allowed?
+    displayDatasets: PropTypes.bool.isRequired,
     // from mapStateToProps
     // eslint-disable-next-line react/no-unused-prop-types
     viewObjectType: PropTypes.oneOf([SearchResultsTargetsEnum.DATAOBJECT_RESULTS, SearchResultsTargetsEnum.DATASET_RESULTS]).isRequired,
@@ -78,16 +80,20 @@ export class URLManagementContainer extends React.Component {
    */
   updateStateFromURL = (nextProps) => {
     // first load: parse tag and dataset from URL, then initialize the module store
-    const { initialViewObjectType, initialContextLabel, initialize, currentQuery: query } = nextProps
+    const { initialViewObjectType, initialContextLabel, initialize, currentQuery: query, displayDatasets } = nextProps
 
     // collect query parameters from URL
-    const viewObjectType = query[ModuleURLParameters.TARGET_PARAMETER] || initialViewObjectType
+
+    const viewObjectType = displayDatasets ? (query[ModuleURLParameters.TARGET_PARAMETER] || initialViewObjectType) :
+      SearchResultsTargetsEnum.DATAOBJECT_RESULTS // object type: forbid dataset when they cannot be displayed
     const searchTag = query[ModuleURLParameters.SEARCH_TAG_PARAMETER]
     const datasetIpId = query[ModuleURLParameters.DATASET_IPID_PARAMETER]
 
     // do not update if already equivalent
     const getLevelValue = level => level && level.levelValue // return level value or undefined, to compare with URL parameters
-    if (nextProps.viewObjectType !== viewObjectType ||
+
+    // when not initialized or any change, re initialize
+    if (!nextProps.levels.length || nextProps.viewObjectType !== viewObjectType ||
       getLevelValue(NavigationLevel.getDatasetLevel(nextProps.levels)) !== datasetIpId ||
       getLevelValue(NavigationLevel.getSearchTagLevel(nextProps.levels)) !== searchTag) {
       // TODO fetch the dataset if required, resolve it correctly (and not that hack x.x)

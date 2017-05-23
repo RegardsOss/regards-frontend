@@ -5,15 +5,13 @@ import { Card, CardTitle } from 'material-ui/Card'
 import Divider from 'material-ui/Divider'
 import Subheader from 'material-ui/Subheader'
 import { FormattedMessage } from 'react-intl'
-import { RadioButton } from 'material-ui/RadioButton'
 import {
   AttributeModel,
-  SearchResultsTargetsEnum,
   AttributeConfiguration,
   AttributesRegroupementConfiguration,
 } from '@regardsoss/model'
 import { ShowableAtRender } from '@regardsoss/components'
-import { Field, RenderRadio, RenderCheckbox } from '@regardsoss/form-utils'
+import { Field, RenderCheckbox } from '@regardsoss/form-utils'
 import { MainAttributesConfigurationComponent } from '@regardsoss/attributes-common'
 
 /**
@@ -26,7 +24,7 @@ class SearchResultsConfigurationComponent extends React.Component {
   static MODULE_REGROUPEMENTS_CONF = 'conf.attributesRegroupements'
 
   static propTypes = {
-    defaultResultType: PropTypes.string,
+    defaultDisplayDatasets: PropTypes.bool,
     defaultEnableFacettes: PropTypes.bool,
     defaultAttributesConf: PropTypes.arrayOf(AttributeConfiguration),
     defaultAttributesRegroupementsConf: PropTypes.arrayOf(AttributesRegroupementConfiguration),
@@ -60,19 +58,11 @@ class SearchResultsConfigurationComponent extends React.Component {
         { /* Show result type choice only if the datasets results are not hidden */}
         <ShowableAtRender show={!this.props.hideDatasetsConfiguration} >
           <Field
-            name="conf.resultType"
-            component={RenderRadio}
-            defaultSelected={this.props.defaultResultType}
-          >
-            <RadioButton
-              value={SearchResultsTargetsEnum.DATASET_RESULTS}
-              label={<FormattedMessage id="form.configuration.result.type.datasets" />}
-            />
-            <RadioButton
-              value={SearchResultsTargetsEnum.DATAOBJECT_RESULTS}
-              label={<FormattedMessage id="form.configuration.result.type.dataobjects" />}
-            />
-          </Field>
+            name="conf.displayDatasets"
+            component={RenderCheckbox}
+            checked={this.props.defaultDisplayDatasets}
+            label={<FormattedMessage id="form.configuration.result.type.datasets" />}
+          />
         </ShowableAtRender>
         <Field
           name="conf.enableFacettes"

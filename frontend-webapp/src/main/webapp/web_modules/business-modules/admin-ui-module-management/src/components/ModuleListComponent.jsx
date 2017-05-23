@@ -112,7 +112,7 @@ class ModuleListComponent extends React.Component {
               {map(sortedModules, (module, i) => (
                 <TableRow key={i}>
                   <TableRowColumn>{module.content.description}</TableRowColumn>
-                  <TableRowColumn>{module.content.name}</TableRowColumn>
+                  <TableRowColumn>{module.content.type}</TableRowColumn>
                   <TableRowColumn>
                     <HateoasToggle
                       entityLinks={module.links}
@@ -153,7 +153,7 @@ class ModuleListComponent extends React.Component {
                     </ActionsMenuCell>
                   </TableRowColumn>
                 </TableRow>
-                ))}
+              ))}
             </TableBody>
           </Table>
         </CardText>

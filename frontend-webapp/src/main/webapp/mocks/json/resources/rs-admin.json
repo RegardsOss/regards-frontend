@@ -536,7 +536,7 @@
       "id": 25,
       "description": "Retrieves plugins",
       "microservice": "rs-access-project",
-      "resource": "/plugin",
+      "resource": "/plugins/definition",
       "verb": "GET",
       "controllerSimpleName": "Controller 1"
     },

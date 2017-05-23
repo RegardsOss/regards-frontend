@@ -11,8 +11,7 @@ const messages = Object.assign({
 
   // Administration messages
   'form.configuration.tab.title': 'Configurer les paramètres principaux du formulaire de recherche',
-  'form.configuration.result.type.datasets': 'Afficher les jeux de données résultats de la recherche',
-  'form.configuration.result.type.dataobjects': 'Afficher les objets de données résultats de recherche',
+  'form.configuration.result.type.datasets': 'Afficher la vue "jeux de données" dans les résultats',
   'form.configuration.result.enable.facettes.label': 'Activer les facettes : Critères de filtrage dépendant des résultats de la recherche initiale',
   'form.attributes.parameters.title': 'Configurer les attributs affichés et/ou utilisés comme filtre depuis chaque résultat de recherche',
   'form.attributes.regroupement.form.title': 'Ajout d\'un nouveau regroupement',

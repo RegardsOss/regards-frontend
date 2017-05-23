@@ -37,8 +37,8 @@ export class SearchResultsContainer extends React.Component {
   static mapStateToProps = state => ({
     datasetServices: datasetServicesSelectors.getDatasetServices(state),
     selectedDataobjectsServices: datasetServicesSelectors.getSelectedDataobjectsServices(state),
-    viewObjectType: navigationContextSelectors.getViewObjectType(state),
     levels: navigationContextSelectors.getLevels(state),
+    viewObjectType: navigationContextSelectors.getViewObjectType(state),
 
     // selection related
     selectionMode: TableClient.tableSelectors.getSelectionMode(state),
@@ -65,6 +65,7 @@ export class SearchResultsContainer extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     searchQuery: PropTypes.string, // initial search query, as provided by module configuration
     enableFacettes: PropTypes.bool.isRequired, // are facettes enabled
+    displayDatasets: PropTypes.bool.isRequired, // should display datasets
     // eslint-disable-next-line react/no-unused-prop-types
     facettesQuery: PropTypes.string, // facettes query to be added to search query in order to get the facettes
     // Attributes configurations for results columns
@@ -72,10 +73,9 @@ export class SearchResultsContainer extends React.Component {
     attributesRegroupementsConf: PropTypes.arrayOf(AttributesRegroupementConfiguration),
     attributeModels: PropTypes.objectOf(AttributeModel),
 
+    // From map state to props
     datasetServices: PropTypes.arrayOf(PropTypes.instanceOf(Service)).isRequired,
     selectedDataobjectsServices: PropTypes.arrayOf(PropTypes.instanceOf(Service)).isRequired,
-
-    // From map state to props
     viewObjectType: PropTypes.oneOf([SearchResultsTargetsEnum.DATAOBJECT_RESULTS, SearchResultsTargetsEnum.DATASET_RESULTS]).isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     levels: PropTypes.arrayOf(PropTypes.instanceOf(NavigationLevel)).isRequired, // only used to build query
@@ -250,7 +250,7 @@ export class SearchResultsContainer extends React.Component {
   render() {
     const { appName, project, enableFacettes, attributesConf,
       attributesRegroupementsConf, attributeModels, viewObjectType,
-      datasetServices, selectedDataobjectsServices,
+      datasetServices, selectedDataobjectsServices, displayDatasets,
       dispatchDatasetSelected, dispatchTagSelected } = this.props
     const { viewMode, showingFacettes, filters, searchTag, searchQuery, emptySelection } = this.state
 
@@ -276,6 +276,7 @@ export class SearchResultsContainer extends React.Component {
         showingDataobjects={showingDataobjects}
         viewMode={viewMode}
         showingFacettes={showingFacettes}
+        displayDatasets={displayDatasets}
         filters={filters}
         searchTag={searchTag}
         searchQuery={searchQuery}
