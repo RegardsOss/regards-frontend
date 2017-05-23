@@ -4,7 +4,8 @@
  **/
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import { stub, spy } from 'sinon'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { spy } from 'sinon'
 import { IntlProvider } from 'react-intl'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import PluginTest from './PluginTest'
@@ -16,17 +17,9 @@ import { UnconnectedPluginProvider } from '../../src/containers/PluginProvider'
  * @author Sébastien Binda
  */
 describe('[PLUGINS] Testing Plugins load', () => {
-  // Since react will console.error propType warnings, that which we'd rather have
-  // as errors, we use sinon.js to stub it into throwing these warning as errors
-  // instead.
-  before(() => {
-    stub(console, 'error').callsFake((warning) => {
-      throw new Error(warning)
-    })
-  })
-  after(() => {
-    console.error.restore()
-  })
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('Should fetch the pluginDefinition with the given pluginId in props', () => {
     const pluginDefinitionId = 12
     const fetchPluginSpy = spy()
@@ -84,7 +77,7 @@ describe('[PLUGINS] Testing Plugins load', () => {
         }}
         displayPlugin
         locale="fr"
-        loadPlugin={() => {}}
+        loadPlugin={() => { }}
       />,
     )
 
@@ -114,7 +107,7 @@ describe('[PLUGINS] Testing Plugins load', () => {
             version: 1.0,
             author: 'Sébastien Binda',
             company: 'CS-SI',
-            type: 'criteria',
+            type: 'CRITERIA',
             conf: {},
           },
         }}
@@ -149,7 +142,7 @@ describe('[PLUGINS] Testing Plugins load', () => {
             version: 1.0,
             author: 'Sébastien Binda',
             company: 'CS-SI',
-            type: 'criteria',
+            type: 'CRITERIA',
             conf: {},
           },
         }}
