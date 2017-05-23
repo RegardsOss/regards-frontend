@@ -24,7 +24,7 @@
     "postinstall": "npm run build:dll && npm run build:production-dll",
     "test": "npm run test:mocha --silent",
     "test:coverage": "node --max_old_space_size=8192 ./node_modules/.bin/nyc node --max_old_space_size=8192 ./node_modules/.bin/mocha-webpack --timeout 30000 --webpack-config webpack.coverage.config.js \"@(tests|web_modules)/**/*.test.js{,x}\"",
-    "test:watch": "mocha-webpack --timeout 5000 --webpack-config webpack.test.config.js \"web_modules/business-modules/admin-data-data*/**/*.test.js{,x}\" --require source-map-support/register --inline-diffs --watch",
+    "test:watch": "mocha-webpack --timeout 5000 --webpack-config webpack.test.config.js \"web_modules/**/*.test.js{,x}\" --require source-map-support/register --inline-diffs --watch",
     "test:mocha": "mocha-webpack --timeout 20000 --webpack-config webpack.test.config.js \"@(tests|web_modules)/**/*.test.js{,x}\" --inline-diffs --reporter mochawesome --reporter-options reportDir='./reports/mocha',reportName='Regards Frontend tests'",
     "storybook:start": "start-storybook -p 6006 --dont-track",
     "storybook:build": "build-storybook -o reports/storybook",
