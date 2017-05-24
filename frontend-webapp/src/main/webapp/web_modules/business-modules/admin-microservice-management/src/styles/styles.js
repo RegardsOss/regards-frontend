@@ -57,7 +57,7 @@ const microserviceManagementStyles = theme => ({
       height: 'auto',
     },
     version: {
-      color: 'rgba(0, 0, 0, 0.541176)',
+      color: theme.palette.textColor,
       marginLeft: 7,
     },
     form: {

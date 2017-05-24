@@ -30,7 +30,6 @@ export class RoleFormComponent extends React.Component {
     super(props)
     this.state = {
       isCreating: props.currentRole === undefined,
-      nbInitialAuthorizedAddressesFields: props.currentRole === undefined ? 0 : props.currentRole.content.authorizedAddresses.length,
     }
   }
 
@@ -49,7 +48,6 @@ export class RoleFormComponent extends React.Component {
       if (currentRole.content.parentRole) {
         formValues.parentRole = currentRole.content.parentRole.name
       }
-      formValues = EnumInputsHelper.apiResultIntoFormValues(formValues, currentRole.content.authorizedAddresses, 'authorizedAddresses')
       this.props.initialize(formValues)
     } else {
       this.props.initialize({
@@ -83,6 +81,7 @@ export class RoleFormComponent extends React.Component {
               component={RenderTextField}
               type="text"
               label={<FormattedMessage id="role.form.name" />}
+              disabled={!this.state.isCreating}
             />
             <Field
               name="parentRole"
@@ -98,14 +97,6 @@ export class RoleFormComponent extends React.Component {
                 />
               ))}
             </Field>
-          </CardText>
-          <CardText>
-            <FormattedMessage id="role.form.authorizedAdresses" />
-            <EnumInputsComponent
-              change={change}
-              inputName="authorizedAddresses"
-              nbIntialFields={this.state.nbInitialAuthorizedAddressesFields}
-            />
           </CardText>
           <CardActions>
             <CardActionsComponent
@@ -131,20 +122,6 @@ function validate(values) {
     }
   } else {
     errors.name = ErrorTypes.REQUIRED
-  }
-  if (values.enumform && values.enumform.authorizedAddresses && values.enumform.authorizedAddresses.inputs) {
-    forEach(values.enumform.authorizedAddresses.inputs, (val, key) => {
-      // Ignore empty values
-      if (val.length > 0 && !ValidationHelpers.isValidIP(val)) {
-        // init the resulting errors if it does not exist yet
-        if (!errors.enumform) {
-          errors.enumform = {}
-          errors.enumform.authorizedAddresses = {}
-          errors.enumform.authorizedAddresses.inputs = {}
-        }
-        errors.enumform.authorizedAddresses.inputs[key] = ErrorTypes.INVALID_IP
-      }
-    })
   }
   return errors
 }

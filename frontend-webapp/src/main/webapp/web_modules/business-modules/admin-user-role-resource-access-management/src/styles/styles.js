@@ -8,7 +8,7 @@ const styles = theme => ({
     paddingLeft: '100px',
   },
   listItemOdd: {
-    backgroundColor: brown50,
+    backgroundColor: theme.tableRow.stripeColor,
   },
   chipListItem: {
     margin: 4,

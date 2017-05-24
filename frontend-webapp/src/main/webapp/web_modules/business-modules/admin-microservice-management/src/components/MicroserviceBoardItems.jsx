@@ -19,10 +19,7 @@ import PluginMetaDataActions from '../model/plugin/PluginMetaDataActions'
  * @param intl
  * @author Xavier-Alexandre Brochard
  */
-const computedStyles = styles()
-
-
-const getMaintenanceIcon = isActive => (
+const getMaintenanceIcon = (isActive,computedStyles) => (
   <Checkbox
     checkedIcon={<Cloud />}
     uncheckedIcon={<CloudOff />}
@@ -30,35 +27,38 @@ const getMaintenanceIcon = isActive => (
     style={computedStyles.board.checkbox}
   />
 )
-const items = (project, maintenances, intl) => map(maintenances, (maintenance, microservice) => (
-  {
-    title: microservice,
-    description: intl.formatMessage({ id: `microservice-management.${microservice}.description` }),
-    advanced: false,
-    actions: [{
-      path: `/admin/${project}/microservice/${microservice}/plugin/list`,
-      icon: <ExtensionIcon />,
-      tooltipMsg: intl.formatMessage({ id: 'microservice-management.plugins.tooltip' }),
-      hateoasDependencies: [
-        PluginMetaDataActions.getMsDependency(RequestVerbEnum.GET_LIST, microservice),
-      ],
-    }, {
-      icon: getMaintenanceIcon(maintenance.isOn(project)),
-      tooltipMsg: intl.formatMessage({
-        id: maintenance.isOn(project) ?
-          'microservice-management.maintenance.tooltip.on' :
-          'microservice-management.maintenance.tooltip.off',
-      }),
-      touchTapAction: () => {
-        maintenance.set(project, !maintenance.isOn(project))
-      },
-      hateoasDependencies: [
-        SetMaintenanceModeActions(microservice).getActivateDependency(),
-        SetMaintenanceModeActions(microservice).getDesactivateDependency(),
-      ],
-    }],
-  }
-))
+const items = (project, maintenances, intl, theme) => {
+  const computedStyles = styles(theme)
+  return map(maintenances, (maintenance, microservice) => (
+    {
+      title: microservice,
+      description: intl.formatMessage({ id: `microservice-management.${microservice}.description` }),
+      advanced: false,
+      actions: [{
+        path: `/admin/${project}/microservice/${microservice}/plugin/list`,
+        icon: <ExtensionIcon />,
+        tooltipMsg: intl.formatMessage({ id: 'microservice-management.plugins.tooltip' }),
+        hateoasDependencies: [
+          PluginMetaDataActions.getMsDependency(RequestVerbEnum.GET_LIST, microservice),
+        ],
+      }, {
+        icon: getMaintenanceIcon(maintenance.isOn(project),computedStyles),
+        tooltipMsg: intl.formatMessage({
+          id: maintenance.isOn(project) ?
+            'microservice-management.maintenance.tooltip.on' :
+            'microservice-management.maintenance.tooltip.off',
+        }),
+        touchTapAction: () => {
+          maintenance.set(project, !maintenance.isOn(project))
+        },
+        hateoasDependencies: [
+          SetMaintenanceModeActions(microservice).getActivateDependency(),
+          SetMaintenanceModeActions(microservice).getDesactivateDependency(),
+        ],
+      }],
+    }
+  ))
+}
 
 export default items
 
