@@ -68,21 +68,22 @@ class ResourceAccessModalOverviewComponent extends React.Component {
         open
         onRequestClose={this.props.onClose}
       >
-        <List>es
+        <List>
           <ListItem
             disabled
             innerDivStyle={styles.listItem}
-            secondaryText={
-              <div>
-                {this.context.intl.formatMessage({ id: 'role.form.description' })}                : {currentResource.content.description}
-              </div>
-            }
             primaryText={
               <div>
-                {this.context.intl.formatMessage({ id: 'role.form.autorizedBy' })}                :
+                {currentResource.content.description}
+                <br/>
+                <br/>
+                {this.context.intl.formatMessage({ id: 'role.form.autorizedBy' })}
                 <div style={styles.wrapperChipList}>
                   {map(this.props.roles, role => (
                     <Chip
+                      style={{
+                      marginRight: 10
+                      }}
                       onTouchTap={() => this.handleEditRoleResources(role)}
                       key={role.content.id}
                     >{role.content.name}</Chip>

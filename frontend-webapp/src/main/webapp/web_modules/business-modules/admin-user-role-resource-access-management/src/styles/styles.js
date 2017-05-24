@@ -16,6 +16,7 @@ const styles = theme => ({
   wrapperChipList: {
     display: 'flex',
     flexWrap: 'wrap',
+    margin: '10px 10px'
   },
   getChip: {
     backgroundColor: lightBlue200,
