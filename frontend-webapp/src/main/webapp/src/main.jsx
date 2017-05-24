@@ -1,3 +1,6 @@
+/*
+ * LICENSE_PLACEHOLDER
+ */
 import * as ReactDOM from 'react-dom'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 import { Router, browserHistory } from 'react-router'
@@ -6,10 +9,19 @@ import { configureStore } from '@regardsoss/store'
 import rootReducer from './rootReducer'
 import rootRouter from './rootRouter'
 
+/**
+ * Main entry point for js application.
+ *
+ * @author Sébastien Binda
+ */
 
+
+// import default application css styles
+require('../css/initial-styles.css')
 // Import the index.html file
 require('../index.html')
 
+// import static configuration parameters
 if (process.env.NODE_ENV === 'production') {
   require('../conf/staticConfiguration.js')
 } else {
