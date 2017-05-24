@@ -3,6 +3,7 @@
  **/
 import { BoardComponent } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
+import {themeContextType} from '@regardsoss/theme'
 import microserviceBoardItems from './MicroserviceBoardItems'
 
 /**
@@ -19,6 +20,7 @@ class MicroserviceBoardComponent extends React.Component {
 
   static contextTypes = {
     ...i18nContextType,
+    ...themeContextType,
   }
 
   render() {
@@ -26,6 +28,7 @@ class MicroserviceBoardComponent extends React.Component {
       this.props.project,
       this.props.maintenance,
       this.context.intl,
+      this.context.muiTheme
     )
     return (
       <BoardComponent items={items} />
