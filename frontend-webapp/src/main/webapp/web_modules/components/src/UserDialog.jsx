@@ -1,6 +1,6 @@
 import Dialog from 'material-ui/Dialog'
+import { i18nContextType } from '@regardsoss/i18n'
 import FlatButton from 'material-ui/FlatButton'
-import { FormattedMessage } from 'react-intl'
 import UserForm from './UserForm'
 
 /**
@@ -12,12 +12,12 @@ import UserForm from './UserForm'
 function UserDialog(props) {
   const actions = [
     <FlatButton
-      label={<FormattedMessage id="projects.cancel.button" />}
+      label={this.context.intl.formatMessage({ id: 'projects.cancel.button' })}
       primary
       onTouchTap={props.onClose}
     />,
     <FlatButton
-      label={<FormattedMessage id="projects.submit.button" />}
+      label={this.context.intl.formatMessage({ id: 'projects.submit.button' })}
       primary
       keyboardFocused
       onTouchTap={props.onSave}
@@ -46,5 +46,8 @@ UserDialog.propTypes = {
   onClose: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
+}
+UserDialog.contextTypes = {
+  ...i18nContextType,
 }
 export default UserDialog

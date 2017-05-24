@@ -173,7 +173,7 @@ export class DatasetFormAttributesComponent extends React.Component {
         <Card>
           <CardTitle
             title={title}
-            subtitle={<FormattedMessage id="dataset.form.subtitle" />}
+            subtitle={this.context.intl.formatMessage({ id: 'dataset.form.subtitle' })}
           />
           <DatasetStepperComponent stepIndex={0} />
           <CardText>
@@ -182,10 +182,10 @@ export class DatasetFormAttributesComponent extends React.Component {
               fullWidth
               component={RenderTextField}
               type="text"
-              label={<FormattedMessage id="dataset.form.label" />}
+              label={this.context.intl.formatMessage({ id: 'dataset.form.label' })}
             />
             <SelectField
-              floatingLabelText={<FormattedMessage id="dataset.form.datasource" />}
+              floatingLabelText={this.context.intl.formatMessage({ id: 'dataset.form.datasource' })}
               value={currentDatasource.content.pluginConfigurationId}
               fullWidth
               disabled
@@ -205,16 +205,16 @@ export class DatasetFormAttributesComponent extends React.Component {
                 >
                   <RadioButton
                     value={DESCRIPTION_MODE.NOTHING}
-                    label={<FormattedMessage id="dataset.form.radio.none" />}
+                    label={this.context.intl.formatMessage({ id: 'dataset.form.radio.none' })}
                     disabled={disableNoDescription}
                   />
                   <RadioButton
                     value={DESCRIPTION_MODE.FILE}
-                    label={<FormattedMessage id="dataset.form.radio.descriptionFileContent" />}
+                    label={this.context.intl.formatMessage({ id: 'dataset.form.radio.descriptionFileContent' })}
                   />
                   <RadioButton
                     value={DESCRIPTION_MODE.URL}
-                    label={<FormattedMessage id="dataset.form.radio.descriptionUrl" />}
+                    label={this.context.intl.formatMessage({ id: 'dataset.form.radio.descriptionUrl' })}
                   />
                 </RadioButtonGroup>
               </div>
@@ -225,7 +225,7 @@ export class DatasetFormAttributesComponent extends React.Component {
                     fullWidth
                     component={RenderTextField}
                     type="text"
-                    label={<FormattedMessage id="dataset.form.descriptionUrl" />}
+                    label={this.context.intl.formatMessage({ id: 'dataset.form.descriptionUrl' })}
                   />
                 </ShowableAtRender>
                 <ShowableAtRender show={showDescriptionMode === DESCRIPTION_MODE.FILE}>
@@ -249,7 +249,7 @@ export class DatasetFormAttributesComponent extends React.Component {
               fullWidth
               onSelect={this.handleChange}
               component={RenderSelectField}
-              label={<FormattedMessage id="dataset.form.model" />}
+              label={this.context.intl.formatMessage({ id: 'dataset.form.model' })}
               disabled={this.props.isEditing}
             >
               {map(modelList, (model, id) => (
@@ -291,7 +291,7 @@ export class DatasetFormAttributesComponent extends React.Component {
                             fullWidth
                             component={RenderTextField}
                             type="text"
-                            label={<FormattedMessage id="dataset.form.table.input" />}
+                            label={this.context.intl.formatMessage({ id: 'dataset.form.table.input' })}
                           />
                         </ShowableAtRender>
                       </TableRowColumn>
@@ -303,10 +303,10 @@ export class DatasetFormAttributesComponent extends React.Component {
           </CardText>
           <CardActions>
             <CardActionsComponent
-              mainButtonLabel={<FormattedMessage id="dataset.form.action.next" />}
+              mainButtonLabel={this.context.intl.formatMessage({ id: 'dataset.form.action.next' })}
               mainButtonType="submit"
               isMainButtonDisabled={submitting || invalid}
-              secondaryButtonLabel={<FormattedMessage id="dataset.form.action.cancel" />}
+              secondaryButtonLabel={this.context.intl.formatMessage({ id: 'dataset.form.action.cancel' })}
               secondaryButtonUrl={backUrl}
             />
           </CardActions>

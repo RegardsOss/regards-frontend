@@ -6,8 +6,6 @@ import { getOpenSearchQuery, getURLQuery, getDatasetIpIdParameter } from '../../
 
 describe('[Search Results] Testing QueriesHelper', () => {
   it('Should display correctly the url search with open search query', () => {
-    // TODO now wrong, handle navigation level parameters
-
     const openSearchQuery = getOpenSearchQuery('meta:false', // root query
       [{ openSearchQuery: 'xxxBlblblbl' }], // facettes selected
       [getDatasetIpIdParameter('mimi-c-mati')]) // other parameters

@@ -84,7 +84,7 @@ export class DatasetFormSubsettingComponent extends React.Component {
         <Card>
           <CardTitle
             title={this.getTitle()}
-            subtitle={<FormattedMessage id="dataset.form.subsetting.subtitle" />}
+            subtitle={this.context.intl.formatMessage({ id: 'dataset.form.subsetting.subtitle' })}
           />
           <DatasetStepperComponent stepIndex={1} />
           <CardText>
@@ -107,12 +107,12 @@ export class DatasetFormSubsettingComponent extends React.Component {
                   fullWidth
                   component={RenderTextField}
                   type="text"
-                  label={<FormattedMessage id="dataset.form.subsetting.opensearch" />}
+                  label={this.context.intl.formatMessage({ id: 'dataset.form.subsetting.opensearch' })}
                   multiLine
                 />
                 <div style={styleButton}>
                   <RaisedButton
-                    label={<FormattedMessage id="dataset.form.subsetting.testSubsetQuery" />}
+                    label={this.context.intl.formatMessage({ id: 'dataset.form.subsetting.testSubsetQuery' })}
                     secondary
                     onTouchTap={handleSubmit(handleTestSubsetting)}
                   />
@@ -122,10 +122,10 @@ export class DatasetFormSubsettingComponent extends React.Component {
           </CardText>
           <CardActions>
             <CardActionsComponent
-              mainButtonLabel={<FormattedMessage id="dataset.form.subsetting.action.next" />}
+              mainButtonLabel={this.context.intl.formatMessage({ id: 'dataset.form.subsetting.action.next' })}
               mainButtonType="submit"
               isMainButtonDisabled={submitting || invalid}
-              secondaryButtonLabel={<FormattedMessage id="dataset.form.subsetting.action.cancel" />}
+              secondaryButtonLabel={this.context.intl.formatMessage({ id: 'dataset.form.subsetting.action.cancel' })}
               secondaryButtonTouchTap={handleBack}
             />
           </CardActions>

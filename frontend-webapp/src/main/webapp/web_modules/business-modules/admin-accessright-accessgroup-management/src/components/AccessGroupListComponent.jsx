@@ -88,8 +88,8 @@ export class AccessGroupListComponent extends React.Component {
     return (
       <Card>
         <CardTitle
-          title={<FormattedMessage id="group.list.title" />}
-          subtitle={<FormattedMessage id="group.list.subtitle" />}
+          title={this.context.intl.formatMessage({ id: 'group.list.title' })}
+          subtitle={this.context.intl.formatMessage({ id: 'group.list.subtitle' })}
         />
         <CardText>
           {this.renderDeleteConfirmDialog()}
@@ -160,7 +160,7 @@ export class AccessGroupListComponent extends React.Component {
             }
             mainButtonClassName="selenium-createButton"
             mainHateoasDependency={accessGroupActions.getDependency(RequestVerbEnum.POST)}
-            secondaryButtonLabel={<FormattedMessage id="group.list.action.cancel" />}
+            secondaryButtonLabel={this.context.intl.formatMessage({ id: 'group.list.action.cancel' })}
             secondaryButtonUrl={backUrl}
           />
         </CardActions>

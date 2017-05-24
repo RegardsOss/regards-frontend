@@ -50,7 +50,7 @@ export class AdminContainer extends React.Component {
   render() {
     const {
       moduleConf: {
-      resultType,
+      displayDatasets,
       attributes,
       attributesRegroupements,
       selectableAttributes,
@@ -72,7 +72,7 @@ export class AdminContainer extends React.Component {
           defaultAttributesConf={attributes}
           defaultAttributesRegroupementsConf={attributesRegroupements}
           defaultEnableFacettes={enableFacettes}
-          defaultResultType={resultType}
+          defaultDisplayDatasets={!!displayDatasets}
           hideDatasetsConfiguration={hideDatasetsConfiguration}
         />
       )

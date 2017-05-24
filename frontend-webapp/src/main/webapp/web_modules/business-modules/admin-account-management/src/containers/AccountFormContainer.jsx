@@ -17,7 +17,7 @@ export class AccountFormContainer extends React.Component {
       account_id: PropTypes.string,
     }),
     // from mapStateToProps
-    account: PropTypes.objectOf(Account),
+    account: Account,
     isFetching: PropTypes.bool,
     // from mapDispatchToProps
     fetchAccount: PropTypes.func,

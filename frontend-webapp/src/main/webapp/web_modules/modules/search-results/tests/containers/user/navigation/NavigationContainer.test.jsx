@@ -18,11 +18,24 @@ describe('[Search Results] Testing NavigationContainer', () => {
   it('should exists', () => {
     assert.isDefined(NavigationContainer)
   })
-  it('should render properly', () => {
+  it('should render correctly', () => {
     const props = {
+      displayDatasets: true,
       levels: [NavigationLevel.buildRootLevel(), NavigationLevel.buildSearchTagLevel('xxx')],
     }
     const enzymeWrapper = shallow(<NavigationContainer {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(NavigationComponent), 1, 'The corresponding component should be rendered')
+  })
+  it('should hide dataset level when not displaying dataset', () => {
+    const props = {
+      displayDatasets: false,
+      levels: [NavigationLevel.buildRootLevel(), NavigationLevel.buildSearchTagLevel('xxx'), NavigationLevel.buildDatasetLevel('xxx', 'xxx')],
+    }
+    const enzymeWrapper = shallow(<NavigationContainer {...props} />, { context })
+    const navCompoWrapper = enzymeWrapper.find(NavigationComponent)
+    assert.lengthOf(navCompoWrapper, 1, 'The corresponding component should be rendered')
+    const renderLevels = navCompoWrapper.props().navigationLevels
+    assert.lengthOf(renderLevels, 2, 'There should be 2 render levels')
+    assert.isNotOk(NavigationLevel.getDatasetLevel(renderLevels), 'The dataset level should not be present in render levels')
   })
 })

@@ -18,13 +18,16 @@ export class NavigationContainer extends React.Component {
   static propTypes = {
     // from mapStateToProps
     levels: PropTypes.arrayOf(PropTypes.instanceOf(NavigationLevel)).isRequired,
+    displayDatasets: PropTypes.bool.isRequired,
   }
 
 
   render() {
-    const { levels } = this.props
+    const { levels, displayDatasets } = this.props
+    // hide single dataset level if datasets are not displayed (user should not use it to navigate)
+    const displayLevels = displayDatasets ? levels : levels.filter(level => level.levelType !== NavigationLevel.LevelTypes.DATASET)
     return (
-      <NavigationComponent navigationLevels={levels} />
+      <NavigationComponent navigationLevels={displayLevels} />
     )
   }
 }

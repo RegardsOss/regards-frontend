@@ -1,5 +1,6 @@
-import { FormattedMessage } from 'react-intl'
 import { RenderTextField, RenderCheckbox, Field } from '@regardsoss/form-utils'
+import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
 
 /**
  * Handle integer or float range restriction
@@ -7,6 +8,10 @@ import { RenderTextField, RenderCheckbox, Field } from '@regardsoss/form-utils'
 export class NumberRangeComponent extends React.Component {
   static propTypes = {
     type: PropTypes.string.isRequired,
+  }
+  static contextTypes = {
+    ...themeContextType,
+    ...i18nContextType,
   }
 
   render() {
@@ -16,31 +21,31 @@ export class NumberRangeComponent extends React.Component {
         <Field
           name={`restriction.${type}.active`}
           component={RenderCheckbox}
-          label={<FormattedMessage id="attrmodel.form.restriction.NUMBER_RANGE.active" />}
+          label={this.context.intl.formatMessage({ id: 'attrmodel.form.restriction.NUMBER_RANGE.active' })}
         />
         <Field
           name={`restriction.${type}.min`}
           fullWidth
           component={RenderTextField}
           type="number"
-          label={<FormattedMessage id="attrmodel.form.restriction.NUMBER_RANGE.min" />}
+          label={this.context.intl.formatMessage({ id: 'attrmodel.form.restriction.NUMBER_RANGE.min' })}
         />
         <Field
           name={`restriction.${type}.isMinInclusive`}
           component={RenderCheckbox}
-          label={<FormattedMessage id="attrmodel.form.restriction.NUMBER_RANGE.isMinInclusive" />}
+          label={this.context.intl.formatMessage({ id: 'attrmodel.form.restriction.NUMBER_RANGE.isMinInclusive' })}
         />
         <Field
           name={`restriction.${type}.max`}
           fullWidth
           component={RenderTextField}
           type="number"
-          label={<FormattedMessage id="attrmodel.form.restriction.NUMBER_RANGE.max" />}
+          label={this.context.intl.formatMessage({ id: 'attrmodel.form.restriction.NUMBER_RANGE.max' })}
         />
         <Field
           name={`restriction.${type}.isMaxInclusive`}
           component={RenderCheckbox}
-          label={<FormattedMessage id="attrmodel.form.restriction.NUMBER_RANGE.isMaxInclusive" />}
+          label={this.context.intl.formatMessage({ id: 'attrmodel.form.restriction.NUMBER_RANGE.isMaxInclusive' })}
         />
       </div>
     )

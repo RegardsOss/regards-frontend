@@ -2,7 +2,6 @@
  * LICENSE_PLACEHOLDER
  **/
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
-import { FormattedMessage } from 'react-intl'
 import { CardActionsComponent } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { Layout } from '@regardsoss/model'
@@ -70,8 +69,8 @@ class ApplicationLayoutComponent extends React.Component {
       >
         <Card>
           <CardTitle
-            title={<FormattedMessage id="layout.title" />}
-            subtitle={<FormattedMessage id="layout.subtitle" />}
+            title={this.context.intl.formatMessage({ id: 'layout.title' })}
+            subtitle={this.context.intl.formatMessage({ id: 'layout.subtitle' })}
           />
           <CardText style={{ width: '100%' }} >
             <LayoutConfigurationComponent
@@ -81,11 +80,11 @@ class ApplicationLayoutComponent extends React.Component {
           </CardText>
           <CardActions>
             <CardActionsComponent
-              mainButtonLabel={<FormattedMessage id="layout.submit" />}
+              mainButtonLabel={this.context.intl.formatMessage({ id: 'layout.submit' })}
               mainButtonType="submit"
               mainHateoasDependency={LayoutActions.getDependency(RequestVerbEnum.PUT)}
               isMainButtonDisabled={pristine || submitting}
-              secondaryButtonLabel={<FormattedMessage id="layout.cancel" />}
+              secondaryButtonLabel={this.context.intl.formatMessage({ id: 'layout.cancel' })}
               secondaryButtonTouchTap={this.props.onCancel}
             />
           </CardActions>

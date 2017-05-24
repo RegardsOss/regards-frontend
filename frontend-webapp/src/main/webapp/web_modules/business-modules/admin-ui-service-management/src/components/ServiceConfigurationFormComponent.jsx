@@ -106,7 +106,7 @@ export class ServiceConfigurationFormComponent extends React.Component {
         <Card>
           <CardTitle
             title={title}
-            subtitle={<FormattedMessage id="service.form.subtitle" />}
+            subtitle={this.context.intl.formatMessage({ id: 'service.form.subtitle' })}
           />
           <CardText>
             <Field
@@ -114,7 +114,7 @@ export class ServiceConfigurationFormComponent extends React.Component {
               fullWidth
               component={RenderTextField}
               type="text"
-              label={<FormattedMessage id="service.form.label" />}
+              label={this.context.intl.formatMessage({ id: 'service.form.label' })}
               validate={[ValidationHelpers.validRequiredString]}
             />
             {map(plugin.info.conf.static, (input, id) => (
@@ -154,21 +154,21 @@ export class ServiceConfigurationFormComponent extends React.Component {
               name="isActive"
               fullWidth
               component={RenderCheckbox}
-              label={<FormattedMessage id="service.form.isActive" />}
+              label={this.context.intl.formatMessage({ id: 'service.form.isActive' })}
             />
             <Field
               name="isDefault"
               fullWidth
               component={RenderCheckbox}
-              label={<FormattedMessage id="service.form.isDefault" />}
+              label={this.context.intl.formatMessage({ id: 'service.form.isDefault' })}
             />
           </CardText>
           <CardActions>
             <CardActionsComponent
-              mainButtonLabel={<FormattedMessage id="service.form.action.save" />}
+              mainButtonLabel={this.context.intl.formatMessage({ id: 'service.form.action.save' })}
               mainButtonType="submit"
               isMainButtonDisabled={submitting || invalid}
-              secondaryButtonLabel={<FormattedMessage id="service.form.action.back" />}
+              secondaryButtonLabel={this.context.intl.formatMessage({ id: 'service.form.action.back' })}
               secondaryButtonUrl={backUrl}
             />
           </CardActions>

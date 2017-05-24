@@ -169,7 +169,7 @@ export class ProjectUserListComponent extends React.Component {
         </Tabs>
         <NoContentMessageInfo
           noContent={isEmpty(tabContent.currentUserList) && !initialFecthing}
-          title={<FormattedMessage id="projectUser.list.table.no.content.title" />}
+          title={this.context.intl.formatMessage({ id: 'projectUser.list.table.no.content.title' })}
           message={<FormattedMessage id={tabContent.noDataMessageKey} />}
         >
           <div>
@@ -282,7 +282,7 @@ export class ProjectUserListComponent extends React.Component {
             mainHateoasDependency={projectUserActions.getDependency(RequestVerbEnum.POST)}
             isMainButtonDisabled={tabContent.mainButtonDisabled}
             mainButtonLabel={<FormattedMessage id={tabContent.mainButtonKey} />}
-            secondaryButtonLabel={<FormattedMessage id="projectUser.list.action.cancel" />}
+            secondaryButtonLabel={this.context.intl.formatMessage({ id: 'projectUser.list.action.cancel' })}
             secondaryButtonUrl={backUrl}
           />
         </CardActions>

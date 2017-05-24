@@ -4,6 +4,8 @@
 import keys from 'lodash/keys'
 import { FormattedMessage } from 'react-intl'
 import { Project } from '@regardsoss/model'
+import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
 import MainActionButtonComponent from '@regardsoss/components/src/cards/MainActionButtonComponent'
 import SecondaryActionButtonComponent from '@regardsoss/components/src/cards/SecondaryActionButtonComponent'
 import { RenderTextField, Field, ErrorTypes, reduxForm } from '@regardsoss/form-utils'
@@ -35,6 +37,12 @@ export class ProjectConnectionFormComponent extends React.Component {
     invalid: PropTypes.bool,
     pristine: PropTypes.bool,
   }
+
+  static contextTypes = {
+    ...themeContextType,
+    ...i18nContextType,
+  }
+
 
   componentDidMount() {
     this.handleInitialize()
@@ -95,7 +103,7 @@ export class ProjectConnectionFormComponent extends React.Component {
           fullWidth
           component={RenderTextField}
           type="text"
-          label={<FormattedMessage id="database.form.input.driverClassName" />}
+          label={this.context.intl.formatMessage({ id: 'database.form.input.driverClassName' })}
           disabled
         />
         <Field
@@ -103,25 +111,25 @@ export class ProjectConnectionFormComponent extends React.Component {
           fullWidth
           component={RenderTextField}
           type="text"
-          label={<FormattedMessage id="database.form.input.url" />}
+          label={this.context.intl.formatMessage({ id: 'database.form.input.url' })}
         />
         <Field
           name="userName"
           fullWidth
           component={RenderTextField}
           type="text"
-          label={<FormattedMessage id="database.form.input.userName" />}
+          label={this.context.intl.formatMessage({ id: 'database.form.input.userName' })}
         />
         <Field
           name="password"
           fullWidth
           component={RenderTextField}
           type="password"
-          label={<FormattedMessage id="database.form.input.password" />}
+          label={this.context.intl.formatMessage({ id: 'database.form.input.password' })}
         />
         <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 20 }}>
           <SecondaryActionButtonComponent
-            label={<FormattedMessage id="database.form.reset" />}
+            label={this.context.intl.formatMessage({ id: 'database.form.reset' })}
             onTouchTap={this.handleInitialize}
           />
           {this.renderCancelButton()}

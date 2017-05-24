@@ -16,6 +16,8 @@ import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right'
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
 import Divider from 'material-ui/Divider'
 import Delete from 'material-ui/svg-icons/action/delete'
+import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
 import { connect } from '@regardsoss/redux'
 import { PluginParameter, PluginMetaDataList, PluginConfiguration } from '@regardsoss/model'
 import { RenderTextField, Field, ValidationHelpers } from '@regardsoss/form-utils'
@@ -47,6 +49,12 @@ export class PluginParameterPlugin extends React.Component {
 
   static defaultProps = {
     mode: 'view',
+  }
+
+
+  static contextTypes = {
+    ...themeContextType,
+    ...i18nContextType,
   }
 
   constructor(props) {
@@ -132,7 +140,7 @@ export class PluginParameterPlugin extends React.Component {
               <Divider />
               <MenuItem
                 key={'none'}
-                primaryText={<FormattedMessage id="microservice-management.plugin.parameter.plugin.empty.menu.item" />}
+                primaryText={this.context.intl.formatMessage({ id: 'microservice-management.plugin.parameter.plugin.empty.menu.item' })}
                 onTouchTap={() => this.handleChange(undefined)}
                 rightIcon={<Delete />}
               />

@@ -6,11 +6,10 @@
  * Available UIPlugin types
  *
  * @author Sébastien Binda
- * @type {{CRITERIA: string, SERVICe: string}}
  */
-const PluginTypes = {
-  CRITERIA: 'CRITERIA',
-  SERVICe: 'SERVICE',
-}
+const PluginTypes = [
+  "CRITERIA",
+  "SERVICE",
+]
 
 export default PluginTypes

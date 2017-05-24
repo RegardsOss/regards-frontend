@@ -64,7 +64,7 @@ class FormTabsComponent extends React.Component {
       selectableAttributes={this.props.selectableAttributes}
       resultType={this.props.defaultConf.resultType}
     />
-    )
+  )
 
   render() {
     return (

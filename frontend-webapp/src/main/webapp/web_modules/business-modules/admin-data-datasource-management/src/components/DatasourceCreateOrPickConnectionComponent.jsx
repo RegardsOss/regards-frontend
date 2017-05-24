@@ -63,13 +63,13 @@ export class DatasourceCreateOrPickConnectionComponent extends React.Component {
       <div>
         <Card>
           <CardTitle
-            title={<FormattedMessage id="datasource.form.create.title" />}
-            subtitle={<FormattedMessage id="datasource.form.create.subtitle" />}
+            title={this.context.intl.formatMessage({ id: 'datasource.form.create.title' })}
+            subtitle={this.context.intl.formatMessage({ id: 'datasource.form.create.subtitle' })}
           />
           <DatasourceStepperComponent stepIndex={0} />
           <CardText>
             <SelectField
-              floatingLabelText={<FormattedMessage id="datasource.form.create.datasource" />}
+              floatingLabelText={this.context.intl.formatMessage({ id: 'datasource.form.create.datasource' })}
               onChange={this.handleChange}
               value={currentConnection}
               fullWidth
@@ -93,7 +93,7 @@ export class DatasourceCreateOrPickConnectionComponent extends React.Component {
                 />
               }
               isMainButtonDisabled={currentConnection === undefined}
-              secondaryButtonLabel={<FormattedMessage id="datasource.form.create.action.cancel" />}
+              secondaryButtonLabel={this.context.intl.formatMessage({ id: 'datasource.form.create.action.cancel' })}
               secondaryButtonUrl={backUrl}
             />
           </CardActions>
@@ -101,7 +101,7 @@ export class DatasourceCreateOrPickConnectionComponent extends React.Component {
         <Card>
           <div style={style}>
             <RaisedButton
-              label={<FormattedMessage id="datasource.form.create.action.connection" />}
+              label={this.context.intl.formatMessage({ id: 'datasource.form.create.action.connection' })}
               secondary
               style={styleButton}
               onTouchTap={this.goToConnection}

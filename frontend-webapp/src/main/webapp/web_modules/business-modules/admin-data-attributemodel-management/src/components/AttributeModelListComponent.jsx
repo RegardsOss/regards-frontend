@@ -87,8 +87,8 @@ export class AttributeModelListComponent extends React.Component {
     return (
       <Card>
         <CardTitle
-          title={<FormattedMessage id="attrmodel.list.title" />}
-          subtitle={<FormattedMessage id="attrmodel.list.subtitle" />}
+          title={this.context.intl.formatMessage({ id: 'attrmodel.list.title' })}
+          subtitle={this.context.intl.formatMessage({ id: 'attrmodel.list.subtitle' })}
         />
         <CardText>
           {this.renderDeleteConfirmDialog()}
@@ -156,7 +156,7 @@ export class AttributeModelListComponent extends React.Component {
               />
             }
             mainHateoasDependency={attributeModelActions.getDependency(RequestVerbEnum.POST)}
-            secondaryButtonLabel={<FormattedMessage id="attrmodel.list.action.cancel" />}
+            secondaryButtonLabel={this.context.intl.formatMessage({ id: 'attrmodel.list.action.cancel' })}
             secondaryButtonUrl={backUrl}
           />
         </CardActions>

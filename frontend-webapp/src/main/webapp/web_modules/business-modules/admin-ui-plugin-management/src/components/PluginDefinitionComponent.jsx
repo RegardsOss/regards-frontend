@@ -4,8 +4,9 @@
 
 import { Card, CardHeader, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
-import { FormattedMessage } from 'react-intl'
 import { Plugin } from '@regardsoss/model'
+import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
 
 /**
  * React component to display static informations from loaded plugin
@@ -18,6 +19,11 @@ class PluginDefinitionComponent extends React.Component {
     plugin: Plugin,
   }
 
+  static contextTypes = {
+    ...themeContextType,
+    ...i18nContextType,
+  }
+
   componentWillMount() {
     this.props.handlePluginValid(this.props.plugin)
   }
@@ -28,7 +34,7 @@ class PluginDefinitionComponent extends React.Component {
         <a href={this.props.plugin.info.url} target="_black" rel="noopener noreferrer">
           <RaisedButton
             primary
-            label={<FormattedMessage id="plugin.description.url" />}
+            label={this.context.intl.formatMessage({ id: 'plugin.description.url' })}
           />
         </a>
       )

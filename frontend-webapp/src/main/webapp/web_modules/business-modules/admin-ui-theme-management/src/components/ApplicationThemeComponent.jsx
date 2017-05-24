@@ -157,7 +157,7 @@ class ApplicationThemeComponent extends React.Component {
         entityLinks={editingTheme.links}
         hateoasKey={HateoasKeys.UPDATE}
         onTouchTap={() => this.onSave(editingTheme)}
-        tooltip={<FormattedMessage id="application.theme.save" />}
+        tooltip={this.context.intl.formatMessage({ id: 'application.theme.save' })}
       ><Save color={style.toolbar.icon.color} /></HateoasIconAction>
     )
     const deleteButton = (<DeleteButton
@@ -168,7 +168,7 @@ class ApplicationThemeComponent extends React.Component {
       onCreate={this.onCreate}
     />)
     const themeActivationToggle = (<HateoasToggle
-      label={<FormattedMessage id="application.theme.default.active" />}
+      label={this.context.intl.formatMessage({ id: 'application.theme.default.active' })}
       defaultToggled={editingTheme.content.active}
       onToggle={this.toggleThemeActivation}
       style={{

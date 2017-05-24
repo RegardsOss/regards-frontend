@@ -178,7 +178,7 @@ export class CollectionFormComponent extends React.Component {
         <Card>
           <CardTitle
             title={title}
-            subtitle={<FormattedMessage id="collection.form.subtitle" />}
+            subtitle={this.context.intl.formatMessage({ id: 'collection.form.subtitle' })}
           />
           <CollectionStepperComponent stepIndex={0} />
           <CardText>
@@ -187,7 +187,7 @@ export class CollectionFormComponent extends React.Component {
               fullWidth
               component={RenderTextField}
               type="text"
-              label={<FormattedMessage id="collection.form.label" />}
+              label={this.context.intl.formatMessage({ id: 'collection.form.label' })}
             />
             <div className="row">
               <div className="col-sm-30">
@@ -199,16 +199,16 @@ export class CollectionFormComponent extends React.Component {
                 >
                   <RadioButton
                     value={DESCRIPTION_MODE.NOTHING}
-                    label={<FormattedMessage id="collection.form.radio.none" />}
+                    label={this.context.intl.formatMessage({ id: 'collection.form.radio.none' })}
                     disabled={disableNoDescription}
                   />
                   <RadioButton
                     value={DESCRIPTION_MODE.FILE}
-                    label={<FormattedMessage id="collection.form.radio.descriptionFileContent" />}
+                    label={this.context.intl.formatMessage({ id: 'collection.form.radio.descriptionFileContent' })}
                   />
                   <RadioButton
                     value={DESCRIPTION_MODE.URL}
-                    label={<FormattedMessage id="collection.form.radio.descriptionUrl" />}
+                    label={this.context.intl.formatMessage({ id: 'collection.form.radio.descriptionUrl' })}
                   />
                 </RadioButtonGroup>
               </div>
@@ -219,7 +219,7 @@ export class CollectionFormComponent extends React.Component {
                     fullWidth
                     component={RenderTextField}
                     type="text"
-                    label={<FormattedMessage id="collection.form.descriptionUrl" />}
+                    label={this.context.intl.formatMessage({ id: 'collection.form.descriptionUrl' })}
                   />
                 </ShowableAtRender>
                 <ShowableAtRender show={showDescriptionMode === DESCRIPTION_MODE.FILE}>
@@ -243,7 +243,7 @@ export class CollectionFormComponent extends React.Component {
               fullWidth
               onSelect={this.handleChange}
               component={RenderSelectField}
-              label={<FormattedMessage id="collection.form.model" />}
+              label={this.context.intl.formatMessage({ id: 'collection.form.model' })}
               disabled={!this.state.isCreating && !this.state.isDuplicating}
             >
               {map(modelList, (model, id) => (
@@ -285,7 +285,7 @@ export class CollectionFormComponent extends React.Component {
                             fullWidth
                             component={RenderTextField}
                             type="text"
-                            label={<FormattedMessage id="collection.form.table.input" />}
+                            label={this.context.intl.formatMessage({ id: 'collection.form.table.input' })}
                           />
                         </ShowableAtRender>
                       </TableRowColumn>
@@ -297,10 +297,10 @@ export class CollectionFormComponent extends React.Component {
           </CardText>
           <CardActions>
             <CardActionsComponent
-              mainButtonLabel={<FormattedMessage id="collection.form.action.next" />}
+              mainButtonLabel={this.context.intl.formatMessage({ id: 'collection.form.action.next' })}
               mainButtonType="submit"
               isMainButtonDisabled={submitting || invalid}
-              secondaryButtonLabel={<FormattedMessage id="collection.form.action.cancel" />}
+              secondaryButtonLabel={this.context.intl.formatMessage({ id: 'collection.form.action.cancel' })}
               secondaryButtonUrl={backUrl}
             />
           </CardActions>

@@ -55,7 +55,7 @@ export class ResourceAccessFormComponent extends React.Component {
               role: currentRole.content.name,
             }}
           />}
-          subtitle={<FormattedMessage id="role.list.subtitle" />}
+          subtitle={this.context.intl.formatMessage({ id: 'role.list.subtitle' })}
         />
         <CardText>
           <Tabs >

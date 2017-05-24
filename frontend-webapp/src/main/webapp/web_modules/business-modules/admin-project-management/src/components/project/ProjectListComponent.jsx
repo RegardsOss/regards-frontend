@@ -123,8 +123,8 @@ export class ProjectListComponent extends React.Component {
           />
         </ShowableAtRender>
         <CardTitle
-          title={<FormattedMessage id="project.list.title" />}
-          subtitle={<FormattedMessage id="project.list.subtitle" />}
+          title={this.context.intl.formatMessage({ id: 'project.list.title' })}
+          subtitle={this.context.intl.formatMessage({ id: 'project.list.subtitle' })}
         />
         <CardText>
           <Table

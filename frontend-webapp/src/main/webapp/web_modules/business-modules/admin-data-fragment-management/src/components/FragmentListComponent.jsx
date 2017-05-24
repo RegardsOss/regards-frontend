@@ -95,8 +95,8 @@ export class FragmentListComponent extends React.Component {
     return (
       <Card>
         <CardTitle
-          title={<FormattedMessage id="fragment.list.title" />}
-          subtitle={<FormattedMessage id="fragment.list.subtitle" />}
+          title={this.context.intl.formatMessage({ id: 'fragment.list.title' })}
+          subtitle={this.context.intl.formatMessage({ id: 'fragment.list.subtitle' })}
         />
         <CardText>
           {this.renderDeleteConfirmDialog()}
@@ -168,7 +168,7 @@ export class FragmentListComponent extends React.Component {
               />
             }
             mainHateoasDependency={fragmentActions.getDependency(RequestVerbEnum.POST)}
-            secondaryButtonLabel={<FormattedMessage id="fragment.list.action.cancel" />}
+            secondaryButtonLabel={this.context.intl.formatMessage({ id: 'fragment.list.action.cancel' })}
             secondaryButtonUrl={backUrl}
           />
         </CardActions>

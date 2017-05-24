@@ -85,8 +85,8 @@ class ModuleListComponent extends React.Component {
           />
         </ShowableAtRender>
         <CardTitle
-          title={<FormattedMessage id="modules.list.title" />}
-          subtitle={<FormattedMessage id="modules.list.subtitle" />}
+          title={this.context.intl.formatMessage({ id: 'modules.list.title' })}
+          subtitle={this.context.intl.formatMessage({ id: 'modules.list.subtitle' })}
         />
         <CardText>
           <Table
@@ -112,7 +112,7 @@ class ModuleListComponent extends React.Component {
               {map(sortedModules, (module, i) => (
                 <TableRow key={i}>
                   <TableRowColumn>{module.content.description}</TableRowColumn>
-                  <TableRowColumn>{module.content.name}</TableRowColumn>
+                  <TableRowColumn>{module.content.type}</TableRowColumn>
                   <TableRowColumn>
                     <HateoasToggle
                       entityLinks={module.links}
@@ -153,7 +153,7 @@ class ModuleListComponent extends React.Component {
                     </ActionsMenuCell>
                   </TableRowColumn>
                 </TableRow>
-                ))}
+              ))}
             </TableBody>
           </Table>
         </CardText>
@@ -166,7 +166,7 @@ class ModuleListComponent extends React.Component {
               />
             }
             mainHateoasDependency={moduleActions.getDependency(RequestVerbEnum.POST)}
-            secondaryButtonLabel={<FormattedMessage id="layout.cancel" />}
+            secondaryButtonLabel={this.context.intl.formatMessage({ id: 'layout.cancel' })}
             secondaryButtonUrl={this.props.backUrl}
           />
         </CardActions>

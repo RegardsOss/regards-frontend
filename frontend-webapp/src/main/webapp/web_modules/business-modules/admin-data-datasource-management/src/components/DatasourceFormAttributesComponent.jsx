@@ -89,7 +89,7 @@ export class DatasourceFormAttributesComponent extends React.Component {
         <Card>
           <CardTitle
             title={title}
-            subtitle={<FormattedMessage id="datasource.form.subtitle" />}
+            subtitle={this.context.intl.formatMessage({ id: 'datasource.form.subtitle' })}
           />
           <DatasourceStepperComponent stepIndex={1} />
           <CardText>
@@ -98,10 +98,10 @@ export class DatasourceFormAttributesComponent extends React.Component {
               fullWidth
               component={RenderTextField}
               type="text"
-              label={<FormattedMessage id="datasource.form.label" />}
+              label={this.context.intl.formatMessage({ id: 'datasource.form.label' })}
             />
             <SelectField
-              floatingLabelText={<FormattedMessage id="datasource.form.connection" />}
+              floatingLabelText={this.context.intl.formatMessage({ id: 'datasource.form.connection' })}
               fullWidth
               value={currentConnection.content.id}
               disabled
@@ -115,7 +115,7 @@ export class DatasourceFormAttributesComponent extends React.Component {
               name="model"
               fullWidth
               component={RenderSelectField}
-              label={<FormattedMessage id="datasource.form.model" />}
+              label={this.context.intl.formatMessage({ id: 'datasource.form.model' })}
             >
               {map(modelList, (model, id) => (
                 <MenuItem
@@ -129,7 +129,7 @@ export class DatasourceFormAttributesComponent extends React.Component {
               name="pluginClassName"
               fullWidth
               component={RenderSelectField}
-              label={<FormattedMessage id="datasource.form.pluginConfiguration" />}
+              label={this.context.intl.formatMessage({ id: 'datasource.form.pluginConfiguration' })}
             >
               {map(pluginMetaDataList, (pluginMetaData, id) => (
                 <MenuItem
@@ -142,10 +142,10 @@ export class DatasourceFormAttributesComponent extends React.Component {
           </CardText>
           <CardActions>
             <CardActionsComponent
-              mainButtonLabel={<FormattedMessage id="datasource.form.action.next" />}
+              mainButtonLabel={this.context.intl.formatMessage({ id: 'datasource.form.action.next' })}
               mainButtonType="submit"
               isMainButtonDisabled={submitting || invalid}
-              secondaryButtonLabel={<FormattedMessage id="datasource.form.action.cancel" />}
+              secondaryButtonLabel={this.context.intl.formatMessage({ id: 'datasource.form.action.cancel' })}
               secondaryButtonUrl={backUrl}
             />
           </CardActions>

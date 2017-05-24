@@ -4,7 +4,6 @@
 import concat from 'lodash/concat'
 import remove from 'lodash/remove'
 import values from 'lodash/values'
-import { FormattedMessage } from 'react-intl'
 import Measure from 'react-measure'
 import MenuItem from 'material-ui/MenuItem'
 import Divider from 'material-ui/Divider'
@@ -12,6 +11,7 @@ import ColumnsAction from 'material-ui/svg-icons/action/settings'
 import Disatisfied from 'material-ui/svg-icons/social/sentiment-dissatisfied'
 import { LoadingComponent } from '@regardsoss/display-control'
 import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
 import ShowableAtRender from '../cards/ShowableAtRender'
 import NoContentMessageInfo from '../cards/NoContentMessageInfo'
 import Table from './content/Table'
@@ -62,6 +62,7 @@ class TablePane extends React.Component {
 
   static contextTypes = {
     ...themeContextType,
+    ...i18nContextType,
   }
 
   constructor(props) {
@@ -176,7 +177,7 @@ class TablePane extends React.Component {
           onTouchTap={this.onOpenColumnsFilterPanel}
           value={// Workaround: makes the menu close on item clicked, useless otherwise (crappy material UI)
             'more.option'}
-          primaryText={<FormattedMessage id="table.filter.columns.label" />}
+          primaryText={this.context.intl.formatMessage({ id: 'table.filter.columns.label' })}
           icon={<ColumnsAction />}
         />),
       ]

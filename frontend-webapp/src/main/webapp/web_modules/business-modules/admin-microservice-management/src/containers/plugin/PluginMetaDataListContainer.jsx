@@ -6,7 +6,6 @@ import without from 'lodash/without'
 import union from 'lodash/union'
 import { chain } from 'lodash'
 import { browserHistory } from 'react-router'
-import { FormattedMessage } from 'react-intl'
 import AppBar from 'material-ui/AppBar'
 import { Card, CardActions, CardText, CardTitle } from 'material-ui/Card'
 import Checkbox from 'material-ui/Checkbox'
@@ -147,7 +146,7 @@ export class PluginMetaDataListContainer extends React.Component {
         <CardActions>
           <ResourceIconAction
             resourceDependency={PluginConfigurationActions.getMsDependency(RequestVerbEnum.GET_LIST, this.props.params.microserviceName)}
-            tooltip={<FormattedMessage id="microservice-management.plugin.list.configurations" />}
+            tooltip={this.context.intl.formatMessage({ id: 'microservice-management.plugin.list.configurations' })}
             onTouchTap={() => this.handleProjectConfigurationListClick(plugin.content.pluginId)}
           >
             <IconList />
@@ -209,7 +208,7 @@ export class PluginMetaDataListContainer extends React.Component {
             iconElementRight={
               <IconButton
                 onTouchTap={this.handleFilterSwitch}
-                tooltip={<FormattedMessage id="microservice-management.plugin.list.filter.tooltip" />}
+                tooltip={this.context.intl.formatMessage({ id: 'microservice-management.plugin.list.filter.tooltip' })}
               >
                 <Filter />
               </IconButton>
@@ -225,7 +224,7 @@ export class PluginMetaDataListContainer extends React.Component {
           <Drawer width={500} openSecondary open={this.state.filterOpen}>
             <AppBar
               iconElementLeft={<IconButton onTouchTap={this.handleFilterSwitch}><Close /></IconButton>}
-              title={<FormattedMessage id="microservice-management.plugin.list.filter.title" />}
+              title={this.context.intl.formatMessage({ id: 'microservice-management.plugin.list.filter.title' })}
             />
             <List>
               {this.getFilterListItems()}

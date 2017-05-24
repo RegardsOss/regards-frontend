@@ -119,7 +119,7 @@ export class ConnectionFormComponent extends React.Component {
         <Card>
           <CardTitle
             title={title}
-            subtitle={<FormattedMessage id="connection.form.subtitle" />}
+            subtitle={this.context.intl.formatMessage({ id: 'connection.form.subtitle' })}
           />
           <CardText>
             <Field
@@ -127,14 +127,14 @@ export class ConnectionFormComponent extends React.Component {
               fullWidth
               component={RenderTextField}
               type="text"
-              label={<FormattedMessage id="connection.form.label" />}
+              label={this.context.intl.formatMessage({ id: 'connection.form.label' })}
               validate={[ValidationHelpers.validRequiredString]}
             />
             <Field
               name="pluginClassName"
               fullWidth
               component={RenderSelectField}
-              label={<FormattedMessage id="connection.form.pluginClassName" />}
+              label={this.context.intl.formatMessage({ id: 'connection.form.pluginClassName' })}
             >
               {map(pluginMetaDataList, (pluginMetaData, id) => (
                 <MenuItem
@@ -149,7 +149,7 @@ export class ConnectionFormComponent extends React.Component {
               fullWidth
               component={RenderTextField}
               type="text"
-              label={<FormattedMessage id="connection.form.user" />}
+              label={this.context.intl.formatMessage({ id: 'connection.form.user' })}
               validate={[ValidationHelpers.validRequiredString]}
             />
             <Field
@@ -157,7 +157,7 @@ export class ConnectionFormComponent extends React.Component {
               fullWidth
               component={RenderTextField}
               type="password"
-              label={<FormattedMessage id="connection.form.password" />}
+              label={this.context.intl.formatMessage({ id: 'connection.form.password' })}
               validate={[ValidationHelpers.validRequiredString]}
             />
             <Field
@@ -165,7 +165,7 @@ export class ConnectionFormComponent extends React.Component {
               fullWidth
               component={RenderTextField}
               type="text"
-              label={<FormattedMessage id="connection.form.dbHost" />}
+              label={this.context.intl.formatMessage({ id: 'connection.form.dbHost' })}
               validate={[ValidationHelpers.validRequiredString]}
             />
             <Field
@@ -173,7 +173,7 @@ export class ConnectionFormComponent extends React.Component {
               fullWidth
               component={RenderTextField}
               type="text"
-              label={<FormattedMessage id="connection.form.dbPort" />}
+              label={this.context.intl.formatMessage({ id: 'connection.form.dbPort' })}
               validate={[ValidationHelpers.validRequiredNumber]}
             />
             <Field
@@ -181,7 +181,7 @@ export class ConnectionFormComponent extends React.Component {
               fullWidth
               component={RenderTextField}
               type="text"
-              label={<FormattedMessage id="connection.form.dbName" />}
+              label={this.context.intl.formatMessage({ id: 'connection.form.dbName' })}
               validate={[ValidationHelpers.validRequiredString]}
             />
             <Field
@@ -189,7 +189,7 @@ export class ConnectionFormComponent extends React.Component {
               fullWidth
               component={RenderTextField}
               type="number"
-              label={<FormattedMessage id="connection.form.minPoolSize" />}
+              label={this.context.intl.formatMessage({ id: 'connection.form.minPoolSize' })}
               validate={[ValidationHelpers.validRequiredNumber]}
             />
             <Field
@@ -197,16 +197,16 @@ export class ConnectionFormComponent extends React.Component {
               fullWidth
               component={RenderTextField}
               type="number"
-              label={<FormattedMessage id="connection.form.maxPoolSize" />}
+              label={this.context.intl.formatMessage({ id: 'connection.form.maxPoolSize' })}
               validate={[ValidationHelpers.validRequiredNumber]}
             />
           </CardText>
           <CardActions>
             <CardActionsComponent
-              mainButtonLabel={<FormattedMessage id="connection.form.action.save" />}
+              mainButtonLabel={this.context.intl.formatMessage({ id: 'connection.form.action.save' })}
               mainButtonType="submit"
               isMainButtonDisabled={submitting || invalid}
-              secondaryButtonLabel={<FormattedMessage id="connection.form.action.cancel" />}
+              secondaryButtonLabel={this.context.intl.formatMessage({ id: 'connection.form.action.cancel' })}
               secondaryButtonUrl={backUrl}
             />
           </CardActions>

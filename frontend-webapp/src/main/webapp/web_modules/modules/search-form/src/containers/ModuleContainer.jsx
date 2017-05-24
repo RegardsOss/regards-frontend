@@ -266,8 +266,8 @@ class ModuleContainer extends React.Component {
     if (!this.props.moduleConf.preview) {
       // is single dataset?
       const { type, selectedDatasets } = this.props.moduleConf.datasets || {}
-      const singleDatasetIpId = type === DatasetSelectionType.DATASET_TYPE && selectedDatasets && selectedDatasets.length === 1 &&
-        selectedDatasets[0]
+      const singleDatasetIpId = (type === DatasetSelectionType.DATASET_TYPE && null && selectedDatasets && selectedDatasets.length === 1 &&
+        selectedDatasets[0]) || null
 
       const module = {
         type: 'search-results',

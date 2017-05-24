@@ -8,6 +8,7 @@ import { FormattedMessage } from 'react-intl'
 import { RenderTextField, ErrorTypes, Field, ValidationHelpers, RenderSelectField, reduxForm } from '@regardsoss/form-utils'
 import { Role, ProjectUser, AccessGroup } from '@regardsoss/model'
 import { MetadataList, MetadataField } from '@regardsoss/user-metadata-common'
+import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import MenuItem from 'material-ui/MenuItem'
 import Checkbox from 'material-ui/Checkbox'
@@ -39,6 +40,7 @@ export class ProjectUserFormComponent extends React.Component {
   }
 
   static contextTypes = {
+    ...i18nContextType,
     ...themeContextType,
   }
 
@@ -191,7 +193,7 @@ export class ProjectUserFormComponent extends React.Component {
         <Card>
           {this.state.isCreating ?
             <CardTitle
-              title={<FormattedMessage id="projectUser.create.title" />}
+              title={this.context.intl.formatMessage({ id: 'projectUser.create.title' })}
             /> :
             <CardTitle
               title={<FormattedMessage id="projectUser.edit.title" values={{ email: this.props.currentUser.content.email }} />}
@@ -202,7 +204,7 @@ export class ProjectUserFormComponent extends React.Component {
             <ShowableAtRender show={this.state.isCreating} >
               <Checkbox
                 onCheck={this.handleCheckbox}
-                label={<FormattedMessage id="projectUser.create.using.existing.account" />}
+                label={this.context.intl.formatMessage({ id: 'projectUser.create.using.existing.account' })}
               />
             </ShowableAtRender>
 
@@ -212,7 +214,7 @@ export class ProjectUserFormComponent extends React.Component {
               disabled={!this.state.isCreating}
               component={RenderTextField}
               type="text"
-              label={<FormattedMessage id="projectUser.create.input.email" />}
+              label={this.context.intl.formatMessage({ id: 'projectUser.create.input.email' })}
             />
             { /* Show account creation options when creating an account */}
             <ShowableAtRender show={!this.state.useExistingAccount && this.state.isCreating} >
@@ -222,21 +224,21 @@ export class ProjectUserFormComponent extends React.Component {
                   fullWidth
                   component={RenderTextField}
                   type="text"
-                  label={<FormattedMessage id="projectUser.create.input.firstName" />}
+                  label={this.context.intl.formatMessage({ id: 'projectUser.create.input.firstName' })}
                 />
                 <Field
                   name="lastName"
                   fullWidth
                   component={RenderTextField}
                   type="text"
-                  label={<FormattedMessage id="projectUser.create.input.lastName" />}
+                  label={this.context.intl.formatMessage({ id: 'projectUser.create.input.lastName' })}
                 />
                 <Field
                   name="password"
                   fullWidth
                   component={RenderTextField}
                   type="password"
-                  label={<FormattedMessage id="projectUser.create.input.password" />}
+                  label={this.context.intl.formatMessage({ id: 'projectUser.create.input.password' })}
                 />
               </div>
             </ShowableAtRender>
@@ -244,7 +246,7 @@ export class ProjectUserFormComponent extends React.Component {
               name="roleName"
               fullWidth
               component={RenderSelectField}
-              label={<FormattedMessage id="projectUser.create.input.role" />}
+              label={this.context.intl.formatMessage({ id: 'projectUser.create.input.role' })}
             >
               {map(roleList, (role, id) => (
                 <MenuItem
@@ -277,7 +279,7 @@ export class ProjectUserFormComponent extends React.Component {
               }
               mainButtonType="submit"
               isMainButtonDisabled={pristine || submitting || invalid}
-              secondaryButtonLabel={<FormattedMessage id="projectUser.create.action.cancel" />}
+              secondaryButtonLabel={this.context.intl.formatMessage({ id: 'projectUser.create.action.cancel' })}
               secondaryButtonUrl={this.props.backUrl}
             />
           </CardActions>

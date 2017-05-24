@@ -85,8 +85,8 @@ export class CollectionListComponent extends React.Component {
     return (
       <Card>
         <CardTitle
-          title={<FormattedMessage id="collection.list.title" />}
-          subtitle={<FormattedMessage id="collection.list.subtitle" />}
+          title={this.context.intl.formatMessage({ id: 'collection.list.title' })}
+          subtitle={this.context.intl.formatMessage({ id: 'collection.list.subtitle' })}
         />
         <CardText>
           {this.renderDeleteConfirmDialog()}
@@ -160,7 +160,7 @@ export class CollectionListComponent extends React.Component {
               />
             }
             mainHateoasDependency={collectionActions.getDependency(RequestVerbEnum.POST)}
-            secondaryButtonLabel={<FormattedMessage id="collection.list.action.cancel" />}
+            secondaryButtonLabel={this.context.intl.formatMessage({ id: 'collection.list.action.cancel' })}
             secondaryButtonUrl={backUrl}
           />
         </CardActions>

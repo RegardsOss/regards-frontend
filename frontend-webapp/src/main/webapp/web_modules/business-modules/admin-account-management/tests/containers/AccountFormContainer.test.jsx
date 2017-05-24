@@ -1,22 +1,14 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import { stub } from 'sinon'
+import { testSuiteHelpers, DumpProvider } from '@regardsoss/tests-helpers'
 import { AccountFormContainer } from '../../src/containers/AccountFormContainer'
 import AccountFormComponent from '../../src/components/AccountFormComponent'
 
 // Test a component rendering
 describe('[ADMIN ACCOUNT MANAGEMENT] Testing account form container', () => {
-  // Since react will console.error propType warnings, that which we'd rather have
-  // as errors, we use sinon.js to stub it into throwing these warning as errors
-  // instead.
-  before(() => {
-    stub(console, 'error').callsFake((warning) => {
-      throw new Error(warning)
-    })
-  })
-  after(() => {
-    console.error.restore()
-  })
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('should exists', () => {
     assert.isDefined(AccountFormContainer)
     assert.isDefined(AccountFormComponent)
@@ -28,18 +20,9 @@ describe('[ADMIN ACCOUNT MANAGEMENT] Testing account form container', () => {
         account_id: '1',
       },
       // from mapStateToProps
-      account: {
-        content: {
-          id: '1',
-          lastName: 'last name',
-          email: 'em@il.com',
-          firstName: 'first icon',
-          status: 'PENDING',
-        },
-      },
+      account: DumpProvider.getFirstEntity('AdminClient', 'Account'),
       isFetching: false,
       // from mapDispatchToProps
-      createAccount: () => { },
       fetchAccount: () => { },
       updateAccount: () => { },
     }

@@ -158,7 +158,7 @@ class pluginFormComponent extends React.Component {
                   component={RenderTextField}
                   fullWidth
                   type="text"
-                  label={<FormattedMessage id="plugin.form.sourcesPath" />}
+                  label={this.context.intl.formatMessage({ id: 'plugin.form.sourcesPath' })}
                 />
                 <IconButton
                   tooltip="Search plugin"
@@ -181,7 +181,7 @@ class pluginFormComponent extends React.Component {
                 />}
                 mainButtonType="submit"
                 isMainButtonDisabled={pristine || submitting || !this.state.pluginIsValid || this.state.path !== this.props.pathField}
-                secondaryButtonLabel={<FormattedMessage id="plugin.form.cancel.button" />}
+                secondaryButtonLabel={this.context.intl.formatMessage({ id: 'plugin.form.cancel.button' })}
                 secondaryButtonTouchTap={this.props.onBack}
               />
             </CardActions>

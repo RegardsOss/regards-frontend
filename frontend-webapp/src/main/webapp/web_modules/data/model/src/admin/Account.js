@@ -1,4 +1,4 @@
-const Project = PropTypes.shape({
+const Account = PropTypes.shape({
   content: PropTypes.shape({
     id: PropTypes.number,
     lastName: PropTypes.string,
@@ -8,4 +8,4 @@ const Project = PropTypes.shape({
   }),
 })
 
-export default Project
+export default Account

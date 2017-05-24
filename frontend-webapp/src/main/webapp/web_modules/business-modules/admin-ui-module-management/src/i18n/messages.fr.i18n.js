@@ -32,7 +32,7 @@ const messages = Object.assign({
   'modules.list.table.action.delete.tooltip': 'Supprimer',
   'modules.list.action.add': 'Ajouter un nouveau module',
   'modules.list.delete.message': 'Confirmer la suppression du module {name} ?',
-  'modules.list.table.active': 'Etat',
+  'modules.list.table.active': 'Actif',
   'modules.list.table.actions': 'Actions',
   'layout.title': 'Configuration de l\'agencement de l\'interface',
   'layout.subtitle': 'Cette page vous permet de configurer l\'agencement des conteneurs de modules de votre interface. Chaque conteneur déclaré ici peut ensuite être utilisé pour positionner les modules',

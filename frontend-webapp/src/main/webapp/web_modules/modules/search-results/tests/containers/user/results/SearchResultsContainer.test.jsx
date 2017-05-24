@@ -5,6 +5,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { SearchResultsTargetsEnum } from '@regardsoss/model'
+import { TableSelectionModes } from '@regardsoss/components'
 import NavigationLevel from '../../../../src/models/navigation/NavigationLevel'
 import SearchResultsComponent from '../../../../src/components/user/results/SearchResultsComponent'
 import { SearchResultsContainer } from '../../../../src/containers/user/results/SearchResultsContainer'
@@ -26,12 +27,18 @@ describe('[Search Results] Testing SearchResultsContainer', () => {
       project: 'eat spanish',
       searchQuery: 'spacy=abit',
       enableFacettes: true,
+      displayDatasets: true,
       facettesQuery: 'facettes=codiments',
       attributesConf: [],
       attributesRegroupementsConf: [],
       attributeModels: {},
       viewObjectType: SearchResultsTargetsEnum.DATAOBJECT_RESULTS,
       levels: [NavigationLevel.buildRootLevel()],
+      toggledElements: { 1: { coucou: 'loulou' } },
+      selectionMode: TableSelectionModes.includeSelected,
+      datasetServices: [],
+      selectedDataobjectsServices: [],
+
       dispatchChangeViewObjectType: () => { },
       dispatchDatasetSelected: () => { },
       dispatchTagSelected: () => { },

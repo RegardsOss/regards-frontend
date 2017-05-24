@@ -96,7 +96,7 @@ class ConnectionTesterIconButton extends React.Component {
     const { connection } = this.props
     const testButton = (
       <IconButton
-        label={<FormattedMessage id="database.connectionTester.start" />}
+        label={this.context.intl.formatMessage({ id: 'database.connectionTester.start' })}
         onTouchTap={this.handleTouchTap}
       >
         <PlayArrow hoverColor={this.context.muiTheme.palette.primary1Color} />

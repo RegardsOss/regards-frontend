@@ -9,10 +9,10 @@ import CloudQueue from 'material-ui/svg-icons/file/cloud-queue'
 import Brush from 'material-ui/svg-icons/image/brush'
 import Divider from 'material-ui/Divider'
 import Back from 'material-ui/svg-icons/navigation/arrow-back'
-import { FormattedMessage } from 'react-intl'
+import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
 import { browserHistory } from 'react-router'
 import SupervisorAccount from 'material-ui/svg-icons/action/supervisor-account'
-import { I18nProvider } from '@regardsoss/i18n'
 import { uiManagementDependencies } from '@regardsoss/admin-ui-management'
 import { userDependencies } from '@regardsoss/admin-user-management'
 import { dataManagementDependencies } from '@regardsoss/admin-data-management'
@@ -34,7 +34,8 @@ class ProjectSidebarComponent extends React.Component {
    * @type {{muiTheme: *}}
    */
   static contextTypes = {
-    muiTheme: PropTypes.object.isRequired,
+    ...themeContextType,
+    ...i18nContextType,
   }
 
   /**
@@ -65,83 +66,80 @@ class ProjectSidebarComponent extends React.Component {
     }
 
     return (
-      <I18nProvider messageDir="business-modules/admin/src/menu/i18n">
-
-        <Drawer
-          open
-          containerStyle={merge({ width: '100%' }, style.sidebarContainer.styles)}
-          className={style.sidebarContainer.classes}
+      <Drawer
+        open
+        containerStyle={merge({ width: '100%' }, style.sidebarContainer.styles)}
+        className={style.sidebarContainer.classes}
+      >
+        <HateoasSidebarElement
+          key="1"
+          requiredEndpoints={userDependencies}
+          hateoasDisplayLogic={someMatchHateoasDisplayLogic}
+          to={`/admin/${projectName}/user/board`}
+          currentPath={this.props.currentPath}
+          primaryText={this.context.intl.formatMessage({ id: 'menu.users' })}
+          leftIcon={<SupervisorAccount
+            color={this.context.muiTheme.svgIcon.color}
+          />}
+          rightIcon={<WaitingAccessNotificationContainer />}
+        />
+        <HateoasSidebarElement
+          key="2"
+          requiredEndpoints={dataManagementDependencies}
+          hateoasDisplayLogic={someMatchHateoasDisplayLogic}
+          to={`/admin/${projectName}/data/board`}
+          currentPath={this.props.currentPath}
+          primaryText={this.context.intl.formatMessage({ id: 'menu.datamanagement' })}
+          leftIcon={<AddBox
+            color={this.context.muiTheme.svgIcon.color}
+          />}
+        />
+        <HateoasSidebarElement
+          key="3"
+          requiredEndpoints={accessRightDependencies}
+          hateoasDisplayLogic={someMatchHateoasDisplayLogic}
+          to={`/admin/${projectName}/access-right/board`}
+          currentPath={this.props.currentPath}
+          primaryText={this.context.intl.formatMessage({ id: 'menu.dataaccessrights' })}
+          leftIcon={<VerifiedUser
+            color={this.context.muiTheme.svgIcon.color}
+          />}
+        />
+        <HateoasSidebarElement
+          key="4"
+          requiredEndpoints={microserviceDependencies}
+          to={`/admin/${projectName}/microservice/board`}
+          currentPath={this.props.currentPath}
+          primaryText={this.context.intl.formatMessage({ id: 'menu.microservices' })}
+          leftIcon={<CloudQueue
+            color={this.context.muiTheme.svgIcon.color}
+          />}
+        />
+        <HateoasSidebarElement
+          key="5"
+          requiredEndpoints={uiManagementDependencies}
+          hateoasDisplayLogic={someMatchHateoasDisplayLogic}
+          to={`/admin/${projectName}/ui/board`}
+          currentPath={this.props.currentPath}
+          primaryText={this.context.intl.formatMessage({ id: 'menu.ui.configuration' })}
+          leftIcon={<Brush
+            color={this.context.muiTheme.svgIcon.color}
+          />}
+        />
+        <Divider />
+        <HateoasDisplayDecorator
+          requiredEndpoints={[projectActions.getDependency(RequestVerbEnum.GET)]}
+          hateoasDisplayLogic={allMatchHateoasDisplayLogic}
         >
-          <HateoasSidebarElement
-            key="1"
-            requiredEndpoints={userDependencies}
-            hateoasDisplayLogic={someMatchHateoasDisplayLogic}
-            to={`/admin/${projectName}/user/board`}
-            currentPath={this.props.currentPath}
-            primaryText={<FormattedMessage id="menu.users" />}
-            leftIcon={<SupervisorAccount
+          <MenuItem
+            primaryText={this.context.intl.formatMessage({ id: 'menu.instance' })}
+            leftIcon={<Back
               color={this.context.muiTheme.svgIcon.color}
             />}
-            rightIcon={<WaitingAccessNotificationContainer />}
+            onTouchTap={this.handleRedirectToInstanceAdminDashboard}
           />
-          <HateoasSidebarElement
-            key="2"
-            requiredEndpoints={dataManagementDependencies}
-            hateoasDisplayLogic={someMatchHateoasDisplayLogic}
-            to={`/admin/${projectName}/data/board`}
-            currentPath={this.props.currentPath}
-            primaryText={<FormattedMessage id="menu.datamanagement" />}
-            leftIcon={<AddBox
-              color={this.context.muiTheme.svgIcon.color}
-            />}
-          />
-          <HateoasSidebarElement
-            key="3"
-            requiredEndpoints={accessRightDependencies}
-            hateoasDisplayLogic={someMatchHateoasDisplayLogic}
-            to={`/admin/${projectName}/access-right/board`}
-            currentPath={this.props.currentPath}
-            primaryText={<FormattedMessage id="menu.dataaccessrights" />}
-            leftIcon={<VerifiedUser
-              color={this.context.muiTheme.svgIcon.color}
-            />}
-          />
-          <HateoasSidebarElement
-            key="4"
-            requiredEndpoints={microserviceDependencies}
-            to={`/admin/${projectName}/microservice/board`}
-            currentPath={this.props.currentPath}
-            primaryText={<FormattedMessage id="menu.microservices" />}
-            leftIcon={<CloudQueue
-              color={this.context.muiTheme.svgIcon.color}
-            />}
-          />
-          <HateoasSidebarElement
-            key="5"
-            requiredEndpoints={uiManagementDependencies}
-            hateoasDisplayLogic={someMatchHateoasDisplayLogic}
-            to={`/admin/${projectName}/ui/board`}
-            currentPath={this.props.currentPath}
-            primaryText={<FormattedMessage id="menu.ui.configuration" />}
-            leftIcon={<Brush
-              color={this.context.muiTheme.svgIcon.color}
-            />}
-          />
-          <Divider />
-          <HateoasDisplayDecorator
-            requiredEndpoints={[projectActions.getDependency(RequestVerbEnum.GET)]}
-            hateoasDisplayLogic={allMatchHateoasDisplayLogic}
-          >
-            <MenuItem
-              primaryText={<FormattedMessage id="menu.instance" />}
-              leftIcon={<Back
-                color={this.context.muiTheme.svgIcon.color}
-              />}
-              onTouchTap={this.handleRedirectToInstanceAdminDashboard}
-            />
-          </HateoasDisplayDecorator>
-        </Drawer>
-      </I18nProvider>
+        </HateoasDisplayDecorator>
+      </Drawer>
     )
   }
 }

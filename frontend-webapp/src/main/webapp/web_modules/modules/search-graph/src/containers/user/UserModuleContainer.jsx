@@ -118,7 +118,7 @@ export class UserModuleContainer extends React.Component {
 
   render() {
     const { appName, project, moduleCollapsed, moduleConf, selectionPath } = this.props
-    const { graphDatasetAttributes, openSearchQuery, singleDatasetIpId } = this.state
+    const { graphDatasetAttributes, openSearchQuery } = this.state
 
     return (
       <div>
@@ -132,7 +132,6 @@ export class UserModuleContainer extends React.Component {
             appName={appName}
             project={project}
             moduleConf={moduleConf}
-            singleDatasetIpId={singleDatasetIpId}
             searchQuery={openSearchQuery}
             selectionPath={selectionPath}
           />

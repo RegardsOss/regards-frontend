@@ -1,4 +1,5 @@
-import { FormattedMessage } from 'react-intl'
+import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
 import { RenderTextField, RenderCheckbox, Field } from '@regardsoss/form-utils'
 
 /**
@@ -6,20 +7,25 @@ import { RenderTextField, RenderCheckbox, Field } from '@regardsoss/form-utils'
  */
 export class PatternComponent extends React.Component {
 
+  static contextTypes = {
+    ...themeContextType,
+    ...i18nContextType,
+  }
+
   render() {
     return (
       <div>
         <Field
           name="restriction.PATTERN.active"
           component={RenderCheckbox}
-          label={<FormattedMessage id="attrmodel.form.restriction.PATTERN.active" />}
+          label={this.context.intl.formatMessage({ id: 'attrmodel.form.restriction.PATTERN.active' })}
         />
         <Field
           name="restriction.PATTERN.pattern"
           fullWidth
           component={RenderTextField}
           type="text"
-          label={<FormattedMessage id="attrmodel.form.restriction.PATTERN.pattern" />}
+          label={this.context.intl.formatMessage({ id: 'attrmodel.form.restriction.PATTERN.pattern' })}
         />
       </div>
     )

@@ -3,9 +3,13 @@
  **/
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import { testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import { Card } from 'material-ui/Card'
 import PluginParameterListComponent from '../../../../src/components/plugin/parameter/PluginParameterListComponent'
+
+const options = {
+  context: buildTestContext(),
+}
 
 /**
  * Plugin tests
@@ -24,7 +28,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing plugin parameter list component', (
     const props = {
       mode: 'view',
     }
-    const enzymeWrapper = shallow(<PluginParameterListComponent {...props} />)
+    const enzymeWrapper = shallow(<PluginParameterListComponent {...props} />, options)
     const subComponent = enzymeWrapper.find(Card)
     expect(subComponent).to.have.length(1)
   })

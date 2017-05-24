@@ -2,9 +2,10 @@
  * LICENSE_PLACEHOLDER
  **/
 import map from 'lodash/map'
-import { FormattedMessage } from 'react-intl'
 import { Card, CardTitle, CardText } from 'material-ui/Card'
 import { PluginMetaData, PluginConfiguration } from '@regardsoss/model'
+import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
 import GenericPluginParameter from './GenericPluginParameter'
 import { mapPluginParameterToPluginParameterType, parameterTypeToEmptyParameter } from '../../../model/plugin/utils'
 import moduleStyles from '../../../styles/styles'
@@ -25,6 +26,11 @@ class PluginParameterListComponent extends React.Component {
     change: PropTypes.func, // Callback provided by redux-form in order to manually change a field value
   }
 
+  static contextTypes = {
+    ...themeContextType,
+    ...i18nContextType,
+  }
+
   render() {
     const { pluginConfiguration, pluginMetaData, formMode, change } = this.props
     const pluginParameterTypeList = pluginMetaData && pluginMetaData.content.parameters
@@ -34,7 +40,7 @@ class PluginParameterListComponent extends React.Component {
 
     return (
       <Card style={styles.pluginConfiguration.form.section}>
-        <CardTitle title={<FormattedMessage id="microservice-management.plugin.parameter.list.title" />} />
+        <CardTitle title={this.context.intl.formatMessage({ id: 'microservice-management.plugin.parameter.list.title' })} />
         <CardText>
           {map(pluginParameterList, (pluginParameter, index) =>
             (<GenericPluginParameter

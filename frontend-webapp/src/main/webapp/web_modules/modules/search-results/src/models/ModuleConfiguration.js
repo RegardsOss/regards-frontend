@@ -19,6 +19,8 @@ const Form = PropTypes.shape({
   enableFacettes: PropTypes.bool,
   // For modules using the single dataset capacity (hide the datasets configuration in admin)
   hideDatasetsConfiguration: PropTypes.bool,
+  // display datasets?
+  displayDatasets: PropTypes.bool,
   // Initial single dataset ipId
   singleDatasetIpId: PropTypes.string,
   // Initial search query

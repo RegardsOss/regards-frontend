@@ -70,14 +70,14 @@ export class DatasourceFormMappingLineComponent extends React.Component {
           fullWidth
           component={RenderTextField}
           type="text"
-          label={<FormattedMessage id="datasource.form.mapping.table.input" />}
+          label={this.context.intl.formatMessage({ id: 'datasource.form.mapping.table.input' })}
           multiLine
         />
       </div>)
     }
     return (<div>
       <Checkbox
-        label={<FormattedMessage id="datasource.form.mapping.table.showAdvancedConfiguration" />}
+        label={this.context.intl.formatMessage({ id: 'datasource.form.mapping.table.showAdvancedConfiguration' })}
         checked={showAdvanced}
         onTouchTap={this.handleToggleAdvanced}
       />
@@ -89,7 +89,7 @@ export class DatasourceFormMappingLineComponent extends React.Component {
           fullWidth
           component={RenderTextField}
           type="text"
-          label={<FormattedMessage id="datasource.form.mapping.table.input" />}
+          label={this.context.intl.formatMessage({ id: 'datasource.form.mapping.table.input' })}
           multiLine
         />
       </ShowableAtRender>
@@ -101,7 +101,7 @@ export class DatasourceFormMappingLineComponent extends React.Component {
           fullWidth
           component={RenderSelectField}
           type="text"
-          label={<FormattedMessage id="datasource.form.mapping.table.select" />}
+          label={this.context.intl.formatMessage({ id: 'datasource.form.mapping.table.select' })}
         >
           {chain(tableAttributeList)
             .sortBy(['name'])

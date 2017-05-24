@@ -3,9 +3,8 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import MenuItem from 'material-ui/MenuItem'
-import { IntlStub, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { Field } from '@regardsoss/form-utils'
 import TestPluginInfo from './TestPlugin-info.json'
 import Styles from '../../../../src/styles/styles'
@@ -19,14 +18,7 @@ describe('[SEARCH FORM] Testing CriteriaConfigurationComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
-  const muiTheme = getMuiTheme({})
-  const options = {
-    context: {
-      muiTheme,
-      moduleTheme: Styles(muiTheme),
-      intl: IntlStub,
-    },
-  }
+  const options = { context: buildTestContext(Styles) }
 
   it('Should render a CriteriaConfigurationComponent', () => {
     const props = {

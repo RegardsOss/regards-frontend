@@ -41,6 +41,7 @@ describe('[Search Results] Testing URLManagementContainer', () => {
       currentPath: 'hello/world',
       currentQuery: { ds: 'ip1', tag: 'find:cookies', t: SearchResultsTargetsEnum.DATASET_RESULTS },
       viewObjectType: SearchResultsTargetsEnum.DATAOBJECT_RESULTS,
+      displayDatasets: true,
       levels: [], // not initialized here, no need
       initialize: (viewObjectType, rootContextLabel, searchTag, dataset) => {
         spiedInit.called = true
@@ -63,6 +64,42 @@ describe('[Search Results] Testing URLManagementContainer', () => {
     assert.equal(spiedInit.dataset.content.ipId, 'ip1', 'Dataset ipID must be retrieved from URL')
   })
 
+
+  it('Should block target type dataset from URL when modules is not displaying datasets', () => {
+    // mocking router browser history to spy pushed data
+    const spiedHistoryPush = { called: false }
+    const spiedInit = { called: false }
+    router.browserHistory = {
+      push: ({ pathname, query }) => {
+        spiedHistoryPush.called = true
+      },
+    }
+
+    const props = {
+      initialContextLabel: 'any',
+      initialViewObjectType: SearchResultsTargetsEnum.DATAOBJECT_RESULTS,
+      currentPath: 'hello/world',
+      currentQuery: { ds: 'ip1', tag: 'find:cookies', t: SearchResultsTargetsEnum.DATASET_RESULTS },
+      viewObjectType: SearchResultsTargetsEnum.DATAOBJECT_RESULTS,
+      displayDatasets: false,
+      levels: [], // not initialized here, no need
+      initialize: (viewObjectType, rootContextLabel, searchTag, dataset) => {
+        spiedInit.called = true
+        spiedInit.viewObjectType = viewObjectType
+        spiedInit.rootContextLabel = rootContextLabel
+        spiedInit.searchTag = searchTag
+        spiedInit.dataset = dataset
+      },
+    }
+
+    shallow(<URLManagementContainer {...props} />, { context })
+    // URL should not be updated
+    assert.isFalse(spiedHistoryPush.called, 'URL should not be updated at initialization')
+    // state should be initialized from URL parts (and some propeties)
+    assert.isTrue(spiedInit.called, 'The module state must be computed from URL at initialization')
+    assert.equal(spiedInit.viewObjectType, SearchResultsTargetsEnum.DATAOBJECT_RESULTS, 'DATASET view object type must be blocked when modules does not display datasets')
+  })
+
   it('Should update URL on redux state change', () => {
     // mocking router browser history to spy pushed data
     const spiedHistoryPush = { called: false }
@@ -81,6 +118,7 @@ describe('[Search Results] Testing URLManagementContainer', () => {
       currentPath: 'hello/world',
       currentQuery: { ds: 'ip1', tag: 'find:cookies', t: SearchResultsTargetsEnum.DATASET_RESULTS },
       viewObjectType: SearchResultsTargetsEnum.DATAOBJECT_RESULTS,
+      displayDatasets: true,
       levels: [], // not initialized here, no need
       initialize: (viewObjectType, rootContextLabel, searchTag, dataset) => {
         spiedInit.called = true
@@ -127,6 +165,7 @@ describe('[Search Results] Testing URLManagementContainer', () => {
       currentQuery: {},
       viewObjectType: SearchResultsTargetsEnum.DATAOBJECT_RESULTS,
       levels: [], // not initialized here, no need
+      displayDatasets: true,
       initialize: (viewObjectType, rootContextLabel, searchTag, dataset) => {
         spiedInit.called = true
         spiedInit.viewObjectType = viewObjectType
@@ -153,9 +192,5 @@ describe('[Search Results] Testing URLManagementContainer', () => {
     assert.equal(spiedInit.searchTag, 'find:soda', 'The URL search tag should be reported to redux state')
     assert.isDefined(spiedInit.dataset)
     assert.equal(spiedInit.dataset.content.ipId, 'ip2', 'The URL dataset change should be reported to redux state')
-
-
-    //   // TODO something like that
-    //   assert.lengthOf(enzymeWrapper.find(URLManagementComponent), 1, 'The corresponding component should be rendered')
   })
 })

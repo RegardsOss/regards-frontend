@@ -22,6 +22,7 @@ describe('[Search Results] Testing ModuleComponent', () => {
       project: 'say-hello',
       searchQuery: 'kikikisonlessnorki?',
       enableFacettes: true,
+      displayDatasets: true,
       facettesQuery: '',
       initialDatasetIpId: 'xxxxxx-8',
       attributesConf: [],

@@ -40,6 +40,7 @@ class NavigableSearchResults extends React.Component {
         ...resultsConfiguration,
         searchQuery,
         singleDatasetIpId,
+        showDatasets: false,
         breadcrumbInitialContextLabel: breadcrumbLabel,
       },
     }

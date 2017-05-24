@@ -2,7 +2,6 @@
  * LICENSE_PLACEHOLDER
  **/
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
-import { FormattedMessage } from 'react-intl'
 import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -93,8 +92,8 @@ export class DatasetEditUIServicesComponent extends React.Component {
     return (
       <Card>
         <CardTitle
-          title={<FormattedMessage id="dataset.form.uiservices.title" />}
-          subtitle={<FormattedMessage id="dataset.form.uiservices.subtitle" />}
+          title={this.context.intl.formatMessage({ id: 'dataset.form.uiservices.title' })}
+          subtitle={this.context.intl.formatMessage({ id: 'dataset.form.uiservices.subtitle' })}
         />
         <DatasetStepperComponent stepIndex={4} />
         <CardText>
@@ -115,9 +114,9 @@ export class DatasetEditUIServicesComponent extends React.Component {
         </CardText>
         <CardActions>
           <CardActionsComponent
-            mainButtonLabel={<FormattedMessage id="dataset.form.uiservices.action.next" />}
+            mainButtonLabel={this.context.intl.formatMessage({ id: 'dataset.form.uiservices.action.next' })}
             mainButtonTouchTap={this.handleSubmit}
-            secondaryButtonLabel={<FormattedMessage id="dataset.form.uiservices.action.cancel" />}
+            secondaryButtonLabel={this.context.intl.formatMessage({ id: 'dataset.form.uiservices.action.cancel' })}
             secondaryButtonUrl={backUrl}
           />
         </CardActions>

@@ -63,12 +63,12 @@ export class DatasetCreateOrPickDatasourceComponent extends React.Component {
       <div>
         <Card>
           <CardTitle
-            title={<FormattedMessage id="dataset.form.create.title" />}
-            subtitle={<FormattedMessage id="dataset.form.create.subtitle" />}
+            title={this.context.intl.formatMessage({ id: 'dataset.form.create.title' })}
+            subtitle={this.context.intl.formatMessage({ id: 'dataset.form.create.subtitle' })}
           />
           <CardText>
             <SelectField
-              floatingLabelText={<FormattedMessage id="dataset.form.create.datasource" />}
+              floatingLabelText={this.context.intl.formatMessage({ id: 'dataset.form.create.datasource' })}
               onChange={this.handleChange}
               value={currentDatasource}
               fullWidth
@@ -91,7 +91,7 @@ export class DatasetCreateOrPickDatasourceComponent extends React.Component {
                 />
               }
               isMainButtonDisabled={currentDatasource === undefined}
-              secondaryButtonLabel={<FormattedMessage id="dataset.form.create.action.cancel" />}
+              secondaryButtonLabel={this.context.intl.formatMessage({ id: 'dataset.form.create.action.cancel' })}
               secondaryButtonUrl={backUrl}
             />
           </CardActions>
@@ -99,7 +99,7 @@ export class DatasetCreateOrPickDatasourceComponent extends React.Component {
         <Card>
           <div style={style}>
             <RaisedButton
-              label={<FormattedMessage id="dataset.form.create.action.datasource" />}
+              label={this.context.intl.formatMessage({ id: 'dataset.form.create.action.datasource' })}
               secondary
               style={styleButton}
               onTouchTap={this.goToDatasource}

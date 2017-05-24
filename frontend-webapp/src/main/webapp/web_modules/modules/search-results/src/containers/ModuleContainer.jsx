@@ -59,11 +59,13 @@ export class ModuleContainer extends React.Component {
         searchQuery,
         attributes,
         attributesRegroupements,
-        resultType,
         singleDatasetIpId,
+        displayDatasets,
         breadcrumbInitialContextLabel,
     } } = this.props
     const { attributesFetching, facettesQuery } = this.state
+    // when showing datasets, select dataset tab first (by default)
+    const initialViewObjectType = displayDatasets ? SearchResultsTargetsEnum.DATASET_RESULTS : SearchResultsTargetsEnum.DATAOBJECT_RESULTS
 
     if (!attributesFetching) {
       return (
@@ -73,7 +75,8 @@ export class ModuleContainer extends React.Component {
             currentPath={browserHistory.getCurrentLocation().pathname}
             currentQuery={browserHistory.getCurrentLocation().query}
             initialContextLabel={breadcrumbInitialContextLabel}
-            initialViewObjectType={resultType || SearchResultsTargetsEnum.DATAOBJECT_RESULTS}
+            initialViewObjectType={initialViewObjectType}
+            displayDatasets={!!displayDatasets}
           />
           { /* Current dataset services management (no view) */}
           <DatasetServicesContainer initialDatasetIpId={singleDatasetIpId} />
@@ -81,11 +84,11 @@ export class ModuleContainer extends React.Component {
           <ModuleComponent
             appName={appName}
             project={project}
-            enableFacettes={enableFacettes}
+            enableFacettes={!!enableFacettes}
             searchQuery={searchQuery}
             facettesQuery={facettesQuery}
-            initialDatasetIpId={singleDatasetIpId}
             attributesConf={attributes}
+            displayDatasets={!!displayDatasets}
             attributesRegroupementsConf={attributesRegroupements}
             attributeModels={attributeModels}
           />

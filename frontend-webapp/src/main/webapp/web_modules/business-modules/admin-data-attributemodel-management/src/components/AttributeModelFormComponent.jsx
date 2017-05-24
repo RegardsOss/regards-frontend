@@ -184,7 +184,7 @@ export class AttributeModelFormComponent extends React.Component {
                 fullWidth
                 component={RenderTextField}
                 type="text"
-                label={<FormattedMessage id="attrmodel.form.name" />}
+                label={this.context.intl.formatMessage({ id: 'attrmodel.form.name' })}
               />
             </ShowableAtRender>
             <Field
@@ -192,21 +192,21 @@ export class AttributeModelFormComponent extends React.Component {
               fullWidth
               component={RenderTextField}
               type="text"
-              label={<FormattedMessage id="attrmodel.form.label" />}
+              label={this.context.intl.formatMessage({ id: 'attrmodel.form.label' })}
             />
             <Field
               name="description"
               fullWidth
               component={RenderTextField}
               type="text"
-              label={<FormattedMessage id="attrmodel.form.description" />}
+              label={this.context.intl.formatMessage({ id: 'attrmodel.form.description' })}
             />
             <Field
               name="type"
               fullWidth
               component={RenderSelectField}
               onSelect={this.handleChange}
-              label={<FormattedMessage id="attrmodel.form.type" />}
+              label={this.context.intl.formatMessage({ id: 'attrmodel.form.type' })}
               disabled={!this.state.isCreating}
             >
               {map(attrModelTypeList, (type, id) => (
@@ -221,7 +221,7 @@ export class AttributeModelFormComponent extends React.Component {
               name="fragment"
               fullWidth
               component={RenderSelectField}
-              label={<FormattedMessage id="attrmodel.form.fragment" />}
+              label={this.context.intl.formatMessage({ id: 'attrmodel.form.fragment' })}
               disabled={!this.state.isCreating}
             >
               <MenuItem
@@ -241,12 +241,12 @@ export class AttributeModelFormComponent extends React.Component {
             <Field
               name="alterable"
               component={RenderCheckbox}
-              label={<FormattedMessage id="attrmodel.form.alterable" />}
+              label={this.context.intl.formatMessage({ id: 'attrmodel.form.alterable' })}
             />
             <Field
               name="optional"
               component={RenderCheckbox}
-              label={<FormattedMessage id="attrmodel.form.optional" />}
+              label={this.context.intl.formatMessage({ id: 'attrmodel.form.optional' })}
             />
           </CardText>
         </Card>
@@ -260,10 +260,10 @@ export class AttributeModelFormComponent extends React.Component {
         <Card style={styles.cardEspaced}>
           <CardActions>
             <CardActionsComponent
-              mainButtonLabel={<FormattedMessage id="attrmodel.form.action.submit" />}
+              mainButtonLabel={this.context.intl.formatMessage({ id: 'attrmodel.form.action.submit' })}
               mainButtonType="submit"
               isMainButtonDisabled={pristine || submitting || invalid}
-              secondaryButtonLabel={<FormattedMessage id="attrmodel.form.action.cancel" />}
+              secondaryButtonLabel={this.context.intl.formatMessage({ id: 'attrmodel.form.action.cancel' })}
               secondaryButtonUrl={this.props.backUrl}
             />
           </CardActions>

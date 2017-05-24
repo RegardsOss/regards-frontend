@@ -111,8 +111,8 @@ export class ProjectListComponent extends React.Component {
     return (
       <Card>
         <CardTitle
-          title={<FormattedMessage id="model.list.title" />}
-          subtitle={<FormattedMessage id="model.list.subtitle" />}
+          title={this.context.intl.formatMessage({ id: 'model.list.title' })}
+          subtitle={this.context.intl.formatMessage({ id: 'model.list.subtitle' })}
         />
         <CardText>
           {this.renderDeleteConfirmDialog()}
@@ -206,7 +206,7 @@ export class ProjectListComponent extends React.Component {
               />
             }
             mainHateoasDependency={modelActions.getDependency(RequestVerbEnum.POST)}
-            secondaryButtonLabel={<FormattedMessage id="model.list.action.cancel" />}
+            secondaryButtonLabel={this.context.intl.formatMessage({ id: 'model.list.action.cancel' })}
             secondaryButtonUrl={backUrl}
           />
         </CardActions>

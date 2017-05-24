@@ -58,7 +58,9 @@
       "ipId": "collection-mission-0",
       "label": "Cassini",
       "tags": [],
-      "descriptionFileType": "application/pdf",
+      "descriptionFile": {
+        "type": "application/pdf"
+      },
       "properties": {
         "size": "3 Zo",
         "type": "Monkey exploration mision",
@@ -75,7 +77,9 @@
       "ipId": "collection-mission-1",
       "label": "Cluster",
       "tags": [],
-      "descriptionFileType": "text/markdown",
+      "descriptionFile": {
+        "type": "text/markdown"
+      },
       "properties": {
         "size": "2.1 Mo",
         "type": "Local cluster exploration",
@@ -183,7 +187,9 @@
           "date": "2017-01-08T12:25:00"
         }
       },
-      "descriptionFileType": "application/pdf"
+      "descriptionFile": {
+        "type": "application/pdf"
+      }
     },
     {
       "id": 9,
@@ -209,7 +215,9 @@
           "date": "2018-04-05T05:02:01"
         }
       },
-      "descriptionFileType": "text/markdown"
+      "descriptionFile": {
+        "type": "text/markdown"
+      }
     },
     {
       "id": 10,

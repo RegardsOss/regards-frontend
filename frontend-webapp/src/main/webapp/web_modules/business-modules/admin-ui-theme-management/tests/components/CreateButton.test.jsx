@@ -1,22 +1,17 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import { stub, spy } from 'sinon'
-import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import { spy } from 'sinon'
+import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import CreateButton from '../../src/components/CreateButton'
 import ThemeCreateComponent from '../../src/components/ThemeCreateComponent'
 
+const options = {
+  context: buildTestContext(),
+}
+
 describe('[ADMIN UI THEME MANAGEMENT] Testing create button component', () => {
-  // Since react will console.error propType warnings, that which we'd rather have
-  // as errors, we use sinon.js to stub it into throwing these warning as errors
-  // instead.
-  before(() => {
-    stub(console, 'error').callsFake((warning) => {
-      throw new Error(warning)
-    })
-  })
-  after(() => {
-    console.error.restore()
-  })
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
   it('should exists', () => {
     assert.isDefined(CreateButton)
     assert.isDefined(ThemeCreateComponent)
@@ -25,11 +20,6 @@ describe('[ADMIN UI THEME MANAGEMENT] Testing create button component', () => {
   it('should render a ThemeCreateComponent', () => {
     const props = {
       onCreate: spy(),
-    }
-    const options = {
-      context: {
-        muiTheme: getMuiTheme(),
-      },
     }
     const enzymeWrapper = shallow(<CreateButton {...props} />, options)
     const subComponent = enzymeWrapper.find(ThemeCreateComponent)

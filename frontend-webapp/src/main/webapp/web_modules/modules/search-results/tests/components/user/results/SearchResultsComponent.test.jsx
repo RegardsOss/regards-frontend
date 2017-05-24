@@ -25,6 +25,7 @@ describe('[Search Results] Testing SearchResultsComponent', () => {
     project: 'project',
     allowingFacettes: true,
     showingFacettes: true,
+    displayDatasets: true,
     filters: [],
 
     searchQuery: '',

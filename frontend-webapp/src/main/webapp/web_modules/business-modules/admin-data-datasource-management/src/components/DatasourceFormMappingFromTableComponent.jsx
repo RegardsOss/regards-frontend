@@ -64,8 +64,8 @@ export class DatasourceFormMappingFromTableComponent extends React.Component {
     return (
       <div>
         <CardTitle
-          title={<FormattedMessage id="datasource.form.mapping.fromTable.title" />}
-          subtitle={<FormattedMessage id="datasource.form.mapping.fromTable.subtitle" />}
+          title={this.context.intl.formatMessage({ id: 'datasource.form.mapping.fromTable.title' })}
+          subtitle={this.context.intl.formatMessage({ id: 'datasource.form.mapping.fromTable.subtitle' })}
         />
         <CardText>
           <Field
@@ -73,7 +73,7 @@ export class DatasourceFormMappingFromTableComponent extends React.Component {
             fullWidth
             component={RenderTextField}
             type="text"
-            label={<FormattedMessage id="datasource.form.mapping.fromTable.tableName" />}
+            label={this.context.intl.formatMessage({ id: 'datasource.form.mapping.fromTable.tableName' })}
             disabled
           />
         </CardText>

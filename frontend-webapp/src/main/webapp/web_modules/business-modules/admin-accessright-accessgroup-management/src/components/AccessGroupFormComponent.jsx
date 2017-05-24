@@ -94,7 +94,7 @@ export class AccessGroupFormComponent extends React.Component {
               type="text"
               disabled={this.props.isEditing}
               validate={[ValidationHelpers.validRequiredString, ValidationHelpers.validAlphaNumericUnderscore]}
-              label={<FormattedMessage id="group.form.name" />}
+              label={this.context.intl.formatMessage({ id: 'group.form.name' })}
             />
             <br />
             <br />
@@ -102,15 +102,15 @@ export class AccessGroupFormComponent extends React.Component {
               name="isPrivate"
               fullWidth
               component={RenderCheckbox}
-              label={<FormattedMessage id="group.form.private" />}
+              label={this.context.intl.formatMessage({ id: 'group.form.private' })}
             />
           </CardText>
           <CardActions>
             <CardActionsComponent
-              mainButtonLabel={<FormattedMessage id="group.form.action.save" />}
+              mainButtonLabel={this.context.intl.formatMessage({ id: 'group.form.action.save' })}
               mainButtonType="submit"
               isMainButtonDisabled={submitting || invalid}
-              secondaryButtonLabel={<FormattedMessage id="group.form.action.cancel" />}
+              secondaryButtonLabel={this.context.intl.formatMessage({ id: 'group.form.action.cancel' })}
               secondaryButtonUrl={backUrl}
             />
           </CardActions>

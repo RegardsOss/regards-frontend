@@ -1,7 +1,6 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { intlShape } from 'react-intl'
 import { AuthenticationParametersActions, AuthenticationParametersSelectors, AuthenticationClient } from '@regardsoss/authentication-manager'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { EndpointActions } from '@regardsoss/endpoint'
@@ -32,10 +31,6 @@ class AdminApp extends React.Component {
     // from mapDispatchToProps
     initializeApplication: PropTypes.func.isRequired,
     fetchEndpoints: PropTypes.func,
-  }
-
-  static contextTypes = {
-    intl: intlShape,
   }
 
   constructor(props) {

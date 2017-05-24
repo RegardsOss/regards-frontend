@@ -7,6 +7,7 @@ import { CardActionsComponent } from '@regardsoss/components'
 import { RenderTextField, RenderToggle, Field, ValidationHelpers, reduxForm } from '@regardsoss/form-utils'
 import { PluginMetaData, PluginConfiguration } from '@regardsoss/model'
 import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
 import PluginParameterListComponent from './parameter/PluginParameterListComponent'
 import { buildEmptyParameterList } from '../../model/plugin/utils'
 import moduleStyles from '../../styles/styles'
@@ -41,6 +42,7 @@ export class PluginConfigurationFormComponent extends React.Component {
 
   static contextTypes = {
     ...themeContextType,
+    ...i18nContextType,
   }
 
   constructor(props) {
@@ -140,7 +142,7 @@ export class PluginConfigurationFormComponent extends React.Component {
                 component={RenderTextField}
                 type="text"
                 validate={validRequiredString}
-                label={<FormattedMessage id="microservice-management.plugin.configuration.form.pluginClassName" />}
+                label={this.context.intl.formatMessage({ id: 'microservice-management.plugin.configuration.form.pluginClassName' })}
               />
               <Field
                 name="label"
@@ -148,7 +150,7 @@ export class PluginConfigurationFormComponent extends React.Component {
                 component={RenderTextField}
                 type="text"
                 validate={validRequiredString}
-                label={<FormattedMessage id="microservice-management.plugin.configuration.form.label" />}
+                label={this.context.intl.formatMessage({ id: 'microservice-management.plugin.configuration.form.label' })}
               />
               <Field
                 name="version"
@@ -156,7 +158,7 @@ export class PluginConfigurationFormComponent extends React.Component {
                 component={RenderTextField}
                 type="text"
                 validate={validRequiredString}
-                label={<FormattedMessage id="microservice-management.plugin.configuration.form.version" />}
+                label={this.context.intl.formatMessage({ id: 'microservice-management.plugin.configuration.form.version' })}
               />
               <Field
                 name="priorityOrder"
@@ -165,14 +167,14 @@ export class PluginConfigurationFormComponent extends React.Component {
                 type="number"
                 parse={val => parseFloat(val)}
                 validate={validRequiredNumber}
-                label={<FormattedMessage id="microservice-management.plugin.configuration.form.priorityOrder" />}
+                label={this.context.intl.formatMessage({ id: 'microservice-management.plugin.configuration.form.priorityOrder' })}
               />
               <Field
                 name="active"
                 component={RenderToggle}
                 type="boolean"
                 style={styles.pluginConfiguration.form.toggle}
-                label={<FormattedMessage id="microservice-management.plugin.configuration.form.active" />}
+                label={this.context.intl.formatMessage({ id: 'microservice-management.plugin.configuration.form.active' })}
               />
             </CardText>
           </Card>

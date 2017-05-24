@@ -34,7 +34,6 @@ class NavigationLinkComponent extends React.Component {
   setMouseOver = mouseOver => this.setState({ mouseOver })
 
   render() {
-    // TODO: maybe a flat button for click???
     const { level: { label }, firstLevel, onClickLevel } = this.props
     const { path, pathHover, separator } = this.context.moduleTheme.user.breadcrumb
     const { mouseOver } = this.state

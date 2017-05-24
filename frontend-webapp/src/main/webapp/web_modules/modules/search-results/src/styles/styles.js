@@ -60,14 +60,14 @@ const formStyles = theme => ({
       },
       lineHover: {
         height: '100%',
-        width: '98%',
+        width: '100%',
         margin: 'auto',
         cursor: 'auto',
         backgroundColor: theme.palette.primary3Color,
       },
       lineOut: {
         height: '100%',
-        width: '98%',
+        width: '100%',
         margin: 'auto',
         cursor: 'auto',
       },

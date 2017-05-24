@@ -113,8 +113,8 @@ export class RoleListComponent extends React.Component {
     return (
       <Card>
         <CardTitle
-          title={<FormattedMessage id="role.list.title" />}
-          subtitle={<FormattedMessage id="role.list.subtitle" />}
+          title={this.context.intl.formatMessage({ id: 'role.list.title' })}
+          subtitle={this.context.intl.formatMessage({ id: 'role.list.subtitle' })}
         />
         <CardText>
           {this.renderDeleteConfirmDialog()}

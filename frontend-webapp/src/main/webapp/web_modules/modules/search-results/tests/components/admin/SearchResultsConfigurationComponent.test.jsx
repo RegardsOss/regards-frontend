@@ -4,7 +4,6 @@
 import { shallow } from 'enzyme'
 import { spy } from 'sinon'
 import { assert } from 'chai'
-import { RadioButton } from 'material-ui/RadioButton'
 import { Field } from '@regardsoss/form-utils'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { SearchResultsTargetsEnum } from '@regardsoss/model'
@@ -34,10 +33,10 @@ describe('[Search Results] Testing SearchResultsConfigurationComponent', () => {
       <SearchResultsConfigurationComponent {...props} />, options,
     )
 
-    const radioField = wrapper.find(Field).find({ name: 'conf.resultType' })
-    assert(radioField.length === 1, 'The radio button to select the search results type should be defined')
+    const showDatasetsField = wrapper.find(Field).find({ name: 'conf.displayDatasets' })
+    assert(showDatasetsField.length === 1, 'The show dataset field should be defined')
 
-    const radioOptions = radioField.find(RadioButton)
-    assert.lengthOf(radioOptions, 2, 'There should be 3 selectable options')
+    const showFacettes = wrapper.find(Field).find({ name: 'conf.enableFacettes' })
+    assert(showFacettes.length === 1, 'The faccettes field should be defined')
   })
 })

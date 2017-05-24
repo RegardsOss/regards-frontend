@@ -123,7 +123,7 @@ class PluginConfigurationPickerComponent extends React.Component {
             <Divider />
             <MenuItem
               key={'none'}
-              primaryText={<FormattedMessage id="component.plugin-parameter.action.reset" />}
+              primaryText={this.context.intl.formatMessage({ id: 'component.plugin-parameter.action.reset' })}
               onTouchTap={() => this.handleChange(null)}
               rightIcon={<Delete />}
             />

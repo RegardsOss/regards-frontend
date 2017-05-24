@@ -5,9 +5,7 @@ import { Card, CardTitle, CardText } from 'material-ui/Card'
 import Dialog from 'material-ui/Dialog'
 import { FormattedMessage } from 'react-intl'
 import values from 'lodash/values'
-import isEqual from 'lodash/isEqual'
 import { AccessGroup, AccessRight, PluginConfiguration, PluginMetaData } from '@regardsoss/model'
-import { tableActions, tableSelectors } from '../clients/TableClient'
 import {
   TableContainer,
   MainActionButtonComponent,
@@ -16,6 +14,7 @@ import {
 } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
+import { tableActions, tableSelectors } from '../clients/TableClient'
 import { datasetActions, datasetSelectors } from '../clients/DatasetClient'
 import AccessRightsMetadataAccessTableCustomCell from './AccessRightsMetadataAccessTableCustomCell'
 import AccessRightsDataAccessTableCustomCell from './AccessRightsDataAccessTableCustomCell'
@@ -160,7 +159,7 @@ class AccessRightListComponent extends React.Component {
           onCancel={this.closeEditDialog}
           onSubmit={this.handleSubmitAccessRights}
           errorMessage={this.state.submitError ? this.context.intl.formatMessage({ id: 'accessright.form.error.message' }) : null}
-            // If a unique accessright is in edition only submit the one. Else, submit for all selected datasets
+          // If a unique accessright is in edition only submit the one. Else, submit for all selected datasets
           selectedDatasets={this.state.datasetAccessRightToEdit ? [this.state.datasetAccessRightToEdit] : values(this.props.selectedDatasets)}
           currentAccessRight={this.state.accessRightToEdit}
           pluginConfigurationList={this.props.pluginConfigurationList}
@@ -168,7 +167,7 @@ class AccessRightListComponent extends React.Component {
         />
       </Dialog>
     </ShowableAtRender>
-    )
+  )
 
   /**
    * Render the confirmation delete dialog
@@ -269,8 +268,6 @@ class AccessRightListComponent extends React.Component {
       },
     ]
 
-    console.log('PROPS', this.props.accessRights)
-
     return (
       <Card>
         <CardTitle
@@ -281,8 +278,8 @@ class AccessRightListComponent extends React.Component {
           {this.renderAccessRightFormDialog()}
           {this.renderDeleteConfirmDialog()}
           <MainActionButtonComponent
-            label={<FormattedMessage id="accessright.edit.multiples.button.label" />}
             disabled={values(this.props.selectedDatasets).length === 0}
+            label={this.context.intl.formatMessage({ id: 'accessright.edit.multiples.button.label' })}
             onTouchTap={() => this.openEditDialog()}
           />
           <TableContainer

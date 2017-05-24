@@ -172,7 +172,7 @@ export class AccessRightFormComponent extends React.Component {
         name="dataAccess"
         fullWidth
         component={RenderSelectField}
-        label={<FormattedMessage id="accessright.form.data.accessLevel" />}
+        label={this.context.intl.formatMessage({ id: 'accessright.form.data.accessLevel' })}
         onSelect={this.handleChangeDataAccess}
       >
         {map(AccessRightsEnum.DATA_ACCESS_ENUM, (value, key) => {
@@ -194,7 +194,7 @@ export class AccessRightFormComponent extends React.Component {
       name="access"
       fullWidth
       component={RenderSelectField}
-      label={<FormattedMessage id="accessright.form.meta.accessLevel" />}
+      label={this.context.intl.formatMessage({ id: 'accessright.form.meta.accessLevel' })}
       onSelect={this.handleChangeMetaDataAccess}
     >
       {map(AccessRightsEnum.METADATA_ACCESS_ENUM, (value, key) => {
@@ -223,7 +223,7 @@ export class AccessRightFormComponent extends React.Component {
               component={RenderTextField}
               type="number"
               fullWidth
-              label={<FormattedMessage id="accessright.form.quality.min" />}
+              label={this.context.intl.formatMessage({ id: 'accessright.form.quality.min' })}
             />
           </div>
           <div className="col-sm-48 col-sm-offset-4">
@@ -232,7 +232,7 @@ export class AccessRightFormComponent extends React.Component {
               component={RenderTextField}
               type="number"
               fullWidth
-              label={<FormattedMessage id="accessright.form.quality.max" />}
+              label={this.context.intl.formatMessage({ id: 'accessright.form.quality.max' })}
             />
           </div>
         </div>
@@ -240,7 +240,7 @@ export class AccessRightFormComponent extends React.Component {
           name="quality.level"
           fullWidth
           component={RenderSelectField}
-          label={<FormattedMessage id="accessright.form.quality.level" />}
+          label={this.context.intl.formatMessage({ id: 'accessright.form.quality.level' })}
         >
           {map(AccessRightsEnum.QUALITY_LEVEL_ENUM, (value, key) => {
             const label = `accessright.form.quality.level.${value}`
@@ -284,7 +284,7 @@ export class AccessRightFormComponent extends React.Component {
           </CardText>
           <CardActions>
             <CardActionsComponent
-              mainButtonLabel={<FormattedMessage id="accessright.form.action.save" />}
+              mainButtonLabel={this.context.intl.formatMessage({ id: 'accessright.form.action.save' })}
               mainButtonType="submit"
               isMainButtonDisabled={submitting || invalid}
               secondaryButtonLabel="Cancel"

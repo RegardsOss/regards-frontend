@@ -50,7 +50,7 @@ class ConfirmDialogComponent extends React.Component {
         onTouchTap={this.handleDelete}
       />,
       <FlatButton
-        label={<FormattedMessage id="confirm.dialog.cancel" />}
+        label={this.context.intl.formatMessage({ id: 'confirm.dialog.cancel' })}
         primary
         keyboardFocused
         onTouchTap={onClose}
