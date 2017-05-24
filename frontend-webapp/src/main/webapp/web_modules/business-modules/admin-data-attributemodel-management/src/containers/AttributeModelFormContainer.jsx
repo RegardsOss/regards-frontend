@@ -30,7 +30,7 @@ export class AttributeModelFormContainer extends React.Component {
     isAttributeModelRestrictionFetching: PropTypes.bool,
     attrModelRestrictionList: PropTypes.arrayOf(PropTypes.string),
     isAttributeModelTypeFetching: PropTypes.bool,
-    fragmentList: PropTypes.objectOf(Fragment),
+    fragmentList: PropTypes.arrayOf(Fragment),
     isFragmentFetching: PropTypes.bool,
     // from mapDispatchToProps
     createAttrModel: PropTypes.func,
