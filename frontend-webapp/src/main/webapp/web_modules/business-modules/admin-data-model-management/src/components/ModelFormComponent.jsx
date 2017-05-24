@@ -4,6 +4,9 @@ import { FormattedMessage } from 'react-intl'
 import { RenderTextField, RenderFileField, Field, RenderSelectField, reduxForm } from '@regardsoss/form-utils'
 import { Model } from '@regardsoss/model'
 import MenuItem from 'material-ui/MenuItem'
+import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
+
 /**
  * Display edit and create project form
  */
@@ -21,6 +24,12 @@ export class ProjectFormComponent extends React.Component {
     handleSubmit: PropTypes.func.isRequired,
     initialize: PropTypes.func.isRequired,
   }
+
+  static contextTypes = {
+    ...themeContextType,
+    ...i18nContextType,
+  }
+
 
   componentDidMount() {
     this.handleInitialize()

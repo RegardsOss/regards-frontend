@@ -7,6 +7,7 @@ import { FormattedMessage } from 'react-intl'
 import { RenderTextField, RenderFileField, Field, ValidationHelpers, ErrorTypes, reduxForm } from '@regardsoss/form-utils'
 import { themeContextType } from '@regardsoss/theme'
 import { Fragment } from '@regardsoss/model'
+import { i18nContextType } from '@regardsoss/i18n'
 
 
 /**
@@ -31,6 +32,7 @@ export class FragmentFormComponent extends React.Component {
 
   static contextTypes = {
     ...themeContextType,
+    ...i18nContextType,
   }
 
   componentDidMount() {
