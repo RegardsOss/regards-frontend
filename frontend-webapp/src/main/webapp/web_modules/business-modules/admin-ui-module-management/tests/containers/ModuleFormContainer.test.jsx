@@ -5,6 +5,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { spy } from 'sinon'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { FormEntityNotFoundComponent } from '@regardsoss/form-utils'
 import ModuleFormComponent from '../../src/components/ModuleFormComponent'
 import NoContainerAvailables from '../../src/components/NoContainerAvailables'
 import { UnconnectedModuleFormContainer } from '../../src/containers/ModuleFormContainer'
@@ -17,7 +18,7 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Module form container', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
-  it('Should fetch module before renderinf component', () => {
+  it('Should fetch module before rendering component', () => {
     const fetchModuleCallback = spy()
     const fetchLayoutCallback = spy()
     const props = {
@@ -26,8 +27,8 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Module form container', () => {
         applicationId: 'testApp',
         module_id: '1',
       },
-      updateModule: () => {},
-      createModule: () => {},
+      updateModule: () => { },
+      createModule: () => { },
       fetchModule: fetchModuleCallback,
       fetchLayout: fetchLayoutCallback,
       // Set by mapStateToProps
@@ -44,6 +45,31 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Module form container', () => {
     assert.isTrue(fetchLayoutCallback.calledOnce, 'The module should fetch the given layout')
   })
 
+  it('should render a No entity found when no plugin is available', () => {
+    const props = {
+      params: {
+        project: 'testProject',
+        applicationId: 'testApp',
+        module_id: '1',
+      },
+      updateModule: () => { },
+      createModule: () => { },
+      fetchModule: () => { },
+      fetchLayout: () => { },
+      isFetching: false,
+      module: {},
+      layout: {},
+    }
+    const wrapper = shallow(
+      <UnconnectedModuleFormContainer
+        {...props}
+      />,
+    )
+
+    assert.lengthOf(wrapper.find(ModuleFormComponent), 0, 'There should not be a ModuleFormComponent displayed')
+    assert.lengthOf(wrapper.find(FormEntityNotFoundComponent), 1, 'There should be a FormEntityNotFoundComponent displayed')
+  })
+
   it('Should render a no container available component', () => {
     const fetchModuleCallback = spy()
     const fetchLayoutCallback = spy()
@@ -54,8 +80,8 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Module form container', () => {
         applicationId: 'testApp',
         module_id: '1',
       },
-      updateModule: () => {},
-      createModule: () => {},
+      updateModule: () => { },
+      createModule: () => { },
       fetchModule: fetchModuleCallback,
       fetchLayout: fetchLayoutCallback,
       isFetching: false,
@@ -67,6 +93,8 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Module form container', () => {
         {...props}
       />,
     )
+    // give some modules (otherwise the component should lock the rendering)
+    wrapper.instance().setState({ availableModuleTypes: ['aModule'] })
 
     assert.isTrue(wrapper.find(ModuleFormComponent).length === 0, 'There should not be a ModuleFormComponent displayed')
     assert.isTrue(wrapper.find(NoContainerAvailables).length === 1, 'There should be a NoContainerAvailables displayed')
@@ -84,8 +112,8 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Module form container', () => {
         applicationId: 'testApp',
         module_id: '1',
       },
-      updateModule: () => {},
-      createModule: () => {},
+      updateModule: () => { },
+      createModule: () => { },
       fetchModule: fetchModuleCallback,
       fetchLayout: fetchLayoutCallback,
       isFetching: false,
@@ -109,6 +137,8 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Module form container', () => {
         {...props}
       />,
     )
+    // give some modules (otherwise the component should lock the rendering)
+    wrapper.instance().setState({ availableModuleTypes: ['aModule'] })
 
     assert.isTrue(wrapper.find(ModuleFormComponent).length === 1, 'There should be a ModuleFormComponent displayed')
     assert.isFalse(fetchModuleCallback.called, 'The module should not fetch the module as it is already fetched')

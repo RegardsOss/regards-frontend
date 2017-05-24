@@ -13,7 +13,7 @@ import { themeContextType } from '@regardsoss/theme'
 import { Container } from '@regardsoss/model'
 import { ShowableAtRender, CardActionsComponent } from '@regardsoss/components'
 import { RenderTextField, RenderSelectField, Field, RenderCheckbox, ErrorTypes } from '@regardsoss/form-utils'
-import { ModuleShape, AvailableModules } from '@regardsoss/modules'
+import { ModuleShape } from '@regardsoss/modules'
 import DynamicModuleFormComponent from './DynamicModuleFormComponent'
 import Styles from '../styles/styles'
 
@@ -26,6 +26,7 @@ class ModuleFormComponent extends React.Component {
   static propTypes = {
     project: PropTypes.string.isRequired,
     module: ModuleShape,
+    availableModuleTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
     containers: PropTypes.arrayOf(Container),
     onSubmit: PropTypes.func.isRequired,
     onBack: PropTypes.func.isRequired,
@@ -122,13 +123,14 @@ class ModuleFormComponent extends React.Component {
           onSelect={this.selectModuleType}
           label={this.context.intl.formatMessage({ id: 'module.form.name' })}
         >
-          {map(AvailableModules, (module, id) => (
+          {map(this.props.availableModuleTypes, (module, id) => ( // TODO real value
             <MenuItem
               value={module}
               key={id}
               primaryText={module}
             />
-          ))}
+          ))
+          }
         </Field>
       </ShowableAtRender>
       <Field
@@ -165,7 +167,7 @@ class ModuleFormComponent extends React.Component {
           name="defaultDynamicModule"
           component={RenderCheckbox}
           label={this.context.intl.formatMessage({ id: 'module.form.isDefault' })}
-        /> : null }
+        /> : null}
     </div>
   )
   render() {

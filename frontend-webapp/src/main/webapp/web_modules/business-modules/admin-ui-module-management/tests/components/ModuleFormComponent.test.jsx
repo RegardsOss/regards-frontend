@@ -10,7 +10,6 @@ import MenuItem from 'material-ui/MenuItem'
 import { Field } from '@regardsoss/form-utils'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { ShowableAtRender, CardActionsComponent } from '@regardsoss/components'
-import { AvailableModules } from '@regardsoss/modules'
 import Styles from '../../src/styles/styles'
 import { UnconnectedModuleFormComponent } from '../../src/components/ModuleFormComponent'
 import DynamicModuleFormComponent from '../../src/components/DynamicModuleFormComponent'
@@ -51,13 +50,13 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Modules form component', () => {
       moduleTheme: Styles(muiTheme),
       intl: {
         formatMessage: opt => opt.id,
-        formatTime: () => {},
-        formatDate: () => {},
-        formatRelative: () => {},
-        formatNumber: () => {},
-        formatPlural: () => {},
-        formatHTMLMessage: () => {},
-        now: () => {},
+        formatTime: () => { },
+        formatDate: () => { },
+        formatRelative: () => { },
+        formatNumber: () => { },
+        formatPlural: () => { },
+        formatHTMLMessage: () => { },
+        now: () => { },
       },
     },
   }
@@ -65,14 +64,15 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Modules form component', () => {
   it('Should render correctly form to create a new module', () => {
     const props = {
       project: 'test',
+      availableModuleTypes: ['aModule'],
       containers: testContainers,
-      onSubmit: () => {},
-      onBack: () => {},
+      onSubmit: () => { },
+      onBack: () => { },
       applicationId: 'test',
       submitting: false,
       pristine: false,
-      handleSubmit: () => {},
-      initialize: () => {},
+      handleSubmit: () => { },
+      initialize: () => { },
     }
     const wrapper = shallow(
       <UnconnectedModuleFormComponent {...props} />
@@ -92,7 +92,7 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Modules form component', () => {
     assert.isDefined(staticFields.find(Field).find({ name: 'container' }), 'Container field should be displayed')
     assert.isTrue(staticFields.find(Field).find({ name: 'container' }).find(MenuItem).length === props.containers.length)
     assert.isDefined(staticFields.find(Field).find({ name: 'active' }), 'Active field should be displayed')
-    assert.isTrue(staticFields.find(Field).find({ name: 'type' }).find(MenuItem).length === AvailableModules.length)
+    assert.isTrue(staticFields.find(Field).find({ name: 'type' }).find(MenuItem).length === props.availableModuleTypes.length)
 
     // Check for dynamic fields
     let dynamicFields = wrapper.find(DynamicModuleFormComponent)
@@ -103,7 +103,7 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Modules form component', () => {
     assert.isTrue(buttons.length === 1, 'Buttons should be displayed')
 
     // Simulate module selection
-    staticFields.find(Field).find({ name: 'type' }).simulate('select', null, 0, AvailableModules[0], { onChange: () => {} })
+    staticFields.find(Field).find({ name: 'type' }).simulate('select', null, 0, props.availableModuleTypes[0], { onChange: () => { } })
     dynamicFields = wrapper.find(DynamicModuleFormComponent)
     assert.isTrue(dynamicFields.length === 1, 'The dynamic fields should be displayed since a module is selected')
   })
@@ -111,7 +111,7 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Modules form component', () => {
   it('Should render correctly form to edit an existing module', () => {
     const moduleToEdit = {
       id: 1,
-      name: 'menu',
+      type: 'menu',
       description: 'Test de menu',
       active: true,
       applicationId: 'test',
@@ -121,14 +121,15 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Modules form component', () => {
     const props = {
       project: 'test',
       module: moduleToEdit,
+      availableModuleTypes: ['menu'],
       containers: testContainers,
-      onSubmit: () => {},
-      onBack: () => {},
+      onSubmit: () => { },
+      onBack: () => { },
       applicationId: 'test',
       submitting: false,
       pristine: false,
-      handleSubmit: () => {},
-      initialize: () => {},
+      handleSubmit: () => { },
+      initialize: () => { },
     }
     const wrapper = shallow(
       <UnconnectedModuleFormComponent {...props} />
@@ -148,7 +149,7 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Modules form component', () => {
     assert.isDefined(staticFields.find(Field).find({ name: 'container' }), 'Container field should be displayed')
     assert.isTrue(staticFields.find(Field).find({ name: 'container' }).find(MenuItem).length === props.containers.length)
     assert.isDefined(staticFields.find(Field).find({ name: 'active' }), 'Active field should be displayed')
-    assert.isTrue(staticFields.find(Field).find({ name: 'type' }).find(MenuItem).length === AvailableModules.length)
+    assert.isTrue(staticFields.find(Field).find({ name: 'type' }).find(MenuItem).length === props.availableModuleTypes.length)
 
     // Check for dynamic fields
     const dynamicFields = wrapper.find(DynamicModuleFormComponent)

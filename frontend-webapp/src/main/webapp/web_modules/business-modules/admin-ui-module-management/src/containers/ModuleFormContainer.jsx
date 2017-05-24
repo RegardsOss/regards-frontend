@@ -1,6 +1,8 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import isEqual from 'lodash/isEqual'
+import get from 'lodash/get'
 import { browserHistory } from 'react-router'
 import { getFormValues, change } from 'redux-form'
 import { I18nProvider } from '@regardsoss/i18n'
@@ -8,6 +10,9 @@ import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/f
 import { connect } from '@regardsoss/redux'
 import { Module, Layout } from '@regardsoss/model'
 import { ContainerHelper } from '@regardsoss/layout'
+import { modulesManager } from '@regardsoss/modules'
+import { EndpointSelectors } from '@regardsoss/endpoint'
+import { allMatchHateoasDisplayLogic } from '@regardsoss/display-control'
 import FormShape from '../model/FormShape'
 import ModuleFormComponent from '../components/ModuleFormComponent'
 import NoContainerAvailables from '../components/NoContainerAvailables'
@@ -32,14 +37,24 @@ class ModuleFormContainer extends React.Component {
     fetchModule: PropTypes.func,
     fetchLayout: PropTypes.func,
     isInstance: PropTypes.bool,
+    // eslint-disable-next-line react/no-unused-prop-types
+    form: FormShape,
+    changeField: PropTypes.func,
     // Set by mapStateToProps
     isFetching: PropTypes.bool,
     module: Module,
     duplicatedModule: Module,
     layout: Layout,
-    // eslint-disable-next-line react/no-unused-prop-types
-    form: FormShape,
-    changeField: PropTypes.func,
+    availableEndpoints: PropTypes.arrayOf(PropTypes.string),
+  }
+
+  static filterAllowedModules(isInstance, endpoints, module) {
+    if (isInstance) {
+      return true // all modules are allowed for the instance administrator
+    }
+    // Normal case: the module dependencies requirements must be met in current state
+    const moduleDependencies = get(module, 'dependencies.admin', [])
+    return allMatchHateoasDisplayLogic(moduleDependencies, endpoints)
   }
 
   componentWillMount() {
@@ -54,6 +69,25 @@ class ModuleFormContainer extends React.Component {
     if (!this.props.layout) {
       this.props.fetchLayout(this.props.params.applicationId)
     }
+
+    // initialize as property change
+    this.setState({ availableModuleTypes: [] })
+    this.onPropertiesUpdate({}, this.props)
+  }
+
+  componentWillReceiveProps = nextProps => this.onPropertiesUpdate(this.props, nextProps)
+
+  onPropertiesUpdate = (oldProps, newProps) => {
+    // should we reload the available modules list?
+    if (!isEqual(oldProps.availableEndpoints, newProps.availableEndpoints) ||
+      !isEqual(oldProps.isInstance, newProps.isInstance)) {
+      // reinit module list
+      // load available modules (asynchronously recovered)
+      const filterModules = ModuleFormContainer.filterAllowedModules.bind(null, newProps.isInstance, newProps.availableEndpoints)
+      return modulesManager.getAvailableModuleTypes(filterModules)
+        .then(availableModuleTypes => this.setState({ availableModuleTypes }))
+    }
+    return null
   }
 
   handleSubmit = (values) => {
@@ -132,7 +166,7 @@ class ModuleFormContainer extends React.Component {
       return (<FormEntityNotFoundComponent />)
     }
 
-    if (this.props.params.duplicate_module_id && !this.props.duplicatedModule) {
+    if ((this.props.params.duplicate_module_id && !this.props.duplicatedModule) || !this.state.availableModuleTypes.length) {
       return (<FormEntityNotFoundComponent />)
     }
 
@@ -162,6 +196,7 @@ class ModuleFormContainer extends React.Component {
         onSubmit={this.handleSubmit}
         onBack={this.handleBack}
         module={module}
+        availableModuleTypes={this.state.availableModuleTypes}
         duplication={this.props.params.duplicate_module_id !== undefined}
         containers={availablecontainers}
         adminForm={{
@@ -187,6 +222,7 @@ const mapStateToProps = (state, ownProps) => ({
   layout: ownProps.params.applicationId ? ownProps.layoutSelectors.getContentById(state, ownProps.params.applicationId) : null,
   isFetching: ownProps.moduleSelectors.isFetching(state),
   form: getFormValues('edit-module-form')(state),
+  availableEndpoints: EndpointSelectors.getListOfKeys(state),
 })
 
 const mapDispatchToProps = dispatch => ({
