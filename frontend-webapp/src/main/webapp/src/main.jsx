@@ -16,8 +16,6 @@ import rootRouter from './rootRouter'
  */
 
 
-// import default application css styles
-require('../css/initial-styles.css')
 // Import the index.html file
 require('../index.html')
 
