@@ -30,8 +30,6 @@ import PluginMetaDataSelectors from '../../model/plugin/PluginMetaDataSelectors'
 import moduleStyles from '../../styles/styles'
 import PluginConfigurationActions from '../../model/plugin/PluginConfigurationActions'
 
-const styles = moduleStyles().plugins
-
 /**
  * Displays the list of plugins for the current microservice (in route) as a {@link GridList} of {@link Card}s sorted by
  * plugin type.
@@ -63,8 +61,9 @@ export class PluginMetaDataListContainer extends React.Component {
     ...themeContextType,
   }
 
-  constructor(props) {
+  constructor(props, context) {
     super(props)
+    this.styles = moduleStyles(context.muiTheme).plugins
     this.state = {
       filterOpen: false,
       displayedTypes: [],
@@ -134,8 +133,8 @@ export class PluginMetaDataListContainer extends React.Component {
    * @param plugin
    */
   getTile = plugin => (
-    <div className={styles.tile.classes}>
-      <Card key={plugin.content.pluginId} style={styles.tile.styles}>
+    <div className={this.styles.tile.classes}>
+      <Card key={plugin.content.pluginId} style={this.styles.tile.styles}>
         <CardTitle
           title={plugin.content.pluginId}
           subtitle={`${plugin.content.author} | ${plugin.content.version}`}
@@ -214,9 +213,9 @@ export class PluginMetaDataListContainer extends React.Component {
               </IconButton>
             }
           />
-          <div style={styles.root}>
+          <div style={this.styles.root}>
             <LoadableContentDisplayDecorator isLoading={isPluginMetaDataListFetching}>
-              <div style={styles.grid}>
+              <div style={this.styles.grid}>
                 {this.getGrid()}
               </div>
             </LoadableContentDisplayDecorator>

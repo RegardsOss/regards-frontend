@@ -7,6 +7,7 @@ import Subheader from 'material-ui/Subheader'
 import IconButton from 'material-ui/IconButton'
 import Close from 'material-ui/svg-icons/navigation/close'
 import TextField from 'material-ui/TextField'
+import { i18nContextType } from '@regardsoss/i18n'
 import { FormattedMessage } from 'react-intl'
 import { AttributeModelController, AttributeConfiguration, AttributeModel } from '@regardsoss/model'
 import AttributeConfigurationComponent from './AttributeConfigurationComponent'
@@ -22,6 +23,9 @@ class DynamicAttributesConfigurationComponent extends React.Component {
     attributesConf: PropTypes.arrayOf(AttributeConfiguration).isRequired,
     selectableAttributes: PropTypes.objectOf(AttributeModel).isRequired,
     onChangeAttributeConfiguration: PropTypes.func.isRequired,
+  }
+  static contextTypes = {
+    ...i18nContextType,
   }
 
   constructor(props) {
