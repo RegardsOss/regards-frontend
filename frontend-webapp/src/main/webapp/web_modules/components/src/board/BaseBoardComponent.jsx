@@ -1,10 +1,12 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { FormattedMessage } from 'react-intl'
-import { themeContextType } from '@regardsoss/theme'
-import { i18nContextType, I18nProvider } from '@regardsoss/i18n'
-import { ShowableAtRender } from '@regardsoss/components'
+import map from 'lodash/map'
+import {browserHistory} from 'react-router'
+import {FormattedMessage} from 'react-intl'
+import {themeContextType} from '@regardsoss/theme'
+import {i18nContextType, I18nProvider} from '@regardsoss/i18n'
+import {ShowableAtRender} from '@regardsoss/components'
 import KeyboardArrowUp from 'material-ui/svg-icons/hardware/keyboard-arrow-up'
 import KeyboardArrowDown from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
 import RaisedButton from 'material-ui/RaisedButton'
@@ -36,10 +38,34 @@ class BaseBoardComponent extends React.Component {
     }
   }
 
+  componentDidMount() {
+    this.checkUrlAdvancedOption()
+  }
+
+  componentWillReceiveProps() {
+    this.checkUrlAdvancedOption()
+  }
+
+  checkUrlAdvancedOption = () => {
+    if (browserHistory.getCurrentLocation().query && browserHistory.getCurrentLocation().query['advanced'] === 'true') {
+      this.setState({
+        showAdvanced: true,
+      })
+    }
+  }
+
   handleToggleAdvanced = () => {
-    const { showAdvanced } = this.state
+    const {showAdvanced} = this.state
     this.setState({
       showAdvanced: !showAdvanced,
+    }, () => {
+      const query = browserHistory.getCurrentLocation().query
+      browserHistory.push({
+        pathname: browserHistory.getCurrentLocation().pathname,
+        query: query ? {...query,advanced: this.state.showAdvanced} : {
+          advanced: this.state.showAdvanced
+        }
+      })
     })
   }
 
@@ -48,8 +74,8 @@ class BaseBoardComponent extends React.Component {
       return null
     }
     const labelToggleAdvanced = this.state.showAdvanced ?
-      <FormattedMessage id="hideAdvanced" /> :
-      <FormattedMessage id="showAdvanced" />
+      <FormattedMessage id="hideAdvanced"/> :
+      <FormattedMessage id="showAdvanced"/>
     const iconToggleAdvanced = this.state.showAdvanced ?
       <KeyboardArrowUp /> :
       <KeyboardArrowDown />
@@ -80,16 +106,14 @@ class BaseBoardComponent extends React.Component {
             style={computedStyles.section.styles}
           >
             {this.props.boardItemComponents}
+            {map(this.props.advancedBoardItemComponents, (component, key) =>
+              <ShowableAtRender
+                key={key}
+                show={this.state.showAdvanced}>
+                {component}
+              </ShowableAtRender>
+            )}
           </div>
-
-          <ShowableAtRender show={this.state.showAdvanced} >
-            <div
-              className={computedStyles.section.classes}
-              style={computedStyles.section.styles}
-            >
-              {this.props.advancedBoardItemComponents}
-            </div>
-          </ShowableAtRender>
 
           {this.renderAdvancedToggle(computedStyles)}
 
