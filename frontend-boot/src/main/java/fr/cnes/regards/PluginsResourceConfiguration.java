@@ -9,14 +9,17 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @Configuration
 public class PluginsResourceConfiguration extends WebMvcConfigurerAdapter {
 
- @Value("${regards.frontend.www.path}")
- private String staticExternalPath;
+    @Value("${regards.frontend.www.path}")
+    private String staticExternalPath;
 
- @Override
- public void addResourceHandlers(ResourceHandlerRegistry registry) {
-   if (staticExternalPath != null && !staticExternalPath.isEmpty()){
-   registry.addResourceHandler("/**")
-   .addResourceLocations("file:"+staticExternalPath,"classpath:/static/");
-   }
- }
+    @Override
+    public void addResourceHandlers(final ResourceHandlerRegistry registry) {
+        if ((staticExternalPath != null) && !staticExternalPath.isEmpty()) {
+            final String staticPath = staticExternalPath;
+            if (!staticExternalPath.endsWith("/")) {
+                staticExternalPath = staticExternalPath + "/";
+            }
+            registry.addResourceHandler("/**").addResourceLocations("file:" + staticPath, "classpath:/static/");
+        }
+    }
 }
