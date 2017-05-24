@@ -8,6 +8,7 @@ import { SearchResultsTargetsEnum } from '@regardsoss/model'
 import NavigationLevel from '../../models/navigation/NavigationLevel'
 import navigationContextActions from '../../models/navigation/NavigationContextActions'
 import navigationContextSelectors from '../../models/navigation/NavigationContextSelectors'
+import catalogFindDatasetActions from '../../models/catalog/CatalogFindDatasetActions'
 
 /**
  * module URL parameters
@@ -29,6 +30,7 @@ export class URLManagementContainer extends React.Component {
   })
 
   static mapDispatchToProps = dispatch => ({
+    dispatchFetchDataset: datasetIpId => dispatch(catalogFindDatasetActions.findDataset(datasetIpId)),
     initialize: ((viewObjectType, rootContextLabel, searchTag, dataset) =>
       dispatch(navigationContextActions.initialize(viewObjectType, rootContextLabel, searchTag, dataset))),
   })
@@ -64,12 +66,25 @@ export class URLManagementContainer extends React.Component {
    */
   componentWillReceiveProps = nextProps => this.update(this.props, nextProps)
 
+  /**
+   * Returns a promise to resolve dataset for ipId as parameter
+   * @param ipId search dataset IP ID or null / undefined if none
+   * @param dispatchFetchDataset function to fectch the dataset (ipId: string) => Promise() => action like {payload: DatasetModel}
+   */
+  getDataset = (datasetIpId, dispatchFetchDataset) => {
+    if (!datasetIpId) {
+      return Promise.resolve({}) // return object where payload is undefined
+    }
+    return dispatchFetchDataset(datasetIpId)
+  }
+
   /** Generic update method to synchronize module state with URL */
   update = (previousProps, nextProps) => {
     if (!isEqual(previousProps.currentQuery, nextProps.currentQuery)) {
       // URL changed, remap the state
       this.updateStateFromURL(nextProps)
-    } else {
+    } else if (!isEqual(previousProps.levels, nextProps.levels) ||
+      !isEqual(previousProps.viewObjectType, nextProps.viewObjectType)) {
       this.updateURLFromState(nextProps)
     }
   }
@@ -96,8 +111,10 @@ export class URLManagementContainer extends React.Component {
     if (!nextProps.levels.length || nextProps.viewObjectType !== viewObjectType ||
       getLevelValue(NavigationLevel.getDatasetLevel(nextProps.levels)) !== datasetIpId ||
       getLevelValue(NavigationLevel.getSearchTagLevel(nextProps.levels)) !== searchTag) {
-      // TODO fetch the dataset if required, resolve it correctly (and not that hack x.x)
-      initialize(viewObjectType, initialContextLabel, searchTag, datasetIpId && { content: { ipId: datasetIpId, label: datasetIpId } })
+      // initialize
+      this.getDataset(datasetIpId, nextProps.dispatchFetchDataset)
+        .then(({ payload: dataset }) => initialize(viewObjectType, initialContextLabel, searchTag, dataset))
+        .catch(initialize(viewObjectType, initialContextLabel, searchTag))
     }
   }
 

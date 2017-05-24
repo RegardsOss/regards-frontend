@@ -2,6 +2,8 @@
  * LICENSE_PLACEHOLDER
  **/
 import BasicSelector from './BasicSelector'
+import BasicActions from './BasicActions'
+
 import BasicListSelectors from './list/BasicListSelectors'
 import BasicListActions from './list/BasicListActions'
 import BasicListReducers from './list/BasicListReducers'
@@ -31,6 +33,7 @@ import RequestVerbEnum from './RequestVerbEnum'
 import RequestErrorShape from './RequestErrorShape'
 
 export default {
+  BasicActions,
   BasicSelector,
   BasicListSelectors,
   BasicListActions,
