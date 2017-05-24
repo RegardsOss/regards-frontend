@@ -170,7 +170,21 @@ module.exports = {
     datasetDescriptionFiles: {
       url: 'rs-dam/dataset/{id}/file',
       handler: serveEntityDescriptionFile,
-    }
+    },
+    // used for URL tests in frontent (result module, ds=KIKO)
+    getDatasetTemp: {
+      url: 'rs-catalog/datasets/KIKO',
+      handler: () => ({
+        code: 200,
+        content: {
+          content: {
+            ipId: 'KIKO',
+            label: 'My DS test',
+          },
+        },
+        contentType: JSON_CONTENT_TYPE,
+      }),
+    },
   },
 }
 
