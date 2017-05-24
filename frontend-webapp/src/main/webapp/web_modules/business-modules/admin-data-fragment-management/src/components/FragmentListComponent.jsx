@@ -59,7 +59,7 @@ export class FragmentListComponent extends React.Component {
 
   renderDeleteConfirmDialog = () => {
     const name = this.state.entityToDelete ? this.state.entityToDelete.content.name : ' '
-    const title = this.context.intl.formatMessage({ id: 'model.list.delete.title' }, { name })
+    const title = this.context.intl.formatMessage({ id: 'fragment.list.delete.title' }, { name })
     return (
       <ShowableAtRender
         show={this.state.deleteDialogOpened}
