@@ -1,8 +1,9 @@
 import values from 'lodash/values'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
+import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType, I18nProvider } from '@regardsoss/i18n'
 import { FormattedMessage } from 'react-intl'
-import { I18nProvider } from '@regardsoss/i18n'
 
 /**
  * Confirm action dialog component. Switches dialog mode,
@@ -27,6 +28,11 @@ class ConfirmDialogComponent extends React.Component {
     message: PropTypes.string, // optional
     onConfirm: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
+  }
+
+  static contextTypes = {
+    ...themeContextType,
+    ...i18nContextType,
   }
 
   static defaultProps = {
