@@ -3,6 +3,7 @@
 **/
 import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
+import get from 'lodash/get'
 import map from 'lodash/map'
 import { connect } from '@regardsoss/redux'
 import { CatalogEntity, CatalogEntityTypes, ModelAttribute, AttributeModelController } from '@regardsoss/model'
@@ -16,6 +17,11 @@ import { authenticationSelectors } from '../../client/AuthenticationClient'
 import DetailViewComponent from '../../components/detail/DetailViewComponent'
 import styles from '../../styles/styles'
 
+/** Render constant: module syles  */
+const MODULE_STYLES = { styles }
+
+/** Render constant: no tag data  */
+const NO_TAG = []
 
 /** Locally handled content types */
 const DOWNLOAD_CONTENT_TYPES = [DataManagementClient.DownloadDescriptionDefinitions.MARKDOWN_MIMETYPE]
@@ -125,12 +131,12 @@ export class DetailViewContainer extends React.Component {
    * @return partial state change, to be applied in next state
    */
   onEntityChange = (dispatchFetchDescription, dispatchFetchModelAttributes, nextEntity) => {
-    const { content: { model: { id: modelId }, id: entityId, type: entityType, descriptionFileType } } = nextEntity
+    const { content: { model: { id: modelId }, id: entityId, type: entityType, descriptionFile } } = nextEntity
     // fetch attributes
     dispatchFetchModelAttributes(modelId)
     // 2 - load description content if needed (for objects with a description where filetype is locally downloaded)
     if ([CatalogEntityTypes.COLLECTION, CatalogEntityTypes.DATASET].includes(entityType) &&
-      descriptionFileType && DOWNLOAD_CONTENT_TYPES.includes(descriptionFileType)) {
+      descriptionFile && DOWNLOAD_CONTENT_TYPES.includes(get(descriptionFile, 'type'))) {
       dispatchFetchDescription(entityId, entityType)
     }
   }
@@ -179,16 +185,17 @@ export class DetailViewContainer extends React.Component {
    * @param nextDatasetDesc next dataset description file (if any)
    * @return description state for this state, with URL or content depending on case
    */
-  resolveDescription = ({ content: { id, type, descriptionURL, descriptionFileType } }, nextCollectionDesc, nextDatasetDesc, accessToken) => {
+  resolveDescription = ({ content: { id, type, descriptionURL, descriptionFile } }, nextCollectionDesc, nextDatasetDesc, accessToken) => {
     const nextDescription = { ...DetailViewContainer.DEFAULT_STATE.description }
     // Only collection and dataset can have description
     if ([CatalogEntityTypes.COLLECTION, CatalogEntityTypes.DATASET].includes(type)) {
       if (descriptionURL) {
         // Case 1: description as external URL
         nextDescription.url = descriptionURL
-      } else if (descriptionFileType) {
+      } else if (descriptionFile) {
+        const fileType = descriptionFile.type
         // Case 2: locally stored file
-        if (DOWNLOAD_CONTENT_TYPES.includes(descriptionFileType)) {
+        if (DOWNLOAD_CONTENT_TYPES.includes(fileType)) {
           // Case 2a: locally downloaded file
           if (type === CatalogEntityTypes.COLLECTION && nextCollectionDesc && nextCollectionDesc.entityId === id) {
             // a collection description
@@ -230,11 +237,11 @@ export class DetailViewContainer extends React.Component {
     const { attributes, description: { url, localContent } } = this.state
     return (
       <I18nProvider messageDir="business-common/entities-common/src/i18n">
-        <ModuleThemeProvider module={{ styles }}>
+        <ModuleThemeProvider module={MODULE_STYLES}>
           <DetailViewComponent
             entityLabel={entity ? entity.content.label : null}
             attributes={attributes}
-            tags={entity ? entity.content.tags : []}
+            tags={entity ? entity.content.tags : NO_TAG}
             onSearchTag={this.props.onSearchTag}
             descriptionFileURL={url}
             descriptionFile={localContent}
