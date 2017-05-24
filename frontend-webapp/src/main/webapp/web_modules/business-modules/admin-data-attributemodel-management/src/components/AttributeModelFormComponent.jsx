@@ -1,15 +1,24 @@
 import map from 'lodash/map'
-import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
-import { FormattedMessage } from 'react-intl'
-import { RenderTextField, RenderCheckbox, RenderSelectField, Field, ValidationHelpers, ErrorTypes, reduxForm } from '@regardsoss/form-utils'
-import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
-import { themeContextType } from '@regardsoss/theme'
-import { AttributeModel, Fragment } from '@regardsoss/model'
+import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card'
+import {FormattedMessage} from 'react-intl'
+import {
+  RenderTextField,
+  RenderCheckbox,
+  RenderSelectField,
+  Field,
+  ValidationHelpers,
+  ErrorTypes,
+  reduxForm
+} from '@regardsoss/form-utils'
+import {CardActionsComponent, ShowableAtRender} from '@regardsoss/components'
+import {themeContextType} from '@regardsoss/theme'
+import {i18nContextType} from '@regardsoss/i18n'
+import {AttributeModel, Fragment} from '@regardsoss/model'
 import MenuItem from 'material-ui/MenuItem'
-import { fragmentSelectors } from '../client/FragmentClient'
-import NumberRangeComponent, { initializeNumberRangeForm } from './NumberRangeComponent'
-import EnumerationComponent, { initializeEnumerationForm } from './EnumerationComponent'
-import PatternComponent, { initializePatternForm } from './PatternComponent'
+import {fragmentSelectors} from '../client/FragmentClient'
+import NumberRangeComponent, {initializeNumberRangeForm} from './NumberRangeComponent'
+import EnumerationComponent, {initializeEnumerationForm} from './EnumerationComponent'
+import PatternComponent, {initializePatternForm} from './PatternComponent'
 import moduleStyles from '../styles/styles'
 import DEFAULT_FRAGMENT_NAME from '../DefaultFragmentName'
 
@@ -21,7 +30,7 @@ export class AttributeModelFormComponent extends React.Component {
   static propTypes = {
     attrModelTypeList: PropTypes.arrayOf(PropTypes.string),
     attrModelRestrictionList: PropTypes.arrayOf(PropTypes.string),
-    fragmentList: PropTypes.objectOf(Fragment),
+    fragmentList: PropTypes.arrayOf(Fragment),
     currentAttrModel: AttributeModel,
     onSubmit: PropTypes.func.isRequired,
     backUrl: PropTypes.string.isRequired,
@@ -40,6 +49,7 @@ export class AttributeModelFormComponent extends React.Component {
 
   static contextTypes = {
     ...themeContextType,
+    ...i18nContextType,
   }
 
   constructor(props) {
@@ -69,15 +79,15 @@ export class AttributeModelFormComponent extends React.Component {
     switch (restrictionName) {
       case 'INTEGER_RANGE':
         return (
-          <NumberRangeComponent type="INTEGER_RANGE" />
+          <NumberRangeComponent type="INTEGER_RANGE"/>
         )
       case 'DOUBLE_RANGE':
         return (
-          <NumberRangeComponent type="DOUBLE_RANGE" />
+          <NumberRangeComponent type="DOUBLE_RANGE"/>
         )
       case 'LONG_RANGE':
         return (
-          <NumberRangeComponent type="DOUBLE_RANGE" />
+          <NumberRangeComponent type="DOUBLE_RANGE"/>
         )
       case 'ENUMERATION':
         return (
@@ -101,7 +111,7 @@ export class AttributeModelFormComponent extends React.Component {
    */
   handleInitialize = () => {
     if (!this.state.isCreating) {
-      const { currentAttrModel } = this.props
+      const {currentAttrModel} = this.props
       let initialValues = {
         name: currentAttrModel.content.name,
         label: currentAttrModel.content.label,
@@ -157,20 +167,36 @@ export class AttributeModelFormComponent extends React.Component {
     this.props.handleUpdateAttributeModelRestriction(value)
   }
 
+  getFragmentItems = (fragmentList) => {
+    const fragments = map(fragmentList, (fragment, id) => {
+      const text = fragment.content.description ? `${fragment.content.name}: ${fragment.content.description}` : fragment.content.name
+        return (
+          <MenuItem
+            value={fragment.content.name}
+            key={id}
+            primaryText={text}
+          />
+        )
+      }
+    )
+    fragments.push(<MenuItem
+      value={DEFAULT_FRAGMENT_NAME}
+      key={DEFAULT_FRAGMENT_NAME}
+      primaryText={this.context.intl.formatMessage({id: `attrmodel.form.fragment.${DEFAULT_FRAGMENT_NAME}`})}
+    />)
+    return fragments
+  }
+
   /**
    * return react component
    * @returns {XML}
    */
   render() {
-    const { attrModelTypeList, attrModelRestrictionList, fragmentList, pristine, submitting, invalid } = this.props
+
+    const {attrModelTypeList, attrModelRestrictionList, fragmentList, pristine, submitting, invalid} = this.props
     const styles = moduleStyles(this.context.muiTheme)
-    const title = this.state.isCreating ? <FormattedMessage id="attrmodel.create.title" /> :
-      (<FormattedMessage
-        id="attrmodel.edit.title"
-        values={{
-          name: this.props.currentAttrModel.content.name,
-        }}
-      />)
+    const title = this.state.isCreating ? this.context.intl.formatMessage({id: 'attrmodel.create.title'}) :
+      this.context.intl.formatMessage({id: 'attrmodel.edit.title'}, {name: this.props.currentAttrModel.content.name})
     return (
       <form onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
         <Card>
@@ -184,7 +210,7 @@ export class AttributeModelFormComponent extends React.Component {
                 fullWidth
                 component={RenderTextField}
                 type="text"
-                label={this.context.intl.formatMessage({ id: 'attrmodel.form.name' })}
+                label={this.context.intl.formatMessage({id: 'attrmodel.form.name'})}
               />
             </ShowableAtRender>
             <Field
@@ -192,21 +218,21 @@ export class AttributeModelFormComponent extends React.Component {
               fullWidth
               component={RenderTextField}
               type="text"
-              label={this.context.intl.formatMessage({ id: 'attrmodel.form.label' })}
+              label={this.context.intl.formatMessage({id: 'attrmodel.form.label'})}
             />
             <Field
               name="description"
               fullWidth
               component={RenderTextField}
               type="text"
-              label={this.context.intl.formatMessage({ id: 'attrmodel.form.description' })}
+              label={this.context.intl.formatMessage({id: 'attrmodel.form.description'})}
             />
             <Field
               name="type"
               fullWidth
               component={RenderSelectField}
               onSelect={this.handleChange}
-              label={this.context.intl.formatMessage({ id: 'attrmodel.form.type' })}
+              label={this.context.intl.formatMessage({id: 'attrmodel.form.type'})}
               disabled={!this.state.isCreating}
             >
               {map(attrModelTypeList, (type, id) => (
@@ -221,32 +247,21 @@ export class AttributeModelFormComponent extends React.Component {
               name="fragment"
               fullWidth
               component={RenderSelectField}
-              label={this.context.intl.formatMessage({ id: 'attrmodel.form.fragment' })}
+              label={this.context.intl.formatMessage({id: 'attrmodel.form.fragment'})}
               disabled={!this.state.isCreating}
             >
-              <MenuItem
-                value={DEFAULT_FRAGMENT_NAME}
-                key={DEFAULT_FRAGMENT_NAME}
-                primaryText={<FormattedMessage id={`attrmodel.form.fragment.${DEFAULT_FRAGMENT_NAME}`} />}
-              />
-              {map(fragmentList, (fragment, id) => (
-                <MenuItem
-                  value={fragment.content.name}
-                  key={id}
-                  primaryText={`${fragment.content.name}: ${fragment.content.description}`}
-                />
-              ))}
+              {this.getFragmentItems(fragmentList)}
             </Field>
 
             <Field
               name="alterable"
               component={RenderCheckbox}
-              label={this.context.intl.formatMessage({ id: 'attrmodel.form.alterable' })}
+              label={this.context.intl.formatMessage({id: 'attrmodel.form.alterable'})}
             />
             <Field
               name="optional"
               component={RenderCheckbox}
-              label={this.context.intl.formatMessage({ id: 'attrmodel.form.optional' })}
+              label={this.context.intl.formatMessage({id: 'attrmodel.form.optional'})}
             />
           </CardText>
         </Card>
@@ -260,10 +275,10 @@ export class AttributeModelFormComponent extends React.Component {
         <Card style={styles.cardEspaced}>
           <CardActions>
             <CardActionsComponent
-              mainButtonLabel={this.context.intl.formatMessage({ id: 'attrmodel.form.action.submit' })}
+              mainButtonLabel={this.context.intl.formatMessage({id: 'attrmodel.form.action.submit'})}
               mainButtonType="submit"
               isMainButtonDisabled={pristine || submitting || invalid}
-              secondaryButtonLabel={this.context.intl.formatMessage({ id: 'attrmodel.form.action.cancel' })}
+              secondaryButtonLabel={this.context.intl.formatMessage({id: 'attrmodel.form.action.cancel'})}
               secondaryButtonUrl={this.props.backUrl}
             />
           </CardActions>

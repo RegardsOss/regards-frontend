@@ -11,7 +11,7 @@
  * Server address
  * @type {string}
  */
-GATEWAY_HOSTNAME='http://localhost:8000'
+GATEWAY_HOSTNAME='http://172.26.47.52:9000'
 
 /**
  * Static configurations

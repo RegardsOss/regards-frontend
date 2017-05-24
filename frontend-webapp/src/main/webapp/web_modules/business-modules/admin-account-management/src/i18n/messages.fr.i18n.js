@@ -21,6 +21,7 @@ const messages = {
   'account.list.waiting.subtitle': 'Liste des nouveaux utilisateur de l\'application, en attente de la validation de leur compte',
   'account.list.waiting.no.content.message': 'Il n\'y a pas de compte utilisateur en attente d\'accès à l\'application. Vous pouvez consulter et éditer la liste des comptes utilisateur dans l\'onglet "Tous les utilisateurs"',
   'account.list.delete.message': 'Confirmer la suppression de l\'utilisateur {name} ?',
+  'account.list.info.why-cant-remove-account-having-project-user': 'Vous ne pouvez pas supprimer un compte s\'il est lié à un utilisateur project',
 
   'account.form.input.firstName': 'Prénom',
   'account.form.input.lastName': 'Nom',

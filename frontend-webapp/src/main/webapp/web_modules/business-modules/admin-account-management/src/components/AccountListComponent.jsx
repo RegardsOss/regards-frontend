@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import isEmpty from 'lodash/isEmpty'
 import map from 'lodash/map'
 import size from 'lodash/size'
@@ -11,7 +14,7 @@ import Done from 'material-ui/svg-icons/action/done'
 import { Account } from '@regardsoss/model'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { ActionsMenuCell, NoContentMessageInfo, ConfirmDialogComponent, ShowableAtRender } from '@regardsoss/components'
+import { ActionsMenuCell, NoContentMessageInfo, ConfirmDialogComponent, ShowableAtRender, HelpMessageComponent } from '@regardsoss/components'
 import { LoadableContentDisplayDecorator, HateoasIconAction, HateoasKeys } from '@regardsoss/display-control'
 
 const status = {
@@ -144,6 +147,7 @@ export class AccountListComponent extends React.Component {
             {this.renderDeleteConfirmDialog()}
             <CardTitle subtitle={<FormattedMessage id={tabContent.tabSubtitleKey} />} />
             <CardText>
+              <HelpMessageComponent message={this.context.intl.formatMessage({ id: 'account.list.info.why-cant-remove-account-having-project-user' })} />
               <LoadableContentDisplayDecorator isLoading={initialFecthing}>
                 <Table
                   selectable={false}

@@ -15,6 +15,7 @@ class LinkComponent extends React.Component {
     label: PropTypes.string,
     target: PropTypes.string,
     rel: PropTypes.string,
+    onClick: PropTypes.func,
   }
 
   static contextTypes = {
@@ -30,6 +31,7 @@ class LinkComponent extends React.Component {
         href={this.props.link}
         target={this.props.target ? this.props.target : '_self'}
         rel={this.props.rel ? this.props.rel : ''}
+        onClick={this.props.onClick}
       >
         {this.props.label ? this.props.label : this.props.link}
       </a>

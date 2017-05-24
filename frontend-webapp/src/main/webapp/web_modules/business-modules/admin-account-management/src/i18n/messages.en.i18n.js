@@ -21,6 +21,7 @@ const messages = {
   'account.list.waiting.subtitle': 'List of user accounts waiting for application access validation',
   'account.list.waiting.no.content.message': 'There is no user waiting for application access. You can view and modify user account list in "All users" tab',
   'account.list.delete.message': 'Confirm deletion of account {name} ?',
+  'account.list.info.why-cant-remove-account-having-project-user': 'You can\'t delete an account if it has a project user',
 
   'account.form.input.firstName': 'Firstname',
   'account.form.input.lastName': 'Lastname',

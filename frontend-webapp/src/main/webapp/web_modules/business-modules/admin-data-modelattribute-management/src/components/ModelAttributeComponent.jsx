@@ -5,8 +5,15 @@ import { ModelAttribute, PluginConfiguration, PluginMetaData } from '@regardsoss
 import { Table, TableBody, TableRow, TableRowColumn, TableHeader, TableHeaderColumn } from 'material-ui/Table'
 import { FormattedMessage } from 'react-intl'
 import { PluginConfigurationPickerComponent } from '@regardsoss/components'
+import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
 
 class ModelAttributeComponent extends React.Component {
+
+  static contextTypes = {
+    ...themeContextType,
+    ...i18nContextType,
+  }
 
   static propTypes = {
     pluginConfigurationList: PropTypes.objectOf(PluginConfiguration),
