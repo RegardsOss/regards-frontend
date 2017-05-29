@@ -12,6 +12,7 @@ import preloadedState from './preloadedState'
 import configureReducers from './configureReducers'
 import getReducerRegistry from './ReducerRegistry'
 import errorMiddleware from './errorMiddleware'
+import SessionLockedMiddleware from './SessionLockedMiddleware'
 
 // Middlewares
 const { apiMiddleware } = require('redux-api-middleware')
@@ -24,6 +25,7 @@ function configureStore(rootReducer) {
   // Define the used middlewares (order matters)
   let middlewares = [
     thunk, // lets us dispatch() functions
+    SessionLockedMiddleware, // Check if session is locked before forwarding actions
     formatURLMiddleware, // inject URL formatting middleware
     headersMiddleware, // inject headers in all request actions, for authorization, content type and custom headers handling
     apiMiddleware, // middleware for calling an REST API
