@@ -11,9 +11,9 @@ const messages = Object.assign({
   'role.list.value.false': 'Faux',
   'role.list.value.true': 'Vrai',
   'role.list.delete.message': 'Confirmer la suppression du role {name} ?',
-  'role.edit.resource.action.title' : 'Configurer les resources accessibles',
-  'role.edit.action.title' : 'Editer le rôle',
-  'role.delete.action.title' : 'Supprimer le rôle',
+  'role.edit.resource.action.title': 'Configurer les resources accessibles',
+  'role.edit.action.title': 'Editer le rôle',
+  'role.delete.action.title': 'Supprimer le rôle',
 
 
   'role.edit.title': 'Editer le rôle {name}',

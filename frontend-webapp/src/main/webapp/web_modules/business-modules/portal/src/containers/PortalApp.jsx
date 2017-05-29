@@ -79,6 +79,7 @@ export class PortalApp extends React.Component {
           layout={this.props.layout.content.layout}
           modules={modulesList}
           project={project}
+          style={{ minHeight: '100vh' }}
         />
       </ThemeProvider>
     )

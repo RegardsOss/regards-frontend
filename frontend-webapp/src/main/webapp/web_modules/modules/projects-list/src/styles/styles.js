@@ -32,12 +32,12 @@ const projectsStyles = theme => (
       paddingBottom: '0',
     },
     icon: {
-      height: '100px',
-      width: '100px',
+      height: '80px',
+      width: '80px',
     },
     iconDisabled: {
-      height: '100px',
-      width: '100px',
+      height: '80px',
+      width: '80px',
       filter: 'grayscale(100%)',
     },
     iconContainer: {

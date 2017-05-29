@@ -33,7 +33,7 @@ const messages = Object.assign({
   'project.form.isPublic': 'Projet public',
   'project.form.isAccessible': 'Projet accessible',
   'project.form.icon': 'Icone',
-  'project.form.license': 'Licence',
+  'project.form.license': 'Lien http vers la description de la licence du projet',
   'project.form.action.cancel': 'Annuler',
   'project.form.action.submit': 'Sauvegarder',
 

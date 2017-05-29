@@ -48,7 +48,7 @@ export class ProjectFormComponent extends React.Component {
       this.props.initialize({
         description: currentProject.content.description,
         icon: currentProject.content.icon,
-        license: currentProject.content.license,
+        licenceLink: currentProject.content.licenceLink,
         isPublic: currentProject.content.isPublic,
         isAccessible: currentProject.content.isAccessible,
       })
@@ -103,7 +103,7 @@ export class ProjectFormComponent extends React.Component {
               label={this.context.intl.formatMessage({ id: 'project.form.icon' })}
             />
             <Field
-              name="license"
+              name="licenceLink"
               fullWidth
               component={RenderTextField}
               type="text"
@@ -144,7 +144,7 @@ function validate(values) {
       errors.name = ErrorTypes.ALPHA_NUMERIC
     }
   }
-  const urlToValidate = ['icon', 'license']
+  const urlToValidate = ['icon', 'licenceLink']
   urlToValidate.forEach((field) => {
     // validate only when specified, those fields are optional
     if (values[field] && !ValidationHelpers.isValidUrl(values[field])) {

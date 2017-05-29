@@ -31,7 +31,7 @@ class ProjectComponent extends React.Component {
   }
 
   getProjectUrl = () => (
-     `/user/${this.props.project.id}/`
+     `/user/${this.props.project.name}/`
   )
 
   renderProject = () => {

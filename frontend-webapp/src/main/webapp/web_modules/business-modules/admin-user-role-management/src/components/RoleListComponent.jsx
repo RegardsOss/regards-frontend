@@ -110,9 +110,9 @@ export class RoleListComponent extends React.Component {
       hoverButtonDelete: this.context.muiTheme.palette.accent1Color,
       hoverButtonView: this.context.muiTheme.palette.pickerHeaderColor,
     }
-    const linkRoleResourceIconTitle = this.context.intl.formatMessage({id: 'role.edit.resource.action.title'})
-    const editRoleIconTitle = this.context.intl.formatMessage({id: 'role.edit.action.title'})
-    const deleteRoleIconTitle = this.context.intl.formatMessage({id: 'role.delete.action.title'})
+    const linkRoleResourceIconTitle = this.context.intl.formatMessage({ id: 'role.edit.resource.action.title' })
+    const editRoleIconTitle = this.context.intl.formatMessage({ id: 'role.edit.action.title' })
+    const deleteRoleIconTitle = this.context.intl.formatMessage({ id: 'role.delete.action.title' })
     return (
       <Card>
         <CardTitle
