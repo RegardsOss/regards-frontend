@@ -2,9 +2,11 @@
  * LICENSE_PLACEHOLDER
  **/
 import map from 'lodash/map'
+import fpmap from 'lodash/fp/map'
+import fpfilter from 'lodash/fp/filter'
 import without from 'lodash/without'
 import union from 'lodash/union'
-import { chain } from 'lodash'
+import flow from 'lodash/flow'
 import { browserHistory } from 'react-router'
 import AppBar from 'material-ui/AppBar'
 import { Card, CardActions, CardText, CardTitle } from 'material-ui/Card'
@@ -113,15 +115,15 @@ export class PluginMetaDataListContainer extends React.Component {
     map(this.state.displayedTypes, pluginType => (
       [
         <Subheader>{pluginType.content}</Subheader>,
-        chain(this.props.pluginMetaDataList)
-            .filter((pluginMetaData) => {
+        flow(
+            fpfilter((pluginMetaData) => {
               if (pluginMetaData.content && pluginMetaData.content.interfaceNames && pluginMetaData.content.interfaceNames.length > 0) {
                 return pluginMetaData.content.interfaceNames.includes(pluginType.content)
               }
               return null
-            })
-            .map(pluginMetaData => this.getTile(pluginMetaData))
-            .value(),
+            }),
+            fpmap(pluginMetaData => this.getTile(pluginMetaData)),
+          )(this.props.pluginMetaDataList),
       ]
       ),
     )

@@ -14,7 +14,10 @@ import Paper from 'material-ui/Paper'
 import ArrowBack from 'material-ui/svg-icons/navigation/arrow-back'
 import AddCircle from 'material-ui/svg-icons/content/add-circle'
 import Subheader from 'material-ui/Subheader'
-import { chain } from 'lodash'
+import flow from 'lodash/flow'
+import fpfilter from 'lodash/fp/filter'
+import fpsortBy from 'lodash/fp/sortBy'
+import fpmap from 'lodash/fp/map'
 import PluginConfigurationContainer from './PluginConfigurationContainer'
 import PluginConfigurationSelectors from '../../model/plugin/PluginConfigurationSelectors'
 import PluginMetaDataSelectors from '../../model/plugin/PluginMetaDataSelectors'
@@ -81,6 +84,26 @@ export class PluginConfigurationListContainer extends React.Component {
       isPluginConfigurationFetching,
     } = this.props
 
+    const activeConfs = flow(
+      fpfilter(pluginConfiguration => pluginConfiguration.content.active),
+      fpsortBy(pluginConfiguration => -1 * pluginConfiguration.content.priorityOrder),
+      fpmap(pluginConfiguration => (<PluginConfigurationContainer
+        key={pluginConfiguration.content.id}
+        params={this.props.params}
+        pluginConfiguration={pluginConfiguration}
+        pluginMetaData={pluginMetaData}
+      />)))(pluginConfigurationList)
+
+    const inactiveConfs = flow(
+      fpfilter(pluginConfiguration => !pluginConfiguration.content.active),
+      fpsortBy(pluginConfiguration => -1 * pluginConfiguration.content.priorityOrder),
+      fpmap(pluginConfiguration => (<PluginConfigurationContainer
+        key={pluginConfiguration.content.id}
+        params={this.props.params}
+        pluginConfiguration={pluginConfiguration}
+        pluginMetaData={pluginMetaData}
+      />)))(pluginConfigurationList)
+
     return (
       <I18nProvider messageDir="business-modules/admin-microservice-management/src/i18n">
         <Paper>
@@ -100,27 +123,9 @@ export class PluginConfigurationListContainer extends React.Component {
           <div style={styles.root}>
             <LoadableContentDisplayDecorator isLoading={isPluginConfigurationFetching}>
               <Subheader>Active</Subheader>
-              {chain(pluginConfigurationList)
-                .filter(pluginConfiguration => pluginConfiguration.content.active)
-                .sortBy(pluginConfiguration => -1 * pluginConfiguration.content.priorityOrder)
-                .map(pluginConfiguration => (<PluginConfigurationContainer
-                  key={pluginConfiguration.content.id}
-                  params={this.props.params}
-                  pluginConfiguration={pluginConfiguration}
-                  pluginMetaData={pluginMetaData}
-                />))
-                .value()}
+              {activeConfs}
               <Subheader>Inactive</Subheader>
-              {chain(pluginConfigurationList)
-                .filter(pluginConfiguration => !pluginConfiguration.content.active)
-                .sortBy(pluginConfiguration => -1 * pluginConfiguration.content.priorityOrder)
-                .map(pluginConfiguration => (<PluginConfigurationContainer
-                  key={pluginConfiguration.content.id}
-                  params={this.props.params}
-                  pluginConfiguration={pluginConfiguration}
-                  pluginMetaData={pluginMetaData}
-                />))
-                .value()}
+              {inactiveConfs}
             </LoadableContentDisplayDecorator>
           </div>
         </Paper>

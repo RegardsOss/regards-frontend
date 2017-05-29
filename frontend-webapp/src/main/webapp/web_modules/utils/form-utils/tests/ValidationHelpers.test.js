@@ -1,8 +1,13 @@
 import { assert } from 'chai'
+import { testSuiteHelpers} from '@regardsoss/tests-helpers'
+
 import ValidationHelpers from '../src/ValidationHelpers'
 
 // Test a components rendering
 describe('[FORM UTILS] Testing validation helpers', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('should exists', () => {
     assert.isDefined(ValidationHelpers)
   })

@@ -7,7 +7,7 @@
   "email" : "sebastien.binda@c-s.fr",
   "url" : "http://www.cnes.fr",
   "license": "GPL V2",
-  "type" : "criteria",
+  "type" : "CRITERIA",
   "conf" : {
     "attributes": [
       {

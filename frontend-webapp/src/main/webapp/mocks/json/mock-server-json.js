@@ -212,6 +212,7 @@ const runServer = () => {
     '/api/v1/rs-access-project/applications/:application_id/modules/:module_id': '/api/v1/rs-access-project/modules/:module_id',
     '/api/v1/rs-access-instance/applications/:application_id/modules/:module_id': '/api/v1/rs-access-instance/modules/:module_id',
     '/api/v1/rs-access-project/plugins/:type': '/api/v1/rs-access-project/plugins?type=:type',
+    '/api/v1/rs-access-project/plugins/definition/:id': '/api/v1/rs-access-project/plugin/:id',
     '/api/v1/rs-access-project/plugin/:id/config': '/api/v1/rs-access-project/plugin-configuration',
     '/api/v1/rs-access-project/plugin/:iddd/config/:id': '/api/v1/rs-access-project/plugin-configuration/:id',
     '/api/v1/rs-access-project/maintenances': '/api/v1/rs-access-project-signal/maintenances',

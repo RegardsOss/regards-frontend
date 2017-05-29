@@ -1,7 +1,10 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { chain } from 'lodash'
+import flow from 'lodash/flow'
+import fpmap from 'lodash/fp/map'
+import uniq from 'lodash/fp/uniq'
+import flatten from 'lodash/flatten'
 import forEach from 'lodash/forEach'
 import cloneDeep from 'lodash/cloneDeep'
 import reduce from 'lodash/reduce'
@@ -156,19 +159,18 @@ class ModuleContainer extends React.Component {
    */
   loadCriterionAttributeModels = () => {
     // Get uniq list of criterion attributeModels id to load
-    const pluginsAttributesToLoad = chain(this.props.moduleConf.criterion)
-      .map(criteria => criteria.pluginConf && criteria.pluginConf.attributes)
-      .map(attribute => values(attribute))
-      .flatten()
-      .uniq()
-      .value()
+    const pluginsAttributesToLoad = flow(
+      fpmap(criteria => criteria.pluginConf && criteria.pluginConf.attributes),
+      fpmap(attribute => values(attribute)),
+      flatten,
+      uniq,
+    )(this.props.moduleConf.criterion)
 
-    const attributesToLoad = chain(this.props.moduleConf.attributes)
-      .map(attribute => values(attribute.id))
-      .flatten()
-      .uniq()
-      .value()
-
+    const attributesToLoad = flow(
+      fpmap(attribute => values(attribute.id)),
+      flatten,
+      uniq,
+    )(this.props.moduleConf.attributes)
 
     // Fetch each form server
     forEach(unionBy(pluginsAttributesToLoad, attributesToLoad), (attribute => this.props.fetchAttribute(attribute)))
@@ -312,7 +314,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchAttribute: attributeId => dispatch(AttributeModelClient.AttributeModelActions.fetchEntity(attributeId, {}, { queryable: 'true' })),
+  fetchAttribute: attributeId => dispatch(AttributeModelClient.AttributeModelActions.fetchEntity(attributeId)),
 })
 
 const UnconnectedModuleContainer = ModuleContainer

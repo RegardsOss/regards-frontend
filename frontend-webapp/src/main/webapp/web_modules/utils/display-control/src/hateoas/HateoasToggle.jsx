@@ -21,7 +21,7 @@ class HateoasToggle extends React.Component {
   }
 
   render() {
-    // eslint-disable-next-line no-unused-vars
+    // eslint-disable-next-line no-unused-vars, react/prop-types
     const { entityLinks, hateoasKey, isInstance, theme, i18n, dispatch, ...otherProps } = this.props
     if (isInstance) {
       return (

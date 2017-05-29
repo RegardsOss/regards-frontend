@@ -8,8 +8,10 @@ import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/f
 import { ProjectUser, AccessGroup, Role } from '@regardsoss/model'
 import every from 'lodash/every'
 import some from 'lodash/some'
-import { chain } from 'lodash'
+import flow from 'lodash/flow'
 import concat from 'lodash/concat'
+import fpfilter from 'lodash/fp/filter'
+import fpmap from 'lodash/fp/map'
 import root from 'window-or-global'
 import { getMetadataArray, packMetaDataField } from '@regardsoss/user-metadata-common'
 import { AuthenticationRouteParameters } from '@regardsoss/authentication-manager'
@@ -118,17 +120,17 @@ export class ProjectUserFormContainer extends React.Component {
       .then((actionResult) => {
         if (!actionResult.error) {
           // Retrieve new group
-          const addUserToGroupTasks = chain(group)
-            .filter(currentGroup => every(groupList[currentGroup].content.users, userInfo =>
+          const addUserToGroupTasks = flow(
+            fpfilter(currentGroup => every(groupList[currentGroup].content.users, userInfo =>
               userInfo.email !== email,
-            ))
-            .map(currentGroup => this.props.assignGroup(currentGroup, email))
-            .value()
-          const removeUserFromGroupTasks = chain(groupList)
-            .filter(currentGroup => some(currentGroup.content.users, userInfo => userInfo.email === email)
-              && every(group, groupName => groupName !== currentGroup.content.name))
-            .map(currentGroup => this.props.unassignGroup(currentGroup.content.name, email))
-            .value()
+            )),
+            fpmap(currentGroup => this.props.assignGroup(currentGroup, email)),
+          )(group)
+          const removeUserFromGroupTasks = flow(
+            fpfilter(currentGroup => some(currentGroup.content.users, userInfo => userInfo.email === email)
+              && every(group, groupName => groupName !== currentGroup.content.name)),
+            fpmap(currentGroup => this.props.unassignGroup(currentGroup.content.name, email)),
+          )(groupList)
           const tasks = concat(addUserToGroupTasks, removeUserFromGroupTasks)
           Promise.all(tasks).then((actionResults) => {
             if (every(actionResults, TeskactionResult => TeskactionResult.error)) {

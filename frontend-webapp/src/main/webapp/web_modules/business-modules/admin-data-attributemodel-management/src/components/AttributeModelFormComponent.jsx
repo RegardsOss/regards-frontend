@@ -106,18 +106,6 @@ export class AttributeModelFormComponent extends React.Component {
     }
   }
 
-  /**
-   * Fetch new attribute model restriction when the Field type change
-   * @param event
-   * @param index
-   * @param value
-   * @param input
-   */
-  handleChange = (event, index, value, input) => {
-    input.onChange(value)
-    this.props.handleUpdateAttributeModelRestriction(value)
-  }
-
   getFragmentItems = (fragmentList) => {
     const fragments = map(fragmentList, (fragment, id) => {
       const text = fragment.content.description ? `${fragment.content.name}: ${fragment.content.description}` : fragment.content.name
@@ -136,6 +124,18 @@ export class AttributeModelFormComponent extends React.Component {
       primaryText={this.context.intl.formatMessage({ id: `attrmodel.form.fragment.${DEFAULT_FRAGMENT_NAME}` })}
     />)
     return fragments
+  }
+
+  /**
+   * Fetch new attribute model restriction when the Field type change
+   * @param event
+   * @param index
+   * @param value
+   * @param input
+   */
+  handleChange = (event, index, value, input) => {
+    input.onChange(value)
+    this.props.handleUpdateAttributeModelRestriction(value)
   }
 
   /**

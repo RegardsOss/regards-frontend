@@ -35,7 +35,7 @@ describe('[ADMIN DATA DATASET MANAGEMENT] Testing router', () => {
       done()
     })
   })
-  it('create should return DatasetFormContainer', (done) => {
+  it('edit should return DatasetFormContainer', (done) => {
     Routes.childRoutes[2].getComponents(undefined, (smth, component) => {
       expect(component.content).to.eq(DatasetFormContainer)
       done()
@@ -47,13 +47,13 @@ describe('[ADMIN DATA DATASET MANAGEMENT] Testing router', () => {
       done()
     })
   })
-  it('create should return DatasetEditLinksContainer', (done) => {
+  it('edit links should return DatasetEditLinksContainer', (done) => {
     Routes.childRoutes[4].getComponents(undefined, (smth, component) => {
       expect(component.content).to.eq(DatasetEditLinksContainer)
       done()
     })
   })
-  it('create should return DatasetEditPluginContainer', (done) => {
+  it('edit should return DatasetEditPluginContainer', (done) => {
     Routes.childRoutes[5].getComponents(undefined, (smth, component) => {
       expect(component.content).to.eq(DatasetEditPluginContainer)
       done()

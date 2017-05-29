@@ -2,7 +2,6 @@
  * LICENSE_PLACEHOLDER
  **/
 import map from 'lodash/map'
-import { chain } from 'lodash'
 import isEmpty from 'lodash/isEmpty'
 import filter from 'lodash/filter'
 import find from 'lodash/find'
@@ -124,16 +123,13 @@ export class PluginParameterPlugin extends React.Component {
                     rightIcon={<ArrowDropRight />}
                     disabled={pluginConfigurationListIsEmpty}
                     menuItems={
-                      chain(pluginConfigurationListForThisPluginMetaData)
-                        .map(pluginConfiguration =>
+                        map(pluginConfigurationListForThisPluginMetaData, pluginConfiguration =>
                           (<MenuItem
                             key={pluginConfiguration.content.id}
                             primaryText={buildMenuItemPrimaryText(pluginConfiguration.content.label, pluginConfiguration.content.version)}
                             onTouchTap={() => this.handleChange(pluginConfiguration.content.id)}
                             checked={pluginConfiguration.content.id === this.state.value}
-                          />),
-                        )
-                        .value()
+                          />))
                     }
                   />
                 )

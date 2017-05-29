@@ -1,7 +1,9 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { chain } from 'lodash'
+import flow from 'lodash/flow'
+import fpmap from 'lodash/fp/map'
+import fpsortBy from 'lodash/fp/sortBy'
 import { FormattedMessage } from 'react-intl'
 import { List, ListItem } from 'material-ui/List'
 import { themeContextType } from '@regardsoss/theme'
@@ -96,9 +98,10 @@ export class ConnectionViewerComponent extends React.Component {
       paddingTop: 18,
       paddingBottom: 0,
     }
-    return chain(tableAttributeList)
-      .sortBy('name')
-      .map((tableAttribute, id) => (
+
+    return flow(
+      fpsortBy('name'),
+      fpmap((tableAttribute, id) => (
         <ListItem
           key={tableAttribute.name}
           secondaryText={tableAttribute.javaSqlType}
@@ -108,8 +111,8 @@ export class ConnectionViewerComponent extends React.Component {
         >
           {tableAttribute.name}
         </ListItem>
-      ))
-      .value()
+      )),
+    )(tableAttributeList)
   }
 
   render() {
@@ -121,6 +124,26 @@ export class ConnectionViewerComponent extends React.Component {
       maxHeight: '600px',
       overflowY: 'scroll',
     }
+
+    const elements = flow(
+      fpsortBy('name'),
+      fpmap((table, id) => {
+        const hasChild = tableOpen === table.name
+        return (
+          <ListItem
+            key={table.name}
+            primaryText={table.name}
+            initiallyOpen={false}
+            open={hasChild}
+            primaryTogglesNestedList
+            onNestedListToggle={() => this.handleToggleTable(table.name)}
+            rightIcon={this.showSelectedIcon(hasChild)}
+            nestedItems={
+              hasChild ? this.renderResource() : [<ListItem key={1} primaryText="Waiting..." />]
+            }
+          />
+        )
+      }))(tableList)
     return (
       <div style={style}>
         <CardTitle
@@ -128,26 +151,7 @@ export class ConnectionViewerComponent extends React.Component {
           subtitle={<FormattedMessage id={subtitle} />}
         />
         <List>
-          {chain(tableList)
-            .sortBy('name')
-            .map((table, id) => {
-              const hasChild = tableOpen === table.name
-              return (
-                <ListItem
-                  key={table.name}
-                  primaryText={table.name}
-                  initiallyOpen={false}
-                  open={hasChild}
-                  primaryTogglesNestedList
-                  onNestedListToggle={() => this.handleToggleTable(table.name)}
-                  rightIcon={this.showSelectedIcon(hasChild)}
-                  nestedItems={
-                  hasChild ? this.renderResource() : [<ListItem key={1} primaryText="Waiting..." />]
-                }
-                />
-              )
-            })
-            .value()}
+          {elements}
         </List>
       </div>
     )

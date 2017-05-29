@@ -1,18 +1,14 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { Step } from 'material-ui/Stepper'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import EnumConnectivity from '@regardsoss/model/src/admin/EnumConnectivity'
 import GuidedProjectConfiguration from '../../../src/components/projectConnection/GuidedProjectConfigurationComponent'
 
 // Test a component rendering
 describe('[ADMIN PROJECT MANAGEMENT] Testing GuidedProjectConfiguration', () => {
-  before(() => {
-    global.STATIC_CONFIGURATION = {
-      microservices: ['ms1', 'ms2', 'ms3', 'ms4'],
-      projectConnectionDriver: 'org.postgresql.Driver',
-    }
-  })
-
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
 
   it('should exists', () => {
     assert.isDefined(GuidedProjectConfiguration)
@@ -66,6 +62,8 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing GuidedProjectConfiguration', () => 
           links: [],
         },
       },
+      onSaveProjectConnection: () => {},
+      onUpdateProjectConnection: () => {},
     }
     const options = {
       context: {

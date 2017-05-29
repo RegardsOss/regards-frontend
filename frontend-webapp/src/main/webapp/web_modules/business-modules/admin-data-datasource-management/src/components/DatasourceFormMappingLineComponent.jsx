@@ -1,7 +1,9 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { chain } from 'lodash'
+import flow from 'lodash/flow'
+import fpsortBy from 'lodash/fp/sortBy'
+import fpmap from 'lodash/fp/map'
 import { TableRow, TableRowColumn } from 'material-ui/Table'
 import { FormattedMessage } from 'react-intl'
 import { ModelAttribute } from '@regardsoss/model'
@@ -75,6 +77,17 @@ export class DatasourceFormMappingLineComponent extends React.Component {
         />
       </div>)
     }
+
+    const items = flow(
+      fpsortBy(['name']),
+      fpmap((tableAttribute, id) => (
+        <MenuItem
+          value={tableAttribute.name}
+          key={tableAttribute.name}
+          primaryText={`${tableAttribute.name}: ${tableAttribute.javaSqlType}`}
+        />
+      )))(tableAttributeList)
+
     return (<div>
       <Checkbox
         label={this.context.intl.formatMessage({ id: 'datasource.form.mapping.table.showAdvancedConfiguration' })}
@@ -103,15 +116,7 @@ export class DatasourceFormMappingLineComponent extends React.Component {
           type="text"
           label={this.context.intl.formatMessage({ id: 'datasource.form.mapping.table.select' })}
         >
-          {chain(tableAttributeList)
-            .sortBy(['name'])
-            .map((tableAttribute, id) => (
-              <MenuItem
-                value={tableAttribute.name}
-                key={tableAttribute.name}
-                primaryText={`${tableAttribute.name}: ${tableAttribute.javaSqlType}`}
-              />
-            )).value()}
+          {items}
         </Field>
       </ShowableAtRender>
     </div>)

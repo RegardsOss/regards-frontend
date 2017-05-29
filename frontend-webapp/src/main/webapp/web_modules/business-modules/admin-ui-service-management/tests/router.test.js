@@ -17,25 +17,25 @@ describe('[ADMIN UI SERVICE MANAGEMENT] Testing router', () => {
     expect(Routes.childRoutes[2].path).to.eq(':uiPluginId/:uiPluginConfId/:mode')
     expect(Routes.childRoutes[3].path).to.eq(':uiPluginId/create')
   })
-  it('list should return ConnectionListContainer', (done) => {
+  it('list should return ServiceListContainer', (done) => {
     Routes.childRoutes[0].getComponents(undefined, (smth, component) => {
       expect(component.content).to.eq(ServiceListContainer)
       done()
     })
   })
-  it('edit should return ConnectionFormContainer', (done) => {
+  it('list configuration should return ServiceConfigurationListContainer', (done) => {
     Routes.childRoutes[1].getComponents(undefined, (smth, component) => {
       expect(component.content).to.eq(ServiceConfigurationListContainer)
       done()
     })
   })
-  it('create should return ConnectionFormContainer', (done) => {
+  it('create should return ServiceConfigurationFormContainer', (done) => {
     Routes.childRoutes[2].getComponents(undefined, (smth, component) => {
       expect(component.content).to.eq(ServiceConfigurationFormContainer)
       done()
     })
   })
-  it('create should return ConnectionFormContainer', (done) => {
+  it('edit should return ServiceConfigurationFormContainer', (done) => {
     Routes.childRoutes[3].getComponents(undefined, (smth, component) => {
       expect(component.content).to.eq(ServiceConfigurationFormContainer)
       done()

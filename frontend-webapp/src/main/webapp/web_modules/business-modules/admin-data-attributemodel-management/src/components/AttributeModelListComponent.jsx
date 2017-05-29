@@ -36,18 +36,18 @@ export class AttributeModelListComponent extends React.Component {
     entityToDelete: null,
   }
 
-  closeDeleteDialog = () => {
-    this.setState({
-      deleteDialogOpened: false,
-      entityToDelete: null,
-    })
-  }
-
   getFragmentName = (attrModel) => {
     if (attrModel.content.fragment.name !== fragmentSelectors.noneFragmentName) {
       return attrModel.content.fragment.name
     }
     return ''
+  }
+
+  closeDeleteDialog = () => {
+    this.setState({
+      deleteDialogOpened: false,
+      entityToDelete: null,
+    })
   }
 
   openDeleteDialog = (entity) => {

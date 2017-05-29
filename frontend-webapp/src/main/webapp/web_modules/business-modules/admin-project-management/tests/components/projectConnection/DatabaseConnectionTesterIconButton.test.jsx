@@ -2,12 +2,16 @@ import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import IconButton from 'material-ui/IconButton'
 import PlayArrow from 'material-ui/svg-icons/av/play-arrow'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import EnumConnectivity from '@regardsoss/model/src/admin/EnumConnectivity'
 import DatabaseConnectionTesterIconButton from '../../../src/components/projectConnection/DatabaseConnectionTesterIconButton'
 import ConnectionTesterProgress from '../../../src/components/projectConnection/ConnectionTesterProgress'
 
 // Test a component rendering
 describe('[ADMIN PROJECT MANAGEMENT] Testing DatabaseConnectionTesterIconButton', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('should exists', () => {
     assert.isDefined(DatabaseConnectionTesterIconButton)
   })

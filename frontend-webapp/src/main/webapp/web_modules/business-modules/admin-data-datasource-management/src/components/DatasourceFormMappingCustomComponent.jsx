@@ -1,7 +1,9 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { chain } from 'lodash'
+import flow from 'lodash/flow'
+import fpsortBy from 'lodash/fp/sortBy'
+import fpmap from 'lodash/fp/map'
 import map from 'lodash/map'
 import { CardTitle, CardText } from 'material-ui/Card'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow } from 'material-ui/Table'
@@ -38,6 +40,20 @@ export class DatasourceFormMappingCustomComponent extends React.Component {
 
   render() {
     const { modelAttributeList, table, tableAttributeList, change } = this.props
+
+    const mappingLines = flow(
+      fpsortBy('content.attribute.optional'),
+      fpmap((modelAttribute, id) => (
+        <DatasourceFormMappingLineComponent
+          key={modelAttribute.content.id}
+          tableAttributeList={tableAttributeList}
+          modelAttribute={modelAttribute}
+          onlyAdvancedConfiguration
+          table={table}
+          change={change}
+        />
+      )))(modelAttributeList)
+
     return (
       <div>
         <CardTitle
@@ -103,19 +119,7 @@ export class DatasourceFormMappingCustomComponent extends React.Component {
             preScanRows={false}
             showRowHover
           >
-            {chain(modelAttributeList)
-              .sortBy('content.attribute.optional')
-              .map((modelAttribute, id) => (
-                <DatasourceFormMappingLineComponent
-                  key={modelAttribute.content.id}
-                  tableAttributeList={tableAttributeList}
-                  modelAttribute={modelAttribute}
-                  onlyAdvancedConfiguration
-                  table={table}
-                  change={change}
-                />
-              ))
-              .value()}
+            {mappingLines}
           </TableBody>
         </Table>
       </div>

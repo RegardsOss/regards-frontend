@@ -43,6 +43,15 @@ export class FragmentListComponent extends React.Component {
     entityToDelete: null,
   }
 
+  getExportUrlFromHateoas = (fragmentLinks) => {
+    const { accessToken } = this.props
+    const exportLink = find(fragmentLinks, link => (
+      link.rel === 'export'
+    ))
+    return `${exportLink.href}?token=${accessToken}` || ''
+  }
+
+
   closeDeleteDialog = () => {
     this.setState({
       deleteDialogOpened: false,
@@ -76,16 +85,8 @@ export class FragmentListComponent extends React.Component {
     )
   }
 
-  getExportUrlFromHateoas = (fragmentLinks) => {
-    const { accessToken } = this.props
-    const exportLink = find(fragmentLinks, link => (
-      link.rel === 'export'
-    ))
-    return `${exportLink.href}?token=${accessToken}` || ''
-  }
-
   render() {
-    const { fragmentList, handleEdit, handleDelete, createUrl, backUrl } = this.props
+    const { fragmentList, handleEdit, createUrl, backUrl } = this.props
     const style = {
       hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
       hoverButtonDelete: this.context.muiTheme.palette.accent1Color,

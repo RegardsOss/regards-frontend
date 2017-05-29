@@ -27,7 +27,7 @@ export class DatasetEditPluginContainer extends React.Component {
     linkPluginDataset: LinkPluginDataset,
 
     // from mapDispatchToProps
-    fetchConfiguration: PropTypes.func,
+    fetchPluginConfiguration: PropTypes.func,
     fetchPluginMetaData: PropTypes.func,
     fetchLinkPluginDataset: PropTypes.func,
     updateLinkPluginDataset: PropTypes.func,

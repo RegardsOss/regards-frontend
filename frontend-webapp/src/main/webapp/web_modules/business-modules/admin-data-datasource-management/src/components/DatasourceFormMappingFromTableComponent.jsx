@@ -3,8 +3,10 @@
  **/
 import some from 'lodash/some'
 import find from 'lodash/find'
-import { chain } from 'lodash'
+import flow from 'lodash/flow'
 import map from 'lodash/map'
+import fpmap from 'lodash/fp/map'
+import fpsortBy from 'lodash/fp/sortBy'
 import { CardTitle, CardText } from 'material-ui/Card'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow } from 'material-ui/Table'
 import { FormattedMessage } from 'react-intl'
@@ -61,6 +63,22 @@ export class DatasourceFormMappingFromTableComponent extends React.Component {
 
   render() {
     const { modelAttributeList, table, tableAttributeList, change } = this.props
+
+    const mappingLines = flow(
+      fpsortBy('content.attribute.optional'),
+      fpmap((modelAttribute, id) => {
+        const isEditingSQL = this.getIsEditingSQL(modelAttribute)
+        return (
+          <DatasourceFormMappingLineComponent
+            key={modelAttribute.content.id}
+            tableAttributeList={tableAttributeList}
+            modelAttribute={modelAttribute}
+            isEditingSQL={isEditingSQL}
+            table={table}
+            change={change}
+          />
+        )
+      }))(modelAttributeList)
     return (
       <div>
         <CardTitle
@@ -129,22 +147,7 @@ export class DatasourceFormMappingFromTableComponent extends React.Component {
             preScanRows={false}
             showRowHover
           >
-            {chain(modelAttributeList)
-              .sortBy('content.attribute.optional')
-              .map((modelAttribute, id) => {
-                const isEditingSQL = this.getIsEditingSQL(modelAttribute)
-                return (
-                  <DatasourceFormMappingLineComponent
-                    key={modelAttribute.content.id}
-                    tableAttributeList={tableAttributeList}
-                    modelAttribute={modelAttribute}
-                    isEditingSQL={isEditingSQL}
-                    table={table}
-                    change={change}
-                  />
-                )
-              })
-              .value()}
+            {mappingLines}
           </TableBody>
         </Table>
       </div>

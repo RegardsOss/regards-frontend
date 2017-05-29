@@ -48,7 +48,6 @@ class PluginComponent extends React.Component {
 
   componentWillMount() {
     const defaultState = this.props.getDefaultState(this.props.pluginInstanceId)
-    console.log("DEFAULT STATE",defaultState)
     if (this.state && defaultState) {
       const newState = merge({}, this.state, defaultState)
       this.setState(newState)

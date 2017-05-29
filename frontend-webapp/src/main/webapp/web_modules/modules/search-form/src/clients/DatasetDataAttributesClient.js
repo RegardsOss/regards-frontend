@@ -8,7 +8,7 @@ import { DataManagementClient } from '@regardsoss/client'
  *
  * @author Sébastien Binda
  */
-const ENTITIES_STORE_PATH = ['modules.search-form', 'attributes']
+const ENTITIES_STORE_PATH = ['modules.search-form', 'dataset-data-attributes']
 const REDUX_ACTION_NAMESPACE = 'form/datasets/data/attributes'
 
 const datasetDataAttributesReducer = DataManagementClient.DatasetDataAttributesReducer(REDUX_ACTION_NAMESPACE)

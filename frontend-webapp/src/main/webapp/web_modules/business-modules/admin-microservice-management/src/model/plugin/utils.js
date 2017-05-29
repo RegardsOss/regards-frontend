@@ -1,7 +1,11 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { chain } from 'lodash'
+import flow from 'lodash/flow'
+import fpcompact from 'lodash/fp/compact'
+import fpmap from 'lodash/fp/map'
+import fpfilter from 'lodash/fp/filter'
+import fpuniqBy from 'lodash/fp/uniqBy'
 import find from 'lodash/find'
 import map from 'lodash/map'
 
@@ -27,13 +31,13 @@ const mapPluginParameterToPluginParameterType = (pluginParameter, pluginMetaData
  * @param pluginMetaData The lookup table providing all available types
  */
 const extractUniqueTypesFromConfiguration = (pluginConfiguration, pluginMetaData) =>
-  chain(pluginConfiguration && pluginConfiguration.content.parameters) // For all parameters of the defined configuration
-    .map(pluginParameter => mapPluginParameterToPluginParameterType(pluginParameter, pluginMetaData)) // get their parameter type
-    .compact()
-    .filter(pluginParameterType => pluginParameterType.paramType === 'PLUGIN') // only keep the 'PLUGIN'
-    .map(pluginParameterType => pluginParameterType.type) // get the java type ('fr.cnes.regards.IComplexInterface)
-    .uniqBy(pluginParameterType => pluginParameterType.name) // remove doubles
-    .value()
+  flow( // For all parameters of the defined configuration
+    fpmap(pluginParameter => mapPluginParameterToPluginParameterType(pluginParameter, pluginMetaData)), // get their parameter type
+    fpcompact(),
+    fpfilter(pluginParameterType => pluginParameterType.paramType === 'PLUGIN'), // only keep the 'PLUGIN'
+    fpmap(pluginParameterType => pluginParameterType.type), // get the java type ('fr.cnes.regards.IComplexInterface)
+    fpuniqBy(pluginParameterType => pluginParameterType.name), // remove doubles
+  )(pluginConfiguration && pluginConfiguration.content.parameters)
 
 /**
  * Builds an empty parameter from the passed parameter type

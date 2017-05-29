@@ -1,10 +1,14 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import TextField from 'material-ui/TextField'
+import { testSuiteHelpers} from '@regardsoss/tests-helpers'
 import RenderTextField from '../src/RenderTextField'
 
 // Test a components rendering
 describe('[FORM UTILS] Testing RenderSelectField', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('should exists', () => {
     assert.isDefined(RenderTextField)
   })
@@ -13,7 +17,7 @@ describe('[FORM UTILS] Testing RenderSelectField', () => {
       label: 'Some label',
       input: {
         name: 'isItInteresting',
-        value: false,
+        value: "test",
       },
       meta: {
         touched: true,

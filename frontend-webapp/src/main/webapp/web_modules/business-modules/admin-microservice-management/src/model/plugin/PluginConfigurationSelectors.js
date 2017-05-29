@@ -1,7 +1,9 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { chain } from 'lodash'
+import flow from 'lodash/flow'
+import fpfilter from 'lodash/fp/filter'
+import fpsortBy from 'lodash/fp/sortBy'
 import filter from 'lodash/filter'
 import pickBy from 'lodash/pickBy'
 import { BasicPageableSelectors } from '@regardsoss/store-utils'
@@ -20,17 +22,17 @@ class PluginConfigurationSelectors extends BasicPageableSelectors {
   }
 
   getListActiveAndSorted(state) {
-    return chain(this.getList(state))
-      .filter(pluginConfiguration => pluginConfiguration.content.active)
-      .sortBy(pluginConfiguration => -1 * pluginConfiguration.content.priorityOrder)
-      .value()
+    return flow(
+      fpfilter(pluginConfiguration => pluginConfiguration.content.active),
+      fpsortBy(pluginConfiguration => -1 * pluginConfiguration.content.priorityOrder),
+    )(this.getList(state))
   }
 
   getListInactiveAndSorted(state) {
-    return chain(this.getList(state))
-      .filter(pluginConfiguration => !pluginConfiguration.content.active)
-      .sortBy(pluginConfiguration => -1 * pluginConfiguration.content.priorityOrder)
-      .value()
+    return flow(
+      fpfilter(pluginConfiguration => !pluginConfiguration.content.active),
+      fpsortBy(pluginConfiguration => -1 * pluginConfiguration.content.priorityOrder),
+    )(this.getList(state))
   }
 
 }

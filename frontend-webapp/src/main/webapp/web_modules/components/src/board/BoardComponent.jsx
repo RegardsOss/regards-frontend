@@ -1,7 +1,9 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { chain } from 'lodash'
+import flow from 'lodash/flow'
+import fpfilter from 'lodash/fp/filter'
+import fpmap from 'lodash/fp/map'
 import BoardItemShape from './BoardItemShape'
 import BoardItemComponent from './BoardItemComponent'
 import BaseBoardComponent from './BaseBoardComponent'
@@ -22,17 +24,17 @@ class BoardComponent extends React.Component {
   }
 
   render() {
-    const boardItemComponents = chain(this.props.items)
-      .filter(item => !item.advanced)
+    const boardItemComponents = flow(
+      fpfilter(item => !item.advanced),
       // eslint-disable-next-line react/no-array-index-key
-      .map((item, index) => <BoardItemComponent item={item} key={index} />)
-      .value()
+      fpmap((item, index) => <BoardItemComponent item={item} key={index} />),
+    )(this.props.items)
 
-    const advancedBoardItemComponents = chain(this.props.items)
-      .filter(item => item.advanced)
+    const advancedBoardItemComponents = flow(
+      fpfilter(item => item.advanced),
       // eslint-disable-next-line react/no-array-index-key
-      .map((item, index) => <BoardItemComponent item={item} key={index} />)
-      .value()
+      fpmap((item, index) => <BoardItemComponent item={item} key={index} />),
+    )(this.props.items)
 
     return (
       <BaseBoardComponent

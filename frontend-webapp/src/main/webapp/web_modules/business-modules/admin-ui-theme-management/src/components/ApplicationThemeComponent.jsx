@@ -58,7 +58,7 @@ class ApplicationThemeComponent extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      editingTheme: props.currentTheme,
+      editingTheme: props.currentTheme ? props.currentTheme : props.themeList ? values(props.themeList)[0] : null,
       snackBarOpen: false,
       snackBarMessageId: 'application.theme.save.success',
     }

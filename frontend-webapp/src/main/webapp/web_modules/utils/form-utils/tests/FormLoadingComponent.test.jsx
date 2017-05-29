@@ -1,9 +1,13 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
+import { testSuiteHelpers} from '@regardsoss/tests-helpers'
 import FormLoadingComponent from '../src/FormLoadingComponent'
 
 // Test a components rendering
 describe('[FORM UTILS] Testing FormLoadingComponent', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('should exists', () => {
     assert.isDefined(FormLoadingComponent)
   })

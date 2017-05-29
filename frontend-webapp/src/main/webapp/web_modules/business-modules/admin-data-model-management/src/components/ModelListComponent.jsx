@@ -43,6 +43,29 @@ export class ProjectListComponent extends React.Component {
     entityToDelete: null,
   }
 
+  getExportUrlFromHateoas = (modelLinks) => {
+    const { accessToken } = this.props
+    const exportLink = find(modelLinks, link => (
+      link.rel === 'export'
+    ))
+    return `${exportLink.href}?token=${accessToken}` || ''
+  }
+
+  getType = (type) => {
+    switch (type) {
+      case 'COLLECTION':
+        return (<FormattedMessage id="model.type.collection" />)
+      case 'DOCUMENT':
+        return (<FormattedMessage id="model.type.document" />)
+      case 'DATA':
+        return (<FormattedMessage id="model.type.data" />)
+      case 'DATASET':
+        return (<FormattedMessage id="model.type.dataset" />)
+      default:
+        return null
+    }
+  }
+
   closeDeleteDialog = () => {
     this.setState({
       deleteDialogOpened: false,
@@ -76,31 +99,8 @@ export class ProjectListComponent extends React.Component {
     )
   }
 
-  getType = (type) => {
-    switch (type) {
-      case 'COLLECTION':
-        return (<FormattedMessage id="model.type.collection" />)
-      case 'DOCUMENT':
-        return (<FormattedMessage id="model.type.document" />)
-      case 'DATA':
-        return (<FormattedMessage id="model.type.data" />)
-      case 'DATASET':
-        return (<FormattedMessage id="model.type.dataset" />)
-      default:
-        return null
-    }
-  }
-
-  getExportUrlFromHateoas = (modelLinks) => {
-    const { accessToken } = this.props
-    const exportLink = find(modelLinks, link => (
-      link.rel === 'export'
-    ))
-    return `${exportLink.href}?token=${accessToken}` || ''
-  }
-
   render() {
-    const { modelList, handleEdit, handleDelete, handleDuplicate, createUrl, handleBindAttributes, backUrl } = this.props
+    const { modelList, handleEdit, handleDuplicate, createUrl, handleBindAttributes, backUrl } = this.props
     const style = {
       hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
       hoverButtonDelete: this.context.muiTheme.palette.accent1Color,

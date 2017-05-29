@@ -62,7 +62,7 @@ export class RoleFormComponent extends React.Component {
 
 
   render() {
-    const { pristine, submitting, invalid, change, roleList } = this.props
+    const { pristine, submitting, invalid, roleList } = this.props
     const title = this.state.isCreating ? <FormattedMessage id="role.create.title" /> :
       (<FormattedMessage
         id="role.edit.title"

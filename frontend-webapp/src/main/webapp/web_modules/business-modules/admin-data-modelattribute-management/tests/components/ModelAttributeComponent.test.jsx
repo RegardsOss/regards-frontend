@@ -4,7 +4,7 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { TableRowColumn } from 'material-ui/Table'
-import { stub, spy } from 'sinon'
+import { spy } from 'sinon'
 import { PluginConfigurationPickerComponent } from '@regardsoss/components'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import ModelAttributeComponent from '../../src/components/ModelAttributeComponent'
