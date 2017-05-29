@@ -5,7 +5,7 @@ import map from 'lodash/map'
 import isEmpty from 'lodash/isEmpty'
 import filter from 'lodash/filter'
 import find from 'lodash/find'
-
+import { i18nContextType } from '@regardsoss/i18n'
 import { FormattedMessage } from 'react-intl'
 import RaisedButton from 'material-ui/RaisedButton'
 import IconMenu from 'material-ui/IconMenu'
@@ -26,6 +26,10 @@ class PluginConfigurationPickerComponent extends React.Component {
     currentPluginConfiguration: PluginConfiguration,
     pluginMetaDataList: PluginMetaDataList,
     pluginConfigurationList: PropTypes.objectOf(PluginConfiguration),
+  }
+
+  static contextTypes = {
+    ...i18nContextType,
   }
 
   constructor(props) {
