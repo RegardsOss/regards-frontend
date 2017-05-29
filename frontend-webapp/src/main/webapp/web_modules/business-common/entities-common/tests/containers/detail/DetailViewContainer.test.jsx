@@ -59,7 +59,7 @@ describe('[Entities Common] Testing DetailViewContainer', () => {
           ipId: 'Bonjourlespetitsenfants',
           label: 'ça',
           model: { id: 0 },
-          descriptionFileType: 'text/markdown',
+          descriptionFile: { type: 'text/markdown' },
         },
       },
     }
@@ -81,7 +81,7 @@ describe('[Entities Common] Testing DetailViewContainer', () => {
           ipId: 'Bonjourlespetitsenfants',
           label: 'ça',
           model: { id: 1 },
-          descriptionFileType: 'text/markdown',
+          descriptionFile: { type: 'text/markdown' },
         },
       },
     }
@@ -109,7 +109,7 @@ describe('[Entities Common] Testing DetailViewContainer', () => {
           ipId: 'Bonjourlespetitsenfants',
           label: 'ça',
           model: { id: 0 },
-          descriptionFileType: 'text/markdown',
+          descriptionFile: { type: 'text/markdown' },
         },
       },
     }
@@ -192,7 +192,7 @@ describe('[Entities Common] Testing DetailViewContainer', () => {
           ipId: 'Bonjourlespetitsenfants',
           label: 'ça',
           model: { id: 0 },
-          descriptionFileType: 'jenexistepas/onnemevoitpas',
+          descriptionFile: { type: 'jenexistepas/onnemevoitpas' },
         },
       },
     }
@@ -215,7 +215,7 @@ describe('[Entities Common] Testing DetailViewContainer', () => {
           ipId: 'Bonjourlespetitsenfants',
           label: 'ça',
           model: { id: 1 },
-          descriptionFileType: 'jenexistepas/onnemevoitpas',
+          descriptionFile: { type: 'jenexistepas/onnemevoitpas' },
         },
       },
     }
@@ -239,7 +239,7 @@ describe('[Entities Common] Testing DetailViewContainer', () => {
           ipId: 'Bonjourlespetitsenfants',
           label: 'ça',
           model: { id: 1 },
-          descriptionFileType: 'jenexistepas/onnemevoitpas',
+          descriptionFile: { type: 'jenexistepas/onnemevoitpas' },
           properties: {
             aproperty: 'entityPropertyValue',
           },
@@ -290,7 +290,7 @@ describe('[Entities Common] Testing DetailViewContainer', () => {
           ipId: 'Bonjourlespetitsenfants',
           label: 'ça',
           model: { id: 1 },
-          descriptionFileType: 'jenexistepas/onnemevoitpas',
+          descriptionFile: { type: 'jenexistepas/onnemevoitpas' },
         },
       },
     }
@@ -322,7 +322,7 @@ describe('[Entities Common] Testing DetailViewContainer', () => {
           ipId: 'Bonjourlespetitsenfants',
           label: 'ça',
           model: { id: 1 },
-          descriptionFileType: 'text/markdown',
+          descriptionFile: { type: 'text/markdown' },
           properties: {
             aproperty: 'entityPropertyValue',
           },
@@ -355,7 +355,7 @@ describe('[Entities Common] Testing DetailViewContainer', () => {
           ipId: 'Bonjourlespetitsenfants',
           label: 'ça',
           model: { id: 1 },
-          descriptionFileType: 'text/markdown',
+          descriptionFile: { type: 'text/markdown' },
           properties: {
             aproperty: 'entityPropertyValue',
           },
@@ -376,7 +376,7 @@ describe('[Entities Common] Testing DetailViewContainer', () => {
           ipId: 'Bonjourlespetitsenfants',
           label: 'ça',
           model: { id: 1 },
-          descriptionFileType: 'text/markdown',
+          descriptionFile: { type: 'text/markdown' },
           properties: {
             aproperty: 'entityPropertyValue',
           },

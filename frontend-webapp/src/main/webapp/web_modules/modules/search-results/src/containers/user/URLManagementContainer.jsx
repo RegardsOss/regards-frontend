@@ -53,6 +53,8 @@ export class URLManagementContainer extends React.Component {
     levels: PropTypes.arrayOf(PropTypes.instanceOf(NavigationLevel)).isRequired,
     // from mapDispatchToProps
     initialize: PropTypes.func.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
+    dispatchFetchDataset: PropTypes.func.isRequired,
   }
 
   /**
