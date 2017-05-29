@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import map from 'lodash/map'
-import forEach from 'lodash/forEach'
+import find from 'lodash/find'
 import RaisedButton from 'material-ui/RaisedButton'
 import Dialog from 'material-ui/Dialog'
 import Subheader from 'material-ui/Subheader'
@@ -94,13 +94,12 @@ class AttributeRegroupementConfigurationComponent extends React.Component {
     })
   }
 
+  // Check if the given attribute regroupement label already exists in the current list of attribute regroupements
   validateLabel = (label) => {
     let error
-    forEach(this.props.attributesRegroupementsConf, (regroupement) => {
-      if (regroupement.label === label) {
-        error = 'form.attributes.regroupement.form.error.label.aleady.exists'
-      }
-    })
+    if (find(this.props.attributesRegroupementsConf, regroupement => regroupement.label === label)) {
+      error = 'form.attributes.regroupement.form.error.label.aleady.exists'
+    }
     return error
   }
 
@@ -175,7 +174,7 @@ class AttributeRegroupementConfigurationComponent extends React.Component {
           />))}
       </div>
     </div>
-    )
+  )
 }
 
 export default AttributeRegroupementConfigurationComponent

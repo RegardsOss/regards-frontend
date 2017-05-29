@@ -91,25 +91,32 @@ class AttributeConfigurationComponent extends React.Component {
   render() {
     const { allowFacettes, filter = '', attribute: { content: { label, description } } } = this.props
     const display = !filter.length || label.match(new RegExp(`^${this.props.filter}.*$`, 'i'))
+
+    const cardStyle = { width: 300, margin: 5 }
+    const cardHeaderStyle = {
+      paddingTop: 0,
+      paddingBottom: 0,
+    }
+    const cardContentStyle = { paddingTop: 0 }
+    const searchFiledStyle = { maxWidth: 150 }
+    const visibilityOffIcon = <VisibilityOff />
+    const visibilityOnIcon = <Visibility />
+    const searchOnIcon = <Search />
+    const searchOffIcon = <Locked />
     return (
       <ShowableAtRender
         show={display}
       >
         <Card
-          style={{ width: 300, margin: 5 }}
+          style={cardStyle}
         >
           <CardHeader
             title={label}
             subtitle={description}
-            style={{
-              paddingTop: 0,
-              paddingBottom: 0,
-            }}
+            style={cardHeaderStyle}
           />
           <CardText
-            style={{
-              paddingTop: 0,
-            }}
+            style={cardContentStyle}
           >
             <TextField
               id="search"
@@ -117,23 +124,21 @@ class AttributeConfigurationComponent extends React.Component {
               floatingLabelText={this.context.intl.formatMessage({ id: 'form.attributes.order' })}
               value={this.formatOrder(this.state.conf.order)}
               onChange={this.changeAttributeOrder}
-              style={{
-                maxWidth: 150,
-              }}
+              style={searchFiledStyle}
             />
             <Checkbox
               label={this.context.intl.formatMessage({ id: 'form.attributes.visibility.label' })}
               checked={this.state.conf.visibility}
-              checkedIcon={<Visibility />}
-              uncheckedIcon={<VisibilityOff />}
+              checkedIcon={visibilityOnIcon}
+              uncheckedIcon={visibilityOffIcon}
               onCheck={this.changeVisibility}
             />
             <ShowableAtRender show={allowFacettes}>
               <Checkbox
                 label={this.context.intl.formatMessage({ id: 'form.attributes.facetable.label' })}
                 checked={this.state.conf.facetable}
-                checkedIcon={<Search />}
-                uncheckedIcon={<Locked />}
+                checkedIcon={searchOnIcon}
+                uncheckedIcon={searchOffIcon}
                 onCheck={this.changeFacetable}
               />
               <Checkbox

@@ -51,6 +51,14 @@ class AttributeConfigurationComponent extends React.Component {
     return false
   }
 
+  onDeleteAction = () => {
+    this.props.onDelete(this.props.conf)
+  }
+
+  onEditAction = () => {
+    this.props.onEdit(this.props.conf)
+  }
+
   changeVisibility = () => {
     const newConf = merge({}, this.state.conf, { visibility: !this.state.conf.visibility })
     this.setState({ conf: newConf })
@@ -66,39 +74,46 @@ class AttributeConfigurationComponent extends React.Component {
   formatOrder = value => value ? parseInt(value, this) : undefined
 
   render() {
+    const cardStyle = { width: 300, margin: 5 }
+    const cardHeaderStyle = {
+      display: 'inline-block',
+      width: '80%',
+      paddingTop: 0,
+      paddingBottom: 0 }
+    const cardContentStyle = { paddingTop: 0 }
+    const searchFieldStyle = { maxWidth: 150 }
+    const anchorOrigin = { horizontal: 'left', vertical: 'top' }
+    const menuIconStyle = {
+      display: 'inline-block',
+    }
+    const iconButton = <IconButton><MoreVertIcon /></IconButton>
+    const visibilityOffIcon = <VisibilityOff />
+    const visibilityOnIcon = <Visibility />
     return (
       <Card
-        style={{ width: 300, margin: 5 }}
+        style={cardStyle}
       >
         <CardHeader
           title={this.props.conf.label}
-          style={{
-            display: 'inline-block',
-            width: '80%',
-            paddingTop: 0,
-            paddingBottom: 0 }}
+          style={cardHeaderStyle}
         />
         <IconMenu
-          iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
-          anchorOrigin={{ horizontal: 'left', vertical: 'top' }}
-          targetOrigin={{ horizontal: 'left', vertical: 'top' }}
-          style={{
-            display: 'inline-block',
-          }}
+          iconButtonElement={iconButton}
+          anchorOrigin={anchorOrigin}
+          targetOrigin={anchorOrigin}
+          style={menuIconStyle}
         >
           <MenuItem
             primaryText={this.context.intl.formatMessage({ id: 'form.attributes.regroupement.edit' })}
-            onTouchTap={() => this.props.onEdit(this.props.conf)}
+            onTouchTap={this.onEditAction}
           />
           <MenuItem
             primaryText={this.context.intl.formatMessage({ id: 'form.attributes.regroupement.remove' })}
-            onTouchTap={() => this.props.onDelete(this.props.conf)}
+            onTouchTap={this.onDeleteAction}
           />
         </IconMenu>
         <CardText
-          style={{
-            paddingTop: 0,
-          }}
+          style={cardContentStyle}
         >
           <TextField
             id="search"
@@ -106,15 +121,13 @@ class AttributeConfigurationComponent extends React.Component {
             floatingLabelText={this.context.intl.formatMessage({ id: 'form.attributes.order' })}
             value={this.formatOrder(this.state.conf.order)}
             onChange={this.changeAttributeOrder}
-            style={{
-              maxWidth: 150,
-            }}
+            style={searchFieldStyle}
           />
           <Checkbox
             label={this.context.intl.formatMessage({ id: 'form.attributes.visibility.label' })}
             checked={this.state.conf.visibility}
-            checkedIcon={<Visibility />}
-            uncheckedIcon={<VisibilityOff />}
+            checkedIcon={visibilityOnIcon}
+            uncheckedIcon={visibilityOffIcon}
             onCheck={this.changeVisibility}
           />
         </CardText>
