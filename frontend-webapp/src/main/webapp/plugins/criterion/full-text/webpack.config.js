@@ -71,7 +71,7 @@ module.exports = {
       // The path to the manifest file which maps between
       // modules included in a bundle and the internal IDs
       // within that bundle
-      manifest: require(`${__dirname}/../../../dist/dev/core-manifest.json`),
+      manifest: require(`${__dirname}/../../../dist/prod/core-manifest.json`),
       context: __dirname,
     }),
     // A plugin for a more aggressive chunk merging strategy. Even similar chunks are merged if the total size is reduced enough.

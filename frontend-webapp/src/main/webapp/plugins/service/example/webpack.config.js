@@ -71,7 +71,7 @@ module.exports = {
       // The path to the manifest file which maps between
       // modules included in a bundle and the internal IDs
       // within that bundle
-      manifest: require(`${__dirname}/../../../dist/dev/core-manifest.json`),
+      manifest: require(`${__dirname}/../../../dist/prod/core-manifest.json`),
       context: __dirname,
     }),
     // A plugin for a more aggressive chunk merging strategy. Even similar chunks are merged if the total size is reduced enough.
@@ -81,12 +81,5 @@ module.exports = {
     // Makes a module available as a variable in every module
     new webpack.ProvidePlugin({ React: 'react' }),
     new webpack.BannerPlugin('Copyright CNES'),
-    // Define environment variables
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify('production'),
-      },
-      GATEWAY_HOSTNAME: JSON.stringify('http://172.26.47.52:8000'),
-    }),
   ],
 }
