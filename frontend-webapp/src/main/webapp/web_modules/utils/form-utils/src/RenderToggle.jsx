@@ -14,7 +14,7 @@ class renderToggle extends React.Component {
     type: PropTypes.string,
   }
   render() {
-    const { input, label, type, ...rest } = this.props
+    const { input, label, type, meta, intl, ...rest } = this.props
     return (
       <Toggle
         {...input}

@@ -60,13 +60,7 @@ export class PluginConfigurationContainer extends React.Component {
     const updatedPluginConfiguration = Object.assign({}, previousPluginConfiguration, {
       active: !previousPluginConfiguration.active,
     })
-    Promise.resolve(this.props.updatePluginConfiguration(previousPluginConfiguration.id, updatedPluginConfiguration, microserviceName, pluginId))
-      .then((actionResult) => {
-        // We receive here the action
-        if (!actionResult.error) {
-          console.log('toggle active successfull!')
-        }
-      })
+    this.props.updatePluginConfiguration(previousPluginConfiguration.id, updatedPluginConfiguration, microserviceName, pluginId)
   }
 
   handleCopy = () => {
@@ -78,13 +72,7 @@ export class PluginConfigurationContainer extends React.Component {
 
   handleDeleteClick = () => {
     const { params: { microserviceName, pluginId }, pluginConfiguration } = this.props
-    Promise.resolve(this.props.deletePluginConfiguration(pluginConfiguration.content.id, microserviceName, pluginId))
-      .then((actionResult) => {
-        // We receive here the action
-        if (!actionResult.error) {
-          console.log('delete sucessful')
-        }
-      })
+    this.props.deletePluginConfiguration(pluginConfiguration.content.id, microserviceName, pluginId)
   }
 
   handleEdit = () => {
@@ -101,13 +89,7 @@ export class PluginConfigurationContainer extends React.Component {
       priorityOrder: previousPluginConfiguration.priorityOrder - 1,
     })
 
-    Promise.resolve(this.props.updatePluginConfiguration(previousPluginConfiguration.id, updatedPluginConfiguration, microserviceName, pluginId))
-      .then((actionResult) => {
-        // We receive here the action
-        if (!actionResult.error) {
-          console.log('decrease priority successfull')
-        }
-      })
+    this.props.updatePluginConfiguration(previousPluginConfiguration.id, updatedPluginConfiguration, microserviceName, pluginId)
   }
 
   handleUpwardClick = () => {
@@ -116,14 +98,7 @@ export class PluginConfigurationContainer extends React.Component {
     const updatedPluginConfiguration = Object.assign({}, previousPluginConfiguration, {
       priorityOrder: previousPluginConfiguration.priorityOrder + 1,
     })
-
-    Promise.resolve(this.props.updatePluginConfiguration(previousPluginConfiguration.id, updatedPluginConfiguration, microserviceName, pluginId))
-      .then((actionResult) => {
-        // We receive here the action
-        if (!actionResult.error) {
-          console.log('decrease priority successfull')
-        }
-      })
+    this.props.updatePluginConfiguration(previousPluginConfiguration.id, updatedPluginConfiguration, microserviceName, pluginId)
   }
 
   render() {

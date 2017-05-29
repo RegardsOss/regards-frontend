@@ -2,6 +2,8 @@
  * LICENSE_PLACEHOLDER
  **/
 import find from 'lodash/find'
+import isUndefined from 'lodash/isUndefined'
+import isNil from 'lodash/isNil'
 import { validURLRegexp, relativeURLRegexp } from '@regardsoss/model'
 import ErrorTypes from './ErrorTypes'
 
@@ -53,7 +55,7 @@ export const isValidPassword = value => value && value.length >= 6
  */
 export const compose = (...validators) => (value, allValues, props) => {
   const results = validators.map(validator => validator(value, allValues, props))
-  return find(results, result => typeof result !== 'undefined')
+  return find(results, result => !isUndefined(result))
 }
 
 /**
@@ -62,7 +64,7 @@ export const compose = (...validators) => (value, allValues, props) => {
  * @param {String} value
  * @returns {String||undefined}
  */
-export const validRequiredString = value => typeof value !== 'undefined' && value !== null && value !== '' ? undefined : ErrorTypes.REQUIRED
+export const validRequiredString = value => !isNil(value) && value !== '' ? undefined : ErrorTypes.REQUIRED
 
 /**
  * Redux-Form-style validator for Fields which content must not be empty.
@@ -70,7 +72,7 @@ export const validRequiredString = value => typeof value !== 'undefined' && valu
  * @param {String} value
  * @returns {String||undefined}
  */
-export const validRequiredNumber = value => typeof value !== 'undefined' && value !== null && !isNaN(value) ? undefined : ErrorTypes.REQUIRED
+export const validRequiredNumber = value => !isNil(value) && !isNaN(value) ? undefined : ErrorTypes.REQUIRED
 
 /**
  * Wrap the {@link isValidAlphaNumericUnderscore} logic into a Redux-Form-style validator.

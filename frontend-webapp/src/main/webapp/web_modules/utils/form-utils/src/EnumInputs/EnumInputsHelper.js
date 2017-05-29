@@ -1,10 +1,9 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import map from 'lodash/map'
+import forEach from 'lodash/forEach'
 import pickBy from 'lodash/pickBy'
 import valuesIn from 'lodash/valuesIn'
-
 
 /**
  *
@@ -17,7 +16,7 @@ function apiResultIntoFormValues(currentFormValues, currentEnumValues, inputKey)
   formValues.enumform = {}
   formValues.enumform[inputKey] = {}
   formValues.enumform[inputKey].inputs = {}
-  map(currentEnumValues, (currentEnumValue, key) => {
+  forEach(currentEnumValues, (currentEnumValue, key) => {
     formValues.enumform[inputKey].inputs[`input${key}`] = currentEnumValue
   })
   return formValues

@@ -4,26 +4,14 @@
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { PluginMetaData, PluginConfigurationList } from '@regardsoss/model'
-import { LoadableContentDisplayDecorator, ResourceIconAction } from '@regardsoss/display-control'
-import { RequestVerbEnum } from '@regardsoss/store-utils'
+import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { themeContextType } from '@regardsoss/theme'
 import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
-import AppBar from 'material-ui/AppBar'
-import IconButton from 'material-ui/IconButton'
-import Paper from 'material-ui/Paper'
-import ArrowBack from 'material-ui/svg-icons/navigation/arrow-back'
-import AddCircle from 'material-ui/svg-icons/content/add-circle'
-import Subheader from 'material-ui/Subheader'
-import flow from 'lodash/flow'
-import fpfilter from 'lodash/fp/filter'
-import fpsortBy from 'lodash/fp/sortBy'
-import fpmap from 'lodash/fp/map'
-import PluginConfigurationContainer from './PluginConfigurationContainer'
 import PluginConfigurationSelectors from '../../model/plugin/PluginConfigurationSelectors'
 import PluginMetaDataSelectors from '../../model/plugin/PluginMetaDataSelectors'
 import PluginConfigurationActions from '../../model/plugin/PluginConfigurationActions'
 import PluginMetaDataActions from '../../model/plugin/PluginMetaDataActions'
-import moduleStyles from '../../styles/styles'
+import PluginConfigurationListComponent from '../../components/plugin/PluginConfigurationListComponent'
 
 /**
  * Container connecting the plugin configuration list to the redux store and handling user interface actions.
@@ -42,7 +30,6 @@ export class PluginConfigurationListContainer extends React.Component {
     // from mapStateToProps
     pluginMetaData: PluginMetaData,
     pluginConfigurationList: PluginConfigurationList,
-    isPluginConfigurationFetching: PropTypes.bool,
     // from mapDispatchToProps
     fetchPluginMetaData: PropTypes.func,
     fetchPluginConfigurationList: PropTypes.func,
@@ -55,12 +42,34 @@ export class PluginConfigurationListContainer extends React.Component {
     ...i18nContextType,
   }
 
+  state = {
+    isLoading: true,
+  }
 
   componentDidMount() {
     const { params: { microserviceName, pluginId } } = this.props
-    this.props.fetchPluginMetaData(pluginId, microserviceName)
-    this.props.fetchPluginConfigurationList(microserviceName, pluginId)
+    const tasks = [
+      this.props.fetchPluginMetaData(pluginId, microserviceName),
+      this.props.fetchPluginConfigurationList(microserviceName, pluginId),
+    ]
+    return Promise.all(tasks)
+      .then((actionResults) => {
+        this.setState({
+          isLoading: false,
+        })
+        return actionResults
+      })
   }
+
+  getView = () => (
+    <PluginConfigurationListComponent
+      params={this.props.params}
+      pluginMetaData={this.props.pluginMetaData}
+      pluginConfigurationList={this.props.pluginConfigurationList}
+      handleBackClick={this.handleBackClick}
+      handleAddClick={this.handleAddClick}
+    />
+  )
 
   handleAddClick = () => {
     const { params: { project, microserviceName, pluginId } } = this.props
@@ -75,60 +84,14 @@ export class PluginConfigurationListContainer extends React.Component {
   }
 
   render() {
-    const styles = moduleStyles(this.context.muiTheme).pluginConfiguration
-
-    const {
-      params: { microserviceName },
-      pluginMetaData,
-      pluginConfigurationList,
-      isPluginConfigurationFetching,
-    } = this.props
-
-    const activeConfs = flow(
-      fpfilter(pluginConfiguration => pluginConfiguration.content.active),
-      fpsortBy(pluginConfiguration => -1 * pluginConfiguration.content.priorityOrder),
-      fpmap(pluginConfiguration => (<PluginConfigurationContainer
-        key={pluginConfiguration.content.id}
-        params={this.props.params}
-        pluginConfiguration={pluginConfiguration}
-        pluginMetaData={pluginMetaData}
-      />)))(pluginConfigurationList)
-
-    const inactiveConfs = flow(
-      fpfilter(pluginConfiguration => !pluginConfiguration.content.active),
-      fpsortBy(pluginConfiguration => -1 * pluginConfiguration.content.priorityOrder),
-      fpmap(pluginConfiguration => (<PluginConfigurationContainer
-        key={pluginConfiguration.content.id}
-        params={this.props.params}
-        pluginConfiguration={pluginConfiguration}
-        pluginMetaData={pluginMetaData}
-      />)))(pluginConfigurationList)
-
+    const { isLoading } = this.state
     return (
       <I18nProvider messageDir="business-modules/admin-microservice-management/src/i18n">
-        <Paper>
-          <AppBar
-            title={`${microserviceName} > Plugins > ${pluginMetaData && pluginMetaData.content.pluginClassName}`}
-            iconElementLeft={<IconButton onTouchTap={this.handleBackClick}><ArrowBack /></IconButton>}
-            iconElementRight={
-              <ResourceIconAction
-                resourceDependency={PluginConfigurationActions.getMsDependency(RequestVerbEnum.POST, microserviceName)}
-                tooltip={this.context.intl.formatMessage({ id: 'microservice-management.plugin.configuration.list.add' })}
-                onTouchTap={this.handleAddClick}
-              >
-                <AddCircle />
-              </ResourceIconAction>
-            }
-          />
-          <div style={styles.root}>
-            <LoadableContentDisplayDecorator isLoading={isPluginConfigurationFetching}>
-              <Subheader>Active</Subheader>
-              {activeConfs}
-              <Subheader>Inactive</Subheader>
-              {inactiveConfs}
-            </LoadableContentDisplayDecorator>
-          </div>
-        </Paper>
+        <LoadableContentDisplayDecorator
+          isLoading={isLoading}
+        >
+          {this.getView}
+        </LoadableContentDisplayDecorator>
       </I18nProvider>
     )
   }
@@ -137,7 +100,6 @@ export class PluginConfigurationListContainer extends React.Component {
 const mapStateToProps = (state, ownProps) => ({
   pluginMetaData: PluginMetaDataSelectors.getById(state, ownProps.params.pluginId),
   pluginConfigurationList: PluginConfigurationSelectors.getListByPluginId(state, ownProps.params.pluginId),
-  isPluginConfigurationFetching: PluginConfigurationSelectors.isFetching(state),
 })
 
 const mapDispatchToProps = dispatch => ({
