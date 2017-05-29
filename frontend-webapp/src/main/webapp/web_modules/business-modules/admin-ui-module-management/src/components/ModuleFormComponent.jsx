@@ -3,6 +3,7 @@
  **/
 import find from 'lodash/find'
 import map from 'lodash/map'
+import isNil from 'lodash/isNil'
 import merge from 'lodash/merge'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import MenuItem from 'material-ui/MenuItem'
@@ -57,8 +58,8 @@ class ModuleFormComponent extends React.Component {
         container => container.id === this.props.module.container && container.dynamicContent)
     }
     this.state = {
-      creation: this.props.duplication || this.props.module === null || this.props.module === undefined,
-      moduleSelected: this.props.module !== null && this.props.module !== undefined,
+      creation: this.props.duplication || isNil(this.props.module),
+      moduleSelected: !isNil(this.props.module),
       dynamicContainerSelected,
       module: this.props.module ? this.props.module : {
         active: false,

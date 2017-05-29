@@ -1,11 +1,12 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import { isUndefined } from 'lodash'
 import { SET_LOCALE, SET_LOCALE_MSG } from './I18nActions'
 
 // If navigator is not defined, set the locale to english
 let navigator
-if (typeof navigator === 'undefined') {
+if (isUndefined(navigator)) {
   navigator = { language: 'en' }
 }
 

@@ -3,6 +3,7 @@
  **/
 import map from 'lodash/map'
 import keys from 'lodash/keys'
+import isNil from 'lodash/isNil'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
@@ -41,7 +42,7 @@ export class DatasourceFormAttributesComponent extends React.Component {
 
   constructor(props) {
     super(props)
-    const isCreating = props.currentDatasource === null || props.currentDatasource === undefined
+    const isCreating = isNil(props.currentDatasource)
     this.state = {
       isCreating,
     }

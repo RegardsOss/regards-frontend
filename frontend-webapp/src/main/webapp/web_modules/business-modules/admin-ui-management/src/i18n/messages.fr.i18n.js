@@ -11,7 +11,7 @@ const messages = Object.assign({
 
   'portal.layout.title': 'Agencement du portail',
   'project.layout.title': 'Agencement',
-  'project.layout.description': 'Configuration de l\'agencement de l\"interface utilisateur. L\'agencement permet de définir les sections dans lesquelles vous pouvez positioner les modules',
+  'project.layout.description': 'Configuration de l\'agencement de l\'interface utilisateur. L\'agencement permet de définir les sections dans lesquelles vous pouvez positioner les modules',
   'project.layout.tooltip': 'Agencement',
 
   'portal.module.title': 'Modules du portail',

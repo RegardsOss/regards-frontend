@@ -4,6 +4,8 @@
 import map from 'lodash/map'
 import forEach from 'lodash/forEach'
 import keys from 'lodash/keys'
+import isNil from 'lodash/isNil'
+import isObject from 'lodash/isObject'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
 import { FormattedMessage } from 'react-intl'
@@ -54,7 +56,7 @@ export class DatasetFormAttributesComponent extends React.Component {
 
   constructor(props) {
     super(props)
-    const isCreating = props.currentDataset === null || props.currentDataset === undefined
+    const isCreating = isNil(props.currentDataset)
     let showDescriptionMode = DESCRIPTION_MODE.NOTHING
     let disableNoDescription = false
     if (!isCreating) {
@@ -127,7 +129,7 @@ export class DatasetFormAttributesComponent extends React.Component {
       const { currentDataset } = this.props
       const attributes = {}
       forEach(currentDataset.content.attributes, (attributeValueOrFragment, key) => {
-        if (typeof attributeValueOrFragment === 'object') {
+        if (isObject(attributeValueOrFragment)) {
           // It's a fragment
           forEach(attributeValueOrFragment, (attribute, id) => {
             attributes[id] = attribute

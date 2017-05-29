@@ -1,6 +1,9 @@
 import { FormattedMessage } from 'react-intl'
 import { RenderTextField, RenderCheckbox, Field } from '@regardsoss/form-utils'
 import { AttributeModel } from '@regardsoss/model'
+import { i18nContextType } from '@regardsoss/i18n'
+import get from 'lodash/get'
+import forEach from 'lodash/forEach'
 import TextField from 'material-ui/TextField'
 import map from 'lodash/map'
 import IconButton from 'material-ui/IconButton'
@@ -20,9 +23,13 @@ export class EnumerationComponent extends React.Component {
     change: PropTypes.func.isRequired,
   }
 
+  static contextTypes = {
+    ...i18nContextType,
+  }
+
   constructor(props) {
     super(props)
-    const currentValues = (props.currentAttrModel && props.currentAttrModel.content && props.currentAttrModel.content.restriction && props.currentAttrModel.content.restriction.acceptableValues) || []
+    const currentValues = get(props.currentAttrModel, 'content.restriction.acceptableValues', [])
     const acceptableValues = []
     currentValues.forEach((value) => {
       acceptableValues.push({
@@ -132,7 +139,7 @@ export function initializeEnumerationForm(initialValues, currentAttrModel) {
   formValues.restriction.ENUMERATION = {}
   formValues.restriction.ENUMERATION.active = true
   formValues.restriction.ENUMERATION.inputs = {}
-  map(currentAttrModel.content.restriction.acceptableValues, (value, key) => {
+  forEach(currentAttrModel.content.restriction.acceptableValues, (value, key) => {
     formValues.restriction.ENUMERATION.inputs[`input${key}`] = value
   })
   return formValues

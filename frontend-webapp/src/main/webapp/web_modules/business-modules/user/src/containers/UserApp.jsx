@@ -103,13 +103,6 @@ export class UserApp extends React.Component {
    * @returns {React.Component}
    */
   render() {
-    const modulesList = []
-    if (this.props.modules) {
-      forEach(this.props.modules, (module, key) => {
-        modulesList.push(module)
-      })
-    }
-
     return (
       <ThemeProvider>
         <LoadableContentDisplayDecorator
@@ -117,7 +110,7 @@ export class UserApp extends React.Component {
           isContentError={!this.props.layout}
         >
           <div>
-            {this.renderLayout(modulesList)}
+            {this.renderLayout(this.props.modules)}
             <ApplicationErrorContainer />
           </div>
         </LoadableContentDisplayDecorator>

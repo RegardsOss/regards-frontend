@@ -24,9 +24,7 @@ const messages = Object.assign({
   'dataset.form.links.action.cancel': 'Retour',
 
   'dataset.form.plugin.title': 'Gestion des plugins appliqués au jeu de données',
-  'dataset.form.plugin.subtitle': 'Vous pouvez activer l\'un des 3 types de plugin suivant : <br /> - les filtres permettent de modifier les requêtes de recherche de l\'utilisateur sur un jeu de données. <br /> - les convertisseurs permettent de convertir les données résultantes d\'une recherche sur le jeu de données. <br /> - les services permettent de réaliser des traitements sur le jeu de données.',
-  'dataset.form.plugin.filters': 'Activation de filtres',
-  'dataset.form.plugin.converters': 'Activation de convertisseurs',
+  'dataset.form.plugin.subtitle': 'Vous pouvez activer des plugins services pour pouvoir réaliser des traitements sur le jeu de données.',
   'dataset.form.plugin.services': 'Activation de services',
   'dataset.form.plugin.action.next': 'Suite',
   'dataset.form.plugin.action.cancel': 'Annuler',
@@ -76,7 +74,7 @@ const messages = Object.assign({
   'dataset.stepper.attributes': 'Saisie des attributs',
   'dataset.stepper.subsetting': 'Filtrage (datasource)',
   'dataset.stepper.plugins': 'Plugins',
-  'dataset.stepper.uiServices': 'Services IU',
+  'dataset.stepper.uiServices': 'Services IHM',
 
 
   'table.actions.more': 'Plus d\'actions',

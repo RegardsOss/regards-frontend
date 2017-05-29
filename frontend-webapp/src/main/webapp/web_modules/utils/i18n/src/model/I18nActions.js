@@ -2,6 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import forOwn from 'lodash/forOwn'
+import includes from 'lodash/includes'
 import I18nSelectors from './I18nSelectors'
 
 export const SET_LOCALE = 'SET_LOCALE'
@@ -34,7 +35,7 @@ export function updateMessages(messagesDir, locale) {
         // eslint-disable-next-line import/no-dynamic-require
         messages = require(`../../../../${messagesDir}/messages.${locale}.i18n.js`)
       } catch (e) {
-        if (locale.indexOf('-') > -1) {
+        if (includes(locale)) {
           try {
             const langFallback = locale.split('-')[0]
             // eslint-disable-next-line import/no-dynamic-require

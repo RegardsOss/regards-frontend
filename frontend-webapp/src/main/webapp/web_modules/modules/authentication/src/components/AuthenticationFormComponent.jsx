@@ -1,7 +1,6 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { FormattedMessage } from 'react-intl'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import isEmpty from 'lodash/isEmpty'
 import { formValueSelector } from 'redux-form'
@@ -11,6 +10,7 @@ import ResetPasswordIcon from 'material-ui/svg-icons/action/restore-page'
 import ProjectAccessIcon from 'material-ui/svg-icons/action/assignment-ind'
 import { connect } from '@regardsoss/redux'
 import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
 import { PictureLinkComponent } from '@regardsoss/components'
 import { RenderTextField, Field, FormErrorMessage, ErrorTypes, reduxForm } from '@regardsoss/form-utils'
 
@@ -50,7 +50,10 @@ export class AuthenticationFormComponent extends React.Component {
     initialize: PropTypes.func.isRequired,
   }
 
-  static contextTypes = { ...themeContextType }
+  static contextTypes = {
+    ...themeContextType,
+    ...i18nContextType,
+  }
 
   componentWillMount() {
     const initialValues = {}
@@ -69,7 +72,7 @@ export class AuthenticationFormComponent extends React.Component {
     if (showCancel) {
       cancelButtonElt = (
         <RaisedButton
-          label={<FormattedMessage id="authentication.cancel" />}
+          label={this.context.intl.formatMessage({ id: 'authentication.cancel' })}
           primary
           onClick={onCancelAction}
         />
@@ -84,7 +87,7 @@ export class AuthenticationFormComponent extends React.Component {
           <Card>
             <CardTitle
               title={this.props.title}
-              subtitle={<FormattedMessage id="authentication.message" />}
+              subtitle={this.context.intl.formatMessage({ id: 'authentication.message' })}
             />
             <CardText>
               <FormErrorMessage>{errorMessage}</FormErrorMessage>
@@ -94,20 +97,20 @@ export class AuthenticationFormComponent extends React.Component {
                 fullWidth
                 component={RenderTextField}
                 type="text"
-                label={<FormattedMessage id="authentication.username" />}
+                label={this.context.intl.formatMessage({ id: 'authentication.username' })}
               />
               <Field
                 name="password"
                 fullWidth
                 component={RenderTextField}
                 type="password"
-                label={<FormattedMessage id="authentication.password" />}
+                label={this.context.intl.formatMessage({ id: 'authentication.password' })}
               />
             </CardText>
             <CardActions style={moduleTheme.action}>
               <RaisedButton
                 disabled={this.props.submitting || this.props.invalid}
-                label={<FormattedMessage id="authentication.button" />}
+                label={this.context.intl.formatMessage({ id: 'authentication.button' })}
                 primary
                 type="submit"
               />
@@ -118,19 +121,19 @@ export class AuthenticationFormComponent extends React.Component {
                 className="selenium-projectAccessButton"
                 disabled={!showAskProjectAccess}
                 IconComponent={ProjectAccessIcon}
-                text={<FormattedMessage id="authentication.goto.ask.access" />}
+                text={this.context.intl.formatMessage({ id: 'authentication.goto.ask.access' })}
                 onAction={() => onGotoCreateAccount(currentMailValue)}
               />
               <PictureLinkComponent
                 className="selenium-resetPasswordButton"
                 IconComponent={ResetPasswordIcon}
-                text={<FormattedMessage id="authentication.goto.reset.password" />}
+                text={this.context.intl.formatMessage({ id: 'authentication.goto.reset.password' })}
                 onAction={() => onGotoResetPassword(currentMailValue)}
               />
               <PictureLinkComponent
                 className="selenium-unlockAccountButton"
                 IconComponent={UnlockAccountIcon}
-                text={<FormattedMessage id="authentication.goto.unlock.account" />}
+                text={this.context.intl.formatMessage({ id: 'authentication.goto.unlock.account' })}
                 onAction={() => onGotoUnlockAccount(currentMailValue)}
               />
             </div>

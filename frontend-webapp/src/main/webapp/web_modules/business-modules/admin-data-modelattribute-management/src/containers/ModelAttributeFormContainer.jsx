@@ -3,7 +3,7 @@
  **/
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
-import map from 'lodash/map'
+import forEach from 'lodash/forEach'
 import partition from 'lodash/partition'
 import some from 'lodash/some'
 import find from 'lodash/find'
@@ -133,7 +133,7 @@ export class ModelAttributeFormContainer extends React.Component {
     result.attrs = partitionAttributeHavingFragment[1]
 
     // Store fragment and corresponding attributeModel
-    map(partitionAttributeHavingFragment[0], (attribute) => {
+    forEach(partitionAttributeHavingFragment[0], (attribute) => {
       // Add the fragment if not existing
       if (!result.fragments[attribute.content.fragment.id]) {
         result.fragments[attribute.content.fragment.id] = []
