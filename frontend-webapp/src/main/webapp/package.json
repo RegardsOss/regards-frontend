@@ -10,6 +10,7 @@
     "build:production": "webpack --progress --config webpack.prod.config.js --display-error-details",
     "build:dev": "webpack --progress --config webpack.dev.config.js --display-error-details",
     "build:plugins": "./scripts/buildPlugins.sh",
+    "build:plugins-dev": "./scripts/buildPlugins.sh -d",
     "build:stats": "webpack --config webpack.dev.config.js --profile --json > stats.json",
     "prestart": "npm run lint:fix || true",
     "start": "npm run start:withpreprod",
