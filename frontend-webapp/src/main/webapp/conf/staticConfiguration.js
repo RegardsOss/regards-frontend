@@ -18,7 +18,7 @@ GATEWAY_HOSTNAME='http://${regards.config.cloud.gateway.uri}:${regards.config.cl
  */
 STATIC_CONFIGURATION= {
   // Available microservices from backend server.
-  microservices: ['rs-access-project','rs-admin','rs-authentication','rs-catalog','rs-dam','rs-gateway'],
+  microservices: ['rs-access-project','rs-admin','rs-authentication','rs-catalog','rs-dam'],
   // Default driver used to create a project connection (see module admin-database-management)
   projectConnectionDriver: 'org.postgresql.Driver'
 }
