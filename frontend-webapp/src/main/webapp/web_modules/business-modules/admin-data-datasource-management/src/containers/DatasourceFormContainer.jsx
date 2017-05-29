@@ -13,6 +13,7 @@ import { datasourceSelectors, datasourceActions } from './../client/DatasourceCl
 import DatasourceFormAttributesContainer from './DatasourceFormAttributesContainer'
 import DatasourceFormMappingContainer from './DatasourceFormMappingContainer'
 import { pluginMetaDataActions, pluginMetaDataSelectors } from './../client/PluginMetaDataClient'
+import { fragmentSelectors } from './../client/FragmentClient'
 
 const states = {
   FORM_ATTRIBUTE: 'FORM_ATTRIBUTE',
@@ -92,6 +93,16 @@ export class DatasourceFormContainer extends React.Component {
     return `/admin/${project}/data/datasource/create/connection`
   }
 
+  /**
+   * Check if the fragment if the none one
+   */
+  getNamespaceUsingFragmentName = (modelAttr) => {
+    if (modelAttr.content.attribute.fragment.name !== fragmentSelectors.noneFragmentName) {
+      return modelAttr.content.attribute.fragment.name
+    }
+    return ""
+  }
+
   redirectToList = () => {
     const { params: { project } } = this.props
     const url = `/admin/${project}/data/datasource/list`
@@ -169,7 +180,7 @@ export class DatasourceFormContainer extends React.Component {
       const newAttributeMapping = {
         name: attributeName,
         type: modelAttr.content.attribute.type,
-        namespace: modelAttr.content.attribute.fragment.name,
+        namespace: this.getNamespaceUsingFragmentName(modelAttr),
       }
       if (attribute.sql && attribute.sql.length > 0) {
         newAttributeMapping.nameDS = attribute.sql

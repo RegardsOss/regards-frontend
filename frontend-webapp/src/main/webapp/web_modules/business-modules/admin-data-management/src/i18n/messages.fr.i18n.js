@@ -17,7 +17,7 @@ const messages = {
   'data.board.collection.title': 'Collection',
   'data.board.collection.description': 'Collection',
 
-  'data.board.datasource.title': 'Source de données',
+  'data.board.datasource.title': 'Sources de données',
   'data.board.datasource.description': 'Une source de données permet de ...',
 
   'data.board.dataset.title': 'Jeux de données',

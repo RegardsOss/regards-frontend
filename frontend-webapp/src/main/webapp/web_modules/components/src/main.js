@@ -60,6 +60,8 @@ import LinkComponent from './links/LinkComponent'
 import TableColumnConfiguration from './table/content/columns/model/ColumnConfiguration'
 import TableColumnConfigurationController from './table/content/columns/model/ColumnConfigurationController'
 
+import HelpMessageComponent from './help/HelpMessageComponent'
+
 export {
   ActionButtonComponent,
   ActionIconWithNotifications,
@@ -105,4 +107,5 @@ export {
   PluginConfigurationPickerComponent,
   SVGIconFromString,
   LinkComponent,
+  HelpMessageComponent,
 }

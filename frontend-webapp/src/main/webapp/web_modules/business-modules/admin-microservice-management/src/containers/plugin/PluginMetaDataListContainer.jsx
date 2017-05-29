@@ -61,8 +61,9 @@ export class PluginMetaDataListContainer extends React.Component {
     ...themeContextType,
   }
 
-  constructor(props) {
+  constructor(props, context) {
     super(props)
+    this.styles = moduleStyles(context.muiTheme).plugins
     this.state = {
       filterOpen: false,
       displayedTypes: [],
@@ -131,9 +132,9 @@ export class PluginMetaDataListContainer extends React.Component {
    *
    * @param plugin
    */
-  getTile = (styles, plugin) => (
-    <div className={styles.tile.classes}>
-      <Card key={plugin.content.pluginId} style={styles.tile.styles}>
+  getTile = plugin => (
+    <div className={this.styles.tile.classes}>
+      <Card key={plugin.content.pluginId} style={this.styles.tile.styles}>
         <CardTitle
           title={plugin.content.pluginId}
           subtitle={`${plugin.content.author} | ${plugin.content.version}`}
@@ -197,8 +198,6 @@ export class PluginMetaDataListContainer extends React.Component {
   render() {
     const { params: { microserviceName }, isPluginMetaDataListFetching } = this.props
 
-    const styles = moduleStyles(this.context.muiTheme).plugins
-
     return (
       <I18nProvider messageDir="business-modules/admin-microservice-management/src/i18n">
         <Paper>
@@ -214,10 +213,10 @@ export class PluginMetaDataListContainer extends React.Component {
               </IconButton>
             }
           />
-          <div style={styles.root}>
+          <div style={this.styles.root}>
             <LoadableContentDisplayDecorator isLoading={isPluginMetaDataListFetching}>
-              <div style={styles.grid}>
-                {this.getGrid(styles)}
+              <div style={this.styles.grid}>
+                {this.getGrid()}
               </div>
             </LoadableContentDisplayDecorator>
           </div>

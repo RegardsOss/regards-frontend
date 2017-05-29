@@ -2,7 +2,8 @@ import values from 'lodash/values'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
 import { FormattedMessage } from 'react-intl'
-import { i18nContextType, I18nProvider } from '@regardsoss/i18n'
+import { themeContextType } from '@regardsoss/theme'
+import { I18nProvider, I18nProvider } from '@regardsoss/i18n'
 
 /**
  * Confirm action dialog component. Switches dialog mode,
@@ -30,6 +31,7 @@ class ConfirmDialogComponent extends React.Component {
   }
 
   static contextTypes = {
+    ...themeContextType,
     ...i18nContextType,
   }
 
@@ -54,7 +56,7 @@ class ConfirmDialogComponent extends React.Component {
         onTouchTap={this.handleDelete}
       />,
       <FlatButton
-        label={<FormattedMessage id={'confirm.dialog.cancel'} />}
+        label={this.context.intl.formatMessage({ id: 'confirm.dialog.cancel' })}
         primary
         keyboardFocused
         onTouchTap={onClose}
