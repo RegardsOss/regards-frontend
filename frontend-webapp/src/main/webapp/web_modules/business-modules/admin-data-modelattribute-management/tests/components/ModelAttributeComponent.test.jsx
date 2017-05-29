@@ -6,20 +6,15 @@ import { expect, assert } from 'chai'
 import { TableRowColumn } from 'material-ui/Table'
 import { stub, spy } from 'sinon'
 import { PluginConfigurationPickerComponent } from '@regardsoss/components'
+import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import ModelAttributeComponent from '../../src/components/ModelAttributeComponent'
 
+const context = buildTestContext()
 
 // Test a component rendering
 describe('[ADMIN DATA MODEL ATTRIBUTE MANAGEMENT] Testing ModelAttributeComponent', () => {
-  // Since react will console.error propType warnings, that which we'd rather have
-  // as errors, we use sinon.js to stub it into throwing these warning as errors
-  // instead.
-  before(() => {
-    stub(console, 'error').callsFake((warning) => { throw new Error(warning) })
-  })
-  after(() => {
-    console.error.restore()
-  })
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
 
   it('should exists', () => {
     assert.isDefined(ModelAttributeComponent)
@@ -66,7 +61,7 @@ describe('[ADMIN DATA MODEL ATTRIBUTE MANAGEMENT] Testing ModelAttributeComponen
       },
       handleComputationUpdate: onSelectFieldChange,
     }
-    const enzymeWrapper = shallow(<ModelAttributeComponent {...props} />)
+    const enzymeWrapper = shallow(<ModelAttributeComponent {...props} />, {context})
     const subComponent = enzymeWrapper.find(TableRowColumn)
     expect(subComponent).to.have.length(3)
     const subComponentSelectField = enzymeWrapper.find(PluginConfigurationPickerComponent)

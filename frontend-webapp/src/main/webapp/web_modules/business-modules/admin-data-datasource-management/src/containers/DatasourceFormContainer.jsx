@@ -100,7 +100,7 @@ export class DatasourceFormContainer extends React.Component {
     if (modelAttr.content.attribute.fragment.name !== fragmentSelectors.noneFragmentName) {
       return modelAttr.content.attribute.fragment.name
     }
-    return ""
+    return ''
   }
 
   redirectToList = () => {

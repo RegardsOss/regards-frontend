@@ -8,10 +8,10 @@ export default class HelpMessageComponent extends React.Component {
   static propTypes = {
     message: PropTypes.string.isRequired,
   }
-  static styleContainer = {display: 'flex', alignItems: 'center'}
-  static styleIcon = {width: '24px', height: '24px', marginRight: '10px'}
+  static styleContainer = { display: 'flex', alignItems: 'center' }
+  static styleIcon = { width: '24px', height: '24px', marginRight: '10px' }
 
-  render () {
+  render() {
     return (<span style={HelpMessageComponent.styleContainer}>
       <Stars style={HelpMessageComponent.styleIcon} />
       {this.props.message}

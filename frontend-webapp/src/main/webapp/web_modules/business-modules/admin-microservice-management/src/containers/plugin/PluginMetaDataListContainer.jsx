@@ -109,7 +109,7 @@ export class PluginMetaDataListContainer extends React.Component {
   /**
    * Builds the grid of tiles.
    */
-  getGrid = (styles) => (
+  getGrid = () => (
     map(this.state.displayedTypes, pluginType => (
       [
         <Subheader>{pluginType.content}</Subheader>,
@@ -120,7 +120,7 @@ export class PluginMetaDataListContainer extends React.Component {
               }
               return null
             })
-            .map(pluginMetaData => this.getTile(styles, pluginMetaData))
+            .map(pluginMetaData => this.getTile(pluginMetaData))
             .value(),
       ]
       ),

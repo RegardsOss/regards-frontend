@@ -39,7 +39,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing plugin parameter boolean component'
       },
       mode: 'view',
     }
-    const enzymeWrapper = shallow(<PluginParameterBoolean {...props} />, {context})
+    const enzymeWrapper = shallow(<PluginParameterBoolean {...props} />, { context })
     const subComponent = enzymeWrapper.find(ListItem)
     expect(subComponent).to.have.length(1)
   })
@@ -59,7 +59,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing plugin parameter boolean component'
       },
       mode: 'edit',
     }
-    const enzymeWrapper = shallow(<PluginParameterBoolean {...props} />, {context})
+    const enzymeWrapper = shallow(<PluginParameterBoolean {...props} />, { context })
     const subComponent = enzymeWrapper.find(Field)
     expect(subComponent).to.have.length(1)
   })
