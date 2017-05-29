@@ -24,6 +24,8 @@ export class EnumInputsComponent extends React.Component {
     change: PropTypes.func.isRequired,
   }
 
+  static addIcon = (<Add />)
+
   constructor(props) {
     super(props)
     // Create a form input for each value
@@ -86,7 +88,7 @@ export class EnumInputsComponent extends React.Component {
                     name={`enumform.${inputName}.inputs.input${id}`}
                     component={RenderTextField}
                     type="text"
-                    label={<FormattedMessage id="form-utils.enumform.valueinput" />}
+                    label={this.context.intl.formatMessage({ id: 'form-utils.enumform.valueinput' })}
                   />
                   <IconButton onTouchTap={() => this.handleDelete(id)}>
                     <Delete />
@@ -109,13 +111,13 @@ export class EnumInputsComponent extends React.Component {
             type="text"
             value={newValue}
             onChange={this.onTextFieldChange}
-            label={<FormattedMessage id="form-utils.enumform.addinput" />}
+            label={this.context.intl.formatMessage({ id: 'form-utils.enumform.addinput' })}
           />
 
           <FlatButton
             onTouchTap={this.handleCreate}
             secondary
-            icon={<Add />}
+            icon={EnumInputsComponent.addIcon}
           />
         </div>
       </div>

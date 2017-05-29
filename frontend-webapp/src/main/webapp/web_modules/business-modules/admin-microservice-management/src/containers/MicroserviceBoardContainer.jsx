@@ -2,6 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import forEach from 'lodash/forEach'
+import map from 'lodash/map'
 import concat from 'lodash/concat'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
@@ -32,27 +33,24 @@ export class MicroserviceBoardContainer extends React.Component {
     ...i18nContextType,
   }
 
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      microservicesMaintenance: {},
-      microservicesUp: [],
-    }
+  state = {
+    microservicesMaintenance: {},
+    microservicesUp: [],
   }
 
   componentDidMount() {
-        // For each microservice, check if it is up
-    forEach(STATIC_CONFIGURATION.microservices, (microservice) => {
-      Promise.resolve(this.props.checkMicroserviceStatus(microservice)).then((ActionResult) => {
-                // If microservice is Up, then check for maintenance mode.
-        if (!ActionResult.error) {
+    // For each microservice, check if it is up
+    return map(STATIC_CONFIGURATION.microservices, microservice => (
+      Promise.resolve(this.props.checkMicroserviceStatus(microservice)).then((actionResult) => {
+        // If microservice is Up, then check for maintenance mode.
+        if (!actionResult.error) {
           this.setState({
             microservicesUp: concat([], this.state.microservicesUp, [microservice]),
           }, () => this.props.fetchMaintenance(microservice))
         }
+        return actionResult
       })
-    })
+    ))
   }
 
   componentWillReceiveProps() {
@@ -76,12 +74,8 @@ export class MicroserviceBoardContainer extends React.Component {
     })
   }
 
-  handleSetMaintenance = (microserviceName, projectName, action) => {
-    Promise.resolve(this.props.setMaintenance(microserviceName, projectName, action))
-            .then((actionResult) => {
-              this.props.fetchMaintenance(microserviceName)
-            })
-  }
+  handleSetMaintenance = (microserviceName, projectName, action) => Promise.resolve(this.props.setMaintenance(microserviceName, projectName, action))
+      .then(actionResult => this.props.fetchMaintenance(microserviceName))
 
   render() {
     return (

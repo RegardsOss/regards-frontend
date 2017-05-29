@@ -3,6 +3,7 @@
  **/
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
+import isUndefined from 'lodash/isUndefined'
 import { I18nProvider } from '@regardsoss/i18n'
 import { PluginMetaData, PluginConfiguration } from '@regardsoss/model'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
@@ -75,7 +76,7 @@ export class PluginConfigurationFormContainer extends React.Component {
    */
   getFormComponent = () => {
     const { params: { formMode }, currentPluginMetaData, currentPluginConfiguration, isPluginConfigurationFetching, isPluginMetaDataFetching } = this.props
-    const isEmpty = this.state.isEditing && typeof currentPluginConfiguration === 'undefined'
+    const isEmpty = this.state.isEditing && isUndefined(currentPluginConfiguration)
     return (
       <LoadableContentDisplayDecorator
         isLoading={isPluginConfigurationFetching || isPluginMetaDataFetching}
@@ -99,13 +100,14 @@ export class PluginConfigurationFormContainer extends React.Component {
   handleUpdate = (vals) => {
     const { params: { microserviceName, pluginId, pluginConfigurationId } } = this.props
 
-    Promise.resolve(this.props.updatePluginConfiguration(pluginConfigurationId, vals, microserviceName, pluginId))
+    return Promise.resolve(this.props.updatePluginConfiguration(pluginConfigurationId, vals, microserviceName, pluginId))
       .then((actionResult) => {
         // We receive here the actions
         if (!actionResult.error) {
           const url = this.getBackUrl()
           browserHistory.push(url)
         }
+        return actionResult
       })
   }
 
@@ -117,13 +119,14 @@ export class PluginConfigurationFormContainer extends React.Component {
   handleCreate = (vals) => {
     const { params: { microserviceName, pluginId } } = this.props
 
-    Promise.resolve(this.props.createPluginConfiguration(vals, microserviceName, pluginId))
+    return Promise.resolve(this.props.createPluginConfiguration(vals, microserviceName, pluginId))
       .then((actionResult) => {
         // We receive here the action
         if (!actionResult.error) {
           const url = this.getBackUrl()
-          browserHistory.push(url)
+          return browserHistory.push(url)
         }
+        return actionResult
       })
   }
 
