@@ -6,7 +6,7 @@ import { HateoasIconAction, HateoasKeys } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
-import Key from 'material-ui/svg-icons/communication/vpn-key'
+import Settings from 'material-ui/svg-icons/action/settings-input-component'
 import { CardActionsComponent, ConfirmDialogComponent, ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -110,6 +110,9 @@ export class RoleListComponent extends React.Component {
       hoverButtonDelete: this.context.muiTheme.palette.accent1Color,
       hoverButtonView: this.context.muiTheme.palette.pickerHeaderColor,
     }
+    const linkRoleResourceIconTitle = this.context.intl.formatMessage({id: 'role.edit.resource.action.title'})
+    const editRoleIconTitle = this.context.intl.formatMessage({id: 'role.edit.action.title'})
+    const deleteRoleIconTitle = this.context.intl.formatMessage({id: 'role.delete.action.title'})
     return (
       <Card>
         <CardTitle
@@ -146,14 +149,16 @@ export class RoleListComponent extends React.Component {
                       entityLinks={role.links}
                       hateoasKey={HateoasKeys.UPDATE}
                       onTouchTap={() => handleEditResourceAccess(role.content.name)}
+                      title={linkRoleResourceIconTitle}
                     >
-                      <Key />
+                      <Settings />
                     </HateoasIconAction>
 
                     <HateoasIconAction
                       entityLinks={role.links}
                       hateoasKey={HateoasKeys.UPDATE}
                       onTouchTap={() => handleEdit(role.content.name)}
+                      title={editRoleIconTitle}
                     >
                       <Edit hoverColor={style.hoverButtonEdit} />
                     </HateoasIconAction>
@@ -162,6 +167,7 @@ export class RoleListComponent extends React.Component {
                       entityLinks={role.links}
                       hateoasKey={HateoasKeys.DELETE}
                       onTouchTap={() => this.openDeleteDialog(role)}
+                      title={deleteRoleIconTitle}
                     >
                       <Delete hoverColor={style.hoverButtonDelete} />
                     </HateoasIconAction>
