@@ -3,7 +3,10 @@
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
-    "airbnb"
+    "airbnb",
+    "plugin:lodash/recommended",
+    "plugin:react-perf/all",
+    "plugin:promise/recommended"
   ],
   "env": {
     "browser": true,
