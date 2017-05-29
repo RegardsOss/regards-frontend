@@ -4,6 +4,8 @@
 import map from 'lodash/map'
 import forEach from 'lodash/forEach'
 import keys from 'lodash/keys'
+import isNil from 'lodash/isNil'
+import isObject from 'lodash/isObject'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
 import { FormattedMessage } from 'react-intl'
@@ -51,7 +53,7 @@ export class CollectionFormComponent extends React.Component {
 
   constructor(props) {
     super(props)
-    const isCreating = props.currentCollection === null || props.currentCollection === undefined
+    const isCreating = isNil(props.currentCollection)
 
     let showDescriptionMode = DESCRIPTION_MODE.NOTHING
     let disableNoDescription = false
@@ -132,7 +134,7 @@ export class CollectionFormComponent extends React.Component {
       const { currentCollection } = this.props
       const attributes = {}
       forEach(currentCollection.content.attributes, (attributeValueOrFragment, key) => {
-        if (typeof attributeValueOrFragment === 'object') {
+        if (isObject(attributeValueOrFragment)) {
           // It's a fragment
           forEach(attributeValueOrFragment, (attribute, id) => {
             attributes[id] = attribute

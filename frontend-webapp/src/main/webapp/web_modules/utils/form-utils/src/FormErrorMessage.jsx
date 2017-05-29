@@ -1,10 +1,11 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import { isString } from 'lodash'
 import { ErrorDecoratorComponent, ShowableAtRender } from '@regardsoss/components'
 
 const FormErrorMessage = ({ children }) => {
-  const active = typeof children === 'string' && children.length !== 0
+  const active = isString(children) && children.length !== 0
   return (
     <ShowableAtRender show={active}>
       <ErrorDecoratorComponent>

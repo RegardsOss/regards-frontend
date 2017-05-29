@@ -4,7 +4,7 @@
 import map from 'lodash/map'
 import join from 'lodash/join'
 import split from 'lodash/split'
-import { FormattedMessage } from 'react-intl'
+import { i18nContextType } from '@regardsoss/i18n'
 import MenuItem from 'material-ui/MenuItem'
 import { CardActionsComponent } from '@regardsoss/components'
 import { RenderTextField, RenderSelectField, Field, RenderCheckbox, reduxForm, ValidationHelpers } from '@regardsoss/form-utils'
@@ -26,6 +26,10 @@ class ContainerConfigurationComponent extends React.Component {
     pristine: PropTypes.bool,
     handleSubmit: PropTypes.func.isRequired,
     initialize: PropTypes.func.isRequired,
+  }
+
+  static contextTypes = {
+    ...i18nContextType,
   }
 
   componentDidMount() {
@@ -54,7 +58,7 @@ class ContainerConfigurationComponent extends React.Component {
               component={RenderTextField}
               type="text"
               disabled={this.props.container !== null}
-              label={<FormattedMessage id="container.form.id" />}
+              label={this.context.intl.formatMessage({ id: 'container.form.id' })}
             />
             <Field
               name="type"
@@ -62,7 +66,7 @@ class ContainerConfigurationComponent extends React.Component {
               component={RenderSelectField}
               type="text"
               onSelect={this.selectContainerType}
-              label={<FormattedMessage id="container.form.type" />}
+              label={this.context.intl.formatMessage({ id: 'container.form.type' })}
             >
               {map(containerTypes, (type, typeName) => (
                 <MenuItem
@@ -79,7 +83,7 @@ class ContainerConfigurationComponent extends React.Component {
               fullWidth
               component={RenderTextField}
               type="text"
-              label={<FormattedMessage id="container.form.classes" />}
+              label={this.context.intl.formatMessage({ id: 'container.form.classes' })}
             />
             <Field
               name="styles"
@@ -88,20 +92,22 @@ class ContainerConfigurationComponent extends React.Component {
               fullWidth
               component={RenderTextField}
               type="text"
-              label={<FormattedMessage id="container.form.styles" />}
+              label={this.context.intl.formatMessage({ id: 'container.form.styles' })}
             />
             <Field
               name="dynamicContent"
               component={RenderCheckbox}
-              label={<FormattedMessage id="container.form.dynamicContent" />}
+              label={this.context.intl.formatMessage({ id: 'container.form.dynamicContent' })}
             />
             <CardActionsComponent
-              mainButtonLabel={<FormattedMessage
-                id={this.props.container ? 'container.form.update.button' : 'container.form.submit.button'}
-              />}
+              mainButtonLabel={
+                this.context.intl.formatMessage({
+                  id: this.props.container ? 'container.form.update.button' : 'container.form.submit.button',
+                })
+              }
               mainButtonType="submit"
               isMainButtonDisabled={pristine || submitting}
-              secondaryButtonLabel={<FormattedMessage id="container.form.cancel.button" />}
+              secondaryButtonLabel={this.context.intl.formatMessage({ id: 'container.form.cancel.button' })}
               secondaryButtonTouchTap={this.props.onCancel}
             />
           </div>

@@ -1,7 +1,6 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import forEach from 'lodash/forEach'
 import { connect } from '@regardsoss/redux'
 import { Layout } from '@regardsoss/model'
 import { AuthenticationParametersActions, AuthenticationParametersSelectors } from '@regardsoss/authentication-manager'
@@ -64,12 +63,6 @@ export class PortalApp extends React.Component {
     if (!this.props.layout) {
       return (<FormEntityNotFoundComponent />)
     }
-
-    const modulesList = []
-    forEach(this.props.modules, (module, key) => {
-      modulesList.push(module)
-    })
-
     const { project } = this.props
 
     return (
@@ -77,7 +70,7 @@ export class PortalApp extends React.Component {
         <ApplicationLayout
           appName="portal"
           layout={this.props.layout.content.layout}
-          modules={modulesList}
+          modules={this.props.modules}
           project={project}
         />
       </ThemeProvider>

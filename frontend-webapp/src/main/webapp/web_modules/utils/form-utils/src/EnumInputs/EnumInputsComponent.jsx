@@ -5,6 +5,7 @@ import { FormattedMessage } from 'react-intl'
 import TextField from 'material-ui/TextField'
 import map from 'lodash/map'
 import fill from 'lodash/fill'
+import { i18nContextType } from '@regardsoss/i18n'
 import IconButton from 'material-ui/IconButton'
 import Delete from 'material-ui/svg-icons/action/delete'
 import Add from 'material-ui/svg-icons/content/add-circle-outline'
@@ -22,6 +23,10 @@ export class EnumInputsComponent extends React.Component {
     inputName: PropTypes.string.isRequired,
     // redux form
     change: PropTypes.func.isRequired,
+  }
+
+  static contextTypes = {
+    ...i18nContextType,
   }
 
   static addIcon = (<Add />)

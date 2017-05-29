@@ -1,7 +1,8 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import forEach from 'lodash/forEach'
+import map from 'lodash/map'
+import { chain } from 'lodash'
 import IconButton from 'material-ui/IconButton'
 import IconMenu from 'material-ui/IconMenu'
 import MenuItem from 'material-ui/MenuItem'
@@ -21,6 +22,11 @@ import { DELETE_ACTION, ADD_ACTION, EDIT_ACTION } from './LayoutConfigurationCom
  * @author Sébastien Binda
  */
 class Container extends React.Component {
+  static defaultProps = {
+    configurationMode: false,
+    mainContainer: false,
+    modules: [],
+  }
 
   static propTypes = {
     project: PropTypes.string,
@@ -36,31 +42,30 @@ class Container extends React.Component {
     mainContainer: PropTypes.bool,
   }
 
+  static iconMenu = (<IconButton><MoreVertIcon /></IconButton>)
+
   /**
    * Render the children containers of the current container
    * @returns {Array}
    */
   renderSubContainers = () => {
-    const renderContainers = []
     if (this.props.container.containers) {
-      forEach(this.props.container.containers, (c, idx) => (
-        renderContainers.push(
-          <Container
-            key={c.id}
-            project={this.props.project}
-            appName={this.props.appName}
-            container={c}
-            modules={this.props.modules}
-            plugins={this.props.plugins}
-            pluginProps={this.props.pluginProps}
-            dynamicContent={this.props.dynamicContent}
-            onContainerClick={this.props.onContainerClick}
-            configurationMode={this.props.configurationMode}
-          />,
-        )
+      return map(this.props.container.containers, (c, idx) => (
+        <Container
+          key={c.id}
+          project={this.props.project}
+          appName={this.props.appName}
+          container={c}
+          modules={this.props.modules}
+          plugins={this.props.plugins}
+          pluginProps={this.props.pluginProps}
+          dynamicContent={this.props.dynamicContent}
+          onContainerClick={this.props.onContainerClick}
+          configurationMode={this.props.configurationMode}
+        />
       ))
     }
-    return renderContainers
+    return []
   }
 
   /**
@@ -68,27 +73,25 @@ class Container extends React.Component {
    * @returns {Array}
    */
   renderModules = () => {
-    const renderModules = []
     if (this.props.configurationMode) {
-      return renderModules
+      return []
     }
     if (this.props.container.dynamicContent) {
       // Render dynamic content in this dynamic container
-      renderModules.push(this.props.dynamicContent)
+      return [this.props.dynamicContent]
       // Render modules and plugins of this static container
-    } else if (this.props.modules) {
-      const containerModules = this.props.modules.filter(module => module.content.container === this.props.container.id && module.content.applicationId === this.props.appName)
-      forEach(containerModules, (module, idx) => (
-        renderModules.push(<LazyModuleComponent
-          key={idx}
+    }
+    return chain(this.props.modules)
+        .filter(module => module.content.container === this.props.container.id && module.content.applicationId === this.props.appName)
+      .map((module, idx) => (
+        <LazyModuleComponent
+          key={module.content.id}
           module={module.content}
           appName={this.props.appName}
           project={this.props.project}
-        />,
-        )
-      ))
-    }
-    return renderModules
+        />),
+    )
+      .value()
   }
 
   /**
@@ -96,35 +99,34 @@ class Container extends React.Component {
    * @returns {Array}
    */
   renderPlugins = () => {
-    const renderPlugins = []
     if (this.props.configurationMode) {
-      return renderPlugins
+      return []
     }
     if (this.props.plugins) {
-      const containerPlugins = this.props.plugins.filter(plugin => plugin.container === this.props.container.id)
-      forEach(containerPlugins, (plugin, idx) => {
-        renderPlugins.push(
+      const stylePaper = {
+        // display: 'flex',
+        // justifyContent: 'space-between',
+        width: '100%',
+      }
+      return chain(this.props.plugins)
+        .filter(plugin => plugin.container === this.props.container.id)
+        .map((plugin, idx) => (
           <Paper
-            key={`${this.props.container.id}-${idx}`}
-            style={{
-              // display: 'flex',
-              // justifyContent: 'space-between',
-              width: '100%',
-            }}
+            key={`${this.props.container.id}-${plugin.pluginId}`}
+            style={stylePaper}
           >
             <PluginProvider
-              key={`${this.props.container.id}-${idx}`}
+              key={`${this.props.container.id}-${plugin.pluginId}`}
               pluginInstanceId={`${this.props.container.id}-${idx}`}
               pluginId={plugin.pluginId}
               pluginConf={plugin.pluginConf}
               pluginProps={this.props.pluginProps}
               displayPlugin
             />
-          </Paper>,
-        )
-      })
+          </Paper>
+      )).value()
     }
-    return renderPlugins
+    return []
   }
 
   /**
@@ -132,6 +134,15 @@ class Container extends React.Component {
    * @returns {*}
    */
   renderConfigurationMode = () => {
+    const anchorOrigin = {
+      horizontal: 'left',
+      vertical: 'top',
+    }
+    const targetOrigin = {
+      horizontal: 'left',
+      vertical: 'top',
+    }
+    const toolbarStyle = { height: 40 }
     if (this.props.configurationMode) {
       let deleteAction = null
       if (this.props.mainContainer === false) {
@@ -146,21 +157,15 @@ class Container extends React.Component {
       }
       return (
         <div className="row">
-          <Toolbar style={{ height: 40 }}>
+          <Toolbar style={toolbarStyle}>
             <ToolbarGroup key="name">
               <ToolbarTitle text={this.props.container.id} />
             </ToolbarGroup>
             <ToolbarGroup key="actions">
               <IconMenu
-                iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
-                anchorOrigin={{
-                  horizontal: 'left',
-                  vertical: 'top',
-                }}
-                targetOrigin={{
-                  horizontal: 'left',
-                  vertical: 'top',
-                }}
+                iconButtonElement={Container.iconMenu}
+                anchorOrigin={anchorOrigin}
+                targetOrigin={targetOrigin}
               >
                 <MenuItem
                   key="add"
@@ -180,8 +185,6 @@ class Container extends React.Component {
               </IconMenu>
             </ToolbarGroup>
           </Toolbar>
-
-
         </div>
       )
     }
@@ -225,11 +228,6 @@ class Container extends React.Component {
       </div>
     )
   }
-}
-
-Container.defaultProps = {
-  configurationMode: false,
-  mainContainer: false,
 }
 
 export default Container

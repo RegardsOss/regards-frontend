@@ -4,6 +4,7 @@
 import { connect } from '@regardsoss/redux'
 import { Collection } from '@regardsoss/model'
 import { I18nProvider } from '@regardsoss/i18n'
+import isUndefined from 'lodash/isUndefined'
 import partition from 'lodash/partition'
 import some from 'lodash/some'
 import filter from 'lodash/filter'
@@ -76,22 +77,14 @@ export class CollectionEditLinksContainer extends React.Component {
    * When the user add a new tag
    * @param tag
    */
-  handleAdd = (tag) => {
-    Promise.resolve(this.props.addTagToCollection(this.props.currentCollection.content.id, [tag]))
-      .then((actionResult) => {
-        this.props.fetchCollection(this.props.params.collectionId)
-      })
-  }
+  handleAdd = tag => Promise.resolve(this.props.addTagToCollection(this.props.currentCollection.content.id, [tag]))
+      .then(actionResult => this.props.fetchCollection(this.props.params.collectionId))
   /**
    * When the user remove a tag
    * @param tag
    */
-  handleDelete = (tag) => {
-    Promise.resolve(this.props.removeTagFromCollection(this.props.currentCollection.content.id, [tag]))
-      .then((actionResult) => {
-        this.props.fetchCollection(this.props.params.collectionId)
-      })
-  }
+  handleDelete = tag => Promise.resolve(this.props.removeTagFromCollection(this.props.currentCollection.content.id, [tag]))
+      .then(actionResult => this.props.fetchCollection(this.props.params.collectionId))
 
   handleSearch = (event, collectionName) => {
     this.setState({
@@ -102,7 +95,7 @@ export class CollectionEditLinksContainer extends React.Component {
   render() {
     const { isFetching, currentCollection, collectionList } = this.props
     const collectionLinkedToCurrentCollection = this.getRemainingCollection(currentCollection, collectionList)
-    const isLoading = isFetching && typeof currentCollection === 'undefined'
+    const isLoading = isFetching && isUndefined(currentCollection)
     return (
       <I18nProvider messageDir="business-modules/admin-data-collection-management/src/i18n">
         <LoadableContentDisplayDecorator

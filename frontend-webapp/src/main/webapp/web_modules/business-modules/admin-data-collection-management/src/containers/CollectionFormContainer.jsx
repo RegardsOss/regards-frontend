@@ -2,7 +2,6 @@
  * LICENSE_PLACEHOLDER
  **/
 import { browserHistory } from 'react-router'
-import map from 'lodash/map'
 import find from 'lodash/find'
 import forEach from 'lodash//forEach'
 import keys from 'lodash/keys'
@@ -120,7 +119,7 @@ export class CollectionFormContainer extends React.Component {
    */
   extractAttributesFromValues = (values) => {
     const result = {}
-    map(values.attributes, (attrValue, attrName) => {
+    forEach(values.attributes, (attrValue, attrName) => {
       const modelAttr = find(this.props.modelAttributeList, modelAttribute => modelAttribute.content.attribute.name === attrName)
       const fragment = modelAttr.content.attribute.fragment
       if (fragment.name !== fragmentSelectors.noneFragmentName) {

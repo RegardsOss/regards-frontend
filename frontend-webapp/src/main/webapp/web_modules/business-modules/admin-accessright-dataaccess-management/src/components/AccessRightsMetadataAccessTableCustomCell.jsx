@@ -1,4 +1,5 @@
 import find from 'lodash/find'
+import get from 'lodash/get'
 import { Dataset, AccessRight } from '@regardsoss/model'
 import AccessRightsEnum from './AccessRightsEnum'
 
@@ -20,7 +21,7 @@ class AccessRightsTableCustomCell extends React.Component {
 
   render() {
     const accessRight = find(this.props.accessRights, ar => ar.content.dataset.id === this.props.entity.content.id)
-    const accessLevel = accessRight && accessRight.content && accessRight.content.accessLevel ? accessRight.content.accessLevel : AccessRightsEnum.METADATA_ACCESS_ENUM.NO_ACCESS
+    const accessLevel = get(accessRight, 'content.accessLevel', AccessRightsEnum.METADATA_ACCESS_ENUM.NO_ACCESS)
     return (
       <span>{this.props.intl.formatMessage({ id: `accessright.form.meta.accessLevel.${accessLevel}` })}</span>
     )

@@ -2,6 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import map from 'lodash/map'
+import has from 'lodash/has'
 import { CardActions, CardText } from 'material-ui/Card'
 import { ShowableAtRender, CardActionsComponent, PluginConfigurationPickerComponent } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
@@ -276,7 +277,7 @@ export class AccessRightFormComponent extends React.Component {
                 onChange={this.onPluginConfigurationChange}
                 pluginMetaDataList={pluginMetaDataList}
                 pluginConfigurationList={pluginConfigurationList}
-                currentPluginConfiguration={currentAccessRight && currentAccessRight.dataAccessRight && currentAccessRight.dataAccessRight.pluginConfiguration && pluginConfigurationList[currentAccessRight.dataAccessRight.pluginConfiguration]}
+                currentPluginConfiguration={has(currentAccessRight, 'dataAccessRight.pluginConfiguration') && pluginConfigurationList[currentAccessRight.dataAccessRight.pluginConfiguration]}
               />
             </ShowableAtRender>
             {this.renderQualityFilter()}

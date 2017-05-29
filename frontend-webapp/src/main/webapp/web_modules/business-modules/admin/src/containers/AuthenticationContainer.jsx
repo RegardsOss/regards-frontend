@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { intlShape } from 'react-intl'
+import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { LazyModuleComponent } from '@regardsoss/modules'
 import getModuleStyles from '../styles/styles'
@@ -19,7 +19,7 @@ class AuthenticationContainer extends React.Component {
 
   static contextTypes = {
     ...themeContextType,
-    intl: intlShape,
+    ...i18nContextType,
   }
 
   render() {

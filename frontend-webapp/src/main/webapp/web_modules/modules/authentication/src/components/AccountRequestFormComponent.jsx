@@ -9,6 +9,7 @@ import isEmpty from 'lodash/isEmpty'
 import { connect } from '@regardsoss/redux'
 import RaisedButton from 'material-ui/RaisedButton'
 import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
 import { Field, RenderTextField, FormErrorMessage, ValidationHelpers, ErrorTypes, reduxForm } from '@regardsoss/form-utils'
 
 /** Possible form Ids, matching with corresponding request */
@@ -44,7 +45,7 @@ export class AccountRequestFormComponent extends React.Component {
     initialize: PropTypes.func.isRequired,
   }
 
-  static contextTypes = { ...themeContextType }
+  static contextTypes = { ...themeContextType, ...i18nContextType }
 
   componentWillMount = () => {
     const initialValues = {}
@@ -81,20 +82,20 @@ export class AccountRequestFormComponent extends React.Component {
                 fullWidth
                 component={RenderTextField}
                 type="text"
-                label={<FormattedMessage id="account.request.form.mail" />}
+                label={this.context.intl.formatMessage({ id: 'account.request.form.mail' })}
               />
             </CardText>
             <CardActions style={moduleTheme.action}>
               <RaisedButton
                 disabled={submitting || invalid}
-                label={<FormattedMessage id="account.request.form.send" />}
+                label={this.context.intl.formatMessage({ id: 'account.request.form.send' })}
                 primary
                 type="submit"
               />
               <RaisedButton
                 className="selenium-backButton"
                 disabled={submitting}
-                label={<FormattedMessage id="account.request.form.back" />}
+                label={this.context.intl.formatMessage({ id: 'account.request.form.back' })}
                 primary
                 onClick={() => onBack(currentMailValue)}
               />

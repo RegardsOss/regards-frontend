@@ -1,7 +1,6 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import map from 'lodash/map'
 import find from 'lodash/find'
 import forEach from 'lodash/forEach'
 import has from 'lodash/has'
@@ -77,7 +76,7 @@ export class DatasetFormAttributesContainer extends React.Component {
    */
   extractAttributesFromValues = (values) => {
     const result = {}
-    map(values.attributes, (attrValue, attrName) => {
+    forEach(values.attributes, (attrValue, attrName) => {
       const modelAttr = find(this.props.modelAttributeList, modelAttribute => modelAttribute.content.attribute.name === attrName)
       const fragment = modelAttr.content.attribute.fragment
       if (fragment.name !== fragmentSelectors.noneFragmentName) {

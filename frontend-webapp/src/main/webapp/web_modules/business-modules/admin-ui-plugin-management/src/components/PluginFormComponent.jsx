@@ -2,6 +2,8 @@
  * LICENSE_PLACEHOLDER
  **/
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
+import isNil from 'lodash/isNil'
+import has from 'lodash/has'
 import IconButton from 'material-ui/IconButton'
 import SearchIcon from 'material-ui/svg-icons/action/search'
 import { FormattedMessage } from 'react-intl'
@@ -46,15 +48,15 @@ class pluginFormComponent extends React.Component {
     super(props)
     this.state = {
       path: null,
-      creation: this.props.plugin === null || this.props.plugin === undefined,
-      pluginSelected: this.props.plugin !== null && this.props.plugin !== undefined,
+      creation: isNil(this.props.plugin),
+      pluginSelected: !isNil(this.props.plugin),
       plugin: this.props.plugin ? this.props.plugin : {},
     }
   }
 
   componentDidMount() {
     this.handleInitialize()
-    if (this.props.plugin && this.props.plugin.content && this.props.plugin.content.sourcePath) {
+    if (has(this.props.plugin, 'content.sourcePath')) {
       this.searchPlugin(this.props.plugin.content.sourcePath)
     }
   }

@@ -14,6 +14,7 @@ import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right'
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
 import Divider from 'material-ui/Divider'
 import Delete from 'material-ui/svg-icons/action/delete'
+import { i18nContextType } from '@regardsoss/i18n'
 import { PluginMetaDataList, PluginConfiguration } from '@regardsoss/model'
 import ShowableAtRender from '../cards/ShowableAtRender'
 
@@ -28,6 +29,7 @@ class PluginConfigurationPickerComponent extends React.Component {
   }
 
   static contextTypes = {
+    ...i18nContextType,
   }
 
   constructor(props) {
