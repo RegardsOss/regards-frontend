@@ -22,8 +22,6 @@ import PluginConfigurationActions from '../../model/plugin/PluginConfigurationAc
 import PluginMetaDataActions from '../../model/plugin/PluginMetaDataActions'
 import moduleStyles from '../../styles/styles'
 
-const styles = moduleStyles().pluginConfiguration
-
 /**
  * Container connecting the plugin configuration list to the redux store and handling user interface actions.
  *
@@ -74,6 +72,8 @@ export class PluginConfigurationListContainer extends React.Component {
   }
 
   render() {
+    const styles = moduleStyles(this.context.muiTheme).pluginConfiguration
+
     const {
       params: { microserviceName },
       pluginMetaData,

@@ -8,8 +8,8 @@
  * @author Sébastien Binda
  */
 const PluginTypes = [
-  "CRITERIA",
-  "SERVICE",
+  'CRITERIA',
+  'SERVICE',
 ]
 
 export default PluginTypes

@@ -10,8 +10,6 @@ import GenericPluginParameter from './GenericPluginParameter'
 import { mapPluginParameterToPluginParameterType, parameterTypeToEmptyParameter } from '../../../model/plugin/utils'
 import moduleStyles from '../../../styles/styles'
 
-const styles = moduleStyles()
-
 /**
  * Container connecting the plugin parameter list to the redux store.
  *
@@ -37,6 +35,8 @@ class PluginParameterListComponent extends React.Component {
     const pluginParameterListIfExistingConfiguration = pluginConfiguration && pluginConfiguration.content.parameters
     const pluginParameterListIfNoConfiguration = pluginMetaData && map(pluginParameterTypeList, parameterTypeToEmptyParameter)
     const pluginParameterList = pluginParameterListIfExistingConfiguration || pluginParameterListIfNoConfiguration
+
+    const styles = moduleStyles(this.context.muiTheme)
 
     return (
       <Card style={styles.pluginConfiguration.form.section}>

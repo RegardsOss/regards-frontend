@@ -5,6 +5,7 @@ import { Toggle } from 'redux-form-material-ui'
 import { ListItem } from 'material-ui/List'
 import { Field } from '@regardsoss/form-utils'
 import { PluginParameter } from '@regardsoss/model'
+import { themeContextType } from '@regardsoss/theme'
 import moduleStyles from '../../../styles/styles'
 
 /**
@@ -21,13 +22,17 @@ export class PluginParameterBoolean extends React.Component {
     mode: PropTypes.oneOf(['view', 'edit', 'create', 'copy']),
   }
 
+  static contextTypes = {
+    ...themeContextType,
+  }
+
   static defaultProps = {
     mode: 'view',
   }
 
   render() {
     const { fieldKey, pluginParameter: { name, value }, mode } = this.props
-    const styles = moduleStyles()
+    const styles = moduleStyles(this.context.muiTheme)
 
     switch (mode) {
       case 'view':

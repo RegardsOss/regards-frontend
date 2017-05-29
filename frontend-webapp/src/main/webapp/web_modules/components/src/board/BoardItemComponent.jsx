@@ -7,6 +7,10 @@ import IconButton from 'material-ui/IconButton'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { HateoasDisplayDecorator, someMatchHateoasDisplayLogic } from '@regardsoss/display-control'
+import {
+  ConfirmDialogComponent,
+  ShowableAtRender,
+} from '@regardsoss/components'
 import { Link } from 'react-router'
 import BoardItemShape from './BoardItemShape'
 import styles from './styles/styles'
@@ -29,18 +33,61 @@ class BoardItemComponent extends React.Component {
     ...i18nContextType,
   }
 
+  state = {
+    confirmDialogOpened: false,
+    actionToConfirm: null,
+  }
+
+  /**
+   * Callback to close the confirm action dialog
+   */
+  closeConfirmDialog = () => {
+    this.setState({
+      confirmDialogOpened: false,
+      actionToConfirm: null,
+    })
+  }
+
+  /**
+   * Callback to open the delete confirmation dialog.
+   * @param entity Dataset to delete.
+   */
+  openConfirmDialog = (actionToConfirm) => {
+    this.setState({
+      confirmDialogOpened: true,
+      actionToConfirm,
+    })
+  }
+
   renderActionButton = (action) => {
     if (action.customRender) {
       return action.customRender
     }
     return (<IconButton
       tooltip={action.tooltipMsg}
-      onTouchTap={action.touchTapAction}
+      onTouchTap={action.confirmMessage ? () => this.openConfirmDialog(action) : action.touchTapAction}
       className={action.className}
     >
       {action.icon}
     </IconButton>)
   }
+
+  /**
+   * Render the confirmation delete dialog
+   * @returns {XML}
+   */
+  renderConfirmDialog = () => (
+    <ShowableAtRender
+      show={this.state.confirmDialogOpened}
+    >
+      <ConfirmDialogComponent
+        dialogType={ConfirmDialogComponent.dialogTypes.CONFIRM}
+        onConfirm={this.state.actionToConfirm ? this.state.actionToConfirm.touchTapAction : () => {}}
+        onClose={this.closeConfirmDialog}
+        title={this.state.actionToConfirm ? this.state.actionToConfirm.confirmMessage : ''}
+      />
+    </ShowableAtRender>
+    )
 
   render() {
     const { item } = this.props
@@ -84,6 +131,7 @@ class BoardItemComponent extends React.Component {
           description={item.description}
           actions={actions}
           advanced={item.advanced}
+          renderConfirmDialog={this.renderConfirmDialog}
         />
       </HateoasDisplayDecorator>
     )

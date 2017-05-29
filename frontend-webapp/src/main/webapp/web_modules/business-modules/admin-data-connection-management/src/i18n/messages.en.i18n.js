@@ -37,7 +37,7 @@ const messages = Object.assign({
   'table.actions.more': 'Plus d\'actions',
 
 
-  'database.connectionTester.start' : 'Vérifier la connexion',
+  'database.connectionTester.start': 'Vérifier la connexion',
   'connection.connectionTester.snackbar.success': 'La connexion à {label} est fonctionnelle',
   'connection.connectionTester.snackbar.error': 'La connexion à {label} a échouée',
   'connection.connectionTester.pending': 'Tentative de connexion...',

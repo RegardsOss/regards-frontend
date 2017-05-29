@@ -4,6 +4,7 @@
 import map from 'lodash/map'
 import find from 'lodash/find'
 import { i18nContextType } from '@regardsoss/i18n'
+import { themeContextType } from '@regardsoss/theme'
 import { PluginConfiguration, PluginMetaData } from '@regardsoss/model'
 import { FormattedMessage } from 'react-intl'
 import { Card, CardActions, CardText } from 'material-ui/Card'
@@ -24,11 +25,10 @@ import PluginConfigurationActions from '../../model/plugin/PluginConfigurationAc
  *
  * @author Xavier-Alexandre Brochard
  */
-const styles = moduleStyles().pluginConfiguration
-
 class PluginConfigurationComponent extends React.Component {
 
   static contextTypes = {
+    ...themeContextType,
     ...i18nContextType,
   }
 
@@ -67,6 +67,8 @@ class PluginConfigurationComponent extends React.Component {
   render() {
     const { pluginConfiguration, onActiveToggle, onCopyClick, onDeleteClick, onEditClick, onDownwardClick, onUpwardClick } = this.props
     const { pluginParameterTypeList } = this.state
+
+    const styles = moduleStyles(this.context.muiTheme).pluginConfiguration
 
     const parameters = map(pluginConfiguration.content.parameters, (pluginParameter, index) =>
       (<GenericPluginParameter

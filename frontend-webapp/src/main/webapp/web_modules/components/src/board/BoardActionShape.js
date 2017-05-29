@@ -10,6 +10,8 @@ const BoardActionShape = PropTypes.shape({
   path: PropTypes.string,
   icon: PropTypes.element,
   tooltipMsg: PropTypes.string,
+  touchTapAction: PropTypes.func,
+  confirmMessage: PropTypes.string,
   hateoasDependencies: PropTypes.arrayOf(PropTypes.string),
 })
 

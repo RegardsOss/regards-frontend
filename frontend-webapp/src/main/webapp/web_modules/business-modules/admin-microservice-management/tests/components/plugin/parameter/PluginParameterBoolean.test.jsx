@@ -3,7 +3,7 @@
  **/
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import { testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import { ListItem } from 'material-ui/List'
 import { Field } from '@regardsoss/form-utils'
 import PluginParameterBoolean from '../../../../src/components/plugin/parameter/PluginParameterBoolean'
@@ -12,6 +12,8 @@ import PluginParameterBoolean from '../../../../src/components/plugin/parameter/
  * Plugin tests
  * @author Xavier-Alexandre Brochard
  */
+const context = buildTestContext()
+
 describe('[ADMIN PROJECT MANAGEMENT] Testing plugin parameter boolean component', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
@@ -37,7 +39,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing plugin parameter boolean component'
       },
       mode: 'view',
     }
-    const enzymeWrapper = shallow(<PluginParameterBoolean {...props} />)
+    const enzymeWrapper = shallow(<PluginParameterBoolean {...props} />, {context})
     const subComponent = enzymeWrapper.find(ListItem)
     expect(subComponent).to.have.length(1)
   })
@@ -57,7 +59,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing plugin parameter boolean component'
       },
       mode: 'edit',
     }
-    const enzymeWrapper = shallow(<PluginParameterBoolean {...props} />)
+    const enzymeWrapper = shallow(<PluginParameterBoolean {...props} />, {context})
     const subComponent = enzymeWrapper.find(Field)
     expect(subComponent).to.have.length(1)
   })

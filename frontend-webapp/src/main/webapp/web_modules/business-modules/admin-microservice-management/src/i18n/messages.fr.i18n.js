@@ -14,6 +14,8 @@ const messages = Object.assign({
   'microservice-management.plugins.tooltip': 'Plugins',
   'microservice-management.maintenance.tooltip.on': 'Désactiver le mode maintenance',
   'microservice-management.maintenance.tooltip.off': 'Activer le mode maintenance',
+  'microservice-management.maintenance.switch.mode.on.confirm': 'Attention, vous allez passer le microservice {name} en mode maintenance.',
+  'microservice-management.maintenance.switch.mode.off.confirm': 'Attention, vous allez désactiver le mode maintenance du microservice {name} ?',
 
   'microservice-management.plugin.list.title': 'Plugins',
   'microservice-management.plugin.list.filter.tooltip': 'Filtrer',

@@ -46,7 +46,7 @@ export class RoleFormComponent extends React.Component {
   handleInitialize = () => {
     if (!this.state.isCreating) {
       const { currentRole } = this.props
-      let formValues = {
+      const formValues = {
         name: currentRole.content.name,
       }
 

@@ -4,16 +4,16 @@
  **/
 import map from 'lodash/map'
 import forEach from 'lodash/forEach'
-import {FormattedMessage} from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import Chip from 'material-ui/Chip'
-import {List, ListItem} from 'material-ui/List'
+import { List, ListItem } from 'material-ui/List'
 import IconButton from 'material-ui/IconButton'
-import {themeContextType} from '@regardsoss/theme'
-import {i18nContextType} from '@regardsoss/i18n'
+import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
 import Toggle from 'material-ui/Toggle'
-import {Resource} from '@regardsoss/model'
-import {LinkComponent} from '@regardsoss/components'
-import {LoadingComponent} from '@regardsoss/display-control'
+import { Resource } from '@regardsoss/model'
+import { LinkComponent } from '@regardsoss/components'
+import { LoadingComponent } from '@regardsoss/display-control'
 import moduleStyles from '../styles/styles'
 
 /**
@@ -65,7 +65,7 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
   }
 
   getResourceListItems() {
-    const {resourceList} = this.props
+    const { resourceList } = this.props
     const styles = moduleStyles(this.context.muiTheme)
 
     return map(resourceList, (resource, id) => (
@@ -79,7 +79,7 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
         rightIconButton={
           <IconButton
             style={{
-            marginRight: 10
+              marginRight: 10,
             }}
           >
             <Toggle
@@ -99,10 +99,10 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
             }}
           >
             <div style={styles.description.style} className={styles.description.class}>
-              {this.context.intl.formatMessage({id: 'role.form.description'})} : {resource.content.description}
+              {this.context.intl.formatMessage({ id: 'role.form.description' })} : {resource.content.description}
             </div>
             <span>
-              <FormattedMessage id="role.form.moreinfo"/>
+              <FormattedMessage id="role.form.moreinfo" />
             </span>
           </div>
         }
@@ -118,7 +118,7 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
   }
 
   handleToggleController = (controller) => {
-    const {isControllerOpen} = this.state
+    const { isControllerOpen } = this.state
     forEach(isControllerOpen, (isOpen, controllerName) => {
       if (controllerName === controller) {
         isControllerOpen[controllerName] = !isOpen
@@ -151,8 +151,8 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
   }
 
   render() {
-    const {controllerList, resourceListFetching} = this.props
-    const {isControllerOpen} = this.state
+    const { controllerList, resourceListFetching } = this.props
+    const { isControllerOpen } = this.state
     return (
       <List>
         {map(controllerList, (controller, id) => {

@@ -27,7 +27,6 @@ import { buildMenuItemPrimaryText } from './utils'
 import moduleStyles from '../../../styles/styles'
 
 const { validRequiredString } = ValidationHelpers
-const styles = moduleStyles()
 
 /**
  * Component displaying a menu allowing to pick a plugin configuration for the passed plugin paramater.
@@ -90,6 +89,8 @@ export class PluginParameterPlugin extends React.Component {
   render() {
     const { fieldKey, mode, pluginParameter: { name }, pluginMetaDataList, pluginConfigurationList } = this.props
     const { openMenu, selectedPluginConfiguration } = this.state
+
+    const styles = moduleStyles(this.context.muiTheme)
 
     switch (mode) {
       case 'view':

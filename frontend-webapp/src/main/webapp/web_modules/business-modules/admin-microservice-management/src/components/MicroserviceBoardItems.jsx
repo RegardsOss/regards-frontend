@@ -19,7 +19,7 @@ import PluginMetaDataActions from '../model/plugin/PluginMetaDataActions'
  * @param intl
  * @author Xavier-Alexandre Brochard
  */
-const getMaintenanceIcon = (isActive,computedStyles) => (
+const getMaintenanceIcon = (isActive, computedStyles) => (
   <Checkbox
     checkedIcon={<Cloud />}
     uncheckedIcon={<CloudOff />}
@@ -29,7 +29,12 @@ const getMaintenanceIcon = (isActive,computedStyles) => (
 )
 const items = (project, maintenances, intl, theme) => {
   const computedStyles = styles(theme)
-  return map(maintenances, (maintenance, microservice) => (
+  return map(maintenances, (maintenance, microservice) => {
+    const maintenanceOn = !maintenance.isOn(project)
+    const confirmMessage = maintenanceOn ?
+      intl.formatMessage({ id: 'microservice-management.maintenance.switch.mode.on.confirm' }, { name: microservice }) :
+      intl.formatMessage({ id: 'microservice-management.maintenance.switch.mode.off.confirm' }, { name: microservice })
+    return (
     {
       title: microservice,
       description: intl.formatMessage({ id: `microservice-management.${microservice}.description` }),
@@ -42,14 +47,15 @@ const items = (project, maintenances, intl, theme) => {
           PluginMetaDataActions.getMsDependency(RequestVerbEnum.GET_LIST, microservice),
         ],
       }, {
-        icon: getMaintenanceIcon(maintenance.isOn(project),computedStyles),
+        icon: getMaintenanceIcon(maintenance.isOn(project), computedStyles),
         tooltipMsg: intl.formatMessage({
           id: maintenance.isOn(project) ?
-            'microservice-management.maintenance.tooltip.on' :
-            'microservice-management.maintenance.tooltip.off',
+              'microservice-management.maintenance.tooltip.on' :
+              'microservice-management.maintenance.tooltip.off',
         }),
+        confirmMessage,
         touchTapAction: () => {
-          maintenance.set(project, !maintenance.isOn(project))
+          maintenance.set(project, maintenanceOn)
         },
         hateoasDependencies: [
           SetMaintenanceModeActions(microservice).getActivateDependency(),
@@ -57,7 +63,8 @@ const items = (project, maintenances, intl, theme) => {
         ],
       }],
     }
-  ))
+    )
+  })
 }
 
 export default items

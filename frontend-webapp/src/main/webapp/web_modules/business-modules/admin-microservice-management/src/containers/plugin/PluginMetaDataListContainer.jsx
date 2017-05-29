@@ -30,8 +30,6 @@ import PluginMetaDataSelectors from '../../model/plugin/PluginMetaDataSelectors'
 import moduleStyles from '../../styles/styles'
 import PluginConfigurationActions from '../../model/plugin/PluginConfigurationActions'
 
-const styles = moduleStyles().plugins
-
 /**
  * Displays the list of plugins for the current microservice (in route) as a {@link GridList} of {@link Card}s sorted by
  * plugin type.
@@ -110,7 +108,7 @@ export class PluginMetaDataListContainer extends React.Component {
   /**
    * Builds the grid of tiles.
    */
-  getGrid = () => (
+  getGrid = (styles) => (
     map(this.state.displayedTypes, pluginType => (
       [
         <Subheader>{pluginType.content}</Subheader>,
@@ -121,7 +119,7 @@ export class PluginMetaDataListContainer extends React.Component {
               }
               return null
             })
-            .map(pluginMetaData => this.getTile(pluginMetaData))
+            .map(pluginMetaData => this.getTile(styles, pluginMetaData))
             .value(),
       ]
       ),
@@ -133,7 +131,7 @@ export class PluginMetaDataListContainer extends React.Component {
    *
    * @param plugin
    */
-  getTile = plugin => (
+  getTile = (styles, plugin) => (
     <div className={styles.tile.classes}>
       <Card key={plugin.content.pluginId} style={styles.tile.styles}>
         <CardTitle
@@ -199,6 +197,8 @@ export class PluginMetaDataListContainer extends React.Component {
   render() {
     const { params: { microserviceName }, isPluginMetaDataListFetching } = this.props
 
+    const styles = moduleStyles(this.context.muiTheme).plugins
+
     return (
       <I18nProvider messageDir="business-modules/admin-microservice-management/src/i18n">
         <Paper>
@@ -217,7 +217,7 @@ export class PluginMetaDataListContainer extends React.Component {
           <div style={styles.root}>
             <LoadableContentDisplayDecorator isLoading={isPluginMetaDataListFetching}>
               <div style={styles.grid}>
-                {this.getGrid()}
+                {this.getGrid(styles)}
               </div>
             </LoadableContentDisplayDecorator>
           </div>

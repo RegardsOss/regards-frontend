@@ -41,6 +41,7 @@ class BaseBoardItemComponent extends React.Component {
 
     return (
       <div className={computedStyles.items.classes}>
+        {this.props.renderConfirmDialog()}
         <Card
           style={computedStyles.items.styles}
           containerStyle={computedStyles.items.contentStyles}

@@ -137,7 +137,7 @@ export default {
       dump: ProjectDump,
       ENTITY_ARRAY: PROJECT_ARRAY,
       normalizrKey: ProjectConfiguration.normalizrKey,
-    }
+    },
   },
   CommonClient: {
     PluginMetaData: {

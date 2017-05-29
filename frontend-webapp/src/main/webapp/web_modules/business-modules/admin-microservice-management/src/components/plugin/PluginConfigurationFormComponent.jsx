@@ -13,7 +13,6 @@ import { buildEmptyParameterList } from '../../model/plugin/utils'
 import moduleStyles from '../../styles/styles'
 
 const { validRequiredString, validRequiredNumber } = ValidationHelpers
-const styles = moduleStyles()
 
 /**
  * Display edit and create fragment form
@@ -115,6 +114,8 @@ export class PluginConfigurationFormComponent extends React.Component {
    */
   render() {
     const { currentPluginMetaData, currentPluginConfiguration, handleSubmit, submitting, invalid, backUrl, formMode, change } = this.props
+
+    const styles = moduleStyles(this.context.muiTheme)
 
     const title = this.state.isEditing ?
       (<FormattedMessage
