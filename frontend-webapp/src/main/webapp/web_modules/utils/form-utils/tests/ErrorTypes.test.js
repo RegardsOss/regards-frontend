@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { assert } from 'chai'
-import { testSuiteHelpers} from '@regardsoss/tests-helpers'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import ErrorTypes from '../src/ErrorTypes'
 
 // Test a components rendering

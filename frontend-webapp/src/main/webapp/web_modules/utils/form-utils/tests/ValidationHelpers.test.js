@@ -1,5 +1,5 @@
 import { assert } from 'chai'
-import { testSuiteHelpers} from '@regardsoss/tests-helpers'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 
 import ValidationHelpers from '../src/ValidationHelpers'
 

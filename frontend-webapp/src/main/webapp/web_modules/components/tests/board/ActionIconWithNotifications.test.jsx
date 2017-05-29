@@ -3,9 +3,8 @@
  */
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { stub } from 'sinon'
 import Notifications from 'material-ui/svg-icons/social/notifications'
-import { testSuiteHelpers,  buildTestContext} from '@regardsoss/tests-helpers'
+import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import ActionIconWithNotifications from '../../src/board/ActionIconWithNotifications'
 import ShowableAtRender from '../../src/cards/ShowableAtRender'
 

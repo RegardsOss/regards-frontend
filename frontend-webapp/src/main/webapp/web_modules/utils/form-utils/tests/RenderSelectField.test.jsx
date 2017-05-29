@@ -2,7 +2,7 @@ import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
-import { testSuiteHelpers} from '@regardsoss/tests-helpers'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import RenderSelectField from '../src/RenderSelectField'
 
 // Test a components rendering
@@ -18,13 +18,13 @@ describe('[FORM UTILS] Testing RenderSelectField', () => {
       label: 'Some label',
       input: {
         name: 'isItInteresting',
-        value: "value1",
+        value: 'value1',
       },
       meta: {
         touched: true,
         error: '',
       },
-      children: [<MenuItem key="0" value="value0"/>,<MenuItem key="1" value="value1"/>],
+      children: [<MenuItem key="0" value="value0" />, <MenuItem key="1" value="value1" />],
     }
     const enzymeWrapper = shallow(<RenderSelectField {...props} />)
     const subComponent = enzymeWrapper.find(SelectField)

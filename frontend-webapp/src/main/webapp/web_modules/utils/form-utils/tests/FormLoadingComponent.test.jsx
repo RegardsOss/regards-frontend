@@ -1,6 +1,6 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import { testSuiteHelpers} from '@regardsoss/tests-helpers'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import FormLoadingComponent from '../src/FormLoadingComponent'
 
 // Test a components rendering

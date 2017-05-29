@@ -96,11 +96,11 @@ class BoardItemComponent extends React.Component {
       <HateoasDisplayDecorator
         requiredEndpoints={action.hateoasDependencies}
         hateoasDisplayLogic={someMatchHateoasDisplayLogic}
+        key={index}
       >
         <Link
           to={action.path}
           style={computedStyles.links}
-          key={index}
         >
           {this.renderActionButton(action)}
         </Link>

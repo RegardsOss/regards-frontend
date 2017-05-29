@@ -1,7 +1,7 @@
-import {shallow} from 'enzyme'
-import {expect, assert} from 'chai'
-import {Field as ReduxField} from 'redux-form'
-import {testSuiteHelpers, buildTestContext} from '@regardsoss/tests-helpers'
+import { shallow } from 'enzyme'
+import { expect, assert } from 'chai'
+import { Field as ReduxField } from 'redux-form'
+import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import RenderTextFiled from '../src/RenderTextField'
 import Field from '../src/Field'
 
@@ -15,15 +15,14 @@ describe('[FORM UTILS] Testing FieldWithIntl', () => {
     assert.isDefined(Field)
   })
   it('should retrieve the right child.', () => {
-
     const props = {
       name: 'test',
       meta: {
         error: false,
       },
-      component: RenderTextFiled
+      component: RenderTextFiled,
     }
-    const enzymeWrapper = shallow(<Field {...props}/>, {context})
+    const enzymeWrapper = shallow(<Field {...props} />, { context })
     const subComponent = enzymeWrapper.find(ReduxField)
     expect(subComponent).to.have.length(1)
   })

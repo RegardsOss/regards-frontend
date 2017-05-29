@@ -6,6 +6,7 @@ import find from 'lodash/find'
 import isEmpty from 'lodash/isEmpty'
 import stubTrue from 'lodash/stubTrue'
 import merge from 'lodash/merge'
+import values from 'lodash/values'
 import IconButton from 'material-ui/IconButton'
 import Close from 'material-ui/svg-icons/navigation/close'
 import Save from 'material-ui/svg-icons/content/save'
@@ -57,8 +58,13 @@ class ApplicationThemeComponent extends React.Component {
 
   constructor(props) {
     super(props)
+    let theme = props.currentTheme
+    if (!theme && props.themeList && props.themeList.length > 0) {
+      theme = values(props.themeList)[0]
+    }
+
     this.state = {
-      editingTheme: props.currentTheme ? props.currentTheme : props.themeList ? values(props.themeList)[0] : null,
+      editingTheme: theme,
       snackBarOpen: false,
       snackBarMessageId: 'application.theme.save.success',
     }
