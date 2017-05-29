@@ -54,6 +54,13 @@ export class ConnectionListComponent extends React.Component {
     })
   }
 
+  printIsActive = (active) => {
+    if (active) {
+      return (<FormattedMessage id="connection.list.isActive.true" />)
+    }
+    return (<FormattedMessage id="connection.list.isActive.false" />)
+  }
+
   renderDeleteConfirmDialog = () => {
     const name = this.state.entityToDelete ? this.state.entityToDelete.content.label : ' '
     const title = this.context.intl.formatMessage({ id: 'connection.list.delete.title' }, { name })
@@ -73,15 +80,8 @@ export class ConnectionListComponent extends React.Component {
     )
   }
 
-  printIsActive = (active) => {
-    if (active) {
-      return (<FormattedMessage id="connection.list.isActive.true" />)
-    }
-    return (<FormattedMessage id="connection.list.isActive.false" />)
-  }
-
   render() {
-    const { connectionList, handleEdit, handleDelete, handleTestConnection, createUrl, backUrl } = this.props
+    const { connectionList, handleEdit, handleTestConnection, createUrl, backUrl } = this.props
     const style = {
       hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
       hoverButtonDelete: this.context.muiTheme.palette.accent1Color,

@@ -43,6 +43,13 @@ export class AttributeModelListComponent extends React.Component {
     })
   }
 
+  getFragmentName = (attrModel) => {
+    if (attrModel.content.fragment.name !== fragmentSelectors.noneFragmentName) {
+      return attrModel.content.fragment.name
+    }
+    return ''
+  }
+
   openDeleteDialog = (entity) => {
     this.setState({
       deleteDialogOpened: true,
@@ -69,15 +76,8 @@ export class AttributeModelListComponent extends React.Component {
     )
   }
 
-  getFragmentName = (attrModel) => {
-    if (attrModel.content.fragment.name !== fragmentSelectors.noneFragmentName) {
-      return attrModel.content.fragment.name
-    }
-    return ''
-  }
-
   render() {
-    const { attrModelList, handleEdit, handleDelete, createUrl, backUrl } = this.props
+    const { attrModelList, handleEdit, createUrl, backUrl } = this.props
     const style = {
       hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
       hoverButtonDelete: this.context.muiTheme.palette.accent1Color,

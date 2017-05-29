@@ -26,7 +26,7 @@ describe('[ATTRIBUTES COMMON] Testing AttributeConfigurationComponent', () => {
     assert.isDefined(AttributeConfigurationComponent)
   })
 
-  it('Should render a AttributeConfigurationComponent', () => {
+  it('Should render a AttributeConfigurationComponent with a given fragment', () => {
     const onChangeSpy = spy()
     const attributeProp = {
       content: {
@@ -80,7 +80,7 @@ describe('[ATTRIBUTES COMMON] Testing AttributeConfigurationComponent', () => {
   })
 
 
-  it('Should render a AttributeConfigurationComponent', () => {
+  it('Should render a AttributeConfigurationComponent with default fragment', () => {
     const onChangeSpy = spy()
     const attributeProp = {
       content: {
@@ -119,47 +119,7 @@ describe('[ATTRIBUTES COMMON] Testing AttributeConfigurationComponent', () => {
     assert.lengthOf(unchecked, 0, 'There should be only one unchecked checkbox')
   })
 
-  it('Should render a AttributeConfigurationComponent', () => {
-    const onChangeSpy = spy()
-    const attributeProp = {
-      content: {
-        id: 0,
-        name: 'test',
-        type: 'string',
-        label: 'Test attribute',
-        fragment: {
-          name: 'default',
-        },
-      },
-    }
-    const attributeConfProp = {
-      attributeFullQualifiedName: 'default.test',
-      visibility: false,
-      facetable: false,
-    }
-    const props = {
-      attribute: attributeProp,
-      conf: attributeConfProp,
-      onChange: onChangeSpy,
-      allowFacettes: true,
-    }
-
-    const wrapper = shallow(
-      <AttributeConfigurationComponent {...props} />, options,
-    )
-
-    const attributeName = wrapper.find(CardHeader).find({ title: attributeProp.content.label })
-    assert.lengthOf(attributeName, 1, 'There title of the card attribute should be the attribute name')
-
-    const checked = wrapper.find(Checkbox).find({ checked: true })
-    assert.lengthOf(checked, 0, 'There should be only one checked checkbox')
-
-    const unchecked = wrapper.find(Checkbox).find({ checked: false })
-    assert.lengthOf(unchecked, 2, 'There should be only one unchecked checkbox')
-  })
-
-
-  it('Should render a AttributeConfigurationComponent', () => {
+  it('Should render a AttributeConfigurationComponent with default fragment and no visibility access', () => {
     const onChangeSpy = spy()
     const attributeProp = {
       content: {

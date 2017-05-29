@@ -26,7 +26,7 @@ describe('[ATTRIBUTES COMMON] Testing StringAttributesRender', () => {
     assert.equal(value, 'render test string', 'There should be a string value rendered')
   })
 
-  it('Should render a string value', () => {
+  it('Should render a string value for boolean value', () => {
     const props = {
       attributes: {
         'test.attribute': true,

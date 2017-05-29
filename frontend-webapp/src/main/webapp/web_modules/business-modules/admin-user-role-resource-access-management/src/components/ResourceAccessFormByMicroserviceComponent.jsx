@@ -12,7 +12,6 @@ import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import Toggle from 'material-ui/Toggle'
 import { Resource } from '@regardsoss/model'
-import { LinkComponent } from '@regardsoss/components'
 import { LoadingComponent } from '@regardsoss/display-control'
 import moduleStyles from '../styles/styles'
 

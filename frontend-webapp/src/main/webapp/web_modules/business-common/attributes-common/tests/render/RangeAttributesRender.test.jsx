@@ -42,7 +42,7 @@ describe('[ATTRIBUTES COMMON] Testing RangeAttributesRender', () => {
     assert.equal(value, '', 'There should be an empty value rendered')
   })
 
-  it('Should render an empty value', () => {
+  it('Should render two ranged values', () => {
     const props = {
       attributes: {
         'test.attribute': {

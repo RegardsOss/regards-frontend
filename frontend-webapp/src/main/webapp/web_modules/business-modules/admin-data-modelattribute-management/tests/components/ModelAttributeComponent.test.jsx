@@ -61,7 +61,7 @@ describe('[ADMIN DATA MODEL ATTRIBUTE MANAGEMENT] Testing ModelAttributeComponen
       },
       handleComputationUpdate: onSelectFieldChange,
     }
-    const enzymeWrapper = shallow(<ModelAttributeComponent {...props} />, {context})
+    const enzymeWrapper = shallow(<ModelAttributeComponent {...props} />, { context })
     const subComponent = enzymeWrapper.find(TableRowColumn)
     expect(subComponent).to.have.length(3)
     const subComponentSelectField = enzymeWrapper.find(PluginConfigurationPickerComponent)

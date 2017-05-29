@@ -77,7 +77,7 @@ describe('[SEARCH FORM] Testing Admin Container', () => {
     assert.isTrue(fetchCriterionCallback.calledOnce, 'The list of available criterion should be fetched')
   })
 
-  it('Create new configuration : Should fetch missing props', () => {
+  it('Create new configuration with a selected dataset : Should fetch missing props', () => {
     const fetchDatasetsAttributesCallback = spy()
     const fetchAllModelsAttributesCallback = spy()
     const fetchModelsAttributesCallback = spy()
@@ -132,7 +132,7 @@ describe('[SEARCH FORM] Testing Admin Container', () => {
     assert.isTrue(fetchCriterionCallback.calledOnce, 'The list of available criterion should be fetched')
   })
 
-  it('Create new configuration : Should fetch missing props', () => {
+  it('Create new configuration  with a selected datasetModel : Should fetch missing props', () => {
     const fetchDatasetsAttributesCallback = spy()
     const fetchAllModelsAttributesCallback = spy()
     const fetchModelsAttributesCallback = spy()

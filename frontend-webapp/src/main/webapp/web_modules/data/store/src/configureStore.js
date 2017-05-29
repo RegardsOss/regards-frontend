@@ -1,7 +1,6 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import concat from 'lodash/concat'
 import { createStore, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
 import { createLogger } from 'redux-logger'
@@ -22,7 +21,7 @@ function configureStore(rootReducer) {
   const reducerRegistry = getReducerRegistry(rootReducer)
 
   // Define the used middlewares (order matters)
-  const middlewares = [
+  let middlewares = [
     thunk, // lets us dispatch() functions
     formatURLMiddleware, // inject URL formatting middleware
     headersMiddleware, // inject headers in all request actions, for authorization, content type and custom headers handling
@@ -33,7 +32,7 @@ function configureStore(rootReducer) {
   if (process.env.NODE_ENV === 'development') {
     console.log('DEV', 'Using Redux logger middleware')
     // Logger must be the last middleware in chain, otherwise it will log thunk and promise, not actual actions]
-    // middlewares = concat([], middlewares, [logger])
+    middlewares = concat([], middlewares, [logger])
   }
 
   // Create the application store

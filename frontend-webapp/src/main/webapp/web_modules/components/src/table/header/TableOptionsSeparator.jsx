@@ -1,7 +1,6 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
-import Divider from 'material-ui/Divider'
 import { themeContextType } from '@regardsoss/theme'
 
 /**

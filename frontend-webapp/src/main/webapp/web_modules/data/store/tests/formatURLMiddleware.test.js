@@ -1,7 +1,10 @@
+/**
+ * LICENSEPLACEHOLDER
+ **/
 import { assert } from 'chai'
-const { CALL_API } = require('redux-api-middleware')
 import formatURLMiddleware from '../src/formatURLMiddleware'
 
+const { CALL_API } = require('redux-api-middleware')
 
 describe('[STORE DATA MANAGEMENT] Testing formatURLMiddleware', () => {
   it('should exists', () => {

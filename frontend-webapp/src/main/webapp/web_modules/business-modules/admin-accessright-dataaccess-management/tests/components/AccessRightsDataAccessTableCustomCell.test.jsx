@@ -48,7 +48,7 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT]  Testing AccessRightsDataAccessTableCus
     assert.equal(enzymeWrapper.children().text(), `accessright.form.data.accessLevel.${accessRight.content.dataAccessRight.dataAccessLevel}`, 'Invalid displayed value for accessRight')
   })
 
-  it('Render properly a NOT_APPLICABLE value if metadata access is not FULL_ACCESS', () => {
+  it('Render properly a NOT_APPLICABLE value if metadata access is not FULL_ACCESS (NO_ACCESS)', () => {
     const accessGroup = DumpProvider.getFirstEntity('DataManagementClient', 'AccessGroup')
     const dataset = DumpProvider.getFirstEntity('DataManagementClient', 'Dataset')
     const accessRight = DumpProvider.getFirstEntity('DataManagementClient', 'AccessRight')
@@ -75,7 +75,7 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT]  Testing AccessRightsDataAccessTableCus
     assert.equal(enzymeWrapper.children().text(), `accessright.form.data.accessLevel.${AccessRightsDataAccessTableCustomCell.NOT_APPLICABLE}`, 'Invalid displayed value for accessRight')
   })
 
-  it('Render properly a NOT_APPLICABLE value if metadata access is not FULL_ACCESS', () => {
+  it('Render properly a NOT_APPLICABLE value if metadata access is not FULL_ACCESS (DATASET_ACCESS)', () => {
     const accessGroup = DumpProvider.getFirstEntity('DataManagementClient', 'AccessGroup')
     const dataset = DumpProvider.getFirstEntity('DataManagementClient', 'Dataset')
     const accessRight = DumpProvider.getFirstEntity('DataManagementClient', 'AccessRight')

@@ -3,7 +3,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import BooleanAttributesRender from '../../src/render/BooleanAttributesRender'
 
 /**
@@ -29,7 +29,7 @@ describe('[ATTRIBUTES COMMON] Testing BooleanAttributesRender', () => {
     assert.equal(value, 'true', 'There should be a boolean value renderedee')
   })
 
-  it('Should render an empty value', () => {
+  it('Should render an empty value for a string', () => {
     const props = {
       attributes: {
         'test.attribute': 'plop',
@@ -41,7 +41,7 @@ describe('[ATTRIBUTES COMMON] Testing BooleanAttributesRender', () => {
     assert.equal(value, '', 'There should be an empty value rendered')
   })
 
-  it('Should render an empty value', () => {
+  it('Should render two boolean values', () => {
     const props = {
       attributes: {
         'test.attribute': true,

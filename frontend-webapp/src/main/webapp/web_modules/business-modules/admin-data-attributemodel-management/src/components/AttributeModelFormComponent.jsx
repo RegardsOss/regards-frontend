@@ -1,6 +1,6 @@
 import map from 'lodash/map'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
-import { FormattedMessage } from 'react-intl'
+
 import {
   RenderTextField,
   RenderCheckbox,
@@ -107,6 +107,38 @@ export class AttributeModelFormComponent extends React.Component {
   }
 
   /**
+   * Fetch new attribute model restriction when the Field type change
+   * @param event
+   * @param index
+   * @param value
+   * @param input
+   */
+  handleChange = (event, index, value, input) => {
+    input.onChange(value)
+    this.props.handleUpdateAttributeModelRestriction(value)
+  }
+
+  getFragmentItems = (fragmentList) => {
+    const fragments = map(fragmentList, (fragment, id) => {
+      const text = fragment.content.description ? `${fragment.content.name}: ${fragment.content.description}` : fragment.content.name
+      return (
+        <MenuItem
+          value={fragment.content.name}
+          key={id}
+          primaryText={text}
+        />
+      )
+    },
+    )
+    fragments.push(<MenuItem
+      value={DEFAULT_FRAGMENT_NAME}
+      key={DEFAULT_FRAGMENT_NAME}
+      primaryText={this.context.intl.formatMessage({ id: `attrmodel.form.fragment.${DEFAULT_FRAGMENT_NAME}` })}
+    />)
+    return fragments
+  }
+
+  /**
    * Initialize form fields
    */
   handleInitialize = () => {
@@ -153,38 +185,6 @@ export class AttributeModelFormComponent extends React.Component {
         fragment: this.props.defaultFragmentName || DEFAULT_FRAGMENT_NAME,
       })
     }
-  }
-
-  /**
-   * Fetch new attribute model restriction when the Field type change
-   * @param event
-   * @param index
-   * @param value
-   * @param input
-   */
-  handleChange = (event, index, value, input) => {
-    input.onChange(value)
-    this.props.handleUpdateAttributeModelRestriction(value)
-  }
-
-  getFragmentItems = (fragmentList) => {
-    const fragments = map(fragmentList, (fragment, id) => {
-      const text = fragment.content.description ? `${fragment.content.name}: ${fragment.content.description}` : fragment.content.name
-      return (
-        <MenuItem
-          value={fragment.content.name}
-          key={id}
-          primaryText={text}
-        />
-      )
-    },
-    )
-    fragments.push(<MenuItem
-      value={DEFAULT_FRAGMENT_NAME}
-      key={DEFAULT_FRAGMENT_NAME}
-      primaryText={this.context.intl.formatMessage({ id: `attrmodel.form.fragment.${DEFAULT_FRAGMENT_NAME}` })}
-    />)
-    return fragments
   }
 
   /**

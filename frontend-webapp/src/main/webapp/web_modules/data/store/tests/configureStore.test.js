@@ -1,3 +1,6 @@
+/**
+ * LICENSEPLACEHOLDER
+ **/
 import { assert } from 'chai'
 import configureStore from '../src/configureStore'
 import getReducerRegistry from '../src/ReducerRegistry'

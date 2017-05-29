@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  */
-import { brown50, lightBlue200, yellow300, green300, purple300 } from 'material-ui/styles/colors'
+import { lightBlue200, yellow300, green300, purple300 } from 'material-ui/styles/colors'
 
 const styles = theme => ({
   listItem: {

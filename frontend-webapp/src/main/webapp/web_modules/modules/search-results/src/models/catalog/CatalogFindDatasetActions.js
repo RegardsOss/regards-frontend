@@ -2,7 +2,6 @@
  * LICENSE_PLACEHOLDER
  **/
 import { BasicActions } from '@regardsoss/store-utils'
-import isString from 'lodash/isString'
 
 const { CALL_API, getJSON } = require('redux-api-middleware')
 

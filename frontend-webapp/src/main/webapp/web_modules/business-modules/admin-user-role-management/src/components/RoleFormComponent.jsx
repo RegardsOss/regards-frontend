@@ -1,12 +1,11 @@
 import map from 'lodash/map'
-import forEach from 'lodash/forEach'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import MenuItem from 'material-ui/MenuItem'
 import { FormattedMessage } from 'react-intl'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { CardActionsComponent } from '@regardsoss/components'
-import { RenderTextField, Field, RenderSelectField, EnumInputsComponent, EnumInputsHelper, ErrorTypes, ValidationHelpers, reduxForm } from '@regardsoss/form-utils'
+import { RenderTextField, Field, RenderSelectField, ErrorTypes, ValidationHelpers, reduxForm } from '@regardsoss/form-utils'
 import { Role } from '@regardsoss/model'
 
 /**
@@ -19,7 +18,6 @@ export class RoleFormComponent extends React.Component {
     roleList: PropTypes.objectOf(Role),
     onSubmit: PropTypes.func.isRequired,
     backUrl: PropTypes.string.isRequired,
-    change: PropTypes.func.isRequired,
     // from reduxForm
     submitting: PropTypes.bool,
     pristine: PropTypes.bool,

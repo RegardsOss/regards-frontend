@@ -38,7 +38,7 @@ describe('[ATTRIBUTES COMMON] Testing IntegerAttributesRender', () => {
     assert.equal(value, '', 'There should be an empty value rendered')
   })
 
-  it('Should render an empty value', () => {
+  it('Should render two integer values', () => {
     const props = {
       attributes: {
         'test.attribute': 156,

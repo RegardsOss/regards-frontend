@@ -28,7 +28,7 @@ describe('[ADMIN DATA COLLECTION MANAGEMENT] Testing router', () => {
       done()
     })
   })
-  it('create should return CollectionFormContainer', (done) => {
+  it('edit links should return CollectionEditLinksContainer', (done) => {
     Routes.childRoutes[2].getComponents(undefined, (smth, component) => {
       expect(component.content).to.eq(CollectionEditLinksContainer)
       done()
