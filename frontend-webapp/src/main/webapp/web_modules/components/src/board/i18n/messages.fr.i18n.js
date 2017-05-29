@@ -9,8 +9,11 @@ import { Locales } from '@regardsoss/form-utils'
  * @author Sébastien Binda
  */
 const messages = Object.assign({
-  hideAdvanced: 'Masquer les options avancées',
-  showAdvanced: 'Options avancées',
+  'hideAdvanced': 'Masquer les options avancées',
+  'showAdvanced': 'Options avancées',
+  'confirm.dialog.cancel' : 'Annuler',
+  'confirm.dialog.confirm' : 'Confirmer',
+  'confirm.dialog.delete' : 'Supprimer',
 }, Locales.fr)
 
 export default messages

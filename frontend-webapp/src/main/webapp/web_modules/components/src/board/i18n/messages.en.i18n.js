@@ -11,6 +11,9 @@ import { Locales } from '@regardsoss/form-utils'
 const messages = Object.assign({
   hideAdvanced: 'Hide advanced options',
   showAdvanced: 'Advanced options',
+  'confirm.dialog.cancel' : 'Cancel',
+  'confirm.dialog.confirm' : 'Confirm',
+  'confirm.dialog.delete' : 'Delete',
 }, Locales.en)
 
 export default messages
