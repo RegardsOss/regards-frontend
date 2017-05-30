@@ -1,4 +1,5 @@
 import { assert, expect } from 'chai'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { projectUserManagementRouter } from '@regardsoss/admin-user-projectuser-management'
 import { roleManagementRouter } from '@regardsoss/admin-user-role-management'
 import { roleResourceAccessManagementRouter } from '@regardsoss/admin-user-role-resource-access-management'
@@ -6,6 +7,9 @@ import Routes from '../src/router'
 import BoardContainer from '../src/containers/BoardContainer'
 
 describe('[ADMIN USER MANAGEMENT] Testing user board router', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('should return the correct value', () => {
     assert.isNotNull(Routes)
     expect(Routes.childRoutes).to.have.length(4)

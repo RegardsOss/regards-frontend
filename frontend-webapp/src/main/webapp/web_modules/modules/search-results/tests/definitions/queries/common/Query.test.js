@@ -2,11 +2,15 @@
 * LICENSE_PLACEHOLDER
 **/
 import { assert } from 'chai'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import Query from '../../../../src/definitions/query/common/Query'
 import StaticQueryParameter from '../../../../src/definitions/query/common/StaticQueryParameter'
 import QueryParameter from '../../../../src/definitions/query/common/QueryParameter'
 
 describe('[Search Results] Testing Query', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('Should display correctly an empty query', () => {
     const query = new Query('', [], '&')
     assert.equal(query.toQueryString(), '', 'The empty query result should be empty')

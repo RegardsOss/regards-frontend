@@ -1,9 +1,13 @@
 import { assert, expect } from 'chai'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import Routes from '../src/router'
 import AccountFormContainer from '../src/containers/AccountFormContainer'
 import AccountListContainer from '../src/containers/AccountListContainer'
 
 describe('[ADMIN ACCOUNT MANAGEMENT] Testing project router', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('should return the correct value', () => {
     assert.isNotNull(Routes)
     expect(Routes.childRoutes).to.have.length(3)

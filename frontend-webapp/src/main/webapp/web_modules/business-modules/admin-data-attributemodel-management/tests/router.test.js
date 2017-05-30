@@ -2,11 +2,15 @@
  * LICENSE_PLACEHOLDER
  **/
 import { assert, expect } from 'chai'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import Routes from '../src/router'
 import AttributeModelFormContainer from '../src/containers/AttributeModelFormContainer'
 import AttributeModelListContainer from '../src/containers/AttributeModelListContainer'
 
 describe('[ADMIN DATA ATTRIBUTE MODEL MANAGEMENT] Testing router', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('should return the correct value', () => {
     assert.isDefined(Routes)
     expect(Routes.childRoutes).to.have.length(3)

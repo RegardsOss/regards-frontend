@@ -3,11 +3,15 @@
 **/
 import forEach from 'lodash/forEach'
 import { assert } from 'chai'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import BasicPartitionSelectors from '../../src/partition/BasicPartitionSelectors'
 import BasicPartitionReducers from '../../src/partition/BasicPartitionReducers'
 import BasicPartitionActions from '../../src/partition/BasicPartitionActions'
 
 describe('[STORE UTILS] Testing partition selectors', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   // 1 - we create here a mock reduced objects with some partitions and there expected state from selector
   const partitionActions = new BasicPartitionActions({ namespace: 'test' })
   const partitions = {

@@ -2,10 +2,14 @@
  * LICENSE_PLACEHOLDER
  **/
 import { assert, expect } from 'chai'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import Routes from '../src/router'
 import AccessGroupAccessRightsContainer from '../src/containers/AccessGroupAccessRightsContainer'
 
 describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing accessright router', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('should return the correct value', () => {
     assert.isNotNull(Routes)
     expect(Routes.childRoutes).to.have.length(1)

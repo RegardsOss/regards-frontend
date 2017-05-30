@@ -2,11 +2,15 @@
  * LICENSE_PLACEHOLDER
  **/
 import { assert, expect } from 'chai'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import Routes from '../src/router'
 import AccessGroupFormContainer from '../src/containers/AccessGroupFormContainer'
 import AccessGroupListContainer from '../src/containers/AccessGroupListContainer'
 
 describe('[ADMIN USER ACCESSGROUP MANAGEMENT] Testing router', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('should return the correct value', () => {
     assert.isDefined(Routes)
     expect(Routes.childRoutes).to.have.length(3)

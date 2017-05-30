@@ -2,11 +2,15 @@
  * LICENSE_PLACEHOLDER
  */
 import { assert } from 'chai'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import StorageUnitScale from '../../src/helper/StorageUnit'
 import StorageCapacity from '../../src/helper/StorageCapacity'
 
 // Test capacity functions a components rendering
 describe('[STORAGE PLUGINS MONITORING] Testing capacity object', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('should parse correctly capacities, with or without space', () => {
     const toParse = [{
       input: ' 10   b',

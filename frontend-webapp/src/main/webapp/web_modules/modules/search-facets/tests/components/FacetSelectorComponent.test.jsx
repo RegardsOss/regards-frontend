@@ -4,8 +4,7 @@
 import size from 'lodash/size'
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { stub } from 'sinon'
-import { IntlStub } from '@regardsoss/tests-helpers'
+import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import MenuItem from 'material-ui/MenuItem'
 import FacetSelectorComponent from '../../src/components/FacetSelectorComponent'
 
@@ -15,28 +14,14 @@ import facetsNetworkDump from '../network-dump/search-results-dump'
 const aFacetModel = facetsNetworkDump.facets[2]
 
 describe('[SEARCH FACETS] Testing FacetSelectorComponent', () => {
-  // Since react will console.error propType warnings, that which we'd rather have
-  // as errors, we use sinon.js to stub it into throwing these warning as errors
-  // instead.
-  before(() => {
-    stub(console, 'error').callsFake((warning) => {
-      throw new Error(warning)
-    })
-  })
-  after(() => {
-    console.error.restore()
-  })
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('should exists', () => {
     assert.isDefined(FacetSelectorComponent)
   })
-  const context = {
-    intl: IntlStub,
-    muiTheme: {
-      palette: {
-      },
-    },
-    moduleTheme: styles({}),
-  }
+  const context = buildTestContext(styles)
+
   it('should render properly', () => {
     const props = {
       facet: aFacetModel,

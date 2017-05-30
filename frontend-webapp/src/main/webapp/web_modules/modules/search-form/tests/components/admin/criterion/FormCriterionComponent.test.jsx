@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { shallow } from 'enzyme'
-import { stub, spy } from 'sinon'
+import { spy } from 'sinon'
 import { assert } from 'chai'
 import {
   Table,
@@ -12,8 +12,7 @@ import {
 import Dialog from 'material-ui/Dialog'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
-import getMuiTheme from 'material-ui/styles/getMuiTheme'
-import { IntlStub } from '@regardsoss/tests-helpers'
+import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import { CardActionsComponent, CardActionsView, MainActionButtonComponent } from '@regardsoss/components'
 import Styles from '../../../../src/styles/styles'
 import FormCriterionComponent from '../../../../src/components/admin/criterion/FormCriterionComponent'
@@ -24,25 +23,10 @@ import FormCriteriaComponent from '../../../../src/components/admin/criterion/Fo
  * @author Sébastien binda
  */
 describe('[SEARCH FORM] Testing formCriterionComponent', () => {
-  // Since react will console.error propType warnings, that which we'd rather have
-  // as errors, we use sinon.js to stub it into throwing these warning as errors
-  // instead.
-  before(() => {
-    stub(console, 'error').callsFake((warning) => {
-      throw new Error(warning)
-    })
-  })
-  after(() => {
-    console.error.restore()
-  })
-  const muiTheme = getMuiTheme({})
-  const options = {
-    context: {
-      muiTheme,
-      moduleTheme: Styles(muiTheme),
-      intl: IntlStub,
-    },
-  }
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
+  const context = buildTestContext(Styles)
 
   it('Should render an empty formCriterionComponent', () => {
     const props = {
@@ -57,7 +41,7 @@ describe('[SEARCH FORM] Testing formCriterionComponent', () => {
       availableCriterion: {},
     }
     const wrapper = shallow(
-      <FormCriterionComponent {...props} />, options,
+      <FormCriterionComponent {...props} />, { context },
     )
 
     const tableList = wrapper.find(Table)
@@ -112,7 +96,7 @@ describe('[SEARCH FORM] Testing formCriterionComponent', () => {
       availableCriterion: {},
     }
     const wrapper = shallow(
-      <FormCriterionComponent {...props} />, options,
+      <FormCriterionComponent {...props} />, { context },
     )
 
     const tableList = wrapper.find(Table)

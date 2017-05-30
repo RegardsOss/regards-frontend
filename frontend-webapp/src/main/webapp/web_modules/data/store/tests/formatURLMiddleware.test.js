@@ -2,11 +2,15 @@
  * LICENSEPLACEHOLDER
  **/
 import { assert } from 'chai'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import formatURLMiddleware from '../src/formatURLMiddleware'
 
 const { CALL_API } = require('redux-api-middleware')
 
 describe('[STORE DATA MANAGEMENT] Testing formatURLMiddleware', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('should exists', () => {
     assert.isDefined(formatURLMiddleware)
     assert.isFunction(formatURLMiddleware)

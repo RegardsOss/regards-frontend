@@ -6,6 +6,7 @@ import { expect, assert } from 'chai'
 import IconMenu from 'material-ui/IconMenu'
 import MenuItem from 'material-ui/MenuItem'
 import RaisedButton from 'material-ui/RaisedButton'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import TemporalComparatorComponent from '../../src/components/TemporalComparatorComponent'
 import EnumTemporalComparator from '../../src/model/EnumTemporalComparator'
 
@@ -15,6 +16,9 @@ import EnumTemporalComparator from '../../src/model/EnumTemporalComparator'
  * @author Xavier-Alexandre Brochard
  */
 describe('[PLUGIN TEMPORAL CRITERIA] Testing the temporal comparator component', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('should exists', () => {
     assert.isDefined(TemporalComparatorComponent)
     assert.isDefined(EnumTemporalComparator)

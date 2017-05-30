@@ -2,6 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { assert, expect } from 'chai'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { dataManagementRouter } from '@regardsoss/admin-data-management'
 import { userManagementRouter } from '@regardsoss/admin-user-management'
 import { projectManagementRouter } from '@regardsoss/admin-project-management'
@@ -12,6 +13,9 @@ import { accessRightManagementRouter } from '@regardsoss/admin-accessright-manag
 import Routes from '../src/router'
 
 describe('[ADMIN MANAGEMENT] Testing admin router', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('should return the correct value', () => {
     assert.isNotNull(Routes)
     expect(Routes.childRoutes).to.have.length(9)

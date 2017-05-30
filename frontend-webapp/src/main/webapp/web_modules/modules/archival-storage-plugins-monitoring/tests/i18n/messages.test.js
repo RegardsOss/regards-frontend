@@ -3,11 +3,15 @@
  */
 import { assert } from 'chai'
 import keys from 'lodash/keys'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import MessagesEN from '../../src/i18n/messages.en.i18n'
 import MessagesFR from '../../src/i18n/messages.fr.i18n'
 import StorageUnitScale from '../../src/helper/StorageUnit'
 
 describe('[STORAGE PLUGINS MONITORING] Testing i18n', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('should exist', () => {
     assert.isDefined(MessagesEN)
     assert.isDefined(MessagesFR)

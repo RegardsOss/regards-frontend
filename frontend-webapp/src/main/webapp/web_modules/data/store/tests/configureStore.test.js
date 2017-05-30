@@ -2,11 +2,15 @@
  * LICENSEPLACEHOLDER
  **/
 import { assert } from 'chai'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import configureStore from '../src/configureStore'
 import getReducerRegistry from '../src/ReducerRegistry'
 
 
 describe('[STORE DATA MANAGEMENT] Testing configureStore and reducer registry', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('should exists', () => {
     assert.isDefined(configureStore)
     assert.isFunction(configureStore)

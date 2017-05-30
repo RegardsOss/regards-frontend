@@ -2,6 +2,7 @@ import { shallow } from 'enzyme'
 import { expect } from 'chai'
 import MenuItem from 'material-ui/MenuItem'
 import { IconMenu } from 'material-ui/IconMenu'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { SelectThemeContainer } from '../../src/containers/SelectThemeContainer'
 
 function setup() {
@@ -56,6 +57,9 @@ function setup() {
 
 // Test a components rendering
 describe('[COMMON THEME] Testing select theme container', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   /**
    * Not tested
    * Behaviour is expected to be extracted from mapStateToProps

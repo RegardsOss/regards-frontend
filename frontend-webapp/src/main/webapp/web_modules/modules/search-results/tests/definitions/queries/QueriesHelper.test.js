@@ -2,9 +2,13 @@
 * LICENSE_PLACEHOLDER
 **/
 import { assert } from 'chai'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { getOpenSearchQuery, getURLQuery, getDatasetIpIdParameter } from '../../../src/definitions/query/QueriesHelper'
 
 describe('[Search Results] Testing QueriesHelper', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('Should display correctly the url search with open search query', () => {
     const openSearchQuery = getOpenSearchQuery('meta:false', // root query
       [{ openSearchQuery: 'xxxBlblblbl' }], // facettes selected

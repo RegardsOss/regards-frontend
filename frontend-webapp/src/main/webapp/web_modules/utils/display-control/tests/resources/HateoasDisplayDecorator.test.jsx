@@ -3,11 +3,15 @@
  */
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { HateoasDisplayDecorator } from '../../src/resources/HateoasDisplayDecorator'
 import DisplayDecorator from '../../src/DisplayDecorator'
 
 
 describe('[DISPLAY CONTROL UTILS] Testing HateoasDisplayDecorator', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('should exists', () => {
     assert.isDefined(HateoasDisplayDecorator)
   })

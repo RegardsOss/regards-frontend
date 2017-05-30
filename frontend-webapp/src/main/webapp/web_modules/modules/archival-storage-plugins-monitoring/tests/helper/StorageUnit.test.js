@@ -2,10 +2,14 @@
  * LICENSE_PLACEHOLDER
  */
 import { assert } from 'chai'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import StorageUnitScale from '../../src/helper/StorageUnit'
 
 // Test unit functions
 describe('[STORAGE PLUGINS MONITORING] Testing units', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   const tests = [ // bits scale
     {
       // general failure case: should not allow text representing a unit and some more characters

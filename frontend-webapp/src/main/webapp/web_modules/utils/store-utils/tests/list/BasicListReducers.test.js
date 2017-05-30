@@ -2,6 +2,7 @@
 * LICENSE_PLACEHOLDER
 **/
 import { expect } from 'chai'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { PROJECT, PROJECT_ARRAY } from '@regardsoss/api'
 import BasicListReducers from '../../src/list/BasicListReducers'
 import BasicListActions from '../../src/list/BasicListActions'
@@ -24,6 +25,9 @@ const projectReducers = new BasicListReducers({
 
 
 describe('[STORE UTILS] Testing project reducer', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('should return the initial state', () => {
     expect(projectReducers.reduce(undefined, {})).to.eql({
       error: {

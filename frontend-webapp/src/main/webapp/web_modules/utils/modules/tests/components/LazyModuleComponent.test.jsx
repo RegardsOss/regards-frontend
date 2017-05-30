@@ -3,7 +3,7 @@
  **/
 import { shallow } from 'enzyme'
 import { expect } from 'chai'
-import { stub } from 'sinon'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { moduleContainer } from '@regardsoss-modules/authentication'
 import { I18nProvider } from '@regardsoss/i18n'
 import ModuleThemeProvider from '../../src/components/ModuleThemeProvider'
@@ -14,17 +14,9 @@ import LazyModuleComponent from '../../src/components/LazyModuleComponent'
  * @author Sébastien Binda
  */
 describe('[MODULES] Testing LazyModuleComponent', () => {
-  // Since react will console.error propType warnings, that which we'd rather have
-  // as errors, we use sinon.js to stub it into throwing these warning as errors
-  // instead.
-  before(() => {
-    stub(console, 'error').callsFake((warning) => {
-      throw new Error(warning)
-    })
-  })
-  after(() => {
-    console.error.restore()
-  })
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   // This test can last ~6s so we override the timeout duration
   it('Should render correctly an application layout with ApplicationLayout', (done) => {
     const context = {

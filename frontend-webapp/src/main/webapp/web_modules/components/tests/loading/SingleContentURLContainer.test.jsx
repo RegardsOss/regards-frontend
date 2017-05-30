@@ -3,27 +3,14 @@
  */
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import root from 'window-or-global'
-import { stub } from 'sinon'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import SingleContentURLDialogContainer from '../../src/dialogs/SingleContentURLDialogContainer'
 import LoadableContentDialogContainer from '../../src/dialogs/LoadableContentDialogContainer'
 
 describe('[COMPONENTS] Testing SingleContentURLDialogContainer', () => {
-  // Since react will console.error propType warnings, that which we'd rather have
-  // as errors, we use sinon.js to stub it into throwing these warning as errors
-  // instead.
-  before(() => {
-    stub(console, 'error').callsFake((warning) => {
-      throw new Error(warning)
-    })
-    // add root screen properties for the component to render
-    root.screen = { availWidth: '1200', availHeight: '600' }
-  })
-  after(() => {
-    console.error.restore()
-    // remove root customization
-    delete root.screen
-  })
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('should exists', () => {
     assert.isDefined(SingleContentURLDialogContainer)
   })

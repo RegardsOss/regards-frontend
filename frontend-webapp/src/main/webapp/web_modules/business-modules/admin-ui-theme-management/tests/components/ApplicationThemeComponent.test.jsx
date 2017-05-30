@@ -1,23 +1,14 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import { stub, spy } from 'sinon'
+import { spy } from 'sinon'
 import Paper from 'material-ui/Paper'
-import getMuiTheme from 'material-ui/styles/getMuiTheme'
-import { IntlStub } from '@regardsoss/tests-helpers'
+import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import ApplicationThemeComponent from '../../src/components/ApplicationThemeComponent'
 
 describe('[ADMIN UI THEME MANAGEMENT] Testing application theme component', () => {
-  // Since react will console.error propType warnings, that which we'd rather have
-  // as errors, we use sinon.js to stub it into throwing these warning as errors
-  // instead.
-  before(() => {
-    stub(console, 'error').callsFake((warning) => {
-      throw new Error(warning)
-    })
-  })
-  after(() => {
-    console.error.restore()
-  })
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('should exists', () => {
     assert.isDefined(ApplicationThemeComponent)
     assert.isDefined(Paper)
@@ -65,10 +56,7 @@ describe('[ADMIN UI THEME MANAGEMENT] Testing application theme component', () =
       },
     }
     const options = {
-      context: {
-        muiTheme: getMuiTheme(),
-        intl: IntlStub,
-      },
+      context: buildTestContext(),
     }
     const enzymeWrapper = shallow(<ApplicationThemeComponent {...props} />, options)
     const subComponent = enzymeWrapper.find(Paper)

@@ -4,8 +4,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import values from 'lodash/values'
-import { stub } from 'sinon'
-import { IntlStub } from '@regardsoss/tests-helpers'
+import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import AuthenticationFormContainer from '../../src/containers/AuthenticationFormContainer'
 import ChangePasswordFormContainer from '../../src/containers/ChangePasswordFormContainer'
 import FinishAccountUnlockingContainer from '../../src/containers/FinishAccountUnlockingContainer'
@@ -15,28 +14,15 @@ import AuthenticationWorkflowsComponent, { initialModes } from '../../src/compon
 import styles from '../../src/styles/styles'
 
 describe('[AUTHENTICATION] Testing AuthenticationWorkflowsComponent', () => {
-  // Since react will console.error propType warnings, that which we'd rather have
-  // as errors, we use sinon.js to stub it into throwing these warning as errors
-  // instead.
-  before(() => {
-    stub(console, 'error').callsFake((warning) => {
-      throw new Error(warning)
-    })
-  })
-  after(() => {
-    console.error.restore()
-  })
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('should exists', () => {
     assert.isDefined(AuthenticationWorkflowsComponent)
   })
-  const context = {
-    intl: IntlStub,
-    muiTheme: {
-      palette: {},
-    },
-    moduleTheme: styles({ palette: {} }),
-  }
-  // TODO test some rendering
+
+  const context = buildTestContext(styles)
+
   it('should render properly in every initial mode', () => {
     values(initialModes).forEach((mode) => {
       const props = {

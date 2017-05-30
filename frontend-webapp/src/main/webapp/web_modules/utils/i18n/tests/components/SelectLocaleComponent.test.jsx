@@ -2,6 +2,7 @@ import { shallow } from 'enzyme'
 import { expect } from 'chai'
 import * as sinon from 'sinon'
 import MenuItem from 'material-ui/MenuItem'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import SelectLocaleComponent from '../../src/components/SelectLocaleComponent'
 
 /**
@@ -9,6 +10,9 @@ import SelectLocaleComponent from '../../src/components/SelectLocaleComponent'
  * @author Sébastien Binda
  */
 describe('[COMMON] Testing i18n Select Locale components', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('Should render correctly the SelectLocaleComponent', () => {
     const onLocaleChange = (locale) => {
       expect(locale).to.equals('es')

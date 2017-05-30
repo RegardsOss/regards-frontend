@@ -2,12 +2,16 @@
  * LICENSE_PLACEHOLDER
  **/
 import { assert, expect } from 'chai'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import Routes from '../src/router'
 import CollectionFormContainer from '../src/containers/CollectionFormContainer'
 import CollectionListContainer from '../src/containers/CollectionListContainer'
 import CollectionEditLinksContainer from '../src/containers/CollectionEditLinksContainer'
 
 describe('[ADMIN DATA COLLECTION MANAGEMENT] Testing router', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('should return the correct value', () => {
     assert.isDefined(Routes)
     expect(Routes.childRoutes).to.have.length(4)
