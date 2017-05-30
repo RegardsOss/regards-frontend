@@ -5,6 +5,10 @@ import { Locales } from '@regardsoss/form-utils'
 import { Locales as MetadataLocales } from '@regardsoss/user-metadata-common'
 
 const messages = {
+  'default.password.format': 'Le format du mot de passe est libre', // when no rule
+  // joiner to use between password rules
+  'password.rules.joiner': '. ',
+
   'authentication.username': 'Utilisateur ou addresse e-mail',
   'authentication.password': 'Mot de passe',
   'authentication.button': 'Connexion',
@@ -106,7 +110,7 @@ const messages = {
 
   // reset password update (after receiving mail)
   'reset.password.update.request.title': 'Ré-initialisation du mot de passe',
-  'reset.password.update.request.message': 'Veuillez entrer votre nouveau mot de passe pour finaliser la mise à jour de votre compte utilisateur',
+  'reset.password.update.request.message': 'Veuillez entrer votre nouveau mot de passe pour finaliser la mise à jour de votre compte utilisateur. {passwordFormat}',
   'reset.password.update.new.password': 'Nouveau mot de passe',
   'reset.password.update.confirm.password': 'Confirmation du mot de passe',
   'reset.password.update.send': 'ENVOYER',

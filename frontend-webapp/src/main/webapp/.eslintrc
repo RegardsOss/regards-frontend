@@ -78,6 +78,10 @@
     "mocha/no-synchronous-tests": 0,
     // We call done from Mocha inside async tests
     "promise/no-callback-in-promise": 0,
+    // Rule is not adequate without async / await
+    "promise/no-nesting": 0,
+    // We prefer the explicit declaration
+    "lodash/matches-prop-shorthand": 0,
     // This is handy to create custom promises!
     "promise/avoid-new": 0,
     // We do not always return a promise on react component since most of the time nobody consumes them

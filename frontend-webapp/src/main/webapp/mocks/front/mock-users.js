@@ -235,6 +235,13 @@ module.exports = {
       url: 'rs-admin/accounts',
       handler: (request, { status }) => getAccountList(status),
     },
+    accountPasswordRules: {
+      url: 'rs-admin/accounts/password',
+      handler: (request, { status }) => ({
+        content: ['Le mot de passe doit être composé de abcdef', 'Le mot de passe doit finir par 1'],
+        contentType: JSON_CONTENT_TYPE
+      }),
+    },
     // complete create account (validate)
     validateAccount: {
       url: 'rs-admin/accesses/validateAccount/{token}',

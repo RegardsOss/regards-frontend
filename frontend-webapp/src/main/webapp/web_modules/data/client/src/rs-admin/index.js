@@ -1,3 +1,7 @@
+import AccountPasswordActions from './accounts/AccountPasswordActions'
+import getAccountPasswordReducer from './accounts/AccountPasswordReducer'
+import getAccountPasswordSelectors from './accounts/AccountPasswordSelectors'
+
 import ProjectActions from './project/ProjectActions'
 import ProjectSelectors from './project/ProjectSelectors'
 import ProjectReducers from './project/ProjectReducers'
@@ -59,6 +63,10 @@ import getWaitingAccessUsersSignalReducer from './user/WaitingAccessUsersSignalR
 import getWaitingAccessUsersSignalSelectors from './user/WaitingAccessUsersSignalSelectors'
 
 export default {
+
+  AccountPasswordActions,
+  getAccountPasswordReducer,
+  getAccountPasswordSelectors,
 
   BorrowRoleActions,
   getBorrowRoleReducer,

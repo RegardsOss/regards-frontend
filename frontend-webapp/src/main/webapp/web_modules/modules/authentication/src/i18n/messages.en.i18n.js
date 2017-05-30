@@ -5,6 +5,10 @@ import { Locales } from '@regardsoss/form-utils'
 import { Locales as MetadataLocales } from '@regardsoss/user-metadata-common'
 
 const messages = {
+  'default.password.format': 'The password can be freely formatted', // when no rule
+  // joiner to use between password rules
+  'password.rules.joiner': '. ',
+
   'authentication.username': 'Login or E-mail address',
   'authentication.password': 'Password',
   'authentication.button': 'Log in',
@@ -106,7 +110,7 @@ const messages = {
 
   // password update form (after receiving reset mail)
   'reset.password.update.request.title': 'Reset password',
-  'reset.password.update.request.message': 'Please provide the new password to complete operation',
+  'reset.password.update.request.message': 'Please provide the new password to complete operation. {passwordFormat}',
   'reset.password.update.new.password': 'New password',
   'reset.password.update.confirm.password': 'Confirm password',
   'reset.password.update.send': 'SEND',
