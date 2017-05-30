@@ -1,3 +1,4 @@
+import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import find from 'lodash/find'
 import map from 'lodash/map'
@@ -30,6 +31,9 @@ export class ProjectUserFormComponent extends React.Component {
     groupList: PropTypes.objectOf(AccessGroup),
     onSubmit: PropTypes.func.isRequired,
     backUrl: PropTypes.string.isRequired,
+    passwordRules: PropTypes.string.isRequired, // fetched password rules description
+    // eslint-disable-next-line react/no-unused-prop-types
+    fetchPasswordValidity: PropTypes.func.isRequired,
     // from reduxForm
     invalid: PropTypes.bool,
     submitting: PropTypes.bool,
@@ -185,7 +189,8 @@ export class ProjectUserFormComponent extends React.Component {
   </div>)
 
   render() {
-    const { invalid, pristine, userMetadata, submitting, roleList } = this.props
+    const { invalid, pristine, userMetadata, submitting, roleList, passwordRules } = this.props
+    const { intl: { formatMessage } } = this.context
     return (
       <form
         onSubmit={this.props.handleSubmit(this.props.onSubmit)}
@@ -193,10 +198,11 @@ export class ProjectUserFormComponent extends React.Component {
         <Card>
           {this.state.isCreating ?
             <CardTitle
-              title={this.context.intl.formatMessage({ id: 'projectUser.create.title' })}
+              title={formatMessage({ id: 'projectUser.create.title' })}
+              subtitle={formatMessage({ id: 'projectUser.create.message' }, { passwordRules })}
             /> :
             <CardTitle
-              title={<FormattedMessage id="projectUser.edit.title" values={{ email: this.props.currentUser.content.email }} />}
+              title={formatMessage({ id: 'projectUser.edit.title' }, { email: this.props.currentUser.content.email })}
             />
           }
           <CardText>
@@ -204,7 +210,7 @@ export class ProjectUserFormComponent extends React.Component {
             <ShowableAtRender show={this.state.isCreating} >
               <Checkbox
                 onCheck={this.handleCheckbox}
-                label={this.context.intl.formatMessage({ id: 'projectUser.create.using.existing.account' })}
+                label={formatMessage({ id: 'projectUser.create.using.existing.account' })}
               />
             </ShowableAtRender>
 
@@ -214,7 +220,7 @@ export class ProjectUserFormComponent extends React.Component {
               disabled={!this.state.isCreating}
               component={RenderTextField}
               type="text"
-              label={this.context.intl.formatMessage({ id: 'projectUser.create.input.email' })}
+              label={formatMessage({ id: 'projectUser.create.input.email' })}
             />
             { /* Show account creation options when creating an account */}
             <ShowableAtRender show={!this.state.useExistingAccount && this.state.isCreating} >
@@ -224,21 +230,21 @@ export class ProjectUserFormComponent extends React.Component {
                   fullWidth
                   component={RenderTextField}
                   type="text"
-                  label={this.context.intl.formatMessage({ id: 'projectUser.create.input.firstName' })}
+                  label={formatMessage({ id: 'projectUser.create.input.firstName' })}
                 />
                 <Field
                   name="lastName"
                   fullWidth
                   component={RenderTextField}
                   type="text"
-                  label={this.context.intl.formatMessage({ id: 'projectUser.create.input.lastName' })}
+                  label={formatMessage({ id: 'projectUser.create.input.lastName' })}
                 />
                 <Field
                   name="password"
                   fullWidth
                   component={RenderTextField}
                   type="password"
-                  label={this.context.intl.formatMessage({ id: 'projectUser.create.input.password' })}
+                  label={formatMessage({ id: 'projectUser.create.input.password' })}
                 />
               </div>
             </ShowableAtRender>
@@ -246,7 +252,7 @@ export class ProjectUserFormComponent extends React.Component {
               name="roleName"
               fullWidth
               component={RenderSelectField}
-              label={this.context.intl.formatMessage({ id: 'projectUser.create.input.role' })}
+              label={formatMessage({ id: 'projectUser.create.input.role' })}
             >
               {map(roleList, (role, id) => (
                 <MenuItem
@@ -274,12 +280,12 @@ export class ProjectUserFormComponent extends React.Component {
             <CardActionsComponent
               mainButtonLabel={
                 this.state.isCreating ?
-                  <FormattedMessage id="projectUser.create.action.create" /> :
-                  <FormattedMessage id="projectUser.edit.action.save" />
+                  formatMessage({ id: 'projectUser.create.action.create' }) :
+                  formatMessage({ id: 'projectUser.edit.action.save' })
               }
               mainButtonType="submit"
               isMainButtonDisabled={pristine || submitting || invalid}
-              secondaryButtonLabel={this.context.intl.formatMessage({ id: 'projectUser.create.action.cancel' })}
+              secondaryButtonLabel={formatMessage({ id: 'projectUser.create.action.cancel' })}
               secondaryButtonUrl={this.props.backUrl}
             />
           </CardActions>
@@ -311,7 +317,28 @@ function validate(values) {
   return errors
 }
 
+/**
+ * Asynchronous password validation (the server computes validity)
+ * @param {*} values form values
+ * @param {*} dispatch  dispatch
+ * @param {*} props  properties
+ */
+function asyncValidate({ password }, dispatch, props) {
+  // ugly async connection should be done by the container bu we can't
+  const { fetchPasswordValidity } = props
+  return fetchPasswordValidity(password).then((result) => {
+    const validity = get(result, 'payload.content.validity', false)
+    const errors = {}
+    if (!validity) { // invalid password
+      errors.password = ErrorTypes.INVALID_PASSWORD
+    }
+    return errors
+  })
+}
+
 export default reduxForm({
   form: 'user-form',
   validate,
+  asyncValidate,
+  asyncBlurFields: ['password'],
 })(ProjectUserFormComponent)

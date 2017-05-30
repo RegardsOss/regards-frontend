@@ -5,6 +5,7 @@ import { connect } from '@regardsoss/redux'
 import { i18nContextType } from '@regardsoss/i18n'
 import { getMetadataArray } from '@regardsoss/user-metadata-common'
 import AskProjectAccessFormComponent, { mailFieldId, useExistingAccountFieldId } from '../components/AskProjectAccessFormComponent'
+import { accountPasswordActions, accountPasswordSelectors } from '../client/AccountPasswordClient'
 import CreateAccountActions from '../model/creation/CreateAccountActions'
 import CreateAccountSelectors from '../model/creation/CreateAccountSelectors'
 import CreateUserActions from '../model/creation/CreateUserActions'
@@ -35,13 +36,21 @@ export class AskProjectAccessFormContainer extends React.Component {
     isFetching: PropTypes.bool,
     newAccountFetchStatus: PropTypes.number,
     newUserFetchStatus: PropTypes.number,
+    passwordRules: PropTypes.string.isRequired, // fetched password rules description
     // from dispatch to props
     fetchNewAccount: PropTypes.func, // create a new REGARD account
     fetchNewUser: PropTypes.func, // create a new project user ('I have already a REGARD account'...)
+    fetchPasswordRules: PropTypes.func.isRequired,
+    fetchPasswordValidity: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
     ...i18nContextType,
+  }
+
+  componentDidMount = () => {
+    const { fetchPasswordRules } = this.props
+    fetchPasswordRules()
   }
 
   componentWillReceiveProps = (nextProps) => {
@@ -94,7 +103,7 @@ export class AskProjectAccessFormContainer extends React.Component {
 
 
   render() {
-    const { project, initialMail, onBack, newAccountFetchStatus, newUserFetchStatus } = this.props
+    const { project, initialMail, onBack, newAccountFetchStatus, newUserFetchStatus, passwordRules, fetchPasswordValidity } = this.props
     const { lastRequestType } = (this.state || {})
     const { intl } = this.context
     // select error to show in current mode
@@ -117,9 +126,11 @@ export class AskProjectAccessFormContainer extends React.Component {
     return (
       <AskProjectAccessFormComponent
         project={project}
+        passwordRules={passwordRules}
         initialMail={initialMail}
         errorMessage={errorMessage}
         projectMetadata={getMetadataArray()}
+        fetchPasswordValidity={fetchPasswordValidity}
         onRequestAction={this.onRequestAction}
         onBack={onBack}
       />
@@ -131,12 +142,15 @@ const mapStateToProps = state => ({
   isFetching: CreateAccountSelectors.isFetching(state) || CreateUserSelectors.isFetching(state),
   newAccountFetchStatus: CreateAccountSelectors.getError(state).status,
   newUserFetchStatus: CreateUserSelectors.getError(state).status,
+  passwordRules: accountPasswordSelectors.getRules(state),
 })
 
 const mapDispatchToProps = dispatch => ({
   fetchNewUser: (mail, metadata) => dispatch(CreateUserActions.sendCreateUser(mail, metadata)),
   fetchNewAccount: (mail, firstName, lastName, password, metadata) =>
     dispatch(CreateAccountActions.sendCreateAccount(mail, firstName, lastName, password, metadata)),
+  fetchPasswordValidity: newPassword => dispatch(accountPasswordActions.fetchPasswordValidity(newPassword)),
+  fetchPasswordRules: () => dispatch(accountPasswordActions.fetchPasswordRules()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AskProjectAccessFormContainer)

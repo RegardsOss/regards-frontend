@@ -20,8 +20,11 @@ describe('[AUTHENTICATION] Testing ChangePasswordFormContainer', () => {
     const props = {
       mail: 'tiki@tokyo.jp',
       token: '1',
-      onDone: () => {},
-      onTokenExpired: () => {},
+      passwordRules: '',
+      fetchPasswordRules: () => { },
+      fetchPasswordValidity: () => { },
+      onDone: () => { },
+      onTokenExpired: () => { },
     }
     // very small tests for component rendering
     const enzymeWrapper = shallow(<ChangePasswordFormContainer {...props} />, { context })

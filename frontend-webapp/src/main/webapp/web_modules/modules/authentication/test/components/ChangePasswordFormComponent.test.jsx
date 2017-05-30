@@ -21,8 +21,10 @@ describe('[AUTHENTICATION] Testing ChangePasswordFormComponent', () => {
 
   it('Renders properly', () => {
     const props = {
-      onChangePassword: () => {},
-      handleSubmit: () => {},
+      passwordRules: '',
+      fetchPasswordValidity: () => { },
+      onChangePassword: () => { },
+      handleSubmit: () => { },
     }
     const render = shallow(<ChangePasswordFormComponent {...props} />, { context })
     // 2 fields for password and password confirmation

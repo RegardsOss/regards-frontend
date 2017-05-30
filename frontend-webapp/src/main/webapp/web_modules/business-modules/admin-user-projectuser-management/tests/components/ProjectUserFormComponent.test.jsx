@@ -69,6 +69,8 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing projectuser form component', ()
           links: [],
         },
       },
+      passwordRules: '',
+      fetchPasswordValidity: () => { },
       onSubmit: () => { },
       backUrl: 'some/url',
       // from Redux Form
@@ -119,6 +121,8 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing projectuser form component', ()
           links: [],
         },
       },
+      passwordRules: '',
+      fetchPasswordValidity: () => { },
       onSubmit: () => { },
       backUrl: 'some/url',
       // from Redux Form

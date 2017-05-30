@@ -18,6 +18,7 @@ import { AuthenticationRouteParameters } from '@regardsoss/authentication-manage
 import { roleActions, roleSelectors } from '../client/RoleClient'
 import { projectUserActions, projectUserSelectors } from '../client/ProjectUserClient'
 import { accessGroupActions, accessGroupSelectors } from '../client/AccessGroupClient'
+import { accountPasswordActions, accountPasswordSelectors } from '../client/AccountPasswordClient'
 import { userGroupActions } from '../client/UserGroupClient'
 import ProjectUserFormComponent from '../components/ProjectUserFormComponent'
 
@@ -28,6 +29,7 @@ export class ProjectUserFormContainer extends React.Component {
     groupList: PropTypes.objectOf(AccessGroup),
     user: ProjectUser,
     isFetching: PropTypes.bool,
+    passwordRules: PropTypes.string.isRequired, // fetched password rules description
     // from router
     params: PropTypes.shape({
       project: PropTypes.string,
@@ -39,6 +41,8 @@ export class ProjectUserFormContainer extends React.Component {
     fetchUser: PropTypes.func,
     fetchRoleList: PropTypes.func,
     fetchGroupList: PropTypes.func,
+    fetchPasswordRules: PropTypes.func.isRequired,
+    fetchPasswordValidity: PropTypes.func.isRequired,
     assignGroup: PropTypes.func,
     unassignGroup: PropTypes.func,
   }
@@ -53,10 +57,12 @@ export class ProjectUserFormContainer extends React.Component {
   componentWillMount = () => {
     this.props.fetchRoleList()
     this.props.fetchGroupList()
+    this.props.fetchPasswordRules()
 
     if (this.state.isEditing && !this.props.user) {
       this.props.fetchUser(this.props.params.user_id)
     }
+
 
     // whatever the case, initialize metadata
     this.updateMetadata(this.props.user)
@@ -85,8 +91,10 @@ export class ProjectUserFormContainer extends React.Component {
       if (this.props.user) {
         return (
           <ProjectUserFormComponent
+            passwordRules={this.props.passwordRules}
             currentUser={this.props.user}
             userMetadata={userMetadata}
+            fetchPasswordValidity={this.props.fetchPasswordValidity}
             onSubmit={this.handleUpdate}
             onAddGroup={this.handleAddGroup}
             backUrl={this.getBackUrl()}
@@ -97,7 +105,9 @@ export class ProjectUserFormContainer extends React.Component {
       return (<FormEntityNotFoundComponent />)
     }
     return (<ProjectUserFormComponent
+      passwordRules={this.props.passwordRules}
       userMetadata={userMetadata}
+      fetchPasswordValidity={this.props.fetchPasswordValidity}
       onSubmit={this.handleCreate}
       onAddGroup={this.handleAddGroup}
       backUrl={this.getBackUrl()}
@@ -190,6 +200,7 @@ const mapStateToProps = (state, ownProps) => ({
   groupList: accessGroupSelectors.getList(state),
   user: ownProps.params.user_id ? projectUserSelectors.getById(state, ownProps.params.user_id) : null,
   isFetching: projectUserSelectors.isFetching(state),
+  passwordRules: accountPasswordSelectors.getRules(state),
 })
 const mapDispatchToProps = dispatch => ({
   fetchUser: userId => dispatch(projectUserActions.fetchEntity(userId)),
@@ -199,6 +210,8 @@ const mapDispatchToProps = dispatch => ({
   fetchGroupList: () => dispatch(accessGroupActions.fetchPagedEntityList()),
   assignGroup: (group, user) => dispatch(userGroupActions.sendSignal('PUT', null, { name: group, email: user })),
   unassignGroup: (group, user) => dispatch(userGroupActions.sendSignal('DELETE', null, { name: group, email: user })),
+  fetchPasswordValidity: newPassword => dispatch(accountPasswordActions.fetchPasswordValidity(newPassword)),
+  fetchPasswordRules: () => dispatch(accountPasswordActions.fetchPasswordRules()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectUserFormContainer)

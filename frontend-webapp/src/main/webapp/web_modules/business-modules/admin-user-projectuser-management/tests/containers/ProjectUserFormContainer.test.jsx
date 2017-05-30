@@ -77,7 +77,10 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing projectuser form container', ()
         project: 'project-1',
         user_id: '1',
       },
+      passwordRules: 'Open bar password',
       // from mapDispatchToProps
+      fetchPasswordRules: () => { },
+      fetchPasswordValidity: () => { },
       createProjectUser: () => { },
       updateProjectUser: () => { },
       fetchRoleList: () => { },

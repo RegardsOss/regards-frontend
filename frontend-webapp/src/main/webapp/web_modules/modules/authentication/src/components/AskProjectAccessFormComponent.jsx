@@ -1,8 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  */
-
-import { FormattedMessage } from 'react-intl'
+import get from 'lodash/get'
 import { formValueSelector } from 'redux-form'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
@@ -24,6 +23,7 @@ export class AskProjectAccessFormComponent extends React.Component {
   static propTypes = {
     // Form initial value
     initialMail: PropTypes.string,
+    passwordRules: PropTypes.string.isRequired, // fetched password rules description
     // should use existing account
     useExistingAccount: PropTypes.bool,
     // Last submit error message
@@ -38,6 +38,8 @@ export class AskProjectAccessFormComponent extends React.Component {
     projectMetadata: MetadataList.isRequired,
     // from reduxFormSelector
     currentMailValue: PropTypes.string,
+    // eslint-disable-next-line react/no-unused-prop-types
+    fetchPasswordValidity: PropTypes.func.isRequired,
     // from redux form
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
@@ -60,19 +62,19 @@ export class AskProjectAccessFormComponent extends React.Component {
 
   render() {
     const {
-      project, projectMetadata,
+      project, projectMetadata, passwordRules,
       currentMailValue, useExistingAccount, errorMessage,
       onBack, onRequestAction,
       pristine, submitting, invalid, handleSubmit,
     } = this.props
-    const { moduleTheme } = this.context
+    const { moduleTheme, intl: { formatMessage } } = this.context
     return (
       <div style={moduleTheme.layout}>
         <form onSubmit={handleSubmit(onRequestAction)}>
           <Card>
             <CardTitle
-              title={<FormattedMessage id="ask.project.access.request.title" values={{ project }} />}
-              subtitle={<FormattedMessage id="ask.project.access.request.message" values={{ project }} />}
+              title={formatMessage({ id: 'ask.project.access.request.title' }, { project })}
+              subtitle={formatMessage({ id: 'ask.project.access.request.message' }, { project, passwordRules })}
             />
             <CardText>
               <FormErrorMessage>{errorMessage}</FormErrorMessage>
@@ -86,14 +88,14 @@ export class AskProjectAccessFormComponent extends React.Component {
                 <Field
                   name={useExistingAccountFieldId}
                   component={RenderCheckbox}
-                  label={this.context.intl.formatMessage({ id: 'ask.project.access.using.existing.account' })}
+                  label={formatMessage({ id: 'ask.project.access.using.existing.account' })}
                 />
                 <Field
                   name={mailFieldId}
                   fullWidth
                   component={RenderTextField}
                   type="text"
-                  floatingLabelText={this.context.intl.formatMessage({ id: 'ask.project.access.mail' })}
+                  floatingLabelText={formatMessage({ id: 'ask.project.access.mail' })}
                 />
                 {useExistingAccount ? null : (
                   <div>
@@ -103,7 +105,7 @@ export class AskProjectAccessFormComponent extends React.Component {
                       fullWidth
                       component={RenderTextField}
                       type="text"
-                      floatingLabelText={this.context.intl.formatMessage({ id: 'ask.project.access.first.name' })}
+                      floatingLabelText={formatMessage({ id: 'ask.project.access.first.name' })}
                     />
                     <Field
                       key="lastName"
@@ -111,7 +113,7 @@ export class AskProjectAccessFormComponent extends React.Component {
                       fullWidth
                       component={RenderTextField}
                       type="text"
-                      floatingLabelText={this.context.intl.formatMessage({ id: 'ask.project.access.last.name' })}
+                      floatingLabelText={formatMessage({ id: 'ask.project.access.last.name' })}
                     />
                     <Field
                       key="newPassword"
@@ -119,7 +121,7 @@ export class AskProjectAccessFormComponent extends React.Component {
                       fullWidth
                       component={RenderTextField}
                       type="password"
-                      floatingLabelText={this.context.intl.formatMessage({ id: 'ask.project.access.new.password' })}
+                      floatingLabelText={formatMessage({ id: 'ask.project.access.new.password' })}
                     />
                     <Field
                       key="confirmPassword"
@@ -127,7 +129,7 @@ export class AskProjectAccessFormComponent extends React.Component {
                       fullWidth
                       component={RenderTextField}
                       type="password"
-                      floatingLabelText={this.context.intl.formatMessage({ id: 'ask.project.access.confirm.password' })}
+                      floatingLabelText={formatMessage({ id: 'ask.project.access.confirm.password' })}
                     />
                   </div>
                 )}
@@ -143,13 +145,13 @@ export class AskProjectAccessFormComponent extends React.Component {
             <CardActions style={moduleTheme.action}>
               <RaisedButton
                 disabled={submitting || invalid || pristine}
-                label={this.context.intl.formatMessage({ id: 'ask.project.access.send' })}
+                label={formatMessage({ id: 'ask.project.access.send' })}
                 primary
                 type="submit"
               />
               <RaisedButton
                 disabled={submitting}
-                label={this.context.intl.formatMessage({ id: 'ask.project.access.form.back' })}
+                label={formatMessage({ id: 'ask.project.access.form.back' })}
                 primary
                 onClick={() => onBack(currentMailValue)}
               />
@@ -187,9 +189,6 @@ function validate(fieldValues) {
     if (!fieldValues.confirmPassword) {
       errors.confirmPassword = ErrorTypes.REQUIRED
     }
-    if (!ValidationHelpers.isValidPassword(fieldValues.newPassword)) {
-      errors.newPassword = ErrorTypes.INVALID_PASSWORD
-    }
     if (fieldValues.confirmPassword && fieldValues.newPassword && fieldValues.newPassword !== fieldValues.confirmPassword) {
       errors.confirmPassword = ErrorTypes.DIFFERENT_PASSWORDS
     }
@@ -198,11 +197,33 @@ function validate(fieldValues) {
   return errors
 }
 
+/**
+ * Asynchronous password validation (the server computes validity)
+ * @param {*} values form values
+ * @param {*} dispatch  dispatch
+ * @param {*} props  properties
+ */
+function asyncValidate({ newPassword }, dispatch, props) {
+  // ugly async connection should be done by the container bu we can't
+  const { fetchPasswordValidity } = props
+  return fetchPasswordValidity(newPassword).then((result) => {
+    const validity = get(result, 'payload.content.validity', false)
+    const errors = {}
+    if (!validity) { // invalid password
+      errors.newPassword = ErrorTypes.INVALID_PASSWORD
+    }
+    return errors
+  })
+}
+
+
 // prepare redux form
 const formId = 'ask-project-access-form'
 const connectedReduxForm = reduxForm({
   form: formId,
   validate,
+  asyncValidate,
+  asyncBlurFields: ['newPassword'],
 })(AskProjectAccessFormComponent)
 
 

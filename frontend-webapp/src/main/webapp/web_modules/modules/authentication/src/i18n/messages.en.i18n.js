@@ -47,7 +47,7 @@ const messages = {
 
   // ask project access form
   'ask.project.access.request.title': 'Request project access',
-  'ask.project.access.request.message': 'Please enter below your personal data to request access, or provide your REGARDS account email address if you own already one',
+  'ask.project.access.request.message': 'Please enter below your personal data to request access, or provide your REGARDS account email address if you own already one. {passwordRules}',
   'ask.project.access.using.existing.account': 'I already have a REGARDS user account',
   'ask.project.access.mail': 'E-mail address',
   'ask.project.access.first.name': 'First name',
@@ -106,7 +106,7 @@ const messages = {
 
   // password update form (after receiving reset mail)
   'reset.password.update.request.title': 'Reset password',
-  'reset.password.update.request.message': 'Please provide the new password to complete operation',
+  'reset.password.update.request.message': 'Please provide the new password to complete operation. {passwordRules}',
   'reset.password.update.new.password': 'New password',
   'reset.password.update.confirm.password': 'Confirm password',
   'reset.password.update.send': 'SEND',
