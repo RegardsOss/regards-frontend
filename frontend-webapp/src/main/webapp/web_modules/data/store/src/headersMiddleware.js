@@ -1,5 +1,5 @@
 import { AuthenticationClient, AuthenticationParametersSelectors } from '@regardsoss/authentication-manager'
-
+import isString from 'lodash/isString'
 // Redux middleware provides a third-party extension point
 // between dispatching an action, and the moment it reaches the reducer
 const { CALL_API } = require('redux-api-middleware')
@@ -43,7 +43,7 @@ const getDefaultTypesHeaders = (callAPI) => {
     Accept: 'application/json',
   }
   // String body: json, otherwise: none (multi part form, each part specifies its type)
-  if (typeof callAPI.body === 'string') {
+  if (isString(callAPI.body)) {
     defaultTypeHeaders['Content-type'] = 'application/json'
   }
   return defaultTypeHeaders

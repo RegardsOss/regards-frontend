@@ -2,6 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import StorageUnitScale from './StorageUnit'
+import isNumber from 'lodash/isNumber'
 
 /**
  * A storage capacity (like 8Mo, 36 Gio...)
@@ -45,7 +46,7 @@ class StorageCapacity {
    * @returns {StorageCapacity}, new instance
    */
   doArithmeticOperation(binaryOperator, other) {
-    if (typeof other === 'number') {
+    if (isNumber(other)) {
       return new StorageCapacity(binaryOperator(this.value, other), this.unit)
     } else if (other instanceof StorageCapacity) {
       const converted = other.convert(this.unit)

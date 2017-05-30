@@ -2,6 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { FormattedMessage } from 'react-intl'
+import isUndefined from 'lodash/isUndefined'
 import Paper from 'material-ui/Paper'
 import IconMenu from 'material-ui/IconMenu'
 import IconButton from 'material-ui/IconButton'
@@ -113,7 +114,7 @@ class StorageMonitoringComponent extends React.Component {
 
         <LoadableContentDisplayDecorator
           isLoading={isFetching}
-          isEmpty={typeof storagePlugins === 'undefined' || !storagePlugins.length}
+          isEmpty={isUndefined(storagePlugins) || !storagePlugins.length}
           isContentError={hasError}
         >
           <div className="row">

@@ -3,7 +3,6 @@
  */
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { stub } from 'sinon'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import { LoadingPaneComponent } from '@regardsoss/components'
 import { FinishAccountUnlockingContainer } from '../../src/containers/FinishAccountUnlockingContainer'

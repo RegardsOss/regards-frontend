@@ -3,7 +3,6 @@
  */
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { stub } from 'sinon'
 import { Field } from '@regardsoss/form-utils'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import { getMetadataArray } from '@regardsoss/user-metadata-common'
