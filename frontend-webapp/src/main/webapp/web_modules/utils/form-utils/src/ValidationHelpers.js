@@ -36,14 +36,6 @@ export const isValidAlphaNumericUnderscore = value => /^[A-Z0-9_]+$/i.test(value
 export const isValidIP = value => /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(value)
 
 /**
- * Returns {@code true} if the passed String is defined and have a length greater than 6 characters.
- * @param {String} value
- * @returns {boolean}
- */
-export const isValidPassword = value => value && value.length >= 6
-
-
-/**
  * Compose all passed validator functions as a single validator. If all validators are valid, the composed validator is valid.
  * If some validators are invalid, the composed validator is invalid and the returned error is the first error found.
  *
@@ -88,7 +80,6 @@ export default {
   isValidUrl,
   isValidAlphaNumericUnderscore,
   isValidIP,
-  isValidPassword,
   compose,
   validRequiredString,
   validRequiredNumber,

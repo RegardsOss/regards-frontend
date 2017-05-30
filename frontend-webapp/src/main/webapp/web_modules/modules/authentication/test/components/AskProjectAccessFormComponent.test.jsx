@@ -20,6 +20,8 @@ describe('[AUTHENTICATION] Testing AskProjectAccessFormComponent', () => {
     assert.isDefined(AskProjectAccessFormComponent)
   })
   const props = {
+    passwordRules: 'The password should have two legs, three eyes and one egg, turning around a planet',
+    fetchPasswordValidity: () => { },
     onRequestAction: () => { },
     onBack: () => { },
     project: 'any',

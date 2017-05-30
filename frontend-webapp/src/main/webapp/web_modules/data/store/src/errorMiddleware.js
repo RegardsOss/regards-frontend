@@ -3,8 +3,24 @@
  **/
 import { ApplicationErrorAction } from '@regardsoss/global-system-error'
 
+const ASYNC_VALIDATION_ACTION_TYPE = '@@redux-form/STOP_ASYNC_VALIDATION'
+
+function isSilentError(action) {
+  // Silent errors if:
+  // - it is an async form validation action (should'nt be handled, local action!)
+  // - it is explicity marked to bypass error middleware
+  return action.type === ASYNC_VALIDATION_ACTION_TYPE ||
+    (action.meta && action.meta.bypassErrorMiddleware)
+}
+
+/**
+ * Computes silent errors (to not be logged): 
+ * @param {*} actionMeta 
+ */
+//const isSilentError = actionMeta => actionMeta && ()
+
 export default store => next => (action) => {
-  if (action.error && (!action.meta || !action.meta.bypassErrorMiddleware)) {
+  if (action.error && !isSilentError(action)) {
     if (action.payload) {
       const statusText = 'Server request error'
       let serverMessage = ''

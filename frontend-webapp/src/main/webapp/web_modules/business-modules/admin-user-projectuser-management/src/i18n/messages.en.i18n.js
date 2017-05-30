@@ -32,6 +32,7 @@ const messages = {
   'projectUser.edit.action.save': 'Save',
   'projectUser.create.using.existing.account': 'The user already have a REGARDS user account',
   'projectUser.create.title': 'Create a new user',
+  'projectUser.create.message': 'Create a new user for the project. {passwordRules}',
   'projectUser.create.input.role': 'Role',
   'projectUser.create.input.email': 'E-mail',
   'projectUser.create.input.firstName': 'Firstname',

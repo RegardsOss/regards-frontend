@@ -8,7 +8,7 @@ export class AccountPasswordReducer extends BasicSignalReducers {
 
   static DEFAULT_STATE = {
     ...BasicSignalReducers.DEFAULT_STATE,
-    rules: [],
+    rules: '', // rules description
     validity: false,
   }
 
@@ -44,10 +44,9 @@ export class AccountPasswordReducer extends BasicSignalReducers {
         return {
           ...nextState,
           // update rules or validity depending on what the action performed
-          rules: nextState.result.type === AccountPasswordActions.FetchingTypes.passwordRules ? nextState.result.content : rules,
-          validity: nextState.result.type === AccountPasswordActions.FetchingTypes.passwordValidity ? nextState.result.content : validity,
+          rules: nextState.result.type === AccountPasswordActions.FetchingTypes.passwordRules ? nextState.result.content.rules : rules,
+          validity: nextState.result.type === AccountPasswordActions.FetchingTypes.passwordValidity ? nextState.result.content.validity : validity,
         }
-
       default:
         return nextState
     }

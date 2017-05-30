@@ -30,6 +30,9 @@ describe('[AUTHENTICATION] Testing AskProjectAccessFormContainer', () => {
   it('should render properly', () => {
     const props = {
       project: 'any',
+      passwordRules: '',
+      fetchPasswordRules: () => { },
+      fetchPasswordValidity: () => { },
       onBack: () => { },
       onDone: () => { },
       onNewAccountDone: () => { },

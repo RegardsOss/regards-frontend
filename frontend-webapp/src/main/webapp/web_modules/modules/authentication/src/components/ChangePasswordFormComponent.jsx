@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  */
-import { SubmissionError } from 'redux-form'
+import get from 'lodash/get'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -14,11 +14,11 @@ import { RenderTextField, Field, ErrorTypes, reduxForm } from '@regardsoss/form-
 export class ChangePasswordFormComponent extends React.Component {
 
   static propTypes = {
-    // password rules, to show as error on invalid password
-    // eslint-disable-next-line react/no-unused-prop-types
-    passwordRules: PropTypes.arrayOf(PropTypes.string).isRequired,
+    passwordRules: PropTypes.string.isRequired, // fetched password rules description
     // calls update password action or shows token expired message
     onChangePassword: PropTypes.func.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
+    fetchPasswordValidity: PropTypes.func.isRequired,
     // from reduxForm
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
@@ -37,9 +37,6 @@ export class ChangePasswordFormComponent extends React.Component {
     const { passwordRules, onChangePassword, pristine, submitting, invalid, handleSubmit } = this.props
     const { moduleTheme, intl: { formatMessage } } = this.context
 
-    const passwordFormat = passwordRules.length ? passwordRules.join(formatMessage({ id: 'password.rules.joiner' })) :
-      formatMessage({ id: 'default.password.format' })
-
     return (
       <div style={moduleTheme.layout}>
         <form
@@ -48,7 +45,7 @@ export class ChangePasswordFormComponent extends React.Component {
           <Card>
             <CardTitle
               title={formatMessage({ id: 'reset.password.update.request.title' })}
-              subtitle={formatMessage({ id: 'reset.password.update.request.message' }, { passwordFormat })}
+              subtitle={formatMessage({ id: 'reset.password.update.request.message' }, { passwordRules })}
             />
             <CardText>
               <Field
@@ -96,16 +93,22 @@ function validate(values) {
   return errors
 }
 
+/**
+ * Asynchronous password validation (the server computes validity)
+ * @param {*} values form values
+ * @param {*} dispatch  dispatch
+ * @param {*} props  properties
+ */
 function asyncValidate({ newPassword }, dispatch, props) {
   // ugly async connection should be done by the container bu we can't
   const { fetchPasswordValidity } = props
-  return fetchPasswordValidity(newPassword).then((payload) => {
-    if (!payload || !payload.validity) { // invalid password
-      // eslint-disable-next-line
-      throw { newPassword: ErrorTypes.INVALID_PASSWORD }
-    } else {
-      return payload.validity
+  return fetchPasswordValidity(newPassword).then((result) => {
+    const validity = get(result, 'payload.content.validity', false)
+    const errors = {}
+    if (!validity) { // invalid password
+      errors.newPassword = ErrorTypes.INVALID_PASSWORD
     }
+    return errors
   })
 }
 
@@ -114,6 +117,6 @@ export default reduxForm({
   form: formId,
   validate,
   asyncValidate,
-  asyncBlurFields: ['newPassword', 'confirmPassword'],
+  asyncBlurFields: ['newPassword'],
 })(ChangePasswordFormComponent)
 

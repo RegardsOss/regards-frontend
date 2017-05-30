@@ -238,7 +238,7 @@ module.exports = {
     accountPasswordRules: {
       url: 'rs-admin/accounts/password',
       handler: (request, { status }) => ({
-        content: ['Le mot de passe doit être composé de abcdef', 'Le mot de passe doit finir par 1'],
+        content: { rules: 'Le mot de passe doit être composé d\'au moins 8 caractères et contenir un chiffre.' },
         contentType: JSON_CONTENT_TYPE
       }),
     },
@@ -408,6 +408,17 @@ module.exports = {
         }
         writeUsersPool(users)
         return { code: 201 }
+      },
+    },
+    accountPasswordValidation: {
+      url: 'rs-admin/accounts/password',
+      handler: (request, query, pathParameters, { password }) => {
+        return {
+          content: {
+            validity: password.length >= 8 && /[1-9]+/.test(password)
+          },
+          contentType: JSON_CONTENT_TYPE,
+        }
       },
     },
   },

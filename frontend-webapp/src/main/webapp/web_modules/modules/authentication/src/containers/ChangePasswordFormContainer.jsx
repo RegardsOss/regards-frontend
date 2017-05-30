@@ -19,8 +19,7 @@ export class ChangePasswordFormContainer extends React.Component {
     mail: PropTypes.string.isRequired,
     // token to finish reset password
     token: PropTypes.string.isRequired,
-    // fetched password rules
-    passwordRules: PropTypes.arrayOf(PropTypes.string).isRequired,
+    passwordRules: PropTypes.string.isRequired, // fetched password rules description
     // done callback
     onDone: PropTypes.func.isRequired,
     // token expired callback
@@ -33,8 +32,8 @@ export class ChangePasswordFormContainer extends React.Component {
     hasError: PropTypes.bool,
     // from map dispatch to props
     fetchRequestAction: PropTypes.func,
-    fetchPasswordValidity: PropTypes.func.isRequired,
     fetchPasswordRules: PropTypes.func.isRequired,
+    fetchPasswordValidity: PropTypes.func.isRequired,
   }
 
   static contextTypes = { ...i18nContextType }

@@ -5,10 +5,6 @@ import { Locales } from '@regardsoss/form-utils'
 import { Locales as MetadataLocales } from '@regardsoss/user-metadata-common'
 
 const messages = {
-  'default.password.format': 'Le format du mot de passe est libre', // when no rule
-  // joiner to use between password rules
-  'password.rules.joiner': '. ',
-
   'authentication.username': 'Utilisateur ou addresse e-mail',
   'authentication.password': 'Mot de passe',
   'authentication.button': 'Connexion',
@@ -51,7 +47,7 @@ const messages = {
 
   // ask project access form
   'ask.project.access.request.title': 'Demander un accès projet',
-  'ask.project.access.request.message': 'Veuillez renseigner ci-dessous vos données personnelles pour obtenir un accès au projet ou renseigner l\'adresse email de votre compte REGARDS si vous en avez déjà un.',
+  'ask.project.access.request.message': 'Veuillez renseigner ci-dessous vos données personnelles pour obtenir un accès au projet ou renseigner l\'adresse email de votre compte REGARDS si vous en avez déjà un. {passwordRules}',
   'ask.project.access.using.existing.account': 'J\'ai déjà un compte utilisateur REGARDS',
   'ask.project.access.mail': 'Adresse e-mail',
   'ask.project.access.first.name': 'Prénom',
@@ -110,7 +106,7 @@ const messages = {
 
   // reset password update (after receiving mail)
   'reset.password.update.request.title': 'Ré-initialisation du mot de passe',
-  'reset.password.update.request.message': 'Veuillez entrer votre nouveau mot de passe pour finaliser la mise à jour de votre compte utilisateur. {passwordFormat}',
+  'reset.password.update.request.message': 'Veuillez entrer votre nouveau mot de passe pour finaliser la mise à jour de votre compte utilisateur. {passwordRules}',
   'reset.password.update.new.password': 'Nouveau mot de passe',
   'reset.password.update.confirm.password': 'Confirmation du mot de passe',
   'reset.password.update.send': 'ENVOYER',
