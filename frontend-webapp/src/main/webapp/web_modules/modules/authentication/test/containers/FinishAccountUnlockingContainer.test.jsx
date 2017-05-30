@@ -4,28 +4,20 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { stub } from 'sinon'
-import { IntlStub } from '@regardsoss/tests-helpers'
+import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import { LoadingPaneComponent } from '@regardsoss/components'
 import { FinishAccountUnlockingContainer } from '../../src/containers/FinishAccountUnlockingContainer'
 
+const options = {
+  context: buildTestContext(),
+}
+
 describe('[AUTHENTICATION] Testing FinishAccountUnlockingContainer', () => {
-  // Since react will console.error propType warnings, that which we'd rather have
-  // as errors, we use sinon.js to stub it into throwing these warning as errors
-  // instead.
-  before(() => {
-    stub(console, 'error').callsFake((warning) => {
-      throw new Error(warning)
-    })
-  })
-  after(() => {
-    console.error.restore()
-  })
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
   it('should exists', () => {
     assert.isDefined(FinishAccountUnlockingContainer)
   })
-  const context = {
-    intl: IntlStub,
-  }
   it('should render properly', () => {
     const props = {
       mail: 'tiki@tokyo.jp',
@@ -34,7 +26,7 @@ describe('[AUTHENTICATION] Testing FinishAccountUnlockingContainer', () => {
       onTokenExpired: () => { },
     }
     // very small tests for component rendering
-    const enzymeWrapper = shallow(<FinishAccountUnlockingContainer {...props} />, { context })
+    const enzymeWrapper = shallow(<FinishAccountUnlockingContainer {...props} />, options)
     assert.equal(enzymeWrapper.find(LoadingPaneComponent).length, 1, 'There should be the rendered component!')
   })
 })

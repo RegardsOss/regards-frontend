@@ -1,7 +1,7 @@
 import { Field, RenderTextField } from '@regardsoss/form-utils'
 import { themeContextType } from '@regardsoss/theme'
 import RaisedButton from 'material-ui/RaisedButton'
-import { FormattedMessage, intlShape } from 'react-intl'
+import { i18nContextType } from '@regardsoss/i18n'
 import { connect } from '@regardsoss/redux'
 import { formValueSelector } from 'redux-form'
 
@@ -17,7 +17,7 @@ class AdminContainer extends React.Component {
 
   static contextTypes = {
     ...themeContextType,
-    intl: intlShape,
+    ...i18nContextType,
   }
 
   state = {
@@ -37,10 +37,10 @@ class AdminContainer extends React.Component {
           fullWidth
           component={RenderTextField}
           type="text"
-          label={<FormattedMessage id="homepage.admin.url" />}
+          label={this.context.intl.formatMessage({ id: 'homepage.admin.url' })}
         />
         <RaisedButton
-          label={<FormattedMessage id="homepage.admin.test" />}
+          label={this.context.intl.formatMessage({ id: 'homepage.admin.test' })}
           primary
           onTouchTap={this.handleTest}
         />

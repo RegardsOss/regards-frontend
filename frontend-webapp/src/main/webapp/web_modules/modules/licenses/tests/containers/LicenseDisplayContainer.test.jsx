@@ -1,22 +1,18 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import { stub } from 'sinon'
+import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import { SingleContentURLDialogContainer } from '@regardsoss/components'
 import { LicenseDisplayContainer } from '../../src/containers/LicenseDisplayContainer'
+import style from '../../src/styles/styles'
+
+const options = {
+  context: buildTestContext(style),
+}
 
 // Test a component rendering
 describe('[LICENSE MODULE] Testing license module container', () => {
-  // Since react will console.error propType warnings, that which we'd rather have
-  // as errors, we use sinon.js to stub it into throwing these warning as errors
-  // instead.
-  before(() => {
-    stub(console, 'error').callsFake((warning) => {
-      throw new Error(warning)
-    })
-  })
-  after(() => {
-    console.error.restore()
-  })
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
   it('should exists', () => {
     assert.isDefined(LicenseDisplayContainer)
   })
@@ -32,17 +28,7 @@ describe('[LICENSE MODULE] Testing license module container', () => {
       sendAcceptLicense: () => { },
       logout: () => { },
     }
-    const context = {
-      muiTheme: {},
-      moduleTheme: {
-        dialog: {
-          bodyStyle: {},
-          heightPercent: 50,
-          widthPercent: 50,
-        },
-      },
-    }
-    const enzymeWrapper = shallow(<LicenseDisplayContainer {...props} />, { context })
+    const enzymeWrapper = shallow(<LicenseDisplayContainer {...props} />, options)
 
     // loading: not displaying dialog
     let subComponent = enzymeWrapper.find(SingleContentURLDialogContainer)

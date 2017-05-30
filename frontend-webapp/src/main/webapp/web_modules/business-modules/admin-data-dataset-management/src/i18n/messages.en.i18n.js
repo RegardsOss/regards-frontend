@@ -25,8 +25,6 @@ const messages = Object.assign({
 
   'dataset.form.plugin.title': 'Manage plugins applyed to this dataset',
   'dataset.form.plugin.subtitle': 'You can link with these three types of plugins: <br /> - filters allow to modify user\'s research requests on a dataset. <br /> - converters allows to convert data coming from a research on a dataset. <br /> - services allows to realize processing on a dataset.',
-  'dataset.form.plugin.filters': 'Activate filters',
-  'dataset.form.plugin.converters': 'Activate converters',
   'dataset.form.plugin.services': 'Activate services',
   'dataset.form.plugin.action.next': 'Next',
   'dataset.form.plugin.action.cancel': 'Cancel',

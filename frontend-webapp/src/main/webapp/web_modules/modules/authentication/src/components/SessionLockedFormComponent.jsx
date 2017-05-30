@@ -1,12 +1,11 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
-import { FormattedMessage } from 'react-intl'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
-import { i18nContextType } from '@regardsoss/i18n'
 import RaisedButton from 'material-ui/RaisedButton'
 import { RenderTextField, Field, FormErrorMessage, reduxForm } from '@regardsoss/form-utils'
 import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
 
 /**
 *Session management component : if session is locked, shows unlock screen, renders children otherwise
@@ -25,7 +24,10 @@ export class SessionLockedFormComponent extends React.Component {
     handleSubmit: PropTypes.func.isRequired,
   }
 
-  static contextTypes = { ...themeContextType, ...i18nContextType }
+  static contextTypes = {
+    ...themeContextType,
+    ...i18nContextType,
+  }
 
   /**
    * Render function
@@ -40,8 +42,8 @@ export class SessionLockedFormComponent extends React.Component {
         <form onSubmit={handleSubmit(onUnlock)}>
           <Card>
             <CardTitle
-              title={<FormattedMessage id="session.locked.title" />}
-              subtitle={<FormattedMessage id="session.locked.subtitle" />}
+              title={this.context.intl.formatMessage({ id: 'session.locked.title' })}
+              subtitle={this.context.intl.formatMessage({ id: 'session.locked.subtitle' })}
             />
             <CardText>
               <FormErrorMessage>{hasUnlockingError ? intl.formatMessage({ id: 'session.locked.error' }) : ''}</FormErrorMessage>
@@ -50,13 +52,13 @@ export class SessionLockedFormComponent extends React.Component {
                 fullWidth
                 component={RenderTextField}
                 type="password"
-                label={<FormattedMessage id="session.locked.password" />}
+                label={this.context.intl.formatMessage({ id: 'session.locked.password' })}
               />
             </CardText>
             <CardActions style={moduleTheme.action}>
               <RaisedButton
                 disabled={this.props.pristine || this.props.submitting || this.props.invalid}
-                label={<FormattedMessage id="session.locked.button" />}
+                label={this.context.intl.formatMessage({ id: 'session.locked.button' })}
                 primary
                 type="submit"
               />

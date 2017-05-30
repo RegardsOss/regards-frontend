@@ -5,34 +5,21 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { stub } from 'sinon'
 import { Field } from '@regardsoss/form-utils'
+import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import { getMetadataArray } from '@regardsoss/user-metadata-common'
 import { AskProjectAccessFormComponent } from '../../src/components/AskProjectAccessFormComponent'
-
 import styles from '../../src/styles/styles'
 
+const options = {
+  context: buildTestContext(styles),
+}
 
 describe('[AUTHENTICATION] Testing AskProjectAccessFormComponent', () => {
-  // Since react will console.error propType warnings, that which we'd rather have
-  // as errors, we use sinon.js to stub it into throwing these warning as errors
-  // instead.
-
-  before(() => {
-    stub(console, 'error').callsFake((warning) => {
-      throw new Error(warning)
-    })
-  })
-  after(() => {
-    console.error.restore()
-  })
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
   it('should exists', () => {
     assert.isDefined(AskProjectAccessFormComponent)
   })
-
-  const context = {
-    // intl: IntlStub,
-    muiTheme: {},
-    moduleTheme: styles({ palette: {} }),
-  }
   const props = {
     onRequestAction: () => { },
     onBack: () => { },
@@ -43,13 +30,13 @@ describe('[AUTHENTICATION] Testing AskProjectAccessFormComponent', () => {
   }
   it('should render properly', () => {
     // render disconnected
-    shallow(<AskProjectAccessFormComponent {...props} />, { context })
+    shallow(<AskProjectAccessFormComponent {...props} />, options)
   })
 
   it('should show create user fields when "use existing account" is unticked, and hide it otherwise', () => {
     // render disconnected
-    const existingAccountRender = shallow(<AskProjectAccessFormComponent useExistingAccount {...props} />, { context })
-    const newAccountRender = shallow(<AskProjectAccessFormComponent useExistingAccount={false} {...props} />, { context })
+    const existingAccountRender = shallow(<AskProjectAccessFormComponent useExistingAccount {...props} />, options)
+    const newAccountRender = shallow(<AskProjectAccessFormComponent useExistingAccount={false} {...props} />, options)
     assert.isBelow(existingAccountRender.find(Field).length, newAccountRender.find(Field).length, 'There should be less fields in existing account case than in the new one!')
   })
 })

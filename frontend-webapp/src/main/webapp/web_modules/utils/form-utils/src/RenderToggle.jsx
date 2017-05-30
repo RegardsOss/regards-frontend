@@ -12,6 +12,13 @@ class renderToggle extends React.Component {
     label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
     // fullWidth: PropTypes.bool,
     type: PropTypes.string,
+    meta: PropTypes.shape({
+      touched: PropTypes.bool,
+      error: PropTypes.string,
+    }),
+    intl: PropTypes.shape({
+      formatMessage: PropTypes.func,
+    }),
   }
   render() {
     // eslint-disable-next-line

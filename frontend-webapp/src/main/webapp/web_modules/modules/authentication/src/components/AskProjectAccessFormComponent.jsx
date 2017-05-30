@@ -8,6 +8,7 @@ import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import { connect } from '@regardsoss/redux'
 import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
 import { reduxForm, RenderTextField, RenderCheckbox, Field, FormErrorMessage, ErrorTypes, ValidationHelpers } from '@regardsoss/form-utils'
 import { ScrollArea } from '@regardsoss/adapters'
 import { MetadataList, MetadataField } from '@regardsoss/user-metadata-common'
@@ -45,7 +46,10 @@ export class AskProjectAccessFormComponent extends React.Component {
     initialize: PropTypes.func.isRequired,
   }
 
-  static contextTypes = { ...themeContextType }
+  static contextTypes = {
+    ...themeContextType,
+    ...i18nContextType,
+  }
 
   componentWillMount = () => {
     const initialValues = {}
@@ -82,14 +86,14 @@ export class AskProjectAccessFormComponent extends React.Component {
                 <Field
                   name={useExistingAccountFieldId}
                   component={RenderCheckbox}
-                  label={<FormattedMessage id="ask.project.access.using.existing.account" />}
+                  label={this.context.intl.formatMessage({ id: 'ask.project.access.using.existing.account' })}
                 />
                 <Field
                   name={mailFieldId}
                   fullWidth
                   component={RenderTextField}
                   type="text"
-                  floatingLabelText={<FormattedMessage id="ask.project.access.mail" />}
+                  floatingLabelText={this.context.intl.formatMessage({ id: 'ask.project.access.mail' })}
                 />
                 {useExistingAccount ? null : (
                   <div>
@@ -99,7 +103,7 @@ export class AskProjectAccessFormComponent extends React.Component {
                       fullWidth
                       component={RenderTextField}
                       type="text"
-                      floatingLabelText={<FormattedMessage id="ask.project.access.first.name" />}
+                      floatingLabelText={this.context.intl.formatMessage({ id: 'ask.project.access.first.name' })}
                     />
                     <Field
                       key="lastName"
@@ -107,7 +111,7 @@ export class AskProjectAccessFormComponent extends React.Component {
                       fullWidth
                       component={RenderTextField}
                       type="text"
-                      floatingLabelText={<FormattedMessage id="ask.project.access.last.name" />}
+                      floatingLabelText={this.context.intl.formatMessage({ id: 'ask.project.access.last.name' })}
                     />
                     <Field
                       key="newPassword"
@@ -115,7 +119,7 @@ export class AskProjectAccessFormComponent extends React.Component {
                       fullWidth
                       component={RenderTextField}
                       type="password"
-                      floatingLabelText={<FormattedMessage id="ask.project.access.new.password" />}
+                      floatingLabelText={this.context.intl.formatMessage({ id: 'ask.project.access.new.password' })}
                     />
                     <Field
                       key="confirmPassword"
@@ -123,7 +127,7 @@ export class AskProjectAccessFormComponent extends React.Component {
                       fullWidth
                       component={RenderTextField}
                       type="password"
-                      floatingLabelText={<FormattedMessage id="ask.project.access.confirm.password" />}
+                      floatingLabelText={this.context.intl.formatMessage({ id: 'ask.project.access.confirm.password' })}
                     />
                   </div>
                 )}
@@ -139,13 +143,13 @@ export class AskProjectAccessFormComponent extends React.Component {
             <CardActions style={moduleTheme.action}>
               <RaisedButton
                 disabled={submitting || invalid || pristine}
-                label={<FormattedMessage id="ask.project.access.send" />}
+                label={this.context.intl.formatMessage({ id: 'ask.project.access.send' })}
                 primary
                 type="submit"
               />
               <RaisedButton
                 disabled={submitting}
-                label={<FormattedMessage id="ask.project.access.form.back" />}
+                label={this.context.intl.formatMessage({ id: 'ask.project.access.form.back' })}
                 primary
                 onClick={() => onBack(currentMailValue)}
               />

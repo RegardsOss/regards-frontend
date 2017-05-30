@@ -1,9 +1,9 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import { i18nContextType } from '@regardsoss/i18n'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent } from '@regardsoss/components'
-import { FormattedMessage } from 'react-intl'
 import { Container as ContainerShape } from '@regardsoss/model'
 import { LayoutConfigurationComponent, DefaultLayout } from '@regardsoss/layout'
 
@@ -16,6 +16,10 @@ class FormLayoutComponent extends React.Component {
   static propTypes = {
     defaultLayout: ContainerShape,
     changeField: PropTypes.func,
+  }
+
+  static contextTypes = {
+    ...i18nContextType,
   }
 
   componentWillMount() {
@@ -50,7 +54,7 @@ class FormLayoutComponent extends React.Component {
     return (
       <Card>
         <CardTitle
-          subtitle={<FormattedMessage id="form.layout.tab.title" />}
+          subtitle={this.context.intl.formatMessage({ id: 'form.layout.tab.title' })}
         />
         <CardText style={{ width: '100%' }}>
           <LayoutConfigurationComponent
@@ -60,7 +64,7 @@ class FormLayoutComponent extends React.Component {
         </CardText>
         <CardActions>
           <CardActionsComponent
-            mainButtonLabel={<FormattedMessage id="form.layout.tab.reset" />}
+            mainButtonLabel={this.context.intl.formatMessage({ id: 'form.layout.tab.reset' })}
             mainButtonType="reset"
             mainButtonTouchTap={this.resetLayout}
           />

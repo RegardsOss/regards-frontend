@@ -9,7 +9,7 @@ import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowCol
 import { FormattedMessage } from 'react-intl'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Settings from 'material-ui/svg-icons/action/settings-input-component'
-import Input from 'material-ui/svg-icons/action/input'
+import Open from 'material-ui/svg-icons/action/open-in-new'
 import Delete from 'material-ui/svg-icons/action/delete'
 import ResetLicences from 'material-ui/svg-icons/action/assignment-late'
 import { ActionsMenuCell, CardActionsComponent, ShowableAtRender, ConfirmDialogComponent } from '@regardsoss/components'
@@ -186,7 +186,7 @@ export class ProjectListComponent extends React.Component {
                         breakpoint={940}
                         className="selenium-openbutton"
                       >
-                        <Input hoverColor={style.hoverButtonView} />
+                        <Open hoverColor={style.hoverButtonView} />
                       </IconButton>
                       <IconButton
                         title={intl.formatMessage({ id: 'project.list.action.editbutton' })}

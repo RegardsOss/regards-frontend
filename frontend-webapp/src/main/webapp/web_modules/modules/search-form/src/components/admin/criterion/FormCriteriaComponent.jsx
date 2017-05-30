@@ -4,7 +4,7 @@
 import isNil from 'lodash/isNil'
 import map from 'lodash/map'
 import MenuItem from 'material-ui/MenuItem'
-import { FormattedMessage } from 'react-intl'
+import { i18nContextType } from '@regardsoss/i18n'
 import { RenderSelectField, Field, reduxForm } from '@regardsoss/form-utils'
 import { CardActionsComponent } from '@regardsoss/components'
 import { PluginDefinition, PluginConf, AttributeModel, Container as ContainerShape } from '@regardsoss/model'
@@ -38,6 +38,10 @@ class FormCriteriaComponent extends React.Component {
     pristine: PropTypes.bool,
     handleSubmit: PropTypes.func.isRequired,
     initialize: PropTypes.func.isRequired,
+  }
+
+  static contextTypes = {
+    ...i18nContextType,
   }
 
   /**
@@ -156,7 +160,7 @@ class FormCriteriaComponent extends React.Component {
             component={RenderSelectField}
             type="text"
             onSelect={this.selectCriteria}
-            label={<FormattedMessage id="form.criterion.criteria.select.criteria.label" />}
+            label={this.context.intl.formatMessage({ id: 'form.criterion.criteria.select.criteria.label' })}
           >
             {this.renderCriterionTypesList()}
           </Field>
@@ -165,7 +169,7 @@ class FormCriteriaComponent extends React.Component {
             fullWidth
             component={RenderSelectField}
             type="text"
-            label={<FormattedMessage id="form.criterion.criteria.select.container.label" />}
+            label={this.context.intl.formatMessage({ id: 'form.criterion.criteria.select.container.label' })}
           >
             {this.renderContainersList()}
           </Field>
@@ -173,10 +177,10 @@ class FormCriteriaComponent extends React.Component {
           {this.renderCriteriaConfiguration()}
 
           <CardActionsComponent
-            mainButtonLabel={<FormattedMessage id="form.criterion.criteria.submit.button.label" />}
+            mainButtonLabel={this.context.intl.formatMessage({ id: 'form.criterion.criteria.submit.button.label' })}
             mainButtonType="submit"
             isMainButtonDisabled={pristine || submitting}
-            secondaryButtonLabel={<FormattedMessage id="form.criterion.criteria.cancel.button.label" />}
+            secondaryButtonLabel={this.context.intl.formatMessage({ id: 'form.criterion.criteria.cancel.button.label' })}
             secondaryButtonTouchTap={this.onCancel}
           />
         </div>

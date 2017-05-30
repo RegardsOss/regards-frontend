@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  */
 import { connect } from '@regardsoss/redux'
-import { FormattedMessage } from 'react-intl'
+import { i18nContextType } from '@regardsoss/i18n'
 import { LoadingPaneComponent } from '@regardsoss/components'
 import ValidateAccountActions from '../model/creation/ValidateAccountActions'
 import ValidateAccountSelectors from '../model/creation/ValidateAccountSelectors'
@@ -29,6 +29,10 @@ export class FinishAccountValidationContainer extends React.Component {
     fetchRequestAction: PropTypes.func,
   }
 
+  static contextTypes = {
+    ...i18nContextType,
+  }
+
   componentDidMount = () => {
     // start fetching account unlock finish request after showing loading screen
     const { token, fetchRequestAction } = this.props
@@ -51,8 +55,8 @@ export class FinishAccountValidationContainer extends React.Component {
   render() {
     return (
       <LoadingPaneComponent
-        title={<FormattedMessage id="new.acount.validating.title" />}
-        subtitle={<FormattedMessage id="new.acount.validating.message" />}
+        title={this.context.intl.formatMessage({ id: 'new.acount.validating.title' })}
+        subtitle={this.context.intl.formatMessage({ id: 'new.acount.validating.message' })}
       />
     )
   }

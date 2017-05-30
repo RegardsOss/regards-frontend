@@ -1,7 +1,7 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
-import { FormattedMessage } from 'react-intl'
+import { i18nContextType } from '@regardsoss/i18n'
 import { CardTitle } from 'material-ui/Card'
 import IconButton from 'material-ui/IconButton'
 import Toggle from 'material-ui/Toggle'
@@ -26,6 +26,7 @@ class SearchGraphHeader extends React.Component {
 
   static contextTypes = {
     ...themeContextType,
+    ...i18nContextType,
   }
 
   toggleDatasetAttributesVisible = (evt, isChecked) => {
@@ -43,15 +44,15 @@ class SearchGraphHeader extends React.Component {
           <CardTitle
             style={header.cardTitle.styles}
             titleStyle={header.cardTitle.titleStyles}
-            title={<FormattedMessage id="search.graph.title" />}
-            subtitle={<FormattedMessage id="search.graph.subtitle" />}
+            title={this.context.intl.formatMessage({ id: 'search.graph.title' })}
+            subtitle={this.context.intl.formatMessage({ id: 'search.graph.subtitle' })}
           />
         </ToolbarGroup>
         <ToolbarGroup>
           <ShowableAtRender show={areDatasetAttributesAvailable}>
             <Toggle
               toggled={datasetAttributesVisible}
-              label={<FormattedMessage id="search.graph.show.details" />}
+              label={this.context.intl.formatMessage({ id: 'search.graph.show.details' })}
               onToggle={this.toggleDatasetAttributesVisible}
             />
           </ShowableAtRender>

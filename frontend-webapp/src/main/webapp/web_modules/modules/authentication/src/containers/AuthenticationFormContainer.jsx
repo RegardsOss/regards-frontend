@@ -34,7 +34,7 @@ export class AuthenticationFormContainer extends React.Component {
     dispatchLoginRequest: PropTypes.func,
   }
 
-  /** I18N injection & themes */
+  /** I18N injection */
   static contextTypes = { ...i18nContextType }
 
 

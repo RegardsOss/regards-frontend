@@ -2,8 +2,8 @@
  * LICENSE_PLACEHOLDER
  **/
 import { RadioButton } from 'material-ui/RadioButton'
-import { FormattedMessage } from 'react-intl'
 import { Field, RenderRadio } from '@regardsoss/form-utils'
+import { i18nContextType } from '@regardsoss/i18n'
 import DatasetSelectionType from '../../../models/datasets/DatasetSelectionTypes'
 
 /**
@@ -19,6 +19,10 @@ class FormDatasetsTypeSelection extends React.Component {
     disabled: PropTypes.bool,
   }
 
+  static contextTypes = {
+    ...i18nContextType,
+  }
+
   render() {
     return (
       <Field
@@ -29,17 +33,17 @@ class FormDatasetsTypeSelection extends React.Component {
       >
         <RadioButton
           value={DatasetSelectionType.ALL_CATALOG_TYPE}
-          label={<FormattedMessage id="form.datasets.all.label" />}
+          label={this.context.intl.formatMessage({ id: 'form.datasets.all.label' })}
           disabled={this.props.disabled}
         />
         <RadioButton
           value={DatasetSelectionType.DATASET_TYPE}
-          label={<FormattedMessage id="form.datasets.selected.label" />}
+          label={this.context.intl.formatMessage({ id: 'form.datasets.selected.label' })}
           disabled={this.props.disabled}
         />
         <RadioButton
           value={DatasetSelectionType.DATASET_MODEL_TYPE}
-          label={<FormattedMessage id="form.datasets.model.selected.label" />}
+          label={this.context.intl.formatMessage({ id: 'form.datasets.model.selected.label' })}
           disabled={this.props.disabled}
         />
       </Field>

@@ -13,6 +13,7 @@ import IconButton from 'material-ui/IconButton'
 import RaisedButton from 'material-ui/RaisedButton'
 import RemoveLevel from 'material-ui/svg-icons/action/delete'
 import PopupMenuIcon from 'material-ui/svg-icons/navigation/arrow-drop-down'
+import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { ShowableAtRender } from '@regardsoss/components'
 import { Model } from '@regardsoss/model'
@@ -40,6 +41,7 @@ class SelectedLevelFormRender extends React.Component {
 
   static contextTypes = {
     ...themeContextType,
+    ...i18nContextType,
   }
 
   constructor(props) {
@@ -203,7 +205,7 @@ class SelectedLevelFormRender extends React.Component {
     return (
       <div className={graphLevelsRender.addButton.classes} style={graphLevelsRender.addButton.styles} >
         <RaisedButton
-          label={<FormattedMessage id="search.graph.add.level" />}
+          label={this.context.intl.formatMessage({ id: 'search.graph.add.level' })}
           labelPosition={graphLevelsRender.addButton.labelPosition}
           icon={<PopupMenuIcon />}
           onTouchTap={this.onShowMenu}

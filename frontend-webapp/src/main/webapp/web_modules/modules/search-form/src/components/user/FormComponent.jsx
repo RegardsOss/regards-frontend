@@ -4,7 +4,7 @@
 import RaisedButton from 'material-ui/RaisedButton'
 import SearchIcon from 'material-ui/svg-icons/action/search'
 import { Card, CardText, CardHeader } from 'material-ui/Card'
-import { FormattedMessage } from 'react-intl'
+import { i18nContextType } from '@regardsoss/i18n'
 import { PluginConf, Container as ContainerShape } from '@regardsoss/model'
 import { Container } from '@regardsoss/layout'
 import { themeContextType } from '@regardsoss/theme'
@@ -28,6 +28,7 @@ class FormComponent extends React.Component {
 
   static contextTypes = {
     ...themeContextType,
+    ...i18nContextType,
   }
 
   constructor(props) {
@@ -102,7 +103,7 @@ class FormComponent extends React.Component {
             style={this.context.moduleTheme.user.searchButtonContainer}
           >
             <RaisedButton
-              label={<FormattedMessage id="form.search.button.label" />}
+              label={this.context.intl.formatMessage({ id: 'form.search.button.label' })}
               labelPosition="before"
               primary
               icon={<SearchIcon />}

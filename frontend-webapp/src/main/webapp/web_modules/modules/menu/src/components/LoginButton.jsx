@@ -3,7 +3,7 @@
  **/
 import { MainActionButtonComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
-import { FormattedMessage } from 'react-intl'
+import { i18nContextType } from '@regardsoss/i18n'
 
 /**
  * Component to display a login button
@@ -17,12 +17,13 @@ class LoginButton extends React.Component {
 
   static contextTypes= {
     ...themeContextType,
+    ...i18nContextType,
   }
 
   render() {
     return (
       <MainActionButtonComponent
-        label={<FormattedMessage id="loginButtonLabel" />}
+        label={this.context.intl.formatMessage({ id: 'loginButtonLabel' })}
         onTouchTap={this.props.onLoginAction}
       />
     )

@@ -3,6 +3,7 @@
  **/
 import { i18nContextType } from '@regardsoss/i18n'
 import { RenderTextField, RenderCheckbox, Field } from '@regardsoss/form-utils'
+import { FormattedMessage } from 'react-intl'
 
 /**
  * React component to display module administration module.
