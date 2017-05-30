@@ -17,6 +17,7 @@ const messages = Object.assign({
   'container.form.update.button': 'Update',
   'container.form.submit.button': 'Create',
   'container.form.cancel.button': 'Cancel',
+  'container.form.advanced.mode' : 'Show/Hide advanced options',
 }, Locales.en)
 
 export default messages

@@ -5,7 +5,7 @@ import { Layout } from '@regardsoss/model'
 import { Card, CardText } from 'material-ui/Card'
 import Dialog from 'material-ui/Dialog'
 import Container from './Container'
-import ContainerConfigurationComponent from './ContainerConfigurationComponent'
+import ContainerConfigurationProvider from './ContainerConfigurationProvider'
 import ContainerHelper from '../ContainerHelper'
 
 const DELETE_ACTION = 'DELETE'
@@ -122,7 +122,7 @@ class LayoutConfigurationComponent extends React.Component {
           open={this.state.editorOpened}
           onRequestClose={this.handleClose}
         >
-          <ContainerConfigurationComponent
+          <ContainerConfigurationProvider
             key={this.state.containerToEdit ? this.state.containerToEdit.id : 'create'}
             container={this.state.containerToEdit}
             onCancel={this.handleClose}
