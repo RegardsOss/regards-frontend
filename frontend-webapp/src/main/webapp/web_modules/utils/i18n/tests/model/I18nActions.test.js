@@ -46,9 +46,8 @@ describe('[COMMON] Testing i18n actions', () => {
     const expectedActions = [setLocaleAction, setLocaleMessage, setLocaleMessage2]
 
     return store.dispatch(updateLocale('en'))
-                .then(() => { // return of async actions
-                  expect(store.getActions()).to.eql(expectedActions)
-                })
+                .then(() =>  // return of async actions
+                   expect(store.getActions()).to.eql(expectedActions))
   }).timeout(20000)
 
   it('Test fallback en-US --> en', () => {
@@ -85,8 +84,7 @@ describe('[COMMON] Testing i18n actions', () => {
     const expectedActions = [setLocaleAction, setLocaleMessage, setLocaleMessage2]
 
     return store.dispatch(updateLocale('en-US'))
-      .then(() => { // return of async actions
-        expect(store.getActions()).to.eql(expectedActions)
-      })
+      .then(() =>  // return of async actions
+         expect(store.getActions()).to.eql(expectedActions))
   })
 })
