@@ -5,6 +5,7 @@
     "plugin:react/recommended",
     "airbnb",
     "plugin:lodash/recommended",
+    "plugin:react-perf/all",
     "plugin:promise/recommended"
   ],
   "env": {
