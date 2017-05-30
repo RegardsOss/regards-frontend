@@ -19,6 +19,7 @@ import MenuItem from 'material-ui/MenuItem'
 import SelectField from 'material-ui/SelectField'
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
 import DatasetStepperComponent from './DatasetStepperComponent'
+import { fragmentSelectors } from '../client/FragmentClient'
 
 const DESCRIPTION_MODE = {
   NOTHING: 'nothing',
@@ -106,6 +107,13 @@ export class DatasetFormAttributesComponent extends React.Component {
     }
   }
 
+  getAttributeName = (attribute) => {
+    if (attribute.fragment.name === fragmentSelectors.noneFragmentName) {
+      return `${attribute.name}`
+    }
+    return `${attribute.fragment.name} ${attribute.name}`
+  }
+
   getTitle = () => {
     let title
     if (!this.props.isEditing) {
@@ -127,23 +135,23 @@ export class DatasetFormAttributesComponent extends React.Component {
   handleInitialize = () => {
     if (this.props.isEditing) {
       const { currentDataset } = this.props
-      const attributes = {}
-      forEach(currentDataset.content.attributes, (attributeValueOrFragment, key) => {
+      const properties = {}
+      forEach(currentDataset.content.properties, (attributeValueOrFragment, key) => {
         if (isObject(attributeValueOrFragment)) {
           // It's a fragment
           forEach(attributeValueOrFragment, (attribute, id) => {
-            attributes[id] = attribute
+            properties[id] = attribute
           })
         } else {
           // This is an attribute
-          attributes[key] = attributeValueOrFragment
+          properties[key] = attributeValueOrFragment
         }
       })
       const initialValues = {
         label: currentDataset.content.label,
         model: currentDataset.content.model.id,
         descriptionUrl: currentDataset.content.descriptionUrl,
-        attributes,
+        properties,
       }
       this.props.initialize(initialValues)
     }
@@ -272,8 +280,8 @@ export class DatasetFormAttributesComponent extends React.Component {
                   displaySelectAll={false}
                 >
                   <TableRow>
-                    <TableHeaderColumn><FormattedMessage id="dataset.form.table.fragment" /></TableHeaderColumn>
-                    <TableHeaderColumn><FormattedMessage id="dataset.form.table.label" /></TableHeaderColumn>
+                    <TableHeaderColumn><FormattedMessage id="dataset.form.table.fragmentAndLabel" /></TableHeaderColumn>
+                    <TableHeaderColumn><FormattedMessage id="dataset.form.table.type" /></TableHeaderColumn>
                     <TableHeaderColumn><FormattedMessage id="dataset.form.table.value" /></TableHeaderColumn>
                   </TableRow>
                 </TableHeader>
@@ -284,12 +292,12 @@ export class DatasetFormAttributesComponent extends React.Component {
                 >
                   {map(modelAttributeList, (modelAttribute, id) => (
                     <TableRow key={id}>
-                      <TableRowColumn>{modelAttribute.content.attribute.fragment.name}</TableRowColumn>
-                      <TableRowColumn>{modelAttribute.content.attribute.name}</TableRowColumn>
+                      <TableRowColumn>{this.getAttributeName(modelAttribute.content.attribute)}</TableRowColumn>
+                      <TableRowColumn>{modelAttribute.content.attribute.type}</TableRowColumn>
                       <TableRowColumn>
                         <ShowableAtRender show={modelAttribute.content.mode === 'GIVEN'}>
                           <Field
-                            name={`attributes.${modelAttribute.content.attribute.name}`}
+                            name={`properties.${modelAttribute.content.attribute.name}`}
                             fullWidth
                             component={RenderTextField}
                             type="text"
