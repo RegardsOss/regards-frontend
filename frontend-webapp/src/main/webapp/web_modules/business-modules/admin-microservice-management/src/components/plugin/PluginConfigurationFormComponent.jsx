@@ -91,6 +91,7 @@ export class PluginConfigurationFormComponent extends React.Component {
         break
       case 'create':
         initialValues = {
+          active: true,
           pluginId: currentPluginMetaData && currentPluginMetaData.content.pluginId,
           pluginClassName: currentPluginMetaData && currentPluginMetaData.content.pluginClassName,
           parameters: currentPluginMetaData && buildEmptyParameterList(currentPluginMetaData.content.parameters),
