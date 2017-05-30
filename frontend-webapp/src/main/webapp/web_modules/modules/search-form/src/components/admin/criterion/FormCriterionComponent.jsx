@@ -16,7 +16,6 @@ import Dialog from 'material-ui/Dialog'
 import IconButton from 'material-ui/IconButton'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
-import { FormattedMessage } from 'react-intl'
 import { CardActionsComponent } from '@regardsoss/components'
 import { PluginConf, PluginDefinition, AttributeModel, Container as ContainerShape } from '@regardsoss/model'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -163,9 +162,9 @@ class FormCriterionComponent extends React.Component {
             displaySelectAll={false}
           >
             <TableRow>
-              <TableHeaderColumn>{<FormattedMessage id="form.criterion.list.name" />}</TableHeaderColumn>
-              <TableHeaderColumn>{<FormattedMessage id="form.criterion.list.container" />}</TableHeaderColumn>
-              <TableHeaderColumn>{<FormattedMessage id="form.criterion.list.actions" />}</TableHeaderColumn>
+              <TableHeaderColumn>{this.context.intl.formatMessage({ id: 'form.criterion.list.name' })}</TableHeaderColumn>
+              <TableHeaderColumn>{this.context.intl.formatMessage({ id: 'form.criterion.list.container' })}</TableHeaderColumn>
+              <TableHeaderColumn>{this.context.intl.formatMessage({ id: 'form.criterion.list.actions' })}</TableHeaderColumn>
             </TableRow>
           </TableHeader>
           <TableBody displayRowCheckbox={false}>
@@ -173,9 +172,9 @@ class FormCriterionComponent extends React.Component {
           </TableBody>
         </Table>
         <CardActionsComponent
-          mainButtonLabel={<FormattedMessage id="form.criterion.new.button.label" />}
+          mainButtonLabel={this.context.intl.formatMessage({ id: 'form.criterion.new.button.label' })}
           mainButtonTouchTap={this.handleNewCriteria}
-          secondaryButtonLabel={<FormattedMessage id="form.criterion.reset.button.label" />}
+          secondaryButtonLabel={this.context.intl.formatMessage({ id: 'form.criterion.reset.button.label' })}
           secondaryButtonTouchTap={this.resetCriterion}
         />
         <Dialog

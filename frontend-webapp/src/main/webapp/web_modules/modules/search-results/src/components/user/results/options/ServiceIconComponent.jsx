@@ -12,8 +12,8 @@ class ServiceIconComponent extends React.Component {
   static propTypes = {
     size: PropTypes.number.isRequired,
     iconDescription: PropTypes.shape({
-      content: React.PropTypes.string.isRequired,
-      viewBox: React.PropTypes.string,
+      content: PropTypes.string.isRequired,
+      viewBox: PropTypes.string,
     }),
   }
 

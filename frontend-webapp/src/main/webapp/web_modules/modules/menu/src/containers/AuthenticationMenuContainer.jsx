@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { intlShape } from 'react-intl'
+import { i18nContextType } from '@regardsoss/i18n'
 import { connect } from '@regardsoss/redux'
 import { LazyModuleComponent } from '@regardsoss/modules'
 import { AuthenticationClient, routeHelpers } from '@regardsoss/authentication-manager'
@@ -23,7 +23,7 @@ export class AuthenticationMenuContainer extends React.Component {
   }
 
   static contextTypes = {
-    intl: intlShape,
+    ...i18nContextType,
     // router injection
     router: PropTypes.any,
   }

@@ -14,7 +14,7 @@ describe('[FORM UTILS] Testing EnumInputsComponent', () => {
   it('should exists', () => {
     assert.isDefined(EnumInputsComponent)
   })
-  it('should retrive the right child', () => {
+  it('should retrieve the right child', () => {
     const props = {
       nbIntialFields: 0,
       inputName: 'somename',

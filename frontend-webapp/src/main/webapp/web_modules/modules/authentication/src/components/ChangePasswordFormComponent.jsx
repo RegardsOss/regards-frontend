@@ -1,10 +1,10 @@
 /**
  * LICENSE_PLACEHOLDER
  */
-import { FormattedMessage } from 'react-intl'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
 import { RenderTextField, Field, ErrorTypes, ValidationHelpers, reduxForm } from '@regardsoss/form-utils'
 
 /**
@@ -22,7 +22,10 @@ export class ChangePasswordFormComponent extends React.Component {
     handleSubmit: PropTypes.func.isRequired,
   }
 
-  static contextTypes = { ...themeContextType }
+  static contextTypes = {
+    ...themeContextType,
+    ...i18nContextType,
+  }
 
   /**
    * Render function
@@ -38,8 +41,8 @@ export class ChangePasswordFormComponent extends React.Component {
         >
           <Card>
             <CardTitle
-              title={<FormattedMessage id="reset.password.update.request.title" />}
-              subtitle={<FormattedMessage id="reset.password.update.request.message" />}
+              title={this.context.intl.formatMessage({ id: 'reset.password.update.request.title' })}
+              subtitle={this.context.intl.formatMessage({ id: 'reset.password.update.request.message' })}
             />
             <CardText>
               <Field
@@ -47,20 +50,20 @@ export class ChangePasswordFormComponent extends React.Component {
                 fullWidth
                 component={RenderTextField}
                 type="password"
-                label={<FormattedMessage id="reset.password.update.new.password" />}
+                label={this.context.intl.formatMessage({ id: 'reset.password.update.new.password' })}
               />
               <Field
                 name="confirmPassword"
                 fullWidth
                 component={RenderTextField}
                 type="password"
-                label={<FormattedMessage id="reset.password.update.confirm.password" />}
+                label={this.context.intl.formatMessage({ id: 'reset.password.update.confirm.password' })}
               />
             </CardText>
             <CardActions style={moduleTheme.action}>
               <RaisedButton
                 disabled={submitting || invalid || pristine}
-                label={<FormattedMessage id="reset.password.update.send" />}
+                label={this.context.intl.formatMessage({ id: 'reset.password.update.send' })}
                 primary
                 type="submit"
               />

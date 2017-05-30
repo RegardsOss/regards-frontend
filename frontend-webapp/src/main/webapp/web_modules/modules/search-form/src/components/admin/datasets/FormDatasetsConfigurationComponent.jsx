@@ -4,7 +4,6 @@
 import xor from 'lodash/xor'
 import map from 'lodash/map'
 import { Card, CardTitle } from 'material-ui/Card'
-import { FormattedMessage } from 'react-intl'
 import { PageableListContainer, ListContainer } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -151,7 +150,7 @@ class FormDatasetsConfigurationComponent extends React.Component {
   render() {
     return (
       <Card>
-        <CardTitle subtitle={<FormattedMessage id="form.datasets.tab.title" />} />
+        <CardTitle subtitle={this.context.intl.formatMessage({ id: 'form.datasets.tab.title' })} />
         <FormDatasetsTypeSelection
           defaultSelected={this.props.defaultType}
           onSelectType={this.selectType}

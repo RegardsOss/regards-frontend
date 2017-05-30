@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import root from 'window-or-global'
-import { FormattedMessage } from 'react-intl'
+import { i18nContextType } from '@regardsoss/i18n'
 import FlatButton from 'material-ui/FlatButton'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import HomeIcone from 'material-ui/svg-icons/action/home'
@@ -24,6 +24,7 @@ class HomePageContainer extends React.Component {
 
   static contextTypes = {
     ...themeContextType,
+    ...i18nContextType,
   }
 
 
@@ -60,11 +61,11 @@ class HomePageContainer extends React.Component {
     const { dialogOpen } = this.state
     const { dialog: { bodyStyle, heightPercent, widthPercent } } = this.context.moduleTheme
     const actionButton = this.isHomePageHiddenCached() ? (<FlatButton
-      label={<FormattedMessage id="homepage.display" />}
+      label={this.context.intl.formatMessage({ id: 'homepage.display' })}
       onTouchTap={this.onCacheHomePageDisplayed}
     />) :
     (<FlatButton
-      label={<FormattedMessage id="homepage.hide" />}
+      label={this.context.intl.formatMessage({ id: 'homepage.hide' })}
       onTouchTap={this.onCacheHomePageHidden}
     />)
     return (
@@ -85,7 +86,7 @@ class HomePageContainer extends React.Component {
         <SingleContentURLDialogContainer
           open={dialogOpen}
           contentURL={htmlPath}
-          loadingMessage={<FormattedMessage id="homepage.loading.message" />}
+          loadingMessage={this.context.intl.formatMessage({ id: 'homepage.loading.message' })}
           dialogHeightPercent={heightPercent}
           dialogWidthPercent={widthPercent}
           onRequestClose={this.onClose}
@@ -93,7 +94,7 @@ class HomePageContainer extends React.Component {
           actions={[
             actionButton,
             <FlatButton
-              label={<FormattedMessage id="homepage.ok" />}
+              label={this.context.intl.formatMessage({ id: 'homepage.ok' })}
               primary
               onTouchTap={this.onClose}
             />,

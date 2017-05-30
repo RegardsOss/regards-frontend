@@ -4,7 +4,7 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import AppBar from 'material-ui/AppBar'
+import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { PluginMetaDataListContainer } from '../../../src/containers/plugin/PluginMetaDataListContainer'
 
 const context = buildTestContext()
@@ -19,6 +19,7 @@ describe('[ADMIN MICROSERVICE MANAGEMENT] Testing plugin metata data list contai
 
   it('should exists', () => {
     assert.isDefined(PluginMetaDataListContainer)
+    assert.isDefined(LoadableContentDisplayDecorator)
   })
 
   it('should render self and subcomponents', () => {
@@ -59,6 +60,6 @@ describe('[ADMIN MICROSERVICE MANAGEMENT] Testing plugin metata data list contai
     }
 
     const enzymeWrapper = shallow(<PluginMetaDataListContainer {...props} />, { context })
-    expect(enzymeWrapper.find(AppBar)).to.have.length(2)
+    expect(enzymeWrapper.find(LoadableContentDisplayDecorator)).to.have.length(1)
   })
 })

@@ -2,7 +2,7 @@
 * LICENSE_PLACEHOLDER
 **/
 import isEmpty from 'lodash/isEmpty'
-import { FormattedMessage } from 'react-intl'
+import { i18nContextType } from '@regardsoss/i18n'
 import { Tabs, Tab } from 'material-ui/Tabs'
 import { CardTitle } from 'material-ui/Card'
 import Divider from 'material-ui/Divider'
@@ -37,6 +37,7 @@ class ModuleForm extends React.Component {
 
   static contextTypes = {
     ...themeContextType,
+    ...i18nContextType,
   }
 
   validateSelectedLevels = selectedLevels => isEmpty(selectedLevels) ? 'search.graph.levels.selection.none.selected.error' : null
@@ -47,10 +48,10 @@ class ModuleForm extends React.Component {
     const currentAttributesConfiguration = formConf && formConf.graphDatasetAttributes ? formConf.graphDatasetAttributes : []
     return (
       <Tabs>
-        <Tab label={<FormattedMessage id="search.graph.configuration.tab" />}>
+        <Tab label={this.context.intl.formatMessage({ id: 'search.graph.configuration.tab' })}>
           <CardTitle
-            title={<FormattedMessage id="search.graph.configuration.levels.title" />}
-            subtitle={<FormattedMessage id="search.graph.configuration.levels.subtitle" />}
+            title={this.context.intl.formatMessage({ id: 'search.graph.configuration.levels.title' })}
+            subtitle={this.context.intl.formatMessage({ id: 'search.graph.configuration.levels.subtitle' })}
           />
           <Divider />
           <FieldArray
@@ -60,8 +61,8 @@ class ModuleForm extends React.Component {
             collectionModels={collectionModels}
           />
           <CardTitle
-            title={<FormattedMessage id="search.graph.configuration.attributes.title" />}
-            subtitle={<FormattedMessage id="search.graph.configuration.attributes.subtitle" />}
+            title={this.context.intl.formatMessage({ id: 'search.graph.configuration.attributes.title' })}
+            subtitle={this.context.intl.formatMessage({ id: 'search.graph.configuration.attributes.subtitle' })}
           />
           <Divider />
           <MainAttributesConfigurationComponent
@@ -73,7 +74,7 @@ class ModuleForm extends React.Component {
             changeField={adminForm.changeField}
           />
         </Tab>
-        <Tab label={<FormattedMessage id="search.graph.results.tab" />}>
+        <Tab label={this.context.intl.formatMessage({ id: 'search.graph.results.tab' })}>
           <SearchResultForm
             appName={appName}
             project={project}

@@ -13,9 +13,9 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
 import ActionExitToApp from 'material-ui/svg-icons/action/exit-to-app'
 import ChangeRole from 'material-ui/svg-icons/maps/directions-run'
 import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right'
-import { FormattedMessage } from 'react-intl'
 import { ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
 import { Role } from '@regardsoss/model'
 import ProfileEditionContainer from '../containers/ProfileEditionContainer'
 
@@ -38,6 +38,7 @@ class LoggedUserComponent extends React.Component {
 
   static contextTypes = {
     ...themeContextType,
+    ...i18nContextType,
   }
 
   render() {
@@ -57,7 +58,7 @@ class LoggedUserComponent extends React.Component {
           {/* Access user profile */}
           <ShowableAtRender show={showProfileEdition}>
             <MenuItem
-              primaryText={<FormattedMessage id="accountLabel" />}
+              primaryText={this.context.intl.formatMessage({ id: 'accountLabel' })}
               leftIcon={<AccountMenuIcon />}
               onTouchTap={onShowProfileEdition}
             />
@@ -66,7 +67,7 @@ class LoggedUserComponent extends React.Component {
           {/* Show borrowables roles submenu, only when there are borrowable roles */}
           <ShowableAtRender show={showBorrowableRoles}>
             <MenuItem
-              primaryText={<FormattedMessage id="changeRole" />}
+              primaryText={this.context.intl.formatMessage({ id: 'changeRole' })}
               leftIcon={<ChangeRole />}
               rightIcon={<ArrowDropRight />}
               value={currentRole}
@@ -90,7 +91,7 @@ class LoggedUserComponent extends React.Component {
           </ShowableAtRender>
           { /** Logout option*/}
           <MenuItem
-            primaryText={<FormattedMessage id="logoutLabel" />}
+            primaryText={this.context.intl.formatMessage({ id: 'logoutLabel' })}
             leftIcon={<ActionExitToApp />}
             onTouchTap={onLogout}
           />

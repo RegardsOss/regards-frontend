@@ -1,13 +1,13 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
-import { FormattedMessage } from 'react-intl'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import { ScrollArea } from '@regardsoss/adapters'
 import { MetadataList, MetadataField } from '@regardsoss/user-metadata-common'
 import { reduxForm } from '@regardsoss/form-utils'
 import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
 
 /**
 * Profile edition form component
@@ -31,6 +31,7 @@ export class ProfileEditionFormComponent extends React.Component {
 
   static contextTypes = {
     ...themeContextType,
+    ...i18nContextType,
   }
 
   componentWillMount = () => {
@@ -55,8 +56,8 @@ export class ProfileEditionFormComponent extends React.Component {
         <form onSubmit={handleSubmit(onEdit)}>
           <Card>
             <CardTitle
-              title={<FormattedMessage id="edit.profile.form.title" />}
-              subtitle={<FormattedMessage id="edit.profile.form.message" />}
+              title={this.context.intl.formatMessage({ id: 'edit.profile.form.title' })}
+              subtitle={this.context.intl.formatMessage({ id: 'edit.profile.form.message' })}
             />
             <CardText>
               <ScrollArea
@@ -82,12 +83,12 @@ export class ProfileEditionFormComponent extends React.Component {
             <CardActions style={moduleTheme.profile.actions.styles}>
               <RaisedButton
                 disabled={submitting}
-                label={<FormattedMessage id="edit.profile.form.cancel" />}
+                label={this.context.intl.formatMessage({ id: 'edit.profile.form.cancel' })}
                 onClick={onCancel}
               />
               <RaisedButton
                 disabled={submitting || invalid || pristine}
-                label={<FormattedMessage id="edit.profile.form.confirm" />}
+                label={this.context.intl.formatMessage({ id: 'edit.profile.form.confirm' })}
                 primary
                 type="submit"
               />

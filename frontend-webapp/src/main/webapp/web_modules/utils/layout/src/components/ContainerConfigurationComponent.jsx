@@ -4,11 +4,10 @@
 import map from 'lodash/map'
 import join from 'lodash/join'
 import split from 'lodash/split'
-import { i18nContextType } from '@regardsoss/i18n'
+import { i18nContextType, I18nProvider } from '@regardsoss/i18n'
 import MenuItem from 'material-ui/MenuItem'
 import { CardActionsComponent } from '@regardsoss/components'
 import { RenderTextField, RenderSelectField, Field, RenderCheckbox, reduxForm, ValidationHelpers } from '@regardsoss/form-utils'
-import { I18nProvider } from '@regardsoss/i18n'
 import ContainerShape from '../model/ContainerShape'
 import containerTypes from '../default/containerTypes'
 

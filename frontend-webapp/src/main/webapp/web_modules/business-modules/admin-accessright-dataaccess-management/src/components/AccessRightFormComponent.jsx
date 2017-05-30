@@ -65,6 +65,13 @@ export class AccessRightFormComponent extends React.Component {
     this.props.change('pluginConfiguration', value)
   }
 
+  getCurrentPluginConfiguration = () => {
+    if (has(this.props.currentAccessRight, 'dataAccessRight.pluginConfiguration')) {
+      return this.props.pluginConfigurationList[this.props.currentAccessRight.dataAccessRight.pluginConfiguration]
+    }
+    return null
+  }
+
   handleInitialize = () => {
     const { currentAccessRight } = this.props
     let defaultValues = {}
@@ -277,7 +284,7 @@ export class AccessRightFormComponent extends React.Component {
                 onChange={this.onPluginConfigurationChange}
                 pluginMetaDataList={pluginMetaDataList}
                 pluginConfigurationList={pluginConfigurationList}
-                currentPluginConfiguration={has(currentAccessRight, 'dataAccessRight.pluginConfiguration') && pluginConfigurationList[currentAccessRight.dataAccessRight.pluginConfiguration]}
+                currentPluginConfiguration={this.getCurrentPluginConfiguration()}
               />
             </ShowableAtRender>
             {this.renderQualityFilter()}

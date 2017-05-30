@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  */
 import { connect } from '@regardsoss/redux'
-import { FormattedMessage } from 'react-intl'
+import { i18nContextType } from '@regardsoss/i18n'
 import { LoadingPaneComponent } from '@regardsoss/components'
 import UnlockAccountActions from '../model/operation/UnlockAccountActions'
 import UnlockAccountSelectors from '../model/operation/UnlockAccountSelectors'
@@ -31,6 +31,10 @@ export class FinishAccountUnlockingContainer extends React.Component {
     fetchRequestAction: PropTypes.func,
   }
 
+  static contextTypes = {
+    ...i18nContextType,
+  }
+
   componentDidMount = () => {
     // start fetching account unlock finish request after showing loading screen
     const { mail, token, fetchRequestAction } = this.props
@@ -53,8 +57,8 @@ export class FinishAccountUnlockingContainer extends React.Component {
   render() {
     return (
       <LoadingPaneComponent
-        title={<FormattedMessage id="finish.unlock.account.title" />}
-        subtitle={<FormattedMessage id="finish.unlock.account.message" />}
+        title={this.context.intl.formatMessage({ id: 'finish.unlock.account.title' })}
+        subtitle={this.context.intl.formatMessage({ id: 'finish.unlock.account.message' })}
       />
     )
   }

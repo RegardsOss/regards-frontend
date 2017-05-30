@@ -4,8 +4,8 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { testSuiteHelpers, DumpProvider, buildTestContext } from '@regardsoss/tests-helpers'
-import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { PluginConfigurationListContainer } from '../../../src/containers/plugin/PluginConfigurationListContainer'
+import PluginConfigurationListComponent from '../../../src/components/plugin/PluginConfigurationListComponent'
+import PluginConfigurationContainer from '../../../src/containers/plugin/PluginConfigurationContainer'
 
 const options = {
   context: buildTestContext(),
@@ -14,13 +14,13 @@ const options = {
  * Plugin tests
  * @author Xavier-Alexandre Brochard
  */
-describe('[ADMIN MICROSERVICE MANAGEMENT] Testing plugin configuration list container', () => {
+describe('[ADMIN MICROSERVICE MANAGEMENT] Testing plugin configuration list component', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(PluginConfigurationListContainer)
-    assert.isDefined(LoadableContentDisplayDecorator)
+    assert.isDefined(PluginConfigurationListComponent)
+    assert.isDefined(PluginConfigurationContainer)
   })
 
   it('should render self and subcomponents', () => {
@@ -32,19 +32,15 @@ describe('[ADMIN MICROSERVICE MANAGEMENT] Testing plugin configuration list cont
         pluginId: 'aPluginId',
         pluginConfigurationId: '0',
       },
-      // from mapStateToProps
       pluginConfigurationList: DumpProvider.get('CommonClient', 'PluginConfiguration'),
       pluginMetaData: DumpProvider.getFirstEntity('CommonClient', 'PluginMetaData'),
-      // from mapDispatchToProps
-      fetchPluginMetaData: () => {
+      handleBackClick: () => {
       },
-      fetchPluginConfigurationList: () => {
-      },
-      deletePluginConfiguration: () => {
+      handleAddClick: () => {
       },
     }
 
-    const enzymeWrapper = shallow(<PluginConfigurationListContainer {...props} />, options)
-    expect(enzymeWrapper.find(LoadableContentDisplayDecorator)).to.have.length(1)
+    const enzymeWrapper = shallow(<PluginConfigurationListComponent {...props} />, options)
+    expect(enzymeWrapper.find(PluginConfigurationContainer)).to.have.length(4)
   })
 })

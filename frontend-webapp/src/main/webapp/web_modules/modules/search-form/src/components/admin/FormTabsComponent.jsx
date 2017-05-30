@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { FormattedMessage } from 'react-intl'
+import { i18nContextType } from '@regardsoss/i18n'
 import { Tabs, Tab } from 'material-ui/Tabs'
 import { PluginDefinition, AttributeModel } from '@regardsoss/model'
 import ModuleConfiguration from '../../models/ModuleConfiguration'
@@ -38,6 +38,10 @@ class FormTabsComponent extends React.Component {
     criterionFetching: PropTypes.bool,
   }
 
+  static contextTypes = {
+    ...i18nContextType,
+  }
+
   renderCriterionTab = () => {
     if (!this.props.criterionFetching && !this.props.selectableAttributesFectching && this.props.adminForm.form.conf) {
       return (
@@ -69,7 +73,7 @@ class FormTabsComponent extends React.Component {
   render() {
     return (
       <Tabs>
-        <Tab label={<FormattedMessage id="form.dataset.selection.tab.label" />}>
+        <Tab label={this.context.intl.formatMessage({ id: 'form.dataset.selection.tab.label' })}>
           <FormDatasetsConfigurationComponent
             changeField={this.props.adminForm.changeField}
             defaultType={this.props.defaultConf.datasets.type}
@@ -78,19 +82,19 @@ class FormTabsComponent extends React.Component {
             disableChangeDatasets={this.props.disableChangeDatasets}
           />
         </Tab>
-        <Tab label={<FormattedMessage id="form.configuration.tab.label" />}>
+        <Tab label={this.context.intl.formatMessage({ id: 'form.configuration.tab.label' })}>
           {this.renderAttributesParameterTab()}
         </Tab>
-        <Tab label={<FormattedMessage id="form.layout.tab.label" />}>
+        <Tab label={this.context.intl.formatMessage({ id: 'form.layout.tab.label' })}>
           <FormLayoutComponent
             defaultLayout={this.props.defaultConf.layout}
             changeField={this.props.adminForm.changeField}
           />
         </Tab>
-        <Tab label={<FormattedMessage id="form.criterions.tab.label" />}>
+        <Tab label={this.context.intl.formatMessage({ id: 'form.criterions.tab.label' })}>
           {this.renderCriterionTab()}
         </Tab>
-        <Tab label={<FormattedMessage id="form.preview.tab.label" />}>
+        <Tab label={this.context.intl.formatMessage({ id: 'form.preview.tab.label' })}>
           <FormPreviewComponent
             project={this.props.project}
             module={this.props.adminForm.form}

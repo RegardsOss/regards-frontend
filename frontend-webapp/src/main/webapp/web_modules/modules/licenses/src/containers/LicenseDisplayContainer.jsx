@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { FormattedMessage, intlShape } from 'react-intl'
+import { i18nContextType } from '@regardsoss/i18n'
 import FlatButton from 'material-ui/FlatButton'
 import { connect } from '@regardsoss/redux'
 import { themeContextType } from '@regardsoss/theme'
@@ -32,7 +32,7 @@ export class LicenseDisplayContainer extends React.Component {
 
   static contextTypes = {
     ...themeContextType,
-    intl: intlShape,
+    ...i18nContextType,
   }
 
   componentDidMount = () => {
@@ -61,18 +61,18 @@ export class LicenseDisplayContainer extends React.Component {
       return (
         <SingleContentURLDialogContainer
           contentURL={licenseLink}
-          loadingMessage={<FormattedMessage id="license.loading.message" />}
+          loadingMessage={this.context.intl.formatMessage({ id: 'license.loading.message' })}
           dialogHeightPercent={heightPercent}
           dialogWidthPercent={widthPercent}
           bodyStyle={bodyStyle}
           open
           actions={[
             <FlatButton
-              label={<FormattedMessage id="license.refuse" />}
+              label={this.context.intl.formatMessage({ id: 'license.refuse' })}
               onTouchTap={this.onRefuse}
             />,
             <FlatButton
-              label={<FormattedMessage id="license.accept" />}
+              label={this.context.intl.formatMessage({ id: 'license.accept' })}
               primary
               onTouchTap={this.onAccept}
             />,

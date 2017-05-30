@@ -2,6 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import map from 'lodash/map'
+import isBoolean from 'lodash/isBoolean'
 
 /**
  * Component to display Boolean attributes group value
@@ -18,7 +19,7 @@ class BooleanAttributeRender extends React.Component {
     return (
       <span>
         {map(this.props.attributes, (attribute, key) => {
-          if (typeof attribute === 'boolean') {
+          if (isBoolean(attribute)) {
             return (<span key={key}>{String(attribute)}</span>)
           }
           return null

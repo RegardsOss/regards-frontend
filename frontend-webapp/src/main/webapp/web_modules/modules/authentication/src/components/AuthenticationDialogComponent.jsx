@@ -3,6 +3,7 @@
  */
 import Dialog from 'material-ui/Dialog'
 import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
 
 /**
  * Dialog container for authentication
@@ -17,6 +18,7 @@ class AuthenticationDialog extends React.Component {
 
   static contextTypes = {
     ...themeContextType,
+    ...i18nContextType,
   }
 
   render() {

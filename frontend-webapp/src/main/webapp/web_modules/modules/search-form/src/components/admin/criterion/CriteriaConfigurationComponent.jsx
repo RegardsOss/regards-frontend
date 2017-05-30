@@ -4,7 +4,7 @@
 import map from 'lodash/map'
 import { Card, CardTitle, CardText } from 'material-ui/Card'
 import MenuItem from 'material-ui/MenuItem'
-import { FormattedMessage } from 'react-intl'
+import { i18nContextType } from '@regardsoss/i18n'
 import { RenderSelectField, Field } from '@regardsoss/form-utils'
 import { AttributeModel, Plugin } from '@regardsoss/model'
 import { themeContextType } from '@regardsoss/theme'
@@ -23,6 +23,7 @@ class CriteriaConfigurationComponent extends React.Component {
 
   static contextTypes = {
     ...themeContextType,
+    ...i18nContextType,
   }
 
   /**
@@ -50,7 +51,7 @@ class CriteriaConfigurationComponent extends React.Component {
         component={RenderSelectField}
         type="text"
         onSelect={this.selectAttribute}
-        label={<FormattedMessage id="form.criterion.criteria.select.attribute.label" />}
+        label={this.context.intl.formatMessage({ id: 'form.criterion.criteria.select.attribute.label' })}
       >
         {map(this.props.selectableAttributes, selectableAttribute => (
           <MenuItem
