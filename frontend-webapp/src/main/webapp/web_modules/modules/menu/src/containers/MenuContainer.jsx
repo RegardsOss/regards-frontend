@@ -4,8 +4,7 @@
 import IconButton from 'material-ui/IconButton'
 import MenuIcon from 'material-ui/svg-icons/navigation/menu'
 import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from 'material-ui/Toolbar'
-import { FormattedMessage } from 'react-intl'
-import { SelectLocaleContainer } from '@regardsoss/i18n'
+import { SelectLocaleContainer, i18nContextType } from '@regardsoss/i18n'
 import { SelectThemeContainer, themeContextType } from '@regardsoss/theme'
 import { ModuleListContainer } from '@regardsoss/modules'
 import AuthenticationMenuContainer from './AuthenticationMenuContainer'
@@ -31,6 +30,7 @@ class MenuContainer extends React.Component {
 
   static contextTypes = {
     ...themeContextType,
+    ...i18nContextType,
   }
 
   constructor(props) {
@@ -53,11 +53,12 @@ class MenuContainer extends React.Component {
 
   displayModulesMenu = () => {
     if (this.props.appName === 'user') {
+      const { intl } = this.context
       return (
         <div>
           <IconButton
             onTouchTap={this.handleToggle}
-            tooltip={<FormattedMessage id="menu.modules.list.button" />}
+            tooltip={intl.formatMessage({ id: 'menu.modules.list.button' })}
           >
             <MenuIcon />
           </IconButton>

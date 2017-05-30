@@ -1,6 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import values from 'lodash/values'
 import { connect } from '@regardsoss/redux'
 import { Layout } from '@regardsoss/model'
 import { AuthenticationParametersActions, AuthenticationParametersSelectors } from '@regardsoss/authentication-manager'
@@ -52,6 +53,11 @@ export class PortalApp extends React.Component {
     this.props.fetchModules()
   }
 
+  componentDidMount() {
+    document.querySelector('meta[name="title"]').setAttribute('content', 'Portal interface for REGARDS instance')
+    document.querySelector('meta[name="description"]').setAttribute('content', 'Portal to access each project of the REGARDS instance.')
+  }
+
   /**
    * @returns {React.Component}
    */
@@ -65,14 +71,16 @@ export class PortalApp extends React.Component {
     }
     const { project } = this.props
 
+    const styles = { minHeight: '100vh' }
+
     return (
       <ThemeProvider>
         <ApplicationLayout
           appName="portal"
           layout={this.props.layout.content.layout}
-          modules={this.props.modules}
+          modules={values(this.props.modules)}
           project={project}
-          style={{ minHeight: '100vh' }}
+          style={styles}
         />
       </ThemeProvider>
     )

@@ -2,6 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { AuthenticationParametersActions, AuthenticationParametersSelectors, AuthenticationClient } from '@regardsoss/authentication-manager'
+import { ProjectHandler } from '@regardsoss/project-handler'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { EndpointActions } from '@regardsoss/endpoint'
 import { I18nProvider } from '@regardsoss/i18n'
@@ -81,21 +82,26 @@ class AdminApp extends React.Component {
 
 
   render() {
-    const { isAuthenticated, content, project } = this.props
+    const { isAuthenticated, content, project, isInstance } = this.props
     const { isLoadingEndpoints } = this.state
 
+    const projectHandlerComp = isInstance || !this.props.params.project ? null : <ProjectHandler projectName={this.props.params.project} />
+
     return (
-      <ThemeProvider>
-        <I18nProvider messageDir={'business-modules/admin/src/i18n'}>
-          <AuthenticationContainer project={project} isAuthenticated={isAuthenticated}>
-            <LoadableContentDisplayDecorator isLoading={isLoadingEndpoints}>
-              <AdminLayout {...this.props}>
-                {content}
-              </AdminLayout>
-            </LoadableContentDisplayDecorator>
-          </AuthenticationContainer>
-        </I18nProvider>
-      </ThemeProvider>
+      <div>
+        {projectHandlerComp}
+        <ThemeProvider>
+          <I18nProvider messageDir={'business-modules/admin/src/i18n'}>
+            <AuthenticationContainer project={project} isAuthenticated={isAuthenticated}>
+              <LoadableContentDisplayDecorator isLoading={isLoadingEndpoints}>
+                <AdminLayout {...this.props}>
+                  {content}
+                </AdminLayout>
+              </LoadableContentDisplayDecorator>
+            </AuthenticationContainer>
+          </I18nProvider>
+        </ThemeProvider>
+      </div>
     )
   }
 }

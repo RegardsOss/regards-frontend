@@ -13,8 +13,8 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
 import ActionExitToApp from 'material-ui/svg-icons/action/exit-to-app'
 import ChangeRole from 'material-ui/svg-icons/maps/directions-run'
 import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right'
-import { FormattedMessage } from 'react-intl'
 import { ShowableAtRender } from '@regardsoss/components'
+import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { Role } from '@regardsoss/model'
 import ProfileEditionContainer from '../containers/ProfileEditionContainer'
@@ -38,27 +38,38 @@ class LoggedUserComponent extends React.Component {
 
   static contextTypes = {
     ...themeContextType,
+    ...i18nContextType,
   }
 
   render() {
+    const { intl } = this.context
     const { name, currentRole, borrowableRoles, onBorrowRole, onLogout, showProfileEdition, onShowProfileEdition } = this.props
     const showBorrowableRoles = !isEmpty(borrowableRoles)
     const hasMoreOption = showProfileEdition || showBorrowableRoles
+
+    const anchorStyle = { horizontal: 'right', vertical: 'bottom' }
+    const ActionExit = <ActionExitToApp />
+    const iconButton = <IconButton><MoreVertIcon /></IconButton>
+    const accountIcon = <AccountMenuIcon />
+    const changeRoleIcon = <ChangeRole />
+    const arrowIcon = <ArrowDropRight />
+
+    const profileContainer = showProfileEdition ? <ProfileEditionContainer /> : null
     return (
       <div style={this.context.moduleTheme.loggedUser.text}>
         <span>{name}</span>
-        <ProfileEditionContainer />
+        {profileContainer}
         <IconMenu
-          iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
-          anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-          targetOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+          iconButtonElement={iconButton}
+          anchorOrigin={anchorStyle}
+          targetOrigin={anchorStyle}
           iconStyle={this.context.moduleTheme.loggedUser.icon}
         >
           {/* Access user profile */}
           <ShowableAtRender show={showProfileEdition}>
             <MenuItem
-              primaryText={<FormattedMessage id="accountLabel" />}
-              leftIcon={<AccountMenuIcon />}
+              primaryText={intl.formatMessage({ id: 'accountLabel' })}
+              leftIcon={accountIcon}
               onTouchTap={onShowProfileEdition}
             />
           </ShowableAtRender>
@@ -66,9 +77,9 @@ class LoggedUserComponent extends React.Component {
           {/* Show borrowables roles submenu, only when there are borrowable roles */}
           <ShowableAtRender show={showBorrowableRoles}>
             <MenuItem
-              primaryText={<FormattedMessage id="changeRole" />}
-              leftIcon={<ChangeRole />}
-              rightIcon={<ArrowDropRight />}
+              primaryText={intl.formatMessage({ id: 'changeRole' })}
+              leftIcon={changeRoleIcon}
+              rightIcon={arrowIcon}
               value={currentRole}
               menuItems={
                 map(borrowableRoles, (role) => {
@@ -90,8 +101,8 @@ class LoggedUserComponent extends React.Component {
           </ShowableAtRender>
           { /** Logout option*/}
           <MenuItem
-            primaryText={<FormattedMessage id="logoutLabel" />}
-            leftIcon={<ActionExitToApp />}
+            primaryText={intl.formatMessage({ id: 'logoutLabel' })}
+            leftIcon={ActionExit}
             onTouchTap={onLogout}
           />
         </IconMenu>

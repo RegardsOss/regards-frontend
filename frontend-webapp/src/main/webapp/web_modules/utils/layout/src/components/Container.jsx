@@ -2,7 +2,9 @@
  * LICENSE_PLACEHOLDER
  **/
 import map from 'lodash/map'
-import { chain } from 'lodash'
+import fpmap from 'lodash/fp/map'
+import fpfilter from 'lodash/fp/filter'
+import flow from 'lodash/flow'
 import IconButton from 'material-ui/IconButton'
 import IconMenu from 'material-ui/IconMenu'
 import MenuItem from 'material-ui/MenuItem'
@@ -81,17 +83,16 @@ class Container extends React.Component {
       return [this.props.dynamicContent]
       // Render modules and plugins of this static container
     }
-    return chain(this.props.modules)
-        .filter(module => module.content.container === this.props.container.id && module.content.applicationId === this.props.appName)
-      .map((module, idx) => (
+    return flow(
+      fpfilter(module => module.content.container === this.props.container.id && module.content.applicationId === this.props.appName),
+      fpmap((module, idx) => (
         <LazyModuleComponent
           key={module.content.id}
           module={module.content}
           appName={this.props.appName}
           project={this.props.project}
-        />),
-    )
-      .value()
+        />)),
+      )(this.props.modules)
   }
 
   /**
@@ -108,9 +109,9 @@ class Container extends React.Component {
         // justifyContent: 'space-between',
         width: '100%',
       }
-      return chain(this.props.plugins)
-        .filter(plugin => plugin.container === this.props.container.id)
-        .map((plugin, idx) => (
+      return flow(
+        fpfilter(plugin => plugin.container === this.props.container.id),
+        fpmap((plugin, idx) => (
           <Paper
             key={`${this.props.container.id}-${plugin.pluginId}`}
             style={stylePaper}
@@ -123,8 +124,8 @@ class Container extends React.Component {
               pluginProps={this.props.pluginProps}
               displayPlugin
             />
-          </Paper>
-      )).value()
+          </Paper>),
+        ))(this.props.plugins)
     }
     return []
   }

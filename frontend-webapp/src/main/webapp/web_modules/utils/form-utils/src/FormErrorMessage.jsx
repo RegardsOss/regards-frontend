@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { isString } from 'lodash'
+import isString from 'lodash/isString'
 import { ErrorDecoratorComponent, ShowableAtRender } from '@regardsoss/components'
 
 const FormErrorMessage = ({ children }) => {

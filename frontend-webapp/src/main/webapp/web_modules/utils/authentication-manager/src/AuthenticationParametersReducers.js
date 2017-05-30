@@ -3,7 +3,7 @@
 **/
 import AuthenticationParametersActions from './AuthenticationParametersActions'
 
-export const PATH = 'project'
+export const PATH = 'project-name'
 
 export default (state = '', action) => {
   switch (action.type) {

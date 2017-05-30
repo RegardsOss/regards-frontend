@@ -1,7 +1,6 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import React, { Component, PropTypes } from 'react'
 import { FormattedMessage } from 'react-intl'
 import Paper from 'material-ui/Paper'
 import IconMenu from 'material-ui/IconMenu'
@@ -17,7 +16,7 @@ import StoragePluginCapacityComponent from './StoragePluginCapacityComponent'
 import StorageUnitScale, { StorageUnitScaleShape } from '../helper/StorageUnit'
 import StorageCapacity from '../helper/StorageCapacity'
 
-class StorageMonitoringComponent extends Component {
+class StorageMonitoringComponent extends React.Component {
 
   static propTypes = {
     initScale: StorageUnitScaleShape,
@@ -27,7 +26,6 @@ class StorageMonitoringComponent extends Component {
   }
 
   static defaultProps = {
-    ...Component.defaultProps,
     initScale: StorageUnitScale.bytesScale,
     isFetching: false,
     hasError: false,

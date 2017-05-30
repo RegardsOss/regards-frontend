@@ -37,6 +37,7 @@ npm link web_modules/business-common/entities-common
 npm link web_modules/business-common/user-metadata-common
 npm link web_modules/business-common/endpoint
 npm link web_modules/business-common/global-system-error
+npm link web_modules/business-common/project-handler
 
 # Administration modules
 npm link web_modules/business-modules/admin-accessright-management

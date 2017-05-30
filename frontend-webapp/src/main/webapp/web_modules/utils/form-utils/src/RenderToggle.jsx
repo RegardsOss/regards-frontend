@@ -14,6 +14,7 @@ class renderToggle extends React.Component {
     type: PropTypes.string,
   }
   render() {
+    // eslint-disable-next-line
     const { input, label, type, meta, intl, ...rest } = this.props
     return (
       <Toggle

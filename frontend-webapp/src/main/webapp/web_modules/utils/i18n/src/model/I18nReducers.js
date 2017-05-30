@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { isUndefined } from 'lodash'
+import isUndefined from 'lodash/isUndefined'
 import { SET_LOCALE, SET_LOCALE_MSG } from './I18nActions'
 
 // If navigator is not defined, set the locale to english

@@ -42,6 +42,11 @@ export class AuthenticationMenuContainer extends React.Component {
   onCloseDialog = () => this.setAuthenticationVisible(false)
 
   /**
+   * Callback when user click on the authentication button
+   */
+  onClickAuthenticationButton = () => this.setAuthenticationVisible(true)
+
+  /**
    * Shows and hide authentication dialog
    * @param authenticationVisible is visible in next state?
    */
@@ -54,27 +59,31 @@ export class AuthenticationMenuContainer extends React.Component {
   render() {
     const { isAuthenticated } = this.props
     const { authenticationVisible } = this.state
+
+    // Initialise the authentication module configuration
+    const authenticationModule = {
+      type: 'authentication',
+      active: true,
+      conf: {
+        showLoginWindow: authenticationVisible,
+        loginTitle: this.context.intl.formatMessage({ id: 'loginFormTitle' }),
+        // show cancel button only when not in a specific authentication URL
+        showCancel: !routeHelpers.isBackFromAuthenticationMail(),
+        showAskProjectAccess: true,
+        onCancelAction: this.onCloseDialog,
+      },
+    }
+
+    // in bar: render user status or connection button
+    const buttonComponent = isAuthenticated ?
+      <LoggedUserContainer /> :
+      <LoginButton onLoginAction={this.onClickAuthenticationButton} />
+
     return (
       <div>
-        {
-          // in bar: render user status or connection button
-          isAuthenticated ?
-            <LoggedUserContainer /> :
-            <LoginButton style={{}} onLoginAction={() => this.setAuthenticationVisible(true)} />
-        }
+        {buttonComponent}
         <LazyModuleComponent
-          module={{
-            type: 'authentication',
-            active: true,
-            conf: {
-              showLoginWindow: authenticationVisible,
-              loginTitle: this.context.intl.formatMessage({ id: 'loginFormTitle' }),
-              // show cancel button only when not in a specific authentication URL
-              showCancel: !routeHelpers.isBackFromAuthenticationMail(),
-              showAskProjectAccess: true,
-              onCancelAction: this.onCloseDialog,
-            },
-          }}
+          module={authenticationModule}
           appName={this.props.appName}
           project={this.props.project}
         />

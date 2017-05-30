@@ -8,7 +8,7 @@
     {
       "active": true,
       "isDefault": false,
-      "name": "menu",
+      "type": "menu",
       "container": "header",
       "description": "Affichage du menu",
       "conf": "{\"title\":\"Regards Portal interface\",\"displayAuthentication\":false,\"displayLocaleSelector\":true,\"displayThemeSelector\":true}",
@@ -18,7 +18,7 @@
     {
       "active": true,
       "isDefault": false,
-      "name": "projects-list",
+      "type": "projects-list",
       "description": "liste des projets",
       "container": "projects",
       "applicationId": "portal",

@@ -5,7 +5,7 @@ const Project = PropTypes.shape({
     id: PropTypes.number,
     description: PropTypes.string,
     icon: URL,
-    license: URL,
+    licenseLink: URL,
     isDeleted: PropTypes.bool,
     isPublic: PropTypes.bool,
     name: PropTypes.string,

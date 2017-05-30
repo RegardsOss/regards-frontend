@@ -337,6 +337,14 @@
       "isPublic": true,
       "isAccessible": false,
       "icon": "http://www.mercator-ocean.fr/wp-content/uploads/2015/03/Logo-AVISO.jpg"
+    },
+    {
+      "id": "project1",
+      "name": "project1",
+      "description": "Projet de test et de validation de la version de REGARDS",
+      "isPublic": true,
+      "isAccessible": false,
+      "icon": "http://www.mercator-ocean.fr/wp-content/uploads/2015/03/Logo-AVISO.jpg"
     }
   ],
   "resources": [

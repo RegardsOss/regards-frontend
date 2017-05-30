@@ -1,6 +1,6 @@
 /**
-* LICENSE_PLACEHOLDER
-**/
+ * LICENSE_PLACEHOLDER
+ **/
 import { connect } from '@regardsoss/redux'
 import { ProjectUser } from '@regardsoss/model'
 import { getMetadataArray, packMetaDataField } from '@regardsoss/user-metadata-common'
@@ -10,8 +10,8 @@ import { myUserActions, myUserSelectors } from '../client/MyUserClient'
 import ProfileEditionDialogComponent from '../components/ProfileEditionDialogComponent'
 
 /**
-* Profile edition container
-*/
+ * Profile edition container
+ */
 export class ProfileEditionContainer extends React.Component {
 
   static mapStateToProps = state => ({
@@ -36,6 +36,9 @@ export class ProfileEditionContainer extends React.Component {
     updateMyUser: PropTypes.func.isRequired, // update user data (which also updates user data by return value)
   }
 
+  state = {
+    userMetadata: null,
+  }
 
   componentWillMount = () => {
     // as this component mounts only when user is logged, it doesn't need to fetch when authentication data changes
@@ -74,14 +77,17 @@ export class ProfileEditionContainer extends React.Component {
   render() {
     const { visible, hideDialog } = this.props
     const { userMetadata } = this.state
+
+    // here we unmount the inner component when not visible, so that fields get resetted when dialog is closed
+    if (!visible) {
+      return null
+    }
     return (
-      // here we unmount the inner component when not visible, so that fields get resetted when dialog is closed
-      visible ?
-        <ProfileEditionDialogComponent
-          userMetadata={userMetadata}
-          onHideDialog={hideDialog}
-          onEdit={this.onEdit}
-        /> : null
+      <ProfileEditionDialogComponent
+        userMetadata={userMetadata}
+        onHideDialog={hideDialog}
+        onEdit={this.onEdit}
+      />
     )
   }
 }
