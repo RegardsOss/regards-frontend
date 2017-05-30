@@ -1,6 +1,7 @@
 /*
  * LICENSE_PLACEHOLDER
  */
+import keys from 'lodash/keys'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { ShowableAtRender, CardActionsComponent } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
@@ -51,6 +52,7 @@ export class ProjectFormComponent extends React.Component {
         licenceLink: currentProject.content.licenceLink,
         isPublic: currentProject.content.isPublic,
         isAccessible: currentProject.content.isAccessible,
+        host: currentProject.content.host,
       })
     } else {
       this.props.initialize({
@@ -81,6 +83,7 @@ export class ProjectFormComponent extends React.Component {
             <ShowableAtRender show={this.state.isCreating}>
               <Field
                 name="name"
+                validate={ValidationHelpers.validRequiredString}
                 fullWidth
                 component={RenderTextField}
                 type="text"
@@ -108,6 +111,15 @@ export class ProjectFormComponent extends React.Component {
               component={RenderTextField}
               type="text"
               label={this.context.intl.formatMessage({ id: 'project.form.license' })}
+            />
+            <Field
+              name="host"
+              validate={ValidationHelpers.validRequiredString}
+              fullWidth
+              className="selenium-host"
+              component={RenderTextField}
+              label={this.context.intl.formatMessage({ id: 'project.form.host' })}
+              style={{ marginBottom: 15 }}
             />
             <Field
               name="isPublic"
@@ -139,10 +151,20 @@ export class ProjectFormComponent extends React.Component {
 
 function validate(values) {
   const errors = {}
-  if (values.name) {
-    if (!ValidationHelpers.isValidAlphaNumericUnderscore(values.name)) {
-      errors.name = ErrorTypes.ALPHA_NUMERIC
-    }
+  if (!keys(values).length) {
+    // XXX workaround for redux form bug initial validation:
+    // Do not return anything when fields are not yet initialized (first render invalid state is wrong otherwise)...
+    return errors
+  }
+  if (!ValidationHelpers.isValidAlphaNumericUnderscore(values.name)) {
+    errors.name = ErrorTypes.ALPHA_NUMERIC
+  }
+
+  console.log('Validate', values)
+
+  if (!ValidationHelpers.isValidUrl(values.host)) {
+    console.error('Host invalid')
+    errors.host = ErrorTypes.INVALID_URL
   }
   const urlToValidate = ['icon', 'licenceLink']
   urlToValidate.forEach((field) => {

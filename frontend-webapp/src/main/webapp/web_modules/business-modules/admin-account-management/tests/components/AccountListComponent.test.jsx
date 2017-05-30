@@ -1,5 +1,5 @@
 import size from 'lodash/size'
-import filter from 'lodash/filter'
+import reject from 'lodash/reject'
 import pickBy from 'lodash/pickBy'
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
@@ -133,7 +133,7 @@ describe('[ADMIN ACCOUNT MANAGEMENT] Testing account list component', () => {
     assert.equal(enzymeWrapper.state('selectedTab'), TABS.all, 'The component should display all users tab, as he was loaded without initial waiting users')
     const tableRows = enzymeWrapper.find(TableRow)
     assert.equal(tableRows.length, 1 + size(allAccounts), 'There should be the header row plus one row for each application user')
-    assert.equal(countDisabled(HateoasIconAction, enzymeWrapper), filter(allAccounts, account => account.content.status !== 'PENDING').length, 'Accept options should be disabled for accounts not in PENDING state')
+    assert.equal(countDisabled(HateoasIconAction, enzymeWrapper), reject(allAccounts, account => account.content.status === 'PENDING').length, 'Accept options should be disabled for accounts not in PENDING state')
     // other elements: tested in previous tests
   })
   it('should show no content for each tab if there is no users for that tab', () => {

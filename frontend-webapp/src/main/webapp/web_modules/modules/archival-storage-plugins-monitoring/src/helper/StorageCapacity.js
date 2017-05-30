@@ -1,8 +1,9 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import StorageUnitScale from './StorageUnit'
 import isNumber from 'lodash/isNumber'
+import StorageUnitScale from './StorageUnit'
+
 
 /**
  * A storage capacity (like 8Mo, 36 Gio...)

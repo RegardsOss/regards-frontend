@@ -30,7 +30,7 @@ const messages = Object.assign({
   'form.attributes.regroupement.form.save': 'Add',
   'form.attributes.regroupement.form.update': 'Update',
   'form.attributes.regroupement.form.cancel': 'Cancel',
-  'form.attributes.regroupement.form.error.label.aleady.exists': 'This regroupement label already exists',
+  'form.attributes.regroupement.form.error.label.already.exists': 'This regroupement label already exists',
   'form.attributes.regroupement.form.add.regroupement.button': 'Add new regroupement',
   'form.attributes.visibility.label': 'Visibility',
   'form.attributes.facetable.label': 'Enable filter',

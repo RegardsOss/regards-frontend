@@ -34,6 +34,7 @@ const messages = Object.assign({
   'project.form.isAccessible': 'Projet accessible',
   'project.form.icon': 'Icone',
   'project.form.license': 'Lien http vers la description de la licence du projet',
+  'project.form.host': 'Nom de domaine de l\'interface utilisateur',
   'project.form.action.cancel': 'Annuler',
   'project.form.action.submit': 'Sauvegarder',
 

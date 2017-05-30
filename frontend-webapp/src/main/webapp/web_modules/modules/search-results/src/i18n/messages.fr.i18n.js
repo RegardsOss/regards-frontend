@@ -21,7 +21,7 @@ const messages = Object.assign({
   'form.attributes.regroupement.form.save': 'Ajouter',
   'form.attributes.regroupement.form.update': 'Mise à jour',
   'form.attributes.regroupement.form.cancel': 'Annuler',
-  'form.attributes.regroupement.form.error.label.aleady.exists': 'Ce nom de regroupement est déjà utilisé',
+  'form.attributes.regroupement.form.error.label.already.exists': 'Ce nom de regroupement est déjà utilisé',
   'form.attributes.regroupement.form.add.regroupement.button': 'Ajouter un regroupement',
   'form.attributes.visibility.label': 'Visibilité de l\'attribut',
   'form.attributes.facetable.label': 'Activer le filtrage sur cet attribut',
