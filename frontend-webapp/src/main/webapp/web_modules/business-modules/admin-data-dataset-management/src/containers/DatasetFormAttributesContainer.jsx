@@ -64,8 +64,8 @@ export class DatasetFormAttributesContainer extends React.Component {
 
   onSubmit = (values) => {
     const datasourceObjectModelId = this.props.currentDatasource.content.mapping.model
-    const attributes = this.extractAttributesFromValues(values)
-    this.props.handleSave(values.label, values.model, attributes, datasourceObjectModelId, values.descriptionFileContent, values.descriptionUrl)
+    const properties = this.extractPropertiesFromValues(values)
+    this.props.handleSave(values.label, values.model, properties, datasourceObjectModelId, values.descriptionFileContent, values.descriptionUrl)
   }
 
   /**
@@ -74,9 +74,9 @@ export class DatasetFormAttributesContainer extends React.Component {
    * @param values
    * @returns {{}}
    */
-  extractAttributesFromValues = (values) => {
+  extractPropertiesFromValues = (values) => {
     const result = {}
-    forEach(values.attributes, (attrValue, attrName) => {
+    forEach(values.properties, (attrValue, attrName) => {
       const modelAttr = find(this.props.modelAttributeList, modelAttribute => modelAttribute.content.attribute.name === attrName)
       const fragment = modelAttr.content.attribute.fragment
       if (fragment.name !== fragmentSelectors.noneFragmentName) {
@@ -100,7 +100,7 @@ export class DatasetFormAttributesContainer extends React.Component {
   handleUpdateModel = (modelId) => {
     // Remove any value defined in the current form if modelAttributeList existed
     forEach(this.props.modelAttributeList, (modelAttribute) => {
-      this.props.unregisterField('dataset-attributes-form', `attributes.${modelAttribute.content.attribute.name}`)
+      this.props.unregisterField('dataset-attributes-form', `properties.${modelAttribute.content.attribute.name}`)
     })
     this.props.fetchModelAttributeList(modelId)
   }

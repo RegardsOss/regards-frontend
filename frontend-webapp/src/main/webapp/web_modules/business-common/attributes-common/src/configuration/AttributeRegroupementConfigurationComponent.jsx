@@ -68,8 +68,8 @@ class AttributeRegroupementConfigurationComponent extends React.Component {
    */
   addNewRegrp = (values) => {
     // Check if regroupement label already exists
-    if (find(this.props.attributesRegroupementsConf, conf => conf.label === values.label)) {
-      throw new SubmissionError({ label: this.context.intl.formatMessage({ id: 'form.attributes.regroupement.form.error.label.aleady.exists' }) })
+    if (find(this.props.attributesRegroupementsConf, { label: values.label })) {
+      throw new SubmissionError({ label: this.context.intl.formatMessage({ id: 'form.attributes.regroupement.form.error.label.already.exists' }) })
     }
     this.props.onChangeRegroupenentConfiguration('conf.attributesRegroupements', values)
     this.handleCloseDialog()
@@ -97,8 +97,8 @@ class AttributeRegroupementConfigurationComponent extends React.Component {
   // Check if the given attribute regroupement label already exists in the current list of attribute regroupements
   validateLabel = (label) => {
     let error
-    if (find(this.props.attributesRegroupementsConf, regroupement => regroupement.label === label)) {
-      error = 'form.attributes.regroupement.form.error.label.aleady.exists'
+    if (find(this.props.attributesRegroupementsConf, { label })) {
+      error = 'form.attributes.regroupement.form.error.label.already.exists'
     }
     return error
   }

@@ -9,6 +9,7 @@ const Project = PropTypes.shape({
     isDeleted: PropTypes.bool,
     isPublic: PropTypes.bool,
     name: PropTypes.string,
+    host: PropTypes.string,
   }),
 })
 

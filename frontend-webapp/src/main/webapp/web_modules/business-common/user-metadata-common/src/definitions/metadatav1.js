@@ -1,6 +1,7 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
+import get from 'lodash/get'
 import countries from './countries'
 
 /**
@@ -62,7 +63,7 @@ const METADATA_ARRAY_V1 = [{
  * @return found metadata server model or undefined
  */
 function findUserMetaData(metadataKey, user) {
-  const metaData = (user && user.content && user.content.metaData) || []
+  const metaData = get(user, 'content.metaData', [])
   return metaData.find(({ key }) => key === metadataKey)
 }
 

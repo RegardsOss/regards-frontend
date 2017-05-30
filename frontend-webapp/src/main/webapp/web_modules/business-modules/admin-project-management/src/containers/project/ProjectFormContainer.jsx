@@ -79,6 +79,7 @@ export class ProjectFormContainer extends React.Component {
       license: values.license,
       isPublic: values.isPublic,
       isAccessible: values.isAccessible,
+      host: values.host,
     })
     Promise.resolve(this.props.updateProject(this.props.project.content.name, updatedProject))
     .then((actionResult) => {
@@ -97,6 +98,7 @@ export class ProjectFormContainer extends React.Component {
       license: values.license,
       icon: values.icon,
       isPublic: values.isPublic,
+      host: values.host,
     }))
     .then((actionResult) => {
       // We receive here the action

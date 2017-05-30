@@ -39,6 +39,7 @@ class ModuleFormComponent extends React.Component {
       form: PropTypes.object,
     }),
     // from reduxForm
+    invalid: PropTypes.bool,
     submitting: PropTypes.bool,
     pristine: PropTypes.bool,
     handleSubmit: PropTypes.func.isRequired,
@@ -172,7 +173,7 @@ class ModuleFormComponent extends React.Component {
     </div>
   )
   render() {
-    const { pristine, submitting } = this.props
+    const { pristine, submitting, invalid } = this.props
     const style = Styles(this.context.muiTheme)
 
 
@@ -211,7 +212,7 @@ class ModuleFormComponent extends React.Component {
                   id={this.state.creation ? 'module.form.submit.button' : 'module.form.update.button'}
                 />}
                 mainButtonType="submit"
-                isMainButtonDisabled={pristine || submitting}
+                isMainButtonDisabled={pristine || submitting || invalid}
                 secondaryButtonLabel={this.context.intl.formatMessage({ id: 'module.form.cancel.button' })}
                 secondaryButtonTouchTap={this.props.onBack}
               />

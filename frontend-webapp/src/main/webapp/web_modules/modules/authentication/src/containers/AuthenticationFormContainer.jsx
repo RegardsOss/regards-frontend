@@ -35,13 +35,18 @@ export class AuthenticationFormContainer extends React.Component {
   }
 
   /** I18N injection */
-  static contextTypes = { ...i18nContextType }
+  static contextTypes = {
+    ...i18nContextType
+  }
 
 
-  componentWillMount = () => {
+  componentDidMount = () => {
     if (process.env.NODE_ENV === 'development') {
       console.log('DEV', 'Auto connection')
-      // this.onLoginRequest({ username: 'regards-admin@c-s.fr', password: 'root_admin' })
+      const that = this
+      setTimeout(() => {
+        that.onLoginRequest({ username: 'regards-admin@c-s.fr', password: 'root_admin' })
+      }, 150)
     }
   }
 
@@ -52,8 +57,8 @@ export class AuthenticationFormContainer extends React.Component {
 
   render() {
     const {
-      initialMail, title,
-      showAskProjectAccess, showCancel, onCancelAction, loginError, onGotoCreateAccount, onGotoResetPassword, onGotoUnlockAccount,
+      initialMail, title, showAskProjectAccess, showCancel, onCancelAction,
+      loginError, onGotoCreateAccount, onGotoResetPassword, onGotoUnlockAccount,
     } = this.props
     const { intl } = this.context
     return (
