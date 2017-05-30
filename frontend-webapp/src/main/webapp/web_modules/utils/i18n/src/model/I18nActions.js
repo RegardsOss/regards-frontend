@@ -35,7 +35,7 @@ export function updateMessages(messagesDir, locale) {
         // eslint-disable-next-line import/no-dynamic-require
         messages = require(`../../../../${messagesDir}/messages.${locale}.i18n.js`)
       } catch (e) {
-        if (includes(locale)) {
+        if (includes(locale, '-')) {
           try {
             const langFallback = locale.split('-')[0]
             // eslint-disable-next-line import/no-dynamic-require

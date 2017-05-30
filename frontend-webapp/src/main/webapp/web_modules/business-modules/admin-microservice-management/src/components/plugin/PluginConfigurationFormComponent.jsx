@@ -87,10 +87,11 @@ export class PluginConfigurationFormComponent extends React.Component {
 
     switch (formMode) {
       case 'edit':
-        initialValues = Object.assign({}, currentPluginConfiguration.content)
+        initialValues = Object.assign({}, currentPluginConfiguration && currentPluginConfiguration.content)
         break
       case 'create':
         initialValues = {
+          active: false,
           pluginId: currentPluginMetaData && currentPluginMetaData.content.pluginId,
           pluginClassName: currentPluginMetaData && currentPluginMetaData.content.pluginClassName,
           parameters: currentPluginMetaData && buildEmptyParameterList(currentPluginMetaData.content.parameters),

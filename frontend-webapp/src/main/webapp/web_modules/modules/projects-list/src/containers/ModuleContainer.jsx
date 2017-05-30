@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import forEach from 'lodash/forEach'
+import values from 'lodash/values'
 import { connect } from '@regardsoss/redux'
 import { AccessProject } from '@regardsoss/model'
 import { FormLoadingComponent } from '@regardsoss/form-utils'
@@ -34,13 +34,11 @@ export class ModuleContainer extends React.Component {
     if (!this.props.projects && this.props.isFetching) {
       return (<FormLoadingComponent />)
     }
-
-    const projects = []
-    forEach(this.props.projects, project => projects.push(project.content))
-
     return (
       <div>
-        <ProjectListComponent projects={projects} />
+        <ProjectListComponent
+          projects={values(this.props.projects)}
+        />
       </div>
     )
   }

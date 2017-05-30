@@ -1,7 +1,6 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import root from 'window-or-global'
-import { stub } from 'sinon'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import { SingleContentURLDialogContainer } from '@regardsoss/components'
 import HomePageContainer from '../../src/containers/HomePageContainer'

@@ -1,6 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import isNumber from 'lodash/isNumber'
 import getChainableTypeChecker from './ChainableTypeChecker'
 
 export const relativeURLRegexp = new RegExp('^((\\.\\.?\\/)*)([-a-z\\d%_\\.~+]+)' +    // . / .. / and first word
@@ -21,7 +22,7 @@ const urlStringValidator = (props, propName, componentName, location) => {
   const localComponentName = componentName || '[Anonymous component]'
   const url = props[propName]
   // pre : never empty here (see ChainableTypeChecker)
-  if (typeof url !== 'string') {
+  if (isNumber(url)) {
     return new Error(`${propName} (${location}) is not a String object in ${localComponentName}.`)
   }
   if (!validURLRegexp.test(url) && !relativeURLRegexp.test(url)) {
