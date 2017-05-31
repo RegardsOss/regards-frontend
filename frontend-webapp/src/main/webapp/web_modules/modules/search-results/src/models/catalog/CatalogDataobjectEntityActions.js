@@ -10,7 +10,7 @@ import { CatalogEntityActions } from './CatalogEntityActions'
 class CatalogDataobjectEntityActions extends CatalogEntityActions {
   constructor() {
     super({
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-catalog/dataobjects/search`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-catalog/dataobjects/search?{queryParams}`,
     })
   }
 }
