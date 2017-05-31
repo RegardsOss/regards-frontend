@@ -4,6 +4,7 @@
 import values from 'lodash/values'
 import EntityGeoProperties from './EntityGeoProperties'
 import { ObjectLinkedFile } from './ObjectLinkedFile'
+import URL from '../common/URL'
 
 export const CatalogEntityTypes = {
   DATASET: 'DATASET',
@@ -27,6 +28,13 @@ const CatalogEntity = PropTypes.shape({
     geometry: EntityGeoProperties,
     properties: PropTypes.object,
     tags: PropTypes.arrayOf(PropTypes.string),
+    // description file for collections and datasets only
+    descriptionFile: PropTypes.shape({
+      // URL: external URL file (cannot be present at same time than type)
+      url: URL,
+      // type: MIME type for internal file (cannot be present at same time than URL)
+      type: PropTypes.string, // cannot specify it better with MIME types as we use extended notations, text/markdown for instance
+    }),
   }),
 })
 

@@ -185,16 +185,14 @@ export class DetailViewContainer extends React.Component {
    * @param nextDatasetDesc next dataset description file (if any)
    * @return description state for this state, with URL or content depending on case
    */
-  resolveDescription = ({ content: { id, type, descriptionURL, descriptionFile } }, nextCollectionDesc, nextDatasetDesc, accessToken) => {
+  resolveDescription = ({ content: { id, type, descriptionFile } }, nextCollectionDesc, nextDatasetDesc, accessToken) => {
     const nextDescription = { ...DetailViewContainer.DEFAULT_STATE.description }
     // Only collection and dataset can have description
     if ([CatalogEntityTypes.COLLECTION, CatalogEntityTypes.DATASET].includes(type)) {
-      if (descriptionURL) {
-        // Case 1: description as external URL
-        nextDescription.url = descriptionURL
-      } else if (descriptionFile) {
-        const fileType = descriptionFile.type
-        // Case 2: locally stored file
+      const { type: fileType, url } = (descriptionFile || {}) // initialize found file type and URL
+      if (url) { // Case 1: description as external URL
+        nextDescription.url = url
+      } else if (fileType) { // Case 2: locally stored file
         if (DOWNLOAD_CONTENT_TYPES.includes(fileType)) {
           // Case 2a: locally downloaded file
           if (type === CatalogEntityTypes.COLLECTION && nextCollectionDesc && nextCollectionDesc.entityId === id) {
