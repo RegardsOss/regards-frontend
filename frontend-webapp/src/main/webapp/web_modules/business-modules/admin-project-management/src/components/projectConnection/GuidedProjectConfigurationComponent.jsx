@@ -103,6 +103,22 @@ class GuidedProjectConfigurationComponent extends React.Component {
 
   isFinished = () => this.state.stepIndex >= STATIC_CONFIGURATION.microservices.length
 
+  /**
+   * Add the successCallBack to the step create method to pass to the next step
+   * @param projectConnection
+   */
+  onStepCreate = (projectConnection) => {
+    this.props.onCreate(projectConnection, this.handleNext)
+  }
+
+  /**
+   * Add the successCallBack to the step update method to pass to the next step
+   * @param projectConnection
+   */
+  onStepUpdate = (id, projectConnection) => {
+    this.props.onUpdate(id, projectConnection, this.handleNext)
+  }
+
   renderConfigurationOnForAllConnections = () => {
     const firstMicroservice = STATIC_CONFIGURATION.microservices[0]
     const firstProjectConnection = find(this.props.projectConnections, lProjectConnection => lProjectConnection.content.microservice === firstMicroservice)
@@ -145,8 +161,8 @@ class GuidedProjectConfigurationComponent extends React.Component {
                   projectConnection={projectConnection}
                   configureOneForAll={this.props.configureOneForAll}
                   errorMessage={this.props.errorMessage}
-                  onCreate={this.onCreate}
-                  onUpdate={this.onUpdate}
+                  onCreate={this.onStepCreate}
+                  onUpdate={this.onStepUpdate}
                   onNext={this.handleNext}
                   onCancel={key > 0 ? this.handlePrev : null}
                   onChangeConfigurationMode={this.props.onChangeConfigurationMode}

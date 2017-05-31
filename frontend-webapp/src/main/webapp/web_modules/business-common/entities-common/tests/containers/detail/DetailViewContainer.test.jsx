@@ -140,7 +140,7 @@ describe('[Entities Common] Testing DetailViewContainer', () => {
           label: 'ça',
           model: { id: 0 },
           descriptionFile: {
-            url: 'http://www.google.com'
+            url: 'http://www.google.com',
           },
         },
       },
@@ -166,7 +166,7 @@ describe('[Entities Common] Testing DetailViewContainer', () => {
           model: { id: 1 },
           descriptionFile: {
             url: 'http://www.macron.c.con',
-          }
+          },
         },
       },
     }

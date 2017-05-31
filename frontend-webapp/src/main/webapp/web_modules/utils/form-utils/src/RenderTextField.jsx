@@ -19,10 +19,11 @@ class renderTextField extends React.Component {
     intl: PropTypes.shape({
       formatMessage: PropTypes.func,
     }),
+    hintText: PropTypes.string,
   }
 
   render() {
-    const { input, label, type, meta: { touched, error }, intl, ...rest } = this.props
+    const { input, label, hintText, type, meta: { touched, error }, intl, ...rest } = this.props
     let errorMessage = null
     if (touched && error) {
       errorMessage = intl.formatMessage({ id: error })
@@ -30,7 +31,7 @@ class renderTextField extends React.Component {
 
     return (
       <TextField
-        hintText={label}
+        hintText={hintText ? hintText : label}
         floatingLabelText={label}
         errorText={errorMessage}
         {...input}

@@ -50,7 +50,7 @@ export const listProjectConnectionGuidedRoute = {
   path: ':project_name/connections/guided',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const ProjectFormContainer = require('./containers/projectConnection/GuidedProjectConfigurationContainer')
+      const ProjectFormContainer = require('./containers/projectConnection/ProjectConnectionsContainer')
       cb(null, {
         content: ProjectFormContainer.default,
       })
@@ -62,7 +62,7 @@ export const editProjectConnectionRoute = {
   path: ':project_name/connections/:project_connection_id/edit',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const ProjectFormContainer = require('./containers/projectConnection/ProjectConnectionFormContainer')
+      const ProjectFormContainer = require('./containers/projectConnection/ProjectConnectionsContainer')
       cb(null, {
         content: ProjectFormContainer.default,
       })
@@ -74,7 +74,7 @@ export const createProjectConnectionRoute = {
   path: ':project_name/connections/:microservice_name/create',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const ProjectFormContainer = require('./containers/projectConnection/ProjectConnectionFormContainer')
+      const ProjectFormContainer = require('./containers/projectConnection/ProjectConnectionsContainer')
       cb(null, {
         content: ProjectFormContainer.default,
       })
