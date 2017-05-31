@@ -1,6 +1,9 @@
 /*
  * LICENSE_PLACEHOLDER
  */
+import map from 'lodash/map'
+import find from 'lodash/find'
+import filter from 'lodash/filter'
 import keys from 'lodash/keys'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
@@ -37,12 +40,96 @@ export class GuidedProjectConfigurationContainer extends React.Component {
     saveProjectConnection: PropTypes.func.isRequired,
   }
 
+  state = {
+    // Default value for configuration mode. Use the configure one connection for all by default.
+    configureOneForAll: true,
+    // Error message if the submit of create or update a connection is invalid
+    errorMessage: null,
+  }
+
   componentWillMount() {
     if (keys(this.props.fetchProjectConnections).length === 0) {
       this.props.fetchProjectConnections(this.props.params.project_name)
     }
     if (!this.props.project) {
       this.props.fetchProject(this.props.params.project_name)
+    }
+  }
+
+  onChangeConfigurationMode = () => {
+    this.setState({
+      configureOneForAll: !this.state.configureOneForAll,
+    })
+  }
+
+  onCreate = (projectConnection) => {
+    if (this.state.configureOneForAll) {
+      this.onCreateAll(projectConnection)
+    } else {
+      Promise.resolve(this.props.saveProjectConnection(projectConnection))
+        .then((actionResult) => {
+          // We receive here the action
+          if (!actionResult.error) {
+            this.handleBack()
+          } else {
+            this.setState({
+              errorMessage: 'project.connection.form.error.server',
+            })
+          }
+        })
+    }
+  }
+
+  /**
+   * Create identical connection for each microservice with the given configuration
+   * @param projectConnection
+   */
+  onCreateAll = (projectConnection) => {
+    // Create the same connection for all microservices
+    const actions = map(STATIC_CONFIGURATION.microservices, (microservice) => {
+      // Check if connection already exists
+      const prevConnection = find(this.props.projectConnections, { content: { microservice } })
+      // If connection already exists add id
+      const connection = Object.assign({}, projectConnection, {
+        id: prevConnection ? prevConnection.content.id : undefined,
+        microservice,
+      })
+      if (connection.id) {
+        // Update connection
+        return this.props.updateProjectConnection(connection.id, connection, this.props.project.content.name)
+      }
+      // Save new connection
+      return this.props.saveProjectConnection(connection, this.props.project.content.name)
+    })
+    Promise.all(actions).then(
+      (actionsResults) => {
+        const errors = filter(actionsResults, { error: true })
+        if (!errors || errors.length === 0) {
+          this.handleBack()
+        } else {
+          this.setState({
+            errorMessage: 'project.connection.form.error.server',
+          })
+        }
+      },
+    )
+  }
+
+  onUpdate = (id, projectConnection) => {
+    if (this.state.configureOneForAll) {
+      this.onCreateAll(projectConnection)
+    } else {
+      Promise.resolve(this.props.updateProjectConnection(id, projectConnection))
+        .then((actionResult) => {
+          // We receive here the action
+          if (!actionResult.error) {
+            this.handleBack()
+          } else {
+            this.setState({
+              errorMessage: 'project.connection.form.error.server',
+            })
+          }
+        })
     }
   }
 
@@ -62,8 +149,11 @@ export class GuidedProjectConfigurationContainer extends React.Component {
         <GuidedProjectConfigurationComponent
           project={this.props.project}
           projectConnections={projectConnections}
-          onSaveProjectConnection={this.props.saveProjectConnection}
-          onUpdateProjectConnection={this.props.updateProjectConnection}
+          configureOneForAll={this.state.configureOneForAll}
+          errorMessage={this.state.errorMessage}
+          onCreate={this.onCreate}
+          onUpdate={this.onUpdate}
+          onChangeConfigurationMode={this.onChangeConfigurationMode}
         />
       </I18nProvider>
     )

@@ -3,12 +3,13 @@
  */
 import keys from 'lodash/keys'
 import { FormattedMessage } from 'react-intl'
+import Checkbox from 'material-ui/Checkbox'
 import { Project } from '@regardsoss/model'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import MainActionButtonComponent from '@regardsoss/components/src/cards/MainActionButtonComponent'
 import SecondaryActionButtonComponent from '@regardsoss/components/src/cards/SecondaryActionButtonComponent'
-import { RenderTextField, Field, ErrorTypes, reduxForm } from '@regardsoss/form-utils'
+import { RenderTextField, Field, ErrorTypes, reduxForm, FormErrorMessage } from '@regardsoss/form-utils'
 import ProjectConnection from '@regardsoss/model/src/admin/ProjectConnection'
 
 /**
@@ -23,9 +24,12 @@ export class ProjectConnectionFormComponent extends React.Component {
     project: Project,
     microservice: PropTypes.string.isRequired,
     projectConnection: ProjectConnection,
+    configureOneForAll: PropTypes.bool.isRequired,
+    errorMessage: PropTypes.string,
     onUpdate: PropTypes.func,
     onCreate: PropTypes.func,
     onCancel: PropTypes.func,
+    onChangeConfigurationMode: PropTypes.func,
     // This props allow to define if the current form is displayed in a stepper
     // or as a single form
     isStep: PropTypes.bool,
@@ -43,9 +47,19 @@ export class ProjectConnectionFormComponent extends React.Component {
     ...i18nContextType,
   }
 
+  state = {
+    configureOneForAll: this.props.configureOneForAll,
+  }
 
   componentDidMount() {
     this.handleInitialize()
+  }
+
+  onChangeConfigurationMode = () => {
+    this.setState({
+      configureOneForAll: !this.state.configureOneForAll,
+    })
+    this.props.onChangeConfigurationMode()
   }
 
   /**
@@ -92,12 +106,15 @@ export class ProjectConnectionFormComponent extends React.Component {
   render() {
     const label = this.props.isStep ? <FormattedMessage id="database.form.action.next" /> :
     <FormattedMessage id="database.form.action.save" />
-    const submitAction = this.props.projectConnection ? this.updateProjectConnection : this.createProjectConnection
+    const submitAction = this.props.projectConnection && !this.props.configureOneForAll ? this.updateProjectConnection : this.createProjectConnection
     return (
       <form
         className="selenium-projectConnectionForm"
         onSubmit={this.props.handleSubmit(submitAction)}
       >
+        <FormErrorMessage>
+          {this.props.errorMessage ? this.context.intl.formatMessage({ id: this.props.errorMessage }) : null}
+        </FormErrorMessage>
         <Field
           name="driverClassName"
           fullWidth
@@ -126,6 +143,11 @@ export class ProjectConnectionFormComponent extends React.Component {
           component={RenderTextField}
           type="password"
           label={this.context.intl.formatMessage({ id: 'database.form.input.password' })}
+        />
+        <Checkbox
+          label={this.context.intl.formatMessage({ id: 'database.form.input.cange.configuration.mode' })}
+          checked={this.state.configureOneForAll}
+          onCheck={this.onChangeConfigurationMode}
         />
         <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 20 }}>
           <SecondaryActionButtonComponent

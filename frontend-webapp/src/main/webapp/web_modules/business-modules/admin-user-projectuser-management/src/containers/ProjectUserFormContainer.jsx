@@ -137,7 +137,7 @@ export class ProjectUserFormContainer extends React.Component {
             fpmap(currentGroup => this.props.assignGroup(currentGroup, email)),
           )(group)
           const removeUserFromGroupTasks = flow(
-            fpfilter(currentGroup => some(currentGroup.content.users, userInfo => userInfo.email === email)
+            fpfilter(currentGroup => some(currentGroup.content.users, { email })
               && every(group, groupName => groupName !== currentGroup.content.name)),
             fpmap(currentGroup => this.props.unassignGroup(currentGroup.content.name, email)),
           )(groupList)

@@ -27,8 +27,11 @@ class GuidedProjectConfigurationComponent extends React.Component {
   static propTypes = {
     project: Project.isRequired,
     projectConnections: PropTypes.objectOf(ProjectConnection).isRequired,
-    onSaveProjectConnection: PropTypes.func.isRequired,
-    onUpdateProjectConnection: PropTypes.func.isRequired,
+    configureOneForAll: PropTypes.bool.isRequired,
+    errorMessage: PropTypes.string,
+    onUpdate: PropTypes.func,
+    onCreate: PropTypes.func,
+    onChangeConfigurationMode: PropTypes.func,
   }
 
   static contextTypes = {
@@ -38,26 +41,6 @@ class GuidedProjectConfigurationComponent extends React.Component {
 
   state = {
     stepIndex: 0,
-  }
-
-  onCreate = (projectConnection) => {
-    Promise.resolve(
-      this.props.onSaveProjectConnection(projectConnection, this.props.project.content.name))
-      .then((ActionResult) => {
-        if (!ActionResult.error) {
-          this.handleNext()
-        }
-      })
-  }
-
-  onUpdate = (id, projectConnection) => {
-    Promise.resolve(
-      this.props.onUpdateProjectConnection(id, projectConnection, this.props.project.content.name))
-      .then((ActionResult) => {
-        if (!ActionResult.error) {
-          this.handleNext()
-        }
-      })
   }
 
   getConnectivityIcon = (connectivity) => {
@@ -120,10 +103,64 @@ class GuidedProjectConfigurationComponent extends React.Component {
 
   isFinished = () => this.state.stepIndex >= STATIC_CONFIGURATION.microservices.length
 
-  render() {
+  renderConfigurationOnForAllConnections = () => {
+    const firstMicroservice = STATIC_CONFIGURATION.microservices[0]
+    const firstProjectConnection = find(this.props.projectConnections, lProjectConnection => lProjectConnection.content.microservice === firstMicroservice)
+    return (
+      <ProjectConnectionFormComponent
+        project={this.props.project}
+        microservice={firstMicroservice}
+        projectConnection={firstProjectConnection}
+        configureOneForAll={this.props.configureOneForAll}
+        errorMessage={this.props.errorMessage}
+        onCreate={this.props.onCreate}
+        onUpdate={this.props.onUpdate}
+        onNext={this.handleNext}
+        onCancel={this.handleBackClick}
+        onChangeConfigurationMode={this.props.onChangeConfigurationMode}
+        isStep
+      />
+    )
+  }
+
+  renderStepper = () => {
     const { stepIndex } = this.state
     const { projectConnections } = this.props
 
+    return (
+      <Stepper
+        activeStep={stepIndex}
+        orientation="vertical"
+      >
+        {map(STATIC_CONFIGURATION.microservices, (microservice, key) => {
+          // Search if a connection is already defined for the current project
+          const projectConnection = find(projectConnections, lProjectConnection => lProjectConnection.content.microservice === microservice)
+          return (
+            <Step key={key}>
+              {this.getStepButton(microservice, projectConnection, key)}
+              <StepContent>
+                <ProjectConnectionFormComponent
+                  project={this.props.project}
+                  microservice={microservice}
+                  projectConnection={projectConnection}
+                  configureOneForAll={this.props.configureOneForAll}
+                  errorMessage={this.props.errorMessage}
+                  onCreate={this.onCreate}
+                  onUpdate={this.onUpdate}
+                  onNext={this.handleNext}
+                  onCancel={key > 0 ? this.handlePrev : null}
+                  onChangeConfigurationMode={this.props.onChangeConfigurationMode}
+                  isStep
+                />
+              </StepContent>
+            </Step>
+          )
+        })}
+      </Stepper>
+    )
+  }
+
+  render() {
     return (
       <Card className="selenium-guidedProjectConfiguration">
         <CardTitle
@@ -135,32 +172,7 @@ class GuidedProjectConfigurationComponent extends React.Component {
           />}
         />
         <CardText>
-          <Stepper
-            activeStep={stepIndex}
-            orientation="vertical"
-          >
-            {map(STATIC_CONFIGURATION.microservices, (microservice, key) => {
-              // Search if a connection is already defined for the current project
-              const projectConnection = find(projectConnections, lProjectConnection => lProjectConnection.content.microservice === microservice)
-              return (
-                <Step key={key}>
-                  {this.getStepButton(microservice, projectConnection, key)}
-                  <StepContent>
-                    <ProjectConnectionFormComponent
-                      project={this.props.project}
-                      microservice={microservice}
-                      projectConnection={projectConnection}
-                      onCreate={this.onCreate}
-                      onUpdate={this.onUpdate}
-                      onNext={this.handleNext}
-                      onCancel={key > 0 ? this.handlePrev : null}
-                      isStep
-                    />
-                  </StepContent>
-                </Step>
-              )
-            })}
-          </Stepper>
+          {this.props.configureOneForAll ? this.renderConfigurationOnForAllConnections() : this.renderStepper()}
         </CardText>
       </Card>
     )

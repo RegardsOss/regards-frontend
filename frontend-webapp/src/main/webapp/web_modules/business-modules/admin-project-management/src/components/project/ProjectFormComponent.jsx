@@ -160,8 +160,6 @@ function validate(values) {
     errors.name = ErrorTypes.ALPHA_NUMERIC
   }
 
-  console.log('Validate', values)
-
   if (!ValidationHelpers.isValidUrl(values.host)) {
     console.error('Host invalid')
     errors.host = ErrorTypes.INVALID_URL
