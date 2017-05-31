@@ -4,6 +4,7 @@
  **/
 import map from 'lodash/map'
 import forEach from 'lodash/forEach'
+import some from 'lodash/some'
 import { FormattedMessage } from 'react-intl'
 import Chip from 'material-ui/Chip'
 import { List, ListItem } from 'material-ui/List'
@@ -82,9 +83,9 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
             }}
           >
             <Toggle
-              toggled={this.isResourceAutorized(resource)}
+              toggled={this.isResourceAuthorized(resource)}
               onToggle={() => {
-                this.props.handleToggleResourceAccess(resource, this.isResourceAutorized(resource))
+                this.props.handleToggleResourceAccess(resource, this.isResourceAuthorized(resource))
                 return false
               }}
             />
@@ -98,7 +99,7 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
             }}
           >
             <div style={styles.description.style} className={styles.description.class}>
-              {this.context.intl.formatMessage({ id: 'role.form.description' })} : {resource.content.description}
+              {resource.content.description}
             </div>
             <span>
               <FormattedMessage id="role.form.moreinfo" />
@@ -133,17 +134,15 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
     })
   }
 
-  isResourceAutorized = (resource) => {
-    let isAutorized = false
-    forEach(this.props.roleResources, (permission) => {
-      if (permission.content.resource === resource.content.resource &&
-        permission.content.microservice === resource.content.microservice &&
-        permission.content.verb === resource.content.verb) {
-        isAutorized = true
-      }
-    })
-    return isAutorized
-  }
+  isResourceAuthorized = resource =>
+    // Check if one of the roleResources match the given resource
+     some(this.props.roleResources, {
+       content: {
+         resource: resource.content.resource,
+         microservice: resource.content.microservice,
+         verb: resource.content.verb,
+       },
+     })
 
   handleShowDialog = (resource) => {
     this.props.handleOpenResourceAccess(resource)

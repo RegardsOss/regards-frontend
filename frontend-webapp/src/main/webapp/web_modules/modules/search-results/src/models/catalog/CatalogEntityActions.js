@@ -12,7 +12,7 @@ class CatalogEntityActions extends BasicFacetsPageableActions {
   constructor(options) {
     super({
       namespace: 'search/results',
-      entityEndpoint: options && options.entityEndpoint ? options.entityEndpoint : `${GATEWAY_HOSTNAME}/${API_URL}/rs-catalog/search?{queryParams}`,
+      entityEndpoint: options && options.entityEndpoint ? options.entityEndpoint : `${GATEWAY_HOSTNAME}/${API_URL}/rs-catalog/search`,
       schemaTypes: {
         ENTITY: Schemas.ENTITY,
         ENTITY_ARRAY: Schemas.ENTITY_ARRAY,

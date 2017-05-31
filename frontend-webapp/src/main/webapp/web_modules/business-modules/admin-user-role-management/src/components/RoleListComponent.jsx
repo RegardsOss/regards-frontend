@@ -1,5 +1,6 @@
 import map from 'lodash/map'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
+import IconButton from 'material-ui/IconButton'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
 import { FormattedMessage } from 'react-intl'
 import { HateoasIconAction, HateoasKeys } from '@regardsoss/display-control'
@@ -145,14 +146,12 @@ export class RoleListComponent extends React.Component {
                   <TableRowColumn>{role.content.name}</TableRowColumn>
                   <TableRowColumn>{this.getParentRoleName(role.content.parentRole)}</TableRowColumn>
                   <TableRowColumn>
-                    <HateoasIconAction
-                      entityLinks={role.links}
-                      hateoasKey={HateoasKeys.UPDATE}
+                    <IconButton
                       onTouchTap={() => handleEditResourceAccess(role.content.name)}
                       title={linkRoleResourceIconTitle}
                     >
                       <Settings />
-                    </HateoasIconAction>
+                    </IconButton>
 
                     <HateoasIconAction
                       entityLinks={role.links}
