@@ -137,8 +137,10 @@ class TableContainer extends React.Component {
       !isEqual(nextProps.authentication, previousProps.authentication)) {
       // remove any previously fetched data
       nextState.entities = []
+      nextProps.flushEntities()
       nextProps.fetchEntities(0, this.nbEntitiesByPage, nextProps.requestParams)
     }
+
 
     // New entities retrieved
     if (!isEqual(previousProps.entities, !nextProps.entities) && !isEqual(previousProps.pageMetadata, nextProps.pageMetadata)) {
@@ -321,6 +323,7 @@ const mapStateToProps = (state, { pageSelectors, tableSelectors }) => ({
 })
 
 const mapDispatchToProps = (dispatch, { pageActions, tableActions }) => ({
+  flushEntities: () => dispatch(pageActions.flush()),
   fetchEntities: (index, nbEntitiesByPage, requestParams) => dispatch(pageActions.fetchPagedEntityList(index, nbEntitiesByPage, requestParams)),
   toggleRowSelection: (rowIndex, entity) => dispatch(tableActions.toggleElement(rowIndex, entity)),
   dispatchSelectAll: () => dispatch(tableActions.selectAll()),
