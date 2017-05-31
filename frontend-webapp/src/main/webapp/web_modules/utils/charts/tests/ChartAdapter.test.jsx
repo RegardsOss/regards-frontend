@@ -3,9 +3,13 @@
  */
 import { shallow } from 'enzyme'
 import { assert, expect } from 'chai'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import ChartAdapter, { HeadlessPlaceholder } from '../src/ChartAdapter'
 
 describe('[Chart util] Testing component headless', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('should exists', () => {
     assert.isDefined(ChartAdapter)
   })

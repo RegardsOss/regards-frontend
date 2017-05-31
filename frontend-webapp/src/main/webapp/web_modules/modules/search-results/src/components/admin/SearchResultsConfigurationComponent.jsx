@@ -65,9 +65,9 @@ class SearchResultsConfigurationComponent extends React.Component {
             name="conf.displayDatasets"
             component={RenderCheckbox}
             checked={this.props.defaultDisplayDatasets}
-            label={<FormattedMessage id="form.configuration.result.type.datasets" />}
+            label={this.context.intl.formatMessage({ id: 'form.configuration.result.type.datasets' })}
           />
-              label={this.context.intl.formatMessage({ id: 'form.configuration.result.type.datasets' })}
+
         </ShowableAtRender>
         <Field
           name="conf.enableFacettes"

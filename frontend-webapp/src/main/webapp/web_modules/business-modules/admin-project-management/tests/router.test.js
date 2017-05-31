@@ -1,9 +1,13 @@
 import { assert, expect } from 'chai'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import Routes from '../src/router'
 import ProjectFormContainer from '../src/containers/project/ProjectFormContainer'
 import ProjectListContainer from '../src/containers/project/ProjectListContainer'
 
 describe('[ADMIN PROJECT MANAGEMENT] Testing project router', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('should return the correct value', () => {
     assert.isNotNull(Routes)
     expect(Routes.childRoutes).to.have.length(7)

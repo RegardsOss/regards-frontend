@@ -6,10 +6,11 @@ import Toggle from 'material-ui/Toggle'
 class renderToggle extends React.Component {
   static propTypes = {
     input: PropTypes.shape({
-      value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+      value: PropTypes.oneOfType([PropTypes.string, PropTypes.bool, PropTypes.number]),
       name: PropTypes.string,
     }),
     label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+    defaultToggled: PropTypes.bool,
     // fullWidth: PropTypes.bool,
     type: PropTypes.string,
     meta: PropTypes.shape({
@@ -20,14 +21,21 @@ class renderToggle extends React.Component {
       formatMessage: PropTypes.func,
     }),
   }
+
+  onChange = () => {
+    const { input } = this.props
+    // switch the value
+    input.onChange(!input.value)
+  }
+
   render() {
     // eslint-disable-next-line
     const { input, label, type, meta, intl, ...rest } = this.props
     return (
       <Toggle
-        {...input}
         type={type}
         label={label}
+        onToggle={this.onChange}
         {...rest}
       />
     )

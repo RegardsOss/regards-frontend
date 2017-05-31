@@ -13,7 +13,7 @@ import { ActionsMenuCell, CardActionsComponent, ConfirmDialogComponent, Showable
 import { ModuleShape } from '@regardsoss/modules'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { HateoasIconAction, HateoasToggle, HateoasKeys } from '@regardsoss/display-control'
+import { HateoasIconAction, HateoasToggle, HateoasKeys, ResourceIconAction } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { moduleActions } from '../client/ModuleClient'
 
@@ -132,15 +132,14 @@ class ModuleListComponent extends React.Component {
                       >
                         <Edit hoverColor={style.hoverButtonEdit} />
                       </HateoasIconAction>
-                      <HateoasIconAction
+                      <ResourceIconAction
                         title={intl.formatMessage({ id: 'modules.list.table.action.duplicate.tooltip' })}
-                        entityLinks={module.links}
-                        hateoasKey={HateoasKeys.CREATE}
+                        resourceDependency={moduleActions.getDependency(RequestVerbEnum.POST)}
                         onTouchTap={() => this.props.onDuplicate(module.content)}
                         breakpoint={945}
                       >
                         <Copy hoverColor={style.hoverButtonEdit} />
-                      </HateoasIconAction>
+                      </ResourceIconAction>
                       <HateoasIconAction
                         title={intl.formatMessage({ id: 'modules.list.table.action.delete.tooltip' })}
                         entityLinks={module.links}

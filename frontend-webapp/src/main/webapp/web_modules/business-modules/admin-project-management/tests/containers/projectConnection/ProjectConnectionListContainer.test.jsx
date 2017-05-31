@@ -1,5 +1,6 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import EnumConnectivity from '@regardsoss/model/src/admin/EnumConnectivity'
 import { ProjectConnectionListContainer } from '../../../src/containers/projectConnection/ProjectConnectionListContainer'
 import ProjectConnectionListComponent from '../../../src/components/projectConnection/ProjectConnectionListComponent'
@@ -7,6 +8,9 @@ import ProjectConnectionListComponent from '../../../src/components/projectConne
 // Test a component rendering
 describe(
   '[ADMIN PROJECT MANAGEMENT] Testing ProjectConnectionListContainer', () => {
+    before(testSuiteHelpers.before)
+    after(testSuiteHelpers.after)
+
     it('should exists', () => {
       assert.isDefined(ProjectConnectionListContainer)
     })

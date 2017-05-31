@@ -2,6 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { assert, expect } from 'chai'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import Routes from '../src/router'
 import MicroserviceBoardContainer from '../src/containers/MicroserviceBoardContainer'
 import PluginMetaDataListContainer from '../src/containers/plugin/PluginMetaDataListContainer'
@@ -9,6 +10,9 @@ import PluginConfigurationListContainer from '../src/containers/plugin/PluginCon
 import PluginConfigurationFormContainer from '../src/containers/plugin/PluginConfigurationFormContainer'
 
 describe('[ADMIN MICROSERVICE MANAGEMENT] Testing data board router', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('should return the correct value', () => {
     assert.isNotNull(Routes)
     expect(Routes.childRoutes).to.have.length(5)

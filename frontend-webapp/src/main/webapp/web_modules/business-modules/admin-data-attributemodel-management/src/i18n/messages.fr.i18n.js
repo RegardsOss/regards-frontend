@@ -44,8 +44,6 @@ const messages = Object.assign({
   'invalid.min_3_carac': 'Minimum 3 caractères',
   'invalid.max_32_carac': 'Maximum 32 caractères',
   'invalid.only_1_restriction_on_the_same_time': 'Vous ne pouvez activer qu\'une seule restriction à la fois',
-
-  'table.actions.more': 'Plus d\'actions',
 }, Locales.fr)
 messages[`attrmodel.form.fragment.${DEFAULT_FRAGMENT_NAME}`] = 'Pas de fragment'
 

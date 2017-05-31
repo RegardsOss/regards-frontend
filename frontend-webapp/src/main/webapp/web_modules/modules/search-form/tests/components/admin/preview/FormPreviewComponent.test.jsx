@@ -3,9 +3,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { stub } from 'sinon'
-import getMuiTheme from 'material-ui/styles/getMuiTheme'
-import { IntlStub } from '@regardsoss/tests-helpers'
+import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import { DefaultLayout } from '@regardsoss/layout'
 import { LazyModuleComponent } from '@regardsoss/modules'
 import Styles from '../../../../src/styles/styles'
@@ -16,25 +14,10 @@ import FormPreviewComponent from '../../../../src/components/admin/preview/FormP
  * @author Sébastien binda
  */
 describe('[SEARCH FORM] Testing FormPreviewComponent', () => {
-  // Since react will console.error propType warnings, that which we'd rather have
-  // as errors, we use sinon.js to stub it into throwing these warning as errors
-  // instead.
-  before(() => {
-    stub(console, 'error').callsFake((warning) => {
-      throw new Error(warning)
-    })
-  })
-  after(() => {
-    console.error.restore()
-  })
-  const muiTheme = getMuiTheme({})
-  const options = {
-    context: {
-      muiTheme,
-      moduleTheme: Styles(muiTheme),
-      intl: IntlStub,
-    },
-  }
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
+  const context = buildTestContext(Styles)
 
   it('Should render a FormPreviewComponent', () => {
     const props = {
@@ -52,7 +35,7 @@ describe('[SEARCH FORM] Testing FormPreviewComponent', () => {
       },
     }
     const wrapper = shallow(
-      <FormPreviewComponent {...props} />, options,
+      <FormPreviewComponent {...props} />, { context },
     )
 
     const lazyModule = wrapper.find(LazyModuleComponent)

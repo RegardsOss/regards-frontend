@@ -3,7 +3,7 @@
  */
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { stub } from 'sinon'
+import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import AuthenticationDialogComponent from '../../src/components/AuthenticationDialogComponent'
 import styles from '../../src/styles/styles'
 
@@ -12,26 +12,15 @@ import styles from '../../src/styles/styles'
  * @author Sébastien binda
  */
 describe('[AUTHENTICATION] Testing AuthenticationDialogComponent', () => {
-  // Since react will console.error propType warnings, that which we'd rather have
-  // as errors, we use sinon.js to stub it into throwing these warning as errors
-  // instead.
-  before(() => {
-    stub(console, 'error').callsFake((warning) => {
-      throw new Error(warning)
-    })
-  })
-  after(() => {
-    console.error.restore()
-  })
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('should exists', () => {
     assert.isDefined(AuthenticationDialogComponent)
   })
-  const context = {
-    muiTheme: {},
-    moduleTheme: styles({
-      palette: {},
-    }),
-  }
+
+  const context = buildTestContext(styles)
+
   it('Should render properly', () => {
     // quick test: just checking if render is done without error
     shallow(<AuthenticationDialogComponent open><div /></AuthenticationDialogComponent>, { context })

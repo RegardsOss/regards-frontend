@@ -2,6 +2,7 @@
  * LICENSE_PLACEHOLDER
  */
 import { assert } from 'chai'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import * as metadatav1 from '../../src/definitions/metadatav1'
 
 
@@ -29,6 +30,9 @@ const modelUser = {
 }
 
 describe('[User Metadata Common] Testing metadatav1', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('should exists', () => {
     assert.isDefined(metadatav1)
   })

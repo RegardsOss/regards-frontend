@@ -2,12 +2,11 @@
  * LICENSE_PLACEHOLDER
  **/
 import { shallow } from 'enzyme'
-import { stub, spy } from 'sinon'
+import { spy } from 'sinon'
 import { assert } from 'chai'
-import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import MenuItem from 'material-ui/MenuItem'
 import { Field } from '@regardsoss/form-utils'
-import { IntlStub } from '@regardsoss/tests-helpers'
+import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import { DefaultLayout } from '@regardsoss/layout'
 import { PluginProvider } from '@regardsoss/plugins'
 import Styles from '../../../../src/styles/styles'
@@ -19,25 +18,10 @@ import { UnconnectedFormCriteriaComponent } from '../../../../src/components/adm
  * @author Sébastien binda
  */
 describe('[SEARCH FORM] Testing FormCriteriaComponent', () => {
-  // Since react will console.error propType warnings, that which we'd rather have
-  // as errors, we use sinon.js to stub it into throwing these warning as errors
-  // instead.
-  before(() => {
-    stub(console, 'error').callsFake((warning) => {
-      throw new Error(warning)
-    })
-  })
-  after(() => {
-    console.error.restore()
-  })
-  const muiTheme = getMuiTheme({})
-  const options = {
-    context: {
-      muiTheme,
-      moduleTheme: Styles(muiTheme),
-      intl: IntlStub,
-    },
-  }
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
+  const context = buildTestContext(Styles)
 
   it('Should render a new criteria criteria form', () => {
     const saveCriteriaCallback = spy()
@@ -59,7 +43,7 @@ describe('[SEARCH FORM] Testing FormCriteriaComponent', () => {
     }
 
     const wrapper = shallow(
-      <UnconnectedFormCriteriaComponent {...props} />, options,
+      <UnconnectedFormCriteriaComponent {...props} />, { context },
     )
 
     // // Check for Card
@@ -131,7 +115,7 @@ describe('[SEARCH FORM] Testing FormCriteriaComponent', () => {
     }
 
     const wrapper = shallow(
-      <UnconnectedFormCriteriaComponent {...props} />, options,
+      <UnconnectedFormCriteriaComponent {...props} />, { context },
     )
 
     // Check for Card

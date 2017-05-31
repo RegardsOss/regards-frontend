@@ -3,9 +3,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { stub } from 'sinon'
-import getMuiTheme from 'material-ui/styles/getMuiTheme'
-import { IntlStub } from '@regardsoss/tests-helpers'
+import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import { PageableListContainer, ListContainer } from '@regardsoss/components'
 import Styles from '../../../../src/styles/styles'
 import { DATASET_MODEL_TYPE, DATASET_TYPE, ALL_CATALOG_TYPE } from '../../../../src/models/datasets/DatasetSelectionTypes'
@@ -18,25 +16,10 @@ import FormDatasetsConfigurationComponent from '../../../../src/components/admin
  * @author Sébastien binda
  */
 describe('[SEARCH FORM] Testing FormDatasetsConfigurationComponent', () => {
-  // Since react will console.error propType warnings, that which we'd rather have
-  // as errors, we use sinon.js to stub it into throwing these warning as errors
-  // instead.
-  before(() => {
-    stub(console, 'error').callsFake((warning) => {
-      throw new Error(warning)
-    })
-  })
-  after(() => {
-    console.error.restore()
-  })
-  const muiTheme = getMuiTheme({})
-  const options = {
-    context: {
-      muiTheme,
-      moduleTheme: Styles(muiTheme),
-      intl: IntlStub,
-    },
-  }
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
+  const context = buildTestContext(Styles)
 
   it('Should render a FormDatasetsConfigurationComponent to configure datasets', () => {
     const props = {
@@ -48,7 +31,7 @@ describe('[SEARCH FORM] Testing FormDatasetsConfigurationComponent', () => {
     }
 
     const wrapper = shallow(
-      <FormDatasetsConfigurationComponent {...props} />, options,
+      <FormDatasetsConfigurationComponent {...props} />, { context },
     )
 
     const listComp = wrapper.find(PageableListContainer)
@@ -66,7 +49,7 @@ describe('[SEARCH FORM] Testing FormDatasetsConfigurationComponent', () => {
     }
 
     const wrapper = shallow(
-      <FormDatasetsConfigurationComponent {...props} />, options,
+      <FormDatasetsConfigurationComponent {...props} />, { context },
     )
 
     const listComp = wrapper.find(ListContainer)
@@ -84,7 +67,7 @@ describe('[SEARCH FORM] Testing FormDatasetsConfigurationComponent', () => {
     }
 
     const wrapper = shallow(
-      <FormDatasetsConfigurationComponent {...props} />, options,
+      <FormDatasetsConfigurationComponent {...props} />, { context },
     )
 
     const listComp = wrapper.find(PageableListContainer)

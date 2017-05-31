@@ -1,4 +1,5 @@
 import { assert, expect } from 'chai'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { attributeModelDataManagementRouter } from '@regardsoss/admin-data-attributemodel-management'
 import { fragmentDataManagementRouter } from '@regardsoss/admin-data-fragment-management'
 import { modelDataManagementRouter } from '@regardsoss/admin-data-model-management'
@@ -10,6 +11,9 @@ import Routes from '../src/router'
 import ModuleContainer from '../src/components/ModuleContainer'
 
 describe('[ADMIN DATA MANAGEMENT] Testing data board router', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('should return the correct value', () => {
     assert.isNotNull(Routes)
     expect(Routes.childRoutes).to.have.length(9)

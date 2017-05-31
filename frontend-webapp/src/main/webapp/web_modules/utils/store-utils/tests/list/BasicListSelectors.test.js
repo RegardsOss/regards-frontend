@@ -2,6 +2,7 @@
 * LICENSE_PLACEHOLDER
 **/
 import { assert, expect } from 'chai'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import BasicListSelectors from '../../src/list/BasicListSelectors'
 
 const basicListSelectors = new BasicListSelectors(['admin', 'project-management', 'project'])
@@ -19,6 +20,9 @@ const currentStore = {
 }
 
 describe('[STORE UTILS] Testing project selectors', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('should return the correct value', () => {
     assert.isNotNull(basicListSelectors)
   })

@@ -2,6 +2,7 @@
 * LICENSE_PLACEHOLDER
 **/
 import { assert } from 'chai'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import BasicPartitionReducers from '../../src/partition/BasicPartitionReducers'
 import BasicPartitionActions from '../../src/partition/BasicPartitionActions'
 import actionPayloadConverter from '../../src/partition/EntityListPartitionDataHandler'
@@ -14,6 +15,9 @@ const partitionReducer = new BasicPartitionReducers(partitionActions, actionPayl
 
 
 describe('[STORE UTILS] Testing partition reducer', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('should return the initial state', () => {
     assert.deepEqual(partitionReducer.reduce(undefined, {}), {}, 'Reducer should return an empty initial state')
   })

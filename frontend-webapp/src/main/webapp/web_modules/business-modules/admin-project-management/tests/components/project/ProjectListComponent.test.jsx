@@ -3,22 +3,16 @@
  */
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import { stub } from 'sinon'
 import { Table, TableRow } from 'material-ui/Table'
-import { IntlStub } from '@regardsoss/tests-helpers'
+import { testSuiteHelpers, IntlStub } from '@regardsoss/tests-helpers'
 import { CardActionsComponent } from '@regardsoss/components'
 import { ProjectListComponent } from '../../../src/components/project/ProjectListComponent'
 
 // Test a component rendering
 describe('[ADMIN PROJECT MANAGEMENT] Testing project list container', () => {
-  before(() => {
-    stub(console, 'error').callsFake((warning) => {
-      throw new Error(warning)
-    })
-  })
-  after(() => {
-    console.error.restore()
-  })
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('should exists', () => {
     assert.isDefined(ProjectListComponent)
   })

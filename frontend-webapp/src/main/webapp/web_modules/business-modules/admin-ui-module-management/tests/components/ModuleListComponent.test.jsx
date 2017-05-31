@@ -4,8 +4,8 @@
 import { shallow } from 'enzyme'
 import { assert, expect } from 'chai'
 import { TableBody, TableRow } from 'material-ui/Table'
-import { stub, spy } from 'sinon'
-import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import { spy } from 'sinon'
+import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import { HateoasIconAction, HateoasToggle } from '@regardsoss/display-control'
 import { ShowableAtRender } from '@regardsoss/components'
 import ModuleListComponent from '../../src/components/ModuleListComponent'
@@ -15,31 +15,11 @@ import ModuleListComponent from '../../src/components/ModuleListComponent'
  * @author Sébastien binda
  */
 describe('[ADMIN UI MODULE MANAGEMENT] Testing Modules list component', () => {
-  // Since react will console.error propType warnings, that which we'd rather have
-  // as errors, we use sinon.js to stub it into throwing these warning as errors
-  // instead.
-  before(() => {
-    stub(console, 'error').callsFake((warning) => {
-      throw new Error(warning)
-    })
-  })
-  after(() => {
-    console.error.restore()
-  })
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   const options = {
-    context: {
-      muiTheme: getMuiTheme({}),
-      intl: {
-        formatMessage: opt => opt.id,
-        formatTime: () => {},
-        formatDate: () => {},
-        formatRelative: () => {},
-        formatNumber: () => {},
-        now: () => {},
-        formatPlural: () => {},
-        formatHTMLMessage: () => {},
-      },
-    },
+    context: buildTestContext(),
   }
 
   const testModules = {

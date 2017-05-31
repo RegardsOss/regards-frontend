@@ -3,20 +3,15 @@
  */
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import { stub } from 'sinon'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { ProjectFormContainer } from '../../../src/containers/project/ProjectFormContainer'
 import ProjectFormComponent from '../../../src/components/project/ProjectFormComponent'
 
 // Test a component rendering
 describe('[ADMIN PROJECT MANAGEMENT] Testing form container', () => {
-  before(() => {
-    stub(console, 'error').callsFake((warning) => {
-      throw new Error(warning)
-    })
-  })
-  after(() => {
-    console.error.restore()
-  })
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('should exists', () => {
     assert.isDefined(ProjectFormContainer)
     assert.isDefined(ProjectFormComponent)

@@ -76,7 +76,6 @@ const messages = Object.assign({
   'dataset.stepper.plugins': 'Plugins',
   'dataset.stepper.uiServices': 'UI services',
 
-  'table.actions.more': 'More actions',
 }, Locales.en)
 
 export default messages

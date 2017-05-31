@@ -4,13 +4,16 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { Table } from 'material-ui/Table'
-import { IntlStub } from '@regardsoss/tests-helpers'
+import { IntlStub, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { ChartAdapter } from '@regardsoss/adapters'
 import StoragePluginCapacityComponent from '../../src/components/StoragePluginCapacityComponent'
 import styles from '../../src/styles/styles'
 import StorageCapacity from '../../src/helper/StorageCapacity'
 
 describe('[STORAGE PLUGINS MONITORING] Testing StoragePluginCapacityComponent', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('should exists', () => {
     assert.isDefined(StoragePluginCapacityComponent)
   })

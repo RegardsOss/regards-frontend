@@ -1,5 +1,6 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import EnumConnectivity from '@regardsoss/model/src/admin/EnumConnectivity'
 import { LoadingComponent } from '@regardsoss/display-control'
 import { FormEntityNotFoundComponent } from '@regardsoss/form-utils'
@@ -9,6 +10,9 @@ import ProjectConnectionFormComponent from '../../../src/components/projectConne
 // Test a component rendering
 describe(
   '[ADMIN PROJECT MANAGEMENT] Testing ProjectConnectionFormContainer', () => {
+    before(testSuiteHelpers.before)
+    after(testSuiteHelpers.after)
+
     it('should exists', () => {
       assert.isDefined(ProjectConnectionFormContainer)
     })

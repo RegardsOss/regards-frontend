@@ -3,7 +3,8 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { stub, spy } from 'sinon'
+import { spy } from 'sinon'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { UnconnectedAdminContainer } from '../../src/containers/AdminContainer'
 import FormTabsComponent from '../../src/components/admin/FormTabsComponent'
 import { DATASET_TYPE, DATASET_MODEL_TYPE } from '../../src/models/datasets/DatasetSelectionTypes'
@@ -13,17 +14,9 @@ import { DATASET_TYPE, DATASET_MODEL_TYPE } from '../../src/models/datasets/Data
  * @author Sébastien binda
  */
 describe('[SEARCH FORM] Testing Admin Container', () => {
-  // Since react will console.error propType warnings, that which we'd rather have
-  // as errors, we use sinon.js to stub it into throwing these warning as errors
-  // instead.
-  before(() => {
-    stub(console, 'error').callsFake((warning) => {
-      throw new Error(warning)
-    })
-  })
-  after(() => {
-    console.error.restore()
-  })
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('Create new configuration : Should fetch missings props', () => {
     const fetchDatasetsAttributesCallback = spy()
     const fetchAllModelsAttributesCallback = spy()

@@ -3,7 +3,8 @@
  **/
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import { stub, spy } from 'sinon'
+import { spy } from 'sinon'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { ApplicationThemeContainer } from '../../src/containers/ApplicationThemeContainer'
 import ApplicationThemeComponent from '../../src/components/ApplicationThemeComponent'
 
@@ -13,17 +14,9 @@ import ApplicationThemeComponent from '../../src/components/ApplicationThemeComp
  * @author Xavier-Alexandre Brochard
  */
 describe('[ADMIN UI THEME MANAGEMENT] Testing theme container', () => {
-  // Since react will console.error propType warnings, that which we'd rather have
-  // as errors, we use sinon.js to stub it into throwing these warning as errors
-  // instead.
-  before(() => {
-    stub(console, 'error').callsFake((warning) => {
-      throw new Error(warning)
-    })
-  })
-  after(() => {
-    console.error.restore()
-  })
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('should exists', () => {
     assert.isDefined(ApplicationThemeContainer)
     assert.isDefined(ApplicationThemeComponent)

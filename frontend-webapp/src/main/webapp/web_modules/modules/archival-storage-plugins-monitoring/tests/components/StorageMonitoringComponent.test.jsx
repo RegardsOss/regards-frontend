@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  */
 import { shallow } from 'enzyme'
-import { IntlStub } from '@regardsoss/tests-helpers'
+import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import { expect, assert } from 'chai'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import StorageMonitoringComponent from '../../src/components/StorageMonitoringComponent'
@@ -12,22 +12,16 @@ import StorageUnitScale from '../../src/helper/StorageUnit'
 
 
 describe('[STORAGE PLUGINS MONITORING] Testing StorageMonitoringComponent', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('should exists', () => {
     assert.isDefined(StorageMonitoringComponent)
   })
   // define context
   const context = {
     initScale: StorageUnitScale.bytesScale,
-    intl: IntlStub,
-    muiTheme: {
-      palette: {
-        textColor: {},
-        canvas: {},
-      },
-      appBar: {
-        textColor: {},
-      },
-    },
+    ...buildTestContext(),
   }
 
   it('should render storage plugins in nominal case, with parsing errors', () => {

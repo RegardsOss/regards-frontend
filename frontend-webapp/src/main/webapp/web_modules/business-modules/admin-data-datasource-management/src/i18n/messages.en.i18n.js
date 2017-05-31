@@ -15,8 +15,6 @@ const messages = Object.assign({
   'datasource.list.action.delete': 'Delete',
   'datasource.list.delete.title': 'Delete datasource {name} ?',
 
-  'table.actions.more': 'Plus d\'actions',
-
   'datasource.form.create.title': 'Create a new datasource',
   'datasource.form.create.subtitle': 'Please select which connection you want to use for this datasource',
   'datasource.form.create.action.cancel': 'Cancel',

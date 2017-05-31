@@ -266,7 +266,7 @@ export class AccessRightFormComponent extends React.Component {
   }
 
   render() {
-    const { submitting, invalid, currentAccessRight, pluginMetaDataList, pluginConfigurationList } = this.props
+    const { submitting, invalid, pluginMetaDataList, pluginConfigurationList } = this.props
     const { isDisplayPluginConf } = this.state
     return (
       <form onSubmit={this.props.handleSubmit(this.props.onSubmit)}>

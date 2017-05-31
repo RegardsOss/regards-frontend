@@ -2,6 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { assert, expect } from 'chai'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import Routes from '../src/router'
 import DatasetListContainer from '../src/containers/DatasetListContainer'
 import DatasetCreateOrPickDatasourceContainer from '../src/containers/DatasetCreateOrPickDatasourceContainer'
@@ -12,6 +13,9 @@ import DatasetEditUIServicesContainer from '../src/containers/DatasetEditUIServi
 
 
 describe('[ADMIN DATA DATASET MANAGEMENT] Testing router', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('should return the correct value', () => {
     assert.isDefined(Routes)
     expect(Routes.childRoutes).to.have.length(7)

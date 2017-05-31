@@ -44,7 +44,6 @@ const messages = Object.assign({
   'collection.list.action.edit': 'Editer',
   'collection.list.action.duplicate': 'Dupliquer',
   'collection.list.action.delete': 'Supprimer',
-  'table.actions.more': 'Plus d\'actions',
 }, Locales.fr)
 
 export default messages

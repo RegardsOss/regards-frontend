@@ -138,9 +138,21 @@ export class ProjectListComponent extends React.Component {
             >
               {map(modelList, (model, i) => (
                 <TableRow key={i}>
-                  <TableRowColumn>{model.content.name}</TableRowColumn>
-                  <TableRowColumn>{model.content.description}</TableRowColumn>
-                  <TableRowColumn>{this.getType(model.content.type)}</TableRowColumn>
+                  <TableRowColumn
+                    title={model.content.name}
+                  >
+                    {model.content.name}
+                  </TableRowColumn>
+                  <TableRowColumn
+                    title={model.content.description}
+                  >
+                    {model.content.description}
+                  </TableRowColumn>
+                  <TableRowColumn
+                    title={model.content.type}
+                  >
+                    {this.getType(model.content.type)}
+                  </TableRowColumn>
                   <TableRowColumn>
                     <ActionsMenuCell>
                       <HateoasIconAction

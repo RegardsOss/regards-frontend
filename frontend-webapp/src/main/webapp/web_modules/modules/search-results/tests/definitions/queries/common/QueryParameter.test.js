@@ -2,9 +2,13 @@
 * LICENSE_PLACEHOLDER
 **/
 import { assert } from 'chai'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import QueryParameter from '../../../../src/definitions/query/common/QueryParameter'
 
 describe('[Search Results] Testing Query parameter', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('Should display correctly in query', () => {
     const queryParameter = new QueryParameter('myName', 'myValue', '(.-.)')
     assert.equal(queryParameter.toQueryString(), 'myName(.-.)myValue', 'The parameter is not correctly displayed')

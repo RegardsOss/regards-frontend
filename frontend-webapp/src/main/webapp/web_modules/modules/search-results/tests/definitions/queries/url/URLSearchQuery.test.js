@@ -2,10 +2,14 @@
 * LICENSE_PLACEHOLDER
 **/
 import { assert } from 'chai'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import URLSearchQuery from '../../../../src/definitions/query/url/URLSearchQuery'
 import URLSearchQueryParameter from '../../../../src/definitions//query/url/URLSearchQueryParameter'
 
 describe('[Search Results] Testing URLSearchQuery', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('Should display correctly an empty query', () => {
     const query = new URLSearchQuery('', [])
     assert.equal(query.toQueryString(), '', 'The empty query result should be empty')

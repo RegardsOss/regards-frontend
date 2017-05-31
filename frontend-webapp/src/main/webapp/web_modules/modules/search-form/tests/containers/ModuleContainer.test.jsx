@@ -3,9 +3,8 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { stub, spy } from 'sinon'
-import getMuiTheme from 'material-ui/styles/getMuiTheme'
-import { IntlStub } from '@regardsoss/tests-helpers'
+import { spy } from 'sinon'
+import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import Styles from '../../src/styles/styles'
 import { UnconnectedModuleContainer } from '../../src/containers/ModuleContainer'
 import FormComponent from '../../src/components/user/FormComponent'
@@ -16,25 +15,10 @@ import { DATASET_TYPE } from '../../src/models/datasets/DatasetSelectionTypes'
  * @author Sébastien binda
  */
 describe('[SEARCH FORM] Testing User Container', () => {
-  // Since react will console.error propType warnings, that which we'd rather have
-  // as errors, we use sinon.js to stub it into throwing these warning as errors
-  // instead.
-  before(() => {
-    stub(console, 'error').callsFake((warning) => {
-      throw new Error(warning)
-    })
-  })
-  after(() => {
-    console.error.restore()
-  })
-  const muiTheme = getMuiTheme({})
-  const options = {
-    context: {
-      muiTheme,
-      moduleTheme: Styles(muiTheme),
-      intl: IntlStub,
-    },
-  }
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
+  const context = buildTestContext(Styles)
   it('Should fetch the model attributes before rendering the criterion plugins', () => {
     const fetchAttributeCallback = spy()
 
@@ -89,7 +73,7 @@ describe('[SEARCH FORM] Testing User Container', () => {
     const wrapper = shallow(
       <UnconnectedModuleContainer
         {...props}
-      />, options,
+      />, { context },
     )
 
     assert.equal(fetchAttributeCallback.callCount, 3, 'There sould be 3 attributes to fetch')

@@ -4,6 +4,7 @@
 import configureStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import { assert } from 'chai'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import BasicPartitionActions from '../../src/partition/BasicPartitionActions'
 
 
@@ -22,6 +23,9 @@ function dispatchAndCheck(action, expectedAction, store) {
 }
 
 describe('[STORE UTILS] Test partition actions', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
   it('It should dispatch loading start', () => {
     const expectedAction = {
       type: partitionActions.DATA_LOADING_START,
