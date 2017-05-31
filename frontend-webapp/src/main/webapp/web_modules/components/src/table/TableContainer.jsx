@@ -99,6 +99,9 @@ class TableContainer extends React.Component {
     // from map dispatch to props
     // page
     fetchEntities: PropTypes.func.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
+    flushEntities: PropTypes.func.isRequired,
+
     // selection
     toggleRowSelection: PropTypes.func.isRequired,
     dispatchSelectAll: PropTypes.func.isRequired,
