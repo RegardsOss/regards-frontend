@@ -139,7 +139,9 @@ describe('[Entities Common] Testing DetailViewContainer', () => {
           ipId: 'Bonjourlespetitsenfants',
           label: 'ça',
           model: { id: 0 },
-          descriptionURL: 'http://www.google.com',
+          descriptionFile: {
+            url: 'http://www.google.com'
+          },
         },
       },
     }
@@ -162,7 +164,9 @@ describe('[Entities Common] Testing DetailViewContainer', () => {
           ipId: 'Bonjourlespetitsenfants',
           label: 'ça',
           model: { id: 1 },
-          descriptionURL: 'http://www.macron.c.con',
+          descriptionFile: {
+            url: 'http://www.macron.c.con',
+          }
         },
       },
     }

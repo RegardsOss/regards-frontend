@@ -84,8 +84,7 @@
     "promise/avoid-new": 0,
     // We do not always return a promise on react component since most of the time nobody consumes them
     "promise/catch-or-return": 0,
-    "promise/always-return": 0,
-    "promise/no-nesting": 0
+    "promise/always-return": 0
   },
   "plugins": [
     "react",
