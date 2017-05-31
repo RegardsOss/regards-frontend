@@ -93,7 +93,7 @@ describe(
           project_connection_id: '0',
         },
         fetchProject: () => {},
-        fetchProjectConnection: () => {},
+        fetchProjectConnections: () => {},
         projectConnection: undefined,
         projectIsFetching: false,
         projectConnectionsIsFetching: false,

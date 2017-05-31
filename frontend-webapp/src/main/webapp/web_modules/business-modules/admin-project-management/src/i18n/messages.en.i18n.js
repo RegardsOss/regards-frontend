@@ -49,6 +49,7 @@ const messages = Object.assign({
   'project.connection.is.configured': 'Valid',
   'project.connection.is.not.valid': 'Not valid',
   'project.connection.is.not.configured': 'Not configured',
+  'project.connection.form.error.server': 'Error sending new connection for project',
 
   'database.connectionTester.start': 'Test',
   'database.connectionTester.restart': 'Restart',
@@ -72,6 +73,7 @@ const messages = Object.assign({
   'database.form.action.next': 'Next',
   'database.form.action.previous': 'Previous',
   'database.form.action.cancel': 'Cancel',
+  'database.form.input.cange.configuration.mode': 'Use this configuration for all microservices of the project',
 }, Locales.en)
 
 export default messages

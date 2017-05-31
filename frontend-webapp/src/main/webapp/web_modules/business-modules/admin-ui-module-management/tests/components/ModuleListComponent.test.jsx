@@ -3,10 +3,11 @@
  **/
 import { shallow } from 'enzyme'
 import { assert, expect } from 'chai'
+import keys from 'lodash/keys'
 import { TableBody, TableRow } from 'material-ui/Table'
 import { spy } from 'sinon'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
-import { HateoasIconAction, HateoasToggle } from '@regardsoss/display-control'
+import { HateoasIconAction, ResourceIconAction, HateoasToggle } from '@regardsoss/display-control'
 import { ShowableAtRender } from '@regardsoss/components'
 import ModuleListComponent from '../../src/components/ModuleListComponent'
 
@@ -99,18 +100,22 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Modules list component', () => {
       , options)
 
 
+    const numberOfHateoasIconByModule = 2
+    const numberOfResourceIconByModule = 1
     const buttons = wrapper.find(TableBody).find(TableRow).find(HateoasIconAction)
-    assert.lengthOf(buttons, 9, 'There should be 9 buttons available in the module form page')
+    assert.lengthOf(buttons, keys(testModules).length * numberOfHateoasIconByModule, `There should be ${keys(testModules).length * numberOfHateoasIconByModule} HateoasIconAction buttons available in the module form page`)
+    const rbuttons = wrapper.find(TableBody).find(TableRow).find(ResourceIconAction)
+    assert.lengthOf(rbuttons, keys(testModules).length * numberOfResourceIconByModule, `There should be ${keys(testModules).length * numberOfResourceIconByModule} ResourceIconAction buttons available in the module form page`)
 
     const editButton = buttons.first()
     editButton.simulate('touchTap')
     assert.isTrue(onEditCallback.calledOnce, 'After click on the edit button, the edit callback function should be called')
 
-    const duplicateButton = buttons.at(1)
+    const duplicateButton = rbuttons.at(0)
     duplicateButton.simulate('touchTap')
     assert.isTrue(onDuplicateCallBack.calledOnce, 'After click on the duplicate button, the duplicate callback function should be called')
 
-    const deleteButton = buttons.at(2)
+    const deleteButton = buttons.at(1)
     assert.isDefined(deleteButton)
     assert.equal(wrapper.find(ShowableAtRender).prop('show'), false, 'Confirm dialog should not be displayed')
     deleteButton.simulate('touchTap')

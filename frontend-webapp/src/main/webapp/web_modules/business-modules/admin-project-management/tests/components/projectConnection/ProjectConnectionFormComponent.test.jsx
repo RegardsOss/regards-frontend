@@ -25,6 +25,7 @@ const props = {
     },
     links: [],
   },
+  configureOneForAll: false,
   onUpdate: () => {},
   onSubmit: () => {},
   onCancel: () => {},
