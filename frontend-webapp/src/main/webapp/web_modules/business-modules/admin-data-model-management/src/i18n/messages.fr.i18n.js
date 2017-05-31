@@ -33,7 +33,6 @@ const messages = Object.assign({
   'model.form.action.submit': 'Sauvegarder',
   'invalid.too_short': 'Minimun 3 caractères',
 
-  'table.actions.more': 'Plus d\'actions',
 }, Locales.fr)
 
 export default messages

@@ -15,8 +15,6 @@ const messages = Object.assign({
   'datasource.list.action.delete': 'Supprimer',
   'datasource.list.delete.title': 'Supprimer la source de données {name} ?',
 
-  'table.actions.more': 'Plus d\'actions',
-
   'datasource.form.create.title': 'Création d\'une source de données',
   'datasource.form.create.subtitle': 'Veuillez sélectionner à partir de quelle connexion vous souhaitez créer la source de données',
   'datasource.form.create.action.cancel': 'Annuler',

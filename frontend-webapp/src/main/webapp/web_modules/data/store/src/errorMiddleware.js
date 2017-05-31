@@ -14,10 +14,10 @@ function isSilentError(action) {
 }
 
 /**
- * Computes silent errors (to not be logged): 
- * @param {*} actionMeta 
+ * Computes silent errors (to not be logged):
+ * @param {*} actionMeta
  */
-//const isSilentError = actionMeta => actionMeta && ()
+// const isSilentError = actionMeta => actionMeta && ()
 
 export default store => next => (action) => {
   if (action.error && !isSilentError(action)) {

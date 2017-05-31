@@ -36,7 +36,7 @@ export class AuthenticationFormContainer extends React.Component {
 
   /** I18N injection */
   static contextTypes = {
-    ...i18nContextType
+    ...i18nContextType,
   }
 
 

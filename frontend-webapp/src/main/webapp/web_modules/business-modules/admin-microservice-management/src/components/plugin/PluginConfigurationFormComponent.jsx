@@ -1,6 +1,8 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import forEach from 'lodash/forEach'
+import cloneDeep from 'lodash/cloneDeep'
 import { FormattedMessage } from 'react-intl'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent } from '@regardsoss/components'
@@ -98,8 +100,14 @@ export class PluginConfigurationFormComponent extends React.Component {
         }
         break
       case 'copy':
-        initialValues = Object.assign({}, currentPluginConfiguration && currentPluginConfiguration.content)
+        // Deep copy pluginConfiguration
+        initialValues = cloneDeep(currentPluginConfiguration.content)
+        // In copy mode remove id of the duplicated pluginConfiguration
         initialValues.id = undefined
+        // In copy mode remove id of each pluginParameters
+        if (initialValues.parameters && initialValues.parameters.length > 0) {
+          forEach(initialValues.parameters, (parameter, key) => { initialValues.parameters[key].id = undefined })
+        }
         break
       default:
         break
@@ -177,6 +185,7 @@ export class PluginConfigurationFormComponent extends React.Component {
                 type="boolean"
                 style={styles.pluginConfiguration.form.toggle}
                 label={this.context.intl.formatMessage({ id: 'microservice-management.plugin.configuration.form.active' })}
+                defaultToggled={currentPluginConfiguration ? currentPluginConfiguration.content.active : true}
               />
             </CardText>
           </Card>

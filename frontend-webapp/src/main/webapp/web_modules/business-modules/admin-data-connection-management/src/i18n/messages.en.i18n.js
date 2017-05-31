@@ -34,9 +34,6 @@ const messages = Object.assign({
   'connection.list.action.delete': 'Delete',
   'connection.list.delete.title': 'Delete the connection {name} ?',
 
-  'table.actions.more': 'Plus d\'actions',
-
-
   'database.connectionTester.start': 'Vérifier la connexion',
   'connection.connectionTester.snackbar.success': 'La connexion à {label} est fonctionnelle',
   'connection.connectionTester.snackbar.error': 'La connexion à {label} a échouée',
