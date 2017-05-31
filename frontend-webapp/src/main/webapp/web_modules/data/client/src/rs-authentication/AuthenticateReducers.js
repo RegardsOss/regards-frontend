@@ -2,6 +2,7 @@
  * LICENSE_PLACEHOLDER
  */
 import { BasicSignalReducers } from '@regardsoss/store-utils'
+import get from 'lodash/get'
 import AuthenticateActions from './AuthenticateActions'
 
 class AuthenticateReducers extends BasicSignalReducers {
@@ -28,10 +29,8 @@ class AuthenticateReducers extends BasicSignalReducers {
         }
       // keep login error
       case this.basicSignalActionInstance.SIGNAL_FAILURE: {
-        const errorType = action.payload && action.payload.response && action.payload.response.additionalInformation &&
-          action.payload.response.additionalInformation.error ? action.payload.response.additionalInformation.error : 'UNKNOWN_ERROR'
-        const errorMessage = action.payload && action.payload.response && action.payload.response.detailMessage ?
-          action.payload.response.detailMessage : 'UNKNOWN_ERROR'
+        const errorType = get(action, 'payload.response.additionalInformation.error', 'UNKNOWN_ERROR')
+        const errorMessage = get(action, 'payload.response.detailMessage', 'UNKNOWN_ERROR')
         return {
           ...newState,
           sessionLocked: state ? state.sessionLocked : false,
