@@ -81,7 +81,7 @@ export default class PluginConfigurationListComponent extends React.Component {
       <I18nProvider messageDir="business-modules/admin-microservice-management/src/i18n">
         <Paper>
           <AppBar
-            title={`${microserviceName} > Plugins > ${pluginMetaData && pluginMetaData.content.pluginClassName}`}
+            title={`${microserviceName} > Plugins > ${pluginMetaData && pluginMetaData.content.pluginId}`}
             iconElementLeft={<IconButton onTouchTap={this.props.handleBackClick}><ArrowBack /></IconButton>}
             iconElementRight={
               <ResourceIconAction
