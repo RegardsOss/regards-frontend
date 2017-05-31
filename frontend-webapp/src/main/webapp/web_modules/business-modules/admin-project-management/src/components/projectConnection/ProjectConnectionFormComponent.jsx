@@ -2,7 +2,6 @@
  * LICENSE_PLACEHOLDER
  */
 import keys from 'lodash/keys'
-import { FormattedMessage } from 'react-intl'
 import Checkbox from 'material-ui/Checkbox'
 import { Project } from '@regardsoss/model'
 import { themeContextType } from '@regardsoss/theme'
@@ -36,8 +35,8 @@ export class ProjectConnectionFormComponent extends React.Component {
     onNext: PropTypes.func,
     // from reduxForm
     submitting: PropTypes.bool,
-    handleSubmit: PropTypes.func.isRequired,
-    initialize: PropTypes.func.isRequired,
+    handleSubmit: PropTypes.func,
+    initialize: PropTypes.func,
     invalid: PropTypes.bool,
     pristine: PropTypes.bool,
   }
@@ -93,8 +92,9 @@ export class ProjectConnectionFormComponent extends React.Component {
 
   renderCancelButton = () => {
     if (this.props.onCancel) {
-      const cancelLabel = this.props.isStep ? <FormattedMessage id="database.form.action.previous" /> :
-      <FormattedMessage id="database.form.action.cancel" />
+      const cancelLabel = this.props.isStep && !this.props.configureOneForAll ?
+        this.context.intl.formatMessage({ id: 'database.form.action.previous' }) :
+        this.context.intl.formatMessage({ id: 'database.form.action.cancel' })
       return (<SecondaryActionButtonComponent
         label={cancelLabel}
         onTouchTap={this.props.onCancel}
@@ -104,8 +104,10 @@ export class ProjectConnectionFormComponent extends React.Component {
   }
 
   render() {
-    const label = this.props.isStep ? <FormattedMessage id="database.form.action.next" /> :
-    <FormattedMessage id="database.form.action.save" />
+    const label = this.props.isStep && !this.props.configureOneForAll ?
+      this.context.intl.formatMessage({ id: 'database.form.action.next' }) :
+      this.context.intl.formatMessage({ id: 'database.form.action.save' })
+
     const submitAction = this.props.projectConnection && !this.props.configureOneForAll ? this.updateProjectConnection : this.createProjectConnection
     return (
       <form
@@ -129,6 +131,7 @@ export class ProjectConnectionFormComponent extends React.Component {
           component={RenderTextField}
           type="text"
           label={this.context.intl.formatMessage({ id: 'database.form.input.url' })}
+          hintText={'jdbc:postgresql://serveur:port/databasename'}
         />
         <Field
           name="userName"
@@ -163,7 +166,6 @@ export class ProjectConnectionFormComponent extends React.Component {
         </div>
       </form>
     )
-    // TODO : <DatabaseConnectionTester projectConnection={this.props.projectConnection}/>
   }
 }
 

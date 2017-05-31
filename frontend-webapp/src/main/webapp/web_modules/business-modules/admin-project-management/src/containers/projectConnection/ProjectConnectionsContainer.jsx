@@ -15,12 +15,21 @@ import { FormEntityNotFoundComponent } from '@regardsoss/form-utils'
 import { projectActions, projectSelectors } from '../../client/ProjectClient'
 import { projectConnectionActions, projectConnectionSelectors } from '../../client/ProjectConnectionClient'
 import ProjectConnectionFormComponent from '../../components/projectConnection/ProjectConnectionFormComponent'
+import GuidedProjectConfigurationComponent from '../../components/projectConnection/GuidedProjectConfigurationComponent'
 
 /**
- * React container to display an editing/creating ProjectConnection form component
+ * Container to manage project connection for each microservices.
+ * This container is used to render two differents components :
+ * - GuidedProjectConfigurationComponent : A stepper to configure one by one each connection to each microservice
+ * - ProjectConnectionFormComponent : A simple form to configure one connection to one microservice
+ *
+ * The two component can handle an option <configureOneForAll> to apply the configuration to all connections at one time.
+ * This mode is used to use the same connection for all microservices.
+ *
+ * @author Xavier-Alexandre Brochard
  * @author Sébastien Binda
  */
-export class ProjectConnectionFormContainer extends React.Component {
+export class ProjectConnectionsContainer extends React.Component {
 
   static propTypes = {
     // from router
@@ -45,15 +54,15 @@ export class ProjectConnectionFormContainer extends React.Component {
   }
 
   state = {
-    configureOneForAll: false,
+    // Set default mode to configureOneForAll OFF for Simple Form rendering
+    // Set default mode to configureOneForAll ON for Guided rendering
+    configureOneForAll: !(this.props.params.project_connection_id || this.props.params.microservice_name),
     errorMessage: null,
   }
 
-  componentWillMount() {
-    // Editing mode, retrieve the connectio to edit if it is not already in the store.
-    if (this.props.params.project_connection_id && !this.props.projectConnection) {
-      this.props.fetchProjectConnections(this.props.params.project_name)
-    }
+  componentDidMount() {
+    // Retrieve all connections for the given project
+    this.props.fetchProjectConnections(this.props.params.project_name)
 
     // Retrieve project if not already in store.
     if (!this.props.project) {
@@ -61,13 +70,23 @@ export class ProjectConnectionFormContainer extends React.Component {
     }
   }
 
+  /**
+   * Callback used to swith mode of option <configureOneForAll>.
+   * This option allow to apply a connection configuration to all connections of the project
+   */
   onChangeConfigurationMode = () => {
     this.setState({
       configureOneForAll: !this.state.configureOneForAll,
     })
   }
 
-  onCreate = (projectConnection) => {
+  /**
+   * Method to create a new connection.
+   * If the <configureOneForAll> is on, the same configuration is applied to all microservices.
+   *
+   * @param projectConnection
+   */
+  onCreate = (projectConnection, successCallBack) => {
     if (this.state.configureOneForAll) {
       this.onCreateAll(projectConnection)
     } else {
@@ -75,7 +94,11 @@ export class ProjectConnectionFormContainer extends React.Component {
         .then((actionResult) => {
           // We receive here the action
           if (!actionResult.error) {
-            this.handleBack()
+            if (successCallBack) {
+              successCallBack()
+            } else {
+              this.handleBack()
+            }
           } else {
             this.setState({
               errorMessage: this.context.intl.formatMessage({ id: 'project.connection.form.error.server' }),
@@ -103,7 +126,7 @@ export class ProjectConnectionFormContainer extends React.Component {
         // Update connection
         return this.props.updateProjectConnection(connection.id, connection, this.props.project.content.name)
       }
-        // Save new connection
+      // Save new connection
       return this.props.createProjectConnection(connection, this.props.project.content.name)
     })
     Promise.all(actions).then(
@@ -120,7 +143,13 @@ export class ProjectConnectionFormContainer extends React.Component {
     )
   }
 
-  onUpdate = (id, projectConnection) => {
+  /**
+   * Method to update an existing connection.
+   * If the <configureOneForAll> is on, the same configuration is applied to all microservices.
+   *
+   * @param projectConnection
+   */
+  onUpdate = (id, projectConnection, successCallBack) => {
     if (this.state.configureOneForAll) {
       this.onCreateAll(projectConnection)
     } else {
@@ -128,7 +157,11 @@ export class ProjectConnectionFormContainer extends React.Component {
         .then((actionResult) => {
           // We receive here the action
           if (!actionResult.error) {
-            this.handleBack()
+            if (successCallBack) {
+              successCallBack()
+            } else {
+              this.handleBack()
+            }
           } else {
             this.setState({
               errorMessage: this.context.intl.formatMessage({ id: 'project.connection.form.error.server' }),
@@ -138,11 +171,48 @@ export class ProjectConnectionFormContainer extends React.Component {
     }
   }
 
+  /**
+   * Callback for submit success. Return to the list of connections.
+   */
   handleBack = () => {
     browserHistory.push(`/admin/projects/${this.props.params.project_name}/connections`)
   }
 
-  render() {
+  /**
+   * Return a form with guided step to configure all microservices
+   * @returns {XML}
+   */
+  renderGuidedForm() {
+    const { projectConnections } = this.props
+
+    if (this.props.projectIsFetching || this.props.projectConnectionsIsFetching) {
+      return <LoadingComponent />
+    }
+
+    if (!this.props.project) {
+      return <FormEntityNotFoundComponent />
+    }
+
+    return (
+      <I18nProvider messageDir="business-modules/admin-project-management/src/i18n">
+        <GuidedProjectConfigurationComponent
+          project={this.props.project}
+          projectConnections={projectConnections}
+          configureOneForAll={this.state.configureOneForAll}
+          errorMessage={this.state.errorMessage}
+          onCreate={this.onCreate}
+          onUpdate={this.onUpdate}
+          onChangeConfigurationMode={this.onChangeConfigurationMode}
+        />
+      </I18nProvider>
+    )
+  }
+
+  /**
+   * Render a form to edit a microservices connection
+   * @returns {XML}
+   */
+  renderSimpleForm() {
     const microservice = this.props.projectConnection ?
       this.props.projectConnection.content.microservice : this.props.params.microservice_name
 
@@ -171,7 +241,7 @@ export class ProjectConnectionFormContainer extends React.Component {
               project={this.props.project}
               microservice={microservice}
               projectConnection={this.props.projectConnection}
-              configureOnForAll={this.state.configureOneForAll}
+              configureOneForAll={this.state.configureOneForAll}
               errorMessage={this.state.errorMessage}
               onUpdate={this.onUpdate}
               onCreate={this.onCreate}
@@ -182,6 +252,16 @@ export class ProjectConnectionFormContainer extends React.Component {
         </Card>
       </I18nProvider>
     )
+  }
+
+  render() {
+    // If create mode : the microservice_name is passed in the router params
+    // If edition mode : the project_connection_id to edit is passed in the router params
+    if (this.props.params.project_connection_id || this.props.params.microservice_name) {
+      return this.renderSimpleForm()
+    }
+      // Else, guided mode, to edit all connection at a time.
+    return this.renderGuidedForm()
   }
 
 }
@@ -208,4 +288,4 @@ const mapDispatchToProps = dispatch => ({
   fetchProject: projectName => dispatch(projectActions.fetchEntity(projectName)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProjectConnectionFormContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(ProjectConnectionsContainer)

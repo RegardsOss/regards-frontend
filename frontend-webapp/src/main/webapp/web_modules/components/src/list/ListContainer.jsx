@@ -3,7 +3,8 @@
  **/
 import map from 'lodash/map'
 import merge from 'lodash/merge'
-import findIndex from 'lodash/findIndex'
+import some from 'lodash/some'
+import isString from 'lodash/isString'
 import { connect } from '@regardsoss/redux'
 import { BasicListSelectors, BasicListActions } from '@regardsoss/store-utils'
 import TextField from 'material-ui/TextField'
@@ -105,7 +106,7 @@ class ListContainer extends React.Component {
           onUnselecteddAll={this.props.onUnselectAll}
           onReset={this.onReset}
         />
-        <ShowableAtRender show={typeof this.props.searchIdentifier === 'string'}>
+        <ShowableAtRender show={isString(this.props.searchIdentifier)}>
           <TextField
             name="searchfield"
             onChange={this.onSearchUpdate}
@@ -116,9 +117,7 @@ class ListContainer extends React.Component {
         </ShowableAtRender>
         <div>
           {map(this.props.entities, (entity) => {
-            const selected = findIndex(this.props.selectedEntities,
-                selectedEntity => selectedEntity[this.props.entityIdentifier] === entity.content[this.props.entityIdentifier],
-              ) >= 0
+            const selected = some(this.props.selectedEntities, selectedEntity => selectedEntity[this.props.entityIdentifier] === entity.content[this.props.entityIdentifier])
             return (
               <LineComponent
                 key={entity.content[this.props.entityIdentifier]}

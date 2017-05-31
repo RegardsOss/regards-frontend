@@ -18,7 +18,7 @@ export class ResourceAccessFormByMicroserviceContainer extends React.Component {
   static propTypes = {
     microserviceName: PropTypes.string.isRequired,
     currentRole: Role,
-    resourceRoles: PropTypes.arrayOf(Role),
+    resourceRoles: PropTypes.objectOf(Role),
     roleResources: PropTypes.arrayOf(Resource),
     editRoleResources: PropTypes.func.isRequired,
     // from mapStateToProps

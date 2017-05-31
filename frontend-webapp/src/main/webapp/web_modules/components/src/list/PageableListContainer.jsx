@@ -3,10 +3,13 @@
  **/
 import Infinite from 'react-infinite'
 import map from 'lodash/map'
+import values from 'lodash/values'
 import merge from 'lodash/merge'
 import concat from 'lodash/concat'
 import forEach from 'lodash/forEach'
 import findIndex from 'lodash/findIndex'
+import some from 'lodash/some'
+import isString from 'lodash/isString'
 import debounce from 'lodash/debounce'
 import RefreshIndicator from 'material-ui/RefreshIndicator'
 import { connect } from '@regardsoss/redux'
@@ -88,8 +91,7 @@ class PageableListContainer extends React.Component {
    */
   componentWillReceiveProps(nextProps) {
     if (nextProps.entitiesFetching === false && this.props.entitiesFetching === true) {
-      const newEntities = []
-      forEach(nextProps.entities, entity => newEntities.push(entity))
+      const newEntities = values(nextProps.entities)
       const newStateEntities = concat([], this.state.loadedEntities, newEntities)
       this.setState({
         loadedEntities: newStateEntities,
@@ -190,7 +192,7 @@ class PageableListContainer extends React.Component {
           onUnselecteddAll={this.props.onUnselectAll}
           onReset={this.onReset}
         />
-        <ShowableAtRender show={typeof this.props.searchIdentifier === 'string'}>
+        <ShowableAtRender show={isString(this.props.searchIdentifier)}>
           <TextField
             name="searchfield"
             onChange={this.onSearchUpdate}
@@ -208,9 +210,9 @@ class PageableListContainer extends React.Component {
           isInfiniteLoading={this.props.entitiesFetching}
         >
           {map(this.state.loadedEntities, (entity) => {
-            const selected = findIndex(this.props.selectedEntities,
-                selectedEntity => selectedEntity[this.props.entityIdentifier] === entity.content[this.props.entityIdentifier],
-              ) >= 0
+            const selected = some(this.props.selectedEntities,
+              selectedEntity => selectedEntity[this.props.entityIdentifier] === entity.content[this.props.entityIdentifier],
+            )
             return (
               <LineComponent
                 key={entity.content[this.props.entityIdentifier]}

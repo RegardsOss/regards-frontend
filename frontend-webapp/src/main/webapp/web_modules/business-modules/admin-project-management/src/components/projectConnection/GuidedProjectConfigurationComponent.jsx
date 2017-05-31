@@ -43,6 +43,22 @@ class GuidedProjectConfigurationComponent extends React.Component {
     stepIndex: 0,
   }
 
+  /**
+   * Add the successCallBack to the step create method to pass to the next step
+   * @param projectConnection
+   */
+  onStepCreate = (projectConnection) => {
+    this.props.onCreate(projectConnection, this.handleNext)
+  }
+
+  /**
+   * Add the successCallBack to the step update method to pass to the next step
+   * @param projectConnection
+   */
+  onStepUpdate = (id, projectConnection) => {
+    this.props.onUpdate(id, projectConnection, this.handleNext)
+  }
+
   getConnectivityIcon = (connectivity) => {
     switch (connectivity) {
       case EnumConnectivity.SUCCESS:
@@ -145,8 +161,8 @@ class GuidedProjectConfigurationComponent extends React.Component {
                   projectConnection={projectConnection}
                   configureOneForAll={this.props.configureOneForAll}
                   errorMessage={this.props.errorMessage}
-                  onCreate={this.onCreate}
-                  onUpdate={this.onUpdate}
+                  onCreate={this.onStepCreate}
+                  onUpdate={this.onStepUpdate}
                   onNext={this.handleNext}
                   onCancel={key > 0 ? this.handlePrev : null}
                   onChangeConfigurationMode={this.props.onChangeConfigurationMode}

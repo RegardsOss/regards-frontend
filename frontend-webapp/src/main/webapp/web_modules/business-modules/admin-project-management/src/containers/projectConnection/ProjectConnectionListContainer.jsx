@@ -36,7 +36,7 @@ export class ProjectConnectionListContainer extends React.Component {
     testProjectConnection: PropTypes.func,
   }
 
-  componentWillMount() {
+  componentDidMount() {
     if (keys(this.props.fetchProjectConnections).length === 0) {
       this.props.fetchProjectConnections(this.props.params.project_name)
     }
@@ -82,7 +82,7 @@ export class ProjectConnectionListContainer extends React.Component {
           isLoading={this.props.projectIsFetching || this.props.projectConnectionsIsFetching}
           isContentError={!this.props.project}
         >
-          <ProjectConnectionListComponent
+          {this.props.project ? <ProjectConnectionListComponent
             key={`project-connections-${this.props.project}`}
             project={this.props.project}
             projectConnections={projectConnections}
@@ -91,7 +91,7 @@ export class ProjectConnectionListContainer extends React.Component {
             onCreate={this.handleCreate}
             onTestConnection={this.handleTestConnection}
             refreshConnection={this.handleRefreshConnection}
-          />
+          /> : null}
         </LoadableContentDisplayDecorator>
       </I18nProvider>
     )

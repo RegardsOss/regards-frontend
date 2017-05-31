@@ -2,6 +2,7 @@ import map from 'lodash/map'
 import MenuItem from 'material-ui/MenuItem'
 import DropDownMenu from 'material-ui/DropDownMenu'
 import { FormattedHTMLMessage } from 'react-intl'
+import i18nContextType from '../contextType'
 import '../FR.png'
 import '../GB.png'
 
@@ -10,10 +11,15 @@ import '../GB.png'
  * @author Sébastien Binda
  */
 class SelectLocaleComponent extends React.Component {
+
   static propTypes = {
     locales: PropTypes.arrayOf(PropTypes.string).isRequired,
     currentLocale: PropTypes.string,
     handleLocaleChange: PropTypes.func,
+  }
+
+  static contextTypes = {
+    ...i18nContextType,
   }
 
   render() {
