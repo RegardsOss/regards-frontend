@@ -31,7 +31,7 @@ class renderTextField extends React.Component {
 
     return (
       <TextField
-        hintText={hintText ? hintText : label}
+        hintText={hintText || label}
         floatingLabelText={label}
         errorText={errorMessage}
         {...input}

@@ -54,7 +54,9 @@ export class ProjectConnectionsContainer extends React.Component {
   }
 
   state = {
-    configureOneForAll: false,
+    // Set default mode to configureOneForAll OFF for Simple Form rendering
+    // Set default mode to configureOneForAll ON for Guided rendering
+    configureOneForAll: !(this.props.params.project_connection_id || this.props.params.microservice_name),
     errorMessage: null,
   }
 
@@ -65,14 +67,6 @@ export class ProjectConnectionsContainer extends React.Component {
     // Retrieve project if not already in store.
     if (!this.props.project) {
       this.props.fetchProject(this.props.params.project_name)
-    }
-
-    if (this.props.params.project_connection_id || this.props.params.microservice_name) {
-      // Set default mode to configureOneForAll OFF for Simple Form rendering
-      this.setState({ configureOneForAll: false })
-    } else {
-      // Set default mode to configureOneForAll ON for Guided rendering
-      this.setState({ configureOneForAll: true })
     }
   }
 

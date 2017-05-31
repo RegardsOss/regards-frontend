@@ -43,6 +43,22 @@ class GuidedProjectConfigurationComponent extends React.Component {
     stepIndex: 0,
   }
 
+  /**
+   * Add the successCallBack to the step create method to pass to the next step
+   * @param projectConnection
+   */
+  onStepCreate = (projectConnection) => {
+    this.props.onCreate(projectConnection, this.handleNext)
+  }
+
+  /**
+   * Add the successCallBack to the step update method to pass to the next step
+   * @param projectConnection
+   */
+  onStepUpdate = (id, projectConnection) => {
+    this.props.onUpdate(id, projectConnection, this.handleNext)
+  }
+
   getConnectivityIcon = (connectivity) => {
     switch (connectivity) {
       case EnumConnectivity.SUCCESS:
@@ -102,22 +118,6 @@ class GuidedProjectConfigurationComponent extends React.Component {
   }
 
   isFinished = () => this.state.stepIndex >= STATIC_CONFIGURATION.microservices.length
-
-  /**
-   * Add the successCallBack to the step create method to pass to the next step
-   * @param projectConnection
-   */
-  onStepCreate = (projectConnection) => {
-    this.props.onCreate(projectConnection, this.handleNext)
-  }
-
-  /**
-   * Add the successCallBack to the step update method to pass to the next step
-   * @param projectConnection
-   */
-  onStepUpdate = (id, projectConnection) => {
-    this.props.onUpdate(id, projectConnection, this.handleNext)
-  }
 
   renderConfigurationOnForAllConnections = () => {
     const firstMicroservice = STATIC_CONFIGURATION.microservices[0]

@@ -2,7 +2,6 @@
  * LICENSE_PLACEHOLDER
  */
 import keys from 'lodash/keys'
-import { FormattedMessage } from 'react-intl'
 import Checkbox from 'material-ui/Checkbox'
 import { Project } from '@regardsoss/model'
 import { themeContextType } from '@regardsoss/theme'
