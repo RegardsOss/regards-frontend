@@ -2,8 +2,12 @@ import { shallow } from 'enzyme'
 import { expect } from 'chai'
 import * as sinon from 'sinon'
 import MenuItem from 'material-ui/MenuItem'
-import { testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import SelectLocaleComponent from '../../src/components/SelectLocaleComponent'
+
+const options = {
+  context: buildTestContext()
+}
 
 /**
  * Test a components rendering
@@ -36,7 +40,7 @@ describe('[COMMON] Testing i18n Select Locale components', () => {
       },
     }
 
-    const wrapper = shallow(<SelectLocaleComponent {...props} />, { context })
+    const wrapper = shallow(<SelectLocaleComponent {...props} />, options)
     expect(wrapper.find(MenuItem)).to.have.length(4)
   })
 })
