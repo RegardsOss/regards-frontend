@@ -82,7 +82,7 @@ module.exports = {
     "eslint:recommended",
     "airbnb",
     "plugin:react/recommended",
-    "plugin:react-perf/all",
+    "plugin:react-perf/recommended",
     "plugin:lodash/recommended",
     "plugin:promise/recommended"
   ],
