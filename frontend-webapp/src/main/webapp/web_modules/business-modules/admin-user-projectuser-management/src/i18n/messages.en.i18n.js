@@ -7,6 +7,7 @@ const messages = {
   'projectUser.list.table.role': 'Role',
   'projectUser.list.table.email': 'E-mail',
   'projectUser.list.table.status': 'Status',
+  'projectUser.list.table.status.label.WAITING_ACCOUNT_ACTIVE': 'Waiting instance validation',
   'projectUser.list.table.status.label.WAITING_ACCESS': 'Waiting project access',
   'projectUser.list.table.status.label.ACCESS_GRANTED': 'Project access granted',
   'projectUser.list.table.status.label.ACCESS_DENIED': 'Project access denied',

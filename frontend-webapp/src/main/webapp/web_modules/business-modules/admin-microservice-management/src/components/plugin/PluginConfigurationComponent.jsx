@@ -91,7 +91,7 @@ class PluginConfigurationComponent extends React.Component {
               <span style={styles.version}>{pluginConfiguration.content.version}</span>
             </div>
             <div style={styles.buttonsGroupWrapper}>
-              <span style={styles.version}><FormattedMessage
+              <span style={styles.version}>Version <FormattedMessage
                 id="microservice-management.plugin.configuration.priorityOrder"
               /> {pluginConfiguration.content.priorityOrder}</span>
               <HateoasIconAction

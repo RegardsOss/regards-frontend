@@ -103,7 +103,7 @@ export class PluginConfigurationFormComponent extends React.Component {
         // Deep copy pluginConfiguration
         initialValues = cloneDeep(currentPluginConfiguration.content)
         // In copy mode remove id of the duplicated pluginConfiguration
-        initialValues.id = undefined
+        delete initialValues.id
         // In copy mode remove id of each pluginParameters
         if (initialValues.parameters && initialValues.parameters.length > 0) {
           forEach(initialValues.parameters, (parameter, key) => { initialValues.parameters[key].id = undefined })
