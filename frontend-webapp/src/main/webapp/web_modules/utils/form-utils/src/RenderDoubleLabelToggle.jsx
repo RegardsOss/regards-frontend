@@ -13,7 +13,7 @@ export default createComponent(DoubleLabelToggle, ({
   ...inputProps,
   ...props,
   onToggle: onChange,
-  toggled: !!value
+  toggled: !!value,
 }))
 
 /**
@@ -32,7 +32,7 @@ function createComponent(MaterialUIComponent, mapProps) {
     render() {
       return createElement(MaterialUIComponent, {
         ...mapProps(this.props),
-        ref: 'component'
+        ref: 'component',
       })
     }
   }

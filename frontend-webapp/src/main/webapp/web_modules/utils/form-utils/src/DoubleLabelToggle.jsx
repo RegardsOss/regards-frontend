@@ -23,21 +23,19 @@ const styles = {
 const DoubleLabelToggle = ({
   rightLabel,
   leftLabel,
-  ...rest,
-}) => {
-  return (
-    <div style={styles.wrapper}>
-      <span style={styles.leftLabel}>
-        {leftLabel}
-      </span>
-      <Toggle
-        {...rest}
-      />
-      <span style={styles.rightLabel}>
-        {rightLabel}
-      </span>
-    </div>
+  ...rest
+}) => (
+  <div style={styles.wrapper}>
+    <span style={styles.leftLabel}>
+      {leftLabel}
+    </span>
+    <Toggle
+      {...rest}
+    />
+    <span style={styles.rightLabel}>
+      {rightLabel}
+    </span>
+  </div>
   )
-}
 
 export default DoubleLabelToggle
