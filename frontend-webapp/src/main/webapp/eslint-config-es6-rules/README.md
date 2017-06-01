@@ -51,6 +51,7 @@ You need to add dependencies to your package.json :
  | no-console         | `Disabled`    | |
  | no-unused-vars     | `Activated`   | Do not check arguments. Ignore unused variable on functions arguments |
  | no-confusing-arrow | `Disabled`    | |
+ | no-warning-comments | `Activated`  | Raise a warning if a TODO or FIXME is find in comments |
  | semi               | `Activated`   | Disallows semicolons as the end of statements (except to disambiguate statements beginning with [, (, /, +, or -) |
  
  ### eslint-config-airbnb

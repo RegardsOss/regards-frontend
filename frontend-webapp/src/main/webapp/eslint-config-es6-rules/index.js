@@ -14,6 +14,7 @@ var allRules = {
   // ignore unused variable on functions arguments
   "no-unused-vars": [ 2, { "args": "none" } ],
   "no-confusing-arrow": 0,
+  "no-warning-comments" : [1, { "terms": ["todo", "fixme"], "location": "anywhere" }],
   "semi": [
     "error",
     "never"
