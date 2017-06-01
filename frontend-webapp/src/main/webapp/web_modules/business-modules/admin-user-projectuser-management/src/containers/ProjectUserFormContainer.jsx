@@ -185,7 +185,6 @@ export class ProjectUserFormContainer extends React.Component {
    */
   updateMetadata = user => this.setState({ userMetadata: getMetadataArray(user) })
 
-  // TODO ajouter le composant de waiting des données pour que le fetch des groupes ait le temps de se faire
   render() {
     return (
       <I18nProvider messageDir="business-modules/admin-user-projectuser-management/src/i18n">
