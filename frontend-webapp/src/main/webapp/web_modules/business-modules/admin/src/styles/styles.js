@@ -29,7 +29,7 @@ const styles = (theme) => {
         color: grey100,
         marginLeft: '40px',
       },
-      classes: ['col-sm-98', 'col-sm-offset-1'],
+      classes: [],
       localeDropdown: {
         color: white,
       },
@@ -61,25 +61,22 @@ const styles = (theme) => {
             backgroundSize: 'cover',
             backgroundAttachment: 'fixed',
             minHeight: '100vh',
-            paddingTop: '10px',
-            paddingRight: '1px', // Quick fix for bootstrap grid .row
           },
         },
         bodyContainer: {
-          classes: ['row'],
+          classes: [],
           styles: {},
         },
         contentContainer: {
-          classes: ['col-xs-98', 'col-sm-67', 'col-sm-offset-1', 'col-md-74', 'col-lg-77'],
+          classes: ['col-xs-100', 'col-sm-68', 'col-md-75', 'col-lg-78'],
           styles: {
-            marginTop: '10px',
+            padding: '10px',
           },
         },
         sidebarContainer: {
-          classes: ['col-xs-98', 'col-sm-30', 'col-xs-offset-1', 'col-md-23', 'col-lg-20'],
+          classes: ['col-xs-100', 'col-sm-32', 'col-md-25', 'col-lg-22'],
           styles: {
             position: 'relative',
-            marginTop: '10px',
           },
         },
       },
