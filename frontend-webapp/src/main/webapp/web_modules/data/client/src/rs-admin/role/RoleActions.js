@@ -22,7 +22,7 @@ class RoleActions extends BasicListActions {
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-admin/roles`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ADMIN}/roles`,
       entityPathVariable: 'role_name',
       schemaTypes: {
         ENTITY: Schemas.ROLE,

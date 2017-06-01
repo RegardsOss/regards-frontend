@@ -13,7 +13,7 @@ export default class AccountPasswordActions extends BasicSignalActions {
   }
 
   constructor(namespace) {
-    super({ namespace, entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-admin/accounts/password` })
+    super({ namespace, entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ADMIN}/accounts/password` })
   }
 
   fetchPasswordRules() {

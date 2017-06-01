@@ -15,7 +15,7 @@ export default class CreateAccountActions extends BasicSignalActions {
    */
   constructor(operation) {
     super({
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-admin/accesses/`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ADMIN}/accesses/`,
       namespace: `accounts/${operation}`,
       bypassErrorMiddleware: true,
     })

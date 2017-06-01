@@ -9,7 +9,7 @@ import { BasicSignalActions } from '@regardsoss/store-utils'
 export default class WaitingAccessUsersSignalActions extends BasicSignalActions {
   constructor() {
     super({
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-admin/accesses/{userId}/{updateOperation}`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ADMIN}/accesses/{userId}/{updateOperation}`,
       namespace: 'admin-user-projectuser-management/waiting-accounts-signals',
     })
   }

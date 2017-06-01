@@ -12,7 +12,7 @@ export default class UIServiceActions extends BasicListActions {
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-access-project/services/{dataset_id}`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ACCESS_PROJECT}/services/{dataset_id}`,
       schemaTypes: {
         ENTITY: Schemas.UI_PLUGIN_CONFIGURATION,
         ENTITY_ARRAY: Schemas.UI_PLUGIN_CONFIGURATION_ARRAY,

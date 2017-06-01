@@ -16,9 +16,19 @@ GATEWAY_HOSTNAME='http://172.26.47.52:9000'
 /**
  * Static configurations
  */
-STATIC_CONFIGURATION= {
+STATIC_CONF={
   // Available microservices from backend server.
-  microservices: ['rs-access-project','rs-admin','rs-authentication','rs-catalog','rs-dam'],
+  MSERVICES: {
+    ACCESS_PROJECT : 'rs-access-project',
+    ADMIN: 'rs-admin',
+    AUTHENTICATION : 'rs-authentication',
+    CATALOG : 'rs-catalog',
+    DAM : 'rs-dam',
+    STORAGE: 'rs-archival-storage',
+  },
+  IMSERVICES: {
+    ACCESS_INSTANCE: 'rs-access-instance',
+  },
   // Default driver used to create a project connection (see module admin-database-management)
   projectConnectionDriver: 'org.postgresql.Driver'
 }

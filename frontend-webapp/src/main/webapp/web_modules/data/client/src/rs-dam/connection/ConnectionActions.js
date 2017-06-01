@@ -5,7 +5,7 @@ export default class ConnectionActions extends BasicListActions {
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-dam/connections`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/connections`,
       entityPathVariable: 'pConnectionId',
       schemaTypes: {
         ENTITY: Schemas.CONNECTION,

@@ -152,7 +152,7 @@ export class ProjectConnectionListComponent extends React.Component {
               preScanRows={false}
               showRowHover
             >
-              {map(STATIC_CONFIGURATION.microservices,
+              {map(STATIC_CONF.MSERVICES,
                 (microserviceName, i) => this.displayMicroserviceConnection(microserviceName))}
             </TableBody>
           </Table>

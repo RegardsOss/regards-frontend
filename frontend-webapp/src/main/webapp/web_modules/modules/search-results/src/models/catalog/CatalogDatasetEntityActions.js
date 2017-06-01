@@ -10,7 +10,7 @@ import { CatalogEntityActions } from './CatalogEntityActions'
 class CatalogDatasetEntityActions extends CatalogEntityActions {
   constructor() {
     super({
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-catalog/dataobjects/datasets/search?{queryParams}`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.CATALOG}/dataobjects/datasets/search?{queryParams}`,
     })
   }
 }

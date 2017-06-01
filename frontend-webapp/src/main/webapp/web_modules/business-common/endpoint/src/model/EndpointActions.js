@@ -8,7 +8,7 @@ class EndpointActions extends BasicPageableActions {
   constructor() {
     super({
       namespace: 'common/endpoint',
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-admin/resources`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ADMIN}/resources`,
       schemaTypes: {
         ENTITY: Schemas.RESOURCE_ACCESS,
         ENTITY_ARRAY: Schemas.RESOURCE_ACCESS_ARRAY,

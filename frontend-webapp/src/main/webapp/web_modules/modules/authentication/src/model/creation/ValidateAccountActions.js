@@ -10,7 +10,7 @@ class ValidateAccountActions extends BasicSignalActions {
 
   constructor() {
     super({
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-admin/accesses/validateAccount/{token}`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ADMIN}/accesses/validateAccount/{token}`,
       namespace: 'accounts/validateAccount',
       bypassErrorMiddleware: true,
     })

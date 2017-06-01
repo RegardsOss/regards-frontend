@@ -5,7 +5,7 @@ export default class LinkPluginDatasetActions extends BasicPageableActions {
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-catalog/linkplugindataset`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.CATALOG}/linkplugindataset`,
       schemaTypes: {
         ENTITY: Schemas.LINK_PLUGIN_DATASET,
         ENTITY_ARRAY: Schemas.LINK_PLUGIN_DATASET_ARRAY,

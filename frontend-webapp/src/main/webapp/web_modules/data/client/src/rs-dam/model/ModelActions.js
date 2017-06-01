@@ -15,7 +15,7 @@ export default class ModelActions extends BasicListActions {
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-dam/models`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/models`,
       entityPathVariable: 'pModelId',
       schemaTypes: {
         ENTITY: Schemas.MODEL,

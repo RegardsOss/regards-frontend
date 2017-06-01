@@ -1,6 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import forEach from 'lodash/forEach'
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
@@ -10,7 +11,7 @@ import styles from '../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
-const microservices = STATIC_CONFIGURATION.microservices
+const microservices = STATIC_CONF.MSERVICES
 /**
  * Microservices configuration tests
  * @author Xavier-Alexandre Brochard
@@ -26,7 +27,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing microservice board component', () =
 
   it('should render sub-components', () => {
     const maintenance = {}
-    microservices.forEach((microservice) => {
+    forEach(microservices, (microservice) => {
       maintenance[microservice.name] = {}
       maintenance[microservice.name].isOn = () => { }
       maintenance[microservice.name].fetch = () => { }

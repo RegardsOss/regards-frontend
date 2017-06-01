@@ -5,7 +5,7 @@ export class AccountActions extends BasicPageableActions {
   constructor(namespace = 'admin-account-management/accounts') {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-admin/accounts`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ADMIN}/accounts`,
       schemaTypes: {
         ENTITY: Schemas.ACCOUNT,
         ENTITY_ARRAY: Schemas.ACCOUNT_ARRAY,

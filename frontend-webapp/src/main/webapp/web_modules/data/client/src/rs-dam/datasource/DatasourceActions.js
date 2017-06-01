@@ -8,7 +8,7 @@ export default class DatasourceActions extends BasicListActions {
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-dam/datasources`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/datasources`,
       entityPathVariable: 'pPluginConfId',
       schemaTypes: {
         ENTITY: Schemas.DATASOURCE,

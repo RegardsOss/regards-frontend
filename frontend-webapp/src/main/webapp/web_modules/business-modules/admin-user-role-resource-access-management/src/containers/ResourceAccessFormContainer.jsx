@@ -1,3 +1,7 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
+import values from 'lodash/values'
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
@@ -55,7 +59,7 @@ export class ResourceAccessFormContainer extends React.Component {
     if (role) {
       return (
         <ResourceAccessFormComponent
-          microserviceList={STATIC_CONFIGURATION.microservices}
+          microserviceList={values(STATIC_CONF.MSERVICES)}
           backUrl={this.getBackUrl()}
           editRoleResources={this.editRoleResources}
           currentRole={role}

@@ -3,6 +3,8 @@
  */
 import find from 'lodash/find'
 import map from 'lodash/map'
+import keys from 'lodash/keys'
+import values from 'lodash/values'
 import { browserHistory } from 'react-router'
 import { FormattedMessage } from 'react-intl'
 import { Step, Stepper, StepButton, StepContent } from 'material-ui/Stepper'
@@ -117,10 +119,10 @@ class GuidedProjectConfigurationComponent extends React.Component {
     }
   }
 
-  isFinished = () => this.state.stepIndex >= STATIC_CONFIGURATION.microservices.length
+  isFinished = () => this.state.stepIndex >= keys(STATIC_CONF.MSERVICES).length
 
   renderConfigurationOnForAllConnections = () => {
-    const firstMicroservice = STATIC_CONFIGURATION.microservices[0]
+    const firstMicroservice = values(STATIC_CONF.MSERVICES)[0]
     const firstProjectConnection = find(this.props.projectConnections, lProjectConnection => lProjectConnection.content.microservice === firstMicroservice)
     return (
       <ProjectConnectionFormComponent
@@ -148,7 +150,7 @@ class GuidedProjectConfigurationComponent extends React.Component {
         activeStep={stepIndex}
         orientation="vertical"
       >
-        {map(STATIC_CONFIGURATION.microservices, (microservice, key) => {
+        {map(STATIC_CONF.MSERVICES, (microservice, key) => {
           // Search if a connection is already defined for the current project
           const projectConnection = find(projectConnections, lProjectConnection => lProjectConnection.content.microservice === microservice)
           return (

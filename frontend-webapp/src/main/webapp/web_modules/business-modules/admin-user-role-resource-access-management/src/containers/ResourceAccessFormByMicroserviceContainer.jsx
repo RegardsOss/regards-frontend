@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { connect } from '@regardsoss/redux'
 import { Role, Resource } from '@regardsoss/model'
 import { ShowableAtRender } from '@regardsoss/components'

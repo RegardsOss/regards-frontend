@@ -12,7 +12,7 @@ export default class CollectionLinkActions extends BasicSignalActions {
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-dam/collections/{collection_id}/{operation}`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/collections/{collection_id}/{operation}`,
     })
   }
 }

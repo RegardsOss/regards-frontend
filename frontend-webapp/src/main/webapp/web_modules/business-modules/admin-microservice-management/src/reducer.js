@@ -1,3 +1,4 @@
+import forEach from 'lodash/forEach'
 import { combineReducers } from 'redux'
 import pluginType from './model/plugin/PluginTypeReducers'
 import pluginMetaData from './model/plugin/PluginMetaDataReducers'
@@ -7,7 +8,7 @@ import SetMaintenanceReducers from './model/SetMaintenanceModeReducers'
 import MicroserviceInfoClient from './client/MicroserviceInfoClient'
 
 const reducers = {}
-STATIC_CONFIGURATION.microservices.forEach((microservice) => {
+forEach(STATIC_CONF.MSERVICES, (microservice) => {
   reducers[`maintenance-${microservice}`] = MaintenanceModeReducers(microservice)
   reducers[`set-maintenance-${microservice}`] = SetMaintenanceReducers(microservice)
 })

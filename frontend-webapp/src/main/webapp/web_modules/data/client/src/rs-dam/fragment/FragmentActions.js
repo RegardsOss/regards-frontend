@@ -22,7 +22,7 @@ export default class FragmentActions extends BasicListActions {
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-dam/models/fragments`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/models/fragments`,
       entityPathVariable: 'pFragmentId',
       schemaTypes: {
         ENTITY: Schemas.FRAGMENT,

@@ -11,7 +11,7 @@ export default class ModelAttributesFragmentActions extends BasicListActions {
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-dam/models/{pModelId}/attributes/fragments`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/models/{pModelId}/attributes/fragments`,
       entityPathVariable: 'pFragmentId',
       schemaTypes: {
         ENTITY: Schemas.MODEL_ATTRIBUTE,

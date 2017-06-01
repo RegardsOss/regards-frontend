@@ -8,7 +8,7 @@ export default class ProjectUserActions extends BasicPageableActions {
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-admin/users`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ADMIN}/users`,
       entityPathVariable: 'user_id',
       schemaTypes: {
         ENTITY: Schemas.PROJECT_USER,

@@ -17,7 +17,7 @@ export default class AccessRightActions extends BasicPageableActions {
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-dam/accessrights`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/accessrights`,
       schemaTypes: {
         ENTITY: Schemas.ACCESS_RIGHT,
         ENTITY_ARRAY: Schemas.ACCESS_RIGHT_ARRAY,

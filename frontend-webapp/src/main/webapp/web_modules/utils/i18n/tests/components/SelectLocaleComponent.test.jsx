@@ -6,7 +6,7 @@ import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import SelectLocaleComponent from '../../src/components/SelectLocaleComponent'
 
 const options = {
-  context: buildTestContext()
+  context: buildTestContext(),
 }
 
 /**
@@ -26,18 +26,6 @@ describe('[COMMON] Testing i18n Select Locale components', () => {
       setLocale: spy,
       currentLocale: 'ru',
       locales: ['fr', 'en', 'ru', 'es'],
-    }
-
-    const context = {
-      intl: {
-        formatMessage: message => message.id,
-      },
-      muiTheme: {
-        menu: {
-          localeDropdown: {
-          },
-        },
-      },
     }
 
     const wrapper = shallow(<SelectLocaleComponent {...props} />, options)

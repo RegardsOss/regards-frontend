@@ -22,7 +22,7 @@ class LayoutActions extends BasicPageableActions {
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-access-project/layouts`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ACCESS_PROJECT}/layouts`,
       entityPathVariable: 'applicationId',
       schemaTypes: {
         ENTITY: Schemas.LAYOUT,

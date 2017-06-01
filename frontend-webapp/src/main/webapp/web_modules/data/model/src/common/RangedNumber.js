@@ -12,7 +12,7 @@ const getRangedNumberValidator = (min = Number.MIN_VALUE, max = Number.MAX_VALUE
     const localComponentName = componentName || '[Anonymous component]'
     const number = props[propName]
     // pre : never empty here (see ChainableTypeChecker)
-    if (isNumber(number)) {
+    if (!isNumber(number)) {
       return new Error(`${propName} (${location}) is not a number in ${localComponentName}.`)
     }
     if (number < min || number > max) {

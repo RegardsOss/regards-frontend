@@ -22,7 +22,7 @@ export default class BusinessServiceActions extends BasicListActions {
   constructor(namespace, serviceScope) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-catalog/services/{dataset_id}`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.CATALOG}/services/{dataset_id}`,
       schemaTypes: {
         ENTITY: Schemas.BUSINESS_PLUGIN_CONFIGURATION,
         ENTITY_ARRAY: Schemas.BUSINESS_PLUGIN_CONFIGURATION_ARRAY,

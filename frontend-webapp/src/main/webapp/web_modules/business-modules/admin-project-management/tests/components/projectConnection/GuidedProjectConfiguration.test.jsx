@@ -1,3 +1,7 @@
+/*
+ * LICENSE_PLACEHOLDER
+ */
+import keys from 'lodash/keys'
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { Step } from 'material-ui/Stepper'
@@ -84,7 +88,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing GuidedProjectConfiguration', () => 
     props.configureOneForAll = false
 
     const enzymeWrapper = shallow(<GuidedProjectConfiguration {...props} />, options)
-    expect(enzymeWrapper.find(Step)).to.have.length(STATIC_CONFIGURATION.microservices.length)
+    expect(enzymeWrapper.find(Step)).to.have.length(keys(STATIC_CONF.MSERVICES).length)
   })
 
   it('should render only one form to configure all connection at the same time', () => {

@@ -11,7 +11,7 @@ const { CALL_API, getJSON } = require('redux-api-middleware')
 class CatalogDatasetEntityActions extends BasicActions {
   constructor() {
     super({
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-catalog/datasets/{ipId}`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.CATALOG}/datasets/{ipId}`,
       bypassErrorMiddleware: true,
     })
     this.REQUEST = 'request'

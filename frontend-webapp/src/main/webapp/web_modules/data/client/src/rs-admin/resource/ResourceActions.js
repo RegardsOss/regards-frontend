@@ -22,7 +22,7 @@ class ResourceActions extends BasicPageableActions {
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-admin/resources`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ADMIN}/resources`,
       entityPathVariable: 'resource_id',
       schemaTypes: {
         ENTITY: Schemas.RESOURCE_ACCESS,

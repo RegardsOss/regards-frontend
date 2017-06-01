@@ -26,8 +26,8 @@ class UIPluginConfigurationActions extends BasicPageableActions {
    */
   constructor(namespace, isRequestingByUIPlugin = true) {
     // Either you request UIPluginConfiguration by UIPluginDefinition either you can fetch all UIPluginConfiguration
-    const entityEndpoint = isRequestingByUIPlugin ? `${GATEWAY_HOSTNAME}/${API_URL}/rs-access-project/plugin/{plugin_id}/config` :
-      `${GATEWAY_HOSTNAME}/${API_URL}/rs-access-project/plugins/configurations`
+    const entityEndpoint = isRequestingByUIPlugin ? `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ACCESS_PROJECT}/plugin/{plugin_id}/config` :
+      `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ACCESS_PROJECT}/plugins/configurations`
     super({
       namespace,
       entityEndpoint,

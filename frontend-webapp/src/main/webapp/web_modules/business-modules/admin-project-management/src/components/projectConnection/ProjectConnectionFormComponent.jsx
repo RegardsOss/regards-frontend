@@ -73,7 +73,7 @@ export class ProjectConnectionFormComponent extends React.Component {
       this.props.initialize({
         microservice: this.props.microservice,
         project: this.props.project.content,
-        driverClassName: STATIC_CONFIGURATION.projectConnectionDriver,
+        driverClassName: STATIC_CONF.projectConnectionDriver,
       })
     }
   }

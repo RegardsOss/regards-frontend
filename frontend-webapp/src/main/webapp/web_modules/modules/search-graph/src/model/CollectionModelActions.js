@@ -8,7 +8,7 @@ class CollectionModelActions extends BasicListActions {
   constructor() {
     super({
       namespace: 'search-graph/collection-model',
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-dam/models?type=COLLECTION`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/models?type=COLLECTION`,
       schemaTypes: {
         ENTITY: Schemas.MODEL,
         ENTITY_ARRAY: Schemas.MODEL_ARRAY,

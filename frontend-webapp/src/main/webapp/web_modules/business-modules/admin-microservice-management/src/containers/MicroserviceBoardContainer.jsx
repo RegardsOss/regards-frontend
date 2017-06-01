@@ -40,7 +40,7 @@ export class MicroserviceBoardContainer extends React.Component {
 
   componentDidMount() {
     // For each microservice, check if it is up
-    return map(STATIC_CONFIGURATION.microservices, microservice => (
+    return map(STATIC_CONF.MSERVICES, microservice => (
       Promise.resolve(this.props.checkMicroserviceStatus(microservice)).then((actionResult) => {
         // If microservice is Up, then check for maintenance mode.
         if (!actionResult.error) {

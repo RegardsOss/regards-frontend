@@ -19,7 +19,7 @@ const typeToURL = {
    * @param id: entity id (none for path variable)
    * @return download URL
    */
-const getDownloadURL = (entityType, id = '{id}') => `${GATEWAY_HOSTNAME}/${API_URL}/rs-dam/${typeToURL[entityType]}/${id}/file`
+const getDownloadURL = (entityType, id = '{id}') => `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/${typeToURL[entityType]}/${id}/file`
 
 /**
  * This module provides common variables to access file description downloads

@@ -5,7 +5,7 @@ export default class DatasetDataAttributesActions extends BasicPageableActions {
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-dam/datasets/data/attributes`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/datasets/data/attributes`,
       schemaTypes: {
         ENTITY: Schemas.ATTRIBUTE_MODEL,
         ENTITY_ARRAY: Schemas.ATTRIBUTE_MODEL_ARRAY,

@@ -12,7 +12,7 @@ class LayoutInstanceActions extends BasicListActions {
   constructor() {
     super({
       namespace: 'admin-ui-layout-management/layout',
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-access-instance/layouts`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.IMSERVICES.ACCESS_INSTANCE}/layouts`,
       entityPathVariable: 'applicationId',
       schemaTypes: {
         ENTITY: Schemas.LAYOUT,

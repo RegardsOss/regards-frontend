@@ -13,7 +13,7 @@ class AuthenticateActions extends BasicSignalActions {
    */
   constructor(namespace) {
     super({
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-authentication/${SPECIFIC_ENDPOINT_MARKER}?grant_type=password&username={username}&password={password}&scope={scope}&origineUrl={origineUrl}&requestLink={requestLink}`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.AUTHENTICATION}/${SPECIFIC_ENDPOINT_MARKER}?grant_type=password&username={username}&password={password}&scope={scope}&origineUrl={origineUrl}&requestLink={requestLink}`,
       namespace,
       bypassErrorMiddleware: true,
     })

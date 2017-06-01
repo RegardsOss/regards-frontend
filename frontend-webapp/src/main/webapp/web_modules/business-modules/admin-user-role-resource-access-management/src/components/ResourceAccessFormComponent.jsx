@@ -1,4 +1,8 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import map from 'lodash/map'
+import values from 'lodash/values'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { FormattedMessage } from 'react-intl'
 import { Tabs, Tab } from 'material-ui/Tabs'
@@ -26,7 +30,7 @@ export class ResourceAccessFormComponent extends React.Component {
   }
 
   state = {
-    activeMicroservice: STATIC_CONFIGURATION.microservices[0],
+    activeMicroservice: values(STATIC_CONF.MSERVICES)[0],
   }
 
   activateTab = (microservice) => {

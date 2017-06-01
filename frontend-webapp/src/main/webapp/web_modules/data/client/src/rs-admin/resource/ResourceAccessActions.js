@@ -19,7 +19,7 @@ class ResourceAccessActions extends BasicListActions {
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-admin/resources/microservices/{microservicename}/controllers/{controllername}`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ADMIN}/resources/microservices/{microservicename}/controllers/{controllername}`,
       schemaTypes: {
         ENTITY: Schemas.RESOURCE_ACCESS,
         ENTITY_ARRAY: Schemas.RESOURCE_ACCESS_ARRAY,

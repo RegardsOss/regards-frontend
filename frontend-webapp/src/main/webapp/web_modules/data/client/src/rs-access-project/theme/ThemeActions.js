@@ -27,7 +27,7 @@ class ThemeActions extends BasicPageableActions {
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-access-project/themes`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ACCESS_PROJECT}/themes`,
       schemaTypes: {
         ENTITY: Schemas.THEME,
         ENTITY_ARRAY: Schemas.THEME_ARRAY,

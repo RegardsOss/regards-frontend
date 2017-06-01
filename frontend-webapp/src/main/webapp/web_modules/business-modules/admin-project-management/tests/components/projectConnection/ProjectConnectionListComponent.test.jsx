@@ -78,6 +78,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing ProjectConnectionListComponent', ()
       refreshConnection: () => {},
     }
     const enzymeWrapper = shallow(<ProjectConnectionListComponent {...props} />, options)
+    console.log(enzymeWrapper.debug())
     expect(enzymeWrapper.find(TableRow)).to.have.length(6)
   })
 },

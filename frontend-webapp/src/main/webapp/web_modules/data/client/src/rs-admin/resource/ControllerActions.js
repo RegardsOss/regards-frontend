@@ -18,7 +18,7 @@ class ControllerActions extends BasicArrayActions {
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-admin/resources/microservices/{microservicename}/controllers`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ADMIN}/resources/microservices/{microservicename}/controllers`,
       entityPathVariable: 'controllername',
     })
   }

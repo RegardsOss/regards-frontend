@@ -13,7 +13,7 @@ class MyUserActions extends BasicSignalActions {
    */
   constructor(namespace) {
     super({
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-admin/users/myuser`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ADMIN}/users/myuser`,
       namespace,
       bypassErrorMiddleware: true,
     })

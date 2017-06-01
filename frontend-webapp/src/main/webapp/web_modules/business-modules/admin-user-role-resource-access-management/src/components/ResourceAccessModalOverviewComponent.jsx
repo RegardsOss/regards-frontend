@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import map from 'lodash/map'
 import { FormattedMessage } from 'react-intl'
 import Chip from 'material-ui/Chip'

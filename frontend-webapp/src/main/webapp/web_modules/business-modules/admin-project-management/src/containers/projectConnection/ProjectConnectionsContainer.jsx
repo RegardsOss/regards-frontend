@@ -114,7 +114,7 @@ export class ProjectConnectionsContainer extends React.Component {
    */
   onCreateAll = (projectConnection) => {
     // Create the same connection for all microservices
-    const actions = map(STATIC_CONFIGURATION.microservices, (microservice) => {
+    const actions = map(STATIC_CONF.MSERVICES, (microservice) => {
       // Check if connection already exists
       const prevConnection = find(this.props.projectConnections, { content: { microservice } })
       // If connection already exists add id

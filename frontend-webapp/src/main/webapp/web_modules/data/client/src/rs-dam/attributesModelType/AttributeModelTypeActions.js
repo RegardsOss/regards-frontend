@@ -14,7 +14,7 @@ export default class AttributeModelTypeActions extends BasicArrayActions {
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-dam/models/attributes/types`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/models/attributes/types`,
     })
   }
 }

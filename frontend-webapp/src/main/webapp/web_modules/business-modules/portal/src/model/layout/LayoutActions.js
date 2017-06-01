@@ -12,7 +12,7 @@ class LayoutActions extends BasicListActions {
   constructor() {
     super({
       namespace: 'portal/layout',
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-access-instance/layouts`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.IMSERVICES.ACCESS_INSTANCE}/layouts`,
       schemaTypes: {
         ENTITY: Schemas.LAYOUT,
       },
