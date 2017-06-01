@@ -11,19 +11,19 @@
  * Server address
  * @type {string}
  */
-GATEWAY_HOSTNAME='http://172.26.47.52:9000'
+GATEWAY_HOSTNAME = 'http://172.26.47.52:9000'
 
 /**
  * Static configurations
  */
-STATIC_CONF={
+STATIC_CONF = {
   // Available microservices from backend server.
   MSERVICES: {
-    ACCESS_PROJECT : 'rs-access-project',
+    ACCESS_PROJECT: 'rs-access-project',
     ADMIN: 'rs-admin',
-    AUTHENTICATION : 'rs-authentication',
-    CATALOG : 'rs-catalog',
-    DAM : 'rs-dam',
+    AUTHENTICATION: 'rs-authentication',
+    CATALOG: 'rs-catalog',
+    DAM: 'rs-dam',
     STORAGE: 'rs-archival-storage',
   },
   IMSERVICES: {

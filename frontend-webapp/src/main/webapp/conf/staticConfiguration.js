@@ -11,24 +11,24 @@
  * Server address
  * @type {string}
  */
-GATEWAY_HOSTNAME='http://${regards.config.cloud.gateway.uri}:${regards.config.cloud.gateway.port}'
+GATEWAY_HOSTNAME = 'http://${regards.config.cloud.gateway.uri}:${regards.config.cloud.gateway.port}'
 
 /**
  * Static configurations
  */
 STATIC_CONF = {
   MSERVICES: {
-    ACCESS_PROJECT : 'rs-access-project',
+    ACCESS_PROJECT: 'rs-access-project',
     ADMIN: 'rs-admin',
-    AUTHENTICATION : 'rs-authentication',
-    CATALOG : 'rs-catalog',
-    DAM : 'rs-dam',
+    AUTHENTICATION: 'rs-authentication',
+    CATALOG: 'rs-catalog',
+    DAM: 'rs-dam',
     // STORAGE: 'rs-archival-storage',
   },
   IMSERVICES: {
     ACCESS_INSTANCE: 'rs-access-instance',
   },
   // Default driver used to create a project connection (see module admin-database-management)
-  projectConnectionDriver: 'org.postgresql.Driver'
+  projectConnectionDriver: 'org.postgresql.Driver',
 }
 

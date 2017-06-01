@@ -97,7 +97,7 @@
     "React": true,
     "PropTypes": true,
     "GATEWAY_HOSTNAME": true,
-    "STATIC_CONFIGURATION": true,
+    "STATIC_CONF": true,
     "API_URL": true
   },
   "parserOptions": {

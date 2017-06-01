@@ -1,28 +1,27 @@
 const webpack = require('webpack')
-const path = require('path')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 module.exports = {
   entry: {
     coreoss: [
-      "@regardsoss/adapters",
-      "@regardsoss/api",
-      "@regardsoss/authentication-manager",
-      "@regardsoss/client",
-      "@regardsoss/components",
-      "@regardsoss/display-control",
-      "@regardsoss/endpoint",
-      "@regardsoss/form-utils",
-      "@regardsoss/global-system-error",
-      "@regardsoss/i18n",
-      "@regardsoss/model",
-      "@regardsoss/plugins",
-      "@regardsoss/redux",
-      "@regardsoss/store",
-      "@regardsoss/store-utils",
-      "@regardsoss/theme",
-      "@regardsoss/user",
-      "@regardsoss/vendors",
+      '@regardsoss/adapters',
+      '@regardsoss/api',
+      '@regardsoss/authentication-manager',
+      '@regardsoss/client',
+      '@regardsoss/components',
+      '@regardsoss/display-control',
+      '@regardsoss/endpoint',
+      '@regardsoss/form-utils',
+      '@regardsoss/global-system-error',
+      '@regardsoss/i18n',
+      '@regardsoss/model',
+      '@regardsoss/plugins',
+      '@regardsoss/redux',
+      '@regardsoss/store',
+      '@regardsoss/store-utils',
+      '@regardsoss/theme',
+      '@regardsoss/user',
+      '@regardsoss/vendors',
     ],
   },
   resolve: {
@@ -30,7 +29,7 @@ module.exports = {
     // exemple require('main') look for main, main.js or main.jsx with our configuration
     extensions: ['.js', '.jsx'],
     modules: [
-      'node_modules'
+      'node_modules',
     ],
   },
   output: {
@@ -58,7 +57,7 @@ module.exports = {
       {
         test: /\.(jpg|gif|png)$/,
         loader: 'file-loader?name=[name].[ext]&outputPath=./img/',
-      }
+      },
     ],
   },
   plugins: [

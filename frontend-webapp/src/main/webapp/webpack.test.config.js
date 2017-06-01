@@ -41,19 +41,19 @@ config = merge(config, {
       STATIC_CONF: JSON.stringify({
         // Available microservices from backend server.
         MSERVICES: {
-          ACCESS_PROJECT : 'rs-access-project',
+          ACCESS_PROJECT: 'rs-access-project',
           ADMIN: 'rs-admin',
-          AUTHENTICATION : 'rs-authentication',
-          CATALOG : 'rs-catalog',
-          DAM : 'rs-dam',
+          AUTHENTICATION: 'rs-authentication',
+          CATALOG: 'rs-catalog',
+          DAM: 'rs-dam',
           STORAGE: 'rs-archival-storage',
         },
         IMSERVICES: {
           ACCESS_INSTANCE: 'rs-access-instance',
         },
         // Default driver used to create a project connection (see module admin-database-management)
-        projectConnectionDriver: 'org.postgresql.Driver'
-      })
+        projectConnectionDriver: 'org.postgresql.Driver',
+      }),
     }),
   ],
   // enable sourcemaps support
