@@ -8,9 +8,10 @@
  */
 
 /**
- * Server address
+ * Server address, dynamic variables are replaced by the installer
  * @type {string}
  */
+// eslint-disable-next-line no-template-curly-in-string
 GATEWAY_HOSTNAME = 'http://${regards.config.cloud.gateway.uri}:${regards.config.cloud.gateway.port}'
 
 /**

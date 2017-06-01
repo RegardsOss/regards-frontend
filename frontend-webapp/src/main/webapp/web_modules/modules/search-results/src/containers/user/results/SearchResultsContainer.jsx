@@ -19,9 +19,7 @@ import TableClient from '../../../client/TableClient'
 import NavigationLevel from '../../../models/navigation/NavigationLevel'
 import navigationContextActions from '../../../models/navigation/NavigationContextActions'
 import navigationContextSelectors from '../../../models/navigation/NavigationContextSelectors'
-import catalogDataobjectEntityActions from '../../../models/catalog/CatalogDataobjectEntityActions'
-import catalogDatasetEntityActions from '../../../models/catalog/CatalogDatasetEntityActions'
-import catalogEntitySelector from '../../../models/catalog/CatalogEntitySelector'
+import { searchDataobjectsActions, searchDatasetsActions, selectors as searchSelectors } from '../../../client/SearchEntitiesClient'
 import datasetServicesSelectors from '../../../models/services/DatasetServicesSelectors'
 import QueriesHelper from '../../../definitions/query/QueriesHelper'
 import Service from '../../../definitions/service/Service'
@@ -43,7 +41,7 @@ export class SearchResultsContainer extends React.Component {
     // selection related
     selectionMode: TableClient.tableSelectors.getSelectionMode(state),
     toggledElements: TableClient.tableSelectors.getToggledElements(state),
-    pageMetadata: catalogEntitySelector.getMetaData(state),
+    pageMetadata: searchSelectors.getMetaData(state),
   })
 
   static mapDispatchToProps = dispatch => ({
@@ -258,7 +256,7 @@ export class SearchResultsContainer extends React.Component {
     // compute view mode
     const showingDataobjects = viewObjectType === SearchResultsTargetsEnum.DATAOBJECT_RESULTS
     // compute child results fetch actions
-    const fetchActions = showingDataobjects ? catalogDataobjectEntityActions : catalogDatasetEntityActions
+    const searchActions = showingDataobjects ? searchDataobjectsActions : searchDatasetsActions
 
     // control the available selection options
     let usableDatasetServices = []
@@ -286,7 +284,7 @@ export class SearchResultsContainer extends React.Component {
         attributesRegroupementsConf={attributesRegroupementsConf}
         attributeModels={attributeModels}
 
-        resultPageActions={fetchActions}
+        resultPageActions={searchActions}
 
         datasetServices={usableDatasetServices}
         selectedDataobjectsServices={usableSelectedDataobjectServices}

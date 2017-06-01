@@ -2,8 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import CatalogDatasetEntityActions from './models/catalog/CatalogDatasetEntityActions'
-import CatalogDataobjectEntityActions from './models/catalog/CatalogDataobjectEntityActions'
+import { searchDatasetsActions, searchDataobjectsActions } from './client/SearchEntitiesClient'
 import { AttributeModelActions } from './client/AttributeModelClient'
 
 /**
@@ -11,8 +10,8 @@ import { AttributeModelActions } from './client/AttributeModelClient'
  * @author Sébastien binda
  */
 const user = [
-  CatalogDatasetEntityActions.getDependency(RequestVerbEnum.GET_LIST),
-  CatalogDataobjectEntityActions.getDependency(RequestVerbEnum.GET_LIST),
+  searchDatasetsActions.getDependency(RequestVerbEnum.GET_LIST),
+  searchDataobjectsActions.getDependency(RequestVerbEnum.GET_LIST),
 ]
 
 /**

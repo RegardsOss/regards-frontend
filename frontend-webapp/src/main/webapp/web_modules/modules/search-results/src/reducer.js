@@ -1,14 +1,12 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { AttributeModelReducer, REDUCER_PATH as ATTRIBUTE_MODEL_REDUCER_PATH } from './client/AttributeModelClient'
-import { tableReducer } from './client/TableClient'
-import CatalogEntityReducer from './models/catalog/CatalogEntityReducer'
 import navigationContextReducer from './models/navigation/NavigationContextReducer'
 import datasetServicesReducer from './models/services/DatasetServicesReducer'
-// User: fetch entity description (for both dataset and collection)
+import { reducer as SearchCatalogReducer } from './client/SearchEntitiesClient'
+import { AttributeModelReducer, REDUCER_PATH as ATTRIBUTE_MODEL_REDUCER_PATH } from './client/AttributeModelClient'
+import { tableReducer } from './client/TableClient'
 import DownloadDescriptionClient, { DATASET_REDUCER_PATH, COLLECTION_REDUCER_PATH } from './client/DownloadDescriptionClient'
-// User: fetch attributes for model id
 import modelAttributeClient from './client/ModelAttributeClient'
 import OneDatasetBusinessServiceClient from './client/OneDatasetBusinessServiceClient'
 import OneDataobjectBusinessServiceClient from './client/OneDataobjectBusinessServiceClient'
@@ -22,7 +20,7 @@ import UIServiceClient from './client/UIServiceClient'
  */
 const searchResultsReducers = {
   [ATTRIBUTE_MODEL_REDUCER_PATH]: AttributeModelReducer,
-  results: CatalogEntityReducer,
+  searchCatalog: SearchCatalogReducer,
   resultsTable: tableReducer,
   // context
   navigationContext: navigationContextReducer,

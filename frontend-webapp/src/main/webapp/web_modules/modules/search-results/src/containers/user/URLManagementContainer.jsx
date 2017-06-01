@@ -8,7 +8,7 @@ import { SearchResultsTargetsEnum } from '@regardsoss/model'
 import NavigationLevel from '../../models/navigation/NavigationLevel'
 import navigationContextActions from '../../models/navigation/NavigationContextActions'
 import navigationContextSelectors from '../../models/navigation/NavigationContextSelectors'
-import catalogFindDatasetActions from '../../models/catalog/CatalogFindDatasetActions'
+import { actions as findDatasetActions } from '../../client/FindDatasetClient'
 
 /**
  * module URL parameters
@@ -30,7 +30,7 @@ export class URLManagementContainer extends React.Component {
   })
 
   static mapDispatchToProps = dispatch => ({
-    dispatchFetchDataset: datasetIpId => dispatch(catalogFindDatasetActions.findDataset(datasetIpId)),
+    dispatchFetchDataset: datasetIpId => dispatch(findDatasetActions.findDataset(datasetIpId)),
     initialize: ((viewObjectType, rootContextLabel, searchTag, dataset) =>
       dispatch(navigationContextActions.initialize(viewObjectType, rootContextLabel, searchTag, dataset))),
   })

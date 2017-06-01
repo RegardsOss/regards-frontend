@@ -24,9 +24,9 @@ import {
   AttributeConfigurationController,
   AttributesRegroupementConfiguration,
 } from '@regardsoss/model'
+import { BasicFacetsPageableActions } from '@regardsoss/store-utils'
 import { getTypeRender } from '@regardsoss/attributes-common'
-import { CatalogEntityActions } from '../../../models/catalog/CatalogEntityActions'
-import CatalogEntitySelector from '../../../models/catalog/CatalogEntitySelector'
+import { selectors as searchSelectors } from '../../../client/SearchEntitiesClient'
 import TableClient from '../../../client/TableClient'
 import Service from '../../../definitions/service/Service'
 import ListViewEntityCellComponent from './ListViewEntityCellComponent'
@@ -79,7 +79,7 @@ class SearchResultsComponent extends React.Component {
     attributeModels: PropTypes.objectOf(AttributeModel),
 
     // control
-    resultPageActions: PropTypes.instanceOf(CatalogEntityActions).isRequired,
+    resultPageActions: PropTypes.instanceOf(BasicFacetsPageableActions).isRequired,
     onFiltersChanged: PropTypes.func.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     onSelectDataset: PropTypes.func.isRequired,
@@ -287,7 +287,7 @@ class SearchResultsComponent extends React.Component {
       // List view optionsselect all and sort options
       this.isInListView() && showingDataobjects ? <TableSelectAllContainer
         key="select.filter.option"
-        pageSelectors={CatalogEntitySelector}
+        pageSelectors={searchSelectors}
       /> : null,
       this.isInListView() && showingDataobjects ? <TableSortFilterComponent
         key="sort.filter.option"
@@ -398,7 +398,7 @@ class SearchResultsComponent extends React.Component {
           onFiltersChanged,
           filters,
           show: showingFacettes,
-          resultsSelectors: CatalogEntitySelector,
+          resultsSelectors: searchSelectors,
           attributeModels,
         },
       }
@@ -444,7 +444,7 @@ class SearchResultsComponent extends React.Component {
       <TableContainer
         key={`${showingDataobjects ? 'do' : 'ds'}-${viewMode}`}
         pageActions={resultPageActions}
-        pageSelectors={CatalogEntitySelector}
+        pageSelectors={searchSelectors}
         tableActions={TableClient.tableActions}
         tableSelectors={TableClient.tableSelectors}
         pageSize={20}

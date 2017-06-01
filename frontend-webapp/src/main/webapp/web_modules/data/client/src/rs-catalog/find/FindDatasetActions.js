@@ -6,17 +6,18 @@ import { BasicActions } from '@regardsoss/store-utils'
 const { CALL_API, getJSON } = require('redux-api-middleware')
 
 /**
- * actions to find a dataset by IP ID
+ * Actions to find a dataset by its IP ID
  */
-class CatalogDatasetEntityActions extends BasicActions {
-  constructor() {
+export default class CatalogDatasetEntityActions extends BasicActions {
+
+  constructor(namespace) {
     super({
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.CATALOG}/datasets/{ipId}`,
       bypassErrorMiddleware: true,
     })
-    this.REQUEST = 'request'
-    this.SUCCESS = 'success'
-    this.FAILURE = 'failure'
+    this.REQUEST = `${namespace}/request`
+    this.SUCCESS = `${namespace}/success`
+    this.FAILURE = `${namespace}/failure`
   }
 
   findDataset(ipId) {
@@ -39,6 +40,3 @@ class CatalogDatasetEntityActions extends BasicActions {
   }
 
 }
-
-const instance = new CatalogDatasetEntityActions()
-export default instance
