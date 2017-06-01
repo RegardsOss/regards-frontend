@@ -2,9 +2,9 @@ import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { Model } from '@regardsoss/model'
-import { modelActions, modelSelectors } from '../client/ModelClient'
+import { modelActions, modelSelectors } from '../clients/ModelClient'
 import ModelListComponent from '../components/ModelListComponent'
-import { authenticationSelectors } from '../client/AuthenticationClient'
+import { authenticationSelectors } from '../clients/AuthenticationClient'
 
 /**
  * React container to list all model entities

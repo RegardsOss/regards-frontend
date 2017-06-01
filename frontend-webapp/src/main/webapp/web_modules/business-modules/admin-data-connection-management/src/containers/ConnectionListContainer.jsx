@@ -6,9 +6,9 @@ import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { Connection } from '@regardsoss/model'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { connectionActions, connectionSelectors } from '../client/ConnectionClient'
+import { connectionActions, connectionSelectors } from '../clients/ConnectionClient'
 import ConnectionListComponent from '../components/ConnectionListComponent'
-import { connectionTestActions } from '../client/ConnectionTestClient'
+import { connectionTestActions } from '../clients/ConnectionTestClient'
 /**
  * List connection
  */

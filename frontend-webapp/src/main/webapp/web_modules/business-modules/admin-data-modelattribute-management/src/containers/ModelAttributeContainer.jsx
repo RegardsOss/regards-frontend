@@ -4,7 +4,7 @@
 import find from 'lodash/find'
 import { connect } from '@regardsoss/redux'
 import { AttributeModel, ModelAttribute, PluginConfiguration, PluginMetaData } from '@regardsoss/model'
-import { modelAttributesSelectors, modelAttributesActions } from '../client/ModelAttributesClient'
+import { modelAttributesSelectors, modelAttributesActions } from '../clients/ModelAttributesClient'
 import ModelAttributeComponent from '../components/ModelAttributeComponent'
 
 export class ModelAttributeContainer extends React.Component {

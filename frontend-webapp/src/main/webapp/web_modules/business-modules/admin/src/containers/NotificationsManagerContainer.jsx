@@ -3,7 +3,7 @@
 **/
 import { WaitingAccountEntitiesActions } from '@regardsoss/admin-account-management'
 import { connect } from '@regardsoss/redux'
-import { waitingAccessUsersEntitiesActions } from '../client/WaitingAccessUsersEntitiesClient'
+import { waitingAccessUsersEntitiesActions } from '../clients/WaitingAccessUsersEntitiesClient'
 
 /** Refresh time in milliseconds */
 const refreshTimerMS = 60000

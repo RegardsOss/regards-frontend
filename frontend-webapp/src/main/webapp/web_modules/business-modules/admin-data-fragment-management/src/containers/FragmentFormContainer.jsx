@@ -7,7 +7,7 @@ import { I18nProvider } from '@regardsoss/i18n'
 import { Fragment } from '@regardsoss/model'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import FragmentFormComponent from '../components/FragmentFormComponent'
-import { fragmentActions, fragmentSelectors } from '../client/FragmentClient'
+import { fragmentActions, fragmentSelectors } from '../clients/FragmentClient'
 
 /**
  * React container to manage the fragment form.

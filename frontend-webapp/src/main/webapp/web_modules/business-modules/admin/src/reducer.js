@@ -10,7 +10,7 @@ import { uiManagementReducer } from '@regardsoss/admin-ui-management'
 import { microserviceManagementReducer } from '@regardsoss/admin-microservice-management'
 import { accessRightManagementReducer } from '@regardsoss/admin-accessright-management'
 
-import { waitingAccessUsersEntitiesReducer } from './client/WaitingAccessUsersEntitiesClient'
+import { waitingAccessUsersEntitiesReducer } from './clients/WaitingAccessUsersEntitiesClient'
 
 /**
  * Redux store reducers for the administration application

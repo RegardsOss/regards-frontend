@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import has from 'lodash/has'
-import { themeSelectors } from '../../client/ThemeClient'
+import { themeSelectors } from '../../clients/ThemeClient'
 import defaultTheme from '../defaultTheme'
 
 export default (state) => {

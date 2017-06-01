@@ -2,9 +2,9 @@
  * LICENSE_PLACEHOLDER
  **/
 import { combineReducers } from 'redux'
-import { connectionReducer } from './client/ConnectionClient'
-import { connectionTestReducer } from './client/ConnectionTestClient'
-import { pluginMetaDataReducer } from './client/PluginMetaDataClient'
+import { connectionReducer } from './clients/ConnectionClient'
+import { connectionTestReducer } from './clients/ConnectionTestClient'
+import { pluginMetaDataReducer } from './clients/PluginMetaDataClient'
 
 const connectionDataManagementReducer = combineReducers({
   connection: connectionReducer,

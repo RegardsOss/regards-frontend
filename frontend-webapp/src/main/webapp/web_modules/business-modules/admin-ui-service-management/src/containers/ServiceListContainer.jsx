@@ -7,7 +7,7 @@ import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { themeContextType } from '@regardsoss/theme'
 import { PluginDefinition as UIPluginDefinition } from '@regardsoss/model'
-import { uiPluginDefinitionSelectors, uiPluginDefinitionActions } from '../client/UIPluginDefinitionClient'
+import { uiPluginDefinitionSelectors, uiPluginDefinitionActions } from '../clients/UIPluginDefinitionClient'
 import ServiceListComponent from '../components/ServiceListComponent'
 
 

@@ -6,7 +6,7 @@ import { ProjectUser } from '@regardsoss/model'
 import { getMetadataArray, packMetaDataField } from '@regardsoss/user-metadata-common'
 import profileDialogActions from '../model/ProfileDialogActions'
 import profileDialogSelectors from '../model/ProfileDialogSelectors'
-import { myUserActions, myUserSelectors } from '../client/MyUserClient'
+import { myUserActions, myUserSelectors } from '../clients/MyUserClient'
 import ProfileEditionDialogComponent from '../components/ProfileEditionDialogComponent'
 
 /**

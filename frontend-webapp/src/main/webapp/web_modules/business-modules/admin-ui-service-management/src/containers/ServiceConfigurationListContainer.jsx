@@ -8,8 +8,8 @@ import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { themeContextType } from '@regardsoss/theme'
 import { PluginLoader } from '@regardsoss/plugins'
 import { PluginDefinition as UIPluginDefinition, PluginConf as UIPluginConfiguration } from '@regardsoss/model'
-import { uiPluginConfigurationSelectors, uiPluginConfigurationActions } from '../client/UIPluginConfigurationClient'
-import { uiPluginDefinitionSelectors, uiPluginDefinitionActions } from '../client/UIPluginDefinitionClient'
+import { uiPluginConfigurationSelectors, uiPluginConfigurationActions } from '../clients/UIPluginConfigurationClient'
+import { uiPluginDefinitionSelectors, uiPluginDefinitionActions } from '../clients/UIPluginDefinitionClient'
 import ServiceConfigurationListComponent from '../components/ServiceConfigurationListComponent'
 
 /**

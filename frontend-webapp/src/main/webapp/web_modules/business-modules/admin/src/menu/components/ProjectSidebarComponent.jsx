@@ -24,7 +24,7 @@ import { RequestVerbEnum } from '@regardsoss/store-utils'
 import getModuleStyles from '../../styles/styles'
 import HateoasSidebarElement from './HateoasSidebarElement'
 import WaitingAccessNotificationContainer from '../containers/WaitingAccessNotificationContainer'
-import { projectActions } from '../client/ProjectClient'
+import { projectActions } from '../clients/ProjectClient'
 /**
  * React sidebar components. Display the admin application menu
  */

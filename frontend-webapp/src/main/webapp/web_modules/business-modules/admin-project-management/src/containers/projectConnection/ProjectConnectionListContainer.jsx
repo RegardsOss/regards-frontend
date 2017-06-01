@@ -7,9 +7,9 @@ import { browserHistory } from 'react-router'
 import { I18nProvider } from '@regardsoss/i18n'
 import { Project, ProjectConnection } from '@regardsoss/model'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { projectActions, projectSelectors } from '../../client/ProjectClient'
-import { projectConnectionActions, projectConnectionSelectors } from '../../client/ProjectConnectionClient'
-import { projectConnectionTestActions } from '../../client/ProjectConnectionTestClient'
+import { projectActions, projectSelectors } from '../../clients/ProjectClient'
+import { projectConnectionActions, projectConnectionSelectors } from '../../clients/ProjectConnectionClient'
+import { projectConnectionTestActions } from '../../clients/ProjectConnectionTestClient'
 import ProjectConnectionListComponent from '../../components/projectConnection/ProjectConnectionListComponent'
 
 /**

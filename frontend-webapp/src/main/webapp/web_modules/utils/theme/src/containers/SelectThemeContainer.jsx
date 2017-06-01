@@ -12,7 +12,7 @@ import { I18nProvider } from '@regardsoss/i18n'
 import { Theme, ThemeList } from '@regardsoss/model'
 import getCurrentTheme from '../model/selectors/getCurrentTheme'
 import setCurrentTheme from '../model/actions/setCurrentTheme'
-import { themeSelectors } from '../client/ThemeClient'
+import { themeSelectors } from '../clients/ThemeClient'
 import defaultTheme from '../model/defaultTheme'
 
 /**

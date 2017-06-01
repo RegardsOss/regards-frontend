@@ -1,9 +1,9 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { borrowRoleReducer } from './client/BorrowRoleClient'
-import { borrowableRolesReducer } from './client/BorrowableRolesClient'
-import { myUserReducer } from './client/MyUserClient'
+import { borrowRoleReducer } from './clients/BorrowRoleClient'
+import { borrowableRolesReducer } from './clients/BorrowableRolesClient'
+import { myUserReducer } from './clients/MyUserClient'
 import profileDialogReducer from './model/ProfileDialogReducer'
 
 export default {

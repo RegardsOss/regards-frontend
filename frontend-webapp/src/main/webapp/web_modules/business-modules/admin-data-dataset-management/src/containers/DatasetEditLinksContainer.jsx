@@ -12,10 +12,10 @@ import filter from 'lodash/filter'
 import startsWith from 'lodash/startsWith'
 import remove from 'lodash/remove'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { datasetSelectors, datasetActions } from './../client/DatasetClient'
+import { datasetSelectors, datasetActions } from './../clients/DatasetClient'
 import DatasetEditLinksComponent from '../components/DatasetEditLinksComponent'
-import { datasetLinkActions } from '../client/DatasetLinkClient'
-import { collectionSelectors, collectionActions } from '../client/CollectionClient'
+import { datasetLinkActions } from '../clients/DatasetLinkClient'
+import { collectionSelectors, collectionActions } from '../clients/CollectionClient'
 
 /**
  * Show the dataset form

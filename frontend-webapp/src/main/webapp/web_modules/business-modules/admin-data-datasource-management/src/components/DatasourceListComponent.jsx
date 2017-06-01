@@ -13,7 +13,7 @@ import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { HateoasIconAction, HateoasKeys } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { datasourceActions } from '../client/DatasourceClient'
+import { datasourceActions } from '../clients/DatasourceClient'
 
 /**
  * React component to list datasources.

@@ -2,12 +2,12 @@
  * LICENSE_PLACEHOLDER
  **/
 import { combineReducers } from 'redux'
-import { attributeModelReducer } from './client/AttributeModelClient'
-import { modelReducer } from './client/ModelClient'
-import { modelAttributesReducer } from './client/ModelAttributesClient'
-import { modelAttributesFragmentReducer } from './client/ModelAttributesFragmentClient'
-import { pluginConfigurationReducer } from './client/PluginConfigurationClient'
-import { pluginMetaDataReducer } from './client/PluginMetaDataClient'
+import { attributeModelReducer } from './clients/AttributeModelClient'
+import { modelReducer } from './clients/ModelClient'
+import { modelAttributesReducer } from './clients/ModelAttributesClient'
+import { modelAttributesFragmentReducer } from './clients/ModelAttributesFragmentClient'
+import { pluginConfigurationReducer } from './clients/PluginConfigurationClient'
+import { pluginMetaDataReducer } from './clients/PluginMetaDataClient'
 
 const modelAttributeDataManagementReducer = combineReducers({
   'attribute-model': attributeModelReducer,

@@ -15,11 +15,11 @@ import {
   SearchResultsTargetsEnum,
 } from '@regardsoss/model'
 import { TableSelectionModes } from '@regardsoss/components'
-import TableClient from '../../../client/TableClient'
+import TableClient from '../../../clients/TableClient'
 import NavigationLevel from '../../../models/navigation/NavigationLevel'
 import navigationContextActions from '../../../models/navigation/NavigationContextActions'
 import navigationContextSelectors from '../../../models/navigation/NavigationContextSelectors'
-import { searchDataobjectsActions, searchDatasetsActions, selectors as searchSelectors } from '../../../client/SearchEntitiesClient'
+import { searchDataobjectsActions, searchDatasetsActions, selectors as searchSelectors } from '../../../clients/SearchEntitiesClient'
 import datasetServicesSelectors from '../../../models/services/DatasetServicesSelectors'
 import QueriesHelper from '../../../definitions/query/QueriesHelper'
 import Service from '../../../definitions/service/Service'

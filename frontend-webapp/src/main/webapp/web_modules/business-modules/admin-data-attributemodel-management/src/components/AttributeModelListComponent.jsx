@@ -10,8 +10,8 @@ import { AttributeModel } from '@regardsoss/model'
 import { CardActionsComponent, ActionsMenuCell, ConfirmDialogComponent, ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { fragmentSelectors } from '../client/FragmentClient'
-import { attributeModelActions } from '../client/AttributeModelClient'
+import { fragmentSelectors } from '../clients/FragmentClient'
+import { attributeModelActions } from '../clients/AttributeModelClient'
 
 /**
  * React components to list project.

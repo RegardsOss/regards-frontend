@@ -10,7 +10,7 @@ import MicroserviceBoardComponent from '../components/MicroserviceBoardComponent
 import MaintenanceModeActions from '../model/MaintenanceModeActions'
 import MaintenanceModeSelectors from '../model/MaintenanceModeSelectors'
 import SetMaintenanceModeActions, { MAINTENANCES_ACTIONS } from '../model/SetMaintenanceModeActions'
-import MicroserviceInfoClient from '../client/MicroserviceInfoClient'
+import MicroserviceInfoClient from '../clients/MicroserviceInfoClient'
 
 /**
  * Module container connecting {@link MicroserviceBoardComponent} to redux in order to display the list of microservices.

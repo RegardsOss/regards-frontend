@@ -3,7 +3,7 @@ import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { Model } from '@regardsoss/model'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { modelActions, modelSelectors } from '../client/ModelClient'
+import { modelActions, modelSelectors } from '../clients/ModelClient'
 import ModelFormComponent from '../components/ModelFormComponent'
 
 export class ProjectFormContainer extends React.Component {

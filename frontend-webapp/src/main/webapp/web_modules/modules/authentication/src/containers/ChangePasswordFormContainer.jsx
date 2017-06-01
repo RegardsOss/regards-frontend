@@ -6,7 +6,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import ChangePasswordForm from '../components/ChangePasswordFormComponent'
 import ResetPasswordActions from '../model/operation/ResetPasswordActions'
 import ResetPasswordSelectors from '../model/operation/ResetPasswordSelectors'
-import { accountPasswordActions, accountPasswordSelectors } from '../client/AccountPasswordClient'
+import { accountPasswordActions, accountPasswordSelectors } from '../clients/AccountPasswordClient'
 
 
 /**

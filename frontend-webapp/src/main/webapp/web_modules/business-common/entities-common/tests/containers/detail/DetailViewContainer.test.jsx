@@ -9,7 +9,7 @@ import { CatalogEntityTypes } from '@regardsoss/model'
 import { getTypeRender } from '@regardsoss/attributes-common'
 import DetailViewComponent from '../../../src/components/detail/DetailViewComponent'
 import { DetailViewContainer } from '../../../src/containers/detail/DetailViewContainer'
-import DownloadDescriptionClient from '../../../src/client/DownloadDescriptionClient'
+import DownloadDescriptionClient from '../../../src/clients/DownloadDescriptionClient'
 import styles from '../../../src/styles/styles'
 
 const context = buildTestContext(styles)

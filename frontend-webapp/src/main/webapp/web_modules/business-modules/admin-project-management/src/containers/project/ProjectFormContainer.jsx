@@ -6,7 +6,7 @@ import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
 import ProjectFormComponent from '../../components/project/ProjectFormComponent'
-import { projectActions, projectSelectors } from '../../client/ProjectClient'
+import { projectActions, projectSelectors } from '../../clients/ProjectClient'
 
 /**
  * React container to display an editing/creating Project form component

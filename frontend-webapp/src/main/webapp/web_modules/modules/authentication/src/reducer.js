@@ -6,7 +6,7 @@ import unlockAccountReducer, { pathname as unlockPath } from './model/operation/
 import createAccountReducer, { pathname as createAccountPath } from './model/creation/CreateAccountReducers'
 import createUserReducer, { pathname as createUserPath } from './model/creation/CreateUserReducers'
 import validateAccountReducer, { pathname as validateAccountPath } from './model/creation/ValidateAccountReducers'
-import { accountPasswordReducer } from './client/AccountPasswordClient'
+import { accountPasswordReducer } from './clients/AccountPasswordClient'
 
 const projectsReducer = {
   [createAccountPath]: createAccountReducer,

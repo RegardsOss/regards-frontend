@@ -5,8 +5,8 @@ import { connect } from '@regardsoss/redux'
 import { CatalogEntity } from '@regardsoss/model'
 import graphContextActions from '../../model/graph/GraphContextActions'
 import graphContextSelectors from '../../model/graph/GraphContextSelectors'
-import downloadDescriptionClient from '../../model/client/DownloadDescriptionClient'
-import { ModelAttributesActions, ModelAttributesSelectors } from '../../model/client/ModelAttributeClient'
+import downloadDescriptionClient from '../../model/clients/DownloadDescriptionClient'
+import { ModelAttributesActions, ModelAttributesSelectors } from '../../model/clients/ModelAttributeClient'
 import Description from '../../components/user/Description'
 
 /**

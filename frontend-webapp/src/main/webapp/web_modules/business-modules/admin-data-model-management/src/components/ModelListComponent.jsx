@@ -14,8 +14,8 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { Model } from '@regardsoss/model'
 import { HateoasIconAction, ResourceIconAction, HateoasKeys } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { modelActions } from '../client/ModelClient'
-import { modelAttributesActions } from '../client/ModelAttributesClient'
+import { modelActions } from '../clients/ModelClient'
+import { modelAttributesActions } from '../clients/ModelAttributesClient'
 
 /**
  * React components to list project.

@@ -14,7 +14,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { HateoasIconAction, HateoasToggle, HateoasKeys, ResourceIconAction } from '@regardsoss/display-control'
 import { PluginConf as UIPluginConfiguration, Plugin as UIPlugin } from '@regardsoss/model'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { uiPluginConfigurationActions } from '../client/UIPluginConfigurationClient'
+import { uiPluginConfigurationActions } from '../clients/UIPluginConfigurationClient'
 import moduleStyles from '../styles/styles'
 
 const styles = moduleStyles().plugin

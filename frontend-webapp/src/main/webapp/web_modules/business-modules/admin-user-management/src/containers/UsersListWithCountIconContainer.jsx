@@ -4,7 +4,7 @@
 import { ActionIconWithNotifications } from '@regardsoss/components'
 import { connect } from '@regardsoss/redux'
 import ViewLinesIcon from 'material-ui/svg-icons/action/view-headline'
-import { waitingAccessUsersEntitiesSelectors } from '../client/WaitingAccessUsersEntitiesClient'
+import { waitingAccessUsersEntitiesSelectors } from '../clients/WaitingAccessUsersEntitiesClient'
 
 /**
  * Display user management functionalities

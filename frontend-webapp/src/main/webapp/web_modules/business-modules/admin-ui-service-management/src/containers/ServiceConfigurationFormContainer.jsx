@@ -8,7 +8,7 @@ import { PluginConf as UIPluginConfiguration } from '@regardsoss/model'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { PluginProvider } from '@regardsoss/plugins'
 import ServiceConfigurationFormComponent from '../components/ServiceConfigurationFormComponent'
-import { uiPluginConfigurationSelectors, uiPluginConfigurationActions } from '../client/UIPluginConfigurationClient'
+import { uiPluginConfigurationSelectors, uiPluginConfigurationActions } from '../clients/UIPluginConfigurationClient'
 
 /**
  * Show the plugin service configuration form

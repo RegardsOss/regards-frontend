@@ -6,7 +6,7 @@ import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { Collection } from '@regardsoss/model'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { collectionActions, collectionSelectors } from '../client/CollectionClient'
+import { collectionActions, collectionSelectors } from '../clients/CollectionClient'
 import CollectionListComponent from '../components/CollectionListComponent'
 
 /**

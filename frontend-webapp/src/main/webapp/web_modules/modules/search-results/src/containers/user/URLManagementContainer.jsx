@@ -8,7 +8,7 @@ import { SearchResultsTargetsEnum } from '@regardsoss/model'
 import NavigationLevel from '../../models/navigation/NavigationLevel'
 import navigationContextActions from '../../models/navigation/NavigationContextActions'
 import navigationContextSelectors from '../../models/navigation/NavigationContextSelectors'
-import { actions as findDatasetActions } from '../../client/FindDatasetClient'
+import { actions as findDatasetActions } from '../../clients/FindDatasetClient'
 
 /**
  * module URL parameters

@@ -14,7 +14,7 @@ import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { HateoasIconAction, ResourceIconAction, HateoasKeys } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { collectionActions } from '../client/CollectionClient'
+import { collectionActions } from '../clients/CollectionClient'
 
 /**
  * React component to list collections.

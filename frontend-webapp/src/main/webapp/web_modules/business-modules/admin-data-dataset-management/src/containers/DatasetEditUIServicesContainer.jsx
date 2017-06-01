@@ -4,9 +4,9 @@ import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { PluginDefinition as UIPluginDefinition, PluginConf as UIPluginConfiguration, Dataset } from '@regardsoss/model'
 import DatasetEditUIServicesComponent from '../components/DatasetEditUIServicesComponent'
-import { uiPluginConfigurationSelectors, uiPluginConfigurationActions } from '../client/UIPluginConfigurationClient'
-import { uiPluginDefinitionSelectors, uiPluginDefinitionActions } from '../client/UIPluginDefinitionClient'
-import { datasetSelectors, datasetActions } from './../client/DatasetClient'
+import { uiPluginConfigurationSelectors, uiPluginConfigurationActions } from '../clients/UIPluginConfigurationClient'
+import { uiPluginDefinitionSelectors, uiPluginDefinitionActions } from '../clients/UIPluginDefinitionClient'
+import { datasetSelectors, datasetActions } from './../clients/DatasetClient'
 
 export class DatasetEditUIServicesContainer extends React.Component {
 

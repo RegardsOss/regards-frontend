@@ -5,7 +5,7 @@ import { connect } from '@regardsoss/redux'
 import { Dataset, ModelAttribute } from '@regardsoss/model'
 import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { modelAttributesActions, modelAttributesSelectors } from '../client/ModelAttributesClient'
+import { modelAttributesActions, modelAttributesSelectors } from '../clients/ModelAttributesClient'
 import DatasetFormSubsettingComponent from '../components/DatasetFormSubsettingComponent'
 
 /**

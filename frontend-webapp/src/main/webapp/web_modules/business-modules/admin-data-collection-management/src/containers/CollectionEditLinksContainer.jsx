@@ -10,9 +10,9 @@ import some from 'lodash/some'
 import filter from 'lodash/filter'
 import startsWith from 'lodash/startsWith'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { collectionActions, collectionSelectors } from '../client/CollectionClient'
+import { collectionActions, collectionSelectors } from '../clients/CollectionClient'
 import CollectionEditLinksComponent from '../components/CollectionEditLinksComponent'
-import { collectionLinkActions } from '../client/CollectionLinkClient'
+import { collectionLinkActions } from '../clients/CollectionLinkClient'
 /**
  * Show the collection form
  */

@@ -46,7 +46,6 @@ config = merge(config, {
           AUTHENTICATION: 'rs-authentication',
           CATALOG: 'rs-catalog',
           DAM: 'rs-dam',
-          STORAGE: 'rs-archival-storage',
         },
         IMSERVICES: {
           ACCESS_INSTANCE: 'rs-access-instance',

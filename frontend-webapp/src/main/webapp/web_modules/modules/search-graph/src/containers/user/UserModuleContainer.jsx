@@ -13,7 +13,7 @@ import { CatalogEntity, CatalogEntityTypes, AttributeModel, AttributeModelContro
 import { getTypeRender } from '@regardsoss/attributes-common'
 import { ShowableAtRender } from '@regardsoss/components'
 import ModuleConfiguration from '../../model/ModuleConfiguration'
-import { AttributeModelActions, AttributeModelSelectors } from '../../model/client/AttributeModelClient'
+import { AttributeModelActions, AttributeModelSelectors } from '../../model/clients/AttributeModelClient'
 import graphContextActions from '../../model/graph/GraphContextActions'
 import fetchGraphCollectionsActions from '../../model/graph/FetchGraphCollectionsActions'
 import fetchGraphDatasetsActions from '../../model/graph/FetchGraphDatasetsActions'

@@ -7,7 +7,7 @@ import values from 'lodash/values'
 import { connect } from '@regardsoss/redux'
 import { BasicPageableSelectors } from '@regardsoss/store-utils'
 import { TableSelectionModes } from '@regardsoss/components'
-import TableClient from '../../../../client/TableClient'
+import TableClient from '../../../../clients/TableClient'
 import TableSelectAllComponent from '../../../../components/user/results/options/TableSelectAllComponent'
 
 /**

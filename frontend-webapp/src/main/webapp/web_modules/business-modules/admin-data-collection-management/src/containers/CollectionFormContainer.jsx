@@ -10,11 +10,11 @@ import { Collection, Model, ModelAttribute, EntityController } from '@regardsoss
 import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { unregisterField } from 'redux-form'
-import { collectionActions, collectionSelectors } from '../client/CollectionClient'
+import { collectionActions, collectionSelectors } from '../clients/CollectionClient'
 import CollectionFormComponent from '../components/CollectionFormComponent'
-import { modelSelectors, modelActions } from '../client/ModelClient'
-import { modelAttributesSelectors, modelAttributesActions } from '../client/ModelAttributesClient'
-import { fragmentSelectors } from '../client/FragmentClient'
+import { modelSelectors, modelActions } from '../clients/ModelClient'
+import { modelAttributesSelectors, modelAttributesActions } from '../clients/ModelAttributesClient'
+import { fragmentSelectors } from '../clients/FragmentClient'
 
 /**
  * Show the collection form

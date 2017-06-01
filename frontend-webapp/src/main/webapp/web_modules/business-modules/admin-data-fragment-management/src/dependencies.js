@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { fragmentActions } from './client/FragmentClient'
+import { fragmentActions } from './clients/FragmentClient'
 
 /**
  * Mandatory Dependencies to display module in parent board

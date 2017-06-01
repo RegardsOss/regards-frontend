@@ -1,7 +1,7 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
-import { waitingAccessUsersEntitiesSelectors } from '../../client/WaitingAccessUsersEntitiesClient'
+import { waitingAccessUsersEntitiesSelectors } from '../../clients/WaitingAccessUsersEntitiesClient'
 import NotificationCountContainer from './NotificationCountContainer'
 
 /**

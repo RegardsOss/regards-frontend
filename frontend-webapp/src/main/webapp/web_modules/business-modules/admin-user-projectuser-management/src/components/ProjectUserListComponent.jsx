@@ -18,7 +18,7 @@ import { ProjectUser } from '@regardsoss/model'
 import { ActionsMenuCell, CardActionsComponent, NoContentMessageInfo, ConfirmDialogComponent, ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { projectUserActions } from '../client/ProjectUserClient'
+import { projectUserActions } from '../clients/ProjectUserClient'
 
 /**
  * User statuses constants, as returned by the server

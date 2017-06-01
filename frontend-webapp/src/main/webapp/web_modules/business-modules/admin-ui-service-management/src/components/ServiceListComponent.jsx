@@ -13,7 +13,7 @@ import { themeContextType } from '@regardsoss/theme'
 import { PluginDefinition as UIPluginDefinition } from '@regardsoss/model'
 import IconButton from 'material-ui/IconButton'
 import moduleStyles from '../styles/styles'
-import { uiPluginConfigurationActions } from '../client/UIPluginConfigurationClient'
+import { uiPluginConfigurationActions } from '../clients/UIPluginConfigurationClient'
 
 const styles = moduleStyles().plugins
 

@@ -5,7 +5,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { TableContainer } from '@regardsoss/components'
-import { searchDataobjectsActions, searchDatasetsActions } from '../../../../src/client/SearchEntitiesClient'
+import { searchDataobjectsActions, searchDatasetsActions } from '../../../../src/clients/SearchEntitiesClient'
 import SearchResultsComponent from '../../../../src/components/user/results/SearchResultsComponent'
 import Styles from '../../../../src/styles/styles'
 

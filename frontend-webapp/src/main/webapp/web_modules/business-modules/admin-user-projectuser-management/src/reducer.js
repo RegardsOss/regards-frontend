@@ -2,13 +2,13 @@
  * LICENSE_PLACEHOLDER
  **/
 import { combineReducers } from 'redux'
-import { accessGroupReducer } from './client/AccessGroupClient'
-import { accountPasswordReducer } from './client/AccountPasswordClient'
-import { projectUserReducer } from './client/ProjectUserClient'
-import { roleReducer } from './client/RoleClient'
-import { userGroupReducer } from './client/UserGroupClient'
-import { waitingAccessUsersEntitiesReducer } from './client/WaitingAccessUsersEntitiesClient'
-import { waitingAccessUsersSignalReducer } from './client/WaitingAccessUsersSignalClient'
+import { accessGroupReducer } from './clients/AccessGroupClient'
+import { accountPasswordReducer } from './clients/AccountPasswordClient'
+import { projectUserReducer } from './clients/ProjectUserClient'
+import { roleReducer } from './clients/RoleClient'
+import { userGroupReducer } from './clients/UserGroupClient'
+import { waitingAccessUsersEntitiesReducer } from './clients/WaitingAccessUsersEntitiesClient'
+import { waitingAccessUsersSignalReducer } from './clients/WaitingAccessUsersSignalClient'
 
 const projectUserManagementReducer = combineReducers({
   accessGroup: accessGroupReducer,

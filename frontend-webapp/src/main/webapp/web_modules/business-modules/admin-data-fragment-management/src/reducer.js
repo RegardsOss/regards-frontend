@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import { fragmentReducer } from './client/FragmentClient'
+import { fragmentReducer } from './clients/FragmentClient'
 
 const fragmentDataManagementReducer = combineReducers({
   fragment: fragmentReducer,

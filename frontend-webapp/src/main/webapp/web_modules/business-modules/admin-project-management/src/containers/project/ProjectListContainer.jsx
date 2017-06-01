@@ -7,7 +7,7 @@ import { Project } from '@regardsoss/model'
 import { I18nProvider } from '@regardsoss/i18n'
 import { AuthenticationClient } from '@regardsoss/authentication-manager'
 import NotifyLicenseUpdatedActions from '../../model/NotifyLicenseUpdatedActions'
-import { projectActions, projectSelectors } from '../../client/ProjectClient'
+import { projectActions, projectSelectors } from '../../clients/ProjectClient'
 import ProjectListComponent from '../../components/project/ProjectListComponent'
 
 /**

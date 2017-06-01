@@ -4,10 +4,10 @@
 import { connect } from '@regardsoss/redux'
 import { AuthenticationParametersSelectors } from '@regardsoss/authentication-manager'
 import ModuleFormContainer from './ModuleFormContainer'
-import { moduleInstanceActions, moduleInstanceSelectors } from '../client/ModuleInstanceClient'
-import { layoutInstanceActions, layoutInstanceSelectors } from '../client/LayoutInstanceClient'
-import { moduleActions, moduleSelectors } from '../client/ModuleClient'
-import { layoutActions, layoutSelectors } from '../client/LayoutClient'
+import { moduleInstanceActions, moduleInstanceSelectors } from '../clients/ModuleInstanceClient'
+import { layoutInstanceActions, layoutInstanceSelectors } from '../clients/LayoutInstanceClient'
+import { moduleActions, moduleSelectors } from '../clients/ModuleClient'
+import { layoutActions, layoutSelectors } from '../clients/LayoutClient'
 
 /**
  * Adapter for all modules container to use instance client or project client. (rs-access-project or rs-access-instance).

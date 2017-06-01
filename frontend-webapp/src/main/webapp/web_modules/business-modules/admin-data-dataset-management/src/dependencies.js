@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { datasetActions } from './client/DatasetClient'
+import { datasetActions } from './clients/DatasetClient'
 
 
 /**

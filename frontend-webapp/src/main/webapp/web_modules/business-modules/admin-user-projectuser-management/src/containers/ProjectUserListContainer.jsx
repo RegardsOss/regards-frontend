@@ -6,9 +6,9 @@ import keys from 'lodash/keys'
 import { I18nProvider } from '@regardsoss/i18n'
 import { browserHistory } from 'react-router'
 import { ProjectUser } from '@regardsoss/model'
-import { projectUserActions, projectUserSelectors } from '../client/ProjectUserClient'
-import { waitingAccessUsersEntitiesActions, waitingAccessUsersEntitiesSelectors } from '../client/WaitingAccessUsersEntitiesClient'
-import { waitingAccessUsersSignalActions } from '../client/WaitingAccessUsersSignalClient'
+import { projectUserActions, projectUserSelectors } from '../clients/ProjectUserClient'
+import { waitingAccessUsersEntitiesActions, waitingAccessUsersEntitiesSelectors } from '../clients/WaitingAccessUsersEntitiesClient'
+import { waitingAccessUsersSignalActions } from '../clients/WaitingAccessUsersSignalClient'
 import ProjectUserListComponent from '../components/ProjectUserListComponent'
 /**
  * Show the user list for the current project

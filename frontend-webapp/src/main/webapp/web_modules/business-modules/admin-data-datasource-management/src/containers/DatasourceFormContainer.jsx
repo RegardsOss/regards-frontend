@@ -9,11 +9,11 @@ import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { Datasource, PluginMetaData } from '@regardsoss/model'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { datasourceSelectors, datasourceActions } from './../client/DatasourceClient'
+import { datasourceSelectors, datasourceActions } from './../clients/DatasourceClient'
 import DatasourceFormAttributesContainer from './DatasourceFormAttributesContainer'
 import DatasourceFormMappingContainer from './DatasourceFormMappingContainer'
-import { pluginMetaDataActions, pluginMetaDataSelectors } from './../client/PluginMetaDataClient'
-import { fragmentSelectors } from './../client/FragmentClient'
+import { pluginMetaDataActions, pluginMetaDataSelectors } from './../clients/PluginMetaDataClient'
+import { fragmentSelectors } from './../clients/FragmentClient'
 
 const states = {
   FORM_ATTRIBUTE: 'FORM_ATTRIBUTE',

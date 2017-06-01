@@ -2,8 +2,8 @@
  * LICENSE_PLACEHOLDER
  **/
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { searchDatasetsActions, searchDataobjectsActions } from './client/SearchEntitiesClient'
-import { AttributeModelActions } from './client/AttributeModelClient'
+import { searchDatasetsActions, searchDataobjectsActions } from './clients/SearchEntitiesClient'
+import { AttributeModelActions } from './clients/AttributeModelClient'
 
 /**
  * Dependencies needed to display user page of the module

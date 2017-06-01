@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux'
-import { attributeModelReducer } from './client/AttributeModelClient'
-import { attributeModelRestrictionReducer } from './client/AttributeModelRestrictionClient'
-import { attributeModelTypeReducer } from './client/AttributeModelTypeClient'
-import { fragmentReducer } from './client/FragmentClient'
+import { attributeModelReducer } from './clients/AttributeModelClient'
+import { attributeModelRestrictionReducer } from './clients/AttributeModelRestrictionClient'
+import { attributeModelTypeReducer } from './clients/AttributeModelTypeClient'
+import { fragmentReducer } from './clients/FragmentClient'
 
 const attributeModelDataManagementReducer = combineReducers({
   'attribute-model': attributeModelReducer,

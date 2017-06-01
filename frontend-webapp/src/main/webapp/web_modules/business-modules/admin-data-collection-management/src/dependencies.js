@@ -2,9 +2,9 @@
  * LICENSE_PLACEHOLDER
  **/
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { collectionActions } from './client/CollectionClient'
-import { modelActions } from './client/ModelClient'
-import { modelAttributesActions } from './client/ModelAttributesClient'
+import { collectionActions } from './clients/CollectionClient'
+import { modelActions } from './clients/ModelClient'
+import { modelAttributesActions } from './clients/ModelAttributesClient'
 
 /**
  * Module hateoas depencies

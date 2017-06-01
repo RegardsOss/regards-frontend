@@ -2,13 +2,13 @@
  * LICENSE_PLACEHOLDER
  **/
 import { combineReducers } from 'redux'
-import { modelReducer } from './client/ModelClient'
-import { connectionReducer } from './client/ConnectionClient'
-import { datasourceReducer } from './client/DatasourceClient'
-import { connectionTableReducer } from './client/ConnectionTableClient'
-import { connectionTableAttributesReducer } from './client/ConnectionTableAttributesClient'
-import { modelAttributesReducer } from './client/ModelAttributesClient'
-import { pluginMetaDataReducer } from './client/PluginMetaDataClient'
+import { modelReducer } from './clients/ModelClient'
+import { connectionReducer } from './clients/ConnectionClient'
+import { datasourceReducer } from './clients/DatasourceClient'
+import { connectionTableReducer } from './clients/ConnectionTableClient'
+import { connectionTableAttributesReducer } from './clients/ConnectionTableAttributesClient'
+import { modelAttributesReducer } from './clients/ModelAttributesClient'
+import { pluginMetaDataReducer } from './clients/PluginMetaDataClient'
 
 const datasourceDataManagementReducer = combineReducers({
   datasource: datasourceReducer,

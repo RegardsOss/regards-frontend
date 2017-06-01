@@ -19,7 +19,7 @@ import MenuItem from 'material-ui/MenuItem'
 import SelectField from 'material-ui/SelectField'
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
 import DatasetStepperComponent from './DatasetStepperComponent'
-import { fragmentSelectors } from '../client/FragmentClient'
+import { fragmentSelectors } from '../clients/FragmentClient'
 
 const DESCRIPTION_MODE = {
   NOTHING: 'nothing',

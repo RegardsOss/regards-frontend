@@ -2,10 +2,10 @@
 * LICENSE_PLACEHOLDER
 **/
 import { combineReducers } from 'redux'
-import { moduleReducers } from './client/ModuleClient'
-import { moduleInstanceReducers } from './client/ModuleInstanceClient'
-import { layoutReducers } from './client/LayoutClient'
-import { layoutInstanceReducers } from './client/LayoutInstanceClient'
+import { moduleReducers } from './clients/ModuleClient'
+import { moduleInstanceReducers } from './clients/ModuleInstanceClient'
+import { layoutReducers } from './clients/LayoutClient'
+import { layoutInstanceReducers } from './clients/LayoutInstanceClient'
 
 /**
  * UI-Configuration module reducers

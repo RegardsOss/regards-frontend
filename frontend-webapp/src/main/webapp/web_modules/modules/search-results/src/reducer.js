@@ -3,15 +3,15 @@
  **/
 import navigationContextReducer from './models/navigation/NavigationContextReducer'
 import datasetServicesReducer from './models/services/DatasetServicesReducer'
-import { reducer as SearchCatalogReducer } from './client/SearchEntitiesClient'
-import { AttributeModelReducer, REDUCER_PATH as ATTRIBUTE_MODEL_REDUCER_PATH } from './client/AttributeModelClient'
-import { tableReducer } from './client/TableClient'
-import DownloadDescriptionClient, { DATASET_REDUCER_PATH, COLLECTION_REDUCER_PATH } from './client/DownloadDescriptionClient'
-import modelAttributeClient from './client/ModelAttributeClient'
-import OneDatasetBusinessServiceClient from './client/OneDatasetBusinessServiceClient'
-import OneDataobjectBusinessServiceClient from './client/OneDataobjectBusinessServiceClient'
-import ManyDataobjectsBusinessServiceClient from './client/ManyDataobjectsBusinessServiceClient'
-import UIServiceClient from './client/UIServiceClient'
+import { reducer as SearchCatalogReducer } from './clients/SearchEntitiesClient'
+import { AttributeModelReducer, REDUCER_PATH as ATTRIBUTE_MODEL_REDUCER_PATH } from './clients/AttributeModelClient'
+import { tableReducer } from './clients/TableClient'
+import DownloadDescriptionClient, { DATASET_REDUCER_PATH, COLLECTION_REDUCER_PATH } from './clients/DownloadDescriptionClient'
+import modelAttributeClient from './clients/ModelAttributeClient'
+import OneDatasetBusinessServiceClient from './clients/OneDatasetBusinessServiceClient'
+import OneDataobjectBusinessServiceClient from './clients/OneDataobjectBusinessServiceClient'
+import ManyDataobjectsBusinessServiceClient from './clients/ManyDataobjectsBusinessServiceClient'
+import UIServiceClient from './clients/UIServiceClient'
 
 /**
  * Reducers for searc-form module

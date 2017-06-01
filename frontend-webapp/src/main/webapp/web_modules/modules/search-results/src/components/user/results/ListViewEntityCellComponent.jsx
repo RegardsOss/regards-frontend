@@ -20,8 +20,8 @@ import { themeContextType } from '@regardsoss/theme'
 import { DetailViewContainer } from '@regardsoss/entities-common'
 import { getTypeRender } from '@regardsoss/attributes-common'
 import { TableColumnConfiguration, TableColumnConfigurationController } from '@regardsoss/components'
-import downloadDescriptionClient from '../../../client/DownloadDescriptionClient'
-import { ModelAttributesActions, ModelAttributesSelectors } from '../../../client/ModelAttributeClient'
+import downloadDescriptionClient from '../../../clients/DownloadDescriptionClient'
+import { ModelAttributesActions, ModelAttributesSelectors } from '../../../clients/ModelAttributeClient'
 
 
 /**

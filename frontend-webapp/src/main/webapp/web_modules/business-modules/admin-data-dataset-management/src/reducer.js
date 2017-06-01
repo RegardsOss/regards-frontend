@@ -2,17 +2,17 @@
  * LICENSE_PLACEHOLDER
  **/
 import { combineReducers } from 'redux'
-import { datasetReducer } from './client/DatasetClient'
-import { modelReducer } from './client/ModelClient'
-import { modelAttributesReducer } from './client/ModelAttributesClient'
-import { datasetLinkReducer } from './client/DatasetLinkClient'
-import { datasourceReducer } from './client/DatasourceClient'
-import { collectionReducer } from './client/CollectionClient'
-import { pluginConfigurationReducer } from './client/PluginConfigurationClient'
-import { pluginMetaDataReducer } from './client/PluginMetaDataClient'
+import { datasetReducer } from './clients/DatasetClient'
+import { modelReducer } from './clients/ModelClient'
+import { modelAttributesReducer } from './clients/ModelAttributesClient'
+import { datasetLinkReducer } from './clients/DatasetLinkClient'
+import { datasourceReducer } from './clients/DatasourceClient'
+import { collectionReducer } from './clients/CollectionClient'
+import { pluginConfigurationReducer } from './clients/PluginConfigurationClient'
+import { pluginMetaDataReducer } from './clients/PluginMetaDataClient'
 import linkPluginDataset from './model/LinkPluginDatasetReducers'
-import { uiPluginConfigurationReducer } from './client/UIPluginConfigurationClient'
-import { uiPluginDefinitionReducer } from './client/UIPluginDefinitionClient'
+import { uiPluginConfigurationReducer } from './clients/UIPluginConfigurationClient'
+import { uiPluginDefinitionReducer } from './clients/UIPluginDefinitionClient'
 
 const datasetDataManagementReducer = combineReducers({
   collection: collectionReducer,

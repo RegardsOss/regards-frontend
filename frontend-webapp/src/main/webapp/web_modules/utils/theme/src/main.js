@@ -12,10 +12,10 @@ import defaultCustomConfiguration from './custom/defaultCustomConfiguration'
 import {
   themeSelectors as ThemeSelectors,
   themeActions as ThemeActions,
-} from './client/ThemeClient'
+} from './clients/ThemeClient'
 import {
   themeInstanceActions as ThemeInstanceActions,
-} from './client/ThemeInstanceClient'
+} from './clients/ThemeInstanceClient'
 import defaultTheme from './model/defaultTheme'
 
 export {

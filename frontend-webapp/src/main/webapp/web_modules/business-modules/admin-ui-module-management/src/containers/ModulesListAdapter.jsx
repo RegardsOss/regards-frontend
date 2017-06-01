@@ -4,8 +4,8 @@
 import { connect } from '@regardsoss/redux'
 import { AuthenticationParametersSelectors } from '@regardsoss/authentication-manager'
 import ModulesListContainer from './ModulesListContainer'
-import { moduleInstanceActions, moduleInstanceSelectors } from '../client/ModuleInstanceClient'
-import { moduleActions, moduleSelectors } from '../client/ModuleClient'
+import { moduleInstanceActions, moduleInstanceSelectors } from '../clients/ModuleInstanceClient'
+import { moduleActions, moduleSelectors } from '../clients/ModuleClient'
 
 /**
  * Router for all modules container to use instance client or project client. (rs-access-project or rs-access-instance).

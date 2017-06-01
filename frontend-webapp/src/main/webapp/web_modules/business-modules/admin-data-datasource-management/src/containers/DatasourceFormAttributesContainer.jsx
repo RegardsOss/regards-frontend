@@ -6,8 +6,8 @@ import { Datasource, Model, Connection, PluginMetaData } from '@regardsoss/model
 import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import DatasourceFormAttributesComponent from '../components/DatasourceFormAttributesComponent'
-import { modelSelectors, modelActions } from '../client/ModelClient'
-import { connectionActions, connectionSelectors } from './../client/ConnectionClient'
+import { modelSelectors, modelActions } from '../clients/ModelClient'
+import { connectionActions, connectionSelectors } from './../clients/ConnectionClient'
 
 /**
  * Show the datasource form

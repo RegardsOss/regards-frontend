@@ -3,7 +3,7 @@ import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { AttributeModel } from '@regardsoss/model'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { attributeModelActions, attributeModelSelectors } from '../client/AttributeModelClient'
+import { attributeModelActions, attributeModelSelectors } from '../clients/AttributeModelClient'
 import AttributeModelListComponent from '../components/AttributeModelListComponent'
 
 /**

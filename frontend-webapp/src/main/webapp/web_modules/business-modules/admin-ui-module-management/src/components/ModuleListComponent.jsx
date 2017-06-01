@@ -15,7 +15,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { HateoasIconAction, HateoasToggle, HateoasKeys, ResourceIconAction } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { moduleActions } from '../client/ModuleClient'
+import { moduleActions } from '../clients/ModuleClient'
 
 /**
  * React component to display a given list of modules

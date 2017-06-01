@@ -2,8 +2,8 @@
  * LICENSE_PLACEHOLDER
  **/
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { uiPluginDefinitionActions } from './client/UIPluginDefinitionClient'
-import { uiPluginConfigurationActions } from './client/UIPluginConfigurationClient'
+import { uiPluginDefinitionActions } from './clients/UIPluginDefinitionClient'
+import { uiPluginConfigurationActions } from './clients/UIPluginConfigurationClient'
 
 /**
  * Mandatory Dependencies to display module in parent board

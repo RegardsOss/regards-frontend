@@ -6,9 +6,9 @@ import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { Connection, PluginMetaData } from '@regardsoss/model'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { connectionActions, connectionSelectors } from '../client/ConnectionClient'
+import { connectionActions, connectionSelectors } from '../clients/ConnectionClient'
 import ConnectionFormComponent from '../components/ConnectionFormComponent'
-import { pluginMetaDataActions, pluginMetaDataSelectors } from '../client/PluginMetaDataClient'
+import { pluginMetaDataActions, pluginMetaDataSelectors } from '../clients/PluginMetaDataClient'
 
 /**
  * List connection

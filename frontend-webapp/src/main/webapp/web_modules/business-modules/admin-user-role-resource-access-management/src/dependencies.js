@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { roleActions } from './client/RoleClient'
+import { roleActions } from './clients/RoleClient'
 
 /**
  * Module hateoas depencies

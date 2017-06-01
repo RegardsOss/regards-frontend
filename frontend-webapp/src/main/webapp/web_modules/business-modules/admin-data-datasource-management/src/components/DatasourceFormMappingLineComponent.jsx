@@ -14,7 +14,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import MenuItem from 'material-ui/MenuItem'
 import Checkbox from 'material-ui/Checkbox'
 import states from './FormMappingStates'
-import { fragmentSelectors } from '../client/FragmentClient'
+import { fragmentSelectors } from '../clients/FragmentClient'
 
 export class DatasourceFormMappingLineComponent extends React.Component {
 

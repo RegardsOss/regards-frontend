@@ -6,7 +6,7 @@ import { connect } from '@regardsoss/redux'
 import { Datasource } from '@regardsoss/model'
 import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { datasourceSelectors, datasourceActions } from './../client/DatasourceClient'
+import { datasourceSelectors, datasourceActions } from './../clients/DatasourceClient'
 import DatasetCreateOrPickDatasourceComponent from '../components/DatasetCreateOrPickDatasourceComponent'
 
 

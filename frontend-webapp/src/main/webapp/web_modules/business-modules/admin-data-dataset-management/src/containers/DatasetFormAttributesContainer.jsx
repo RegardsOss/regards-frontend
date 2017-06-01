@@ -10,10 +10,10 @@ import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { unregisterField } from 'redux-form'
 import DatasetFormAttributesComponent from '../components/DatasetFormAttributesComponent'
-import { modelSelectors, modelActions } from '../client/ModelClient'
-import { modelAttributesActions, modelAttributesSelectors } from '../client/ModelAttributesClient'
-import { datasourceSelectors, datasourceActions } from './../client/DatasourceClient'
-import { fragmentSelectors } from '../client/FragmentClient'
+import { modelSelectors, modelActions } from '../clients/ModelClient'
+import { modelAttributesActions, modelAttributesSelectors } from '../clients/ModelAttributesClient'
+import { datasourceSelectors, datasourceActions } from './../clients/DatasourceClient'
+import { fragmentSelectors } from '../clients/FragmentClient'
 
 /**
  * Show the dataset form

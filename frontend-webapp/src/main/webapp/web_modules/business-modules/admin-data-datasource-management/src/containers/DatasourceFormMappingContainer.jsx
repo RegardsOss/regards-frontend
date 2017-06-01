@@ -6,9 +6,9 @@ import { Datasource, ModelAttribute, PluginMetaData } from '@regardsoss/model'
 import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import DatasourceFormMappingComponent from '../components/DatasourceFormMappingComponent'
-import { modelAttributesActions, modelAttributesSelectors } from '../client/ModelAttributesClient'
-import { connectionTableActions, connectionTableSelectors } from '../client/ConnectionTableClient'
-import { connectionTableAttributesActions, connectionTableAttributesSelectors } from '../client/ConnectionTableAttributesClient'
+import { modelAttributesActions, modelAttributesSelectors } from '../clients/ModelAttributesClient'
+import { connectionTableActions, connectionTableSelectors } from '../clients/ConnectionTableClient'
+import { connectionTableAttributesActions, connectionTableAttributesSelectors } from '../clients/ConnectionTableAttributesClient'
 
 
 /**

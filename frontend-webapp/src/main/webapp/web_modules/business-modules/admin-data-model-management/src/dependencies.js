@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { modelActions } from './client/ModelClient'
+import { modelActions } from './clients/ModelClient'
 
 
 /**

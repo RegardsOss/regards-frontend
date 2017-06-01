@@ -9,8 +9,8 @@ import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import DatasetEditPluginComponent from '../components/DatasetEditPluginComponent'
 import LinkPluginDatasetActions from './../model/LinkPluginDatasetActions'
 import LinkPluginDatasetSelectors from './../model/LinkPluginDatasetSelectors'
-import { pluginConfigurationActions, pluginConfigurationSelectors } from './../client/PluginConfigurationClient'
-import { pluginMetaDataActions, pluginMetaDataSelectors } from './../client/PluginMetaDataClient'
+import { pluginConfigurationActions, pluginConfigurationSelectors } from './../clients/PluginConfigurationClient'
+import { pluginMetaDataActions, pluginMetaDataSelectors } from './../clients/PluginMetaDataClient'
 
 export class DatasetEditPluginContainer extends React.Component {
 

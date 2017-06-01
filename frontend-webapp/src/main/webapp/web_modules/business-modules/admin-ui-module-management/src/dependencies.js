@@ -2,8 +2,8 @@
  * LICENSE_PLACEHOLDER
  **/
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { moduleActions } from './client/ModuleClient'
-import { layoutActions } from './client/LayoutClient'
+import { moduleActions } from './clients/ModuleClient'
+import { layoutActions } from './clients/LayoutClient'
 
 /**
  * Module dependencies descriptions

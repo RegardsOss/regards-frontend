@@ -7,8 +7,8 @@ import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { Role, Resource } from '@regardsoss/model'
 import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
-import { roleActions, roleSelectors } from '../client/RoleClient'
-import { roleResourceActions, roleResourceSelectors } from '../client/RoleResourceClient'
+import { roleActions, roleSelectors } from '../clients/RoleClient'
+import { roleResourceActions, roleResourceSelectors } from '../clients/RoleResourceClient'
 import ResourceAccessFormComponent from '../components/ResourceAccessFormComponent'
 
 /**

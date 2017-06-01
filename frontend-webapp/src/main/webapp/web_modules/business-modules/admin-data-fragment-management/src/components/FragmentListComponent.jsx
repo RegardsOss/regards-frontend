@@ -15,7 +15,7 @@ import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { HateoasIconAction, HateoasKeys } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { fragmentActions } from '../client/FragmentClient'
+import { fragmentActions } from '../clients/FragmentClient'
 
 /**
  * Component to list fragment.

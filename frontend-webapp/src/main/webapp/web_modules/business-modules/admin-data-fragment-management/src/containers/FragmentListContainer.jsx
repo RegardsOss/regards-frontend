@@ -7,8 +7,8 @@ import { I18nProvider } from '@regardsoss/i18n'
 import { Fragment } from '@regardsoss/model'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import FragmentListComponent from '../components/FragmentListComponent'
-import { fragmentActions, fragmentSelectors } from '../client/FragmentClient'
-import { authenticationSelectors } from '../client/AuthenticationClient'
+import { fragmentActions, fragmentSelectors } from '../clients/FragmentClient'
+import { authenticationSelectors } from '../clients/AuthenticationClient'
 
 /**
  * React container to manage the fragment list.
