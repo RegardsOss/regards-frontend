@@ -5,7 +5,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { TableSelectionModes } from '@regardsoss/components'
-import catalogEntitySelector from '../../../../../src/models/catalog/CatalogEntitySelector'
+import { selectors as searchEntitiesSelectors } from '../../../../../src/client/SearchEntitiesClient'
 import TableSelectAllComponent from '../../../../../src/components/user/results/options/TableSelectAllComponent'
 import { TableSelectAllContainer } from '../../../../../src/containers/user/results/options/TableSelectAllContainer'
 import styles from '../../../../../src/styles/styles'
@@ -21,7 +21,7 @@ describe('[Search results] Testing TableSelectAllContainer', () => {
   })
   it('should render properly', () => {
     const props = {
-      pageSelectors: catalogEntitySelector,
+      pageSelectors: searchEntitiesSelectors,
       pageMetadata: {
         number: 40,
         size: 40,

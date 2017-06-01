@@ -5,8 +5,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { TableContainer } from '@regardsoss/components'
-import CatalogDataobjectEntityActions from '../../../../src/models/catalog/CatalogDataobjectEntityActions'
-import CatalogDatasetEntityActions from '../../../../src/models/catalog/CatalogDatasetEntityActions'
+import { searchDataobjectsActions, searchDatasetsActions } from '../../../../src/client/SearchEntitiesClient'
 import SearchResultsComponent from '../../../../src/components/user/results/SearchResultsComponent'
 import Styles from '../../../../src/styles/styles'
 
@@ -57,21 +56,21 @@ describe('[Search Results] Testing SearchResultsComponent', () => {
     caseLabel: 'Should render dataobjects in list mode',
     caseProperties: {
       showingDataobjects: true,
-      resultPageActions: CatalogDataobjectEntityActions,
+      resultPageActions: searchDataobjectsActions,
       viewMode: SearchResultsComponent.ViewModes.LIST,
     },
   }, {
     caseLabel: 'Should render dataobjects in table mode',
     caseProperties: {
       showingDataobjects: true,
-      resultPageActions: CatalogDataobjectEntityActions,
+      resultPageActions: searchDataobjectsActions,
       viewMode: SearchResultsComponent.ViewModes.TABLE,
     },
   }, {
     caseLabel: 'Should render datasets in list mode',
     caseProperties: {
       showingDataobjects: false,
-      resultPageActions: CatalogDatasetEntityActions,
+      resultPageActions: searchDatasetsActions,
       viewMode: SearchResultsComponent.ViewModes.LIST,
     },
     // no dataset table
