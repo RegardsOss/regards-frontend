@@ -1,107 +1,11 @@
 {
   "parser": "babel-eslint",
   "extends": [
-    "eslint:recommended",
-    "plugin:react/recommended",
-    "airbnb",
-    "plugin:lodash/recommended",
-    "plugin:react-perf/all",
-    "plugin:promise/recommended"
-  ],
-  "env": {
-    "browser": true,
-    "mocha": true,
-    "node": true,
-    "es6": true,
-    "commonjs": true
-  },
-  "rules": {
-    "semi": [
-      "error",
-      "never"
-    ],
-    "react/jsx-uses-react": 2,
-    "react/jsx-uses-vars": 2,
-    "react/react-in-jsx-scope": 2,
-    "react/prefer-es6-class": 0,
-    "react/require-extension": 0,
-    "react/require-default-props": 0,
-    "react/prefer-stateless-function": 0,
-    "no-console": 0,
-    "import/no-extraneous-dependencies": 0,
-    "import/no-named-as-default": 0,
-    "import/no-named-as-default-member": 0,
-    "global-require": 0,
-    "max-len": 0,
-    // ignore unused variable on functions arguments
-    "no-unused-vars": [
-      "error",
-      {
-        "args": "none"
-      }
-    ],
-    // Allow annonymous functions
-    "func-names": 0,
-    "no-confusing-arrow": "off",
-    // Do not warn on how we import lodash
-    "lodash/import-scope": [
-      2,
-      "method"
-    ],
-    // Disable useless rule (_.noop instead of empty annonnymous function)
-    "lodash/prefer-noop": 0,
-    // This rule is not satisfying
-    "lodash/prefer-lodash-method": 0,
-    // We do not use lodash constants factory
-    "lodash/prefer-constant": 0,
-    // Not so lisible
-    "lodash/prop-shorthand": 0,
-    // We prefer the explicit declaration
-    "lodash/matches-prop-shorthand": 0,
-    // Enable mocha rules
-    // See https://github.com/lo1tuma/eslint-plugin-mocha/tree/master/docs/rules
-    "mocha/no-exclusive-tests": "error",
-    "mocha/max-top-level-suites": "error",
-    "mocha/handle-done-callback": "error",
-    "mocha/no-top-level-hooks": "error",
-    "mocha/no-return-and-callback": "error",
-    "mocha/no-sibling-hooks": "error",
-    "mocha/no-global-tests": "error",
-    // All React tests contains before and after whether having 1 or more tests
-    "mocha/no-hooks-for-single-case": 0,
-    "mocha/no-mocha-arrows": 0,
-    // We do not use mocha context so we can use lambdas
-    "mocha/no-nested-tests": "error",
-    "mocha/no-skipped-tests": "error",
-    "mocha/no-identical-title": "error",
-    // We wrote sync tests
-    "mocha/no-synchronous-tests": 0,
-    // We call done from Mocha inside async tests
-    "promise/no-callback-in-promise": 0,
-    // Rule is not adequate without async / await
-    "promise/no-nesting": 0,
-    // This is handy to create custom promises!
-    "promise/avoid-new": 0,
-    // We do not always return a promise on react component since most of the time nobody consumes them
-    "promise/catch-or-return": 0,
-    "promise/always-return": 0
-  },
-  "plugins": [
-    "react",
-    "lodash",
-    "mocha",
-    "promise",
-    "react-perf"
+    "@regardsoss/es6-rules"
   ],
   "globals": {
-    "React": true,
-    "PropTypes": true,
     "GATEWAY_HOSTNAME": true,
     "STATIC_CONF": true,
     "API_URL": true
-  },
-  "parserOptions": {
-    "ecmaVersion": 6,
-    "sourceType": "module"
   }
 }

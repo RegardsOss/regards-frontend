@@ -83,6 +83,7 @@
     "@regardsoss/display-control": "0.0.1",
     "@regardsoss/endpoint": "0.0.1",
     "@regardsoss/entities-common": "0.0.1",
+    "@regardsoss/eslint-config-es6-rules" : "0.0.1",
     "@regardsoss/form-utils": "0.0.1",
     "@regardsoss/global-system-error": "0.0.1",
     "@regardsoss/project-handler": "0.0.1",
