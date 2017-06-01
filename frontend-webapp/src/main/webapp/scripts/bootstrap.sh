@@ -8,6 +8,9 @@
 ## Webpack compiles all these packages without that package depend on another package
 # and uses the main webapp/node_modules to provides dependencies to these modules (fallback of webpack)
 
+# Lint
+npm link eslint-config-es6-rules
+
 # Data
 npm link web_modules/data/api
 npm link web_modules/data/store
