@@ -20,7 +20,7 @@ const messages = Object.assign({
   'dataset.form.links.tag.add': 'Nouveau mot clé',
   'dataset.form.links.remainingcollection.subtitle': 'Collections disponibles : cliquer sur le plus pour lier la collection',
   'dataset.form.links.remainingcollection.search': 'Filtrer les collections sur leur nom',
-  'dataset.form.links.action.save': 'Sauvegarder',
+  'dataset.form.links.action.next': 'Suite',
   'dataset.form.links.action.cancel': 'Retour',
 
   'dataset.form.plugin.title': 'Gestion des plugins appliqués au jeu de données',

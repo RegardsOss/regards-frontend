@@ -20,7 +20,7 @@ const messages = Object.assign({
   'dataset.form.links.tag.add': 'New tag',
   'dataset.form.links.remainingcollection.subtitle': 'Collections available : click on the plus to link the collection',
   'dataset.form.links.remainingcollection.search': 'Filter collections with their names',
-  'dataset.form.links.action.save': 'Save',
+  'dataset.form.links.action.next': 'Next',
   'dataset.form.links.action.cancel': 'Back',
 
   'dataset.form.plugin.title': 'Manage plugins applyed to this dataset',
@@ -55,7 +55,7 @@ const messages = Object.assign({
   'dataset.form.radio.none': 'No description',
   'dataset.form.table.value': 'Fixed value',
   'dataset.form.table.type': 'Type',
-  'dataset.form.table.fragmentAndValue': 'Fragment and attribute name',
+  'dataset.form.table.fragmentAndLabel': 'Fragment and attribute name',
   'dataset.form.table.input': 'Attribute value',
   'dataset.form.subtitle': 'Manage dataset attributes',
 
