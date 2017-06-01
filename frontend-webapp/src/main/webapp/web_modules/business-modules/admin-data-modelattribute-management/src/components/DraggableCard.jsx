@@ -29,16 +29,17 @@ export class DraggableCard extends React.Component {
   render() {
     const { connectDragSource, isDragging, shadow, value, children } = this.props
     const style = moduleStyles(this.context.theme).cardEspaced
+    const overrideStyles = {
+      ...style,
+      marginBottom: 2,
+      paddingLeft: 5,
+      opacity: isDragging ? 0.2 : 1,
+    }
 
     return connectDragSource(
       <div>
         <Paper
-          style={{
-            ...style,
-            marginBottom: 2,
-            paddingLeft: 5,
-            opacity: isDragging ? 0.2 : 1,
-          }}
+          style={overrideStyles}
           id={value.id}
           key={value.id}
           zDepth={shadow}

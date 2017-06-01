@@ -102,6 +102,7 @@ class FormDatasetsConfigurationComponent extends React.Component {
     const datasetModelTypeQueryParams = {
       type: 'DATASET',
     }
+    const style = { width: '90%', margin: '20px auto' }
     switch (this.state.type) {
       case DATASET_TYPE :
         return (
@@ -119,7 +120,7 @@ class FormDatasetsConfigurationComponent extends React.Component {
             onReset={this.resetSelection}
             selectedEntities={this.getSelectedDatasetsObjects()}
             disableActions={this.props.disableChangeDatasets}
-            style={{ width: '90%', margin: '20px auto' }}
+            style={style}
           />
         )
       case DATASET_MODEL_TYPE :
@@ -139,7 +140,7 @@ class FormDatasetsConfigurationComponent extends React.Component {
             onReset={this.resetModelsSelection}
             selectedEntities={this.getSelectedDatasetModelsObjects()}
             disableActions={this.props.disableChangeDatasets}
-            style={{ width: '90%', margin: '20px auto' }}
+            style={style}
           />
         )
       default :

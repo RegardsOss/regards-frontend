@@ -53,21 +53,11 @@ export class ServiceConfigurationFormComponent extends React.Component {
   getTitle = () => {
     let title
     if (this.props.isCreating) {
-      title = <FormattedMessage id="service.form.create.title" />
+      title = this.context.intl.formatMessage({ id: 'service.form.create.title' })
     } else if (this.props.isDuplicating) {
-      title = (<FormattedMessage
-        id="service.form.duplicate.title"
-        values={{
-          name: this.props.uiPluginConfiguration.content.conf.label,
-        }}
-      />)
+      title = this.context.intl.formatMessage({ id: 'service.form.duplicate.title' }, { name: this.props.uiPluginConfiguration.content.conf.label })
     } else {
-      title = (<FormattedMessage
-        id="service.form.edit.title"
-        values={{
-          name: this.props.uiPluginConfiguration.content.conf.label,
-        }}
-      />)
+      title = this.context.intl.formatMessage({ id: 'service.form.edit.title' }, { name: this.props.uiPluginConfiguration.content.conf.label })
     }
     return title
   }
@@ -140,12 +130,7 @@ export class ServiceConfigurationFormComponent extends React.Component {
                 fullWidth
                 component={RenderTextField}
                 type="text"
-                label={<FormattedMessage
-                  id="service.form.dynamicField"
-                  values={{
-                    name: id,
-                  }}
-                />}
+                label={this.context.intl.formatMessage({ id: 'service.form.dynamicField' }, { name: id })}
               />
             ))}
             <br />

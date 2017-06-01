@@ -10,7 +10,15 @@ import typography from 'material-ui/styles/typography'
  */
 const formStyles = (theme) => {
   const styles = {
+    fullWidth: {
+      width: '100%',
+    },
     theme: {
+      activationToggle: {
+        marginTop: 10,
+        marginLeft: 20,
+        maxWidth: 250,
+      },
       mainWrapper: {
         // position: 'relative',
         // height: 880,
@@ -79,6 +87,9 @@ const formStyles = (theme) => {
         textAlign: 'center',
         marginBottom: '16px',
         minHeight: '24px',
+      },
+      datePicker: {
+        width: '100%',
       },
       paper: {
         height: '100px',

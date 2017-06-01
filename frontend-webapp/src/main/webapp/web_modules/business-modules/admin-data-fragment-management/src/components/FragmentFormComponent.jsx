@@ -58,13 +58,9 @@ export class FragmentFormComponent extends React.Component {
    */
   render() {
     const { pristine, submitting, invalid } = this.props
-    const title = this.props.isCreating ? <FormattedMessage id="fragment.create.title" /> :
-      (<FormattedMessage
-        id="fragment.edit.title"
-        values={{
-          name: this.props.currentFragment.content.name,
-        }}
-      />)
+    const title = this.props.isCreating ?
+      this.context.intl.formatMessage({ id: 'fragment.create.title' }) :
+      this.context.intl.formatMessage({ id: 'fragment.edit.title' }, { name: this.props.currentFragment.content.name })
     return (
       <form
         onSubmit={this.props.handleSubmit(this.props.onSubmit)}

@@ -117,14 +117,9 @@ export class DatasetFormAttributesComponent extends React.Component {
   getTitle = () => {
     let title
     if (!this.props.isEditing) {
-      title = <FormattedMessage id="dataset.create.title" />
+      title = this.context.intl.formatMessage({ id: 'dataset.create.title' })
     } else {
-      title = (<FormattedMessage
-        id="dataset.edit.title"
-        values={{
-          name: this.props.currentDataset.content.label,
-        }}
-      />)
+      title = this.context.intl.formatMessage({ id: 'dataset.edit.title' }, { name: this.props.currentDataset.content.label })
     }
     return title
   }

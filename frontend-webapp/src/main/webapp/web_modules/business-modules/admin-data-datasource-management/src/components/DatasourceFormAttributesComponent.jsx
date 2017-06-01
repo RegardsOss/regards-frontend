@@ -5,7 +5,6 @@ import map from 'lodash/map'
 import keys from 'lodash/keys'
 import isNil from 'lodash/isNil'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
-import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
 import { Datasource, Model, Connection, PluginMetaData } from '@regardsoss/model'
 import { RenderTextField, RenderSelectField, Field, ErrorTypes } from '@regardsoss/form-utils'
@@ -54,14 +53,9 @@ export class DatasourceFormAttributesComponent extends React.Component {
 
   getTitle = () => {
     if (this.state.isCreating) {
-      return <FormattedMessage id="datasource.create.title" />
+      return this.context.intl.formatMessage({ id: 'datasource.create.title' })
     }
-    return (<FormattedMessage
-      id="datasource.edit.title"
-      values={{
-        name: this.props.currentDatasource.content.label,
-      }}
-    />)
+    return this.context.intl.formatMessage({ id: 'datasource.edit.title' }, { name: this.props.currentDatasource.content.label })
   }
 
 

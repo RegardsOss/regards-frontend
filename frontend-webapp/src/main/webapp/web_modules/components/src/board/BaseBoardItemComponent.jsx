@@ -40,6 +40,9 @@ class BaseBoardItemComponent extends React.Component {
     const keyedActions = map(actions, (action, index) => <div key={index}>{action}</div>)
     const computedStyles = styles(this.context.muiTheme)
 
+    const titleStyle = {
+      backgroundColor: this.context.muiTheme.palette.accent2Color,
+    }
     return (
       <div className={computedStyles.items.classes}>
         {this.props.renderConfirmDialog()}
@@ -50,9 +53,7 @@ class BaseBoardItemComponent extends React.Component {
           <CardTitle
             title={title}
             subtitle={subtitle}
-            style={{
-              backgroundColor: this.context.muiTheme.palette.accent2Color,
-            }}
+            style={titleStyle}
           />
           <CardText>
             {description}

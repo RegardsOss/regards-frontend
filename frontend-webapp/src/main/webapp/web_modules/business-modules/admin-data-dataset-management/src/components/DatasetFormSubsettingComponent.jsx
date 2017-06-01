@@ -48,14 +48,9 @@ export class DatasetFormSubsettingComponent extends React.Component {
   getTitle = () => {
     const { isEditing } = this.props
     if (!isEditing) {
-      return (<FormattedMessage id="dataset.create.title" />)
+      return this.context.intl.formatMessage({ id: 'dataset.create.title' })
     }
-    return (<FormattedMessage
-      id="dataset.edit.title"
-      values={{
-        name: this.props.currentDataset.content.label,
-      }}
-    />)
+    return this.context.intl.formatMessage({ id: 'dataset.edit.title' }, { name: this.props.currentDataset.content.label })
   }
 
   /**

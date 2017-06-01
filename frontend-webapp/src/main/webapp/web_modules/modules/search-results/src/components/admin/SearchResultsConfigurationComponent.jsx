@@ -56,6 +56,7 @@ class SearchResultsConfigurationComponent extends React.Component {
   )
 
   render() {
+    const dividerStyle = { marginTop: 10, marginBottom: 10 }
     return (
       <Card>
         <CardTitle subtitle={this.context.intl.formatMessage({ id: 'form.configuration.tab.title' })} />
@@ -75,7 +76,7 @@ class SearchResultsConfigurationComponent extends React.Component {
           checked={this.props.defaultEnableFacettes}
           label={this.context.intl.formatMessage({ id: 'form.configuration.result.enable.facettes.label' })}
         />
-        <Divider style={{ marginTop: 10, marginBottom: 10 }} />
+        <Divider style={dividerStyle} />
         <Subheader><FormattedMessage id="form.attributes.parameters.title" /></Subheader>
         {this.renderAttributesConfiguration()}
       </Card>

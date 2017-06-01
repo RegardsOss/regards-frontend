@@ -55,28 +55,38 @@ class HomePageContainer extends React.Component {
     this.setState({ dialogOpen: true })
   }
 
+  renderActionButtons = () => {
+    const actionButtons = []
+    if (this.isHomePageHiddenCached()) {
+      actionButtons.push(<FlatButton
+        key="homepage.display"
+        label={this.context.intl.formatMessage({ id: 'homepage.display' })}
+        onTouchTap={this.onCacheHomePageDisplayed}
+      />)
+    } else {
+      actionButtons.push(<FlatButton
+        key="homepage.hide"
+        label={this.context.intl.formatMessage({ id: 'homepage.hide' })}
+        onTouchTap={this.onCacheHomePageHidden}
+      />)
+    }
+    actionButtons.push(<FlatButton
+      key="homepage.ok"
+      label={this.context.intl.formatMessage({ id: 'homepage.ok' })}
+      primary
+      onTouchTap={this.onClose}
+    />)
+    return actionButtons
+  }
 
   render() {
     const { moduleConf: { htmlPath } } = this.props
     const { dialogOpen } = this.state
-    const { dialog: { bodyStyle, heightPercent, widthPercent } } = this.context.moduleTheme
-    const actionButton = this.isHomePageHiddenCached() ? (<FlatButton
-      label={this.context.intl.formatMessage({ id: 'homepage.display' })}
-      onTouchTap={this.onCacheHomePageDisplayed}
-    />) :
-    (<FlatButton
-      label={this.context.intl.formatMessage({ id: 'homepage.hide' })}
-      onTouchTap={this.onCacheHomePageHidden}
-    />)
+    const { dialog: { bodyStyle, heightPercent, widthPercent, button } } = this.context.moduleTheme
     return (
       <div>
         <FloatingActionButton
-          style={{
-            position: 'fixed',
-            bottom: 10,
-            right: 15,
-            zIndex: 5000,
-          }}
+          style={button}
           mini
           onTouchTap={this.forceOpen}
           title="Home"
@@ -91,14 +101,7 @@ class HomePageContainer extends React.Component {
           dialogWidthPercent={widthPercent}
           onRequestClose={this.onClose}
           bodyStyle={bodyStyle}
-          actions={[
-            actionButton,
-            <FlatButton
-              label={this.context.intl.formatMessage({ id: 'homepage.ok' })}
-              primary
-              onTouchTap={this.onClose}
-            />,
-          ]}
+          actions={this.renderActionButtons()}
         />
       </div>
     )

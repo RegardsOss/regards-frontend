@@ -25,23 +25,16 @@ class SidebarElement extends React.Component {
 
   render() {
     const style = getModuleStyles()
-    let urlToSearch = ''
+     // removes everything after the last / (/board etc.)
+    const urlToSearch = this.props.to.substring(0, this.props.to.lastIndexOf('/') + 1).toLowerCase()
 
-    // todo : /datamanagement doesn't work
-    if (this.props.to.toLowerCase().includes('datamanagement')) {
-      urlToSearch = undefined
-    } else {
-      // removes everything after the last / (/board etc.)
-      urlToSearch = this.props.to.substring(0, this.props.to.lastIndexOf('/') + 1).toLowerCase()
-    }
+    const linkStyle = this.props.currentPath.toLowerCase().includes(urlToSearch) ?
+      { backgroundColor: this.context.muiTheme.palette.primary1Color } : null
 
     return (
       <Link to={this.props.to} style={style.menu.link}>
         <MenuItem
-          style={
-            this.props.currentPath.toLowerCase().includes(urlToSearch) ?
-            { backgroundColor: this.context.muiTheme.palette.primary1Color } : null
-          }
+          style={linkStyle}
           primaryText={this.props.primaryText}
           leftIcon={this.props.leftIcon}
           rightIcon={this.props.rightIcon}

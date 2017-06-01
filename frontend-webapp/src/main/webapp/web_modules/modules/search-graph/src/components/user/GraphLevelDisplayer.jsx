@@ -38,6 +38,7 @@ class GraphLevelDispayer extends React.Component {
     const { user } = this.context.moduleTheme
     // note: is loading and has error are strictly exclusive (cannot be true at same time)
     const hasContent = size(collections) + size(datasets) > 0
+    const scrollStyles = { height: user.scrolling.height }
     return (
       <ShowableAtRender show={isShowable}>
         <div style={user.level.styles} >
@@ -54,7 +55,7 @@ class GraphLevelDispayer extends React.Component {
             <ScrollArea
               horizontal={false}
               vertical
-              style={{ height: user.scrolling.height }}
+              style={scrollStyles}
             >
               {
                 map(collections, collection =>

@@ -5,7 +5,6 @@
 import map from 'lodash/map'
 import forEach from 'lodash/forEach'
 import some from 'lodash/some'
-import { FormattedMessage } from 'react-intl'
 import Chip from 'material-ui/Chip'
 import { List, ListItem } from 'material-ui/List'
 import IconButton from 'material-ui/IconButton'
@@ -67,54 +66,57 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
   getResourceListItems() {
     const { resourceList } = this.props
     const styles = moduleStyles(this.context.muiTheme)
+    const iconStyle = { marginRight: 10 }
+    const resourceStyle = {
+      display: 'flex',
+      justifyContent: 'space-between',
+    }
 
-    return map(resourceList, (resource, id) => (
-      <ListItem
-        style={id % 2 === 0 ? styles.listItemOdd : {}}
-        key={id}
-        innerDivStyle={styles.listItem}
-        onTouchTap={() => {
-          this.handleShowDialog(resource)
-        }}
-        rightIconButton={
-          <IconButton
-            style={{
-              marginRight: 10,
-            }}
-          >
-            <Toggle
-              toggled={this.isResourceAuthorized(resource)}
-              onToggle={() => {
-                this.props.handleToggleResourceAccess(resource, this.isResourceAuthorized(resource))
-                return false
-              }}
-            />
-          </IconButton>
-        }
-        secondaryText={
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-            }}
-          >
-            <div style={styles.description.style} className={styles.description.class}>
-              {resource.content.description}
+    return map(resourceList, (resource, id) => {
+      const listStyles = id % 2 === 0 ? styles.listItemOdd : {}
+      return (
+        <ListItem
+          style={listStyles}
+          key={id}
+          innerDivStyle={styles.listItem}
+          onTouchTap={() => {
+            this.handleShowDialog(resource)
+          }}
+          rightIconButton={
+            <IconButton
+              style={iconStyle}
+            >
+              <Toggle
+                toggled={this.isResourceAuthorized(resource)}
+                onToggle={() => {
+                  this.props.handleToggleResourceAccess(resource, this.isResourceAuthorized(resource))
+                  return false
+                }}
+              />
+            </IconButton>
+          }
+          secondaryText={
+            <div
+              style={resourceStyle}
+            >
+              <div style={styles.description.style} className={styles.description.class}>
+                {resource.content.description}
+              </div>
+              <span>
+                {this.context.intl.formatMessage({ id: 'role.form.moreinfo' })}
+              </span>
             </div>
-            <span>
-              <FormattedMessage id="role.form.moreinfo" />
-            </span>
-          </div>
-        }
-        leftAvatar={
-          <Chip style={this.getChipColor(resource.content.verb)}>
-            {resource.content.verb}
-          </Chip>
-        }
-      >
-        {resource.content.resource}
-      </ListItem>
-    ))
+          }
+          leftAvatar={
+            <Chip style={this.getChipColor(resource.content.verb)}>
+              {resource.content.verb}
+            </Chip>
+          }
+        >
+          {resource.content.resource}
+        </ListItem>
+      )
+    })
   }
 
   handleToggleController = (controller) => {
@@ -151,6 +153,8 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
   render() {
     const { controllerList, resourceListFetching } = this.props
     const { isControllerOpen } = this.state
+    const items = resourceListFetching ? [<ListItem key={1}><LoadingComponent /></ListItem>] : this.getResourceListItems()
+
     return (
       <List>
         {map(controllerList, (controller, id) => {
@@ -163,9 +167,7 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
               open={hasChild}
               primaryTogglesNestedList
               onNestedListToggle={() => this.handleToggleController(controller)}
-              nestedItems={
-                resourceListFetching ? [<ListItem key={1}><LoadingComponent /></ListItem>] : this.getResourceListItems()
-              }
+              nestedItems={items}
             />
           )
         })}

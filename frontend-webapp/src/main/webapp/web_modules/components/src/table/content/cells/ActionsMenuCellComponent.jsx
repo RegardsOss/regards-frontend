@@ -22,6 +22,7 @@ import { themeContextType } from '@regardsoss/theme'
 const ActionsMenuCellComponent = (props, context) => {
   const { intl } = context
   const maxBreakpoint = props.children.reduce((biggest, action) => Math.max(action.props.breakpoint, biggest), 0)
+  const iconAnchor = { horizontal: 'right', vertical: 'top' }
   return (
     <div style={{ display: 'flex' }}>
       {React.Children.map(props.children, ((action) => {
@@ -47,8 +48,8 @@ const ActionsMenuCellComponent = (props, context) => {
               />
             </IconButton>
           }
-          anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
-          targetOrigin={{ horizontal: 'right', vertical: 'top' }}
+          anchorOrigin={iconAnchor}
+          targetOrigin={iconAnchor}
         >
           {React.Children.map(props.children, ((action) => {
             const { children, breakpoint, ...rest } = action.props

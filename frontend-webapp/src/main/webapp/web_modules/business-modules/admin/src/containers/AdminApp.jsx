@@ -4,7 +4,7 @@
 import { AuthenticationParametersActions, AuthenticationParametersSelectors, AuthenticationClient } from '@regardsoss/authentication-manager'
 import { ProjectHandler } from '@regardsoss/project-handler'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { EndpointActions } from '@regardsoss/endpoint'
+import { CommonEndpointClient } from '@regardsoss/endpoints-common'
 import { I18nProvider } from '@regardsoss/i18n'
 import { connect } from '@regardsoss/redux'
 import { ThemeProvider } from '@regardsoss/theme'
@@ -118,7 +118,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => ({
   initializeApplication: project => dispatch(AuthenticationParametersActions.applicationStarted(project)),
-  fetchEndpoints: () => dispatch(EndpointActions.fetchPagedEntityList(0, 10000)),
+  fetchEndpoints: () => dispatch(CommonEndpointClient.endpointActions.fetchPagedEntityList(0, 10000)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AdminApp)

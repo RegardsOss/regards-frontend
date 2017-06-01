@@ -12,11 +12,13 @@ import UserForm from './UserForm'
 function UserDialog(props) {
   const actions = [
     <FlatButton
+      key="projects.cancel.button"
       label={this.context.intl.formatMessage({ id: 'projects.cancel.button' })}
       primary
       onTouchTap={props.onClose}
     />,
     <FlatButton
+      key="projects.submit.button"
       label={this.context.intl.formatMessage({ id: 'projects.submit.button' })}
       primary
       keyboardFocused
@@ -24,6 +26,7 @@ function UserDialog(props) {
     />,
   ]
 
+  const dialogStyle = { zIndex: 10000 }
   return (
     <Dialog
       title="Modifer un utilisateur"
@@ -31,7 +34,7 @@ function UserDialog(props) {
       modal={false}
       open={props.open}
       onRequestClose={props.onClose}
-      style={{ zIndex: 10000 }}
+      style={dialogStyle}
     >
       <UserForm
         handleSubmit={null} // this.props.onUserFormSubmit

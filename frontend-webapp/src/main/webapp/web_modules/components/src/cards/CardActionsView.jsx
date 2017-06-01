@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { HateoasDisplayDecorator } from '@regardsoss/display-control'
 import SecondaryActionButtonComponent from './SecondaryActionButtonComponent'
 import MainActionButtonComponent from './MainActionButtonComponent'
@@ -40,9 +43,10 @@ class CardActionsView extends React.Component {
       (this.props.secondaryButtonUrl || this.props.secondaryButtonTouchTap) &&
       this.props.isSecondaryButtonVisible
     )
+    const secondaryRequiredEndpoints = this.props.secondaryHateoasDependency ? [this.props.secondaryHateoasDependency] : []
     const secondaryActionButtonComponent = isVisible ? (
       <HateoasDisplayDecorator
-        requiredEndpoints={this.props.secondaryHateoasDependency ? [this.props.secondaryHateoasDependency] : []}
+        requiredEndpoints={secondaryRequiredEndpoints}
       >
         <SecondaryActionButtonComponent
           className={this.props.secondaryButtonClassName}
@@ -54,11 +58,13 @@ class CardActionsView extends React.Component {
       </HateoasDisplayDecorator>
     ) : null
 
+    const mainRequiredEndpoints = this.props.mainHateoasDependency ? [this.props.mainHateoasDependency] : []
+
     return (
       <div style={styleCardActions}>
         {secondaryActionButtonComponent}
         <HateoasDisplayDecorator
-          requiredEndpoints={this.props.mainHateoasDependency ? [this.props.mainHateoasDependency] : []}
+          requiredEndpoints={mainRequiredEndpoints}
         >
           <MainActionButtonComponent
             className={this.props.mainButtonClassName}

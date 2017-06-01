@@ -1,9 +1,9 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
-import { FormattedMessage } from 'react-intl'
 import Divider from 'material-ui/Divider'
 import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
 import TableOptionsSeparator from './TableOptionsSeparator'
 
 /**
@@ -24,6 +24,7 @@ class TablePaneHeader extends React.Component {
 
   static contextTypes = {
     ...themeContextType,
+    ...i18nContextType,
   }
 
   render() {
@@ -66,7 +67,7 @@ class TablePaneHeader extends React.Component {
             customTableHeaderArea ||
             // default area, shows result count
             <div style={header.text.styles}>
-              <FormattedMessage id="table.results.count" values={{ count: resultsCount || '0' }} />
+              {this.context.intl.formatMessage({ id: 'table.results.count' }, { count: resultsCount || '0' })}
             </div>
           }
         </div>

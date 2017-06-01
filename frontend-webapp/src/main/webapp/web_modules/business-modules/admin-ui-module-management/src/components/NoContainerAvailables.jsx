@@ -16,16 +16,17 @@ class NoContainerAvailables extends React.PureComponent {
   }
 
   render() {
+    const style = {
+      display: 'flex',
+      flexDirection: 'column',
+    }
     return (
       <Card>
         <CardTitle
           title={<FormattedMessage id={'module.no.container.available.title'} />}
         />
         <CardText
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-          }}
+          style={style}
         >
           <FormattedMessage id={'module.no.container.available'} />
           <RaisedButton

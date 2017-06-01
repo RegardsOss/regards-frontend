@@ -24,9 +24,9 @@ export default class TableSelectAllComponent extends React.Component {
     const { allSelected, onToggleSelectAll } = this.props
     const [icon, labelKey, titleKey] = !allSelected ?
       // select all
-      [<CheckBoxOutLineIcon />, 'table.select.all.label', 'table.select.all.tooltip'] :
+      [<CheckBoxOutLineIcon key="0" />, 'table.select.all.label', 'table.select.all.tooltip'] :
       // deselect all
-      [<CheckBoxIcon />, 'table.deselect.all.label', 'table.deselect.all.tooltip']
+      [<CheckBoxIcon key="1" />, 'table.deselect.all.label', 'table.deselect.all.tooltip']
 
     return (
       <FlatButton

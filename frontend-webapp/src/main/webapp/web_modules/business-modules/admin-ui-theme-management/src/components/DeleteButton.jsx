@@ -49,16 +49,20 @@ class DeleteButton extends React.Component {
 
     const actions = [
       <FlatButton
+        key="cancel"
         label={this.context.intl.formatMessage({ id: 'application.theme.remove.confirm.cancel' })}
         secondary
         onTouchTap={this.handleClose}
       />,
       <FlatButton
+        key="remove"
         label={this.context.intl.formatMessage({ id: 'application.theme.remove.confirm.remove' })}
         primary
         onTouchTap={this.handleDiscard}
       />,
     ]
+
+    const contentStyle = { width: 'auto' }
 
     return (
       <div>
@@ -73,7 +77,7 @@ class DeleteButton extends React.Component {
           modal={false}
           open={this.state.open}
           onRequestClose={this.handleClose}
-          contentStyle={{ width: 'auto' }}
+          contentStyle={contentStyle}
         >
           <FormattedMessage id="application.theme.remove.confirm" />
         </Dialog>

@@ -114,6 +114,15 @@ class StoragePluginCapacityComponent extends React.Component {
     const { label, description, totalSize, usedSize } = this.props
     const { moduleTheme, muiTheme } = this.context
     const firstCellStyles = Object.assign({}, moduleTheme.table.firstColumn, moduleTheme.table.row)
+
+    const chartOptions = {
+      legend: {
+        position: moduleTheme.chart.legend.position,
+        labels: {
+          fontColor: muiTheme.card.subtitleColor,
+        },
+      },
+    }
     return (
       <Card className={moduleTheme.card.classes} style={moduleTheme.card.root}>
         <CardTitle
@@ -158,14 +167,7 @@ class StoragePluginCapacityComponent extends React.Component {
               <ChartAdapter
                 ChartComponent="Pie"
                 data={this.buildPieData(totalSize, usedSize)}
-                options={{
-                  legend: {
-                    position: moduleTheme.chart.legend.position,
-                    labels: {
-                      fontColor: muiTheme.card.subtitleColor,
-                    },
-                  },
-                }}
+                options={chartOptions}
               />
             </div>
           </div>

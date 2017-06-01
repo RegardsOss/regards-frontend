@@ -129,6 +129,7 @@ export class ConnectionViewerComponent extends React.Component {
       fpsortBy('name'),
       fpmap((table, id) => {
         const hasChild = tableOpen === table.name
+        const items = hasChild ? this.renderResource() : [<ListItem key={1} primaryText="Waiting..." />]
         return (
           <ListItem
             key={table.name}
@@ -138,9 +139,7 @@ export class ConnectionViewerComponent extends React.Component {
             primaryTogglesNestedList
             onNestedListToggle={() => this.handleToggleTable(table.name)}
             rightIcon={this.showSelectedIcon(hasChild)}
-            nestedItems={
-              hasChild ? this.renderResource() : [<ListItem key={1} primaryText="Waiting..." />]
-            }
+            nestedItems={items}
           />
         )
       }))(tableList)

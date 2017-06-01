@@ -8,6 +8,12 @@ const homePageStyles = theme => ({
     bodyStyle: {
       padding: '5px',
     },
+    button: {
+      position: 'fixed',
+      bottom: 10,
+      right: 15,
+      zIndex: 5000,
+    },
   },
 })
 

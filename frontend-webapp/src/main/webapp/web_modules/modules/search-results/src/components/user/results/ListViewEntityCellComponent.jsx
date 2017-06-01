@@ -228,46 +228,35 @@ class ListViewEntityCellComponent extends React.Component {
     return null
   }
 
-  displayTitle = () => (
-    <div
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-      }}
-    >
-      {this.props.displayCheckBoxes ? <Checkbox
-        onCheck={this.props.selectTableEntityCallback}
-        defaultChecked={this.props.isTableSelected}
-        style={{
-          width: 'auto',
-        }}
-      /> : null}
-      <span
-        onMouseEnter={this.props.onClick ? this.setHoverClickableStyle : undefined}
-        onMouseLeave={this.props.onClick ? this.setStandardStyle : undefined}
-        onTouchTap={this.props.onClick ? this.onEntitySelection : undefined}
-        style={{
-          marginRight: 10,
-        }}
-      >{this.props.entity.content.label}</span>
-      <div
-        style={{
-          display: 'flex',
-          right: 15,
-          position: 'absolute',
-        }}
-      >
-        {this.displayDownload()}
-        <InfoIcon
-          onTouchTap={this.onEntityInformation}
-          style={{
-            cursor: 'pointer',
-            marginLeft: 15,
-          }}
-        />
+  displayTitle = () => {
+    const mainStyle = { display: 'flex', alignItems: 'center' }
+    const checkboxStyle = { width: 'auto' }
+    const titleStyle = { marginRight: 10 }
+    const downloadStyle = { display: 'flex', right: 15, position: 'absolute' }
+    const infoIconStyle = { cursor: 'pointer', marginLeft: 15 }
+    return (
+      <div style={mainStyle}>
+        {this.props.displayCheckBoxes ? <Checkbox
+          onCheck={this.props.selectTableEntityCallback}
+          defaultChecked={this.props.isTableSelected}
+          style={checkboxStyle}
+        /> : null}
+        <span
+          onMouseEnter={this.props.onClick ? this.setHoverClickableStyle : undefined}
+          onMouseLeave={this.props.onClick ? this.setStandardStyle : undefined}
+          onTouchTap={this.props.onClick ? this.onEntitySelection : undefined}
+          style={titleStyle}
+        >{this.props.entity.content.label}</span>
+        <div style={downloadStyle}>
+          {this.displayDownload()}
+          <InfoIcon
+            onTouchTap={this.onEntityInformation}
+            style={infoIconStyle}
+          />
+        </div>
       </div>
-    </div>
-  )
+    )
+  }
 
   displayDescription = () => {
     if (this.state.descriptionOpen) {
@@ -291,11 +280,12 @@ class ListViewEntityCellComponent extends React.Component {
   displayDownload = () => {
     const rawdata = find(this.props.entity.content.files, file => file.type === ObjectLinkedFileTypes.RAWDATA)
     if (rawdata) {
+      const iconStyle = { cursor: 'pointer' }
       return (
         <div>
           <a href={rawdata.uri} download title="download">
             <GetApp
-              style={{ cursor: 'pointer' }}
+              style={iconStyle}
               hoverColor={this.context.muiTheme.palette.accent1Color}
             />
           </a>
@@ -325,33 +315,30 @@ class ListViewEntityCellComponent extends React.Component {
    * @returns {XML}
    */
   render() {
+    const titleStyle = { fontSize: '1.3em' }
+    const headerStyle = { paddingBottom: 0 }
+    const textStyle = { overflow: 'hidden' }
+    const contentStyle = { display: 'inline-block' }
+
+    const title = this.displayTitle()
+    const attributes = this.displayEntityAttributes()
+    const thumbmail = this.displayThumbmail()
+
     return (
       <Card
         style={this.state.style}
       >
         <CardHeader
-          title={this.displayTitle()}
-          titleStyle={{
-            fontSize: '1.3em',
-          }}
-          style={{
-            paddingBottom: 0,
-          }}
+          title={title}
+          titleStyle={titleStyle}
+          style={headerStyle}
         />
-        <CardText
-          style={{
-            overflow: 'hidden',
-          }}
-        >
+        <CardText style={textStyle}>
           <Divider />
-          {this.displayThumbmail()}
-          <div
-            style={{
-              display: 'inline-block',
-            }}
-          >
+          {thumbmail}
+          <div style={contentStyle}>
             <div style={this.props.styles.line}>
-              {this.displayEntityAttributes()}
+              {attributes}
             </div>
           </div>
           {this.displayDescription()}

@@ -81,9 +81,7 @@ export class AskProjectAccessFormComponent extends React.Component {
               <ScrollArea
                 vertical
                 horizontal={false}
-                style={{
-                  height: moduleTheme.dialog.maxFormHeight,
-                }}
+                style={moduleTheme.dialog.scrollStyle}
               >
                 <Field
                   name={useExistingAccountFieldId}

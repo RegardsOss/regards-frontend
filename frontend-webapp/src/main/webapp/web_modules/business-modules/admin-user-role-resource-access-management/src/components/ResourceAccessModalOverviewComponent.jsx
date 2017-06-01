@@ -84,9 +84,7 @@ class ResourceAccessModalOverviewComponent extends React.Component {
                 <div style={styles.wrapperChipList}>
                   {map(this.props.roles, role => (
                     <Chip
-                      style={{
-                        marginRight: 10,
-                      }}
+                      style={styles.chipItem}
                       onTouchTap={() => this.handleEditRoleResources(role)}
                       key={role.content.id}
                     >{role.content.name}</Chip>

@@ -56,7 +56,7 @@ class ServiceConfigurationListComponent extends React.Component {
     return (
       <Card>
         <CardTitle
-          title={<FormattedMessage id="service.listconf.title" values={{ value: plugin.info.name }} />}
+          title={this.context.intl.formatMessage({ id: 'service.listconf.title' }, { value: plugin.info.name })}
           subtitle={this.context.intl.formatMessage({ id: 'service.listconf.subtitle' })}
         />
         <CardText>

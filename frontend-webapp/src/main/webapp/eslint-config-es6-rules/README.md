@@ -77,6 +77,7 @@ Special configuration for plugin:react rules :
   | require-extension         | `Disabled`    |    |
   | require-default-props     | `Disabled`    |    |
   | prefer-stateless-function | `Disabled`    |    |
+  | react/display-name        | `Disabled`    |  Only detect sipaly names of components during debug  |
   
 ### plugin:react-perf
 

@@ -164,13 +164,21 @@ export class ProjectUserListComponent extends React.Component {
     return (
       <Card >
         <Tabs onChange={this.onTabChange} value={selectedTab}>
-          <Tab className="selenium-waitingTab" label={<FormattedMessage id="projectUser.list.waiting.tab" values={{ count: size(waitingAccessUsers) || '0' }} />} value={TABS.waiting} />
-          <Tab className="selenium-allTab" label={<FormattedMessage id="projectUser.list.all.tab" values={{ count: size(users) || '0' }} />} value={TABS.all} />
+          <Tab
+            className="selenium-waitingTab"
+            label={this.context.intl.formatMessage({ id: 'projectUser.list.waiting.tab' }, { count: size(waitingAccessUsers) || '0' })}
+            value={TABS.waiting}
+          />
+          <Tab
+            className="selenium-allTab"
+            label={this.context.intl.formatMessage({ id: 'projectUser.list.all.tab' }, { count: size(users) || '0' })}
+            value={TABS.all}
+          />
         </Tabs>
         <NoContentMessageInfo
           noContent={isEmpty(tabContent.currentUserList) && !initialFecthing}
           title={this.context.intl.formatMessage({ id: 'projectUser.list.table.no.content.title' })}
-          message={<FormattedMessage id={tabContent.noDataMessageKey} />}
+          message={this.context.intl.formatMessage({ id: tabContent.noDataMessageKey })}
         >
           <div>
             {this.renderDeleteConfirmDialog()}
@@ -281,7 +289,7 @@ export class ProjectUserListComponent extends React.Component {
             mainButtonClassName={tabContent.mainButtonClassName}
             mainHateoasDependency={projectUserActions.getDependency(RequestVerbEnum.POST)}
             isMainButtonDisabled={tabContent.mainButtonDisabled}
-            mainButtonLabel={<FormattedMessage id={tabContent.mainButtonKey} />}
+            mainButtonLabel={this.context.intl.formatMessage({ id: tabContent.mainButtonKey })}
             secondaryButtonLabel={this.context.intl.formatMessage({ id: 'projectUser.list.action.cancel' })}
             secondaryButtonUrl={backUrl}
           />

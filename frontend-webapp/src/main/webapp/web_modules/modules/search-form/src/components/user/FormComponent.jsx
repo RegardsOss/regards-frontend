@@ -77,6 +77,11 @@ class FormComponent extends React.Component {
   }
 
   render() {
+    const pluginsProps = {
+      ...this.props.pluginsProps,
+      getDefaultState: this.getPluginDefaultState,
+      savePluginState: this.savePluginState,
+    }
     return (
       <Card
         onExpandChange={this.handleExpand}
@@ -92,11 +97,7 @@ class FormComponent extends React.Component {
             appName="user"
             container={this.props.layout}
             plugins={this.props.plugins}
-            pluginProps={{
-              ...this.props.pluginsProps,
-              getDefaultState: this.getPluginDefaultState,
-              savePluginState: this.savePluginState,
-            }}
+            pluginProps={pluginsProps}
             mainContainer
           />
           <div

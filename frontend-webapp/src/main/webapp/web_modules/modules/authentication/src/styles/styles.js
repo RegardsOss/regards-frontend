@@ -21,6 +21,14 @@ const styles = theme => (
     dialog: {
       preferredWidth: '680px',
       maxFormHeight: '55vh',
+      body: { padding: '0', overflowY: 'none' },
+      content: {
+        width: '680px',
+        maxWidth: 'none',
+      },
+      scrollStyle: {
+        height: '55vh',
+      },
     },
   })
 

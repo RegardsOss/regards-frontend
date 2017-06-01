@@ -41,11 +41,12 @@ class CreateButton extends React.Component {
     const { onCreate } = this.props
     const { open } = this.state
     const style = moduleStyles(this.context.muiTheme).theme
+    const requiredEndpoints = [ThemeActions.getDependency(RequestVerbEnum.POST)]
 
     return (
       <div>
         <HateoasDisplayDecorator
-          requiredEndpoints={[ThemeActions.getDependency(RequestVerbEnum.POST)]}
+          requiredEndpoints={requiredEndpoints}
         >
           <IconButton
             onTouchTap={this.onOpen}

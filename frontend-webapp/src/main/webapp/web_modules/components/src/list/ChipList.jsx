@@ -80,43 +80,46 @@ class ChipList extends React.Component {
     })
   }
 
-  renderNewChipButton = () => (
-    <I18nProvider messageDir={'components/src/list/i18n'}>
-      <div>
-        <Chip style={this.style.chip} onTouchTap={this.handlePopoverOpen} backgroundColor={this.style.chipBackground}>
-          <Avatar
-            backgroundColor={this.style.avatarBackground}
-            size={32}
-            icon={<AddSvg />}
-          />
-          <FormattedMessage id="chip.add.button" />
-        </Chip>
-        <Popover
-          open={this.state.popoverOpen}
-          anchorEl={this.state.popoverAnchor}
-          anchorOrigin={{ horizontal: 'left', vertical: 'top' }}
-          animation={PopoverAnimationVertical}
-          onRequestClose={this.handlePopoverClose}
-        >
-          <Menu>
-            {map(this.props.availableEntities, (entity) => {
-              const key = this.props.getEntityLabel(entity)
-              return (<ShowableAtRender key={key} show={!find(this.props.selectedEntities, o => isEqual(o, entity))}>
-                <MenuItem
-                  key={key}
-                  primaryText={key}
-                  onTouchTap={() => {
-                    this.props.onAddEntity(entity)
-                    this.handlePopoverClose()
-                  }}
-                />
-              </ShowableAtRender>)
-            })}
-          </Menu>
-        </Popover>
-      </div>
-    </I18nProvider>
+  renderNewChipButton = () => {
+    const iconAnchor = { horizontal: 'left', vertical: 'top' }
+    return (
+      <I18nProvider messageDir={'components/src/list/i18n'}>
+        <div>
+          <Chip style={this.style.chip} onTouchTap={this.handlePopoverOpen} backgroundColor={this.style.chipBackground}>
+            <Avatar
+              backgroundColor={this.style.avatarBackground}
+              size={32}
+              icon={<AddSvg />}
+            />
+            <FormattedMessage id="chip.add.button" />
+          </Chip>
+          <Popover
+            open={this.state.popoverOpen}
+            anchorEl={this.state.popoverAnchor}
+            anchorOrigin={iconAnchor}
+            animation={PopoverAnimationVertical}
+            onRequestClose={this.handlePopoverClose}
+          >
+            <Menu>
+              {map(this.props.availableEntities, (entity) => {
+                const key = this.props.getEntityLabel(entity)
+                return (<ShowableAtRender key={key} show={!find(this.props.selectedEntities, o => isEqual(o, entity))}>
+                  <MenuItem
+                    key={key}
+                    primaryText={key}
+                    onTouchTap={() => {
+                      this.props.onAddEntity(entity)
+                      this.handlePopoverClose()
+                    }}
+                  />
+                </ShowableAtRender>)
+              })}
+            </Menu>
+          </Popover>
+        </div>
+      </I18nProvider>
     )
+  }
 
   renderChipList = () => (
     <div>

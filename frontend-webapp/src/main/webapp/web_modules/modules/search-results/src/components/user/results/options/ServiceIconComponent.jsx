@@ -20,13 +20,14 @@ class ServiceIconComponent extends React.Component {
   render() {
     const { size, iconDescription } = this.props
     if (iconDescription && iconDescription.content) {
+      const style = {
+        width: `${size}px`,
+        height: `${size}px`,
+      }
       return (
         <SVGIconFromString
           icon={iconDescription.content}
-          iconStyle={{
-            width: `${size}px`,
-            height: `${size}px`,
-          }}
+          iconStyle={style}
           iconViewBox={iconDescription.viewBox}
         />)
     }

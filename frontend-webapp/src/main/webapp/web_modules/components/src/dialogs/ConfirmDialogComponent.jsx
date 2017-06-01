@@ -1,7 +1,9 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import values from 'lodash/values'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
-import { FormattedMessage } from 'react-intl'
 import { themeContextType } from '@regardsoss/theme'
 import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
 
@@ -51,11 +53,14 @@ class ConfirmDialogComponent extends React.Component {
     const { title, message, onClose, dialogType } = this.props
     const actions = [
       <FlatButton
+        key={dialogType.messageId}
         className="selenium-confirmDialogButton"
-        label={<FormattedMessage id={dialogType.messageId} />}
+        label={this.context.intl.formatMessage({ id: dialogType.messageId })}
         onTouchTap={this.handleDelete}
       />,
       <FlatButton
+        key="cancel"
+        id="confirm.dialog.cancel"
         label={this.context.intl.formatMessage({ id: 'confirm.dialog.cancel' })}
         primary
         keyboardFocused

@@ -6,7 +6,7 @@ import values from 'lodash/values'
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { Layout } from '@regardsoss/model'
-import { EndpointActions } from '@regardsoss/endpoint'
+import { CommonEndpointClient } from '@regardsoss/endpoints-common'
 import { ThemeProvider } from '@regardsoss/theme'
 import { ApplicationLayout, ContainerHelper } from '@regardsoss/layout'
 import { ModuleShape } from '@regardsoss/modules'
@@ -140,7 +140,7 @@ const mapDispatchToProps = dispatch => ({
   initializeApplication: project => dispatch(AuthenticationParametersActions.applicationStarted(project)),
   fetchLayout: () => dispatch(LayoutActions.fetchEntity('user')),
   fetchModules: () => dispatch(ModulesActions.fetchPagedEntityList(0, 100, { applicationId: 'user' })),
-  fetchEndpoints: () => dispatch(EndpointActions.fetchPagedEntityList(0, 10000)),
+  fetchEndpoints: () => dispatch(CommonEndpointClient.endpointActions.fetchPagedEntityList(0, 10000)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserApp)

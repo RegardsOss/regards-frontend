@@ -24,6 +24,7 @@ class ColumnsVisibilitySelector extends React.Component {
   render() {
     const actions = [
       <FlatButton
+        key="OK"
         label="Ok"
         primary
         keyboardFocused

@@ -51,12 +51,13 @@ class FormLayoutComponent extends React.Component {
   }
 
   render() {
+    const style = { width: '100%' }
     return (
       <Card>
         <CardTitle
           subtitle={this.context.intl.formatMessage({ id: 'form.layout.tab.title' })}
         />
-        <CardText style={{ width: '100%' }}>
+        <CardText style={style}>
           <LayoutConfigurationComponent
             layout={this.state.currentLayout}
             onChange={this.changeLayout}

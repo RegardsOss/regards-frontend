@@ -120,9 +120,11 @@ class BoardItemComponent extends React.Component {
       }
     })
 
+    const requiredEndpoints = actionWhitoutDependencies ? [] : actionsHateoasRequiredEnpoints
+
     return (
       <HateoasDisplayDecorator
-        requiredEndpoints={actionWhitoutDependencies ? [] : actionsHateoasRequiredEnpoints}
+        requiredEndpoints={requiredEndpoints}
         hateoasDisplayLogic={someMatchHateoasDisplayLogic}
       >
         <BaseBoardItemComponent

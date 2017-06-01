@@ -11,6 +11,13 @@ class ErrorCardComponent extends React.Component {
   }
 
   render() {
+    const cardStyle = { padding: 5 }
+    const iconStyle = {
+      color: 'Red',
+      width: 30,
+      height: 30,
+      marginRight: 20,
+    }
     return (
       <div
         style={{
@@ -18,11 +25,7 @@ class ErrorCardComponent extends React.Component {
           justifyContent: 'center',
         }}
       >
-        <Card
-          style={{
-            padding: 5,
-          }}
-        >
+        <Card style={cardStyle}>
           <CardText >
             <div
               style={{
@@ -31,12 +34,7 @@ class ErrorCardComponent extends React.Component {
               }}
             >
               <Icon
-                style={{
-                  color: 'Red',
-                  width: 30,
-                  height: 30,
-                  marginRight: 20,
-                }}
+                style={iconStyle}
               />
               {this.props.message}
             </div>

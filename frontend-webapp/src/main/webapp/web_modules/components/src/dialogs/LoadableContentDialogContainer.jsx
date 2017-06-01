@@ -57,14 +57,15 @@ class LoadableContentDialogContainer extends React.Component {
   render() {
     const { loaded, open, loadingMessage, children, ...dialogProperties } = this.props
     const { dialogWidth, dialogHeight } = this.getDialogDimensions()
+    const contentStyle = {
+      width: dialogWidth,
+      maxWidth: 'none',
+    }
     return (
       <Dialog
         open={open}
         {...dialogProperties}
-        contentStyle={{
-          width: dialogWidth,
-          maxWidth: 'none',
-        }}
+        contentStyle={contentStyle}
       >
         <div style={{ position: 'relative', width: '100%', height: dialogHeight }}>
           <ShowableAtRender show={!loaded}>

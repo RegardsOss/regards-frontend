@@ -38,7 +38,7 @@ npm link web_modules/components
 npm link web_modules/business-common/attributes-common
 npm link web_modules/business-common/entities-common
 npm link web_modules/business-common/user-metadata-common
-npm link web_modules/business-common/endpoint
+npm link web_modules/business-common/endpoints-common
 npm link web_modules/business-common/global-system-error
 npm link web_modules/business-common/project-handler
 

@@ -177,11 +177,7 @@ class ApplicationThemeComponent extends React.Component {
       label={this.context.intl.formatMessage({ id: 'application.theme.default.active' })}
       defaultToggled={editingTheme.content.active}
       onToggle={this.toggleThemeActivation}
-      style={{
-        marginTop: 10,
-        marginLeft: 20,
-        maxWidth: 250,
-      }}
+      style={style.activationToggle}
       entityLinks={editingTheme.links}
       hateoasKey={HateoasKeys.UPDATE}
     />)

@@ -6,7 +6,6 @@ import isNil from 'lodash/isNil'
 import has from 'lodash/has'
 import IconButton from 'material-ui/IconButton'
 import SearchIcon from 'material-ui/svg-icons/action/search'
-import { FormattedMessage } from 'react-intl'
 import { themeContextType } from '@regardsoss/theme'
 import { connect } from '@regardsoss/redux'
 import { CardActionsComponent } from '@regardsoss/components'
@@ -129,6 +128,12 @@ class pluginFormComponent extends React.Component {
 
   render() {
     const { pristine, submitting } = this.props
+    let title
+    if (this.state.creation) {
+      title = this.context.intl.formatMessage({ id: 'plugin.form.title.create' })
+    } else {
+      title = this.context.intl.formatMessage({ id: 'plugin.form.title.update' }, { name: this.state.plugin.content.name })
+    }
 
     return (
       <form
@@ -137,13 +142,8 @@ class pluginFormComponent extends React.Component {
         <div>
           <Card>
             <CardTitle
-              title={<FormattedMessage
-                id={this.state.creation ? 'plugin.form.title.create' : 'plugin.form.title.update'}
-                values={this.state.creation ? {} : {
-                  name: this.state.plugin.content.name,
-                }}
-              />}
-              subtitle={<FormattedMessage id={'plugin.form.subtitle'} />}
+              title={title}
+              subtitle={this.context.intl.formatMessage({ id: 'plugin.form.subtitle' })}
             />
             <CardText>
               {this.renderErrorMessage()}
@@ -178,9 +178,7 @@ class pluginFormComponent extends React.Component {
           <Card>
             <CardActions>
               <CardActionsComponent
-                mainButtonLabel={<FormattedMessage
-                  id={this.state.creation ? 'plugin.form.submit.button' : 'plugin.form.update.button'}
-                />}
+                mainButtonLabel={this.context.intl.formatMessage({ id: this.state.creation ? 'plugin.form.submit.button' : 'plugin.form.update.button' })}
                 mainButtonType="submit"
                 isMainButtonDisabled={pristine || submitting || !this.state.pluginIsValid || this.state.path !== this.props.pathField}
                 secondaryButtonLabel={this.context.intl.formatMessage({ id: 'plugin.form.cancel.button' })}

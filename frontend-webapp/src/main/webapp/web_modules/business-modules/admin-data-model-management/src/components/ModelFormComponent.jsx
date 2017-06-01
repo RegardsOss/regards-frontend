@@ -37,22 +37,12 @@ export class ProjectFormComponent extends React.Component {
 
   getTitle = () => {
     if (this.props.isCreating) {
-      return (<FormattedMessage id="model.create.title" />)
+      return this.context.intl.formatMessage({ id: 'model.create.title' })
     }
     if (this.props.isEditing) {
-      return (<FormattedMessage
-        id="model.edit.title"
-        values={{
-          name: this.props.currentModel.content.name,
-        }}
-      />)
+      return this.context.intl.formatMessage({ id: 'model.edit.title' }, { name: this.props.currentModel.content.name })
     }
-    return (<FormattedMessage
-      id="model.duplicate.title"
-      values={{
-        name: this.props.currentModel.content.name,
-      }}
-    />)
+    return this.context.intl.formatMessage({ id: 'model.duplicate.title' }, { name: this.props.currentModel.content.name })
   }
 
   handleInitialize = () => {

@@ -32,6 +32,7 @@ var allRules = {
   "react/require-extension": 0,
   "react/require-default-props": 0,
   "react/prefer-stateless-function": 0,
+  "react/display-name" : 0,
 
   // Lodash rules configuration
   "lodash/import-scope": [ 2, "method" ],

@@ -58,12 +58,7 @@ export class ResourceAccessFormComponent extends React.Component {
     return (
       <Card>
         <CardTitle
-          title={<FormattedMessage
-            id="role.list.title"
-            values={{
-              role: currentRole.content.name,
-            }}
-          />}
+          title={this.context.intl.formatMessage({ id: 'role.list.title' }, { role: currentRole.content.name })}
           subtitle={this.context.intl.formatMessage({ id: 'role.list.subtitle' })}
         />
         <CardText>

@@ -104,7 +104,7 @@ class DatabaseConnectionTester extends React.Component {
       (<OnHoverSwitchFlatButton
         label={[this.context.intl.formatMessage({ id: 'database.connectionTester.connected' }),
           this.context.intl.formatMessage({ id: 'database.connectionTester.restart' })]}
-        icon={[<Check />, <PlayArrow />]}
+        icon={[<Check key="check" />, <PlayArrow key="play" />]}
         primary={[true, false]}
         onTouchTap={[this.handleTouchTap, this.handleTouchTap]}
       />)
@@ -113,7 +113,7 @@ class DatabaseConnectionTester extends React.Component {
       (<OnHoverSwitchFlatButton
         label={[this.context.intl.formatMessage({ id: 'database.connectionTester.warning' }),
           this.context.intl.formatMessage({ id: 'database.connectionTester.restart' })]}
-        icon={[<Warning color={styles.palette.warningColor} />, <PlayArrow />]}
+        icon={[<Warning key="warn" color={styles.palette.warningColor} />, <PlayArrow key="play" />]}
         labelStyle={[{ color: styles.palette.warningColor }, null]}
         onTouchTap={[this.handleTouchTap, this.handleTouchTap]}
       />)
@@ -122,7 +122,7 @@ class DatabaseConnectionTester extends React.Component {
       (<OnHoverSwitchFlatButton
         label={[this.context.intl.formatMessage({ id: 'database.connectionTester.notConnected' }),
           this.context.intl.formatMessage({ id: 'database.connectionTester.restart' })]}
-        icon={[<Error />, <PlayArrow />]}
+        icon={[<Error key="error" />, <PlayArrow key="play" />]}
         secondary={[true, false]}
         onTouchTap={[this.handleTouchTap, this.handleTouchTap]}
       />)
