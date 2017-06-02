@@ -7,6 +7,7 @@ import RenderCheckbox from './RenderCheckbox'
 import RenderRadio from './RenderRadio'
 import RenderFileField from './RenderFileField'
 import RenderToggle from './RenderToggle'
+import RenderDoubleLabelToggle from './RenderDoubleLabelToggle'
 import TextAreaField from './TextAreaField'
 import FormErrorMessage from './FormErrorMessage'
 import ErrorTypes from './ErrorTypes'
@@ -23,6 +24,7 @@ import reduxForm from './reduxForm'
 export default {
   RenderTextField,
   RenderToggle,
+  RenderDoubleLabelToggle,
   RenderSelectField,
   RenderCheckbox,
   RenderRadio,

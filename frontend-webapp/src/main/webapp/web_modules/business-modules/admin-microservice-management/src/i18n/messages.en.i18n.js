@@ -42,6 +42,7 @@ const messages = Object.assign({
   'microservice-management.plugin.configuration.form.version': 'Version',
   'microservice-management.plugin.configuration.form.priorityOrder': 'Priority',
   'microservice-management.plugin.configuration.form.active': 'Active',
+  'microservice-management.plugin.configuration.form.inactive': 'Inactive',
   'microservice-management.plugin.configuration.form.action.submit.add': 'Add',
   'microservice-management.plugin.configuration.form.action.submit.save': 'Save',
   'microservice-management.plugin.configuration.form.action.cancel': 'Cancel',
