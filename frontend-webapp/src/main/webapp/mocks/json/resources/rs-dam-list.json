@@ -56,7 +56,7 @@
       },
       "attribute": {
         "id": 0,
-        "label" : "Attribute_0_0",
+        "label": "Attribute_0_0",
         "name": "Attribute_0_0",
         "description": "Description de l'attribut 0 - 0",
         "defaultValue": null,
@@ -87,7 +87,7 @@
       },
       "attribute": {
         "id": 4,
-        "label" : "Attribute_4",
+        "label": "Attribute_4",
         "name": "Attribute_4",
         "description": "Description de l'attribut 0 - 0",
         "defaultValue": null,
@@ -111,7 +111,7 @@
     {
       "id": 0,
       "name": "Attribute_0_0",
-      "label" : "Attribute_0_0",
+      "label": "Attribute_0_0",
       "description": "Description de l'attribut 0 - 0",
       "defaultValue": null,
       "type": "STRING",
@@ -126,13 +126,13 @@
       "fragment": {
         "id": 1,
         "name": "Default",
-        "description" : "Default fragment"
+        "description": "Default fragment"
       }
     },
     {
       "id": 3,
       "name": "Attribute_0_0",
-      "label" : "Attribute_0_0",
+      "label": "Attribute_0_0",
       "description": "Description de l'attribut 0 - 0",
       "defaultValue": null,
       "type": "STRING",
@@ -147,13 +147,13 @@
       "fragment": {
         "id": 2,
         "name": "Fragment 2",
-        "description" : "Fragment"
+        "description": "Fragment"
       }
     },
     {
       "id": 2,
       "name": "Attribute_0_0",
-      "label" : "Attribute_0_0",
+      "label": "Attribute_0_0",
       "description": "Description de l'attribut 0 - 0",
       "defaultValue": null,
       "type": "STRING",
@@ -168,13 +168,13 @@
       "fragment": {
         "id": 3,
         "name": "Fragment 3",
-        "description" : "Fragment"
+        "description": "Fragment"
       }
     },
     {
       "id": 1,
       "name": "Attribute_1_0",
-      "label" : "Attribute_1_0",
+      "label": "Attribute_1_0",
       "description": "Description de l'attribut 1 - 0",
       "defaultValue": null,
       "type": "STRING",
@@ -189,13 +189,13 @@
       "fragment": {
         "id": 1,
         "name": "Default",
-        "description" : "Fragment"
+        "description": "Fragment"
       }
     },
     {
       "id": 4,
       "name": "Attribute_4",
-      "label" : "Attribute_4",
+      "label": "Attribute_4",
       "description": "Description de l'attribut 0 - 0",
       "defaultValue": null,
       "type": "STRING",
@@ -210,7 +210,7 @@
       "fragment": {
         "id": 2,
         "name": "Fragment 2",
-        "description" : "Fragment"
+        "description": "Fragment"
       }
     },
     {
@@ -226,7 +226,7 @@
       "fragment": {
         "id": 1,
         "name": "default",
-        "description" : "Fragment"
+        "description": "Fragment"
       },
       "queryable": true,
       "facetable": true,
@@ -247,7 +247,7 @@
       "fragment": {
         "id": 1,
         "name": "default",
-        "description" : "Fragment"
+        "description": "Fragment"
       },
       "queryable": true,
       "facetable": true,
@@ -268,7 +268,7 @@
       "fragment": {
         "id": 4,
         "name": "infos",
-        "description" : "Fragment"
+        "description": "Fragment"
       },
       "queryable": true,
       "facetable": true,
@@ -289,7 +289,7 @@
       "fragment": {
         "id": 4,
         "name": "infos",
-        "description" : "Fragment"
+        "description": "Fragment"
       },
       "queryable": true,
       "facetable": true,
@@ -310,7 +310,7 @@
       "fragment": {
         "id": 4,
         "name": "infos",
-        "description" : "Fragment"
+        "description": "Fragment"
       },
       "queryable": true,
       "facetable": true,
@@ -331,7 +331,7 @@
       "fragment": {
         "id": 4,
         "name": "infos",
-        "description" : "Fragment"
+        "description": "Fragment"
       },
       "queryable": true,
       "facetable": true,
@@ -352,7 +352,7 @@
       "fragment": {
         "id": 4,
         "name": "infos",
-        "description" : "Fragment"
+        "description": "Fragment"
       },
       "queryable": true,
       "facetable": true,
@@ -373,7 +373,7 @@
       "fragment": {
         "id": 4,
         "name": "infos",
-        "description" : "Fragment"
+        "description": "Fragment"
       },
       "queryable": true,
       "facetable": true,
@@ -394,7 +394,7 @@
       "fragment": {
         "id": 4,
         "name": "infos",
-        "description" : "Fragment"
+        "description": "Fragment"
       },
       "queryable": true,
       "facetable": true,
@@ -415,7 +415,7 @@
       "fragment": {
         "id": 4,
         "name": "infos",
-        "description" : "Fragment"
+        "description": "Fragment"
       },
       "queryable": true,
       "facetable": true,
@@ -436,7 +436,7 @@
       "fragment": {
         "id": 4,
         "name": "infos",
-        "description" : "Fragment"
+        "description": "Fragment"
       },
       "queryable": true,
       "facetable": true,
@@ -457,7 +457,7 @@
       "fragment": {
         "id": 4,
         "name": "infos",
-        "description" : "Fragment"
+        "description": "Fragment"
       },
       "queryable": true,
       "facetable": true,
@@ -478,7 +478,7 @@
       "fragment": {
         "id": 4,
         "name": "infos",
-        "description" : "Fragment"
+        "description": "Fragment"
       },
       "queryable": true,
       "facetable": true,
@@ -499,7 +499,7 @@
       "fragment": {
         "id": 4,
         "name": "infos",
-        "description" : "Fragment"
+        "description": "Fragment"
       },
       "queryable": true,
       "facetable": true,
@@ -520,7 +520,7 @@
       "fragment": {
         "id": 4,
         "name": "infos",
-        "description" : "Fragment"
+        "description": "Fragment"
       },
       "queryable": true,
       "facetable": true,
@@ -541,7 +541,7 @@
       "fragment": {
         "id": 4,
         "name": "infos",
-        "description" : "Fragment"
+        "description": "Fragment"
       },
       "queryable": true,
       "facetable": true,
@@ -562,7 +562,7 @@
       "fragment": {
         "id": 4,
         "name": "infos",
-        "description" : "Fragment"
+        "description": "Fragment"
       },
       "queryable": true,
       "facetable": true,
@@ -583,7 +583,7 @@
       "fragment": {
         "id": 4,
         "name": "infos",
-        "description" : "Fragment"
+        "description": "Fragment"
       },
       "queryable": true,
       "facetable": true,
@@ -596,17 +596,17 @@
     {
       "id": 1,
       "name": "Default",
-      "description" : "Fragment"
+      "description": "Fragment"
     },
     {
       "id": 2,
       "name": "fragment 2",
-      "description" : "Fragment"
+      "description": "Fragment"
     },
     {
       "id": 3,
       "name": "fragment 3",
-      "description" : "Fragment"
+      "description": "Fragment"
     }
   ],
   "connections": [
@@ -663,15 +663,45 @@
       "id": "aComplexErrorPlugin",
       "pluginId": "aComplexErrorPlugin",
       "pluginClassName": "fr.cnes.regards.framework.plugins.ComplexErrorPlugin",
-      "interfaceName": "fr.cnes.regards.framework.plugins.ISamplePlugin",
+      "interfaceNames": "fr.cnes.regards.framework.plugins.ISamplePlugin",
       "author": "CSSI",
       "version": "0.0.1",
       "description": "Complex plugin test",
       "parameters": [
         {
-          "name": "coeff",
-          "type": "java.lang.Integer",
-          "paramType": "PRIMITIVE"
+          "name": "param31",
+          "type": "java.lang.String",
+          "paramType": "PRIMITIVE",
+          "optional": true,
+          "defaultValue": "this is the default value of param31"
+        },
+        {
+          "name": "param32",
+          "type": "java.lang.String",
+          "paramType": "PRIMITIVE",
+          "optional": true,
+          "defaultValue": "this is the default value of param32"
+        },
+        {
+          "name": "param33",
+          "type": "java.lang.String",
+          "paramType": "PRIMITIVE",
+          "optional": false,
+          "defaultValue": "this is the default value of param33"
+        },
+        {
+          "name": "param34",
+          "type": "java.lang.String",
+          "paramType": "PRIMITIVE",
+          "optional": true,
+          "defaultValue": "this is the default value of param34"
+        },
+        {
+          "name": "param35",
+          "type": "java.lang.String",
+          "paramType": "PRIMITIVE",
+          "optional": false,
+          "defaultValue": "this is the default value of param35"
         }
       ]
     },
@@ -679,7 +709,7 @@
       "id": "aSamplePlugin",
       "pluginId": "aSamplePlugin",
       "pluginClassName": "fr.cnes.regards.framework.plugins.SamplePlugin",
-      "interfaceName": "fr.cnes.regards.framework.plugins.ISamplePlugin",
+      "interfaceNames": "fr.cnes.regards.framework.plugins.ISamplePlugin",
       "author": "CSSI",
       "version": "12345-6789-11",
       "description": "Sample plugin test",
@@ -687,17 +717,23 @@
         {
           "name": "suffix",
           "type": "java.lang.String",
-          "paramType": "PRIMITIVE"
+          "paramType": "PRIMITIVE",
+          "optional": false,
+          "defaultValue": "this is the default value of suffix"
         },
         {
           "name": "coeff",
           "type": "java.lang.Integer",
-          "paramType": "PRIMITIVE"
+          "paramType": "PRIMITIVE",
+          "optional": false,
+          "defaultValue": 69
         },
         {
           "name": "isActive",
           "type": "java.lang.Boolean",
-          "paramType": "PRIMITIVE"
+          "paramType": "PRIMITIVE",
+          "optional": true,
+          "defaultValue": true
         }
       ]
     },
@@ -705,7 +741,7 @@
       "id": "aSampleErrorPlugin",
       "pluginId": "aSampleErrorPlugin",
       "pluginClassName": "fr.cnes.regards.framework.plugins.SampleErrorPlugin",
-      "interfaceName": "fr.cnes.regards.framework.plugins.ISamplePlugin",
+      "interfaceNames": "fr.cnes.regards.framework.plugins.ISamplePlugin",
       "author": "CSSI",
       "version": "0.0.1",
       "description": "Sample plugin test",
@@ -713,17 +749,23 @@
         {
           "name": "suffix",
           "type": "java.lang.String",
-          "paramType": "PRIMITIVE"
+          "paramType": "PRIMITIVE",
+          "optional": false,
+          "defaultValue": "this is the default value of suffix"
         },
         {
           "name": "coeff",
           "type": "java.lang.Integer",
-          "paramType": "PRIMITIVE"
+          "paramType": "PRIMITIVE",
+          "optional": false,
+          "defaultValue": 69
         },
         {
           "name": "isActive",
           "type": "java.lang.Boolean",
-          "paramType": "PRIMITIVE"
+          "paramType": "PRIMITIVE",
+          "optional": true,
+          "defaultValue": true
         }
       ]
     },
@@ -731,7 +773,7 @@
       "id": "aComplexPlugin",
       "pluginId": "aComplexPlugin",
       "pluginClassName": "fr.cnes.regards.framework.plugins.ComplexPlugin",
-      "interfaceName": "fr.cnes.regards.framework.plugins.ISamplePlugin",
+      "interfaceNames": "fr.cnes.regards.framework.plugins.ISamplePlugin",
       "author": "CSSI",
       "version": "0.0.1",
       "description": "Complex plugin test",
@@ -739,17 +781,22 @@
         {
           "name": "plgInterface",
           "type": "fr.cnes.regards.framework.plugins.IComplexInterfacePlugin",
-          "paramType": "PLUGIN"
+          "paramType": "PLUGIN",
+          "optional": true
         },
         {
           "name": "coeff",
           "type": "java.lang.Integer",
-          "paramType": "PRIMITIVE"
+          "paramType": "PRIMITIVE",
+          "optional": true,
+          "defaultValue": 69
         },
         {
           "name": "isActive",
           "type": "java.lang.Boolean",
-          "paramType": "PRIMITIVE"
+          "paramType": "PRIMITIVE",
+          "optional": false,
+          "defaultValue": true
         }
       ]
     }
