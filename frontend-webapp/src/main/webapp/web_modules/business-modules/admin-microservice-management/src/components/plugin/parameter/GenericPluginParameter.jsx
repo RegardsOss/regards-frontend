@@ -1,11 +1,11 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { PluginParameter, PluginParameterType } from '@regardsoss/model'
 import PluginParameterString from './PluginParameterString'
 import PluginParameterNumber from './PluginParameterNumber'
 import PluginParameterBoolean from './PluginParameterBoolean'
 import PluginParameterPlugin from './PluginParameterPlugin'
+import { pluginParameterComponentPropTypes } from './utils'
 
 /**
  * Adapter for generic use of {@link PluginParameterString}, {@link PluginParameterNumber}, {@link PluginParameterBoolean} ...
@@ -14,17 +14,7 @@ import PluginParameterPlugin from './PluginParameterPlugin'
  */
 export class GenericPluginParameter extends React.Component {
 
-  static propTypes = {
-    // eslint-disable-next-line react/no-unused-prop-types
-    fieldKey: PropTypes.string,
-    // eslint-disable-next-line react/no-unused-prop-types
-    pluginParameter: PluginParameter,
-    pluginParameterType: PluginParameterType,
-    // eslint-disable-next-line react/no-unused-prop-types
-    mode: PropTypes.oneOf(['view', 'edit', 'create', 'copy']),
-    // eslint-disable-next-line react/no-unused-prop-types
-    change: PropTypes.func, // Callback provided by redux-form in order to manually change a field value
-  }
+  static propTypes = pluginParameterComponentPropTypes
 
   static defaultProps = {
     mode: 'view',
