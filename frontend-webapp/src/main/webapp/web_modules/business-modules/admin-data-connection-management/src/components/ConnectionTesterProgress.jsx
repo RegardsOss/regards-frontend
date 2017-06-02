@@ -10,21 +10,16 @@ import { FormattedMessage } from 'react-intl'
  *
  * @author Léo Mieulet
  */
+const testerStyle = { display: 'inline-block' }
+const contentStyle = { display: 'flex', alignItems: 'center', flexDirection: 'column' }
+const textStyle = { textAlign: 'center', width: 100 }
+
 const ConnectionTesterProgress = () => (
-  <div style={{ display: 'inline-block' }}>
-    <div
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        flexDirection: 'column',
-      }}
-    >
+  <div style={testerStyle}>
+    <div style={contentStyle}>
       <FormattedMessage
         id="connection.connectionTester.pending"
-        style={{
-          textAlign: 'center',
-          width: 100,
-        }}
+        style={textStyle}
       />
       <CircularProgress />
     </div>

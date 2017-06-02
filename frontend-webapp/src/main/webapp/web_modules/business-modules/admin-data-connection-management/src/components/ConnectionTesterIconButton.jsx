@@ -6,7 +6,6 @@ import IconButton from 'material-ui/IconButton'
 import PlayArrow from 'material-ui/svg-icons/av/play-arrow'
 import Check from 'material-ui/svg-icons/navigation/check'
 import Error from 'material-ui/svg-icons/alert/error'
-import { FormattedMessage } from 'react-intl'
 import Snackbar from 'material-ui/Snackbar'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -103,9 +102,10 @@ class ConnectionTesterIconButton extends React.Component {
       </IconButton>
     )
 
+    const switchActions = [this.handleTouchTap, this.handleTouchTap]
     const successButton =
       (<OnHoverSwitchIconButton
-        onTouchTap={[this.handleTouchTap, this.handleTouchTap]}
+        onTouchTap={switchActions}
       >
         <Check color={this.context.muiTheme.palette.primary1Color} />
         <PlayArrow />
@@ -113,7 +113,7 @@ class ConnectionTesterIconButton extends React.Component {
 
     const errorButton =
       (<OnHoverSwitchIconButton
-        onTouchTap={[this.handleTouchTap, this.handleTouchTap]}
+        onTouchTap={switchActions}
       >
         <Error color={this.context.muiTheme.palette.accent1Color} />
         <PlayArrow />
@@ -123,12 +123,7 @@ class ConnectionTesterIconButton extends React.Component {
 
     const snackbar = (<Snackbar
       open={this.state.snackBarOpen}
-      message={<FormattedMessage
-        id={this.getSnackBarMessageId(this.state.status)}
-        values={{
-          label: connection.content.label,
-        }}
-      />}
+      message={this.context.intl.formatMessage({ id: this.getSnackBarMessageId(this.state.status) }, { label: connection.content.label })}
       autoHideDuration={4000}
       onRequestClose={this.handleSnackbarRequestClose}
       onActionTouchTap={this.handleSnackbarActionTouchTap}

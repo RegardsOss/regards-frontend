@@ -1,3 +1,6 @@
+/*
+ * LICENSE_PLACEHOLDER
+ */
 import { combineReducers } from 'redux'
 import { projectReducers } from './clients/ProjectClient'
 import { projectConnectionReducers } from './clients/ProjectConnectionClient'

@@ -82,14 +82,16 @@ class GuidedProjectConfigurationComponent extends React.Component {
       stepButtonProps.icon = this.getConnectivityIcon(projectConnection.content.connectivity)
     }
 
+    const titleLabelValues = {
+      microservice,
+      project: this.props.project.content.name,
+    }
+
     return (
       <StepButton {...stepButtonProps} >
         <FormattedMessage
           id="database.form.edit.title"
-          values={{
-            microservice,
-            project: this.props.project.content.name,
-          }}
+          values={titleLabelValues}
         />
       </StepButton>
     )
@@ -182,12 +184,7 @@ class GuidedProjectConfigurationComponent extends React.Component {
     return (
       <Card className="selenium-guidedProjectConfiguration">
         <CardTitle
-          title={<FormattedMessage
-            id="database.project.configuration.title"
-            values={{
-              project: this.props.project.content.name,
-            }}
-          />}
+          title={this.context.intl.formatMessage({ id: 'database.project.configuration.title' }, { project: this.props.project.content.name })}
         />
         <CardText>
           {this.props.configureOneForAll ? this.renderConfigurationOnForAllConnections() : this.renderStepper()}

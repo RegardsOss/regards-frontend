@@ -1,6 +1,5 @@
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent } from '@regardsoss/components'
-import { FormattedMessage } from 'react-intl'
 import { reduxForm, RenderTextField, Field } from '@regardsoss/form-utils'
 import { i18nContextType } from '@regardsoss/i18n'
 import { Account } from '@regardsoss/model'
@@ -50,13 +49,10 @@ export class AccountFormComponent extends React.Component {
       >
         <Card>
           <CardTitle
-            title={<FormattedMessage
-              id="account.form.edit.title"
-              values={{
-                firstName: this.props.currentAccount.content.firstName,
-                lastName: this.props.currentAccount.content.lastName,
-              }}
-            />}
+            title={
+              this.context.intl.formatMessage({ id: 'account.form.edit.title' },
+                { firstName: this.props.currentAccount.content.firstName,
+                  lastName: this.props.currentAccount.content.lastName })}
           />
           <CardText>
 

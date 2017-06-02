@@ -3,7 +3,6 @@
  **/
 import map from 'lodash/map'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
-import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
 import { Plugin as UIPlugin, PluginConf as UIPluginConfiguration } from '@regardsoss/model'
 import { RenderTextField, RenderCheckbox, Field, ValidationHelpers } from '@regardsoss/form-utils'
@@ -105,7 +104,7 @@ export class ServiceConfigurationFormComponent extends React.Component {
               component={RenderTextField}
               type="text"
               label={this.context.intl.formatMessage({ id: 'service.form.label' })}
-              validate={[ValidationHelpers.validRequiredString]}
+              validate={ValidationHelpers.validRequiredString}
             />
             {map(plugin.info.conf.static, (input, id) => (
               <Field
@@ -114,12 +113,7 @@ export class ServiceConfigurationFormComponent extends React.Component {
                 fullWidth
                 component={RenderTextField}
                 type="text"
-                label={<FormattedMessage
-                  id="service.form.staticField"
-                  values={{
-                    name: id,
-                  }}
-                />}
+                label={this.context.intl.formatMessage({ id: 'service.form.staticField' }, { name: id })}
                 validate={this.getStaticFieldValidation(input)}
               />
             ))}

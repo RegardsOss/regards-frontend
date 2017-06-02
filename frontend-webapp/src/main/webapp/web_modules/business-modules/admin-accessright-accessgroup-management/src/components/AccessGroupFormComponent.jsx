@@ -3,7 +3,6 @@
  **/
 import keys from 'lodash/keys'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
-import { FormattedMessage } from 'react-intl'
 import { AccessGroup } from '@regardsoss/model'
 import { RenderTextField, RenderCheckbox, Field, ValidationHelpers, reduxForm } from '@regardsoss/form-utils'
 import { CardActionsComponent } from '@regardsoss/components'
@@ -41,21 +40,11 @@ export class AccessGroupFormComponent extends React.Component {
   getTitle = () => {
     let title
     if (this.props.isCreating) {
-      title = <FormattedMessage id="group.create.title" />
+      title = this.context.intl.formatMessage({ id: 'group.create.title' })
     } else if (this.props.isDuplicating) {
-      title = (<FormattedMessage
-        id="group.duplicate.title"
-        values={{
-          name: this.props.currentAccessGroup.content.name,
-        }}
-      />)
+      title = this.context.intl.formatMessage({ id: 'group.duplicate.title' }, { name: this.props.currentAccessGroup.content.name })
     } else {
-      title = (<FormattedMessage
-        id="group.edit.title"
-        values={{
-          name: this.props.currentAccessGroup.content.name,
-        }}
-      />)
+      title = this.context.intl.formatMessage({ id: 'group.edit.title' }, { name: this.props.currentAccessGroup.content.name })
     }
     return title
   }
@@ -78,6 +67,7 @@ export class AccessGroupFormComponent extends React.Component {
   render() {
     const { submitting, invalid, backUrl } = this.props
     const title = this.getTitle()
+    const nameFieldValidations = [ValidationHelpers.validRequiredString, ValidationHelpers.validAlphaNumericUnderscore]
     return (
       <form
         onSubmit={this.props.handleSubmit(this.props.onSubmit)}
@@ -93,7 +83,7 @@ export class AccessGroupFormComponent extends React.Component {
               component={RenderTextField}
               type="text"
               disabled={this.props.isEditing}
-              validate={[ValidationHelpers.validRequiredString, ValidationHelpers.validAlphaNumericUnderscore]}
+              validate={nameFieldValidations}
               label={this.context.intl.formatMessage({ id: 'group.form.name' })}
             />
             <br />

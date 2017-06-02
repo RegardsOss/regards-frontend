@@ -3,7 +3,6 @@
  **/
 import { Card, CardActions, CardTitle } from 'material-ui/Card'
 import { CardActionsComponent } from '@regardsoss/components'
-import { FormattedMessage } from 'react-intl'
 import map from 'lodash/map'
 import keys from 'lodash/keys'
 import { themeContextType } from '@regardsoss/theme'
@@ -81,12 +80,7 @@ export class ModelAttributeFormComponent extends React.Component {
       <div>
         <Card>
           <CardTitle
-            title={<FormattedMessage
-              id="modelattr.edit.title"
-              values={{
-                name: this.props.currentModel.content.name,
-              }}
-            />}
+            title={this.context.intl.formatMessage({ id: 'modelattr.edit.title' }, { name: this.props.currentModel.content.name })}
           />
         </Card>
 
@@ -94,7 +88,7 @@ export class ModelAttributeFormComponent extends React.Component {
           <div className="col-sm-50">
             <ContainerCard
               acceptAttrType={ItemTypes.ATTR_ASSOCIATED}
-              title={<FormattedMessage id="modelattr.edit.modelname" values={{ name: this.props.currentModel.content.name }} />}
+              title={this.context.intl.formatMessage({ id: 'modelattr.edit.modelname' }, { name: this.props.currentModel.content.name })}
               onChange={this.onDrop}
             >
               {map(distributedAttrModels.ATTR_ASSOCIATED.fragments, (fragment, id) => (

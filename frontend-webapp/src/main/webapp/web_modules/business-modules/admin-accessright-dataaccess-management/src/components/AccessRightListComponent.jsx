@@ -3,7 +3,6 @@
  **/
 import { Card, CardTitle, CardText } from 'material-ui/Card'
 import Dialog from 'material-ui/Dialog'
-import { FormattedMessage } from 'react-intl'
 import values from 'lodash/values'
 import { AccessGroup, AccessRight, PluginConfiguration, PluginMetaData } from '@regardsoss/model'
 import {
@@ -144,30 +143,33 @@ class AccessRightListComponent extends React.Component {
   /**
    * Render the dialog containing the AccessRight Configuration form.
    */
-  renderAccessRightFormDialog = () => (
-    <ShowableAtRender
-      show={this.state.editAccessDialogOpened}
-    >
-      <Dialog
-        title={this.context.intl.formatMessage({ id: 'accessright.form.title' })}
-        modal
-        open={this.state.editAccessDialogOpened}
-        onrequestclose={this.closeEditDialog}
-        autoScrollBodyContent
+  renderAccessRightFormDialog = () => {
+    const selectedDatasets = this.state.datasetAccessRightToEdit ? [this.state.datasetAccessRightToEdit] : values(this.props.selectedDatasets)
+    return (
+      <ShowableAtRender
+        show={this.state.editAccessDialogOpened}
       >
-        <AccessRightFormComponent
-          onCancel={this.closeEditDialog}
-          onSubmit={this.handleSubmitAccessRights}
-          errorMessage={this.state.submitError ? this.context.intl.formatMessage({ id: 'accessright.form.error.message' }) : null}
-          // If a unique accessright is in edition only submit the one. Else, submit for all selected datasets
-          selectedDatasets={this.state.datasetAccessRightToEdit ? [this.state.datasetAccessRightToEdit] : values(this.props.selectedDatasets)}
-          currentAccessRight={this.state.accessRightToEdit}
-          pluginConfigurationList={this.props.pluginConfigurationList}
-          pluginMetaDataList={this.props.pluginMetaDataList}
-        />
-      </Dialog>
-    </ShowableAtRender>
-  )
+        <Dialog
+          title={this.context.intl.formatMessage({ id: 'accessright.form.title' })}
+          modal
+          open={this.state.editAccessDialogOpened}
+          onrequestclose={this.closeEditDialog}
+          autoScrollBodyContent
+        >
+          <AccessRightFormComponent
+            onCancel={this.closeEditDialog}
+            onSubmit={this.handleSubmitAccessRights}
+            errorMessage={this.state.submitError ? this.context.intl.formatMessage({ id: 'accessright.form.error.message' }) : null}
+            // If a unique accessright is in edition only submit the one. Else, submit for all selected datasets
+            selectedDatasets={selectedDatasets}
+            currentAccessRight={this.state.accessRightToEdit}
+            pluginConfigurationList={this.props.pluginConfigurationList}
+            pluginMetaDataList={this.props.pluginMetaDataList}
+          />
+        </Dialog>
+      </ShowableAtRender>
+    )
+  }
 
   /**
    * Render the confirmation delete dialog
@@ -271,8 +273,8 @@ class AccessRightListComponent extends React.Component {
     return (
       <Card>
         <CardTitle
-          title={<FormattedMessage id="accessright.title" values={{ name: this.props.accessGroup.content.name }} />}
-          subtitle={<FormattedMessage id="accessright.subtitle" values={{ name: this.props.accessGroup.content.name }} />}
+          title={this.context.intl.formatMessage({ id: 'accessright.title' }, { name: this.props.accessGroup.content.name })}
+          subtitle={this.context.intl.formatMessage({ id: 'accessright.subtitle' }, { name: this.props.accessGroup.content.name })}
         />
         <CardText>
           {this.renderAccessRightFormDialog()}

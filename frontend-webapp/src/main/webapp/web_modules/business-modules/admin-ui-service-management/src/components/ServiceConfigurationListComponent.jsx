@@ -53,6 +53,13 @@ class ServiceConfigurationListComponent extends React.Component {
       hoverButtonDelete: this.context.muiTheme.palette.accent1Color,
       hoverButtonDuplicate: this.context.muiTheme.palette.primary3Color,
     }
+    const descriptionMsgValues = { value: plugin.info.description }
+    const versionMsgValues = { value: plugin.info.version }
+    const authorMsgValues = { value: plugin.info.author }
+    const companyMsgValues = { value: plugin.info.company }
+    const emailMsgValues = { value: plugin.info.email }
+    const licenseMsgValues = { value: plugin.info.license }
+    const urlMsgValues = { value: plugin.info.url }
     return (
       <Card>
         <CardTitle
@@ -63,13 +70,13 @@ class ServiceConfigurationListComponent extends React.Component {
           <div className={styles.line.classes}>
             <div className={styles.description.classes}>
               <div><FormattedMessage id="service.listconf.plugin.title" /> </div>
-              <div><FormattedMessage id="service.listconf.plugin.description" values={{ value: plugin.info.description }} /> </div>
-              <div><FormattedMessage id="service.listconf.plugin.version" values={{ value: plugin.info.version }} /> </div>
-              <div><FormattedMessage id="service.listconf.plugin.author" values={{ value: plugin.info.author }} /> </div>
-              <div><FormattedMessage id="service.listconf.plugin.company" values={{ value: plugin.info.company }} /> </div>
-              <div><FormattedMessage id="service.listconf.plugin.email" values={{ value: plugin.info.email }} /> </div>
-              <div><FormattedMessage id="service.listconf.plugin.license" values={{ value: plugin.info.license }} /> </div>
-              <div><FormattedMessage id="service.listconf.plugin.url" values={{ value: plugin.info.url }} /> </div>
+              <div><FormattedMessage id="service.listconf.plugin.description" values={descriptionMsgValues} /> </div>
+              <div><FormattedMessage id="service.listconf.plugin.version" values={versionMsgValues} /> </div>
+              <div><FormattedMessage id="service.listconf.plugin.author" values={authorMsgValues} /> </div>
+              <div><FormattedMessage id="service.listconf.plugin.company" values={companyMsgValues} /> </div>
+              <div><FormattedMessage id="service.listconf.plugin.email" values={emailMsgValues} /> </div>
+              <div><FormattedMessage id="service.listconf.plugin.license" values={licenseMsgValues} /> </div>
+              <div><FormattedMessage id="service.listconf.plugin.url" values={urlMsgValues} /> </div>
             </div>
             <div className={styles.icon.classes}>
               <SVGIconFromString

@@ -148,45 +148,48 @@ export class ProjectUserFormComponent extends React.Component {
     this.props.change(`group.${group.content.name}`, '')
   }
 
-  renderChipInput = () => (<div style={this.style.renderChipInput}>
-    {map(this.state.tempGroup, group =>
-      (<Chip
-        onRequestDelete={() => this.handleRemoveGroup(group)}
-        style={this.style.chip}
-        key={group.content.name}
-        className="selenium-chip"
+  renderChipInput = () => {
+    const iconAnchor = { horizontal: 'left', vertical: 'top' }
+    return (<div style={this.style.renderChipInput}>
+      {map(this.state.tempGroup, group =>
+        (<Chip
+          onRequestDelete={() => this.handleRemoveGroup(group)}
+          style={this.style.chip}
+          key={group.content.name}
+          className="selenium-chip"
+        >
+          {group.content.name}
+        </Chip>))}
+      <ShowableAtRender show={this.state.tempGroup.length !== Object.keys(this.props.groupList).length}>
+        <Chip className="selenium-addChip" style={this.style.chip} onTouchTap={this.handlePopoverOpen} backgroundColor={this.style.chipBackground}>
+          <Avatar
+            backgroundColor={this.style.avatarBackground}
+            size={32}
+            icon={<AddSvg />}
+          />
+          Add
+        </Chip>
+      </ShowableAtRender>
+      <Popover
+        open={this.state.popoverOpen}
+        anchorEl={this.state.popoverAnchor}
+        anchorOrigin={iconAnchor}
+        animation={PopoverAnimationVertical}
+        onRequestClose={this.handlePopoverClose}
       >
-        {group.content.name}
-      </Chip>))}
-    <ShowableAtRender show={this.state.tempGroup.length !== Object.keys(this.props.groupList).length}>
-      <Chip className="selenium-addChip" style={this.style.chip} onTouchTap={this.handlePopoverOpen} backgroundColor={this.style.chipBackground}>
-        <Avatar
-          backgroundColor={this.style.avatarBackground}
-          size={32}
-          icon={<AddSvg />}
-        />
-        Add
-      </Chip>
-    </ShowableAtRender>
-    <Popover
-      open={this.state.popoverOpen}
-      anchorEl={this.state.popoverAnchor}
-      anchorOrigin={{ horizontal: 'left', vertical: 'top' }}
-      animation={PopoverAnimationVertical}
-      onRequestClose={this.handlePopoverClose}
-    >
-      <Menu>
-        {map(this.props.groupList, group => (
-          <ShowableAtRender key={group.content.name} show={!find(this.state.tempGroup, o => isEqual(o, group))}>
-            <MenuItem
-              primaryText={group.content.name}
-              onTouchTap={() => this.handleAddGroup(group)}
-            />
-          </ShowableAtRender>
-        ))}
-      </Menu>
-    </Popover>
-  </div>)
+        <Menu>
+          {map(this.props.groupList, group => (
+            <ShowableAtRender key={group.content.name} show={!find(this.state.tempGroup, o => isEqual(o, group))}>
+              <MenuItem
+                primaryText={group.content.name}
+                onTouchTap={() => this.handleAddGroup(group)}
+              />
+            </ShowableAtRender>
+          ))}
+        </Menu>
+      </Popover>
+    </div>)
+  }
 
   render() {
     const { invalid, pristine, userMetadata, submitting, roleList, passwordRules } = this.props

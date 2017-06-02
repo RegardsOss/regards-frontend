@@ -127,13 +127,8 @@ export class PluginConfigurationFormComponent extends React.Component {
     const styles = moduleStyles(this.context.muiTheme)
 
     const title = this.state.isEditing ?
-      (<FormattedMessage
-        id="microservice-management.plugin.configuration.form.edit.title"
-        values={{
-          name: currentPluginConfiguration.content.name,
-        }}
-      />) :
-      <FormattedMessage id="microservice-management.plugin.configuration.form.create.title" />
+      this.context.intl.formatMessage({ id: 'microservice-management.plugin.configuration.form.edit.title' }, { name: currentPluginConfiguration.content.name }) :
+      this.context.intl.formatMessage({ id: 'microservice-management.plugin.configuration.form.create.title' })
 
     return (
       <form

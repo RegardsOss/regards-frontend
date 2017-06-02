@@ -44,19 +44,20 @@ class StandardAttributesConfigurationComponent extends React.Component {
                 order: undefined,
               }
             }
+            const attributes = {
+              content: {
+                label: standardAttribute,
+                name: standardAttribute,
+                fragment: {
+                  name: '',
+                },
+              },
+            }
             return (
               <AttributeConfigurationComponent
                 key={standardAttribute}
                 allowFacettes={allowFacettes}
-                attribute={{
-                  content: {
-                    label: standardAttribute,
-                    name: standardAttribute,
-                    fragment: {
-                      name: '',
-                    },
-                  },
-                }}
+                attribute={attributes}
                 conf={conf}
                 onChange={onChangeAttributeConfiguration}
               />

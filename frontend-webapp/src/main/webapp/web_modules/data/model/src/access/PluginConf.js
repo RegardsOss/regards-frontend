@@ -54,9 +54,6 @@ const PluginConf = PropTypes.shape({
     UICriterionInstanceConf,
     UIServiceInstanceConf,
   ]),
-  // TODO A supprimer
-  container: PropTypes.string,
-  pluginConf: PropTypes.object,
 })
 
 export default PluginConf
