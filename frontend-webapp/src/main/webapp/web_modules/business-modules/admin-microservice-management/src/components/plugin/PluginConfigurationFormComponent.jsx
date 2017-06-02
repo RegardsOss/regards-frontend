@@ -201,13 +201,11 @@ export class PluginConfigurationFormComponent extends React.Component {
             <CardActions>
               <CardActionsComponent
                 mainButtonLabel={this.state.isEditing ?
-                  <FormattedMessage id="microservice-management.plugin.configuration.form.action.submit.save" /> :
-                  <FormattedMessage id="microservice-management.plugin.configuration.form.action.submit.add" />}
+                  this.context.intl.formatMessage({ id: 'microservice-management.plugin.configuration.form.action.submit.save' }) :
+                  this.context.intl.formatMessage({ id: 'microservice-management.plugin.configuration.form.action.submit.add' })}
                 mainButtonType="submit"
                 isMainButtonDisabled={submitting || invalid}
-                secondaryButtonLabel={<FormattedMessage
-                  id="microservice-management.plugin.configuration.form.action.cancel"
-                />}
+                secondaryButtonLabel={this.context.intl.formatMessage({ id: 'microservice-management.plugin.configuration.form.action.cancel' })}
                 secondaryButtonUrl={backUrl}
               />
             </CardActions>

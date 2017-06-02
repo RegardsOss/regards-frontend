@@ -3,9 +3,9 @@
  **/
 import { ListItem } from 'material-ui/List'
 import { RenderTextField, Field, ValidationHelpers } from '@regardsoss/form-utils'
-import { PluginParameter } from '@regardsoss/model'
+import { pluginParameterComponentPropTypes } from './utils'
 
-const { validRequiredString } = ValidationHelpers
+const { required, string } = ValidationHelpers
 
 /**
  * Renders a form field in view or edit mode for a plugin parameter of types
@@ -20,18 +20,21 @@ const { validRequiredString } = ValidationHelpers
  */
 export class PluginParameterNumber extends React.Component {
 
-  static propTypes = {
-    fieldKey: PropTypes.string,
-    pluginParameter: PluginParameter,
-    mode: PropTypes.oneOf(['view', 'edit', 'create', 'copy']),
-  }
+  static propTypes = pluginParameterComponentPropTypes
 
   static defaultProps = {
     mode: 'view',
   }
 
+  format = val => parseFloat(val)
+
   render() {
-    const { fieldKey, pluginParameter: { name, value }, mode } = this.props
+    const { fieldKey, pluginParameter: { name, value }, pluginParameterType: { optional, defaultValue }, mode } = this.props
+    const validators = [string] // Yes a String, because we store the number in string in the model.
+    if (!optional) {
+      validators.push(required)
+    }
+    const label = name + (optional ? '*' : '')
 
     switch (mode) {
       case 'view':
@@ -42,12 +45,13 @@ export class PluginParameterNumber extends React.Component {
         return (
           <Field
             name={fieldKey}
-            format={val => parseFloat(val)}
+            format={this.format}
             fullWidth
             component={RenderTextField}
             type={'number'}
-            label={name}
-            validate={validRequiredString} // Yes a String, because we store the number in string in the model.
+            label={label}
+            validate={validators}
+            defaultValue={defaultValue}
           />
         )
       default:

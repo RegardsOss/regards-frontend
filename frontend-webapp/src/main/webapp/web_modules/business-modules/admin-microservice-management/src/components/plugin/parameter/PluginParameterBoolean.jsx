@@ -4,8 +4,8 @@
 import { Toggle } from 'redux-form-material-ui'
 import { ListItem } from 'material-ui/List'
 import { Field } from '@regardsoss/form-utils'
-import { PluginParameter } from '@regardsoss/model'
 import { themeContextType } from '@regardsoss/theme'
+import { pluginParameterComponentPropTypes } from './utils'
 import moduleStyles from '../../../styles/styles'
 
 /**
@@ -16,11 +16,7 @@ import moduleStyles from '../../../styles/styles'
  */
 export class PluginParameterBoolean extends React.Component {
 
-  static propTypes = {
-    fieldKey: PropTypes.string,
-    pluginParameter: PluginParameter,
-    mode: PropTypes.oneOf(['view', 'edit', 'create', 'copy']),
-  }
+  static propTypes = pluginParameterComponentPropTypes
 
   static contextTypes = {
     ...themeContextType,
@@ -30,8 +26,12 @@ export class PluginParameterBoolean extends React.Component {
     mode: 'view',
   }
 
+  format = val => val === 'true'
+
+  parse = val => val === 'true'
+
   render() {
-    const { fieldKey, pluginParameter: { name, value }, mode } = this.props
+    const { fieldKey, pluginParameter: { name, value, defaultValue }, mode } = this.props
     const styles = moduleStyles(this.context.muiTheme)
 
     switch (mode) {
@@ -43,12 +43,13 @@ export class PluginParameterBoolean extends React.Component {
         return (
           <Field
             name={fieldKey}
-            format={val => val === 'true'} // Parse value to boolean
+            format={this.format} // Parse value to boolean
             parse={val => val.toString()}
             component={Toggle}
             type={'boolean'}
             style={styles.pluginConfiguration.form.toggle}
             label={name}
+            defaultToggled={defaultValue}
           />
         )
       default:
