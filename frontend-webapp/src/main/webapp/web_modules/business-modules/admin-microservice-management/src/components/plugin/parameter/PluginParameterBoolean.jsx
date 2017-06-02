@@ -31,7 +31,7 @@ export class PluginParameterBoolean extends React.Component {
   parse = val => val === 'true'
 
   render() {
-    const { fieldKey, pluginParameter: { name, value, defaultValue }, mode } = this.props
+    const { fieldKey, pluginParameter: { name, value }, mode } = this.props
     const styles = moduleStyles(this.context.muiTheme)
 
     switch (mode) {
@@ -49,7 +49,6 @@ export class PluginParameterBoolean extends React.Component {
             type={'boolean'}
             style={styles.pluginConfiguration.form.toggle}
             label={name}
-            defaultToggled={defaultValue}
           />
         )
       default:

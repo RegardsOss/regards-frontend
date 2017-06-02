@@ -52,7 +52,6 @@ export class PluginParameterNumber extends React.Component {
             type={'number'}
             label={label}
             validate={validators}
-            defaultValue={defaultValue}
           />
         )
       default:

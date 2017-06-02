@@ -8,7 +8,7 @@ const PluginParameterType = PropTypes.shape({
   type: PropTypes.string,
   paramType: PropTypes.oneOf(EnumParamType),
   optional: PropTypes.bool,
-  defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
 })
 
 export default PluginParameterType

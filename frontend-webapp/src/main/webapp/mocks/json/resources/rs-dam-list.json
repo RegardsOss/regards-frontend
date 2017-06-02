@@ -663,7 +663,9 @@
       "id": "aComplexErrorPlugin",
       "pluginId": "aComplexErrorPlugin",
       "pluginClassName": "fr.cnes.regards.framework.plugins.ComplexErrorPlugin",
-      "interfaceNames": "fr.cnes.regards.framework.plugins.ISamplePlugin",
+      "interfaceNames": [
+        "fr.cnes.regards.framework.plugins.ISamplePlugin"
+      ],
       "author": "CSSI",
       "version": "0.0.1",
       "description": "Complex plugin test",
@@ -709,7 +711,9 @@
       "id": "aSamplePlugin",
       "pluginId": "aSamplePlugin",
       "pluginClassName": "fr.cnes.regards.framework.plugins.SamplePlugin",
-      "interfaceNames": "fr.cnes.regards.framework.plugins.ISamplePlugin",
+      "interfaceNames": [
+        "fr.cnes.regards.framework.plugins.ISamplePlugin"
+      ],
       "author": "CSSI",
       "version": "12345-6789-11",
       "description": "Sample plugin test",
@@ -741,7 +745,9 @@
       "id": "aSampleErrorPlugin",
       "pluginId": "aSampleErrorPlugin",
       "pluginClassName": "fr.cnes.regards.framework.plugins.SampleErrorPlugin",
-      "interfaceNames": "fr.cnes.regards.framework.plugins.ISamplePlugin",
+      "interfaceNames": [
+        "fr.cnes.regards.framework.plugins.ISamplePlugin"
+      ],
       "author": "CSSI",
       "version": "0.0.1",
       "description": "Sample plugin test",
@@ -773,7 +779,9 @@
       "id": "aComplexPlugin",
       "pluginId": "aComplexPlugin",
       "pluginClassName": "fr.cnes.regards.framework.plugins.ComplexPlugin",
-      "interfaceNames": "fr.cnes.regards.framework.plugins.ISamplePlugin",
+      "interfaceNames": [
+        "fr.cnes.regards.framework.plugins.ISamplePlugin"
+      ],
       "author": "CSSI",
       "version": "0.0.1",
       "description": "Complex plugin test",
@@ -782,7 +790,8 @@
           "name": "plgInterface",
           "type": "fr.cnes.regards.framework.plugins.IComplexInterfacePlugin",
           "paramType": "PLUGIN",
-          "optional": true
+          "optional": true,
+          "defaultValue": 12
         },
         {
           "name": "coeff",
