@@ -14,4 +14,5 @@ export default {
   DIFFERENT_PASSWORDS: 'different.password',
   INVALID_PASSWORD: 'invalid.password',
   INVALID_URL: 'invalid.url',
+  TYPE_STRING: 'type.string',
 }
