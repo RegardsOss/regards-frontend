@@ -6,6 +6,7 @@ const messages = {
   'invalid.ip': 'IP invalide',
   'invalid.password': 'Le mot de passe ne correspond pas au format attendu (voir ci-dessus)',
   'different.password': 'Les mots de passe spécifiés diffèrent',
+  'type.string': 'Le type devrait être String',
 }
 
 export default messages

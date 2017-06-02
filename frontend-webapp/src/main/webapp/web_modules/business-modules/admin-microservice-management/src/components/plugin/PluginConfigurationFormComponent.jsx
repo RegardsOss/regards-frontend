@@ -6,12 +6,12 @@ import cloneDeep from 'lodash/cloneDeep'
 import { FormattedMessage } from 'react-intl'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent } from '@regardsoss/components'
-import { RenderTextField, RenderToggle, Field, ValidationHelpers, reduxForm } from '@regardsoss/form-utils'
+import { RenderTextField, RenderDoubleLabelToggle, Field, ValidationHelpers, reduxForm } from '@regardsoss/form-utils'
 import { PluginMetaData, PluginConfiguration } from '@regardsoss/model'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import PluginParameterListComponent from './parameter/PluginParameterListComponent'
-import { buildEmptyParameterList } from '../../model/plugin/utils'
+import { buildDefaultParameterList } from '../../model/plugin/utils'
 import moduleStyles from '../../styles/styles'
 
 const { validRequiredString, validRequiredNumber } = ValidationHelpers
@@ -96,7 +96,7 @@ export class PluginConfigurationFormComponent extends React.Component {
           active: false,
           pluginId: currentPluginMetaData && currentPluginMetaData.content.pluginId,
           pluginClassName: currentPluginMetaData && currentPluginMetaData.content.pluginClassName,
-          parameters: currentPluginMetaData && buildEmptyParameterList(currentPluginMetaData.content.parameters),
+          parameters: currentPluginMetaData && buildDefaultParameterList(currentPluginMetaData.content.parameters),
         }
         break
       case 'copy':
@@ -176,10 +176,11 @@ export class PluginConfigurationFormComponent extends React.Component {
               />
               <Field
                 name="active"
-                component={RenderToggle}
+                component={RenderDoubleLabelToggle}
                 type="boolean"
+                leftLabel={this.context.intl.formatMessage({ id: 'microservice-management.plugin.configuration.form.inactive' })}
+                rightLabel={this.context.intl.formatMessage({ id: 'microservice-management.plugin.configuration.form.active' })}
                 style={styles.pluginConfiguration.form.toggle}
-                label={this.context.intl.formatMessage({ id: 'microservice-management.plugin.configuration.form.active' })}
                 defaultToggled={currentPluginConfiguration ? currentPluginConfiguration.content.active : true}
               />
             </CardText>
@@ -196,13 +197,11 @@ export class PluginConfigurationFormComponent extends React.Component {
             <CardActions>
               <CardActionsComponent
                 mainButtonLabel={this.state.isEditing ?
-                  <FormattedMessage id="microservice-management.plugin.configuration.form.action.submit.save" /> :
-                  <FormattedMessage id="microservice-management.plugin.configuration.form.action.submit.add" />}
+                  this.context.intl.formatMessage({ id: 'microservice-management.plugin.configuration.form.action.submit.save' }) :
+                  this.context.intl.formatMessage({ id: 'microservice-management.plugin.configuration.form.action.submit.add' })}
                 mainButtonType="submit"
                 isMainButtonDisabled={submitting || invalid}
-                secondaryButtonLabel={<FormattedMessage
-                  id="microservice-management.plugin.configuration.form.action.cancel"
-                />}
+                secondaryButtonLabel={this.context.intl.formatMessage({ id: 'microservice-management.plugin.configuration.form.action.cancel' })}
                 secondaryButtonUrl={backUrl}
               />
             </CardActions>

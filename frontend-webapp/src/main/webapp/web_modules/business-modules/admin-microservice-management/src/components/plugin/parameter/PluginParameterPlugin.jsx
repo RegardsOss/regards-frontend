@@ -5,7 +5,6 @@ import map from 'lodash/map'
 import isEmpty from 'lodash/isEmpty'
 import filter from 'lodash/filter'
 import find from 'lodash/find'
-import { FormattedMessage } from 'react-intl'
 import RaisedButton from 'material-ui/RaisedButton'
 import { ListItem } from 'material-ui/List'
 import IconMenu from 'material-ui/IconMenu'
@@ -25,7 +24,7 @@ import PluginConfigurationSelectors from '../../../model/plugin/PluginConfigurat
 import { buildMenuItemPrimaryText } from './utils'
 import moduleStyles from '../../../styles/styles'
 
-const { validRequiredString } = ValidationHelpers
+const { required, string } = ValidationHelpers
 
 /**
  * Component displaying a menu allowing to pick a plugin configuration for the passed plugin paramater.
@@ -48,7 +47,6 @@ export class PluginParameterPlugin extends React.Component {
   static defaultProps = {
     mode: 'view',
   }
-
 
   static contextTypes = {
     ...themeContextType,
@@ -86,10 +84,14 @@ export class PluginParameterPlugin extends React.Component {
   }
 
   render() {
-    const { fieldKey, mode, pluginParameter: { name }, pluginMetaDataList, pluginConfigurationList } = this.props
+    const { fieldKey, mode, pluginParameter: { name, defaultValue, optional }, pluginMetaDataList, pluginConfigurationList } = this.props
     const { openMenu, selectedPluginConfiguration } = this.state
-
     const styles = moduleStyles(this.context.muiTheme)
+    const validators = [string]
+    if (!optional) {
+      validators.push(required)
+    }
+    const label = name + (optional ? '*' : '')
 
     switch (mode) {
       case 'view':
@@ -101,7 +103,7 @@ export class PluginParameterPlugin extends React.Component {
           <div>
             {name}            :
             <RaisedButton
-              label={selectedPluginConfiguration ? selectedPluginConfiguration.content.label : <FormattedMessage id="microservice-management.plugin.parameter.plugin.choose" />}
+              label={selectedPluginConfiguration ? selectedPluginConfiguration.content.label : this.context.intl.formatMessage({ id: 'microservice-management.plugin.parameter.plugin.choose' })}
               onTouchTap={this.handleOpenMenu}
               style={styles.pluginParameter.pluginButton}
             />
@@ -123,13 +125,13 @@ export class PluginParameterPlugin extends React.Component {
                     rightIcon={<ArrowDropRight />}
                     disabled={pluginConfigurationListIsEmpty}
                     menuItems={
-                        map(pluginConfigurationListForThisPluginMetaData, pluginConfiguration =>
-                          (<MenuItem
-                            key={pluginConfiguration.content.id}
-                            primaryText={buildMenuItemPrimaryText(pluginConfiguration.content.label, pluginConfiguration.content.version)}
-                            onTouchTap={() => this.handleChange(pluginConfiguration.content.id)}
-                            checked={pluginConfiguration.content.id === this.state.value}
-                          />))
+                      map(pluginConfigurationListForThisPluginMetaData, pluginConfiguration =>
+                        (<MenuItem
+                          key={pluginConfiguration.content.id}
+                          primaryText={buildMenuItemPrimaryText(pluginConfiguration.content.label, pluginConfiguration.content.version)}
+                          onTouchTap={() => this.handleChange(pluginConfiguration.content.id)}
+                          checked={pluginConfiguration.content.id === this.state.value}
+                        />))
                     }
                   />
                 )
@@ -147,8 +149,9 @@ export class PluginParameterPlugin extends React.Component {
               name={fieldKey}
               component={RenderTextField}
               type={'text'}
-              label={name}
-              validate={validRequiredString}
+              label={label}
+              validate={validators}
+              defaultValue={defaultValue}
             />
           </div>
         )
