@@ -80,13 +80,13 @@ describe('[SEARCH FORM] Testing formCriterionComponent', () => {
         label: 'criterion',
         pluginId: 0,
         container: 'content',
-        pluginConf: {},
+        conf: {},
       }, {
         id: 1,
         label: 'criterion_1',
         pluginId: 1,
         container: 'content',
-        pluginConf: {},
+        conf: {},
       }],
       layout: {
         id: 'main',

@@ -21,7 +21,9 @@ class BasicActions {
   /**
    * Class constructor
    *
-   * @param options TODO Specify the expected format
+   * @param options Object containing :
+   * { entityEndpoint: string, entityPathVariable: string,namespace : string ,
+   * headers: Object ,bypassErrorMiddleware : bool }
    */
   constructor(options) {
     this.entityEndpoint = options.entityEndpoint

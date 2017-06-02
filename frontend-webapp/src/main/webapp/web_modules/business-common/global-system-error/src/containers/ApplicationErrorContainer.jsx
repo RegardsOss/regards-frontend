@@ -22,6 +22,7 @@ class ApplicationErrorContainer extends React.Component {
   render() {
     if (this.props.snackBarOpened) {
       const message = this.props.snackBarMessage
+      const style = { height: 'auto', lineHeight: '28px', padding: 24, whiteSpace: 'pre-line' }
       return (
         <Snackbar
           open={this.props.snackBarOpened}
@@ -29,7 +30,7 @@ class ApplicationErrorContainer extends React.Component {
           onRequestClose={this.props.closeDialog}
           onActionTouchTap={this.props.closeDialog}
           action="OK"
-          bodyStyle={{ height: 'auto', lineHeight: '28px', padding: 24, whiteSpace: 'pre-line' }}
+          bodyStyle={style}
         />
       )
     }

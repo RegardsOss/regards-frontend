@@ -98,7 +98,7 @@ describe('[SEARCH FORM] Testing FormCriteriaComponent', () => {
         label: 'criteria de test',
         pluginId: 0,
         container: 'main',
-        pluginConf: {
+        conf: {
           attributes: {
             searchField: 0,
           },

@@ -1,6 +1,9 @@
+/*
+ * LICENSE_PLACEHOLDER
+ */
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import { testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import EnumConnectivity from '@regardsoss/model/src/admin/EnumConnectivity'
 import { LoadingComponent } from '@regardsoss/display-control'
 import { FormEntityNotFoundComponent } from '@regardsoss/form-utils'
@@ -13,6 +16,8 @@ describe(
   '[ADMIN PROJECT MANAGEMENT] Testing ProjectConnectionFormContainer', () => {
     before(testSuiteHelpers.before)
     after(testSuiteHelpers.after)
+
+    const context = buildTestContext()
 
     it('should exists', () => {
       assert.isDefined(ProjectConnectionsContainer)
@@ -50,7 +55,7 @@ describe(
         projectIsFetching: false,
         projectConnectionsIsFetching: false,
       }
-      const enzymeWrapper = shallow(<ProjectConnectionsContainer {...props} />)
+      const enzymeWrapper = shallow(<ProjectConnectionsContainer {...props} />, { context })
       expect(enzymeWrapper.find(ProjectConnectionFormComponent)).to.have.length(1)
     })
 
@@ -117,7 +122,7 @@ describe(
         projectIsFetching: false,
         projectConnectionsIsFetching: false,
       }
-      const enzymeWrapper = shallow(<ProjectConnectionsContainer {...props} />)
+      const enzymeWrapper = shallow(<ProjectConnectionsContainer {...props} />, { context })
       expect(enzymeWrapper.find(ProjectConnectionFormComponent)).to.have.length(0)
       expect(enzymeWrapper.find(GuidedProjectConfigurationComponent)).to.have.length(1)
     })
@@ -152,7 +157,7 @@ describe(
         projectIsFetching: true,
         projectConnectionsIsFetching: false,
       }
-      const enzymeWrapper = shallow(<ProjectConnectionsContainer {...props} />)
+      const enzymeWrapper = shallow(<ProjectConnectionsContainer {...props} />, { context })
       expect(enzymeWrapper.find(LoadingComponent)).to.have.length(1)
     })
 
@@ -167,7 +172,7 @@ describe(
         projectIsFetching: false,
         projectConnectionsIsFetching: false,
       }
-      const enzymeWrapper = shallow(<ProjectConnectionsContainer {...props} />)
+      const enzymeWrapper = shallow(<ProjectConnectionsContainer {...props} />, { context })
       expect(enzymeWrapper.find(LoadingComponent)).to.have.length(0)
       expect(enzymeWrapper.find(FormEntityNotFoundComponent)).to.have.length(1)
       expect(enzymeWrapper.find(ProjectConnectionFormComponent)).to.have.length(0)

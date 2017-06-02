@@ -11,7 +11,7 @@ import { connect } from '@regardsoss/redux'
 import { Module, Layout } from '@regardsoss/model'
 import { ContainerHelper } from '@regardsoss/layout'
 import { modulesManager } from '@regardsoss/modules'
-import { EndpointSelectors } from '@regardsoss/endpoints-common'
+import { CommonEndpointClient } from '@regardsoss/endpoints-common'
 import { allMatchHateoasDisplayLogic } from '@regardsoss/display-control'
 import FormShape from '../model/FormShape'
 import ModuleFormComponent from '../components/ModuleFormComponent'
@@ -190,6 +190,11 @@ class ModuleFormContainer extends React.Component {
       />)
     }
 
+    const adminForm = {
+      form: this.props.form,
+      changeField: this.props.changeField,
+    }
+
     return (
       <ModuleFormComponent
         project={this.props.params.project}
@@ -200,10 +205,7 @@ class ModuleFormContainer extends React.Component {
         availableModuleTypes={this.state.availableModuleTypes}
         duplication={this.props.params.duplicate_module_id !== undefined}
         containers={availablecontainers}
-        adminForm={{
-          form: this.props.form,
-          changeField: this.props.changeField,
-        }}
+        adminForm={adminForm}
       />
     )
   }
@@ -223,7 +225,7 @@ const mapStateToProps = (state, ownProps) => ({
   layout: ownProps.params.applicationId ? ownProps.layoutSelectors.getContentById(state, ownProps.params.applicationId) : null,
   isFetching: ownProps.moduleSelectors.isFetching(state),
   form: getFormValues('edit-module-form')(state),
-  availableEndpoints: EndpointSelectors.getListOfKeys(state),
+  availableEndpoints: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
 })
 
 const mapDispatchToProps = dispatch => ({

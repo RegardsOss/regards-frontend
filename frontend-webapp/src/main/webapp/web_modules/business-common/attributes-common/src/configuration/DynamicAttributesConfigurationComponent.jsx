@@ -44,6 +44,8 @@ class DynamicAttributesConfigurationComponent extends React.Component {
   render() {
     const { allowFacettes, selectableAttributes, attributesConf, onChangeAttributeConfiguration } = this.props
     const { filter } = this.state
+    const styles = { margin: '0px 15px' }
+    const attrStyles = { display: 'flex', flexWrap: 'wrap' }
     return (
       <div >
         <Subheader><FormattedMessage id="form.attributes.section.title" /></Subheader>
@@ -59,9 +61,7 @@ class DynamicAttributesConfigurationComponent extends React.Component {
           <TextField
             hintText={this.context.intl.formatMessage({ id: 'form.attributes.filter.label' })}
             value={filter}
-            style={{
-              margin: '0px 15px',
-            }}
+            style={styles}
             onChange={this.changeFilter}
           />
           <IconButton
@@ -71,12 +71,7 @@ class DynamicAttributesConfigurationComponent extends React.Component {
             <Close />
           </IconButton>
         </div>
-        <div
-          style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-          }}
-        >
+        <div style={attrStyles}>
           {map(selectableAttributes, (selectableAttribute) => {
             const attributeId = AttributeModelController.getAttributeFullyQualifiedName(selectableAttribute)
             // Search existing associated attribute configuration if there is one

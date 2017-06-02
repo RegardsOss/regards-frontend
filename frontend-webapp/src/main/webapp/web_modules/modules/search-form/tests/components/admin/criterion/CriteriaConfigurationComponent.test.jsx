@@ -61,8 +61,8 @@ describe('[SEARCH FORM] Testing CriteriaConfigurationComponent', () => {
 
     const attributes = wrapper.find(Field)
     assert.lengthOf(attributes, 2, 'There should be 2 attributes to configure for this test plugin configuration')
-    assert.equal(attributes.at(0).prop('name'), 'pluginConf.attributes.searchField1', 'The first attribute to configure should be searchField1 as defined in TestPlugin-info.json')
-    assert.equal(attributes.at(1).prop('name'), 'pluginConf.attributes.searchField2', 'The second attribute to configure should be searchField2 as defined in TestPlugin-info.json')
+    assert.equal(attributes.at(0).prop('name'), 'conf.attributes.searchField1', 'The first attribute to configure should be searchField1 as defined in TestPlugin-info.json')
+    assert.equal(attributes.at(1).prop('name'), 'conf.attributes.searchField2', 'The second attribute to configure should be searchField2 as defined in TestPlugin-info.json')
 
     assert.lengthOf(attributes.at(0).find(MenuItem), 3, 'There  should be 2 selectable attributes for configuration')
     assert.lengthOf(attributes.at(1).find(MenuItem), 3, 'There  should be 2 selectable attributes for configuration')

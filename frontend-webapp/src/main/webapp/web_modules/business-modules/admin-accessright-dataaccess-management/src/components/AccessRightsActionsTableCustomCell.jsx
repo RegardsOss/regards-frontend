@@ -22,22 +22,20 @@ class AccessRightsActionsTableCustomCell extends React.Component {
     lineHeight: PropTypes.number.isRequired,
   }
 
+  // Static css inline styles
+  static iconStyle = { height: 23, width: 23 }
+  static buttonStyle = { padding: 0, height: 30, width: 30 }
+
   renderDeleteButton = (accessRight) => {
     if (!accessRight || !accessRight.content) {
       return null
     }
+
     return (
       <IconButton
         title={this.props.intl.formatMessage({ id: 'accessright.delete.tooltip' })}
-        iconStyle={{
-          height: 23,
-          width: 23,
-        }}
-        style={{
-          padding: 0,
-          height: 30,
-          width: 30,
-        }}
+        iconStyle={AccessRightsActionsTableCustomCell.iconStyle}
+        style={AccessRightsActionsTableCustomCell.buttonStyle}
         onTouchTap={() => this.props.onDelete(accessRight)}
       >
         <Delete />
@@ -50,15 +48,8 @@ class AccessRightsActionsTableCustomCell extends React.Component {
     return (
       <IconButton
         title={this.props.intl.formatMessage({ id: 'accessright.edit.tooltip' })}
-        iconStyle={{
-          height: 23,
-          width: 23,
-        }}
-        style={{
-          padding: 0,
-          height: 30,
-          width: 30,
-        }}
+        iconStyle={AccessRightsActionsTableCustomCell.iconStyle}
+        style={AccessRightsActionsTableCustomCell.buttonStyle}
         onTouchTap={() => this.props.onEdit(accessRightToEdit, this.props.entity)}
       >
         <Edit />

@@ -1,7 +1,6 @@
 /*
  * LICENSE_PLACEHOLDER
  */
-import { FormattedMessage } from 'react-intl'
 import FlatButton from 'material-ui/FlatButton'
 import PlayArrow from 'material-ui/svg-icons/av/play-arrow'
 import Check from 'material-ui/svg-icons/navigation/check'
@@ -100,31 +99,49 @@ class DatabaseConnectionTester extends React.Component {
       onTouchTap={this.handleTouchTap}
     />)
 
+    const switchLabels = [
+      this.context.intl.formatMessage({ id: 'database.connectionTester.connected' }),
+      this.context.intl.formatMessage({ id: 'database.connectionTester.restart' }),
+    ]
+
+    const switchIcons = [<Check key="check" />, <PlayArrow key="play" />]
+    const switchPrimary = [true, false]
+    const switchActions = [this.handleTouchTap, this.handleTouchTap]
+
     const successButton =
       (<OnHoverSwitchFlatButton
-        label={[this.context.intl.formatMessage({ id: 'database.connectionTester.connected' }),
-          this.context.intl.formatMessage({ id: 'database.connectionTester.restart' })]}
-        icon={[<Check key="check" />, <PlayArrow key="play" />]}
-        primary={[true, false]}
-        onTouchTap={[this.handleTouchTap, this.handleTouchTap]}
+        label={switchLabels}
+        icon={switchIcons}
+        primary={switchPrimary}
+        onTouchTap={switchActions}
       />)
 
+    const switchWarnLabels = [
+      this.context.intl.formatMessage({ id: 'database.connectionTester.warning' }),
+      this.context.intl.formatMessage({ id: 'database.connectionTester.restart' }),
+    ]
+    const switchWarnIcons = [<Warning key="warn" color={styles.palette.warningColor} />, <PlayArrow key="play" />]
+    const switchWarnStyles = [{ color: styles.palette.warningColor }, null]
     const warningButton =
       (<OnHoverSwitchFlatButton
-        label={[this.context.intl.formatMessage({ id: 'database.connectionTester.warning' }),
-          this.context.intl.formatMessage({ id: 'database.connectionTester.restart' })]}
-        icon={[<Warning key="warn" color={styles.palette.warningColor} />, <PlayArrow key="play" />]}
-        labelStyle={[{ color: styles.palette.warningColor }, null]}
-        onTouchTap={[this.handleTouchTap, this.handleTouchTap]}
+        label={switchWarnLabels}
+        icon={switchWarnIcons}
+        labelStyle={switchWarnStyles}
+        onTouchTap={switchActions}
       />)
+
+    const switchErrorLabels = [
+      this.context.intl.formatMessage({ id: 'database.connectionTester.notConnected' }),
+      this.context.intl.formatMessage({ id: 'database.connectionTester.restart' }),
+    ]
+    const switchErrorIcons = [<Error key="error" />, <PlayArrow key="play" />]
 
     const errorButton =
       (<OnHoverSwitchFlatButton
-        label={[this.context.intl.formatMessage({ id: 'database.connectionTester.notConnected' }),
-          this.context.intl.formatMessage({ id: 'database.connectionTester.restart' })]}
-        icon={[<Error key="error" />, <PlayArrow key="play" />]}
-        secondary={[true, false]}
-        onTouchTap={[this.handleTouchTap, this.handleTouchTap]}
+        label={switchErrorLabels}
+        icon={switchErrorIcons}
+        secondary={switchPrimary}
+        onTouchTap={switchActions}
       />)
 
     const pendingProgress = <ConnectionTesterProgress value={this.state.completed} />
@@ -132,13 +149,8 @@ class DatabaseConnectionTester extends React.Component {
     const snackbar =
       (<Snackbar
         open={this.state.snackBarOpen}
-        message={<FormattedMessage
-          id={this.state.snackBarMessageId}
-          values={{
-            microservice: projectConnection.content.microservice,
-            driverClassName: projectConnection.content.driverClassName,
-          }}
-        />}
+        message={this.context.intl.formatMessage({ id: 'this.state.snackBarMessageId' }, { microservice: projectConnection.content.microservice,
+          driverClassName: projectConnection.content.driverClassName })}
         autoHideDuration={4000}
         onRequestClose={this.handleSnackbarRequestClose}
         onActionTouchTap={this.handleSnackbarActionTouchTap}

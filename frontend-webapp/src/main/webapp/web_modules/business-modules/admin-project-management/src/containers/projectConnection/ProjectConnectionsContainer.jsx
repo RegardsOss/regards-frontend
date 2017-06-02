@@ -5,9 +5,8 @@ import map from 'lodash/map'
 import find from 'lodash/find'
 import filter from 'lodash/filter'
 import { browserHistory } from 'react-router'
-import { FormattedMessage } from 'react-intl'
 import { Card, CardTitle, CardText } from 'material-ui/Card'
-import { I18nProvider } from '@regardsoss/i18n'
+import { i18nContextType } from '@regardsoss/i18n'
 import { connect } from '@regardsoss/redux'
 import { Project, ProjectConnection } from '@regardsoss/model'
 import { LoadingComponent } from '@regardsoss/display-control'
@@ -51,6 +50,10 @@ export class ProjectConnectionsContainer extends React.Component {
     fetchProjectConnections: PropTypes.func,
     updateProjectConnection: PropTypes.func,
     createProjectConnection: PropTypes.func,
+  }
+
+  static contextTypes = {
+    ...i18nContextType,
   }
 
   state = {
@@ -194,17 +197,15 @@ export class ProjectConnectionsContainer extends React.Component {
     }
 
     return (
-      <I18nProvider messageDir="business-modules/admin-project-management/src/i18n">
-        <GuidedProjectConfigurationComponent
-          project={this.props.project}
-          projectConnections={projectConnections}
-          configureOneForAll={this.state.configureOneForAll}
-          errorMessage={this.state.errorMessage}
-          onCreate={this.onCreate}
-          onUpdate={this.onUpdate}
-          onChangeConfigurationMode={this.onChangeConfigurationMode}
-        />
-      </I18nProvider>
+      <GuidedProjectConfigurationComponent
+        project={this.props.project}
+        projectConnections={projectConnections}
+        configureOneForAll={this.state.configureOneForAll}
+        errorMessage={this.state.errorMessage}
+        onCreate={this.onCreate}
+        onUpdate={this.onUpdate}
+        onChangeConfigurationMode={this.onChangeConfigurationMode}
+      />
     )
   }
 
@@ -225,32 +226,28 @@ export class ProjectConnectionsContainer extends React.Component {
     }
 
     return (
-      <I18nProvider messageDir="business-modules/admin-project-management/src/i18n">
-        <Card>
-          <CardTitle
-            title={<FormattedMessage
-              id="database.form.edit.title"
-              values={{
-                microservice,
-                project: this.props.project.content.name,
-              }}
-            />}
+      <Card>
+        <CardTitle
+          title={
+            this.context.intl.formatMessage({ id: 'database.form.edit.title' }, {
+              microservice,
+              project: this.props.project.content.name,
+            })}
+        />
+        <CardText>
+          <ProjectConnectionFormComponent
+            project={this.props.project}
+            microservice={microservice}
+            projectConnection={this.props.projectConnection}
+            configureOneForAll={this.state.configureOneForAll}
+            errorMessage={this.state.errorMessage}
+            onUpdate={this.onUpdate}
+            onCreate={this.onCreate}
+            onCancel={this.handleBack}
+            onChangeConfigurationMode={this.onChangeConfigurationMode}
           />
-          <CardText>
-            <ProjectConnectionFormComponent
-              project={this.props.project}
-              microservice={microservice}
-              projectConnection={this.props.projectConnection}
-              configureOneForAll={this.state.configureOneForAll}
-              errorMessage={this.state.errorMessage}
-              onUpdate={this.onUpdate}
-              onCreate={this.onCreate}
-              onCancel={this.handleBack}
-              onChangeConfigurationMode={this.onChangeConfigurationMode}
-            />
-          </CardText>
-        </Card>
-      </I18nProvider>
+        </CardText>
+      </Card>
     )
   }
 
@@ -260,7 +257,7 @@ export class ProjectConnectionsContainer extends React.Component {
     if (this.props.params.project_connection_id || this.props.params.microservice_name) {
       return this.renderSimpleForm()
     }
-      // Else, guided mode, to edit all connection at a time.
+    // Else, guided mode, to edit all connection at a time.
     return this.renderGuidedForm()
   }
 
