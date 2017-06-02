@@ -34,10 +34,10 @@ const microserviceManagementStyles = theme => ({
       padding: '0px 20px 20px 20px',
     },
     card: {
-      margin: '0px 0px',
+      margin: '0px 10px',
     },
     cardExpanded: {
-      margin: '30px 0px',
+      margin: '30px 10px',
     },
     lineWrapper: {
       display: 'flex',
