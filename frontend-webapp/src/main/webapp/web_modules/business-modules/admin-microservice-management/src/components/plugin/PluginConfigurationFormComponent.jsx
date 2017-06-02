@@ -6,7 +6,7 @@ import cloneDeep from 'lodash/cloneDeep'
 import { FormattedMessage } from 'react-intl'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent } from '@regardsoss/components'
-import { RenderTextField, RenderToggle, RenderDoubleLabelToggle, Field, ValidationHelpers, reduxForm } from '@regardsoss/form-utils'
+import { RenderTextField, RenderDoubleLabelToggle, Field, ValidationHelpers, reduxForm } from '@regardsoss/form-utils'
 import { PluginMetaData, PluginConfiguration } from '@regardsoss/model'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -183,8 +183,8 @@ export class PluginConfigurationFormComponent extends React.Component {
                 name="active"
                 component={RenderDoubleLabelToggle}
                 type="boolean"
-                leftLabel={<FormattedMessage id="microservice-management.plugin.configuration.form.create.inactive" />}
-                rightLabel={<FormattedMessage id="microservice-management.plugin.configuration.form.create.active" />}
+                leftLabel={this.context.intl.formatMessage({ id: 'microservice-management.plugin.configuration.form.inactive' })}
+                rightLabel={this.context.intl.formatMessage({ id: 'microservice-management.plugin.configuration.form.active' })}
                 style={styles.pluginConfiguration.form.toggle}
                 defaultToggled={currentPluginConfiguration ? currentPluginConfiguration.content.active : true}
               />
