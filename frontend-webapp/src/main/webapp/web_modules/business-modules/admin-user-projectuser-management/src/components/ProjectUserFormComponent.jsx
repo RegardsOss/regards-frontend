@@ -1,18 +1,19 @@
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import find from 'lodash/find'
-import map from 'lodash/map'
 import forEach from 'lodash/forEach'
+import map from 'lodash/map'
+import { formValueSelector } from 'redux-form'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
-import { RenderTextField, ErrorTypes, Field, ValidationHelpers, RenderSelectField, reduxForm } from '@regardsoss/form-utils'
+import { RenderTextField, ErrorTypes, Field, ValidationHelpers, RenderSelectField, RenderCheckbox, reduxForm } from '@regardsoss/form-utils'
 import { Role, ProjectUser, AccessGroup } from '@regardsoss/model'
 import { MetadataList, MetadataField } from '@regardsoss/user-metadata-common'
+import { connect } from '@regardsoss/redux'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import MenuItem from 'material-ui/MenuItem'
-import Checkbox from 'material-ui/Checkbox'
 import Chip from 'material-ui/Chip'
 import AddSvg from 'material-ui/svg-icons/content/add'
 import Avatar from 'material-ui/Avatar'
@@ -23,6 +24,8 @@ import Menu from 'material-ui/Menu'
  * Display edit and create project form
  */
 export class ProjectUserFormComponent extends React.Component {
+
+  static POPOVER_ANCHOR_ORIGIN = { horizontal: 'left', vertical: 'top' }
 
   static propTypes = {
     currentUser: ProjectUser,
@@ -41,6 +44,8 @@ export class ProjectUserFormComponent extends React.Component {
     handleSubmit: PropTypes.func.isRequired,
     initialize: PropTypes.func.isRequired,
     change: PropTypes.func,
+    // from redux field connector
+    useExistingAccount: PropTypes.bool, // should use existing account
   }
 
   static contextTypes = {
@@ -52,7 +57,6 @@ export class ProjectUserFormComponent extends React.Component {
     super(props)
     this.state = {
       isCreating: props.currentUser === undefined,
-      useExistingAccount: false,
       popoverOpen: false,
       tempGroup: [],
     }
@@ -106,6 +110,9 @@ export class ProjectUserFormComponent extends React.Component {
       // 2 - keep current email and role name
       initialFormValues.email = currentUser.content.email
       initialFormValues.roleName = currentUser.content.role.name
+      initialFormValues.useExistingAccount = true // always, as account is already created
+    } else {
+      initialFormValues.useExistingAccount = false // when creating a user, disabled by default
     }
     // Always: initialize fields values from metadata
     initialFormValues = userMetadata.reduce((acc, { key, currentValue }) => ({
@@ -114,8 +121,6 @@ export class ProjectUserFormComponent extends React.Component {
     }), initialFormValues)
     initialize(initialFormValues)
   }
-
-  handleCheckbox = () => this.setState({ useExistingAccount: !this.state.useExistingAccount })
 
   handlePopoverOpen = (event) => {
     // This prevents ghost click.
@@ -171,7 +176,7 @@ export class ProjectUserFormComponent extends React.Component {
     <Popover
       open={this.state.popoverOpen}
       anchorEl={this.state.popoverAnchor}
-      anchorOrigin={{ horizontal: 'left', vertical: 'top' }}
+      anchorOrigin={ProjectUserFormComponent.POPOVER_ANCHOR_ORIGIN}
       animation={PopoverAnimationVertical}
       onRequestClose={this.handlePopoverClose}
     >
@@ -189,7 +194,7 @@ export class ProjectUserFormComponent extends React.Component {
   </div>)
 
   render() {
-    const { invalid, pristine, userMetadata, submitting, roleList, passwordRules } = this.props
+    const { invalid, pristine, userMetadata, submitting, roleList, passwordRules, useExistingAccount } = this.props
     const { intl: { formatMessage } } = this.context
     return (
       <form
@@ -208,8 +213,9 @@ export class ProjectUserFormComponent extends React.Component {
           <CardText>
 
             <ShowableAtRender show={this.state.isCreating} >
-              <Checkbox
-                onCheck={this.handleCheckbox}
+              <Field
+                name="useExistingAccount"
+                component={RenderCheckbox}
                 label={formatMessage({ id: 'projectUser.create.using.existing.account' })}
               />
             </ShowableAtRender>
@@ -223,7 +229,7 @@ export class ProjectUserFormComponent extends React.Component {
               label={formatMessage({ id: 'projectUser.create.input.email' })}
             />
             { /* Show account creation options when creating an account */}
-            <ShowableAtRender show={!this.state.useExistingAccount && this.state.isCreating} >
+            <ShowableAtRender show={!useExistingAccount && this.state.isCreating} >
               <div>
                 <Field
                   name="firstName"
@@ -325,7 +331,12 @@ function validate(values) {
  */
 function asyncValidate({ password }, dispatch, props) {
   // ugly async connection should be done by the container bu we can't
-  const { fetchPasswordValidity } = props
+  const { fetchPasswordValidity, useExistingAccount } = props
+  if (useExistingAccount) {
+    // no need to validated password there as it will not be entered
+    return Promise.resolve({})
+  }
+  // validate password
   return fetchPasswordValidity(password).then((result) => {
     const validity = get(result, 'payload.content.validity', false)
     const errors = {}
@@ -336,9 +347,17 @@ function asyncValidate({ password }, dispatch, props) {
   })
 }
 
-export default reduxForm({
+const connectedReduxForm = reduxForm({
   form: 'user-form',
   validate,
   asyncValidate,
   asyncBlurFields: ['password'],
 })(ProjectUserFormComponent)
+
+// connect with selector to select the last mail value
+const selector = formValueSelector('user-form')
+export default connect(
+  state => ({
+    useExistingAccount: selector(state, 'useExistingAccount'),
+  }),
+)(connectedReduxForm)
