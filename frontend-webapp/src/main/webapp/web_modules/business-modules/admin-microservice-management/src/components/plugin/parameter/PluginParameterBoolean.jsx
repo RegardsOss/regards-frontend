@@ -1,9 +1,8 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { Toggle } from 'redux-form-material-ui'
 import { ListItem } from 'material-ui/List'
-import { Field } from '@regardsoss/form-utils'
+import { Field, RenderToggle } from '@regardsoss/form-utils'
 import { themeContextType } from '@regardsoss/theme'
 import { pluginParameterComponentPropTypes } from './utils'
 import moduleStyles from '../../../styles/styles'
@@ -28,10 +27,10 @@ export class PluginParameterBoolean extends React.Component {
 
   format = val => val === 'true'
 
-  parse = val => val === 'true'
+  parse = val => val.toString()
 
   render() {
-    const { fieldKey, pluginParameter: { name, value }, mode } = this.props
+    const { fieldKey, pluginParameter: { name, value }, pluginParameterType, mode } = this.props
     const styles = moduleStyles(this.context.muiTheme)
 
     switch (mode) {
@@ -44,11 +43,12 @@ export class PluginParameterBoolean extends React.Component {
           <Field
             name={fieldKey}
             format={this.format} // Parse value to boolean
-            parse={val => val.toString()}
-            component={Toggle}
+            parse={this.parse}
+            component={RenderToggle}
             type={'boolean'}
             style={styles.pluginConfiguration.form.toggle}
             label={name}
+            defaultToggled={pluginParameterType && pluginParameterType.defaultValue}
           />
         )
       default:
