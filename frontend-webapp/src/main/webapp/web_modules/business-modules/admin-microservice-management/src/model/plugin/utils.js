@@ -51,15 +51,15 @@ const parameterTypeToDefaultParameter = parameterType => ({
 })
 
 /**
- * Initializes an array of empty parameters from the passed types list.
+ * Initializes an array of parameters with default values from the passed types list.
  *
  * @param pluginParameterTypeList the array of plugn parameterType
  */
-const buildEmptyParameterList = pluginParameterTypeList => map(pluginParameterTypeList, parameterTypeToDefaultParameter)
+const buildDefaultParameterList = pluginParameterTypeList => map(pluginParameterTypeList, parameterTypeToDefaultParameter)
 
 export {
   mapPluginParameterToPluginParameterType,
   extractUniqueTypesFromConfiguration,
-  buildEmptyParameterList,
+  buildDefaultParameterList,
   parameterTypeToDefaultParameter,
 }

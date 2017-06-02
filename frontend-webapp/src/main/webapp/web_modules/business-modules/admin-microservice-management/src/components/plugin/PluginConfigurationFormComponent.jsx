@@ -11,7 +11,7 @@ import { PluginMetaData, PluginConfiguration } from '@regardsoss/model'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import PluginParameterListComponent from './parameter/PluginParameterListComponent'
-import { buildEmptyParameterList } from '../../model/plugin/utils'
+import { buildDefaultParameterList } from '../../model/plugin/utils'
 import moduleStyles from '../../styles/styles'
 
 const { validRequiredString, validRequiredNumber } = ValidationHelpers
@@ -96,7 +96,7 @@ export class PluginConfigurationFormComponent extends React.Component {
           active: false,
           pluginId: currentPluginMetaData && currentPluginMetaData.content.pluginId,
           pluginClassName: currentPluginMetaData && currentPluginMetaData.content.pluginClassName,
-          parameters: currentPluginMetaData && buildEmptyParameterList(currentPluginMetaData.content.parameters),
+          parameters: currentPluginMetaData && buildDefaultParameterList(currentPluginMetaData.content.parameters),
         }
         break
       case 'copy':
