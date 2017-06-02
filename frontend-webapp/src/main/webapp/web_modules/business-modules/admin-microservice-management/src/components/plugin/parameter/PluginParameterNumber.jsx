@@ -29,12 +29,13 @@ export class PluginParameterNumber extends React.Component {
   format = val => parseFloat(val)
 
   render() {
-    const { fieldKey, pluginParameter: { name, value }, pluginParameterType: { optional, defaultValue }, mode } = this.props
+    const { fieldKey, pluginParameter: { name, value }, pluginParameterType, mode } = this.props
     const validators = [string] // Yes a String, because we store the number in string in the model.
-    if (!optional) {
+    let label = name
+    if (pluginParameterType && !pluginParameterType.optional) {
       validators.push(required)
+      label += '*'
     }
-    const label = name + (optional ? '*' : '')
 
     switch (mode) {
       case 'view':

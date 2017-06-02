@@ -23,12 +23,13 @@ export class PluginParameterString extends React.Component {
   }
 
   render() {
-    const { fieldKey, pluginParameter: { name, value }, pluginParameterType: { optional, defaultValue }, mode } = this.props
+    const { fieldKey, pluginParameter: { name, value }, pluginParameterType, mode } = this.props
     const validators = [string]
-    if (!optional) {
+    let label = name
+    if (pluginParameterType && !pluginParameterType.optional) {
       validators.push(required)
+      label += '*'
     }
-    const label = name + (optional ? '*' : '')
 
     switch (mode) {
       case 'view':
