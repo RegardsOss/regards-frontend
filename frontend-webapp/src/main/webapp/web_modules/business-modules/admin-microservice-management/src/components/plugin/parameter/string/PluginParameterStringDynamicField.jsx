@@ -3,24 +3,23 @@
  **/
 import { ListItem } from 'material-ui/List'
 import { RenderTextField, Field, ValidationHelpers } from '@regardsoss/form-utils'
-import { pluginParameterComponentPropTypes } from './utils'
+import { pluginParameterComponentPropTypes } from '../utils'
 
 const { required, string } = ValidationHelpers
 
 /**
- * Renders a form field in view or edit mode for a plugin parameter of types
+ * Renders a plugin parameter which is
+ * - dynamic
+ * - in display mode (not editable)
+ * - of types
  * java.lang.String
  * java.lang.Character
  *
  * @author Xavier-Alexandre Brochard
  */
-export class PluginParameterString extends React.Component {
+export class PluginParameterStringDynamicField extends React.Component {
 
   static propTypes = pluginParameterComponentPropTypes
-
-  static defaultProps = {
-    mode: 'view',
-  }
 
   render() {
     const { fieldKey, pluginParameter: { name, value }, pluginParameterType, mode } = this.props
@@ -53,4 +52,4 @@ export class PluginParameterString extends React.Component {
   }
 }
 
-export default PluginParameterString
+export default PluginParameterStringDynamicField
