@@ -36,3 +36,5 @@ Thumbs.db
 # Logs
 ######################
 *.log
+
+frontend-webapp/src/main/webapp/\.vscode/
