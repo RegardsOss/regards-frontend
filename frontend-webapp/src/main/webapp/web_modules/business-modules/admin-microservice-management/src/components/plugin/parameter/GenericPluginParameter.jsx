@@ -3,10 +3,13 @@
  **/
 import PluginParameterStringStaticView from './string/PluginParameterStringStaticView'
 import PluginParameterStringStaticField from './string/PluginParameterStringStaticField'
-import PluginParameterNumber from './PluginParameterNumber'
-import PluginParameterBoolean from './PluginParameterBoolean'
 import PluginParameterStringDynamicView from './string/PluginParameterStringDynamicView'
 import PluginParameterStringDynamicField from './string/PluginParameterStringDynamicField'
+import PluginParameterNumberStaticView from './number/PluginParameterNumberStaticView'
+import PluginParameterNumberStaticField from './number/PluginParameterNumberStaticField'
+import PluginParameterNumberDynamicView from './number/PluginParameterNumberDynamicView'
+import PluginParameterNumberDynamicField from './number/PluginParameterNumberDynamicField'
+import PluginParameterBoolean from './PluginParameterBoolean'
 import PluginParameterPlugin from './PluginParameterPlugin'
 import { pluginParameterComponentPropTypes } from './utils'
 
@@ -46,7 +49,15 @@ export class GenericPluginParameter extends React.Component {
           case 'java.lang.Float':
           case 'java.lang.Double':
           case 'java.lang.Short':
-            return <PluginParameterNumber {...this.props} />
+            switch (mode) {
+              case 'edit':
+              case 'create':
+              case 'copy':
+                return dynamic ? <PluginParameterNumberDynamicField {...this.props} /> : <PluginParameterNumberStaticField {...this.props} />
+              case 'view':
+              default:
+                return dynamic ? <PluginParameterNumberDynamicView {...this.props} /> : <PluginParameterNumberStaticView {...this.props} />
+            }
           case 'java.lang.Boolean':
             return <PluginParameterBoolean {...this.props} />
           default:
