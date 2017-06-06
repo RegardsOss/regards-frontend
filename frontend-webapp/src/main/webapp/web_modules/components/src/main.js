@@ -32,6 +32,7 @@ import LoadableContentDialogContainer from './dialogs/LoadableContentDialogConta
 import SingleContentURLDialogContainer from './dialogs/SingleContentURLDialogContainer'
 
 import ErrorCardComponent from './error/ErrorCardComponent'
+import PageNotFoundComponent from './error/PageNotFoundProvider'
 
 import PictureLinkComponent from './links/PictureLinkComponent'
 
@@ -79,6 +80,7 @@ export {
   DropDownButton,
   ErrorCardComponent,
   ErrorDecoratorComponent,
+  PageNotFoundComponent,
   IFrameURLContentDisplayer,
   TableContainer,
   TablePaneHeader,
