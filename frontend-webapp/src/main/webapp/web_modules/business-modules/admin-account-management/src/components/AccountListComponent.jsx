@@ -149,7 +149,7 @@ export class AccountListComponent extends React.Component {
         <NoContentMessageInfo
           noContent={isEmpty(tabContent.accounts) && !initialFecthing}
           title={this.context.intl.formatMessage({ id: 'account.list.table.no.content.title' })}
-          message={this.context.intl.formatMessage({ id: tabContent.noDataMessageKe })}
+          message={this.context.intl.formatMessage({ id: tabContent.noDataMessageKey })}
         >
           <div>
             {this.renderDeleteConfirmDialog()}
