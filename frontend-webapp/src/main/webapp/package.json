@@ -14,6 +14,7 @@
     "build:stats": "webpack --config webpack.dev.config.js --profile --json > stats.json",
     "prestart": "npm run lint:fix || true",
     "start": "npm run start:withpreprod",
+    "start:local": "webpack-dev-server --progress --config webpack.dev.local.config.js",
     "start:mock-client": "webpack-dev-server --progress --config webpack.dev.mock.config.js",
     "start:mock-front-server": "nodemon --watch ./mocks/front --ignore '*.temp.js' ./mocks/front/mock-front-server.js",
     "start:mock-server-json": "nodemon --watch ./mocks/json --ignore '*.temp.js' ./mocks/json/mock-server-json.js",
