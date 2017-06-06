@@ -9,7 +9,7 @@ const merge = require('webpack-merge')
 module.exports = merge(DefaultDevConfig, {
   plugins: [
     new webpack.DefinePlugin({
-      GATEWAY_HOSTNAME: JSON.stringify('http://172.26.47.107:9000'),
+      GATEWAY_HOSTNAME: JSON.stringify('http://172.26.47.107:9030'),
     }),
   ],
 })
