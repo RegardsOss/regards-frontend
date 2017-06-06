@@ -58,7 +58,7 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing projectuser form component', ()
           content: {
             id: 1,
             name: 'AG1',
-            users: [{ email: 'florian.philippot@facholand.fr' }, { email: 'mon@adresse.em' }],
+            users: [{ email: 'francois.durant@test.fr' }, { email: 'mon@adresse.em' }],
             accessRights: [],
             isPrivate: true,
           },
@@ -78,8 +78,8 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing projectuser form component', ()
       initialize: () => { },
     }
     const enzymeWrapper = shallow(<ProjectUserFormComponent {...props} />, { context })
-    // field count : 5 for account
-    expect(enzymeWrapper.find(Field)).to.have.length(5)
+    // field count : 6 for account
+    expect(enzymeWrapper.find(Field)).to.have.length(6)
     // Metadata field count: 1 for each metadata model (hold by front end in V1)
     expect(enzymeWrapper.find(MetadataField)).to.have.length(getMetadataArray().length)
 
@@ -110,7 +110,7 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing projectuser form component', ()
           content: {
             id: 1,
             name: 'AG1',
-            users: [{ email: 'florian.philippot@facholand.fr' }, { email: 'mon@adresse.em' }],
+            users: [{ email: 'francois.durant@test.fr' }, { email: 'mon@adresse.em' }],
             accessRights: [],
             isPrivate: true,
           },
@@ -129,15 +129,15 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing projectuser form component', ()
       handleSubmit: () => { },
       initialize: () => { },
     }
-    const enzymeWrapper = shallow(<ProjectUserFormComponent {...props} />, { context })
+    const enzymeWrapper = shallow(<ProjectUserFormComponent {...props} />, { context, lifecycleExperimental: true })
     const subComponent = enzymeWrapper.find(Field)
-    expect(subComponent).to.have.length(5)
+    expect(subComponent).to.have.length(6)
     let showableComps = enzymeWrapper.find(ShowableAtRender)
     assert.isTrue(showableComps.at(0).props().show, 'We are creating a user, re use account check box should be visible')
     assert.isTrue(showableComps.at(1).props().show, 'The account fields should be visible')
 
     // Test if it hides Fields when using an existing REGARDS account
-    enzymeWrapper.setState({ useExistingAccount: true })
+    enzymeWrapper.setProps({ useExistingAccount: true })
     showableComps = enzymeWrapper.find(ShowableAtRender)
     assert.isTrue(showableComps.at(0).props().show, 'We are creating a user, re use account check box should be visible')
     assert.isFalse(showableComps.at(1).props().show, 'The account fields should be visible')
