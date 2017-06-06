@@ -1,7 +1,8 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import map from 'lodash/map'
+import flow from 'lodash/flow'
+import fpmap from 'lodash/fp/map'
 import { Card, CardTitle, CardText } from 'material-ui/Card'
 import { PluginMetaData, PluginConfiguration } from '@regardsoss/model'
 import { themeContextType } from '@regardsoss/theme'
@@ -11,7 +12,7 @@ import { mapPluginParameterToPluginParameterType, parameterTypeToDefaultParamete
 import moduleStyles from '../../../styles/styles'
 
 /**
- * Container connecting the plugin parameter list to the redux store.
+ * Displays a card containing the plugin parameters of the plugin configuration passed as props
  *
  * @author Xavier-Alexandre Brochard
  */
@@ -33,7 +34,7 @@ class PluginParameterListComponent extends React.Component {
     const { pluginConfiguration, pluginMetaData, formMode, change } = this.props
     const pluginParameterTypeList = pluginMetaData && pluginMetaData.content.parameters
     const pluginParameterListIfExistingConfiguration = pluginConfiguration && pluginConfiguration.content.parameters
-    const pluginParameterListIfNoConfiguration = pluginMetaData && map(pluginParameterTypeList, parameterTypeToDefaultParameter)
+    const pluginParameterListIfNoConfiguration = pluginMetaData && fpmap(pluginParameterTypeList, parameterTypeToDefaultParameter)
     const pluginParameterList = pluginParameterListIfExistingConfiguration || pluginParameterListIfNoConfiguration
 
     const styles = moduleStyles(this.context.muiTheme)
@@ -42,15 +43,16 @@ class PluginParameterListComponent extends React.Component {
       <Card style={styles.pluginConfiguration.form.section}>
         <CardTitle title={this.context.intl.formatMessage({ id: 'microservice-management.plugin.parameter.list.title' })} />
         <CardText>
-          {map(pluginParameterList, (pluginParameter, index) =>
-            (<GenericPluginParameter
-              key={index}
-              fieldKey={`parameters[${index}].value`}
-              pluginParameter={pluginParameter}
-              pluginParameterType={mapPluginParameterToPluginParameterType(pluginParameter, pluginMetaData)}
-              mode={formMode}
-              change={change}
-            />))}
+          {flow(
+            fpmap.convert({ cap: false })((pluginParameter, index) => (
+              <GenericPluginParameter
+                key={index}
+                fieldKey={`parameters[${index}].value`}
+                pluginParameter={pluginParameter}
+                pluginParameterType={mapPluginParameterToPluginParameterType(pluginParameter, pluginMetaData)}
+                mode={formMode}
+                change={change}
+              />)))(pluginParameterList)}
         </CardText>
       </Card>
     )

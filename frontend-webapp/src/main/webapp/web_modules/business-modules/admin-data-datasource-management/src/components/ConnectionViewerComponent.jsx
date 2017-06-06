@@ -101,7 +101,7 @@ export class ConnectionViewerComponent extends React.Component {
 
     return flow(
       fpsortBy('name'),
-      fpmap((tableAttribute, id) => (
+      fpmap(tableAttribute => (
         <ListItem
           key={tableAttribute.name}
           secondaryText={tableAttribute.javaSqlType}
@@ -127,7 +127,7 @@ export class ConnectionViewerComponent extends React.Component {
 
     const elements = flow(
       fpsortBy('name'),
-      fpmap((table, id) => {
+      fpmap((table) => {
         const hasChild = tableOpen === table.name
         const items = hasChild ? this.renderResource() : [<ListItem key={1} primaryText="Waiting..." />]
         return (
