@@ -13,6 +13,7 @@ const microserviceManagementStyles = theme => ({
   plugins: {
     root: {
       position: 'relative',
+      paddingBottom: 20,
     },
     grid: {
       display: 'flex',
@@ -31,13 +32,12 @@ const microserviceManagementStyles = theme => ({
   pluginConfiguration: {
     root: {
       position: 'relative',
-      padding: '0px 20px 20px 20px',
     },
     card: {
-      margin: '0px 10px',
+      margin: '0px 20px',
     },
     cardExpanded: {
-      margin: '30px 10px',
+      margin: '30px 20px',
     },
     lineWrapper: {
       display: 'flex',
