@@ -3,8 +3,6 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { CardTitle } from 'material-ui/Card'
-import { FormattedMessage } from 'react-intl'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import MenuItem from 'material-ui/MenuItem'
 import { Field } from '@regardsoss/form-utils'
@@ -78,12 +76,6 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Modules form component', () => {
       <UnconnectedModuleFormComponent {...props} />
       , options)
 
-    // Check form title
-    const titleCard = wrapper.find(CardTitle)
-    const titleWrapper = titleCard.dive(options)
-    const title = titleWrapper.find(FormattedMessage).prop('id')
-    assert.equal(title, 'module.form.title.create', 'Should render a create form not an update form')
-
     // Check form static fields
     const staticFields = wrapper.find({ id: 'staticFields' })
     assert.equal(staticFields.find(ShowableAtRender).prop('show'), true, 'Static field name should be displayed')
@@ -134,12 +126,6 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Modules form component', () => {
     const wrapper = shallow(
       <UnconnectedModuleFormComponent {...props} />
       , options)
-
-    // Check form title
-    const titleCard = wrapper.find(CardTitle)
-    const titleWrapper = titleCard.dive(options)
-    const title = titleWrapper.find(FormattedMessage).prop('id')
-    assert.equal(title, 'module.form.title.update', 'Should render an update form not a create one')
 
     // Check form static fields
     const staticFields = wrapper.find({ id: 'staticFields' })

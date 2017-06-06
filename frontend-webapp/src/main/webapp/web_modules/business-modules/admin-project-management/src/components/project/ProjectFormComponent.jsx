@@ -1,10 +1,9 @@
 /*
  * LICENSE_PLACEHOLDER
  */
-import keys from 'lodash/keys'
+import isEmpty from 'lodash/isEmpty'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { ShowableAtRender, CardActionsComponent } from '@regardsoss/components'
-import { FormattedMessage } from 'react-intl'
 import { RenderTextField, Field, RenderCheckbox, ValidationHelpers, ErrorTypes, reduxForm } from '@regardsoss/form-utils'
 import { Project } from '@regardsoss/model'
 import { themeContextType } from '@regardsoss/theme'
@@ -63,13 +62,10 @@ export class ProjectFormComponent extends React.Component {
 
   render() {
     const { currentProject, pristine, submitting } = this.props
-    const title = this.state.isCreating ? <FormattedMessage id="project.create.title" /> :
-      (<FormattedMessage
-        id="project.edit.title"
-        values={{
-          name: currentProject.content.name,
-        }}
-      />)
+    const title = this.state.isCreating ?
+      this.context.intl.formatMessage({ id: 'project.create.title' }) :
+      this.context.intl.formatMessage({ id: 'project.edit.title' }, { name: currentProject.content.name })
+    const hostFieldStyle = { marginBottom: 15 }
     return (
       <form
         className="selenium-projectForm"
@@ -119,7 +115,7 @@ export class ProjectFormComponent extends React.Component {
               className="selenium-host"
               component={RenderTextField}
               label={this.context.intl.formatMessage({ id: 'project.form.host' })}
-              style={{ marginBottom: 15 }}
+              style={hostFieldStyle}
             />
             <Field
               name="isPublic"
@@ -151,7 +147,7 @@ export class ProjectFormComponent extends React.Component {
 
 function validate(values) {
   const errors = {}
-  if (!keys(values).length) {
+  if (isEmpty(values)) {
     // XXX workaround for redux form bug initial validation:
     // Do not return anything when fields are not yet initialized (first render invalid state is wrong otherwise)...
     return errors
@@ -161,7 +157,6 @@ function validate(values) {
   }
 
   if (!ValidationHelpers.isValidUrl(values.host)) {
-    console.error('Host invalid')
     errors.host = ErrorTypes.INVALID_URL
   }
   const urlToValidate = ['icon', 'licenceLink']

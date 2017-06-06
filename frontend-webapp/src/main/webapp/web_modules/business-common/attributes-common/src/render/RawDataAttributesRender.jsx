@@ -31,13 +31,13 @@ class RawDataAttributesRender extends React.Component {
   render() {
     if (this.props.attributes.files && this.props.attributes.files.length > 0) {
       const thumbmail = find(this.props.attributes.files, file => file.type === ObjectLinkedFileTypes.RAWDATA)
-
       if (thumbmail) {
+        const styles = { cursor: 'pointer' }
         return (
           <div>
             <a href={thumbmail.uri} download title="download">
               <GetApp
-                style={{ cursor: 'pointer' }}
+                style={styles}
                 hoverColor={this.context.muiTheme.palette.accent1Color}
               />
             </a>

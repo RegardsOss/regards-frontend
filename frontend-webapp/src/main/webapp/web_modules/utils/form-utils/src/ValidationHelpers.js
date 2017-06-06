@@ -4,6 +4,7 @@
 import find from 'lodash/find'
 import isUndefined from 'lodash/isUndefined'
 import isNil from 'lodash/isNil'
+import isString from 'lodash/isString'
 import { validURLRegexp, relativeURLRegexp } from '@regardsoss/model'
 import ErrorTypes from './ErrorTypes'
 
@@ -51,12 +52,20 @@ export const compose = (...validators) => (value, allValues, props) => {
 }
 
 /**
- * Redux-Form-style validator for Fields which content must not be empty.
+ * Redux-Form-style validator for Fields which content is required.
  *
  * @param {String} value
  * @returns {String||undefined}
  */
-export const validRequiredString = value => !isNil(value) && value !== '' ? undefined : ErrorTypes.REQUIRED
+export const required = value => !isNil(value) && value !== '' ? undefined : ErrorTypes.REQUIRED
+
+/**
+ * Redux-Form-style validator for Fields which content must be a string.
+ *
+ * @param {String} value
+ * @returns {String||undefined}
+ */
+export const string = value => isString(value) ? undefined : ErrorTypes.TYPE_STRING
 
 /**
  * Redux-Form-style validator for Fields which content must not be empty.
@@ -81,7 +90,8 @@ export default {
   isValidAlphaNumericUnderscore,
   isValidIP,
   compose,
-  validRequiredString,
+  required,
+  string,
   validRequiredNumber,
   validAlphaNumericUnderscore,
 }

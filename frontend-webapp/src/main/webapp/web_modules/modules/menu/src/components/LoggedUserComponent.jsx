@@ -4,6 +4,7 @@
 import React from 'react'
 import map from 'lodash/map'
 import isEmpty from 'lodash/isEmpty'
+import isEqual from 'lodash/isEqual'
 import IconMenu from 'material-ui/IconMenu'
 import MenuItem from 'material-ui/MenuItem'
 import Divider from 'material-ui/Divider'
@@ -41,9 +42,23 @@ class LoggedUserComponent extends React.Component {
     ...i18nContextType,
   }
 
+  componentWillMount = () => this.updateSortedRoles({}, this.props)
+
+  componentWillReceiveProps = nextProps => this.updateSortedRoles(this.props, nextProps)
+
+  updateSortedRoles = (oldProps, newProps) => {
+    if (!isEqual(oldProps.borrowableRoles, newProps.borrowableRoles)) {
+      // sort roles for render
+      const sortedRoles = map(newProps.borrowableRoles, (role, key) => role.content).sort((r1, r2) => r1.name > r2.name ? 1 : -1)
+      this.setState({ sortedRoles })
+    }
+  }
+
+
   render() {
     const { intl } = this.context
     const { name, currentRole, borrowableRoles, onBorrowRole, onLogout, showProfileEdition, onShowProfileEdition } = this.props
+    const { sortedRoles } = this.state
     const showBorrowableRoles = !isEmpty(borrowableRoles)
     const hasMoreOption = showProfileEdition || showBorrowableRoles
 
@@ -82,8 +97,8 @@ class LoggedUserComponent extends React.Component {
               rightIcon={arrowIcon}
               value={currentRole}
               menuItems={
-                map(borrowableRoles, (role) => {
-                  const roleName = role.content.name
+                map(sortedRoles, (role) => {
+                  const roleName = role.name
                   return (<MenuItem
                     onTouchTap={() => onBorrowRole(roleName)}
                     key={roleName}

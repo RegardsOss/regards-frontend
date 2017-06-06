@@ -73,41 +73,30 @@ export class ProjectFormContainer extends React.Component {
     />)
   }
   handleUpdate = (values) => {
-    const updatedProject = Object.assign({}, this.props.project.content, {
-      description: values.description,
-      icon: values.icon,
-      license: values.license,
-      isPublic: values.isPublic,
-      isAccessible: values.isAccessible,
-      host: values.host,
-    })
+    const updatedProject = {
+      ...(this.props.project.content),
+      ...values,
+    }
     Promise.resolve(this.props.updateProject(this.props.project.content.name, updatedProject))
-    .then((actionResult) => {
-      // We receive here the action
-      if (!actionResult.error) {
-        const url = this.getBackUrl()
-        browserHistory.push(url)
-      }
-    })
+      .then((actionResult) => {
+        // We receive here the action
+        if (!actionResult.error) {
+          const url = this.getBackUrl()
+          browserHistory.push(url)
+        }
+      })
   }
 
   handleCreate = (values) => {
-    Promise.resolve(this.props.createProject({
-      name: values.name,
-      description: values.description,
-      license: values.license,
-      icon: values.icon,
-      isPublic: values.isPublic,
-      host: values.host,
-    }))
-    .then((actionResult) => {
-      // We receive here the action
-      if (!actionResult.error) {
-        const createdProject = actionResult.payload.entities.projects[actionResult.payload.result]
-        const url = this.getProjectConnectionsUrl(createdProject.content.name)
-        browserHistory.push(url)
-      }
-    })
+    Promise.resolve(this.props.createProject(values))
+      .then((actionResult) => {
+        // We receive here the action
+        if (!actionResult.error) {
+          const createdProject = actionResult.payload.entities.projects[actionResult.payload.result]
+          const url = this.getProjectConnectionsUrl(createdProject.content.name)
+          browserHistory.push(url)
+        }
+      })
   }
 
   render() {

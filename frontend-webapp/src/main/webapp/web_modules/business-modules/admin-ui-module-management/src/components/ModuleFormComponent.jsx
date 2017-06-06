@@ -7,7 +7,6 @@ import isNil from 'lodash/isNil'
 import merge from 'lodash/merge'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import MenuItem from 'material-ui/MenuItem'
-import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -114,64 +113,67 @@ class ModuleFormComponent extends React.Component {
     return null
   }
 
-  renderStaticModuleConfiguration = style => (
-    <div>
-      <ShowableAtRender show={this.state.creation}>
+  renderStaticModuleConfiguration = (style) => {
+    const containerFieldStyle = { marginBottom: 15 }
+    return (
+      <div>
+        <ShowableAtRender show={this.state.creation}>
+          <Field
+            name="type"
+            fullWidth
+            component={RenderSelectField}
+            type="text"
+            onSelect={this.selectModuleType}
+            label={this.context.intl.formatMessage({ id: 'module.form.name' })}
+          >
+            {map(this.props.availableModuleTypes, (module, id) => (
+              <MenuItem
+                value={module}
+                key={id}
+                primaryText={module}
+              />
+            ))
+            }
+          </Field>
+        </ShowableAtRender>
         <Field
-          name="type"
+          name="description"
+          fullWidth
+          component={RenderTextField}
+          type="text"
+          label={this.context.intl.formatMessage({ id: 'module.form.description' })}
+        />
+        <Field
+          style={containerFieldStyle}
+          name="container"
           fullWidth
           component={RenderSelectField}
           type="text"
-          onSelect={this.selectModuleType}
-          label={this.context.intl.formatMessage({ id: 'module.form.name' })}
+          onSelect={this.selectContainer}
+          label={this.context.intl.formatMessage({ id: 'module.form.container' })}
         >
-          {map(this.props.availableModuleTypes, (module, id) => ( // TODO real value
+          {map(this.props.containers, container => (
             <MenuItem
-              value={module}
-              key={id}
-              primaryText={module}
+              value={container.id}
+              key={container.id}
+              primaryText={container.dynamicContent ? `${container.id} (dynamic)` : container.id}
             />
-          ))
-          }
+          ))}
         </Field>
-      </ShowableAtRender>
-      <Field
-        name="description"
-        fullWidth
-        component={RenderTextField}
-        type="text"
-        label={this.context.intl.formatMessage({ id: 'module.form.description' })}
-      />
-      <Field
-        style={{ marginBottom: 15 }}
-        name="container"
-        fullWidth
-        component={RenderSelectField}
-        type="text"
-        onSelect={this.selectContainer}
-        label={this.context.intl.formatMessage({ id: 'module.form.container' })}
-      >
-        {map(this.props.containers, container => (
-          <MenuItem
-            value={container.id}
-            key={container.id}
-            primaryText={container.dynamicContent ? `${container.id} (dynamic)` : container.id}
-          />
-        ))}
-      </Field>
-      <Field
-        name="active"
-        component={RenderCheckbox}
-        label={this.context.intl.formatMessage({ id: 'module.form.active' })}
-      />
-      {this.state.dynamicContainerSelected ?
         <Field
-          name="defaultDynamicModule"
+          name="active"
           component={RenderCheckbox}
-          label={this.context.intl.formatMessage({ id: 'module.form.isDefault' })}
-        /> : null}
-    </div>
-  )
+          label={this.context.intl.formatMessage({ id: 'module.form.active' })}
+        />
+        {this.state.dynamicContainerSelected ?
+          <Field
+            name="defaultDynamicModule"
+            component={RenderCheckbox}
+            label={this.context.intl.formatMessage({ id: 'module.form.isDefault' })}
+          /> : null}
+      </div>
+    )
+  }
   render() {
     const { pristine, submitting, invalid } = this.props
     const style = Styles(this.context.muiTheme)
@@ -191,12 +193,7 @@ class ModuleFormComponent extends React.Component {
         <div>
           <Card>
             <CardTitle
-              title={<FormattedMessage
-                id={title}
-                values={{
-                  name: this.state.module.name,
-                }}
-              />}
+              title={this.context.intl.formatMessage({ id: title }, { name: this.state.module.name })}
             />
             <CardText id="staticFields">
               {this.renderStaticModuleConfiguration(style)}
@@ -208,9 +205,7 @@ class ModuleFormComponent extends React.Component {
           <Card style={style.cardEspaced}>
             <CardActions>
               <CardActionsComponent
-                mainButtonLabel={<FormattedMessage
-                  id={this.state.creation ? 'module.form.submit.button' : 'module.form.update.button'}
-                />}
+                mainButtonLabel={this.context.intl.formatMessage({ id: this.state.creation ? 'module.form.submit.button' : 'module.form.update.button' })}
                 mainButtonType="submit"
                 isMainButtonDisabled={pristine || submitting || invalid}
                 secondaryButtonLabel={this.context.intl.formatMessage({ id: 'module.form.cancel.button' })}

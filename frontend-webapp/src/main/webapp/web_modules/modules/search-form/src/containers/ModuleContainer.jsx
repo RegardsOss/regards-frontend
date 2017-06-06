@@ -141,12 +141,12 @@ class ModuleContainer extends React.Component {
     // For each criteria of this form
     forEach(criterionWithAttributtes, (criteria) => {
       // For each attributeModels of the criteria
-      if (criteria.pluginConf && criteria.pluginConf.attributes) {
-        forEach(criteria.pluginConf.attributes, (attributeId, key) => {
+      if (criteria.conf && criteria.conf.attributes) {
+        forEach(criteria.conf.attributes, (attributeId, key) => {
           // If the associated attribute has already been retrieved from server, the update the criteria
           if (this.props.attributeModels[attributeId]) {
             // eslint-disable-next-line no-param-reassign
-            criteria.pluginConf.attributes[key] = this.props.attributeModels[attributeId].content
+            criteria.conf.attributes[key] = this.props.attributeModels[attributeId].content
           }
         })
       }
@@ -160,7 +160,7 @@ class ModuleContainer extends React.Component {
   loadCriterionAttributeModels = () => {
     // Get uniq list of criterion attributeModels id to load
     const pluginsAttributesToLoad = flow(
-      fpmap(criteria => criteria.pluginConf && criteria.pluginConf.attributes),
+      fpmap(criteria => criteria.conf && criteria.conf.attributes),
       fpmap(attribute => values(attribute)),
       flatten,
       uniq,

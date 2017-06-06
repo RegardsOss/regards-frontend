@@ -152,6 +152,7 @@ class MainAttributesConfigurationComponent extends React.Component {
 
   render() {
     const { attributesConf = [], attributesRegroupementsConf = [], allowAttributesRegroupements, allowFacettes } = this.props
+    const styles = { marginTop: 20 }
     return (
       <div>
         <ShowableAtRender show={allowAttributesRegroupements}>
@@ -161,22 +162,14 @@ class MainAttributesConfigurationComponent extends React.Component {
             onChangeRegroupenentConfiguration={this.onChangeRegroupement}
             onDeleteRegroupement={this.onDeleteRegroupement}
           />
-          <Divider
-            style={{
-              marginTop: 20,
-            }}
-          />
+          <Divider style={styles} />
         </ShowableAtRender>
         <StandardAttributesConfigurationComponent
           attributesConf={attributesConf}
           allowFacettes={allowFacettes}
           onChangeAttributeConfiguration={this.onChange}
         />
-        <Divider
-          style={{
-            marginTop: 20,
-          }}
-        />
+        <Divider style={styles} />
         <DynamicAttributesConfigurationComponent
           selectableAttributes={this.props.selectableAttributes}
           attributesConf={attributesConf}

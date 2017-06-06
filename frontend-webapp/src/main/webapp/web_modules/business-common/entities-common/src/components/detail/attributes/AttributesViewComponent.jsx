@@ -45,15 +45,12 @@ class AttributesViewComponent extends React.Component {
   render() {
     const { entityLabel, attributes, contentHeight } = this.props
     const { muiTheme } = this.context
+    const styles = { paddingLeft: 0, paddingRight: 0 }
     return (
       <NoContentMessageInfo
         noContent={!attributes.length}
         title={this.context.intl.formatMessage({ id: 'entities.common.attributes.no.value.title' })}
-        message={<FormattedMessage
-          id="entities.common.attributes.no.value.message"
-          values={{ entityLabel }}
-        />
-        }
+        message={this.context.intl.formatMessage({ id: 'entities.common.attributes.no.value.message' }, { entityLabel })}
         Icon={NoDataIcon}
       >
         <Table
@@ -86,10 +83,7 @@ class AttributesViewComponent extends React.Component {
             <TableRow>
               <TableRowColumn
                 colSpan="2"
-                style={{
-                  paddingLeft: 0,
-                  paddingRight: 0,
-                }}
+                style={styles}
               >
                 <TagsViewComponent
                   tags={this.props.tags}

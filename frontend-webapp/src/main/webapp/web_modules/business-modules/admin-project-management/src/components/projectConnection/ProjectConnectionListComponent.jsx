@@ -50,14 +50,16 @@ export class ProjectConnectionListComponent extends React.Component {
     const connection = find(projectConnections,
       (conn, index) => conn.content.microservice === microserviceName)
 
+    const warnIconStyle = {
+      marginRight: 5,
+      color: 'Orange',
+    }
+
     let tester = null
     let status = (
       <span style={{ display: 'flex', alignItems: 'center' }}>
         <WarningIcon
-          style={{
-            marginRight: 5,
-            color: 'Orange',
-          }}
+          style={warnIconStyle}
         />
         <FormattedMessage id="project.connection.is.not.configured" />
       </span>
@@ -67,19 +69,20 @@ export class ProjectConnectionListComponent extends React.Component {
         <Edit hoverColor={style.hoverButtonEdit} />
       </IconButton>
     )
+
+    const statusStyle = { display: 'flex', alignItems: 'center' }
+
     if (connection && connection.content.enabled) {
       editAction = (
         <IconButton onTouchTap={() => onEdit(connection.content.id)}>
           <Edit hoverColor={style.hoverButtonEdit} />
         </IconButton>
       )
+      const checkIconStyle = { marginRight: 5, color: 'Green' }
       status = (
-        <span style={{ display: 'flex', alignItems: 'center' }}>
+        <span style={statusStyle}>
           <CheckedIcon
-            style={{
-              marginRight: 5,
-              color: 'Green',
-            }}
+            style={checkIconStyle}
           />
           <FormattedMessage id="project.connection.is.configured" />
         </span>
@@ -95,13 +98,11 @@ export class ProjectConnectionListComponent extends React.Component {
           <Edit hoverColor={style.hoverButtonEdit} />
         </IconButton>
       )
+      const errorIconStyle = { marginRight: 5, color: 'Green' }
       status = (
-        <span style={{ display: 'flex', alignItems: 'center' }}>
+        <span style={statusStyle}>
           <ErrorIcon
-            style={{
-              marginRight: 5,
-              color: 'Green',
-            }}
+            style={errorIconStyle}
           />
           <FormattedMessage id="project.connection.is.not.valid" />
         </span>
@@ -128,10 +129,7 @@ export class ProjectConnectionListComponent extends React.Component {
     return (
       <Card className="selenium-projectConnectionList">
         <CardTitle
-          title={<FormattedMessage
-            id="project.connection.list.title"
-            values={{ project: this.props.project.content.name }}
-          />}
+          title={this.context.intl.formatMessage({ id: 'project.connection.list.title' }, { project: this.props.project.content.name })}
           subtitle={this.context.intl.formatMessage({ id: 'project.connection.list.subtitle' })}
         />
         <CardText>

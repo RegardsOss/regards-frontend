@@ -40,7 +40,7 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing projectuser form container', ()
           content: {
             id: 1,
             name: 'AG1',
-            users: [{ email: 'florian.philippot@facholand.fr' }, { email: 'mon@adresse.em' }],
+            users: [{ email: 'francois.durant@test.fr' }, { email: 'mon@adresse.em' }],
             accessRights: [],
             isPrivate: true,
           },

@@ -3,9 +3,9 @@
  **/
 import { ListItem } from 'material-ui/List'
 import { RenderTextField, Field, ValidationHelpers } from '@regardsoss/form-utils'
-import { PluginParameter } from '@regardsoss/model'
+import { pluginParameterComponentPropTypes } from './utils'
 
-const { validRequiredString } = ValidationHelpers
+const { required, string } = ValidationHelpers
 
 /**
  * Renders a form field in view or edit mode for a plugin parameter of types
@@ -16,18 +16,20 @@ const { validRequiredString } = ValidationHelpers
  */
 export class PluginParameterString extends React.Component {
 
-  static propTypes = {
-    fieldKey: PropTypes.string,
-    pluginParameter: PluginParameter,
-    mode: PropTypes.oneOf(['view', 'edit', 'create', 'copy']),
-  }
+  static propTypes = pluginParameterComponentPropTypes
 
   static defaultProps = {
     mode: 'view',
   }
 
   render() {
-    const { fieldKey, pluginParameter: { name, value }, mode } = this.props
+    const { fieldKey, pluginParameter: { name, value }, pluginParameterType, mode } = this.props
+    const validators = [string]
+    let label = name
+    if (pluginParameterType && !pluginParameterType.optional) {
+      validators.push(required)
+      label += '*'
+    }
 
     switch (mode) {
       case 'view':
@@ -41,8 +43,8 @@ export class PluginParameterString extends React.Component {
             fullWidth
             component={RenderTextField}
             type={'text'}
-            label={name}
-            validate={validRequiredString}
+            label={label}
+            validate={validators}
           />
         )
       default:

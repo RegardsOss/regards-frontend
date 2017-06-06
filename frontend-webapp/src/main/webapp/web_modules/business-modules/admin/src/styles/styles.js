@@ -61,6 +61,8 @@ const styles = (theme) => {
             backgroundSize: 'cover',
             backgroundAttachment: 'fixed',
             minHeight: '100vh',
+            position: 'absolute',
+            width: '100%',
           },
         },
         bodyContainer: {
@@ -77,6 +79,7 @@ const styles = (theme) => {
           classes: ['col-xs-100', 'col-sm-32', 'col-md-25', 'col-lg-22'],
           styles: {
             position: 'relative',
+            marginTop: 10,
           },
         },
       },

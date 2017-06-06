@@ -135,17 +135,25 @@ export class AccountListComponent extends React.Component {
     return (
       <Card>
         <Tabs onChange={this.onTabChange} value={selectedTab}>
-          <Tab className="selenium-waitingTab" label={<FormattedMessage id="account.list.waiting.tab" values={{ count: size(waitingAccounts) || '0' }} />} value={TABS.waiting} />
-          <Tab className="selenium-allTab" label={<FormattedMessage id="account.list.all.tab" values={{ count: size(allAccounts) || '0' }} />} value={TABS.all} />
+          <Tab
+            className="selenium-waitingTab"
+            label={this.context.intl.formatMessage({ id: 'account.list.waiting.tab' }, { count: size(waitingAccounts) || '0' })}
+            value={TABS.waiting}
+          />
+          <Tab
+            className="selenium-allTab"
+            label={this.context.intl.formatMessage({ id: 'account.list.all.tab' }, { count: size(allAccounts) || '0' })}
+            value={TABS.all}
+          />
         </Tabs>
         <NoContentMessageInfo
           noContent={isEmpty(tabContent.accounts) && !initialFecthing}
           title={this.context.intl.formatMessage({ id: 'account.list.table.no.content.title' })}
-          message={<FormattedMessage id={tabContent.noDataMessageKey} />}
+          message={this.context.intl.formatMessage({ id: tabContent.noDataMessageKey })}
         >
           <div>
             {this.renderDeleteConfirmDialog()}
-            <CardTitle subtitle={<FormattedMessage id={tabContent.tabSubtitleKey} />} />
+            <CardTitle subtitle={this.context.intl.formatMessage({ id: tabContent.tabSubtitleKey })} />
             <CardText>
               <HelpMessageComponent message={this.context.intl.formatMessage({ id: 'account.list.info.why-cant-remove-account-having-project-user' })} />
               <LoadableContentDisplayDecorator isLoading={initialFecthing}>

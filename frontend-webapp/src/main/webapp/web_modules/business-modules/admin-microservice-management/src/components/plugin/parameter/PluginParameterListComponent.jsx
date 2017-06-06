@@ -7,7 +7,7 @@ import { PluginMetaData, PluginConfiguration } from '@regardsoss/model'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import GenericPluginParameter from './GenericPluginParameter'
-import { mapPluginParameterToPluginParameterType, parameterTypeToEmptyParameter } from '../../../model/plugin/utils'
+import { mapPluginParameterToPluginParameterType, parameterTypeToDefaultParameter } from '../../../model/plugin/utils'
 import moduleStyles from '../../../styles/styles'
 
 /**
@@ -33,7 +33,7 @@ class PluginParameterListComponent extends React.Component {
     const { pluginConfiguration, pluginMetaData, formMode, change } = this.props
     const pluginParameterTypeList = pluginMetaData && pluginMetaData.content.parameters
     const pluginParameterListIfExistingConfiguration = pluginConfiguration && pluginConfiguration.content.parameters
-    const pluginParameterListIfNoConfiguration = pluginMetaData && map(pluginParameterTypeList, parameterTypeToEmptyParameter)
+    const pluginParameterListIfNoConfiguration = pluginMetaData && map(pluginParameterTypeList, parameterTypeToDefaultParameter)
     const pluginParameterList = pluginParameterListIfExistingConfiguration || pluginParameterListIfNoConfiguration
 
     const styles = moduleStyles(this.context.muiTheme)
