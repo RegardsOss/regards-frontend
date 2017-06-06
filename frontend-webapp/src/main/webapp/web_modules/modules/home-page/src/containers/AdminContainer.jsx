@@ -2,13 +2,12 @@
  * LICENSE_PLACEHOLDER
  */
 import has from 'lodash/has'
-import {Container} from '@regardsoss/model'
-import {Field, RenderTextField} from '@regardsoss/form-utils'
-import {themeContextType} from '@regardsoss/theme'
+import { Field, RenderTextField } from '@regardsoss/form-utils'
+import { themeContextType } from '@regardsoss/theme'
 import RaisedButton from 'material-ui/RaisedButton'
-import {i18nContextType} from '@regardsoss/i18n'
-import {LoadingComponent} from '@regardsoss/display-control'
-import {IFrameURLContentDisplayer} from '@regardsoss/components'
+import { i18nContextType } from '@regardsoss/i18n'
+import { LoadingComponent } from '@regardsoss/display-control'
+import { IFrameURLContentDisplayer } from '@regardsoss/components'
 import ModuleConfiguration from '../models/ModuleConfiguration'
 
 /**
@@ -18,9 +17,6 @@ import ModuleConfiguration from '../models/ModuleConfiguration'
 class AdminContainer extends React.Component {
 
   static propTypes = {
-    // Props supplied by LazyModuleComponent
-    appName: PropTypes.string,
-    project: PropTypes.string,
     adminForm: PropTypes.shape({
       changeField: PropTypes.func,
       // Current module configuration. Values from the redux-form
@@ -44,7 +40,7 @@ class AdminContainer extends React.Component {
 
   handleTest = () => {
     if (has(this.props.adminForm, 'form.conf.htmlPath')) {
-      this.setState({test: true, loading: true, lastHtmlPathTested: this.props.adminForm.form.conf.htmlPath})
+      this.setState({ test: true, loading: true, lastHtmlPathTested: this.props.adminForm.form.conf.htmlPath })
     }
   }
 
@@ -55,7 +51,7 @@ class AdminContainer extends React.Component {
   }
 
   render() {
-    const {moduleTheme} = this.context
+    const { moduleTheme } = this.context
     return (
       <div>
         <Field
@@ -63,15 +59,15 @@ class AdminContainer extends React.Component {
           fullWidth
           component={RenderTextField}
           type="text"
-          label={this.context.intl.formatMessage({id: 'homepage.admin.url'})}
+          label={this.context.intl.formatMessage({ id: 'homepage.admin.url' })}
         />
         <RaisedButton
-          label={this.context.intl.formatMessage({id: 'homepage.admin.test'})}
+          label={this.context.intl.formatMessage({ id: 'homepage.admin.test' })}
           primary
           disabled={this.state.loading || (this.state.lastHtmlPathTested === this.props.adminForm.form.conf.htmlPath)}
           onTouchTap={this.handleTest}
         />
-        {this.state.loading ? <LoadingComponent  style={moduleTheme.adminIframeLoading}/> : null}
+        {this.state.loading ? <LoadingComponent style={moduleTheme.adminIframeLoading} /> : null}
         {this.state.test ?
           <IFrameURLContentDisplayer
             style={moduleTheme.adminFrame}
