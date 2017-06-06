@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import {PluginConf, AttributeConfiguration, AttributesRegroupementConfiguration, Container} from '@regardsoss/model'
+import { PluginConf, AttributeConfiguration, AttributesRegroupementConfiguration, Container } from '@regardsoss/model'
 import DatasetsConfShape from './datasets/DatasetsConfShape'
 /**
  * Form entity description
@@ -24,8 +24,8 @@ const ModuleConfiguration = PropTypes.shape({
     // Does search form render for preview or for full use
     preview: PropTypes.bool,
     // should enable facettes?
-    enableFacettes: PropTypes.bool
-  })
+    enableFacettes: PropTypes.bool,
+  }),
 })
 
 export default ModuleConfiguration
