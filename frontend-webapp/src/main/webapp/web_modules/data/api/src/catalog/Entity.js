@@ -1,7 +1,7 @@
 import { Schema, arrayOf } from 'normalizr'
 
 export const EntityConfiguration = {
-  entityKey: 'id',
+  entityKey: 'ipId',
   normalizrKey: 'entities',
 }
 
