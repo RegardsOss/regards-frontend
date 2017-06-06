@@ -6,7 +6,7 @@ export default {
         name: 'AG1',
         users: [
           {
-            email: 'florian.philippot@facholand.fr',
+            email: 'francois.durant@test.fr',
           },
           {
             email: 'mon@adresse.em',
