@@ -1,7 +1,7 @@
 /*
  * LICENSE_PLACEHOLDER
  */
-import keys from 'lodash/keys'
+import isEmpty from 'lodash/isEmpty'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { ShowableAtRender, CardActionsComponent } from '@regardsoss/components'
 import { RenderTextField, Field, RenderCheckbox, ValidationHelpers, ErrorTypes, reduxForm } from '@regardsoss/form-utils'
@@ -147,7 +147,7 @@ export class ProjectFormComponent extends React.Component {
 
 function validate(values) {
   const errors = {}
-  if (!keys(values).length) {
+  if (isEmpty(values)) {
     // XXX workaround for redux form bug initial validation:
     // Do not return anything when fields are not yet initialized (first render invalid state is wrong otherwise)...
     return errors
@@ -157,7 +157,6 @@ function validate(values) {
   }
 
   if (!ValidationHelpers.isValidUrl(values.host)) {
-    console.error('Host invalid')
     errors.host = ErrorTypes.INVALID_URL
   }
   const urlToValidate = ['icon', 'licenceLink']
