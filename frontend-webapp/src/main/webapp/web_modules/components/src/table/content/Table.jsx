@@ -116,10 +116,16 @@ class Table extends React.Component {
     }
     const { cellsStyle, columns, width, lineHeight, displayCheckbox, displaySelectAll, displayColumnsHeader,
       allSelected, onToggleSelectAll, onToggleRowSelection, onScrollEnd, onSortByColumn,
-      toggledElements, selectionMode } = this.props
+      toggledElements, selectionMode, pageSize } = this.props
     const { columnWidths, height } = this.state
     const { selectionColumn } = this.context.moduleTheme
     const totalNumberOfEntities = this.props.entities.length
+
+    // If the total number of results is less than the number of elements by page, adjust height of the table
+    // to fit the number of results. Else use the default fixed height.
+    const totalHeight = displayColumnsHeader ? (totalNumberOfEntities+1) * lineHeight : totalNumberOfEntities * lineHeight
+    const calculatedHeight = totalNumberOfEntities > pageSize ? height : totalHeight + 5
+
     return (
       <FixedDataTable
         rowHeight={lineHeight}
@@ -129,7 +135,7 @@ class Table extends React.Component {
         isColumnResizing={false}
         onScrollEnd={onScrollEnd}
         width={width}
-        height={height}
+        height={calculatedHeight}
       >
         { // render selection column
           displayCheckbox ?
