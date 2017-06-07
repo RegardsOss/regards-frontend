@@ -18,21 +18,21 @@ export class GenericPluginParameter extends React.Component {
   static propTypes = pluginParameterComponentPropTypes
 
   render() {
-    const { pluginParameter: { dynamic }, pluginParameterType } = this.props
+    const { pluginParameter, pluginParameterType } = this.props
 
     switch (pluginParameterType && pluginParameterType.paramType) {
       case 'PRIMITIVE':
         switch (pluginParameterType.type) {
           case 'java.lang.String':
           case 'java.lang.Character':
-            return dynamic ? <PluginParameterDynamic {...this.props} /> : <PluginParameterString {...this.props} />
+            return pluginParameter && pluginParameter.dynamic ? <PluginParameterDynamic {...this.props} /> : <PluginParameterString {...this.props} />
           case 'java.lang.Byte':
           case 'java.lang.Integer':
           case 'java.lang.Long':
           case 'java.lang.Float':
           case 'java.lang.Double':
           case 'java.lang.Short':
-            return dynamic ? <PluginParameterDynamic {...this.props} /> : <PluginParameterNumber {...this.props} />
+            return pluginParameter && pluginParameter.dynamic ? <PluginParameterDynamic {...this.props} /> : <PluginParameterNumber {...this.props} />
           case 'java.lang.Boolean':
             return <PluginParameterBoolean {...this.props} />
           default:
