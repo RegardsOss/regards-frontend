@@ -9,7 +9,7 @@ import { AccessProjectClient } from '@regardsoss/client'
  * @author Léo Mieulet
  */
 const ENTITIES_STORE_PATH = ['admin', 'data-management', 'dataset', 'ui-plugin-definition']
-const REDUX_ACTION_NAMESPACE = 'admin-ui-service-management/plugin'
+const REDUX_ACTION_NAMESPACE = 'admin-ui-service-management/ui-plugin-definition'
 
 const uiPluginDefinitionReducer = AccessProjectClient.UIPluginDefinitionReducers(REDUX_ACTION_NAMESPACE)
 const uiPluginDefinitionActions = new AccessProjectClient.UIPluginDefinitionActions(REDUX_ACTION_NAMESPACE)

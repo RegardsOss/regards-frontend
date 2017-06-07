@@ -29,6 +29,7 @@ describe('[ADMIN DATASET MANAGEMENT] Testing DatasetEditUIServicesContainer', ()
       params: {
         project: 'lambda',
         datasetId: '23',
+        datasetIpId: 'URN:AIP:DATASET:project1:08ff5cb0-1f02-4918-8a9e-66247e52777f:V1',
       },
       // from mapStateToProps
       uiPluginConfigurationList: DumpProvider.get('AccessProjectClient', 'UIPluginConfiguration'),

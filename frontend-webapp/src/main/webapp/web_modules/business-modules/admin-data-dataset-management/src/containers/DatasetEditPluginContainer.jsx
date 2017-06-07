@@ -18,6 +18,7 @@ export class DatasetEditPluginContainer extends React.Component {
     params: PropTypes.shape({
       project: PropTypes.string,
       datasetId: PropTypes.string,
+      datasetIpId: PropTypes.string.isRequired,
     }),
 
     // from mapStateToProps
@@ -40,7 +41,7 @@ export class DatasetEditPluginContainer extends React.Component {
     const tasks = [
       this.props.fetchPluginConfiguration(),
       this.props.fetchPluginMetaData(),
-      this.props.fetchLinkPluginDataset(this.props.params.datasetId),
+      this.props.fetchLinkPluginDataset(this.props.params.datasetIpId),
     ]
     Promise.all(tasks)
       .then(() => {
@@ -51,7 +52,7 @@ export class DatasetEditPluginContainer extends React.Component {
   }
 
   onSubmit = (linkPluginDataset) => {
-    Promise.resolve(this.props.updateLinkPluginDataset(this.props.params.datasetId, linkPluginDataset.content))
+    Promise.resolve(this.props.updateLinkPluginDataset(this.props.params.datasetIpId, linkPluginDataset.content))
       .then((actionResult) => {
         if (!actionResult.error) {
           this.redirectToUIServices()
@@ -66,8 +67,8 @@ export class DatasetEditPluginContainer extends React.Component {
   }
 
   redirectToUIServices = () => {
-    const { params: { project, datasetId } } = this.props
-    const url = `/admin/${project}/data/dataset/${datasetId}/ui-services`
+    const { params: { project, datasetId, datasetIpId } } = this.props
+    const url = `/admin/${project}/data/dataset/${datasetId}/${datasetIpId}/ui-services`
     browserHistory.push(url)
   }
 
@@ -103,7 +104,7 @@ export class DatasetEditPluginContainer extends React.Component {
 const mapStateToProps = (state, ownProps) => ({
   pluginConfigurationList: pluginConfigurationSelectors.getList(state),
   pluginMetaDataList: pluginMetaDataSelectors.getList(state),
-  linkPluginDataset: linkPluginDatasetSelectors.getById(state, ownProps.params.datasetId),
+  linkPluginDataset: linkPluginDatasetSelectors.getById(state, ownProps.params.datasetIpId),
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -117,8 +118,8 @@ const mapDispatchToProps = dispatch => ({
   }, /*{
    pluginType: 'fr.cnes.regards.modules.search.plugin.IService'
    }*/)),
-  fetchLinkPluginDataset: datasetId => dispatch(linkPluginDatasetActions.fetchEntity(datasetId)),
-  updateLinkPluginDataset: (datasetId, linkPluginDataset) => dispatch(linkPluginDatasetActions.updateEntity(datasetId, linkPluginDataset)),
+  fetchLinkPluginDataset: datasetIpId => dispatch(linkPluginDatasetActions.fetchEntity(datasetIpId)),
+  updateLinkPluginDataset: (datasetIpId, linkPluginDataset) => dispatch(linkPluginDatasetActions.updateEntity(datasetIpId, linkPluginDataset)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(DatasetEditPluginContainer)

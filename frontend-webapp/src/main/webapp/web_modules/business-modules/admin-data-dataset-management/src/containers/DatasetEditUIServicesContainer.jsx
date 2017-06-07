@@ -6,8 +6,8 @@ import { PluginDefinition as UIPluginDefinition, PluginConf as UIPluginConfigura
 import DatasetEditUIServicesComponent from '../components/DatasetEditUIServicesComponent'
 import { uiPluginConfigurationSelectors, uiPluginConfigurationActions } from '../clients/UIPluginConfigurationClient'
 import { uiPluginDefinitionSelectors, uiPluginDefinitionActions } from '../clients/UIPluginDefinitionClient'
-import { datasetSelectors, datasetActions } from './../clients/DatasetClient'
 import { linkUIPluginDatasetActions, linkUIPluginDatasetSelectors } from './../clients/LinkUIPluginDatasetClient'
+
 export class DatasetEditUIServicesContainer extends React.Component {
 
   static propTypes = {
@@ -15,6 +15,7 @@ export class DatasetEditUIServicesContainer extends React.Component {
     params: PropTypes.shape({
       project: PropTypes.string.isRequired,
       datasetId: PropTypes.string.isRequired,
+      datasetIpId: PropTypes.string.isRequired,
     }).isRequired,
 
     // from mapStateToProps
@@ -34,7 +35,7 @@ export class DatasetEditUIServicesContainer extends React.Component {
   static mapStateToProps = (state, ownProps) => ({
     uiPluginConfigurationList: uiPluginConfigurationSelectors.getList(state),
     uiPluginDefinitionList: uiPluginDefinitionSelectors.getList(state),
-    linkUIPluginDataset: linkUIPluginDatasetSelectors.getById(state, ownProps.params.datasetId),
+    linkUIPluginDataset: linkUIPluginDatasetSelectors.getById(state, ownProps.params.datasetIpId),
   })
 
   static mapDispatchToProps = dispatch => ({
@@ -44,7 +45,7 @@ export class DatasetEditUIServicesContainer extends React.Component {
     fetchUIPluginDefinitionList: () => dispatch(uiPluginDefinitionActions.fetchPagedEntityList(0, 100, {},
       //{type: 'service'}
     )),
-    fetchLinkUIPluginDataset: id => dispatch(uiPluginDefinitionActions.fetchEntity(id)),
+    fetchLinkUIPluginDataset: id => dispatch(linkUIPluginDatasetActions.fetchEntity(id)),
     updateLinkUIPluginDataset: (id, linkUIPluginDataset) => dispatch(linkUIPluginDatasetActions.updateEntity(id, linkUIPluginDataset)),
   })
 
@@ -56,7 +57,7 @@ export class DatasetEditUIServicesContainer extends React.Component {
     const tasks = [
       this.props.fetchUIPluginDefinitionList(),
       this.props.fetchUIPluginConfigurationList(),
-      this.props.fetchLinkUIPluginDataset(this.props.params.datasetId),
+      this.props.fetchLinkUIPluginDataset(this.props.params.datasetIpId),
     ]
     Promise.all(tasks)
       .then(() =>
@@ -67,8 +68,19 @@ export class DatasetEditUIServicesContainer extends React.Component {
   }
 
   getBackUrl = () => {
-    const { params: { project, datasetId } } = this.props
-    return `/admin/${project}/data/dataset/${datasetId}/plugins`
+    const { params: { project, datasetId, datasetIpId } } = this.props
+    return `/admin/${project}/data/dataset/${datasetId}/${datasetIpId}/plugins`
+  }
+
+  getForm = () => {
+    const { uiPluginDefinitionList, uiPluginConfigurationList, linkUIPluginDataset } = this.props
+    return (<DatasetEditUIServicesComponent
+      backUrl={this.getBackUrl()}
+      uiPluginConfigurationList={uiPluginConfigurationList}
+      uiPluginDefinitionList={uiPluginDefinitionList}
+      linkUIPluginDataset={linkUIPluginDataset}
+      handleSubmit={this.handleSubmit}
+    />)
   }
 
   redirectToListDataset = () => {
@@ -77,7 +89,8 @@ export class DatasetEditUIServicesContainer extends React.Component {
   }
 
   handleSubmit = (updatedLinkUIPluginDataset) => {
-    Promise.resolve(this.props.updateLinkUIPluginDataset(this.props.params.datasetId, updatedLinkUIPluginDataset))
+    console.log(updatedLinkUIPluginDataset)
+    Promise.resolve(this.props.updateLinkUIPluginDataset(this.props.params.datasetIpId, updatedLinkUIPluginDataset))
       .then((actionResult) => {
         if (!actionResult.error) {
           this.redirectToListDataset()
@@ -86,22 +99,13 @@ export class DatasetEditUIServicesContainer extends React.Component {
   }
 
   render() {
-    const { uiPluginDefinitionList, uiPluginConfigurationList, linkUIPluginDataset } = this.props
     const { isLoading } = this.state
     return (
       <I18nProvider messageDir="business-modules/admin-data-dataset-management/src/i18n">
         <LoadableContentDisplayDecorator
           isLoading={isLoading}
         >
-          {() =>
-            (<DatasetEditUIServicesComponent
-              backUrl={this.getBackUrl()}
-              uiPluginConfigurationList={uiPluginConfigurationList}
-              uiPluginDefinitionList={uiPluginDefinitionList}
-              linkUIPluginDataset={linkUIPluginDataset}
-              handleSubmit={this.handleSubmit}
-            />)
-          }
+          {this.getForm}
         </LoadableContentDisplayDecorator>
       </I18nProvider>
     )

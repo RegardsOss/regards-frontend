@@ -23,6 +23,7 @@ describe('[ADMIN DATASET MANAGEMENT] Testing DatasetEditPluginContainer', () => 
       params: {
         project: 'lambda',
         datasetId: '69',
+        datasetIpId: 'URN:AIP:DATASET:project1:08ff5cb0-1f02-4918-8a9e-66247e52777f:V1',
       },
       // from mapStateToProps
       pluginConfigurationList: DumpProvider.get('CommonClient', 'PluginConfiguration'),

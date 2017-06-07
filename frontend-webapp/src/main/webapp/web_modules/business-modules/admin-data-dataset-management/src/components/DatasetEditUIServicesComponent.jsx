@@ -11,7 +11,6 @@ import map from 'lodash/map'
 import some from 'lodash/some'
 import pull from 'lodash/pull'
 import cloneDeep from 'lodash/cloneDeep'
-import includes from 'lodash/includes'
 import Checkbox from 'material-ui/Checkbox'
 import { PluginDefinition as UIPluginDefinition, PluginConf as UIPluginConfiguration, LinkUIPluginDataset } from '@regardsoss/model'
 import DatasetStepperComponent from './DatasetStepperComponent'
@@ -39,7 +38,7 @@ export class DatasetEditUIServicesComponent extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      currentLinkUIPluginDataset: cloneDeep(props.linkUIPluginDataset),
+      currentLinkUIPluginDataset: cloneDeep(props.linkUIPluginDataset.content),
     }
   }
 
