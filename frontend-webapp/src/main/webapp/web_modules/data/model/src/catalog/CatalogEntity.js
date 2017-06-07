@@ -21,7 +21,7 @@ const CatalogEntity = PropTypes.shape({
   content: PropTypes.shape({
     id: PropTypes.number,
     ipId: PropTypes.string.isRequired,
-    sipId: PropTypes.number,
+    sipId: PropTypes.string,
     label: PropTypes.string.isRequired,
     type: PropTypes.oneOf(values(CatalogEntityTypes)).isRequired,
     files: PropTypes.arrayOf(ObjectLinkedFile),

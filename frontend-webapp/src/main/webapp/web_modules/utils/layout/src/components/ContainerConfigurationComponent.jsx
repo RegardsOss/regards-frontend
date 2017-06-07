@@ -161,11 +161,11 @@ class ContainerConfigurationComponent extends React.Component {
 function validate(values) {
   const errors = {}
 
-  errors.id = ValidationHelpers.validRequiredString(values.id)
+  errors.id = ValidationHelpers.required(values.id)
   if (!errors.id) {
     errors.id = ValidationHelpers.validAlphaNumericUnderscore(values.id)
   }
-  errors.type = ValidationHelpers.validRequiredString(values.type)
+  errors.type = ValidationHelpers.required(values.type)
 
   return errors
 }

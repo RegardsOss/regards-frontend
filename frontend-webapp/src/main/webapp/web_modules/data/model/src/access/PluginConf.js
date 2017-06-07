@@ -47,13 +47,13 @@ const UIServiceInstanceConf = PropTypes.shape({
  */
 const PluginConf = PropTypes.shape({
   id: PropTypes.number,
-  active: PropTypes.bool,
+  active: PropTypes.bool.isRequired,
   pluginId: PropTypes.number.isRequired, // plugin defintion ID
-  label: PropTypes.string,
+  label: PropTypes.string.isRequired,
   conf: PropTypes.oneOfType([
     UICriterionInstanceConf,
     UIServiceInstanceConf,
-  ]),
+  ]).isRequired,
 })
 
 export default PluginConf

@@ -10,13 +10,13 @@ import IconMenu from 'material-ui/IconMenu'
 import MenuItem from 'material-ui/MenuItem'
 import Paper from 'material-ui/Paper'
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
-import { Toolbar, ToolbarGroup, ToolbarTitle } from 'material-ui/Toolbar'
-import { LazyModuleComponent, ModuleShape } from '@regardsoss/modules'
-import { PluginConf } from '@regardsoss/model'
-import { PluginProvider } from '@regardsoss/plugins'
+import {Toolbar, ToolbarGroup, ToolbarTitle} from 'material-ui/Toolbar'
+import {LazyModuleComponent, ModuleShape} from '@regardsoss/modules'
+import {PluginConf} from '@regardsoss/model'
+import {PluginProvider} from '@regardsoss/plugins'
 import ContainerShape from '../model/ContainerShape'
 import ContainerHelper from '../ContainerHelper'
-import { DELETE_ACTION, ADD_ACTION, EDIT_ACTION } from './LayoutConfigurationComponent'
+import {DELETE_ACTION, ADD_ACTION, EDIT_ACTION} from './LayoutConfigurationComponent'
 
 /**
  * Component to display a container into an application layout.
@@ -92,7 +92,7 @@ class Container extends React.Component {
           appName={this.props.appName}
           project={this.props.project}
         />)),
-      )(this.props.modules)
+    )(this.props.modules)
   }
 
   /**
@@ -111,20 +111,20 @@ class Container extends React.Component {
       }
       return flow(
         fpfilter(plugin => plugin.container === this.props.container.id),
-        fpmap((plugin, idx) => (
+        fpmap(plugin => (
           <Paper
             key={`${this.props.container.id}-${plugin.pluginId}`}
             style={stylePaper}
           >
             <PluginProvider
               key={`${this.props.container.id}-${plugin.pluginId}`}
-              pluginInstanceId={`${this.props.container.id}-${idx}`}
+              pluginInstanceId={`${this.props.container.id}-${plugin.pluginId}`}
               pluginId={plugin.pluginId}
-              pluginConf={plugin.pluginConf}
+              pluginConf={plugin.conf}
               pluginProps={this.props.pluginProps}
               displayPlugin
             />
-          </Paper>),
+          </Paper>)
         ))(this.props.plugins)
     }
     return []
@@ -143,24 +143,24 @@ class Container extends React.Component {
       horizontal: 'left',
       vertical: 'top',
     }
-    const toolbarStyle = { height: 40 }
+    const toolbarStyle = {height: 40}
     if (this.props.configurationMode) {
       let deleteAction = null
       if (this.props.mainContainer === false) {
         deleteAction = (<MenuItem
-          key="delete"
-          onTouchTap={() => {
-            this.props.onContainerClick(DELETE_ACTION, this.props.container)
-          }}
-          primaryText="Delete section"
-        />
+            key="delete"
+            onTouchTap={() => {
+              this.props.onContainerClick(DELETE_ACTION, this.props.container)
+            }}
+            primaryText="Delete section"
+          />
         )
       }
       return (
         <div className="row">
           <Toolbar style={toolbarStyle}>
             <ToolbarGroup key="name">
-              <ToolbarTitle text={this.props.container.id} />
+              <ToolbarTitle text={this.props.container.id}/>
             </ToolbarGroup>
             <ToolbarGroup key="actions">
               <IconMenu

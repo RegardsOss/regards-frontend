@@ -11,12 +11,12 @@ import reduce from 'lodash/reduce'
 import isEqual from 'lodash/isEqual'
 import values from 'lodash/values'
 import unionBy from 'lodash/unionBy'
-import { browserHistory } from 'react-router'
-import { LazyModuleComponent } from '@regardsoss/modules'
-import { connect } from '@regardsoss/redux'
-import { AttributeModel } from '@regardsoss/model'
-import { LoadingComponent } from '@regardsoss/display-control'
-import { themeContextType } from '@regardsoss/theme'
+import {browserHistory} from 'react-router'
+import {LazyModuleComponent} from '@regardsoss/modules'
+import {connect} from '@regardsoss/redux'
+import {AttributeModel} from '@regardsoss/model'
+import {LoadingComponent, LoadableContentDisplayDecorator} from '@regardsoss/display-control'
+import {themeContextType} from '@regardsoss/theme'
 import DatasetSelectionType from '../models/datasets/DatasetSelectionTypes'
 import ModuleConfiguration from '../models/ModuleConfiguration'
 import FormComponent from '../components/user/FormComponent'
@@ -40,6 +40,8 @@ class ModuleContainer extends React.Component {
     fetchAttribute: PropTypes.func,
     // eslint-disable-next-line react/no-unused-prop-types
     attributeModels: PropTypes.objectOf(AttributeModel),
+    attributesLoading: PropTypes.bool,
+    attributeModelsError: PropTypes.bool,
   }
 
   static contextTypes = {
@@ -243,22 +245,27 @@ class ModuleContainer extends React.Component {
   renderForm() {
     // If a search query is set, hide form component
     /* if (this.state.searchQuery && this.state.searchQuery !== this.getInitialQuery()) {
-      return null
-    }*/
+     return null
+     }*/
     if (this.props.moduleConf.layout) {
       const pluginsProps = {
         onChange: this.onCriteriaChange,
       }
       const criterionWithAttributes = this.getCriterionWithAttributeModels()
       return (
-        <FormComponent
-          expanded={this.state.expanded}
-          description={this.props.description}
-          layout={this.props.moduleConf.layout}
-          plugins={criterionWithAttributes}
-          pluginsProps={pluginsProps}
-          handleSearch={this.handleSearch}
-        />
+        <LoadableContentDisplayDecorator
+          isLoading={this.props.attributesLoading}
+          isContentError={this.props.attributeModelsError}
+        >
+          <FormComponent
+            expanded={this.state.expanded}
+            description={this.props.description}
+            layout={this.props.moduleConf.layout}
+            plugins={criterionWithAttributes}
+            pluginsProps={pluginsProps}
+            handleSearch={this.handleSearch}
+          />
+        </LoadableContentDisplayDecorator>
       )
     }
     return <LoadingComponent />
@@ -267,7 +274,7 @@ class ModuleContainer extends React.Component {
   renderResults() {
     if (!this.props.moduleConf.preview) {
       // is single dataset?
-      const { type, selectedDatasets } = this.props.moduleConf.datasets || {}
+      const {type, selectedDatasets} = this.props.moduleConf.datasets || {}
       const singleDatasetIpId = (type === DatasetSelectionType.DATASET_TYPE && null && selectedDatasets && selectedDatasets.length === 1 &&
         selectedDatasets[0]) || null
 
@@ -302,7 +309,7 @@ class ModuleContainer extends React.Component {
     return (
       <div>
         {this.renderForm()}
-        <div style={{ marginTop: 10 }} />
+        <div style={{marginTop: 10}}/>
         {this.renderResults()}
       </div>
     )
@@ -311,6 +318,8 @@ class ModuleContainer extends React.Component {
 
 const mapStateToProps = state => ({
   attributeModels: AttributeModelClient.AttributeModelSelectors.getList(state),
+  attributesLoading: AttributeModelClient.AttributeModelSelectors.isFetching(state),
+  attributeModelsError: AttributeModelClient.AttributeModelSelectors.hasError(state)
 })
 
 const mapDispatchToProps = dispatch => ({
