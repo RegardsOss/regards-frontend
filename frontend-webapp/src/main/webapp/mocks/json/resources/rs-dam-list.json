@@ -686,10 +686,10 @@
         },
         {
           "name": "param33",
-          "type": "java.lang.String",
+          "type": "java.lang.Integer",
           "paramType": "PRIMITIVE",
           "optional": false,
-          "defaultValue": "this is the default value of param33"
+          "defaultValue": "69"
         },
         {
           "name": "param34",
@@ -844,14 +844,14 @@
         },
         {
           "name": "param33",
-          "value": "salut",
+          "value": "42",
           "dynamic": true,
           "dynamicsValues": [
             {
-              "value": "hello"
+              "value": "42"
             },
             {
-              "value": "salut"
+              "value": "18"
             }
           ]
         },

@@ -47,23 +47,35 @@ export class PluginParameterDynamicField extends React.Component {
     const { change, fieldKey } = this.props
     const { selectedValue, dynamicsValues } = this.state
     const removedValue = dynamicsValues.splice(dynamicvalueIndex, 1)[0]
-    this.setState({
+    this.setState({ // Update the state for re-render
       dynamicsValues,
     })
     change(`${fieldKey}.dynamicsValues`, dynamicsValues)
-    if (removedValue.value === selectedValue) {
+
+    if (removedValue.value === selectedValue) { // If the removed dynamic value was the one selected, empty the current value
+      this.setState({
+        selectedValue: '',
+      })
       change(`${fieldKey}.value`, '')
     }
   }
 
   onTouchTap = (dynamicvalueIndex) => {
     const { change, fieldKey } = this.props
-    const { dynamicsValues } = this.state
+    const { dynamicsValues, selectedValue } = this.state
     const newValue = dynamicsValues[dynamicvalueIndex].value
-    this.setState({
-      selectedValue: newValue,
-    })
-    change(`${fieldKey}.value`, newValue)
+    // We clicked on currently selected value -> deselect it
+    if (newValue === selectedValue) {
+      this.setState({
+        selectedValue: '',
+      })
+      change(`${fieldKey}.value`, '') // Update the value
+    } else {
+      this.setState({
+        selectedValue: newValue,
+      })
+      change(`${fieldKey}.value`, newValue) // Update the value
+    }
   }
 
   onOpen = () => this.setState({ open: true })
@@ -72,12 +84,19 @@ export class PluginParameterDynamicField extends React.Component {
 
   onCreate = (value) => {
     const { change, fieldKey } = this.props
-    const { dynamicsValues } = this.state
+    const { dynamicsValues, selectedValue } = this.state
     const newDynamicValues = dynamicsValues.concat([value]) // concat returns the result array
-    this.setState({
+    this.setState({ // Update state for re-render
       dynamicsValues: newDynamicValues,
     })
-    change(`${fieldKey}.dynamicsValues`, newDynamicValues)
+    change(`${fieldKey}.dynamicsValues`, newDynamicValues) // Update the list of dynamic values
+
+    if (selectedValue === '') { // If first value to add, auto-select it
+      this.setState({
+        selectedValue: value.value,
+      })
+      change(`${fieldKey}.value`, value)
+    }
   }
 
   render() {
@@ -121,6 +140,7 @@ export class PluginParameterDynamicField extends React.Component {
           open={open}
           onRequestClose={this.onClose}
           onSubmit={this.onCreate}
+          pluginParameterType={pluginParameterType}
         />
       </div>
     )

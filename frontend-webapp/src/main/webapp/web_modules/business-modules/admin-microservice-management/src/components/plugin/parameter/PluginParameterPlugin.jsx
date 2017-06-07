@@ -37,7 +37,6 @@ export class PluginParameterPlugin extends React.Component {
   static propTypes = {
     fieldKey: PropTypes.string,
     pluginParameter: PluginParameter.isRequired,
-    mode: PropTypes.oneOf(['view', 'edit', 'create', 'copy']),
     change: PropTypes.func, // Callback provided by redux-form in order to manually change a field value
     // form mapStateToProps
     pluginMetaDataList: PluginMetaDataList,
@@ -84,7 +83,7 @@ export class PluginParameterPlugin extends React.Component {
   }
 
   render() {
-    const { fieldKey, mode, pluginParameter: { name, defaultValue, optional }, pluginMetaDataList, pluginConfigurationList } = this.props
+    const { fieldKey, pluginParameter: { name, defaultValue, optional }, pluginMetaDataList, pluginConfigurationList } = this.props
     const { openMenu, selectedPluginConfiguration } = this.state
     const styles = moduleStyles(this.context.muiTheme)
     const validators = [string]
@@ -93,71 +92,62 @@ export class PluginParameterPlugin extends React.Component {
     }
     const label = name + (optional ? '*' : '')
 
-    switch (mode) {
-      case 'view':
-        return <ListItem>{name}: {selectedPluginConfiguration && selectedPluginConfiguration.content.label}</ListItem>
-      case 'edit':
-      case 'create':
-      case 'copy':
-        return (
-          <div>
-            {name}            :
-            <RaisedButton
-              label={selectedPluginConfiguration ? selectedPluginConfiguration.content.label : this.context.intl.formatMessage({ id: 'microservice-management.plugin.parameter.plugin.choose' })}
-              onTouchTap={this.handleOpenMenu}
-              style={styles.pluginParameter.pluginButton}
-            />
-            <IconMenu
-              iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
-              open={openMenu}
-              onRequestChange={this.handleOnRequestChange}
-              desktop
-              autoWidth
-              style={styles.pluginParameter.iconMenu}
-            >
-              {map(pluginMetaDataList, (pluginMetaData) => {
-                const pluginConfigurationListForThisPluginMetaData = filter(pluginConfigurationList, pluginConfiguration => pluginConfiguration.content.pluginId === pluginMetaData.content.pluginId)
-                const pluginConfigurationListIsEmpty = isEmpty(pluginConfigurationListForThisPluginMetaData)
-                return (
-                  <MenuItem
-                    key={pluginMetaData.content.pluginId}
-                    primaryText={buildMenuItemPrimaryText(pluginMetaData.content.pluginId, pluginMetaData.content.version)}
-                    rightIcon={<ArrowDropRight />}
-                    disabled={pluginConfigurationListIsEmpty}
-                    menuItems={
-                      map(pluginConfigurationListForThisPluginMetaData, pluginConfiguration =>
-                        (<MenuItem
-                          key={pluginConfiguration.content.id}
-                          primaryText={buildMenuItemPrimaryText(pluginConfiguration.content.label, pluginConfiguration.content.version)}
-                          onTouchTap={() => this.handleChange(pluginConfiguration.content.id)}
-                          checked={pluginConfiguration.content.id === this.state.value}
-                        />))
-                    }
-                  />
-                )
-              })}
-              <Divider />
+    return (
+      <div>
+        {name}            :
+        <RaisedButton
+          label={selectedPluginConfiguration ? selectedPluginConfiguration.content.label : this.context.intl.formatMessage({ id: 'microservice-management.plugin.parameter.plugin.choose' })}
+          onTouchTap={this.handleOpenMenu}
+          style={styles.pluginParameter.pluginButton}
+        />
+        <IconMenu
+          iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
+          open={openMenu}
+          onRequestChange={this.handleOnRequestChange}
+          desktop
+          autoWidth
+          style={styles.pluginParameter.iconMenu}
+        >
+          {map(pluginMetaDataList, (pluginMetaData) => {
+            const pluginConfigurationListForThisPluginMetaData = filter(pluginConfigurationList, pluginConfiguration => pluginConfiguration.content.pluginId === pluginMetaData.content.pluginId)
+            const pluginConfigurationListIsEmpty = isEmpty(pluginConfigurationListForThisPluginMetaData)
+            return (
               <MenuItem
-                key={'none'}
-                primaryText={this.context.intl.formatMessage({ id: 'microservice-management.plugin.parameter.plugin.empty.menu.item' })}
-                onTouchTap={() => this.handleChange(undefined)}
-                rightIcon={<Delete />}
+                key={pluginMetaData.content.pluginId}
+                primaryText={buildMenuItemPrimaryText(pluginMetaData.content.pluginId, pluginMetaData.content.version)}
+                rightIcon={<ArrowDropRight />}
+                disabled={pluginConfigurationListIsEmpty}
+                menuItems={
+                  map(pluginConfigurationListForThisPluginMetaData, pluginConfiguration =>
+                    (<MenuItem
+                      key={pluginConfiguration.content.id}
+                      primaryText={buildMenuItemPrimaryText(pluginConfiguration.content.label, pluginConfiguration.content.version)}
+                      onTouchTap={() => this.handleChange(pluginConfiguration.content.id)}
+                      checked={pluginConfiguration.content.id === this.state.value}
+                    />))
+                }
               />
-            </IconMenu>
-            <Field
-              style={styles.pluginParameter.field}
-              name={fieldKey}
-              component={RenderTextField}
-              type={'text'}
-              label={label}
-              validate={validators}
-              defaultValue={defaultValue}
-            />
-          </div>
-        )
-      default:
-        return <ListItem>{name}: {selectedPluginConfiguration && selectedPluginConfiguration.content.label}</ListItem>
-    }
+            )
+          })}
+          <Divider />
+          <MenuItem
+            key={'none'}
+            primaryText={this.context.intl.formatMessage({ id: 'microservice-management.plugin.parameter.plugin.empty.menu.item' })}
+            onTouchTap={() => this.handleChange(undefined)}
+            rightIcon={<Delete />}
+          />
+        </IconMenu>
+        <Field
+          style={styles.pluginParameter.field}
+          name={fieldKey}
+          component={RenderTextField}
+          type={'text'}
+          label={label}
+          validate={validators}
+          defaultValue={defaultValue}
+        />
+      </div>
+    )
   }
 }
 

@@ -10,7 +10,6 @@ import IconMenu from 'material-ui/IconMenu'
 import { Field } from '@regardsoss/form-utils'
 import { PluginParameterPlugin } from '../../../../src/components/plugin/parameter/PluginParameterPlugin'
 
-
 const options = {
   context: buildTestContext(),
 }
@@ -31,7 +30,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing plugin parameter plugin component',
     assert.isDefined(RaisedButton)
   })
 
-  it('should render a ListItem in view mode', () => {
+  it('should render a Raised Button and an IconMenu and Field', () => {
     const props = {
       pluginParameter: {
         id: 0,
@@ -44,27 +43,6 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing plugin parameter plugin component',
         type: 'IPluginInterfacer',
         paramType: 'PLUGIN',
       },
-      mode: 'view',
-    }
-    const enzymeWrapper = shallow(<PluginParameterPlugin {...props} />, options)
-    const subComponent = enzymeWrapper.find(ListItem)
-    expect(subComponent).to.have.length(1)
-  })
-
-  it('should render a Raised Button and an IconMenu and Field in edit mode', () => {
-    const props = {
-      pluginParameter: {
-        id: 0,
-        name: 'plgInterface',
-        value: '40',
-        dynamic: false,
-      },
-      pluginParameterType: {
-        name: 'plgInterface',
-        type: 'IPluginInterfacer',
-        paramType: 'PLUGIN',
-      },
-      mode: 'edit',
     }
     const enzymeWrapper = shallow(<PluginParameterPlugin {...props} />, options)
     expect(enzymeWrapper.find(Field)).to.have.length(1)

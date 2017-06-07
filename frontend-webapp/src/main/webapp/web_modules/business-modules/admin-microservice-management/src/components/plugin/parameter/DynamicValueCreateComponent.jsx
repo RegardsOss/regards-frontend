@@ -4,6 +4,7 @@
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
 import { RenderTextField, Field, ValidationHelpers, reduxForm } from '@regardsoss/form-utils'
+import { PluginParameterType } from '@regardsoss/model'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import moduleStyles from '../../../styles/styles'
@@ -21,6 +22,7 @@ export class DynamicValueCreateComponent extends React.Component {
     open: PropTypes.bool,
     onRequestClose: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
+    pluginParameterType: PluginParameterType,
     // from reduxForm
     submitting: PropTypes.bool,
     invalid: PropTypes.bool,
@@ -41,13 +43,27 @@ export class DynamicValueCreateComponent extends React.Component {
     })
   }
 
+  getFieldType = (pluginParameterType) => {
+    switch (pluginParameterType.type) {
+      case 'java.lang.Byte':
+      case 'java.lang.Integer':
+      case 'java.lang.Long':
+      case 'java.lang.Float':
+      case 'java.lang.Double':
+      case 'java.lang.Short':
+        return 'number'
+      default:
+        return 'text'
+    }
+  }
+
   /**
    * Returns React component
    *
    * @returns {XML}
    */
   render() {
-    const { open, onRequestClose, submitting, invalid, handleSubmit } = this.props
+    const { open, onRequestClose, submitting, invalid, handleSubmit, pluginParameterType } = this.props
     const { muiTheme, intl } = this.context
     const styles = moduleStyles(muiTheme)
 
@@ -79,7 +95,7 @@ export class DynamicValueCreateComponent extends React.Component {
           <Field
             name="value"
             component={RenderTextField}
-            type="text"
+            type={this.getFieldType(pluginParameterType)}
             validate={validRequiredString}
             label={intl.formatMessage({ id: 'microservice-management.plugin.parameter.dynamicvalue.dialog.placeholder' })}
           />
