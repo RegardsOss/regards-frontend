@@ -121,7 +121,7 @@ export class PluginConfigurationFormComponent extends React.Component {
    * @returns {XML}
    */
   render() {
-    const { currentPluginMetaData, currentPluginConfiguration, handleSubmit, submitting, invalid, backUrl, change } = this.props
+    const { currentPluginMetaData, currentPluginConfiguration, handleSubmit, submitting, invalid, backUrl, change, formMode } = this.props
 
     const styles = moduleStyles(this.context.muiTheme)
 
@@ -191,11 +191,12 @@ export class PluginConfigurationFormComponent extends React.Component {
               {currentPluginMetaData ? currentPluginMetaData.content.parameters.map((pluginParameterType, index) => (
                 <GenericPluginParameter
                   key={pluginParameterType.name}
-                  _key={index}
-                  fieldKey={`parameters[${index}]`}
+                  fieldKey={`parameters.${index}`}
                   pluginParameterType={pluginParameterType}
                   pluginParameter={mapPluginParameterTypeToPluginParameter(pluginParameterType, currentPluginConfiguration)}
+                  pluginConfiguration={currentPluginConfiguration}
                   change={change}
+                  mode={formMode}
                 />)) : []}
             </CardText>
           </Card>

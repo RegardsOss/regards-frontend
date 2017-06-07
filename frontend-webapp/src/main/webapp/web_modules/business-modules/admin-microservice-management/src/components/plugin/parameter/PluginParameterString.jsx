@@ -1,8 +1,12 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import Subheader from 'material-ui/Subheader'
+import { ShowableAtRender } from '@regardsoss/components'
 import { RenderTextField, Field, ValidationHelpers } from '@regardsoss/form-utils'
-import { pluginParameterComponentPropTypes } from './utils'
+import { themeContextType } from '@regardsoss/theme'
+import { pluginParameterComponentPropTypes, getFieldName } from './utils'
+import moduleStyles from '../../../styles/styles'
 
 const { required, string } = ValidationHelpers
 
@@ -20,9 +24,17 @@ export class PluginParameterString extends React.Component {
 
   static propTypes = pluginParameterComponentPropTypes
 
+  static contextTypes = {
+    ...themeContextType,
+  }
+
   render() {
-    const { fieldKey, pluginParameter: { name }, pluginParameterType } = this.props
+    const { pluginParameter: { name, value }, pluginParameterType, mode, pluginConfiguration } = this.props
+    const { muiTheme } = this.context
+    const isView = mode === 'view'
     const validators = [string]
+    const styles = moduleStyles(muiTheme)
+
     let label = name
     if (pluginParameterType && !pluginParameterType.optional) {
       validators.push(required)
@@ -30,14 +42,24 @@ export class PluginParameterString extends React.Component {
     }
 
     return (
-      <Field
-        name={`${fieldKey}.value`}
-        fullWidth
-        component={RenderTextField}
-        type={'text'}
-        label={label}
-        validate={validators}
-      />
+      <div>
+        <ShowableAtRender show={isView}>
+          <div style={styles.pluginParameter.wrapper}>
+            <Subheader style={styles.pluginParameter.label}>{label}</Subheader>
+            {value}
+          </div>
+        </ShowableAtRender>
+        <ShowableAtRender show={!isView}>
+          <Field
+            name={getFieldName(name, pluginConfiguration, '.value')}
+            fullWidth
+            component={RenderTextField}
+            type={'text'}
+            label={label}
+            validate={validators}
+          />
+        </ShowableAtRender>
+      </div>
     )
   }
 }

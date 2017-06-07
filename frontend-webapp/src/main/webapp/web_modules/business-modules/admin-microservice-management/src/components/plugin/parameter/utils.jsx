@@ -1,3 +1,4 @@
+import findIndex from 'lodash/findIndex'
 import { PluginParameter, PluginParameterType } from '@regardsoss/model'
 
 /**
@@ -13,6 +14,12 @@ const buildMenuItemPrimaryText = (leftContent, rightContent) => (
     </span>
   </div>
 )
+
+const getFieldName = (name, pluginConfiguration, suffix) => {
+  const index = findIndex(pluginConfiguration.content.parameters, ['name', name])
+  return `parameters.${index}${suffix}`
+}
+
 
 /**
  * Shared prop
@@ -32,6 +39,7 @@ const pluginParameterComponentPropTypes = {
 export {
   buildMenuItemPrimaryText,
   pluginParameterComponentPropTypes,
+  getFieldName,
 }
 
 export default buildMenuItemPrimaryText

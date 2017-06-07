@@ -700,10 +700,10 @@
         },
         {
           "name": "param35",
-          "type": "java.lang.String",
+          "type": "java.lang.Integer",
           "paramType": "PRIMITIVE",
           "optional": false,
-          "defaultValue": "this is the default value of param35"
+          "defaultValue": "12"
         }
       ]
     },
@@ -798,13 +798,13 @@
           "type": "java.lang.Integer",
           "paramType": "PRIMITIVE",
           "optional": true,
-          "defaultValue": 69
+          "defaultValue": 4
         },
         {
           "name": "isActive",
           "type": "java.lang.Boolean",
           "paramType": "PRIMITIVE",
-          "optional": false,
+          "optional": true,
           "defaultValue": true
         }
       ]
@@ -848,7 +848,7 @@
           "dynamic": true,
           "dynamicsValues": [
             {
-              "value": "42"
+              "value": "12"
             },
             {
               "value": "18"
@@ -863,7 +863,7 @@
         },
         {
           "name": "param35",
-          "value": "value35",
+          "value": "52",
           "dynamic": false,
           "dynamicsValues": []
         }
@@ -924,7 +924,7 @@
     {
       "id": 10,
       "pluginId": "aComplexPlugin",
-      "label": "An other configuration",
+      "label": "An other configuration!",
       "version": "1.0.0",
       "priorityOrder": 0,
       "active": false,

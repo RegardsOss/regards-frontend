@@ -39,6 +39,9 @@ const microserviceManagementStyles = theme => ({
     cardExpanded: {
       margin: '30px 20px',
     },
+    subheader: {
+      padding: 0,
+    },
     lineWrapper: {
       display: 'flex',
       flexWrap: 'nowrap',
@@ -80,22 +83,24 @@ const microserviceManagementStyles = theme => ({
     field: {
       display: 'none',
     },
-  },
-  dynamicValue: {
-    createdialogbuttons: {
-      display: 'flex',
-      justifyContent: 'flex-end',
-    },
     label: {
       paddingLeft: 0,
       fontSize: 12,
       color: theme.textField.hintColor,
+      width: 'initial',
+      marginRight: 10,
     },
     wrapper: {
       display: 'flex',
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'flex-start',
+    },
+  },
+  dynamicValue: {
+    createdialogbuttons: {
+      display: 'flex',
+      justifyContent: 'flex-end',
     },
     chip: {
       marginRight: 5,

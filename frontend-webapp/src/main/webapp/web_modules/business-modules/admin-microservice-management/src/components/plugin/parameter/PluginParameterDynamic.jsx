@@ -6,11 +6,12 @@ import Chip from 'material-ui/Chip'
 import IconButton from 'material-ui/IconButton'
 import Subheader from 'material-ui/Subheader'
 import AddCircle from 'material-ui/svg-icons/content/add-circle'
+import { ShowableAtRender } from '@regardsoss/components'
 import { ValidationHelpers } from '@regardsoss/form-utils'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import DynamicValueCreateComponent from './DynamicValueCreateComponent'
-import { pluginParameterComponentPropTypes } from './utils'
+import { pluginParameterComponentPropTypes, getFieldName } from './utils'
 import moduleStyles from '../../../styles/styles'
 
 const { required, string } = ValidationHelpers
@@ -39,29 +40,29 @@ export class PluginParameterDynamicField extends React.Component {
     this.state = {
       open: false,
       selectedValue: props.pluginParameter.value,
-      dynamicsValues: props.pluginParameter.dynamicsValues,
+      dynamicsValues: props.pluginParameter.dynamicsValues || [],
     }
   }
 
   onRequestDelete = (dynamicvalueIndex) => {
-    const { change, fieldKey } = this.props
+    const { change, pluginConfiguration, pluginParameter: { name } } = this.props
     const { selectedValue, dynamicsValues } = this.state
     const removedValue = dynamicsValues.splice(dynamicvalueIndex, 1)[0]
     this.setState({ // Update the state for re-render
       dynamicsValues,
     })
-    change(`${fieldKey}.dynamicsValues`, dynamicsValues)
+    change(getFieldName(name, pluginConfiguration, '.dynamicsValues'), dynamicsValues)
 
     if (removedValue.value === selectedValue) { // If the removed dynamic value was the one selected, empty the current value
       this.setState({
         selectedValue: '',
       })
-      change(`${fieldKey}.value`, '')
+      change(getFieldName(name, pluginConfiguration, '.value'), '')
     }
   }
 
   onTouchTap = (dynamicvalueIndex) => {
-    const { change, fieldKey } = this.props
+    const { change, pluginConfiguration, pluginParameter: { name } } = this.props
     const { dynamicsValues, selectedValue } = this.state
     const newValue = dynamicsValues[dynamicvalueIndex].value
     // We clicked on currently selected value -> deselect it
@@ -69,12 +70,12 @@ export class PluginParameterDynamicField extends React.Component {
       this.setState({
         selectedValue: '',
       })
-      change(`${fieldKey}.value`, '') // Update the value
+      change(getFieldName(name, pluginConfiguration, '.value'), '') // Update the value
     } else {
       this.setState({
         selectedValue: newValue,
       })
-      change(`${fieldKey}.value`, newValue) // Update the value
+      change(getFieldName(name, pluginConfiguration, '.value'), newValue) // Update the value
     }
   }
 
@@ -83,26 +84,27 @@ export class PluginParameterDynamicField extends React.Component {
   onClose = () => this.setState({ open: false })
 
   onCreate = (value) => {
-    const { change, fieldKey } = this.props
+    const { change, pluginConfiguration, pluginParameter: { name } } = this.props
     const { dynamicsValues, selectedValue } = this.state
     const newDynamicValues = dynamicsValues.concat([value]) // concat returns the result array
     this.setState({ // Update state for re-render
       dynamicsValues: newDynamicValues,
     })
-    change(`${fieldKey}.dynamicsValues`, newDynamicValues) // Update the list of dynamic values
+    change(getFieldName(name, pluginConfiguration, '.dynamicsValues'), newDynamicValues) // Update the list of dynamic values
 
     if (selectedValue === '') { // If first value to add, auto-select it
       this.setState({
         selectedValue: value.value,
       })
-      change(`${fieldKey}.value`, value)
+      change(getFieldName(name, pluginConfiguration, '.value'), value)
     }
   }
 
   render() {
-    const { pluginParameter: { name }, pluginParameterType } = this.props
-    const { selectedValue, open, dynamicsValues } = this.state
+    const { pluginParameter: { name }, pluginParameterType, mode } = this.props
+    const { open, dynamicsValues, selectedValue } = this.state
     const { muiTheme, intl } = this.context
+    const isView = mode === 'view'
     const styles = moduleStyles(muiTheme)
 
     const validators = [string]
@@ -113,35 +115,34 @@ export class PluginParameterDynamicField extends React.Component {
     }
 
     return (
-      <div>
-        <Subheader style={styles.dynamicValue.label}>{label}</Subheader>
-        <div style={styles.dynamicValue.wrapper}>
+      <div style={styles.pluginParameter.wrapper}>
+        <Subheader style={styles.pluginParameter.label}>{label}</Subheader>
+        <ShowableAtRender show={!isView}>
           <IconButton
             onTouchTap={this.onOpen}
             tooltip={intl.formatMessage({ id: 'microservice-management.plugin.parameter.dynamicvalue.add' })}
           >
             <AddCircle />
           </IconButton>
-
-          {dynamicsValues.map((item, index) => (
-            <div key={fpUniqueId('react_generated_uuid_')}>
-              <Chip
-                backgroundColor={selectedValue === item.value ? muiTheme.palette.primary1Color : undefined} // undefined is for using default
-                style={styles.dynamicValue.chip}
-                onRequestDelete={() => this.onRequestDelete(index)}
-                onTouchTap={() => this.onTouchTap(index)}
-              >
-                {item.value}
-              </Chip>
-            </div>
-          ))}
-        </div>
-        <DynamicValueCreateComponent
-          open={open}
-          onRequestClose={this.onClose}
-          onSubmit={this.onCreate}
-          pluginParameterType={pluginParameterType}
-        />
+          <DynamicValueCreateComponent
+            open={open}
+            onRequestClose={this.onClose}
+            onSubmit={this.onCreate}
+            pluginParameterType={pluginParameterType}
+          />
+        </ShowableAtRender>
+        {dynamicsValues.map((item, index) => (
+          <div key={fpUniqueId('react_generated_uuid_')}>
+            <Chip
+              backgroundColor={selectedValue === item.value ? muiTheme.palette.primary1Color : undefined} // undefined is for using default
+              style={styles.dynamicValue.chip}
+              onRequestDelete={!isView ? () => this.onRequestDelete(index) : undefined}
+              onTouchTap={!isView ? () => this.onTouchTap(index) : undefined}
+            >
+              {item.value}
+            </Chip>
+          </div>
+        ))}
       </div>
     )
   }
