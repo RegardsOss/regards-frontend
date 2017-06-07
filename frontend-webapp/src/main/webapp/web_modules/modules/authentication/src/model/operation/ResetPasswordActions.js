@@ -7,5 +7,5 @@ import AccountOperationActions from './AccountOperationActions'
 export const ResetPasswordActions = new AccountOperationActions('resetPassword', AuthenticationRouteParameters.mailAuthenticationAction.values.changePassword)
 export default {
   sendAskResetPassword: mail => ResetPasswordActions.sendAskRequest(mail),
-  sendFinishResetPassword: (mail, token, newPassword) => ResetPasswordActions.sendFinishRequest(mail, token, newPassword),
+  sendFinishResetPassword: (token, mail, newPassword) => ResetPasswordActions.sendFinishRequest(token, mail, { newPassword }),
 }
