@@ -171,6 +171,7 @@ class Table extends React.Component {
                   lineHeight={lineHeight}
                   sortable={column.sortable}
                   sortAction={type => onSortByColumn(column, type)}
+                  sortingOrder={column.sortingOrder}
                   isLastColumn={index === columns.length - 1}
                 />}
               cell={<Cell

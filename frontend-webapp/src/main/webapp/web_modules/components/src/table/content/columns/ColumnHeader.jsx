@@ -1,11 +1,13 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import values from 'lodash/values'
 import IconButton from 'material-ui/IconButton'
 import SortDesc from 'material-ui/svg-icons/navigation/arrow-drop-up'
 import SortAsc from 'material-ui/svg-icons/navigation/arrow-drop-down'
 import Sort from 'material-ui/svg-icons/action/swap-vert'
 import { themeContextType } from '@regardsoss/theme'
+import { getNextSortOrder, TableSortOrders } from '../../model/TableSortOrders'
 
 /**
  * Column header cell rendering for FixedTable
@@ -17,42 +19,29 @@ class ColumnHeader extends React.Component {
     label: PropTypes.string,
     lineHeight: PropTypes.number.isRequired,
     sortable: PropTypes.bool,
+    sortingOrder: PropTypes.oneOf(values(TableSortOrders)),
     sortAction: PropTypes.func,
     isLastColumn: PropTypes.bool.isRequired,
+  }
+
+  static defaultProps = {
+    sortingOrder: TableSortOrders.NO_SORT,
   }
 
   static contextTypes = {
     ...themeContextType,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      sortType: null,
-    }
-  }
-
-
   runSort = () => {
-    switch (this.state.sortType) {
-      case 'ASC':
-        this.props.sortAction(null)
-        this.setState({ sortType: null })
-        break
-      case 'DESC':
-        this.props.sortAction('ASC')
-        this.setState({ sortType: 'ASC' })
-        break
-      default:
-        this.props.sortAction('DESC')
-        this.setState({ sortType: 'DESC' })
+    const { sortable, sortingOrder, sortAction } = this.props
+    if (sortable && sortingOrder) { // do change sort only when sortable with known sorting state
+      sortAction(getNextSortOrder(sortingOrder))
     }
   }
 
   render() {
     const { cellHeader, lastCellHeader, sortButton: { iconStyle, buttonStyle } } = this.context.moduleTheme
-    const { sortable, isLastColumn, lineHeight, label } = this.props
-    const { sortType } = this.state
+    const { sortable, isLastColumn, lineHeight, label, sortingOrder } = this.props
 
     const cellStyle = isLastColumn ? lastCellHeader : cellHeader
     const height = `${lineHeight - 1}px`
@@ -67,13 +56,15 @@ class ColumnHeader extends React.Component {
               onTouchTap={this.runSort}
             >
               {(() => {
-                switch (sortType) {
-                  case 'ASC':
+                switch (sortingOrder) {
+                  case TableSortOrders.ASCENDING_ORDER:
                     return <SortAsc />
-                  case 'DESC':
+                  case TableSortOrders.DESCENDING_ORDER:
                     return <SortDesc />
-                  default:
+                  case TableSortOrders.NO_SORT:
                     return <Sort />
+                  default:
+                    throw new Error(`Unknown sorting order ${sortingOrder}`)
                 }
               })()
               }

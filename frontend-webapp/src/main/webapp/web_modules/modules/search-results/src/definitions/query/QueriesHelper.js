@@ -1,6 +1,7 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
+import { TableSortOrders } from '@regardsoss/components'
 import OpenSearchQuery from './opensearch/OpenSearchQuery'
 import OpenSearchQueryParameter from './opensearch/OpenSearchQueryParameter'
 import URLSearchQuery from './url/URLSearchQuery'
@@ -33,9 +34,16 @@ export function getOpenSearchQuery(rootSearchQuery, facettesFilters = [], otherP
   return new OpenSearchQuery(rootSearchQuery, openSearchParameters)
 }
 
+/** Maps table sorting to open search sort keywords */
+const tableToOpenSearchSort = {
+  [TableSortOrders.ASCENDING_ORDER]: 'ASC',
+  [TableSortOrders.DESCENDING_ORDER]: 'DESC',
+}
+
 /**
  * Returns URL query
- * @param sortingArray [{attributePath, type}] sorting array, where attribute is an attribute path and type is sorting type (optional)
+ * @param sortingArray [{attributePath, type}] sorting array, where attribute is an attribute path and type is sorting type,
+ * from table columns sorting types
  * @param facettesQuery facettes query, facettes to be provided on results (optional)
  * @return URL query
  */
@@ -48,11 +56,11 @@ export function getURLQuery(openSearchQuery, sortingArray = [], facettesQuery = 
     new URLSearchQueryParameter(URLSearchQuery.QUERY_PARAMETER_NAME, queryParamValue),
     // 2 - sort parameters
     ...sortingArray.map((sorting) => {
-      let value = null
-      if (sorting.attributePath) {
-        value = sorting.type ? `${sorting.attributePath},${sorting.type}` : sorting.attributePath
+      if (!sorting.attributePath || !sorting.type || !tableToOpenSearchSort[sorting.type]) {
+        throw new Error('Invalid sorting parameter for query ', sorting)
       }
-      return new URLSearchQueryParameter(URLSearchQuery.SORT_PARAMETER_NAME, value) // ignored when value is null
+      const value = `${sorting.attributePath},${tableToOpenSearchSort[sorting.type]}`
+      return new URLSearchQueryParameter(URLSearchQuery.SORT_PARAMETER_NAME, value)
     }),
     // 3 - facettes query
     new StaticQueryParameter(facettesQuery),

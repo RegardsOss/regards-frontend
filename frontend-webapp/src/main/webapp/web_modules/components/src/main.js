@@ -52,6 +52,7 @@ import TableSelectionModes from './table/model/TableSelectionModes'
 import TableActions from './table/model/TableActions'
 import getTableReducer from './table/model/TableReducer'
 import getTableSelectors from './table/model/TableSelectors'
+import { TableSortOrders } from './table/model/TableSortOrders'
 import TableStyles from './table/styles/styles'
 import ActionsMenuCell from './table/content/cells/ActionsMenuCell'
 
@@ -88,6 +89,7 @@ export {
   TableActions,
   getTableReducer,
   getTableSelectors,
+  TableSortOrders,
   TableColumnConfiguration,
   TableColumnConfigurationController,
   TableOptionsSeparator,

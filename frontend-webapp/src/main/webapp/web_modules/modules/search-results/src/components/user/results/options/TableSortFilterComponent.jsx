@@ -3,7 +3,7 @@
  **/
 import MenuItem from 'material-ui/MenuItem'
 import { themeContextType } from '@regardsoss/theme'
-import { DropDownButton, TableColumnConfiguration } from '@regardsoss/components'
+import { DropDownButton, TableColumnConfiguration, TableSortOrders } from '@regardsoss/components'
 
 /**
  * Component to display a select field with all the sortable attributes.
@@ -58,7 +58,7 @@ class TableSortFilterComponent extends React.Component {
     if (!column) {
       this.props.onSortByColumn(null, null, true)
     } else {
-      this.props.onSortByColumn(column, 'ASC', true)
+      this.props.onSortByColumn(column, TableSortOrders.ASCENDING_ORDER, true)
     }
   }
 
