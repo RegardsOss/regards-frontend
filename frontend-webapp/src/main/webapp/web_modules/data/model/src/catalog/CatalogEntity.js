@@ -9,7 +9,7 @@ import URL from '../common/URL'
 export const CatalogEntityTypes = {
   DATASET: 'DATASET',
   COLLECTION: 'COLLECTION',
-  DATAOBJECT: 'DATAOBJECT',
+  DATAOBJECT: 'DATA',
   DOCUMENT: 'DOCUMENT',
 }
 
@@ -23,7 +23,7 @@ const CatalogEntity = PropTypes.shape({
     ipId: PropTypes.string.isRequired,
     sipId: PropTypes.string,
     label: PropTypes.string.isRequired,
-    type: PropTypes.oneOf(values(CatalogEntityTypes)).isRequired,
+    entityType: PropTypes.oneOf(values(CatalogEntityTypes)).isRequired,
     files: PropTypes.arrayOf(ObjectLinkedFile),
     geometry: EntityGeoProperties,
     properties: PropTypes.object,

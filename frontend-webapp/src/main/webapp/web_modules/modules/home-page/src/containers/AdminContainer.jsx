@@ -1,15 +1,20 @@
 /*
  * LICENSE_PLACEHOLDER
  */
+import root from 'window-or-global'
 import has from 'lodash/has'
-import { Field, RenderTextField } from '@regardsoss/form-utils'
-import { themeContextType } from '@regardsoss/theme'
+import get from 'lodash/get'
+import startsWith from 'lodash/startsWith'
+import {Field, RenderTextField, ValidationHelpers} from '@regardsoss/form-utils'
+import {themeContextType} from '@regardsoss/theme'
 import RaisedButton from 'material-ui/RaisedButton'
-import { i18nContextType } from '@regardsoss/i18n'
-import { LoadingComponent } from '@regardsoss/display-control'
-import { IFrameURLContentDisplayer } from '@regardsoss/components'
+import {i18nContextType} from '@regardsoss/i18n'
+import {LoadingComponent} from '@regardsoss/display-control'
+import {IFrameURLContentDisplayer} from '@regardsoss/components'
 import ModuleConfiguration from '../models/ModuleConfiguration'
 
+
+const defaultHomepagePath = '/html/regards-homepage.html'
 /**
  * React component to display module administration module
  * @author Maxime Bouveron
@@ -38,9 +43,30 @@ class AdminContainer extends React.Component {
     lastHtmlPathTested: undefined,
   }
 
-  handleTest = () => {
-    if (has(this.props.adminForm, 'form.conf.htmlPath')) {
-      this.setState({ test: true, loading: true, lastHtmlPathTested: this.props.adminForm.form.conf.htmlPath })
+  componentDidMount() {
+    if (!has(this.props.adminForm, 'form.conf.htmlPath') || (get(this.props.adminForm, 'form.conf.htmlPath') === '')) {
+      this.props.adminForm.changeField('conf.htmlPath', defaultHomepagePath)
+    }
+
+    this.handleTest(null, defaultHomepagePath)
+  }
+
+  getFullPath = (path) => {
+    if (path) {
+      if (startsWith(path, 'http') || startsWith(path, 'wwww')) {
+        return path
+      } else if (startsWith(path, '/')) {
+        return `http://${root.location.host}${path}`
+      } else {
+        return `http://${root.location.host}/${path}`
+      }
+    }
+  }
+
+  handleTest = (event, pPathToTest) => {
+    const pathToTest = pPathToTest ? pPathToTest : get(this.props.adminForm, 'form.conf.htmlPath')
+    if (pathToTest) {
+      this.setState({test: true, loading: true, lastHtmlPathTested: this.getFullPath(pathToTest)})
     }
   }
 
@@ -51,7 +77,9 @@ class AdminContainer extends React.Component {
   }
 
   render() {
-    const { moduleTheme } = this.context
+    const {moduleTheme} = this.context
+
+    const currentPath = this.getFullPath(get(this.props.adminForm, 'form.conf.htmlPath'))
     return (
       <div>
         <Field
@@ -59,15 +87,19 @@ class AdminContainer extends React.Component {
           fullWidth
           component={RenderTextField}
           type="text"
-          label={this.context.intl.formatMessage({ id: 'homepage.admin.url' })}
+          validate={ValidationHelpers.string}
+          label={this.context.intl.formatMessage({id: 'homepage.admin.url'})}
+          style={{
+            marginBottom: 15
+          }}
         />
         <RaisedButton
-          label={this.context.intl.formatMessage({ id: 'homepage.admin.test' })}
+          label={this.context.intl.formatMessage({id: 'homepage.admin.test'})}
           primary
-          disabled={this.state.loading || (this.state.lastHtmlPathTested === this.props.adminForm.form.conf.htmlPath)}
+          disabled={this.state.loading || !currentPath || (this.state.lastHtmlPathTested === currentPath)}
           onTouchTap={this.handleTest}
         />
-        {this.state.loading ? <LoadingComponent style={moduleTheme.adminIframeLoading} /> : null}
+        {this.state.loading ? <LoadingComponent style={moduleTheme.adminIframeLoading}/> : null}
         {this.state.test ?
           <IFrameURLContentDisplayer
             style={moduleTheme.adminFrame}

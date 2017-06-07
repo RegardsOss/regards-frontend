@@ -2,12 +2,16 @@
  * LICENSE_PLACEHOLDER
  **/
 import root from 'window-or-global'
+import startsWith from 'lodash/startsWith'
 import { i18nContextType } from '@regardsoss/i18n'
 import FlatButton from 'material-ui/FlatButton'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import HomeIcone from 'material-ui/svg-icons/action/home'
 import { themeContextType } from '@regardsoss/theme'
 import { SingleContentURLDialogContainer } from '@regardsoss/components'
+
+// Import the index.html file
+require('../../html/regards-homepage.html')
 
 /**
  * Home page module container (shows home page for a project)
@@ -55,6 +59,18 @@ class HomePageContainer extends React.Component {
     this.setState({ dialogOpen: true })
   }
 
+  getFullPath = (path) => {
+    if (path) {
+      if (startsWith(path, 'http') || startsWith(path, 'wwww')) {
+        return path
+      } else if (startsWith(path, '/')) {
+        return `http://${root.location.host}${path}`
+      } else {
+        return `http://${root.location.host}/${path}`
+      }
+    }
+  }
+
   renderActionButtons = () => {
     const actionButtons = []
     if (this.isHomePageHiddenCached()) {
@@ -95,7 +111,7 @@ class HomePageContainer extends React.Component {
         </FloatingActionButton>
         <SingleContentURLDialogContainer
           open={dialogOpen}
-          contentURL={htmlPath}
+          contentURL={this.getFullPath(htmlPath)}
           loadingMessage={this.context.intl.formatMessage({ id: 'homepage.loading.message' })}
           dialogHeightPercent={heightPercent}
           dialogWidthPercent={widthPercent}

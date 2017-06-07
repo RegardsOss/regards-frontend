@@ -65,9 +65,14 @@ module.exports = {
         loader: 'file-loader?name=/img/[name].[ext]',
       },
       {
-        test: /\.html/,
+        test: /index\.html/,
         loader: 'file-loader?name=[name].[ext]',
-      }
+      },
+      {
+        test: /\.html/,
+        loader: 'file-loader?name=/html/[name].[ext]',
+        exclude: [/\/index.html/]
+      },
     ],
   },
   plugins: [
