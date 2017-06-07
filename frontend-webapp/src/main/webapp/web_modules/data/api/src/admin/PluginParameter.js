@@ -4,7 +4,7 @@
 import { Schema, arrayOf } from 'normalizr'
 
 const PluginParameterConfiguration = {
-  entityKey: 'id',
+  entityKey: 'name',
   normalizrKey: 'pluginParameter',
 }
 

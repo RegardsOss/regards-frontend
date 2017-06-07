@@ -829,7 +829,7 @@
               "value": "red"
             },
             {
-              "value": "green"
+              "value": "greeen"
             },
             {
               "value": "blue"
@@ -917,32 +917,6 @@
         {
           "name": "plgInterface",
           "value": "40",
-          "dynamic": false
-        }
-      ]
-    },
-    {
-      "id": 10,
-      "pluginId": "aComplexPlugin",
-      "label": "An other configuration!",
-      "version": "1.0.0",
-      "priorityOrder": 0,
-      "active": false,
-      "pluginClassName": "java.lang.Integer",
-      "parameters": [
-        {
-          "name": "coeff",
-          "value": "44",
-          "dynamic": true
-        },
-        {
-          "name": "isActive",
-          "value": "true",
-          "dynamic": false
-        },
-        {
-          "name": "plgInterface",
-          "value": "12",
           "dynamic": false
         }
       ]

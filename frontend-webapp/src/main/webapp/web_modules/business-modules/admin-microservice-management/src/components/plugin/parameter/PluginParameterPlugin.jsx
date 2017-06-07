@@ -101,7 +101,7 @@ export class PluginParameterPlugin extends React.Component {
       <div style={styles.pluginParameter.wrapper}>
         <Subheader style={styles.pluginParameter.label}>{label}</Subheader>
         <ShowableAtRender show={isView}>
-          <span>Couocu</span>
+          <span>{selectedPluginConfiguration.content.label}</span>
         </ShowableAtRender>
         <ShowableAtRender show={!isView}>
           <div>
