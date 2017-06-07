@@ -39,6 +39,9 @@ const microserviceManagementStyles = theme => ({
     cardExpanded: {
       margin: '30px 20px',
     },
+    cardExpandedText: {
+      borderTop: `solid 1px ${theme.palette.borderColor}`,
+    },
     subheader: {
       padding: 0,
     },

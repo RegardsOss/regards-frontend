@@ -141,7 +141,7 @@ class PluginConfigurationComponent extends React.Component {
             </div>
           </div>
         </CardActions>
-        <CardText expandable>
+        <CardText expandable style={styles.cardExpandedText}>
           <Subheader style={styles.subheader}><FormattedMessage id="microservice-management.plugin.configuration.parameters" /></Subheader>
           {parameters}
         </CardText>
