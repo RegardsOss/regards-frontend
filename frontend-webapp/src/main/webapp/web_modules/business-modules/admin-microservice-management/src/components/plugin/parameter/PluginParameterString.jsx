@@ -2,33 +2,27 @@
  * LICENSE_PLACEHOLDER
  **/
 import { RenderTextField, Field, ValidationHelpers } from '@regardsoss/form-utils'
-import { pluginParameterComponentPropTypes } from '../utils'
+import { pluginParameterComponentPropTypes } from './utils'
 
 const { required, string } = ValidationHelpers
 
 /**
- * Renders a plugin parameter which is
+ * Renders plugin parameter which is
  * - static
- * - in edit/create/copy mode
+ * - in edit/crete/copy mode
  * - of types
- * 'java.lang.Byte'
- * 'java.lang.Integer'
- * 'java.lang.Long'
- * 'java.lang.Float'
- * 'java.lang.Double'
- * 'java.lang.Short'
+ * java.lang.String
+ * java.lang.Character
  *
  * @author Xavier-Alexandre Brochard
  */
-export class PluginParameterNumberStaticField extends React.Component {
+export class PluginParameterString extends React.Component {
 
   static propTypes = pluginParameterComponentPropTypes
 
-  format = val => parseFloat(val)
-
   render() {
     const { fieldKey, pluginParameter: { name }, pluginParameterType } = this.props
-    const validators = [string] // Yes a String, because we store the number in string in the model.
+    const validators = [string]
     let label = name
     if (pluginParameterType && !pluginParameterType.optional) {
       validators.push(required)
@@ -37,11 +31,10 @@ export class PluginParameterNumberStaticField extends React.Component {
 
     return (
       <Field
-        name={fieldKey}
-        format={this.format}
+        name={`${fieldKey}.value`}
         fullWidth
         component={RenderTextField}
-        type={'number'}
+        type={'text'}
         label={label}
         validate={validators}
       />
@@ -49,4 +42,4 @@ export class PluginParameterNumberStaticField extends React.Component {
   }
 }
 
-export default PluginParameterNumberStaticField
+export default PluginParameterString

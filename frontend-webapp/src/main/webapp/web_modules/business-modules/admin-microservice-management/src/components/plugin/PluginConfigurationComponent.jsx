@@ -1,8 +1,6 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import map from 'lodash/map'
-import find from 'lodash/find'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { PluginConfiguration, PluginMetaData } from '@regardsoss/model'
@@ -13,11 +11,10 @@ import ArrowUpward from 'material-ui/svg-icons/navigation/arrow-upward'
 import ArrowDownward from 'material-ui/svg-icons/navigation/arrow-downward'
 import ContentCopy from 'material-ui/svg-icons/content/content-copy'
 import ModeEdit from 'material-ui/svg-icons/editor/mode-edit'
-import { List } from 'material-ui/List'
+import { List, ListItem } from 'material-ui/List'
 import Subheader from 'material-ui/Subheader'
 import { HateoasIconAction, HateoasKeys, HateoasToggle, ResourceIconAction } from '@regardsoss/display-control'
 import moduleStyles from '../../styles/styles'
-import GenericPluginParameter from '../../components/plugin/parameter/GenericPluginParameter'
 import PluginConfigurationActions from '../../model/plugin/PluginConfigurationActions'
 
 /**
@@ -66,18 +63,11 @@ class PluginConfigurationComponent extends React.Component {
 
   render() {
     const { pluginConfiguration, onActiveToggle, onCopyClick, onDeleteClick, onEditClick, onDownwardClick, onUpwardClick } = this.props
-    const { pluginParameterTypeList } = this.state
 
     const styles = moduleStyles(this.context.muiTheme).pluginConfiguration
 
-    const parameters = map(pluginConfiguration.content.parameters, (pluginParameter, index) =>
-      (<GenericPluginParameter
-        key={index}
-        pluginParameter={pluginParameter}
-        pluginParameterType={find(pluginParameterTypeList, pluginParameterType => pluginParameterType.name === pluginParameter.name)}
-        mode={'view'}
-      />),
-    )
+    const parameters = pluginConfiguration.content.parameters.map(pluginParameter =>
+      <ListItem key={pluginParameter.name}>{pluginParameter.name}: {pluginParameter.value.toString()}</ListItem>)
 
     return (
       <Card

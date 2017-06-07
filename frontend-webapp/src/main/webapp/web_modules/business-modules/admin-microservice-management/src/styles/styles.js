@@ -81,6 +81,26 @@ const microserviceManagementStyles = theme => ({
       display: 'none',
     },
   },
+  dynamicValue: {
+    createdialogbuttons: {
+      display: 'flex',
+      justifyContent: 'flex-end',
+    },
+    label: {
+      paddingLeft: 0,
+      fontSize: 12,
+      color: theme.textField.hintColor,
+    },
+    wrapper: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'flex-start',
+    },
+    chip: {
+      marginRight: 5,
+    },
+  },
 })
 
 export default microserviceManagementStyles

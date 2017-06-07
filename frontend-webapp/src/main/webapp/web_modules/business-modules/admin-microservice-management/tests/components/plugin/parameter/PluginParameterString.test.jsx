@@ -4,7 +4,6 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { ListItem } from 'material-ui/List'
 import { Field } from '@regardsoss/form-utils'
 import PluginParameterString from '../../../../src/components/plugin/parameter/PluginParameterString'
 
@@ -19,10 +18,9 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing plugin parameter string component',
   it('should exists', () => {
     assert.isDefined(PluginParameterString)
     assert.isDefined(Field)
-    assert.isDefined(ListItem)
   })
 
-  it('should render a ListItem in view mode', () => {
+  it('should render a Field', () => {
     const props = {
       pluginParameter: {
         id: 0,
@@ -37,29 +35,6 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing plugin parameter string component',
         optional: true,
         defaultValue: 'default',
       },
-      mode: 'view',
-    }
-    const enzymeWrapper = shallow(<PluginParameterString {...props} />)
-    const subComponent = enzymeWrapper.find(ListItem)
-    expect(subComponent).to.have.length(1)
-  })
-
-  it('should render a Field in edit mode', () => {
-    const props = {
-      pluginParameter: {
-        id: 0,
-        name: 'suffix',
-        value: '_thesuffix',
-        dynamic: false,
-      },
-      pluginParameterType: {
-        name: 'suffix',
-        type: 'java.lang.String',
-        paramType: 'PRIMITIVE',
-        optional: true,
-        defaultValue: 'default',
-      },
-      mode: 'edit',
     }
     const enzymeWrapper = shallow(<PluginParameterString {...props} />)
     const subComponent = enzymeWrapper.find(Field)
@@ -81,7 +56,6 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing plugin parameter string component',
         optional: false,
         defaultValue: 'default',
       },
-      mode: 'edit',
     }
     const enzymeWrapper0 = shallow(<PluginParameterString {...props0} />)
     const subComponent0 = enzymeWrapper0.find(Field)
@@ -101,7 +75,6 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing plugin parameter string component',
         optional: true,
         defaultValue: 'default',
       },
-      mode: 'edit',
     }
     const enzymeWrapper1 = shallow(<PluginParameterString {...props1} />)
     const subComponent1 = enzymeWrapper1.find(Field)

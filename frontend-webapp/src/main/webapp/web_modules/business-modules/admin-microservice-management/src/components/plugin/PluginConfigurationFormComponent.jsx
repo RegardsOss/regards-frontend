@@ -9,9 +9,9 @@ import { RenderTextField, RenderDoubleLabelToggle, Field, ValidationHelpers, red
 import { PluginMetaData, PluginConfiguration } from '@regardsoss/model'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import PluginParameterListComponent from './parameter/PluginParameterListComponent'
-import { buildDefaultParameterList } from '../../model/plugin/utils'
+import { buildDefaultParameterList, mapPluginParameterTypeToPluginParameter } from '../../model/plugin/utils'
 import moduleStyles from '../../styles/styles'
+import GenericPluginParameter from './parameter/GenericPluginParameter'
 
 const { validRequiredString, validRequiredNumber } = ValidationHelpers
 
@@ -68,7 +68,7 @@ export class PluginConfigurationFormComponent extends React.Component {
     /**
      * If both pluginConfiguration & pluginMetaData props are passed, check that pluginMetaData's pluginId attribute matches
      * pluginConfiguration's pluginId attribute.
-     * In other words, we passed the correct PluginMetaData of the PluginConfiguation.
+     * In other words, we passed the correct PluginMetaData of the PluginConfiguration.
      */
     if (props.pluginConfiguration && props.pluginMetaData) {
       const pluginConfigurationsPluginId = props.pluginConfiguration.content.pluginId
@@ -121,7 +121,7 @@ export class PluginConfigurationFormComponent extends React.Component {
    * @returns {XML}
    */
   render() {
-    const { currentPluginMetaData, currentPluginConfiguration, handleSubmit, submitting, invalid, backUrl, formMode, change } = this.props
+    const { currentPluginMetaData, currentPluginConfiguration, handleSubmit, submitting, invalid, backUrl, change } = this.props
 
     const styles = moduleStyles(this.context.muiTheme)
 
@@ -185,12 +185,20 @@ export class PluginConfigurationFormComponent extends React.Component {
             </CardText>
           </Card>
 
-          <PluginParameterListComponent
-            formMode={formMode}
-            pluginConfiguration={currentPluginConfiguration}
-            pluginMetaData={currentPluginMetaData}
-            change={change}
-          />
+          <Card style={styles.pluginConfiguration.form.section}>
+            <CardTitle title={this.context.intl.formatMessage({ id: 'microservice-management.plugin.parameter.list.title' })} />
+            <CardText>
+              {currentPluginMetaData ? currentPluginMetaData.content.parameters.map((pluginParameterType, index) => (
+                <GenericPluginParameter
+                  key={pluginParameterType.name}
+                  _key={index}
+                  fieldKey={`parameters[${index}]`}
+                  pluginParameterType={pluginParameterType}
+                  pluginParameter={mapPluginParameterTypeToPluginParameter(pluginParameterType, currentPluginConfiguration)}
+                  change={change}
+                />)) : []}
+            </CardText>
+          </Card>
 
           <Card style={styles.pluginConfiguration.form.section}>
             <CardActions>

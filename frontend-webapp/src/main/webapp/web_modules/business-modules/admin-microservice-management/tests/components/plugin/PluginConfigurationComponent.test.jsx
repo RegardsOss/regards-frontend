@@ -7,10 +7,10 @@ import { testSuiteHelpers, DumpProvider, buildTestContext } from '@regardsoss/te
 import { Card } from 'material-ui/Card'
 import PluginConfigurationComponent from '../../../src/components/plugin/PluginConfigurationComponent'
 
-
 const options = {
   context: buildTestContext(),
 }
+
 /**
  * Plugin tests
  * @author Xavier-Alexandre Brochard

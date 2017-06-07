@@ -48,6 +48,13 @@ const messages = Object.assign({
   'microservice-management.plugin.configuration.form.action.cancel': 'Annuler',
 
   'microservice-management.plugin.parameter.list.title': 'Paramètres',
+  'microservice-management.plugin.parameter.dynamicvalue.add': 'Ajouter une valeur possible',
+  'microservice-management.plugin.parameter.dynamicvalue.dialog.title': 'Ajouter une valeur possible',
+  'microservice-management.plugin.parameter.dynamicvalue.dialog.placeholder': 'Valeur',
+  'microservice-management.plugin.parameter.dynamicvalue.dialog.cancel': 'Annuler',
+  'microservice-management.plugin.parameter.dynamicvalue.dialog.submit': 'Ajouter',
+  'microservice-management.plugin.parameter.dynamicvalue.setdefault': 'Par défaut',
+  'microservice-management.plugin.parameter.dynamicvalue.remove': 'Supprimer',
 
   'microservice-management.plugin.parameter.plugin.choose': 'Choisir un plugin',
   'microservice-management.plugin.parameter.plugin.empty.menu.item': 'Aucun',

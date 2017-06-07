@@ -822,28 +822,50 @@
       "parameters": [
         {
           "name": "param31",
-          "value": "value31",
-          "dynamic": true
+          "value": "red",
+          "dynamic": true,
+          "dynamicsValues": [
+            {
+              "value": "red"
+            },
+            {
+              "value": "green"
+            },
+            {
+              "value": "blue"
+            }
+          ]
         },
         {
           "name": "param32",
           "value": "value32",
-          "dynamic": false
+          "dynamic": false,
+          "dynamicsValues": []
         },
         {
           "name": "param33",
-          "value": "value33",
-          "dynamic": true
+          "value": "salut",
+          "dynamic": true,
+          "dynamicsValues": [
+            {
+              "value": "hello"
+            },
+            {
+              "value": "salut"
+            }
+          ]
         },
         {
           "name": "param34",
           "value": "value34",
-          "dynamic": false
+          "dynamic": false,
+          "dynamicsValues": []
         },
         {
           "name": "param35",
           "value": "value35",
-          "dynamic": false
+          "dynamic": false,
+          "dynamicsValues": []
         }
       ]
     },

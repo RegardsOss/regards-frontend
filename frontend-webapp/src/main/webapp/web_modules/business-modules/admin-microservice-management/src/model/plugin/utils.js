@@ -12,16 +12,16 @@ import map from 'lodash/map'
 /**
  * Find the pluginParameterType of the {@code pluginParameter}
  *
- * @param pluginParameter Of which we want the type
- * @param pluginMetaData The lookup table providing all available types
+ * @param pluginParameterType Of which we want the type
+ * @param pluginConfiguration The lookup table providing all available parameters
  * @returns {String || undefined}
  */
-const mapPluginParameterToPluginParameterType = (pluginParameter, pluginMetaData) => {
-  let pluginParameterType
-  if (pluginMetaData) {
-    pluginParameterType = find(pluginMetaData.content.parameters, el => el.name === pluginParameter.name)
+const mapPluginParameterTypeToPluginParameter = (pluginParameterType, pluginConfiguration) => {
+  let pluginParameter
+  if (pluginConfiguration) {
+    pluginParameter = find(pluginConfiguration.content.parameters, el => el.name === pluginParameterType.name)
   }
-  return pluginParameterType
+  return pluginParameter
 }
 
 /**
@@ -58,7 +58,7 @@ const parameterTypeToDefaultParameter = parameterType => ({
 const buildDefaultParameterList = pluginParameterTypeList => map(pluginParameterTypeList, parameterTypeToDefaultParameter)
 
 export {
-  mapPluginParameterToPluginParameterType,
+  mapPluginParameterTypeToPluginParameter,
   extractUniqueTypesFromConfiguration,
   buildDefaultParameterList,
   parameterTypeToDefaultParameter,
