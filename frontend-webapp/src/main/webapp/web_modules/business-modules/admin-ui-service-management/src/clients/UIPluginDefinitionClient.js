@@ -12,7 +12,7 @@ const ENTITIES_STORE_PATH = ['admin', 'ui', 'service', 'plugin']
 const REDUX_ACTION_NAMESPACE = 'admin-ui-service-management/plugin'
 
 const uiPluginDefinitionReducers = AccessProjectClient.UIPluginDefinitionReducers(REDUX_ACTION_NAMESPACE)
-const uiPluginDefinitionActions = AccessProjectClient.UIPluginDefinitionActions(REDUX_ACTION_NAMESPACE)
+const uiPluginDefinitionActions = new AccessProjectClient.UIPluginDefinitionActions(REDUX_ACTION_NAMESPACE)
 const uiPluginDefinitionSelectors = AccessProjectClient.UIPluginDefinitionSelectors(ENTITIES_STORE_PATH)
 
 

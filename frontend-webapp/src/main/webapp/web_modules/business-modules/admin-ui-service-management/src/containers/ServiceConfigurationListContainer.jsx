@@ -48,9 +48,9 @@ export class ServiceConfigurationListContainer extends React.Component {
   })
 
   static mapDispatchToProps = dispatch => ({
-    deleteUIPluginConfiguration: (uiPluginConfId, uiPluginId) => dispatch(uiPluginConfigurationActions.deleteEntity(uiPluginConfId, { plugin_id: uiPluginId })),
-    fetchUIPluginConfigurationList: uiPluginId => dispatch(uiPluginConfigurationActions.fetchPagedEntityList(0, 100, { plugin_id: uiPluginId })),
-    updateUIPluginConfiguration: (uiPluginId, value) => dispatch(uiPluginConfigurationActions.updateEntity(uiPluginId, value, { plugin_id: uiPluginId })),
+    deleteUIPluginConfiguration: (uiPluginConfId, uiPluginId) => dispatch(uiPluginConfigurationActions.deleteEntity(uiPluginConfId, { pluginId: uiPluginId })),
+    fetchUIPluginConfigurationList: uiPluginId => dispatch(uiPluginConfigurationActions.fetchPagedEntityList(0, 100, { pluginId: uiPluginId })),
+    updateUIPluginConfiguration: (uiPluginId, value) => dispatch(uiPluginConfigurationActions.updateEntity(uiPluginId, value, { pluginId: uiPluginId })),
     fetchUIPluginDefinition: uiPluginId => dispatch(uiPluginDefinitionActions.fetchEntity(uiPluginId)),
   })
 

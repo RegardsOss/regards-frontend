@@ -12,6 +12,7 @@ import AttributeModel, { AttributeModelConfiguration } from './dam/AttributeMode
 import AttributeModelRestriction, { AttributeModelRestrictionConfiguration } from './dam/AttributeModelRestriction'
 import Module, { ModuleConfiguration } from './access/Module'
 import Layout, { LayoutConfiguration } from './access/Layout'
+import LinkUIPluginDataset from './access/LinkUIPluginDataset'
 import Theme from './access/Theme'
 import Plugin, { PluginConfiguration } from './access/Plugin'
 import UIPluginConf from './access/UIPluginConf'
@@ -141,4 +142,6 @@ export default {
   ...UIPluginConf,
 
   ...BusinessPluginConfiguration,
+
+  ...LinkUIPluginDataset,
 }
