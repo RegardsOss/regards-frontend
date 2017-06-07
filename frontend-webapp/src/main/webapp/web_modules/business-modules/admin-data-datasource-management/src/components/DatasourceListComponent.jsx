@@ -8,7 +8,7 @@ import { FormattedMessage } from 'react-intl'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
 import { Datasource } from '@regardsoss/model'
-import { CardActionsComponent, ConfirmDialogComponent, ShowableAtRender } from '@regardsoss/components'
+import { ActionsMenuCell, CardActionsComponent, ConfirmDialogComponent, ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { HateoasIconAction, HateoasKeys } from '@regardsoss/display-control'
@@ -109,24 +109,26 @@ export class DatasourceListComponent extends React.Component {
                 <TableRow key={i}>
                   <TableRowColumn>{datasource.content.label}</TableRowColumn>
                   <TableRowColumn>
-                    <HateoasIconAction
-                      entityLinks={datasource.links}
-                      hateoasKey={HateoasKeys.UPDATE}
-                      onTouchTap={() => handleEdit(datasource.content.pluginConfigurationId)}
-                      breakpoint={940}
-                      title={intl.formatMessage({ id: 'datasource.list.action.edit' })}
-                    >
-                      <Edit hoverColor={style.hoverButtonEdit} />
-                    </HateoasIconAction>
-                    <HateoasIconAction
-                      entityLinks={datasource.links}
-                      hateoasKey={HateoasKeys.DELETE}
-                      onTouchTap={() => this.openDeleteDialog(datasource)}
-                      breakpoint={995}
-                      title={intl.formatMessage({ id: 'datasource.list.action.delete' })}
-                    >
-                      <Delete hoverColor={style.hoverButtonDelete} />
-                    </HateoasIconAction>
+                    <ActionsMenuCell>
+                      <HateoasIconAction
+                        entityLinks={datasource.links}
+                        hateoasKey={HateoasKeys.UPDATE}
+                        onTouchTap={() => handleEdit(datasource.content.pluginConfigurationId)}
+                        breakpoint={940}
+                        title={intl.formatMessage({ id: 'datasource.list.action.edit' })}
+                      >
+                        <Edit hoverColor={style.hoverButtonEdit} />
+                      </HateoasIconAction>
+                      <HateoasIconAction
+                        entityLinks={datasource.links}
+                        hateoasKey={HateoasKeys.DELETE}
+                        onTouchTap={() => this.openDeleteDialog(datasource)}
+                        breakpoint={995}
+                        title={intl.formatMessage({ id: 'datasource.list.action.delete' })}
+                      >
+                        <Delete hoverColor={style.hoverButtonDelete} />
+                      </HateoasIconAction>
+                    </ActionsMenuCell>
                   </TableRowColumn>
                 </TableRow>
               ))}

@@ -9,7 +9,7 @@ import moduleStyles from '../styles/styles'
 export class ContainerCard extends React.Component {
 
   static propTypes = {
-    title: PropTypes.element.isRequired,
+    title: PropTypes.string.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     acceptAttrType: PropTypes.string.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
