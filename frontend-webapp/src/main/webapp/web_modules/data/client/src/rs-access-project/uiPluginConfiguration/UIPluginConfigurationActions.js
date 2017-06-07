@@ -18,7 +18,7 @@ import { BasicPageableActions } from '@regardsoss/store-utils'
  *
  * @author Léo Mieulet
  */
-class UIPluginConfigurationActions extends BasicPageableActions {
+export default class UIPluginConfigurationActions extends BasicPageableActions {
 
   /**
    * Construtor
@@ -26,7 +26,7 @@ class UIPluginConfigurationActions extends BasicPageableActions {
    */
   constructor(namespace, isRequestingByUIPlugin = true) {
     // Either you request UIPluginConfiguration by UIPluginDefinition either you can fetch all UIPluginConfiguration
-    const entityEndpoint = isRequestingByUIPlugin ? `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ACCESS_PROJECT}/plugin/{plugin_id}/config` :
+    const entityEndpoint = isRequestingByUIPlugin ? `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ACCESS_PROJECT}/plugins/{pluginId}/configurations` :
       `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ACCESS_PROJECT}/plugins/configurations`
     super({
       namespace,
@@ -62,5 +62,3 @@ class UIPluginConfigurationActions extends BasicPageableActions {
     return super.updateEntity(keyValue, entitySendeable, pathParams, queryParams)
   }
 }
-
-export default namespace => new UIPluginConfigurationActions(namespace)

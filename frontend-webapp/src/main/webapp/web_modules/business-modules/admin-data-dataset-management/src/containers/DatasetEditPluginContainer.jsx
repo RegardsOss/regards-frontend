@@ -7,8 +7,7 @@ import { PluginConfiguration, PluginMetaData, LinkPluginDataset } from '@regards
 import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import DatasetEditPluginComponent from '../components/DatasetEditPluginComponent'
-import LinkPluginDatasetActions from './../model/LinkPluginDatasetActions'
-import LinkPluginDatasetSelectors from './../model/LinkPluginDatasetSelectors'
+import { linkPluginDatasetActions, linkPluginDatasetSelectors } from './../clients/LinkPluginDatasetClient'
 import { pluginConfigurationActions, pluginConfigurationSelectors } from './../clients/PluginConfigurationClient'
 import { pluginMetaDataActions, pluginMetaDataSelectors } from './../clients/PluginMetaDataClient'
 
@@ -104,20 +103,22 @@ export class DatasetEditPluginContainer extends React.Component {
 const mapStateToProps = (state, ownProps) => ({
   pluginConfigurationList: pluginConfigurationSelectors.getList(state),
   pluginMetaDataList: pluginMetaDataSelectors.getList(state),
-  linkPluginDataset: LinkPluginDatasetSelectors.getById(state, ownProps.params.datasetId),
+  linkPluginDataset: linkPluginDatasetSelectors.getById(state, ownProps.params.datasetId),
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchPluginConfiguration: () => dispatch(pluginConfigurationActions.fetchPagedEntityList(0, 1000, {
-    microserviceName: 'rs-dam',
+  fetchPluginConfiguration: () => dispatch(pluginConfigurationActions.fetchEntityList({
+    microserviceName: 'rs-catalog',
   }, /*{
-   pluginId: 'fr.cnes.regards.modules.search.service.IConverter'
+   pluginId: 'fr.cnes.regards.modules.search.plugin.IService'
    }*/)),
-  fetchPluginMetaData: () => dispatch(pluginMetaDataActions.fetchPagedEntityList(0, 1000, {}, /*{
-   pluginType: 'fr.cnes.regards.modules.search.service.IConverter'
+  fetchPluginMetaData: () => dispatch(pluginMetaDataActions.fetchEntityList({
+    microserviceName: 'rs-catalog',
+  }, /*{
+   pluginType: 'fr.cnes.regards.modules.search.plugin.IService'
    }*/)),
-  fetchLinkPluginDataset: datasetId => dispatch(LinkPluginDatasetActions.fetchEntity(datasetId)),
-  updateLinkPluginDataset: (datasetId, linkPluginDataset) => dispatch(LinkPluginDatasetActions.updateEntity(datasetId, linkPluginDataset)),
+  fetchLinkPluginDataset: datasetId => dispatch(linkPluginDatasetActions.fetchEntity(datasetId)),
+  updateLinkPluginDataset: (datasetId, linkPluginDataset) => dispatch(linkPluginDatasetActions.updateEntity(datasetId, linkPluginDataset)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(DatasetEditPluginContainer)

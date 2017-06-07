@@ -1,8 +1,8 @@
 import FindDatasetActions from './find/FindDatasetActions'
 
 import LinkPluginDatasetActions from './linkPluginDataset/LinkPluginDatasetActions'
-import LinkPluginDatasetReducer from './linkPluginDataset/LinkPluginDatasetReducer'
-import LinkPluginDatasetSelectors from './linkPluginDataset/LinkPluginDatasetSelectors'
+import getLinkPluginDatasetReducer from './linkPluginDataset/LinkPluginDatasetReducer'
+import getLinkPluginDatasetSelectors from './linkPluginDataset/LinkPluginDatasetSelectors'
 
 import SearchDataobjectsActions from './search/SearchDataobjectsActions'
 import SearchDatasetsActions from './search/SearchDatasetsActions'
@@ -18,8 +18,8 @@ export default {
   FindDatasetActions,
 
   LinkPluginDatasetActions,
-  LinkPluginDatasetReducer,
-  LinkPluginDatasetSelectors,
+  getLinkPluginDatasetReducer,
+  getLinkPluginDatasetSelectors,
 
   SearchDataobjectsActions,
   SearchDatasetsActions,

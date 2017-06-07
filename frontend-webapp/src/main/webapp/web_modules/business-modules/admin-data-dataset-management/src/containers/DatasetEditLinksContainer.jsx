@@ -62,7 +62,8 @@ export class DatasetEditLinksContainer extends React.Component {
 
   getDoneUrl = () => {
     const { params: { project, datasetId } } = this.props
-    return `/admin/${project}/data/dataset/${datasetId}/plugins`
+    const { currentDataset } = this.props
+    return `/admin/${project}/data/dataset/${currentDataset.content.ipId}/plugins`
   }
 
   /**

@@ -21,8 +21,8 @@ describe('[ADMIN DATASET MANAGEMENT] Testing DatasetEditUIServicesContainer', ()
   it('Render properly', () => {
     const fetchUIPluginConfigurationListSpy = spy()
     const fetchUIPluginDefinitionListSpy = spy()
-    const fetchDatasetSpy = spy()
-    const updateDatasetSpy = spy()
+    const fetchLinkUIPluginDatasetSpy = spy()
+    const updateLinkUIPluginDatasetSpy = spy()
 
     const props = {
       // from router
@@ -33,19 +33,20 @@ describe('[ADMIN DATASET MANAGEMENT] Testing DatasetEditUIServicesContainer', ()
       // from mapStateToProps
       uiPluginConfigurationList: DumpProvider.get('AccessProjectClient', 'UIPluginConfiguration'),
       uiPluginDefinitionList: DumpProvider.get('AccessProjectClient', 'UIPluginDefinition'),
-      currentDataset: DumpProvider.getFirstEntity('DataManagementClient', 'Dataset'),
+      linkUIPluginDataset: DumpProvider.getFirstEntity('AccessProjectClient', 'LinkUIPluginDataset'),
       // from mapDispatchToProps
       fetchUIPluginConfigurationList: fetchUIPluginConfigurationListSpy,
       fetchUIPluginDefinitionList: fetchUIPluginDefinitionListSpy,
-      fetchDataset: fetchDatasetSpy,
-      updateDataset: updateDatasetSpy,
+      fetchLinkUIPluginDataset: fetchLinkUIPluginDatasetSpy,
+      updateLinkUIPluginDataset: updateLinkUIPluginDatasetSpy,
     }
+
     const enzymeWrapper = shallow(<DatasetEditUIServicesContainer {...props} />, { context, lifecycleExperimental: true })
     expect(enzymeWrapper.find(LoadableContentDisplayDecorator)).to.have.length(1)
     assert.isTrue(enzymeWrapper.find(LoadableContentDisplayDecorator).props().isLoading, 'Loading should be true')
     assert.isTrue(fetchUIPluginConfigurationListSpy.calledOnce, 'Fetched on initial render')
     assert.isTrue(fetchUIPluginDefinitionListSpy.calledOnce, 'Fetched on initial render')
-    assert.isTrue(fetchDatasetSpy.calledOnce, 'Fetched on initial render')
-    assert.isTrue(updateDatasetSpy.notCalled, 'Not called yet')
+    assert.isTrue(fetchLinkUIPluginDatasetSpy.calledOnce, 'Fetched on initial render')
+    assert.isTrue(updateLinkUIPluginDatasetSpy.notCalled, 'Not called yet')
   })
 })

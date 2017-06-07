@@ -1,5 +1,6 @@
 import UIPluginConfigurationClientDump from '@regardsoss/client/tests/rs-access-project/UIPluginConfiguration.dump'
 import UIPluginDefinitionClientDump from '@regardsoss/client/tests/rs-access-project/UIPluginDefinition.dump'
+import LinkUIPluginDatasetDump from '@regardsoss/client/tests/rs-access-project/LinkUIPluginDataset.dump'
 import FragmentClientDump from '@regardsoss/client/tests/rs-dam/Fragment.dump'
 import AttributeModelDump from '@regardsoss/client/tests/rs-dam/AttributeModel.dump'
 import ModelDump from '@regardsoss/client/tests/rs-dam/Model.dump'
@@ -83,6 +84,10 @@ import {
 
   COLLECTION_ARRAY,
   CollectionConfiguration,
+
+  LINK_UI_PLUGIN_DATASET_ARRAY,
+  LinkUIPluginDatasetConfiguration,
+
 } from '@regardsoss/api'
 
 /**
@@ -105,6 +110,12 @@ export default {
       dump: UIPluginDefinitionClientDump,
       ENTITY_ARRAY: PLUGIN_ARRAY,
       normalizrKey: PluginConfiguration.normalizrKey,
+    },
+    LinkUIPluginDataset: {
+      isPageable: false,
+      dump: LinkUIPluginDatasetDump,
+      ENTITY_ARRAY: LINK_PLUGIN_DATASET_ARRAY,
+      normalizrKey: LinkPluginDatasetConfiguration.normalizrKey,
     },
   },
   AdminClient: {
@@ -233,6 +244,14 @@ export default {
       dump: CollectionDump,
       ENTITY_ARRAY: COLLECTION_ARRAY,
       normalizrKey: CollectionConfiguration.normalizrKey,
+    },
+  },
+  CatalogClient: {
+    LinkPluginDataset: {
+      isPageable: false,
+      dump: LinkPluginDatasetDump,
+      ENTITY_ARRAY: LINK_UI_PLUGIN_DATASET_ARRAY,
+      normalizrKey: LinkUIPluginDatasetConfiguration.normalizrKey,
     },
   },
 }

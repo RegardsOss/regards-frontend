@@ -21,6 +21,7 @@ import Plugin from './access/Plugin'
 import { PluginInfo } from './access/PluginInfo'
 import PluginDefinition from './access/PluginDefinition'
 import PluginConf, { FetchedUIPluginConf } from './access/PluginConf'
+import LinkUIPluginDataset from './access/LinkUIPluginDataset'
 import AccessProject from './access/Project'
 import Module from './access/Module'
 import Layout from './access/Layout'
@@ -52,6 +53,7 @@ import URL, { validURLRegexp, relativeURLRegexp } from './common/URL'
 import RangedNumber from './common/RangedNumber'
 import Percent from './common/Percent'
 import locationShape from './common/ReactRouter'
+
 
 export default {
   // ADMIN
@@ -104,6 +106,7 @@ export default {
   AttributeConfigurationController,
   AttributesRegroupementConfiguration,
   SearchResultsTargetsEnum,
+  LinkUIPluginDataset,
 
   // MICROSERVICE
   PluginMetaData,

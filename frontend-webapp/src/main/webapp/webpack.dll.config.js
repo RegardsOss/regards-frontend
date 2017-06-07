@@ -58,6 +58,10 @@ module.exports = {
         test: /\.(jpg|gif|png)$/,
         loader: 'file-loader?name=[name].[ext]&outputPath=./img/',
       },
+      {
+        test: /\.html/,
+        loader: 'file-loader?name=/html/[name].[ext]',
+      },
     ],
   },
   plugins: [
