@@ -13,7 +13,7 @@ import { pluginMetaDataReducer } from './clients/PluginMetaDataClient'
 import { linkPluginDatasetReducer } from './clients/LinkPluginDatasetClient'
 import { uiPluginConfigurationReducer } from './clients/UIPluginConfigurationClient'
 import { uiPluginDefinitionReducer } from './clients/UIPluginDefinitionClient'
-import { linkUIPluginDatasetReducer } from './clients/UIPluginDefinitionClient'
+import { linkUIPluginDatasetReducer } from './clients/LinkUIPluginDatasetClient'
 
 const datasetDataManagementReducer = combineReducers({
   collection: collectionReducer,
