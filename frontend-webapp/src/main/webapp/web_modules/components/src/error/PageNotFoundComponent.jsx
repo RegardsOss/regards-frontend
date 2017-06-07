@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import {themeContextType} from '@regardsoss/theme'
+import { themeContextType } from '@regardsoss/theme'
 import Icon from 'material-ui/svg-icons/content/report'
 
 /**
@@ -17,7 +17,6 @@ class PageNotFoundComponent extends React.Component {
   }
 
   render() {
-
     const iconStyle = { width: '128px', height: '128px', opacity: '0.2' }
     const theme = this.context.muiTheme
 

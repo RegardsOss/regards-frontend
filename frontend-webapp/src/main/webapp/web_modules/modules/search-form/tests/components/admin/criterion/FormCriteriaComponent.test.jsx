@@ -95,6 +95,7 @@ describe('[SEARCH FORM] Testing FormCriteriaComponent', () => {
     const props = {
       criteria: {
         id: 0,
+        active: true,
         label: 'criteria de test',
         pluginId: 0,
         container: 'main',

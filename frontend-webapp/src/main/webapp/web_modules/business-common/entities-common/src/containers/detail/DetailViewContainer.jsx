@@ -131,7 +131,7 @@ export class DetailViewContainer extends React.Component {
    * @return partial state change, to be applied in next state
    */
   onEntityChange = (dispatchFetchDescription, dispatchFetchModelAttributes, nextEntity) => {
-    const { content: { model: { id: modelId }, id: entityId, type: entityType, descriptionFile } } = nextEntity
+    const { content: { model: { id: modelId }, ipId: entityId, entityType, descriptionFile } } = nextEntity
     // fetch attributes
     dispatchFetchModelAttributes(modelId)
     // 2 - load description content if needed (for objects with a description where filetype is locally downloaded)
@@ -185,26 +185,26 @@ export class DetailViewContainer extends React.Component {
    * @param nextDatasetDesc next dataset description file (if any)
    * @return description state for this state, with URL or content depending on case
    */
-  resolveDescription = ({ content: { id, type, descriptionFile } }, nextCollectionDesc, nextDatasetDesc, accessToken) => {
+  resolveDescription = ({ content: { ipId, entityType, descriptionFile } }, nextCollectionDesc, nextDatasetDesc, accessToken) => {
     const nextDescription = { ...DetailViewContainer.DEFAULT_STATE.description }
     // Only collection and dataset can have description
-    if ([CatalogEntityTypes.COLLECTION, CatalogEntityTypes.DATASET].includes(type)) {
+    if ([CatalogEntityTypes.COLLECTION, CatalogEntityTypes.DATASET].includes(entityType)) {
       const { type: fileType, url } = (descriptionFile || {}) // initialize found file type and URL
       if (url) { // Case 1: description as external URL
         nextDescription.url = url
       } else if (fileType) { // Case 2: locally stored file
         if (DOWNLOAD_CONTENT_TYPES.includes(fileType)) {
           // Case 2a: locally downloaded file
-          if (type === CatalogEntityTypes.COLLECTION && nextCollectionDesc && nextCollectionDesc.entityId === id) {
+          if (entityType === CatalogEntityTypes.COLLECTION && nextCollectionDesc && nextCollectionDesc.entityId === ipId) {
             // a collection description
             nextDescription.localContent = nextCollectionDesc
-          } else if (type === CatalogEntityTypes.DATASET && nextDatasetDesc && nextDatasetDesc.entityId === id) {
+          } else if (entityType === CatalogEntityTypes.DATASET && nextDatasetDesc && nextDatasetDesc.entityId === ipId) {
             // a dataset description
             nextDescription.localContent = nextDatasetDesc
           }
         } else {
           // Case 2b: local file addressed as external URL
-          nextDescription.url = DataManagementClient.DownloadDescriptionDefinitions.getDirectDownloadURL(type, id, accessToken)
+          nextDescription.url = DataManagementClient.DownloadDescriptionDefinitions.getDirectDownloadURL(entityType, ipId, accessToken)
         }
       }
     }

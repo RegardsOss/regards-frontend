@@ -4,18 +4,6 @@
 import { Component, createElement } from 'react'
 import DoubleLabelToggle from './DoubleLabelToggle'
 
-export default createComponent(DoubleLabelToggle, ({
-  input: { onChange, value, ...inputProps },
-  defaultToggled,
-  meta,
-  ...props
-}) => ({
-  ...inputProps,
-  ...props,
-  onToggle: onChange,
-  toggled: !!value,
-}))
-
 /**
  * Creates a component class that renders the given Material UI component
  *
@@ -39,3 +27,15 @@ function createComponent(MaterialUIComponent, mapProps) {
   InputComponent.displayName = `ReduxFormMaterialUI${MaterialUIComponent.name}`
   return InputComponent
 }
+
+export default createComponent(DoubleLabelToggle, ({
+  input: { onChange, value, ...inputProps },
+  defaultToggled,
+  meta,
+  ...props
+}) => ({
+  ...inputProps,
+  ...props,
+  onToggle: onChange,
+  toggled: !!value,
+}))

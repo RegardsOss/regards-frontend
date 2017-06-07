@@ -5,12 +5,12 @@ import root from 'window-or-global'
 import has from 'lodash/has'
 import get from 'lodash/get'
 import startsWith from 'lodash/startsWith'
-import {Field, RenderTextField, ValidationHelpers} from '@regardsoss/form-utils'
-import {themeContextType} from '@regardsoss/theme'
+import { Field, RenderTextField, ValidationHelpers } from '@regardsoss/form-utils'
+import { themeContextType } from '@regardsoss/theme'
 import RaisedButton from 'material-ui/RaisedButton'
-import {i18nContextType} from '@regardsoss/i18n'
-import {LoadingComponent} from '@regardsoss/display-control'
-import {IFrameURLContentDisplayer} from '@regardsoss/components'
+import { i18nContextType } from '@regardsoss/i18n'
+import { LoadingComponent } from '@regardsoss/display-control'
+import { IFrameURLContentDisplayer } from '@regardsoss/components'
 import ModuleConfiguration from '../models/ModuleConfiguration'
 
 
@@ -57,16 +57,16 @@ class AdminContainer extends React.Component {
         return path
       } else if (startsWith(path, '/')) {
         return `http://${root.location.host}${path}`
-      } else {
-        return `http://${root.location.host}/${path}`
       }
+      return `http://${root.location.host}/${path}`
     }
+    return path
   }
 
   handleTest = (event, pPathToTest) => {
-    const pathToTest = pPathToTest ? pPathToTest : get(this.props.adminForm, 'form.conf.htmlPath')
+    const pathToTest = pPathToTest || get(this.props.adminForm, 'form.conf.htmlPath')
     if (pathToTest) {
-      this.setState({test: true, loading: true, lastHtmlPathTested: this.getFullPath(pathToTest)})
+      this.setState({ test: true, loading: true, lastHtmlPathTested: this.getFullPath(pathToTest) })
     }
   }
 
@@ -77,9 +77,10 @@ class AdminContainer extends React.Component {
   }
 
   render() {
-    const {moduleTheme} = this.context
+    const { moduleTheme } = this.context
 
     const currentPath = this.getFullPath(get(this.props.adminForm, 'form.conf.htmlPath'))
+    const fieldStyle = { marginBottom: 15 }
     return (
       <div>
         <Field
@@ -88,18 +89,16 @@ class AdminContainer extends React.Component {
           component={RenderTextField}
           type="text"
           validate={ValidationHelpers.string}
-          label={this.context.intl.formatMessage({id: 'homepage.admin.url'})}
-          style={{
-            marginBottom: 15
-          }}
+          label={this.context.intl.formatMessage({ id: 'homepage.admin.url' })}
+          style={fieldStyle}
         />
         <RaisedButton
-          label={this.context.intl.formatMessage({id: 'homepage.admin.test'})}
+          label={this.context.intl.formatMessage({ id: 'homepage.admin.test' })}
           primary
           disabled={this.state.loading || !currentPath || (this.state.lastHtmlPathTested === currentPath)}
           onTouchTap={this.handleTest}
         />
-        {this.state.loading ? <LoadingComponent style={moduleTheme.adminIframeLoading}/> : null}
+        {this.state.loading ? <LoadingComponent style={moduleTheme.adminIframeLoading} /> : null}
         {this.state.test ?
           <IFrameURLContentDisplayer
             style={moduleTheme.adminFrame}

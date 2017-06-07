@@ -23,7 +23,7 @@ describe('[Search Graph] Testing CollectionItemContainer', () => {
         content: {
           ipId: 'ip-1',
           label: 'any,',
-          type: 'COLLECTION',
+          entityType: 'COLLECTION',
           properties: {},
         },
       },

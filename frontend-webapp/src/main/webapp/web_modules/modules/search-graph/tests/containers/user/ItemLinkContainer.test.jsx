@@ -23,7 +23,7 @@ describe('[Search Graph] Testing ItemLinkContainer', () => {
       entity: {
         content: {
           ipId: 'lalala',
-          type: 'DATASET',
+          entityType: 'DATASET',
           label: 'Héssketumanteného',
         },
       },
@@ -51,7 +51,7 @@ describe('[Search Graph] Testing ItemLinkContainer', () => {
       entity: {
         content: {
           ipId: 'lalala',
-          type: 'DATASET',
+          entityType: 'DATASET',
           label: 'tant mieux',
         },
       },
@@ -93,7 +93,7 @@ describe('[Search Graph] Testing ItemLinkContainer', () => {
       entity: {
         content: {
           ipId: 'lalala',
-          type: 'DATASET',
+          entityType: 'DATASET',
           label: 'tant mieux',
         },
       },
@@ -135,7 +135,7 @@ describe('[Search Graph] Testing ItemLinkContainer', () => {
       entity: {
         content: {
           ipId: 'lalala',
-          type: 'DATASET',
+          entityType: 'DATASET',
           label: 'tant mieux',
         },
       },
@@ -173,7 +173,7 @@ describe('[Search Graph] Testing ItemLinkContainer', () => {
       entity: {
         content: {
           ipId: 'lalala',
-          type: 'DATASET',
+          entityType: 'DATASET',
           label: 'tant mieux',
         },
       },

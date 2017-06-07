@@ -324,7 +324,7 @@ class ListViewEntityCellComponent extends React.Component {
     const attributes = this.displayEntityAttributes()
     const thumbmail = this.displayThumbmail()
 
-    const cardStyles = Object.assign({},this.state.style,{height: this.props.lineHeight})
+    const cardStyles = Object.assign({}, this.state.style, { height: this.props.lineHeight })
 
     return (
       <Card

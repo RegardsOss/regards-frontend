@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import concat from 'lodash/concat'
-import forEach from 'lodash/forEach'
+import map from 'lodash/map'
 import isEqual from 'lodash/isEqual'
 import keys from 'lodash/keys'
 import values from 'lodash/values'
@@ -253,14 +253,11 @@ class TableContainer extends React.Component {
     }
 
     // compute dynamic columns
-    const computedColumns = []
     if (entities && entities.length) {
       const entity = this.state.entities[0]
-      forEach(entity.content, (attr, key) => {
-        computedColumns.push({ attributes: [key], label: key })
-      })
+      return map(entity.content, (attr, key) => ({ attributes: [key], label: key }))
     }
-    return computedColumns
+    return []
   }
 
   /**

@@ -24,7 +24,7 @@ describe('[Search Graph] Testing DatasetItem', () => {
         content: {
           ipId: 'ip-1',
           label: 'any,',
-          type: 'DATASET',
+          entityType: 'DATASET',
           properties: {},
         },
       },

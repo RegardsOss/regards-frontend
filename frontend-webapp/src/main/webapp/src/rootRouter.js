@@ -15,12 +15,12 @@ const rootRouter = {
       const UserPckg = require('@regardsoss/user')
       const notFoundRoutes = {
         path: '*',
-        getComponent(nextState, cb) {
+        getComponent(otherNextState, ocb) {
           const comp = require('@regardsoss/components')
-          require.ensure([], (require) => {
-            cb(null, comp.PageNotFoundComponent)
+          require.ensure([], (orequire) => {
+            ocb(null, comp.PageNotFoundComponent)
           })
-        }
+        },
       }
       cb(null, [AdminPckg.adminRouter, UserPckg.userRouter, notFoundRoutes])
     })

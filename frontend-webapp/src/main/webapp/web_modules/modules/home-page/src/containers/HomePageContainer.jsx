@@ -53,22 +53,22 @@ class HomePageContainer extends React.Component {
     this.onClose()
   }
 
-  isHomePageHiddenCached = () => !!JSON.parse(root.localStorage.getItem(`${this.props.project}HomePageHidden`))
-
-  forceOpen = () => {
-    this.setState({ dialogOpen: true })
-  }
-
   getFullPath = (path) => {
     if (path) {
       if (startsWith(path, 'http') || startsWith(path, 'wwww')) {
         return path
       } else if (startsWith(path, '/')) {
         return `http://${root.location.host}${path}`
-      } else {
-        return `http://${root.location.host}/${path}`
       }
+      return `http://${root.location.host}/${path}`
     }
+    return path
+  }
+
+  isHomePageHiddenCached = () => !!JSON.parse(root.localStorage.getItem(`${this.props.project}HomePageHidden`))
+
+  forceOpen = () => {
+    this.setState({ dialogOpen: true })
   }
 
   renderActionButtons = () => {

@@ -54,9 +54,8 @@ describe('[Entities Common] Testing DetailViewContainer', () => {
       dispatchFetchModelAttributes: () => { fetchCount.attributes += 1 },
       entity: {
         content: {
-          id: 0,
-          type: CatalogEntityTypes.COLLECTION,
-          ipId: 'Bonjourlespetitsenfants',
+          entityType: CatalogEntityTypes.COLLECTION,
+          ipId: 'URN:AIP:COLLECTION:0',
           label: 'ça',
           model: { id: 0 },
           descriptionFile: { type: 'text/markdown' },
@@ -76,9 +75,8 @@ describe('[Entities Common] Testing DetailViewContainer', () => {
       ...props,
       entity: {
         content: {
-          id: 1,
-          type: CatalogEntityTypes.DATASET,
-          ipId: 'Bonjourlespetitsenfants',
+          entityType: CatalogEntityTypes.DATASET,
+          ipId: 'URN:AIP:DATASET:0',
           label: 'ça',
           model: { id: 1 },
           descriptionFile: { type: 'text/markdown' },
@@ -104,9 +102,8 @@ describe('[Entities Common] Testing DetailViewContainer', () => {
       dispatchFetchModelAttributes: () => { fetchCount.attributes += 1 },
       entity: {
         content: {
-          id: 0,
-          type: 'DATAOBJECT',
-          ipId: 'Bonjourlespetitsenfants',
+          entityType: 'DATA',
+          ipId: 'URN:AIP:DATA:0',
           label: 'ça',
           model: { id: 0 },
           descriptionFile: { type: 'text/markdown' },
@@ -134,9 +131,8 @@ describe('[Entities Common] Testing DetailViewContainer', () => {
       dispatchFetchModelAttributes: () => { fetchCount.attributes += 1 },
       entity: {
         content: {
-          id: 0,
-          type: CatalogEntityTypes.COLLECTION,
-          ipId: 'Bonjourlespetitsenfants',
+          entityType: CatalogEntityTypes.COLLECTION,
+          ipId: 'URN:AIP:COLLECTION:0',
           label: 'ça',
           model: { id: 0 },
           descriptionFile: {
@@ -159,9 +155,8 @@ describe('[Entities Common] Testing DetailViewContainer', () => {
       ...props,
       entity: {
         content: {
-          id: 1,
-          type: CatalogEntityTypes.DATASET,
-          ipId: 'Bonjourlespetitsenfants',
+          entityType: CatalogEntityTypes.DATASET,
+          ipId: 'URN:AIP:DATASET:0',
           label: 'ça',
           model: { id: 1 },
           descriptionFile: {
@@ -185,15 +180,17 @@ describe('[Entities Common] Testing DetailViewContainer', () => {
       attributes: 0,
       description: 0,
     }
+
+    const ipId = 'URN:AIP:COLLECTION:0'
+
     const props = {
       ...defaultProps,
       dispatchFetchDescription: () => { fetchCount.description += 1 },
       dispatchFetchModelAttributes: () => { fetchCount.attributes += 1 },
       entity: {
         content: {
-          id: 0,
-          type: CatalogEntityTypes.COLLECTION,
-          ipId: 'Bonjourlespetitsenfants',
+          entityType: CatalogEntityTypes.COLLECTION,
+          ipId,
           label: 'ça',
           model: { id: 0 },
           descriptionFile: { type: 'jenexistepas/onnemevoitpas' },
@@ -207,16 +204,16 @@ describe('[Entities Common] Testing DetailViewContainer', () => {
 
     let componentWrapper = containerWrapper.find(DetailViewComponent)
     assert.equal(componentWrapper.length, 1, 'The corresponding component should be rendered for collection entity')
-    assert.equal(componentWrapper.props().descriptionFileURL, DataManagementClient.DownloadDescriptionDefinitions.getDirectDownloadURL(CatalogEntityTypes.COLLECTION, 0), 'The file should use the internal description download URL')
+    assert.equal(componentWrapper.props().descriptionFileURL, DataManagementClient.DownloadDescriptionDefinitions.getDirectDownloadURL(CatalogEntityTypes.COLLECTION, ipId), 'The file should use the internal description download URL')
     assert.isNull(componentWrapper.props().descriptionFile, 'The file should not use an internal content description!')
 
+    const datasetIpId = 'URN:AIP:DATASET:0'
     const props2 = {
       ...props,
       entity: {
         content: {
-          id: 1,
-          type: CatalogEntityTypes.DATASET,
-          ipId: 'Bonjourlespetitsenfants',
+          entityType: CatalogEntityTypes.DATASET,
+          ipId: datasetIpId,
           label: 'ça',
           model: { id: 1 },
           descriptionFile: { type: 'jenexistepas/onnemevoitpas' },
@@ -229,7 +226,7 @@ describe('[Entities Common] Testing DetailViewContainer', () => {
     assert.equal(fetchCount.description, 0, 'Description should not be fetched for datatypes not locally handled')
     componentWrapper = containerWrapper.find(DetailViewComponent)
     assert.equal(componentWrapper.length, 1, 'The corresponding component should be rendered for dataset entity')
-    assert.equal(componentWrapper.props().descriptionFileURL, DataManagementClient.DownloadDescriptionDefinitions.getDirectDownloadURL(CatalogEntityTypes.DATASET, 1), 'The file should use the internal description download URL')
+    assert.equal(componentWrapper.props().descriptionFileURL, DataManagementClient.DownloadDescriptionDefinitions.getDirectDownloadURL(CatalogEntityTypes.DATASET, datasetIpId), 'The file should use the internal description download URL')
     assert.isNull(componentWrapper.props().descriptionFile, 'The file should not use an internal content description!')
   })
 
@@ -238,9 +235,8 @@ describe('[Entities Common] Testing DetailViewContainer', () => {
       ...defaultProps,
       entity: {
         content: {
-          id: 1,
-          type: CatalogEntityTypes.DATASET,
-          ipId: 'Bonjourlespetitsenfants',
+          entityType: CatalogEntityTypes.DATASET,
+          ipId: 'URN:AIP:DATASET:0',
           label: 'ça',
           model: { id: 1 },
           descriptionFile: { type: 'jenexistepas/onnemevoitpas' },
@@ -289,9 +285,8 @@ describe('[Entities Common] Testing DetailViewContainer', () => {
       ...props,
       entity: {
         content: {
-          id: 1,
-          type: CatalogEntityTypes.DATASET,
-          ipId: 'Bonjourlespetitsenfants',
+          entityType: CatalogEntityTypes.DATASET,
+          ipId: 'URN:AIP:DATASET:0',
           label: 'ça',
           model: { id: 1 },
           descriptionFile: { type: 'jenexistepas/onnemevoitpas' },
@@ -317,13 +312,15 @@ describe('[Entities Common] Testing DetailViewContainer', () => {
   })
 
   it('should use the last download description ONLY when it matches entity', () => {
+    const datasetIpId = 'URN:AIP:DATASET:0'
+    const collectionIpId = 'URN:AIP:COLLECTION:0'
+
     const props = {
       ...defaultProps,
       entity: {
         content: {
-          id: 0,
-          type: CatalogEntityTypes.COLLECTION,
-          ipId: 'Bonjourlespetitsenfants',
+          entityType: CatalogEntityTypes.COLLECTION,
+          ipId: datasetIpId,
           label: 'ça',
           model: { id: 1 },
           descriptionFile: { type: 'text/markdown' },
@@ -333,12 +330,12 @@ describe('[Entities Common] Testing DetailViewContainer', () => {
         },
       },
       fetchedDatasetDescriptionResult: {
-        entityId: 101,
+        entityId: datasetIpId,
         contentType: DataManagementClient.DownloadDescriptionDefinitions.MARKDOWN_MIMETYPE,
         content: '#Hello collection!',
       },
       fetchedCollectionDescriptionResult: {
-        entityId: 0,
+        entityId: datasetIpId,
         contentType: DataManagementClient.DownloadDescriptionDefinitions.MARKDOWN_MIMETYPE,
         content: '#Hello collection!',
       },
@@ -354,9 +351,8 @@ describe('[Entities Common] Testing DetailViewContainer', () => {
       ...props,
       entity: {
         content: {
-          id: 101,
-          type: CatalogEntityTypes.DATASET,
-          ipId: 'Bonjourlespetitsenfants',
+          entityType: CatalogEntityTypes.DATASET,
+          ipId: datasetIpId,
           label: 'ça',
           model: { id: 1 },
           descriptionFile: { type: 'text/markdown' },
@@ -375,9 +371,8 @@ describe('[Entities Common] Testing DetailViewContainer', () => {
       ...props,
       entity: {
         content: {
-          id: 104,
-          type: CatalogEntityTypes.COLLECTION,
-          ipId: 'Bonjourlespetitsenfants',
+          entityType: CatalogEntityTypes.COLLECTION,
+          ipId: collectionIpId,
           label: 'ça',
           model: { id: 1 },
           descriptionFile: { type: 'text/markdown' },

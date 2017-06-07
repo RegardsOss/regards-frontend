@@ -67,7 +67,7 @@ export class AccessGroupFormComponent extends React.Component {
   render() {
     const { submitting, invalid, backUrl } = this.props
     const title = this.getTitle()
-    const nameFieldValidations = [ValidationHelpers.required,ValidationHelpers.string, ValidationHelpers.validAlphaNumericUnderscore]
+    const nameFieldValidations = [ValidationHelpers.required, ValidationHelpers.string, ValidationHelpers.validAlphaNumericUnderscore]
     return (
       <form
         onSubmit={this.props.handleSubmit(this.props.onSubmit)}

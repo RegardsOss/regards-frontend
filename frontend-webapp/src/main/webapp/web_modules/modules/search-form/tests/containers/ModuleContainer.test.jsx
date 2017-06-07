@@ -26,6 +26,7 @@ describe('[SEARCH FORM] Testing User Container', () => {
       {
         id: 1,
         label: 'string-criterion',
+        active: true,
         pluginId: 1,
         container: 'content',
         conf: {
@@ -38,6 +39,7 @@ describe('[SEARCH FORM] Testing User Container', () => {
       {
         id: 2,
         label: 'test-criterion',
+        active: true,
         pluginId: 1,
         container: 'content',
         conf: {
@@ -61,7 +63,7 @@ describe('[SEARCH FORM] Testing User Container', () => {
         },
         criterion,
         datasets: {
-          type: DATASET_TYPE,
+          entityType: DATASET_TYPE,
           selectedDatasets: [],
           selectedModels: [],
         },

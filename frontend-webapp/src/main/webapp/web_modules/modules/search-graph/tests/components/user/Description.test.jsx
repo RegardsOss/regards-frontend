@@ -22,7 +22,7 @@ describe('[Search Graph] Testing Description', () => {
   it('should render correctly, propagating properties to children', () => {
     const props = {
       isDescriptionVisible: true,
-      entity: { content: { ipId: 'kikou', type: 'DATASET', label: 'Youpi' } },
+      entity: { content: { ipId: 'kikou', entityType: 'DATASET', label: 'Youpi' } },
       onCloseDescription: () => { },
       downloadDescriptionClient,
       fetchModelAttributesActions: ModelAttributesActions,

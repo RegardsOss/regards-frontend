@@ -23,9 +23,9 @@ describe('[Search Results] Testing ListViewEntityCellComponent', () => {
         content: {
           id: 1,
           ipId: 'coucou',
-          sipId: 1,
+          sipId: '1',
           label: 'O.D.I.L',
-          type: CatalogEntityTypes.DATASET,
+          entityType: CatalogEntityTypes.DATASET,
           files: [],
           geometry: null,
           properties: {},

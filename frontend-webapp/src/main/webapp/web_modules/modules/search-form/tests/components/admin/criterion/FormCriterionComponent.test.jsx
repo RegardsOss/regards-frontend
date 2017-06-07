@@ -77,12 +77,14 @@ describe('[SEARCH FORM] Testing formCriterionComponent', () => {
       defaultCriterion: [],
       criterion: [{
         id: 0,
+        active: true,
         label: 'criterion',
         pluginId: 0,
         container: 'content',
         conf: {},
       }, {
         id: 1,
+        active: true,
         label: 'criterion_1',
         pluginId: 1,
         container: 'content',

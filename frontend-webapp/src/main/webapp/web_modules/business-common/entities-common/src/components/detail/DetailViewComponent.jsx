@@ -31,7 +31,7 @@ class DetailViewComponent extends React.Component {
     onSearchTag: PropTypes.func,
     descriptionFileURL: PropTypes.string,
     descriptionFile: PropTypes.shape({
-      entityId: PropTypes.number.isRequired,
+      entityId: PropTypes.string.isRequired,
       contentType: PropTypes.string.isRequired,
       content: PropTypes.string.isRequired,
     }),

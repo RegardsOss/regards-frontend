@@ -10,13 +10,13 @@ import IconMenu from 'material-ui/IconMenu'
 import MenuItem from 'material-ui/MenuItem'
 import Paper from 'material-ui/Paper'
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
-import {Toolbar, ToolbarGroup, ToolbarTitle} from 'material-ui/Toolbar'
-import {LazyModuleComponent, ModuleShape} from '@regardsoss/modules'
-import {PluginConf} from '@regardsoss/model'
-import {PluginProvider} from '@regardsoss/plugins'
+import { Toolbar, ToolbarGroup, ToolbarTitle } from 'material-ui/Toolbar'
+import { LazyModuleComponent, ModuleShape } from '@regardsoss/modules'
+import { PluginConf } from '@regardsoss/model'
+import { PluginProvider } from '@regardsoss/plugins'
 import ContainerShape from '../model/ContainerShape'
 import ContainerHelper from '../ContainerHelper'
-import {DELETE_ACTION, ADD_ACTION, EDIT_ACTION} from './LayoutConfigurationComponent'
+import { DELETE_ACTION, ADD_ACTION, EDIT_ACTION } from './LayoutConfigurationComponent'
 
 /**
  * Component to display a container into an application layout.
@@ -124,7 +124,7 @@ class Container extends React.Component {
               pluginProps={this.props.pluginProps}
               displayPlugin
             />
-          </Paper>)
+          </Paper>),
         ))(this.props.plugins)
     }
     return []
@@ -143,24 +143,24 @@ class Container extends React.Component {
       horizontal: 'left',
       vertical: 'top',
     }
-    const toolbarStyle = {height: 40}
+    const toolbarStyle = { height: 40 }
     if (this.props.configurationMode) {
       let deleteAction = null
       if (this.props.mainContainer === false) {
         deleteAction = (<MenuItem
-            key="delete"
-            onTouchTap={() => {
-              this.props.onContainerClick(DELETE_ACTION, this.props.container)
-            }}
-            primaryText="Delete section"
-          />
+          key="delete"
+          onTouchTap={() => {
+            this.props.onContainerClick(DELETE_ACTION, this.props.container)
+          }}
+          primaryText="Delete section"
+        />
         )
       }
       return (
         <div className="row">
           <Toolbar style={toolbarStyle}>
             <ToolbarGroup key="name">
-              <ToolbarTitle text={this.props.container.id}/>
+              <ToolbarTitle text={this.props.container.id} />
             </ToolbarGroup>
             <ToolbarGroup key="actions">
               <IconMenu

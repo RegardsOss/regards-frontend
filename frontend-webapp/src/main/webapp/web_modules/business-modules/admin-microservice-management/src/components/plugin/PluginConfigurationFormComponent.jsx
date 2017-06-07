@@ -3,7 +3,6 @@
  **/
 import forEach from 'lodash/forEach'
 import cloneDeep from 'lodash/cloneDeep'
-import { FormattedMessage } from 'react-intl'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent } from '@regardsoss/components'
 import { RenderTextField, RenderDoubleLabelToggle, Field, ValidationHelpers, reduxForm } from '@regardsoss/form-utils'

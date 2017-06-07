@@ -145,7 +145,7 @@ describe('[Search Graph] Testing GraphLevelDisplayer', () => {
           content: {
             ipId: 'ip-1',
             label: 'any,',
-            type: 'COLLECTION',
+            entityType: 'COLLECTION',
             properties: {},
           },
         },
@@ -167,7 +167,7 @@ describe('[Search Graph] Testing GraphLevelDisplayer', () => {
             content: {
               ipId: 'ip-1',
               label: 'any,',
-              type: 'COLLECTION',
+              entityType: 'COLLECTION',
               properties: {},
             },
           },
@@ -180,7 +180,7 @@ describe('[Search Graph] Testing GraphLevelDisplayer', () => {
             content: {
               ipId: 'ip-2',
               label: 'any,',
-              type: 'DATASET',
+              entityType: 'DATASET',
               properties: {},
             },
           },

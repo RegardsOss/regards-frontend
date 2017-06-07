@@ -21,7 +21,6 @@ class IFrameURLContentDisplayer extends React.Component {
     const styles = this.props.style ? this.props.style : { height: '100%', width: '100%', position: 'absolute' }
     return (
       <iframe
-        ref="iframe"
         title="content-displayer"
         style={styles}
         src={contentURL}
