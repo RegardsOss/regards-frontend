@@ -11,7 +11,7 @@ const messages = Object.assign({
   'fragment.list.action.edit': 'Editer',
   'fragment.list.action.delete': 'Supprimer',
   'fragment.list.action.export': 'Exporter',
-  'fragment.list.delete.title': 'Supprimer le regrouppement d\'attribut {name} ?',
+  'fragment.list.delete.title': 'Supprimer le regroupement d\'attribut {name} ?',
 
   'fragment.edit.title': 'Editer le fragment {name}',
   'fragment.create.title': 'Créer un fragment',

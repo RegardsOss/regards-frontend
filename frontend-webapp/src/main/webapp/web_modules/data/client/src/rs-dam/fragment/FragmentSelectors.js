@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { BasicListSelectors } from '@regardsoss/store-utils'
-import filter from 'lodash/filter'
+import pickBy from 'lodash/pickBy'
 /**
  * Store selector to access fragment entities.
  *
@@ -23,7 +23,7 @@ class FragmentSelectors extends BasicListSelectors {
   noneFragmentName = 'default'
 
   getListWithoutNoneFragment(state) {
-    return filter(this.getList(state), fragment => (
+    return pickBy(this.getList(state), fragment => (
       fragment.content.name !== this.noneFragmentName
     ))
   }
