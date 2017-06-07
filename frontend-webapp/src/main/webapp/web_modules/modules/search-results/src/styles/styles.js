@@ -48,7 +48,7 @@ const formStyles = theme => ({
     },
     listViewStyles: {
       cell: {
-        backgroundColor: theme.tableRow.stripeColor,
+        backgroundColor: theme.palette.canvasColor,
       },
       line: {
         marginTop: 10,
@@ -63,13 +63,14 @@ const formStyles = theme => ({
         width: '100%',
         margin: 'auto',
         cursor: 'auto',
-        backgroundColor: theme.palette.primary3Color,
+        backgroundColor: theme.tableRow.hoverColor,
       },
       lineOut: {
         height: '100%',
         width: '100%',
         margin: 'auto',
         cursor: 'auto',
+        backgroundColor: theme.tableRow.stripeColor,
       },
       thumbmail: {
         display: 'inline-block',
