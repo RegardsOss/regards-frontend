@@ -13,8 +13,7 @@ This module is used to display a configured license page as an iframe and ask fo
  |   ├── clients         : Define all backend clients needed to request/send information  
  |   ├── components      : React component to display panels  
  |   ├── containers      : React-Redux logic to handle module functions  
- |   ├── i18n            : Messages and labels internationalization  
- |   ├── i18n            : Messages and labels internationalization  
+ |   ├── i18n            : Messages and labels internationalization    
  |   ├── styles          : Panels styles (inline css objects)  
  |   ├── main.js         : Module exported index  
  |   ├── reducer.js      : Redux reducers  

@@ -17,7 +17,6 @@ export default {
       // background: "url('/img/background.jpg') top right no-repeat",
       backgroundAttachment: 'fixed',
       backgroundSize: 'cover',
-      paddingTop: '10px',
       paddingRight: '1px', // Quick fix for bootstrap grid .row
     },
   },
@@ -28,7 +27,7 @@ export default {
   RowContainer: {
     classes: ['row'],
     styles: {
-      margin: '0px 10px 10px 10px',
+      margin: 0,
     },
   },
 
