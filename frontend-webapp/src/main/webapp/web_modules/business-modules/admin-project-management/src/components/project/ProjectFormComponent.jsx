@@ -22,6 +22,7 @@ export class ProjectFormComponent extends React.Component {
     backUrl: PropTypes.string.isRequired,
     // from reduxForm
     submitting: PropTypes.bool,
+    invalid: PropTypes.bool,
     pristine: PropTypes.bool,
     handleSubmit: PropTypes.func.isRequired,
     initialize: PropTypes.func.isRequired,
@@ -63,7 +64,7 @@ export class ProjectFormComponent extends React.Component {
   }
 
   render() {
-    const { currentProject, pristine, submitting } = this.props
+    const { currentProject, pristine, submitting, invalid } = this.props
     const title = this.state.isCreating ?
       this.context.intl.formatMessage({ id: 'project.create.title' }) :
       this.context.intl.formatMessage({ id: 'project.edit.title' }, { name: currentProject.content.name })
@@ -145,7 +146,7 @@ export class ProjectFormComponent extends React.Component {
             <CardActionsComponent
               mainButtonLabel={this.context.intl.formatMessage({ id: 'project.form.action.submit' })}
               mainButtonType="submit"
-              isMainButtonDisabled={pristine || submitting}
+              isMainButtonDisabled={pristine || submitting || invalid}
               secondaryButtonLabel={this.context.intl.formatMessage({ id: 'project.form.action.cancel' })}
               secondaryButtonUrl={this.props.backUrl}
             />
