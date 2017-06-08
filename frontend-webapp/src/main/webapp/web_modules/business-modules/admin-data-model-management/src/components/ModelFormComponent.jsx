@@ -1,7 +1,7 @@
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
-import { RenderTextField, RenderFileField, Field, RenderSelectField, reduxForm } from '@regardsoss/form-utils'
+import { RenderTextField, RenderFileField, Field, RenderSelectField, reduxForm, ValidationHelpers, ErrorTypes } from '@regardsoss/form-utils'
 import { Model } from '@regardsoss/model'
 import MenuItem from 'material-ui/MenuItem'
 import { themeContextType } from '@regardsoss/theme'
@@ -127,8 +127,8 @@ export class ProjectFormComponent extends React.Component {
 function validate(values) {
   const errors = {}
   if (values.name) {
-    if (!/^[a-zA-Z0-9]+$/i.test(values.name)) {
-      errors.name = 'invalid.only_alphanumeric'
+    if (!ValidationHelpers.isValidAlphaNumericUnderscore(values.name)) {
+      errors.name = ErrorTypes.ALPHA_NUMERIC
     }
     if (values.name.length < 3) {
       errors.name = 'invalid.too_short'

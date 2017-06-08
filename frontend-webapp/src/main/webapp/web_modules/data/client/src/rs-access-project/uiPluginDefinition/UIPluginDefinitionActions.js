@@ -18,7 +18,7 @@ import { BasicPageableActions } from '@regardsoss/store-utils'
  *
  * @author Léo Mieulet
  */
-class UIPluginDefinitionActions extends BasicPageableActions {
+export default class UIPluginDefinitionActions extends BasicPageableActions {
 
   /**
    * Construtor
@@ -36,5 +36,3 @@ class UIPluginDefinitionActions extends BasicPageableActions {
     })
   }
 }
-
-export default namespace => new UIPluginDefinitionActions(namespace)

@@ -82,7 +82,7 @@ export class CollectionFormContainer extends React.Component {
 
   handleUpdate = (values) => {
     const model = this.props.modelList[values.model].content
-    const attributes = this.extractAttributesFromValues(values)
+    const properties = this.extractParametersFromValues(values)
     const descriptionFileType = values.descriptionFileContent && (values.descriptionFileContent.type || 'text/markdown')
     const updatedCollection = Object.assign({}, {
       id: this.props.currentCollection.content.id,
@@ -92,7 +92,7 @@ export class CollectionFormContainer extends React.Component {
       label: values.label,
       descriptionUrl: values.descriptionUrl,
       model,
-      attributes,
+      properties,
     })
     const files = {}
     if (values.descriptionFileContent) {
@@ -113,13 +113,13 @@ export class CollectionFormContainer extends React.Component {
 
   /**
    * Retrieve model attributes values from form values
-   * and returns the value of collection "attributes" sendeable to the API
+   * and returns the value of collection "parameters" sendeable to the API
    * @param values
    * @returns {{}}
    */
-  extractAttributesFromValues = (values) => {
+  extractParametersFromValues = (values) => {
     const result = {}
-    forEach(values.attributes, (attrValue, attrName) => {
+    forEach(values.parameters, (attrValue, attrName) => {
       const modelAttr = find(this.props.modelAttributeList, modelAttribute => modelAttribute.content.attribute.name === attrName)
       const fragment = modelAttr.content.attribute.fragment
       if (fragment.name !== fragmentSelectors.noneFragmentName) {
@@ -143,7 +143,7 @@ export class CollectionFormContainer extends React.Component {
    */
   handleCreate = (values) => {
     const model = this.props.modelList[values.model].content
-    const properties = this.extractAttributesFromValues(values)
+    const properties = this.extractParametersFromValues(values)
     const defaultValues = {}
     if (this.state.isDuplicating) {
       defaultValues.tags = this.props.currentCollection.content.tags
@@ -183,7 +183,7 @@ export class CollectionFormContainer extends React.Component {
   handleUpdateModel = (modelId) => {
     // Remove any value defined in the current form if modelAttributeList existed
     forEach(this.props.modelAttributeList, (modelAttribute) => {
-      this.props.unregisterField('collection-form', `attributes.${modelAttribute.content.attribute.name}`)
+      this.props.unregisterField('collection-form', `parameters.${modelAttribute.content.attribute.name}`)
     })
     this.props.fetchModelAttributeList(modelId)
   }

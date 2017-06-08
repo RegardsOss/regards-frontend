@@ -18,15 +18,18 @@ describe('[ADMIN DATASET MANAGEMENT] Testing DatasetEditUIServicesComponent', ()
     assert.isDefined(DatasetEditUIServicesComponent)
     assert.isDefined(ListItem)
   })
+
+
   it('Render properly', () => {
     const handleSubmitSpy = spy()
     const props = {
       backUrl: '#',
       uiPluginConfigurationList: DumpProvider.get('AccessProjectClient', 'UIPluginConfiguration'),
       uiPluginDefinitionList: DumpProvider.get('AccessProjectClient', 'UIPluginDefinition'),
-      currentDataset: DumpProvider.getFirstEntity('DataManagementClient', 'Dataset'),
+      linkUIPluginDataset: DumpProvider.getFirstEntity('AccessProjectClient', 'LinkUIPluginDataset'),
       handleSubmit: handleSubmitSpy,
     }
+
     const enzymeWrapper = shallow(<DatasetEditUIServicesComponent {...props} />, { context })
     expect(enzymeWrapper.find(ListItem)).to.have.length(6)
     assert.isTrue(handleSubmitSpy.notCalled, 'Not called yet')

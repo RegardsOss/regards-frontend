@@ -17,6 +17,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import MenuItem from 'material-ui/MenuItem'
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
 import CollectionStepperComponent from './CollectionStepperComponent'
+import { fragmentSelectors } from '../clients/FragmentClient'
 
 const DESCRIPTION_MODE = {
   NOTHING: 'nothing',
@@ -104,6 +105,13 @@ export class CollectionFormComponent extends React.Component {
     }
   }
 
+  getAttributeName = (attribute) => {
+    if (attribute.fragment.name === fragmentSelectors.noneFragmentName) {
+      return `${attribute.name}`
+    }
+    return `${attribute.fragment.name} ${attribute.name}`
+  }
+
   getTitle = () => {
     let title
     if (this.state.isCreating) {
@@ -122,23 +130,23 @@ export class CollectionFormComponent extends React.Component {
   handleInitialize = () => {
     if (!this.state.isCreating) {
       const { currentCollection } = this.props
-      const attributes = {}
-      forEach(currentCollection.content.attributes, (attributeValueOrFragment, key) => {
+      const parameters = {}
+      forEach(currentCollection.content.properties, (attributeValueOrFragment, key) => {
         if (isObject(attributeValueOrFragment)) {
           // It's a fragment
-          forEach(attributeValueOrFragment, (attribute, id) => {
-            attributes[id] = attribute
+          forEach(attributeValueOrFragment, (attribute, fragmentName) => {
+            parameters[fragmentName] = attribute
           })
         } else {
           // This is an attribute
-          attributes[key] = attributeValueOrFragment
+          parameters[key] = attributeValueOrFragment
         }
       })
       const initialValues = {
         label: currentCollection.content.label,
         model: currentCollection.content.model.id,
         descriptionUrl: currentCollection.content.descriptionUrl,
-        attributes,
+        parameters,
       }
       this.props.initialize(initialValues)
     }
@@ -256,8 +264,8 @@ export class CollectionFormComponent extends React.Component {
                   displaySelectAll={false}
                 >
                   <TableRow>
-                    <TableHeaderColumn><FormattedMessage id="collection.form.table.fragment" /></TableHeaderColumn>
-                    <TableHeaderColumn><FormattedMessage id="collection.form.table.label" /></TableHeaderColumn>
+                    <TableHeaderColumn><FormattedMessage id="collection.form.table.fragmentAndLabel" /></TableHeaderColumn>
+                    <TableHeaderColumn><FormattedMessage id="collection.form.table.type" /></TableHeaderColumn>
                     <TableHeaderColumn><FormattedMessage id="collection.form.table.value" /></TableHeaderColumn>
                   </TableRow>
                 </TableHeader>
@@ -268,12 +276,12 @@ export class CollectionFormComponent extends React.Component {
                 >
                   {map(modelAttributeList, (modelAttribute, id) => (
                     <TableRow key={id}>
-                      <TableRowColumn>{modelAttribute.content.attribute.fragment.name}</TableRowColumn>
-                      <TableRowColumn>{modelAttribute.content.attribute.name}</TableRowColumn>
+                      <TableRowColumn>{this.getAttributeName(modelAttribute.content.attribute)}</TableRowColumn>
+                      <TableRowColumn>{modelAttribute.content.attribute.type}</TableRowColumn>
                       <TableRowColumn>
                         <ShowableAtRender show={modelAttribute.content.mode === 'GIVEN'}>
                           <Field
-                            name={`attributes.${modelAttribute.content.attribute.name}`}
+                            name={`parameters.${modelAttribute.content.attribute.name}`}
                             fullWidth
                             component={RenderTextField}
                             type="text"

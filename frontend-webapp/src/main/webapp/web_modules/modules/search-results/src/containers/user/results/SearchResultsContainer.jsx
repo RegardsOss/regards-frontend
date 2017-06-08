@@ -14,7 +14,7 @@ import {
   AttributeConfigurationController,
   SearchResultsTargetsEnum,
 } from '@regardsoss/model'
-import { TableSelectionModes } from '@regardsoss/components'
+import { TableSelectionModes, TableSortOrders } from '@regardsoss/components'
 import TableClient from '../../../clients/TableClient'
 import NavigationLevel from '../../../models/navigation/NavigationLevel'
 import navigationContextActions from '../../../models/navigation/NavigationContextActions'
@@ -49,12 +49,6 @@ export class SearchResultsContainer extends React.Component {
     dispatchTagSelected: searchTag => dispatch(navigationContextActions.changeSearchTag(searchTag)),
     dispatchDatasetSelected: dataset => dispatch(navigationContextActions.changeDataset(dataset)),
   })
-
-  /** Sorting orders enumeration */
-  static SortingOrder = {
-    ASCENDING: 'ASC',
-    DESCENDING: 'DESC',
-  }
 
   static propTypes = {
     // sub modules rendering
@@ -102,7 +96,7 @@ export class SearchResultsContainer extends React.Component {
     // is currently showing facettes
     showingFacettes: false,
     // initial sorting attributes array
-    intialSortAttributesPath: [],
+    initialSortAttributesPath: [],
     // Current sorting attributes array like {attributePath: String, type: (optional) one of 'ASC' / 'DESC'}
     sortingOn: [],
     filters: [],
@@ -143,7 +137,7 @@ export class SearchResultsContainer extends React.Component {
     const newSortingOn = clear ? [] : [...this.state.sortingOn]
     // XXX we want to reset selection or adapt it there
     if (attributePath) {
-      if (type) {
+      if (type && (type === TableSortOrders.ASCENDING_ORDER || type === TableSortOrders.DESCENDING_ORDER)) {
         // add the attribute to sorting list
         let currentAttrSorting = find(newSortingOn, ({ attributePath: currPath }) => currPath === attributePath)
         if (!currentAttrSorting) {
@@ -157,6 +151,7 @@ export class SearchResultsContainer extends React.Component {
         remove(newSortingOn, ({ attributePath: currPath }) => attributePath === currPath)
       }
     }
+
     this.updateStateAndQuery({
       sortingOn: newSortingOn,
     })
@@ -174,13 +169,13 @@ export class SearchResultsContainer extends React.Component {
     * @param state : state to consider when building query
     */
   buildOpenSearchQuery = ({ searchQuery, facettesQuery, levels, viewObjectType },
-    { showingFacettes, filters, sortingOn, intialSortAttributesPath }) => {
+    { showingFacettes, filters, sortingOn, initialSortAttributesPath }) => {
     // check if facettes should be applied
     const facettes = showingFacettes && viewObjectType === SearchResultsTargetsEnum.DATAOBJECT_RESULTS ? filters : []
     const facettesQueryPart = showingFacettes ? facettesQuery : ''
     const openSearchQuery = QueriesHelper.getOpenSearchQuery(searchQuery, facettes, NavigationLevel.getQueryParameters(levels))
     // check if user specified or sorting or provide one
-    const sorting = sortingOn.length ? sortingOn : intialSortAttributesPath
+    const sorting = sortingOn.length ? sortingOn : initialSortAttributesPath
     return QueriesHelper.getURLQuery(openSearchQuery, sorting, facettesQueryPart).toQueryString()
   }
 
@@ -215,7 +210,10 @@ export class SearchResultsContainer extends React.Component {
     if (oldProperties.attributesConf !== newProperties.attributesConf) {
       newState.intialSortAttributesPath =
         (AttributeConfigurationController.getInitialSortAttributes(newProperties.attributesConf) || []).map(
-          attribute => AttributeModelController.getEntityAttributeAccessPathFromAttFullyQualifiedName(attribute))
+          attribute => ({
+            attributePath: AttributeModelController.getEntityAttributeAccessPathFromAttFullyQualifiedName(attribute),
+            type: TableSortOrders.ASCENDING_ORDER, // default is ascending
+          }))
     }
 
     // on view object type, if entering datasets mode, make sure we are in list view
@@ -245,13 +243,12 @@ export class SearchResultsContainer extends React.Component {
       (selectionMode === TableSelectionModes.excludeSelected && selectionSize === totalElements)
   }
 
-
   render() {
     const { appName, project, enableFacettes, attributesConf,
       attributesRegroupementsConf, attributeModels, viewObjectType,
       datasetServices, selectedDataobjectsServices, displayDatasets,
       dispatchDatasetSelected, dispatchTagSelected } = this.props
-    const { viewMode, showingFacettes, filters, searchTag, searchQuery, emptySelection } = this.state
+    const { viewMode, showingFacettes, filters, searchTag, searchQuery, emptySelection, sortingOn } = this.state
 
     // compute view mode
     const showingDataobjects = viewObjectType === SearchResultsTargetsEnum.DATAOBJECT_RESULTS
@@ -276,6 +273,7 @@ export class SearchResultsContainer extends React.Component {
         viewMode={viewMode}
         showingFacettes={showingFacettes}
         displayDatasets={displayDatasets}
+        sortingOn={sortingOn}
         filters={filters}
         searchTag={searchTag}
         searchQuery={searchQuery}

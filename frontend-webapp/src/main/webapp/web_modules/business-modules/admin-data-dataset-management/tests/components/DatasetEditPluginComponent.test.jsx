@@ -17,19 +17,16 @@ describe('[ADMIN DATASET MANAGEMENT] Testing DatasetEditPluginComponent', () => 
     assert.isDefined(DatasetEditPluginComponent)
     assert.isDefined(List)
   })
+
   it('Render properly', () => {
     const props = {
-      linkPluginDataset: DumpProvider.getFirstEntity('DataManagementClient', 'LinkPluginDataset'),
-      pluginConfigurationFiltersList: DumpProvider.get('CommonClient', 'PluginConfiguration'),
-      pluginConfigurationConvertersList: DumpProvider.get('CommonClient', 'PluginConfiguration'),
-      pluginConfigurationServicesList: DumpProvider.get('CommonClient', 'PluginConfiguration'),
-      pluginMetaDataFiltersList: DumpProvider.get('CommonClient', 'PluginMetaData'),
-      pluginMetaDataConvertersList: DumpProvider.get('CommonClient', 'PluginMetaData'),
-      pluginMetaDataServicesList: DumpProvider.get('CommonClient', 'PluginMetaData'),
+      linkPluginDataset: DumpProvider.getFirstEntity('CatalogClient', 'LinkPluginDataset'),
+      pluginConfigurationList: DumpProvider.get('CommonClient', 'PluginConfiguration'),
+      pluginMetaDataList: DumpProvider.get('CommonClient', 'PluginMetaData'),
       onSubmit: () => {},
       backUrl: '#',
     }
     const enzymeWrapper = shallow(<DatasetEditPluginComponent {...props} />, { context })
-    expect(enzymeWrapper.find(List)).to.have.length(3)
+    expect(enzymeWrapper.find(List)).to.have.length(1)
   })
 })

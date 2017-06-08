@@ -4,7 +4,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { TableContainer } from '@regardsoss/components'
+import { TableContainer, TableSortOrders } from '@regardsoss/components'
 import { searchDataobjectsActions, searchDatasetsActions } from '../../../../src/clients/SearchEntitiesClient'
 import SearchResultsComponent from '../../../../src/components/user/results/SearchResultsComponent'
 import Styles from '../../../../src/styles/styles'
@@ -58,6 +58,7 @@ describe('[Search Results] Testing SearchResultsComponent', () => {
       showingDataobjects: true,
       resultPageActions: searchDataobjectsActions,
       viewMode: SearchResultsComponent.ViewModes.LIST,
+      sortingOn: [],
     },
   }, {
     caseLabel: 'Should render dataobjects in table mode',
@@ -65,6 +66,7 @@ describe('[Search Results] Testing SearchResultsComponent', () => {
       showingDataobjects: true,
       resultPageActions: searchDataobjectsActions,
       viewMode: SearchResultsComponent.ViewModes.TABLE,
+      sortingOn: [],
     },
   }, {
     caseLabel: 'Should render datasets in list mode',
@@ -72,8 +74,17 @@ describe('[Search Results] Testing SearchResultsComponent', () => {
       showingDataobjects: false,
       resultPageActions: searchDatasetsActions,
       viewMode: SearchResultsComponent.ViewModes.LIST,
+      sortingOn: [],
     },
     // no dataset table
+  }, {
+    caseLabel: 'Should render with sorting',
+    caseProperties: {
+      showingDataobjects: true,
+      resultPageActions: searchDataobjectsActions,
+      viewMode: SearchResultsComponent.ViewModes.TABLE,
+      sortingOn: [{ attributePath: 'label', type: TableSortOrders.ASCENDING_ORDER }],
+    },
   }]
 
   // run them

@@ -2,6 +2,7 @@
 * LICENSE_PLACEHOLDER
 **/
 import { assert } from 'chai'
+import { TableSortOrders } from '@regardsoss/components'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { getOpenSearchQuery, getURLQuery, getDatasetIpIdParameter } from '../../../src/definitions/query/QueriesHelper'
 
@@ -15,9 +16,9 @@ describe('[Search Results] Testing QueriesHelper', () => {
       [getDatasetIpIdParameter('mimi-c-mati')]) // other parameters
     assert.equal(openSearchQuery.toQueryString(), 'meta:false AND xxxBlblblbl AND tags:mimi\\-c\\-mati', 'Open search query should be correctly generated')
 
-    const urlQuery = getURLQuery(openSearchQuery, [{ attributePath: 'taille', type: 'ascending' }], 'jeveuxlesfacettes=oui')
+    const urlQuery = getURLQuery(openSearchQuery, [{ attributePath: 'taille', type: TableSortOrders.ASCENDING_ORDER }], 'jeveuxlesfacettes=oui')
     assert.equal(urlQuery.toQueryString(),
-      'q=(meta:false AND xxxBlblblbl AND tags:mimi\\-c\\-mati)&sort=taille,ascending&jeveuxlesfacettes=oui',
+      'q=(meta:false AND xxxBlblblbl AND tags:mimi\\-c\\-mati)&sort=taille,ASC&jeveuxlesfacettes=oui',
       'The URL query be correctly genereted',
     )
   })
@@ -26,8 +27,8 @@ describe('[Search Results] Testing QueriesHelper', () => {
     const openSearchQuery = getOpenSearchQuery('')
     assert.equal(openSearchQuery.toQueryString(), '', 'Open search query should be empty')
 
-    const urlQuery = getURLQuery(openSearchQuery, [{ attributePath: 'taille', type: 'ascending' }], 'jeveuxlesfacettes=oui')
-    assert.equal(urlQuery.toQueryString(), 'sort=taille,ascending&jeveuxlesfacettes=oui', 'The URL query should be correctly generated without q param')
+    const urlQuery = getURLQuery(openSearchQuery, [{ attributePath: 'taille', type: TableSortOrders.DESCENDING_ORDER }], 'jeveuxlesfacettes=oui')
+    assert.equal(urlQuery.toQueryString(), 'sort=taille,DESC&jeveuxlesfacettes=oui', 'The URL query should be correctly generated without q param')
   })
 })
 

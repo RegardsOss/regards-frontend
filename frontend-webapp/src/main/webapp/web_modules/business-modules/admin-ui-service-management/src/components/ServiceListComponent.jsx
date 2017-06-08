@@ -65,6 +65,7 @@ class ServiceListComponent extends React.Component {
 
   render() {
     const { uiPluginDefinitionList, handleBack } = this.props
+    console.log(uiPluginConfigurationActions.getDependency(RequestVerbEnum.GET_LIST))
     return (
       <div>
         <AppBar

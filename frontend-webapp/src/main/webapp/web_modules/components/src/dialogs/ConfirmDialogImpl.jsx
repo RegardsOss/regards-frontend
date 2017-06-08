@@ -27,18 +27,18 @@ class ConfirmDialogImpl extends React.Component {
     const { intl: { formatMessage } } = this.context
     return [
       <FlatButton
-        key={confirmMessageKey}
-        className="selenium-confirmDialogButton"
-        label={formatMessage({ id: confirmMessageKey })}
-        onTouchTap={onDelete}
-      />,
-      <FlatButton
         key="cancel"
         id="confirm.dialog.cancel"
         label={formatMessage({ id: 'confirm.dialog.cancel' })}
         primary
         keyboardFocused
         onTouchTap={onCancel}
+      />,
+      <FlatButton
+        key={confirmMessageKey}
+        className="selenium-confirmDialogButton"
+        label={formatMessage({ id: confirmMessageKey })}
+        onTouchTap={onDelete}
       />,
     ]
   }

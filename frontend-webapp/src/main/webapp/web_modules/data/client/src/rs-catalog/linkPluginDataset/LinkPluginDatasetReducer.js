@@ -1,8 +1,8 @@
-import { BasicPageableReducers } from '@regardsoss/store-utils'
+import { BasicListReducers } from '@regardsoss/store-utils'
 import { LinkPluginDatasetConfiguration } from '@regardsoss/api'
 import LinkPluginDatasetActions from './LinkPluginDatasetActions'
 
-class LinkPluginDatasetReducer extends BasicPageableReducers {
+class LinkPluginDatasetReducer extends BasicListReducers {
   constructor(namespace) {
     super(LinkPluginDatasetConfiguration, new LinkPluginDatasetActions(namespace))
   }

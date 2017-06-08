@@ -170,7 +170,7 @@ export class DatasetEditLinksComponent extends React.Component {
             mainButtonUrl={doneUrl}
             mainButtonLabel={
               <FormattedMessage
-                id="dataset.form.links.action.save"
+                id="dataset.form.links.action.next"
               />
             }
             secondaryButtonLabel={this.context.intl.formatMessage({ id: 'dataset.form.links.action.cancel' })}

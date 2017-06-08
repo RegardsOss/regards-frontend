@@ -64,7 +64,7 @@ export const editLinksDatasetRoute = {
 }
 
 export const editPluginDatasetRoute = {
-  path: ':datasetId/plugins',
+  path: ':datasetId/:datasetIpId/plugins',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
       const DatasetEditPluginContainer = require('./containers/DatasetEditPluginContainer')
@@ -76,7 +76,7 @@ export const editPluginDatasetRoute = {
 }
 
 export const editUIServicesDatasetRoute = {
-  path: ':datasetId/ui-services',
+  path: ':datasetId/:datasetIpId/ui-services',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
       const DatasetEditUIServicesContainer = require('./containers/DatasetEditUIServicesContainer')

@@ -1,7 +1,10 @@
+import PluginConfiguration from '../admin/plugin/PluginConfiguration'
+
 const LinkPluginDataset = PropTypes.shape({
   content: PropTypes.shape({
-    datasetId: PropTypes.number.isRequired,
-    services: PropTypes.arrayOf(PropTypes.number).isRequired,
+    linkId: PropTypes.number,
+    datasetId: PropTypes.string.isRequired,
+    services: PropTypes.arrayOf(PluginConfiguration).isRequired,
   }).isRequired,
 })
 

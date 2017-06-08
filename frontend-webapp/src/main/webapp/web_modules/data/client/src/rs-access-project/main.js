@@ -23,6 +23,10 @@ import UIPluginConfigurationReducers from './uiPluginConfiguration/UIPluginConfi
 import UIPluginConfigurationSelectors from './uiPluginConfiguration/UIPluginConfigurationSelectors'
 
 
+import LinkUIPluginDatasetActions from './linkUIPluginDataset/LinkUIPluginDatasetActions'
+import getLinkUIPluginDatasetReducer from './linkUIPluginDataset/LinkUIPluginDatasetReducer'
+import getLinkUIPluginDatasetSelectors from './linkUIPluginDataset/LinkUIPluginDatasetSelectors'
+
 export default {
 
   ModuleActions,
@@ -51,4 +55,7 @@ export default {
   UIPluginConfigurationSelectors,
 
 
+  LinkUIPluginDatasetActions,
+  getLinkUIPluginDatasetReducer,
+  getLinkUIPluginDatasetSelectors,
 }

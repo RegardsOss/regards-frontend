@@ -8,10 +8,11 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { List, ListItem } from 'material-ui/List'
 import filter from 'lodash/filter'
 import map from 'lodash/map'
+import some from 'lodash/some'
 import pull from 'lodash/pull'
-import includes from 'lodash/includes'
+import cloneDeep from 'lodash/cloneDeep'
 import Checkbox from 'material-ui/Checkbox'
-import { PluginDefinition as UIPluginDefinition, PluginConf as UIPluginConfiguration, Dataset } from '@regardsoss/model'
+import { PluginDefinition as UIPluginDefinition, PluginConf as UIPluginConfiguration, LinkUIPluginDataset } from '@regardsoss/model'
 import DatasetStepperComponent from './DatasetStepperComponent'
 
 /**
@@ -25,7 +26,7 @@ export class DatasetEditUIServicesComponent extends React.Component {
       content: UIPluginConfiguration,
     })),
     uiPluginDefinitionList: PropTypes.objectOf(UIPluginDefinition),
-    currentDataset: Dataset,
+    linkUIPluginDataset: LinkUIPluginDataset,
     handleSubmit: PropTypes.func.isRequired,
   }
 
@@ -37,7 +38,7 @@ export class DatasetEditUIServicesComponent extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      uiPluginConfigurationActiveList: props.currentDataset.content.uiPluginConfIdList,
+      currentLinkUIPluginDataset: cloneDeep(props.linkUIPluginDataset.content),
     }
   }
 
@@ -68,9 +69,9 @@ export class DatasetEditUIServicesComponent extends React.Component {
   handleCheck = (uiPluginConfiguration) => {
     const uiPluginConfigurationActiveList = this.state.uiPluginConfigurationActiveList
     if (this.isPluginConfigurationActivated(uiPluginConfiguration)) {
-      pull(uiPluginConfigurationActiveList, uiPluginConfiguration.content.id)
+      pull(uiPluginConfigurationActiveList, uiPluginConfiguration.content)
     } else {
-      uiPluginConfigurationActiveList.push(uiPluginConfiguration.content.id)
+      uiPluginConfigurationActiveList.push(uiPluginConfiguration.content)
     }
     this.setState({
       uiPluginConfigurationActiveList,
@@ -78,14 +79,14 @@ export class DatasetEditUIServicesComponent extends React.Component {
   }
 
   handleSubmit = () => {
-    this.props.handleSubmit(this.state.uiPluginConfigurationActiveList)
+    this.props.handleSubmit(this.state.currentLinkUIPluginDataset)
   }
   /**
    * Return true if the dataset is associated with the UIPluginConfiguration
    * @param uiPluginConfiguration
    * @returns {*}
    */
-  isPluginConfigurationActivated = uiPluginConfiguration => includes(this.state.uiPluginConfigurationActiveList, uiPluginConfiguration.content.id)
+  isPluginConfigurationActivated = uiPluginConfiguration => some(this.state.currentLinkUIPluginDataset, uiPluginConfiguration.content.id)
 
   render() {
     const { backUrl, uiPluginDefinitionList } = this.props

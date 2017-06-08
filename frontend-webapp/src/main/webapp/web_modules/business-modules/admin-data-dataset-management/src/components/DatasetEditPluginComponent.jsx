@@ -5,7 +5,7 @@ import map from 'lodash/map'
 import filter from 'lodash/filter'
 import cloneDeep from 'lodash/cloneDeep'
 import remove from 'lodash/remove'
-import includes from 'lodash/includes'
+import some from 'lodash/some'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { FormattedMessage } from 'react-intl'
 import { PluginConfiguration, PluginMetaData, LinkPluginDataset } from '@regardsoss/model'
@@ -25,12 +25,8 @@ export class DatasetEditPluginComponent extends React.Component {
 
   static propTypes = {
     linkPluginDataset: LinkPluginDataset.isRequired,
-    pluginConfigurationFiltersList: PropTypes.objectOf(PluginConfiguration),
-    pluginConfigurationConvertersList: PropTypes.objectOf(PluginConfiguration),
-    pluginConfigurationServicesList: PropTypes.objectOf(PluginConfiguration),
-    pluginMetaDataFiltersList: PropTypes.objectOf(PluginMetaData),
-    pluginMetaDataConvertersList: PropTypes.objectOf(PluginMetaData),
-    pluginMetaDataServicesList: PropTypes.objectOf(PluginMetaData),
+    pluginConfigurationList: PropTypes.objectOf(PluginConfiguration),
+    pluginMetaDataList: PropTypes.objectOf(PluginMetaData),
     onSubmit: PropTypes.func.isRequired,
     backUrl: PropTypes.string.isRequired,
   }
@@ -47,13 +43,13 @@ export class DatasetEditPluginComponent extends React.Component {
     }
   }
 
-  onCheck = (type, pluginConfiguration, isInputChecked) => {
+  onCheck = (pluginConfiguration, isInputChecked) => {
     const { currentLinkPluginDataset } = this.state
     if (isInputChecked) {
-      currentLinkPluginDataset.content[type].push(pluginConfiguration.content.id)
+      currentLinkPluginDataset.content.services.push(pluginConfiguration.content)
     } else {
-      currentLinkPluginDataset.content[type] = remove(currentLinkPluginDataset.content[type], id =>
-        id !== pluginConfiguration.content.id,
+      currentLinkPluginDataset.content.services = remove(currentLinkPluginDataset.content.services, service =>
+        service.id !== pluginConfiguration.content.id,
       )
     }
     this.setState({
@@ -61,9 +57,9 @@ export class DatasetEditPluginComponent extends React.Component {
     })
   }
 
-  getItemMetaData = (type, pluginMetaData, pluginConfigurationList) => {
+  getItemMetaData = (pluginMetaData, pluginConfigurationList) => {
     const pluginConfigurationAssociated = filter(pluginConfigurationList, pluginConfiguration =>
-      pluginConfiguration.content.pluginId === pluginMetaData.content.pluginId,
+      pluginConfiguration.content.pluginClassName === pluginMetaData.content.pluginClassName,
     )
     return (
       <ShowableAtRender
@@ -88,8 +84,8 @@ export class DatasetEditPluginComponent extends React.Component {
                   disabled
                   leftCheckbox={
                     <Checkbox
-                      checked={this.isCheckboxChecked(type, pluginConfiguration)}
-                      onCheck={(event, isInputChecked) => { this.onCheck(type, pluginConfiguration, isInputChecked) }}
+                      checked={this.isCheckboxChecked(pluginConfiguration)}
+                      onCheck={(event, isInputChecked) => { this.onCheck(pluginConfiguration, isInputChecked) }}
                     />
                   }
                 />
@@ -100,19 +96,15 @@ export class DatasetEditPluginComponent extends React.Component {
       </ShowableAtRender>)
   }
 
-  isCheckboxChecked = (type, pluginConfiguration) => {
+  isCheckboxChecked = (pluginConfiguration) => {
     const { currentLinkPluginDataset } = this.state
-    return includes(currentLinkPluginDataset.content[type], pluginConfiguration.content.id)
+    return some(currentLinkPluginDataset.content.services, service => service.id === pluginConfiguration.content.id)
   }
 
   render() {
     const {
-      pluginConfigurationFiltersList,
-      pluginConfigurationConvertersList,
-      pluginConfigurationServicesList,
-      pluginMetaDataFiltersList,
-      pluginMetaDataConvertersList,
-      pluginMetaDataServicesList,
+      pluginConfigurationList,
+      pluginMetaDataList,
       backUrl,
     } = this.props
     return (
@@ -123,35 +115,13 @@ export class DatasetEditPluginComponent extends React.Component {
         />
         <DatasetStepperComponent stepIndex={3} />
         <CardText>
-          <div className="row">
-            <div className="col-sm-33">
-              <List>
-                <Subheader><FormattedMessage id="dataset.form.plugin.filters" /></Subheader>
-                <Divider />
-                {map(pluginMetaDataFiltersList, (pluginMetaData, id) => (
-                  this.getItemMetaData('filters', pluginMetaData, pluginConfigurationFiltersList)
-                ))}
-              </List>
-            </div>
-            <div className="col-sm-33">
-              <List>
-                <Subheader><FormattedMessage id="dataset.form.plugin.converters" /></Subheader>
-                <Divider />
-                {map(pluginMetaDataConvertersList, (pluginMetaData, id) => (
-                  this.getItemMetaData('converters', pluginMetaData, pluginConfigurationConvertersList)
-                ))}
-              </List>
-            </div>
-            <div className="col-sm-33">
-              <List>
-                <Subheader><FormattedMessage id="dataset.form.plugin.services" /></Subheader>
-                <Divider />
-                {map(pluginMetaDataServicesList, (pluginMetaData, id) => (
-                  this.getItemMetaData('services', pluginMetaData, pluginConfigurationServicesList)
-                ))}
-              </List>
-            </div>
-          </div>
+          <List>
+            <Subheader><FormattedMessage id="dataset.form.plugin.services" /></Subheader>
+            <Divider />
+            {map(pluginMetaDataList, (pluginMetaData, id) => (
+              this.getItemMetaData(pluginMetaData, pluginConfigurationList)
+            ))}
+          </List>
         </CardText>
         <CardActions>
           <CardActionsComponent

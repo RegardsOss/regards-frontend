@@ -10,9 +10,10 @@ import { datasourceReducer } from './clients/DatasourceClient'
 import { collectionReducer } from './clients/CollectionClient'
 import { pluginConfigurationReducer } from './clients/PluginConfigurationClient'
 import { pluginMetaDataReducer } from './clients/PluginMetaDataClient'
-import linkPluginDataset from './model/LinkPluginDatasetReducers'
+import { linkPluginDatasetReducer } from './clients/LinkPluginDatasetClient'
 import { uiPluginConfigurationReducer } from './clients/UIPluginConfigurationClient'
 import { uiPluginDefinitionReducer } from './clients/UIPluginDefinitionClient'
+import { linkUIPluginDatasetReducer } from './clients/LinkUIPluginDatasetClient'
 
 const datasetDataManagementReducer = combineReducers({
   collection: collectionReducer,
@@ -23,9 +24,10 @@ const datasetDataManagementReducer = combineReducers({
   'dataset-link': datasetLinkReducer,
   'plugin-configuration': pluginConfigurationReducer,
   'plugin-meta-data': pluginMetaDataReducer,
-  'link-plugin-dataset': linkPluginDataset,
+  'link-plugin-dataset': linkPluginDatasetReducer,
   'ui-plugin-configuration': uiPluginConfigurationReducer,
   'ui-plugin-definition': uiPluginDefinitionReducer,
+  'link-ui-plugin-definition': linkUIPluginDatasetReducer,
 })
 
 export default datasetDataManagementReducer

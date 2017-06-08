@@ -15,7 +15,7 @@ import DataLibrary from 'material-ui/svg-icons/av/library-books'
 import ShowFacetsSearch from 'material-ui/svg-icons/action/find-in-page'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { TableContainer, TableOptionsSeparator, ShowableAtRender } from '@regardsoss/components'
+import { TableContainer, TableOptionsSeparator, ShowableAtRender, TableSortOrders } from '@regardsoss/components'
 import { LazyModuleComponent } from '@regardsoss/modules'
 import {
   AttributeModel,
@@ -59,6 +59,10 @@ class SearchResultsComponent extends React.Component {
     showingDataobjects: PropTypes.bool.isRequired,     // is Currently showing data objects (false: showing datasets)
     viewMode: PropTypes.oneOf(values(SearchResultsComponent.ViewModes)), // current mode
     showingFacettes: PropTypes.bool.isRequired,
+    sortingOn: PropTypes.arrayOf(PropTypes.shape({ // user sorting, showing only when user set, not the default one
+      attributePath: PropTypes.string.isRequired,
+      type: PropTypes.oneOf(values(TableSortOrders)).isRequired,
+    })).isRequired,
     filters: PropTypes.arrayOf(PropTypes.shape({
       filterKey: PropTypes.string.isRequired,
       filterLabel: PropTypes.string.isRequired,
@@ -121,12 +125,12 @@ class SearchResultsComponent extends React.Component {
    * @param attributesRegroupementsConf: results table attributes regroupement columns configuration
    * @param attributeModels: fetched attribute models (to retrieve attributes)
    */
-  buildTableColumns = (attributesConf, attributeModels, attributesRegroupementsConf) =>
+  buildTableColumns = (attributesConf, attributeModels, attributesRegroupementsConf, sortingOn) =>
     sortBy([
-      ...this.buildAttributesColumns(attributesConf, attributeModels),
+      ...this.buildAttributesColumns(attributesConf, attributeModels, sortingOn),
       ...this.buildAttrRegroupementColumns(attributesRegroupementsConf, attributeModels)], a => a.order ? a.order : 1000)
 
-  buildAttributesColumns = (attributesConf, attributeModels) =>
+  buildAttributesColumns = (attributesConf, attributeModels, sortingOn) =>
     reduce(attributesConf, (allColumns, attributeConf) => {
       // map to attributes models then to column
       if (attributeConf.visibility) {
@@ -160,6 +164,9 @@ class SearchResultsComponent extends React.Component {
               props: {},
             } : undefined,
             order: attributeConf.order,
+            // retrieve column sorting in current state
+            sortingOrder: sortingOn.reduce((acc, { attributePath, type }) =>
+              attributePath === fullyQualifiedAttributePathInEntity ? type : acc, TableSortOrders.NO_SORT),
           }]
         }
       }
@@ -223,7 +230,7 @@ class SearchResultsComponent extends React.Component {
     const newState = oldState || {}
 
     // table columns
-    newState.tableColumns = this.buildTableColumns(newProperties.attributesConf, newProperties.attributeModels, newProperties.attributesRegroupementsConf)
+    newState.tableColumns = this.buildTableColumns(newProperties.attributesConf, newProperties.attributeModels, newProperties.attributesRegroupementsConf, newProperties.sortingOn)
 
     // list columns
     newState.listColumns = this.buildListColumns(newState.tableColumns, newProperties)

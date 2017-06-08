@@ -17,36 +17,23 @@ describe('[ADMIN DATASET MANAGEMENT] Testing DatasetEditPluginContainer', () => 
     assert.isDefined(DatasetEditPluginContainer)
     assert.isDefined(LoadableContentDisplayDecorator)
   })
-
-
   it('Render properly', () => {
     const props = {
       // from router
       params: {
         project: 'lambda',
         datasetId: '69',
+        datasetIpId: 'URN:AIP:DATASET:project1:08ff5cb0-1f02-4918-8a9e-66247e52777f:V1',
       },
       // from mapStateToProps
-      pluginConfigurationFiltersList: DumpProvider.get('CommonClient', 'PluginConfiguration'),
-      pluginConfigurationConvertersList: DumpProvider.get('CommonClient', 'PluginConfiguration'),
-      pluginConfigurationServicesList: DumpProvider.get('CommonClient', 'PluginConfiguration'),
-
-      pluginMetaDataFiltersList: DumpProvider.get('CommonClient', 'PluginMetaData'),
-      pluginMetaDataConvertersList: DumpProvider.get('CommonClient', 'PluginMetaData'),
-      pluginMetaDataServicesList: DumpProvider.get('CommonClient', 'PluginMetaData'),
-
+      pluginConfigurationList: DumpProvider.get('CommonClient', 'PluginConfiguration'),
+      pluginMetaDataList: DumpProvider.get('CommonClient', 'PluginMetaData'),
+      linkPluginDataset: DumpProvider.getFirstEntity('CatalogClient', 'LinkPluginDataset'),
       // from mapDispatchToProps
-      fetchConvertersConfiguration: () => {},
-      fetchServicesConfiguration: () => {},
-      fetchFiltersConfiguration: () => {},
-
-      fetchConvertersPluginMetaData: () => {},
-      fetchServicesPluginMetaData: () => {},
-      fetchFiltersPluginMetaData: () => {},
-
+      fetchPluginConfiguration: () => {},
+      fetchPluginMetaData: () => {},
       fetchLinkPluginDataset: () => {},
       updateLinkPluginDataset: () => {},
-
     }
     const enzymeWrapper = shallow(<DatasetEditPluginContainer {...props} />, { context })
     expect(enzymeWrapper.find(LoadableContentDisplayDecorator)).to.have.length(1)
