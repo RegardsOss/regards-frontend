@@ -7,7 +7,7 @@ import ProjectConnectionsContainer from './ProjectConnectionsContainer'
 /**
  * I18n Provider for ProjectConnectionsContainer
  */
-class ProjectConnectionsProvider extends React.Component {
+export class ProjectConnectionsProvider extends React.Component {
 
   render() {
     return (

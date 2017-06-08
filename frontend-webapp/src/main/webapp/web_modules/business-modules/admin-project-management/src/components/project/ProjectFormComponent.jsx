@@ -52,6 +52,8 @@ export class ProjectFormComponent extends React.Component {
         isPublic: currentProject.content.isPublic,
         isAccessible: currentProject.content.isAccessible,
         host: currentProject.content.host,
+        label: currentProject.content.label,
+        name: currentProject.content.name,
       })
     } else {
       this.props.initialize({
@@ -66,6 +68,7 @@ export class ProjectFormComponent extends React.Component {
       this.context.intl.formatMessage({ id: 'project.create.title' }) :
       this.context.intl.formatMessage({ id: 'project.edit.title' }, { name: currentProject.content.name })
     const hostFieldStyle = { marginBottom: 15 }
+    const validRequiredValidators = [ValidationHelpers.string, ValidationHelpers.required]
     return (
       <form
         className="selenium-projectForm"
@@ -79,13 +82,21 @@ export class ProjectFormComponent extends React.Component {
             <ShowableAtRender show={this.state.isCreating}>
               <Field
                 name="name"
-                validate={ValidationHelpers.validRequiredString}
+                validate={validRequiredValidators}
                 fullWidth
                 component={RenderTextField}
                 type="text"
                 label={this.context.intl.formatMessage({ id: 'project.form.name' })}
               />
             </ShowableAtRender>
+            <Field
+              name="label"
+              validate={validRequiredValidators}
+              fullWidth
+              component={RenderTextField}
+              type="text"
+              label={this.context.intl.formatMessage({ id: 'project.form.label' })}
+            />
             <Field
               name="description"
               fullWidth
@@ -110,7 +121,7 @@ export class ProjectFormComponent extends React.Component {
             />
             <Field
               name="host"
-              validate={ValidationHelpers.validRequiredString}
+              validate={validRequiredValidators}
               fullWidth
               className="selenium-host"
               component={RenderTextField}
