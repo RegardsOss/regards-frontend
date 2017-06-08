@@ -3,7 +3,7 @@
  **/
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
+import { testSuiteHelpers, DumpProvider, buildTestContext } from '@regardsoss/tests-helpers'
 import { ListItem } from 'material-ui/List'
 import { Field } from '@regardsoss/form-utils'
 import PluginParameterBoolean from '../../../../src/components/plugin/parameter/PluginParameterBoolean'
@@ -26,16 +26,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing plugin parameter boolean component'
 
   it('should render a Field', () => {
     const props = {
-      pluginConfiguration: {
-        content: {
-          id: 2,
-          label: 'Random configuration',
-          version: '0.0.1',
-          priorityOrder: 1,
-          active: false,
-          pluginClassName: 'Kerberos',
-        },
-      },
+      pluginMetaData: DumpProvider.getFirstEntity('CommonClient', 'PluginMetaData'),
       pluginParameter: {
         id: 0,
         name: 'isActive',

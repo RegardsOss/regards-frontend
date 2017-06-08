@@ -73,7 +73,7 @@ class PluginConfigurationComponent extends React.Component {
         key={pluginParameterType.name}
         pluginParameterType={pluginParameterType}
         pluginParameter={mapPluginParameterTypeToPluginParameter(pluginParameterType, pluginConfiguration)}
-        pluginConfiguration={pluginConfiguration}
+        pluginMetaData={pluginMetaData}
         mode={'view'}
       />))
 

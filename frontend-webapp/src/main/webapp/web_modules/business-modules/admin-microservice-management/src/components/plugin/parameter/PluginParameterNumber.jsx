@@ -35,7 +35,7 @@ export class PluginParameterNumber extends React.Component {
   format = val => parseFloat(val)
 
   render() {
-    const { pluginParameter: { name, value }, pluginParameterType, mode, pluginConfiguration } = this.props
+    const { pluginParameter: { name, value }, pluginParameterType, mode, pluginMetaData } = this.props
     const { muiTheme } = this.context
     const isView = mode === 'view'
     const validators = [string] // Yes a String, because we store the number in string in the model.
@@ -57,7 +57,7 @@ export class PluginParameterNumber extends React.Component {
         </ShowableAtRender>
         <ShowableAtRender show={!isView}>
           <Field
-            name={getFieldName(name, pluginConfiguration, '.value')}
+            name={getFieldName(name, pluginMetaData, '.value')}
             format={this.format}
             fullWidth
             component={RenderTextField}

@@ -32,16 +32,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing plugin parameter plugin component',
 
   it('should render a Raised Button and an IconMenu and Field', () => {
     const props = {
-      pluginConfiguration: {
-        content: {
-          id: 2,
-          label: 'Random configuration',
-          version: '0.0.1',
-          priorityOrder: 1,
-          active: false,
-          pluginClassName: 'Kerberos',
-        },
-      },
+      pluginMetaData: DumpProvider.getFirstEntity('CommonClient', 'PluginMetaData'),
       pluginConfigurationList: DumpProvider.get('CommonClient', 'PluginConfiguration'),
       pluginMetaDataList: DumpProvider.get('CommonClient', 'PluginMetaData'),
       pluginParameter: {

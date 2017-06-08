@@ -16,7 +16,7 @@ import Divider from 'material-ui/Divider'
 import Delete from 'material-ui/svg-icons/action/delete'
 import { ShowableAtRender } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
-import { PluginParameter, PluginMetaDataList, PluginConfiguration } from '@regardsoss/model'
+import { PluginParameter, PluginMetaDataList, PluginMetaData, PluginConfiguration } from '@regardsoss/model'
 import { connect } from '@regardsoss/redux'
 import { themeContextType } from '@regardsoss/theme'
 import { RenderTextField, Field, ValidationHelpers } from '@regardsoss/form-utils'
@@ -37,7 +37,7 @@ export class PluginParameterPlugin extends React.Component {
 
   static propTypes = {
     pluginParameter: PluginParameter.isRequired,
-    pluginConfiguration: PluginConfiguration,
+    pluginMetaData: PluginMetaData,
     change: PropTypes.func, // Callback provided by redux-form in order to manually change a field value
     mode: PropTypes.oneOf(['view', 'edit', 'create', 'copy']),
     // form mapStateToProps
@@ -77,16 +77,16 @@ export class PluginParameterPlugin extends React.Component {
   }
 
   handleChange = (value) => {
-    const { pluginConfigurationList, change, pluginConfiguration, pluginParameter: { name } } = this.props
+    const { pluginConfigurationList, change, pluginMetaData, pluginParameter: { name } } = this.props
     this.setState({
       value,
       selectedPluginConfiguration: find(pluginConfigurationList, el => el.content.id === value),
     })
-    change(getFieldName(name, pluginConfiguration, '.value'), value ? value.toString() : null)
+    change(getFieldName(name, pluginMetaData, '.value'), value ? value.toString() : null)
   }
 
   render() {
-    const { pluginParameter: { name, defaultValue, optional }, pluginMetaDataList, pluginConfigurationList, mode, pluginConfiguration } = this.props
+    const { pluginParameter: { name, defaultValue, optional }, pluginMetaDataList, pluginConfigurationList, mode, pluginMetaData } = this.props
     const { openMenu, selectedPluginConfiguration } = this.state
     const { muiTheme, intl } = this.context
     const isView = mode === 'view'
@@ -101,7 +101,7 @@ export class PluginParameterPlugin extends React.Component {
       <div style={styles.pluginParameter.wrapper}>
         <Subheader style={styles.pluginParameter.label}>{label}</Subheader>
         <ShowableAtRender show={isView}>
-          <span>{selectedPluginConfiguration.content.label}</span>
+          <span>{selectedPluginConfiguration ? selectedPluginConfiguration.content.label : ''}</span>
         </ShowableAtRender>
         <ShowableAtRender show={!isView}>
           <div>
@@ -118,13 +118,13 @@ export class PluginParameterPlugin extends React.Component {
               autoWidth
               style={styles.pluginParameter.iconMenu}
             >
-              {map(pluginMetaDataList, (pluginMetaData) => {
-                const pluginConfigurationListForThisPluginMetaData = filter(pluginConfigurationList, pc => pc.content.pluginId === pluginMetaData.content.pluginId)
+              {map(pluginMetaDataList, (pmd) => {
+                const pluginConfigurationListForThisPluginMetaData = filter(pluginConfigurationList, pc => pc.content.pluginId === pmd.content.pluginId)
                 const pluginConfigurationListIsEmpty = isEmpty(pluginConfigurationListForThisPluginMetaData)
                 return (
                   <MenuItem
-                    key={pluginMetaData.content.pluginId}
-                    primaryText={buildMenuItemPrimaryText(pluginMetaData.content.pluginId, pluginMetaData.content.version)}
+                    key={pmd.content.pluginId}
+                    primaryText={buildMenuItemPrimaryText(pmd.content.pluginId, pmd.content.version)}
                     rightIcon={<ArrowDropRight />}
                     disabled={pluginConfigurationListIsEmpty}
                     menuItems={
@@ -149,7 +149,7 @@ export class PluginParameterPlugin extends React.Component {
             </IconMenu>
             <Field
               style={styles.pluginParameter.field}
-              name={getFieldName(name, pluginConfiguration, '.value')}
+              name={getFieldName(name, pluginMetaData, '.value')}
               component={RenderTextField}
               type={'text'}
               label={label}

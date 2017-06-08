@@ -3,7 +3,7 @@
  **/
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
+import { testSuiteHelpers, DumpProvider, buildTestContext } from '@regardsoss/tests-helpers'
 import { Field } from '@regardsoss/form-utils'
 import PluginParameterNumber from '../../../../src/components/plugin/parameter/PluginParameterNumber'
 
@@ -26,16 +26,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing plugin parameter number component',
 
   it('should render a Field ', () => {
     const props = {
-      pluginConfiguration: {
-        content: {
-          id: 2,
-          label: 'Random configuration',
-          version: '0.0.1',
-          priorityOrder: 1,
-          active: false,
-          pluginClassName: 'Kerberos',
-        },
-      },
+      pluginMetaData: DumpProvider.getFirstEntity('CommonClient', 'PluginMetaData'),
       pluginParameter: {
         id: 0,
         name: 'height',

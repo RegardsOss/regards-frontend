@@ -194,7 +194,7 @@ export class PluginConfigurationFormComponent extends React.Component {
                   fieldKey={`parameters.${index}`}
                   pluginParameterType={pluginParameterType}
                   pluginParameter={mapPluginParameterTypeToPluginParameter(pluginParameterType, currentPluginConfiguration)}
-                  pluginConfiguration={currentPluginConfiguration}
+                  pluginMetaData={currentPluginMetaData}
                   change={change}
                   mode={formMode}
                 />)) : []}

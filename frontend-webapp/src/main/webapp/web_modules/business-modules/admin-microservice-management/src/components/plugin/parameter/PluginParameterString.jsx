@@ -29,7 +29,7 @@ export class PluginParameterString extends React.Component {
   }
 
   render() {
-    const { pluginParameter: { name, value }, pluginParameterType, mode, pluginConfiguration } = this.props
+    const { pluginParameter: { name, value }, pluginParameterType, mode, pluginMetaData } = this.props
     const { muiTheme } = this.context
     const isView = mode === 'view'
     const validators = [string]
@@ -51,7 +51,7 @@ export class PluginParameterString extends React.Component {
         </ShowableAtRender>
         <ShowableAtRender show={!isView}>
           <Field
-            name={getFieldName(name, pluginConfiguration, '.value')}
+            name={getFieldName(name, pluginMetaData, '.value')}
             fullWidth
             component={RenderTextField}
             type={'text'}
