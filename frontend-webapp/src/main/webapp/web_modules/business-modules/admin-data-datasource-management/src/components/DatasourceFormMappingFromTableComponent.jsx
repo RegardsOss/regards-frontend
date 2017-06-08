@@ -66,7 +66,7 @@ export class DatasourceFormMappingFromTableComponent extends React.Component {
 
     const mappingLines = flow(
       fpsortBy('content.attribute.optional'),
-      fpmap((modelAttribute, id) => {
+      fpmap((modelAttribute) => {
         const isEditingSQL = this.getIsEditingSQL(modelAttribute)
         return (
           <DatasourceFormMappingLineComponent

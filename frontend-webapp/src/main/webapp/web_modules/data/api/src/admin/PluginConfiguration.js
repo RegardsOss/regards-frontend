@@ -1,4 +1,5 @@
 import { Schema, arrayOf } from 'normalizr'
+import { PLUGIN_PARAMETER_ARRAY } from './PluginParameter'
 
 export const AdminPluginConfigurationSchemaConfiguration = {
   entityKey: 'id',
@@ -12,7 +13,7 @@ const schema = new Schema(AdminPluginConfigurationSchemaConfiguration.normalizrK
 
 // Specify relationships between different entities
 schema.define({
-  parameters: Schema.PLUGIN_PARAMETER_ARRAY,
+  parameters: PLUGIN_PARAMETER_ARRAY,
 })
 
 // Schemas for API responses.
