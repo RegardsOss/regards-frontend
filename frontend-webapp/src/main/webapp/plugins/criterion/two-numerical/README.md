@@ -1,7 +1,7 @@
 # REGARDS User Interface Search Form Criteria Plugin
 
-This plugin is used by the @regardsoss/search-form module to display search criterion.
-Each criteria plugin generate an opensearch query and the @regardsoss/module merge each ones to send full opensearch request.
+This plugin is used by the `@regardsoss/search-form` module to display search criterion.
+Each criteria plugin generate an opensearch query and the `@regardsoss/search-form` module merge each ones to send full opensearch request.
 
 ## Plugin code structure
 
