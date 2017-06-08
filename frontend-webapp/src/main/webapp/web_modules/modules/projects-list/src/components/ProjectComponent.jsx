@@ -37,15 +37,15 @@ class ProjectComponent extends React.Component {
   renderProject = () => {
     const { moduleTheme } = this.context
     const { project } = this.props
-    if (project.isAccessible) {
+    if (project.content.isAccessible) {
       return (
         <Card>
           <div className="row" style={moduleTheme.container}>
             <div className="col-sm-12" style={moduleTheme.iconContainer}>
               {(() => {
-                if (project.isPublic) {
+                if (project.content.isPublic) {
                   return (<Avatar
-                    src={project.icon}
+                    src={project.content.icon}
                     size={0}
                     style={moduleTheme.icon}
                   />)
@@ -53,7 +53,7 @@ class ProjectComponent extends React.Component {
                 return (
                   <div>
                     <Avatar
-                      src={project.icon}
+                      src={project.content.icon}
                       size={0}
                       style={moduleTheme.iconDisabled}
                     />
@@ -72,13 +72,13 @@ class ProjectComponent extends React.Component {
             </div>
             <div className="col-sm-88" style={moduleTheme.descriptionContent}>
               <CardTitle
-                title={project.name}
+                title={project.content.name}
                 titleStyle={moduleTheme.title}
                 style={moduleTheme.rootTitle}
               />
               <CardText>
                 <div style={moduleTheme.text}>
-                  { project.description }
+                  { project.content.description }
                 </div>
               </CardText>
             </div>
@@ -90,7 +90,7 @@ class ProjectComponent extends React.Component {
   }
   render() {
     const { moduleTheme } = this.context
-    const { isAccessible } = this.props.project
+    const { isAccessible } = this.props.project.content
     if (isAccessible === false) {
       return this.renderProject()
     }
