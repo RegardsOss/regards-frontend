@@ -96,7 +96,8 @@ export class ProjectFormComponent extends React.Component {
               fullWidth
               component={RenderTextField}
               type="text"
-              label={this.context.intl.formatMessage({ id: 'project.form.label' })}
+              floatingLabelText={this.context.intl.formatMessage({ id: 'project.form.label' })}
+              hintText={this.context.intl.formatMessage({ id: 'project.form.hint.label' })}
             />
             <Field
               name="description"

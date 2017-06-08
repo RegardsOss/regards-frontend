@@ -3,6 +3,7 @@
  **/
 import map from 'lodash/map'
 import forEach from 'lodash/forEach'
+import has from 'lodash/has'
 import keys from 'lodash/keys'
 import isNil from 'lodash/isNil'
 import isObject from 'lodash/isObject'
@@ -290,7 +291,7 @@ export class DatasetFormAttributesComponent extends React.Component {
                       <TableRowColumn>{this.getAttributeName(modelAttribute.content.attribute)}</TableRowColumn>
                       <TableRowColumn>{modelAttribute.content.attribute.type}</TableRowColumn>
                       <TableRowColumn>
-                        <ShowableAtRender show={modelAttribute.content.mode === 'GIVEN'}>
+                        <ShowableAtRender show={!has(modelAttribute.content, 'computationConf')}>
                           <Field
                             name={`properties.${modelAttribute.content.attribute.name}`}
                             fullWidth

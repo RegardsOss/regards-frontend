@@ -2,6 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import map from 'lodash/map'
+import has from 'lodash/has'
 import forEach from 'lodash/forEach'
 import keys from 'lodash/keys'
 import isNil from 'lodash/isNil'
@@ -279,7 +280,7 @@ export class CollectionFormComponent extends React.Component {
                       <TableRowColumn>{this.getAttributeName(modelAttribute.content.attribute)}</TableRowColumn>
                       <TableRowColumn>{modelAttribute.content.attribute.type}</TableRowColumn>
                       <TableRowColumn>
-                        <ShowableAtRender show={modelAttribute.content.mode === 'GIVEN'}>
+                        <ShowableAtRender show={!has(modelAttribute.content, 'computationConf')}>
                           <Field
                             name={`parameters.${modelAttribute.content.attribute.name}`}
                             fullWidth
