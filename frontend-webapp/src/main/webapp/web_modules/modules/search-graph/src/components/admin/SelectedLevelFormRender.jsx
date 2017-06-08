@@ -202,6 +202,8 @@ class SelectedLevelFormRender extends React.Component {
     const { intl: { formatMessage } } = this.props
     const { menuVisible, menuAnchor } = this.state
     const selectableLevels = this.getSelectableLevels()
+    const anchorStyle = { horizontal: 'left', vertical: 'bottom' }
+    const targetStyle = { horizontal: 'left', vertical: 'top' }
     return (
       <div className={graphLevelsRender.addButton.classes} style={graphLevelsRender.addButton.styles} >
         <RaisedButton
@@ -214,8 +216,8 @@ class SelectedLevelFormRender extends React.Component {
         <Popover
           open={menuVisible}
           anchorEl={menuAnchor}
-          anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
-          targetOrigin={{ horizontal: 'left', vertical: 'top' }}
+          anchorOrigin={anchorStyle}
+          targetOrigin={targetStyle}
           onRequestClose={this.onHideMenu}
         >
           <Menu onChange={this.onLevelSelected}>

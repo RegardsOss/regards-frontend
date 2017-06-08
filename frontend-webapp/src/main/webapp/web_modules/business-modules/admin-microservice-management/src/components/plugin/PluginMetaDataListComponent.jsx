@@ -84,7 +84,7 @@ export default class PluginMetaDataListComponent extends React.Component {
   getGrid = () => (
     map(this.state.displayedTypes, pluginType => (
       [
-        <Subheader>{pluginType.content}</Subheader>,
+        <Subheader key="header">{pluginType.content}</Subheader>,
         flow(
           fpfilter((pluginMetaData) => {
             if (pluginMetaData.content && pluginMetaData.content.interfaceNames && pluginMetaData.content.interfaceNames.length > 0) {

@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { connect } from '@regardsoss/redux'
-import { EndpointSelectors } from '@regardsoss/endpoint'
+import { EndpointSelectors } from '@regardsoss/endpoints-common'
 import { DisplayDecorator } from '@regardsoss/display-control'
 import allMatchHateoasDisplayLogic from './../logics/allMatchHateoasDisplayLogic'
 

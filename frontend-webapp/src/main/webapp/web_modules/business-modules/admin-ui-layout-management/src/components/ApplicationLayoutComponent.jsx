@@ -63,6 +63,7 @@ class ApplicationLayoutComponent extends React.Component {
 
   render() {
     const { pristine, submitting } = this.props
+    const style = { width: '100%' }
     return (
       <form
         onSubmit={this.props.handleSubmit(this.props.onSubmit)}
@@ -72,7 +73,7 @@ class ApplicationLayoutComponent extends React.Component {
             title={this.context.intl.formatMessage({ id: 'layout.title' })}
             subtitle={this.context.intl.formatMessage({ id: 'layout.subtitle' })}
           />
-          <CardText style={{ width: '100%' }} >
+          <CardText style={style} >
             <LayoutConfigurationComponent
               layout={this.state.currentLayout}
               onChange={this.changeLayout}

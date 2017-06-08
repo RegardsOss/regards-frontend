@@ -1,9 +1,9 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import values from 'lodash/values'
-import Dialog from 'material-ui/Dialog'
-import FlatButton from 'material-ui/FlatButton'
-import { FormattedMessage } from 'react-intl'
-import { themeContextType } from '@regardsoss/theme'
-import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
+import { I18nProvider } from '@regardsoss/i18n'
+import ConfirmDialogImpl from './ConfirmDialogImpl'
 
 /**
  * Confirm action dialog component. Switches dialog mode,
@@ -30,11 +30,6 @@ class ConfirmDialogComponent extends React.Component {
     onClose: PropTypes.func.isRequired,
   }
 
-  static contextTypes = {
-    ...themeContextType,
-    ...i18nContextType,
-  }
-
   static defaultProps = {
     dialogType: ConfirmDialogComponent.dialogTypes.CONFIRM,
   }
@@ -49,30 +44,15 @@ class ConfirmDialogComponent extends React.Component {
    */
   render() {
     const { title, message, onClose, dialogType } = this.props
-    const actions = [
-      <FlatButton
-        className="selenium-confirmDialogButton"
-        label={<FormattedMessage id={dialogType.messageId} />}
-        onTouchTap={this.handleDelete}
-      />,
-      <FlatButton
-        label={this.context.intl.formatMessage({ id: 'confirm.dialog.cancel' })}
-        primary
-        keyboardFocused
-        onTouchTap={onClose}
-      />,
-    ]
     return (
       <I18nProvider messageDir={'components/src/i18n'}>
-        <Dialog
+        <ConfirmDialogImpl
           title={title}
-          actions={actions}
-          modal={false}
-          open
-          onRequestClose={onClose}
-        >
-          {message}
-        </Dialog>
+          message={message}
+          confirmMessageKey={dialogType.messageId}
+          onDelete={this.handleDelete}
+          onCancel={onClose}
+        />
       </I18nProvider>
     )
   }

@@ -3,10 +3,13 @@
  **/
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import { testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { ListItem } from 'material-ui/List'
+import { testSuiteHelpers, DumpProvider, buildTestContext } from '@regardsoss/tests-helpers'
 import { Field } from '@regardsoss/form-utils'
 import PluginParameterString from '../../../../src/components/plugin/parameter/PluginParameterString'
+
+const options = {
+  context: buildTestContext(),
+}
 
 /**
  * Plugin tests
@@ -19,11 +22,11 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing plugin parameter string component',
   it('should exists', () => {
     assert.isDefined(PluginParameterString)
     assert.isDefined(Field)
-    assert.isDefined(ListItem)
   })
 
-  it('should render a ListItem in view mode', () => {
+  it('should render a Field', () => {
     const props = {
+      pluginMetaData: DumpProvider.getFirstEntity('CommonClient', 'PluginMetaData'),
       pluginParameter: {
         id: 0,
         name: 'suffix',
@@ -37,37 +40,15 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing plugin parameter string component',
         optional: true,
         defaultValue: 'default',
       },
-      mode: 'view',
     }
-    const enzymeWrapper = shallow(<PluginParameterString {...props} />)
-    const subComponent = enzymeWrapper.find(ListItem)
-    expect(subComponent).to.have.length(1)
-  })
-
-  it('should render a Field in edit mode', () => {
-    const props = {
-      pluginParameter: {
-        id: 0,
-        name: 'suffix',
-        value: '_thesuffix',
-        dynamic: false,
-      },
-      pluginParameterType: {
-        name: 'suffix',
-        type: 'java.lang.String',
-        paramType: 'PRIMITIVE',
-        optional: true,
-        defaultValue: 'default',
-      },
-      mode: 'edit',
-    }
-    const enzymeWrapper = shallow(<PluginParameterString {...props} />)
+    const enzymeWrapper = shallow(<PluginParameterString {...props} />, options)
     const subComponent = enzymeWrapper.find(Field)
     expect(subComponent).to.have.length(1)
   })
 
   it('should handle required/not required fields', () => {
     const props0 = {
+      pluginMetaData: DumpProvider.getFirstEntity('CommonClient', 'PluginMetaData'),
       pluginParameter: {
         id: 0,
         name: 'suffix',
@@ -81,13 +62,13 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing plugin parameter string component',
         optional: false,
         defaultValue: 'default',
       },
-      mode: 'edit',
     }
-    const enzymeWrapper0 = shallow(<PluginParameterString {...props0} />)
+    const enzymeWrapper0 = shallow(<PluginParameterString {...props0} />, options)
     const subComponent0 = enzymeWrapper0.find(Field)
     expect(subComponent0.prop('validate')).to.have.length(2)
 
     const props1 = {
+      pluginMetaData: DumpProvider.getFirstEntity('CommonClient', 'PluginMetaData'),
       pluginParameter: {
         id: 0,
         name: 'suffix',
@@ -101,9 +82,8 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing plugin parameter string component',
         optional: true,
         defaultValue: 'default',
       },
-      mode: 'edit',
     }
-    const enzymeWrapper1 = shallow(<PluginParameterString {...props1} />)
+    const enzymeWrapper1 = shallow(<PluginParameterString {...props1} />, options)
     const subComponent1 = enzymeWrapper1.find(Field)
     expect(subComponent1.prop('validate')).to.have.length(1)
   })

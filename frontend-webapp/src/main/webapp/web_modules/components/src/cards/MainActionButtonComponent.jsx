@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import RaisedButton from 'material-ui/RaisedButton'
 import ActionButtonComponent from './ActionButtonComponent'
 

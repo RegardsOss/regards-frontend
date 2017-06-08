@@ -53,11 +53,26 @@ export class LicenseDisplayContainer extends React.Component {
 
   onRefuse = () => { this.props.logout() }
 
+  renderActions = () => [
+    <FlatButton
+      key="license.refuse"
+      label={this.context.intl.formatMessage({ id: 'license.refuse' })}
+      onTouchTap={this.onRefuse}
+    />,
+    <FlatButton
+      key="license.accept"
+      label={this.context.intl.formatMessage({ id: 'license.accept' })}
+      primary
+      onTouchTap={this.onAccept}
+    />,
+  ]
+
   render() {
     const { licenseLink, accepted } = this.props
     const { dialog: { bodyStyle, heightPercent, widthPercent } } = this.context.moduleTheme
 
     if (licenseLink && !accepted) {
+      const actions = this.renderActions()
       return (
         <SingleContentURLDialogContainer
           contentURL={licenseLink}
@@ -66,17 +81,7 @@ export class LicenseDisplayContainer extends React.Component {
           dialogWidthPercent={widthPercent}
           bodyStyle={bodyStyle}
           open
-          actions={[
-            <FlatButton
-              label={this.context.intl.formatMessage({ id: 'license.refuse' })}
-              onTouchTap={this.onRefuse}
-            />,
-            <FlatButton
-              label={this.context.intl.formatMessage({ id: 'license.accept' })}
-              primary
-              onTouchTap={this.onAccept}
-            />,
-          ]}
+          actions={actions}
         />
       )
     }

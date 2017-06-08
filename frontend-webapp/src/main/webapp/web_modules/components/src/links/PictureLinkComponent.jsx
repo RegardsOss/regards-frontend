@@ -89,6 +89,8 @@ class PictureLinkComponent extends React.Component {
     } else {
       [textColor, imageColor] = [defaultTextColor, defaultImageColor]
     }
+    const iconStyle = { color: imageColor, ...iconStyles }
+    const textStyle = { color: textColor, textAlign: 'center', flexGrow: '1', flexShrink: '1', marginLeft: iconToTextGap }
     /* eslint-disable jsx-a11y/no-static-element-interactions*/
     return (
       <div
@@ -100,10 +102,10 @@ class PictureLinkComponent extends React.Component {
       >
         <div style={{ flexGrow: '0', flexShrink: '0' }}>
           <IconComponent
-            style={{ color: imageColor, ...iconStyles }}
+            style={iconStyle}
           />
         </div>
-        <div style={{ color: textColor, textAlign: 'center', flexGrow: '1', flexShrink: '1', marginLeft: iconToTextGap }}>
+        <div style={textStyle}>
           {text}
         </div>
       </div>

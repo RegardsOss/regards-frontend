@@ -50,7 +50,7 @@ class BasicListActions extends BasicActions {
   /**
    * Fetch entities
    *
-   * @param pathParams url path parameters TODO Specify the expected format
+   * @param pathParams url path parameters
    * @param {Object} queryParams
    * @returns {{}}
    */

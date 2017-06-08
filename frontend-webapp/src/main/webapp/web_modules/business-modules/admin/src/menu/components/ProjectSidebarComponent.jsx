@@ -65,6 +65,8 @@ class ProjectSidebarComponent extends React.Component {
       },
     }
 
+    const projectDependencies = [projectActions.getDependency(RequestVerbEnum.GET)]
+
     return (
       <Drawer
         open
@@ -128,7 +130,7 @@ class ProjectSidebarComponent extends React.Component {
         />
         <Divider />
         <HateoasDisplayDecorator
-          requiredEndpoints={[projectActions.getDependency(RequestVerbEnum.GET)]}
+          requiredEndpoints={projectDependencies}
           hateoasDisplayLogic={allMatchHateoasDisplayLogic}
         >
           <MenuItem

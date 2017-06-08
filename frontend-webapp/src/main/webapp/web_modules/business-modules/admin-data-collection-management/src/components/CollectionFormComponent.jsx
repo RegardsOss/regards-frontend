@@ -107,21 +107,11 @@ export class CollectionFormComponent extends React.Component {
   getTitle = () => {
     let title
     if (this.state.isCreating) {
-      title = <FormattedMessage id="collection.create.title" />
+      title = this.context.intl.formatMessage({ id: 'collection.create.title' })
     } else if (this.state.isDuplicating) {
-      title = (<FormattedMessage
-        id="collection.duplicate.title"
-        values={{
-          name: this.props.currentCollection.content.label,
-        }}
-      />)
+      title = this.context.intl.formatMessage({ id: 'collection.duplicate.title' }, { name: this.props.currentCollection.content.label })
     } else {
-      title = (<FormattedMessage
-        id="collection.edit.title"
-        values={{
-          name: this.props.currentCollection.content.label,
-        }}
-      />)
+      title = this.context.intl.formatMessage({ id: 'collection.edit.title' }, { name: this.props.currentCollection.content.label })
     }
     return title
   }

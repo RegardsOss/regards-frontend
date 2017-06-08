@@ -26,11 +26,8 @@ class AuthenticationDialog extends React.Component {
     const { moduleTheme } = this.context
     return (
       <Dialog
-        bodyStyle={{ padding: '0', overflowY: 'none' }}
-        contentStyle={{
-          width: moduleTheme.dialog.preferredWidth,
-          maxWidth: 'none',
-        }}
+        bodyStyle={moduleTheme.dialog.body}
+        contentStyle={moduleTheme.dialog.content}
         autoDetectWindowHeight
         repositionOnUpdate
         {...dialogProperties}

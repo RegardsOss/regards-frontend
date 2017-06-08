@@ -15,6 +15,15 @@ class NoContainerAvailables extends React.PureComponent {
     goToLayoutConfiguration: PropTypes.func.isRequired,
   }
 
+  static buttonStyle = {
+    marginTop: 20,
+  }
+
+  static cardStyle = {
+    display: 'flex',
+    flexDirection: 'column',
+  }
+
   render() {
     return (
       <Card>
@@ -22,19 +31,14 @@ class NoContainerAvailables extends React.PureComponent {
           title={<FormattedMessage id={'module.no.container.available.title'} />}
         />
         <CardText
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-          }}
+          style={NoContainerAvailables.cardStyle}
         >
           <FormattedMessage id={'module.no.container.available'} />
           <RaisedButton
             label={<FormattedMessage id={'module.no.container.available.configure.layout'} />}
             primary
             onTouchTap={this.props.goToLayoutConfiguration}
-            style={{
-              marginTop: 20,
-            }}
+            style={NoContainerAvailables.buttonStyle}
           />
         </CardText>
       </Card>

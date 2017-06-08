@@ -70,6 +70,8 @@ class DropDownButton extends React.Component {
   render() {
     const { ButtonConstructor, getLabel, children, disabled, ...otherButtonProperties } = this.props
     const { value, menuVisibleOn } = this.state
+    const iconAnchor = { horizontal: 'left', vertical: 'bottom' }
+    const iconTarget = { horizontal: 'left', vertical: 'top' }
     return (
       <div>
         <ButtonConstructor
@@ -83,8 +85,8 @@ class DropDownButton extends React.Component {
         <Popover
           open={!!menuVisibleOn}
           anchorEl={this.state.menuVisibleOn}
-          anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
-          targetOrigin={{ horizontal: 'left', vertical: 'top' }}
+          anchorOrigin={iconAnchor}
+          targetOrigin={iconTarget}
           onRequestClose={this.onCloseMenu}
         >
           <Menu onChange={this.onMenuItemSelected}>

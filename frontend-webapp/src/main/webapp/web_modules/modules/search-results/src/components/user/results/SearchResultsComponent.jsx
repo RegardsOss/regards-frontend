@@ -320,21 +320,21 @@ class SearchResultsComponent extends React.Component {
   renderTableRightSideOptions = () => {
     const { showingDataobjects, onShowTableView, onShowListView } = this.props
     const { intl: { formatMessage } } = this.context
+
+    const iconListStyle = { width: 33, height: 33 }
+    const iconTableStyle = { width: 30, height: 30 }
+    const buttonStyle = { minWidth: 45 }
+
     return [
       // list view mode button
       <FlatButton
         key="view.type.list"
         onTouchTap={onShowListView}
         icon={<ListView
-          style={{
-            width: 33,
-            height: 33,
-          }}
+          style={iconListStyle}
         />}
         secondary={this.isInListView()}
-        style={{
-          minWidth: 45,
-        }}
+        style={buttonStyle}
         title={formatMessage({ id: 'view.type.list.button.label' })}
       />,
       // table view button mode
@@ -342,15 +342,10 @@ class SearchResultsComponent extends React.Component {
         key="view.type.table"
         onTouchTap={onShowTableView}
         icon={<TableView
-          style={{
-            width: 30,
-            height: 30,
-          }}
+          style={iconTableStyle}
         />}
         secondary={this.isInTableView()}
-        style={{
-          minWidth: 45,
-        }}
+        style={buttonStyle}
         disabled={!showingDataobjects}
         title={formatMessage({ id: 'view.type.table.button.label' })}
       />,
@@ -440,6 +435,28 @@ class SearchResultsComponent extends React.Component {
       showParameters = false
     }
 
+    const requestParams = { queryParams: searchQuery }
+
+    const tableConfiguration = {
+      displayColumnsHeader,
+      cellsStyle,
+      lineHeight,
+      displayCheckbox,
+      displaySelectAll: true,
+      onSortByColumn: this.onSortByColumn,
+    }
+
+    const tablePaneConfiguration = {
+      resultsTabsButtons: this.renderTableTabs(),
+      customTableOptions: this.renderTableRightSideOptions(),
+      contextOptions: this.renderTableContextOptions(),
+      customTableHeaderArea: this.renderTableHeaderArea(),
+      advancedOptions: this.renderAdvancedOptions(),
+      displayTableHeader: true,
+      displaySortFilter: true,
+      showParameters,
+    }
+
     return (
       <TableContainer
         key={`${showingDataobjects ? 'do' : 'ds'}-${viewMode}`}
@@ -450,25 +467,9 @@ class SearchResultsComponent extends React.Component {
         pageSize={20}
         displayCheckbox={displayCheckbox}
         columns={columns}
-        requestParams={{ queryParams: searchQuery }}
-        tableConfiguration={{
-          displayColumnsHeader,
-          cellsStyle,
-          lineHeight,
-          displayCheckbox,
-          displaySelectAll: true,
-          onSortByColumn: this.onSortByColumn,
-        }}
-        tablePaneConfiguration={{
-          resultsTabsButtons: this.renderTableTabs(),
-          customTableOptions: this.renderTableRightSideOptions(),
-          contextOptions: this.renderTableContextOptions(),
-          customTableHeaderArea: this.renderTableHeaderArea(),
-          advancedOptions: this.renderAdvancedOptions(),
-          displayTableHeader: true,
-          displaySortFilter: true,
-          showParameters,
-        }}
+        requestParams={requestParams}
+        tableConfiguration={tableConfiguration}
+        tablePaneConfiguration={tablePaneConfiguration}
       />
     )
   }

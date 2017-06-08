@@ -5,7 +5,6 @@ import map from 'lodash/map'
 import forEach from 'lodash/forEach'
 import keys from 'lodash/keys'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
-import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
 import { Connection, PluginMetaData } from '@regardsoss/model'
 import { RenderTextField, RenderSelectField, Field, ErrorTypes, ValidationHelpers } from '@regardsoss/form-utils'
@@ -45,14 +44,9 @@ export class ConnectionFormComponent extends React.Component {
   getTitle = () => {
     let title
     if (this.props.isCreating) {
-      title = <FormattedMessage id="connection.create.title" />
+      title = this.context.intl.formatMessage({ id: 'connection.create.title' })
     } else {
-      title = (<FormattedMessage
-        id="connection.edit.title"
-        values={{
-          name: this.props.currentConnection.content.label,
-        }}
-      />)
+      title = this.context.intl.formatMessage({ id: 'connection.edit.title' }, { name: this.props.currentConnection.content.label })
     }
     return title
   }
@@ -128,7 +122,7 @@ export class ConnectionFormComponent extends React.Component {
               component={RenderTextField}
               type="text"
               label={this.context.intl.formatMessage({ id: 'connection.form.label' })}
-              validate={[ValidationHelpers.validRequiredString]}
+              validate={ValidationHelpers.validRequiredString}
             />
             <Field
               name="pluginClassName"
@@ -150,7 +144,7 @@ export class ConnectionFormComponent extends React.Component {
               component={RenderTextField}
               type="text"
               label={this.context.intl.formatMessage({ id: 'connection.form.user' })}
-              validate={[ValidationHelpers.validRequiredString]}
+              validate={ValidationHelpers.validRequiredString}
             />
             <Field
               name="password"
@@ -158,7 +152,7 @@ export class ConnectionFormComponent extends React.Component {
               component={RenderTextField}
               type="password"
               label={this.context.intl.formatMessage({ id: 'connection.form.password' })}
-              validate={[ValidationHelpers.validRequiredString]}
+              validate={ValidationHelpers.validRequiredString}
             />
             <Field
               name="dbHost"
@@ -166,7 +160,7 @@ export class ConnectionFormComponent extends React.Component {
               component={RenderTextField}
               type="text"
               label={this.context.intl.formatMessage({ id: 'connection.form.dbHost' })}
-              validate={[ValidationHelpers.validRequiredString]}
+              validate={ValidationHelpers.validRequiredString}
             />
             <Field
               name="dbPort"
@@ -174,7 +168,7 @@ export class ConnectionFormComponent extends React.Component {
               component={RenderTextField}
               type="text"
               label={this.context.intl.formatMessage({ id: 'connection.form.dbPort' })}
-              validate={[ValidationHelpers.validRequiredNumber]}
+              validate={ValidationHelpers.validRequiredNumber}
             />
             <Field
               name="dbName"
@@ -182,7 +176,7 @@ export class ConnectionFormComponent extends React.Component {
               component={RenderTextField}
               type="text"
               label={this.context.intl.formatMessage({ id: 'connection.form.dbName' })}
-              validate={[ValidationHelpers.validRequiredString]}
+              validate={ValidationHelpers.validRequiredString}
             />
             <Field
               name="minPoolSize"
@@ -190,7 +184,7 @@ export class ConnectionFormComponent extends React.Component {
               component={RenderTextField}
               type="number"
               label={this.context.intl.formatMessage({ id: 'connection.form.minPoolSize' })}
-              validate={[ValidationHelpers.validRequiredNumber]}
+              validate={ValidationHelpers.validRequiredNumber}
             />
             <Field
               name="maxPoolSize"
@@ -198,7 +192,7 @@ export class ConnectionFormComponent extends React.Component {
               component={RenderTextField}
               type="number"
               label={this.context.intl.formatMessage({ id: 'connection.form.maxPoolSize' })}
-              validate={[ValidationHelpers.validRequiredNumber]}
+              validate={ValidationHelpers.validRequiredNumber}
             />
           </CardText>
           <CardActions>

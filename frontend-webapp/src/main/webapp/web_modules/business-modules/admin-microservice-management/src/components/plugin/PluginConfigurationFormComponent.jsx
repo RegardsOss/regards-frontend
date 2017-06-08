@@ -3,16 +3,15 @@
  **/
 import forEach from 'lodash/forEach'
 import cloneDeep from 'lodash/cloneDeep'
-import { FormattedMessage } from 'react-intl'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent } from '@regardsoss/components'
 import { RenderTextField, RenderDoubleLabelToggle, Field, ValidationHelpers, reduxForm } from '@regardsoss/form-utils'
 import { PluginMetaData, PluginConfiguration } from '@regardsoss/model'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import PluginParameterListComponent from './parameter/PluginParameterListComponent'
-import { buildDefaultParameterList } from '../../model/plugin/utils'
+import { buildDefaultParameterList, mapPluginParameterTypeToPluginParameter } from '../../model/plugin/utils'
 import moduleStyles from '../../styles/styles'
+import GenericPluginParameter from './parameter/GenericPluginParameter'
 
 const { validRequiredString, validRequiredNumber } = ValidationHelpers
 
@@ -69,7 +68,7 @@ export class PluginConfigurationFormComponent extends React.Component {
     /**
      * If both pluginConfiguration & pluginMetaData props are passed, check that pluginMetaData's pluginId attribute matches
      * pluginConfiguration's pluginId attribute.
-     * In other words, we passed the correct PluginMetaData of the PluginConfiguation.
+     * In other words, we passed the correct PluginMetaData of the PluginConfiguration.
      */
     if (props.pluginConfiguration && props.pluginMetaData) {
       const pluginConfigurationsPluginId = props.pluginConfiguration.content.pluginId
@@ -122,18 +121,13 @@ export class PluginConfigurationFormComponent extends React.Component {
    * @returns {XML}
    */
   render() {
-    const { currentPluginMetaData, currentPluginConfiguration, handleSubmit, submitting, invalid, backUrl, formMode, change } = this.props
+    const { currentPluginMetaData, currentPluginConfiguration, handleSubmit, submitting, invalid, backUrl, change, formMode } = this.props
 
     const styles = moduleStyles(this.context.muiTheme)
 
     const title = this.state.isEditing ?
-      (<FormattedMessage
-        id="microservice-management.plugin.configuration.form.edit.title"
-        values={{
-          name: currentPluginConfiguration.content.name,
-        }}
-      />) :
-      <FormattedMessage id="microservice-management.plugin.configuration.form.create.title" />
+      this.context.intl.formatMessage({ id: 'microservice-management.plugin.configuration.form.edit.title' }, { name: currentPluginConfiguration.content.name }) :
+      this.context.intl.formatMessage({ id: 'microservice-management.plugin.configuration.form.create.title' })
 
     return (
       <form
@@ -191,12 +185,21 @@ export class PluginConfigurationFormComponent extends React.Component {
             </CardText>
           </Card>
 
-          <PluginParameterListComponent
-            formMode={formMode}
-            pluginConfiguration={currentPluginConfiguration}
-            pluginMetaData={currentPluginMetaData}
-            change={change}
-          />
+          <Card style={styles.pluginConfiguration.form.section}>
+            <CardTitle title={this.context.intl.formatMessage({ id: 'microservice-management.plugin.parameter.list.title' })} />
+            <CardText>
+              {currentPluginMetaData ? currentPluginMetaData.content.parameters.map((pluginParameterType, index) => (
+                <GenericPluginParameter
+                  key={pluginParameterType.name}
+                  fieldKey={`parameters.${index}`}
+                  pluginParameterType={pluginParameterType}
+                  pluginParameter={mapPluginParameterTypeToPluginParameter(pluginParameterType, currentPluginConfiguration)}
+                  pluginMetaData={currentPluginMetaData}
+                  change={change}
+                  mode={formMode}
+                />)) : []}
+            </CardText>
+          </Card>
 
           <Card style={styles.pluginConfiguration.form.section}>
             <CardActions>

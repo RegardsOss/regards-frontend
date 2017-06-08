@@ -26,7 +26,10 @@ class AdminContainer extends React.Component {
     adminForm: PropTypes.shape({
       changeField: PropTypes.func,
       // Current module configuration. Values from the redux-form
-      form: ModuleConfiguration,
+      form: PropTypes.shape({
+        // Specific current module configuration for the current AdminContainer
+        conf: ModuleConfiguration,
+      }),
     }),
 
     // Initial module configuration given by LayModuleComponent

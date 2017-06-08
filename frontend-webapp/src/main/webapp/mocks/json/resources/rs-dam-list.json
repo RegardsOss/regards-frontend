@@ -686,10 +686,10 @@
         },
         {
           "name": "param33",
-          "type": "java.lang.String",
+          "type": "java.lang.Integer",
           "paramType": "PRIMITIVE",
           "optional": false,
-          "defaultValue": "this is the default value of param33"
+          "defaultValue": "69"
         },
         {
           "name": "param34",
@@ -700,10 +700,10 @@
         },
         {
           "name": "param35",
-          "type": "java.lang.String",
+          "type": "java.lang.Integer",
           "paramType": "PRIMITIVE",
           "optional": false,
-          "defaultValue": "this is the default value of param35"
+          "defaultValue": "12"
         }
       ]
     },
@@ -798,13 +798,13 @@
           "type": "java.lang.Integer",
           "paramType": "PRIMITIVE",
           "optional": true,
-          "defaultValue": 69
+          "defaultValue": 4
         },
         {
           "name": "isActive",
           "type": "java.lang.Boolean",
           "paramType": "PRIMITIVE",
-          "optional": false,
+          "optional": true,
           "defaultValue": true
         }
       ]
@@ -822,28 +822,50 @@
       "parameters": [
         {
           "name": "param31",
-          "value": "value31",
-          "dynamic": true
+          "value": "red",
+          "dynamic": true,
+          "dynamicsValues": [
+            {
+              "value": "red"
+            },
+            {
+              "value": "greeen"
+            },
+            {
+              "value": "blue"
+            }
+          ]
         },
         {
           "name": "param32",
           "value": "value32",
-          "dynamic": false
+          "dynamic": false,
+          "dynamicsValues": []
         },
         {
           "name": "param33",
-          "value": "value33",
-          "dynamic": false
+          "value": "42",
+          "dynamic": true,
+          "dynamicsValues": [
+            {
+              "value": "12"
+            },
+            {
+              "value": "18"
+            }
+          ]
         },
         {
           "name": "param34",
           "value": "value34",
-          "dynamic": false
+          "dynamic": false,
+          "dynamicsValues": []
         },
         {
           "name": "param35",
-          "value": "value35",
-          "dynamic": false
+          "value": "52",
+          "dynamic": false,
+          "dynamicsValues": []
         }
       ]
     },
@@ -895,32 +917,6 @@
         {
           "name": "plgInterface",
           "value": "40",
-          "dynamic": false
-        }
-      ]
-    },
-    {
-      "id": 10,
-      "pluginId": "aComplexPlugin",
-      "label": "An other configuration",
-      "version": "1.0.0",
-      "priorityOrder": 0,
-      "active": false,
-      "pluginClassName": "java.lang.Integer",
-      "parameters": [
-        {
-          "name": "coeff",
-          "value": "44",
-          "dynamic": true
-        },
-        {
-          "name": "isActive",
-          "value": "true",
-          "dynamic": false
-        },
-        {
-          "name": "plgInterface",
-          "value": "12",
           "dynamic": false
         }
       ]

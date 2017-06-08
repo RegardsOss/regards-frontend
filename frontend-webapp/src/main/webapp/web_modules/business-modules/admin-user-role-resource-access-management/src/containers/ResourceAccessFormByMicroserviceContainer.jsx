@@ -89,12 +89,14 @@ export class ResourceAccessFormByMicroserviceContainer extends React.Component {
       editRoleResources, resourceRoles } = this.props
     const { modalResourceAccessId, isModalOpen } = this.state
 
+    const resource = modalResourceAccessId ? getResource(modalResourceAccessId) : {}
+
     return (
       <div>
         <ShowableAtRender show={isModalOpen}>
           <ResourceAccessModalOverviewComponent
             onClose={this.handleCloseResourceAccessModal}
-            currentResource={modalResourceAccessId ? getResource(modalResourceAccessId) : {}}
+            currentResource={resource}
             roles={resourceRoles}
             editRoleResources={editRoleResources}
           />

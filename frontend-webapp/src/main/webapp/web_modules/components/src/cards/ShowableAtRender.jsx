@@ -1,4 +1,6 @@
-/** @module common */
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 
 class ShowableAtRender extends React.Component {
 

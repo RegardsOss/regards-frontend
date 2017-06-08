@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import FlatButton from 'material-ui/FlatButton'
 import ActionButtonComponent from './ActionButtonComponent'
 

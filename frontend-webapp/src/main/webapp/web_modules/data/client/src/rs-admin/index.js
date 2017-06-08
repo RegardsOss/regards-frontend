@@ -62,6 +62,10 @@ import WaitingAccessUsersSignalActions from './user/WaitingAccessUsersSignalActi
 import getWaitingAccessUsersSignalReducer from './user/WaitingAccessUsersSignalReducer'
 import getWaitingAccessUsersSignalSelectors from './user/WaitingAccessUsersSignalSelectors'
 
+import EndpointActions from './endpoint/EndpointActions'
+import getEndpointReducers from './endpoint/EndpointReducers'
+import getEndpointSelectors from './endpoint/EndpointSelectors'
+
 export default {
 
   AccountPasswordActions,
@@ -75,6 +79,10 @@ export default {
   BorrowableRolesActions,
   getBorrowableRolesReducer,
   getBorrowableRolesSelectors,
+
+  EndpointActions,
+  getEndpointReducers,
+  getEndpointSelectors,
 
   ProjectActions,
   ProjectSelectors,

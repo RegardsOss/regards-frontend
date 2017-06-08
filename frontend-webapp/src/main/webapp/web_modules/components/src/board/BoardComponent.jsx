@@ -27,13 +27,13 @@ class BoardComponent extends React.Component {
     const boardItemComponents = flow(
       fpfilter(item => !item.advanced),
       // eslint-disable-next-line react/no-array-index-key
-      fpmap((item, index) => <BoardItemComponent item={item} key={index} />),
+      fpmap.convert({ cap: false })((item, index) => <BoardItemComponent item={item} key={index} />),
     )(this.props.items)
 
     const advancedBoardItemComponents = flow(
       fpfilter(item => item.advanced),
       // eslint-disable-next-line react/no-array-index-key
-      fpmap((item, index) => <BoardItemComponent item={item} key={index} />),
+      fpmap.convert({ cap: false })((item, index) => <BoardItemComponent item={item} key={index} />),
     )(this.props.items)
 
     return (

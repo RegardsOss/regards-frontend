@@ -1,3 +1,6 @@
+/*
+ * LICENSE_PLACEHOLDER
+ */
 import projectManagementReducer from './reducer'
 import projectManagementRouter from './router'
 

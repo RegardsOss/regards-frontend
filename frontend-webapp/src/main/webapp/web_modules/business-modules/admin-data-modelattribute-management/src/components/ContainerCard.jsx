@@ -37,9 +37,10 @@ export class ContainerCard extends React.Component {
     } else {
       styles.border = '1px solid gray'
     }
+    const allStyles = { ...style, ...styles }
     return connectDropTarget(
       <div>
-        <Card style={{ ...style, ...styles }}>
+        <Card style={allStyles}>
           <CardTitle title={title} />
           <CardText>
             {children}

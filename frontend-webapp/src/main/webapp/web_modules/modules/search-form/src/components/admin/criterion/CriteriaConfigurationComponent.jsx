@@ -46,7 +46,7 @@ class CriteriaConfigurationComponent extends React.Component {
         {criteriaAttribute.description}
       </span>
       <Field
-        name={`pluginConf.attributes.${criteriaAttribute.name}`}
+        name={`conf.attributes.${criteriaAttribute.name}`}
         fullWidth
         component={RenderSelectField}
         type="text"

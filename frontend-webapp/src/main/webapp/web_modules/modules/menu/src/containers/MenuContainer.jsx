@@ -115,6 +115,8 @@ class MenuContainer extends React.Component {
 
     const menu = this.displayModulesMenu()
 
+    const toolBarStyle = { ...this.displaySeparator(menu), marginLeft: 10 }
+
     return (
       <Toolbar style={style.headContainer.styles}>
         <ToolbarGroup firstChild>
@@ -126,7 +128,7 @@ class MenuContainer extends React.Component {
           {localeSelector}
           <ToolbarSeparator style={this.displaySeparator(themeSelector)} />
           {themeSelector}
-          <ToolbarSeparator style={{ ...this.displaySeparator(menu), marginLeft: 10 }} />
+          <ToolbarSeparator style={toolBarStyle} />
           {menu}
         </ToolbarGroup>
       </Toolbar>

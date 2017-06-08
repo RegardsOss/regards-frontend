@@ -38,11 +38,12 @@ function UserList(props) {
       {props.rightButtonIcon || defaultRightButtonIcon}
     </IconButton>
   )
+  const style = { horizontal: 'left', vertical: 'top' }
   const rightIconMenu = (
     <IconMenu
       iconButtonElement={rightButton}
-      anchorOrigin={{ horizontal: 'left', vertical: 'top' }}
-      targetOrigin={{ horizontal: 'left', vertical: 'top' }}
+      anchorOrigin={style}
+      targetOrigin={style}
     >
       {props.menuElements}
     </IconMenu>

@@ -1,10 +1,12 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { ListItem } from 'material-ui/List'
-import { Field, RenderToggle } from '@regardsoss/form-utils'
+import Subheader from 'material-ui/Subheader'
+import Checkbox from 'material-ui/Checkbox'
+import { ShowableAtRender } from '@regardsoss/components'
+import { Field, RenderCheckbox } from '@regardsoss/form-utils'
 import { themeContextType } from '@regardsoss/theme'
-import { pluginParameterComponentPropTypes } from './utils'
+import { pluginParameterComponentPropTypes, getFieldName } from './utils'
 import moduleStyles from '../../../styles/styles'
 
 /**
@@ -30,31 +32,39 @@ export class PluginParameterBoolean extends React.Component {
   parse = val => val.toString()
 
   render() {
-    const { fieldKey, pluginParameter: { name, value }, pluginParameterType, mode } = this.props
+    const { pluginParameter: { name, value }, pluginParameterType, pluginMetaData, mode } = this.props
+    const isView = mode === 'view'
     const styles = moduleStyles(this.context.muiTheme)
+    let label = name
+    if (pluginParameterType && !pluginParameterType.optional) {
+      label += '*'
+    }
 
-    switch (mode) {
-      case 'view':
-        return <ListItem>{name}: {value}</ListItem>
-      case 'edit':
-      case 'create':
-      case 'copy':
-        return (
+    return (
+      <div style={styles.pluginParameter.wrapper}>
+        <Subheader style={styles.pluginParameter.label}>{label}</Subheader>
+        <ShowableAtRender show={isView} >
+          <Checkbox
+            checked={this.format(value)}
+            disabled
+          />
+        </ShowableAtRender>
+        <ShowableAtRender show={!isView} >
           <Field
-            name={fieldKey}
-            format={this.format} // Parse value to boolean
+            name={getFieldName(name, pluginMetaData, '.value')}
+            format={this.format}
             parse={this.parse}
-            component={RenderToggle}
+            component={RenderCheckbox}
             type={'boolean'}
             style={styles.pluginConfiguration.form.toggle}
-            label={name}
-            defaultToggled={pluginParameterType && pluginParameterType.defaultValue}
+            defaultChecked={this.format(value)}
           />
-        )
-      default:
-        return <ListItem>{name}: {value}</ListItem>
-    }
+        </ShowableAtRender>
+
+      </div>
+    )
   }
 }
+
 
 export default PluginParameterBoolean

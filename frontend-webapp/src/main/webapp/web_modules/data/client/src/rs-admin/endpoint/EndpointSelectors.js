@@ -3,15 +3,17 @@
  **/
 import { BasicPageableSelectors } from '@regardsoss/store-utils'
 
+/**
+ * State selector to retrieve stored endpoints
+ *
+ * @author Sébastien Binda
+ */
 class EndpointSelectors extends BasicPageableSelectors {
-  constructor() {
-    super(['common', 'endpoints'])
-  }
 
   getListOfKeys(state) {
     return this.uncombineStore(state).listOfKeys
   }
+
 }
 
-const instance = new EndpointSelectors()
-export default instance
+export default storePath => new EndpointSelectors(storePath)

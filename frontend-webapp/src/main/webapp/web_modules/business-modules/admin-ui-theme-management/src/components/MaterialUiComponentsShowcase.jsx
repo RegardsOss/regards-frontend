@@ -49,6 +49,21 @@ class ThemesPage extends React.Component {
 
   getComponentGroup() {
     const styles = getStyles(this.context.muiTheme)
+    const dialogButtons = [
+      <FlatButton
+        key="Cancel"
+        label="Cancel"
+        keyboardFocused
+        onTouchTap={this.handleRequestCloseDialog}
+        primary
+      />,
+      <FlatButton
+        key="Submit"
+        label="Submit"
+        onTouchTap={this.handleRequestCloseDialog}
+        primary
+      />,
+    ]
 
     return (
       <ClearFix>
@@ -121,11 +136,11 @@ class ThemesPage extends React.Component {
             <DatePicker
               hintText="Landscape Dialog"
               mode="landscape"
-              style={{ width: '100%' }}
+              style={styles.showcase.datePicker}
             />
           </div>
           <div style={styles.showcase.container}>
-            <DropDownMenu value={3} style={{ width: '100%' }}>
+            <DropDownMenu value={3} style={styles.fullWidth}>
               <MenuItem value={1} primaryText={'Never'} />
               <MenuItem value={2} primaryText={'Every Night'} />
               <MenuItem value={3} primaryText={'Weeknights'} />
@@ -179,19 +194,7 @@ class ThemesPage extends React.Component {
             <Dialog
               open={this.state.dialogOpen}
               title="Dialog With Standard Actions"
-              actions={[
-                <FlatButton
-                  label="Cancel"
-                  keyboardFocused
-                  onTouchTap={this.handleRequestCloseDialog}
-                  primary
-                />,
-                <FlatButton
-                  label="Submit"
-                  onTouchTap={this.handleRequestCloseDialog}
-                  primary
-                />,
-              ]}
+              actions={dialogButtons}
               onRequestClose={this.handleRequestCloseDialog}
             >
               The actions in this window are created from tan array

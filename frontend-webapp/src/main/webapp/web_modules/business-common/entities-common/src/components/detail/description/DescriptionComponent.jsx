@@ -1,7 +1,6 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
-import { FormattedMessage } from 'react-intl'
 import NoDataIcon from 'material-ui/svg-icons/device/wallpaper'
 import ReactMarkdown from 'react-markdown'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -36,18 +35,15 @@ class DescriptionViewComponent extends React.Component {
   render() {
     const { entityLabel, descriptionFileURL, descriptionFile, contentHeight } = this.props
     const { moduleTheme: { markdownContainer, scrollArea } } = this.context
+    const styles = { height: contentHeight }
     return (
       <NoContentMessageInfo
         noContent={!descriptionFile && !descriptionFileURL}
         title={this.context.intl.formatMessage({ id: 'entities.common.description.no.value.title' })}
-        message={<FormattedMessage
-          id="entities.common.description.no.value.message"
-          values={{ entityLabel }}
-        />
-        }
+        message={this.context.intl.formatMessage({ id: 'entities.common.description.no.value.message' }, { entityLabel })}
         Icon={NoDataIcon}
       >
-        <div style={{ height: contentHeight }}>
+        <div style={styles}>
           {
             // render content
             (() => {

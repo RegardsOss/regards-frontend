@@ -65,6 +65,13 @@ class DetailViewComponent extends React.Component {
       descriptionFile, onClose, ...otherDialogProperties } = this.props
     // due to multiple overflows Y embedded in each other, we need here to compute the remaining tab content space on Y
     const { moduleTheme: { descriptionDialog } } = this.context
+    const tabStyles = { height: '100%' }
+    const actions = [
+      <FlatButton
+        key="button"
+        label={this.context.intl.formatMessage({ id: 'entities.common.close.button' })}
+        onTouchTap={onClose}
+      />]
     return (
       <LoadableContentDialogContainer
         open={open}
@@ -73,15 +80,11 @@ class DetailViewComponent extends React.Component {
         dialogWidthPercent={descriptionDialog.widthPercent}
         onRequestClose={onClose}
         loadingMessage={this.context.intl.formatMessage({ id: 'entities.common.loading.message' })}
-        actions={[
-          <FlatButton
-            label={this.context.intl.formatMessage({ id: 'entities.common.close.button' })}
-            onTouchTap={onClose}
-          />]}
+        actions={actions}
         {...otherDialogProperties}
       >
         <Measure onMeasure={this.onContentHeightChanges}>
-          <Tabs style={{ height: '100%' }}>
+          <Tabs style={tabStyles}>
             <Tab label={this.context.intl.formatMessage({ id: 'entities.common.attributes.tabs' })}>
               <AttributesViewComponent
                 entityLabel={entityLabel}

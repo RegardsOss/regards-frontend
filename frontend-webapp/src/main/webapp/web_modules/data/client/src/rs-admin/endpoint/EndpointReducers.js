@@ -1,14 +1,23 @@
-/**
+/*
  * LICENSE_PLACEHOLDER
- **/
+ */
 import map from 'lodash/map'
 import { BasicPageableReducers } from '@regardsoss/store-utils'
-import { ResourceAccessConfiguration } from '@regardsoss/api'
+import { EndpointConfiguration } from '@regardsoss/api'
 import EndpointActions from './EndpointActions'
 
+/**
+ * Redux Reducer for endpoint actions.
+ *
+ * To use those actions, you need to pass the <namespace> parameter
+ *
+ * namespace : String, must be the same namespace defined in the associated Reducer.
+ *
+ * @author Sébastien Binda
+ */
 class EndpointReducers extends BasicPageableReducers {
-  constructor() {
-    super(ResourceAccessConfiguration, EndpointActions)
+  constructor(namespace) {
+    super(EndpointConfiguration, new EndpointActions(namespace))
   }
 
   static buildListOfKeys(list) {
@@ -30,13 +39,8 @@ class EndpointReducers extends BasicPageableReducers {
   }
 }
 
-const instance = new EndpointReducers()
+export default (namespace) => {
+  const instance = new EndpointReducers(namespace)
+  return (state, action) => instance.reduce(state, action)
+}
 
-/**
- * Return an function where the reducer instance exists
- *
- * @param state redux previous state
- * @param action redux action received
- * @return new state
- */
-export default (state, action) => instance.reduce(state, action)

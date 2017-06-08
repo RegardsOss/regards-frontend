@@ -14,6 +14,7 @@ var allRules = {
   // ignore unused variable on functions arguments
   "no-unused-vars": [ 2, { "args": "none" } ],
   "no-confusing-arrow": 0,
+  "no-warning-comments" : [1, { "terms": ["todo", "fixme"], "location": "anywhere" }],
   "semi": [
     "error",
     "never"
@@ -32,6 +33,7 @@ var allRules = {
   "react/require-extension": 0,
   "react/require-default-props": 0,
   "react/prefer-stateless-function": 0,
+  "react/display-name" : 0,
 
   // Lodash rules configuration
   "lodash/import-scope": [ 2, "method" ],

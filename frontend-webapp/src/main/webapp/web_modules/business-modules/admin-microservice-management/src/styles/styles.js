@@ -13,6 +13,7 @@ const microserviceManagementStyles = theme => ({
   plugins: {
     root: {
       position: 'relative',
+      paddingBottom: 20,
     },
     grid: {
       display: 'flex',
@@ -31,13 +32,18 @@ const microserviceManagementStyles = theme => ({
   pluginConfiguration: {
     root: {
       position: 'relative',
-      padding: '0px 20px 20px 20px',
     },
     card: {
-      margin: '0px 0px',
+      margin: '0px 20px',
     },
     cardExpanded: {
-      margin: '30px 0px',
+      margin: '30px 20px',
+    },
+    cardExpandedText: {
+      borderTop: `solid 1px ${theme.palette.borderColor}`,
+    },
+    subheader: {
+      padding: 0,
     },
     lineWrapper: {
       display: 'flex',
@@ -79,6 +85,28 @@ const microserviceManagementStyles = theme => ({
     },
     field: {
       display: 'none',
+    },
+    label: {
+      paddingLeft: 0,
+      fontSize: 12,
+      color: theme.textField.hintColor,
+      width: 'initial',
+      marginRight: 10,
+    },
+    wrapper: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'flex-start',
+    },
+  },
+  dynamicValue: {
+    createdialogbuttons: {
+      display: 'flex',
+      justifyContent: 'flex-end',
+    },
+    chip: {
+      marginRight: 5,
     },
   },
 })

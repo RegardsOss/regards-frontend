@@ -10,7 +10,7 @@ module.exports = {
       '@regardsoss/client',
       '@regardsoss/components',
       '@regardsoss/display-control',
-      '@regardsoss/endpoint',
+      '@regardsoss/endpoints-common',
       '@regardsoss/form-utils',
       '@regardsoss/global-system-error',
       '@regardsoss/i18n',

@@ -1,3 +1,7 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
+import isFunction from 'lodash/isFunction'
 import RaisedButton from 'material-ui/RaisedButton'
 import { Link } from 'react-router'
 import ShowableAtRender from './ShowableAtRender'
@@ -43,7 +47,7 @@ class ActionButtonComponent extends React.Component {
       // Clicking on this button will submit the parent form
     } else if (props.url === undefined && props.onTouchTap === undefined) {
       throw new Error('No behavior specified. Please specify props.url or props.onTouchTap')
-    } else if (props.url && props.url.length > 0 && typeof props.onTouchTap === 'function') {
+    } else if (props.url && props.url.length > 0 && isFunction(props.onTouchTap)) {
       throw new Error('Too many behavior specified. Please specify either props.url or props.onTouchTap')
     }
   }

@@ -18,6 +18,9 @@ const styles = theme => ({
     flexWrap: 'wrap',
     margin: '10px 10px',
   },
+  chipItem: {
+    marginRight: 10,
+  },
   getChip: {
     backgroundColor: lightBlue200,
   },

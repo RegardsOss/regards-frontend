@@ -1,7 +1,6 @@
 import map from 'lodash/map'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import MenuItem from 'material-ui/MenuItem'
-import { FormattedMessage } from 'react-intl'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { CardActionsComponent } from '@regardsoss/components'
@@ -63,13 +62,9 @@ export class RoleFormComponent extends React.Component {
 
   render() {
     const { pristine, submitting, invalid, roleList } = this.props
-    const title = this.state.isCreating ? <FormattedMessage id="role.create.title" /> :
-      (<FormattedMessage
-        id="role.edit.title"
-        values={{
-          name: this.props.currentRole.content.name,
-        }}
-      />)
+    const title = this.state.isCreating ?
+      this.context.intl.formatMessage({ id: 'role.create.title' }) :
+      this.context.intl.formatMessage({ id: 'role.edit.title' }, { name: this.props.currentRole.content.name })
     return (
       <form
         onSubmit={this.props.handleSubmit(this.props.onSubmit)}

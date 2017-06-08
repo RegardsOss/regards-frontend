@@ -1,6 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import omit from 'lodash/omit'
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
@@ -185,7 +186,6 @@ export class ProjectUserFormContainer extends React.Component {
    */
   updateMetadata = user => this.setState({ userMetadata: getMetadataArray(user) })
 
-  // TODO ajouter le composant de waiting des données pour que le fetch des groupes ait le temps de se faire
   render() {
     return (
       <I18nProvider messageDir="business-modules/admin-user-projectuser-management/src/i18n">
@@ -204,8 +204,8 @@ const mapStateToProps = (state, ownProps) => ({
 })
 const mapDispatchToProps = dispatch => ({
   fetchUser: userId => dispatch(projectUserActions.fetchEntity(userId)),
-  createProjectUser: values => dispatch(projectUserActions.createEntity(values)),
-  updateProjectUser: (id, values) => dispatch(projectUserActions.updateEntity(id, values)),
+  createProjectUser: ({ useExistingAccount, ...values }) => dispatch(projectUserActions.createEntity(omit(values, ['useExistingAccount']))),
+  updateProjectUser: (id, values) => dispatch(projectUserActions.updateEntity(id, omit(values, ['useExistingAccount']))),
   fetchRoleList: () => dispatch(roleActions.fetchEntityList()),
   fetchGroupList: () => dispatch(accessGroupActions.fetchPagedEntityList()),
   assignGroup: (group, user) => dispatch(userGroupActions.sendSignal('PUT', null, { name: group, email: user })),

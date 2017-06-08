@@ -81,9 +81,7 @@ export class AskProjectAccessFormComponent extends React.Component {
               <ScrollArea
                 vertical
                 horizontal={false}
-                style={{
-                  height: moduleTheme.dialog.maxFormHeight,
-                }}
+                style={moduleTheme.dialog.scrollStyle}
               >
                 <Field
                   name={useExistingAccountFieldId}
@@ -203,7 +201,12 @@ function validate(fieldValues) {
  * @param {*} dispatch  dispatch
  * @param {*} props  properties
  */
-function asyncValidate({ newPassword }, dispatch, props) {
+function asyncValidate({ newPassword, useExistingAccount }, dispatch, props) {
+  if (useExistingAccount) {
+    // no validation required, the user will not enter a password
+    return Promise.resolve({})
+  }
+
   // ugly async connection should be done by the container bu we can't
   const { fetchPasswordValidity } = props
   return fetchPasswordValidity(newPassword).then((result) => {

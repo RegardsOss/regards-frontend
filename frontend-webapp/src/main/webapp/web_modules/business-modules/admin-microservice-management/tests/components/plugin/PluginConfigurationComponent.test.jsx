@@ -7,10 +7,10 @@ import { testSuiteHelpers, DumpProvider, buildTestContext } from '@regardsoss/te
 import { Card } from 'material-ui/Card'
 import PluginConfigurationComponent from '../../../src/components/plugin/PluginConfigurationComponent'
 
-
 const options = {
   context: buildTestContext(),
 }
+
 /**
  * Plugin tests
  * @author Xavier-Alexandre Brochard
@@ -28,6 +28,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing plugin configuration component', ()
     const props = {
       microserviceName: 'rs-test',
       pluginConfiguration: DumpProvider.getFirstEntity('CommonClient', 'PluginConfiguration'),
+      pluginMetaData: DumpProvider.getFirstEntity('CommonClient', 'PluginMetaData'),
       onActiveToggle: () => { },
       onCopyClick: () => { },
       onDeleteClick: () => { },

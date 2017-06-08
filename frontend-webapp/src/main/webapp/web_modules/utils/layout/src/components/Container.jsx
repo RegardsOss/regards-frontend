@@ -85,14 +85,14 @@ class Container extends React.Component {
     }
     return flow(
       fpfilter(module => module.content.container === this.props.container.id && module.content.applicationId === this.props.appName),
-      fpmap((module, idx) => (
+      fpmap(module => (
         <LazyModuleComponent
           key={module.content.id}
           module={module.content}
           appName={this.props.appName}
           project={this.props.project}
         />)),
-      )(this.props.modules)
+    )(this.props.modules)
   }
 
   /**
@@ -111,7 +111,7 @@ class Container extends React.Component {
       }
       return flow(
         fpfilter(plugin => plugin.container === this.props.container.id),
-        fpmap((plugin, idx) => (
+        fpmap.convert({ cap: false })((plugin, idx) => (
           <Paper
             key={`${this.props.container.id}-${plugin.pluginId}`}
             style={stylePaper}

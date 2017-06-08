@@ -5,7 +5,7 @@ import keys from 'lodash/keys'
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { Step } from 'material-ui/Stepper'
-import { testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import EnumConnectivity from '@regardsoss/model/src/admin/EnumConnectivity'
 import GuidedProjectConfiguration from '../../../src/components/projectConnection/GuidedProjectConfigurationComponent'
 import ProjectConnectionFormComponent from '../../../src/components/projectConnection/ProjectConnectionFormComponent'
@@ -14,6 +14,10 @@ import ProjectConnectionFormComponent from '../../../src/components/projectConne
 describe('[ADMIN PROJECT MANAGEMENT] Testing GuidedProjectConfiguration', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
+
+  const options = {
+    context: buildTestContext(),
+  }
 
   it('should exists', () => {
     assert.isDefined(GuidedProjectConfiguration)
@@ -73,18 +77,6 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing GuidedProjectConfiguration', () => 
   }
 
   it('should render the stepper to configure individually all connections', () => {
-    const options = {
-      context: {
-        muiTheme: {
-          palette: {
-            primary1Color: 'color0',
-            accent1Color: 'color1',
-            warningColor: 'orange',
-          },
-        },
-      },
-    }
-
     props.configureOneForAll = false
 
     const enzymeWrapper = shallow(<GuidedProjectConfiguration {...props} />, options)
@@ -92,18 +84,6 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing GuidedProjectConfiguration', () => 
   })
 
   it('should render only one form to configure all connection at the same time', () => {
-    const options = {
-      context: {
-        muiTheme: {
-          palette: {
-            primary1Color: 'color0',
-            accent1Color: 'color1',
-            warningColor: 'orange',
-          },
-        },
-      },
-    }
-
     props.configureOneForAll = true
 
     const enzymeWrapper = shallow(<GuidedProjectConfiguration {...props} />, options)

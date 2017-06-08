@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { connect } from '@regardsoss/redux'
-import { EndpointSelectors } from '@regardsoss/endpoint'
+import { CommonEndpointClient } from '@regardsoss/endpoints-common'
 import { AuthenticationParametersSelectors } from '@regardsoss/authentication-manager'
 import allMatchHateoasDisplayLogic from '../logics/allMatchHateoasDisplayLogic'
 import DisplayDecorator from './../DisplayDecorator'
@@ -42,7 +42,7 @@ export class HateoasDisplayDecorator extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  availableEndpoints: EndpointSelectors.getListOfKeys(state),
+  availableEndpoints: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
   isInstance: AuthenticationParametersSelectors.isInstance(state),
 })
 

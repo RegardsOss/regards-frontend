@@ -28,7 +28,7 @@ describe('[SEARCH FORM] Testing User Container', () => {
         label: 'string-criterion',
         pluginId: 1,
         container: 'content',
-        pluginConf: {
+        conf: {
           attributes: {
             testAttr: 0,
             testAttr2: 1,
@@ -40,7 +40,7 @@ describe('[SEARCH FORM] Testing User Container', () => {
         label: 'test-criterion',
         pluginId: 1,
         container: 'content',
-        pluginConf: {
+        conf: {
           attributes: {
             testAttr2: 1,
             testAttr3: 2,

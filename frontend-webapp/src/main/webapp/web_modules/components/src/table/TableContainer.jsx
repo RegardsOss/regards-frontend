@@ -283,18 +283,21 @@ class TableContainer extends React.Component {
       toggledElements, selectionMode, tableConfiguration: { lineHeight = defaultLineHeight, ...tableConfiguration },
     } = this.props
     const { entities, allSelected, allColumns } = this.state // cached render data
+    const moduleStyles = { styles }
+
+    const tableData = {
+      pageSize,
+      onScrollEnd: this.onScrollEnd,
+      entities,
+      lineHeight,
+      ...tableConfiguration,
+    }
 
     return (
       <I18nProvider messageDir={'components/src/table/i18n'}>
-        <ModuleThemeProvider module={{ styles }}>
+        <ModuleThemeProvider module={moduleStyles}>
           <TablePane
-            tableData={{
-              pageSize,
-              onScrollEnd: this.onScrollEnd,
-              entities,
-              lineHeight,
-              ...tableConfiguration,
-            }}
+            tableData={tableData}
             columns={allColumns}
             entitiesFetching={entitiesFetching}
             resultsCount={(pageMetadata && pageMetadata.totalElements) || 0}
