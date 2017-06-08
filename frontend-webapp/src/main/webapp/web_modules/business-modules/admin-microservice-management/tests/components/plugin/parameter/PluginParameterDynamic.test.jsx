@@ -26,6 +26,16 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing plugin parameter dynamic component'
 
   it('should render a Chip', () => {
     const props = {
+      pluginConfiguration: {
+        content: {
+          id: 2,
+          label: 'Random configuration',
+          version: '0.0.1',
+          priorityOrder: 1,
+          active: false,
+          pluginClassName: 'Kerberos',
+        },
+      },
       pluginParameter: {
         id: 0,
         name: 'suffix',

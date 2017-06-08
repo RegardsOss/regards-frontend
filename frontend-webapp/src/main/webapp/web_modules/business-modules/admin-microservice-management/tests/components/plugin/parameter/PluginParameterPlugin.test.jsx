@@ -3,7 +3,7 @@
  **/
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
+import { testSuiteHelpers, DumpProvider, buildTestContext } from '@regardsoss/tests-helpers'
 import { ListItem } from 'material-ui/List'
 import RaisedButton from 'material-ui/RaisedButton'
 import IconMenu from 'material-ui/IconMenu'
@@ -32,6 +32,18 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing plugin parameter plugin component',
 
   it('should render a Raised Button and an IconMenu and Field', () => {
     const props = {
+      pluginConfiguration: {
+        content: {
+          id: 2,
+          label: 'Random configuration',
+          version: '0.0.1',
+          priorityOrder: 1,
+          active: false,
+          pluginClassName: 'Kerberos',
+        },
+      },
+      pluginConfigurationList: DumpProvider.get('CommonClient', 'PluginConfiguration'),
+      pluginMetaDataList: DumpProvider.get('CommonClient', 'PluginMetaData'),
       pluginParameter: {
         id: 0,
         name: 'plgInterface',

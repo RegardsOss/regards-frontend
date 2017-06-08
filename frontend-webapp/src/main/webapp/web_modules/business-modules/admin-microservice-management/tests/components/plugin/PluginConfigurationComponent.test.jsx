@@ -28,6 +28,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing plugin configuration component', ()
     const props = {
       microserviceName: 'rs-test',
       pluginConfiguration: DumpProvider.getFirstEntity('CommonClient', 'PluginConfiguration'),
+      pluginMetaData: DumpProvider.getFirstEntity('CommonClient', 'PluginMetaData'),
       onActiveToggle: () => { },
       onCopyClick: () => { },
       onDeleteClick: () => { },

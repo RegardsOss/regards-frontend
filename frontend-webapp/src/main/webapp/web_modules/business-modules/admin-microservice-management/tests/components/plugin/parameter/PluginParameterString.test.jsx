@@ -3,9 +3,13 @@
  **/
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import { testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import { Field } from '@regardsoss/form-utils'
 import PluginParameterString from '../../../../src/components/plugin/parameter/PluginParameterString'
+
+const options = {
+  context: buildTestContext(),
+}
 
 /**
  * Plugin tests
@@ -22,6 +26,16 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing plugin parameter string component',
 
   it('should render a Field', () => {
     const props = {
+      pluginConfiguration: {
+        content: {
+          id: 2,
+          label: 'Random configuration',
+          version: '0.0.1',
+          priorityOrder: 1,
+          active: false,
+          pluginClassName: 'Kerberos',
+        },
+      },
       pluginParameter: {
         id: 0,
         name: 'suffix',
@@ -36,13 +50,23 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing plugin parameter string component',
         defaultValue: 'default',
       },
     }
-    const enzymeWrapper = shallow(<PluginParameterString {...props} />)
+    const enzymeWrapper = shallow(<PluginParameterString {...props} />, options)
     const subComponent = enzymeWrapper.find(Field)
     expect(subComponent).to.have.length(1)
   })
 
   it('should handle required/not required fields', () => {
     const props0 = {
+      pluginConfiguration: {
+        content: {
+          id: 2,
+          label: 'Random configuration',
+          version: '0.0.1',
+          priorityOrder: 1,
+          active: false,
+          pluginClassName: 'Kerberos',
+        },
+      },
       pluginParameter: {
         id: 0,
         name: 'suffix',
@@ -57,11 +81,21 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing plugin parameter string component',
         defaultValue: 'default',
       },
     }
-    const enzymeWrapper0 = shallow(<PluginParameterString {...props0} />)
+    const enzymeWrapper0 = shallow(<PluginParameterString {...props0} />, options)
     const subComponent0 = enzymeWrapper0.find(Field)
     expect(subComponent0.prop('validate')).to.have.length(2)
 
     const props1 = {
+      pluginConfiguration: {
+        content: {
+          id: 2,
+          label: 'Random configuration',
+          version: '0.0.1',
+          priorityOrder: 1,
+          active: false,
+          pluginClassName: 'Kerberos',
+        },
+      },
       pluginParameter: {
         id: 0,
         name: 'suffix',
@@ -76,7 +110,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing plugin parameter string component',
         defaultValue: 'default',
       },
     }
-    const enzymeWrapper1 = shallow(<PluginParameterString {...props1} />)
+    const enzymeWrapper1 = shallow(<PluginParameterString {...props1} />, options)
     const subComponent1 = enzymeWrapper1.find(Field)
     expect(subComponent1.prop('validate')).to.have.length(1)
   })
