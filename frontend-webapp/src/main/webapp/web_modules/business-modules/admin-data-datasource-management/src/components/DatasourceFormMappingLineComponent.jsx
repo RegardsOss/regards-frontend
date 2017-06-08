@@ -80,7 +80,7 @@ export class DatasourceFormMappingLineComponent extends React.Component {
 
     const items = flow(
       fpsortBy(['name']),
-      fpmap((tableAttribute, id) => (
+      fpmap(tableAttribute => (
         <MenuItem
           value={tableAttribute.name}
           key={tableAttribute.name}

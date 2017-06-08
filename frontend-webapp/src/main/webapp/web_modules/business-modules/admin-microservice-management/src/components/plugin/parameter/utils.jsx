@@ -1,4 +1,5 @@
-import { PluginParameter, PluginParameterType } from '@regardsoss/model'
+import findIndex from 'lodash/findIndex'
+import { PluginMetaData, PluginParameter, PluginParameterType } from '@regardsoss/model'
 
 /**
  * Builds a node allowing to display a left & a right text in the {@code primaryText} of a {@link MenuItem}.
@@ -14,12 +15,16 @@ const buildMenuItemPrimaryText = (leftContent, rightContent) => (
   </div>
 )
 
+const getFieldName = (name, pluginMetaData, suffix) => {
+  const index = findIndex(pluginMetaData.content.parameters, ['name', name])
+  return `parameters.${index}${suffix}`
+}
+
 /**
  * Shared prop
  */
 const pluginParameterComponentPropTypes = {
-  // eslint-disable-next-line react/no-unused-prop-types
-  fieldKey: PropTypes.string,
+  pluginMetaData: PluginMetaData,
   // eslint-disable-next-line react/no-unused-prop-types
   pluginParameter: PluginParameter,
   pluginParameterType: PluginParameterType,
@@ -32,6 +37,7 @@ const pluginParameterComponentPropTypes = {
 export {
   buildMenuItemPrimaryText,
   pluginParameterComponentPropTypes,
+  getFieldName,
 }
 
 export default buildMenuItemPrimaryText

@@ -1,14 +1,20 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { ListItem } from 'material-ui/List'
+import Subheader from 'material-ui/Subheader'
+import { ShowableAtRender } from '@regardsoss/components'
 import { RenderTextField, Field, ValidationHelpers } from '@regardsoss/form-utils'
-import { pluginParameterComponentPropTypes } from './utils'
+import { themeContextType } from '@regardsoss/theme'
+import { pluginParameterComponentPropTypes, getFieldName } from './utils'
+import moduleStyles from '../../../styles/styles'
 
 const { required, string } = ValidationHelpers
 
 /**
- * Renders a form field in view or edit mode for a plugin parameter of types
+ * Renders plugin parameter which is
+ * - static
+ * - in edit/crete/copy mode
+ * - of types
  * java.lang.String
  * java.lang.Character
  *
@@ -18,38 +24,43 @@ export class PluginParameterString extends React.Component {
 
   static propTypes = pluginParameterComponentPropTypes
 
-  static defaultProps = {
-    mode: 'view',
+  static contextTypes = {
+    ...themeContextType,
   }
 
   render() {
-    const { fieldKey, pluginParameter: { name, value }, pluginParameterType, mode } = this.props
+    const { pluginParameter: { name, value }, pluginParameterType, mode, pluginMetaData } = this.props
+    const { muiTheme } = this.context
+    const isView = mode === 'view'
     const validators = [string]
+    const styles = moduleStyles(muiTheme)
+
     let label = name
     if (pluginParameterType && !pluginParameterType.optional) {
       validators.push(required)
       label += '*'
     }
 
-    switch (mode) {
-      case 'view':
-        return <ListItem>{name}: {value.toString()}</ListItem>
-      case 'edit':
-      case 'create':
-      case 'copy':
-        return (
+    return (
+      <div>
+        <ShowableAtRender show={isView}>
+          <div style={styles.pluginParameter.wrapper}>
+            <Subheader style={styles.pluginParameter.label}>{label}</Subheader>
+            {value}
+          </div>
+        </ShowableAtRender>
+        <ShowableAtRender show={!isView}>
           <Field
-            name={fieldKey}
+            name={getFieldName(name, pluginMetaData, '.value')}
             fullWidth
             component={RenderTextField}
             type={'text'}
             label={label}
             validate={validators}
           />
-        )
-      default:
-        return <ListItem>{name}: {value.toString()}</ListItem>
-    }
+        </ShowableAtRender>
+      </div>
+    )
   }
 }
 

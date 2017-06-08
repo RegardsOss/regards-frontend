@@ -43,7 +43,7 @@ export class DatasourceFormMappingCustomComponent extends React.Component {
 
     const mappingLines = flow(
       fpsortBy('content.attribute.optional'),
-      fpmap((modelAttribute, id) => (
+      fpmap(modelAttribute => (
         <DatasourceFormMappingLineComponent
           key={modelAttribute.content.id}
           tableAttributeList={tableAttributeList}
@@ -98,7 +98,7 @@ export class DatasourceFormMappingCustomComponent extends React.Component {
                 table={table}
                 change={change}
               />
-              ))}
+            ))}
           </TableBody>
         </Table>
         <Table

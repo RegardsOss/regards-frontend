@@ -6,22 +6,23 @@ import isEmpty from 'lodash/isEmpty'
 import filter from 'lodash/filter'
 import find from 'lodash/find'
 import RaisedButton from 'material-ui/RaisedButton'
-import { ListItem } from 'material-ui/List'
 import IconMenu from 'material-ui/IconMenu'
 import MenuItem from 'material-ui/MenuItem'
 import IconButton from 'material-ui/IconButton'
+import Subheader from 'material-ui/Subheader'
 import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right'
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
 import Divider from 'material-ui/Divider'
 import Delete from 'material-ui/svg-icons/action/delete'
-import { themeContextType } from '@regardsoss/theme'
+import { ShowableAtRender } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
+import { PluginParameter, PluginMetaDataList, PluginMetaData, PluginConfiguration } from '@regardsoss/model'
 import { connect } from '@regardsoss/redux'
-import { PluginParameter, PluginMetaDataList, PluginConfiguration } from '@regardsoss/model'
+import { themeContextType } from '@regardsoss/theme'
 import { RenderTextField, Field, ValidationHelpers } from '@regardsoss/form-utils'
 import PluginMetaDataSelectors from '../../../model/plugin/PluginMetaDataSelectors'
 import PluginConfigurationSelectors from '../../../model/plugin/PluginConfigurationSelectors'
-import { buildMenuItemPrimaryText } from './utils'
+import { buildMenuItemPrimaryText, getFieldName } from './utils'
 import moduleStyles from '../../../styles/styles'
 
 const { required, string } = ValidationHelpers
@@ -35,10 +36,10 @@ const { required, string } = ValidationHelpers
 export class PluginParameterPlugin extends React.Component {
 
   static propTypes = {
-    fieldKey: PropTypes.string,
     pluginParameter: PluginParameter.isRequired,
-    mode: PropTypes.oneOf(['view', 'edit', 'create', 'copy']),
+    pluginMetaData: PluginMetaData,
     change: PropTypes.func, // Callback provided by redux-form in order to manually change a field value
+    mode: PropTypes.oneOf(['view', 'edit', 'create', 'copy']),
     // form mapStateToProps
     pluginMetaDataList: PluginMetaDataList,
     pluginConfigurationList: PropTypes.arrayOf(PluginConfiguration),
@@ -76,34 +77,36 @@ export class PluginParameterPlugin extends React.Component {
   }
 
   handleChange = (value) => {
+    const { pluginConfigurationList, change, pluginMetaData, pluginParameter: { name } } = this.props
     this.setState({
       value,
-      selectedPluginConfiguration: find(this.props.pluginConfigurationList, el => el.content.id === value),
+      selectedPluginConfiguration: find(pluginConfigurationList, el => el.content.id === value),
     })
-    this.props.change(this.props.fieldKey, value ? value.toString() : null)
+    change(getFieldName(name, pluginMetaData, '.value'), value ? value.toString() : null)
   }
 
   render() {
-    const { fieldKey, mode, pluginParameter: { name, defaultValue, optional }, pluginMetaDataList, pluginConfigurationList } = this.props
+    const { pluginParameter: { name, defaultValue, optional }, pluginMetaDataList, pluginConfigurationList, mode, pluginMetaData } = this.props
     const { openMenu, selectedPluginConfiguration } = this.state
-    const styles = moduleStyles(this.context.muiTheme)
+    const { muiTheme, intl } = this.context
+    const isView = mode === 'view'
+    const styles = moduleStyles(muiTheme)
     const validators = [string]
     if (!optional) {
       validators.push(required)
     }
     const label = name + (optional ? '*' : '')
 
-    switch (mode) {
-      case 'view':
-        return <ListItem>{name}: {selectedPluginConfiguration && selectedPluginConfiguration.content.label}</ListItem>
-      case 'edit':
-      case 'create':
-      case 'copy':
-        return (
+    return (
+      <div style={styles.pluginParameter.wrapper}>
+        <Subheader style={styles.pluginParameter.label}>{label}</Subheader>
+        <ShowableAtRender show={isView}>
+          <span>{selectedPluginConfiguration ? selectedPluginConfiguration.content.label : ''}</span>
+        </ShowableAtRender>
+        <ShowableAtRender show={!isView}>
           <div>
-            {name}            :
             <RaisedButton
-              label={selectedPluginConfiguration ? selectedPluginConfiguration.content.label : this.context.intl.formatMessage({ id: 'microservice-management.plugin.parameter.plugin.choose' })}
+              label={selectedPluginConfiguration ? selectedPluginConfiguration.content.label : intl.formatMessage({ id: 'microservice-management.plugin.parameter.plugin.choose' })}
               onTouchTap={this.handleOpenMenu}
               style={styles.pluginParameter.pluginButton}
             />
@@ -115,22 +118,22 @@ export class PluginParameterPlugin extends React.Component {
               autoWidth
               style={styles.pluginParameter.iconMenu}
             >
-              {map(pluginMetaDataList, (pluginMetaData) => {
-                const pluginConfigurationListForThisPluginMetaData = filter(pluginConfigurationList, pluginConfiguration => pluginConfiguration.content.pluginId === pluginMetaData.content.pluginId)
+              {map(pluginMetaDataList, (pmd) => {
+                const pluginConfigurationListForThisPluginMetaData = filter(pluginConfigurationList, pc => pc.content.pluginId === pmd.content.pluginId)
                 const pluginConfigurationListIsEmpty = isEmpty(pluginConfigurationListForThisPluginMetaData)
                 return (
                   <MenuItem
-                    key={pluginMetaData.content.pluginId}
-                    primaryText={buildMenuItemPrimaryText(pluginMetaData.content.pluginId, pluginMetaData.content.version)}
+                    key={pmd.content.pluginId}
+                    primaryText={buildMenuItemPrimaryText(pmd.content.pluginId, pmd.content.version)}
                     rightIcon={<ArrowDropRight />}
                     disabled={pluginConfigurationListIsEmpty}
                     menuItems={
-                      map(pluginConfigurationListForThisPluginMetaData, pluginConfiguration =>
+                      map(pluginConfigurationListForThisPluginMetaData, pc =>
                         (<MenuItem
-                          key={pluginConfiguration.content.id}
-                          primaryText={buildMenuItemPrimaryText(pluginConfiguration.content.label, pluginConfiguration.content.version)}
-                          onTouchTap={() => this.handleChange(pluginConfiguration.content.id)}
-                          checked={pluginConfiguration.content.id === this.state.value}
+                          key={pc.content.id}
+                          primaryText={buildMenuItemPrimaryText(pc.content.label, pc.content.version)}
+                          onTouchTap={() => this.handleChange(pc.content.id)}
+                          checked={pc.content.id === this.state.value}
                         />))
                     }
                   />
@@ -139,25 +142,24 @@ export class PluginParameterPlugin extends React.Component {
               <Divider />
               <MenuItem
                 key={'none'}
-                primaryText={this.context.intl.formatMessage({ id: 'microservice-management.plugin.parameter.plugin.empty.menu.item' })}
+                primaryText={intl.formatMessage({ id: 'microservice-management.plugin.parameter.plugin.empty.menu.item' })}
                 onTouchTap={() => this.handleChange(undefined)}
                 rightIcon={<Delete />}
               />
             </IconMenu>
             <Field
               style={styles.pluginParameter.field}
-              name={fieldKey}
+              name={getFieldName(name, pluginMetaData, '.value')}
               component={RenderTextField}
               type={'text'}
               label={label}
-              validate={validators}
               defaultValue={defaultValue}
+              validate={validators}
             />
           </div>
-        )
-      default:
-        return <ListItem>{name}: {selectedPluginConfiguration && selectedPluginConfiguration.content.label}</ListItem>
-    }
+        </ShowableAtRender>
+      </div>
+    )
   }
 }
 

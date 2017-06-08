@@ -91,7 +91,6 @@ export class PluginMetaDataListContainer extends React.Component {
     browserHistory.push(url)
   }
 
-
   render() {
     const { isLoading } = this.state
     return (
