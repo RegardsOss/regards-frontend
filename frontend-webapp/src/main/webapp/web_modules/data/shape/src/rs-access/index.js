@@ -2,10 +2,10 @@
  * LICENSE_PLACEHOLDER
  **/
 import { LinkUIPluginDataset } from './UIPlugin/LinkUIPluginDataset'
-import { UIPluginContent } from './UIPlugin/UIPlugin'
-import { UIPluginDefinition } from './UIPlugin/UIPluginDefinition'
+import { UIPluginInstanceContent } from './UIPlugin/UIPluginInstanceContent'
+import { UIPluginDefinition, UIPluginDefinitionList } from './UIPlugin/UIPluginDefinition'
 import { UIPluginInfoContent } from './UIPlugin/UIPluginInfoContent'
-import { UIPluginConfContent, UIPluginConf } from './UIPlugin/UIPluginConf'
+import { UIPluginConfContent, UIPluginConf, UIPluginConfList } from './UIPlugin/UIPluginConf'
 
 import AttributeConfigurationContent from './AttributeConfigurationContent'
 import AttributesGroupConfigurationContent from './AttributesGroupConfigurationContent'
@@ -17,11 +17,13 @@ import { ThemeContent, Theme, ThemeList } from './Theme'
 
 export default {
   LinkUIPluginDataset,
-  UIPluginContent,
+  UIPluginInstanceContent,
   UIPluginDefinition,
+  UIPluginDefinitionList,
   UIPluginInfoContent,
   UIPluginConfContent,
   UIPluginConf,
+  UIPluginConfList,
 
   AttributeConfigurationContent,
   AttributesGroupConfigurationContent,

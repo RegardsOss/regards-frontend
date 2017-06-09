@@ -23,11 +23,13 @@ const UIPluginConfContent = PropTypes.shape({
   pluginConf: PropTypes.object,
 })
 
-export const UIPluginConf = PropTypes.shape({
+const UIPluginConf = PropTypes.shape({
   content: UIPluginConfContent,
 })
+const UIPluginConfList = PropTypes.shape(UIPluginConf)
 
 export default {
   UIPluginConfContent,
   UIPluginConf,
+  UIPluginConfList,
 }

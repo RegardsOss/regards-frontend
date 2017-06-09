@@ -11,8 +11,8 @@ import ContentCopy from 'material-ui/svg-icons/content/content-copy'
 import { CardActionsComponent, SVGIconFromString } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
+import { AccessShapes } from '@regardsoss/shape'
 import { HateoasIconAction, HateoasToggle, HateoasKeys, ResourceIconAction } from '@regardsoss/display-control'
-import { PluginConf as UIPluginConfiguration, Plugin as UIPlugin } from '@regardsoss/model'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { uiPluginConfigurationActions } from '../clients/UIPluginConfigurationClient'
 import moduleStyles from '../styles/styles'
@@ -27,10 +27,8 @@ const styles = moduleStyles().plugin
 class ServiceConfigurationListComponent extends React.Component {
 
   static propTypes = {
-    uiPluginConfigurationList: PropTypes.objectOf(PropTypes.shape({
-      content: UIPluginConfiguration,
-    })),
-    plugin: UIPlugin,
+    uiPluginConfigurationList: AccessShapes.UIPluginConfList,
+    plugin: AccessShapes.UIPluginInstanceContent,
     handleDelete: PropTypes.func.isRequired,
     handleDuplicate: PropTypes.func.isRequired,
     handleEdit: PropTypes.func.isRequired,

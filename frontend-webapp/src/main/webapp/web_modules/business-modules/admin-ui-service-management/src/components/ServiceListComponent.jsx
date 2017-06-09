@@ -10,7 +10,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { ResourceIconAction } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { themeContextType } from '@regardsoss/theme'
-import { PluginDefinition as UIPluginDefinition } from '@regardsoss/model'
+import { AccessShapes } from '@regardsoss/shape'
 import IconButton from 'material-ui/IconButton'
 import moduleStyles from '../styles/styles'
 import { uiPluginConfigurationActions } from '../clients/UIPluginConfigurationClient'
@@ -25,7 +25,7 @@ const styles = moduleStyles().plugins
 class ServiceListComponent extends React.Component {
 
   static propTypes = {
-    uiPluginDefinitionList: PropTypes.objectOf(UIPluginDefinition).isRequired,
+    uiPluginDefinitionList: AccessShapes.UIPluginDefinitionList,
     handleOpen: PropTypes.func.isRequired,
     handleBack: PropTypes.func.isRequired,
   }

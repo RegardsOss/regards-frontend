@@ -23,7 +23,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing form container', () => {
         project_name: 'project name',
       },
       // from mapStateToProps
-      project:DumpProvider.getFirstEntity('AdminClient', 'Project'),
+      project: DumpProvider.getFirstEntity('AdminClient', 'Project'),
       isFetching: false,
       // from mapDispatchToProps
       createProject: () => { },
