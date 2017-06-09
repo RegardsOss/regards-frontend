@@ -1,11 +1,13 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import keys from 'lodash/keys'
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import MenuItem from 'material-ui/MenuItem'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { Field } from '@regardsoss/form-utils'
+import { AttributeModelController } from '@regardsoss/model'
 import TestPluginInfo from './TestPlugin-info.json'
 import Styles from '../../../../src/styles/styles'
 import CriteriaConfigurationComponent from '../../../../src/components/admin/criterion/CriteriaConfigurationComponent'
@@ -59,12 +61,14 @@ describe('[SEARCH FORM] Testing CriteriaConfigurationComponent', () => {
       <CriteriaConfigurationComponent {...props} />, options,
     )
 
+    const numberOfAttributesToConfigure = TestPluginInfo.conf.attributes.length
     const attributes = wrapper.find(Field)
-    assert.lengthOf(attributes, 2, 'There should be 2 attributes to configure for this test plugin configuration')
+    assert.lengthOf(attributes, numberOfAttributesToConfigure, `There should be ${numberOfAttributesToConfigure} attributes to configure for this test plugin configuration`)
     assert.equal(attributes.at(0).prop('name'), 'conf.attributes.searchField1', 'The first attribute to configure should be searchField1 as defined in TestPlugin-info.json')
     assert.equal(attributes.at(1).prop('name'), 'conf.attributes.searchField2', 'The second attribute to configure should be searchField2 as defined in TestPlugin-info.json')
 
-    assert.lengthOf(attributes.at(0).find(MenuItem), 3, 'There  should be 2 selectable attributes for configuration')
-    assert.lengthOf(attributes.at(1).find(MenuItem), 3, 'There  should be 2 selectable attributes for configuration')
+    const numberOfSelectableAttributes = keys(props.selectableAttributes).length + AttributeModelController.StandardAttributes.length
+    assert.lengthOf(attributes.at(0).find(MenuItem), numberOfSelectableAttributes, `There  should be ${numberOfSelectableAttributes} selectable attributes for configuration`)
+    assert.lengthOf(attributes.at(1).find(MenuItem), numberOfSelectableAttributes, `There  should be ${numberOfSelectableAttributes} selectable attributes for configuration`)
   })
 })

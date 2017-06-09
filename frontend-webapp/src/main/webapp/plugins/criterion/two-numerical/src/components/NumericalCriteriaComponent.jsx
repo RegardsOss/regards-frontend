@@ -121,7 +121,7 @@ export class NumericalCriteriaComponent extends React.Component {
 
     // Store the content in an array because we need to maybe reverse to order
     const content = []
-    if (!hideAttributeName) content.push(<span key="attributeName" style={{margin: '0px 10px'}}>{attribute.name}</span>)
+    if (!hideAttributeName) content.push(<span key="attributeName" style={{margin: '0px 10px'}}>{attribute.label || attribute.name}</span>)
     if (!hideComparator) {
       content.push(
         <NumericalComparatorComponent

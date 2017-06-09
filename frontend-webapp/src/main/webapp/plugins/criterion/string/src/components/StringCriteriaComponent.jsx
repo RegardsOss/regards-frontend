@@ -35,7 +35,7 @@ export class StringCriteriaComponent extends PluginComponent {
   }
 
   render() {
-    const attributeLabel = this.props.attributes.searchField.name ? this.props.attributes.searchField.name : null
+    const attributeLabel = this.props.attributes.searchField.label || this.props.attributes.searchField.name || this.props.attributes.searchField.id || 'Undefined attribute'
 
     return (
       <div

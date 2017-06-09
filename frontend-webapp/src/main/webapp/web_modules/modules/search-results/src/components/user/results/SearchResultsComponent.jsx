@@ -107,6 +107,10 @@ class SearchResultsComponent extends React.Component {
     ...themeContextType,
   }
 
+  constructor(props) {
+    super(props)
+  }
+
   componentWillMount = () => this.updateState({}, this.props)
 
   componentWillReceiveProps = nextProps => this.updateState(this.props, nextProps)
@@ -174,8 +178,8 @@ class SearchResultsComponent extends React.Component {
       return allColumns
     }, [])
 
-  buildAttrRegroupementColumns = (attributesRegroupementsConf, attributeModels) =>
-    reduce(attributesRegroupementsConf, (allColumns, attrRegroupementConf) => {
+  buildAttrRegroupementColumns = (attributesRegroupementsConf, attributeModels) => {
+    return reduce(attributesRegroupementsConf, (allColumns, attrRegroupementConf) => {
       if (attrRegroupementConf.visibility) {
         // 1 -rebuild attributes
         const attributes = reduce(attrRegroupementConf.attributes, (results, attributeId) => {
@@ -196,7 +200,7 @@ class SearchResultsComponent extends React.Component {
       }
       // ignored regroupement
       return allColumns
-    }, [])
+    }, [])}
 
   /**
   * Create columns configuration for table view

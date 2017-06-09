@@ -32,7 +32,6 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing plugin parameter plugin component',
   })
 
   it('should render a Raised Button and an IconMenu and Field', () => {
-    console.log(DumpProvider.get('CommonClient', 'PluginConfiguration'))
     const props = {
       pluginMetaData: DumpProvider.getFirstEntity('CommonClient', 'PluginMetaData'),
       pluginConfigurationList: values(DumpProvider.get('CommonClient', 'PluginConfiguration')),

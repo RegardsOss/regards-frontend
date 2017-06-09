@@ -3,7 +3,7 @@
  */
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import { testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { testSuiteHelpers, DumpProvider } from '@regardsoss/tests-helpers'
 import { ProjectListContainer } from '../../../src/containers/project/ProjectListContainer'
 import ProjectListComponent from '../../../src/components/project/ProjectListComponent'
 
@@ -20,17 +20,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing project list container', () => {
   it('should render self and subcomponents', () => {
     const props = {
       // from mapStateToProps
-      projectList: {
-        'project name': {
-          content: {
-            id: 1,
-            name: 'project name',
-            description: 'project desc',
-            icon: 'http://localhost:1888/yeah.gif',
-            isPublic: true,
-          },
-        },
-      },
+      projectList: DumpProvider.get('AdminClient', 'Project'),
       // from mapDispatchToProps
       fetchProjectList: () => { },
       deleteProject: () => { },

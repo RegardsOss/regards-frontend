@@ -47,8 +47,8 @@ const messages = Object.assign({
   'project.connection.list.microservice': 'Microservice name',
   'project.connection.list.status': 'Configuration status',
   'project.connection.list.actions': 'Actions',
-  'project.connection.is.configured': 'Valid',
-  'project.connection.is.not.valid': 'Not valid',
+  'project.connection.is.configured': 'Active',
+  'project.connection.is.not.valid': 'Pending ...',
   'project.connection.is.not.configured': 'Not configured',
   'project.connection.form.error.server': 'Error sending new connection for project',
 

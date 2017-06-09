@@ -6,7 +6,7 @@ import find from 'lodash/find'
 import { Card, CardTitle, CardText } from 'material-ui/Card'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
 import WarningIcon from 'material-ui/svg-icons/alert/warning'
-import ErrorIcon from 'material-ui/svg-icons/alert/error'
+import TimeIcon from 'material-ui/svg-icons/device/access-time'
 import CheckedIcon from 'material-ui/svg-icons/action/check-circle'
 import IconButton from 'material-ui/IconButton'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
@@ -98,20 +98,16 @@ export class ProjectConnectionListComponent extends React.Component {
           <Edit hoverColor={style.hoverButtonEdit} />
         </IconButton>
       )
-      const errorIconStyle = { marginRight: 5, color: 'Green' }
+      const pendingIconStyle = { marginRight: 5, color: this.context.muiTheme.palette.primary1Color }
       status = (
         <span style={statusStyle}>
-          <ErrorIcon
-            style={errorIconStyle}
+          <TimeIcon
+            style={pendingIconStyle}
           />
           <FormattedMessage id="project.connection.is.not.valid" />
         </span>
       )
-      tester = (<DatabaseConnectionTesterIconButton
-        projectConnection={connection}
-        testConnection={this.props.onTestConnection}
-        refreshConnection={this.props.refreshConnection}
-      />)
+      tester = null
     }
     return (
       <TableRow className={`selenium-connection-${microserviceName}`} key={microserviceName}>

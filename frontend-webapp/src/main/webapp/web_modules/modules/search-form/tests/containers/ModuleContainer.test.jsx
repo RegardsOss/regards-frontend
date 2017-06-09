@@ -33,6 +33,7 @@ describe('[SEARCH FORM] Testing User Container', () => {
           attributes: {
             testAttr: 0,
             testAttr2: 1,
+            testAttr3: 'ipId'
           },
         },
       },
@@ -40,7 +41,7 @@ describe('[SEARCH FORM] Testing User Container', () => {
         id: 2,
         label: 'test-criterion',
         active: true,
-        pluginId: 1,
+        pluginId: 2,
         container: 'content',
         conf: {
           attributes: {
@@ -78,10 +79,47 @@ describe('[SEARCH FORM] Testing User Container', () => {
       />, { context },
     )
 
-    assert.equal(fetchAttributeCallback.callCount, 3, 'There sould be 3 attributes to fetch')
+    // Only 3 attributes to fetch, ids : 0,1 and 2. The attribute with id=ipId is a standard attribute and can not be load
+    assert.equal(fetchAttributeCallback.callCount, 3, 'There should be 3 attributes to fetch')
     assert.isTrue(fetchAttributeCallback.calledWith(0), 'The attribute with id 0 should be fetched')
     assert.isTrue(fetchAttributeCallback.calledWith(1), 'The attribute with id 1 should be fetched')
     assert.isTrue(fetchAttributeCallback.calledWith(2), 'The attribute with id 2 should be fetched')
-    assert.isTrue(wrapper.find(FormComponent).length === 1, 'There should be one FormComponent rendered')
+
+    // Check parameters passed to FormComponent
+    const formComponent = wrapper.find(FormComponent)
+    assert.isTrue(formComponent.length === 1, 'There should be one FormComponent rendered')
+    assert.equal(formComponent.prop('layout'),props.moduleConf.layout," Invalid layout passed to FormComponent")
+    const expectedPlugins =
+      [
+        {
+          id: 1,
+          label: 'string-criterion',
+          active: true,
+          pluginId: 1,
+          container: 'content',
+          conf: {
+            attributes:  {
+              testAttr: 0,
+              testAttr2: 1,
+              testAttr3: { id: 'ipId', name: 'ipId', label: 'ipId', type: 'STRING' }
+            }
+          }
+        },
+        {
+          id: 2,
+          label: 'test-criterion',
+          active: true,
+          pluginId: 2,
+          container: 'content',
+          conf: {
+            attributes:  {
+              testAttr2: 1,
+              testAttr3: 2
+            }
+          }
+        }
+      ]
+
+    assert.deepEqual(formComponent.prop('plugins'), expectedPlugins, "Invalid plugins passed to FormComponent")
   })
 })

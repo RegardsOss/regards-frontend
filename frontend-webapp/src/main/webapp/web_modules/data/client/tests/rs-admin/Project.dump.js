@@ -9,11 +9,13 @@ export default {
     content: {
       id: 1,
       name: 'project1',
+      label: 'Le Projet 1',
       description: '',
       icon: '',
       isPublic: true,
       isAccessible: false,
       isDeleted: false,
+      host: 'http://regards-projet.com'
     },
     links: [{
       rel: 'self',
@@ -56,11 +58,13 @@ export default {
     content: {
       id: 52,
       name: 'projet2',
+      label: 'Le Projet 2',
       description: 'la description du projet2',
       icon: 'http://www.mercator-ocean.fr/wp-content/uploads/2015/03/Logo-AVISO.jpg',
       isPublic: true,
       isAccessible: false,
       isDeleted: false,
+      host: 'http://regards-projet2.com'
     },
     links: [{
       rel: 'self',

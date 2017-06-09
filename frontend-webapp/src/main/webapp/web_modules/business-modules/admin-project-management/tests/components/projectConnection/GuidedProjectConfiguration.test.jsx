@@ -5,7 +5,7 @@ import keys from 'lodash/keys'
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { Step } from 'material-ui/Stepper'
-import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
+import { testSuiteHelpers, buildTestContext, DumpProvider } from '@regardsoss/tests-helpers'
 import EnumConnectivity from '@regardsoss/model/src/admin/EnumConnectivity'
 import GuidedProjectConfiguration from '../../../src/components/projectConnection/GuidedProjectConfigurationComponent'
 import ProjectConnectionFormComponent from '../../../src/components/projectConnection/ProjectConnectionFormComponent'
@@ -24,11 +24,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing GuidedProjectConfiguration', () => 
   })
 
   const props = {
-    project: {
-      content: {
-        name: 'cdpp',
-      },
-    },
+    project: DumpProvider.getFirstEntity('AdminClient', 'Project'),
     projectConnections: {
       0: {
         content: {

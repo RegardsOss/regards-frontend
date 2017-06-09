@@ -3,7 +3,7 @@
  */
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
+import { testSuiteHelpers, buildTestContext, DumpProvider } from '@regardsoss/tests-helpers'
 import EnumConnectivity from '@regardsoss/model/src/admin/EnumConnectivity'
 import { LoadingComponent } from '@regardsoss/display-control'
 import { FormEntityNotFoundComponent } from '@regardsoss/form-utils'
@@ -33,9 +33,7 @@ describe(
         projectConnection: {
           content: {
             id: 0,
-            project: {
-              name: 'cdpp',
-            },
+            project: DumpProvider.getFirstEntity('AdminClient', 'Project'),
             microservice: 'rs-admin',
             userName: 'Alice',
             password: 'password',
@@ -45,11 +43,7 @@ describe(
           },
           links: [],
         },
-        project: {
-          content: {
-            name: 'cdpp',
-          },
-        },
+        project: DumpProvider.getFirstEntity('AdminClient', 'Project'),
         fetchProject: () => {},
         fetchProjectConnection: () => {},
         projectIsFetching: false,
@@ -69,9 +63,7 @@ describe(
           0: {
             content: {
               id: 0,
-              project: {
-                name: 'cdpp',
-              },
+              project: DumpProvider.getFirstEntity('AdminClient', 'Project'),
               microservice: 'rs-admin',
               userName: 'Alice',
               password: 'password',
@@ -84,9 +76,7 @@ describe(
           1: {
             content: {
               id: 1,
-              project: {
-                name: 'cdpp',
-              },
+              project: DumpProvider.getFirstEntity('AdminClient', 'Project'),
               microservice: 'rs-cloud',
               userName: 'Bob',
               password: 'azerty',
@@ -99,9 +89,7 @@ describe(
           2: {
             content: {
               id: 2,
-              project: {
-                name: 'cdpp',
-              },
+              project: DumpProvider.getFirstEntity('AdminClient', 'Project'),
               microservice: 'rs-dam',
               userName: 'Charlie',
               password: 'qsdfgh',
@@ -112,11 +100,7 @@ describe(
             links: [],
           },
         },
-        project: {
-          content: {
-            name: 'cdpp',
-          },
-        },
+        project: DumpProvider.getFirstEntity('AdminClient', 'Project'),
         fetchProject: () => {},
         fetchProjectConnection: () => {},
         projectIsFetching: false,
@@ -134,11 +118,7 @@ describe(
           microservice_name: 'test',
           project_connection_id: '0',
         },
-        project: {
-          content: {
-            name: 'cdpp',
-          },
-        },
+        project: DumpProvider.getFirstEntity('AdminClient', 'Project'),
         projectConnection: {
           content: {
             id: 0,
