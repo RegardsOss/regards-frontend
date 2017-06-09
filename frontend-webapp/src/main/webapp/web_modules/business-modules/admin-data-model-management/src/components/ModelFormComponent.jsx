@@ -10,7 +10,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 /**
  * Display edit and create project form
  */
-export class ProjectFormComponent extends React.Component {
+export class ModelFormComponent extends React.Component {
 
   static propTypes = {
     currentModel: Model,
@@ -140,5 +140,5 @@ function validate(values) {
 export default reduxForm({
   form: 'model-form',
   validate,
-})(ProjectFormComponent)
+})(ModelFormComponent)
 

@@ -38,4 +38,9 @@ const DoubleLabelToggle = ({
   </div>
   )
 
+DoubleLabelToggle.propTypes = {
+  rightLabel: PropTypes.string.isRequired,
+  leftLabel: PropTypes.string.isRequired,
+}
+
 export default DoubleLabelToggle

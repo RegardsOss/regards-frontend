@@ -1,0 +1,5 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
+
+export default ['DATAOBJECT', 'DATASET', 'DATAOBJECTS_QUERY']

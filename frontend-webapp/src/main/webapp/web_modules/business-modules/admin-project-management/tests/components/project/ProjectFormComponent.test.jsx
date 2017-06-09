@@ -26,6 +26,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing form container', () => {
       onSubmit: () => { },
       // from reduxForm
       submitting: false,
+      invalid: false,
       pristine: false,
       handleSubmit: () => { },
       initialize: () => { },
@@ -41,6 +42,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing form container', () => {
       onSubmit: () => { },
       // from reduxForm
       submitting: false,
+      invalid: false,
       pristine: false,
       handleSubmit: () => { },
       initialize: () => { },

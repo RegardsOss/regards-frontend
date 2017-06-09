@@ -9,6 +9,8 @@ class renderTextField extends React.Component {
       value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
       name: PropTypes.string,
     }),
+    // Define label when you want a default value for hintText AND floatingLabelText
+    // But label will be overridden if you specify hintText or floatingLabelText
     label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
     meta: PropTypes.shape({
       touched: PropTypes.bool,
@@ -19,11 +21,13 @@ class renderTextField extends React.Component {
     intl: PropTypes.shape({
       formatMessage: PropTypes.func,
     }),
+    // Define one of the following when you want to override the label behaviour
     hintText: PropTypes.string,
+    floatingLabelText: PropTypes.string,
   }
 
   render() {
-    const { input, label, hintText, type, meta: { touched, error }, intl, ...rest } = this.props
+    const { input, label, hintText, floatingLabelText, type, meta: { touched, error }, intl, ...rest } = this.props
     let errorMessage = null
     if (touched && error) {
       errorMessage = intl.formatMessage({ id: error })
@@ -32,7 +36,7 @@ class renderTextField extends React.Component {
     return (
       <TextField
         hintText={hintText || label}
-        floatingLabelText={label}
+        floatingLabelText={floatingLabelText || label}
         errorText={errorMessage}
         {...input}
         type={type}

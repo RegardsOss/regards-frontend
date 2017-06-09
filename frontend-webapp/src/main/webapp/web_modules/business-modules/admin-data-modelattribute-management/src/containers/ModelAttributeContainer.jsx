@@ -28,11 +28,9 @@ export class ModelAttributeContainer extends React.Component {
       ))
       updatedModelAttribute = Object.assign({}, this.props.modelAttribute.content, {
         computationConf: computationPluginConf.content,
-        mode: 'COMPUTED',
       })
     } else {
       updatedModelAttribute = Object.assign({}, this.props.modelAttribute.content, {
-        mode: 'GIVEN',
         computationConf: null,
       })
     }

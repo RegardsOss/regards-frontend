@@ -2,7 +2,8 @@
  * LICENSE_PLACEHOLDER
  **/
 import find from 'lodash/find'
-import forEach from 'lodash/forEach'
+import map from 'lodash/map'
+import filter from 'lodash/filter'
 import AttributeModelController from '../dam/AttributeModelController'
 /**
  * Controller to handle AttributeConfiguration entities.
@@ -61,12 +62,8 @@ const getStandardAttributeConf = (standardAttribute) => {
  * @returns {Array}
  */
 const getInitialSortAttributes = (attributeConfigurations) => {
-  const results = []
-  forEach(attributeConfigurations, (conf) => {
-    if (conf.initialSort) {
-      results.push(conf.attributeFullQualifiedName)
-    }
-  })
+  const filteredResults = filter(attributeConfigurations, conf => conf.initialSort)
+  const results = map(filteredResults, filteredResult => filteredResult.attributeFullQualifiedName)
   return results
 }
 
