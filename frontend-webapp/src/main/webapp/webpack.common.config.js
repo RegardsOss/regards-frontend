@@ -115,5 +115,11 @@ module.exports = {
     new webpack.PrefetchPlugin('./web_modules/modules/search-results/src/main.js'),
     new webpack.PrefetchPlugin('./web_modules/business-modules/admin-data-attributemodel-management/src/main.js'),
     new webpack.PrefetchPlugin('./web_modules/business-modules/admin-microservice-management/src/main.js'),
+    new webpack.PrefetchPlugin('./web_modules/business-common/entities-common/src/main.js'),
+    new webpack.PrefetchPlugin('./web_modules/business-modules/admin-accessright-management/src/main.js'),
+    new webpack.PrefetchPlugin('./web_modules/business-modules/admin-accessright-dataaccess-management/src/main.js'),
+    new webpack.PrefetchPlugin('./web_modules/modules/search-graph/src/main.js'),
+    new webpack.PrefetchPlugin('./web_modules/business-modules/admin-ui-service-management/src/main.js'),
+    new webpack.PrefetchPlugin('./web_modules/data/shape/src/main.js'),
   ],
 }

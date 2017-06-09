@@ -3,6 +3,7 @@
  **/
 import map from 'lodash/map'
 import keys from 'lodash/keys'
+import get from 'lodash/get'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
@@ -14,7 +15,7 @@ import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { List, ListItem } from 'material-ui/List'
-import DatasetStepperComponent from './DatasetStepperComponent'
+import DatasetStepperContainer from '../containers/DatasetStepperContainer'
 
 /**
  * React component to list datasets.
@@ -71,7 +72,7 @@ export class DatasetFormSubsettingComponent extends React.Component {
       display: 'flex',
       justifyContent: 'flex-end',
     }
-    const { modelAttributeList, submitting, invalid, handleBack, onSubmit, handleSubmit, handleTestSubsetting } = this.props
+    const { currentDataset, modelAttributeList, submitting, invalid, handleBack, onSubmit, handleSubmit, handleTestSubsetting } = this.props
     return (
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -81,7 +82,12 @@ export class DatasetFormSubsettingComponent extends React.Component {
             title={this.getTitle()}
             subtitle={this.context.intl.formatMessage({ id: 'dataset.form.subsetting.subtitle' })}
           />
-          <DatasetStepperComponent stepIndex={1} />
+          <DatasetStepperContainer
+            stepIndex={1}
+            currentDatasetIpId={get(currentDataset, 'content.ipId', '')}
+            currentDatasetId={get(currentDataset, 'content.id', '')}
+            isEditing={this.props.isEditing}
+          />
           <CardText>
             <div className="row">
               <div className="col-sm-30">

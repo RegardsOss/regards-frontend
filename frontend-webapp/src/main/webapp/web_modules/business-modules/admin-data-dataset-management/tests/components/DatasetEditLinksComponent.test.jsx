@@ -24,6 +24,7 @@ describe('[ADMIN DATASET MANAGEMENT] Testing DatasetEditLinksComponent', () => {
         DumpProvider.getNthEntity('DataManagementClient', 'Collection', 2),
       ],
       remainingCollections: [DumpProvider.getNthEntity('DataManagementClient', 'Collection', 0)],
+      currentDataset:  DumpProvider.getFirstEntity('DataManagementClient', 'Dataset'),
       datasetStringTags: ['some tag', 'another tag', '42'],
       handleAdd: () => {},
       handleDelete: () => {},
