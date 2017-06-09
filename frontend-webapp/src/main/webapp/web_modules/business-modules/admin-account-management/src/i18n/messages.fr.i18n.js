@@ -14,7 +14,7 @@ const messages = {
   'account.list.table.action.edit.tooltip': 'Editer ce compte utilisateur',
   'account.list.table.action.accept.tooltip': 'Valider ce compte utilisateur',
   'account.list.table.action.delete.tooltip': 'Supprimer cet utilisateur',
-  'account.list.all.tab': 'Tous les utilisateur ({count})',
+  'account.list.all.tab': 'Tous les utilisateurs ({count})',
   'account.list.all.subtitle': 'Liste de tous les comptes utilisateur de l\'application',
   'account.list.all.no.content.message': 'Il n\'y a pas d\'utilisateur enregistré dans l\'application',
   'account.list.waiting.tab': 'Nouveaux utilisateurs ({count})',

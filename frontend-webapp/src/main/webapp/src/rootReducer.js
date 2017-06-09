@@ -12,7 +12,7 @@ import { i18nReducers } from '@regardsoss/i18n'
 import { AuthenticationClient, AuthenticationParametersReducers, AUTHENTICATION_PARAMETERS_REDUCERS_PATH } from '@regardsoss/authentication-manager'
 import { CommonEndpointClient } from '@regardsoss/endpoints-common'
 import { ApplicationErrorReducer } from '@regardsoss/global-system-error'
-import { projectReducers } from '@regardsoss/project-handler'
+import { projectClient } from '@regardsoss/project-handler'
 
 /**
  * Combine all reducers from common modules
@@ -26,7 +26,7 @@ const commonReducer = combineReducers({
   authentication: AuthenticationClient.authenticationReducers,
   [AUTHENTICATION_PARAMETERS_REDUCERS_PATH]: AuthenticationParametersReducers,
   error: ApplicationErrorReducer,
-  project: projectReducers,
+  project: projectClient.projectReducers,
 })
 
 /**
