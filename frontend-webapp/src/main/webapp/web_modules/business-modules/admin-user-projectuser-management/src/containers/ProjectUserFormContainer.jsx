@@ -14,7 +14,7 @@ import concat from 'lodash/concat'
 import fpfilter from 'lodash/fp/filter'
 import fpmap from 'lodash/fp/map'
 import root from 'window-or-global'
-import { getMetadataArray, packMetaDataField } from '@regardsoss/user-metadata-common'
+import { getMetadataArray, packMetadataField } from '@regardsoss/user-metadata-common'
 import { AuthenticationRouteParameters } from '@regardsoss/authentication-manager'
 import { roleActions, roleSelectors } from '../clients/RoleClient'
 import { projectUserActions, projectUserSelectors } from '../clients/ProjectUserClient'
@@ -124,7 +124,7 @@ export class ProjectUserFormContainer extends React.Component {
       ...user.content,
       email,
       role: { name: roleName },
-      metaData: packMetaDataField(user, values),
+      metadata: packMetadataField(user, values),
     }
     const { groupList } = this.props
     Promise.resolve(this.props.updateProjectUser(this.props.params.user_id, updatedUser))
@@ -164,7 +164,7 @@ export class ProjectUserFormContainer extends React.Component {
       firstName: values.firstName,
       lastName: values.lastName,
       password: values.password,
-      metaData: packMetaDataField({}, values),
+      metadata: packMetadataField({}, values),
       // Destination of logged users
       originUrl: '/',
       // the backend will use that URL in the email

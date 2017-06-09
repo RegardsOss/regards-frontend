@@ -59,22 +59,22 @@ const METADATA_ARRAY_V1 = [{
 /**
  * Finds in user model (optional) the metadata for key as parameter
  * @param metadataKey searched metadata key
- * @param user user model (optional) as returned by server ({content: {..., metaData}, links})
+ * @param user user model (optional) as returned by server ({content: {..., metadata}, links})
  * @return found metadata server model or undefined
  */
-function findUserMetaData(metadataKey, user) {
-  const metaData = get(user, 'content.metaData', [])
-  return metaData.find(({ key }) => key === metadataKey)
+function findUserMetadata(metadataKey, user) {
+  const metadata = get(user, 'content.metadata', [])
+  return metadata.find(({ key }) => key === metadataKey)
 }
 
 /**
  * Returns metadata array, optionnaly completed with known user values
- * @param user user model (optional) as returned by server ({content: {..., metaData}, links})
+ * @param user user model (optional) as returned by server ({content: {..., metadata}, links})
  * @return metadata array as defined in this model, completed with user known values
  */
 function getMetadataArray(user) {
   return METADATA_ARRAY_V1.map((metadata) => {
-    const correspondingServerMetadata = findUserMetaData(metadata.key, user)
+    const correspondingServerMetadata = findUserMetadata(metadata.key, user)
     return {
       // find in server data the metadata matching current UI model. If undefined, let the field undefined
       currentValue: correspondingServerMetadata && correspondingServerMetadata.value, // undefined when no meta or no value
@@ -84,14 +84,14 @@ function getMetadataArray(user) {
 }
 
 /**
- * Packs metadata form values (where key is metadata key) into metaData field for user transfer object
- * @param user user model as returned by server ({content: {..., metaData}, links})
+ * Packs metadata form values (where key is metadata key) into metadata field for user transfer object
+ * @param user user model as returned by server ({content: {..., metadata}, links})
  * @param {*} formValues edition form values (optional)
- * @return a suitable value for user.content.metaData field
+ * @return a suitable value for user.content.metadata field
  */
-function packMetaDataField(user, formValues = {}) {
+function packMetadataField(user, formValues = {}) {
   return METADATA_ARRAY_V1.map(({ key }) => {
-    const metadataEntity = findUserMetaData(key, user)
+    const metadataEntity = findUserMetadata(key, user)
     return {
       id: metadataEntity && metadataEntity.id, // undefined when metadata does not yet exist on server side
       key,
@@ -104,5 +104,5 @@ export default {
   editorTypes,
   editors,
   getMetadataArray,
-  packMetaDataField,
+  packMetadataField,
 }

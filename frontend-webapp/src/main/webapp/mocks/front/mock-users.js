@@ -191,7 +191,7 @@ const getUsersList = (request, { status }, pathParameters) => {
   const withAuthDataCallback = ({ scope }) => {
     const correspondingUsers = getScopeUsers(loadUsersPool(), scope, status)
     return makePageResult(correspondingUsers, (user, userMail) => {
-      const { id, role, status: userStatus, metaData } = user[scope]
+      const { id, role, status: userStatus, metadata } = user[scope]
       return {
         content: {
           id,
@@ -201,7 +201,7 @@ const getUsersList = (request, { status }, pathParameters) => {
           role,
           status: userStatus,
           permissions: [],
-          metaData,
+          metadata,
         },
         links: getAllLinks(),
       }
@@ -315,7 +315,7 @@ module.exports = {
             content: {
               id: user.id,
               email: authData.sub,
-              metaData: scopedUser.metaData,
+              metadata: scopedUser.metadata,
             },
             links: [],
           },
@@ -482,14 +482,14 @@ module.exports = {
           return { code: 500 }
         }
         // update user and return updated instance
-        scopedUser.metaData = body.metaData
+        scopedUser.metadata = body.metadata
         writeUsersPool(users)
         return {
           content: {
             content: {
               id: user.id,
               email: authData.sub,
-              metaData: scopedUser.metaData,
+              metadata: scopedUser.metadata,
             },
             links: [],
           },
