@@ -11,7 +11,7 @@ import {
   Step,
   Stepper,
   StepLabel,
-  StepButton
+  StepButton,
 } from 'material-ui/Stepper'
 import { AuthenticationParametersSelectors } from '@regardsoss/authentication-manager'
 /**
@@ -43,7 +43,7 @@ export class DatasetStepperContainer extends React.Component {
     ...i18nContextType,
   }
 
-  isDisabled =  (stepId) => {
+  isDisabled = (stepId) => {
     // Do not disable any StepLabel while editing dataset
     if (this.props.isEditing) {
       return false
@@ -164,7 +164,7 @@ export class DatasetStepperContainer extends React.Component {
 }
 
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   projectName: AuthenticationParametersSelectors.getProject(state),
 })
 

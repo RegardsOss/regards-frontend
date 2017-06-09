@@ -114,6 +114,19 @@ export class DatasetFormContainer extends React.Component {
       })
   }
 
+  getDescriptionFileType = (descriptionFileContent) => {
+    if (descriptionFileContent) {
+      if (descriptionFileContent.type === 'application/pdf') {
+        return descriptionFileContent.type
+      }
+      if (descriptionFileContent.name.toLowerCase().contains('md')) {
+        return 'text/markdown'
+      }
+      return descriptionFileContent.type
+    }
+    return null
+  }
+
   /**
    * Runned by DatasetFormAttributesContainer when the user saves his form
    * This does not save the entity on the server but in the state of the container
@@ -124,7 +137,7 @@ export class DatasetFormContainer extends React.Component {
    */
   saveAttributes = (label, modelDatasetId, properties, modelObjectId, descriptionFileContent, descriptionUrl) => {
     const { isCreating, currentDataset } = this.state
-    const descriptionFileType = descriptionFileContent && (descriptionFileContent.type || 'text/markdown')
+    const descriptionFileType = this.getDescriptionFileType(descriptionFileContent)
     // Save the file in the state if there is
     if (descriptionFileContent) {
       this.setState({
