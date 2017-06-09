@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import ProjectHandler from './containers/ProjectHandler'
-import { projectClient } from './clients/ProjectClient'
+import projectClient from './clients/ProjectClient'
 
 /**
  * Module to handle current project of the interface. Fetch the project and put the information in the store.
