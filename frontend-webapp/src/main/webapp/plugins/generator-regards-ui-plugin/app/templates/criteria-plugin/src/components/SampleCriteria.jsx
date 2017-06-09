@@ -79,7 +79,7 @@ export class SampleCriteria extends PluginComponent {
    * @returns {XML}
    */
   render() {
-    const attributeLabel = this.props.attributes.searchField.name ? this.props.attributes.searchField.name : null
+    const attributeLabel = this.props.attributes.searchField.label
 
     return (
       <div

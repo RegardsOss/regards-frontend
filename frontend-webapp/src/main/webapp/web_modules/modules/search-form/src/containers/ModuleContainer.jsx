@@ -213,7 +213,7 @@ class ModuleContainer extends React.Component {
     if (type === DatasetSelectionType.DATASET_TYPE && datasets && datasets.selectedDatasets) {
       tags = reduce(this.props.moduleConf.datasets.selectedDatasets, (result, dataset) => {
         if (result && dataset !== undefined) {
-          return `${result} OR ${dataset}`
+          return `${result} OR "${dataset}"`
         } else if (dataset !== undefined) {
           return dataset
         }
