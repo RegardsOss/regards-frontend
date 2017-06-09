@@ -150,6 +150,7 @@ export class DatasetEditLinksContainer extends React.Component {
     const linkedCollection = this.getCollectionLinked(datasetTags[0], collectionList)
     return (
       <DatasetEditLinksComponent
+        currentDataset={currentDataset}
         remainingCollections={remainingCollections}
         linkedCollections={linkedCollection}
         datasetStringTags={datasetStringTags}

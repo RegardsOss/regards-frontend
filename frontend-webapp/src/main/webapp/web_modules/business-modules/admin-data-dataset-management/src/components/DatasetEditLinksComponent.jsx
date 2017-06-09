@@ -8,14 +8,14 @@ import map from 'lodash/map'
 import Add from 'material-ui/svg-icons/content/add-circle-outline'
 import Search from 'material-ui/svg-icons/action/search'
 import Clear from 'material-ui/svg-icons/content/clear'
-import { Collection } from '@regardsoss/model'
+import { Collection, Dataset } from '@regardsoss/model'
 import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
 import IconButton from 'material-ui/IconButton'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import TextField from 'material-ui/TextField'
 import Divider from 'material-ui/Divider'
-import DatasetStepperComponent from './DatasetStepperComponent'
+import DatasetStepperContainer from '../containers/DatasetStepperContainer'
 
 
 /**
@@ -24,6 +24,7 @@ import DatasetStepperComponent from './DatasetStepperComponent'
 export class DatasetEditLinksComponent extends React.Component {
 
   static propTypes = {
+    currentDataset: Dataset,
     linkedCollections: PropTypes.arrayOf(Collection),
     remainingCollections: PropTypes.arrayOf(Collection),
     datasetStringTags: PropTypes.arrayOf(PropTypes.string),
@@ -57,14 +58,19 @@ export class DatasetEditLinksComponent extends React.Component {
   }
 
   render() {
-    const { linkedCollections, remainingCollections, handleAdd, handleDelete, doneUrl, backUrl, datasetStringTags, handleSearch } = this.props
+    const { currentDataset, linkedCollections, remainingCollections, handleAdd, handleDelete, doneUrl, backUrl, datasetStringTags, handleSearch } = this.props
     return (
       <Card>
         <CardTitle
           title={this.context.intl.formatMessage({ id: 'dataset.form.links.title' })}
           subtitle={this.context.intl.formatMessage({ id: 'dataset.form.links.subtitle' })}
         />
-        <DatasetStepperComponent stepIndex={2} />
+        <DatasetStepperContainer
+          stepIndex={2}
+          currentDatasetIpId={currentDataset.content.ipId}
+          currentDatasetId={currentDataset.content.id}
+          isEditing
+        />
         <CardText>
           <div className="row">
             <div className="col-sm-48">

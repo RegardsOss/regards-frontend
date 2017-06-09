@@ -90,6 +90,8 @@ export class DatasetEditPluginContainer extends React.Component {
             linkPluginDataset={linkPluginDataset}
             onSubmit={this.onSubmit}
             backUrl={this.getBackUrl()}
+            currentDatasetIpId={this.props.params.datasetIpId}
+            currentDatasetId={this.props.params.datasetId}
           />)
           }
         </LoadableContentDisplayDecorator>

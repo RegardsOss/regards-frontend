@@ -16,7 +16,7 @@ import { List, ListItem } from 'material-ui/List'
 import Subheader from 'material-ui/Subheader'
 import Divider from 'material-ui/Divider'
 import Checkbox from 'material-ui/Checkbox'
-import DatasetStepperComponent from './DatasetStepperComponent'
+import DatasetStepperContainer from '../containers/DatasetStepperContainer'
 
 /**
  * React component to list datasets.
@@ -29,6 +29,8 @@ export class DatasetEditPluginComponent extends React.Component {
     pluginMetaDataList: PropTypes.objectOf(PluginMetaData),
     onSubmit: PropTypes.func.isRequired,
     backUrl: PropTypes.string.isRequired,
+    currentDatasetIpId: PropTypes.string.isRequired,
+    currentDatasetId: PropTypes.string.isRequired,
   }
 
   static contextTypes = {
@@ -113,7 +115,12 @@ export class DatasetEditPluginComponent extends React.Component {
           title={this.context.intl.formatMessage({ id: 'dataset.form.plugin.title' })}
           subtitle={this.context.intl.formatHTMLMessage({ id: 'dataset.form.plugin.subtitle' })}
         />
-        <DatasetStepperComponent stepIndex={3} />
+        <DatasetStepperContainer
+          stepIndex={3}
+          currentDatasetIpId={this.props.currentDatasetIpId}
+          currentDatasetId={this.props.currentDatasetId}
+          isEditing
+        />
         <CardText>
           <List>
             <Subheader><FormattedMessage id="dataset.form.plugin.services" /></Subheader>

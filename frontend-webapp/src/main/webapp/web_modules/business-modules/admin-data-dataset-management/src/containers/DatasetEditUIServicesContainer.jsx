@@ -80,6 +80,8 @@ export class DatasetEditUIServicesContainer extends React.Component {
       uiPluginDefinitionList={uiPluginDefinitionList}
       linkUIPluginDataset={linkUIPluginDataset}
       handleSubmit={this.handleSubmit}
+      currentDatasetIpId={this.props.params.datasetIpId}
+      currentDatasetId={this.props.params.datasetId}
     />)
   }
 

@@ -25,6 +25,8 @@ describe('[ADMIN DATASET MANAGEMENT] Testing DatasetEditPluginComponent', () => 
       pluginMetaDataList: DumpProvider.get('CommonClient', 'PluginMetaData'),
       onSubmit: () => {},
       backUrl: '#',
+      currentDatasetIpId: "URN:AIP:DATASET:project1:9f81f52c-c9ba-4fe8-af1b-602797789cb3:V1",
+      currentDatasetId: "102",
     }
     const enzymeWrapper = shallow(<DatasetEditPluginComponent {...props} />, { context })
     expect(enzymeWrapper.find(List)).to.have.length(1)

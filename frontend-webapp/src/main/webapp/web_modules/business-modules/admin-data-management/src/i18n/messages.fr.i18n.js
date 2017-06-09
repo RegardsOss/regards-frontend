@@ -5,7 +5,7 @@ const messages = {
   'data.board.action.list.tooltip': 'Liste',
   'data.board.action.add.tooltip': 'Ajouter',
 
-  'data.board.model.description': 'Gestion des modèles d\'objects',
+  'data.board.model.description': 'Gestion des modèles d\'objet',
   'data.board.model.title': 'Modèles',
 
   'data.board.attributemodel.description': 'Gestion des attributs communs aux divers modèles',
