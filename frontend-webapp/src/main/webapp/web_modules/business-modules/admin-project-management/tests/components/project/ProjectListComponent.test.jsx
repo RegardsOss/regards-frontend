@@ -4,7 +4,7 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { Table, TableRow } from 'material-ui/Table'
-import { testSuiteHelpers, IntlStub, DumpProvider, buildTestContext } from '@regardsoss/tests-helpers'
+import { testSuiteHelpers, DumpProvider, buildTestContext } from '@regardsoss/tests-helpers'
 import { CardActionsComponent } from '@regardsoss/components'
 import { ProjectListComponent } from '../../../src/components/project/ProjectListComponent'
 

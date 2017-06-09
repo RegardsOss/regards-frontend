@@ -48,7 +48,6 @@ import {
   UI_PLUGIN_CONFIGURATION_ARRAY,
   UIPluginConfConfiguration,
 
-  // UIPluginConfiguration
   PluginConfiguration,
   PLUGIN_ARRAY,
 

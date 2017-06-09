@@ -110,14 +110,14 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = dispatch => ({
   fetchPluginConfiguration: () => dispatch(pluginConfigurationActions.fetchEntityList({
     microserviceName: 'rs-catalog',
-  }, /*{
-   pluginId: 'fr.cnes.regards.modules.search.plugin.IService'
-   }*/)),
+  }, {
+    pluginId: 'fr.cnes.regards.modules.search.plugin.IService',
+  })),
   fetchPluginMetaData: () => dispatch(pluginMetaDataActions.fetchEntityList({
     microserviceName: 'rs-catalog',
-  }, /*{
-   pluginType: 'fr.cnes.regards.modules.search.plugin.IService'
-   }*/)),
+  }, {
+    pluginType: 'fr.cnes.regards.modules.search.plugin.IService',
+  })),
   fetchLinkPluginDataset: datasetIpId => dispatch(linkPluginDatasetActions.fetchEntity(datasetIpId)),
   updateLinkPluginDataset: (datasetIpId, linkPluginDataset) => dispatch(linkPluginDatasetActions.updateEntity(datasetIpId, linkPluginDataset)),
 })

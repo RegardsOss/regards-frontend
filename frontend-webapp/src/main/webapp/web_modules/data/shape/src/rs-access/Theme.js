@@ -13,7 +13,7 @@ const Theme = PropTypes.shape({
   links: PropTypes.array,
 }).isRequired
 
-const ThemeList = PropTypes.shape(Theme)
+const ThemeList = PropTypes.objectOf(Theme)
 
 export default {
   ThemeContent,

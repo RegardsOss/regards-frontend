@@ -122,6 +122,7 @@ export class DatasetFormAttributesContainer extends React.Component {
             handleUpdateModel={this.handleUpdateModel}
             backUrl={backUrl}
             isEditing={isEditing}
+            isCreatinguUsingDatasetValues={!isEditing && has(currentDataset, 'content.label')}
           />)
           }
         </LoadableContentDisplayDecorator>

@@ -107,10 +107,6 @@ class SearchResultsComponent extends React.Component {
     ...themeContextType,
   }
 
-  constructor(props) {
-    super(props)
-  }
-
   componentWillMount = () => this.updateState({}, this.props)
 
   componentWillReceiveProps = nextProps => this.updateState(this.props, nextProps)

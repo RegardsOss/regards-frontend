@@ -42,6 +42,7 @@ export class DatasetFormAttributesComponent extends React.Component {
     onSubmit: PropTypes.func.isRequired,
     backUrl: PropTypes.string.isRequired,
     isEditing: PropTypes.bool.isRequired,
+    isCreatinguUsingDatasetValues: PropTypes.bool.isRequired,
     // from reduxForm
     submitting: PropTypes.bool,
     invalid: PropTypes.bool,
@@ -129,7 +130,7 @@ export class DatasetFormAttributesComponent extends React.Component {
    * Initialize form fields
    */
   handleInitialize = () => {
-    if (this.props.isEditing) {
+    if (this.props.isEditing || this.props.isCreatinguUsingDatasetValues) {
       const { currentDataset } = this.props
       const properties = {}
       forEach(currentDataset.content.properties, (attributeValueOrFragment, key) => {
