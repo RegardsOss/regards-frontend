@@ -16,7 +16,7 @@ const UIPluginInfoContent = PropTypes.shape({
   email: PropTypes.string,
   license: PropTypes.string,
   url: PropTypes.string,
-  type: PropTypes.oneOf(UIPluginInfoTypes),
+  type: PropTypes.oneOf(UI_PLUGIN_INFO_TYPES),
   // Specific configuration properties for the given plugin
   conf: PropTypes.object,
 })

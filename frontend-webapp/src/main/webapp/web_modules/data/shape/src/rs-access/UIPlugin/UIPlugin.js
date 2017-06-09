@@ -17,5 +17,5 @@ const UIPluginContent = PropTypes.shape({
 })
 
 export default {
-  UIPluginContent
+  UIPluginContent,
 }

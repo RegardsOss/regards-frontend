@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 
-import Container from './Container'
+import ContainerContent from './ContainerContent'
 
 /**
  * Layout shape entity
@@ -11,7 +11,7 @@ import Container from './Container'
 const LayoutContent = PropTypes.shape({
   id: PropTypes.number.isRequired,
   applicationId: PropTypes.string.isRequired,
-  layout: Container.isRequired,
+  layout: ContainerContent.isRequired,
 })
 
 /**

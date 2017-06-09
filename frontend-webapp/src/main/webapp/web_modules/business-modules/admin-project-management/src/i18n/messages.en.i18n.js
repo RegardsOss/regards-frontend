@@ -30,7 +30,7 @@ const messages = Object.assign({
   'project.create.title': 'Create a new project',
   'project.form.name': 'Project name *',
   'project.form.label': 'Project label *',
-  'project.form.hint.label':'Use in all user interfaces to refer to the project.',
+  'project.form.hint.label': 'Use in all user interfaces to refer to the project.',
   'project.form.description': 'Description',
   'project.form.isPublic': 'Public project',
   'project.form.isAccessible': 'Accessible project',

@@ -5,7 +5,7 @@ import { LinkUIPluginDataset } from './UIPlugin/LinkUIPluginDataset'
 import { UIPluginContent } from './UIPlugin/UIPlugin'
 import { UIPluginDefinition } from './UIPlugin/UIPluginDefinition'
 import { UIPluginInfoContent } from './UIPlugin/UIPluginInfoContent'
-import {  UIPluginConfContent,  UIPluginConf} from './UIPlugin/UIPluginConf'
+import { UIPluginConfContent, UIPluginConf } from './UIPlugin/UIPluginConf'
 
 import AttributeConfigurationContent from './AttributeConfigurationContent'
 import AttributesGroupConfigurationContent from './AttributesGroupConfigurationContent'

@@ -29,5 +29,5 @@ const UIServiceInstanceConfContent = PropTypes.shape({
 
 
 export default {
-  UIServiceInstanceConfContent
+  UIServiceInstanceConfContent,
 }

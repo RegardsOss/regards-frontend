@@ -9,7 +9,7 @@ const ThemeContent = PropTypes.shape({
 }).isRequired
 
 const Theme = PropTypes.shape({
-  content: ThemeShape,
+  content: ThemeContent,
   links: PropTypes.array,
 }).isRequired
 
