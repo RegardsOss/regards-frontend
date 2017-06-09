@@ -28,8 +28,8 @@ describe('[ADMIN DATASET MANAGEMENT] Testing DatasetFormAttributesComponent', ()
       handleUpdateModel: () => {},
       onSubmit: () => {},
       backUrl: '#',
-      isEditing: false,
-
+      isEditing: true,
+      isCreatinguUsingDatasetValues: false,
 
       // from reduxForm
       submitting: false,

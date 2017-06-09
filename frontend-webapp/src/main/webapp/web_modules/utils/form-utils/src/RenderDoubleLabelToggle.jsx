@@ -14,6 +14,8 @@ import DoubleLabelToggle from './DoubleLabelToggle'
 function createComponent(MaterialUIComponent, mapProps) {
   class InputComponent extends Component {
     getRenderedComponent() {
+      // legacy from material-ui
+      // eslint-disable-next-line react/no-string-refs
       return this.refs.component
     }
 

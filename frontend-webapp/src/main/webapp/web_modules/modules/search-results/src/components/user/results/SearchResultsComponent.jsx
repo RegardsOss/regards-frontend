@@ -174,29 +174,28 @@ class SearchResultsComponent extends React.Component {
       return allColumns
     }, [])
 
-  buildAttrRegroupementColumns = (attributesRegroupementsConf, attributeModels) =>
-    reduce(attributesRegroupementsConf, (allColumns, attrRegroupementConf) => {
-      if (attrRegroupementConf.visibility) {
+  buildAttrRegroupementColumns = (attributesRegroupementsConf, attributeModels) => reduce(attributesRegroupementsConf, (allColumns, attrRegroupementConf) => {
+    if (attrRegroupementConf.visibility) {
         // 1 -rebuild attributes
-        const attributes = reduce(attrRegroupementConf.attributes, (results, attributeId) => {
-          const attribute = find(attributeModels, att => att.content.id === attributeId)
-          return attribute ?
+      const attributes = reduce(attrRegroupementConf.attributes, (results, attributeId) => {
+        const attribute = find(attributeModels, att => att.content.id === attributeId)
+        return attribute ?
             [...results, AttributeModelController.getAttributeFullyQualifiedNameWithoutDefaultFragment(attribute)] :
             results
-        }, [])
+      }, [])
         // 2 - If attributes could be rebuilt, return corresponding columns
-        if (attributes && attributes.length) {
-          return [...allColumns, {
-            label: attrRegroupementConf.label,
-            attributes,
-            sortable: false,
-            order: attrRegroupementConf.order,
-          }]
-        }
+      if (attributes && attributes.length) {
+        return [...allColumns, {
+          label: attrRegroupementConf.label,
+          attributes,
+          sortable: false,
+          order: attrRegroupementConf.order,
+        }]
       }
+    }
       // ignored regroupement
-      return allColumns
-    }, [])
+    return allColumns
+  }, [])
 
   /**
   * Create columns configuration for table view

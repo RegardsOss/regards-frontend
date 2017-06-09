@@ -3,9 +3,11 @@
  **/
 import map from 'lodash/map'
 import forEach from 'lodash/forEach'
+import has from 'lodash/has'
 import keys from 'lodash/keys'
 import isNil from 'lodash/isNil'
 import isObject from 'lodash/isObject'
+import get from 'lodash/get'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
 import { FormattedMessage } from 'react-intl'
@@ -18,7 +20,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import MenuItem from 'material-ui/MenuItem'
 import SelectField from 'material-ui/SelectField'
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
-import DatasetStepperComponent from './DatasetStepperComponent'
+import DatasetStepperContainer from '../containers/DatasetStepperContainer'
 import { fragmentSelectors } from '../clients/FragmentClient'
 
 const DESCRIPTION_MODE = {
@@ -41,6 +43,7 @@ export class DatasetFormAttributesComponent extends React.Component {
     onSubmit: PropTypes.func.isRequired,
     backUrl: PropTypes.string.isRequired,
     isEditing: PropTypes.bool.isRequired,
+    isCreatinguUsingDatasetValues: PropTypes.bool.isRequired,
     // from reduxForm
     submitting: PropTypes.bool,
     invalid: PropTypes.bool,
@@ -128,7 +131,7 @@ export class DatasetFormAttributesComponent extends React.Component {
    * Initialize form fields
    */
   handleInitialize = () => {
-    if (this.props.isEditing) {
+    if (this.props.isEditing || this.props.isCreatinguUsingDatasetValues) {
       const { currentDataset } = this.props
       const properties = {}
       forEach(currentDataset.content.properties, (attributeValueOrFragment, key) => {
@@ -168,7 +171,7 @@ export class DatasetFormAttributesComponent extends React.Component {
   }
 
   render() {
-    const { modelList, modelAttributeList, currentDatasource, submitting, invalid, backUrl } = this.props
+    const { currentDataset, modelList, modelAttributeList, currentDatasource, submitting, invalid, backUrl } = this.props
     const title = this.getTitle()
     const { showDescriptionMode, disableNoDescription } = this.state
     return (
@@ -180,7 +183,12 @@ export class DatasetFormAttributesComponent extends React.Component {
             title={title}
             subtitle={this.context.intl.formatMessage({ id: 'dataset.form.subtitle' })}
           />
-          <DatasetStepperComponent stepIndex={0} />
+          <DatasetStepperContainer
+            stepIndex={0}
+            currentDatasetIpId={get(currentDataset, 'content.ipId', '')}
+            currentDatasetId={get(currentDataset, 'content.id', '')}
+            isEditing={this.props.isEditing}
+          />
           <CardText>
             <Field
               name="label"
@@ -290,7 +298,7 @@ export class DatasetFormAttributesComponent extends React.Component {
                       <TableRowColumn>{this.getAttributeName(modelAttribute.content.attribute)}</TableRowColumn>
                       <TableRowColumn>{modelAttribute.content.attribute.type}</TableRowColumn>
                       <TableRowColumn>
-                        <ShowableAtRender show={modelAttribute.content.mode === 'GIVEN'}>
+                        <ShowableAtRender show={!has(modelAttribute.content, 'computationConf')}>
                           <Field
                             name={`properties.${modelAttribute.content.attribute.name}`}
                             fullWidth

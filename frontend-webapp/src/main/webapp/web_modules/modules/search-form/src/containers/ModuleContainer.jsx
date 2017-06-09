@@ -3,18 +3,20 @@
  **/
 import flow from 'lodash/flow'
 import fpmap from 'lodash/fp/map'
+import fpfilter from 'lodash/fp/filter'
 import uniq from 'lodash/fp/uniq'
 import flatten from 'lodash/flatten'
 import forEach from 'lodash/forEach'
 import cloneDeep from 'lodash/cloneDeep'
 import reduce from 'lodash/reduce'
 import isEqual from 'lodash/isEqual'
+import isInteger from 'lodash/isInteger'
 import values from 'lodash/values'
 import unionBy from 'lodash/unionBy'
 import { browserHistory } from 'react-router'
 import { LazyModuleComponent } from '@regardsoss/modules'
 import { connect } from '@regardsoss/redux'
-import { AttributeModel } from '@regardsoss/model'
+import { AttributeModel, AttributeModelController } from '@regardsoss/model'
 import { LoadingComponent, LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { themeContextType } from '@regardsoss/theme'
 import DatasetSelectionType from '../models/datasets/DatasetSelectionTypes'
@@ -118,7 +120,8 @@ class ModuleContainer extends React.Component {
    */
   getInitialQuery = () => {
     // Add form associated dataset urn
-    if (this.props.moduleConf.datasets && this.props.moduleConf.datasets.selectedDatasets) {
+    const { type, datasets } = this.props.moduleConf.datasets || {}
+    if (type === DatasetSelectionType.DATASET_TYPE && datasets && datasets.selectedDatasets) {
       const tags = reduce(this.props.moduleConf.datasets.selectedDatasets, (result, dataset) => {
         if (result && dataset !== undefined) {
           return `${result} OR ${dataset}`
@@ -149,6 +152,18 @@ class ModuleContainer extends React.Component {
           if (this.props.attributeModels[attributeId]) {
             // eslint-disable-next-line no-param-reassign
             criteria.conf.attributes[key] = this.props.attributeModels[attributeId].content
+          } else {
+            // Attribute not retrieved from server
+            // Check if the attribute is a standard attribute
+            if (AttributeModelController.StandardAttributes.includes(attributeId)) {
+              // Create standard attribute conf
+              criteria.conf.attributes[key] = {
+                id: attributeId,
+                name: attributeId,
+                label: attributeId,
+                type: AttributeModelController.getStandardAttributeType(attributeId),
+              }
+            }
           }
         })
       }
@@ -160,11 +175,12 @@ class ModuleContainer extends React.Component {
    * Search attributeModels associated to criterion
    */
   loadCriterionAttributeModels = () => {
-    // Get uniq list of criterion attributeModels id to load
+    // Get unique list of criterion attributeModels id to load
     const pluginsAttributesToLoad = flow(
       fpmap(criteria => criteria.conf && criteria.conf.attributes),
       fpmap(attribute => values(attribute)),
       flatten,
+      fpfilter(isInteger),
       uniq,
     )(this.props.moduleConf.criterion)
 
@@ -193,12 +209,25 @@ class ModuleContainer extends React.Component {
 
     // Add form associated dataset urn
     let tags = ''
-    if (this.props.moduleConf.datasets && this.props.moduleConf.datasets.selectedDatasets) {
+    const { type, datasets } = this.props.moduleConf.datasets || {}
+    if (type === DatasetSelectionType.DATASET_TYPE && datasets && datasets.selectedDatasets) {
       tags = reduce(this.props.moduleConf.datasets.selectedDatasets, (result, dataset) => {
         if (result && dataset !== undefined) {
-          return `${result} OR ${dataset}`
+          return `${result} OR "${dataset}"`
         } else if (dataset !== undefined) {
           return dataset
+        }
+        return result
+      }, '')
+    }
+
+    let modelIds = ''
+    if (type === DatasetSelectionType.DATASET_MODEL_TYPE && datasets && datasets.selectedModels) {
+      modelIds = reduce(this.props.moduleConf.datasets.selectedModels, (result, modelId) => {
+        if (result && modelId !== undefined) {
+          return `${result} OR ${modelId}`
+        } else if (modelId !== undefined) {
+          return modelId
         }
         return result
       }, '')
@@ -209,6 +238,14 @@ class ModuleContainer extends React.Component {
         query = `${query} AND (tags:(${tags})`
       } else {
         query = `tags:(${tags})`
+      }
+    }
+
+    if (modelIds.length > 0) {
+      if (query && query.length > 0) {
+        query = `${query} AND (datasetModelId:(${modelIds})`
+      } else {
+        query = `datasetModelId:(${modelIds})`
       }
     }
 

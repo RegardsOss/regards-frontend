@@ -13,7 +13,7 @@ import pull from 'lodash/pull'
 import cloneDeep from 'lodash/cloneDeep'
 import Checkbox from 'material-ui/Checkbox'
 import { PluginDefinition as UIPluginDefinition, PluginConf as UIPluginConfiguration, LinkUIPluginDataset } from '@regardsoss/model'
-import DatasetStepperComponent from './DatasetStepperComponent'
+import DatasetStepperContainer from '../containers/DatasetStepperContainer'
 
 /**
  * React component to list datasets.
@@ -28,6 +28,8 @@ export class DatasetEditUIServicesComponent extends React.Component {
     uiPluginDefinitionList: PropTypes.objectOf(UIPluginDefinition),
     linkUIPluginDataset: LinkUIPluginDataset,
     handleSubmit: PropTypes.func.isRequired,
+    currentDatasetIpId: PropTypes.string.isRequired,
+    currentDatasetId: PropTypes.string.isRequired,
   }
 
   static contextTypes = {
@@ -96,7 +98,12 @@ export class DatasetEditUIServicesComponent extends React.Component {
           title={this.context.intl.formatMessage({ id: 'dataset.form.uiservices.title' })}
           subtitle={this.context.intl.formatMessage({ id: 'dataset.form.uiservices.subtitle' })}
         />
-        <DatasetStepperComponent stepIndex={4} />
+        <DatasetStepperContainer
+          stepIndex={4}
+          currentDatasetIpId={this.props.currentDatasetIpId}
+          currentDatasetId={this.props.currentDatasetId}
+          isEditing
+        />
         <CardText>
           <List>
             {map(uiPluginDefinitionList, (uiPluginDefinition, id) => (

@@ -4,7 +4,7 @@
 import map from 'lodash/map'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { reduxForm } from 'redux-form'
-import { Plugin as UIPlugin, PluginConf as UIPluginConfiguration } from '@regardsoss/model'
+import { AccessShapes } from '@regardsoss/shape'
 import { RenderTextField, RenderCheckbox, Field, ValidationHelpers } from '@regardsoss/form-utils'
 import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
@@ -18,10 +18,8 @@ import { i18nContextType } from '@regardsoss/i18n'
 export class ServiceConfigurationFormComponent extends React.Component {
 
   static propTypes = {
-    uiPluginConfiguration: PropTypes.shape({
-      content: UIPluginConfiguration,
-    }),
-    plugin: UIPlugin,
+    uiPluginConfiguration: AccessShapes.UIPluginConf,
+    plugin: AccessShapes.UIPluginInstanceContent,
     isCreating: PropTypes.bool.isRequired,
     isDuplicating: PropTypes.bool.isRequired,
     onSubmit: PropTypes.func.isRequired,

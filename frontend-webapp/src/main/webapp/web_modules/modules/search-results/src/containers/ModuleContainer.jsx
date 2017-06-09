@@ -63,6 +63,7 @@ export class ModuleContainer extends React.Component {
         displayDatasets,
         breadcrumbInitialContextLabel,
     } } = this.props
+
     const { attributesFetching, facettesQuery } = this.state
     // when showing datasets, select dataset tab first (by default)
     const initialViewObjectType = displayDatasets ? SearchResultsTargetsEnum.DATASET_RESULTS : SearchResultsTargetsEnum.DATAOBJECT_RESULTS

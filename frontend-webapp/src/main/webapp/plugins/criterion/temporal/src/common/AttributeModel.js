@@ -3,6 +3,7 @@ import Fragment from './Fragment'
 const AttributeModel = React.PropTypes.shape({
   id: React.PropTypes.number,
   name: React.PropTypes.string,
+  label: React.PropTypes.string,
   description: React.PropTypes.string,
   defaultValue: React.PropTypes.string,
   type: React.PropTypes.string,
@@ -18,8 +19,8 @@ const AttributeModel = React.PropTypes.shape({
 })
 
 const getAttributeName = (attribute) => {
-  if (!attribute.fragment || !attribute.fragment.name || attribute.fragment.name ==='default'){
-    return attribute.name
+  if (!attribute.fragment || !attribute.fragment.name){
+    return attribute.name ? attribute.name : attribute.id
   }
   return `${attribute.fragment.name}.${attribute.name}`
 }

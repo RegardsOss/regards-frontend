@@ -4,7 +4,7 @@
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
-import { PluginConf as UIPluginConfiguration } from '@regardsoss/model'
+import { AccessShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { PluginProvider } from '@regardsoss/plugins'
 import ServiceConfigurationFormComponent from '../components/ServiceConfigurationFormComponent'
@@ -36,9 +36,7 @@ export class ServiceConfigurationFormContainer extends React.Component {
       mode: PropTypes.string,
     }),
     // from mapStateToProps
-    uiPluginConfiguration: PropTypes.shape({
-      content: UIPluginConfiguration,
-    }),
+    uiPluginConfiguration: AccessShapes.UIPluginConf,
     // from mapDispatchToProps
     fetchUIPluginConfiguration: PropTypes.func,
     updateUIPluginConfiguration: PropTypes.func,

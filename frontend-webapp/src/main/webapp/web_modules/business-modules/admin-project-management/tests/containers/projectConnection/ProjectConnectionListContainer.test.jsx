@@ -3,7 +3,7 @@
  */
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import { testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { testSuiteHelpers, DumpProvider } from '@regardsoss/tests-helpers'
 import EnumConnectivity from '@regardsoss/model/src/admin/EnumConnectivity'
 import { ProjectConnectionListContainer } from '../../../src/containers/projectConnection/ProjectConnectionListContainer'
 import ProjectConnectionListComponent from '../../../src/components/projectConnection/ProjectConnectionListComponent'
@@ -23,16 +23,12 @@ describe(
         params: {
           project_name: 'cdpp',
         },
-        project: {
-          name: 'cdpp',
-        },
+        project: DumpProvider.getFirstEntity('AdminClient', 'Project'),
         projectConnections: {
           0: {
             content: {
               id: 0,
-              project: {
-                name: 'cdpp',
-              },
+              project: DumpProvider.getFirstEntity('AdminClient', 'Project'),
               microservice: 'rs-admin',
               userName: 'Alice',
               password: 'password',
@@ -45,9 +41,7 @@ describe(
           1: {
             content: {
               id: 1,
-              project: {
-                name: 'cdpp',
-              },
+              project: DumpProvider.getFirstEntity('AdminClient', 'Project'),
               microservice: 'rs-cloud',
               userName: 'Bob',
               password: 'azerty',
@@ -60,9 +54,7 @@ describe(
           2: {
             content: {
               id: 2,
-              project: {
-                name: 'cdpp',
-              },
+              project: DumpProvider.getFirstEntity('AdminClient', 'Project'),
               microservice: 'rs-dam',
               userName: 'Charlie',
               password: 'qsdfgh',

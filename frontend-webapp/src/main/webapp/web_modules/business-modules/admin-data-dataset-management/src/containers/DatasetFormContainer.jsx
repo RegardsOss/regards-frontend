@@ -74,7 +74,7 @@ export class DatasetFormContainer extends React.Component {
     if (isEditing) {
       return `/admin/${project}/data/dataset/list`
     }
-    return `/admin/${project}/data/dataset/create/connection`
+    return `/admin/${project}/data/dataset/create/datasource`
   }
 
   redirectToLink = (datasetId) => {

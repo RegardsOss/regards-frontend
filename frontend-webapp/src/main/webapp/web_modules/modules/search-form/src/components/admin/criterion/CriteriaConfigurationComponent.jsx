@@ -6,7 +6,7 @@ import { Card, CardTitle, CardText } from 'material-ui/Card'
 import MenuItem from 'material-ui/MenuItem'
 import { i18nContextType } from '@regardsoss/i18n'
 import { RenderSelectField, Field } from '@regardsoss/form-utils'
-import { AttributeModel, Plugin } from '@regardsoss/model'
+import { AttributeModel, AttributeModelController, Plugin } from '@regardsoss/model'
 import { themeContextType } from '@regardsoss/theme'
 
 /**
@@ -53,6 +53,13 @@ class CriteriaConfigurationComponent extends React.Component {
         onSelect={this.selectAttribute}
         label={this.context.intl.formatMessage({ id: 'form.criterion.criteria.select.attribute.label' })}
       >
+        {map(AttributeModelController.StandardAttributes, standardAttribute => (
+          <MenuItem
+            key={standardAttribute}
+            value={standardAttribute}
+            primaryText={standardAttribute}
+          />),
+        )}
         {map(this.props.selectableAttributes, selectableAttribute => (
           <MenuItem
             key={selectableAttribute.content.id}

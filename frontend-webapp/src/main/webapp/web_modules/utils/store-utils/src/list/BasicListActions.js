@@ -257,6 +257,7 @@ class BasicListActions extends BasicActions {
   /**
    * Allows to send multiple objects on the same time
    * Requires that the API send back the updated entity
+   * IT SEND THE UPDATE USING THE VERB POST INSTEAD OF PUT (cf spec HTTP)
    * @param objectValues Object containing key - values with key expected by the API and value an object, a string,...
    * @param files Object containing key - values with key expected by the API and value a file
    * @param pathParams
@@ -279,7 +280,7 @@ class BasicListActions extends BasicActions {
           this.buildFailureAction(this.UPDATE_ENTITY_FAILURE),
         ],
         endpoint,
-        method: 'PUT',
+        method: 'POST',
         body: formData,
       },
     }

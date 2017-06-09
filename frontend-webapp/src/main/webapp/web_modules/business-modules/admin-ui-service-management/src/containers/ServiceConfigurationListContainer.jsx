@@ -7,7 +7,7 @@ import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { themeContextType } from '@regardsoss/theme'
 import { PluginLoader } from '@regardsoss/plugins'
-import { PluginDefinition as UIPluginDefinition, PluginConf as UIPluginConfiguration } from '@regardsoss/model'
+import { AccessShapes } from '@regardsoss/shape'
 import { uiPluginConfigurationSelectors, uiPluginConfigurationActions } from '../clients/UIPluginConfigurationClient'
 import { uiPluginDefinitionSelectors, uiPluginDefinitionActions } from '../clients/UIPluginDefinitionClient'
 import ServiceConfigurationListComponent from '../components/ServiceConfigurationListComponent'
@@ -31,10 +31,8 @@ export class ServiceConfigurationListContainer extends React.Component {
       uiPluginId: PropTypes.string,
     }),
     // from mapStateToProps
-    uiPluginConfigurationList: PropTypes.objectOf(PropTypes.shape({
-      content: UIPluginConfiguration,
-    })),
-    uiPluginDefinition: UIPluginDefinition,
+    uiPluginConfigurationList: AccessShapes.UIPluginConfList,
+    uiPluginDefinition: AccessShapes.UIPluginDefinition,
     // from mapDispatchToProps
     fetchUIPluginConfigurationList: PropTypes.func,
     fetchUIPluginDefinition: PropTypes.func,

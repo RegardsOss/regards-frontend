@@ -89,7 +89,7 @@ export class NumericalCriteriaComponent extends PluginComponent {
   format = value => value
 
   render() {
-    const attributeLabel = this.props.attributes && this.props.attributes.searchField && this.props.attributes.searchField.name
+    const attributeLabel = this.props.attributes.searchField.label || this.props.attributes.searchField.name || this.props.attributes.searchField.id || 'Undefined attribute'
 
     return (
       <div

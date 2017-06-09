@@ -90,6 +90,8 @@ export class DatasetEditPluginContainer extends React.Component {
             linkPluginDataset={linkPluginDataset}
             onSubmit={this.onSubmit}
             backUrl={this.getBackUrl()}
+            currentDatasetIpId={this.props.params.datasetIpId}
+            currentDatasetId={this.props.params.datasetId}
           />)
           }
         </LoadableContentDisplayDecorator>
@@ -110,14 +112,14 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = dispatch => ({
   fetchPluginConfiguration: () => dispatch(pluginConfigurationActions.fetchEntityList({
     microserviceName: 'rs-catalog',
-  }, /*{
-   pluginId: 'fr.cnes.regards.modules.search.plugin.IService'
-   }*/)),
+  }, {
+    pluginId: 'fr.cnes.regards.modules.search.plugin.IService',
+  })),
   fetchPluginMetaData: () => dispatch(pluginMetaDataActions.fetchEntityList({
     microserviceName: 'rs-catalog',
-  }, /*{
-   pluginType: 'fr.cnes.regards.modules.search.plugin.IService'
-   }*/)),
+  }, {
+    pluginType: 'fr.cnes.regards.modules.search.plugin.IService',
+  })),
   fetchLinkPluginDataset: datasetIpId => dispatch(linkPluginDatasetActions.fetchEntity(datasetIpId)),
   updateLinkPluginDataset: (datasetIpId, linkPluginDataset) => dispatch(linkPluginDatasetActions.updateEntity(datasetIpId, linkPluginDataset)),
 })
