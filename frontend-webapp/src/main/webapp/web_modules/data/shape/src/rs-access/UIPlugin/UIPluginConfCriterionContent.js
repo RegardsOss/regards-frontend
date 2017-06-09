@@ -17,6 +17,4 @@ const UICriterionInstanceConfContent = PropTypes.shape({
   ),
 })
 
-export default {
-  UICriterionInstanceConfContent,
-}
+export default UICriterionInstanceConfContent

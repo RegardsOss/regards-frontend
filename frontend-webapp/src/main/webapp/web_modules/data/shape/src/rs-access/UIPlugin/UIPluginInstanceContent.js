@@ -6,7 +6,7 @@ import { UIPluginInfoContent } from './UIPluginInfoContent'
  * IHM Plugin entity definition
  * @author Sébastien Binda
  */
-const UIPluginContent = PropTypes.shape({
+const UIPluginInstanceContent = PropTypes.shape({
   name: PropTypes.string.isRequired,
   plugin: PropTypes.func.isRequired,
   messages: PropTypes.shape({
@@ -17,5 +17,5 @@ const UIPluginContent = PropTypes.shape({
 })
 
 export default {
-  UIPluginContent,
+  UIPluginInstanceContent,
 }

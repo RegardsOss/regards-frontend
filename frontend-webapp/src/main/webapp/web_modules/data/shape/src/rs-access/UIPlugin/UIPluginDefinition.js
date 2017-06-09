@@ -15,6 +15,9 @@ const UIPluginDefinition = PropTypes.shape({
   }).isRequired,
 })
 
+const UIPluginDefinitionList = PropTypes.objectOf(UIPluginDefinition)
+
 export default {
   UIPluginDefinition,
+  UIPluginDefinitionList,
 }

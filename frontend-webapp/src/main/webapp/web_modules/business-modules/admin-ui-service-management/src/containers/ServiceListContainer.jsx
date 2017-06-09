@@ -6,7 +6,7 @@ import { connect } from '@regardsoss/redux'
 import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { themeContextType } from '@regardsoss/theme'
-import { PluginDefinition as UIPluginDefinition } from '@regardsoss/model'
+import { AccessShapes } from '@regardsoss/shape'
 import { uiPluginDefinitionSelectors, uiPluginDefinitionActions } from '../clients/UIPluginDefinitionClient'
 import ServiceListComponent from '../components/ServiceListComponent'
 
@@ -29,7 +29,7 @@ export class ServiceListContainer extends React.Component {
       project: PropTypes.string,
     }),
     // from mapStateToProps
-    uiPluginDefinitionList: PropTypes.objectOf(UIPluginDefinition),
+    uiPluginDefinitionList: AccessShapes.UIPluginDefinitionList,
     // from mapDispatchToProps
     fetchUIPluginDefinitionList: PropTypes.func,
   }
