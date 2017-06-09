@@ -21,7 +21,7 @@ const messages = Object.assign({
   'project.list.action.editbutton': 'Editer',
   'project.list.action.licenseUpdateButton': 'License mise à jour',
   'project.list.dialog.title.update.license': 'License mise à jour?',
-  'project.list.dialog.message.update.license': 'Lorsque vous notifiez une mise à jour de licence, il sera demandé à tous les utilisateur d\'accepter à nouveau la licence du projet',
+  'project.list.dialog.message.update.license': 'Lorsque vous notifiez une mise à jour de licence, il sera demandé à tous les utilisateurs d\'accepter à nouveau la licence du projet',
   'project.list.action.deletebutton': 'Supprimer',
   'project.list.dialog.title.delete': 'Supprimer ce projet?',
 
@@ -29,7 +29,7 @@ const messages = Object.assign({
   'project.edit.title': 'Editer le projet {name}',
   'project.create.title': 'Ajouter un projet',
   'project.form.name': 'Nom du projet *',
-  'project.form.label': 'Label du projet. Ce label est celui qui sera utiliser dans les diverses interfaces pour présenter le projet *',
+  'project.form.label': 'Label du projet. Ce label est celui qui sera utilisé dans les diverses interfaces pour présenter le projet *',
   'project.form.description': 'Description',
   'project.form.isPublic': 'Projet public',
   'project.form.isAccessible': 'Projet accessible',

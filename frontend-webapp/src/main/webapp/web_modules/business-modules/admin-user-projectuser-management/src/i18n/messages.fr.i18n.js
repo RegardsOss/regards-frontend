@@ -19,7 +19,7 @@ const messages = {
   'projectUser.list.table.action.deny.tooltip': 'Refuser l\'accès projet cet utilisateur',
   'projectUser.list.table.action.delete.tooltip': 'Supprimer cet utilisateur',
   'projectUser.list.action.cancel': 'Annuler',
-  'projectUser.list.all.tab': 'Tous les utilisateur ({count})',
+  'projectUser.list.all.tab': 'Tous les utilisateurs ({count})',
   'projectUser.list.all.subtitle': 'Liste de tous les utilisateurs pour le projet courrant',
   'projectUser.list.all.action.create': 'Ajouter',
   'projectUser.list.all.no.content.message': 'Il n\'y a pas d\'utilisateur enregistré pour ce projet',
