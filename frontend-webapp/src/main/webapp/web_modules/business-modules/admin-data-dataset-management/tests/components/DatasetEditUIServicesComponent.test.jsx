@@ -28,8 +28,8 @@ describe('[ADMIN DATASET MANAGEMENT] Testing DatasetEditUIServicesComponent', ()
       uiPluginDefinitionList: DumpProvider.get('AccessProjectClient', 'UIPluginDefinition'),
       linkUIPluginDataset: DumpProvider.getFirstEntity('AccessProjectClient', 'LinkUIPluginDataset'),
       handleSubmit: handleSubmitSpy,
-      currentDatasetIpId: "URN:AIP:DATASET:project1:9f81f52c-c9ba-4fe8-af1b-602797789cb3:V1",
-      currentDatasetId: "102",
+      currentDatasetIpId: 'URN:AIP:DATASET:project1:9f81f52c-c9ba-4fe8-af1b-602797789cb3:V1',
+      currentDatasetId: '102',
     }
 
     const enzymeWrapper = shallow(<DatasetEditUIServicesComponent {...props} />, { context })
