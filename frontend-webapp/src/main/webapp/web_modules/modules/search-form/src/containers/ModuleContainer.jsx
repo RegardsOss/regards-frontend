@@ -120,7 +120,7 @@ class ModuleContainer extends React.Component {
    */
   getInitialQuery = () => {
     // Add form associated dataset urn
-    const { type, datasets }  = this.props.moduleConf.datasets || {}
+    const { type, datasets } = this.props.moduleConf.datasets || {}
     if (type === DatasetSelectionType.DATASET_TYPE && datasets && datasets.selectedDatasets) {
       const tags = reduce(this.props.moduleConf.datasets.selectedDatasets, (result, dataset) => {
         if (result && dataset !== undefined) {
@@ -159,9 +159,9 @@ class ModuleContainer extends React.Component {
               // Create standard attribute conf
               criteria.conf.attributes[key] = {
                 id: attributeId,
-                name : attributeId,
-                label : attributeId,
-                type : AttributeModelController.getStandardAttributeType(attributeId)
+                name: attributeId,
+                label: attributeId,
+                type: AttributeModelController.getStandardAttributeType(attributeId),
               }
             }
           }
@@ -209,7 +209,7 @@ class ModuleContainer extends React.Component {
 
     // Add form associated dataset urn
     let tags = ''
-    const { type, datasets }  = this.props.moduleConf.datasets || {}
+    const { type, datasets } = this.props.moduleConf.datasets || {}
     if (type === DatasetSelectionType.DATASET_TYPE && datasets && datasets.selectedDatasets) {
       tags = reduce(this.props.moduleConf.datasets.selectedDatasets, (result, dataset) => {
         if (result && dataset !== undefined) {

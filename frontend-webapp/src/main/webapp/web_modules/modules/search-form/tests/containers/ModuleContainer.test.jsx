@@ -33,7 +33,7 @@ describe('[SEARCH FORM] Testing User Container', () => {
           attributes: {
             testAttr: 0,
             testAttr2: 1,
-            testAttr3: 'ipId'
+            testAttr3: 'ipId',
           },
         },
       },
@@ -88,7 +88,7 @@ describe('[SEARCH FORM] Testing User Container', () => {
     // Check parameters passed to FormComponent
     const formComponent = wrapper.find(FormComponent)
     assert.isTrue(formComponent.length === 1, 'There should be one FormComponent rendered')
-    assert.equal(formComponent.prop('layout'),props.moduleConf.layout," Invalid layout passed to FormComponent")
+    assert.equal(formComponent.prop('layout'), props.moduleConf.layout, ' Invalid layout passed to FormComponent')
     const expectedPlugins =
       [
         {
@@ -98,12 +98,12 @@ describe('[SEARCH FORM] Testing User Container', () => {
           pluginId: 1,
           container: 'content',
           conf: {
-            attributes:  {
+            attributes: {
               testAttr: 0,
               testAttr2: 1,
-              testAttr3: { id: 'ipId', name: 'ipId', label: 'ipId', type: 'STRING' }
-            }
-          }
+              testAttr3: { id: 'ipId', name: 'ipId', label: 'ipId', type: 'STRING' },
+            },
+          },
         },
         {
           id: 2,
@@ -112,14 +112,14 @@ describe('[SEARCH FORM] Testing User Container', () => {
           pluginId: 2,
           container: 'content',
           conf: {
-            attributes:  {
+            attributes: {
               testAttr2: 1,
-              testAttr3: 2
-            }
-          }
-        }
+              testAttr3: 2,
+            },
+          },
+        },
       ]
 
-    assert.deepEqual(formComponent.prop('plugins'), expectedPlugins, "Invalid plugins passed to FormComponent")
+    assert.deepEqual(formComponent.prop('plugins'), expectedPlugins, 'Invalid plugins passed to FormComponent')
   })
 })

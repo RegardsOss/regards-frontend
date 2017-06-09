@@ -15,7 +15,7 @@ export default {
       isPublic: true,
       isAccessible: false,
       isDeleted: false,
-      host: 'http://regards-projet.com'
+      host: 'http://regards-projet.com',
     },
     links: [{
       rel: 'self',
@@ -64,7 +64,7 @@ export default {
       isPublic: true,
       isAccessible: false,
       isDeleted: false,
-      host: 'http://regards-projet2.com'
+      host: 'http://regards-projet2.com',
     },
     links: [{
       rel: 'self',

@@ -111,7 +111,7 @@ class Container extends React.Component {
       }
       return flow(
         fpfilter(plugin => plugin.container === this.props.container.id),
-        fpmap.convert({ cap: false })( (plugin, key) => (
+        fpmap.convert({ cap: false })((plugin, key) => (
           <Paper
             key={`${this.props.container.id}-${plugin.pluginId}-${key}`}
             style={stylePaper}
