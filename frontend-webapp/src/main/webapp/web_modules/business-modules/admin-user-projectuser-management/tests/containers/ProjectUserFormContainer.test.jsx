@@ -61,7 +61,7 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing projectuser form container', ()
             time: { hour: '15', minute: '46', second: '12', nano: '453000000' },
           },
           status: 'WAITING_ACCESS',
-          metaData: [{
+          metadata: [{
             id: 1,
             key: 'address',
             value: '9 rue des moumouttes, 65000 Chauveland',

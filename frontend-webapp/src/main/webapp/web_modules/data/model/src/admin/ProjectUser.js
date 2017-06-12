@@ -1,4 +1,4 @@
-import { MetaDataArray } from './MetaData'
+import { MetadataArray } from './Metadata'
 
 const ProjectUser = PropTypes.shape({
   content: PropTypes.shape({
@@ -11,7 +11,7 @@ const ProjectUser = PropTypes.shape({
     lastConnection: PropTypes.date,
     status: PropTypes.string,
     lastUpdate: PropTypes.date,
-    metaData: MetaDataArray,
+    metadata: MetadataArray,
   }),
 })
 

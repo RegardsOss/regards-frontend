@@ -9,7 +9,7 @@ import * as metadatav1 from '../../src/definitions/metadatav1'
 // metadata model as returned by server
 const modelUser = {
   content: {
-    metaData: [{
+    metadata: [{
       id: 1,
       key: 'address',
       value: '10 rue des Schtroumpf',
@@ -59,7 +59,7 @@ describe('[User Metadata Common] Testing metadatav1', () => {
       assert.isDefined(mandatory, `The metadata mandatory field should be defined for ${key}`)
       assert.isDefined(onlyAtRegistration, `The metadata onlyAtRegistration field should be defined for ${key}`)
       // verify value is retrieved in user
-      const userMeta = modelUser.content.metaData.find(({ key: modelKey }) => modelKey === key)
+      const userMeta = modelUser.content.metadata.find(({ key: modelKey }) => modelKey === key)
       assert.equal(currentValue, userMeta.value, `The metadata value field should be retrieved in user model for ${key}`)
     })
   })
@@ -69,16 +69,16 @@ describe('[User Metadata Common] Testing metadatav1', () => {
       address: '15 rue du Marsupilami',
       country: 'AF',
     }
-    const metaDataDTO = metadatav1.packMetaDataField(modelUser, editionData)
-    metaDataDTO.forEach(({ id, key, value }) => {
+    const metadataDTO = metadatav1.packMetadataField(modelUser, editionData)
+    metadataDTO.forEach(({ id, key, value }) => {
       // 1 - Id should be retrieved from user DTO
-      const initialMetaDataDTO = modelUser.content.metaData.find(({ key: initialKey }) => initialKey === key)
-      assert.equal(id, initialMetaDataDTO.id, `Id should of meta ${key} be retrived from initial DTO`)
+      const initialMetadataDTO = modelUser.content.metadata.find(({ key: initialKey }) => initialKey === key)
+      assert.equal(id, initialMetadataDTO.id, `Id should of meta ${key} be retrived from initial DTO`)
       // 2 - Value should either be the latest edited one or the DTO one if not present in edition data
       if (editionData[key]) {
         assert.equal(value, editionData[key], `Edited value should be used for ${key}`)
       } else {
-        assert.equal(value, initialMetaDataDTO.value, `Initial value should be used for ${key}`)
+        assert.equal(value, initialMetadataDTO.value, `Initial value should be used for ${key}`)
       }
     })
   })

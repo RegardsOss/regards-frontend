@@ -32,7 +32,7 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing projectuser form component', ()
             time: { hour: '15', minute: '46', second: '12', nano: '453000000' },
           },
           status: 'WAITING_ACCESS',
-          metaData: [], // leaving metadata blank (cannot test here the values)
+          metadata: [], // leaving metadata blank (cannot test here the values)
           role: { name: 'REGISTERED_USER' },
           permissions: [],
         },

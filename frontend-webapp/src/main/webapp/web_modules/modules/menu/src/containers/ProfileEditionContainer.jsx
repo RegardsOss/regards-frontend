@@ -3,7 +3,7 @@
  **/
 import { connect } from '@regardsoss/redux'
 import { ProjectUser } from '@regardsoss/model'
-import { getMetadataArray, packMetaDataField } from '@regardsoss/user-metadata-common'
+import { getMetadataArray, packMetadataField } from '@regardsoss/user-metadata-common'
 import profileDialogActions from '../model/ProfileDialogActions'
 import profileDialogSelectors from '../model/ProfileDialogSelectors'
 import { myUserActions, myUserSelectors } from '../clients/MyUserClient'
@@ -60,7 +60,7 @@ export class ProfileEditionContainer extends React.Component {
     // now rebuild a user as expected by server (remove the content)
     const updatedUser = {
       ...(myUser.content),
-      metaData: packMetaDataField(myUser, formValues), // put metadata with new value
+      metadata: packMetadataField(myUser, formValues), // put metadata with new value
     }
     updateMyUser(updatedUser)
     // finally request dialog hide
