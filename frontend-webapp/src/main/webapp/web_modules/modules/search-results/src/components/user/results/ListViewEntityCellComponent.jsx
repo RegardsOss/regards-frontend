@@ -216,12 +216,12 @@ class ListViewEntityCellComponent extends React.Component {
    * Display the thumbmail of the current dataset if any is defined in the "FILES" property of the entity.
    * @returns {XML}
    */
-  displayThumbmail = () => {
-    const thumbmail = find(this.props.entity.content.files, file => file.type === ObjectLinkedFileTypes.THUMBMAIL)
-    if (thumbmail) {
+  displayThumbnail = () => {
+    const thumbnail = find(this.props.entity.content.files, file => file.type === ObjectLinkedFileTypes.THUMBNAIL)
+    if (thumbnail) {
       return (
-        <div style={this.props.styles.thumbmail}>
-          <img height="80" width="80" src={thumbmail.uri} alt="" />
+        <div style={this.props.styles.thumbnail}>
+          <img height="80" width="80" src={thumbnail.uri} alt="" />
         </div>
       )
     }
@@ -322,7 +322,7 @@ class ListViewEntityCellComponent extends React.Component {
 
     const title = this.displayTitle()
     const attributes = this.displayEntityAttributes()
-    const thumbmail = this.displayThumbmail()
+    const thumbnail = this.displayThumbnail()
 
     const cardStyles = Object.assign({}, this.state.style, { height: this.props.lineHeight })
 
@@ -337,7 +337,7 @@ class ListViewEntityCellComponent extends React.Component {
         />
         <CardText style={textStyle}>
           <Divider />
-          {thumbmail}
+          {thumbnail}
           <div style={contentStyle}>
             <div style={this.props.styles.line}>
               {attributes}

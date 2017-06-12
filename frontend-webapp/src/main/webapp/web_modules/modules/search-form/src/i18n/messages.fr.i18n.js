@@ -12,11 +12,13 @@ const messages = Object.assign({
   // Administration messages
 
   // Tabulation labels
-  'form.configuration.tab.label': 'Paramètres',
+  'form.configuration.tab.label': 'Résultats',
   'form.dataset.selection.tab.label': 'Jeux',
   'form.layout.tab.label': 'Agencement',
   'form.criterions.tab.label': 'Critères',
+  'form.criterion.tab.title': 'Vous pouvez ici configurer les critères de recherche de votre formulaire. Chaque critère peut être placé dans une section spécifique de votre agencement.',
   'form.preview.tab.label': 'Prévisualisation',
+  'form.preview.tab.title': 'Vous pouvez ici visualiser votre formulaire de recherche tel qu\'il sera visisible dans l\'interface utilisateur.',
   // Configuration tab
   'form.configuration.tab.title': 'Configurer les paramètres principaux du formulaire de recherche',
   'form.configuration.result.type.datasets': 'Afficher les jeux de données résultats de la recherche',
@@ -54,6 +56,7 @@ const messages = Object.assign({
   'layout.invalid.error': 'Layout invalide',
   // Criterion tab
   'form.criterion.list.name': 'Nom du critère',
+  'form.criterion.list.attributes': 'Attributs',
   'form.criterion.list.container': 'Conteneur',
   'form.criterion.list.actions': 'Actions',
   'form.criterion.new.button.label': 'Créer un nouveau critère',

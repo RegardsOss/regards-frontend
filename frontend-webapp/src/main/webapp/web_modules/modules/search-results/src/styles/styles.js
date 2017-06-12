@@ -72,7 +72,7 @@ const formStyles = theme => ({
         cursor: 'auto',
         backgroundColor: theme.tableRow.stripeColor,
       },
-      thumbmail: {
+      thumbnail: {
         display: 'inline-block',
         marginTop: 5,
       },

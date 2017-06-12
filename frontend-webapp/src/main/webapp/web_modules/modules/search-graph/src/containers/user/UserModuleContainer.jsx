@@ -111,7 +111,7 @@ export class UserModuleContainer extends React.Component {
         } else {
           // 3.b - dynamic attribute mapping, resolves if found in fetched models
           const foundModel = find(fetchedAtributesModels, attributeModel =>
-            AttributeModelController.getAttributeFullyQualifiedName(attributeModel) === fullQualifiedName)
+            AttributeModelController.getAttributeAccessPath(attributeModel) === fullQualifiedName)
           if (foundModel) {
             resolvedAttribute = {
               label: foundModel.content.label,

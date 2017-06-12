@@ -10,13 +10,15 @@ import {
   TableRowColumn,
 } from 'material-ui/Table'
 import forEach from 'lodash/forEach'
+import get from 'lodash/get'
+import reduce from 'lodash/reduce'
 import concat from 'lodash/concat'
 import filter from 'lodash/filter'
 import Dialog from 'material-ui/Dialog'
 import IconButton from 'material-ui/IconButton'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
-import { CardActionsComponent } from '@regardsoss/components'
+import { CardActionsComponent, Title } from '@regardsoss/components'
 import { PluginConf, PluginDefinition, AttributeModel, Container as ContainerShape } from '@regardsoss/model'
 import { i18nContextType } from '@regardsoss/i18n'
 import FormCriteriaComponent from './FormCriteriaComponent'
@@ -135,6 +137,17 @@ class FormCriterionComponent extends React.Component {
         rows.push(
           <TableRow key={idx}>
             <TableRowColumn>{label}</TableRowColumn>
+            <TableRowColumn>{
+              reduce(criteria.conf.attributes, (result, attribute) => {
+                const attrLabel = get(this.props.selectableAttributes[attribute], 'content.label') || attribute
+                if (result !== '') {
+                  return `${result} - ${attrLabel}`
+                }
+                return attrLabel
+              }, '')
+            }
+            </TableRowColumn>
+
             <TableRowColumn>{criteria.container}</TableRowColumn>
             <TableRowColumn>
               <IconButton onTouchTap={() => this.handleEdit(criteria, idx)}>
@@ -155,6 +168,10 @@ class FormCriterionComponent extends React.Component {
     const dialogTitle = this.context.intl.formatMessage({ id: 'form.criterion.criteria.new.title' })
     return (
       <div>
+        <Title
+          level={3}
+          label={this.context.intl.formatMessage({ id: 'form.criterion.tab.title' })}
+        />
         <Table selectable={false}>
           <TableHeader
             enableSelectAll={false}
@@ -163,6 +180,7 @@ class FormCriterionComponent extends React.Component {
           >
             <TableRow>
               <TableHeaderColumn>{this.context.intl.formatMessage({ id: 'form.criterion.list.name' })}</TableHeaderColumn>
+              <TableHeaderColumn>{this.context.intl.formatMessage({ id: 'form.criterion.list.attributes' })}</TableHeaderColumn>
               <TableHeaderColumn>{this.context.intl.formatMessage({ id: 'form.criterion.list.container' })}</TableHeaderColumn>
               <TableHeaderColumn>{this.context.intl.formatMessage({ id: 'form.criterion.list.actions' })}</TableHeaderColumn>
             </TableRow>

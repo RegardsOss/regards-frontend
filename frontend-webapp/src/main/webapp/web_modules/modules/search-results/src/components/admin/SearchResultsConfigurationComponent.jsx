@@ -1,17 +1,14 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { Card, CardTitle } from 'material-ui/Card'
-import Divider from 'material-ui/Divider'
-import Subheader from 'material-ui/Subheader'
-import { FormattedMessage } from 'react-intl'
+import { Card } from 'material-ui/Card'
 import { i18nContextType } from '@regardsoss/i18n'
 import {
   AttributeModel,
   AttributeConfiguration,
   AttributesRegroupementConfiguration,
 } from '@regardsoss/model'
-import { ShowableAtRender } from '@regardsoss/components'
+import { ShowableAtRender, Title } from '@regardsoss/components'
 import { Field, RenderCheckbox } from '@regardsoss/form-utils'
 import { MainAttributesConfigurationComponent } from '@regardsoss/attributes-common'
 
@@ -56,12 +53,14 @@ class SearchResultsConfigurationComponent extends React.Component {
   )
 
   render() {
-    const dividerStyle = { marginTop: 10, marginBottom: 10 }
     return (
       <Card>
-        <CardTitle subtitle={this.context.intl.formatMessage({ id: 'form.configuration.tab.title' })} />
+        <Title
+          level={3}
+          label={this.context.intl.formatMessage({ id: 'form.configuration.tab.title' })}
+        />
         { /* Show result type choice only if the datasets results are not hidden */}
-        <ShowableAtRender show={!this.props.hideDatasetsConfiguration} >
+        <ShowableAtRender show={!this.props.hideDatasetsConfiguration}>
           <Field
             name="conf.displayDatasets"
             component={RenderCheckbox}
@@ -76,8 +75,6 @@ class SearchResultsConfigurationComponent extends React.Component {
           checked={this.props.defaultEnableFacettes}
           label={this.context.intl.formatMessage({ id: 'form.configuration.result.enable.facettes.label' })}
         />
-        <Divider style={dividerStyle} />
-        <Subheader><FormattedMessage id="form.attributes.parameters.title" /></Subheader>
         {this.renderAttributesConfiguration()}
       </Card>
     )

@@ -12,10 +12,9 @@ const messages = Object.assign({
   // Administration messages
 
   // Configuration tab
-  'form.configuration.tab.title': 'Configure main parameters for current search form module',
+  'form.configuration.tab.title': 'This screen allow you to configure options of visualization of your search results.',
   'form.configuration.result.type.datasets': 'Display "dataset" view in results',
   'form.configuration.result.enable.facettes.label': 'Enable facetes : Results filtering with criterion depending on initial search results',
-  'form.attributes.parameters.title': 'Configure attributes displayed and used for filtering from each search results of the current form',
   'form.attributes.regroupement.form.title': 'Add new attributes regrouepement',
   'form.attributes.regroupement.description': 'A regroupement of attributes allow you to display multiples attributes of a search result object into the same column of the results list.<br/>' +
   ' Please enter the new regroupement label (that must be unique) and select attributes to regroup.',
@@ -31,7 +30,7 @@ const messages = Object.assign({
   'form.attributes.initialSort.label': 'Sort results on this attribute',
   'form.attributes.regroupement.section.title': 'Configure attributes regroupement to display after every search result',
   'form.attributes.section.title': 'Configure attributes from dynamic models retrieved from each search result',
-  'form.attributes.standard.section.title': 'Configure common attributes retrieved from each search result',
+  'form.attributes.standard.section.title': 'Configure default models attributes. Default models attributes are attributes that are associated to each model without configuration',
   'form.attributes.filter.label': 'Search for attribute label ... ',
   'form.attributes.regroupement.remove': 'Remove',
   'form.attributes.regroupement.edit': 'Edit',

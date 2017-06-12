@@ -64,6 +64,8 @@ import TableColumnConfigurationController from './table/content/columns/model/Co
 
 import HelpMessageComponent from './help/HelpMessageComponent'
 
+import Title from './titles/Title'
+
 export {
   ActionButtonComponent,
   ActionIconWithNotifications,
@@ -87,6 +89,7 @@ export {
   TablePaneHeader,
   TableSelectionModes,
   TableActions,
+  Title,
   getTableReducer,
   getTableSelectors,
   TableSortOrders,

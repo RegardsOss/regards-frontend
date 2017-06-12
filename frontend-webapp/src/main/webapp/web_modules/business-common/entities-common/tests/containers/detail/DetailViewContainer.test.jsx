@@ -262,6 +262,7 @@ describe('[Entities Common] Testing DetailViewContainer', () => {
               id: 0,
               name: 'aproperty',
               label: 'A Property Label',
+              jsonPath: 'properties.aproperty',
               type: 'string',
               fragment: { id: 0, name: 'DEFAULT' },
             },

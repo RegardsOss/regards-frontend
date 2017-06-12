@@ -56,7 +56,7 @@ export default {
       },
     },
   },
-  thumbmail: {
+  thumbnail: {
     content: {
       mode: '',
       model: {
@@ -65,8 +65,8 @@ export default {
         name: '',
       },
       attribute: {
-        name: 'thumbmail',
-        label: 'thumbmail',
+        name: 'thumbnail',
+        label: 'thumbnail',
         type: '',
         optional: true,
         fragment: {

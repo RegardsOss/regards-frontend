@@ -219,6 +219,8 @@ export class DetailViewContainer extends React.Component {
   resolveEntityAttributes = (nextEntity, nextAttrModelAssoc) => map(nextAttrModelAssoc, ({ content: { attribute: attributeModel } }) => {
     // resolve attribute value in entity (push attribute in content, as it is not normalized )
     const accessPath = AttributeModelController.getAttributeAccessPath({ content: attributeModel })
+    console.log('accessPAth', accessPath)
+    console.log('next entity', nextEntity)
     const value = AttributeModelController.getEntityAttributeValue(nextEntity, accessPath)
     return {
       id: attributeModel.id,

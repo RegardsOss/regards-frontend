@@ -65,25 +65,25 @@ class AttributeConfigurationComponent extends React.Component {
   changeVisibility = () => {
     const newConf = merge({}, this.state.conf, { visibility: !this.state.conf.visibility })
     this.setState({ conf: newConf })
-    this.props.onChange(AttributeModelController.getAttributeFullyQualifiedName(this.props.attribute), newConf)
+    this.props.onChange(AttributeModelController.getAttributeAccessPath(this.props.attribute), newConf)
   }
 
   changeFacetable = () => {
     const newConf = merge({}, this.state.conf, { facetable: !this.state.conf.facetable })
     this.setState({ conf: newConf })
-    this.props.onChange(AttributeModelController.getAttributeFullyQualifiedName(this.props.attribute), newConf)
+    this.props.onChange(AttributeModelController.getAttributeAccessPath(this.props.attribute), newConf)
   }
 
   changeInitialSort = () => {
     const newConf = merge({}, this.state.conf, { initialSort: !this.state.conf.initialSort })
     this.setState({ conf: newConf })
-    this.props.onChange(AttributeModelController.getAttributeFullyQualifiedName(this.props.attribute), newConf)
+    this.props.onChange(AttributeModelController.getAttributeAccessPath(this.props.attribute), newConf)
   }
 
   changeAttributeOrder = (event, value) => {
     const newConf = merge({}, this.state.conf, { order: parseInt(value, this) })
     this.setState({ conf: newConf })
-    this.props.onChange(AttributeModelController.getAttributeFullyQualifiedName(this.props.attribute), newConf)
+    this.props.onChange(AttributeModelController.getAttributeAccessPath(this.props.attribute), newConf)
   }
 
   formatOrder = value => value ? parseInt(value, this) : undefined

@@ -11,7 +11,7 @@ import { ObjectLinkedFile, ObjectLinkedFileTypes, CatalogEntity } from '@regards
  *
  * @author Sébastien Binda
  */
-class ThumbmailAttributesRender extends React.Component {
+class ThumbnailAttributesRender extends React.Component {
 
   static propTypes = {
     attributes: PropTypes.shape({
@@ -48,19 +48,19 @@ class ThumbmailAttributesRender extends React.Component {
 
   render() {
     if (this.props.attributes.files && this.props.attributes.files.length > 0) {
-      const thumbmail = find(this.props.attributes.files, file => file.type === ObjectLinkedFileTypes.THUMBMAIL)
+      const thumbnail = find(this.props.attributes.files, file => file.type === ObjectLinkedFileTypes.THUMBNAIL)
 
-      if (thumbmail) {
+      if (thumbnail) {
         const style = { cursor: 'pointer' }
         return (
           <div>
             <Avatar
-              src={thumbmail.uri}
+              src={thumbnail.uri}
               size={this.props.lineHeight - 20}
               style={style}
               onTouchTap={() => this.setState({ displayFullSize: !this.state.displayFullSize })}
             />
-            {this.displayFullSize(thumbmail.uri)}
+            {this.displayFullSize(thumbnail.uri)}
           </div>
         )
       }
@@ -70,4 +70,4 @@ class ThumbmailAttributesRender extends React.Component {
 
 }
 
-export default ThumbmailAttributesRender
+export default ThumbnailAttributesRender

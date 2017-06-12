@@ -33,7 +33,7 @@ const findAttributeConf = (attributesList, attributeConfigurationToFind) => {
   if (isStandardAttribute(attributeConfigurationToFind)) {
     return true
   }
-  return find(attributesList, attribute => AttributeModelController.getAttributeFullyQualifiedName(attribute) === attributeConfigurationToFind.attributeFullQualifiedName)
+  return find(attributesList, attribute => AttributeModelController.getAttributeAccessPath(attribute) === attributeConfigurationToFind.attributeFullQualifiedName)
 }
 
 /**

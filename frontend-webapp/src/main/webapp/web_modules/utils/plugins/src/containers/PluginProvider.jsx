@@ -38,6 +38,7 @@ class PluginProvider extends React.Component {
     // eslint-disable-next-line react/forbid-prop-types
     pluginProps: PropTypes.object,
     displayPlugin: PropTypes.bool,
+    onErrorCallback: PropTypes.func,
     children: PropTypes.element,
     // Set by mapstatetoprops
     pluginToLoad: PluginDefinition,
@@ -60,6 +61,7 @@ class PluginProvider extends React.Component {
           displayPlugin={this.props.displayPlugin}
           pluginConf={this.props.pluginConf}
           pluginProps={this.props.pluginProps}
+          onErrorCallback={this.props.onErrorCallback}
         >
           {this.props.children}
         </PluginLoader>

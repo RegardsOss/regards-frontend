@@ -143,15 +143,15 @@ class SearchResultsComponent extends React.Component {
         } else {
           // maybe dynamic attribute (if found)
           attribute = find(attributeModels,
-            att => AttributeModelController.getAttributeFullyQualifiedName(att) === attributeConf.attributeFullQualifiedName)
+            att => AttributeModelController.getAttributeAccessPath(att) === attributeConf.attributeFullQualifiedName)
           fullyQualifiedAttributePathInEntity = attribute ?
-            AttributeModelController.getAttributeFullyQualifiedNameWithoutDefaultFragment(attribute) : null
+            AttributeModelController.getAttributeAccessPath(attribute) : null
         }
         // when found, add the corresponding column
         if (attribute) {
           const customCell = getTypeRender(attribute.content.type)
           const isSpecialAttr =
-            attribute.content.type === AttributeModelController.ATTRIBUTE_TYPES.THUMBMAIL ||
+            attribute.content.type === AttributeModelController.ATTRIBUTE_TYPES.THUMBNAIL ||
             attribute.content.type === AttributeModelController.ATTRIBUTE_TYPES.DOWNLOAD_LINK
           return [...allColumns, {
             label: attribute.content.label,
@@ -180,7 +180,7 @@ class SearchResultsComponent extends React.Component {
       const attributes = reduce(attrRegroupementConf.attributes, (results, attributeId) => {
         const attribute = find(attributeModels, att => att.content.id === attributeId)
         return attribute ?
-            [...results, AttributeModelController.getAttributeFullyQualifiedNameWithoutDefaultFragment(attribute)] :
+            [...results, AttributeModelController.getAttributeAccessPath(attribute)] :
             results
       }, [])
         // 2 - If attributes could be rebuilt, return corresponding columns

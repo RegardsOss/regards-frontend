@@ -48,6 +48,7 @@ class StandardAttributesConfigurationComponent extends React.Component {
               content: {
                 label: standardAttribute,
                 name: standardAttribute,
+                jsonPath: standardAttribute,
                 fragment: {
                   name: '',
                 },

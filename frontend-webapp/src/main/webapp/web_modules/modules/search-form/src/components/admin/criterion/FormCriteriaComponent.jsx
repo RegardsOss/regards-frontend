@@ -5,7 +5,7 @@ import isNil from 'lodash/isNil'
 import map from 'lodash/map'
 import MenuItem from 'material-ui/MenuItem'
 import { i18nContextType } from '@regardsoss/i18n'
-import { RenderSelectField, Field, reduxForm } from '@regardsoss/form-utils'
+import { RenderSelectField, Field, reduxForm, ValidationHelpers } from '@regardsoss/form-utils'
 import { CardActionsComponent } from '@regardsoss/components'
 import { PluginDefinition, PluginConf, AttributeModel, Container as ContainerShape } from '@regardsoss/model'
 import { ContainerHelper } from '@regardsoss/layout'
@@ -55,8 +55,18 @@ class FormCriteriaComponent extends React.Component {
     }
   }
 
+  state = {
+    pluginLoadError: false,
+  }
+
   componentWillMount() {
     this.handleInitialize()
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!this.props.criteria && nextProps.criteria) {
+      this.handleInitialize()
+    }
   }
 
   /**
@@ -70,10 +80,14 @@ class FormCriteriaComponent extends React.Component {
    * Initialize redux-form fields
    */
   handleInitialize = () => {
+    let initializationValues = { active: true }
     if (this.props.criteria) {
-      this.props.initialize({ ...this.props.criteria })
+      initializationValues = { ...initializationValues, ...this.props.criteria }
     }
+    this.props.initialize(initializationValues)
   }
+
+  pluginLoadError = () => this.setState({ pluginLoadError: true })
 
   /**
    * Callback used when a criteria plugin is selected
@@ -85,11 +99,12 @@ class FormCriteriaComponent extends React.Component {
     input.onChange(value)
     this.setState({
       selectedCriteria: value,
+      pluginLoadError: false,
     })
   }
 
   /**
-   * Render all avaiable criterion plugins for selection.
+   * Render all available criterion plugins for selection.
    * @returns {Array}
    */
   renderCriterionTypesList = () => {
@@ -133,6 +148,7 @@ class FormCriteriaComponent extends React.Component {
           pluginInstanceId={'add-criteria'}
           pluginId={this.state.selectedCriteria}
           displayPlugin={false}
+          onErrorCallback={this.pluginLoadError}
         >
           <CriteriaConfigurationComponent
             selectableAttributes={this.props.selectableAttributes}
@@ -149,45 +165,47 @@ class FormCriteriaComponent extends React.Component {
    */
   render() {
     const { pristine, submitting } = this.props
+
+    const required = [ValidationHelpers.required]
+
     return (
       <form
         onSubmit={this.props.handleSubmit(this.props.saveCriteria)}
       >
-        <div>
-          <Field
-            name="pluginId"
-            fullWidth
-            component={RenderSelectField}
-            type="text"
-            onSelect={this.selectCriteria}
-            label={this.context.intl.formatMessage({ id: 'form.criterion.criteria.select.criteria.label' })}
-          >
-            {this.renderCriterionTypesList()}
-          </Field>
-          <Field
-            name="container"
-            fullWidth
-            component={RenderSelectField}
-            type="text"
-            label={this.context.intl.formatMessage({ id: 'form.criterion.criteria.select.container.label' })}
-          >
-            {this.renderContainersList()}
-          </Field>
+        <Field
+          name="pluginId"
+          fullWidth
+          component={RenderSelectField}
+          onSelect={this.selectCriteria}
+          label={this.context.intl.formatMessage({ id: 'form.criterion.criteria.select.criteria.label' })}
+          validate={required}
+        >
+          {this.renderCriterionTypesList()}
+        </Field>
+        <Field
+          name="container"
+          fullWidth
+          component={RenderSelectField}
+          label={this.context.intl.formatMessage({ id: 'form.criterion.criteria.select.container.label' })}
+          validate={required}
+        >
+          {this.renderContainersList()}
+        </Field>
 
-          {this.renderCriteriaConfiguration()}
+        {this.renderCriteriaConfiguration()}
 
-          <CardActionsComponent
-            mainButtonLabel={this.context.intl.formatMessage({ id: 'form.criterion.criteria.submit.button.label' })}
-            mainButtonType="submit"
-            isMainButtonDisabled={pristine || submitting}
-            secondaryButtonLabel={this.context.intl.formatMessage({ id: 'form.criterion.criteria.cancel.button.label' })}
-            secondaryButtonTouchTap={this.onCancel}
-          />
-        </div>
+        <CardActionsComponent
+          mainButtonLabel={this.context.intl.formatMessage({ id: 'form.criterion.criteria.submit.button.label' })}
+          mainButtonType="submit"
+          isMainButtonDisabled={pristine || submitting || this.state.pluginLoadError}
+          secondaryButtonLabel={this.context.intl.formatMessage({ id: 'form.criterion.criteria.cancel.button.label' })}
+          secondaryButtonTouchTap={this.onCancel}
+        />
       </form>
     )
   }
 }
+
 
 const UnconnectedFormCriteriaComponent = FormCriteriaComponent
 export {

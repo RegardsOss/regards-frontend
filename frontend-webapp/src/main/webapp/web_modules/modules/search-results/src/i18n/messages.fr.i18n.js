@@ -10,10 +10,9 @@ import { Locales } from '@regardsoss/form-utils'
 const messages = Object.assign({
 
   // Administration messages
-  'form.configuration.tab.title': 'Configurer les paramètres principaux du formulaire de recherche',
+  'form.configuration.tab.title': 'Cet écran vous permet de configurer les options d\'affichage des résultats de recherche. ',
   'form.configuration.result.type.datasets': 'Afficher la vue "jeux de données" dans les résultats',
   'form.configuration.result.enable.facettes.label': 'Activer les facettes : Critères de filtrage dépendant des résultats de la recherche initiale',
-  'form.attributes.parameters.title': 'Configurer les attributs affichés et/ou utilisés comme filtre depuis chaque résultat de recherche',
   'form.attributes.regroupement.form.title': 'Ajout d\'un nouveau regroupement',
   'form.attributes.regroupement.description': 'Un regroupement d\'attributs permet de regrouper l\'affichage de plusieurs attributs d\'un même objet résultat d\'une recherche dans une seule colonne du tableau des résultats de recherche.<br/>' +
   ' Veuillez saisir le label de la colonne voulue (ce label doit être unique) puis sélectionner les attributs à regrouper.',
@@ -29,7 +28,7 @@ const messages = Object.assign({
   'form.attributes.initialSort.label': 'Trier les résultats sur cet attribut',
   'form.attributes.regroupement.section.title': 'Configurer les regroupements d\'attributs',
   'form.attributes.section.title': 'Configurer les attributs du modèle dynamique',
-  'form.attributes.standard.section.title': 'Configurer les attributs communs',
+  'form.attributes.standard.section.title': 'Configurer les attributs par défaut. Les attributs par défaut des models de données sont les attributs asscoiés automatiquement sans configuration',
   'form.attributes.filter.label': 'Filtrer les attributs ...',
   'form.attributes.regroupement.remove': 'Supprimer',
   'form.attributes.regroupement.edit': 'Editer',

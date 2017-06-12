@@ -2,8 +2,8 @@
  * LICENSE_PLACEHOLDER
  **/
 import { i18nContextType } from '@regardsoss/i18n'
-import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
-import { CardActionsComponent } from '@regardsoss/components'
+import { Card, CardActions, CardText } from 'material-ui/Card'
+import { CardActionsComponent, Title } from '@regardsoss/components'
 import { Container as ContainerShape } from '@regardsoss/model'
 import { LayoutConfigurationComponent, DefaultLayout } from '@regardsoss/layout'
 
@@ -54,8 +54,9 @@ class FormLayoutComponent extends React.Component {
     const style = { width: '100%' }
     return (
       <Card>
-        <CardTitle
-          subtitle={this.context.intl.formatMessage({ id: 'form.layout.tab.title' })}
+        <Title
+          level={3}
+          label={this.context.intl.formatMessage({ id: 'form.layout.tab.title' })}
         />
         <CardText style={style}>
           <LayoutConfigurationComponent
