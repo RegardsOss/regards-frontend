@@ -15,6 +15,7 @@ import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { List, ListItem } from 'material-ui/List'
+import { fragmentSelectors } from '../clients/FragmentClient'
 import DatasetStepperContainer from '../containers/DatasetStepperContainer'
 
 /**
@@ -44,6 +45,14 @@ export class DatasetFormSubsettingComponent extends React.Component {
 
   componentDidMount() {
     this.handleInitialize()
+  }
+
+
+  getAttributeName = (attribute) => {
+    if (attribute.fragment.name === fragmentSelectors.noneFragmentName) {
+      return `${attribute.name}`
+    }
+    return `${attribute.fragment.name} ${attribute.name}`
   }
 
   getTitle = () => {
@@ -95,7 +104,7 @@ export class DatasetFormSubsettingComponent extends React.Component {
                   <Subheader><FormattedMessage id="dataset.form.subsetting.attributes" /></Subheader>
                   {map(modelAttributeList, (modelAttribute, id) => (
                     <ListItem
-                      primaryText={`${modelAttribute.content.attribute.fragment.name}.${modelAttribute.content.attribute.name}`}
+                      primaryText={this.getAttributeName(modelAttribute.content.attribute)}
                       key={id}
                       disabled
                     />

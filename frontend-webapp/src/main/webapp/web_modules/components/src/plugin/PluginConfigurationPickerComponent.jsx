@@ -89,7 +89,7 @@ class PluginConfigurationPickerComponent extends React.Component {
     return (
       <div>
         <RaisedButton
-          label={currentPluginConfiguration ? currentPluginConfiguration.content.label : <FormattedMessage id="component.plugin-parameter.action.choose-plugin" />}
+          label={currentPluginConfiguration ? currentPluginConfiguration.label : <FormattedMessage id="component.plugin-parameter.action.choose-plugin" />}
           onTouchTap={this.handleOpenMenu}
           style={styles.pluginButton}
         />
@@ -116,7 +116,7 @@ class PluginConfigurationPickerComponent extends React.Component {
                       key={pluginConfiguration.content.id}
                       primaryText={this.buildMenuItemPrimaryText(pluginConfiguration.content.label, pluginConfiguration.content.version)}
                       onTouchTap={() => this.handleChange(pluginConfiguration.content.id)}
-                      checked={currentPluginConfiguration && pluginConfiguration.content.id === currentPluginConfiguration.content.id}
+                      checked={currentPluginConfiguration && pluginConfiguration.content.id === currentPluginConfiguration.id}
                     />),
                   )
                 }
