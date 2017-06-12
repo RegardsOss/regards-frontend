@@ -1,11 +1,11 @@
 /**
-* LICENSE_PLACEHOLDER
-**/
+ * LICENSE_PLACEHOLDER
+ **/
 import isEqual from 'lodash/isEqual'
 import values from 'lodash/values'
 import remove from 'lodash/remove'
 import keys from 'lodash/keys'
-import { connect } from '@regardsoss/redux'
+import {connect} from '@regardsoss/redux'
 import {
   AttributeModel,
   AttributeConfiguration,
@@ -14,12 +14,16 @@ import {
   AttributeConfigurationController,
   SearchResultsTargetsEnum,
 } from '@regardsoss/model'
-import { TableSelectionModes, TableSortOrders } from '@regardsoss/components'
+import {TableSelectionModes, TableSortOrders} from '@regardsoss/components'
 import TableClient from '../../../clients/TableClient'
 import NavigationLevel from '../../../models/navigation/NavigationLevel'
 import navigationContextActions from '../../../models/navigation/NavigationContextActions'
 import navigationContextSelectors from '../../../models/navigation/NavigationContextSelectors'
-import { searchDataobjectsActions, searchDatasetsActions, selectors as searchSelectors } from '../../../clients/SearchEntitiesClient'
+import {
+  searchDataobjectsActions,
+  searchDatasetsActions,
+  selectors as searchSelectors
+} from '../../../clients/SearchEntitiesClient'
 import datasetServicesSelectors from '../../../models/services/DatasetServicesSelectors'
 import QueriesHelper from '../../../definitions/query/QueriesHelper'
 import Service from '../../../definitions/service/Service'
@@ -28,8 +32,8 @@ import SearchResultsComponent from '../../../components/user/results/SearchResul
 const EMPTY_SERVICE_LIST = []
 
 /**
-* Search results container, drives corresponding component
-*/
+ * Search results container, drives corresponding component
+ */
 export class SearchResultsContainer extends React.Component {
 
   static mapStateToProps = state => ({
@@ -116,16 +120,16 @@ export class SearchResultsContainer extends React.Component {
   onShowDataobjects = () => this.props.dispatchChangeViewObjectType(SearchResultsTargetsEnum.DATAOBJECT_RESULTS)
 
   /** On show results as list view action */
-  onShowListView = () => this.setState({ viewMode: SearchResultsComponent.ViewModes.LIST })
+  onShowListView = () => this.setState({viewMode: SearchResultsComponent.ViewModes.LIST})
 
   /**  On show results as table view action  */
-  onShowTableView = () => this.setState({ viewMode: SearchResultsComponent.ViewModes.TABLE })
+  onShowTableView = () => this.setState({viewMode: SearchResultsComponent.ViewModes.TABLE})
 
   /** User toggled facettes search */
-  onToggleShowFacettes = () => this.updateStateAndQuery({ showingFacettes: !this.state.showingFacettes })
+  onToggleShowFacettes = () => this.updateStateAndQuery({showingFacettes: !this.state.showingFacettes})
 
   /** On filters changed */
-  onFiltersChanged = (filters = []) => this.updateStateAndQuery({ filters })
+  onFiltersChanged = (filters = []) => this.updateStateAndQuery({filters})
 
   /**
    * User changed sorting
@@ -139,16 +143,16 @@ export class SearchResultsContainer extends React.Component {
     if (attributePath) {
       if (type && (type === TableSortOrders.ASCENDING_ORDER || type === TableSortOrders.DESCENDING_ORDER)) {
         // add the attribute to sorting list
-        let currentAttrSorting = find(newSortingOn, ({ attributePath: currPath }) => currPath === attributePath)
+        let currentAttrSorting = find(newSortingOn, ({attributePath: currPath}) => currPath === attributePath)
         if (!currentAttrSorting) {
-          currentAttrSorting = { attributePath, type } // note, type is not mandatory
+          currentAttrSorting = {attributePath, type} // note, type is not mandatory
           newSortingOn.push(currentAttrSorting)
         } else {
           currentAttrSorting.type = type
         }
       } else {
         // remove attribute from sorting list
-        remove(newSortingOn, ({ attributePath: currPath }) => attributePath === currPath)
+        remove(newSortingOn, ({attributePath: currPath}) => attributePath === currPath)
       }
     }
 
@@ -164,12 +168,12 @@ export class SearchResultsContainer extends React.Component {
   onDataobjectServiceSelected = (service, dataobjectEntity) => console.error('Implement single (dataobject) service ', service)
 
   /**
-    * Builds opensearch query from properties and state as parameter
-    * @param properties : properties to consider when building query
-    * @param state : state to consider when building query
-    */
-  buildOpenSearchQuery = ({ searchQuery, facettesQuery, levels, viewObjectType },
-    { showingFacettes, filters, sortingOn, initialSortAttributesPath }) => {
+   * Builds opensearch query from properties and state as parameter
+   * @param properties : properties to consider when building query
+   * @param state : state to consider when building query
+   */
+  buildOpenSearchQuery = ({searchQuery, facettesQuery, levels, viewObjectType},
+                          {showingFacettes, filters, sortingOn, initialSortAttributesPath}) => {
     // check if facettes should be applied
     const facettes = showingFacettes && viewObjectType === SearchResultsTargetsEnum.DATAOBJECT_RESULTS ? filters : []
     const facettesQueryPart = showingFacettes ? facettesQuery : ''
@@ -210,10 +214,13 @@ export class SearchResultsContainer extends React.Component {
     if (oldProperties.attributesConf !== newProperties.attributesConf) {
       newState.intialSortAttributesPath =
         (AttributeConfigurationController.getInitialSortAttributes(newProperties.attributesConf) || []).map(
-          attribute => ({
-            attributePath: AttributeModelController.getEntityAttributeAccessPathFromAttFullyQualifiedName(attribute),
-            type: TableSortOrders.ASCENDING_ORDER, // default is ascending
-          }))
+          attribute => {
+            return {
+              attributePath: attribute,
+              type: TableSortOrders.ASCENDING_ORDER, // default is ascending
+            }
+          }
+        )
     }
 
     // on view object type, if entering datasets mode, make sure we are in list view
@@ -235,7 +242,7 @@ export class SearchResultsContainer extends React.Component {
    * @return true if selection is empty in current state, false otherwise
    */
   isEmptySelection = (properties) => {
-    const { selectionMode, toggledElements, pageMetadata } = properties
+    const {selectionMode, toggledElements, pageMetadata} = properties
     const totalElements = (pageMetadata && pageMetadata.totalElements) || 0
     const selectionSize = keys(toggledElements).length
 
@@ -244,11 +251,13 @@ export class SearchResultsContainer extends React.Component {
   }
 
   render() {
-    const { appName, project, enableFacettes, attributesConf,
+    const {
+      appName, project, enableFacettes, attributesConf,
       attributesRegroupementsConf, attributeModels, viewObjectType,
       datasetServices, selectedDataobjectsServices, displayDatasets,
-      dispatchDatasetSelected, dispatchTagSelected } = this.props
-    const { viewMode, showingFacettes, filters, searchTag, searchQuery, emptySelection, sortingOn } = this.state
+      dispatchDatasetSelected, dispatchTagSelected
+    } = this.props
+    const {viewMode, showingFacettes, filters, searchTag, searchQuery, emptySelection, sortingOn} = this.state
 
     // compute view mode
     const showingDataobjects = viewObjectType === SearchResultsTargetsEnum.DATAOBJECT_RESULTS
