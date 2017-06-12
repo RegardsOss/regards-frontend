@@ -2,6 +2,7 @@ const autoprefixer = require('autoprefixer')
 const path = require('path')
 const webpack = require('webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   // Hide stats information from children during webpack compilation
@@ -27,12 +28,6 @@ module.exports = {
     ],
   },
   module: {
-    /*
-    preLoaders: [{
-      test: /\.jsx?$/,
-      loader: 'eslint-loader',
-      exclude: [/node_modules/, /json/, /\/\..*!/],
-    }],*/
     rules: [
       // Transpile ES6 Javascript into ES5 with babel loader
       {
@@ -65,17 +60,17 @@ module.exports = {
         loader: 'file-loader?name=/img/[name].[ext]',
       },
       {
-        test: /index\.html/,
-        loader: 'file-loader?name=[name].[ext]',
-      },
-      {
         test: /\.html/,
-        loader: 'file-loader?name=/html/[name].[ext]',
-        exclude: [/\/index.html/]
+        loader: 'file-loader?name=/html/[name].[ext]'
       },
     ],
   },
   plugins: [
+    // Generate the index.html automatically
+    new HtmlWebpackPlugin({
+      template: 'index.ejs',
+      hash: true
+    }),
     // Allow to define React as a global variable for JSX.
     new webpack.ProvidePlugin({
       React: 'react',

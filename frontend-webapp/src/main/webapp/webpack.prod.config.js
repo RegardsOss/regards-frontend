@@ -12,7 +12,7 @@ config = merge(config, {
     // Webpack main bundle file name
     filename: 'bundle.js',
     // Webpack chunks files namesc
-    chunkFilename: '[id].chunck.js',
+    chunkFilename: '[id]-[chunkhash].chunck.js',
     publicPath: '/',
   },
   module: {
