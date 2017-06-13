@@ -1,15 +1,22 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+
+const ModelContent = PropTypes.shape({
+  id: PropTypes.number,
+  type: PropTypes.string,
+  description: PropTypes.string,
+  name: PropTypes.string,
+})
+
 const Model = PropTypes.shape({
-  content: PropTypes.shape({
-    id: PropTypes.number,
-    type: PropTypes.string,
-    description: PropTypes.string,
-    name: PropTypes.string,
-  }),
+  content: ModelContent.isRequired,
 })
 
 const ModelList = PropTypes.objectOf(Model)
 
-export default { Model, ModelList }
+export default {
+  ModelContent,
+  Model,
+  ModelList
+}

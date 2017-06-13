@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import Model from './Model'
+import { Model } from './Model'
 
 /**
  * Entity definition for all catalog entities like datasets, dataobjects, collections or documents.
