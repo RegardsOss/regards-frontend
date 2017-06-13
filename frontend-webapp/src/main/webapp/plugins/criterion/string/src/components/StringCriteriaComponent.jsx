@@ -4,6 +4,8 @@
 import React from 'react'
 import {FormattedMessage} from 'react-intl'
 import TextField from 'material-ui/TextField'
+import IconButton from 'material-ui/IconButton'
+import Clear from 'material-ui/svg-icons/content/clear'
 import {AttributeModel, getAttributeName} from '../common/AttributeModel'
 import PluginComponent from '../common/PluginComponent'
 
@@ -16,7 +18,7 @@ export class StringCriteriaComponent extends PluginComponent {
   constructor(props) {
     super(props)
     this.state = {
-      value:''
+      value: '',
     }
   }
 
@@ -34,8 +36,19 @@ export class StringCriteriaComponent extends PluginComponent {
     return openSearchQuery
   }
 
+  /**
+   * Clear the entered value
+   */
+  handleClear = () => {
+    this.setState({
+      value: '',
+    }, this._onPluginChangeValue)
+  }
+
   render() {
     const attributeLabel = this.props.attributes.searchField.label || this.props.attributes.searchField.name || this.props.attributes.searchField.id || 'Undefined attribute'
+    const { value } = this.state
+    const iconButtonScale = value !== '' ? 1 : 0
 
     return (
       <div
@@ -56,7 +69,7 @@ export class StringCriteriaComponent extends PluginComponent {
         <TextField
           id="search"
           floatingLabelText={<FormattedMessage id="criterion.search.field.label"/>}
-          value={this.state.value}
+          value={value}
           onChange={(event, value) => {
             this.changeValue(value)
           }}
@@ -65,6 +78,12 @@ export class StringCriteriaComponent extends PluginComponent {
             margin: '0px 10px'
           }}
         />
+        <IconButton
+          tooltip={<FormattedMessage id="criterion.clear" />}
+          style={{transform:`scale(${iconButtonScale})`}}
+        >
+          <Clear onTouchTap={this.handleClear}/>
+        </IconButton>
       </div>
     )
   }
