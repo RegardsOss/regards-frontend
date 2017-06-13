@@ -2,11 +2,11 @@
  * LICENSE_PLACEHOLDER
  **/
 import React from 'react'
-import merge from 'lodash/merge'
 import {FormattedMessage} from 'react-intl'
 import TextField from 'material-ui/TextField'
+import IconButton from 'material-ui/IconButton'
+import Clear from 'material-ui/svg-icons/content/clear'
 import NumericalComparatorComponent from './NumericalComparatorComponent'
-import EnumNumericalComparator from '../model/EnumNumericalComparator'
 import {AttributeModel, getAttributeName} from '../common/AttributeModel'
 import PluginComponent from '../common/PluginComponent'
 
@@ -29,7 +29,7 @@ export class NumericalCriteriaComponent extends PluginComponent {
   constructor(props) {
     super(props)
     this.state = {
-      value: undefined,
+      value: '',
       comparator: 'EQ',
     }
   }
@@ -47,6 +47,15 @@ export class NumericalCriteriaComponent extends PluginComponent {
 
   handleChangeComparator = (comparator) => {
     this.setState({comparator},this._onPluginChangeValue)
+  }
+
+  /**
+   * Clear the entered value
+   */
+  handleClear = () => {
+    this.setState({
+      value: '',
+    }, this._onPluginChangeValue)
   }
 
   getPluginSearchQuery = (state) => {
@@ -86,10 +95,12 @@ export class NumericalCriteriaComponent extends PluginComponent {
    *
    * @param {String} value
    */
-  format = value => value
+  format = value => !isNaN(value) ? value : ''
 
   render() {
     const attributeLabel = this.props.attributes.searchField.label || this.props.attributes.searchField.name || this.props.attributes.searchField.id || 'Undefined attribute'
+    const { value } = this.state
+    const iconButtonScale = value === null || value === '' ? 0 : 1
 
     return (
       <div
@@ -112,7 +123,7 @@ export class NumericalCriteriaComponent extends PluginComponent {
           id="search"
           type="number"
           floatingLabelText={<FormattedMessage id="criterion.search.field.label"/>}
-          value={this.format(this.state.value)}
+          value={this.format(value)}
           onChange={this.handleChangeValue}
           style={{
             top: -13,
@@ -120,6 +131,12 @@ export class NumericalCriteriaComponent extends PluginComponent {
             margin: '0px 10px',
           }}
         />
+        <IconButton
+          tooltip={<FormattedMessage id="criterion.clear" />}
+          style={{transform:`scale(${iconButtonScale})`}}
+        >
+          <Clear onTouchTap={this.handleClear}/>
+        </IconButton>
       </div>
     )
   }

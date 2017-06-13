@@ -8,6 +8,7 @@
  */
 const messages = {
   'criterion.search.field.label': 'Nombre ...',
+  'criterion.clear': 'Vider',
 }
 
 export default messages
