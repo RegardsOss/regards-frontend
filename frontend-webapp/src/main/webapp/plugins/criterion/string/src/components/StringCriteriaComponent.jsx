@@ -62,8 +62,7 @@ export class StringCriteriaComponent extends PluginComponent {
           }}
           style={{
             top: -18,
-            margin: '0px 10px',
-            maxWidth: 165,
+            margin: '0px 10px'
           }}
         />
       </div>

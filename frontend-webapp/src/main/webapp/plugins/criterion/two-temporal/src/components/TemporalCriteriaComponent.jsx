@@ -157,7 +157,7 @@ export class TemporalCriteriaComponent extends React.Component {
     // Store the content in an array because we need to maybe reverse to order
     const content = []
     if (!hideAttributeName) {
-      content.push(<span key="attributeName" style={{margin: '0px 10px'}}>{attribute.label || attribute.name}</span>)
+      content.push(<span key="attributeName" style={{margin: '0px 10px',fontSize: '1.3em'}}>{attribute.label || attribute.name}</span>)
     }
     if (!hideComparator) {
       content.push(

@@ -102,6 +102,7 @@ export class NumericalCriteriaComponent extends PluginComponent {
         <span
           style={{
             margin: '0px 10px',
+            fontSize: '1.3em'
           }}
         >
           {attributeLabel}
