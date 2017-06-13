@@ -2,7 +2,9 @@
  * LICENSE_PLACEHOLDER
  **/
 import concat from 'lodash/concat'
+import get from 'lodash/get'
 import map from 'lodash/map'
+import fill from 'lodash/fill'
 import isEqual from 'lodash/isEqual'
 import keys from 'lodash/keys'
 import values from 'lodash/values'
@@ -118,6 +120,8 @@ class TableContainer extends React.Component {
     allSelected: false,
   }
 
+  static MAX_NB_ENTITIES = 10000
+
   constructor(props) {
     super(props)
     this.nbEntitiesByPage = this.props.pageSize * 3
@@ -127,6 +131,11 @@ class TableContainer extends React.Component {
   componentDidMount = () => this.onPropertiesUpdate({}, this.props)
 
   componentWillReceiveProps = nextProps => this.onPropertiesUpdate(this.props, nextProps)
+
+  getTotalNumberOfResults = (props) => {
+    const total = get(props || this.props, 'pageMetadata.totalElements') || 0
+    return total > TableContainer.MAX_NB_ENTITIES ? TableContainer.MAX_NB_ENTITIES : total
+  }
 
   /**
    * Updates state and runs fetches required on properties change
@@ -150,12 +159,12 @@ class TableContainer extends React.Component {
       // 1 - update row entities
       if (nextProps.pageMetadata) {
         if (!nextState.entities.length) { // pre-init all entities
-          nextState.entities = Array(nextProps.pageMetadata.totalElements).fill({})
+          nextState.entities = fill(Array(this.getTotalNumberOfResults(nextProps)), {})
         } else { // get new reference
           nextState.entities = [...nextState.entities]
         }
         // convert new entities
-        const firstPageIndex = nextProps.pageMetadata.number
+        const firstPageIndex = nextProps.pageMetadata.number * nextProps.pageMetadata.size
         keys(nextProps.entities).forEach((key, index) => {
           nextState.entities[firstPageIndex + index] = nextProps.entities[key]
         })
@@ -182,12 +191,13 @@ class TableContainer extends React.Component {
   onScrollEnd = (scrollStartOffset, scrollEndOffset) => {
     // the scroll offset is the first element to fetch if it is missing
     const { tableConfiguration: { lineHeight = defaultLineHeight }, pageSize, fetchEntities, requestParams } = this.props
-    const index = Math.floor(scrollEndOffset / lineHeight)
+    const originalIndex = scrollEndOffset / lineHeight
+    const index = Math.floor(originalIndex)
     // Search for first missing key in viewport
     let firstIndexToFetch = null
     if (index > pageSize) {
       let i = 0
-      for (i = index - pageSize; i < (index + (2 * pageSize)) && i < this.state.entities.length; i += 1) {
+      for (i = index - (pageSize); i < (index + (2 * pageSize)) && (i < this.state.entities.length); i += 1) {
         if (keys(this.state.entities[i]).length === 0) {
           firstIndexToFetch = i
           // Init pending information in the current state for fetching missing entities.
@@ -195,7 +205,7 @@ class TableContainer extends React.Component {
           // An entity is fetch only if the entity is an empty object in the cache object state.entities
           const entities = concat([], this.state.entities)
           let j = 0
-          for (j = firstIndexToFetch; j < this.nbEntitiesByPage; j += 1) {
+          for (j = firstIndexToFetch; j < firstIndexToFetch + this.nbEntitiesByPage; j += 1) {
             if (keys(entities[j]).length === 0) {
               entities[j] = { pending: true }
             }
@@ -210,7 +220,16 @@ class TableContainer extends React.Component {
 
     // Run search
     if (firstIndexToFetch !== null) {
-      fetchEntities(firstIndexToFetch, this.nbEntitiesByPage, requestParams)
+      // With page and no offset
+      let pageNumber = Math.round(firstIndexToFetch / this.nbEntitiesByPage)
+      const firstIndexFetched = pageNumber * this.nbEntitiesByPage
+      const lastIndexFetched = firstIndexFetched + this.nbEntitiesByPage
+      if (index < firstIndexFetched) {
+        pageNumber -= 1
+      } else if (index > lastIndexFetched) {
+        pageNumber += 1
+      }
+      fetchEntities(pageNumber, this.nbEntitiesByPage, requestParams)
     }
   }
 
@@ -240,11 +259,11 @@ class TableContainer extends React.Component {
   }
 
   /**
- * Return columns to use (cached in state)
- * @param properties properties to consider
- * @param entities state entities to consider
- * @returns {Array}
- */
+   * Return columns to use (cached in state)
+   * @param properties properties to consider
+   * @param entities state entities to consider
+   * @returns {Array}
+   */
   computeAllColumns = (properties, entities) => {
     // predefined columns
     const { columns } = properties
@@ -266,8 +285,8 @@ class TableContainer extends React.Component {
    * @return true if all rows are selected
    */
   computeAllSelected = (properties) => {
-    const { selectionMode, toggledElements, pageMetadata } = properties
-    const totalElements = (pageMetadata && pageMetadata.totalElements) || 0
+    const { selectionMode, toggledElements } = properties
+    const totalElements = this.getTotalNumberOfResults(properties)
     const selectionSize = keys(toggledElements).length
     // selectionSize > 0 blocks initial fetching case
     return (selectionMode === TableSelectionModes.includeSelected && selectionSize === totalElements && selectionSize > 0) ||
@@ -276,7 +295,8 @@ class TableContainer extends React.Component {
 
 
   render() {
-    const { entitiesFetching, pageSize, pageMetadata, tablePaneConfiguration,
+    const {
+      entitiesFetching, pageSize, pageMetadata, tablePaneConfiguration,
       toggledElements, selectionMode, tableConfiguration: { lineHeight = defaultLineHeight, ...tableConfiguration },
     } = this.props
     const { entities, allSelected, allColumns } = this.state // cached render data
@@ -297,7 +317,7 @@ class TableContainer extends React.Component {
             tableData={tableData}
             columns={allColumns}
             entitiesFetching={entitiesFetching}
-            resultsCount={(pageMetadata && pageMetadata.totalElements) || 0}
+            resultsCount={pageMetadata ? pageMetadata.totalElements : 0}
 
             allSelected={allSelected}
             toggledElements={toggledElements}
@@ -327,7 +347,7 @@ const mapStateToProps = (state, { pageSelectors, tableSelectors }) => ({
 
 const mapDispatchToProps = (dispatch, { pageActions, tableActions }) => ({
   flushEntities: () => dispatch(pageActions.flush()),
-  fetchEntities: (index, nbEntitiesByPage, requestParams) => dispatch(pageActions.fetchPagedEntityList(index, nbEntitiesByPage, requestParams)),
+  fetchEntities: (pageNumber, nbEntitiesByPage, requestParams) => dispatch(pageActions.fetchPagedEntityList(pageNumber, nbEntitiesByPage, requestParams)),
   toggleRowSelection: (rowIndex, entity) => dispatch(tableActions.toggleElement(rowIndex, entity)),
   dispatchSelectAll: () => dispatch(tableActions.selectAll()),
   dispatchUnselectAll: () => dispatch(tableActions.unselectAll()),

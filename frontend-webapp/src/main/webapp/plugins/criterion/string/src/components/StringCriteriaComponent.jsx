@@ -29,7 +29,7 @@ export class StringCriteriaComponent extends PluginComponent {
   getPluginSearchQuery = (state) => {
     let openSearchQuery = ''
     if (state.value && state.value.length > 0) {
-      openSearchQuery = `${getAttributeName(this.props.attributes.searchField)}:"${state.value}*"`
+      openSearchQuery = `${getAttributeName(this.props.attributes.searchField)}:"${state.value}"`
     }
     return openSearchQuery
   }
@@ -48,6 +48,7 @@ export class StringCriteriaComponent extends PluginComponent {
         <span
           style={{
             margin: '0px 10px',
+            fontSize: '1.3em'
           }}
         >
           {attributeLabel}
@@ -60,7 +61,7 @@ export class StringCriteriaComponent extends PluginComponent {
             this.changeValue(value)
           }}
           style={{
-            top: -13,
+            top: -18,
             margin: '0px 10px',
             maxWidth: 165,
           }}
