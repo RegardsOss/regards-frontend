@@ -2,9 +2,10 @@
  * LICENSE_PLACEHOLDER
  **/
 import merge from 'lodash/merge'
-import isEqual from 'lodash/isEqual'
+import get from 'lodash/get'
+import transform from 'lodash/transform'
 import React from 'react'
-import {AttributeModel} from '../common/AttributeModel'
+import {AttributeModel, getAttributeName} from './AttributeModel'
 
 /**
  * Abstract class to extend in order to create a criterion plugin.
@@ -60,6 +61,37 @@ class PluginComponent extends React.Component {
     if (query && query != '') {
       this.props.onChange(query, this.props.pluginInstanceId)
     }
+
+    const initValues = transform(this.props.attributes, (result, attribute, key) => {
+      const initValue = this.getAttributeInitValue(key, this.props)
+      if (initValue) {
+        result[key] = initValue
+      }
+    }, {})
+
+    this.setState(initValues)
+  }
+
+  /**
+   * Update state with new values form the Manager.
+   * @param nextProps
+   */
+  componentWillReceiveProps(nextProps) {
+
+    // If initial value set value to the state
+    let toUpdate = false
+    const initValues = transform(nextProps.attributes, (result, attribute, key) => {
+      const initValue = this.getAttributeInitValue(key, nextProps)
+      if (initValue && initValue !== this.state[key]){
+        toUpdate = true
+        result[key] = initValue
+      }
+    }, {})
+
+    if (toUpdate) {
+      this.setState(initValues)
+    }
+
   }
 
   _onPluginChangeValue = () => {
@@ -74,6 +106,36 @@ class PluginComponent extends React.Component {
   getPluginSearchQuery() {
     console.error("method getPluginSearchQuery should be overide by plugin !")
     return null
+  }
+
+  /**
+   * Return the initial value of the configured attribute as it is given from the search-form manager.
+   * @param attributeName
+   * @returns {*}
+   */
+  getAttributeInitValue(configuredAttributeName, props) {
+    const attribute = get(props, `attributes[${configuredAttributeName}]`)
+    if (!attribute) {
+      return null
+    }
+    const attributeName = getAttributeName(attribute, props)
+    return get(props, `initialValues[${attributeName}]`)
+  }
+
+  getAttributeName(configuredAttributeName, props){
+    const attribute = get(props || this.props, `attributes[${configuredAttributeName}]`)
+    if (!attribute) {
+      return null
+    }
+    return getAttributeName(attribute)
+  }
+
+  getAttributeLabel(configuredAttributeName) {
+    return get(this.props,`{configuredAttributeName}.label`,get(this.props,`{configuredAttributeName}.name`,'Undefined attribute'))
+  }
+
+  setState(state) {
+    super.setState(state,this._onPluginChangeValue)
   }
 }
 

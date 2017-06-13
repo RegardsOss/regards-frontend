@@ -1,6 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import replace from 'lodash/replace'
 import React from 'react'
 import {FormattedMessage} from 'react-intl'
 import TextField from 'material-ui/TextField'
@@ -13,29 +14,37 @@ export class StringCriteriaComponent extends PluginComponent {
     attributes: React.PropTypes.objectOf(AttributeModel),
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      value:''
-    }
+  state = {
+    searchField : '',
   }
 
-  changeValue = (value) => {
+  handleChange = (event, value) => {
     this.setState({
-      value
-    }, this._onPluginChangeValue)
+      searchField: value
+    })
   }
 
   getPluginSearchQuery = (state) => {
     let openSearchQuery = ''
-    if (state.value && state.value.length > 0) {
-      openSearchQuery = `${getAttributeName(this.props.attributes.searchField)}:"${state.value}"`
+    if (state.searchField && state.searchField.length > 0) {
+      openSearchQuery = `${this.getAttributeName('searchField')}:"${state.searchField}"`
     }
     return openSearchQuery
   }
 
+  /**
+   * Remove " character used for openSearch query
+   * @returns {*}
+   */
+  getDisplayedValue = () => {
+    return replace(this.state.searchField,/"/g,'')
+  }
+
   render() {
-    const attributeLabel = this.props.attributes.searchField.label || this.props.attributes.searchField.name || this.props.attributes.searchField.id || 'Undefined attribute'
+
+    console.error("PROPS",this.props,this.state)
+
+    const attributeLabel = this.getAttributeLabel('searchField')
 
     return (
       <div
@@ -56,10 +65,8 @@ export class StringCriteriaComponent extends PluginComponent {
         <TextField
           id="search"
           floatingLabelText={<FormattedMessage id="criterion.search.field.label"/>}
-          value={this.state.value}
-          onChange={(event, value) => {
-            this.changeValue(value)
-          }}
+          value={this.getDisplayedValue()}
+          onChange={this.handleChange}
           style={{
             top: -18,
             margin: '0px 10px'

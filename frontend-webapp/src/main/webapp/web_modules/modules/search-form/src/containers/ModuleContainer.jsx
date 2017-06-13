@@ -9,6 +9,7 @@ import flatten from 'lodash/flatten'
 import forEach from 'lodash/forEach'
 import cloneDeep from 'lodash/cloneDeep'
 import reduce from 'lodash/reduce'
+import replace from 'lodash/replace'
 import isEqual from 'lodash/isEqual'
 import isInteger from 'lodash/isInteger'
 import values from 'lodash/values'
@@ -279,6 +280,17 @@ class ModuleContainer extends React.Component {
     browserHistory.push(`${browserHistory.getCurrentLocation().pathname}?q=${query}`)
   }
 
+  getInitialValues = () => {
+    const query = replace(this.state.searchQuery,/ AND /g,' ')
+    const values =query.split(/[^ ]*:/g)
+    const keys = query.match(/[^ ]*:/g)
+    const initialValues = {}
+    if (keys && keys.length > 0) {
+      forEach(keys, (key, index) => initialValues[replace(key,':','')] = values[index+1])
+    }
+    return initialValues
+  }
+
   renderForm() {
     // If a search query is set, hide form component
     /* if (this.state.searchQuery && this.state.searchQuery !== this.getInitialQuery()) {
@@ -287,6 +299,7 @@ class ModuleContainer extends React.Component {
     if (this.props.moduleConf.layout) {
       const pluginsProps = {
         onChange: this.onCriteriaChange,
+        initialValues: this.getInitialValues(),
       }
       const criterionWithAttributes = this.getCriterionWithAttributeModels()
       return (

@@ -26,12 +26,9 @@ export class NumericalCriteriaComponent extends PluginComponent {
     attributes: React.PropTypes.objectOf(AttributeModel),
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      value: undefined,
-      comparator: 'EQ',
-    }
+  state = {
+    value : undefined,
+    comparator: 'EQ'
   }
 
   /**
@@ -42,11 +39,11 @@ export class NumericalCriteriaComponent extends PluginComponent {
    */
   handleChangeValue = (event, newValue) => {
     const value = this.parse(newValue)
-    this.setState({value},this._onPluginChangeValue)
+    this.setState({value})
   }
 
   handleChangeComparator = (comparator) => {
-    this.setState({comparator},this._onPluginChangeValue)
+    this.setState({comparator})
   }
 
   getPluginSearchQuery = (state) => {

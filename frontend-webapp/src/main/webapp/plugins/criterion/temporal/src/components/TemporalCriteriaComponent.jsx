@@ -61,9 +61,7 @@ export class TemporalCriteriaComponent extends PluginComponent {
     if (value) {
       newValue.setHours(value.getHours(), value.getMinutes(), value.getSeconds(), value.getMilliseconds())
     }
-    this.setState({
-      value: newValue,
-    }, this._onPluginChangeValue)
+    this.setState({ value: newValue })
   }
 
   /**
@@ -78,9 +76,7 @@ export class TemporalCriteriaComponent extends PluginComponent {
     if (value) {
       newValue.setFullYear(value.getFullYear(), value.getMonth(), value.getDate())
     }
-    this.setState({
-      value: newValue,
-    }, this._onPluginChangeValue)
+    this.setState({ value: newValue })
   }
 
   /**
@@ -121,7 +117,7 @@ export class TemporalCriteriaComponent extends PluginComponent {
   }
 
   render() {
-    const attributeLabel = this.props.attributes.searchField.label || this.props.attributes.searchField.name || this.props.attributes.searchField.id || 'Undefined attribute'
+    const attributeLabel = this.getAttributeLabel('searchField')
     const { value, comparator } = this.state
 
     return (
