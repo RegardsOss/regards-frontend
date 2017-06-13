@@ -133,6 +133,7 @@ export class TemporalCriteriaComponent extends PluginComponent {
   render() {
     const attributeLabel = this.props.attributes.searchField.label || this.props.attributes.searchField.name || this.props.attributes.searchField.id || 'Undefined attribute'
     const { value, comparator } = this.state
+    const iconButtonScale = value !== undefined ? 1 : 0
 
     return (
       <div
@@ -183,6 +184,7 @@ export class TemporalCriteriaComponent extends PluginComponent {
         />
         <IconButton
           tooltip={<FormattedMessage id="criterion.clear" />}
+          style={{transform:`scale(${iconButtonScale})`}}
         >
           <Clear onTouchTap={this.handleClear}/>
         </IconButton>
