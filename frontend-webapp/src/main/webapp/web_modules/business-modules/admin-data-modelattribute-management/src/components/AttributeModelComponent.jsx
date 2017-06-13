@@ -18,7 +18,6 @@ class AttributeModelComponent extends React.Component {
         <TableBody
           displayRowCheckbox={false}
           preScanRows={false}
-          showRowHover
         >
           <TableRow>
             <TableRowColumn>{attribute.content.name}</TableRowColumn>

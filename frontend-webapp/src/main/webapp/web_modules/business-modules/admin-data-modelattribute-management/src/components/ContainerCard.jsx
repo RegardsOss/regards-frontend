@@ -29,7 +29,7 @@ export class ContainerCard extends React.Component {
   render() {
     const { title, children, canDrop, isOver, connectDropTarget } = this.props
     const isActive = canDrop && isOver
-    const style = moduleStyles(this.context.muiTheme).cardEspaced
+    const style = moduleStyles(this.context.muiTheme)
     const styles = {}
     if (isActive) {
       styles.backgroundColor = 'lightgreen'
@@ -37,9 +37,9 @@ export class ContainerCard extends React.Component {
     } else {
       styles.border = '1px solid gray'
     }
-    const allStyles = { ...style, ...styles }
+    const allStyles = { ...style.cardEspaced, ...style.cardFullHeight, ...styles }
     return connectDropTarget(
-      <div>
+      <div style={style.cardFullHeight}>
         <Card style={allStyles}>
           <CardTitle title={title} />
           <CardText>

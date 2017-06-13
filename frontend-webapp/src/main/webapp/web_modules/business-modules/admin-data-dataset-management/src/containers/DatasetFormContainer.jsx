@@ -6,6 +6,7 @@ import cloneDeep from 'lodash/cloneDeep'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { Dataset } from '@regardsoss/model'
+import { getAbstractEntityDescription } from '@regardsoss/domain/dam'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { datasetSelectors, datasetActions } from './../clients/DatasetClient'
 import DatasetFormAttributesContainer from './DatasetFormAttributesContainer'
@@ -114,19 +115,6 @@ export class DatasetFormContainer extends React.Component {
       })
   }
 
-  getDescriptionFileType = (descriptionFileContent) => {
-    if (descriptionFileContent) {
-      if (descriptionFileContent.type === 'application/pdf') {
-        return descriptionFileContent.type
-      }
-      if (descriptionFileContent.name.toLowerCase().contains('md')) {
-        return 'text/markdown'
-      }
-      return descriptionFileContent.type
-    }
-    return null
-  }
-
   /**
    * Runned by DatasetFormAttributesContainer when the user saves his form
    * This does not save the entity on the server but in the state of the container
@@ -137,7 +125,7 @@ export class DatasetFormContainer extends React.Component {
    */
   saveAttributes = (label, modelDatasetId, properties, modelObjectId, descriptionFileContent, descriptionUrl) => {
     const { isCreating, currentDataset } = this.state
-    const descriptionFileType = this.getDescriptionFileType(descriptionFileContent)
+    const descriptionFile = getAbstractEntityDescription(descriptionFileContent, descriptionUrl)
     // Save the file in the state if there is
     if (descriptionFileContent) {
       this.setState({
@@ -149,12 +137,11 @@ export class DatasetFormContainer extends React.Component {
         content: {
           label,
           properties,
-          descriptionFileType,
+          descriptionFile,
           model: {
             id: modelDatasetId,
           },
           dataModel: modelObjectId,
-          descriptionUrl,
           plgConfDataSource: {
             id: parseInt(this.props.params.datasourceId, 10),
           },
@@ -169,8 +156,7 @@ export class DatasetFormContainer extends React.Component {
     } else {
       currentDataset.content.label = label
       currentDataset.content.properties = properties
-      currentDataset.content.descriptionFileType = descriptionFileType
-      currentDataset.content.descriptionUrl = descriptionUrl
+      currentDataset.content.descriptionFile = descriptionFile
       this.setState({
         currentDataset,
         state: states.FORM_SUBSETTING,

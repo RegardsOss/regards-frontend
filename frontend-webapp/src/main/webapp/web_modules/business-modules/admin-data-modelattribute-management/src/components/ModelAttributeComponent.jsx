@@ -7,6 +7,7 @@ import { FormattedMessage } from 'react-intl'
 import { PluginConfigurationPickerComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
+import get from 'lodash/get'
 
 class ModelAttributeComponent extends React.Component {
 
@@ -52,6 +53,7 @@ class ModelAttributeComponent extends React.Component {
     }
     return null
   }
+
   render() {
     const { modelAttribute, pluginMetaDataList, pluginConfigurationList } = this.props
     return (
@@ -60,7 +62,6 @@ class ModelAttributeComponent extends React.Component {
         <TableBody
           displayRowCheckbox={false}
           preScanRows={false}
-          showRowHover
         >
           <TableRow>
             <TableRowColumn>{modelAttribute.content.attribute.name}</TableRowColumn>
@@ -70,7 +71,7 @@ class ModelAttributeComponent extends React.Component {
                 onChange={this.onPluginConfigurationChange}
                 pluginMetaDataList={pluginMetaDataList}
                 pluginConfigurationList={pluginConfigurationList}
-                currentPluginConfiguration={modelAttribute && modelAttribute.computationConf}
+                currentPluginConfiguration={get(modelAttribute, 'content.computationConf', undefined)}
               />
             </TableRowColumn>
           </TableRow>
