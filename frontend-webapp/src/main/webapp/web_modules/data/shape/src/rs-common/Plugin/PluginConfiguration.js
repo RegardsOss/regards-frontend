@@ -21,5 +21,5 @@ const PluginConfigurationList = PropTypes.objectOf(PluginConfiguration)
 export default {
   PluginConfigurationContent,
   PluginConfiguration,
-  PluginConfigurationList
+  PluginConfigurationList,
 }

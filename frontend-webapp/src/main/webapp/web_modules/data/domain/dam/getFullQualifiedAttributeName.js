@@ -3,7 +3,7 @@
  **/
 import FRAGMENT_NONE from './FragmentNone'
 
-function getFullQualifiedAttributeName (attribute) {
+function getFullQualifiedAttributeName(attribute) {
   if (attribute.fragment.name === FRAGMENT_NONE) {
     return `${attribute.name}`
   }

@@ -18,5 +18,5 @@ const ModelList = PropTypes.objectOf(Model)
 export default {
   ModelContent,
   Model,
-  ModelList
+  ModelList,
 }
