@@ -2,7 +2,7 @@ import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent } from '@regardsoss/components'
 import { reduxForm, RenderTextField, Field } from '@regardsoss/form-utils'
 import { i18nContextType } from '@regardsoss/i18n'
-import { Account } from '@regardsoss/model'
+import { AdminShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 
 /**
@@ -11,7 +11,7 @@ import { themeContextType } from '@regardsoss/theme'
 export class AccountFormComponent extends React.Component {
 
   static propTypes = {
-    currentAccount: Account.isRequired,
+    currentAccount: AdminShapes.Account.isRequired,
     onSubmit: PropTypes.func.isRequired,
     backUrl: PropTypes.string.isRequired,
     // from reduxForm

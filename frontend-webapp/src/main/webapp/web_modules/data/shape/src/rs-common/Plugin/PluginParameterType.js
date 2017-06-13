@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import PluginParamType from '@regardsoss/domain/common'
+import { PluginParamType } from '@regardsoss/domain/common'
 
 const PluginParameterType = PropTypes.shape({
   name: PropTypes.string,

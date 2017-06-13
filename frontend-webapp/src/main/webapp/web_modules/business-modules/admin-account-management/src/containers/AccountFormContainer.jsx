@@ -5,7 +5,7 @@ import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { I18nProvider } from '@regardsoss/i18n'
-import { Account } from '@regardsoss/model'
+import { AdminShapes } from '@regardsoss/shape'
 import AccountActions from '../model/AccountActions'
 import AccountFormComponent from '../components/AccountFormComponent'
 import AccountSelectors from '../model/AccountSelectors'
@@ -17,7 +17,7 @@ export class AccountFormContainer extends React.Component {
       account_id: PropTypes.string,
     }),
     // from mapStateToProps
-    account: Account,
+    account: AdminShapes.Account,
     isFetching: PropTypes.bool,
     // from mapDispatchToProps
     fetchAccount: PropTypes.func,

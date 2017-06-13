@@ -3,7 +3,7 @@
  **/
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
-import { Project } from '@regardsoss/model'
+import { AdminShapes } from '@regardsoss/shape'
 import { I18nProvider } from '@regardsoss/i18n'
 import { AuthenticationClient } from '@regardsoss/authentication-manager'
 import NotifyLicenseUpdatedActions from '../../model/NotifyLicenseUpdatedActions'
@@ -21,7 +21,7 @@ import ProjectListComponent from '../../components/project/ProjectListComponent'
 export class ProjectListContainer extends React.Component {
 
   static propTypes = {
-    projectList: PropTypes.objectOf(Project),
+    projectList: AdminShapes.ProjectList,
     fetchProjectList: PropTypes.func,
     deleteProject: PropTypes.func,
     updateLicense: PropTypes.func,

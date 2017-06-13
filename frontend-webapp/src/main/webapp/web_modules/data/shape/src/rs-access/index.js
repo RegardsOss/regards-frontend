@@ -10,7 +10,7 @@ import { UIPluginConfContent, UIPluginConf, UIPluginConfList } from './UIPlugin/
 import AttributeConfigurationContent from './AttributeConfigurationContent'
 import AttributesGroupConfigurationContent from './AttributesGroupConfigurationContent'
 import ContainerContent from './ContainerContent'
-import { Layout, LayoutContent } from './Layout'
+import { Layout, LayoutContent, LayoutList } from './Layout'
 import Module from './Module'
 import Project from './Project'
 import { ThemeContent, Theme, ThemeList } from './Theme'
@@ -30,6 +30,7 @@ export default {
   ContainerContent,
   Layout,
   LayoutContent,
+  LayoutList,
   Module,
   Project,
   ThemeContent,

@@ -3,7 +3,7 @@
  **/
 import { browserHistory } from 'react-router'
 import { I18nProvider } from '@regardsoss/i18n'
-import { Layout } from '@regardsoss/model'
+import { AccessShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import { AuthenticationParametersSelectors } from '@regardsoss/authentication-manager'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
@@ -27,7 +27,7 @@ export class ApplicationLayoutContainer extends React.Component {
     }),
     // Set by mapStateToProps
     isFetching: PropTypes.bool,
-    layout: Layout,
+    layout: AccessShapes.Layout,
     isInstance: PropTypes.bool,
     // Set by mapDispatchToProps
     fetchLayout: PropTypes.func,

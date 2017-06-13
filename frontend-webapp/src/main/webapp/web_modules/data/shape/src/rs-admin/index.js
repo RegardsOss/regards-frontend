@@ -5,8 +5,8 @@
 import Account from './Account'
 import { ConnectivityCheck, ConnectivityCheckList } from './ConnectivityCheck'
 import { MetadataContent, MetadataContentArray } from './Metadata'
-import Project from './Project'
-import ProjectConnection from './ProjectConnection'
+import { Project, ProjectList } from './Project'
+import { ProjectConnection, ProjectConnectionList } from './ProjectConnection'
 import ProjectUser from './ProjectUser'
 import { Resource, ResourceList } from './Resource'
 import { Role } from './Role'
@@ -22,8 +22,10 @@ export default {
   MetadataContentArray,
 
   Project,
+  ProjectList,
 
   ProjectConnection,
+  ProjectConnectionList,
 
   ProjectUser,
 

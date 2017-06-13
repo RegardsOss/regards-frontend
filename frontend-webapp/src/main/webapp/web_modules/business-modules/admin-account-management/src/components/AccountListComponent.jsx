@@ -11,7 +11,7 @@ import { FormattedMessage } from 'react-intl'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
 import Done from 'material-ui/svg-icons/action/done'
-import { Account } from '@regardsoss/model'
+import { AdminShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { ActionsMenuCell, NoContentMessageInfo, ConfirmDialogComponent, ShowableAtRender, HelpMessageComponent } from '@regardsoss/components'
@@ -39,8 +39,8 @@ export const TABS = {
 export class AccountListComponent extends React.Component {
 
   static propTypes = {
-    allAccounts: PropTypes.objectOf(Account),
-    waitingAccounts: PropTypes.objectOf(Account),
+    allAccounts: PropTypes.objectOf(AdminShapes.Account),
+    waitingAccounts: PropTypes.objectOf(AdminShapes.Account),
     onAccept: PropTypes.func.isRequired,
     onEdit: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,

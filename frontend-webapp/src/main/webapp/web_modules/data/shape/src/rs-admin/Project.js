@@ -17,4 +17,9 @@ const Project = PropTypes.shape({
   }),
 })
 
-export default Project
+const ProjectList = PropTypes.objectOf(Project)
+
+export default {
+  Project,
+  ProjectList,
+}

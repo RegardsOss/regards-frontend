@@ -22,4 +22,5 @@ const ProjectConnection = PropTypes.shape({
   }),
 })
 
-export default ProjectConnection
+const ProjectConnectionList = PropTypes.objectOf(ProjectConnection)
+export default { ProjectConnection, ProjectConnectionList }
