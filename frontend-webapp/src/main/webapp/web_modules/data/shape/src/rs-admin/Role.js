@@ -12,4 +12,4 @@ const Role = PropTypes.shape({
   }),
 })
 
-export default Role
+export default { Role }
