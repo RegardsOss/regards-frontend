@@ -63,6 +63,8 @@ import DatasetDataAttributesActions from './dataset/DatasetDataAttributesActions
 import DatasetDataAttributesReducer from './dataset/DatasetDataAttributesReducer'
 import DatasetDataAttributesSelectors from './dataset/DatasetDataAttributesSelectors'
 
+import DatasetValidSubsettingTestActions from './datasetValidSubsettingTest/DatasetValidSubsettingTestActions'
+import getDatasetValidSubsettingTestReducer from './datasetValidSubsettingTest/DatasetValidSubsettingTestReducer'
 
 import DatasetLinkActions from './datasetLink/DatasetLinkActions'
 import DatasetLinkReducer from './datasetLink/DatasetLinkReducer'
@@ -129,6 +131,10 @@ export default {
   DatasetActions,
   DatasetReducer,
   DatasetSelectors,
+
+
+  DatasetValidSubsettingTestActions,
+  getDatasetValidSubsettingTestReducer,
 
   DatasetDataAttributesActions,
   DatasetDataAttributesReducer,

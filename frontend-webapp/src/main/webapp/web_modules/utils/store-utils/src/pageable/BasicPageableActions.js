@@ -48,8 +48,6 @@ class BasicPageableActions extends BasicListActions {
       })
     }
 
-    console.log("endpoint",endpoint)
-
     return endpoint
   }
 

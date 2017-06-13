@@ -8,7 +8,7 @@ import { browserHistory } from 'react-router'
 import { Card, CardTitle, CardText } from 'material-ui/Card'
 import { i18nContextType } from '@regardsoss/i18n'
 import { connect } from '@regardsoss/redux'
-import { Project, ProjectConnection } from '@regardsoss/model'
+import { AdminShapes } from '@regardsoss/shape'
 import { LoadingComponent } from '@regardsoss/display-control'
 import { FormEntityNotFoundComponent } from '@regardsoss/form-utils'
 import { projectActions, projectSelectors } from '../../clients/ProjectClient'
@@ -38,12 +38,12 @@ export class ProjectConnectionsContainer extends React.Component {
       project_connection_id: PropTypes.string,
     }),
     // from mapStateToProps
-    project: Project,
+    project: AdminShapes.Project,
     projectIsFetching: PropTypes.bool,
     // Current project connection to edit
-    projectConnection: ProjectConnection,
+    projectConnection: AdminShapes.ProjectConnection,
     // All project connection of the current editing project
-    projectConnections: PropTypes.objectOf(ProjectConnection),
+    projectConnections: AdminShapes.ProjectConnectionList,
     projectConnectionsIsFetching: PropTypes.bool,
     // from mapDispatchToProps
     fetchProject: PropTypes.func,

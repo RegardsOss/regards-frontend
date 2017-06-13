@@ -22,7 +22,11 @@ const Layout = PropTypes.shape({
   content: LayoutContent,
 })
 
+
+const LayoutList = PropTypes.objectOf(Layout)
+
 export default {
   LayoutContent,
   Layout,
+  LayoutList,
 }

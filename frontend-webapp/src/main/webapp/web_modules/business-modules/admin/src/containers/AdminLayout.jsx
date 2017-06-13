@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { locationShape } from '@regardsoss/model'
+import { CommonShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import { AuthenticationClient } from '@regardsoss/authentication-manager'
 import { themeContextType } from '@regardsoss/theme'
@@ -30,7 +30,7 @@ export class AdminLayout extends React.Component {
     params: PropTypes.shape({
       project: PropTypes.string,
     }),
-    location: locationShape.isRequired,
+    location: CommonShapes.LocationShape.isRequired,
     project: PropTypes.string,
     // from mapDispatchToProps
     onLogout: PropTypes.func,

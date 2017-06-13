@@ -1,7 +1,7 @@
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { browserHistory } from 'react-router'
-import { Account } from '@regardsoss/model'
+import { AdminShapes } from '@regardsoss/shape'
 import AccountActions from '../model/AccountActions'
 import AccountSelectors from '../model/AccountSelectors'
 import WaitingAccountEntitiesSelectors from '../model/WaitingAccountEntitiesSelectors'
@@ -17,10 +17,14 @@ export class AccountListContainer extends React.Component {
   static propTypes = {
     // from mapStateToProps
     allAccounts: PropTypes.shape({
-      content: PropTypes.objectOf({ Account }),
+      content: PropTypes.objectOf({
+        Account: AdminShapes.Account,
+      }),
     }),
     waitingAccounts: PropTypes.shape({
-      content: PropTypes.objectOf({ Account }),
+      content: PropTypes.objectOf({
+        Account: AdminShapes.Account,
+      }),
     }),
     isFetchingContent: PropTypes.bool.isRequired,
     // from mapDispatchToProps
