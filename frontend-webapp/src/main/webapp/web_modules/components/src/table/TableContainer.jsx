@@ -224,9 +224,9 @@ class TableContainer extends React.Component {
       let pageNumber = Math.round(firstIndexToFetch / this.nbEntitiesByPage)
       const firstIndexFetched = pageNumber * this.nbEntitiesByPage
       const lastIndexFetched = firstIndexFetched + this.nbEntitiesByPage
-      if (index < firstIndexFetched) {
+      if (firstIndexToFetch < firstIndexFetched) {
         pageNumber -= 1
-      } else if (index > lastIndexFetched) {
+      } else if (firstIndexToFetch > lastIndexFetched) {
         pageNumber += 1
       }
       fetchEntities(pageNumber, this.nbEntitiesByPage, requestParams)
