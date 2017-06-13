@@ -6,8 +6,8 @@ import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import map from 'lodash/map'
 import find from 'lodash/find'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
-import { AttributeModel, Fragment } from '@regardsoss/model'
 import { attributeModelActions, attributeModelSelectors } from '../clients/AttributeModelClient'
 import { attributeModelTypeActions, attributeModelTypeSelectors } from '../clients/AttributeModelTypeClient'
 import { attributeModelRestrictionActions, attributeModelRestrictionSelectors } from '../clients/AttributeModelRestrictionClient'
@@ -24,13 +24,13 @@ export class AttributeModelFormContainer extends React.Component {
       fragment_name: PropTypes.string,
     }),
     // from mapStateToProps
-    attrModel: AttributeModel,
+    attrModel: DataManagementShapes.AttributeModel,
     isAttributeModelFetching: PropTypes.bool,
     attrModelTypeList: PropTypes.arrayOf(PropTypes.string),
     isAttributeModelRestrictionFetching: PropTypes.bool,
     attrModelRestrictionList: PropTypes.arrayOf(PropTypes.string),
     isAttributeModelTypeFetching: PropTypes.bool,
-    fragmentList: PropTypes.arrayOf(Fragment),
+    fragmentList: DataManagementShapes.FragmentList,
     isFragmentFetching: PropTypes.bool,
     // from mapDispatchToProps
     createAttrModel: PropTypes.func,

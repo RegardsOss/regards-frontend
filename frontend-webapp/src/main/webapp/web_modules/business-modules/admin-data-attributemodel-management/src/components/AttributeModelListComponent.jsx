@@ -6,7 +6,7 @@ import { HateoasIconAction, HateoasKeys } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
-import { AttributeModel } from '@regardsoss/model'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { CardActionsComponent, ActionsMenuCell, ConfirmDialogComponent, ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -19,7 +19,7 @@ import { attributeModelActions } from '../clients/AttributeModelClient'
 export class AttributeModelListComponent extends React.Component {
 
   static propTypes = {
-    attrModelList: PropTypes.objectOf(AttributeModel),
+    attrModelList: DataManagementShapes.AttributeModelList,
     handleDelete: PropTypes.func.isRequired,
     handleEdit: PropTypes.func.isRequired,
     createUrl: PropTypes.string.isRequired,
