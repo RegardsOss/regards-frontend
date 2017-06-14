@@ -16,6 +16,8 @@ const messages = {
 
   'criterion.aggregator.between': 'entre',
   'criterion.aggregator.and': 'et',
+
+  'criterion.clear': 'Vider',
 }
 
 export default messages

@@ -1,9 +1,11 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { merge, values } from 'lodash'
+import values from 'lodash/values'
+import isNil from 'lodash/isNil'
 import { FormattedMessage } from 'react-intl'
 import TemporalCriteriaComponent from './TemporalCriteriaComponent'
+import ClearButton from './ClearButton'
 import AttributeModel from '../common/AttributeModel'
 import EnumTemporalComparator from '../model/EnumTemporalComparator'
 import PluginComponent from '../common/PluginComponent'
@@ -39,28 +41,38 @@ export class TwoTemporalCriteriaComposedComponent extends PluginComponent {
   changeValue1 = (attribute, value, comparator) => {
     this.setState({
       value1: value,
-    }, this._onPluginChangeValue)
+    })
   }
 
   changeValue2 = (attribute, value, comparator) => {
     this.setState({
       value2: value,
-    },this._onPluginChangeValue)
+    })
   }
 
   getPluginSearchQuery = (state) => {
     const lvalue1 = state.value1 ? state.value1.toISOString() : '*'
     const lvalue2 = state.value2 ? state.value2.toISOString() : '*'
-    let searchQuery=''
+    let searchQuery = ''
     if (state.value1 || state.value2) {
-      searchQuery= `${this.getAttributeName('firstField')}:[${lvalue1} TO ${lvalue2}]`
+      searchQuery = `${this.getAttributeName('firstField')}:[${lvalue1} TO ${lvalue2}]`
     }
     return searchQuery
   }
 
+  /**
+   * Clear the entered values
+   */
+  handleClear = () => {
+    this.changeValue1(undefined, undefined, undefined)
+    this.changeValue2(undefined, undefined, undefined)
+  }
+
   render() {
     const { attributes } = this.props
+    const { value1, value2 } = this.state
     const attribute = values(attributes)[0]
+    const clearButtonDisplayed = !isNil(value1) || !isNil(value2)
 
     return (
       <div style={{ display: 'flex' }}>
@@ -72,7 +84,8 @@ export class TwoTemporalCriteriaComposedComponent extends PluginComponent {
             flexWrap: 'wrap',
           }}
         >
-          <span style={{ margin: '0px 10px' }}>{attribute.name} <FormattedMessage id="criterion.aggregator.between" /></span>
+          <span style={{ margin: '0px 10px' }}>{attribute.name} <FormattedMessage
+            id="criterion.aggregator.between"/></span>
           <TemporalCriteriaComponent
             attribute={attribute}
             onChange={this.changeValue1}
@@ -81,7 +94,7 @@ export class TwoTemporalCriteriaComposedComponent extends PluginComponent {
             hideAttributeName
             hideComparator
           />
-          <span style={{ marginRight: 10 }}><FormattedMessage id="criterion.aggregator.and" /></span>
+          <FormattedMessage id="criterion.aggregator.and"/>
           <TemporalCriteriaComponent
             attribute={attribute}
             onChange={this.changeValue2}
@@ -90,6 +103,7 @@ export class TwoTemporalCriteriaComposedComponent extends PluginComponent {
             hideAttributeName
             hideComparator
           />
+          <ClearButton onTouchTap={this.handleClear} displayed={clearButtonDisplayed}/>
         </div>
       </div>
     )

@@ -32,7 +32,10 @@ export class StringCriteriaComponent extends PluginComponent {
   }
 
   getPluginSearchQuery = (state) => {
-    return `${this.getAttributeName('searchField')}:"${state.searchField}"`
+    if (state.searchField && state.searchField != "") {
+      return `${this.getAttributeName('searchField')}:"${state.searchField}"`
+    }
+    return null
   }
 
   parseOpenSearchQuery = (parameterName, openSearchQuery) => {

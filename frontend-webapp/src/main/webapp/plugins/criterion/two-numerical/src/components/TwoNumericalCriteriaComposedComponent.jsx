@@ -72,7 +72,6 @@ export class TwoNumericalCriteriaComposedComponent extends PluginComponent {
     const { attributes } = this.props
     const { value1, value2 } = this.state
     const attribute = values(attributes)[0]
-    console.log("coucou")
     const clearButtonDisplayed = !isNil(value1) || !isNil(value2)
 
     return (
@@ -90,7 +89,7 @@ export class TwoNumericalCriteriaComposedComponent extends PluginComponent {
           <NumericalCriteriaComponent
             attribute={attribute}
             onChange={this.changeValue1}
-            value={this.state.value1}
+            value={value1}
             comparator={EnumNumericalComparator.LE}
             hideAttributeName
             hideComparator
@@ -101,7 +100,7 @@ export class TwoNumericalCriteriaComposedComponent extends PluginComponent {
           <NumericalCriteriaComponent
             attribute={attribute}
             onChange={this.changeValue2}
-            value={this.state.value2}
+            value={value2}
             comparator={EnumNumericalComparator.LE}
             hideAttributeName
             hideComparator
