@@ -3,16 +3,15 @@
  **/
 import map from 'lodash/map'
 import forEach from 'lodash/forEach'
-import has from 'lodash/has'
 import keys from 'lodash/keys'
+import has from 'lodash/has'
 import isNil from 'lodash/isNil'
 import isObject from 'lodash/isObject'
 import get from 'lodash/get'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
-import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
 import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
-import { Dataset, Model, ModelAttribute, Datasource } from '@regardsoss/model'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { RenderTextField, RenderSelectField, RenderFileField, Field, ErrorTypes } from '@regardsoss/form-utils'
 import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
@@ -20,8 +19,8 @@ import { i18nContextType } from '@regardsoss/i18n'
 import MenuItem from 'material-ui/MenuItem'
 import SelectField from 'material-ui/SelectField'
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
+import { EntitiesAttributesFormComponent } from '@regardsoss/admin-data-entities-attributes-management'
 import DatasetStepperContainer from '../containers/DatasetStepperContainer'
-import { fragmentSelectors } from '../clients/FragmentClient'
 
 const DESCRIPTION_MODE = {
   NOTHING: 'nothing',
@@ -35,11 +34,11 @@ const DESCRIPTION_MODE = {
 export class DatasetFormAttributesComponent extends React.Component {
 
   static propTypes = {
-    currentDataset: Dataset,
-    modelList: PropTypes.objectOf(Model),
-    modelAttributeList: PropTypes.objectOf(ModelAttribute),
+    currentDataset: DataManagementShapes.Dataset,
+    modelList: DataManagementShapes.ModelList,
+    modelAttributeList: DataManagementShapes.ModelAttributeList,
     handleUpdateModel: PropTypes.func.isRequired,
-    currentDatasource: Datasource,
+    currentDatasource: DataManagementShapes.Datasource,
     onSubmit: PropTypes.func.isRequired,
     backUrl: PropTypes.string.isRequired,
     isEditing: PropTypes.bool.isRequired,
@@ -64,9 +63,9 @@ export class DatasetFormAttributesComponent extends React.Component {
     let showDescriptionMode = DESCRIPTION_MODE.NOTHING
     let disableNoDescription = false
     if (!isCreating) {
-      if (props.currentDataset.content.descriptionUrl) {
+      if (has(props.currentDataset.content, 'descriptionFile.url')) {
         showDescriptionMode = DESCRIPTION_MODE.URL
-      } else if (props.currentDataset.content.descriptionFileType) {
+      } else if (has(props.currentDataset.content, 'descriptionFile.type')) {
         showDescriptionMode = DESCRIPTION_MODE.FILE
         disableNoDescription = true
       }
@@ -110,13 +109,6 @@ export class DatasetFormAttributesComponent extends React.Component {
     }
   }
 
-  getAttributeName = (attribute) => {
-    if (attribute.fragment.name === fragmentSelectors.noneFragmentName) {
-      return `${attribute.name}`
-    }
-    return `${attribute.fragment.name} ${attribute.name}`
-  }
-
   getTitle = () => {
     let title
     if (!this.props.isEditing) {
@@ -148,7 +140,7 @@ export class DatasetFormAttributesComponent extends React.Component {
       const initialValues = {
         label: currentDataset.content.label,
         model: currentDataset.content.model.id,
-        descriptionUrl: currentDataset.content.descriptionUrl,
+        descriptionUrl: get(currentDataset.content, 'descriptionFile.url', undefined),
         properties,
       }
       this.props.initialize(initialValues)
@@ -273,46 +265,10 @@ export class DatasetFormAttributesComponent extends React.Component {
                 />
               ))}
             </Field>
-            <ShowableAtRender show={this.state.isDisplayAttributeValue}>
-              <Table
-                selectable={false}
-              >
-                <TableHeader
-                  enableSelectAll={false}
-                  adjustForCheckbox={false}
-                  displaySelectAll={false}
-                >
-                  <TableRow>
-                    <TableHeaderColumn><FormattedMessage id="dataset.form.table.fragmentAndLabel" /></TableHeaderColumn>
-                    <TableHeaderColumn><FormattedMessage id="dataset.form.table.type" /></TableHeaderColumn>
-                    <TableHeaderColumn><FormattedMessage id="dataset.form.table.value" /></TableHeaderColumn>
-                  </TableRow>
-                </TableHeader>
-                <TableBody
-                  displayRowCheckbox={false}
-                  preScanRows={false}
-                  showRowHover
-                >
-                  {map(modelAttributeList, (modelAttribute, id) => (
-                    <TableRow key={id}>
-                      <TableRowColumn>{this.getAttributeName(modelAttribute.content.attribute)}</TableRowColumn>
-                      <TableRowColumn>{modelAttribute.content.attribute.type}</TableRowColumn>
-                      <TableRowColumn>
-                        <ShowableAtRender show={!has(modelAttribute.content, 'computationConf')}>
-                          <Field
-                            name={`properties.${modelAttribute.content.attribute.name}`}
-                            fullWidth
-                            component={RenderTextField}
-                            type="text"
-                            label={this.context.intl.formatMessage({ id: 'dataset.form.table.input' })}
-                          />
-                        </ShowableAtRender>
-                      </TableRowColumn>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </ShowableAtRender>
+            <EntitiesAttributesFormComponent
+              isDisplayAttributeValue={this.state.isDisplayAttributeValue}
+              modelAttributeList={modelAttributeList}
+            />
           </CardText>
           <CardActions>
             <CardActionsComponent

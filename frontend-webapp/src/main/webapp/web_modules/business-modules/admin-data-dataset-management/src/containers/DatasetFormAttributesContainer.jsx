@@ -5,7 +5,7 @@ import find from 'lodash/find'
 import forEach from 'lodash/forEach'
 import has from 'lodash/has'
 import { connect } from '@regardsoss/redux'
-import { Dataset, Model, ModelAttribute, Datasource } from '@regardsoss/model'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { unregisterField } from 'redux-form'
@@ -21,7 +21,7 @@ import { fragmentSelectors } from '../clients/FragmentClient'
 export class DatasetFormAttributesContainer extends React.Component {
 
   static propTypes = {
-    currentDataset: Dataset,
+    currentDataset: DataManagementShapes.Dataset,
     currentDatasourceId: PropTypes.string.isRequired,
     backUrl: PropTypes.string.isRequired,
     handleSave: PropTypes.func.isRequired,
@@ -29,9 +29,9 @@ export class DatasetFormAttributesContainer extends React.Component {
     // from redux-form
     unregisterField: PropTypes.func,
     // from mapStateToProps
-    modelAttributeList: PropTypes.objectOf(ModelAttribute),
-    modelList: PropTypes.objectOf(Model),
-    currentDatasource: Datasource,
+    modelAttributeList: DataManagementShapes.ModelAttributeList,
+    modelList: DataManagementShapes.ModelList,
+    currentDatasource: DataManagementShapes.Datasource,
     // from mapDispatchToProps
     fetchModelList: PropTypes.func,
     fetchModelAttributeList: PropTypes.func,

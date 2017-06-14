@@ -1,5 +1,5 @@
 import { ReduxEntityTester } from '@regardsoss/tests-helpers'
-import { Fragment } from '@regardsoss/model'
+import { DataManagementShapes } from '@regardsoss/shape'
 import FragmentActions from '../../src/rs-dam/fragment/FragmentActions'
 import FragmentReducer from '../../src/rs-dam/fragment/FragmentReducer'
 import FragmentSelectors from '../../src/rs-dam/fragment/FragmentSelectors'
@@ -12,7 +12,7 @@ const options = {
 const fragmentActions = new FragmentActions('test/action')
 const fragmentReducer = FragmentReducer('test/action')
 const fragmentSelectors = FragmentSelectors(['test', 'modules'])
-const entityTester = new ReduxEntityTester(fragmentActions, fragmentReducer, fragmentSelectors, PropTypes.objectOf(Fragment).isRequired, backendServerResultList, options)
+const entityTester = new ReduxEntityTester(fragmentActions, fragmentReducer, fragmentSelectors, DataManagementShapes.FragmentList.isRequired, backendServerResultList, options)
 
 /**
  * Tests for Modules entities

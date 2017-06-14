@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { ReduxEntityTester } from '@regardsoss/tests-helpers'
-import { Datasource } from '@regardsoss/model'
+import { DataManagementShapes } from '@regardsoss/shape'
 import DatasourceActions from '../../src/rs-dam/datasource/DatasourceActions'
 import DatasourceReducer from '../../src/rs-dam/datasource/DatasourceReducer'
 import DatasourceSelectors from '../../src/rs-dam/datasource/DatasourceSelectors'
@@ -15,7 +15,7 @@ const datasourceSelectors = DatasourceSelectors(['test', 'modules'])
 const options = {
 }
 
-const entityTester = new ReduxEntityTester(datasourceActions, datasourceReducer, datasourceSelectors, PropTypes.objectOf(Datasource).isRequired, backendServerResultList, options)
+const entityTester = new ReduxEntityTester(datasourceActions, datasourceReducer, datasourceSelectors, DataManagementShapes.DatasourceList.isRequired, backendServerResultList, options)
 
 describe('[ADMIN CLIENT] Testing model Datasource', () => {
   before(() => {

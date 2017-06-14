@@ -1,5 +1,5 @@
 import { ReduxEntityTester } from '@regardsoss/tests-helpers'
-import { Dataset } from '@regardsoss/model'
+import { DataManagementShapes } from '@regardsoss/shape'
 import DatasetActions from '../../src/rs-dam/dataset/DatasetActions'
 import DatasetReducer from '../../src/rs-dam/dataset/DatasetReducer'
 import DatasetSelectors from '../../src/rs-dam/dataset/DatasetSelectors'
@@ -13,7 +13,7 @@ const datasetActions = new DatasetActions('test/action')
 const datasetReducer = DatasetReducer('test/action')
 const datasetSelectors = DatasetSelectors(['test', 'modules'])
 
-const entityTester = new ReduxEntityTester(datasetActions, datasetReducer, datasetSelectors, PropTypes.objectOf(Dataset).isRequired, backendServerResultList, options)
+const entityTester = new ReduxEntityTester(datasetActions, datasetReducer, datasetSelectors, DataManagementShapes.DatasetList.isRequired, backendServerResultList, options)
 
 describe('[ADMIN CLIENT] Testing model Collection', () => {
   before(() => {

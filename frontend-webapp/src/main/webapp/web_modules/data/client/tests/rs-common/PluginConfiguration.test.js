@@ -1,5 +1,5 @@
 import { ReduxEntityTester } from '@regardsoss/tests-helpers'
-import { PluginConfiguration } from '@regardsoss/model'
+import { CommonShapes } from '@regardsoss/shape'
 import PluginConfigurationActions from '../../src/rs-common/pluginConfiguration/PluginConfigurationActions'
 import PluginConfigurationSelectors from '../../src/rs-common/pluginConfiguration/PluginConfigurationSelectors'
 import PluginConfigurationReducer from '../../src/rs-common/pluginConfiguration/PluginConfigurationReducer'
@@ -15,7 +15,7 @@ const pluginConfigurationActions = new PluginConfigurationActions('test/action')
 const pluginConfigurationReducer = PluginConfigurationReducer('test/action')
 const pluginConfigurationSelectors = PluginConfigurationSelectors(['test', 'modules'])
 
-const entityTester = new ReduxEntityTester(pluginConfigurationActions, pluginConfigurationReducer, pluginConfigurationSelectors, PropTypes.objectOf(PluginConfiguration).isRequired, backendServerResultList, options)
+const entityTester = new ReduxEntityTester(pluginConfigurationActions, pluginConfigurationReducer, pluginConfigurationSelectors, CommonShapes.PluginConfigurationList.isRequired, backendServerResultList, options)
 
 describe('[ADMIN CLIENT] Testing model PluginConfiguration', () => {
   before(() => {

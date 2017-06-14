@@ -2,7 +2,7 @@ import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { PluginDefinition as UIPluginDefinition, PluginConf as UIPluginConfiguration, LinkUIPluginDataset } from '@regardsoss/model'
+import { AccessShapes } from '@regardsoss/shape'
 import DatasetEditUIServicesComponent from '../components/DatasetEditUIServicesComponent'
 import { uiPluginConfigurationSelectors, uiPluginConfigurationActions } from '../clients/UIPluginConfigurationClient'
 import { uiPluginDefinitionSelectors, uiPluginDefinitionActions } from '../clients/UIPluginDefinitionClient'
@@ -19,11 +19,9 @@ export class DatasetEditUIServicesContainer extends React.Component {
     }).isRequired,
 
     // from mapStateToProps
-    uiPluginConfigurationList: PropTypes.objectOf(PropTypes.shape({
-      content: UIPluginConfiguration,
-    })),
-    uiPluginDefinitionList: PropTypes.objectOf(UIPluginDefinition),
-    linkUIPluginDataset: LinkUIPluginDataset,
+    uiPluginConfigurationList: AccessShapes.UIPluginConfList,
+    uiPluginDefinitionList: AccessShapes.UIPluginDefinitionList,
+    linkUIPluginDataset: AccessShapes.LinkUIPluginDataset,
 
     // from mapDispatchToProps
     fetchUIPluginConfigurationList: PropTypes.func,

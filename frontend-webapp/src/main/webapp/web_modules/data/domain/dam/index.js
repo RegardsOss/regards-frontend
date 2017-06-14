@@ -5,9 +5,8 @@
 import getAbstractEntityDescription from './getAbstractEntityDescription'
 import getFullQualifiedAttributeName from './getFullQualifiedAttributeName'
 import { ENTITY_TYPES, ENTITY_TYPES_ENUM } from './EntityTypes'
-import JavaTypes from './JavaTypes'
+import MODEL_ATTR_TYPES from './ModelAttrTypes'
 import FRAGMENT_NONE from './FragmentNone'
-
 
 export default {
   getAbstractEntityDescription,
@@ -16,7 +15,7 @@ export default {
   ENTITY_TYPES,
   ENTITY_TYPES_ENUM,
 
-  JavaTypes,
+  MODEL_ATTR_TYPES,
 
   FRAGMENT_NONE,
 }

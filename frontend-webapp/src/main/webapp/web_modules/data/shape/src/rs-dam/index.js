@@ -5,7 +5,7 @@ import { AccessGroup, AccessGroupList } from './AccessGroup'
 import { AccessRight, AccessRightContent, AccessRightList } from './AccessRight'
 import { AttributeModel, AttributeModelList } from './AttributeModel'
 import { Collection, CollectionList } from './Collection'
-import { Connection } from './Connection'
+import { Connection, ConnectionList } from './Connection'
 import { Dataset, DatasetContent, DatasetList } from './Dataset'
 import { Datasource, DatasourceList } from './Datasource'
 import Entity from './Entity'
@@ -29,6 +29,7 @@ export default {
   CollectionList,
 
   Connection,
+  ConnectionList,
 
   Dataset,
   DatasetContent,

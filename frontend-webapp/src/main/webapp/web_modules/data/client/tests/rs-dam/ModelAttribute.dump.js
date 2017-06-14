@@ -93,6 +93,7 @@ export default [{
     },
     attribute: {
       id: 4,
+      label: 'Here is a label',
       name: 'Attribute_4',
       description: "Description de l'attribut 0 - 0",
       defaultValue: null,

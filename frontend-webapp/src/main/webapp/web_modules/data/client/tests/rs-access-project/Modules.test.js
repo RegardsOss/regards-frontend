@@ -1,5 +1,5 @@
 import { ReduxEntityTester } from '@regardsoss/tests-helpers'
-import { Module } from '@regardsoss/model'
+import { AccessShapes } from '@regardsoss/shape'
 import { AccessProjectClient } from '../../src/main'
 import ModulesListDump from './ModulesList.dump'
 
@@ -11,7 +11,7 @@ const options = {
 const ModulesActions = AccessProjectClient.ModuleActions('test/action')
 const ModulesReducer = AccessProjectClient.ModuleReducers('test/action')
 const ModulesSelector = AccessProjectClient.ModuleSelectors(['test', 'modules'])
-const entityTester = new ReduxEntityTester(ModulesActions, ModulesReducer, ModulesSelector, PropTypes.objectOf(Module).isRequired, backendServerResultList, options)
+const entityTester = new ReduxEntityTester(ModulesActions, ModulesReducer, ModulesSelector, AccessShapes.ModuleList.isRequired, backendServerResultList, options)
 
 /**
  * Tests for Modules entities

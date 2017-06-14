@@ -1,5 +1,5 @@
 import { ReduxEntityTester } from '@regardsoss/tests-helpers'
-import { Model } from '@regardsoss/model'
+import { DataManagementShapes } from '@regardsoss/shape'
 import ModelActions from '../../src/rs-dam/model/ModelActions'
 import ModelReducer from '../../src/rs-dam/model/ModelReducer'
 import ModelSelectors from '../../src/rs-dam/model/ModelSelectors'
@@ -14,7 +14,7 @@ const options = {
   urlParams: { type: 'COLLECTION' },
 }
 
-const entityTester = new ReduxEntityTester(modelActions, modelReducer, modelSelectors, PropTypes.objectOf(Model).isRequired, backendServerResultList, options)
+const entityTester = new ReduxEntityTester(modelActions, modelReducer, modelSelectors, DataManagementShapes.ModelList.isRequired, backendServerResultList, options)
 
 describe('[ADMIN CLIENT] Testing client Testing model Modele', () => {
   before(() => {

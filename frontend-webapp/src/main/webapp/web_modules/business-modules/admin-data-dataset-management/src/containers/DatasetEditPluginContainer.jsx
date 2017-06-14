@@ -3,7 +3,7 @@
  **/
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
-import { PluginConfiguration, PluginMetaData, LinkPluginDataset } from '@regardsoss/model'
+import { CatalogShapes, CommonShapes } from '@regardsoss/shape'
 import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import DatasetEditPluginComponent from '../components/DatasetEditPluginComponent'
@@ -22,9 +22,9 @@ export class DatasetEditPluginContainer extends React.Component {
     }),
 
     // from mapStateToProps
-    pluginConfigurationList: PropTypes.objectOf(PluginConfiguration),
-    pluginMetaDataList: PropTypes.objectOf(PluginMetaData),
-    linkPluginDataset: LinkPluginDataset,
+    pluginConfigurationList: CommonShapes.PluginConfigurationList,
+    pluginMetaDataList: CommonShapes.PluginMetaDataList,
+    linkPluginDataset: CatalogShapes.LinkPluginDataset,
 
     // from mapDispatchToProps
     fetchPluginConfiguration: PropTypes.func,

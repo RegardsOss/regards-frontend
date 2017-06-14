@@ -5,7 +5,7 @@ import { browserHistory } from 'react-router'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { FormattedMessage } from 'react-intl'
 import map from 'lodash/map'
-import { Datasource } from '@regardsoss/model'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -19,7 +19,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 export class DatasetCreateOrPickDatasourceComponent extends React.Component {
 
   static propTypes = {
-    datasourceList: PropTypes.objectOf(Datasource),
+    datasourceList: DataManagementShapes.DatasourceList,
     createDatasourceUrl: PropTypes.string.isRequired,
     backUrl: PropTypes.string.isRequired,
     handleDone: PropTypes.func.isRequired,

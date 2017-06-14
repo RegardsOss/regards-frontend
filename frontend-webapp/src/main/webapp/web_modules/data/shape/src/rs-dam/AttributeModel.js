@@ -4,7 +4,8 @@ const AttributeModelContent = PropTypes.shape({
   id: PropTypes.number.isRequired,
   name: PropTypes.string,
   label: PropTypes.string.isRequired,
-  jsonPath: PropTypes.string.isRequired,
+  // only provided when fetching attrModel list
+  jsonPath: PropTypes.string,
   description: PropTypes.string,
   defaultValue: PropTypes.string,
   type: PropTypes.string.isRequired,
