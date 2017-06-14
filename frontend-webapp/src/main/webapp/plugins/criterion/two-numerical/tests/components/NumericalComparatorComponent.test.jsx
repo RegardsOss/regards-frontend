@@ -27,6 +27,6 @@ describe('[PLUGIN TWO NUMERICAL CRITERIA] Testing the numerical comparator compo
     const enzymeWrapper = shallow(<NumericalComparatorComponent {...props} />)
     expect(enzymeWrapper.find(RaisedButton)).to.have.length(1)
     expect(enzymeWrapper.find(IconMenu)).to.have.length(1)
-    expect(enzymeWrapper.find(MenuItem)).to.have.length(6)
+    expect(enzymeWrapper.find(MenuItem)).to.have.length(3)
   })
 })

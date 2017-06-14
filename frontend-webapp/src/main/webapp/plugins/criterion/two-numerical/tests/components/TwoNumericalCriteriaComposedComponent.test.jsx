@@ -25,8 +25,7 @@ describe('[PLUGIN TWO NUMERICAL CRITERIA COMPOSED] Testing the two numerical cri
           type: 'numerical',
         },
       },
-      pluginInstanceId: 42,
-      onChange: () => {
+      getDefaultState: () => {
       },
     }
     const enzymeWrapper = shallow(<TwoNumericalCriteriaComposedComponent {...props} />)
@@ -35,10 +34,10 @@ describe('[PLUGIN TWO NUMERICAL CRITERIA COMPOSED] Testing the two numerical cri
     const first = children.at(0)
     const second = children.at(1)
     expect(first.props().reversed).to.equal(true)
-    expect(first.props().comparator).to.equal('LE')
+    expect(first.props().comparator).to.equal('<=')
     expect(first.props().hideAttributeName).to.equal(true)
     expect(second.props().reversed).to.equal(false)
-    expect(second.props().comparator).to.equal('LE')
+    expect(second.props().comparator).to.equal('<=')
     expect(second.props().hideAttributeName).to.equal(true)
   })
 })

@@ -2,11 +2,11 @@
  * LICENSE_PLACEHOLDER
  **/
 import values from 'lodash/values'
-import {FormattedMessage} from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import TextField from 'material-ui/TextField'
 import NumericalComparatorComponent from './NumericalComparatorComponent'
 import EnumNumericalComparator from '../model/EnumNumericalComparator'
-import {AttributeModel} from '../common/AttributeModel'
+import { AttributeModel } from '../common/AttributeModel'
 
 /**
  * Plugin component allowing the user to configure the numerical value of an attribute with a mathematical comparator (=, >, <=, ...).
@@ -64,14 +64,8 @@ export class NumericalCriteriaComponent extends React.Component {
     hideAttributeName: false,
     fixedComparator: false,
     hideComparator: false,
-  }
-
-  constructor(props) {
-    super(props)
-    this.state = {
-      value: props.value,
-      comparator: props.comparator || EnumNumericalComparator.EQ,
-    }
+    value: '',
+    comparator: EnumNumericalComparator.EQ
   }
 
   /**
@@ -81,11 +75,8 @@ export class NumericalCriteriaComponent extends React.Component {
    * @param {String} newValue The new value of the text field.
    */
   handleChangeValue = (event, newValue) => {
-    this.setState({
-      value: this.parse(newValue),
-    }, () => {
-      this.props.onChange(this.props.attribute, this.state.value, this.state.comparator)
-    })
+    const { onChange, attribute, comparator } = this.props
+    onChange(attribute, this.parse(newValue), comparator)
   }
 
   /**
@@ -94,11 +85,8 @@ export class NumericalCriteriaComponent extends React.Component {
    * @param {String} comparator The new value of the comparator.
    */
   handleChangeComparator = (comparator) => {
-    this.setState({
-      comparator,
-    }, () => {
-      this.props.onChange(this.props.attribute, this.state.value, this.state.comparator)
-    })
+    const { onChange, attribute, value } = this.props
+    onChange(attribute, value, comparator)
   }
 
   /**
@@ -116,12 +104,14 @@ export class NumericalCriteriaComponent extends React.Component {
   format = value => value
 
   render() {
-    const {attribute, reversed, hideAttributeName, hideComparator, fixedComparator} = this.props
-    const {comparator} = this.state
+    const { attribute, comparator, value, reversed, hideAttributeName, hideComparator, fixedComparator } = this.props
 
     // Store the content in an array because we need to maybe reverse to order
     const content = []
-    if (!hideAttributeName) content.push(<span key="attributeName" style={{margin: '0px 10px',fontSize: '1.3em'}}>{attribute.label || attribute.name}</span>)
+    if (!hideAttributeName) content.push(<span key="attributeName" style={{
+      margin: '0px 10px',
+      fontSize: '1.3em'
+    }}>{attribute.label || attribute.name}</span>)
     if (!hideComparator) {
       content.push(
         <NumericalComparatorComponent
@@ -138,7 +128,7 @@ export class NumericalCriteriaComponent extends React.Component {
         key="field"
         type="number"
         floatingLabelText={<FormattedMessage id="criterion.search.field.label"/>}
-        value={this.format(this.state.value)}
+        value={this.format(value)}
         onChange={this.handleChangeValue}
         style={{
           top: -13,

@@ -28,10 +28,8 @@ describe('[PLUGIN TEMPORAL CRITERIA] Testing the temporal criteria component', (
           description: 'Attribute to search',
           type: 'temporal',
         },
-        onChange: () => {
-        },
-        pluginInstanceId: 42,
       },
+      getDefaultState: () => {},
     }
     const enzymeWrapper = shallow(<TemporalCriteriaComponent {...props} />)
     expect(enzymeWrapper.find(TemporalComparatorComponent)).to.have.length(1)

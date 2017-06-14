@@ -3,11 +3,18 @@
  **/
 import replace from 'lodash/replace'
 import React from 'react'
-import {FormattedMessage} from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import TextField from 'material-ui/TextField'
-import {AttributeModel, getAttributeName} from '../common/AttributeModel'
+import ClearButton from './ClearButton'
+import { AttributeModel } from '../common/AttributeModel'
 import PluginComponent from '../common/PluginComponent'
 
+/**
+ * Search form criteria plugin displaying a simple text field
+ *
+ * @author Sébastien Binda
+ * @author Xavier-Alexandre Brochard
+ */
 export class StringCriteriaComponent extends PluginComponent {
 
   static propTypes = {
@@ -15,12 +22,12 @@ export class StringCriteriaComponent extends PluginComponent {
   }
 
   state = {
-    searchField : '',
+    searchField: '',
   }
 
   handleChange = (event, value) => {
     this.setState({
-      searchField: value
+      searchField: value,
     })
   }
 
@@ -36,13 +43,17 @@ export class StringCriteriaComponent extends PluginComponent {
    * Remove " character used for openSearch query
    * @returns {*}
    */
-  getDisplayedValue = () => {
-    return replace(this.state.searchField,/"/g,'')
-  }
+  getDisplayedValue = () => replace(this.state.searchField, /"/g, '')
+
+  /**
+   * Clear the entered value
+   */
+  handleClear = () => this.handleChange(undefined, '')
 
   render() {
-
     const attributeLabel = this.getAttributeLabel('searchField')
+    const value = this.getDisplayedValue()
+    const clearButtonDisplayed = value !== ''
 
     return (
       <div
@@ -55,7 +66,7 @@ export class StringCriteriaComponent extends PluginComponent {
         <span
           style={{
             margin: '0px 10px',
-            fontSize: '1.3em'
+            fontSize: '1.3em',
           }}
         >
           {attributeLabel}
@@ -67,9 +78,10 @@ export class StringCriteriaComponent extends PluginComponent {
           onChange={this.handleChange}
           style={{
             top: -18,
-            margin: '0px 10px'
+            margin: '0px 10px',
           }}
         />
+        <ClearButton onTouchTap={this.handleClear} displayed={clearButtonDisplayed}/>
       </div>
     )
   }
