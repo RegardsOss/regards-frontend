@@ -1,7 +1,16 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { chain, keys, uniqueId, reduce, isNil } from 'lodash'
+import every from 'lodash/every'
+import flatten from 'lodash/flatten'
+import flow from 'lodash/flow'
+import forEach from 'lodash/forEach'
+import keys from 'lodash/keys'
+import tail from 'lodash/tail'
+import isNil from 'lodash/isNil'
+import reduce from 'lodash/reduce'
+import fpzip from 'lodash/fp/zip'
+import fpmap from 'lodash/fp/map'
 import { FormattedMessage } from 'react-intl'
 import TemporalCriteriaComponent from './TemporalCriteriaComponent'
 import ClearButton from './ClearButton'
@@ -57,15 +66,13 @@ export class TwoTemporalCriteriaSimpleComponent extends PluginComponent {
   }
 
   changeValue = (attribute, value, operator) => {
-    const newState = Object.assign({}, this.state)
     const newAttState = Object.assign({}, this.state[attribute.name])
-
     newAttState.value = value
     newAttState.operator = operator
-    newState[attribute.name] = newAttState
-
     // Update state to save the new value
-    this.setState(newState, this._onPluginChangeValue)
+    this.setState({
+      [attribute.name]: newAttState,
+    })
   }
 
   getPluginSearchQuery = (state) => {
@@ -109,10 +116,30 @@ export class TwoTemporalCriteriaSimpleComponent extends PluginComponent {
     return openSearchQuery
   }
 
+  /**
+   * Clear all fields
+   */
+  handleClear = () => {
+    forEach(this.state, field => this.changeValue(field.attribute, undefined, field.operator))
+  }
+
   render() {
-    const { attributes } = this.props
-    console.log("tamere")
-    const clearButtonDisplayed = !isNil(this.state[attributes.firstField.name].value) && !isNil(this.state[attributes.secondField.name].value)
+    const clearButtonDisplayed = !every(this.state, field => isNil(field.value))
+
+    const content = flow(
+      fpmap(field => (
+        <TemporalCriteriaComponent // we are mapping on an object this is why we disable the lint next line
+          key={field.attribute.name} // eslint-disable-line react/no-array-index-key
+          attribute={field.attribute}
+          onChange={this.changeValue}
+          comparator={field.operator}
+          value={field.value}
+        />
+      )),
+      fpzip(new Array(keys(this.state).length).fill(<FormattedMessage id="criterion.aggregator.and"/>)),
+      flatten,
+      tail,
+    )(this.state)
 
     return (
       <div style={{ display: 'flex' }}>
@@ -124,23 +151,8 @@ export class TwoTemporalCriteriaSimpleComponent extends PluginComponent {
             flexWrap: 'wrap',
           }}
         >
-          {chain(attributes)
-            .map((attribute, attributeName) =>
-              <TemporalCriteriaComponent // we are mapping on an object this is why we disable the lint next line
-                key={attributeName} // eslint-disable-line react/no-array-index-key
-                attribute={attribute}
-                onChange={this.changeValue}
-                comparator={this.state[attribute.name].operator}
-                value={this.state[attribute.name].value}
-              />)
-            .zip(new Array(keys(attributes).length).fill(<span key={uniqueId('react_generated_uuid_')}><FormattedMessage
-              id="criterion.aggregator.and"
-            /></span>))
-            .flatten()
-            .initial()
-            .value()
-          }
-          <ClearButton onTouchTap={this.handleClear} displayed={clearButtonDisplayed} />
+          {content}
+          <ClearButton onTouchTap={this.handleClear} displayed={clearButtonDisplayed}/>
         </div>
       </div>
     )

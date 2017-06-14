@@ -30,7 +30,6 @@ describe('[PLUGIN TWO TEMPORAL CRITERIA] Testing the two temporal criteria compo
           type: 'temporal',
         },
       },
-      pluginInstanceId: 42,
       onChange: () => {
       },
     }

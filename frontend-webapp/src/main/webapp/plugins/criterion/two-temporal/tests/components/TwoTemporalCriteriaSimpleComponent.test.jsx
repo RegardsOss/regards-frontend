@@ -19,19 +19,18 @@ describe('[PLUGIN TWO TEMPORAL CRITERIA SIMPLE] Testing the two temporal criteri
   it('should render self and subcomponents', () => {
     const props = {
       attributes: {
-        firstAttribute: {
-          name: 'firstAttribute',
+        firstField: {
+          name: 'firstField',
           description: 'First attribute to search',
           type: 'temporal',
         },
-        secondAttribute: {
-          name: 'secondAttribute',
+        secondField: {
+          name: 'secondField',
           description: 'Second attribute to search',
           type: 'temporal',
         },
       },
-      pluginInstanceId: 42,
-      onChange: () => {
+      getDefaultState: () => {
       },
     }
     const enzymeWrapper = shallow(<TwoTemporalCriteriaSimpleComponent {...props} />)

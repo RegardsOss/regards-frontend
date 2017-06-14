@@ -27,6 +27,6 @@ describe('[PLUGIN TWO TEMPORAL CRITERIA] Testing the temporal comparator compone
     const enzymeWrapper = shallow(<TemporalComparatorComponent {...props} />)
     expect(enzymeWrapper.find(RaisedButton)).to.have.length(1)
     expect(enzymeWrapper.find(IconMenu)).to.have.length(1)
-    expect(enzymeWrapper.find(MenuItem)).to.have.length(4)
+    expect(enzymeWrapper.find(MenuItem)).to.have.length(3)
   })
 })
