@@ -65,7 +65,7 @@ class PluginComponent extends React.Component {
     const initValues = transform(this.props.attributes, (result, attribute, key) => {
       const initValue = this.getAttributeInitValue(key, this.props)
       if (initValue) {
-        result[key] = initValue
+        result[key] = this.parseOpenSearchQuery(key,initValue)
       }
     }, {})
 
@@ -84,7 +84,7 @@ class PluginComponent extends React.Component {
       const initValue = this.getAttributeInitValue(key, nextProps)
       if (initValue && initValue !== this.state[key]){
         toUpdate = true
-        result[key] = initValue
+        result[key] = this.parseOpenSearchQuery(key, initValue)
       }
     }, {})
 
@@ -93,6 +93,8 @@ class PluginComponent extends React.Component {
     }
 
   }
+
+  parseOpenSearchQuery = (parameterName, openSearchQuery) => openSearchQuery
 
   _onPluginChangeValue = () => {
     // Generate query
@@ -109,7 +111,7 @@ class PluginComponent extends React.Component {
   }
 
   getAttributeName(configuredAttributeName, props){
-    const attribute = get(props || this.props, `attributes[${configuredAttributeName}]`)
+    const attribute = get(props || this.props, `attributes["${configuredAttributeName}"]`)
     if (!attribute) {
       return null
     }
@@ -123,11 +125,11 @@ class PluginComponent extends React.Component {
    */
   getAttributeInitValue(configuredAttributeName, props) {
     const attributeName = this.getAttributeName(configuredAttributeName, props)
-    return get(props, `initialValues[${attributeName}]`)
+    return get(props, `initialValues["${attributeName}"]`)
   }
 
   getAttributeLabel(configuredAttributeName) {
-    return get(this.props,`attributes[${configuredAttributeName}].label`,get(this.props,`attributes[${configuredAttributeName}].name`,'Undefined attribute'))
+    return get(this.props,`attributes["${configuredAttributeName}"].label`,get(this.props,`attributes["${configuredAttributeName}"].name`,'Undefined attribute'))
   }
 
   setState(state) {

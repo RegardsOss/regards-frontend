@@ -90,6 +90,20 @@ class FormCriterionComponent extends React.Component {
     })
   }
 
+  getCriteriaAttributes = (criteria) => {
+    const attributes = get(criteria, 'conf.attributes')
+    if (!attributes){
+      return ''
+    }
+    return reduce(attributes, (result, attribute) => {
+      const attrLabel = get(this.props.selectableAttributes[attribute], 'content.label') || attribute
+      if (result !== '') {
+        return `${result} - ${attrLabel}`
+      }
+      return attrLabel
+    }, '')
+  }
+
   /**
    * Handle action to edit a criteria
    * @param criteria
@@ -137,17 +151,7 @@ class FormCriterionComponent extends React.Component {
         rows.push(
           <TableRow key={idx}>
             <TableRowColumn>{label}</TableRowColumn>
-            <TableRowColumn>{
-              reduce(criteria.conf.attributes, (result, attribute) => {
-                const attrLabel = get(this.props.selectableAttributes[attribute], 'content.label') || attribute
-                if (result !== '') {
-                  return `${result} - ${attrLabel}`
-                }
-                return attrLabel
-              }, '')
-            }
-            </TableRowColumn>
-
+            <TableRowColumn>{this.getCriteriaAttributes(criteria)}</TableRowColumn>
             <TableRowColumn>{criteria.container}</TableRowColumn>
             <TableRowColumn>
               <IconButton onTouchTap={() => this.handleEdit(criteria, idx)}>
