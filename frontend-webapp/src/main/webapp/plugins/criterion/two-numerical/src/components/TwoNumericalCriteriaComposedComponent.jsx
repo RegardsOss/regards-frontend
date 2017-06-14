@@ -72,7 +72,6 @@ export class TwoNumericalCriteriaComposedComponent extends PluginComponent {
     const { attributes } = this.props
     const { value1, value2 } = this.state
     const attribute = values(attributes)[0]
-    console.log("coucou")
     const clearButtonDisplayed = !isNil(value1) || !isNil(value2)
 
     return (

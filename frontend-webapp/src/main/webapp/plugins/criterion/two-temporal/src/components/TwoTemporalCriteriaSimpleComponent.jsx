@@ -1,9 +1,10 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { chain, keys, uniqueId, reduce } from 'lodash'
+import { chain, keys, uniqueId, reduce, isNil } from 'lodash'
 import { FormattedMessage } from 'react-intl'
 import TemporalCriteriaComponent from './TemporalCriteriaComponent'
+import ClearButton from './ClearButton'
 import AttributeModel from '../common/AttributeModel'
 import EnumTemporalComparator from '../model/EnumTemporalComparator'
 import PluginComponent from '../common/PluginComponent'
@@ -110,6 +111,8 @@ export class TwoTemporalCriteriaSimpleComponent extends PluginComponent {
 
   render() {
     const { attributes } = this.props
+    console.log("tamere")
+    const clearButtonDisplayed = !isNil(this.state[attributes.firstField.name].value) && !isNil(this.state[attributes.secondField.name].value)
 
     return (
       <div style={{ display: 'flex' }}>
@@ -137,7 +140,7 @@ export class TwoTemporalCriteriaSimpleComponent extends PluginComponent {
             .initial()
             .value()
           }
-
+          <ClearButton onTouchTap={this.handleClear} displayed={clearButtonDisplayed} />
         </div>
       </div>
     )
