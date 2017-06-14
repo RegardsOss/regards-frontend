@@ -42,8 +42,6 @@ export class StringCriteriaComponent extends PluginComponent {
 
   render() {
 
-    console.error("PROPS",this.props,this.state)
-
     const attributeLabel = this.getAttributeLabel('searchField')
 
     return (

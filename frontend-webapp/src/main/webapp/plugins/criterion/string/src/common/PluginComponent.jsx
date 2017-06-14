@@ -5,7 +5,7 @@ import merge from 'lodash/merge'
 import get from 'lodash/get'
 import transform from 'lodash/transform'
 import React from 'react'
-import {AttributeModel, getAttributeName} from './AttributeModel'
+import AttributeModel from './AttributeModel'
 
 /**
  * Abstract class to extend in order to create a criterion plugin.
@@ -127,7 +127,7 @@ class PluginComponent extends React.Component {
     if (!attribute) {
       return null
     }
-    return getAttributeName(attribute)
+    return attribute.jsonPath
   }
 
   getAttributeLabel(configuredAttributeName) {

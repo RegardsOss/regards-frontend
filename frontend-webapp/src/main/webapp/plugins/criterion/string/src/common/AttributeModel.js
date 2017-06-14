@@ -18,14 +18,4 @@ const AttributeModel = React.PropTypes.shape({
   group: React.PropTypes.string,
 })
 
-const getAttributeName = (attribute) => {
-  if (!attribute.fragment || !attribute.fragment.name){
-    return attribute.name ? attribute.name : attribute.id
-  }
-  return `${attribute.fragment.name}.${attribute.name}`
-}
-
-export {
-  AttributeModel,
-  getAttributeName,
-}
+export default AttributeModel

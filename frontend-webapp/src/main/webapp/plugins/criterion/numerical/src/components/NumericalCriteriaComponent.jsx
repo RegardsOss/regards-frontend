@@ -2,12 +2,11 @@
  * LICENSE_PLACEHOLDER
  **/
 import React from 'react'
-import merge from 'lodash/merge'
 import {FormattedMessage} from 'react-intl'
 import TextField from 'material-ui/TextField'
 import NumericalComparatorComponent from './NumericalComparatorComponent'
 import EnumNumericalComparator from '../model/EnumNumericalComparator'
-import {AttributeModel, getAttributeName} from '../common/AttributeModel'
+import {AttributeModel} from '../common/AttributeModel'
 import PluginComponent from '../common/PluginComponent'
 
 /**
@@ -49,7 +48,7 @@ export class NumericalCriteriaComponent extends PluginComponent {
   getPluginSearchQuery = (state) => {
     let query = ''
     if (state.value && state.comparator) {
-      const attribute = getAttributeName(this.props.attributes.searchField)
+      const attribute = this.getAttributeName('searchField')
       switch (state.comparator) {
         case "EQ":
           query = `${attribute}:${state.value}`
@@ -86,7 +85,7 @@ export class NumericalCriteriaComponent extends PluginComponent {
   format = value => value
 
   render() {
-    const attributeLabel = this.props.attributes.searchField.label || this.props.attributes.searchField.name || this.props.attributes.searchField.id || 'Undefined attribute'
+    const attributeLabel = this.getAttributeLabel('searchField')
 
     return (
       <div
