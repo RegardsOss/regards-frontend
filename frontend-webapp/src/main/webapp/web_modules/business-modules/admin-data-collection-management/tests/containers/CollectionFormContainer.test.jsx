@@ -3,9 +3,10 @@
  */
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
+import { testSuiteHelpers, buildTestContext, DumpProvider } from '@regardsoss/tests-helpers'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { CollectionFormContainer } from '../../src/containers/CollectionFormContainer'
+
 
 const modelAttributeList = {
   0: {
@@ -132,11 +133,11 @@ describe('[ADMIN DATA COLLECTION MANAGEMENT] Testing CollectionFormContainer', (
       // from router
       params: {
         project: 'lambda',
-        collectionId: '1',
+        collectionId: DumpProvider.getFirstEntityKey('DataManagementClient', 'Collection'),
         mode: 'duplicate',
       },
       // from mapStateToProps
-      currentCollection,
+      currentCollection: DumpProvider.getFirstEntity('DataManagementClient', 'Collection'),
       isFetchingCollection: false,
       isFetchingModelAttribute: false,
       isFetchingModel: false,

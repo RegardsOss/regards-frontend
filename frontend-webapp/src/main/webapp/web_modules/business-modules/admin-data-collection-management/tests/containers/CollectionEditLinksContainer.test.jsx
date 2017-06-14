@@ -3,49 +3,12 @@
  */
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import { testSuiteHelpers, IntlStub } from '@regardsoss/tests-helpers'
+import { testSuiteHelpers, buildTestContext, DumpProvider } from '@regardsoss/tests-helpers'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { CollectionEditLinksContainer } from '../../src/containers/CollectionEditLinksContainer'
 
+const context = buildTestContext()
 
-const collectionList = {
-  1: { content: {
-    type: 'COLLECTION',
-    lastUpdate: '2017-01-30T11:16:23.919',
-    creationDate: '2017-01-30T11:16:23.919',
-    id: 1,
-    ipId: 'URN:AIP:COLLECTION:PROJECT:fdsfdsf15-8a93-4d06-a90a-f657c26d3930:V1',
-    sipId: 'SipId1',
-    label: 'label',
-    tags: [
-      'URN:AIP:COLLECTION:PROJECT:c70a2428-8a93-4d06-a90a-f657c26d3930:V1',
-    ],
-    model: {
-      id: 1,
-      name: 'modelName1',
-      description: 'model desc',
-      type: 'COLLECTION',
-    },
-  } },
-  2: { content: {
-    type: 'COLLECTION',
-    lastUpdate: '2017-01-30T11:16:23.919',
-    creationDate: '2017-01-30T11:16:23.919',
-    id: 1,
-    ipId: 'URN:AIP:COLLECTION:PROJECT:fdsfdsf15-8a93-4d06-a90a-f657c26d3930:V1',
-    sipId: 'SipId1',
-    label: 'label',
-    tags: [
-      'URN:AIP:COLLECTION:PROJECT:c70a2428-8a93-4d06-a90a-f657c26d3930:V1',
-    ],
-    model: {
-      id: 1,
-      name: 'modelName1',
-      description: 'model desc',
-      type: 'COLLECTION',
-    },
-  } },
-}
 describe('[ADMIN DATA COLLECTION MANAGEMENT] Testing CollectionEditLinksContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
@@ -54,23 +17,16 @@ describe('[ADMIN DATA COLLECTION MANAGEMENT] Testing CollectionEditLinksContaine
     assert.isDefined(CollectionEditLinksContainer)
     assert.isDefined(LoadableContentDisplayDecorator)
   })
-  const context = {
-    intl: IntlStub,
-    muiTheme: {
-      palette: {},
-    },
-  }
-  // TODO test some rendering
   it('Render properly', () => {
     const props = {
       // from router
       params: {
         project: 'lambda',
-        collectionId: '1',
+        collectionId: DumpProvider.getFirstEntityKey('DataManagementClient', 'Collection'),
       },
       // from mapStateToProps
-      currentCollection: collectionList[1],
-      collectionList,
+      currentCollection: DumpProvider.getFirstEntity('DataManagementClient', 'Collection'),
+      collectionList: DumpProvider.get('DataManagementClient', 'Collection'),
       isFetching: false,
       // from mapDispatchToProps
       removeTagFromCollection: () => {},
