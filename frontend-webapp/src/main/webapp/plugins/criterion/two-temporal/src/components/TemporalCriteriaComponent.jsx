@@ -8,7 +8,7 @@ import TimePicker from 'material-ui/TimePicker'
 import {FormattedMessage} from 'react-intl'
 import TemporalComparatorComponent from './TemporalComparatorComponent'
 import EnumTemporalComparator from '../model/EnumTemporalComparator'
-import {AttributeModel} from '../common/AttributeModel'
+import AttributeModel from '../common/AttributeModel'
 
 let DateTimeFormat
 

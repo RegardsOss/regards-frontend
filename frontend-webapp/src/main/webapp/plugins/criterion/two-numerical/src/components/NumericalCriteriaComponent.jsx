@@ -6,7 +6,7 @@ import { FormattedMessage } from 'react-intl'
 import TextField from 'material-ui/TextField'
 import NumericalComparatorComponent from './NumericalComparatorComponent'
 import EnumNumericalComparator from '../model/EnumNumericalComparator'
-import { AttributeModel } from '../common/AttributeModel'
+import AttributeModel from '../common/AttributeModel'
 
 /**
  * Plugin component allowing the user to configure the numerical value of an attribute with a mathematical comparator (=, >, <=, ...).

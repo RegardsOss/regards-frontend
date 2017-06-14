@@ -4,7 +4,7 @@
 import { chain, keys, uniqueId, reduce, every, forEach } from 'lodash'
 import { FormattedMessage } from 'react-intl'
 import NumericalCriteriaComponent from './NumericalCriteriaComponent'
-import { AttributeModel, getAttributeName } from '../common/AttributeModel'
+import AttributeModel from '../common/AttributeModel'
 import EnumNumericalComparator from '../model/EnumNumericalComparator'
 import PluginComponent from '../common/PluginComponent'
 import ClearButton from './ClearButton'
@@ -92,13 +92,13 @@ export class TwoNumericalCriteriaSimpleComponent extends PluginComponent {
     const lvalue = value || '*'
     switch (operator) {
       case EnumNumericalComparator.EQ :
-        openSearchQuery = `${getAttributeName(attribute)}:${lvalue}`
+        openSearchQuery = `${attribute.jsonPath}:${lvalue}`
         break
       case EnumNumericalComparator.LE :
-        openSearchQuery = `${getAttributeName(attribute)}:[* TO ${lvalue}]`
+        openSearchQuery = `${attribute.jsonPath}:[* TO ${lvalue}]`
         break
       case EnumNumericalComparator.GE :
-        openSearchQuery = `${getAttributeName(attribute)}:[${lvalue} TO *]`
+        openSearchQuery = `${attribute.jsonPath}:[${lvalue} TO *]`
         break
       default:
         openSearchQuery = ''

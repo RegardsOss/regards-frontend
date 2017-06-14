@@ -3,7 +3,7 @@
  **/
 import {FormattedMessage} from 'react-intl'
 import TextField from 'material-ui/TextField'
-import {AttributeModel} from '../common/AttributeModel'
+import AttributeModel from '../common/AttributeModel'
 import PluginComponent from '../common/PluginComponent'
 
 class FullTextCriteriaComponent extends PluginComponent {

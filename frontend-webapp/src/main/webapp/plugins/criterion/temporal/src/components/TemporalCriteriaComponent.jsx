@@ -8,7 +8,7 @@ import TimePicker from 'material-ui/TimePicker'
 import Clear from 'material-ui/svg-icons/content/clear'
 import { FormattedMessage } from 'react-intl'
 import TemporalComparatorComponent from './TemporalComparatorComponent'
-import {AttributeModel,getAttributeName} from '../common/AttributeModel'
+import AttributeModel from '../common/AttributeModel'
 import EnumTemporalComparator from '../model/EnumTemporalComparator'
 import PluginComponent from '../common/PluginComponent'
 
@@ -102,7 +102,7 @@ export class TemporalCriteriaComponent extends PluginComponent {
 
   getPluginSearchQuery = (state) => {
     let query = ''
-    const attribute = getAttributeName(this.props.attributes.searchField)
+    const attribute = this.getAttributeName('searchField')
     if (state.value && state.comparator) {
       switch (state.comparator) {
         case EnumTemporalComparator.BEFORE:

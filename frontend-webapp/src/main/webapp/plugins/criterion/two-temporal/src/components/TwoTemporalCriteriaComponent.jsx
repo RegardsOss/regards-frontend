@@ -4,7 +4,7 @@
 import { mapValues, chain } from 'lodash'
 import TwoTemporalCriteriaSimpleComponent from './TwoTemporalCriteriaSimpleComponent'
 import TwoTemporalCriteriaComposedComponent from './TwoTemporalCriteriaComposedComponent'
-import {AttributeModel} from '../common/AttributeModel'
+import AttributeModel from '../common/AttributeModel'
 
 /**
  * Search form criteria plugin allowing the user to configure the temporal value of two different attributes with comparators.

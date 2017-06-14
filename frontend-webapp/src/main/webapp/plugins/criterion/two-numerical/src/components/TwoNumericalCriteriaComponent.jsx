@@ -4,7 +4,7 @@
 import {mapValues, chain} from 'lodash'
 import TwoNumericalCriteriaSimpleComponent from './TwoNumericalCriteriaSimpleComponent'
 import TwoNumericalCriteriaComposedComponent from './TwoNumericalCriteriaComposedComponent'
-import {AttributeModel} from '../common/AttributeModel'
+import AttributeModel from '../common/AttributeModel'
 
 /**
  * Search form criteria plugin allowing the user to configure the numerical value of two different attributes with comparators.

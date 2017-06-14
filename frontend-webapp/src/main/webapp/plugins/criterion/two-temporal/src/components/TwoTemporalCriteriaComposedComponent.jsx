@@ -4,7 +4,7 @@
 import { merge, values } from 'lodash'
 import { FormattedMessage } from 'react-intl'
 import TemporalCriteriaComponent from './TemporalCriteriaComponent'
-import {AttributeModel,getAttributeName} from '../common/AttributeModel'
+import AttributeModel from '../common/AttributeModel'
 import EnumTemporalComparator from '../model/EnumTemporalComparator'
 import PluginComponent from '../common/PluginComponent'
 
@@ -49,12 +49,11 @@ export class TwoTemporalCriteriaComposedComponent extends PluginComponent {
   }
 
   getPluginSearchQuery = (state) => {
-    const attribute = values(this.props.attributes)[0]
     const lvalue1 = state.value1 ? state.value1.toISOString() : '*'
     const lvalue2 = state.value2 ? state.value2.toISOString() : '*'
     let searchQuery=''
     if (state.value1 || state.value2) {
-      searchQuery= `${getAttributeName(attribute)}:[${lvalue1} TO ${lvalue2}]`
+      searchQuery= `${this.getAttributeName('firstField')}:[${lvalue1} TO ${lvalue2}]`
     }
     return searchQuery
   }

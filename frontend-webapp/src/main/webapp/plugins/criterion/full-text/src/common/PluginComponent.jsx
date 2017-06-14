@@ -108,26 +108,22 @@ class PluginComponent extends React.Component {
     return null
   }
 
-  /**
-   * Return the initial value of the configured attribute as it is given from the search-form manager.
-   * @param attributeName
-   * @returns {*}
-   */
-  getAttributeInitValue(configuredAttributeName, props) {
-    const attribute = get(props, `attributes[${configuredAttributeName}]`)
-    if (!attribute) {
-      return null
-    }
-    const attributeName = this.getAttributeName(attribute, props)
-    return get(props, `initialValues[${attributeName}]`)
-  }
-
   getAttributeName(configuredAttributeName, props){
     const attribute = get(props || this.props, `attributes[${configuredAttributeName}]`)
     if (!attribute) {
       return null
     }
     return attribute.jsonPath
+  }
+
+  /**
+   * Return the initial value of the configured attribute as it is given from the search-form manager.
+   * @param attributeName
+   * @returns {*}
+   */
+  getAttributeInitValue(configuredAttributeName, props) {
+    const attributeName = this.getAttributeName(configuredAttributeName, props)
+    return get(props, `initialValues[${attributeName}]`)
   }
 
   getAttributeLabel(configuredAttributeName) {

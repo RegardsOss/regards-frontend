@@ -3,10 +3,10 @@
  **/
 import replace from 'lodash/replace'
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
+import {FormattedMessage} from 'react-intl'
 import TextField from 'material-ui/TextField'
 import ClearButton from './ClearButton'
-import { AttributeModel } from '../common/AttributeModel'
+import AttributeModel from '../common/AttributeModel'
 import PluginComponent from '../common/PluginComponent'
 
 /**
@@ -32,11 +32,7 @@ export class StringCriteriaComponent extends PluginComponent {
   }
 
   getPluginSearchQuery = (state) => {
-    let openSearchQuery = ''
-    if (state.searchField && state.searchField.length > 0) {
-      openSearchQuery = `${this.getAttributeName('searchField')}:"${state.searchField}"`
-    }
-    return openSearchQuery
+    return `${this.getAttributeName('searchField')}:"${state.searchField}"`
   }
 
   /**

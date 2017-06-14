@@ -77,11 +77,12 @@ class PluginComponent extends React.Component {
    * @param nextProps
    */
   componentWillReceiveProps(nextProps) {
+
     // If initial value set value to the state
     let toUpdate = false
     const initValues = transform(nextProps.attributes, (result, attribute, key) => {
       const initValue = this.getAttributeInitValue(key, nextProps)
-      if (initValue && initValue !== this.state[key]) {
+      if (initValue && initValue !== this.state[key]){
         toUpdate = true
         result[key] = initValue
       }
@@ -90,6 +91,7 @@ class PluginComponent extends React.Component {
     if (toUpdate) {
       this.setState(initValues)
     }
+
   }
 
   _onPluginChangeValue = () => {
@@ -102,8 +104,16 @@ class PluginComponent extends React.Component {
   }
 
   getPluginSearchQuery() {
-    console.error('method getPluginSearchQuery should be overide by plugin !')
+    console.error("method getPluginSearchQuery should be overide by plugin !")
     return null
+  }
+
+  getAttributeName(configuredAttributeName, props){
+    const attribute = get(props || this.props, `attributes[${configuredAttributeName}]`)
+    if (!attribute) {
+      return null
+    }
+    return attribute.jsonPath
   }
 
   /**
@@ -112,28 +122,16 @@ class PluginComponent extends React.Component {
    * @returns {*}
    */
   getAttributeInitValue(configuredAttributeName, props) {
-    const attribute = get(props, `attributes[${configuredAttributeName}]`)
-    if (!attribute) {
-      return null
-    }
-    const attributeName = this.getAttributeName(attribute, props)
+    const attributeName = this.getAttributeName(configuredAttributeName, props)
     return get(props, `initialValues[${attributeName}]`)
   }
 
-  getAttributeName(configuredAttributeName, props) {
-    const attribute = get(props || this.props, `attributes[${configuredAttributeName}]`)
-    if (!attribute) {
-      return null
-    }
-    return attribute.jsonPath
-  }
-
   getAttributeLabel(configuredAttributeName) {
-    return get(this.props, `attributes[${configuredAttributeName}].label`, get(this.props, `attributes[${configuredAttributeName}].name`, 'Undefined attribute'))
+    return get(this.props,`attributes[${configuredAttributeName}].label`,get(this.props,`attributes[${configuredAttributeName}].name`,'Undefined attribute'))
   }
 
   setState(state) {
-    super.setState(state, this._onPluginChangeValue)
+    super.setState(state,this._onPluginChangeValue)
   }
 }
 

@@ -159,9 +159,9 @@ class ModuleContainer extends React.Component {
             if (AttributeModelController.StandardAttributes.includes(attributeId)) {
               // Create standard attribute conf
               criteria.conf.attributes[key] = {
-                id: attributeId,
                 name: attributeId,
                 label: attributeId,
+                jsonPath: attributeId,
                 type: AttributeModelController.getStandardAttributeType(attributeId),
               }
             }

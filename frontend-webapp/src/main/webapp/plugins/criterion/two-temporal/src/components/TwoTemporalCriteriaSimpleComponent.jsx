@@ -4,7 +4,7 @@
 import { chain, keys, uniqueId, reduce } from 'lodash'
 import { FormattedMessage } from 'react-intl'
 import TemporalCriteriaComponent from './TemporalCriteriaComponent'
-import {AttributeModel,getAttributeName} from '../common/AttributeModel'
+import AttributeModel from '../common/AttributeModel'
 import EnumTemporalComparator from '../model/EnumTemporalComparator'
 import PluginComponent from '../common/PluginComponent'
 
@@ -93,13 +93,13 @@ export class TwoTemporalCriteriaSimpleComponent extends PluginComponent {
     if (operator && value) {
       switch (operator) {
         case EnumTemporalComparator.EQ :
-          openSearchQuery = `${getAttributeName(attribute)}:${value.toISOString()}`
+          openSearchQuery = `${attribute.jsonPath}:${value.toISOString()}`
           break
         case EnumTemporalComparator.LE :
-          openSearchQuery = `${getAttributeName(attribute)}:[* TO ${value.toISOString()}]`
+          openSearchQuery = `${attribute.jsonPath}:[* TO ${value.toISOString()}]`
           break
         case EnumTemporalComparator.GE :
-          openSearchQuery = `${getAttributeName(attribute)}:[${value.toISOString()} TO *]`
+          openSearchQuery = `${attribute.jsonPath}:[${value.toISOString()} TO *]`
           break
         default:
           openSearchQuery = ''

@@ -122,11 +122,7 @@ class PluginComponent extends React.Component {
    * @returns {*}
    */
   getAttributeInitValue(configuredAttributeName, props) {
-    const attribute = get(props, `attributes[${configuredAttributeName}]`)
-    if (!attribute) {
-      return null
-    }
-    const attributeName = this.getAttributeName(attribute, props)
+    const attributeName = this.getAttributeName(configuredAttributeName, props)
     return get(props, `initialValues[${attributeName}]`)
   }
 

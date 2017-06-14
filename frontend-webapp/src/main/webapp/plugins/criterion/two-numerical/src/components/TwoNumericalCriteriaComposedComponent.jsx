@@ -4,7 +4,7 @@
 import { values, forEach, isNil } from 'lodash'
 import { FormattedMessage } from 'react-intl'
 import NumericalCriteriaComponent from './NumericalCriteriaComponent'
-import { AttributeModel, getAttributeName } from '../common/AttributeModel'
+import AttributeModel from '../common/AttributeModel'
 import EnumNumericalComparator from '../model/EnumNumericalComparator'
 import PluginComponent from '../common/PluginComponent'
 import ClearButton from './ClearButton'
@@ -55,7 +55,7 @@ export class TwoNumericalCriteriaComposedComponent extends PluginComponent {
     const lvalue2 = state.value2 || '*'
     let searchQuery = ''
     if (state.value1 || state.value2) {
-      searchQuery = `${getAttributeName(attribute)}:[${lvalue1} TO ${lvalue2}]`
+      searchQuery = `${this.getAttributeName('firstField')}:[${lvalue1} TO ${lvalue2}]`
     }
     return searchQuery
   }
