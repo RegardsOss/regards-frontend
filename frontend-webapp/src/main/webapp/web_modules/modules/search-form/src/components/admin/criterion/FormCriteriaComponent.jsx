@@ -80,7 +80,7 @@ class FormCriteriaComponent extends React.Component {
    * Initialize redux-form fields
    */
   handleInitialize = () => {
-    let initializationValues = { label: 'criteria', active: true }
+    let initializationValues = { label: 'criteria', active: true, conf: {} }
     if (this.props.criteria) {
       initializationValues = { ...initializationValues, ...this.props.criteria }
     }
