@@ -35,11 +35,9 @@ export class StringCriteriaComponent extends PluginComponent {
     return `${this.getAttributeName('searchField')}:"${state.searchField}"`
   }
 
-  /**
-   * Remove " character used for openSearch query
-   * @returns {*}
-   */
-  getDisplayedValue = () => replace(this.state.searchField, /"/g, '')
+  parseOpenSearchQuery = (parameterName, openSearchQuery) => {
+    return replace(openSearchQuery, /"/g, '')
+  }
 
   /**
    * Clear the entered value
@@ -48,8 +46,7 @@ export class StringCriteriaComponent extends PluginComponent {
 
   render() {
     const attributeLabel = this.getAttributeLabel('searchField')
-    const value = this.getDisplayedValue()
-    const clearButtonDisplayed = value !== ''
+    const clearButtonDisplayed = this.state.searchField !== ''
 
     return (
       <div
@@ -70,7 +67,7 @@ export class StringCriteriaComponent extends PluginComponent {
         <TextField
           id="search"
           floatingLabelText={<FormattedMessage id="criterion.search.field.label"/>}
-          value={this.getDisplayedValue()}
+          value={this.state.searchField}
           onChange={this.handleChange}
           style={{
             top: -18,
