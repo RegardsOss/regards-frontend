@@ -33,7 +33,7 @@ describe(
         projectConnection: {
           content: {
             id: 0,
-            project: DumpProvider.getFirstEntity('AdminClient', 'Project'),
+            project: DumpProvider.getFirstEntityContent('AdminClient', 'Project'),
             microservice: 'rs-admin',
             userName: 'Alice',
             password: 'password',
@@ -63,7 +63,7 @@ describe(
           0: {
             content: {
               id: 0,
-              project: DumpProvider.getFirstEntity('AdminClient', 'Project'),
+              project: DumpProvider.getFirstEntityContent('AdminClient', 'Project'),
               microservice: 'rs-admin',
               userName: 'Alice',
               password: 'password',
@@ -76,7 +76,7 @@ describe(
           1: {
             content: {
               id: 1,
-              project: DumpProvider.getFirstEntity('AdminClient', 'Project'),
+              project: DumpProvider.getFirstEntityContent('AdminClient', 'Project'),
               microservice: 'rs-cloud',
               userName: 'Bob',
               password: 'azerty',
@@ -89,7 +89,7 @@ describe(
           2: {
             content: {
               id: 2,
-              project: DumpProvider.getFirstEntity('AdminClient', 'Project'),
+              project: DumpProvider.getFirstEntityContent('AdminClient', 'Project'),
               microservice: 'rs-dam',
               userName: 'Charlie',
               password: 'qsdfgh',
