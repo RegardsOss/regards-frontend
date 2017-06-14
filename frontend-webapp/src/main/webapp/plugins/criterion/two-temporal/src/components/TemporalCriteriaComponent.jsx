@@ -5,7 +5,7 @@ import values from 'lodash/values'
 import areIntlLocalesSupported from 'intl-locales-supported'
 import DatePicker from 'material-ui/DatePicker'
 import TimePicker from 'material-ui/TimePicker'
-import {FormattedMessage} from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import TemporalComparatorComponent from './TemporalComparatorComponent'
 import EnumTemporalComparator from '../model/EnumTemporalComparator'
 import AttributeModel from '../common/AttributeModel'
@@ -78,15 +78,9 @@ export class TemporalCriteriaComponent extends React.Component {
   static defaultProps = {
     reversed: false,
     hideAttributeName: false,
-    hideComparator: false
-  }
-
-  constructor(props) {
-    super(props)
-    this.state = {
-      value: props.value,
-      comparator: props.comparator || EnumTemporalComparator.EQ,
-    }
+    hideComparator: false,
+    value: undefined,
+    comparator: EnumTemporalComparator.EQ,
   }
 
   /**
@@ -96,19 +90,12 @@ export class TemporalCriteriaComponent extends React.Component {
    * @param {String} newValue The new value of the text field.
    */
   handleChangeDate = (event, newValue) => {
-    const {onChange} = this.props
-    const {value} = this.state
-
+    const { onChange, attribute, value, comparator } = this.props
     // Pick the time part from the time picker
     if (value) {
       newValue.setHours(value.getHours(), value.getMinutes(), value.getSeconds(), value.getMilliseconds())
     }
-
-    this.setState({
-      value: newValue,
-    }, () => {
-      onChange(this.props.attribute, this.state.value, this.state.comparator)
-    })
+    onChange(attribute, newValue, comparator)
   }
 
   /**
@@ -118,21 +105,12 @@ export class TemporalCriteriaComponent extends React.Component {
    * @param {String} newValue The new value of the text field.
    */
   handleChangeTime = (event, newValue) => {
-    const {onChange} = this.props
-    const {value} = this.state
-
+    const { onChange, attribute, value, comparator } = this.props
     // Pick the date part from the the date picker
     if (value) {
       newValue.setFullYear(value.getFullYear(), value.getMonth(), value.getDate())
     }
-
-    this.setState({
-        value: newValue,
-      }, () => {
-        onChange(this.props.attribute, this.state.value, this.state.comparator)
-      }
-    )
-
+    onChange(attribute, newValue, comparator)
   }
 
   /**
@@ -141,23 +119,20 @@ export class TemporalCriteriaComponent extends React.Component {
    * @param {String} comparator
    */
   handleChangeComparator = (comparator) => {
-    const {attribute, onChange} = this.props
-    const {value} = this.state
-    this.setState({
-      comparator,
-    }, () => {
-      onChange(this.props.attribute, this.state.value, this.state.comparator)
-    })
+    const { attribute, onChange, value } = this.props
+    onChange(attribute, value, comparator)
   }
 
   render() {
-    const {attribute, reversed, hideAttributeName, hideComparator} = this.props
-    const {value, comparator} = this.state
+    const { attribute, value, comparator, reversed, hideAttributeName, hideComparator } = this.props
 
     // Store the content in an array because we need to maybe reverse to order
     const content = []
     if (!hideAttributeName) {
-      content.push(<span key="attributeName" style={{margin: '0px 10px',fontSize: '1.3em'}}>{attribute.label || attribute.name}</span>)
+      content.push(<span key="attributeName" style={{
+        margin: '0px 10px',
+        fontSize: '1.3em',
+      }}>{attribute.label || attribute.name}</span>)
     }
     if (!hideComparator) {
       content.push(
@@ -166,6 +141,7 @@ export class TemporalCriteriaComponent extends React.Component {
     }
     content.push([
       <DatePicker
+        key={`${attribute.name}.date`}
         value={value}
         onChange={this.handleChangeDate}
         DateTimeFormat={DateTimeFormat}
@@ -183,6 +159,7 @@ export class TemporalCriteriaComponent extends React.Component {
         }}
       />,
       <TimePicker
+        key={`${attribute.name}.time`}
         value={value}
         onChange={this.handleChangeTime}
         format="24hr"
