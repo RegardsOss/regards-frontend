@@ -108,6 +108,14 @@ class PluginComponent extends React.Component {
     return null
   }
 
+  getAttributeName(configuredAttributeName, props){
+    const attribute = get(props || this.props, `attributes[${configuredAttributeName}]`)
+    if (!attribute) {
+      return null
+    }
+    return attribute.jsonPath
+  }
+
   /**
    * Return the initial value of the configured attribute as it is given from the search-form manager.
    * @param attributeName
@@ -118,16 +126,8 @@ class PluginComponent extends React.Component {
     if (!attribute) {
       return null
     }
-    const attributeName = getAttributeName(attribute, props)
+    const attributeName = this.getAttributeName(attribute, props)
     return get(props, `initialValues[${attributeName}]`)
-  }
-
-  getAttributeName(configuredAttributeName, props){
-    const attribute = get(props || this.props, `attributes[${configuredAttributeName}]`)
-    if (!attribute) {
-      return null
-    }
-    return attribute.jsonPath
   }
 
   getAttributeLabel(configuredAttributeName) {
