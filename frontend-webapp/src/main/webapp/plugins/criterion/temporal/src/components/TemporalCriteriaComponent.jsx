@@ -3,13 +3,14 @@
  **/
 import areIntlLocalesSupported from 'intl-locales-supported'
 import DatePicker from 'material-ui/DatePicker'
+import IconButton from 'material-ui/IconButton'
 import TimePicker from 'material-ui/TimePicker'
+import Clear from 'material-ui/svg-icons/content/clear'
 import { FormattedMessage } from 'react-intl'
 import TemporalComparatorComponent from './TemporalComparatorComponent'
 import {AttributeModel,getAttributeName} from '../common/AttributeModel'
 import EnumTemporalComparator from '../model/EnumTemporalComparator'
 import PluginComponent from '../common/PluginComponent'
-
 
 let DateTimeFormat
 
@@ -90,6 +91,15 @@ export class TemporalCriteriaComponent extends PluginComponent {
     }, this._onPluginChangeValue)
   }
 
+  /**
+   * Clear the entered date & time values
+   */
+  handleClear = () => {
+    this.setState({
+      value: undefined,
+    }, this._onPluginChangeValue)
+  }
+
   getPluginSearchQuery = (state) => {
     let query = ''
     const attribute = getAttributeName(this.props.attributes.searchField)
@@ -119,6 +129,7 @@ export class TemporalCriteriaComponent extends PluginComponent {
   render() {
     const attributeLabel = this.getAttributeLabel('searchField')
     const { value, comparator } = this.state
+    const iconButtonScale = value !== undefined ? 1 : 0
 
     return (
       <div
@@ -167,6 +178,12 @@ export class TemporalCriteriaComponent extends PluginComponent {
             top: -13,
           }}
         />
+        <IconButton
+          tooltip={<FormattedMessage id="criterion.clear" />}
+          style={{transform:`scale(${iconButtonScale})`}}
+        >
+          <Clear onTouchTap={this.handleClear}/>
+        </IconButton>
       </div>
     )
   }

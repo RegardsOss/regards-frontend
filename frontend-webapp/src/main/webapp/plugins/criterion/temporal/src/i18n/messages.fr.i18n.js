@@ -13,6 +13,7 @@ const messages = {
   'criterion.time.field.label': 'Heure',
   'criterion.time.picker.ok': 'Ok',
   'criterion.time.picker.cancel': 'Annuler',
+  'criterion.clear': 'Vider',
 }
 
 export default messages

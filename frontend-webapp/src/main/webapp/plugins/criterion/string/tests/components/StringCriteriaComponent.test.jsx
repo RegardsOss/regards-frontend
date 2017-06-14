@@ -25,8 +25,7 @@ describe('[PLUGIN STRING CRITERIA] Testing the string criteria component', () =>
           type: 'string',
         },
       },
-      pluginInstanceId: 42,
-      onChange: () => {
+      getDefaultState: () => {
       },
     }
     const enzymeWrapper = shallow(<StringCriteriaComponent {...props} />)
