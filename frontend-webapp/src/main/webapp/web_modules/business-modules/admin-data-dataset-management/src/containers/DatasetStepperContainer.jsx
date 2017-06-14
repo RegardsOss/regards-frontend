@@ -43,35 +43,6 @@ export class DatasetStepperContainer extends React.Component {
     ...i18nContextType,
   }
 
-  isDisabled = (stepId) => {
-    // Do not disable any StepLabel while editing dataset
-    if (this.props.isEditing) {
-      return false
-    }
-    // Otherwise provides the default behaviour
-    return stepId > this.props.stepIndex
-  }
-
-  handlePluginsClick = () => {
-    const url = `/admin/${this.props.projectName}/data/dataset/${this.props.currentDatasetId}/${this.props.currentDatasetIpId}/plugins`
-    browserHistory.push(url)
-  }
-
-  handleAttributes = () => {
-    const url = `/admin/${this.props.projectName}/data/dataset/${this.props.currentDatasetId}/edit`
-    browserHistory.push(url)
-  }
-
-  handleLinksClick = () => {
-    const url = `/admin/${this.props.projectName}/data/dataset/${this.props.currentDatasetId}/links`
-    browserHistory.push(url)
-  }
-
-  handleUIServicesClick = () => {
-    const url = `/admin/${this.props.projectName}/data/dataset/${this.props.currentDatasetId}/${this.props.currentDatasetIpId}/ui-services`
-    browserHistory.push(url)
-  }
-
   getPluginsStep = () => {
     const text = (<FormattedMessage id="dataset.stepper.attributes" />)
     if (!this.isDisabled(STEPS_ID.PLUGINS) && this.props.stepIndex !== STEPS_ID.PLUGINS) {
@@ -87,7 +58,7 @@ export class DatasetStepperContainer extends React.Component {
     if (!this.isDisabled(STEPS_ID.ATTRIBUTES)
       && this.props.stepIndex !== STEPS_ID.ATTRIBUTES
       && this.props.stepIndex !== STEPS_ID.SUBSETTING) {
-      return (<StepButton onClick={this.handleAttributes}>
+      return (<StepButton onClick={this.handleAttributesClick}>
         {text}
       </StepButton>)
     }
@@ -113,6 +84,35 @@ export class DatasetStepperContainer extends React.Component {
       </StepButton>)
     }
     return text
+  }
+
+  handlePluginsClick = () => {
+    const url = `/admin/${this.props.projectName}/data/dataset/${this.props.currentDatasetId}/${this.props.currentDatasetIpId}/plugins`
+    browserHistory.push(url)
+  }
+
+  handleAttributesClick = () => {
+    const url = `/admin/${this.props.projectName}/data/dataset/${this.props.currentDatasetId}/edit`
+    browserHistory.push(url)
+  }
+
+  handleLinksClick = () => {
+    const url = `/admin/${this.props.projectName}/data/dataset/${this.props.currentDatasetId}/links`
+    browserHistory.push(url)
+  }
+
+  handleUIServicesClick = () => {
+    const url = `/admin/${this.props.projectName}/data/dataset/${this.props.currentDatasetId}/${this.props.currentDatasetIpId}/ui-services`
+    browserHistory.push(url)
+  }
+
+  isDisabled = (stepId) => {
+    // Do not disable any StepLabel while editing dataset
+    if (this.props.isEditing) {
+      return false
+    }
+    // Otherwise provides the default behaviour
+    return stepId > this.props.stepIndex
   }
 
   render() {

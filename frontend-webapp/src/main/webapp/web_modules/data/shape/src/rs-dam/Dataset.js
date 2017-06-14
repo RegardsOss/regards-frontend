@@ -1,4 +1,4 @@
-import { PluginConfiguration } from '../rs-common/Plugin/PluginConfiguration'
+import { PluginConfigurationContent } from '../rs-common/Plugin/PluginConfiguration'
 
 const DatasetContent = PropTypes.shape({
   id: PropTypes.number.isRequired,
@@ -9,7 +9,7 @@ const DatasetContent = PropTypes.shape({
     id: PropTypes.number,
   }).isRequired,
   dataModel: PropTypes.number.isRequired,
-  plgConfDataSource: PluginConfiguration,
+  plgConfDataSource: PluginConfigurationContent,
 })
 
 const Dataset = PropTypes.shape({

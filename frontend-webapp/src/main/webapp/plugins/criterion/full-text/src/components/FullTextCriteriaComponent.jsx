@@ -25,9 +25,7 @@ class FullTextCriteriaComponent extends PluginComponent {
   }
 
   changeValue = (value) => {
-    this.setState({
-      value,
-    }, this._onPluginChangeValue)
+    this.setState({value})
   }
 
   getPluginSearchQuery = (state) => {

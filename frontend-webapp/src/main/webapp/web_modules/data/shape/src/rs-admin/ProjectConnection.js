@@ -1,7 +1,7 @@
 /*
  * LICENSE_PLACEHOLDER
  */
-import Project from './Project'
+import { ProjectContent } from './Project'
 
 /**
  * Entity description for ProjectConnection. A ProjectConnection is the database configuration
@@ -12,7 +12,7 @@ import Project from './Project'
 const ProjectConnection = PropTypes.shape({
   content: PropTypes.shape({
     id: PropTypes.number,
-    project: Project,
+    project: ProjectContent,
     microservice: PropTypes.string,
     userName: PropTypes.string,
     password: PropTypes.string,

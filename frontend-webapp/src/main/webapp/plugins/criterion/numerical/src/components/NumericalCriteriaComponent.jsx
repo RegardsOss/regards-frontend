@@ -2,16 +2,15 @@
  * LICENSE_PLACEHOLDER
  **/
 import React from 'react'
-import {FormattedMessage} from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import TextField from 'material-ui/TextField'
-import IconButton from 'material-ui/IconButton'
-import Clear from 'material-ui/svg-icons/content/clear'
 import NumericalComparatorComponent from './NumericalComparatorComponent'
-import {AttributeModel, getAttributeName} from '../common/AttributeModel'
+import ClearButton from './ClearButton'
 import PluginComponent from '../common/PluginComponent'
+import AttributeModel from '../common/AttributeModel'
 
 /**
- * TODO
+ * Search form criteria plugin displaying a simple number field
  *
  * @author Xavier-Alexandre Brochard
  */
@@ -26,12 +25,9 @@ export class NumericalCriteriaComponent extends PluginComponent {
     attributes: React.PropTypes.objectOf(AttributeModel),
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      value: '',
-      comparator: 'EQ',
-    }
+  state = {
+    value: undefined,
+    comparator: 'EQ',
   }
 
   /**
@@ -42,41 +38,39 @@ export class NumericalCriteriaComponent extends PluginComponent {
    */
   handleChangeValue = (event, newValue) => {
     const value = this.parse(newValue)
-    this.setState({value},this._onPluginChangeValue)
+    this.setState({ value })
   }
 
   handleChangeComparator = (comparator) => {
-    this.setState({comparator},this._onPluginChangeValue)
+    this.setState({ comparator })
   }
 
   /**
    * Clear the entered value
    */
   handleClear = () => {
-    this.setState({
-      value: '',
-    }, this._onPluginChangeValue)
+    this.setState({ value: undefined })
   }
 
   getPluginSearchQuery = (state) => {
     let query = ''
     if (state.value && state.comparator) {
-      const attribute = getAttributeName(this.props.attributes.searchField)
+      const attribute = this.getAttributeName('searchField')
       switch (state.comparator) {
-        case "EQ":
+        case 'EQ':
           query = `${attribute}:${state.value}`
           break
-        case "GE" :
+        case 'GE' :
           query = `${attribute}:[${state.value} TO *]`
           break
-        case "LE" :
+        case 'LE' :
           query = `${attribute}:[* TO ${state.value}]`
           break
-        case "NE" :
+        case 'NE' :
           query = `${attribute}:!${state.value}`
           break
         default :
-          console.error("Unavailable comparator")
+          console.error('Unavailable comparator')
       }
     }
 
@@ -98,9 +92,9 @@ export class NumericalCriteriaComponent extends PluginComponent {
   format = value => !isNaN(value) ? value : ''
 
   render() {
-    const attributeLabel = this.props.attributes.searchField.label || this.props.attributes.searchField.name || this.props.attributes.searchField.id || 'Undefined attribute'
+    const attributeLabel = this.getAttributeLabel('searchField')
     const { value } = this.state
-    const iconButtonScale = value === null || value === '' ? 0 : 1
+    const clearButtonDisplayed = !isNaN(value)
 
     return (
       <div
@@ -113,7 +107,7 @@ export class NumericalCriteriaComponent extends PluginComponent {
         <span
           style={{
             margin: '0px 10px',
-            fontSize: '1.3em'
+            fontSize: '1.3em',
           }}
         >
           {attributeLabel}
@@ -131,12 +125,7 @@ export class NumericalCriteriaComponent extends PluginComponent {
             margin: '0px 10px',
           }}
         />
-        <IconButton
-          tooltip={<FormattedMessage id="criterion.clear" />}
-          style={{transform:`scale(${iconButtonScale})`}}
-        >
-          <Clear onTouchTap={this.handleClear}/>
-        </IconButton>
+        <ClearButton onTouchTap={this.handleClear} displayed={clearButtonDisplayed}/>
       </div>
     )
   }

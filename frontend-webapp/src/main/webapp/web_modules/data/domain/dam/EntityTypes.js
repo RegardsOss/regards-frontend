@@ -16,6 +16,9 @@ const ENTITY_TYPES_ENUM = {
   DATA: 'DATA',
 }
 
+/**
+ * Return an array of Entity types
+ */
 const ENTITY_TYPES = values(ENTITY_TYPES_ENUM)
 
 

@@ -1,4 +1,4 @@
-export const FragmentContent = PropTypes.shape({
+const FragmentContent = PropTypes.shape({
   id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   description: PropTypes.string,
