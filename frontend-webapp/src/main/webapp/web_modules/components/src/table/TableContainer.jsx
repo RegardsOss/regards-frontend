@@ -120,7 +120,7 @@ class TableContainer extends React.Component {
     allSelected: false,
   }
 
-  static MAX_NB_ENTITIES = 10000
+  static MAX_NB_ENTITIES = STATIC_CONF.CATALOG_MAX_NUMBER_OF_ENTITIES || 10000
 
   constructor(props) {
     super(props)
