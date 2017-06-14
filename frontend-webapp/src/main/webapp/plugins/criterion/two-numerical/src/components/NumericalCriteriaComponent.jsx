@@ -64,7 +64,7 @@ export class NumericalCriteriaComponent extends React.Component {
     hideAttributeName: false,
     fixedComparator: false,
     hideComparator: false,
-    value: '',
+    value: undefined,
     comparator: EnumNumericalComparator.EQ
   }
 

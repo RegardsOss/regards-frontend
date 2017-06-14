@@ -33,18 +33,17 @@ class BasicPageableActions extends BasicListActions {
   getRequestEndpoint(pageNumber, size, pathParams, queryParams) {
     let endpoint = this.handleRequestQueryParams(this.entityEndpoint, queryParams)
     endpoint = this.handleRequestPathParameters(endpoint, pathParams)
-    if (isInteger(pageNumber) && isInteger(size)) {
-      endpoint = this.handleRequestQueryParams(endpoint, {
-        page: pageNumber || 0,
-        size: size || 1000,
-      })
-    }
 
     // force paging return value in development mode
     if (process.env.NODE_ENV === 'development') {
       endpoint = this.handleRequestQueryParams(endpoint, {
         offset: 0,
         size: 10000,
+      })
+    } else if (isInteger(pageNumber) && isInteger(size)) {
+      endpoint = this.handleRequestQueryParams(endpoint, {
+        page: pageNumber || 0,
+        size: size || 1000,
       })
     }
 

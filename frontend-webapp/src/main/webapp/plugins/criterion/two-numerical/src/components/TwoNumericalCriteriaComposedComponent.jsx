@@ -89,7 +89,7 @@ export class TwoNumericalCriteriaComposedComponent extends PluginComponent {
           <NumericalCriteriaComponent
             attribute={attribute}
             onChange={this.changeValue1}
-            value={this.state.value1}
+            value={value1}
             comparator={EnumNumericalComparator.LE}
             hideAttributeName
             hideComparator
@@ -100,7 +100,7 @@ export class TwoNumericalCriteriaComposedComponent extends PluginComponent {
           <NumericalCriteriaComponent
             attribute={attribute}
             onChange={this.changeValue2}
-            value={this.state.value2}
+            value={value2}
             comparator={EnumNumericalComparator.LE}
             hideAttributeName
             hideComparator
