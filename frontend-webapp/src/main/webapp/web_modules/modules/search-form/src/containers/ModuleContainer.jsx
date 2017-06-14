@@ -281,12 +281,12 @@ class ModuleContainer extends React.Component {
   }
 
   getInitialValues = () => {
-    const query = replace(this.state.searchQuery,/ AND /g,' ')
-    const values =query.split(/[^ ]*:/g)
+    const query = replace(this.state.searchQuery, / AND /g, ' ')
+    const values = query.split(/[^ ]*:/g)
     const keys = query.match(/[^ ]*:/g)
     const initialValues = {}
     if (keys && keys.length > 0) {
-      forEach(keys, (key, index) => initialValues[replace(key,':','')] = values[index+1])
+      forEach(keys, (key, index) => initialValues[replace(key, ':', '')] = values[index + 1])
     }
     return initialValues
   }
