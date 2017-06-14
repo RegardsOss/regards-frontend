@@ -74,6 +74,14 @@ class DumpProvider {
     const entityListResult = this.get(microserviceName, entityName)
     return keys(entityListResult)[0]
   }
+
+  getFirstEntityContent(microserviceName, entityName) {
+    const entityResult = this.getFirstEntity(microserviceName, entityName)
+    if (!entityResult.content) {
+      throw new Error("DumpProvider doesn't have an entity to return, so it can't return the content")
+    }
+    return entityResult.content
+  }
 }
 
 const instance = new DumpProvider()
