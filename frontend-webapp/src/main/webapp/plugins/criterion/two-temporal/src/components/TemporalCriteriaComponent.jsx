@@ -39,8 +39,8 @@ export class TemporalCriteriaComponent extends React.Component {
     /**
      * Callback to change the current criteria values in form
      * Parameters :
-     * criteria : an object like : {attribute:<AttributeModel>, comparator:<ComparatorEnumType>, value:<value>}
-     * id: current plugin identifier
+     * value: The value of the field as a Date
+     * comparator: EnumTemporalComparator
      */
     onChange: React.PropTypes.func,
     /**

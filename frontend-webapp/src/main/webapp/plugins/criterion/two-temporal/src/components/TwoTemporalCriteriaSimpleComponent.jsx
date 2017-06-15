@@ -139,7 +139,6 @@ export class TwoTemporalCriteriaSimpleComponent extends PluginComponent {
           }}
         >
           <TemporalCriteriaComponent
-            key={'firstField'}
             label={'firstField'}
             comparator={operator1}
             value={firstField}
@@ -147,7 +146,6 @@ export class TwoTemporalCriteriaSimpleComponent extends PluginComponent {
           />
           <FormattedMessage id="criterion.aggregator.and"/>
           <TemporalCriteriaComponent
-            key={'secondField'}
             label={'secondField'}
             comparator={operator2}
             value={secondField}
