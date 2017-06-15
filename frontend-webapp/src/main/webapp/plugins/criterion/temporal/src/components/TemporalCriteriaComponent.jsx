@@ -114,7 +114,6 @@ export class TemporalCriteriaComponent extends PluginComponent {
   }
 
   parseOpenSearchQuery = (parameterName, openSearchQuery) => {
-    console.log('TemporalCriteriaComponent::parseOpenSearchQuery')
     const values = openSearchQuery.match(/\[[ ]{0,1}([^ ]*) TO ([^ ]*)[ ]{0,1}\]/)
     if (values.length === 3) {
       if (values[1] === '*') {
@@ -130,7 +129,6 @@ export class TemporalCriteriaComponent extends PluginComponent {
   }
 
   render() {
-    console.log('TemporalCriteriaComponent::render')
     const attributeLabel = this.getAttributeLabel('searchField')
     const { searchField, comparator } = this.state
     const clearButtonDisplayed = searchField !== undefined
