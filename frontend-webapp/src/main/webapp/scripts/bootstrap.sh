@@ -38,6 +38,7 @@ npm link web_modules/utils/layout
 npm link web_modules/components
 
 # Common business components
+npm link web_modules/business-common/admin-data-entities-attributes-management
 npm link web_modules/business-common/attributes-common
 npm link web_modules/business-common/entities-common
 npm link web_modules/business-common/user-metadata-common

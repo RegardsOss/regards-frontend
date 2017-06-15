@@ -43,7 +43,7 @@ export class ModuleContainer extends React.Component {
 
     this.state = {
       attributesFetching: true,
-      facettesQuery: facettes && facettes.length > 0 ? `facets[]=${join(facettes, ',')}` : null,
+      facettesQuery: facettes && facettes.length > 0 ? `facets=${join(facettes, ',')}` : null,
     }
   }
 

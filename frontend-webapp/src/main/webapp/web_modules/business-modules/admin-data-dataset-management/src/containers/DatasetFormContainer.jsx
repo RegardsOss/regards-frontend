@@ -5,7 +5,7 @@ import { browserHistory } from 'react-router'
 import cloneDeep from 'lodash/cloneDeep'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
-import { Dataset } from '@regardsoss/model'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { getAbstractEntityDescription } from '@regardsoss/domain/dam'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { datasetSelectors, datasetActions } from './../clients/DatasetClient'
@@ -29,7 +29,7 @@ export class DatasetFormContainer extends React.Component {
       datasourceId: PropTypes.string,
     }),
     // from mapStateToProps
-    currentDataset: Dataset,
+    currentDataset: DataManagementShapes.Dataset,
     // from mapDispatchToProps
     createDataset: PropTypes.func,
     updateDataset: PropTypes.func,

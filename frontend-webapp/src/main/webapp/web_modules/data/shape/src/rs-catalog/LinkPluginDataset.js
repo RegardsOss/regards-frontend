@@ -10,5 +10,6 @@ const LinkPluginDataset = PropTypes.shape({
     services: PropTypes.arrayOf(PluginConfigurationContent).isRequired,
   }).isRequired,
 })
+const LinkPluginDatasetList = PropTypes.objectOf(LinkPluginDataset)
 
-export default LinkPluginDataset
+export default { LinkPluginDataset, LinkPluginDatasetList }

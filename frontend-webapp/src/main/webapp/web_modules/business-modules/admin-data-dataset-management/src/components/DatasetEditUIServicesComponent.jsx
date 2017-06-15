@@ -12,7 +12,7 @@ import some from 'lodash/some'
 import pull from 'lodash/pull'
 import cloneDeep from 'lodash/cloneDeep'
 import Checkbox from 'material-ui/Checkbox'
-import { PluginDefinition as UIPluginDefinition, PluginConf as UIPluginConfiguration, LinkUIPluginDataset } from '@regardsoss/model'
+import { AccessShapes } from '@regardsoss/shape'
 import DatasetStepperContainer from '../containers/DatasetStepperContainer'
 
 /**
@@ -22,11 +22,9 @@ export class DatasetEditUIServicesComponent extends React.Component {
 
   static propTypes = {
     backUrl: PropTypes.string.isRequired,
-    uiPluginConfigurationList: PropTypes.objectOf(PropTypes.shape({
-      content: UIPluginConfiguration,
-    })),
-    uiPluginDefinitionList: PropTypes.objectOf(UIPluginDefinition),
-    linkUIPluginDataset: LinkUIPluginDataset,
+    uiPluginConfigurationList: AccessShapes.UIPluginConfList,
+    uiPluginDefinitionList: AccessShapes.UIPluginDefinitionList,
+    linkUIPluginDataset: AccessShapes.LinkUIPluginDataset,
     handleSubmit: PropTypes.func.isRequired,
     currentDatasetIpId: PropTypes.string.isRequired,
     currentDatasetId: PropTypes.string.isRequired,

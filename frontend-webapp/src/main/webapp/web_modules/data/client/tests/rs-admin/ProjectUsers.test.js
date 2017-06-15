@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { ReduxEntityTester } from '@regardsoss/tests-helpers'
-import { ProjectUser } from '@regardsoss/model'
+import { AdminShapes } from '@regardsoss/shape'
 
 import ProjectUserActions from '../../src/rs-admin/user/ProjectUserActions'
 import getProjectUserReducer from '../../src/rs-admin/user/ProjectUserReducer'
@@ -17,7 +17,7 @@ const projectUserActions = new ProjectUserActions('test/action')
 const projectUserReducer = getProjectUserReducer('test/action')
 const projectUserSelectors = getProjectUserSelectors(['test', 'modules'])
 
-const entityTester = new ReduxEntityTester(projectUserActions, projectUserReducer, projectUserSelectors, PropTypes.objectOf(ProjectUser).isRequired, ProjectUserDump, options)
+const entityTester = new ReduxEntityTester(projectUserActions, projectUserReducer, projectUserSelectors, AdminShapes.ProjectUserList.isRequired, ProjectUserDump, options)
 
 describe('[ADMIN CLIENT] Testing client projectUser', () => {
   before(() => {

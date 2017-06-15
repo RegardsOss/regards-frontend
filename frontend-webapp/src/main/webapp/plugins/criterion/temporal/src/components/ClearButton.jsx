@@ -12,10 +12,10 @@ import { FormattedMessage } from 'react-intl'
  */
 const ClearButton = ({ onTouchTap, displayed }) => (
   <IconButton
-    tooltip={<FormattedMessage id="criterion.clear" />}
+    tooltip={<FormattedMessage id="criterion.clear"/>}
     style={{ transform: `scale(${displayed ? 1 : 0})` }}
   >
-    <Clear onTouchTap={onTouchTap} />
+    <Clear onTouchTap={onTouchTap}/>
   </IconButton>
 )
 

@@ -8,7 +8,7 @@ import remove from 'lodash/remove'
 import some from 'lodash/some'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { FormattedMessage } from 'react-intl'
-import { PluginConfiguration, PluginMetaData, LinkPluginDataset } from '@regardsoss/model'
+import { CatalogShapes, CommonShapes } from '@regardsoss/shape'
 import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -24,9 +24,9 @@ import DatasetStepperContainer from '../containers/DatasetStepperContainer'
 export class DatasetEditPluginComponent extends React.Component {
 
   static propTypes = {
-    linkPluginDataset: LinkPluginDataset.isRequired,
-    pluginConfigurationList: PropTypes.objectOf(PluginConfiguration),
-    pluginMetaDataList: PropTypes.objectOf(PluginMetaData),
+    linkPluginDataset: CatalogShapes.LinkPluginDataset.isRequired,
+    pluginConfigurationList: CommonShapes.PluginConfigurationList,
+    pluginMetaDataList: CommonShapes.PluginMetaDataList,
     onSubmit: PropTypes.func.isRequired,
     backUrl: PropTypes.string.isRequired,
     currentDatasetIpId: PropTypes.string.isRequired,

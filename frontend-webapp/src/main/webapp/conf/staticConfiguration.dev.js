@@ -30,6 +30,8 @@ STATIC_CONF = {
     ACCESS_INSTANCE: 'rs-access-instance',
   },
   // Default driver used to create a project connection (see module admin-database-management)
-  projectConnectionDriver: 'org.postgresql.Driver'
+  projectConnectionDriver: 'org.postgresql.Driver',
+  // Maximum number of entities retrieved by catalog service
+  CATALOG_MAX_NUMBER_OF_ENTITIES: 10000
 }
 

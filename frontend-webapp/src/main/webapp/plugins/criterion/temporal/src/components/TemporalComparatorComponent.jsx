@@ -2,12 +2,12 @@
  * LICENSE_PLACEHOLDER
  **/
 import map from 'lodash/map'
+import values from 'lodash/values'
 import IconMenu from 'material-ui/IconMenu'
 import MenuItem from 'material-ui/MenuItem'
 import IconButton from 'material-ui/IconButton'
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
 import RaisedButton from 'material-ui/RaisedButton'
-import { FormattedMessage } from 'react-intl'
 import EnumTemporalComparator from '../model/EnumTemporalComparator'
 
 /**
@@ -26,21 +26,14 @@ export class TemporalComparatorComponent extends React.Component {
     /**
      * Optionally init with a specific value
      */
-    value: React.PropTypes.oneOf(map(EnumTemporalComparator,value => value)),
+    value: React.PropTypes.oneOf(values(EnumTemporalComparator)),
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      openMenu: false,
-      value: props.value || EnumTemporalComparator[0],
-    }
+  state = {
+    openMenu: false,
   }
 
   handleChange = (event, value) => {
-    this.setState({
-      value,
-    })
     this.props.onChange(value)
   }
 
@@ -57,26 +50,29 @@ export class TemporalComparatorComponent extends React.Component {
   }
 
   render() {
+    const { value } = this.props
+    const { openMenu } = this.state
+
     return (
       <div>
         <RaisedButton
-          label={this.state.value}
+          label={value}
           onTouchTap={this.handleOpenMenu}
         />
         <IconMenu
           iconButtonElement={<IconButton style={{ display: 'none' }}><MoreVertIcon /></IconButton>}
-          open={this.state.openMenu}
+          open={openMenu}
           onChange={this.handleChange}
           onRequestChange={this.handleOnRequestChange}
-          value={this.state.value}
+          value={value}
         >
-          {map(EnumTemporalComparator, value => (
+          {map(EnumTemporalComparator, comparator => (
             <MenuItem
               style={{
                 display: 'flex',
                 textTransform: 'uppercase',
                 justifyContent: 'center',
-              }} key={value} primaryText={value} value={value}
+              }} key={comparator} primaryText={comparator} value={comparator}
             />
           ))}
         </IconMenu>

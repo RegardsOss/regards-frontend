@@ -3,6 +3,7 @@
  **/
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
+import { spy } from 'sinon'
 import TwoTemporalCriteriaSimpleComponent from '../../src/components/TwoTemporalCriteriaSimpleComponent'
 import TemporalCriteriaComponent from '../../src/components/TemporalCriteriaComponent'
 
@@ -30,8 +31,9 @@ describe('[PLUGIN TWO TEMPORAL CRITERIA SIMPLE] Testing the two temporal criteri
           type: 'temporal',
         },
       },
-      getDefaultState: () => {
-      },
+      getDefaultState: spy(),
+      savePluginState: spy(),
+      onChange: spy(),
     }
     const enzymeWrapper = shallow(<TwoTemporalCriteriaSimpleComponent {...props} />)
     expect(enzymeWrapper.find(TemporalCriteriaComponent)).to.have.length(2)

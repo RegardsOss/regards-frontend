@@ -3,14 +3,13 @@
  **/
 import areIntlLocalesSupported from 'intl-locales-supported'
 import DatePicker from 'material-ui/DatePicker'
-import IconButton from 'material-ui/IconButton'
 import TimePicker from 'material-ui/TimePicker'
-import Clear from 'material-ui/svg-icons/content/clear'
 import { FormattedMessage } from 'react-intl'
 import TemporalComparatorComponent from './TemporalComparatorComponent'
+import ClearButton from './ClearButton'
 import AttributeModel from '../common/AttributeModel'
-import EnumTemporalComparator from '../model/EnumTemporalComparator'
 import PluginComponent from '../common/PluginComponent'
+import EnumTemporalComparator from '../model/EnumTemporalComparator'
 
 let DateTimeFormat
 
@@ -42,12 +41,9 @@ export class TemporalCriteriaComponent extends PluginComponent {
     attributes: React.PropTypes.objectOf(AttributeModel),
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      value: undefined,
-      comparator: EnumTemporalComparator.IS,
-    }
+  state = {
+    searchField: undefined,
+    comparator: EnumTemporalComparator.IS,
   }
 
   /**
@@ -57,12 +53,12 @@ export class TemporalCriteriaComponent extends PluginComponent {
    * @param {String} newValue The new value of the text field.
    */
   handleChangeDate = (event, newValue) => {
-    const { value } = this.state
+    const { searchField } = this.state
     // Pick the time part from the time picker
-    if (value) {
-      newValue.setHours(value.getHours(), value.getMinutes(), value.getSeconds(), value.getMilliseconds())
+    if (searchField) {
+      newValue.setHours(searchField.getHours(), searchField.getMinutes(), searchField.getSeconds(), searchField.getMilliseconds())
     }
-    this.setState({ value: newValue })
+    this.setState({ searchField: newValue })
   }
 
   /**
@@ -72,12 +68,12 @@ export class TemporalCriteriaComponent extends PluginComponent {
    * @param {String} newValue The new value of the text field.
    */
   handleChangeTime = (event, newValue) => {
-    const { value } = this.state
+    const { searchField } = this.state
     // Pick the date part from the the date picker
-    if (value) {
-      newValue.setFullYear(value.getFullYear(), value.getMonth(), value.getDate())
+    if (searchField) {
+      newValue.setFullYear(searchField.getFullYear(), searchField.getMonth(), searchField.getDate())
     }
-    this.setState({ value: newValue })
+    this.setState({ searchField: newValue })
   }
 
   /**
@@ -85,51 +81,57 @@ export class TemporalCriteriaComponent extends PluginComponent {
    *
    * @param {String} comparator
    */
-  handleChangeComparator = (comparator) => {
-    this.setState({
-      comparator,
-    }, this._onPluginChangeValue)
-  }
+  handleChangeComparator = comparator => this.setState({ comparator })
 
   /**
    * Clear the entered date & time values
    */
-  handleClear = () => {
-    this.setState({
-      value: undefined,
-    }, this._onPluginChangeValue)
-  }
+  handleClear = () => this.setState({ searchField: undefined })
 
   getPluginSearchQuery = (state) => {
     let query = ''
     const attribute = this.getAttributeName('searchField')
-    if (state.value && state.comparator) {
+    if (state.searchField && state.comparator) {
       switch (state.comparator) {
         case EnumTemporalComparator.BEFORE:
-          query = `${attribute}:[* TO ${state.value.toISOString()}]`
+          query = `${attribute}:[* TO ${state.searchField.toISOString()}]`
           break
         case EnumTemporalComparator.AFTER :
-          query = `${attribute}:[${state.value.toISOString()} TO *]`
+          query = `${attribute}:[${state.searchField.toISOString()} TO *]`
           break
         case EnumTemporalComparator.IS :
-          query = `${attribute}:${state.value.toISOString()}`
+          query = `${attribute}:${state.searchField.toISOString()}`
           break
         case EnumTemporalComparator.NOT :
-          query = `${attribute}:!${state.value.toISOString()}`
+          query = `${attribute}:!${state.searchField.toISOString()}`
           break
         default :
-          console.error("Unavailable comparator")
+          console.error('Unavailable comparator')
       }
     }
 
     return query
+  }
 
+  parseOpenSearchQuery = (parameterName, openSearchQuery) => {
+    const values = openSearchQuery.match(/\[[ ]{0,1}([^ ]*) TO ([^ ]*)[ ]{0,1}\]/)
+    if (values.length === 3) {
+      if (values[1] === '*') {
+        this.setState({ comparator: EnumTemporalComparator.BEFORE })
+        return new Date(values[2])
+      }
+      if (values[2] === '*') {
+        this.setState({ comparator: EnumTemporalComparator.AFTER })
+        return new Date(values[1])
+      }
+    }
+    return undefined
   }
 
   render() {
     const attributeLabel = this.getAttributeLabel('searchField')
-    const { value, comparator } = this.state
-    const iconButtonScale = value !== undefined ? 1 : 0
+    const { searchField, comparator } = this.state
+    const clearButtonDisplayed = searchField !== undefined
 
     return (
       <div
@@ -142,21 +144,21 @@ export class TemporalCriteriaComponent extends PluginComponent {
         <span
           style={{
             margin: '0px 10px',
-            fontSize: '1.3em'
+            fontSize: '1.3em',
           }}
         >
           {attributeLabel}
         </span>
-        <TemporalComparatorComponent onChange={this.handleChangeComparator} value={comparator} />
+        <TemporalComparatorComponent onChange={this.handleChangeComparator} value={comparator}/>
         <DatePicker
-          value={value}
+          value={searchField}
           onChange={this.handleChangeDate}
           DateTimeFormat={DateTimeFormat}
           locale="fr"
-          hintText={<FormattedMessage id="criterion.date.field.label" />}
-          floatingLabelText={<FormattedMessage id="criterion.date.field.label" />}
-          okLabel={<FormattedMessage id="criterion.date.picker.ok" />}
-          cancelLabel={<FormattedMessage id="criterion.date.picker.cancel" />}
+          hintText={<FormattedMessage id="criterion.date.field.label"/>}
+          floatingLabelText={<FormattedMessage id="criterion.date.field.label"/>}
+          okLabel={<FormattedMessage id="criterion.date.picker.ok"/>}
+          cancelLabel={<FormattedMessage id="criterion.date.picker.cancel"/>}
           style={{
             margin: '0px 10px',
           }}
@@ -166,24 +168,19 @@ export class TemporalCriteriaComponent extends PluginComponent {
           }}
         />
         <TimePicker
-          value={value}
+          value={searchField}
           onChange={this.handleChangeTime}
           format="24hr"
-          floatingLabelText={<FormattedMessage id="criterion.time.field.label" />}
-          hintText={<FormattedMessage id="criterion.time.field.label" />}
-          okLabel={<FormattedMessage id="criterion.time.picker.ok" />}
-          cancelLabel={<FormattedMessage id="criterion.time.picker.cancel" />}
+          floatingLabelText={<FormattedMessage id="criterion.time.field.label"/>}
+          hintText={<FormattedMessage id="criterion.time.field.label"/>}
+          okLabel={<FormattedMessage id="criterion.time.picker.ok"/>}
+          cancelLabel={<FormattedMessage id="criterion.time.picker.cancel"/>}
           textFieldStyle={{
             maxWidth: 40,
             top: -13,
           }}
         />
-        <IconButton
-          tooltip={<FormattedMessage id="criterion.clear" />}
-          style={{transform:`scale(${iconButtonScale})`}}
-        >
-          <Clear onTouchTap={this.handleClear}/>
-        </IconButton>
+        <ClearButton onTouchTap={this.handleClear} displayed={clearButtonDisplayed}/>
       </div>
     )
   }

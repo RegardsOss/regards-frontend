@@ -8,7 +8,7 @@ import map from 'lodash/map'
 import Add from 'material-ui/svg-icons/content/add-circle-outline'
 import Search from 'material-ui/svg-icons/action/search'
 import Clear from 'material-ui/svg-icons/content/clear'
-import { Collection, Dataset } from '@regardsoss/model'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
 import IconButton from 'material-ui/IconButton'
 import { themeContextType } from '@regardsoss/theme'
@@ -24,9 +24,9 @@ import DatasetStepperContainer from '../containers/DatasetStepperContainer'
 export class DatasetEditLinksComponent extends React.Component {
 
   static propTypes = {
-    currentDataset: Dataset,
-    linkedCollections: PropTypes.arrayOf(Collection),
-    remainingCollections: PropTypes.arrayOf(Collection),
+    currentDataset: DataManagementShapes.Dataset,
+    linkedCollections: PropTypes.arrayOf(DataManagementShapes.Collection),
+    remainingCollections: PropTypes.arrayOf(DataManagementShapes.Collection),
     datasetStringTags: PropTypes.arrayOf(PropTypes.string),
     handleAdd: PropTypes.func.isRequired,
     handleDelete: PropTypes.func.isRequired,

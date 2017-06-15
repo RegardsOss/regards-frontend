@@ -12,4 +12,6 @@ const Role = PropTypes.shape({
   }),
 })
 
-export default { Role }
+const RoleList = PropTypes.objectOf(Role)
+
+export default { Role, RoleList }

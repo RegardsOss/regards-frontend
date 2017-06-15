@@ -11,4 +11,7 @@ const Account = PropTypes.shape({
   }),
 })
 
-export default Account
+const AccountList = PropTypes.objectOf(Account)
+
+
+export default { Account, AccountList }

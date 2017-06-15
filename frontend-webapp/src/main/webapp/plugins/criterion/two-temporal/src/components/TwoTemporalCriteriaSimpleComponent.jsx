@@ -1,16 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import every from 'lodash/every'
-import flatten from 'lodash/flatten'
-import flow from 'lodash/flow'
-import forEach from 'lodash/forEach'
-import keys from 'lodash/keys'
-import tail from 'lodash/tail'
 import isNil from 'lodash/isNil'
-import reduce from 'lodash/reduce'
-import fpzip from 'lodash/fp/zip'
-import fpmap from 'lodash/fp/map'
 import { FormattedMessage } from 'react-intl'
 import TemporalCriteriaComponent from './TemporalCriteriaComponent'
 import ClearButton from './ClearButton'
@@ -21,26 +12,13 @@ import PluginComponent from '../common/PluginComponent'
 /**
  * Component allowing the user to configure the temporal value of two different attributes with a date comparator (after, before, ...).
  * For example, it will display:
- *   [attributeName1] < 23/02/2017 08:00    et    [attributeName2] !=  23/02/2017 12:00
- *
- * The plugin's output is the execution of the passed {@code onChange} prop.
+ *   [attributeName1] < 23/02/2017 08:00    et    [attributeName2] = 23/02/2017 12:00
  *
  * @author Xavier-Alexandre Brochard
  */
 export class TwoTemporalCriteriaSimpleComponent extends PluginComponent {
 
   static propTypes = {
-    /**
-     * Plugin identifier
-     */
-    pluginInstanceId: React.PropTypes.string,
-    /**
-     * Callback to change the current criteria values in form
-     * Parameters :
-     * criteria : an object like : {attribute:<AttributeModel>, comparator:<ComparatorEnumType>, value:<value>}
-     * id: current plugin identifier
-     */
-    onChange: React.PropTypes.func,
     /**
      * List of attributes associated to the plugin.
      * Keys of this object are the "name" props of the attributes defined in the plugin-info.json
@@ -49,44 +27,40 @@ export class TwoTemporalCriteriaSimpleComponent extends PluginComponent {
     attributes: React.PropTypes.objectOf(AttributeModel),
   }
 
-  constructor(props) {
-    super(props)
-    const state = {}
-    state[props.attributes.firstField.name] = {
-      attribute: props.attributes.firstField,
-      value: undefined,
-      operator: EnumTemporalComparator.LE,
-    }
-    state[props.attributes.secondField.name] = {
-      attribute: props.attributes.secondField,
-      value: undefined,
-      operator: EnumTemporalComparator.LE,
-    }
-    this.state = state
+  state = {
+    firstField: undefined,
+    secondField: undefined,
+    operator1: EnumTemporalComparator.EQ,
+    operator2: EnumTemporalComparator.EQ,
   }
 
-  changeValue = (attribute, value, operator) => {
-    const newAttState = Object.assign({}, this.state[attribute.name])
-    newAttState.value = value
-    newAttState.operator = operator
-    // Update state to save the new value
+  changeValue1 = (value, operator) => {
     this.setState({
-      [attribute.name]: newAttState,
+      firstField: value,
+      operator1: operator,
+    })
+  }
+
+  changeValue2 = (value, operator) => {
+    this.setState({
+      secondField: value,
+      operator2: operator,
     })
   }
 
   getPluginSearchQuery = (state) => {
-    const query = reduce(state, (result, attValue, key) => {
-      let query = result
-      if (attValue.attribute && attValue.value && attValue.operator) {
-        query = this.criteriaToOpenSearchFormat(attValue.attribute, attValue.value, attValue.operator)
-        if (result !== '' && query !== '') {
-          query = `${result} AND ${query}`
-        }
+    let searchQuery = ''
+    if (state.firstField) {
+      searchQuery = this.criteriaToOpenSearchFormat('firstField', state.firstField, state.operator1)
+    }
+    if (state.secondField) {
+      if (searchQuery && searchQuery.length > 0) {
+        searchQuery = `${searchQuery} AND `
       }
-      return query
-    }, '')
-    return query
+      const searchQuery2 = this.criteriaToOpenSearchFormat('secondField', state.secondField, state.operator2)
+      searchQuery = `${searchQuery}${searchQuery2}`
+    }
+    return searchQuery
   }
 
   /**
@@ -101,13 +75,13 @@ export class TwoTemporalCriteriaSimpleComponent extends PluginComponent {
     if (operator && value) {
       switch (operator) {
         case EnumTemporalComparator.EQ :
-          openSearchQuery = `${attribute.jsonPath}:${value.toISOString()}`
+          openSearchQuery = `${this.getAttributeName(attribute)}:${value.toISOString()}`
           break
         case EnumTemporalComparator.LE :
-          openSearchQuery = `${attribute.jsonPath}:[* TO ${value.toISOString()}]`
+          openSearchQuery = `${this.getAttributeName(attribute)}:[* TO ${value.toISOString()}]`
           break
         case EnumTemporalComparator.GE :
-          openSearchQuery = `${attribute.jsonPath}:[${value.toISOString()} TO *]`
+          openSearchQuery = `${this.getAttributeName(attribute)}:[${value.toISOString()} TO *]`
           break
         default:
           openSearchQuery = ''
@@ -120,26 +94,39 @@ export class TwoTemporalCriteriaSimpleComponent extends PluginComponent {
    * Clear all fields
    */
   handleClear = () => {
-    forEach(this.state, field => this.changeValue(field.attribute, undefined, field.operator))
+    const { operator1, operator2 } = this.state
+    this.changeValue1(undefined, operator1)
+    this.changeValue2(undefined, operator2)
+  }
+
+  parseOpenSearchQuery = (parameterName, openSearchQuery) => {
+    if (isNaN(openSearchQuery)) {
+      const values = openSearchQuery.match(/\[[ ]{0,1}([^ ]*) TO ([^ ]*)[ ]{0,1}\]/)
+      if (values.length === 3) {
+        const value = values[1] !== '*' ? values[1] : values[2]
+        const operator = values[1] === '*' ? EnumTemporalComparator.LE : EnumTemporalComparator.GE
+        if (parameterName === 'firstField') {
+          this.setState({ operator1: operator })
+        } else {
+          this.setState({ operator2: operator })
+        }
+        return new Date(value)
+      }
+    } else {
+      if (parameterName === 'firstField') {
+        this.setState({ operator1: EnumTemporalComparator.EQ })
+      } else {
+        this.setState({ operator2: EnumTemporalComparator.EQ })
+      }
+      return openSearchQuery
+    }
+
+    return undefined
   }
 
   render() {
-    const clearButtonDisplayed = !every(this.state, field => isNil(field.value))
-
-    const content = flow(
-      fpmap(field => (
-        <TemporalCriteriaComponent // we are mapping on an object this is why we disable the lint next line
-          key={field.attribute.name} // eslint-disable-line react/no-array-index-key
-          attribute={field.attribute}
-          onChange={this.changeValue}
-          comparator={field.operator}
-          value={field.value}
-        />
-      )),
-      fpzip(new Array(keys(this.state).length).fill(<FormattedMessage id="criterion.aggregator.and"/>)),
-      flatten,
-      tail,
-    )(this.state)
+    const { firstField, secondField, operator1, operator2 } = this.state
+    const clearButtonDisplayed = !isNil(firstField) || !isNil(secondField)
 
     return (
       <div style={{ display: 'flex' }}>
@@ -151,7 +138,19 @@ export class TwoTemporalCriteriaSimpleComponent extends PluginComponent {
             flexWrap: 'wrap',
           }}
         >
-          {content}
+          <TemporalCriteriaComponent
+            label={'firstField'}
+            comparator={operator1}
+            value={firstField}
+            onChange={this.changeValue1}
+          />
+          <FormattedMessage id="criterion.aggregator.and"/>
+          <TemporalCriteriaComponent
+            label={'secondField'}
+            comparator={operator2}
+            value={secondField}
+            onChange={this.changeValue2}
+          />
           <ClearButton onTouchTap={this.handleClear} displayed={clearButtonDisplayed}/>
         </div>
       </div>

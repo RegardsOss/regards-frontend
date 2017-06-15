@@ -1,8 +1,6 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { chain, keys, uniqueId, reduce, every, forEach } from 'lodash'
-import { FormattedMessage } from 'react-intl'
 import NumericalCriteriaComponent from './NumericalCriteriaComponent'
 import AttributeModel from '../common/AttributeModel'
 import EnumNumericalComparator from '../model/EnumNumericalComparator'
@@ -29,55 +27,75 @@ export class TwoNumericalCriteriaSimpleComponent extends PluginComponent {
     attributes: React.PropTypes.objectOf(AttributeModel),
   }
 
-  constructor(props) {
-    super(props)
-    const state = {}
-    state[props.attributes.firstField.name] = {
-      attribute: props.attributes.firstField,
-      value: '',
-      operator: EnumNumericalComparator.LE,
-    }
-    state[props.attributes.secondField.name] = {
-      attribute: props.attributes.secondField,
-      value: '',
-      operator: EnumNumericalComparator.LE,
-    }
-    this.state = state
+  state = {
+    firstField: undefined,
+    secondField: undefined,
+    operator1: EnumNumericalComparator.EQ,
+    operator2: EnumNumericalComparator.EQ,
   }
 
-  changeValue = (attribute, value, operator) => {
-    const newState = Object.assign({}, this.state)
-    const newAttState = Object.assign({}, this.state[attribute.name])
-
-    newAttState.value = value
-    newAttState.operator = operator
-    newState[attribute.name] = newAttState
-
-    // Update state to save the new value
+  changeValue1 = (value, operator) => {
     this.setState({
-      [attribute.name]: newAttState
-    }, this._onPluginChangeValue)
+      firstField: value,
+      operator1: operator,
+    })
+  }
+
+  changeValue2 = (value, operator) => {
+    this.setState({
+      secondField: value,
+      operator2: operator,
+    })
   }
 
   getPluginSearchQuery = (state) => {
-    const query = reduce(state, (result, attValue, key) => {
-      let query = result
-      if (attValue.attribute && attValue.value && attValue.operator) {
-        query = this.criteriaToOpenSearchFormat(attValue.attribute, attValue.value, attValue.operator)
-        if (result !== '' && query !== '') {
-          query = `${result} AND ${query}`
-        }
+    const { firstField, secondField, operator1, operator2 } = state
+    let searchQuery = ''
+    if (firstField) {
+      searchQuery = this.criteriaToOpenSearchFormat('firstField', firstField, operator1)
+    }
+    if (secondField) {
+      if (searchQuery && searchQuery.length > 0) {
+        searchQuery = `${searchQuery} AND `
       }
-      return query
-    }, '')
-    return query
+      const searchQuery2 = this.criteriaToOpenSearchFormat('secondField', secondField, operator2)
+      searchQuery = `${searchQuery}${searchQuery2}`
+    }
+    return searchQuery
+  }
+
+  parseOpenSearchQuery = (parameterName, openSearchQuery) => {
+    if (isNaN(openSearchQuery)) {
+      const values = openSearchQuery.match(/\[[ ]{0,1}([0-9\*]*) TO ([0-9\*]*)[ ]{0,1}\]/)
+      if (values.length === 3) {
+        const value = values[1] !== '*' ? values[1] : values[2]
+        const operator = values[1] === '*' ? EnumNumericalComparator.LE : EnumNumericalComparator.GE
+        if (parameterName === 'firstField') {
+          this.setState({ operator1: operator })
+        } else {
+          this.setState({ operator2: operator })
+        }
+        return value
+      }
+    } else {
+      if (parameterName === 'firstField') {
+        this.setState({ operator1: EnumNumericalComparator.EQ })
+      } else {
+        this.setState({ operator2: EnumNumericalComparator.EQ })
+      }
+      return openSearchQuery
+    }
+
+    return undefined
   }
 
   /**
    * Clear the entered value
    */
   handleClear = () => {
-    forEach(this.state, field => this.changeValue(field.attribute, '', field.operator))
+    const { operator1, operator2 } = this.state
+    this.changeValue1(undefined, operator1)
+    this.changeValue(undefined, operator2)
   }
 
   /**
@@ -92,13 +110,13 @@ export class TwoNumericalCriteriaSimpleComponent extends PluginComponent {
     const lvalue = value || '*'
     switch (operator) {
       case EnumNumericalComparator.EQ :
-        openSearchQuery = `${attribute.jsonPath}:${lvalue}`
+        openSearchQuery = `${this.getAttributeName(attribute)}:${lvalue}`
         break
       case EnumNumericalComparator.LE :
-        openSearchQuery = `${attribute.jsonPath}:[* TO ${lvalue}]`
+        openSearchQuery = `${this.getAttributeName(attribute)}:[* TO ${lvalue}]`
         break
       case EnumNumericalComparator.GE :
-        openSearchQuery = `${attribute.jsonPath}:[${lvalue} TO *]`
+        openSearchQuery = `${this.getAttributeName(attribute)}:[${lvalue} TO *]`
         break
       default:
         openSearchQuery = ''
@@ -107,9 +125,7 @@ export class TwoNumericalCriteriaSimpleComponent extends PluginComponent {
   }
 
   render() {
-    const { attributes } = this.props
-    const clearButtonDisplayed = !every(this.state, attribute => attribute.value === null || attribute.value === '')
-
+    const { firstField, secondField, operator1, operator2 } = this.state
     return (
       <div style={{ display: 'flex' }}>
         <div
@@ -120,24 +136,21 @@ export class TwoNumericalCriteriaSimpleComponent extends PluginComponent {
             flexWrap: 'wrap',
           }}
         >
-          {chain(attributes)
-            .map((attribute, attributeName) =>
-              <NumericalCriteriaComponent // we are mapping on an object this is why we disable the lint next line
-                key={attributeName} // eslint-disable-line react/no-array-index-key
-                attribute={attribute}
-                onChange={this.changeValue}
-                comparator={this.state[attribute.name].operator}
-                value={this.state[attribute.name].value}
-                fixedComparator={false}
-              />)
-            .zip(new Array(keys(attributes).length)
-              .fill(<span key={uniqueId('react_generated_uuid_')}><FormattedMessage
-                id="criterion.aggregator.text"/></span>))
-            .flatten()
-            .initial()
-            .value()
-          }
-          <ClearButton onTouchTap={this.handleClear} displayed={clearButtonDisplayed}/>
+          <NumericalCriteriaComponent
+            label={'firstField'}
+            value={firstField}
+            comparator={operator1}
+            onChange={this.changeValue1}
+            fixedComparator={false}
+          />
+          <NumericalCriteriaComponent
+            label={'secondField'}
+            value={secondField}
+            comparator={operator2}
+            onChange={this.changeValue2}
+            fixedComparator={false}
+          />
+          <ClearButton onTouchTap={this.handleClear} displayed={firstField || secondField}/>
         </div>
       </div>
     )

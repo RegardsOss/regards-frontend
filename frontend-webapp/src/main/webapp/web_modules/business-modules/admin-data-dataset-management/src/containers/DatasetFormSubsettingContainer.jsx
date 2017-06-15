@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { connect } from '@regardsoss/redux'
-import { Dataset, ModelAttribute } from '@regardsoss/model'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { modelAttributesActions, modelAttributesSelectors } from '../clients/ModelAttributesClient'
@@ -14,12 +14,12 @@ import DatasetFormSubsettingComponent from '../components/DatasetFormSubsettingC
 export class DatasetFormSubsettingContainer extends React.Component {
 
   static propTypes = {
-    currentDataset: Dataset,
+    currentDataset: DataManagementShapes.Dataset,
     handleBack: PropTypes.func.isRequired,
     handleSave: PropTypes.func.isRequired,
     isEditing: PropTypes.bool.isRequired,
     // from mapStateToProps
-    modelAttributeList: PropTypes.objectOf(ModelAttribute),
+    modelAttributeList: DataManagementShapes.ModelAttributeList,
     // from mapDispatchToProps
     fetchModelAttributeList: PropTypes.func,
   }

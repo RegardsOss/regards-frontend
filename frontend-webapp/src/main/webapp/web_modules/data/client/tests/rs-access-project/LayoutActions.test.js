@@ -1,5 +1,5 @@
 import { ReduxEntityTester } from '@regardsoss/tests-helpers'
-import { Layout } from '@regardsoss/model'
+import { AccessShapes } from '@regardsoss/shape'
 import { AccessProjectClient } from '../../src/main'
 import LayoutListDump from './LayoutList.dump'
 
@@ -10,7 +10,7 @@ const LayoutActions = AccessProjectClient.LayoutActions('test/action')
 const LayoutReducer = AccessProjectClient.LayoutReducers('test/action')
 const LayoutSelector = AccessProjectClient.LayoutSelectors(['test', 'modules'])
 
-const entityTester = new ReduxEntityTester(LayoutActions, LayoutReducer, LayoutSelector, PropTypes.objectOf(Layout).isRequired, backendServerResultList, options)
+const entityTester = new ReduxEntityTester(LayoutActions, LayoutReducer, LayoutSelector, AccessShapes.LayoutList.isRequired, backendServerResultList, options)
 
 /**
  * Tests for Layout entities

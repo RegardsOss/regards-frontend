@@ -1,5 +1,5 @@
 import { ReduxEntityTester } from '@regardsoss/tests-helpers'
-import { LinkPluginDataset } from '@regardsoss/model'
+import { CatalogShapes } from '@regardsoss/shape'
 import LinkPluginDatasetActions from '../../src/rs-catalog/linkPluginDataset/LinkPluginDatasetActions'
 import LinkPluginDatasetReducer from '../../src/rs-catalog/linkPluginDataset/LinkPluginDatasetReducer'
 import LinkPluginDatasetSelectors from '../../src/rs-catalog/linkPluginDataset/LinkPluginDatasetSelectors'
@@ -14,7 +14,7 @@ const linkPluginDatasetActions = new LinkPluginDatasetActions('test/action')
 const linkPluginDatasetReducer = LinkPluginDatasetReducer('test/action')
 const linkPluginDatasetSelectors = LinkPluginDatasetSelectors(['test', 'modules'])
 
-const entityTester = new ReduxEntityTester(linkPluginDatasetActions, linkPluginDatasetReducer, linkPluginDatasetSelectors, PropTypes.objectOf(LinkPluginDataset).isRequired, backendServerResultList, options)
+const entityTester = new ReduxEntityTester(linkPluginDatasetActions, linkPluginDatasetReducer, linkPluginDatasetSelectors, CatalogShapes.LinkPluginDatasetList.isRequired, backendServerResultList, options)
 
 describe('[ADMIN CLIENT] Testing model LinkPluginDataset', () => {
   before(() => {

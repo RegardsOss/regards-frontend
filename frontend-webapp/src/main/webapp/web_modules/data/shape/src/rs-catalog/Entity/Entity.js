@@ -21,7 +21,7 @@ const Entity = PropTypes.shape({
     files: PropTypes.arrayOf(ObjectLinkedFile),
     geometry: EntityGeoProperties,
     properties: PropTypes.object,
-    tags: PropTypes.arrayOf(PropTypes.string),
+    tags: PropTypes.arrayOf(PropTypes.string).isRequired,
     // description file for collections and datasets only
     descriptionFile: PropTypes.shape({
       // URL: external URL file (cannot be present at same time than type)
