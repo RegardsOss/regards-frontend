@@ -8,7 +8,6 @@ import TimePicker from 'material-ui/TimePicker'
 import { FormattedMessage } from 'react-intl'
 import TemporalComparatorComponent from './TemporalComparatorComponent'
 import EnumTemporalComparator from '../model/EnumTemporalComparator'
-import AttributeModel from '../common/AttributeModel'
 
 let DateTimeFormat
 
@@ -45,11 +44,9 @@ export class TemporalCriteriaComponent extends React.Component {
      */
     onChange: React.PropTypes.func,
     /**
-     * List of attributes associated to the plugin.
-     * Keys of this object are the "name" props of the attributes defined in the plugin-info.json
-     * Value of each keys are the attribute id (retrieved from the server) associated
+     * Label of the field displayed
      */
-    attribute: AttributeModel,
+    label: React.PropTypes.string.isRequired,
     /**
      * Init with a specific comparator set.
      */
@@ -90,12 +87,12 @@ export class TemporalCriteriaComponent extends React.Component {
    * @param {String} newValue The new value of the text field.
    */
   handleChangeDate = (event, newValue) => {
-    const { onChange, attribute, value, comparator } = this.props
+    const { onChange, value, comparator } = this.props
     // Pick the time part from the time picker
     if (value) {
       newValue.setHours(value.getHours(), value.getMinutes(), value.getSeconds(), value.getMilliseconds())
     }
-    onChange(attribute, newValue, comparator)
+    onChange(newValue, comparator)
   }
 
   /**
@@ -105,12 +102,12 @@ export class TemporalCriteriaComponent extends React.Component {
    * @param {String} newValue The new value of the text field.
    */
   handleChangeTime = (event, newValue) => {
-    const { onChange, attribute, value, comparator } = this.props
+    const { onChange, value, comparator } = this.props
     // Pick the date part from the the date picker
     if (value) {
       newValue.setFullYear(value.getFullYear(), value.getMonth(), value.getDate())
     }
-    onChange(attribute, newValue, comparator)
+    onChange(newValue, comparator)
   }
 
   /**
@@ -119,20 +116,20 @@ export class TemporalCriteriaComponent extends React.Component {
    * @param {String} comparator
    */
   handleChangeComparator = (comparator) => {
-    const { attribute, onChange, value } = this.props
-    onChange(attribute, value, comparator)
+    const { onChange, value } = this.props
+    onChange(value, comparator)
   }
 
   render() {
-    const { attribute, value, comparator, reversed, hideAttributeName, hideComparator } = this.props
+    const { label, comparator, value, reversed, hideAttributeName, hideComparator } = this.props
 
     // Store the content in an array because we need to maybe reverse to order
     const content = []
     if (!hideAttributeName) {
-      content.push(<span key="attributeName" style={{
+      content.push(<span key="label" style={{
         margin: '0px 10px',
         fontSize: '1.3em',
-      }}>{attribute.label || attribute.name}</span>)
+      }}>{label}</span>)
     }
     if (!hideComparator) {
       content.push(
@@ -141,7 +138,7 @@ export class TemporalCriteriaComponent extends React.Component {
     }
     content.push([
       <DatePicker
-        key={`${attribute.name}.date`}
+        key={`${label}.date`}
         value={value}
         onChange={this.handleChangeDate}
         DateTimeFormat={DateTimeFormat}
@@ -159,7 +156,7 @@ export class TemporalCriteriaComponent extends React.Component {
         }}
       />,
       <TimePicker
-        key={`${attribute.name}.time`}
+        key={`${label}.time`}
         value={value}
         onChange={this.handleChangeTime}
         format="24hr"
