@@ -3,6 +3,7 @@
  **/
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
+import { spy } from 'sinon'
 import TwoNumericalCriteriaSimpleComponent from '../../src/components/TwoNumericalCriteriaSimpleComponent'
 import NumericalCriteriaComponent from '../../src/components/NumericalCriteriaComponent'
 
@@ -30,8 +31,9 @@ describe('[PLUGIN TWO NUMERICAL CRITERIA SIMPLE] Testing the two numerical crite
           type: 'numerical',
         },
       },
-      getDefaultState: () => {
-      },
+      getDefaultState: spy(),
+      savePluginState: spy(),
+      onChange: spy(),
     }
     const enzymeWrapper = shallow(<TwoNumericalCriteriaSimpleComponent {...props} />)
     expect(enzymeWrapper.find(NumericalCriteriaComponent)).to.have.length(2)
