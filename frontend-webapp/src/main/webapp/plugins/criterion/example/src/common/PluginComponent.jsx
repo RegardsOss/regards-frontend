@@ -77,11 +77,11 @@ class PluginComponent extends React.Component {
    * @param nextProps
    */
   componentWillReceiveProps(nextProps) {
-    // If initial value set value to the state
+    // If initial value change from this props to new ones, update state with the new attribute values
     let toUpdate = false
     const initValues = transform(nextProps.attributes, (result, attribute, key) => {
       const initValue = this.getAttributeInitValue(key, nextProps)
-      if (initValue && initValue !== this.state[key]) {
+      if (initValue && initValue !== this.props[this.getAttributeName(key)]) {
         toUpdate = true
         result[key] = this.parseOpenSearchQuery(key, initValue)
       }

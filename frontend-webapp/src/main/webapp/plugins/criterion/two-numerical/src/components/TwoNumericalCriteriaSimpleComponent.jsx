@@ -30,8 +30,8 @@ export class TwoNumericalCriteriaSimpleComponent extends PluginComponent {
   state = {
     firstField: undefined,
     secondField: undefined,
-    operator1: EnumNumericalComparator.LE,
-    operator2: EnumNumericalComparator.LE,
+    operator1: EnumNumericalComparator.EQ,
+    operator2: EnumNumericalComparator.EQ,
   }
 
   changeValue = (attribute, value, operator) => {
@@ -64,11 +64,13 @@ export class TwoNumericalCriteriaSimpleComponent extends PluginComponent {
   }
 
   parseOpenSearchQuery = (parameterName, openSearchQuery) => {
+    console.error("PARSE",parameterName,openSearchQuery)
     if (isNaN(openSearchQuery)) {
       const values = openSearchQuery.match(/\[[ ]{0,1}([0-9\*]*) TO ([0-9\*]*)[ ]{0,1}\]/)
       if (values.length === 3) {
         const value = values[1] !== '*' ? values[1] : values[2]
         const operator = values[1] === '*' ? EnumNumericalComparator.LE : EnumNumericalComparator.GE
+        console.error("PARSE RESULT",parameterName,value,operator)
         if (parameterName === 'firstField') {
           this.setState({ operator1: operator })
         } else {
@@ -77,6 +79,7 @@ export class TwoNumericalCriteriaSimpleComponent extends PluginComponent {
         return value
       }
     } else {
+      console.error("PARSE RESULT",parameterName,openSearchQuery,EnumNumericalComparator.EQ)
       if (parameterName === 'firstField') {
         this.setState({ operator1: EnumNumericalComparator.EQ })
       } else {
@@ -123,6 +126,7 @@ export class TwoNumericalCriteriaSimpleComponent extends PluginComponent {
   }
 
   render() {
+    console.error("SEB",this.props,this.state)
     return (
       <div style={{ display: 'flex' }}>
         <div
