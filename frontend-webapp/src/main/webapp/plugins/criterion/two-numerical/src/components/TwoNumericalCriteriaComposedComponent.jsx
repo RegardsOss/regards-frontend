@@ -32,29 +32,33 @@ export class TwoNumericalCriteriaComposedComponent extends PluginComponent {
   constructor(props) {
     super(props)
     this.state = {
-      value1: undefined,
-      value2: undefined,
+      firstField: undefined,
+      secondField: undefined,
     }
   }
 
-  changeValue1 = (attribute, value, comparator) => {
-    this.setState({
-      value1: value,
-    }, this._onPluginChangeValue)
+  changeValue = (attribute, value, comparator) => {
+    const newState = {}
+    newState[attribute] = value
+    this.setState(newState)
   }
 
-  changeValue2 = (attribute, value, comparator) => {
-    this.setState({
-      value2: value,
-    }, this._onPluginChangeValue)
+  parseOpenSearchQuery = (parameterName, openSearchQuery) => {
+    const values = openSearchQuery.match(/\[[ ]{0,1}([0-9\*]*) TO ([0-9\*]*)[ ]{0,1}\]/)
+    if (values.length === 3) {
+      if (parameterName === 'firstField') {
+        return values[1]
+      }
+      return values[2]
+    }
+    return openSearchQuery
   }
 
   getPluginSearchQuery = (state) => {
-    const attribute = values(this.props.attributes)[0]
-    const lvalue1 = state.value1 || '*'
-    const lvalue2 = state.value2 || '*'
+    const lvalue1 = state.firstField || '*'
+    const lvalue2 = state.secondField || '*'
     let searchQuery = ''
-    if (state.value1 || state.value2) {
+    if (state.firstField || state.secondField) {
       searchQuery = `${this.getAttributeName('firstField')}:[${lvalue1} TO ${lvalue2}]`
     }
     return searchQuery
@@ -69,10 +73,8 @@ export class TwoNumericalCriteriaComposedComponent extends PluginComponent {
   }
 
   render() {
-    const { attributes } = this.props
-    const { value1, value2 } = this.state
-    const attribute = values(attributes)[0]
-    const clearButtonDisplayed = !isNil(value1) || !isNil(value2)
+    const { firstField, secondField } = this.state
+    const clearButtonDisplayed = !isNil(firstField) || !isNil(secondField)
 
     return (
       <div style={{ display: 'flex' }}>
@@ -84,29 +86,33 @@ export class TwoNumericalCriteriaComposedComponent extends PluginComponent {
             flexWrap: 'wrap',
           }}
         >
-          <span style={{ margin: '0px 10px' }}>{attribute.name} <FormattedMessage
-            id="criterion.aggregator.between"/></span>
+
+          <span style={{ margin: '0px 10px' }}>{this.getAttributeLabel('firstField')} <FormattedMessage
+            id="criterion.aggregator.between"
+          /></span>
           <NumericalCriteriaComponent
-            attribute={attribute}
-            onChange={this.changeValue1}
-            value={value1}
+            attribute={'firstField'}
+            attributeLabel={this.getAttributeLabel('firstField')}
+            onChange={this.changeValue}
+            value={firstField}
             comparator={EnumNumericalComparator.LE}
             hideAttributeName
             hideComparator
             reversed
             fixedComparator
           />
-          <span style={{ marginRight: 10 }}><FormattedMessage id="criterion.aggregator.and"/></span>
+          <span style={{ marginRight: 10 }}><FormattedMessage id="criterion.aggregator.and" /></span>
           <NumericalCriteriaComponent
-            attribute={attribute}
-            onChange={this.changeValue2}
-            value={value2}
+            attribute={'secondField'}
+            attributeLabel={this.getAttributeLabel('secondField')}
+            onChange={this.changeValue}
+            value={secondField}
             comparator={EnumNumericalComparator.LE}
             hideAttributeName
             hideComparator
             fixedComparator
           />
-          <ClearButton onTouchTap={this.handleClear} displayed={clearButtonDisplayed}/>
+          <ClearButton onTouchTap={this.handleClear} displayed={clearButtonDisplayed} />
         </div>
       </div>
     )

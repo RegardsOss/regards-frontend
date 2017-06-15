@@ -31,7 +31,7 @@ describe('[PLUGIN TWO NUMERICAL CRITERIA SIMPLE] Testing the two numerical crite
         },
       },
       getDefaultState: () => {
-      }
+      },
     }
     const enzymeWrapper = shallow(<TwoNumericalCriteriaSimpleComponent {...props} />)
     expect(enzymeWrapper.find(NumericalCriteriaComponent)).to.have.length(2)
