@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { values, forEach, isNil } from 'lodash'
+import isNil from 'lodash/isNil'
 import { FormattedMessage } from 'react-intl'
 import NumericalCriteriaComponent from './NumericalCriteriaComponent'
 import AttributeModel from '../common/AttributeModel'
@@ -37,28 +37,35 @@ export class TwoNumericalCriteriaComposedComponent extends PluginComponent {
     }
   }
 
-  changeValue = (attribute, value, comparator) => {
-    const newState = {}
-    newState[attribute] = value
-    this.setState(newState)
+  changeValue1 = (value) => {
+    this.setState({
+      firstField: value,
+    })
+  }
+
+  changeValue2 = (value) => {
+    this.setState({
+      secondField: value,
+    })
   }
 
   parseOpenSearchQuery = (parameterName, openSearchQuery) => {
-    const values = openSearchQuery.match(/\[[ ]{0,1}([0-9\*]*) TO ([0-9\*]*)[ ]{0,1}\]/)
-    if (values.length === 3) {
+    const groups = openSearchQuery.match(/\[[ ]{0,1}([0-9\*]*) TO ([0-9\*]*)[ ]{0,1}\]/)
+    if (groups.length === 3) {
       if (parameterName === 'firstField') {
-        return values[1]
+        return groups[1]
       }
-      return values[2]
+      return groups[2]
     }
     return openSearchQuery
   }
 
   getPluginSearchQuery = (state) => {
-    const lvalue1 = state.firstField || '*'
-    const lvalue2 = state.secondField || '*'
+    const { firstField, secondField } = state
+    const lvalue1 = firstField || '*'
+    const lvalue2 = secondField || '*'
     let searchQuery = ''
-    if (state.firstField || state.secondField) {
+    if (firstField || secondField) {
       searchQuery = `${this.getAttributeName('firstField')}:[${lvalue1} TO ${lvalue2}]`
     }
     return searchQuery
@@ -68,8 +75,8 @@ export class TwoNumericalCriteriaComposedComponent extends PluginComponent {
    * Clear the entered values
    */
   handleClear = () => {
-    this.changeValue1(undefined, undefined, undefined)
-    this.changeValue2(undefined, undefined, undefined)
+    this.changeValue1(undefined)
+    this.changeValue2(undefined)
   }
 
   render() {
@@ -86,33 +93,30 @@ export class TwoNumericalCriteriaComposedComponent extends PluginComponent {
             flexWrap: 'wrap',
           }}
         >
-
           <span style={{ margin: '0px 10px' }}>{this.getAttributeLabel('firstField')} <FormattedMessage
             id="criterion.aggregator.between"
           /></span>
           <NumericalCriteriaComponent
-            attribute={'firstField'}
-            attributeLabel={this.getAttributeLabel('firstField')}
-            onChange={this.changeValue}
+            label={'firstField'}
             value={firstField}
             comparator={EnumNumericalComparator.LE}
+            onChange={this.changeValue1}
             hideAttributeName
             hideComparator
             reversed
             fixedComparator
           />
-          <span style={{ marginRight: 10 }}><FormattedMessage id="criterion.aggregator.and" /></span>
+          <span style={{ marginRight: 10 }}><FormattedMessage id="criterion.aggregator.and"/></span>
           <NumericalCriteriaComponent
-            attribute={'secondField'}
-            attributeLabel={this.getAttributeLabel('secondField')}
-            onChange={this.changeValue}
+            label={'secondField'}
             value={secondField}
-            comparator={EnumNumericalComparator.LE}
+            comparator={EnumNumericalComparator.GE}
+            onChange={this.changeValue2}
             hideAttributeName
             hideComparator
             fixedComparator
           />
-          <ClearButton onTouchTap={this.handleClear} displayed={clearButtonDisplayed} />
+          <ClearButton onTouchTap={this.handleClear} displayed={clearButtonDisplayed}/>
         </div>
       </div>
     )

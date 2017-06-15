@@ -30,49 +30,58 @@ export class TwoTemporalCriteriaComposedComponent extends PluginComponent {
     attributes: React.PropTypes.objectOf(AttributeModel),
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      value1: undefined,
-      value2: undefined,
-    }
+  state = {
+    firstField: undefined,
+    secondField: undefined,
   }
 
-  changeValue1 = (attribute, value, comparator) => {
+  changeValue1 = (value) => {
     this.setState({
-      value1: value,
+      firstField: value,
     })
   }
 
-  changeValue2 = (attribute, value, comparator) => {
+  changeValue2 = (value) => {
     this.setState({
-      value2: value,
+      secondField: value,
     })
   }
 
   getPluginSearchQuery = (state) => {
-    const lvalue1 = state.value1 ? state.value1.toISOString() : '*'
-    const lvalue2 = state.value2 ? state.value2.toISOString() : '*'
+    const { firstField, secondField } = state
+    const lvalue1 = firstField ? firstField.toISOString() : '*'
+    const lvalue2 = secondField ? secondField.toISOString() : '*'
     let searchQuery = ''
-    if (state.value1 || state.value2) {
+    if (firstField || secondField) {
       searchQuery = `${this.getAttributeName('firstField')}:[${lvalue1} TO ${lvalue2}]`
     }
     return searchQuery
+  }
+
+  parseOpenSearchQuery = (parameterName, openSearchQuery) => {
+    const groups = openSearchQuery.match(/\[[ ]{0,1}([^ ]*) TO ([^ ]*)[ ]{0,1}\]/)
+    if (groups.length === 3) {
+      if (parameterName === 'firstField') {
+        return new Date(groups[1])
+      }
+      return new Date(groups[2])
+    }
+    return openSearchQuery
   }
 
   /**
    * Clear the entered values
    */
   handleClear = () => {
-    this.changeValue1(undefined, undefined, undefined)
-    this.changeValue2(undefined, undefined, undefined)
+    this.changeValue1(undefined)
+    this.changeValue2(undefined)
   }
 
   render() {
     const { attributes } = this.props
-    const { value1, value2 } = this.state
+    const { firstField, secondField } = this.state
     const attribute = values(attributes)[0]
-    const clearButtonDisplayed = !isNil(value1) || !isNil(value2)
+    const clearButtonDisplayed = !isNil(firstField) || !isNil(secondField)
 
     return (
       <div style={{ display: 'flex' }}>
@@ -84,22 +93,23 @@ export class TwoTemporalCriteriaComposedComponent extends PluginComponent {
             flexWrap: 'wrap',
           }}
         >
-          <span style={{ margin: '0px 10px' }}>{attribute.name} <FormattedMessage
-            id="criterion.aggregator.between"/></span>
+          <span style={{ margin: '0px 10px' }}>{attribute.name}
+            <FormattedMessage id="criterion.aggregator.between"/>
+          </span>
           <TemporalCriteriaComponent
-            attribute={attribute}
-            onChange={this.changeValue1}
+            label={'firstField'}
             comparator={EnumTemporalComparator.GE}
-            value={this.state.value1}
+            value={firstField}
+            onChange={this.changeValue1}
             hideAttributeName
             hideComparator
           />
           <FormattedMessage id="criterion.aggregator.and"/>
           <TemporalCriteriaComponent
-            attribute={attribute}
-            onChange={this.changeValue2}
-            value={this.state.value2}
+            label={'firstField'}
             comparator={EnumTemporalComparator.LE}
+            value={secondField}
+            onChange={this.changeValue2}
             hideAttributeName
             hideComparator
           />
