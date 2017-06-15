@@ -5,6 +5,7 @@ import map from 'lodash/map'
 import isEqual from 'lodash/isEqual'
 import concat from 'lodash/concat'
 import remove from 'lodash/remove'
+import transform from 'lodash/transform'
 import values from 'lodash/values'
 import Divider from 'material-ui/Divider'
 import {
@@ -93,6 +94,16 @@ class MainAttributesConfigurationComponent extends React.Component {
         }
         return attributeConf
       })
+    }
+
+    // Check if there is more than one defaultSort configured
+    if (conf.initialSort) {
+      newAttributesConf = transform(newAttributesConf, (results, attributeConf) => {
+        if (attributeConf.attributeFullQualifiedName !== attributeFullQualifiedName) {
+          attributeConf.initialSort = false
+        }
+        results.push(attributeConf)
+      },[])
     }
 
     // Else add the new attribute conf

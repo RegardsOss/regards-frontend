@@ -41,6 +41,7 @@ class StandardAttributesConfigurationComponent extends React.Component {
                 attributeFullQualifiedName: standardAttribute,
                 visibility: false,
                 facetable: false,
+                initialSort: false,
                 order: undefined,
               }
             }

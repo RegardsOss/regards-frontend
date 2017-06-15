@@ -49,14 +49,19 @@ class AttributeConfigurationComponent extends React.Component {
     }
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    const { conf } = this.props
+  shouldComponentUpdate(nextProps) {
+    const { conf } = this.state
     const nextConf = nextProps.conf
     if (conf.order !== nextConf.order ||
       conf.visibility !== nextConf.visibility ||
       conf.facetable !== nextConf.facetable ||
       conf.initialSort !== nextConf.initialSort ||
       conf.filter !== nextProps.filter) {
+      // Props can be updated by upper container. (Handle the use case of only one attribut can have the initialSort to true)
+      // If props changed, change the current state to the new props values.
+      this.setState({
+        conf: nextProps.conf
+      })
       return true
     }
     return false
