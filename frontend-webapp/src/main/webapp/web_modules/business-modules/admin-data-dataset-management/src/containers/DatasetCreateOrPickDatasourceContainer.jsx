@@ -3,7 +3,7 @@
  **/
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
-import { Datasource } from '@regardsoss/model'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { datasourceSelectors, datasourceActions } from './../clients/DatasourceClient'
@@ -21,7 +21,7 @@ export class DatasetCreateOrPickDatasourceContainer extends React.Component {
       project: PropTypes.string,
     }),
     // from mapStateToProps
-    datasourceList: PropTypes.objectOf(Datasource),
+    datasourceList: DataManagementShapes.DatasourceList,
     // from mapDispatchToProps
     fetchDatasourceList: PropTypes.func,
   }

@@ -4,11 +4,12 @@
 
 import Entity from './Entity/Entity'
 
-import LinkPluginDataset from './LinkPluginDataset'
+import { LinkPluginDataset, LinkPluginDatasetList } from './LinkPluginDataset'
 
 
 export default {
   Entity,
 
   LinkPluginDataset,
+  LinkPluginDatasetList,
 }

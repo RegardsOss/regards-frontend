@@ -2,18 +2,19 @@
  * LICENSE_PLACEHOLDER
  **/
 
-import Account from './Account'
+import { Account, AccountList } from './Account'
 import { ConnectivityCheck, ConnectivityCheckList } from './ConnectivityCheck'
 import { MetadataContent, MetadataContentArray } from './Metadata'
 import { ProjectContent, Project, ProjectList } from './Project'
 import { ProjectConnection, ProjectConnectionList } from './ProjectConnection'
-import ProjectUser from './ProjectUser'
+import { ProjectUser, ProjectUserList } from './ProjectUser'
 import { Resource, ResourceList } from './Resource'
-import { Role } from './Role'
+import { Role, RoleList } from './Role'
 
 
 export default {
   Account,
+  AccountList,
 
   ConnectivityCheck,
   ConnectivityCheckList,
@@ -29,9 +30,11 @@ export default {
   ProjectConnectionList,
 
   ProjectUser,
+  ProjectUserList,
 
   Resource,
   ResourceList,
 
   Role,
+  RoleList,
 }

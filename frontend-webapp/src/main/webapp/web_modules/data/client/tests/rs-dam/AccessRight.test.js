@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { ReduxEntityTester } from '@regardsoss/tests-helpers'
-import { AccessRight } from '@regardsoss/model'
+import { DataManagementShapes } from '@regardsoss/shape'
 
 import AccessRightActions from '../../src/rs-dam/accessRight/AccessRightActions'
 import getAccessRightReducer from '../../src/rs-dam/accessRight/AccessRightReducer'
@@ -19,7 +19,7 @@ const accessRightReducer = getAccessRightReducer('test/action')
 const accessRightSelectors = getAccessRightSelectors(['test', 'modules'])
 
 
-const entityTester = new ReduxEntityTester(accessRightActions, accessRightReducer, accessRightSelectors, PropTypes.objectOf(AccessRight).isRequired, backendServerResultList, options)
+const entityTester = new ReduxEntityTester(accessRightActions, accessRightReducer, accessRightSelectors, DataManagementShapes.AccessRightList.isRequired, backendServerResultList, options)
 
 describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing model AccessRight', () => {
   before(() => {

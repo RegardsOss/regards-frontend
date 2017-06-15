@@ -9,7 +9,7 @@ import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
 import Subheader from 'material-ui/Subheader'
 import RaisedButton from 'material-ui/RaisedButton'
-import { Dataset, ModelAttribute } from '@regardsoss/model'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { RenderTextField, Field } from '@regardsoss/form-utils'
 import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
@@ -24,8 +24,8 @@ import DatasetStepperContainer from '../containers/DatasetStepperContainer'
 export class DatasetFormSubsettingComponent extends React.Component {
 
   static propTypes = {
-    modelAttributeList: PropTypes.objectOf(ModelAttribute),
-    currentDataset: Dataset,
+    modelAttributeList: DataManagementShapes.ModelAttributeList,
+    currentDataset: DataManagementShapes.Dataset,
     onSubmit: PropTypes.func.isRequired,
     handleTestSubsetting: PropTypes.func.isRequired,
     handleBack: PropTypes.func.isRequired,

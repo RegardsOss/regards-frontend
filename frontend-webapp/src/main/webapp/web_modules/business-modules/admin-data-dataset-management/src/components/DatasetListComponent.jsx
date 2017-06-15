@@ -7,7 +7,7 @@ import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
-import { Dataset } from '@regardsoss/model'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { ActionsMenuCell, CardActionsComponent, ConfirmDialogComponent, ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -21,7 +21,7 @@ import { datasetActions } from '../clients/DatasetClient'
 export class DatasetListComponent extends React.Component {
 
   static propTypes = {
-    datasetList: PropTypes.objectOf(Dataset),
+    datasetList: DataManagementShapes.DatasetList,
     handleDelete: PropTypes.func.isRequired,
     handleEdit: PropTypes.func.isRequired,
     createUrl: PropTypes.string.isRequired,

@@ -25,7 +25,6 @@ import ModuleConfiguration from '../models/ModuleConfiguration'
 import FormComponent from '../components/user/FormComponent'
 import AttributeModelClient from '../clients/AttributeModelClient'
 
-
 /**
  * Main container to display module form.
  * @author Sébastien binda
@@ -281,13 +280,14 @@ class ModuleContainer extends React.Component {
   }
 
   getInitialValues = () => {
-    const query = replace(this.state.searchQuery, / AND /g, ' ')
-    const values = query.split(/[^ ]*:/g)
-    const keys = query.match(/[^ ]*:/g)
+    const parameters = this.state.searchQuery.split(/ AND /)
     const initialValues = {}
-    if (keys && keys.length > 0) {
-      forEach(keys, (key, index) => initialValues[replace(key, ':', '')] = values[index + 1])
-    }
+    parameters.forEach(parameter => {
+      const keys = parameter.match(/([^ :]*):(.*)$/)
+      if (keys && keys.length === 3) {
+        initialValues[keys[1]] = keys[2]
+      }
+    })
     return initialValues
   }
 
@@ -359,7 +359,7 @@ class ModuleContainer extends React.Component {
     return (
       <div>
         {this.renderForm()}
-        <div style={{ marginTop: 10 }} />
+        <div style={{ marginTop: 10 }}/>
         {this.renderResults()}
       </div>
     )

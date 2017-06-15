@@ -14,6 +14,7 @@ const ProjectUser = PropTypes.shape({
     metadata: MetadataArray,
   }),
 })
+const ProjectUserList = PropTypes.objectOf(ProjectUser)
 
 
-export default ProjectUser
+export default { ProjectUser, ProjectUserList }

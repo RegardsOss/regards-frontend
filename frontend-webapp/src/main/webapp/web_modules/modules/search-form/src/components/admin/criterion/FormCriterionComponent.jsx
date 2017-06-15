@@ -92,7 +92,7 @@ class FormCriterionComponent extends React.Component {
 
   getCriteriaAttributes = (criteria) => {
     const attributes = get(criteria, 'conf.attributes')
-    if (!attributes){
+    if (!attributes) {
       return ''
     }
     return reduce(attributes, (result, attribute) => {

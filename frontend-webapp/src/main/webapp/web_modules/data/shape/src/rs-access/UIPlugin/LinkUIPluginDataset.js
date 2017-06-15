@@ -15,6 +15,9 @@ const LinkUIPluginDataset = PropTypes.shape({
   }).isRequired,
 })
 
+const LinkUIPluginDatasetList = PropTypes.objectOf(LinkUIPluginDataset)
+
 export default {
   LinkUIPluginDataset,
+  LinkUIPluginDatasetList,
 }

@@ -5,6 +5,10 @@ const Connection = PropTypes.shape({
   }).isRequired,
 })
 
+const ConnectionList = PropTypes.objectOf(Connection)
+
+
 export default {
   Connection,
+  ConnectionList,
 }

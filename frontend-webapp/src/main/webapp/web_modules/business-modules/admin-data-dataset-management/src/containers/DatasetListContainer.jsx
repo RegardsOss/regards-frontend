@@ -4,7 +4,7 @@
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
-import { Dataset } from '@regardsoss/model'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { datasetActions, datasetSelectors } from '../clients/DatasetClient'
 import DatasetListComponent from '../components/DatasetListComponent'
@@ -20,7 +20,7 @@ export class DatasetListContainer extends React.Component {
       project: PropTypes.string,
     }),
     // from mapStateToProps
-    datasetList: PropTypes.objectOf(Dataset),
+    datasetList: DataManagementShapes.DatasetList,
     // from mapDispatchToProps
     fetchDatasetList: PropTypes.func,
     deleteDataset: PropTypes.func,
