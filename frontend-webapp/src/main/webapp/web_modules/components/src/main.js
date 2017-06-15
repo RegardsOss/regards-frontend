@@ -34,6 +34,7 @@ import SingleContentURLDialogContainer from './dialogs/SingleContentURLDialogCon
 import ErrorCardComponent from './error/ErrorCardComponent'
 import PageNotFoundComponent from './error/PageNotFoundProvider'
 
+import Breadcrumb from './links/Breadcrumb'
 import PictureLinkComponent from './links/PictureLinkComponent'
 
 import PageableListContainer from './list/PageableListContainer'
@@ -105,6 +106,7 @@ export {
   OnHoverSwitchIconButton,
   OnHoverSwitchRaisedButton,
   PageableListContainer,
+  Breadcrumb,
   PictureLinkComponent,
   SecondaryActionButtonComponent,
   ShowableAtRender,

@@ -49,11 +49,11 @@ export default {
    * @return action download URL for description file
    */
   getDirectDownloadURL: (entityType, id, token) => {
-    const downloadURL = getDownloadURL(entityType, id)
+    let downloadURL = getDownloadURL(entityType, id)
     if (token) {
-      return `${downloadURL}?token=${token}`
+      downloadURL = `${downloadURL}?token=${token}`
     }
-    return downloadURL
+    return encodeURI(downloadURL)
   },
 
 

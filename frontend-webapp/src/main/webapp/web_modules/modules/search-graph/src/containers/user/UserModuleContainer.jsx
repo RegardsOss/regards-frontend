@@ -20,6 +20,7 @@ import fetchGraphDatasetsActions from '../../model/graph/FetchGraphDatasetsActio
 import graphContextSelectors from '../../model/graph/GraphContextSelectors'
 import NavigableSearchResults from '../../components/user/NavigableSearchResults'
 import SearchGraph from '../../components/user/SearchGraph'
+import DescriptionContainer from './DescriptionContainer'
 
 /**
  * Module container for user interface
@@ -188,6 +189,8 @@ export class UserModuleContainer extends React.Component {
 
     return (
       <div>
+        { /* Description handling */}
+        <DescriptionContainer />
         <SearchGraph
           moduleCollapsed={moduleCollapsed}
           graphDatasetAttributes={graphDatasetAttributes}

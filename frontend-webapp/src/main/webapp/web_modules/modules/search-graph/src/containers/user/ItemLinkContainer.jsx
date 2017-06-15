@@ -3,7 +3,7 @@
 **/
 import { connect } from '@regardsoss/redux'
 import { CatalogEntity } from '@regardsoss/model'
-import GraphContextActions from '../../model/graph/GraphContextActions'
+import { descriptionLevelActions } from '../../model/description/DescriptionLevelModel'
 import ItemLink from '../../components/user/ItemLink'
 
 /**
@@ -12,7 +12,7 @@ import ItemLink from '../../components/user/ItemLink'
 export class ItemLinkContainer extends React.Component {
 
   static mapDispatchToProps = dispatch => ({
-    dispatchShowDescription: entity => dispatch(GraphContextActions.showDescription(entity)),
+    dispatchShowDescription: entity => dispatch(descriptionLevelActions.show(entity)),
   })
 
   static propTypes = {

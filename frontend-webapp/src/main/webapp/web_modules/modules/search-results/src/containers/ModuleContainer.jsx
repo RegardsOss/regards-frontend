@@ -11,6 +11,7 @@ import { AttributeModelActions, AttributeModelSelectors } from '../clients/Attri
 import ModuleConfiguration from '../models/ModuleConfiguration'
 import URLManagementContainer from './user/URLManagementContainer'
 import DatasetServicesContainer from './user/DatasetServicesContainer'
+import DescriptionContainer from './user/DescriptionContainer'
 import ModuleComponent from '../components/user/ModuleComponent'
 
 
@@ -79,8 +80,10 @@ export class ModuleContainer extends React.Component {
             initialViewObjectType={initialViewObjectType}
             displayDatasets={!!displayDatasets}
           />
-          { /* Current dataset services management (no view) */}
+          { /* Current dataset services management */}
           <DatasetServicesContainer initialDatasetIpId={singleDatasetIpId} />
+          { /* Description handling */}
+          <DescriptionContainer />
           { /* View : module */}
           <ModuleComponent
             appName={appName}

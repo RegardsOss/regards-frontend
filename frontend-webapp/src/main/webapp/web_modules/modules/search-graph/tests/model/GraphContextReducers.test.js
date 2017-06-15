@@ -116,27 +116,4 @@ describe('[Search Graph] Test graph context reducer', () => {
       datasetsAttributesVisible: false,
     }, 'Set dataset attributes hidden should be correctly reduced')
   })
-
-  it('Should reduce show / hide description actions', () => {
-    let currentState = DEFAULT_STATE
-    const entity = { aDay: 'aNight' }
-    let reduced = reduce(currentState, graphContextActions.showDescription(entity))
-    assert.deepEqual(reduced, {
-      ...currentState,
-      description: {
-        visible: true,
-        entity,
-      },
-    }, 'Showing description should be correctly reduced')
-
-    currentState = reduced
-    reduced = reduce(currentState, graphContextActions.hideDescription())
-    assert.deepEqual(reduced, {
-      ...currentState,
-      description: {
-        visible: false,
-        entity: null,
-      },
-    }, 'Hidding description should be correctly reduced')
-  })
 })

@@ -1,17 +1,22 @@
 const messages = {
-  'entities.common.loading.message': 'Loading information, please wait',
-  'entities.common.attributes.tabs': 'Attributes',
+  'description.breadcrumb.root': 'Description: {entityLabel}',
+  'entities.common.properties.tabs': 'Properties',
   'entities.common.description.tabs': 'Description',
   'entities.common.close.button': 'Close',
-  'entities.common.attributes.no.value.title': 'No attribute',
-  'entities.common.attributes.no.value.message': 'There is no attribute to display for {entityLabel}',
-  'entities.common.attributes.column.label': 'Label',
-  'entities.common.attributes.column.value': 'Value',
-  'entities.common.attribute.cell.no.value': '-',
+  'entities.common.properties.attributes': 'Attributes',
+  'entities.common.properties.loading.attributes': 'Loading attributes information',
+  'entities.common.properties.attribute.cell.no.value': '-',
+  'entities.common.properties.no.attribute': 'This entity has no attribute',
+  'entities.common.properties.tags.entities': 'Related tags',
+  'entities.common.properties.loading.tags': 'Loading tags information',
+  'entities.common.properties.no.tag': 'This entity has no tag',
+  'entities.common.properties.tag.search.tooltip': 'Search for entities with that tag',
+  'entities.common.properties.tag.show.description.tooltip': 'Show entity detail',
+
+  'entities.common.description.loading': 'Loading description information',
   'entities.common.description.no.value.title': 'No description',
-  'entities.common.description.no.value.message': 'There is no description to display for {entityLabel}',
-  'entities.tags.title': 'Associated keywords',
-  'entities.no.tags.found': 'No keywords associated to the current entity',
+  'entities.common.description.no.value.message': 'This entity has no description',
+
 }
 
 export default messages

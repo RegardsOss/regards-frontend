@@ -29,7 +29,7 @@ import { getTypeRender } from '@regardsoss/attributes-common'
 import { selectors as searchSelectors } from '../../../clients/SearchEntitiesClient'
 import TableClient from '../../../clients/TableClient'
 import Service from '../../../definitions/service/Service'
-import ListViewEntityCellComponent from './ListViewEntityCellComponent'
+import ListViewEntityCellContainer from '../../../containers/user/results/ListViewEntityCellContainer'
 import TableSortFilterComponent from './options/TableSortFilterComponent'
 import TableSelectAllContainer from '../../../containers/user/results/options/TableSelectAllContainer'
 import SelectionServiceComponent from './options/SelectionServiceComponent'
@@ -59,6 +59,7 @@ class SearchResultsComponent extends React.Component {
     showingDataobjects: PropTypes.bool.isRequired,     // is Currently showing data objects (false: showing datasets)
     viewMode: PropTypes.oneOf(values(SearchResultsComponent.ViewModes)), // current mode
     showingFacettes: PropTypes.bool.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
     sortingOn: PropTypes.arrayOf(PropTypes.shape({ // user sorting, showing only when user set, not the default one
       attributePath: PropTypes.string.isRequired,
       type: PropTypes.oneOf(values(TableSortOrders)).isRequired,
@@ -176,14 +177,14 @@ class SearchResultsComponent extends React.Component {
 
   buildAttrRegroupementColumns = (attributesRegroupementsConf, attributeModels) => reduce(attributesRegroupementsConf, (allColumns, attrRegroupementConf) => {
     if (attrRegroupementConf.visibility) {
-        // 1 -rebuild attributes
+      // 1 -rebuild attributes
       const attributes = reduce(attrRegroupementConf.attributes, (results, attributeId) => {
         const attribute = find(attributeModels, att => att.content.id === attributeId)
         return attribute ?
-            [...results, AttributeModelController.getAttributeFullyQualifiedNameWithoutDefaultFragment(attribute)] :
-            results
+          [...results, AttributeModelController.getAttributeFullyQualifiedNameWithoutDefaultFragment(attribute)] :
+          results
       }, [])
-        // 2 - If attributes could be rebuilt, return corresponding columns
+      // 2 - If attributes could be rebuilt, return corresponding columns
       if (attributes && attributes.length) {
         return [...allColumns, {
           label: attrRegroupementConf.label,
@@ -193,7 +194,7 @@ class SearchResultsComponent extends React.Component {
         }]
       }
     }
-      // ignored regroupement
+    // ignored regroupement
     return allColumns
   }, [])
 
@@ -205,7 +206,7 @@ class SearchResultsComponent extends React.Component {
     label: 'ListviewCell',
     attributes: [],
     customCell: {
-      component: ListViewEntityCellComponent,
+      component: ListViewEntityCellContainer,
       props: {
         // click: select a dataset when in dataset mode
         onClick: showingDataobjects ? null : onSelectDataset,

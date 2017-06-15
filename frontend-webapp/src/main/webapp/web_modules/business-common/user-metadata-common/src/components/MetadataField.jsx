@@ -1,11 +1,10 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
-import reduce from 'lodash/reduce'
 import sortBy from 'lodash/sortBy'
 import MenuItem from 'material-ui/MenuItem'
 import { i18nContextType } from '@regardsoss/i18n'
-import { Field, RenderTextField, RenderSelectField, ErrorTypes } from '@regardsoss/form-utils'
+import { Field, RenderTextField, RenderSelectField, ErrorTypes, StringComparison } from '@regardsoss/form-utils'
 import { Metadata } from '../model/Metadata'
 import metadatav1 from '../definitions/metadatav1'
 
@@ -17,30 +16,6 @@ const DEFAULT_MULTILINES_COUNT = 3
 * Note: when importing this field, you should make sure the i18n keys of this module are available
 */
 class MetadataField extends React.Component {
-
-  static charToAccentMap = {
-    a: ['à', 'á', 'â', 'ã', 'ä', 'å', 'æ'],
-    c: ['ç'],
-    e: ['è', 'é', 'ê', 'ë', 'æ'],
-    i: ['ì', 'í', 'î', 'ï'],
-    n: ['ñ'],
-    o: ['ò', 'ó', 'ô', 'õ', 'ö', 'ø'],
-    s: ['ß'],
-    u: ['ù', 'ú', 'û', 'ü'],
-    y: ['ÿ'],
-  }
-
-  /**
-   * Returns a comparable string from string as parameter (removes accents and case)
-   * @param {*} str string
-   * @return comparable string
-   */
-  static getComparableLabel(str) {
-    return reduce(MetadataField.charToAccentMap,
-      (acc, accents, char) =>
-        accents.reduce((innerAcc, accent) => innerAcc.split(accent).join(char), acc)
-      , str.toLowerCase())
-  }
 
   static propTypes = {
     metadata: Metadata,
@@ -71,7 +46,7 @@ class MetadataField extends React.Component {
           return {
             key,
             message,
-            sortString: MetadataField.getComparableLabel(message),
+            sortString: StringComparison.getComparableLabel(message),
           }
         }), ['sortString'])
       }

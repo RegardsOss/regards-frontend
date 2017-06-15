@@ -17,12 +17,8 @@ import {
   ObjectLinkedFileTypes,
 } from '@regardsoss/model'
 import { themeContextType } from '@regardsoss/theme'
-import { DetailViewContainer } from '@regardsoss/entities-common'
 import { getTypeRender } from '@regardsoss/attributes-common'
 import { TableColumnConfiguration, TableColumnConfigurationController } from '@regardsoss/components'
-import downloadDescriptionClient from '../../../clients/DownloadDescriptionClient'
-import { ModelAttributesActions, ModelAttributesSelectors } from '../../../clients/ModelAttributeClient'
-
 
 /**
  * Component to display datasets in search results.
@@ -33,29 +29,25 @@ class ListViewEntityCellComponent extends React.Component {
 
   static propTypes = {
 
-    // Parameters set by table component
-
     // Entity to display
     entity: CatalogEntity.isRequired,
     attributes: PropTypes.objectOf(AttributeModel),
-    // eslint-disable-next-line react/no-unused-prop-types
     lineHeight: PropTypes.number.isRequired,
     // Parameters to handle row selection
     isTableSelected: PropTypes.bool,
     selectTableEntityCallback: PropTypes.func,
-
-    // Parameters set by columnConfiguration
-
     // Columns configuration to display
     tableColumns: PropTypes.arrayOf(TableColumnConfiguration),
     // Callback to run a new search with the given tag
     onSearchTag: PropTypes.func,
-    // Callback when click on entity label
-    onClick: PropTypes.func,
     // eslint-disable-next-line react/forbid-prop-types
     styles: PropTypes.object,
     // Display checbox for entities selection ?
     displayCheckBoxes: PropTypes.bool,
+    // callback: on entity selection (or null when not clickable)
+    onEntitySelection: PropTypes.func,
+    // callback: on show description
+    onShowDescription: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -66,32 +58,8 @@ class ListViewEntityCellComponent extends React.Component {
     super(props)
     this.state = {
       style: this.props.styles.lineOut,
-      descriptionOpen: false,
     }
   }
-
-  onCloseDescription = () => {
-    this.setState({
-      descriptionOpen: false,
-    })
-  }
-
-  /**
-   * Callback to display entity description
-   */
-  onEntityInformation = () => {
-    this.setState({
-      descriptionOpen: true,
-    })
-  }
-
-  /**
-   * Callback when a dataset is selected. Click on his label
-   */
-  onEntitySelection = () => {
-    this.props.onClick(this.props.entity)
-  }
-
   /**
    * Set the css styles when the cursor is hover the dataset cell
    * @param cursor
@@ -242,39 +210,20 @@ class ListViewEntityCellComponent extends React.Component {
           style={checkboxStyle}
         /> : null}
         <span
-          onMouseEnter={this.props.onClick ? this.setHoverClickableStyle : undefined}
-          onMouseLeave={this.props.onClick ? this.setStandardStyle : undefined}
-          onTouchTap={this.props.onClick ? this.onEntitySelection : undefined}
+          onMouseEnter={this.props.onEntitySelection ? this.setHoverClickableStyle : undefined}
+          onMouseLeave={this.props.onEntitySelection ? this.setStandardStyle : undefined}
+          onTouchTap={this.props.onEntitySelection ? this.props.onEntitySelection : undefined}
           style={titleStyle}
         >{this.props.entity.content.label}</span>
         <div style={downloadStyle}>
           {this.displayDownload()}
           <InfoIcon
-            onTouchTap={this.onEntityInformation}
+            onTouchTap={this.props.onShowDescription}
             style={infoIconStyle}
           />
         </div>
       </div>
     )
-  }
-
-  displayDescription = () => {
-    if (this.state.descriptionOpen) {
-      return (
-        <DetailViewContainer
-          dialogHeightPercent={50}
-          dialogWidthPercent={60}
-          open={this.state.descriptionOpen}
-          entity={this.props.entity}
-          onClose={this.onCloseDescription}
-          downloadDescriptionClient={downloadDescriptionClient}
-          fetchModelAttributesActions={ModelAttributesActions}
-          fetchModelAttributesSelectors={ModelAttributesSelectors}
-          onSearchTag={this.handleSearchTag}
-        />
-      )
-    }
-    return null
   }
 
   displayDownload = () => {
@@ -305,7 +254,6 @@ class ListViewEntityCellComponent extends React.Component {
   }
 
   handleSearchTag = (tag) => {
-    this.onCloseDescription()
     this.props.onSearchTag(tag)
   }
 
@@ -343,7 +291,6 @@ class ListViewEntityCellComponent extends React.Component {
               {attributes}
             </div>
           </div>
-          {this.displayDescription()}
         </CardText>
       </Card>
     )

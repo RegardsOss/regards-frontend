@@ -43,10 +43,6 @@ const reduce = (state = DEFAULT_STATE, action) => {
       return { ...state, datasetsAttributesVisible: action.visible }
     case GraphContextActions.SET_MODULE_COLLAPSED:
       return { ...state, moduleCollapsed: action.collapsed }
-    case GraphContextActions.SHOW_ENTITY_DESCRIPTION:
-      return { ...state, description: { visible: true, entity: action.entity } }
-    case GraphContextActions.HIDE_ENTITY_DESCRIPTION:
-      return { ...state, description: DEFAULT_STATE.description }
     default:
       return state
   }
