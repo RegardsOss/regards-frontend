@@ -2,6 +2,8 @@
  * LICENSE_PLACEHOLDER
  **/
 import find from 'lodash/find'
+import get from 'lodash/get'
+import isString from 'lodash/isString'
 /**
  * Controller for AttributeModel entities
  *
@@ -12,83 +14,25 @@ import find from 'lodash/find'
  * Constant to define where to find dynamic attributes in the data objects returned by the search endpoint
  * @type {string}
  */
-const DATA_ATTRIBUTES_FIELD = 'properties'
-const DEFAULT_FRAGMENT = 'default'
 const StandardAttributes = [
-  'ipId', 'sipId', 'label', 'creationDate', 'lastUpdate', 'thumbmail', 'download',
+  'ipId', 'sipId', 'label', 'creationDate', 'lastUpdate', 'thumbnail', 'download',
 ]
+const SearchableStandardAttributes = ['label', 'creationDate', 'lastUpdate']
 const SPECIAL_FILES_ATTRIBUTE_NAME = 'files'
-
-/**
- * Return the fully qualified name of the given attribute. The fully qualified name is :
- * <attribute.fragment.name>.<attribute.name>
- *
- * @param attribute
- * @returns {string}
- */
-const getAttributeFullyQualifiedName = (attributeModel) => {
-  if (!attributeModel || !attributeModel.content || !attributeModel.content.name) {
-    return null
-  }
-
-  if (!attributeModel.content.fragment || !attributeModel.content.fragment.name || attributeModel.content.fragment.name.length === 0) {
-    return attributeModel.content.name
-  }
-  return `${attributeModel.content.fragment.name}.${attributeModel.content.name}`
-}
+const DEFAULT_FRAGMENT = 'default'
 
 /**
  * Returns path to attribute
  *  @param attribute : attribute model
  * @return [String] attribute access path in an entity
  */
-const getAttributeAccessPath = ({ content: { fragment, name } }) => {
-  if (!fragment || !fragment.name || fragment.name.toLowerCase() === DEFAULT_FRAGMENT) {
-    return [DATA_ATTRIBUTES_FIELD, name]
-  }
-  return [DATA_ATTRIBUTES_FIELD, fragment.name, name]
-}
-/**
- * Return the fully qualified name of the given attribute and ignoring the main "default" fragment
- *
- * @param attribute
- * @returns {string}
- */
-const getAttributeFullyQualifiedNameWithoutDefaultFragment = attribute => getAttributeAccessPath(attribute).join('.')
-
-/**
- * Return entity path for given attributeFullyQualified name.
- * Entity path is the path into Entity object to access an attribute value.
- * This path is :
- * properties.<fragment>.<name> for dynamic model attributes
- * properties.name for attributes of the default model
- * name for standard attributes
- *
- * @param attributeFullyQualifiedName
- * @returns {*}
- */
-const getEntityAttributeAccessPathFromAttFullyQualifiedName = (attributeFullyQualifiedName) => {
-  const nameParts = attributeFullyQualifiedName.split('.')
-  let result = null
-  if (nameParts.length === 1) {
-    // No fragment : standard attribute.
-    result = nameParts[0]
-  } else if (nameParts.length === 2) {
-    if (nameParts[0] === DEFAULT_FRAGMENT) {
-      // Default fragment : No fragment in path
-      result = `${DATA_ATTRIBUTES_FIELD}.${nameParts[1]}`
-    } else {
-      result = `${DATA_ATTRIBUTES_FIELD}.${attributeFullyQualifiedName}`
-    }
-  }
-  return result
-}
+const getAttributeAccessPath = attributeModel => get(attributeModel, 'content.jsonPath')
 
 const findAttribute = (attributeName, attributeFragment, attributeModelsList) => find(attributeModelsList, ({ content: { name, fragment } }) => attributeName === name && attributeFragment === fragment.name)
 
 const findLabelFromAttributeFullyQualifiedName = (attributeFullyQualifiedName, attributeModels) => {
   // []
-  // content >> fragment >> name ("default" par exemple)
+  // content >> fragment >> name ("default" for example)
   // content >> name
   const [searchedFragmentName, searchAttributeName] = attributeFullyQualifiedName.split('.').map(a => a.toLowerCase())
   const foundAttribute = findAttribute(searchAttributeName, searchedFragmentName, attributeModels)
@@ -111,7 +55,7 @@ const ATTRIBUTE_TYPES = {
   LONG_INTERVAL: 'LONG_INTERVAL',
   STRING: 'STRING',
   URL: 'URL',
-  THUMBMAIL: 'THUMBMAIL',
+  THUMBNAIL: 'THUMBNAIL',
   DOWNLOAD_LINK: 'DOWNLOAD_LINK',
 }
 
@@ -125,8 +69,8 @@ function getStandardAttributeType(standardAttribute) {
     case 'creationDate':
     case 'lastUpdate':
       return ATTRIBUTE_TYPES.DATE_ISO8601
-    case 'thumbmail' :
-      return ATTRIBUTE_TYPES.THUMBMAIL
+    case 'thumbnail' :
+      return ATTRIBUTE_TYPES.THUMBNAIL
     case 'download' :
       return ATTRIBUTE_TYPES.DOWNLOAD_LINK
     case 'ipId':
@@ -145,7 +89,7 @@ function getStandardAttributeType(standardAttribute) {
  * @returns {boolean}
  */
 function getStandardAttributeEntityPathName(standardAttribute) {
-  if (standardAttribute === 'thumbmail' || standardAttribute === 'download') {
+  if (standardAttribute === 'thumbnail' || standardAttribute === 'download') {
     return SPECIAL_FILES_ATTRIBUTE_NAME
   }
   return standardAttribute
@@ -165,7 +109,7 @@ function getEntityAttributeValue(entity, fullQualifiedPath) {
     throw new Error('Cannot extract any entity value from null entity')
   }
   // prepare path as array
-  const path = fullQualifiedPath instanceof String ? fullQualifiedPath.split('.') : fullQualifiedPath
+  const path = isString(fullQualifiedPath) ? fullQualifiedPath.split('.') : fullQualifiedPath
   if (path.length < 1) {
     throw new Error('An attribute path cannot have less than one element!')
   }
@@ -179,17 +123,41 @@ function getEntityAttributeValue(entity, fullQualifiedPath) {
   return resolveAttribute(entity.content, path)
 }
 
+/**
+ * Method to retrieve full label of a given AttributeModel. The full labels is a string composed with fragment and attribute names.
+ * @param attribute
+ * @returns {string}
+ */
+function getAttributeModelFullLabel(attribute) {
+  let fullAttributeLabel = ''
+
+  const fragment = get(attribute, 'content.fragment.name')
+  const attributeLabel = get(attribute, 'content.label')
+  const attributeName = get(attribute, 'content.name')
+  if (fragment && (fragment !== DEFAULT_FRAGMENT)) {
+    fullAttributeLabel = `${fragment} - `
+  }
+
+  if (attributeLabel) {
+    fullAttributeLabel = `${fullAttributeLabel}${attributeLabel}`
+  } else if (name) {
+    fullAttributeLabel = `${fullAttributeLabel}${attributeName}`
+  } else {
+    fullAttributeLabel = `${fullAttributeLabel}undefined`
+  }
+
+  return fullAttributeLabel
+}
+
 export default {
   getAttributeAccessPath,
-  getAttributeFullyQualifiedName,
-  getAttributeFullyQualifiedNameWithoutDefaultFragment,
   getEntityAttributeValue,
-  getEntityAttributeAccessPathFromAttFullyQualifiedName,
   getStandardAttributeType,
   findLabelFromAttributeFullyQualifiedName,
   findAttribute,
   getStandardAttributeEntityPathName,
+  getAttributeModelFullLabel,
   StandardAttributes,
+  SearchableStandardAttributes,
   ATTRIBUTE_TYPES,
-  DEFAULT_FRAGMENT,
 }

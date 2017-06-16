@@ -9,6 +9,7 @@ import flatten from 'lodash/flatten'
 import forEach from 'lodash/forEach'
 import cloneDeep from 'lodash/cloneDeep'
 import reduce from 'lodash/reduce'
+import replace from 'lodash/replace'
 import isEqual from 'lodash/isEqual'
 import isInteger from 'lodash/isInteger'
 import values from 'lodash/values'
@@ -23,7 +24,6 @@ import DatasetSelectionType from '../models/datasets/DatasetSelectionTypes'
 import ModuleConfiguration from '../models/ModuleConfiguration'
 import FormComponent from '../components/user/FormComponent'
 import AttributeModelClient from '../clients/AttributeModelClient'
-
 
 /**
  * Main container to display module form.
@@ -158,9 +158,9 @@ class ModuleContainer extends React.Component {
             if (AttributeModelController.StandardAttributes.includes(attributeId)) {
               // Create standard attribute conf
               criteria.conf.attributes[key] = {
-                id: attributeId,
                 name: attributeId,
                 label: attributeId,
+                jsonPath: attributeId,
                 type: AttributeModelController.getStandardAttributeType(attributeId),
               }
             }
@@ -279,6 +279,18 @@ class ModuleContainer extends React.Component {
     browserHistory.push(`${browserHistory.getCurrentLocation().pathname}?q=${query}`)
   }
 
+  getInitialValues = () => {
+    const parameters = this.state.searchQuery.split(/ AND /)
+    const initialValues = {}
+    parameters.forEach((parameter) => {
+      const keys = parameter.match(/([^ :]*):(.*)$/)
+      if (keys && keys.length === 3) {
+        initialValues[keys[1]] = keys[2]
+      }
+    })
+    return initialValues
+  }
+
   renderForm() {
     // If a search query is set, hide form component
     /* if (this.state.searchQuery && this.state.searchQuery !== this.getInitialQuery()) {
@@ -287,6 +299,7 @@ class ModuleContainer extends React.Component {
     if (this.props.moduleConf.layout) {
       const pluginsProps = {
         onChange: this.onCriteriaChange,
+        initialValues: this.getInitialValues(),
       }
       const criterionWithAttributes = this.getCriterionWithAttributeModels()
       return (

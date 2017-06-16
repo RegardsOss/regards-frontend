@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { ReduxEntityTester } from '@regardsoss/tests-helpers'
-import { PluginMetaData } from '@regardsoss/model'
+import { CommonShapes } from '@regardsoss/shape'
 import PluginMetaDataActions from '../../src/rs-common/pluginMetaData/PluginMetaDataActions'
 import PluginMetaDataReducer from '../../src/rs-common/pluginMetaData/PluginMetaDataReducer'
 import PluginMetaDataSelectors from '../../src/rs-common/pluginMetaData/PluginMetaDataSelectors'
@@ -18,7 +18,7 @@ const pluginMetaDataActions = new PluginMetaDataActions('test/action')
 const pluginMetaDataReducer = PluginMetaDataReducer('test/action')
 const pluginMetaDataSelectors = PluginMetaDataSelectors(['test', 'modules'])
 
-const entityTester = new ReduxEntityTester(pluginMetaDataActions, pluginMetaDataReducer, pluginMetaDataSelectors, PropTypes.objectOf(PluginMetaData).isRequired, backendServerResultList, options)
+const entityTester = new ReduxEntityTester(pluginMetaDataActions, pluginMetaDataReducer, pluginMetaDataSelectors, CommonShapes.PluginMetaDataList.isRequired, backendServerResultList, options)
 
 describe('[ADMIN CLIENT] Testing model PluginMetaData', () => {
   before(() => {

@@ -19,4 +19,7 @@ const Module = PropTypes.shape({
   }),
 })
 
-export default Module
+const ModuleList = PropTypes.objectOf(Module)
+
+
+export default { ModuleList, Module }

@@ -9,6 +9,8 @@ import NavigationLevel from '../../models/navigation/NavigationLevel'
 import navigationContextActions from '../../models/navigation/NavigationContextActions'
 import navigationContextSelectors from '../../models/navigation/NavigationContextSelectors'
 import { actions as searchEntityActions } from '../../clients/SearchEntityClient'
+import DisplayModeEnum from '../../models/navigation/DisplayModeEnum'
+
 
 /**
  * module URL parameters
@@ -17,6 +19,7 @@ const ModuleURLParameters = {
   TARGET_PARAMETER: 't',
   DATASET_IPID_PARAMETER: 'ds',
   SEARCH_TAG_PARAMETER: 'tag',
+  DISPLAY_MODE_PARAMETER: 'd',
 }
 
 /**
@@ -27,12 +30,13 @@ export class URLManagementContainer extends React.Component {
   static mapStateToProps = state => ({
     levels: navigationContextSelectors.getLevels(state),
     viewObjectType: navigationContextSelectors.getViewObjectType(state),
+    displayMode: navigationContextSelectors.getDisplayMode(state),
   })
 
   static mapDispatchToProps = dispatch => ({
     dispatchFetchDataset: datasetIpId => dispatch(searchEntityActions.getEntity(datasetIpId)),
-    initialize: ((viewObjectType, rootContextLabel, searchTag, dataset) =>
-      dispatch(navigationContextActions.initialize(viewObjectType, rootContextLabel, searchTag, dataset))),
+    initialize: ((viewObjectType, displayMode, rootContextLabel, searchTag, dataset) =>
+      dispatch(navigationContextActions.initialize(viewObjectType, displayMode, rootContextLabel, searchTag, dataset))),
   })
 
   static propTypes = {
@@ -40,6 +44,8 @@ export class URLManagementContainer extends React.Component {
     initialContextLabel: PropTypes.string,
     // context initial view mode
     initialViewObjectType: PropTypes.oneOf([SearchResultsTargetsEnum.DATAOBJECT_RESULTS, SearchResultsTargetsEnum.DATASET_RESULTS]).isRequired,
+    // context initial display mode
+    initialDisplayMode : PropTypes.oneOf([DisplayModeEnum.LIST,DisplayModeEnum.TABLE]).isRequired,
     // current URL query information, used to detect browsing
     currentPath: PropTypes.string.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
@@ -86,7 +92,8 @@ export class URLManagementContainer extends React.Component {
       // URL changed, remap the state
       this.updateStateFromURL(nextProps)
     } else if (!isEqual(previousProps.levels, nextProps.levels) ||
-      !isEqual(previousProps.viewObjectType, nextProps.viewObjectType)) {
+      !isEqual(previousProps.viewObjectType, nextProps.viewObjectType) ||
+        !isEqual(previousProps.displayMode, nextProps.displayMode)) {
       this.updateURLFromState(nextProps)
     }
   }
@@ -97,7 +104,7 @@ export class URLManagementContainer extends React.Component {
    */
   updateStateFromURL = (nextProps) => {
     // first load: parse tag and dataset from URL, then initialize the module store
-    const { initialViewObjectType, initialContextLabel, initialize, currentQuery: query, displayDatasets } = nextProps
+    const { initialViewObjectType, initialDisplayMode, initialContextLabel, initialize, currentQuery: query, displayDatasets } = nextProps
 
     // collect query parameters from URL
 
@@ -105,6 +112,7 @@ export class URLManagementContainer extends React.Component {
       SearchResultsTargetsEnum.DATAOBJECT_RESULTS // object type: forbid dataset when they cannot be displayed
     const searchTag = query[ModuleURLParameters.SEARCH_TAG_PARAMETER]
     const datasetIpId = query[ModuleURLParameters.DATASET_IPID_PARAMETER]
+    const displayMode = query[ModuleURLParameters.DISPLAY_MODE_PARAMETER] || initialDisplayMode
 
     // do not update if already equivalent
     const getLevelValue = level => level && level.levelValue // return level value or undefined, to compare with URL parameters
@@ -115,7 +123,7 @@ export class URLManagementContainer extends React.Component {
       getLevelValue(NavigationLevel.getSearchTagLevel(nextProps.levels)) !== searchTag) {
       // initialize
       this.getDataset(datasetIpId, nextProps.dispatchFetchDataset)
-        .then(({ payload: dataset }) => initialize(viewObjectType, initialContextLabel, searchTag, dataset))
+        .then(({ payload: dataset }) => initialize(viewObjectType, displayMode, initialContextLabel, searchTag, dataset))
         .catch(initialize(viewObjectType, initialContextLabel, searchTag))
     }
   }
@@ -125,7 +133,7 @@ export class URLManagementContainer extends React.Component {
    * @param nextProps next component properties
    */
   updateURLFromState = (nextProps) => {
-    const { viewObjectType, levels, currentQuery, currentPath } = nextProps
+    const { viewObjectType, displayMode, levels, currentQuery, currentPath } = nextProps
 
     // Report new state properties in URL, if significant
     const nextBrowserQuery = { ...currentQuery }
@@ -135,6 +143,11 @@ export class URLManagementContainer extends React.Component {
     const urlObjectType = currentQuery[ModuleURLParameters.TARGET_PARAMETER]
     if (viewObjectType !== SearchResultsTargetsEnum.DATAOBJECT_RESULTS || urlObjectType) {
       nextBrowserQuery[ModuleURLParameters.TARGET_PARAMETER] = viewObjectType
+    }
+
+    const urlDisplayMode = currentQuery[ModuleURLParameters.DISPLAY_MODE_PARAMETER]
+    if (displayMode !== urlDisplayMode || this.props.initialDisplayMode){
+      nextBrowserQuery[ModuleURLParameters.DISPLAY_MODE_PARAMETER] = displayMode
     }
 
     // 2 - search tag

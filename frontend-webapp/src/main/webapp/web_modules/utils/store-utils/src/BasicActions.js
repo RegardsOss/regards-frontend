@@ -4,6 +4,8 @@
 import forEach from 'lodash/forEach'
 import replace from 'lodash/replace'
 import split from 'lodash/split'
+import endsWith from 'lodash/endsWith'
+import trimEnd from 'lodash/trimEnd'
 import join from 'lodash/join'
 import takeRight from 'lodash/takeRight'
 import RequestVerbEnum from './RequestVerbEnum'
@@ -71,6 +73,9 @@ class BasicActions {
     let endpoint = entityEndpoint
     if (queryParams) {
       forEach(queryParams, (param, key) => {
+        if (endsWith(endpoint, '?')) {
+          endpoint = trimEnd(endpoint, '?')
+        }
         if (endpoint.includes('?')) {
           endpoint = `${endpoint}&${key}=${param}`
         } else {

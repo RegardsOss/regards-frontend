@@ -12,6 +12,8 @@ const messages = {
 
   'criterion.aggregator.between': 'between',
   'criterion.aggregator.and': 'and',
+
+  'criterion.clear': 'Clear',
 }
 
 export default messages

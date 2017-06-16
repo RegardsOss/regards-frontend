@@ -17,7 +17,7 @@ export const DEFAULT_STATE = {
  * reduce initialize action
  * @param {*} action initialization action
  */
-const initialize = ({ viewObjectType, initialContextLabel, searchTag, dataset }) => {
+const initialize = ({ viewObjectType, displayMode, initialContextLabel, searchTag, dataset }) => {
   // store root level
   const levels = [NavigationLevel.buildRootLevel(initialContextLabel)]
   // append search tag if specified
@@ -29,7 +29,7 @@ const initialize = ({ viewObjectType, initialContextLabel, searchTag, dataset })
     const { label, ipId } = dataset.content
     levels.push(NavigationLevel.buildDatasetLevel(ipId, label))
   }
-  return { viewObjectType, levels }
+  return { viewObjectType, displayMode, levels }
 }
 
 /**
@@ -97,6 +97,8 @@ const reduce = (state = DEFAULT_STATE, action) => {
       return initialize(action)
     case navigationContextActions.CHANGE_VIEW_OBJECT_TYPE:
       return { ...state, viewObjectType: action.viewObjectType }
+    case navigationContextActions.CHANGE_DISPLAY_MODE:
+      return { ...state, displayMode: action.displayMode }
     case navigationContextActions.CHANGE_SEARCH_TAG:
       return changeSearchTag(action, state)
     case navigationContextActions.CHANGE_DATASET:

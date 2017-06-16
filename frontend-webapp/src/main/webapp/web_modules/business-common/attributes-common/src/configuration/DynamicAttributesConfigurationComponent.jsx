@@ -73,7 +73,7 @@ class DynamicAttributesConfigurationComponent extends React.Component {
         </div>
         <div style={attrStyles}>
           {map(selectableAttributes, (selectableAttribute) => {
-            const attributeId = AttributeModelController.getAttributeFullyQualifiedName(selectableAttribute)
+            const attributeId = AttributeModelController.getAttributeAccessPath(selectableAttribute)
             // Search existing associated attribute configuration if there is one
             let conf = find(attributesConf, configuration => configuration.attributeFullQualifiedName === attributeId)
             if (!conf) {

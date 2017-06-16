@@ -26,9 +26,8 @@ describe('[PLUGIN NUMERICAL CRITERIA] Testing the numerical criteria component',
           description: 'Attribute to search',
           type: 'numerical',
         },
-        onChange: () => {
-        },
-        pluginInstanceId: 42,
+      },
+      getDefaultState: () => {
       },
     }
     const enzymeWrapper = shallow(<NumericalCriteriaComponent {...props} />)

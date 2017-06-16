@@ -19,7 +19,7 @@ import { FormattedMessage } from 'react-intl'
 import { i18nContextType } from '@regardsoss/i18n'
 import { ShowableAtRender } from '@regardsoss/components'
 import { LoadableContentDisplayDecorator, HateoasIconAction, HateoasToggle, HateoasKeys } from '@regardsoss/display-control'
-import { Theme } from '@regardsoss/model'
+import { AccessShapes } from '@regardsoss/shape'
 import { themeContextType, defaultCustomConfiguration, defaultTheme } from '@regardsoss/theme'
 import Back from 'material-ui/svg-icons/navigation/arrow-back'
 import { muiTheme } from '@regardsoss/vendors'
@@ -36,8 +36,8 @@ import moduleStyles from '../styles/styles'
 class ApplicationThemeComponent extends React.Component {
 
   static propTypes = {
-    themeList: PropTypes.objectOf(Theme),
-    currentTheme: Theme,
+    themeList: AccessShapes.ThemeList,
+    currentTheme: AccessShapes.Theme,
     isFetching: PropTypes.bool,
     onCreate: PropTypes.func,
     onClose: PropTypes.func,

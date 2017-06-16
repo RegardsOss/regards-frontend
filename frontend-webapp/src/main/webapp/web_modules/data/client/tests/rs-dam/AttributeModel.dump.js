@@ -4,6 +4,7 @@ export default [{
     name: 'FirstOneAttr',
     description: 'Here is a description',
     label: 'Here is a label',
+    jsonPath: 'properties.FirstOneAttr',
     type: 'DOUBLE',
     fragment: {
       id: 1,
@@ -57,6 +58,7 @@ export default [{
     name: 'MyInt',
     description: 'Another attribute with a restriction this time',
     label: 'My int label',
+    jsonPath: 'properties.MyInt',
     type: 'INTEGER',
     fragment: {
       id: 1,

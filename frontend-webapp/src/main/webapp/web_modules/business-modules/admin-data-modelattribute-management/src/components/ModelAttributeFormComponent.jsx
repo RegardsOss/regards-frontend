@@ -84,8 +84,8 @@ export class ModelAttributeFormComponent extends React.Component {
           />
         </Card>
 
-        <div className="row">
-          <div className="col-sm-50">
+        <div style={style.twoColumnsSameHeight}>
+          <div>
             <ContainerCard
               acceptAttrType={ItemTypes.ATTR_ASSOCIATED}
               title={this.context.intl.formatMessage({ id: 'modelattr.edit.modelname' }, { name: this.props.currentModel.content.name })}
@@ -124,7 +124,7 @@ export class ModelAttributeFormComponent extends React.Component {
               ))}
             </ContainerCard>
           </div>
-          <div className="col-sm-50">
+          <div>
             <ContainerCard
               acceptAttrType={ItemTypes.ATTR_REMAINING}
               title={this.context.intl.formatMessage({ id: 'modelattr.edit.remainingAttr' })}

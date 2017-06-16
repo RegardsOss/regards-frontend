@@ -15,10 +15,6 @@ import rootRouter from './rootRouter'
  * @author Sébastien Binda
  */
 
-
-// Import the index.html file
-require('../index.html')
-
 // import static configuration parameters
 if (process.env.NODE_ENV === 'production') {
   require('../conf/staticConfiguration.js')

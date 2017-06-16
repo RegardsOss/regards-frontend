@@ -5,7 +5,7 @@ import keys from 'lodash/keys'
 import { connect } from '@regardsoss/redux'
 import { browserHistory } from 'react-router'
 import { I18nProvider } from '@regardsoss/i18n'
-import { Project, ProjectConnection } from '@regardsoss/model'
+import { AdminShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { projectActions, projectSelectors } from '../../clients/ProjectClient'
 import { projectConnectionActions, projectConnectionSelectors } from '../../clients/ProjectConnectionClient'
@@ -25,9 +25,9 @@ export class ProjectConnectionListContainer extends React.Component {
       project_name: PropTypes.string.isRequired,
     }).isRequired,
     // from mapStateToProps
-    project: Project,
+    project: AdminShapes.Project,
     projectIsFetching: PropTypes.bool,
-    projectConnections: PropTypes.objectOf(ProjectConnection),
+    projectConnections: AdminShapes.ProjectConnectionList,
     projectConnectionsIsFetching: PropTypes.bool,
     // from mapDispatchToProps
     fetchProject: PropTypes.func.isRequired,

@@ -33,6 +33,7 @@ describe('[ATTRIBUTES COMMON] Testing AttributeConfigurationComponent', () => {
         id: 0,
         type: 'string',
         name: 'test',
+        jsonPath: 'properties.test.test',
         label: 'Test attribute',
         fragment: {
           name: 'test',
@@ -40,7 +41,7 @@ describe('[ATTRIBUTES COMMON] Testing AttributeConfigurationComponent', () => {
       },
     }
     const attributeConfProp = {
-      attributeFullQualifiedName: 'test.test',
+      attributeFullQualifiedName: attributeProp.content.jsonPath,
       visibility: true,
       facetable: false,
     }
@@ -65,15 +66,15 @@ describe('[ATTRIBUTES COMMON] Testing AttributeConfigurationComponent', () => {
     assert.lengthOf(visibility, 1, 'There should be only one checked checkbox')
 
     visibility.simulate('check')
-    assert(onChangeSpy.calledWith('test.test', {
-      attributeFullQualifiedName: 'test.test',
+    assert(onChangeSpy.calledWith('properties.test.test', {
+      attributeFullQualifiedName: 'properties.test.test',
       visibility: false,
       facetable: false,
     }))
 
     facetable.simulate('check')
-    assert(onChangeSpy.calledWith('test.test', {
-      attributeFullQualifiedName: 'test.test',
+    assert(onChangeSpy.calledWith('properties.test.test', {
+      attributeFullQualifiedName: 'properties.test.test',
       visibility: false,
       facetable: true,
     }))
@@ -87,6 +88,7 @@ describe('[ATTRIBUTES COMMON] Testing AttributeConfigurationComponent', () => {
         id: 0,
         type: 'string',
         name: 'test',
+        jsonPath: 'properties.test',
         label: 'Test attribute',
         fragment: {
           name: 'default',
@@ -94,7 +96,7 @@ describe('[ATTRIBUTES COMMON] Testing AttributeConfigurationComponent', () => {
       },
     }
     const attributeConfProp = {
-      attributeFullQualifiedName: 'default.test',
+      attributeFullQualifiedName: attributeProp.content.jsonPath,
       visibility: true,
       facetable: true,
     }
@@ -127,13 +129,14 @@ describe('[ATTRIBUTES COMMON] Testing AttributeConfigurationComponent', () => {
         name: 'test',
         type: 'string',
         label: 'Test attribute',
+        jsonPath: 'properties.test',
         fragment: {
           name: 'default',
         },
       },
     }
     const attributeConfProp = {
-      attributeFullQualifiedName: 'default.test',
+      attributeFullQualifiedName: attributeProp.content.jsonPath,
       visibility: false,
       facetable: false,
     }

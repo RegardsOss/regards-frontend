@@ -10,6 +10,7 @@ import { Collection, Model, ModelAttribute, EntityController } from '@regardsoss
 import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { unregisterField } from 'redux-form'
+import { getAbstractEntityDescription } from '@regardsoss/domain/dam'
 import { collectionActions, collectionSelectors } from '../clients/CollectionClient'
 import CollectionFormComponent from '../components/CollectionFormComponent'
 import { modelSelectors, modelActions } from '../clients/ModelClient'
@@ -81,23 +82,16 @@ export class CollectionFormContainer extends React.Component {
   }
 
   handleUpdate = (values) => {
-    const model = this.props.modelList[values.model].content
     const properties = this.extractParametersFromValues(values)
-    const descriptionFileType = values.descriptionFileContent && (values.descriptionFileContent.type || 'text/markdown')
-    const updatedCollection = Object.assign({}, {
-      id: this.props.currentCollection.content.id,
-      tags: this.props.currentCollection.content.tags,
-      entityType: this.props.currentCollection.content.type,
-    }, {
+    const descriptionFile = getAbstractEntityDescription(values.descriptionFileContent, values.descriptionUrl)
+    const updatedCollection = Object.assign({}, this.props.currentCollection.content, {
       label: values.label,
-      descriptionUrl: values.descriptionUrl,
-      model,
+      descriptionFile,
       properties,
     })
     const files = {}
     if (values.descriptionFileContent) {
       files.file = values.descriptionFileContent
-      updatedCollection.descriptionFileType = descriptionFileType
     }
     const apiValues = {
       collection: updatedCollection,
@@ -148,7 +142,7 @@ export class CollectionFormContainer extends React.Component {
     if (this.state.isDuplicating) {
       defaultValues.tags = this.props.currentCollection.content.tags
     }
-    const descriptionFileType = values.descriptionFileContent && (values.descriptionFileContent.type || 'text/markdown')
+    const descriptionFile = getAbstractEntityDescription(values.descriptionFileContent, values.descriptionUrl)
     const files = {}
     // Send the file if there is
     if (values.descriptionFileContent) {
@@ -157,11 +151,10 @@ export class CollectionFormContainer extends React.Component {
     const apiValues = {
       collection: Object.assign({}, defaultValues, {
         label: values.label,
-        descriptionUrl: values.descriptionUrl,
+        descriptionFile,
         model,
         properties,
         entityType: EntityController.ENTITY_TYPES.COLLECTION,
-        descriptionFileType,
       }),
     }
     Promise.resolve(this.props.createCollection(apiValues, files))

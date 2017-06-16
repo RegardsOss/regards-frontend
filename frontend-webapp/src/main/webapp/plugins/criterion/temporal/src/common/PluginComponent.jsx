@@ -2,9 +2,10 @@
  * LICENSE_PLACEHOLDER
  **/
 import merge from 'lodash/merge'
-import isEqual from 'lodash/isEqual'
+import get from 'lodash/get'
+import transform from 'lodash/transform'
 import React from 'react'
-import {AttributeModel} from '../common/AttributeModel'
+import AttributeModel from './AttributeModel'
 
 /**
  * Abstract class to extend in order to create a criterion plugin.
@@ -52,17 +53,46 @@ class PluginComponent extends React.Component {
       const newState = merge({}, this.state, defaultState)
       this.setState(newState)
     }
+
+    const initValues = transform(this.props.attributes, (result, attribute, key) => {
+      const initValue = this.getAttributeInitValue(key, this.props)
+      if (initValue) {
+        result[key] = this.parseOpenSearchQuery(key, initValue)
+      }
+    }, {})
+
+    this.setState(initValues)
   }
 
   componentDidMount() {
     // If initial state is not the default one, send conf to search form
     const query = this.getPluginSearchQuery(this.state)
-    if (query && query != '') {
+    if (query && query !== '') {
       this.props.onChange(query, this.props.pluginInstanceId)
     }
   }
 
-  _onPluginChangeValue = () => {
+  /**
+   * Update state with new values form the Manager.
+   * @param nextProps
+   */
+  componentWillReceiveProps(nextProps) {
+    // If initial value change from this props to new ones, update state with the new attribute values
+    let toUpdate = false
+    const initValues = transform(nextProps.attributes, (result, attribute, key) => {
+      const initValue = this.getAttributeInitValue(key, nextProps)
+      if (initValue && initValue !== this.props[this.getAttributeName(key)]) {
+        toUpdate = true
+        result[key] = this.parseOpenSearchQuery(key, initValue)
+      }
+    }, {})
+
+    if (toUpdate) {
+      this.setState(initValues)
+    }
+  }
+
+  onPluginChangeValue() {
     // Generate query
     const query = this.getPluginSearchQuery(this.state)
     // Update plugin saved state into search form
@@ -72,9 +102,37 @@ class PluginComponent extends React.Component {
   }
 
   getPluginSearchQuery() {
-    console.error("method getPluginSearchQuery should be overide by plugin !")
+    console.error('method getPluginSearchQuery should be overide by plugin !')
     return null
   }
+
+  getAttributeName(configuredAttributeName, props) {
+    const attribute = get(props || this.props, `attributes["${configuredAttributeName}"]`)
+    if (!attribute) {
+      return null
+    }
+    return attribute.jsonPath
+  }
+
+  /**
+   * Return the initial value of the configured attribute as it is given from the search-form manager.
+   * @param attributeName
+   * @returns {*}
+   */
+  getAttributeInitValue(configuredAttributeName, props) {
+    const attributeName = this.getAttributeName(configuredAttributeName, props)
+    return get(props, `initialValues["${attributeName}"]`)
+  }
+
+  getAttributeLabel(configuredAttributeName) {
+    return get(this.props, `attributes["${configuredAttributeName}"].label`, get(this.props, `attributes["${configuredAttributeName}"].name`, 'Undefined attribute'))
+  }
+
+  setState(state) {
+    super.setState(state, this.onPluginChangeValue)
+  }
+
+  parseOpenSearchQuery = (parameterName, openSearchQuery) => openSearchQuery
 }
 
 export default PluginComponent

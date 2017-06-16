@@ -8,6 +8,7 @@
  */
 const messages = {
   'criterion.search.field.label': 'Search field ...',
+  'criterion.clear': 'Clear',
 }
 
 export default messages

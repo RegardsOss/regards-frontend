@@ -65,9 +65,6 @@ describe('[SEARCH FORM] Testing FormCriteriaComponent', () => {
     let criteriaConf = wrapper.find(CriteriaConfigurationComponent)
     assert(criteriaConf.length === 0, 'The CriteriaConfigurationComponent should not be rendered as no plugin as been selected yet')
 
-    // Check redux form initialization
-    assert.isFalse(reduxFormInitialize.called, 'The redux from initialize method should not be called as no criteria is provided')
-
     // Simulate selection of a criteria of id 0
     assert.isFalse(onChangeCallback.called, 'The redux change value method should not be called yet')
     const event = null

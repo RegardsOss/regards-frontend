@@ -30,6 +30,7 @@ describe('[SEARCH FORM] Testing CriteriaConfigurationComponent', () => {
             id: 0,
             name: 'attribute1',
             label: 'x1',
+            jsonPath: 'properties.attribute1',
             type: 'string',
           },
         },
@@ -39,6 +40,7 @@ describe('[SEARCH FORM] Testing CriteriaConfigurationComponent', () => {
             name: 'attribute2',
             label: 'x2',
             type: 'string',
+            jsonPath: 'properties.attribute2',
           },
         },
         2: {
@@ -47,6 +49,7 @@ describe('[SEARCH FORM] Testing CriteriaConfigurationComponent', () => {
             name: 'attribute3',
             label: 'x3',
             type: 'string',
+            jsonPath: 'properties.attribute3',
           },
         },
       },
@@ -67,7 +70,7 @@ describe('[SEARCH FORM] Testing CriteriaConfigurationComponent', () => {
     assert.equal(attributes.at(0).prop('name'), 'conf.attributes.searchField1', 'The first attribute to configure should be searchField1 as defined in TestPlugin-info.json')
     assert.equal(attributes.at(1).prop('name'), 'conf.attributes.searchField2', 'The second attribute to configure should be searchField2 as defined in TestPlugin-info.json')
 
-    const numberOfSelectableAttributes = keys(props.selectableAttributes).length + AttributeModelController.StandardAttributes.length
+    const numberOfSelectableAttributes = keys(props.selectableAttributes).length + AttributeModelController.SearchableStandardAttributes.length
     assert.lengthOf(attributes.at(0).find(MenuItem), numberOfSelectableAttributes, `There  should be ${numberOfSelectableAttributes} selectable attributes for configuration`)
     assert.lengthOf(attributes.at(1).find(MenuItem), numberOfSelectableAttributes, `There  should be ${numberOfSelectableAttributes} selectable attributes for configuration`)
   })

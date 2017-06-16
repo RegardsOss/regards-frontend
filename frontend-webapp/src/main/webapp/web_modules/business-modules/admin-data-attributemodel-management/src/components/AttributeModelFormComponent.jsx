@@ -13,7 +13,7 @@ import {
 import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { AttributeModel, Fragment } from '@regardsoss/model'
+import { DataManagementShapes } from '@regardsoss/shape'
 import MenuItem from 'material-ui/MenuItem'
 import { fragmentSelectors } from '../clients/FragmentClient'
 import NumberRangeComponent, { initializeNumberRangeForm } from './NumberRangeComponent'
@@ -30,8 +30,8 @@ export class AttributeModelFormComponent extends React.Component {
   static propTypes = {
     attrModelTypeList: PropTypes.arrayOf(PropTypes.string),
     attrModelRestrictionList: PropTypes.arrayOf(PropTypes.string),
-    fragmentList: PropTypes.arrayOf(Fragment),
-    currentAttrModel: AttributeModel,
+    fragmentList: DataManagementShapes.FragmentList,
+    currentAttrModel: DataManagementShapes.AttributeModel,
     onSubmit: PropTypes.func.isRequired,
     backUrl: PropTypes.string.isRequired,
     handleUpdateAttributeModelRestriction: PropTypes.func,
@@ -87,7 +87,7 @@ export class AttributeModelFormComponent extends React.Component {
         )
       case 'LONG_RANGE':
         return (
-          <NumberRangeComponent type="DOUBLE_RANGE" />
+          <NumberRangeComponent type="LONG_RANGE" />
         )
       case 'ENUMERATION':
         return (

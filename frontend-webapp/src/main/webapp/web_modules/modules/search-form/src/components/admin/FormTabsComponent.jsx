@@ -82,9 +82,6 @@ class FormTabsComponent extends React.Component {
             disableChangeDatasets={this.props.disableChangeDatasets}
           />
         </Tab>
-        <Tab label={this.context.intl.formatMessage({ id: 'form.configuration.tab.label' })}>
-          {this.renderAttributesParameterTab()}
-        </Tab>
         <Tab label={this.context.intl.formatMessage({ id: 'form.layout.tab.label' })}>
           <FormLayoutComponent
             defaultLayout={this.props.defaultConf.layout}
@@ -99,6 +96,9 @@ class FormTabsComponent extends React.Component {
             project={this.props.project}
             module={this.props.adminForm.form}
           />
+        </Tab>
+        <Tab label={this.context.intl.formatMessage({ id: 'form.configuration.tab.label' })}>
+          {this.renderAttributesParameterTab()}
         </Tab>
       </Tabs>
     )

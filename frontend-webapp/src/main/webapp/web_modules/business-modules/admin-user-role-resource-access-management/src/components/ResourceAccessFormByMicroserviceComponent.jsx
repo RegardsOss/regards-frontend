@@ -3,16 +3,16 @@
  * LICENSE_PLACEHOLDER
  **/
 import map from 'lodash/map'
+import find from 'lodash/find'
 import forEach from 'lodash/forEach'
-import some from 'lodash/some'
 import Chip from 'material-ui/Chip'
 import { List, ListItem } from 'material-ui/List'
 import IconButton from 'material-ui/IconButton'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import Toggle from 'material-ui/Toggle'
 import { Resource } from '@regardsoss/model'
-import { LoadingComponent } from '@regardsoss/display-control'
+import Toggle from 'material-ui/Toggle'
+import { LoadingComponent, HateoasToggle, HateoasKeys } from '@regardsoss/display-control'
 import moduleStyles from '../styles/styles'
 
 /**
@@ -71,7 +71,6 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
       display: 'flex',
       justifyContent: 'space-between',
     }
-
     return map(resourceList, (resource, id) => {
       const listStyles = id % 2 === 0 ? styles.listItemOdd : {}
       return (
@@ -86,13 +85,7 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
             <IconButton
               style={iconStyle}
             >
-              <Toggle
-                toggled={this.isResourceAuthorized(resource)}
-                onToggle={() => {
-                  this.props.handleToggleResourceAccess(resource, this.isResourceAuthorized(resource))
-                  return false
-                }}
-              />
+              {this.getResourceToggle(resource)}
             </IconButton>
           }
           secondaryText={
@@ -119,6 +112,45 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
     })
   }
 
+  getResourceToggle = (resource) => {
+    const roleResource = this.getResource(resource)
+    if (roleResource) {
+      return (
+        <HateoasToggle
+          entityLinks={roleResource.links}
+          hateoasKey={HateoasKeys.DELETE}
+          toggled
+          onToggle={() => {
+            this.props.handleToggleResourceAccess(resource, true)
+            return false
+          }}
+        />
+      )
+    }
+    return (
+      <Toggle
+        toggled={false}
+        onToggle={() => {
+          this.props.handleToggleResourceAccess(resource, false)
+          return false
+        }}
+      />
+    )
+  }
+
+  /**
+   * Check if one of the roleResources match the given resource, return the roleResource or undefined
+   * @param resource
+   */
+  getResource = resource =>
+    find(this.props.roleResources, {
+      content: {
+        resource: resource.content.resource,
+        microservice: resource.content.microservice,
+        verb: resource.content.verb,
+      },
+    })
+
   handleToggleController = (controller) => {
     const { isControllerOpen } = this.state
     forEach(isControllerOpen, (isOpen, controllerName) => {
@@ -135,16 +167,6 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
       isControllerOpen,
     })
   }
-
-  isResourceAuthorized = resource =>
-    // Check if one of the roleResources match the given resource
-     some(this.props.roleResources, {
-       content: {
-         resource: resource.content.resource,
-         microservice: resource.content.microservice,
-         verb: resource.content.verb,
-       },
-     })
 
   handleShowDialog = (resource) => {
     this.props.handleOpenResourceAccess(resource)

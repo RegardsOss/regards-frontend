@@ -1,7 +1,7 @@
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
-import { AttributeModel } from '@regardsoss/model'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { attributeModelActions, attributeModelSelectors } from '../clients/AttributeModelClient'
 import AttributeModelListComponent from '../components/AttributeModelListComponent'
@@ -21,7 +21,7 @@ export class AttributeModelListContainer extends React.Component {
       project: PropTypes.string,
     }),
     // from mapStateToProps
-    attrModelList: PropTypes.objectOf(AttributeModel),
+    attrModelList: DataManagementShapes.AttributeModelList,
     // from mapDispatchToProps
     fetchAttrModelList: PropTypes.func,
     deleteAttrModel: PropTypes.func,

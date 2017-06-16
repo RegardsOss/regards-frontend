@@ -30,12 +30,12 @@ class RawDataAttributesRender extends React.Component {
 
   render() {
     if (this.props.attributes.files && this.props.attributes.files.length > 0) {
-      const thumbmail = find(this.props.attributes.files, file => file.type === ObjectLinkedFileTypes.RAWDATA)
-      if (thumbmail) {
+      const thumbnail = find(this.props.attributes.files, file => file.dataType === ObjectLinkedFileTypes.RAWDATA)
+      if (thumbnail) {
         const styles = { cursor: 'pointer' }
         return (
           <div>
-            <a href={thumbmail.uri} download title="download">
+            <a href={thumbnail.fileRef} download title="download">
               <GetApp
                 style={styles}
                 hoverColor={this.context.muiTheme.palette.accent1Color}

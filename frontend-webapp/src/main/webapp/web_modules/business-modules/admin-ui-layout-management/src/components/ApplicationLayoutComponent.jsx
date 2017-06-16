@@ -4,7 +4,7 @@
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
-import { Layout } from '@regardsoss/model'
+import { AccessShapes } from '@regardsoss/shape'
 import { reduxForm } from '@regardsoss/form-utils'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { LayoutConfigurationComponent, DefaultLayout } from '@regardsoss/layout'
@@ -17,7 +17,7 @@ import LayoutActions from '../model/LayoutActions'
 class ApplicationLayoutComponent extends React.Component {
 
   static propTypes = {
-    layout: Layout,
+    layout: AccessShapes.Layout,
     onSubmit: PropTypes.func,
     onCancel: PropTypes.func,
     // from reduxForm

@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { ReduxEntityTester } from '@regardsoss/tests-helpers'
-import { Role } from '@regardsoss/model'
+import { AdminShapes } from '@regardsoss/shape'
 
 import RoleActions from '../../src/rs-admin/role/RoleActions'
 import getRoleReducer from '../../src/rs-admin/role/RoleReducer'
@@ -16,7 +16,7 @@ const roleActions = new RoleActions('test/action')
 const roleReducer = getRoleReducer('test/action')
 const roleSelectors = getRoleSelectors(['test', 'modules'])
 
-const entityTester = new ReduxEntityTester(roleActions, roleReducer, roleSelectors, PropTypes.objectOf(Role).isRequired, RoleDump, options)
+const entityTester = new ReduxEntityTester(roleActions, roleReducer, roleSelectors, AdminShapes.RoleList.isRequired, RoleDump, options)
 
 describe('[ADMIN CLIENT] Testing client role', () => {
   before(() => {

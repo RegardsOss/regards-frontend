@@ -7,7 +7,6 @@ import MenuItem from 'material-ui/MenuItem'
 import IconButton from 'material-ui/IconButton'
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
 import RaisedButton from 'material-ui/RaisedButton'
-import Paper from 'material-ui/Paper'
 import EnumNumericalComparator from '../model/EnumNumericalComparator'
 
 /**
@@ -21,20 +20,17 @@ export class NumericalComparatorComponent extends React.Component {
      * function(value: EnumNumericalComparator) => void
      */
     onChange: React.PropTypes.func.isRequired,
+    value: React.PropTypes.string,
   }
 
   constructor(props) {
     super(props)
     this.state = {
       openMenu: false,
-      value: 'EQ',
     }
   }
 
   handleChange = (event, value) => {
-    this.setState({
-      value,
-    })
     this.props.onChange(value)
   }
 
@@ -54,7 +50,7 @@ export class NumericalComparatorComponent extends React.Component {
     return (
       <div>
         <RaisedButton
-          label={EnumNumericalComparator[this.state.value]}
+          label={EnumNumericalComparator.getLabel(this.props.value)}
           onTouchTap={this.handleOpenMenu}
           style={{
             height: 48,
@@ -67,14 +63,14 @@ export class NumericalComparatorComponent extends React.Component {
           open={this.state.openMenu}
           onChange={this.handleChange}
           onRequestChange={this.handleOnRequestChange}
-          value={this.state.value}
+          value={this.props.value}
         >
           {map(EnumNumericalComparator, (value, key) => (
             <MenuItem
               style={{
                 display: 'flex',
                 justifyContent: 'center',
-              }} key={key} primaryText={value} value={key}
+              }} key={key} primaryText={EnumNumericalComparator.getLabel(value)} value={key}
             />
           ))}
         </IconMenu>

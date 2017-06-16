@@ -12,11 +12,13 @@ const messages = Object.assign({
   // Administration messages
 
   // Tabulation labels
-  'form.configuration.tab.label': 'Parameters',
+  'form.configuration.tab.label': 'Results',
   'form.dataset.selection.tab.label': 'Datasets',
   'form.layout.tab.label': 'Layout',
   'form.criterions.tab.label': 'Criterions',
+  'form.criterion.tab.title': 'Configure all the criterion of your form. Each criteria can be insert into a specific section of your designed layout.',
   'form.preview.tab.label': 'Preview',
+  'form.preview.tab.title': 'Preview of your form as it will be displayed in user interface.',
   // Configuration tab
   'form.configuration.tab.title': 'Configure main parameters for current search form module',
   'form.configuration.result.type.datasets': 'Display results grouped by datasets',
@@ -54,6 +56,7 @@ const messages = Object.assign({
   'layout.invalid.error': 'Error layout',
   // Criterion tab
   'form.criterion.list.name': 'Name',
+  'form.criterion.list.attributes': 'Attributes',
   'form.criterion.list.container': 'Container',
   'form.criterion.list.actions': 'Actions',
   'form.criterion.new.button.label': 'Create',

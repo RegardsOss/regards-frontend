@@ -2,7 +2,6 @@
  * LICENSE_PLACEHOLDER
  **/
 import { connect } from '@regardsoss/redux'
-import { Collection, Dataset } from '@regardsoss/model'
 import { I18nProvider } from '@regardsoss/i18n'
 import partition from 'lodash/partition'
 import some from 'lodash/some'
@@ -11,6 +10,7 @@ import find from 'lodash/find'
 import filter from 'lodash/filter'
 import startsWith from 'lodash/startsWith'
 import remove from 'lodash/remove'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { datasetSelectors, datasetActions } from './../clients/DatasetClient'
 import DatasetEditLinksComponent from '../components/DatasetEditLinksComponent'
@@ -29,8 +29,8 @@ export class DatasetEditLinksContainer extends React.Component {
       datasetId: PropTypes.string,
     }),
     // from mapStateToProps
-    currentDataset: Dataset,
-    collectionList: PropTypes.objectOf(Collection),
+    currentDataset: DataManagementShapes.Dataset,
+    collectionList: DataManagementShapes.CollectionList,
     // from mapDispatchToProps
     removeTagFromDataset: PropTypes.func,
     addTagToDataset: PropTypes.func,

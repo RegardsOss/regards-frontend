@@ -1,9 +1,10 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import {FormattedMessage} from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import TextField from 'material-ui/TextField'
-import {AttributeModel} from '../common/AttributeModel'
+import ClearButton from './ClearButton'
+import AttributeModel from '../common/AttributeModel'
 import PluginComponent from '../common/PluginComponent'
 
 class FullTextCriteriaComponent extends PluginComponent {
@@ -20,14 +21,12 @@ class FullTextCriteriaComponent extends PluginComponent {
   constructor(props) {
     super(props)
     this.state = {
-      value:''
+      value: '',
     }
   }
 
   changeValue = (value) => {
-    this.setState({
-      value,
-    }, this._onPluginChangeValue)
+    this.setState({ value })
   }
 
   getPluginSearchQuery = (state) => {
@@ -38,7 +37,14 @@ class FullTextCriteriaComponent extends PluginComponent {
     return openSearchQuery
   }
 
+  /**
+   * Clear the entered value
+   */
+  handleClear = () => this.changeValue('')
+
   render() {
+    const clearButtonDisplayed = this.state.value !== ''
+
     return (
       <div
         style={{
@@ -50,9 +56,9 @@ class FullTextCriteriaComponent extends PluginComponent {
         <span
           style={{
             margin: '0px 10px',
+            fontSize: '1.3em',
           }}
-        >
-        </span>
+        />
         <TextField
           id="search"
           floatingLabelText={<FormattedMessage id="criterion.search.field.label"/>}
@@ -66,6 +72,7 @@ class FullTextCriteriaComponent extends PluginComponent {
             maxWidth: 165,
           }}
         />
+        <ClearButton onTouchTap={this.handleClear} displayed={clearButtonDisplayed}/>
       </div>
     )
   }

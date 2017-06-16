@@ -3,6 +3,7 @@
  **/
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
+import { spy } from 'sinon'
 import DatePicker from 'material-ui/DatePicker'
 import TimePicker from 'material-ui/TimePicker'
 import TemporalCriteriaComponent from '../../src/components/TemporalCriteriaComponent'
@@ -28,10 +29,10 @@ describe('[PLUGIN TEMPORAL CRITERIA] Testing the temporal criteria component', (
           description: 'Attribute to search',
           type: 'temporal',
         },
-        onChange: () => {
-        },
-        pluginInstanceId: 42,
       },
+      getDefaultState: spy(),
+      savePluginState: spy(),
+      onChange: spy(),
     }
     const enzymeWrapper = shallow(<TemporalCriteriaComponent {...props} />)
     expect(enzymeWrapper.find(TemporalComparatorComponent)).to.have.length(1)

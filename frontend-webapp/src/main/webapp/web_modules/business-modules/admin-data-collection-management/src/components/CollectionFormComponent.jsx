@@ -5,6 +5,7 @@ import map from 'lodash/map'
 import has from 'lodash/has'
 import forEach from 'lodash/forEach'
 import keys from 'lodash/keys'
+import get from 'lodash/get'
 import isNil from 'lodash/isNil'
 import isObject from 'lodash/isObject'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
@@ -60,9 +61,9 @@ export class CollectionFormComponent extends React.Component {
     let showDescriptionMode = DESCRIPTION_MODE.NOTHING
     let disableNoDescription = false
     if (!isCreating) {
-      if (props.currentCollection.content.descriptionUrl) {
+      if (has(props.currentCollection.content, 'descriptionFile.url')) {
         showDescriptionMode = DESCRIPTION_MODE.URL
-      } else if (props.currentCollection.content.descriptionFileType) {
+      } else if (has(props.currentCollection.content, 'descriptionFile.type')) {
         showDescriptionMode = DESCRIPTION_MODE.FILE
         disableNoDescription = true
       }
@@ -146,7 +147,7 @@ export class CollectionFormComponent extends React.Component {
       const initialValues = {
         label: currentCollection.content.label,
         model: currentCollection.content.model.id,
-        descriptionUrl: currentCollection.content.descriptionUrl,
+        descriptionUrl: get(currentCollection.content, 'descriptionFile.url', undefined),
         parameters,
       }
       this.props.initialize(initialValues)

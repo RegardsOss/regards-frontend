@@ -13,6 +13,7 @@ import URLManagementContainer from './user/URLManagementContainer'
 import DatasetServicesContainer from './user/DatasetServicesContainer'
 import DescriptionContainer from './user/DescriptionContainer'
 import ModuleComponent from '../components/user/ModuleComponent'
+import DisplayModeEnum from '../models/navigation/DisplayModeEnum'
 
 
 /**
@@ -40,7 +41,8 @@ export class ModuleContainer extends React.Component {
     const { moduleConf: { attributes } } = props
     // Calculate facettes
     const facettes = reduce(attributes, (result, value, key) =>
-      value.facetable ? [...result, value.attributeFullQualifiedName] : result)
+      value.facetable ? [...result, value.attributeFullQualifiedName] : result, [])
+
     this.state = {
       attributesFetching: true,
       facettesQuery: facettes && facettes.length > 0 ? `facets=${join(facettes, ',')}` : null,
@@ -69,6 +71,7 @@ export class ModuleContainer extends React.Component {
     // when showing datasets, select dataset tab first (by default)
     const initialViewObjectType = displayDatasets ? SearchResultsTargetsEnum.DATASET_RESULTS : SearchResultsTargetsEnum.DATAOBJECT_RESULTS
 
+
     if (!attributesFetching) {
       return (
         <div>
@@ -78,6 +81,7 @@ export class ModuleContainer extends React.Component {
             currentQuery={browserHistory.getCurrentLocation().query}
             initialContextLabel={breadcrumbInitialContextLabel}
             initialViewObjectType={initialViewObjectType}
+            initialDisplayMode={DisplayModeEnum.LIST}
             displayDatasets={!!displayDatasets}
           />
           { /* Current dataset services management */}

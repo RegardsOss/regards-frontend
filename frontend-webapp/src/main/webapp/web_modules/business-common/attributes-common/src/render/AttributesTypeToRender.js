@@ -9,7 +9,7 @@ import DateRangeAttributesRender from './DateRangeAttributesRender'
 import DateArrayAttributesRender from './DateArrayAttributesRender'
 import UrlAttributesRender from './UrlAttributesRender'
 import BooleanAttributesRender from './BooleanAttributesRender'
-import ThumbmailAttributesRender from './ThumbmailAttributesRender'
+import ThumbnailAttributesRender from './ThumbnailAttributesRender'
 import RawDataAttributesRender from './RawDataAttributesRender'
 
 /**
@@ -29,7 +29,7 @@ const typeToRenderMap = {
   INTEGER_INTERVAL: RangeAttributesRender,
   LONG_INTERVAL: RangeAttributesRender,
   STRING: StringAttributesRender,
-  THUMBMAIL: ThumbmailAttributesRender,
+  THUMBNAIL: ThumbnailAttributesRender,
   URL: UrlAttributesRender,
   DOWNLOAD_LINK: RawDataAttributesRender,
 }

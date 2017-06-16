@@ -1,6 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import isInteger from 'lodash/isInteger'
 import BasicListActions from '../list/BasicListActions'
 
 const { CALL_API } = require('redux-api-middleware')
@@ -29,21 +30,20 @@ class BasicPageableActions extends BasicListActions {
    * @param queryParams [optional] query path parameters to add to the end of the endpoint uri
    * @returns string request endpoint
    */
-  getRequestEndpoint(index, size, pathParams, queryParams) {
+  getRequestEndpoint(pageNumber, size, pathParams, queryParams) {
     let endpoint = this.handleRequestQueryParams(this.entityEndpoint, queryParams)
     endpoint = this.handleRequestPathParameters(endpoint, pathParams)
-    if (size && size > 0) {
-      endpoint = this.handleRequestQueryParams(endpoint, {
-        offset: index,
-        size,
-      })
-    }
 
     // force paging return value in development mode
-    if (process.env.NODE_ENV === 'development' && !size) {
+    if (process.env.NODE_ENV === 'development') {
       endpoint = this.handleRequestQueryParams(endpoint, {
         offset: 0,
         size: 10000,
+      })
+    } else if (isInteger(pageNumber) && isInteger(size)) {
+      endpoint = this.handleRequestQueryParams(endpoint, {
+        page: pageNumber || 0,
+        size: size || 1000,
       })
     }
 
@@ -53,15 +53,15 @@ class BasicPageableActions extends BasicListActions {
   /**
    * Fetch a page of entities
    *
-   * @param index pagination param : index of the first result of the request
+   * @param pageNumber pagination param : page number to request
    * @param size pagination param : number of elements for the asked page
    * @param pathParams [optional] path parameters to replace in endpoint uri
    * @param queryParams [optional] query path parameters to add to the end of the endpoint uri
    * @returns {{}}
    */
-  fetchPagedEntityList(index, size, pathParams, queryParams) {
+  fetchPagedEntityList(pageNumber, size, pathParams, queryParams) {
     // Compute the endpoint URI
-    const endpoint = this.getRequestEndpoint(index, size, pathParams, queryParams)
+    const endpoint = this.getRequestEndpoint(pageNumber, size, pathParams, queryParams)
     return {
       [CALL_API]: {
         types: [

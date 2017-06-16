@@ -55,7 +55,7 @@ class FormComponent extends React.Component {
    */
   getPluginDefaultState = pluginId => this.pluginStates[pluginId] ? this.pluginStates[pluginId] : {}
 
-  keypress = (e) => {
+  onKeyPress = (e) => {
     if (e.charCode === 13) {
       this.onHandleSearch()
     }
@@ -92,7 +92,7 @@ class FormComponent extends React.Component {
           actAsExpander
           showExpandableButton
         />
-        <CardText expandable>
+        <CardText expandable onKeyPress={this.onKeyPress}>
           <Container
             appName="user"
             container={this.props.layout}

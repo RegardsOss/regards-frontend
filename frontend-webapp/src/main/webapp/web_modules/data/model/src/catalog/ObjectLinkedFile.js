@@ -8,12 +8,12 @@
  */
 const ObjectLinkedFileTypes = {
   RAWDATA: 'RAWDATA',
-  THUMBMAIL: 'THUMBMAIL',
+  THUMBNAIL: 'THUMBNAIL',
 }
 
 const ObjectLinkedFile = PropTypes.shape({
-  type: PropTypes.oneOf([ObjectLinkedFileTypes.RAWDATA, ObjectLinkedFileTypes.THUMBMAIL]).isRequired,
-  uri: PropTypes.string.isRequired,
+  dataType: PropTypes.oneOf([ObjectLinkedFileTypes.RAWDATA, ObjectLinkedFileTypes.THUMBNAIL]).isRequired,
+  fileRef: PropTypes.string.isRequired,
 })
 
 export default {

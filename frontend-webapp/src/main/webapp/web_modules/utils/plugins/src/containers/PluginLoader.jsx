@@ -38,6 +38,7 @@ class PluginLoader extends React.Component {
     pluginProps: PropTypes.object,
     displayPlugin: PropTypes.bool,
     children: PropTypes.element,
+    onErrorCallback: PropTypes.func,
     // Set by mapstatetoprops
     loadedPlugin: Plugin,
     loadPlugin: PropTypes.func,
@@ -82,6 +83,9 @@ class PluginLoader extends React.Component {
       loadError: true,
       errorDep: deps,
     })
+    if (this.props.onErrorCallback) {
+      this.props.onErrorCallback()
+    }
   }
 
   renderPlugin() {

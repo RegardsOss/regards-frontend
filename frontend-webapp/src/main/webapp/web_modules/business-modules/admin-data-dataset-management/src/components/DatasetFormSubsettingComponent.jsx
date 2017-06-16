@@ -9,12 +9,13 @@ import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
 import Subheader from 'material-ui/Subheader'
 import RaisedButton from 'material-ui/RaisedButton'
-import { Dataset, ModelAttribute } from '@regardsoss/model'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { RenderTextField, Field } from '@regardsoss/form-utils'
 import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { List, ListItem } from 'material-ui/List'
+import { fragmentSelectors } from '../clients/FragmentClient'
 import DatasetStepperContainer from '../containers/DatasetStepperContainer'
 
 /**
@@ -23,8 +24,8 @@ import DatasetStepperContainer from '../containers/DatasetStepperContainer'
 export class DatasetFormSubsettingComponent extends React.Component {
 
   static propTypes = {
-    modelAttributeList: PropTypes.objectOf(ModelAttribute),
-    currentDataset: Dataset,
+    modelAttributeList: DataManagementShapes.ModelAttributeList,
+    currentDataset: DataManagementShapes.Dataset,
     onSubmit: PropTypes.func.isRequired,
     handleTestSubsetting: PropTypes.func.isRequired,
     handleBack: PropTypes.func.isRequired,
@@ -44,6 +45,14 @@ export class DatasetFormSubsettingComponent extends React.Component {
 
   componentDidMount() {
     this.handleInitialize()
+  }
+
+
+  getAttributeName = (attribute) => {
+    if (attribute.fragment.name === fragmentSelectors.noneFragmentName) {
+      return `${attribute.name}`
+    }
+    return `${attribute.fragment.name} ${attribute.name}`
   }
 
   getTitle = () => {
@@ -95,7 +104,7 @@ export class DatasetFormSubsettingComponent extends React.Component {
                   <Subheader><FormattedMessage id="dataset.form.subsetting.attributes" /></Subheader>
                   {map(modelAttributeList, (modelAttribute, id) => (
                     <ListItem
-                      primaryText={`${modelAttribute.content.attribute.fragment.name}.${modelAttribute.content.attribute.name}`}
+                      primaryText={this.getAttributeName(modelAttribute.content.attribute)}
                       key={id}
                       disabled
                     />

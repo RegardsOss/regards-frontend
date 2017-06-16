@@ -1,41 +1,55 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import replace from 'lodash/replace'
 import React from 'react'
 import {FormattedMessage} from 'react-intl'
 import TextField from 'material-ui/TextField'
-import {AttributeModel, getAttributeName} from '../common/AttributeModel'
+import ClearButton from './ClearButton'
+import AttributeModel from '../common/AttributeModel'
 import PluginComponent from '../common/PluginComponent'
 
+/**
+ * Search form criteria plugin displaying a simple text field
+ *
+ * @author Sébastien Binda
+ * @author Xavier-Alexandre Brochard
+ */
 export class StringCriteriaComponent extends PluginComponent {
 
   static propTypes = {
     attributes: React.PropTypes.objectOf(AttributeModel),
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      value:''
-    }
+  state = {
+    searchField: '',
   }
 
-  changeValue = (value) => {
+  handleChange = (event, value) => {
     this.setState({
-      value
-    }, this._onPluginChangeValue)
+      searchField: value,
+    })
   }
 
   getPluginSearchQuery = (state) => {
-    let openSearchQuery = ''
-    if (state.value && state.value.length > 0) {
-      openSearchQuery = `${getAttributeName(this.props.attributes.searchField)}:"${state.value}*"`
+    if (state.searchField && state.searchField != "") {
+      return `${this.getAttributeName('searchField')}:"${state.searchField}"`
     }
-    return openSearchQuery
+    return null
   }
 
+  parseOpenSearchQuery = (parameterName, openSearchQuery) => {
+    return replace(openSearchQuery, /"/g, '')
+  }
+
+  /**
+   * Clear the entered value
+   */
+  handleClear = () => this.handleChange(undefined, '')
+
   render() {
-    const attributeLabel = this.props.attributes.searchField.label || this.props.attributes.searchField.name || this.props.attributes.searchField.id || 'Undefined attribute'
+    const attributeLabel = this.getAttributeLabel('searchField')
+    const clearButtonDisplayed = this.state.searchField !== ''
 
     return (
       <div
@@ -48,6 +62,7 @@ export class StringCriteriaComponent extends PluginComponent {
         <span
           style={{
             margin: '0px 10px',
+            fontSize: '1.3em',
           }}
         >
           {attributeLabel}
@@ -55,16 +70,14 @@ export class StringCriteriaComponent extends PluginComponent {
         <TextField
           id="search"
           floatingLabelText={<FormattedMessage id="criterion.search.field.label"/>}
-          value={this.state.value}
-          onChange={(event, value) => {
-            this.changeValue(value)
-          }}
+          value={this.state.searchField}
+          onChange={this.handleChange}
           style={{
-            top: -13,
+            top: -18,
             margin: '0px 10px',
-            maxWidth: 165,
           }}
         />
+        <ClearButton onTouchTap={this.handleClear} displayed={clearButtonDisplayed}/>
       </div>
     )
   }

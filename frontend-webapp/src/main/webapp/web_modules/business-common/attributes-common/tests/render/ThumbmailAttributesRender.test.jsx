@@ -6,7 +6,7 @@ import { assert } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import Avatar from 'material-ui/Avatar'
 import { ObjectLinkedFileTypes } from '@regardsoss/model'
-import ThumbmailAttributesRender from '../../src/render/ThumbmailAttributesRender'
+import ThumbnailAttributesRender from '../../src/render/ThumbnailAttributesRender'
 
 /**
  * Tests for AttributeConfigurationComponent
@@ -20,13 +20,13 @@ describe('[ATTRIBUTES COMMON] Testing ThumbmailAttributesRender', () => {
     const props = {
       attributes: {
         files: [
-          { type: ObjectLinkedFileTypes.THUMBMAIL, uri: 'http://test.fr' },
+          { type: ObjectLinkedFileTypes.THUMBNAIL, uri: 'http://test.fr' },
           { type: ObjectLinkedFileTypes.RAWDATA, uri: 'http://error.fr' },
         ],
       },
       lineHeight: 150,
     }
-    const wrapper = shallow(<ThumbmailAttributesRender {...props} />)
+    const wrapper = shallow(<ThumbnailAttributesRender {...props} />)
 
     const value = wrapper.find(Avatar)
     assert.lengthOf(value, 1, 'There should be one Avatar rendered')
@@ -42,7 +42,7 @@ describe('[ATTRIBUTES COMMON] Testing ThumbmailAttributesRender', () => {
       },
       lineHeight: 150,
     }
-    const wrapper = shallow(<ThumbmailAttributesRender {...props} />)
+    const wrapper = shallow(<ThumbnailAttributesRender {...props} />)
 
     const value = wrapper.find(Avatar)
     assert.lengthOf(value, 0, 'Avatar should not be rendered')

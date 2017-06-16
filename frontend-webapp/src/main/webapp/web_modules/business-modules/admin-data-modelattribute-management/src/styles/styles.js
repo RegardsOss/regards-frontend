@@ -6,6 +6,14 @@ const styles = theme => ({
   cardEspaced: {
     marginTop: '20px',
   },
+  // Force cards to have the same height
+  cardFullHeight: {
+    height: '100%',
+  },
+  twoColumnsSameHeight: {
+    display: 'flex',
+    alignItems: 'stretch',
+  },
 })
 
 export default styles

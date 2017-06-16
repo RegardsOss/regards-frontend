@@ -1,0 +1,10 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
+
+import { OBJECT_LINKED_FILE_ENUM, OBJECT_LINKED_FILE_TYPES } from './ObjectLinkedFileTypes'
+
+export default {
+  OBJECT_LINKED_FILE_ENUM,
+  OBJECT_LINKED_FILE_TYPES,
+}
