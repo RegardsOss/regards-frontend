@@ -5,6 +5,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { TableContainer, TableSortOrders } from '@regardsoss/components'
+import DisplayModeEnum from '../../../../src/models/navigation/DisplayModeEnum'
 import { searchDataobjectsActions, searchDatasetsActions } from '../../../../src/clients/SearchEntitiesClient'
 import SearchResultsComponent from '../../../../src/components/user/results/SearchResultsComponent'
 import Styles from '../../../../src/styles/styles'
@@ -57,7 +58,7 @@ describe('[Search Results] Testing SearchResultsComponent', () => {
     caseProperties: {
       showingDataobjects: true,
       resultPageActions: searchDataobjectsActions,
-      viewMode: SearchResultsComponent.ViewModes.LIST,
+      viewMode: DisplayModeEnum.LIST,
       sortingOn: [],
     },
   }, {
@@ -65,7 +66,7 @@ describe('[Search Results] Testing SearchResultsComponent', () => {
     caseProperties: {
       showingDataobjects: true,
       resultPageActions: searchDataobjectsActions,
-      viewMode: SearchResultsComponent.ViewModes.TABLE,
+      viewMode: DisplayModeEnum.TABLE,
       sortingOn: [],
     },
   }, {
@@ -73,7 +74,7 @@ describe('[Search Results] Testing SearchResultsComponent', () => {
     caseProperties: {
       showingDataobjects: false,
       resultPageActions: searchDatasetsActions,
-      viewMode: SearchResultsComponent.ViewModes.LIST,
+      viewMode: DisplayModeEnum.LIST,
       sortingOn: [],
     },
     // no dataset table
@@ -82,7 +83,7 @@ describe('[Search Results] Testing SearchResultsComponent', () => {
     caseProperties: {
       showingDataobjects: true,
       resultPageActions: searchDataobjectsActions,
-      viewMode: SearchResultsComponent.ViewModes.TABLE,
+      viewMode: DisplayModeEnum.TABLE,
       sortingOn: [{ attributePath: 'label', type: TableSortOrders.ASCENDING_ORDER }],
     },
   }]
