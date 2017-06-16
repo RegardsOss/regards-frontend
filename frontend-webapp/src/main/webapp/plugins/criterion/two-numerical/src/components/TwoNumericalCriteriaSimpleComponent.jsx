@@ -95,7 +95,7 @@ export class TwoNumericalCriteriaSimpleComponent extends PluginComponent {
   handleClear = () => {
     const { operator1, operator2 } = this.state
     this.changeValue1(undefined, operator1)
-    this.changeValue(undefined, operator2)
+    this.changeValue2(undefined, operator2)
   }
 
   /**
