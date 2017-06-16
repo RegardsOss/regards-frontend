@@ -48,7 +48,9 @@ function extractParameters(openSearchQuery) {
       logMessage(`Open search parameter value invalid: ${parameterWithValue}`, true, 'Search entities')
       return params
     }
-    const parameterValue = splitParameter[1]
+    // get parameter (join back on ':' if it is part of the parameters)
+    const parameterValue = splitParameter.slice(1, splitParameter.length).join(':')
+    console.error('---> rebuilt param ', splitParameter[1], parameterValue)
 
     // find matching parameter
     const foundParameter = _.find(searchQueryParameters, ({ key }) => parameterWithValue.toLowerCase().startsWith(key.toLowerCase()))

@@ -16,7 +16,13 @@ export default theme => ({
     heightPercent: 68,
     body: { padding: '0', overflowY: 'none' },
     card: {
-      style: { height: '100%' },
+      style: {
+        height: '100%',
+        boxShadow: 'none',
+        borderWidth: '0 0 1px 0',
+        borderColor: theme.toolbar.separatorColor,
+        borderStyle: 'solid',
+      },
       containerStyle: { height: '100%', ...verticalLayout },
       titleStyle: fixedFlexElement,
       media: {
@@ -33,6 +39,13 @@ export default theme => ({
               circleSize: 32,
               circleThickness: 1.5,
               messageStyle: { fontWeight: '0.8em', padding: '16px 0 0 16px', color: theme.subheader.color },
+            },
+            descriptionTab: {
+              rootStyle: growingFlexElement,
+              markdownContainerStyle: {
+                padding: '10px 0 10px 0',
+                color: theme.palette.textColor,
+              },
             },
             propertiesTab: {
               rootStyle: { display: 'flex', flexDirection: 'row', alignItems: 'stretch', ...growingFlexElement },
@@ -60,7 +73,7 @@ export default theme => ({
                 },
                 rootStyle: {
                   ...verticalLayout,
-                  paddingRight: '24px',
+                  padding: '0 12px 0 12px',
                 },
                 tagsContainer: {
                   rootStyle: { display: 'table', paddingLeft: '24px' },
@@ -77,13 +90,6 @@ export default theme => ({
           },
         },
       },
-    },
-  },
-  tabHeaderHeight: 48,
-  markdownContainer: {
-    styles: {
-      padding: '10px 0 10px 0',
-      color: theme.palette.textColor,
     },
   },
 })

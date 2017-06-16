@@ -41,11 +41,12 @@ class DescriptionFileComponent extends React.Component {
   render() {
     const { loading, descriptionFileURL, descriptionFile } = this.props
     const { intl: { formatMessage } } = this.context
-    const { moduleTheme: { markdownContainer } } = this.context
+    const { rootStyle, markdownContainerStyle } = this.context.moduleTheme.descriptionDialog.card.media.tabs.tab.descriptionTab
+
     const { displayAreaStyle } = this.state
     return (
       <Measure onMeasure={this.onSizeChanged}>
-        <div style={{ flexGrow: '1', flexShrink: '1' }}>
+        <div style={rootStyle}>
           {
             (function renderContent() {
               if (loading) {
@@ -64,7 +65,7 @@ class DescriptionFileComponent extends React.Component {
                     vertical
                     style={displayAreaStyle}
                   >
-                    <div style={markdownContainer.styles}>
+                    <div style={markdownContainerStyle}>
                       <ReactMarkdown source={descriptionFile.content} />
                     </div>
                   </ScrollArea>)

@@ -120,7 +120,7 @@
       "ipId": "URN:collection-cassini-experiments-0",
       "label": "0-gravity monkeys",
       "tags": [
-        "collection-mission-0"
+        "URN:collection-mission-0"
       ]
     },
     {
@@ -131,7 +131,7 @@
       "ipId": "URN:collection-cassini-experiments-1",
       "label": "Sun blasting",
       "tags": [
-        "collection-mission-0"
+        "URN:collection-mission-0"
       ]
     },
     {
@@ -142,7 +142,7 @@
       "ipId": "URN:collection-cassini-experiments-2",
       "label": "Moon repositionning",
       "tags": [
-        "collection-mission-0"
+        "URN:collection-mission-0"
       ]
     },
     {
@@ -153,7 +153,7 @@
       "ipId": "URN:collection-cassini-experiments-3",
       "label": "Testing coffee on monkeys in space just to see what happens",
       "tags": [
-        "collection-mission-0"
+        "URN:collection-mission-0"
       ]
     },
     {
@@ -164,7 +164,7 @@
       "ipId": "URN:collection-cassini-experiments-4",
       "label": "Psychedelic Jupiter repainting in black and red just to see if it beats hypno crapo, which is very long to be 120 chars!",
       "tags": [
-        "collection-mission-0"
+        "URN:collection-mission-0"
       ],
       "links": [
         {
@@ -181,7 +181,7 @@
       "ipId": "URN:dataset-cassini-experiments-0",
       "label": "Experiments schedule",
       "tags": [
-        "collection-mission-0"
+        "URN:collection-mission-0"
       ],
       "links": [
         {
@@ -209,7 +209,7 @@
       "ipId": "URN:dataset-cassini-experiments-1",
       "label": "Cassini experiments ethic stamps",
       "tags": [
-        "collection-mission-0"
+        "URN:collection-mission-0"
       ],
       "links": [
         {
@@ -237,7 +237,7 @@
       "ipId": "URN:dataset-cassini-experiments-2",
       "label": "Life after sun expectations",
       "tags": [
-        "collection-mission-0"
+        "URN:collection-mission-0"
       ],
       "links": [
         {
@@ -265,7 +265,7 @@
       "ipId": "URN:dataset-cassini-experiments-3",
       "label": "Ice scream sales records related",
       "tags": [
-        "collection-mission-0"
+        "URN:collection-mission-0"
       ],
       "links": [
         {
@@ -288,7 +288,7 @@
       "ipId": "URN:dataset-cassini-experiments-4",
       "label": "About ice screams, monkeys and black holes",
       "tags": [
-        "collection-mission-0"
+        "URN:collection-mission-0"
       ],
       "creationDate": "2006-11-30T13:42:01",
       "properties": {
@@ -307,7 +307,7 @@
       "ipId": "URN:dataset-cassini-experiments-5",
       "label": "No more ideas set",
       "tags": [
-        "collection-mission-0"
+        "URN:collection-mission-0"
       ],
       "properties": {
         "language": "Elvian",
@@ -325,7 +325,7 @@
       "ipId": "URN:collection-cassini-0-grav-instrument-0",
       "label": "Monkey flight camera - front",
       "tags": [
-        "collection-cassini-experiments-0"
+        "URN:collection-cassini-experiments-0"
       ]
     },
     {
@@ -347,7 +347,7 @@
       "ipId": "URN:collection-cassini-0-grav-instrument-2",
       "label": "Monkey flight accelerometer",
       "tags": [
-        "collection-cassini-experiments-0"
+        "URN:collection-cassini-experiments-0"
       ]
     },
     {
@@ -358,7 +358,7 @@
       "ipId": "URN:dataset-cassini-0-grav-instrument-norms",
       "label": "Monkey proof equipment norms",
       "tags": [
-        "collection-cassini-experiments-0"
+        "URN:collection-cassini-experiments-0"
       ],
       "links": [
         {
@@ -383,7 +383,7 @@
       "ipId": "URN:collection-cassini-0-grav-cam-left-result-0",
       "label": "30 seconds records",
       "tags": [
-        "collection-cassini-0-grav-instrument-0"
+        "URN:collection-cassini-0-grav-instrument-0"
       ]
     },
     {
@@ -394,7 +394,7 @@
       "ipId": "URN:collection-cassini-0-grav-cam-left-result-1",
       "label": "1 minute records",
       "tags": [
-        "collection-cassini-0-grav-instrument-0"
+        "URN:collection-cassini-0-grav-instrument-0"
       ]
     },
     {
@@ -405,7 +405,7 @@
       "ipId": "URN:collection-cassini-0-grav-cam-left-result-2",
       "label": "Director's cut",
       "tags": [
-        "collection-cassini-0-grav-instrument-0"
+        "URN:collection-cassini-0-grav-instrument-0"
       ]
     },
     {
@@ -416,7 +416,7 @@
       "ipId": "URN:collection-cassini-0-grav-cam-left-result-3",
       "label": "'To long to interest anyone' records",
       "tags": [
-        "collection-cassini-0-grav-instrument-0"
+        "URN:collection-cassini-0-grav-instrument-0"
       ]
     },
     {
@@ -427,7 +427,7 @@
       "ipId": "URN:datasets-cassini-0-grav-cam-left-result-0",
       "label": "Fabulous flights data",
       "tags": [
-        "collection-cassini-0-grav-instrument-0"
+        "URN:collection-cassini-0-grav-instrument-0"
       ],
       "links": [
         {
@@ -449,7 +449,7 @@
       "ipId": "URN:datasets-cassini-0-grav-cam-left-result-1",
       "label": "Mad monkeys hiting cam",
       "tags": [
-        "collection-cassini-0-grav-instrument-0"
+        "URN:collection-cassini-0-grav-instrument-0"
       ]
     },
     {
@@ -460,7 +460,7 @@
       "ipId": "URN:datasets-cassini-0-grav-cam-left-result-2",
       "label": "Writing bibles parts",
       "tags": [
-        "collection-cassini-0-grav-instrument-0"
+        "URN:collection-cassini-0-grav-instrument-0"
       ]
     },
     {
@@ -471,7 +471,7 @@
       "ipId": "URN:the-little-one-lost-at-last-level",
       "label": "The little one lost at last level",
       "tags": [
-        "collection-cassini-0-grav-cam-left-result-0"
+        "URN:collection-cassini-0-grav-cam-left-result-0"
       ]
     }
   ],
