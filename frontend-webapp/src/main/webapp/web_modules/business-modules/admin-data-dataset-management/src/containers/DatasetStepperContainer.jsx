@@ -30,9 +30,9 @@ export class DatasetStepperContainer extends React.Component {
   static propTypes = {
     stepIndex: PropTypes.number.isRequired,
     isEditing: PropTypes.bool,
-    currentDatasetIpId: PropTypes.string,
-    currentDatasetId: PropTypes.string,
-    projectName: PropTypes.string,
+    currentDatasetIpId: PropTypes.string.isRequired,
+    currentDatasetId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+    projectName: PropTypes.string.isRequired,
   }
   static defaultProps = {
     isEditing: false,
@@ -44,7 +44,7 @@ export class DatasetStepperContainer extends React.Component {
   }
 
   getPluginsStep = () => {
-    const text = (<FormattedMessage id="dataset.stepper.attributes" />)
+    const text = (<FormattedMessage id="dataset.stepper.plugins" />)
     if (!this.isDisabled(STEPS_ID.PLUGINS) && this.props.stepIndex !== STEPS_ID.PLUGINS) {
       return (<StepButton onClick={this.handlePluginsClick}>
         {text}

@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import merge from 'lodash/merge'
-import { AttributeModel, AttributeModelController, AttributeConfiguration } from '@regardsoss/model'
+import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import { Card, CardHeader, CardText } from 'material-ui/Card'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -22,18 +22,12 @@ class AttributeConfigurationComponent extends React.Component {
 
   static propTypes = {
     allowFacettes: PropTypes.bool.isRequired,
-    attribute: PropTypes.oneOfType([PropTypes.shape({
-      // for standard attributes
-      content: PropTypes.shape({
-        label: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
-        fragment: PropTypes.shape({
-          name: PropTypes.string.isRequired,
-        }).isRequired,
-      }),
-    }), AttributeModel]).isRequired,
+    attribute: PropTypes.oneOfType([
+      DataManagementShapes.StandartAttributeModel,
+      DataManagementShapes.AttributeModel
+    ]).isRequired,
     filter: PropTypes.string,
-    conf: AttributeConfiguration,
+    conf: AccessShapes.AttributeConfigurationContent,
     onChange: PropTypes.func,
   }
 

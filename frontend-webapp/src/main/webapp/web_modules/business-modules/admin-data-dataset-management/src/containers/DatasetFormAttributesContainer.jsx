@@ -9,6 +9,7 @@ import { DataManagementShapes } from '@regardsoss/shape'
 import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { unregisterField } from 'redux-form'
+import { extractParametersFromFormValues } from '@regardsoss/admin-data-entities-attributes-management'
 import DatasetFormAttributesComponent from '../components/DatasetFormAttributesComponent'
 import { modelSelectors, modelActions } from '../clients/ModelClient'
 import { modelAttributesActions, modelAttributesSelectors } from '../clients/ModelAttributesClient'
@@ -22,7 +23,7 @@ export class DatasetFormAttributesContainer extends React.Component {
 
   static propTypes = {
     currentDataset: DataManagementShapes.Dataset,
-    currentDatasourceId: PropTypes.string.isRequired,
+    currentDatasourceId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     backUrl: PropTypes.string.isRequired,
     handleSave: PropTypes.func.isRequired,
     isEditing: PropTypes.bool.isRequired,
@@ -64,32 +65,10 @@ export class DatasetFormAttributesContainer extends React.Component {
 
   onSubmit = (values) => {
     const datasourceObjectModelId = this.props.currentDatasource.content.mapping.model
-    const properties = this.extractPropertiesFromValues(values)
+    const properties = extractParametersFromFormValues(values, this.props.modelAttributeList)
     this.props.handleSave(values.label, values.model, properties, datasourceObjectModelId, values.descriptionFileContent, values.descriptionUrl)
   }
 
-  /**
-   * Retrieve model attributes values from form values
-   * and returns the value of collection "attributes" sendeable to the API
-   * @param values
-   * @returns {{}}
-   */
-  extractPropertiesFromValues = (values) => {
-    const result = {}
-    forEach(values.properties, (attrValue, attrName) => {
-      const modelAttr = find(this.props.modelAttributeList, modelAttribute => modelAttribute.content.attribute.name === attrName)
-      const fragment = modelAttr.content.attribute.fragment
-      if (fragment.name !== fragmentSelectors.noneFragmentName) {
-        if (!result[fragment.name]) {
-          result[fragment.name] = {}
-        }
-        result[fragment.name][attrName] = attrValue
-      } else {
-        result[attrName] = attrValue
-      }
-    })
-    return result
-  }
 
 
   /**
@@ -100,7 +79,7 @@ export class DatasetFormAttributesContainer extends React.Component {
   handleUpdateModel = (modelId) => {
     // Remove any value defined in the current form if modelAttributeList existed
     forEach(this.props.modelAttributeList, (modelAttribute) => {
-      this.props.unregisterField('dataset-attributes-form', `properties.${modelAttribute.content.attribute.name}`)
+      this.props.unregisterField('dataset-attributes-form', `properties.${modelAttribute.content.attribute.fragment.name}.${modelAttribute.content.attribute.name}`)
     })
     this.props.fetchModelAttributeList(modelId)
   }

@@ -29,7 +29,6 @@ import { getFullQualifiedAttributeName, MODEL_ATTR_TYPES } from '@regardsoss/dom
 export class EntitiesAttributeFormComponent extends React.Component {
 
   static propTypes = {
-    // TODO dataset or collection
     modelAttribute: DataManagementShapes.ModelAttribute,
   }
 
@@ -70,18 +69,18 @@ export class EntitiesAttributeFormComponent extends React.Component {
 
   getFieldTextField = (modelAttribute, type) => (
     <Field
-      name={`properties.${modelAttribute.content.attribute.name}`}
+      name={`properties.${modelAttribute.content.attribute.fragment.name}.${modelAttribute.content.attribute.name}`}
       fullWidth
       component={RenderTextField}
       type={type}
-      label={this.context.intl.formatMessage({ id: 'dataset.form.table.input' })}
+      label={this.context.intl.formatMessage({ id: 'entities-attributes.form.table.input' })}
       validate={this.getRestriction(modelAttribute)}
     />
   )
 
   getFieldCheckbox = modelAttribute => (
     <Field
-      name={`properties.${modelAttribute.content.attribute.name}`}
+      name={`properties.${modelAttribute.content.attribute.fragment.name}.${modelAttribute.content.attribute.name}`}
       component={RenderCheckbox}
     />
   )

@@ -9,7 +9,7 @@ import Close from 'material-ui/svg-icons/navigation/close'
 import TextField from 'material-ui/TextField'
 import { i18nContextType } from '@regardsoss/i18n'
 import { FormattedMessage } from 'react-intl'
-import { AttributeModelController, AttributeConfiguration, AttributeModel } from '@regardsoss/model'
+import { DataManagementShapes, AccessShapes } from '@regardsoss/shape'
 import AttributeConfigurationComponent from './AttributeConfigurationComponent'
 
 /**
@@ -20,8 +20,8 @@ class DynamicAttributesConfigurationComponent extends React.Component {
 
   static propTypes = {
     allowFacettes: PropTypes.bool.isRequired,
-    attributesConf: PropTypes.arrayOf(AttributeConfiguration).isRequired,
-    selectableAttributes: PropTypes.objectOf(AttributeModel).isRequired,
+    attributesConf: PropTypes.arrayOf(AccessShapes.AttributeConfigurationContent).isRequired,
+    selectableAttributes: DataManagementShapes.AttributeModelList.isRequired,
     onChangeAttributeConfiguration: PropTypes.func.isRequired,
   }
   static contextTypes = {
