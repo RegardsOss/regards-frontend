@@ -79,7 +79,7 @@ export class SearchResultsContainer extends React.Component {
     selectedDataobjectsServices: PropTypes.arrayOf(PropTypes.instanceOf(Service)).isRequired,
     viewObjectType: PropTypes.oneOf([SearchResultsTargetsEnum.DATAOBJECT_RESULTS, SearchResultsTargetsEnum.DATASET_RESULTS]).isRequired,
     // Display mode
-    displayMode : PropTypes.oneOf([DiplayModeEnum.LIST,DiplayModeEnum.TABLE]).isRequired,
+    displayMode : PropTypes.oneOf([DisplayModeEnum.LIST,DisplayModeEnum.TABLE]).isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     levels: PropTypes.arrayOf(PropTypes.instanceOf(NavigationLevel)).isRequired, // only used to build query
     // eslint-disable-next-line react/no-unused-prop-types
