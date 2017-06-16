@@ -82,17 +82,11 @@ export class CollectionFormContainer extends React.Component {
   }
 
   handleUpdate = (values) => {
-    const model = this.props.modelList[values.model].content
     const properties = this.extractParametersFromValues(values)
     const descriptionFile = getAbstractEntityDescription(values.descriptionFileContent, values.descriptionUrl)
-    const updatedCollection = Object.assign({}, {
-      id: this.props.currentCollection.content.id,
-      tags: this.props.currentCollection.content.tags,
-      entityType: this.props.currentCollection.content.type,
-    }, {
+    const updatedCollection = Object.assign({}, this.props.currentCollection.content, {
       label: values.label,
       descriptionFile,
-      model,
       properties,
     })
     const files = {}

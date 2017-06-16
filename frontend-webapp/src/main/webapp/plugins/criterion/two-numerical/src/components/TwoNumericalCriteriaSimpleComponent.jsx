@@ -34,43 +34,42 @@ export class TwoNumericalCriteriaSimpleComponent extends PluginComponent {
     operator2: EnumNumericalComparator.EQ,
   }
 
-  changeValue = (attribute, value, operator) => {
-    if (attribute === 'firstField') {
-      this.setState({
-        firstField: value,
-        operator1: operator,
-      })
-    } else {
-      this.setState({
-        secondField: value,
-        operator2: operator,
-      })
-    }
+  changeValue1 = (value, operator) => {
+    this.setState({
+      firstField: value,
+      operator1: operator,
+    })
+  }
+
+  changeValue2 = (value, operator) => {
+    this.setState({
+      secondField: value,
+      operator2: operator,
+    })
   }
 
   getPluginSearchQuery = (state) => {
+    const { firstField, secondField, operator1, operator2 } = state
     let searchQuery = ''
-    if (state.firstField) {
-      searchQuery = this.criteriaToOpenSearchFormat('firstField', state.firstField, state.operator1)
+    if (firstField) {
+      searchQuery = this.criteriaToOpenSearchFormat('firstField', firstField, operator1)
     }
-    if (state.secondField) {
+    if (secondField) {
       if (searchQuery && searchQuery.length > 0) {
         searchQuery = `${searchQuery} AND `
       }
-      const searchQuery2 = this.criteriaToOpenSearchFormat('secondField', state.secondField, state.operator2)
+      const searchQuery2 = this.criteriaToOpenSearchFormat('secondField', secondField, operator2)
       searchQuery = `${searchQuery}${searchQuery2}`
     }
     return searchQuery
   }
 
   parseOpenSearchQuery = (parameterName, openSearchQuery) => {
-    console.error("PARSE",parameterName,openSearchQuery)
     if (isNaN(openSearchQuery)) {
       const values = openSearchQuery.match(/\[[ ]{0,1}([0-9\*]*) TO ([0-9\*]*)[ ]{0,1}\]/)
       if (values.length === 3) {
         const value = values[1] !== '*' ? values[1] : values[2]
         const operator = values[1] === '*' ? EnumNumericalComparator.LE : EnumNumericalComparator.GE
-        console.error("PARSE RESULT",parameterName,value,operator)
         if (parameterName === 'firstField') {
           this.setState({ operator1: operator })
         } else {
@@ -79,7 +78,6 @@ export class TwoNumericalCriteriaSimpleComponent extends PluginComponent {
         return value
       }
     } else {
-      console.error("PARSE RESULT",parameterName,openSearchQuery,EnumNumericalComparator.EQ)
       if (parameterName === 'firstField') {
         this.setState({ operator1: EnumNumericalComparator.EQ })
       } else {
@@ -95,8 +93,9 @@ export class TwoNumericalCriteriaSimpleComponent extends PluginComponent {
    * Clear the entered value
    */
   handleClear = () => {
-    this.changeValue('firstField', undefined, undefined)
-    this.changeValue('secondField', undefined, undefined)
+    const { operator1, operator2 } = this.state
+    this.changeValue1(undefined, operator1)
+    this.changeValue(undefined, operator2)
   }
 
   /**
@@ -126,7 +125,7 @@ export class TwoNumericalCriteriaSimpleComponent extends PluginComponent {
   }
 
   render() {
-    console.error("SEB",this.props,this.state)
+    const { firstField, secondField, operator1, operator2 } = this.state
     return (
       <div style={{ display: 'flex' }}>
         <div
@@ -137,25 +136,21 @@ export class TwoNumericalCriteriaSimpleComponent extends PluginComponent {
             flexWrap: 'wrap',
           }}
         >
-          <NumericalCriteriaComponent // we are mapping on an object this is why we disable the lint next line
-            key={'firstField'} // eslint-disable-line react/no-array-index-key
-            attribute={'firstField'}
-            attributeLabel={this.getAttributeLabel('firstField')}
-            onChange={this.changeValue}
-            comparator={this.state.operator1}
-            value={this.state.firstField}
+          <NumericalCriteriaComponent
+            label={'firstField'}
+            value={firstField}
+            comparator={operator1}
+            onChange={this.changeValue1}
             fixedComparator={false}
           />
-          <NumericalCriteriaComponent // we are mapping on an object this is why we disable the lint next line
-            key={'secondField'} // eslint-disable-line react/no-array-index-key
-            attribute={'secondField'}
-            attributeLabel={this.getAttributeLabel('secondField')}
-            onChange={this.changeValue}
-            comparator={this.state.operator2}
-            value={this.state.secondField}
+          <NumericalCriteriaComponent
+            label={'secondField'}
+            value={secondField}
+            comparator={operator2}
+            onChange={this.changeValue2}
             fixedComparator={false}
           />
-          <ClearButton onTouchTap={this.handleClear} displayed={this.state.firstField || this.state.secondField} />
+          <ClearButton onTouchTap={this.handleClear} displayed={firstField || secondField}/>
         </div>
       </div>
     )

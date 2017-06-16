@@ -29,18 +29,15 @@ export class TemporalComparatorComponent extends React.Component {
     value: React.PropTypes.oneOf(values(EnumTemporalComparator)),
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      openMenu: false,
-      value: props.value || EnumTemporalComparator.EQ,
-    }
+  static defaultProps = {
+    value: EnumTemporalComparator.EQ,
+  }
+
+  state = {
+    openMenu: false,
   }
 
   handleChange = (event, value) => {
-    this.setState({
-      value,
-    })
     this.props.onChange(value)
   }
 
@@ -57,26 +54,29 @@ export class TemporalComparatorComponent extends React.Component {
   }
 
   render() {
+    const { value } = this.props
+    const { openMenu } = this.state
+
     return (
       <div>
         <RaisedButton
-          label={this.state.value}
+          label={value}
           onTouchTap={this.handleOpenMenu}
         />
         <IconMenu
           iconButtonElement={<IconButton style={{ display: 'none' }}><MoreVertIcon /></IconButton>}
-          open={this.state.openMenu}
+          open={openMenu}
           onChange={this.handleChange}
           onRequestChange={this.handleOnRequestChange}
-          value={this.state.value}
+          value={value}
         >
-          {map(EnumTemporalComparator, value => (
+          {map(EnumTemporalComparator, comparator => (
             <MenuItem
               style={{
                 display: 'flex',
                 textTransform: 'uppercase',
                 justifyContent: 'center',
-              }} key={value} primaryText={value} value={value}
+              }} key={comparator} primaryText={comparator} value={comparator}
             />
           ))}
         </IconMenu>
