@@ -49,6 +49,7 @@ class SearchResultsComponent extends React.Component {
     project: PropTypes.string,
     allowingFacettes: PropTypes.bool.isRequired,
     displayDatasets: PropTypes.bool.isRequired,
+    displaySelectCheckboxes: PropTypes.bool.isRequired,
 
     // dynamic display control
     showingDataobjects: PropTypes.bool.isRequired,     // is Currently showing data objects (false: showing datasets)
@@ -176,8 +177,8 @@ class SearchResultsComponent extends React.Component {
       const attributes = reduce(attrRegroupementConf.attributes, (results, attributeId) => {
         const attribute = find(attributeModels, att => att.content.id === attributeId)
         return attribute ?
-            [...results, AttributeModelController.getAttributeAccessPath(attribute)] :
-            results
+          [...results, AttributeModelController.getAttributeAccessPath(attribute)] :
+          results
       }, [])
       // 2 - If attributes could be rebuilt, return corresponding columns
       if (attributes && attributes.length) {
@@ -209,7 +210,7 @@ class SearchResultsComponent extends React.Component {
         styles: this.context.moduleTheme.user.listViewStyles,
         onSearchTag: onSelectSearchTag,
         tableColumns: showingDataobjects ? tableColumns : undefined,
-        displayCheckBox: showingDataobjects && this.props.displaySelectCheckboxes,
+        displayCheckbox: showingDataobjects && this.props.displaySelectCheckboxes,
       },
     },
   }]

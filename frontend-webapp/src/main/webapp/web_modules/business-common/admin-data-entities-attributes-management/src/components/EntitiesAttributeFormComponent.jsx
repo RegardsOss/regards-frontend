@@ -1,25 +1,13 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import map from 'lodash/map'
-import forEach from 'lodash/forEach'
 import has from 'lodash/has'
-import keys from 'lodash/keys'
-import isNil from 'lodash/isNil'
-import isObject from 'lodash/isObject'
-import get from 'lodash/get'
-import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
-import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
-import { FormattedMessage } from 'react-intl'
-import { reduxForm } from 'redux-form'
+import { TableRow, TableRowColumn } from 'material-ui/Table'
 import { DataManagementShapes } from '@regardsoss/shape'
-import { RenderTextField, RenderSelectField, RenderFileField, RenderCheckbox, Field, ErrorTypes } from '@regardsoss/form-utils'
-import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
+import { RenderTextField, RenderCheckbox, Field } from '@regardsoss/form-utils'
+import { ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import MenuItem from 'material-ui/MenuItem'
-import SelectField from 'material-ui/SelectField'
-import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
 import { getFullQualifiedAttributeName, MODEL_ATTR_TYPES } from '@regardsoss/domain/dam'
 
 
@@ -52,19 +40,17 @@ export class EntitiesAttributeFormComponent extends React.Component {
       case MODEL_ATTR_TYPES.BOOLEAN:
         return this.getFieldCheckbox(modelAttribute)
       case MODEL_ATTR_TYPES.DATE:
-
       case MODEL_ATTR_TYPES.INTEGER_ARRAY:
       case MODEL_ATTR_TYPES.DOUBLE_ARRAY:
       case MODEL_ATTR_TYPES.DATE_ARRAY:
       case MODEL_ATTR_TYPES.LONG_ARRAY:
       case MODEL_ATTR_TYPES.STRING_ARRAY:
-
       case MODEL_ATTR_TYPES.INTEGER_INTERVAL:
       case MODEL_ATTR_TYPES.DOUBLE_INTERVAL:
       case MODEL_ATTR_TYPES.DATE_INTERVAL:
       case MODEL_ATTR_TYPES.LONG_INTERVAL:
       default:
-        return (<span>Can't render a Field for that attribute type</span>)
+        return (<span>No render field for that attribute type</span>)
     }
   }
 

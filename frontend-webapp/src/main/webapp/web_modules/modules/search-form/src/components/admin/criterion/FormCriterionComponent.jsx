@@ -53,6 +53,19 @@ class FormCriterionComponent extends React.Component {
     criteriaViewOpened: false,
   }
 
+  getCriteriaAttributes = (criteria) => {
+    const attributes = get(criteria, 'conf.attributes')
+    if (!attributes) {
+      return ''
+    }
+    return reduce(attributes, (result, attribute) => {
+      const attrLabel = get(this.props.selectableAttributes[attribute], 'content.label') || attribute
+      if (result !== '') {
+        return `${result} - ${attrLabel}`
+      }
+      return attrLabel
+    }, '')
+  }
 
   /**
    * Update redux-form conf property for criterion.
@@ -90,19 +103,6 @@ class FormCriterionComponent extends React.Component {
     })
   }
 
-  getCriteriaAttributes = (criteria) => {
-    const attributes = get(criteria, 'conf.attributes')
-    if (!attributes) {
-      return ''
-    }
-    return reduce(attributes, (result, attribute) => {
-      const attrLabel = get(this.props.selectableAttributes[attribute], 'content.label') || attribute
-      if (result !== '') {
-        return `${result} - ${attrLabel}`
-      }
-      return attrLabel
-    }, '')
-  }
 
   /**
    * Handle action to edit a criteria

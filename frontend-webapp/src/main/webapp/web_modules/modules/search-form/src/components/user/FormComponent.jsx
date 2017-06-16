@@ -46,6 +46,13 @@ class FormComponent extends React.Component {
     })
   }
 
+
+  onKeyPress = (e) => {
+    if (e.charCode === 13) {
+      this.onHandleSearch()
+    }
+  }
+
   /**
    * Function passed to plugins to give them back theire previous state in order to initialize them
    * with their previous values.
@@ -54,12 +61,6 @@ class FormComponent extends React.Component {
    * @returns {{}}
    */
   getPluginDefaultState = pluginId => this.pluginStates[pluginId] ? this.pluginStates[pluginId] : {}
-
-  onKeyPress = (e) => {
-    if (e.charCode === 13) {
-      this.onHandleSearch()
-    }
-  }
 
   handleExpand = () => {
     this.setState({

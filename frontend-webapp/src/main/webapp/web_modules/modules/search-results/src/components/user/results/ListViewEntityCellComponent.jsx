@@ -204,7 +204,7 @@ class ListViewEntityCellComponent extends React.Component {
     const infoIconStyle = { cursor: 'pointer', marginLeft: 15 }
     return (
       <div style={mainStyle}>
-        {this.props.displayCheckBox ? <Checkbox
+        {this.props.displayCheckbox ? <Checkbox
           onCheck={this.props.selectTableEntityCallback}
           defaultChecked={this.props.isTableSelected}
           style={checkboxStyle}

@@ -26,8 +26,10 @@ export class EntityTagContainer extends React.Component {
     onSearch: PropTypes.func,
     // eslint-disable-next-line react/no-unused-prop-types
     levelActions: PropTypes.instanceOf(DescriptionLevelActions).isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
     levelSelectors: PropTypes.instanceOf(DescriptionLevelSelectors).isRequired,
     // from map state to props
+    // eslint-disable-next-line react/no-unused-prop-types
     descriptionPath: PropTypes.arrayOf(CatalogEntity),
     // from mapDispatchToProps
     dispatchShowDetail: PropTypes.func,

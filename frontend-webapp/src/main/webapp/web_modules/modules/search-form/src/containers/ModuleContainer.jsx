@@ -9,7 +9,6 @@ import flatten from 'lodash/flatten'
 import forEach from 'lodash/forEach'
 import cloneDeep from 'lodash/cloneDeep'
 import reduce from 'lodash/reduce'
-import replace from 'lodash/replace'
 import isEqual from 'lodash/isEqual'
 import isInteger from 'lodash/isInteger'
 import values from 'lodash/values'
@@ -137,6 +136,18 @@ class ModuleContainer extends React.Component {
     return ''
   }
 
+  getInitialValues = () => {
+    const parameters = this.state.searchQuery.split(/ AND /)
+    const initialValues = {}
+    parameters.forEach((parameter) => {
+      const keys = parameter.match(/([^ :]*):(.*)$/)
+      if (keys && keys.length === 3) {
+        initialValues[keys[1]] = keys[2]
+      }
+    })
+    return initialValues
+  }
+
   /**
    * Add the attributeModels properties to the criterion conf
    * @returns {*}
@@ -152,17 +163,14 @@ class ModuleContainer extends React.Component {
           if (this.props.attributeModels[attributeId]) {
             // eslint-disable-next-line no-param-reassign
             criteria.conf.attributes[key] = this.props.attributeModels[attributeId].content
-          } else {
-            // Attribute not retrieved from server
-            // Check if the attribute is a standard attribute
-            if (AttributeModelController.StandardAttributes.includes(attributeId)) {
-              // Create standard attribute conf
-              criteria.conf.attributes[key] = {
-                name: attributeId,
-                label: attributeId,
-                jsonPath: attributeId,
-                type: AttributeModelController.getStandardAttributeType(attributeId),
-              }
+          } else if (AttributeModelController.StandardAttributes.includes(attributeId)) {
+            // Standard attribute (not retrieved from server)
+            // eslint-disable-next-line no-param-reassign
+            criteria.conf.attributes[key] = {
+              name: attributeId,
+              label: attributeId,
+              jsonPath: attributeId,
+              type: AttributeModelController.getStandardAttributeType(attributeId),
             }
           }
         })
@@ -277,18 +285,6 @@ class ModuleContainer extends React.Component {
     })
     this.criterionValues = {}
     browserHistory.push(`${browserHistory.getCurrentLocation().pathname}?q=${query}`)
-  }
-
-  getInitialValues = () => {
-    const parameters = this.state.searchQuery.split(/ AND /)
-    const initialValues = {}
-    parameters.forEach((parameter) => {
-      const keys = parameter.match(/([^ :]*):(.*)$/)
-      if (keys && keys.length === 3) {
-        initialValues[keys[1]] = keys[2]
-      }
-    })
-    return initialValues
   }
 
   renderForm() {
