@@ -18,7 +18,7 @@ const messages = Object.assign({
   'accessright.form.data.accessLevel.NO_ACCESS': 'Refusé',
   'accessright.form.data.accessLevel.INHERITED_ACCESS': 'Autorisé',
   'accessright.form.data.accessLevel.CUSTOM_ACCESS': 'Accès autorisé par plugin',
-  'accessright.form.data.accessLevel.NOT_APPLICABLE': '-',
+  'accessright.form.data.accessLevel.NOT_APPLICABLE': 'Aucun accès',
   'accessright.form.accessGroup': 'Groupe d\'accès aux données',
   'accessright.form.dataset.title': 'Liste des datasets',
   'accessright.form.dataset.input': 'Recherche par nom de collection',

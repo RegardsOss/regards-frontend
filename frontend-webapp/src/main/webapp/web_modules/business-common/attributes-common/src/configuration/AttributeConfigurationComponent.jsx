@@ -60,7 +60,7 @@ class AttributeConfigurationComponent extends React.Component {
       // Props can be updated by upper container. (Handle the use case of only one attribut can have the initialSort to true)
       // If props changed, change the current state to the new props values.
       this.setState({
-        conf: nextProps.conf
+        conf: nextProps.conf,
       })
       return true
     }

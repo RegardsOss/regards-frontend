@@ -103,7 +103,7 @@ class MainAttributesConfigurationComponent extends React.Component {
           attributeConf.initialSort = false
         }
         results.push(attributeConf)
-      },[])
+      }, [])
     }
 
     // Else add the new attribute conf

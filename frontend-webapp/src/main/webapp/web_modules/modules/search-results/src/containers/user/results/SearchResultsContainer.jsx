@@ -16,6 +16,7 @@ import {
 import { TableSelectionModes, TableSortOrders } from '@regardsoss/components'
 import TableClient from '../../../clients/TableClient'
 import NavigationLevel from '../../../models/navigation/NavigationLevel'
+import DisplayModeEnum from '../../../models/navigation/DisplayModeEnum'
 import navigationContextActions from '../../../models/navigation/NavigationContextActions'
 import navigationContextSelectors from '../../../models/navigation/NavigationContextSelectors'
 import {
@@ -40,6 +41,7 @@ export class SearchResultsContainer extends React.Component {
     selectedDataobjectsServices: datasetServicesSelectors.getSelectedDataobjectsServices(state),
     levels: navigationContextSelectors.getLevels(state),
     viewObjectType: navigationContextSelectors.getViewObjectType(state),
+    displayMode : navigationContextSelectors.getDisplayMode(state),
 
     // selection related
     selectionMode: TableClient.tableSelectors.getSelectionMode(state),
@@ -49,8 +51,12 @@ export class SearchResultsContainer extends React.Component {
 
   static mapDispatchToProps = dispatch => ({
     dispatchChangeViewObjectType: viewObjectType => dispatch(navigationContextActions.changeViewObjectType(viewObjectType)),
+    dispatchChangeDisplayMode: displayMode => dispatch(navigationContextActions.changeDisplayMode(displayMode)),
     dispatchTagSelected: searchTag => dispatch(navigationContextActions.changeSearchTag(searchTag)),
-    dispatchDatasetSelected: dataset => dispatch(navigationContextActions.changeDataset(dataset)),
+    dispatchDatasetSelected: dataset => {
+      dispatch(navigationContextActions.changeDataset(dataset))
+      dispatch(navigationContextActions.changeViewObjectType(SearchResultsTargetsEnum.DATAOBJECT_RESULTS))
+    }
   })
 
   static propTypes = {
@@ -86,6 +92,7 @@ export class SearchResultsContainer extends React.Component {
     selectionMode: PropTypes.oneOf(values(TableSelectionModes)),
 
     dispatchChangeViewObjectType: PropTypes.func.isRequired,
+    dispatchChangeDisplayMode: PropTypes.func.isRequired,
     dispatchDatasetSelected: PropTypes.func.isRequired,
     dispatchTagSelected: PropTypes.func.isRequired,
   }
@@ -95,7 +102,6 @@ export class SearchResultsContainer extends React.Component {
    */
   static DEFAULT_STATE = {
     emptySelection: true, // is current selection empty?
-    viewMode: SearchResultsComponent.ViewModes.LIST,
     // is currently showing facettes
     showingFacettes: false,
     // initial sorting attributes array
@@ -119,10 +125,10 @@ export class SearchResultsContainer extends React.Component {
   onShowDataobjects = () => this.props.dispatchChangeViewObjectType(SearchResultsTargetsEnum.DATAOBJECT_RESULTS)
 
   /** On show results as list view action */
-  onShowListView = () => this.setState({ viewMode: SearchResultsComponent.ViewModes.LIST })
+  onShowListView = () => this.props.dispatchChangeDisplayMode(DisplayModeEnum.LIST)
 
   /**  On show results as table view action  */
-  onShowTableView = () => this.setState({ viewMode: SearchResultsComponent.ViewModes.TABLE })
+  onShowTableView = () => this.props.dispatchChangeDisplayMode(DisplayModeEnum.TABLE)
 
   /** User toggled facettes search */
   onToggleShowFacettes = () => this.updateStateAndQuery({ showingFacettes: !this.state.showingFacettes })
@@ -220,12 +226,6 @@ export class SearchResultsContainer extends React.Component {
         )
     }
 
-    // on view object type, if entering datasets mode, make sure we are in list view
-    if (oldProperties.viewObjectType !== newProperties.viewObjectType &&
-      newProperties.viewObjectType === SearchResultsTargetsEnum.DATASET_RESULTS) {
-      newState.viewMode = SearchResultsComponent.ViewModes.LIST
-    }
-
     // on selection change, if new selection is empty, hide selection services
     if (oldProperties.selectionMode !== newProperties.selectionMode ||
       oldProperties.toggledElements !== newProperties.toggledElements ||
@@ -252,9 +252,9 @@ export class SearchResultsContainer extends React.Component {
       appName, project, enableFacettes, attributesConf,
       attributesRegroupementsConf, attributeModels, viewObjectType,
       datasetServices, selectedDataobjectsServices, displayDatasets,
-      dispatchDatasetSelected, dispatchTagSelected,
+      dispatchDatasetSelected, dispatchTagSelected, displayMode,
     } = this.props
-    const { viewMode, showingFacettes, filters, searchTag, searchQuery, emptySelection, sortingOn } = this.state
+    const { showingFacettes, filters, searchTag, searchQuery, emptySelection, sortingOn } = this.state
 
     // compute view mode
     const showingDataobjects = viewObjectType === SearchResultsTargetsEnum.DATAOBJECT_RESULTS
@@ -276,7 +276,7 @@ export class SearchResultsContainer extends React.Component {
         allowingFacettes={enableFacettes}
 
         showingDataobjects={showingDataobjects}
-        viewMode={viewMode}
+        viewMode={showingDataobjects ? displayMode : DisplayModeEnum.LIST}
         showingFacettes={showingFacettes}
         displayDatasets={displayDatasets}
         sortingOn={sortingOn}
