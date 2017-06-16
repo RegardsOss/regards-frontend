@@ -55,7 +55,7 @@ class ThumbnailAttributesRender extends React.Component {
         return (
           <div>
             <Avatar
-              src={thumbnail.uri}
+              src={thumbnail.fileRef}
               size={this.props.lineHeight - 20}
               style={style}
               onTouchTap={() => this.setState({ displayFullSize: !this.state.displayFullSize })}

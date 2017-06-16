@@ -55,6 +55,8 @@ export class URLManagementContainer extends React.Component {
     // from mapStateToProps
     // eslint-disable-next-line react/no-unused-prop-types
     viewObjectType: PropTypes.oneOf([SearchResultsTargetsEnum.DATAOBJECT_RESULTS, SearchResultsTargetsEnum.DATASET_RESULTS]).isRequired,
+    // Display mode
+    displayMode : PropTypes.oneOf([DiplayModeEnum.LIST,DiplayModeEnum.TABLE]).isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     levels: PropTypes.arrayOf(PropTypes.instanceOf(NavigationLevel)).isRequired,
     // from mapDispatchToProps

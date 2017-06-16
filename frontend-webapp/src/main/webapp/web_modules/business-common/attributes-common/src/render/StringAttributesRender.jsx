@@ -15,14 +15,15 @@ class StringAttributesRender extends React.Component {
   }
 
   render() {
+    const attributes = map(this.props.attributes, (attribute) => {
+      if (attribute) {
+        return String(attribute)
+      }
+      return null
+    })
     return (
-      <span>
-        {map(this.props.attributes, (attribute, key) => {
-          if (attribute) {
-            return (<span key={key}>{String(attribute)}</span>)
-          }
-          return null
-        })}
+      <span title={attributes.join(' ')}>
+        {map(attributes, (attribute, key) => <span key={key}>{attribute}</span>)}
       </span>
     )
   }
