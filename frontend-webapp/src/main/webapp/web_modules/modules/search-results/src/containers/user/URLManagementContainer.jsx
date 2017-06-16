@@ -45,7 +45,7 @@ export class URLManagementContainer extends React.Component {
     // context initial view mode
     initialViewObjectType: PropTypes.oneOf([SearchResultsTargetsEnum.DATAOBJECT_RESULTS, SearchResultsTargetsEnum.DATASET_RESULTS]).isRequired,
     // context initial display mode
-    initialDisplayMode : PropTypes.oneOf([DisplayModeEnum.LIST,DisplayModeEnum.TABLE]).isRequired,
+    initialDisplayMode: PropTypes.oneOf([DisplayModeEnum.LIST, DisplayModeEnum.TABLE]).isRequired,
     // current URL query information, used to detect browsing
     currentPath: PropTypes.string.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
@@ -146,7 +146,7 @@ export class URLManagementContainer extends React.Component {
     }
 
     const urlDisplayMode = currentQuery[ModuleURLParameters.DISPLAY_MODE_PARAMETER]
-    if (displayMode !== urlDisplayMode || this.props.initialDisplayMode){
+    if (displayMode !== urlDisplayMode || this.props.initialDisplayMode) {
       nextBrowserQuery[ModuleURLParameters.DISPLAY_MODE_PARAMETER] = displayMode
     }
 

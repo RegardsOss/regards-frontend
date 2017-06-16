@@ -41,7 +41,7 @@ export class SearchResultsContainer extends React.Component {
     selectedDataobjectsServices: datasetServicesSelectors.getSelectedDataobjectsServices(state),
     levels: navigationContextSelectors.getLevels(state),
     viewObjectType: navigationContextSelectors.getViewObjectType(state),
-    displayMode : navigationContextSelectors.getDisplayMode(state),
+    displayMode: navigationContextSelectors.getDisplayMode(state),
 
     // selection related
     selectionMode: TableClient.tableSelectors.getSelectionMode(state),
@@ -53,10 +53,10 @@ export class SearchResultsContainer extends React.Component {
     dispatchChangeViewObjectType: viewObjectType => dispatch(navigationContextActions.changeViewObjectType(viewObjectType)),
     dispatchChangeDisplayMode: displayMode => dispatch(navigationContextActions.changeDisplayMode(displayMode)),
     dispatchTagSelected: searchTag => dispatch(navigationContextActions.changeSearchTag(searchTag)),
-    dispatchDatasetSelected: dataset => {
+    dispatchDatasetSelected: (dataset) => {
       dispatch(navigationContextActions.changeDataset(dataset))
       dispatch(navigationContextActions.changeViewObjectType(SearchResultsTargetsEnum.DATAOBJECT_RESULTS))
-    }
+    },
   })
 
   static propTypes = {
