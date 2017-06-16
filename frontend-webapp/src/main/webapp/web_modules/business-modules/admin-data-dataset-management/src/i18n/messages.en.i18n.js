@@ -21,26 +21,26 @@ const messages = Object.assign({
   'dataset.form.links.remainingcollection.subtitle': 'Collections available : click on the plus to link the collection',
   'dataset.form.links.remainingcollection.search': 'Filter collections with their names',
   'dataset.form.links.action.next': 'Next',
-  'dataset.form.links.action.cancel': 'Back',
+  'dataset.form.links.action.cancel': 'Previous',
 
   'dataset.form.plugin.title': 'Manage plugins applyed to this dataset',
   'dataset.form.plugin.subtitle': 'You can link with these three types of plugins: <br /> - filters allow to modify user\'s research requests on a dataset. <br /> - converters allows to convert data coming from a research on a dataset. <br /> - services allows to realize processing on a dataset.',
   'dataset.form.plugin.services': 'Activate services',
   'dataset.form.plugin.action.next': 'Next',
-  'dataset.form.plugin.action.cancel': 'Cancel',
+  'dataset.form.plugin.action.cancel': 'Previous',
 
   'dataset.form.uiservices.title': 'Manage user interface services ',
   'dataset.form.uiservices.subtitle': 'Call Seb on +33560336584',
   'dataset.form.uiservices.action.next': 'Finish',
-  'dataset.form.uiservices.action.cancel': 'Cancel',
+  'dataset.form.uiservices.action.cancel': 'Previous',
 
 
   'dataset.form.subsetting.subtitle': 'Setup subsetting',
   'dataset.form.subsetting.attributes': 'Attribute from object model',
   'dataset.form.subsetting.opensearch': 'Filter request in OpenSearch',
   'dataset.form.subsetting.testSubsetQuery': 'Test the request',
-  'dataset.form.subsetting.action.next': 'Next',
-  'dataset.form.subsetting.action.cancel': 'Cancel',
+  'dataset.form.subsetting.action.next': 'Save',
+  'dataset.form.subsetting.action.cancel': 'Previous',
 
   'dataset.form.action.next': 'Next',
   'dataset.form.action.cancel': 'Cancel',
