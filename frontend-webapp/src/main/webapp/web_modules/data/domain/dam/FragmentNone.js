@@ -2,4 +2,4 @@
  * LICENSE_PLACEHOLDER
  **/
 
-export default 'none'
+export default 'default'

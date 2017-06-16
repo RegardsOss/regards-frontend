@@ -53,10 +53,6 @@ const messages = Object.assign({
   'dataset.form.radio.descriptionUrl': 'Give the URL containing the description',
   'dataset.form.radio.descriptionFileContent': 'Upload a file containing the description',
   'dataset.form.radio.none': 'No description',
-  'dataset.form.table.value': 'Fixed value',
-  'dataset.form.table.type': 'Type',
-  'dataset.form.table.fragmentAndLabel': 'Fragment and attribute name',
-  'dataset.form.table.input': 'Attribute value',
   'dataset.form.subtitle': 'Manage dataset attributes',
 
   'dataset.edit.title': 'Edit dataset {name}',

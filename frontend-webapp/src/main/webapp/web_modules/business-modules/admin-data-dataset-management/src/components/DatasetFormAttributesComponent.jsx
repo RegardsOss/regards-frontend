@@ -19,7 +19,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import MenuItem from 'material-ui/MenuItem'
 import SelectField from 'material-ui/SelectField'
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
-import { EntitiesAttributesFormComponent } from '@regardsoss/admin-data-entities-attributes-management'
+import { EntitiesAttributesFormContainer, getInitialFormValues } from '@regardsoss/admin-data-entities-attributes-management'
 import DatasetStepperContainer from '../containers/DatasetStepperContainer'
 
 const DESCRIPTION_MODE = {
@@ -125,18 +125,7 @@ export class DatasetFormAttributesComponent extends React.Component {
   handleInitialize = () => {
     if (this.props.isEditing || this.props.isCreatinguUsingDatasetValues) {
       const { currentDataset } = this.props
-      const properties = {}
-      forEach(currentDataset.content.properties, (attributeValueOrFragment, key) => {
-        if (isObject(attributeValueOrFragment)) {
-          // It's a fragment
-          forEach(attributeValueOrFragment, (attribute, id) => {
-            properties[id] = attribute
-          })
-        } else {
-          // This is an attribute
-          properties[key] = attributeValueOrFragment
-        }
-      })
+      const properties = getInitialFormValues(currentDataset)
       const initialValues = {
         label: currentDataset.content.label,
         model: currentDataset.content.model.id,
@@ -265,7 +254,7 @@ export class DatasetFormAttributesComponent extends React.Component {
                 />
               ))}
             </Field>
-            <EntitiesAttributesFormComponent
+            <EntitiesAttributesFormContainer
               isDisplayAttributeValue={this.state.isDisplayAttributeValue}
               modelAttributeList={modelAttributeList}
             />
