@@ -137,14 +137,14 @@ export class TwoNumericalCriteriaSimpleComponent extends PluginComponent {
           }}
         >
           <NumericalCriteriaComponent
-            label={'firstField'}
+            label={this.getAttributeLabel('firstField')}
             value={firstField}
             comparator={operator1}
             onChange={this.changeValue1}
             fixedComparator={false}
           />
           <NumericalCriteriaComponent
-            label={'secondField'}
+            label={this.getAttributeLabel('secondField')}
             value={secondField}
             comparator={operator2}
             onChange={this.changeValue2}
