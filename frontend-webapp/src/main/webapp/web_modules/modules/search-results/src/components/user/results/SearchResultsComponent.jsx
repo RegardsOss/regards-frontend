@@ -52,7 +52,7 @@ class SearchResultsComponent extends React.Component {
 
     // dynamic display control
     showingDataobjects: PropTypes.bool.isRequired,     // is Currently showing data objects (false: showing datasets)
-    viewMode: PropTypes.oneOf([DisplayModeEnum.LIST,DisplayModeEnum.TABLE]), // current mode
+    viewMode: PropTypes.oneOf([DisplayModeEnum.LIST, DisplayModeEnum.TABLE]), // current mode
     showingFacettes: PropTypes.bool.isRequired,
     sortingOn: PropTypes.arrayOf(PropTypes.shape({ // user sorting, showing only when user set, not the default one
       attributePath: PropTypes.string.isRequired,
@@ -476,7 +476,7 @@ class SearchResultsComponent extends React.Component {
 }
 
 SearchResultsComponent.defaultProps = {
-  displaySelectCheckboxes: false
+  displaySelectCheckboxes: false,
 }
 
 export default SearchResultsComponent

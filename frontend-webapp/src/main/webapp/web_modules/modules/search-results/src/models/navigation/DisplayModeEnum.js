@@ -7,6 +7,6 @@
  * @author Sébastien Binda
  */
 export default {
-  TABLE : 'table',
-  LIST : 'list'
+  TABLE: 'table',
+  LIST: 'list',
 }
