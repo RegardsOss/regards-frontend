@@ -20,21 +20,21 @@ function dispatchAndCheck(action, expectedAction, store) {
 
 describe('[Entities Common] Test description level actions', () => {
   it('It should dispatch show action', () => {
-    const entityIpId = 'jesuisuntest'
+    const entity = 'jesuisuntest'
     const expectedAction = {
       type: descriptionLevelActions.SHOW,
-      entityIpId,
+      entity,
     }
-    dispatchAndCheck(descriptionLevelActions.show(entityIpId), expectedAction, buildMockStore({}))
+    dispatchAndCheck(descriptionLevelActions.show(entity), expectedAction, buildMockStore({}))
   })
 
   it('It should dispatch show related entity action', () => {
-    const entityIpId = 'jesuisuntest2'
+    const entity = 'jesuisuntest2'
     const expectedAction = {
       type: descriptionLevelActions.SHOW_RELATED_ENTITY,
-      entityIpId,
+      entity,
     }
-    dispatchAndCheck(descriptionLevelActions.showRelatedEntity(entityIpId), expectedAction, buildMockStore({}))
+    dispatchAndCheck(descriptionLevelActions.showRelatedEntity(entity), expectedAction, buildMockStore({}))
   })
 
   it('It should dispatch jump to level action', () => {

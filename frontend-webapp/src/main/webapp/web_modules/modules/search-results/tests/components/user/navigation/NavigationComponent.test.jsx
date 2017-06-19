@@ -26,8 +26,9 @@ describe('[Search Results] Testing NavigationComponent', () => {
     ]
     const props = {
       navigationLevels: levels,
+      onLevelSelected: () => { },
     }
     const enzymeWrapper = shallow(<NavigationComponent {...props} />, { context })
-    assert.lengthOf(enzymeWrapper.find(Breadcrumb), levels.length, 'There should be a breadcrumb component')
+    assert.lengthOf(enzymeWrapper.find(Breadcrumb), 1, 'There should be a breadcrumb component')
   })
 })

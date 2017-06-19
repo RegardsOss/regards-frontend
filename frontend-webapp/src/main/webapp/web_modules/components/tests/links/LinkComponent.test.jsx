@@ -18,7 +18,7 @@ describe('[Components] Testing LinkComponent', () => {
   })
   it('should render properly', () => {
     const props = {
-      link: PropTypes.string.isRequired,
+      link: 'xxxx',
       label: 'hello link',
     }
     shallow(<LinkComponent {...props} />, { context })

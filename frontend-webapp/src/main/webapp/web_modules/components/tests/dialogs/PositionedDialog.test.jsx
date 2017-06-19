@@ -28,6 +28,8 @@ describe('[Components] Testing PositionedDailogComponent', () => {
     const props = {
       dialogWidthPercent: 50,
       dialogHeightPercent: 50,
+      // dialog properties
+      open: false,
     }
     const ATestComp = () => <div />
 

@@ -31,7 +31,7 @@ describe('[Entities Common] Testing EntityDescriptionComponent', () => {
     const props = {
       // component API
       entity: null,
-      open: PropTypes.bool.isRequired,
+      open: false,
 
       // clients and selectors for sub components
       downloadDescriptionClient: new DownloadDescriptionClient('test', ['test']),
@@ -50,7 +50,7 @@ describe('[Entities Common] Testing EntityDescriptionComponent', () => {
     const props = {
       // component API
       entity: testEntity,
-      open: PropTypes.bool.isRequired,
+      open: true,
 
       // clients and selectors for sub components
       downloadDescriptionClient: new DownloadDescriptionClient('test', ['test']),

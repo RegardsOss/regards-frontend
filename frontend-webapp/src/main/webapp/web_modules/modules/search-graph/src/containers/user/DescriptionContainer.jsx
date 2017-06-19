@@ -1,7 +1,6 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
-import { connect } from '@regardsoss/redux'
 import { EntityDescriptionContainer } from '@regardsoss/entities-common'
 import downloadDescriptionClient from '../../model/clients/DownloadDescriptionClient'
 import { ModelAttributesActions, ModelAttributesSelectors } from '../../model/clients/ModelAttributeClient'
@@ -10,7 +9,7 @@ import { descriptionLevelActions, descriptionLevelSelectors } from '../../model/
 /**
 * Entity description container
 */
-export class DescriptionContainer extends React.Component {
+class DescriptionContainer extends React.Component {
 
   render() {
     return (
@@ -26,4 +25,4 @@ export class DescriptionContainer extends React.Component {
 }
 
 
-export default connect(null, null)(DescriptionContainer)
+export default DescriptionContainer

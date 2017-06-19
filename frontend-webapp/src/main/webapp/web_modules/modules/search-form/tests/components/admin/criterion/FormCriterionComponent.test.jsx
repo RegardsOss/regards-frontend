@@ -22,13 +22,13 @@ import FormCriteriaComponent from '../../../../src/components/admin/criterion/Fo
  * Tests for FormCriterionComponent
  * @author Sébastien binda
  */
-describe('[SEARCH FORM] Testing formCriterionComponent', () => {
+describe('[SEARCH FORM] Testing FormCriterionComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   const context = buildTestContext(Styles)
 
-  it('Should render an empty formCriterionComponent', () => {
+  it('Should render an empty FormCriterionComponent', () => {
     const props = {
       changeField: () => { },
       defaultCriterion: [],

@@ -41,6 +41,7 @@ describe('[Search Results] Testing ListViewEntityCellComponent', () => {
       onClick: () => { },
       styles: context.moduleTheme.user.listViewStyles,
       displayCheckBoxes: true,
+      onShowDescription: () => { },
     }
     shallow(<ListViewEntityCellComponent {...props} />, { context })
   })
