@@ -20,8 +20,8 @@ describe('[ATTRIBUTES COMMON] Testing ThumbmailAttributesRender', () => {
     const props = {
       attributes: {
         files: [
-          { type: ObjectLinkedFileTypes.THUMBNAIL, uri: 'http://test.fr' },
-          { type: ObjectLinkedFileTypes.RAWDATA, uri: 'http://error.fr' },
+          { dataType: ObjectLinkedFileTypes.THUMBNAIL, fileRef: 'http://test.fr' },
+          { dataType: ObjectLinkedFileTypes.RAWDATA, fileRef: 'http://error.fr' },
         ],
       },
       lineHeight: 150,
@@ -36,8 +36,8 @@ describe('[ATTRIBUTES COMMON] Testing ThumbmailAttributesRender', () => {
     const props = {
       attributes: {
         files: [
-          { type: ObjectLinkedFileTypes.RAWDATA, uri: 'http://test.fr' },
-          { type: ObjectLinkedFileTypes.RAWDATA, uri: 'http://error.fr' },
+          { dataType: ObjectLinkedFileTypes.RAWDATA, fileRef: 'http://test.fr' },
+          { dataType: ObjectLinkedFileTypes.RAWDATA, fileRef: 'http://error.fr' },
         ],
       },
       lineHeight: 150,

@@ -32,7 +32,7 @@ export class EntityTagContainer extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     descriptionPath: PropTypes.arrayOf(CatalogEntity),
     // from mapDispatchToProps
-    dispatchShowDetail: PropTypes.func,
+    dispatchShowDetail: PropTypes.func.isRequired,
   }
 
   componentWillMount = () => this.onPropertiesChange({}, this.props)

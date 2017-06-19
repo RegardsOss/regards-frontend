@@ -13,7 +13,7 @@ import TagsComponent from '../../../../components/description/properties/tags/Ta
 /**
 * Tags container: handles entity tag: split simple tags and URN (entity) tag, resolves entities to show label instead of URN
 */
-class TagsContainer extends React.Component {
+export class TagsContainer extends React.Component {
 
   static mapDispatchToProps = dispatch => ({
     // entity loading
@@ -113,8 +113,8 @@ class TagsContainer extends React.Component {
 
 
   render() {
-    const { loading, onSearchTag, simpleTags, entityTags } = this.state
-    const { levelActions, levelSelectors } = this.props
+    const { loading, simpleTags, entityTags } = this.state
+    const { onSearchTag, levelActions, levelSelectors } = this.props
     return (
       <TagsComponent
         loading={loading}

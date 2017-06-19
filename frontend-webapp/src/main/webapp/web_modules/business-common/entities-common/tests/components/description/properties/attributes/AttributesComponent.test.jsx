@@ -24,7 +24,7 @@ describe('[Entities Common] Testing AttributesComponent', () => {
       attributes: [],
     }
     const enzymeWrapper = shallow(<AttributesComponent {...props} />, { context })
-    const noDataMessageWrapper = enzymeWrapper.findWhere(n => n.props().id === 'entities.common.properties.attribute.cell.no.value')
+    const noDataMessageWrapper = enzymeWrapper.findWhere(n => n.props().id === 'entities.common.properties.no.attribute')
     assert.lengthOf(noDataMessageWrapper, 1, 'There should be a no data message displayer ')
   })
   it('should render correctly when loading', () => {
@@ -55,5 +55,8 @@ describe('[Entities Common] Testing AttributesComponent', () => {
     const enzymeWrapper = shallow(<AttributesComponent {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(props.attributes[0].renderer), 1, 'The first renderer should be used as value is not null')
     assert.lengthOf(enzymeWrapper.find(props.attributes[1].renderer), 0, 'The second renderer should not be used as value is null')
+    // should render the second attribute using a no data message
+    const noValueMessageWrapper = enzymeWrapper.findWhere(n => n.props().id === 'entities.common.properties.attribute.cell.no.value')
+    assert.lengthOf(noValueMessageWrapper, 1, 'There should be a no value message')
   })
 })

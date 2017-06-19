@@ -10,7 +10,7 @@ import DescriptionBreadcrumbComponent from '../../../components/description/brea
 /**
 * Description breadcrumb container
 */
-class NavigationContainer extends React.Component {
+export class DescriptionBreadcrumbContainer extends React.Component {
 
   static mapStateToProps(state, { levelSelectors }) {
     return {
@@ -45,5 +45,5 @@ class NavigationContainer extends React.Component {
   }
 }
 export default connect(
-  NavigationContainer.mapStateToProps,
-  NavigationContainer.mapDispatchToProps)(NavigationContainer)
+  DescriptionBreadcrumbContainer.mapStateToProps,
+  DescriptionBreadcrumbContainer.mapDispatchToProps)(DescriptionBreadcrumbContainer)

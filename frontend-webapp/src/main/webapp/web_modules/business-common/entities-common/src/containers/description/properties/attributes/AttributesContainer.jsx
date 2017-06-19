@@ -15,7 +15,7 @@ import AttributesComponent from '../../../../components/description/properties/a
 /**
 * Attributes container: provides resolved attributes to corresponding component
 */
-class AttributesContainer extends React.Component {
+export class AttributesContainer extends React.Component {
 
   static mapStateToProps = (state, { fetchModelAttributesSelectors }) => ({
     loading: fetchModelAttributesSelectors.isFetching(state),

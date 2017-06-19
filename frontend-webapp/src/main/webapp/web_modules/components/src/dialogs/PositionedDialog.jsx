@@ -2,6 +2,7 @@
 * LICENSE_PLACEHOLDER
 **/
 import root from 'window-or-global'
+import get from 'lodash/get'
 import Dialog from 'material-ui/Dialog'
 import { Percent } from '@regardsoss/model'
 
@@ -58,13 +59,24 @@ class PositionedDialog extends React.Component {
   getDimension = (screenDimension, percentDimension, minDimension, maxDimension) =>
     Math.min(maxDimension, Math.max(minDimension, (screenDimension * percentDimension) / 100))
 
+  getScreenDimensions = () => {
+    const body = get(root, 'document.body', {})
+    // using body
+    if (body) {
+      return { width: body.clientWidth, height: body.clientHeight }
+    }
+    // no info
+    return { width: 0, height: 0 }
+  }
+
 
   getDialogDimensions = () => {
     const { dialogWidthPercent, minWidth, maxWidth,
       dialogHeightPercent, minHeight, maxHeight } = this.props
+    const screenDim = this.getScreenDimensions()
     return {
-      width: this.getDimension(root.screen.availWidth, dialogWidthPercent, minWidth, maxWidth),
-      height: this.getDimension(root.screen.availHeight, dialogHeightPercent, minHeight, maxHeight),
+      width: this.getDimension(screenDim.width, dialogWidthPercent, minWidth, maxWidth),
+      height: this.getDimension(screenDim.height, dialogHeightPercent, minHeight, maxHeight),
     }
   }
 

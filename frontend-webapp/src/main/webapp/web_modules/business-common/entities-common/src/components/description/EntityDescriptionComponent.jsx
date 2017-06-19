@@ -6,7 +6,7 @@ import FlatButton from 'material-ui/FlatButton'
 import { Card, CardMedia, CardTitle } from 'material-ui/Card'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { LoadableContentDialogContainer } from '@regardsoss/components'
+import { PositionedDialog } from '@regardsoss/components'
 import { CatalogEntity } from '@regardsoss/model'
 import { DataManagementClient } from '@regardsoss/client'
 import { BasicListSelectors } from '@regardsoss/store-utils'
@@ -70,13 +70,11 @@ class EntityDescriptionComponent extends React.Component {
       onTouchTap={onClose}
     />]
     return (
-      <LoadableContentDialogContainer
+      <PositionedDialog
         open={open}
-        loaded
         dialogHeightPercent={descriptionDialog.heightPercent}
         dialogWidthPercent={descriptionDialog.widthPercent}
         onRequestClose={onClose}
-        loadingMessage="IDK TO CHANGE"
         bodyStyle={descriptionDialog.body}
         actions={actions}
         {...otherDialogProperties}
@@ -110,7 +108,7 @@ class EntityDescriptionComponent extends React.Component {
             </Tabs>
           </CardMedia>
         </Card>
-      </LoadableContentDialogContainer >
+      </PositionedDialog >
 
     )
   }

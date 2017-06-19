@@ -55,7 +55,7 @@ class AttributesComponent extends React.Component {
               if (!attributes.length) {
                 return (
                   <div style={messageContainerStyle} >
-                    <FormattedMessage id="entities.common.properties.attribute.cell.no.value" />
+                    <FormattedMessage id="entities.common.properties.no.attribute" />
                   </div>
                 )
               }
@@ -69,7 +69,7 @@ class AttributesComponent extends React.Component {
                           {
                             renderValue ?
                               (<Renderer attributes={renderValue} />) :
-                              (<FormattedMessage id="entities.common.attribute.cell.no.value" />)
+                              (<FormattedMessage id="entities.common.properties.attribute.cell.no.value" />)
                           }
                         </div>
                       </div>))

@@ -28,6 +28,7 @@ import ShowableAtRender from './cards/ShowableAtRender'
 import IFrameURLContentDisplayer from './content/IFrameURLContentDisplayer'
 
 import ConfirmDialogComponent from './dialogs/ConfirmDialogComponent'
+import PositionedDialog from './dialogs/PositionedDialog'
 import LoadableContentDialogContainer from './dialogs/LoadableContentDialogContainer'
 import SingleContentURLDialogContainer from './dialogs/SingleContentURLDialogContainer'
 
@@ -101,6 +102,7 @@ export {
   ListContainer,
   LoadingPaneComponent,
   LoadableContentDialogContainer,
+  PositionedDialog,
   SingleContentURLDialogContainer,
   MainActionButtonComponent,
   NewsItemComponent,

@@ -3,43 +3,17 @@
  */
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import root from 'window-or-global'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
-import Dialog from 'material-ui/Dialog'
 import LoadableContentDialogContainer from '../../src/dialogs/LoadableContentDialogContainer'
 import ShowableAtRender from '../../src/cards/ShowableAtRender'
 
-describe('[COMPONENTS] Testing LoadableContentDialogComponent', () => {
-  before(() => {
-    testSuiteHelpers.before()
-    // add root screen properties for the component to render
-    root.screen = { availWidth: '1200', availHeight: '600' }
-  })
-  after(() => {
-    testSuiteHelpers.after()
-    // remove root customization
-    delete root.screen
-  })
+describe('[COMPONENTS] Testing LoadableContentDialogContainer', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
   it('should exists', () => {
     assert.isDefined(LoadableContentDialogContainer)
   })
 
-  it('should render correctly when hidden', () => {
-    const enzymeWrapper = shallow(
-      <LoadableContentDialogContainer
-        dialogHeightPercent={50}
-        dialogWidthPercent={50}
-        loadingMessage="Loading..."
-        open={false}
-        loaded={false}
-      >
-        <div id="testDiv" />
-      </LoadableContentDialogContainer>,
-    )
-    const dialog = enzymeWrapper.find(Dialog)
-    assert.lengthOf(dialog, 1, 'It should use a dialog')
-    assert.isFalse(dialog.at(0).props().open, 'Dialog should be hidden')
-  })
   it('should render correctly when loading', () => {
     const enzymeWrapper = shallow(
       <LoadableContentDialogContainer
@@ -52,10 +26,6 @@ describe('[COMPONENTS] Testing LoadableContentDialogComponent', () => {
         <div id="testDiv" />
       </LoadableContentDialogContainer>,
     )
-    const dialog = enzymeWrapper.find(Dialog)
-    assert.lengthOf(dialog, 1, 'It should use a dialog')
-    assert.isTrue(dialog.at(0).props().open, 'Dialog should be visible')
-
     const showables = enzymeWrapper.find(ShowableAtRender)
     assert.lengthOf(showables, 1, 'It should use a showable for loading state')
     assert.isTrue(showables.at(0).props().show, 'It should display loading')
@@ -79,10 +49,6 @@ describe('[COMPONENTS] Testing LoadableContentDialogComponent', () => {
         <div id="testDiv" />
       </LoadableContentDialogContainer>,
     )
-    const dialog = enzymeWrapper.find(Dialog)
-    assert.lengthOf(dialog, 1, 'It should use a dialog')
-    assert.isTrue(dialog.at(0).props().open, 'Dialog should be visible')
-
     const showables = enzymeWrapper.find(ShowableAtRender)
     assert.lengthOf(showables, 1, 'It should use a showable for loading state')
     assert.isFalse(showables.at(0).props().show, 'It should not show loading')
