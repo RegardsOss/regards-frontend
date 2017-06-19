@@ -6,7 +6,7 @@ import find from 'lodash/find'
 import Subheader from 'material-ui/Subheader'
 import { FormattedMessage } from 'react-intl'
 import { AccessShapes } from '@regardsoss/shape'
-import { DamDomain } from '@regardsoss/domain/dam'
+import { DamDomain } from '@regardsoss/domain'
 import AttributeConfigurationComponent from './AttributeConfigurationComponent'
 
 /**
