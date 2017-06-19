@@ -29,7 +29,7 @@ export default class Query {
       const previousParameters = parameters.slice(0, -1)
       const previousQueryChain = makeQueryChain(previousParameters)
 
-      // B - append the current parameter with the right separator symbol
+      // B - append the current parameter with the right separator symbol (if there is a previous query chain)
       const [lastParameter] = parameters.slice(-1)
       const paramSeparator = previousQueryChain ? this.separator : ''
       const lastParamString = lastParameter.toQueryString()
