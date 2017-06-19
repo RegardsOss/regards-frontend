@@ -12,6 +12,7 @@ const messages = {
   'account.list.table.no.content.title': 'Rien à afficher',
   'account.list.table.action.edit.tooltip': 'Editer ce compte utilisateur',
   'account.list.table.action.accept.tooltip': 'Valider ce compte utilisateur',
+  'account.list.table.action.refuse.tooltip': 'Refuser ce compte utilisateur',
   'account.list.table.action.delete.tooltip': 'Supprimer cet utilisateur',
   'account.list.all.tab': 'Tous les utilisateurs ({count})',
   'account.list.all.subtitle': 'Liste de tous les comptes utilisateur de l\'application',

@@ -12,6 +12,7 @@ const messages = {
   'account.list.table.no.content.title': 'Nothing to show',
   'account.list.table.action.edit.tooltip': 'Edit account',
   'account.list.table.action.accept.tooltip': 'Accept account access',
+  'account.list.table.action.refuse.tooltip': 'Refuse account access',
   'account.list.table.action.delete.tooltip': 'Delete account',
   'account.list.all.tab': 'All users ({count})',
   'account.list.all.subtitle': 'List of all users accounts in application',
