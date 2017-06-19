@@ -12,7 +12,7 @@ import Entity from './Entity'
 import { FragmentContent, Fragment, FragmentList } from './Fragment'
 import { Model, ModelList } from './Model'
 import { ModelAttribute, ModelAttributeList } from './ModelAttribute'
-
+import { StandartAttributeModelContent, StandartAttributeModel } from './StandartAttributeModel'
 
 export default {
   AccessGroup,
@@ -49,4 +49,7 @@ export default {
 
   ModelAttribute,
   ModelAttributeList,
+
+  StandartAttributeModelContent,
+  StandartAttributeModel,
 }

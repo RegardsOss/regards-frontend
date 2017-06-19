@@ -6,7 +6,7 @@
  * Type definition for AttributeRegroupmentConfiguration objects
  * @author Sébastien binda
  */
-export default PropTypes.shape({
+const AttributesGroupConfigurationContent = PropTypes.shape({
   // Regroupement label
   label: PropTypes.string,
   // Attributes associated to this regroupement
@@ -16,3 +16,5 @@ export default PropTypes.shape({
   // Display order of the attribute
   order: PropTypes.number,
 })
+
+export default AttributesGroupConfigurationContent

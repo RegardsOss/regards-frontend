@@ -2,9 +2,12 @@
  * LICENSE_PLACEHOLDER
  **/
 
-import EntitiesAttributesFormComponent from './components/EntitiesAttributesFormComponent'
-
+import EntitiesAttributesFormContainer from './containers/EntitiesAttributesFormContainer'
+import getInitialFormValues from './utils/getInitialFormValues'
+import extractParametersFromFormValues from './utils/extractParametersFromFormValues'
 
 export default {
-  EntitiesAttributesFormComponent,
+  EntitiesAttributesFormContainer,
+  getInitialFormValues,
+  extractParametersFromFormValues,
 }

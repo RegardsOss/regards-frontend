@@ -11,7 +11,7 @@ import { FieldArray } from 'redux-form'
 import Divider from 'material-ui/Divider'
 import { reduxForm, RenderTextField, Field } from '@regardsoss/form-utils'
 import { CardActionsComponent, ChipList } from '@regardsoss/components'
-import { AttributeModel, AttributesRegroupementConfiguration } from '@regardsoss/model'
+import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 
 /**
  * Component to display an attributes regroupement form.
@@ -22,10 +22,10 @@ class AttributeRegroupementFormComponent extends React.Component {
   static propTypes = {
     onClose: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    attributesRegrp: AttributesRegroupementConfiguration,
+    attributesRegrp: AccessShapes.AttributesGroupConfigurationContent,
     validateLabel: PropTypes.func.isRequired,
     // Available Attributes for configuration
-    selectableAttributes: PropTypes.objectOf(AttributeModel).isRequired,
+    selectableAttributes: DataManagementShapes.AttributeModelList.isRequired,
     // from reduxForm
     submitting: PropTypes.bool,
     pristine: PropTypes.bool,

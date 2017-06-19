@@ -12,6 +12,7 @@ import ModuleConfiguration from '../models/ModuleConfiguration'
 import URLManagementContainer from './user/URLManagementContainer'
 import DatasetServicesContainer from './user/DatasetServicesContainer'
 import ModuleComponent from '../components/user/ModuleComponent'
+import DisplayModeEnum from '../models/navigation/DisplayModeEnum'
 
 
 /**
@@ -69,6 +70,7 @@ export class ModuleContainer extends React.Component {
     // when showing datasets, select dataset tab first (by default)
     const initialViewObjectType = displayDatasets ? SearchResultsTargetsEnum.DATASET_RESULTS : SearchResultsTargetsEnum.DATAOBJECT_RESULTS
 
+
     if (!attributesFetching) {
       return (
         <div>
@@ -78,6 +80,7 @@ export class ModuleContainer extends React.Component {
             currentQuery={browserHistory.getCurrentLocation().query}
             initialContextLabel={breadcrumbInitialContextLabel}
             initialViewObjectType={initialViewObjectType}
+            initialDisplayMode={DisplayModeEnum.LIST}
             displayDatasets={!!displayDatasets}
           />
           { /* Current dataset services management (no view) */}

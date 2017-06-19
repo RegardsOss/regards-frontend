@@ -5,7 +5,8 @@ import map from 'lodash/map'
 import find from 'lodash/find'
 import Subheader from 'material-ui/Subheader'
 import { FormattedMessage } from 'react-intl'
-import { AttributeModelController, AttributeConfiguration } from '@regardsoss/model'
+import { AccessShapes } from '@regardsoss/shape'
+import { AttributeModelController } from '@regardsoss/domain/dam'
 import AttributeConfigurationComponent from './AttributeConfigurationComponent'
 
 /**
@@ -16,7 +17,7 @@ class StandardAttributesConfigurationComponent extends React.Component {
 
   static propTypes = {
     allowFacettes: PropTypes.bool.isRequired,
-    attributesConf: PropTypes.arrayOf(AttributeConfiguration).isRequired,
+    attributesConf: PropTypes.arrayOf(AccessShapes.AttributeConfigurationContent).isRequired,
     onChangeAttributeConfiguration: PropTypes.func.isRequired,
   }
 
@@ -41,6 +42,7 @@ class StandardAttributesConfigurationComponent extends React.Component {
                 attributeFullQualifiedName: standardAttribute,
                 visibility: false,
                 facetable: false,
+                initialSort: false,
                 order: undefined,
               }
             }

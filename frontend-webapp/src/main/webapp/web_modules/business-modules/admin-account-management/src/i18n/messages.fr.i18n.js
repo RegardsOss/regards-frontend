@@ -4,7 +4,6 @@ const messages = {
   'account.list.table.email': 'E-mail',
   'account.list.table.status': 'Statut',
   'account.list.table.status.label.PENDING': 'En attente validation administrateur',
-  'account.list.table.status.label.ACCEPTED': 'En attente confirmation utilisateur',
   'account.list.table.status.label.ACTIVE': 'Actif',
   'account.list.table.status.label.LOCKED': 'Bloqué',
   'account.list.table.status.label.INACTIVE': 'Désactivé',

@@ -19,15 +19,6 @@ export default {
     links: [],
   }, {
     content: {
-      id: 3,
-      lastName: 'Chuyrantrai',
-      email: 'testNotValidated@cnes.fr',
-      firstName: 'Vincent',
-      status: 'ACCEPTED',
-    },
-    links: [],
-  }, {
-    content: {
       id: 4,
       lastName: 'Moyossi',
       email: 'testUNoAccess@cnes.fr',
@@ -54,8 +45,7 @@ export default {
     },
     links: [],
   }, {
-    content:
-    {
+    content: {
       id: 7,
       lastName: 'Doriphore',
       email: 'testUWaitingAccess@cnes.fr',
@@ -99,7 +89,20 @@ export default {
       status: 'ACTIVE',
     },
     links: [],
-  }, { content: { id: 12, lastName: 'Cheverentrez', email: 'hasbeen381@hotmail.com', firstName: 'Marie-Claire', status: 'PENDING' }, links: [] }],
+  }, {
+    content: {
+      id: 12,
+      lastName: 'Cheverentrez',
+      email: 'hasbeen381@hotmail.com',
+      firstName: 'Marie-Claire',
+      status: 'PENDING',
+    },
+    links: [],
+  }],
   links: [],
-  metadata: { number: 0, size: 100, totalElements: 12 },
+  metadata: {
+    number: 0,
+    size: 100,
+    totalElements: 12,
+  },
 }

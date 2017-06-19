@@ -26,6 +26,15 @@ class NavigationContextSelectors extends BasicSelector {
     return this.uncombineStore(state).viewObjectType
   }
 
+  /**
+   * Returns current levels
+   * @param {*} state store
+   * @return store navigation context view object type
+   */
+  getDisplayMode(state) {
+    return this.uncombineStore(state).displayMode
+  }
+
 }
 
 export default new NavigationContextSelectors(['modules.search-results', 'navigationContext'])

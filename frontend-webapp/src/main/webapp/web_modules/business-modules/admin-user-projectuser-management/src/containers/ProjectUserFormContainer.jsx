@@ -64,7 +64,6 @@ export class ProjectUserFormContainer extends React.Component {
       this.props.fetchUser(this.props.params.user_id)
     }
 
-
     // whatever the case, initialize metadata
     this.updateMetadata(this.props.user)
   }
@@ -139,7 +138,7 @@ export class ProjectUserFormContainer extends React.Component {
           )(group)
           const removeUserFromGroupTasks = flow(
             fpfilter(currentGroup => some(currentGroup.content.users, { email })
-              && every(group, groupName => groupName !== currentGroup.content.name)),
+            && every(group, groupName => groupName !== currentGroup.content.name)),
             fpmap(currentGroup => this.props.unassignGroup(currentGroup.content.name, email)),
           )(groupList)
           const tasks = concat(addUserToGroupTasks, removeUserFromGroupTasks)
@@ -156,7 +155,7 @@ export class ProjectUserFormContainer extends React.Component {
   handleCreate = (values) => {
     const { params } = this.props
     const projectName = params.project
-    const frontendParameter = `${AuthenticationRouteParameters.mailAuthenticationAction.urlKey}=${AuthenticationRouteParameters.mailAuthenticationAction.values.validateAccount}`
+    const frontendParameter = `${AuthenticationRouteParameters.mailAuthenticationAction.urlKey}=${AuthenticationRouteParameters.mailAuthenticationAction.values.verifyEmail}`
 
     Promise.resolve(this.props.createProjectUser({
       email: values.email,
@@ -208,8 +207,14 @@ const mapDispatchToProps = dispatch => ({
   updateProjectUser: (id, values) => dispatch(projectUserActions.updateEntity(id, omit(values, ['useExistingAccount']))),
   fetchRoleList: () => dispatch(roleActions.fetchEntityList()),
   fetchGroupList: () => dispatch(accessGroupActions.fetchPagedEntityList()),
-  assignGroup: (group, user) => dispatch(userGroupActions.sendSignal('PUT', null, { name: group, email: user })),
-  unassignGroup: (group, user) => dispatch(userGroupActions.sendSignal('DELETE', null, { name: group, email: user })),
+  assignGroup: (group, user) => dispatch(userGroupActions.sendSignal('PUT', null, {
+    name: group,
+    email: user,
+  })),
+  unassignGroup: (group, user) => dispatch(userGroupActions.sendSignal('DELETE', null, {
+    name: group,
+    email: user,
+  })),
   fetchPasswordValidity: newPassword => dispatch(accountPasswordActions.fetchPasswordValidity(newPassword)),
   fetchPasswordRules: () => dispatch(accountPasswordActions.fetchPasswordRules()),
 })

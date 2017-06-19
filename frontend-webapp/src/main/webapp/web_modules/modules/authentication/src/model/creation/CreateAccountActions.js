@@ -25,6 +25,6 @@ export default {
       lastName,
       password,
       metadata,
-      requestLink: AuthenticationRouteHelper.getRequestLinkURL(AuthenticationRouteParameters.mailAuthenticationAction.values.validateAccount),
+      requestLink: AuthenticationRouteHelper.getRequestLinkURL(AuthenticationRouteParameters.mailAuthenticationAction.values.verifyEmail),
     }),
 }

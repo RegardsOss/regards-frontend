@@ -6,6 +6,7 @@ class ContainerConfigurationProvider extends React.Component {
 
   static propTypes = {
     container: ContainerShape,
+    hideDynamicContentOption: PropTypes.bool,
     onCancel: PropTypes.func.isRequired,
     onSubmit: PropTypes.func,
   }
@@ -15,6 +16,7 @@ class ContainerConfigurationProvider extends React.Component {
       <I18nProvider messageDir="utils/layout/src/i18n">
         <ContainerConfigurationComponent
           container={this.props.container}
+          hideDynamicContentOption={this.props.hideDynamicContentOption}
           onCancel={this.props.onCancel}
           onSubmit={this.props.onSubmit}
         />

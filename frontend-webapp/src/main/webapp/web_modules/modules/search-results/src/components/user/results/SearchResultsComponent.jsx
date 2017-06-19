@@ -34,6 +34,7 @@ import TableSortFilterComponent from './options/TableSortFilterComponent'
 import TableSelectAllContainer from '../../../containers/user/results/options/TableSelectAllContainer'
 import SelectionServiceComponent from './options/SelectionServiceComponent'
 import ServiceIconComponent from './options/ServiceIconComponent'
+import DisplayModeEnum from '../../../models/navigation/DisplayModeEnum'
 
 /**
  * React container to manage search requests and display results.
@@ -41,12 +42,6 @@ import ServiceIconComponent from './options/ServiceIconComponent'
  * @author Sébastien binda
  */
 class SearchResultsComponent extends React.Component {
-
-  /** View modes enumeration */
-  static ViewModes = {
-    LIST: 'list',
-    TABLE: 'table',
-  }
 
   static propTypes = {
     // static configuration
@@ -57,7 +52,7 @@ class SearchResultsComponent extends React.Component {
 
     // dynamic display control
     showingDataobjects: PropTypes.bool.isRequired,     // is Currently showing data objects (false: showing datasets)
-    viewMode: PropTypes.oneOf(values(SearchResultsComponent.ViewModes)), // current mode
+    viewMode: PropTypes.oneOf([DisplayModeEnum.LIST, DisplayModeEnum.TABLE]), // current mode
     showingFacettes: PropTypes.bool.isRequired,
     sortingOn: PropTypes.arrayOf(PropTypes.shape({ // user sorting, showing only when user set, not the default one
       attributePath: PropTypes.string.isRequired,
@@ -213,7 +208,7 @@ class SearchResultsComponent extends React.Component {
         styles: this.context.moduleTheme.user.listViewStyles,
         onSearchTag: onSelectSearchTag,
         tableColumns: showingDataobjects ? tableColumns : undefined,
-        displayCheckBoxes: showingDataobjects,
+        displayCheckBox: showingDataobjects && this.props.displaySelectCheckboxes,
       },
     },
   }]
@@ -240,9 +235,9 @@ class SearchResultsComponent extends React.Component {
     }
   }
 
-  isInListView = () => this.props.viewMode === SearchResultsComponent.ViewModes.LIST
+  isInListView = () => this.props.viewMode === DisplayModeEnum.LIST
 
-  isInTableView = () => this.props.viewMode === SearchResultsComponent.ViewModes.TABLE
+  isInTableView = () => this.props.viewMode === DisplayModeEnum.TABLE
 
   /**
    * Returns result tabs actions for results table
@@ -274,7 +269,7 @@ class SearchResultsComponent extends React.Component {
    * @return rendered options list
    */
   renderTableContextOptions = () => {
-    const { allowingFacettes, showingFacettes, onToggleShowFacettes,
+    const { allowingFacettes, showingFacettes, onToggleShowFacettes, displaySelectCheckboxes,
       showingDataobjects, selectedDataobjectsServices, onSelectionServiceSelected } = this.props
     const { tableColumns } = this.state
     const { intl: { formatMessage } } = this.context
@@ -291,7 +286,7 @@ class SearchResultsComponent extends React.Component {
       // separator
       selectedDataobjectsServices.length ? <TableOptionsSeparator key="services.options.separator" /> : null,
       // List view optionsselect all and sort options
-      this.isInListView() && showingDataobjects ? <TableSelectAllContainer
+      this.isInListView() && showingDataobjects && displaySelectCheckboxes ? <TableSelectAllContainer
         key="select.filter.option"
         pageSelectors={searchSelectors}
       /> : null,
@@ -416,29 +411,29 @@ class SearchResultsComponent extends React.Component {
 
   render() {
     const { moduleTheme: { user: { listViewStyles } } } = this.context
-    const { showingDataobjects, viewMode, searchQuery, resultPageActions } = this.props
+    const { showingDataobjects, viewMode, searchQuery, resultPageActions, displaySelectCheckboxes } = this.props
     const { tableColumns, listColumns } = this.state
 
     let columns = []
     let lineHeight
     let cellsStyle
-    let displayCheckbox
     let displayColumnsHeader
+    let displayCheckbox
     let showParameters
     if (this.isInTableView() && showingDataobjects) {
       columns = tableColumns
       lineHeight = 50
       cellsStyle = null
-      displayCheckbox = true
       displayColumnsHeader = true
       showParameters = true
+      displayCheckbox = displaySelectCheckboxes
     } else {
       columns = listColumns
       lineHeight = 160
       cellsStyle = listViewStyles.cell
-      displayCheckbox = false
       displayColumnsHeader = false
       showParameters = false
+      displayCheckbox = false
     }
 
     const requestParams = { queryParams: searchQuery }
@@ -448,7 +443,7 @@ class SearchResultsComponent extends React.Component {
       cellsStyle,
       lineHeight,
       displayCheckbox,
-      displaySelectAll: true,
+      displaySelectAll: displaySelectCheckboxes,
       onSortByColumn: this.onSortByColumn,
     }
 
@@ -471,7 +466,6 @@ class SearchResultsComponent extends React.Component {
         tableActions={TableClient.tableActions}
         tableSelectors={TableClient.tableSelectors}
         pageSize={20}
-        displayCheckbox={displayCheckbox}
         columns={columns}
         requestParams={requestParams}
         tableConfiguration={tableConfiguration}
@@ -479,6 +473,10 @@ class SearchResultsComponent extends React.Component {
       />
     )
   }
+}
+
+SearchResultsComponent.defaultProps = {
+  displaySelectCheckboxes: false,
 }
 
 export default SearchResultsComponent

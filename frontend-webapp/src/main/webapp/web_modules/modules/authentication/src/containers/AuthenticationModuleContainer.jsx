@@ -2,7 +2,9 @@
  * LICENSE_PLACEHOLDER
  */
 
-import { AuthenticationRouteParameters, AuthenticationParametersHelper, AuthenticationClient, routeHelpers } from '@regardsoss/authentication-manager'
+import {
+  AuthenticationRouteParameters, AuthenticationParametersHelper, AuthenticationClient, routeHelpers,
+} from '@regardsoss/authentication-manager'
 import { connect } from '@regardsoss/redux'
 import AuthenticationWorkflowsComponent, { initialModes } from '../components/AuthenticationWorkflowsComponent'
 import SessionManagementContainer from '../containers/SessionManagementContainer'
@@ -65,7 +67,7 @@ export class AuthenticationModuleContainer extends React.Component {
   getInitialViewMode = (urlAction = '') => {
     const modes = AuthenticationRouteParameters.mailAuthenticationAction.values
     switch (urlAction) {
-      case modes.validateAccount:
+      case modes.verifyEmail:
         return initialModes.validateCreatedAccount
       case modes.unlockAccount:
         return initialModes.finishAccountUnlocking

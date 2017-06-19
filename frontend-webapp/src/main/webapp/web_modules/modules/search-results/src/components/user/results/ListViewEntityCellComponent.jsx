@@ -55,7 +55,7 @@ class ListViewEntityCellComponent extends React.Component {
     // eslint-disable-next-line react/forbid-prop-types
     styles: PropTypes.object,
     // Display checbox for entities selection ?
-    displayCheckBoxes: PropTypes.bool,
+    displayCheckbox: PropTypes.bool,
   }
 
   static contextTypes = {
@@ -217,11 +217,11 @@ class ListViewEntityCellComponent extends React.Component {
    * @returns {XML}
    */
   displayThumbnail = () => {
-    const thumbnail = find(this.props.entity.content.files, file => file.type === ObjectLinkedFileTypes.THUMBNAIL)
+    const thumbnail = find(this.props.entity.content.files, file => file.dataType === ObjectLinkedFileTypes.THUMBNAIL)
     if (thumbnail) {
       return (
         <div style={this.props.styles.thumbnail}>
-          <img height="80" width="80" src={thumbnail.uri} alt="" />
+          <img height="80" width="80" src={thumbnail.fileRef} alt="" />
         </div>
       )
     }
@@ -236,7 +236,7 @@ class ListViewEntityCellComponent extends React.Component {
     const infoIconStyle = { cursor: 'pointer', marginLeft: 15 }
     return (
       <div style={mainStyle}>
-        {this.props.displayCheckBoxes ? <Checkbox
+        {this.props.displayCheckBox ? <Checkbox
           onCheck={this.props.selectTableEntityCallback}
           defaultChecked={this.props.isTableSelected}
           style={checkboxStyle}
@@ -278,12 +278,12 @@ class ListViewEntityCellComponent extends React.Component {
   }
 
   displayDownload = () => {
-    const rawdata = find(this.props.entity.content.files, file => file.type === ObjectLinkedFileTypes.RAWDATA)
+    const rawdata = find(this.props.entity.content.files, file => file.dataType === ObjectLinkedFileTypes.RAWDATA)
     if (rawdata) {
       const iconStyle = { cursor: 'pointer' }
       return (
         <div>
-          <a href={rawdata.uri} download title="download">
+          <a href={rawdata.fileRef} download title="download">
             <GetApp
               style={iconStyle}
               hoverColor={this.context.muiTheme.palette.accent1Color}

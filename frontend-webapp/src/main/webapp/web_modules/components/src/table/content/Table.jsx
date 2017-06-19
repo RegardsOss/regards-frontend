@@ -185,7 +185,7 @@ class Table extends React.Component {
                 onToggleRowSelection={onToggleRowSelection}
               />}
               width={columnWidth}
-              flexGrow={1}
+              flexGrow={column.fixed ? undefined : 1}
               isResizable={column.fixed === undefined}
             />)
           }

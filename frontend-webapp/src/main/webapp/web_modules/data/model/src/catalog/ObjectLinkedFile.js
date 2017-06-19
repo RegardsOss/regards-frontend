@@ -12,8 +12,8 @@ const ObjectLinkedFileTypes = {
 }
 
 const ObjectLinkedFile = PropTypes.shape({
-  type: PropTypes.oneOf([ObjectLinkedFileTypes.RAWDATA, ObjectLinkedFileTypes.THUMBNAIL]).isRequired,
-  uri: PropTypes.string.isRequired,
+  dataType: PropTypes.oneOf([ObjectLinkedFileTypes.RAWDATA, ObjectLinkedFileTypes.THUMBNAIL]).isRequired,
+  fileRef: PropTypes.string.isRequired,
 })
 
 export default {

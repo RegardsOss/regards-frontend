@@ -3,6 +3,7 @@
  **/
 import find from 'lodash/find'
 import map from 'lodash/map'
+import isUndefined from 'lodash/isUndefined'
 
 /**
  * Builds an parameter with default or empty value from the passed parameter type
@@ -34,6 +35,9 @@ const mapPluginParameterTypeToPluginParameter = (pluginParameterType, pluginConf
   let pluginParameter
   if (pluginConfiguration) {
     pluginParameter = find(pluginConfiguration.content.parameters, el => el.name === pluginParameterType.name)
+    if (isUndefined(pluginParameter)) {
+      throw new Error("The plugin configuration the server returned is in an invalid state: the plugin conf doesn't contain the parameter expected")
+    }
   } else {
     pluginParameter = parameterTypeToDefaultParameter(pluginParameterType)
   }

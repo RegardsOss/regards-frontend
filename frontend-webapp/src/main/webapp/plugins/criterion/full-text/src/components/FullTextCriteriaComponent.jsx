@@ -3,6 +3,7 @@
  **/
 import { FormattedMessage } from 'react-intl'
 import TextField from 'material-ui/TextField'
+import {Title} from '@regardsoss/components'
 import ClearButton from './ClearButton'
 import AttributeModel from '../common/AttributeModel'
 import PluginComponent from '../common/PluginComponent'
@@ -53,6 +54,10 @@ class FullTextCriteriaComponent extends PluginComponent {
           flexWrap: 'wrap',
         }}
       >
+        <Title
+          level={1}
+          label={"plop"}
+        />
         <span
           style={{
             margin: '0px 10px',

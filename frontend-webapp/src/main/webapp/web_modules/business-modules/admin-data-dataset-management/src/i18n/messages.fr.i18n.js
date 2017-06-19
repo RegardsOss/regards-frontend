@@ -27,20 +27,20 @@ const messages = Object.assign({
   'dataset.form.plugin.subtitle': 'Vous pouvez activer des plugins services pour pouvoir réaliser des traitements sur le jeu de données.',
   'dataset.form.plugin.services': 'Activation de services',
   'dataset.form.plugin.action.next': 'Suite',
-  'dataset.form.plugin.action.cancel': 'Annuler',
+  'dataset.form.plugin.action.cancel': 'Retour',
 
   'dataset.form.uiservices.title': 'Gestion des services de l\'interface utilisateur',
   'dataset.form.uiservices.subtitle': 'Demandes à Seb au 0560336584',
   'dataset.form.uiservices.action.next': 'Terminer',
-  'dataset.form.uiservices.action.cancel': 'Annuler',
+  'dataset.form.uiservices.action.cancel': 'Retour',
 
 
   'dataset.form.subsetting.subtitle': 'Mise en place du subsetting',
   'dataset.form.subsetting.attributes': 'Attributs du modèle d\'objet',
   'dataset.form.subsetting.opensearch': 'Requête de filtre en OpenSearch',
   'dataset.form.subsetting.testSubsetQuery': 'Tester la requête',
-  'dataset.form.subsetting.action.next': 'Suivant',
-  'dataset.form.subsetting.action.cancel': 'Annuler',
+  'dataset.form.subsetting.action.next': 'Sauvegarder',
+  'dataset.form.subsetting.action.cancel': 'Retour',
 
   'dataset.form.action.next': 'Suivant',
   'dataset.form.action.cancel': 'Annuler',
@@ -53,10 +53,6 @@ const messages = Object.assign({
   'dataset.form.radio.descriptionUrl': 'Donner l\'URL contenant la description',
   'dataset.form.radio.descriptionFileContent': 'Uploader un fichier contenant la description',
   'dataset.form.radio.none': 'Pas de description',
-  'dataset.form.table.value': 'Valeur fixe',
-  'dataset.form.table.type': 'Type',
-  'dataset.form.table.fragmentAndLabel': 'Fragment et nom de l\'attribut',
-  'dataset.form.table.input': 'Valeur de l\'attribut',
   'dataset.form.subtitle': 'Gestion des attributs d\'un jeu de données',
 
   'dataset.edit.title': 'Édition du jeu de données {name}',

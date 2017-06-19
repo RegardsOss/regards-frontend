@@ -97,7 +97,7 @@ export class TwoNumericalCriteriaComposedComponent extends PluginComponent {
             id="criterion.aggregator.between"
           /></span>
           <NumericalCriteriaComponent
-            label={'firstField'}
+            label={this.getAttributeLabel('firstField')}
             value={firstField}
             comparator={EnumNumericalComparator.LE}
             onChange={this.changeValue1}
@@ -108,7 +108,7 @@ export class TwoNumericalCriteriaComposedComponent extends PluginComponent {
           />
           <span style={{ marginRight: 10 }}><FormattedMessage id="criterion.aggregator.and"/></span>
           <NumericalCriteriaComponent
-            label={'secondField'}
+            label={this.getAttributeLabel('secondField')}
             value={secondField}
             comparator={EnumNumericalComparator.GE}
             onChange={this.changeValue2}

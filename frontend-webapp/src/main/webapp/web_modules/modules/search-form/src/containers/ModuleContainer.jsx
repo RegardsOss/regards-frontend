@@ -282,7 +282,7 @@ class ModuleContainer extends React.Component {
   getInitialValues = () => {
     const parameters = this.state.searchQuery.split(/ AND /)
     const initialValues = {}
-    parameters.forEach(parameter => {
+    parameters.forEach((parameter) => {
       const keys = parameter.match(/([^ :]*):(.*)$/)
       if (keys && keys.length === 3) {
         initialValues[keys[1]] = keys[2]
@@ -359,7 +359,7 @@ class ModuleContainer extends React.Component {
     return (
       <div>
         {this.renderForm()}
-        <div style={{ marginTop: 10 }}/>
+        <div style={{ marginTop: 10 }} />
         {this.renderResults()}
       </div>
     )
