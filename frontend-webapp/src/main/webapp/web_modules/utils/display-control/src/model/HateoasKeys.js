@@ -15,4 +15,5 @@ export default {
   LIST: 'list',
   DENY: 'deny',
   ACCEPT: 'accept',
+  REFUSE: 'refuse',
 }
