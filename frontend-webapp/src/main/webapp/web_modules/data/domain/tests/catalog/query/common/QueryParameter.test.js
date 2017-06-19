@@ -3,7 +3,7 @@
 **/
 import { assert } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
-import QueryParameter from '../../../../src/definitions/query/common/QueryParameter'
+import QueryParameter from '../../../../catalog/query/common/QueryParameter'
 
 describe('[Search Results] Testing Query parameter', () => {
   before(testSuiteHelpers.before)

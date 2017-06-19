@@ -4,7 +4,7 @@
 import { assert } from 'chai'
 import { TableSortOrders } from '@regardsoss/components'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { getOpenSearchQuery, getURLQuery, getDatasetIpIdParameter } from '../../../src/definitions/query/QueriesHelper'
+import { getOpenSearchQuery, getURLQuery, getDatasetIpIdParameter } from '../../src/definitions/QueriesHelper'
 
 describe('[Search Results] Testing QueriesHelper', () => {
   before(testSuiteHelpers.before)

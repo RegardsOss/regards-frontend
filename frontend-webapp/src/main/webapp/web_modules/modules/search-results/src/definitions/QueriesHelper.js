@@ -2,12 +2,10 @@
 * LICENSE_PLACEHOLDER
 **/
 import { TableSortOrders } from '@regardsoss/components'
-import OpenSearchQuery from './opensearch/OpenSearchQuery'
-import OpenSearchQueryParameter from './opensearch/OpenSearchQueryParameter'
-import URLSearchQuery from './url/URLSearchQuery'
-import URLSearchQueryParameter from './url/URLSearchQueryParameter'
-import StaticQueryParameter from './common/StaticQueryParameter'
-
+import {
+  OpenSearchQuery, OpenSearchQueryParameter, URLSearchQuery,
+  URLSearchQueryParameter, StaticQueryParameter,
+} from '@regardsoss/domain/catalog'
 
 export function getSearchTagParameter(searchTag) {
   return new OpenSearchQueryParameter(OpenSearchQuery.TAGS_PARAM_NAME, searchTag)

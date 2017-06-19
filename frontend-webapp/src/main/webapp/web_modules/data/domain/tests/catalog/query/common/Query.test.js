@@ -3,9 +3,9 @@
 **/
 import { assert } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
-import Query from '../../../../src/definitions/query/common/Query'
-import StaticQueryParameter from '../../../../src/definitions/query/common/StaticQueryParameter'
-import QueryParameter from '../../../../src/definitions/query/common/QueryParameter'
+import Query from '../../../../catalog/query/common/Query'
+import StaticQueryParameter from '../../../../catalog/query/common/StaticQueryParameter'
+import QueryParameter from '../../../../catalog/query/common/QueryParameter'
 
 describe('[Search Results] Testing Query', () => {
   before(testSuiteHelpers.before)

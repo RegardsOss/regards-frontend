@@ -3,7 +3,7 @@
 **/
 import { assert } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
-import OpenSearchQueryParameter from '../../../../src/definitions/query/opensearch/OpenSearchQueryParameter'
+import OpenSearchQueryParameter from '../../../../catalog/query/opensearch/OpenSearchQueryParameter'
 
 describe('[Search Results] Testing Open search query parameter', () => {
   before(testSuiteHelpers.before)

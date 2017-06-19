@@ -25,7 +25,7 @@ import {
   selectors as searchSelectors,
 } from '../../../clients/SearchEntitiesClient'
 import datasetServicesSelectors from '../../../models/services/DatasetServicesSelectors'
-import QueriesHelper from '../../../definitions/query/QueriesHelper'
+import QueriesHelper from '../../../definitions/QueriesHelper'
 import Service from '../../../definitions/service/Service'
 import SearchResultsComponent from '../../../components/user/results/SearchResultsComponent'
 

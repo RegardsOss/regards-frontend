@@ -2,7 +2,7 @@
 * LICENSE_PLACEHOLDER
 **/
 import flatten from 'lodash/flatten'
-import { getDatasetIpIdParameter, getSearchTagParameter } from '../../definitions/query/QueriesHelper'
+import { getDatasetIpIdParameter, getSearchTagParameter } from '../../definitions/QueriesHelper'
 
 export default class NavigationLevel {
 

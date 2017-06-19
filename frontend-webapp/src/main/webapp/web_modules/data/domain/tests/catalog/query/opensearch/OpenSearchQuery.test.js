@@ -3,9 +3,9 @@
 **/
 import { assert } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
-import OpenSearchQuery from '../../../../src/definitions/query/opensearch/OpenSearchQuery'
-import StaticQueryParameter from '../../../../src/definitions/query/common/StaticQueryParameter'
-import OpenSearchQueryParameter from '../../../../src/definitions/query/opensearch/OpenSearchQueryParameter'
+import OpenSearchQuery from '../../../../catalog/query/opensearch/OpenSearchQuery'
+import StaticQueryParameter from '../../../../catalog/query/common/StaticQueryParameter'
+import OpenSearchQueryParameter from '../../../../catalog/query/opensearch/OpenSearchQueryParameter'
 
 describe('[Search Results] Testing OpenSearchQuery', () => {
   before(testSuiteHelpers.before)

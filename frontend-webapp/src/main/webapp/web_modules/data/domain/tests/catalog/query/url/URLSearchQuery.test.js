@@ -3,8 +3,8 @@
 **/
 import { assert } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
-import URLSearchQuery from '../../../../src/definitions/query/url/URLSearchQuery'
-import URLSearchQueryParameter from '../../../../src/definitions//query/url/URLSearchQueryParameter'
+import URLSearchQuery from '../../../../catalog/query/url/URLSearchQuery'
+import URLSearchQueryParameter from '../../../../catalog/query/url/URLSearchQueryParameter'
 
 describe('[Search Results] Testing URLSearchQuery', () => {
   before(testSuiteHelpers.before)

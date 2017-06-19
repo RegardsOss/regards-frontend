@@ -3,7 +3,7 @@
 **/
 import { assert } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
-import StaticQueryParameter from '../../../../src/definitions/query/common/StaticQueryParameter'
+import StaticQueryParameter from '../../../../catalog/query/common/StaticQueryParameter'
 
 describe('[Search Results] Testing StaticQueryParameter', () => {
   before(testSuiteHelpers.before)
