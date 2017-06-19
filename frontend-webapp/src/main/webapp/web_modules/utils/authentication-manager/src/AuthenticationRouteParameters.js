@@ -11,11 +11,11 @@ const routeParameters = {
   mailAuthenticationAction: {
     urlKey: 'external_auth_action',
     values: {
-        // back from an account creation mail
-      validateAccount: 'validate_account',
+      // back from an account creation mail
+      verifyEmail: 'verify_email',
       // back from an unlock mail
       unlockAccount: 'unlock_account',
-        // back from a reset password request
+      // back from a reset password request
       changePassword: 'change_password',
     },
   },
@@ -47,7 +47,6 @@ export const AuthenticationParametersHelper = {
   getAccountEmail: getParameterClosure(routeParameters.accountEmail),
   getMailAuthenticationAction: getParameterClosure(routeParameters.mailAuthenticationAction),
 }
-
 
 export const routeHelpers = {
   /**

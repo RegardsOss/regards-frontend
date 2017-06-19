@@ -24,7 +24,7 @@ class AttributeConfigurationComponent extends React.Component {
     allowFacettes: PropTypes.bool.isRequired,
     attribute: PropTypes.oneOfType([
       DataManagementShapes.StandartAttributeModel,
-      DataManagementShapes.AttributeModel
+      DataManagementShapes.AttributeModel,
     ]).isRequired,
     filter: PropTypes.string,
     conf: AccessShapes.AttributeConfigurationContent,

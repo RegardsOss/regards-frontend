@@ -6,10 +6,10 @@ import isObject from 'lodash/isObject'
 import has from 'lodash/has'
 import { DEFAULT_FRAGMENT } from '@regardsoss/domain/dam'
 
-function getInitialFormValues (entity) {
+function getInitialFormValues(entity) {
   const properties = {
     // Create the default fragment object
-    [DEFAULT_FRAGMENT]: {}
+    [DEFAULT_FRAGMENT]: {},
   }
   forEach(entity.content.properties, (attributeValueOrFragment, key) => {
     if (isObject(attributeValueOrFragment)) {

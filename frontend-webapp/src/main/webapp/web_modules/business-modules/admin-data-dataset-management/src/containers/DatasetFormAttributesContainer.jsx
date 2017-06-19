@@ -70,7 +70,6 @@ export class DatasetFormAttributesContainer extends React.Component {
   }
 
 
-
   /**
    * Used when the user change the value of the model selected
    * In charge to fetch new list of model attributes

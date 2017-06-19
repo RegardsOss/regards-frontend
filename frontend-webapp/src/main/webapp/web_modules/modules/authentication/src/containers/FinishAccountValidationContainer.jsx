@@ -4,8 +4,8 @@
 import { connect } from '@regardsoss/redux'
 import { i18nContextType } from '@regardsoss/i18n'
 import { LoadingPaneComponent } from '@regardsoss/components'
-import ValidateAccountActions from '../model/creation/ValidateAccountActions'
-import ValidateAccountSelectors from '../model/creation/ValidateAccountSelectors'
+import VerifyEmailActions from '../model/creation/VerifyEmailActions'
+import VerifyEmailSelectors from '../model/creation/VerifyAccountSelectors'
 
 /**
  * Completes unlock account when back from mail or fails if token is now invalid
@@ -63,16 +63,15 @@ export class FinishAccountValidationContainer extends React.Component {
 }
 
 const mapStatesToProps = (state) => {
-  const error = ValidateAccountSelectors.getError(state)
+  const error = VerifyEmailSelectors.getError(state)
   return {
-    isFetching: ValidateAccountSelectors.isFetching(state),
+    isFetching: VerifyEmailSelectors.isFetching(state),
     hasError: error && error.hasError,
   }
 }
 
-
 const mapDispatchToProps = dispatch => ({
-  fetchRequestAction: token => dispatch(ValidateAccountActions.sendValidationRequest(token)),
+  fetchRequestAction: token => dispatch(VerifyEmailActions.sendValidationRequest(token)),
 })
 
 export default connect(mapStatesToProps, mapDispatchToProps)(FinishAccountValidationContainer)

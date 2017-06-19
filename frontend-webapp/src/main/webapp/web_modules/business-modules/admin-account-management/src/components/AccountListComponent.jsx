@@ -14,12 +14,13 @@ import Done from 'material-ui/svg-icons/action/done'
 import { AdminShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { ActionsMenuCell, NoContentMessageInfo, ConfirmDialogComponent, ShowableAtRender, HelpMessageComponent } from '@regardsoss/components'
+import {
+  ActionsMenuCell, NoContentMessageInfo, ConfirmDialogComponent, ShowableAtRender, HelpMessageComponent,
+} from '@regardsoss/components'
 import { LoadableContentDisplayDecorator, HateoasIconAction, HateoasKeys } from '@regardsoss/display-control'
 
 const status = {
   pending: 'PENDING',
-  accepted: 'ACCEPTED',
   active: 'ACTIVE',
   locked: 'LOCKED',
   inactive: 'INACTIVE',
@@ -155,7 +156,9 @@ export class AccountListComponent extends React.Component {
             {this.renderDeleteConfirmDialog()}
             <CardTitle subtitle={this.context.intl.formatMessage({ id: tabContent.tabSubtitleKey })} />
             <CardText>
-              <HelpMessageComponent message={this.context.intl.formatMessage({ id: 'account.list.info.why-cant-remove-account-having-project-user' })} />
+              <HelpMessageComponent
+                message={this.context.intl.formatMessage({ id: 'account.list.info.why-cant-remove-account-having-project-user' })}
+              />
               <LoadableContentDisplayDecorator isLoading={initialFecthing}>
                 <Table
                   selectable={false}

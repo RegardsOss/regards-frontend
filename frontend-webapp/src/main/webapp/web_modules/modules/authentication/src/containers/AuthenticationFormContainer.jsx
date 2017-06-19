@@ -3,7 +3,9 @@
  */
 import { connect } from '@regardsoss/redux'
 import { i18nContextType } from '@regardsoss/i18n'
-import { AuthenticationClient, AuthenticationErrorShape, AuthenticationRouteParameters, AuthenticationRouteHelper } from '@regardsoss/authentication-manager'
+import {
+  AuthenticationClient, AuthenticationErrorShape, AuthenticationRouteParameters, AuthenticationRouteHelper,
+} from '@regardsoss/authentication-manager'
 import AuthenticationFormComponent from '../components/AuthenticationFormComponent'
 
 /**
@@ -38,7 +40,6 @@ export class AuthenticationFormContainer extends React.Component {
   static contextTypes = {
     ...i18nContextType,
   }
-
 
   componentDidMount = () => {
     if (process.env.NODE_ENV === 'development') {
@@ -89,7 +90,7 @@ const mapDispatchToProps = dispatch => ({
     password,
     scope,
     AuthenticationRouteHelper.getOriginUrlWithoutQueryParams(),
-    AuthenticationRouteHelper.getRequestLinkURL(AuthenticationRouteParameters.mailAuthenticationAction.values.validateAccount))),
+    AuthenticationRouteHelper.getRequestLinkURL(AuthenticationRouteParameters.mailAuthenticationAction.values.verifyEmail))),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AuthenticationFormContainer)
