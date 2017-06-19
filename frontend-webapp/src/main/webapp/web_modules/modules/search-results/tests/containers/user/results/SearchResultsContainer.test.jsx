@@ -9,6 +9,7 @@ import { TableSelectionModes } from '@regardsoss/components'
 import NavigationLevel from '../../../../src/models/navigation/NavigationLevel'
 import SearchResultsComponent from '../../../../src/components/user/results/SearchResultsComponent'
 import { SearchResultsContainer } from '../../../../src/containers/user/results/SearchResultsContainer'
+import DisplayModeEnum from '../../../../src/models/navigation/DisplayModeEnum'
 import styles from '../../../../src/styles/styles'
 
 const context = buildTestContext(styles)
@@ -38,10 +39,12 @@ describe('[Search Results] Testing SearchResultsContainer', () => {
       selectionMode: TableSelectionModes.includeSelected,
       datasetServices: [],
       selectedDataobjectsServices: [],
+      displayMode: DisplayModeEnum.LIST,
 
       dispatchChangeViewObjectType: () => { },
       dispatchDatasetSelected: () => { },
       dispatchTagSelected: () => { },
+      dispatchChangeDisplayMode: () => { },
     }
     const enzymeWrapper = shallow(<SearchResultsContainer {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(SearchResultsComponent), 1, 'The corresponding component should be rendered')

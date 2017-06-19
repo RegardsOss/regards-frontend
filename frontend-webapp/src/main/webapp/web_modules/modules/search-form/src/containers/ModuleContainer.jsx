@@ -9,7 +9,6 @@ import flatten from 'lodash/flatten'
 import forEach from 'lodash/forEach'
 import cloneDeep from 'lodash/cloneDeep'
 import reduce from 'lodash/reduce'
-import replace from 'lodash/replace'
 import isEqual from 'lodash/isEqual'
 import isInteger from 'lodash/isInteger'
 import values from 'lodash/values'
@@ -17,7 +16,8 @@ import unionBy from 'lodash/unionBy'
 import { browserHistory } from 'react-router'
 import { LazyModuleComponent } from '@regardsoss/modules'
 import { connect } from '@regardsoss/redux'
-import { AttributeModel, AttributeModelController } from '@regardsoss/model'
+import { DamDomain } from '@regardsoss/domain'
+import { AttributeModel } from '@regardsoss/model'
 import { LoadingComponent, LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { themeContextType } from '@regardsoss/theme'
 import DatasetSelectionType from '../models/datasets/DatasetSelectionTypes'
@@ -152,46 +152,21 @@ class ModuleContainer extends React.Component {
           if (this.props.attributeModels[attributeId]) {
             // eslint-disable-next-line no-param-reassign
             criteria.conf.attributes[key] = this.props.attributeModels[attributeId].content
-          } else {
+          } else if (DamDomain.AttributeModelController.StandardAttributes.includes(attributeId)) {
             // Attribute not retrieved from server
             // Check if the attribute is a standard attribute
-            if (AttributeModelController.StandardAttributes.includes(attributeId)) {
-              // Create standard attribute conf
-              criteria.conf.attributes[key] = {
-                name: attributeId,
-                label: attributeId,
-                jsonPath: attributeId,
-                type: AttributeModelController.getStandardAttributeType(attributeId),
-              }
+            // Create standard attribute conf
+            criteria.conf.attributes[key] = {
+              name: attributeId,
+              label: attributeId,
+              jsonPath: attributeId,
+              type: DamDomain.AttributeModelController.getStandardAttributeType(attributeId),
             }
           }
         })
       }
     })
     return criterionWithAttributtes
-  }
-
-  /**
-   * Search attributeModels associated to criterion
-   */
-  loadCriterionAttributeModels = () => {
-    // Get unique list of criterion attributeModels id to load
-    const pluginsAttributesToLoad = flow(
-      fpmap(criteria => criteria.conf && criteria.conf.attributes),
-      fpmap(attribute => values(attribute)),
-      flatten,
-      fpfilter(isInteger),
-      uniq,
-    )(this.props.moduleConf.criterion)
-
-    const attributesToLoad = flow(
-      fpmap(attribute => values(attribute.id)),
-      flatten,
-      uniq,
-    )(this.props.moduleConf.attributes)
-
-    // Fetch each form server
-    forEach(unionBy(pluginsAttributesToLoad, attributesToLoad), (attribute => this.props.fetchAttribute(attribute)))
   }
 
   /**
@@ -289,6 +264,29 @@ class ModuleContainer extends React.Component {
       }
     })
     return initialValues
+  }
+
+  /**
+   * Search attributeModels associated to criterion
+   */
+  loadCriterionAttributeModels = () => {
+    // Get unique list of criterion attributeModels id to load
+    const pluginsAttributesToLoad = flow(
+      fpmap(criteria => criteria.conf && criteria.conf.attributes),
+      fpmap(attribute => values(attribute)),
+      flatten,
+      fpfilter(isInteger),
+      uniq,
+    )(this.props.moduleConf.criterion)
+
+    const attributesToLoad = flow(
+      fpmap(attribute => values(attribute.id)),
+      flatten,
+      uniq,
+    )(this.props.moduleConf.attributes)
+
+    // Fetch each form server
+    forEach(unionBy(pluginsAttributesToLoad, attributesToLoad), (attribute => this.props.fetchAttribute(attribute)))
   }
 
   renderForm() {

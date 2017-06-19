@@ -85,7 +85,11 @@ class AdminApp extends React.Component {
     const { isAuthenticated, content, project, isInstance } = this.props
     const { isLoadingEndpoints } = this.state
 
-    const projectHandlerComp = isInstance || !this.props.params.project ? null : <ProjectHandler projectName={this.props.params.project} />
+    const projectHandlerComp = isInstance || !this.props.params.project ? null :
+    (<ProjectHandler
+      projectName={this.props.params.project}
+      title="Administration"
+    />)
 
     return (
       <div>

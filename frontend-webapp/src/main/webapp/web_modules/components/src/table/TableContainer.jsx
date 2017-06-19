@@ -132,11 +132,6 @@ class TableContainer extends React.Component {
 
   componentWillReceiveProps = nextProps => this.onPropertiesUpdate(this.props, nextProps)
 
-  getTotalNumberOfResults = (props) => {
-    const total = get(props || this.props, 'pageMetadata.totalElements') || 0
-    return total > TableContainer.MAX_NB_ENTITIES ? TableContainer.MAX_NB_ENTITIES : total
-  }
-
   /**
    * Updates state and runs fetches required on properties change
    */
@@ -257,6 +252,12 @@ class TableContainer extends React.Component {
       dispatchSelectAll()
     }
   }
+
+  getTotalNumberOfResults = (props) => {
+    const total = get(props || this.props, 'pageMetadata.totalElements') || 0
+    return total > TableContainer.MAX_NB_ENTITIES ? TableContainer.MAX_NB_ENTITIES : total
+  }
+
 
   /**
    * Return columns to use (cached in state)

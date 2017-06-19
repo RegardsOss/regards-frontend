@@ -4,12 +4,12 @@
 import map from 'lodash/map'
 import join from 'lodash/join'
 import split from 'lodash/split'
-import {i18nContextType} from '@regardsoss/i18n'
+import { i18nContextType } from '@regardsoss/i18n'
 import MenuItem from 'material-ui/MenuItem'
 import KeyboardArrowUp from 'material-ui/svg-icons/hardware/keyboard-arrow-up'
 import KeyboardArrowDown from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
 import RaisedButton from 'material-ui/RaisedButton'
-import {CardActionsComponent, ShowableAtRender} from '@regardsoss/components'
+import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
 import {
   RenderTextField,
   RenderSelectField,
@@ -43,10 +43,6 @@ class ContainerConfigurationComponent extends React.Component {
     ...i18nContextType,
   }
 
-  state = {
-    advanced: false,
-  }
-
   static buttonStyle = {
     marginTop: 20,
   }
@@ -54,6 +50,9 @@ class ContainerConfigurationComponent extends React.Component {
     marginTop: 15,
   }
 
+  state = {
+    advanced: false,
+  }
 
   componentDidMount() {
     this.handleInitialize()
@@ -66,7 +65,7 @@ class ContainerConfigurationComponent extends React.Component {
   }
 
   handleInitialize = () => {
-    this.props.initialize({...this.props.container})
+    this.props.initialize({ ...this.props.container })
   }
 
   selectContainerType = (event, index, value, input) => {
@@ -80,14 +79,15 @@ class ContainerConfigurationComponent extends React.Component {
           name="dynamicContent"
           style={ContainerConfigurationComponent.checkboxStyle}
           component={RenderCheckbox}
-          label={this.context.intl.formatMessage({id: 'container.form.dynamicContent'})}
+          label={this.context.intl.formatMessage({ id: 'container.form.dynamicContent' })}
         />
       )
     }
+    return null
   }
 
   render() {
-    const {pristine, submitting} = this.props
+    const { pristine, submitting } = this.props
     const iconToggleAdvanced = this.state.advanced ?
       <KeyboardArrowUp /> :
       <KeyboardArrowDown />
@@ -103,7 +103,7 @@ class ContainerConfigurationComponent extends React.Component {
             component={RenderTextField}
             type="text"
             disabled={this.props.container !== null}
-            label={this.context.intl.formatMessage({id: 'container.form.id'})}
+            label={this.context.intl.formatMessage({ id: 'container.form.id' })}
           />
           <Field
             name="type"
@@ -111,7 +111,7 @@ class ContainerConfigurationComponent extends React.Component {
             component={RenderSelectField}
             type="text"
             onSelect={this.selectContainerType}
-            label={this.context.intl.formatMessage({id: 'container.form.type'})}
+            label={this.context.intl.formatMessage({ id: 'container.form.type' })}
           >
             {map(containerTypes, (type, typeName) => (
               <MenuItem
@@ -132,7 +132,7 @@ class ContainerConfigurationComponent extends React.Component {
               fullWidth
               component={RenderTextField}
               type="text"
-              label={this.context.intl.formatMessage({id: 'container.form.classes'})}
+              label={this.context.intl.formatMessage({ id: 'container.form.classes' })}
             />
             <Field
               name="styles"
@@ -141,11 +141,11 @@ class ContainerConfigurationComponent extends React.Component {
               fullWidth
               component={RenderTextField}
               type="text"
-              label={this.context.intl.formatMessage({id: 'container.form.styles'})}
+              label={this.context.intl.formatMessage({ id: 'container.form.styles' })}
             />
           </ShowableAtRender>
           <RaisedButton
-            label={this.context.intl.formatMessage({id: 'container.form.advanced.mode'})}
+            label={this.context.intl.formatMessage({ id: 'container.form.advanced.mode' })}
             primary
             icon={iconToggleAdvanced}
             onTouchTap={this.onAdvancedClick}
@@ -159,7 +159,7 @@ class ContainerConfigurationComponent extends React.Component {
             }
             mainButtonType="submit"
             isMainButtonDisabled={pristine || submitting}
-            secondaryButtonLabel={this.context.intl.formatMessage({id: 'container.form.cancel.button'})}
+            secondaryButtonLabel={this.context.intl.formatMessage({ id: 'container.form.cancel.button' })}
             secondaryButtonTouchTap={this.props.onCancel}
           />
         </div>

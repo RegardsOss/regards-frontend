@@ -126,7 +126,7 @@ export class URLManagementContainer extends React.Component {
       // initialize
       this.getDataset(datasetIpId, nextProps.dispatchFetchDataset)
         .then(({ payload: dataset }) => initialize(viewObjectType, displayMode, initialContextLabel, searchTag, dataset))
-        .catch(initialize(viewObjectType, initialContextLabel, searchTag))
+        .catch(initialize(viewObjectType, displayMode, initialContextLabel, searchTag))
     }
   }
 

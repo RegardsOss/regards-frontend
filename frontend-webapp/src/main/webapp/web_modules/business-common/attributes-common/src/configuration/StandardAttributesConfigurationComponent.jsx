@@ -6,7 +6,7 @@ import find from 'lodash/find'
 import Subheader from 'material-ui/Subheader'
 import { FormattedMessage } from 'react-intl'
 import { AccessShapes } from '@regardsoss/shape'
-import { AttributeModelController } from '@regardsoss/domain/dam'
+import { DamDomain } from '@regardsoss/domain/dam'
 import AttributeConfigurationComponent from './AttributeConfigurationComponent'
 
 /**
@@ -22,7 +22,7 @@ class StandardAttributesConfigurationComponent extends React.Component {
   }
 
   render = () => {
-    const standardAttributes = AttributeModelController.StandardAttributes
+    const standardAttributes = DamDomain.AttributeModelController.StandardAttributes
     const { allowFacettes, attributesConf, onChangeAttributeConfiguration } = this.props
 
     return (

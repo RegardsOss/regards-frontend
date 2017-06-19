@@ -14,6 +14,7 @@ class ProjectHandler extends React.Component {
 
   static propTypes = {
     projectName: PropTypes.string,
+    title: PropTypes.string,
     // From mapStateToProps
     project: Project,
     fetchProject: PropTypes.func,
@@ -26,6 +27,10 @@ class ProjectHandler extends React.Component {
           // Update meta tag of the current html page
           root.document.querySelector('meta[name="title"]').setAttribute('content', this.props.project.content.name)
           root.document.querySelector('meta[name="description"]').setAttribute('content', this.props.project.content.description)
+          const title = `Regards - ${this.props.project.content.label} ${this.props.title}`
+          if (root.document.title !== title) {
+            root.document.title = title
+          }
         }
       },
     )

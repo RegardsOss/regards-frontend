@@ -6,7 +6,8 @@ import isEmpty from 'lodash/isEmpty'
 import get from 'lodash/get'
 import map from 'lodash/map'
 import { connect } from '@regardsoss/redux'
-import { CatalogEntity, CatalogEntityTypes, ModelAttribute, AttributeModelController } from '@regardsoss/model'
+import { DamDomain } from '@regardsoss/domain'
+import { CatalogEntity, CatalogEntityTypes, ModelAttribute } from '@regardsoss/model'
 import { DataManagementClient } from '@regardsoss/client'
 import { BasicListSelectors } from '@regardsoss/store-utils'
 import { I18nProvider } from '@regardsoss/i18n'
@@ -218,10 +219,10 @@ export class DetailViewContainer extends React.Component {
    */
   resolveEntityAttributes = (nextEntity, nextAttrModelAssoc) => map(nextAttrModelAssoc, ({ content: { attribute: attributeModel } }) => {
     // resolve attribute value in entity (push attribute in content, as it is not normalized )
-    const accessPath = AttributeModelController.getAttributeAccessPath({ content: attributeModel })
+    const accessPath = DamDomain.AttributeModelController.getAttributeAccessPath({ content: attributeModel })
     console.log('accessPAth', accessPath)
     console.log('next entity', nextEntity)
-    const value = AttributeModelController.getEntityAttributeValue(nextEntity, accessPath)
+    const value = DamDomain.AttributeModelController.getEntityAttributeValue(nextEntity, accessPath)
     return {
       id: attributeModel.id,
       label: attributeModel.label,

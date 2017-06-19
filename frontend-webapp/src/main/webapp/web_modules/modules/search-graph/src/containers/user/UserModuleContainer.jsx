@@ -9,7 +9,8 @@ import sortBy from 'lodash/sortBy'
 import find from 'lodash/find'
 import { connect } from '@regardsoss/redux'
 import { AuthenticationClient, AuthenticateShape } from '@regardsoss/authentication-manager'
-import { CatalogEntity, CatalogEntityTypes, AttributeModel, AttributeModelController, AttributeConfigurationController } from '@regardsoss/model'
+import { DamDomain } from '@regardsoss/domain'
+import { CatalogEntity, CatalogEntityTypes, AttributeModel, AttributeConfigurationController } from '@regardsoss/model'
 import { getTypeRender } from '@regardsoss/attributes-common'
 import { ShowableAtRender } from '@regardsoss/components'
 import ModuleConfiguration from '../../model/ModuleConfiguration'
@@ -111,11 +112,11 @@ export class UserModuleContainer extends React.Component {
         } else {
           // 3.b - dynamic attribute mapping, resolves if found in fetched models
           const foundModel = find(fetchedAtributesModels, attributeModel =>
-            AttributeModelController.getAttributeAccessPath(attributeModel) === fullQualifiedName)
+          DamDomain.AttributeModelController.getAttributeAccessPath(attributeModel) === fullQualifiedName)
           if (foundModel) {
             resolvedAttribute = {
               label: foundModel.content.label,
-              attributePath: AttributeModelController.getAttributeAccessPath(foundModel), // fragment attribute
+              attributePath: DamDomain.AttributeModelController.getAttributeAccessPath(foundModel), // fragment attribute
               render: getTypeRender(foundModel.content.type),
             }
           }

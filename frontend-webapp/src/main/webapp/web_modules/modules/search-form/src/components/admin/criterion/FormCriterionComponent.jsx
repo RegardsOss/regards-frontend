@@ -53,24 +53,6 @@ class FormCriterionComponent extends React.Component {
     criteriaViewOpened: false,
   }
 
-
-  /**
-   * Update redux-form conf property for criterion.
-   *
-   * @param criteria
-   */
-  updateCriterion = (criteria) => {
-    let criterion = []
-    if (this.state.criteriaToEdit) {
-      criterion = concat([], this.props.criterion)
-      criterion[this.state.criteriaToEdit.idx] = criteria
-    } else {
-      criterion = this.props.criterion ? concat(this.props.criterion, criteria) : [criteria]
-    }
-    this.props.changeField('conf.criterion', criterion)
-    this.closeCriteriaView()
-  }
-
   /**
    * Handle action to open a new criteria edition form
    */
@@ -102,6 +84,23 @@ class FormCriterionComponent extends React.Component {
       }
       return attrLabel
     }, '')
+  }
+
+  /**
+   * Update redux-form conf property for criterion.
+   *
+   * @param criteria
+   */
+  updateCriterion = (criteria) => {
+    let criterion = []
+    if (this.state.criteriaToEdit) {
+      criterion = concat([], this.props.criterion)
+      criterion[this.state.criteriaToEdit.idx] = criteria
+    } else {
+      criterion = this.props.criterion ? concat(this.props.criterion, criteria) : [criteria]
+    }
+    this.props.changeField('conf.criterion', criterion)
+    this.closeCriteriaView()
   }
 
   /**

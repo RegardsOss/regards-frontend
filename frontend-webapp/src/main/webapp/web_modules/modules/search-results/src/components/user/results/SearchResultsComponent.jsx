@@ -17,9 +17,9 @@ import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { TableContainer, TableOptionsSeparator, ShowableAtRender, TableSortOrders } from '@regardsoss/components'
 import { LazyModuleComponent } from '@regardsoss/modules'
+import { DamDomain } from '@regardsoss/domain'
 import {
   AttributeModel,
-  AttributeModelController,
   AttributeConfiguration,
   AttributeConfigurationController,
   AttributesRegroupementConfiguration,
@@ -49,11 +49,13 @@ class SearchResultsComponent extends React.Component {
     project: PropTypes.string,
     allowingFacettes: PropTypes.bool.isRequired,
     displayDatasets: PropTypes.bool.isRequired,
+    displaySelectCheckboxes: PropTypes.bool.isRequired,
 
     // dynamic display control
     showingDataobjects: PropTypes.bool.isRequired,     // is Currently showing data objects (false: showing datasets)
     viewMode: PropTypes.oneOf([DisplayModeEnum.LIST, DisplayModeEnum.TABLE]), // current mode
     showingFacettes: PropTypes.bool.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
     sortingOn: PropTypes.arrayOf(PropTypes.shape({ // user sorting, showing only when user set, not the default one
       attributePath: PropTypes.string.isRequired,
       type: PropTypes.oneOf(values(TableSortOrders)).isRequired,
@@ -134,20 +136,20 @@ class SearchResultsComponent extends React.Component {
         if (AttributeConfigurationController.isStandardAttribute(attributeConf)) {
           // standard attribute
           attribute = AttributeConfigurationController.getStandardAttributeConf(attributeConf.attributeFullQualifiedName)
-          fullyQualifiedAttributePathInEntity = AttributeModelController.getStandardAttributeEntityPathName(attributeConf.attributeFullQualifiedName)
+          fullyQualifiedAttributePathInEntity = DamDomain.AttributeModelController.getStandardAttributeEntityPathName(attributeConf.attributeFullQualifiedName)
         } else {
           // maybe dynamic attribute (if found)
           attribute = find(attributeModels,
-            att => AttributeModelController.getAttributeAccessPath(att) === attributeConf.attributeFullQualifiedName)
+            att => DamDomain.AttributeModelController.getAttributeAccessPath(att) === attributeConf.attributeFullQualifiedName)
           fullyQualifiedAttributePathInEntity = attribute ?
-            AttributeModelController.getAttributeAccessPath(attribute) : null
+            DamDomain.AttributeModelController.getAttributeAccessPath(attribute) : null
         }
         // when found, add the corresponding column
         if (attribute) {
           const customCell = getTypeRender(attribute.content.type)
           const isSpecialAttr =
-            attribute.content.type === AttributeModelController.ATTRIBUTE_TYPES.THUMBNAIL ||
-            attribute.content.type === AttributeModelController.ATTRIBUTE_TYPES.DOWNLOAD_LINK
+            attribute.content.type === DamDomain.AttributeModelController.ATTRIBUTE_TYPES.THUMBNAIL ||
+            attribute.content.type === DamDomain.AttributeModelController.ATTRIBUTE_TYPES.DOWNLOAD_LINK
           return [...allColumns, {
             label: attribute.content.label,
             attributes: [fullyQualifiedAttributePathInEntity],
@@ -175,7 +177,7 @@ class SearchResultsComponent extends React.Component {
       const attributes = reduce(attrRegroupementConf.attributes, (results, attributeId) => {
         const attribute = find(attributeModels, att => att.content.id === attributeId)
         return attribute ?
-            [...results, AttributeModelController.getAttributeAccessPath(attribute)] :
+            [...results, DamDomain.AttributeModelController.getAttributeAccessPath(attribute)] :
             results
       }, [])
         // 2 - If attributes could be rebuilt, return corresponding columns

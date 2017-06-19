@@ -2,7 +2,8 @@
 * LICENSE_PLACEHOLDER
 **/
 import isEqual from 'lodash/isEqual'
-import { CatalogEntity, AttributeModelController } from '@regardsoss/model'
+import { DamDomain } from '@regardsoss/domain'
+import { CatalogEntity } from '@regardsoss/model'
 import { connect } from '@regardsoss/redux'
 import { DatasetAttributesArrayForGraph } from '../../model/DatasetAttributesForGraph'
 import GraphContextActions from '../../model/graph/GraphContextActions'
@@ -73,7 +74,7 @@ export class DatasetItemContainer extends React.Component {
   storeDatasetAttributes = ({ dataset, graphDatasetAttributes = [] }) => this.setState({
     // build dataset attributes with only useful data for component: label, render, value or null / undefined
     datasetAttributes: graphDatasetAttributes.map(({ label, render, attributePath }) => {
-      const attributeValue = AttributeModelController.getEntityAttributeValue(dataset, attributePath)
+      const attributeValue = DamDomain.AttributeModelController.getEntityAttributeValue(dataset, attributePath)
       return {
         label,
         render,

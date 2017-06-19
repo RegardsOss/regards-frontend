@@ -61,7 +61,7 @@ class FormLayoutComponent extends React.Component {
         <CardText style={style}>
           <LayoutConfigurationComponent
             layout={this.state.currentLayout}
-            hideDynamicContentOption={true}
+            hideDynamicContentOption
             onChange={this.changeLayout}
           />
         </CardText>

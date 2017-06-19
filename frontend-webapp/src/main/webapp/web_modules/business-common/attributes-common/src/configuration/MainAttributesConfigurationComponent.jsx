@@ -8,6 +8,7 @@ import remove from 'lodash/remove'
 import transform from 'lodash/transform'
 import values from 'lodash/values'
 import Divider from 'material-ui/Divider'
+import { AccessDomain } from '@regardsoss/domain'
 import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import { ShowableAtRender } from '@regardsoss/components'
 import StandardAttributesConfigurationComponent from './StandardAttributesConfigurationComponent'
@@ -151,7 +152,7 @@ class MainAttributesConfigurationComponent extends React.Component {
     // Remove attribute configuration for unavailable attributes
     const updatedAttributesConf = concat([], attributesConf)
     remove(updatedAttributesConf,
-      attributeConf => !AttributeConfigurationController.findAttributeConf(values(this.props.selectableAttributes), attributeConf),
+      attributeConf => !AccessDomain.AttributeConfigurationController.findAttributeConf(values(this.props.selectableAttributes), attributeConf),
     )
     return updatedAttributesConf
   }

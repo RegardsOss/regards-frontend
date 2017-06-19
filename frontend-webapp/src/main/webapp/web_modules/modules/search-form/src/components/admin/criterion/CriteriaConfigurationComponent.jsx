@@ -7,7 +7,8 @@ import { Card, CardTitle, CardText } from 'material-ui/Card'
 import MenuItem from 'material-ui/MenuItem'
 import { i18nContextType } from '@regardsoss/i18n'
 import { RenderSelectField, Field, ValidationHelpers } from '@regardsoss/form-utils'
-import { AttributeModel, AttributeModelController, Plugin } from '@regardsoss/model'
+import { DamDomain } from '@regardsoss/domain'
+import { AttributeModel, Plugin } from '@regardsoss/model'
 import { themeContextType } from '@regardsoss/theme'
 
 /**
@@ -31,11 +32,11 @@ class CriteriaConfigurationComponent extends React.Component {
     <MenuItem
       key={selectableAttribute.content.id}
       value={selectableAttribute.content.id}
-      primaryText={AttributeModelController.getAttributeModelFullLabel(selectableAttribute)}
+      primaryText={DamDomain.AttributeModelController.getAttributeModelFullLabel(selectableAttribute)}
     />
     ))
 
-  renderStandardAttributes = () => map(AttributeModelController.SearchableStandardAttributes, standardAttribute => (
+  renderStandardAttributes = () => map(DamDomain.AttributeModelController.SearchableStandardAttributes, standardAttribute => (
     <MenuItem
       key={standardAttribute}
       value={standardAttribute}

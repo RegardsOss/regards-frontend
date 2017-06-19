@@ -5,7 +5,8 @@ import filter from 'lodash/filter'
 import { connect } from '@regardsoss/redux'
 import { ShowableAtRender } from '@regardsoss/components'
 import { BasicFacetsPageableSelectors } from '@regardsoss/store-utils'
-import { AttributeModel, AttributeModelController } from '@regardsoss/model'
+import { DamDomain } from '@regardsoss/domain'
+import { AttributeModel } from '@regardsoss/model'
 import ModuleContentComponent from '../components/ModuleContentComponent'
 import { FacetArray } from '../model/FacetShape'
 import { filterListShape } from '../model/FilterShape'
@@ -91,7 +92,7 @@ const mapStateToProps = (state, { moduleConf: { resultsSelectors, facets, facetL
   return {
     facets: nextFacets,
     facetLabels: nextFacets.reduce((labelsAcc, { attributeName }) => ({
-      [attributeName]: AttributeModelController.findLabelFromAttributeFullyQualifiedName(attributeName, attributeModels),
+      [attributeName]: DamDomain.AttributeModelController.findLabelFromAttributeFullyQualifiedName(attributeName, attributeModels),
       ...labelsAcc,
     }), {}),
   }
