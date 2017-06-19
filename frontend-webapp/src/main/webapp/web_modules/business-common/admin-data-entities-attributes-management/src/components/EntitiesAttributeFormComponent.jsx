@@ -85,7 +85,7 @@ export class EntitiesAttributeFormComponent extends React.Component {
     />
   )
 
-  getRestriction = modelAttribute => {
+  getRestriction = (modelAttribute) => {
     if (!modelAttribute.optional) {
       return [ValidationHelpers.string, ValidationHelpers.required]
     }
@@ -94,7 +94,7 @@ export class EntitiesAttributeFormComponent extends React.Component {
 
   showStarIfInputRequired = (modelAttribute) => {
     if (!modelAttribute.optional) {
-      return "*"
+      return '*'
     }
     return null
   }
@@ -107,7 +107,7 @@ export class EntitiesAttributeFormComponent extends React.Component {
         <TableRowColumn>
           {getFullQualifiedAttributeName(modelAttribute.content.attribute)}
           {this.showStarIfInputRequired(modelAttribute.content.attribute)}
-          </TableRowColumn>
+        </TableRowColumn>
         <TableRowColumn>{modelAttribute.content.attribute.type}</TableRowColumn>
         <TableRowColumn>
           <ShowableAtRender show={!has(modelAttribute.content, 'computationConf')}>

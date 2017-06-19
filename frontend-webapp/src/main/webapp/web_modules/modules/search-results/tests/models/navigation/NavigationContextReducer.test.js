@@ -32,7 +32,7 @@ describe('[Search Graph] Test navigation context reducer', () => {
 
     // 2 - with option informations and a previous context (to verify it is context independent)
     currentState = expected
-    reduced = reduce(currentState, navigationContextActions.initialize('anotherType', DisplayModeEnum.LIST,'homeLabel', 'find:fries', {
+    reduced = reduce(currentState, navigationContextActions.initialize('anotherType', DisplayModeEnum.LIST, 'homeLabel', 'find:fries', {
       content: {
         label: 'name1',
         ipId: 'IPID1',

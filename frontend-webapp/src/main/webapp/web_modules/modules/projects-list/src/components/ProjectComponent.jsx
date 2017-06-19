@@ -37,7 +37,7 @@ class ProjectComponent extends React.Component {
   renderProject = () => {
     const { moduleTheme } = this.context
     const { project } = this.props
-    if (project.content.isAccessible) {
+    if (project.content.isAccessible && !project.content.isDeleted) {
       return (
         <Card>
           <div className="row" style={moduleTheme.container}>

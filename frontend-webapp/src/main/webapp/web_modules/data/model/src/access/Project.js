@@ -14,6 +14,7 @@ const Project = PropTypes.shape({
     isPublic: PropTypes.bool,
     icon: PropTypes.string,
     isAccessible: PropTypes.bool,
+    isDeleted: PropTypes.bool,
   }),
 })
 
