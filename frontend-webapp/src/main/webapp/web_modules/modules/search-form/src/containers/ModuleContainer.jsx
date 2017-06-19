@@ -50,6 +50,9 @@ class ModuleContainer extends React.Component {
     ...themeContextType,
   }
 
+  static DATASET_MODEL_IDS_PARAM = "datasetModelIds"
+  static TAGS_PARAM = "tags"
+
   constructor(props) {
     super(props)
     this.criterionValues = {}
@@ -72,8 +75,10 @@ class ModuleContainer extends React.Component {
       q = query.q
     }
 
+    q = q && q.length > 0 ? q : this.createSearchQueryFromCriterion()
+
     this.setState({
-      searchQuery: q ? this.createFullSearchParameters(q) : '',
+      searchQuery: q,
       expanded,
     })
   }
@@ -119,22 +124,50 @@ class ModuleContainer extends React.Component {
    * Get the default query for this form at initialization
    */
   getInitialQuery = () => {
+    let query = ''
     // Add form associated dataset urn
-    const { type, datasets } = this.props.moduleConf.datasets || {}
-    if (type === DatasetSelectionType.DATASET_TYPE && datasets && datasets.selectedDatasets) {
-      const tags = reduce(this.props.moduleConf.datasets.selectedDatasets, (result, dataset) => {
+    let tags = ''
+    const { type, selectedDatasets, selectedModels } = this.props.moduleConf.datasets || {}
+    if (type === DatasetSelectionType.DATASET_TYPE && selectedDatasets) {
+      tags = reduce(selectedDatasets, (result, dataset) => {
         if (result && dataset !== undefined) {
-          return `${result} OR ${dataset}`
+          return `${result} OR "${dataset}"`
         } else if (dataset !== undefined) {
-          return dataset
+          return `"${dataset}"`
         }
         return result
       }, '')
-      if (tags && tags.length > 0) {
-        return `tags:(${tags})`
+    }
+
+    let modelIds = ''
+    if (type === DatasetSelectionType.DATASET_MODEL_TYPE && selectedModels) {
+      modelIds = reduce(selectedModels, (result, modelId) => {
+        if (result && modelId !== undefined) {
+          return `${result} OR ${modelId}`
+        } else if (modelId !== undefined) {
+          return `${modelId}`
+        }
+        return result
+      }, '')
+    }
+
+    if (tags.length > 0) {
+      if (query && query.length > 0) {
+        query = `${query} AND ${ModuleContainer.TAGS_PARAM}:${tags}`
+      } else {
+        query = `${ModuleContainer.TAGS_PARAM}:${tags}`
       }
     }
-    return ''
+
+    if (modelIds.length > 0) {
+      if (query && query.length > 0) {
+        query = `${query} AND ${ModuleContainer.DATASET_MODEL_IDS_PARAM}:(${modelIds})`
+      } else {
+        query = `${ModuleContainer.DATASET_MODEL_IDS_PARAM}:${modelIds}`
+      }
+    }
+
+    return query
   }
 
   getInitialValues = () => {
@@ -185,6 +218,7 @@ class ModuleContainer extends React.Component {
    * Create query for the search from all the configured criterion
    */
   createSearchQueryFromCriterion = () => {
+
     let query = reduce(this.criterionValues, (result, criteria) => {
       if (result && criteria && criteria.length > 0) {
         return `${result} AND ${criteria}`
@@ -194,71 +228,25 @@ class ModuleContainer extends React.Component {
       return result
     }, '')
 
-    // Add form associated dataset urn
-    let tags = ''
-    const { type, datasets } = this.props.moduleConf.datasets || {}
-    if (type === DatasetSelectionType.DATASET_TYPE && datasets && datasets.selectedDatasets) {
-      tags = reduce(this.props.moduleConf.datasets.selectedDatasets, (result, dataset) => {
-        if (result && dataset !== undefined) {
-          return `${result} OR "${dataset}"`
-        } else if (dataset !== undefined) {
-          return dataset
-        }
-        return result
-      }, '')
-    }
-
-    let modelIds = ''
-    if (type === DatasetSelectionType.DATASET_MODEL_TYPE && datasets && datasets.selectedModels) {
-      modelIds = reduce(this.props.moduleConf.datasets.selectedModels, (result, modelId) => {
-        if (result && modelId !== undefined) {
-          return `${result} OR ${modelId}`
-        } else if (modelId !== undefined) {
-          return modelId
-        }
-        return result
-      }, '')
-    }
-
-    if (tags.length > 0) {
-      if (query && query.length > 0) {
-        query = `${query} AND (tags:(${tags})`
-      } else {
-        query = `tags:(${tags})`
+    const initialQuery = this.getInitialQuery()
+    if (query.length > 0) {
+      if (initialQuery.length > 0 ) {
+        return `${query} AND ${initialQuery}`
       }
+      return `${query}`
+    } else if (initialQuery.length > 0 ){
+      return  initialQuery
     }
 
-    if (modelIds.length > 0) {
-      if (query && query.length > 0) {
-        query = `${query} AND (datasetModelId:(${modelIds})`
-      } else {
-        query = `datasetModelId:(${modelIds})`
-      }
-    }
-
-    if (query && query.length > 0) {
-      return query
-    }
     return ''
-  }
-
-  /**
-   * Create full search request parameters with :
-   * q : query
-   * @returns {string}
-   */
-  createFullSearchParameters = (query) => {
-    if (!query) {
-      return `${this.createSearchQueryFromCriterion()}`
-    }
-    return query
   }
 
   /**
    * Run form search with the stored criteria values in the state.criterion
    */
   handleSearch = () => {
-    const query = this.createFullSearchParameters()
+
+    const query = this.createSearchQueryFromCriterion()
     this.setState({
       searchQuery: query,
     })
@@ -332,6 +320,7 @@ class ModuleContainer extends React.Component {
   }
 
   renderResults() {
+
     if (!this.props.moduleConf.preview) {
       // is single dataset?
       const { type, selectedDatasets } = this.props.moduleConf.datasets || {}
