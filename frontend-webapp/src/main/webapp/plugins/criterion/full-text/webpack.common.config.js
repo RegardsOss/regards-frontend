@@ -24,12 +24,6 @@ module.exports = {
     // Automaticaly get extensions files from javascript code with import or require.
     // exemple require('main') look for main, main.js or main.jsx with our configuration
     extensions: ['.js', '.jsx'],
-    modules: [
-      // Root directories from which requires are made
-      path.join(__dirname),
-      'web_modules',
-      'node_modules'
-    ],
   },
   module: {
     rules: [
@@ -50,10 +44,6 @@ module.exports = {
       {
         test: /\.(jpg|gif|png)$/,
         loader: 'file-loader?name=[name].[ext]&outputPath=./img/',
-      },
-      {
-        test: /staticConfiguration(\.dev)?\.js$/,
-        loader: 'file-loader?name=staticConfiguration.js&outputPath=./conf/',
       },
       {
         test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
@@ -77,6 +67,9 @@ module.exports = {
     }),
     // Create a single css file for the whole application instead of setting css inline in the javascript
     new ExtractTextPlugin({ filename: 'css/styles.css', disable: false, allChunks: true }),
-    new webpack.optimize.MinChunkSizePlugin({ minChunkSize: 10000000 }),
+    new webpack.optimize.LimitChunkCountPlugin({
+      maxChunks: 1,
+      minChunkSize: 10000000
+    })
   ],
 }
