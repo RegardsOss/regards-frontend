@@ -7,6 +7,7 @@ import AccountSelectors from '../model/AccountSelectors'
 import WaitingAccountEntitiesSelectors from '../model/WaitingAccountEntitiesSelectors'
 import WaitingAccountEntitiesActions from '../model/WaitingAccountEntitiesActions'
 import WaitingAccountSignalActions from '../model/WaitingAccountSignalActions'
+import RefuseAccountSignalActions from '../model/RefuseAccountSignalActions'
 import AccountListComponent from '../components/AccountListComponent'
 
 /**
@@ -31,6 +32,7 @@ export class AccountListContainer extends React.Component {
     fetchAccountList: PropTypes.func.isRequired,
     fetchWaitingAccountList: PropTypes.func.isRequired,
     sendAcceptUser: PropTypes.func.isRequired,
+    sendRefuseUser: PropTypes.func.isRequired,
     deleteAccount: PropTypes.func.isRequired,
   }
 
@@ -60,6 +62,10 @@ export class AccountListContainer extends React.Component {
     this.performAll([this.props.sendAcceptUser(accountEmail)])
   }
 
+  onRefuse = (accountEmail) => {
+    this.performAll([this.props.sendRefuseUser(accountEmail)])
+  }
+
   setInitialFetching = initialFecthing => this.updateState({ initialFecthing })
 
   setFetchingActions = isFetchingActions => this.updateState({ isFetchingActions })
@@ -87,8 +93,9 @@ export class AccountListContainer extends React.Component {
           waitingAccounts={waitingAccounts}
           initialFecthing={initialFecthing}
           isFetchingActions={isFetchingActions}
-          onAccept={this.onAccept}
           onEdit={this.onEdit}
+          onAccept={this.onAccept}
+          onRefuse={this.onRefuse}
           onDelete={this.onDelete}
         />
       </I18nProvider>
@@ -106,6 +113,7 @@ const mapDispatchToProps = dispatch => ({
   fetchAccountList: () => dispatch(AccountActions.fetchPagedEntityList()),
   fetchWaitingAccountList: () => dispatch(WaitingAccountEntitiesActions.fetchWaitingAccountsEntityList()),
   sendAcceptUser: accountEmail => dispatch(WaitingAccountSignalActions.sendAccept(accountEmail)),
+  sendRefuseUser: accountEmail => dispatch(RefuseAccountSignalActions.sendRefuse(accountEmail)),
   deleteAccount: accountId => dispatch(AccountActions.deleteEntity(accountId)),
 })
 

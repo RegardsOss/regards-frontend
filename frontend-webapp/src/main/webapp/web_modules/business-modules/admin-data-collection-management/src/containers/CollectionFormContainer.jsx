@@ -2,7 +2,6 @@
  * LICENSE_PLACEHOLDER
  **/
 import { browserHistory } from 'react-router'
-import find from 'lodash/find'
 import forEach from 'lodash//forEach'
 import keys from 'lodash/keys'
 import { connect } from '@regardsoss/redux'
@@ -16,7 +15,6 @@ import { collectionActions, collectionSelectors } from '../clients/CollectionCli
 import CollectionFormComponent from '../components/CollectionFormComponent'
 import { modelSelectors, modelActions } from '../clients/ModelClient'
 import { modelAttributesSelectors, modelAttributesActions } from '../clients/ModelAttributesClient'
-import { fragmentSelectors } from '../clients/FragmentClient'
 
 /**
  * Show the collection form

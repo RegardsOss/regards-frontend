@@ -46,6 +46,12 @@ export class ProjectListContainer extends React.Component {
 
   handleDelete = (projectName) => {
     this.props.deleteProject(projectName)
+      .then((actionResult) => {
+        // We receive here the action
+        if (!actionResult.error) {
+          this.props.fetchProjectList()
+        }
+      })
   }
 
   handleOpen = (projectName) => {

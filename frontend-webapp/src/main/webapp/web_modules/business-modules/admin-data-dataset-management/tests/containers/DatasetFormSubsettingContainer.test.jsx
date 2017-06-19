@@ -28,6 +28,7 @@ describe('[ADMIN DATASET MANAGEMENT] Testing DatasetFormSubsettingContainer', ()
       modelAttributeList: DumpProvider.get('DataManagementClient', 'ModelAttribute'),
       // from mapDispatchToProps
       fetchModelAttributeList: () => {},
+      testSubsetting: () => {},
     }
     const enzymeWrapper = shallow(<DatasetFormSubsettingContainer {...props} />, { context })
     expect(enzymeWrapper.find(LoadableContentDisplayDecorator)).to.have.length(1)

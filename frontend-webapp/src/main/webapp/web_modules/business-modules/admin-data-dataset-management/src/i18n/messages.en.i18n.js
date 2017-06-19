@@ -55,6 +55,9 @@ const messages = Object.assign({
   'dataset.form.radio.none': 'No description',
   'dataset.form.subtitle': 'Manage dataset attributes',
 
+  'dataset.subsetting.snackbar.success': 'The subsetting is OK',
+  'dataset.subsetting.snackbar.error': 'The subsetting is not OK',
+
   'dataset.edit.title': 'Edit dataset {name}',
   'dataset.create.title': 'Create a new dataset',
   'invalid.max_128_carac': 'The dataset label cannot 128 characters',

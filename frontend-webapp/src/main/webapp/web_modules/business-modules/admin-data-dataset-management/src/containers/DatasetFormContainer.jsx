@@ -8,7 +8,6 @@ import { I18nProvider } from '@regardsoss/i18n'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { getAbstractEntityDescription } from '@regardsoss/domain/dam'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { extractParametersFromFormValues } from '@regardsoss/admin-data-entities-attributes-management'
 import { datasetSelectors, datasetActions } from './../clients/DatasetClient'
 import DatasetFormAttributesContainer from './DatasetFormAttributesContainer'
 import DatasetFormSubsettingContainer from './DatasetFormSubsettingContainer'
@@ -165,9 +164,9 @@ export class DatasetFormContainer extends React.Component {
     }
   }
 
-  saveSubsetting = (formValues) => {
+  saveSubsetting = (subsetting) => {
     const { currentDataset, descriptionFile } = this.state
-    currentDataset.content.subsetting = formValues.subsetting
+    currentDataset.content.openSearchSubsettingClause = subsetting
     this.setState({
       currentDataset,
     })

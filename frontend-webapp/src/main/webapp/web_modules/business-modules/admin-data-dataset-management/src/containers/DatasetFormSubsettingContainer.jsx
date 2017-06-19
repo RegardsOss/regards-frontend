@@ -7,7 +7,7 @@ import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { modelAttributesActions, modelAttributesSelectors } from '../clients/ModelAttributesClient'
 import DatasetFormSubsettingComponent from '../components/DatasetFormSubsettingComponent'
-
+import { datasetValidSubsettingTestActions } from '../clients/DatasetValidSubsettingTest'
 /**
  * Show the dataset form
  */
@@ -22,6 +22,7 @@ export class DatasetFormSubsettingContainer extends React.Component {
     modelAttributeList: DataManagementShapes.ModelAttributeList,
     // from mapDispatchToProps
     fetchModelAttributeList: PropTypes.func,
+    testSubsetting: PropTypes.func,
   }
 
 
@@ -42,27 +43,28 @@ export class DatasetFormSubsettingContainer extends React.Component {
       })
   }
 
-  handleTestSubsetting = (formValues) => {
-    console.log("Let's test subsetting", formValues)
+  getForm = () => {
+    const { currentDataset, handleBack, handleSave, isEditing, modelAttributeList } = this.props
+    return (<DatasetFormSubsettingComponent
+      currentDataset={currentDataset}
+      handleBack={handleBack}
+      onSubmit={handleSave}
+      handleTestSubsetting={this.handleTestSubsetting}
+      modelAttributeList={modelAttributeList}
+      isEditing={isEditing}
+    />)
   }
 
+  handleTestSubsetting = subsetting => this.props.testSubsetting(this.props.currentDataset.content.dataModel, encodeURIComponent(subsetting))
+
   render() {
-    const { currentDataset, handleBack, handleSave, isEditing, modelAttributeList } = this.props
     const { isLoading } = this.state
     return (
       <I18nProvider messageDir="business-modules/admin-data-dataset-management/src/i18n">
         <LoadableContentDisplayDecorator
           isLoading={isLoading}
         >
-          {() => (<DatasetFormSubsettingComponent
-            currentDataset={currentDataset}
-            handleBack={handleBack}
-            onSubmit={handleSave}
-            handleTestSubsetting={this.handleTestSubsetting}
-            modelAttributeList={modelAttributeList}
-            isEditing={isEditing}
-          />)
-          }
+          {this.getForm}
         </LoadableContentDisplayDecorator>
       </I18nProvider>
     )
@@ -74,6 +76,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchModelAttributeList: id => dispatch(modelAttributesActions.fetchEntityList({ pModelId: id })),
+  testSubsetting: (dataModelId, subsetting) => dispatch(datasetValidSubsettingTestActions.sendSignal('POST', { query: subsetting }, null, { dataModelId })),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(DatasetFormSubsettingContainer)

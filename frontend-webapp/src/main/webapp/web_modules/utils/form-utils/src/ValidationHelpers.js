@@ -73,7 +73,9 @@ export const string = value => isString(value) ? undefined : ErrorTypes.TYPE_STR
  * @param {String} value
  * @returns {String||undefined}
  */
-export const validRequiredNumber = value => !isNil(value) && !isNaN(value) ? undefined : ErrorTypes.REQUIRED
+export const validRequiredNumber = value =>
+  !isNil(value) && value !== '' && !isNaN(value) ? undefined : ErrorTypes.REQUIRED
+
 
 /**
  * Wrap the {@link isValidAlphaNumericUnderscore} logic into a Redux-Form-style validator.
