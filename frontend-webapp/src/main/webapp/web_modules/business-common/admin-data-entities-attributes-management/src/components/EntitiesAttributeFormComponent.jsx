@@ -13,7 +13,7 @@ import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowCol
 import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
 import { DataManagementShapes } from '@regardsoss/shape'
-import { RenderTextField, RenderSelectField, RenderFileField, RenderCheckbox, Field, ErrorTypes } from '@regardsoss/form-utils'
+import { RenderTextField, RenderSelectField, RenderFileField, RenderCheckbox, Field, ErrorTypes, ValidationHelpers } from '@regardsoss/form-utils'
 import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -85,14 +85,29 @@ export class EntitiesAttributeFormComponent extends React.Component {
     />
   )
 
-  getRestriction = modelAttribute => []
+  getRestriction = modelAttribute => {
+    if (!modelAttribute.optional) {
+      return [ValidationHelpers.string, ValidationHelpers.required]
+    }
+    return []
+  }
+
+  showStarIfInputRequired = (modelAttribute) => {
+    if (!modelAttribute.optional) {
+      return "*"
+    }
+    return null
+  }
 
   render() {
     const { modelAttribute } = this.props
     console.log(modelAttribute)
     return (
       <TableRow>
-        <TableRowColumn>{getFullQualifiedAttributeName(modelAttribute.content.attribute)}</TableRowColumn>
+        <TableRowColumn>
+          {getFullQualifiedAttributeName(modelAttribute.content.attribute)}
+          {this.showStarIfInputRequired(modelAttribute.content.attribute)}
+          </TableRowColumn>
         <TableRowColumn>{modelAttribute.content.attribute.type}</TableRowColumn>
         <TableRowColumn>
           <ShowableAtRender show={!has(modelAttribute.content, 'computationConf')}>
