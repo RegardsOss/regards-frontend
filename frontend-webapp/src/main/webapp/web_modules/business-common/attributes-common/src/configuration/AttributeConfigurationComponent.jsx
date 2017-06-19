@@ -2,7 +2,8 @@
  * LICENSE_PLACEHOLDER
  **/
 import merge from 'lodash/merge'
-import { AttributeModel, AttributeModelController, AttributeConfiguration } from '@regardsoss/model'
+import { DamDomain } from '@regardsoss/domain'
+import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import { Card, CardHeader, CardText } from 'material-ui/Card'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -22,18 +23,12 @@ class AttributeConfigurationComponent extends React.Component {
 
   static propTypes = {
     allowFacettes: PropTypes.bool.isRequired,
-    attribute: PropTypes.oneOfType([PropTypes.shape({
-      // for standard attributes
-      content: PropTypes.shape({
-        label: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
-        fragment: PropTypes.shape({
-          name: PropTypes.string.isRequired,
-        }).isRequired,
-      }),
-    }), AttributeModel]).isRequired,
+    attribute: PropTypes.oneOfType([
+      DataManagementShapes.StandartAttributeModel,
+      DataManagementShapes.AttributeModel,
+    ]).isRequired,
     filter: PropTypes.string,
-    conf: AttributeConfiguration,
+    conf: AccessShapes.AttributeConfigurationContent,
     onChange: PropTypes.func,
   }
 
@@ -70,31 +65,31 @@ class AttributeConfigurationComponent extends React.Component {
   changeVisibility = () => {
     const newConf = merge({}, this.state.conf, { visibility: !this.state.conf.visibility })
     this.setState({ conf: newConf })
-    this.props.onChange(AttributeModelController.getAttributeAccessPath(this.props.attribute), newConf)
+    this.props.onChange(DamDomain.AttributeModelController.getAttributeAccessPath(this.props.attribute), newConf)
   }
 
   changeFacetable = () => {
     const newConf = merge({}, this.state.conf, { facetable: !this.state.conf.facetable })
     this.setState({ conf: newConf })
-    this.props.onChange(AttributeModelController.getAttributeAccessPath(this.props.attribute), newConf)
+    this.props.onChange(DamDomain.AttributeModelController.getAttributeAccessPath(this.props.attribute), newConf)
   }
 
   changeInitialSort = () => {
     const newConf = merge({}, this.state.conf, { initialSort: !this.state.conf.initialSort })
     this.setState({ conf: newConf })
-    this.props.onChange(AttributeModelController.getAttributeAccessPath(this.props.attribute), newConf)
+    this.props.onChange(DamDomain.AttributeModelController.getAttributeAccessPath(this.props.attribute), newConf)
   }
 
   changeAttributeOrder = (event, value) => {
     const newConf = merge({}, this.state.conf, { order: parseInt(value, this) })
     this.setState({ conf: newConf })
-    this.props.onChange(AttributeModelController.getAttributeAccessPath(this.props.attribute), newConf)
+    this.props.onChange(DamDomain.AttributeModelController.getAttributeAccessPath(this.props.attribute), newConf)
   }
 
   formatOrder = value => value ? parseInt(value, this) : undefined
 
   render() {
-    const { allowFacettes, filter = '', attribute: { content: { label, description } } } = this.props
+    const { allowFacettes, filter = '', attribute: { content: { label, description, fragment } } } = this.props
     const display = !filter.length || label.match(new RegExp(`^${this.props.filter}.*$`, 'i'))
 
     const cardStyle = { width: 300, margin: 5 }
@@ -108,6 +103,9 @@ class AttributeConfigurationComponent extends React.Component {
     const visibilityOnIcon = <Visibility />
     const searchOnIcon = <Search />
     const searchOffIcon = <Locked />
+
+    const title = fragment && fragment.name
+
     return (
       <ShowableAtRender
         show={display}

@@ -46,7 +46,6 @@ class FormComponent extends React.Component {
     })
   }
 
-
   onKeyPress = (e) => {
     if (e.charCode === 13) {
       this.onHandleSearch()

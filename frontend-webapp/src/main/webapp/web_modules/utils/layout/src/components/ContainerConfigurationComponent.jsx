@@ -28,8 +28,10 @@ class ContainerConfigurationComponent extends React.Component {
 
   static propTypes = {
     container: ContainerShape,
+    hideDynamicContentOption: PropTypes.bool,
     onCancel: PropTypes.func.isRequired,
     onSubmit: PropTypes.func,
+
     // from reduxForm
     submitting: PropTypes.bool,
     pristine: PropTypes.bool,
@@ -39,6 +41,13 @@ class ContainerConfigurationComponent extends React.Component {
 
   static contextTypes = {
     ...i18nContextType,
+  }
+
+  static buttonStyle = {
+    marginTop: 20,
+  }
+  static checkboxStyle = {
+    marginTop: 15,
   }
 
   state = {
@@ -63,18 +72,25 @@ class ContainerConfigurationComponent extends React.Component {
     input.onChange(value)
   }
 
+  renderDynamicContent = () => {
+    if (!this.props.hideDynamicContentOption) {
+      return (
+        <Field
+          name="dynamicContent"
+          style={ContainerConfigurationComponent.checkboxStyle}
+          component={RenderCheckbox}
+          label={this.context.intl.formatMessage({ id: 'container.form.dynamicContent' })}
+        />
+      )
+    }
+    return null
+  }
+
   render() {
     const { pristine, submitting } = this.props
     const iconToggleAdvanced = this.state.advanced ?
       <KeyboardArrowUp /> :
       <KeyboardArrowDown />
-
-    const buttonStyle = {
-      marginTop: 20,
-    }
-    const checkboxStyle = {
-      marginTop: 15,
-    }
 
     return (
       <form
@@ -105,12 +121,7 @@ class ContainerConfigurationComponent extends React.Component {
               />
             ))}
           </Field>
-          <Field
-            name="dynamicContent"
-            style={checkboxStyle}
-            component={RenderCheckbox}
-            label={this.context.intl.formatMessage({ id: 'container.form.dynamicContent' })}
-          />
+          {this.renderDynamicContent()}
           <ShowableAtRender
             show={this.state.advanced}
           >
@@ -138,7 +149,7 @@ class ContainerConfigurationComponent extends React.Component {
             primary
             icon={iconToggleAdvanced}
             onTouchTap={this.onAdvancedClick}
-            style={buttonStyle}
+            style={ContainerConfigurationComponent.buttonStyle}
           />
           <CardActionsComponent
             mainButtonLabel={
@@ -158,6 +169,10 @@ class ContainerConfigurationComponent extends React.Component {
 
 }
 
+ContainerConfigurationComponent.defaultProps = {
+  hideDynamicContentOption: false,
+}
+
 function validate(values) {
   const errors = {}
 
@@ -174,6 +189,7 @@ const UnconnectedContainerConfigurationComponent = ContainerConfigurationCompone
 export {
   UnconnectedContainerConfigurationComponent,
 }
+
 
 export default reduxForm({
   form: 'edit-layout-container-form',

@@ -4,6 +4,7 @@
 import { assert } from 'chai'
 import navigationContextActions from '../../../src/models/navigation/NavigationContextActions'
 import reduce, { DEFAULT_STATE } from '../../../src/models/navigation/NavigationContextReducer'
+import DisplayModeEnum from '../../../src/models/navigation/DisplayModeEnum'
 import NavigationLevel from '../../../src/models/navigation/NavigationLevel'
 
 
@@ -21,16 +22,17 @@ describe('[Search Graph] Test navigation context reducer', () => {
   it('should reduce initialization from URL parameters to navigation context and levels', () => {
     // 1 - without any optional information
     let currentState = DEFAULT_STATE
-    let reduced = reduce(currentState, navigationContextActions.initialize('aType'))
+    let reduced = reduce(currentState, navigationContextActions.initialize('aType', DisplayModeEnum.LIST))
     let expected = {
       viewObjectType: 'aType',
+      displayMode: DisplayModeEnum.LIST,
       levels: [NavigationLevel.buildRootLevel()],
     }
     assert.deepEqual(reduced, expected, 'Initialization should be correctly reduced without optional parameters')
 
     // 2 - with option informations and a previous context (to verify it is context independent)
     currentState = expected
-    reduced = reduce(currentState, navigationContextActions.initialize('anotherType', 'homeLabel', 'find:fries', {
+    reduced = reduce(currentState, navigationContextActions.initialize('anotherType', DisplayModeEnum.LIST, 'homeLabel', 'find:fries', {
       content: {
         label: 'name1',
         ipId: 'IPID1',
@@ -38,6 +40,7 @@ describe('[Search Graph] Test navigation context reducer', () => {
     }))
     expected = {
       viewObjectType: 'anotherType',
+      displayMode: DisplayModeEnum.LIST,
       levels: [ // we expect here to retrieve the levels as: ROOT, SEARCH_TAG, DATASET
         NavigationLevel.buildRootLevel('homeLabel'),
         NavigationLevel.buildSearchTagLevel('find:fries'),

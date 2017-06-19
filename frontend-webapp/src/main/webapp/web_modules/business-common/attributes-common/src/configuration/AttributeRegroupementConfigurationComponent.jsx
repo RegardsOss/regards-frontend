@@ -10,7 +10,7 @@ import { FormattedMessage } from 'react-intl'
 import { SubmissionError } from 'redux-form'
 import { ConfirmDialogComponent } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
-import { AttributesRegroupementConfiguration, AttributeModel } from '@regardsoss/model'
+import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import AttributeRegroupementFormComponent from './AttributeRegroupementFormComponent'
 import AttributeRegroupementComponent from './AttributeRegroupementComponent'
 
@@ -22,8 +22,8 @@ class AttributeRegroupementConfigurationComponent extends React.Component {
 
   static propTypes = {
     // Available Attributes for configuration
-    selectableAttributes: PropTypes.objectOf(AttributeModel).isRequired,
-    attributesRegroupementsConf: PropTypes.arrayOf(AttributesRegroupementConfiguration).isRequired,
+    selectableAttributes: DataManagementShapes.AttributeModelList.isRequired,
+    attributesRegroupementsConf: PropTypes.arrayOf(AccessShapes.AttributesGroupConfigurationContent).isRequired,
     onChangeRegroupenentConfiguration: PropTypes.func.isRequired,
     onDeleteRegroupement: PropTypes.func.isRequired,
   }

@@ -7,6 +7,7 @@ import MenuItem from 'material-ui/MenuItem'
 import IconButton from 'material-ui/IconButton'
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
 import RaisedButton from 'material-ui/RaisedButton'
+import { FormattedMessage } from 'react-intl'
 import EnumNumericalComparator from '../model/EnumNumericalComparator'
 
 /**
@@ -50,7 +51,7 @@ export class NumericalComparatorComponent extends React.Component {
     return (
       <div>
         <RaisedButton
-          label={EnumNumericalComparator.getLabel(this.props.value)}
+          label={<FormattedMessage id={`comparator.${this.props.value}`}/>}
           onTouchTap={this.handleOpenMenu}
           style={{
             height: 48,
@@ -65,14 +66,17 @@ export class NumericalComparatorComponent extends React.Component {
           onRequestChange={this.handleOnRequestChange}
           value={this.props.value}
         >
-          {map(EnumNumericalComparator, (value, key) => (
-            <MenuItem
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-              }} key={key} primaryText={EnumNumericalComparator.getLabel(value)} value={key}
-            />
-          ))}
+          {map(EnumNumericalComparator, (value, key) => {
+            const label = <FormattedMessage id={`comparator.${value}`}/>
+            return (
+              <MenuItem
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                }} key={key} primaryText={label} value={key}
+              />
+            )
+          })}
         </IconMenu>
       </div>
     )

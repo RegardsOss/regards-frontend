@@ -258,6 +258,7 @@ class TableContainer extends React.Component {
     return total > TableContainer.MAX_NB_ENTITIES ? TableContainer.MAX_NB_ENTITIES : total
   }
 
+
   /**
    * Return columns to use (cached in state)
    * @param properties properties to consider

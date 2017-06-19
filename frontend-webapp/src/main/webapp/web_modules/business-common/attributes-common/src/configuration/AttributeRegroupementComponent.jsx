@@ -13,7 +13,7 @@ import IconButton from 'material-ui/IconButton'
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { AttributesRegroupementConfiguration } from '@regardsoss/model'
+import { AccessShapes } from '@regardsoss/shape'
 
 /**
  * Component to display an attribute configuration.
@@ -22,7 +22,7 @@ import { AttributesRegroupementConfiguration } from '@regardsoss/model'
 class AttributeConfigurationComponent extends React.Component {
 
   static propTypes = {
-    conf: AttributesRegroupementConfiguration.isRequired,
+    conf: AccessShapes.AttributesGroupConfigurationContent.isRequired,
     onChange: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
     onEdit: PropTypes.func.isRequired,

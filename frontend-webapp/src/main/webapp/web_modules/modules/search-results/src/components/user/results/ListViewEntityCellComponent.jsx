@@ -10,10 +10,10 @@ import GetApp from 'material-ui/svg-icons/action/get-app'
 import Checkbox from 'material-ui/Checkbox'
 import { Card, CardHeader, CardText } from 'material-ui/Card'
 import InfoIcon from 'material-ui/svg-icons/action/info-outline'
+import { DamDomain } from '@regardsoss/domain'
 import {
   CatalogEntity,
   AttributeModel,
-  AttributeModelController,
   ObjectLinkedFileTypes,
 } from '@regardsoss/model'
 import { themeContextType } from '@regardsoss/theme'
@@ -43,6 +43,7 @@ class ListViewEntityCellComponent extends React.Component {
     // eslint-disable-next-line react/forbid-prop-types
     styles: PropTypes.object,
     // Display checbox for entities selection ?
+    // eslint-disable-next-line react/no-unused-prop-types
     displayCheckbox: PropTypes.bool,
     // callback: on entity selection (or null when not clickable)
     onEntitySelection: PropTypes.func,
@@ -134,13 +135,13 @@ class ListViewEntityCellComponent extends React.Component {
    */
   displayFragment = (fragmentName, values) => {
     // Does the fragment is an attibute of default fragment ?
-    const defaultAttribute = AttributeModelController.findAttribute(fragmentName, AttributeModelController.DEFAULT_FRAGMENT, this.props.attributes)
+    const defaultAttribute = DamDomain.AttributeModelController.findAttribute(fragmentName, DamDomain.AttributeModelController.DEFAULT_FRAGMENT, this.props.attributes)
     if (defaultAttribute) {
       return this.displayAttribute(defaultAttribute, values)
     }
     // If it is a fragment
     const elements = map(values, (attrValue, key) => {
-      const attribute = AttributeModelController.findAttribute(key, fragmentName, this.props.attributes)
+      const attribute = DamDomain.AttributeModelController.findAttribute(key, fragmentName, this.props.attributes)
       if (attribute) {
         return this.displayAttribute(attribute, attrValue)
       }

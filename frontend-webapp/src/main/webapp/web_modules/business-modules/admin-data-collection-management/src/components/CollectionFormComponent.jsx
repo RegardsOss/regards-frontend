@@ -16,6 +16,7 @@ import { RenderTextField, RenderSelectField, Field, RenderFileField, ErrorTypes,
 import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
+import { EntitiesAttributesFormContainer, getInitialFormValues } from '@regardsoss/admin-data-entities-attributes-management'
 import MenuItem from 'material-ui/MenuItem'
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
 import CollectionStepperComponent from './CollectionStepperComponent'
@@ -132,23 +133,12 @@ export class CollectionFormComponent extends React.Component {
   handleInitialize = () => {
     if (!this.state.isCreating) {
       const { currentCollection } = this.props
-      const parameters = {}
-      forEach(currentCollection.content.properties, (attributeValueOrFragment, key) => {
-        if (isObject(attributeValueOrFragment)) {
-          // It's a fragment
-          forEach(attributeValueOrFragment, (attribute, fragmentName) => {
-            parameters[fragmentName] = attribute
-          })
-        } else {
-          // This is an attribute
-          parameters[key] = attributeValueOrFragment
-        }
-      })
+      const properties = getInitialFormValues(currentCollection)
       const initialValues = {
         label: currentCollection.content.label,
         model: currentCollection.content.model.id,
         descriptionUrl: get(currentCollection.content, 'descriptionFile.url', undefined),
-        parameters,
+        properties,
       }
       this.props.initialize(initialValues)
     }
@@ -256,46 +246,10 @@ export class CollectionFormComponent extends React.Component {
                 />
               ))}
             </Field>
-            <ShowableAtRender show={this.state.isDisplayAttributeValue}>
-              <Table
-                selectable={false}
-              >
-                <TableHeader
-                  enableSelectAll={false}
-                  adjustForCheckbox={false}
-                  displaySelectAll={false}
-                >
-                  <TableRow>
-                    <TableHeaderColumn><FormattedMessage id="collection.form.table.fragmentAndLabel" /></TableHeaderColumn>
-                    <TableHeaderColumn><FormattedMessage id="collection.form.table.type" /></TableHeaderColumn>
-                    <TableHeaderColumn><FormattedMessage id="collection.form.table.value" /></TableHeaderColumn>
-                  </TableRow>
-                </TableHeader>
-                <TableBody
-                  displayRowCheckbox={false}
-                  preScanRows={false}
-                  showRowHover
-                >
-                  {map(modelAttributeList, (modelAttribute, id) => (
-                    <TableRow key={id}>
-                      <TableRowColumn>{this.getAttributeName(modelAttribute.content.attribute)}</TableRowColumn>
-                      <TableRowColumn>{modelAttribute.content.attribute.type}</TableRowColumn>
-                      <TableRowColumn>
-                        <ShowableAtRender show={!has(modelAttribute.content, 'computationConf')}>
-                          <Field
-                            name={`parameters.${modelAttribute.content.attribute.name}`}
-                            fullWidth
-                            component={RenderTextField}
-                            type="text"
-                            label={this.context.intl.formatMessage({ id: 'collection.form.table.input' })}
-                          />
-                        </ShowableAtRender>
-                      </TableRowColumn>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </ShowableAtRender>
+            <EntitiesAttributesFormContainer
+              isDisplayAttributeValue={this.state.isDisplayAttributeValue}
+              modelAttributeList={modelAttributeList}
+            />
           </CardText>
           <CardActions>
             <CardActionsComponent

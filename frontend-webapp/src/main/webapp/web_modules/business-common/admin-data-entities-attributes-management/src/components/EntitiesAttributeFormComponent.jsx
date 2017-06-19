@@ -4,8 +4,8 @@
 import has from 'lodash/has'
 import { TableRow, TableRowColumn } from 'material-ui/Table'
 import { DataManagementShapes } from '@regardsoss/shape'
-import { RenderTextField, RenderCheckbox, Field } from '@regardsoss/form-utils'
-import { ShowableAtRender } from '@regardsoss/components'
+import { RenderTextField, RenderSelectField, RenderFileField, RenderCheckbox, Field, ErrorTypes, ValidationHelpers } from '@regardsoss/form-utils'
+import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { getFullQualifiedAttributeName, MODEL_ATTR_TYPES } from '@regardsoss/domain/dam'
@@ -17,7 +17,6 @@ import { getFullQualifiedAttributeName, MODEL_ATTR_TYPES } from '@regardsoss/dom
 export class EntitiesAttributeFormComponent extends React.Component {
 
   static propTypes = {
-    // TODO dataset or collection
     modelAttribute: DataManagementShapes.ModelAttribute,
   }
 
@@ -56,30 +55,45 @@ export class EntitiesAttributeFormComponent extends React.Component {
 
   getFieldTextField = (modelAttribute, type) => (
     <Field
-      name={`properties.${modelAttribute.content.attribute.name}`}
+      name={`properties.${modelAttribute.content.attribute.fragment.name}.${modelAttribute.content.attribute.name}`}
       fullWidth
       component={RenderTextField}
       type={type}
-      label={this.context.intl.formatMessage({ id: 'dataset.form.table.input' })}
+      label={this.context.intl.formatMessage({ id: 'entities-attributes.form.table.input' })}
       validate={this.getRestriction(modelAttribute)}
     />
   )
 
   getFieldCheckbox = modelAttribute => (
     <Field
-      name={`properties.${modelAttribute.content.attribute.name}`}
+      name={`properties.${modelAttribute.content.attribute.fragment.name}.${modelAttribute.content.attribute.name}`}
       component={RenderCheckbox}
     />
   )
 
-  getRestriction = modelAttribute => []
+  getRestriction = (modelAttribute) => {
+    if (!modelAttribute.optional) {
+      return [ValidationHelpers.string, ValidationHelpers.required]
+    }
+    return []
+  }
+
+  showStarIfInputRequired = (modelAttribute) => {
+    if (!modelAttribute.optional) {
+      return '*'
+    }
+    return null
+  }
 
   render() {
     const { modelAttribute } = this.props
     console.log(modelAttribute)
     return (
       <TableRow>
-        <TableRowColumn>{getFullQualifiedAttributeName(modelAttribute.content.attribute)}</TableRowColumn>
+        <TableRowColumn>
+          {getFullQualifiedAttributeName(modelAttribute.content.attribute)}
+          {this.showStarIfInputRequired(modelAttribute.content.attribute)}
+        </TableRowColumn>
         <TableRowColumn>{modelAttribute.content.attribute.type}</TableRowColumn>
         <TableRowColumn>
           <ShowableAtRender show={!has(modelAttribute.content, 'computationConf')}>

@@ -16,9 +16,7 @@ import EntitiesAttributeFormComponent from './EntitiesAttributeFormComponent'
 export class EntitiesAttributesFormComponent extends React.Component {
 
   static propTypes = {
-    // TODO dataset or collection
     modelAttributeList: DataManagementShapes.ModelAttributeList,
-    isDisplayAttributeValue: PropTypes.bool.isRequired,
   }
 
   static contextTypes = {
@@ -27,37 +25,35 @@ export class EntitiesAttributesFormComponent extends React.Component {
   }
 
   render() {
-    const { modelAttributeList, isDisplayAttributeValue } = this.props
+    const { modelAttributeList } = this.props
     return (
-      <ShowableAtRender show={isDisplayAttributeValue}>
-        <Table
-          selectable={false}
+      <Table
+        selectable={false}
+      >
+        <TableHeader
+          enableSelectAll={false}
+          adjustForCheckbox={false}
+          displaySelectAll={false}
         >
-          <TableHeader
-            enableSelectAll={false}
-            adjustForCheckbox={false}
-            displaySelectAll={false}
-          >
-            <TableRow>
-              <TableHeaderColumn><FormattedMessage id="dataset.form.table.fragmentAndLabel" /></TableHeaderColumn>
-              <TableHeaderColumn><FormattedMessage id="dataset.form.table.type" /></TableHeaderColumn>
-              <TableHeaderColumn><FormattedMessage id="dataset.form.table.value" /></TableHeaderColumn>
-            </TableRow>
-          </TableHeader>
-          <TableBody
-            displayRowCheckbox={false}
-            preScanRows={false}
-            showRowHover
-          >
-            {map(modelAttributeList, (modelAttribute, id) => (
-              <EntitiesAttributeFormComponent
-                key={id}
-                modelAttribute={modelAttribute}
-              />
-            ))}
-          </TableBody>
-        </Table>
-      </ShowableAtRender>
+          <TableRow>
+            <TableHeaderColumn><FormattedMessage id="entities-attributes.form.table.fragmentAndLabel" /></TableHeaderColumn>
+            <TableHeaderColumn><FormattedMessage id="entities-attributes.form.table.type" /></TableHeaderColumn>
+            <TableHeaderColumn><FormattedMessage id="entities-attributes.form.table.value" /></TableHeaderColumn>
+          </TableRow>
+        </TableHeader>
+        <TableBody
+          displayRowCheckbox={false}
+          preScanRows={false}
+          showRowHover
+        >
+          {map(modelAttributeList, (modelAttribute, id) => (
+            <EntitiesAttributeFormComponent
+              key={id}
+              modelAttribute={modelAttribute}
+            />
+          ))}
+        </TableBody>
+      </Table>
     )
   }
 }

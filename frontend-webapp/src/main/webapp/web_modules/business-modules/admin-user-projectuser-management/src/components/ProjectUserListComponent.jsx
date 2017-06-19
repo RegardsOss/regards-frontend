@@ -15,7 +15,9 @@ import Delete from 'material-ui/svg-icons/action/delete'
 import Done from 'material-ui/svg-icons/action/done'
 import RemoveCircle from 'material-ui/svg-icons/content/remove-circle'
 import { ProjectUser } from '@regardsoss/model'
-import { ActionsMenuCell, CardActionsComponent, NoContentMessageInfo, ConfirmDialogComponent, ShowableAtRender } from '@regardsoss/components'
+import {
+  ActionsMenuCell, CardActionsComponent, NoContentMessageInfo, ConfirmDialogComponent, ShowableAtRender,
+} from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { projectUserActions } from '../clients/ProjectUserClient'
@@ -26,6 +28,7 @@ import { projectUserActions } from '../clients/ProjectUserClient'
 const status = {
   accessGranted: 'ACCESS_GRANTED',
   waitingAccess: 'WAITING_ACCESS',
+  waitingEmailVerification: 'WAITING_EMAIL_VERIFICATION',
   accesDenied: 'ACCESS_DENIED',
   inactive: 'ACCESS_INACTIVE',
 }
@@ -185,7 +188,7 @@ export class ProjectUserListComponent extends React.Component {
             <CardTitle subtitle={<FormattedMessage id={tabContent.tabSubtitleKey} />} />
             <CardText>
               <LoadableContentDisplayDecorator isLoading={initialFecthing}>
-                <Table selectable={false} >
+                <Table selectable={false}>
                   <TableHeader
                     adjustForCheckbox={false}
                     displaySelectAll={false}

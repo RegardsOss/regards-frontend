@@ -9,6 +9,7 @@ const messages = {
   'projectUser.list.table.status': 'Statut',
   'projectUser.list.table.status.label.WAITING_ACCOUNT_ACTIVE': 'En attente de validation d\'instance',
   'projectUser.list.table.status.label.WAITING_ACCESS': 'En attente d\'accès au projet',
+  'projectUser.list.table.status.label.WAITING_EMAIL_VERIFICATION': 'En attente de vérification de l`email',
   'projectUser.list.table.status.label.ACCESS_GRANTED': 'Accès accordé',
   'projectUser.list.table.status.label.ACCESS_DENIED': 'Accès refusé',
   'projectUser.list.table.status.label.ACCESS_INACTIVE': 'Inactif',

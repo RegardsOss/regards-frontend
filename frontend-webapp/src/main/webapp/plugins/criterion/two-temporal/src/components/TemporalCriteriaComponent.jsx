@@ -80,6 +80,11 @@ export class TemporalCriteriaComponent extends React.Component {
     comparator: EnumTemporalComparator.EQ,
   }
 
+  static textStyle = {
+    margin: '0px 10px',
+    fontSize: '1.3em',
+  }
+
   /**
    * Callback function that is fired when the date value changes.
    *
@@ -126,10 +131,7 @@ export class TemporalCriteriaComponent extends React.Component {
     // Store the content in an array because we need to maybe reverse to order
     const content = []
     if (!hideAttributeName) {
-      content.push(<span key="label" style={{
-        margin: '0px 10px',
-        fontSize: '1.3em',
-      }}>{label}</span>)
+      content.push(<span key="label" style={TemporalCriteriaComponent.textStyle}>{label}</span>)
     }
     if (!hideComparator) {
       content.push(

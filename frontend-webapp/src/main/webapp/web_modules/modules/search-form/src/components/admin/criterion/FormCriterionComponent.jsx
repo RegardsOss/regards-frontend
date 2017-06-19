@@ -53,37 +53,6 @@ class FormCriterionComponent extends React.Component {
     criteriaViewOpened: false,
   }
 
-  getCriteriaAttributes = (criteria) => {
-    const attributes = get(criteria, 'conf.attributes')
-    if (!attributes) {
-      return ''
-    }
-    return reduce(attributes, (result, attribute) => {
-      const attrLabel = get(this.props.selectableAttributes[attribute], 'content.label') || attribute
-      if (result !== '') {
-        return `${result} - ${attrLabel}`
-      }
-      return attrLabel
-    }, '')
-  }
-
-  /**
-   * Update redux-form conf property for criterion.
-   *
-   * @param criteria
-   */
-  updateCriterion = (criteria) => {
-    let criterion = []
-    if (this.state.criteriaToEdit) {
-      criterion = concat([], this.props.criterion)
-      criterion[this.state.criteriaToEdit.idx] = criteria
-    } else {
-      criterion = this.props.criterion ? concat(this.props.criterion, criteria) : [criteria]
-    }
-    this.props.changeField('conf.criterion', criterion)
-    this.closeCriteriaView()
-  }
-
   /**
    * Handle action to open a new criteria edition form
    */
@@ -103,6 +72,23 @@ class FormCriterionComponent extends React.Component {
     })
   }
 
+
+  /**
+   * Update redux-form conf property for criterion.
+   *
+   * @param criteria
+   */
+  updateCriterion = (criteria) => {
+    let criterion = []
+    if (this.state.criteriaToEdit) {
+      criterion = concat([], this.props.criterion)
+      criterion[this.state.criteriaToEdit.idx] = criteria
+    } else {
+      criterion = this.props.criterion ? concat(this.props.criterion, criteria) : [criteria]
+    }
+    this.props.changeField('conf.criterion', criterion)
+    this.closeCriteriaView()
+  }
 
   /**
    * Handle action to edit a criteria

@@ -115,6 +115,7 @@ export class UserApp extends React.Component {
           <div>
             <ProjectHandler
               projectName={this.props.params.project}
+              title="Data center"
             />
             {this.renderLayout(values(this.props.modules))}
             <ApplicationErrorContainer />

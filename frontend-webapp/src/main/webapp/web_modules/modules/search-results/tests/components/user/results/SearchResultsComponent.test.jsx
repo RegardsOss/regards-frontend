@@ -9,6 +9,7 @@ import DisplayModeEnum from '../../../../src/models/navigation/DisplayModeEnum'
 import { searchDataobjectsActions, searchDatasetsActions } from '../../../../src/clients/SearchEntitiesClient'
 import SearchResultsComponent from '../../../../src/components/user/results/SearchResultsComponent'
 import Styles from '../../../../src/styles/styles'
+import DisplayModeEnum from '../../../../src/models/navigation/DisplayModeEnum'
 
 
 /**

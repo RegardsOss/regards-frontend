@@ -8,12 +8,8 @@ import remove from 'lodash/remove'
 import transform from 'lodash/transform'
 import values from 'lodash/values'
 import Divider from 'material-ui/Divider'
-import {
-  AttributeModel,
-  AttributeConfiguration,
-  AttributeConfigurationController,
-  AttributesRegroupementConfiguration,
-} from '@regardsoss/model'
+import { AccessDomain } from '@regardsoss/domain'
+import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import { ShowableAtRender } from '@regardsoss/components'
 import StandardAttributesConfigurationComponent from './StandardAttributesConfigurationComponent'
 import DynamicAttributesConfigurationComponent from './DynamicAttributesConfigurationComponent'
@@ -28,13 +24,13 @@ class MainAttributesConfigurationComponent extends React.Component {
 
   static propTypes = {
     // Available Attributes for configuration
-    selectableAttributes: PropTypes.objectOf(AttributeModel).isRequired,
+    selectableAttributes: DataManagementShapes.AttributeModelList.isRequired,
     // Initial configuration of the current module
-    defaultAttributesConf: PropTypes.arrayOf(AttributeConfiguration),
-    defaultAttributesRegroupementsConf: PropTypes.arrayOf(AttributesRegroupementConfiguration),
+    defaultAttributesConf: PropTypes.arrayOf(AccessShapes.AttributeConfigurationContent),
+    defaultAttributesRegroupementsConf: PropTypes.arrayOf(AccessShapes.AttributesGroupConfigurationContent),
     // Current configuration
-    attributesConf: PropTypes.arrayOf(AttributeConfiguration),
-    attributesRegroupementsConf: PropTypes.arrayOf(AttributesRegroupementConfiguration),
+    attributesConf: PropTypes.arrayOf(AccessShapes.AttributeConfigurationContent),
+    attributesRegroupementsConf: PropTypes.arrayOf(AccessShapes.AttributesGroupConfigurationContent),
     // shold allow facettes configuration?
     allowFacettes: PropTypes.bool.isRequired,
     // should allow attributes regroupement configuration?
@@ -156,7 +152,7 @@ class MainAttributesConfigurationComponent extends React.Component {
     // Remove attribute configuration for unavailable attributes
     const updatedAttributesConf = concat([], attributesConf)
     remove(updatedAttributesConf,
-      attributeConf => !AttributeConfigurationController.findAttributeConf(values(this.props.selectableAttributes), attributeConf),
+      attributeConf => !AccessDomain.AttributeConfigurationController.findAttributeConf(values(this.props.selectableAttributes), attributeConf),
     )
     return updatedAttributesConf
   }

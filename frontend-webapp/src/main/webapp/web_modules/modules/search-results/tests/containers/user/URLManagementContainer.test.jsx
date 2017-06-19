@@ -6,6 +6,7 @@ import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { SearchResultsTargetsEnum } from '@regardsoss/model'
 import NavigationLevel from '../../../src/models/navigation/NavigationLevel'
+import DisplayModeEnum from '../../../src/models/navigation/DisplayModeEnum'
 import { URLManagementContainer } from '../../../src/containers/user/URLManagementContainer'
 
 const context = buildTestContext()
@@ -42,14 +43,17 @@ describe('[Search Results] Testing URLManagementContainer', () => {
     const props = {
       initialContextLabel: 'any',
       initialViewObjectType: SearchResultsTargetsEnum.DATAOBJECT_RESULTS,
+      initialDisplayMode: DisplayModeEnum.LIST,
       currentPath: 'hello/world',
       currentQuery: { ds: 'ip1', tag: 'find:cookies', t: SearchResultsTargetsEnum.DATASET_RESULTS },
       viewObjectType: SearchResultsTargetsEnum.DATAOBJECT_RESULTS,
       displayDatasets: true,
+      displayMode: DisplayModeEnum.LIST,
       levels: [], // not initialized here, no need
-      initialize: (viewObjectType, rootContextLabel, searchTag, dataset) => {
+      initialize: (viewObjectType, displayMode, rootContextLabel, searchTag, dataset) => {
         spiedInit.called = true
         spiedInit.viewObjectType = viewObjectType
+        spiedInit.displayMode = displayMode
         spiedInit.rootContextLabel = rootContextLabel
         spiedInit.searchTag = searchTag
         spiedInit.dataset = dataset
@@ -81,14 +85,17 @@ describe('[Search Results] Testing URLManagementContainer', () => {
     const props = {
       initialContextLabel: 'any',
       initialViewObjectType: SearchResultsTargetsEnum.DATAOBJECT_RESULTS,
+      initialDisplayMode: DisplayModeEnum.LIST,
       currentPath: 'hello/world',
       currentQuery: { ds: 'ip1', tag: 'find:cookies', t: SearchResultsTargetsEnum.DATASET_RESULTS },
       viewObjectType: SearchResultsTargetsEnum.DATAOBJECT_RESULTS,
       displayDatasets: false,
+      displayMode: DisplayModeEnum.LIST,
       levels: [], // not initialized here, no need
-      initialize: (viewObjectType, rootContextLabel, searchTag, dataset) => {
+      initialize: (viewObjectType, displayMode, rootContextLabel, searchTag, dataset) => {
         spiedInit.called = true
         spiedInit.viewObjectType = viewObjectType
+        spiedInit.displayMode = displayMode
         spiedInit.rootContextLabel = rootContextLabel
         spiedInit.searchTag = searchTag
         spiedInit.dataset = dataset
@@ -119,12 +126,14 @@ describe('[Search Results] Testing URLManagementContainer', () => {
     const props = {
       initialContextLabel: 'any',
       initialViewObjectType: SearchResultsTargetsEnum.DATAOBJECT_RESULTS,
+      initialDisplayMode: DisplayModeEnum.LIST,
       currentPath: 'hello/world',
       currentQuery: { ds: 'ip1', tag: 'find:cookies', t: SearchResultsTargetsEnum.DATASET_RESULTS },
       viewObjectType: SearchResultsTargetsEnum.DATAOBJECT_RESULTS,
       displayDatasets: true,
+      displayMode: DisplayModeEnum.LIST,
       levels: [], // not initialized here, no need
-      initialize: (viewObjectType, rootContextLabel, searchTag, dataset) => {
+      initialize: (viewObjectType, displayMode, rootContextLabel, searchTag, dataset) => {
         spiedInit.called = true
       },
       dispatchFetchDataset,
@@ -166,14 +175,17 @@ describe('[Search Results] Testing URLManagementContainer', () => {
     const props = {
       initialContextLabel: 'any',
       initialViewObjectType: SearchResultsTargetsEnum.DATAOBJECT_RESULTS,
+      initialDisplayMode: DisplayModeEnum.LIST,
       currentPath: 'hello/world',
       currentQuery: {},
       viewObjectType: SearchResultsTargetsEnum.DATAOBJECT_RESULTS,
+      displayMode: DisplayModeEnum.LIST,
       levels: [], // not initialized here, no need
       displayDatasets: true,
-      initialize: (viewObjectType, rootContextLabel, searchTag, dataset) => {
+      initialize: (viewObjectType, displayMode, rootContextLabel, searchTag, dataset) => {
         spiedInit.called = true
         spiedInit.viewObjectType = viewObjectType
+        spiedInit.displayMode = displayMode
         spiedInit.rootContextLabel = rootContextLabel
         spiedInit.searchTag = searchTag
         spiedInit.dataset = dataset

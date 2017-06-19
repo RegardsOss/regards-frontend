@@ -81,12 +81,5 @@ module.exports = {
     // Makes a module available as a variable in every module
     new webpack.ProvidePlugin({ React: 'react' }),
     new webpack.BannerPlugin('Copyright CNES'),
-    // Define environment variables
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify('production'),
-      },
-      GATEWAY_HOSTNAME: JSON.stringify('http://172.26.47.52:8000'),
-    }),
   ],
 }

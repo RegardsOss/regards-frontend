@@ -10,6 +10,7 @@ import { Collection, Model, ModelAttribute, EntityController } from '@regardsoss
 import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { unregisterField } from 'redux-form'
+import { extractParametersFromFormValues } from '@regardsoss/admin-data-entities-attributes-management'
 import { getAbstractEntityDescription } from '@regardsoss/domain/dam'
 import { collectionActions, collectionSelectors } from '../clients/CollectionClient'
 import CollectionFormComponent from '../components/CollectionFormComponent'
@@ -82,13 +83,16 @@ export class CollectionFormContainer extends React.Component {
   }
 
   handleUpdate = (values) => {
-    const properties = this.extractParametersFromValues(values)
+    const properties = extractParametersFromFormValues(values, this.props.modelAttributeList)
     const descriptionFile = getAbstractEntityDescription(values.descriptionFileContent, values.descriptionUrl)
     const updatedCollection = Object.assign({}, this.props.currentCollection.content, {
       label: values.label,
-      descriptionFile,
       properties,
     })
+    // Update the descriptionFile object if the user changed that value
+    if (descriptionFile) {
+      updatedCollection.descriptionFile = descriptionFile
+    }
     const files = {}
     if (values.descriptionFileContent) {
       files.file = values.descriptionFileContent
@@ -105,28 +109,6 @@ export class CollectionFormContainer extends React.Component {
       })
   }
 
-  /**
-   * Retrieve model attributes values from form values
-   * and returns the value of collection "parameters" sendeable to the API
-   * @param values
-   * @returns {{}}
-   */
-  extractParametersFromValues = (values) => {
-    const result = {}
-    forEach(values.parameters, (attrValue, attrName) => {
-      const modelAttr = find(this.props.modelAttributeList, modelAttribute => modelAttribute.content.attribute.name === attrName)
-      const fragment = modelAttr.content.attribute.fragment
-      if (fragment.name !== fragmentSelectors.noneFragmentName) {
-        if (!result[fragment.name]) {
-          result[fragment.name] = {}
-        }
-        result[fragment.name][attrName] = attrValue
-      } else {
-        result[attrName] = attrValue
-      }
-    })
-    return result
-  }
 
   extractCollectionFromActionResult = actionResult => actionResult.payload.entities.collection[keys(actionResult.payload.entities.collection)[0]].content
 
@@ -137,7 +119,7 @@ export class CollectionFormContainer extends React.Component {
    */
   handleCreate = (values) => {
     const model = this.props.modelList[values.model].content
-    const properties = this.extractParametersFromValues(values)
+    const properties = extractParametersFromFormValues(values, this.props.modelAttributeList)
     const defaultValues = {}
     if (this.state.isDuplicating) {
       defaultValues.tags = this.props.currentCollection.content.tags
@@ -176,7 +158,7 @@ export class CollectionFormContainer extends React.Component {
   handleUpdateModel = (modelId) => {
     // Remove any value defined in the current form if modelAttributeList existed
     forEach(this.props.modelAttributeList, (modelAttribute) => {
-      this.props.unregisterField('collection-form', `parameters.${modelAttribute.content.attribute.name}`)
+      this.props.unregisterField('collection-form', `properties.${modelAttribute.content.attribute.fragment.name}.${modelAttribute.content.attribute.name}`)
     })
     this.props.fetchModelAttributeList(modelId)
   }

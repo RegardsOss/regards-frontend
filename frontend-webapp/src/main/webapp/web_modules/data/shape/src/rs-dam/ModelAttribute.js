@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { ModelContent } from './Model'
 import { AttributeModelContent } from './AttributeModel'
 import { PluginConfigurationContent } from './../rs-common/Plugin/PluginConfiguration'

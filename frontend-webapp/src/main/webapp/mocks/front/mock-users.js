@@ -5,7 +5,6 @@ const _ = require('lodash')
 
 const { JSON_CONTENT_TYPE, logMessage, makePageResult, copyFile, loadJSONModelFile, writeJSONModelFile } = require('./mock-front-utils')
 
-
 const getAllLinks = () => [
   {
     rel: 'self',
@@ -49,48 +48,83 @@ const authenticate = (login, password, scope) => {
   const loginUser = users[login]
   if (!loginUser || password !== loginUser.password) {
     // unknown account or wrong password
-    return { content: { error: 'ACCOUNT_UNKNOWN' }, contentType: JSON_CONTENT_TYPE, code: 403 }
+    return {
+      content: { error: 'ACCOUNT_UNKNOWN' },
+      contentType: JSON_CONTENT_TYPE,
+      code: 403
+    }
   }
   // no check if there is any  error with account / user state
   switch (loginUser.status) {
     case 'PENDING':
-      return { content: { error: 'ACCOUNT_PENDING' }, contentType: JSON_CONTENT_TYPE, code: 403 }
+      return {
+        content: { error: 'ACCOUNT_PENDING' },
+        contentType: JSON_CONTENT_TYPE,
+        code: 403
+      }
     case 'ACCEPTED':
-      return { content: { error: 'ACCOUNT_ACCEPTED' }, contentType: JSON_CONTENT_TYPE, code: 403 }
+      return {
+        content: { error: 'ACCOUNT_ACCEPTED' },
+        contentType: JSON_CONTENT_TYPE,
+        code: 403
+      }
     case 'INACTIVE':
-      return { content: { error: 'ACCOUNT_INACTIVE' }, contentType: JSON_CONTENT_TYPE, code: 403 }
+      return {
+        content: { error: 'ACCOUNT_INACTIVE' },
+        contentType: JSON_CONTENT_TYPE,
+        code: 403
+      }
     case 'LOCKED':
-      return { content: { error: 'ACCOUNT_LOCKED' }, contentType: JSON_CONTENT_TYPE, code: 403 }
+      return {
+        content: { error: 'ACCOUNT_LOCKED' },
+        contentType: JSON_CONTENT_TYPE,
+        code: 403
+      }
     case 'ACTIVE':
       // check user state on project
       if (!loginUser[scope.toLowerCase()]) {
-        return { content: { error: 'USER_UNKNOWN' }, contentType: JSON_CONTENT_TYPE, code: 403 }
+        return {
+          content: { error: 'USER_UNKNOWN' },
+          contentType: JSON_CONTENT_TYPE,
+          code: 403
+        }
       }
       switch (loginUser[scope.toLowerCase()].status) {
         case 'WAITING_ACCESS':
-          return { content: { error: 'USER_WAITING_ACCESS' }, contentType: JSON_CONTENT_TYPE, code: 403 }
-        case 'ACCESS_DENIED':
-          return { content: { error: 'USER_ACCESS_DENIED' }, contentType: JSON_CONTENT_TYPE, code: 403 }
-        case 'ACCESS_INACTIVE':
-          return { content: { error: 'USER_ACCESS_INACTIVE' }, contentType: JSON_CONTENT_TYPE, code: 403 }
-        case 'ACCESS_GRANTED':
-          {
-            const newLoggedUser = {
-              project: scope,
-              scope,
-              sub: login,
-              role: loginUser[scope.toLowerCase()].role.name,
-              access_token: usersLogged.length.toString(),
-              token_type: 'bearer',
-              expires_in: 3600,
-              jti: '4de300d8-7880-483c-aba8-fc4560b961b1',
-            }
-            usersLogged.push(newLoggedUser)
-            return {
-              contentType: JSON_CONTENT_TYPE,
-              content: newLoggedUser,
-            }
+          return {
+            content: { error: 'USER_WAITING_ACCESS' },
+            contentType: JSON_CONTENT_TYPE,
+            code: 403
           }
+        case 'ACCESS_DENIED':
+          return {
+            content: { error: 'USER_ACCESS_DENIED' },
+            contentType: JSON_CONTENT_TYPE,
+            code: 403
+          }
+        case 'ACCESS_INACTIVE':
+          return {
+            content: { error: 'USER_ACCESS_INACTIVE' },
+            contentType: JSON_CONTENT_TYPE,
+            code: 403
+          }
+        case 'ACCESS_GRANTED': {
+          const newLoggedUser = {
+            project: scope,
+            scope,
+            sub: login,
+            role: loginUser[scope.toLowerCase()].role.name,
+            access_token: usersLogged.length.toString(),
+            token_type: 'bearer',
+            expires_in: 3600,
+            jti: '4de300d8-7880-483c-aba8-fc4560b961b1',
+          }
+          usersLogged.push(newLoggedUser)
+          return {
+            contentType: JSON_CONTENT_TYPE,
+            content: newLoggedUser,
+          }
+        }
         default:
           return { code: 500 }
       }
@@ -100,7 +134,6 @@ const authenticate = (login, password, scope) => {
 }
 
 const accountRequestValidToken = '123456'
-
 
 const mockSendMail = (logSubheader, email, requestLink, originUrl, token = accountRequestValidToken) => {
   logMessage(`Request acknowledged, back URL:
@@ -174,17 +207,21 @@ const doWithAuthData = (request, callback) => {
 const getAccountList = (filterStatus) => {
   const correspondingAccounts = _.pickBy(loadUsersPool(), u => !filterStatus || u.status === filterStatus)
   return makePageResult(correspondingAccounts, ({ id, lastName, firstName, status }, email) => ({
-    content: { id, lastName, email, firstName, status },
+    content: {
+      id,
+      lastName,
+      email,
+      firstName,
+      status
+    },
     links: getAllLinks(),
   }))
 }
-
 
 /**
  * Returns scope users, can filter with status (optional)
  */
 const getScopeUsers = (users, scope, status) => _.pickBy(users, u => u[scope] && (!status || u[scope].status === status))
-
 
 const getUsersList = (request, { status }, pathParameters) => {
   // convert account / users in scope
@@ -242,20 +279,20 @@ module.exports = {
         contentType: JSON_CONTENT_TYPE
       }),
     },
-    // complete create account (validate)
-    validateAccount: {
-      url: 'rs-admin/accesses/validateAccount/{token}',
+    // Perform email verification
+    verifyEmail: {
+      url: 'rs-admin/accesses/verifyEmail/{token}',
       handler: (request, query, { token }) => {
         const userLogin = validationTokensPool[token]
         if (userLogin) {
           delete validationTokensPool[token]
           const users = loadUsersPool()
-          logMessage('Account validation OK ', false, '>Validate account')
+          logMessage('Email verification OK ', false, '>Email verification')
           users[userLogin].status = 'ACTIVE'
           writeUsersPool(users)
           return { code: 201 }
         }
-        logMessage('Account validation: token NOK ', true, '>Validate account')
+        logMessage('Email verification: token NOK ', true, '>Email verification')
         return { code: 403 }
       },
     },
@@ -279,7 +316,10 @@ module.exports = {
           return [findRole(parentRole.name)].concat(makeAllRoles(parentRole.parentRole))
         }
         const borrowableRoles = [currentRoleData].concat(makeAllRoles(currentRoleData.content.parentRole))
-        return { content: borrowableRoles, contentType: JSON_CONTENT_TYPE }
+        return {
+          content: borrowableRoles,
+          contentType: JSON_CONTENT_TYPE
+        }
       })
       ,
     },
@@ -336,10 +376,16 @@ module.exports = {
       handler: (request, query, pathParameters, bodyParameters) => doAskOnAccount('>Ask unlock account', pathParameters, bodyParameters,
         (user) => {
           if (!user) {
-            return { code: 404, errorMessage: 'Unknown user' }
+            return {
+              code: 404,
+              errorMessage: 'Unknown user'
+            }
           }
           if (user.status !== 'LOCKED') {
-            return { code: 403, errorMessage: 'User not locked' }
+            return {
+              code: 403,
+              errorMessage: 'User not locked'
+            }
           }
           // nothing to do
           return { code: 204 }
@@ -351,7 +397,10 @@ module.exports = {
       handler: (request, query, pathParameters, bodyParameters) => doAskOnAccount('>Ask reset password', pathParameters, bodyParameters,
         (user) => {
           if (!user) {
-            return { code: 404, errorMessage: 'Unknown user' }
+            return {
+              code: 404,
+              errorMessage: 'Unknown user'
+            }
           }
           // nothing to do
           return { code: 204 }
