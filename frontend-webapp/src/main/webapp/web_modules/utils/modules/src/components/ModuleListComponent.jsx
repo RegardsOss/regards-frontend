@@ -8,6 +8,7 @@ import sortBy from 'lodash/sortBy'
 import get from 'lodash/get'
 import Drawer from 'material-ui/Drawer'
 import { List, ListItem } from 'material-ui/List'
+import GoToIcon from 'material-ui/svg-icons/action/input'
 import Divider from 'material-ui/Divider'
 import Subheader from 'material-ui/Subheader'
 import { browserHistory } from 'react-router'
@@ -66,7 +67,9 @@ class ModuleListComponent extends React.Component {
   getSectionLabel = (section) => {
     const id = `section.${section}`
     const label = this.context.intl.formatMessage({ id })
-    return label !== id ? label : section
+    return(
+      <div style={{marginRight: 20}}>{label !== id ? label : section}</div>
+    )
   }
 
   renderModule = (module, key) => {
@@ -85,7 +88,12 @@ class ModuleListComponent extends React.Component {
             >
               <ListItem
                 key={key}
-                primaryText={module.content.description}
+                leftIcon={<GoToIcon />}
+                primaryText={
+                  <div style={{marginRight: 20}}>
+                    {module.content.description}
+                  </div>
+                }
                 onTouchTap={() => that.onModuleSelection(module)}
               />
             </HateoasDisplayDecorator>
@@ -115,7 +123,7 @@ class ModuleListComponent extends React.Component {
       <Drawer
         open={this.props.open}
         docked={false}
-        width={200}
+        width={300}
         openSecondary
         onRequestChange={this.props.onCloseMenu}
       >
