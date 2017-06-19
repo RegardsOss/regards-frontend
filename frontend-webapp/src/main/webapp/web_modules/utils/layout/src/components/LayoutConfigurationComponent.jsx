@@ -20,6 +20,7 @@ class LayoutConfigurationComponent extends React.Component {
 
   static propTypes = {
     layout: Layout,
+    hideDynamicContentOption: PropTypes.bool,
     project: PropTypes.string,
     onChange: PropTypes.func,
   }
@@ -125,6 +126,7 @@ class LayoutConfigurationComponent extends React.Component {
           <ContainerConfigurationProvider
             key={this.state.containerToEdit ? this.state.containerToEdit.id : 'create'}
             container={this.state.containerToEdit}
+            hideDynamicContentOption={this.props.hideDynamicContentOption}
             onCancel={this.handleClose}
             onSubmit={this.state.containerToEdit ? this.onUpdate : this.onCreate}
           />
