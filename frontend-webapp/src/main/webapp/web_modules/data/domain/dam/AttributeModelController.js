@@ -35,8 +35,8 @@ const findLabelFromAttributeFullyQualifiedName = (attributeFullyQualifiedName, a
   // []
   // content >> fragment >> name ("default" for example)
   // content >> name
-  const [searchedFragmentName, searchAttributeName] = attributeFullyQualifiedName.split('.').map(a => a.toLowerCase())
-  const foundAttribute = findAttribute(searchAttributeName, searchedFragmentName, attributeModels)
+  console.error("FIND",attributeFullyQualifiedName,attributeModels)
+  const foundAttribute = find(attributeModels, ({content : {jsonPath}}) => jsonPath === attributeFullyQualifiedName)
   return foundAttribute ? foundAttribute.content.label : attributeFullyQualifiedName
 }
 

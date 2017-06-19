@@ -134,19 +134,18 @@ export class TwoTemporalCriteriaSimpleComponent extends PluginComponent {
           style={{
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center',
             flexWrap: 'wrap',
           }}
         >
           <TemporalCriteriaComponent
-            label={'firstField'}
+            label={this.getAttributeLabel('firstField')}
             comparator={operator1}
             value={firstField}
             onChange={this.changeValue1}
           />
           <FormattedMessage id="criterion.aggregator.and"/>
           <TemporalCriteriaComponent
-            label={'secondField'}
+            label={this.getAttributeLabel('secondField')}
             comparator={operator2}
             value={secondField}
             onChange={this.changeValue2}

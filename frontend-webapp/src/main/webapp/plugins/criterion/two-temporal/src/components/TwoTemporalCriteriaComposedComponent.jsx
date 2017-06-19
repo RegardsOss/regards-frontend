@@ -89,7 +89,6 @@ export class TwoTemporalCriteriaComposedComponent extends PluginComponent {
           style={{
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center',
             flexWrap: 'wrap',
           }}
         >
@@ -97,7 +96,7 @@ export class TwoTemporalCriteriaComposedComponent extends PluginComponent {
             <FormattedMessage id="criterion.aggregator.between"/>
           </span>
           <TemporalCriteriaComponent
-            label={'firstField'}
+            label={this.getAttributeLabel('firstField')}
             comparator={EnumTemporalComparator.GE}
             value={firstField}
             onChange={this.changeValue1}
@@ -106,7 +105,7 @@ export class TwoTemporalCriteriaComposedComponent extends PluginComponent {
           />
           <FormattedMessage id="criterion.aggregator.and"/>
           <TemporalCriteriaComponent
-            label={'firstField'}
+            label={this.getAttributeLabel('secondField')}
             comparator={EnumTemporalComparator.LE}
             value={secondField}
             onChange={this.changeValue2}

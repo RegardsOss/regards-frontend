@@ -89,7 +89,7 @@ class AttributeConfigurationComponent extends React.Component {
   formatOrder = value => value ? parseInt(value, this) : undefined
 
   render() {
-    const { allowFacettes, filter = '', attribute: { content: { label, description } } } = this.props
+    const { allowFacettes, filter = '', attribute: { content: { label, description, fragment } } } = this.props
     const display = !filter.length || label.match(new RegExp(`^${this.props.filter}.*$`, 'i'))
 
     const cardStyle = { width: 300, margin: 5 }
@@ -103,6 +103,9 @@ class AttributeConfigurationComponent extends React.Component {
     const visibilityOnIcon = <Visibility />
     const searchOnIcon = <Search />
     const searchOffIcon = <Locked />
+
+    const title = fragment && fragment.name
+
     return (
       <ShowableAtRender
         show={display}
