@@ -48,7 +48,7 @@ const messages = {
   // ask project access form
   'ask.project.access.request.title': 'Demander un accès projet',
   'ask.project.access.request.message': 'Veuillez renseigner ci-dessous vos données personnelles pour obtenir un accès au projet ou renseigner l\'adresse email de votre compte REGARDS si vous en avez déjà un. {passwordRules}',
-  'ask.project.access.using.existing.account': 'J\'ai déjà un compte utilisateur REGARDS',
+  'ask.project.access.using.existing.account': 'J\'ai déjà accès à un autre projet',
   'ask.project.access.mail': 'Adresse e-mail',
   'ask.project.access.first.name': 'Prénom',
   'ask.project.access.last.name': 'Nom',
