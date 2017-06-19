@@ -19,6 +19,9 @@ describe('[ADMIN DATASET MANAGEMENT] Testing DatasetStepperComponent', () => {
   it('Render properly', () => {
     const props = {
       stepIndex: 1,
+      currentDatasetIpId: 'URN:AIP:DATASET:project1:40b703e9-e463-4821-8c4b-f77e2f7be8b6:V1',
+      currentDatasetId: '503',
+      projectName: 'project1',
     }
     const enzymeWrapper = shallow(<DatasetStepperContainer {...props} />, { context })
     expect(enzymeWrapper.find(Stepper)).to.have.length(1)

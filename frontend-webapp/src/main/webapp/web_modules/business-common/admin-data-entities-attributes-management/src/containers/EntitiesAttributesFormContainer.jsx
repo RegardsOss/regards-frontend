@@ -1,20 +1,10 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import map from 'lodash/map'
-import has from 'lodash/has'
-import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
-import { FormattedMessage } from 'react-intl'
 import { DataManagementShapes } from '@regardsoss/shape'
-import { RenderTextField, RenderSelectField, RenderFileField, Field, ErrorTypes } from '@regardsoss/form-utils'
-import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
+import { ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
-import { i18nContextType } from '@regardsoss/i18n'
-import { I18nProvider } from '@regardsoss/i18n'
-import MenuItem from 'material-ui/MenuItem'
-import SelectField from 'material-ui/SelectField'
-import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
-import { getFullQualifiedAttributeName } from '@regardsoss/domain/dam'
+import { i18nContextType, I18nProvider } from '@regardsoss/i18n'
 import EntitiesAttributesFormComponent from '../components/EntitiesAttributesFormComponent'
 
 /**

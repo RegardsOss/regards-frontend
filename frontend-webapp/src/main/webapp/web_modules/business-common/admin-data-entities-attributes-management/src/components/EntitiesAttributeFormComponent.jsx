@@ -4,8 +4,8 @@
 import has from 'lodash/has'
 import { TableRow, TableRowColumn } from 'material-ui/Table'
 import { DataManagementShapes } from '@regardsoss/shape'
-import { RenderTextField, RenderSelectField, RenderFileField, RenderCheckbox, Field, ErrorTypes, ValidationHelpers } from '@regardsoss/form-utils'
-import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
+import { RenderTextField, RenderCheckbox, Field, ValidationHelpers } from '@regardsoss/form-utils'
+import { ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { getFullQualifiedAttributeName, MODEL_ATTR_TYPES } from '@regardsoss/domain/dam'
@@ -72,15 +72,39 @@ export class EntitiesAttributeFormComponent extends React.Component {
   )
 
   getRestriction = (modelAttribute) => {
-    if (!modelAttribute.optional) {
-      return [ValidationHelpers.string, ValidationHelpers.required]
+    switch (modelAttribute.content.attribute.type) {
+      case MODEL_ATTR_TYPES.STRING:
+        if (!modelAttribute.optional) {
+          return [ValidationHelpers.string, ValidationHelpers.required]
+        }
+        return [ValidationHelpers.string]
+      case MODEL_ATTR_TYPES.DOUBLE:
+      case MODEL_ATTR_TYPES.LONG:
+      case MODEL_ATTR_TYPES.INTEGER:
+        if (!modelAttribute.optional) {
+          return [ValidationHelpers.validRequiredNumber]
+        }
+        return []
+      case MODEL_ATTR_TYPES.URL:
+      case MODEL_ATTR_TYPES.BOOLEAN:
+      case MODEL_ATTR_TYPES.DATE:
+      case MODEL_ATTR_TYPES.INTEGER_ARRAY:
+      case MODEL_ATTR_TYPES.DOUBLE_ARRAY:
+      case MODEL_ATTR_TYPES.DATE_ARRAY:
+      case MODEL_ATTR_TYPES.LONG_ARRAY:
+      case MODEL_ATTR_TYPES.STRING_ARRAY:
+      case MODEL_ATTR_TYPES.INTEGER_INTERVAL:
+      case MODEL_ATTR_TYPES.DOUBLE_INTERVAL:
+      case MODEL_ATTR_TYPES.DATE_INTERVAL:
+      case MODEL_ATTR_TYPES.LONG_INTERVAL:
+      default:
+        return []
     }
-    return []
   }
 
   showStarIfInputRequired = (modelAttribute) => {
     if (!modelAttribute.optional) {
-      return '*'
+      return ' (*)'
     }
     return null
   }
@@ -90,9 +114,12 @@ export class EntitiesAttributeFormComponent extends React.Component {
     console.log(modelAttribute)
     return (
       <TableRow>
-        <TableRowColumn>
+        <TableRowColumn
+          title={modelAttribute.content.attribute.description}
+        >
+          {modelAttribute.content.attribute.label}
+          {this.showStarIfInputRequired(modelAttribute.content.attribute)}<br />
           {getFullQualifiedAttributeName(modelAttribute.content.attribute)}
-          {this.showStarIfInputRequired(modelAttribute.content.attribute)}
         </TableRowColumn>
         <TableRowColumn>{modelAttribute.content.attribute.type}</TableRowColumn>
         <TableRowColumn>

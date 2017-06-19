@@ -55,6 +55,9 @@ const messages = Object.assign({
   'dataset.form.radio.none': 'Pas de description',
   'dataset.form.subtitle': 'Gestion des attributs d\'un jeu de données',
 
+  'dataset.subsetting.snackbar.success': 'Le filtre est OK',
+  'dataset.subsetting.snackbar.error': 'Le filtre ne fonctionne pas',
+
   'dataset.edit.title': 'Édition du jeu de données {name}',
   'dataset.create.title': 'Création d\'un nouveau jeu de données',
   'invalid.max_128_carac': 'Le label d\'un dataset ne peut dépasser 128 caractères',

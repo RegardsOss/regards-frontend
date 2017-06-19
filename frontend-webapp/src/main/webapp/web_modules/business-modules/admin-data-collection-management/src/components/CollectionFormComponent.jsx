@@ -3,13 +3,10 @@
  **/
 import map from 'lodash/map'
 import has from 'lodash/has'
-import forEach from 'lodash/forEach'
 import keys from 'lodash/keys'
 import get from 'lodash/get'
 import isNil from 'lodash/isNil'
-import isObject from 'lodash/isObject'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
-import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
 import { FormattedMessage } from 'react-intl'
 import { Collection, Model, ModelAttribute } from '@regardsoss/model'
 import { RenderTextField, RenderSelectField, Field, RenderFileField, ErrorTypes, reduxForm } from '@regardsoss/form-utils'
@@ -20,7 +17,6 @@ import { EntitiesAttributesFormContainer, getInitialFormValues } from '@regardso
 import MenuItem from 'material-ui/MenuItem'
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
 import CollectionStepperComponent from './CollectionStepperComponent'
-import { fragmentSelectors } from '../clients/FragmentClient'
 
 const DESCRIPTION_MODE = {
   NOTHING: 'nothing',
@@ -106,13 +102,6 @@ export class CollectionFormComponent extends React.Component {
       default:
         throw new Error('Unexpected state')
     }
-  }
-
-  getAttributeName = (attribute) => {
-    if (attribute.fragment.name === fragmentSelectors.noneFragmentName) {
-      return `${attribute.name}`
-    }
-    return `${attribute.fragment.name} ${attribute.name}`
   }
 
   getTitle = () => {
