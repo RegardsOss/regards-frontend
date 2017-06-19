@@ -50,8 +50,8 @@ class ModuleContainer extends React.Component {
     ...themeContextType,
   }
 
-  static DATASET_MODEL_IDS_PARAM = "datasetModelIds"
-  static TAGS_PARAM = "tags"
+  static DATASET_MODEL_IDS_PARAM = 'datasetModelIds'
+  static TAGS_PARAM = 'tags'
 
   constructor(props) {
     super(props)
@@ -218,8 +218,7 @@ class ModuleContainer extends React.Component {
    * Create query for the search from all the configured criterion
    */
   createSearchQueryFromCriterion = () => {
-
-    let query = reduce(this.criterionValues, (result, criteria) => {
+    const query = reduce(this.criterionValues, (result, criteria) => {
       if (result && criteria && criteria.length > 0) {
         return `${result} AND ${criteria}`
       } else if (criteria) {
@@ -230,12 +229,12 @@ class ModuleContainer extends React.Component {
 
     const initialQuery = this.getInitialQuery()
     if (query.length > 0) {
-      if (initialQuery.length > 0 ) {
+      if (initialQuery.length > 0) {
         return `${query} AND ${initialQuery}`
       }
       return `${query}`
-    } else if (initialQuery.length > 0 ){
-      return  initialQuery
+    } else if (initialQuery.length > 0) {
+      return initialQuery
     }
 
     return ''
@@ -245,7 +244,6 @@ class ModuleContainer extends React.Component {
    * Run form search with the stored criteria values in the state.criterion
    */
   handleSearch = () => {
-
     const query = this.createSearchQueryFromCriterion()
     this.setState({
       searchQuery: query,
@@ -320,7 +318,6 @@ class ModuleContainer extends React.Component {
   }
 
   renderResults() {
-
     if (!this.props.moduleConf.preview) {
       // is single dataset?
       const { type, selectedDatasets } = this.props.moduleConf.datasets || {}

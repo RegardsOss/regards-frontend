@@ -62,7 +62,7 @@ describe('[Entities Common] Testing TagsComponent', () => {
       levelSelectors: getDescriptionLevelSelectors([]),
     }
     const enzymeWrapper = shallow(<TagsComponent {...props} />, { context })
-    // assert.lengthOf(enzymeWrapper.findWhere(SimpleTagContainer), 2, 'There should be two tag container to render simple tags')
-    // assert.lengthOf(enzymeWrapper.findWhere(EntityTagContainer), 1, 'There should be an entity tag container to render entity tag')
+    assert.lengthOf(enzymeWrapper.find(SimpleTagContainer), 2, 'There should be two tag container to render simple tags')
+    assert.lengthOf(enzymeWrapper.find(EntityTagContainer), 1, 'There should be an entity tag container to render entity tag')
   })
 })
