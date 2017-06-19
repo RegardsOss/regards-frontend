@@ -21,24 +21,24 @@ describe('[Search Graph] Test graph context reducer', () => {
     // Test : valid selection level 1
     let currentState = DEFAULT_STATE
     let reduced = reduce(currentState, graphContextActions.selectEntity(0, {
-      content: { ipId: 'ip1', label: 'label', type: 'COLLECTION' },
+      content: { ipId: 'ip1', label: 'label', entityType: 'COLLECTION' },
     }))
     let nextState = {
       ...currentState,
-      selectionPath: [{ ipId: 'ip1', label: 'label', type: 'COLLECTION' }],
+      selectionPath: [{ ipId: 'ip1', label: 'label', entityType: 'COLLECTION' }],
     }
     assert.deepEqual(reduced, nextState, 'First level selection should be correctly reduced')
     currentState = reduced
 
     // Test : valid selection level 2
     reduced = reduce(currentState, graphContextActions.selectEntity(1, {
-      content: { ipId: 'ip2', label: 'label', type: 'COLLECTION' },
+      content: { ipId: 'ip2', label: 'label', entityType: 'COLLECTION' },
     }))
     nextState = {
       ...currentState,
       selectionPath: [
-        { ipId: 'ip1', label: 'label', type: 'COLLECTION' },
-        { ipId: 'ip2', label: 'label', type: 'COLLECTION' },
+        { ipId: 'ip1', label: 'label', entityType: 'COLLECTION' },
+        { ipId: 'ip2', label: 'label', entityType: 'COLLECTION' },
       ],
     }
     assert.deepEqual(reduced, nextState, 'Second level selection should be correctly reduced')
@@ -46,14 +46,14 @@ describe('[Search Graph] Test graph context reducer', () => {
 
     // Tests : valid selection level 3
     reduced = reduce(currentState, graphContextActions.selectEntity(2, {
-      content: { ipId: 'ip3', label: 'label', type: 'COLLECTION' },
+      content: { ipId: 'ip3', label: 'label', entityType: 'COLLECTION' },
     }))
     nextState = {
       ...currentState,
       selectionPath: [
-        { ipId: 'ip1', label: 'label', type: 'COLLECTION' },
-        { ipId: 'ip2', label: 'label', type: 'COLLECTION' },
-        { ipId: 'ip3', label: 'label', type: 'COLLECTION' },
+        { ipId: 'ip1', label: 'label', entityType: 'COLLECTION' },
+        { ipId: 'ip2', label: 'label', entityType: 'COLLECTION' },
+        { ipId: 'ip3', label: 'label', entityType: 'COLLECTION' },
       ],
     }
     assert.deepEqual(reduced, nextState, 'Third level selection should be correctly reduced')
@@ -61,7 +61,7 @@ describe('[Search Graph] Test graph context reducer', () => {
 
     // Test : 'jumping over' levels should be forbidden: Attempting a level 5 selection
     assert.throws(() => reduce(currentState, graphContextActions.selectEntity(4, {
-      content: { ipId: 'ip4', label: 'label', type: 'COLLECTION' },
+      content: { ipId: 'ip4', label: 'label', entityType: 'COLLECTION' },
     })))
 
     // Test: reset level 2 selection (selection must now contain only level 1)
@@ -69,7 +69,7 @@ describe('[Search Graph] Test graph context reducer', () => {
     nextState = {
       ...currentState,
       selectionPath: [
-        { ipId: 'ip1', label: 'label', type: 'COLLECTION' },
+        { ipId: 'ip1', label: 'label', entityType: 'COLLECTION' },
       ],
     }
     assert.deepEqual(reduced, nextState, 'Reset selection at level 2 should result in a selection path with only level 1 ')
@@ -115,28 +115,5 @@ describe('[Search Graph] Test graph context reducer', () => {
       ...currentState,
       datasetsAttributesVisible: false,
     }, 'Set dataset attributes hidden should be correctly reduced')
-  })
-
-  it('Should reduce show / hide description actions', () => {
-    let currentState = DEFAULT_STATE
-    const entity = { aDay: 'aNight' }
-    let reduced = reduce(currentState, graphContextActions.showDescription(entity))
-    assert.deepEqual(reduced, {
-      ...currentState,
-      description: {
-        visible: true,
-        entity,
-      },
-    }, 'Showing description should be correctly reduced')
-
-    currentState = reduced
-    reduced = reduce(currentState, graphContextActions.hideDescription())
-    assert.deepEqual(reduced, {
-      ...currentState,
-      description: {
-        visible: false,
-        entity: null,
-      },
-    }, 'Hidding description should be correctly reduced')
   })
 })

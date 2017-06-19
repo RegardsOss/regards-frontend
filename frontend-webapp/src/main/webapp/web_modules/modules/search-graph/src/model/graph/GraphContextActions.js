@@ -8,8 +8,6 @@ class GraphContextActions {
     this.ENTITY_SELECTED = 'search-graph/ENTITY_SELECTED'
     this.SET_DATASET_ATTRIBUTES_VISIBLE = 'search-graph/SET_DATASET_VISIBLE'
     this.SET_MODULE_COLLAPSED = 'search-graph/SET_MODULE_COLLAPSED'
-    this.SHOW_ENTITY_DESCRIPTION = 'search-graph/SHOW_ENTITY_DESCRIPTION'
-    this.HIDE_ENTITY_DESCRIPTION = 'search-graph/HIDE_ENTITY_DESCRIPTION'
   }
 
   /**
@@ -44,26 +42,6 @@ class GraphContextActions {
     return {
       type: this.SET_MODULE_COLLAPSED,
       collapsed,
-    }
-  }
-
-  /**
-   * Shows entity description
-   * @param {*} entity entity
-   */
-  showDescription(entity) {
-    return {
-      type: this.SHOW_ENTITY_DESCRIPTION,
-      entity,
-    }
-  }
-
-  /**
-   * Hides entity description
-   */
-  hideDescription() {
-    return {
-      type: this.HIDE_ENTITY_DESCRIPTION,
     }
   }
 

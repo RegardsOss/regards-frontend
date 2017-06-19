@@ -24,7 +24,7 @@ export class GraphLevelDisplayerContainer extends React.Component {
     const partitionKey = GraphLevelDisplayerContainer.getLevelPartitionKey(levelIndex)
     // has parent selection, and is it a collectionb?
     const parentSelection = GraphContextSelectors.getSelectionForParentLevel(state, levelIndex)
-    const parentIpId = parentSelection && parentSelection.type === CatalogEntityTypes.COLLECTION ? parentSelection.ipId : null
+    const parentIpId = parentSelection && parentSelection.entityType === CatalogEntityTypes.COLLECTION ? parentSelection.ipId : null
     return {
       parentIpId,
       // retrieve level data from partitioned store

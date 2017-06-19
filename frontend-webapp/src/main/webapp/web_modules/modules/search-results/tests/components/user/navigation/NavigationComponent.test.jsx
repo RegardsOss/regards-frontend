@@ -4,8 +4,8 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { Breadcrumb } from '@regardsoss/components'
 import NavigationComponent from '../../../../src/components/user/navigation/NavigationComponent'
-import NavigationLinkContainer from '../../../../src/containers/user/navigation/NavigationLinkContainer'
 import NavigationLevel from '../../../../src/models/navigation/NavigationLevel'
 import styles from '../../../../src/styles/styles'
 
@@ -28,6 +28,6 @@ describe('[Search Results] Testing NavigationComponent', () => {
       navigationLevels: levels,
     }
     const enzymeWrapper = shallow(<NavigationComponent {...props} />, { context })
-    assert.lengthOf(enzymeWrapper.find(NavigationLinkContainer), levels.length, 'There should be one navigation link container for each level')
+    assert.lengthOf(enzymeWrapper.find(Breadcrumb), levels.length, 'There should be a breadcrumb component')
   })
 })

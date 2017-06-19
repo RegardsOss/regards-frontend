@@ -12,7 +12,7 @@ catalog.entities = catalog.entities.map(entity => {
   const modelForRest = Object.assign({}, entityModel)
   delete modelForRest.type
   // add type and model fields in entity
-  return Object.assign({}, entity, { model: modelForRest, type: entityModel.type })
+  return Object.assign({}, entity, { model: modelForRest, entityType: entityModel.type })
 })
 
 
@@ -48,7 +48,9 @@ function extractParameters(openSearchQuery) {
       logMessage(`Open search parameter value invalid: ${parameterWithValue}`, true, 'Search entities')
       return params
     }
-    const parameterValue = splitParameter[1]
+    // get parameter (join back on ':' if it is part of the parameters)
+    const parameterValue = splitParameter.slice(1, splitParameter.length).join(':')
+    console.error('---> rebuilt param ', splitParameter[1], parameterValue)
 
     // find matching parameter
     const foundParameter = _.find(searchQueryParameters, ({ key }) => parameterWithValue.toLowerCase().startsWith(key.toLowerCase()))
@@ -75,7 +77,7 @@ function serveFilteredEntitiesPage(openSearchQuery, searchedType) {
   const searchedValuesByParameter = extractParameters(openSearchQuery)
   // filter and index entities by there id (to make a page result)
   const matchingEntities = _.reduce(catalog.entities, (entitiesAcc, entity) => {
-    if (entity.type === searchedType) {
+    if (entity.entityType === searchedType) {
       const matchAllParameters = _.reduce(searchedValuesByParameter,
         (acc, { modelField, equalityChecker, values }) => acc && equalityChecker(entity[modelField], values), true)
       if (matchAllParameters) {
@@ -105,12 +107,6 @@ const serveModelAttributesAssociation = (request, params, { id }) => {
     return { code: 404 }
   }
   // convert to expected content for UI: assoc {
-  // content: {  
-  //   id
-  //   mode,
-  //   attribute,
-  //   model
-  // }
   const content = association.associations.map(assoc => ({
     content: Object.assign({
       model,
@@ -120,8 +116,7 @@ const serveModelAttributesAssociation = (request, params, { id }) => {
 }
 
 const serveEntityDescriptionFile = (request, params, { id }) => {
-  const idAsNumber = parseInt(id, 10)
-  const foundDescription = catalog.localDescriptions.find(({ entityId }) => entityId === idAsNumber)
+  const foundDescription = catalog.localDescriptions.find(({ entityIpId }) => entityIpId === id)
   if (!foundDescription) {
     return { code: 404 }
   }
@@ -136,6 +131,20 @@ const serveEntityDescriptionFile = (request, params, { id }) => {
     content,
     binary,
   }
+}
+
+retrieveEntityHandler = (request, params, { urn }) => {
+  const found = catalog.entities.find(({ ipId }) => ipId === urn)
+  if (found) {
+    return {
+      code: 200,
+      content: {
+        content: found,
+      },
+      contentType: JSON_CONTENT_TYPE,
+    }
+  }
+  return { code: 404, contentType: JSON_CONTENT_TYPE }
 }
 
 module.exports = {
@@ -173,17 +182,8 @@ module.exports = {
     },
     // used for URL tests in frontent (result module, ds=KIKO)
     getDatasetTemp: {
-      url: 'rs-catalog/datasets/KIKO',
-      handler: () => ({
-        code: 200,
-        content: {
-          content: {
-            ipId: 'KIKO',
-            label: 'My DS test',
-          },
-        },
-        contentType: JSON_CONTENT_TYPE,
-      }),
+      url: 'rs-catalog/search/entities/{urn}',
+      handler: retrieveEntityHandler,
     },
   },
 }

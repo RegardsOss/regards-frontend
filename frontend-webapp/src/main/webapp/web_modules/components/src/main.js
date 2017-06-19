@@ -28,12 +28,14 @@ import ShowableAtRender from './cards/ShowableAtRender'
 import IFrameURLContentDisplayer from './content/IFrameURLContentDisplayer'
 
 import ConfirmDialogComponent from './dialogs/ConfirmDialogComponent'
+import PositionedDialog from './dialogs/PositionedDialog'
 import LoadableContentDialogContainer from './dialogs/LoadableContentDialogContainer'
 import SingleContentURLDialogContainer from './dialogs/SingleContentURLDialogContainer'
 
 import ErrorCardComponent from './error/ErrorCardComponent'
 import PageNotFoundComponent from './error/PageNotFoundProvider'
 
+import Breadcrumb from './links/Breadcrumb'
 import PictureLinkComponent from './links/PictureLinkComponent'
 
 import PageableListContainer from './list/PageableListContainer'
@@ -100,6 +102,7 @@ export {
   ListContainer,
   LoadingPaneComponent,
   LoadableContentDialogContainer,
+  PositionedDialog,
   SingleContentURLDialogContainer,
   MainActionButtonComponent,
   NewsItemComponent,
@@ -108,6 +111,7 @@ export {
   OnHoverSwitchIconButton,
   OnHoverSwitchRaisedButton,
   PageableListContainer,
+  Breadcrumb,
   PictureLinkComponent,
   SecondaryActionButtonComponent,
   ShowableAtRender,

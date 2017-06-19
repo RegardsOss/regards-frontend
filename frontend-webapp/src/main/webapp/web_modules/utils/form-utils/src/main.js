@@ -19,6 +19,7 @@ import FormEntityNotFoundComponent from './FormEntityNotFoundComponent'
 import FormLoadingComponent from './FormLoadingComponent'
 import EnumInputsComponent from './EnumInputs/EnumInputsComponent'
 import EnumInputsHelper from './EnumInputs/EnumInputsHelper'
+import StringComparison from './StringComparison'
 import reduxForm from './reduxForm'
 
 export default {
@@ -40,5 +41,6 @@ export default {
   FormEntityNotFoundComponent,
   EnumInputsComponent,
   EnumInputsHelper,
+  StringComparison,
   reduxForm,
 }

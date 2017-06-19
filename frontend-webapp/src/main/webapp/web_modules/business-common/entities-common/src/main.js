@@ -2,9 +2,17 @@
  * LICENSE_PLACEHOLDER
  **/
 import DownloadDescriptionClient from './clients/DownloadDescriptionClient'
-import DetailViewContainer from './containers/detail/DetailViewContainer'
+import DescriptionLevelActions from './model/description/DescriptionLevelActions'
+import getDescriptionLevelReducer from './model/description/DescriptionLevelReducer'
+import getDescriptionLevelSelectors from './model/description/DescriptionLevelSelectors'
+import EntityDescriptionContainer from './containers/description/EntityDescriptionContainer'
 
 export default {
   DownloadDescriptionClient,
-  DetailViewContainer,
+  EntityDescriptionContainer,
+  descriptionLevelModel: {
+    DescriptionLevelActions,
+    getDescriptionLevelReducer,
+    getDescriptionLevelSelectors,
+  },
 }

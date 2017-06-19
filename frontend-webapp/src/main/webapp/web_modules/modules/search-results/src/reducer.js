@@ -7,6 +7,7 @@ import { reducer as SearchCatalogReducer } from './clients/SearchEntitiesClient'
 import { AttributeModelReducer, REDUCER_PATH as ATTRIBUTE_MODEL_REDUCER_PATH } from './clients/AttributeModelClient'
 import { tableReducer } from './clients/TableClient'
 import DownloadDescriptionClient, { DATASET_REDUCER_PATH, COLLECTION_REDUCER_PATH } from './clients/DownloadDescriptionClient'
+import { descriptionLevelReducer } from './models/description/DescriptionLevelModel'
 import modelAttributeClient from './clients/ModelAttributeClient'
 import OneDatasetBusinessServiceClient from './clients/OneDatasetBusinessServiceClient'
 import OneDataobjectBusinessServiceClient from './clients/OneDataobjectBusinessServiceClient'
@@ -25,6 +26,7 @@ const searchResultsReducers = {
   // context
   navigationContext: navigationContextReducer,
   // description
+  descriptionLevel: descriptionLevelReducer,
   [DATASET_REDUCER_PATH]: DownloadDescriptionClient.reduceDownloadDatasetDescription,
   [COLLECTION_REDUCER_PATH]: DownloadDescriptionClient.reduceDownloadCollectionDescription,
   [modelAttributeClient.REDUCER_PATH]: modelAttributeClient.ModelAttributesReducer,

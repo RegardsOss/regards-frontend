@@ -180,7 +180,7 @@ export class SearchResultsContainer extends React.Component {
    * @param state : state to consider when building query
    */
   buildOpenSearchQuery = ({ searchQuery, facettesQuery, levels, viewObjectType },
-                          { showingFacettes, filters, sortingOn, initialSortAttributesPath }) => {
+    { showingFacettes, filters, sortingOn, initialSortAttributesPath }) => {
     // check if facettes should be applied
     const facettes = showingFacettes && viewObjectType === SearchResultsTargetsEnum.DATAOBJECT_RESULTS ? filters : []
     const facettesQueryPart = showingFacettes ? facettesQuery : ''
