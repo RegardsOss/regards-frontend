@@ -38,8 +38,8 @@ const messages = {
   'other {Une erreur inconnue s\'est produite (#)}}',
 
   // unlock account request form
-  'ask.unlock.account.form.message': 'Veuillez entrer votre adresse mail pour demander le dévérouillage du compte',
-  'ask.unlock.account.form.title': 'Dévérouillage du compte utilisateur',
+  'ask.unlock.account.form.message': 'Veuillez entrer votre adresse mail pour demander le déverrouillage du compte',
+  'ask.unlock.account.form.title': 'Déverrouillage du compte utilisateur',
   'ask.unlock.account.form.send.failed': '{status, plural, ' +
   '=403 {Le compte lié à ce mail n\'est pas bloqué}' +
   '=404 {L\'adresse e-mail saisie est inconnue.}' +
@@ -94,14 +94,14 @@ const messages = {
   'new.acount.validating.message': 'Nous traitons la requête de validation du compte, veuillez patienter',
 
   // unlock account operation
-  'ask.unlock.account.sent.title': 'Demande de dévérouillage envoyée',
-  'ask.unlock.account.sent.message': 'Votre demande a été envoyée, vous recevrez un e-mail lorsque le compte sera dévérouillé',
+  'ask.unlock.account.sent.title': 'Demande de déverrouillage envoyée',
+  'ask.unlock.account.sent.message': 'Votre demande a été envoyée, vous recevrez un e-mail lorsque le compte sera déverrouillé',
   'ask.unlock.account.sent.option': 'Retour',
-  'ask.unlock.account.token.expired.title': 'Echec du dévérouillage',
-  'ask.unlock.account.token.expired.message': 'Votre requête a expiré, veuillez renouveller la demande dévérouillage du compte',
+  'ask.unlock.account.token.expired.title': 'Echec du déverrouillage',
+  'ask.unlock.account.token.expired.message': 'Votre requête a expiré, veuillez renouveller la demande déverrouillage du compte',
   'ask.unlock.account.token.expired.option': 'Retour',
-  'unlock.account.done.title': 'Compte dévérouillé',
-  'unlock.account.done.message': 'Votre compte utilisateur a été dévérouillé, vous pouvez accéder à l\'application',
+  'unlock.account.done.title': 'Compte déverrouillé',
+  'unlock.account.done.message': 'Votre compte utilisateur a été déverrouillé, vous pouvez accéder à l\'application',
   'unlock.account.done.option': 'Connexion',
 
   // reset password update (after receiving mail)
@@ -112,13 +112,13 @@ const messages = {
   'reset.password.update.send': 'ENVOYER',
 
   // finish unlock account loading pane
-  'finish.unlock.account.title': 'Dévérouillage du compte',
+  'finish.unlock.account.title': 'Déverrouillage du compte',
   'finish.unlock.account.message': 'Nous débloquons votre compte, veuillez patienter...',
 
   'session.locked.title': 'Session vérouillée',
-  'session.locked.subtitle': 'Votre session a expiré, veuillez entrer votre mot de passe ci-dessous pour la dévérouiller',
+  'session.locked.subtitle': 'Votre session a expiré, veuillez entrer votre mot de passe ci-dessous pour la déverrouiller',
   'session.locked.password': 'Mot de passe',
-  'session.locked.button': 'Dévérouiller',
+  'session.locked.button': 'Déverrouiller',
   'session.locked.error': 'Identifiants invalides',
 
   ...Locales.fr,

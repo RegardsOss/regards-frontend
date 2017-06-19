@@ -3,7 +3,7 @@
 **/
 import { BasicPageableActions } from '@regardsoss/store-utils'
 import { ENTITY, ENTITY_ARRAY } from '@regardsoss/api'
-import { OpenSearchQuery, OpenSearchQueryParameter } from '@regardsoss/domain/catalog'
+import { OpenSearchQuery } from '@regardsoss/domain/catalog'
 
 /**
  * Parent actions to fetch graph entities at a given graph level
