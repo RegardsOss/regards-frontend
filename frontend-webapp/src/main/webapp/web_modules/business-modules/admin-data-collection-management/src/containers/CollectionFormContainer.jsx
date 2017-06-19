@@ -87,9 +87,12 @@ export class CollectionFormContainer extends React.Component {
     const descriptionFile = getAbstractEntityDescription(values.descriptionFileContent, values.descriptionUrl)
     const updatedCollection = Object.assign({}, this.props.currentCollection.content, {
       label: values.label,
-      descriptionFile,
       properties,
     })
+    // Update the descriptionFile object if the user changed that value
+    if (descriptionFile) {
+      updatedCollection.descriptionFile = descriptionFile
+    }
     const files = {}
     if (values.descriptionFileContent) {
       files.file = values.descriptionFileContent
@@ -106,28 +109,6 @@ export class CollectionFormContainer extends React.Component {
       })
   }
 
-  /**
-   * Retrieve model attributes values from form values
-   * and returns the value of collection "parameters" sendeable to the API
-   * @param values
-   * @returns {{}}
-   */
-  extractParametersFromValues = (values) => {
-    const result = {}
-    forEach(values.parameters, (attrValue, attrName) => {
-      const modelAttr = find(this.props.modelAttributeList, modelAttribute => modelAttribute.content.attribute.name === attrName)
-      const fragment = modelAttr.content.attribute.fragment
-      if (fragment.name !== fragmentSelectors.noneFragmentName) {
-        if (!result[fragment.name]) {
-          result[fragment.name] = {}
-        }
-        result[fragment.name][attrName] = attrValue
-      } else {
-        result[attrName] = attrValue
-      }
-    })
-    return result
-  }
 
   extractCollectionFromActionResult = actionResult => actionResult.payload.entities.collection[keys(actionResult.payload.entities.collection)[0]].content
 
