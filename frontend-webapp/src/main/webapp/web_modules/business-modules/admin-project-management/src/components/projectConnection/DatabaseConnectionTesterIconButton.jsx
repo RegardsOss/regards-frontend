@@ -48,23 +48,25 @@ class DatabaseConnectionTesterIconButton extends React.Component {
       completed: 0,
     }, () => {
       Promise.resolve(this.props.testConnection(this.props.projectConnection))
-      .then((ActionResult) => {
-        if (ActionResult) {
-          const result = ActionResult.error ? EnumConnectivity.ERROR : EnumConnectivity.SUCCESS
-          this.setState({
-            status: result,
-            completed: 100,
-          }, () => {
-            this.props.refreshConnection(this.props.projectConnection.content.id)
-          })
-        }
-      })
+        .then((ActionResult) => {
+          if (ActionResult) {
+            const result = ActionResult.error ? EnumConnectivity.ERROR : EnumConnectivity.SUCCESS
+            this.setState({
+              status: result,
+              completed: 100,
+            }, () => {
+              this.props.refreshConnection(this.props.projectConnection.content.id)
+            })
+          }
+        })
     })
   }
 
   render() {
+    const { intl: { formatMessage } } = this.context
     const testButton = (
       <IconButton
+        title={formatMessage({ id: 'database.connectionTester.default.tooltip' })}
         label={<FormattedMessage id="database.connectionTester.start" />}
         onTouchTap={this.handleTouchTap}
       >
@@ -75,19 +77,19 @@ class DatabaseConnectionTesterIconButton extends React.Component {
     const switchActions = [this.handleTouchTap, this.handleTouchTap]
 
     const successButton =
-      (<OnHoverSwitchIconButton onTouchTap={switchActions}>
+      (<OnHoverSwitchIconButton onTouchTap={switchActions} title={formatMessage({ id: 'database.connectionTester.success.tooltip' })} >
         <Check color={this.context.muiTheme.palette.primary1Color} />
         <PlayArrow />
-      </OnHoverSwitchIconButton>)
+      </OnHoverSwitchIconButton >)
 
     const warningButton =
-      (<OnHoverSwitchIconButton onTouchTap={switchActions}>
+      (<OnHoverSwitchIconButton onTouchTap={switchActions} title={formatMessage({ id: 'database.connectionTester.warn.tooltip' })}>
         <Warning color={this.context.muiTheme.palette.warningColor} />
         <PlayArrow />
       </OnHoverSwitchIconButton>)
 
     const errorButton =
-      (<OnHoverSwitchIconButton onTouchTap={switchActions}>
+      (<OnHoverSwitchIconButton onTouchTap={switchActions} title={formatMessage({ id: 'database.connectionTester.error.tooltip' })}>
         <Error color={this.context.muiTheme.palette.accent1Color} />
         <PlayArrow />
       </OnHoverSwitchIconButton>)

@@ -35,11 +35,12 @@ class OnHoverSwitchIconButton extends React.Component {
   }
 
   render() {
-    const { children, onTouchTap } = this.props
+    const { children, onTouchTap, ...otherProps } = this.props
     return (
       <span onMouseEnter={this.handleOnMouseEnter} onMouseLeave={this.handleOnMouseLeave}>
         <IconButton
           onTouchTap={onTouchTap[this.state.usedPropIndex]}
+          {...otherProps}
         >
           {children[this.state.usedPropIndex]}
         </IconButton>
