@@ -41,6 +41,8 @@ export class ProjectConnectionListComponent extends React.Component {
 
   displayMicroserviceConnection = (microserviceName) => {
     const { projectConnections, onEdit, onCreate } = this.props
+    const { formatMessage } = this.context.intl
+
 
     const style = {
       hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
@@ -55,60 +57,63 @@ export class ProjectConnectionListComponent extends React.Component {
       color: 'Orange',
     }
 
-    let tester = null
-    let status = (
-      <span style={{ display: 'flex', alignItems: 'center' }}>
-        <WarningIcon
-          style={warnIconStyle}
-        />
-        <FormattedMessage id="project.connection.is.not.configured" />
-      </span>
-    )
-    let editAction = (
-      <IconButton onTouchTap={() => onCreate(microserviceName)}>
-        <Edit hoverColor={style.hoverButtonEdit} />
-      </IconButton>
-    )
 
     const statusStyle = { display: 'flex', alignItems: 'center' }
+    let tester = null
+    let status = null
+    let editAction = null
+    if (connection) {
+      editAction = (
+        <IconButton
+          title={formatMessage({ id: 'database.connection.edit.tooltip' })}
+          onTouchTap={() => onEdit(connection.content.id)}
+        >
+          <Edit hoverColor={style.hoverButtonEdit} />
+        </IconButton>
+      )
 
-    if (connection && connection.content.enabled) {
+      if (connection.content.enabled) {
+        const checkIconStyle = { marginRight: 5, color: 'Green' }
+        status = (
+          <span style={statusStyle}>
+            <CheckedIcon
+              style={checkIconStyle}
+            />
+            <FormattedMessage id="project.connection.is.configured" />
+          </span>
+        )
+        tester = (<DatabaseConnectionTesterIconButton
+          projectConnection={connection}
+          testConnection={this.props.onTestConnection}
+          refreshConnection={this.props.refreshConnection}
+        />)
+      } else {
+        const pendingIconStyle = { marginRight: 5, color: this.context.muiTheme.palette.primary1Color }
+        status = (
+          <span style={statusStyle}>
+            <TimeIcon
+              style={pendingIconStyle}
+            />
+            <FormattedMessage id="project.connection.is.not.valid" />
+          </span>
+        )
+      }
+    } else {
+      status = (
+        <span style={{ display: 'flex', alignItems: 'center' }}>
+          <WarningIcon
+            style={warnIconStyle}
+          />
+          <FormattedMessage id="project.connection.is.not.configured" />
+        </span>
+      )
       editAction = (
-        <IconButton onTouchTap={() => onEdit(connection.content.id)}>
+        <IconButton onTouchTap={() => onCreate(microserviceName)}>
           <Edit hoverColor={style.hoverButtonEdit} />
         </IconButton>
       )
-      const checkIconStyle = { marginRight: 5, color: 'Green' }
-      status = (
-        <span style={statusStyle}>
-          <CheckedIcon
-            style={checkIconStyle}
-          />
-          <FormattedMessage id="project.connection.is.configured" />
-        </span>
-      )
-      tester = (<DatabaseConnectionTesterIconButton
-        projectConnection={connection}
-        testConnection={this.props.onTestConnection}
-        refreshConnection={this.props.refreshConnection}
-      />)
-    } else if (connection && !connection.content.enabled) {
-      editAction = (
-        <IconButton onTouchTap={() => onEdit(connection.content.id)}>
-          <Edit hoverColor={style.hoverButtonEdit} />
-        </IconButton>
-      )
-      const pendingIconStyle = { marginRight: 5, color: this.context.muiTheme.palette.primary1Color }
-      status = (
-        <span style={statusStyle}>
-          <TimeIcon
-            style={pendingIconStyle}
-          />
-          <FormattedMessage id="project.connection.is.not.valid" />
-        </span>
-      )
-      tester = null
     }
+
     return (
       <TableRow className={`selenium-connection-${microserviceName}`} key={microserviceName}>
         <TableRowColumn>{microserviceName}</TableRowColumn>
@@ -122,11 +127,12 @@ export class ProjectConnectionListComponent extends React.Component {
   }
 
   render() {
+    const { formatMessage } = this.context.intl
     return (
       <Card className="selenium-projectConnectionList">
         <CardTitle
-          title={this.context.intl.formatMessage({ id: 'project.connection.list.title' }, { project: this.props.project.content.name })}
-          subtitle={this.context.intl.formatMessage({ id: 'project.connection.list.subtitle' })}
+          title={formatMessage({ id: 'project.connection.list.title' }, { project: this.props.project.content.name })}
+          subtitle={formatMessage({ id: 'project.connection.list.subtitle' })}
         />
         <CardText>
           <Table selectable>

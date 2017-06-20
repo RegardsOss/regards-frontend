@@ -53,12 +53,17 @@ const messages = Object.assign({
   'project.connection.is.not.configured': 'Not configured',
   'project.connection.form.error.server': 'Error sending new connection for project',
 
+  'database.connectionTester.default.tooltip': 'Test connection',
+  'database.connectionTester.success.tooltip': 'Previous test successful. Test connection again',
+  'database.connectionTester.warn.tooltip': 'Previous test finished with warning. Test connection again',
+  'database.connectionTester.error.tooltip': 'Previous test finished with error. Test connection again',
   'database.connectionTester.start': 'Test',
   'database.connectionTester.restart': 'Restart',
   'database.connectionTester.connected': 'Connected',
   'database.connectionTester.warning': 'Connected',
   'database.connectionTester.notConnected': 'Not connected',
   'database.connectionTester.pending': 'Testing connection...',
+  'database.connection.edit.tooltip': 'Edit connection',
 
   'database.list.test': 'Test the connection',
   'database.list.access.guided.configuration': 'Step-by-step configuration',
