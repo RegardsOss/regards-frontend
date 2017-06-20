@@ -46,6 +46,7 @@ const messages = Object.assign({
   'dataset.form.action.cancel': 'Annuler',
   'dataset.form.model': 'Modèles de jeu de données',
   'dataset.form.label': 'Libellé',
+  'dataset.form.geometry': 'Géometrie',
   'dataset.form.descriptionUrl': 'URL de la page décrivant le jeu de données',
   'dataset.form.descriptionFileContent': 'Uploader un fichier Markdown ou PDF',
   'dataset.form.descriptionFileContentReuploadToOverride': 'Uploader un fichier Markdown ou PDF contenant la description si vous voulez écraser celle déjà présente',

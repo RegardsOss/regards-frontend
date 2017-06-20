@@ -125,6 +125,7 @@ export class CollectionFormComponent extends React.Component {
       const properties = getInitialFormValues(currentCollection)
       const initialValues = {
         label: currentCollection.content.label,
+        geometry: currentCollection.content.geometry,
         model: currentCollection.content.model.id,
         descriptionUrl: get(currentCollection.content, 'descriptionFile.url', undefined),
         properties,
@@ -219,6 +220,14 @@ export class CollectionFormComponent extends React.Component {
                 </ShowableAtRender>
               </div>
             </div>
+            <Field
+              name="geometry"
+              fullWidth
+              multiLine
+              component={RenderTextField}
+              type="text"
+              label={this.context.intl.formatMessage({ id: 'collection.form.geometry' })}
+            />
             <Field
               name="model"
               fullWidth

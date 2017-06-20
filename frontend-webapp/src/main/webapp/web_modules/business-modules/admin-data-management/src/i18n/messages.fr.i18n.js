@@ -5,7 +5,7 @@ const messages = {
   'data.board.action.list.tooltip': 'Liste',
   'data.board.action.add.tooltip': 'Ajouter',
 
-  'data.board.model.description': 'Les modèles d\'objet définissent la structure des données',
+  'data.board.model.description': 'Les modèles de données (collection, jeu et objet) définissent la structure des données',
   'data.board.model.title': 'Modèles',
 
   'data.board.attributemodel.description': 'Gestion des attributs communs aux divers modèles',

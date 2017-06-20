@@ -126,6 +126,7 @@ export class DatasetFormAttributesComponent extends React.Component {
       const properties = getInitialFormValues(currentDataset)
       const initialValues = {
         label: currentDataset.content.label,
+        geometry: currentDataset.content.geometry,
         model: currentDataset.content.model.id,
         descriptionUrl: get(currentDataset.content, 'descriptionFile.url', undefined),
         properties,
@@ -236,6 +237,14 @@ export class DatasetFormAttributesComponent extends React.Component {
                 </ShowableAtRender>
               </div>
             </div>
+            <Field
+              name="geometry"
+              fullWidth
+              multiLine
+              component={RenderTextField}
+              type="text"
+              label={this.context.intl.formatMessage({ id: 'dataset.form.geometry' })}
+            />
             <Field
               name="model"
               fullWidth

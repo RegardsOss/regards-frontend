@@ -46,6 +46,7 @@ const messages = Object.assign({
   'dataset.form.action.cancel': 'Cancel',
   'dataset.form.model': 'Dataset model',
   'dataset.form.label': 'Label',
+  'dataset.form.geometry': 'Geometry',
   'dataset.form.descriptionUrl': 'Page URL describing the dataset',
   'dataset.form.descriptionFileContent': 'Upload a Markdown or PDF file',
   'dataset.form.descriptionFileContentReuploadToOverride': 'Upload a file containing the description if you want to overwrite the existing one',
