@@ -67,6 +67,7 @@ class ProjectSidebarComponent extends React.Component {
 
     const projectDependencies = [projectActions.getDependency(RequestVerbEnum.GET)]
 
+    console.error("DEP",microserviceDependencies)
     return (
       <Drawer
         open
@@ -110,6 +111,7 @@ class ProjectSidebarComponent extends React.Component {
         <HateoasSidebarElement
           key="4"
           requiredEndpoints={microserviceDependencies}
+          hateoasDisplayLogic={someMatchHateoasDisplayLogic}
           to={`/admin/${projectName}/microservice/board`}
           currentPath={this.props.currentPath}
           primaryText={this.context.intl.formatMessage({ id: 'menu.microservices' })}

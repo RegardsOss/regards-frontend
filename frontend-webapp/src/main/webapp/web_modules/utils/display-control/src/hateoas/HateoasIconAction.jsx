@@ -19,6 +19,7 @@ class HateoasIconAction extends React.Component {
     entityLinks: PropTypes.arrayOf(HateoasLinks),
     hateoasKey: PropTypes.string,
     alwaysDisplayforInstanceUser: PropTypes.bool,
+    disableInsteadOfHide : PropTypes.bool,
     // Set by mapStateToProps
     isInstance: PropTypes.bool,
   }
@@ -34,6 +35,14 @@ class HateoasIconAction extends React.Component {
         />
       )
     }
+    if (this.props.disableInsteadOfHide) {
+      return (
+        <IconButton
+          disabled
+          {...otherProps}
+        />
+      )
+    }
     return <span />
   }
 
@@ -41,6 +50,7 @@ class HateoasIconAction extends React.Component {
 
 HateoasIconAction.defaultProps = {
   alwaysDisplayforInstanceUser: true,
+  disableInsteadOfHide: false,
 }
 
 const mapStateToProps = state => ({

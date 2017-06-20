@@ -12,7 +12,7 @@ import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { Resource } from '@regardsoss/model'
 import Toggle from 'material-ui/Toggle'
-import { LoadingComponent, HateoasToggle, HateoasKeys } from '@regardsoss/display-control'
+import { LoadingComponent, HateoasToggle, HateoasIconAction, HateoasKeys } from '@regardsoss/display-control'
 import moduleStyles from '../styles/styles'
 
 /**
@@ -113,21 +113,25 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
 
     let toggle
     if (roleResource) {
-      toggle = (
-        <HateoasToggle
+      return (
+        <HateoasIconAction
+          disableInsteadOfHide
+          style={iconStyle}
+          onTouchTap={() => {
+            this.props.handleToggleResourceAccess(resource, !!roleResource)
+            return false
+          }}
           entityLinks={roleResource.links}
           hateoasKey={HateoasKeys.DELETE}
-          toggled
-        />
-      )
-    } else {
-      toggle = (
-        <Toggle
-          toggled={false}
-        />
+        >
+          <HateoasToggle
+            entityLinks={roleResource.links}
+            hateoasKey={HateoasKeys.DELETE}
+            toggled
+          />
+        </HateoasIconAction>
       )
     }
-
     return (
       <IconButton
         style={iconStyle}
@@ -136,7 +140,9 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
           return false
         }}
       >
-        {toggle}
+        <Toggle
+          toggled={false}
+        />
       </IconButton>
     )
   }
